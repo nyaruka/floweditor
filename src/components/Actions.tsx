@@ -2,8 +2,7 @@ import * as React from "react";
 import * as axios from "axios";
 import {ActionProps, AddToGroupProps, SendMessageProps, SaveToContactProps, SetLanguageProps} from '../interfaces'
 import ModalComp from './Modal'
-var UUID  = require("node-uuid");
-
+var UUID  = require("uuid");
 
 export interface ActionState {
     editing: boolean;

@@ -1,19 +1,22 @@
 {
   "name": "flow2",
+  "license":"UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nyaruka/floweditor.git"
+  },
   "version": "0.0.1",
   "scripts": {
     "build": "webpack",
-    "start": "webpack-dev-server --open"
+    "start": "webpack-dev-server --progress --colors --open"
   },
   "devDependencies": {
-    "@types/axios": "^0.14.0",
     "@types/jquery": "^2.0.40",
     "@types/node": "^7.0.5",
     "@types/react": "^15.0.14",
     "@types/react-dom": "^0.14.23",
     "awesome-typescript-loader": "^3.1.2",
     "axios": "^0.15.3",
-    "boron": "^0.2.3",
     "css-loader": "^0.26.4",
     "jquery": "^3.1.1",
     "jsplumb": "^2.3.0",
@@ -33,7 +36,6 @@
   "dependencies": {
     "@types/react": "^15.0.14",
     "@types/react-dom": "^0.14.23",
-    "node-uuid": "^1.4.7",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
   }

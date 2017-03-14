@@ -1,5 +1,5 @@
 import * as React from "react";
-var UUID  = require("node-uuid");
+var UUID  = require("uuid");
 
 interface ModalProps {
     title: JSX.Element
