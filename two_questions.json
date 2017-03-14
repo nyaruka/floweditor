@@ -1,0 +1,115 @@
+{
+   "uuid":"flow1",
+   "name":"U-Report Registration Flow",
+   "language":"eng",
+   "nodes":[
+      {
+         "uuid":"node1",
+         "actions":[
+            {
+               "type":"msg",
+               "text": "What is your favorite color? (red/blue)"
+            }],
+         "wait": {
+            "type": "msg",
+            "timeout": 600
+         },
+         "router":{
+            "type":"switch",
+            "default": "node1-exit3",
+            "operand": "@input",
+            "cases": [
+              {
+                "type": "has_any_word",
+                "arguments": [
+                  "red"
+                ],
+                "exit": "node1-exit1"
+              },
+              {
+                "type": "has_any_word",
+                "arguments": [
+                  "blue"
+                ],
+                "exit": "node1-exit2"
+              }
+            ]
+         },
+         "exits":[
+            {
+               "uuid":"node1-exit1",
+               "label":"Red",
+               "destination":"node2"
+            },
+            {
+               "uuid":"node1-exit2",
+               "label":"Blue",
+               "destination":"node2"
+            },
+            {
+               "uuid":"node1-exit3",
+               "label":"Other",
+               "destination":"node1"
+            }
+         ]
+      },{
+         "uuid":"node2",
+         "actions":[
+            {
+               "type":"msg",
+               "text": "What is your favorite soda? (pepsi/coke)"
+            }],
+         "wait": {
+            "type": "msg",
+            "timeout": 600
+         },
+         "router":{
+            "type":"switch",
+            "default": "node2-exit3",
+            "operand": "@input",
+            "cases": [
+              {
+                "type": "has_any_word",
+                "arguments": [
+                  "pepsi"
+                ],
+                "exit": "node2-exit1"
+              },
+              {
+                "type": "has_any_word",
+                "arguments": [
+                  "coke"
+                ],
+                "exit": "node2-exit2"
+              }
+            ]
+         },
+         "exits":[
+            {
+               "uuid":"node2-exit1",
+               "label":"Pepsi",
+               "destination":"node3"
+            },
+            {
+               "uuid":"node2-exit2",
+               "label":"Coke",
+               "destination":"node3"
+            },
+            {
+               "uuid":"node2-exit3",
+               "label":"Other",
+               "destination":"node2"
+            }
+         ]
+      },
+      {
+         "uuid": "node3",
+         "actions": [
+            {
+               "type": "msg",
+               "text": "Great you are done!"
+            }
+         ]
+      }
+   ]
+}

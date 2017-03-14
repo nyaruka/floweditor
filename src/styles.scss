@@ -1,0 +1,251 @@
+$blue: #86a9ca;
+$green: #5ca869;
+$purple: #80668d;
+$red: #c14c46;
+$orange: #e68628;
+$teal: #00ac9a;
+$light_grey: #e6e6e6;
+$grey: #666;
+
+$workspace: $light_grey;
+$borders: $light_grey;
+$add_to_group: $green;
+$update: $teal;
+$msg: $blue;
+$split_title: $light_grey - #222;
+$light_text: #ffffff;
+$hover: $teal;
+
+$terminal_color: $red;
+$path_color: #98C0D9;
+
+$z_connectors: -1;
+$z_dragging: 100;
+$z_endpoints: 50;
+
+
+body {
+    background: $workspace;
+    font-size: 12px;
+    color: #777;
+    font-weight: 400;
+}
+
+#root {
+    position: relative;
+}
+
+.actions {
+    .action {
+        .action-title {
+            padding: 4px;
+            text-shadow: 0px 1px rgba(0, 0, 0,.2);
+            color: $light_text;
+            text-align: center;
+            font-size:13px;
+        }
+
+        .action-content {
+            padding: 10px;
+        }
+
+        &.add-to-group {
+            .action-title {
+                background: $add_to_group;
+            }
+        }
+
+        &.msg {
+            .action-title {
+                background: $msg;
+            }
+        }
+
+        &.save-to-contact, &.set-language, &.set-preferred-channel {
+            .action-title {
+                background: $update;
+            }
+        }
+    }
+}
+
+.modal {
+
+    .modal-header {
+        padding: 16px;
+        font-size: 20px;
+        color: $light_text;
+    }
+
+    &.add-to-group {
+        .modal-header {
+            background: $add_to_group;
+        }
+    }
+
+    &.msg {
+        .modal-header {
+            background: $msg;
+        }
+    }
+
+    &.save-to-contact, &.set-language, &.set-preferred-channel {
+        .modal-header {
+            background: $update;
+        }
+    }
+
+    &.exits {
+        .modal-header {
+            background: $split_title;
+        }
+    }
+
+    textarea {
+        height: 200px;
+        padding: 10px;
+        color: $grey;
+        font-size:14px;
+
+        border: 1px solid $light_grey;
+        overflow: auto;
+        outline: none;
+
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+    }
+}
+
+.dragging {
+    .nodes {
+        .node {
+            opacity: 0.6;
+            &.jtk-dragged {
+                opacity: 1;
+            }
+
+        }
+    }
+}
+
+.nodes {
+    .node {
+        position: absolute;
+        border: 0px solid darkgray;
+        background: #fff;
+        width: 250px;
+        cursor: pointer;
+
+        &.drop-hover {
+            box-shadow: 0 0 2px 1px $hover;
+        }
+
+        .split-title {
+            padding: 4px;
+            text-shadow: 0px 1px rgba(0, 0, 0,.2);
+            color: $light_text;
+            text-align: center;
+            font-size:13px;
+            background: $split_title;
+        }
+
+        .card {
+            margin: 5px 0 10px 0;
+            background-color: #fff;
+            transition: box-shadow .25s;
+            border-radius: 2px;
+        }
+
+        .exits {
+            &:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+            .exit {
+                font-size: 12px;
+                float:left;
+                text-align:center;
+                border-left: 1px solid $borders;
+                border-top: 1px solid $borders;
+                padding-top: 8px;
+                
+
+                &.first {
+                    border-left: 0;
+                }
+
+                &.width-33 { 
+                    width: 33%; 
+                    &.first {
+                        width: 34%;
+                    }
+                }
+
+                &.width-50 { width: 50%; }
+
+                &.width-100 {
+                    width: 100%;
+                    border: 0;
+                    padding:0;
+                    margin-top:-10px;
+                }
+
+                .endpoint {
+                    position: relative;
+                    background: $terminal_color;
+                    border: 2px solid $terminal_color - #111;
+                    width: 14px;
+                    height: 14px;
+                    margin: 0 auto;
+                    top: 6px;
+
+
+                    &.jtk-connected {
+                        background: $path_color;
+                        border: 3px solid $path_color - #111;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.z-depth-4 {
+    z-index: $z_dragging;
+}
+
+// general styles
+.shrink{
+    -webkit-transform:scale(0.5);
+    -moz-transform:scale(0.5);
+    -ms-transform:scale(0.5);
+    transform:scale(0.5);
+}
+
+// jsplumb, no text selection while dragging
+.jtk-drag-select * {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;    
+}
+
+
+.jtk-connector {
+    z-index: $z_connectors;
+    &.jtk-dragging {
+        z-index: $z_dragging;
+    }
+}
+
+.jtk-endpoint {
+    z-index: $z_endpoints;
+}
+
+.modal-backdrop {
+    background: red;
+}

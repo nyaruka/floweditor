@@ -1,0 +1,40 @@
+/*export class SaveToContactActionComp extends ActionComp {
+    renderTitle() { return <span>Save To Contact</span> }
+    renderBody() { return <div>Update {this.props.label}.</div> }
+}
+
+export class SendMessageActionComp extends ActionComp {
+    renderTitle() { return <span>Send Message</span> }
+    renderBody() { return <div>{this.props.text}</div> }
+}
+
+export class SetLanguageActionComp extends ActionComp {
+    renderTitle() { return <span>Set Language</span> }
+    renderBody() { return <div>Update contact language {this.props.language}.</div> }
+}*/
+
+
+
+    //constructor(props: P){
+    //  super(props);
+      // this.state = { editing: false }
+    //}
+
+    /*static createAction(action: ActionProps) {
+        if (action.type == "add_to_group") {
+            var props = action as AddToGroupActionProps;
+            return <AddToGroupActionComp type={action.type} key={Math.random()}/>
+        } else if (action.type == "save_to_contact") {
+            return <SaveToContactActionComp  type={action.type} key={Math.random()}/>
+        } else if (action.type == "msg") {
+            return <SendMessageActionComp  type={action.type} key={Math.random()}/>            
+        } else if (action.type == "set_language") {
+            return <SetLanguageActionComp  type={action.type} key={Math.random()}/>
+        }
+        return null;
+    }*/
+
+
+  
+
+
