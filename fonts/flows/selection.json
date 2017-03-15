@@ -1,0 +1,71 @@
+{
+  "IcoMoonType": "selection",
+  "icons": [
+    {
+      "icon": {
+        "paths": [
+          "M487.706 923.22h-457.111v-844.036h457.111zM318.539 976.584c0 10.469-8.271 18.622-18.738 18.622h-85.285c-10.467 0-21.952-8.154-21.952-18.622v-3.157c0-10.47 11.485-19.613 21.952-19.613h85.285c10.467 0 18.738 9.143 18.738 19.613zM192.563 35.579c0-1.744 3.158-3.185 4.902-3.185h120.703c1.744 0 2.169 1.442 2.169 3.185v6.565c0 1.747-0.425 2.847-2.169 2.847h-120.703c-1.744 0-4.902-1.1-4.902-2.847zM464.473 0h-410.402c-29.658 0-54.071 24.333-54.071 53.99v916.899c0 29.661 24.413 53.111 54.071 53.111h410.402c29.658 0 53.826-23.45 53.826-53.111v-916.899c0-29.657-24.168-53.99-53.826-53.99z"
+        ],
+        "attrs": [
+          {}
+        ],
+        "width": 518,
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 0,
+        "tags": [
+          "simulator"
+        ]
+      },
+      "attrs": [
+        {}
+      ],
+      "properties": {
+        "order": 5,
+        "id": 0,
+        "name": "simulator",
+        "prevSize": 32,
+        "code": 59648
+      },
+      "setIdx": 0,
+      "setId": 3,
+      "iconIdx": 0
+    }
+  ],
+  "height": 1024,
+  "metadata": {
+    "name": "flows"
+  },
+  "preferences": {
+    "showGlyphs": true,
+    "showQuickUse": true,
+    "showQuickUse2": true,
+    "showSVGs": true,
+    "fontPref": {
+      "prefix": "icon-",
+      "metadata": {
+        "fontFamily": "flows",
+        "majorVersion": 1,
+        "minorVersion": 0
+      },
+      "metrics": {
+        "emSize": 1024,
+        "baseline": 6.25,
+        "whitespace": 50
+      },
+      "embed": false
+    },
+    "imagePref": {
+      "prefix": "icon-",
+      "png": true,
+      "useClassSelector": true,
+      "color": 0,
+      "bgColor": 16777215,
+      "classSelector": ".icon"
+    },
+    "historySize": 100,
+    "showCodes": true,
+    "gridSize": 16,
+    "showGrid": false
+  }
+}

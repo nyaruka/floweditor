@@ -4,35 +4,43 @@
    "language":"eng",
    "nodes":[
       {
+         "_ui":{
+            "location":{
+               "x":49,
+               "y":55
+            }
+         },
          "uuid":"node1",
          "actions":[
             {
+               "uuid":"action1",
                "type":"msg",
-               "text": "What is your favorite color? (red/blue)"
-            }],
-         "wait": {
-            "type": "msg",
-            "timeout": 600
+               "text":"What is your favorite color? (red/blue)"
+            }
+         ],
+         "wait":{
+            "type":"msg",
+            "timeout":600
          },
          "router":{
             "type":"switch",
-            "default": "node1-exit3",
-            "operand": "@input",
-            "cases": [
-              {
-                "type": "has_any_word",
-                "arguments": [
-                  "red"
-                ],
-                "exit": "node1-exit1"
-              },
-              {
-                "type": "has_any_word",
-                "arguments": [
-                  "blue"
-                ],
-                "exit": "node1-exit2"
-              }
+            "default":"node1-exit3",
+            "operand":"@input",
+            "cases":[
+               {
+                  "type":"has_any_word",
+                  "arguments":[
+                     "red"
+                  ],
+                  "exit":"node1-exit1"
+               },
+               {
+                  "type":"has_any_word",
+                  "arguments":[
+                     "blue"
+                  ],
+                  "exit":"node1-exit2"
+               }
             ]
          },
          "exits":[
@@ -52,36 +60,45 @@
                "destination":"node1"
             }
          ]
-      },{
+      },
+      {
+         "_ui":{
+            "location":{
+               "x":202,
+               "y":224
+            }
+         },
          "uuid":"node2",
          "actions":[
             {
+               "uuid":"action2",
                "type":"msg",
-               "text": "What is your favorite soda? (pepsi/coke)"
-            }],
-         "wait": {
-            "type": "msg",
-            "timeout": 600
+               "text":"What is your favorite soda? (pepsi/coke)"
+            }
+         ],
+         "wait":{
+            "type":"msg",
+            "timeout":600
          },
          "router":{
             "type":"switch",
-            "default": "node2-exit3",
-            "operand": "@input",
-            "cases": [
-              {
-                "type": "has_any_word",
-                "arguments": [
-                  "pepsi"
-                ],
-                "exit": "node2-exit1"
-              },
-              {
-                "type": "has_any_word",
-                "arguments": [
-                  "coke"
-                ],
-                "exit": "node2-exit2"
-              }
+            "default":"node2-exit3",
+            "operand":"@input",
+            "cases":[
+               {
+                  "type":"has_any_word",
+                  "arguments":[
+                     "pepsi"
+                  ],
+                  "exit":"node2-exit1"
+               },
+               {
+                  "type":"has_any_word",
+                  "arguments":[
+                     "coke"
+                  ],
+                  "exit":"node2-exit2"
+               }
             ]
          },
          "exits":[
@@ -103,11 +120,18 @@
          ]
       },
       {
-         "uuid": "node3",
-         "actions": [
+         "_ui":{
+            "location":{
+               "x":375,
+               "y":423
+            }
+         },
+         "uuid":"node3",
+         "actions":[
             {
-               "type": "msg",
-               "text": "Great you are done!"
+               "uuid":"action3",
+               "type":"msg",
+               "text":"Great you are done!"
             }
          ]
       }

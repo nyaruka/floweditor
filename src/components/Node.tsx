@@ -2,9 +2,10 @@ import * as React from 'react';
 import * as axios from 'axios';
 import {ActionComp} from './Actions'
 import {NodeProps, ExitProps} from '../interfaces';
-import {ModalComp} from './Modal';
 import {Plumber, DragEvent} from '../services/Plumber';
 import {FlowStore} from '../services/FlowStore';
+import {Modal} from './Modal';
+
 
 interface NodeState {
     editing: boolean;
@@ -26,7 +27,7 @@ class ExitComp extends React.Component<ExitProps, {}> {
         var first = this.props.first ? " first" : "";
         var connected = this.props.destination ? " jtk-connected" : "";
         return (
-            <div key={Math.random()} className={"exit width-" + pct + first}>
+            <div key={Math.random()} className={"exit" + first}>
                 <div className="name">
                     {this.props.label}
                 </div>
@@ -39,14 +40,18 @@ class ExitComp extends React.Component<ExitProps, {}> {
 /**
  * A single node in the rendered flow
  */
-class NodeComp extends React.Component<NodeProps, NodeState> {
+export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     private modal: any;
     private ele: any;
 
     constructor(props: NodeProps){
-      super(props);
-      this.state = { editing: false, dragging: false }
+        super(props);
+        this.state = { editing: false, dragging: false }
+
+        this.onClick = this.onClick.bind(this);
+        this.onModalOpen = this.onModalOpen.bind(this);
+        this.onModalClose = this.onModalClose.bind(this);
     }
 
     dragStart(event: DragEvent) {
@@ -57,8 +62,8 @@ class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     dragStop(event: DragEvent) {
-        FlowStore.get().getCurrentDefinition().updateLocation(this.props.uuid, event.finalPos)
-        FlowStore.get().markDirty();
+        //FlowStore.get().getCurrentDefinition().updateLocation(this.props.uuid, event.finalPos)
+        //FlowStore.get().markDirty();
         this.setState({dragging: false});
         $('#root').removeClass('dragging');
     }
@@ -95,15 +100,24 @@ class NodeComp extends React.Component<NodeProps, NodeState> {
         }
     }
 
+    onModalOpen() {
+        console.log('modal open');
+    }
+
+    onModalClose() {
+        console.log('modal close');
+        this.setEditing(false);
+    }
+
     render() {
 
-        // console.log('Rendering node', this.props.uuid);
+        console.log('Rendering node', this.props.uuid);
 
         var actions = [];
 
         if (this.props.actions) {
             for (let definition of this.props.actions) {
-                actions.push(ActionComp.createAction(definition));
+                actions.push(ActionComp.createAction(definition, this.props));
             }
         }
 
@@ -127,28 +141,35 @@ class NodeComp extends React.Component<NodeProps, NodeState> {
         return(
             <div>
                 <div className={"node " + depth}
-                    ref={(ele: any) => { this.ele = ele; }} 
+                    ref={(ele: any) => { this.ele = ele; }}
                     id={this.props.uuid}
                     style={{
-                    left: this.props._ui.location.x,
-                    top: this.props._ui.location.y
-                    }}>                    
+                        left: this.props._ui.location.x,
+                        top: this.props._ui.location.y
+                    }}>
                     <div>
                         {header}
                         <div className="actions">
                             {actions}
                         </div>
-                        <div className="exits" onClick={(event)=>{ this.onClick(event); }}>
-                            {exits}
+                        <div className="exit-table">
+                            <div className="exits" onClick={(event)=>{ this.onClick(event); }}>
+                                {exits}
+                            </div>
                         </div>
-                    </div>                
+                    </div>
                 </div>
 
-                <ModalComp className="exits" title={modalTitle}
-                           show={this.state.editing} close={() => this.setEditing(false)}>
+                <Modal 
+                    title={modalTitle}
+                    className='exits'
+                    show={this.state.editing} 
+                    onModalClose={this.onModalClose} 
+                    onModalOpen={this.onModalOpen}>
+                    
                     <textarea defaultValue={JSON.stringify({router: this.props.router, exits: this.props.exits}, null, 2)}></textarea>
-                </ModalComp>
 
+                </Modal>
             </div>
         )
     }

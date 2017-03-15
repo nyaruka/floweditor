@@ -12,6 +12,7 @@ export interface LocationProps {
 
 export interface ActionProps {
     type: string;
+    uuid: string;
 }
 
 export interface AddToGroupProps extends ActionProps {
@@ -44,5 +45,8 @@ export interface NodeProps {
     exits?: ExitProps[];
     router?: any;
     actions?: ActionProps[];
+    wait?: any;
     _ui: UIMetaDataProps;
+
+    flow: FlowComp;
 }

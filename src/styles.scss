@@ -29,6 +29,7 @@ body {
     font-size: 12px;
     color: #777;
     font-weight: 400;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 #root {
@@ -69,7 +70,17 @@ body {
     }
 }
 
+.ReactModal__Overlay {
+    background-color: rgba(0, 0, 0, .6) !important;
+}
+
+.ReactModal__Content {
+    box-shadow: 1px 1px 5px 1px #555;
+}
+
 .modal {
+
+    background: #fff;
 
     .modal-header {
         padding: 16px;
@@ -103,6 +114,7 @@ body {
 
     textarea {
         height: 200px;
+        width: 100%;
         padding: 10px;
         color: $grey;
         font-size:14px;
@@ -136,6 +148,8 @@ body {
         background: #fff;
         width: 250px;
         cursor: pointer;
+        box-shadow: 1px 1px 3px 1px rgba(0,0,0, .2);
+        display: table;
 
         &.drop-hover {
             box-shadow: 0 0 2px 1px $hover;
@@ -157,58 +171,115 @@ body {
             border-radius: 2px;
         }
 
-        .exits {
-            &:after {
-                content: "";
-                display: table;
-                clear: both;
-            }
-            .exit {
-                font-size: 12px;
-                float:left;
-                text-align:center;
-                border-left: 1px solid $borders;
-                border-top: 1px solid $borders;
-                padding-top: 8px;
+        .exit-table {
+            display: table;
+            width: 100%;
+
+            .exits {
+                border-collapse: collapse;
+                display: table-row;
                 
-
-                &.first {
-                    border-left: 0;
+                &:after {
+                    content: "";
+                    display: table;
+                    clear: both;
                 }
 
-                &.width-33 { 
-                    width: 33%; 
+                .exit {
+                    font-size: 12px;
+                    text-align:center;
+                    border-left: 1px solid $borders;
+                    border-top: 1px solid $borders;
+                    padding-top: 8px;
+                    display: table-cell; 
+
                     &.first {
-                        width: 34%;
+                        border-left: 0;
                     }
-                }
 
-                &.width-50 { width: 50%; }
+                    &.width-33 { 
+                        width: 33%; 
+                        &.first {
+                            width: 34%;
+                        }
+                    }
 
-                &.width-100 {
-                    width: 100%;
-                    border: 0;
-                    padding:0;
-                    margin-top:-10px;
-                }
+                    &.width-50 { width: 50%; }
 
-                .endpoint {
-                    position: relative;
-                    background: $terminal_color;
-                    border: 2px solid $terminal_color - #111;
-                    width: 14px;
-                    height: 14px;
-                    margin: 0 auto;
-                    top: 6px;
+                    &.width-100 {
+                        width: 100%;
+                        border: 0;
+                        padding:0;
+                        margin-top:-10px;
+                    }
+
+                    .endpoint {
+                        position: relative;
+                        background: $terminal_color;
+                        border: 2px solid $terminal_color - #111;
+                        width: 14px;
+                        height: 14px;
+                        margin: 0 auto;
+                        top: 6px;
 
 
-                    &.jtk-connected {
-                        background: $path_color;
-                        border: 3px solid $path_color - #111;
+                        &.jtk-connected {
+                            background: $path_color;
+                            border: 3px solid $path_color - #111;
+                        }
                     }
                 }
             }
         }
+    }
+}
+
+.simulator {
+    position:absolute;
+    right: 30px;
+    top: 30px;
+
+    .screen {
+        border: 0px solid green;
+        height: 378px;
+        width: 204px;
+        background-color: #fff;
+        position: relative;
+        right: 14px;
+        top: 36px;
+
+        .messages {
+            height: 330px;
+            padding: 10px;
+            width: 100%;
+            border: 0px solid purple;
+
+        }
+    }
+
+    .controls {
+        background: $light_grey;
+        border: inherit;
+        position: relative;
+        bottom: 18px;
+        right: 14px;
+        width: 100%;
+        padding: 5px 10px;
+        
+        input {
+            border: 0px solid $grey;
+            margin: 0;
+        }
+    }
+
+    .icon-simulator {
+        font-size:460px;
+        color: #333;
+        border: 0px solid green;
+        position: absolute;
+        right: 0;
+        top: 0;
+        // text-shadow: 0px 0px 5px $grey;
     }
 }
 
@@ -248,4 +319,19 @@ body {
 
 .modal-backdrop {
     background: red;
+}
+
+.ReactModalPortal > div {
+    opacity: 0;
+}
+
+.ReactModalPortal .ReactModal__Overlay {
+  transition: opacity 200ms ease-in-out;
+  background: rgba(0, 0, 0, 0.15);
+  &--after-open {
+    opacity: 1;
+  }
+  &--before-close {
+      opacity: 0;
+  }
 }

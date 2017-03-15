@@ -1,14 +1,16 @@
 import * as React from "react";
 var UUID  = require("uuid");
+var ReactModal = require("react-modal");
 
 interface ModalProps {
-    title: JSX.Element
-    show: boolean
-    className: string
-    close: any
+    show: boolean;
+    onModalOpen: any;
+    onModalClose: any;
+    className: string;
+    title: JSX.Element;
 }
 
-export class ModalComp extends React.Component<ModalProps, {}> {
+export class Modal extends React.Component<ModalProps, {}> {
 
     private ele: any
 
@@ -16,34 +18,45 @@ export class ModalComp extends React.Component<ModalProps, {}> {
         super(props);
     }
 
-    componentDidUpdate(prevProps: ModalProps, prevState: any) {
-        if (this.props.show && !prevProps.show) {
-            $(this.ele).modal({
-                complete: this.props.close,
-                inDuration: 200,
-                outDuration: 200,
-                startingTop: '70%'
-            }).modal('open');
-        } else if (!this.props.show && prevProps.show) {
-            $(this.ele).modal('close');
+    customStyles = {
+        content : {
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginTop: '40px',
+            bottom: 'initial',
+            padding: 'none',
+            borderRadius: 'none',
+            outline: 'none',
+            width: '700px',
+            border: 'none'
+
         }
-    }
+    };
 
     render() {
-        return !this.props.show ? <div/> : (
-            <div ref={(ele: any) => {this.ele = ele;}} className={"modal " + this.props.className}>
-                <div className="modal-header">
-                    {this.props.title}
-                </div>
-                <div className="modal-content">
-                    {this.props.children}
-                </div>
-                <div className="modal-footer">
-                  <a href="#!" className=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-                </div>
-            </div>
+        return (
+            <ReactModal
+                isOpen={this.props.show}
+                onAfterOpen={this.props.onModalOpen}
+                onRequestClose={this.props.onModalClose}
+                style={this.customStyles}
+                contentLabel="blerg"
+                closeTimeoutMS={200}>
+
+                <div ref={(ele: any) => {this.ele = ele;}} className={"modal " + this.props.className}>
+                    <div className="modal-header">
+                        {this.props.title}
+                    </div>
+                    <div className="modal-content">
+                        {this.props.children}
+                    </div>
+                    <div className="modal-footer">
+                        <button onClick={this.props.onModalClose}>Save</button>
+                    </div>
+                </div>                
+            </ReactModal>
         )
     }
 }
 
-export default ModalComp;
+export default Modal;

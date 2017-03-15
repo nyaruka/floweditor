@@ -1,6 +1,6 @@
 {
   "name": "flow2",
-  "license":"UNLICENSED",
+  "license": "UNLICENSED",
   "repository": {
     "type": "git",
     "url": "git://github.com/nyaruka/floweditor.git"
@@ -18,11 +18,12 @@
     "awesome-typescript-loader": "^3.1.2",
     "axios": "^0.15.3",
     "css-loader": "^0.26.4",
+    "immutability-helper": "^2.1.2",
     "jquery": "^3.1.1",
     "jsplumb": "^2.3.0",
     "local-storage": "^1.4.2",
-    "materialize-css": "^0.98.0",
     "node-sass": "^4.5.0",
+    "react-modal": "^1.7.3",
     "react-modal-dialog": "^4.0.7",
     "sass-loader": "^6.0.3",
     "source-map-loader": "^0.1.6",

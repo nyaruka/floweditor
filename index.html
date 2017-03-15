@@ -4,20 +4,25 @@
     <meta charset="utf-8">
     <title>Flow2</title>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="./node_modules/materialize-css/dist/css/materialize.css"  media="screen,projection"/>
+    <!--link type="text/css" rel="stylesheet" href="./node_modules/materialize-css/dist/css/materialize.css"  media="screen,projection"/-->
+    <link type="text/css" rel="stylesheet" href="./fonts/flows/style.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
   <body>
-    <!-- our root rendering div -->
-    <div id="root"></div>
+    <!-- the main flow app -->
+    <div id="root_flow"></div>
+
+    <!-- our phone simulator -->
+    <div id="root_sim"></div>
+
     <!-- dependencies -->
     <script src="./node_modules/react/dist/react.js"></script>
     <script src="./node_modules/react-dom/dist/react-dom.js"></script>
     <script type="text/javascript" src="./node_modules/jquery/dist/jquery.js"></script>
-    <script type="text/javascript" src="./node_modules/materialize-css/dist/js/materialize.js"></script>    
+    <!--script type="text/javascript" src="./node_modules/materialize-css/dist/js/materialize.js"></script-->    
 
     <!-- flow editor -->
     <script src="bundle.js"></script>
-    
+
   </body>
 </html>
