@@ -13,6 +13,8 @@ export interface LocationProps {
 export interface ActionProps {
     type: string;
     uuid: string;
+
+    flow: FlowComp;
 }
 
 export interface AddToGroupProps extends ActionProps {

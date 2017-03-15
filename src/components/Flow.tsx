@@ -34,12 +34,48 @@ interface ConnectionEvent {
  */
 export class FlowComp extends React.Component<FlowProps, FlowState> {
 
+    private nodes: JSX.Element[];
+
     constructor(props: FlowProps) {
         super(props);
         this.state = {}
     }
 
+    getActionIndexes(uuid: string) {
+        var nodeIdx: number = -1;
+        var actionIdx: number = -1;
+
+        for (let i in this.state.definition.nodes) {
+            var node = this.state.definition.nodes[i];
+            for (let j in node.actions) {
+                if (node.actions[j].uuid == uuid) {
+                    nodeIdx = parseInt(i);
+                    actionIdx = parseInt(j);
+                }
+            }
+        } 
+        return [nodeIdx, actionIdx];
+    }
+
+    updateMessageAction(uuid: string, text: string) {
+        var indexes = this.getActionIndexes(uuid);
+
+        var updated = update(this.state.definition, {
+            nodes: { 
+                [indexes[0]]: {
+                    actions: { 
+                        [indexes[1]]: { text: { $set: text} }
+                    }
+                }
+            }
+        });
+
+        console.log('Updated:', updated);
+        this.setState({definition: updated});
+    }
+    
     updateAction(uuid: string, definition: string) {
+        console.log('update action');
         var nodeIdx: number = -1;
         var actionIdx: number = -1;
 
@@ -71,7 +107,7 @@ export class FlowComp extends React.Component<FlowProps, FlowState> {
     componentDidMount() {
         console.log('flow mounted..');
         FlowStore.get().loadFlow(this.props.url, (definition: FlowDefinition)=>{
-            this.setState({definition: definition});
+            this.setDefinition(definition);
         }, false);
     }
 
@@ -104,17 +140,22 @@ export class FlowComp extends React.Component<FlowProps, FlowState> {
         FlowStore.get().markDirty();
     }*/
 
-    render() {
-        var nodes: JSX.Element[] = [];
-        if (this.state.definition) {
-            for (let node of this.state.definition.nodes) {
-                nodes.push(<NodeComp {...node} flow={this} key={Math.random()}/>)
+    setDefinition(definition: FlowDefinition) {
+        this.nodes = [];
+        if (definition) {
+            for (let node of definition.nodes) {
+                this.nodes.push(<NodeComp {...node} flow={this} key={Math.random()}/>)
             }
         }
+        this.setState({definition: definition});
+    }
+
+    render() {
+        console.log('##################### Rendering flow');
         return(
             <div id="flow">
                 <div className="nodes">
-                  {nodes}
+                  {this.nodes}
                 </div>
             </div>
         )

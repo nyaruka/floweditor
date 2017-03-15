@@ -15,7 +15,7 @@ export interface ActionState {
  */
 export class ActionComp<P extends ActionProps> extends React.Component<P, ActionState> {
 
-    private form: HTMLFormElement;
+    public form: HTMLFormElement;
     
     constructor(props: P) {
         super(props);
@@ -50,8 +50,8 @@ export class ActionComp<P extends ActionProps> extends React.Component<P, Action
     }
 
     onModalClose() {
-        var textarea: HTMLTextAreaElement = $(this.form).find('textarea')[0] as HTMLTextAreaElement;
-        
+
+        var textarea: HTMLTextAreaElement = $(this.form).find('textarea')[0] as HTMLTextAreaElement;        
         this.setState({
             editing: false
         });
@@ -141,8 +141,27 @@ export class SaveToContactActionComp extends ActionComp<SaveToContactProps> {
 }
 
 export class SendMessageActionComp extends ActionComp<SendMessageProps> {
+    
     renderTitle() { return <span>Send Message</span> }
     renderBody() { return <div>{this.props.text}</div>; }
+    renderForm() {
+        return (
+             <div>
+                <textarea className="definition" defaultValue={this.props.text}></textarea>
+            </div>
+        )
+    }
+
+    onModalClose() {
+        var textarea: HTMLTextAreaElement = $(this.form).find('textarea')[0] as HTMLTextAreaElement;
+        console.log(textarea.value);
+        this.setState({
+            editing: false
+        });
+
+        this.props.flow.updateMessageAction(this.props.uuid, textarea.value);
+    }
+
 }
 
 export class SetLanguageActionComp extends ActionComp<SetLanguageProps> {

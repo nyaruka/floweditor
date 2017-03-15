@@ -70,8 +70,9 @@ export class Plumber {
     }
 
     connectExit(exit: ExitProps) {
-        // this.jsPlumb.detachAllConnections(exit.uuid);
-        // this.connect(exit.uuid, exit.destination);
+        console.log('reconnecting', exit.uuid);
+        this.jsPlumb.detachAllConnections(exit.uuid);
+        this.connect(exit.uuid, exit.destination);
     }
 
     connect(source: string, target: string) {

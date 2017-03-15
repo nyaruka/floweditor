@@ -13,7 +13,7 @@ interface NodeState {
 }
 
 
-class ExitComp extends React.Component<ExitProps, {}> {
+class ExitComp extends React.PureComponent<ExitProps, {}> {
 
     componentDidMount() {
         // we can be dragged from
@@ -40,7 +40,7 @@ class ExitComp extends React.Component<ExitProps, {}> {
 /**
  * A single node in the rendered flow
  */
-export class NodeComp extends React.Component<NodeProps, NodeState> {
+export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
     private modal: any;
     private ele: any;
@@ -117,6 +117,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
         if (this.props.actions) {
             for (let definition of this.props.actions) {
+                definition.flow = this.props.flow;
                 actions.push(ActionComp.createAction(definition, this.props));
             }
         }
