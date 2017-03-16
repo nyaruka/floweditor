@@ -269,11 +269,36 @@ body {
         top: 36px;
 
         .messages {
-            height: 330px;
+            top: 2px;
+            max-height: 313px;
             padding: 10px;
-            width: 182px;
+            width: 198px;
             border: 0px solid purple;
             overflow-y: auto;
+            font-weight: 300;
+            position: relative;
+ 
+            .msg {
+                padding: 5px 8px;
+                background: $light_grey;
+                width: 70%;
+                border: 1px solid $light_grey + #111;
+                margin-bottom:8px;
+                border-radius: 2px;
+                
+                &.inbound {
+                    float:left;
+                }
+
+                &.outbound {
+                    float:right;
+                    text-align: right;
+                    background: $blue + #111;
+                    border-color: $blue + #222;
+                    margin-right: 12px;
+                    color: #fff;
+                }
+            }
 
         }
 
@@ -360,3 +385,5 @@ body {
       opacity: 0;
   }
 }
+
+textarea, input, button { outline: none; }
