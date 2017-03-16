@@ -52,11 +52,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     private execute(text?: string) {
 
         let context = this.state.context;
-        if (text) {
+        if (!text) {
+            context = null;
+        } else {
             context.input = { text: text, type: "msg" };
         }
-
-        // console.log('Simulating', FlowStore.get().getCurrentDefinition());
 
         var body: any = {
             flow: FlowStore.get().loadFromStorage()
@@ -100,15 +100,16 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         }
 
         return (
-            <div className="simulator">
+            <div className="simulator" >
+              <a className="reset" onClick={()=>this.execute()}/>
+              <div className="icon-simulator"/>
               <div className="screen">
                 <div className="messages">
                     {messages}
                 </div>
-              </div>
-              <div className="icon-simulator"/>
-              <div className="controls">
-                <input type="text" className="browser-default" onKeyUp={(event)=>this.handleInput(event)}/>
+                <div className="controls">
+                    <input type="text" onKeyUp={(event)=>this.handleInput(event)}/>
+                </div>
               </div>
             </div>
         )

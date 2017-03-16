@@ -10,7 +10,7 @@ var url = 'two_questions.json';
 var engineUrl = 'http://localhost:8080';
 
 ReactDOM.render(
-  <FlowComp url={url}/>,
+  <FlowComp url={url} engineUrl={engineUrl}/>,
   document.getElementById("root")
 );  
 

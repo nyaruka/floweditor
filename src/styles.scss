@@ -36,6 +36,7 @@ body {
     position: absolute;
     top: 0;
     left: 0;
+    width: 100%;
 }
 
 .actions {
@@ -240,6 +241,23 @@ body {
     position:absolute;
     right: 30px;
     top: 30px;
+    height: 460px;
+    width: 233px;
+
+    .reset {
+        width: 60px;
+        height: 19px;
+        background-color: #999;
+        position: absolute;
+        bottom: 13px;
+        left: 87px;
+        &:hover {
+            background-color: #999 - #111;
+        }
+        &:active {
+            background-color: #999 - #222;
+        }
+    }
 
     .screen {
         border: 0px solid green;
@@ -247,32 +265,36 @@ body {
         width: 204px;
         background-color: #fff;
         position: relative;
-        right: 14px;
+        right: -14px;
         top: 36px;
 
         .messages {
             height: 330px;
             padding: 10px;
-            width: 100%;
+            width: 182px;
             border: 0px solid purple;
+            overflow-y: auto;
 
+        }
+
+        .controls {
+            background: $light_grey;
+            position: absolute;
+            border: 0px solid yellow;
+            bottom: 0px;
+            width: 184px;
+            padding: 5px 10px;
+            
+            input {
+                font-size: 14px;
+                font-weight: 300;
+                width: 169px;
+                padding: 5px;
+            }
         }
     }
 
-    .controls {
-        background: $light_grey;
-        border: inherit;
-        position: relative;
-        bottom: 18px;
-        right: 14px;
-        width: 100%;
-        padding: 5px 10px;
-        
-        input {
-            border: 0px solid $grey;
-            margin: 0;
-        }
-    }
+
 
     .icon-simulator {
         font-size:460px;
@@ -281,6 +303,7 @@ body {
         position: absolute;
         right: 0;
         top: 0;
+        pointer-events:none;
         // text-shadow: 0px 0px 5px $grey;
     }
 }

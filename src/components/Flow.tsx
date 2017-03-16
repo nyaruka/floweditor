@@ -1,8 +1,8 @@
 import * as React from 'react';
 import NodeComp from './Node';
 import {Plumber} from '../services/Plumber';
-import {FlowStore} from '../services/FlowStore';
-import {FlowDefinition} from '../services/FlowStore';
+import {FlowStore, FlowDefinition} from '../services/FlowStore';
+import {Simulator} from './Simulator';
 import {NodeProps, ExitProps, ActionProps, LocationProps, UIMetaDataProps, SendMessageProps, FlowContext} from '../interfaces';
 
 var update = require('immutability-helper');
@@ -10,6 +10,7 @@ var update = require('immutability-helper');
 
 interface FlowProps {
     url: string;
+    engineUrl: string;
 }
 
 interface FlowState {
@@ -205,9 +206,12 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
 
         console.log('##################### Rendering flow');
         return(
-            <div id="flow">
-                <div className="nodes">
-                  {nodes}
+            <div>
+                <Simulator engineUrl={this.props.engineUrl}/>
+                <div id="flow">
+                    <div className="nodes">
+                    {nodes}
+                    </div>
                 </div>
             </div>
         )
