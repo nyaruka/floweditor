@@ -3,7 +3,7 @@ import NodeComp from './Node';
 import {Plumber} from '../services/Plumber';
 import {FlowStore} from '../services/FlowStore';
 import {FlowDefinition} from '../services/FlowStore';
-import {NodeProps, ExitProps, ActionProps, LocationProps, UIMetaDataProps, SendMessageProps} from '../interfaces';
+import {NodeProps, ExitProps, ActionProps, LocationProps, UIMetaDataProps, SendMessageProps, FlowContext} from '../interfaces';
 
 var update = require('immutability-helper');
 
@@ -32,9 +32,17 @@ interface ConnectionEvent {
  * Our top level flow. This class is responsible for state and 
  * calling into our Plumber as necessary.
  */
-export class FlowComp extends React.Component<FlowProps, FlowState> {
+export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
 
-    private nodes: JSX.Element[];
+    static childContextTypes = {
+        flow: React.PropTypes.object
+    }
+
+    getChildContext(): FlowContext {
+        return {
+            flow: this
+        }
+    }
 
     constructor(props: FlowProps) {
         super(props);
@@ -61,11 +69,9 @@ export class FlowComp extends React.Component<FlowProps, FlowState> {
         var indexes = this.getActionIndexes(uuid);
 
         var updated = update(this.state.definition, {
-            nodes: { 
-                [indexes[0]]: {
-                    actions: { 
-                        [indexes[1]]: { text: { $set: text} }
-                    }
+            nodes: { [indexes[0]]: {
+                    actions: { [indexes[1]]: { 
+                        text: { $set: text} } }
                 }
             }
         });
@@ -104,21 +110,36 @@ export class FlowComp extends React.Component<FlowProps, FlowState> {
         this.setState({definition: updated});
     }
 
+    /*shouldComponentUpdate(nextProps: FlowProps, nextState: FlowState) {
+        if (this.state.definition === undefined) {
+            console.log('flow YES update');
+            return true;
+        }
+        console.log('flow NO update');
+        return false;
+    }*/
+
     componentDidMount() {
         console.log('flow mounted..');
         FlowStore.get().loadFlow(this.props.url, (definition: FlowDefinition)=>{
             this.setDefinition(definition);
         }, false);
+
+        var plumb = Plumber.get();
+        plumb.bind("connection", (event: ConnectionEvent) => { this.onConnection(event); });
+        plumb.bind("connectionMoved", (event: ConnectionEvent) => {this.onConnectionMoved(event); });
+
+    }
+
+    componentWillUpdate() {
+        Plumber.get().reset();
     }
 
     componentDidUpdate() {
         if (this.state.definition) {
             console.log('Flow updated..');
             var plumb = Plumber.get();
-            
             plumb.connectAll(this.state.definition);
-            plumb.bind("connection", (event: ConnectionEvent) => { this.onConnection(event); });
-            plumb.bind("connectionMoved", (event: ConnectionEvent) => {this.onConnectionMoved(event); });
         }
     }
 
@@ -141,21 +162,22 @@ export class FlowComp extends React.Component<FlowProps, FlowState> {
     }*/
 
     setDefinition(definition: FlowDefinition) {
-        this.nodes = [];
-        if (definition) {
-            for (let node of definition.nodes) {
-                this.nodes.push(<NodeComp {...node} flow={this} key={Math.random()}/>)
-            }
-        }
         this.setState({definition: definition});
     }
 
     render() {
+        var nodes: JSX.Element[] = [];
+        if (this.state.definition) {
+            for (let node of this.state.definition.nodes) {
+                nodes.push(<NodeComp {...node} key={node.uuid}/>)
+            }
+        }
+
         console.log('##################### Rendering flow');
         return(
             <div id="flow">
                 <div className="nodes">
-                  {this.nodes}
+                  {nodes}
                 </div>
             </div>
         )

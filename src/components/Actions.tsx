@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as axios from "axios";
-import {ActionProps, AddToGroupProps, SendMessageProps, SaveToContactProps, SetLanguageProps, NodeProps} from '../interfaces'
+import {ActionProps, AddToGroupProps, SendMessageProps, SaveToContactProps, SetLanguageProps, NodeProps, FlowContext} from '../interfaces'
+import {Plumber} from '../services/Plumber';
 import {FlowStore} from '../services/FlowStore';
 import Modal from './Modal';
 
@@ -16,6 +17,13 @@ export interface ActionState {
 export class ActionComp<P extends ActionProps> extends React.Component<P, ActionState> {
 
     public form: HTMLFormElement;
+
+    static contextTypes = {
+        flow: React.PropTypes.object,
+        node: React.PropTypes.object
+    }
+    
+    context: FlowContext;
     
     constructor(props: P) {
         super(props);
@@ -30,14 +38,14 @@ export class ActionComp<P extends ActionProps> extends React.Component<P, Action
 
     static createAction(action: ActionProps, node: NodeProps) {
         if (action.type == "add_to_group") {
-            return <AddToGroupActionComp {...action as AddToGroupProps} key={Math.random()}/>
+            return <AddToGroupActionComp {...action as AddToGroupProps} key={action.uuid}/>
         } else if (action.type == "save_to_contact") {
             var props = action as SaveToContactProps;
-            return <SaveToContactActionComp {...action as SaveToContactProps} key={Math.random()}/>
+            return <SaveToContactActionComp {...action as SaveToContactProps} key={action.uuid}/>
         } else if (action.type == "msg") {
-            return <SendMessageActionComp {...action as SendMessageProps} key={Math.random()}/>            
+            return <SendMessageActionComp {...action as SendMessageProps} key={action.uuid}/>            
         } else if (action.type == "set_language") {
-            return <SetLanguageActionComp {...action as SetLanguageProps} key={Math.random()}/>
+            return <SetLanguageActionComp {...action as SetLanguageProps} key={action.uuid}/>
         }
     }
 
@@ -46,7 +54,7 @@ export class ActionComp<P extends ActionProps> extends React.Component<P, Action
     }
 
     onModalOpen() {
-        console.log('modal open');
+        // console.log('modal open');
     }
 
     onModalClose() {
@@ -63,12 +71,8 @@ export class ActionComp<P extends ActionProps> extends React.Component<P, Action
         // this.props.flow.forceUpdate()
     }
 
-    isDragging() {
-        return $('#root').hasClass('dragging');
-    }
-
     onClick (event: any) {
-        if (!this.isDragging()) {
+        if (!this.context.node.state.dragging) {
             this.setEditing(true);
         }
     }
@@ -77,7 +81,7 @@ export class ActionComp<P extends ActionProps> extends React.Component<P, Action
         return(
             <div>
                 <div className={'action ' + this.getClassName()} 
-                     onClick={(event)=>{ this.onClick(event); }}>
+                     onMouseUp={(event)=>{ this.onClick(event); }}>
                     <div className="action-title">
                       {this.renderTitle()}
                     </div>
@@ -154,12 +158,10 @@ export class SendMessageActionComp extends ActionComp<SendMessageProps> {
 
     onModalClose() {
         var textarea: HTMLTextAreaElement = $(this.form).find('textarea')[0] as HTMLTextAreaElement;
-        console.log(textarea.value);
-        this.setState({
-            editing: false
-        });
+        this.setState({ editing: false });
+        this.context.flow.updateMessageAction(this.props.uuid, textarea.value);
 
-        this.props.flow.updateMessageAction(this.props.uuid, textarea.value);
+        Plumber.get().repaint(this.context.node.props.uuid);
     }
 
 }

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as axios from 'axios';
 import {ActionComp} from './Actions'
-import {NodeProps, ExitProps} from '../interfaces';
+import {NodeProps, ExitProps, FlowContext} from '../interfaces';
 import {Plumber, DragEvent} from '../services/Plumber';
 import {FlowStore} from '../services/FlowStore';
 import {Modal} from './Modal';
-
+var shallowCompare = require('react-addons-shallow-compare');
 
 interface NodeState {
     editing: boolean;
@@ -27,7 +27,7 @@ class ExitComp extends React.PureComponent<ExitProps, {}> {
         var first = this.props.first ? " first" : "";
         var connected = this.props.destination ? " jtk-connected" : "";
         return (
-            <div key={Math.random()} className={"exit" + first}>
+            <div key={this.props.uuid} className={"exit" + first}>
                 <div className="name">
                     {this.props.label}
                 </div>
@@ -40,32 +40,73 @@ class ExitComp extends React.PureComponent<ExitProps, {}> {
 /**
  * A single node in the rendered flow
  */
-export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
+export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     private modal: any;
     private ele: any;
+
+    context: FlowContext;
+    
+    static childContextTypes = {
+        flow: React.PropTypes.object,
+        node: React.PropTypes.object
+    }
+
+    static contextTypes = {
+        flow: React.PropTypes.object
+    }
+       
+    getChildContext(): FlowContext {
+        return {
+            flow: this.context.flow,
+            node: this
+        }
+    }
 
     constructor(props: NodeProps){
         super(props);
         this.state = { editing: false, dragging: false }
 
+        this.onDragStart = this.onDragStart.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onModalOpen = this.onModalOpen.bind(this);
         this.onModalClose = this.onModalClose.bind(this);
     }
 
-    dragStart(event: DragEvent) {
-        if (!this.state.dragging) {
-            this.setState({dragging: true});
-            $('#root').addClass('dragging');
-        }
+    onDragStart(event: any) {
+        console.log('drag start..');
+        this.setState({dragging: true});
+        $('#root').addClass('dragging');
+        event.e.preventDefault();
+        event.e.stopPropagation();
     }
 
-    dragStop(event: DragEvent) {
+    onDrag(event: DragEvent) {
+
+    }
+
+    onDragStop(event: DragEvent) {
         //FlowStore.get().getCurrentDefinition().updateLocation(this.props.uuid, event.finalPos)
         //FlowStore.get().markDirty();
+        console.log('onDragStop');
         this.setState({dragging: false});
         $('#root').removeClass('dragging');
+        event.e.preventDefault();
+        event.e.stopPropagation();
+
+    }
+
+    shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState) {
+        // console.log(this.props, nextProps);
+        if (nextState.dragging != this.state.dragging) {
+            console.log('just a drag');
+            return false;
+        }
+
+        var shouldUpdate = shallowCompare(this, nextProps, nextState);
+        console.log(this.props.uuid, 'should update', shouldUpdate);
+        return shouldUpdate;
+
     }
 
     componentDidMount() {
@@ -74,50 +115,50 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
         // wire up our drag events
         plumber.draggable(this.ele, 
-            (event: DragEvent) => {this.dragStart(event)}, 
-            (event: DragEvent) => {this.dragStop(event)}
+            (event: DragEvent) => {this.onDragStart(event)},
+            (event: DragEvent) => {this.onDrag(event)}, 
+            (event: DragEvent) => {this.onDragStop(event)}
         );
 
         // make ourselves a target
         plumber.makeTarget(this.props.uuid);
+
+        // $(this.ele).find('.exits').on('mouseup', this.onClick);
     }
 
-    componentDidUpdate(prevProps: NodeProps, prevState: NodeState) {
-        if (this.props.exits) {
-            for (let exit of this.props.exits) {
-                Plumber.get().connectExit(exit);
-            }
-        }
-    }
+    componentWillUpdate() {}
+
+    componentDidUpdate(prevProps: NodeProps, prevState: NodeState) {}
 
     setEditing(editing: boolean) {
         this.setState({editing: editing});
     }
 
     onClick (event: any) {
-        if (!this.state.dragging) {
-            this.setEditing(true);
+        if (event.target) {
+            if (!this.state.dragging) {
+                this.setEditing(true);
+            }
         }
     }
 
     onModalOpen() {
-        console.log('modal open');
+        // console.log('modal open');
     }
 
     onModalClose() {
-        console.log('modal close');
+        // console.log('modal close');
         this.setEditing(false);
     }
 
     render() {
 
-        console.log('Rendering node', this.props.uuid);
+        console.log('Rendering node', this.props.uuid, this.context.flow);
 
         var actions = [];
 
         if (this.props.actions) {
             for (let definition of this.props.actions) {
-                definition.flow = this.props.flow;
                 actions.push(ActionComp.createAction(definition, this.props));
             }
         }
@@ -131,7 +172,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
         if (this.props.exits) {
             var first = true;
             for (let exit of this.props.exits) {
-                exits.push(<ExitComp {...exit} first={first} totalExits={this.props.exits.length} key={Math.random()}/>);
+                exits.push(<ExitComp {...exit} first={first} totalExits={this.props.exits.length} key={exit.uuid}/>);
                 first = false;
             }
         }
@@ -149,12 +190,12 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                         top: this.props._ui.location.y
                     }}>
                     <div>
-                        {header}
+                        {header} 
                         <div className="actions">
                             {actions}
                         </div>
                         <div className="exit-table">
-                            <div className="exits" onClick={(event)=>{ this.onClick(event); }}>
+                            <div className="exits" onMouseUp={this.onClick}>
                                 {exits}
                             </div>
                         </div>

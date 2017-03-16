@@ -11,7 +11,7 @@ export interface DragEvent {
 
 export class Plumber {
 
-    jsPlumb: any;
+    public jsPlumb: any;
 
     private static singleton: Plumber = new Plumber();
 
@@ -54,8 +54,13 @@ export class Plumber {
         });
     }
 
-    draggable(ele: JSX.Element, drag: Function, stop: Function) {
+    /*draggable(ele: JSX.Element) {
+        this.jsPlumb.draggable(ele);
+    }*/
+    
+    draggable(ele: JSX.Element, start: Function, drag: Function, stop: Function) {
         this.jsPlumb.draggable(ele, {
+            start: (event:any) => start(event),
             drag: (event: DragEvent) => drag(event),
             stop: (event: DragEvent) => stop(event),
         })
@@ -69,14 +74,17 @@ export class Plumber {
         this.jsPlumb.makeTarget(uuid, this.targetDefaults);
     }
 
+    detach(uuid: string) {
+        this.jsPlumb.detachAllConnections(uuid);
+    }
+
     connectExit(exit: ExitProps) {
-        console.log('reconnecting', exit.uuid);
-        this.jsPlumb.detachAllConnections(exit.uuid);
         this.connect(exit.uuid, exit.destination);
     }
 
     connect(source: string, target: string) {
         if (source != null && target != null) {
+            // console.log(source, '=>', target);
             this.jsPlumb.connect({source: source, target: target, fireEvent: false});
         }
     }
@@ -85,10 +93,24 @@ export class Plumber {
         return this.jsPlumb.bind(event, onEvent);
     }
 
+    repaint(uuid: string) {
+        window.setTimeout(()=>{
+            this.jsPlumb.recalculateOffsets(uuid);
+            this.jsPlumb.repaint(uuid);
+        }, 0);
+    }
+
+    reset() {
+        this.jsPlumb.detachEveryConnection();
+    }
+
     connectAll(flow: FlowDefinition) {
+        console.log('Reconnecting plumbing..');
+        
         // this will suspend drawing until all nodes are connected
         this.jsPlumb.ready(() => {
             this.jsPlumb.batch(()=> {
+                this.reset();
                 // wire everything up
                 for (let node of flow.nodes) {
                     if (node.exits) {

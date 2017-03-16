@@ -12,7 +12,7 @@ var fetch = true;
 
 ReactDOM.render(
   <FlowComp url={url}/>,
-  document.getElementById("root_flow")
+  document.getElementById("root")
 );  
 
 //ReactDOM.render(

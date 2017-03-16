@@ -92,7 +92,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             for (let step of this.state.context.path) {
                 for (let event of step.events) {
                     if (event.text) {
-                        messages.push(<div key={Math.random()}>{event.text}</div>)
+                        messages.push(<div key={String(event.created_on)}>{event.text}</div>)
                     }
                 }
                 // var className = .inbound ? "inbound" : "outbound"

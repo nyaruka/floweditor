@@ -1,5 +1,12 @@
 import {Plumber} from './services/Plumber'
-import FlowComp from './components/Flow'
+import {FlowComp} from './components/Flow'
+import {NodeComp} from './components/Node'
+
+export interface FlowContext {
+    flow: FlowComp;
+    node?: NodeComp;
+}
+
 
 export interface UIMetaDataProps {
     location: LocationProps;
@@ -13,8 +20,6 @@ export interface LocationProps {
 export interface ActionProps {
     type: string;
     uuid: string;
-
-    flow: FlowComp;
 }
 
 export interface AddToGroupProps extends ActionProps {
@@ -49,6 +54,4 @@ export interface NodeProps {
     actions?: ActionProps[];
     wait?: any;
     _ui: UIMetaDataProps;
-
-    flow: FlowComp;
 }
