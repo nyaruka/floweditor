@@ -91,9 +91,14 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         console.log('onDragStop');
         this.setState({dragging: false});
         $('#root').removeClass('dragging');
-        event.e.preventDefault();
-        event.e.stopPropagation();
 
+        // update our coordinates
+        this.context.flow.updateNode(this.props.uuid, { _ui: { 
+            location: { $set: { 
+                x: event.finalPos[0], 
+                y: event.finalPos[1]
+            }}
+        }});
     }
 
     shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState) {

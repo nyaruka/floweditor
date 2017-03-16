@@ -49,7 +49,12 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         this.state = {}
     }
 
-    getActionIndexes(uuid: string) {
+    /**
+     * Get the current indexes to our action 
+     * TODO: make this not dumb
+     * @param uuid of the action
+     */
+    getActionIndexes(uuid: string): number[] {
         var nodeIdx: number = -1;
         var actionIdx: number = -1;
 
@@ -65,62 +70,89 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         return [nodeIdx, actionIdx];
     }
 
-    updateMessageAction(uuid: string, text: string) {
-        var indexes = this.getActionIndexes(uuid);
-
-        var updated = update(this.state.definition, {
-            nodes: { [indexes[0]]: {
-                    actions: { [indexes[1]]: { 
-                        text: { $set: text} } }
-                }
-            }
-        });
-
-        console.log('Updated:', updated);
-        this.setState({definition: updated});
-    }
-    
-    updateAction(uuid: string, definition: string) {
-        console.log('update action');
+    /**
+     * Get the current indexes to our exit
+     * TODO: make this not terrible
+     * @param uuid of the exit
+     */
+    getExitIndexes(uuid: string): number[] {
         var nodeIdx: number = -1;
-        var actionIdx: number = -1;
+        var exitIdx: number = -1;
 
         for (let i in this.state.definition.nodes) {
             var node = this.state.definition.nodes[i];
-            for (let j in node.actions) {
-                if (node.actions[j].uuid == uuid) {
+            for (let j in node.exits) {
+                if (node.exits[j].uuid == uuid) {
                     nodeIdx = parseInt(i);
-                    actionIdx = parseInt(j);
+                    exitIdx = parseInt(j);
                 }
             }
-        }
-
-        var changes: any = JSON.parse(definition);
-        var updated = update(this.state.definition, {
-            nodes: { 
-                [nodeIdx]: {
-                    actions: { 
-                        [actionIdx]: { $set: changes }
-                    }
-                }
-            }
-        });
-
-        console.log('Updated:', updated);
-        this.setState({definition: updated});
+        } 
+        return [nodeIdx, exitIdx];     
     }
 
-    /*shouldComponentUpdate(nextProps: FlowProps, nextState: FlowState) {
-        if (this.state.definition === undefined) {
-            console.log('flow YES update');
-            return true;
+    /**
+     * Get the current index for a given node
+     * TODO: be less dumb
+     * @param uuid of the node
+     */
+    getNodeIndex(uuid: string): number {
+        for (let i in this.state.definition.nodes){
+            var node = this.state.definition.nodes[i];
+            if (node.uuid == uuid) {
+                return parseInt(i);
+            }
         }
-        console.log('flow NO update');
-        return false;
-    }*/
+    }
+
+    /**
+     * Update the definition for a node
+     * @param uuid 
+     * @param changes immutability spec to modify the node
+     */
+    updateNode(uuid: string, changes: any) {
+        var index = this.getNodeIndex(uuid);
+        var updated = update(this.state.definition, { nodes: { [index]: changes }});
+        this.updateDefinition(updated);
+    }
+
+    /**
+     * Updates an action in our tree 
+     * @param uuid the action to modify
+     * @param changes immutability spec to modify at the given action
+     */
+    updateAction(uuid: string, changes: any) {
+        var indexes = this.getActionIndexes(uuid);
+        var updated = update(this.state.definition, {
+            nodes: {[indexes[0]]: {actions: {[indexes[1]]: changes }}}
+        });
+        this.updateDefinition(updated);
+    }
+
+    /**
+     * Updates an exit in our tree 
+     * @param uuid the exit to modify
+     * @param changes immutability spec to modify at the given exit
+     */
+    updateExit(uuid: string, changes: any) {
+        var indexes = this.getExitIndexes(uuid);
+        var updated = update(this.state.definition, {
+            nodes: {[indexes[0]]: { exits: {[indexes[1]]: changes }}}
+        });
+        this.updateDefinition(updated);
+    }
+
+    /**
+     * Updates our definition, saving it in the store
+     * @param definition the new definition 
+     */
+    private updateDefinition(definition: FlowDefinition) {
+        FlowStore.get().save(definition);
+        this.setState({definition: definition});
+    }
 
     componentDidMount() {
-        console.log('flow mounted..');
+        console.log('Flow component mounted');
         FlowStore.get().loadFlow(this.props.url, (definition: FlowDefinition)=>{
             this.setDefinition(definition);
         }, false);
@@ -128,7 +160,6 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         var plumb = Plumber.get();
         plumb.bind("connection", (event: ConnectionEvent) => { this.onConnection(event); });
         plumb.bind("connectionMoved", (event: ConnectionEvent) => {this.onConnectionMoved(event); });
-
     }
 
     componentWillUpdate() {
@@ -137,7 +168,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
 
     componentDidUpdate() {
         if (this.state.definition) {
-            console.log('Flow updated..');
+            console.log('Flow updated');
             var plumb = Plumber.get();
             plumb.connectAll(this.state.definition);
         }
@@ -145,8 +176,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
 
     onConnection(event: ConnectionEvent) {
         console.log('onConnection', event);
-        // FlowStore.get().getCurrentDefinition().updateDestination(event.sourceId, event.targetId);
-        // FlowStore.get().markDirty();
+        this.updateExit(event.sourceId, {$merge:{destination: event.targetId}});
     }
 
     onConnectionMoved(event: ConnectionEvent){

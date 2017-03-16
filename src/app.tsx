@@ -8,7 +8,6 @@ import {FlowStore} from "./services/FlowStore";
 
 var url = 'two_questions.json';
 var engineUrl = 'http://localhost:8080';
-var fetch = true;
 
 ReactDOM.render(
   <FlowComp url={url}/>,

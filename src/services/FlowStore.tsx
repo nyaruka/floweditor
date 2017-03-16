@@ -127,7 +127,7 @@ export class FlowStore {
     }
     
     save(definition: FlowDefinition) {
-        console.log('Saving flow..');
+        console.log('Saving flow', definition);
         storage.set('flow', definition);
     }
 }

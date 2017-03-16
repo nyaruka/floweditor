@@ -159,8 +159,9 @@ export class SendMessageActionComp extends ActionComp<SendMessageProps> {
     onModalClose() {
         var textarea: HTMLTextAreaElement = $(this.form).find('textarea')[0] as HTMLTextAreaElement;
         this.setState({ editing: false });
-        this.context.flow.updateMessageAction(this.props.uuid, textarea.value);
+        this.context.flow.updateAction(this.props.uuid, {text: {$set: textarea.value}});
 
+        // force a repaint since our node size likely changed
         Plumber.get().repaint(this.context.node.props.uuid);
     }
 
