@@ -15,10 +15,10 @@ interface ActionOption {
 }
 
 let actions: ActionOption[] = [
-    {type: "msg", name: "Send Message", description: "Send the contact a message", form: Forms.SendMessageForm},
-    {type: "add_to_group", name: "Add to Group", description: "Add the contact to a group", form: Forms.AddToGroupForm},
-    {type: "save_to_contact", name: "Save to Contact", description: "Update a field on the contact", form: Forms.SaveToContactForm},
-    {type: "set_language", name: "Set Language", description: "Update the language for the contact", form: Forms.SetLanguageForm}
+    {type: "msg", name: "Send Message", description: "Send them a message", form: Forms.SendMessageForm},
+    {type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: Forms.AddToGroupForm},
+    {type: "save_to_contact", name: "Save to Contact", description: "Update one of their fields", form: Forms.SaveToContactForm},
+    {type: "set_language", name: "Set Language", description: "Update their language", form: Forms.SetLanguageForm}
 ]
 
 interface ActionModalProps {
@@ -121,7 +121,7 @@ export class ActionModal extends React.Component<ActionModalProps, ActionModalSt
                 <div className="action-editor">
                     <form ref={(ele: any) => { this.form = ele; }}>
 
-                        <div className="header">When somebody arrives at this point in your flow</div>
+                        <div className="header">When a contact arrives at this point in your flow</div>
 
                         <Select2
                             className={"select"}

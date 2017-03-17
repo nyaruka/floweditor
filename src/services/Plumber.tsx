@@ -54,10 +54,6 @@ export class Plumber {
         });
     }
 
-    /*draggable(ele: JSX.Element) {
-        this.jsPlumb.draggable(ele);
-    }*/
-    
     draggable(ele: JSX.Element, start: Function, drag: Function, stop: Function) {
         this.jsPlumb.draggable(ele, {
             start: (event:any) => start(event),
