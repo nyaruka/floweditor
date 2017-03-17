@@ -23,11 +23,11 @@ export interface ActionProps {
 }
 
 export interface AddToGroupProps extends ActionProps {
-    label: string;
+    name: string;
 }
 
 export interface SaveToContactProps extends ActionProps {
-    label: string;
+    name: string;
 }
 
 export interface SendMessageProps extends ActionProps {
@@ -41,7 +41,7 @@ export interface SetLanguageProps extends ActionProps {
 export interface ExitProps {
     uuid: string;
     destination: string;
-    label: string;
+    name: string;
 
     totalExits?: number;
     first?: boolean;

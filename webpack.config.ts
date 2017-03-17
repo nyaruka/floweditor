@@ -1,9 +1,9 @@
 var path = require("path");
+var webpack = require("webpack");
 
 module.exports = {
     entry: ['./src/app.tsx'],
     devServer: {
-        // contentBase: path.join(__dirname, ""),
         compress: true,
         port: 9000
     },
@@ -15,23 +15,13 @@ module.exports = {
         extensions: [".ts", ".tsx", ".js"]
     },
     devtool: 'source-map',
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        })
+    ],
     module: {
-        loaders: [
-            { 
-                test: /\.css$/, 
-                loader: "style!css" 
-            },
-            /*{ 
-                test: /\.tsx?$/,
-                loader: "ts-loader",
-                exclude: /node_modules/
-            }*/
-            {
-                test: /\.tsx?$/,
-                loader: 'awesome-typescript-loader',
-                exclude: /node_modules/
-            }
-        ],
         rules: [
             {
                 test: /\.tsx?$/,
@@ -39,14 +29,16 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
+                test: /\.css$/,
+                use: [ 'style-loader', 'css-loader' ]
+            },
+            {
                 test: /\.scss$/,
-                use: [{
-                    loader: "style-loader" // creates style nodes from JS strings
-                }, {
-                    loader: "css-loader" // translates CSS into CommonJS
-                }, {
-                    loader: "sass-loader" // compiles Sass to CSS
-                }]
+                use: [
+                    { loader: "style-loader" },   // creates style nodes from JS strings
+                    { loader: "css-loader" },     // translates CSS into CommonJS
+                    { loader: "sass-loader"}      // compiles Sass to CSS
+                ]
             }
         ]
     }

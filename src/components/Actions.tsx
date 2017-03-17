@@ -85,11 +85,11 @@ export abstract class ActionComp<P extends Interfaces.ActionProps> extends React
 }
 
 export class AddToGroupActionComp extends ActionComp<Interfaces.AddToGroupProps> {
-    renderNode() { return <div>Add contact to the {this.props.label} group.</div> }
+    renderNode() { return <div>Add contact to the {this.props.name} group.</div> }
 }
 
 export class SaveToContactActionComp extends ActionComp<Interfaces.SaveToContactProps> {
-    renderNode() { return <div>Update {this.props.label}.</div> }
+    renderNode() { return <div>Update {this.props.name}.</div> }
 }
 
 export class SendMessageActionComp extends ActionComp<Interfaces.SendMessageProps> {

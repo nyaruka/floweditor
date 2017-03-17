@@ -46,17 +46,17 @@
          "exits":[
             {
                "uuid":"node1-exit1",
-               "label":"Red",
+               "name":"Red",
                "destination":"node2"
             },
             {
                "uuid":"node1-exit2",
-               "label":"Blue",
+               "name":"Blue",
                "destination":"node2"
             },
             {
                "uuid":"node1-exit3",
-               "label":"Other",
+               "name":"Other",
                "destination":"node1"
             }
          ]
@@ -104,17 +104,17 @@
          "exits":[
             {
                "uuid":"node2-exit1",
-               "label":"Pepsi",
+               "name":"Pepsi",
                "destination":"node3"
             },
             {
                "uuid":"node2-exit2",
-               "label":"Coke",
+               "name":"Coke",
                "destination":"node3"
             },
             {
                "uuid":"node2-exit3",
-               "label":"Other",
+               "name":"Other",
                "destination":"node2"
             }
          ]

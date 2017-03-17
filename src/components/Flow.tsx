@@ -5,10 +5,9 @@ import NodeComp from './Node';
 import {Plumber} from '../services/Plumber';
 import {FlowStore, FlowDefinition} from '../services/FlowStore';
 import {Simulator} from './Simulator';
-// import {NewActionModal} from './NewAction'
 
 var update = require('immutability-helper');
-var forceFetch = false;
+var forceFetch = true;
 
 interface FlowProps {
     url: string;

@@ -29,7 +29,7 @@ class ExitComp extends React.PureComponent<ExitProps, {}> {
         return (
             <div key={this.props.uuid} className={"exit" + first}>
                 <div className="name">
-                    {this.props.label}
+                    {this.props.name}
                 </div>
                 <div id={this.props.uuid} className={"endpoint" + connected}/>
             </div>
