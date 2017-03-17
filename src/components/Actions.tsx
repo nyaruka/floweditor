@@ -1,11 +1,14 @@
 import * as React from "react";
 import * as axios from "axios";
-import {ActionProps, AddToGroupProps, SendMessageProps, SaveToContactProps, SetLanguageProps, NodeProps, FlowContext} from '../interfaces'
+import * as Interfaces from '../interfaces'
+import * as Forms from './ActionForms';
 import {Plumber} from '../services/Plumber';
 import {FlowStore} from '../services/FlowStore';
+import {FlowComp} from './Flow';
 import Modal from './Modal';
 
-var UUID  = require("uuid");
+let UUID  = require("uuid");
+
 
 export interface ActionState {
     editing: boolean;
@@ -14,16 +17,20 @@ export interface ActionState {
 /**
  * Base Action class for the rendered flow
  */
-export class ActionComp<P extends ActionProps> extends React.Component<P, ActionState> {
+export abstract class ActionComp<P extends Interfaces.ActionProps> extends React.Component<P, ActionState> {
 
     public form: HTMLFormElement;
+    
+    abstract actionForm: Forms.ActionForm;    
+    abstract renderNode(): JSX.Element;
+    abstract onModalClose(): void;
 
     static contextTypes = {
         flow: React.PropTypes.object,
         node: React.PropTypes.object
     }
     
-    context: FlowContext;
+    context: Interfaces.FlowContext;
     
     constructor(props: P) {
         super(props);
@@ -36,16 +43,16 @@ export class ActionComp<P extends ActionProps> extends React.Component<P, Action
         this.onModalClose = this.onModalClose.bind(this);
     }
 
-    static createAction(action: ActionProps, node: NodeProps) {
+    static createAction(action: Interfaces.ActionProps, node: Interfaces.NodeProps) {
         if (action.type == "add_to_group") {
-            return <AddToGroupActionComp {...action as AddToGroupProps} key={action.uuid}/>
+            return <AddToGroupActionComp {...action as Interfaces.AddToGroupProps} key={action.uuid}/>
         } else if (action.type == "save_to_contact") {
-            var props = action as SaveToContactProps;
-            return <SaveToContactActionComp {...action as SaveToContactProps} key={action.uuid}/>
+            var props = action as Interfaces.SaveToContactProps;
+            return <SaveToContactActionComp {...action as Interfaces.SaveToContactProps} key={action.uuid}/>
         } else if (action.type == "msg") {
-            return <SendMessageActionComp {...action as SendMessageProps} key={action.uuid}/>            
+            return <SendMessageActionComp {...action as Interfaces.SendMessageProps} key={action.uuid}/>            
         } else if (action.type == "set_language") {
-            return <SetLanguageActionComp {...action as SetLanguageProps} key={action.uuid}/>
+            return <SetLanguageActionComp {...action as Interfaces.SetLanguageProps} key={action.uuid}/>
         }
     }
 
@@ -57,20 +64,6 @@ export class ActionComp<P extends ActionProps> extends React.Component<P, Action
         // console.log('modal open');
     }
 
-    onModalClose() {
-
-        var textarea: HTMLTextAreaElement = $(this.form).find('textarea')[0] as HTMLTextAreaElement;        
-        this.setState({
-            editing: false
-        });
-
-        // this.props.flow.updateAction(this.props.uuid, textarea.value);
-        // FlowStore.get().getCurrentDefinition().updateAction(this.props.uuid, textarea.value);
-        // FlowStore.get().markDirty();
-        // var node = FlowStore.get().getCurrentDefinition().getNode(this.props.node.uuid);
-        // this.props.flow.forceUpdate()
-    }
-
     onClick (event: any) {
         if (!this.context.node.state.dragging) {
             this.setEditing(true);
@@ -80,96 +73,83 @@ export class ActionComp<P extends ActionProps> extends React.Component<P, Action
     render() {
         return(
             <div>
-                <div className={'action ' + this.getClassName()} 
+                <div className={'action ' + this.actionForm.getClassName()} 
                      onMouseUp={(event)=>{ this.onClick(event); }}>
                     <div className="action-title">
-                      {this.renderTitle()}
+                      {this.actionForm.renderTitle()}
                     </div>
                     <div className="action-content">
-                        {this.renderBody()}
+                        {this.renderNode()}
                     </div>
                 </div>
 
                 <Modal 
-                    title={this.renderTitle()}
-                    className={this.getClassName()}
+                    title={this.actionForm.renderTitle()}
+                    className={this.actionForm.getClassName()}
                     show={this.state.editing} 
                     onModalClose={this.onModalClose} 
                     onModalOpen={this.onModalOpen}>
 
                     <form ref={(ele: any) => { this.form = ele; }}>
-                        {this.renderForm()}
+                        {this.actionForm.renderForm()}
                     </form>
                 </Modal>
             </div>
         )
     }
 
-    getClassName() {
-        return this.props.type.split('_').join('-');
-    }
+
     
     getType() {
         console.log(this.props.type);
         return this.props.type;
     }
-
-    renderTitle() { return <div>node title</div>; }
-    renderBody() { return <div>node body</div>; }
-    
-    renderForm() {
-
-        // this will go away once we have first class editing
-        var cloned = (Object as any).assign({}, this.props);
-        delete cloned['flow'];
-
-        return (
-            <div>
-                <textarea className="definition" defaultValue={JSON.stringify(cloned, null, 2)}></textarea>
-            </div>
-        );
-    }
 }
 
-export class AddToGroupActionComp extends ActionComp<AddToGroupProps> {
-    constructor(props: AddToGroupProps) {
+export class AddToGroupActionComp extends ActionComp<Interfaces.AddToGroupProps> {
+    actionForm: Forms.AddToGroupForm
+    constructor(props: Interfaces.AddToGroupProps) {
         super(props);
+        this.actionForm = new Forms.AddToGroupForm(props);
     }
-    renderTitle() { return <span>Add To Group</span> }
-    renderBody() { return <div>Add contact to the {this.props.label} group.</div> }
+
+    renderNode() { return <div>Add contact to the {this.props.label} group.</div> }
+    onModalClose(): void {}
 }
 
-export class SaveToContactActionComp extends ActionComp<SaveToContactProps> {
-    renderTitle() { return <span>Save To Contact</span> }
-    renderBody() { return <div>Update {this.props.label}.</div> }
+export class SaveToContactActionComp extends ActionComp<Interfaces.SaveToContactProps> {
+    actionForm: Forms.ActionForm;
+    constructor(props: Interfaces.SaveToContactProps) {
+        super(props);
+        this.actionForm = new Forms.SaveToContactForm(props);
+    }
+    renderNode() { return <div>Update {this.props.label}.</div> }
+    onModalClose(): void {}
 }
 
-export class SendMessageActionComp extends ActionComp<SendMessageProps> {
-    
-    renderTitle() { return <span>Send Message</span> }
-    renderBody() { return <div>{this.props.text}</div>; }
-    renderForm() {
-        return (
-             <div>
-                <textarea className="definition" defaultValue={this.props.text}></textarea>
-            </div>
-        )
+export class SendMessageActionComp extends ActionComp<Interfaces.SendMessageProps> {
+    actionForm: Forms.SendMessageForm;
+    constructor(props: Interfaces.SendMessageProps) {
+        super(props);
+        this.actionForm = new Forms.SendMessageForm(props);
     }
+
+    renderNode() { return <div>{this.props.text}</div>; }
 
     onModalClose() {
-        var textarea: HTMLTextAreaElement = $(this.form).find('textarea')[0] as HTMLTextAreaElement;
+        this.actionForm.submit(this.form, this.context.flow);
         this.setState({ editing: false });
-        this.context.flow.updateAction(this.props.uuid, {text: {$set: textarea.value}});
-
-        // force a repaint since our node size likely changed
         Plumber.get().repaint(this.context.node.props.uuid);
     }
 
 }
 
-export class SetLanguageActionComp extends ActionComp<SetLanguageProps> {
-    renderTitle() { return <span>Set Language</span>; }
-    renderBody() { return <div>Update contact language {this.props.language}.</div>; }
+export class SetLanguageActionComp extends ActionComp<Interfaces.SetLanguageProps> {
+    actionForm: Forms.ActionForm;
+    onModalClose(): void {
+        throw new Error('Method not implemented.');
+    }
+    renderNode() { return <div>Update contact language {this.props.language}.</div>; }
 }
 
 export default ActionComp;

@@ -1,12 +1,14 @@
 import * as React from 'react';
+import * as Interfaces from '../interfaces';
+
 import NodeComp from './Node';
 import {Plumber} from '../services/Plumber';
 import {FlowStore, FlowDefinition} from '../services/FlowStore';
 import {Simulator} from './Simulator';
-import {NodeProps, ExitProps, ActionProps, LocationProps, UIMetaDataProps, SendMessageProps, FlowContext} from '../interfaces';
+// import {NewActionModal} from './NewAction'
 
 var update = require('immutability-helper');
-
+var forceFetch = true;
 
 interface FlowProps {
     url: string;
@@ -35,11 +37,13 @@ interface ConnectionEvent {
  */
 export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
 
+    // private newModal: NewActionModal;
+
     static childContextTypes = {
         flow: React.PropTypes.object
     }
 
-    getChildContext(): FlowContext {
+    getChildContext(): Interfaces.FlowContext {
         return {
             flow: this
         }
@@ -156,7 +160,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         console.log('Flow component mounted');
         FlowStore.get().loadFlow(this.props.url, (definition: FlowDefinition)=>{
             this.setDefinition(definition);
-        }, false);
+        }, forceFetch);
 
         var plumb = Plumber.get();
         plumb.bind("connection", (event: ConnectionEvent) => { this.onConnection(event); });
@@ -183,14 +187,6 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     onConnectionMoved(event: ConnectionEvent){
         console.log('onConnectionMoved', event);
     }
-
-    /*updateLocation(uuid: string, x: number, y: number) {
-        var node = this.props.definition.getNode(uuid);
-        if (node) {
-            node._ui.setLocation(x, y);
-        }
-        FlowStore.get().markDirty();
-    }*/
 
     setDefinition(definition: FlowDefinition) {
         this.setState({definition: definition});
