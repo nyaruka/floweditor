@@ -8,7 +8,7 @@ import {Simulator} from './Simulator';
 // import {NewActionModal} from './NewAction'
 
 var update = require('immutability-helper');
-var forceFetch = true;
+var forceFetch = false;
 
 interface FlowProps {
     url: string;

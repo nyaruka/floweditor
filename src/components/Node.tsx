@@ -158,7 +158,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     render() {
 
-        console.log('Rendering node', this.props.uuid, this.context.flow);
+        console.log('Rendering node', this.props.uuid);
 
         var actions = [];
 

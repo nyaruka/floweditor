@@ -5,25 +5,19 @@ import * as Forms from './ActionForms';
 import {Plumber} from '../services/Plumber';
 import {FlowStore} from '../services/FlowStore';
 import {FlowComp} from './Flow';
-import Modal from './Modal';
+import {ActionModal} from './ActionModal';
 
 let UUID  = require("uuid");
-
-
-export interface ActionState {
-    editing: boolean;
-}
 
 /**
  * Base Action class for the rendered flow
  */
-export abstract class ActionComp<P extends Interfaces.ActionProps> extends React.Component<P, ActionState> {
+export abstract class ActionComp<P extends Interfaces.ActionProps> extends React.Component<P, {}> {
 
     public form: HTMLFormElement;
-    
-    abstract actionForm: Forms.ActionForm;    
+    private modal: ActionModal;
+
     abstract renderNode(): JSX.Element;
-    abstract onModalClose(): void;
 
     static contextTypes = {
         flow: React.PropTypes.object,
@@ -34,13 +28,7 @@ export abstract class ActionComp<P extends Interfaces.ActionProps> extends React
     
     constructor(props: P) {
         super(props);
-        this.state = {
-            editing: false
-        }
-
         this.onClick = this.onClick.bind(this);
-        this.onModalOpen = this.onModalOpen.bind(this);
-        this.onModalClose = this.onModalClose.bind(this);
     }
 
     static createAction(action: Interfaces.ActionProps, node: Interfaces.NodeProps) {
@@ -60,88 +48,52 @@ export abstract class ActionComp<P extends Interfaces.ActionProps> extends React
         this.setState({editing: editing})
     }
 
-    onModalOpen() {
-        // console.log('modal open');
-    }
-
     onClick (event: any) {
         if (!this.context.node.state.dragging) {
-            this.setEditing(true);
+            this.modal.open();
         }
+    }
+
+    renderTitle() {
+        return <span>Send Message</span> 
+    }
+
+    getClassName() {
+        return this.props.type.split('_').join('-');
     }
 
     render() {
         return(
             <div>
-                <div className={'action ' + this.actionForm.getClassName()} 
-                     onMouseUp={(event)=>{ this.onClick(event); }}>
+                <div className={'action ' + this.getClassName()} 
+                     onMouseUp={(event)=>{this.onClick(event)}}>
                     <div className="action-title">
-                      {this.actionForm.renderTitle()}
+                      {this.renderTitle()}
                     </div>
                     <div className="action-content">
                         {this.renderNode()}
                     </div>
                 </div>
-
-                <Modal 
-                    title={this.actionForm.renderTitle()}
-                    className={this.actionForm.getClassName()}
-                    show={this.state.editing} 
-                    onModalClose={this.onModalClose} 
-                    onModalOpen={this.onModalOpen}>
-
-                    <form ref={(ele: any) => { this.form = ele; }}>
-                        {this.actionForm.renderForm()}
-                    </form>
-                </Modal>
+                <ActionModal ref={(ele: any) => {this.modal = ele}} initial={this.props}/> 
             </div>
         )
     }
-
-
     
     getType() {
-        console.log(this.props.type);
         return this.props.type;
     }
 }
 
 export class AddToGroupActionComp extends ActionComp<Interfaces.AddToGroupProps> {
-    actionForm: Forms.AddToGroupForm
-    constructor(props: Interfaces.AddToGroupProps) {
-        super(props);
-        this.actionForm = new Forms.AddToGroupForm(props);
-    }
-
     renderNode() { return <div>Add contact to the {this.props.label} group.</div> }
-    onModalClose(): void {}
 }
 
 export class SaveToContactActionComp extends ActionComp<Interfaces.SaveToContactProps> {
-    actionForm: Forms.ActionForm;
-    constructor(props: Interfaces.SaveToContactProps) {
-        super(props);
-        this.actionForm = new Forms.SaveToContactForm(props);
-    }
     renderNode() { return <div>Update {this.props.label}.</div> }
-    onModalClose(): void {}
 }
 
 export class SendMessageActionComp extends ActionComp<Interfaces.SendMessageProps> {
-    actionForm: Forms.SendMessageForm;
-    constructor(props: Interfaces.SendMessageProps) {
-        super(props);
-        this.actionForm = new Forms.SendMessageForm(props);
-    }
-
     renderNode() { return <div>{this.props.text}</div>; }
-
-    onModalClose() {
-        this.actionForm.submit(this.form, this.context.flow);
-        this.setState({ editing: false });
-        Plumber.get().repaint(this.context.node.props.uuid);
-    }
-
 }
 
 export class SetLanguageActionComp extends ActionComp<Interfaces.SetLanguageProps> {
