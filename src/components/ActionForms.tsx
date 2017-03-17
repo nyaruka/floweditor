@@ -28,7 +28,6 @@ export class SendMessageForm extends ActionForm {
     renderForm() { 
         return (
             <div>
-                <span>Enter the message below blah blah blah</span>
                 <textarea className="definition" defaultValue={this.props.text}></textarea>
             </div>
         )
@@ -37,6 +36,8 @@ export class SendMessageForm extends ActionForm {
     submit(context: Interfaces.FlowContext, form: Element) {
         var textarea: HTMLTextAreaElement = $(form).find('textarea')[0] as HTMLTextAreaElement;
         context.flow.updateAction(this.props.uuid, {text: {$set: textarea.value}});
+
+        // our node size could have changed thanks to text changes
         Plumber.get().repaint(context.node.props.uuid);
     }
 }
@@ -45,15 +46,15 @@ export class AddToGroupForm extends ActionForm {
 
     props: Interfaces.AddToGroupProps;
 
-    renderTitle() {
+    renderTitle(): JSX.Element {
         return <span>Add to Group</span>
     }
 
-    renderForm() {
-        return <textarea className="definition" defaultValue={this.props.label}></textarea>
+    renderForm(): JSX.Element {
+        return <div>Not implemented</div>
     }
 
-    submit() {
+    submit(): void {
 
     }
 }
@@ -63,14 +64,15 @@ export class SaveToContactForm extends ActionForm {
     props: Interfaces.SaveToContactProps;
 
     renderTitle(): JSX.Element {
-        throw new Error('Method not implemented.');
-    }
-    renderForm(): JSX.Element {
-        throw new Error('Method not implemented.');
+        return <span>Save to Contact</span>
     }
 
-    submit(context: Interfaces.FlowContext, form: Element): void {
-        throw new Error('Method not implemented.');
+    renderForm(): JSX.Element {
+        return <div>Not implemented</div>
+    }
+
+    submit(): void {
+        
     }
 
 }
@@ -80,12 +82,14 @@ export class SetLanguageForm extends ActionForm {
     props: Interfaces.SetLanguageProps;
 
     renderTitle(): JSX.Element {
-        throw new Error('Method not implemented.');
+        return <span>Set language</span>
     }
+
     renderForm(): JSX.Element {
-        throw new Error('Method not implemented.');
+        return <div>Not implemented</div>
     }
-    submit(context: Interfaces.FlowContext, form: Element): void {
-        throw new Error('Method not implemented.');
+
+    submit(): void {
+        
     }
 }

@@ -16,6 +16,14 @@ $split_title: $light_grey - #222;
 $light_text: #ffffff;
 $hover: $teal;
 
+$button_light: #3498db;
+$button_dark: #2980b9;
+$button_hover: #3cb0fd;
+
+$button_light: $blue;
+$button_dark: $blue - #111;
+$button_hover: $blue + #111;
+
 $terminal_color: $red;
 $path_color: #98C0D9;
 
@@ -91,6 +99,24 @@ body {
         color: $light_text;
     }
 
+    .modal-footer {
+        background: #e6e6e6;
+        padding: 20px;
+        border-top: 1px solid #ccc;
+        
+        .btn {
+            margin-left: 10px;
+        }
+
+        .left {
+            display:inline-block;
+        }
+
+        .right {
+            float: right;
+        }
+    }
+
     &.add-to-group {
         .modal-header {
             background: $add_to_group;
@@ -115,21 +141,61 @@ body {
         }
     }
 
-    textarea {
-        height: 200px;
-        width: 100%;
-        padding: 10px;
-        color: $grey;
-        font-size:14px;
+    .action-editor {
 
-        border: 1px solid $light_grey;
-        overflow: auto;
-        outline: none;
+        padding: 20px;
+        font-size: 15px;
+        font-weight: 300;
+        line-height: 15px;
 
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        box-shadow: none;
+        $inner_spacing: 15px;
+
+        .select2 {
+            width: 528px !important;
+            margin-top: $inner_spacing;
+
+            .select2-selection {
+                height: 32px;
+
+                &[aria-expanded=false] {
+                    border-color: $light_grey;
+                }
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            .select2-selection__rendered {
+                color: #666;
+            }
+        }
+
+        .widgets {
+            margin: $inner_spacing 0;
+
+            textarea {
+                height: 200px;
+                width: 506px;
+                padding: 10px;
+                color: $grey;
+                font-size: 15px;
+                font-weight: 300;
+
+                border: 1px solid $light_grey;
+                overflow: auto;
+                outline: none;
+
+                -webkit-box-shadow: none;
+                -moz-box-shadow: none;
+                box-shadow: none;
+            }
+        }
+
+
     }
+
+
 }
 
 .dragging {
@@ -387,3 +453,53 @@ body {
 }
 
 textarea, input, button { outline: none; }
+
+.btn {
+  
+  font-weight: 300;
+
+  background: $button_dark;
+  background-image: -webkit-linear-gradient(top, $button_light, $button_dark);
+  background-image: -moz-linear-gradient(top,$button_light, $button_dark);
+  background-image: -ms-linear-gradient(top,$button_light, $button_dark);
+  background-image: -o-linear-gradient(top,$button_light, $button_dark);
+  background-image: linear-gradient(to bottom, $button_light, $button_dark);
+  color: #ffffff;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+
+  border: 1px solid rgba(90,90,90,.1);
+
+  &:hover {
+    background: $button_hover;
+    background-image: -webkit-linear-gradient(top, $button_hover, $button_light);
+    background-image: -moz-linear-gradient(top, $button_hover, $button_light);
+    background-image: -ms-linear-gradient(top, $button_hover, $button_light);
+    background-image: -o-linear-gradient(top, $button_hover, $button_light);
+    background-image: linear-gradient(to bottom, $button_hover, $button_light);
+    text-decoration: none;
+  }
+
+  &.grey {
+    color: #666;
+    $button_dark: #ccc;
+    $button_light: $button_dark + #111;
+    $button_hover: $button_light;
+
+    background: $button_dark;
+    background-image: -webkit-linear-gradient(top, $button_light, $button_dark);
+    background-image: -moz-linear-gradient(top,$button_light, $button_dark);
+    background-image: -ms-linear-gradient(top,$button_light, $button_dark);
+    background-image: -o-linear-gradient(top,$button_light, $button_dark);
+    background-image: linear-gradient(to bottom, $button_light, $button_dark);
+
+    &:hover {
+        background: $button_hover;
+        background-image: -webkit-linear-gradient(top, $button_hover, $button_light);
+        background-image: -moz-linear-gradient(top, $button_hover, $button_light);
+        background-image: -ms-linear-gradient(top, $button_hover, $button_light);
+        background-image: -o-linear-gradient(top, $button_hover, $button_light);
+        background-image: linear-gradient(to bottom, $button_hover, $button_light);
+    }
+  }
+}

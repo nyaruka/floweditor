@@ -74,11 +74,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     onDragStart(event: any) {
-        console.log('drag start..');
         this.setState({dragging: true});
         $('#root').addClass('dragging');
-        event.e.preventDefault();
-        event.e.stopPropagation();
     }
 
     onDrag(event: DragEvent) {
@@ -86,9 +83,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     onDragStop(event: DragEvent) {
-        //FlowStore.get().getCurrentDefinition().updateLocation(this.props.uuid, event.finalPos)
-        //FlowStore.get().markDirty();
-        console.log('onDragStop');
         this.setState({dragging: false});
         $('#root').removeClass('dragging');
 
@@ -102,16 +96,17 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState) {
-        // console.log(this.props, nextProps);
-        if (nextState.dragging != this.state.dragging) {
-            console.log('just a drag');
+
+        // TODO: these should be inverse evaluations since things can be batched
+        if (nextProps._ui.location.x != this.props._ui.location.x || nextProps._ui.location.y != this.props._ui.location.y) {
             return false;
         }
 
-        var shouldUpdate = shallowCompare(this, nextProps, nextState);
-        console.log(this.props.uuid, 'should update', shouldUpdate);
-        return shouldUpdate;
+        if (nextState.dragging != this.state.dragging) {
+            return false;
+        }
 
+        return shallowCompare(this, nextProps, nextState);
     }
 
     componentDidMount() {

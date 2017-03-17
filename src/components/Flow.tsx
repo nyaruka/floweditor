@@ -37,8 +37,6 @@ interface ConnectionEvent {
  */
 export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
 
-    // private newModal: NewActionModal;
-
     static childContextTypes = {
         flow: React.PropTypes.object
     }
@@ -157,7 +155,6 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     }
 
     componentDidMount() {
-        console.log('Flow component mounted');
         FlowStore.get().loadFlow(this.props.url, (definition: FlowDefinition)=>{
             this.setDefinition(definition);
         }, forceFetch);
@@ -167,25 +164,25 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         plumb.bind("connectionMoved", (event: ConnectionEvent) => {this.onConnectionMoved(event); });
     }
 
-    componentWillUpdate() {
-        Plumber.get().reset();
+    componentWillUpdate(nextProps: FlowProps, nextState: FlowState) {
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps: FlowProps, prevState: FlowState) {
         if (this.state.definition) {
-            console.log('Flow updated');
-            var plumb = Plumber.get();
-            plumb.connectAll(this.state.definition);
+            if (!prevState.definition) {
+                var plumb = Plumber.get();
+                plumb.connectAll(this.state.definition);
+            }
         }
     }
 
     onConnection(event: ConnectionEvent) {
-        console.log('onConnection', event);
+        // console.log('onConnection', event);
         this.updateExit(event.sourceId, {$merge:{destination: event.targetId}});
     }
 
     onConnectionMoved(event: ConnectionEvent){
-        console.log('onConnectionMoved', event);
+        // console.log('onConnectionMoved', event);
     }
 
     setDefinition(definition: FlowDefinition) {
