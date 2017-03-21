@@ -17,9 +17,13 @@ export interface LocationProps {
     y: number;
 }
 
-export interface ActionProps {
+export interface NodeEditorProps {
     type: string;
     uuid: string;
+}
+
+export interface ActionProps extends NodeEditorProps{
+    
 }
 
 export interface AddToGroupProps extends ActionProps {

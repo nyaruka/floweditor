@@ -10,9 +10,10 @@ $grey: #666;
 $workspace: $light_grey;
 $borders: $light_grey;
 $add_to_group: $green;
+$webhook: $orange;
 $update: $teal;
 $msg: $blue;
-$split_title: $light_grey - #222;
+$split_title: #677c91;
 $light_text: #ffffff;
 $hover: $teal;
 
@@ -45,6 +46,16 @@ body {
     top: 0;
     left: 0;
     width: 100%;
+    height: 100%;
+    &:after {
+        content:"";
+        clear: both;
+        display:table; 
+    }
+}
+
+.clearfix {
+    clear: both;
 }
 
 .actions {
@@ -141,7 +152,20 @@ body {
         }
     }
 
-    .action-editor {
+    &.switch {
+        .modal-header {
+            background: $split_title;
+        }
+    }
+
+    &.webhook {
+        .modal-header {
+            background: $webhook;
+        }
+    }
+
+
+    .node-editor {
 
         padding: 20px;
         font-size: 15px;
@@ -220,6 +244,10 @@ body {
         box-shadow: 1px 1px 3px 1px rgba(0,0,0, .2);
         display: table;
         font-weight: 300;
+
+        &#drag-node {
+            opacity: .5;
+        }
 
         &.drop-hover {
             box-shadow: 0 0 2px 1px $hover;

@@ -4,14 +4,9 @@ import {ActionComp} from './Actions'
 import {NodeProps, ExitProps, FlowContext} from '../interfaces';
 import {Plumber, DragEvent} from '../services/Plumber';
 import {FlowStore} from '../services/FlowStore';
-import {Modal} from './Modal';
+import {Modal} from './Modals';
+var UUID = require('uuid');
 var shallowCompare = require('react-addons-shallow-compare');
-
-interface NodeState {
-    editing: boolean;
-    dragging: boolean;
-}
-
 
 class ExitComp extends React.PureComponent<ExitProps, {}> {
 
@@ -37,13 +32,19 @@ class ExitComp extends React.PureComponent<ExitProps, {}> {
     }
 }
 
+export interface NodeState {
+    editing: boolean;
+    dragging: boolean;
+}
+
+
 /**
  * A single node in the rendered flow
  */
 export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     private modal: any;
-    private ele: any;
+    public ele: any;
 
     context: FlowContext;
     
@@ -66,7 +67,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     constructor(props: NodeProps){
         super(props);
         this.state = { editing: false, dragging: false }
-
         this.onDragStart = this.onDragStart.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onModalOpen = this.onModalOpen.bind(this);
@@ -136,6 +136,11 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     onClick (event: any) {
         if (event.target) {
+
+            if (this.props.actions.length == 1) {
+
+            }
+
             if (!this.state.dragging) {
                 this.setEditing(true);
             }
@@ -163,7 +168,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             }
         }
 
-        var header
+        var header = null;
         if (actions.length == 0) {
             header = <div className="split-title">Split</div>
         }
@@ -205,7 +210,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 <Modal 
                     title={modalTitle}
                     className='exits'
-                    show={this.state.editing} 
+                    show={this.state.editing && this.props.actions.length == 0} 
                     onModalClose={this.onModalClose} 
                     onModalOpen={this.onModalOpen}>
                     

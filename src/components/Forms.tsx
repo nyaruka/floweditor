@@ -3,14 +3,13 @@ import {FlowComp} from './Flow';
 import * as Interfaces from '../interfaces';
 import Plumber from '../services/Plumber';
 
-export abstract class ActionForm {
+export abstract class FormHandler {
     
-    props: Interfaces.ActionProps;
-    constructor(props: Interfaces.ActionProps) {
+    props: Interfaces.NodeEditorProps;
+    constructor(props: Interfaces.NodeEditorProps) {
         this.props = props;
     }
 
-    abstract renderTitle(): JSX.Element;
     abstract renderForm(): JSX.Element;
     abstract submit(context: Interfaces.FlowContext, form: Element): void;
 
@@ -19,12 +18,10 @@ export abstract class ActionForm {
     }
 }
 
-export class SendMessageForm extends ActionForm {
+export class SendMessageForm extends FormHandler {
 
     props: Interfaces.SendMessageProps;
     
-    renderTitle() { return <span>Send Message</span> }
-
     renderForm() { 
         return (
             <div>
@@ -42,13 +39,9 @@ export class SendMessageForm extends ActionForm {
     }
 }
 
-export class AddToGroupForm extends ActionForm {
+export class AddToGroupForm extends FormHandler {
 
     props: Interfaces.AddToGroupProps;
-
-    renderTitle(): JSX.Element {
-        return <span>Add to Group</span>
-    }
 
     renderForm(): JSX.Element {
         return <div>Not implemented</div>
@@ -59,13 +52,9 @@ export class AddToGroupForm extends ActionForm {
     }
 }
 
-export class SaveToContactForm extends ActionForm {
+export class SaveToContactForm extends FormHandler {
 
     props: Interfaces.SaveToContactProps;
-
-    renderTitle(): JSX.Element {
-        return <span>Save to Contact</span>
-    }
 
     renderForm(): JSX.Element {
         return <div>Not implemented</div>
@@ -77,19 +66,37 @@ export class SaveToContactForm extends ActionForm {
 
 }
 
-export class SetLanguageForm extends ActionForm {
+export class SetLanguageForm extends FormHandler {
 
     props: Interfaces.SetLanguageProps;
-
-    renderTitle(): JSX.Element {
-        return <span>Set language</span>
-    }
 
     renderForm(): JSX.Element {
         return <div>Not implemented</div>
     }
 
     submit(): void {
+        
+    }
+}
+
+export class SwitchRouterForm extends FormHandler {
+    
+    renderForm(): JSX.Element {
+        return <div>Rule editor goes here</div>
+    }
+    
+    submit(context: Interfaces.FlowContext, form: Element): void {
+        
+    }
+}
+
+export class WebhookForm extends FormHandler {
+
+    renderForm(): JSX.Element {
+        return <div>Webhook details go here</div>
+    }
+    
+    submit(context: Interfaces.FlowContext, form: Element): void {
         
     }
 }

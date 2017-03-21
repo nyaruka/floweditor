@@ -5,17 +5,19 @@ import NodeComp from './Node';
 import {Plumber} from '../services/Plumber';
 import {FlowStore, FlowDefinition} from '../services/FlowStore';
 import {Simulator} from './Simulator';
+var UUID = require('uuid');
 
 var update = require('immutability-helper');
 var forceFetch = true;
 
-interface FlowProps {
+export interface FlowProps {
     url: string;
     engineUrl: string;
 }
 
-interface FlowState {
+export interface FlowState {
     definition?: FlowDefinition;
+    draggingFrom: Interfaces.NodeProps;
 }
 
 interface Connection {
@@ -36,6 +38,11 @@ interface ConnectionEvent {
  */
 export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
 
+    // private ghostProps = { uuid={UUID.v4()} _ui={{ location: { x: 0, y: 0}} as Interfaces.UIMetaDataProps} key={Math.random()}};
+
+    private dragNode: NodeComp;
+    private promises: any[] = [];
+
     static childContextTypes = {
         flow: React.PropTypes.object
     }
@@ -48,7 +55,11 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
 
     constructor(props: FlowProps) {
         super(props);
-        this.state = {}
+        this.state = {
+            draggingFrom: null
+        }
+
+        this.onConnectionDrag = this.onConnectionDrag.bind(this);
     }
 
     /**
@@ -108,6 +119,13 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     }
 
     /**
+     * Get the node with a uuid
+     */
+    getNode(uuid: string): Interfaces.NodeProps {
+        return this.state.definition.nodes[this.getExitIndexes(uuid)[0]];
+    }
+
+    /**
      * Update the definition for a node
      * @param uuid 
      * @param changes immutability spec to modify the node
@@ -154,13 +172,22 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     }
 
     componentDidMount() {
-        FlowStore.get().loadFlow(this.props.url, (definition: FlowDefinition)=>{
+        var promise = FlowStore.get().loadFlow(this.props.url, (definition: FlowDefinition)=>{
             this.setDefinition(definition);
         }, forceFetch);
 
+        this.promises.push(promise);
         var plumb = Plumber.get();
-        plumb.bind("connection", (event: ConnectionEvent) => { this.onConnection(event); });
-        plumb.bind("connectionMoved", (event: ConnectionEvent) => {this.onConnectionMoved(event); });
+
+        plumb.bind("connection", (event: ConnectionEvent) => {this.onConnection(event)});
+        plumb.bind("connectionMoved", (event: ConnectionEvent) => {this.onConnectionMoved(event)});
+        plumb.bind("connectionDrag", (event: ConnectionEvent) => {this.onConnectionDrag(event)});
+        plumb.bind("connectionDragStop", (event: ConnectionEvent) => {this.onConnectorDrop(event)});
+        // plumb.bind("beforeDrop", (event: ConnectionEvent) => {this.onBeforeConnectorDrop(event)});
+        
+        plumb.bind("connectionDetached", (event: ConnectionEvent) => {this.onConnectionDetached(event); });
+        plumb.bind("connectionAborted", (event: ConnectionEvent) => {this.onConnectionAborted(event); });
+        
     }
 
     componentWillUpdate(nextProps: FlowProps, nextState: FlowState) {
@@ -175,17 +202,105 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         }
     }
 
+    /**
+     * Called right before a connector is dropped onto an existing node
+     */
+    onBeforeConnectorDrop(event: ConnectionEvent) {
+        console.log('onBeforeConnectionDrop', event);
+        return true;
+    }
+
+
     onConnection(event: ConnectionEvent) {
-        // console.log('onConnection', event);
+        console.log('onConnection', event);
         this.updateExit(event.sourceId, {$merge:{destination: event.targetId}});
+    }
+    
+    /**
+     * Called when a connection begins to be dragged from an endpoint both
+     * when a new connection is desired or when an existing one is being moved.
+     * @param event 
+     */
+    onConnectionDrag(event: ConnectionEvent) {
+
+        // mark that we are dragging a connection from somewhere
+        this.setState({draggingFrom: this.getNode(event.sourceId)});
+
+        // move our drag node around as necessary
+        $(document).bind("mousemove", (e) => {
+            var ele = $(this.dragNode.ele);
+            var left = e.clientX - (ele.width() / 2);
+            var top = e.clientY;
+            $(this.dragNode.ele).offset({left, top});
+        });
+    }
+
+    /**
+     * Called the moment a connector is done dragging, whether it is dropped on an
+     * existing node or on to empty space.
+     */
+    onConnectorDrop(event: ConnectionEvent) {
+        console.log('onConnectorDrop', event.sourceId, event.targetId, event);
+
+        // if we drop in open space, we get a source id but no source
+        let isNewNode = event.sourceId && !event.source
+        
+        if (isNewNode) {
+            
+        }
+
+        // temporarily attach to our drag node
+        Plumber.get().connect(event.sourceId, 'drag-node');
+        Plumber.get().repaint();
+
+        this.dragNode.setEditing(true);
+
+        // this.dragNode.onClick({target: 'blerg'});
+        // this.setState({draggingFrom: null});
+        // this.dragNode = null;
+
+        $(document).unbind("mousemove");
     }
 
     onConnectionMoved(event: ConnectionEvent){
-        // console.log('onConnectionMoved', event);
+        console.log('onConnectionMoved', event);
+    }
+
+    onConnectionDetached(event: ConnectionEvent) {
+        console.log('connection detached');
+    }
+
+    onConnectionAborted(event: ConnectionEvent) {
+        console.log('connection aborted');
     }
 
     setDefinition(definition: FlowDefinition) {
         this.setState({definition: definition});
+    }
+
+    private createDragNode() {
+        if (this.state.draggingFrom) {
+            var props = {
+                uuid: 'drag-node',
+                actions: [],
+                _ui: {
+                    location: {
+                        x: this.state.draggingFrom._ui.location.x,
+                        y: this.state.draggingFrom._ui.location.y
+                    }
+                }
+            } as Interfaces.NodeProps;
+
+            if (this.state.draggingFrom.exits.length > 1) {
+                props.actions.push({
+                    uuid: 'drag-msg',
+                    type: "msg",
+                    text: "Enter a message to send to the contact"
+                } as Interfaces.SendMessageProps);
+
+            }
+            return <NodeComp ref={(ele) => {this.dragNode = ele}} {...props}/>
+        }
     }
 
     render() {
@@ -196,6 +311,11 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
             }
         }
 
+        var dragNode = null;
+        if (this.state.draggingFrom) {
+            dragNode = this.createDragNode();
+        }
+
         console.log('##################### Rendering flow');
         return(
             <div>
@@ -203,8 +323,10 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
                 <div id="flow">
                     <div className="nodes">
                     {nodes}
+                    <div>{dragNode}</div>
                     </div>
                 </div>
+                
             </div>
         )
     }

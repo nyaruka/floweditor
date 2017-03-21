@@ -80,7 +80,7 @@ export class Plumber {
 
     connect(source: string, target: string) {
         if (source != null && target != null) {
-            // console.log(source, '=>', target);
+            //console.log(source, '=>', target);
             this.jsPlumb.connect({source: source, target: target, fireEvent: false});
         }
     }
@@ -89,11 +89,15 @@ export class Plumber {
         return this.jsPlumb.bind(event, onEvent);
     }
 
-    repaint(uuid: string) {
-        window.setTimeout(()=>{
-            this.jsPlumb.recalculateOffsets(uuid);
-            this.jsPlumb.repaint(uuid);
-        }, 0);
+    repaint(uuid?: string) {
+        if (!uuid) {
+            this.jsPlumb.repaintEverything();
+        } else {
+            window.setTimeout(()=>{
+                this.jsPlumb.recalculateOffsets(uuid);
+                this.jsPlumb.repaint(uuid);
+            }, 0);
+        }
     }
 
     reset() {

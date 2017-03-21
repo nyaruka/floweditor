@@ -131,7 +131,13 @@
             {
                "uuid":"action3",
                "type":"msg",
-               "text":"Great you are done!"
+               "text":"Great you are pretty much done."
+            }
+         ],
+         "exits": [
+             {
+               "uuid":"node3-exit1",
+               "destination": null
             }
          ]
       }

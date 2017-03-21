@@ -27,62 +27,6 @@ export class UIMetaData implements UIMetaDataProps {
 
 export class FlowDefinition {
     nodes: NodeProps[]
-
-    getNode(uuid: string): NodeProps {
-        for (let node of this.nodes) {
-            if (node.uuid == uuid) {
-                return node
-            }
-        }
-        return null;
-    }
-
-    getExit(uuid: string): ExitProps {
-        // TODO: make this less dumb
-        for (let node of this.nodes) {
-            for (let exit of node.exits) {
-                if (exit.uuid == uuid) {
-                    return exit;
-                }
-            }
-        }
-    }
-
-    getAction(uuid: string): ActionProps {
-        // TODO: make this less dump
-        for (let node of this.nodes) {
-            for (let action of node.actions) {
-                if (action.uuid == uuid) {
-                    return action;
-                }
-            }
-        }
-    }
-
-    updateDestination(exit: string, node: string) {
-        console.log('Rerouting', exit, node);
-        this.getExit(exit).destination = node;
-    }
-
-    updateLocation(uuid: string, location: number[]) {
-        var node = this.getNode(uuid);
-        node._ui.location.x = location[0];
-        node._ui.location.y = location[1];
-    }
-
-    updateAction(uuid: string, definition: string) {
-        var props = JSON.parse(definition);
-        for (let node of this.nodes) {
-            for (let idx in node.actions) {
-                var action = node.actions[idx];
-                if (action.uuid == uuid) {
-                    // (node.actions[idx] as SendMessageProps).text = props.text;
-                    node.actions[idx] = props;
-                    //node.actions[idx].type = props.type;
-                }
-            }
-        }
-    }
 }
 
 export class FlowStore {
@@ -100,8 +44,8 @@ export class FlowStore {
     }
 
     loadFromUrl(url: string, onLoad: Function) {
-        console.log(url);
-        axios.default.get(url).then((response: axios.AxiosResponse) => {
+        console.log('Loading from url', url);
+        return axios.default.get(url).then((response: axios.AxiosResponse) => {
             console.log('Fetched definition..');
             onLoad(eval(response.data) as FlowDefinition);
         });
@@ -122,7 +66,7 @@ export class FlowStore {
         if (storage('flow') && !force) {
             onLoad(this.loadFromStorage());
         } else {
-            this.loadFromUrl(url, onLoad);
+            return this.loadFromUrl(url, onLoad);
         }
     }
     

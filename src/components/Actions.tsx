@@ -1,11 +1,12 @@
 import * as React from "react";
 import * as axios from "axios";
 import * as Interfaces from '../interfaces'
-import * as Forms from './ActionForms';
+import * as Forms from './Forms';
 import {Plumber} from '../services/Plumber';
 import {FlowStore} from '../services/FlowStore';
 import {FlowComp} from './Flow';
-import {ActionModal} from './ActionModal';
+import {NodeModal} from './Modals';
+import {Config, TypeConfig} from '../services/Config';
 
 let UUID  = require("uuid");
 
@@ -15,7 +16,7 @@ let UUID  = require("uuid");
 export abstract class ActionComp<P extends Interfaces.ActionProps> extends React.Component<P, {}> {
 
     public form: HTMLFormElement;
-    private modal: ActionModal;
+    private modal: NodeModal;
 
     abstract renderNode(): JSX.Element;
 
@@ -54,27 +55,25 @@ export abstract class ActionComp<P extends Interfaces.ActionProps> extends React
         }
     }
 
-    renderTitle() {
-        return <span>Send Message</span> 
-    }
-
     getClassName() {
         return this.props.type.split('_').join('-');
     }
 
     render() {
+        var config = Config.get().getTypeConfig(this.props.type);
+
         return(
             <div>
                 <div className={'action ' + this.getClassName()} 
                      onMouseUp={(event)=>{this.onClick(event)}}>
                     <div className="action-title">
-                      {this.renderTitle()}
+                      {config.name}
                     </div>
                     <div className="action-content">
                         {this.renderNode()}
                     </div>
                 </div>
-                <ActionModal ref={(ele: any) => {this.modal = ele}} initial={this.props}/> 
+                <NodeModal ref={(ele: any) => {this.modal = ele}} initial={this.props}/> 
             </div>
         )
     }
@@ -97,10 +96,6 @@ export class SendMessageActionComp extends ActionComp<Interfaces.SendMessageProp
 }
 
 export class SetLanguageActionComp extends ActionComp<Interfaces.SetLanguageProps> {
-    actionForm: Forms.ActionForm;
-    onModalClose(): void {
-        throw new Error('Method not implemented.');
-    }
     renderNode() { return <div>Update contact language {this.props.language}.</div>; }
 }
 
