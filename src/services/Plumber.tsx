@@ -69,6 +69,12 @@ export class Plumber {
         this.jsPlumb.makeTarget(uuid, this.targetDefaults);
     }
 
+    remove(uuid: string) {
+        this.detach(uuid);
+        this.jsPlumb.removeAllEndpoints(uuid);
+        this.jsPlumb.detach(uuid);
+    }
+
     detach(uuid: string) {
         this.jsPlumb.detachAllConnections(uuid);
     }
@@ -79,7 +85,11 @@ export class Plumber {
 
     connect(source: string, target: string) {
         if (source != null && target != null) {
-            //console.log(source, '=>', target);
+            
+            // first make sure we are detached
+            this.detach(source);
+
+            // now make our new connection
             this.jsPlumb.connect({source: source, target: target, fireEvent: false});
         }
     }
@@ -90,6 +100,7 @@ export class Plumber {
 
     repaint(uuid?: string) {
         if (!uuid) {
+            this.jsPlumb.recalculateOffsets();
             this.jsPlumb.repaintEverything();
         } else {
             window.setTimeout(()=>{

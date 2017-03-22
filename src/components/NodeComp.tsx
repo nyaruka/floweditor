@@ -21,8 +21,9 @@ export interface NodeState {
  */
 export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
 
-    private modal: any;
     public ele: any;
+    private modal: any;
+    private firstAction: ActionComp<Interfaces.ActionProps>;
 
     context: Interfaces.FlowContext;
     
@@ -104,22 +105,27 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
         // $(this.ele).find('.exits').on('mouseup', this.onClick);
     }
 
+    componentWillUnmount() {
+        console.log('unmounted', this.props.uuid);
+        Plumber.get().remove(this.props.uuid);
+    }
+
     componentWillUpdate() {}
 
-    componentDidUpdate(prevProps: Interfaces.NodeProps, prevState: NodeState) {}
+    componentDidUpdate(prevProps: Interfaces.NodeProps, prevState: NodeState) {
+        Plumber.get().repaint(this.props.uuid);
+    }
 
     setEditing(editing: boolean) {
         this.setState({editing: editing});
     }
 
     onClick (event: any) {
-        if (event.target) {
-
+        if (!this.state.dragging) {
+            // if we have one action, defer to it
             if (this.props.actions.length == 1) {
-
-            }
-
-            if (!this.state.dragging) {
+                this.firstAction.onClick(event);
+            } else {
                 this.setEditing(true);
             }
         }
@@ -138,8 +144,11 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
         console.log('Rendering node', this.props.uuid);
         var actions = [];
         if (this.props.actions) {
+            // save the first reference off to manage our clicks
+            var firstRef: any = {ref:(ele: any)=>{this.firstAction = ele}};
             for (let definition of this.props.actions) {
-                actions.push(<ActionComp key={definition.uuid} {...definition}/>);
+                actions.push(<ActionComp key={definition.uuid} {...definition} {...firstRef}/>);
+                firstRef = {};
             }
         }
 
@@ -163,7 +172,7 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
         return(
             <div>
                 <div className={"node " + depth}
-                    ref={(ele: any) => { this.ele = ele; }}
+                    ref={(ele: any) => { this.ele = ele }}
                     id={this.props.uuid}
                     style={{
                         left: this.props._ui.location.x,
@@ -188,9 +197,7 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
                     show={this.state.editing && this.props.actions.length == 0} 
                     onModalClose={this.onModalClose} 
                     onModalOpen={this.onModalOpen}>
-                    
                     <textarea defaultValue={JSON.stringify({router: this.props.router, exits: this.props.exits}, null, 2)}></textarea>
-
                 </Modal>
             </div>
         )

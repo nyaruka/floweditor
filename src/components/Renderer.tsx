@@ -23,7 +23,11 @@ export class SendMessage extends Renderer {
     props: Interfaces.SendMessageProps;
 
     renderNode() {
-        return <div>{this.props.text}</div>
+        if (this.props.text) {
+            return <div>{this.props.text}</div>
+        } else {
+            return <div className='placeholder'>Send a message to the contact</div>
+        }
     }
     
     renderForm() { 
@@ -36,10 +40,7 @@ export class SendMessage extends Renderer {
 
     submit(context: Interfaces.FlowContext, form: Element) {
         var textarea: HTMLTextAreaElement = $(form).find('textarea')[0] as HTMLTextAreaElement;
-        context.flow.updateAction(this.props.uuid, {text: {$set: textarea.value}});
-
-        // our node size could have changed thanks to text changes
-        Plumber.get().repaint(context.node.props.uuid);
+        context.flow.updateAction(this.props.uuid, {$set: {uuid: this.props.uuid, type: this.props.type, text: textarea.value}});
     }
 }
 
@@ -95,20 +96,6 @@ export class SetLanguage extends Renderer {
     }
 }
 
-export class SwitchRouter extends Renderer {
-    renderNode(): JSX.Element {
-        throw new Error('Method not implemented.');
-    }
-
-    renderForm(): JSX.Element {
-        return <div>Rule editor goes here</div>
-    }
-    
-    submit(context: Interfaces.FlowContext, form: Element): void {
-        
-    }
-}
-
 export class Webhook extends Renderer {
     renderNode(): JSX.Element {
         throw new Error('Method not implemented.');
@@ -116,6 +103,20 @@ export class Webhook extends Renderer {
 
     renderForm(): JSX.Element {
         return <div>Webhook details go here</div>
+    }
+    
+    submit(context: Interfaces.FlowContext, form: Element): void {
+        
+    }
+}
+
+export class SwitchRouter extends Renderer {
+    renderNode(): JSX.Element {
+        throw new Error('Method not implemented.');
+    }
+
+    renderForm(): JSX.Element {
+        return <div>Rule editor goes here</div>
     }
     
     submit(context: Interfaces.FlowContext, form: Element): void {

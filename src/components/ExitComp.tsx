@@ -7,7 +7,12 @@ class ExitComp extends React.PureComponent<Interfaces.ExitProps, {}> {
     componentDidMount() {
         // we can be dragged from
         Plumber.get().makeSource(this.props.uuid);
-        // console.log('Exit mounted..');
+    }
+
+    componentDidUpdate(prevProps: Interfaces.ExitProps) {
+        if (this.props.destination) {
+            Plumber.get().connect(this.props.uuid, this.props.destination);
+        }
     }
 
     render() {

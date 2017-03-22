@@ -6,10 +6,12 @@ import Plumber from '../services/Plumber';
 import FlowStore from '../services/FlowStore';
 import SimulatorComp from './SimulatorComp';
 import Config from '../services/Config';
+import {FlowDefinition} from '../interfaces';
+
 var UUID = require('uuid');
 
 var update = require('immutability-helper');
-var forceFetch = true;
+var forceFetch = false;
 
 export interface FlowProps {
     url: string;
@@ -17,8 +19,8 @@ export interface FlowProps {
 }
 
 export interface FlowState {
-    definition?: Interfaces.FlowDefinition;
-    draggingFrom: Interfaces.NodeProps;
+    definition?: FlowDefinition;
+    draggingFrom: string;
 }
 
 interface Connection {
@@ -48,12 +50,6 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         flow: React.PropTypes.object
     }
 
-    getChildContext(): Interfaces.FlowContext {
-        return {
-            flow: this
-        }
-    }
-
     constructor(props: FlowProps) {
         super(props);
         this.state = {
@@ -63,17 +59,23 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         this.onConnectionDrag = this.onConnectionDrag.bind(this);
     }
 
+    getChildContext(): Interfaces.FlowContext {
+        return {
+            flow: this
+        }
+    }
+
     /**
      * Get the current indexes to our action 
      * TODO: make this not dumb
      * @param uuid of the action
      */
-    getActionIndexes(uuid: string): number[] {
+    getActionIndexes(definition: FlowDefinition, uuid: string): number[] {
         var nodeIdx: number = -1;
         var actionIdx: number = -1;
 
-        for (let i in this.state.definition.nodes) {
-            var node = this.state.definition.nodes[i];
+        for (let i in definition.nodes) {
+            var node = definition.nodes[i];
             for (let j in node.actions) {
                 if (node.actions[j].uuid == uuid) {
                     nodeIdx = parseInt(i);
@@ -131,10 +133,18 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      * @param uuid 
      * @param changes immutability spec to modify the node
      */
-    updateNode(uuid: string, changes: any) {
+    updateNode(uuid: string, changes: any, current: FlowDefinition = null) {
+        var save = current == null;
+        if (!current) {
+            current = this.state.definition;
+        }
+
         var index = this.getNodeIndex(uuid);
-        var updated = update(this.state.definition, { nodes: { [index]: changes }});
-        this.updateDefinition(updated);
+        current = update(current, { nodes: { [index]: changes }});
+        if (save) {
+            return this.updateDefinition(current);
+        }
+        return current;
     }
 
     /**
@@ -142,12 +152,58 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      * @param uuid the action to modify
      * @param changes immutability spec to modify at the given action
      */
-    updateAction(uuid: string, changes: any) {
-        var indexes = this.getActionIndexes(uuid);
-        var updated = update(this.state.definition, {
+    updateAction(uuid: string, changes: any, current: FlowDefinition = null): FlowDefinition {
+
+        var save = current == null;
+        if (!current) {
+            current = this.state.definition;
+        }
+
+        // realize our drag node if this is a new action
+        var current = this.realizeDragNode(uuid, current);
+
+        // update the action into our new flow definition
+        var indexes = this.getActionIndexes(current, uuid);
+        current = update(current, {
             nodes: {[indexes[0]]: {actions: {[indexes[1]]: changes }}}
         });
-        this.updateDefinition(updated);
+
+        // if we are completing a connection drag, wire it up
+        if (this.dragNode && this.state.draggingFrom) {
+            current = this.updateExit(this.state.draggingFrom, { $merge:{ destination: this.dragNode.props.uuid}}, current);
+        }
+        
+        if (save) {
+            return this.updateDefinition(current);
+        }
+        return current;
+    }
+
+    /**
+     * If the inbound uuid belongs to our drag node, turn it into a real node
+     * @param uuid for the node or action being updated
+     * @returns updated FlowDefinition with drag node appended
+     */
+    realizeDragNode(uuid: string, current: FlowDefinition): FlowDefinition {
+        if (this.dragNode && (this.dragNode.props.uuid == uuid || this.dragNode.props.actions[0].uuid == uuid)) {
+
+            // update our props with our current location
+            var offset = $(this.dragNode.ele).offset();
+            var newNode = update(this.dragNode.props, {
+                _ui: {
+                    $set: { location: {
+                        x: offset.left,
+                        y: offset.top
+                    }}
+                }
+            });
+
+            // now push the new node on our current definition
+            current = update(current, {
+                nodes: {$push: [newNode]}
+            });
+        }
+        return current;
     }
 
     /**
@@ -155,25 +211,40 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      * @param uuid the exit to modify
      * @param changes immutability spec to modify at the given exit
      */
-    updateExit(uuid: string, changes: any) {
+    updateExit(uuid: string, changes: any, current: FlowDefinition = null) {
+
+        var save = current == null;
+        if (current == null) {
+            current = this.state.definition;
+        }
+
         var indexes = this.getExitIndexes(uuid);
-        var updated = update(this.state.definition, {
+        current = update(current, {
             nodes: {[indexes[0]]: { exits: {[indexes[1]]: changes }}}
         });
-        this.updateDefinition(updated);
+
+        if (save) {
+            return this.updateDefinition(current);
+        }
+        return current;
     }
 
     /**
      * Updates our definition, saving it in the store
      * @param definition the new definition 
      */
-    private updateDefinition(definition: Interfaces.FlowDefinition) {
+    private updateDefinition(definition: FlowDefinition) {
         FlowStore.get().save(definition);
-        this.setState({definition: definition});
+        this.setState({definition: definition, draggingFrom: null});
+        return definition;
+    }
+
+    public onModalCancel() {
+        this.setState({draggingFrom: null});
     }
 
     componentDidMount() {
-        var promise = FlowStore.get().loadFlow(this.props.url, (definition: Interfaces.FlowDefinition)=>{
+        var promise = FlowStore.get().loadFlow(this.props.url, (definition: FlowDefinition)=>{
             this.setDefinition(definition);
         }, forceFetch);
 
@@ -197,8 +268,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     componentDidUpdate(prevProps: FlowProps, prevState: FlowState) {
         if (this.state.definition) {
             if (!prevState.definition) {
-                var plumb = Plumber.get();
-                plumb.connectAll(this.state.definition);
+                Plumber.get().connectAll(this.state.definition);
             }
         }
     }
@@ -207,13 +277,13 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      * Called right before a connector is dropped onto an existing node
      */
     onBeforeConnectorDrop(event: ConnectionEvent) {
-        console.log('onBeforeConnectionDrop', event);
+        // console.log('onBeforeConnectionDrop', event);
         return true;
     }
 
 
     onConnection(event: ConnectionEvent) {
-        console.log('onConnection', event);
+        // console.log('onConnection', event);
         this.updateExit(event.sourceId, {$merge:{destination: event.targetId}});
     }
     
@@ -225,14 +295,18 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     onConnectionDrag(event: ConnectionEvent) {
 
         // mark that we are dragging a connection from somewhere
-        this.setState({draggingFrom: this.getNode(event.sourceId)});
+        this.setState({draggingFrom: event.sourceId});
 
         // move our drag node around as necessary
-        $(document).bind("mousemove", (e) => {
-            var ele = $(this.dragNode.ele);
-            var left = e.clientX - (ele.width() / 2);
-            var top = e.clientY;
-            $(this.dragNode.ele).offset({left, top});
+        $(document).bind('mousemove', (e) => {
+            if (this.dragNode) {
+                var ele = $(this.dragNode.ele);
+                var left = e.clientX - (ele.width() / 2);
+                var top = e.clientY;
+                $(this.dragNode.ele).offset({left, top});
+            } else {
+                $(document).unbind('mousemove');
+            }
         });
     }
 
@@ -241,7 +315,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      * existing node or on to empty space.
      */
     onConnectorDrop(event: ConnectionEvent) {
-        console.log('onConnectorDrop', event.sourceId, event.targetId, event);
+        // console.log('onConnectorDrop', event.sourceId, event.targetId, event);
 
         // if we drop in open space, we get a source id but no source
         let isNewNode = event.sourceId && !event.source
@@ -250,53 +324,58 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
             
         }
 
-        // temporarily attach to our drag node
-        Plumber.get().connect(event.sourceId, 'drag-node');
+        Plumber.get().connect(event.sourceId, this.dragNode.props.uuid);
         Plumber.get().repaint();
 
         this.dragNode.setEditing(true);
-
+        this.dragNode.onClick(null);
+        $(document).unbind('mousemove');
         // this.dragNode.onClick({target: 'blerg'});
         // this.setState({draggingFrom: null});
         // this.dragNode = null;
-
-        $(document).unbind("mousemove");
     }
 
     onConnectionMoved(event: ConnectionEvent){
-        console.log('onConnectionMoved', event);
+        // console.log('onConnectionMoved', event);
     }
 
     onConnectionDetached(event: ConnectionEvent) {
-        console.log('connection detached');
+        // console.log('connection detached');
     }
 
     onConnectionAborted(event: ConnectionEvent) {
-        console.log('connection aborted');
+        // console.log('connection aborted');
     }
 
-    setDefinition(definition: Interfaces.FlowDefinition) {
+    setDefinition(definition: FlowDefinition) {
         this.setState({definition: definition});
     }
 
     private createDragNode() {
         if (this.state.draggingFrom) {
+
+            var node = this.getNode(this.state.draggingFrom);
+
             var props = {
-                uuid: 'drag-node',
+                uuid: UUID.v4(),
                 actions: [],
+                exits: [{
+                    "uuid": UUID.v4(),
+                    "destination": null
+                }],
                 _ui: {
                     location: {
-                        x: this.state.draggingFrom._ui.location.x,
-                        y: this.state.draggingFrom._ui.location.y
+                        x: node._ui.location.x,
+                        y: node._ui.location.y + 200
                     }
                 }
             } as Interfaces.NodeProps;
 
-            if (this.state.draggingFrom.exits.length > 1) {
+            // add an action if we are coming from a split
+            if (node.exits.length > 1) {
                 props.actions.push({
-                    uuid: 'drag-msg',
-                    type: "msg",
-                    text: "Enter a message to send to the contact"
+                    uuid: UUID.v4(),
+                    type: "msg"
                 } as Interfaces.SendMessageProps);
 
             }
