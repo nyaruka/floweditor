@@ -1,11 +1,10 @@
 import * as React from "react";
 import * as axios from "axios";
 import * as Interfaces from '../interfaces'
-import {Plumber} from '../services/Plumber';
-import {FlowStore} from '../services/FlowStore';
-import {FlowComp} from './Flow';
-import {NodeModal} from './Modals';
-import {Config, TypeConfig} from '../services/Config';
+import Plumber from '../services/Plumber';
+import FlowStore from '../services/FlowStore';
+import Config from '../services/Config';
+import {NodeModal} from './Modal';
 
 let UUID  = require("uuid");
 

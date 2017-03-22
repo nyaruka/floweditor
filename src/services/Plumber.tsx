@@ -1,6 +1,5 @@
 var lib = require('../../node_modules/jsplumb/dist/js/jsplumb.js');
-import {FlowDefinition} from '../services/FlowStore';
-import {ExitProps} from '../interfaces';
+import {FlowDefinition, ExitProps} from '../interfaces';
 
 export interface DragEvent {
     el: Element

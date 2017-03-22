@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {FlowComp} from './Flow';
 import * as Interfaces from '../interfaces';
 import Plumber from '../services/Plumber';
 

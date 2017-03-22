@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as Interfaces from '../interfaces';
 
-import NodeComp from './Node';
-import {Plumber} from '../services/Plumber';
-import {FlowStore, FlowDefinition} from '../services/FlowStore';
-import {Simulator} from './Simulator';
-import {Config} from '../services/Config';
+import NodeComp from './NodeComp';
+import Plumber from '../services/Plumber';
+import FlowStore from '../services/FlowStore';
+import SimulatorComp from './SimulatorComp';
+import Config from '../services/Config';
 var UUID = require('uuid');
 
 var update = require('immutability-helper');
@@ -17,7 +17,7 @@ export interface FlowProps {
 }
 
 export interface FlowState {
-    definition?: FlowDefinition;
+    definition?: Interfaces.FlowDefinition;
     draggingFrom: Interfaces.NodeProps;
 }
 
@@ -167,13 +167,13 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      * Updates our definition, saving it in the store
      * @param definition the new definition 
      */
-    private updateDefinition(definition: FlowDefinition) {
+    private updateDefinition(definition: Interfaces.FlowDefinition) {
         FlowStore.get().save(definition);
         this.setState({definition: definition});
     }
 
     componentDidMount() {
-        var promise = FlowStore.get().loadFlow(this.props.url, (definition: FlowDefinition)=>{
+        var promise = FlowStore.get().loadFlow(this.props.url, (definition: Interfaces.FlowDefinition)=>{
             this.setDefinition(definition);
         }, forceFetch);
 
@@ -275,7 +275,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         console.log('connection aborted');
     }
 
-    setDefinition(definition: FlowDefinition) {
+    setDefinition(definition: Interfaces.FlowDefinition) {
         this.setState({definition: definition});
     }
 
@@ -322,7 +322,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         console.log('##################### Rendering flow');
         return(
             <div>
-                <Simulator engineUrl={this.props.engineUrl}/>
+                <SimulatorComp engineUrl={this.props.engineUrl}/>
                 <div id="flow">
                     <div className="nodes">
                     {nodes}

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Interfaces from '../interfaces';
-import {Config, TypeConfig} from '../services/Config';
 import * as Renderer from '../components/Renderer';
+import Config from '../services/Config';
 
 var UUID  = require('uuid');
 var ReactModal = require('react-modal');
@@ -103,7 +103,7 @@ interface NodeModalProps {
 interface NodeModalState {
     show: boolean;
     renderer: Renderer.Renderer;
-    config: TypeConfig;
+    config: Interfaces.TypeConfig;
 }
 
 /**
@@ -190,8 +190,8 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
 
     render() {
         var data: any = [];
-        let options: TypeConfig[] = Config.get().typeConfigs;
-        options.map((option: TypeConfig) => {
+        let options: Interfaces.TypeConfig[] = Config.get().typeConfigs;
+        options.map((option: Interfaces.TypeConfig) => {
             data.push({id: option.type, text: option.description});
         });
 

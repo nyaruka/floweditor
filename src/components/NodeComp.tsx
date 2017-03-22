@@ -1,46 +1,20 @@
 import * as React from 'react';
 import * as axios from 'axios';
-import * as Actions from './Actions'
 import * as Interfaces from '../interfaces';
 import {Plumber, DragEvent} from '../services/Plumber';
-import {FlowStore} from '../services/FlowStore';
-import {Config} from '../services/Config';
-import {Modal} from './Modals';
+import FlowStore from '../services/FlowStore';
+import Config from '../services/Config';
+import Modal from './Modal';
+import ActionComp from './ActionComp';
+import ExitComp from './ExitComp';
+
 var UUID = require('uuid');
 var shallowCompare = require('react-addons-shallow-compare');
-
-
-
-
-class ExitComp extends React.PureComponent<Interfaces.ExitProps, {}> {
-
-    componentDidMount() {
-        // we can be dragged from
-        Plumber.get().makeSource(this.props.uuid);
-        // console.log('Exit mounted..');
-    }
-
-    render() {
-        var count = this.props.totalExits;
-        var pct = Math.floor(100 / count);
-        var first = this.props.first ? " first" : "";
-        var connected = this.props.destination ? " jtk-connected" : "";
-        return (
-            <div key={this.props.uuid} className={"exit" + first}>
-                <div className="name">
-                    {this.props.name}
-                </div>
-                <div id={this.props.uuid} className={"endpoint" + connected}/>
-            </div>
-        )
-    }
-}
 
 export interface NodeState {
     editing: boolean;
     dragging: boolean;
 }
-
 
 /**
  * A single node in the rendered flow
@@ -165,7 +139,7 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
         var actions = [];
         if (this.props.actions) {
             for (let definition of this.props.actions) {
-                actions.push(<Actions.ActionComp key={definition.uuid} {...definition}/>);
+                actions.push(<ActionComp key={definition.uuid} {...definition}/>);
             }
         }
 

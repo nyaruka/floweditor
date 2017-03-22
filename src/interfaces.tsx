@@ -1,13 +1,12 @@
-import {Plumber} from './services/Plumber'
-import {FlowComp} from './components/Flow'
-import {NodeComp} from './components/Node'
+import Plumber from './services/Plumber'
+import FlowComp from './components/FlowComp'
+import NodeComp from './components/NodeComp'
 import * as Renderer from './components/Renderer';
 
 export interface FlowContext {
     flow: FlowComp;
     node?: NodeComp;
 }
-
 
 export interface UIMetaDataProps {
     location: LocationProps;
@@ -59,4 +58,15 @@ export interface NodeProps {
     actions?: ActionProps[];
     wait?: any;
     _ui: UIMetaDataProps;
+}
+
+export interface TypeConfig {
+    type: string;
+    name: string;
+    description: string;
+    renderer: {new(props: NodeEditorProps): Renderer.Renderer};
+}
+
+export interface FlowDefinition {
+    nodes: NodeProps[]
 }

@@ -1,8 +1,8 @@
 import * as axios from 'axios';
-import {LocationProps, UIMetaDataProps, NodeProps, ExitProps, ActionProps, SendMessageProps} from '../interfaces'
+import * as Interfaces from '../interfaces'
 var storage = require('local-storage');
 
-export class Location implements LocationProps {
+export class Location implements Interfaces.LocationProps {
     x: number
     y: number
 
@@ -12,7 +12,7 @@ export class Location implements LocationProps {
     }
 }
 
-export class UIMetaData implements UIMetaDataProps {
+export class UIMetaData implements Interfaces.UIMetaDataProps {
     location: Location;
     
     constructor(location: Location) {
@@ -25,15 +25,13 @@ export class UIMetaData implements UIMetaDataProps {
     }
 }
 
-export class FlowDefinition {
-    nodes: NodeProps[]
-}
+
 
 export class FlowStore {
 
     private static singleton: FlowStore = new FlowStore();
 
-    private currentDefinition: FlowDefinition;
+    private currentDefinition: Interfaces.FlowDefinition;
 
     static get(): FlowStore {
         return FlowStore.singleton;
@@ -47,14 +45,14 @@ export class FlowStore {
         console.log('Loading from url', url);
         return axios.default.get(url).then((response: axios.AxiosResponse) => {
             console.log('Fetched definition..');
-            onLoad(eval(response.data) as FlowDefinition);
+            onLoad(eval(response.data) as Interfaces.FlowDefinition);
         });
     }
 
     loadFromStorage() {
         console.log('Loading from storage..');
         if (storage('flow')) {
-            return storage.get('flow') as FlowDefinition;
+            return storage.get('flow') as Interfaces.FlowDefinition;
         }
     }
 
@@ -70,8 +68,10 @@ export class FlowStore {
         }
     }
     
-    save(definition: FlowDefinition) {
+    save(definition: Interfaces.FlowDefinition) {
         console.log('Saving flow', definition);
         storage.set('flow', definition);
     }
 }
+
+export default FlowStore;

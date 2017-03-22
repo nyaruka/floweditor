@@ -1,6 +1,6 @@
-import * as React from "react";
+import * as React from 'react';
 import * as axios from 'axios';
-import {FlowStore} from '../services/FlowStore';
+import FlowStore from '../services/FlowStore';
 
 interface Message {
     text: string;
@@ -41,7 +41,7 @@ interface Context {
 /**
  * Our dev console for simulating or testing expressions
  */
-export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
+export class SimulatorComp extends React.Component<SimulatorProps, SimulatorState> {
 
     // marks the bottom of our chat
     private bottom: any;
@@ -150,3 +150,5 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         )
     }
 }
+
+export default SimulatorComp;

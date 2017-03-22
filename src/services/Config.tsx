@@ -1,13 +1,5 @@
 import * as Interfaces from '../interfaces';
-import * as Actions from '../components/Actions';
 import * as Renderer from '../components/Renderer';
-
-export interface TypeConfig {
-    type: string;
-    name: string;
-    description: string;
-    renderer: {new(props: Interfaces.NodeEditorProps): Renderer.Renderer};
-}
 
 export class Config {
 
@@ -21,7 +13,7 @@ export class Config {
         console.log('init config');
     }
 
-    public typeConfigs: TypeConfig[] = [
+    public typeConfigs: Interfaces.TypeConfig[] = [
 
         // actions
         {type: "msg", name: "Send Message", description: "Send them a message", renderer: Renderer.SendMessage},
@@ -37,7 +29,7 @@ export class Config {
 
     ]
 
-    public getTypeConfig(type: string): TypeConfig {
+    public getTypeConfig(type: string): Interfaces.TypeConfig {
         for (let config of this.typeConfigs) {
             if (config.type == type) {
                 return config;
@@ -46,3 +38,5 @@ export class Config {
         return null;
     }
 }
+
+export default Config;
