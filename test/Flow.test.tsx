@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {FlowComp, FlowProps, FlowState} from '../src/components/Flow';
 import * as Interfaces from '../src/interfaces';
+import FlowComp from '../src/components/FlowComp';
 import { ShallowWrapper, shallow, mount, render } from 'enzyme';
 
 function dump(object: any) {

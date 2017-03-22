@@ -1,9 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {NodeComp, NodeState} from '../src/components/Node';
 import * as Interfaces from '../src/interfaces';
-
-import { ShallowWrapper, shallow, mount, render } from 'enzyme';
+import {NodeComp, NodeState} from '../src/components/NodeComp';
+import {ShallowWrapper, shallow, mount, render} from 'enzyme';
 
 function dump(object: any) {
     console.log(JSON.stringify(object, null, 1));
