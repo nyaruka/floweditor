@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Interfaces from '../interfaces';
-import * as Forms from './forms';
 import {Config, TypeConfig} from '../services/Config';
+import * as Renderer from '../components/Renderer';
 
 var UUID  = require('uuid');
 var ReactModal = require('react-modal');
@@ -97,11 +97,12 @@ export class Modal extends React.Component<ModalProps, {}> {
 
 interface NodeModalProps {
     initial: Interfaces.NodeEditorProps;
+    renderer: Renderer.Renderer;
 }
 
 interface NodeModalState {
     show: boolean;
-    formHandler: Forms.FormHandler;
+    renderer: Renderer.Renderer;
     config: TypeConfig;
 }
 
@@ -110,7 +111,7 @@ interface NodeModalState {
  */
 export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     
-    private formMap: {[type:string]:Forms.FormHandler; } = {}
+    private rendererMap: {[type:string]:Renderer.Renderer; } = {}
     private form: HTMLFormElement;
 
     context: Interfaces.FlowContext;
@@ -123,10 +124,12 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     constructor(props: NodeModalProps) {
         super(props);
 
-        Config.get().typeConfigs
+        // stick our initialized renderer in our map
+        this.rendererMap[this.props.initial.type] = this.props.renderer;
+
         this.state = {
             show: false,
-            formHandler: this.getFormHandler(this.props.initial.type, this.props.initial),
+            renderer: this.getRenderer(this.props.initial.type, this.props.initial),
             config: this.getConfig(this.props.initial.type)
         }
 
@@ -138,7 +141,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     open() {
         this.setState({
             show: true,
-            formHandler: this.getFormHandler(this.props.initial.type, this.props.initial),
+            renderer: this.getRenderer(this.props.initial.type, this.props.initial),
             config: this.getConfig(this.props.initial.type)
         });
     }
@@ -155,12 +158,12 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         }
     }
 
-    getFormHandler (type: string, props?: Interfaces.NodeEditorProps) {
-        if (!(type in this.formMap)) {
+    getRenderer (type: string, props?: Interfaces.NodeEditorProps): Renderer.Renderer {
+        if (!(type in this.rendererMap)) {
             let config = this.getConfig(type);
-            this.formMap[type] = new config.form(props);
+            this.rendererMap[type] = new config.renderer(props);
         }
-        return this.formMap[type]
+        return this.rendererMap[type]
     }
 
     onModalOpen() {
@@ -169,18 +172,18 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     
     onModalClose(event: any) {
         if ($(event.target).data('type') == 'ok') {
-            this.state.formHandler.submit(this.context, this.form);
+            this.state.renderer.submit(this.context, this.form);
         }
 
         // force a clean action form now that we are done
-        delete this.formMap[this.props.initial.type];
+        delete this.rendererMap[this.props.initial.type];
         this.close();
     }
 
     onChangeAction(event: any) {
         var type = event.target.value;
         this.setState({ 
-            formHandler: this.getFormHandler(type, {type: type} as Interfaces.NodeEditorProps),
+            renderer: this.getRenderer(type, {type: type} as Interfaces.NodeEditorProps),
             config: this.getConfig(type)
         });
     }
@@ -192,7 +195,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
             data.push({id: option.type, text: option.description});
         });
 
-        var action = this.state.formHandler;
+        var action = this.state.renderer;
         return (
             <Modal
                 width="570px"

@@ -1,14 +1,18 @@
 import * as React from 'react';
 import * as axios from 'axios';
-import {ActionComp} from './Actions'
-import {NodeProps, ExitProps, FlowContext} from '../interfaces';
+import * as Actions from './Actions'
+import * as Interfaces from '../interfaces';
 import {Plumber, DragEvent} from '../services/Plumber';
 import {FlowStore} from '../services/FlowStore';
+import {Config} from '../services/Config';
 import {Modal} from './Modals';
 var UUID = require('uuid');
 var shallowCompare = require('react-addons-shallow-compare');
 
-class ExitComp extends React.PureComponent<ExitProps, {}> {
+
+
+
+class ExitComp extends React.PureComponent<Interfaces.ExitProps, {}> {
 
     componentDidMount() {
         // we can be dragged from
@@ -41,12 +45,12 @@ export interface NodeState {
 /**
  * A single node in the rendered flow
  */
-export class NodeComp extends React.Component<NodeProps, NodeState> {
+export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
 
     private modal: any;
     public ele: any;
 
-    context: FlowContext;
+    context: Interfaces.FlowContext;
     
     static childContextTypes = {
         flow: React.PropTypes.object,
@@ -57,14 +61,14 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         flow: React.PropTypes.object
     }
        
-    getChildContext(): FlowContext {
+    getChildContext(): Interfaces.FlowContext {
         return {
             flow: this.context.flow,
             node: this
         }
     }
 
-    constructor(props: NodeProps){
+    constructor(props: Interfaces.NodeProps){
         super(props);
         this.state = { editing: false, dragging: false }
         this.onDragStart = this.onDragStart.bind(this);
@@ -95,7 +99,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         }});
     }
 
-    shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState) {
+    shouldComponentUpdate(nextProps: Interfaces.NodeProps, nextState: NodeState) {
 
         // TODO: these should be inverse evaluations since things can be batched
         if (nextProps._ui.location.x != this.props._ui.location.x || nextProps._ui.location.y != this.props._ui.location.y) {
@@ -128,7 +132,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     componentWillUpdate() {}
 
-    componentDidUpdate(prevProps: NodeProps, prevState: NodeState) {}
+    componentDidUpdate(prevProps: Interfaces.NodeProps, prevState: NodeState) {}
 
     setEditing(editing: boolean) {
         this.setState({editing: editing});
@@ -157,14 +161,11 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     render() {
-
         console.log('Rendering node', this.props.uuid);
-
         var actions = [];
-
         if (this.props.actions) {
             for (let definition of this.props.actions) {
-                actions.push(ActionComp.createAction(definition, this.props));
+                actions.push(<Actions.ActionComp key={definition.uuid} {...definition}/>);
             }
         }
 

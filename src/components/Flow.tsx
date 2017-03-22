@@ -5,6 +5,7 @@ import NodeComp from './Node';
 import {Plumber} from '../services/Plumber';
 import {FlowStore, FlowDefinition} from '../services/FlowStore';
 import {Simulator} from './Simulator';
+import {Config} from '../services/Config';
 var UUID = require('uuid');
 
 var update = require('immutability-helper');
@@ -305,6 +306,8 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
 
     render() {
         var nodes: JSX.Element[] = [];
+        var config = Config.get();
+
         if (this.state.definition) {
             for (let node of this.state.definition.nodes) {
                 nodes.push(<NodeComp {...node} key={node.uuid}/>)

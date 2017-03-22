@@ -1,11 +1,12 @@
 import * as Interfaces from '../interfaces';
-import * as Forms from '../components/Forms';
+import * as Actions from '../components/Actions';
+import * as Renderer from '../components/Renderer';
 
 export interface TypeConfig {
     type: string;
     name: string;
     description: string;
-    form: {new(props: Interfaces.NodeEditorProps): Forms.FormHandler};
+    renderer: {new(props: Interfaces.NodeEditorProps): Renderer.Renderer};
 }
 
 export class Config {
@@ -23,16 +24,16 @@ export class Config {
     public typeConfigs: TypeConfig[] = [
 
         // actions
-        {type: "msg", name: "Send Message", description: "Send them a message", form: Forms.SendMessageForm},
-        {type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: Forms.AddToGroupForm},
-        {type: "save_to_contact", name: "Save to Contact", description: "Update one of their fields", form: Forms.SaveToContactForm},
-        {type: "set_language", name: "Set Language", description: "Update their language", form: Forms.SetLanguageForm},
+        {type: "msg", name: "Send Message", description: "Send them a message", renderer: Renderer.SendMessage},
+        {type: "add_to_group", name: "Add to Group", description: "Add them to a group", renderer: Renderer.AddToGroup},
+        {type: "save_to_contact", name: "Save to Contact", description: "Update one of their fields", renderer: Renderer.SaveToContact},
+        {type: "set_language", name: "Set Language", description: "Update their language", renderer: Renderer.SetLanguage},
         
         // hybrids
-        {type: "webhook", name: "Call Webhook", description: "Call an external service", form: Forms.WebhookForm},
+        {type: "webhook", name: "Call Webhook", description: "Call an external service", renderer: Renderer.Webhook},
 
         // routers
-        {type: "switch", name: "Wait for Response", description: "Wait for them to respond", form: Forms.SwitchRouterForm}
+        {type: "switch", name: "Wait for Response", description: "Wait for them to respond", renderer: Renderer.SwitchRouter}
 
     ]
 

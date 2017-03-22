@@ -3,24 +3,29 @@ import {FlowComp} from './Flow';
 import * as Interfaces from '../interfaces';
 import Plumber from '../services/Plumber';
 
-export abstract class FormHandler {
+export abstract class Renderer {
     
     props: Interfaces.NodeEditorProps;
     constructor(props: Interfaces.NodeEditorProps) {
         this.props = props;
     }
 
-    abstract renderForm(): JSX.Element;
-    abstract submit(context: Interfaces.FlowContext, form: Element): void;
-
     public getClassName() {
         return this.props.type.split('_').join('-');
     }
+
+    renderNode(): JSX.Element { return; }
+    abstract renderForm(): JSX.Element;
+    abstract submit(context: Interfaces.FlowContext, form: Element): void;
 }
 
-export class SendMessageForm extends FormHandler {
+export class SendMessage extends Renderer {
 
     props: Interfaces.SendMessageProps;
+
+    renderNode() {
+        return <div>{this.props.text}</div>
+    }
     
     renderForm() { 
         return (
@@ -39,10 +44,14 @@ export class SendMessageForm extends FormHandler {
     }
 }
 
-export class AddToGroupForm extends FormHandler {
+export class AddToGroup extends Renderer {
 
     props: Interfaces.AddToGroupProps;
 
+    renderNode(): JSX.Element {
+        throw new Error('Method not implemented.');
+    }
+
     renderForm(): JSX.Element {
         return <div>Not implemented</div>
     }
@@ -52,10 +61,14 @@ export class AddToGroupForm extends FormHandler {
     }
 }
 
-export class SaveToContactForm extends FormHandler {
+export class SaveToContact extends Renderer {
 
     props: Interfaces.SaveToContactProps;
 
+    renderNode(): JSX.Element {
+        throw new Error('Method not implemented.');
+    }
+
     renderForm(): JSX.Element {
         return <div>Not implemented</div>
     }
@@ -66,10 +79,14 @@ export class SaveToContactForm extends FormHandler {
 
 }
 
-export class SetLanguageForm extends FormHandler {
+export class SetLanguage extends Renderer {
 
     props: Interfaces.SetLanguageProps;
 
+    renderNode(): JSX.Element {
+        throw new Error('Method not implemented.');
+    }
+
     renderForm(): JSX.Element {
         return <div>Not implemented</div>
     }
@@ -79,8 +96,11 @@ export class SetLanguageForm extends FormHandler {
     }
 }
 
-export class SwitchRouterForm extends FormHandler {
-    
+export class SwitchRouter extends Renderer {
+    renderNode(): JSX.Element {
+        throw new Error('Method not implemented.');
+    }
+
     renderForm(): JSX.Element {
         return <div>Rule editor goes here</div>
     }
@@ -90,7 +110,10 @@ export class SwitchRouterForm extends FormHandler {
     }
 }
 
-export class WebhookForm extends FormHandler {
+export class Webhook extends Renderer {
+    renderNode(): JSX.Element {
+        throw new Error('Method not implemented.');
+    }
 
     renderForm(): JSX.Element {
         return <div>Webhook details go here</div>

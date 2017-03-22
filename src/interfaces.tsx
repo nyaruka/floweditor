@@ -1,6 +1,7 @@
 import {Plumber} from './services/Plumber'
 import {FlowComp} from './components/Flow'
 import {NodeComp} from './components/Node'
+import * as Renderer from './components/Renderer';
 
 export interface FlowContext {
     flow: FlowComp;
@@ -23,7 +24,7 @@ export interface NodeEditorProps {
 }
 
 export interface ActionProps extends NodeEditorProps{
-    
+    renderer: Renderer.Renderer;
 }
 
 export interface AddToGroupProps extends ActionProps {
