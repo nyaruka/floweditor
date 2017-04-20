@@ -176,7 +176,7 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
                 initial={this.props.router}
                 renderer={renderer}
                 changeType={false}
-            /> 
+            />
         } else {
             if (actions.length == 0) {
                 header = <div className={"split-title " + this.props.router.type} {...events}>Split</div>

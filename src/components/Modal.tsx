@@ -199,7 +199,6 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         });
 
         var renderer = this.state.renderer;
-
         var changeOptions: JSX.Element;
 
         if (this.props.changeType) {
@@ -207,7 +206,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                 <div>
                     <div className="header">When a contact arrives at this point in your flow</div>
                     <Select2
-                        className={"select"}
+                        className={"change-type"}
                         value={renderer.props.type}
                         onChange={this.onChangeType}
                         data={data}

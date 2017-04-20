@@ -103,7 +103,6 @@ export class Plumber {
             this.jsPlumb.repaintEverything();
         } else {
             window.setTimeout(()=>{
-                console.log(uuid);
                 this.jsPlumb.recalculateOffsets(uuid);
                 this.jsPlumb.repaint(uuid);
             }, 0);

@@ -5,6 +5,7 @@ $red: #c14c46;
 $orange: #e68628;
 $teal: #00ac9a;
 $light_grey: #e6e6e6;
+$med_grey: #ccc;
 $grey: #666;
 
 $workspace: $light_grey;
@@ -47,6 +48,43 @@ body {
     &.ReactModal__Body--open {
         overflow: hidden;
     }
+
+    .select2 {
+        width: 100% !important;
+        .select2-selection {
+            height: 32px;
+
+            &[aria-expanded=false] {
+                border-color: $light_grey;
+            }
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        .select2-selection__rendered {
+            color: #666;
+        }
+    }
+
+    input {
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        border-color: #e6e6e6;
+        border-style:solid;
+        box-shadow: none;
+        outline: none;
+    }
+}
+
+.code {
+    background: #f3f3f3;
+    padding: 10px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
 }
 
 #header {
@@ -137,6 +175,17 @@ body {
         color: $light_text;
     }
 
+    .modal-content {
+        p {
+            line-height: 19px;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: $med_grey;
+        }
+    }
+
     .modal-footer {
         background: #e6e6e6;
         padding: 20px;
@@ -195,9 +244,22 @@ body {
         .modal-header {
             background: $webhook;
         }
+
+        .method {
+            
+        }
+
+        .url {
+            width: 95%;
+            padding: 5px;
+            height: 20px;
+            font-size: 14px;
+            font-weight: 300;
+        }
     }
 
 
+   
     .node-editor {
 
         padding: 20px;
@@ -206,26 +268,8 @@ body {
         line-height: 15px;
 
         $inner_spacing: 15px;
-
-        .select2 {
-            width: 528px !important;
-            margin-top: $inner_spacing;
-
-            .select2-selection {
-                height: 32px;
-
-                &[aria-expanded=false] {
-                    border-color: $light_grey;
-                }
-
-                &:focus {
-                    outline: none;
-                }
-            }
-
-            .select2-selection__rendered {
-                color: #666;
-            }
+        .header {
+            margin-bottom: $inner_spacing;
         }
 
         .widgets {
