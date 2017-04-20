@@ -125,3 +125,17 @@ export class SwitchRouter extends Renderer {
         
     }
 }
+
+export class RandomRouter extends Renderer {
+    renderNode(): JSX.Element {
+        return <div>Not implemented</div>
+    }
+
+    renderForm(): JSX.Element {
+        return <div>Random split editor goes here</div>
+    }
+    
+    submit(context: Interfaces.FlowContext, form: Element): void {
+        
+    }
+}

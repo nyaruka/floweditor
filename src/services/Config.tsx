@@ -25,7 +25,8 @@ export class Config {
         {type: "webhook", name: "Call Webhook", description: "Call an external service", renderer: Renderer.Webhook},
 
         // routers
-        {type: "switch", name: "Wait for Response", description: "Wait for them to respond", renderer: Renderer.SwitchRouter}
+        {type: "switch", name: "Wait for Response", description: "Wait for them to respond", renderer: Renderer.SwitchRouter},
+        {type: "random", name: "Random Split", description: "Split them up randomly", renderer: Renderer.RandomRouter}
 
     ]
 

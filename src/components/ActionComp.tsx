@@ -66,6 +66,7 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
                     ref={(ele: any) => {this.modal = ele}} 
                     initial={this.props}
                     renderer={renderer}
+                    changeType={true}
                 /> 
             </div>
         )

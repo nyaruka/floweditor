@@ -14,6 +14,7 @@ $webhook: $orange;
 $update: $teal;
 $msg: $blue;
 $split_title: #677c91;
+$split_random: #aaa;
 $light_text: #ffffff;
 $hover: $teal;
 
@@ -57,7 +58,7 @@ body {
 #editor {
     position: relative;
     top: 0;
-    height: 2000px;
+    height: 20000px;
     margin: 20px;
 
     #root {
@@ -178,6 +179,12 @@ body {
         }
     }
 
+    &.random {
+        .modal-header {
+            background: $split_random;
+        }
+    }
+
     &.switch {
         .modal-header {
             background: $split_title;
@@ -225,7 +232,7 @@ body {
             margin: $inner_spacing 0;
 
             textarea {
-                height: 200px;
+                height: 100px;
                 width: 506px;
                 padding: 10px;
                 color: $grey;
@@ -289,7 +296,7 @@ body {
 
 .nodes {
     top: 0;
-    height: 2000px;
+    height: 20000px;
     position: relative;
     
     
@@ -318,6 +325,10 @@ body {
             text-align: center;
             font-size:13px;
             background: $split_title;
+
+            &.random {
+                background: $split_random;
+            }
         }
 
         .card {
@@ -472,8 +483,6 @@ body {
         }
     }
 
-
-
     .icon-simulator {
         font-size:460px;
         color: #333;
@@ -529,7 +538,7 @@ body {
 }
 
 .ReactModalPortal .ReactModal__Overlay {
-  transition: opacity 200ms ease-in-out;
+  transition: opacity 100ms ease-in-out;
   background: rgba(0, 0, 0, 0.15);
   &--after-open {
     opacity: 1;

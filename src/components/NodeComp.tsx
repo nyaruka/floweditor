@@ -4,7 +4,7 @@ import * as Interfaces from '../interfaces';
 import {Plumber, DragEvent} from '../services/Plumber';
 import FlowStore from '../services/FlowStore';
 import Config from '../services/Config';
-import Modal from './Modal';
+import {NodeModal} from './Modal';
 import ActionComp from './ActionComp';
 import ExitComp from './ExitComp';
 
@@ -132,7 +132,7 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
             if (this.props.actions && this.props.actions.length == 1) {
                 this.firstAction.onClick(event);
             } else {
-                this.setEditing(true);
+                this.modal.open();
             }
         }
     }
@@ -147,6 +147,7 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
     }
 
     render() {
+
         // console.log('Rendering node', this.props.uuid);
         var actions = [];
         if (this.props.actions) {
@@ -158,9 +159,28 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
             }
         }
 
+        var events = {}
+        if (!this.isDragNode()) {
+            events = {onMouseUpCapture: (event: any)=>{this.onClick(event)}}
+        }
+
+
         var header = null;
-        if (actions.length == 0) {
-            header = <div className="split-title">Split</div>
+        var modal = null;
+        if (this.props.router) {
+            let config = Config.get().getTypeConfig(this.props.router.type);
+            let renderer = new config.renderer(this.props.router);
+            header = <div className={"split-title " + this.props.router.type} {...events}>{config.name}</div>
+            modal = <NodeModal 
+                ref={(ele: any) => {this.modal = ele}} 
+                initial={this.props.router}
+                renderer={renderer}
+                changeType={false}
+            /> 
+        } else {
+            if (actions.length == 0) {
+                header = <div className={"split-title " + this.props.router.type} {...events}>Split</div>
+            }
         }
 
         var exits = []
@@ -175,10 +195,6 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
         var modalTitle = <div>Router</div>
         var depth = this.state.dragging ? "z-depth-4" : "z-depth-1"
 
-        var events = {}
-        if (!this.isDragNode()) {
-            events = {onMouseUpCapture: (event: any)=>{this.onClick(event)}}
-        }
 
         return(
                 <div className={"node " + depth}
@@ -199,14 +215,9 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
                             </div>
                         </div>
                     </div>
-                    <Modal 
-                        title={modalTitle}
-                        className='exits'
-                        show={this.state.editing && (!this.props.actions || this.props.actions.length == 0)} 
-                        onModalClose={this.onModalClose} 
-                        onModalOpen={this.onModalOpen}>
-                        <textarea defaultValue={JSON.stringify({router: this.props.router, exits: this.props.exits}, null, 2)}></textarea>
-                    </Modal>
+                    {modal}
+
+                    {/*<textarea defaultValue={JSON.stringify({router: this.props.router, exits: this.props.exits}, null, 2)}></textarea>*/}
 
                 </div>
 

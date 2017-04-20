@@ -98,6 +98,7 @@ export class Modal extends React.Component<ModalProps, {}> {
 interface NodeModalProps {
     initial: Interfaces.NodeEditorProps;
     renderer: Renderer.Renderer;
+    changeType: boolean;
 }
 
 interface NodeModalState {
@@ -135,7 +136,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
 
         this.onModalClose = this.onModalClose.bind(this);
         this.onModalOpen = this.onModalOpen.bind(this);
-        this.onChangeAction = this.onChangeAction.bind(this);
+        this.onChangeType = this.onChangeType.bind(this);
     }
 
     open() {
@@ -177,12 +178,12 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
             this.context.flow.onModalCancel();
         }
 
-        // force a clean action form now that we are done
+        // force a clean object form now that we are done
         delete this.rendererMap[this.props.initial.type];
         this.close();
     }
 
-    onChangeAction(event: any) {
+    onChangeType(event: any) {
         var type = event.target.value;
         this.setState({ 
             renderer: this.getRenderer(type, {type: type} as Interfaces.NodeEditorProps),
@@ -197,13 +198,30 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
             data.push({id: option.type, text: option.description});
         });
 
-        var action = this.state.renderer;
+        var renderer = this.state.renderer;
+
+        var changeOptions: JSX.Element;
+
+        if (this.props.changeType) {
+            changeOptions = (
+                <div>
+                    <div className="header">When a contact arrives at this point in your flow</div>
+                    <Select2
+                        className={"select"}
+                        value={renderer.props.type}
+                        onChange={this.onChangeType}
+                        data={data}
+                    />
+                </div>
+            )
+        }
+
         return (
             <Modal
                 width="570px"
                 key={'modal_' + this.props.initial.uuid}
                 title={<div>{this.state.config.name}</div>}
-                className={action.getClassName()}
+                className={renderer.getClassName()}
                 show={this.state.show}
                 onModalClose={this.onModalClose}
                 onModalOpen={this.onModalOpen}
@@ -213,17 +231,8 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                 
                 <div className="node-editor">
                     <form ref={(ele: any) => { this.form = ele; }}>
-
-                        <div className="header">When a contact arrives at this point in your flow</div>
-
-                        <Select2
-                            className={"select"}
-                            value={action.props.type}
-                            onChange={this.onChangeAction}
-                            data={data}
-                        />
-
-                        <div className="widgets">{action.renderForm()}</div>
+                        {changeOptions}
+                        <div className="widgets">{renderer.renderForm()}</div>
                     </form>
                 </div>
             </Modal>
