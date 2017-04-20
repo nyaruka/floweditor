@@ -39,18 +39,32 @@ body {
     color: #777;
     font-weight: 400;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    margin: 0;
 }
 
-#root {
-    position: absolute;
-    top: 0;
-    left: 0;
+#header {
+    height: 40px;
     width: 100%;
-    height: 100%;
-    &:after {
-        content:"";
-        clear: both;
-        display:table; 
+    background: $blue - #111;
+}
+
+#editor {
+    position: relative;
+    top: 0;
+    height: 2000px;
+    margin: 20px;
+
+    #root {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+
+        &:after {
+            content:"";
+            clear: both;
+            display:table; 
+        }
     }
 }
 
@@ -87,6 +101,12 @@ body {
         &.save-to-contact, &.set-language, &.set-preferred-channel {
             .action-title {
                 background: $update;
+            }
+        }
+
+        &.webhook {
+            .action-title {
+                background: $webhook;
             }
         }
     }
@@ -234,7 +254,15 @@ body {
     }
 }
 
+#flow {
+    position: relative;
+}
+
 .nodes {
+    top: 0;
+    height: 2000px;
+    position: relative;
+    
     .node {
         position: absolute;
         border: 0px solid darkgray;

@@ -12,10 +12,12 @@ class ExitComp extends React.PureComponent<Interfaces.ExitProps, {}> {
     componentDidUpdate(prevProps: Interfaces.ExitProps) {
         if (this.props.destination) {
             Plumber.get().connect(this.props.uuid, this.props.destination);
+            console.log('Connected', this.props.uuid, this.props.destination);
         }
     }
 
     render() {
+        // console.log('Rendering exit', this.props.uuid);
         var count = this.props.totalExits;
         var pct = Math.floor(100 / count);
         var first = this.props.first ? " first" : "";

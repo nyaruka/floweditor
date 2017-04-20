@@ -12,16 +12,16 @@ export class Location implements Interfaces.LocationProps {
     }
 }
 
-export class UIMetaData implements Interfaces.UIMetaDataProps {
-    location: Location;
+export class UINodeMetaData implements Interfaces.UINode {
+    position: Location;
     
     constructor(location: Location) {
-        this.location = location;
+        this.position = location;
     }
 
     setLocation(x: number, y: number) {
-        this.location.x = x;
-        this.location.y = y;
+        this.position.x = x;
+        this.position.y = y;
     }
 }
 

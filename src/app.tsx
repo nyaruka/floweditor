@@ -8,7 +8,7 @@ import FlowStore from './services/FlowStore';
 import './styles.scss';
 import 'react-select2-wrapper/css/select2.css';
 
-var url = 'test_flows/two_questions.json';
+var url = 'test_flows/signup.json';
 var engineUrl = 'http://localhost:8080';
 
 ReactDOM.render(

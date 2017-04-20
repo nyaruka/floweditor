@@ -47,6 +47,7 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
         super(props);
         this.state = { editing: false, dragging: false }
         this.onDragStart = this.onDragStart.bind(this);
+        this.onDrag = this.onDrag.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onModalOpen = this.onModalOpen.bind(this);
         this.onModalClose = this.onModalClose.bind(this);
@@ -58,26 +59,31 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
     }
 
     onDrag(event: DragEvent) {
-
+    
     }
 
     onDragStop(event: DragEvent) {
         this.setState({dragging: false});
         $('#root').removeClass('dragging');
 
+        var position = $(event.target).position();
         // update our coordinates
         this.context.flow.updateNode(this.props.uuid, { _ui: { 
             location: { $set: { 
-                x: event.finalPos[0], 
+                x: event.finalPos[0],
                 y: event.finalPos[1]
             }}
         }});
     }
 
+    isDragNode() {
+        return this.props.uuid == 'drag-node';
+    }
+
     shouldComponentUpdate(nextProps: Interfaces.NodeProps, nextState: NodeState) {
 
         // TODO: these should be inverse evaluations since things can be batched
-        if (nextProps._ui.location.x != this.props._ui.location.x || nextProps._ui.location.y != this.props._ui.location.y) {
+        if (nextProps._ui.position.x != this.props._ui.position.x || nextProps._ui.position.y != this.props._ui.position.y) {
             return false;
         }
 
@@ -91,15 +97,14 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
     componentDidMount() {
 
         let plumber = Plumber.get();
-
-        // wire up our drag events
-        plumber.draggable(this.ele, 
-            (event: DragEvent) => {this.onDragStart(event)},
-            (event: DragEvent) => {this.onDrag(event)}, 
-            (event: DragEvent) => {this.onDragStop(event)}
+        plumber.draggable(this.ele,
+           (event: DragEvent) => {this.onDragStart(event)},
+           (event: DragEvent) => {this.onDrag(event)}, 
+           (event: DragEvent) => {this.onDragStop(event)}
         );
 
         // make ourselves a target
+        // console.log('Mounting', this.props.uuid);
         plumber.makeTarget(this.props.uuid);
 
         // $(this.ele).find('.exits').on('mouseup', this.onClick);
@@ -113,6 +118,7 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
     componentWillUpdate() {}
 
     componentDidUpdate(prevProps: Interfaces.NodeProps, prevState: NodeState) {
+        console.log(this.props.uuid, 'updated');
         Plumber.get().repaint(this.props.uuid);
     }
 
@@ -141,7 +147,7 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
     }
 
     render() {
-        console.log('Rendering node', this.props.uuid);
+        // console.log('Rendering node', this.props.uuid);
         var actions = [];
         if (this.props.actions) {
             // save the first reference off to manage our clicks
@@ -169,14 +175,18 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
         var modalTitle = <div>Router</div>
         var depth = this.state.dragging ? "z-depth-4" : "z-depth-1"
 
+        var events = {}
+        if (!this.isDragNode()) {
+            events = {onMouseUpCapture: (event: any)=>{this.onClick(event)}}
+        }
+
         return(
-            <div>
                 <div className={"node " + depth}
                     ref={(ele: any) => { this.ele = ele }}
                     id={this.props.uuid}
                     style={{
-                        left: this.props._ui.location.x,
-                        top: this.props._ui.location.y
+                        left: this.props._ui.position.x,
+                        top: this.props._ui.position.y
                     }}>
                     <div>
                         {header} 
@@ -184,22 +194,22 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
                             {actions}
                         </div>
                         <div className="exit-table">
-                            <div className="exits" onMouseUp={this.onClick}>
+                            <div className="exits" {...events}>
                                 {exits}
                             </div>
                         </div>
                     </div>
+                    <Modal 
+                        title={modalTitle}
+                        className='exits'
+                        show={this.state.editing && this.props.actions.length == 0} 
+                        onModalClose={this.onModalClose} 
+                        onModalOpen={this.onModalOpen}>
+                        <textarea defaultValue={JSON.stringify({router: this.props.router, exits: this.props.exits}, null, 2)}></textarea>
+                    </Modal>
+
                 </div>
 
-                <Modal 
-                    title={modalTitle}
-                    className='exits'
-                    show={this.state.editing && this.props.actions.length == 0} 
-                    onModalClose={this.onModalClose} 
-                    onModalOpen={this.onModalOpen}>
-                    <textarea defaultValue={JSON.stringify({router: this.props.router, exits: this.props.exits}, null, 2)}></textarea>
-                </Modal>
-            </div>
         )
     }
 }

@@ -28,17 +28,15 @@
             "operand":"@input",
             "cases":[
                {
+                  "uuid": "case1",
                   "type":"has_any_word",
-                  "arguments":[
-                     "red"
-                  ],
+                  "test":"red",
                   "exit":"node1-exit1"
                },
                {
+                  "uuid": "case2",
                   "type":"has_any_word",
-                  "arguments":[
-                     "blue"
-                  ],
+                  "test":"blue",
                   "exit":"node1-exit2"
                }
             ]
@@ -86,17 +84,15 @@
             "operand":"@input",
             "cases":[
                {
+                  "uuid": "case3",
                   "type":"has_any_word",
-                  "arguments":[
-                     "pepsi"
-                  ],
+                  "test":"pepsi",
                   "exit":"node2-exit1"
                },
                {
+                 "uuid": "case4",
                   "type":"has_any_word",
-                  "arguments":[
-                     "coke"
-                  ],
+                  "test":"coke",
                   "exit":"node2-exit2"
                }
             ]

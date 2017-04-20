@@ -12,7 +12,10 @@ module.exports = {
         filename: "bundle.js"
     },
     resolve: {
-        extensions: [".ts", ".tsx", ".js"]
+        extensions: [".ts", ".tsx", ".js"],
+        alias: {
+            'jquery-ui': 'jquery-ui-dist/jquery-ui.js'
+        }
     },
     devtool: 'source-map',
     plugins: [

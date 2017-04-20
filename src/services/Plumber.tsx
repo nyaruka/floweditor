@@ -6,6 +6,9 @@ export interface DragEvent {
     pos: number[]
     finalPos: number[]
     e: MouseEvent
+    clientX: number
+    clientY: number
+    target: Element
 }
 
 export class Plumber {
@@ -58,6 +61,7 @@ export class Plumber {
             start: (event:any) => start(event),
             drag: (event: DragEvent) => drag(event),
             stop: (event: DragEvent) => stop(event),
+            containment: true
         })
     }
 
@@ -69,14 +73,9 @@ export class Plumber {
         this.jsPlumb.makeTarget(uuid, this.targetDefaults);
     }
 
-    remove(uuid: string) {
-        this.detach(uuid);
-        this.jsPlumb.removeAllEndpoints(uuid);
-        this.jsPlumb.detach(uuid);
-    }
-
-    detach(uuid: string) {
-        this.jsPlumb.detachAllConnections(uuid);
+    detach(source: string, target: string) {
+        this.jsPlumb.select({source: source, target: target}).detach();
+        // this.jsPlumb.detachAllConnections(source);
     }
 
     connectExit(exit: ExitProps) {
@@ -85,17 +84,17 @@ export class Plumber {
 
     connect(source: string, target: string) {
         if (source != null && target != null) {
-            
-            // first make sure we are detached
-            this.detach(source);
-
             // now make our new connection
-            this.jsPlumb.connect({source: source, target: target, fireEvent: false});
+            return this.jsPlumb.connect({source: source, target: target, fireEvent: false});
         }
     }
 
     bind(event: string, onEvent: Function){
         return this.jsPlumb.bind(event, onEvent);
+    }
+
+    revalidate(uuid: string) {
+        this.jsPlumb.revalidate(uuid);
     }
 
     repaint(uuid?: string) {
@@ -104,10 +103,19 @@ export class Plumber {
             this.jsPlumb.repaintEverything();
         } else {
             window.setTimeout(()=>{
+                console.log(uuid);
                 this.jsPlumb.recalculateOffsets(uuid);
                 this.jsPlumb.repaint(uuid);
             }, 0);
         }
+    }
+
+    remove(uuid: string) {
+    
+        console.log('Deregistering', uuid, 'from jsplumb');
+        //this.jsPlumb.detachAllConnections(uuid);
+        this.jsPlumb.removeAllEndpoints(uuid);
+        // this.jsPlumb.detach(uuid);
     }
 
     reset() {
@@ -133,6 +141,7 @@ export class Plumber {
 
             // after initial connections, force a repaint
             this.jsPlumb.repaintEverything();
+            
         });
     }
 }

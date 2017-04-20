@@ -1,4 +1,3 @@
-import Plumber from './services/Plumber'
 import FlowComp from './components/FlowComp'
 import NodeComp from './components/NodeComp'
 import * as Renderer from './components/Renderer';
@@ -8,8 +7,12 @@ export interface FlowContext {
     node?: NodeComp;
 }
 
+export interface UINode {
+    position: LocationProps;
+}
+
 export interface UIMetaDataProps {
-    location: LocationProps;
+    nodes: {[key: string]: UINode};
 }
 
 export interface LocationProps {
@@ -57,7 +60,7 @@ export interface NodeProps {
     router?: any;
     actions?: ActionProps[];
     wait?: any;
-    _ui: UIMetaDataProps;
+    _ui: UINode;
 }
 
 export interface TypeConfig {
@@ -69,4 +72,5 @@ export interface TypeConfig {
 
 export interface FlowDefinition {
     nodes: NodeProps[]
+    _ui: UIMetaDataProps
 }

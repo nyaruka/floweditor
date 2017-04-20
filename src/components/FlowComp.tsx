@@ -11,7 +11,7 @@ import {FlowDefinition} from '../interfaces';
 var UUID = require('uuid');
 
 var update = require('immutability-helper');
-var forceFetch = false;
+var forceFetch = true;
 
 export interface FlowProps {
     url: string;
@@ -160,7 +160,9 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         }
 
         // realize our drag node if this is a new action
-        var current = this.realizeDragNode(uuid, current);
+        var results = this.realizeDragNode(uuid, current);
+        var current = results[0] as FlowDefinition;
+        var newUuid = results[1] as string;
 
         // update the action into our new flow definition
         var indexes = this.getActionIndexes(current, uuid);
@@ -169,8 +171,9 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         });
 
         // if we are completing a connection drag, wire it up
-        if (this.dragNode && this.state.draggingFrom) {
-            current = this.updateExit(this.state.draggingFrom, { $merge:{ destination: this.dragNode.props.uuid}}, current);
+        if (this.dragNode && this.state.draggingFrom && newUuid) {
+            // console.log('connecting exit to new node', newUuid);
+            current = this.updateExit(this.state.draggingFrom, { $merge:{ destination: newUuid}}, current);
         }
         
         if (save) {
@@ -182,14 +185,21 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     /**
      * If the inbound uuid belongs to our drag node, turn it into a real node
      * @param uuid for the node or action being updated
-     * @returns updated FlowDefinition with drag node appended
+     * @returns [newDefinition, newUuid]
      */
-    realizeDragNode(uuid: string, current: FlowDefinition): FlowDefinition {
+    realizeDragNode(uuid: string, current: FlowDefinition): any {
+        var newUuid = null;
+
         if (this.dragNode && (this.dragNode.props.uuid == uuid || this.dragNode.props.actions[0].uuid == uuid)) {
 
+            newUuid = UUID.v4();
+            
             // update our props with our current location
             var offset = $(this.dragNode.ele).offset();
             var newNode = update(this.dragNode.props, {
+                $merge:{
+                    uuid: newUuid
+                },
                 _ui: {
                     $set: { location: {
                         x: offset.left,
@@ -198,12 +208,14 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
                 }
             });
 
+            // console.log('New node', newNode);
+
             // now push the new node on our current definition
             current = update(current, {
                 nodes: {$push: [newNode]}
             });
         }
-        return current;
+        return [current, newUuid];
     }
 
     /**
@@ -212,6 +224,8 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      * @param changes immutability spec to modify at the given exit
      */
     updateExit(uuid: string, changes: any, current: FlowDefinition = null) {
+
+        console.log('exit', uuid, changes);
 
         var save = current == null;
         if (current == null) {
@@ -255,7 +269,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         plumb.bind("connectionMoved", (event: ConnectionEvent) => {this.onConnectionMoved(event)});
         plumb.bind("connectionDrag", (event: ConnectionEvent) => {this.onConnectionDrag(event)});
         plumb.bind("connectionDragStop", (event: ConnectionEvent) => {this.onConnectorDrop(event)});
-        // plumb.bind("beforeDrop", (event: ConnectionEvent) => {this.onBeforeConnectorDrop(event)});
+        plumb.bind("beforeDrop", (event: ConnectionEvent) => { return this.onBeforeConnectorDrop(event)});
         
         plumb.bind("connectionDetached", (event: ConnectionEvent) => {this.onConnectionDetached(event); });
         plumb.bind("connectionAborted", (event: ConnectionEvent) => {this.onConnectionAborted(event); });
@@ -271,19 +285,24 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
                 Plumber.get().connectAll(this.state.definition);
             }
         }
+
+        if (prevState.draggingFrom && !this.state.draggingFrom) {
+            console.log('no longer dragging, detaching from');
+            Plumber.get().detach(prevState.draggingFrom, 'drag-node');
+        }
     }
 
     /**
      * Called right before a connector is dropped onto an existing node
      */
     onBeforeConnectorDrop(event: ConnectionEvent) {
-        // console.log('onBeforeConnectionDrop', event);
+        console.log('onBeforeConnectionDrop', event);
         return true;
     }
 
 
     onConnection(event: ConnectionEvent) {
-        // console.log('onConnection', event);
+        console.log('onConnection', event);
         this.updateExit(event.sourceId, {$merge:{destination: event.targetId}});
     }
     
@@ -294,6 +313,8 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      */
     onConnectionDrag(event: ConnectionEvent) {
 
+        console.log('onConnectionDrag');
+
         // mark that we are dragging a connection from somewhere
         this.setState({draggingFrom: event.sourceId});
 
@@ -301,8 +322,8 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         $(document).bind('mousemove', (e) => {
             if (this.dragNode) {
                 var ele = $(this.dragNode.ele);
-                var left = e.clientX - (ele.width() / 2);
-                var top = e.clientY;
+                var left = e.pageX - (ele.width() / 2);
+                var top = e.pageY;
                 $(this.dragNode.ele).offset({left, top});
             } else {
                 $(document).unbind('mousemove');
@@ -315,36 +336,40 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      * existing node or on to empty space.
      */
     onConnectorDrop(event: ConnectionEvent) {
-        // console.log('onConnectorDrop', event.sourceId, event.targetId, event);
+
+        console.log('onConnectorDrop', event);
 
         // if we drop in open space, we get a source id but no source
-        let isNewNode = event.sourceId && !event.source
-        
+        let isNewNode = true; // event.sourceId && !event.source
+
+        // console.log("isNewNode", isNewNode, $(event.target));
+
         if (isNewNode) {
-            
+            Plumber.get().connect(event.sourceId, this.dragNode.props.uuid);
+            Plumber.get().repaint();
+            this.dragNode.setEditing(true);
+            this.dragNode.onClick(null);
+        } else {
+            this.setState({draggingFrom: null});
         }
 
-        Plumber.get().connect(event.sourceId, this.dragNode.props.uuid);
-        Plumber.get().repaint();
-
-        this.dragNode.setEditing(true);
-        this.dragNode.onClick(null);
         $(document).unbind('mousemove');
+        
         // this.dragNode.onClick({target: 'blerg'});
         // this.setState({draggingFrom: null});
         // this.dragNode = null;
     }
 
     onConnectionMoved(event: ConnectionEvent){
-        // console.log('onConnectionMoved', event);
+        console.log('onConnectionMoved', event);
     }
 
     onConnectionDetached(event: ConnectionEvent) {
-        // console.log('connection detached');
+        console.log('onConnectionDetached', event);
     }
 
     onConnectionAborted(event: ConnectionEvent) {
-        // console.log('connection aborted');
+        console.log('onConnectionAborted');
     }
 
     setDefinition(definition: FlowDefinition) {
@@ -357,18 +382,12 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
             var node = this.getNode(this.state.draggingFrom);
 
             var props = {
-                uuid: UUID.v4(),
+                uuid: 'drag-node',
                 actions: [],
                 exits: [{
                     "uuid": UUID.v4(),
                     "destination": null
                 }],
-                _ui: {
-                    location: {
-                        x: node._ui.location.x,
-                        y: node._ui.location.y + 200
-                    }
-                }
             } as Interfaces.NodeProps;
 
             // add an action if we are coming from a split
@@ -389,7 +408,8 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
 
         if (this.state.definition) {
             for (let node of this.state.definition.nodes) {
-                nodes.push(<NodeComp {...node} key={node.uuid}/>)
+                var uiNode = this.state.definition._ui.nodes[node.uuid];
+                nodes.push(<NodeComp {...node} _ui={uiNode} key={node.uuid}/>)
             }
         }
 
@@ -401,11 +421,11 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         console.log('##################### Rendering flow');
         return(
             <div>
-                <SimulatorComp engineUrl={this.props.engineUrl}/>
+                {/*<SimulatorComp engineUrl={this.props.engineUrl}/>*/}
                 <div id="flow">
                     <div className="nodes">
                     {nodes}
-                    <div>{dragNode}</div>
+                    {dragNode}
                     </div>
                 </div>
                 

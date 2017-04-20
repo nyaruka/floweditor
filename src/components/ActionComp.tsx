@@ -33,6 +33,7 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
     }
 
     onClick (event: any) {
+        console.log('click', this.props.uuid);
         if (!this.context.node.state.dragging) {
             this.modal.open();
         }
@@ -46,10 +47,14 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
         let config = Config.get().getTypeConfig(this.props.type);
         let renderer = new config.renderer(this.props);
 
+        var events = {}
+        if (!this.context.node.isDragNode()) {
+            events = {onMouseUpCapture: (event: any)=>{this.onClick(event)}}
+        }
+
         return(
             <div>
-                <div className={'action ' + this.getClassName()} 
-                     onMouseUp={(event)=>{this.onClick(event)}}>
+                <div className={'action ' + this.getClassName()} {...events}>
                     <div className="action-title">
                       {config.name}
                     </div>

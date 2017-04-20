@@ -49,7 +49,7 @@ export class AddToGroup extends Renderer {
     props: Interfaces.AddToGroupProps;
 
     renderNode(): JSX.Element {
-        throw new Error('Method not implemented.');
+        return <div>Not implemented</div>
     }
 
     renderForm(): JSX.Element {
@@ -66,7 +66,7 @@ export class SaveToContact extends Renderer {
     props: Interfaces.SaveToContactProps;
 
     renderNode(): JSX.Element {
-        throw new Error('Method not implemented.');
+        return <div>Not implemented</div>
     }
 
     renderForm(): JSX.Element {
@@ -84,7 +84,7 @@ export class SetLanguage extends Renderer {
     props: Interfaces.SetLanguageProps;
 
     renderNode(): JSX.Element {
-        throw new Error('Method not implemented.');
+        return <div>Not implemented</div>
     }
 
     renderForm(): JSX.Element {
@@ -98,7 +98,7 @@ export class SetLanguage extends Renderer {
 
 export class Webhook extends Renderer {
     renderNode(): JSX.Element {
-        throw new Error('Method not implemented.');
+        return <div>Not implemented</div>
     }
 
     renderForm(): JSX.Element {
@@ -112,7 +112,7 @@ export class Webhook extends Renderer {
 
 export class SwitchRouter extends Renderer {
     renderNode(): JSX.Element {
-        throw new Error('Method not implemented.');
+        return <div>Not implemented</div>
     }
 
     renderForm(): JSX.Element {
