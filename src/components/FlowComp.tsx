@@ -11,7 +11,7 @@ import {FlowDefinition} from '../interfaces';
 var UUID = require('uuid');
 
 var update = require('immutability-helper');
-var forceFetch = true;
+var forceFetch = false;
 
 export interface FlowProps {
     url: string;
@@ -21,6 +21,7 @@ export interface FlowProps {
 export interface FlowState {
     definition?: FlowDefinition;
     draggingFrom: string;
+    loading: boolean;
 }
 
 interface Connection {
@@ -53,7 +54,8 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     constructor(props: FlowProps) {
         super(props);
         this.state = {
-            draggingFrom: null
+            draggingFrom: null,
+            loading: true
         }
 
         this.onConnectionDrag = this.onConnectionDrag.bind(this);
@@ -141,6 +143,18 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
 
         var index = this.getNodeIndex(uuid);
         current = update(current, { nodes: { [index]: changes }});
+        if (save) {
+            return this.updateDefinition(current);
+        }
+        return current;
+    }
+
+    updateNodeUI(uuid: string, changes: any, current: FlowDefinition = null) {
+        var save = current == null;
+        if (!current) {
+            current = this.state.definition;
+        }
+        current = update(current, { _ui: { nodes: { [uuid]: changes }}});
         if (save) {
             return this.updateDefinition(current);
         }
@@ -282,7 +296,10 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     componentDidUpdate(prevProps: FlowProps, prevState: FlowState) {
         if (this.state.definition) {
             if (!prevState.definition) {
-                Plumber.get().connectAll(this.state.definition);
+                Plumber.get().connectAll(this.state.definition, ()=>{
+                    this.setState({loading: false});
+                    Plumber.get().repaint();
+                });
             }
         }
 
@@ -422,7 +439,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         return(
             <div>
                 {/*<SimulatorComp engineUrl={this.props.engineUrl}/>*/}
-                <div id="flow">
+                <div id="flow" className={this.state.loading ? "loading" : ""}>
                     <div className="nodes">
                     {nodes}
                     {dragNode}

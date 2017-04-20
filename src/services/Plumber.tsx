@@ -122,9 +122,8 @@ export class Plumber {
         this.jsPlumb.detachEveryConnection();
     }
 
-    connectAll(flow: FlowDefinition) {
+    connectAll(flow: FlowDefinition, onComplete: any = () => {}) {
         console.log('Reconnecting plumbing..');
-        
         // this will suspend drawing until all nodes are connected
         this.jsPlumb.ready(() => {
             this.jsPlumb.batch(()=> {
@@ -138,10 +137,7 @@ export class Plumber {
                     }
                 }                
             })
-
-            // after initial connections, force a repaint
-            this.jsPlumb.repaintEverything();
-            
+            onComplete();
         });
     }
 }

@@ -68,12 +68,12 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
 
         var position = $(event.target).position();
         // update our coordinates
-        this.context.flow.updateNode(this.props.uuid, { _ui: { 
-            location: { $set: { 
+        this.context.flow.updateNodeUI(this.props.uuid, { 
+            position: { $set: { 
                 x: event.finalPos[0],
                 y: event.finalPos[1]
             }}
-        }});
+        });
     }
 
     isDragNode() {

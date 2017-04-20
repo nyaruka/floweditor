@@ -256,12 +256,24 @@ body {
 
 #flow {
     position: relative;
+    .loading {
+        visibility: hidden;
+    }
+}
+
+.loading {
+    .nodes {
+        .node {
+            visibility: hidden;
+        }
+    }
 }
 
 .nodes {
     top: 0;
     height: 2000px;
     position: relative;
+    
     
     .node {
         position: absolute;
