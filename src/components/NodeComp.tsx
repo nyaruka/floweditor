@@ -129,7 +129,7 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
     onClick (event: any) {
         if (!this.state.dragging) {
             // if we have one action, defer to it
-            if (this.props.actions.length == 1) {
+            if (this.props.actions && this.props.actions.length == 1) {
                 this.firstAction.onClick(event);
             } else {
                 this.setEditing(true);
@@ -202,7 +202,7 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
                     <Modal 
                         title={modalTitle}
                         className='exits'
-                        show={this.state.editing && this.props.actions.length == 0} 
+                        show={this.state.editing && (!this.props.actions || this.props.actions.length == 0)} 
                         onModalClose={this.onModalClose} 
                         onModalOpen={this.onModalOpen}>
                         <textarea defaultValue={JSON.stringify({router: this.props.router, exits: this.props.exits}, null, 2)}></textarea>

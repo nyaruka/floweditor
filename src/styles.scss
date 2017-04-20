@@ -32,6 +32,8 @@ $z_connectors: -1;
 $z_dragging: 100;
 $z_endpoints: 50;
 
+$node_width: 250px;
+
 
 body {
     background: $workspace;
@@ -40,6 +42,10 @@ body {
     font-weight: 400;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     margin: 0;
+
+    &.ReactModal__Body--open {
+        overflow: hidden;
+    }
 }
 
 #header {
@@ -254,6 +260,10 @@ body {
     }
 }
 
+.emph {
+    font-weight: 600;
+}
+
 #flow {
     position: relative;
     .loading {
@@ -269,6 +279,14 @@ body {
     }
 }
 
+.breaks {
+    word-wrap:break-word;
+}
+
+.url {
+    width: $node_width
+}
+
 .nodes {
     top: 0;
     height: 2000px;
@@ -279,7 +297,7 @@ body {
         position: absolute;
         border: 0px solid darkgray;
         background: #fff;
-        width: 250px;
+        width: $node_width;
         cursor: pointer;
         box-shadow: 1px 1px 3px 1px rgba(0,0,0, .2);
         display: table;

@@ -49,7 +49,7 @@ export class AddToGroup extends Renderer {
     props: Interfaces.AddToGroupProps;
 
     renderNode(): JSX.Element {
-        return <div>Not implemented</div>
+        return <div>{this.props.name}</div>
     }
 
     renderForm(): JSX.Element {
@@ -66,7 +66,7 @@ export class SaveToContact extends Renderer {
     props: Interfaces.SaveToContactProps;
 
     renderNode(): JSX.Element {
-        return <div>Not implemented</div>
+        return <div>Update value for <span className="emph">{this.props.name}</span></div>
     }
 
     renderForm(): JSX.Element {
@@ -97,8 +97,10 @@ export class SetLanguage extends Renderer {
 }
 
 export class Webhook extends Renderer {
+    props: Interfaces.WebhookProps;
+
     renderNode(): JSX.Element {
-        return <div>Not implemented</div>
+        return <div className="url breaks">{this.props.url}</div>
     }
 
     renderForm(): JSX.Element {

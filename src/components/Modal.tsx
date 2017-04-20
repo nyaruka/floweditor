@@ -52,15 +52,15 @@ export class Modal extends React.Component<ModalProps, {}> {
         var leftButtons: JSX.Element[] = [];
 
         if (this.props.cancel) {
-            rightButtons.push(<a key={Math.random()} href="#" data-type="cancel" className='btn cancel grey' onClick={this.props.onModalClose}>{this.props.cancel}</a>)
+            rightButtons.push(<a key={Math.random()} href="javascript:void(0);" data-type="cancel" className='btn cancel grey' onClick={this.props.onModalClose}>{this.props.cancel}</a>)
         }
         
         // no matter what, we'll have a primary button
-        rightButtons.push(<a key={Math.random()} href="#" data-type="ok" className='btn ok' onClick={this.props.onModalClose}>{this.props.ok ? this.props.ok : 'Ok'}</a>)
+        rightButtons.push(<a key={Math.random()} href="javascript:void(0);" data-type="ok" className='btn ok' onClick={this.props.onModalClose}>{this.props.ok ? this.props.ok : 'Ok'}</a>)
 
         // our left most button if we have one
         if (this.props.tertiary) {
-            leftButtons.push(<a key={Math.random()} href="#" data-type="tertiary" className='btn tertiary' onClick={this.props.onModalClose}>{this.props.tertiary}</a>)
+            leftButtons.push(<a key={Math.random()} href="javascript:void(0);" data-type="tertiary" className='btn tertiary' onClick={this.props.onModalClose}>{this.props.tertiary}</a>)
         }
         
 

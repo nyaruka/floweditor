@@ -45,6 +45,11 @@ export interface SetLanguageProps extends ActionProps {
     language: string;
 }
 
+export interface WebhookProps extends ActionProps {
+    url: string;
+    method: string;
+}
+
 export interface ExitProps {
     uuid: string;
     destination: string;
