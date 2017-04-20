@@ -119,7 +119,10 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
 
     componentDidUpdate(prevProps: Interfaces.NodeProps, prevState: NodeState) {
         console.log(this.props.uuid, 'updated');
-        Plumber.get().repaint(this.props.uuid);
+        
+        // TODO: determine why individual plumb repaint doesn't work
+        // Plumber.get().repaint(this.props.uuid);
+        Plumber.get().repaint();
     }
 
     setEditing(editing: boolean) {

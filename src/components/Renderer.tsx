@@ -67,7 +67,7 @@ export class SaveToContact extends Renderer {
     props: Interfaces.SaveToContactProps;
 
     renderNode(): JSX.Element {
-        return <div>Update value for <span className="emph">{this.props.name}</span></div>
+        return <div>Update <span className="emph">{this.props.name}</span></div>
     }
 
     renderForm(): JSX.Element {
@@ -104,6 +104,10 @@ export class Webhook extends Renderer {
     constructor(props: Interfaces.WebhookProps) {
         super(props);
         this.onChangeMethod = this.onChangeMethod.bind(this);
+        this.method = this.props.method
+        if (!this.method) {
+            this.method = 'GET'
+        }
     }
 
     onChangeMethod(evt: any) {
@@ -147,9 +151,6 @@ export class Webhook extends Renderer {
     
     submit(context: Interfaces.FlowContext, form: Element): void {
         var url: HTMLInputElement = $(form).find('input')[0] as HTMLInputElement;
-        if (!this.method) {
-            this.method = this.props.method;
-        }
         context.flow.updateAction(this.props.uuid, {$set: {uuid: this.props.uuid, type: "webhook", url: url.value, method: this.method}});
     }
 }

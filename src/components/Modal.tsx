@@ -179,14 +179,14 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         }
 
         // force a clean object form now that we are done
-        delete this.rendererMap[this.props.initial.type];
+        this.rendererMap = {};
         this.close();
     }
 
     onChangeType(event: any) {
         var type = event.target.value;
         this.setState({ 
-            renderer: this.getRenderer(type, {type: type} as Interfaces.NodeEditorProps),
+            renderer: this.getRenderer(type, {type: type, uuid:this.props.initial.uuid} as Interfaces.NodeEditorProps),
             config: this.getConfig(type)
         });
     }

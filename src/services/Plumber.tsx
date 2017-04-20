@@ -98,6 +98,7 @@ export class Plumber {
     }
 
     repaint(uuid?: string) {
+        console.log("Repainting", uuid);
         if (!uuid) {
             this.jsPlumb.recalculateOffsets();
             this.jsPlumb.repaintEverything();
