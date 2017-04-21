@@ -84,8 +84,11 @@ export class Plumber {
 
     connect(source: string, target: string) {
         if (source != null && target != null) {
-            // now make our new connection
-            return this.jsPlumb.connect({source: source, target: target, fireEvent: false});
+            // this.detach(source, target)
+            if (this.jsPlumb.select({source: source, target: target}).length == 0) {
+                // now make our new connection
+                return this.jsPlumb.connect({source: source, target: target, fireEvent: false});
+            }
         }
     }
 
@@ -98,7 +101,7 @@ export class Plumber {
     }
 
     repaint(uuid?: string) {
-        console.log("Repainting", uuid);
+        // console.log("Repainting", uuid);
         if (!uuid) {
             this.jsPlumb.recalculateOffsets();
             this.jsPlumb.repaintEverything();
@@ -112,16 +115,17 @@ export class Plumber {
 
     remove(uuid: string) {
         console.log('Deregistering', uuid, 'from jsplumb');
-        //this.jsPlumb.detachAllConnections(uuid);
+        this.jsPlumb.detachAllConnections(uuid);
         this.jsPlumb.removeAllEndpoints(uuid);
-        // this.jsPlumb.detach(uuid);
+        this.jsPlumb.detach(uuid);
+        // this.jsPlumb.remove(uuid);
     }
 
     reset() {
         this.jsPlumb.detachEveryConnection();
     }
 
-    connectAll(flow: FlowDefinition, onComplete: any = () => {}) {
+    connectAll(flow: FlowDefinition, onComplete: Function = () => {}) {
         console.log('Reconnecting plumbing..');
         // this will suspend drawing until all nodes are connected
         this.jsPlumb.ready(() => {

@@ -173,14 +173,14 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     
     onModalClose(event: any) {
         if ($(event.target).data('type') == 'ok') {
-            this.state.renderer.submit(this.context, this.form);
-        } else {
-            this.context.flow.onModalCancel();
+            this.state.renderer.submit(this.context, this.form);            
         }
+
+        this.context.flow.removeDragNode();
+        this.close();
 
         // force a clean object form now that we are done
         this.rendererMap = {};
-        this.close();
     }
 
     onChangeType(event: any) {

@@ -16,7 +16,7 @@ describe('Nodes', () => {
         beforeEach(() => {
             var testProps = {
                 _ui: {
-                    location: { x: 100, y: 200}
+                    position: { x: 100, y: 200}
                 },
                 uuid: 'abcd-1234'
             } as Interfaces.NodeProps;
@@ -48,7 +48,7 @@ describe('Nodes', () => {
         beforeEach(() => {
             testProps = {
                 _ui: {
-                    location: { x: 100, y: 200}
+                    position: { x: 100, y: 200}
                 },
                 actions: [{
                     uuid: 'action-1234',

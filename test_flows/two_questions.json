@@ -2,22 +2,32 @@
    "uuid":"flow1",
    "name":"U-Report Registration Flow",
    "language":"eng",
+   "_ui": {
+      "nodes": {
+        "node1": {
+          "position":{
+            "x":49,
+            "y":55
+          }
+        },
+        "node2": {
+          "position":{
+            "x":202,
+            "y":224
+          }
+        },
+        "node3": {
+          "position":{
+            "x":375,
+            "y":423
+          }
+        }
+      }
+   },
    "nodes":[
       {
-         "_ui":{
-            "location":{
-               "x":49,
-               "y":55
-            }
-         },
          "uuid":"node1",
-         "actions":[
-            {
-               "uuid":"action1",
-               "type":"msg",
-               "text":"What is your favorite color? (red/blue)"
-            }
-         ],
+         "actions":[],
          "wait":{
             "type":"msg",
             "timeout":600
@@ -60,20 +70,8 @@
          ]
       },
       {
-         "_ui":{
-            "location":{
-               "x":202,
-               "y":224
-            }
-         },
          "uuid":"node2",
-         "actions":[
-            {
-               "uuid":"action2",
-               "type":"msg",
-               "text":"What is your favorite soda? (pepsi/coke)"
-            }
-         ],
+         "actions":[],
          "wait":{
             "type":"msg",
             "timeout":600
@@ -116,12 +114,6 @@
          ]
       },
       {
-         "_ui":{
-            "location":{
-               "x":375,
-               "y":423
-            }
-         },
          "uuid":"node3",
          "actions":[
             {

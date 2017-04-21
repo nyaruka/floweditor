@@ -32,6 +32,8 @@ export class FlowStore {
     private static singleton: FlowStore = new FlowStore();
 
     private currentDefinition: Interfaces.FlowDefinition;
+    private contactFields: Interfaces.ContactField[];
+    private groups: Interfaces.Group[];
 
     static get(): FlowStore {
         return FlowStore.singleton;
@@ -44,8 +46,9 @@ export class FlowStore {
     loadFromUrl(url: string, onLoad: Function) {
         console.log('Loading from url', url);
         return axios.default.get(url).then((response: axios.AxiosResponse) => {
-            console.log('Fetched definition..');
-            onLoad(eval(response.data) as Interfaces.FlowDefinition);
+            let definition = eval(response.data) as Interfaces.FlowDefinition
+            this.initializeFlow(definition);
+            onLoad(definition);
         });
     }
 
@@ -62,14 +65,33 @@ export class FlowStore {
      */
     loadFlow(url: string, onLoad: Function, force: boolean) {
         if (storage('flow') && !force) {
-            onLoad(this.loadFromStorage());
+            let definition = this.loadFromStorage()
+            this.initializeFlow(definition);
+            onLoad(definition);
         } else {
             return this.loadFromUrl(url, onLoad);
         }
     }
+
+    initializeFlow(flow: Interfaces.FlowDefinition) {
+        // find out what contact fields, contacts, and groups we have in our definition
+        var fields: {[id:string]:Interfaces.ContactField} = {}
+        
+        for (let node of flow.nodes) {
+            if (node.actions) {
+                for (let action of node.actions) {
+                    if (action.type == 'save_to_contact') {
+                        var props = action as Interfaces.SaveToContactProps;
+                        if (!(props.field in fields)) {
+                            fields[props.field] = { uuid: props.field, name: props.name,}
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     save(definition: Interfaces.FlowDefinition) {
-        console.log('Saving flow', definition);
         storage.set('flow', definition);
     }
 }

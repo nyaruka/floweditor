@@ -34,7 +34,7 @@ $z_connectors: -1;
 $z_dragging: 100;
 $z_endpoints: 50;
 
-$node_width: 220px;
+$node_width: 200px;
 
 
 body {
@@ -357,11 +357,18 @@ body {
         background: #fff;
         width: $node_width;
         cursor: pointer;
-        box-shadow: 1px 1px 3px 1px rgba(0,0,0, .2);
+        box-shadow: 1px 1px 2px 0px rgba(0,0,0, .2);
+        border-left: 1px solid rgba(0,0,0, .1);
+        border-top: 1px solid rgba(0,0,0, .1);
         display: table;
         font-weight: 300;
 
-        &#drag-node {
+        &.jtk-drag {
+            box-shadow: 2px 2px 3px 1px rgba(0,0,0, .2);
+            z-index: $z_dragging;
+        }
+
+        &.drag {
             opacity: .5;
         }
 
@@ -407,7 +414,7 @@ body {
                     font-size: 12px;
                     text-align:center;
                     border-left: 1px solid $borders;
-                    border-top: 1px solid $borders;
+                    // border-top: 1px solid $borders;
                     padding-top: 8px;
                     display: table-cell; 
 
@@ -443,7 +450,7 @@ body {
 
                         &.jtk-connected {
                             background: $path_color;
-                            border: 3px solid $path_color - #111;
+                            border: 2px solid $path_color - #111;
                         }
                     }
                 }
@@ -546,9 +553,8 @@ body {
     }
 }
 
-.z-depth-4 {
-    z-index: $z_dragging;
-}
+
+
 
 // general styles
 .shrink{

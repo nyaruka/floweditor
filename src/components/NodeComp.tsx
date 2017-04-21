@@ -104,8 +104,13 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
         );
 
         // make ourselves a target
-        // console.log('Mounting', this.props.uuid);
+        console.log('Mounting', this.props.uuid);
         plumber.makeTarget(this.props.uuid);
+
+        // update our props with our current location
+        if (this.props.pendingConnection) {
+            this.context.flow.updateExit(this.props.pendingConnection, { $merge:{ destination: this.props.uuid}});
+        }
 
         // $(this.ele).find('.exits').on('mouseup', this.onClick);
     }
@@ -182,7 +187,7 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
             />
         } else {
             if (actions.length == 0) {
-                header = <div className={"split-title " + this.props.router.type} {...events}>Split</div>
+                header = <div className={"split-title switch"} {...events}>Split</div>
             }
         }
 
@@ -196,11 +201,13 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
         }
 
         var modalTitle = <div>Router</div>
-        var depth = this.state.dragging ? "z-depth-4" : "z-depth-1"
-
+        var classes = this.state.dragging ? " z-depth-4" : " z-depth-1"
+        if (this.props.drag) {
+            classes += " drag"
+        }
 
         return(
-                <div className={"node " + depth}
+                <div className={"node" + classes}
                     ref={(ele: any) => { this.ele = ele }}
                     id={this.props.uuid}
                     style={{
