@@ -11,7 +11,7 @@ import {FlowDefinition} from '../interfaces';
 var UUID = require('uuid');
 
 var update = require('immutability-helper');
-var forceFetch = true;
+var forceFetch = false;
 
 export interface FlowProps {
     url: string;
@@ -41,8 +41,6 @@ interface ConnectionEvent {
  * calling into our Plumber as necessary.
  */
 export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
-
-    // private ghostProps = { uuid={UUID.v4()} _ui={{ location: { x: 0, y: 0}} as Interfaces.UIMetaDataProps} key={Math.random()}};
 
     private dragNode: NodeComp;
     private promises: any[] = [];
@@ -234,7 +232,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      */
     updateExit(uuid: string, changes: any, current: FlowDefinition = null) {
 
-        console.log('exit', uuid, changes);
+        // console.log('exit', uuid, changes);
 
         var save = current == null;
         if (current == null) {

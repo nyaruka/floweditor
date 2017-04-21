@@ -104,7 +104,7 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
         );
 
         // make ourselves a target
-        console.log('Mounting', this.props.uuid);
+        // console.log('Mounting', this.props.uuid);
         plumber.makeTarget(this.props.uuid);
 
         // update our props with our current location
