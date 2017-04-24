@@ -45,7 +45,7 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
 
     render() {
         let config = Config.get().getTypeConfig(this.props.type);
-        let renderer = new config.renderer(this.props);
+        let renderer = new config.renderer(this.props, this.context);
 
         var events = {}
         if (!this.context.node.isDragNode()) {

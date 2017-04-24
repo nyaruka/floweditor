@@ -7,8 +7,8 @@ export class Webhook extends Renderer {
     props: Interfaces.WebhookProps;
     method: string;
 
-    constructor(props: Interfaces.WebhookProps) {
-        super(props);
+    constructor(props: Interfaces.WebhookProps, context: Interfaces.FlowContext) {
+        super(props, context);
         this.onChangeMethod = this.onChangeMethod.bind(this);
         this.method = this.props.method
         if (!this.method) {
@@ -47,14 +47,14 @@ export class Webhook extends Renderer {
                 <pre className="code">{
                     `{ "product": "Solar Charging Kit", "stock_level": 32 }`
                 }</pre>
-                <div className="help-text" style={{textAlign: 'center', marginTop: '-6px'}}>In this example @webhook.json.product would be available in all future steps.</div>
+                <div className="form-help" style={{textAlign: 'center', marginTop: '-6px'}}>In this example @webhook.json.product would be available in all future steps.</div>
             </div>
         )
     }
     
-    submit(context: Interfaces.FlowContext, form: Element): void {
+    submit(form: Element): void {
         var url: HTMLInputElement = $(form).find('input')[0] as HTMLInputElement;
-        context.flow.updateAction(this.props.uuid, {$set: {uuid: this.props.uuid, type: "webhook", url: url.value, method: this.method}});
+        this.context.flow.updateAction(this.props.uuid, {$set: {uuid: this.props.uuid, type: "webhook", url: url.value, method: this.method}});
     }
 }
 

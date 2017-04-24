@@ -14,8 +14,10 @@ var update = require('immutability-helper');
 var forceFetch = false;
 
 export interface FlowProps {
-    url: string;
-    engineUrl: string;
+    flowURL: string;
+    engineURL: string;
+    contactsURL: string;
+    fieldsURL: string;
 }
 
 export interface FlowState {
@@ -265,7 +267,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     }
 
     componentDidMount() {
-        var promise = FlowStore.get().loadFlow(this.props.url, (definition: FlowDefinition)=>{
+        var promise = FlowStore.get().loadFlow(this.props.flowURL, (definition: FlowDefinition)=>{
             this.setDefinition(definition);
         }, forceFetch);
 
@@ -441,7 +443,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         console.log('##################### Rendering flow');
         return(
             <div>
-                {/*<SimulatorComp engineUrl={this.props.engineUrl}/>*/}
+                {/*<SimulatorComp engineURL={this.props.engineUrl}/>*/}
                 <div id="flow" className={this.state.loading ? "loading" : ""}>
                     <div className="nodes">
                     {nodes}

@@ -12,7 +12,7 @@ export class RandomRouter extends Renderer {
         return <div>Random split editor goes here</div>
     }
     
-    submit(context: Interfaces.FlowContext, form: Element): void {
+    submit(form: Element): void {
         
     }
 }

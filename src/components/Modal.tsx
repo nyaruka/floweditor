@@ -162,7 +162,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     getRenderer (type: string, props?: Interfaces.NodeEditorProps): Renderer.Renderer {
         if (!(type in this.rendererMap)) {
             let config = this.getConfig(type);
-            this.rendererMap[type] = new config.renderer(props);
+            this.rendererMap[type] = new config.renderer(props, this.context);
         }
         return this.rendererMap[type]
     }
@@ -173,7 +173,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     
     onModalClose(event: any) {
         if ($(event.target).data('type') == 'ok') {
-            this.state.renderer.submit(this.context, this.form);            
+            this.state.renderer.submit(this.form);            
         }
 
         this.context.flow.removeDragNode();

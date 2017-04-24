@@ -15,7 +15,7 @@ export class SetLanguage extends Renderer {
         return <div>Not implemented</div>
     }
 
-    submit(): void {
+    submit(form: Element): void {
         
     }
 }

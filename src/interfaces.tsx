@@ -1,6 +1,6 @@
 import FlowComp from './components/FlowComp'
 import NodeComp from './components/NodeComp'
-import * as Renderer from './components/Renderer';
+import Renderer from './components/Renderer';
 
 export interface FlowContext {
     flow: FlowComp;
@@ -33,10 +33,11 @@ export interface LocationProps {
 export interface NodeEditorProps {
     type: string;
     uuid: string;
+    renderer: Renderer;
 }
 
-export interface ActionProps extends NodeEditorProps{
-    renderer: Renderer.Renderer;
+export interface ActionProps extends NodeEditorProps {
+
 }
 
 export interface AddToGroupProps extends ActionProps {
@@ -90,10 +91,22 @@ export interface TypeConfig {
     type: string;
     name: string;
     description: string;
-    renderer: {new(props: NodeEditorProps): Renderer.Renderer};
+    renderer: {new(props: NodeEditorProps, context: FlowContext): Renderer};
 }
 
 export interface FlowDefinition {
     nodes: NodeProps[]
     _ui: UIMetaDataProps
+}
+
+export interface SearchResult {
+    name: string,
+    id: string,
+    type: string,
+    prefix?: string,
+    created?: boolean
+}
+
+export interface ContactFieldResult extends SearchResult {
+    key: string
 }

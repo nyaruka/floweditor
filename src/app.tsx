@@ -8,11 +8,18 @@ import FlowStore from './services/FlowStore';
 import './styles.scss';
 import 'react-select2-wrapper/css/select2.css';
 
-var url = 'test_flows/signup.json';
+var contacts = 'http://localhost:9000/assets/contacts.json';
+var fields = 'http://localhost:9000/assets/fields.json'
+
+var flow = 'test_flows/signup.json';
 // var url = 'test_flows/two_questions.json';
 var engineUrl = 'http://localhost:8080';
 
 ReactDOM.render(
-  <FlowComp url={url} engineUrl={engineUrl}/>,
+  <FlowComp  
+    engineURL={engineUrl}
+    contactsURL={contacts}
+    fieldsURL={fields}
+    flowURL={flow}/>,
   document.getElementById("root")
 );

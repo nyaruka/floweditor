@@ -8,7 +8,7 @@ interface Message {
 }
 
 interface SimulatorProps {
-    engineUrl: string;
+    engineURL: string;
 }
 
 interface SimulatorState {
@@ -74,7 +74,7 @@ export class SimulatorComp extends React.Component<SimulatorProps, SimulatorStat
             body.context = {};
         }
 
-        axios.default.post(this.props.engineUrl + '/execute', JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
+        axios.default.post(this.props.engineURL + '/execute', JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
             this.setState({ context: eval(response.data) as Context })
         });
 

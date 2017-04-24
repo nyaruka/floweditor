@@ -177,7 +177,7 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
         var modal = null;
         if (this.props.router) {
             let config = Config.get().getTypeConfig(this.props.router.type);
-            let renderer = new config.renderer(this.props.router);
+            let renderer = new config.renderer(this.props.router, this.context);
             header = <div className={"split-title " + this.props.router.type} {...events}>{config.name}</div>
             modal = <NodeModal 
                 ref={(ele: any) => {this.modal = ele}} 

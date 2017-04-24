@@ -26,15 +26,14 @@ export class UINodeMetaData implements Interfaces.UINode {
 }
 
 
-
 export class FlowStore {
 
     private static singleton: FlowStore = new FlowStore();
 
     private currentDefinition: Interfaces.FlowDefinition;
     
-    private contactFields: {[uuid:string]:Interfaces.ContactField};
-    private groups: {[uuid:string]:Interfaces.Group};
+    private contactFields: Interfaces.SearchResult[];
+    private groups: Interfaces.SearchResult[];
 
     static get(): FlowStore {
         return FlowStore.singleton;
@@ -42,6 +41,10 @@ export class FlowStore {
 
     private constructor() {
         console.log('init flow store');
+    }
+
+    public getContactFields() {
+        return this.contactFields;
     }
 
     loadFromUrl(url: string, onLoad: Function) {
@@ -73,10 +76,18 @@ export class FlowStore {
             return this.loadFromUrl(url, onLoad);
         }
     }
+    
+    save(definition: Interfaces.FlowDefinition) {
+        storage.set('flow', definition);
+    }
 
-    initializeFlow(flow: Interfaces.FlowDefinition) {
+    public getGroups() {
+        return this.groups;
+    }
+
+    private initializeFlow(flow: Interfaces.FlowDefinition) {
         // find out what contact fields, contacts, and groups we have in our definition
-        var fields: {[id:string]:Interfaces.ContactField} = {}
+        var fields: {[id:string]:Interfaces.SearchResult} = {}
         var groups: {[id:string]:Interfaces.Group} = {}
 
         for (let node of flow.nodes) {
@@ -85,7 +96,7 @@ export class FlowStore {
                     if (action.type == 'save_to_contact') {
                         var saveProps = action as Interfaces.SaveToContactProps;
                         if (!(saveProps.field in fields)) {
-                            fields[saveProps.field] = { uuid: saveProps.field, name: saveProps.name}
+                            fields[saveProps.field] = { id: saveProps.field, name: saveProps.name, type: "field" }
                         }
                     } else if (action.type == 'add_group') {
                         var addGroupProps = action as Interfaces.AddToGroupProps;
@@ -97,12 +108,10 @@ export class FlowStore {
             }
         }
 
-        this.contactFields = fields;
-        this.groups = groups;
-    }
-    
-    save(definition: Interfaces.FlowDefinition) {
-        storage.set('flow', definition);
+        this.contactFields = []
+        for (var key in fields) {
+            this.contactFields.push(fields[key]);
+        }
     }
 }
 

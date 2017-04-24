@@ -12,7 +12,7 @@ export class SwitchRouter extends Renderer {
         return <div>Rule editor goes here</div>
     }
     
-    submit(context: Interfaces.FlowContext, form: Element): void {
+    submit(form: Element): void {
         
     }
 }
