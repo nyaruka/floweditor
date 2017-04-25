@@ -15,7 +15,11 @@ export class SetLanguage extends Renderer {
         return <div>Not implemented</div>
     }
 
-    submit(form: Element): void {
+    validate(control: any): string {
+        return null;
+    }
+
+    submit(form: HTMLFormElement): void {
         
     }
 }

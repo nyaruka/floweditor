@@ -12,7 +12,11 @@ export class SwitchRouter extends Renderer {
         return <div>Rule editor goes here</div>
     }
     
-    submit(form: Element): void {
+    validate(control: any): string {
+        return null;
+    }
+
+    submit(form: HTMLFormElement): void {
         
     }
 }

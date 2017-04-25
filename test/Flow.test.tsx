@@ -14,7 +14,7 @@ describe('Flow', () => {
     afterEach(() => {});
 
     it('should render', () => {
-        let wrapper = mount(<FlowComp url='base/test_flows/two_questions.json' engineUrl=''/>);
+        let wrapper = mount(<FlowComp flowURL='base/test_flows/two_questions.json' engineURL='' contactsURL='' fieldsURL=''/>);
         chai.assert.isNotNull(wrapper);
 
         // TODO: determine strategy for testing upon completed axios call in componentDidUpdate

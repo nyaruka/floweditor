@@ -14,10 +14,15 @@ export class AddToGroup extends Renderer {
     renderForm(): JSX.Element {
         return <div>Not implemented</div>
     }
-
-    submit(): void {
-
+    
+    validate(control: any): string {
+        return null;
     }
+
+    submit(form: HTMLFormElement): void {
+        
+    }
+
 }
 
 export default AddToGroup;

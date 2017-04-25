@@ -47,7 +47,11 @@ export class SaveToContact extends Renderer {
         )
     }
 
-    submit(form: Element): void {
+    validate(control: any): string {
+        return null;
+    }
+
+    submit(form: HTMLFormElement): void {
         let selections = this.fieldSelect.getSelection();
         if (selections.length > 0) {
             let selection = selections[0];

@@ -29,27 +29,54 @@ export class Webhook extends Renderer {
             <div>
                 <p>Using a Webhook you can trigger actions in external services or fetch data to use in this Flow. Enter a URL to call below.</p>
                 <div>
-                    <div style={{width: '15%', display: 'inline-block'}}>
-                    <Select2
-                        className="method"
-                        style={{width: 'auto'}}
-                        value={this.props.method}
-                        onChange={this.onChangeMethod}
-                        options={{ minimumResultsForSearch: -1 }}
-                        data={[{id: 'GET', text: 'GET'}, {id: 'POST', text: 'POST'}]}
-                    />
+                    <div className="form-group" style={{verticalAlign:'top', width: '70px', display: 'inline-block'}}>
+                        <Select2
+                            name="method"
+                            className="method form-control"
+                            style={{width: 'auto'}}
+                            value={this.props.method}
+                            onChange={this.onChangeMethod}
+                            options={{ minimumResultsForSearch: -1 }}
+                            data={[{id: 'GET', text: 'GET'}, {id: 'POST', text: 'POST'}]}
+                        />
                     </div>
-                    <div style={{width: '85%', display: 'inline-block', textAlign: 'right'}}>
-                        <input name="url" className="url" defaultValue={this.props.url}/>
+                    <div style={{display:'inline-block', width:'10px'}}/>
+                    <div className="form-group" style={{width: '438px', verticalAlign:"top", display: 'inline-block'}}>
+                        <input name="url" className="url form-control" defaultValue={this.props.url}/>
+                        <div className="error"></div>
                     </div>
                 </div>
-                <p>If your server responds with JSON, each property will be added to Flow.</p>
-                <pre className="code">{
-                    `{ "product": "Solar Charging Kit", "stock_level": 32 }`
-                }</pre>
-                <div className="form-help" style={{textAlign: 'center', marginTop: '-6px'}}>In this example @webhook.json.product would be available in all future steps.</div>
+                <div className="form-group">
+                    <p>If your server responds with JSON, each property will be added to Flow.</p>
+                    <pre className="code">{
+                        `{ "product": "Solar Charging Kit", "stock_level": 32 }`
+                    }</pre>
+                    <div className="form-help" style={{textAlign: 'center', marginTop: '-6px'}}>In this example @webhook.json.product would be available in all future steps.</div>
+                </div>
             </div>
         )
+    }
+
+    private isValidURL(string: string) {
+        var pattern = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/; // fragment locater
+
+        console.log(pattern.test(string))
+
+        if(!pattern.test(string)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    validate(control: any): string {
+        if (control.name == "url") {
+            var input = control as HTMLInputElement;
+            if (!this.isValidURL(input.value)) {
+                return "Enter a valid URL";
+            }
+        }
+        return null;
     }
     
     submit(form: Element): void {

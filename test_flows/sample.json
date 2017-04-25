@@ -1,0 +1,69 @@
+{
+  "uuid":"flow1",
+  "name":"Registration Flow",
+  "language":"eng",
+  "nodes":[
+     {
+        "uuid":"node1",
+        "actions":[{
+              "uuid": "node1-action1",
+              "type":"msg",
+              "text": "Hi! What is your name?"
+           }],
+        "exits": [{
+          "uuid": "node1-exit1",
+          "destination": "node2"
+        }]
+      },{
+        "uuid": "node2",
+        "wait": {
+           "type": "msg",
+           "timeout": 600
+        },
+        "router":{
+           "type":"switch",
+           "default": "node2-exit2",
+           "name": "name",
+           "operand": "@input",
+           "cases": [{
+               "uuid": "node2-case1",
+               "type": "has_text",
+               "exit": "node2-exit1"
+             }
+           ]
+        },
+        "exits":[{
+              "uuid":"node2-exit1",
+              "name":"Has Name",
+              "destination":"node3"
+           },
+           {
+              "uuid":"node2-exit2",
+              "name":"Other",
+              "destination":"node1"
+           }
+        ]
+     },{
+        "uuid":"node3",
+        "actions":[{
+              "uuid": "node3-action1",
+              "field": "field1",
+              "type": "save_to_contact",
+              "name": "name",
+              "value": "@input.text"
+           },
+           {
+              "uuid": "node3-action2",
+              "type": "add_to_group",
+              "group": "group2",
+              "name": "Registered Users"
+           },
+           {
+            "uuid": "node3-action3 ",
+            "type": "msg",
+            "text": "Great, you are @contact.name, thanks for joining!"
+          }
+        ]
+     }
+  ]
+}

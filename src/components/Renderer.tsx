@@ -18,7 +18,8 @@ export abstract class Renderer {
 
     renderNode(): JSX.Element { return; }
     abstract renderForm(): JSX.Element;
-    abstract submit(form: Element): void;
+    abstract validate(ele: any): string;
+    abstract submit(form: HTMLFormElement): void;
 }
 
 export default Renderer;

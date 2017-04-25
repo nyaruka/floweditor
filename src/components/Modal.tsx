@@ -27,7 +27,7 @@ interface ModalProps {
  */
 export class Modal extends React.Component<ModalProps, {}> {
 
-    private ele: any
+    private ele: HTMLElement
 
     constructor(props: ModalProps) {
         super(props);
@@ -172,15 +172,36 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     }
     
     onModalClose(event: any) {
+
+        var close = true;
         if ($(event.target).data('type') == 'ok') {
-            this.state.renderer.submit(this.form);            
+            $(this.form.elements).each((index: number, ele: HTMLFormElement) => {
+                if (ele.name) {
+                    var error = this.state.renderer.validate(ele);
+                    if (error) {
+                        var group = $(ele).parents('.form-group')
+                        group.addClass('invalid');
+                        group.find('.error').text(error);
+                        close = false;
+                    } else {
+                        $(ele).parents('.form-group').removeClass('invalid');
+                    }
+                }
+            });
+
+            // if we are still valid, proceed with submit
+            if (close) {
+                this.state.renderer.submit(this.form);
+            }
         }
 
-        this.context.flow.removeDragNode();
-        this.close();
+        if (close) {
+            this.context.flow.removeDragNode();
+            this.close();
 
-        // force a clean object form now that we are done
-        this.rendererMap = {};
+            // force a clean object form now that we are done
+            this.rendererMap = {};
+        }
     }
 
     onChangeType(event: any) {

@@ -69,6 +69,10 @@ export class Select2Search extends React.Component<Select2SearchProps, {}> {
         return (field.name.toLowerCase().indexOf(term) > -1);
     }
 
+    private sortResults(a: SearchResult, b: SearchResult): number {
+        return a.name.localeCompare(b.name);
+    }
+
     /**
      * Takes our results from our endpoint, merges them with our additional options
      * and then filters it by the search term, sorting the results
@@ -101,6 +105,9 @@ export class Select2Search extends React.Component<Select2SearchProps, {}> {
                 }
             }
         }
+
+        // sort our final results
+        results.sort(this.sortResults);
 
         // TODO: sort results alpha with contact name at top
         params.page = params.page || 1;

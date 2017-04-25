@@ -12,7 +12,11 @@ export class RandomRouter extends Renderer {
         return <div>Random split editor goes here</div>
     }
     
-    submit(form: Element): void {
+    validate(control: any): string {
+        return null;
+    }
+
+    submit(form: HTMLFormElement): void {
         
     }
 }
