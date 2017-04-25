@@ -24,6 +24,9 @@ export interface FlowState {
     definition?: FlowDefinition;
     draggingFrom: string;
     loading: boolean;
+
+    contactFields?: Interfaces.SearchResult[];
+    groups?: Interfaces.SearchResult[];
 }
 
 interface Connection {
@@ -53,6 +56,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
 
     constructor(props: FlowProps) {
         super(props);
+
         this.state = {
             draggingFrom: null,
             loading: true
@@ -61,10 +65,16 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         this.onConnectionDrag = this.onConnectionDrag.bind(this);
     }
 
+
+
     getChildContext(): Interfaces.FlowContext {
         return {
             flow: this
         }
+    }
+
+    public getContactFields() {
+        return this.state.contactFields;
     }
 
     /**
@@ -291,9 +301,37 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     componentDidUpdate(prevProps: FlowProps, prevState: FlowState) {
         if (this.state.definition) {
             if (!prevState.definition) {
+
+                var fields: {[id:string]:Interfaces.SearchResult} = {}
+                var groups: {[id:string]:Interfaces.Group} = {}
+
+                for (let node of this.state.definition.nodes) {
+                    if (node.actions) {
+                        for (let action of node.actions) {
+                            if (action.type == 'save_to_contact') {
+                                var saveProps = action as Interfaces.SaveToContactProps;
+                                if (!(saveProps.field in fields)) {
+                                    fields[saveProps.field] = { id: saveProps.field, name: saveProps.name, type: "field" }
+                                    console.log(saveProps.field, saveProps.name);
+                                }
+                            } else if (action.type == 'add_group') {
+                                var addGroupProps = action as Interfaces.AddToGroupProps;
+                                if (!(addGroupProps.uuid in groups)) {
+                                    groups[addGroupProps.uuid] = { uuid: addGroupProps.uuid, name: addGroupProps.name}
+                                }
+                            }
+                        }
+                    }
+                }
+
+                var contactFields: Interfaces.SearchResult[] = []
+                for (var key in fields) {
+                    contactFields.push(fields[key]);
+                }
+
                 Plumber.get().connectAll(this.state.definition, ()=>{
                     console.log("Connecting everything..");
-                    this.setState({loading: false});
+                    this.setState({loading: false, contactFields: contactFields});
                     Plumber.get().repaint();
                 });
             }
@@ -303,6 +341,15 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
             // console.log('no longer dragging, detaching from');
             Plumber.get().detach(prevState.draggingFrom, 'drag-node');
         }
+    }
+
+    /**
+     * Adds a contact field option
+     */
+    public addContactField(field: Interfaces.SearchResult) {
+        // normally you want to use setState, but we explicitly 
+        // don't care about re-renders here
+        this.state.contactFields.push(field);
     }
 
     /**

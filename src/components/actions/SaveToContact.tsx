@@ -28,7 +28,7 @@ export class SaveToContact extends Renderer {
                     <Select2Search 
                         ref={(ele: any) => {this.fieldSelect = ele}} 
                         url={this.context.flow.props.fieldsURL} 
-                        additionalOptions={FlowStore.get().getContactFields()}
+                        additionalOptions={this.context.flow.getContactFields()}
                         addSearchOption="field"
                         initial={{
                             id: this.props.field,
@@ -67,8 +67,8 @@ export class SaveToContact extends Renderer {
             }});
 
             // if this was a newly created field, add it to our main list
-            if (selection.created) { 
-                FlowStore.get().getContactFields().push({
+            if (selection.created) {
+                this.context.flow.addContactField({
                     id: selection.id,
                     name: selection.name,
                     type: selection.type

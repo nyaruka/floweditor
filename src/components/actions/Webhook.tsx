@@ -29,7 +29,7 @@ export class Webhook extends Renderer {
             <div>
                 <p>Using a Webhook you can trigger actions in external services or fetch data to use in this Flow. Enter a URL to call below.</p>
                 <div>
-                    <div className="form-group" style={{verticalAlign:'top', width: '70px', display: 'inline-block'}}>
+                    <div className="form-group" style={{verticalAlign:'top', width: '15%', display: 'inline-block'}}>
                         <Select2
                             name="method"
                             className="method form-control"
@@ -40,8 +40,8 @@ export class Webhook extends Renderer {
                             data={[{id: 'GET', text: 'GET'}, {id: 'POST', text: 'POST'}]}
                         />
                     </div>
-                    <div style={{display:'inline-block', width:'10px'}}/>
-                    <div className="form-group" style={{width: '438px', verticalAlign:"top", display: 'inline-block'}}>
+                    <div style={{display:'inline-block', width:'2%'}}/>
+                    <div className="form-group" style={{width: '83%', verticalAlign:"top", display: 'inline-block'}}>
                         <input name="url" className="url form-control" defaultValue={this.props.url}/>
                         <div className="error"></div>
                     </div>

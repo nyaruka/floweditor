@@ -31,6 +31,12 @@ export class Select2Search extends React.Component<Select2SearchProps, {}> {
         this.createOption = this.createOption.bind(this);
     }
 
+    /**
+     * Gets the current selection as SearchResult[]
+     */
+    public getSelection(): SearchResult[] {
+        return $(this.ele.el).select2("data");
+    }
 
     /**
      * Format a single search result option
@@ -57,10 +63,6 @@ export class Select2Search extends React.Component<Select2SearchProps, {}> {
         return selection.name;
     }
 
-    public getSelection(): SearchResult[] {
-        return $(this.ele.el).select2("data");
-    }
-
     /**
      * Does the contact field match. This should be the same contract as the remote
      * endpoint serving up contact field searches.
@@ -69,8 +71,29 @@ export class Select2Search extends React.Component<Select2SearchProps, {}> {
         return (field.name.toLowerCase().indexOf(term) > -1);
     }
 
+    /**
+     * Sorts all search results by name
+     */
     private sortResults(a: SearchResult, b: SearchResult): number {
         return a.name.localeCompare(b.name);
+    }
+
+    /**
+     * Adds a result to our list of results if it's not already present
+     * @param results the results so far
+     * @param result the result to add
+     */
+    private addSearchResult(results: SearchResult[], result: SearchResult) {
+        var exists = false;
+        for(var r of results) {
+            if (r.id == result.id) {
+                exists = true;
+                break;
+            }
+        }
+        if (!exists) {
+            results.push(result);
+        }
     }
 
     /**
@@ -79,7 +102,7 @@ export class Select2Search extends React.Component<Select2SearchProps, {}> {
      */
     private processResults (data: any, params: SearchParams) {
         
-        var results = []
+        var results: SearchResult[] = []
 
         // iterate over endpoint results and additional options
         for (let result of data.results.concat(this.props.additionalOptions)) {
@@ -87,11 +110,11 @@ export class Select2Search extends React.Component<Select2SearchProps, {}> {
                 let term = params.term.toLowerCase()
                 if (result.type == "field") {
                     if (this.contactFieldMatches(result as ContactFieldResult, term)) {
-                        results.push(result);
+                        this.addSearchResult(results, result);
                     }
                 }
             } else {
-                results.push(result);
+                this.addSearchResult(results, result);
             }
         }
 
