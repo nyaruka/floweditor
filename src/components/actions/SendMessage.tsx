@@ -17,13 +17,20 @@ export class SendMessage extends Renderer {
     
     renderForm() { 
         return (
-            <div>
-                <textarea className="definition" defaultValue={this.props.text}></textarea>
+            <div className="form-group">
+                <textarea name="message" className="form-control definition" defaultValue={this.props.text}></textarea>
+                <div className="error"></div>
             </div>
         )
     }
     
     validate(control: any): string {
+        if (control.name == "message") {
+            let textarea = control as HTMLTextAreaElement;
+            if (textarea.value.trim().length == 0) {
+                return "Message content is required";
+            }
+        }
         return null;
     }
 

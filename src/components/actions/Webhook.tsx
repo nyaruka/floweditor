@@ -73,7 +73,7 @@ export class Webhook extends Renderer {
         if (control.name == "url") {
             var input = control as HTMLInputElement;
             if (!this.isValidURL(input.value)) {
-                return "Enter a valid URL";
+                return "A valid URL is required";
             }
         }
         return null;

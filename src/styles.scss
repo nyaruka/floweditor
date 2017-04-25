@@ -35,6 +35,7 @@ $path_color: #98C0D9;
 $z_connectors: -1;
 $z_dragging: 100;
 $z_endpoints: 50;
+$z_modal: 200;
 
 $node_width: 200px;
 
@@ -168,6 +169,7 @@ body {
 
 .ReactModal__Overlay {
     background-color: rgba(0, 0, 0, .6) !important;
+    z-index: $z_modal;
 }
 
 .ReactModal__Content {
@@ -216,9 +218,10 @@ body {
             }
 
             &.invalid {
-                input {
+                input, textarea {
                     border-color: $error_color;
                 }
+
                 .error {
                     display: block;
                 }
