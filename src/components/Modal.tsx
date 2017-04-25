@@ -56,13 +56,12 @@ export class Modal extends React.Component<ModalProps, {}> {
         }
         
         // no matter what, we'll have a primary button
-        rightButtons.push(<a key={Math.random()} href="javascript:void(0);" data-type="ok" className='btn ok' onClick={this.props.onModalClose}>{this.props.ok ? this.props.ok : 'Ok'}</a>)
+        rightButtons.push(<a tabIndex={0} key={Math.random()} href="javascript:void(0);" data-type="ok" className='btn ok' onClick={this.props.onModalClose}>{this.props.ok ? this.props.ok : 'Ok'}</a>)
 
         // our left most button if we have one
         if (this.props.tertiary) {
             leftButtons.push(<a key={Math.random()} href="javascript:void(0);" data-type="tertiary" className='btn tertiary' onClick={this.props.onModalClose}>{this.props.tertiary}</a>)
         }
-        
 
         return (
             <ReactModal
@@ -134,9 +133,11 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
             config: this.getConfig(this.props.initial.type)
         }
 
-        this.onModalClose = this.onModalClose.bind(this);
+        this.onModalButtonClick = this.onModalButtonClick.bind(this);
         this.onModalOpen = this.onModalOpen.bind(this);
-        this.onChangeType = this.onChangeType.bind(this);
+        this.onChangeRenderer = this.onChangeRenderer.bind(this);
+        this.onKeyPress = this.onKeyPress.bind(this);
+        this.processForm = this.processForm.bind(this);
     }
 
     open() {
@@ -170,46 +171,69 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     onModalOpen() {
 
     }
-    
-    onModalClose(event: any) {
 
-        var close = true;
-        if ($(event.target).data('type') == 'ok') {
-            $(this.form.elements).each((index: number, ele: HTMLFormElement) => {
-                if (ele.name) {
-                    var error = this.state.renderer.validate(ele);
-                    if (error) {
-                        var group = $(ele).parents('.form-group')
-                        group.addClass('invalid');
-                        group.find('.error').text(error);
-                        close = false;
-                    } else {
-                        $(ele).parents('.form-group').removeClass('invalid');
-                    }
+    processForm() {
+        var valid = true;
+        $(this.form.elements).each((index: number, ele: HTMLFormElement) => {
+            if (ele.name) {
+                var error = this.state.renderer.validate(ele);
+                if (error) {
+                    var group = $(ele).parents('.form-group')
+                    group.addClass('invalid');
+                    group.find('.error').text(error);
+                    valid = false;
+                } else {
+                    $(ele).parents('.form-group').removeClass('invalid');
                 }
-            });
-
-            // if we are still valid, proceed with submit
-            if (close) {
-                this.state.renderer.submit(this.form);
             }
-        }
+        });
 
-        if (close) {
-            this.context.flow.removeDragNode();
-            this.close();
-
-            // force a clean object form now that we are done
-            this.rendererMap = {};
+        // if we are still valid, proceed with submit
+        if (valid) {
+            this.state.renderer.submit(this.form);
+            this.closeModal();
         }
     }
 
-    onChangeType(event: any) {
+    private closeModal() {
+        this.context.flow.removeDragNode();
+        this.close();
+
+        // force a clean object form now that we are done
+        this.rendererMap = {};
+    }
+
+    private onModalButtonClick(event: any) {
+        if ($(event.target).data('type') == 'ok') {
+            this.processForm();
+        } else {
+            this.closeModal();
+        }
+    }
+
+    /**
+     * A change to our renderer type
+     */
+    private onChangeRenderer(event: any) {
         var type = event.target.value;
         this.setState({ 
             renderer: this.getRenderer(type, {type: type, uuid:this.props.initial.uuid} as Interfaces.NodeEditorProps),
             config: this.getConfig(type)
         });
+    }
+
+    /**
+     * Allow enter key to submit our form
+     */
+    private onKeyPress(event: React.KeyboardEvent<HTMLFormElement>) {
+        // enter key
+        if (event.which == 13) {
+            var isTextarea = $(event.target).prop("tagName") == 'TEXTAREA'
+            if (!isTextarea || event.shiftKey) {
+                event.preventDefault();
+                this.processForm();
+            }
+        }
     }
 
     render() {
@@ -229,7 +253,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                     <Select2
                         className={"change-type"}
                         value={renderer.props.type}
-                        onChange={this.onChangeType}
+                        onChange={this.onChangeRenderer}
                         data={data}
                     />
                 </div>
@@ -243,14 +267,14 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                 title={<div>{this.state.config.name}</div>}
                 className={renderer.getClassName()}
                 show={this.state.show}
-                onModalClose={this.onModalClose}
+                onModalClose={this.onModalButtonClick}
                 onModalOpen={this.onModalOpen}
                 ok='Save'
                 cancel='Cancel'
                 >
                 
                 <div className="node-editor">
-                    <form ref={(ele: any) => { this.form = ele; }}>
+                    <form onKeyPress={this.onKeyPress}  ref={(ele: any) => { this.form = ele; }}>
                         {changeOptions}
                         <div className="widgets">{renderer.renderForm()}</div>
                     </form>
