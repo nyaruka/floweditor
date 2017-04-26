@@ -65,5 +65,10 @@
           }
         ]
      }
-  ]
+  ],
+  "_ui": { "nodes": {
+    "node1":{ "position": {"x":0, "y":0}},
+    "node2":{ "position": {"x":0, "y":0}},
+    "node3":{ "position": {"x":0, "y":0}}
+  }}
 }

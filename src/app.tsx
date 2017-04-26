@@ -11,8 +11,10 @@ import 'react-select2-wrapper/css/select2.css';
 var contacts = 'http://localhost:9000/assets/contacts.json';
 var fields = 'http://localhost:9000/assets/fields.json'
 
-var flow = 'test_flows/sample.json';
-// var url = 'test_flows/two_questions.json';
+// var flow = 'test_flows/sample.json';
+// var flow = 'test_flows/two_questions.json';
+var flow = 'test_flows/meningitis.json';
+
 var engineUrl = 'http://localhost:8080';
 
 ReactDOM.render(

@@ -95,6 +95,7 @@ export interface TypeConfig {
 }
 
 export interface FlowDefinition {
+    localization:  {[lang: string]: {[uuid: string]: any}};
     nodes: NodeProps[]
     _ui: UIMetaDataProps
 }

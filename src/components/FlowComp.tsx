@@ -477,10 +477,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
 
         if (this.state.definition) {
             for (let node of this.state.definition.nodes) {
-                var uiNode = { position: {x:0,y:0}}
-                if (this.state.definition._ui) {
-                    uiNode = this.state.definition._ui.nodes[node.uuid];
-                }
+                var uiNode = this.state.definition._ui.nodes[node.uuid];
                 nodes.push(<NodeComp {...node} _ui={uiNode} key={node.uuid}/>)
             }
         }

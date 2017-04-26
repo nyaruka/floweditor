@@ -241,9 +241,9 @@ body {
     }
 
     .modal-footer {
-        background: #e6e6e6;
+        background: #f6f6f6;
         padding: 20px;
-        border-top: 1px solid #ccc;
+        border-top: 1px solid #e6e6e6;
         
         .btn {
             margin-left: 10px;
@@ -255,6 +255,14 @@ body {
 
         .right {
             float: right;
+        }
+
+        .cancel {
+            background: #e6e6e6;
+            color: #999;
+            &:hover {
+                background: #f1f1f1;
+            }
         }
     }
 
@@ -456,7 +464,11 @@ body {
                     border-left: 1px solid $borders;
                     // border-top: 1px solid $borders;
                     padding-top: 8px;
+                    padding-left: 4px;
+                    padding-right: 8px;
+                    min-width: 60px;
                     display: table-cell; 
+                    white-space: nowrap;
 
                     &.first {
                         border-left: 0;

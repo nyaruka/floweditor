@@ -52,7 +52,7 @@ export class Modal extends React.Component<ModalProps, {}> {
         var leftButtons: JSX.Element[] = [];
 
         if (this.props.cancel) {
-            rightButtons.push(<a key={Math.random()} href="javascript:void(0);" data-type="cancel" className='btn cancel grey' onClick={this.props.onModalClose}>{this.props.cancel}</a>)
+            rightButtons.push(<a key={Math.random()} href="javascript:void(0);" data-type="cancel" className='btn cancel' onClick={this.props.onModalClose}>{this.props.cancel}</a>)
         }
         
         // no matter what, we'll have a primary button
