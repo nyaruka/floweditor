@@ -78,6 +78,12 @@ export class Plumber {
         // this.jsPlumb.detachAllConnections(source);
     }
 
+    connectNewNode(source: string, target: string) {
+        this.connect(source, target);
+        this.recalculate(target);
+        this.repaint();
+    }
+
     connectExit(exit: ExitProps) {
         this.connect(exit.uuid, exit.destination);
     }
@@ -123,6 +129,14 @@ export class Plumber {
 
     reset() {
         this.jsPlumb.detachEveryConnection();
+    }
+
+    recalculate(uuid: string) {
+        // console.log("Recalcuate offsets", uuid);
+        this.jsPlumb.recalculateOffsets(uuid);
+        window.setTimeout(()=>{
+            this.jsPlumb.repaint(uuid);
+        }, 0)
     }
 
     connectAll(flow: FlowDefinition, onComplete: Function = () => {}) {

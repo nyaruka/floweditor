@@ -81,7 +81,7 @@ export class Webhook extends Renderer {
     
     submit(form: Element): void {
         var url: HTMLInputElement = $(form).find('input')[0] as HTMLInputElement;
-        this.context.flow.updateAction(this.props.uuid, {$set: {uuid: this.props.uuid, type: "webhook", url: url.value, method: this.method}});
+        this.context.flow.updateAction(this.props, {uuid: this.props.uuid, type: "webhook", url: url.value, method: this.method});
     }
 }
 

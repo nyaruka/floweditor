@@ -36,7 +36,11 @@ export class SendMessage extends Renderer {
 
     submit(form: HTMLFormElement) {
         var textarea: HTMLTextAreaElement = $(form).find('textarea')[0] as HTMLTextAreaElement;
-        this.context.flow.updateAction(this.props.uuid, {$set: {uuid: this.props.uuid, type: "msg", text: textarea.value}});
+        this.context.flow.updateAction(this.props, {
+            uuid: this.props.uuid, 
+            type: "msg", 
+            text: textarea.value
+        });
     }
 }
 

@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as axios from 'axios';
 import * as Interfaces from '../interfaces';
+import {Motion, spring} from '../../node_modules/react-motion';
 import {Plumber, DragEvent} from '../services/Plumber';
 import FlowStore from '../services/FlowStore';
 import Config from '../services/Config';
-import {NodeModal} from './Modal';
+import NodeModal from './NodeModal';
 import ActionComp from './ActionComp';
 import ExitComp from './ExitComp';
 
@@ -12,14 +13,13 @@ var UUID = require('uuid');
 var shallowCompare = require('react-addons-shallow-compare');
 
 export interface NodeState {
-    editing: boolean;
     dragging: boolean;
 }
 
 /**
  * A single node in the rendered flow
  */
-export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
+export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeState> {
 
     public ele: any;
     private modal: any;
@@ -45,39 +45,33 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
 
     constructor(props: Interfaces.NodeProps){
         super(props);
-        this.state = { editing: false, dragging: false }
-        this.onDragStart = this.onDragStart.bind(this);
-        this.onDrag = this.onDrag.bind(this);
+        this.state = { dragging: false }
         this.onClick = this.onClick.bind(this);
-        this.onModalOpen = this.onModalOpen.bind(this);
-        this.onModalClose = this.onModalClose.bind(this);
     }
 
     onDragStart(event: any) {
         this.setState({dragging: true});
+
+        // booo
         $('#root').addClass('dragging');
     }
 
-    onDrag(event: DragEvent) {
-    
-    }
+    onDrag(event: DragEvent) {}
 
     onDragStop(event: DragEvent) {
         this.setState({dragging: false});
-        $('#root').removeClass('dragging');
 
+        // booo
+        $('#root').removeClass('dragging');
         var position = $(event.target).position();
+
         // update our coordinates
-        this.context.flow.updateNodeUI(this.props.uuid, { 
-            position: { $set: { 
+        this.context.flow.updateNodeUI(this.props.uuid, {
+            position: { $set: {
                 x: event.finalPos[0],
                 y: event.finalPos[1]
             }}
         });
-    }
-
-    isDragNode() {
-        return this.props.uuid == 'drag-node';
     }
 
     shouldComponentUpdate(nextProps: Interfaces.NodeProps, nextState: NodeState) {
@@ -98,40 +92,30 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
 
         let plumber = Plumber.get();
         plumber.draggable(this.ele,
-           (event: DragEvent) => {this.onDragStart(event)},
-           (event: DragEvent) => {this.onDrag(event)}, 
-           (event: DragEvent) => {this.onDragStop(event)}
+           (event: DragEvent) => {this.onDragStart.bind(this)(event)},
+           (event: DragEvent) => {this.onDrag.bind(this)(event)}, 
+           (event: DragEvent) => {this.onDragStop.bind(this)(event)}
         );
 
         // make ourselves a target
-        // console.log('Mounting', this.props.uuid);
         plumber.makeTarget(this.props.uuid);
 
         // update our props with our current location
         if (this.props.pendingConnection) {
-            this.context.flow.updateExit(this.props.pendingConnection, { $merge:{ destination: this.props.uuid}});
+            this.context.flow.resolvePendingConnection(this.props);
         }
-
-        // $(this.ele).find('.exits').on('mouseup', this.onClick);
     }
 
     componentWillUnmount() {
-        console.log('unmounted', this.props.uuid);
+        // console.log('unmounted', this.props.uuid);
         Plumber.get().remove(this.props.uuid);
     }
 
-    componentWillUpdate() {}
-
     componentDidUpdate(prevProps: Interfaces.NodeProps, prevState: NodeState) {
-        console.log(this.props.uuid, 'updated');
-        
-        // TODO: determine why individual plumb repaint doesn't work
-        // Plumber.get().repaint(this.props.uuid);
+        if (!this.props.ghost) {
+            Plumber.get().recalculate(this.props.uuid);
+        }
         Plumber.get().repaint();
-    }
-
-    setEditing(editing: boolean) {
-        this.setState({editing: editing});
     }
 
     onClick (event: any) {
@@ -145,36 +129,31 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
         }
     }
 
-    onModalOpen() {
-        // console.log('modal open');
-    }
-
-    onModalClose() {
-        // console.log('modal close');
-        this.setEditing(false);
+    private onAddAction() {
+        // console.log("Adding a new action!");
+        this.context.flow.openNewActionModal(this.props.uuid);
     }
 
     render() {
 
-        // console.log('Rendering node', this.props.uuid);
-        var actions = [];
+        var classes = ["node"];
+        var actions: JSX.Element[] = [];
         if (this.props.actions) {
             // save the first reference off to manage our clicks
             var firstRef: any = {ref:(ele: any)=>{this.firstAction = ele}};
             for (let definition of this.props.actions) {
-                actions.push(<ActionComp key={definition.uuid} {...definition} {...firstRef}/>);
+                actions.push(<ActionComp key={definition.uuid} nodeUUID={this.props.uuid} {...definition} {...firstRef}/>);
                 firstRef = {};
             }
         }
 
         var events = {}
-        if (!this.isDragNode()) {
+        if (!this.state.dragging) {
             events = {onMouseUpCapture: (event: any)=>{this.onClick(event)}}
         }
 
-
-        var header = null;
-        var modal = null;
+        var header: JSX.Element = null;
+        var modal: JSX.Element = null;
         if (this.props.router) {
             let config = Config.get().getTypeConfig(this.props.router.type);
             let renderer = new config.renderer(this.props.router, this.context);
@@ -182,7 +161,7 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
             modal = <NodeModal 
                 ref={(ele: any) => {this.modal = ele}} 
                 initial={this.props.router}
-                renderer={renderer}
+                context={this.context}
                 changeType={false}
             />
         } else {
@@ -191,7 +170,7 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
             }
         }
 
-        var exits = []
+        var exits: JSX.Element[] = []
         if (this.props.exits) {
             var first = true;
             for (let exit of this.props.exits) {
@@ -201,36 +180,40 @@ export class NodeComp extends React.Component<Interfaces.NodeProps, NodeState> {
         }
 
         var modalTitle = <div>Router</div>
-        var classes = this.state.dragging ? " z-depth-4" : " z-depth-1"
-        if (this.props.drag) {
-            classes += " drag"
+
+        // are we dragging
+        if (this.state.dragging) {
+            classes.push("z-depth-4");
+        } else {
+            classes.push("z-depth-1");
         }
 
+        // is this a ghost node
+        if (this.props.ghost) {
+            classes.push("ghost")
+        }
+
+        // console.log("Rendering node", this.props.uuid);
         return(
-                <div className={"node" + classes}
-                    ref={(ele: any) => { this.ele = ele }}
-                    id={this.props.uuid}
-                    style={{
-                        left: this.props._ui.position.x,
-                        top: this.props._ui.position.y
-                    }}>
-                    <div>
-                        {header} 
-                        <div className="actions">
-                            {actions}
-                        </div>
-                        <div className="exit-table">
-                            <div className="exits" {...events}>
-                                {exits}
-                            </div>
-                        </div>
-                    </div>
-                    {modal}
-
-                    {/*<textarea defaultValue={JSON.stringify({router: this.props.router, exits: this.props.exits}, null, 2)}></textarea>*/}
-
+            <div className={classes.join(' ')}
+                ref={(ele: any) => { this.ele = ele }}
+                id={this.props.uuid}
+                style={{
+                    left: this.props._ui.position.x,
+                    top: this.props._ui.position.y
+                }}>
+                {header}
+                <div className="actions">
+                    {actions}
                 </div>
-
+                <div className="exit-table">
+                    <div className="exits" {...events}>
+                        {exits}
+                    </div>
+                </div>
+                <a className="add" onClick={this.onAddAction.bind(this)}>Add</a>
+                {modal}
+            </div>
         )
     }
 }

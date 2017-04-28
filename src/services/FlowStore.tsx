@@ -69,7 +69,8 @@ export class FlowStore {
     
     save(definition: Interfaces.FlowDefinition) {
         storage.set('flow', definition);
-        // console.log(JSON.stringify(definition, null, 2));
+        // console.log("Saving", definition);
+        //console.log(JSON.stringify(definition, null, 2));
     }
 }
 

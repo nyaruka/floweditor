@@ -33,11 +33,10 @@ export interface LocationProps {
 export interface NodeEditorProps {
     type: string;
     uuid: string;
-    renderer: Renderer;
 }
 
 export interface ActionProps extends NodeEditorProps {
-
+    nodeUUID: string;
 }
 
 export interface AddToGroupProps extends ActionProps {
@@ -80,11 +79,19 @@ export interface NodeProps {
     wait?: any;
     _ui: UINode;
 
-    // are we a drag node
-    drag?: boolean;
+    // are we a ghost node
+    ghost?: boolean;
 
     // source id pointing to us
-    pendingConnection?: string;
+    pendingConnection?: DragPoint;
+}
+
+/**
+ * A point in the flow from which a drag is initiated
+ */
+export interface DragPoint {
+    exitUUID: string;
+    nodeUUID: string;
 }
 
 export interface TypeConfig {

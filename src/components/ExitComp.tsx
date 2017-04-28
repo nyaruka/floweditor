@@ -11,8 +11,7 @@ class ExitComp extends React.PureComponent<Interfaces.ExitProps, {}> {
 
     componentDidUpdate(prevProps: Interfaces.ExitProps) {
         if (this.props.destination) {
-            Plumber.get().connect(this.props.uuid, this.props.destination);
-            console.log('Connected', this.props.uuid, this.props.destination);
+            Plumber.get().connectExit(this.props);
         }
     }
 

@@ -416,7 +416,7 @@ body {
             z-index: $z_dragging;
         }
 
-        &.drag {
+        &.ghost {
             opacity: .5;
         }
 
@@ -435,13 +435,6 @@ body {
             &.random {
                 background: $split_random;
             }
-        }
-
-        .card {
-            margin: 5px 0 10px 0;
-            background-color: #fff;
-            transition: box-shadow .25s;
-            border-radius: 2px;
         }
 
         .exit-table {
@@ -507,6 +500,12 @@ body {
                     }
                 }
             }
+        }
+
+        .add {
+            position: absolute;
+            right: -10px;
+            bottom: -5px;
         }
     }
 }

@@ -4,7 +4,7 @@ import * as Interfaces from '../interfaces'
 import Plumber from '../services/Plumber';
 import FlowStore from '../services/FlowStore';
 import Config from '../services/Config';
-import {NodeModal} from './Modal';
+import NodeModal from './NodeModal';
 
 let UUID  = require("uuid");
 
@@ -48,7 +48,7 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
         let renderer = new config.renderer(this.props, this.context);
 
         var events = {}
-        if (!this.context.node.isDragNode()) {
+        if (!this.context.node.state.dragging) {
             events = {onMouseUpCapture: (event: any)=>{this.onClick(event)}}
         }
 
@@ -65,6 +65,7 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
                 <NodeModal 
                     ref={(ele: any) => {this.modal = ele}} 
                     initial={this.props}
+                    context={this.context}
                     renderer={renderer}
                     changeType={true}
                 /> 

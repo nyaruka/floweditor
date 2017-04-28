@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as Interfaces from '../src/interfaces';
 import {NodeComp, NodeState} from '../src/components/NodeComp';
+import {FlowComp, FlowProps} from '../src/components/FlowComp';
 import {ShallowWrapper, shallow, mount, render} from 'enzyme';
 
 function dump(object: any) {
@@ -31,9 +32,8 @@ describe('Nodes', () => {
 
         it('should have correct prop values', () => {
             var node = wrapper.find('#abcd-1234');
-            chai.assert.equal(node.length, 1);
-            chai.assert.isTrue(node.hasClass('node'));
-            chai.assert.isTrue(node.hasClass('z-depth-1'));
+            chai.assert.isTrue(node.hasClass('node'), "Missing node class");
+            chai.assert.isTrue(node.hasClass('z-depth-1'), "Not z-depth-1: " + node.debug());
             chai.assert.deepEqual(node.props().style, {left: 100, top: 200});
 
             // check we got the split title
@@ -44,8 +44,20 @@ describe('Nodes', () => {
     describe('Action Node', ()=>{
 
         var testProps: Interfaces.NodeProps;
+        var mockContext: Interfaces.FlowContext;
+
+        class MockFlow extends FlowComp {
+            constructor() {
+                super({flowURL:null, engineURL:null, contactsURL:null, fieldsURL:null})
+            }
+        }
 
         beforeEach(() => {
+
+            mockContext = {
+                flow: new MockFlow()
+            }
+
             testProps = {
                 _ui: {
                     position: { x: 100, y: 200}
@@ -65,20 +77,21 @@ describe('Nodes', () => {
         });
 
         it('should render', () => {
-            let wrapper = shallow(<NodeComp {...testProps} />);
+            let wrapper = shallow(<NodeComp {...testProps}/>, { context: mockContext });
             chai.assert.isNotNull(wrapper.find('#abcd-1234'));
+            chai.expect(wrapper.instance().props.uuid).to.equal("abcd-1234")
         });
 
         it('should render with proper html', () => {
             var rendered = render(<NodeComp {...testProps} />);
             var node = rendered.find('#abcd-1234');
-            
-            chai.assert.isTrue(node.hasClass('node'));
-            chai.assert.isTrue(node.hasClass('z-depth-1'));
+
+            chai.assert.isTrue(node.hasClass('node'), "Missing node class: " + node.html());
+            chai.assert.isTrue(node.hasClass('z-depth-1'), "Not z-depth-1: " + node.attr("class"));
             chai.expect(node.attr('style')).to.contain('left:100px;top:200px');
             
             var action = node.find('.action').first()
-            chai.assert.isNotNull(action);
+            chai.assert.isNotNull(action, "First action is missing" + node.html());
             chai.assert.equal('Send Message', action.find('.action-title').text());
         });
     });

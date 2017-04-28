@@ -58,13 +58,13 @@ export class SaveToContact extends Renderer {
             var input: HTMLInputElement = $(form).find('input')[0] as HTMLInputElement;
 
             // update our flow            
-            this.context.flow.updateAction(this.props.uuid, {$set: {
-                type: "save_to_contact", 
+            this.context.flow.updateAction(this.props, {
                 uuid: this.props.uuid, 
-                field: selection.id, 
+                type: "save_to_contact", 
                 name: selection.name, 
+                field: selection.id, 
                 value: input.value
-            }});
+            });
 
             // if this was a newly created field, add it to our main list
             if (selection.created) {
