@@ -12,7 +12,7 @@ import {FlowDefinition} from '../interfaces';
 
 var UUID = require('uuid');
 var update = require('immutability-helper');
-var forceFetch = false;
+var forceFetch = true;
 
 
 export interface FlowProps {
@@ -126,16 +126,25 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         return current;
     }
 
-    private removeNode(props: Interfaces.NodeProps, current: FlowDefinition = null): FlowDefinition {
+    public removeNode(props: Interfaces.NodeProps, current: FlowDefinition = null): FlowDefinition {
         var save = current == null;
         if (!current) {
             current = this.state.definition;
         }
 
-        // remove any exits pointing to us as well
         let details = this.components.getDetails(props.uuid);
+        let node = this.state.definition.nodes[details.nodeIdx];
+
+
+        // if we have a single exit, map all our pointers to that destination
+        var destination = null;        
+        if (node.exits.length == 1) {
+            destination = node.exits[0].destination
+        }
+
+        // remap all our pointers to our new destination, null some most cases
         for (let pointer of details.pointers) {
-            current = this.updateExit(pointer, {$merge:{destination: null}}, current);
+            current = this.updateExit(pointer, {$merge:{destination: destination}}, current);
         }
 
         // now remove ourselves
@@ -179,7 +188,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      * @param changes immutability spec to modify at the given action
      */
     updateAction(props: Interfaces.ActionProps, changes: any, current: FlowDefinition = null): FlowDefinition {
-
+        console.time("updateAction");
         var save = current == null;
         var nodeUUID = props.nodeUUID;
         if (!current) {
@@ -213,9 +222,11 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         }
 
         if (save) {
+            console.timeEnd("updateAction");
             return this.updateDefinition(current);
         }
 
+        console.timeEnd("updateAction");
         return current;
     }
 
@@ -315,9 +326,6 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
 
         // TODO: lets just update this instead of creating it again
         this.components = new ComponentMap(definition);
-
-        console.log(this.components);
-        
         FlowStore.get().save(definition);
         this.setState({definition: definition, draggingFrom: null});
         return definition;
@@ -354,8 +362,6 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
             if (!prevState.definition) {
 
                 this.components = new ComponentMap(this.state.definition);
-                console.log(this.components);
-
                 var fields: {[id:string]:Interfaces.SearchResult} = {}
                 var groups: {[id:string]:Interfaces.Group} = {}
 
@@ -459,10 +465,6 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         }
 
         $(document).unbind('mousemove');
-        
-        // this.dragNode.onClick({target: 'blerg'});
-        // this.setState({draggingFrom: null});
-        // this.dragNode = null;
     }
 
     private onConnectionMoved(event: ConnectionEvent){
@@ -533,8 +535,6 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         }
 
         // create our empty modal for creating new actions
-        // let config = Config.get().getTypeConfig("msg");
-        // let renderer = new config.renderer({type:"msg", uuid:UUID.v4()}, this.getChildContext());
         let modal = <NodeModal 
                 ref={(ele: any) => {this.newActionModal = ele}}
                 initial={{type:"msg", uuid:UUID.v4()}}

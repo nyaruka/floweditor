@@ -127,20 +127,49 @@ body {
     clear: both;
 }
 
+.titlebar {
+
+    padding: 4px;
+    text-shadow: 0px 1px rgba(0, 0, 0,.2);
+    color: $light_text;
+    text-align: center;
+    font-size:13px;
+    padding-left: 14px;
+
+    .remove-confirm {
+        position: absolute;
+        background: #c14c46;
+        margin: -4px;
+        margin-left: -14px;
+        margin-top: -20px;
+        width: 100%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 4px;
+        text-shadow: 0px 1px rgba(0, 0, 0,.2);
+        font-size: 13px;
+
+        .remove-button {
+            visibility: visible;
+        }
+    }
+
+    .remove-button {
+        float:right;
+        padding-right: 2px;
+        visibility: hidden;
+    }
+
+    &:hover {
+        .remove-button {
+            visibility: visible;
+        }
+    }
+}
+
 .actions {
     .action {
-        .action-title {
-            padding: 4px;
-            text-shadow: 0px 1px rgba(0, 0, 0,.2);
-            color: $light_text;
-            text-align: center;
-            font-size:13px;
-
-            .remove-button {
-                float:right;
-            }
-
-        }
 
         .action-content {
             padding: 10px;
@@ -430,15 +459,12 @@ body {
         }
 
         .split-title {
-            padding: 4px;
-            text-shadow: 0px 1px rgba(0, 0, 0,.2);
-            color: $light_text;
-            text-align: center;
-            font-size:13px;
-            background: $split_title;
-
             &.random {
                 background: $split_random;
+            }
+
+            &.switch {
+                background: $split_title;
             }
         }
 
@@ -509,8 +535,16 @@ body {
 
         .add {
             position: absolute;
-            right: -10px;
+            right: -5px;
             bottom: -5px;
+            visibility: hidden;
+            color: $blue;
+        }
+
+        &:hover {
+            .add {
+                visibility: visible;
+            }
         }
     }
 }

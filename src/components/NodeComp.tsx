@@ -8,6 +8,7 @@ import Config from '../services/Config';
 import NodeModal from './NodeModal';
 import ActionComp from './ActionComp';
 import ExitComp from './ExitComp';
+import TitleBar from './TitleBar';
 
 var UUID = require('uuid');
 var shallowCompare = require('react-addons-shallow-compare');
@@ -134,6 +135,10 @@ export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeStat
         this.context.flow.openNewActionModal(this.props.uuid);
     }
 
+    private onRemoval(event: React.MouseEvent<HTMLDivElement>) {
+        this.context.flow.removeNode(this.props);
+    }
+
     render() {
 
         var classes = ["node"];
@@ -154,20 +159,27 @@ export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeStat
 
         var header: JSX.Element = null;
         var modal: JSX.Element = null;
+        var addActions: JSX.Element = null;
+
         if (this.props.router) {
             let config = Config.get().getTypeConfig(this.props.router.type);
             let renderer = new config.renderer(this.props.router, this.context);
-            header = <div className={"split-title " + this.props.router.type} {...events}>{config.name}</div>
-            modal = <NodeModal 
-                ref={(ele: any) => {this.modal = ele}} 
-                initial={this.props.router}
-                context={this.context}
-                changeType={false}
+
+            header = <TitleBar className={"split-title " + this.props.router.type} 
+                               onRemoval={this.onRemoval.bind(this)} 
+                               title={config.name} {...events}/>
+
+            modal = <NodeModal ref={(ele: any) => {this.modal = ele}} 
+                               initial={this.props.router}
+                               context={this.context}
+                               changeType={false}
             />
         } else {
             if (actions.length == 0) {
                 header = <div className={"split-title switch"} {...events}>Split</div>
             }
+
+            addActions = <a className="add" onClick={this.onAddAction.bind(this)}><span className="icon-add"/></a>
         }
 
         var exits: JSX.Element[] = []
@@ -211,7 +223,7 @@ export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeStat
                         {exits}
                     </div>
                 </div>
-                <a className="add" onClick={this.onAddAction.bind(this)}>Add</a>
+                {addActions}
                 {modal}
             </div>
         )

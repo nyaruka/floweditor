@@ -6,6 +6,7 @@ import FlowStore from './services/FlowStore';
 
 // our css dependencies
 import './styles.scss';
+// import '../fonts/flows/style.scss';
 import 'react-select2-wrapper/css/select2.css';
 
 var contacts = 'http://localhost:9000/assets/contacts.json';

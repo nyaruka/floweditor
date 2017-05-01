@@ -5,6 +5,7 @@ import Plumber from '../services/Plumber';
 import FlowStore from '../services/FlowStore';
 import Config from '../services/Config';
 import NodeModal from './NodeModal';
+import TitleBar from './TitleBar';
 
 let UUID  = require("uuid");
 
@@ -45,7 +46,14 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
 
     private onConfirmRemoval(evt: React.SyntheticEvent<MouseEvent>) {
         evt.stopPropagation();
-        this.context.flow.removeAction(this.props);
+        this.setState({confirmRemoval: true})
+    }
+
+    private onRemoval(evt: React.SyntheticEvent<MouseEvent>) {
+        evt.stopPropagation();
+        if (!this.context.node.state.dragging) {
+            this.context.flow.removeAction(this.props);
+        }
     }
 
     render() {
@@ -60,16 +68,7 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
         return(
             <div>
                 <div className={'action ' + this.getClassName()} {...events}>
-                    <div className="action-title">
-                      {config.name}
-
-                      <div className="remove-button" onMouseUp={this.onConfirmRemoval.bind(this)}>x</div>
-                      {/*<div className="remove-confirm">
-                          <div className="remove-button">x</div>
-                          Remove?
-                      </div>*/}
-
-                    </div>
+                    <TitleBar className="action-title" title={config.name} onRemoval={this.onRemoval.bind(this)}/>
                     <div className="action-content">
                         {renderer.renderNode()}
                     </div>

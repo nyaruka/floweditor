@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'flows';
-  src:  url('fonts/flows.eot?o2sqzn');
-  src:  url('fonts/flows.eot?o2sqzn#iefix') format('embedded-opentype'),
-    url('fonts/flows.ttf?o2sqzn') format('truetype'),
-    url('fonts/flows.woff?o2sqzn') format('woff'),
-    url('fonts/flows.svg?o2sqzn#flows') format('svg');
+  src:  url('fonts/flows.eot?nzjaqo');
+  src:  url('fonts/flows.eot?nzjaqo#iefix') format('embedded-opentype'),
+    url('fonts/flows.ttf?nzjaqo') format('truetype'),
+    url('fonts/flows.woff?nzjaqo') format('woff'),
+    url('fonts/flows.svg?nzjaqo#flows') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -18,12 +18,97 @@
   font-variant: normal;
   text-transform: none;
   line-height: 1;
+  
+  /* Enable Ligatures ================ */
+  letter-spacing: 0;
+  -webkit-font-feature-settings: "liga";
+  -moz-font-feature-settings: "liga=1";
+  -moz-font-feature-settings: "liga";
+  -ms-font-feature-settings: "liga" 1;
+  font-feature-settings: "liga";
+  -webkit-font-variant-ligatures: discretionary-ligatures;
+  font-variant-ligatures: discretionary-ligatures;
 
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-design:before {
+  content: "\e90d";
+}
+.icon-image:before {
+  content: "\e942";
+}
+.icon-video:before {
+  content: "\e963";
+}
+.icon-folder-closed:before {
+  content: "\e9db";
+}
+.icon-folder-open:before {
+  content: "\e9dc";
+}
+.icon-label:before {
+  content: "\e9ee";
+}
+.icon-phone:before {
+  content: "\ea1d";
+}
+.icon-envelop:before {
+  content: "\ea34";
+}
+.icon-msg:before {
+  content: "\ead8";
+}
+.icon-contact:before {
+  content: "\eaf7";
+}
+.icon-group:before {
+  content: "\eaf8";
+}
+.icon-flow:before {
+  content: "\ec65";
+}
+.icon-flow-open:before {
+  content: "\ec66";
+}
+.icon-webhook:before {
+  content: "\ec7b";
+}
+.icon-language:before {
+  content: "\ec97";
+}
+.icon-add:before {
+  content: "\ed61";
+}
+.icon-remove:before {
+  content: "\ed6e";
+}
+.icon-check:before {
+  content: "\ed72";
+}
+.icon-play:before {
+  content: "\ed85";
+}
+.icon-pause:before {
+  content: "\ed86";
+}
+.icon-stop:before {
+  content: "\ed87";
+}
+.icon-arrow-up:before {
+  content: "\edb7";
+}
+.icon-arrow-right:before {
+  content: "\edbb";
+}
+.icon-arrow-down:before {
+  content: "\edbf";
+}
+.icon-arrow-left:before {
+  content: "\edc3";
+}
 .icon-simulator:before {
   content: "\e900";
 }

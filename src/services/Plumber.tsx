@@ -75,7 +75,6 @@ export class Plumber {
 
     detach(source: string, target: string) {
         this.jsPlumb.select({source: source, target: target}).detach();
-        // this.jsPlumb.detachAllConnections(source);
     }
 
     connectNewNode(source: string, target: string) {

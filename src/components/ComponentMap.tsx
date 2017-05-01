@@ -17,6 +17,7 @@ class ComponentMap {
     // initialize our map with our flow def
     constructor(definition: Interfaces.FlowDefinition) {
 
+        console.time("ComponentMap");
         var components: {[uuid: string]: ComponentDetails} = {};
         var exitsWithDestinations: Interfaces.ExitProps[] = [];
 
@@ -25,7 +26,9 @@ class ComponentMap {
             let node = definition.nodes[nodeIdx];
             components[node.uuid] = {
                 nodeUUID: node.uuid, 
-                nodeIdx:nodeIdx, 
+                nodeIdx:nodeIdx,
+                actionIdx: -1,
+                exitIdx: -1,
                 pointers: []
             }
 
@@ -35,7 +38,7 @@ class ComponentMap {
                     let action = node.actions[actionIdx];
                     components[action.uuid] = {
                         nodeUUID: node.uuid, 
-                        nodeIdx: actionIdx, 
+                        nodeIdx: nodeIdx, 
                         actionUUID: action.uuid,
                         actionIdx: actionIdx,
                     }
@@ -64,9 +67,11 @@ class ComponentMap {
         }
 
         this.components = components;
+        console.timeEnd("ComponentMap");
     }
 
     public getDetails(uuid: string): ComponentDetails {
+        console.log(uuid, this.components[uuid]);
         return this.components[uuid];
     }
 }
