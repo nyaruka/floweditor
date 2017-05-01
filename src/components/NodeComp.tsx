@@ -107,7 +107,7 @@ export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeStat
     }
 
     componentWillUnmount() {
-        // console.log('unmounted', this.props.uuid);
+        console.log('unmounted', this.props.uuid);
         Plumber.get().remove(this.props.uuid);
     }
 

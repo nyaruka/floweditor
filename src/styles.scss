@@ -135,6 +135,11 @@ body {
             color: $light_text;
             text-align: center;
             font-size:13px;
+
+            .remove-button {
+                float:right;
+            }
+
         }
 
         .action-content {

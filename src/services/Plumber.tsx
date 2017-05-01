@@ -121,10 +121,11 @@ export class Plumber {
 
     remove(uuid: string) {
         console.log('Deregistering', uuid, 'from jsplumb');
+        // this.jsPlumb.detachEveryConnection(uuid);
         this.jsPlumb.detachAllConnections(uuid);
-        this.jsPlumb.removeAllEndpoints(uuid);
-        this.jsPlumb.detach(uuid);
-        // this.jsPlumb.remove(uuid);
+        //this.jsPlumb.removeAllEndpoints(uuid);
+        //this.jsPlumb.detach(uuid);
+        //this.jsPlumb.remove(uuid);
     }
 
     reset() {

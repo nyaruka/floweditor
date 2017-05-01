@@ -7,11 +7,10 @@ import FlowStore from '../services/FlowStore';
 import SimulatorComp from './SimulatorComp';
 import Config from '../services/Config';
 import NodeModal from './NodeModal';
+import ComponentMap from './ComponentMap';
 import {FlowDefinition} from '../interfaces';
 
-
 var UUID = require('uuid');
-
 var update = require('immutability-helper');
 var forceFetch = false;
 
@@ -53,6 +52,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     private ghostNode: NodeComp;
     private promises: any[] = [];
     private newActionModal: NodeModal;
+    private components: ComponentMap;
 
     static childContextTypes = {
         flow: React.PropTypes.object
@@ -84,73 +84,14 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     }
 
     /**
-     * Get the current indexes to our action 
-     * TODO: make this not dumb
-     * @param uuid of the action
-     */
-    getActionIndexes(definition: FlowDefinition, nodeUUID: string, actionUUID: string): number[] {
-        var nodeIdx: number = -1;
-        var actionIdx: number = -1;
-
-        for (let i in definition.nodes) {
-            var node = definition.nodes[i];
-            if (node.uuid == nodeUUID) {
-                nodeIdx = parseInt(i);
-                for (let j in node.actions) {
-                    if (node.actions[j].uuid == actionUUID) {
-                        actionIdx = parseInt(j);
-                    }
-                }
-            }
-        } 
-        return [nodeIdx, actionIdx];
-    }
-
-    /**
-     * Get the current indexes to our exit
-     * TODO: make this not terrible
-     * @param uuid of the exit
-     */
-    getExitIndexes(nodeUUID: string, exitUUID: string): number[] {
-        var nodeIdx: number = -1;
-        var exitIdx: number = -1;
-
-        for (let i in this.state.definition.nodes) {
-            var node = this.state.definition.nodes[i];
-            if (node.uuid == nodeUUID) {
-                nodeIdx = parseInt(i);
-                for (let j in node.exits) {
-                    if (node.exits[j].uuid == exitUUID) {
-                        exitIdx = parseInt(j);
-                    }
-                }
-            }
-        } 
-        return [nodeIdx, exitIdx];     
-    }
-
-    /**
-     * Get the current index for a given node
-     * TODO: be less dumb
-     * @param uuid of the node
-     */
-    getNodeIndex(uuid: string): number {
-        for (let i in this.state.definition.nodes){
-            var node = this.state.definition.nodes[i];
-            if (node.uuid == uuid) {
-                return parseInt(i);
-            }
-        }
-    }
-
-    /**
      * Get the node with a uuid
      */
-    getNode(uuid: string): Interfaces.NodeProps {
-        return this.state.definition.nodes[this.getNodeIndex(uuid)];
+    private getNode(uuid: string): Interfaces.NodeProps {
+        var details = this.components.getDetails(uuid)
+        return this.state.definition.nodes[details.nodeIdx];
     }
 
-    getNodeUI(uuid: string): Interfaces.UINode {
+    private getNodeUI(uuid: string): Interfaces.UINode {
         return this.state.definition._ui.nodes[uuid];
     }
 
@@ -159,13 +100,13 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      * @param uuid 
      * @param changes immutability spec to modify the node
      */
-    updateNode(uuid: string, changes: any, current: FlowDefinition = null) {
+    updateNode(uuid: string, changes: any, current: FlowDefinition = null): FlowDefinition {
         var save = current == null;
         if (!current) {
             current = this.state.definition;
         }
 
-        var index = this.getNodeIndex(uuid);
+        var index = this.components.getDetails(uuid).nodeIdx
         current = update(current, { nodes: { [index]: changes }});
         if (save) {
             return this.updateDefinition(current);
@@ -173,7 +114,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         return current;
     }
 
-    updateNodeUI(uuid: string, changes: any, current: FlowDefinition = null) {
+    updateNodeUI(uuid: string, changes: any, current: FlowDefinition = null): FlowDefinition {
         var save = current == null;
         if (!current) {
             current = this.state.definition;
@@ -182,6 +123,53 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         if (save) {
             return this.updateDefinition(current);
         }
+        return current;
+    }
+
+    private removeNode(props: Interfaces.NodeProps, current: FlowDefinition = null): FlowDefinition {
+        var save = current == null;
+        if (!current) {
+            current = this.state.definition;
+        }
+
+        // remove any exits pointing to us as well
+        let details = this.components.getDetails(props.uuid);
+        for (let pointer of details.pointers) {
+            current = this.updateExit(pointer, {$merge:{destination: null}}, current);
+        }
+
+        // now remove ourselves
+        current = update(current, {nodes:{ $splice: [[details.nodeIdx, 1]]}})
+
+        if (save) {
+            current = this.updateDefinition(current);
+        }
+        return current;
+    }
+
+    public removeAction(props: Interfaces.ActionProps, current: FlowDefinition = null): FlowDefinition {
+        var save = current == null;
+        if (!current) {
+            current = this.state.definition;
+        }
+
+        let node = this.getNode(props.nodeUUID);
+
+        // if it's our last action, then nuke the node
+        if (node.actions.length == 1) {
+            current = this.removeNode(node, current);
+        }
+
+        // otherwise, just splice out that action
+        else {
+            let details = this.components.getDetails(props.uuid);
+            current = this.updateNode(props.nodeUUID, { actions: {$splice: [[details.actionIdx, 1]]}}, current)
+        }
+
+        if (save) {
+            return this.updateDefinition(current);
+        }
+
         return current;
     }
 
@@ -206,22 +194,22 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         }
 
         // update the action into our new flow definition
-        var indexes = this.getActionIndexes(current, nodeUUID, props.uuid);
-        let nodeIdx = indexes[0];
-        let actionIdx = indexes[1];
-
-        // found our node, but not our action
-        if (nodeIdx != -1 && actionIdx == -1) {
-            current = update(current, { nodes:{ [nodeIdx]: { actions: {
-                $push: [changes]
-            }}}});
-        } 
-        else if (nodeIdx != -1 && actionIdx != -1) {
+        let actionDetails = this.components.getDetails(props.uuid)
+        if (actionDetails) {
             current = update(current, {
-                nodes: {[nodeIdx]: {actions: {[actionIdx]: { $set: changes }}}}
+                nodes: {[actionDetails.nodeIdx]: {actions: {[actionDetails.actionIdx]: { $set: changes }}}}
             });
-        } else {
-            console.log("Couldn't find node, not updating", props.nodeUUID, props.uuid);
+        } 
+        else {
+            // we didn't find our action, but did find our node, it's an action add
+            let nodeDetails = this.components.getDetails(nodeUUID);
+            if (nodeDetails) {
+                current = update(current, { nodes:{ [nodeDetails.nodeIdx]: { actions: {
+                    $push: [changes]
+                }}}});
+            } else {
+                console.log("Couldn't find node, not updating", props.nodeUUID, props.uuid);
+            }
         }
 
         if (save) {
@@ -236,7 +224,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      * @param uuid for the node or action being updated
      * @returns [newDefinition, newUuid]
      */
-    realizeGhostNode(uuid: string, current: FlowDefinition): any {
+    private realizeGhostNode(uuid: string, current: FlowDefinition): any {
         var newUuid = null;
 
         if (this.ghostNode && (this.ghostNode.props.uuid == uuid || this.ghostNode.props.actions[0].uuid == uuid)) {
@@ -275,14 +263,14 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      * our node properties accordingly.
      * @param props with a pendingConnection set
      */
-    resolvePendingConnection(props: Interfaces.NodeProps) {
+    public resolvePendingConnection(props: Interfaces.NodeProps): FlowDefinition {
 
         var current = this.state.definition;
         
         // only resolve connection if we have one
         if (props.pendingConnection != null) {
             let dragFrom = props.pendingConnection
-            current = this.updateExit(dragFrom.nodeUUID, dragFrom.exitUUID, { $merge:{ destination: props.uuid}}, this.state.definition);
+            current = this.updateExit(dragFrom.exitUUID, { $merge:{ destination: props.uuid}}, current);
 
             // remove the pending connection from the to node
             let updated = update(props, {$merge:{pendingConnection: null}})
@@ -302,18 +290,15 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      * @param uuid the exit to modify
      * @param changes immutability spec to modify at the given exit
      */
-    updateExit(nodeUUID: string, exitUUID: string, changes: any, current: FlowDefinition = null) {
-
-        // console.log('exit', uuid, changes);
+    private updateExit(exitUUID: string, changes: any, current: FlowDefinition = null) {
 
         var save = current == null;
         if (current == null) {
             current = this.state.definition;
         }
-
-        var indexes = this.getExitIndexes(nodeUUID, exitUUID);
+        var details = this.components.getDetails(exitUUID);
         current = update(current, {
-            nodes: {[indexes[0]]: { exits: {[indexes[1]]: changes }}}
+            nodes: {[details.nodeIdx]: { exits: { [details.exitIdx]: changes }}}
         });
 
         if (save) {
@@ -327,6 +312,12 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      * @param definition the new definition 
      */
     private updateDefinition(definition: FlowDefinition) {
+
+        // TODO: lets just update this instead of creating it again
+        this.components = new ComponentMap(definition);
+
+        console.log(this.components);
+        
         FlowStore.get().save(definition);
         this.setState({definition: definition, draggingFrom: null});
         return definition;
@@ -336,7 +327,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         this.setState({draggingFrom: null});
     }
 
-    componentDidMount() {
+    private componentDidMount() {
         var promise = FlowStore.get().loadFlow(this.props.flowURL, (definition: FlowDefinition)=>{
             this.setDefinition(definition);
         }, forceFetch);
@@ -355,12 +346,15 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         
     }
 
-    componentWillUpdate(nextProps: FlowProps, nextState: FlowState) {
+    private componentWillUpdate(nextProps: FlowProps, nextState: FlowState) {
     }
 
-    componentDidUpdate(prevProps: FlowProps, prevState: FlowState) {
+    private componentDidUpdate(prevProps: FlowProps, prevState: FlowState) {
         if (this.state.definition) {
             if (!prevState.definition) {
+
+                this.components = new ComponentMap(this.state.definition);
+                console.log(this.components);
 
                 var fields: {[id:string]:Interfaces.SearchResult} = {}
                 var groups: {[id:string]:Interfaces.Group} = {}
@@ -402,16 +396,6 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     }
 
     /**
-     * Gets a node UUID given an exit UUID.
-     * @param exitUUID 
-     */
-    private getNodeUUIDForExit(exitUUID: string) {
-        // TODO: yuk.. encode stuff so jsPlumb can give us both ids please        
-        return $('#' + exitUUID).parents(".node").attr("id");
-
-    }
-
-    /**
      * Adds a contact field option
      */
     public addContactField(field: Interfaces.SearchResult) {
@@ -423,7 +407,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     /**
      * Called right before a connector is dropped onto an existing node
      */
-    onBeforeConnectorDrop(event: ConnectionEvent) {
+    private onBeforeConnectorDrop(event: ConnectionEvent) {
 
         // no longer have a ghost
         this.ghostNode = null;
@@ -432,10 +416,10 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     }
 
 
-    onConnection(event: ConnectionEvent) {
+    private onConnection(event: ConnectionEvent) {
         // console.log('onConnection', event);
-        var nodeUUID = this.getNodeUUIDForExit(event.sourceId);
-        this.updateExit(nodeUUID, event.sourceId, {$merge:{destination: event.targetId}});
+        let nodeUUID = this.components.getDetails(event.sourceId).nodeUUID;
+        this.updateExit(event.sourceId, {$merge:{destination: event.targetId}});
     }
     
     /**
@@ -443,11 +427,9 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      * when a new connection is desired or when an existing one is being moved.
      * @param event 
      */
-    onConnectionDrag(event: ConnectionEvent) {
+    private onConnectionDrag(event: ConnectionEvent) {
 
-        // yuk, this is a border crossing from jsplumb / jquery land
-        var nodeUUID = this.getNodeUUIDForExit(event.sourceId);
-
+        var nodeUUID = this.components.getDetails(event.sourceId).nodeUUID;
         this.setState({draggingFrom: {exitUUID: event.sourceId, nodeUUID: nodeUUID}});
 
         // move our drag node around as necessary
@@ -467,7 +449,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      * Called the moment a connector is done dragging, whether it is dropped on an
      * existing node or on to empty space.
      */
-    onConnectorDrop(event: ConnectionEvent) {
+    private onConnectorDrop(event: ConnectionEvent) {
 
         if (this.ghostNode != null) {
             Plumber.get().connectNewNode(event.sourceId, this.ghostNode.props.uuid);
@@ -483,19 +465,19 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         // this.dragNode = null;
     }
 
-    onConnectionMoved(event: ConnectionEvent){
+    private onConnectionMoved(event: ConnectionEvent){
         // console.log('onConnectionMoved', event);
     }
 
-    onConnectionDetached(event: ConnectionEvent) {
+    private onConnectionDetached(event: ConnectionEvent) {
         // console.log('onConnectionDetached', event);
     }
 
-    onConnectionAborted(event: ConnectionEvent) {
+    private onConnectionAborted(event: ConnectionEvent) {
         // console.log('onConnectionAborted');
     }
 
-    setDefinition(definition: FlowDefinition) {
+    private setDefinition(definition: FlowDefinition) {
         this.setState({definition: definition});
     }
 

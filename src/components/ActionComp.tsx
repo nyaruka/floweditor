@@ -32,7 +32,7 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
         this.setState({editing: editing})
     }
 
-    onClick (event: any) {
+    onClick (event: React.SyntheticEvent<MouseEvent>) {
         console.log('click', this.props.uuid);
         if (!this.context.node.state.dragging) {
             this.modal.open();
@@ -43,13 +43,18 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
         return this.props.type.split('_').join('-');
     }
 
+    private onConfirmRemoval(evt: React.SyntheticEvent<MouseEvent>) {
+        evt.stopPropagation();
+        this.context.flow.removeAction(this.props);
+    }
+
     render() {
         let config = Config.get().getTypeConfig(this.props.type);
         let renderer = new config.renderer(this.props, this.context);
 
         var events = {}
         if (!this.context.node.state.dragging) {
-            events = {onMouseUpCapture: (event: any)=>{this.onClick(event)}}
+            events = {onMouseUp: this.onClick.bind(this)}
         }
 
         return(
@@ -57,6 +62,13 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
                 <div className={'action ' + this.getClassName()} {...events}>
                     <div className="action-title">
                       {config.name}
+
+                      <div className="remove-button" onMouseUp={this.onConfirmRemoval.bind(this)}>x</div>
+                      {/*<div className="remove-confirm">
+                          <div className="remove-button">x</div>
+                          Remove?
+                      </div>*/}
+
                     </div>
                     <div className="action-content">
                         {renderer.renderNode()}
