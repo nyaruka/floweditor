@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as axios from 'axios';
 import * as Interfaces from '../interfaces';
-import {Motion, spring} from '../../node_modules/react-motion';
 import {Plumber, DragEvent} from '../services/Plumber';
 import FlowStore from '../services/FlowStore';
 import Config from '../services/Config';

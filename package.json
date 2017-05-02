@@ -7,9 +7,10 @@
   },
   "version": "0.0.1",
   "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server --progress --colors --open",
-    "test": "karma start"
+    "test": "karma start --env=dev",
+    "start": "webpack-dev-server --env=dev --progress --colors --open",
+    "build:dev": "webpack --env=dev --progress --profile --colors",
+    "build:prod": "webpack --env=prod --progress --profile --colors && cp index.html dist/index.html && cp -R test_flows dist/test_flows && cp -R fonts dist/fonts"
   },
   "devDependencies": {
     "@types/chai": "^3.4.35",
@@ -24,6 +25,7 @@
     "awesome-typescript-loader": "^3.1.2",
     "axios": "^0.15.3",
     "chai": "^3.5.0",
+    "compression-webpack-plugin": "^0.4.0",
     "css-loader": "^0.26.4",
     "enzyme": "^2.7.1",
     "immutability-helper": "^2.1.2",
@@ -44,6 +46,7 @@
     "promise-polyfill": "^6.0.2",
     "react": "^15.4.2",
     "react-addons-shallow-compare": "^15.4.2",
+    "react-addons-test-utils": "^15.5.1",
     "react-dom": "^15.4.2",
     "react-modal": "^1.7.3",
     "react-modal-dialog": "^4.0.7",
@@ -57,6 +60,7 @@
     "typescript": "^2.2.2",
     "uuid": "^3.0.1",
     "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.4.1"
+    "webpack-dev-server": "^2.4.1",
+    "webpack-merge": "^4.1.0"
   }
 }
