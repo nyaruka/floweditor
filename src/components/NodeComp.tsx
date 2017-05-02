@@ -10,7 +10,8 @@ import ExitComp from './ExitComp';
 import TitleBar from './TitleBar';
 
 var UUID = require('uuid');
-var shallowCompare = require('react-addons-shallow-compare');
+let PropTypes = require("prop-types");
+let shallowCompare = require('react-addons-shallow-compare');
 
 export interface NodeState {
     dragging: boolean;
@@ -28,12 +29,12 @@ export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeStat
     context: Interfaces.FlowContext;
     
     static childContextTypes = {
-        flow: React.PropTypes.object,
-        node: React.PropTypes.object
+        flow: PropTypes.object,
+        node: PropTypes.object
     }
 
     static contextTypes = {
-        flow: React.PropTypes.object
+        flow: PropTypes.object
     }
        
     getChildContext(): Interfaces.FlowContext {

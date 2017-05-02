@@ -7,6 +7,7 @@ import Config from '../services/Config';
 import NodeModal from './NodeModal';
 import TitleBar from './TitleBar';
 
+let PropTypes = require("prop-types");
 let UUID  = require("uuid");
 
 /**
@@ -18,8 +19,8 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
     private modal: NodeModal;
 
     static contextTypes = {
-        flow: React.PropTypes.object,
-        node: React.PropTypes.object
+        flow: PropTypes.object,
+        node: PropTypes.object
     }
     
     context: Interfaces.FlowContext;

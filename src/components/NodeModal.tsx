@@ -5,7 +5,7 @@ import Modal from './Modal';
 import Config from '../services/Config';
 
 var UUID  = require('uuid');
-
+let PropTypes = require("prop-types");
 var Select2 = require('react-select2-wrapper');
 
 interface NodeModalProps {
@@ -31,8 +31,8 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     private nodeUUID: string;
 
     static contextTypes = {
-        flow: React.PropTypes.object,
-        node: React.PropTypes.object
+        flow: PropTypes.object,
+        node: PropTypes.object
     }
     
     constructor(props: NodeModalProps) {

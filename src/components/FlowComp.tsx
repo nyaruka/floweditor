@@ -11,6 +11,7 @@ import ComponentMap from './ComponentMap';
 import {FlowDefinition} from '../interfaces';
 
 var UUID = require('uuid');
+let PropTypes = require("prop-types");
 var update = require('immutability-helper');
 var forceFetch = true;
 
@@ -55,7 +56,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     private components: ComponentMap;
 
     static childContextTypes = {
-        flow: React.PropTypes.object
+        flow: PropTypes.object
     }
 
     constructor(props: FlowProps) {

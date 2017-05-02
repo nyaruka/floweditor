@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {SearchResult, ContactFieldResult} from '../interfaces';
+
 var Select2 = require('react-select2-wrapper');
 var UUID = require('uuid');
-
 
 interface Select2SearchProps {
     url: string,
