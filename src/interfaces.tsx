@@ -116,5 +116,5 @@ export interface SearchResult {
 }
 
 export interface ContactFieldResult extends SearchResult {
-    key: string
+    key?: string
 }

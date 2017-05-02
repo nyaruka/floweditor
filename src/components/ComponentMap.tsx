@@ -13,11 +13,18 @@ interface ComponentDetails {
 class ComponentMap {
     
     private components: {[uuid: string]: ComponentDetails};
+    private contactFields: Interfaces.ContactFieldResult[];
+    private groups: Interfaces.SearchResult[];
 
     // initialize our map with our flow def
     constructor(definition: Interfaces.FlowDefinition) {
-
         console.time("ComponentMap");
+        this.initializeUUIDMap(definition);
+        this.initializeFieldsAndGroups(definition);
+        console.timeEnd("ComponentMap");
+    }
+
+    public initializeUUIDMap(definition: Interfaces.FlowDefinition){
         var components: {[uuid: string]: ComponentDetails} = {};
         var exitsWithDestinations: Interfaces.ExitProps[] = [];
 
@@ -67,12 +74,52 @@ class ComponentMap {
         }
 
         this.components = components;
-        console.timeEnd("ComponentMap");
+
+    }
+
+    private initializeFieldsAndGroups(definition: Interfaces.FlowDefinition) {
+        var fields: {[id:string]:Interfaces.ContactFieldResult} = {}
+        var groups: {[id:string]:Interfaces.Group} = {}
+
+        for (let node of definition.nodes) {
+            if (node.actions) {
+                for (let action of node.actions) {
+                    if (action.type == 'save_to_contact') {
+                        var saveProps = action as Interfaces.SaveToContactProps;
+                        if (!(saveProps.field in fields)) {
+                            fields[saveProps.field] = { id: saveProps.field, name: saveProps.name, type: "field" }
+                        }
+                    } else if (action.type == 'add_group') {
+                        var addGroupProps = action as Interfaces.AddToGroupProps;
+                        if (!(addGroupProps.uuid in groups)) {
+                            groups[addGroupProps.uuid] = { uuid: addGroupProps.uuid, name: addGroupProps.name}
+                        }
+                    }
+                }
+            }
+        }
+
+        var contactFields: Interfaces.ContactFieldResult[] = []
+        for (var key in fields) {
+            contactFields.push(fields[key]);
+        }
+
+        this.contactFields = contactFields;
+
+        // TODO: implement group init
+        this.groups = [];
     }
 
     public getDetails(uuid: string): ComponentDetails {
-        console.log(uuid, this.components[uuid]);
         return this.components[uuid];
+    }
+
+    public getContactFields(): Interfaces.SearchResult[] {
+        return this.contactFields;
+    }
+
+    public addContactField(field: Interfaces.SearchResult) {
+        this.contactFields.push(field);
     }
 }
 
