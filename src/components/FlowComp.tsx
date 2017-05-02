@@ -495,6 +495,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     }
 
     render() {
+
         var nodes: JSX.Element[] = [];
         if (this.state.definition) {
             for (let node of this.state.definition.nodes) {
@@ -527,7 +528,6 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
                     {modal}
                     </div>
                 </div>
-                
             </div>
         )
     }

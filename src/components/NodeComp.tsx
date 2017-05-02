@@ -23,7 +23,7 @@ export interface NodeState {
 export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeState> {
 
     public ele: any;
-    private modal: any;
+    private modal: NodeModal;
     private firstAction: ActionComp<Interfaces.ActionProps>;
 
     context: Interfaces.FlowContext;
@@ -184,10 +184,8 @@ export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeStat
 
         var exits: JSX.Element[] = []
         if (this.props.exits) {
-            var first = true;
             for (let exit of this.props.exits) {
-                exits.push(<ExitComp {...exit} first={first} totalExits={this.props.exits.length} key={exit.uuid}/>);
-                first = false;
+                exits.push(<ExitComp {...exit} key={exit.uuid}/>);
             }
         }
 

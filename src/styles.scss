@@ -494,8 +494,8 @@ body {
                     display: table-cell; 
                     white-space: nowrap;
 
-                    &.first {
-                        border-left: 0;
+                    &:first-child {
+                        border-left: none;
                     }
 
                     &.width-33 { 

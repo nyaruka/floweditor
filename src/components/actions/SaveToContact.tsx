@@ -1,23 +1,68 @@
 import * as React from 'react';
 import * as Interfaces from '../../interfaces';
 import Renderer from '../Renderer'
-import {FlowStore} from '../../services/FlowStore';
+import FlowStore from '../../services/FlowStore';
+import {toBoolMap} from '../../utils';
 import {Select2Search} from '../Select2Search';
 var Select2 = require('react-select2-wrapper');
+var UUID = require('uuid');
 
+// TODO: these should come from an external source
+var reserved = toBoolMap([
+    "language",
+    "facebook",
+    "telegram",
+    "email",
+    "mailto",
+    "name",
+    "first name",
+    "phone",
+    "groups",
+    "uuid",
+    "created by",
+    "modified by",
+    "org",
+    "is",
+    "has",
+    "tel"
+]);
 
 export class SaveToContact extends Renderer {
-
     props: Interfaces.SaveToContactProps;
     fieldValue: string;
     fieldSelect: Select2Search;
-
+    
     constructor(props: Interfaces.WebhookProps, context: Interfaces.FlowContext) {
         super(props, context);
     }
 
     renderNode(): JSX.Element {
         return <div>Updates <span className="emph">{this.props.name}</span></div>
+    }
+
+    addExtraResults(results: Interfaces.SearchResult[], term: string) {
+        if (term) {
+            term = term.trim();
+            let lowered = term.toLowerCase();
+            if (lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered) && !reserved[lowered]) {
+                var exactMatch = false;                
+                for (let result of results) {
+                    if (result.name.toLowerCase() == term.toLowerCase()) {
+                        exactMatch = true;
+                        break;
+                    }
+                }
+                if (!exactMatch) {
+                    results.push({
+                        id: UUID.v4(),
+                        name: term,
+                        type: "field",
+                        prefix: "Create field:",
+                        extraResult: true
+                    });
+                }
+            }
+        }
     }
 
     renderForm(): JSX.Element {
@@ -28,8 +73,8 @@ export class SaveToContact extends Renderer {
                     <Select2Search 
                         ref={(ele: any) => {this.fieldSelect = ele}} 
                         url={this.context.flow.props.fieldsURL} 
-                        additionalOptions={this.context.flow.getContactFields()}
-                        addSearchOption="field"
+                        localSearchOptions={this.context.flow.getContactFields()}
+                        addExtraResults={this.addExtraResults.bind(this)}
                         initial={{
                             id: this.props.field,
                             name: this.props.name, 
@@ -67,7 +112,7 @@ export class SaveToContact extends Renderer {
             });
 
             // if this was a newly created field, add it to our main list
-            if (selection.created) {
+            if (selection.extraResult) {
                 this.context.flow.addContactField({
                     id: selection.id,
                     name: selection.name,
@@ -77,6 +122,5 @@ export class SaveToContact extends Renderer {
         }
     }
 }
-
 
 export default SaveToContact;

@@ -66,9 +66,6 @@ export interface ExitProps {
     uuid: string;
     destination: string;
     name: string;
-
-    totalExits?: number;
-    first?: boolean;
 }
 
 export interface NodeProps {
@@ -112,7 +109,7 @@ export interface SearchResult {
     id: string,
     type: string,
     prefix?: string,
-    created?: boolean
+    extraResult?: boolean
 }
 
 export interface ContactFieldResult extends SearchResult {

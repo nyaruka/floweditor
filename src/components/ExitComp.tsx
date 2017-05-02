@@ -22,12 +22,9 @@ class ExitComp extends React.PureComponent<Interfaces.ExitProps, {}> {
 
     render() {
         // console.log('Rendering exit', this.props.uuid);
-        var count = this.props.totalExits;
-        var pct = Math.floor(100 / count);
-        var first = this.props.first ? " first" : "";
         var connected = this.props.destination ? " jtk-connected" : "";
         return (
-            <div key={this.props.uuid} className={"exit" + first}>
+            <div key={this.props.uuid} className={"exit"}>
                 <div className="name">
                     {this.props.name}
                 </div>

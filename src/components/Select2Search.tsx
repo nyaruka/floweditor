@@ -5,12 +5,12 @@ var Select2 = require('react-select2-wrapper');
 var UUID = require('uuid');
 
 interface Select2SearchProps {
-    url: string,
+    url: string;
     placeholder?: string;
-    multi?: boolean,
-    initial?: SearchResult,
-    additionalOptions?: SearchResult[]
-    addSearchOption?: string
+    multi?: boolean;
+    initial?: SearchResult;
+    localSearchOptions?: SearchResult[];
+    addExtraResults?: Function;
 }
 
 interface SearchParams {
@@ -19,7 +19,7 @@ interface SearchParams {
     _type: string;
 }
 
-export class Select2Search extends React.Component<Select2SearchProps, {}> {
+export class Select2Search extends React.PureComponent<Select2SearchProps, {}> {
 
     selected: any;
     ele: any;
@@ -28,7 +28,6 @@ export class Select2Search extends React.Component<Select2SearchProps, {}> {
         super(props);
         this.formatOption = this.formatOption.bind(this);
         this.processResults = this.processResults.bind(this);
-        this.createOption = this.createOption.bind(this);
     }
 
     /**
@@ -105,32 +104,25 @@ export class Select2Search extends React.Component<Select2SearchProps, {}> {
         var results: SearchResult[] = []
 
         // iterate over endpoint results and additional options
-        for (let result of data.results.concat(this.props.additionalOptions)) {
+        for (let result of data.results.concat(this.props.localSearchOptions)) {
             if (params.term) {
                 let term = params.term.toLowerCase()
-                if (result.type == "field") {
-                    if (this.contactFieldMatches(result as ContactFieldResult, term)) {
-                        this.addSearchResult(results, result);
-                    }
+                if (this.contactFieldMatches(result as ContactFieldResult, term)) {
+                    this.addSearchResult(results, result);
                 }
             } else {
                 this.addSearchResult(results, result);
             }
         }
 
-        // add any created option if there aren't matches
-        var createSearch: Function;
-        if (this.props.addSearchOption) {
-            if (params.term && params.term[0] != "@" && results.length == 0) {
-                let added = this.createOption(this.props.addSearchOption, params.term);
-                if (added) {
-                    results.push(added);
-                }
-            }
-        }
-
         // sort our final results
         results.sort(this.sortResults);
+
+        // add any extra results
+        var createSearch: Function;
+        if (this.props.addExtraResults) {
+            this.props.addExtraResults(results, params.term);
+        }
 
         // TODO: sort results alpha with contact name at top
         params.page = params.page || 1;
@@ -142,19 +134,6 @@ export class Select2Search extends React.Component<Select2SearchProps, {}> {
         };
     }
 
-    private createOption(type: string, term: string) {
-        if (type == "field") {
-            return {
-                id: UUID.v4(),
-                name: term,
-                type: type,
-                prefix: "Add field:",
-                created: true
-            }
-        }
-        return null;
-    }
-
     render() {
         return (
             <div>
@@ -163,7 +142,7 @@ export class Select2Search extends React.Component<Select2SearchProps, {}> {
                     ref={(ele: any) => {this.ele = ele}} 
                     options={
                         {
-                            data: this.props.additionalOptions,
+                            data: this.props.localSearchOptions,
                             ajax: {
                                 url: this.props.url,
                                 dataType: 'json',
