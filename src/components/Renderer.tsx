@@ -6,10 +6,9 @@ var Select2 = require('react-select2-wrapper');
 export abstract class Renderer {
     
     props: Interfaces.NodeEditorProps;
-    context: Interfaces.FlowContext
-    constructor(props: Interfaces.NodeEditorProps, context: Interfaces.FlowContext) {
+
+    constructor(props: Interfaces.NodeEditorProps) {
         this.props = props;
-        this.context = context;
     }
 
     public getClassName() {
@@ -19,7 +18,7 @@ export abstract class Renderer {
     renderNode(): JSX.Element { return; }
     abstract renderForm(): JSX.Element;
     abstract validate(ele: any): string;
-    abstract submit(form: HTMLFormElement): void;
+    abstract submit(form: HTMLFormElement, current: Interfaces.FlowDefinition): Interfaces.FlowDefinition;
 }
 
 export default Renderer;

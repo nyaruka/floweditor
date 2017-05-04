@@ -16,7 +16,6 @@ class ExitComp extends React.PureComponent<Interfaces.ExitProps, {}> {
     }
 
     componentWillUnmount() {
-        console.log('unmounted', this.props.uuid);
         Plumber.get().remove(this.props.uuid);
     }
 

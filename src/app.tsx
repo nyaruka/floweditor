@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import FlowComp from './components/FlowComp';
+import FlowLoaderComp from './components/FlowLoaderComp';
 import SimulatorComp from './components/SimulatorComp';
 import FlowStore from './services/FlowStore';
 
@@ -19,7 +19,7 @@ var flow = 'test_flows/meningitis.json';
 var engineUrl = 'http://localhost:8080';
 
 ReactDOM.render(
-  <FlowComp  
+  <FlowLoaderComp  
     engineURL={engineUrl}
     contactsURL={contacts}
     fieldsURL={fields}

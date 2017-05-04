@@ -34,13 +34,14 @@ export class SendMessage extends Renderer {
         return null;
     }
 
-    submit(form: HTMLFormElement) {
+    submit(form: HTMLFormElement, current: Interfaces.FlowDefinition): Interfaces.FlowDefinition {
         var textarea: HTMLTextAreaElement = $(form).find('textarea')[0] as HTMLTextAreaElement;
-        this.context.flow.updateAction(this.props, {
+
+        return this.props.mutator.updateAction(this.props, {
             uuid: this.props.uuid, 
             type: "msg", 
             text: textarea.value
-        });
+        }, current);
     }
 }
 

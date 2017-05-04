@@ -84,20 +84,20 @@ export class Plumber {
     }
 
     connectExit(exit: ExitProps) {
+        console.log("Updating exit", exit)
         this.connect(exit.uuid, exit.destination);
     }
 
     connect(source: string, target: string) {
         if (source != null && target != null) {
-            // this.detach(source, target)
-            if (this.jsPlumb.select({source: source, target: target}).length == 0) {
-                // now make our new connection
-                return this.jsPlumb.connect({source: source, target: target, fireEvent: false});
-            }
+            this.jsPlumb.select({source: source}).detach();
+
+            // now make our new connection
+            return this.jsPlumb.connect({source: source, target: target, fireEvent: false});
         }
     }
 
-    bind(event: string, onEvent: Function){
+    bind(event: string, onEvent: Function) {
         return this.jsPlumb.bind(event, onEvent);
     }
 
@@ -111,10 +111,8 @@ export class Plumber {
             this.jsPlumb.recalculateOffsets();
             this.jsPlumb.repaintEverything();
         } else {
-            window.setTimeout(()=>{
-                this.jsPlumb.recalculateOffsets(uuid);
-                this.jsPlumb.repaint(uuid);
-            }, 0);
+            this.jsPlumb.recalculateOffsets(uuid);
+            this.jsPlumb.repaint(uuid);
         }
     }
 
@@ -131,9 +129,13 @@ export class Plumber {
         this.jsPlumb.detachEveryConnection();
     }
 
-    recalculate(uuid: string) {
+    recalculate(uuid?: string) {
         // console.log("Recalcuate offsets", uuid);
-        this.jsPlumb.recalculateOffsets(uuid);
+        if (uuid) {
+            this.jsPlumb.recalculateOffsets(uuid);
+        } else {
+            this.jsPlumb.recalculateOffsets();
+        }
         window.setTimeout(()=>{
             this.jsPlumb.repaint(uuid);
         }, 0)

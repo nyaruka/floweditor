@@ -1,9 +1,10 @@
-import FlowComp from './components/FlowComp'
+import FlowLoaderComp from './components/FlowLoaderComp'
 import NodeComp from './components/NodeComp'
 import Renderer from './components/Renderer';
+import FlowMutator from './components/FlowMutator';
 
 export interface FlowContext {
-    flow: FlowComp;
+    flow: FlowLoaderComp;
     node?: NodeComp;
 }
 
@@ -33,10 +34,16 @@ export interface LocationProps {
 export interface NodeEditorProps {
     type: string;
     uuid: string;
+    mutator: FlowMutator;
+ 
+    // this is used for knowing which node 
+    // a new action is created on
+    node: NodeProps;
+
 }
 
 export interface ActionProps extends NodeEditorProps {
-    nodeUUID: string;
+    dragging?: boolean;
 }
 
 export interface AddToGroupProps extends ActionProps {
@@ -76,11 +83,15 @@ export interface NodeProps {
     wait?: any;
     _ui: UINode;
 
-    // are we a ghost node
-    ghost?: boolean;
+    // hook for updating the flow
+    mutator: FlowMutator;
 
-    // source id pointing to us
+    // a ghost node dragged from somewhere
+    draggedFrom?: DragPoint
+
+    // a connection that needs to be wired on mounting
     pendingConnection?: DragPoint;
+
 }
 
 /**
@@ -89,13 +100,14 @@ export interface NodeProps {
 export interface DragPoint {
     exitUUID: string;
     nodeUUID: string;
+    onResolved: Function;
 }
 
 export interface TypeConfig {
     type: string;
     name: string;
     description: string;
-    renderer: {new(props: NodeEditorProps, context: FlowContext): Renderer};
+    renderer: {new(props: NodeEditorProps): Renderer};
 }
 
 export interface FlowDefinition {

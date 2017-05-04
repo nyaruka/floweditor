@@ -8,9 +8,10 @@
     "preserveConstEnums": true,
     "removeComments": true,
     "target": "ES5",
-    "allowJs": true
+    "allowJs": true,
+    "watch": true
   },
   "include": [
-    "./src/**/*"
+    "./src/**/*.tsx"
   ]
 }

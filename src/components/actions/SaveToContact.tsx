@@ -32,8 +32,8 @@ export class SaveToContact extends Renderer {
     fieldValue: string;
     fieldSelect: Select2Search;
     
-    constructor(props: Interfaces.WebhookProps, context: Interfaces.FlowContext) {
-        super(props, context);
+    constructor(props: Interfaces.SaveToContactProps) {
+        super(props);
     }
 
     renderNode(): JSX.Element {
@@ -72,8 +72,8 @@ export class SaveToContact extends Renderer {
                     <div className="form-label">Field Name</div>
                     <Select2Search 
                         ref={(ele: any) => {this.fieldSelect = ele}} 
-                        url={this.context.flow.props.fieldsURL} 
-                        localSearchOptions={this.context.flow.getContactFields()}
+                        url={this.props.mutator.getContactFieldURL()} 
+                        localSearchOptions={this.props.mutator.getContactFields()}
                         addExtraResults={this.addExtraResults.bind(this)}
                         initial={{
                             id: this.props.field,
@@ -96,30 +96,31 @@ export class SaveToContact extends Renderer {
         return null;
     }
 
-    submit(form: HTMLFormElement): void {
+    submit(form: HTMLFormElement, definition: Interfaces.FlowDefinition): Interfaces.FlowDefinition {
         let selections = this.fieldSelect.getSelection();
         if (selections.length > 0) {
             let selection = selections[0];
             var input: HTMLInputElement = $(form).find('input')[0] as HTMLInputElement;
 
-            // update our flow            
-            this.context.flow.updateAction(this.props, {
+            // update our flow   
+            definition = this.props.mutator.updateAction(this.props, {
                 uuid: this.props.uuid, 
                 type: "save_to_contact", 
                 name: selection.name, 
                 field: selection.id, 
                 value: input.value
-            });
+            }, definition);
 
             // if this was a newly created field, add it to our main list
             if (selection.extraResult) {
-                this.context.flow.addContactField({
+                this.props.mutator.addContactField({
                     id: selection.id,
                     name: selection.name,
                     type: selection.type
                 })
             }
         }
+        return definition;
     }
 }
 

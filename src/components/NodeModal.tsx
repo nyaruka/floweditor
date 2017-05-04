@@ -3,22 +3,23 @@ import * as Interfaces from '../interfaces';
 import * as Renderer from '../components/Renderer';
 import Modal from './Modal';
 import Config from '../services/Config';
+import FlowMutator from '../components/FlowMutator';
 
 var UUID  = require('uuid');
-let PropTypes = require("prop-types");
 var Select2 = require('react-select2-wrapper');
+var update = require('immutability-helper');
 
 interface NodeModalProps {
     initial: Interfaces.NodeEditorProps;
-    context: Interfaces.FlowContext;
-    renderer?: Renderer.Renderer;
     changeType: boolean;
+    renderer?: Renderer.Renderer;
 }
 
 interface NodeModalState {
     show: boolean;
     renderer: Renderer.Renderer;
     config: Interfaces.TypeConfig;
+    position?: Interfaces.LocationProps;
 }
 
 /**
@@ -30,11 +31,6 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     private form: HTMLFormElement;
     private nodeUUID: string;
 
-    static contextTypes = {
-        flow: PropTypes.object,
-        node: PropTypes.object
-    }
-    
     constructor(props: NodeModalProps) {
         super(props);
 
@@ -56,23 +52,22 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         this.processForm = this.processForm.bind(this);
     }
 
-    editNewAction(nodeUUID: string) {
+    editNewAction() {
         // we want to start from an empty slate
         this.rendererMap = {}
         this.setState({
-            renderer: this.getRenderer("msg", {uuid: UUID.v4(), type: "msg", nodeUUID: nodeUUID} as Interfaces.NodeEditorProps),
+            renderer: this.getRenderer(this.props.initial.type, this.props.initial),
             config: this.getConfig("msg"),
             show: true,
         });
-
-        this.nodeUUID = nodeUUID;
     }
 
-    open() {
+    open(position?: Interfaces.LocationProps) {
         this.setState({
             show: true,
             renderer: this.getRenderer(this.props.initial.type, this.props.initial),
-            config: this.getConfig(this.props.initial.type)
+            config: this.getConfig(this.props.initial.type),
+            position: position
         });
     }
 
@@ -91,7 +86,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     getRenderer (type: string, props?: Interfaces.NodeEditorProps): Renderer.Renderer {
         if (!(type in this.rendererMap)) {
             let config = this.getConfig(type);
-            this.rendererMap[type] = new config.renderer(props, this.props.context);
+            this.rendererMap[type] = new config.renderer(props);
         }
         return this.rendererMap[type]
     }
@@ -118,13 +113,49 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
 
         // if we are still valid, proceed with submit
         if (valid) {
-            this.state.renderer.submit(this.form);
+
+            let mutator = this.props.initial.mutator;
+            var current = mutator.getDefinition();
+
+            // move our drag node into a real node
+            let draggedFrom = this.props.initial.node.draggedFrom;
+            if (draggedFrom) {
+                
+                var newNode = update(this.props.initial.node, {
+                    $merge: { 
+                        uuid: UUID.v4(),
+                        pendingConnection: draggedFrom
+                    }
+                });
+
+                delete newNode["draggedFrom"];
+                                
+                // add the new node
+                current = mutator.addNode(newNode, current);
+
+                // update our location
+                current = mutator.updateNodeUI(newNode.uuid, {$set:{ position: this.state.position }}, current);
+            }
+            
+            
+            // and finally submit our node
+            current = this.state.renderer.submit(this.form, current);
+            mutator.updateDefinition(current);
+
+            if (draggedFrom) {
+                draggedFrom.onResolved();
+            }
+
             this.closeModal();
         }
     }
 
     private closeModal() {
-        this.props.context.flow.removeDragNode();
+        if (this.props.initial.node.draggedFrom) {
+            this.props.initial.node.draggedFrom.onResolved();
+        }
+
+        this.props.initial.mutator.removeDragNode();
         this.close();
 
         // force a clean object form now that we are done
@@ -143,15 +174,10 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
      * A change to our renderer type
      */
     private onChangeRenderer(event: any) {
-
-        var nodeUUID = this.nodeUUID;
-        if (this.props.context.node) {
-            nodeUUID = this.props.context.node.props.uuid;
-        }
-
         var type = event.target.value;
+        let props = update(this.props.initial, {type: {$set: type}});
         this.setState({ 
-            renderer: this.getRenderer(type, {type: type, uuid:this.props.initial.uuid, nodeUUID: nodeUUID} as Interfaces.NodeEditorProps),
+            renderer: this.getRenderer(type, props),
             config: this.getConfig(type)
         });
     }

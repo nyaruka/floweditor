@@ -1,4 +1,4 @@
-import * as Interfaces from '../interfaces';
+import {FlowDefinition, SearchResult, ExitProps, ContactFieldResult, Group, SaveToContactProps, AddToGroupProps} from '../interfaces';
 
 interface ComponentDetails {
     nodeUUID: string;
@@ -10,23 +10,23 @@ interface ComponentDetails {
     pointers?: string[]
 }
 
-class ComponentMap {
+export class ComponentMap {
     
     private components: {[uuid: string]: ComponentDetails};
-    private contactFields: Interfaces.ContactFieldResult[];
-    private groups: Interfaces.SearchResult[];
+    private contactFields: ContactFieldResult[];
+    private groups: SearchResult[];
 
     // initialize our map with our flow def
-    constructor(definition: Interfaces.FlowDefinition) {
+    constructor(definition: FlowDefinition) {
         console.time("ComponentMap");
         this.initializeUUIDMap(definition);
         this.initializeFieldsAndGroups(definition);
         console.timeEnd("ComponentMap");
     }
 
-    public initializeUUIDMap(definition: Interfaces.FlowDefinition){
+    public initializeUUIDMap(definition: FlowDefinition){
         var components: {[uuid: string]: ComponentDetails} = {};
-        var exitsWithDestinations: Interfaces.ExitProps[] = [];
+        var exitsWithDestinations: ExitProps[] = [];
 
         // determine our indexes
         for (let nodeIdx = 0; nodeIdx<definition.nodes.length; nodeIdx++) {
@@ -77,20 +77,20 @@ class ComponentMap {
 
     }
 
-    private initializeFieldsAndGroups(definition: Interfaces.FlowDefinition) {
-        var fields: {[id:string]:Interfaces.ContactFieldResult} = {}
-        var groups: {[id:string]:Interfaces.Group} = {}
+    private initializeFieldsAndGroups(definition: FlowDefinition) {
+        var fields: {[id:string]:ContactFieldResult} = {}
+        var groups: {[id:string]:Group} = {}
 
         for (let node of definition.nodes) {
             if (node.actions) {
                 for (let action of node.actions) {
                     if (action.type == 'save_to_contact') {
-                        var saveProps = action as Interfaces.SaveToContactProps;
+                        var saveProps = action as SaveToContactProps;
                         if (!(saveProps.field in fields)) {
                             fields[saveProps.field] = { id: saveProps.field, name: saveProps.name, type: "field" }
                         }
                     } else if (action.type == 'add_group') {
-                        var addGroupProps = action as Interfaces.AddToGroupProps;
+                        var addGroupProps = action as AddToGroupProps;
                         if (!(addGroupProps.uuid in groups)) {
                             groups[addGroupProps.uuid] = { uuid: addGroupProps.uuid, name: addGroupProps.name}
                         }
@@ -99,7 +99,7 @@ class ComponentMap {
             }
         }
 
-        var contactFields: Interfaces.ContactFieldResult[] = []
+        var contactFields: ContactFieldResult[] = []
         for (var key in fields) {
             contactFields.push(fields[key]);
         }
@@ -114,13 +114,15 @@ class ComponentMap {
         return this.components[uuid];
     }
 
-    public getContactFields(): Interfaces.SearchResult[] {
+    public getContactFields(): SearchResult[] {
         return this.contactFields;
     }
 
-    public addContactField(field: Interfaces.SearchResult) {
+    public addContactField(field: SearchResult) {
         this.contactFields.push(field);
     }
+
+
 }
 
 export default ComponentMap;

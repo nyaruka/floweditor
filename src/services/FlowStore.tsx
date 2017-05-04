@@ -43,6 +43,7 @@ export class FlowStore {
         console.log('Loading from url', url);
         return axios.default.get(url).then((response: axios.AxiosResponse) => {
             let definition = eval(response.data) as Interfaces.FlowDefinition
+            console.log(definition);
             onLoad(definition);
         });
     }
@@ -50,7 +51,7 @@ export class FlowStore {
     loadFromStorage() {
         console.log('Loading from storage..');
         if (storage('flow')) {
-            return storage.get('flow') as Interfaces.FlowDefinition;
+            return (storage.get('flow') as Interfaces.FlowDefinition);
         }
     }
 
@@ -74,4 +75,4 @@ export class FlowStore {
     }
 }
 
-export default FlowStore;
+export default FlowStore;           

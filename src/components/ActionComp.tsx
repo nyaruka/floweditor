@@ -18,13 +18,6 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
     public form: HTMLFormElement;
     private modal: NodeModal;
 
-    static contextTypes = {
-        flow: PropTypes.object,
-        node: PropTypes.object
-    }
-    
-    context: Interfaces.FlowContext;
-    
     constructor(props: P) {
         super(props);
         this.onClick = this.onClick.bind(this);
@@ -35,10 +28,13 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
     }
 
     onClick (event: React.SyntheticEvent<MouseEvent>) {
-        console.log('click', this.props.uuid);
-        if (!this.context.node.state.dragging) {
-            this.modal.open();
+        if (!this.props.dragging) {
+            this.openModal();
         }
+    }
+
+    openModal(position?: Interfaces.LocationProps) {
+        this.modal.open(position);
     }
 
     getClassName() {
@@ -52,19 +48,13 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
 
     private onRemoval(evt: React.SyntheticEvent<MouseEvent>) {
         evt.stopPropagation();
-        if (!this.context.node.state.dragging) {
-            this.context.flow.removeAction(this.props);
-        }
+        this.props.mutator.removeAction(this.props);
     }
 
     render() {
         let config = Config.get().getTypeConfig(this.props.type);
-        let renderer = new config.renderer(this.props, this.context);
-
-        var events = {}
-        if (!this.context.node.state.dragging) {
-            events = {onMouseUp: this.onClick.bind(this)}
-        }
+        let renderer = new config.renderer(this.props);
+        var events = {onMouseUp: this.onClick.bind(this)}
 
         return(
             <div>
@@ -77,7 +67,6 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
                 <NodeModal 
                     ref={(ele: any) => {this.modal = ele}} 
                     initial={this.props}
-                    context={this.context}
                     renderer={renderer}
                     changeType={true}
                 /> 

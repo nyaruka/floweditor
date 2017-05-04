@@ -7,8 +7,8 @@ export class Webhook extends Renderer {
     props: Interfaces.WebhookProps;
     method: string;
 
-    constructor(props: Interfaces.WebhookProps, context: Interfaces.FlowContext) {
-        super(props, context);
+    constructor(props: Interfaces.WebhookProps) {
+        super(props);
         this.onChangeMethod = this.onChangeMethod.bind(this);
         this.method = this.props.method
         if (!this.method) {
@@ -76,9 +76,14 @@ export class Webhook extends Renderer {
         return null;
     }
     
-    submit(form: Element): void {
+    submit(form: Element, current: Interfaces.FlowDefinition): Interfaces.FlowDefinition {
         var url: HTMLInputElement = $(form).find('input')[0] as HTMLInputElement;
-        this.context.flow.updateAction(this.props, {uuid: this.props.uuid, type: "webhook", url: url.value, method: this.method});
+        return this.props.mutator.updateAction(this.props, {
+            uuid: this.props.uuid, 
+            type: "webhook", 
+            url: url.value, 
+            method: this.method
+        }, current);
     }
 }
 
