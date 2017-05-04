@@ -14,7 +14,8 @@ var fields = 'http://localhost:9000/assets/fields.json'
 
 // var flow = 'test_flows/sample.json';
 // var flow = 'test_flows/two_questions.json';
-var flow = 'test_flows/meningitis.json';
+// var flow = 'test_flows/meningitis.json';
+var flow = 'test_flows/favorites.json';
 
 var engineUrl = 'http://localhost:8080';
 

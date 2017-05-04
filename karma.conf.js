@@ -1,5 +1,6 @@
 
 var webpackConfig = require("./webpack.dev");
+var webpack = require("webpack");
 
 module.exports = function(config) {
     config.set({
@@ -21,7 +22,8 @@ module.exports = function(config) {
          * karma-***-launcher.
          * http://karma-runner.github.io/0.13/config/browsers.html
          */
-        browsers: ["PhantomJS"],
+        // browsers: ["PhantomJS"],
+        browsers: ["Safari"],
 
         // Enable or disable colors in the output (reporters and logs)
         colors: true,
@@ -36,8 +38,8 @@ module.exports = function(config) {
          * http://karma-runner.github.io/0.13/config/files.html
          */
         files: [
-            'test/**/*.tsx',
-            './node_modules/promise-polyfill/promise.js',
+            'test/**/*.ts*',
+            { pattern: 'src/**/*.ts*', watched: false, included: false, served: false},
             { pattern: 'test_flows/*.json', watched: false, included: false, served: true, nocache: true }
         ],
 
@@ -49,7 +51,7 @@ module.exports = function(config) {
          */
         frameworks: ["mocha", "chai", "sinon"],
 
-        logLevel: config.LOG_DEBUG,
+        logLevel: config.LOG_INFO,
 
         /*
          * By default, Karma loads all sibling NPM modules which have a name
@@ -68,7 +70,8 @@ module.exports = function(config) {
          * npm module to be npm installed and added to the "plugins" field.
          */
         preprocessors: {
-            "test/**/*.tsx": ["webpack"] // Using karma-webpack npm module
+            "test/**/*.ts*": ["webpack", "sourcemap"], // Using karma-webpack npm module
+            // "src/**/*.ts*": ["webpack"]
         },
 
         /*
@@ -76,7 +79,7 @@ module.exports = function(config) {
          * use the karma-mocha-reporter, you must npm install the module and
          * include it in the list of plugins.
          */
-        reporters: ["mocha"],
+        reporters: ['mocha'],
 
         /*
          * If true, Karma will start and capture all configured browsers, run
@@ -93,8 +96,39 @@ module.exports = function(config) {
          * If you have a different webpack.config.js file that's used for testing
          * purposes, you can specify that here.
          */
+        webpackMiddleware: { stats: 'errors-only'},
         webpack: {
-            module: webpackConfig.module,
+            devtool: 'inline-source-map',
+            module: {
+                rules: [{
+                    test: /\.tsx?$/,
+                    use:[{ loader: 'awesome-typescript-loader'} ],
+                    exclude: /node_modules/
+                }, {
+                    test: /src\/.+\.ts*$/,
+                    exclude: /(node_modules|\.spec\.tsx?$)/,
+                    loader: 'sourcemap-istanbul-instrumenter-loader?force-sourcemap=true',
+                    enforce: 'post'
+                },
+                {
+                    test: /\.css$/,
+                    use: [ 'style-loader', 'css-loader' ]
+                },
+                {
+                    test: /\.scss$/,
+                    use: [
+                        { loader: "style-loader" },   // creates style nodes from JS strings
+                        { loader: "css-loader" },     // translates CSS into CommonJS
+                        { loader: "sass-loader"}      // compiles Sass to CSS
+                    ]
+                }]
+            },
+            plugins: [
+                new webpack.SourceMapDevToolPlugin({
+                    filename: null,
+                    test: /\.(ts*|js)($|\?)/i
+                })
+            ],
             resolve: webpackConfig.resolve,
             externals: {
                 "react/lib/ExecutionEnvironment": "window",

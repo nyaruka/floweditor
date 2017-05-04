@@ -15,7 +15,7 @@ import {FlowDefinition} from '../interfaces';
 var UUID = require('uuid');
 let PropTypes = require("prop-types");
 var update = require('immutability-helper');
-var forceFetch = true;
+var forceFetch = false;
 
 export interface FlowLoaderProps {
     flowURL: string;
@@ -28,6 +28,9 @@ export interface FlowLoaderState {
     definition?: FlowDefinition;
     loading: boolean;
 }
+
+var QUIET_UI = 10;
+var QUIET_SAVE = 2000;
 
 /**
  * Our top level flow. This class is responsible for state and 
@@ -61,7 +64,7 @@ export class FlowLoaderComp extends React.PureComponent<FlowLoaderProps, FlowLoa
 
     private componentDidMount() {
         var promise = FlowStore.get().loadFlow(this.props.flowURL, (definition: FlowDefinition)=>{
-            this.mutator = new FlowMutator(definition, this.update.bind(this), this.save.bind(this));
+            this.mutator = new FlowMutator(definition, this.update.bind(this), this.save.bind(this), QUIET_UI, QUIET_SAVE);
             this.setDefinition(definition);
         }, forceFetch);
 

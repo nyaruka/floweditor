@@ -1,0 +1,426 @@
+{
+  "name": "Favorites",
+  "language": "eng",
+  "localiaztion": null,
+  "nodes": [
+    {
+      "uuid": "137285cd-68af-4e58-b1d2-166a5dccf8a4",
+      "actions": [
+        {
+          "uuid": "9ec116cd-52a8-4efa-b0c3-e30e7574ea91",
+          "type": "msg",
+          "text": "What is your favorite natural disaster?"
+        }
+      ],
+      "exits": [
+        {
+          "uuid": "ced3fdb5-65d4-4409-be18-f7f86ae3b03d",
+          "destination": "67f02df1-f268-4282-b868-7d1e0c4fd676"
+        }
+      ]
+    },
+    {
+      "uuid": "84fa70e4-a028-45a7-887e-1ae00320bcce",
+      "actions": [
+        {
+          "uuid": "9c01d6f4-5231-49c6-a50f-baee9693bf45",
+          "type": "msg",
+          "text": "Sorry, I didn't recognize that. Answer with Tornado, Tsunami, or Earthquake."
+        }
+      ],
+      "exits": [
+        {
+          "uuid": "a1915b0b-bcbf-4efc-a6cc-0e8edcf0c1a8",
+          "destination": "67f02df1-f268-4282-b868-7d1e0c4fd676"
+        }
+      ]
+    },
+    {
+      "uuid": "47a0be00-59ad-4558-bd13-ec66518ce44a",
+      "actions": [
+        {
+          "type": "msg",
+          "uuid": "574cc1f6-6d42-47ab-a0d8-0648e2d28b8f",
+          "text": "I see you are a fan of @results.seahawk. I can appreciate that."
+        },
+        {
+          "uuid": "76fe3759-e0b6-437e-ae6c-6005ff43fbb8",
+          "type": "msg",
+          "text": "That's it for now."
+        }
+      ],
+      "exits": [
+        {
+          "uuid": "518a4e87-0c29-4d8d-8138-7156636d8f97",
+          "destination": null
+        }
+      ]
+    },
+    {
+      "uuid": "8bd28da2-0f97-4622-a36c-c2876e41b44c",
+      "actions": [
+        {
+          "uuid": "c17f4140-fe92-4367-b92f-6092aa94e64b",
+          "type": "msg",
+          "text": "I don't know that one, can you try again?"
+        }
+      ],
+      "exits": [
+        {
+          "uuid": "b8932457-9cd5-4ca7-a0ac-f5018d57147e",
+          "destination": "f4d66f67-bc18-4ec3-85a4-03ac7383a5c3"
+        }
+      ]
+    },
+    {
+      "uuid": "3579b599-d543-4e01-9900-945db3c11248",
+      "actions": [
+        {
+          "uuid": "4a008cb0-3ebb-460c-9edf-08d3a28d2bb6",
+          "type": "msg",
+          "text": "You picked @results.disaster.category. I really like those too. Who is your favorite Seahawk?"
+        }
+      ],
+      "exits": [
+        {
+          "uuid": "8f49defa-ace2-491a-926a-f1d76c395c6d",
+          "destination": "f4d66f67-bc18-4ec3-85a4-03ac7383a5c3"
+        }
+      ]
+    },
+    {
+      "uuid": "67f02df1-f268-4282-b868-7d1e0c4fd676",
+      "router": {
+        "type": "switch",
+        "default": "372300ae-4565-4cae-b3fa-225b16fa0c5c",
+        "operand": "@input.value",
+        "cases": [
+          {
+            "uuid": "1d531231-3d1c-4c7a-8f22-a6af59795644",
+            "type": "contains_any",
+            "arguments": [
+              "Tornado"
+            ],
+            "exit": "872f5f36-4a4d-4e45-a857-d512251bf236"
+          },
+          {
+            "uuid": "91db69c2-6b36-48df-bb84-2bd5b5f6add5",
+            "type": "contains_any",
+            "arguments": [
+              "Tsunami"
+            ],
+            "exit": "32124f4e-acdf-432a-9bc7-9495733e77b2"
+          },
+          {
+            "uuid": "c700e8af-9407-46e5-8456-d4c65987c14e",
+            "type": "contains_any",
+            "arguments": [
+              "Earthquake"
+            ],
+            "exit": "ea73449c-995b-4bfb-8c5d-1dbd8c472b58"
+          }
+        ],
+        "name": "Disaster"
+      },
+      "exits": [
+        {
+          "uuid": "872f5f36-4a4d-4e45-a857-d512251bf236",
+          "destination": "3579b599-d543-4e01-9900-945db3c11248",
+          "name": "Tornado"
+        },
+        {
+          "uuid": "32124f4e-acdf-432a-9bc7-9495733e77b2",
+          "destination": "3579b599-d543-4e01-9900-945db3c11248",
+          "name": "Tsunami"
+        },
+        {
+          "uuid": "ea73449c-995b-4bfb-8c5d-1dbd8c472b58",
+          "destination": "3579b599-d543-4e01-9900-945db3c11248",
+          "name": "Earthquake"
+        },
+        {
+          "uuid": "372300ae-4565-4cae-b3fa-225b16fa0c5c",
+          "destination": "84fa70e4-a028-45a7-887e-1ae00320bcce",
+          "name": "Other"
+        }
+      ]
+    },
+    {
+      "uuid": "f4d66f67-bc18-4ec3-85a4-03ac7383a5c3",
+      "router": {
+        "type": "switch",
+        "default": "edfac2a6-d18e-4bbc-9caa-9b695ea6e00f",
+        "operand": "@input.value",
+        "cases": [
+          {
+            "uuid": "d3e79156-bc0a-425a-a7bf-79c028c490c5",
+            "type": "contains_any",
+            "arguments": [
+              "fant britt glowinski"
+            ],
+            "exit": "d1e70ff1-efaa-401d-9d24-7086b7381092"
+          },
+          {
+            "uuid": "7b7b4a74-6b94-4c98-be10-5508a346c6eb",
+            "type": "contains_any",
+            "arguments": [
+              "wilson rawls baldwin wagner chancellor thomas wright bennett avril sherman"
+            ],
+            "exit": "4f9fae94-3b97-4610-a71b-39e1634cb045"
+          },
+          {
+            "uuid": "896f71e2-f8e7-4daf-bab4-2bd3b35ab887",
+            "type": "contains_any",
+            "arguments": [
+              "graham"
+            ],
+            "exit": "364dc922-3c71-434c-89a2-52f4bbca5b05"
+          }
+        ],
+        "name": "seahawk"
+      },
+      "exits": [
+        {
+          "uuid": "d1e70ff1-efaa-401d-9d24-7086b7381092",
+          "destination": "47a0be00-59ad-4558-bd13-ec66518ce44a",
+          "name": "the offensive Line"
+        },
+        {
+          "uuid": "4f9fae94-3b97-4610-a71b-39e1634cb045",
+          "destination": "47a0be00-59ad-4558-bd13-ec66518ce44a",
+          "name": "the stars"
+        },
+        {
+          "uuid": "364dc922-3c71-434c-89a2-52f4bbca5b05",
+          "destination": "47a0be00-59ad-4558-bd13-ec66518ce44a",
+          "name": "JIMMY GRAHAM!"
+        },
+        {
+          "uuid": "edfac2a6-d18e-4bbc-9caa-9b695ea6e00f",
+          "destination": "8bd28da2-0f97-4622-a36c-c2876e41b44c",
+          "name": "Other"
+        }
+      ]
+    }
+  ],
+  "_ui": {
+    "nodes": {
+      "0306e546-7c4d-43f5-8bd5-3ce0c07da2a9": {
+        "position": {
+          "x": 652,
+          "y": 2323
+        }
+      },
+      "0655a012-2db8-463e-b810-77242387bef9": {
+        "position": {
+          "x": 1232,
+          "y": 560
+        }
+      },
+      "137285cd-68af-4e58-b1d2-166a5dccf8a4": {
+        "position": {
+          "x": 24,
+          "y": 0
+        }
+      },
+      "1e2fc4d8-32f1-477c-ba13-d9c099d49d6f": {
+        "position": {
+          "x": 1116,
+          "y": 2570
+        }
+      },
+      "1efba7ab-22bf-42be-9882-2a47430bdc77": {
+        "position": {
+          "x": 580,
+          "y": 2636
+        }
+      },
+      "20804b0d-8573-4ce4-9d5d-743cbccf1e9f": {
+        "position": {
+          "x": 356,
+          "y": 281
+        }
+      },
+      "28d57d11-a921-46ff-8521-1ca2ab4036fc": {
+        "position": {
+          "x": 942,
+          "y": 168
+        }
+      },
+      "2d6f6d48-f494-4162-846c-f95173838c99": {
+        "position": {
+          "x": 494,
+          "y": 2521
+        }
+      },
+      "2dff63a0-7d83-4d82-975f-39b7df952c98": {
+        "position": {
+          "x": 1183,
+          "y": 278
+        }
+      },
+      "3103d148-212e-4350-8a60-0900f0b3c18d": {
+        "position": {
+          "x": 189,
+          "y": 459
+        }
+      },
+      "3579b599-d543-4e01-9900-945db3c11248": {
+        "position": {
+          "x": 79,
+          "y": 288
+        }
+      },
+      "3c8462a1-9594-466f-bfa4-02c42a133733": {
+        "position": {
+          "x": 734,
+          "y": 910
+        }
+      },
+      "47a0be00-59ad-4558-bd13-ec66518ce44a": {
+        "position": {
+          "x": 436,
+          "y": 404
+        }
+      },
+      "49ca83d1-f923-4a67-abe0-7c6343aae95e": {
+        "position": {
+          "x": 638,
+          "y": 1463
+        }
+      },
+      "4ad0805d-f8ee-4e19-bb35-abde95311d42": {
+        "position": {
+          "x": 633,
+          "y": 2128
+        }
+      },
+      "4b0f09ef-6855-4e03-a553-43e754e46b90": {
+        "position": {
+          "x": 446,
+          "y": 1608
+        }
+      },
+      "50f493d9-ce24-47a8-84c4-063193cc8c87": {
+        "position": {
+          "x": 362,
+          "y": 1138
+        }
+      },
+      "67f02df1-f268-4282-b868-7d1e0c4fd676": {
+        "position": {
+          "x": 0,
+          "y": 166
+        }
+      },
+      "68957ea2-2cec-445c-adf5-a24504eef0a6": {
+        "position": {
+          "x": 1034,
+          "y": 1269
+        }
+      },
+      "71db8325-47de-4381-8325-8bf6c2e96d84": {
+        "position": {
+          "x": 308,
+          "y": 780
+        }
+      },
+      "7e65fc4c-a691-4678-8edf-215b6ae18092": {
+        "position": {
+          "x": 746,
+          "y": 561
+        }
+      },
+      "84fa70e4-a028-45a7-887e-1ae00320bcce": {
+        "position": {
+          "x": 357,
+          "y": 64
+        }
+      },
+      "85206d03-1f5f-4b16-91d5-f8bd1cf358c1": {
+        "position": {
+          "x": 1164,
+          "y": 767
+        }
+      },
+      "8bd28da2-0f97-4622-a36c-c2876e41b44c": {
+        "position": {
+          "x": 806,
+          "y": 329
+        }
+      },
+      "9364a423-8687-41f6-9b6f-87be365160ed": {
+        "position": {
+          "x": 1067,
+          "y": 1010
+        }
+      },
+      "a1eb277f-f534-4be5-bb9a-c1e397485bdc": {
+        "position": {
+          "x": 1081,
+          "y": 1642
+        }
+      },
+      "abde9c69-2526-4a94-87c0-7b0783344ebc": {
+        "position": {
+          "x": 466,
+          "y": 1730
+        }
+      },
+      "adebbe13-7038-4464-a051-9ca498ba06b1": {
+        "position": {
+          "x": 936,
+          "y": 373
+        }
+      },
+      "bb265f5a-300c-446c-a527-754731297ac5": {
+        "position": {
+          "x": 799,
+          "y": 87
+        }
+      },
+      "c5a9ec20-9924-4cd8-90be-8c8957eb94dc": {
+        "position": {
+          "x": 306,
+          "y": 1993
+        }
+      },
+      "c94c465b-616c-4945-954a-ba5594fddf9e": {
+        "position": {
+          "x": 1211,
+          "y": 2066
+        }
+      },
+      "dda27868-db08-4656-a83f-3b0226f77436": {
+        "position": {
+          "x": 616,
+          "y": 1260
+        }
+      },
+      "e27926a7-faed-4586-9fa0-ab87a070fe79": {
+        "position": {
+          "x": 101,
+          "y": 956
+        }
+      },
+      "e86da953-c5fe-44b8-a748-e5da32978acf": {
+        "position": {
+          "x": 763,
+          "y": 253
+        }
+      },
+      "effe2a95-3ca6-4162-b229-8a072a06c4fa": {
+        "position": {
+          "x": 837,
+          "y": 733
+        }
+      },
+      "f4d66f67-bc18-4ec3-85a4-03ac7383a5c3": {
+        "position": {
+          "x": 344,
+          "y": 290
+        }
+      }
+    }
+  }
+}

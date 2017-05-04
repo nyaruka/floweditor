@@ -57,7 +57,7 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
         var events = {onMouseUp: this.onClick.bind(this)}
 
         return(
-            <div>
+            <div id={this.props.uuid}>
                 <div className={'action ' + this.getClassName()} {...events}>
                     <TitleBar className="action-title" title={config.name} onRemoval={this.onRemoval.bind(this)}/>
                     <div className="action-content">

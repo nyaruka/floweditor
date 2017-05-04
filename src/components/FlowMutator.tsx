@@ -4,8 +4,8 @@ import ComponentMap from './ComponentMap';
 var update = require('immutability-helper');
 var UUID = require('uuid');
 
-var UI_QUIET = 10;
-var SAVE_QUIET = 3000;
+var UI_QUIET = 0;
+var SAVE_QUIET = 0;
 
 export class FlowMutator {
     
@@ -17,12 +17,21 @@ export class FlowMutator {
     private dirty: boolean;
     private uiTimeout: any;
     private saveTimeout: any;
+
+    private quietUI: number;
+    private quietSave: number;
     
-    constructor(definition: FlowDefinition, updateMethod: Function, saveMethod: Function) {
+    constructor(definition: FlowDefinition, 
+                updateMethod: Function = null, 
+                saveMethod: Function = null,
+                quiteUI = 0, quietSave=0) {
         this.definition = definition;
         this.saveMethod = saveMethod;
         this.updateMethod = updateMethod;
         this.components = new ComponentMap(this.definition);
+
+        this.quietUI = quiteUI;
+        this.quietSave = quietSave;
     }
 
     public getContactFields(): SearchResult[] {
@@ -53,29 +62,41 @@ export class FlowMutator {
 
     public updateUI() {
 
-        if (this.uiTimeout) {
-            window.clearTimeout(this.uiTimeout);
-        }
+        if (this.updateMethod) {
+            if (this.quietUI > 0) {
+                if (this.uiTimeout) {
+                    window.clearTimeout(this.uiTimeout);
+                }
+                
+                this.uiTimeout = window.setTimeout(()=>{
+                    this.updateMethod(this.definition);
+                }, UI_QUIET);
 
-        this.uiTimeout = window.setTimeout(()=>{
-            if (this.updateMethod) {
+            } else {
                 this.updateMethod(this.definition);
-            }        
-        }, UI_QUIET);
+            }
+        }
     }
 
     public save() {
 
-        if (this.saveTimeout) {
-            window.clearTimeout(this.saveTimeout);
-        }
+        if (this.saveMethod) {
+            if (this.quietSave > 0) {
+                if (this.saveTimeout) {
+                    window.clearTimeout(this.saveTimeout);
+                }
 
-        this.saveTimeout = window.setTimeout(()=>{
-            if (this.saveMethod) {
+                this.saveTimeout = window.setTimeout(()=>{
+                    this.saveMethod(this.definition);
+                    this.dirty = false;
+                }, SAVE_QUIET);
+            } else {
                 this.saveMethod(this.definition);
                 this.dirty = false;
             }
-        }, SAVE_QUIET);
+        } else {
+            this.dirty = false;
+        }
     }
 
     public addNode(props: NodeProps) {
@@ -157,7 +178,8 @@ export class FlowMutator {
     }
 
     public removeAction(props: ActionProps) {
-        let node = this.getNode(props.node.uuid);
+        let details = this.getComponents().getDetails(props.uuid);
+        let node = this.definition.nodes[details.nodeIdx];
 
         // if it's our last action, then nuke the node
         if (node.actions.length == 1) {
@@ -167,7 +189,7 @@ export class FlowMutator {
         // otherwise, just splice out that action
         else {
             let details = this.components.getDetails(props.uuid);
-            this.updateNode(props.node.uuid, { actions: {$splice: [[details.actionIdx, 1]]}})
+            this.updateNode(node.uuid, { actions: {$splice: [[details.actionIdx, 1]]}})
         }
 
         this.markDirty();
