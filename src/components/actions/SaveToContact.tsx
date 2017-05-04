@@ -96,20 +96,20 @@ export class SaveToContact extends Renderer {
         return null;
     }
 
-    submit(form: HTMLFormElement, definition: Interfaces.FlowDefinition): Interfaces.FlowDefinition {
+    submit(form: HTMLFormElement) {
         let selections = this.fieldSelect.getSelection();
         if (selections.length > 0) {
             let selection = selections[0];
             var input: HTMLInputElement = $(form).find('input')[0] as HTMLInputElement;
 
             // update our flow   
-            definition = this.props.mutator.updateAction(this.props, {
+            this.props.mutator.updateAction(this.props, {
                 uuid: this.props.uuid, 
                 type: "save_to_contact", 
                 name: selection.name, 
                 field: selection.id, 
                 value: input.value
-            }, definition);
+            });
 
             // if this was a newly created field, add it to our main list
             if (selection.extraResult) {
@@ -120,7 +120,6 @@ export class SaveToContact extends Renderer {
                 })
             }
         }
-        return definition;
     }
 }
 

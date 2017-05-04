@@ -84,7 +84,6 @@ export class Plumber {
     }
 
     connectExit(exit: ExitProps) {
-        console.log("Updating exit", exit)
         this.connect(exit.uuid, exit.destination);
     }
 

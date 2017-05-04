@@ -19,9 +19,7 @@ export class SetLanguage extends Renderer {
         return null;
     }
 
-    submit(form: HTMLFormElement, current: Interfaces.FlowDefinition): Interfaces.FlowDefinition {
-        return current;
-    }
+    submit(form: HTMLFormElement) {}
 }
 
 export default SetLanguage;

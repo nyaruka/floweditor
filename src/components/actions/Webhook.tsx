@@ -76,14 +76,14 @@ export class Webhook extends Renderer {
         return null;
     }
     
-    submit(form: Element, current: Interfaces.FlowDefinition): Interfaces.FlowDefinition {
+    submit(form: Element) {
         var url: HTMLInputElement = $(form).find('input')[0] as HTMLInputElement;
-        return this.props.mutator.updateAction(this.props, {
+        this.props.mutator.updateAction(this.props, {
             uuid: this.props.uuid, 
             type: "webhook", 
             url: url.value, 
             method: this.method
-        }, current);
+        });
     }
 }
 

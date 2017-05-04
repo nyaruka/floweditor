@@ -115,7 +115,6 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         if (valid) {
 
             let mutator = this.props.initial.mutator;
-            var current = mutator.getDefinition();
 
             // move our drag node into a real node
             let draggedFrom = this.props.initial.node.draggedFrom;
@@ -131,16 +130,14 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                 delete newNode["draggedFrom"];
                                 
                 // add the new node
-                current = mutator.addNode(newNode, current);
+                mutator.addNode(newNode);
 
                 // update our location
-                current = mutator.updateNodeUI(newNode.uuid, {$set:{ position: this.state.position }}, current);
+                mutator.updateNodeUI(newNode.uuid, {$set:{ position: this.state.position }});
             }
             
-            
             // and finally submit our node
-            current = this.state.renderer.submit(this.form, current);
-            mutator.updateDefinition(current);
+            this.state.renderer.submit(this.form);
 
             if (draggedFrom) {
                 draggedFrom.onResolved();
@@ -155,7 +152,6 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
             this.props.initial.node.draggedFrom.onResolved();
         }
 
-        this.props.initial.mutator.removeDragNode();
         this.close();
 
         // force a clean object form now that we are done

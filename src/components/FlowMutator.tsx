@@ -4,15 +4,24 @@ import ComponentMap from './ComponentMap';
 var update = require('immutability-helper');
 var UUID = require('uuid');
 
+var UI_QUIET = 10;
+var SAVE_QUIET = 3000;
+
 export class FlowMutator {
     
     private definition: FlowDefinition;
     private components: ComponentMap;
     private saveMethod: Function;
+    private updateMethod: Function;
+
+    private dirty: boolean;
+    private uiTimeout: any;
+    private saveTimeout: any;
     
-    constructor(definition: FlowDefinition, saveMethod: Function) {
+    constructor(definition: FlowDefinition, updateMethod: Function, saveMethod: Function) {
         this.definition = definition;
         this.saveMethod = saveMethod;
+        this.updateMethod = updateMethod;
         this.components = new ComponentMap(this.definition);
     }
 
@@ -36,32 +45,44 @@ export class FlowMutator {
         return "";
     }
 
-    public removeDragNode() {
-        
+    private markDirty() {
+        // add quiet period
+        this.updateUI();
+        this.save();
     }
 
-    public getDefinition(): FlowDefinition {
-        return this.definition;
-    }
+    public updateUI() {
 
-    public addNode(props: NodeProps, current: FlowDefinition = null): FlowDefinition {
-
-        var save = current == null;
-        if (!current) {
-            current = this.definition;
+        if (this.uiTimeout) {
+            window.clearTimeout(this.uiTimeout);
         }
 
+        this.uiTimeout = window.setTimeout(()=>{
+            if (this.updateMethod) {
+                this.updateMethod(this.definition);
+            }        
+        }, UI_QUIET);
+    }
+
+    public save() {
+
+        if (this.saveTimeout) {
+            window.clearTimeout(this.saveTimeout);
+        }
+
+        this.saveTimeout = window.setTimeout(()=>{
+            if (this.saveMethod) {
+                this.saveMethod(this.definition);
+                this.dirty = false;
+            }
+        }, SAVE_QUIET);
+    }
+
+    public addNode(props: NodeProps) {
         // add our node
-        current = update(current, {nodes: {$push:[props]}});
-
-        if (save) {
-            current = this.updateDefinition(current);
-        } else {
-            this.components.initializeUUIDMap(current);
-        }
-
-        return current;
-
+        this.definition = update(this.definition, {nodes: {$push:[props]}});
+        this.components.initializeUUIDMap(this.definition);
+        this.markDirty();
     }
     
     /**
@@ -69,39 +90,23 @@ export class FlowMutator {
      * @param uuid the action to modify
      * @param changes immutability spec to modify at the given action
      */
-    public updateAction(props: ActionProps, changes: any, current: FlowDefinition = null): FlowDefinition {
+    public updateAction(props: ActionProps, changes: any) {
         console.time("updateAction");
-
-        var save = current == null;
-        if (!current) {
-            current = this.definition;
-        }
-
-        var nodeUUID = null;
-        if (props.node) {
-            nodeUUID = props.node.uuid;
-        }
-
-        // realize our drag node if this is a new action
-        /*var results = this.realizeGhostNode(props.node, current);
-        if (results[1] != null) {
-            current = results[0] as FlowDefinition;
-            nodeUUID = results[1] as string;
-            console.log("New node UUID: ", nodeUUID);
-        }*/
 
         // update the action into our new flow definition
         let actionDetails = this.components.getDetails(props.uuid)
         if (actionDetails) {
-            current = update(current, {
+            this.definition = update(this.definition, {
                 nodes: {[actionDetails.nodeIdx]: {actions: {[actionDetails.actionIdx]: { $set: changes }}}}
             });
         } 
         else {
+
+            var nodeUUID = props.node.uuid;
             // we didn't find our action, check if we can find the node
             let nodeDetails = this.components.getDetails(nodeUUID);
             if (nodeDetails) {
-                current = update(current, { nodes:{ [nodeDetails.nodeIdx]: { actions: {
+                this.definition = update(this.definition, { nodes:{ [nodeDetails.nodeIdx]: { actions: {
                     $push: [changes]
                 }}}});
             } else {
@@ -109,24 +114,8 @@ export class FlowMutator {
             }
         }
 
-        if (save) {
-            current = this.updateDefinition(current);
-        }
-
+        this.markDirty();
         console.timeEnd("updateAction");
-        return current;
-    }
-
-    public updateDefinition(definition: FlowDefinition): FlowDefinition {
-        this.definition = definition;
-
-        // refresh our component map
-        this.components.initializeUUIDMap(definition);
-
-        if (this.saveMethod) {
-            this.saveMethod(definition);
-        }
-        return this.definition;
     }
 
     /**
@@ -134,43 +123,21 @@ export class FlowMutator {
      * @param uuid 
      * @param changes immutability spec to modify the node
      */
-    updateNode(uuid: string, changes: any, current: FlowDefinition = null): FlowDefinition {
-        var save = current == null;
-        if (!current) {
-            current = this.definition;
-        }
-
+    updateNode(uuid: string, changes: any) {
         var index = this.components.getDetails(uuid).nodeIdx
-        current = update(current, { nodes: { [index]: changes }});
-        if (save) {
-            return this.updateDefinition(current);
-        }
-        return current;
+        this.definition = update(this.definition, { nodes: { [index]: changes }});
+        this.markDirty();
     }
 
-    updateNodeUI(uuid: string, changes: any, current: FlowDefinition = null): FlowDefinition {
-        var save = current == null;
-        if (!current) {
-            current = this.definition;
-        }
-
-        current = update(current, { _ui: { nodes: { [uuid]: changes }}});
-        
-        if (save) {
-            return this.updateDefinition(current);
-        }
-        return current;
+    updateNodeUI(uuid: string, changes: any){
+        this.definition = update(this.definition, { _ui: { nodes: { [uuid]: changes }}});
+        this.markDirty();        
     }
 
-    public removeNode(props: NodeProps, current: FlowDefinition = null): FlowDefinition {
-        var save = current == null;
-        if (!current) {
-            current = this.definition;
-        }
+    public removeNode(props: NodeProps) {
 
         let details = this.components.getDetails(props.uuid);
         let node = this.definition.nodes[details.nodeIdx];
-
 
         // if we have a single exit, map all our pointers to that destination
         var destination = null;        
@@ -180,42 +147,30 @@ export class FlowMutator {
 
         // remap all our pointers to our new destination, null some most cases
         for (let pointer of details.pointers) {
-            current = this.updateExit(pointer, {$merge:{destination: destination}}, current);
+            this.updateExit(pointer, {$merge:{destination: destination}});
         }
 
         // now remove ourselves
-        current = update(current, {nodes:{ $splice: [[details.nodeIdx, 1]]}})
-
-        if (save) {
-            current = this.updateDefinition(current);
-        }
-        return current;
+        this.definition = update(this.definition, {nodes:{ $splice: [[details.nodeIdx, 1]]}})
+        this.components.initializeUUIDMap(this.definition);
+        this.markDirty();
     }
 
-    public removeAction(props: ActionProps, current: FlowDefinition = null): FlowDefinition {
-        var save = current == null;
-        if (!current) {
-            current = this.definition;
-        }
-
+    public removeAction(props: ActionProps) {
         let node = this.getNode(props.node.uuid);
 
         // if it's our last action, then nuke the node
         if (node.actions.length == 1) {
-            current = this.removeNode(node, current);
+            this.removeNode(node);
         }
 
         // otherwise, just splice out that action
         else {
             let details = this.components.getDetails(props.uuid);
-            current = this.updateNode(props.node.uuid, { actions: {$splice: [[details.actionIdx, 1]]}}, current)
+            this.updateNode(props.node.uuid, { actions: {$splice: [[details.actionIdx, 1]]}})
         }
 
-        if (save) {
-            return this.updateDefinition(current);
-        }
-
-        return current;
+        this.markDirty();
     }
 
     /**
@@ -224,26 +179,21 @@ export class FlowMutator {
      * our node properties accordingly.
      * @param props with a pendingConnection set
      */
-    public resolvePendingConnection(props: NodeProps): FlowDefinition {
+    public resolvePendingConnection(props: NodeProps) {
 
-        var current = this.definition;
-        
         // only resolve connection if we have one
         if (props.pendingConnection != null) {
             let dragFrom = props.pendingConnection
-            current = this.updateExit(dragFrom.exitUUID, { $merge:{ destination: props.uuid}}, current);
+            this.updateExit(dragFrom.exitUUID, { $merge:{ destination: props.uuid}});
 
             // remove the pending connection from the to node
             let updated = update(props, {$merge:{pendingConnection: null}})
             delete updated["pendingConnection"]
 
             // update our node sans pending connection
-            current = this.updateNode(props.uuid, {$set: updated}, current);
-
-            // save our results
-            current = this.updateDefinition(current);
+            this.updateNode(props.uuid, {$set: updated});
+            this.markDirty();            
         }
-        return current;
     }
 
     /**
@@ -251,21 +201,14 @@ export class FlowMutator {
      * @param uuid the exit to modify
      * @param changes immutability spec to modify at the given exit
      */
-    private updateExit(exitUUID: string, changes: any, current: FlowDefinition = null) {
+    private updateExit(exitUUID: string, changes: any) {
 
-        var save = current == null;
-        if (current == null) {
-            current = this.definition;
-        }
         var details = this.components.getDetails(exitUUID);
-        current = update(current, {
+        this.definition = update(this.definition, {
             nodes: {[details.nodeIdx]: { exits: { [details.exitIdx]: changes }}}
         });
 
-        if (save) {
-            return this.updateDefinition(current);
-        }
-        return current;
+        this.markDirty();
     }
 
     public updateConnection(source: string, target: string) {

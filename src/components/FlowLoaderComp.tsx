@@ -50,22 +50,22 @@ export class FlowLoaderComp extends React.PureComponent<FlowLoaderProps, FlowLoa
      * Updates our definition, saving it in the store
      * @param definition the new definition 
      */
-    private updateDefinition(definition: FlowDefinition) {
-        FlowStore.get().save(definition);
+    private update(definition: FlowDefinition) {
+        console.log("Updating UI");
         this.setState({definition: definition});
-        return definition;
     }
 
+    private save(definition: FlowDefinition) {
+        FlowStore.get().save(definition);
+    }
 
     private componentDidMount() {
         var promise = FlowStore.get().loadFlow(this.props.flowURL, (definition: FlowDefinition)=>{
-            this.mutator = new FlowMutator(definition, this.updateDefinition.bind(this));
+            this.mutator = new FlowMutator(definition, this.update.bind(this), this.save.bind(this));
             this.setDefinition(definition);
         }, forceFetch);
 
         this.promises.push(promise);
-
-        
     }
 
     private setDefinition(definition: FlowDefinition) {

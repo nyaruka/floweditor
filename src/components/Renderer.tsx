@@ -18,7 +18,7 @@ export abstract class Renderer {
     renderNode(): JSX.Element { return; }
     abstract renderForm(): JSX.Element;
     abstract validate(ele: any): string;
-    abstract submit(form: HTMLFormElement, current: Interfaces.FlowDefinition): Interfaces.FlowDefinition;
+    abstract submit(form: HTMLFormElement): void;
 }
 
 export default Renderer;
