@@ -36,12 +36,11 @@ export class SendMessage extends Renderer {
 
     submit(form: HTMLFormElement) {
         var textarea: HTMLTextAreaElement = $(form).find('textarea')[0] as HTMLTextAreaElement;
-
-        this.props.mutator.updateAction(this.props, {
+        this.updateAction({
             uuid: this.props.uuid, 
             type: "msg", 
-            text: textarea.value
-        });
+            text: textarea.value,
+        } as Interfaces.SendMessageProps);
     }
 }
 

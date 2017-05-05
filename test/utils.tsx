@@ -12,5 +12,5 @@ export function getFavorites(): FlowDefinition {
 }
 
 export function dump(object: any) {
-    console.log(JSON.stringify(object, null, 1));
+    console.error(JSON.stringify(object, null, 1));
 }

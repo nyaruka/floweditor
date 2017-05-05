@@ -1,4 +1,4 @@
-import {FlowDefinition, NodeProps, UIMetaDataProps, ActionProps, SearchResult, UINode, DragPoint} from '../interfaces';
+import {FlowDefinition, NodeProps, SendMessageProps, WebhookProps, NodeEditorProps, UIMetaDataProps, ActionProps, SearchResult, UINode, DragPoint} from '../interfaces';
 import NodeComp from './NodeComp';
 import ComponentMap from './ComponentMap';
 var update = require('immutability-helper');
@@ -67,7 +67,7 @@ export class FlowMutator {
                 if (this.uiTimeout) {
                     window.clearTimeout(this.uiTimeout);
                 }
-                
+
                 this.uiTimeout = window.setTimeout(()=>{
                     this.updateMethod(this.definition);
                 }, UI_QUIET);
@@ -99,11 +99,23 @@ export class FlowMutator {
         }
     }
 
-    public addNode(props: NodeProps) {
+    public addNode(props: NodeProps, ui: UINode) {
+        console.time("addNode");
+
         // add our node
-        this.definition = update(this.definition, {nodes: {$push:[props]}});
+        this.definition = update(this.definition, { 
+            nodes: {
+                $push:[props]
+            },
+            _ui: { 
+                nodes: {$merge:{[props.uuid]: ui}}
+            }
+        });
+
         this.components.initializeUUIDMap(this.definition);
         this.markDirty();
+        console.timeEnd("addNode");
+        return props;
     }
     
     /**
@@ -111,32 +123,60 @@ export class FlowMutator {
      * @param uuid the action to modify
      * @param changes immutability spec to modify at the given action
      */
-    public updateAction(props: ActionProps, changes: any) {
+    public updateAction(props: NodeEditorProps): NodeProps {
         console.time("updateAction");
+        var node: NodeProps;
+        if (props.draggedFrom) {
+            var draggedFrom = props.draggedFrom;
+            var newNodeUUID = UUID.v4();
+            delete props["draggedFrom"]
 
-        // update the action into our new flow definition
-        let actionDetails = this.components.getDetails(props.uuid)
-        if (actionDetails) {
-            this.definition = update(this.definition, {
-                nodes: {[actionDetails.nodeIdx]: {actions: {[actionDetails.actionIdx]: { $set: changes }}}}
+            var newPosition = props.newPosition;
+            delete props["newPosition"];
+            
+            node = this.addNode({
+                uuid: newNodeUUID,
+                actions:[ props ],
+                pendingConnection: { 
+                    exitUUID: draggedFrom.exitUUID, 
+                    nodeUUID: draggedFrom.nodeUUID
+                },
+                exits: [
+                    { uuid: UUID.v4(), destination: null, name: null }
+                ]
+            },{ 
+                position: newPosition
             });
         } 
+        else if (props.addToNode) {
+            let nodeDetails = this.components.getDetails(props.addToNode);
+            delete props['addToNode'];
+            this.definition = update(this.definition, { nodes:{ [nodeDetails.nodeIdx]: { actions: {
+                $push: [props]
+            }}}});
+            this.components.initializeUUIDMap(this.definition);
+        }
         else {
 
-            var nodeUUID = props.node.uuid;
-            // we didn't find our action, check if we can find the node
-            let nodeDetails = this.components.getDetails(nodeUUID);
-            if (nodeDetails) {
-                this.definition = update(this.definition, { nodes:{ [nodeDetails.nodeIdx]: { actions: {
-                    $push: [changes]
-                }}}});
-            } else {
-                console.log("Couldn't find node, not updating", props.node, props.uuid);
+            // update the action into our new flow definition
+            let actionDetails = this.components.getDetails(props.uuid)
+            if (actionDetails) {
+                this.definition = update(this.definition, {
+                    nodes: {[actionDetails.nodeIdx]: {actions: {[actionDetails.actionIdx]: { $set: props }}}}
+                });
+
+                node = this.definition.nodes[actionDetails.nodeIdx];
+            } 
+            // otherwise we might be adding a new action
+            else {
+                console.log("Couldn't find node, not updating");
+                return;
             }
         }
 
         this.markDirty();
         console.timeEnd("updateAction");
+        return node;
     }
 
     /**
@@ -147,6 +187,7 @@ export class FlowMutator {
     updateNode(uuid: string, changes: any) {
         var index = this.components.getDetails(uuid).nodeIdx
         this.definition = update(this.definition, { nodes: { [index]: changes }});
+        this.components.initializeUUIDMap(this.definition);
         this.markDirty();
     }
 

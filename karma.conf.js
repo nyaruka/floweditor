@@ -22,8 +22,8 @@ module.exports = function(config) {
          * karma-***-launcher.
          * http://karma-runner.github.io/0.13/config/browsers.html
          */
-        // browsers: ["PhantomJS"],
-        browsers: ["Safari"],
+        browsers: ["PhantomJS"],
+        // browsers: ["Safari"],
 
         // Enable or disable colors in the output (reporters and logs)
         colors: true,
@@ -51,7 +51,7 @@ module.exports = function(config) {
          */
         frameworks: ["mocha", "chai", "sinon"],
 
-        logLevel: config.LOG_INFO,
+        logLevel: config.LOG_DEBUG,
 
         /*
          * By default, Karma loads all sibling NPM modules which have a name

@@ -105,7 +105,6 @@ export class Plumber {
     }
 
     repaint(uuid?: string) {
-        // console.log("Repainting", uuid);
         if (!uuid) {
             this.jsPlumb.recalculateOffsets();
             this.jsPlumb.repaintEverything();
@@ -116,12 +115,7 @@ export class Plumber {
     }
 
     remove(uuid: string) {
-        console.log('Deregistering', uuid, 'from jsplumb');
-        // this.jsPlumb.detachEveryConnection(uuid);
         this.jsPlumb.detachAllConnections(uuid);
-        //this.jsPlumb.removeAllEndpoints(uuid);
-        //this.jsPlumb.detach(uuid);
-        //this.jsPlumb.remove(uuid);
     }
 
     reset() {
@@ -129,7 +123,6 @@ export class Plumber {
     }
 
     recalculate(uuid?: string) {
-        // console.log("Recalcuate offsets", uuid);
         if (uuid) {
             this.jsPlumb.recalculateOffsets(uuid);
         } else {

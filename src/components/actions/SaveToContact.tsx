@@ -103,13 +103,13 @@ export class SaveToContact extends Renderer {
             var input: HTMLInputElement = $(form).find('input')[0] as HTMLInputElement;
 
             // update our flow   
-            this.props.mutator.updateAction(this.props, {
+            this.props.mutator.updateAction({
                 uuid: this.props.uuid, 
                 type: "save_to_contact", 
                 name: selection.name, 
                 field: selection.id, 
                 value: input.value
-            });
+            } as Interfaces.SaveToContactProps);
 
             // if this was a newly created field, add it to our main list
             if (selection.extraResult) {

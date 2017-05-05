@@ -15,6 +15,12 @@ export abstract class Renderer {
         return this.props.type.split('_').join('-');
     }
 
+    public updateAction(props: Interfaces.NodeEditorProps) {
+        // add in our details for new nodes from drags or newly created actions
+        props = {...props, draggedFrom: this.props.draggedFrom, addToNode: this.props.addToNode, newPosition: this.props.newPosition}
+        this.props.mutator.updateAction(props);
+    }
+
     renderNode(): JSX.Element { return; }
     abstract renderForm(): JSX.Element;
     abstract validate(ele: any): string;

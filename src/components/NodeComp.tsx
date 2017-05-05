@@ -113,9 +113,7 @@ export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeStat
         if (!this.state.dragging) {
             // if we have one action, defer to it
             if (this.props.actions && this.props.actions.length == 1) {
-                var {left, top} = $(this.ele).offset();
-                var location = {x: left, y: top};
-                this.firstAction.openModal(location);
+                this.firstAction.openModal();
             } else {
                 this.modal.open();
             }
@@ -123,9 +121,7 @@ export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeStat
     }
 
     private onAddAction() {
-        // console.log("Adding a new action!");
-        // this.context.flow.openNewActionModal(this.props.uuid);
-        this.newActionModal.editNewAction();
+        this.newActionModal.open();
     }
 
     private onRemoval(event: React.MouseEvent<HTMLDivElement>) {
@@ -140,7 +136,7 @@ export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeStat
             // save the first reference off to manage our clicks
             var firstRef: any = {ref:(ele: any)=>{this.firstAction = ele}};
             for (let definition of this.props.actions) {
-                actions.push(<ActionComp key={definition.uuid} mutator={this.props.mutator} dragging={this.state.dragging} node={this.props} {...definition} {...firstRef}/>);
+                actions.push(<ActionComp key={definition.uuid} mutator={this.props.mutator} dragging={this.state.dragging} draggedFrom={this.props.draggedFrom} {...definition} {...firstRef}/>);
                 firstRef = {};
             }
         }
@@ -198,7 +194,7 @@ export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeStat
         // create our empty modal for creating new actions
         let newAction = <NodeModal 
             ref={(ele: any) => {this.newActionModal = ele}}
-            initial={{nodeUUID: this.props.uuid , type:"msg", uuid:UUID.v4(), node:this.props, mutator: this.props.mutator} as Interfaces.ActionProps}
+            initial={{addToNode: this.props.uuid, type:"msg", uuid:UUID.v4(), mutator: this.props.mutator} as Interfaces.ActionProps}
             changeType={true}
         />
 

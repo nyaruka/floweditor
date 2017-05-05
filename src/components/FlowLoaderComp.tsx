@@ -15,7 +15,7 @@ import {FlowDefinition} from '../interfaces';
 var UUID = require('uuid');
 let PropTypes = require("prop-types");
 var update = require('immutability-helper');
-var forceFetch = false;
+var forceFetch = true;
 
 export interface FlowLoaderProps {
     flowURL: string;
@@ -54,7 +54,6 @@ export class FlowLoaderComp extends React.PureComponent<FlowLoaderProps, FlowLoa
      * @param definition the new definition 
      */
     private update(definition: FlowDefinition) {
-        console.log("Updating UI");
         this.setState({definition: definition});
     }
 

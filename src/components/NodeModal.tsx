@@ -19,7 +19,6 @@ interface NodeModalState {
     show: boolean;
     renderer: Renderer.Renderer;
     config: Interfaces.TypeConfig;
-    position?: Interfaces.LocationProps;
 }
 
 /**
@@ -52,22 +51,11 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         this.processForm = this.processForm.bind(this);
     }
 
-    editNewAction() {
-        // we want to start from an empty slate
-        this.rendererMap = {}
-        this.setState({
-            renderer: this.getRenderer(this.props.initial.type, this.props.initial),
-            config: this.getConfig("msg"),
-            show: true,
-        });
-    }
-
-    open(position?: Interfaces.LocationProps) {
+    open() {
         this.setState({
             show: true,
             renderer: this.getRenderer(this.props.initial.type, this.props.initial),
-            config: this.getConfig(this.props.initial.type),
-            position: position
+            config: this.getConfig(this.props.initial.type)
         });
     }
 
@@ -113,43 +101,15 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
 
         // if we are still valid, proceed with submit
         if (valid) {
-
-            let mutator = this.props.initial.mutator;
-
-            // move our drag node into a real node
-            let draggedFrom = this.props.initial.node.draggedFrom;
-            if (draggedFrom) {
-                
-                var newNode = update(this.props.initial.node, {
-                    $merge: { 
-                        uuid: UUID.v4(),
-                        pendingConnection: draggedFrom
-                    }
-                });
-
-                delete newNode["draggedFrom"];
-                                
-                // add the new node
-                mutator.addNode(newNode);
-
-                // update our location
-                mutator.updateNodeUI(newNode.uuid, {$set:{ position: this.state.position }});
-            }
-            
             // and finally submit our node
             this.state.renderer.submit(this.form);
-
-            if (draggedFrom) {
-                draggedFrom.onResolved();
-            }
-
             this.closeModal();
         }
     }
 
     private closeModal() {
-        if (this.props.initial.node.draggedFrom) {
-            this.props.initial.node.draggedFrom.onResolved();
+        if (this.props.initial.draggedFrom) {
+            this.props.initial.draggedFrom.onResolved();
         }
 
         this.close();
@@ -176,6 +136,14 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
             renderer: this.getRenderer(type, props),
             config: this.getConfig(type)
         });
+    }
+
+    /** 
+     * Our properties changed
+     */
+    private componentDidUpdate() {
+        // if we are changed out from under ourselves, clear our renderers
+        this.rendererMap = {};
     }
 
     /**

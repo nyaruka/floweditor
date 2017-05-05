@@ -33,8 +33,8 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
         }
     }
 
-    openModal(position?: Interfaces.LocationProps) {
-        this.modal.open(position);
+    openModal() {
+        this.modal.open();
     }
 
     getClassName() {

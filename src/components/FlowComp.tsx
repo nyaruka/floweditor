@@ -39,11 +39,6 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         this.state = {}
     }
 
-    private onGhostResolved() {
-        console.log("Ghost resolved, removing");
-        this.setState({ghostNode: null});
-    }
-
     /**
      * Called when a connection begins to be dragged from an endpoint both
      * when a new connection is desired or when an existing one is being moved.
@@ -51,19 +46,25 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
      */
     private onConnectionDrag(event: ConnectionEvent) {
 
-        let draggedFrom = this.props.mutator.getComponents().getDetails(event.sourceId);
-
-        let fromNode = this.props.mutator.getNode(draggedFrom.nodeUUID);
+        // we finished dragging a ghost node, create the spec for our new ghost component
+        let draggedFromDetails = this.props.mutator.getComponents().getDetails(event.sourceId);
+        let fromNode = this.props.mutator.getNode(draggedFromDetails.nodeUUID);
         var nodeUUID = UUID.v4();
+        var draggedFrom = {
+            nodeUUID: draggedFromDetails.nodeUUID, 
+            exitUUID: draggedFromDetails.exitUUID, 
+            onResolved: (() => { this.setState({ghostNode: null});})
+        }
 
         var ghostNode = {
             uuid: nodeUUID,
             actions: [],
-            draggedFrom: {nodeUUID: draggedFrom.nodeUUID, exitUUID: draggedFrom.exitUUID, onResolved: this.onGhostResolved.bind(this)},
+            draggedFrom: draggedFrom,
             mutator: this.props.mutator,
             exits: [{
                 "uuid": UUID.v4(),
-                "destination": null
+                "destination": null,
+                "name": null
             }],
         } as NodeProps;
 
@@ -71,9 +72,10 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         if (fromNode.exits.length > 1) {
             let actionUUID = UUID.v4();
             ghostNode.actions.push({
-                node: ghostNode,
                 uuid: actionUUID,
                 type: "msg",
+                text: "",
+                draggedFrom: draggedFrom,
                 mutator: this.props.mutator
             } as SendMessageProps);
         } 
@@ -82,25 +84,18 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
             ghostNode['router'] = {type:"switch"}
         }
 
+        // set our ghost spec so it get's rendered
         this.setState({ghostNode: ghostNode}); 
-    }
-
-    public removeDragNode() {
-        this.setState({ghostNode: null});
     }
 
     private componentDidMount() {
         var plumb = Plumber.get();
 
         plumb.bind("connection", (event: ConnectionEvent) => { return this.onConnection(event)});
-        plumb.bind("connectionMoved", (event: ConnectionEvent) => { return this.onConnectionMoved(event)});
         plumb.bind("connectionDrag", (event: ConnectionEvent) => { return this.onConnectionDrag(event)});
         plumb.bind("connectionDragStop", (event: ConnectionEvent) => { return this.onConnectorDrop(event)});
         plumb.bind("beforeDrop", (event: ConnectionEvent) => { return this.onBeforeConnectorDrop(event)});
         
-        plumb.bind("connectionDetached", (event: ConnectionEvent) => { return this.onConnectionDetached(event); });
-        plumb.bind("connectionAborted", (event: ConnectionEvent) => { return this.onConnectionAborted(event); });
-
         Plumber.get().connectAll(this.props.definition, ()=>{
             Plumber.get().repaint();
         });
@@ -125,12 +120,22 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     private onConnectorDrop(event: ConnectionEvent) {
 
         if (this.state.ghostNode != null) {
+
+            // update our ghost spec with our drop location
+            if (this.state.ghostNode.actions.length > 0) {
+                var {left, top} = $(this.ghostComp.ele).offset();
+                var newGhost = update(this.state.ghostNode, {
+                    actions: {[0]: { $merge:{ 
+                        newPosition: {x: left, y: top},
+                    }}}
+                });
+                this.setState({ghostNode: newGhost});
+            }
+
+            // wire up the drag from to our ghost node
             let dragPoint = this.state.ghostNode.draggedFrom;
-            console.log(dragPoint.exitUUID, this.state.ghostNode.uuid);
-            
             Plumber.get().revalidate(this.state.ghostNode.uuid);
             Plumber.get().connect(dragPoint.exitUUID, this.state.ghostNode.uuid);
-            // Plumber.get().repaint();
 
             // click on our ghost node to bring up the editor
             this.ghostComp.onClick(null);
@@ -139,20 +144,8 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         $(document).unbind('mousemove');
     }
 
-    private onConnectionMoved(event: ConnectionEvent){
-        // console.log('onConnectionMoved', event);
-    }
-
-    private onConnectionDetached(event: ConnectionEvent) {
-        // console.log('onConnectionDetached', event);
-    }
-
-    private onConnectionAborted(event: ConnectionEvent) {
-        // console.log('onConnectionAborted');
-    }
-
     render() {
-
+        // console.time("Rendered Flow");
         var nodes: JSX.Element[] = [];
         for (let node of this.props.definition.nodes) {
             var uiNode = this.props.definition._ui.nodes[node.uuid];
@@ -165,8 +158,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
             dragNode = <NodeComp ref={(ele) => { this.ghostComp = ele }} {...node} _ui={uiNode} mutator={this.props.mutator} key={node.uuid}/>
         }
 
-        console.log('##################### Rendering flow');
-        return(
+        var rendered = (
             <div>
                 {/*<SimulatorComp engineURL={this.props.engineUrl}/>*/}
                 <div id="flow">
@@ -177,6 +169,9 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
                 </div>
             </div>
         )
+
+        // console.timeEnd("Rendered Flow");
+        return rendered;
     }
 }
 

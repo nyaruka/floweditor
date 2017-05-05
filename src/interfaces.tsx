@@ -34,12 +34,17 @@ export interface LocationProps {
 export interface NodeEditorProps {
     type: string;
     uuid: string;
-    mutator: FlowMutator;
- 
-    // this is used for knowing which node 
-    // a new action is created on
-    node: NodeProps;
+    
+    mutator?: FlowMutator;
 
+    // creating a new node from dragging
+    draggedFrom?: DragPoint;
+
+    // node to add a new action to 
+    addToNode?: string;
+
+    // location to create new nodes
+    newPosition?: LocationProps;
 }
 
 export interface ActionProps extends NodeEditorProps {
@@ -77,14 +82,15 @@ export interface ExitProps {
 
 export interface NodeProps {
     uuid: string;
-    exits?: ExitProps[];
+    exits: ExitProps[];
+    
     router?: any;
     actions?: ActionProps[];
     wait?: any;
-    _ui: UINode;
+    _ui?: UINode;
 
     // hook for updating the flow
-    mutator: FlowMutator;
+    mutator?: FlowMutator;
 
     // a ghost node dragged from somewhere
     draggedFrom?: DragPoint
@@ -100,7 +106,7 @@ export interface NodeProps {
 export interface DragPoint {
     exitUUID: string;
     nodeUUID: string;
-    onResolved: Function;
+    onResolved?: Function;
 }
 
 export interface TypeConfig {
