@@ -131,12 +131,15 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
      */
     private onChangeRenderer(event: any) {
         var type = event.target.value;
-        let props = update(this.props.initial, {type: {$set: type}});
-        this.setState({ 
-            renderer: this.getRenderer(type, props),
-            config: this.getConfig(type)
-        });
+        if (type != this.state.renderer.props.type) {
+            let props = update(this.props.initial, {type: {$set: type}});
+            this.setState({ 
+                renderer: this.getRenderer(type, props),
+                config: this.getConfig(type)
+            });
+        }
     }
+
 
     /** 
      * Our properties changed
@@ -174,12 +177,14 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
             changeOptions = (
                 <div>
                     <div className="header">When a contact arrives at this point in your flow</div>
-                    <Select2
-                        className={"change-type"}
-                        value={renderer.props.type}
-                        onChange={this.onChangeRenderer}
-                        data={data}
-                    />
+                    <div className="form-group">
+                        <Select2
+                            className={"change-type"}
+                            value={renderer.props.type}
+                            onChange={this.onChangeRenderer.bind(this)}
+                            data={data}
+                        />
+                    </div>
                 </div>
             )
         }
@@ -194,8 +199,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                 onModalClose={this.onModalButtonClick}
                 onModalOpen={this.onModalOpen}
                 ok='Save'
-                cancel='Cancel'
-                >
+                cancel='Cancel'>
                 
                 <div className="node-editor">
                     <form onKeyPress={this.onKeyPress}  ref={(ele: any) => { this.form = ele; }}>

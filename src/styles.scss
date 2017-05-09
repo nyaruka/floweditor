@@ -406,16 +406,11 @@ body {
 
 #flow {
     position: relative;
-    .loading {
-        visibility: hidden;
-    }
 }
 
 .loading {
-    .nodes {
-        .node {
-            visibility: hidden;
-        }
+    #flow {
+        visibility: hidden;
     }
 }
 

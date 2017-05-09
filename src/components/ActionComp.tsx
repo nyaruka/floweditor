@@ -64,7 +64,8 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
                         {renderer.renderNode()}
                     </div>
                 </div>
-                <NodeModal 
+                <NodeModal
+                    key={"modal-" + this.props.uuid}
                     ref={(ele: any) => {this.modal = ele}} 
                     initial={this.props}
                     renderer={renderer}

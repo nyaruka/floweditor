@@ -15,6 +15,7 @@ interface FlowProps {
 
 interface FlowState {
     ghostNode?: NodeProps
+    loading: boolean
 }
 
 interface Connection {
@@ -36,7 +37,8 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     constructor(props: FlowProps, state: FlowState) {
         super(props);
         this.onConnectionDrag = this.onConnectionDrag.bind(this);
-        this.state = {}
+        this.state = { loading: true }
+        console.time("RenderAndPlumb");
     }
 
     /**
@@ -98,6 +100,8 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         
         Plumber.get().connectAll(this.props.definition, ()=>{
             Plumber.get().repaint();
+            this.setState({loading: false});
+            console.timeEnd("RenderAndPlumb");
         });
     }
 
@@ -159,7 +163,7 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         }
 
         var rendered = (
-            <div>
+            <div className={ this.state.loading ? "loading" : ""}>
                 {/*<SimulatorComp engineURL={this.props.engineUrl}/>*/}
                 <div id="flow">
                     <div className="nodes">

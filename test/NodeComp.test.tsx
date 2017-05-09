@@ -5,9 +5,6 @@ import {NodeComp, NodeState} from '../src/components/NodeComp';
 import {FlowLoaderComp, FlowLoaderProps} from '../src/components/FlowLoaderComp';
 import {ShallowWrapper, shallow, mount, render} from 'enzyme';
 
-function dump(object: any) {
-    console.log(JSON.stringify(object, null, 1));
-}
 /*
 describe('Nodes', () => {
 

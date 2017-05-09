@@ -66,26 +66,39 @@ export class SaveToContact extends Renderer {
     }
 
     renderForm(): JSX.Element {
+        var initial = null
+        if (this.props.type == "save_to_contact") {
+            initial = {
+                id: this.props.field,
+                name: this.props.name, 
+                type: this.props.type,                    
+            }
+        }
+
+        // console.log("SaveToContact.render", initial.name, initial.id);
+
         return (
             <div>
                 <div className="form-group">
                     <div className="form-label">Field Name</div>
-                    <Select2Search 
-                        ref={(ele: any) => {this.fieldSelect = ele}} 
-                        url={this.props.mutator.getContactFieldURL()} 
-                        localSearchOptions={this.props.mutator.getContactFields()}
-                        addExtraResults={this.addExtraResults.bind(this)}
-                        initial={{
-                            id: this.props.field,
-                            name: this.props.name, 
-                            type: this.props.type,                    
-                        }}
-                    />
+                    <div className="form-group">
+                        <Select2Search 
+                            key={UUID.v4()}
+                            className="form-control"
+                            ref={(ele: any) => {this.fieldSelect = ele}} 
+                            name="field"
+                            url={this.props.mutator.getContactFieldURL()} 
+                            localSearchOptions={this.props.mutator.getContactFields()}
+                            addExtraResults={this.addExtraResults.bind(this)}
+                            initial={initial}
+                        />
+                        <div className="error"></div>
+                    </div>
                     <div className="form-help">Select an existing field to update or type name to create a new one</div>
                 </div>
                 <div className="form-group">
                     <div className="form-label">Value</div>                    
-                    <input name="url" className="url" defaultValue={this.props.value}/>
+                    <input name="value" className="value" defaultValue={this.props.value}/>
                     <div className="form-help">The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json.</div>
                 </div>
             </div>
@@ -93,6 +106,13 @@ export class SaveToContact extends Renderer {
     }
 
     validate(control: any): string {
+        if (control.name == "field") {
+            let selections = this.fieldSelect.getSelection();
+            if (selections.length == 0){
+                return "A contact field is required";
+            }
+            
+        }
         return null;
     }
 
@@ -103,7 +123,7 @@ export class SaveToContact extends Renderer {
             var input: HTMLInputElement = $(form).find('input')[0] as HTMLInputElement;
 
             // update our flow   
-            this.props.mutator.updateAction({
+            this.updateAction({
                 uuid: this.props.uuid, 
                 type: "save_to_contact", 
                 name: selection.name, 

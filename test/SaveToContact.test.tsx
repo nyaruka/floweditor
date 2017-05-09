@@ -15,6 +15,8 @@ describe('SaveToContact', () => {
         definition = getFavorites()
         mutator = new FlowMutator(definition, (updated: FlowDefinition)=>{
             definition = updated;
+        }, ()=>{}, {
+            contactsURL:'/assets/contacts.json'
         });
     });
 
@@ -36,9 +38,6 @@ describe('SaveToContact', () => {
         chai.assert.equal(element.type, "div");
 
         action.renderForm();
-        console.log(action.fieldSelect);
-
-
         // console.log(element.key, element.props, element.type);
         // chai.assert.isNotNull();
     });

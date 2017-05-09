@@ -6,11 +6,13 @@ var UUID = require('uuid');
 
 interface Select2SearchProps {
     url: string;
+    name: string;
     placeholder?: string;
     multi?: boolean;
     initial?: SearchResult;
     localSearchOptions?: SearchResult[];
     addExtraResults?: Function;
+    className: string;
 }
 
 interface SearchParams {
@@ -38,10 +40,20 @@ export class Select2Search extends React.PureComponent<Select2SearchProps, {}> {
     }
 
     /**
+     * Initialize our new component
+     */
+    public componentDidMount() {
+        // make sure our select2 widget is refreshed from our initial
+        if (this.props.initial.id) {
+            $(this.ele.el).select2("trigger", "select", {data: this.props.initial});
+        }
+    }
+
+    /**
      * Format a single search result option
      */
     private formatOption (result: SearchResult) {
-        
+
         // our custom placeholder
         if (this.props.placeholder && result.id === '') { 
             return this.props.placeholder;
@@ -60,7 +72,7 @@ export class Select2Search extends React.PureComponent<Select2SearchProps, {}> {
      */
     private formatSelection(selection: SearchResult) {
         return selection.name;
-    }
+    }    
 
     /**
      * Does the contact field match. This should be the same contract as the remote
@@ -119,7 +131,6 @@ export class Select2Search extends React.PureComponent<Select2SearchProps, {}> {
         results.sort(this.sortResults);
 
         // add any extra results
-        var createSearch: Function;
         if (this.props.addExtraResults) {
             this.props.addExtraResults(results, params.term);
         }
@@ -138,7 +149,9 @@ export class Select2Search extends React.PureComponent<Select2SearchProps, {}> {
         return (
             <div>
                 <Select2
-                    className="method"
+                    key={UUID.v4()}
+                    name={this.props.name}
+                    className={this.props.className}
                     ref={(ele: any) => {this.ele = ele}} 
                     options={
                         {
@@ -162,7 +175,7 @@ export class Select2Search extends React.PureComponent<Select2SearchProps, {}> {
                         }
                     }
                     style={{width: 'auto'}}
-                    value={this.props.initial.id}
+                    value={null}
                 />
             </div>
         )

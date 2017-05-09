@@ -1,6 +1,11 @@
-import {FlowDefinition, NodeProps, SendMessageProps, WebhookProps, NodeEditorProps, UIMetaDataProps, ActionProps, SearchResult, UINode, DragPoint} from '../interfaces';
+import { 
+    FlowDefinition, NodeProps, SendMessageProps, WebhookProps, NodeEditorProps, 
+    UIMetaDataProps, ActionProps, SearchResult, UINode, DragPoint
+} from '../interfaces';
+
 import NodeComp from './NodeComp';
 import ComponentMap from './ComponentMap';
+import {FlowLoaderProps} from './FlowLoaderComp';
 var update = require('immutability-helper');
 var UUID = require('uuid');
 
@@ -14,6 +19,8 @@ export class FlowMutator {
     private saveMethod: Function;
     private updateMethod: Function;
 
+    private loaderProps: FlowLoaderProps;
+
     private dirty: boolean;
     private uiTimeout: any;
     private saveTimeout: any;
@@ -21,13 +28,15 @@ export class FlowMutator {
     private quietUI: number;
     private quietSave: number;
     
-    constructor(definition: FlowDefinition, 
-                updateMethod: Function = null, 
-                saveMethod: Function = null,
-                quiteUI = 0, quietSave=0) {
+    constructor(definition: FlowDefinition=null,
+                updateMethod: Function=null,
+                saveMethod: Function=null,
+                loaderProps: FlowLoaderProps={},
+                quiteUI=0, quietSave=0) {
         this.definition = definition;
         this.saveMethod = saveMethod;
         this.updateMethod = updateMethod;
+        this.loaderProps = loaderProps;
         this.components = new ComponentMap(this.definition);
 
         this.quietUI = quiteUI;
@@ -51,7 +60,7 @@ export class FlowMutator {
     }
 
     public getContactFieldURL() {
-        return "";
+        return this.loaderProps.fieldsURL;
     }
 
     private markDirty() {

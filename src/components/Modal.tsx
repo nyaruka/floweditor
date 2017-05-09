@@ -27,8 +27,6 @@ interface ModalProps {
  */
 export class Modal extends React.Component<ModalProps, {}> {
 
-    private ele: HTMLElement
-
     constructor(props: ModalProps) {
         super(props);
     }
@@ -70,10 +68,10 @@ export class Modal extends React.Component<ModalProps, {}> {
                 onRequestClose={this.props.onModalClose}
                 style={customStyles}
                 shouldCloseOnOverlayClick={false}
-                contentLabel="blerg"
+                contentLabel="Modal"
                 closeTimeoutMS={200}>
 
-                <div ref={(ele: any) => {this.ele = ele;}} className={"modal " + this.props.className}>
+                <div className={"modal " + this.props.className}>
                     <div className="modal-header">
                         {this.props.title}
                     </div>

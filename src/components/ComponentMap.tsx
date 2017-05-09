@@ -24,9 +24,15 @@ export class ComponentMap {
         console.timeEnd("ComponentMap");
     }
 
-    public initializeUUIDMap(definition: FlowDefinition){
+    public initializeUUIDMap(definition: FlowDefinition) {
+
         var components: {[uuid: string]: ComponentDetails} = {};
         var exitsWithDestinations: ExitProps[] = [];
+
+        if (!definition) {
+            this.components = components;
+            return;
+        }
 
         // determine our indexes
         for (let nodeIdx = 0; nodeIdx<definition.nodes.length; nodeIdx++) {
@@ -80,6 +86,12 @@ export class ComponentMap {
     private initializeFieldsAndGroups(definition: FlowDefinition) {
         var fields: {[id:string]:ContactFieldResult} = {}
         var groups: {[id:string]:Group} = {}
+
+        if (!definition) {
+            this.contactFields = [];
+            this.groups = [];
+            return;
+        }
 
         for (let node of definition.nodes) {
             if (node.actions) {

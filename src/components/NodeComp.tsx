@@ -129,14 +129,13 @@ export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeStat
     }
 
     render() {
-
         var classes = ["node"];
         var actions: JSX.Element[] = [];
         if (this.props.actions) {
             // save the first reference off to manage our clicks
             var firstRef: any = {ref:(ele: any)=>{this.firstAction = ele}};
-            for (let definition of this.props.actions) {
-                actions.push(<ActionComp key={definition.uuid} mutator={this.props.mutator} dragging={this.state.dragging} draggedFrom={this.props.draggedFrom} {...definition} {...firstRef}/>);
+            for (let actionProps of this.props.actions) {
+                actions.push(<ActionComp key={actionProps.uuid} mutator={this.props.mutator} dragging={this.state.dragging} draggedFrom={this.props.draggedFrom} {...actionProps} {...firstRef}/>);
                 firstRef = {};
             }
         }
