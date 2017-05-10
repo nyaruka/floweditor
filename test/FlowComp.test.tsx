@@ -42,5 +42,4 @@ describe('Flow', () => {
             chai.assert.equal(wrapper.find("#" + id).length, 1, "Couldn't find id (" + id + ")");
         }
     });
-
 });

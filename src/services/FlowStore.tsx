@@ -1,5 +1,6 @@
 import * as axios from 'axios';
 import {LocationProps, UINode, FlowDefinition} from '../interfaces'
+
 var storage = require('local-storage');
 
 export class Location implements LocationProps {

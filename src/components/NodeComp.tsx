@@ -1,5 +1,9 @@
 import * as React from 'react';
 import * as axios from 'axios';
+import * as update from 'immutability-helper';
+import * as UUID from 'uuid';
+import * as shallowCompare from 'react-addons-shallow-compare';
+
 import {NodeProps, LocationProps, ActionProps} from '../interfaces';
 import {Plumber, DragEvent} from '../services/Plumber';
 import {FlowStore} from '../services/FlowStore';
@@ -8,11 +12,6 @@ import {NodeModal} from './NodeModal';
 import {ActionComp} from './ActionComp';
 import {ExitComp} from './ExitComp';
 import {TitleBar} from './TitleBar';
-
-var update = require('immutability-helper');
-var UUID = require('uuid');
-let PropTypes = require("prop-types");
-let shallowCompare = require('react-addons-shallow-compare');
 
 export interface NodeState {
     dragging?: boolean;

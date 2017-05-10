@@ -94,6 +94,7 @@ export interface CaseProps {
 
     exitProps?: ExitProps;
     onChanged?: Function;
+    moveCase?: Function;
 }
 
 export interface SwitchRouterProps extends RouterProps {

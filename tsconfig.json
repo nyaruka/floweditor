@@ -3,6 +3,7 @@
     "jsx": "react",
     "module": "commonjs",
     "noImplicitAny": true,
+    "skipLibCheck": true,
     "sourceMap": true,
     "outDir": "./dist/",
     "preserveConstEnums": true,

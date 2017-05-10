@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {Config} from '../services/Config';
+import * as UUID from 'uuid';
+import * as ReactModal from 'react-modal';
 
-var UUID  = require('uuid');
-var ReactModal = require('react-modal');
+import {Config} from '../services/Config';
 var Select2 = require('react-select2-wrapper');
 
 interface ModalProps {

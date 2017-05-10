@@ -37,7 +37,6 @@ export class SaveToContact extends ActionComp<SaveToContactProps> {
 
 export class SaveToContactForm extends NodeFormComp<SaveToContactProps, NodeEditorState> {
 
-    props: SaveToContactProps;
     fieldValue: string;
     fieldSelect: Select2Search;
 

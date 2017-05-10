@@ -1,13 +1,11 @@
 import * as React from "react";
+import * as UUID from 'uuid';
 import {NodeEditorProps, NodeEditorState} from '../interfaces'
 import {Plumber} from '../services/Plumber';
 import {FlowStore} from '../services/FlowStore';
 import {Config} from '../services/Config';
 import {NodeModal} from './NodeModal';
 import {TitleBar} from './TitleBar';
-
-let PropTypes = require("prop-types");
-let UUID  = require("uuid");
 
 /**
  * Base Action class for the rendered flow

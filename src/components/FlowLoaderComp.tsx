@@ -1,4 +1,6 @@
 import * as React from 'react';
+import * as UUID from 'uuid';
+import * as update from 'immutability-helper';
 
 import {NodeComp} from './NodeComp';
 import {Plumber} from '../services/Plumber';
@@ -9,9 +11,6 @@ import {NodeModal} from './NodeModal';
 import {FlowMutator} from './FlowMutator';
 import {FlowComp} from './FlowComp';
 import {FlowDefinition} from '../interfaces';
-
-var UUID = require('uuid');
-var update = require('immutability-helper');
 
 var FORCE_FETCH = true;
 var QUIET_UI = 10;

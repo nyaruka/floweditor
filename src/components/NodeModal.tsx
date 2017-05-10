@@ -1,13 +1,13 @@
 import * as React from 'react';
+import * as UUID from 'uuid';
+import * as update from 'immutability-helper';
 import {NodeEditorProps, NodeEditorState, ExitProps, TypeConfig} from '../interfaces';
 import {Modal} from './Modal';
 import {Config} from '../services/Config';
 import {FlowMutator} from '../components/FlowMutator';
 import {NodeFormComp} from './NodeFormComp';
 
-var UUID  = require('uuid');
 var Select2 = require('react-select2-wrapper');
-var update = require('immutability-helper');
 
 interface NodeModalProps {
     initial: NodeEditorProps;

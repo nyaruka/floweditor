@@ -1,14 +1,13 @@
+import * as UUID from 'uuid';
+import * as update from 'immutability-helper';
+
 import { 
     FlowDefinition, NodeProps, SendMessageProps, WebhookProps, NodeEditorProps, 
     UIMetaDataProps, ActionProps, SearchResult, UINode, DragPoint
 } from '../interfaces';
-
 import {NodeComp} from './NodeComp';
 import {ComponentMap} from './ComponentMap';
 import {FlowLoaderProps} from './FlowLoaderComp';
-
-var update = require('immutability-helper');
-var UUID = require('uuid');
 
 
 export class FlowMutator {

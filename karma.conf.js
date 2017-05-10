@@ -51,7 +51,7 @@ module.exports = function(config) {
          */
         frameworks: ["mocha", "chai", "sinon"],
 
-        logLevel: config.LOG_DEBUG,
+        logLevel: config.LOG_VERBOSE,
 
         /*
          * By default, Karma loads all sibling NPM modules which have a name
@@ -70,7 +70,7 @@ module.exports = function(config) {
          * npm module to be npm installed and added to the "plugins" field.
          */
         preprocessors: {
-            "test/**/*.ts*": ["webpack", "sourcemap"], // Using karma-webpack npm module
+            "test/**/*.ts*": ["webpack"] // , "sourcemap"], // Using karma-webpack npm module
             // "src/**/*.ts*": ["webpack"]
         },
 
