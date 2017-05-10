@@ -1,4 +1,7 @@
-import {FlowDefinition, SearchResult, ExitProps, ContactFieldResult, Group, SaveToContactProps, AddToGroupProps} from '../interfaces';
+import {
+    FlowDefinition, SearchResult, ExitProps, ContactFieldResult, 
+    Group, SaveToContactProps, AddToGroupProps
+} from '../interfaces';
 
 interface ComponentDetails {
     nodeUUID: string;

@@ -170,7 +170,7 @@
           },
           {
             "uuid": "896f71e2-f8e7-4daf-bab4-2bd3b35ab887",
-            "type": "contains_any",
+            "type": "contains",
             "arguments": [
               "graham"
             ],

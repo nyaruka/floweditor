@@ -1,11 +1,11 @@
 import * as React from "react";
 import * as axios from "axios";
-import * as Interfaces from '../interfaces'
-import Plumber from '../services/Plumber';
-import FlowStore from '../services/FlowStore';
-import Config from '../services/Config';
-import NodeModal from './NodeModal';
-import TitleBar from './TitleBar';
+import {ActionProps} from '../interfaces'
+import {Plumber} from '../services/Plumber';
+import {FlowStore} from '../services/FlowStore';
+import {Config} from '../services/Config';
+import {NodeModal} from './NodeModal';
+import {TitleBar} from './TitleBar';
 
 let PropTypes = require("prop-types");
 let UUID  = require("uuid");
@@ -13,7 +13,7 @@ let UUID  = require("uuid");
 /**
  * Base Action class for the rendered flow
  */
-export class ActionComp<P extends Interfaces.ActionProps> extends React.Component<P, {}> {
+export class ActionComp<P extends ActionProps> extends React.PureComponent<P, {}> {
 
     public form: HTMLFormElement;
     private modal: NodeModal;
@@ -51,9 +51,12 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
         this.props.mutator.removeAction(this.props);
     }
 
+    renderNode(): JSX.Element {
+        return null;
+    }
+
     render() {
         let config = Config.get().getTypeConfig(this.props.type);
-        let renderer = new config.renderer(this.props);
         var events = {onMouseUp: this.onClick.bind(this)}
 
         return(
@@ -61,14 +64,13 @@ export class ActionComp<P extends Interfaces.ActionProps> extends React.Componen
                 <div className={'action ' + this.getClassName()} {...events}>
                     <TitleBar className="action-title" title={config.name} onRemoval={this.onRemoval.bind(this)}/>
                     <div className="action-content">
-                        {renderer.renderNode()}
+                        {this.renderNode()}
                     </div>
                 </div>
                 <NodeModal
                     key={"modal-" + this.props.uuid}
                     ref={(ele: any) => {this.modal = ele}} 
                     initial={this.props}
-                    renderer={renderer}
                     changeType={true}
                 /> 
             </div>

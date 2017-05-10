@@ -3,17 +3,16 @@ import {
     UIMetaDataProps, ActionProps, SearchResult, UINode, DragPoint
 } from '../interfaces';
 
-import NodeComp from './NodeComp';
-import ComponentMap from './ComponentMap';
+import {NodeComp} from './NodeComp';
+import {ComponentMap} from './ComponentMap';
 import {FlowLoaderProps} from './FlowLoaderComp';
+
 var update = require('immutability-helper');
 var UUID = require('uuid');
 
-var UI_QUIET = 0;
-var SAVE_QUIET = 0;
 
 export class FlowMutator {
-    
+
     private definition: FlowDefinition;
     private components: ComponentMap;
     private saveMethod: Function;
@@ -79,7 +78,7 @@ export class FlowMutator {
 
                 this.uiTimeout = window.setTimeout(()=>{
                     this.updateMethod(this.definition);
-                }, UI_QUIET);
+                }, this.quietUI);
 
             } else {
                 this.updateMethod(this.definition);
@@ -98,7 +97,7 @@ export class FlowMutator {
                 this.saveTimeout = window.setTimeout(()=>{
                     this.saveMethod(this.definition);
                     this.dirty = false;
-                }, SAVE_QUIET);
+                }, this.quietSave);
             } else {
                 this.saveMethod(this.definition);
                 this.dirty = false;

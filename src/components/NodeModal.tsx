@@ -1,24 +1,23 @@
 import * as React from 'react';
-import * as Interfaces from '../interfaces';
-import * as Renderer from '../components/Renderer';
-import Modal from './Modal';
-import Config from '../services/Config';
-import FlowMutator from '../components/FlowMutator';
+import {NodeEditorProps, NodeEditorState, ExitProps, TypeConfig} from '../interfaces';
+import {Modal} from './Modal';
+import {Config} from '../services/Config';
+import {FlowMutator} from '../components/FlowMutator';
+import {NodeFormComp} from './NodeFormComp';
 
 var UUID  = require('uuid');
 var Select2 = require('react-select2-wrapper');
 var update = require('immutability-helper');
 
 interface NodeModalProps {
-    initial: Interfaces.NodeEditorProps;
+    initial: NodeEditorProps;
     changeType: boolean;
-    renderer?: Renderer.Renderer;
+    exits?: ExitProps[];
 }
 
 interface NodeModalState {
     show: boolean;
-    renderer: Renderer.Renderer;
-    config: Interfaces.TypeConfig;
+    config: TypeConfig;
 }
 
 /**
@@ -26,27 +25,22 @@ interface NodeModalState {
  */
 export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     
-    private rendererMap: {[type:string]:Renderer.Renderer; } = {}
-    private form: HTMLFormElement;
+    private formElement: HTMLFormElement;
+    private form: NodeFormComp<NodeEditorProps, NodeEditorState>;
+
     private nodeUUID: string;
 
     constructor(props: NodeModalProps) {
         super(props);
 
-        // stick our initialized renderer in our map
-        if (this.props.renderer) {
-            this.rendererMap[this.props.initial.type] = this.props.renderer;
-        }
-
         this.state = {
             show: false,
-            renderer: this.getRenderer(this.props.initial.type, this.props.initial),
             config: this.getConfig(this.props.initial.type)
         }
 
         this.onModalButtonClick = this.onModalButtonClick.bind(this);
         this.onModalOpen = this.onModalOpen.bind(this);
-        this.onChangeRenderer = this.onChangeRenderer.bind(this);
+        this.onChangeType = this.onChangeType.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
         this.processForm = this.processForm.bind(this);
     }
@@ -54,7 +48,6 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     open() {
         this.setState({
             show: true,
-            renderer: this.getRenderer(this.props.initial.type, this.props.initial),
             config: this.getConfig(this.props.initial.type)
         });
     }
@@ -71,23 +64,15 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         }
     }
 
-    getRenderer (type: string, props?: Interfaces.NodeEditorProps): Renderer.Renderer {
-        if (!(type in this.rendererMap)) {
-            let config = this.getConfig(type);
-            this.rendererMap[type] = new config.renderer(props);
-        }
-        return this.rendererMap[type]
-    }
-
     onModalOpen() {
 
     }
 
     processForm() {
         var valid = true;
-        $(this.form.elements).each((index: number, ele: HTMLFormElement) => {
+        $(this.formElement.elements).each((index: number, ele: HTMLFormElement) => {
             if (ele.name) {
-                var error = this.state.renderer.validate(ele);
+                var error = this.form.validate(ele);
                 if (error) {
                     var group = $(ele).parents('.form-group')
                     group.addClass('invalid');
@@ -102,7 +87,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         // if we are still valid, proceed with submit
         if (valid) {
             // and finally submit our node
-            this.state.renderer.submit(this.form);
+            this.form.submit(this.formElement);
             this.closeModal();
         }
     }
@@ -111,11 +96,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         if (this.props.initial.draggedFrom) {
             this.props.initial.draggedFrom.onResolved();
         }
-
         this.close();
-
-        // force a clean object form now that we are done
-        this.rendererMap = {};
     }
 
     private onModalButtonClick(event: any) {
@@ -129,24 +110,20 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     /**
      * A change to our renderer type
      */
-    private onChangeRenderer(event: any) {
+    private onChangeType(event: any) {
         var type = event.target.value;
-        if (type != this.state.renderer.props.type) {
-            let props = update(this.props.initial, {type: {$set: type}});
+        if (type != this.state.config.type) {
             this.setState({ 
-                renderer: this.getRenderer(type, props),
                 config: this.getConfig(type)
             });
         }
     }
 
-
     /** 
      * Our properties changed
      */
     private componentDidUpdate() {
-        // if we are changed out from under ourselves, clear our renderers
-        this.rendererMap = {};
+
     }
 
     /**
@@ -162,15 +139,19 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
             }
         }
     }
+    
+    public getClassName() {
+        return this.state.config.type.split('_').join('-');
+    }
 
     render() {
+
         var data: any = [];
-        let options: Interfaces.TypeConfig[] = Config.get().typeConfigs;
-        options.map((option: Interfaces.TypeConfig) => {
+        let options: TypeConfig[] = Config.get().typeConfigs;
+        options.map((option: TypeConfig) => {
             data.push({id: option.type, text: option.description});
         });
 
-        var renderer = this.state.renderer;
         var changeOptions: JSX.Element;
 
         if (this.props.changeType) {
@@ -180,8 +161,8 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                     <div className="form-group">
                         <Select2
                             className={"change-type"}
-                            value={renderer.props.type}
-                            onChange={this.onChangeRenderer.bind(this)}
+                            value={this.state.config.type}
+                            onChange={this.onChangeType.bind(this)}
                             data={data}
                         />
                     </div>
@@ -189,12 +170,21 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
             )
         }
 
+        var form = null;
+
+        // create our form element
+        if (this.state.config.form != null) {
+            var props = this.props.initial as NodeEditorProps
+            var ref = (ele: any) => { this.form = ele; }
+            form = React.createElement(this.state.config.form, {...props, ref:ref});
+        }
+
         return (
             <Modal
                 width="570px"
                 key={'modal_' + this.props.initial.uuid}
                 title={<div>{this.state.config.name}</div>}
-                className={renderer.getClassName()}
+                className={this.getClassName()}
                 show={this.state.show}
                 onModalClose={this.onModalButtonClick}
                 onModalOpen={this.onModalOpen}
@@ -202,9 +192,9 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                 cancel='Cancel'>
                 
                 <div className="node-editor">
-                    <form onKeyPress={this.onKeyPress}  ref={(ele: any) => { this.form = ele; }}>
+                    <form onKeyPress={this.onKeyPress} ref={(ele: any) => { this.formElement = ele; }}>
                         {changeOptions}
-                        <div className="widgets">{renderer.renderForm()}</div>
+                        <div className="widgets">{form}</div>
                     </form>
                 </div>
             </Modal>

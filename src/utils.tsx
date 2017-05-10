@@ -1,5 +1,3 @@
-import {Set} from 'typescript-collections';
-
 /** Turns a string array into a bool map */
 export function toBoolMap(array: string[]): {[item: string]: boolean} {
     var map: {[item: string]: boolean} = {};

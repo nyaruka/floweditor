@@ -1,15 +1,15 @@
 import * as React from 'react';
-import * as Interfaces from '../interfaces';
-import Plumber from '../services/Plumber';
+import {ExitProps} from '../interfaces';
+import {Plumber} from '../services/Plumber';
 
-class ExitComp extends React.PureComponent<Interfaces.ExitProps, {}> {
+export class ExitComp extends React.PureComponent<ExitProps, {}> {
 
     componentDidMount() {
         // we can be dragged from
         Plumber.get().makeSource(this.props.uuid);
     }
 
-    componentDidUpdate(prevProps: Interfaces.ExitProps) {
+    componentDidUpdate(prevProps: ExitProps) {
         if (this.props.destination) {
             Plumber.get().connectExit(this.props);
         }

@@ -1,27 +1,23 @@
 import * as React from 'react';
-import {Renderer} from '../Renderer'
-import * as Interfaces from '../../interfaces';
+import {ActionComp} from '../ActionComp';
+import {NodeFormComp} from '../NodeFormComp';
+import {WebhookProps, NodeEditorState} from '../../interfaces';
+
 var Select2 = require('react-select2-wrapper');
 
-export class Webhook extends Renderer {
-    props: Interfaces.WebhookProps;
-    method: string;
 
-    constructor(props: Interfaces.WebhookProps) {
-        super(props);
-        this.onChangeMethod = this.onChangeMethod.bind(this);
-        this.method = this.props.method
-        if (!this.method) {
-            this.method = 'GET'
-        }
+export class Webhook extends ActionComp<WebhookProps> {
+    renderNode(): JSX.Element {
+        return <div className="url breaks">{this.props.url}</div>
     }
+}
+
+export class WebhookForm extends NodeFormComp<WebhookProps, NodeEditorState> {
+
+    private method: string
 
     onChangeMethod(evt: any) {
         this.method = evt.target.value;
-    }
-
-    renderNode(): JSX.Element {
-        return <div className="url breaks">{this.props.url}</div>
     }
 
     renderForm(): JSX.Element {
@@ -35,7 +31,7 @@ export class Webhook extends Renderer {
                             className="method form-control"
                             style={{width: 'auto'}}
                             value={this.props.method}
-                            onChange={this.onChangeMethod}
+                            onChange={this.onChangeMethod.bind(this)}
                             options={{ minimumResultsForSearch: -1 }}
                             data={[{id: 'GET', text: 'GET'}, {id: 'POST', text: 'POST'}]}
                         />
@@ -83,8 +79,6 @@ export class Webhook extends Renderer {
             type: "webhook", 
             url: url.value, 
             method: this.method
-        } as Interfaces.WebhookProps);
+        } as WebhookProps);
     }
 }
-
-export default Webhook;

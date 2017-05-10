@@ -1,5 +1,5 @@
-import * as Interfaces from '../src/interfaces';
-import FlowMutator from '../src/components/FlowMutator';
+import {SendMessageProps, UINode, WebhookProps} from '../src/interfaces';
+import {FlowMutator} from '../src/components/FlowMutator';
 import {FlowDefinition, NodeProps} from '../src/interfaces';
 import {getFavorites, dump} from './utils';
 var sinon = require('sinon');
@@ -92,7 +92,7 @@ describe('FlowMutator', () => {
                 x: 444,
                 y: 555
             }
-        } as Interfaces.SendMessageProps);
+        } as SendMessageProps);
 
         // we should have a new node
         chai.assert.equal(definition.nodes.length, 8);
@@ -113,7 +113,7 @@ describe('FlowMutator', () => {
         chai.assert.isUndefined(newNode.pendingConnection, "Still has a reference to pendingConnection");
 
         // check that we have our location set
-        var ui = definition._ui.nodes[newNode.uuid] as Interfaces.UINode;
+        var ui = definition._ui.nodes[newNode.uuid] as UINode;
         chai.assert.notEqual(ui, undefined, "Couldn't find ui details for new node");
         chai.assert.deepEqual(ui.position, {x: 444, y: 555})
 
@@ -125,10 +125,10 @@ describe('FlowMutator', () => {
             uuid: lastNode.actions[0].uuid,
             type: "msg",
             text: "An update to an existing action",
-        } as Interfaces.SendMessageProps);
+        } as SendMessageProps);
 
         lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
-        var action = lastNode.actions[0] as Interfaces.SendMessageProps;
+        var action = lastNode.actions[0] as SendMessageProps;
         chai.assert.equal(action.text, "An update to an existing action");
     });
 
@@ -139,10 +139,10 @@ describe('FlowMutator', () => {
             type: "webhook",
             url: "http://www.webhook.com/endpoint",
             method: "GET"
-        } as Interfaces.WebhookProps);
+        } as WebhookProps);
 
         lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
-        var action = lastNode.actions[0] as Interfaces.WebhookProps;
+        var action = lastNode.actions[0] as WebhookProps;
         chai.assert.equal(action.url, "http://www.webhook.com/endpoint");
         chai.assert.equal(action.method, "GET");
     });
@@ -153,12 +153,12 @@ describe('FlowMutator', () => {
             type: "msg",
             text: "Add action to an existing node",
             addToNode: "47a0be00-59ad-4558-bd13-ec66518ce44a"
-        } as Interfaces.SendMessageProps);
+        } as SendMessageProps);
 
         var lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
         chai.assert.equal(3, lastNode.actions.length);
 
-        var action = lastNode.actions[2] as Interfaces.SendMessageProps;
+        var action = lastNode.actions[2] as SendMessageProps;
         chai.assert.equal(action.text, "Add action to an existing node");
     });
 
@@ -178,7 +178,7 @@ describe('FlowMutator', () => {
                 x: 444,
                 y: 555
             }
-        } as Interfaces.SendMessageProps);
+        } as SendMessageProps);
 
         // resolve its pending connection
         mutator.resolvePendingConnection(newNode);
@@ -190,7 +190,7 @@ describe('FlowMutator', () => {
             type: "msg",
             text: "Add new action on our new node",
             addToNode: newNode.uuid,
-        } as Interfaces.SendMessageProps);
+        } as SendMessageProps);
 
         // we should have two actions now
         newNode = mutator.getNode(newNode.uuid);

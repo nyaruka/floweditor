@@ -1,12 +1,11 @@
-import * as Interfaces from '../interfaces';
-import * as Renderer from '../components/Renderer';
-import Webhook from '../components/actions/Webhook';
-import AddToGroup from '../components/actions/AddToGroup';
-import SendMessage from '../components/actions/SendMessage';
-import SaveToContact from '../components/actions/SaveToContact';
-import SetLanguage from '../components/actions/SetLanguage';
-import SwitchRouter from '../components/routers/SwitchRouter';
-import RandomRouter from '../components/routers/RandomRouter';
+import {TypeConfig, Operator} from '../interfaces';
+import {AddToGroup, AddToGroupForm} from '../components/actions/AddToGroup';
+import {SaveToContact, SaveToContactForm} from '../components/actions/SaveToContact';
+import {SetLanguage, SetLanguageForm} from '../components/actions/SetLanguage';
+import {SendMessage, SendMessageForm} from '../components/actions/SendMessage';
+import {Webhook, WebhookForm} from '../components/actions/Webhook';
+import {SwitchRouterForm} from '../components/routers/SwitchRouter';
+import {RandomRouterForm} from '../components/routers/RandomRouter';
 
 export class Config {
 
@@ -20,24 +19,24 @@ export class Config {
         console.log('init config');
     }
 
-    public typeConfigs: Interfaces.TypeConfig[] = [
+    public typeConfigs: TypeConfig[] = [
 
         // actions
-        {type: "msg", name: "Send Message", description: "Send them a message", renderer: SendMessage},
-        {type: "add_to_group", name: "Add to Group", description: "Add them to a group", renderer: AddToGroup},
-        {type: "save_to_contact", name: "Save to Contact", description: "Update one of their fields", renderer: SaveToContact},
-        {type: "set_language", name: "Set Language", description: "Update their language", renderer: SetLanguage},
+        {type: "msg", name: "Send Message", description: "Send them a message", form: SendMessageForm, component: SendMessage},
+        {type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: AddToGroupForm, component: AddToGroup},
+        {type: "save_to_contact", name: "Save to Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContact},
+        {type: "set_language", name: "Set Language", description: "Update their language", form: SetLanguageForm, component: SetLanguage},
         
         // hybrids
-        {type: "webhook", name: "Call Webhook", description: "Call an external service", renderer: Webhook},
+        {type: "webhook", name: "Call Webhook", description: "Call an external service", form: WebhookForm, component: Webhook},
 
         // routers
-        {type: "switch", name: "Wait for Response", description: "Wait for them to respond", renderer: SwitchRouter},
-        {type: "random", name: "Random Split", description: "Split them up randomly", renderer: RandomRouter}
+        {type: "switch", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm},
+        {type: "random", name: "Random Split", description: "Split them up randomly", form: RandomRouterForm}
 
     ]
 
-    public getTypeConfig(type: string): Interfaces.TypeConfig {
+    public getTypeConfig(type: string): TypeConfig {
         for (let config of this.typeConfigs) {
             if (config.type == type) {
                 return config;
@@ -45,6 +44,12 @@ export class Config {
         }
         return null;
     }
+
+    public operators: Operator[] = [
+        { type: "contains_any", name: "Contains any", verboseName: "has any of the words", operands: 1},
+        { type: "contains", name: "Contains all", verboseName: "has all of the words", operands: 1},
+        { type: "contains_phrase", name: "Contains phrase", verboseName: "has the phrase", operands: 1},
+    ]
 }
 
 export default Config;

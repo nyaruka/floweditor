@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as axios from 'axios';
-import * as Interfaces from '../interfaces';
+import {NodeProps, LocationProps, ActionProps} from '../interfaces';
 import {Plumber, DragEvent} from '../services/Plumber';
-import FlowStore from '../services/FlowStore';
-import Config from '../services/Config';
-import NodeModal from './NodeModal';
-import ActionComp from './ActionComp';
-import ExitComp from './ExitComp';
-import TitleBar from './TitleBar';
+import {FlowStore} from '../services/FlowStore';
+import {Config} from '../services/Config';
+import {NodeModal} from './NodeModal';
+import {ActionComp} from './ActionComp';
+import {ExitComp} from './ExitComp';
+import {TitleBar} from './TitleBar';
 
 var update = require('immutability-helper');
 var UUID = require('uuid');
@@ -16,20 +16,20 @@ let shallowCompare = require('react-addons-shallow-compare');
 
 export interface NodeState {
     dragging?: boolean;
-    createPosition?: Interfaces.LocationProps;
+    createPosition?: LocationProps;
 }
 
 /**
  * A single node in the rendered flow
  */
-export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeState> {
+export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
     public ele: any;
     private modal: NodeModal;
-    private firstAction: ActionComp<Interfaces.ActionProps>;
+    private firstAction: ActionComp<ActionProps>;
     private newActionModal: NodeModal;
 
-    constructor(props: Interfaces.NodeProps){
+    constructor(props: NodeProps){
         super(props);
         this.state = { dragging: false }
         this.onClick = this.onClick.bind(this);
@@ -59,7 +59,7 @@ export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeStat
         });
     }
 
-    shouldComponentUpdate(nextProps: Interfaces.NodeProps, nextState: NodeState) {
+    shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState) {
 
         // TODO: these should be inverse evaluations since things can be batched
         if (nextProps._ui.position.x != this.props._ui.position.x || nextProps._ui.position.y != this.props._ui.position.y) {
@@ -102,7 +102,7 @@ export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeStat
         Plumber.get().remove(this.props.uuid);
     }
 
-    componentDidUpdate(prevProps: Interfaces.NodeProps, prevState: NodeState) {
+    componentDidUpdate(prevProps: NodeProps, prevState: NodeState) {
         if (!this.props.draggedFrom) {
             Plumber.get().recalculate(this.props.uuid);
         }
@@ -135,7 +135,17 @@ export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeStat
             // save the first reference off to manage our clicks
             var firstRef: any = {ref:(ele: any)=>{this.firstAction = ele}};
             for (let actionProps of this.props.actions) {
-                actions.push(<ActionComp key={actionProps.uuid} mutator={this.props.mutator} dragging={this.state.dragging} draggedFrom={this.props.draggedFrom} {...actionProps} {...firstRef}/>);
+                let actionConfig = Config.get().getTypeConfig(actionProps.type);
+                if (actionConfig.component != null){
+                    actions.push(React.createElement(actionConfig.component, { 
+                        ...actionProps,
+                        ...firstRef,
+                        key: actionProps.uuid,
+                        mutator: this.props.mutator, 
+                        dragging: this.state.dragging, 
+                        draggedFrom: this.props.draggedFrom,
+                    } as ActionProps));
+                }
                 firstRef = {};
             }
         }
@@ -151,15 +161,15 @@ export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeStat
 
         if (this.props.router) {
             let config = Config.get().getTypeConfig(this.props.router.type);
-            let renderer = new config.renderer(this.props.router);
 
             header = <TitleBar className={"split-title " + this.props.router.type} 
                                onRemoval={this.onRemoval.bind(this)} 
                                title={config.name} {...events}/>
 
             modal = <NodeModal ref={(ele: any) => {this.modal = ele}} 
-                               initial={this.props.router}
-                               changeType={false}
+                               initial={{...this.props.router, exits: this.props.exits}}
+                               exits={this.props.exits}
+                               changeType={true}
             />
         } else {
             if (actions.length == 0) {
@@ -193,7 +203,7 @@ export class NodeComp extends React.PureComponent<Interfaces.NodeProps, NodeStat
         // create our empty modal for creating new actions
         let newAction = <NodeModal 
             ref={(ele: any) => {this.newActionModal = ele}}
-            initial={{addToNode: this.props.uuid, type:"msg", uuid:UUID.v4(), mutator: this.props.mutator} as Interfaces.ActionProps}
+            initial={{addToNode: this.props.uuid, type:"msg", uuid:UUID.v4(), mutator: this.props.mutator} as ActionProps}
             changeType={true}
         />
 

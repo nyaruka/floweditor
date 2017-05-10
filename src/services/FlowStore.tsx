@@ -1,8 +1,8 @@
 import * as axios from 'axios';
-import * as Interfaces from '../interfaces'
+import {LocationProps, UINode, FlowDefinition} from '../interfaces'
 var storage = require('local-storage');
 
-export class Location implements Interfaces.LocationProps {
+export class Location implements LocationProps {
     x: number
     y: number
 
@@ -12,7 +12,7 @@ export class Location implements Interfaces.LocationProps {
     }
 }
 
-export class UINodeMetaData implements Interfaces.UINode {
+export class UINodeMetaData implements UINode {
     position: Location;
     
     constructor(location: Location) {
@@ -29,7 +29,7 @@ export class UINodeMetaData implements Interfaces.UINode {
 export class FlowStore {
 
     private static singleton: FlowStore = new FlowStore();
-    private currentDefinition: Interfaces.FlowDefinition;
+    private currentDefinition: FlowDefinition;
 
     static get(): FlowStore {
         return FlowStore.singleton;
@@ -42,7 +42,7 @@ export class FlowStore {
     loadFromUrl(url: string, onLoad: Function) {
         console.log('Loading from url', url);
         return axios.default.get(url).then((response: axios.AxiosResponse) => {
-            let definition = eval(response.data) as Interfaces.FlowDefinition
+            let definition = eval(response.data) as FlowDefinition
             console.log(definition);
             onLoad(definition);
         });
@@ -51,7 +51,7 @@ export class FlowStore {
     loadFromStorage() {
         console.log('Loading from storage..');
         if (storage('flow')) {
-            return (storage.get('flow') as Interfaces.FlowDefinition);
+            return (storage.get('flow') as FlowDefinition);
         }
     }
 
@@ -68,7 +68,7 @@ export class FlowStore {
         }
     }
     
-    save(definition: Interfaces.FlowDefinition) {
+    save(definition: FlowDefinition) {
         storage.set('flow', definition);
         // console.log("Saving");
         // console.log(JSON.stringify(definition, null, 2));

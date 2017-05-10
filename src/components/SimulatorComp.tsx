@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as axios from 'axios';
-import FlowStore from '../services/FlowStore';
+import {FlowStore} from '../services/FlowStore';
 
 interface Message {
     text: string;

@@ -741,3 +741,84 @@ textarea, input, button { outline: none; }
     }
   }
 }
+
+
+
+.lead-in {
+    margin-bottom: 15px;
+}
+
+.case {
+    .choice {
+        width: 150px;
+        display: inline-block;
+
+        .operator {
+            font-size: 11px;
+        }
+
+        .Select-control {
+            font-size: 11px;
+            height: 24px;
+
+            .Select-placeholder {
+                line-height: 22px;
+            }
+
+            .Select-value {
+                line-height: 22px !important;
+
+                .Select-value-label {
+                    line-height: 22px;
+                }
+            }
+
+            .Select-input {
+                height: 22px;
+            }
+        }
+    }
+
+    .operand {
+        display: inline-block;
+        position: relative;
+        top: -7px;
+        left: 5px;
+        margin-right: 5px;
+        input {
+            padding: 5px;
+            border: 1px solid #ccc;
+            margin: 0;
+            height: 13px;
+            color: #666;
+        }
+    }
+
+    .categorize-as {
+        display: inline-block;
+        font-size: 13px;
+        line-height: 13px;
+        position: relative;
+        top: -7px;
+        left: 7px;
+        margin-right: 5px;
+    }
+
+    .category {
+        display: inline-block;
+        position: relative;
+        top: -7px;
+        left: 8px;
+        margin-right: 5px;
+        input {
+            padding: 5px;
+            border: 1px solid #ccc;
+            margin: 0;
+            height: 13px;
+            color: #666;
+        }        
+    }
+
+}
+
+

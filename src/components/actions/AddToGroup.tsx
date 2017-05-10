@@ -1,26 +1,14 @@
 import * as React from 'react';
-import {Renderer} from '../Renderer'
-import * as Interfaces from '../../interfaces';
-var Select2 = require('react-select2-wrapper');
+import {ActionComp} from '../ActionComp';
+import {NodeFormComp} from '../NodeFormComp';
+import {AddToGroupProps, NodeEditorState} from '../../interfaces';
 
-export class AddToGroup extends Renderer {
-
-    props: Interfaces.AddToGroupProps;
-
-    renderNode(): JSX.Element {
-        return <div>{this.props.name}</div>
-    }
-
-    renderForm(): JSX.Element {
-        return <div>Not implemented</div>
-    }
-    
-    validate(control: any): string {
-        return null;
-    }
-
-    submit(form: HTMLFormElement) {}
-
+export class AddToGroup extends ActionComp<AddToGroupProps> {
+    renderNode() { return <div>AddToGroup</div> }
 }
 
-export default AddToGroup;
+export class AddToGroupForm extends NodeFormComp<AddToGroupProps, NodeEditorState> {
+    renderForm(): JSX.Element { return <div>Not Implement</div> }
+    validate(control: any): string { return null; }
+    submit(form: Element) {}
+}

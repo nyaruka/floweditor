@@ -1,25 +1,14 @@
 import * as React from 'react';
-import {Renderer} from '../Renderer'
-import * as Interfaces from '../../interfaces';
-var Select2 = require('react-select2-wrapper');
+import {ActionComp} from '../ActionComp';
+import {NodeFormComp} from '../NodeFormComp';
+import {SetLanguageProps, NodeEditorState} from '../../interfaces';
 
-export class SetLanguage extends Renderer {
-
-    props: Interfaces.SetLanguageProps;
-
-    renderNode(): JSX.Element {
-        return <div>Not implemented</div>
-    }
-
-    renderForm(): JSX.Element {
-        return <div>Not implemented</div>
-    }
-
-    validate(control: any): string {
-        return null;
-    }
-
-    submit(form: HTMLFormElement) {}
+export class SetLanguage extends ActionComp<SetLanguageProps> {
+    renderNode() { return <div>Language</div> }
 }
 
-export default SetLanguage;
+export class SetLanguageForm extends NodeFormComp<SetLanguageProps, NodeEditorState> {
+    renderForm(): JSX.Element { return <div>Not Implement</div> }
+    validate(control: any): string { return null; }
+    submit(form: Element) {}
+}

@@ -73,10 +73,6 @@ export class Plumber {
         this.jsPlumb.makeTarget(uuid, this.targetDefaults);
     }
 
-    detach(source: string, target: string) {
-        this.jsPlumb.select({source: source, target: target}).detach();
-    }
-
     connectNewNode(source: string, target: string) {
         this.connect(source, target);
         this.recalculate(target);
@@ -89,8 +85,10 @@ export class Plumber {
 
     connect(source: string, target: string) {
         if (source != null && target != null) {
-            this.jsPlumb.select({source: source}).detach();
 
+            // any existing connections for our source need to be deleted
+            this.jsPlumb.select({source: source}).delete();
+            
             // now make our new connection
             return this.jsPlumb.connect({source: source, target: target, fireEvent: false});
         }
@@ -115,11 +113,9 @@ export class Plumber {
     }
 
     remove(uuid: string) {
-        this.jsPlumb.detachAllConnections(uuid);
-    }
-
-    reset() {
-        this.jsPlumb.detachEveryConnection();
+        // not sure what happened to jsPlumb.detachAllConnections(uuid)
+        this.jsPlumb.select({source: uuid}).delete();
+        this.jsPlumb.select({target: uuid}).delete();
     }
 
     recalculate(uuid?: string) {
@@ -138,7 +134,6 @@ export class Plumber {
         // this will suspend drawing until all nodes are connected
         this.jsPlumb.ready(() => {
             this.jsPlumb.batch(()=> {
-                this.reset();
                 // wire everything up
                 for (let node of flow.nodes) {
                     if (node.exits) {

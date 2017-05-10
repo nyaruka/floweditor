@@ -1,12 +1,9 @@
 import * as React from 'react';
-import * as Interfaces from '../interfaces';
-import * as Renderer from '../components/Renderer';
-import Config from '../services/Config';
+import {Config} from '../services/Config';
 
 var UUID  = require('uuid');
 var ReactModal = require('react-modal');
 var Select2 = require('react-select2-wrapper');
-
 
 interface ModalProps {
     show: boolean;

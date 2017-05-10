@@ -1,24 +1,11 @@
 import * as React from 'react';
-import {Renderer} from '../Renderer'
-import * as Interfaces from '../../interfaces';
-var Select2 = require('react-select2-wrapper');
+import {NodeFormComp} from '../NodeFormComp';
+import {RandomRouterProps, NodeEditorState} from '../../interfaces';
 
-export class RandomRouter extends Renderer {
-    renderNode(): JSX.Element {
-        return <div>Not implemented</div>
-    }
-
-    renderForm(): JSX.Element {
-        return <div>Random split editor goes here</div>
-    }
-    
-    validate(control: any): string {
-        return null;
-    }
-
-    submit(form: HTMLFormElement) {}
+export class RandomRouterForm extends NodeFormComp<RandomRouterProps, NodeEditorState> {
+    renderForm(): JSX.Element { return <div>Not Implement</div> }
+    validate(control: any): string { return null; }
+    submit(form: Element) {}
 }
 
-export default RandomRouter;
-
-
+export default RandomRouterForm;

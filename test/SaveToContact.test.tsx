@@ -37,7 +37,7 @@ describe('SaveToContact', () => {
         let element = action.renderNode();
         chai.assert.equal(element.type, "div");
 
-        action.renderForm();
+        // action.renderForm();
         // console.log(element.key, element.props, element.type);
         // chai.assert.isNotNull();
     });

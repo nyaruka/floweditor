@@ -1,9 +1,11 @@
 import * as React from 'react';
-import * as Interfaces from '../../interfaces';
-import Renderer from '../Renderer'
-import FlowStore from '../../services/FlowStore';
+import {FlowStore} from '../../services/FlowStore';
 import {toBoolMap} from '../../utils';
 import {Select2Search} from '../Select2Search';
+import {SaveToContactProps, NodeEditorState, SearchResult} from '../../interfaces';
+import {NodeFormComp} from '../NodeFormComp';
+import {ActionComp} from '../ActionComp';
+
 var Select2 = require('react-select2-wrapper');
 var UUID = require('uuid');
 
@@ -27,20 +29,19 @@ var reserved = toBoolMap([
     "tel"
 ]);
 
-export class SaveToContact extends Renderer {
-    props: Interfaces.SaveToContactProps;
-    fieldValue: string;
-    fieldSelect: Select2Search;
-    
-    constructor(props: Interfaces.SaveToContactProps) {
-        super(props);
-    }
-
-    renderNode(): JSX.Element {
+export class SaveToContact extends ActionComp<SaveToContactProps> {
+    renderNode() {
         return <div>Updates <span className="emph">{this.props.name}</span></div>
     }
+}
 
-    addExtraResults(results: Interfaces.SearchResult[], term: string) {
+export class SaveToContactForm extends NodeFormComp<SaveToContactProps, NodeEditorState> {
+
+    props: SaveToContactProps;
+    fieldValue: string;
+    fieldSelect: Select2Search;
+
+    addExtraResults(results: SearchResult[], term: string) {
         if (term) {
             term = term.trim();
             let lowered = term.toLowerCase();
@@ -52,6 +53,7 @@ export class SaveToContact extends Renderer {
                         break;
                     }
                 }
+
                 if (!exactMatch) {
                     results.push({
                         id: UUID.v4(),
@@ -129,7 +131,7 @@ export class SaveToContact extends Renderer {
                 name: selection.name, 
                 field: selection.id, 
                 value: input.value
-            } as Interfaces.SaveToContactProps);
+            } as SaveToContactProps);
 
             // if this was a newly created field, add it to our main list
             if (selection.extraResult) {

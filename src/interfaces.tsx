@@ -1,7 +1,7 @@
-import FlowLoaderComp from './components/FlowLoaderComp'
-import NodeComp from './components/NodeComp'
-import Renderer from './components/Renderer';
-import FlowMutator from './components/FlowMutator';
+import {FlowLoaderComp} from './components/FlowLoaderComp'
+import {NodeComp} from './components/NodeComp'
+import {FlowMutator} from './components/FlowMutator';
+import {NodeFormComp} from './components/NodeFormComp';
 
 export interface FlowContext {
     flow: FlowLoaderComp;
@@ -31,6 +31,11 @@ export interface LocationProps {
     y: number;
 }
 
+
+export interface NodeEditorState {
+
+}
+
 export interface NodeEditorProps {
     type: string;
     uuid: string;
@@ -45,6 +50,9 @@ export interface NodeEditorProps {
 
     // location to create new nodes
     newPosition?: LocationProps;
+
+    // exits
+    exits?: ExitProps[]
 }
 
 export interface ActionProps extends NodeEditorProps {
@@ -72,6 +80,36 @@ export interface SetLanguageProps extends ActionProps {
 export interface WebhookProps extends ActionProps {
     url: string;
     method: string;
+}
+
+export interface RouterProps extends NodeEditorProps {
+    type: string;
+}
+
+export interface CaseProps {
+    uuid: string;
+    type: string;
+    arguments?: string[];
+    exit?: string;
+
+    exitProps?: ExitProps;
+    onChanged?: Function;
+}
+
+export interface SwitchRouterProps extends RouterProps {
+    cases: CaseProps[];
+    operand: string;
+    default: string;
+
+    exits?: ExitProps[];
+}
+
+export interface SwitchRouterState extends NodeEditorState {
+
+}
+
+export interface RandomRouterProps extends RouterProps {
+
 }
 
 export interface ExitProps {
@@ -113,7 +151,16 @@ export interface TypeConfig {
     type: string;
     name: string;
     description: string;
-    renderer: {new(props: NodeEditorProps): Renderer};
+    
+    form?: { new (props: NodeEditorProps): any};
+    component?: { new (props: NodeEditorProps): any};
+}
+
+export interface Operator {
+    type: string;
+    name: string;
+    verboseName: string;
+    operands: number;
 }
 
 export interface FlowDefinition {

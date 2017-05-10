@@ -1,21 +1,21 @@
 import * as React from 'react';
-import * as Interfaces from '../interfaces';
 
-import NodeComp from './NodeComp';
-import Plumber from '../services/Plumber';
-import FlowStore from '../services/FlowStore';
-import SimulatorComp from './SimulatorComp';
-import Config from '../services/Config';
-import NodeModal from './NodeModal';
-import FlowMutator from './FlowMutator';
-import FlowComp from './FlowComp';
-
+import {NodeComp} from './NodeComp';
+import {Plumber} from '../services/Plumber';
+import {FlowStore} from '../services/FlowStore';
+import {SimulatorComp} from './SimulatorComp';
+import {Config} from '../services/Config';
+import {NodeModal} from './NodeModal';
+import {FlowMutator} from './FlowMutator';
+import {FlowComp} from './FlowComp';
 import {FlowDefinition} from '../interfaces';
 
 var UUID = require('uuid');
-let PropTypes = require("prop-types");
 var update = require('immutability-helper');
-var forceFetch = false;
+
+var FORCE_FETCH = true;
+var QUIET_UI = 10;
+var QUIET_SAVE = 2000;
 
 export interface FlowLoaderProps {
     flowURL?: string;
@@ -28,8 +28,7 @@ export interface FlowLoaderState {
     definition?: FlowDefinition;
 }
 
-var QUIET_UI = 10;
-var QUIET_SAVE = 2000;
+
 
 /**
  * Our top level flow. This class is responsible for state and 
@@ -67,7 +66,7 @@ export class FlowLoaderComp extends React.PureComponent<FlowLoaderProps, FlowLoa
                 QUIET_UI, QUIET_SAVE
             );
             this.setDefinition(definition);
-        }, forceFetch);
+        }, FORCE_FETCH);
 
         this.promises.push(promise);
     }

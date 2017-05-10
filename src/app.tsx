@@ -1,13 +1,11 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import FlowLoaderComp from './components/FlowLoaderComp';
-import SimulatorComp from './components/SimulatorComp';
-import FlowStore from './services/FlowStore';
+import {FlowLoaderComp} from './components/FlowLoaderComp';
 
 // our css dependencies
 import './styles.scss';
-// import '../fonts/flows/style.scss';
 import 'react-select2-wrapper/css/select2.css';
+import 'react-select/dist/react-select.css';
 
 var contacts = 'http://localhost:9000/assets/contacts.json';
 var fields = 'http://localhost:9000/assets/fields.json'
@@ -16,7 +14,6 @@ var fields = 'http://localhost:9000/assets/fields.json'
 // var flow = 'test_flows/two_questions.json';
 // var flow = 'test_flows/meningitis.json';
 var flow = 'test_flows/favorites.json';
-
 var engineUrl = 'http://localhost:8080';
 
 ReactDOM.render(
