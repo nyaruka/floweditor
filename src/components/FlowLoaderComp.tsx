@@ -21,13 +21,14 @@ export interface FlowLoaderProps {
     engineURL?: string;
     contactsURL?: string;
     fieldsURL?: string;
+
+    uuid?: string;
+    token?: string;
 }
 
 export interface FlowLoaderState {
     definition?: FlowDefinition;
 }
-
-
 
 /**
  * Our top level flow. This class is responsible for state and 
@@ -35,7 +36,6 @@ export interface FlowLoaderState {
  */
 export class FlowLoaderComp extends React.PureComponent<FlowLoaderProps, FlowLoaderState> {
 
-    private promises: any[] = [];
     private mutator: FlowMutator;
 
     constructor(props: FlowLoaderProps) {
@@ -43,31 +43,21 @@ export class FlowLoaderComp extends React.PureComponent<FlowLoaderProps, FlowLoa
         this.state = {}
     }
 
-    /**
-     * Updates our definition, saving it in the store
-     * @param definition the new definition 
-     */
-    private update(definition: FlowDefinition) {
-        this.setState({definition: definition});
-    }
-
     private save(definition: FlowDefinition) {
         FlowStore.get().save(definition);
     }
 
     private componentDidMount() {
-        var promise = FlowStore.get().loadFlow(this.props.flowURL, (definition: FlowDefinition)=>{
+        FlowStore.get().fetchLegacyFlow(this.props.uuid, this.props.token, FORCE_FETCH).then((definition: FlowDefinition)=>{
             this.mutator = new FlowMutator(
                 definition,
-                this.update.bind(this), 
+                this.setDefinition.bind(this), 
                 this.save.bind(this), 
                 this.props,
                 QUIET_UI, QUIET_SAVE
             );
-            this.setDefinition(definition);
-        }, FORCE_FETCH);
-
-        this.promises.push(promise);
+            this.setDefinition(definition);        
+        });
     }
 
     private setDefinition(definition: FlowDefinition) {
@@ -75,17 +65,17 @@ export class FlowLoaderComp extends React.PureComponent<FlowLoaderProps, FlowLoa
     }
 
     render() {
+        var flow = null;
         var nodes: JSX.Element[] = [];
         if (this.state.definition) {
             for (let node of this.state.definition.nodes) {
                 var uiNode = this.state.definition._ui.nodes[node.uuid];
                 nodes.push(<NodeComp {...node} _ui={uiNode} mutator={this.mutator} key={node.uuid}/>)
             }
-        }
-
-        var flow = null;
-        if (this.state.definition) {
-            flow = <FlowComp definition={this.state.definition} mutator={this.mutator}/>
+            flow = <FlowComp 
+                        engineURL={this.props.engineURL}
+                        definition={this.state.definition} 
+                        mutator={this.mutator}/>
         }
 
         return(

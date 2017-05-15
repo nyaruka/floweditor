@@ -6,6 +6,7 @@ export class ExitComp extends React.PureComponent<ExitProps, {}> {
 
     componentDidMount() {
         // we can be dragged from
+        // console.log("Exit mounted", this.props.uuid)
         Plumber.get().makeSource(this.props.uuid);
     }
 

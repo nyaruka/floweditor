@@ -3,6 +3,7 @@ import {FlowDefinition, DragPoint, NodeProps, SendMessageProps} from '../interfa
 import {NodeComp} from './NodeComp';
 import {NodeModal} from './NodeModal';
 import {FlowMutator} from './FlowMutator';
+import {SimulatorComp} from './SimulatorComp';
 import {Plumber} from '../services/Plumber';
 
 var update = require('immutability-helper');
@@ -11,6 +12,7 @@ var UUID = require('uuid');
 interface FlowProps {
     definition: FlowDefinition;
     mutator: FlowMutator;
+    engineURL?: string;
 }
 
 interface FlowState {
@@ -90,7 +92,13 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         this.setState({ghostNode: ghostNode}); 
     }
 
+    private componentDidUpdate(prevProps: FlowProps, prevState: FlowState) {
+        // console.log("updated");
+        Plumber.get().repaint();            
+    }
+
     private componentDidMount() {
+        console.log("Flow mounted");
         var plumb = Plumber.get();
 
         plumb.bind("connection", (event: ConnectionEvent) => { return this.onConnection(event)});
@@ -98,10 +106,10 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         plumb.bind("connectionDragStop", (event: ConnectionEvent) => { return this.onConnectorDrop(event)});
         plumb.bind("beforeDrop", (event: ConnectionEvent) => { return this.onBeforeConnectorDrop(event)});
         
-        Plumber.get().connectAll(this.props.definition, ()=>{
-            Plumber.get().repaint();
-            this.setState({loading: false});
+        Plumber.get().connectAll(this.props.definition).then(()=>{
             console.timeEnd("RenderAndPlumb");
+            Plumber.get().repaint();
+            this.setState({loading: false});    
         });
     }
 
@@ -162,9 +170,16 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
             dragNode = <NodeComp ref={(ele) => { this.ghostComp = ele }} {...node} _ui={uiNode} mutator={this.props.mutator} key={node.uuid}/>
         }
 
+        var simulator = null;
+        if (this.props.engineURL) {
+            simulator = <SimulatorComp 
+                            engineURL={this.props.engineURL}
+                            definition={this.props.definition}/>
+        }
+
         var rendered = (
             <div className={ this.state.loading ? "loading" : ""}>
-                {/*<SimulatorComp engineURL={this.props.engineUrl}/>*/}
+                {simulator}
                 <div id="flow">
                     <div className="nodes">
                     {nodes}

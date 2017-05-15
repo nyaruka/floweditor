@@ -26,23 +26,25 @@ export class SwitchRouterForm extends NodeFormComp<SwitchRouterProps, SwitchRout
     }
 
     onCaseChanged(c: CaseComp) {
-        console.log("case changed", c, c.state);
+        // console.log("case changed", c, c.state);
     }
 
     renderForm(): JSX.Element {
         
         var cases: JSX.Element[] = [];
-        this.state.cases.map((c: CaseProps) => {
-            if (c.exit) {
-                for (let exit of this.props.exits) {
-                    if (exit.uuid == c.exit) {
-                        c.exitProps = exit;
-                        break;
+        if (this.state.cases){
+            this.state.cases.map((c: CaseProps) => {
+                if (c.exit) {
+                    for (let exit of this.props.exits) {
+                        if (exit.uuid == c.exit) {
+                            c.exitProps = exit;
+                            break;
+                        }
                     }
                 }
-            }
-            cases.push(<CaseComp onChanged={this.onCaseChanged.bind(this)} key={c.uuid} {...c} moveCase={this.moveCase.bind(this)}/>);
-        });
+                cases.push(<CaseComp onChanged={this.onCaseChanged.bind(this)} key={c.uuid} {...c} moveCase={this.moveCase.bind(this)}/>);
+            });
+        }
 
         var newCaseUUID = UUID.v4()
         cases.push(<CaseComp onChanged={this.onCaseChanged.bind(this)} key={newCaseUUID} uuid={newCaseUUID} type="contains_any"/>)

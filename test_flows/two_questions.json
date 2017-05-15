@@ -1,6 +1,6 @@
 {
    "uuid":"flow1",
-   "name":"U-Report Registration Flow",
+   "name":"Two Questions",
    "language":"eng",
    "_ui": {
       "nodes": {
@@ -24,31 +24,80 @@
         }
       }
    },
+   "localization": {
+      "fra": {
+        "node1-action1": {
+          "text": "Quelle est votres couleur preferee? (rouge/blue)"
+        },
+        "node1-case1": {
+          "test": "rouge"
+        },
+        "node1-case2": {
+          "test": "blue"
+        },
+        "node1-exit1": {
+          "label": "Rouge"
+        },
+        "node1-exit2": {
+          "label": "Blue"
+        },
+        "node1-exit3": {
+          "label": "Autres"
+        },
+        "node2-action1": {
+          "text": "@(TITLE(input.text))! Bien sur! Quelle est votes soda preferee? (pepsi/coke)"
+        },
+        "node2-case1": {
+          "test": "pepsi"
+        },
+        "node2-case2": {
+          "test": "coke"
+        },
+        "node2-exit1": {
+          "label": "Pepsi"
+        },
+        "node2-exit2": {
+          "label": "Coke"
+        },
+        "node2-exit3": {
+          "label": "Autres"
+        },
+        "node3-action1": {
+          "text": "Parfait, vous avez finis et tu aimes @run.results.soda.category"
+        }
+      }
+   },
    "nodes":[
       {
          "uuid":"node1",
-         "actions":[],
-         "wait":{
-            "type":"msg",
-            "timeout":600
+         "actions":[
+            {
+               "uuid": "node1-action1",
+               "type":"msg",
+               "text": "Hi @contact.name! What is your favorite color? (red/blue) Your number is @contact.urn"
+            }],
+         "wait": {
+            "type": "msg",
+            "timeout": 600
          },
          "router":{
             "type":"switch",
-            "default":"node1-exit3",
-            "operand":"@input",
-            "cases":[
-               {
-                  "uuid": "case1",
-                  "type":"has_any_word",
-                  "test":"red",
-                  "exit":"node1-exit1"
-               },
-               {
-                  "uuid": "case2",
-                  "type":"has_any_word",
-                  "test":"blue",
-                  "exit":"node1-exit2"
-               }
+            "name": "favorite_color",
+            "default": "node1-exit3",
+            "operand": "@input",
+            "cases": [
+              {
+                "uuid": "node1-case1",
+                "type": "has_any_word",
+                "arguments": ["red"],
+                "exit": "node1-exit1"
+              },
+              {
+                "uuid": "node1-case2",
+                "type": "has_any_word",
+                "arguments": ["blue"],
+                "exit": "node1-exit2"
+              }
             ]
          },
          "exits":[
@@ -68,31 +117,42 @@
                "destination":"node1"
             }
          ]
-      },
-      {
+      },{
          "uuid":"node2",
-         "actions":[],
-         "wait":{
-            "type":"msg",
-            "timeout":600
+         "actions":[
+            {
+               "uuid": "node2-action2",
+               "type":"set_language",
+               "language": "fra"
+            },
+            {
+               "uuid": "node2-action1",
+               "type": "msg",
+               "text": "@(TITLE(input.text)) it is! What is your favorite soda? (pepsi/coke)"
+            }       
+         ],
+         "wait": {
+            "type": "msg",
+            "timeout": 600
          },
          "router":{
             "type":"switch",
-            "default":"node2-exit3",
-            "operand":"@input",
-            "cases":[
-               {
-                  "uuid": "case3",
-                  "type":"has_any_word",
-                  "test":"pepsi",
-                  "exit":"node2-exit1"
-               },
-               {
-                 "uuid": "case4",
-                  "type":"has_any_word",
-                  "test":"coke",
-                  "exit":"node2-exit2"
-               }
+            "default": "node2-exit3",
+            "name": "soda",
+            "operand": "@input",
+            "cases": [
+              {
+                "uuid": "node2-case1",
+                "type": "has_any_word",
+                "arguments": ["pepsi"],
+                "exit": "node2-exit1"
+              },
+              {
+                "uuid": "node2-case2",
+                "type": "has_any_word",
+                "arguments": ["coke coca cola"],
+                "exit": "node2-exit2"
+              }
             ]
          },
          "exits":[
@@ -109,23 +169,17 @@
             {
                "uuid":"node2-exit3",
                "name":"Other",
-               "destination":null
+               "destination":"node2"
             }
          ]
       },
       {
-         "uuid":"node3",
-         "actions":[
+         "uuid": "node3",
+         "actions": [
             {
-               "uuid":"action3",
-               "type":"msg",
-               "text":"Great you are pretty much done."
-            }
-         ],
-         "exits": [
-             {
-               "uuid":"node3-exit1",
-               "destination": null
+               "uuid": "node3-action1",
+               "type": "msg",
+               "text": "Great, you are done and like @run.results.soda!"
             }
          ]
       }

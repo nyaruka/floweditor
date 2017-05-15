@@ -4,8 +4,10 @@ import {SaveToContact, SaveToContactForm} from '../components/actions/SaveToCont
 import {SetLanguage, SetLanguageForm} from '../components/actions/SetLanguage';
 import {SendMessage, SendMessageForm} from '../components/actions/SendMessage';
 import {Webhook, WebhookForm} from '../components/actions/Webhook';
+import {Missing} from '../components/actions/Missing';
 import {SwitchRouterForm} from '../components/routers/SwitchRouter';
 import {RandomRouterForm} from '../components/routers/RandomRouter';
+
 
 export class Config {
 
@@ -16,7 +18,7 @@ export class Config {
     }
 
     private constructor() {
-        console.log('init config');
+        // console.log('init config');
     }
 
     public typeConfigs: TypeConfig[] = [
@@ -26,6 +28,11 @@ export class Config {
         {type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: AddToGroupForm, component: AddToGroup},
         {type: "save_to_contact", name: "Save to Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContact},
         {type: "set_language", name: "Set Language", description: "Update their language", form: SetLanguageForm, component: SetLanguage},
+        {type: "add_label", name: "Add Label", description: "Label the message", component: Missing},
+        {type: "email", name: "Send Email", description: "Send an email", component: Missing},
+        {type: "set_preferred_channel", name: "Set Preferred Channel", description: "Set their preferred channel", component: Missing},
+        {type: "flow", name: "Run another flow", description: "Run another flow", component: Missing},
+        
         
         // hybrids
         {type: "webhook", name: "Call Webhook", description: "Call an external service", form: WebhookForm, component: Webhook},
@@ -42,13 +49,15 @@ export class Config {
                 return config;
             }
         }
+
+        console.error("No configuration found for", type);
         return null;
     }
 
     public operators: Operator[] = [
-        { type: "contains_any", name: "Contains any", verboseName: "has any of the words", operands: 1},
-        { type: "contains", name: "Contains all", verboseName: "has all of the words", operands: 1},
-        { type: "contains_phrase", name: "Contains phrase", verboseName: "has the phrase", operands: 1},
+        { type: "has_any_word", name: "Contains any", verboseName: "has any of the words", operands: 1},
+        { type: "has_all_words", name: "Contains all", verboseName: "has all of the words", operands: 1},
+        { type: "has_phrase", name: "Contains phrase", verboseName: "has the phrase", operands: 1},
     ]
 }
 

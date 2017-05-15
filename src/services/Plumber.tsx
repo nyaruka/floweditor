@@ -53,7 +53,7 @@ export class Plumber {
             ConnectionsDetachable: true,
             Connector:[ "Flowchart", { stub: 12, midpoint: .85, alwaysRespectStubs: false, gap:[0,7], cornerRadius: 2 }],
             ConnectionOverlays : [["PlainArrow", { location:.9999, width: 12, length:12, foldback: 1 }]],
-            Container: "flow"
+            Container: "editor"
         });
     }
 
@@ -71,7 +71,7 @@ export class Plumber {
     }
 
     makeTarget(uuid: string) {
-        this.jsPlumb.makeTarget(uuid, this.targetDefaults);
+        this.jsPlumb.makeTarget(uuid, this.targetDefaults);        
     }
 
     connectNewNode(source: string, target: string) {
@@ -81,15 +81,18 @@ export class Plumber {
     }
 
     connectExit(exit: ExitProps) {
+        // console.log("Connecting exit", exit);
         this.connect(exit.uuid, exit.destination);
     }
 
     connect(source: string, target: string) {
         if (source != null && target != null) {
 
+            // console.log(source, target);
+
             // any existing connections for our source need to be deleted
             this.jsPlumb.select({source: source}).delete();
-            
+
             // now make our new connection
             return this.jsPlumb.connect({source: source, target: target, fireEvent: false});
         }
@@ -114,9 +117,9 @@ export class Plumber {
     }
 
     remove(uuid: string) {
-        // not sure what happened to jsPlumb.detachAllConnections(uuid)
-        this.jsPlumb.select({source: uuid}).delete();
-        this.jsPlumb.select({target: uuid}).delete();
+        this.jsPlumb.deleteConnectionsForElement(uuid);
+        // this.jsPlumb.select({source: uuid}).delete();
+        //this.jsPlumb.select({target: uuid}).delete();
     }
 
     recalculate(uuid?: string) {
@@ -130,21 +133,23 @@ export class Plumber {
         }, 0)
     }
 
-    connectAll(flow: FlowDefinition, onComplete: Function = () => {}) {
-        console.log('Reconnecting plumbing..');
-        // this will suspend drawing until all nodes are connected
-        this.jsPlumb.ready(() => {
-            this.jsPlumb.batch(()=> {
-                // wire everything up
-                for (let node of flow.nodes) {
-                    if (node.exits) {
-                        for (let exit of node.exits) {
-                            this.connect(exit.uuid, exit.destination);
+    connectAll(flow: FlowDefinition): Promise<boolean> {
+        return new Promise<any>((resolve) => {
+            // console.log('Reconnecting plumbing..');
+            // this will suspend drawing until all nodes are connected
+            this.jsPlumb.ready(() => {
+                this.jsPlumb.batch(()=> {
+                    // wire everything up
+                    for (let node of flow.nodes) {
+                        if (node.exits) {
+                            for (let exit of node.exits) {
+                                this.connect(exit.uuid, exit.destination);
+                            }
                         }
                     }
-                }                
-            })
-            onComplete();
+                    resolve(true);
+                });
+            });
         });
     }
 }

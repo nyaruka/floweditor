@@ -62,17 +62,19 @@ export class ComponentMap {
             }
 
             // and the same for exits
-            for (let exitIdx=0; exitIdx<node.exits.length; exitIdx++) {
-                let exit = node.exits[exitIdx];
-                components[exit.uuid] = {
-                    nodeIdx: nodeIdx, 
-                    nodeUUID: node.uuid,
-                    exitIdx: exitIdx,
-                    exitUUID: exit.uuid
-                };
+            if (node.exits) {
+                for (let exitIdx=0; exitIdx<node.exits.length; exitIdx++) {
+                    let exit = node.exits[exitIdx];
+                    components[exit.uuid] = {
+                        nodeIdx: nodeIdx, 
+                        nodeUUID: node.uuid,
+                        exitIdx: exitIdx,
+                        exitUUID: exit.uuid
+                    };
 
-                if (exit.destination) {
-                    exitsWithDestinations.push(exit);
+                    if (exit.destination) {
+                        exitsWithDestinations.push(exit);
+                    }
                 }
             }
         }

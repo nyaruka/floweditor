@@ -68,7 +68,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
     }
 
     componentDidMount() {
-
+        // console.log("Node mounted", this.props.uuid);
         // console.log("mounted", this.props);
         let plumber = Plumber.get();
         plumber.draggable(this.ele,
@@ -161,9 +161,11 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
         if (this.props.router) {
             let config = Config.get().getTypeConfig(this.props.router.type);
 
-            header = <TitleBar className={"split-title " + this.props.router.type} 
-                               onRemoval={this.onRemoval.bind(this)} 
-                               title={config.name} {...events}/>
+            if (actions.length == 0){
+                header = <TitleBar className={"split-title " + this.props.router.type} 
+                                onRemoval={this.onRemoval.bind(this)} 
+                                title={config.name} {...events}/>
+            }
 
             modal = <NodeModal ref={(ele: any) => {this.modal = ele}} 
                                initial={{...this.props.router, exits: this.props.exits}}

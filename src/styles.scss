@@ -1,4 +1,5 @@
 $blue: #86a9ca;
+$blue_baby: #80b9fb;
 $green: #5ca869;
 $purple: #80668d;
 $red: #c14c46;
@@ -16,6 +17,10 @@ $add_to_group: $green;
 $webhook: $orange;
 $update: $teal;
 $msg: $blue;
+$add_label: $blue_baby;
+$email: $purple;
+$set_preferred_channel: $teal;
+
 $split_title: #677c91;
 $split_random: #aaa;
 $light_text: #ffffff;
@@ -36,6 +41,7 @@ $z_connectors: -1;
 $z_dragging: 100;
 $z_endpoints: 50;
 $z_modal: 200;
+$z_simulator: 300;
 
 $node_width: 200px;
 
@@ -106,7 +112,7 @@ body {
 
     position: relative;
     top: 0;
-    height: 20000px;
+    // height: 20000px;
     margin: 20px;
 
     #root {
@@ -190,6 +196,18 @@ body {
         &.save-to-contact, &.set-language, &.set-preferred-channel {
             .action-title {
                 background: $update;
+            }
+        }
+
+        &.add-label {
+            .action-title {
+                background: $add_label;
+            }
+        }
+
+        &.email {
+            .action-title {
+                background: $email;
             }
         }
 
@@ -306,9 +324,21 @@ body {
         }
     }
 
+    &.email {
+        .modal-header {
+            background: $email;
+        }
+    }
+
     &.msg {
         .modal-header {
             background: $msg;
+        }
+    }
+
+    &.add-label {
+        .modal-header {
+            background: $add_label;
         }
     }
 
@@ -425,7 +455,7 @@ body {
 .nodes {
     top: 0;
     height: 20000px;
-    position: relative;
+    //position: absolute;
     
     
     .node {
@@ -545,11 +575,12 @@ body {
 }
 
 .simulator {
-    position:absolute;
+    position: absolute;
     right: 30px;
     top: 30px;
     height: 460px;
     width: 233px;
+    z-index: $z_simulator;
 
     .reset {
         width: 60px;
@@ -605,6 +636,8 @@ body {
                     margin-right: 12px;
                     color: #fff;
                 }
+
+                clear: both;
             }
 
         }

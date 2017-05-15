@@ -8,11 +8,14 @@
     "outDir": "./dist/",
     "preserveConstEnums": true,
     "removeComments": true,
-    "target": "ES5",
+    "target": "es2015",
     "allowJs": true,
     "watch": true
   },
   "include": [
     "./src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
