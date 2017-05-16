@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {FlowLoaderComp} from './components/FlowLoaderComp';
 import * as qs from 'query-string';
+import {Editor} from './components/Editor';
 
 // our css dependencies
 import './styles.scss';
@@ -10,31 +10,39 @@ import 'react-select/dist/react-select.css';
 
 var contacts = 'http://localhost:9000/assets/contacts.json';
 var fields = 'http://localhost:9000/assets/fields.json'
-
-// var flow = 'test_flows/sample.json';
-// var flow = 'test_flows/two_questions.json';
-// var flow = 'test_flows/meningitis.json';
-// var flow = 'test_flows/favorites.json';
-// var flow = 'test_flows/lots_of_action.json';
-var engineUrl = 'http://localhost:8080';
+var engineUrl = 'http://localhost:9000';
 var parms = qs.parse(location.search);
-
-console.log(parms);
 
 var flowURL = parms.flow
 if (flowURL == null){
   flowURL = 'test_flows/lots_of_action.json';
 }
 
+var token = null;
+var site = null;
+
+if (parms.rapid) {
+  token = parms.rapid;
+  site = "rapid";
+}
+
+if (parms.textit) {
+  token = parms.textit;
+  site = "textit";
+}
+
+if (parms.resist) {
+  token = parms.resist;
+  site = "resist";
+}
+
+console.log(site, token);
+
 ReactDOM.render(
-  <FlowLoaderComp  
+  <Editor
     engineURL={engineUrl}
-    contactsURL={contacts}
-    fieldsURL={fields}
-    flowURL={flowURL}
-    
-    uuid={parms.flow}
-    token={parms.token}
-    />,
+    site={site}
+    token={token}
+  />,
   document.getElementById("root")
 );

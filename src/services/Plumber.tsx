@@ -133,12 +133,17 @@ export class Plumber {
         }, 0)
     }
 
+    reset() {
+        this.jsPlumb.reset();
+    }
+
     connectAll(flow: FlowDefinition): Promise<boolean> {
         return new Promise<any>((resolve) => {
             // console.log('Reconnecting plumbing..');
             // this will suspend drawing until all nodes are connected
             this.jsPlumb.ready(() => {
                 this.jsPlumb.batch(()=> {
+                    this.jsPlumb.deleteEveryConnection();
                     // wire everything up
                     for (let node of flow.nodes) {
                         if (node.exits) {

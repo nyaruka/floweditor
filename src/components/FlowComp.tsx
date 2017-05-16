@@ -112,6 +112,11 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
             this.setState({loading: false});    
         });
     }
+    
+    componentWillUnmount() {
+        console.log('unmounting flow');
+        Plumber.get().reset();
+    }
 
     /**
      * Called right before a connector is dropped onto an existing node

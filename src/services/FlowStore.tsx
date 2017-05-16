@@ -1,4 +1,3 @@
-// import * as axios from 'axios';
 import axios from 'axios';
 import {AxiosResponse} from 'axios';
 import {LocationProps, UINode, FlowDefinition} from '../interfaces'
@@ -41,52 +40,6 @@ export class FlowStore {
     private constructor() {
         console.log('init flow store');
 
-    }
-
-    fetchLegacyFlow(uuid: string, token?: string, reload?: boolean): Promise<FlowDefinition> {
-
-        if (!token || !reload) {
-            var existing = storage.get(uuid);
-            if (existing) {
-                // return Promise.resolve(existing as FlowDefinition);
-                // returning asyn pisses off jsplumb
-                return new Promise<FlowDefinition>((resolve,reject) => {
-                    setTimeout(()=>{
-                        resolve(existing as FlowDefinition);
-                    }, 0);
-                });
-                
-            }
-        }
-        
-        var url = "/textit/definitions.json?flow="+ uuid;
-        var headers = {
-            Authorization: "Token " + token 
-        }
-
-        return new Promise<FlowDefinition>((resolve,reject) => {
-            axios.get(url, {headers: headers}).then((response: AxiosResponse) => {
-                console.log("Fetching old flow", url);
-                var json = eval(response.data);
-                if (json.version >= 10) {
-                    console.log("Migrating", uuid);
-                    axios.post("/migrate", {flows: json["flows"]}).then((response: AxiosResponse) => {
-
-                        // write each one to our store
-                        var requested: FlowDefinition;
-                        for (let def of response.data) {
-                            storage.set(def.uuid, def);
-                            if (def.uuid == uuid) {
-                                requested = def;
-                            }
-                        }
-
-                        console.log("Migrated, resolving promise", requested);
-                        resolve(requested);
-                    });
-                }
-            });
-        });
     }
 
     getFlowFromStore(uuid: string): FlowDefinition {

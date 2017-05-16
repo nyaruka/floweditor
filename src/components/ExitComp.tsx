@@ -23,6 +23,7 @@ export class ExitComp extends React.PureComponent<ExitProps, {}> {
     render() {
         // console.log('Rendering exit', this.props.uuid);
         var connected = this.props.destination ? " jtk-connected" : "";
+
         return (
             <div key={this.props.uuid} className={"exit"}>
                 <div className="name">

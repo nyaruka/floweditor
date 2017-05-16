@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
 
+import {Temba} from '../services/Temba';
 import {NodeComp} from './NodeComp';
 import {Plumber} from '../services/Plumber';
 import {FlowStore} from '../services/FlowStore';
@@ -23,7 +24,8 @@ export interface FlowLoaderProps {
     fieldsURL?: string;
 
     uuid?: string;
-    token?: string;
+    temba?: Temba;
+
 }
 
 export interface FlowLoaderState {
@@ -48,7 +50,15 @@ export class FlowLoaderComp extends React.PureComponent<FlowLoaderProps, FlowLoa
     }
 
     private componentDidMount() {
-        FlowStore.get().fetchLegacyFlow(this.props.uuid, this.props.token, FORCE_FETCH).then((definition: FlowDefinition)=>{
+        this.props.temba.fetchLegacyFlows(this.props.uuid, true).then((defs: FlowDefinition[]) => {
+
+            var definition: FlowDefinition = null;
+            for (let def of defs) {
+                if (def.uuid == this.props.uuid) {
+                    definition = def;
+                }
+            }
+
             this.mutator = new FlowMutator(
                 definition,
                 this.setDefinition.bind(this), 

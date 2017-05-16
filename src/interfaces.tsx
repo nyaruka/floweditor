@@ -167,7 +167,9 @@ export interface Operator {
 export interface FlowDefinition {
     localization:  {[lang: string]: {[uuid: string]: any}};
     nodes: NodeProps[]
+    uuid: string
     _ui: UIMetaDataProps
+    
 }
 
 export interface SearchResult {

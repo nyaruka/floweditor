@@ -20,6 +20,7 @@ $msg: $blue;
 $add_label: $blue_baby;
 $email: $purple;
 $set_preferred_channel: $teal;
+$subflow: $grey;
 
 $split_title: #677c91;
 $split_random: #aaa;
@@ -216,6 +217,12 @@ body {
                 background: $webhook;
             }
         }
+
+        &.flow {
+            .action-title {
+                background: $subflow;
+            }
+        }
     }
 }
 
@@ -366,6 +373,12 @@ body {
         }
     }
 
+    &.subflow {
+        .modal-header {
+            background: $subflow;
+        }
+    }
+
     &.webhook {
         .modal-header {
             background: $webhook;
@@ -493,9 +506,20 @@ body {
             }
         }
 
+        .actions {
+            &.exit-table {
+                border-top: none;
+                .exit {
+                    padding: 0 !important;
+                    margin: 0;
+                }
+            }
+        }
+
         .exit-table {
             display: table;
             width: 100%;
+            border-top: 1px solid #f6f6f6;
 
             .exits {
                 border-collapse: collapse;
@@ -511,7 +535,6 @@ body {
                     font-size: 12px;
                     text-align:center;
                     border-left: 1px solid $borders;
-                    // border-top: 1px solid $borders;
                     padding-top: 8px;
                     padding-left: 4px;
                     padding-right: 8px;
@@ -521,22 +544,6 @@ body {
 
                     &:first-child {
                         border-left: none;
-                    }
-
-                    &.width-33 { 
-                        width: 33%; 
-                        &.first {
-                            width: 34%;
-                        }
-                    }
-
-                    &.width-50 { width: 50%; }
-
-                    &.width-100 {
-                        width: 100%;
-                        border: 0;
-                        padding:0;
-                        margin-top:-10px;
                     }
 
                     .endpoint {

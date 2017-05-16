@@ -97,7 +97,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
     }
 
     componentWillUnmount() {
-        //console.log('unmounted', this.props.uuid);
+        console.log('unmounted', this.props.uuid);
         Plumber.get().remove(this.props.uuid);
     }
 
@@ -208,6 +208,12 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
             changeType={true}
         />
 
+        var exitClass = "";
+        if (this.props.exits.length == 1 && !this.props.exits[0].name) {
+            exitClass = "actions"
+        }
+        
+
         // console.log("Rendering node", this.props.uuid);
         return(
             <div className={classes.join(' ')}
@@ -222,7 +228,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                 <div className="actions">
                     {actions}
                 </div>
-                <div className="exit-table">
+                <div className={"exit-table " + exitClass}>
                     <div className="exits" {...events}>
                         {exits}
                     </div>
