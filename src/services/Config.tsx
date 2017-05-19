@@ -58,6 +58,7 @@ export class Config {
         { type: "has_any_word", name: "Contains any", verboseName: "has any of the words", operands: 1},
         { type: "has_all_words", name: "Contains all", verboseName: "has all of the words", operands: 1},
         { type: "has_phrase", name: "Contains phrase", verboseName: "has the phrase", operands: 1},
+        { type: "has_value", name: "Is not empty", verboseName: "is not empty", operands: 0},
     ]
 }
 

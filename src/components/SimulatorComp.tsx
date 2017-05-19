@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as axios from 'axios';
 import * as UUID from 'uuid';
+import * as update from 'immutability-helper';
+
 import {FlowStore} from '../services/FlowStore';
 import {FlowDefinition} from '../interfaces';
-
-
 
 interface Message {
     text: string;
@@ -13,20 +13,28 @@ interface Message {
 
 interface SimulatorProps {
     engineURL: string;
-    definition: FlowDefinition;
+    definitions: FlowDefinition[];
 }
 
 interface SimulatorState {
     runOutput?: RunOutput;
     contact: Contact;
+    events: Event[];
+}
+
+interface Group {
+    name: string;
+    uuid: string;
 }
 
 interface Contact {
     uuid: string,
+    fields: {},
+    groups: Group[]
 }
 
 interface Event {
-    created_on: Date;
+    created_on?: Date;
     type: string;
     text?: string;
 }
@@ -47,6 +55,11 @@ interface Run {
     wait?: Wait;
 }
 
+interface RunContext {
+    contact: Contact;
+    run_output: RunOutput;
+}
+
 interface RunOutput {
     runs: Run[];
     events: Event[];
@@ -58,43 +71,78 @@ interface RunOutput {
  */
 export class SimulatorComp extends React.Component<SimulatorProps, SimulatorState> {
 
+    private debug: RunOutput[] = []
+
     // marks the bottom of our chat
     private bottom: any;
 
     constructor(props: SimulatorProps) {
         super(props);
         this.state = {
-            contact: {uuid: UUID.v4()}
-        };
+            events: [],
+            contact: {
+                uuid: UUID.v4(),
+                fields: {},
+                groups: []
+            }
+        }
+    }
+
+    private updateRunContext(body: any, runContext: RunContext) {
+        var events = update(this.state.events, {$push: runContext.run_output.events});
+        this.setState({ 
+            runOutput: runContext.run_output,
+            contact: runContext.contact,
+            events: events
+        });
+
+        this.debug.push(runContext.run_output);
     }
 
     private startFlow() {
+        this.setState({events: []});
+
         var body: any = {
-            flows: [this.props.definition],
-            contact: this.state.contact
+            flows: this.props.definitions,
+            contact: {
+                uuid: UUID.v4(),
+                fields: {},
+                groups: []
+            }
         };
 
         axios.default.post(this.props.engineURL + '/flow/start', JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
-            console.log(JSON.stringify(response.data, null, 2));
-            this.setState({ runOutput: response.data as RunOutput })
+            this.updateRunContext(body, response.data as RunContext);
         });
     }
 
     private resume(text: string) {
+
+        if (text == "debug") {
+            console.log(JSON.stringify(this.debug, null, 2))
+            return;
+        }
         
         var body: any = {
-            flows: [this.props.definition],
+            flows: this.props.definitions,
             run_output: this.state.runOutput,
             contact: this.state.contact,
             event: { text: text, type: "msg_in" }
         };
 
         axios.default.post(this.props.engineURL + '/flow/resume', JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
-            console.log(JSON.stringify(response.data, null, 2));
-            this.setState({ runOutput: response.data as RunOutput })
-        });
+            this.updateRunContext(body, response.data as RunContext);
+        }).catch((error) => {
+            var events = update(this.state.events, {$push: [{
+                type: "error",
+                text: error.response.data.error
+            }]});
+            this.setState({events: events});
+        });;
 
         this.scrollToBottom();
+
+        
     }
 
     private onReset(event: any) {
@@ -132,23 +180,21 @@ export class SimulatorComp extends React.Component<SimulatorProps, SimulatorStat
 
     public render() {
         var messages: JSX.Element[] = [];
-        if (this.state.runOutput) {
-            for (let run of this.state.runOutput.runs) {
-                for (let step of run.path) {
-                    for (let event of step.events) {
-                        var classes = "msg"
-                        if (event.type == "msg_in") {
-                            classes += " outbound";
-                        } else if (event.type == "msg") {
-                            classes += " inbound";
-                        }
-                        if (event.text) {
-                            messages.push(<div className={classes} key={String(event.created_on)}>{event.text}</div>)
-                        } else {
-                            // messages.push(<div style={{wordWrap:"break-word", fontSize:"9px", paddingRight: "5px"}}>{JSON.stringify(event)}</div>)
-                        }
-                    }
-                }
+        for (let event of this.state.events) {
+            
+            var classes = "msg"
+            if (event.type == "msg_in") {
+                classes += " outbound";
+            } else if (event.type == "msg_out") {
+                classes += " inbound";
+            } else if (event.type == "error") {
+                classes += " error";
+            }
+
+            if (event.text) {
+                messages.push(<div className={classes} key={String(event.created_on)}>{event.text}</div>)
+            } else {
+                // messages.push(<div style={{wordWrap:"break-word", fontSize:"9px", paddingRight: "5px"}}>{JSON.stringify(event)}</div>)
             }
         }
 

@@ -8,7 +8,7 @@
   "version": "0.0.1",
   "scripts": {
     "test": "karma start --env=dev",
-    "start": "webpack-dev-server --env=dev --progress --colors --open",
+    "start": "webpack-dev-server --env=dev --progress --colors",
     "build:dev": "webpack --env=dev --progress --profile --colors",
     "build:prod": "webpack --env=prod --progress --profile --colors && cp index.html dist/index.html && cp -R test_flows dist/test_flows && cp -R fonts dist/fonts"
   },

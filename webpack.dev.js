@@ -25,6 +25,12 @@ module.exports = merge(common, {
                 changeOrigin: true,
                 secure: false
             },
+            "/local": {
+                target: "http://localhost.textit.in:8000/api/v2/",
+                pathRewrite: {"^/local" : ""},
+                changeOrigin: true,
+                secure: false
+            },
             "/migrate": {
                 target: "http://localhost:8080"
             },

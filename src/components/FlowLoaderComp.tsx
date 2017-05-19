@@ -30,6 +30,7 @@ export interface FlowLoaderProps {
 
 export interface FlowLoaderState {
     definition?: FlowDefinition;
+    dependencies?: FlowDefinition[];
 }
 
 /**
@@ -50,12 +51,15 @@ export class FlowLoaderComp extends React.PureComponent<FlowLoaderProps, FlowLoa
     }
 
     private componentDidMount() {
-        this.props.temba.fetchLegacyFlows(this.props.uuid, true).then((defs: FlowDefinition[]) => {
+        this.props.temba.fetchLegacyFlows(this.props.uuid, false).then((defs: FlowDefinition[]) => {
 
             var definition: FlowDefinition = null;
+            var dependencies: FlowDefinition[] = [];
             for (let def of defs) {
                 if (def.uuid == this.props.uuid) {
                     definition = def;
+                } else {
+                    dependencies.push(def);
                 }
             }
 
@@ -66,12 +70,17 @@ export class FlowLoaderComp extends React.PureComponent<FlowLoaderProps, FlowLoa
                 this.props,
                 QUIET_UI, QUIET_SAVE
             );
-            this.setDefinition(definition);        
+
+            this.setDefinition(definition, dependencies);
         });
     }
 
-    private setDefinition(definition: FlowDefinition) {
-        this.setState({definition: definition});
+    private setDefinition(definition: FlowDefinition, dependencies?: FlowDefinition[]) {
+        if (!dependencies) {
+            this.setState({definition: definition});
+        } else {
+            this.setState({definition: definition, dependencies: dependencies});
+        }
     }
 
     render() {
@@ -84,7 +93,8 @@ export class FlowLoaderComp extends React.PureComponent<FlowLoaderProps, FlowLoa
             }
             flow = <FlowComp 
                         engineURL={this.props.engineURL}
-                        definition={this.state.definition} 
+                        definition={this.state.definition}
+                        dependencies={this.state.dependencies}
                         mutator={this.mutator}/>
         }
 

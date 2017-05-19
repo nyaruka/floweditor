@@ -7,6 +7,9 @@ export interface FlowDetails {
     name: string;
 }
 
+/**
+ * RapidPro API Accessor. Depends on goflow legacy migration.
+ */
 export class Temba {
     
     private site: string;
@@ -17,6 +20,9 @@ export class Temba {
         this.token = token;
     }
 
+    /**
+     * Gets a list of flows for the account
+     */
     public getFlows(): Promise<FlowDetails[]> {
         
         var url = "/" + this.site + "/flows.json";
@@ -31,7 +37,12 @@ export class Temba {
         });
     }
 
-    public fetchLegacyFlows(uuid: string, ignoreDependencies = false): Promise<FlowDefinition[]> {
+    /**
+     * Gets the given flow and it's dependencies and runs them through the goflow migration.
+     * @param uuid the uuid to fetch
+     * @param ignoreDependencies to fetch only the flow requested
+     */
+    public fetchLegacyFlows(uuid: string, ignoreDependencies: boolean = false): Promise<FlowDefinition[]> {
 
         var url = "/" + this.site + "/definitions.json?flow="+ uuid;
         var headers = {
@@ -40,7 +51,6 @@ export class Temba {
 
         return new Promise<FlowDefinition[]>((resolve,reject) => {
             axios.get(url, {headers: headers}).then((response: AxiosResponse) => {
-                console.log("Fetching old flow", url);
                 var json = response.data
                 if (json.version >= 10) {
 
@@ -56,7 +66,9 @@ export class Temba {
                         toMigrate = response.data.flows as FlowDefinition[];
                     }
 
+                    // console.log(toMigrate);
                     axios.post("/migrate", {flows: toMigrate}).then((response: AxiosResponse) => {
+                        // console.log(response.data)
                         resolve(response.data as FlowDefinition[]);
                     });
                 }

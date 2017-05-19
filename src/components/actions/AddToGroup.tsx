@@ -4,7 +4,7 @@ import {NodeFormComp} from '../NodeFormComp';
 import {AddToGroupProps, NodeEditorState} from '../../interfaces';
 
 export class AddToGroup extends ActionComp<AddToGroupProps> {
-    renderNode() { return <div>AddToGroup</div> }
+    renderNode() { return <div>{this.props.name}: {this.props.group}</div> }
 }
 
 export class AddToGroupForm extends NodeFormComp<AddToGroupProps, NodeEditorState> {

@@ -36,6 +36,11 @@ if (parms.resist) {
   site = "resist";
 }
 
+if (parms.local) {
+  token = parms.local;
+  site = "local";
+}
+
 console.log(site, token);
 
 ReactDOM.render(

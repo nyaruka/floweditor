@@ -645,8 +645,16 @@ body {
                 }
 
                 clear: both;
-            }
 
+                &.error {
+                    margin: 0;
+                    float: inherit;
+                    background: none;
+                    color: $red;
+                    font-size: 10px;
+                    border: none;
+                }
+            }
         }
 
         .controls {

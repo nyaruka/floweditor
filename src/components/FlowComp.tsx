@@ -11,6 +11,7 @@ var UUID = require('uuid');
 
 interface FlowProps {
     definition: FlowDefinition;
+    dependencies: FlowDefinition[];
     mutator: FlowMutator;
     engineURL?: string;
 }
@@ -176,10 +177,16 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         }
 
         var simulator = null;
+        
+        // the simulator wants the primary definition first in a list of all dependencies
+        var flows: FlowDefinition[] = []
+        flows.push(this.props.definition);
+        flows = flows.concat(this.props.dependencies);
+        
         if (this.props.engineURL) {
             simulator = <SimulatorComp 
                             engineURL={this.props.engineURL}
-                            definition={this.props.definition}/>
+                            definitions={flows}/>
         }
 
         var rendered = (

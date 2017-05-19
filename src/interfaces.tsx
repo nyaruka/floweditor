@@ -61,6 +61,7 @@ export interface ActionProps extends NodeEditorProps {
 
 export interface AddToGroupProps extends ActionProps {
     name: string;
+    group: string;
 }
 
 export interface SaveToContactProps extends ActionProps {
