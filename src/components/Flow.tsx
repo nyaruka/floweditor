@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {FlowDefinition, DragPoint, NodeProps, SendMessageProps} from '../interfaces';
-import {NodeComp} from './NodeComp';
+import {Node} from './Node';
 import {NodeModal} from './NodeModal';
 import {FlowMutator} from './FlowMutator';
-import {SimulatorComp} from './SimulatorComp';
+import {Simulator} from './Simulator';
 import {Plumber} from '../services/Plumber';
 
 var update = require('immutability-helper');
@@ -33,9 +33,9 @@ interface ConnectionEvent {
     targetId: string;
 }
 
-export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
+export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
-    private ghostComp: NodeComp;
+    private ghostComp: Node;
 
     constructor(props: FlowProps, state: FlowState) {
         super(props);
@@ -99,19 +99,37 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     }
 
     private componentDidMount() {
-        console.log("Flow mounted");
+
         var plumb = Plumber.get();
 
         plumb.bind("connection", (event: ConnectionEvent) => { return this.onConnection(event)});
         plumb.bind("connectionDrag", (event: ConnectionEvent) => { return this.onConnectionDrag(event)});
         plumb.bind("connectionDragStop", (event: ConnectionEvent) => { return this.onConnectorDrop(event)});
         plumb.bind("beforeDrop", (event: ConnectionEvent) => { return this.onBeforeConnectorDrop(event)});
-        
-        Plumber.get().connectAll(this.props.definition).then(()=>{
-            console.timeEnd("RenderAndPlumb");
-            Plumber.get().repaint();
+
+        // if we don't have any nodes, create our first one
+        if (this.props.definition.nodes.length == 0) {
+            var nodeProps = {
+                uuid: UUID.v4(),
+                actions: [{
+                    uuid: UUID.v4(),
+                    type: "msg"
+                }],
+                exits:[{
+                    uuid: UUID.v4()
+                }],
+            }
+
+            this.props.mutator.addNode(nodeProps, {position: {x: 0, y: 0}});
             this.setState({loading: false});    
-        });
+        } else {
+            console.log("Flow mounted");            
+            Plumber.get().connectAll(this.props.definition).then(()=>{
+                console.timeEnd("RenderAndPlumb");
+                Plumber.get().repaint();
+                this.setState({loading: false});    
+            });
+        }
     }
     
     componentWillUnmount() {
@@ -167,13 +185,13 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         var nodes: JSX.Element[] = [];
         for (let node of this.props.definition.nodes) {
             var uiNode = this.props.definition._ui.nodes[node.uuid];
-            nodes.push(<NodeComp {...node} _ui={uiNode} mutator={this.props.mutator} key={node.uuid}/>)
+            nodes.push(<Node {...node} _ui={uiNode} mutator={this.props.mutator} key={node.uuid}/>)
         }
 
         var dragNode = null;
         if (this.state.ghostNode) {
             let node = this.state.ghostNode
-            dragNode = <NodeComp ref={(ele) => { this.ghostComp = ele }} {...node} _ui={uiNode} mutator={this.props.mutator} key={node.uuid}/>
+            dragNode = <Node ref={(ele) => { this.ghostComp = ele }} {...node} _ui={uiNode} mutator={this.props.mutator} key={node.uuid}/>
         }
 
         var simulator = null;
@@ -184,14 +202,14 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
         flows = flows.concat(this.props.dependencies);
         
         if (this.props.engineURL) {
-            simulator = <SimulatorComp 
+            simulator = <Simulator 
                             engineURL={this.props.engineURL}
                             definitions={flows}/>
         }
 
         var rendered = (
             <div className={ this.state.loading ? "loading" : ""}>
-                {simulator}
+                {/*simulator*/}
                 <div id="flow">
                     <div className="nodes">
                     {nodes}
@@ -206,4 +224,4 @@ export class FlowComp extends React.PureComponent<FlowProps, FlowState> {
     }
 }
 
-export default FlowComp;
+export default Flow;

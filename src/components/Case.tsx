@@ -4,6 +4,7 @@ import * as Select from 'react-select';
 
 import {CaseProps, Operator} from '../interfaces';
 import {Config} from '../services/Config';
+// var Select2 = require('react-select2-wrapper');
 
 export interface CaseState {
     selected: string;
@@ -12,7 +13,7 @@ export interface CaseState {
 /**
  * A single rule in the rule editor
  */
-export class CaseComp extends React.PureComponent<CaseProps, CaseState> {
+export class Case extends React.PureComponent<CaseProps, CaseState> {
 
     constructor(props: CaseProps) {
         super(props);

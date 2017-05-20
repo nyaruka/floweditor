@@ -5,7 +5,7 @@ import {NodeEditorProps, NodeEditorState, ExitProps, TypeConfig} from '../interf
 import {Modal} from './Modal';
 import {Config} from '../services/Config';
 import {FlowMutator} from '../components/FlowMutator';
-import {NodeFormComp} from './NodeFormComp';
+import {NodeFormComp} from './NodeForm';
 
 var Select2 = require('react-select2-wrapper');
 

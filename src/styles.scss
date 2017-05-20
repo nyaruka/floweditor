@@ -46,6 +46,10 @@ $z_simulator: 300;
 
 $node_width: 200px;
 
+@import "./components/Action.scss";
+@import "./components/Case.scss";
+
+@import "./components/routers/SwitchRouter.scss";
 
 body {
 
@@ -61,8 +65,12 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     margin: 0;
 
-    &.ReactModal__Body--open {
-        overflow: hidden;
+    .ReactModal__Content {
+        overflow: visible !important;
+    }
+
+    .ReactModal__Body--open {
+        overflow: hidden !important;
     }
 
     .select2 {
@@ -175,56 +183,6 @@ body {
     }
 }
 
-.actions {
-    .action {
-
-        .action-content {
-            padding: 10px;
-        }
-
-        &.add-to-group {
-            .action-title {
-                background: $add_to_group;
-            }
-        }
-
-        &.msg {
-            .action-title {
-                background: $msg;
-            }
-        }
-
-        &.save-to-contact, &.set-language, &.set-preferred-channel {
-            .action-title {
-                background: $update;
-            }
-        }
-
-        &.add-label {
-            .action-title {
-                background: $add_label;
-            }
-        }
-
-        &.email {
-            .action-title {
-                background: $email;
-            }
-        }
-
-        &.webhook {
-            .action-title {
-                background: $webhook;
-            }
-        }
-
-        &.flow {
-            .action-title {
-                background: $subflow;
-            }
-        }
-    }
-}
 
 .ReactModal__Overlay {
     background-color: rgba(0, 0, 0, .6) !important;
@@ -794,79 +752,6 @@ textarea, input, button { outline: none; }
 
 .lead-in {
     margin-bottom: 15px;
-}
-
-.case {
-    .choice {
-        width: 150px;
-        display: inline-block;
-
-        .operator {
-            font-size: 11px;
-        }
-
-        .Select-control {
-            font-size: 11px;
-            height: 24px;
-
-            .Select-placeholder {
-                line-height: 22px;
-            }
-
-            .Select-value {
-                line-height: 22px !important;
-
-                .Select-value-label {
-                    line-height: 22px;
-                }
-            }
-
-            .Select-input {
-                height: 22px;
-            }
-        }
-    }
-
-    .operand {
-        display: inline-block;
-        position: relative;
-        top: -7px;
-        left: 5px;
-        margin-right: 5px;
-        input {
-            padding: 5px;
-            border: 1px solid #ccc;
-            margin: 0;
-            height: 13px;
-            color: #666;
-        }
-    }
-
-    .categorize-as {
-        display: inline-block;
-        font-size: 13px;
-        line-height: 13px;
-        position: relative;
-        top: -7px;
-        left: 7px;
-        margin-right: 5px;
-    }
-
-    .category {
-        display: inline-block;
-        position: relative;
-        top: -7px;
-        left: 8px;
-        margin-right: 5px;
-        input {
-            padding: 5px;
-            border: 1px solid #ccc;
-            margin: 0;
-            height: 13px;
-            color: #666;
-        }        
-    }
-
 }
 
 

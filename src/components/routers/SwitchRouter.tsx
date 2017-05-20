@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
 
-import {CaseComp} from '../CaseComp';
+import {Case} from '../Case';
 import {SwitchRouterProps, CaseProps} from '../../interfaces';
-import {NodeFormComp} from '../NodeFormComp';
+import {NodeFormComp} from '../NodeForm';
 import {DragDropContext} from 'react-dnd';
 
 
@@ -25,7 +25,7 @@ export class SwitchRouterForm extends NodeFormComp<SwitchRouterProps, SwitchRout
         }
     }
 
-    onCaseChanged(c: CaseComp) {
+    onCaseChanged(c: Case) {
         // console.log("case changed", c, c.state);
     }
 
@@ -42,12 +42,12 @@ export class SwitchRouterForm extends NodeFormComp<SwitchRouterProps, SwitchRout
                         }
                     }
                 }
-                cases.push(<CaseComp onChanged={this.onCaseChanged.bind(this)} key={c.uuid} {...c} moveCase={this.moveCase.bind(this)}/>);
+                cases.push(<Case onChanged={this.onCaseChanged.bind(this)} key={c.uuid} {...c} moveCase={this.moveCase.bind(this)}/>);
             });
         }
 
         var newCaseUUID = UUID.v4()
-        cases.push(<CaseComp onChanged={this.onCaseChanged.bind(this)} key={newCaseUUID} uuid={newCaseUUID} type="contains_any"/>)
+        cases.push(<Case onChanged={this.onCaseChanged.bind(this)} key={newCaseUUID} uuid={newCaseUUID} type="contains_any"/>)
 
         return (
             <div>

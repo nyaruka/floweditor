@@ -3,8 +3,8 @@ import {FlowStore} from '../../services/FlowStore';
 import {toBoolMap} from '../../utils';
 import {Select2Search} from '../Select2Search';
 import {SaveToContactProps, NodeEditorState, SearchResult} from '../../interfaces';
-import {NodeFormComp} from '../NodeFormComp';
-import {ActionComp} from '../ActionComp';
+import {NodeFormComp} from '../NodeForm';
+import {Action} from '../Action';
 
 var Select2 = require('react-select2-wrapper');
 var UUID = require('uuid');
@@ -29,7 +29,7 @@ var reserved = toBoolMap([
     "tel"
 ]);
 
-export class SaveToContact extends ActionComp<SaveToContactProps> {
+export class SaveToContact extends Action<SaveToContactProps> {
     renderNode() {
         return <div>Updates <span className="emph">{this.props.name}</span></div>
     }

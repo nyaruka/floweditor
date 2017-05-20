@@ -69,7 +69,7 @@ interface RunOutput {
 /**
  * Our dev console for simulating or testing expressions
  */
-export class SimulatorComp extends React.Component<SimulatorProps, SimulatorState> {
+export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
     private debug: RunOutput[] = []
 
@@ -216,4 +216,4 @@ export class SimulatorComp extends React.Component<SimulatorProps, SimulatorStat
     }
 }
 
-export default SimulatorComp;
+export default Simulator;

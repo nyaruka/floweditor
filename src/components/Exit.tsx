@@ -2,7 +2,7 @@ import * as React from 'react';
 import {ExitProps} from '../interfaces';
 import {Plumber} from '../services/Plumber';
 
-export class ExitComp extends React.PureComponent<ExitProps, {}> {
+export class Exit extends React.PureComponent<ExitProps, {}> {
 
     componentDidMount() {
         // we can be dragged from
@@ -35,4 +35,4 @@ export class ExitComp extends React.PureComponent<ExitProps, {}> {
     }
 }
 
-export default ExitComp;
+export default Exit;

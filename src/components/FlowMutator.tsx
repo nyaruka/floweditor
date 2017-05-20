@@ -5,9 +5,9 @@ import {
     FlowDefinition, NodeProps, SendMessageProps, WebhookProps, NodeEditorProps, 
     UIMetaDataProps, ActionProps, SearchResult, UINode, DragPoint
 } from '../interfaces';
-import {NodeComp} from './NodeComp';
+import {Node} from './Node';
 import {ComponentMap} from './ComponentMap';
-import {FlowLoaderProps} from './FlowLoaderComp';
+import {FlowLoaderProps} from './FlowLoader';
 
 
 export class FlowMutator {

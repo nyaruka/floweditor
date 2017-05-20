@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {NodeFormComp} from '../NodeFormComp';
+import {NodeFormComp} from '../NodeForm';
 import {RandomRouterProps, NodeEditorState} from '../../interfaces';
 
 export class RandomRouterForm extends NodeFormComp<RandomRouterProps, NodeEditorState> {

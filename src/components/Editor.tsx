@@ -2,10 +2,9 @@ import * as React from "react";
 import * as axios from "axios";
 import * as UUID from 'uuid';
 import {Temba, FlowDetails} from '../services/Temba';
-import {FlowLoaderComp} from './FlowLoaderComp';
+import {FlowLoader} from './FlowLoader';
 import {FlowList} from './FlowList';
-
-
+import {Flow} from './Flow';
 
 interface EditorProps {
     site: string;
@@ -41,22 +40,34 @@ export class Editor extends React.PureComponent<EditorProps, EditorState> {
     render() {
         var flow = null;
         if (this.state.flowUUID) {
-            flow = <FlowLoaderComp
+            flow = <FlowLoader
                 key={this.state.flowUUID}
                 engineURL={this.props.engineURL}
                 contactsURL={this.props.contactsURL}
                 fieldsURL={this.props.fieldsURL}
                 uuid={this.state.flowUUID}
                 temba={this.temba}
-                />
+            />
+        } else {
+            var newUUID = UUID.v4()
+            flow = <FlowLoader
+                key={newUUID}
+                engineURL={this.props.engineURL}
+                contactsURL={this.props.contactsURL}
+                fieldsURL={this.props.fieldsURL}
+                uuid={newUUID}
+            />
+
         }
+
+        // disable the flow list for now
+        var flowList = (<FlowList 
+            temba={this.temba}
+            onFlowSelect={this.onFlowSelect.bind(this)}
+        />)
 
         return (
             <div>
-                <FlowList 
-                    temba={this.temba}
-                    onFlowSelect={this.onFlowSelect.bind(this)}
-                />
                 {flow}
             </div>
         )

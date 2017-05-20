@@ -9,8 +9,8 @@ import {Plumber, DragEvent} from '../services/Plumber';
 import {FlowStore} from '../services/FlowStore';
 import {Config} from '../services/Config';
 import {NodeModal} from './NodeModal';
-import {ActionComp} from './ActionComp';
-import {ExitComp} from './ExitComp';
+import {Action} from './Action';
+import {Exit} from './Exit';
 import {TitleBar} from './TitleBar';
 
 export interface NodeState {
@@ -21,11 +21,11 @@ export interface NodeState {
 /**
  * A single node in the rendered flow
  */
-export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
+export class Node extends React.PureComponent<NodeProps, NodeState> {
 
     public ele: any;
     private modal: NodeModal;
-    private firstAction: ActionComp<ActionProps>;
+    private firstAction: Action<ActionProps>;
     private newActionModal: NodeModal;
 
     constructor(props: NodeProps){
@@ -128,6 +128,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
     }
 
     render() {
+        console.log(this.props);
         var classes = ["node"];
         var actions: JSX.Element[] = [];
         if (this.props.actions) {
@@ -183,7 +184,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
         var exits: JSX.Element[] = []
         if (this.props.exits) {
             for (let exit of this.props.exits) {
-                exits.push(<ExitComp {...exit} key={exit.uuid}/>);
+                exits.push(<Exit {...exit} key={exit.uuid}/>);
             }
         }
 
@@ -241,4 +242,4 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
     }
 }
 
-export default NodeComp;
+export default Node;

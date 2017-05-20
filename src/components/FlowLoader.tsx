@@ -3,14 +3,14 @@ import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
 
 import {Temba} from '../services/Temba';
-import {NodeComp} from './NodeComp';
+import {Node} from './Node';
 import {Plumber} from '../services/Plumber';
 import {FlowStore} from '../services/FlowStore';
-import {SimulatorComp} from './SimulatorComp';
+import {Simulator} from './Simulator';
 import {Config} from '../services/Config';
 import {NodeModal} from './NodeModal';
 import {FlowMutator} from './FlowMutator';
-import {FlowComp} from './FlowComp';
+import {Flow} from './Flow';
 import {FlowDefinition} from '../interfaces';
 
 var FORCE_FETCH = true;
@@ -37,7 +37,7 @@ export interface FlowLoaderState {
  * Our top level flow. This class is responsible for state and 
  * calling into our Plumber as necessary.
  */
-export class FlowLoaderComp extends React.PureComponent<FlowLoaderProps, FlowLoaderState> {
+export class FlowLoader extends React.PureComponent<FlowLoaderProps, FlowLoaderState> {
 
     private mutator: FlowMutator;
 
@@ -51,18 +51,9 @@ export class FlowLoaderComp extends React.PureComponent<FlowLoaderProps, FlowLoa
     }
 
     private componentDidMount() {
-        this.props.temba.fetchLegacyFlows(this.props.uuid, false).then((defs: FlowDefinition[]) => {
 
-            var definition: FlowDefinition = null;
-            var dependencies: FlowDefinition[] = [];
-            for (let def of defs) {
-                if (def.uuid == this.props.uuid) {
-                    definition = def;
-                } else {
-                    dependencies.push(def);
-                }
-            }
-
+        if (!this.props.temba) {
+            var definition = FlowStore.get().getFlowFromStore(this.props.uuid)
             this.mutator = new FlowMutator(
                 definition,
                 this.setDefinition.bind(this), 
@@ -70,9 +61,32 @@ export class FlowLoaderComp extends React.PureComponent<FlowLoaderProps, FlowLoa
                 this.props,
                 QUIET_UI, QUIET_SAVE
             );
+            this.setDefinition(definition);
 
-            this.setDefinition(definition, dependencies);
-        });
+        } else {
+            this.props.temba.fetchLegacyFlows(this.props.uuid, false).then((defs: FlowDefinition[]) => {
+
+                var definition: FlowDefinition = null;
+                var dependencies: FlowDefinition[] = [];
+                for (let def of defs) {
+                    if (def.uuid == this.props.uuid) {
+                        definition = def;
+                    } else {
+                        dependencies.push(def);
+                    }
+                }
+
+                this.mutator = new FlowMutator(
+                    definition,
+                    this.setDefinition.bind(this), 
+                    this.save.bind(this), 
+                    this.props,
+                    QUIET_UI, QUIET_SAVE
+                );
+
+                this.setDefinition(definition, dependencies);
+            });
+        }
     }
 
     private setDefinition(definition: FlowDefinition, dependencies?: FlowDefinition[]) {
@@ -89,9 +103,9 @@ export class FlowLoaderComp extends React.PureComponent<FlowLoaderProps, FlowLoa
         if (this.state.definition) {
             for (let node of this.state.definition.nodes) {
                 var uiNode = this.state.definition._ui.nodes[node.uuid];
-                nodes.push(<NodeComp {...node} _ui={uiNode} mutator={this.mutator} key={node.uuid}/>)
+                nodes.push(<Node {...node} _ui={uiNode} mutator={this.mutator} key={node.uuid}/>)
             }
-            flow = <FlowComp 
+            flow = <Flow 
                         engineURL={this.props.engineURL}
                         definition={this.state.definition}
                         dependencies={this.state.dependencies}
@@ -106,4 +120,4 @@ export class FlowLoaderComp extends React.PureComponent<FlowLoaderProps, FlowLoa
     }
 }
 
-export default FlowLoaderComp;
+export default FlowLoader;

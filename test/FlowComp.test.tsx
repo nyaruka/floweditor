@@ -4,7 +4,7 @@ import * as axios from 'axios';
 import {FlowDefinition} from '../src/interfaces';
 import {Plumber} from '../src/services/Plumber';
 import {FlowMutator} from '../src/components/FlowMutator';
-import {FlowComp} from '../src/components/FlowComp';
+import {Flow} from '../src/components/Flow';
 import { ShallowWrapper, shallow, mount, render } from 'enzyme';
 
 var request = require('sync-request');
@@ -30,7 +30,7 @@ describe('Flow', () => {
 
     it('should render', () => {
 
-        let wrapper = mount(<FlowComp definition={definition} mutator={mutator}/>);
+        let wrapper = mount(<Flow definition={definition} mutator={mutator} dependencies={[]}/>);
 
         // make sure all our components are present
         var ids = [

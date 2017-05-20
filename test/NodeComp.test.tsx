@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as Interfaces from '../src/interfaces';
-import {NodeComp, NodeState} from '../src/components/NodeComp';
-import {FlowLoaderComp, FlowLoaderProps} from '../src/components/FlowLoaderComp';
+import {Node, NodeState} from '../src/components/Node';
+import {FlowLoader, FlowLoaderProps} from '../src/components/FlowLoader';
 import {ShallowWrapper, shallow, mount, render} from 'enzyme';
 
 /*
@@ -43,7 +43,7 @@ describe('Nodes', () => {
         var testProps: Interfaces.NodeProps;
         var mockContext: Interfaces.FlowContext;
 
-        class MockFlow extends FlowComp {
+        class MockFlow extends Flow {
             constructor() {
                 super({flowURL:null, engineURL:null, contactsURL:null, fieldsURL:null})
             }

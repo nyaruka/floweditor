@@ -41,7 +41,7 @@ if (parms.local) {
   site = "local";
 }
 
-console.log(site, token);
+// console.log(site, token);
 
 ReactDOM.render(
   <Editor

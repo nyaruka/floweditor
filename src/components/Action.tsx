@@ -11,7 +11,7 @@ import {TitleBar} from './TitleBar';
 /**
  * Base Action class for the rendered flow
  */
-export class ActionComp<P extends ActionProps> extends React.PureComponent<P, {}> {
+export class Action<P extends ActionProps> extends React.PureComponent<P, {}> {
 
     public form: HTMLFormElement;
     private modal: NodeModal;
@@ -80,4 +80,4 @@ export class ActionComp<P extends ActionProps> extends React.PureComponent<P, {}
     }
 }
 
-export default ActionComp;
+export default Action;

@@ -1,11 +1,11 @@
-import {FlowLoaderComp} from './components/FlowLoaderComp'
-import {NodeComp} from './components/NodeComp'
+import {FlowLoader} from './components/FlowLoader'
+import {Node} from './components/Node'
 import {FlowMutator} from './components/FlowMutator';
-import {NodeFormComp} from './components/NodeFormComp';
+import {NodeFormComp} from './components/NodeForm';
 
 export interface FlowContext {
-    flow: FlowLoaderComp;
-    node?: NodeComp;
+    flow: FlowLoader;
+    node?: Node;
 }
 
 export interface ContactField {
@@ -116,8 +116,9 @@ export interface RandomRouterProps extends RouterProps {
 
 export interface ExitProps {
     uuid: string;
-    destination: string;
-    name: string;
+    name?: string;
+    destination?: string;
+
 }
 
 export interface NodeProps {
@@ -160,7 +161,6 @@ export interface TypeConfig {
 
 export interface Operator {
     type: string;
-    name: string;
     verboseName: string;
     operands: number;
 }

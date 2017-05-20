@@ -1,9 +1,9 @@
 import * as React from 'react';
-import {ActionComp} from '../ActionComp';
-import {NodeFormComp} from '../NodeFormComp';
+import {Action} from '../Action';
+import {NodeFormComp} from '../NodeForm';
 import {SetLanguageProps, NodeEditorState} from '../../interfaces';
 
-export class SetLanguage extends ActionComp<SetLanguageProps> {
+export class SetLanguage extends Action<SetLanguageProps> {
     renderNode() { return <div>Language</div> }
 }
 

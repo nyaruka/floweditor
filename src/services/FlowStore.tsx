@@ -38,12 +38,23 @@ export class FlowStore {
     }
 
     private constructor() {
-        console.log('init flow store');
-
+        // console.log('init flow store');
     }
 
     getFlowFromStore(uuid: string): FlowDefinition {
-        return storage.get(uuid) as FlowDefinition;
+        var flow = storage.get(uuid)
+        if (flow != null) {
+            return flow as FlowDefinition;
+        } else {
+            return {
+                uuid: uuid, 
+                nodes: [],
+                localization: null,
+                _ui: {
+                    nodes: {}
+                }
+            }
+        }
     }
 
     loadFromUrl(url: string, token: string, onLoad: Function) {
@@ -55,7 +66,7 @@ export class FlowStore {
     }
 
     save(definition: FlowDefinition) {
-        storage.set('flow', definition);
+        storage.set(definition.uuid, definition);
     }
 }
 

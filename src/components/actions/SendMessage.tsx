@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {NodeEditorState} from '../../interfaces';
-import {ActionComp} from '../ActionComp';
-import {NodeFormComp} from '../NodeFormComp';
+import {Action} from '../Action';
+import {NodeFormComp} from '../NodeForm';
 import {SendMessageProps} from '../../interfaces';
 
 var Select2 = require('react-select2-wrapper');
 
-export class SendMessage extends ActionComp<SendMessageProps> {
+export class SendMessage extends Action<SendMessageProps> {
     renderNode(): JSX.Element {
         if (this.props.text) {
             return <div>{this.props.text}</div>
