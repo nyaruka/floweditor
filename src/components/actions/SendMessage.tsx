@@ -3,6 +3,7 @@ import {NodeEditorState} from '../../interfaces';
 import {Action} from '../Action';
 import {NodeForm} from '../NodeForm';
 import {SendMessageProps} from '../../interfaces';
+import {NodeModalProps} from '../NodeModal';
 
 var Select2 = require('react-select2-wrapper');
 
@@ -37,9 +38,9 @@ export class SendMessageForm extends NodeForm<SendMessageProps, NodeEditorState>
         return null;
     }
     
-    submit(form: HTMLFormElement) {
+    submit(form: HTMLFormElement, modal: NodeModalProps) {
         var textarea: HTMLTextAreaElement = $(form).find('textarea')[0] as HTMLTextAreaElement;
-        this.updateAction({
+        modal.onUpdateAction({
             uuid: this.props.uuid, 
             type: "msg", 
             text: textarea.value,

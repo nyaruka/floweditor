@@ -2,9 +2,10 @@ import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
 
 import { 
-    FlowDefinition, NodeProps, SendMessageProps, WebhookProps, NodeEditorProps, 
+    FlowDefinition, NodeProps, SendMessageProps, WebhookProps, NodeEditorProps, LocationProps, 
     UIMetaDataProps, ActionProps, SearchResult, UINode, DragPoint
 } from '../interfaces';
+import {NodeModalProps} from './NodeModal';
 import {Node} from './Node';
 import {ComponentMap} from './ComponentMap';
 import {FlowLoaderProps} from './FlowLoader';
@@ -39,6 +40,8 @@ export class FlowMutator {
 
         this.quietUI = quiteUI;
         this.quietSave = quietSave;
+
+        this.removeAction = this.removeAction.bind(this);
     }
 
     public getContactFields(): SearchResult[] {
@@ -109,6 +112,8 @@ export class FlowMutator {
     public addNode(props: NodeProps, ui: UINode) {
         console.time("addNode");
 
+        console.log(props, ui);
+
         // add our node
         this.definition = update(this.definition, { 
             nodes: {
@@ -130,34 +135,31 @@ export class FlowMutator {
      * @param uuid the action to modify
      * @param changes immutability spec to modify at the given action
      */
-    public updateAction(props: NodeEditorProps): NodeProps {
+    public updateAction(props: ActionProps, 
+                        draggedFrom: DragPoint=null, 
+                        newPosition: LocationProps=null,
+                        addToNode: string=null): NodeProps {
         console.time("updateAction");
         var node: NodeProps;
-        if (props.draggedFrom) {
-            var draggedFrom = props.draggedFrom;
+        if (draggedFrom) {
             var newNodeUUID = UUID.v4();
-            delete props["draggedFrom"]
-
-            var newPosition = props.newPosition;
-            delete props["newPosition"];
-            
+            var draggedFrom = draggedFrom;
             node = this.addNode({
                 uuid: newNodeUUID,
                 actions:[ props ],
+                exits: [
+                    { uuid: UUID.v4(), destination: null, name: null }
+                ],
                 pendingConnection: { 
                     exitUUID: draggedFrom.exitUUID, 
                     nodeUUID: draggedFrom.nodeUUID
                 },
-                exits: [
-                    { uuid: UUID.v4(), destination: null, name: null }
-                ]
             },{ 
                 position: newPosition
             });
         } 
-        else if (props.addToNode) {
-            let nodeDetails = this.components.getDetails(props.addToNode);
-            delete props['addToNode'];
+        else if (addToNode) {
+            let nodeDetails = this.components.getDetails(addToNode);
             this.definition = update(this.definition, { nodes:{ [nodeDetails.nodeIdx]: { actions: {
                 $push: [props]
             }}}});

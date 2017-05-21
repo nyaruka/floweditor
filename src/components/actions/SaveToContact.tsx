@@ -3,6 +3,7 @@ import {FlowStore} from '../../services/FlowStore';
 import {toBoolMap} from '../../utils';
 import {Select2Search} from '../Select2Search';
 import {SaveToContactProps, NodeEditorState, SearchResult} from '../../interfaces';
+import {NodeModalProps} from '../NodeModal';
 import {NodeForm} from '../NodeForm';
 import {Action} from '../Action';
 
@@ -78,6 +79,10 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
 
         // console.log("SaveToContact.render", initial.name, initial.id);
 
+        // var mutator = this.props.modal.mutator;
+        // url={mutator.getContactFieldURL()} 
+        // localSearchOptions={mutator.getContactFields()}
+
         return (
             <div>
                 <div className="form-group">
@@ -87,9 +92,8 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
                             key={UUID.v4()}
                             className="form-control"
                             ref={(ele: any) => {this.fieldSelect = ele}} 
+                            url={null}
                             name="field"
-                            url={this.props.mutator.getContactFieldURL()} 
-                            localSearchOptions={this.props.mutator.getContactFields()}
                             addExtraResults={this.addExtraResults.bind(this)}
                             initial={initial}
                         />
@@ -117,14 +121,14 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
         return null;
     }
 
-    submit(form: HTMLFormElement) {
+    submit(form: HTMLFormElement, modal: NodeModalProps) {
         let selections = this.fieldSelect.getSelection();
         if (selections.length > 0) {
             let selection = selections[0];
             var input: HTMLInputElement = $(form).find('input')[0] as HTMLInputElement;
 
             // update our flow   
-            this.updateAction({
+            modal.onUpdateAction({
                 uuid: this.props.uuid, 
                 type: "save_to_contact", 
                 name: selection.name, 
@@ -133,13 +137,13 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
             } as SaveToContactProps);
 
             // if this was a newly created field, add it to our main list
-            if (selection.extraResult) {
-                this.props.mutator.addContactField({
-                    id: selection.id,
-                    name: selection.name,
-                    type: selection.type
-                })
-            }
+            //if (selection.extraResult) {
+            //    this.props.modal.mutator.addContactField({
+            //        id: selection.id,
+            //        name: selection.name,
+            //        type: selection.type
+            //    })
+            //}
         }
     }
 }

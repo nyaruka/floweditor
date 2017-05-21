@@ -1,7 +1,5 @@
 import {FlowLoader} from './components/FlowLoader'
 import {Node} from './components/Node'
-import {FlowMutator} from './components/FlowMutator';
-import {NodeForm} from './components/NodeForm';
 
 export interface FlowContext {
     flow: FlowLoader;
@@ -32,31 +30,17 @@ export interface LocationProps {
 }
 
 
-export interface NodeEditorState {
-
-}
+export interface NodeEditorState {}
 
 export interface NodeEditorProps {
     type: string;
     uuid: string;
-    
-    mutator?: FlowMutator;
-
-    // creating a new node from dragging
-    draggedFrom?: DragPoint;
-
-    // node to add a new action to 
-    addToNode?: string;
-
-    // location to create new nodes
-    newPosition?: LocationProps;
-
-    // exits
-    exits?: ExitProps[]
+    onEdit: Function;
+    onRemoveAction: Function;
 }
 
 export interface ActionProps extends NodeEditorProps {
-    dragging?: boolean;
+    dragging: boolean;
 }
 
 export interface AddToGroupProps extends ActionProps {
@@ -103,23 +87,16 @@ export interface SwitchRouterProps extends RouterProps {
     cases: CaseProps[];
     operand: string;
     default: string;
-
     exits?: ExitProps[];
 }
 
-export interface SwitchRouterState extends NodeEditorState {
-
-}
-
-export interface RandomRouterProps extends RouterProps {
-
-}
+export interface SwitchRouterState extends NodeEditorState {}
+export interface RandomRouterProps extends RouterProps {}
 
 export interface ExitProps {
     uuid: string;
     name?: string;
     destination?: string;
-
 }
 
 export interface NodeProps {
@@ -131,15 +108,15 @@ export interface NodeProps {
     wait?: any;
     _ui?: UINode;
 
-    // hook for updating the flow
-    mutator?: FlowMutator;
-
-    // a ghost node dragged from somewhere
-    draggedFrom?: DragPoint
-
+    ghost?: boolean;
+    onEdit?: Function;
+    onRemoveAction?: Function;
+    onMoved?: Function;
+    onMounted?: Function;
+    onRemove?: Function;
+ 
     // a connection that needs to be wired on mounting
     pendingConnection?: DragPoint;
-
 }
 
 /**

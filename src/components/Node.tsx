@@ -36,7 +36,6 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
 
     onDragStart(event: any) {
         this.setState({dragging: true});
-        // booo
         $('#root').addClass('dragging');
     }
 
@@ -44,18 +43,11 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
 
     onDragStop(event: DragEvent) {
         this.setState({dragging: false});
-
-        // booo
         $('#root').removeClass('dragging');
         var position = $(event.target).position();
 
         // update our coordinates
-        this.props.mutator.updateNodeUI(this.props.uuid, {
-            position: { $set: {
-                x: event.finalPos[0],
-                y: event.finalPos[1]
-            }}
-        });
+        this.props.onMoved(this.props.uuid, {x: event.finalPos[0], y: event.finalPos[1]});
     }
 
     shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState) {
@@ -81,12 +73,12 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         plumber.makeTarget(this.props.uuid);
 
         // update our props with our current location
-        if (this.props.pendingConnection) {
-            this.props.mutator.resolvePendingConnection(this.props);
+        if (this.props.onMounted) {
+            this.props.onMounted(this.props);
         }
 
         // move our drag node around as necessary
-        if (this.props.draggedFrom) {
+        if (this.props.ghost) {
             $(document).bind('mousemove', (e) => {
                 var ele = $(this.ele);
                 var left = e.pageX - (ele.width() / 2);
@@ -102,7 +94,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
     }
 
     componentDidUpdate(prevProps: NodeProps, prevState: NodeState) {
-        if (!this.props.draggedFrom) {
+        if (!this.props.ghost) {
             Plumber.get().recalculate(this.props.uuid);
         }
         Plumber.get().repaint();
@@ -112,9 +104,9 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         if (!this.state.dragging) {
             // if we have one action, defer to it
             if (this.props.actions && this.props.actions.length == 1) {
-                this.firstAction.openModal();
+                this.props.onEdit(this.props.actions[0]);
             } else {
-                this.modal.open();
+                this.props.onEdit(this.props.router);
             }
         }
     }
@@ -124,7 +116,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
     }
 
     private onRemoval(event: React.MouseEvent<HTMLDivElement>) {
-        this.props.mutator.removeNode(this.props);
+        this.props.onRemove(this.props)
     }
 
     render() {
@@ -139,10 +131,10 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
                     actions.push(React.createElement(actionConfig.component, { 
                         ...actionProps,
                         ...firstRef,
+                        dragging: this.state.dragging,
                         key: actionProps.uuid,
-                        mutator: this.props.mutator, 
-                        dragging: this.state.dragging, 
-                        draggedFrom: this.props.draggedFrom,
+                        onEdit: this.props.onEdit,
+                        onRemoveAction: this.props.onRemoveAction,
                     } as ActionProps));
                 }
                 firstRef = {};
@@ -155,7 +147,6 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         }
 
         var header: JSX.Element = null;
-        var modal: JSX.Element = null;
         var addActions: JSX.Element = null;
 
         if (this.props.router) {
@@ -166,15 +157,6 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
                                 onRemoval={this.onRemoval.bind(this)} 
                                 title={config.name} {...events}/>
             }
-
-            modal = <NodeModal ref={(ele: any) => {this.modal = ele}} 
-                               initial={{...this.props.router, 
-                                        exits: this.props.exits, 
-                                        draggedFrom: this.props.draggedFrom,
-                                        mutator: this.props.mutator}}
-                               exits={this.props.exits}
-                               changeType={true}
-            />
         } else {
             if (actions.length == 0) {
                 header = <div className={"split-title switch"} {...events}>Split</div>
@@ -200,23 +182,25 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         }
 
         // is this a ghost node
-        if (this.props.draggedFrom) {
+        if (this.props.ghost) {
             classes.push("ghost")
         }
 
         // create our empty modal for creating new actions
-        let newAction = <NodeModal 
-            ref={(ele: any) => {this.newActionModal = ele}}
-            initial={{addToNode: this.props.uuid, type:"msg", uuid:UUID.v4(), mutator: this.props.mutator} as ActionProps}
-            changeType={true}
-        />
+        let newAction = null;
+        //<NodeModal 
+        //    ref={(ele: any) => {this.newActionModal = ele}}
+        //    initial={{ type:"msg", uuid:UUID.v4()} as ActionProps}
+        //    changeType={true}
+        ///>
+
+        // addToNode: this.props.uuid,
 
         var exitClass = "";
         if (this.props.exits.length == 1 && !this.props.exits[0].name) {
             exitClass = "actions"
         }
         
-
         // console.log("Rendering node", this.props.uuid);
         return(
             <div className={classes.join(' ')}
@@ -237,7 +221,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
                     </div>
                 </div>
                 {addActions}
-                {modal}
+                {/*modal*/}
                 {newAction}
             </div>
         )

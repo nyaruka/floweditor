@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {Action} from '../Action';
-import {WebhookProps, NodeEditorProps, NodeEditorState} from '../../interfaces';
+import {ActionProps} from '../../interfaces';
 
-export class Missing extends Action<NodeEditorProps> {
+export class Missing extends Action<ActionProps> {
     renderNode(): JSX.Element {
         return <div className="url breaks">Not Implemented</div>
     }

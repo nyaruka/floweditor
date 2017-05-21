@@ -42,7 +42,7 @@ export class FlowStore {
     }
 
     getFlowFromStore(uuid: string): FlowDefinition {
-        var flow = storage.get(uuid)
+        var flow = storage.get("flow");
         if (flow != null) {
             return flow as FlowDefinition;
         } else {
@@ -66,7 +66,8 @@ export class FlowStore {
     }
 
     save(definition: FlowDefinition) {
-        storage.set(definition.uuid, definition);
+        console.log("Saving: ", definition);
+        storage.set("flow", definition);
     }
 }
 

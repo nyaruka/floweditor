@@ -80,7 +80,7 @@ describe('FlowMutator', () => {
         var lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
         var actionUUID = UUID.v4();
 
-        var newNode = mutator.updateAction({
+        /*var newNode = mutator.updateAction({
             uuid: actionUUID,
             type: "msg",
             text: "A new message after dragging",
@@ -116,6 +116,7 @@ describe('FlowMutator', () => {
         var ui = definition._ui.nodes[newNode.uuid] as UINode;
         chai.assert.notEqual(ui, undefined, "Couldn't find ui details for new node");
         chai.assert.deepEqual(ui.position, {x: 444, y: 555})
+        */
 
     });
 
@@ -147,7 +148,7 @@ describe('FlowMutator', () => {
         chai.assert.equal(action.method, "GET");
     });
     
-    it ('adds actions to an existing node', () => {
+    /*it ('adds actions to an existing node', () => {
         mutator.updateAction({
             uuid: UUID.v4(),
             type: "msg",
@@ -200,7 +201,7 @@ describe('FlowMutator', () => {
         mutator.removeAction(newNode.actions[1]);
         newNode = mutator.getNode(newNode.uuid);
         chai.assert.equal(newNode.actions.length, 1);
-    });
+    });*/
 
     xit('removes localization on node removal', () => {
         chai.assert.isTrue(false);

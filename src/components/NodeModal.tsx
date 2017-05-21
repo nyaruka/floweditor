@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
-import {NodeEditorProps, NodeEditorState, ExitProps, TypeConfig} from '../interfaces';
+import {DragPoint, NodeEditorProps, NodeEditorState, ExitProps, TypeConfig, LocationProps} from '../interfaces';
 import {Modal} from './Modal';
 import {Config} from '../services/Config';
 import {FlowMutator} from '../components/FlowMutator';
@@ -9,10 +9,22 @@ import {NodeForm} from './NodeForm';
 
 var Select2 = require('react-select2-wrapper');
 
-interface NodeModalProps {
-    initial: NodeEditorProps;
-    changeType: boolean;
+export interface NodeModalProps {
+    initial?: NodeEditorProps;
+    changeType?: boolean;
+
+    onUpdateAction: Function;
+
+    newPosition?: LocationProps;
+    
+    mutator?: FlowMutator;
+    
+    draggedFrom?: DragPoint;
+    
     exits?: ExitProps[];
+    
+    addToNode?: string;
+
 }
 
 interface NodeModalState {
@@ -86,7 +98,6 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
             }
         });
 
-
         if (!valid) {
             var messages: string[] = [];
             for (var key in errors) {
@@ -96,7 +107,6 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                     messages.push(key);
                 }
             }
-
 
             var allErrors: string;
             var makeCorrection = "Correct these errors and try again."
@@ -119,14 +129,14 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         } else {
             // if we are still valid, proceed with submit
             // and finally submit our node
-            this.form.submit(this.formElement);
+            this.form.submit(this.formElement, this.props);
             this.closeModal();
         }
     }
 
     private closeModal() {
-        if (this.props.initial.draggedFrom) {
-            this.props.initial.draggedFrom.onResolved();
+        if (this.props.draggedFrom) {
+            this.props.draggedFrom.onResolved();
         }
         this.close();
     }
@@ -145,7 +155,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     private onChangeType(event: any) {
         var type = event.target.value;
         if (type != this.state.config.type) {
-            this.setState({ 
+            this.setState({
                 config: this.getConfig(type)
             });
         }
@@ -177,7 +187,6 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     }
 
     render() {
-
         var data: any = [];
         let options: TypeConfig[] = Config.get().typeConfigs;
         options.map((option: TypeConfig) => {
@@ -203,12 +212,17 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         }
 
         var form = null;
-
-        // create our form element
-        if (this.state.config.form != null) {
-            var props = this.props.initial as NodeEditorProps
-            var ref = (ele: any) => { this.form = ele; }
-            form = React.createElement(this.state.config.form, {...props, ref:ref});
+        if (this.state.show) {
+            // create our form element
+            if (this.state.config.form != null) {
+                var props = this.props.initial as NodeEditorProps
+                var ref = (ele: any) => { this.form = ele; }
+                var uuid = props.uuid;
+                if (!uuid) {
+                    uuid =  UUID.v4();
+                }
+                form = React.createElement(this.state.config.form, {...props, key:uuid, ref:ref, uuid: uuid});
+            }
         }
 
         return (

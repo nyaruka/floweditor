@@ -26,8 +26,8 @@ export class Action<P extends ActionProps> extends React.PureComponent<P, {}> {
     }
 
     onClick (event: React.SyntheticEvent<MouseEvent>) {
-        if (!this.props.dragging) {
-            this.openModal();
+        if (this.props.onEdit && !this.props.dragging) {
+            this.props.onEdit(this.props);
         }
     }
 
@@ -46,7 +46,7 @@ export class Action<P extends ActionProps> extends React.PureComponent<P, {}> {
 
     private onRemoval(evt: React.SyntheticEvent<MouseEvent>) {
         evt.stopPropagation();
-        this.props.mutator.removeAction(this.props);
+        this.props.onRemoveAction(this.props);
     }
 
     renderNode(): JSX.Element {
@@ -65,12 +65,6 @@ export class Action<P extends ActionProps> extends React.PureComponent<P, {}> {
                         {this.renderNode()}
                     </div>
                 </div>
-                <NodeModal
-                    key={"modal-" + this.props.uuid}
-                    ref={(ele: any) => {this.modal = ele}} 
-                    initial={this.props}
-                    changeType={true}
-                /> 
             </div>
         )
     }

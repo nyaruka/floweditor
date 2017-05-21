@@ -99,17 +99,12 @@ export class FlowLoader extends React.PureComponent<FlowLoaderProps, FlowLoaderS
 
     render() {
         var flow = null;
-        var nodes: JSX.Element[] = [];
         if (this.state.definition) {
-            for (let node of this.state.definition.nodes) {
-                var uiNode = this.state.definition._ui.nodes[node.uuid];
-                nodes.push(<Node {...node} _ui={uiNode} mutator={this.mutator} key={node.uuid}/>)
-            }
             flow = <Flow 
-                        engineURL={this.props.engineURL}
-                        definition={this.state.definition}
-                        dependencies={this.state.dependencies}
-                        mutator={this.mutator}/>
+                    engineURL={this.props.engineURL}
+                    definition={this.state.definition}
+                    dependencies={this.state.dependencies}
+                    mutator={this.mutator}/>
         }
 
         return(

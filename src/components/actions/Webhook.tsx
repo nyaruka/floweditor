@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Action} from '../Action';
 import {NodeForm} from '../NodeForm';
 import {WebhookProps, NodeEditorState} from '../../interfaces';
+import {NodeModalProps} from '../NodeModal';
 
 var Select2 = require('react-select2-wrapper');
 
@@ -72,9 +73,9 @@ export class WebhookForm extends NodeForm<WebhookProps, NodeEditorState> {
         return null;
     }
     
-    submit(form: Element) {
+    submit(form: Element, modal: NodeModalProps) {
         var url: HTMLInputElement = $(form).find('input')[0] as HTMLInputElement;
-        this.updateAction({
+        modal.onUpdateAction({
             uuid: this.props.uuid, 
             type: "webhook", 
             url: url.value, 
