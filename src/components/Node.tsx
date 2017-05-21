@@ -168,7 +168,10 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
             }
 
             modal = <NodeModal ref={(ele: any) => {this.modal = ele}} 
-                               initial={{...this.props.router, exits: this.props.exits, draggedFrom: this.props.draggedFrom}}
+                               initial={{...this.props.router, 
+                                        exits: this.props.exits, 
+                                        draggedFrom: this.props.draggedFrom,
+                                        mutator: this.props.mutator}}
                                exits={this.props.exits}
                                changeType={true}
             />
