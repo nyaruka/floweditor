@@ -46,10 +46,12 @@ $z_simulator: 300;
 
 $node_width: 200px;
 
+
+@import "./components/Node.scss";
 @import "./components/Action.scss";
 @import "./components/Case.scss";
-
 @import "./components/routers/SwitchRouter.scss";
+
 
 body {
 
@@ -69,8 +71,8 @@ body {
         overflow: visible !important;
     }
 
-    .ReactModal__Body--open {
-        overflow: hidden !important;
+    &.ReactModal__Body--open {
+        overflow-y: hidden !important;
     }
 
     .select2 {
@@ -142,46 +144,7 @@ body {
     clear: both;
 }
 
-.titlebar {
 
-    padding: 4px;
-    text-shadow: 0px 1px rgba(0, 0, 0,.2);
-    color: $light_text;
-    text-align: center;
-    font-size:13px;
-    padding-left: 14px;
-
-    .remove-confirm {
-        position: absolute;
-        background: #c14c46;
-        margin: -4px;
-        margin-left: -14px;
-        margin-top: -20px;
-        width: 100%;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        padding: 4px;
-        text-shadow: 0px 1px rgba(0, 0, 0,.2);
-        font-size: 13px;
-
-        .remove-button {
-            visibility: visible;
-        }
-    }
-
-    .remove-button {
-        float:right;
-        padding-right: 2px;
-        visibility: hidden;
-    }
-
-    &:hover {
-        .remove-button {
-            visibility: visible;
-        }
-    }
-}
 
 
 .ReactModal__Overlay {
@@ -194,6 +157,12 @@ body {
 }
 
 .modal {
+
+    .errors {
+        color: $error_color;
+        padding:5px 2px;
+        font-size: 12px;
+    }
 
     background: #fff;
 
@@ -237,9 +206,9 @@ body {
                 color: $grey;
             }
 
-            &.invalid {
+            &.invalid {                
                 input, textarea {
-                    border-color: $error_color;
+                    border-color: $error_color !important;
                 }
 
                 .error {
@@ -249,9 +218,9 @@ body {
 
             .error {
                 display: none;
-                font-size: 11px;
                 color: $error_color;
                 padding:5px 2px;
+                font-size: 9px;
             }
         }
 
@@ -753,5 +722,4 @@ textarea, input, button { outline: none; }
 .lead-in {
     margin-bottom: 15px;
 }
-
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {NodeEditorState} from '../../interfaces';
 import {Action} from '../Action';
-import {NodeFormComp} from '../NodeForm';
+import {NodeForm} from '../NodeForm';
 import {SendMessageProps} from '../../interfaces';
 
 var Select2 = require('react-select2-wrapper');
@@ -16,7 +16,7 @@ export class SendMessage extends Action<SendMessageProps> {
     }
 }
 
-export class SendMessageForm extends NodeFormComp<SendMessageProps, NodeEditorState> {    
+export class SendMessageForm extends NodeForm<SendMessageProps, NodeEditorState> {    
     
     renderForm(): JSX.Element {
         return (

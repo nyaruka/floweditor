@@ -10,7 +10,7 @@ import {TitleBar} from './TitleBar';
 /**
  * Base Action class for the rendered flow
  */
-export abstract class NodeFormComp<P extends NodeEditorProps, S extends NodeEditorState> extends React.PureComponent<P, S> {
+export abstract class NodeForm<P extends NodeEditorProps, S extends NodeEditorState> extends React.PureComponent<P, S> {
 
     abstract validate(ele: any): string;
     abstract submit(form: HTMLFormElement): void;
@@ -35,4 +35,4 @@ export abstract class NodeFormComp<P extends NodeEditorProps, S extends NodeEdit
     }
 }
 
-export default NodeFormComp;
+export default NodeForm;

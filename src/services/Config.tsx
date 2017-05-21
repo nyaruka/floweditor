@@ -66,18 +66,17 @@ export class Config {
         { type: "has_text", verboseName: "has text", operands: 0},
         { type: "has_number", verboseName: "has a number", operands: 0},
         { type: "has_number_between", verboseName: "has a number between", operands: 2},
-        { type: "has_number_lt", verboseName: "has a number less than", operands: 1},
-        { type: "has_number_lte", verboseName: "has a number less than or equal to", operands: 1},
+        { type: "has_number_lt", verboseName: "has a number below", operands: 1},
+        { type: "has_number_lte", verboseName: "has a number at or below", operands: 1},
         { type: "has_number_eq", verboseName: "has a number equal to", operands: 1},
-        { type: "has_number_gte", verboseName: "has a number greater than or equal to", operands: 1},
-        { type: "has_number_gt", verboseName: "has a number greater than", operands: 1},
+        { type: "has_number_gte", verboseName: "has a number at or above", operands: 1},
+        { type: "has_number_gt", verboseName: "has a number above", operands: 1},
         { type: "has_date", verboseName: "has a date", operands: 0},
         { type: "has_date_lt", verboseName: "has a date before", operands: 0},
         { type: "has_date_eq", verboseName: "has a date equal to", operands: 0},
         { type: "has_date_gt", verboseName: "has a date after", operands: 0},
         { type: "has_phone", verboseName: "has a phone number", operands: 0},
-        { type: "has_email", verboseName: "has an email", operands: 0},
-        
+        { type: "has_email", verboseName: "has an email", operands: 0},   
     ]
 }
 

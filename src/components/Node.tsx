@@ -97,7 +97,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
     }
 
     componentWillUnmount() {
-        console.log('unmounted', this.props.uuid);
+        // console.log('unmounted', this.props.uuid);
         Plumber.get().remove(this.props.uuid);
     }
 
@@ -128,7 +128,6 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
     }
 
     render() {
-        console.log(this.props);
         var classes = ["node"];
         var actions: JSX.Element[] = [];
         if (this.props.actions) {
@@ -169,7 +168,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
             }
 
             modal = <NodeModal ref={(ele: any) => {this.modal = ele}} 
-                               initial={{...this.props.router, exits: this.props.exits}}
+                               initial={{...this.props.router, exits: this.props.exits, draggedFrom: this.props.draggedFrom}}
                                exits={this.props.exits}
                                changeType={true}
             />

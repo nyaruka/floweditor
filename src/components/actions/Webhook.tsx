@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Action} from '../Action';
-import {NodeFormComp} from '../NodeForm';
+import {NodeForm} from '../NodeForm';
 import {WebhookProps, NodeEditorState} from '../../interfaces';
 
 var Select2 = require('react-select2-wrapper');
@@ -12,7 +12,7 @@ export class Webhook extends Action<WebhookProps> {
     }
 }
 
-export class WebhookForm extends NodeFormComp<WebhookProps, NodeEditorState> {
+export class WebhookForm extends NodeForm<WebhookProps, NodeEditorState> {
 
     private method: string
 

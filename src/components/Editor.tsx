@@ -33,7 +33,6 @@ export class Editor extends React.PureComponent<EditorProps, EditorState> {
     }
 
     private onFlowSelect(uuid: string) {
-        console.log(uuid);
         this.setState({flowUUID: uuid});
     }
     

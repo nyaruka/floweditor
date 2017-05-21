@@ -1,7 +1,7 @@
 import {FlowLoader} from './components/FlowLoader'
 import {Node} from './components/Node'
 import {FlowMutator} from './components/FlowMutator';
-import {NodeFormComp} from './components/NodeForm';
+import {NodeForm} from './components/NodeForm';
 
 export interface FlowContext {
     flow: FlowLoader;
@@ -93,9 +93,10 @@ export interface CaseProps {
     arguments?: string[];
     exit?: string;
 
-    exitProps?: ExitProps;
+    exitName?: string;
     onChanged?: Function;
     moveCase?: Function;
+    
 }
 
 export interface SwitchRouterProps extends RouterProps {

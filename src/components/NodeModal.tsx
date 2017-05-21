@@ -5,7 +5,7 @@ import {NodeEditorProps, NodeEditorState, ExitProps, TypeConfig} from '../interf
 import {Modal} from './Modal';
 import {Config} from '../services/Config';
 import {FlowMutator} from '../components/FlowMutator';
-import {NodeFormComp} from './NodeForm';
+import {NodeForm} from './NodeForm';
 
 var Select2 = require('react-select2-wrapper');
 
@@ -26,7 +26,7 @@ interface NodeModalState {
 export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     
     private formElement: HTMLFormElement;
-    private form: NodeFormComp<NodeEditorProps, NodeEditorState>;
+    private form: NodeForm<NodeEditorProps, NodeEditorState>;
 
     private nodeUUID: string;
 
@@ -70,6 +70,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
 
     processForm() {
         var valid = true;
+        var errors: any= {};
         $(this.formElement.elements).each((index: number, ele: HTMLFormElement) => {
             if (ele.name) {
                 var error = this.form.validate(ele);
@@ -78,14 +79,45 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                     group.addClass('invalid');
                     group.find('.error').text(error);
                     valid = false;
+                    errors[error] = true;
                 } else {
                     $(ele).parents('.form-group').removeClass('invalid');
                 }
             }
         });
 
-        // if we are still valid, proceed with submit
-        if (valid) {
+
+        if (!valid) {
+            var messages: string[] = [];
+            for (var key in errors) {
+                if (messages.length == 0) {
+                    messages.push(key.charAt(0).toUpperCase() + key.slice(1));
+                } else {
+                    messages.push(key);
+                }
+            }
+
+
+            var allErrors: string;
+            var makeCorrection = "Correct these errors and try again."
+            if (messages.length == 1) {
+                allErrors = messages[0] + ".";
+                makeCorrection = "Correct this error and try again.";
+            } else if (messages.length == 2) {
+                allErrors = messages.join(" and ") + ".";
+            } else {
+                allErrors = messages.slice(0, -1).join(", ");
+                allErrors += " and " + messages.slice(-1) + ".";
+            }
+
+            if (makeCorrection) {
+                allErrors += " " + makeCorrection;
+            }
+
+            $(this.formElement).find(".errors").text(allErrors);
+
+        } else {
+            // if we are still valid, proceed with submit
             // and finally submit our node
             this.form.submit(this.formElement);
             this.closeModal();

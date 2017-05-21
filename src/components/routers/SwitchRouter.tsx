@@ -3,7 +3,7 @@ import * as UUID from 'uuid';
 
 import {Case} from '../Case';
 import {SwitchRouterProps, CaseProps} from '../../interfaces';
-import {NodeFormComp} from '../NodeForm';
+import {NodeForm} from '../NodeForm';
 import {DragDropContext} from 'react-dnd';
 
 
@@ -15,18 +15,49 @@ class SwitchRouterState {
     cases: CaseProps[]
 }
 
-export class SwitchRouterForm extends NodeFormComp<SwitchRouterProps, SwitchRouterState> {
+export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterState> {
 
     constructor(props: SwitchRouterProps) {
         super(props);
 
-        this.state = {
-            cases: this.props.cases
+        var cases: CaseProps[] = [];
+        if (this.props.cases) {
+            cases = this.props.cases;
         }
+
+        this.state = {
+            cases: cases
+        }
+
+        this.onCaseChanged = this.onCaseChanged.bind(this);
     }
 
     onCaseChanged(c: Case) {
-        // console.log("case changed", c, c.state);
+        var cases = this.state.cases;
+        var newCase: CaseProps = {
+            uuid: c.props.uuid,
+            type: c.state.operator,
+            arguments: c.state.arguments,
+            exitName: c.state.exitName
+        }
+
+        var found = false;
+        for (var idx in this.state.cases) {
+            var kase = this.state.cases[idx];
+            if (kase.uuid == c.props.uuid) {
+                cases = update(this.state.cases, {[idx]: {$set:newCase}});
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            cases = update(this.state.cases, {$push:[newCase]});
+        }
+
+        this.setState({
+            cases: cases
+        })
     }
 
     renderForm(): JSX.Element {
@@ -37,7 +68,7 @@ export class SwitchRouterForm extends NodeFormComp<SwitchRouterProps, SwitchRout
                 if (c.exit) {
                     for (let exit of this.props.exits) {
                         if (exit.uuid == c.exit) {
-                            c.exitProps = exit;
+                            c.exitName = exit.name;
                             break;
                         }
                     }
@@ -47,16 +78,17 @@ export class SwitchRouterForm extends NodeFormComp<SwitchRouterProps, SwitchRout
         }
 
         var newCaseUUID = UUID.v4()
-        cases.push(<Case onChanged={this.onCaseChanged.bind(this)} key={newCaseUUID} uuid={newCaseUUID} type="contains_any"/>)
+        cases.push(<Case onChanged={this.onCaseChanged.bind(this)} key={newCaseUUID} uuid={newCaseUUID} type="has_any_word"/>)
 
         return (
-            <div>
+            <div className="switch">
                 <div className="lead-in">
                     If the message response..
                 </div>
                 <div>
                     {cases}
                 </div>
+                <div className="errors"/>
             </div>
         )
     }
@@ -66,20 +98,43 @@ export class SwitchRouterForm extends NodeFormComp<SwitchRouterProps, SwitchRout
         const dragCase = cases[dragIndex];
 
         this.setState(update(this.state, {
-        cards: {
-            $splice: [
-            [dragIndex, 1],
-            [hoverIndex, 0, dragCase],
-            ],
-        },
+            cards: {
+                $splice: [
+                    [dragIndex, 1],
+                    [hoverIndex, 0, dragCase],
+                ],
+            },
         }));
     }
     
-    validate(control: any): string {
+    validate(c: any): string {
+        if (c.name == "exitName") {
+            // look at our associated arguments to see if we are required
+            var args = $(c).parents(".case").find(".operand input")[0] as HTMLInputElement;
+            if (args.value.length > 0) {
+                var control: HTMLInputElement = c;
+                if (!control.value) {
+                    return "a category name is required";
+                }
+            }
+        }
+
+        else if (c.name == "arguments") {
+            var exitName = $(c).parents(".case").find(".category input")[0] as HTMLInputElement;
+            if (exitName.value.length > 0) {
+                var control: HTMLInputElement = c;
+                if (!control.value) {
+                    return "a rule value is required";
+                }
+            }
+            
+        }
         return null;
     }
 
-    submit(form: HTMLFormElement) {}
+    submit(form: HTMLFormElement) {
+
+    }
 
 }
 

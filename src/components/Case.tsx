@@ -7,7 +7,9 @@ import {Config} from '../services/Config';
 // var Select2 = require('react-select2-wrapper');
 
 export interface CaseState {
-    selected: string;
+    operator: string;
+    arguments: string[];
+    exitName: string;
 }
 
 /**
@@ -17,17 +19,62 @@ export class Case extends React.PureComponent<CaseProps, CaseState> {
 
     constructor(props: CaseProps) {
         super(props);
+        var exitName = "";
+        if (this.props.exitName) {
+            exitName = this.props.exitName;
+        }
+
         this.state = {
-            selected: props.type
+            operator: props.type,
+            arguments: props.arguments,
+            exitName: exitName
         }
     }
 
-    private onChange(val: Operator){
-        this.setState({
-            selected: val.type
-        });
+    private generateExitName(args: string[]): string {
+        if (args && args.length > 0) {
+            var words = args[0].match(/\w+/g);
+            if (words && words.length > 0) {
+                var firstWord = words[0];
+                return firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
+            }
+            return args[0].charAt(0).toUpperCase() + args[0].slice(1);
+        }
+        return null;
+    }
 
-        this.props.onChanged(this);
+    private getExitName(args: string[]) {
+        var exitName = this.state.exitName;
+        if (!exitName || exitName == this.generateExitName(this.props.arguments)) {
+            exitName = this.generateExitName(args);
+        }
+        return exitName;
+    }
+
+    private onChangeOperator(val: Operator){
+        this.setState({
+            operator: val.type,
+        }, () => {
+            this.props.onChanged(this);
+        });
+    }
+
+    private onChangeArguments(val: React.ChangeEvent<HTMLInputElement>) {
+        var args = [val.target.value]
+        this.setState({
+            arguments: args,
+            exitName: this.getExitName(args)
+        }, ()=>{
+            this.props.onChanged(this);
+        });
+    }
+
+    private onChangeExitName(val: React.ChangeEvent<HTMLInputElement>) {
+        this.setState({
+            exitName: val.target.value
+        }, () => {
+            this.props.onChanged(this);
+        });
     }
 
     render() {
@@ -38,22 +85,22 @@ export class Case extends React.PureComponent<CaseProps, CaseState> {
                         name="operator"
                         clearable={false}
                         options={Config.get().operators}
-                        value={this.state.selected}                        
+                        value={this.state.operator}                        
                         valueKey="type"
                         labelKey="verboseName"
                         optionClassName="operator"
                         searchable={false}
-                        onChange={this.onChange.bind(this)}
+                        onChange={this.onChangeOperator.bind(this)}
                     />
                 </div>
-                <div className="operand">
-                    <input type="text" defaultValue={this.props.arguments}/>
+                <div className="operand form-group">
+                    <input className="form-control" name="arguments" type="text" onChange={this.onChangeArguments.bind(this)} defaultValue={this.state.arguments}/>
                 </div>
                 <div className="categorize-as">
                     categorize as
                 </div>
-                <div className="category">
-                    <input type="text" defaultValue={this.props.exitProps ? this.props.exitProps.name : ""}/>
+                <div className="category form-group">
+                    <input className="form-control" name="exitName" type="text" onChange={this.onChangeExitName.bind(this)} value={this.state.exitName}/>
                 </div>
             </div>
         );

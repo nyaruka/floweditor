@@ -58,7 +58,9 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var draggedFrom = {
             nodeUUID: draggedFromDetails.nodeUUID, 
             exitUUID: draggedFromDetails.exitUUID, 
-            onResolved: (() => { this.setState({ghostNode: null});})
+            onResolved: (() => { 
+                this.setState({ghostNode: null});
+            })
         }
 
         var ghostNode = {
@@ -86,6 +88,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         } 
         // otherwise we are going to a switch
         else {
+            ghostNode.exits[0].name = "All Responses";
             ghostNode['router'] = {type:"switch"}
         }
 
@@ -133,7 +136,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
     }
     
     componentWillUnmount() {
-        console.log('unmounting flow');
+        // console.log('unmounting flow');
         Plumber.get().reset();
     }
 

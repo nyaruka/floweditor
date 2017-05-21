@@ -3,7 +3,7 @@ import {FlowStore} from '../../services/FlowStore';
 import {toBoolMap} from '../../utils';
 import {Select2Search} from '../Select2Search';
 import {SaveToContactProps, NodeEditorState, SearchResult} from '../../interfaces';
-import {NodeFormComp} from '../NodeForm';
+import {NodeForm} from '../NodeForm';
 import {Action} from '../Action';
 
 var Select2 = require('react-select2-wrapper');
@@ -35,7 +35,7 @@ export class SaveToContact extends Action<SaveToContactProps> {
     }
 }
 
-export class SaveToContactForm extends NodeFormComp<SaveToContactProps, NodeEditorState> {
+export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorState> {
 
     fieldValue: string;
     fieldSelect: Select2Search;
