@@ -112,8 +112,6 @@ export class FlowMutator {
     public addNode(props: NodeProps, ui: UINode) {
         console.time("addNode");
 
-        console.log(props, ui);
-
         // add our node
         this.definition = update(this.definition, { 
             nodes: {

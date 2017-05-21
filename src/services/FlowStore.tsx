@@ -41,6 +41,10 @@ export class FlowStore {
         // console.log('init flow store');
     }
 
+    reset() {
+        storage.remove("flow");
+    }
+
     getFlowFromStore(uuid: string): FlowDefinition {
         var flow = storage.get("flow");
         if (flow != null) {

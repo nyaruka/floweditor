@@ -46,19 +46,44 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.onNodeMoved = this.onNodeMoved.bind(this);
         this.onNodeMounted = this.onNodeMounted.bind(this);
         this.onUpdateAction = this.onUpdateAction.bind(this);
+        this.onAddAction = this.onAddAction.bind(this);
         
         this.state = { 
             loading: true,
-            modalProps: { 
+            modalProps: {
                 changeType: true,
-                onUpdateAction: this.onUpdateAction,
+                onUpdateAction: this.onUpdateAction
             }
         }
         console.time("RenderAndPlumb");
     }
 
-    private onEdit(props: NodeEditorProps) {
-        var modalProps = update(this.state.modalProps, {initial: {$set:props}});
+    private onEdit(propsToEdit: NodeEditorProps) {
+        var modalProps = update(this.state.modalProps, {$merge: {initial: propsToEdit}});
+        delete modalProps["addToNode"];
+
+        this.setState({ modalProps: modalProps }, ()=> {this.modalComp.open()});
+    }
+
+    private onAddAction(addToNode: string) {
+
+        var newAction = {
+            uuid: UUID.v4(),
+            type: "msg",
+            onEdit: this.onEdit,
+            dragging: false,
+            onUpdateAction: this.onUpdateAction,
+            onRemoveAction: this.props.mutator.removeNode,
+            onAddAction: this.onAddAction
+        }
+
+        var modalProps: NodeModalProps = {
+            initial: newAction,
+            changeType: true,
+            onUpdateAction: this.onUpdateAction,
+            addToNode: addToNode         
+        };
+
         this.setState({ modalProps: modalProps }, ()=> {this.modalComp.open()});
     }
 
@@ -80,6 +105,11 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             this.state.modalProps.newPosition, 
             this.state.modalProps.addToNode
         );
+
+        this.setState({modalProps: {
+            onUpdateAction: this.onUpdateAction,
+            changeType: true
+        }})
     }
 
     /**
@@ -169,6 +199,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                     dragging: false,
                     onUpdateAction: this.onUpdateAction,
                     onRemoveAction: this.props.mutator.removeNode,
+                    onAddAction: this.onAddAction
                 }],
                 exits:[{
                     uuid: UUID.v4()
@@ -209,18 +240,16 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
     private onConnectorDrop(event: ConnectionEvent) {
 
         if (this.state.ghostProps != null) {
-
-            // update our ghost spec with our drop location
-            if (this.state.ghostProps.exits.length > 0) {
-                var {left, top} = $(this.ghostComp.ele).offset();
-                var modalProps = update(this.state.modalProps, {$merge:{newPosition: {x: left, y: top}}});
-                this.setState({modalProps: modalProps});
-            }
-
+            
             // wire up the drag from to our ghost node
             let dragPoint = this.state.modalProps.draggedFrom;
             Plumber.get().revalidate(this.state.ghostProps.uuid);
             Plumber.get().connect(dragPoint.exitUUID, this.state.ghostProps.uuid);
+
+            // update our ghost spec with our drop location
+            var {left, top} = $(this.ghostComp.ele).offset();
+            var modalProps = update(this.state.modalProps, {$merge:{newPosition: {x: left, y: top}}});
+            this.setState({modalProps: modalProps});
 
             // click on our ghost node to bring up the editor
             this.ghostComp.onClick(null);
@@ -236,7 +265,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         for (let node of this.props.definition.nodes) {
             var uiNode = this.props.definition._ui.nodes[node.uuid];
             nodes.push(<Node {...node} _ui={uiNode} key={node.uuid} 
-                        onEdit={this.onEdit} 
+                        onEdit={this.onEdit}
+                        onAddAction={this.onAddAction}
                         onRemoveAction={this.props.mutator.removeAction}
                         onMoved={this.onNodeMoved}
                         onMounted={this.onNodeMounted}

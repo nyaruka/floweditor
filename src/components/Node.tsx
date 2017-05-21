@@ -111,10 +111,6 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         }
     }
 
-    private onAddAction() {
-        this.newActionModal.open();
-    }
-
     private onRemoval(event: React.MouseEvent<HTMLDivElement>) {
         this.props.onRemove(this.props)
     }
@@ -162,7 +158,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
                 header = <div className={"split-title switch"} {...events}>Split</div>
             }
 
-            addActions = <a className="add" onClick={this.onAddAction.bind(this)}><span className="icon-add"/></a>
+            addActions = <a className="add" onClick={()=>{this.props.onAddAction(this.props.uuid)}}><span className="icon-add"/></a>
         }
 
         var exits: JSX.Element[] = []
@@ -185,16 +181,6 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         if (this.props.ghost) {
             classes.push("ghost")
         }
-
-        // create our empty modal for creating new actions
-        let newAction = null;
-        //<NodeModal 
-        //    ref={(ele: any) => {this.newActionModal = ele}}
-        //    initial={{ type:"msg", uuid:UUID.v4()} as ActionProps}
-        //    changeType={true}
-        ///>
-
-        // addToNode: this.props.uuid,
 
         var exitClass = "";
         if (this.props.exits.length == 1 && !this.props.exits[0].name) {
@@ -221,8 +207,6 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
                     </div>
                 </div>
                 {addActions}
-                {/*modal*/}
-                {newAction}
             </div>
         )
     }

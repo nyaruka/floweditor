@@ -114,6 +114,7 @@ export interface NodeProps {
     onMoved?: Function;
     onMounted?: Function;
     onRemove?: Function;
+    onAddAction?: Function;
  
     // a connection that needs to be wired on mounting
     pendingConnection?: DragPoint;

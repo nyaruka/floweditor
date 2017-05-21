@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as qs from 'query-string';
 import {Editor} from './components/Editor';
+import {FlowStore} from './services/FlowStore';
 
 // our css dependencies
 import './styles.scss';
@@ -39,6 +40,10 @@ if (parms.resist) {
 if (parms.local) {
   token = parms.local;
   site = "local";
+}
+
+if (parms.reset) {
+  FlowStore.get().reset();
 }
 
 // console.log(site, token);
