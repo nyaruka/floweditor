@@ -104,12 +104,15 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         }
     }
 
-    private resetModal() {
-        this.setState({modalProps: {
-            onUpdateAction: this.onUpdateAction,
-            onUpdateRouter: this.onUpdateRouter,
-            changeType: true
-        }});
+    private resetState() {
+        this.setState({
+            ghostProps: null,
+            modalProps: {
+                onUpdateAction: this.onUpdateAction,
+                onUpdateRouter: this.onUpdateRouter,
+                changeType: true
+            }
+        });
     }
 
     private onUpdateAction(props: ActionProps) {
@@ -118,14 +121,14 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             this.state.modalProps.newPosition, 
             this.state.modalProps.addToNode
         );
-        this.resetModal();        
+        this.resetState();        
     }
 
     private onUpdateRouter(props: NodeProps) {
         this.props.mutator.updateRouter(props, 
             this.state.modalProps.draggedFrom, 
             this.state.modalProps.newPosition);
-        this.resetModal();
+        this.resetState();
     }
 
     /**
@@ -249,7 +252,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
      * Called right before a connector is dropped onto an existing node
      */
     private onBeforeConnectorDrop(event: ConnectionEvent) {
-        this.setState({ghostProps: null});
+        this.resetState();
         return true;
     }
 

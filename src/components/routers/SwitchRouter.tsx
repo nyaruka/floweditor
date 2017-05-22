@@ -148,16 +148,25 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         return null;
     }
 
+    addExit(exits: ExitProps[], exit: ExitProps) {
+        // see if it exits first
+        for (let e of exits) {
+            if (e.uuid == exit.uuid) { return; }
+        }
+        exits.push(exit);
+    }
+
     submit(form: HTMLFormElement, modal: NodeModalProps) {
         var exits: ExitProps[] = [];
         var cases: CaseProps[] = [];
 
         for (let kase of this.state.cases) {
             var found = false;
+
             if (this.props.exits) {
                 for (let exit of this.props.exits) {
                     if (exit.name.toLowerCase() == kase.exitName.toLowerCase()) {
-                        exits.push(exit);
+                        this.addExit(exits, exit);
                         kase.exit = exit.uuid;
                         found = true;
                         break;
@@ -165,7 +174,18 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
                 }
             }
 
-            // couldnt find an exit, add a new one
+            // couldn't find an old exit with that name, see if we have added a new one
+            if (!found) {
+                for (let newExit of exits) {
+                    if (newExit.name.toLowerCase() == kase.exitName.toLowerCase()) {
+                        kase.exit = newExit.uuid;
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            // still couldn't find a suitable exit, add one
             if (!found) {
                 var exitUUID = UUID.v4();
                 exits.push({

@@ -91,6 +91,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
     }
 
     componentDidUpdate(prevProps: NodeProps, prevState: NodeState) {
+        console.log("Node updated..", this.props.uuid);
         if (!this.props.ghost) {
             Plumber.get().recalculate(this.props.uuid);
         }
