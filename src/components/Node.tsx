@@ -81,7 +81,16 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
                 var ele = $(this.ele);
                 var left = e.pageX - (ele.width() / 2);
                 var top = e.pageY;
-                $(this.ele).offset({left, top});
+                var nodeEle = $(this.ele);
+                nodeEle.offset({left, top});
+
+                // hide ourselves there's a drop target
+                // TODO: a less ugly way to accomplish this would be great
+                if ($("#editor .drop-hover").length > 0) {
+                    nodeEle.hide();
+                } else {
+                    nodeEle.show();
+                }
             });
         }
     }
@@ -91,7 +100,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
     }
 
     componentDidUpdate(prevProps: NodeProps, prevState: NodeState) {
-        console.log("Node updated..", this.props.uuid);
+        // console.log("Node updated..", this.props.uuid);
         if (!this.props.ghost) {
             Plumber.get().recalculate(this.props.uuid);
         }

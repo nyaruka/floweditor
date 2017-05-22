@@ -233,8 +233,9 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
                 type: "switch",
                 default: defaultUUID,
                 cases: cases,
-                operand: "@input.text"
+                operand: "@input",
             },
+            wait: { type: "msg" },
             exits: exits
         } as NodeProps);
     }

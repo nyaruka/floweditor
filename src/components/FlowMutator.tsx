@@ -253,6 +253,11 @@ export class FlowMutator {
 
         // remap all our pointers to our new destination, null some most cases
         for (let pointer of details.pointers) {
+            // don't allow it to point to ourselves
+            var nodeUUID = this.components.getDetails(pointer).nodeUUID;
+            if (nodeUUID == destination) {
+                destination = null;
+            }
             this.updateExit(pointer, {$merge:{destination: destination}});
         }
 
@@ -304,24 +309,37 @@ export class FlowMutator {
         }
     }
 
+    public getConnectionError(source: string, target: string): string {
+        var exitDetails = this.components.getDetails(source);
+        if (exitDetails.nodeUUID == target) {
+            return "Connections cannot route back to the same places.";
+        }
+        return null;
+    }
+
     /**
      * Updates an exit in our tree 
      * @param uuid the exit to modify
      * @param changes immutability spec to modify at the given exit
      */
     private updateExit(exitUUID: string, changes: any) {
-
         var details = this.components.getDetails(exitUUID);
         this.definition = update(this.definition, {
             nodes: {[details.nodeIdx]: { exits: { [details.exitIdx]: changes }}}
         });
 
+        // our pointers need to be reevaluated
         this.markDirty();
     }
 
     public updateConnection(source: string, target: string) {
         let nodeUUID = this.components.getDetails(source).nodeUUID;
-        this.updateExit(source, {$merge:{destination: target}});
+        if (nodeUUID != target) {
+            this.updateExit(source, {$merge:{destination: target}});
+            this.components.initializeUUIDMap(this.definition);
+        } else {
+            console.error("Attempt to route to self, ignored");
+        }
     }
 
     public getComponents() {

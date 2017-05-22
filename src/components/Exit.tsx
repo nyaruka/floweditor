@@ -12,6 +12,7 @@ export class Exit extends React.PureComponent<ExitProps, {}> {
 
     componentDidUpdate(prevProps: ExitProps) {
         if (this.props.destination) {
+            // console.log("Exit updated, connecting exit..");
             Plumber.get().connectExit(this.props);
         }
     }

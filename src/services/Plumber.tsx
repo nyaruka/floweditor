@@ -28,7 +28,7 @@ export class Plumber {
         hoverClass: 'target-hover',
         dropOptions: { tolerance:"touch", hoverClass:"drop-hover" },
         dragAllowedWhenFull: false,
-        deleteEndpointsOnEmpty: true,
+        deleteEndpointsOnDetach: false,
         isTarget:true,
     }
 
@@ -37,6 +37,7 @@ export class Plumber {
         deleteEndpointsOnEmpty: true,
         maxConnections:1,
         dragAllowedWhenFull:false,
+        deleteEndpointsOnDetach: false,
         isSource:true,
         paintStyle: { fillStyle:"blue", outlineColor:"black", outlineWidth:1 }
     }
@@ -45,8 +46,8 @@ export class Plumber {
         this.jsPlumb = lib.jsPlumb.importDefaults({
             DragOptions : { cursor: 'pointer', zIndex:1000 },
             DropOptions : { tolerance:"touch", hoverClass:"drop-hover" },
-            //Endpoint: "Blank",
-            //EndpointStyle: { strokeStyle: "transparent" },
+            Endpoint: "Blank",
+            EndpointStyle: { strokeStyle: "transparent" },
             PaintStyle: { strokeWidth:5, stroke:"#98C0D9" },
             HoverPaintStyle: { strokeStyle: "#27ae60"},
             HoverClass: "connector-hover",
@@ -86,12 +87,16 @@ export class Plumber {
     }
 
     connect(source: string, target: string) {
+
+        // already connected
+        if (this.jsPlumb.select({source: source, target: target}).length == 1) {
+            return;
+        }
+
         if (source != null && target != null) {
 
-            // console.log(source, target);
-
             // any existing connections for our source need to be deleted
-            this.jsPlumb.select({source: source}).delete();
+            this.jsPlumb.select({source: source}).delete({fireEvent: false});
 
             // now make our new connection
             return this.jsPlumb.connect({source: source, target: target, fireEvent: false});

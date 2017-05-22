@@ -209,6 +209,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         plumb.bind("connection", (event: ConnectionEvent) => { return this.onConnection(event)});
         plumb.bind("connectionDrag", (event: ConnectionEvent) => { return this.onConnectionDrag(event)});
         plumb.bind("connectionDragStop", (event: ConnectionEvent) => { return this.onConnectorDrop(event)});
+        plumb.bind("beforeStartDetach", (event: ConnectionEvent) => { return this.onBeforeStartDetach(event)});
+        plumb.bind("beforeDetach", (event: ConnectionEvent) => { return this.onBeforeDetach(event)});
         plumb.bind("beforeDrop", (event: ConnectionEvent) => { return this.onBeforeConnectorDrop(event)});
 
         // if we don't have any nodes, create our first one
@@ -249,12 +251,27 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         Plumber.get().reset();
     }
 
+    private onBeforeStartDetach(event: ConnectionEvent) {
+        // console.log("onBeforeStartDetach", event);
+        return true;
+    }
+
+    private onBeforeDetach(event: ConnectionEvent) {
+        // console.log("beforeDetach", event);
+        return true;
+    }
+
     /**
-     * Called right before a connector is dropped onto an existing node
+     * Called right before a connector is dropped onto a new node
      */
     private onBeforeConnectorDrop(event: ConnectionEvent) {
+        // console.log("beforeDrop", event);
         this.resetState();
-        return true;
+        var connectionError = this.props.mutator.getConnectionError(event.sourceId, event.targetId);
+        if (connectionError != null) {
+            console.error(connectionError);
+        }
+        return connectionError == null;
     }
 
     private onConnection(event: ConnectionEvent) {
@@ -267,14 +284,15 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
      */
     private onConnectorDrop(event: ConnectionEvent) {
 
-        if (this.state.ghostProps != null) {
+        if (this.ghostComp && $(this.ghostComp.ele).is(":visible")) {
+        // if (this.state.ghostProps != null && event.sourceId == "asdf") {
             
             // wire up the drag from to our ghost node
             let dragPoint = this.state.modalProps.draggedFrom;
             Plumber.get().revalidate(this.state.ghostProps.uuid);
             Plumber.get().connect(dragPoint.exitUUID, this.state.ghostProps.uuid);
 
-            // update our ghost spec with our drop location
+            // update our modal with our drop location
             var {left, top} = $(this.ghostComp.ele).offset();
             var modalProps = update(this.state.modalProps, {$merge:{newPosition: {x: left, y: top}}});
             this.setState({modalProps: modalProps});
@@ -318,12 +336,14 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         // the simulator wants the primary definition first in a list of all dependencies
         var flows: FlowDefinition[] = []
         flows.push(this.props.definition);
-        flows = flows.concat(this.props.dependencies);
+        if (this.props.dependencies) {
+            flows = flows.concat(this.props.dependencies);
+        }
         
         if (this.props.engineURL) {
-            simulator = <Simulator 
-                            engineURL={this.props.engineURL}
-                            definitions={flows}/>
+            //simulator = <Simulator 
+            //                engineURL={this.props.engineURL}
+            //                definitions={flows}/>
         }
 
         var modal = null;
