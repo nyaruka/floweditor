@@ -183,10 +183,35 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
             });
         }
 
+        var defaultName = "All Responses";
+        var defaultUUID = UUID.v4();
+        var defaultDestination = null;
+
+        // find our previous exit if we have one
+        if (this.props.default) {
+            for (let exit of this.props.exits) {
+                if (exit.uuid == this.props.default) {
+                    defaultUUID = exit.uuid;
+                    defaultDestination = exit.destination;
+                }
+            }
+        }
+
+        if (exits.length > 0) {
+            defaultName = "Other"
+        }
+
+        exits.push({
+            uuid: defaultUUID,
+            name: defaultName,
+            destination: defaultDestination
+        });
+
         modal.onUpdateRouter({
             uuid: this.props.uuid,
-            router: { 
+            router: {
                 type: "switch",
+                default: defaultUUID,
                 cases: cases,
                 operand: "@input.text"
             },
