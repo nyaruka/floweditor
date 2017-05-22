@@ -10,21 +10,17 @@ import {NodeForm} from './NodeForm';
 var Select2 = require('react-select2-wrapper');
 
 export interface NodeModalProps {
+
     initial?: NodeEditorProps;
     changeType?: boolean;
-
     onUpdateAction: Function;
+    onUpdateRouter: Function;
 
     newPosition?: LocationProps;
-    
     mutator?: FlowMutator;
-    
     draggedFrom?: DragPoint;
-    
     exits?: ExitProps[];
-    
     addToNode?: string;
-
 }
 
 interface NodeModalState {

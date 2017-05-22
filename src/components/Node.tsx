@@ -4,7 +4,7 @@ import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 
-import {NodeProps, LocationProps, ActionProps} from '../interfaces';
+import {NodeProps, LocationProps, ActionProps, RouterProps, SwitchRouterProps} from '../interfaces';
 import {Plumber, DragEvent} from '../services/Plumber';
 import {FlowStore} from '../services/FlowStore';
 import {Config} from '../services/Config';
@@ -60,8 +60,6 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
     }
 
     componentDidMount() {
-        // console.log("Node mounted", this.props.uuid);
-        // console.log("mounted", this.props);
         let plumber = Plumber.get();
         plumber.draggable(this.ele,
            (event: DragEvent) => {this.onDragStart.bind(this)(event)},
@@ -72,7 +70,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         // make ourselves a target
         plumber.makeTarget(this.props.uuid);
 
-        // update our props with our current location
+        // resolve our pending connections, etc
         if (this.props.onMounted) {
             this.props.onMounted(this.props);
         }
@@ -89,7 +87,6 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
     }
 
     componentWillUnmount() {
-        // console.log('unmounted', this.props.uuid);
         Plumber.get().remove(this.props.uuid);
     }
 
@@ -106,7 +103,18 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
             if (this.props.actions && this.props.actions.length == 1) {
                 this.props.onEdit(this.props.actions[0]);
             } else {
-                this.props.onEdit(this.props.router);
+                if (this.props.router.type == "switch") {
+
+                    var uuid = this.props.uuid;
+                    if (this.props.ghost) {
+                        uuid = null;
+                    }
+                    this.props.onEdit({
+                        ...this.props.router,
+                        exits: this.props.exits,
+                        uuid: uuid
+                    } as SwitchRouterProps);
+                }
             }
         }
     }

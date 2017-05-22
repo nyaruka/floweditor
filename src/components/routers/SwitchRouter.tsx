@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as UUID from 'uuid';
 
 import {Case} from '../Case';
-import {SwitchRouterProps, CaseProps} from '../../interfaces';
+import {SwitchRouterProps, CaseProps, NodeProps, ExitProps} from '../../interfaces';
 import {NodeForm} from '../NodeForm';
 import {NodeModalProps} from '../NodeModal';
 import {DragDropContext} from 'react-dnd';
@@ -149,11 +149,50 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
     }
 
     submit(form: HTMLFormElement, modal: NodeModalProps) {
-        for (let kase of this.state.cases) {
-            console.log(kase);
-        }
-    }
+        var exits: ExitProps[] = [];
+        var cases: CaseProps[] = [];
 
+        for (let kase of this.state.cases) {
+            var found = false;
+            if (this.props.exits) {
+                for (let exit of this.props.exits) {
+                    if (exit.name.toLowerCase() == kase.exitName.toLowerCase()) {
+                        exits.push(exit);
+                        kase.exit = exit.uuid;
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            // couldnt find an exit, add a new one
+            if (!found) {
+                var exitUUID = UUID.v4();
+                exits.push({
+                    uuid: exitUUID,
+                    name: kase.exitName
+                });
+                kase.exit = exitUUID;
+            }
+
+            cases.push({
+                uuid: kase.uuid,
+                arguments: kase.arguments,
+                type: kase.type,
+                exit: kase.exit
+            });
+        }
+
+        modal.onUpdateRouter({
+            uuid: this.props.uuid,
+            router: { 
+                type: "switch",
+                cases: cases,
+                operand: "@input.text"
+            },
+            exits: exits
+        } as NodeProps);
+    }
 }
 
 export default DragDropContext(HTML5Backend)(SwitchRouterForm);

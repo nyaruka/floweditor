@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {FlowDefinition, DragPoint, NodeProps, SendMessageProps, NodeEditorProps, ActionProps, LocationProps} from '../interfaces';
+import {FlowDefinition, DragPoint, NodeProps, SendMessageProps, NodeEditorProps, ActionProps, RouterProps, LocationProps} from '../interfaces';
 import {Node} from './Node';
 import {NodeModal, NodeModalProps} from './NodeModal';
 import {FlowMutator} from './FlowMutator';
@@ -46,13 +46,15 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.onNodeMoved = this.onNodeMoved.bind(this);
         this.onNodeMounted = this.onNodeMounted.bind(this);
         this.onUpdateAction = this.onUpdateAction.bind(this);
+        this.onUpdateRouter = this.onUpdateRouter.bind(this);
         this.onAddAction = this.onAddAction.bind(this);
         
         this.state = { 
             loading: true,
             modalProps: {
                 changeType: true,
-                onUpdateAction: this.onUpdateAction
+                onUpdateAction: this.onUpdateAction,
+                onUpdateRouter: this.onUpdateRouter
             }
         }
         console.time("RenderAndPlumb");
@@ -60,6 +62,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
     private onEdit(propsToEdit: NodeEditorProps) {
         var modalProps = update(this.state.modalProps, {$merge: {initial: propsToEdit}});
+
+        // TODO: is this necessary
         delete modalProps["addToNode"];
 
         this.setState({ modalProps: modalProps }, ()=> {this.modalComp.open()});
@@ -81,6 +85,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             initial: newAction,
             changeType: true,
             onUpdateAction: this.onUpdateAction,
+            onUpdateRouter: this.onUpdateRouter,
             addToNode: addToNode         
         };
 
@@ -99,17 +104,28 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         }
     }
 
+    private resetModal() {
+        this.setState({modalProps: {
+            onUpdateAction: this.onUpdateAction,
+            onUpdateRouter: this.onUpdateRouter,
+            changeType: true
+        }});
+    }
+
     private onUpdateAction(props: ActionProps) {
         this.props.mutator.updateAction(props, 
             this.state.modalProps.draggedFrom, 
             this.state.modalProps.newPosition, 
             this.state.modalProps.addToNode
         );
+        this.resetModal();        
+    }
 
-        this.setState({modalProps: {
-            onUpdateAction: this.onUpdateAction,
-            changeType: true
-        }})
+    private onUpdateRouter(props: NodeProps) {
+        this.props.mutator.updateRouter(props, 
+            this.state.modalProps.draggedFrom, 
+            this.state.modalProps.newPosition);
+        this.resetModal();
     }
 
     /**
@@ -126,8 +142,15 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var draggedFrom = {
             nodeUUID: draggedFromDetails.nodeUUID, 
             exitUUID: draggedFromDetails.exitUUID, 
-            onResolved: (() => { 
-                this.setState({ghostProps: null});
+            onResolved: (() => {
+                this.setState({
+                    ghostProps: null,
+                    modalProps: {
+                        onUpdateAction: this.onUpdateAction,
+                        onUpdateRouter: this.onUpdateRouter,
+                        changeType: true
+                    }
+                });
             })
         }
 
@@ -160,6 +183,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var modalProps = {
             draggedFrom: draggedFrom,
             onUpdateAction: this.onUpdateAction,
+            onUpdateRouter: this.onUpdateRouter,
             changeType: true
         }
 
@@ -187,14 +211,14 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         if (this.props.definition.nodes.length == 0) {
             var nodeProps = {
                 onEdit: this.onEdit,
-                onNodeMounted: this.onNodeMounted,
-                onNodeMoved: this.onNodeMoved,
-                onRemoveNode: this.props.mutator.removeNode,
+                onMounted: this.onNodeMounted,
+                onNode: this.onNodeMoved,
+                onRemove: this.props.mutator.removeNode,
                 uuid: UUID.v4(),
                 actions: [{
                     uuid: UUID.v4(),
                     type: "msg",
-                    text: "hey hey",
+                    text: "Hi there, this the first message in your flow!",
                     onEdit: this.onEdit,
                     dragging: false,
                     onUpdateAction: this.onUpdateAction,
@@ -268,6 +292,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                         onEdit={this.onEdit}
                         onAddAction={this.onAddAction}
                         onRemoveAction={this.props.mutator.removeAction}
+                        onRemove={this.props.mutator.removeNode}
                         onMoved={this.onNodeMoved}
                         onMounted={this.onNodeMounted}
                         />)

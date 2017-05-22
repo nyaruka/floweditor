@@ -3,7 +3,7 @@ import * as update from 'immutability-helper';
 
 import { 
     FlowDefinition, NodeProps, SendMessageProps, WebhookProps, NodeEditorProps, LocationProps, 
-    UIMetaDataProps, ActionProps, SearchResult, UINode, DragPoint
+    UIMetaDataProps, ActionProps, RouterProps, SearchResult, UINode, DragPoint
 } from '../interfaces';
 import {NodeModalProps} from './NodeModal';
 import {Node} from './Node';
@@ -42,6 +42,7 @@ export class FlowMutator {
         this.quietSave = quietSave;
 
         this.removeAction = this.removeAction.bind(this);
+        this.removeNode = this.removeNode.bind(this);
     }
 
     public getContactFields(): SearchResult[] {
@@ -127,6 +128,43 @@ export class FlowMutator {
         console.timeEnd("addNode");
         return props;
     }
+
+    public updateRouter(props: NodeProps,
+                        draggedFrom: DragPoint=null, 
+                        newPosition: LocationProps=null): NodeProps {
+
+        console.time("updateRouter");
+        console.log("updateRouter", props);
+
+        var node: NodeProps;
+        if (draggedFrom) {
+            // console.log("adding new router node", props);
+            node = this.addNode({
+                ...props,
+                pendingConnection: { 
+                    exitUUID: draggedFrom.exitUUID, 
+                    nodeUUID: draggedFrom.nodeUUID
+                }
+            },{ 
+                position: newPosition
+            });
+        }
+        // we are updating
+        else {
+            //console.log("Updating router node", props);
+            let nodeDetails = this.components.getDetails(props.uuid)
+            this.definition = update(this.definition, {
+                nodes: {[nodeDetails.nodeIdx]: { $set: props }}
+            });
+            node = this.definition.nodes[nodeDetails.nodeIdx];
+        }
+        
+        this.components.initializeUUIDMap(this.definition);
+        this.markDirty();      
+
+        console.timeEnd("updateRouter");
+        return node;
+    }
     
     /**
      * Updates an action in our tree 
@@ -141,7 +179,6 @@ export class FlowMutator {
         var node: NodeProps;
         if (draggedFrom) {
             var newNodeUUID = UUID.v4();
-            var draggedFrom = draggedFrom;
             node = this.addNode({
                 uuid: newNodeUUID,
                 actions:[ props ],
@@ -253,6 +290,7 @@ export class FlowMutator {
 
         // only resolve connection if we have one
         if (props.pendingConnection != null) {
+            console.log("resolving pendingConnection..", props.pendingConnection, props.uuid);
             let dragFrom = props.pendingConnection
             this.updateExit(dragFrom.exitUUID, { $merge:{ destination: props.uuid}});
 
