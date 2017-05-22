@@ -25,21 +25,20 @@ export class Config {
 
         // actions
         {type: "msg", name: "Send Message", description: "Send them a message", form: SendMessageForm, component: SendMessage},
-        {type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: AddToGroupForm, component: AddToGroup},
-        {type: "save_to_contact", name: "Save to Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContact},
-        {type: "set_language", name: "Set Language", description: "Update their language", form: SetLanguageForm, component: SetLanguage},
-        {type: "add_label", name: "Add Label", description: "Label the message", component: Missing},
-        {type: "email", name: "Send Email", description: "Send an email", component: Missing},
-        {type: "set_preferred_channel", name: "Set Preferred Channel", description: "Set their preferred channel", component: Missing},
-        {type: "flow", name: "Run another flow", description: "Run another flow", component: Missing},
-        
+        // {type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: AddToGroupForm, component: AddToGroup},
+        // {type: "save_to_contact", name: "Save to Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContact},
+        // {type: "set_language", name: "Set Language", description: "Update their language", form: SetLanguageForm, component: SetLanguage},
+        // {type: "add_label", name: "Add Label", description: "Label the message", component: Missing},
+        // {type: "email", name: "Send Email", description: "Send an email", component: Missing},
+        // {type: "set_preferred_channel", name: "Set Preferred Channel", description: "Set their preferred channel", component: Missing},
+        // {type: "flow", name: "Run another flow", description: "Run another flow", component: Missing},
         
         // hybrids
         {type: "webhook", name: "Call Webhook", description: "Call an external service", form: WebhookForm, component: Webhook},
 
         // routers
         {type: "switch", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm},
-        {type: "random", name: "Random Split", description: "Split them up randomly", form: RandomRouterForm}
+        // {type: "random", name: "Random Split", description: "Split them up randomly", form: RandomRouterForm}
 
     ]
 
