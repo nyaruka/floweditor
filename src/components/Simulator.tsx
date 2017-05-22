@@ -4,6 +4,7 @@ import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
 
 import {FlowStore} from '../services/FlowStore';
+import {Plumber} from '../services/Plumber';
 import {FlowDefinition} from '../interfaces';
 
 interface Message {
@@ -120,6 +121,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
         if (text == "debug") {
             console.log(JSON.stringify(this.debug, null, 2))
+            return;
+        }
+
+        if (text="recalc") {
+            Plumber.get().repaint();
             return;
         }
         

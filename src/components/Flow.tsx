@@ -32,6 +32,7 @@ interface ConnectionEvent {
     target: Element;
     sourceId: string;
     targetId: string;
+    endpoints: any[];
 }
 
 export class Flow extends React.PureComponent<FlowProps, FlowState> {
@@ -304,6 +305,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var dragNode = null;
         if (this.state.ghostProps) {
             let node = this.state.ghostProps
+            // start off screen
+            var uiNode = {position: {x: -1000, y:-1000}};
             dragNode = <Node ref={(ele) => { this.ghostComp = ele }} {...node} _ui={uiNode} key={node.uuid} 
                         ghost={true}
                         onMounted={this.onNodeMounted}
@@ -330,7 +333,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
         return (
             <div className={ this.state.loading ? "loading" : ""}>
-                {/*simulator*/}
+                {simulator}
                 <div id="flow">
                     <div className="nodes">
                     {nodes}

@@ -17,7 +17,9 @@ export class Exit extends React.PureComponent<ExitProps, {}> {
     }
 
     componentWillUnmount() {
-        Plumber.get().remove(this.props.uuid);
+        if (this.props.destination) {
+            Plumber.get().remove(this.props.uuid);
+        }
     }
 
     render() {

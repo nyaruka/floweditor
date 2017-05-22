@@ -28,13 +28,13 @@ export class Plumber {
         hoverClass: 'target-hover',
         dropOptions: { tolerance:"touch", hoverClass:"drop-hover" },
         dragAllowedWhenFull: false,
-        deleteEndpointsOnDetach: true,
+        deleteEndpointsOnEmpty: true,
         isTarget:true,
     }
 
     sourceDefaults = {
         anchor: "BottomCenter",
-        deleteEndpointsOnDetach: true,
+        deleteEndpointsOnEmpty: true,
         maxConnections:1,
         dragAllowedWhenFull:false,
         isSource:true,
@@ -43,10 +43,10 @@ export class Plumber {
 
     private constructor() {
         this.jsPlumb = lib.jsPlumb.importDefaults({
-            DragOptions : { cursor: 'pointer', zIndex:2000 },
+            DragOptions : { cursor: 'pointer', zIndex:1000 },
             DropOptions : { tolerance:"touch", hoverClass:"drop-hover" },
-            Endpoint: "Blank",
-            EndpointStyle: { strokeStyle: "transparent" },
+            //Endpoint: "Blank",
+            //EndpointStyle: { strokeStyle: "transparent" },
             PaintStyle: { strokeWidth:5, stroke:"#98C0D9" },
             HoverPaintStyle: { strokeStyle: "#27ae60"},
             HoverClass: "connector-hover",
@@ -117,9 +117,21 @@ export class Plumber {
     }
 
     remove(uuid: string) {
-        this.jsPlumb.deleteConnectionsForElement(uuid);
-        // this.jsPlumb.select({source: uuid}).delete();
-        //this.jsPlumb.select({target: uuid}).delete();
+        if (this.jsPlumb.isSource(uuid)) {
+            this.jsPlumb.unmakeSource(uuid);
+            this.jsPlumb.remove(uuid);
+        } else if (this.jsPlumb.isTarget(uuid)) {
+            this.jsPlumb.deleteConnectionsForElement(uuid);
+        }
+
+        // this.jsPlumb.remove(uuid);
+        // console.log(this.jsPlumb.select({source: uuid}));
+        // console.log(this.jsPlumb.select({source: uuid}).delete());
+        // this.jsPlumb.select({target: uuid}).delete();
+    }
+
+    removeEndpoint(endpoint: any) {
+        this.jsPlumb.deleteEndpoint(endpoint.id);
     }
 
     recalculate(uuid?: string) {

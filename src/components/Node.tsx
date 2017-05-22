@@ -200,7 +200,6 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         return(
             <div className={classes.join(' ')}
                 ref={(ele: any) => { this.ele = ele }}
-                key={this.props.uuid}
                 id={this.props.uuid}
                 style={{
                     left: this.props._ui.position.x,
