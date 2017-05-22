@@ -4,6 +4,7 @@ import * as UUID from 'uuid';
 import {Case} from '../Case';
 import {SwitchRouterProps, CaseProps} from '../../interfaces';
 import {NodeForm} from '../NodeForm';
+import {NodeModalProps} from '../NodeModal';
 import {DragDropContext} from 'react-dnd';
 
 
@@ -108,6 +109,8 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
     }
     
     validate(c: any): string {
+
+        // TODO: lots of smelliness here, may want to take a more reacty approach to validation
         if (c.name == "exitName") {
             // look at our associated arguments to see if we are required
             var args = $(c).parents(".case").find(".operand input")[0] as HTMLInputElement;
@@ -120,20 +123,35 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         }
 
         else if (c.name == "arguments") {
+            var control: HTMLInputElement = c;
             var exitName = $(c).parents(".case").find(".category input")[0] as HTMLInputElement;
             if (exitName.value.length > 0) {
-                var control: HTMLInputElement = c;
                 if (!control.value) {
                     return "a rule value is required";
                 }
             }
-            
+
+            // check dates and numbers if we aren't a variable
+            if (c.value.trim()[0] != "@") {
+                var operator = $(c).parents(".case").find(".choice input")[0] as HTMLInputElement;
+                if (operator.value.indexOf("number") > -1) {
+                    if (isNaN(parseInt(c.value))) {
+                        return "enter a number when using numeric rules";
+                    }
+                } else if (operator.value.indexOf("date") > -1)  {
+                    if (isNaN(Date.parse(c.value))) {
+                        return "enter a date when using date rules (e.g. 1/1/2017)";
+                    }
+                }
+            }
         }
         return null;
     }
 
-    submit(form: HTMLFormElement) {
-
+    submit(form: HTMLFormElement, modal: NodeModalProps) {
+        for (let kase of this.state.cases) {
+            console.log(kase);
+        }
     }
 
 }

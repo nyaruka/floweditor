@@ -32,13 +32,37 @@ export class Case extends React.PureComponent<CaseProps, CaseState> {
     }
 
     private generateExitName(args: string[]): string {
+
+        var prefix = "";
+        if (this.state.operator.indexOf("_lt") > -1) {
+            if (this.state.operator.indexOf("date") > -1) {
+                prefix = "Before ";
+            } else {
+                if (this.state.operator.indexOf("lte") > -1) {
+                    prefix = "<= ";
+                } else {
+                    prefix = "< "
+                }
+            }
+        } else if (this.state.operator.indexOf("_gt") > -1) {
+            if (this.state.operator.indexOf("date") > -1) {
+                prefix = "After ";
+            } else {
+                if (this.state.operator.indexOf("gte") > -1) {
+                    prefix = ">= ";
+                } else {
+                    prefix = ">";
+                }
+            }
+        }
+
         if (args && args.length > 0) {
             var words = args[0].match(/\w+/g);
             if (words && words.length > 0) {
                 var firstWord = words[0];
-                return firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
+                return prefix + firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
             }
-            return args[0].charAt(0).toUpperCase() + args[0].slice(1);
+            return prefix + args[0].charAt(0).toUpperCase() + args[0].slice(1);
         }
         return null;
     }

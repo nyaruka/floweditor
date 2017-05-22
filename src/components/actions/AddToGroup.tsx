@@ -8,7 +8,7 @@ export class AddToGroup extends Action<AddToGroupProps> {
 }
 
 export class AddToGroupForm extends NodeForm<AddToGroupProps, NodeEditorState> {
-    renderForm(): JSX.Element { return <div>Not Implement</div> }
+    renderForm(): JSX.Element { return <div>Not Implemented</div> }
     validate(control: any): string { return null; }
     submit(form: Element) {}
 }
