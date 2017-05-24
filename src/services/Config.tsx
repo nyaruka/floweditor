@@ -1,10 +1,9 @@
 import {TypeConfig, Operator} from '../interfaces';
 import {ChangeGroup, ChangeGroupForm} from '../components/actions/ChangeGroup';
 import {SaveToContact, SaveToContactForm} from '../components/actions/SaveToContact';
-import {SetLanguage, SetLanguageForm} from '../components/actions/SetLanguage';
 import {SendMessage, SendMessageForm} from '../components/actions/SendMessage';
 import {Webhook, WebhookForm} from '../components/actions/Webhook';
-import {Missing} from '../components/actions/Missing';
+import {SendEmail, SendEmailForm} from '../components/actions/SendEmail';
 import {SwitchRouterForm} from '../components/routers/SwitchRouter';
 import {RandomRouterForm} from '../components/routers/RandomRouter';
 
@@ -28,14 +27,13 @@ export class Config {
         {type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: ChangeGroupForm, component: ChangeGroup},
         {type: "remove_from_group", name: "Remove from Group", description: "Remove them from a group", form: ChangeGroupForm, component: ChangeGroup},
         {type: "save_to_contact", name: "Save to Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContact},
-        // {type: "set_language", name: "Set Language", description: "Update their language", form: SetLanguageForm, component: SetLanguage},
+        {type: "email", name: "Send Email", description: "Send an email", form: SendEmailForm, component: SendEmail},
         // {type: "add_label", name: "Add Label", description: "Label the message", component: Missing},
-        // {type: "email", name: "Send Email", description: "Send an email", component: Missing},
         // {type: "set_preferred_channel", name: "Set Preferred Channel", description: "Set their preferred channel", component: Missing},
-        // {type: "flow", name: "Run another flow", description: "Run another flow", component: Missing},
         
         // hybrids
         {type: "webhook", name: "Call Webhook", description: "Call an external service", form: WebhookForm, component: Webhook},
+        // {type: "flow", name: "Run another flow", description: "Run another flow", component: Missing},
 
         // routers
         {type: "switch", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm},

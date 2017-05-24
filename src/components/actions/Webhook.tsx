@@ -3,7 +3,7 @@ import {Action} from '../Action';
 import {NodeForm} from '../NodeForm';
 import {WebhookProps, NodeEditorState} from '../../interfaces';
 import {NodeModalProps} from '../NodeModal';
-import * as Select from 'react-select';
+var Select = require('react-select');
 
 
 export interface WebhookState {

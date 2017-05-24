@@ -1,10 +1,12 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
-import * as Select from 'react-select';
+
 import axios from 'axios';
 import {AxiosResponse} from 'axios';
 
 import {SearchResult} from '../interfaces';
+
+var Select = require('react-select');
 
 interface SelectSearchProps {
     url: string;
@@ -170,6 +172,8 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
                 labelKey="name"
                 multi={this.props.multi}
                 searchable={true}
+                onCloseResetsInput={true}
+                onBlurResetsInput={true}
                 onInputChange={this.onInputChange.bind(this)}
                 newOptionCreator={this.props.createNewOption}
                 isValidNewOption={this.props.isValidNewOption}

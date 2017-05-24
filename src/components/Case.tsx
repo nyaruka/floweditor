@@ -1,9 +1,10 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
-import * as Select from 'react-select';
 
 import {CaseProps, Operator} from '../interfaces';
 import {Config} from '../services/Config';
+
+var Select = require('react-select');
 
 export interface CaseState {
     operator: string;

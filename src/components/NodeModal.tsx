@@ -6,7 +6,8 @@ import {Modal} from './Modal';
 import {Config} from '../services/Config';
 import {FlowMutator} from '../components/FlowMutator';
 import {NodeForm} from './NodeForm';
-import * as Select from 'react-select';
+
+var Select = require('react-select');
 
 export interface NodeModalProps {
 

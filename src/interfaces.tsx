@@ -84,6 +84,12 @@ export interface SetLanguageProps extends ActionProps {
     language: string;
 }
 
+export interface SendEmailProps extends ActionProps {
+    subject: string,
+    body: string,
+    emails: string[]
+}
+
 export interface WebhookProps extends ActionProps {
     url: string;
     method: string;
