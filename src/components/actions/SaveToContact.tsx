@@ -75,8 +75,8 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
                         <SelectSearch 
                             ref={(ele: any) => {this.fieldSelect = ele}} 
                             className="form-control"
-                            url={this.props.endpoints.fields}
-                            localSearchOptions={this.props.getContactFields()}
+                            url={this.props.context.endpoints.fields}
+                            localSearchOptions={this.props.context.getContactFields()}
                             createNewOption={this.createNewOption.bind(this)}
                             isValidNewOption={this.isValidNewOption.bind(this)}
                             addLabelText="Create field"
@@ -123,7 +123,7 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
             } as SaveToContactProps);
 
             if (field.extraResult) {
-                this.props.onAddContactField({
+                this.props.context.eventHandler.onAddContactField({
                     id: field.id,
                     name: field.name,
                     type: field.type

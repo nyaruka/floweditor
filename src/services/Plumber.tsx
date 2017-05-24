@@ -45,7 +45,6 @@ export class Plumber {
     }
 
     private constructor() {
-        console.log(lib);
         this.jsPlumb = lib.jsPlumb.importDefaults({
             DragOptions : { cursor: 'pointer', zIndex:1000 },
             DropOptions : { tolerance:"touch", hoverClass:"drop-hover" },
@@ -57,8 +56,10 @@ export class Plumber {
             ConnectionsDetachable: true,
             Connector:[ "Flowchart", { stub: 12, midpoint: .85, alwaysRespectStubs: false, gap:[0,7], cornerRadius: 2 }],
             ConnectionOverlays : [["PlainArrow", { location:.9999, width: 12, length:12, foldback: 1 }]],
-            Container: "editor"
+            Container: "editor",
         });
+
+
     }
 
     draggable(ele: JSX.Element, start: Function, drag: Function, stop: Function) {

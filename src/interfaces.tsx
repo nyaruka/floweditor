@@ -1,6 +1,22 @@
 import {FlowLoader} from './components/FlowLoader'
 import {Node} from './components/Node'
 
+export interface FlowContext {
+    eventHandler: FlowEventHandler;
+    endpoints: Endpoints;
+    getContactFields(): ContactFieldResult[];
+}
+
+export interface FlowEventHandler {
+    onEditNode?: Function;
+    onRemoveAction?: Function;
+    onNodeMoved?: Function;
+    onNodeMounted?: Function;
+    onRemoveNode?: Function;
+    onAddAction?: Function;
+    onAddContactField(field: ContactFieldResult): void;
+}
+
 export interface Endpoints {
     fields: string;
     groups: string;
@@ -38,15 +54,11 @@ export interface NodeEditorState {}
 export interface NodeEditorProps {
     type: string;
     uuid: string;
-    onEdit: Function;
-    onRemoveAction: Function;
-    onAddContactField(field: ContactFieldResult): ContactFieldResult;
+    context: FlowContext;
 }
 
 export interface ActionProps extends NodeEditorProps {
     dragging: boolean;
-    endpoints: Endpoints;
-    getContactFields(): ContactFieldResult[];
 }
 
 export interface AddToGroupProps extends ActionProps {
@@ -86,7 +98,6 @@ export interface CaseProps {
     exitName?: string;
     onChanged?: Function;
     moveCase?: Function;
-    
 }
 
 export interface SwitchRouterProps extends RouterProps {
@@ -105,6 +116,7 @@ export interface ExitProps {
     destination?: string;
 }
 
+
 export interface NodeProps {
     uuid: string;
     exits: ExitProps[];
@@ -115,20 +127,10 @@ export interface NodeProps {
     _ui?: UINode;
 
     ghost?: boolean;
-    onEdit?: Function;
-    onRemoveAction?: Function;
-    onMoved?: Function;
-    onMounted?: Function;
-    onRemove?: Function;
-    onAddAction?: Function;
-    
-    getContactFields(): ContactFieldResult[];
-    onAddContactField(field: ContactFieldResult): void;
-
-    endpoints?: Endpoints;
- 
     // a connection that needs to be wired on mounting
     pendingConnection?: DragPoint;
+
+    context?: FlowContext    
 }
 
 /**

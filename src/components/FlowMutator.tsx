@@ -180,8 +180,6 @@ export class FlowMutator {
             node = this.addNode({
                 uuid: newNodeUUID,
                 actions:[ props ],
-                getContactFields: this.getContactFields.bind(this),
-                onAddContactField: this.addContactField.bind(this),
                 exits: [
                     { uuid: UUID.v4(), destination: null, name: null }
                 ],

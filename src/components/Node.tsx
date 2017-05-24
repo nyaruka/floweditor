@@ -47,7 +47,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         var position = $(event.target).position();
 
         // update our coordinates
-        this.props.onMoved(this.props.uuid, {x: event.finalPos[0], y: event.finalPos[1]});
+        this.props.context.eventHandler.onNodeMoved(this.props.uuid, {x: event.finalPos[0], y: event.finalPos[1]});
     }
 
     shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState) {
@@ -71,8 +71,8 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         plumber.makeTarget(this.props.uuid);
 
         // resolve our pending connections, etc
-        if (this.props.onMounted) {
-            this.props.onMounted(this.props);
+        if (this.props.context.eventHandler.onNodeMounted) {
+            this.props.context.eventHandler.onNodeMounted(this.props);
         }
 
         // move our drag node around as necessary
@@ -111,7 +111,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         if (!this.state.dragging) {
             // if we have one action, defer to it
             if (this.props.actions && this.props.actions.length == 1) {
-                this.props.onEdit(this.props.actions[0]);
+                this.props.context.eventHandler.onEditNode(this.props.actions[0]);
             } else {
                 if (this.props.router.type == "switch") {
 
@@ -119,7 +119,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
                     if (this.props.ghost) {
                         uuid = null;
                     }
-                    this.props.onEdit({
+                    this.props.context.eventHandler.onEditNode({
                         ...this.props.router,
                         exits: this.props.exits,
                         uuid: uuid
@@ -130,7 +130,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
     }
 
     private onRemoval(event: React.MouseEvent<HTMLDivElement>) {
-        this.props.onRemove(this.props)
+        this.props.context.eventHandler.onRemoveNode(this.props);
     }
 
     render() {
@@ -147,11 +147,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
                         ...firstRef,
                         dragging: this.state.dragging,
                         key: actionProps.uuid,
-                        onEdit: this.props.onEdit,
-                        onRemoveAction: this.props.onRemoveAction,
-                        getContactFields: this.props.getContactFields,
-                        onAddContactField: this.props.onAddContactField,
-                        endpoints: this.props.endpoints
+                        context: this.props.context,
                     } as ActionProps));
                 }
                 firstRef = {};
@@ -179,7 +175,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
                 header = <div className={"split-title switch"} {...events}>Split</div>
             }
 
-            addActions = <a className="add" onClick={()=>{this.props.onAddAction(this.props.uuid)}}><span className="icon-add"/></a>
+            addActions = <a className="add" onClick={()=>{this.props.context.eventHandler.onAddAction(this.props.uuid)}}><span className="icon-add"/></a>
         }
 
         var exits: JSX.Element[] = []

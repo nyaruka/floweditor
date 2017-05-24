@@ -26,8 +26,8 @@ export class Action<P extends ActionProps> extends React.PureComponent<P, {}> {
     }
 
     onClick (event: React.SyntheticEvent<MouseEvent>) {
-        if (this.props.onEdit && !this.props.dragging) {
-            this.props.onEdit(this.props);
+        if (this.props.context.eventHandler.onEditNode && !this.props.dragging) {
+            this.props.context.eventHandler.onEditNode(this.props);
         }
     }
 
@@ -46,7 +46,7 @@ export class Action<P extends ActionProps> extends React.PureComponent<P, {}> {
 
     private onRemoval(evt: React.SyntheticEvent<MouseEvent>) {
         evt.stopPropagation();
-        this.props.onRemoveAction(this.props);
+        this.props.context.eventHandler.onRemoveAction(this.props);
     }
 
     renderNode(): JSX.Element {

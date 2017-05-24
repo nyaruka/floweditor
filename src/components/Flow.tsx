@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {FlowDefinition, DragPoint, NodeProps, SendMessageProps, NodeEditorProps, ActionProps, RouterProps, LocationProps, Endpoints, ContactFieldResult} from '../interfaces';
+import {FlowDefinition, DragPoint, FlowContext, NodeProps, SendMessageProps, NodeEditorProps, ActionProps, RouterProps, LocationProps, Endpoints, ContactFieldResult} from '../interfaces';
 import {Node} from './Node';
 import {NodeModal, NodeModalProps} from './NodeModal';
 import {FlowMutator} from './FlowMutator';
@@ -21,6 +21,7 @@ interface FlowState {
     ghostProps?: NodeProps
     modalProps?: NodeModalProps
     loading: boolean
+    context: FlowContext
 }
 
 interface Connection {
@@ -47,9 +48,9 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.onEdit = this.onEdit.bind(this);
         this.onNodeMoved = this.onNodeMoved.bind(this);
         this.onNodeMounted = this.onNodeMounted.bind(this);
+        this.onAddAction = this.onAddAction.bind(this);
         this.onUpdateAction = this.onUpdateAction.bind(this);
         this.onUpdateRouter = this.onUpdateRouter.bind(this);
-        this.onAddAction = this.onAddAction.bind(this);
 
         this.state = { 
             loading: true,
@@ -57,6 +58,19 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                 changeType: true,
                 onUpdateAction: this.onUpdateAction,
                 onUpdateRouter: this.onUpdateRouter
+            },
+            context: {
+                getContactFields: this.props.mutator.getContactFields,
+                eventHandler: {
+                    onAddContactField: this.props.mutator.addContactField,
+                    onRemoveAction: this.props.mutator.removeAction,
+                    onAddAction: this.onAddAction,
+                    onRemoveNode: this.props.mutator.removeNode,
+                    onEditNode: this.onEdit,
+                    onNodeMoved: this.onNodeMoved,
+                    onNodeMounted: this.onNodeMounted
+                },
+                endpoints: this.props.endpoints
             }
         }
         console.time("RenderAndPlumb");
@@ -76,14 +90,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var newAction = {
             uuid: UUID.v4(),
             type: "msg",
-            onEdit: this.onEdit,
             dragging: false,
-            onUpdateAction: this.onUpdateAction,
-            onRemoveAction: this.props.mutator.removeNode,
-            onAddAction: this.onAddAction,
-            onAddContactField: this.props.mutator.addContactField,
-            getContactFields: this.props.mutator.getContactFields,
-            endpoints: this.props.endpoints
+            context: this.state.context
         }
 
         var modalProps: NodeModalProps = {
@@ -91,7 +99,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             changeType: true,
             onUpdateAction: this.onUpdateAction,
             onUpdateRouter: this.onUpdateRouter,
-            addToNode: addToNode         
+            addToNode: addToNode,
         };
 
         this.setState({ modalProps: modalProps }, ()=> {this.modalComp.open()});
@@ -163,11 +171,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         }
 
         var ghostProps = {
-            endpoints: this.props.endpoints,
-            onEdit: this.onEdit,
+            context: this.state.context,
             uuid: nodeUUID,
-            getContactFields: this.props.mutator.getContactFields,
-            onAddContactField: this.props.mutator.addContactField,
             actions: [],
             exits: [{
                 "uuid": UUID.v4(),
@@ -180,9 +185,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         if (fromNode.exits.length > 1) {
             let actionUUID = UUID.v4();
             ghostProps.actions.push({
+                context: this.state.context,
                 uuid: actionUUID,
-                endpoints: this.props.endpoints,
-                getContactFields: this.props.mutator.getContactFields,
                 type: "msg",
                 text: ""
             } as SendMessageProps);
@@ -225,26 +229,16 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         // if we don't have any nodes, create our first one
         if (this.props.definition.nodes.length == 0) {
             var nodeProps = {
-                endpoints: this.props.endpoints,                
-                onEdit: this.onEdit,
-                onMounted: this.onNodeMounted,
-                onNode: this.onNodeMoved,
-                onRemove: this.props.mutator.removeNode,
                 uuid: UUID.v4(),
-                getContactFields: this.props.mutator.getContactFields,
-                onAddContactField: this.props.mutator.addContactField,
+                context: this.state.context,
                 actions: [{
-                    endpoints: this.props.endpoints,
+                    context: this.state.context,
                     uuid: UUID.v4(),
                     type: "msg",
                     text: "Hi there, this the first message in your flow!",
                     onEdit: this.onEdit,
                     dragging: false,
-                    onUpdateAction: this.onUpdateAction,
-                    onRemoveAction: this.props.mutator.removeNode,                    
-                    onAddAction: this.onAddAction,
-                    onAddContactField: this.props.mutator.addContactField,
-                    getContactFields: this.props.mutator.getContactFields
+
                 }],
                 exits:[{
                     uuid: UUID.v4()
@@ -327,17 +321,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var nodes: JSX.Element[] = [];
         for (let node of this.props.definition.nodes) {
             var uiNode = this.props.definition._ui.nodes[node.uuid];
-            nodes.push(<Node {...node} _ui={uiNode} key={node.uuid} 
-                        onEdit={this.onEdit}
-                        onAddAction={this.onAddAction}
-                        onRemoveAction={this.props.mutator.removeAction}
-                        onRemove={this.props.mutator.removeNode}
-                        onMoved={this.onNodeMoved}
-                        onMounted={this.onNodeMounted}
-                        getContactFields={this.props.mutator.getContactFields}
-                        onAddContactField={this.props.mutator.addContactField}
-                        endpoints={this.props.endpoints}
-                        />)
+            nodes.push(<Node {...node} _ui={uiNode} key={node.uuid} context={this.state.context}/>)
         }
 
         var dragNode = null;
@@ -346,9 +330,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             // start off screen
             var uiNode = {position: {x: -1000, y:-1000}};
             dragNode = <Node ref={(ele) => { this.ghostComp = ele }} {...node} _ui={uiNode} key={node.uuid} 
-                        ghost={true}
-                        onMounted={this.onNodeMounted}
-                        onEdit={this.onEdit}/>
+                        ghost={true} context={this.state.context}/>
         }
 
         var simulator = null;
