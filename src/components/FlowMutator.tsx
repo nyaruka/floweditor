@@ -3,7 +3,7 @@ import * as update from 'immutability-helper';
 
 import { 
     FlowDefinition, NodeProps, SendMessageProps, WebhookProps, NodeEditorProps, LocationProps, 
-    UIMetaDataProps, ActionProps, RouterProps, SearchResult, UINode, DragPoint
+    UIMetaDataProps, ActionProps, RouterProps, SearchResult, UINode, DragPoint, ContactFieldResult
 } from '../interfaces';
 import {NodeModalProps} from './NodeModal';
 import {Node} from './Node';
@@ -43,9 +43,11 @@ export class FlowMutator {
 
         this.removeAction = this.removeAction.bind(this);
         this.removeNode = this.removeNode.bind(this);
+        this.getContactFields = this.getContactFields.bind(this);
+        this.addContactField = this.addContactField.bind(this);
     }
 
-    public getContactFields(): SearchResult[] {
+    public getContactFields(): ContactFieldResult[] {
         return this.components.getContactFields();
     }
 
@@ -59,10 +61,6 @@ export class FlowMutator {
 
     public getNodeUI(uuid: string): UINode {
         return this.definition._ui.nodes[uuid];
-    }
-
-    public getContactFieldURL() {
-        return this.loaderProps.fieldsURL;
     }
 
     private markDirty() {
@@ -134,7 +132,7 @@ export class FlowMutator {
                         newPosition: LocationProps=null): NodeProps {
 
         console.time("updateRouter");
-        console.log("updateRouter", props);
+        // console.log("updateRouter", props);
 
         var node: NodeProps;
         if (draggedFrom) {
@@ -182,6 +180,8 @@ export class FlowMutator {
             node = this.addNode({
                 uuid: newNodeUUID,
                 actions:[ props ],
+                getContactFields: this.getContactFields.bind(this),
+                onAddContactField: this.addContactField.bind(this),
                 exits: [
                     { uuid: UUID.v4(), destination: null, name: null }
                 ],
@@ -346,8 +346,8 @@ export class FlowMutator {
         return this.components;
     }
 
-    public addContactField(field: SearchResult) {
-        this.components.addContactField(field);
+    public addContactField(field: SearchResult): ContactFieldResult {
+        return this.components.addContactField(field);
     }
 
 

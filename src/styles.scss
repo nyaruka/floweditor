@@ -52,7 +52,6 @@ $node_width: 200px;
 @import "./components/Case.scss";
 @import "./components/routers/SwitchRouter.scss";
 
-
 body {
 
     background-color: #fff;
@@ -73,25 +72,6 @@ body {
 
     &.ReactModal__Body--open {
         overflow-y: hidden !important;
-    }
-
-    .select2 {
-        width: 100% !important;
-        .select2-selection {
-            height: 32px;
-
-            &[aria-expanded=false] {
-                border-color: $light_grey;
-            }
-
-            &:focus {
-                outline: none;
-            }
-        }
-
-        .select2-selection__rendered {
-            color: #666;
-        }
     }
 
     input {
@@ -116,7 +96,7 @@ body {
 #header {
     height: 40px;
     width: 100%;
-    background: $blue - #111;
+    background: #444;
 }
 
 #editor {
@@ -143,9 +123,6 @@ body {
 .clearfix {
     clear: both;
 }
-
-
-
 
 .ReactModal__Overlay {
     background-color: rgba(0, 0, 0, .6) !important;
@@ -193,13 +170,13 @@ body {
                 color: $med_grey;
             }            
  
-            input {
+            input.spacey {
                 -webkit-box-sizing: border-box;
                 -moz-box-sizing: border-box;
                 box-sizing: border-box;
                 width:100%;
-                padding: 5px;
-                height: 32px;
+                padding: 5px 10px;
+                height: 36px;
                 font-size: 14px;
                 font-weight: 300;
                 border-width: 1px;
@@ -397,21 +374,19 @@ body {
     height: 20000px;
     //position: absolute;
     
-    
     .node {
         position: absolute;
         border: 0px solid darkgray;
         background: #fff;
         width: $node_width;
         cursor: pointer;
-        box-shadow: 1px 1px 2px 0px rgba(0,0,0, .2);
-        border-left: 1px solid rgba(0,0,0, .1);
-        border-top: 1px solid rgba(0,0,0, .1);
+        // box-shadow: 1px 1px 2px 0px rgba(0,0,0, .2);
+        box-shadow: 0px 0px 2px 0px rgba(0,0,0, .2);
         display: table;
         font-weight: 300;
 
         &.jtk-drag {
-            box-shadow: 2px 2px 3px 1px rgba(0,0,0, .2);
+            box-shadow: 1px 1px 5px 2px rgba(0,0,0, .2);
             z-index: $z_dragging;
         }
 
@@ -723,3 +698,27 @@ textarea, input, button { outline: none; }
     margin-bottom: 15px;
 }
 
+body {
+    &.night {
+        background-color: #333;
+        .modal {
+            color: #ccc;
+            background: #666;
+            .modal-footer {
+                background: #999;
+                border-color: #555;
+            }
+        }
+
+        .node {
+            background: #666;
+            color: #ccc;
+            .exit-table {
+                border-color: #444 !important;
+                .exit {
+                    border-color: #444 !important;
+                }
+            }
+        }
+    }
+}

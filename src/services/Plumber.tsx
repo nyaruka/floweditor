@@ -1,4 +1,5 @@
 var lib = require('../../node_modules/jsplumb/dist/js/jsplumb.js');
+//var lib = require('../../node_modules/jsplumb/dist/js/jsplumb-2.1.8.js');
 
 import {FlowDefinition, ExitProps} from '../interfaces';
 
@@ -28,21 +29,23 @@ export class Plumber {
         hoverClass: 'target-hover',
         dropOptions: { tolerance:"touch", hoverClass:"drop-hover" },
         dragAllowedWhenFull: false,
-        deleteEndpointsOnDetach: false,
+        deleteEndpointsOnDetach: true,
+        deleteEndpointsOnEmpty: true,
         isTarget:true,
     }
 
     sourceDefaults = {
         anchor: "BottomCenter",
-        deleteEndpointsOnEmpty: true,
         maxConnections:1,
         dragAllowedWhenFull:false,
-        deleteEndpointsOnDetach: false,
+        deleteEndpointsOnDetach: true,
+        deleteEndpointsOnEmpty: true,
         isSource:true,
         paintStyle: { fillStyle:"blue", outlineColor:"black", outlineWidth:1 }
     }
 
     private constructor() {
+        console.log(lib);
         this.jsPlumb = lib.jsPlumb.importDefaults({
             DragOptions : { cursor: 'pointer', zIndex:1000 },
             DropOptions : { tolerance:"touch", hoverClass:"drop-hover" },
@@ -127,6 +130,7 @@ export class Plumber {
             this.jsPlumb.remove(uuid);
         } else if (this.jsPlumb.isTarget(uuid)) {
             this.jsPlumb.deleteConnectionsForElement(uuid);
+            // this.jsPlumb.removeConnections(uuid);
         }
 
         // this.jsPlumb.remove(uuid);

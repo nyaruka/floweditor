@@ -5,8 +5,6 @@ import {NodeForm} from '../NodeForm';
 import {SendMessageProps} from '../../interfaces';
 import {NodeModalProps} from '../NodeModal';
 
-var Select2 = require('react-select2-wrapper');
-
 export class SendMessage extends Action<SendMessageProps> {
     renderNode(): JSX.Element {
         if (this.props.text) {

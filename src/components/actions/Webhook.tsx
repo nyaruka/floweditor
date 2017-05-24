@@ -3,9 +3,12 @@ import {Action} from '../Action';
 import {NodeForm} from '../NodeForm';
 import {WebhookProps, NodeEditorState} from '../../interfaces';
 import {NodeModalProps} from '../NodeModal';
+import * as Select from 'react-select';
 
-var Select2 = require('react-select2-wrapper');
 
+export interface WebhookState {
+    method: string;
+}
 
 export class Webhook extends Action<WebhookProps> {
     renderNode(): JSX.Element {
@@ -13,12 +16,23 @@ export class Webhook extends Action<WebhookProps> {
     }
 }
 
-export class WebhookForm extends NodeForm<WebhookProps, NodeEditorState> {
+export class WebhookForm extends NodeForm<WebhookProps, WebhookState> {
 
-    private method: string
+    constructor(props: WebhookProps) {
+        super(props);
 
-    onChangeMethod(evt: any) {
-        this.method = evt.target.value;
+        var method = props.method;
+        if (!method) {
+            method = "GET";
+        }
+
+        this.state = {
+            method: method
+        }
+    }
+
+    onChangeMethod(value: any) {
+        this.setState({method: value.value});
     }
 
     renderForm(): JSX.Element {
@@ -27,19 +41,19 @@ export class WebhookForm extends NodeForm<WebhookProps, NodeEditorState> {
                 <p>Using a Webhook you can trigger actions in external services or fetch data to use in this Flow. Enter a URL to call below.</p>
                 <div>
                     <div className="form-group" style={{verticalAlign:'top', width: '15%', display: 'inline-block'}}>
-                        <Select2
+                        <Select
                             name="method"
                             className="method form-control"
-                            style={{width: 'auto'}}
-                            value={this.props.method}
+                            value={this.state.method}
                             onChange={this.onChangeMethod.bind(this)}
-                            options={{ minimumResultsForSearch: -1 }}
-                            data={[{id: 'GET', text: 'GET'}, {id: 'POST', text: 'POST'}]}
+                            searchable={false}
+                            clearable={false}
+                            options={[ {value:'GET', label:'GET'}, {value:'POST', label:'POST'}]}
                         />
                     </div>
                     <div style={{display:'inline-block', width:'2%'}}/>
                     <div className="form-group" style={{width: '83%', verticalAlign:"top", display: 'inline-block'}}>
-                        <input name="url" className="url form-control" defaultValue={this.props.url}/>
+                        <input name="url" className="url form-control spacey" defaultValue={this.props.url}/>
                         <div className="error"></div>
                     </div>
                 </div>
@@ -74,12 +88,12 @@ export class WebhookForm extends NodeForm<WebhookProps, NodeEditorState> {
     }
     
     submit(form: Element, modal: NodeModalProps) {
-        var url: HTMLInputElement = $(form).find('input')[0] as HTMLInputElement;
+        var url: HTMLInputElement = $(form).find('input.url')[0] as HTMLInputElement;
         modal.onUpdateAction({
             uuid: this.props.uuid, 
             type: "webhook", 
             url: url.value, 
-            method: this.method
+            method: this.state.method
         } as WebhookProps);
     }
 }

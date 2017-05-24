@@ -5,14 +5,12 @@ import {Temba, FlowDetails} from '../services/Temba';
 import {FlowLoader} from './FlowLoader';
 import {FlowList} from './FlowList';
 import {Flow} from './Flow';
+import {Endpoints} from '../interfaces';
 
 interface EditorProps {
     site: string;
     token: string;
-    
-    engineURL?: string;
-    contactsURL?: string;
-    fieldsURL?: string;
+    endpoints: Endpoints;
 }
 
 interface EditorState {
@@ -38,12 +36,11 @@ export class Editor extends React.PureComponent<EditorProps, EditorState> {
     
     render() {
         var flow = null;
+
         if (this.state.flowUUID) {
             flow = <FlowLoader
                 key={this.state.flowUUID}
-                engineURL={this.props.engineURL}
-                contactsURL={this.props.contactsURL}
-                fieldsURL={this.props.fieldsURL}
+                endpoints={this.props.endpoints}
                 uuid={this.state.flowUUID}
                 temba={this.temba}
             />
@@ -51,9 +48,7 @@ export class Editor extends React.PureComponent<EditorProps, EditorState> {
             var newUUID = UUID.v4()
             flow = <FlowLoader
                 key={newUUID}
-                engineURL={this.props.engineURL}
-                contactsURL={this.props.contactsURL}
-                fieldsURL={this.props.fieldsURL}
+                endpoints={this.props.endpoints}
                 uuid={newUUID}
             />
 

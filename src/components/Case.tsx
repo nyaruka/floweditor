@@ -4,7 +4,6 @@ import * as Select from 'react-select';
 
 import {CaseProps, Operator} from '../interfaces';
 import {Config} from '../services/Config';
-// var Select2 = require('react-select2-wrapper');
 
 export interface CaseState {
     operator: string;

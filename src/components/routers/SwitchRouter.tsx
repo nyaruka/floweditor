@@ -9,7 +9,6 @@ import {DragDropContext} from 'react-dnd';
 
 
 let HTML5Backend = require('react-dnd-html5-backend');
-let Select2 = require('react-select2-wrapper');
 let update = require('immutability-helper');
 
 class SwitchRouterState {

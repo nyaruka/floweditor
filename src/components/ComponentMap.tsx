@@ -131,12 +131,14 @@ export class ComponentMap {
         return this.components[uuid];
     }
 
-    public getContactFields(): SearchResult[] {
+    public getContactFields(): ContactFieldResult[] {
+        // console.log("Get", this.contactFields)
         return this.contactFields;
     }
 
-    public addContactField(field: SearchResult) {
+    public addContactField(field: SearchResult): ContactFieldResult {
         this.contactFields.push(field);
+        return field;
     }
 
 

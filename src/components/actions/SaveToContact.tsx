@@ -1,13 +1,12 @@
 import * as React from 'react';
 import {FlowStore} from '../../services/FlowStore';
 import {toBoolMap} from '../../utils';
-import {Select2Search} from '../Select2Search';
+import {SelectSearch} from '../SelectSearch';
 import {SaveToContactProps, NodeEditorState, SearchResult} from '../../interfaces';
 import {NodeModalProps} from '../NodeModal';
 import {NodeForm} from '../NodeForm';
 import {Action} from '../Action';
 
-var Select2 = require('react-select2-wrapper');
 var UUID = require('uuid');
 
 // TODO: these should come from an external source
@@ -39,32 +38,23 @@ export class SaveToContact extends Action<SaveToContactProps> {
 export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorState> {
 
     fieldValue: string;
-    fieldSelect: Select2Search;
+    fieldSelect: SelectSearch;
 
-    addExtraResults(results: SearchResult[], term: string) {
-        if (term) {
-            term = term.trim();
-            let lowered = term.toLowerCase();
-            if (lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered) && !reserved[lowered]) {
-                var exactMatch = false;                
-                for (let result of results) {
-                    if (result.name.toLowerCase() == term.toLowerCase()) {
-                        exactMatch = true;
-                        break;
-                    }
-                }
+    isValidNewOption(option: {label: string}): boolean {
+        if (!option || !option.label) { return false; }
+        let lowered = option.label.toLowerCase();
+        return lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered) && !reserved[lowered];
+    }
 
-                if (!exactMatch) {
-                    results.push({
-                        id: UUID.v4(),
-                        name: term,
-                        type: "field",
-                        prefix: "Create field:",
-                        extraResult: true
-                    });
-                }
-            }
-        }
+    createNewOption(arg: { label: string}): SearchResult {
+        var newOption: SearchResult = {
+            id: UUID.v4(),
+            name: arg.label,
+            type: "field",
+            extraResult: true
+        } as SearchResult;
+
+        return newOption;
     }
 
     renderForm(): JSX.Element {
@@ -77,24 +67,20 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
             }
         }
 
-        // console.log("SaveToContact.render", initial.name, initial.id);
-
-        // var mutator = this.props.modal.mutator;
-        // url={mutator.getContactFieldURL()} 
-        // localSearchOptions={mutator.getContactFields()}
-
         return (
             <div>
                 <div className="form-group">
                     <div className="form-label">Field Name</div>
                     <div className="form-group">
-                        <Select2Search 
-                            key={UUID.v4()}
-                            className="form-control"
+                        <SelectSearch 
                             ref={(ele: any) => {this.fieldSelect = ele}} 
-                            url={null}
+                            className="form-control"
+                            url={this.props.endpoints.fields}
+                            localSearchOptions={this.props.getContactFields()}
+                            createNewOption={this.createNewOption.bind(this)}
+                            isValidNewOption={this.isValidNewOption.bind(this)}
+                            addLabelText="Create field"
                             name="field"
-                            addExtraResults={this.addExtraResults.bind(this)}
                             initial={initial}
                         />
                         <div className="error"></div>
@@ -103,7 +89,7 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
                 </div>
                 <div className="form-group">
                     <div className="form-label">Value</div>                    
-                    <input name="value" className="value" defaultValue={this.props.value}/>
+                    <input name="value" className="value spacey" defaultValue={this.props.value}/>
                     <div className="form-help">The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json.</div>
                 </div>
             </div>
@@ -111,39 +97,38 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
     }
 
     validate(control: any): string {
+        
+        // TODO: make validation work for react-select
         if (control.name == "field") {
-            let selections = this.fieldSelect.getSelection();
-            if (selections.length == 0){
+            if (!this.fieldSelect.state.selection) {
+                // console.log("field required");
                 return "A contact field is required";
             }
-            
         }
+
         return null;
     }
 
     submit(form: HTMLFormElement, modal: NodeModalProps) {
-        let selections = this.fieldSelect.getSelection();
-        if (selections.length > 0) {
-            let selection = selections[0];
-            var input: HTMLInputElement = $(form).find('input')[0] as HTMLInputElement;
+        var field = this.fieldSelect.state.selection;
+        var input: HTMLInputElement = $(form).find('.value')[0] as HTMLInputElement;
 
-            // update our flow   
+        if (field) {
             modal.onUpdateAction({
                 uuid: this.props.uuid, 
                 type: "save_to_contact", 
-                name: selection.name, 
-                field: selection.id, 
+                name: field.name, 
+                field: field.id, 
                 value: input.value
             } as SaveToContactProps);
 
-            // if this was a newly created field, add it to our main list
-            //if (selection.extraResult) {
-            //    this.props.modal.mutator.addContactField({
-            //        id: selection.id,
-            //        name: selection.name,
-            //        type: selection.type
-            //    })
-            //}
+            if (field.extraResult) {
+                this.props.onAddContactField({
+                    id: field.id,
+                    name: field.name,
+                    type: field.type
+                });
+            }
         }
     }
 }

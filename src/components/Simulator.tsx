@@ -124,8 +124,15 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             return;
         }
 
-        if (text="recalc") {
+        if (text == "recalc") {
+            console.log("recal..");
             Plumber.get().repaint();
+            return;
+        }
+
+        if (text=="reconnect") {
+            Plumber.get().connectAll(this.props.definitions[0]);
+            console.log("reconnected..");
             return;
         }
         

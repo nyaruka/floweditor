@@ -6,8 +6,7 @@ import {Modal} from './Modal';
 import {Config} from '../services/Config';
 import {FlowMutator} from '../components/FlowMutator';
 import {NodeForm} from './NodeForm';
-
-var Select2 = require('react-select2-wrapper');
+import * as Select from 'react-select';
 
 export interface NodeModalProps {
 
@@ -80,6 +79,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         var valid = true;
         var errors: any= {};
         $(this.formElement.elements).each((index: number, ele: HTMLFormElement) => {
+            // console.log("processForm", ele);
             if (ele.name) {
                 var error = this.form.validate(ele);
                 if (error) {
@@ -142,11 +142,10 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     /**
      * A change to our renderer type
      */
-    private onChangeType(event: any) {
-        var type = event.target.value;
-        if (type != this.state.config.type) {
+    private onChangeType(config: TypeConfig) {
+        if (config.type != this.state.config.type) {
             this.setState({
-                config: this.getConfig(type)
+                config: config
             });
         }
     }
@@ -178,23 +177,21 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
 
     render() {
         var data: any = [];
-        let options: TypeConfig[] = Config.get().typeConfigs;
-        options.map((option: TypeConfig) => {
-            data.push({id: option.type, text: option.description});
-        });
-
         var changeOptions: JSX.Element;
-
         if (this.props.changeType) {
             changeOptions = (
                 <div>
                     <div className="header">When a contact arrives at this point in your flow</div>
                     <div className="form-group">
-                        <Select2
+                        <Select
                             className={"change-type"}
                             value={this.state.config.type}
                             onChange={this.onChangeType.bind(this)}
-                            data={data}
+                            valueKey="type"
+                            searchable={false}
+                            clearable={false}
+                            labelKey="description"
+                            options={Config.get().typeConfigs}
                         />
                     </div>
                 </div>

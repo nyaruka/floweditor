@@ -3,19 +3,16 @@
    "results":[
       {
          "name":"Expected Delivery Date",
-         "key":"edd",
          "id":"23ff7152-b588-43e4-90de-fda77aeaf7c0",
          "type":"field"
       },
       {
          "name":"National ID",
-         "key":"national_id",
          "id":"2429d573-80d7-47f8-879f-f2ba442a1bfd",
          "type":"field"
       },
       {
          "name":"Number of Children",
-         "key":"child_count",
          "id":"5510bddf-01bd-45b5-a519-33b28bac48d0",
          "type":"field"
       }

@@ -11,21 +11,16 @@ import {Config} from '../services/Config';
 import {NodeModal} from './NodeModal';
 import {FlowMutator} from './FlowMutator';
 import {Flow} from './Flow';
-import {FlowDefinition} from '../interfaces';
+import {FlowDefinition, Endpoints} from '../interfaces';
 
 var FORCE_FETCH = true;
 var QUIET_UI = 10;
 var QUIET_SAVE = 2000;
 
 export interface FlowLoaderProps {
-    flowURL?: string;
-    engineURL?: string;
-    contactsURL?: string;
-    fieldsURL?: string;
-
+    endpoints?: Endpoints;
     uuid?: string;
     temba?: Temba;
-
 }
 
 export interface FlowLoaderState {
@@ -100,8 +95,8 @@ export class FlowLoader extends React.PureComponent<FlowLoaderProps, FlowLoaderS
     render() {
         var flow = null;
         if (this.state.definition) {
-            flow = <Flow 
-                    engineURL={this.props.engineURL}
+            flow = <Flow
+                    endpoints={this.props.endpoints}
                     definition={this.state.definition}
                     dependencies={this.state.dependencies}
                     mutator={this.mutator}/>

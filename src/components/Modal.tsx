@@ -3,7 +3,6 @@ import * as UUID from 'uuid';
 import * as ReactModal from 'react-modal';
 
 import {Config} from '../services/Config';
-var Select2 = require('react-select2-wrapper');
 
 interface ModalProps {
     show: boolean;

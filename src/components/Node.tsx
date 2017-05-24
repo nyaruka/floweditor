@@ -4,7 +4,7 @@ import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 
-import {NodeProps, LocationProps, ActionProps, RouterProps, SwitchRouterProps} from '../interfaces';
+import {NodeProps, LocationProps, ActionProps, RouterProps, SwitchRouterProps, SaveToContactProps} from '../interfaces';
 import {Plumber, DragEvent} from '../services/Plumber';
 import {FlowStore} from '../services/FlowStore';
 import {Config} from '../services/Config';
@@ -141,7 +141,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
             var firstRef: any = {ref:(ele: any)=>{this.firstAction = ele}};
             for (let actionProps of this.props.actions) {
                 let actionConfig = Config.get().getTypeConfig(actionProps.type);
-                if (actionConfig.component != null){
+                if (actionConfig.component != null) {
                     actions.push(React.createElement(actionConfig.component, { 
                         ...actionProps,
                         ...firstRef,
@@ -149,6 +149,9 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
                         key: actionProps.uuid,
                         onEdit: this.props.onEdit,
                         onRemoveAction: this.props.onRemoveAction,
+                        getContactFields: this.props.getContactFields,
+                        onAddContactField: this.props.onAddContactField,
+                        endpoints: this.props.endpoints
                     } as ActionProps));
                 }
                 firstRef = {};

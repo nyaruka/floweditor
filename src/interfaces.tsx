@@ -1,9 +1,12 @@
 import {FlowLoader} from './components/FlowLoader'
 import {Node} from './components/Node'
 
-export interface FlowContext {
-    flow: FlowLoader;
-    node?: Node;
+export interface Endpoints {
+    fields: string;
+    groups: string;
+    engine: string;
+    contacts: string;
+    flow: string;
 }
 
 export interface ContactField {
@@ -37,10 +40,13 @@ export interface NodeEditorProps {
     uuid: string;
     onEdit: Function;
     onRemoveAction: Function;
+    onAddContactField(field: ContactFieldResult): ContactFieldResult;
 }
 
 export interface ActionProps extends NodeEditorProps {
     dragging: boolean;
+    endpoints: Endpoints;
+    getContactFields(): ContactFieldResult[];
 }
 
 export interface AddToGroupProps extends ActionProps {
@@ -115,6 +121,11 @@ export interface NodeProps {
     onMounted?: Function;
     onRemove?: Function;
     onAddAction?: Function;
+    
+    getContactFields(): ContactFieldResult[];
+    onAddContactField(field: ContactFieldResult): void;
+
+    endpoints?: Endpoints;
  
     // a connection that needs to be wired on mounting
     pendingConnection?: DragPoint;

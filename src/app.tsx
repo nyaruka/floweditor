@@ -3,17 +3,13 @@ import * as ReactDOM from 'react-dom';
 import * as qs from 'query-string';
 import {Editor} from './components/Editor';
 import {FlowStore} from './services/FlowStore';
+import {Endpoints} from './interfaces';
 
 // our css dependencies
 import './styles.scss';
-import 'react-select2-wrapper/css/select2.css';
 import 'react-select/dist/react-select.css';
 
-var contacts = 'http://localhost:9000/assets/contacts.json';
-var fields = 'http://localhost:9000/assets/fields.json'
-var engineUrl = 'http://localhost:9000';
 var parms = qs.parse(location.search);
-
 var flowURL = parms.flow
 if (flowURL == null){
   flowURL = 'test_flows/lots_of_action.json';
@@ -48,9 +44,18 @@ if (parms.reset) {
 
 // console.log(site, token);
 
+var endpoints: Endpoints = {
+    engine:     'http://localhost:9000',
+    contacts:   'http://localhost:9000/assets/contacts.json',
+    fields:     'http://localhost:9000/assets/fields.json',
+    flow:       flowURL,
+    groups:     null
+}
+
+
 ReactDOM.render(
   <Editor
-    engineURL={engineUrl}
+    endpoints={endpoints}
     site={site}
     token={token}
   />,
