@@ -58,13 +58,13 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
     }
 
     renderForm(): JSX.Element {
-        var initial = null
+        var initial = []
         if (this.props.type == "save_to_contact") {
-            initial = {
+            initial.push({
                 id: this.props.field,
                 name: this.props.name, 
                 type: this.props.type,                    
-            }
+            });
         }
 
         return (
@@ -79,7 +79,8 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
                             localSearchOptions={this.props.context.getContactFields()}
                             createNewOption={this.createNewOption.bind(this)}
                             isValidNewOption={this.isValidNewOption.bind(this)}
-                            addLabelText="Create field"
+                            clearable={false}
+                            createPrompt="New field: "
                             name="field"
                             initial={initial}
                         />
@@ -110,7 +111,12 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
     }
 
     submit(form: HTMLFormElement, modal: NodeModalProps) {
-        var field = this.fieldSelect.state.selection;
+        var selection= this.fieldSelect.state.selection;
+        var field = null;
+        if (selection && selection.length > 0) {
+            field = selection[0]
+        }
+
         var input: HTMLInputElement = $(form).find('.value')[0] as HTMLInputElement;
 
         if (field) {

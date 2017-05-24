@@ -25,7 +25,7 @@ export class Config {
 
         // actions
         {type: "msg", name: "Send Message", description: "Send them a message", form: SendMessageForm, component: SendMessage},
-        // {type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: AddToGroupForm, component: AddToGroup},
+        {type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: AddToGroupForm, component: AddToGroup},
         {type: "save_to_contact", name: "Save to Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContact},
         // {type: "set_language", name: "Set Language", description: "Update their language", form: SetLanguageForm, component: SetLanguage},
         // {type: "add_label", name: "Add Label", description: "Label the message", component: Missing},

@@ -5,6 +5,7 @@ export interface FlowContext {
     eventHandler: FlowEventHandler;
     endpoints: Endpoints;
     getContactFields(): ContactFieldResult[];
+    getGroups(): SearchResult[];
 }
 
 export interface FlowEventHandler {
@@ -15,6 +16,7 @@ export interface FlowEventHandler {
     onRemoveNode?: Function;
     onAddAction?: Function;
     onAddContactField(field: ContactFieldResult): void;
+    onAddGroup(group: SearchResult): void;
 }
 
 export interface Endpoints {

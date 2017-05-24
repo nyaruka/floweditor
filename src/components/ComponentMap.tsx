@@ -90,7 +90,7 @@ export class ComponentMap {
 
     private initializeFieldsAndGroups(definition: FlowDefinition) {
         var fields: {[id:string]:ContactFieldResult} = {}
-        var groups: {[id:string]:Group} = {}
+        var groups: {[id:string]:SearchResult} = {}
 
         if (!definition) {
             this.contactFields = [];
@@ -106,29 +106,39 @@ export class ComponentMap {
                         if (!(saveProps.field in fields)) {
                             fields[saveProps.field] = { id: saveProps.field, name: saveProps.name, type: "field" }
                         }
-                    } else if (action.type == 'add_group') {
+                    } else if (action.type == 'add_to_group') {
                         var addGroupProps = action as AddToGroupProps;
                         if (!(addGroupProps.uuid in groups)) {
-                            groups[addGroupProps.uuid] = { uuid: addGroupProps.uuid, name: addGroupProps.name}
+                            groups[addGroupProps.uuid] = { id: addGroupProps.group, name: addGroupProps.name, type: "group"}
                         }
                     }
                 }
             }
         }
 
-        var contactFields: ContactFieldResult[] = []
+        var existingFields: ContactFieldResult[] = []
         for (var key in fields) {
-            contactFields.push(fields[key]);
+            existingFields.push(fields[key]);
         }
 
-        this.contactFields = contactFields;
+        var existingGroups: SearchResult[] = []
+        for (var key in groups){
+            existingGroups.push(groups[key]);
+        }
 
-        // TODO: implement group init
-        this.groups = [];
+        this.contactFields = existingFields;
+        this.groups = existingGroups;
+
+        // console.log("fields", this.contactFields);
+        // console.log("groups", this.groups);
     }
 
     public getDetails(uuid: string): ComponentDetails {
         return this.components[uuid];
+    }
+
+    public getGroups(): SearchResult[] {
+        return this.groups;
     }
 
     public getContactFields(): ContactFieldResult[] {
@@ -141,6 +151,10 @@ export class ComponentMap {
         return field;
     }
 
+    public addGroup(group: SearchResult): SearchResult {
+        this.groups.push(group);
+        return group;
+    }
 
 }
 

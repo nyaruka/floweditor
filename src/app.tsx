@@ -47,9 +47,9 @@ if (parms.reset) {
 var endpoints: Endpoints = {
     engine:     'http://localhost:9000',
     contacts:   'http://localhost:9000/assets/contacts.json',
+    groups:     'http://localhost:9000/assets/groups.json',
     fields:     'http://localhost:9000/assets/fields.json',
     flow:       flowURL,
-    groups:     null
 }
 
 

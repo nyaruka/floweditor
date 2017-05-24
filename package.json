@@ -13,7 +13,6 @@
     "build:prod": "webpack --env=prod --progress --profile --colors && cp index.html dist/index.html && cp -R test_flows dist/test_flows && cp -R fonts dist/fonts"
   },
   "devDependencies": {
-    "@types/axios": "^0.14.0",
     "@types/chai": "^3.4.35",
     "@types/core-js": "^0.9.41",
     "@types/enzyme": "^2.8.0",
@@ -64,7 +63,7 @@
     "react-dom": "^15.4.2",
     "react-modal": "^1.7.5",
     "react-modal-dialog": "^4.0.7",
-    "react-select": "1.0.0-rc.3",
+    "react-select": "1.0.0-rc.5",
     "react-test-renderer": "^15.5.4",
     "sass-loader": "^6.0.3",
     "sinon": "^2.1.0",
@@ -77,5 +76,5 @@
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1",
     "webpack-merge": "^4.1.0"
-  }
+  }  
 }

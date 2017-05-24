@@ -11,17 +11,18 @@ interface SelectSearchProps {
     name: string;
     placeholder?: string;
     multi?: boolean;
-    initial?: SearchResult;
+    clearable?: boolean;
+    initial?: SearchResult[];
     localSearchOptions?: SearchResult[];
     className: string;
-    addLabelText: string;
+    createPrompt: string;
     onChange?(selection: SearchResult): void;
     isValidNewOption?(option: {label: string}): boolean;
     createNewOption?(option: {label: string, labelKey: string, valueKey: string}): any;
 }
 
 interface SelectSearchState {
-    selection: SearchResult;
+    selection: SearchResult[];
 }
 
 interface SearchParams {
@@ -36,6 +37,8 @@ interface SelectSearchResult {
 }
 
 export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectSearchState> {
+
+    private select: any;
 
     constructor(props: SelectSearchProps) {
         super(props);
@@ -80,7 +83,6 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
         }
         
         combined.sort(this.sortResults);
-
         var results: SelectSearchResult = {
             options: combined,
             complete: true
@@ -100,40 +102,78 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
         }
     }
 
-    private onChange(searchResult: SearchResult){
-        if (this.props.onChange) {
-            this.props.onChange(searchResult);
+    private onChange(selection: any){
+        if (!this.props.multi) {
+            selection = [selection];
         }
-        this.setState({selection: searchResult});
+
+        if (this.props.onChange) {
+            this.props.onChange(selection);
+        }
+        this.setState({selection: selection});
+
+        this.select.focus();
+
     };
 
-    render() {
-        // options={Config.get().operators}
-        // optionClassName="operator"
+    private onInputChange(value: string) {
+    }
 
-        var value = null;
+    render() {
+        var value: any;
+
+        if (this.props.multi) {
+            value = [];
+        }
+
         if (this.state.selection) {
-            if (this.state.selection.extraResult) {
-                value = this.state.selection;
-            } else {
-                value = this.state.selection.id;
+            for (let selection of this.state.selection) {
+                if (selection){
+                    var selectionValue;
+                    if (selection.extraResult || this.props.multi) {
+                        selectionValue = selection;
+                    } else {
+                        selectionValue = selection.id;
+                    }
+
+                    if (this.props.multi) {
+                        value.push(selectionValue);
+                    } else {
+                        value = selectionValue;
+                    }
+                }
+            }
+        }
+
+        var sample = [{value: "R", label: "Red"}, {value:"G", label: "Green"}];
+
+        var promptTextCreator = null;
+        if (this.props.createPrompt) {
+            promptTextCreator = (label: string) => {
+                return this.props.createPrompt + label
             }
         }
 
         return (
             <Select.AsyncCreatable
                 className={this.props.className}
+                ref={(ele: any)=>{ this.select = ele}}
                 name={this.props.name}
                 loadOptions={this.loadOptions.bind(this)}
-                clearable={false}
+                // loadOptions={(term, callback)=>{callback(null, {options: sample, complete: true})}}
+                clearable={this.props.clearable}
                 ignoreCase={true}
                 value={value}
+                openOnFocus={true}
+                cache={false}
                 valueKey="id"
                 labelKey="name"
+                multi={this.props.multi}
                 searchable={true}
-                addLabelText={this.props.addLabelText}
+                onInputChange={this.onInputChange.bind(this)}
                 newOptionCreator={this.props.createNewOption}
                 isValidNewOption={this.props.isValidNewOption}
+                promptTextCreator={promptTextCreator}
                 onChange={this.onChange.bind(this)}
             />
         );

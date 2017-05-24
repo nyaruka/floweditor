@@ -45,10 +45,16 @@ export class FlowMutator {
         this.removeNode = this.removeNode.bind(this);
         this.getContactFields = this.getContactFields.bind(this);
         this.addContactField = this.addContactField.bind(this);
+        this.getGroups = this.getGroups.bind(this);
+        this.addGroup = this.addGroup.bind(this);
     }
 
     public getContactFields(): ContactFieldResult[] {
         return this.components.getContactFields();
+    }
+
+    public getGroups(): SearchResult[] {
+        return this.components.getGroups();
     }
 
     /**
@@ -293,7 +299,7 @@ export class FlowMutator {
 
         // only resolve connection if we have one
         if (props.pendingConnection != null) {
-            console.log("resolving pendingConnection..", props.pendingConnection, props.uuid);
+            // console.log("resolving pendingConnection..", props.pendingConnection, props.uuid);
             let dragFrom = props.pendingConnection
             this.updateExit(dragFrom.exitUUID, { $merge:{ destination: props.uuid}});
 
@@ -346,6 +352,10 @@ export class FlowMutator {
 
     public addContactField(field: SearchResult): ContactFieldResult {
         return this.components.addContactField(field);
+    }
+
+    public addGroup(group: SearchResult): SearchResult {
+        return this.components.addGroup(group);
     }
 
 

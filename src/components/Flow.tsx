@@ -61,6 +61,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             },
             context: {
                 getContactFields: this.props.mutator.getContactFields,
+                getGroups: this.props.mutator.getGroups,
                 eventHandler: {
                     onAddContactField: this.props.mutator.addContactField,
                     onRemoveAction: this.props.mutator.removeAction,
@@ -68,7 +69,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                     onRemoveNode: this.props.mutator.removeNode,
                     onEditNode: this.onEdit,
                     onNodeMoved: this.onNodeMoved,
-                    onNodeMounted: this.onNodeMounted
+                    onNodeMounted: this.onNodeMounted,
+                    onAddGroup: this.props.mutator.addGroup
                 },
                 endpoints: this.props.endpoints
             }
