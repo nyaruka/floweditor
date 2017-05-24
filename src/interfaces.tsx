@@ -57,13 +57,15 @@ export interface NodeEditorProps {
     type: string;
     uuid: string;
     context: FlowContext;
+    
+    config?: TypeConfig;
 }
 
 export interface ActionProps extends NodeEditorProps {
     dragging: boolean;
 }
 
-export interface AddToGroupProps extends ActionProps {
+export interface ChangeGroupProps extends ActionProps {
     name: string;
     group: string;
 }

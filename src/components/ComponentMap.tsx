@@ -1,6 +1,6 @@
 import {
     FlowDefinition, SearchResult, ExitProps, ContactFieldResult, 
-    Group, SaveToContactProps, AddToGroupProps
+    Group, SaveToContactProps, ChangeGroupProps
 } from '../interfaces';
 
 interface ComponentDetails {
@@ -107,7 +107,7 @@ export class ComponentMap {
                             fields[saveProps.field] = { id: saveProps.field, name: saveProps.name, type: "field" }
                         }
                     } else if (action.type == 'add_to_group') {
-                        var addGroupProps = action as AddToGroupProps;
+                        var addGroupProps = action as ChangeGroupProps;
                         if (!(addGroupProps.uuid in groups)) {
                             groups[addGroupProps.uuid] = { id: addGroupProps.group, name: addGroupProps.name, type: "group"}
                         }

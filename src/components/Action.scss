@@ -10,6 +10,12 @@
                 background: $add_to_group;
             }
         }
+        
+        &.remove-from-group {
+            .action-title {
+                background: $remove_from_group;
+            }
+        }
 
         &.msg {
             .action-title {

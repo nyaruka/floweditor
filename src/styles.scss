@@ -14,6 +14,7 @@ $error_color: $orange;
 $workspace: $light_grey;
 $borders: $light_grey;
 $add_to_group: $green;
+$remove_from_group: $red;
 $webhook: $orange;
 $update: $teal;
 $msg: $blue;
@@ -232,6 +233,12 @@ body {
     &.add-to-group {
         .modal-header {
             background: $add_to_group;
+        }
+    }
+
+    &.remove-from-group {
+        .modal-header {
+            background: $remove_from_group;
         }
     }
 

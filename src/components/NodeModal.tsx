@@ -208,7 +208,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                 if (!uuid) {
                     uuid =  UUID.v4();
                 }
-                form = React.createElement(this.state.config.form, {...props, key:uuid, ref:ref, uuid: uuid});
+                form = React.createElement(this.state.config.form, {...props, key:uuid, ref:ref, uuid: uuid, config: this.state.config});
             }
         }
 

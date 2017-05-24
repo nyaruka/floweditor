@@ -3,14 +3,14 @@ import * as UUID from 'uuid';
 import {Action} from '../Action';
 import {NodeForm} from '../NodeForm';
 import {NodeModalProps} from '../NodeModal';
-import {AddToGroupProps, NodeEditorState, SearchResult} from '../../interfaces';
+import {ChangeGroupProps, NodeEditorState, SearchResult} from '../../interfaces';
 import {SelectSearch} from '../SelectSearch';
 
-export class AddToGroup extends Action<AddToGroupProps> {
+export class ChangeGroup extends Action<ChangeGroupProps> {
     renderNode() { return <div>{this.props.name}</div> }
 }
 
-export class AddToGroupForm extends NodeForm<AddToGroupProps, NodeEditorState> {
+export class ChangeGroupForm extends NodeForm<ChangeGroupProps, NodeEditorState> {
 
     private groupSelect: SelectSearch;
 
@@ -31,14 +31,26 @@ export class AddToGroupForm extends NodeForm<AddToGroupProps, NodeEditorState> {
     }
 
     renderForm(): JSX.Element { 
-        var initial = []
-        if (this.props.type == "add_to_group") {
-            initial.push({
-                id: this.props.group,
-                name: this.props.name, 
-                type: this.props.type,                    
-            })
+        var initial = [{
+            id: this.props.group,
+            name: this.props.name, 
+            type: this.props.type,                    
+        }]
+
+        var isValidNewOption = null;
+        var createNewOption = null;
+        var createPrompt = null;
+
+        var createOptions = {};
+
+        if (this.props.config.type == "add_to_group") {
+            createOptions = {
+                isValidNewOption: this.isValidNewOption.bind(this),
+                createNewOption: this.createNewOption.bind(this),
+                createPrompt: "New group: "
+            }
         }
+        
         return (
             <div>
                 <p>Select the groups to add the contact to.</p>
@@ -50,12 +62,9 @@ export class AddToGroupForm extends NodeForm<AddToGroupProps, NodeEditorState> {
                     localSearchOptions={this.props.context.getGroups()}
                     multi={false}
                     clearable={false}
-                    createNewOption={this.createNewOption.bind(this)}
-                    isValidNewOption={this.isValidNewOption.bind(this)}
-                    createPrompt="New group: "
                     initial={initial}
+                    {...createOptions}
                 />                
-                
             </div>
         )
     }
@@ -72,12 +81,15 @@ export class AddToGroupForm extends NodeForm<AddToGroupProps, NodeEditorState> {
         var input: HTMLInputElement = $(form).find('.value')[0] as HTMLInputElement;
 
         if (group) {
+
+            console.log("remove group", group, this.props.config.type);
+
             modal.onUpdateAction({
                 uuid: this.props.uuid, 
-                type: "add_to_group", 
+                type: this.props.config.type,
                 name: group.name, 
                 group: group.id, 
-            } as AddToGroupProps);
+            } as ChangeGroupProps);
 
             if (group.extraResult) {
                 this.props.context.eventHandler.onAddGroup({

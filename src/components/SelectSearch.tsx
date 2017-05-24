@@ -15,7 +15,7 @@ interface SelectSearchProps {
     initial?: SearchResult[];
     localSearchOptions?: SearchResult[];
     className: string;
-    createPrompt: string;
+    createPrompt?: string;
     onChange?(selection: SearchResult): void;
     isValidNewOption?(option: {label: string}): boolean;
     createNewOption?(option: {label: string, labelKey: string, valueKey: string}): any;

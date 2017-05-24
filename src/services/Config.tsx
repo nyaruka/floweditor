@@ -1,5 +1,5 @@
 import {TypeConfig, Operator} from '../interfaces';
-import {AddToGroup, AddToGroupForm} from '../components/actions/AddToGroup';
+import {ChangeGroup, ChangeGroupForm} from '../components/actions/ChangeGroup';
 import {SaveToContact, SaveToContactForm} from '../components/actions/SaveToContact';
 import {SetLanguage, SetLanguageForm} from '../components/actions/SetLanguage';
 import {SendMessage, SendMessageForm} from '../components/actions/SendMessage';
@@ -25,7 +25,8 @@ export class Config {
 
         // actions
         {type: "msg", name: "Send Message", description: "Send them a message", form: SendMessageForm, component: SendMessage},
-        {type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: AddToGroupForm, component: AddToGroup},
+        {type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: ChangeGroupForm, component: ChangeGroup},
+        {type: "remove_from_group", name: "Remove from Group", description: "Remove them from a group", form: ChangeGroupForm, component: ChangeGroup},
         {type: "save_to_contact", name: "Save to Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContact},
         // {type: "set_language", name: "Set Language", description: "Update their language", form: SetLanguageForm, component: SetLanguage},
         // {type: "add_label", name: "Add Label", description: "Label the message", component: Missing},

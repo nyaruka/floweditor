@@ -5,6 +5,7 @@ import {NodeModal, NodeModalProps} from './NodeModal';
 import {FlowMutator} from './FlowMutator';
 import {Simulator} from './Simulator';
 import {Plumber} from '../services/Plumber';
+import {Config} from '../services/Config';
 
 var update = require('immutability-helper');
 var UUID = require('uuid');
