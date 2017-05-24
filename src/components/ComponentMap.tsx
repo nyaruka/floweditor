@@ -98,15 +98,21 @@ export class ComponentMap {
             return;
         }
 
+        var reservedFields: ContactFieldResult[] = [{id: "name", name:"Name", type: "field"}];
+        // TODO: Add language support to save_to_contact
+        // {id:"language", name: "Language", type: "field"}];
+
         for (let node of definition.nodes) {
             if (node.actions) {
                 for (let action of node.actions) {
                     if (action.type == 'save_to_contact') {
                         var saveProps = action as SaveToContactProps;
-                        if (!(saveProps.field in fields)) {
-                            fields[saveProps.field] = { id: saveProps.field, name: saveProps.name, type: "field" }
+                        if (!reservedFields.some(fieldName => fieldName.name === saveProps.name)) {
+                            if (!(saveProps.field in fields)) {
+                                fields[saveProps.field] = { id: saveProps.field, name: saveProps.name, type: "field" }
+                            }
                         }
-                    } else if (action.type == 'add_to_group') {
+                    } else if (action.type == 'add_to_group' || action.type == 'remove_from_group') {
                         var addGroupProps = action as ChangeGroupProps;
                         if (!(addGroupProps.uuid in groups)) {
                             groups[addGroupProps.uuid] = { id: addGroupProps.group, name: addGroupProps.name, type: "group"}
@@ -117,6 +123,10 @@ export class ComponentMap {
         }
 
         var existingFields: ContactFieldResult[] = []
+        for (let reserved of reservedFields) {
+            existingFields.push(reserved);
+        }
+
         for (var key in fields) {
             existingFields.push(fields[key]);
         }
