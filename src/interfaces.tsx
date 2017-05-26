@@ -102,8 +102,9 @@ export interface RouterProps extends NodeEditorProps {
 export interface CaseProps {
     uuid: string;
     type: string;
+    exit: string;
     arguments?: string[];
-    exit?: string;
+    
 
     exitName?: string;
     onChanged?: Function;

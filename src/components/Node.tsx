@@ -119,6 +119,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
                     if (this.props.ghost) {
                         uuid = null;
                     }
+
                     this.props.context.eventHandler.onEditNode({
                         ...this.props.router,
                         exits: this.props.exits,

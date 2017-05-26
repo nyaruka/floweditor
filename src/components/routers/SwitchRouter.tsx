@@ -7,12 +7,118 @@ import {NodeForm} from '../NodeForm';
 import {NodeModalProps} from '../NodeModal';
 import {DragDropContext} from 'react-dnd';
 
-
 let HTML5Backend = require('react-dnd-html5-backend');
 let update = require('immutability-helper');
 
 class SwitchRouterState {
     cases: CaseProps[]
+}
+
+/**
+ * Given a set of cases and previous exits, determines correct merging of cases
+ * and the union of exits
+ * @param newCases 
+ * @param previousExits 
+ */
+export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps): { cases: CaseProps[], exits: ExitProps[], defaultExit: string} {
+
+    // create mapping of our old exit uuids to old exit settings
+    var previousExitMap: {[uuid:string]:ExitProps} = {};
+    for (let exit of previous.exits) {
+        previousExitMap[exit.uuid] = exit
+    }
+
+    var exits: ExitProps[] = [];
+    var cases: CaseProps[] = [];
+
+    // map our new cases to an appropriate exit
+    for (let kase of newCases) {
+
+        // see if we have a suitable exit for our case already
+        var existingExit: ExitProps = null;
+
+        // use our previous exit name if it isn't set
+        if (!kase.exitName && kase.exit in previousExitMap) {
+            kase.exitName = previousExitMap[kase.exit].name;
+        }
+
+        if (kase.exitName) {
+            // look through our new exits to see if we've already created one
+            for (let exit of exits) {
+                if (kase.exitName && exit.name) {
+                    if (exit.name.toLowerCase() == kase.exitName.trim().toLowerCase()) {
+                        existingExit = exit;
+                        break;
+                    }
+                }
+            }
+
+            // couldn't find a new exit, look through our old ones
+            if (!existingExit) {
+                // look through our previous cases for a match
+                for (let exit of previous.exits) {
+                    if (kase.exitName && exit.name) {
+                        if (exit.name.toLowerCase() == kase.exitName.trim().toLowerCase()) {
+                            existingExit = exit;
+                            exits.push(existingExit);
+                            break;
+                        }
+                    }            
+                }
+            }
+        }
+
+        // we found a suitable exit, point our case to it
+        if (existingExit) {
+            kase.exit = existingExit.uuid;
+        }
+
+        // no existing exit, create a new one
+        else {
+            
+            // find our previous destination if we have one
+            var destination = null;
+            if (kase.exit in previousExitMap) {
+                destination = previousExitMap[kase.exit].destination
+            }
+
+            kase.exit = UUID.v4();
+
+            exits.push({
+                name: kase.exitName,
+                uuid: kase.exit,
+                destination: destination
+            });
+        }
+        
+        // remove exitName from our case
+        delete kase["exitName"];
+        cases.push(kase);
+    }
+
+    // add in our default exit
+    var defaultUUID = previous.default;
+    if (!defaultUUID) {
+        defaultUUID = UUID.v4();
+    }
+
+    var defaultName = "All Responses";
+    if (exits.length > 0) {
+        defaultName = "Other";
+    }
+
+    var defaultDestination = null;
+    if (defaultUUID in previousExitMap) {
+        defaultDestination = previousExitMap[defaultUUID].destination;
+    }
+
+    exits.push({
+        uuid: defaultUUID,
+        name: defaultName,
+        destination: defaultDestination
+    });
+
+    return {cases: cases, exits: exits, defaultExit: defaultUUID};
 }
 
 export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterState> {
@@ -37,6 +143,7 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         var newCase: CaseProps = {
             uuid: c.props.uuid,
             type: c.state.operator,
+            exit: c.props.exit,
             arguments: c.state.arguments,
             exitName: c.state.exitName
         }
@@ -67,7 +174,7 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
             this.state.cases.map((c: CaseProps) => {
                 if (c.exit) {
                     for (let exit of this.props.exits) {
-                        if (exit.uuid == c.exit) {
+                        if (!c.exitName && exit.uuid == c.exit) {
                             c.exitName = exit.name;
                             break;
                         }
@@ -78,7 +185,7 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         }
 
         var newCaseUUID = UUID.v4()
-        cases.push(<Case onChanged={this.onCaseChanged.bind(this)} key={newCaseUUID} uuid={newCaseUUID} type="has_any_word"/>)
+        cases.push(<Case onChanged={this.onCaseChanged.bind(this)} key={newCaseUUID} uuid={newCaseUUID} exit={null} type="has_any_word"/>)
 
         return (
             <div className="switch">
@@ -147,90 +254,14 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         return null;
     }
 
-    addExit(exits: ExitProps[], exit: ExitProps) {
-        // see if it exits first
-        for (let e of exits) {
-            if (e.uuid == exit.uuid) { return; }
-        }
-        exits.push(exit);
-    }
-
     submit(form: HTMLFormElement, modal: NodeModalProps) {
-        var exits: ExitProps[] = [];
-        var cases: CaseProps[] = [];
-
-        for (let kase of this.state.cases) {
-            var found = false;
-
-            if (this.props.exits) {
-                for (let exit of this.props.exits) {
-                    if (exit.name.toLowerCase() == kase.exitName.toLowerCase()) {
-                        this.addExit(exits, exit);
-                        kase.exit = exit.uuid;
-                        found = true;
-                        break;
-                    }
-                }
-            }
-
-            // couldn't find an old exit with that name, see if we have added a new one
-            if (!found) {
-                for (let newExit of exits) {
-                    if (newExit.name.toLowerCase() == kase.exitName.toLowerCase()) {
-                        kase.exit = newExit.uuid;
-                        found = true;
-                        break;
-                    }
-                }
-            }
-
-            // still couldn't find a suitable exit, add one
-            if (!found) {
-                var exitUUID = UUID.v4();
-                exits.push({
-                    uuid: exitUUID,
-                    name: kase.exitName
-                });
-                kase.exit = exitUUID;
-            }
-
-            cases.push({
-                uuid: kase.uuid,
-                arguments: kase.arguments,
-                type: kase.type,
-                exit: kase.exit
-            });
-        }
-
-        var defaultName = "All Responses";
-        var defaultUUID = UUID.v4();
-        var defaultDestination = null;
-
-        // find our previous exit if we have one
-        if (this.props.default) {
-            for (let exit of this.props.exits) {
-                if (exit.uuid == this.props.default) {
-                    defaultUUID = exit.uuid;
-                    defaultDestination = exit.destination;
-                }
-            }
-        }
-
-        if (exits.length > 0) {
-            defaultName = "Other"
-        }
-
-        exits.push({
-            uuid: defaultUUID,
-            name: defaultName,
-            destination: defaultDestination
-        });
+        const {cases, exits, defaultExit} = resolveExits(this.state.cases, this.props);
 
         modal.onUpdateRouter({
             uuid: this.props.uuid,
             router: {
                 type: "switch",
-                default: defaultUUID,
+                default: defaultExit,
                 cases: cases,
                 operand: "@input",
             },

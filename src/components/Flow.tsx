@@ -251,11 +251,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             this.props.mutator.addNode(nodeProps, {position: {x: 0, y: 0}});
             this.setState({loading: false});    
         } else {
-            Plumber.get().connectAll(this.props.definition).then(()=>{
-                console.timeEnd("RenderAndPlumb");
-                Plumber.get().repaint();
-                this.setState({loading: false});    
-            });
+            this.setState({loading: false});
+            console.timeEnd("RenderAndPlumb");
         }
     }
     

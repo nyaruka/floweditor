@@ -25,8 +25,10 @@ export class SendEmailForm extends NodeForm<SendEmailProps, SendEmailState> {
         super(props);
 
         var emails: {label: string, value: string}[] = [];
-        for (let initial of this.props.emails) {
-            emails.push({label: initial, value: initial});
+        if (this.props.emails) {
+            for (let initial of this.props.emails) {
+                emails.push({label: initial, value: initial});
+            }
         }
 
         this.state = {

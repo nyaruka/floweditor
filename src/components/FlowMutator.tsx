@@ -3,7 +3,8 @@ import * as update from 'immutability-helper';
 
 import { 
     FlowDefinition, NodeProps, SendMessageProps, WebhookProps, NodeEditorProps, LocationProps, 
-    UIMetaDataProps, ActionProps, RouterProps, SearchResult, UINode, DragPoint, ContactFieldResult
+    UIMetaDataProps, ActionProps, RouterProps, SearchResult, UINode, DragPoint, ContactFieldResult,
+    ExitProps, CaseProps, SwitchRouterProps
 } from '../interfaces';
 import {NodeModalProps} from './NodeModal';
 import {Node} from './Node';

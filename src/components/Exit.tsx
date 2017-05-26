@@ -5,14 +5,20 @@ import {Plumber} from '../services/Plumber';
 export class Exit extends React.PureComponent<ExitProps, {}> {
 
     componentDidMount() {
-        // we can be dragged from
-        // console.log("Exit mounted", this.props.uuid)
         Plumber.get().makeSource(this.props.uuid);
+
+        // we need to make sure our elements exist when 
+        // creating new routed exits
+        if (this.props.destination) {
+            window.setTimeout(()=>{
+                Plumber.get().connectExit(this.props);
+            }, 0);
+        }   
     }
 
     componentDidUpdate(prevProps: ExitProps) {
+        // console.log("exit updated", this.props.uuid);
         if (this.props.destination) {
-            // console.log("Exit updated, connecting exit..");
             Plumber.get().connectExit(this.props);
         }
     }

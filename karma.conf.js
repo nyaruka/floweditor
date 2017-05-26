@@ -22,8 +22,21 @@ module.exports = function(config) {
          * karma-***-launcher.
          * http://karma-runner.github.io/0.13/config/browsers.html
          */
-        browsers: ["PhantomJS"],
+        // browsers: ["PhantomJS"],
         // browsers: ["Safari"],
+        browsers: ['ChromeNoSandboxHeadless'],
+        customLaunchers: {
+            // See https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md
+            ChromeNoSandboxHeadless: {
+                base: 'ChromeCanary',
+                flags: [
+                    '--no-sandbox',
+                    '--headless',
+                    '--disable-gpu',
+                    '--remote-debugging-port=9222',
+                ],
+            },
+        },
 
         // Enable or disable colors in the output (reporters and logs)
         colors: true,
@@ -49,7 +62,7 @@ module.exports = function(config) {
          * corresponding karma-*** modules and include them in the list of plugins
          * as well as below.
          */
-        frameworks: ["mocha", "chai", "sinon"],
+        frameworks: ["mocha", "chai", "sinon", "karma-typescript"],
 
         logLevel: config.LOG_VERBOSE,
 
@@ -70,7 +83,7 @@ module.exports = function(config) {
          * npm module to be npm installed and added to the "plugins" field.
          */
         preprocessors: {
-            "test/**/*.ts*": ["webpack"] // , "sourcemap"], // Using karma-webpack npm module
+            "test/**/*.ts*": ["webpack"], // Using karma-webpack npm module
             // "src/**/*.ts*": ["webpack"]
         },
 

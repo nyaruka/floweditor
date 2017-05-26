@@ -16,7 +16,7 @@ describe('SaveToContact', () => {
         mutator = new FlowMutator(definition, (updated: FlowDefinition)=>{
             definition = updated;
         }, ()=>{}, {
-            contactsURL:'/assets/contacts.json'
+            // contactsURL:'/assets/contacts.json'
         });
     });
 
