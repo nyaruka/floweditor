@@ -1,4 +1,6 @@
 import * as React from "react";
+var styles = require("./TitleBar.scss");
+
 
 interface TitleBarProps {
     title: string;
@@ -54,18 +56,20 @@ export class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
 
         if (this.state.confirmingRemoval) {
             confirmation = (
-                <div className="remove-confirm">
-                    <div className="remove-button" onMouseUp={this.props.onRemoval}><span className="icon-remove"/></div>
+                <div className={styles["remove-confirm"]}>
                     Remove?
+                    <div className={styles["remove-button"]} onMouseUp={this.props.onRemoval}><span className="icon-remove"/></div>
                 </div>
             )
         }
 
         return(
-            <div className={"titlebar " + this.props.className}>
-                {this.props.title}
-                <div className="remove-button" onMouseUp={this.onConfirmRemoval.bind(this)}><span className="icon-remove"/></div>
-                {confirmation}                
+            <div className={styles.titlebar}>
+                <div className={this.props.className + " " + styles.normal}>
+                    {this.props.title}
+                    <div className={styles["remove-button"]} onMouseUp={this.onConfirmRemoval.bind(this)}><span className="icon-remove"/></div>
+                </div>
+                {confirmation} 
             </div>
         )
     }

@@ -25,9 +25,8 @@ export class Plumber {
 
     targetDefaults = {
         anchor: [ "Continuous", { faces:["top", "left", "right"] }],
-        endpoint: [ "Rectangle", { width: 20, height: 20, hoverClass: 'endpoint-hover' }],
-        hoverClass: 'target-hover',
-        dropOptions: { tolerance:"touch", hoverClass:"drop-hover" },
+        endpoint: [ "Rectangle", { width: 30, height: 30, hoverClass: 'plumb-endpoint-hover' }],
+        dropOptions: { tolerance:"touch", hoverClass:"plumb-drop-hover" },
         dragAllowedWhenFull: false,
         deleteEndpointsOnDetach: true,
         deleteEndpointsOnEmpty: true,
@@ -47,7 +46,7 @@ export class Plumber {
     private constructor() {
         this.jsPlumb = lib.jsPlumb.importDefaults({
             DragOptions : { cursor: 'pointer', zIndex:1000 },
-            DropOptions : { tolerance:"touch", hoverClass:"drop-hover" },
+            DropOptions : { tolerance:"touch", hoverClass:"plumb-hover" },
             Endpoint: "Blank",
             EndpointStyle: { strokeStyle: "transparent" },
             PaintStyle: { strokeWidth:5, stroke:"#98C0D9" },
@@ -56,10 +55,8 @@ export class Plumber {
             ConnectionsDetachable: true,
             Connector:[ "Flowchart", { stub: 12, midpoint: .85, alwaysRespectStubs: false, gap:[0,7], cornerRadius: 2 }],
             ConnectionOverlays : [["PlainArrow", { location:.9999, width: 12, length:12, foldback: 1 }]],
-            Container: "editor",
+            Container: "flow-editor"
         });
-
-
     }
 
     draggable(ele: JSX.Element, start: Function, drag: Function, stop: Function) {

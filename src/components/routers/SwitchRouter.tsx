@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
 
-import {Case} from '../Case';
+//import {Case} from '../Case';
+import {CaseElement, CaseElementProps} from '../form/CaseElement';
 import {SwitchRouterProps, CaseProps, NodeProps, ExitProps} from '../../interfaces';
 import {NodeForm} from '../NodeForm';
 import {NodeModalProps} from '../NodeModal';
@@ -9,6 +10,7 @@ import {DragDropContext} from 'react-dnd';
 
 let HTML5Backend = require('react-dnd-html5-backend');
 let update = require('immutability-helper');
+var styles = require('./SwitchRouter.scss');
 
 class SwitchRouterState {
     cases: CaseProps[]
@@ -138,7 +140,7 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         this.onCaseChanged = this.onCaseChanged.bind(this);
     }
 
-    onCaseChanged(c: Case) {
+    onCaseChanged(c: CaseElement) {
         var cases = this.state.cases;
         var newCase: CaseProps = {
             uuid: c.props.uuid,
@@ -168,10 +170,12 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
     }
 
     renderForm(): JSX.Element {
-        
+        this.elements = [];
+        var ref = this.ref.bind(this);
+
         var cases: JSX.Element[] = [];
         if (this.state.cases){
-            this.state.cases.map((c: CaseProps) => {
+            this.state.cases.map((c: CaseElementProps) => {
                 if (c.exit) {
                     for (let exit of this.props.exits) {
                         if (!c.exitName && exit.uuid == c.exit) {
@@ -180,22 +184,35 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
                         }
                     }
                 }
-                cases.push(<Case onChanged={this.onCaseChanged.bind(this)} key={c.uuid} {...c} moveCase={this.moveCase.bind(this)}/>);
+                cases.push(<CaseElement 
+                    key={c.uuid}
+                    ref={ref}
+                    name="Case"
+                    onChanged={this.onCaseChanged.bind(this)} moveCase={this.moveCase.bind(this)}
+                    {...c}
+                />);
             });
         }
 
         var newCaseUUID = UUID.v4()
-        cases.push(<Case onChanged={this.onCaseChanged.bind(this)} key={newCaseUUID} uuid={newCaseUUID} exit={null} type="has_any_word"/>)
+        cases.push(<CaseElement
+            name="Case"
+            onChanged={this.onCaseChanged.bind(this)}
+            ref={ref}
+            key={newCaseUUID} 
+            uuid={newCaseUUID} 
+            exit={null} 
+            type="has_any_word"
+        />);
 
         return (
-            <div className="switch">
-                <div className="lead-in">
+            <div className={styles.switch}>
+                <div className={styles["lead-in"]}>
                     If the message response..
                 </div>
                 <div>
                     {cases}
                 </div>
-                <div className="errors"/>
             </div>
         )
     }
@@ -214,49 +231,8 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         }));
     }
     
-    validate(c: any): string {
-
-        // TODO: lots of smelliness here, may want to take a more reacty approach to validation
-        if (c.name == "exitName") {
-            // look at our associated arguments to see if we are required
-            var args = $(c).parents(".case").find(".operand input")[0] as HTMLInputElement;
-            if (args.value.length > 0) {
-                var control: HTMLInputElement = c;
-                if (!control.value) {
-                    return "a category name is required";
-                }
-            }
-        }
-
-        else if (c.name == "arguments") {
-            var control: HTMLInputElement = c;
-            var exitName = $(c).parents(".case").find(".category input")[0] as HTMLInputElement;
-            if (exitName.value.length > 0) {
-                if (!control.value) {
-                    return "a rule value is required";
-                }
-            }
-
-            // check dates and numbers if we aren't a variable
-            if (c.value.trim()[0] != "@") {
-                var operator = $(c).parents(".case").find(".choice input")[0] as HTMLInputElement;
-                if (operator.value.indexOf("number") > -1) {
-                    if (isNaN(parseInt(c.value))) {
-                        return "enter a number when using numeric rules";
-                    }
-                } else if (operator.value.indexOf("date") > -1)  {
-                    if (isNaN(Date.parse(c.value))) {
-                        return "enter a date when using date rules (e.g. 1/1/2017)";
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    submit(form: HTMLFormElement, modal: NodeModalProps) {
+    submit(modal: NodeModalProps) {
         const {cases, exits, defaultExit} = resolveExits(this.state.cases, this.props);
-
         modal.onUpdateRouter({
             uuid: this.props.uuid,
             router: {

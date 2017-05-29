@@ -2,6 +2,8 @@ import * as React from 'react';
 import {ExitProps} from '../interfaces';
 import {Plumber} from '../services/Plumber';
 
+var styles = require('./Exit.scss');
+
 export class Exit extends React.PureComponent<ExitProps, {}> {
 
     componentDidMount() {
@@ -34,11 +36,11 @@ export class Exit extends React.PureComponent<ExitProps, {}> {
         var connected = this.props.destination ? " jtk-connected" : "";
 
         return (
-            <div key={this.props.uuid} className={"exit"}>
-                <div className="name">
+            <div key={this.props.uuid} className={styles.exit + " plumb-exit"}>
+                <div className={styles.name}>
                     {this.props.name}
                 </div>
-                <div id={this.props.uuid} className={"endpoint" + connected}/>
+                <div id={this.props.uuid} className={styles.endpoint + " " + connected}/>
             </div>
         )
     }

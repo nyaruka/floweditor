@@ -1,0 +1,38 @@
+$blue: #86a9ca;
+$blue_baby: #80b9fb;
+$green: #5ca869;
+$purple: #80668d;
+$red: #c14c46;
+$orange: #e68628;
+$teal: #00ac9a;
+$light_grey: #e6e6e6;
+$med_grey: #ccc;
+$grey: #666;
+
+$error_color: $orange;
+
+$workspace: $light_grey;
+$borders: $light_grey;
+
+$light_text: #ffffff;
+$hover: $teal;
+
+$button_light: #3498db;
+$button_dark: #2980b9;
+$button_hover: #3cb0fd;
+
+$button_light: $blue;
+$button_dark: $blue - #111;
+$button_hover: $blue + #111;
+
+$terminal_color: $red;
+$path_color: #98C0D9;
+
+$z_connectors: 10;
+$z_nodes: 25;
+$z_dragging: 100;
+$z_endpoints: 50;
+$z_modal: 200;
+$z_simulator: 300;
+
+$node_width: 200px;

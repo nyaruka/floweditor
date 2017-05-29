@@ -1,0 +1,27 @@
+@import '../variables.scss';
+
+.exit {
+    font-size: 12px;
+    text-align:center;
+    border-left: 1px solid $borders;
+    padding-top: 8px;
+    padding-left: 4px;
+    padding-right: 8px;
+    min-width: 60px;
+    display: table-cell; 
+    white-space: nowrap;
+
+    &:first-child {
+        border-left: none;
+    }
+
+    .endpoint {
+        position: relative;
+        background: $terminal_color;
+        border: 2px solid $terminal_color - #111;
+        width: 10px;
+        height: 10px;
+        margin: 0 auto;
+        top: 6px;
+    }
+}

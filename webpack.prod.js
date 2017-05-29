@@ -1,4 +1,6 @@
 var CompressionPlugin = require("compression-webpack-plugin");
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 var webpack = require("webpack");
@@ -6,8 +8,8 @@ var path = require('path');
 
 module.exports = merge(common, {
   output: {
-    path: path.join(__dirname, '/../dist/assets'),
-    filename: '[name].bundle.js',
+    path: path.join(__dirname, 'dist/'),
+    filename: 'floweditor.js',
     publicPath: "/",
     sourceMapFilename: '[name].map'
   },
@@ -21,7 +23,7 @@ module.exports = merge(common, {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new webpack.optimize.UglifyJsPlugin({
+    new UglifyJSPlugin({
       beautify: false,
       mangle: {
         screw_ie8: true,

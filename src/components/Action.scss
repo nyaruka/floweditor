@@ -1,56 +1,9 @@
-.actions {
-    .action {
+@import "../variables.scss";
 
-        .action-content {
-            padding: 10px;
-        }
+.action {
+    border: none;
+}
 
-        &.add-to-group {
-            .action-title {
-                background: $add_to_group;
-            }
-        }
-        
-        &.remove-from-group {
-            .action-title {
-                background: $remove_from_group;
-            }
-        }
-
-        &.msg {
-            .action-title {
-                background: $msg;
-            }
-        }
-
-        &.save-to-contact, &.set-language, &.set-preferred-channel {
-            .action-title {
-                background: $update;
-            }
-        }
-
-        &.add-label {
-            .action-title {
-                background: $add_label;
-            }
-        }
-
-        &.email {
-            .action-title {
-                background: $email;
-            }
-        }
-
-        &.webhook {
-            .action-title {
-                background: $webhook;
-            }
-        }
-
-        &.flow {
-            .action-title {
-                background: $subflow;
-            }
-        }
-    }
+.body {
+    padding: 8px;
 }

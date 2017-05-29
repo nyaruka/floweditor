@@ -45,7 +45,7 @@ export class FlowLoader extends React.PureComponent<FlowLoaderProps, FlowLoaderS
         FlowStore.get().save(definition);
     }
 
-    private componentDidMount() {
+    componentDidMount() {
 
         if (!this.props.temba) {
             var definition = FlowStore.get().getFlowFromStore(this.props.uuid)
@@ -101,12 +101,7 @@ export class FlowLoader extends React.PureComponent<FlowLoaderProps, FlowLoaderS
                     dependencies={this.state.dependencies}
                     mutator={this.mutator}/>
         }
-
-        return(
-            <div className="flow-loader">
-              {flow}
-            </div>
-        )
+        return flow;
     }
 }
 

@@ -1,0 +1,39 @@
+@import "../../variables.scss";
+
+.group {
+    //padding-bottom: 10px;
+}
+
+.bottom {
+    // padding-top: 2px;
+}
+
+.label {
+    margin-left: 2px;
+    margin-bottom: 5px;
+    font-weight: 400;
+}
+
+.invalid {
+    border: 1px solid $error_color !important;
+
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border-color: #e6e6e6;
+    border-style:solid;
+    box-shadow: none;
+}
+
+.error {
+    color: $error_color;
+    font-size: 11px;
+    padding-bottom: 5px;
+}
+
+.help-text {
+    color: #bbb;
+    font-size: 11px;
+    padding-top: 6px;
+    padding-bottom: 10px;
+}

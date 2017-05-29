@@ -5,11 +5,18 @@ import {Editor} from './components/Editor';
 import {FlowStore} from './services/FlowStore';
 import {Endpoints} from './interfaces';
 
-// our css dependencies
-import './styles.scss';
-import 'react-select/dist/react-select.css';
 
-var parms = qs.parse(location.search);
+import 'react-select/dist/react-select.css';
+import './global.scss';
+// our css dependencies
+// var global = require('./global.scss');
+//var testing = require('./test.scss');
+
+// console.log("global", global);
+//console.log("testing", testing);
+
+
+var parms = qs.parse(window.location.search);
 var flowURL = parms.flow
 if (flowURL == null){
   flowURL = 'test_flows/lots_of_action.json';
@@ -42,8 +49,6 @@ if (parms.reset) {
   FlowStore.get().reset();
 }
 
-// console.log(site, token);
-
 var endpoints: Endpoints = {
     engine:     'http://localhost:9000',
     contacts:   'http://localhost:9000/assets/contacts.json',
@@ -52,12 +57,11 @@ var endpoints: Endpoints = {
     flow:       flowURL,
 }
 
-
 ReactDOM.render(
   <Editor
     endpoints={endpoints}
     site={site}
     token={token}
   />,
-  document.getElementById("root")
+  document.getElementById("flow-editor")
 );

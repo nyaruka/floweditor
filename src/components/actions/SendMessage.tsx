@@ -4,6 +4,7 @@ import {Action} from '../Action';
 import {NodeForm} from '../NodeForm';
 import {SendMessageProps} from '../../interfaces';
 import {NodeModalProps} from '../NodeModal';
+import {TextAreaElement} from '../form/TextAreaElement';
 
 export class SendMessage extends Action<SendMessageProps> {
     renderNode(): JSX.Element {
@@ -19,29 +20,16 @@ export class SendMessageForm extends NodeForm<SendMessageProps, NodeEditorState>
     
     renderForm(): JSX.Element {
         return (
-            <div className="form-group">
-                <textarea name="message" className="form-control definition" defaultValue={this.props.text}></textarea>
-                <div className="error"></div>
-            </div>
+            <TextAreaElement ref={this.ref.bind(this)} name="Message" showLabel={false} value={this.props.text} required/>
         )
     }
-
-    validate(control: any): string {
-        if (control.name == "message") {
-            let textarea = control as HTMLTextAreaElement;
-            if (textarea.value.trim().length == 0) {
-                return "Message content is required";
-            }
-        }
-        return null;
-    }
     
-    submit(form: HTMLFormElement, modal: NodeModalProps) {
-        var textarea: HTMLTextAreaElement = $(form).find('textarea')[0] as HTMLTextAreaElement;
+    submit(modal: NodeModalProps) {
+        var textarea = this.getElements()[0] as TextAreaElement;
         modal.onUpdateAction({
             uuid: this.props.uuid, 
             type: "msg", 
-            text: textarea.value,
+            text: textarea.state.value,
         } as SendMessageProps);
     }
 }

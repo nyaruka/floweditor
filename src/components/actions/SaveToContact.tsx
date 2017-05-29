@@ -6,6 +6,8 @@ import {SaveToContactProps, NodeEditorState, SearchResult} from '../../interface
 import {NodeModalProps} from '../NodeModal';
 import {NodeForm} from '../NodeForm';
 import {Action} from '../Action';
+import {FieldElement} from '../form/FieldElement';
+import {InputElement} from '../form/InputElement';
 
 var UUID = require('uuid');
 
@@ -58,83 +60,56 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
     }
 
     renderForm(): JSX.Element {
-        var initial = []
+        var initial: SearchResult = null;
         if (this.props.type == "save_to_contact") {
-            initial.push({
+            initial = {
                 id: this.props.field,
                 name: this.props.name, 
                 type: this.props.type,                    
-            });
+            };
         }
 
+        var ref = this.ref.bind(this);
         return (
             <div>
-                <div className="form-group">
-                    <div className="form-label">Field Name</div>
-                    <div className="form-group">
-                        <SelectSearch 
-                            ref={(ele: any) => {this.fieldSelect = ele}} 
-                            className="form-control"
-                            url={this.props.context.endpoints.fields}
-                            localSearchOptions={this.props.context.getContactFields()}
-                            createNewOption={this.createNewOption.bind(this)}
-                            isValidNewOption={this.isValidNewOption.bind(this)}
-                            clearable={false}
-                            createPrompt="New field: "
-                            name="field"
-                            initial={initial}
-                        />
-                        <div className="error"></div>
-                    </div>
-                    <div className="form-help">Select an existing field to update or type name to create a new one</div>
-                </div>
-                <div className="form-group">
-                    <div className="form-label">Value</div>                    
-                    <input name="value" className="value spacey" defaultValue={this.props.value}/>
-                    <div className="form-help">The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json.</div>
-                </div>
+                <FieldElement
+                    ref={ref}
+                    name="Field" showLabel={true}
+                    endpoint={this.props.context.endpoints.fields}
+                    getLocalFields={this.props.context.getContactFields}
+                    helpText={"Select an existing field to update or type name to create a new one"}
+                    initial={initial} add required
+                />
+                
+                <InputElement ref={ref} name="Value" showLabel={true} value={this.props.value}
+                    helpText="The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json."
+                />
             </div>
         )
     }
 
-    validate(control: any): string {
-        
-        // TODO: make validation work for react-select
-        if (control.name == "field") {
-            if (!this.fieldSelect.state.selection) {
-                // console.log("field required");
-                return "A contact field is required";
-            }
-        }
+    submit(modal: NodeModalProps) {
 
-        return null;
-    }
+        var elements = this.getElements();
+        var fieldEle = elements[0];
+        var valueEle = elements[1];
 
-    submit(form: HTMLFormElement, modal: NodeModalProps) {
-        var selection= this.fieldSelect.state.selection;
-        var field = null;
-        if (selection && selection.length > 0) {
-            field = selection[0]
-        }
+        var field = fieldEle.state.field[0];
 
-        var input: HTMLInputElement = $(form).find('.value')[0] as HTMLInputElement;
+        modal.onUpdateAction({
+            uuid: this.props.uuid, 
+            type: "save_to_contact", 
+            name: field.name, 
+            field: field.id, 
+            value: valueEle.state.value
+        } as SaveToContactProps);
 
-        if (field) {
-            modal.onUpdateAction({
-                uuid: this.props.uuid, 
-                type: "save_to_contact", 
-                name: field.name, 
-                field: field.id, 
-                value: input.value
-            } as SaveToContactProps);
-
-            if (field.extraResult) {
-                this.props.context.eventHandler.onAddContactField({
-                    id: field.id,
-                    name: field.name,
-                    type: field.type
-                });
-            }
+        if (field.extraResult) {
+            this.props.context.eventHandler.onAddContactField({
+                id: field.id,
+                name: field.name,
+                type: field.type
+            });
         }
     }
 }

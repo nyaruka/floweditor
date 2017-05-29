@@ -8,6 +8,8 @@ import {FlowMutator} from '../components/FlowMutator';
 import {NodeForm} from './NodeForm';
 
 var Select = require('react-select');
+var styles = require('./NodeModal.scss');
+var shared = require('./shared.scss');
 
 export interface NodeModalProps {
 
@@ -46,8 +48,10 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
             config: this.getConfig(this.props.initial.type)
         }
 
-        this.onModalButtonClick = this.onModalButtonClick.bind(this);
+        this.onClickSave = this.onClickSave.bind(this);
         this.onModalOpen = this.onModalOpen.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+
         this.onChangeType = this.onChangeType.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
         this.processForm = this.processForm.bind(this);
@@ -77,50 +81,17 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     }
 
     processForm() {
+
         var valid = true;
-        var errors: any= {};
-        $(this.formElement.elements).each((index: number, ele: HTMLFormElement) => {
-            // console.log("processForm", ele);
-            if (ele.name) {
-                var error = this.form.validate(ele);
-                if (error) {
-                    var group = $(ele).parents('.form-group')
-                    group.addClass('invalid');
-                    group.find('.error').text(error);
-                    valid = false;
-                    errors[error] = true;
-                } else {
-                    $(ele).parents('.form-group').removeClass('invalid');
-                }
+        for (let formWidget of this.form.getElements()) {
+            if (!formWidget.validate()) {
+                valid = false;
             }
-        });
+        }
 
-        if (!valid) {
-            var messages: string[] = [];
-            for (var key in errors) {
-                if (messages.length == 0) {
-                    messages.push(key.charAt(0).toUpperCase() + key.slice(1));
-                } else {
-                    messages.push(key);
-                }
-            }
-
-            var allErrors: string;
-            if (messages.length == 1) {
-                allErrors = messages[0] + ".";
-            } else if (messages.length == 2) {
-                allErrors = messages.join(" and ") + ".";
-            } else {
-                allErrors = messages.slice(0, -1).join(", ");
-                allErrors += " and " + messages.slice(-1) + ".";
-            }
-
-            $(this.formElement).find(".errors").text(allErrors);
-
-        } else {
-            // if we are still valid, proceed with submit
-            // and finally submit our node
-            this.form.submit(this.formElement, this.props);
+        // if we are valid, submit it
+        if (valid) {
+            this.form.submit(this.props);
             this.closeModal();
         }
     }
@@ -130,6 +101,10 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
             this.props.draggedFrom.onResolved();
         }
         this.close();
+    }
+
+    private onClickSave() {
+        this.processForm();
     }
 
     private onModalButtonClick(event: any) {
@@ -154,7 +129,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     /** 
      * Our properties changed
      */
-    private componentDidUpdate() {
+    componentDidUpdate() {
 
     }
 
@@ -182,10 +157,10 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         if (this.props.changeType) {
             changeOptions = (
                 <div>
-                    <div className="header">When a contact arrives at this point in your flow</div>
-                    <div className="form-group">
+                    <div className={styles.header}>When a contact arrives at this point in your flow</div>
+                    <div className={styles["form-group"]}>
                         <Select
-                            className={"change-type"}
+                            className={styles["change-type"]}
                             value={this.state.config.type}
                             onChange={this.onChangeType.bind(this)}
                             valueKey="type"
@@ -218,17 +193,18 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                 width="570px"
                 key={'modal_' + this.props.initial.uuid}
                 title={<div>{this.state.config.name}</div>}
-                className={this.getClassName()}
+                className={shared[this.getClassName()]}
                 show={this.state.show}
-                onModalClose={this.onModalButtonClick}
+                onClickPrimary={this.onClickSave}
+                onClickSecondary={this.closeModal}
                 onModalOpen={this.onModalOpen}
                 ok='Save'
                 cancel='Cancel'>
                 
-                <div className="node-editor">
+                <div className={styles["node-editor"]}>
                     <form onKeyPress={this.onKeyPress} ref={(ele: any) => { this.formElement = ele; }}>
                         {changeOptions}
-                        <div className="widgets">{form}</div>
+                        <div className={styles["widgets"]}>{form}</div>
                     </form>
                 </div>
             </Modal>

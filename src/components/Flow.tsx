@@ -10,6 +10,8 @@ import {Config} from '../services/Config';
 var update = require('immutability-helper');
 var UUID = require('uuid');
 
+var styles = require("./Flow.scss");
+
 interface FlowProps {
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
@@ -214,11 +216,11 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         }); 
     }
 
-    private componentDidUpdate(prevProps: FlowProps, prevState: FlowState) {
+    componentDidUpdate(prevProps: FlowProps, prevState: FlowState) {
         Plumber.get().repaint();            
     }
 
-    private componentDidMount() {
+    componentDidMount() {
 
         var plumb = Plumber.get();
 
@@ -354,17 +356,17 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             modal = <NodeModal ref={(ele) => { this.modalComp = ele }} {...this.state.modalProps}/>
         }
 
+        var loading = this.state.loading ? styles.loading : styles.loaded
         return (
-            <div className={ this.state.loading ? "loading" : ""}>
+            <div className={loading}>
                 {simulator}
-                <div id="flow">
-                    <div className="nodes">
-                    {nodes}
-                    {dragNode}
+                <div className={styles.flow}>
+                    <div className={styles["node-list"]}>
+                      {nodes}
+                      {dragNode}
                     </div>
                     {modal}
                 </div>
-
             </div>
         )
     }

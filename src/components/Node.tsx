@@ -13,6 +13,9 @@ import {Action} from './Action';
 import {Exit} from './Exit';
 import {TitleBar} from './TitleBar';
 
+var styles = require("./Node.scss");
+var shared = require("./shared.scss");
+
 export interface NodeState {
     dragging?: boolean;
     createPosition?: LocationProps;
@@ -50,7 +53,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         this.props.context.eventHandler.onNodeMoved(this.props.uuid, {x: event.finalPos[0], y: event.finalPos[1]});
     }
 
-    shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState) {
+    shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState): boolean {
 
         // TODO: these should be inverse evaluations since things can be batched
         if (nextProps._ui.position.x != this.props._ui.position.x || nextProps._ui.position.y != this.props._ui.position.y) {
@@ -86,7 +89,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
 
                 // hide ourselves there's a drop target
                 // TODO: a less ugly way to accomplish this would be great
-                if ($("#editor .drop-hover").length > 0) {
+                if ($(".plumb-drop-hover").length > 0) {
                     nodeEle.hide();
                 } else {
                     nodeEle.show();
@@ -123,6 +126,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
                     this.props.context.eventHandler.onEditNode({
                         ...this.props.router,
                         exits: this.props.exits,
+                        context: this.props.context,
                         uuid: uuid
                     } as SwitchRouterProps);
                 }
@@ -135,7 +139,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
     }
 
     render() {
-        var classes = ["node"];
+        var classes = ["plumb-drag", styles.node];
         var actions: JSX.Element[] = [];
         if (this.props.actions) {
             // save the first reference off to manage our clicks
@@ -167,16 +171,18 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
             let config = Config.get().getTypeConfig(this.props.router.type);
 
             if (actions.length == 0){
-                header = <TitleBar className={"split-title " + this.props.router.type} 
+                header = <TitleBar className={shared[this.props.router.type]}
                                 onRemoval={this.onRemoval.bind(this)} 
                                 title={config.name} {...events}/>
             }
         } else {
+
+            // unknow split type, use switch for now
             if (actions.length == 0) {
-                header = <div className={"split-title switch"} {...events}>Split</div>
+                header = <div className={shared["switch"]} {...events}>Split</div>
             }
 
-            addActions = <a className="add" onClick={()=>{this.props.context.eventHandler.onAddAction(this.props.uuid)}}><span className="icon-add"/></a>
+            addActions = <a className={styles.add} onClick={()=>{this.props.context.eventHandler.onAddAction(this.props.uuid)}}><span className="icon-add"/></a>
         }
 
         var exits: JSX.Element[] = []
@@ -197,14 +203,14 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
 
         // is this a ghost node
         if (this.props.ghost) {
-            classes.push("ghost")
+            classes.push(styles.ghost);
         }
 
         var exitClass = "";
         if (this.props.exits.length == 1 && !this.props.exits[0].name) {
-            exitClass = "actions"
+            exitClass = styles.actions;
         }
-        
+
         // console.log("Rendering node", this.props.uuid);
         return(
             <div className={classes.join(' ')}
@@ -215,11 +221,11 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
                     top: this.props._ui.position.y
                 }}>
                 {header}
-                <div className="actions">
+                <div className={styles.actions}>
                     {actions}
                 </div>
-                <div className={"exit-table " + exitClass}>
-                    <div className="exits" {...events}>
+                <div className={styles["exit-table"] + " " + exitClass}>
+                    <div className={styles.exits} {...events}>
                         {exits}
                     </div>
                 </div>

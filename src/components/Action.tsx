@@ -8,6 +8,9 @@ import {Config} from '../services/Config';
 import {NodeModal} from './NodeModal';
 import {TitleBar} from './TitleBar';
 
+var shared = require('./shared.scss');
+var styles = require('./Action.scss');
+
 /**
  * Base Action class for the rendered flow
  */
@@ -58,10 +61,10 @@ export class Action<P extends ActionProps> extends React.PureComponent<P, {}> {
         var events = {onMouseUp: this.onClick.bind(this)}
 
         return(
-            <div id={this.props.uuid}>
-                <div className={'action ' + this.getClassName()} {...events}>
-                    <TitleBar className="action-title" title={config.name} onRemoval={this.onRemoval.bind(this)}/>
-                    <div className="action-content">
+            <div id={this.props.uuid} className={styles.action}>
+                <div {...events}>
+                    <TitleBar className={shared[this.getClassName()]} title={config.name} onRemoval={this.onRemoval.bind(this)}/>
+                    <div className={styles.body}>
                         {this.renderNode()}
                     </div>
                 </div>

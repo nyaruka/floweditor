@@ -16,7 +16,7 @@ interface SelectSearchProps {
     clearable?: boolean;
     initial?: SearchResult[];
     localSearchOptions?: SearchResult[];
-    className: string;
+    className?: string;
     createPrompt?: string;
     onChange?(selection: SearchResult): void;
     isValidNewOption?(option: {label: string}): boolean;
@@ -98,7 +98,6 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
             callback(this.search(input));
         } else {
             axios.get(this.props.url).then((response: AxiosResponse) => {
-                // console.log(response);
                 callback(null, this.search(input, response.data.results as SearchResult[]));
             });
         }
@@ -113,7 +112,6 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
             this.props.onChange(selection);
         }
         this.setState({selection: selection});
-
         this.select.focus();
 
     };
@@ -147,39 +145,69 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
             }
         }
 
-        var sample = [{value: "R", label: "Red"}, {value:"G", label: "Green"}];
-
-        var promptTextCreator = null;
+        var options: any = {};
         if (this.props.createPrompt) {
-            promptTextCreator = (label: string) => {
+            options['promptTextCreator'] = (label: string) => {
                 return this.props.createPrompt + label
             }
         }
 
-        return (
-            <Select.AsyncCreatable
-                className={this.props.className}
-                ref={(ele: any)=>{ this.select = ele}}
-                name={this.props.name}
-                loadOptions={this.loadOptions.bind(this)}
-                // loadOptions={(term, callback)=>{callback(null, {options: sample, complete: true})}}
-                clearable={this.props.clearable}
-                ignoreCase={true}
-                value={value}
-                openOnFocus={true}
-                cache={false}
-                valueKey="id"
-                labelKey="name"
-                multi={this.props.multi}
-                searchable={true}
-                onCloseResetsInput={true}
-                onBlurResetsInput={true}
-                onInputChange={this.onInputChange.bind(this)}
-                newOptionCreator={this.props.createNewOption}
-                isValidNewOption={this.props.isValidNewOption}
-                promptTextCreator={promptTextCreator}
-                onChange={this.onChange.bind(this)}
-            />
-        );
+        if (this.props.createNewOption) {
+            options['newOptionCreator'] = this.props.createNewOption;
+        }
+
+        if (this.props.isValidNewOption) {
+            options['isValidNewOption'] = this.props.isValidNewOption;
+        }
+
+        console.log(options);
+
+        if (this.props.createNewOption) {
+            return (
+                <Select.AsyncCreatable
+                    className={this.props.className}
+                    ref={(ele: any)=>{ this.select = ele}}
+                    name={this.props.name}
+                    loadOptions={this.loadOptions.bind(this)}
+                    clearable={this.props.clearable}
+                    ignoreCase={true}
+                    value={value}
+                    openOnFocus={true}
+                    cache={false}
+                    valueKey="id"
+                    labelKey="name"
+                    multi={this.props.multi}
+                    searchable={true}
+                    onCloseResetsInput={true}
+                    onBlurResetsInput={true}
+                    onInputChange={this.onInputChange.bind(this)}
+                    onChange={this.onChange.bind(this)}
+                    {...options}
+                />
+            );
+        } else {
+            return (
+                <Select.Async
+                    className={this.props.className}
+                    ref={(ele: any)=>{ this.select = ele}}
+                    name={this.props.name}
+                    loadOptions={this.loadOptions.bind(this)}
+                    clearable={this.props.clearable}
+                    ignoreCase={true}
+                    value={value}
+                    openOnFocus={true}
+                    cache={false}
+                    valueKey="id"
+                    labelKey="name"
+                    multi={this.props.multi}
+                    searchable={true}
+                    onCloseResetsInput={true}
+                    onBlurResetsInput={true}
+                    onInputChange={this.onInputChange.bind(this)}
+                    onChange={this.onChange.bind(this)}
+                    {...options}
+                />
+            );
+        }
     }
 }

@@ -8,9 +8,12 @@
     "outDir": "./dist/",
     "preserveConstEnums": true,
     "removeComments": true,
-    "target": "es2015",
+    "target": "es5",
     "allowJs": true,
-    "watch": true
+    "watch": true,
+    "lib": [
+      "es2015", "dom"
+    ]
   },
   "include": [
     "./src/**/*.tsx"

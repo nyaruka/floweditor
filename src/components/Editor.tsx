@@ -7,6 +7,8 @@ import {FlowList} from './FlowList';
 import {Flow} from './Flow';
 import {Endpoints} from '../interfaces';
 
+var styles = require("./Editor.scss");
+
 interface EditorProps {
     site: string;
     token: string;
@@ -61,7 +63,7 @@ export class Editor extends React.PureComponent<EditorProps, EditorState> {
         />)
 
         return (
-            <div>
+            <div className={styles.editor}>
                 {flow}
             </div>
         )

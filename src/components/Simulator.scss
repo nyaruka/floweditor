@@ -1,0 +1,106 @@
+@import "../variables.scss";
+
+.simulator {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    height: 460px;
+    width: 233px;
+    z-index: $z_simulator;
+
+    .reset {
+        width: 60px;
+        height: 19px;
+        background-color: #999;
+        position: absolute;
+        bottom: 13px;
+        left: 87px;
+        &:hover {
+            background-color: #999 - #111;
+        }
+        &:active {
+            background-color: #999 - #222;
+        }
+    }
+
+    .screen {
+        border: 0px solid green;
+        height: 378px;
+        width: 204px;
+        background-color: #fff;
+        position: relative;
+        right: -14px;
+        top: 36px;
+
+        .messages {
+            top: 2px;
+            max-height: 313px;
+            padding: 10px;
+            width: 198px;
+            border: 0px solid purple;
+            overflow-y: auto;
+            font-weight: 300;
+            position: relative;
+ 
+            .msg {
+                padding: 5px 8px;
+                background: $light_grey;
+                width: 70%;
+                border: 1px solid $light_grey + #111;
+                margin-bottom:8px;
+                border-radius: 2px;
+                
+                &.inbound {
+                    float:left;
+                }
+
+                &.outbound {
+                    float:right;
+                    text-align: right;
+                    background: $blue + #111;
+                    border-color: $blue + #222;
+                    margin-right: 12px;
+                    color: #fff;
+                }
+
+                clear: both;
+
+                &.error {
+                    margin: 0;
+                    float: inherit;
+                    background: none;
+                    color: $red;
+                    font-size: 10px;
+                    border: none;
+                }
+            }
+        }
+
+        .controls {
+            background: $light_grey;
+            position: absolute;
+            border: 0px solid yellow;
+            bottom: 0px;
+            width: 184px;
+            padding: 5px 10px;
+            
+            input {
+                font-size: 14px;
+                font-weight: 300;
+                width: 169px;
+                padding: 5px;
+            }
+        }
+    }
+
+    .icon-simulator {
+        font-size:460px;
+        color: #333;
+        border: 0px solid green;
+        position: absolute;
+        right: 0;
+        top: 0;
+        pointer-events:none;
+        // text-shadow: 0px 0px 5px $grey;
+    }
+}

@@ -5,6 +5,7 @@ import {CaseProps, Operator} from '../interfaces';
 import {Config} from '../services/Config';
 
 var Select = require('react-select');
+var styles = require('./Case.scss');
 
 export interface CaseState {
     operator: string;
@@ -103,8 +104,8 @@ export class Case extends React.PureComponent<CaseProps, CaseState> {
 
     render() {
         return (
-            <div className="case">
-                <div className="choice">
+            <div className={styles.case + " select-small"}>
+                <div className={styles.choice}>
                     <Select
                         name="operator"
                         clearable={false}
@@ -117,13 +118,13 @@ export class Case extends React.PureComponent<CaseProps, CaseState> {
                         onChange={this.onChangeOperator.bind(this)}
                     />
                 </div>
-                <div className="operand form-group">
+                <div className={styles.operand}>
                     <input className="form-control" name="arguments" type="text" onChange={this.onChangeArguments.bind(this)} defaultValue={this.state.arguments}/>
                 </div>
-                <div className="categorize-as">
+                <div className={styles["categorize-as"]}>
                     categorize as
                 </div>
-                <div className="category form-group">
+                <div className={styles.category}>
                     <input className="form-control" name="exitName" type="text" onChange={this.onChangeExitName.bind(this)} value={this.state.exitName}/>
                 </div>
             </div>

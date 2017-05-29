@@ -1,39 +1,56 @@
-.titlebar {
+@import "../variables.scss";
 
-    padding: 4px;
-    text-shadow: 0px 1px rgba(0, 0, 0,.2);
-    color: $light_text;
-    text-align: center;
-    font-size:13px;
-    padding-left: 14px;
+.node {
+    position: absolute;
+    border: 0px solid darkgray;
+    background: #fff;
+    width: $node_width;
+    z-index: $z_nodes;
+    cursor: pointer;
+    box-shadow: 0px 0px 1px 0px rgba(0,0,0, .4);
+    display: table;
 
-    .remove-confirm {
-        position: absolute;
-        background: #c14c46;
-        margin: -4px;
-        margin-left: -14px;
-        margin-top: -20px;
-        width: 100%;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        padding: 4px;
-        text-shadow: 0px 1px rgba(0, 0, 0,.2);
-        font-size: 13px;
+    &.ghost {
+        opacity: .5;
+    }
 
-        .remove-button {
-            visibility: visible;
+    .actions {
+        &.exit-table {
+            border-top: none;
+            .exit {
+                padding: 0 !important;
+                margin: 0;
+            }
         }
     }
 
-    .remove-button {
-        float:right;
-        padding-right: 2px;
+    .exit-table {
+        display: table;
+        width: 100%;
+        border-top: 1px solid #f6f6f6;
+
+        .exits {
+            border-collapse: collapse;
+            display: table-row;
+            
+            &:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+        }
+    }
+
+    .add {
+        position: absolute;
+        right: -5px;
+        bottom: -5px;
         visibility: hidden;
+        color: $blue;
     }
 
     &:hover {
-        .remove-button {
+        .add {
             visibility: visible;
         }
     }

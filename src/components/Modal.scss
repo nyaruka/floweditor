@@ -1,0 +1,43 @@
+@import "../variables.scss";
+
+.modal {
+    background: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: #777;
+    font-size: 12px;
+}
+
+.errors {
+    color: $error_color;
+    padding:5px 2px;
+    font-size: 12px;
+}
+
+.modal-header {
+    padding: 16px;
+    font-size: 20px;
+    color: $light_text;
+}
+
+.modal-content {
+    p {
+        line-height: 19px;
+    }
+}
+
+.modal-footer {
+    background: #f6f6f6;
+    padding: 12px;
+    border-top: 1px solid #e6e6e6;
+
+    .left {
+        float:left;
+    }
+
+    .right {
+        border: 0px solid red;
+        text-align:right;
+        overflow:auto;
+    }
+}

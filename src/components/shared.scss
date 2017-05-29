@@ -1,0 +1,41 @@
+@import '../variables.scss';
+
+.random {
+    background: #aaa;
+}
+
+.switch {
+    background: #677c91;
+}
+
+.add-to-group {
+    background: $green;
+}
+
+.remove-from-group {
+    background: $red;
+}
+
+.email {
+    background: $purple;
+}        
+
+.msg {
+    background: $blue;
+}
+
+.add-label {
+    background: $blue_baby;
+}
+
+.save-to-contact, .set-language, .set-preferred-channel {
+    background: $teal;
+}
+
+.subflow {
+    background: $grey;
+}
+
+.webhook {
+    background: $orange;
+}

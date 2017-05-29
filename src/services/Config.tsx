@@ -26,13 +26,13 @@ export class Config {
         {type: "msg", name: "Send Message", description: "Send them a message", form: SendMessageForm, component: SendMessage},
         {type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: ChangeGroupForm, component: ChangeGroup},
         {type: "remove_from_group", name: "Remove from Group", description: "Remove them from a group", form: ChangeGroupForm, component: ChangeGroup},
-        {type: "save_to_contact", name: "Save to Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContact},
+        {type: "save_to_contact", name: "Update Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContact},
         {type: "email", name: "Send Email", description: "Send an email", form: SendEmailForm, component: SendEmail},
         // {type: "add_label", name: "Add Label", description: "Label the message", component: Missing},
         // {type: "set_preferred_channel", name: "Set Preferred Channel", description: "Set their preferred channel", component: Missing},
         
         // hybrids
-        {type: "webhook", name: "Call Webhook", description: "Call an external service", form: WebhookForm, component: Webhook},
+        {type: "webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: Webhook},
         // {type: "flow", name: "Run another flow", description: "Run another flow", component: Missing},
 
         // routers
@@ -49,6 +49,16 @@ export class Config {
         }
 
         console.error("No configuration found for", type);
+        return null;
+    }
+
+    public getOperatorConfig(type: string): Operator {
+        for (let operator of this.operators) {
+            if (operator.type == type) {
+                return operator;
+            }
+        }
+        console.error("No operator found for", type);
         return null;
     }
 
