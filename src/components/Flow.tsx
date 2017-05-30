@@ -94,7 +94,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
         var newAction = {
             uuid: UUID.v4(),
-            type: "msg",
+            type: "reply",
             dragging: false,
             context: this.state.context
         }
@@ -192,7 +192,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             ghostProps.actions.push({
                 context: this.state.context,
                 uuid: actionUUID,
-                type: "msg",
+                type: "reply",
                 text: ""
             } as SendMessageProps);
         } 
@@ -239,7 +239,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                 actions: [{
                     context: this.state.context,
                     uuid: UUID.v4(),
-                    type: "msg",
+                    type: "reply",
                     text: "Hi there, this the first message in your flow!",
                     onEdit: this.onEdit,
                     dragging: false,
@@ -253,8 +253,15 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             this.props.mutator.addNode(nodeProps, {position: {x: 0, y: 0}});
             this.setState({loading: false});    
         } else {
-            this.setState({loading: false});
+            
             console.timeEnd("RenderAndPlumb");
+            this.setState({loading: false});
+
+            // deals with safari load rendering throwing 
+            // off the jsplumb offsets
+            window.setTimeout(()=>{
+                Plumber.get().repaint();
+            }, 500);
         }
     }
     

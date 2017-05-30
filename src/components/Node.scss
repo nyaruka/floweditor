@@ -47,6 +47,13 @@
         bottom: -5px;
         visibility: hidden;
         color: $blue;
+        text-decoration: none;
+        background: #fff;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        line-height: 8px;
+        font-size: 14px;
     }
 
     &:hover {

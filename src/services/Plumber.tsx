@@ -57,6 +57,11 @@ export class Plumber {
             ConnectionOverlays : [["PlainArrow", { location:.9999, width: 12, length:12, foldback: 1 }]],
             Container: "flow-editor"
         });
+
+        // if our browser resizes, make sure to repaint accordingly
+        window.onresize = () => {
+            this.jsPlumb.repaintEverything();
+        }
     }
 
     draggable(ele: JSX.Element, start: Function, drag: Function, stop: Function) {

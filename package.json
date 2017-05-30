@@ -63,6 +63,7 @@
     "react-dnd": "^2.4.0",
     "react-dnd-html5-backend": "^2.4.1",
     "react-dom": "^15.4.2",
+    "react-measure": "^2.0.0",
     "react-modal": "^1.7.5",
     "react-modal-dialog": "^4.0.7",
     "react-select": "1.0.0-rc.5",

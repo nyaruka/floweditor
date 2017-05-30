@@ -9,6 +9,8 @@ $inner_spacing: 15px;
     font-size: 14px;
     font-weight: 300;
     line-height: 15px;
+    max-height: 500px;
+    overflow-y: auto;
 }
 
 .header {

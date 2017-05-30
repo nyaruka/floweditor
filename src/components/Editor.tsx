@@ -1,8 +1,7 @@
 import * as React from "react";
 import * as axios from "axios";
 import * as UUID from 'uuid';
-// import {Temba, FlowDetails} from '../services/Temba';
-import {FlowBase, FlowDetails} from '../services/FlowBase';
+import {External, FlowDetails} from '../services/External';
 import {FlowLoader} from './FlowLoader';
 import {FlowList} from './FlowList';
 import {Flow} from './Flow';
@@ -11,9 +10,8 @@ import {Endpoints} from '../interfaces';
 var styles = require("./Editor.scss");
 
 interface EditorProps {
-    site: string;
-    token: string;
     endpoints: Endpoints;
+    flowUUID: string;
 }
 
 interface EditorState {
@@ -25,19 +23,14 @@ interface EditorState {
  */
 export class Editor extends React.PureComponent<EditorProps, EditorState> {
 
-    // private temba: Temba;
-    private flowbase: FlowBase = new FlowBase(null);
+    private external: External;
 
     constructor(props: EditorProps) {
         super(props);
-        // this.temba = new Temba(this.props.site, this.props.token);
-        this.state = {}
-
-        this.flowbase.getFlows().then((results: FlowDetails[]) => {
-            console.log(results)
-        }).catch((reason: any) =>{
-            console.log(reason);
-        });
+        this.external = new External(this.props.endpoints);
+        this.state = {
+            flowUUID: this.props.flowUUID
+        }
     }
 
     private onFlowSelect(uuid: string) {
@@ -52,7 +45,7 @@ export class Editor extends React.PureComponent<EditorProps, EditorState> {
                 key={this.state.flowUUID}
                 endpoints={this.props.endpoints}
                 uuid={this.state.flowUUID}
-                // temba={this.temba}
+                external={this.external}
             />
         } else {
             var newUUID = UUID.v4()
@@ -60,6 +53,7 @@ export class Editor extends React.PureComponent<EditorProps, EditorState> {
                 key={newUUID}
                 endpoints={this.props.endpoints}
                 uuid={newUUID}
+                external={this.external}
             />
 
         }

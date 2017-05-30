@@ -4,6 +4,7 @@ import * as UUID from 'uuid';
 //import {Case} from '../Case';
 import {CaseElement, CaseElementProps} from '../form/CaseElement';
 import {SwitchRouterProps, CaseProps, NodeProps, ExitProps} from '../../interfaces';
+import {InputElement} from '../form/InputElement';
 import {NodeForm} from '../NodeForm';
 import {NodeModalProps} from '../NodeModal';
 import {DragDropContext} from 'react-dnd';
@@ -207,14 +208,18 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
 
         return (
             <div className={styles.switch}>
-                <div className={styles["lead-in"]}>
+                <div className={styles.instructions}>
                     If the message response..
                 </div>
-                <div>
+                <div className={styles.cases}>
                     {cases}
                 </div>
             </div>
         )
+    }
+
+    renderFooter() {
+        return <InputElement placeholder="Save result as.." ref={this.ref.bind(this)} name="Name" showLabel={false} value={this.props.name} required/>
     }
 
     moveCase(dragIndex: number, hoverIndex: number) {

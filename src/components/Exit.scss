@@ -23,5 +23,8 @@
         height: 10px;
         margin: 0 auto;
         top: 6px;
+
+        -webkit-box-sizing: content-box !important;
+        box-sizing: content-box !important;
     }
 }

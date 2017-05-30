@@ -24,7 +24,7 @@ export interface Endpoints {
     groups: string;
     engine: string;
     contacts: string;
-    flow: string;
+    flows: string;
 }
 
 export interface ContactField {
@@ -97,6 +97,7 @@ export interface WebhookProps extends ActionProps {
 
 export interface RouterProps extends NodeEditorProps {
     type: string;
+    name: string;
 }
 
 export interface CaseProps {
@@ -170,6 +171,7 @@ export interface Operator {
 
 export interface FlowDefinition {
     localization:  {[lang: string]: {[uuid: string]: any}};
+    name: string
     nodes: NodeProps[]
     uuid: string
     _ui: UIMetaDataProps

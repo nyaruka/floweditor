@@ -28,7 +28,7 @@ export class SendMessageForm extends NodeForm<SendMessageProps, NodeEditorState>
         var textarea = this.getElements()[0] as TextAreaElement;
         modal.onUpdateAction({
             uuid: this.props.uuid, 
-            type: "msg", 
+            type: "reply", 
             text: textarea.state.value,
         } as SendMessageProps);
     }

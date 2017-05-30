@@ -23,7 +23,7 @@ export class Config {
     public typeConfigs: TypeConfig[] = [
 
         // actions
-        {type: "msg", name: "Send Message", description: "Send them a message", form: SendMessageForm, component: SendMessage},
+        {type: "reply", name: "Send Message", description: "Send them a message", form: SendMessageForm, component: SendMessage},
         {type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: ChangeGroupForm, component: ChangeGroup},
         {type: "remove_from_group", name: "Remove from Group", description: "Remove them from a group", form: ChangeGroupForm, component: ChangeGroup},
         {type: "save_to_contact", name: "Update Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContact},

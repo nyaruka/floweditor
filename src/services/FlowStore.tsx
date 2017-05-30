@@ -37,9 +37,7 @@ export class FlowStore {
         return FlowStore.singleton;
     }
 
-    private constructor() {
-        // console.log('init flow store');
-    }
+    private constructor() {}
 
     reset() {
         storage.remove("flow");
@@ -51,6 +49,7 @@ export class FlowStore {
             return flow as FlowDefinition;
         } else {
             return {
+                name: "New Flow",
                 uuid: uuid, 
                 nodes: [],
                 localization: null,

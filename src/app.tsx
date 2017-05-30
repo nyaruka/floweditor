@@ -49,14 +49,15 @@ var fields = root.getAttribute("fields");
 var contacts = root.getAttribute("contacts");
 var groups = root.getAttribute("groups");
 var engine = root.getAttribute("engine");
-var flow = root.getAttribute("flow");
+var flows = root.getAttribute("flows");
+var flowUUID = root.getAttribute("flow");
 
 var endpoints: Endpoints = {
     engine:     engine ? engine : 'http://localhost:9000',
     contacts:   contacts ? contacts : 'http://localhost:9000/assets/contacts.json',
     groups:     groups ? groups : 'http://localhost:9000/assets/groups.json',
     fields:     fields ? fields : 'http://localhost:9000/assets/fields.json',
-    flow:       flow ? flow : flowURL,
+    flows:      flows ? flows : 'http://localhost:9000/assets/flows.json',
 }
 
 console.log(endpoints);
@@ -64,8 +65,7 @@ console.log(endpoints);
 ReactDOM.render(
   <Editor
     endpoints={endpoints}
-    site={site}
-    token={token}
+    flowUUID={flowUUID}
   />,
   document.getElementById("flow-editor")
 );
