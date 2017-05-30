@@ -98,7 +98,24 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
             callback(this.search(input));
         } else {
             axios.get(this.props.url).then((response: AxiosResponse) => {
-                callback(null, this.search(input, response.data.results as SearchResult[]));
+                var results: SearchResult[] = [];
+                for (let result of response.data.results) {
+                    if ("key" in result) {
+                        results.push({
+                            name: result["label"],
+                            id: result["uuid"],
+                            type: "field"
+                        });
+                    } else if ("name" in result) {
+                        results.push({
+                            name: result["name"],
+                            id: result["uuid"],
+                            type: "group"
+                        });
+                    }
+                }
+
+                callback(null, this.search(input, results));
             });
         }
     }

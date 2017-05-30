@@ -3,7 +3,8 @@ import * as React from "react";
 import {FormElement, FormElementProps} from './FormElement';
 import {FormWidget, FormValueState} from './FormWidget';
 
-var styles = require("./FormElement.scss");
+var styles = require("./TextAreaElement.scss");
+var shared = require("./FormElement.scss");
 
 interface TextAreaProps extends FormElementProps {
     value: string;
@@ -41,13 +42,13 @@ export class TextAreaElement extends FormWidget<TextAreaProps, FormValueState> {
     }
 
     render() {
-        var classes = [];
+        var classes = [styles.textarea];
         if (this.state.errors.length > 0) {
-            classes.push(styles.invalid);
+            classes.push(shared.invalid);
         }
 
         return (
-            <FormElement {...this.props} errors={this.state.errors}>
+            <FormElement name={this.props.name} showLabel={this.props.showLabel} errors={this.state.errors}>
                 <textarea className={classes.join(" ")} defaultValue={this.state.value} onChange={this.onChange}></textarea>
             </FormElement>
         )

@@ -1,13 +1,5 @@
 @import "../../variables.scss";
 
-.group {
-    //padding-bottom: 10px;
-}
-
-.bottom {
-    // padding-top: 2px;
-}
-
 .label {
     margin-left: 2px;
     margin-bottom: 5px;
@@ -29,6 +21,7 @@
     color: $error_color;
     font-size: 11px;
     padding-bottom: 5px;
+    padding-top: 5px;
 }
 
 .help-text {

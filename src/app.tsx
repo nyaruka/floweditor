@@ -8,13 +8,7 @@ import {Endpoints} from './interfaces';
 
 import 'react-select/dist/react-select.css';
 import './global.scss';
-// our css dependencies
-// var global = require('./global.scss');
-//var testing = require('./test.scss');
-
-// console.log("global", global);
-//console.log("testing", testing);
-
+import '../fonts/flows/style.css';
 
 var parms = qs.parse(window.location.search);
 var flowURL = parms.flow
@@ -49,13 +43,23 @@ if (parms.reset) {
   FlowStore.get().reset();
 }
 
+
+var root = document.getElementById("flow-editor");
+var fields = root.getAttribute("fields");
+var contacts = root.getAttribute("contacts");
+var groups = root.getAttribute("groups");
+var engine = root.getAttribute("engine");
+var flow = root.getAttribute("flow");
+
 var endpoints: Endpoints = {
-    engine:     'http://localhost:9000',
-    contacts:   'http://localhost:9000/assets/contacts.json',
-    groups:     'http://localhost:9000/assets/groups.json',
-    fields:     'http://localhost:9000/assets/fields.json',
-    flow:       flowURL,
+    engine:     engine ? engine : 'http://localhost:9000',
+    contacts:   contacts ? contacts : 'http://localhost:9000/assets/contacts.json',
+    groups:     groups ? groups : 'http://localhost:9000/assets/groups.json',
+    fields:     fields ? fields : 'http://localhost:9000/assets/fields.json',
+    flow:       flow ? flow : flowURL,
 }
+
+console.log(endpoints);
 
 ReactDOM.render(
   <Editor
