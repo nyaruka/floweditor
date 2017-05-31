@@ -1,11 +1,11 @@
 import * as React from "react";
 import * as axios from "axios";
 import * as UUID from 'uuid';
-import {External, FlowDetails} from '../services/External';
-import {FlowLoader} from './FlowLoader';
-import {FlowList} from './FlowList';
-import {Flow} from './Flow';
-import {Endpoints} from '../interfaces';
+import { External, FlowDetails } from '../services/External';
+import { FlowLoader } from './FlowLoader';
+import { FlowList } from './FlowList';
+import { Flow } from './Flow';
+import { Endpoints } from '../interfaces';
 
 var styles = require("./Editor.scss");
 
@@ -34,9 +34,9 @@ export class Editor extends React.PureComponent<EditorProps, EditorState> {
     }
 
     private onFlowSelect(uuid: string) {
-        this.setState({flowUUID: uuid});
+        this.setState({ flowUUID: uuid });
     }
-    
+
     render() {
         var flow = null;
 
@@ -60,7 +60,7 @@ export class Editor extends React.PureComponent<EditorProps, EditorState> {
 
         // disable the flow list for now
         //var flowList = (<FlowList 
-            // temba={this.temba}
+        // temba={this.temba}
         //    onFlowSelect={this.onFlowSelect.bind(this)}
         ///>)
 

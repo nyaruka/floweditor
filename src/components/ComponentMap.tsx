@@ -1,5 +1,5 @@
 import {
-    FlowDefinition, SearchResult, ExitProps, ContactFieldResult, 
+    FlowDefinition, SearchResult, ExitProps, ContactFieldResult,
     Group, SaveToContactProps, ChangeGroupProps
 } from '../interfaces';
 
@@ -14,8 +14,8 @@ interface ComponentDetails {
 }
 
 export class ComponentMap {
-    
-    private components: {[uuid: string]: ComponentDetails};
+
+    private components: { [uuid: string]: ComponentDetails };
     private contactFields: ContactFieldResult[];
     private groups: SearchResult[];
 
@@ -29,7 +29,7 @@ export class ComponentMap {
 
     public initializeUUIDMap(definition: FlowDefinition) {
 
-        var components: {[uuid: string]: ComponentDetails} = {};
+        var components: { [uuid: string]: ComponentDetails } = {};
         var exitsWithDestinations: ExitProps[] = [];
 
         if (!definition) {
@@ -38,11 +38,11 @@ export class ComponentMap {
         }
 
         // determine our indexes
-        for (let nodeIdx = 0; nodeIdx<definition.nodes.length; nodeIdx++) {
+        for (let nodeIdx = 0; nodeIdx < definition.nodes.length; nodeIdx++) {
             let node = definition.nodes[nodeIdx];
             components[node.uuid] = {
-                nodeUUID: node.uuid, 
-                nodeIdx:nodeIdx,
+                nodeUUID: node.uuid,
+                nodeIdx: nodeIdx,
                 actionIdx: -1,
                 exitIdx: -1,
                 pointers: []
@@ -50,11 +50,11 @@ export class ComponentMap {
 
             // map out our action idexes
             if (node.actions) {
-                for (let actionIdx=0; actionIdx<node.actions.length; actionIdx++) {
+                for (let actionIdx = 0; actionIdx < node.actions.length; actionIdx++) {
                     let action = node.actions[actionIdx];
                     components[action.uuid] = {
-                        nodeUUID: node.uuid, 
-                        nodeIdx: nodeIdx, 
+                        nodeUUID: node.uuid,
+                        nodeIdx: nodeIdx,
                         actionUUID: action.uuid,
                         actionIdx: actionIdx,
                     }
@@ -63,10 +63,10 @@ export class ComponentMap {
 
             // and the same for exits
             if (node.exits) {
-                for (let exitIdx=0; exitIdx<node.exits.length; exitIdx++) {
+                for (let exitIdx = 0; exitIdx < node.exits.length; exitIdx++) {
                     let exit = node.exits[exitIdx];
                     components[exit.uuid] = {
-                        nodeIdx: nodeIdx, 
+                        nodeIdx: nodeIdx,
                         nodeUUID: node.uuid,
                         exitIdx: exitIdx,
                         exitUUID: exit.uuid
@@ -78,7 +78,7 @@ export class ComponentMap {
                 }
             }
         }
-        
+
         // add in our reverse lookups
         for (let exit of exitsWithDestinations) {
             components[exit.destination].pointers.push(exit.uuid);
@@ -89,8 +89,8 @@ export class ComponentMap {
     }
 
     private initializeFieldsAndGroups(definition: FlowDefinition) {
-        var fields: {[id:string]:ContactFieldResult} = {}
-        var groups: {[id:string]:SearchResult} = {}
+        var fields: { [id: string]: ContactFieldResult } = {}
+        var groups: { [id: string]: SearchResult } = {}
 
         if (!definition) {
             this.contactFields = [];
@@ -98,7 +98,7 @@ export class ComponentMap {
             return;
         }
 
-        var reservedFields: ContactFieldResult[] = [{id: "name", name:"Name", type: "field"}];
+        var reservedFields: ContactFieldResult[] = [{ id: "name", name: "Name", type: "field" }];
         // TODO: Add language support to save_to_contact
         // {id:"language", name: "Language", type: "field"}];
 
@@ -113,9 +113,11 @@ export class ComponentMap {
                             }
                         }
                     } else if (action.type == 'add_to_group' || action.type == 'remove_from_group') {
-                        var addGroupProps = action as ChangeGroupProps;
-                        if (!(addGroupProps.uuid in groups)) {
-                            groups[addGroupProps.uuid] = { id: addGroupProps.group, name: addGroupProps.name, type: "group"}
+                        var groupProps = action as ChangeGroupProps;
+                        for (let group of groupProps.groups) {
+                            if (!(group.uuid in groups)) {
+                                groups[group.uuid] = { id: group.uuid, name: group.name, type: "group" }
+                            }
                         }
                     }
                 }
@@ -132,7 +134,7 @@ export class ComponentMap {
         }
 
         var existingGroups: SearchResult[] = []
-        for (var key in groups){
+        for (var key in groups) {
             existingGroups.push(groups[key]);
         }
 

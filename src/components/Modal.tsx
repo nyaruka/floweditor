@@ -2,16 +2,16 @@ import * as React from 'react';
 import * as UUID from 'uuid';
 import * as ReactModal from 'react-modal';
 
-import {Button} from './Button';
-import {Config} from '../services/Config';
+import { Button } from './Button';
+import { Config } from '../services/Config';
 
 var styles = require('./Modal.scss');
 
 interface ModalProps {
     show: boolean;
 
-    onModalOpen: any;
-    className: string;
+    onModalOpen?: any;
+    className?: string;
     title: JSX.Element;
     width?: string;
 
@@ -36,7 +36,7 @@ export class Modal extends React.Component<ModalProps, {}> {
 
     render() {
         var customStyles = {
-            content : {
+            content: {
                 marginLeft: 'auto',
                 marginRight: 'auto',
                 marginTop: '40px',
@@ -54,16 +54,16 @@ export class Modal extends React.Component<ModalProps, {}> {
 
         if (this.props.cancel) {
             //rightButtons.push(<a key={Math.random()} href="javascript:void(0);" data-type="cancel" className={styles.btn + ' ' + styles.cancel} onClick={this.props.onModalClose}>{this.props.cancel}</a>)
-            rightButtons.push(<Button key={Math.random()} name={this.props.cancel} onClick={this.props.onClickSecondary} type="secondary"/>);
+            rightButtons.push(<Button key={Math.random()} name={this.props.cancel} onClick={this.props.onClickSecondary} type="secondary" />);
         }
-        
+
         // no matter what, we'll have a primary button
         // rightButtons.push(<a tabIndex={0} key={Math.random()} href="javascript:void(0);" data-type="ok" className={styles.btn + ' ok'} onClick={this.props.onModalClose}>{this.props.ok ? this.props.ok : 'Ok'}</a>)
-        rightButtons.push(<Button key={Math.random()} name={this.props.ok ? this.props.ok : 'Ok'} onClick={this.props.onClickPrimary} type="primary"/>);
+        rightButtons.push(<Button key={Math.random()} name={this.props.ok ? this.props.ok : 'Ok'} onClick={this.props.onClickPrimary} type="primary" />);
 
         // our left most button if we have one
         if (this.props.tertiary) {
-            leftButtons.push(<Button key={Math.random()} name={this.props.tertiary} onClick={this.props.onClickTertiary} type="tertiary"/>);
+            leftButtons.push(<Button key={Math.random()} name={this.props.tertiary} onClick={this.props.onClickTertiary} type="tertiary" />);
         }
 
         return (
@@ -91,7 +91,7 @@ export class Modal extends React.Component<ModalProps, {}> {
                             {rightButtons}
                         </div>
                     </div>
-                </div>                
+                </div>
             </ReactModal>
         )
     }

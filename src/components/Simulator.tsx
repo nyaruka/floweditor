@@ -2,10 +2,14 @@ import * as React from 'react';
 import * as axios from 'axios';
 import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
+import * as urljoin from 'url-join';
 
-import {FlowStore} from '../services/FlowStore';
-import {Plumber} from '../services/Plumber';
-import {FlowDefinition} from '../interfaces';
+import { Modal } from './Modal';
+import { FlowStore } from '../services/FlowStore';
+import { Plumber } from '../services/Plumber';
+import { FlowDefinition, GroupProps } from '../interfaces';
+
+var styles = require("./Simulator.scss");
 
 interface Message {
     text: string;
@@ -18,7 +22,7 @@ interface SimulatorProps {
 }
 
 interface SimulatorState {
-    runOutput?: RunOutput;
+    session?: Session;
     contact: Contact;
     events: Event[];
 }
@@ -35,9 +39,21 @@ interface Contact {
 }
 
 interface Event {
+    uuid: string;
     created_on?: Date;
     type: string;
     text?: string;
+    name?: string;
+    value?: string;
+    body?: string;
+    email?: string;
+    subject?: string;
+    url?: string;
+    status?: string;
+    status_code?: number;
+    request?: string;
+    response?: string;
+    groups?: GroupProps[];
 }
 
 interface Step {
@@ -58,13 +74,116 @@ interface Run {
 
 interface RunContext {
     contact: Contact;
-    run_output: RunOutput;
+    session: Session;
 }
 
-interface RunOutput {
+interface Session {
     runs: Run[];
     events: Event[];
     input?: any;
+}
+
+interface LogEventState {
+    detailsVisible: boolean;
+}
+
+/**
+ * Viewer for log events
+ */
+class LogEvent extends React.Component<Event, LogEventState> {
+
+    constructor(props: Event) {
+        super(props);
+        this.state = {
+            detailsVisible: false
+        }
+        this.showDetails = this.showDetails.bind(this);
+    }
+
+    showDetails() {
+        this.setState({ detailsVisible: true });
+    }
+
+    render() {
+        var classes = [];
+        var text = "";
+        var details: JSX.Element = null;
+        var detailTitle = "";
+
+        if (this.props.type == "msg_in") {
+            text = this.props.text
+            classes.push(styles.msg_in);
+        } else if (this.props.type == "msg_out") {
+            text = this.props.text
+            classes.push(styles.msg_out);
+        } else if (this.props.type == "error") {
+            text = this.props.text
+            classes.push(styles.error);
+        } else if (this.props.type == "msg_wait") {
+            text = "Waiting for reply"
+            classes.push(styles.info);
+        } else if (this.props.type == "add_to_group") {
+            text = "Added to "
+            var delim = " "
+            for (let group of this.props.groups) {
+                text += delim + "\"" + group.name + "\""
+                delim = ", "
+            }
+            classes.push(styles.info);
+        } else if (this.props.type == "remove_from_group") {
+            text = "Removed from "
+            var delim = " "
+            for (let group of this.props.groups) {
+                text += delim + "\"" + group.name + "\""
+                delim = ", "
+            }
+            classes.push(styles.info);
+        } else if (this.props.type == "save_to_contact") {
+            text = "Set contact field \"" + this.props.name + "\" to \"" + this.props.value + "\"";
+            classes.push(styles.info);
+        } else if (this.props.type == "email") {
+            text = "Sent email to \"" + this.props.email + "\" with subject \"" + this.props.subject + "\" and body \"" + this.props.body + "\""
+            classes.push(styles.info);
+        } else if (this.props.type == "webhook") {
+            text = "Called webhook " + this.props.url
+            classes.push(styles.info);
+            detailTitle = "Webhook Details";
+            details = (
+                <pre>
+                    {this.props.request}
+                    {this.props.response}
+                </pre>
+            )
+        }
+
+        classes.push(styles.evt);
+
+        if (details) {
+            classes.push(styles.has_detail)
+            return (
+                <div>
+                    <div className={classes.join(" ")} onClick={this.showDetails}>{text}</div>
+                    <Modal
+                        className={styles["detail_" + this.props.type]}
+                        title={<div>{detailTitle}</div>}
+                        show={this.state.detailsVisible}
+                        onClickPrimary={() => {
+                            this.setState({ detailsVisible: false })
+                        }}>
+                        <div className={styles.event_viewer}>
+                            {details}
+                        </div>
+                    </Modal>
+                </div >
+            )
+        } else {
+            return (
+                <div>
+                    <div className={classes.join(" ")}>{text}</div>
+                </div >
+            )
+        }
+    }
 }
 
 /**
@@ -72,7 +191,7 @@ interface RunOutput {
  */
 export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
-    private debug: RunOutput[] = []
+    private debug: Session[] = []
 
     // marks the bottom of our chat
     private bottom: any;
@@ -90,18 +209,18 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     }
 
     private updateRunContext(body: any, runContext: RunContext) {
-        var events = update(this.state.events, {$push: runContext.run_output.events});
-        this.setState({ 
-            runOutput: runContext.run_output,
+        var events = update(this.state.events, { $push: runContext.session.events });
+        this.setState({
+            session: runContext.session,
             contact: runContext.contact,
             events: events
         });
 
-        this.debug.push(runContext.run_output);
+        this.debug.push(runContext.session);
     }
 
     private startFlow() {
-        this.setState({events: []});
+        this.setState({ events: [] });
 
         var body: any = {
             flows: this.props.definitions,
@@ -112,7 +231,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             }
         };
 
-        axios.default.post(this.props.engineURL + '/flow/start', JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
+        console.log(body);
+
+        axios.default.post(urljoin(this.props.engineURL + '/flow/start'), JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
             this.updateRunContext(body, response.data as RunContext);
         });
     }
@@ -130,15 +251,15 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             return;
         }
 
-        if (text=="reconnect") {
+        if (text == "reconnect") {
             Plumber.get().connectAll(this.props.definitions[0]);
             console.log("reconnected..");
             return;
         }
-        
+
         var body: any = {
             flows: this.props.definitions,
-            run_output: this.state.runOutput,
+            session: this.state.session,
             contact: this.state.contact,
             event: { text: text, type: "msg_in" }
         };
@@ -146,16 +267,16 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         axios.default.post(this.props.engineURL + '/flow/resume', JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
             this.updateRunContext(body, response.data as RunContext);
         }).catch((error) => {
-            var events = update(this.state.events, {$push: [{
-                type: "error",
-                text: error.response.data.error
-            }]});
-            this.setState({events: events});
+            var events = update(this.state.events, {
+                $push: [{
+                    type: "error",
+                    text: error.response.data.error
+                }]
+            });
+            this.setState({ events: events });
         });;
 
         this.scrollToBottom();
-
-        
     }
 
     private onReset(event: any) {
@@ -186,44 +307,32 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
     private getBottomMarker(): JSX.Element {
         if (!this.bottom) {
-            this.bottom = <div id="bottom" style={{float:"left", clear: "both"}}></div>;
+            this.bottom = <div id="bottom" style={{ float: "left", clear: "both" }}></div>;
         }
         return this.bottom;
     }
 
     public render() {
         var messages: JSX.Element[] = [];
-        for (let event of this.state.events) {
-            
-            var classes = "msg"
-            if (event.type == "msg_in") {
-                classes += " outbound";
-            } else if (event.type == "msg_out") {
-                classes += " inbound";
-            } else if (event.type == "error") {
-                classes += " error";
-            }
+        console.log(this.state.events);
 
-            if (event.text) {
-                messages.push(<div className={classes} key={String(event.created_on)}>{event.text}</div>)
-            } else {
-                // messages.push(<div style={{wordWrap:"break-word", fontSize:"9px", paddingRight: "5px"}}>{JSON.stringify(event)}</div>)
-            }
+        for (let event of this.state.events) {
+            messages.push(<LogEvent {...event} key={String(event.created_on)} />)
         }
 
         return (
-            <div className="simulator" >
-              <a className="reset" onClick={this.onReset.bind(this)}/>
-              <div className="icon-simulator"/>
-              <div className="screen">
-                <div className="messages">
-                    {messages}
-                    {this.getBottomMarker()}
+            <div className={styles.simulator} >
+                <a className={styles.reset} onClick={this.onReset.bind(this)} />
+                <div className={styles.icon_simulator + " icon-simulator"} />
+                <div className={styles.screen}>
+                    <div className={styles.messages}>
+                        {messages}
+                        {this.getBottomMarker()}
+                    </div>
+                    <div className={styles.controls}>
+                        <input type="text" onKeyUp={this.onKeyUp.bind(this)} />
+                    </div>
                 </div>
-                <div className="controls">
-                    <input type="text" onKeyUp={this.onKeyUp.bind(this)}/>
-                </div>
-              </div>
             </div>
         )
     }
