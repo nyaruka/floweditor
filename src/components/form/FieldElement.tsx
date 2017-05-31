@@ -1,10 +1,10 @@
 import * as React from "react";
 import * as UUID from 'uuid';
-import {toBoolMap} from '../../utils';
-import {FormElement, FormElementProps} from './FormElement';
-import {FormWidget, FormValueState} from './FormWidget';
-import {SearchResult} from '../../interfaces';
-import {SelectSearch} from '../SelectSearch';
+import { toBoolMap } from '../../utils';
+import { FormElement, FormElementProps } from './FormElement';
+import { FormWidget, FormValueState } from './FormWidget';
+import { SearchResult } from '../../interfaces';
+import { SelectSearch } from '../SelectSearch';
 
 var Select = require('react-select');
 var styles = require("./FormElement.scss");
@@ -57,29 +57,29 @@ export class FieldElement extends FormWidget<FieldElementProps, FieldState> {
 
     onChange(selected: any) {
         this.setState({
-            field: selected
+            field: selected[0]
         });
     }
-    
+
     validate(): boolean {
         var errors: string[] = []
-        if (this.props.required){
+        if (this.props.required) {
             if (!this.state.field) {
                 errors.push(this.props.name + " is required");
             }
         }
 
-        this.setState({errors: errors});
+        this.setState({ errors: errors });
         return errors.length == 0;
     }
 
-    isValidNewOption(option: {label: string}): boolean {
+    isValidNewOption(option: { label: string }): boolean {
         if (!option || !option.label) { return false; }
         let lowered = option.label.toLowerCase();
         return lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered) && !reserved[lowered];
     }
 
-    createNewOption(arg: { label: string}): SearchResult {
+    createNewOption(arg: { label: string }): SearchResult {
         var newOption: SearchResult = {
             id: UUID.v4(),
             name: arg.label,
@@ -104,7 +104,7 @@ export class FieldElement extends FormWidget<FieldElementProps, FieldState> {
                 createPrompt: "New Field: "
             }
         }
-        
+
         var classes = [];
         if (this.state.errors.length > 0) {
             // we use a global selector here for react-select
@@ -128,7 +128,7 @@ export class FieldElement extends FormWidget<FieldElementProps, FieldState> {
                     clearable={false}
                     initial={initial}
                     {...createOptions}
-                /> 
+                />
             </FormElement>
         )
     }

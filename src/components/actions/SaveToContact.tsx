@@ -1,13 +1,13 @@
 import * as React from 'react';
-import {FlowStore} from '../../services/FlowStore';
-import {toBoolMap} from '../../utils';
-import {SelectSearch} from '../SelectSearch';
-import {SaveToContactProps, NodeEditorState, SearchResult} from '../../interfaces';
-import {NodeModalProps} from '../NodeModal';
-import {NodeForm} from '../NodeForm';
-import {Action} from '../Action';
-import {FieldElement} from '../form/FieldElement';
-import {InputElement} from '../form/InputElement';
+import { FlowStore } from '../../services/FlowStore';
+import { toBoolMap } from '../../utils';
+import { SelectSearch } from '../SelectSearch';
+import { SaveToContactProps, NodeEditorState, SearchResult } from '../../interfaces';
+import { NodeModalProps } from '../NodeModal';
+import { NodeForm } from '../NodeForm';
+import { Action } from '../Action';
+import { FieldElement } from '../form/FieldElement';
+import { InputElement } from '../form/InputElement';
 
 var UUID = require('uuid');
 
@@ -42,13 +42,17 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
     fieldValue: string;
     fieldSelect: SelectSearch;
 
-    isValidNewOption(option: {label: string}): boolean {
+    constructor(props: SaveToContactProps) {
+        super(props);
+    }
+
+    isValidNewOption(option: { label: string }): boolean {
         if (!option || !option.label) { return false; }
         let lowered = option.label.toLowerCase();
         return lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered) && !reserved[lowered];
     }
 
-    createNewOption(arg: { label: string}): SearchResult {
+    createNewOption(arg: { label: string }): SearchResult {
         var newOption: SearchResult = {
             id: UUID.v4(),
             name: arg.label,
@@ -64,8 +68,8 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
         if (this.props.type == "save_to_contact") {
             initial = {
                 id: this.props.field,
-                name: this.props.name, 
-                type: this.props.type,                    
+                name: this.props.name,
+                type: this.props.type,
             };
         }
 
@@ -80,7 +84,7 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
                     helpText={"Select an existing field to update or type name to create a new one"}
                     initial={initial} add required
                 />
-                
+
                 <InputElement ref={ref} name="Value" showLabel={true} value={this.props.value}
                     helpText="The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json."
                 />
@@ -94,13 +98,13 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
         var fieldEle = elements[0];
         var valueEle = elements[1];
 
-        var field = fieldEle.state.field[0];
+        var field = fieldEle.state.field;
 
         modal.onUpdateAction({
-            uuid: this.props.uuid, 
-            type: "save_to_contact", 
-            name: field.name, 
-            field: field.id, 
+            uuid: this.props.uuid,
+            type: "save_to_contact",
+            name: field.name,
+            field: field.id,
             value: valueEle.state.value
         } as SaveToContactProps);
 

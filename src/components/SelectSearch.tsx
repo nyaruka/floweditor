@@ -2,9 +2,9 @@ import * as React from 'react';
 import * as UUID from 'uuid';
 
 import axios from 'axios';
-import {AxiosResponse} from 'axios';
+import { AxiosResponse } from 'axios';
 
-import {SearchResult} from '../interfaces';
+import { SearchResult } from '../interfaces';
 
 var Select = require('react-select');
 
@@ -19,8 +19,8 @@ interface SelectSearchProps {
     className?: string;
     createPrompt?: string;
     onChange?(selection: SearchResult): void;
-    isValidNewOption?(option: {label: string}): boolean;
-    createNewOption?(option: {label: string, labelKey: string, valueKey: string}): any;
+    isValidNewOption?(option: { label: string }): boolean;
+    createNewOption?(option: { label: string, labelKey: string, valueKey: string }): any;
 }
 
 interface SelectSearchState {
@@ -59,7 +59,7 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
     private addSearchResult(results: SearchResult[], result: SearchResult) {
         var found = false;
         for (let existing of results) {
-            if (result.id == existing.id){
+            if (result.id == existing.id) {
                 found = true;
                 break;
             }
@@ -67,7 +67,7 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
 
         if (!found) {
             results.push(result);
-        }   
+        }
     }
 
     search(term: string, remoteResults: SearchResult[] = []): SelectSearchResult {
@@ -83,7 +83,7 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
                 this.addSearchResult(combined, local);
             }
         }
-        
+
         combined.sort(this.sortResults);
         var results: SelectSearchResult = {
             options: combined,
@@ -120,7 +120,7 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
         }
     }
 
-    private onChange(selection: any){
+    private onChange(selection: any) {
         if (!this.props.multi) {
             selection = [selection];
         }
@@ -128,7 +128,7 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
         if (this.props.onChange) {
             this.props.onChange(selection);
         }
-        this.setState({selection: selection});
+        this.setState({ selection: selection });
         this.select.focus();
 
     };
@@ -145,7 +145,7 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
 
         if (this.state.selection) {
             for (let selection of this.state.selection) {
-                if (selection){
+                if (selection) {
                     var selectionValue;
                     if (selection.extraResult || this.props.multi) {
                         selectionValue = selection;
@@ -177,13 +177,11 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
             options['isValidNewOption'] = this.props.isValidNewOption;
         }
 
-        console.log(options);
-
         if (this.props.createNewOption) {
             return (
                 <Select.AsyncCreatable
                     className={this.props.className}
-                    ref={(ele: any)=>{ this.select = ele}}
+                    ref={(ele: any) => { this.select = ele }}
                     name={this.props.name}
                     loadOptions={this.loadOptions.bind(this)}
                     clearable={this.props.clearable}
@@ -206,7 +204,7 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
             return (
                 <Select.Async
                     className={this.props.className}
-                    ref={(ele: any)=>{ this.select = ele}}
+                    ref={(ele: any) => { this.select = ele }}
                     name={this.props.name}
                     loadOptions={this.loadOptions.bind(this)}
                     clearable={this.props.clearable}
