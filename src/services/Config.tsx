@@ -26,7 +26,7 @@ export class Config {
         { type: "reply", name: "Send Message", description: "Send them a message", form: SendMessageForm, component: SendMessage },
         // { type: "msg", name: "Send Message", description: "Send somebody else a message", form: SendMessageForm, component: SendMessage },
 
-        { type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: ChangeGroupForm, component: ChangeGroup },
+      { type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: ChangeGroupForm, component: ChangeGroup },
         { type: "remove_from_group", name: "Remove from Group", description: "Remove them from a group", form: ChangeGroupForm, component: ChangeGroup },
         { type: "save_to_contact", name: "Update Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContact },
         { type: "email", name: "Send Email", description: "Send an email", form: SendEmailForm, component: SendEmail },

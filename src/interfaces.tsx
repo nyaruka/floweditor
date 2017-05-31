@@ -1,5 +1,5 @@
-import {FlowLoader} from './components/FlowLoader'
-import {Node} from './components/Node'
+import { FlowLoader } from './components/FlowLoader'
+import { Node } from './components/Node'
 
 export interface FlowContext {
     eventHandler: FlowEventHandler;
@@ -42,7 +42,7 @@ export interface UINode {
 }
 
 export interface UIMetaDataProps {
-    nodes: {[key: string]: UINode};
+    nodes: { [key: string]: UINode };
 }
 
 export interface LocationProps {
@@ -51,13 +51,13 @@ export interface LocationProps {
 }
 
 
-export interface NodeEditorState {}
+export interface NodeEditorState { }
 
 export interface NodeEditorProps {
     type: string;
     uuid: string;
     context: FlowContext;
-    
+
     config?: TypeConfig;
 }
 
@@ -66,8 +66,12 @@ export interface ActionProps extends NodeEditorProps {
 }
 
 export interface ChangeGroupProps extends ActionProps {
+    groups: GroupProps[];
+}
+
+export interface GroupProps {
+    uuid: string;
     name: string;
-    group: string;
 }
 
 export interface SaveToContactProps extends ActionProps {
@@ -105,7 +109,7 @@ export interface CaseProps {
     type: string;
     exit: string;
     arguments?: string[];
-    
+
 
     exitName?: string;
     onChanged?: Function;
@@ -119,8 +123,8 @@ export interface SwitchRouterProps extends RouterProps {
     exits?: ExitProps[];
 }
 
-export interface SwitchRouterState extends NodeEditorState {}
-export interface RandomRouterProps extends RouterProps {}
+export interface SwitchRouterState extends NodeEditorState { }
+export interface RandomRouterProps extends RouterProps { }
 
 export interface ExitProps {
     uuid: string;
@@ -132,7 +136,7 @@ export interface ExitProps {
 export interface NodeProps {
     uuid: string;
     exits: ExitProps[];
-    
+
     router?: any;
     actions?: ActionProps[];
     wait?: any;
@@ -142,7 +146,7 @@ export interface NodeProps {
     // a connection that needs to be wired on mounting
     pendingConnection?: DragPoint;
 
-    context?: FlowContext    
+    context?: FlowContext
 }
 
 /**
@@ -158,9 +162,9 @@ export interface TypeConfig {
     type: string;
     name: string;
     description: string;
-    
-    form?: { new (props: NodeEditorProps): any};
-    component?: { new (props: NodeEditorProps): any};
+
+    form?: { new (props: NodeEditorProps): any };
+    component?: { new (props: NodeEditorProps): any };
 }
 
 export interface Operator {
@@ -170,12 +174,12 @@ export interface Operator {
 }
 
 export interface FlowDefinition {
-    localization:  {[lang: string]: {[uuid: string]: any}};
+    localization: { [lang: string]: { [uuid: string]: any } };
     name: string
     nodes: NodeProps[]
     uuid: string
     _ui: UIMetaDataProps
-    
+
 }
 
 export interface SearchResult {
