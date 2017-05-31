@@ -2,14 +2,14 @@
 var webpackConfig = require("./webpack.dev");
 var webpack = require("webpack");
 
-module.exports = function(config) {
+module.exports = function (config) {
     config.set({
         /*
          * Enable or disable watching files and executing the tests whenever
          * one of the files in the "files" field is changed.
          */
         autoWatch: true,
-        
+
         /*
          * The root path location that will be used to resolve all relative
          * paths defined in "files" and "exclude".
@@ -52,7 +52,7 @@ module.exports = function(config) {
          */
         files: [
             'test/**/*.ts*',
-            { pattern: 'src/**/*.ts*', watched: false, included: false, served: false},
+            { pattern: 'src/**/*.ts*', watched: false, included: false, served: false },
             { pattern: 'test_flows/*.json', watched: false, included: false, served: true, nocache: true }
         ],
 
@@ -62,7 +62,7 @@ module.exports = function(config) {
          * corresponding karma-*** modules and include them in the list of plugins
          * as well as below.
          */
-        frameworks: ["mocha", "chai", "sinon", "karma-typescript"],
+        frameworks: ["mocha", "chai", "sinon"],
 
         logLevel: config.LOG_VERBOSE,
 
@@ -109,13 +109,13 @@ module.exports = function(config) {
          * If you have a different webpack.config.js file that's used for testing
          * purposes, you can specify that here.
          */
-        webpackMiddleware: { stats: 'errors-only'},
+        webpackMiddleware: { stats: 'errors-only' },
         webpack: {
             devtool: 'inline-source-map',
             module: {
                 rules: [{
                     test: /\.tsx?$/,
-                    use:[{ loader: 'awesome-typescript-loader'} ],
+                    use: [{ loader: 'awesome-typescript-loader' }],
                     exclude: /node_modules/
                 }, {
                     test: /src\/.+\.ts*$/,
@@ -125,14 +125,14 @@ module.exports = function(config) {
                 },
                 {
                     test: /\.css$/,
-                    use: [ 'style-loader', 'css-loader' ]
+                    use: ['style-loader', 'css-loader']
                 },
                 {
                     test: /\.scss$/,
                     use: [
                         { loader: "style-loader" },   // creates style nodes from JS strings
                         { loader: "css-loader" },     // translates CSS into CommonJS
-                        { loader: "sass-loader"}      // compiles Sass to CSS
+                        { loader: "sass-loader" }      // compiles Sass to CSS
                     ]
                 }]
             },
