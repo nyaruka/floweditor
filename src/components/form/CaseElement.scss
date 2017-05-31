@@ -7,6 +7,9 @@ $spacing: 10px;
 }
 
 .case {
+    width: 100%;
+
+    cursor: pointer;
 
     .form-group {
         margin: 0;
@@ -27,7 +30,7 @@ $spacing: 10px;
         top: -9px;
         margin-left: $spacing;
         input {
-            width: 158px;
+            width: 168px;
         }
     }
 
@@ -48,6 +51,29 @@ $spacing: 10px;
         input {                        
             width: 89px;
         }        
+    }
+
+    &:hover {
+        .remove-button {
+            opacity: 1;
+        }
+    }
+}
+
+.remove-button {
+
+    color: #ccc;
+    border: 0px solid green;
+    margin-right:-20px;
+    margin-top: 5px;
+    float:right;
+    opacity: 0;
+    font-size: 15px;
+    line-height: 12px;
+    width: 20px;
+
+    &:hover {
+        opacity: 1;
     }
 }
 
