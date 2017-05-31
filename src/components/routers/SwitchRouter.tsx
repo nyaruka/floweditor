@@ -2,12 +2,12 @@ import * as React from 'react';
 import * as UUID from 'uuid';
 
 //import {Case} from '../Case';
-import {CaseElement, CaseElementProps} from '../form/CaseElement';
-import {SwitchRouterProps, CaseProps, NodeProps, ExitProps} from '../../interfaces';
-import {InputElement} from '../form/InputElement';
-import {NodeForm} from '../NodeForm';
-import {NodeModalProps} from '../NodeModal';
-import {DragDropContext} from 'react-dnd';
+import { CaseElement, CaseElementProps } from '../form/CaseElement';
+import { SwitchRouterProps, CaseProps, NodeProps, ExitProps } from '../../interfaces';
+import { InputElement } from '../form/InputElement';
+import { NodeForm } from '../NodeForm';
+import { NodeModalProps } from '../NodeModal';
+import { DragDropContext } from 'react-dnd';
 
 let HTML5Backend = require('react-dnd-html5-backend');
 let update = require('immutability-helper');
@@ -15,6 +15,7 @@ var styles = require('./SwitchRouter.scss');
 
 class SwitchRouterState {
     cases: CaseProps[]
+    setName: boolean
 }
 
 /**
@@ -23,10 +24,10 @@ class SwitchRouterState {
  * @param newCases 
  * @param previousExits 
  */
-export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps): { cases: CaseProps[], exits: ExitProps[], defaultExit: string} {
+export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps): { cases: CaseProps[], exits: ExitProps[], defaultExit: string } {
 
     // create mapping of our old exit uuids to old exit settings
-    var previousExitMap: {[uuid:string]:ExitProps} = {};
+    var previousExitMap: { [uuid: string]: ExitProps } = {};
     for (let exit of previous.exits) {
         previousExitMap[exit.uuid] = exit
     }
@@ -66,7 +67,7 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
                             exits.push(existingExit);
                             break;
                         }
-                    }            
+                    }
                 }
             }
         }
@@ -78,7 +79,7 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
 
         // no existing exit, create a new one
         else {
-            
+
             // find our previous destination if we have one
             var destination = null;
             if (kase.exit in previousExitMap) {
@@ -93,7 +94,7 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
                 destination: destination
             });
         }
-        
+
         // remove exitName from our case
         delete kase["exitName"];
         cases.push(kase);
@@ -121,7 +122,7 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
         destination: defaultDestination
     });
 
-    return {cases: cases, exits: exits, defaultExit: defaultUUID};
+    return { cases: cases, exits: exits, defaultExit: defaultUUID };
 }
 
 export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterState> {
@@ -135,10 +136,17 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         }
 
         this.state = {
-            cases: cases
+            cases: cases,
+            setName: false
         }
 
         this.onCaseChanged = this.onCaseChanged.bind(this);
+    }
+
+    private onShowNameField() {
+        this.setState({
+            setName: true
+        })
     }
 
     onCaseChanged(c: CaseElement) {
@@ -155,14 +163,14 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         for (var idx in this.state.cases) {
             var kase = this.state.cases[idx];
             if (kase.uuid == c.props.uuid) {
-                cases = update(this.state.cases, {[idx]: {$set:newCase}});
+                cases = update(this.state.cases, { [idx]: { $set: newCase } });
                 found = true;
                 break;
             }
         }
 
         if (!found) {
-            cases = update(this.state.cases, {$push:[newCase]});
+            cases = update(this.state.cases, { $push: [newCase] });
         }
 
         this.setState({
@@ -175,7 +183,7 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         var ref = this.ref.bind(this);
 
         var cases: JSX.Element[] = [];
-        if (this.state.cases){
+        if (this.state.cases) {
             this.state.cases.map((c: CaseElementProps) => {
                 if (c.exit) {
                     for (let exit of this.props.exits) {
@@ -185,7 +193,7 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
                         }
                     }
                 }
-                cases.push(<CaseElement 
+                cases.push(<CaseElement
                     key={c.uuid}
                     ref={ref}
                     name="Case"
@@ -200,11 +208,24 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
             name="Case"
             onChanged={this.onCaseChanged.bind(this)}
             ref={ref}
-            key={newCaseUUID} 
-            uuid={newCaseUUID} 
-            exit={null} 
+            key={newCaseUUID}
+            uuid={newCaseUUID}
+            exit={null}
             type="has_any_word"
         />);
+
+        var nameField = null;
+        if (this.state.setName || this.props.name) {
+            nameField = <InputElement
+                ref={this.ref.bind(this)}
+                name="Result Name"
+                showLabel={true}
+                value={this.props.name}
+                helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+            />
+        } else {
+            nameField = <span className={styles.save_link} onClick={this.onShowNameField.bind(this)}>Save as..</span>
+        }
 
         return (
             <div className={styles.switch}>
@@ -214,12 +235,12 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
                 <div className={styles.cases}>
                     {cases}
                 </div>
+
+                <div className={styles.save_as}>
+                    {nameField}
+                </div>
             </div>
         )
-    }
-
-    renderFooter() {
-        return <InputElement placeholder="Save result as.." ref={this.ref.bind(this)} name="Name" showLabel={false} value={this.props.name} required/>
     }
 
     moveCase(dragIndex: number, hoverIndex: number) {
@@ -235,9 +256,18 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
             },
         }));
     }
-    
+
     submit(modal: NodeModalProps) {
-        const {cases, exits, defaultExit} = resolveExits(this.state.cases, this.props);
+        const { cases, exits, defaultExit } = resolveExits(this.state.cases, this.props);
+
+        var lastElement = this.elements[this.elements.length - 1];
+        var optional = {}
+        if (lastElement instanceof InputElement) {
+            optional = {
+                name: lastElement.state.value
+            }
+        }
+
         modal.onUpdateRouter({
             uuid: this.props.uuid,
             router: {
@@ -245,6 +275,7 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
                 default: defaultExit,
                 cases: cases,
                 operand: "@input",
+                ...optional
             },
             wait: { type: "msg" },
             exits: exits

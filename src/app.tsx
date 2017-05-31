@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as qs from 'query-string';
-import {Editor} from './components/Editor';
-import {FlowStore} from './services/FlowStore';
-import {Endpoints} from './interfaces';
+import { Editor } from './components/Editor';
+import { FlowStore } from './services/FlowStore';
+import { Endpoints } from './interfaces';
 
 
 import 'react-select/dist/react-select.css';
@@ -12,7 +12,7 @@ import '../fonts/flows/style.css';
 
 var parms = qs.parse(window.location.search);
 var flowURL = parms.flow
-if (flowURL == null){
+if (flowURL == null) {
   flowURL = 'test_flows/lots_of_action.json';
 }
 
@@ -53,14 +53,12 @@ var flows = root.getAttribute("flows");
 var flowUUID = root.getAttribute("flow");
 
 var endpoints: Endpoints = {
-    engine:     engine ? engine : 'http://localhost:9000',
-    contacts:   contacts ? contacts : 'http://localhost:9000/assets/contacts.json',
-    groups:     groups ? groups : 'http://localhost:9000/assets/groups.json',
-    fields:     fields ? fields : 'http://localhost:9000/assets/fields.json',
-    flows:      flows ? flows : 'http://localhost:9000/assets/flows.json',
+  engine: engine ? engine : 'http://localhost:9000',
+  contacts: contacts ? contacts : 'http://localhost:9000/assets/contacts.json',
+  groups: groups ? groups : 'http://localhost:9000/assets/groups.json',
+  fields: fields ? fields : 'http://localhost:9000/assets/fields.json',
+  flows: flows ? flows : 'http://localhost:9000/assets/flows.json',
 }
-
-console.log(endpoints);
 
 ReactDOM.render(
   <Editor

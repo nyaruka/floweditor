@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
-import {DragPoint, NodeEditorProps, NodeEditorState, ExitProps, TypeConfig, LocationProps} from '../interfaces';
-import {Modal} from './Modal';
-import {Config} from '../services/Config';
-import {FlowMutator} from '../components/FlowMutator';
-import {NodeForm} from './NodeForm';
+import { DragPoint, NodeEditorProps, NodeEditorState, ExitProps, TypeConfig, LocationProps } from '../interfaces';
+import { Modal } from './Modal';
+import { Config } from '../services/Config';
+import { FlowMutator } from '../components/FlowMutator';
+import { NodeForm } from './NodeForm';
 
 var Select = require('react-select');
 var styles = require('./NodeModal.scss');
@@ -34,7 +34,7 @@ interface NodeModalState {
  * A modal for editing node properties such as actions or a router
  */
 export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
-    
+
     private formElement: HTMLFormElement;
     private form: NodeForm<NodeEditorProps, NodeEditorState>;
 
@@ -65,7 +65,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     }
 
     close() {
-        this.setState({show: false});
+        this.setState({ show: false });
     }
 
     getConfig(type: string) {
@@ -146,7 +146,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
             }
         }
     }
-    
+
     public getClassName() {
         return this.state.config.type.split('_').join('-');
     }
@@ -174,7 +174,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
             )
         }
 
-        var form = null;
+        var form: any = null;
         if (this.state.show) {
             // create our form element
             if (this.state.config.form != null) {
@@ -182,9 +182,9 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                 var ref = (ele: any) => { this.form = ele; }
                 var uuid = props.uuid;
                 if (!uuid) {
-                    uuid =  UUID.v4();
+                    uuid = UUID.v4();
                 }
-                form = React.createElement(this.state.config.form, {...props, key:uuid, ref:ref, uuid: uuid, config: this.state.config});
+                form = React.createElement(this.state.config.form, { ...props, key: uuid, ref: ref, uuid: uuid, config: this.state.config });
             }
         }
 
@@ -200,8 +200,8 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                 onModalOpen={this.onModalOpen}
                 ok='Save'
                 cancel='Cancel'>
-                
-                <div className={styles["node-editor"]}>
+
+                <div className={styles["node_editor"]}>
                     <form onKeyPress={this.onKeyPress} ref={(ele: any) => { this.formElement = ele; }}>
                         {changeOptions}
                         <div className={styles["widgets"]}>{form}</div>
