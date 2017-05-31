@@ -1,9 +1,9 @@
 import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
-import {SendMessageProps, UINode, WebhookProps, ExitProps, CaseProps} from '../src/interfaces';
-import {FlowMutator} from '../src/components/FlowMutator';
-import {FlowDefinition, NodeProps} from '../src/interfaces';
-import {getFavorites, dump} from './utils';
+import { SendMessageProps, UINode, WebhookProps, ExitProps, CaseProps } from '../src/interfaces';
+import { FlowMutator } from '../src/components/FlowMutator';
+import { FlowDefinition, NodeProps } from '../src/interfaces';
+import { getFavorites, dump } from './utils';
 
 describe('FlowMutator', () => {
 
@@ -12,23 +12,48 @@ describe('FlowMutator', () => {
 
     beforeEach(() => {
         definition = getFavorites()
-        mutator = new FlowMutator(definition, (updated: FlowDefinition)=>{
+        mutator = new FlowMutator(definition, (updated: FlowDefinition) => {
             definition = updated;
         });
     });
 
     describe('Nodes', () => {
+
+        it('updates positions', () => {
+            // move our first node down
+            var firstNode = definition.nodes[0].uuid;
+            var originalPosition = definition._ui.nodes[firstNode].position;
+
+            mutator.updateNodeUI(firstNode, {
+                position: { $set: { x: originalPosition.x, y: originalPosition.y + 1000 } }
+            });
+
+            // our position should be updated
+            var newPosition = definition._ui.nodes[firstNode].position;
+            chai.assert.deepEqual(newPosition, { x: originalPosition.x, y: originalPosition.y + 1000 });
+
+            // our first node should no longer be the first node
+            chai.assert.notEqual(definition.nodes[0].uuid, firstNode, "Entry node didn't change on move");
+
+            // check our component map agrees
+            var details = mutator.getComponents().getDetails(firstNode);
+            chai.assert.notEqual(details.nodeIdx, 0);
+
+        });
+
         it('removes nodes and remaps exits', () => {
 
             // we start with 7 nodes
             chai.assert.equal(definition.nodes.length, 7)
+            chai.assert.equal(Object.keys(definition._ui.nodes).length, 7);
 
             // remove the action node following the first response
             mutator.removeNode(definition.nodes[4]);
 
             // now we should be down to 6 nodes
             chai.assert.equal(definition.nodes.length, 6);
-        
+            chai.assert.equal(Object.keys(definition._ui.nodes).length, 6);
+
             // our previous non-other exits should be rerouted to the next node
             for (let exit of definition.nodes[4].exits) {
                 if (exit.name != "Other") {
@@ -38,14 +63,16 @@ describe('FlowMutator', () => {
 
             // remove each remaining node, one by one
             while (definition.nodes.length > 0) {
-                mutator.removeNode(definition.nodes[0]);            
+                mutator.removeNode(definition.nodes[0]);
             }
 
             // we should be left with no nodes
             chai.assert.equal(definition.nodes.length, 0);
+            chai.assert.equal(Object.keys(definition._ui.nodes).length, 0);
+
         });
 
-        it ('removes actions', ()=>{
+        it('removes actions', () => {
 
             // our last node has two actions
             var indexes = mutator.getComponents().getDetails("47a0be00-59ad-4558-bd13-ec66518ce44a");
@@ -54,7 +81,7 @@ describe('FlowMutator', () => {
             // get our last message action in the flow
             var indexes = mutator.getComponents().getDetails("76fe3759-e0b6-437e-ae6c-6005ff43fbb8");
             var action = definition.nodes[indexes.nodeIdx].actions[indexes.actionIdx];
-            
+
             // remove that action
             mutator.removeAction(action);
 
@@ -63,12 +90,12 @@ describe('FlowMutator', () => {
 
         });
 
-        it ('removes the node if the last action is removed', ()=>{
-            
+        it('removes the node if the last action is removed', () => {
+
             // the first node is a single action
             var firstNode = definition.nodes[0];
             chai.assert.equal(1, firstNode.actions.length);
-            
+
             // remove that action
             mutator.removeAction(firstNode.actions[0]);
 
@@ -107,7 +134,7 @@ describe('FlowMutator', () => {
             // we should now have a pending connection on our new ndoe
             lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a");
             chai.assert.isNull(lastNode.exits[0].destination);
-            chai.assert.equal(newNode.pendingConnection.exitUUID, lastNode.exits[0].uuid); 
+            chai.assert.equal(newNode.pendingConnection.exitUUID, lastNode.exits[0].uuid);
 
             // resolve our pending connection and check the exit destination
             mutator.resolvePendingConnection(newNode);
@@ -122,7 +149,7 @@ describe('FlowMutator', () => {
             // check that we have our location set
             var ui = definition._ui.nodes[newNode.uuid] as UINode;
             chai.assert.notEqual(ui, undefined, "Couldn't find ui details for new node");
-            chai.assert.deepEqual(ui.position, {x: 444, y: 555})        
+            chai.assert.deepEqual(ui.position, { x: 444, y: 555 })
         });
 
         xit('removes localization on node removal', () => {
@@ -130,8 +157,8 @@ describe('FlowMutator', () => {
         });
     });
 
-    describe('Actions', ()=>{
-        it ('updates existing actions to the same type', () => {
+    describe('Actions', () => {
+        it('updates existing actions to the same type', () => {
             var lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
             mutator.updateAction({
                 uuid: lastNode.actions[0].uuid,
@@ -144,7 +171,7 @@ describe('FlowMutator', () => {
             chai.assert.equal(action.text, "An update to an existing action");
         });
 
-        it ('updates existing actions to a different type', () => {
+        it('updates existing actions to a different type', () => {
             var lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
             mutator.updateAction({
                 uuid: lastNode.actions[0].uuid,
@@ -159,7 +186,7 @@ describe('FlowMutator', () => {
             chai.assert.equal(action.method, "GET");
         });
 
-        xit ('adds actions to an existing node', () => {
+        xit('adds actions to an existing node', () => {
             mutator.updateAction({
                 uuid: UUID.v4(),
                 type: "msg",
@@ -185,7 +212,7 @@ describe('FlowMutator', () => {
                 type: "msg",
                 text: "An action that creates a new node",
             } as SendMessageProps);
-            
+
             /*
             draggedFrom: {
                     exitUUID: lastNode.exits[0].uuid, 

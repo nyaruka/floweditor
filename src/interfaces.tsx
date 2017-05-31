@@ -101,7 +101,7 @@ export interface WebhookProps extends ActionProps {
 
 export interface RouterProps extends NodeEditorProps {
     type: string;
-    name: string;
+    name?: string;
 }
 
 export interface CaseProps {
