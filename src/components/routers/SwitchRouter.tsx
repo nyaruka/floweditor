@@ -7,7 +7,10 @@ import { SwitchRouterProps, CaseProps, NodeProps, ExitProps } from '../../interf
 import { InputElement } from '../form/InputElement';
 import { NodeForm } from '../NodeForm';
 import { NodeModalProps } from '../NodeModal';
+import { Config } from '../../services/Config';
+
 import { DragDropContext } from 'react-dnd';
+
 
 let HTML5Backend = require('react-dnd-html5-backend');
 let update = require('immutability-helper');
@@ -35,8 +38,23 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
     var exits: ExitProps[] = [];
     var cases: CaseProps[] = [];
 
+
     // map our new cases to an appropriate exit
     for (let kase of newCases) {
+
+        // skip missing names
+        if (kase.exitName.trim().length == 0) {
+            continue;
+        } else {
+
+            // skip missing arguments
+            let config = Config.get().getOperatorConfig(kase.type);
+            if (config.operands == 1) {
+                if (kase.arguments[0].trim().length == 0) {
+                    continue;
+                }
+            }
+        }
 
         // see if we have a suitable exit for our case already
         var existingExit: ExitProps = null;
@@ -149,6 +167,12 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         })
     }
 
+    onCaseRemoved(c: CaseElement) {
+        let idx = this.state.cases.findIndex((kase: CaseProps) => { return kase.uuid == c.props.uuid });
+        var cases = update(this.state.cases, { $splice: [[idx, 1]] });
+        this.setState({ cases: cases });
+    }
+
     onCaseChanged(c: CaseElement) {
         var cases = this.state.cases;
         var newCase: CaseProps = {
@@ -183,8 +207,15 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         var ref = this.ref.bind(this);
 
         var cases: JSX.Element[] = [];
+        var needsEmpty = true;
         if (this.state.cases) {
             this.state.cases.map((c: CaseElementProps) => {
+
+                // is this case empty?
+                if ((!c.exitName || c.exitName.trim().length == 0) && (!c.arguments || c.arguments[0].trim().length == 0)) {
+                    needsEmpty = false;
+                }
+
                 if (c.exit) {
                     for (let exit of this.props.exits) {
                         if (!c.exitName && exit.uuid == c.exit) {
@@ -197,22 +228,27 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
                     key={c.uuid}
                     ref={ref}
                     name="Case"
-                    onChanged={this.onCaseChanged.bind(this)} moveCase={this.moveCase.bind(this)}
+                    onRemove={this.onCaseRemoved.bind(this)}
+                    onChanged={this.onCaseChanged.bind(this)}
+                    moveCase={this.moveCase.bind(this)}
                     {...c}
                 />);
             });
         }
 
-        var newCaseUUID = UUID.v4()
-        cases.push(<CaseElement
-            name="Case"
-            onChanged={this.onCaseChanged.bind(this)}
-            ref={ref}
-            key={newCaseUUID}
-            uuid={newCaseUUID}
-            exit={null}
-            type="has_any_word"
-        />);
+        if (needsEmpty) {
+            var newCaseUUID = UUID.v4()
+            cases.push(<CaseElement
+                onRemove={this.onCaseRemoved.bind(this)}
+                name="Case"
+                onChanged={this.onCaseChanged.bind(this)}
+                ref={ref}
+                key={newCaseUUID}
+                uuid={newCaseUUID}
+                exit={null}
+                type="has_any_word"
+            />);
+        }
 
         var nameField = null;
         if (this.state.setName || this.props.name) {

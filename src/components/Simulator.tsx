@@ -231,8 +231,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             }
         };
 
-        console.log(body);
-
         axios.default.post(urljoin(this.props.engineURL + '/flow/start'), JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
             this.updateRunContext(body, response.data as RunContext);
         });
@@ -314,8 +312,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
     public render() {
         var messages: JSX.Element[] = [];
-        console.log(this.state.events);
-
         for (let event of this.state.events) {
             messages.push(<LogEvent {...event} key={String(event.created_on)} />)
         }

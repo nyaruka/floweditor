@@ -1,16 +1,17 @@
 import * as React from "react";
 
-import {FormElement, FormElementProps} from './FormElement';
-import {FormWidget, FormValueState} from './FormWidget';
-import {Operator, CaseProps} from '../../interfaces';
-import {Config} from '../../services/Config';
+import { FormElement, FormElementProps } from './FormElement';
+import { FormWidget, FormValueState } from './FormWidget';
+import { Operator, CaseProps } from '../../interfaces';
+import { Config } from '../../services/Config';
 
 var Select = require('react-select');
 var forms = require("./FormElement.scss");
 var styles = require("./CaseElement.scss");
 
 export interface CaseElementProps extends CaseProps {
-    name: string,
+    name: string;
+    onRemove(c: CaseElement): void;
 }
 
 interface CaseElementState extends FormValueState {
@@ -83,7 +84,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
         return exitName;
     }
 
-    private onChangeOperator(val: Operator){
+    private onChangeOperator(val: Operator) {
         this.setState({
             operator: val.type,
         }, () => {
@@ -96,7 +97,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
         this.setState({
             arguments: args,
             exitName: this.getExitName(args)
-        }, ()=>{
+        }, () => {
             this.props.onChanged(this);
         });
     }
@@ -107,14 +108,18 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
         }, () => {
             this.props.onChanged(this);
         });
-    }    
+    }
+
+    private onRemove(ele: any) {
+        this.props.onRemove(this);
+    }
 
     hasArguments(): boolean {
         return this.state.arguments && this.state.arguments.length > 0 && this.state.arguments[0].trim().length > 0;
     }
 
     validate(): boolean {
-        
+
         var errors: string[] = [];
 
 
@@ -152,7 +157,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
             }
         }
 
-        this.setState({errors: errors});
+        this.setState({ errors: errors });
         return errors.length == 0;
     }
 
@@ -170,7 +175,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
                             name="operator"
                             clearable={false}
                             options={Config.get().operators}
-                            value={this.state.operator}                        
+                            value={this.state.operator}
                             valueKey="type"
                             labelKey="verboseName"
                             optionClassName="operator"
@@ -179,15 +184,16 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
                         />
                     </div>
                     <div className={styles.operand}>
-                        <input className={styles.input} name="arguments" type="text" onChange={this.onChangeArguments.bind(this)} defaultValue={this.state.arguments}/>
+                        <input className={styles.input} name="arguments" type="text" onChange={this.onChangeArguments.bind(this)} defaultValue={this.state.arguments} />
                     </div>
                     <div className={styles["categorize-as"]}>
                         categorize as
                     </div>
                     <div className={styles.category}>
-                        <input className={styles.input} name="exitName" type="text" onChange={this.onChangeExitName.bind(this)} value={this.state.exitName}/>
+                        <input className={styles.input} name="exitName" type="text" onChange={this.onChangeExitName.bind(this)} value={this.state.exitName} />
                     </div>
-                </div>                
+                    <div className={styles["remove-button"]} onMouseUp={this.onRemove.bind(this)}><span className="icon-remove" /></div>
+                </div>
             </FormElement>
         )
     }
