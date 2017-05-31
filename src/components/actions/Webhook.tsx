@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {Action} from '../Action';
-import {NodeForm} from '../NodeForm';
-import {WebhookProps, NodeEditorState} from '../../interfaces';
-import {NodeModalProps} from '../NodeModal';
-import {SelectElement} from '../form/SelectElement';
-import {InputElement} from '../form/InputElement';
+import { Action } from '../Action';
+import { NodeForm } from '../NodeForm';
+import { WebhookProps, NodeEditorState } from '../../interfaces';
+import { NodeModalProps } from '../NodeModal';
+import { SelectElement } from '../form/SelectElement';
+import { InputElement } from '../form/InputElement';
 
 var styles = require('./Webhook.scss');
 var shared = require('../shared.scss');
@@ -15,13 +15,13 @@ export interface WebhookState {
 
 export class Webhook extends Action<WebhookProps> {
     renderNode(): JSX.Element {
-        return <div className="url breaks">{this.props.url}</div>
+        return <div>{this.props.url}</div>
     }
 }
 
 export class WebhookForm extends NodeForm<WebhookProps, WebhookState> {
-    
-    private methodOptions = [{value:'GET', label:'GET'}, {value:'POST', label:'POST'}];
+
+    private methodOptions = [{ value: 'GET', label: 'GET' }, { value: 'POST', label: 'POST' }];
 
     constructor(props: WebhookProps) {
         super(props);
@@ -37,7 +37,7 @@ export class WebhookForm extends NodeForm<WebhookProps, WebhookState> {
     }
 
     onChangeMethod(value: any) {
-        this.setState({method: value.value});
+        this.setState({ method: value.value });
     }
 
     renderForm(): JSX.Element {
@@ -54,10 +54,10 @@ export class WebhookForm extends NodeForm<WebhookProps, WebhookState> {
                 <p>Using a Webhook you can trigger actions in external services or fetch data to use in this Flow. Enter a URL to call below.</p>
 
                 <div className={styles.method}>
-                    <SelectElement ref={ref} name="Method" value={method} options={this.methodOptions}/>
+                    <SelectElement ref={ref} name="Method" value={method} options={this.methodOptions} />
                 </div>
                 <div className={styles.url}>
-                    <InputElement ref={ref} name="URL" placeholder="Enter a URL" value={this.props.url} required url/>
+                    <InputElement ref={ref} name="URL" placeholder="Enter a URL" value={this.props.url} required url />
                 </div>
 
                 <div className={styles.instructions}>
@@ -75,11 +75,11 @@ export class WebhookForm extends NodeForm<WebhookProps, WebhookState> {
 
         var methodEle = this.getElements()[0] as SelectElement;
         var urlEle = this.getElements()[1] as InputElement;
-        
+
         modal.onUpdateAction({
-            uuid: this.props.uuid, 
-            type: "webhook", 
-            url: urlEle.state.value, 
+            uuid: this.props.uuid,
+            type: "webhook",
+            url: urlEle.state.value,
             method: methodEle.state.value
         } as WebhookProps);
     }
