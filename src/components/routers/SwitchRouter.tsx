@@ -221,7 +221,7 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
                 name="Result Name"
                 showLabel={true}
                 value={this.props.name}
-                helpText="By naming the result, you can reference it later using @results.whatever_the_name_is"
+                helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
             />
         } else {
             nameField = <span className={styles.save_link} onClick={this.onShowNameField.bind(this)}>Save as..</span>
