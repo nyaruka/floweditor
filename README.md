@@ -10,7 +10,11 @@ The flow editor uses npm for all dependencies.
 ## Buildling
 Webpack is used to transpile TypeScript and SASS. Afert invoking a build, the compiled results will arrive in the /dist folder.
 ```
-% npm build
+%npm run build:dev
+```
+or
+```
+% npm run build:prod
 ```
 
 ## Development
