@@ -306,16 +306,18 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         }
 
         return (
-            <div className={styles.simulator} >
-                <a className={styles.reset} onClick={this.onReset.bind(this)} />
-                <div className={styles.icon_simulator + " icon-simulator"} />
-                <div className={styles.screen}>
-                    <div className={styles.messages}>
-                        {messages}
-                        <div id="bottom" style={{ float: "left", clear: "both" }} ref={(el) => { this.bottom = el; }}></div>
-                    </div>
-                    <div className={styles.controls}>
-                        <input type="text" onKeyUp={this.onKeyUp.bind(this)} />
+            <div className={styles.simulator_container}>
+                <div className={styles.simulator} >
+                    <a className={styles.reset} onClick={this.onReset.bind(this)} />
+                    <div className={styles.icon_simulator + " icon-simulator"} />
+                    <div className={styles.screen}>
+                        <div className={styles.messages}>
+                            {messages}
+                            <div id="bottom" style={{ float: "left", clear: "both" }} ref={(el) => { this.bottom = el; }}></div>
+                        </div>
+                        <div className={styles.controls}>
+                            <input type="text" onKeyUp={this.onKeyUp.bind(this)} />
+                        </div>
                     </div>
                 </div>
             </div>
