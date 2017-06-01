@@ -7,12 +7,11 @@ import { NodeComp } from './Node';
 import { Plumber } from '../services/Plumber';
 import { FlowStore } from '../services/FlowStore';
 import { Simulator } from './Simulator';
-import { Config } from '../services/Config';
+import { Config, Endpoints } from '../services/Config';
 import { NodeModal } from './NodeModal';
 import { FlowMutator } from './FlowMutator';
 import { Flow } from './Flow';
 import { FlowDefinition } from '../FlowDefinition';
-import { Endpoints } from '../interfaces';
 import { External } from '../services/External';
 
 var FORCE_FETCH = true;

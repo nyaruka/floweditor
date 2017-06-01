@@ -1,10 +1,22 @@
-import {
-    SearchResult, ContactFieldResult,
-    Group, SaveToContactProps, ChangeGroupProps
-} from '../interfaces';
-
 import { DragPoint } from '../components/Node';
-import { FlowDefinition, Exit } from '../FlowDefinition';
+import { FlowDefinition, SaveToContact, ChangeGroup, Exit } from '../FlowDefinition';
+
+export interface ContactField {
+    uuid: string;
+    name: string;
+}
+
+export interface SearchResult {
+    name: string,
+    id: string,
+    type: string,
+    prefix?: string,
+    extraResult?: boolean
+}
+
+export interface ContactFieldResult extends SearchResult {
+    key?: string
+}
 
 interface ComponentDetails {
     nodeUUID: string;
@@ -123,14 +135,14 @@ export class ComponentMap {
             if (node.actions) {
                 for (let action of node.actions) {
                     if (action.type == 'save_to_contact') {
-                        var saveProps = action as SaveToContactProps;
+                        var saveProps = action as SaveToContact;
                         if (!reservedFields.some(fieldName => fieldName.name === saveProps.name)) {
                             if (!(saveProps.field in fields)) {
                                 fields[saveProps.field] = { id: saveProps.field, name: saveProps.name, type: "field" }
                             }
                         }
                     } else if (action.type == 'add_to_group' || action.type == 'remove_from_group') {
-                        var groupProps = action as ChangeGroupProps;
+                        var groupProps = action as ChangeGroup;
                         for (let group of groupProps.groups) {
                             if (!(group.uuid in groups)) {
                                 groups[group.uuid] = { id: group.uuid, name: group.name, type: "group" }

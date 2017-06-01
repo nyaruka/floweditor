@@ -1,11 +1,7 @@
 import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
 
-import {
-    SendMessageProps, WebhookProps, NodeEditorProps,
-    ActionProps, RouterProps, SearchResult, ContactFieldResult
-} from '../interfaces';
-
+import { ContactFieldResult, SearchResult } from './ComponentMap';
 import { FlowDefinition, Node, Action, Exit, UIMetaData, UINode, Position } from '../FlowDefinition';
 import { NodeModalProps } from './NodeModal';
 import { NodeComp, NodeProps, DragPoint } from './Node';
@@ -145,13 +141,13 @@ export class FlowMutator {
         newPosition: Position = null): Node {
 
         console.time("updateRouter");
-        // console.log("updateRouter", props);
+        console.log("updateRouter", props);
 
         var node: Node;
         if (draggedFrom) {
             // console.log("adding new router node", props);
             node = this.addNode(
-                node, { position: newPosition }, {
+                props, { position: newPosition }, {
                     exitUUID: draggedFrom.exitUUID,
                     nodeUUID: draggedFrom.nodeUUID
                 }
@@ -179,7 +175,7 @@ export class FlowMutator {
      * @param uuid the action to modify
      * @param changes immutability spec to modify at the given action
      */
-    public updateAction(props: ActionProps,
+    public updateAction(props: Action,
         draggedFrom: DragPoint = null,
         newPosition: Position = null,
         addToNode: string = null): Node {
@@ -342,8 +338,8 @@ export class FlowMutator {
 
             // console.log("resolving pendingConnection..", props.pendingConnection, props.uuid);
             this.updateExit(pendingConnection.exitUUID, { $merge: { destination: props.uuid } });
+            this.components.initializeUUIDMap(this.definition);
             this.markDirty();
-
             // remove our pending connection
             this.components.removePendingConnection(props.uuid);
         }

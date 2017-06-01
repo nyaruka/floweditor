@@ -7,8 +7,7 @@ import * as urljoin from 'url-join';
 import { Modal } from './Modal';
 import { FlowStore } from '../services/FlowStore';
 import { Plumber } from '../services/Plumber';
-import { GroupProps } from '../interfaces';
-import { FlowDefinition } from '../FlowDefinition';
+import { FlowDefinition, Group } from '../FlowDefinition';
 
 var styles = require("./Simulator.scss");
 
@@ -26,11 +25,6 @@ interface SimulatorState {
     session?: Session;
     contact: Contact;
     events: Event[];
-}
-
-interface Group {
-    name: string;
-    uuid: string;
 }
 
 interface Contact {
@@ -54,7 +48,7 @@ interface Event {
     status_code?: number;
     request?: string;
     response?: string;
-    groups?: GroupProps[];
+    groups?: Group[];
 }
 
 interface Step {

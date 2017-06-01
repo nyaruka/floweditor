@@ -1,17 +1,37 @@
 import * as React from 'react';
-import { FlowContext, SendMessageProps, NodeEditorProps, EditableProps, ActionProps, RouterProps, Endpoints, ContactFieldResult } from '../interfaces';
-import { FlowDefinition, Node, Position } from '../FlowDefinition';
+import { ActionProps } from './Action';
+import { FlowDefinition, Action, Node, Position, SendMessage } from '../FlowDefinition';
+import { ContactFieldResult, SearchResult } from './ComponentMap';
 import { NodeComp, NodeProps } from './Node';
-import { NodeModal, NodeModalProps } from './NodeModal';
+import { NodeModal, NodeModalProps, EditableProps } from './NodeModal';
 import { FlowMutator } from './FlowMutator';
 import { Simulator } from './Simulator';
 import { Plumber } from '../services/Plumber';
-import { Config } from '../services/Config';
+import { Config, Endpoints } from '../services/Config';
 
 var update = require('immutability-helper');
 var UUID = require('uuid');
 
 var styles = require("./Flow.scss");
+
+export interface FlowContext {
+    eventHandler: FlowEventHandler;
+    endpoints: Endpoints;
+    getContactFields(): ContactFieldResult[];
+    getGroups(): SearchResult[];
+}
+
+export interface FlowEventHandler {
+    onRemoveAction(props: Action): void;
+    onNodeMoved(nodeUUID: string, position: Position): void;
+    onAddAction(nodeUUID: string): void;
+    onRemoveNode(props: Node): void;
+    onEditNode(props: EditableProps): void;
+    onNodeMounted(props: Node): void;
+    onAddContactField(field: ContactFieldResult): void;
+    onAddGroup(group: SearchResult): void;
+}
+
 
 interface FlowProps {
     definition: FlowDefinition;
@@ -21,7 +41,7 @@ interface FlowProps {
 }
 
 interface FlowState {
-    ghostProps?: NodeProps
+    ghost?: Node
     modalProps?: NodeModalProps
     loading: boolean
     context: FlowContext
@@ -82,26 +102,36 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
     }
 
     private onEdit(props: EditableProps) {
+
         var modalProps = update(this.state.modalProps, { $merge: { editableProps: props } });
 
         // TODO: is this necessary
         delete modalProps["addToNode"];
 
+        console.log(modalProps);
+
         this.setState({ modalProps: modalProps }, () => { this.modalComp.open() });
     }
 
+
     private onAddAction(addToNode: string) {
 
-        var newAction = {
-            uuid: UUID.v4(),
-            type: "reply",
+        var uuid = UUID.v4();
+        var newAction: ActionProps = {
+            action: {
+                uuid: uuid,
+                type: "reply",
+                text: ""
+            } as SendMessage,
+            context: this.state.context,
             dragging: false,
-            context: this.state.context
-        }
+            type: "reply",
+            uuid: uuid
+        };
 
         var editableProps: EditableProps = {
             initial: newAction,
-            type: "reply",
+            type: newAction.type,
             uuid: newAction.uuid,
             context: this.state.context
         }
@@ -129,7 +159,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
     private resetState() {
         this.setState({
-            ghostProps: null,
+            ghost: null,
             modalProps: {
                 onUpdateAction: this.onUpdateAction,
                 onUpdateRouter: this.onUpdateRouter,
@@ -170,7 +200,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             exitUUID: draggedFromDetails.exitUUID,
             onResolved: (() => {
                 this.setState({
-                    ghostProps: null,
+                    ghost: null,
                     modalProps: {
                         onUpdateAction: this.onUpdateAction,
                         onUpdateRouter: this.onUpdateRouter,
@@ -180,33 +210,30 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             })
         }
 
-        var ghostProps = {
-            context: this.state.context,
-            node: {
-                uuid: nodeUUID,
-                actions: [],
-                exits: [{
-                    "uuid": UUID.v4(),
-                    "destination": null,
-                    "name": null
-                }]
-            }
-        } as NodeProps;
+        var ghost: Node = {
+            uuid: nodeUUID,
+            actions: [],
+            exits: [{
+                "uuid": UUID.v4(),
+                "destination": null,
+                "name": null
+            }]
+        };
 
         // add an action if we are coming from a split
         if (fromNode.exits.length > 1) {
-            let actionUUID = UUID.v4();
-            ghostProps.node.actions.push({
-                context: this.state.context,
-                uuid: actionUUID,
+            let replyAction: SendMessage = {
+                uuid: UUID.v4(),
                 type: "reply",
                 text: ""
-            } as SendMessageProps);
+            }
+            ghost.actions.push(replyAction);
         }
+
         // otherwise we are going to a switch
         else {
-            ghostProps.node.exits[0].name = "All Responses";
-            ghostProps.node['router'] = { type: "switch" }
+            ghost.exits[0].name = "All Responses";
+            ghost.router = { type: "switch" }
         }
 
         var modalProps = {
@@ -218,7 +245,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
         // set our ghost spec so it gets rendered
         this.setState({
-            ghostProps: ghostProps,
+            ghost: ghost,
             modalProps: modalProps
         });
     }
@@ -240,16 +267,16 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
         // if we don't have any nodes, create our first one
         if (this.props.definition.nodes.length == 0) {
+
+            let initialAction: SendMessage = {
+                uuid: UUID.v4(),
+                type: "reply",
+                text: "Hi there, this the first message in your flow!"
+            };
+
             var node: Node = {
                 uuid: UUID.v4(),
-                actions: [{
-                    context: this.state.context,
-                    uuid: UUID.v4(),
-                    type: "reply",
-                    text: "Hi there, this the first message in your flow!",
-                    onEdit: this.onEdit,
-                    dragging: false,
-                } as SendMessageProps],
+                actions: [initialAction],
                 exits: [{
                     uuid: UUID.v4()
                 }]
@@ -257,6 +284,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
             this.props.mutator.addNode(node, { position: { x: 0, y: 0 } });
             this.setState({ loading: false });
+
         } else {
 
             console.timeEnd("RenderAndPlumb");
@@ -310,12 +338,10 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
     private onConnectorDrop(event: ConnectionEvent) {
 
         if (this.ghostComp && $(this.ghostComp.ele).is(":visible")) {
-            // if (this.state.ghostProps != null && event.sourceId == "asdf") {
-
             // wire up the drag from to our ghost node
             let dragPoint = this.state.modalProps.draggedFrom;
-            Plumber.get().revalidate(this.state.ghostProps.node.uuid);
-            Plumber.get().connect(dragPoint.exitUUID, this.state.ghostProps.node.uuid);
+            Plumber.get().revalidate(this.state.ghost.uuid);
+            Plumber.get().connect(dragPoint.exitUUID, this.state.ghost.uuid);
 
             // update our modal with our drop location
             var { left, top } = $(this.ghostComp.ele).offset();
@@ -330,8 +356,6 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
     }
 
     render() {
-
-        // console.time("Rendered Flow");
         var nodes: JSX.Element[] = [];
         for (let node of this.props.definition.nodes) {
             var uiNode = this.props.definition._ui.nodes[node.uuid];
@@ -339,12 +363,20 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         }
 
         var dragNode = null;
-        if (this.state.ghostProps) {
-            let ghostProps = this.state.ghostProps
-            // start off screen
-            var position = { x: -1000, y: -1000 };
-            dragNode = <NodeComp key={ghostProps.node.uuid} ref={(ele) => { this.ghostComp = ele }} node={ghostProps.node} position={position}
-                ghost={true} context={this.state.context} />
+        if (this.state.ghost) {
+            let ghost = this.state.ghost
+            dragNode = <NodeComp
+
+                key={ghost.uuid}
+                ref={(ele) => { this.ghostComp = ele }}
+                node={ghost}
+                context={this.state.context}
+
+                // start off screen
+                position={{ x: -1000, y: -1000 }}
+                ghost={true}
+
+            />
         }
 
         var simulator = null;

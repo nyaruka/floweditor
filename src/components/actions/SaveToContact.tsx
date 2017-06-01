@@ -2,10 +2,10 @@ import * as React from 'react';
 import { FlowStore } from '../../services/FlowStore';
 import { toBoolMap } from '../../utils';
 import { SelectSearch } from '../SelectSearch';
-import { SaveToContactProps, NodeEditorState, SearchResult } from '../../interfaces';
+import { SearchResult } from '../ComponentMap';
 import { SaveToContact } from '../../FlowDefinition';
 import { NodeModalProps } from '../NodeModal';
-import { NodeForm } from '../NodeForm';
+import { ActionForm } from '../NodeForm';
 import { ActionComp } from '../Action';
 import { FieldElement } from '../form/FieldElement';
 import { InputElement } from '../form/InputElement';
@@ -38,14 +38,10 @@ export class SaveToContactComp extends ActionComp<SaveToContact> {
     }
 }
 
-export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorState> {
+export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
 
     fieldValue: string;
     fieldSelect: SelectSearch;
-
-    constructor(props: SaveToContactProps) {
-        super(props);
-    }
 
     isValidNewOption(option: { label: string }): boolean {
         if (!option || !option.label) { return false; }
@@ -66,11 +62,12 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
 
     renderForm(): JSX.Element {
         var initial: SearchResult = null;
-        if (this.props.type == "save_to_contact") {
+        var action = this.getAction();
+        if (this.props.action.type == "save_to_contact") {
             initial = {
-                id: this.props.field,
-                name: this.props.name,
-                type: this.props.type,
+                id: action.field,
+                name: action.name,
+                type: action.type,
             };
         }
 
@@ -86,7 +83,7 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
                     initial={initial} add required
                 />
 
-                <InputElement ref={ref} name="Value" showLabel={true} value={this.props.value}
+                <InputElement ref={ref} name="Value" showLabel={true} value={action.value}
                     helpText="The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json."
                 />
             </div>
@@ -101,13 +98,15 @@ export class SaveToContactForm extends NodeForm<SaveToContactProps, NodeEditorSt
 
         var field = fieldEle.state.field;
 
-        modal.onUpdateAction({
-            uuid: this.props.uuid,
-            type: "save_to_contact",
+        var newAction: SaveToContact = {
+            uuid: this.props.action.uuid,
+            type: this.props.config.type,
             name: field.name,
             field: field.id,
             value: valueEle.state.value
-        } as SaveToContactProps);
+        }
+
+        modal.onUpdateAction(newAction);
 
         if (field.extraResult) {
             this.props.context.eventHandler.onAddContactField({

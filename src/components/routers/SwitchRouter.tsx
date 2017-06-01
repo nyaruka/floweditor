@@ -3,11 +3,10 @@ import * as UUID from 'uuid';
 
 //import {Case} from '../Case';
 import { CaseElement, CaseElementProps } from '../form/CaseElement';
-import { NodeEditorProps } from '../../interfaces';
 import { NodeProps } from '../Node';
 import { InputElement } from '../form/InputElement';
 import { NodeForm } from '../NodeForm';
-import { NodeModalProps } from '../NodeModal';
+import { NodeEditorProps, NodeModalProps } from '../NodeModal';
 import { Config } from '../../services/Config';
 import { SwitchRouter, Exit, Case } from '../../FlowDefinition';
 
@@ -20,6 +19,7 @@ var styles = require('./SwitchRouter.scss');
 
 class SwitchRouterState {
     cases: CaseProps[]
+    name: string;
     setName: boolean
 }
 
@@ -41,8 +41,10 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
 
     // create mapping of our old exit uuids to old exit settings
     var previousExitMap: { [uuid: string]: Exit } = {};
-    for (let exit of previous.exits) {
-        previousExitMap[exit.uuid] = exit
+    if (previous.exits) {
+        for (let exit of previous.exits) {
+            previousExitMap[exit.uuid] = exit
+        }
     }
 
     var exits: Exit[] = [];
@@ -129,9 +131,9 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
     }
 
     // add in our default exit
-    var defaultUUID = previous.router.default;
-    if (!defaultUUID) {
-        defaultUUID = UUID.v4();
+    var defaultUUID = UUID.v4();
+    if (previous.router && previous.router.default) {
+        defaultUUID = previous.router.default;
     }
 
     var defaultName = "All Responses";
@@ -165,7 +167,7 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
 
         var cases: CaseProps[] = [];
 
-        if (this.props.router.cases) {
+        if (this.props.router && this.props.router.cases) {
             for (let kase of this.props.router.cases) {
 
                 var exitName = null;
@@ -184,9 +186,15 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
             }
         }
 
+        var name = "";
+        if (this.props.router) {
+            name = this.props.router.name;
+        }
+
         this.state = {
             cases: cases,
-            setName: false
+            setName: false,
+            name: name
         }
 
         this.onCaseChanged = this.onCaseChanged.bind(this);
@@ -287,12 +295,12 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         }
 
         var nameField = null;
-        if (this.state.setName || this.props.router.name) {
+        if (this.state.setName || this.state.name) {
             nameField = <InputElement
                 ref={this.ref.bind(this)}
                 name="Result Name"
                 showLabel={true}
-                value={this.props.router.name}
+                value={this.state.name}
                 helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
             />
         } else {

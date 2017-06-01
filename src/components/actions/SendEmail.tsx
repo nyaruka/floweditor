@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { NodeEditorState } from '../../interfaces';
 import { ActionComp } from '../Action';
-import { NodeForm } from '../NodeForm';
-import { SendEmailProps } from '../../interfaces';
+import { ActionForm } from '../NodeForm';
 import { SendEmail } from '../../FlowDefinition';
 import { NodeModalProps } from '../NodeModal';
 import { TextAreaElement } from '../form/TextAreaElement';
@@ -21,19 +19,16 @@ interface SendEmailState {
     emails: { label: string, value: string }[]
 }
 
-export class SendEmailForm extends NodeForm<SendEmailProps, SendEmailState> {
-
-    constructor(props: SendEmailProps) {
-        super(props);
-    }
+export class SendEmailForm extends ActionForm<SendEmail, SendEmailState> {
 
     renderForm(): JSX.Element {
+        var action = this.getAction();
         var ref = this.ref.bind(this);
         return (
             <div>
-                <EmailElement ref={ref} name="Recipient" placeholder="To" emails={this.props.emails} required />
-                <InputElement ref={ref} name="Subject" placeholder="Subject" value={this.props.subject} required />
-                <TextAreaElement ref={ref} name="Message" showLabel={false} value={this.props.body} required />
+                <EmailElement ref={ref} name="Recipient" placeholder="To" emails={action.emails} required />
+                <InputElement ref={ref} name="Subject" placeholder="Subject" value={action.subject} required />
+                <TextAreaElement ref={ref} name="Message" showLabel={false} value={action.body} required />
             </div>
         )
     }
@@ -50,12 +45,14 @@ export class SendEmailForm extends NodeForm<SendEmailProps, SendEmailState> {
             emails.push(email.value);
         }
 
-        modal.onUpdateAction({
-            uuid: this.props.uuid,
-            type: "email",
+        var newAction: SendEmail = {
+            uuid: this.props.action.uuid,
+            type: this.props.config.type,
             body: bodyEle.state.value,
             subject: subjectEle.state.value,
             emails: emails
-        } as SendEmailProps);
+        }
+
+        modal.onUpdateAction(newAction);
     }
 }

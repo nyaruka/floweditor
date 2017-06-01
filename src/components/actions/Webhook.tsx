@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { ActionComp } from '../Action';
-import { NodeForm } from '../NodeForm';
-import { WebhookProps, NodeEditorState } from '../../interfaces';
+import { ActionComp, ActionProps } from '../Action';
+import { ActionForm } from '../NodeForm';
 import { Webhook } from '../../FlowDefinition';
 import { NodeModalProps } from '../NodeModal';
 import { SelectElement } from '../form/SelectElement';
@@ -20,14 +19,14 @@ export class WebhookComp extends ActionComp<Webhook> {
     }
 }
 
-export class WebhookForm extends NodeForm<WebhookProps, WebhookState> {
+export class WebhookForm extends ActionForm<Webhook, WebhookState> {
 
     private methodOptions = [{ value: 'GET', label: 'GET' }, { value: 'POST', label: 'POST' }];
 
-    constructor(props: WebhookProps) {
+    constructor(props: ActionProps) {
         super(props);
 
-        var method = props.method;
+        var method = this.getAction().method;
         if (!method) {
             method = "GET";
         }
@@ -43,7 +42,8 @@ export class WebhookForm extends NodeForm<WebhookProps, WebhookState> {
 
     renderForm(): JSX.Element {
 
-        var method = this.props.method;
+        var action = this.getAction();
+        var method = action.method;
         if (!method) {
             method = "GET";
         }
@@ -58,7 +58,7 @@ export class WebhookForm extends NodeForm<WebhookProps, WebhookState> {
                     <SelectElement ref={ref} name="Method" value={method} options={this.methodOptions} />
                 </div>
                 <div className={styles.url}>
-                    <InputElement ref={ref} name="URL" placeholder="Enter a URL" value={this.props.url} required url />
+                    <InputElement ref={ref} name="URL" placeholder="Enter a URL" value={action.url} required url />
                 </div>
 
                 <div className={styles.instructions}>
@@ -76,12 +76,13 @@ export class WebhookForm extends NodeForm<WebhookProps, WebhookState> {
 
         var methodEle = this.getElements()[0] as SelectElement;
         var urlEle = this.getElements()[1] as InputElement;
-
-        modal.onUpdateAction({
-            uuid: this.props.uuid,
-            type: "webhook",
+        var newAction: Webhook = {
+            uuid: this.props.action.uuid,
+            type: this.props.config.type,
             url: urlEle.state.value,
             method: methodEle.state.value
-        } as WebhookProps);
+        }
+
+        modal.onUpdateAction(newAction);
     }
 }

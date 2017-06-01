@@ -1,7 +1,8 @@
 import * as React from "react";
 import * as axios from "axios";
 import * as UUID from 'uuid';
-import { FlowContext } from '../interfaces';
+import { NodeEditorProps } from './NodeModal';
+import { FlowContext } from './Flow';
 import { Action } from '../FlowDefinition';
 import { Plumber } from '../services/Plumber';
 import { FlowStore } from '../services/FlowStore';
@@ -11,7 +12,7 @@ import { TitleBar } from './TitleBar';
 var shared = require('./shared.scss');
 var styles = require('./Action.scss');
 
-export interface ActionProps {
+export interface ActionProps extends NodeEditorProps {
     action: Action;
     context: FlowContext;
     dragging: boolean;

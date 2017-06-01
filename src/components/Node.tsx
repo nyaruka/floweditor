@@ -4,8 +4,8 @@ import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 
-import { RouterProps, SaveToContactProps, FlowContext } from '../interfaces';
 import { ActionProps } from './Action';
+import { FlowContext } from './Flow';
 import { Plumber, DragEvent } from '../services/Plumber';
 import { FlowStore } from '../services/FlowStore';
 import { Config } from '../services/Config';
@@ -138,8 +138,16 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
             if (this.props.node.actions && this.props.node.actions.length == 1) {
 
                 var action = this.props.node.actions[0];
+                var actionProps: ActionProps = {
+                    action: action,
+                    uuid: action.uuid,
+                    context: this.props.context,
+                    type: action.type,
+                    dragging: false
+                };
+
                 this.props.context.eventHandler.onEditNode({
-                    initial: action,
+                    initial: actionProps,
                     uuid: action.uuid,
                     type: action.type,
                     context: this.props.context

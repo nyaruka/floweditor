@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { AxiosResponse } from 'axios';
-import { Endpoints } from '../interfaces';
-
+import { Endpoints } from '../services/Config';
 import { FlowDefinition } from '../FlowDefinition';
 
 export interface FlowDetails {

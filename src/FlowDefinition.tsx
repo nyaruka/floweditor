@@ -45,10 +45,10 @@ export interface Action {
 }
 
 export interface ChangeGroup extends Action {
-    groups: GroupProps[];
+    groups: Group[];
 }
 
-export interface GroupProps {
+export interface Group {
     uuid: string;
     name: string;
 }

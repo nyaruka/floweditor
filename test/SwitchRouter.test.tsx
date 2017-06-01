@@ -1,7 +1,6 @@
 import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import { resolveExits, CaseProps, SwitchRouterProps } from '../src/components/routers/SwitchRouter';
-import { SendMessageProps, WebhookProps } from '../src/interfaces';
 import { FlowMutator } from '../src/components/FlowMutator';
 import { FlowDefinition, Case, SwitchRouter, Exit } from '../src/FlowDefinition';
 import { getFavorites, dump } from './utils';

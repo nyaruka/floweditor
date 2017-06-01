@@ -1,19 +1,31 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
-import { NodeEditorProps, NodeEditorState } from '../interfaces';
 import { Modal } from './Modal';
 import { Config, TypeConfig } from '../services/Config';
 import { FlowMutator } from './FlowMutator';
 import { DragPoint } from './Node';
+import { FlowContext } from './Flow';
 import { NodeForm } from './NodeForm';
 import { Position, Exit } from '../FlowDefinition';
-import { EditableProps } from '../interfaces';
 
 var Select = require('react-select');
 var styles = require('./NodeModal.scss');
 var shared = require('./shared.scss');
 
+export interface NodeEditorProps {
+    type: string;
+    uuid: string;
+    context: FlowContext;
+    config?: TypeConfig;
+}
+
+export interface EditableProps {
+    initial: NodeEditorProps;
+    type: string;
+    uuid: string;
+    context: FlowContext;
+}
 
 export interface NodeModalProps {
 
@@ -40,7 +52,7 @@ interface NodeModalState {
 export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
 
     private formElement: HTMLFormElement;
-    private form: NodeForm<NodeEditorProps, NodeEditorState>;
+    private form: NodeForm<NodeEditorProps, any>;
 
     private nodeUUID: string;
 
@@ -188,6 +200,8 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                 if (!uuid) {
                     uuid = UUID.v4();
                 }
+
+                console.log("NM initial", props.initial);
                 form = React.createElement(this.state.config.form, { ...props.initial, key: uuid, ref: ref, uuid: uuid, config: this.state.config });
             }
         }

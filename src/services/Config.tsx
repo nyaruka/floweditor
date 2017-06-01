@@ -1,11 +1,18 @@
-import { EditableProps } from '../interfaces';
+import { EditableProps } from '../components/NodeModal';
 import { ChangeGroupComp, ChangeGroupForm } from '../components/actions/ChangeGroup';
 import { SaveToContactComp, SaveToContactForm } from '../components/actions/SaveToContact';
 import { SendMessageComp, SendMessageForm } from '../components/actions/SendMessage';
 import { WebhookComp, WebhookForm } from '../components/actions/Webhook';
 import { SendEmailComp, SendEmailForm } from '../components/actions/SendEmail';
 import { SwitchRouterForm } from '../components/routers/SwitchRouter';
-import { RandomRouterForm } from '../components/routers/RandomRouter';
+
+export interface Endpoints {
+    fields: string;
+    groups: string;
+    engine: string;
+    contacts: string;
+    flows: string;
+}
 
 export interface TypeConfig {
     type: string;
