@@ -59,31 +59,26 @@ export class Config {
         // {type: "flow", name: "Run another flow", description: "Run another flow", component: Missing},
 
         // routers
-        // { type: "expression", name: "Split by Expression", description: "Split by a custom expression", form: SwitchRouterForm },
-        { type: "switch", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm },
+        { type: "expression", name: "Split by Expression", description: "Split by a custom expression", form: SwitchRouterForm },
+        { type: "wait_for_response", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm },
         // {type: "random", name: "Random Split", description: "Split them up randomly", form: RandomRouterForm}
 
     ]
 
     public getTypeConfig(type: string): TypeConfig {
-        for (let config of this.typeConfigs) {
-            if (config.type == type) {
-                return config;
-            }
+        var config = this.typeConfigs.find((config: TypeConfig) => { return config.type == type });
+        if (!config) {
+            throw new Error("No type configuration found for " + type);
         }
-
-        console.error("No type configuration found for", type);
-        return null;
+        return config;
     }
 
     public getOperatorConfig(type: string): Operator {
-        for (let operator of this.operators) {
-            if (operator.type == type) {
-                return operator;
-            }
+        var operator = this.operators.find((operator: Operator) => { return operator.type == type });
+        if (!operator) {
+            throw new Error("No operator found for " + type);
         }
-        console.error("No operator found for", type);
-        return null;
+        return operator;
     }
 
     public operators: Operator[] = [

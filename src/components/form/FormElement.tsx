@@ -18,7 +18,7 @@ export class FormElement extends React.PureComponent<FormElementProps, {}> {
 
         var errors: JSX.Element[] = [];
         if (this.props.errors) {
-            this.props.errors.map((error)=>{
+            this.props.errors.map((error) => {
                 errors.push(<div key={Math.random()} className={styles.error}>{error}</div>);
             });
         }
@@ -27,13 +27,13 @@ export class FormElement extends React.PureComponent<FormElementProps, {}> {
         if (errors.length > 0) {
             errorDisplay = (
                 <div className={styles.errors}>
-                  {errors}
+                    {errors}
                 </div>
             );
         }
 
         var name = this.props.showLabel && this.props.name ? <div>{this.props.name}</div> : "";
-        var helpText = this.props.helpText && !errorDisplay ? <div className={styles["help-text"]}>{this.props.helpText}</div> : "";
+        var helpText = this.props.helpText && !errorDisplay ? <div className={styles.help_text}>{this.props.helpText}</div> : "";
 
         var classes = [styles.group];
         if (this.props.className) {

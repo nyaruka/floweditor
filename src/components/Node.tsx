@@ -15,7 +15,7 @@ import { ExitComp } from './Exit';
 import { TitleBar } from './TitleBar';
 import { SwitchRouterProps } from './routers/SwitchRouter';
 
-import { Node, Position, SwitchRouter, Action } from '../FlowDefinition'
+import { Node, Position, SwitchRouter, Action, UINode } from '../FlowDefinition'
 
 var styles = require("./Node.scss");
 var shared = require("./shared.scss");
@@ -37,7 +37,7 @@ export interface NodeState {
 export interface NodeProps {
     node: Node;
     context: FlowContext;
-    position: Position;
+    ui: UINode;
     ghost?: boolean;
 }
 
@@ -76,7 +76,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
     shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState): boolean {
 
         // TODO: these should be inverse evaluations since things can be batched
-        if (nextProps.position.x != this.props.position.x || nextProps.position.y != this.props.position.y) {
+        if (nextProps.ui.position.x != this.props.ui.position.x || nextProps.ui.position.y != this.props.ui.position.y) {
             return false;
         }
         return shallowCompare(this, nextProps, nextState);
@@ -127,7 +127,11 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
     componentDidUpdate(prevProps: NodeProps, prevState: NodeState) {
         // console.log("Node updated..", this.props.uuid);
         if (!this.props.ghost) {
-            Plumber.get().recalculate(this.props.node.uuid);
+            try {
+                Plumber.get().recalculate(this.props.node.uuid);
+            } catch (error) {
+                console.log(error);
+            }
         }
         Plumber.get().repaint();
     }
@@ -153,6 +157,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                     context: this.props.context
                 });
             } else {
+
                 if (this.props.node.router.type == "switch") {
 
                     var uuid = this.props.node.uuid;
@@ -163,7 +168,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                     var initial: SwitchRouterProps = {
                         router: this.props.node.router as SwitchRouter,
                         exits: this.props.node.exits,
-                        type: "switch",
+                        type: this.props.ui.type,
                         uuid: this.props.node.uuid,
                         context: this.props.context
                     };
@@ -171,7 +176,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                     this.props.context.eventHandler.onEditNode({
                         initial: initial,
                         uuid: uuid,
-                        type: this.props.node.router.type,
+                        type: this.props.ui.type,
                         context: this.props.context
                     });
                 }
@@ -181,6 +186,11 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
     private onRemoval(event: React.MouseEvent<HTMLDivElement>) {
         this.props.context.eventHandler.onRemoveNode(this.props.node);
+    }
+
+    getClassName(type: string) {
+        if (!type) { return type; }
+        return type.split('_').join('-');
     }
 
     render() {
@@ -214,13 +224,31 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
         var addActions: JSX.Element = null;
 
         if (this.props.node.router) {
-            let config = Config.get().getTypeConfig(this.props.node.router.type);
 
-            if (actions.length == 0) {
-                header = <TitleBar className={shared[this.props.node.router.type]}
-                    onRemoval={this.onRemoval.bind(this)}
-                    title={config.name} {...events} />
+            var type = this.props.node.router.type;
+            if (this.props.ui.type) {
+                type = this.props.ui.type;
             }
+
+            let config = Config.get().getTypeConfig(type);
+            var title = config.name;
+
+            if (this.props.node.router.type == "switch") {
+                let switchRouter = this.props.node.router as SwitchRouter;
+                if (switchRouter.name) {
+
+                    if (this.props.ui.type == "expression") {
+                        title = "Split by " + switchRouter.name;
+                    } else if (this.props.ui.type == "wait_for_response") {
+                        title = "Wait for " + switchRouter.name;
+                    }
+                }
+            }
+            header = (
+                <div {...events}>
+                    <TitleBar className={shared[this.getClassName(config.type)]} onRemoval={this.onRemoval.bind(this)} title={title} />
+                </div>
+            )
         } else {
             addActions = <a className={styles.add} onClick={() => { this.props.context.eventHandler.onAddAction(this.props.node.uuid) }}><span className="icon-add" /></a>
         }
@@ -257,8 +285,8 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                 ref={(ele: any) => { this.ele = ele }}
                 id={this.props.node.uuid}
                 style={{
-                    left: this.props.position.x,
-                    top: this.props.position.y
+                    left: this.props.ui.position.x,
+                    top: this.props.ui.position.y
                 }}>
                 {header}
                 <div className={styles.actions}>
