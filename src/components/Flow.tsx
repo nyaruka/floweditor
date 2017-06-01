@@ -104,12 +104,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
     private onEdit(props: EditableProps) {
 
         var modalProps = update(this.state.modalProps, { $merge: { editableProps: props } });
-
-        // TODO: is this necessary
         delete modalProps["addToNode"];
-
-        console.log(modalProps);
-
         this.setState({ modalProps: modalProps }, () => { this.modalComp.open() });
     }
 

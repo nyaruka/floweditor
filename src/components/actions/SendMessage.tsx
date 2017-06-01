@@ -19,7 +19,6 @@ export class SendMessageComp extends ActionComp<SendMessage> {
 export class SendMessageForm extends ActionForm<SendMessage, {}> {
 
     renderForm(): JSX.Element {
-        console.log(this, this.getAction());
         return (
             <TextAreaElement ref={this.ref.bind(this)} name="Message" showLabel={false} value={this.getAction().text} required />
         )

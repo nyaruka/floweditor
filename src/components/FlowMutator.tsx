@@ -141,8 +141,6 @@ export class FlowMutator {
         newPosition: Position = null): Node {
 
         console.time("updateRouter");
-        console.log("updateRouter", props);
-
         var node: Node;
         if (draggedFrom) {
             // console.log("adding new router node", props);
