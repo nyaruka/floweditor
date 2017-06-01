@@ -234,25 +234,25 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
         console.log(body);
 
-        axios.default.post(urljoin(this.props.engineURL + '/flow/start'), JSON.stringify(body, null, 2), { responseType: "json" }).then((response: axios.AxiosResponse) => {
+        axios.default.post(urljoin(this.props.engineURL + '/flow/start'), JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
             this.updateRunContext(body, response.data as RunContext);
         });
     }
 
     private resume(text: string) {
 
-        if (text == "/debug") {
+        if (text == "\\debug") {
             console.log(JSON.stringify(this.debug, null, 2))
             return;
         }
 
-        if (text == "/recalc") {
+        if (text == "\\recalc") {
             console.log("recal..");
             Plumber.get().repaint();
             return;
         }
 
-        if (text == "/reconnect") {
+        if (text == "\\reconnect") {
             Plumber.get().connectAll(this.props.definitions[0]);
             console.log("reconnected..");
             return;
@@ -272,7 +272,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             }
         };
 
-        axios.default.post(this.props.engineURL + '/flow/resume', JSON.stringify(body, null, 2), { responseType: "json" }).then((response: axios.AxiosResponse) => {
+        axios.default.post(this.props.engineURL + '/flow/resume', JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
             this.updateRunContext(body, response.data as RunContext);
         }).catch((error) => {
             var events = update(this.state.events, {
