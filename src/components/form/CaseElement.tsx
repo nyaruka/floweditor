@@ -2,15 +2,16 @@ import * as React from "react";
 
 import { FormElement, FormElementProps } from './FormElement';
 import { FormWidget, FormValueState } from './FormWidget';
-import { Operator, CaseProps } from '../../interfaces';
+import { Operator } from '../../interfaces';
 import { Config } from '../../services/Config';
+import { CaseProps } from '../routers/SwitchRouter';
 
 var Select = require('react-select');
 var forms = require("./FormElement.scss");
 var styles = require("./CaseElement.scss");
 
 export interface CaseElementProps extends CaseProps {
-    name: string;
+    name: string; // satisfy form widget props
     onRemove(c: CaseElement): void;
 }
 
@@ -22,7 +23,7 @@ interface CaseElementState extends FormValueState {
 
 export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> {
 
-    constructor(props: any) {
+    constructor(props: CaseElementProps) {
         super(props);
 
         var exitName = "";
@@ -34,8 +35,8 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
 
         this.state = {
             errors: [],
-            operator: props.type,
-            arguments: props.arguments,
+            operator: props.kase.type,
+            arguments: props.kase.arguments,
             exitName: exitName
         }
     }
@@ -78,7 +79,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
 
     private getExitName(args: string[]) {
         var exitName = this.state.exitName;
-        if (!exitName || exitName == this.generateExitName(this.props.arguments)) {
+        if (!exitName || exitName == this.generateExitName(this.props.kase.arguments)) {
             exitName = this.generateExitName(args);
         }
         return exitName;

@@ -1,6 +1,6 @@
 import { FlowLoader } from './components/FlowLoader'
 import { NodeComp } from './components/Node'
-import { Node } from './FlowDefinition';
+import { Node, Position, Action } from './FlowDefinition';
 
 export interface FlowContext {
     eventHandler: FlowEventHandler;
@@ -9,14 +9,20 @@ export interface FlowContext {
     getGroups(): SearchResult[];
 }
 
-export interface FlowEventHandler {
-    onEditNode?: Function;
-    onRemoveAction?: Function;
-    onNodeMoved?: Function;
-    onRemoveNode?: Function;
-    onAddAction?: Function;
+export interface EditableProps {
+    initial: any;
+    type: string;
+    uuid: string;
+    context: FlowContext;
+}
 
-    onNodeMounted?(props: Node): void;
+export interface FlowEventHandler {
+    onRemoveAction(props: Action): void;
+    onNodeMoved(nodeUUID: string, position: Position): void;
+    onAddAction(nodeUUID: string): void;
+    onRemoveNode(props: Node): void;
+    onEditNode(props: EditableProps): void;
+    onNodeMounted(props: Node): void;
     onAddContactField(field: ContactFieldResult): void;
     onAddGroup(group: SearchResult): void;
 }
@@ -51,7 +57,6 @@ export interface LocationProps {
     x: number;
     y: number;
 }
-
 
 export interface NodeEditorState { }
 
@@ -106,7 +111,7 @@ export interface RouterProps extends NodeEditorProps {
     name?: string;
 }
 
-export interface CaseProps {
+/*export interface CaseProps {
     uuid: string;
     type: string;
     exit: string;
@@ -116,23 +121,23 @@ export interface CaseProps {
     exitName?: string;
     onChanged?: Function;
     moveCase?: Function;
-}
+}*/
 
-export interface SwitchRouterProps extends RouterProps {
+/*export interface SwitchRouterProps extends RouterProps {
     cases: CaseProps[];
     operand: string;
     default: string;
-    exits?: ExitProps[];
-}
+    exits?: Exit[];
+}*/
 
 export interface SwitchRouterState extends NodeEditorState { }
 export interface RandomRouterProps extends RouterProps { }
 
-export interface ExitProps {
+/*export interface ExitProps {
     uuid: string;
     name?: string;
     destination?: string;
-}
+}*/
 
 
 /*export interface NodeProps {

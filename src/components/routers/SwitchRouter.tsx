@@ -3,12 +3,13 @@ import * as UUID from 'uuid';
 
 //import {Case} from '../Case';
 import { CaseElement, CaseElementProps } from '../form/CaseElement';
-import { SwitchRouterProps, CaseProps, ExitProps } from '../../interfaces';
+import { NodeEditorProps } from '../../interfaces';
 import { NodeProps } from '../Node';
 import { InputElement } from '../form/InputElement';
 import { NodeForm } from '../NodeForm';
 import { NodeModalProps } from '../NodeModal';
 import { Config } from '../../services/Config';
+import { SwitchRouter, Exit, Case } from '../../FlowDefinition';
 
 import { DragDropContext } from 'react-dnd';
 
@@ -22,26 +23,34 @@ class SwitchRouterState {
     setName: boolean
 }
 
+export interface CaseProps {
+    kase: Case;
+
+    exitName: string;
+    onChanged: Function;
+    moveCase: Function;
+}
+
 /**
  * Given a set of cases and previous exits, determines correct merging of cases
  * and the union of exits
  * @param newCases 
  * @param previousExits 
  */
-export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps): { cases: CaseProps[], exits: ExitProps[], defaultExit: string } {
+export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps): { cases: Case[], exits: Exit[], defaultExit: string } {
 
     // create mapping of our old exit uuids to old exit settings
-    var previousExitMap: { [uuid: string]: ExitProps } = {};
+    var previousExitMap: { [uuid: string]: Exit } = {};
     for (let exit of previous.exits) {
         previousExitMap[exit.uuid] = exit
     }
 
-    var exits: ExitProps[] = [];
-    var cases: CaseProps[] = [];
+    var exits: Exit[] = [];
+    var cases: Case[] = [];
 
 
     // map our new cases to an appropriate exit
-    for (let kase of newCases) {
+    for (let props of newCases) {
 
         // skip missing names
         /*if (!kase.exitName || kase.exitName.trim().length == 0) {
@@ -59,18 +68,18 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
         }*/
 
         // see if we have a suitable exit for our case already
-        var existingExit: ExitProps = null;
+        var existingExit: Exit = null;
 
         // use our previous exit name if it isn't set
-        if (!kase.exitName && kase.exit in previousExitMap) {
-            kase.exitName = previousExitMap[kase.exit].name;
+        if (!props.exitName && props.kase.exit in previousExitMap) {
+            props.exitName = previousExitMap[props.kase.exit].name;
         }
 
-        if (kase.exitName) {
+        if (props.exitName) {
             // look through our new exits to see if we've already created one
             for (let exit of exits) {
-                if (kase.exitName && exit.name) {
-                    if (exit.name.toLowerCase() == kase.exitName.trim().toLowerCase()) {
+                if (props.exitName && exit.name) {
+                    if (exit.name.toLowerCase() == props.exitName.trim().toLowerCase()) {
                         existingExit = exit;
                         break;
                     }
@@ -81,8 +90,8 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
             if (!existingExit) {
                 // look through our previous cases for a match
                 for (let exit of previous.exits) {
-                    if (kase.exitName && exit.name) {
-                        if (exit.name.toLowerCase() == kase.exitName.trim().toLowerCase()) {
+                    if (props.exitName && exit.name) {
+                        if (exit.name.toLowerCase() == props.exitName.trim().toLowerCase()) {
                             existingExit = exit;
                             exits.push(existingExit);
                             break;
@@ -94,7 +103,7 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
 
         // we found a suitable exit, point our case to it
         if (existingExit) {
-            kase.exit = existingExit.uuid;
+            props.kase.exit = existingExit.uuid;
         }
 
         // no existing exit, create a new one
@@ -102,26 +111,25 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
 
             // find our previous destination if we have one
             var destination = null;
-            if (kase.exit in previousExitMap) {
-                destination = previousExitMap[kase.exit].destination
+            if (props.kase.exit in previousExitMap) {
+                destination = previousExitMap[props.kase.exit].destination
             }
 
-            kase.exit = UUID.v4();
+            props.kase.exit = UUID.v4();
 
             exits.push({
-                name: kase.exitName,
-                uuid: kase.exit,
+                name: props.exitName,
+                uuid: props.kase.exit,
                 destination: destination
             });
         }
 
         // remove exitName from our case
-        delete kase["exitName"];
-        cases.push(kase);
+        cases.push(props.kase);
     }
 
     // add in our default exit
-    var defaultUUID = previous.default;
+    var defaultUUID = previous.router.default;
     if (!defaultUUID) {
         defaultUUID = UUID.v4();
     }
@@ -145,14 +153,35 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
     return { cases: cases, exits: exits, defaultExit: defaultUUID };
 }
 
+export interface SwitchRouterProps extends NodeEditorProps {
+    router: SwitchRouter;
+    exits: Exit[];
+}
+
 export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterState> {
 
     constructor(props: SwitchRouterProps) {
         super(props);
 
         var cases: CaseProps[] = [];
-        if (this.props.cases) {
-            cases = this.props.cases;
+
+        if (this.props.router.cases) {
+            for (let kase of this.props.router.cases) {
+
+                var exitName = null;
+                if (kase.exit) {
+                    var exit = this.props.exits.find((exit) => { return exit.uuid == kase.exit });
+                    if (exit) {
+                        exitName = exit.name;
+                    }
+                }
+                cases.push({
+                    kase: kase,
+                    exitName: exitName,
+                    onChanged: this.onCaseChanged.bind(this),
+                    moveCase: this.moveCase.bind(this)
+                });
+            }
         }
 
         this.state = {
@@ -170,25 +199,31 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
     }
 
     onCaseRemoved(c: CaseElement) {
-        let idx = this.state.cases.findIndex((kase: CaseProps) => { return kase.uuid == c.props.uuid });
-        var cases = update(this.state.cases, { $splice: [[idx, 1]] });
-        this.setState({ cases: cases });
+        let idx = this.state.cases.findIndex((props: CaseProps) => { return props.kase.uuid == c.props.kase.uuid });
+        if (idx > -1) {
+            var cases = update(this.state.cases, { $splice: [[idx, 1]] });
+            this.setState({ cases: cases });
+        }
     }
 
     onCaseChanged(c: CaseElement) {
         var cases = this.state.cases;
         var newCase: CaseProps = {
-            uuid: c.props.uuid,
-            type: c.state.operator,
-            exit: c.props.exit,
-            arguments: c.state.arguments,
+            kase: {
+                uuid: c.props.kase.uuid,
+                type: c.state.operator,
+                exit: c.props.kase.exit,
+                arguments: c.state.arguments,
+            },
+            onChanged: c.props.onChanged,
+            moveCase: c.props.moveCase,
             exitName: c.state.exitName
         }
 
         var found = false;
         for (var idx in this.state.cases) {
-            var kase = this.state.cases[idx];
-            if (kase.uuid == c.props.uuid) {
+            var props = this.state.cases[idx];
+            if (props.kase.uuid == c.props.kase.uuid) {
                 cases = update(this.state.cases, { [idx]: { $set: newCase } });
                 found = true;
                 break;
@@ -211,29 +246,22 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         var cases: JSX.Element[] = [];
         var needsEmpty = true;
         if (this.state.cases) {
-            this.state.cases.map((c: CaseElementProps) => {
+            this.state.cases.map((c: CaseProps) => {
 
                 // is this case empty?
-                if ((!c.exitName || c.exitName.trim().length == 0) && (!c.arguments || c.arguments[0].trim().length == 0)) {
+                if ((!c.exitName || c.exitName.trim().length == 0) && (!c.kase.arguments || c.kase.arguments[0].trim().length == 0)) {
                     needsEmpty = false;
                 }
 
-                if (c.exit) {
-                    for (let exit of this.props.exits) {
-                        if (!c.exitName && exit.uuid == c.exit) {
-                            c.exitName = exit.name;
-                            break;
-                        }
-                    }
-                }
                 cases.push(<CaseElement
-                    key={c.uuid}
+                    key={c.kase.uuid}
+                    kase={c.kase}
                     ref={ref}
                     name="Case"
+                    exitName={c.exitName}
                     onRemove={this.onCaseRemoved.bind(this)}
                     onChanged={this.onCaseChanged.bind(this)}
                     moveCase={this.moveCase.bind(this)}
-                    {...c}
                 />);
             });
         }
@@ -241,24 +269,30 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         if (needsEmpty) {
             var newCaseUUID = UUID.v4()
             cases.push(<CaseElement
-                onRemove={this.onCaseRemoved.bind(this)}
-                name="Case"
-                onChanged={this.onCaseChanged.bind(this)}
-                ref={ref}
+                kase={{
+                    uuid: newCaseUUID,
+                    type: "has_any_word",
+                    exit: null
+                }}
+
                 key={newCaseUUID}
-                uuid={newCaseUUID}
-                exit={null}
-                type="has_any_word"
+                ref={ref}
+                name="Case"
+                exitName={null}
+                onRemove={this.onCaseRemoved.bind(this)}
+                moveCase={this.moveCase.bind(this)}
+                onChanged={this.onCaseChanged.bind(this)}
+
             />);
         }
 
         var nameField = null;
-        if (this.state.setName || this.props.name) {
+        if (this.state.setName || this.props.router.name) {
             nameField = <InputElement
                 ref={this.ref.bind(this)}
                 name="Result Name"
                 showLabel={true}
-                value={this.props.name}
+                value={this.props.router.name}
                 helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
             />
         } else {
@@ -307,19 +341,17 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         }
 
         modal.onUpdateRouter({
-            node: {
-                uuid: this.props.uuid,
-                router: {
-                    type: "switch",
-                    default: defaultExit,
-                    cases: cases,
-                    operand: "@input",
-                    ...optional
-                },
-                wait: { type: "msg" },
-                exits: exits
-            }
-        } as NodeProps);
+            uuid: this.props.uuid,
+            router: {
+                type: "switch",
+                default: defaultExit,
+                cases: cases,
+                operand: "@input",
+                ...optional
+            },
+            wait: { type: "msg" },
+            exits: exits
+        });
     }
 }
 

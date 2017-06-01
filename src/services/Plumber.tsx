@@ -1,9 +1,5 @@
 var lib = require('../../node_modules/jsplumb/dist/js/jsplumb.js');
-//var lib = require('../../node_modules/jsplumb/dist/js/jsplumb-2.1.8.js');
-
-import { ExitProps } from '../interfaces';
-
-import { FlowDefinition } from '../FlowDefinition';
+import { FlowDefinition, Exit } from '../FlowDefinition';
 
 export interface DragEvent {
     el: Element
@@ -89,7 +85,7 @@ export class Plumber {
         this.repaint();
     }
 
-    connectExit(exit: ExitProps) {
+    connectExit(exit: Exit) {
         // console.log("Connecting exit", exit);
         this.connect(exit.uuid, exit.destination);
     }

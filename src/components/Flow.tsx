@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FlowContext, SendMessageProps, NodeEditorProps, ActionProps, RouterProps, LocationProps, Endpoints, ContactFieldResult } from '../interfaces';
+import { FlowContext, SendMessageProps, NodeEditorProps, EditableProps, ActionProps, RouterProps, LocationProps, Endpoints, ContactFieldResult } from '../interfaces';
 import { FlowDefinition, Node } from '../FlowDefinition';
 import { NodeComp, NodeProps } from './Node';
 import { NodeModal, NodeModalProps } from './NodeModal';
@@ -81,8 +81,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         console.time("RenderAndPlumb");
     }
 
-    private onEdit(propsToEdit: NodeEditorProps) {
-        var modalProps = update(this.state.modalProps, { $merge: { initial: propsToEdit } });
+    private onEdit(props: EditableProps) {
+        var modalProps = update(this.state.modalProps, { $merge: { editableProps: props } });
 
         // TODO: is this necessary
         delete modalProps["addToNode"];
@@ -99,8 +99,15 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             context: this.state.context
         }
 
-        var modalProps: NodeModalProps = {
+        var editableProps: EditableProps = {
             initial: newAction,
+            type: "reply",
+            uuid: newAction.uuid,
+            context: this.state.context
+        }
+
+        var modalProps: NodeModalProps = {
+            editableProps: editableProps,
             changeType: true,
             onUpdateAction: this.onUpdateAction,
             onUpdateRouter: this.onUpdateRouter,
@@ -140,7 +147,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.resetState();
     }
 
-    private onUpdateRouter(props: NodeProps) {
+    private onUpdateRouter(props: Node) {
         this.props.mutator.updateRouter(props,
             this.state.modalProps.draggedFrom,
             this.state.modalProps.newPosition);
@@ -356,7 +363,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         }
 
         var modal = null;
-        if (this.state.modalProps && this.state.modalProps.initial) {
+        if (this.state.modalProps && this.state.modalProps.editableProps) {
             modal = <NodeModal ref={(ele) => { this.modalComp = ele }} {...this.state.modalProps} />
         }
 

@@ -3,16 +3,14 @@ import * as update from 'immutability-helper';
 
 import {
     SendMessageProps, WebhookProps, NodeEditorProps, LocationProps,
-    UIMetaDataProps, ActionProps, RouterProps, SearchResult, UINode, ContactFieldResult,
-    ExitProps, CaseProps, SwitchRouterProps
+    UIMetaDataProps, ActionProps, RouterProps, SearchResult, UINode, ContactFieldResult
 } from '../interfaces';
 
-import { FlowDefinition, Node, Action } from '../FlowDefinition';
+import { FlowDefinition, Node, Action, Exit } from '../FlowDefinition';
 import { NodeModalProps } from './NodeModal';
 import { NodeComp, NodeProps, DragPoint } from './Node';
 import { ComponentMap } from './ComponentMap';
 import { FlowLoaderProps } from './FlowLoader';
-
 
 export class FlowMutator {
 
@@ -142,7 +140,7 @@ export class FlowMutator {
         return props;
     }
 
-    public updateRouter(props: NodeProps,
+    public updateRouter(props: Node,
         draggedFrom: DragPoint = null,
         newPosition: LocationProps = null): Node {
 
@@ -153,7 +151,7 @@ export class FlowMutator {
         if (draggedFrom) {
             // console.log("adding new router node", props);
             node = this.addNode(
-                props.node, { position: newPosition }, {
+                node, { position: newPosition }, {
                     exitUUID: draggedFrom.exitUUID,
                     nodeUUID: draggedFrom.nodeUUID
                 }
@@ -162,7 +160,7 @@ export class FlowMutator {
         // we are updating
         else {
             //console.log("Updating router node", props);
-            let nodeDetails = this.components.getDetails(props.node.uuid)
+            let nodeDetails = this.components.getDetails(props.uuid)
             this.definition = update(this.definition, {
                 nodes: { [nodeDetails.nodeIdx]: { $set: props } }
             });
@@ -284,6 +282,7 @@ export class FlowMutator {
 
     public removeNode(props: Node) {
 
+        console.log("Remove node: ", props);
         let details = this.components.getDetails(props.uuid);
         let node = this.definition.nodes[details.nodeIdx];
 

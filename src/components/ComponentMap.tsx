@@ -1,10 +1,10 @@
 import {
-    SearchResult, ExitProps, ContactFieldResult,
+    SearchResult, ContactFieldResult,
     Group, SaveToContactProps, ChangeGroupProps
 } from '../interfaces';
 
 import { DragPoint } from '../components/Node';
-import { FlowDefinition } from '../FlowDefinition';
+import { FlowDefinition, Exit } from '../FlowDefinition';
 
 interface ComponentDetails {
     nodeUUID: string;
@@ -47,7 +47,7 @@ export class ComponentMap {
     public initializeUUIDMap(definition: FlowDefinition) {
 
         var components: { [uuid: string]: ComponentDetails } = {};
-        var exitsWithDestinations: ExitProps[] = [];
+        var exitsWithDestinations: Exit[] = [];
 
         if (!definition) {
             this.components = components;

@@ -1,20 +1,23 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
-import { NodeEditorProps, NodeEditorState, ExitProps, TypeConfig, LocationProps } from '../interfaces';
+import { NodeEditorProps, NodeEditorState, TypeConfig, LocationProps } from '../interfaces';
 import { Modal } from './Modal';
 import { Config } from '../services/Config';
 import { FlowMutator } from './FlowMutator';
 import { DragPoint } from './Node';
 import { NodeForm } from './NodeForm';
+import { Exit } from '../FlowDefinition';
+import { EditableProps } from '../interfaces';
 
 var Select = require('react-select');
 var styles = require('./NodeModal.scss');
 var shared = require('./shared.scss');
 
+
 export interface NodeModalProps {
 
-    initial?: NodeEditorProps;
+    editableProps?: EditableProps;
     changeType?: boolean;
     onUpdateAction: Function;
     onUpdateRouter: Function;
@@ -22,7 +25,7 @@ export interface NodeModalProps {
     newPosition?: LocationProps;
     mutator?: FlowMutator;
     draggedFrom?: DragPoint;
-    exits?: ExitProps[];
+    exits?: Exit[];
     addToNode?: string;
 }
 
@@ -46,7 +49,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
 
         this.state = {
             show: false,
-            config: this.getConfig(this.props.initial.type)
+            config: this.getConfig(this.props.editableProps.type)
         }
 
         this.onClickSave = this.onClickSave.bind(this);
@@ -61,7 +64,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     open() {
         this.setState({
             show: true,
-            config: this.getConfig(this.props.initial.type)
+            config: this.getConfig(this.props.editableProps.type)
         });
     }
 
@@ -179,20 +182,20 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         if (this.state.show) {
             // create our form element
             if (this.state.config.form != null) {
-                var props = this.props.initial as NodeEditorProps
+                var props = this.props.editableProps;
                 var ref = (ele: any) => { this.form = ele; }
                 var uuid = props.uuid;
                 if (!uuid) {
                     uuid = UUID.v4();
                 }
-                form = React.createElement(this.state.config.form, { ...props, key: uuid, ref: ref, uuid: uuid, config: this.state.config });
+                form = React.createElement(this.state.config.form, { ...props.initial, key: uuid, ref: ref, uuid: uuid, config: this.state.config });
             }
         }
 
         return (
             <Modal
                 width="570px"
-                key={'modal_' + this.props.initial.uuid}
+                key={'modal_' + this.props.editableProps.uuid}
                 title={<div>{this.state.config.name}</div>}
                 className={shared[this.getClassName()]}
                 show={this.state.show}

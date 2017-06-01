@@ -4,16 +4,17 @@ import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 
-import { LocationProps, ActionProps, RouterProps, SwitchRouterProps, SaveToContactProps, FlowContext } from '../interfaces';
+import { LocationProps, ActionProps, RouterProps, SaveToContactProps, FlowContext } from '../interfaces';
 import { Plumber, DragEvent } from '../services/Plumber';
 import { FlowStore } from '../services/FlowStore';
 import { Config } from '../services/Config';
 import { NodeModal } from './NodeModal';
 import { ActionComp } from './Action';
-import { Exit } from './Exit';
+import { ExitComp } from './Exit';
 import { TitleBar } from './TitleBar';
+import { SwitchRouterProps } from './routers/SwitchRouter';
 
-import { Node, Position } from '../FlowDefinition'
+import { Node, Position, SwitchRouter } from '../FlowDefinition'
 
 var styles = require("./Node.scss");
 var shared = require("./shared.scss");
@@ -134,7 +135,14 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
         if (!this.state.dragging) {
             // if we have one action, defer to it
             if (this.props.node.actions && this.props.node.actions.length == 1) {
-                this.props.context.eventHandler.onEditNode(this.props.node.actions[0]);
+
+                var action = this.props.node.actions[0];
+                this.props.context.eventHandler.onEditNode({
+                    initial: action,
+                    uuid: action.uuid,
+                    type: action.type,
+                    context: this.props.context
+                });
             } else {
                 if (this.props.node.router.type == "switch") {
 
@@ -143,19 +151,27 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                         uuid = null;
                     }
 
-                    this.props.context.eventHandler.onEditNode({
-                        ...this.props.node.router,
+                    var initial: SwitchRouterProps = {
+                        router: this.props.node.router as SwitchRouter,
                         exits: this.props.node.exits,
-                        context: this.props.context,
-                        uuid: uuid
-                    } as SwitchRouterProps);
+                        type: "switch",
+                        uuid: this.props.node.uuid,
+                        context: this.props.context
+                    };
+
+                    this.props.context.eventHandler.onEditNode({
+                        initial: initial,
+                        uuid: uuid,
+                        type: this.props.node.router.type,
+                        context: this.props.context
+                    });
                 }
             }
         }
     }
 
     private onRemoval(event: React.MouseEvent<HTMLDivElement>) {
-        this.props.context.eventHandler.onRemoveNode(this.props);
+        this.props.context.eventHandler.onRemoveNode(this.props.node);
     }
 
     render() {
@@ -202,7 +218,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
         var exits: JSX.Element[] = []
         if (this.props.node.exits) {
             for (let exit of this.props.node.exits) {
-                exits.push(<Exit {...exit} key={exit.uuid} />);
+                exits.push(<ExitComp exit={exit} key={exit.uuid} />);
             }
         }
 

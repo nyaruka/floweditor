@@ -10,7 +10,7 @@ export interface Node {
     uuid: string;
     exits: Exit[];
 
-    router?: any;
+    router?: Router;
     actions?: Action[];
     wait?: any;
 }
@@ -19,6 +19,24 @@ export interface Exit {
     uuid: string;
     name?: string;
     destination?: string;
+}
+
+export interface Router {
+    type: string;
+}
+
+export interface Case {
+    uuid: string;
+    type: string;
+    exit: string;
+    arguments?: string[];
+}
+
+export interface SwitchRouter extends Router {
+    name?: string;
+    cases: Case[];
+    operand: string;
+    default: string;
 }
 
 export interface Action {
@@ -74,7 +92,7 @@ export interface UINode {
     position: Position;
 }
 
-export interface UIMetaDataProps {
+export interface UIMetaData {
     nodes: { [key: string]: UINode };
 }
 

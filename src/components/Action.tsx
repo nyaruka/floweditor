@@ -28,7 +28,12 @@ export class ActionComp<P extends ActionProps> extends React.PureComponent<P, {}
 
     onClick(event: React.SyntheticEvent<MouseEvent>) {
         if (this.props.context.eventHandler.onEditNode && !this.props.dragging) {
-            this.props.context.eventHandler.onEditNode(this.props);
+            this.props.context.eventHandler.onEditNode({
+                initial: this.props,
+                type: this.props.type,
+                uuid: this.props.uuid,
+                context: this.props.context
+            });
         }
     }
 
