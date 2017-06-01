@@ -1,43 +1,18 @@
 import axios from 'axios';
-import {AxiosResponse} from 'axios';
-import {LocationProps, UINode, FlowDefinition} from '../interfaces'
+import { AxiosResponse } from 'axios';
+import { FlowDefinition } from '../FlowDefinition';
 
 var storage = require('local-storage');
 
-export class Location implements LocationProps {
-    x: number
-    y: number
-
-    constructor(x: number, y: number) {
-        this.x = x;
-        this.y = y;
-    }
-}
-
-export class UINodeMetaData implements UINode {
-    position: Location;
-    
-    constructor(location: Location) {
-        this.position = location;
-    }
-
-    setLocation(x: number, y: number) {
-        this.position.x = x;
-        this.position.y = y;
-    }
-}
-
-
 export class FlowStore {
 
-    
     private static singleton: FlowStore = new FlowStore();
-    
+
     static get(): FlowStore {
         return FlowStore.singleton;
     }
 
-    private constructor() {}
+    private constructor() { }
 
     reset() {
         storage.remove("flow");
@@ -50,7 +25,7 @@ export class FlowStore {
         } else {
             return {
                 name: "New Flow",
-                uuid: uuid, 
+                uuid: uuid,
                 nodes: [],
                 localization: null,
                 _ui: {

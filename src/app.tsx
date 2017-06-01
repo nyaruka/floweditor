@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import * as qs from 'query-string';
 import { Editor } from './components/Editor';
 import { FlowStore } from './services/FlowStore';
-import { Endpoints } from './interfaces';
+import { Endpoints } from './services/Config';
 import * as axios from 'axios';
 
 import 'react-select/dist/react-select.css';

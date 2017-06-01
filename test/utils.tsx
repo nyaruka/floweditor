@@ -1,4 +1,4 @@
-import {FlowDefinition} from '../src/interfaces';
+import { FlowDefinition } from '../src/FlowDefinition';
 var request = require('sync-request');
 
 

@@ -5,7 +5,7 @@ import { External, FlowDetails } from '../services/External';
 import { FlowLoader } from './FlowLoader';
 import { FlowList } from './FlowList';
 import { Flow } from './Flow';
-import { Endpoints } from '../interfaces';
+import { Endpoints } from '../services/Config';
 
 var styles = require("./Editor.scss");
 

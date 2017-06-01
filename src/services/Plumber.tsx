@@ -1,7 +1,5 @@
 var lib = require('../../node_modules/jsplumb/dist/js/jsplumb.js');
-//var lib = require('../../node_modules/jsplumb/dist/js/jsplumb-2.1.8.js');
-
-import {FlowDefinition, ExitProps} from '../interfaces';
+import { FlowDefinition, Exit } from '../FlowDefinition';
 
 export interface DragEvent {
     el: Element
@@ -24,37 +22,37 @@ export class Plumber {
     }
 
     targetDefaults = {
-        anchor: [ "Continuous", { faces:["top", "left", "right"] }],
-        endpoint: [ "Rectangle", { width: 30, height: 30, hoverClass: 'plumb-endpoint-hover' }],
-        dropOptions: { tolerance:"touch", hoverClass:"plumb-drop-hover" },
+        anchor: ["Continuous", { faces: ["top", "left", "right"] }],
+        endpoint: ["Rectangle", { width: 30, height: 30, hoverClass: 'plumb-endpoint-hover' }],
+        dropOptions: { tolerance: "touch", hoverClass: "plumb-drop-hover" },
         dragAllowedWhenFull: false,
         deleteEndpointsOnDetach: true,
         deleteEndpointsOnEmpty: true,
-        isTarget:true,
+        isTarget: true,
     }
 
     sourceDefaults = {
         anchor: "BottomCenter",
-        maxConnections:1,
-        dragAllowedWhenFull:false,
+        maxConnections: 1,
+        dragAllowedWhenFull: false,
         deleteEndpointsOnDetach: true,
         deleteEndpointsOnEmpty: true,
-        isSource:true,
-        paintStyle: { fillStyle:"blue", outlineColor:"black", outlineWidth:1 }
+        isSource: true,
+        paintStyle: { fillStyle: "blue", outlineColor: "black", outlineWidth: 1 }
     }
 
     private constructor() {
         this.jsPlumb = lib.jsPlumb.importDefaults({
-            DragOptions : { cursor: 'pointer', zIndex:1000 },
-            DropOptions : { tolerance:"touch", hoverClass:"plumb-hover" },
+            DragOptions: { cursor: 'pointer', zIndex: 1000 },
+            DropOptions: { tolerance: "touch", hoverClass: "plumb-hover" },
             Endpoint: "Blank",
             EndpointStyle: { strokeStyle: "transparent" },
-            PaintStyle: { strokeWidth:5, stroke:"#98C0D9" },
-            HoverPaintStyle: { strokeStyle: "#27ae60"},
+            PaintStyle: { strokeWidth: 5, stroke: "#98C0D9" },
+            HoverPaintStyle: { strokeStyle: "#27ae60" },
             HoverClass: "connector-hover",
             ConnectionsDetachable: true,
-            Connector:[ "Flowchart", { stub: 12, midpoint: .85, alwaysRespectStubs: false, gap:[0,7], cornerRadius: 2 }],
-            ConnectionOverlays : [["PlainArrow", { location:.9999, width: 12, length:12, foldback: 1 }]],
+            Connector: ["Flowchart", { stub: 12, midpoint: .85, alwaysRespectStubs: false, gap: [0, 7], cornerRadius: 2 }],
+            ConnectionOverlays: [["PlainArrow", { location: .9999, width: 12, length: 12, foldback: 1 }]],
             Container: "flow-editor"
         });
 
@@ -66,7 +64,7 @@ export class Plumber {
 
     draggable(ele: JSX.Element, start: Function, drag: Function, stop: Function) {
         this.jsPlumb.draggable(ele, {
-            start: (event:any) => start(event),
+            start: (event: any) => start(event),
             drag: (event: DragEvent) => drag(event),
             stop: (event: DragEvent) => stop(event),
             containment: true
@@ -78,7 +76,7 @@ export class Plumber {
     }
 
     makeTarget(uuid: string) {
-        this.jsPlumb.makeTarget(uuid, this.targetDefaults);        
+        this.jsPlumb.makeTarget(uuid, this.targetDefaults);
     }
 
     connectNewNode(source: string, target: string) {
@@ -87,7 +85,7 @@ export class Plumber {
         this.repaint();
     }
 
-    connectExit(exit: ExitProps) {
+    connectExit(exit: Exit) {
         // console.log("Connecting exit", exit);
         this.connect(exit.uuid, exit.destination);
     }
@@ -95,17 +93,17 @@ export class Plumber {
     connect(source: string, target: string) {
 
         // already connected
-        if (this.jsPlumb.select({source: source, target: target}).length == 1) {
+        if (this.jsPlumb.select({ source: source, target: target }).length == 1) {
             return;
         }
 
         if (source != null && target != null) {
 
             // any existing connections for our source need to be deleted
-            this.jsPlumb.select({source: source}).delete({fireEvent: false});
+            this.jsPlumb.select({ source: source }).delete({ fireEvent: false });
 
             // now make our new connection
-            return this.jsPlumb.connect({source: source, target: target, fireEvent: false});
+            return this.jsPlumb.connect({ source: source, target: target, fireEvent: false });
         }
     }
 
@@ -152,7 +150,7 @@ export class Plumber {
         } else {
             this.jsPlumb.recalculateOffsets();
         }
-        window.setTimeout(()=>{
+        window.setTimeout(() => {
             this.jsPlumb.repaint(uuid);
         }, 0)
     }
@@ -166,7 +164,7 @@ export class Plumber {
             // console.log('Reconnecting plumbing..');
             // this will suspend drawing until all nodes are connected
             this.jsPlumb.ready(() => {
-                this.jsPlumb.batch(()=> {
+                this.jsPlumb.batch(() => {
                     this.jsPlumb.deleteEveryConnection();
                     // wire everything up
                     for (let node of flow.nodes) {

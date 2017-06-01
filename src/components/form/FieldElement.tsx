@@ -3,7 +3,7 @@ import * as UUID from 'uuid';
 import { toBoolMap } from '../../utils';
 import { FormElement, FormElementProps } from './FormElement';
 import { FormWidget, FormValueState } from './FormWidget';
-import { SearchResult } from '../../interfaces';
+import { SearchResult } from '../ComponentMap';
 import { SelectSearch } from '../SelectSearch';
 
 var Select = require('react-select');

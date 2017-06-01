@@ -1,23 +1,27 @@
 import * as React from "react";
 import * as UUID from 'uuid';
-import {NodeEditorProps, NodeEditorState, LocationProps, DragPoint} from '../interfaces'
-import {Plumber} from '../services/Plumber';
-import {FlowStore} from '../services/FlowStore';
-import {Config} from '../services/Config';
-import {NodeModal, NodeModalProps} from './NodeModal';
-import {TitleBar} from './TitleBar';
-import {FormWidget} from './form/FormWidget';
+import { DragPoint } from './Node';
+import { Plumber } from '../services/Plumber';
+import { FlowStore } from '../services/FlowStore';
+import { Config } from '../services/Config';
+import { NodeEditorProps, NodeModal, NodeModalProps } from './NodeModal';
+import { TitleBar } from './TitleBar';
+import { FormWidget } from './form/FormWidget';
+import { Action } from '../FlowDefinition';
+import { ActionProps } from './Action';
+
 
 /**
  * Base Action class for the rendered flow
  */
-export abstract class NodeForm<P extends NodeEditorProps, S extends NodeEditorState> extends React.PureComponent<P, S> {
+export abstract class NodeForm<P extends NodeEditorProps, S> extends React.PureComponent<P, S> {
+
     // abstract validate(ele: any): string;
     abstract submit(modalProps: NodeModalProps): void;
     abstract renderForm(): JSX.Element;
 
     public elements: any[] = [];
-    
+
     public getElements() {
         return this.elements;
     }
@@ -31,16 +35,24 @@ export abstract class NodeForm<P extends NodeEditorProps, S extends NodeEditorSt
     }
 
     render() {
-        return(
+        return (
             <div>
                 {this.renderForm()}
             </div>
         )
     }
-    
+}
+
+
+export abstract class ActionForm<A extends Action, S> extends NodeForm<ActionProps, S> {
     getType() {
-        return this.props.type;
+        return this.props.action.type;
     }
+
+    getAction(): A {
+        return this.props.action as A;
+    }
+
 }
 
 export default NodeForm;

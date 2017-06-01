@@ -1,16 +1,12 @@
 import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
 
-import {
-    FlowDefinition, NodeProps, SendMessageProps, WebhookProps, NodeEditorProps, LocationProps,
-    UIMetaDataProps, ActionProps, RouterProps, SearchResult, UINode, DragPoint, ContactFieldResult,
-    ExitProps, CaseProps, SwitchRouterProps
-} from '../interfaces';
+import { ContactFieldResult, SearchResult } from './ComponentMap';
+import { FlowDefinition, Node, Action, Exit, UIMetaData, UINode, Position } from '../FlowDefinition';
 import { NodeModalProps } from './NodeModal';
-import { Node } from './Node';
+import { NodeComp, NodeProps, DragPoint } from './Node';
 import { ComponentMap } from './ComponentMap';
 import { FlowLoaderProps } from './FlowLoader';
-
 
 export class FlowMutator {
 
@@ -33,6 +29,7 @@ export class FlowMutator {
         saveMethod: Function = null,
         loaderProps: FlowLoaderProps = {},
         quiteUI = 0, quietSave = 0) {
+
         this.definition = definition;
         this.saveMethod = saveMethod;
         this.updateMethod = updateMethod;
@@ -61,7 +58,7 @@ export class FlowMutator {
     /**
      * Get the node with a uuid
      */
-    public getNode(uuid: string): NodeProps {
+    public getNode(uuid: string): Node {
         var details = this.components.getDetails(uuid)
         return this.definition.nodes[details.nodeIdx];
     }
@@ -115,7 +112,7 @@ export class FlowMutator {
         }
     }
 
-    public addNode(props: NodeProps, ui: UINode) {
+    public addNode(props: Node, ui: UINode, pendingConnection?: DragPoint) {
         console.time("addNode");
 
         // add our node
@@ -128,31 +125,31 @@ export class FlowMutator {
             }
         });
 
+        // save off our pending connection if we have one
+        if (pendingConnection) {
+            this.components.addPendingConnection(props.uuid, pendingConnection);
+        }
+
         this.components.initializeUUIDMap(this.definition);
         this.markDirty();
         console.timeEnd("addNode");
         return props;
     }
 
-    public updateRouter(props: NodeProps,
+    public updateRouter(props: Node,
         draggedFrom: DragPoint = null,
-        newPosition: LocationProps = null): NodeProps {
+        newPosition: Position = null): Node {
 
         console.time("updateRouter");
-        // console.log("updateRouter", props);
-
-        var node: NodeProps;
+        var node: Node;
         if (draggedFrom) {
             // console.log("adding new router node", props);
-            node = this.addNode({
-                ...props,
-                pendingConnection: {
+            node = this.addNode(
+                props, { position: newPosition }, {
                     exitUUID: draggedFrom.exitUUID,
                     nodeUUID: draggedFrom.nodeUUID
                 }
-            }, {
-                    position: newPosition
-                });
+            );
         }
         // we are updating
         else {
@@ -176,12 +173,12 @@ export class FlowMutator {
      * @param uuid the action to modify
      * @param changes immutability spec to modify at the given action
      */
-    public updateAction(props: ActionProps,
+    public updateAction(props: Action,
         draggedFrom: DragPoint = null,
-        newPosition: LocationProps = null,
-        addToNode: string = null): NodeProps {
+        newPosition: Position = null,
+        addToNode: string = null): Node {
         console.time("updateAction");
-        var node: NodeProps;
+        var node: Node;
         if (draggedFrom) {
             var newNodeUUID = UUID.v4();
             node = this.addNode({
@@ -189,14 +186,13 @@ export class FlowMutator {
                 actions: [props],
                 exits: [
                     { uuid: UUID.v4(), destination: null, name: null }
-                ],
-                pendingConnection: {
+                ]
+            }, { position: newPosition },
+                {
                     exitUUID: draggedFrom.exitUUID,
                     nodeUUID: draggedFrom.nodeUUID
-                },
-            }, {
-                    position: newPosition
                 });
+
         }
         else if (addToNode) {
             let nodeDetails = this.components.getDetails(addToNode);
@@ -250,10 +246,10 @@ export class FlowMutator {
         this.definition = update(this.definition, { _ui: { nodes: { [uuid]: changes } } });
 
         // find our first node
-        var top: LocationProps;
+        var top: Position;
         var topNode: string;
 
-        this.definition.nodes.sort((a: NodeProps, b: NodeProps) => {
+        this.definition.nodes.sort((a: Node, b: Node) => {
             var aPos = this.definition._ui.nodes[a.uuid].position;
             var bPos = this.definition._ui.nodes[b.uuid].position;
             var diff = aPos.y - bPos.y;
@@ -278,7 +274,7 @@ export class FlowMutator {
         this.markDirty();
     }
 
-    public removeNode(props: NodeProps) {
+    public removeNode(props: Node) {
 
         let details = this.components.getDetails(props.uuid);
         let node = this.definition.nodes[details.nodeIdx];
@@ -309,7 +305,7 @@ export class FlowMutator {
         this.markDirty();
     }
 
-    public removeAction(props: ActionProps) {
+    public removeAction(props: Action) {
         let details = this.getComponents().getDetails(props.uuid);
         let node = this.definition.nodes[details.nodeIdx];
 
@@ -329,25 +325,21 @@ export class FlowMutator {
 
     /**
      * Updates the pending connection on this node. Once it is updated,
-     * it will get wired up. We can then safely remove the pending connection and update
-     * our node properties accordingly.
+     * it will get wired up.
      * @param props with a pendingConnection set
      */
-    public resolvePendingConnection(props: NodeProps) {
+    public resolvePendingConnection(props: Node) {
 
         // only resolve connection if we have one
-        if (props.pendingConnection != null) {
+        var pendingConnection = this.components.getPendingConnection(props.uuid);
+        if (pendingConnection != null) {
+
             // console.log("resolving pendingConnection..", props.pendingConnection, props.uuid);
-            let dragFrom = props.pendingConnection
-            this.updateExit(dragFrom.exitUUID, { $merge: { destination: props.uuid } });
-
-            // remove the pending connection from the to node
-            let updated = update(props, { $merge: { pendingConnection: null } })
-            delete updated["pendingConnection"]
-
-            // update our node sans pending connection
-            this.updateNode(props.uuid, { $set: updated });
+            this.updateExit(pendingConnection.exitUUID, { $merge: { destination: props.uuid } });
+            this.components.initializeUUIDMap(this.definition);
             this.markDirty();
+            // remove our pending connection
+            this.components.removePendingConnection(props.uuid);
         }
     }
 

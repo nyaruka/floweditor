@@ -4,31 +4,51 @@ import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 
-import { NodeProps, LocationProps, ActionProps, RouterProps, SwitchRouterProps, SaveToContactProps } from '../interfaces';
+import { ActionProps } from './Action';
+import { FlowContext } from './Flow';
 import { Plumber, DragEvent } from '../services/Plumber';
 import { FlowStore } from '../services/FlowStore';
 import { Config } from '../services/Config';
 import { NodeModal } from './NodeModal';
-import { Action } from './Action';
-import { Exit } from './Exit';
+import { ActionComp } from './Action';
+import { ExitComp } from './Exit';
 import { TitleBar } from './TitleBar';
+import { SwitchRouterProps } from './routers/SwitchRouter';
+
+import { Node, Position, SwitchRouter, Action } from '../FlowDefinition'
 
 var styles = require("./Node.scss");
 var shared = require("./shared.scss");
 
+/**
+ * A point in the flow from which a drag is initiated
+ */
+export interface DragPoint {
+    exitUUID: string;
+    nodeUUID: string;
+    onResolved?: Function;
+}
+
 export interface NodeState {
     dragging?: boolean;
-    createPosition?: LocationProps;
+    createPosition?: Position;
+}
+
+export interface NodeProps {
+    node: Node;
+    context: FlowContext;
+    position: Position;
+    ghost?: boolean;
 }
 
 /**
  * A single node in the rendered flow
  */
-export class Node extends React.PureComponent<NodeProps, NodeState> {
+export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
     public ele: any;
     private modal: NodeModal;
-    private firstAction: Action<ActionProps>;
+    private firstAction: ActionComp<Action>;
     private newActionModal: NodeModal;
 
     constructor(props: NodeProps) {
@@ -50,13 +70,13 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         var position = $(event.target).position();
 
         // update our coordinates
-        this.props.context.eventHandler.onNodeMoved(this.props.uuid, { x: event.finalPos[0], y: event.finalPos[1] });
+        this.props.context.eventHandler.onNodeMoved(this.props.node.uuid, { x: event.finalPos[0], y: event.finalPos[1] });
     }
 
     shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState): boolean {
 
         // TODO: these should be inverse evaluations since things can be batched
-        if (nextProps._ui.position.x != this.props._ui.position.x || nextProps._ui.position.y != this.props._ui.position.y) {
+        if (nextProps.position.x != this.props.position.x || nextProps.position.y != this.props.position.y) {
             return false;
         }
         return shallowCompare(this, nextProps, nextState);
@@ -71,11 +91,11 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         );
 
         // make ourselves a target
-        plumber.makeTarget(this.props.uuid);
+        plumber.makeTarget(this.props.node.uuid);
 
         // resolve our pending connections, etc
         if (this.props.context.eventHandler.onNodeMounted) {
-            this.props.context.eventHandler.onNodeMounted(this.props);
+            this.props.context.eventHandler.onNodeMounted(this.props.node);
         }
 
         // move our drag node around as necessary
@@ -96,16 +116,18 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
                 }
             });
         }
+
+
     }
 
     componentWillUnmount() {
-        Plumber.get().remove(this.props.uuid);
+        Plumber.get().remove(this.props.node.uuid);
     }
 
     componentDidUpdate(prevProps: NodeProps, prevState: NodeState) {
         // console.log("Node updated..", this.props.uuid);
         if (!this.props.ghost) {
-            Plumber.get().recalculate(this.props.uuid);
+            Plumber.get().recalculate(this.props.node.uuid);
         }
         Plumber.get().repaint();
     }
@@ -113,43 +135,67 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
     onClick(event: any) {
         if (!this.state.dragging) {
             // if we have one action, defer to it
-            if (this.props.actions && this.props.actions.length == 1) {
-                this.props.context.eventHandler.onEditNode(this.props.actions[0]);
-            } else {
-                if (this.props.router.type == "switch") {
+            if (this.props.node.actions && this.props.node.actions.length == 1) {
 
-                    var uuid = this.props.uuid;
+                var action = this.props.node.actions[0];
+                var actionProps: ActionProps = {
+                    action: action,
+                    uuid: action.uuid,
+                    context: this.props.context,
+                    type: action.type,
+                    dragging: false
+                };
+
+                this.props.context.eventHandler.onEditNode({
+                    initial: actionProps,
+                    uuid: action.uuid,
+                    type: action.type,
+                    context: this.props.context
+                });
+            } else {
+                if (this.props.node.router.type == "switch") {
+
+                    var uuid = this.props.node.uuid;
                     if (this.props.ghost) {
                         uuid = null;
                     }
 
+                    var initial: SwitchRouterProps = {
+                        router: this.props.node.router as SwitchRouter,
+                        exits: this.props.node.exits,
+                        type: "switch",
+                        uuid: this.props.node.uuid,
+                        context: this.props.context
+                    };
+
                     this.props.context.eventHandler.onEditNode({
-                        ...this.props.router,
-                        exits: this.props.exits,
-                        context: this.props.context,
-                        uuid: uuid
-                    } as SwitchRouterProps);
+                        initial: initial,
+                        uuid: uuid,
+                        type: this.props.node.router.type,
+                        context: this.props.context
+                    });
                 }
             }
         }
     }
 
     private onRemoval(event: React.MouseEvent<HTMLDivElement>) {
-        this.props.context.eventHandler.onRemoveNode(this.props);
+        this.props.context.eventHandler.onRemoveNode(this.props.node);
     }
 
     render() {
         var classes = ["plumb-drag", styles.node];
         var actions: JSX.Element[] = [];
-        if (this.props.actions) {
+        if (this.props.node.actions) {
             // save the first reference off to manage our clicks
             var firstRef: any = { ref: (ele: any) => { this.firstAction = ele } };
-            for (let actionProps of this.props.actions) {
+            for (let actionProps of this.props.node.actions) {
                 let actionConfig = Config.get().getTypeConfig(actionProps.type);
                 if (actionConfig.component != null) {
+                    // console.log(actionProps, actionConfig);
                     actions.push(React.createElement(actionConfig.component, {
-                        ...actionProps,
                         ...firstRef,
+                        action: actionProps,
                         dragging: this.state.dragging,
                         key: actionProps.uuid,
                         context: this.props.context,
@@ -167,22 +213,22 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         var header: JSX.Element = null;
         var addActions: JSX.Element = null;
 
-        if (this.props.router) {
-            let config = Config.get().getTypeConfig(this.props.router.type);
+        if (this.props.node.router) {
+            let config = Config.get().getTypeConfig(this.props.node.router.type);
 
             if (actions.length == 0) {
-                header = <TitleBar className={shared[this.props.router.type]}
+                header = <TitleBar className={shared[this.props.node.router.type]}
                     onRemoval={this.onRemoval.bind(this)}
                     title={config.name} {...events} />
             }
         } else {
-            addActions = <a className={styles.add} onClick={() => { this.props.context.eventHandler.onAddAction(this.props.uuid) }}><span className="icon-add" /></a>
+            addActions = <a className={styles.add} onClick={() => { this.props.context.eventHandler.onAddAction(this.props.node.uuid) }}><span className="icon-add" /></a>
         }
 
         var exits: JSX.Element[] = []
-        if (this.props.exits) {
-            for (let exit of this.props.exits) {
-                exits.push(<Exit {...exit} key={exit.uuid} />);
+        if (this.props.node.exits) {
+            for (let exit of this.props.node.exits) {
+                exits.push(<ExitComp exit={exit} key={exit.uuid} />);
             }
         }
 
@@ -201,7 +247,7 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         }
 
         var exitClass = "";
-        if (this.props.exits.length == 1 && !this.props.exits[0].name) {
+        if (this.props.node.exits.length == 1 && !this.props.node.exits[0].name) {
             exitClass = styles.actions;
         }
 
@@ -209,10 +255,10 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
         return (
             <div className={classes.join(' ')}
                 ref={(ele: any) => { this.ele = ele }}
-                id={this.props.uuid}
+                id={this.props.node.uuid}
                 style={{
-                    left: this.props._ui.position.x,
-                    top: this.props._ui.position.y
+                    left: this.props.position.x,
+                    top: this.props.position.y
                 }}>
                 {header}
                 <div className={styles.actions}>
@@ -229,4 +275,4 @@ export class Node extends React.PureComponent<NodeProps, NodeState> {
     }
 }
 
-export default Node;
+export default NodeComp;

@@ -3,8 +3,7 @@ import * as UUID from 'uuid';
 
 import axios from 'axios';
 import { AxiosResponse } from 'axios';
-
-import { SearchResult } from '../interfaces';
+import { SearchResult } from './ComponentMap';
 
 var Select = require('react-select');
 

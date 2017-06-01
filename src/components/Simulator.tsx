@@ -8,7 +8,7 @@ import * as ReactDOM from 'react-dom';
 import { Modal } from './Modal';
 import { FlowStore } from '../services/FlowStore';
 import { Plumber } from '../services/Plumber';
-import { FlowDefinition, GroupProps } from '../interfaces';
+import { FlowDefinition, Group } from '../FlowDefinition';
 
 var styles = require("./Simulator.scss");
 
@@ -27,11 +27,6 @@ interface SimulatorState {
     contact: Contact;
     channel: string;
     events: Event[];
-}
-
-interface Group {
-    name: string;
-    uuid: string;
 }
 
 interface Contact {
@@ -56,7 +51,7 @@ interface Event {
     status_code?: number;
     request?: string;
     response?: string;
-    groups?: GroupProps[];
+    groups?: Group[];
 }
 
 interface Step {

@@ -1,22 +1,26 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
-import { Action } from '../Action';
-import { NodeForm } from '../NodeForm';
+import { ActionComp, ActionProps } from '../Action';
+import { ActionForm } from '../NodeForm';
 import { NodeModalProps } from '../NodeModal';
-import { ChangeGroupProps, NodeEditorState, SearchResult } from '../../interfaces';
+import { SearchResult } from '../ComponentMap';
 import { GroupElement } from '../form/GroupElement';
+import { ChangeGroup } from '../../FlowDefinition';
 
-export class ChangeGroup extends Action<ChangeGroupProps> {
-    renderNode() { return <div>{this.props.groups[0].name}</div> }
+
+export class ChangeGroupComp extends ActionComp<ChangeGroup> {
+    renderNode() { return <div>{this.getAction().groups[0].name}</div> }
 }
 
-export class ChangeGroupForm extends NodeForm<ChangeGroupProps, NodeEditorState> {
+export class ChangeGroupForm extends ActionForm<ChangeGroup, {}> {
 
     renderForm(): JSX.Element {
 
+        var action = this.getAction();
+
         var groups: { group: string, name: string }[] = [];
-        if (this.props.groups) {
-            groups.push({ group: this.props.groups[0].uuid, name: this.props.groups[0].name });
+        if (action.groups) {
+            groups.push({ group: action.groups[0].uuid, name: action.groups[0].name });
         }
 
         return (
@@ -28,7 +32,7 @@ export class ChangeGroupForm extends NodeForm<ChangeGroupProps, NodeEditorState>
                     endpoint={this.props.context.endpoints.groups}
                     getLocalGroups={this.props.context.getGroups}
                     groups={groups}
-                    add={this.props.config.type == "add_to_group"}
+                    add={this.props.action.type == "add_to_group"}
                     required
                 />
             </div>
@@ -41,14 +45,17 @@ export class ChangeGroupForm extends NodeForm<ChangeGroupProps, NodeEditorState>
         var group = groupEle.state.groups[0];
 
         if (group) {
-            modal.onUpdateAction({
-                uuid: this.props.uuid,
+
+            var newAction: ChangeGroup = {
+                uuid: this.props.action.uuid,
                 type: this.props.config.type,
                 groups: [{
                     uuid: group.id,
                     name: group.name,
                 }]
-            } as ChangeGroupProps);
+            }
+
+            modal.onUpdateAction(newAction);
 
             if (group.extraResult) {
                 this.props.context.eventHandler.onAddGroup({

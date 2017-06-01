@@ -1,46 +1,50 @@
 import * as React from 'react';
-import {ExitProps} from '../interfaces';
-import {Plumber} from '../services/Plumber';
+import { Plumber } from '../services/Plumber';
+import { Exit } from '../FlowDefinition';
 
 var styles = require('./Exit.scss');
 
-export class Exit extends React.PureComponent<ExitProps, {}> {
+export interface ExitProps {
+    exit: Exit;
+}
+
+export class ExitComp extends React.PureComponent<ExitProps, {}> {
 
     componentDidMount() {
-        Plumber.get().makeSource(this.props.uuid);
+        Plumber.get().makeSource(this.props.exit.uuid);
 
         // we need to make sure our elements exist when 
         // creating new routed exits
-        if (this.props.destination) {
-            window.setTimeout(()=>{
-                Plumber.get().connectExit(this.props);
+        if (this.props.exit.destination) {
+            window.setTimeout(() => {
+                Plumber.get().connectExit(this.props.exit);
             }, 0);
-        }   
+        }
     }
 
     componentDidUpdate(prevProps: ExitProps) {
         // console.log("exit updated", this.props.uuid);
-        if (this.props.destination) {
-            Plumber.get().connectExit(this.props);
+        if (this.props.exit.destination) {
+            Plumber.get().connectExit(this.props.exit);
         }
     }
 
     componentWillUnmount() {
-        if (this.props.destination) {
-            Plumber.get().remove(this.props.uuid);
+        if (this.props.exit.destination) {
+            Plumber.get().remove(this.props.exit.uuid);
         }
     }
 
     render() {
         // console.log('Rendering exit', this.props.uuid);
-        var connected = this.props.destination ? " jtk-connected" : "";
+        var connected = this.props.exit.destination ? " jtk-connected" : "";
 
         return (
-            <div key={this.props.uuid} className={styles.exit + " plumb-exit"}>
+            <div key={this.props.exit.uuid} className={styles.exit + " plumb-exit"}>
                 <div className={styles.name}>
-                    {this.props.name}
+                    {this.props.exit.name}
                 </div>
-                <div id={this.props.uuid} className={styles.endpoint + " " + connected}/>
+                <div id={this.props.exit.uuid} className={styles.endpoint + " " + connected} />
             </div>
         )
     }
