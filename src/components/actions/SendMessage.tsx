@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { NodeEditorState } from '../../interfaces';
-import { ActionComp } from '../Action';
+import { ActionComp, ActionProps } from '../Action';
 import { NodeForm } from '../NodeForm';
 import { SendMessageProps } from '../../interfaces';
+import { SendMessage } from '../../FlowDefinition';
 import { NodeModalProps } from '../NodeModal';
 import { TextAreaElement } from '../form/TextAreaElement';
 
-export class SendMessage extends ActionComp<SendMessageProps> {
+export class SendMessageComp extends ActionComp<SendMessage> {
     renderNode(): JSX.Element {
-        if (this.props.text) {
-            return <div>{this.props.text}</div>
+        var action = this.getAction();
+        if (action.text) {
+            return <div>{action.text}</div>
         } else {
             return <div className='placeholder'>Send a message to the contact</div>
         }

@@ -3,6 +3,7 @@ import { FlowStore } from '../../services/FlowStore';
 import { toBoolMap } from '../../utils';
 import { SelectSearch } from '../SelectSearch';
 import { SaveToContactProps, NodeEditorState, SearchResult } from '../../interfaces';
+import { SaveToContact } from '../../FlowDefinition';
 import { NodeModalProps } from '../NodeModal';
 import { NodeForm } from '../NodeForm';
 import { ActionComp } from '../Action';
@@ -31,9 +32,9 @@ var reserved = toBoolMap([
     "tel"
 ]);
 
-export class SaveToContact extends ActionComp<SaveToContactProps> {
+export class SaveToContactComp extends ActionComp<SaveToContact> {
     renderNode() {
-        return <div>Updates <span className="emph">{this.props.name}</span></div>
+        return <div>Updates <span className="emph">{this.getAction().name}</span></div>
     }
 }
 

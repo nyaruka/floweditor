@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ActionComp } from '../Action';
 import { NodeForm } from '../NodeForm';
 import { WebhookProps, NodeEditorState } from '../../interfaces';
+import { Webhook } from '../../FlowDefinition';
 import { NodeModalProps } from '../NodeModal';
 import { SelectElement } from '../form/SelectElement';
 import { InputElement } from '../form/InputElement';
@@ -13,9 +14,9 @@ export interface WebhookState {
     method: string;
 }
 
-export class Webhook extends ActionComp<WebhookProps> {
+export class WebhookComp extends ActionComp<Webhook> {
     renderNode(): JSX.Element {
-        return <div>{this.props.url}</div>
+        return <div>{this.getAction().url}</div>
     }
 }
 

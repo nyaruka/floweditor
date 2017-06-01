@@ -1,9 +1,9 @@
 import { EditableProps } from '../interfaces';
 import { ChangeGroupComp, ChangeGroupForm } from '../components/actions/ChangeGroup';
-import { SaveToContact, SaveToContactForm } from '../components/actions/SaveToContact';
-import { SendMessage, SendMessageForm } from '../components/actions/SendMessage';
-import { Webhook, WebhookForm } from '../components/actions/Webhook';
-import { SendEmail, SendEmailForm } from '../components/actions/SendEmail';
+import { SaveToContactComp, SaveToContactForm } from '../components/actions/SaveToContact';
+import { SendMessageComp, SendMessageForm } from '../components/actions/SendMessage';
+import { WebhookComp, WebhookForm } from '../components/actions/Webhook';
+import { SendEmailComp, SendEmailForm } from '../components/actions/SendEmail';
 import { SwitchRouterForm } from '../components/routers/SwitchRouter';
 import { RandomRouterForm } from '../components/routers/RandomRouter';
 
@@ -37,18 +37,18 @@ export class Config {
     public typeConfigs: TypeConfig[] = [
 
         // actions
-        { type: "reply", name: "Send Message", description: "Send them a message", form: SendMessageForm, component: SendMessage },
+        { type: "reply", name: "Send Message", description: "Send them a message", form: SendMessageForm, component: SendMessageComp },
         // { type: "msg", name: "Send Message", description: "Send somebody else a message", form: SendMessageForm, component: SendMessage },
 
         { type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: ChangeGroupForm, component: ChangeGroupComp },
         { type: "remove_from_group", name: "Remove from Group", description: "Remove them from a group", form: ChangeGroupForm, component: ChangeGroupComp },
-        { type: "save_to_contact", name: "Update Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContact },
-        { type: "email", name: "Send Email", description: "Send an email", form: SendEmailForm, component: SendEmail },
+        { type: "save_to_contact", name: "Update Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContactComp },
+        { type: "email", name: "Send Email", description: "Send an email", form: SendEmailForm, component: SendEmailComp },
         // {type: "add_label", name: "Add Label", description: "Label the message", component: Missing},
         // {type: "set_preferred_channel", name: "Set Preferred Channel", description: "Set their preferred channel", component: Missing},
 
         // hybrids
-        { type: "webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: Webhook },
+        { type: "webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: WebhookComp },
         // {type: "flow", name: "Run another flow", description: "Run another flow", component: Missing},
 
         // routers
@@ -64,7 +64,7 @@ export class Config {
             }
         }
 
-        console.error("No configuration found for", type);
+        console.error("No type configuration found for", type);
         return null;
     }
 

@@ -3,6 +3,7 @@ import { NodeEditorState } from '../../interfaces';
 import { ActionComp } from '../Action';
 import { NodeForm } from '../NodeForm';
 import { SendEmailProps } from '../../interfaces';
+import { SendEmail } from '../../FlowDefinition';
 import { NodeModalProps } from '../NodeModal';
 import { TextAreaElement } from '../form/TextAreaElement';
 import { InputElement } from '../form/InputElement';
@@ -10,9 +11,9 @@ import { EmailElement } from '../form/EmailElement';
 
 
 
-export class SendEmail extends ActionComp<SendEmailProps> {
+export class SendEmailComp extends ActionComp<SendEmail> {
     renderNode(): JSX.Element {
-        return <div>{this.props.subject}</div>
+        return <div>{this.getAction().subject}</div>
     }
 }
 

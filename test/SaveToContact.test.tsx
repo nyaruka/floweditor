@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ReactWrapper, ShallowWrapper, mount, render } from 'enzyme';
 
-import { SaveToContact } from '../src/components/actions/SaveToContact';
+import { SaveToContactComp } from '../src/components/actions/SaveToContact';
 import { FlowMutator } from '../src/components/FlowMutator';
 import { FlowDefinition } from '../src/FlowDefinition';
 import { getFavorites } from './utils';

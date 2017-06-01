@@ -1,7 +1,8 @@
 import * as React from "react";
 import * as axios from "axios";
 import * as UUID from 'uuid';
-import { ActionProps } from '../interfaces'
+import { FlowContext } from '../interfaces';
+import { Action } from '../FlowDefinition';
 import { Plumber } from '../services/Plumber';
 import { FlowStore } from '../services/FlowStore';
 import { Config } from '../services/Config';
@@ -10,16 +11,26 @@ import { TitleBar } from './TitleBar';
 var shared = require('./shared.scss');
 var styles = require('./Action.scss');
 
+export interface ActionProps {
+    action: Action;
+    context: FlowContext;
+    dragging: boolean;
+}
+
 /**
  * Base Action class for the rendered flow
  */
-export class ActionComp<P extends ActionProps> extends React.PureComponent<P, {}> {
+export class ActionComp<A extends Action> extends React.PureComponent<ActionProps, {}> {
 
     public form: HTMLFormElement;
 
-    constructor(props: P) {
+    constructor(props: ActionProps) {
         super(props);
         this.onClick = this.onClick.bind(this);
+    }
+
+    getAction(): A {
+        return this.props.action as A;
     }
 
     setEditing(editing: boolean) {
@@ -30,15 +41,15 @@ export class ActionComp<P extends ActionProps> extends React.PureComponent<P, {}
         if (this.props.context.eventHandler.onEditNode && !this.props.dragging) {
             this.props.context.eventHandler.onEditNode({
                 initial: this.props,
-                type: this.props.type,
-                uuid: this.props.uuid,
+                type: this.props.action.type,
+                uuid: this.props.action.uuid,
                 context: this.props.context
             });
         }
     }
 
     getClassName() {
-        return this.props.type.split('_').join('-');
+        return this.props.action.type.split('_').join('-');
     }
 
     private onConfirmRemoval(evt: React.SyntheticEvent<MouseEvent>) {
@@ -48,7 +59,7 @@ export class ActionComp<P extends ActionProps> extends React.PureComponent<P, {}
 
     private onRemoval(evt: React.SyntheticEvent<MouseEvent>) {
         evt.stopPropagation();
-        this.props.context.eventHandler.onRemoveAction(this.props);
+        this.props.context.eventHandler.onRemoveAction(this.props.action);
     }
 
     renderNode(): JSX.Element {
@@ -56,11 +67,11 @@ export class ActionComp<P extends ActionProps> extends React.PureComponent<P, {}
     }
 
     render() {
-        let config = Config.get().getTypeConfig(this.props.type);
+        let config = Config.get().getTypeConfig(this.props.action.type);
         var events = { onMouseUp: this.onClick.bind(this) }
 
         return (
-            <div id={this.props.uuid} className={styles.action}>
+            <div id={this.props.action.uuid} className={styles.action}>
                 <div {...events}>
                     <TitleBar className={shared[this.getClassName()]} title={config.name} onRemoval={this.onRemoval.bind(this)} />
                     <div className={styles.body}>
@@ -72,7 +83,7 @@ export class ActionComp<P extends ActionProps> extends React.PureComponent<P, {}
     }
 
     getType() {
-        return this.props.type;
+        return this.props.action.type;
     }
 }
 

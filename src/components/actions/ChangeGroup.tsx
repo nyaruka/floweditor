@@ -1,14 +1,15 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
-import { ActionComp } from '../Action';
+import { ActionComp, ActionProps } from '../Action';
 import { NodeForm } from '../NodeForm';
 import { NodeModalProps } from '../NodeModal';
 import { ChangeGroupProps, NodeEditorState, SearchResult } from '../../interfaces';
 import { GroupElement } from '../form/GroupElement';
 import { ChangeGroup } from '../../FlowDefinition';
 
-export class ChangeGroupComp extends ActionComp<ChangeGroupProps> {
-    renderNode() { return <div>{this.props.groups[0].name}</div> }
+
+export class ChangeGroupComp extends ActionComp<ChangeGroup> {
+    renderNode() { return <div>{this.getAction().groups[0].name}</div> }
 }
 
 export class ChangeGroupForm extends NodeForm<ChangeGroupProps, NodeEditorState> {

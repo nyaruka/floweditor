@@ -4,7 +4,8 @@ import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 
-import { ActionProps, RouterProps, SaveToContactProps, FlowContext } from '../interfaces';
+import { RouterProps, SaveToContactProps, FlowContext } from '../interfaces';
+import { ActionProps } from './Action';
 import { Plumber, DragEvent } from '../services/Plumber';
 import { FlowStore } from '../services/FlowStore';
 import { Config } from '../services/Config';
@@ -14,7 +15,7 @@ import { ExitComp } from './Exit';
 import { TitleBar } from './TitleBar';
 import { SwitchRouterProps } from './routers/SwitchRouter';
 
-import { Node, Position, SwitchRouter } from '../FlowDefinition'
+import { Node, Position, SwitchRouter, Action } from '../FlowDefinition'
 
 var styles = require("./Node.scss");
 var shared = require("./shared.scss");
@@ -47,7 +48,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
     public ele: any;
     private modal: NodeModal;
-    private firstAction: ActionComp<ActionProps>;
+    private firstAction: ActionComp<Action>;
     private newActionModal: NodeModal;
 
     constructor(props: NodeProps) {
@@ -183,9 +184,10 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
             for (let actionProps of this.props.node.actions) {
                 let actionConfig = Config.get().getTypeConfig(actionProps.type);
                 if (actionConfig.component != null) {
+                    // console.log(actionProps, actionConfig);
                     actions.push(React.createElement(actionConfig.component, {
-                        ...actionProps,
                         ...firstRef,
+                        action: actionProps,
                         dragging: this.state.dragging,
                         key: actionProps.uuid,
                         context: this.props.context,
