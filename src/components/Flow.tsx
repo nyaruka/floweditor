@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { FlowContext, SendMessageProps, NodeEditorProps, EditableProps, ActionProps, RouterProps, LocationProps, Endpoints, ContactFieldResult } from '../interfaces';
-import { FlowDefinition, Node } from '../FlowDefinition';
+import { FlowContext, SendMessageProps, NodeEditorProps, EditableProps, ActionProps, RouterProps, Endpoints, ContactFieldResult } from '../interfaces';
+import { FlowDefinition, Node, Position } from '../FlowDefinition';
 import { NodeComp, NodeProps } from './Node';
 import { NodeModal, NodeModalProps } from './NodeModal';
 import { FlowMutator } from './FlowMutator';
@@ -117,7 +117,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.setState({ modalProps: modalProps }, () => { this.modalComp.open() });
     }
 
-    private onNodeMoved(uuid: string, position: LocationProps) {
+    private onNodeMoved(uuid: string, position: Position) {
         this.props.mutator.updateNodeUI(uuid, {
             position: { $set: position }
         });

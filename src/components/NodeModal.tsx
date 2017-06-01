@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
-import { NodeEditorProps, NodeEditorState, TypeConfig, LocationProps } from '../interfaces';
+import { NodeEditorProps, NodeEditorState } from '../interfaces';
 import { Modal } from './Modal';
-import { Config } from '../services/Config';
+import { Config, TypeConfig } from '../services/Config';
 import { FlowMutator } from './FlowMutator';
 import { DragPoint } from './Node';
 import { NodeForm } from './NodeForm';
-import { Exit } from '../FlowDefinition';
+import { Position, Exit } from '../FlowDefinition';
 import { EditableProps } from '../interfaces';
 
 var Select = require('react-select');
@@ -22,7 +22,7 @@ export interface NodeModalProps {
     onUpdateAction: Function;
     onUpdateRouter: Function;
 
-    newPosition?: LocationProps;
+    newPosition?: Position;
     mutator?: FlowMutator;
     draggedFrom?: DragPoint;
     exits?: Exit[];

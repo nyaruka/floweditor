@@ -4,7 +4,7 @@ import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 
-import { LocationProps, ActionProps, RouterProps, SaveToContactProps, FlowContext } from '../interfaces';
+import { ActionProps, RouterProps, SaveToContactProps, FlowContext } from '../interfaces';
 import { Plumber, DragEvent } from '../services/Plumber';
 import { FlowStore } from '../services/FlowStore';
 import { Config } from '../services/Config';
@@ -30,7 +30,7 @@ export interface DragPoint {
 
 export interface NodeState {
     dragging?: boolean;
-    createPosition?: LocationProps;
+    createPosition?: Position;
 }
 
 export interface NodeProps {

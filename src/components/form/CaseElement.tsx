@@ -2,8 +2,7 @@ import * as React from "react";
 
 import { FormElement, FormElementProps } from './FormElement';
 import { FormWidget, FormValueState } from './FormWidget';
-import { Operator } from '../../interfaces';
-import { Config } from '../../services/Config';
+import { Config, Operator } from '../../services/Config';
 import { CaseProps } from '../routers/SwitchRouter';
 
 var Select = require('react-select');

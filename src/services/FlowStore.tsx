@@ -1,36 +1,10 @@
 import axios from 'axios';
 import { AxiosResponse } from 'axios';
-import { LocationProps, UINode } from '../interfaces'
 import { FlowDefinition } from '../FlowDefinition';
 
 var storage = require('local-storage');
 
-export class Location implements LocationProps {
-    x: number
-    y: number
-
-    constructor(x: number, y: number) {
-        this.x = x;
-        this.y = y;
-    }
-}
-
-export class UINodeMetaData implements UINode {
-    position: Location;
-
-    constructor(location: Location) {
-        this.position = location;
-    }
-
-    setLocation(x: number, y: number) {
-        this.position.x = x;
-        this.position.y = y;
-    }
-}
-
-
 export class FlowStore {
-
 
     private static singleton: FlowStore = new FlowStore();
 

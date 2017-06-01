@@ -1,8 +1,8 @@
 import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
-import { SendMessageProps, UINode, WebhookProps } from '../src/interfaces';
+import { SendMessageProps, WebhookProps } from '../src/interfaces';
 import { FlowMutator } from '../src/components/FlowMutator';
-import { FlowDefinition } from '../src/FlowDefinition';
+import { FlowDefinition, UINode } from '../src/FlowDefinition';
 import { NodeProps } from '../src/components/Node';
 import { getFavorites, dump } from './utils';
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { AxiosResponse } from 'axios';
-import { Endpoints, UINode } from '../interfaces';
+import { Endpoints } from '../interfaces';
 
 import { FlowDefinition } from '../FlowDefinition';
 

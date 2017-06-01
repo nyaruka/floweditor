@@ -5,8 +5,9 @@ import { NodeForm } from '../NodeForm';
 import { NodeModalProps } from '../NodeModal';
 import { ChangeGroupProps, NodeEditorState, SearchResult } from '../../interfaces';
 import { GroupElement } from '../form/GroupElement';
+import { ChangeGroup } from '../../FlowDefinition';
 
-export class ChangeGroup extends ActionComp<ChangeGroupProps> {
+export class ChangeGroupComp extends ActionComp<ChangeGroupProps> {
     renderNode() { return <div>{this.props.groups[0].name}</div> }
 }
 

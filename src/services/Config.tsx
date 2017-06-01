@@ -1,5 +1,5 @@
-import { TypeConfig, Operator } from '../interfaces';
-import { ChangeGroup, ChangeGroupForm } from '../components/actions/ChangeGroup';
+import { EditableProps } from '../interfaces';
+import { ChangeGroupComp, ChangeGroupForm } from '../components/actions/ChangeGroup';
 import { SaveToContact, SaveToContactForm } from '../components/actions/SaveToContact';
 import { SendMessage, SendMessageForm } from '../components/actions/SendMessage';
 import { Webhook, WebhookForm } from '../components/actions/Webhook';
@@ -7,6 +7,20 @@ import { SendEmail, SendEmailForm } from '../components/actions/SendEmail';
 import { SwitchRouterForm } from '../components/routers/SwitchRouter';
 import { RandomRouterForm } from '../components/routers/RandomRouter';
 
+export interface TypeConfig {
+    type: string;
+    name: string;
+    description: string;
+
+    form?: { new (props: any): any };
+    component?: { new (props: any): any };
+}
+
+export interface Operator {
+    type: string;
+    verboseName: string;
+    operands: number;
+}
 
 export class Config {
 
@@ -26,8 +40,8 @@ export class Config {
         { type: "reply", name: "Send Message", description: "Send them a message", form: SendMessageForm, component: SendMessage },
         // { type: "msg", name: "Send Message", description: "Send somebody else a message", form: SendMessageForm, component: SendMessage },
 
-      { type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: ChangeGroupForm, component: ChangeGroup },
-        { type: "remove_from_group", name: "Remove from Group", description: "Remove them from a group", form: ChangeGroupForm, component: ChangeGroup },
+        { type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: ChangeGroupForm, component: ChangeGroupComp },
+        { type: "remove_from_group", name: "Remove from Group", description: "Remove them from a group", form: ChangeGroupForm, component: ChangeGroupComp },
         { type: "save_to_contact", name: "Update Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContact },
         { type: "email", name: "Send Email", description: "Send an email", form: SendEmailForm, component: SendEmail },
         // {type: "add_label", name: "Add Label", description: "Label the message", component: Missing},

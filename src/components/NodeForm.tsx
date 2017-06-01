@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as UUID from 'uuid';
-import { NodeEditorProps, NodeEditorState, LocationProps } from '../interfaces'
+import { NodeEditorProps, NodeEditorState } from '../interfaces'
 import { DragPoint } from './Node';
 import { Plumber } from '../services/Plumber';
 import { FlowStore } from '../services/FlowStore';

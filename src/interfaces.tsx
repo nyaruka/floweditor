@@ -1,6 +1,7 @@
 import { FlowLoader } from './components/FlowLoader'
 import { NodeComp } from './components/Node'
 import { Node, Position, Action } from './FlowDefinition';
+import { TypeConfig } from './services/Config';
 
 export interface FlowContext {
     eventHandler: FlowEventHandler;
@@ -45,26 +46,12 @@ export interface Group {
     name: string;
 }
 
-export interface UINode {
-    position: LocationProps;
-}
-
-export interface UIMetaDataProps {
-    nodes: { [key: string]: UINode };
-}
-
-export interface LocationProps {
-    x: number;
-    y: number;
-}
-
 export interface NodeEditorState { }
 
 export interface NodeEditorProps {
     type: string;
     uuid: string;
     context: FlowContext;
-
     config?: TypeConfig;
 }
 
@@ -111,74 +98,8 @@ export interface RouterProps extends NodeEditorProps {
     name?: string;
 }
 
-/*export interface CaseProps {
-    uuid: string;
-    type: string;
-    exit: string;
-    arguments?: string[];
-
-
-    exitName?: string;
-    onChanged?: Function;
-    moveCase?: Function;
-}*/
-
-/*export interface SwitchRouterProps extends RouterProps {
-    cases: CaseProps[];
-    operand: string;
-    default: string;
-    exits?: Exit[];
-}*/
-
 export interface SwitchRouterState extends NodeEditorState { }
 export interface RandomRouterProps extends RouterProps { }
-
-/*export interface ExitProps {
-    uuid: string;
-    name?: string;
-    destination?: string;
-}*/
-
-
-/*export interface NodeProps {
-    uuid: string;
-    exits: ExitProps[];
-
-    router?: any;
-    actions?: ActionProps[];
-    wait?: any;
-    _ui?: UINode;
-
-    ghost?: boolean;
-    // a connection that needs to be wired on mounting
-    pendingConnection?: DragPoint;
-
-    context?: FlowContext
-}*/
-
-/**
- * A point in the flow from which a drag is initiated
- */
-/*export interface DragPoint {
-    exitUUID: string;
-    nodeUUID: string;
-    onResolved?: Function;
-}*/
-
-export interface TypeConfig {
-    type: string;
-    name: string;
-    description: string;
-
-    form?: { new (props: NodeEditorProps): any };
-    component?: { new (props: NodeEditorProps): any };
-}
-
-export interface Operator {
-    type: string;
-    verboseName: string;
-    operands: number;
-}
 
 export interface SearchResult {
     name: string,

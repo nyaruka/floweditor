@@ -2,11 +2,11 @@ import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
 
 import {
-    SendMessageProps, WebhookProps, NodeEditorProps, LocationProps,
-    UIMetaDataProps, ActionProps, RouterProps, SearchResult, UINode, ContactFieldResult
+    SendMessageProps, WebhookProps, NodeEditorProps,
+    ActionProps, RouterProps, SearchResult, ContactFieldResult
 } from '../interfaces';
 
-import { FlowDefinition, Node, Action, Exit } from '../FlowDefinition';
+import { FlowDefinition, Node, Action, Exit, UIMetaData, UINode, Position } from '../FlowDefinition';
 import { NodeModalProps } from './NodeModal';
 import { NodeComp, NodeProps, DragPoint } from './Node';
 import { ComponentMap } from './ComponentMap';
@@ -142,7 +142,7 @@ export class FlowMutator {
 
     public updateRouter(props: Node,
         draggedFrom: DragPoint = null,
-        newPosition: LocationProps = null): Node {
+        newPosition: Position = null): Node {
 
         console.time("updateRouter");
         // console.log("updateRouter", props);
@@ -181,7 +181,7 @@ export class FlowMutator {
      */
     public updateAction(props: ActionProps,
         draggedFrom: DragPoint = null,
-        newPosition: LocationProps = null,
+        newPosition: Position = null,
         addToNode: string = null): Node {
         console.time("updateAction");
         var node: Node;
@@ -252,7 +252,7 @@ export class FlowMutator {
         this.definition = update(this.definition, { _ui: { nodes: { [uuid]: changes } } });
 
         // find our first node
-        var top: LocationProps;
+        var top: Position;
         var topNode: string;
 
         this.definition.nodes.sort((a: Node, b: Node) => {
@@ -282,7 +282,6 @@ export class FlowMutator {
 
     public removeNode(props: Node) {
 
-        console.log("Remove node: ", props);
         let details = this.components.getDetails(props.uuid);
         let node = this.definition.nodes[details.nodeIdx];
 
