@@ -28,7 +28,7 @@ export class SendMessageForm extends ActionForm<SendMessage, {}> {
         var textarea = this.getElements()[0] as TextAreaElement;
 
         var newAction: SendMessage = {
-            uuid: this.props.action.uuid,
+            uuid: this.getUUID(),
             type: this.props.config.type,
             text: textarea.state.value,
         }

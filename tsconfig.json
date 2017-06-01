@@ -11,8 +11,10 @@
     "target": "es5",
     "allowJs": true,
     "watch": true,
+    "allowSyntheticDefaultImports": true,
     "lib": [
-      "es2015", "dom"
+      "es2015",
+      "dom"
     ]
   },
   "include": [

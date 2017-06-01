@@ -63,7 +63,7 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
     renderForm(): JSX.Element {
         var initial: SearchResult = null;
         var action = this.getAction();
-        if (this.props.action.type == "save_to_contact") {
+        if (action && this.props.type == "save_to_contact") {
             initial = {
                 id: action.field,
                 name: action.name,
@@ -99,7 +99,7 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
         var field = fieldEle.state.field;
 
         var newAction: SaveToContact = {
-            uuid: this.props.action.uuid,
+            uuid: this.getUUID(),
             type: this.props.config.type,
             name: field.name,
             field: field.id,

@@ -59,6 +59,7 @@ export class Config {
         // {type: "flow", name: "Run another flow", description: "Run another flow", component: Missing},
 
         // routers
+        // { type: "expression", name: "Split by Expression", description: "Split by a custom expression", form: SwitchRouterForm },
         { type: "switch", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm },
         // {type: "random", name: "Random Split", description: "Split them up randomly", form: RandomRouterForm}
 

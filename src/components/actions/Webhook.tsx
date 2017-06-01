@@ -77,7 +77,7 @@ export class WebhookForm extends ActionForm<Webhook, WebhookState> {
         var methodEle = this.getElements()[0] as SelectElement;
         var urlEle = this.getElements()[1] as InputElement;
         var newAction: Webhook = {
-            uuid: this.props.action.uuid,
+            uuid: this.getUUID(),
             type: this.props.config.type,
             url: urlEle.state.value,
             method: methodEle.state.value

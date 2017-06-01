@@ -45,12 +45,24 @@ export abstract class NodeForm<P extends NodeEditorProps, S> extends React.PureC
 
 
 export abstract class ActionForm<A extends Action, S> extends NodeForm<ActionProps, S> {
-    getType() {
-        return this.props.action.type;
+    private uuid: string;
+
+    getUUID() {
+        if (this.props.action) {
+            return this.props.action.uuid;
+        }
+
+        if (this.uuid == null) {
+            this.uuid = UUID.v4();
+        }
+        return this.uuid;
     }
 
     getAction(): A {
-        return this.props.action as A;
+        if (this.props.action) {
+            return this.props.action as A;
+        }
+        return {} as A;
     }
 
 }

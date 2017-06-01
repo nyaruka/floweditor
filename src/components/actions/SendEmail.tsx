@@ -46,7 +46,7 @@ export class SendEmailForm extends ActionForm<SendEmail, SendEmailState> {
         }
 
         var newAction: SendEmail = {
-            uuid: this.props.action.uuid,
+            uuid: this.getUUID(),
             type: this.props.config.type,
             body: bodyEle.state.value,
             subject: subjectEle.state.value,

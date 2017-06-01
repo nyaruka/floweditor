@@ -339,8 +339,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             Plumber.get().connect(dragPoint.exitUUID, this.state.ghost.uuid);
 
             // update our modal with our drop location
-            var { left, top } = $(this.ghostComp.ele).offset();
-            var modalProps = update(this.state.modalProps, { $merge: { newPosition: { x: left, y: top } } });
+            var { offsetTop, offsetLeft } = $(this.ghostComp.ele)[0];
+            var modalProps = update(this.state.modalProps, { $merge: { newPosition: { x: offsetLeft, y: offsetTop } } });
             this.setState({ modalProps: modalProps });
 
             // click on our ghost node to bring up the editor

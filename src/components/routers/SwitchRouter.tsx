@@ -91,12 +91,14 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
             // couldn't find a new exit, look through our old ones
             if (!existingExit) {
                 // look through our previous cases for a match
-                for (let exit of previous.exits) {
-                    if (props.exitName && exit.name) {
-                        if (exit.name.toLowerCase() == props.exitName.trim().toLowerCase()) {
-                            existingExit = exit;
-                            exits.push(existingExit);
-                            break;
+                if (previous.exits) {
+                    for (let exit of previous.exits) {
+                        if (props.exitName && exit.name) {
+                            if (exit.name.toLowerCase() == props.exitName.trim().toLowerCase()) {
+                                existingExit = exit;
+                                exits.push(existingExit);
+                                break;
+                            }
                         }
                     }
                 }

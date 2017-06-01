@@ -47,7 +47,7 @@ export class ChangeGroupForm extends ActionForm<ChangeGroup, {}> {
         if (group) {
 
             var newAction: ChangeGroup = {
-                uuid: this.props.action.uuid,
+                uuid: this.getUUID(),
                 type: this.props.config.type,
                 groups: [{
                     uuid: group.id,

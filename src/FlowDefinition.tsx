@@ -90,6 +90,9 @@ export interface Position {
 
 export interface UINode {
     position: Position;
+
+    // ui type, used for split by expression, contact field, etc
+    type?: string
 }
 
 export interface UIMetaData {
