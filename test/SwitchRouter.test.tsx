@@ -1,26 +1,26 @@
 import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
-import {resolveExits} from '../src/components/routers/SwitchRouter';
-import {SendMessageProps, UINode, WebhookProps, ExitProps, CaseProps, SwitchRouterProps} from '../src/interfaces';
-import {FlowMutator} from '../src/components/FlowMutator';
-import {FlowDefinition, NodeProps} from '../src/interfaces';
-import {getFavorites, dump} from './utils';
+import { resolveExits } from '../src/components/routers/SwitchRouter';
+import { SendMessageProps, UINode, WebhookProps, ExitProps, CaseProps, SwitchRouterProps } from '../src/interfaces';
+import { FlowMutator } from '../src/components/FlowMutator';
+import { FlowDefinition } from '../src/FlowDefinition';
+import { getFavorites, dump } from './utils';
 
-describe('SwitchRouter', ()=>{
+describe('SwitchRouter', () => {
 
     var definition: FlowDefinition;
     var disasterChoiceNode: SwitchRouterProps;
     var originalCases: CaseProps[];
-    
+
     var tornado = 0;
     var tsunami = 1;
     var earthquake = 2;
     var other = 3;
 
-    beforeEach(()=>{
+    beforeEach(() => {
         definition = getFavorites();
         var switchNode = definition.nodes[5];
-        
+
         disasterChoiceNode = {
             cases: switchNode.router.cases,
             default: switchNode.router.default,
@@ -52,12 +52,12 @@ describe('SwitchRouter', ()=>{
         }
     }
 
-    function resolve(newCases: CaseProps[], previous: SwitchRouterProps): {cases: CaseProps[], exits: ExitProps[], defaultExit: string} {
-        const {cases, exits, defaultExit} = resolveExits(newCases, previous);
+    function resolve(newCases: CaseProps[], previous: SwitchRouterProps): { cases: CaseProps[], exits: ExitProps[], defaultExit: string } {
+        const { cases, exits, defaultExit } = resolveExits(newCases, previous);
         assertUniqueExits(exits);
         assertCasesHaveExits(cases, exits, defaultExit);
         assertNoOrphanedExits(cases, exits, defaultExit);
-        return {cases, exits, defaultExit};
+        return { cases, exits, defaultExit };
     }
 
     function assertNoOrphanedExits(cases: CaseProps[], exits: ExitProps[], defaultExit: string) {
@@ -78,7 +78,7 @@ describe('SwitchRouter', ()=>{
             }
         }
 
-        if (!exits.some(exit=>exit.uuid == defaultExit)) {
+        if (!exits.some(exit => exit.uuid == defaultExit)) {
             chai.assert.fail(defaultExit, defaultExit, "Default route missing from exits: " + defaultExit);
         }
 
@@ -86,8 +86,8 @@ describe('SwitchRouter', ()=>{
 
     function assertUniqueExits(exits: ExitProps[]) {
         // they should have unique uuids
-        var seen: {[uuid: string]:boolean} = {}
-        for (let exit of exits){
+        var seen: { [uuid: string]: boolean } = {}
+        for (let exit of exits) {
             if (exit.uuid in seen) {
                 dump(exits);
                 chai.assert.fail(exit.uuid, exit.uuid, "Duplicate exit uuid: " + exit.uuid);
@@ -97,7 +97,7 @@ describe('SwitchRouter', ()=>{
 
         // and unique names
         seen = {}
-        for (let exit of exits){
+        for (let exit of exits) {
             if (exit.name in seen) {
                 dump(exits);
                 chai.assert.fail(exit.name, exit.name, "Duplicate exit name: " + exit.name);
@@ -106,9 +106,9 @@ describe('SwitchRouter', ()=>{
         }
     }
 
-    it ('maintains the "other" destination', () => {
+    it('maintains the "other" destination', () => {
         // update without making any changes
-        const {cases, exits, defaultExit} = resolve(originalCases, disasterChoiceNode);
+        const { cases, exits, defaultExit } = resolve(originalCases, disasterChoiceNode);
 
         // our default route should be present and routed properly
         var exit = getExit(defaultExit, exits);
@@ -116,11 +116,11 @@ describe('SwitchRouter', ()=>{
         chai.assert.isNotNull(exit.destination);
     });
 
-    it ('merges cases to the same exit', ()=> {
+    it('merges cases to the same exit', () => {
 
         // point our earthquake rule to our tsunami exit
-        var newCases = update(originalCases, {[earthquake]: {$merge: {exitName: "Tsunami"}}});
-        const {cases, exits} = resolve(newCases, disasterChoiceNode);
+        var newCases = update(originalCases, { [earthquake]: { $merge: { exitName: "Tsunami" } } });
+        const { cases, exits } = resolve(newCases, disasterChoiceNode);
 
         // should have same number of cases, but one less exit since the earthquake exit is gone
         chai.assert.equal(cases.length, 3, "Incorrect number of cases after merged cases");
@@ -128,14 +128,14 @@ describe('SwitchRouter', ()=>{
 
         // we should now be pointed to our tsunami exit
         chai.assert.equal(cases[earthquake].exit, disasterChoiceNode.exits[tsunami].uuid);
-        
+
     });
 
-    it ('allows exit renaming', ()=> {
+    it('allows exit renaming', () => {
 
         // set a different exitName to our earthquake case                
-        var newCases = update(originalCases, {[earthquake]: {$merge: {exitName: "Terramoto"}}});
-        const {cases, exits} = resolve(newCases, disasterChoiceNode);
+        var newCases = update(originalCases, { [earthquake]: { $merge: { exitName: "Terramoto" } } });
+        const { cases, exits } = resolve(newCases, disasterChoiceNode);
 
         // number of cases and exits should remain
         chai.assert.equal(cases.length, 3, "Incorrect number of cases after a rename");
@@ -151,17 +151,17 @@ describe('SwitchRouter', ()=>{
 
     });
 
-    it ('creates unique exit ids for unique names', ()=> {
-        
+    it('creates unique exit ids for unique names', () => {
+
         // merge earthquake into tsunami
-        var newCases = update(originalCases, {[earthquake]: {$merge: {exitName: "Tsunami"}}});
-        var {cases, exits} = resolve(newCases, disasterChoiceNode);
+        var newCases = update(originalCases, { [earthquake]: { $merge: { exitName: "Tsunami" } } });
+        var { cases, exits } = resolve(newCases, disasterChoiceNode);
         chai.assert.equal(exits.length, disasterChoiceNode.exits.length - 1);
 
         // now rename earthquake
         disasterChoiceNode.cases = cases;
-        newCases = update(cases, {[earthquake]: {$merge: {exitName: "Terramoto"}}});
-        var {exits} = resolve(newCases, disasterChoiceNode);
+        newCases = update(cases, { [earthquake]: { $merge: { exitName: "Terramoto" } } });
+        var { exits } = resolve(newCases, disasterChoiceNode);
 
         // should be back to the original number of exits
         chai.assert.equal(exits.length, disasterChoiceNode.exits.length);
@@ -173,24 +173,24 @@ describe('SwitchRouter', ()=>{
 
     it('merges and separates cases', () => {
         // merge earthquake into tornado
-        var newCases = update(originalCases, {[earthquake]: {$merge: {exitName: "Tornado"}}});
-        var {cases, exits} = resolve(newCases, disasterChoiceNode);
+        var newCases = update(originalCases, { [earthquake]: { $merge: { exitName: "Tornado" } } });
+        var { cases, exits } = resolve(newCases, disasterChoiceNode);
         chai.assert.equal(exits.length, disasterChoiceNode.exits.length - 1);
 
         // merge tsunami into tornado
         disasterChoiceNode.cases = cases;
         disasterChoiceNode.exits = exits;
-        newCases = update(cases, {[1]: {$merge: {exitName: "Tornado"}}});
+        newCases = update(cases, { [1]: { $merge: { exitName: "Tornado" } } });
 
-        var {cases, exits} = resolve(newCases, disasterChoiceNode);
+        var { cases, exits } = resolve(newCases, disasterChoiceNode);
         chai.assert.equal(exits.length, disasterChoiceNode.exits.length - 1, "Incorrect number of exits after two merges");
 
         // now separate it back out
         disasterChoiceNode.cases = cases;
         disasterChoiceNode.exits = exits;
-        newCases = update(cases, {[0]: {$merge: {exitName: "Big Swirly Wind"}}});
+        newCases = update(cases, { [0]: { $merge: { exitName: "Big Swirly Wind" } } });
 
-        var {cases, exits} = resolve(newCases, disasterChoiceNode);
+        var { cases, exits } = resolve(newCases, disasterChoiceNode);
 
         // our original case, the one we separated from it, and other
         chai.assert.equal(exits.length, 3);
@@ -200,21 +200,21 @@ describe('SwitchRouter', ()=>{
 
     });
 
-    it('creates cases from scratch', ()=>{
+    it('creates cases from scratch', () => {
 
         var defaultUUID = UUID.v4();
         var emptySwitch: SwitchRouterProps = {
-            uuid: UUID.v4(), 
-            cases:[], 
+            uuid: UUID.v4(),
+            cases: [],
             exits: [],
-            operand: "@input.text", 
+            operand: "@input.text",
             default: defaultUUID,
-            type: "switch", 
+            type: "switch",
             context: null
         };
 
         // an empty switch with new cases
-        var {cases, exits} = resolve([], emptySwitch);
+        var { cases, exits } = resolve([], emptySwitch);
 
         // we should have a single All Responses exit and no cases
         chai.assert.equal(cases.length, 0);
@@ -224,13 +224,13 @@ describe('SwitchRouter', ()=>{
 
         // now try adding a new case
         var newCase: CaseProps = {
-            uuid: UUID.v4(), 
-            type: "has_any_word", 
-            exitName: "New Exit", 
+            uuid: UUID.v4(),
+            type: "has_any_word",
+            exitName: "New Exit",
             exit: null // no exit yet!
         };
 
-        var {cases, exits} = resolve([newCase], emptySwitch);
+        var { cases, exits } = resolve([newCase], emptySwitch);
 
         // two exits, our New Exit and the default
         chai.assert.equal(1, cases.length);

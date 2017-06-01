@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Action } from '../Action';
+import { ActionComp } from '../Action';
 import { NodeForm } from '../NodeForm';
 import { WebhookProps, NodeEditorState } from '../../interfaces';
 import { NodeModalProps } from '../NodeModal';
@@ -13,7 +13,7 @@ export interface WebhookState {
     method: string;
 }
 
-export class Webhook extends Action<WebhookProps> {
+export class Webhook extends ActionComp<WebhookProps> {
     renderNode(): JSX.Element {
         return <div>{this.props.url}</div>
     }

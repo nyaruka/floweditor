@@ -1,5 +1,6 @@
 import { FlowLoader } from './components/FlowLoader'
-import { Node } from './components/Node'
+import { NodeComp } from './components/Node'
+import { Node } from './FlowDefinition';
 
 export interface FlowContext {
     eventHandler: FlowEventHandler;
@@ -12,9 +13,10 @@ export interface FlowEventHandler {
     onEditNode?: Function;
     onRemoveAction?: Function;
     onNodeMoved?: Function;
-    onNodeMounted?: Function;
     onRemoveNode?: Function;
     onAddAction?: Function;
+
+    onNodeMounted?(props: Node): void;
     onAddContactField(field: ContactFieldResult): void;
     onAddGroup(group: SearchResult): void;
 }
@@ -133,7 +135,7 @@ export interface ExitProps {
 }
 
 
-export interface NodeProps {
+/*export interface NodeProps {
     uuid: string;
     exits: ExitProps[];
 
@@ -147,16 +149,16 @@ export interface NodeProps {
     pendingConnection?: DragPoint;
 
     context?: FlowContext
-}
+}*/
 
 /**
  * A point in the flow from which a drag is initiated
  */
-export interface DragPoint {
+/*export interface DragPoint {
     exitUUID: string;
     nodeUUID: string;
     onResolved?: Function;
-}
+}*/
 
 export interface TypeConfig {
     type: string;
@@ -171,15 +173,6 @@ export interface Operator {
     type: string;
     verboseName: string;
     operands: number;
-}
-
-export interface FlowDefinition {
-    localization: { [lang: string]: { [uuid: string]: any } };
-    name: string
-    nodes: NodeProps[]
-    uuid: string
-    _ui: UIMetaDataProps
-
 }
 
 export interface SearchResult {

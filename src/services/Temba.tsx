@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {AxiosResponse} from 'axios';
-import {FlowDefinition} from '../interfaces';
+import { AxiosResponse } from 'axios';
+import { FlowDefinition } from '../FlowDefinition';
 
 export interface FlowDetails {
     uuid: string;
@@ -11,10 +11,10 @@ export interface FlowDetails {
  * RapidPro API Accessor. Depends on goflow legacy migration.
  */
 export class Temba {
-    
+
     private site: string;
     private token: string;
-    
+
     constructor(site: string, token: string) {
         this.site = site;
         this.token = token;
@@ -24,14 +24,14 @@ export class Temba {
      * Gets a list of flows for the account
      */
     public getFlows(): Promise<FlowDetails[]> {
-        
+
         var url = "/" + this.site + "/flows.json";
         var headers = {
             Authorization: "Token " + this.token
         }
 
-        return new Promise<FlowDetails[]>((resolve,reject) => {
-            axios.get(url, {headers: headers}).then((response: AxiosResponse) => {
+        return new Promise<FlowDetails[]>((resolve, reject) => {
+            axios.get(url, { headers: headers }).then((response: AxiosResponse) => {
                 resolve(response.data.results as FlowDetails[])
             });
         });
@@ -44,13 +44,13 @@ export class Temba {
      */
     public fetchLegacyFlows(uuid: string, ignoreDependencies: boolean = false): Promise<FlowDefinition[]> {
 
-        var url = "/" + this.site + "/definitions.json?flow="+ uuid;
+        var url = "/" + this.site + "/definitions.json?flow=" + uuid;
         var headers = {
             Authorization: "Token " + this.token
         }
 
-        return new Promise<FlowDefinition[]>((resolve,reject) => {
-            axios.get(url, {headers: headers}).then((response: AxiosResponse) => {
+        return new Promise<FlowDefinition[]>((resolve, reject) => {
+            axios.get(url, { headers: headers }).then((response: AxiosResponse) => {
                 var json = response.data
                 if (json.version >= 10) {
 
@@ -67,7 +67,7 @@ export class Temba {
                     }
 
                     // console.log(toMigrate);
-                    axios.post("/migrate", {flows: toMigrate}).then((response: AxiosResponse) => {
+                    axios.post("/migrate", { flows: toMigrate }).then((response: AxiosResponse) => {
                         // console.log(response.data)
                         resolve(response.data as FlowDefinition[]);
                     });

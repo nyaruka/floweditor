@@ -1,12 +1,11 @@
 import * as React from "react";
 import * as axios from "axios";
 import * as UUID from 'uuid';
-import {ActionProps} from '../interfaces'
-import {Plumber} from '../services/Plumber';
-import {FlowStore} from '../services/FlowStore';
-import {Config} from '../services/Config';
-import {NodeModal} from './NodeModal';
-import {TitleBar} from './TitleBar';
+import { ActionProps } from '../interfaces'
+import { Plumber } from '../services/Plumber';
+import { FlowStore } from '../services/FlowStore';
+import { Config } from '../services/Config';
+import { TitleBar } from './TitleBar';
 
 var shared = require('./shared.scss');
 var styles = require('./Action.scss');
@@ -14,10 +13,9 @@ var styles = require('./Action.scss');
 /**
  * Base Action class for the rendered flow
  */
-export class Action<P extends ActionProps> extends React.PureComponent<P, {}> {
+export class ActionComp<P extends ActionProps> extends React.PureComponent<P, {}> {
 
     public form: HTMLFormElement;
-    private modal: NodeModal;
 
     constructor(props: P) {
         super(props);
@@ -25,17 +23,13 @@ export class Action<P extends ActionProps> extends React.PureComponent<P, {}> {
     }
 
     setEditing(editing: boolean) {
-        this.setState({editing: editing})
+        this.setState({ editing: editing })
     }
 
-    onClick (event: React.SyntheticEvent<MouseEvent>) {
+    onClick(event: React.SyntheticEvent<MouseEvent>) {
         if (this.props.context.eventHandler.onEditNode && !this.props.dragging) {
             this.props.context.eventHandler.onEditNode(this.props);
         }
-    }
-
-    openModal() {
-        this.modal.open();
     }
 
     getClassName() {
@@ -44,7 +38,7 @@ export class Action<P extends ActionProps> extends React.PureComponent<P, {}> {
 
     private onConfirmRemoval(evt: React.SyntheticEvent<MouseEvent>) {
         evt.stopPropagation();
-        this.setState({confirmRemoval: true})
+        this.setState({ confirmRemoval: true })
     }
 
     private onRemoval(evt: React.SyntheticEvent<MouseEvent>) {
@@ -58,12 +52,12 @@ export class Action<P extends ActionProps> extends React.PureComponent<P, {}> {
 
     render() {
         let config = Config.get().getTypeConfig(this.props.type);
-        var events = {onMouseUp: this.onClick.bind(this)}
+        var events = { onMouseUp: this.onClick.bind(this) }
 
-        return(
+        return (
             <div id={this.props.uuid} className={styles.action}>
                 <div {...events}>
-                    <TitleBar className={shared[this.getClassName()]} title={config.name} onRemoval={this.onRemoval.bind(this)}/>
+                    <TitleBar className={shared[this.getClassName()]} title={config.name} onRemoval={this.onRemoval.bind(this)} />
                     <div className={styles.body}>
                         {this.renderNode()}
                     </div>
@@ -71,10 +65,10 @@ export class Action<P extends ActionProps> extends React.PureComponent<P, {}> {
             </div>
         )
     }
-    
+
     getType() {
         return this.props.type;
     }
 }
 
-export default Action;
+export default ActionComp;

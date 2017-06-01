@@ -3,7 +3,8 @@ import * as UUID from 'uuid';
 
 //import {Case} from '../Case';
 import { CaseElement, CaseElementProps } from '../form/CaseElement';
-import { SwitchRouterProps, CaseProps, NodeProps, ExitProps } from '../../interfaces';
+import { SwitchRouterProps, CaseProps, ExitProps } from '../../interfaces';
+import { NodeProps } from '../Node';
 import { InputElement } from '../form/InputElement';
 import { NodeForm } from '../NodeForm';
 import { NodeModalProps } from '../NodeModal';
@@ -43,18 +44,19 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
     for (let kase of newCases) {
 
         // skip missing names
-        if (kase.exitName.trim().length == 0) {
+        /*if (!kase.exitName || kase.exitName.trim().length == 0) {
             continue;
         } else {
-
             // skip missing arguments
-            let config = Config.get().getOperatorConfig(kase.type);
-            if (config.operands == 1) {
-                if (kase.arguments[0].trim().length == 0) {
-                    continue;
+            if (kase.type) {
+                let config = Config.get().getOperatorConfig(kase.type);
+                if (config.operands == 1) {
+                    if (!kase.arguments || kase.arguments[0].trim().length == 0) {
+                        continue;
+                    }
                 }
             }
-        }
+        }*/
 
         // see if we have a suitable exit for our case already
         var existingExit: ExitProps = null;
@@ -305,16 +307,18 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         }
 
         modal.onUpdateRouter({
-            uuid: this.props.uuid,
-            router: {
-                type: "switch",
-                default: defaultExit,
-                cases: cases,
-                operand: "@input",
-                ...optional
-            },
-            wait: { type: "msg" },
-            exits: exits
+            node: {
+                uuid: this.props.uuid,
+                router: {
+                    type: "switch",
+                    default: defaultExit,
+                    cases: cases,
+                    operand: "@input",
+                    ...optional
+                },
+                wait: { type: "msg" },
+                exits: exits
+            }
         } as NodeProps);
     }
 }

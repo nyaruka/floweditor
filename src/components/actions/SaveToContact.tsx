@@ -5,7 +5,7 @@ import { SelectSearch } from '../SelectSearch';
 import { SaveToContactProps, NodeEditorState, SearchResult } from '../../interfaces';
 import { NodeModalProps } from '../NodeModal';
 import { NodeForm } from '../NodeForm';
-import { Action } from '../Action';
+import { ActionComp } from '../Action';
 import { FieldElement } from '../form/FieldElement';
 import { InputElement } from '../form/InputElement';
 
@@ -31,7 +31,7 @@ var reserved = toBoolMap([
     "tel"
 ]);
 
-export class SaveToContact extends Action<SaveToContactProps> {
+export class SaveToContact extends ActionComp<SaveToContactProps> {
     renderNode() {
         return <div>Updates <span className="emph">{this.props.name}</span></div>
     }

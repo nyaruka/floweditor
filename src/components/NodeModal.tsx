@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
-import { DragPoint, NodeEditorProps, NodeEditorState, ExitProps, TypeConfig, LocationProps } from '../interfaces';
+import { NodeEditorProps, NodeEditorState, ExitProps, TypeConfig, LocationProps } from '../interfaces';
 import { Modal } from './Modal';
 import { Config } from '../services/Config';
-import { FlowMutator } from '../components/FlowMutator';
+import { FlowMutator } from './FlowMutator';
+import { DragPoint } from './Node';
 import { NodeForm } from './NodeForm';
 
 var Select = require('react-select');

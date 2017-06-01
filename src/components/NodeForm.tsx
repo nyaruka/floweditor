@@ -1,12 +1,13 @@
 import * as React from "react";
 import * as UUID from 'uuid';
-import {NodeEditorProps, NodeEditorState, LocationProps, DragPoint} from '../interfaces'
-import {Plumber} from '../services/Plumber';
-import {FlowStore} from '../services/FlowStore';
-import {Config} from '../services/Config';
-import {NodeModal, NodeModalProps} from './NodeModal';
-import {TitleBar} from './TitleBar';
-import {FormWidget} from './form/FormWidget';
+import { NodeEditorProps, NodeEditorState, LocationProps } from '../interfaces'
+import { DragPoint } from './Node';
+import { Plumber } from '../services/Plumber';
+import { FlowStore } from '../services/FlowStore';
+import { Config } from '../services/Config';
+import { NodeModal, NodeModalProps } from './NodeModal';
+import { TitleBar } from './TitleBar';
+import { FormWidget } from './form/FormWidget';
 
 /**
  * Base Action class for the rendered flow
@@ -17,7 +18,7 @@ export abstract class NodeForm<P extends NodeEditorProps, S extends NodeEditorSt
     abstract renderForm(): JSX.Element;
 
     public elements: any[] = [];
-    
+
     public getElements() {
         return this.elements;
     }
@@ -31,13 +32,13 @@ export abstract class NodeForm<P extends NodeEditorProps, S extends NodeEditorSt
     }
 
     render() {
-        return(
+        return (
             <div>
                 {this.renderForm()}
             </div>
         )
     }
-    
+
     getType() {
         return this.props.type;
     }

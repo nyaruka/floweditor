@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
-import { Action } from '../Action';
+import { ActionComp } from '../Action';
 import { NodeForm } from '../NodeForm';
 import { NodeModalProps } from '../NodeModal';
 import { ChangeGroupProps, NodeEditorState, SearchResult } from '../../interfaces';
 import { GroupElement } from '../form/GroupElement';
 
-export class ChangeGroup extends Action<ChangeGroupProps> {
+export class ChangeGroup extends ActionComp<ChangeGroupProps> {
     renderNode() { return <div>{this.props.groups[0].name}</div> }
 }
 

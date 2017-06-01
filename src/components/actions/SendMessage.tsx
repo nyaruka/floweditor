@@ -1,12 +1,12 @@
 import * as React from 'react';
-import {NodeEditorState} from '../../interfaces';
-import {Action} from '../Action';
-import {NodeForm} from '../NodeForm';
-import {SendMessageProps} from '../../interfaces';
-import {NodeModalProps} from '../NodeModal';
-import {TextAreaElement} from '../form/TextAreaElement';
+import { NodeEditorState } from '../../interfaces';
+import { ActionComp } from '../Action';
+import { NodeForm } from '../NodeForm';
+import { SendMessageProps } from '../../interfaces';
+import { NodeModalProps } from '../NodeModal';
+import { TextAreaElement } from '../form/TextAreaElement';
 
-export class SendMessage extends Action<SendMessageProps> {
+export class SendMessage extends ActionComp<SendMessageProps> {
     renderNode(): JSX.Element {
         if (this.props.text) {
             return <div>{this.props.text}</div>
@@ -16,19 +16,19 @@ export class SendMessage extends Action<SendMessageProps> {
     }
 }
 
-export class SendMessageForm extends NodeForm<SendMessageProps, NodeEditorState> {    
-    
+export class SendMessageForm extends NodeForm<SendMessageProps, NodeEditorState> {
+
     renderForm(): JSX.Element {
         return (
-            <TextAreaElement ref={this.ref.bind(this)} name="Message" showLabel={false} value={this.props.text} required/>
+            <TextAreaElement ref={this.ref.bind(this)} name="Message" showLabel={false} value={this.props.text} required />
         )
     }
-    
+
     submit(modal: NodeModalProps) {
         var textarea = this.getElements()[0] as TextAreaElement;
         modal.onUpdateAction({
-            uuid: this.props.uuid, 
-            type: "reply", 
+            uuid: this.props.uuid,
+            type: "reply",
             text: textarea.state.value,
         } as SendMessageProps);
     }

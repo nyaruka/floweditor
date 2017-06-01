@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { FlowDefinition, DragPoint, FlowContext, NodeProps, SendMessageProps, NodeEditorProps, ActionProps, RouterProps, LocationProps, Endpoints, ContactFieldResult } from '../interfaces';
-import { Node } from './Node';
+import { FlowContext, SendMessageProps, NodeEditorProps, ActionProps, RouterProps, LocationProps, Endpoints, ContactFieldResult } from '../interfaces';
+import { FlowDefinition, Node } from '../FlowDefinition';
+import { NodeComp, NodeProps } from './Node';
 import { NodeModal, NodeModalProps } from './NodeModal';
 import { FlowMutator } from './FlowMutator';
 import { Simulator } from './Simulator';
@@ -16,7 +17,6 @@ interface FlowProps {
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
     mutator: FlowMutator;
-
     endpoints: Endpoints;
 }
 
@@ -42,7 +42,7 @@ interface ConnectionEvent {
 
 export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
-    private ghostComp: Node;
+    private ghostComp: NodeComp;
     private modalComp: NodeModal;
 
     constructor(props: FlowProps, state: FlowState) {
@@ -116,10 +116,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         });
     }
 
-    private onNodeMounted(props: NodeProps) {
-        if (props.pendingConnection) {
-            this.props.mutator.resolvePendingConnection(props);
-        }
+    private onNodeMounted(props: Node) {
+        this.props.mutator.resolvePendingConnection(props);
     }
 
     private resetState() {
@@ -177,19 +175,21 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
         var ghostProps = {
             context: this.state.context,
-            uuid: nodeUUID,
-            actions: [],
-            exits: [{
-                "uuid": UUID.v4(),
-                "destination": null,
-                "name": null
-            }],
+            node: {
+                uuid: nodeUUID,
+                actions: [],
+                exits: [{
+                    "uuid": UUID.v4(),
+                    "destination": null,
+                    "name": null
+                }]
+            }
         } as NodeProps;
 
         // add an action if we are coming from a split
         if (fromNode.exits.length > 1) {
             let actionUUID = UUID.v4();
-            ghostProps.actions.push({
+            ghostProps.node.actions.push({
                 context: this.state.context,
                 uuid: actionUUID,
                 type: "reply",
@@ -198,8 +198,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         }
         // otherwise we are going to a switch
         else {
-            ghostProps.exits[0].name = "All Responses";
-            ghostProps['router'] = { type: "switch" }
+            ghostProps.node.exits[0].name = "All Responses";
+            ghostProps.node['router'] = { type: "switch" }
         }
 
         var modalProps = {
@@ -233,9 +233,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
         // if we don't have any nodes, create our first one
         if (this.props.definition.nodes.length == 0) {
-            var nodeProps = {
+            var node: Node = {
                 uuid: UUID.v4(),
-                context: this.state.context,
                 actions: [{
                     context: this.state.context,
                     uuid: UUID.v4(),
@@ -243,14 +242,13 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                     text: "Hi there, this the first message in your flow!",
                     onEdit: this.onEdit,
                     dragging: false,
-
-                }],
+                } as SendMessageProps],
                 exits: [{
                     uuid: UUID.v4()
                 }]
-            }
+            };
 
-            this.props.mutator.addNode(nodeProps, { position: { x: 0, y: 0 } });
+            this.props.mutator.addNode(node, { position: { x: 0, y: 0 } });
             this.setState({ loading: false });
         } else {
 
@@ -309,8 +307,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
             // wire up the drag from to our ghost node
             let dragPoint = this.state.modalProps.draggedFrom;
-            Plumber.get().revalidate(this.state.ghostProps.uuid);
-            Plumber.get().connect(dragPoint.exitUUID, this.state.ghostProps.uuid);
+            Plumber.get().revalidate(this.state.ghostProps.node.uuid);
+            Plumber.get().connect(dragPoint.exitUUID, this.state.ghostProps.node.uuid);
 
             // update our modal with our drop location
             var { left, top } = $(this.ghostComp.ele).offset();
@@ -330,15 +328,15 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var nodes: JSX.Element[] = [];
         for (let node of this.props.definition.nodes) {
             var uiNode = this.props.definition._ui.nodes[node.uuid];
-            nodes.push(<Node {...node} _ui={uiNode} key={node.uuid} context={this.state.context} />)
+            nodes.push(<NodeComp key={node.uuid} node={node} position={uiNode.position} context={this.state.context} />)
         }
 
         var dragNode = null;
         if (this.state.ghostProps) {
-            let node = this.state.ghostProps
+            let ghostProps = this.state.ghostProps
             // start off screen
-            var uiNode = { position: { x: -1000, y: -1000 } };
-            dragNode = <Node ref={(ele) => { this.ghostComp = ele }} {...node} _ui={uiNode} key={node.uuid}
+            var position = { x: -1000, y: -1000 };
+            dragNode = <NodeComp key={ghostProps.node.uuid} ref={(ele) => { this.ghostComp = ele }} node={ghostProps.node} position={position}
                 ghost={true} context={this.state.context} />
         }
 

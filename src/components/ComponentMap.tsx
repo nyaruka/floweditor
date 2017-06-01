@@ -1,7 +1,10 @@
 import {
-    FlowDefinition, SearchResult, ExitProps, ContactFieldResult,
+    SearchResult, ExitProps, ContactFieldResult,
     Group, SaveToContactProps, ChangeGroupProps
 } from '../interfaces';
+
+import { DragPoint } from '../components/Node';
+import { FlowDefinition } from '../FlowDefinition';
 
 interface ComponentDetails {
     nodeUUID: string;
@@ -16,6 +19,7 @@ interface ComponentDetails {
 export class ComponentMap {
 
     private components: { [uuid: string]: ComponentDetails };
+    private pendingConnections: { [uuid: string]: DragPoint };
     private contactFields: ContactFieldResult[];
     private groups: SearchResult[];
 
@@ -24,7 +28,20 @@ export class ComponentMap {
         console.time("ComponentMap");
         this.initializeUUIDMap(definition);
         this.initializeFieldsAndGroups(definition);
+        this.pendingConnections = {};
         console.timeEnd("ComponentMap");
+    }
+
+    public addPendingConnection(draggedTo: string, draggedFrom: DragPoint) {
+        this.pendingConnections[draggedTo] = draggedFrom;
+    }
+
+    public getPendingConnection(nodeUUID: string): DragPoint {
+        return this.pendingConnections[nodeUUID];
+    }
+
+    public removePendingConnection(nodeUUID: string) {
+        delete this.pendingConnections[nodeUUID];
     }
 
     public initializeUUIDMap(definition: FlowDefinition) {

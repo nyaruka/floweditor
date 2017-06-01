@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {ReactWrapper, ShallowWrapper, mount, render} from 'enzyme';
+import { ReactWrapper, ShallowWrapper, mount, render } from 'enzyme';
 
-import {SaveToContact} from '../src/components/actions/SaveToContact';
-import {FlowMutator} from '../src/components/FlowMutator';
-import {FlowDefinition} from '../src/interfaces';
-import {getFavorites} from './utils';
+import { SaveToContact } from '../src/components/actions/SaveToContact';
+import { FlowMutator } from '../src/components/FlowMutator';
+import { FlowDefinition } from '../src/FlowDefinition';
+import { getFavorites } from './utils';
 
 describe('SaveToContact', () => {
 
@@ -13,14 +13,14 @@ describe('SaveToContact', () => {
 
     beforeEach(() => {
         definition = getFavorites()
-        mutator = new FlowMutator(definition, (updated: FlowDefinition)=>{
+        mutator = new FlowMutator(definition, (updated: FlowDefinition) => {
             definition = updated;
-        }, ()=>{}, {
-            // contactsURL:'/assets/contacts.json'
-        });
+        }, () => { }, {
+                // contactsURL:'/assets/contacts.json'
+            });
     });
 
-    afterEach(() => {});
+    afterEach(() => { });
 
     it('should render', () => {
         /*

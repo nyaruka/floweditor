@@ -7,7 +7,8 @@ import * as urljoin from 'url-join';
 import { Modal } from './Modal';
 import { FlowStore } from '../services/FlowStore';
 import { Plumber } from '../services/Plumber';
-import { FlowDefinition, GroupProps } from '../interfaces';
+import { GroupProps } from '../interfaces';
+import { FlowDefinition } from '../FlowDefinition';
 
 var styles = require("./Simulator.scss");
 

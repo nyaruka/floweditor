@@ -97,7 +97,7 @@
         "cases": [
           {
             "uuid": "1d531231-3d1c-4c7a-8f22-a6af59795644",
-            "type": "contains_any",
+            "type": "has_any_word",
             "arguments": [
               "Tornado"
             ],
@@ -105,7 +105,7 @@
           },
           {
             "uuid": "91db69c2-6b36-48df-bb84-2bd5b5f6add5",
-            "type": "contains_any",
+            "type": "has_any_word",
             "arguments": [
               "Tsunami"
             ],
@@ -113,7 +113,7 @@
           },
           {
             "uuid": "c700e8af-9407-46e5-8456-d4c65987c14e",
-            "type": "contains_any",
+            "type": "has_any_word",
             "arguments": [
               "Earthquake"
             ],
@@ -154,7 +154,7 @@
         "cases": [
           {
             "uuid": "d3e79156-bc0a-425a-a7bf-79c028c490c5",
-            "type": "contains_any",
+            "type": "has_any_word",
             "arguments": [
               "fant britt glowinski"
             ],
@@ -162,7 +162,7 @@
           },
           {
             "uuid": "7b7b4a74-6b94-4c98-be10-5508a346c6eb",
-            "type": "contains_any",
+            "type": "has_any_word",
             "arguments": [
               "wilson rawls baldwin wagner chancellor thomas wright bennett avril sherman"
             ],
@@ -170,7 +170,7 @@
           },
           {
             "uuid": "896f71e2-f8e7-4daf-bab4-2bd3b35ab887",
-            "type": "contains",
+            "type": "has_any_word",
             "arguments": [
               "graham"
             ],

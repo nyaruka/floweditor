@@ -1,6 +1,8 @@
 import axios from 'axios';
-import {AxiosResponse} from 'axios';
-import {FlowDefinition, Endpoints, NodeProps, UINode} from '../interfaces';
+import { AxiosResponse } from 'axios';
+import { Endpoints, UINode } from '../interfaces';
+
+import { FlowDefinition } from '../FlowDefinition';
 
 export interface FlowDetails {
     uuid: string;
@@ -12,10 +14,10 @@ export interface FlowDetails {
  * Exgternal API Accessor.
  */
 export class External {
-    
+
     private endpoints: Endpoints;
     private headers: any;
-    
+
     constructor(endpoints: Endpoints, headers: any = {}) {
         this.endpoints = endpoints;
         this.headers = headers;
@@ -34,10 +36,10 @@ export class External {
      * TODO: filter by flow name
      */
     public getFlows(): Promise<FlowDetails[]> {
-        return new Promise<FlowDetails[]>((resolve,reject) => {
-            axios.get(this.endpoints.flows, {headers: this.headers}).then((response: AxiosResponse) => {
+        return new Promise<FlowDetails[]>((resolve, reject) => {
+            axios.get(this.endpoints.flows, { headers: this.headers }).then((response: AxiosResponse) => {
                 resolve(response.data.results as FlowDetails[])
-            }).catch((error)=>{
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -50,7 +52,7 @@ export class External {
         // console.log("Getting flow:", uuid, this.endpoints.flows + "?uuid=" + uuid);
         return new Promise<FlowDefinition>((resolve, reject) => {
             axios.get(this.endpoints.flows + "?uuid=" + uuid, this.getRequestOptions()).then((response: AxiosResponse) => {
-                
+
                 var definition: FlowDefinition = null;
                 var flowDetails = response.data.results as FlowDetails[];
                 if (flowDetails.length > 0) {
@@ -66,7 +68,7 @@ export class External {
 
                 this.initialize(definition);
                 resolve(definition);
-            }).catch((error)=>{
+            }).catch((error) => {
                 reject(error);
             });
         });
@@ -78,19 +80,19 @@ export class External {
      */
     public saveFlow(definition: FlowDefinition): Promise<FlowDefinition> {
         console.log("Saving to" + this.endpoints.flows);
-        var postData = {definition: definition}
+        var postData = { definition: definition }
         return new Promise<FlowDefinition>((resolve, reject) => {
             axios.post(this.endpoints.flows + "?uuid=" + definition.uuid, postData, this.getRequestOptions()).then((response: AxiosResponse) => {
                 console.log(response);
-            }).catch((error)=>{
+            }).catch((error) => {
                 reject(error);
             });
         });
     }
 
     /** Makes sure our flow definition has the very basics */
-    private initialize (definition: FlowDefinition) {
-        
+    private initialize(definition: FlowDefinition) {
+
         if (!definition.nodes) {
             definition.nodes = [];
         }
