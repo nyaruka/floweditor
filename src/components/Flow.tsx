@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ActionProps } from './Action';
-import { FlowDefinition, Action, Node, Position, SendMessage } from '../FlowDefinition';
+import { FlowDefinition, Action, Node, Position, SendMessage, UINode } from '../FlowDefinition';
 import { ContactFieldResult, SearchResult } from './ComponentMap';
 import { NodeComp, NodeProps } from './Node';
 import { NodeModal, NodeModalProps, EditableProps } from './NodeModal';
@@ -172,10 +172,11 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.resetState();
     }
 
-    private onUpdateRouter(props: Node) {
-        this.props.mutator.updateRouter(props,
+    private onUpdateRouter(props: Node, type: string) {
+        this.props.mutator.updateRouter(props, type,
             this.state.modalProps.draggedFrom,
             this.state.modalProps.newPosition);
+
         this.resetState();
     }
 
@@ -354,21 +355,28 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var nodes: JSX.Element[] = [];
         for (let node of this.props.definition.nodes) {
             var uiNode = this.props.definition._ui.nodes[node.uuid];
-            nodes.push(<NodeComp key={node.uuid} node={node} position={uiNode.position} context={this.state.context} />)
+            nodes.push(<NodeComp key={node.uuid} node={node} ui={uiNode} context={this.state.context} />)
         }
 
         var dragNode = null;
         if (this.state.ghost) {
             let ghost = this.state.ghost
-            dragNode = <NodeComp
 
+            // start off screen
+            var ui: UINode = {
+                position: { x: -1000, y: -1000 }
+            }
+
+            if (ghost.router) {
+                ui.type = "wait_for_response"
+            }
+
+            dragNode = <NodeComp
                 key={ghost.uuid}
                 ref={(ele) => { this.ghostComp = ele }}
                 node={ghost}
                 context={this.state.context}
-
-                // start off screen
-                position={{ x: -1000, y: -1000 }}
+                ui={ui}
                 ghost={true}
 
             />

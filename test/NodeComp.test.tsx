@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import * as Interfaces from '../src/interfaces';
 import { NodeComp, NodeState } from '../src/components/Node';
 import { FlowLoader, FlowLoaderProps } from '../src/components/FlowLoader';
 import { ShallowWrapper, shallow, mount, render } from 'enzyme';

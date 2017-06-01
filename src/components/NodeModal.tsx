@@ -7,7 +7,7 @@ import { FlowMutator } from './FlowMutator';
 import { DragPoint } from './Node';
 import { FlowContext } from './Flow';
 import { NodeForm } from './NodeForm';
-import { Position, Exit } from '../FlowDefinition';
+import { Node, Position, Exit, UINode } from '../FlowDefinition';
 
 var Select = require('react-select');
 var styles = require('./NodeModal.scss');
@@ -32,7 +32,7 @@ export interface NodeModalProps {
     editableProps?: EditableProps;
     changeType?: boolean;
     onUpdateAction: Function;
-    onUpdateRouter: Function;
+    onUpdateRouter(node: Node, type: string): void;
 
     newPosition?: Position;
     mutator?: FlowMutator;

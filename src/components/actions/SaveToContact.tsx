@@ -63,7 +63,8 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
     renderForm(): JSX.Element {
         var initial: SearchResult = null;
         var action = this.getAction();
-        if (action && this.props.type == "save_to_contact") {
+
+        if (action && action.type == "save_to_contact") {
             initial = {
                 id: action.field,
                 name: action.name,

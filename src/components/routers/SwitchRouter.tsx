@@ -8,7 +8,7 @@ import { InputElement } from '../form/InputElement';
 import { NodeForm } from '../NodeForm';
 import { NodeEditorProps, NodeModalProps } from '../NodeModal';
 import { Config } from '../../services/Config';
-import { SwitchRouter, Exit, Case } from '../../FlowDefinition';
+import { Node, SwitchRouter, Exit, Case, UINode } from '../../FlowDefinition';
 
 import { DragDropContext } from 'react-dnd';
 
@@ -309,11 +309,34 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
             nameField = <span className={styles.save_link} onClick={this.onShowNameField.bind(this)}>Save as..</span>
         }
 
-        return (
-            <div className={styles.switch}>
+        var leadIn = null;
+
+        if (this.props.config.type == "wait_for_response") {
+            leadIn = (
                 <div className={styles.instructions}>
                     If the message response..
                 </div>
+            );
+        }
+
+        else if (this.props.config.type == "expression") {
+            leadIn = (
+                <div className={styles.instructions}>
+                    If the expression
+                    <InputElement
+                        ref={this.ref.bind(this)}
+                        name="Expression"
+                        showLabel={false}
+                        value={this.props.router.operand}
+                        required
+                    />
+                </div>
+            )
+        }
+
+        return (
+            <div className={styles.switch}>
+                {leadIn}
                 <div className={styles.cases}>
                     {cases}
                 </div>
@@ -342,11 +365,24 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
     submit(modal: NodeModalProps) {
         const { cases, exits, defaultExit } = resolveExits(this.state.cases, this.props);
 
+        var operand = "@input";
+        if (this.props.config.type == "expression") {
+            var operandEle: InputElement = this.elements[0];
+            operand = operandEle.state.value;
+        }
+
         var lastElement = this.elements[this.elements.length - 1];
-        var optional = {}
+        var optionalRouter = {}
         if (lastElement instanceof InputElement) {
-            optional = {
+            optionalRouter = {
                 name: lastElement.state.value
+            }
+        }
+
+        var optionalNode = {}
+        if (this.props.config.type == "wait_for_response") {
+            optionalNode = {
+                wait: { type: "msg" }
             }
         }
 
@@ -356,12 +392,12 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
                 type: "switch",
                 default: defaultExit,
                 cases: cases,
-                operand: "@input",
-                ...optional
+                operand: operand,
+                ...optionalRouter
             },
-            wait: { type: "msg" },
-            exits: exits
-        });
+            exits: exits,
+            ...optionalNode
+        }, this.props.config.type);
     }
 }
 

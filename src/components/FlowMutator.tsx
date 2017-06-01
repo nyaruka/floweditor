@@ -136,7 +136,7 @@ export class FlowMutator {
         return props;
     }
 
-    public updateRouter(props: Node,
+    public updateRouter(props: Node, type: string,
         draggedFrom: DragPoint = null,
         newPosition: Position = null): Node {
 
@@ -160,6 +160,10 @@ export class FlowMutator {
             });
             node = this.definition.nodes[nodeDetails.nodeIdx];
         }
+
+        // update our type
+        var uiNode = this.definition._ui.nodes[props.uuid];
+        this.updateNodeUI(props.uuid, { $merge: { type: type } })
 
         this.components.initializeUUIDMap(this.definition);
         this.markDirty();
