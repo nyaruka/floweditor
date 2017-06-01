@@ -5,7 +5,6 @@ import * as update from 'immutability-helper';
 import * as urljoin from 'url-join';
 import * as ReactDOM from 'react-dom';
 
-import { CSSTransitionGroup } from 'react-transition-group'
 import { Modal } from './Modal';
 import { FlowStore } from '../services/FlowStore';
 import { Plumber } from '../services/Plumber';
