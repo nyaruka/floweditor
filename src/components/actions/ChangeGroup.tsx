@@ -32,7 +32,7 @@ export class ChangeGroupForm extends ActionForm<ChangeGroup, {}> {
                     endpoint={this.props.context.endpoints.groups}
                     getLocalGroups={this.props.context.getGroups}
                     groups={groups}
-                    add={this.props.action.type == "add_to_group"}
+                    add={this.props.config.type == "add_to_group"}
                     required
                 />
             </div>

@@ -23,7 +23,7 @@ export class Plumber {
 
     targetDefaults = {
         anchor: ["Continuous", { faces: ["top", "left", "right"] }],
-        endpoint: ["Rectangle", { width: 30, height: 30, hoverClass: 'plumb-endpoint-hover' }],
+        endpoint: ["Rectangle", { width: 20, height: 20, hoverClass: 'plumb-endpoint-hover' }],
         dropOptions: { tolerance: "touch", hoverClass: "plumb-drop-hover" },
         dragAllowedWhenFull: false,
         deleteEndpointsOnDetach: true,

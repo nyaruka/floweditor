@@ -216,7 +216,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         };
 
         // add an action if we are coming from a split
-        if (fromNode.exits.length > 1) {
+        if (fromNode.wait) {
             let replyAction: SendMessage = {
                 uuid: UUID.v4(),
                 type: "reply",
