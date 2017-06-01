@@ -28,11 +28,11 @@ $button_hover: $blue + #111;
 $terminal_color: $red;
 $path_color: #98C0D9;
 
-$z_connectors: 2000;
-$z_nodes: 2500;
-$z_dragging: 10000;
-$z_endpoints: 5000;
-$z_modal: 20000;
-$z_simulator: 15000;
+$z_connectors: 100;
+$z_nodes: 150;
+$z_endpoints: 200;
+$z_dragging: 250;
+$z_modal: 2000;
+$z_simulator: 999;
 
 $node_width: 200px;

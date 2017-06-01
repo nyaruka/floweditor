@@ -3,6 +3,7 @@ import * as axios from 'axios';
 import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
 import * as urljoin from 'url-join';
+import * as ReactDOM from 'react-dom';
 
 import { Modal } from './Modal';
 import { FlowStore } from '../services/FlowStore';
@@ -24,11 +25,13 @@ interface SimulatorProps {
 interface SimulatorState {
     session?: Session;
     contact: Contact;
+    channel: string;
     events: Event[];
 }
 
 interface Contact {
     uuid: string,
+    urns: string[],
     fields: {},
     groups: Group[]
 }
@@ -197,9 +200,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             events: [],
             contact: {
                 uuid: UUID.v4(),
+                urns: ["tel:+12065551212"],
                 fields: {},
                 groups: []
-            }
+            },
+            channel: UUID.v4(),
         }
     }
 
@@ -219,11 +224,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
         var body: any = {
             flows: this.props.definitions,
-            contact: {
-                uuid: UUID.v4(),
-                fields: {},
-                groups: []
-            }
+            contact: this.state.contact,
         };
 
         axios.default.post(urljoin(this.props.engineURL + '/flow/start'), JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
@@ -233,18 +234,18 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
     private resume(text: string) {
 
-        if (text == "debug") {
+        if (text == "\\debug") {
             console.log(JSON.stringify(this.debug, null, 2))
             return;
         }
 
-        if (text == "recalc") {
+        if (text == "\\recalc") {
             console.log("recal..");
             Plumber.get().repaint();
             return;
         }
 
-        if (text == "reconnect") {
+        if (text == "\\reconnect") {
             Plumber.get().connectAll(this.props.definitions[0]);
             console.log("reconnected..");
             return;
@@ -254,7 +255,14 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             flows: this.props.definitions,
             session: this.state.session,
             contact: this.state.contact,
-            event: { text: text, type: "msg_in" }
+            event: {
+                type: "msg_in",
+                text: text,
+                contact: this.state.contact.uuid,
+                urn: this.state.contact.urns[0],
+                channel: this.state.channel,
+                created_on: new Date(),
+            }
         };
 
         axios.default.post(this.props.engineURL + '/flow/resume', JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
@@ -268,22 +276,15 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             });
             this.setState({ events: events });
         });;
-
-        this.scrollToBottom();
     }
 
     private onReset(event: any) {
         this.startFlow();
     }
 
-    scrollToBottom() {
-        var bottom = $("#bottom");
-        var top = $('.messages').scrollTop()
-        top += bottom.position().top;
-
-        $('.messages').animate({
-            scrollTop: top
-        }, 200, 'swing');
+    componentDidUpdate(prevProps: SimulatorProps) {
+        const node = ReactDOM.findDOMNode(this.bottom);
+        node.scrollIntoView(false);
     }
 
     private onKeyUp(event: any) {
@@ -296,13 +297,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             // console.log(this);
             this.resume(text);
         }
-    }
-
-    private getBottomMarker(): JSX.Element {
-        if (!this.bottom) {
-            this.bottom = <div id="bottom" style={{ float: "left", clear: "both" }}></div>;
-        }
-        return this.bottom;
     }
 
     public render() {
@@ -318,7 +312,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 <div className={styles.screen}>
                     <div className={styles.messages}>
                         {messages}
-                        {this.getBottomMarker()}
+                        <div id="bottom" style={{ float: "left", clear: "both" }} ref={(el) => { this.bottom = el; }}></div>
                     </div>
                     <div className={styles.controls}>
                         <input type="text" onKeyUp={this.onKeyUp.bind(this)} />

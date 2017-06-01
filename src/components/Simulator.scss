@@ -4,17 +4,17 @@
     position: absolute;
     right: 30px;
     top: 30px;
-    height: 460px;
-    width: 233px;
+    height: 600px;
+    width: 304px;
     z-index: $z_simulator;
 
     .reset {
-        width: 60px;
-        height: 19px;
+        width: 80px;
+        height: 30px;
         background-color: #999;
         position: absolute;
-        bottom: 13px;
-        left: 87px;
+        bottom: 15px;
+        left: 110px;
         &:hover {
             background-color: #999 - #111;
         }
@@ -24,20 +24,15 @@
     }
 
     .screen {
-        border: 0px solid green;
-        height: 378px;
-        width: 204px;
+        top: 46px;
+        height: 494px;
         background-color: #fff;
         position: relative;
-        right: -14px;
-        top: 36px;
+        margin: 0px 18px;
 
         .messages {
-            top: 2px;
-            max-height: 313px;
+            max-height: 454px;
             padding: 10px;
-            width: 198px;
-            border: 0px solid purple;
             overflow-y: auto;
             font-weight: 300;
             position: relative;
@@ -61,7 +56,7 @@
     }
 
     .icon_simulator {
-        font-size:460px;
+        font-size:600px;
         color: #333;
         border: 0px solid green;
         position: absolute;
@@ -78,23 +73,24 @@
 }
 
 .msg_in {
-  float:left;
-  padding: 5px 8px;
+  padding: 8px 15px;
   background: $light_grey;
-  width: 70%;
   border: 1px solid $light_grey + #111;
-  border-radius: 2px;
+  border-radius: 15px;
+  margin-right: 24px;
+  font-size: 120%;
+  color: #333;
 }
 
 .msg_out {
-  width: 70%;
-  float:right;
-  padding: 5px 8px;
+  padding: 8px 15px;
   text-align: right;
-  background: $blue + #111;
-  border-color: $blue + #222;
-  margin-right: 12px;
+  background: #2095FE;;
+  border: 1px solid #2095FE + #111;
+  border-radius: 15px;
+  margin-left: 24px;
   color: #fff;
+  font-size: 120%;
 }
 
 .error {
@@ -108,8 +104,8 @@
 
 .info {
     border: none;
-    font-style: italic;
     text-align: center;
+    color: #bbb;
 }
 
 .event_viewer {
