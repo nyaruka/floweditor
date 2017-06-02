@@ -1,13 +1,21 @@
 @import "../variables.scss";
 
+.simulator.sim_hidden {
+    right: -300px;
+    transition: right 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);;
+    transition-delay: 300ms;
+}
+
 .simulator {
-    right: 30px;
-    top: -30px;
+    right: -15px;
+    top: 30px;
     transform: scale(.8);
-    position: absolute;
+    position: fixed;
     height: 600px;
     width: 304px;
     z-index: $z_simulator;
+    transition: right 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);;
+    transition-delay: 300ms;
 
     .reset {
         width: 80px;
@@ -56,15 +64,76 @@
         }
     }
 
+    .icon_close {
+        font-size: 25px;
+        width: 25px;
+        height: 25px;
+        right: 20px;
+        top: 10px;
+        position: absolute;
+        color: #bbb;
+        cursor: pointer;
+
+        &:hover {
+            color: #fff;
+        }
+    }
+
     .icon_simulator {
         font-size:600px;
         color: #333;
-        border: 0px solid green;
+            border: 0px solid green;
         position: absolute;
         right: 0;
         top: 0;
         pointer-events:none;
         // text-shadow: 0px 0px 5px $grey;
+    }
+}
+
+.simulator_tab.tab_hidden, .simulator_tab:hover.tab_hidden {
+    right: -110px;
+    transition: right 300ms;
+}
+
+.simulator_tab {
+    background-color: #2db379;
+    width: 110px;
+    height: 50px;
+    position: fixed;
+    right: -80px;
+    top: 100px;
+    cursor: pointer;
+    z-index: $z_simulator;
+    transition: right 200ms, opacity 300ms;
+    transition-delay: 800ms;
+
+    .simulator_tab_icon {
+        position: absolute;
+        font-size: 35px;
+        color: white;
+        padding: 8px 6px;
+    }
+
+    .simulator_tab_text {
+        position: absolute;
+        left: 35px;
+        top: 12px;
+        color: white;
+        opacity: .01;
+        font-weight: 400;
+        transition: opacity 500ms;
+        transition-delay: 800ms;
+    }
+}
+
+.simulator_tab:hover {
+    right: -10px;
+    transition: right 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    .simulator_tab_text {
+        opacity: .99;
+        transition: opacity 500ms;
     }
 }
 

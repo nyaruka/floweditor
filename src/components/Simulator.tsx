@@ -23,6 +23,7 @@ interface SimulatorProps {
 }
 
 interface SimulatorState {
+    visible: boolean;
     session?: Session;
     contact: Contact;
     channel: string;
@@ -197,6 +198,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     constructor(props: SimulatorProps) {
         super(props);
         this.state = {
+            visible: false,
             events: [],
             contact: {
                 uuid: UUID.v4(),
@@ -215,8 +217,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             contact: runContext.contact,
             events: events
         });
-
-        this.debug.push(runContext.session);
     }
 
     private startFlow() {
@@ -233,7 +233,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     }
 
     private resume(text: string) {
-
         if (text == "\\debug") {
             console.log(JSON.stringify(this.debug, null, 2))
             return;
@@ -284,7 +283,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
     componentDidUpdate(prevProps: SimulatorProps) {
         const node = ReactDOM.findDOMNode(this.bottom);
-        node.scrollIntoView(false);
+        if (node != null) {
+            node.scrollIntoView(false);
+        }
     }
 
     private onKeyUp(event: any) {
@@ -292,10 +293,17 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             var ele = event.target;
             var text = ele.value
             ele.value = "";
-
-            // pass it to the engine
-            // console.log(this);
             this.resume(text);
+        }
+    }
+
+    private toggle(event: any) {
+        var newVisible = !this.state.visible;
+        this.setState({ visible: newVisible })
+
+        // start our flow if we haven't already
+        if (this.state.events.length == 0) {
+            this.startFlow()
         }
     }
 
@@ -305,19 +313,31 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             messages.push(<LogEvent {...event} key={String(event.created_on)} />)
         }
 
+        var simHidden = !this.state.visible ? styles.sim_hidden : "";
+        var tabHidden = this.state.visible ? styles.tab_hidden : "";
+
         return (
-            <div className={styles.simulator_container}>
-                <div className={styles.simulator} >
-                    <a className={styles.reset} onClick={this.onReset.bind(this)} />
-                    <div className={styles.icon_simulator + " icon-simulator"} />
-                    <div className={styles.screen}>
-                        <div className={styles.messages}>
-                            {messages}
-                            <div id="bottom" style={{ float: "left", clear: "both" }} ref={(el) => { this.bottom = el; }}></div>
+            <div>
+                <div className={styles.simulator_container}>
+                    <div className={styles.simulator + " " + simHidden} key={"sim"}>
+                        <a className={styles.reset} onClick={this.onReset.bind(this)} />
+                        <div className={styles.icon_simulator + " icon-simulator"} />
+                        <div className={styles.icon_close + " icon-remove"} onClick={this.toggle.bind(this)} />
+                        <div className={styles.screen}>
+                            <div className={styles.messages}>
+                                {messages}
+                                <div id="bottom" style={{ float: "left", clear: "both" }} ref={(el) => { this.bottom = el; }}></div>
+                            </div>
+                            <div className={styles.controls}>
+                                <input type="text" onKeyUp={this.onKeyUp.bind(this)} />
+                            </div>
                         </div>
-                        <div className={styles.controls}>
-                            <input type="text" onKeyUp={this.onKeyUp.bind(this)} />
-                        </div>
+                    </div>
+                </div>
+                <div className={styles.simulator_tab + " " + tabHidden} onClick={this.toggle.bind(this)}>
+                    <div className={styles.simulator_tab_icon + " icon-simulator"} />
+                    <div className={styles.simulator_tab_text}>
+                        Run in<br />Simulator
                     </div>
                 </div>
             </div>
