@@ -35,7 +35,7 @@ export class FormElement extends React.PureComponent<FormElementProps, {}> {
         var name = this.props.showLabel && this.props.name ? <div>{this.props.name}</div> : "";
         var helpText = this.props.helpText && !errorDisplay ? <div className={styles.help_text}>{this.props.helpText}</div> : "";
 
-        var classes = [styles.group];
+        var classes = [styles.group, styles.ele];
         if (this.props.className) {
             classes.push(this.props.className);
         }
