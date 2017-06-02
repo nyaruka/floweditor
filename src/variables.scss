@@ -8,33 +8,27 @@ $teal: #00ac9a;
 $light_grey: #e6e6e6;
 $med_grey: #ccc;
 $grey: #666;
-
+$light_text: #ffffff;
+$simulator_blue: #2095FE;
 $error_color: $orange;
-$selected_background: $light_grey + #111;
-$selected_color: $grey;
-
+//$selected_background: $light_grey + #111;
+$selected_background: #2095FE;
+$selected_color: $light_text;
 $workspace: $light_grey;
 $borders: $light_grey;
-
-$light_text: #ffffff;
 $hover: $teal;
-
 $button_light: #3498db;
 $button_dark: #2980b9;
 $button_hover: #3cb0fd;
-
 $button_light: $blue;
 $button_dark: $blue - #111;
-$button_hover: $blue + #111;
-
+$button_hover: $blue+#111;
 $terminal_color: $red;
 $path_color: #98C0D9;
-
 $z_connectors: 100;
 $z_nodes: 150;
 $z_endpoints: 200;
 $z_dragging: 250;
 $z_modal: 2000;
 $z_simulator: 999;
-
 $node_width: 200px;
