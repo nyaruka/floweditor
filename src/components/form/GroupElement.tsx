@@ -102,6 +102,7 @@ export class GroupElement extends FormWidget<GroupElementProps, GroupState> {
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
+                    resultType="group"
                     localSearchOptions={this.props.getLocalGroups()}
                     multi={false}
                     clearable={false}
