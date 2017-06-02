@@ -10,6 +10,7 @@ var Select = require('react-select');
 interface SelectSearchProps {
     url: string;
     name: string;
+    resultType: string;
     placeholder?: string;
     multi?: boolean;
     clearable?: boolean;
@@ -99,19 +100,11 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
             axios.get(this.props.url).then((response: AxiosResponse) => {
                 var results: SearchResult[] = [];
                 for (let result of response.data.results) {
-                    if ("key" in result) {
-                        results.push({
-                            name: result["label"],
-                            id: result["uuid"],
-                            type: "field"
-                        });
-                    } else if ("name" in result) {
-                        results.push({
-                            name: result["name"],
-                            id: result["uuid"],
-                            type: "group"
-                        });
-                    }
+                    results.push({
+                        name: result["name"],
+                        id: result["uuid"],
+                        type: this.props.resultType,
+                    });
                 }
 
                 callback(null, this.search(input, results));

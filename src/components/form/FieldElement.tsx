@@ -123,6 +123,7 @@ export class FieldElement extends FormWidget<FieldElementProps, FieldState> {
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
+                    resultType="field"
                     localSearchOptions={this.props.getLocalFields()}
                     multi={false}
                     clearable={false}
