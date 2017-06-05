@@ -189,7 +189,7 @@ export class FlowMutator {
                 uuid: newNodeUUID,
                 actions: [props],
                 exits: [
-                    { uuid: UUID.v4(), destination: null, name: null }
+                    { uuid: UUID.v4(), destination_node_uuid: null, name: null }
                 ]
             }, { position: newPosition },
                 {
@@ -286,7 +286,7 @@ export class FlowMutator {
         // if we have a single exit, map all our pointers to that destination
         var destination = null;
         if (node.exits.length == 1) {
-            destination = node.exits[0].destination
+            destination = node.exits[0].destination_node_uuid
         }
 
         // remap all our pointers to our new destination, null some most cases
@@ -296,7 +296,7 @@ export class FlowMutator {
             if (nodeUUID == destination) {
                 destination = null;
             }
-            this.updateExit(pointer, { $merge: { destination: destination } });
+            this.updateExitDestination(pointer, destination);
         }
 
         // now remove ourselves
@@ -337,9 +337,7 @@ export class FlowMutator {
         // only resolve connection if we have one
         var pendingConnection = this.components.getPendingConnection(props.uuid);
         if (pendingConnection != null) {
-
-            // console.log("resolving pendingConnection..", props.pendingConnection, props.uuid);
-            this.updateExit(pendingConnection.exitUUID, { $merge: { destination: props.uuid } });
+            this.updateExitDestination(pendingConnection.exitUUID, props.uuid);
             this.components.initializeUUIDMap(this.definition);
             this.markDirty();
             // remove our pending connection
@@ -353,6 +351,10 @@ export class FlowMutator {
             return "Connections cannot route back to the same places.";
         }
         return null;
+    }
+
+    private updateExitDestination(exitUUID: string, destination: string) {
+        this.updateExit(exitUUID, { $merge: { destination_node_uuid: destination } });
     }
 
     /**
@@ -373,7 +375,7 @@ export class FlowMutator {
     public updateConnection(source: string, target: string) {
         let nodeUUID = this.components.getDetails(source).nodeUUID;
         if (nodeUUID != target) {
-            this.updateExit(source, { $merge: { destination: target } });
+            this.updateExitDestination(source, target);
             this.components.initializeUUIDMap(this.definition);
         } else {
             console.error("Attempt to route to self, ignored");

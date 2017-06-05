@@ -86,8 +86,7 @@ export class Plumber {
     }
 
     connectExit(exit: Exit) {
-        // console.log("Connecting exit", exit);
-        this.connect(exit.uuid, exit.destination);
+        this.connect(exit.uuid, exit.destination_node_uuid);
     }
 
     connect(source: string, target: string) {
@@ -170,7 +169,7 @@ export class Plumber {
                     for (let node of flow.nodes) {
                         if (node.exits) {
                             for (let exit of node.exits) {
-                                this.connect(exit.uuid, exit.destination);
+                                this.connect(exit.uuid, exit.destination_node_uuid);
                             }
                         }
                     }

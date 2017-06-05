@@ -101,7 +101,7 @@ export class ComponentMap {
                         exitUUID: exit.uuid
                     };
 
-                    if (exit.destination) {
+                    if (exit.destination_node_uuid) {
                         exitsWithDestinations.push(exit);
                     }
                 }
@@ -110,7 +110,7 @@ export class ComponentMap {
 
         // add in our reverse lookups
         for (let exit of exitsWithDestinations) {
-            components[exit.destination].pointers.push(exit.uuid);
+            components[exit.destination_node_uuid].pointers.push(exit.uuid);
         }
 
         this.components = components;
@@ -136,9 +136,9 @@ export class ComponentMap {
                 for (let action of node.actions) {
                     if (action.type == 'save_to_contact') {
                         var saveProps = action as SaveToContact;
-                        if (!reservedFields.some(fieldName => fieldName.name === saveProps.name)) {
-                            if (!(saveProps.field in fields)) {
-                                fields[saveProps.field] = { id: saveProps.field, name: saveProps.name, type: "field" }
+                        if (!reservedFields.some(fieldName => fieldName.name === saveProps.field_name)) {
+                            if (!(saveProps.field_uuid in fields)) {
+                                fields[saveProps.field_uuid] = { id: saveProps.field_uuid, name: saveProps.field_name, type: "field" }
                             }
                         }
                     } else if (action.type == 'add_to_group' || action.type == 'remove_from_group') {

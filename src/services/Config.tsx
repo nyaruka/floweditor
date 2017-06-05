@@ -49,13 +49,14 @@ export class Config {
 
         { type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: ChangeGroupForm, component: ChangeGroupComp },
         { type: "remove_from_group", name: "Remove from Group", description: "Remove them from a group", form: ChangeGroupForm, component: ChangeGroupComp },
-        { type: "save_to_contact", name: "Update Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContactComp },
-        { type: "email", name: "Send Email", description: "Send an email", form: SendEmailForm, component: SendEmailComp },
+        { type: "save_contact_field", name: "Update Contact", description: "Update the contact", form: SaveToContactForm, component: SaveToContactComp },
+        // { type: "update_contact", name: "Update Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContactComp },
+        { type: "send_email", name: "Send Email", description: "Send an email", form: SendEmailForm, component: SendEmailComp },
         // {type: "add_label", name: "Add Label", description: "Label the message", component: Missing},
         // {type: "set_preferred_channel", name: "Set Preferred Channel", description: "Set their preferred channel", component: Missing},
 
         // hybrids
-        { type: "webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: WebhookComp },
+        { type: "call_webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: WebhookComp },
         // {type: "flow", name: "Run another flow", description: "Run another flow", component: Missing},
 
         // routers

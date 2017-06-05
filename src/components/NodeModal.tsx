@@ -210,7 +210,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                 width="570px"
                 key={'modal_' + this.props.editableProps.uuid}
                 title={<div>{this.state.config.name}</div>}
-                className={shared[this.getClassName()]}
+                className={shared[this.state.config.type]}
                 show={this.state.show}
                 onClickPrimary={this.onClickSave}
                 onClickSecondary={this.closeModal}

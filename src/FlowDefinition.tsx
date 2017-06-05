@@ -18,7 +18,7 @@ export interface Node {
 export interface Exit {
     uuid: string;
     name?: string;
-    destination?: string;
+    destination_node_uuid?: string;
 }
 
 export interface Router {
@@ -28,7 +28,7 @@ export interface Router {
 export interface Case {
     uuid: string;
     type: string;
-    exit: string;
+    exit_uuid: string;
     arguments?: string[];
 }
 
@@ -36,7 +36,7 @@ export interface SwitchRouter extends Router {
     name?: string;
     cases: Case[];
     operand: string;
-    default: string;
+    default_exit_uuid: string;
 }
 
 export interface Action {
@@ -54,9 +54,10 @@ export interface Group {
 }
 
 export interface SaveToContact extends Action {
-    name: string;
+    field_uuid: string
+    field_name: string;
     value: string;
-    field: string;
+    created_on?: Date;
 }
 
 export interface SendMessage extends Action {

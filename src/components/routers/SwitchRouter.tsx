@@ -73,8 +73,8 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
         var existingExit: Exit = null;
 
         // use our previous exit name if it isn't set
-        if (!props.exitName && props.kase.exit in previousExitMap) {
-            props.exitName = previousExitMap[props.kase.exit].name;
+        if (!props.exitName && props.kase.exit_uuid in previousExitMap) {
+            props.exitName = previousExitMap[props.kase.exit_uuid].name;
         }
 
         if (props.exitName) {
@@ -107,7 +107,7 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
 
         // we found a suitable exit, point our case to it
         if (existingExit) {
-            props.kase.exit = existingExit.uuid;
+            props.kase.exit_uuid = existingExit.uuid;
         }
 
         // no existing exit, create a new one
@@ -115,16 +115,16 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
 
             // find our previous destination if we have one
             var destination = null;
-            if (props.kase.exit in previousExitMap) {
-                destination = previousExitMap[props.kase.exit].destination
+            if (props.kase.exit_uuid in previousExitMap) {
+                destination = previousExitMap[props.kase.exit_uuid].destination_node_uuid
             }
 
-            props.kase.exit = UUID.v4();
+            props.kase.exit_uuid = UUID.v4();
 
             exits.push({
                 name: props.exitName,
-                uuid: props.kase.exit,
-                destination: destination
+                uuid: props.kase.exit_uuid,
+                destination_node_uuid: destination
             });
         }
 
@@ -134,8 +134,8 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
 
     // add in our default exit
     var defaultUUID = UUID.v4();
-    if (previous.router && previous.router.default) {
-        defaultUUID = previous.router.default;
+    if (previous.router && previous.router.default_exit_uuid) {
+        defaultUUID = previous.router.default_exit_uuid;
     }
 
     var defaultName = "All Responses";
@@ -145,13 +145,13 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
 
     var defaultDestination = null;
     if (defaultUUID in previousExitMap) {
-        defaultDestination = previousExitMap[defaultUUID].destination;
+        defaultDestination = previousExitMap[defaultUUID].destination_node_uuid;
     }
 
     exits.push({
         uuid: defaultUUID,
         name: defaultName,
-        destination: defaultDestination
+        destination_node_uuid: defaultDestination
     });
 
     return { cases: cases, exits: exits, defaultExit: defaultUUID };
@@ -173,12 +173,13 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
             for (let kase of this.props.router.cases) {
 
                 var exitName = null;
-                if (kase.exit) {
-                    var exit = this.props.exits.find((exit) => { return exit.uuid == kase.exit });
+                if (kase.exit_uuid) {
+                    var exit = this.props.exits.find((exit) => { return exit.uuid == kase.exit_uuid });
                     if (exit) {
                         exitName = exit.name;
                     }
                 }
+
                 cases.push({
                     kase: kase,
                     exitName: exitName,
@@ -222,7 +223,7 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
             kase: {
                 uuid: c.props.kase.uuid,
                 type: c.state.operator,
-                exit: c.props.kase.exit,
+                exit_uuid: c.props.kase.exit_uuid,
                 arguments: c.state.arguments,
             },
             onChanged: c.props.onChanged,
@@ -282,7 +283,7 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
                 kase={{
                     uuid: newCaseUUID,
                     type: "has_any_word",
-                    exit: null
+                    exit_uuid: null
                 }}
 
                 key={newCaseUUID}
@@ -387,15 +388,17 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
             }
         }
 
+        var router: SwitchRouter = {
+            type: "switch",
+            default_exit_uuid: defaultExit,
+            cases: cases,
+            operand: operand,
+            ...optionalRouter
+        }
+
         modal.onUpdateRouter({
             uuid: this.props.uuid,
-            router: {
-                type: "switch",
-                default: defaultExit,
-                cases: cases,
-                operand: operand,
-                ...optionalRouter
-            },
+            router: router,
             exits: exits,
             ...optionalNode
         }, this.props.config.type);

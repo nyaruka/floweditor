@@ -34,7 +34,7 @@ var reserved = toBoolMap([
 
 export class SaveToContactComp extends ActionComp<SaveToContact> {
     renderNode() {
-        return <div>Updates <span className="emph">{this.getAction().name}</span></div>
+        return <div>Updates <span className="emph">{this.getAction().field_name}</span></div>
     }
 }
 
@@ -66,8 +66,8 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
 
         if (action && action.type == "save_to_contact") {
             initial = {
-                id: action.field,
-                name: action.name,
+                id: action.field_uuid,
+                name: action.field_name,
                 type: action.type,
             };
         }
@@ -103,8 +103,8 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
         var newAction: SaveToContact = {
             uuid: this.getUUID(),
             type: this.props.config.type,
-            name: field.name,
-            field: field.id,
+            field_name: field.name,
+            field_uuid: field.id,
             value: valueEle.state.value
         }
 

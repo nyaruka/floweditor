@@ -1,8 +1,8 @@
 @import "../variables.scss";
-
 .simulator.sim_hidden {
     right: -300px;
-    transition: right 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);;
+    transition: right 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
+    ;
     transition-delay: 300ms;
 }
 
@@ -14,9 +14,9 @@
     height: 600px;
     width: 304px;
     z-index: $z_simulator;
-    transition: right 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);;
+    transition: right 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
+    ;
     transition-delay: 300ms;
-
     .reset {
         width: 80px;
         height: 30px;
@@ -31,14 +31,12 @@
             background-color: #999 - #222;
         }
     }
-
     .screen {
         top: 46px;
         height: 494px;
         background-color: #fff;
         position: relative;
         margin: 0px 18px;
-
         .messages {
             max-height: 454px;
             padding: 10px;
@@ -46,7 +44,6 @@
             font-weight: 300;
             position: relative;
         }
-
         .controls {
             background: $light_grey;
             position: absolute;
@@ -54,7 +51,6 @@
             bottom: 0px;
             width: 100%;
             padding: 5px 10px;
-            
             input {
                 font-size: 14px;
                 font-weight: 300;
@@ -63,7 +59,6 @@
             }
         }
     }
-
     .icon_close {
         font-size: 25px;
         width: 25px;
@@ -73,25 +68,23 @@
         position: absolute;
         color: #bbb;
         cursor: pointer;
-
         &:hover {
             color: #fff;
         }
     }
-
     .icon_simulator {
-        font-size:600px;
+        font-size: 600px;
         color: #333;
-            border: 0px solid green;
+        border: 0px solid green;
         position: absolute;
         right: 0;
         top: 0;
-        pointer-events:none;
-        // text-shadow: 0px 0px 5px $grey;
+        pointer-events: none; // text-shadow: 0px 0px 5px $grey;
     }
 }
 
-.simulator_tab.tab_hidden, .simulator_tab:hover.tab_hidden {
+.simulator_tab.tab_hidden,
+.simulator_tab:hover.tab_hidden {
     right: -110px;
     transition: right 300ms;
 }
@@ -107,14 +100,12 @@
     z-index: $z_simulator;
     transition: right 200ms, opacity 300ms;
     transition-delay: 800ms;
-
     .simulator_tab_icon {
         position: absolute;
         font-size: 35px;
         color: white;
         padding: 8px 6px;
     }
-
     .simulator_tab_text {
         position: absolute;
         left: 35px;
@@ -130,7 +121,6 @@
 .simulator_tab:hover {
     right: -10px;
     transition: right 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
     .simulator_tab_text {
         opacity: .99;
         transition: opacity 500ms;
@@ -139,37 +129,37 @@
 
 .evt {
     clear: both;
-    margin-bottom:8px;
+    margin-bottom: 8px;
 }
 
-.msg_in {
-  padding: 8px 15px;
-  background: $light_grey;
-  border: 1px solid $light_grey + #111;
-  border-radius: 15px;
-  margin-right: 24px;
-  font-size: 120%;
-  color: #333;
+.msg_received {
+    padding: 8px 15px;
+    background: $light_grey;
+    border: 1px solid $light_grey + #111;
+    border-radius: 15px;
+    margin-right: 24px;
+    font-size: 120%;
+    color: #333;
 }
 
-.msg_out {
-  padding: 8px 15px;
-  text-align: right;
-  background: #2095FE;;
-  border: 1px solid #2095FE + #111;
-  border-radius: 15px;
-  margin-left: 24px;
-  color: #fff;
-  font-size: 120%;
+.send_msg {
+    padding: 8px 15px;
+    text-align: right;
+    background: #2095FE;
+    border: 1px solid #2095FE + #111;
+    border-radius: 15px;
+    margin-left: 24px;
+    color: #fff;
+    font-size: 120%;
 }
 
 .error {
-  margin: 0;
-  float: inherit;
-  background: none;
-  color: $red;
-  font-size: 10px;
-  border: none;
+    margin: 0;
+    float: inherit;
+    background: none;
+    color: $red;
+    font-size: 10px;
+    border: none;
 }
 
 .info {
@@ -181,11 +171,15 @@
 .event_viewer {
     pre {
         height: 400px;
-        white-space: pre-wrap;       /* css-3 */
-        white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-        white-space: -pre-wrap;      /* Opera 4-6 */
-        white-space: -o-pre-wrap;    /* Opera 7 */
-        word-wrap: break-word; 
+        white-space: pre-wrap;
+        /* css-3 */
+        white-space: -moz-pre-wrap;
+        /* Mozilla, since 1999 */
+        white-space: -pre-wrap;
+        /* Opera 4-6 */
+        white-space: -o-pre-wrap;
+        /* Opera 7 */
+        word-wrap: break-word;
         border: none;
         border-radius: none;
         background-color: white;
@@ -196,6 +190,6 @@
     cursor: pointer;
 }
 
-.detail_webhook {
-    background: $orange;    
+.detail_webhook_called {
+    background: $orange;
 }

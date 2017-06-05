@@ -15,7 +15,7 @@ export class ExitComp extends React.PureComponent<ExitProps, {}> {
 
         // we need to make sure our elements exist when 
         // creating new routed exits
-        if (this.props.exit.destination) {
+        if (this.props.exit.destination_node_uuid) {
             window.setTimeout(() => {
                 Plumber.get().connectExit(this.props.exit);
             }, 0);
@@ -24,20 +24,20 @@ export class ExitComp extends React.PureComponent<ExitProps, {}> {
 
     componentDidUpdate(prevProps: ExitProps) {
         // console.log("exit updated", this.props.uuid);
-        if (this.props.exit.destination) {
+        if (this.props.exit.destination_node_uuid) {
             Plumber.get().connectExit(this.props.exit);
         }
     }
 
     componentWillUnmount() {
-        if (this.props.exit.destination) {
+        if (this.props.exit.destination_node_uuid) {
             Plumber.get().remove(this.props.exit.uuid);
         }
     }
 
     render() {
         // console.log('Rendering exit', this.props.uuid);
-        var connected = this.props.exit.destination ? " jtk-connected" : "";
+        var connected = this.props.exit.destination_node_uuid ? " jtk-connected" : "";
 
         return (
             <div key={this.props.exit.uuid} className={styles.exit + " plumb-exit"}>

@@ -74,7 +74,7 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
         return (
             <div id={this.props.action.uuid} className={styles.action}>
                 <div {...events}>
-                    <TitleBar className={shared[this.getClassName()]} title={config.name} onRemoval={this.onRemoval.bind(this)} />
+                    <TitleBar className={shared[this.props.action.type]} title={config.name} onRemoval={this.onRemoval.bind(this)} />
                     <div className={styles.body}>
                         {this.renderNode()}
                     </div>

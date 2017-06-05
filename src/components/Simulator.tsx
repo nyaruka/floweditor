@@ -53,6 +53,8 @@ interface Event {
     request?: string;
     response?: string;
     groups?: Group[];
+    field_name: string;
+    field_uuid: string;
 }
 
 interface Step {
@@ -109,12 +111,12 @@ class LogEvent extends React.Component<Event, LogEventState> {
         var details: JSX.Element = null;
         var detailTitle = "";
 
-        if (this.props.type == "msg_in") {
+        if (this.props.type == "msg_received") {
             text = this.props.text
-            classes.push(styles.msg_in);
-        } else if (this.props.type == "msg_out") {
+            classes.push(styles.msg_received);
+        } else if (this.props.type == "send_msg") {
             text = this.props.text
-            classes.push(styles.msg_out);
+            classes.push(styles.send_msg);
         } else if (this.props.type == "error") {
             text = this.props.text
             classes.push(styles.error);
@@ -137,13 +139,13 @@ class LogEvent extends React.Component<Event, LogEventState> {
                 delim = ", "
             }
             classes.push(styles.info);
-        } else if (this.props.type == "save_to_contact") {
-            text = "Set contact field \"" + this.props.name + "\" to \"" + this.props.value + "\"";
+        } else if (this.props.type == "save_contact_field") {
+            text = "Set contact field \"" + this.props.field_name + "\" to \"" + this.props.value + "\"";
             classes.push(styles.info);
-        } else if (this.props.type == "email") {
+        } else if (this.props.type == "send_email") {
             text = "Sent email to \"" + this.props.email + "\" with subject \"" + this.props.subject + "\" and body \"" + this.props.body + "\""
             classes.push(styles.info);
-        } else if (this.props.type == "webhook") {
+        } else if (this.props.type == "webhook_called") {
             text = "Called webhook " + this.props.url
             classes.push(styles.info);
             detailTitle = "Webhook Details";
@@ -220,15 +222,25 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     }
 
     private startFlow() {
-        this.setState({ events: [] });
 
-        var body: any = {
-            flows: this.props.definitions,
-            contact: this.state.contact,
-        };
+        // reset our events and contact
+        this.setState({
+            events: [],
+            contact: {
+                uuid: UUID.v4(),
+                urns: ["tel:+12065551212"],
+                fields: {},
+                groups: []
+            }
+        }, () => {
+            var body: any = {
+                flows: this.props.definitions,
+                contact: this.state.contact,
+            };
 
-        axios.default.post(urljoin(this.props.engineURL + '/flow/start'), JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
-            this.updateRunContext(body, response.data as RunContext);
+            axios.default.post(urljoin(this.props.engineURL + '/flow/start'), JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
+                this.updateRunContext(body, response.data as RunContext);
+            });
         });
     }
 
@@ -255,11 +267,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             session: this.state.session,
             contact: this.state.contact,
             event: {
-                type: "msg_in",
+                type: "msg_received",
                 text: text,
-                contact: this.state.contact.uuid,
                 urn: this.state.contact.urns[0],
-                channel: this.state.channel,
+                channel_uuid: this.state.channel,
+                contact_uuid: this.state.contact.uuid,
                 created_on: new Date(),
             }
         };

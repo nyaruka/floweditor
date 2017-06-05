@@ -210,9 +210,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             uuid: nodeUUID,
             actions: [],
             exits: [{
-                "uuid": UUID.v4(),
-                "destination": null,
-                "name": null
+                uuid: UUID.v4(),
+                destination_node_uuid: null
             }]
         };
 

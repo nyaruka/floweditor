@@ -185,6 +185,10 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
     }
 
     private onRemoval(event: React.MouseEvent<HTMLDivElement>) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
         this.props.context.eventHandler.onRemoveNode(this.props.node);
     }
 
@@ -217,7 +221,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
         var events = {}
         if (!this.state.dragging) {
-            events = { onMouseUpCapture: (event: any) => { this.onClick(event) } }
+            events = { onMouseUp: (event: any) => { this.onClick(event) } }
         }
 
         var header: JSX.Element = null;
@@ -246,7 +250,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
             }
             header = (
                 <div {...events}>
-                    <TitleBar className={shared[this.getClassName(config.type)]} onRemoval={this.onRemoval.bind(this)} title={title} />
+                    <TitleBar className={shared[config.type]} onRemoval={this.onRemoval.bind(this)} title={title} />
                 </div>
             )
         } else {
