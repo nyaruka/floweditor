@@ -1,24 +1,73 @@
 @import '../../variables.scss';
+.option_list {
+    overflow-y: auto;
+    list-style-type: none;
+    padding: 0;
+    max-height: 300px;
+    margin-bottom: 0px;
+}
+
+.option_description {
+    font-size: 12px;
+    padding: 3px 0;
+    font-weight: 300;
+}
+
+.option {
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    padding: 5px;
+    font-size: 14px;
+    &.selected {
+        border-color: #eee;
+        background: $selected_background;
+        color: $selected_color;
+        font-weight: 400;
+        &.first_option {
+            border-top-color: transparent !important;
+        }
+    }
+}
+
+.completion_container {
+    position: absolute;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    margin: 0;
+    margin-top: 24px;
+    width: 250px;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    border-radius: 1px;
+    box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, .1);
+}
+
+.help {
+    font-size: 10px;
+    color: #999;
+    padding: 4px;
+    border-top: 1px solid #e6e6e6;
+    background-color: #fafafa;
+}
+
+.hidden {
+    display: none;
+}
 
 .textarea {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    
     height: 120px;
     width: 100%;
     padding: 10px;
     color: $grey;
     font-size: 14px;
     font-weight: 300;
-
     border: 1px solid $light_grey;
     overflow: auto;
     outline: none;
-
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-
-
 }

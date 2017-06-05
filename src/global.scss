@@ -1,27 +1,21 @@
-
 @import "./variables.scss";
-
 body {
     .ReactModal__Content {
         overflow: visible !important;
         top: 70px !important;
         box-shadow: 1px 1px 5px 1px #555;
     }
-
     .ReactModal__Overlay {
         background-color: rgba(0, 0, 0, .6) !important;
         z-index: $z_modal;
     }
-
     &.ReactModal__Body--open {
         overflow-y: hidden !important;
     }
-
     .ReactModal__Overlay {
         background-color: rgba(0, 0, 0, .6) !important;
         z-index: $z_modal;
     }
-
     .ReactModalPortal .ReactModal__Overlay {
         transition: opacity 100ms ease-in-out;
         background: rgba(0, 0, 0, 0.15);
@@ -32,23 +26,19 @@ body {
             opacity: 0;
         }
     }
-
-    .ReactModalPortal > div {
+    .ReactModalPortal>div {
         opacity: 0;
     }
-
     .select-invalid {
         .Select-control {
             border-color: $error_color !important;
         }
-
         .Select-menu-outer {
             border-left-color: $error_color !important;
             border-right-color: $error_color !important;
             border-bottom-color: $error_color !important;
         }
     }
-
     .select-small {
         .Select-menu-outer {
             z-index: 6000;
@@ -57,73 +47,69 @@ body {
                 padding: 3px 10px;
             }
         }
-
         .Select-control {
             font-size: 11px;
             height: 24px;
-
             .Select-placeholder {
                 line-height: 22px;
             }
-
             .Select-value {
                 line-height: 22px !important;
-
                 .Select-value-label {
                     line-height: 22px;
                 }
             }
-
             .Select-input {
                 height: 22px;
             }
         }
-    }
-
-
-     // jsplumb, no text selection while dragging
+    } // jsplumb, no text selection while dragging
     .jtk-drag-select * {
         -webkit-touch-callout: none;
         -webkit-user-select: none;
         -khtml-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
-        user-select: none;    
+        user-select: none;
     }
-
     .jtk-connector {
         z-index: $z_connectors;
         &.jtk-dragging {
             z-index: $z_dragging;
         }
     }
-
     .jtk-endpoint {
         z-index: $z_endpoints;
     }
-
     .plumb-exit .jtk-connected {
         background: $path_color !important;
         border: 2px solid $path_color - #111 !important;
     }
-
     .plumb-drop-hover {
         box-shadow: 0 0 2px 1px $hover;
     }
-
     .plumb-drag .jtk-drag {
-        box-shadow: 1px 1px 5px 2px rgba(0,0,0, .1);
+        box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, .1);
         z-index: $z_dragging;
     }
-
     .plumb-endpoint-hover {
         // display: none;
         // background: green;
         cursor: pointer;
     }
-
     .clearfix {
         clear: both;
     }
+}
 
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .5);
+    box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
