@@ -4,6 +4,7 @@ import { FormElement, FormElementProps } from './FormElement';
 import { FormWidget, FormValueState } from './FormWidget';
 import { Config, Operator } from '../../services/Config';
 import { CaseProps } from '../routers/SwitchRouter';
+import { TextInputElement, HTMLTextElement } from './TextInputElement';
 
 var Select = require('react-select');
 var forms = require("./FormElement.scss");
@@ -21,6 +22,8 @@ interface CaseElementState extends FormValueState {
 }
 
 export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> {
+
+    private category: TextInputElement;
 
     constructor(props: CaseElementProps) {
         super(props);
@@ -92,7 +95,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
         });
     }
 
-    private onChangeArguments(val: React.ChangeEvent<HTMLInputElement>) {
+    private onChangeArguments(val: React.ChangeEvent<HTMLTextElement>) {
         var args = [val.target.value]
         this.setState({
             arguments: args,
@@ -100,9 +103,10 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
         }, () => {
             this.props.onChanged(this);
         });
+
     }
 
-    private onChangeExitName(val: React.ChangeEvent<HTMLInputElement>) {
+    private onChangeExitName(val: React.ChangeEvent<HTMLTextElement>) {
         this.setState({
             exitName: val.target.value
         }, () => {
@@ -125,7 +129,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
 
         // if we have arguments, we need an exit name
         if (this.hasArguments()) {
-            if (!this.state.exitName) {
+            if (!this.category.state.value) {
                 errors.push("A category name is required.");
             }
         }
@@ -167,6 +171,8 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
             classes.push(forms.invalid);
         }
 
+        var value = this.state.arguments ? this.state.arguments[0] : "";
+
         return (
             <FormElement name={this.props.name} errors={this.state.errors} className={styles.group}>
                 <div className={styles.case + " select-small"}>
@@ -184,13 +190,13 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
                         />
                     </div>
                     <div className={styles.operand}>
-                        <input className={styles.input} name="arguments" type="text" onChange={this.onChangeArguments.bind(this)} defaultValue={this.state.arguments} />
+                        <TextInputElement className={styles.input} name="arguments" onChange={this.onChangeArguments.bind(this)} defaultValue={value} autocomplete />
                     </div>
                     <div className={styles["categorize-as"]}>
                         categorize as
                     </div>
                     <div className={styles.category}>
-                        <input className={styles.input} name="exitName" type="text" onChange={this.onChangeExitName.bind(this)} value={this.state.exitName} />
+                        <TextInputElement ref={(ele) => this.category = ele} className={styles.input} name="exitName" onChange={this.onChangeExitName.bind(this)} defaultValue={this.state.exitName} />
                     </div>
                     <div className={styles["remove-button"]} onMouseUp={this.onRemove.bind(this)}><span className="icon-remove" /></div>
                 </div>

@@ -8,7 +8,7 @@ import { NodeModalProps } from '../NodeModal';
 import { ActionForm } from '../NodeForm';
 import { ActionComp } from '../Action';
 import { FieldElement } from '../form/FieldElement';
-import { InputElement } from '../form/InputElement';
+import { TextInputElement } from '../form/TextInputElement';
 
 var UUID = require('uuid');
 
@@ -84,8 +84,9 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
                     initial={initial} add required
                 />
 
-                <InputElement ref={ref} name="Value" showLabel={true} value={action.value}
+                <TextInputElement ref={ref} name="Value" showLabel={true} defaultValue={action.value}
                     helpText="The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json."
+                    autocomplete
                 />
             </div>
         )

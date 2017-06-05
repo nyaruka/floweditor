@@ -40,6 +40,7 @@
     -moz-border-radius: 1px;
     border-radius: 1px;
     box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, .1);
+    z-index: $z_completion;
 }
 
 .help {
@@ -54,13 +55,11 @@
     display: none;
 }
 
-.textarea {
+.textinput {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    height: 120px;
     width: 100%;
-    padding: 10px;
     color: $grey;
     font-size: 14px;
     font-weight: 300;
@@ -70,4 +69,10 @@
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
+    padding: 2px 10px;
+}
+
+textarea.textinput {
+    height: 120px;
+    padding: 10px;
 }

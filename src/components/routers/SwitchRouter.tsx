@@ -4,7 +4,7 @@ import * as UUID from 'uuid';
 //import {Case} from '../Case';
 import { CaseElement, CaseElementProps } from '../form/CaseElement';
 import { NodeProps } from '../Node';
-import { InputElement } from '../form/InputElement';
+import { TextInputElement } from '../form/TextInputElement';
 import { NodeForm } from '../NodeForm';
 import { NodeEditorProps, NodeModalProps } from '../NodeModal';
 import { Config } from '../../services/Config';
@@ -298,11 +298,11 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
 
         var nameField = null;
         if (this.state.setName || this.state.name) {
-            nameField = <InputElement
+            nameField = <TextInputElement
                 ref={this.ref.bind(this)}
                 name="Result Name"
                 showLabel={true}
-                value={this.state.name}
+                defaultValue={this.state.name}
                 helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
             />
         } else {
@@ -323,11 +323,12 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
             leadIn = (
                 <div className={styles.instructions}>
                     If the expression
-                    <InputElement
+                    <TextInputElement
                         ref={this.ref.bind(this)}
                         name="Expression"
                         showLabel={false}
-                        value={this.props.router.operand}
+                        defaultValue={this.props.router.operand}
+                        autocomplete
                         required
                     />
                 </div>
@@ -367,13 +368,13 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
 
         var operand = "@input";
         if (this.props.config.type == "expression") {
-            var operandEle: InputElement = this.elements[0];
+            var operandEle: TextInputElement = this.elements[0];
             operand = operandEle.state.value;
         }
 
         var lastElement = this.elements[this.elements.length - 1];
         var optionalRouter = {}
-        if (lastElement instanceof InputElement) {
+        if (lastElement instanceof TextInputElement) {
             optionalRouter = {
                 name: lastElement.state.value
             }

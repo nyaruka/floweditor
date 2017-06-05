@@ -4,7 +4,7 @@ import { ActionForm } from '../NodeForm';
 import { Webhook } from '../../FlowDefinition';
 import { NodeModalProps } from '../NodeModal';
 import { SelectElement } from '../form/SelectElement';
-import { InputElement } from '../form/InputElement';
+import { TextInputElement } from '../form/TextInputElement';
 
 var styles = require('./Webhook.scss');
 var shared = require('../shared.scss');
@@ -58,7 +58,7 @@ export class WebhookForm extends ActionForm<Webhook, WebhookState> {
                     <SelectElement ref={ref} name="Method" value={method} options={this.methodOptions} />
                 </div>
                 <div className={styles.url}>
-                    <InputElement ref={ref} name="URL" placeholder="Enter a URL" value={action.url} required url />
+                    <TextInputElement ref={ref} name="URL" placeholder="Enter a URL" defaultValue={action.url} autocomplete required url />
                 </div>
 
                 <div className={styles.instructions}>
@@ -75,7 +75,7 @@ export class WebhookForm extends ActionForm<Webhook, WebhookState> {
     submit(modal: NodeModalProps) {
 
         var methodEle = this.getElements()[0] as SelectElement;
-        var urlEle = this.getElements()[1] as InputElement;
+        var urlEle = this.getElements()[1] as TextInputElement;
         var newAction: Webhook = {
             uuid: this.getUUID(),
             type: this.props.config.type,

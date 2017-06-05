@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 
 import { FormElement, FormElementProps } from './FormElement';
 import { FormWidget, FormValueState } from './FormWidget';
+
 var getCaretCoordinates = require('textarea-caret');
 var inputSelection = require('get-input-selection');
 
@@ -30,8 +31,27 @@ export interface Coordinates {
     top: number
 }
 
-interface TextInputProps extends FormElementProps {
+export interface HTMLTextElement {
     value: string;
+    selectionStart: number;
+}
+
+interface TextInputProps extends FormElementProps {
+    defaultValue: string;
+
+    // validates that the input is a url
+    url?: boolean;
+
+    // should we display in a textarea
+    textarea?: boolean;
+
+    // text to display when there is no value
+    placeholder?: string;
+
+    // do we show autocompletion choices
+    autocomplete?: boolean;
+
+    onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
 }
 
 export interface TextInputState extends FormValueState {
@@ -60,13 +80,13 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
     ]
 
     private selectedEle: any;
-    private textarea: HTMLTextAreaElement;
+    private textElement: HTMLTextElement;
 
     constructor(props: any) {
         super(props);
 
         this.state = {
-            value: this.props.value,
+            value: this.props.defaultValue ? this.props.defaultValue : "",
             caretOffset: 0,
             caretCoordinates: { left: 0, top: 0 },
             errors: [],
@@ -97,7 +117,19 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
         }
     }
 
+    componentWillReceiveProps(props: TextInputProps) {
+        if (props.defaultValue != this.state.value) {
+            this.setState({
+                value: props.defaultValue
+            });
+        }
+    }
+
     private onKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
+
+        if (!this.props.autocomplete) {
+            return;
+        }
 
         switch (event.keyCode) {
             case KEY_P:
@@ -122,7 +154,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
                 }
                 break;
             case KEY_AT:
-                var ele: any = ReactDOM.findDOMNode(this.textarea);
+                var ele: any = ReactDOM.findDOMNode(this.textElement as any);
                 this.setState({
                     completionVisible: true,
                     caretCoordinates: getCaretCoordinates(ele, ele.selectionEnd),
@@ -166,13 +198,13 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
                         completionVisible: completionVisible,
                         selectedOptionIndex: 0,
                     }, () => {
-                        inputSelection.setCaretPosition(ReactDOM.findDOMNode(this.textarea), newCaret);
+                        inputSelection.setCaretPosition(ReactDOM.findDOMNode(this.textElement as any), newCaret);
                     });
 
                     // TODO: set caret position
                     event.preventDefault();
 
-                    // 
+                    //
                 }
 
                 break;
@@ -190,7 +222,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
 
                     // @ we display again
                     if (curr == "@") {
-                        var ele: any = ReactDOM.findDOMNode(this.textarea);
+                        var ele: any = ReactDOM.findDOMNode(this.textElement as any);
                         query = this.state.value.substr(i + 1, caret - i - 1)
                         matches = this.filterOptions(query)
                         completionVisible = matches.length > 0
@@ -226,32 +258,52 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
                     completionVisible: false
                 });
                 break;
-
         }
     }
 
-    private onChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-        var query: string = null;
-        var matches: Option[] = [];
-        if (this.state.completionVisible) {
-            var text = event.currentTarget.value;
-            query = text.substring(0, event.currentTarget.selectionStart);
+    private onChange(event: React.ChangeEvent<HTMLTextElement>) {
 
-            let lastIdx = query.lastIndexOf("@");
-            if (lastIdx > -1) {
-                query = query.substring(lastIdx + 1);
+        if (this.props.autocomplete) {
+            var query: string = null;
+            var matches: Option[] = [];
+            if (this.state.completionVisible) {
+                var text = event.currentTarget.value;
+                query = text.substring(0, event.currentTarget.selectionStart);
+
+                let lastIdx = query.lastIndexOf("@");
+                if (lastIdx > -1) {
+                    query = query.substring(lastIdx + 1);
+                }
+
+                matches = this.filterOptions(query);
             }
 
-            matches = this.filterOptions(query);
+            this.setState({
+                caretOffset: event.currentTarget.selectionStart,
+                matches: matches,
+                selectedOptionIndex: 0,
+                value: event.currentTarget.value,
+                query: query
+            });
+
+        } else {
+            this.setState({
+                value: event.currentTarget.value,
+            });
         }
 
-        this.setState({
-            caretOffset: event.currentTarget.selectionStart,
-            matches: matches,
-            selectedOptionIndex: 0,
-            value: event.currentTarget.value,
-            query: query
-        });
+        if (this.props.onChange) {
+            this.props.onChange(event);
+        }
+    }
+
+    private isValidURL(string: string) {
+        var pattern = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/; // fragment locater
+        if (!pattern.test(string)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     validate(): boolean {
@@ -262,6 +314,16 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
             }
         }
         this.setState({ errors: errors });
+
+        // see if it should be a valid url
+        if (errors.length == 0) {
+            if (this.props.url) {
+                if (!this.isValidURL(this.state.value)) {
+                    errors.push("Enter a valid URL");
+                }
+            }
+        }
+
         return errors.length == 0;
     }
 
@@ -305,7 +367,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
     }
 
     render() {
-        var classes = [styles.textarea];
+        var classes = [styles.textinput];
         if (this.state.errors.length > 0) {
             classes.push(shared.invalid);
         }
@@ -329,22 +391,27 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
             }
         });
 
+        // use the proper form element
+        var TextElement = "input";
+        if (this.props.textarea) {
+            TextElement = "textarea";
+        }
+
         return (
-            <FormElement name={this.props.name} showLabel={this.props.showLabel} errors={this.state.errors}>
-                <textarea ref={(ref) => { this.textarea = ref }}
+            <FormElement className={this.props.className} name={this.props.name} showLabel={this.props.showLabel} errors={this.state.errors}>
+                <TextElement ref={(ref: any) => { this.textElement = ref }}
                     className={classes.join(" ")}
                     value={this.state.value}
                     onChange={this.onChange}
                     onKeyDown={this.onKeyDown}
+                    placeholder={this.props.placeholder}
                 />
-
                 <div style={this.state.caretCoordinates} className={completionClasses.join(" ")}>
                     <ul className={styles.option_list}>
                         {options}
                     </ul>
                     <div className={styles.help}>Tab to complete, enter to select</div>
                 </div>
-
             </FormElement>
         )
     }

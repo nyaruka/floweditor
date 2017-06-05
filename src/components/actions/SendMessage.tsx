@@ -3,7 +3,7 @@ import { ActionComp, ActionProps } from '../Action';
 import { ActionForm } from '../NodeForm';
 import { SendMessage } from '../../FlowDefinition';
 import { NodeModalProps } from '../NodeModal';
-import { TextAreaElement } from '../form/TextInputElement';
+import { TextInputElement } from '../form/TextInputElement';
 
 export class SendMessageComp extends ActionComp<SendMessage> {
     renderNode(): JSX.Element {
@@ -20,12 +20,12 @@ export class SendMessageForm extends ActionForm<SendMessage, {}> {
 
     renderForm(): JSX.Element {
         return (
-            <TextAreaElement ref={this.ref.bind(this)} name="Message" showLabel={false} value={this.getAction().text} required />
+            <TextInputElement ref={this.ref.bind(this)} name="Message" showLabel={false} defaultValue={this.getAction().text} required textarea />
         )
     }
 
     submit(modal: NodeModalProps) {
-        var textarea = this.getElements()[0] as TextAreaElement;
+        var textarea = this.getElements()[0] as TextInputElement;
 
         var newAction: SendMessage = {
             uuid: this.getUUID(),

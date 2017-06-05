@@ -1,5 +1,4 @@
 @import '../../variables.scss';
-
 $spacing: 10px;
 .group {
     padding-bottom: 0 !important;
@@ -8,22 +7,17 @@ $spacing: 10px;
 
 .case {
     width: 100%;
-
     cursor: pointer;
-
     .form-group {
         margin: 0;
     }
-
     .choice {
         width: 165px;
         display: inline-block;
-
         .operator {
             font-size: 11px;
         }
     }
-
     .operand {
         display: inline-block;
         position: relative;
@@ -33,7 +27,6 @@ $spacing: 10px;
             width: 168px;
         }
     }
-
     .categorize-as {
         display: inline-block;
         font-size: 13px;
@@ -42,62 +35,37 @@ $spacing: 10px;
         top: -9px;
         margin: 0px $spacing;
     }
-
     .category {
         display: inline-block;
         position: relative;
         top: -8px;
-
-        input {                        
+        input {
             width: 89px;
-        }        
+        }
     }
-
     &:hover {
         .remove-button {
             opacity: 1;
         }
     }
+    input {
+        padding: 5px 7px;
+        height: 24px !important;
+        font-size: 11px !important;
+    }
 }
 
 .remove-button {
-
     color: #ccc;
     border: 0px solid green;
-    margin-right:-20px;
+    margin-right: -20px;
     margin-top: 5px;
-    float:right;
+    float: right;
     opacity: 0;
     font-size: 15px;
     line-height: 12px;
     width: 20px;
-
     &:hover {
         opacity: 1;
     }
-}
-
-.input {
-
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-
-    border-color: #ccc;
-    border-style:solid;
-    box-shadow: none;
-    outline: none;
-
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 100%;
-    padding: 5px 7px;
-    height: 24px;
-    font-weight: 300;
-    border-width: 1px;
-    
-    margin: 0;
-    font-size: 11px;
-
 }

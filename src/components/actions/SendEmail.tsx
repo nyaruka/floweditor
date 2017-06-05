@@ -3,10 +3,8 @@ import { ActionComp } from '../Action';
 import { ActionForm } from '../NodeForm';
 import { SendEmail } from '../../FlowDefinition';
 import { NodeModalProps } from '../NodeModal';
-import { TextAreaElement } from '../form/TextInputElement';
-import { InputElement } from '../form/InputElement';
+import { TextInputElement } from '../form/TextInputElement';
 import { EmailElement } from '../form/EmailElement';
-
 
 
 export class SendEmailComp extends ActionComp<SendEmail> {
@@ -27,8 +25,8 @@ export class SendEmailForm extends ActionForm<SendEmail, SendEmailState> {
         return (
             <div>
                 <EmailElement ref={ref} name="Recipient" placeholder="To" emails={action.emails} required />
-                <InputElement ref={ref} name="Subject" placeholder="Subject" value={action.subject} required />
-                <TextAreaElement ref={ref} name="Message" showLabel={false} value={action.body} required />
+                <TextInputElement ref={ref} name="Subject" placeholder="Subject" defaultValue={action.subject} autocomplete required />
+                <TextInputElement ref={ref} name="Message" showLabel={false} defaultValue={action.body} autocomplete required textarea />
             </div>
         )
     }
@@ -37,8 +35,8 @@ export class SendEmailForm extends ActionForm<SendEmail, SendEmailState> {
 
         var eles = this.getElements();
         var emailEle = eles[0] as EmailElement;
-        var subjectEle = eles[1] as InputElement;
-        var bodyEle = eles[2] as TextAreaElement;
+        var subjectEle = eles[1] as TextInputElement;
+        var bodyEle = eles[2] as TextInputElement;
 
         var emails: string[] = []
         for (let email of emailEle.state.emails) {
