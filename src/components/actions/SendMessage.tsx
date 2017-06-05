@@ -3,7 +3,7 @@ import { ActionComp, ActionProps } from '../Action';
 import { ActionForm } from '../NodeForm';
 import { SendMessage } from '../../FlowDefinition';
 import { NodeModalProps } from '../NodeModal';
-import { TextAreaElement } from '../form/TextAreaElement';
+import { TextAreaElement } from '../form/TextInputElement';
 
 export class SendMessageComp extends ActionComp<SendMessage> {
     renderNode(): JSX.Element {

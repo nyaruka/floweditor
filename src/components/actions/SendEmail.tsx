@@ -3,7 +3,7 @@ import { ActionComp } from '../Action';
 import { ActionForm } from '../NodeForm';
 import { SendEmail } from '../../FlowDefinition';
 import { NodeModalProps } from '../NodeModal';
-import { TextAreaElement } from '../form/TextAreaElement';
+import { TextAreaElement } from '../form/TextInputElement';
 import { InputElement } from '../form/InputElement';
 import { EmailElement } from '../form/EmailElement';
 

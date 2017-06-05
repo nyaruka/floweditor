@@ -6,7 +6,7 @@ import { FormWidget, FormValueState } from './FormWidget';
 var getCaretCoordinates = require('textarea-caret');
 var inputSelection = require('get-input-selection');
 
-var styles = require("./TextAreaElement.scss");
+var styles = require("./TextInputElement.scss");
 var shared = require("./FormElement.scss");
 
 const KEY_AT = 50;
@@ -30,11 +30,11 @@ export interface Coordinates {
     top: number
 }
 
-interface TextAreaProps extends FormElementProps {
+interface TextInputProps extends FormElementProps {
     value: string;
 }
 
-export interface TextAreaState extends FormValueState {
+export interface TextInputState extends FormValueState {
     caretOffset: number;
     caretCoordinates: Coordinates;
     completionVisible: boolean;
@@ -43,7 +43,7 @@ export interface TextAreaState extends FormValueState {
     query: string;
 }
 
-export class TextAreaElement extends FormWidget<TextAreaProps, TextAreaState> {
+export class TextInputElement extends FormWidget<TextInputProps, TextInputState> {
 
     private options: Option[] = [
         { name: "contact", description: "The name of the contact." },
@@ -282,7 +282,7 @@ export class TextAreaElement extends FormWidget<TextAreaProps, TextAreaState> {
         return option.name;
     }
 
-    componentDidUpdate(previous: TextAreaProps) {
+    componentDidUpdate(previous: TextInputProps) {
         if (this.selectedEle != null) {
             var selectedOption = ReactDOM.findDOMNode(this.selectedEle);
             if (selectedOption != null) {
