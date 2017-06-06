@@ -76,7 +76,16 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
         { name: "contact.urns.telegram", description: "The preferred telegram id for the contact." },
         { name: "input", description: "The last input from the contact if any." },
         { name: "run", description: "Run details" },
+        { name: "run.contact", description: "The contact in this run" },
         { name: "run.results", description: "Results for the run" },
+        { name: "webhook", description: "The body of the webhook response" },
+        { name: "webhook.status", description: "The status of the webhook call" },
+        { name: "webhook.status_code", description: "The status code returned from the webhook" },
+        { name: "webhook.url", description: "The URL which was called" },
+        { name: "webhook.body", description: "The body of the webhook response" },
+        { name: "webhook.json", description: "The JSON parsed body of the response, can access subelements" },
+        { name: "webhook.request", description: "The raw request of the webhook including headers" },
+        { name: "webhook.response", description: "The raw response of the webhook including headers" },
     ]
 
     private selectedEle: any;
