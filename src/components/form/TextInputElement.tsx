@@ -155,9 +155,10 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
                 break;
             case KEY_AT:
                 var ele: any = ReactDOM.findDOMNode(this.textElement as any);
+
                 this.setState({
                     completionVisible: true,
-                    caretCoordinates: getCaretCoordinates(ele, ele.selectionEnd),
+                    caretCoordinates: getCaretCoordinates(ele, ele.selectionEnd, { debug: true }),
                 });
 
                 break;
@@ -400,18 +401,20 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
 
         return (
             <FormElement className={this.props.className} name={this.props.name} showLabel={this.props.showLabel} errors={this.state.errors}>
-                <TextElement ref={(ref: any) => { this.textElement = ref }}
-                    className={classes.join(" ")}
-                    value={this.state.value}
-                    onChange={this.onChange}
-                    onKeyDown={this.onKeyDown}
-                    placeholder={this.props.placeholder}
-                />
-                <div style={this.state.caretCoordinates} className={completionClasses.join(" ")}>
-                    <ul className={styles.option_list}>
-                        {options}
-                    </ul>
-                    <div className={styles.help}>Tab to complete, enter to select</div>
+                <div className={styles.wrapper}>
+                    <TextElement ref={(ref: any) => { this.textElement = ref }}
+                        className={classes.join(" ")}
+                        value={this.state.value}
+                        onChange={this.onChange}
+                        onKeyDown={this.onKeyDown}
+                        placeholder={this.props.placeholder}
+                    />
+                    <div style={this.state.caretCoordinates} className={completionClasses.join(" ")}>
+                        <ul className={styles.option_list}>
+                            {options}
+                        </ul>
+                        <div className={styles.help}>Tab to complete, enter to select</div>
+                    </div>
                 </div>
             </FormElement>
         )
