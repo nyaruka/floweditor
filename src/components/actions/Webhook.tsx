@@ -6,7 +6,7 @@ import { NodeModalProps } from '../NodeModal';
 import { SelectElement } from '../form/SelectElement';
 import { TextInputElement } from '../form/TextInputElement';
 
-var styles = require('./Webhook.scss');
+// var styles = require('./Webhook.scss');
 var shared = require('../shared.scss');
 
 export interface WebhookState {
@@ -52,22 +52,7 @@ export class WebhookForm extends ActionForm<Webhook, WebhookState> {
 
         return (
             <div>
-                <p>Using a Webhook you can trigger actions in external services or fetch data to use in this Flow. Enter a URL to call below.</p>
 
-                <div className={styles.method}>
-                    <SelectElement ref={ref} name="Method" value={method} options={this.methodOptions} />
-                </div>
-                <div className={styles.url}>
-                    <TextInputElement ref={ref} name="URL" placeholder="Enter a URL" defaultValue={action.url} autocomplete required url />
-                </div>
-
-                <div className={styles.instructions}>
-                    <p>If your server responds with JSON, each property will be added to Flow.</p>
-                    <pre className={styles.code}>{
-                        `{ "product": "Solar Charging Kit", "stock_level": 32 }`
-                    }</pre>
-                    <div>In this example @webhook.json.product would be available in all future steps.</div>
-                </div>
             </div>
         )
     }

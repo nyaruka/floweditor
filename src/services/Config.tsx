@@ -2,11 +2,12 @@ import { EditableProps } from '../components/NodeModal';
 import { ChangeGroupComp, ChangeGroupForm } from '../components/actions/ChangeGroup';
 import { SaveToContactComp, SaveToContactForm } from '../components/actions/SaveToContact';
 import { SendMessageComp, SendMessageForm } from '../components/actions/SendMessage';
-import { WebhookComp, WebhookForm } from '../components/actions/Webhook';
+import { WebhookComp } from '../components/actions/Webhook';
 import { StartFlowComp } from '../components/actions/StartFlow';
 import { SendEmailComp, SendEmailForm } from '../components/actions/SendEmail';
 import { SwitchRouterForm } from '../components/routers/SwitchRouter';
 import { SubflowForm } from "../components/routers/Subflow";
+import { WebhookForm } from "../components/routers/Webhook";
 import { WaitForResponseForm } from "../components/routers/WaitForResponse";
 import { ExpressionForm } from "../components/routers/Expression";
 
@@ -85,7 +86,7 @@ export class Config {
         // {type: "set_preferred_channel", name: "Set Preferred Channel", description: "Set their preferred channel", component: Missing},
 
         // hybrids
-        { type: "call_webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: WebhookComp },
+        { type: "call_webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: WebhookComp, aliases: ["webhook"] },
         { type: "start_flow", name: "Run Flow", description: "Run another flow", form: SubflowForm, component: StartFlowComp, aliases: ["subflow"] },
 
         // routers

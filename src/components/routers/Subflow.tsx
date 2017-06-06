@@ -30,7 +30,7 @@ export class SubflowForm extends SwitchRouterForm<SubflowProps> {
 
         return (
             <div>
-                <p>Pick a flow!</p>
+                <p>Select a flow to run</p>
                 <FlowElement
                     ref={this.ref.bind(this)}
                     name="Flow"
@@ -70,7 +70,7 @@ export class SubflowForm extends SwitchRouterForm<SubflowProps> {
             exits = [
                 {
                     uuid: UUID.v4(),
-                    name: "Completed",
+                    name: "Complete",
                     destination_node_uuid: null
                 }/*,
                 {

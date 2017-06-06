@@ -1,13 +1,13 @@
 import * as React from "react";
 
-import {FormElement, FormElementProps} from './FormElement';
-import {FormWidget, FormValueState} from './FormWidget';
+import { FormElement, FormElementProps } from './FormElement';
+import { FormWidget, FormValueState } from './FormWidget';
 var Select = require('react-select');
 
 var styles = require("./FormElement.scss");
 
 interface SelectElementProps extends FormElementProps {
-    value: string;
+    defaultValue: string;
     options: any;
     placeholder?: string;
 }
@@ -18,28 +18,28 @@ export class SelectElement extends FormWidget<SelectElementProps, FormValueState
         super(props);
 
         this.state = {
-            value: this.props.value,
+            value: this.props.defaultValue,
             errors: []
         }
 
         this.onChange = this.onChange.bind(this);
     }
 
-    private onChange(value: string) {
+    private onChange(value: any) {
         this.setState({
             value: value
         });
     }
-    
+
     validate(): boolean {
         var errors: string[] = []
-        if (this.props.required){
+        if (this.props.required) {
             if (!this.state.value || this.state.value.length == 0) {
                 errors.push(this.props.name + " is required");
             }
         }
 
-        this.setState({errors: errors});
+        this.setState({ errors: errors });
         return errors.length == 0;
     }
 

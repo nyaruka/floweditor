@@ -1,11 +1,11 @@
 import * as React from "react";
 
-import {FormElementProps} from './FormElement';
+import { FormElementProps } from './FormElement';
 
 var styles = require('./FormElement.scss');
 
 export interface FormValueState {
-    value?: string;
+    value?: any;
     errors: string[];
 }
 
