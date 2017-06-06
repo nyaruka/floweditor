@@ -7,7 +7,7 @@ import { FlowMutator } from './FlowMutator';
 import { DragPoint } from './Node';
 import { FlowContext } from './Flow';
 import { NodeForm } from './NodeForm';
-import { Node, Position, Exit, UINode } from '../FlowDefinition';
+import { Node, Position, Exit, UINode, Action } from '../FlowDefinition';
 
 var Select = require('react-select');
 var styles = require('./NodeModal.scss');
@@ -17,7 +17,7 @@ export interface NodeEditorProps {
     type: string;
     uuid: string;
     context: FlowContext;
-    config?: TypeConfig;
+    config: TypeConfig;
 }
 
 export interface EditableProps {
@@ -29,9 +29,13 @@ export interface EditableProps {
 
 export interface NodeModalProps {
 
+    onlyActions: boolean;
+    onClose(): void;
+
     editableProps?: EditableProps;
     changeType?: boolean;
-    onUpdateAction: Function;
+
+    onUpdateAction(action: Action): void;
     onUpdateRouter(node: Node, type: string): void;
 
     newPosition?: Position;
@@ -39,6 +43,7 @@ export interface NodeModalProps {
     draggedFrom?: DragPoint;
     exits?: Exit[];
     addToNode?: string;
+
 }
 
 interface NodeModalState {
@@ -82,6 +87,9 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
 
     close() {
         this.setState({ show: false });
+        if (this.props.onClose) {
+            this.props.onClose()
+        }
     }
 
     onModalOpen() {
@@ -163,6 +171,14 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         var data: any = [];
         var changeOptions: JSX.Element;
         if (this.props.changeType) {
+
+            var options = [];
+            if (this.props.onlyActions) {
+                options = Config.get().getActionTypes();
+            } else {
+                options = Config.get().typeConfigs;
+            }
+
             changeOptions = (
                 <div>
                     <div className={styles.header}>When a contact arrives at this point in your flow</div>
@@ -175,7 +191,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
                             searchable={false}
                             clearable={false}
                             labelKey="description"
-                            options={Config.get().typeConfigs}
+                            options={options}
                         />
                     </div>
                 </div>

@@ -3,11 +3,13 @@ import * as axios from "axios";
 import * as UUID from 'uuid';
 import { NodeEditorProps } from './NodeModal';
 import { FlowContext } from './Flow';
-import { Action } from '../FlowDefinition';
+import { Action, SwitchRouter } from '../FlowDefinition';
 import { Plumber } from '../services/Plumber';
 import { FlowStore } from '../services/FlowStore';
 import { Config } from '../services/Config';
 import { TitleBar } from './TitleBar';
+import { SwitchRouterProps } from "./routers/SwitchRouter";
+import { NodeProps } from "./Node";
 
 var shared = require('./shared.scss');
 var styles = require('./Action.scss');
@@ -39,13 +41,8 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
     }
 
     onClick(event: React.SyntheticEvent<MouseEvent>) {
-        if (this.props.context.eventHandler.onEditNode && !this.props.dragging) {
-            this.props.context.eventHandler.onEditNode({
-                initial: this.props,
-                type: this.props.action.type,
-                uuid: this.props.action.uuid,
-                context: this.props.context
-            });
+        if (!this.props.dragging) {
+            this.props.context.eventHandler.onEditAction(this.props, true);
         }
     }
 

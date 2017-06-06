@@ -12,7 +12,7 @@ import { NodeModal } from './NodeModal';
 import { FlowMutator } from './FlowMutator';
 import { Flow } from './Flow';
 import { FlowDefinition } from '../FlowDefinition';
-import { External } from '../services/External';
+import { External, FlowDetails } from '../services/External';
 
 var FORCE_FETCH = true;
 var QUIET_UI = 10;
@@ -62,17 +62,8 @@ export class FlowLoader extends React.PureComponent<FlowLoaderProps, FlowLoaderS
     }
 
     componentDidMount() {
-        this.props.external.getFlow(this.props.uuid).then((definition: FlowDefinition) => {
-
-            try {
-                this.initialize(definition);
-            }
-
-            // if we fail to initialize, wipe out our nodes and reset
-            catch (e) {
-                definition = update(definition, { $merge: { nodes: [], _ui: { nodes: {} } } });
-                this.initialize(definition);
-            }
+        this.props.external.getFlow(this.props.uuid, false).then((details: FlowDetails) => {
+            this.initialize(details.definition);
         });
     }
 
@@ -91,6 +82,7 @@ export class FlowLoader extends React.PureComponent<FlowLoaderProps, FlowLoaderS
             flow = <Flow
                 endpoints={this.props.endpoints}
                 definition={this.state.definition}
+                external={this.props.external}
                 dependencies={this.state.dependencies}
                 mutator={this.mutator} />
         }

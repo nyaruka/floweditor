@@ -84,6 +84,10 @@ export interface Webhook extends Action {
     method: string;
 }
 
+export interface StartFlow extends Action {
+    flow_name: string;
+    flow_uuid: string;
+}
 
 export interface UIMetaData {
     nodes: { [key: string]: UINode };

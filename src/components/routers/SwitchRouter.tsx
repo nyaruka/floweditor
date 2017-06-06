@@ -8,7 +8,7 @@ import { TextInputElement } from '../form/TextInputElement';
 import { NodeForm } from '../NodeForm';
 import { NodeEditorProps, NodeModalProps } from '../NodeModal';
 import { Config } from '../../services/Config';
-import { Node, SwitchRouter, Exit, Case, UINode } from '../../FlowDefinition';
+import { Node, SwitchRouter, Exit, Case, UINode, Action } from '../../FlowDefinition';
 
 import { DragDropContext } from 'react-dnd';
 
@@ -17,7 +17,7 @@ let HTML5Backend = require('react-dnd-html5-backend');
 let update = require('immutability-helper');
 var styles = require('./SwitchRouter.scss');
 
-class SwitchRouterState {
+export class SwitchRouterState {
     cases: CaseProps[]
     name: string;
     setName: boolean
@@ -158,13 +158,14 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
 }
 
 export interface SwitchRouterProps extends NodeEditorProps {
+    action: Action;
     router: SwitchRouter;
     exits: Exit[];
 }
 
-export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterState> {
+export class SwitchRouterForm<P extends SwitchRouterProps> extends NodeForm<P, SwitchRouterState> {
 
-    constructor(props: SwitchRouterProps) {
+    constructor(props: P) {
         super(props);
 
         var cases: CaseProps[] = [];
@@ -180,14 +181,20 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
                     }
                 }
 
-                cases.push({
-                    kase: kase,
-                    exitName: exitName,
-                    onChanged: this.onCaseChanged.bind(this),
-                    moveCase: this.moveCase.bind(this)
-                });
+                try {
+                    var config = Config.get().getOperatorConfig(kase.type);
+                    cases.push({
+                        kase: kase,
+                        exitName: exitName,
+                        onChanged: this.onCaseChanged.bind(this),
+                        moveCase: this.moveCase.bind(this)
+                    });
+                } catch (error) {
+                    // ignore missing cases
+                }
             }
         }
+
 
         var name = "";
         if (this.props.router) {
@@ -198,7 +205,7 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
             cases: cases,
             setName: false,
             name: name
-        }
+        } as SwitchRouterState
 
         this.onCaseChanged = this.onCaseChanged.bind(this);
     }
@@ -321,6 +328,12 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         }
 
         else if (this.props.config.type == "expression") {
+
+            var expression = this.props.router ? this.props.router.operand : null;
+            if (!expression) {
+                expression = "@input";
+            }
+
             leadIn = (
                 <div className={styles.instructions}>
                     If the expression
@@ -328,7 +341,7 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
                         ref={this.ref.bind(this)}
                         name="Expression"
                         showLabel={false}
-                        defaultValue={this.props.router.operand}
+                        defaultValue={expression}
                         autocomplete
                         required
                     />
@@ -368,7 +381,7 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         const { cases, exits, defaultExit } = resolveExits(this.state.cases, this.props);
 
         var operand = "@input";
-        if (this.props.config.type == "expression") {
+        if (this.props.type == "expression") {
             var operandEle: TextInputElement = this.elements[0];
             operand = operandEle.state.value;
         }
@@ -382,7 +395,7 @@ export class SwitchRouterForm extends NodeForm<SwitchRouterProps, SwitchRouterSt
         }
 
         var optionalNode = {}
-        if (this.props.config.type == "wait_for_response") {
+        if (this.props.type == "wait_for_response") {
             optionalNode = {
                 wait: { type: "msg" }
             }

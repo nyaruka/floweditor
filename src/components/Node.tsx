@@ -138,47 +138,25 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
     onClick(event: any) {
         if (!this.state.dragging) {
-            // if we have one action, defer to it
-            if (this.props.node.actions && this.props.node.actions.length == 1) {
+            // click the last action in the list if we have one
+            if (this.props.node.actions && this.props.node.actions.length > 0) {
 
-                var action = this.props.node.actions[0];
+                var action = this.props.node.actions[this.props.node.actions.length - 1];
                 var actionProps: ActionProps = {
                     action: action,
                     uuid: action.uuid,
                     context: this.props.context,
                     type: action.type,
-                    dragging: false
+                    dragging: false,
+                    config: Config.get().getTypeConfig(action.type)
                 };
 
-                this.props.context.eventHandler.onEditNode({
-                    initial: actionProps,
-                    uuid: action.uuid,
-                    type: action.type,
-                    context: this.props.context
-                });
+                this.props.context.eventHandler.onEditAction(actionProps, false);
+
             } else {
 
-                if (this.props.node.router.type == "switch") {
-
-                    var uuid = this.props.node.uuid;
-                    if (this.props.ghost) {
-                        uuid = null;
-                    }
-
-                    var initial: SwitchRouterProps = {
-                        router: this.props.node.router as SwitchRouter,
-                        exits: this.props.node.exits,
-                        type: this.props.ui.type,
-                        uuid: this.props.node.uuid,
-                        context: this.props.context
-                    };
-
-                    this.props.context.eventHandler.onEditNode({
-                        initial: initial,
-                        uuid: uuid,
-                        type: this.props.ui.type,
-                        context: this.props.context
-                    });
+                if (this.props.node.router && this.props.node.router.type == "switch") {
+                    this.props.context.eventHandler.onEditNode(this.props);
                 }
             }
         }
@@ -192,26 +170,21 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
         this.props.context.eventHandler.onRemoveNode(this.props.node);
     }
 
-    getClassName(type: string) {
-        if (!type) { return type; }
-        return type.split('_').join('-');
-    }
-
     render() {
         var classes = ["plumb-drag", styles.node];
         var actions: JSX.Element[] = [];
         if (this.props.node.actions) {
             // save the first reference off to manage our clicks
             var firstRef: any = { ref: (ele: any) => { this.firstAction = ele } };
-            for (let actionProps of this.props.node.actions) {
-                let actionConfig = Config.get().getTypeConfig(actionProps.type);
+            for (let action of this.props.node.actions) {
+                let actionConfig = Config.get().getTypeConfig(action.type);
                 if (actionConfig.component != null) {
                     // console.log(actionProps, actionConfig);
                     actions.push(React.createElement(actionConfig.component, {
                         ...firstRef,
-                        action: actionProps,
+                        action: action,
                         dragging: this.state.dragging,
-                        key: actionProps.uuid,
+                        key: action.uuid,
                         context: this.props.context,
                     } as ActionProps));
                 }
@@ -227,7 +200,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
         var header: JSX.Element = null;
         var addActions: JSX.Element = null;
 
-        if (this.props.node.router) {
+        if (!this.props.node.actions || this.props.node.actions.length == 0 || this.props.ui.type != null) {
 
             var type = this.props.node.router.type;
             if (this.props.ui.type) {
@@ -248,11 +221,14 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                     }
                 }
             }
-            header = (
-                <div {...events}>
-                    <TitleBar className={shared[config.type]} onRemoval={this.onRemoval.bind(this)} title={title} />
-                </div>
-            )
+
+            if (!this.props.node.actions || this.props.node.actions.length == 0) {
+                header = (
+                    <div {...events}>
+                        <TitleBar className={shared[config.type]} onRemoval={this.onRemoval.bind(this)} title={title} />
+                    </div>
+                )
+            }
         } else {
             addActions = <a className={styles.add} onClick={() => { this.props.context.eventHandler.onAddAction(this.props.node.uuid) }}><span className="icon-add" /></a>
         }

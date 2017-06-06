@@ -140,6 +140,8 @@ export class FlowMutator {
         draggedFrom: DragPoint = null,
         newPosition: Position = null): Node {
 
+        console.log("updateROUTER", props, type);
+
         console.time("updateRouter");
         var node: Node;
         if (draggedFrom) {
@@ -177,17 +179,20 @@ export class FlowMutator {
      * @param uuid the action to modify
      * @param changes immutability spec to modify at the given action
      */
-    public updateAction(props: Action,
+    public updateAction(action: Action,
         draggedFrom: DragPoint = null,
         newPosition: Position = null,
         addToNode: string = null): Node {
         console.time("updateAction");
         var node: Node;
+
+        console.log("updateAction", action, this.components.getDetails(action.uuid));
+
         if (draggedFrom) {
             var newNodeUUID = UUID.v4();
             node = this.addNode({
                 uuid: newNodeUUID,
-                actions: [props],
+                actions: [action],
                 exits: [
                     { uuid: UUID.v4(), destination_node_uuid: null, name: null }
                 ]
@@ -204,21 +209,55 @@ export class FlowMutator {
                 nodes: {
                     [nodeDetails.nodeIdx]: {
                         actions: {
-                            $push: [props]
+                            $push: [action]
                         }
                     }
                 }
             });
+
             this.components.initializeUUIDMap(this.definition);
         }
         else {
-
             // update the action into our new flow definition
-            let actionDetails = this.components.getDetails(props.uuid)
+            let actionDetails = this.components.getDetails(action.uuid)
             if (actionDetails) {
                 this.definition = update(this.definition, {
-                    nodes: { [actionDetails.nodeIdx]: { actions: { [actionDetails.actionIdx]: { $set: props } } } }
+                    nodes: {
+                        [actionDetails.nodeIdx]: {
+                            actions: { [actionDetails.actionIdx]: { $set: action } },
+                        }
+                    }
                 });
+
+                var node = this.definition.nodes[actionDetails.nodeIdx];
+                var previousDestination = null;
+                var previousUUID = UUID.v4();
+                if (node.exits.length == 1) {
+                    previousDestination = node.exits[0].destination_node_uuid;
+                    previousUUID = node.exits[0].uuid;
+                }
+
+                this.definition = update(this.definition, {
+                    nodes: {
+                        [actionDetails.nodeIdx]: {
+                            exits: {
+                                $set: [
+                                    {
+                                        name: null,
+                                        uuid: previousUUID,
+                                        destination_node_uuid: previousDestination
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                });
+
+                console.log(this.definition);
+
+                // make sure we don't have a type set
+                var uiNode = this.definition._ui.nodes[actionDetails.nodeUUID];
+                this.updateNodeUI(actionDetails.nodeUUID, { $unset: ["type"] });
 
                 node = this.definition.nodes[actionDetails.nodeIdx];
             }

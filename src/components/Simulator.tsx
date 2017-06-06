@@ -8,6 +8,7 @@ import * as ReactDOM from 'react-dom';
 import { Modal } from './Modal';
 import { FlowStore } from '../services/FlowStore';
 import { Plumber } from '../services/Plumber';
+import { External, FlowDetails } from '../services/External';
 import { FlowDefinition, Group } from '../FlowDefinition';
 
 var styles = require("./Simulator.scss");
@@ -19,7 +20,8 @@ interface Message {
 
 interface SimulatorProps {
     engineURL: string;
-    definitions: FlowDefinition[];
+    external: External;
+    flowUUID: string;
 }
 
 interface SimulatorState {
@@ -236,14 +238,19 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 groups: []
             }
         }, () => {
-            var body: any = {
-                flows: this.props.definitions,
-                contact: this.state.contact,
-            };
 
-            axios.default.post(urljoin(this.props.engineURL + '/flow/start'), JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
-                this.updateRunContext(body, response.data as RunContext);
+            this.props.external.getFlow(this.props.flowUUID, true).then((details: FlowDetails) => {
+
+                var body: any = {
+                    flows: [details.definition].concat(details.dependencies),
+                    contact: this.state.contact,
+                };
+
+                axios.default.post(urljoin(this.props.engineURL + '/flow/start'), JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
+                    this.updateRunContext(body, response.data as RunContext);
+                });
             });
+
         });
     }
 
@@ -259,37 +266,33 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             return;
         }
 
-        if (text == "\\reconnect") {
-            Plumber.get().connectAll(this.props.definitions[0]);
-            console.log("reconnected..");
-            return;
-        }
+        this.props.external.getFlow(this.props.flowUUID, true).then((details: FlowDetails) => {
+            var body: any = {
+                flows: [details.definition].concat(details.dependencies),
+                session: this.state.session,
+                contact: this.state.contact,
+                event: {
+                    type: "msg_received",
+                    text: text,
+                    urn: this.state.contact.urns[0],
+                    channel_uuid: this.state.channel,
+                    contact_uuid: this.state.contact.uuid,
+                    created_on: new Date(),
+                }
+            };
 
-        var body: any = {
-            flows: this.props.definitions,
-            session: this.state.session,
-            contact: this.state.contact,
-            event: {
-                type: "msg_received",
-                text: text,
-                urn: this.state.contact.urns[0],
-                channel_uuid: this.state.channel,
-                contact_uuid: this.state.contact.uuid,
-                created_on: new Date(),
-            }
-        };
-
-        axios.default.post(this.props.engineURL + '/flow/resume', JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
-            this.updateRunContext(body, response.data as RunContext);
-        }).catch((error) => {
-            var events = update(this.state.events, {
-                $push: [{
-                    type: "error",
-                    text: error.response.data.error
-                }]
-            });
-            this.setState({ events: events });
-        });;
+            axios.default.post(this.props.engineURL + '/flow/resume', JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
+                this.updateRunContext(body, response.data as RunContext);
+            }).catch((error) => {
+                var events = update(this.state.events, {
+                    $push: [{
+                        type: "error",
+                        text: error.response.data.error
+                    }]
+                });
+                this.setState({ events: events });
+            });;
+        });
     }
 
     private onReset(event: any) {

@@ -78,9 +78,11 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
             term = term.toLowerCase();
         }
 
-        for (let local of this.props.localSearchOptions) {
-            if (!term || local.name.toLowerCase().indexOf(term) > -1) {
-                this.addSearchResult(combined, local);
+        if (this.props.localSearchOptions) {
+            for (let local of this.props.localSearchOptions) {
+                if (!term || local.name.toLowerCase().indexOf(term) > -1) {
+                    this.addSearchResult(combined, local);
+                }
             }
         }
 
@@ -106,7 +108,6 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
                         type: this.props.resultType,
                     });
                 }
-
                 callback(null, this.search(input, results));
             });
         }

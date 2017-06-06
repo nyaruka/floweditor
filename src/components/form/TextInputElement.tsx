@@ -158,7 +158,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
 
                 this.setState({
                     completionVisible: true,
-                    caretCoordinates: getCaretCoordinates(ele, ele.selectionEnd, { debug: true }),
+                    caretCoordinates: getCaretCoordinates(ele, ele.selectionEnd),
                 });
 
                 break;

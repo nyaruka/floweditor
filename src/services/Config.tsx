@@ -3,8 +3,12 @@ import { ChangeGroupComp, ChangeGroupForm } from '../components/actions/ChangeGr
 import { SaveToContactComp, SaveToContactForm } from '../components/actions/SaveToContact';
 import { SendMessageComp, SendMessageForm } from '../components/actions/SendMessage';
 import { WebhookComp, WebhookForm } from '../components/actions/Webhook';
+import { StartFlowComp } from '../components/actions/StartFlow';
 import { SendEmailComp, SendEmailForm } from '../components/actions/SendEmail';
 import { SwitchRouterForm } from '../components/routers/SwitchRouter';
+import { SubflowForm } from "../components/routers/Subflow";
+import { WaitForResponseForm } from "../components/routers/WaitForResponse";
+import { ExpressionForm } from "../components/routers/Expression";
 
 export interface Endpoints {
     fields: string;
@@ -35,12 +39,15 @@ export class Config {
     private static singleton: Config = new Config();
 
     private typeConfigMap: { [type: string]: TypeConfig } = {};
+    private actionTypes: TypeConfig[];
 
     static get(): Config {
         return Config.singleton;
     }
 
     private constructor() {
+
+        // create a mapping for quick lookups
         for (let typeConfig of this.typeConfigs) {
             this.typeConfigMap[typeConfig.type] = typeConfig;
             if (typeConfig.aliases) {
@@ -48,6 +55,18 @@ export class Config {
                     this.typeConfigMap[alias] = typeConfig;
                 }
             }
+        }
+
+        // create option list of only actions (things that can stack)
+        this.actionTypes = [];
+        for (let type of this.typeConfigs) {
+
+            // things based off the switch router form are not stackable
+            if (type.form.prototype instanceof SwitchRouterForm) {
+                continue;
+            }
+
+            this.actionTypes.push(type);
         }
     }
 
@@ -67,13 +86,18 @@ export class Config {
 
         // hybrids
         { type: "call_webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: WebhookComp },
-        // {type: "flow", name: "Run another flow", description: "Run another flow", component: Missing},
+        { type: "start_flow", name: "Run Flow", description: "Run another flow", form: SubflowForm, component: StartFlowComp, aliases: ["subflow"] },
 
         // routers
-        { type: "expression", name: "Split by Expression", description: "Split by a custom expression", form: SwitchRouterForm },
-        { type: "wait_for_response", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm },
+        { type: "expression", name: "Split by Expression", description: "Split by a custom expression", form: ExpressionForm },
+        { type: "wait_for_response", name: "Wait for Response", description: "Wait for them to respond", form: WaitForResponseForm },
+
         // {type: "random", name: "Random Split", description: "Split them up randomly", form: RandomRouterForm}
     ]
+
+    public getActionTypes(): TypeConfig[] {
+        return this.actionTypes;
+    }
 
     public getTypeConfig(type: string): TypeConfig {
         return this.typeConfigMap[type];
@@ -106,6 +130,8 @@ export class Config {
         { type: "has_date_eq", verboseName: "has a date equal to", operands: 1 },
         { type: "has_date_gt", verboseName: "has a date after", operands: 1 },
 
+        // { type: "has_run_status", verboseName: "has a run status of", operands: 1 },
+
         // { type: "has_group", verboseName: "is in the group", operands: 1},        
         // { type: "has_text", verboseName: "has some text", operands: 0},
         // { type: "has_number", verboseName: "has a number", operands: 0},
@@ -113,6 +139,8 @@ export class Config {
         // { type: "has_email", verboseName: "has an email", operands: 0},
         // { type: "has_error", verboseName: "has an error", operands: 0},
         // { type: "has_value", verboseName: "is not empty", operands: 0},
+
+
     ]
 }
 

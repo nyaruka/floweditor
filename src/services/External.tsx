@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { AxiosResponse } from 'axios';
 import { Endpoints } from '../services/Config';
-import { FlowDefinition } from '../FlowDefinition';
+import { FlowDefinition, StartFlow } from '../FlowDefinition';
 
 export interface FlowDetails {
     uuid: string;
     name: string;
     definition: FlowDefinition;
+    dependencies: FlowDefinition[];
 }
 
 /**
@@ -47,26 +48,39 @@ export class External {
     /**
      * Gets a flow definition for a given flow uuid
      */
-    public getFlow(uuid: string): Promise<FlowDefinition> {
+    public getFlow(uuid: string, dependencies: boolean): Promise<FlowDetails> {
         // console.log("Getting flow:", uuid, this.endpoints.flows + "?uuid=" + uuid);
-        return new Promise<FlowDefinition>((resolve, reject) => {
-            axios.get(this.endpoints.flows + "?uuid=" + uuid, this.getRequestOptions()).then((response: AxiosResponse) => {
+        return new Promise<FlowDetails>((resolve, reject) => {
+            axios.get(this.endpoints.flows + "?uuid=" + uuid + "&dependencies=" + dependencies, this.getRequestOptions()).then((response: AxiosResponse) => {
+
+                var details: FlowDetails = {
+                    uuid: uuid,
+                    name: null,
+                    definition: null,
+                    dependencies: []
+                }
 
                 var definition: FlowDefinition = null;
+                var dependencies: FlowDefinition[] = [];
                 var flowDetails = response.data.results as FlowDetails[];
-                if (flowDetails.length > 0) {
-                    definition = flowDetails[0].definition;
-                    if (!definition.name) {
-                        definition.name = flowDetails[0].name;
+
+                for (let flowDetail of flowDetails) {
+                    if (!flowDetail.definition.uuid) {
+                        flowDetail.definition.uuid = flowDetail.uuid;
                     }
 
-                    if (!definition.uuid) {
-                        definition.uuid = uuid;
+                    this.initialize(flowDetail.definition);
+                    if (flowDetail.uuid == uuid) {
+                        details.definition = flowDetail.definition;
+                        details.name = flowDetail.name;
+                    } else {
+                        details.dependencies.push(flowDetail.definition);
                     }
                 }
 
-                this.initialize(definition);
-                resolve(definition);
+                console.log(details);
+
+                resolve(details);
             }).catch((error) => {
                 reject(error);
             });
