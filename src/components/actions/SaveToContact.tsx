@@ -34,7 +34,7 @@ var reserved = toBoolMap([
 
 export class SaveToContactComp extends ActionComp<SaveToContact> {
     renderNode() {
-        return <div>Updates <span className="emph">{this.getAction().field_name}</span></div>
+        return <div>Update <span className="emph">{this.getAction().field_name} to {this.getAction().value}</span></div>
     }
 }
 

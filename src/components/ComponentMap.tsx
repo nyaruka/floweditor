@@ -129,8 +129,9 @@ export class ComponentMap {
 
         var reservedFields: ContactFieldResult[] = [
             { id: "name", name: "Name", type: "update_contact" },
-            { id: "language", name: "Language", type: "update_contact" }
+            // { id: "language", name: "Language", type: "update_contact" }
         ];
+
         // TODO: Add language support to save_contact_field
         // {id:"language", name: "Language", type: "field"}];
 

@@ -174,10 +174,11 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
 
             case KEY_TAB:
             case KEY_ENTER:
-                if (this.state.completionVisible) {
+                if (this.state.completionVisible && this.state.matches.length > 0) {
                     var option = this.state.matches[this.state.selectedOptionIndex];
                     var newValue = this.state.value.substr(0, this.state.caretOffset - this.state.query.length);
                     newValue += option.name;
+
                     var newCaret = newValue.length;
                     newValue += this.state.value.substr(this.state.caretOffset);
 
