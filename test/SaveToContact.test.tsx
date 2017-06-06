@@ -26,7 +26,7 @@ describe('SaveToContact', () => {
         /*
         let action = new SaveToContact({            
             name: "name",
-            type: "save_to_contact", 
+            type: "save_contact_field", 
             value: "@results.name", 
             field: "field-uuid", 
             uuid: "action-uuid",

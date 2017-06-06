@@ -20,7 +20,7 @@ export class SendMessageForm extends ActionForm<SendMessage, {}> {
 
     renderForm(): JSX.Element {
         return (
-            <TextInputElement ref={this.ref.bind(this)} name="Message" showLabel={false} defaultValue={this.getAction().text} required textarea />
+            <TextInputElement ref={this.ref.bind(this)} name="Message" showLabel={false} defaultValue={this.getAction().text} autocomplete required textarea />
         )
     }
 

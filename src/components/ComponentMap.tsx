@@ -127,14 +127,17 @@ export class ComponentMap {
             return;
         }
 
-        var reservedFields: ContactFieldResult[] = [{ id: "name", name: "Name", type: "field" }];
-        // TODO: Add language support to save_to_contact
+        var reservedFields: ContactFieldResult[] = [
+            { id: "name", name: "Name", type: "update_contact" },
+            { id: "language", name: "Language", type: "update_contact" }
+        ];
+        // TODO: Add language support to save_contact_field
         // {id:"language", name: "Language", type: "field"}];
 
         for (let node of definition.nodes) {
             if (node.actions) {
                 for (let action of node.actions) {
-                    if (action.type == 'save_to_contact') {
+                    if (action.type == 'save_contact_field') {
                         var saveProps = action as SaveToContact;
                         if (!reservedFields.some(fieldName => fieldName.name === saveProps.field_name)) {
                             if (!(saveProps.field_uuid in fields)) {

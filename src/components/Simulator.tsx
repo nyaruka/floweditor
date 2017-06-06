@@ -142,6 +142,9 @@ class LogEvent extends React.Component<Event, LogEventState> {
         } else if (this.props.type == "save_contact_field") {
             text = "Set contact field \"" + this.props.field_name + "\" to \"" + this.props.value + "\"";
             classes.push(styles.info);
+        } else if (this.props.type == "update_contact") {
+            text = "Updated contact " + this.props.field_name + " to \"" + this.props.value + "\"";
+            classes.push(styles.info);
         } else if (this.props.type == "send_email") {
             text = "Sent email to \"" + this.props.email + "\" with subject \"" + this.props.subject + "\" and body \"" + this.props.body + "\""
             classes.push(styles.info);

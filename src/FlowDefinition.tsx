@@ -60,6 +60,11 @@ export interface SaveToContact extends Action {
     created_on?: Date;
 }
 
+export interface UpdateContact extends Action {
+    field_name: string;
+    value: string;
+}
+
 export interface SendMessage extends Action {
     text: string;
 }

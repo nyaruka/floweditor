@@ -18,8 +18,9 @@ export interface TypeConfig {
     type: string;
     name: string;
     description: string;
+    aliases?: string[];
 
-    form?: { new (props: any): any };
+    form: { new (props: any): any };
     component?: { new (props: any): any };
 }
 
@@ -33,12 +34,21 @@ export class Config {
 
     private static singleton: Config = new Config();
 
+    private typeConfigMap: { [type: string]: TypeConfig } = {};
+
     static get(): Config {
         return Config.singleton;
     }
 
     private constructor() {
-        // console.log('init config');
+        for (let typeConfig of this.typeConfigs) {
+            this.typeConfigMap[typeConfig.type] = typeConfig;
+            if (typeConfig.aliases) {
+                for (let alias of typeConfig.aliases) {
+                    this.typeConfigMap[alias] = typeConfig;
+                }
+            }
+        }
     }
 
     public typeConfigs: TypeConfig[] = [
@@ -49,9 +59,9 @@ export class Config {
 
         { type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: ChangeGroupForm, component: ChangeGroupComp },
         { type: "remove_from_group", name: "Remove from Group", description: "Remove them from a group", form: ChangeGroupForm, component: ChangeGroupComp },
-        { type: "save_contact_field", name: "Update Contact", description: "Update the contact", form: SaveToContactForm, component: SaveToContactComp },
-        // { type: "update_contact", name: "Update Contact", description: "Update one of their fields", form: SaveToContactForm, component: SaveToContactComp },
+        { type: "save_contact_field", name: "Update Contact", description: "Update the contact", form: SaveToContactForm, component: SaveToContactComp, aliases: ["update_contact"] },
         { type: "send_email", name: "Send Email", description: "Send an email", form: SendEmailForm, component: SendEmailComp },
+
         // {type: "add_label", name: "Add Label", description: "Label the message", component: Missing},
         // {type: "set_preferred_channel", name: "Set Preferred Channel", description: "Set their preferred channel", component: Missing},
 
@@ -63,15 +73,10 @@ export class Config {
         { type: "expression", name: "Split by Expression", description: "Split by a custom expression", form: SwitchRouterForm },
         { type: "wait_for_response", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm },
         // {type: "random", name: "Random Split", description: "Split them up randomly", form: RandomRouterForm}
-
     ]
 
     public getTypeConfig(type: string): TypeConfig {
-        var config = this.typeConfigs.find((config: TypeConfig) => { return config.type == type });
-        if (!config) {
-            throw new Error("No type configuration found for " + type);
-        }
-        return config;
+        return this.typeConfigMap[type];
     }
 
     public getOperatorConfig(type: string): Operator {

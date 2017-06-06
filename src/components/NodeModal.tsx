@@ -61,7 +61,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
 
         this.state = {
             show: false,
-            config: this.getConfig(this.props.editableProps.type)
+            config: Config.get().getTypeConfig(this.props.editableProps.type)
         }
 
         this.onClickSave = this.onClickSave.bind(this);
@@ -76,20 +76,12 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
     open() {
         this.setState({
             show: true,
-            config: this.getConfig(this.props.editableProps.type)
+            config: Config.get().getTypeConfig(this.props.editableProps.type)
         });
     }
 
     close() {
         this.setState({ show: false });
-    }
-
-    getConfig(type: string) {
-        for (let config of Config.get().typeConfigs) {
-            if (type == config.type) {
-                return config;
-            }
-        }
     }
 
     onModalOpen() {

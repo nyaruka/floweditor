@@ -3,7 +3,7 @@ import { FlowStore } from '../../services/FlowStore';
 import { toBoolMap } from '../../utils';
 import { SelectSearch } from '../SelectSearch';
 import { SearchResult } from '../ComponentMap';
-import { SaveToContact } from '../../FlowDefinition';
+import { SaveToContact, UpdateContact } from '../../FlowDefinition';
 import { NodeModalProps } from '../NodeModal';
 import { ActionForm } from '../NodeForm';
 import { ActionComp } from '../Action';
@@ -64,12 +64,22 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
         var initial: SearchResult = null;
         var action = this.getAction();
 
-        if (action && action.type == "save_to_contact") {
-            initial = {
-                id: action.field_uuid,
-                name: action.field_name,
-                type: action.type,
-            };
+
+
+        if (action) {
+            if (action.type == "save_contact_field") {
+                initial = {
+                    id: action.field_uuid,
+                    name: action.field_name,
+                    type: "field",
+                };
+            } else if (action.type == "update_contact") {
+                initial = {
+                    id: action.field_name.toLowerCase(),
+                    name: action.field_name,
+                    type: "update_contact"
+                };
+            }
         }
 
         var ref = this.ref.bind(this);
@@ -80,7 +90,7 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
                     name="Field" showLabel={true}
                     endpoint={this.props.context.endpoints.fields}
                     getLocalFields={this.props.context.getContactFields}
-                    helpText={"Select an existing field to update or type name to create a new one"}
+                    helpText={"Select an existing field to update or type any name to create a new one"}
                     initial={initial} add required
                 />
 
@@ -100,12 +110,25 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
 
         var field = fieldEle.state.field;
 
-        var newAction: SaveToContact = {
-            uuid: this.getUUID(),
-            type: this.props.config.type,
-            field_name: field.name,
-            field_uuid: field.id,
-            value: valueEle.state.value
+        var newAction = null;
+        if (field.type == "field") {
+            newAction = {
+                uuid: this.getUUID(),
+                type: "save_contact_field",
+                field_name: field.name,
+                field_uuid: field.id,
+                value: valueEle.state.value
+            } as SaveToContact
+        }
+
+        // updating contact properties are different action
+        else if (field.type == "update_contact") {
+            newAction = {
+                uuid: this.getUUID(),
+                type: "update_contact",
+                field_name: field.id,
+                value: valueEle.state.value
+            } as UpdateContact
         }
 
         modal.onUpdateAction(newAction);
