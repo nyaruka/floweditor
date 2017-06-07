@@ -163,7 +163,7 @@ export interface SwitchRouterProps extends NodeEditorProps {
     exits: Exit[];
 }
 
-export class SwitchRouterForm<P extends SwitchRouterProps> extends NodeForm<P, SwitchRouterState> {
+export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRouterState> extends NodeForm<P, S> {
 
     constructor(props: P) {
         super(props);
@@ -205,7 +205,7 @@ export class SwitchRouterForm<P extends SwitchRouterProps> extends NodeForm<P, S
             cases: cases,
             setName: false,
             name: name
-        } as SwitchRouterState
+        } as S
 
         this.onCaseChanged = this.onCaseChanged.bind(this);
     }
@@ -258,9 +258,8 @@ export class SwitchRouterForm<P extends SwitchRouterProps> extends NodeForm<P, S
     }
 
     renderForm(): JSX.Element {
-        this.elements = [];
-        var ref = this.ref.bind(this);
 
+        var ref = this.ref.bind(this);
         var cases: JSX.Element[] = [];
         var needsEmpty = true;
         if (this.state.cases) {

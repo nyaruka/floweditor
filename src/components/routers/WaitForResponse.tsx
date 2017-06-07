@@ -10,6 +10,10 @@ interface WaitForResponseProps extends SwitchRouterProps {
 
 }
 
-export class WaitForResponseForm extends SwitchRouterForm<WaitForResponseProps> {
+interface WaitForResponseState extends SwitchRouterState {
+
+}
+
+export class WaitForResponseForm extends SwitchRouterForm<WaitForResponseProps, WaitForResponseState> {
 
 }

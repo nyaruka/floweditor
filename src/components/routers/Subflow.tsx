@@ -15,7 +15,7 @@ interface SubflowState extends SwitchRouterState {
 
 }
 
-export class SubflowForm extends SwitchRouterForm<SubflowProps> {
+export class SubflowForm extends SwitchRouterForm<SubflowProps, SubflowState> {
 
     renderForm(): JSX.Element {
         var flow_name, flow_uuid: string = null;

@@ -82,6 +82,7 @@ export interface SendEmail extends Action {
 export interface Webhook extends Action {
     url: string;
     method: string;
+    headers?: { [name: string]: string };
 }
 
 export interface StartFlow extends Action {

@@ -126,7 +126,6 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
 
         var errors: string[] = [];
 
-
         // if we have arguments, we need an exit name
         if (this.hasArguments()) {
             if (!this.category.state.value) {

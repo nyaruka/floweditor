@@ -77,6 +77,18 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     height: 37px;
+    &::-webkit-input-placeholder {
+        color: $placeholder_color;
+    }
+    &::-moz-placeholder {
+        color: $placeholder_color;
+    }
+    &:-ms-input-placeholder {
+        color: $placeholder_color;
+    }
+    &:-moz-placeholder {
+        color: $placeholder_color;
+    }
 }
 
 textarea.textinput {

@@ -52,6 +52,7 @@ interface TextInputProps extends FormElementProps {
     autocomplete?: boolean;
 
     onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
+    onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
 }
 
 export interface TextInputState extends FormValueState {
@@ -111,6 +112,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
 
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onBlur = this.onBlur.bind(this);
     }
 
     private setSelection(index: number) {
@@ -276,6 +278,21 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
         }
     }
 
+    private onBlur(event: React.ChangeEvent<HTMLTextElement>) {
+        this.setState({
+            query: "",
+            matches: [],
+            value: this.state.value,
+            caretOffset: 0,
+            selectedOptionIndex: 0,
+            completionVisible: false
+        }, () => {
+            if (this.props.onBlur) {
+                this.props.onBlur(event);
+            }
+        });
+    }
+
     private onChange(event: React.ChangeEvent<HTMLTextElement>) {
 
         if (this.props.autocomplete) {
@@ -419,6 +436,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
                         className={classes.join(" ")}
                         value={this.state.value}
                         onChange={this.onChange}
+                        onBlur={this.onBlur}
                         onKeyDown={this.onKeyDown}
                         placeholder={this.props.placeholder}
                     />

@@ -10,6 +10,10 @@ interface ExpressionProps extends SwitchRouterProps {
 
 }
 
-export class ExpressionForm extends SwitchRouterForm<ExpressionProps> {
+interface ExpressionState extends SwitchRouterState {
+
+}
+
+export class ExpressionForm extends SwitchRouterForm<ExpressionProps, SwitchRouterState> {
 
 }

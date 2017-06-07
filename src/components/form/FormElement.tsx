@@ -32,7 +32,17 @@ export class FormElement extends React.PureComponent<FormElementProps, {}> {
             );
         }
 
-        var name = this.props.showLabel && this.props.name ? <div>{this.props.name}</div> : "";
+
+        var name = null;
+        if (this.props.showLabel && this.props.name) {
+            name = (
+                <div className={styles.label}>
+                    {this.props.name}
+                </div>
+            );
+        }
+
+
         var helpText = this.props.helpText && !errorDisplay ? <div className={styles.help_text}>{this.props.helpText}</div> : "";
 
         var classes = [styles.group, styles.ele];
@@ -42,9 +52,7 @@ export class FormElement extends React.PureComponent<FormElementProps, {}> {
 
         return (
             <div className={classes.join(" ")}>
-                <div className={styles.label}>
-                    {name}
-                </div>
+
                 {this.props.children}
                 <div className={styles.bottom}>
                     {helpText}

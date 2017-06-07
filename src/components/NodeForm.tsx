@@ -35,6 +35,7 @@ export abstract class NodeForm<P extends NodeEditorProps, S> extends React.PureC
     }
 
     render() {
+        this.elements = [];
         return (
             <div>
                 {this.renderForm()}
