@@ -12,26 +12,22 @@ export class ExitComp extends React.PureComponent<ExitProps, {}> {
 
     componentDidMount() {
         Plumber.get().makeSource(this.props.exit.uuid);
-
-        // we need to make sure our elements exist when 
-        // creating new routed exits
-        if (this.props.exit.destination_node_uuid) {
-            window.setTimeout(() => {
-                Plumber.get().connectExit(this.props.exit);
-            }, 0);
-        }
+        this.connect();
     }
 
     componentDidUpdate(prevProps: ExitProps) {
-        // console.log("exit updated", this.props.uuid);
-        if (this.props.exit.destination_node_uuid) {
-            Plumber.get().connectExit(this.props.exit);
-        }
+        this.connect();
     }
 
     componentWillUnmount() {
         if (this.props.exit.destination_node_uuid) {
             Plumber.get().remove(this.props.exit.uuid);
+        }
+    }
+
+    private connect() {
+        if (this.props.exit.destination_node_uuid) {
+            Plumber.get().connectExit(this.props.exit);
         }
     }
 

@@ -66,6 +66,7 @@ export class Modal extends React.Component<ModalProps, {}> {
             leftButtons.push(<Button key={Math.random()} name={this.props.tertiary} onClick={this.props.onClickTertiary} type="tertiary" />);
         }
 
+        // closeTimeoutMS={200}
         return (
             <ReactModal
                 isOpen={this.props.show}
@@ -74,7 +75,7 @@ export class Modal extends React.Component<ModalProps, {}> {
                 style={customStyles}
                 shouldCloseOnOverlayClick={false}
                 contentLabel="Modal"
-                closeTimeoutMS={200}>
+            >
 
                 <div className={styles.modal}>
                     <div className={styles["modal-header"] + " " + this.props.className}>

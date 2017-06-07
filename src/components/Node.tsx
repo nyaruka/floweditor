@@ -116,8 +116,6 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                 }
             });
         }
-
-
     }
 
     componentWillUnmount() {
@@ -133,7 +131,8 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                 console.log(error);
             }
         }
-        Plumber.get().repaint();
+
+        Plumber.get().revalidate(this.props.node.uuid);
     }
 
     onClick(event: any) {

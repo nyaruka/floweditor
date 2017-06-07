@@ -17,7 +17,7 @@ body {
         z-index: $z_modal;
     }
     .ReactModalPortal .ReactModal__Overlay {
-        transition: opacity 100ms ease-in-out;
+        // transition: opacity 100ms ease-in-out;
         background: rgba(0, 0, 0, 0.15);
         &--after-open {
             opacity: 1;
@@ -72,6 +72,11 @@ body {
         -ms-user-select: none;
         user-select: none;
     }
+    .jtk-drag-active {
+        &.jtk-endpoint {
+            visibility: hidden !important;
+        }
+    }
     .jtk-connector {
         z-index: $z_connectors;
         &.jtk-dragging {
@@ -93,13 +98,12 @@ body {
         z-index: $z_dragging;
     }
     .plumb-endpoint-hover {
-        // display: none;
-        // background: green;
         cursor: pointer;
     }
-    .clearfix {
-        clear: both;
-    }
+}
+
+.clearfix {
+    clear: both;
 }
 
 

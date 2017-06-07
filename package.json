@@ -78,7 +78,7 @@
     "source-map-loader": "^0.1.6",
     "style-loader": "^0.13.2",
     "sync-request": "^4.0.3",
-    "textarea-caret-position": "^0.1.1",
+    "textarea-caret": "^3.0.2",
     "ts-loader": "^2.0.1",
     "typescript": "^2.2.2",
     "typings-for-css-modules-loader": "^1.5.0",

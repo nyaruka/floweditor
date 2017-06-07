@@ -249,8 +249,6 @@ export class FlowMutator {
                     }
                 });
 
-                console.log(this.definition);
-
                 // make sure we don't have a type set
                 var uiNode = this.definition._ui.nodes[actionDetails.nodeUUID];
                 this.updateNodeUI(actionDetails.nodeUUID, { $unset: ["type"] });

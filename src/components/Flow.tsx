@@ -263,7 +263,6 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
      * @param event 
      */
     private onConnectionDrag(event: ConnectionEvent) {
-
         // we finished dragging a ghost node, create the spec for our new ghost component
         let draggedFromDetails = this.props.mutator.getComponents().getDetails(event.sourceId);
         let fromNode = this.props.mutator.getNode(draggedFromDetails.nodeUUID);
@@ -320,15 +319,17 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         }
 
         // set our ghost spec so it gets rendered
-        this.setState({
-            ghost: ghost,
-            modalProps: modalProps,
-        });
+        // TODO: this is here to workaround a jsplumb
+        // weirdness where offsets go off the handle upon
+        // dragging connections
+        window.setTimeout(() => {
+            this.setState({
+                ghost: ghost,
+                modalProps: modalProps,
+            });
+        }, 0);
     }
 
-    componentDidUpdate(prevProps: FlowProps, prevState: FlowState) {
-        Plumber.get().repaint();
-    }
 
     componentDidMount() {
 
@@ -379,14 +380,10 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
     }
 
     private onBeforeStartDetach(event: any) {
-        // console.log("onBeforeStartDetach", event);
-
-        Plumber.get().removeEndpoint(event.endpoint);
         return true;
     }
 
     private onBeforeDetach(event: ConnectionEvent) {
-        // console.log("beforeDetach", event);
         return true;
     }
 
@@ -394,7 +391,6 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
      * Called right before a connector is dropped onto a new node
      */
     private onBeforeConnectorDrop(event: ConnectionEvent) {
-        // console.log("beforeDrop", event);
         this.resetState();
         var connectionError = this.props.mutator.getConnectionError(event.sourceId, event.targetId);
         if (connectionError != null) {
@@ -440,7 +436,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
         var dragNode = null;
         if (this.state.ghost) {
-            let ghost = this.state.ghost
+            let ghost = this.state.ghost;
 
             // start off screen
             var ui: UINode = {
@@ -458,19 +454,10 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                 context={this.state.context}
                 ui={ui}
                 ghost={true}
-
             />
         }
 
         var simulator = null;
-
-        // the simulator wants the primary definition first in a list of all dependencies
-        var flows: FlowDefinition[] = []
-        flows.push(this.props.definition);
-        if (this.props.dependencies) {
-            flows = flows.concat(this.props.dependencies);
-        }
-
         if (this.props.endpoints.engine) {
             simulator = <Simulator
                 external={this.props.external}
@@ -485,6 +472,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         }
 
         var loading = this.state.loading ? styles.loading : styles.loaded
+
         return (
             <div className={loading}>
                 {simulator}

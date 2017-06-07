@@ -17,28 +17,29 @@ export class Plumber {
 
     private static singleton: Plumber = new Plumber();
 
+    // we batch up connections to apply them together
+    private pendingConnections: { [id: string]: { source: string, target: string } } = {}
+    private pendingConnectionTimeout: any;
+
     static get(): Plumber {
         return Plumber.singleton;
     }
 
     targetDefaults = {
-        anchor: ["Continuous", { faces: ["top", "left", "right"] }],
-        endpoint: ["Rectangle", { width: 20, height: 20, hoverClass: 'plumb-endpoint-hover' }],
-        dropOptions: { tolerance: "touch", hoverClass: "plumb-drop-hover" },
+        anchor: ["Continuous", { faces: ["left", "top", "right"] }],
+        endpoint: ["Dot", { width: 10, height: 10, hoverClass: 'plumb-endpoint-hover' }],
+        dropOptions: { tolerance: "touch", hoverClass: "plumb-drop-hover", isTarget: false },
         dragAllowedWhenFull: false,
-        deleteEndpointsOnDetach: true,
         deleteEndpointsOnEmpty: true,
-        isTarget: true,
+        isTarget: false
     }
 
     sourceDefaults = {
         anchor: "BottomCenter",
         maxConnections: 1,
         dragAllowedWhenFull: false,
-        deleteEndpointsOnDetach: true,
         deleteEndpointsOnEmpty: true,
-        isSource: true,
-        paintStyle: { fillStyle: "blue", outlineColor: "black", outlineWidth: 1 }
+        isSource: true
     }
 
     private constructor() {
@@ -48,8 +49,8 @@ export class Plumber {
             Endpoint: "Blank",
             EndpointStyle: { strokeStyle: "transparent" },
             PaintStyle: { strokeWidth: 5, stroke: "#98C0D9" },
-            HoverPaintStyle: { strokeStyle: "#27ae60" },
-            HoverClass: "connector-hover",
+            ConnectorHoverStyle: { stroke: "#27ae60" },
+            ConnectorHoverClass: "plumb-connector-hover",
             ConnectionsDetachable: true,
             Connector: ["Flowchart", { stub: 12, midpoint: .85, alwaysRespectStubs: false, gap: [0, 7], cornerRadius: 2 }],
             ConnectionOverlays: [["PlainArrow", { location: .9999, width: 12, length: 12, foldback: 1 }]],
@@ -60,6 +61,10 @@ export class Plumber {
         window.onresize = () => {
             this.jsPlumb.repaintEverything();
         }
+    }
+
+    debug(): any {
+        return this.jsPlumb;
     }
 
     draggable(ele: JSX.Element, start: Function, drag: Function, stop: Function) {
@@ -79,31 +84,56 @@ export class Plumber {
         this.jsPlumb.makeTarget(uuid, this.targetDefaults);
     }
 
-    connectNewNode(source: string, target: string) {
-        this.connect(source, target);
-        this.recalculate(target);
-        this.repaint();
-    }
-
     connectExit(exit: Exit) {
         this.connect(exit.uuid, exit.destination_node_uuid);
     }
 
+    private handlePendingConnections() {
+        var targets: { [id: string]: boolean } = {}
+        this.jsPlumb.batch(() => {
+            // console.log("batching " + Object.keys(this.pendingConnections).length + " connections");
+            for (let key in this.pendingConnections) {
+                var connection = this.pendingConnections[key];
+                const { source, target } = connection;
+
+                // already connected
+                if (this.jsPlumb.select({ source: source, target: target }).length == 1) {
+                    continue;
+                }
+
+                if (source != null && target != null) {
+
+                    // any existing connections for our source need to be deleted
+                    this.jsPlumb.select({ source: source }).delete({ fireEvent: false });
+
+                    // now make our new connection
+                    this.jsPlumb.connect({ source: source, target: target, fireEvent: false });
+                }
+
+                targets[target] = true;
+                delete this.pendingConnections[key];
+            }
+        });
+
+        // revalidate the targets that we updated
+        for (let target in targets) {
+            this.revalidate(target);
+        }
+    }
+
+    private checkForPendingConnections() {
+        if (this.pendingConnectionTimeout) {
+            window.clearTimeout(this.pendingConnectionTimeout);
+        }
+
+        this.pendingConnectionTimeout = window.setTimeout(() => {
+            this.handlePendingConnections();
+        }, 100);
+    }
+
     connect(source: string, target: string) {
-
-        // already connected
-        if (this.jsPlumb.select({ source: source, target: target }).length == 1) {
-            return;
-        }
-
-        if (source != null && target != null) {
-
-            // any existing connections for our source need to be deleted
-            this.jsPlumb.select({ source: source }).delete({ fireEvent: false });
-
-            // now make our new connection
-            return this.jsPlumb.connect({ source: source, target: target, fireEvent: false });
-        }
+        this.pendingConnections[source + ":" + target] = { source, target };
+        this.checkForPendingConnections();
     }
 
     bind(event: string, onEvent: Function) {
@@ -112,6 +142,7 @@ export class Plumber {
 
     revalidate(uuid: string) {
         this.jsPlumb.revalidate(uuid);
+        this.jsPlumb.repaint(uuid);
     }
 
     repaint(uuid?: string) {
@@ -130,53 +161,21 @@ export class Plumber {
             this.jsPlumb.remove(uuid);
         } else if (this.jsPlumb.isTarget(uuid)) {
             this.jsPlumb.deleteConnectionsForElement(uuid);
-            // this.jsPlumb.removeConnections(uuid);
         }
-
-        // this.jsPlumb.remove(uuid);
-        // console.log(this.jsPlumb.select({source: uuid}));
-        // console.log(this.jsPlumb.select({source: uuid}).delete());
-        // this.jsPlumb.select({target: uuid}).delete();
-    }
-
-    removeEndpoint(endpoint: any) {
-        this.jsPlumb.deleteEndpoint(endpoint.id);
     }
 
     recalculate(uuid?: string) {
+        this.jsPlumb.revalidate(uuid);
         if (uuid) {
             this.jsPlumb.recalculateOffsets(uuid);
         } else {
             this.jsPlumb.recalculateOffsets();
         }
-        window.setTimeout(() => {
-            this.jsPlumb.repaint(uuid);
-        }, 0)
+        this.jsPlumb.repaint(uuid);
     }
 
     reset() {
         this.jsPlumb.reset();
-    }
-
-    connectAll(flow: FlowDefinition): Promise<boolean> {
-        return new Promise<any>((resolve) => {
-            // console.log('Reconnecting plumbing..');
-            // this will suspend drawing until all nodes are connected
-            this.jsPlumb.ready(() => {
-                this.jsPlumb.batch(() => {
-                    this.jsPlumb.deleteEveryConnection();
-                    // wire everything up
-                    for (let node of flow.nodes) {
-                        if (node.exits) {
-                            for (let exit of node.exits) {
-                                this.connect(exit.uuid, exit.destination_node_uuid);
-                            }
-                        }
-                    }
-                    resolve(true);
-                });
-            });
-        });
     }
 }
 
