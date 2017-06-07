@@ -17,7 +17,7 @@ interface TitleBarState {
  */
 export class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
 
-    timeout: any;
+    private timeout: any;
 
     constructor(props: TitleBarProps) {
         super(props);
@@ -43,7 +43,7 @@ export class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
             confirmingRemoval: true
         })
 
-        this.timeout = window.setTimeout(()=>{
+        this.timeout = window.setTimeout(() => {
             this.setState({
                 confirmingRemoval: false
             })
@@ -58,18 +58,18 @@ export class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
             confirmation = (
                 <div className={styles["remove-confirm"]}>
                     Remove?
-                    <div className={styles["remove-button"]} onMouseUp={this.props.onRemoval}><span className="icon-remove"/></div>
+                    <div className={styles["remove-button"]} onMouseUp={this.props.onRemoval}><span className="icon-remove" /></div>
                 </div>
             )
         }
 
-        return(
+        return (
             <div className={styles.titlebar}>
                 <div className={this.props.className + " " + styles.normal}>
                     {this.props.title}
-                    <div className={styles["remove-button"]} onMouseUp={this.onConfirmRemoval.bind(this)}><span className="icon-remove"/></div>
+                    <div className={styles["remove-button"]} onMouseUp={this.onConfirmRemoval.bind(this)}><span className="icon-remove" /></div>
                 </div>
-                {confirmation} 
+                {confirmation}
             </div>
         )
     }

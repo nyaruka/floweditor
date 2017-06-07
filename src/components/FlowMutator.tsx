@@ -45,6 +45,7 @@ export class FlowMutator {
         this.addContactField = this.addContactField.bind(this);
         this.getGroups = this.getGroups.bind(this);
         this.addGroup = this.addGroup.bind(this);
+        this.disconnectExit = this.disconnectExit.bind(this);
     }
 
     public getContactFields(): ContactFieldResult[] {
@@ -386,6 +387,10 @@ export class FlowMutator {
         return null;
     }
 
+    public disconnectExit(exit: Exit) {
+        this.updateExitDestination(exit.uuid, null);
+    }
+
     private updateExitDestination(exitUUID: string, destination: string) {
         this.updateExit(exitUUID, { $merge: { destination_node_uuid: destination } });
     }
@@ -397,6 +402,7 @@ export class FlowMutator {
      */
     private updateExit(exitUUID: string, changes: any) {
         var details = this.components.getDetails(exitUUID);
+
         this.definition = update(this.definition, {
             nodes: { [details.nodeIdx]: { exits: { [details.exitIdx]: changes } } }
         });

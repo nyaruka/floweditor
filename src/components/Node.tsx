@@ -15,7 +15,7 @@ import { ExitComp } from './Exit';
 import { TitleBar } from './TitleBar';
 import { SwitchRouterProps } from './routers/SwitchRouter';
 
-import { Node, Position, SwitchRouter, Action, UINode } from '../FlowDefinition'
+import { Node, Position, SwitchRouter, Action, UINode, Exit } from '../FlowDefinition'
 
 var styles = require("./Node.scss");
 var shared = require("./shared.scss");
@@ -235,7 +235,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
         var exits: JSX.Element[] = []
         if (this.props.node.exits) {
             for (let exit of this.props.node.exits) {
-                exits.push(<ExitComp exit={exit} key={exit.uuid} />);
+                exits.push(<ExitComp exit={exit} key={exit.uuid} onDisconnect={this.props.context.eventHandler.onDisconnectExit} />);
             }
         }
 

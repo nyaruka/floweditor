@@ -18,7 +18,7 @@ export class Plumber {
     private static singleton: Plumber = new Plumber();
 
     // we batch up connections to apply them together
-    private pendingConnections: { [id: string]: { source: string, target: string } } = {}
+    private pendingConnections: { [id: string]: { source: string, target: string, className: string } } = {}
     private pendingConnectionTimeout: any;
 
     static get(): Plumber {
@@ -84,33 +84,42 @@ export class Plumber {
         this.jsPlumb.makeTarget(uuid, this.targetDefaults);
     }
 
-    connectExit(exit: Exit) {
-        this.connect(exit.uuid, exit.destination_node_uuid);
+    connectExit(exit: Exit, confirmDelete: boolean) {
+        this.connect(exit.uuid, exit.destination_node_uuid, confirmDelete ? "confirm_delete" : null);
     }
 
     private handlePendingConnections() {
         var targets: { [id: string]: boolean } = {}
         this.jsPlumb.batch(() => {
-            // console.log("batching " + Object.keys(this.pendingConnections).length + " connections");
+            var batch = Object.keys(this.pendingConnections).length;
+            if (batch > 1) {
+                console.log("batching " + batch + " connections");
+            }
+
             for (let key in this.pendingConnections) {
                 var connection = this.pendingConnections[key];
-                const { source, target } = connection;
+                const { source, target, className } = connection;
 
-                // already connected
-                if (this.jsPlumb.select({ source: source, target: target }).length == 1) {
-                    continue;
-                }
-
-                if (source != null && target != null) {
-
+                if (source != null) {
                     // any existing connections for our source need to be deleted
                     this.jsPlumb.select({ source: source }).delete({ fireEvent: false });
 
                     // now make our new connection
-                    this.jsPlumb.connect({ source: source, target: target, fireEvent: false });
+                    if (target != null) {
+
+                        // don't allow manual detachments if our connection is styled
+                        if (className) {
+                            this.jsPlumb.connect({ source: source, target: target, fireEvent: false, cssClass: className, detachable: false });
+                        } else {
+                            this.jsPlumb.connect({ source: source, target: target, fireEvent: false, cssClass: className });
+                        }
+                    }
                 }
 
-                targets[target] = true;
+                if (target != null) {
+                    targets[target] = true;
+                }
+
                 delete this.pendingConnections[key];
             }
         });
@@ -128,11 +137,11 @@ export class Plumber {
 
         this.pendingConnectionTimeout = window.setTimeout(() => {
             this.handlePendingConnections();
-        }, 100);
+        }, 0);
     }
 
-    connect(source: string, target: string) {
-        this.pendingConnections[source + ":" + target] = { source, target };
+    connect(source: string, target: string, className: string = null) {
+        this.pendingConnections[source + ":" + target + ":" + className] = { source, target, className };
         this.checkForPendingConnections();
     }
 

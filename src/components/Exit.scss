@@ -23,4 +23,17 @@
         -webkit-box-sizing: content-box !important;
         box-sizing: content-box !important;
     }
+    &.confirm_delete {
+        .endpoint {
+            border-color: $red !important;
+            background: $red !important;
+            color: white;
+            font-size: 13px;
+            span {
+                position: absolute;
+                left: -1px;
+                top: -1px;
+            }
+        }
+    }
 }

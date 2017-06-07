@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ActionProps } from './Action';
-import { FlowDefinition, Action, Node, Position, SendMessage, UINode, SwitchRouter } from '../FlowDefinition';
+import { FlowDefinition, Action, Node, Position, SendMessage, UINode, SwitchRouter, Exit } from '../FlowDefinition';
 import { ContactFieldResult, SearchResult } from './ComponentMap';
 import { NodeComp, NodeProps } from './Node';
 import { NodeModal, NodeModalProps, EditableProps, NodeEditorProps } from './NodeModal';
@@ -25,6 +25,7 @@ export interface FlowContext {
 
 export interface FlowEventHandler {
     onRemoveAction(props: Action): void;
+    onDisconnectExit(exit: Exit): void;
     onNodeMoved(nodeUUID: string, position: Position): void;
     onAddAction(nodeUUID: string): void;
     onRemoveNode(props: Node): void;
@@ -103,7 +104,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                     onEditAction: this.onEditAction,
                     onNodeMoved: this.onNodeMoved,
                     onNodeMounted: this.onNodeMounted,
-                    onAddGroup: this.props.mutator.addGroup
+                    onAddGroup: this.props.mutator.addGroup,
+                    onDisconnectExit: this.props.mutator.disconnectExit
                 },
                 endpoints: this.props.endpoints
             }

@@ -52,7 +52,7 @@ export class FormElement extends React.PureComponent<FormElementProps, {}> {
 
         return (
             <div className={classes.join(" ")}>
-
+                {name}
                 {this.props.children}
                 <div className={styles.bottom}>
                     {helpText}

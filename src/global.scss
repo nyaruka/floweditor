@@ -82,6 +82,7 @@ body {
         &.jtk-dragging {
             z-index: $z_dragging;
         }
+        color: purple;
     }
     .jtk-endpoint {
         z-index: $z_endpoints;
@@ -102,8 +103,17 @@ body {
     }
 }
 
+svg.confirm_delete path {
+    stroke: $red;
+    fill: $red;
+}
+
 .clearfix {
     clear: both;
+}
+
+.emph {
+    font-weight: 500;
 }
 
 

@@ -34,7 +34,12 @@ var reserved = toBoolMap([
 
 export class SaveToContactComp extends ActionComp<SaveToContact> {
     renderNode() {
-        return <div>Update <span className="emph">{this.getAction().field_name} to {this.getAction().value}</span></div>
+        var action = this.getAction();
+        if (action.value) {
+            return <div>Update <span className="emph">{action.field_name}</span> to {this.getAction().value}</div >
+        } else {
+            return <div>Clear value for <span className="emph">{action.field_name}</span></div>
+        }
     }
 }
 
@@ -63,8 +68,6 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
     renderForm(): JSX.Element {
         var initial: SearchResult = null;
         var action = this.getAction();
-
-
 
         if (action) {
             if (action.type == "save_contact_field") {
