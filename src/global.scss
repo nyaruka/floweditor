@@ -102,6 +102,8 @@ body {
     }
 }
 
+
+/*
 ::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 7px;
@@ -112,15 +114,5 @@ body {
     background-color: rgba(0, 0, 0, .5);
     box-shadow: 0 0 1px rgba(255, 255, 255, .5);
     -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
-}
-
-
-/*
-// debug for getCaretPosition
-#input-textarea-caret-position-mirror-div {
-    top: 100px;
-    left: 100px;
-    z-index: 20000;
-    background: #fff
 }
 */
