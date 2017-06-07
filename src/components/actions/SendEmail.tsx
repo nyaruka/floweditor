@@ -6,6 +6,7 @@ import { NodeModalProps } from '../NodeModal';
 import { TextInputElement } from '../form/TextInputElement';
 import { EmailElement } from '../form/EmailElement';
 
+var styles = require('./SendEmail.scss');
 
 export class SendEmailComp extends ActionComp<SendEmail> {
     renderNode(): JSX.Element {
@@ -23,10 +24,10 @@ export class SendEmailForm extends ActionForm<SendEmail, SendEmailState> {
         var action = this.getAction();
         var ref = this.ref.bind(this);
         return (
-            <div>
+            <div className={styles.ele}>
                 <EmailElement ref={ref} name="Recipient" placeholder="To" emails={action.emails} required />
-                <TextInputElement ref={ref} name="Subject" placeholder="Subject" defaultValue={action.subject} autocomplete required />
-                <TextInputElement ref={ref} name="Message" showLabel={false} defaultValue={action.body} autocomplete required textarea />
+                <TextInputElement className={styles.subject} ref={ref} name="Subject" placeholder="Subject" defaultValue={action.subject} autocomplete required />
+                <TextInputElement className={styles.message} ref={ref} name="Message" showLabel={false} defaultValue={action.body} autocomplete required textarea />
             </div>
         )
     }

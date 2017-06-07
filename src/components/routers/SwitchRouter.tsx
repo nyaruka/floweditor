@@ -335,7 +335,7 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
 
             leadIn = (
                 <div className={styles.instructions}>
-                    If the expression
+                    <p>If the expression..</p>
                     <TextInputElement
                         ref={this.ref.bind(this)}
                         name="Expression"
