@@ -58,8 +58,8 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
         this.addEmptyHeader(headers);
 
         this.state = {
-            name: null,
-            setName: false,
+            resultName: null,
+            setResultName: false,
             cases: [],
             headers: headers
         };

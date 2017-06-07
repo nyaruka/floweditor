@@ -211,12 +211,11 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
             if (this.props.node.router.type == "switch") {
                 let switchRouter = this.props.node.router as SwitchRouter;
-                if (switchRouter.name) {
-
+                if (switchRouter.result_name) {
                     if (this.props.ui.type == "expression") {
-                        title = "Split by " + switchRouter.name;
+                        title = "Split by " + switchRouter.result_name;
                     } else if (this.props.ui.type == "wait_for_response") {
-                        title = "Wait for " + switchRouter.name;
+                        title = "Wait for " + switchRouter.result_name;
                     }
                 }
             }

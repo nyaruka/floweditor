@@ -19,8 +19,8 @@ var styles = require('./SwitchRouter.scss');
 
 export class SwitchRouterState {
     cases: CaseProps[]
-    name: string;
-    setName: boolean
+    resultName: string;
+    setResultName: boolean
 }
 
 export interface CaseProps {
@@ -196,15 +196,15 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
         }
 
 
-        var name = "";
+        var resultName = "";
         if (this.props.router) {
-            name = this.props.router.name;
+            resultName = this.props.router.result_name;
         }
 
         this.state = {
             cases: cases,
-            setName: false,
-            name: name
+            setResultName: false,
+            resultName: resultName
         } as S
 
         this.onCaseChanged = this.onCaseChanged.bind(this);
@@ -212,7 +212,7 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
 
     private onShowNameField() {
         this.setState({
-            setName: true
+            setResultName: true
         })
     }
 
@@ -304,12 +304,12 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
         }
 
         var nameField = null;
-        if (this.state.setName || this.state.name) {
+        if (this.state.setResultName || this.state.resultName) {
             nameField = <TextInputElement
                 ref={this.ref.bind(this)}
                 name="Result Name"
                 showLabel={true}
-                defaultValue={this.state.name}
+                defaultValue={this.state.resultName}
                 helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
             />
         } else {
@@ -389,7 +389,7 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
         var optionalRouter = {}
         if (lastElement instanceof TextInputElement) {
             optionalRouter = {
-                name: lastElement.state.value
+                result_name: lastElement.state.value
             }
         }
 
