@@ -78,8 +78,6 @@ export class External {
                     }
                 }
 
-                console.log(details);
-
                 resolve(details);
             }).catch((error) => {
                 reject(error);

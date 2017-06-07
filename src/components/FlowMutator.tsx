@@ -140,8 +140,6 @@ export class FlowMutator {
         draggedFrom: DragPoint = null,
         newPosition: Position = null): Node {
 
-        console.log("updateROUTER", props, type);
-
         console.time("updateRouter");
         var node: Node;
         if (draggedFrom) {
@@ -185,8 +183,6 @@ export class FlowMutator {
         addToNode: string = null): Node {
         console.time("updateAction");
         var node: Node;
-
-        console.log("updateAction", action, this.components.getDetails(action.uuid));
 
         if (draggedFrom) {
             var newNodeUUID = UUID.v4();

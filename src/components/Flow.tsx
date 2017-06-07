@@ -113,8 +113,6 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
     private onEditNode(props: NodeProps) {
 
-        console.log(props.ui);
-
         var uuid = props.node.uuid;
         if (props.ghost) {
             uuid = null;

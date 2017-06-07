@@ -34,7 +34,6 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps> {
         }
 
         var ref = this.ref.bind(this);
-
         return (
             <div>
                 <p>Using a Webhook you can trigger actions in external services or fetch data to use in this Flow. Enter a URL to call below.</p>
@@ -69,11 +68,16 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps> {
         var methodEle = this.getElements()[0] as SelectElement;
         var urlEle = this.getElements()[1] as TextInputElement;
 
+        var method = "GET";
+        if (methodEle.state.value) {
+            method = methodEle.state.value;
+        }
+
         var newAction: Webhook = {
             uuid: this.getUUID(),
             type: this.props.config.type,
             url: urlEle.state.value,
-            method: methodEle.state.value.value
+            method: method
         }
 
         // if we were already a subflow, lean on those exits

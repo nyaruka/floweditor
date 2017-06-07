@@ -43,7 +43,6 @@ export class FlowElement extends FormWidget<FlowElementProps, FlowState> {
     }
 
     onChange(selected: any) {
-        console.log(selected);
         this.setState({
             flow: selected[0]
         });

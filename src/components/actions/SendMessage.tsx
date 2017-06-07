@@ -19,7 +19,6 @@ export class SendMessageComp extends ActionComp<SendMessage> {
 export class SendMessageForm extends ActionForm<SendMessage, {}> {
 
     renderForm(): JSX.Element {
-        console.log("Send message: ", this.props);
         return (
             <TextInputElement ref={this.ref.bind(this)} name="Message" showLabel={false} defaultValue={this.getAction().text} autocomplete required textarea />
         )

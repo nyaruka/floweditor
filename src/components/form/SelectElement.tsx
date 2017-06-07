@@ -7,7 +7,7 @@ var Select = require('react-select');
 var styles = require("./FormElement.scss");
 
 interface SelectElementProps extends FormElementProps {
-    defaultValue: string;
+    defaultValue: any;
     options: any;
     placeholder?: string;
 }
@@ -16,7 +16,6 @@ export class SelectElement extends FormWidget<SelectElementProps, FormValueState
 
     constructor(props: any) {
         super(props);
-
         this.state = {
             value: this.props.defaultValue,
             errors: []
@@ -27,7 +26,7 @@ export class SelectElement extends FormWidget<SelectElementProps, FormValueState
 
     private onChange(value: any) {
         this.setState({
-            value: value
+            value: value.value
         });
     }
 
