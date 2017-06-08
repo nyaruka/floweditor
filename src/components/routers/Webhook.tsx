@@ -15,6 +15,10 @@ import { FormWidget, FormValueState } from '../form/FormWidget';
 var forms = require('../form/FormElement.scss');
 var styles = require('./Webhook.scss');
 
+var defaultBody: string = `{
+    "contact": @(json(contact)),
+    "results": @(json(run.results))
+}`;
 
 export interface Header {
     uuid: string;
@@ -28,17 +32,20 @@ interface WebhookProps extends SwitchRouterProps {
 
 interface WebhookState extends SwitchRouterState {
     headers: Header[];
+    method: string;
 }
 
 export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
     private methodOptions = [{ value: 'GET', label: 'GET' }, { value: 'POST', label: 'POST' }];
-
     constructor(props: WebhookProps) {
         super(props);
         this.onHeaderRemoved = this.onHeaderRemoved.bind(this);
         this.onHeaderChanged = this.onHeaderChanged.bind(this);
+        this.onMethodChanged = this.onMethodChanged.bind(this);
 
         var headers: Header[] = [];
+        var method = "GET";
+
         if (this.props.action) {
             var action = this.props.action;
             if (action.type == "call_webhook") {
@@ -52,6 +59,7 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
                         });
                     }
                 }
+                method = webhookAction.method;
             }
         }
 
@@ -61,7 +69,8 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
             resultName: null,
             setResultName: false,
             cases: [],
-            headers: headers
+            headers: headers,
+            method: method
         };
     }
 
@@ -102,10 +111,17 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
         this.setState({ headers: newHeaders });
     }
 
+    onMethodChanged(method: { value: string, label: string }) {
+        this.setState({ method: method.value });
+    }
+
     renderForm(): JSX.Element {
 
         var method = "GET";
         var url = "";
+
+
+        var postBody = defaultBody;
 
         if (this.props.action) {
             var action = this.props.action;
@@ -113,6 +129,10 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
                 var webhookAction: Webhook = action as Webhook;
                 method = webhookAction.method
                 url = webhookAction.url;
+
+                if (webhookAction.body) {
+                    postBody = webhookAction.body;
+                }
             }
         }
 
@@ -130,9 +150,24 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
             />);
         });
 
-
-        if (headerElements.length) {
-
+        var summary = null;
+        if (this.state.method == "POST") {
+            summary = (
+                <div>
+                    <TextInputElement className={styles.post_body} ref={ref} name="Body" showLabel={false} defaultValue={postBody} helpText="Modify the body of the POST sent to your webhook." textarea autocomplete required />
+                    <p>If your server responds with JSON, each property will be added to the Flow. They can be accessed using <span className={styles.example}>@webhook.json.my_response_value</span></p>
+                </div>
+            )
+        } else {
+            summary = (
+                <div className={styles.instructions}>
+                    <p>If your server responds with JSON, each property will be added to the Flow.</p>
+                    <pre className={styles.code}>{
+                        `{ "product": "Solar Charging Kit", "stock level": 32 }`
+                    }</pre>
+                    <p>In this example <span className={styles.example}>@webhook.json.product</span> and <span className={styles.example}>@webhook.json["stock level"]</span> would be available in all future steps.</p>
+                </div>
+            )
         }
 
         return (
@@ -140,7 +175,7 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
                 <p>Using a Webhook you can trigger actions in external services or fetch data to use in this Flow. Enter a URL to call below.</p>
 
                 <div className={styles.method}>
-                    <SelectElement ref={ref} name="Method" defaultValue={method} options={this.methodOptions} />
+                    <SelectElement ref={ref} name="Method" defaultValue={method} onChange={this.onMethodChanged} options={this.methodOptions} />
                 </div>
                 <div className={styles.url}>
                     <TextInputElement ref={ref} name="URL" placeholder="Enter a URL" defaultValue={url} autocomplete required url />
@@ -150,13 +185,8 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
                     {headerElements}
                 </div>
 
-                <div className={styles.instructions}>
-                    <p>If your server responds with JSON, each property will be added to Flow.</p>
-                    <pre className={styles.code}>{
-                        `{ "product": "Solar Charging Kit", "stock level": 32 }`
-                    }</pre>
-                    <p>In this example <span className={styles.example}>@webhook.json.product</span> and <span className={styles.example}>@webhook.json["stock level"]</span> would be available in all future steps.</p>
-                </div>
+                {summary}
+
             </div>
         )
     }
@@ -174,10 +204,18 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
 
         var methodEle = eles[0] as SelectElement;
         var urlEle = eles[1] as TextInputElement;
+        var Ele = eles[1] as TextInputElement;
 
         var method = "GET";
+        var body = null;
+
         if (methodEle.state.value) {
             method = methodEle.state.value;
+        }
+
+        if (method == "POST") {
+            var bodyEle = eles[eles.length - 1] as TextInputElement;
+            body = bodyEle.state.value
         }
 
         // go through any headers we have
@@ -190,13 +228,13 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
             }
         });
 
-
         var newAction: Webhook = {
             uuid: this.getUUID(),
             type: this.props.config.type,
             url: urlEle.state.value,
             headers: headers,
-            method: method
+            method: method,
+            body: body
         }
 
         // if we were already a subflow, lean on those exits
