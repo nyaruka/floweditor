@@ -3,6 +3,7 @@ import { ChangeGroupComp, ChangeGroupForm } from '../components/actions/ChangeGr
 import { SaveToContactComp, SaveToContactForm } from '../components/actions/SaveToContact';
 import { SendMessageComp, SendMessageForm } from '../components/actions/SendMessage';
 import { WebhookComp } from '../components/actions/Webhook';
+import { SaveFlowResultComp, SaveFlowResultForm } from '../components/actions/SaveFlowResult';
 import { StartFlowComp } from '../components/actions/StartFlow';
 import { SendEmailComp, SendEmailForm } from '../components/actions/SendEmail';
 import { SwitchRouterForm } from '../components/routers/SwitchRouter';
@@ -84,6 +85,7 @@ export class Config {
         { type: "remove_from_group", name: "Remove from Group", description: "Remove them from a group", form: ChangeGroupForm, component: ChangeGroupComp },
         { type: "save_contact_field", name: "Update Contact", description: "Update the contact", form: SaveToContactForm, component: SaveToContactComp, aliases: ["update_contact"] },
         { type: "send_email", name: "Send Email", description: "Send an email", form: SendEmailForm, component: SendEmailComp },
+        { type: "save_flow_result", name: "Save Flow Result", description: "Save a result for this flow", form: SaveFlowResultForm, component: SaveFlowResultComp },
 
         // {type: "add_label", name: "Add Label", description: "Label the message", component: Missing},
         // {type: "set_preferred_channel", name: "Set Preferred Channel", description: "Set their preferred channel", component: Missing},
