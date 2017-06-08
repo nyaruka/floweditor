@@ -6,3 +6,7 @@ export function toBoolMap(array: string[]): { [item: string]: boolean } {
     }
     return map;
 }
+
+export function addCommas(value: number): string {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

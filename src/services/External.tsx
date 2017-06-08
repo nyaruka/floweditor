@@ -11,6 +11,18 @@ export interface FlowDetails {
 }
 
 /**
+ * Contains all the activity data for a flow
+ */
+export interface Activity {
+
+    // exit_uuid:destination_node_uuid -> count
+    paths: { [key: string]: number };
+
+    // node_uuid -> count
+    active: { [key: string]: number };
+}
+
+/**
  * Exgternal API Accessor.
  */
 export class External {
@@ -29,6 +41,20 @@ export class External {
         } else {
             return {};
         }
+    }
+
+    /**
+     * Gets the path activity and the count of active particpants at each node
+     */
+    public getActivity(): Promise<Activity> {
+        return new Promise<Activity>((resolve, reject) => {
+            axios.get(this.endpoints.activity, { headers: this.headers }).then((response: AxiosResponse) => {
+                resolve(response.data as Activity);
+            }).catch((error) => {
+                reject(error);
+            });
+
+        });
     }
 
     /**

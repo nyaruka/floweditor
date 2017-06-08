@@ -14,8 +14,11 @@ import { ActionComp } from './Action';
 import { ExitComp } from './Exit';
 import { TitleBar } from './TitleBar';
 import { SwitchRouterProps } from './routers/SwitchRouter';
+import { External } from '../services/External';
 
 import { Node, Position, SwitchRouter, Action, UINode, Exit } from '../FlowDefinition'
+import { CounterComp } from "./Counter";
+import { ActivityManager } from "../services/ActivityManager";
 
 var styles = require("./Node.scss");
 var shared = require("./shared.scss");
@@ -38,6 +41,7 @@ export interface NodeProps {
     node: Node;
     context: FlowContext;
     ui: UINode;
+    external: External;
     ghost?: boolean;
 }
 
@@ -238,7 +242,13 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
         var exits: JSX.Element[] = []
         if (this.props.node.exits) {
             for (let exit of this.props.node.exits) {
-                exits.push(<ExitComp exit={exit} key={exit.uuid} onDisconnect={this.props.context.eventHandler.onDisconnectExit} />);
+                exits.push(
+                    <ExitComp
+                        exit={exit}
+                        key={exit.uuid}
+                        onDisconnect={this.props.context.eventHandler.onDisconnectExit}
+                    />
+                );
             }
         }
 
@@ -261,6 +271,8 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
             exitClass = styles.actions;
         }
 
+        var activity = ActivityManager.get();
+
         // console.log("Rendering node", this.props.uuid);
         return (
             <div className={classes.join(' ')}
@@ -270,6 +282,13 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                     left: this.props.ui.position.x,
                     top: this.props.ui.position.y
                 }}>
+                <CounterComp
+                    ref={activity.registerListener}
+                    getCount={() => { return activity.getActiveCount(this.props.node.uuid) }}
+                    onUnmount={(key: string) => { activity.deregister(key); }}
+                    containerStyle={styles.active}
+                    countStyle={styles.count}
+                />
                 {header}
                 <div className={styles.actions}>
                     {actions}

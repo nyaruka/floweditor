@@ -18,6 +18,7 @@ export interface Endpoints {
     engine: string;
     contacts: string;
     flows: string;
+    activity: string;
 }
 
 export interface TypeConfig {
@@ -97,7 +98,6 @@ export class Config {
         // routers
         { type: "expression", name: "Split by Expression", description: "Split by a custom expression", form: ExpressionForm },
         { type: "wait_for_response", name: "Wait for Response", description: "Wait for them to respond", form: WaitForResponseForm },
-
         // {type: "random", name: "Random Split", description: "Split them up randomly", form: RandomRouterForm}
     ]
 
