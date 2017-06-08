@@ -40,6 +40,7 @@ export class FlowMutator {
         this.quietSave = quietSave;
 
         this.removeAction = this.removeAction.bind(this);
+        this.moveActionUp = this.moveActionUp.bind(this);
         this.removeNode = this.removeNode.bind(this);
         this.getContactFields = this.getContactFields.bind(this);
         this.addContactField = this.addContactField.bind(this);
@@ -343,8 +344,20 @@ export class FlowMutator {
         this.markDirty();
     }
 
-    public removeAction(props: Action) {
-        let details = this.getComponents().getDetails(props.uuid);
+    public moveActionUp(action: Action) {
+        let details = this.getComponents().getDetails(action.uuid);
+        let node = this.definition.nodes[details.nodeIdx];
+
+        if (details.actionIdx > 0) {
+            var actionAbove = node.actions[details.actionIdx - 1];
+            this.updateNode(node.uuid, { actions: { $splice: [[details.actionIdx - 1, 2, action, actionAbove]] } });
+        }
+
+        this.markDirty();
+    }
+
+    public removeAction(action: Action) {
+        let details = this.getComponents().getDetails(action.uuid);
         let node = this.definition.nodes[details.nodeIdx];
 
         // if it's our last action, then nuke the node
@@ -354,7 +367,7 @@ export class FlowMutator {
 
         // otherwise, just splice out that action
         else {
-            let details = this.components.getDetails(props.uuid);
+            let details = this.components.getDetails(action.uuid);
             this.updateNode(node.uuid, { actions: { $splice: [[details.actionIdx, 1]] } })
         }
 

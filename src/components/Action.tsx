@@ -18,6 +18,9 @@ export interface ActionProps extends NodeEditorProps {
     action: Action;
     context: FlowContext;
     dragging: boolean;
+
+    // are we the first action in the list
+    first: boolean;
 }
 
 /**
@@ -60,6 +63,11 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
         this.props.context.eventHandler.onRemoveAction(this.props.action);
     }
 
+    private onMoveUp(evt: React.SyntheticEvent<MouseEvent>) {
+        evt.stopPropagation();
+        this.props.context.eventHandler.onMoveActionUp(this.props.action);
+    }
+
     renderNode(): JSX.Element {
         return null;
     }
@@ -71,10 +79,19 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
         return (
             <div id={this.props.action.uuid} className={styles.action}>
                 <div {...events}>
-                    <TitleBar className={shared[this.props.action.type]} title={config.name} onRemoval={this.onRemoval.bind(this)} />
+
+                    <TitleBar
+                        className={shared[this.props.action.type]}
+                        title={config.name}
+                        onRemoval={this.onRemoval.bind(this)}
+                        showMove={!this.props.first}
+                        onMoveUp={this.onMoveUp.bind(this)}
+                    />
+
                     <div className={styles.body}>
                         {this.renderNode()}
                     </div>
+
                 </div>
             </div>
         )

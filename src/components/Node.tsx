@@ -147,7 +147,8 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                     context: this.props.context,
                     type: action.type,
                     dragging: false,
-                    config: Config.get().getTypeConfig(action.type)
+                    config: Config.get().getTypeConfig(action.type),
+                    first: this.props.node.actions.length == 1
                 };
 
                 this.props.context.eventHandler.onEditAction(actionProps, false);
@@ -175,6 +176,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
         if (this.props.node.actions) {
             // save the first reference off to manage our clicks
             var firstRef: any = { ref: (ele: any) => { this.firstAction = ele } };
+            var first = true;
             for (let action of this.props.node.actions) {
                 let actionConfig = Config.get().getTypeConfig(action.type);
                 if (actionConfig.component != null) {
@@ -185,8 +187,10 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                         dragging: this.state.dragging,
                         key: action.uuid,
                         context: this.props.context,
+                        first: first,
                     } as ActionProps));
                 }
+                first = false;
                 firstRef = {};
             }
         }
@@ -270,7 +274,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                 <div className={styles.actions}>
                     {actions}
                 </div>
-                <div className={styles["exit-table"] + " " + exitClass}>
+                <div className={styles.exit_table + " " + exitClass}>
                     <div className={styles.exits} {...events}>
                         {exits}
                     </div>

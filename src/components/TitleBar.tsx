@@ -5,7 +5,11 @@ var styles = require("./TitleBar.scss");
 interface TitleBarProps {
     title: string;
     className?: string;
+
     onRemoval(event: React.MouseEvent<HTMLDivElement>): any;
+
+    showMove?: boolean;
+    onMoveUp?(event: React.MouseEvent<HTMLDivElement>): any;
 }
 
 interface TitleBarState {
@@ -21,6 +25,7 @@ export class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
 
     constructor(props: TitleBarProps) {
         super(props);
+        this.onConfirmRemoval = this.onConfirmRemoval.bind(this);
         this.state = {
             confirmingRemoval: false
         }
@@ -56,18 +61,26 @@ export class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
 
         if (this.state.confirmingRemoval) {
             confirmation = (
-                <div className={styles["remove-confirm"]}>
+                <div className={styles.remove_confirm}>
                     Remove?
-                    <div className={styles["remove-button"]} onMouseUp={this.props.onRemoval}><span className="icon-remove" /></div>
+                    <div className={styles.remove_button} onMouseUp={this.props.onRemoval}><span className="icon-remove" /></div>
                 </div>
             )
+        }
+
+        var moveArrow = null;
+        if (this.props.showMove) {
+            moveArrow = <div className={styles.up_button} onMouseUp={this.props.onMoveUp}><span className="icon-arrow-up" /></div>
+        } else {
+            moveArrow = <div className={styles.up_button} />
         }
 
         return (
             <div className={styles.titlebar}>
                 <div className={this.props.className + " " + styles.normal}>
+                    {moveArrow}
                     {this.props.title}
-                    <div className={styles["remove-button"]} onMouseUp={this.onConfirmRemoval.bind(this)}><span className="icon-remove" /></div>
+                    <div className={styles.remove_button} onMouseUp={this.onConfirmRemoval}><span className="icon-remove" /></div>
                 </div>
                 {confirmation}
             </div>

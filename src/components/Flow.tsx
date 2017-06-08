@@ -24,7 +24,8 @@ export interface FlowContext {
 }
 
 export interface FlowEventHandler {
-    onRemoveAction(props: Action): void;
+    onRemoveAction(action: Action): void;
+    onMoveActionUp(action: Action): void;
     onDisconnectExit(exit: Exit): void;
     onNodeMoved(nodeUUID: string, position: Position): void;
     onAddAction(nodeUUID: string): void;
@@ -98,6 +99,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                 eventHandler: {
                     onAddContactField: this.props.mutator.addContactField,
                     onRemoveAction: this.props.mutator.removeAction,
+                    onMoveActionUp: this.props.mutator.moveActionUp,
                     onAddAction: this.onAddAction,
                     onRemoveNode: this.props.mutator.removeNode,
                     onEditNode: this.onEditNode,
@@ -192,7 +194,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             dragging: false,
             type: "reply",
             uuid: uuid,
-            config: Config.get().getTypeConfig("reply")
+            config: Config.get().getTypeConfig("reply"),
+            first: false
         };
 
         var editableProps: EditableProps = {
