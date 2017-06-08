@@ -7,6 +7,7 @@ var Select = require('react-select');
 var styles = require("./FormElement.scss");
 
 interface SelectElementProps extends FormElementProps {
+    onChange(value: any): void;
     defaultValue: any;
     options: any;
     placeholder?: string;
@@ -27,6 +28,10 @@ export class SelectElement extends FormWidget<SelectElementProps, FormValueState
     private onChange(value: any) {
         this.setState({
             value: value.value
+        }, () => {
+            if (this.props.onChange) {
+                this.props.onChange(value);
+            }
         });
     }
 

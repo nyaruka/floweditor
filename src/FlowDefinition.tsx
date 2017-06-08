@@ -88,6 +88,7 @@ export interface SaveFlowResult extends Action {
 export interface Webhook extends Action {
     url: string;
     method: string;
+    body?: string;
     headers?: { [name: string]: string };
 }
 

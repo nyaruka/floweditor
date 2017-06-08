@@ -70,3 +70,13 @@
     display: inline-block;
     margin-left: 10px;
 }
+
+.post_body {
+    margin-top: 8px;
+    textarea {
+        unicode-bidi: embed;
+        font-family: monospace;
+        white-space: pre;
+        font-weight: 300;
+    }
+}
