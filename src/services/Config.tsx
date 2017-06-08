@@ -33,6 +33,9 @@ export interface Operator {
     type: string;
     verboseName: string;
     operands: number;
+
+    // Default category name to use if specified
+    categoryName?: string;
 }
 
 export class Config {
@@ -132,16 +135,14 @@ export class Config {
         { type: "has_date_gt", verboseName: "has a date after", operands: 1 },
 
         // { type: "has_run_status", verboseName: "has a run status of", operands: 1 },
-
         // { type: "has_group", verboseName: "is in the group", operands: 1},        
-        // { type: "has_text", verboseName: "has some text", operands: 0},
-        // { type: "has_number", verboseName: "has a number", operands: 0},
-        // { type: "has_phone", verboseName: "has a phone number", operands: 0},
-        // { type: "has_email", verboseName: "has an email", operands: 0},
-        // { type: "has_error", verboseName: "has an error", operands: 0},
-        // { type: "has_value", verboseName: "is not empty", operands: 0},
 
-
+        { type: "has_text", verboseName: "has some text", operands: 0, categoryName: "Has Text" },
+        { type: "has_number", verboseName: "has a number", operands: 0, categoryName: "Number" },
+        { type: "has_phone", verboseName: "has a phone number", operands: 0, categoryName: "Phone" },
+        { type: "has_email", verboseName: "has an email", operands: 0, categoryName: "Email" },
+        { type: "has_error", verboseName: "has an error", operands: 0, categoryName: "Error" },
+        { type: "has_value", verboseName: "is not empty", operands: 0, categoryName: "Not Empty" },
     ]
 }
 

@@ -24,6 +24,7 @@ interface CaseElementState extends FormValueState {
 export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> {
 
     private category: TextInputElement;
+    private operatorConfig: Operator;
 
     constructor(props: CaseElementProps) {
         super(props);
@@ -34,7 +35,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
         }
 
         this.hasArguments = this.hasArguments.bind(this);
-
+        this.operatorConfig = Config.get().getOperatorConfig(props.kase.type);
         this.state = {
             errors: [],
             operator: props.kase.type,
@@ -43,7 +44,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
         }
     }
 
-    private generateExitName(args: string[]): string {
+    private generateExitNameFromArguments(args: string[]): string {
 
         var prefix = "";
         if (this.state.operator.indexOf("_lt") > -1) {
@@ -76,20 +77,30 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
             }
             return prefix + args[0].charAt(0).toUpperCase() + args[0].slice(1);
         }
+
         return null;
     }
 
-    private getExitName(args: string[]) {
+    private getExitName(args: string[] = null) {
         var exitName = this.state.exitName;
-        if (!exitName || exitName == this.generateExitName(this.props.kase.arguments)) {
-            exitName = this.generateExitName(args);
+        if (args == null) {
+            // if the category name is specified for our operator, use that
+            if (this.operatorConfig.categoryName) {
+                exitName = this.operatorConfig.categoryName;
+            }
+        } else {
+            if (!exitName || exitName == this.generateExitNameFromArguments(this.props.kase.arguments)) {
+                exitName = this.generateExitNameFromArguments(args);
+            }
         }
         return exitName;
     }
 
     private onChangeOperator(val: Operator) {
+        this.operatorConfig = val;
         this.setState({
             operator: val.type,
+            exitName: this.getExitName(),
         }, () => {
             this.props.onChanged(this);
         });
@@ -126,35 +137,45 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
 
         var errors: string[] = [];
 
-        // if we have arguments, we need an exit name
-        if (this.hasArguments()) {
-            if (!this.category.state.value) {
-                errors.push("A category name is required.");
+        if (this.operatorConfig.operands == 0) {
+            if (this.state.exitName.trim().length == 0) {
+                errors.push("A category name is required when using \"" + this.operatorConfig.verboseName + "\"");
             }
         }
 
-        // if we have an exit name we need arguments
-        if (this.state.exitName) {
-            if (!this.hasArguments()) {
-                var operator = Config.get().getOperatorConfig(this.state.operator);
-                errors.push("When using \"" + operator.verboseName + "\", an argument is required.");
-            }
-        }
+        // check our argument list
+        else {
 
-        // validate numeric and date operators
-        if (this.hasArguments() && this.state.arguments[0].trim().indexOf("@") != 0) {
-            if (this.state.operator.indexOf("number") > -1) {
-                if (this.state.arguments[0]) {
-                    if (isNaN(parseInt(this.state.arguments[0]))) {
-                        errors.push("Enter a number when using numeric rules.");
-                    }
+            // if we have arguments, we need an exit name
+            if (this.hasArguments()) {
+                if (!this.category.state.value) {
+                    errors.push("A category name is required.");
                 }
             }
 
-            if (this.state.operator.indexOf("date") > -1) {
-                if (this.state.arguments[0]) {
-                    if (isNaN(Date.parse(this.state.arguments[0]))) {
-                        errors.push("Enter a date when using date rules (e.g. 1/1/2017).");
+            // if we have an exit name we need arguments
+            if (this.state.exitName) {
+                if (!this.hasArguments()) {
+                    var operator = Config.get().getOperatorConfig(this.state.operator);
+                    errors.push("When using \"" + operator.verboseName + "\", an argument is required.");
+                }
+            }
+
+            // validate numeric and date operators
+            if (this.hasArguments() && this.state.arguments[0].trim().indexOf("@") != 0) {
+                if (this.state.operator.indexOf("number") > -1) {
+                    if (this.state.arguments[0]) {
+                        if (isNaN(parseInt(this.state.arguments[0]))) {
+                            errors.push("Enter a number when using numeric rules.");
+                        }
+                    }
+                }
+
+                if (this.state.operator.indexOf("date") > -1) {
+                    if (this.state.arguments[0]) {
+                        if (isNaN(Date.parse(this.state.arguments[0]))) {
+                            errors.push("Enter a date when using date rules (e.g. 1/1/2017).");
+                        }
                     }
                 }
             }
@@ -171,6 +192,11 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
         }
 
         var value = this.state.arguments ? this.state.arguments[0] : "";
+
+        var args: JSX.Element = null;
+        if (this.operatorConfig.operands == 1) {
+            args = <TextInputElement className={styles.input} name="arguments" onChange={this.onChangeArguments.bind(this)} defaultValue={value} autocomplete />
+        }
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors} className={styles.group}>
@@ -189,7 +215,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
                         />
                     </div>
                     <div className={styles.operand}>
-                        <TextInputElement className={styles.input} name="arguments" onChange={this.onChangeArguments.bind(this)} defaultValue={value} autocomplete />
+                        {args}
                     </div>
                     <div className={styles["categorize-as"]}>
                         categorize as
