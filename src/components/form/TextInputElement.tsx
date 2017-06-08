@@ -430,7 +430,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
         }
 
         return (
-            <FormElement className={this.props.className} name={this.props.name} showLabel={this.props.showLabel} errors={this.state.errors}>
+            <FormElement className={this.props.className} name={this.props.name} helpText={this.props.helpText} showLabel={this.props.showLabel} errors={this.state.errors}>
                 <div className={styles.wrapper}>
                     <TextElement ref={(ref: any) => { this.textElement = ref }}
                         className={classes.join(" ")}

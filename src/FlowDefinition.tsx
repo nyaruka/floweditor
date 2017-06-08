@@ -79,6 +79,12 @@ export interface SendEmail extends Action {
     emails: string[]
 }
 
+export interface SaveFlowResult extends Action {
+    result_name: string;
+    value: string;
+    category: string;
+}
+
 export interface Webhook extends Action {
     url: string;
     method: string;
