@@ -16,8 +16,10 @@ var forms = require('../form/FormElement.scss');
 var styles = require('./Webhook.scss');
 
 var defaultBody: string = `{
-    "contact": @(json(contact)),
-    "results": @(json(run.results))
+    "contact": @(to_json(contact.uuid)),
+    "contact_urn": @(to_json(contact.urns)),
+    "message": @(to_json(input.text)),
+    "flow": @(to_json(run.flow_uuid))
 }`;
 
 export interface Header {
