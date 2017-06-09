@@ -86,6 +86,7 @@ interface Run {
 interface RunContext {
     contact: Contact;
     session: Session;
+    events: Event[];
 }
 
 interface Session {
@@ -278,7 +279,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     }
 
     private updateRunContext(body: any, runContext: RunContext) {
-        var events = update(this.state.events, { $push: runContext.session.events });
+        var events = update(this.state.events, { $push: runContext.events });
         this.setState({
             session: runContext.session,
             contact: runContext.contact,
