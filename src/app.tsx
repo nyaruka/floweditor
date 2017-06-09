@@ -54,7 +54,9 @@ var contacts = root.getAttribute("contacts");
 var groups = root.getAttribute("groups");
 var engine = root.getAttribute("engine");
 var flows = root.getAttribute("flows");
+var activity = root.getAttribute("activity");
 var flowUUID = root.getAttribute("flow");
+
 
 var endpoints: Endpoints = {
   engine: engine ? engine : 'http://localhost:9000',
@@ -62,6 +64,7 @@ var endpoints: Endpoints = {
   groups: groups ? groups : 'http://localhost:9000/assets/groups.json',
   fields: fields ? fields : 'http://localhost:9000/assets/fields.json',
   flows: flows ? flows : 'http://localhost:9000/assets/flows.json',
+  activity: activity ? activity : 'http://localhost:9000/assets/activity.json'
 }
 
 ReactDOM.render(

@@ -54,3 +54,19 @@
         }
     }
 }
+
+.active {
+    position: absolute;
+    background: $active_color;
+    border: 1px solid $active_color - #111;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    padding: 3px 5px;
+    color: #fff;
+    font-weight: 500;
+    top: -10px;
+    left: -10px;
+    font-size: 13px;
+    cursor: default;
+}

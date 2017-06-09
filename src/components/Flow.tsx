@@ -10,6 +10,7 @@ import { Plumber } from '../services/Plumber';
 import { External } from '../services/External';
 import { Config, Endpoints } from '../services/Config';
 import { SwitchRouterProps, SwitchRouterForm } from "./routers/SwitchRouter";
+import { ActivityManager } from "../services/ActivityManager";
 
 var update = require('immutability-helper');
 var UUID = require('uuid');
@@ -84,6 +85,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.onUpdateRouter = this.onUpdateRouter.bind(this);
         this.onModalClose = this.onModalClose.bind(this);
 
+        ActivityManager.initialize(this.props.external);
+
         this.state = {
             loading: true,
             modalProps: {
@@ -155,7 +158,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                 var nodeProps: NodeProps = {
                     node: node,
                     context: this.state.context,
-                    ui: this.props.mutator.getNodeUI(node.uuid)
+                    ui: this.props.mutator.getNodeUI(node.uuid),
+                    external: this.props.external
                 }
                 this.onEditNode(nodeProps);
             }
@@ -436,7 +440,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var nodes: JSX.Element[] = [];
         for (let node of this.props.definition.nodes) {
             var uiNode = this.props.definition._ui.nodes[node.uuid];
-            nodes.push(<NodeComp key={node.uuid} node={node} ui={uiNode} context={this.state.context} />)
+            nodes.push(<NodeComp key={node.uuid} node={node} ui={uiNode} context={this.state.context} external={this.props.external} />)
         }
 
         var dragNode = null;
@@ -459,6 +463,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                 context={this.state.context}
                 ui={ui}
                 ghost={true}
+                external={this.props.external}
             />
         }
 
