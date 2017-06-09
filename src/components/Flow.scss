@@ -14,7 +14,16 @@
     margin: 0;
 }
 
-.node-list {
+.node_list {
     height: inherit;
     position: relative;
+}
+
+.flow_name {
+    font-weight: 300;
+    font-size: 30px;
+    border-bottom: 1px solid #e6e6e6;
+    margin-bottom: 20px;
+    padding-bottom: 6px;
+    margin-right: 5%;
 }

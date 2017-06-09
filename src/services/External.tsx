@@ -2,24 +2,13 @@ import axios from 'axios';
 import { AxiosResponse } from 'axios';
 import { Endpoints } from '../services/Config';
 import { FlowDefinition, StartFlow } from '../FlowDefinition';
+import { Activity } from "./ActivityManager";
 
 export interface FlowDetails {
     uuid: string;
     name: string;
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
-}
-
-/**
- * Contains all the activity data for a flow
- */
-export interface Activity {
-
-    // exit_uuid:destination_node_uuid -> count
-    paths: { [key: string]: number };
-
-    // node_uuid -> count
-    active: { [key: string]: number };
 }
 
 /**
