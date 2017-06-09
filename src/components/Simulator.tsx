@@ -261,7 +261,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 }
             }
 
-            var activity: Activity = { paths: paths, active: active };
+            var activity: Activity = { segments: paths, nodes: active };
+
+            // console.log(JSON.stringify(activity, null, 1));
             ActivityManager.get().setSimulation(activity);
 
             if (activeFlow && activeFlow != this.currentFlow) {
@@ -384,7 +386,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             // clear our viewing definition
             if (!this.state.visible) {
                 this.props.showDefinition(null);
-                ActivityManager.get().clearSimulation();
+                window.setTimeout(() => {
+                    ActivityManager.get().clearSimulation();
+                }, 500);
             } else {
                 this.updateActivity();
 
