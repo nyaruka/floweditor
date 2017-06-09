@@ -124,7 +124,7 @@ export class FieldElement extends FormWidget<FieldElementProps, FieldState> {
                     name={this.props.name}
                     url={this.props.endpoint}
                     resultType="field"
-                    localSearchOptions={ComponentMap.get().getContactFields()}
+                    localSearchOptions={this.props.localFields}
                     multi={false}
                     clearable={false}
                     initial={initial}

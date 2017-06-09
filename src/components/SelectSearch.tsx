@@ -129,6 +129,10 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
     private onInputChange(value: string) {
     }
 
+    private filterOption(option: SearchResult, term: string) {
+        return (option.name.toLowerCase().indexOf(term.toLowerCase()) > -1);
+    }
+
     render() {
         var value: any;
 
@@ -189,9 +193,7 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
                     searchable={true}
                     onCloseResetsInput={true}
                     onBlurResetsInput={true}
-                    filterOption={(option: SearchResult, term: string) => {
-                        return (option.name.toLowerCase().indexOf(term.toLowerCase()) > -1);
-                    }}
+                    filterOption={this.filterOption}
                     onInputChange={this.onInputChange.bind(this)}
                     onChange={this.onChange.bind(this)}
                     {...options}
@@ -205,7 +207,8 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
                     name={this.props.name}
                     loadOptions={this.loadOptions.bind(this)}
                     clearable={this.props.clearable}
-                    ignoreCase={true}
+                    ignoreCase={false}
+                    ignoreAccents={false}
                     value={value}
                     openOnFocus={true}
                     cache={false}
@@ -215,6 +218,7 @@ export class SelectSearch extends React.PureComponent<SelectSearchProps, SelectS
                     searchable={true}
                     onCloseResetsInput={true}
                     onBlurResetsInput={true}
+                    filterOption={this.filterOption}
                     onInputChange={this.onInputChange.bind(this)}
                     onChange={this.onChange.bind(this)}
                     {...options}
