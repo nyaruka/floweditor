@@ -34,7 +34,7 @@ export class FlowMutator {
         this.saveMethod = saveMethod;
         this.updateMethod = updateMethod;
         this.loaderProps = loaderProps;
-        this.components = new ComponentMap(this.definition);
+        this.components = ComponentMap.initialize(this.definition);
 
         this.quietUI = quiteUI;
         this.quietSave = quietSave;
@@ -43,9 +43,7 @@ export class FlowMutator {
         this.moveActionUp = this.moveActionUp.bind(this);
         this.removeNode = this.removeNode.bind(this);
         this.getContactFields = this.getContactFields.bind(this);
-        this.addContactField = this.addContactField.bind(this);
         this.getGroups = this.getGroups.bind(this);
-        this.addGroup = this.addGroup.bind(this);
         this.disconnectExit = this.disconnectExit.bind(this);
     }
 
@@ -132,7 +130,7 @@ export class FlowMutator {
             this.components.addPendingConnection(props.uuid, pendingConnection);
         }
 
-        this.components.initializeUUIDMap(this.definition);
+        this.components.refresh(this.definition);
         this.markDirty();
         console.timeEnd("addNode");
         return props;
@@ -167,7 +165,7 @@ export class FlowMutator {
         var uiNode = this.definition._ui.nodes[props.uuid];
         this.updateNodeUI(props.uuid, { $merge: { type: type } })
 
-        this.components.initializeUUIDMap(this.definition);
+        this.components.refresh(this.definition);
         this.markDirty();
 
         console.timeEnd("updateRouter");
@@ -213,7 +211,7 @@ export class FlowMutator {
                 }
             });
 
-            this.components.initializeUUIDMap(this.definition);
+            this.components.refresh(this.definition);
         }
         else {
             // update the action into our new flow definition
@@ -277,7 +275,7 @@ export class FlowMutator {
     updateNode(uuid: string, changes: any) {
         var index = this.components.getDetails(uuid).nodeIdx
         this.definition = update(this.definition, { nodes: { [index]: changes } });
-        this.components.initializeUUIDMap(this.definition);
+        this.components.refresh(this.definition);
         this.markDirty();
     }
 
@@ -309,7 +307,7 @@ export class FlowMutator {
             }
         }
 
-        this.components.initializeUUIDMap(this.definition);
+        this.components.refresh(this.definition);
         this.markDirty();
     }
 
@@ -340,12 +338,12 @@ export class FlowMutator {
         // remove us from the ui map as well
         this.definition = update(this.definition, { _ui: { nodes: { $unset: [props.uuid] } } });
 
-        this.components.initializeUUIDMap(this.definition);
+        this.components.refresh(this.definition);
         this.markDirty();
     }
 
     public moveActionUp(action: Action) {
-        let details = this.getComponents().getDetails(action.uuid);
+        let details = this.components.getDetails(action.uuid);
         let node = this.definition.nodes[details.nodeIdx];
 
         if (details.actionIdx > 0) {
@@ -357,7 +355,7 @@ export class FlowMutator {
     }
 
     public removeAction(action: Action) {
-        let details = this.getComponents().getDetails(action.uuid);
+        let details = this.components.getDetails(action.uuid);
         let node = this.definition.nodes[details.nodeIdx];
 
         // if it's our last action, then nuke the node
@@ -385,7 +383,7 @@ export class FlowMutator {
         var pendingConnection = this.components.getPendingConnection(props.uuid);
         if (pendingConnection != null) {
             this.updateExitDestination(pendingConnection.exitUUID, props.uuid);
-            this.components.initializeUUIDMap(this.definition);
+            this.components.refresh(this.definition);
             this.markDirty();
             // remove our pending connection
             this.components.removePendingConnection(props.uuid);
@@ -428,25 +426,11 @@ export class FlowMutator {
         let nodeUUID = this.components.getDetails(source).nodeUUID;
         if (nodeUUID != target) {
             this.updateExitDestination(source, target);
-            this.components.initializeUUIDMap(this.definition);
+            this.components.refresh(this.definition);
         } else {
             console.error("Attempt to route to self, ignored");
         }
     }
-
-    public getComponents() {
-        return this.components;
-    }
-
-    public addContactField(field: SearchResult): ContactFieldResult {
-        return this.components.addContactField(field);
-    }
-
-    public addGroup(group: SearchResult): SearchResult {
-        return this.components.addGroup(group);
-    }
-
-
 }
 
 export default FlowMutator;

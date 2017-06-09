@@ -154,7 +154,7 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
         if (this.state.method == "POST") {
             summary = (
                 <div>
-                    <TextInputElement className={styles.post_body} ref={ref} name="Body" showLabel={false} defaultValue={postBody} helpText="Modify the body of the POST sent to your webhook." textarea autocomplete required />
+                    <TextInputElement className={styles.post_body} ref={ref} name="Body" showLabel={false} defaultValue={postBody} helpText="Modify the body of the POST sent to your webhook." autocomplete textarea required />
                     <p>If your server responds with JSON, each property will be added to the Flow. They can be accessed using <span className={styles.example}>@webhook.json.my_response_value</span></p>
                 </div>
             )

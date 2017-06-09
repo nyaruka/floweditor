@@ -34,15 +34,15 @@ export class ActivityManager {
     private listeners: { [key: string]: CounterComp } = {};
     private timer: any;
 
-    static get(): ActivityManager {
+    public static get(): ActivityManager {
         return ActivityManager.singleton;
     }
 
-    static initialize(external: External, flowUUID: string) {
+    public static initialize(external: External, flowUUID: string) {
         this.singleton = new ActivityManager(external, flowUUID);
     }
 
-    constructor(external: External, flowUUID: string) {
+    private constructor(external: External, flowUUID: string) {
         this.external = external;
         this.flowUUID = flowUUID;
         this.fetchActivity();

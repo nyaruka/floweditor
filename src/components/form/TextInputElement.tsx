@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 
 import { FormElement, FormElementProps } from './FormElement';
 import { FormWidget, FormValueState } from './FormWidget';
+import { ComponentMap, CompletionOption } from "../ComponentMap";
 
 var getCaretCoordinates = require('textarea-caret');
 var inputSelection = require('get-input-selection');
@@ -20,11 +21,6 @@ const KEY_P = 80;
 const KEY_N = 78;
 const KEY_ESC = 27;
 const KEY_BACKSPACE = 8;
-
-interface Option {
-    name: string;
-    description?: string;
-}
 
 export interface Coordinates {
     left: number,
@@ -60,41 +56,43 @@ export interface TextInputState extends FormValueState {
     caretCoordinates: Coordinates;
     completionVisible: boolean;
     selectedOptionIndex: number;
-    matches: Option[];
+    matches: CompletionOption[];
     query: string;
 }
 
-export class TextInputElement extends FormWidget<TextInputProps, TextInputState> {
+const OPTIONS: CompletionOption[] = [
+    { name: "contact", description: "The name of the contact." },
+    { name: "contact.name", description: "The name of the contact." },
+    { name: "contact.language", description: "The language code for the contact." },
+    { name: "contact.fields", description: "Custom fields on the contact." },
+    { name: "contact.groups", description: "The groups for the contact." },
+    { name: "contact.urns", description: "URNs on the contact." },
+    { name: "contact.urns.tel", description: "The preferred telephone number for the contact." },
+    { name: "contact.urns.telegram", description: "The preferred telegram id for the contact." },
+    { name: "input", description: "The last input from the contact if any." },
+    { name: "run", description: "Run details" },
+    { name: "run.contact", description: "The contact in this run" },
+    { name: "run.results", description: "Results for the run" },
+    { name: "child", description: "Run details after running a child flow" },
+    { name: "child.results", description: "The results for the child flow" },
+    { name: "parent", description: "Run details if being called from a parent flow" },
+    { name: "parent.results", description: "The results for the parent flow" },
+    { name: "webhook", description: "The body of the webhook response" },
+    { name: "webhook.status", description: "The status of the webhook call" },
+    { name: "webhook.status_code", description: "The status code returned from the webhook" },
+    { name: "webhook.url", description: "The URL which was called" },
+    { name: "webhook.body", description: "The body of the webhook response" },
+    { name: "webhook.json", description: "The JSON parsed body of the response, can access subelements" },
+    { name: "webhook.request", description: "The raw request of the webhook including headers" },
+    { name: "webhook.response", description: "The raw response of the webhook including headers" },
+]
 
-    private options: Option[] = [
-        { name: "contact", description: "The name of the contact." },
-        { name: "contact.name", description: "The name of the contact." },
-        { name: "contact.language", description: "The language code for the contact." },
-        { name: "contact.fields", description: "Custom fields on the contact." },
-        { name: "contact.groups", description: "The groups for the contact." },
-        { name: "contact.urns", description: "URNs on the contact." },
-        { name: "contact.urns.tel", description: "The preferred telephone number for the contact." },
-        { name: "contact.urns.telegram", description: "The preferred telegram id for the contact." },
-        { name: "input", description: "The last input from the contact if any." },
-        { name: "run", description: "Run details" },
-        { name: "run.contact", description: "The contact in this run" },
-        { name: "run.results", description: "Results for the run" },
-        { name: "child", description: "Run details after running a child flow" },
-        { name: "child.results", description: "The results for the child flow" },
-        { name: "parent", description: "Run details if being called from a parent flow" },
-        { name: "parent.results", description: "The results for the parent flow" },
-        { name: "webhook", description: "The body of the webhook response" },
-        { name: "webhook.status", description: "The status of the webhook call" },
-        { name: "webhook.status_code", description: "The status code returned from the webhook" },
-        { name: "webhook.url", description: "The URL which was called" },
-        { name: "webhook.body", description: "The body of the webhook response" },
-        { name: "webhook.json", description: "The JSON parsed body of the response, can access subelements" },
-        { name: "webhook.request", description: "The raw request of the webhook including headers" },
-        { name: "webhook.response", description: "The raw response of the webhook including headers" },
-    ]
+export class TextInputElement extends FormWidget<TextInputProps, TextInputState> {
 
     private selectedEle: any;
     private textElement: HTMLTextElement;
+
+    private options: CompletionOption[];
 
     constructor(props: any) {
         super(props);
@@ -113,6 +111,10 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
+
+        if (this.props.autocomplete) {
+            this.options = OPTIONS.concat(ComponentMap.get().getResultNames());
+        }
     }
 
     private setSelection(index: number) {
@@ -200,7 +202,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
 
                     var query = ""
                     var completionVisible = false
-                    var matches: Option[] = []
+                    var matches: CompletionOption[] = []
                     if (event.keyCode == KEY_TAB) {
                         query = option.name
                         matches = this.filterOptions(query)
@@ -220,6 +222,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
 
                     // TODO: set caret position
                     event.preventDefault();
+                    event.stopPropagation();
 
                     //
                 }
@@ -267,7 +270,6 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
                         selectedOptionIndex: 0,
                     })
                 }
-
                 break
 
             case KEY_SPACE:
@@ -297,7 +299,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
 
         if (this.props.autocomplete) {
             var query: string = null;
-            var matches: Option[] = [];
+            var matches: CompletionOption[] = [];
             if (this.state.completionVisible) {
                 var text = event.currentTarget.value;
                 query = text.substring(0, event.currentTarget.selectionStart);
@@ -359,20 +361,21 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
         return errors.length == 0;
     }
 
-    private filterOptions(query: string): Option[] {
+    private filterOptions(query: string): CompletionOption[] {
         if (query != null) {
             var search = query.toLowerCase();
-            return this.options.filter(
-                (option: Option) => {
+            var results = this.options.filter(
+                (option: CompletionOption) => {
                     var rest = option.name.substr(search.length);
                     return option.name.indexOf(search) == 0 && (rest.length == 0 || rest.substr(1).indexOf(".") == -1)
                 }
             );
+            return results;
         }
         return [];
     }
 
-    private getOptionName(query: string, option: Option): string {
+    private getOptionName(query: string, option: CompletionOption): string {
         return option.name;
     }
 
@@ -385,7 +388,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
         }
     }
 
-    private renderOption(option: Option, selected: boolean): JSX.Element {
+    private renderOption(option: CompletionOption, selected: boolean): JSX.Element {
         if (selected) {
             return (
                 <div>
@@ -410,7 +413,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
         }
 
         var options: JSX.Element[] = [];
-        this.state.matches.map((option: Option, index: number) => {
+        this.state.matches.map((option: CompletionOption, index: number) => {
             var optionClasses = [styles.option]
             if (index == this.state.selectedOptionIndex) {
                 optionClasses.push(styles.selected);

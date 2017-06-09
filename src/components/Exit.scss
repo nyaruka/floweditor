@@ -17,8 +17,8 @@
         border: 0px solid green;
         margin: 0 auto;
         width: 100%;
-        margin-bottom: -35px; // margin-left: 1px;
-        margin-top: 12px;
+        margin-bottom: -30px; // margin-left: 1px;
+        margin-top: 10px;
         cursor: default;
         .count {
             font-size: 10px;
@@ -30,6 +30,7 @@
             width: fit-content;
             margin: 0 auto;
             clear: both;
+            line-height: .9;
             -webkit-border-radius: 4px;
             -moz-border-radius: 4px;
             border-radius: 4px;

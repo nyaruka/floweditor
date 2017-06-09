@@ -3,7 +3,7 @@ import * as UUID from 'uuid';
 import { ActionComp, ActionProps } from '../Action';
 import { ActionForm } from '../NodeForm';
 import { NodeModalProps } from '../NodeModal';
-import { SearchResult } from '../ComponentMap';
+import { SearchResult, ComponentMap } from '../ComponentMap';
 import { GroupElement } from '../form/GroupElement';
 import { ChangeGroup } from '../../FlowDefinition';
 
@@ -30,7 +30,7 @@ export class ChangeGroupForm extends ActionForm<ChangeGroup, {}> {
                     ref={this.ref.bind(this)}
                     name="Group"
                     endpoint={this.props.context.endpoints.groups}
-                    getLocalGroups={this.props.context.getGroups}
+                    localGroups={ComponentMap.get().getGroups()}
                     groups={groups}
                     add={this.props.type == "add_to_group"}
                     required
@@ -56,13 +56,6 @@ export class ChangeGroupForm extends ActionForm<ChangeGroup, {}> {
             }
 
             modal.onUpdateAction(newAction);
-
-            if (group.extraResult) {
-                this.props.context.eventHandler.onAddGroup({
-                    id: group.id,
-                    name: group.name
-                } as SearchResult);
-            }
         }
     }
 }
