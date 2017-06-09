@@ -6,6 +6,41 @@
 }
 
 .simulator {
+    input {
+        &:focus {
+            outline-color: transparent;
+            outline-style: none;
+        }
+        &::-webkit-input-placeholder {
+            color: $placeholder_color;
+        }
+        &::-moz-placeholder {
+            color: $placeholder_color;
+        }
+        &:-ms-input-placeholder {
+            color: $placeholder_color;
+        }
+        &:-moz-placeholder {
+            color: $placeholder_color;
+        }
+    }
+    input:disabled {
+        background: #e6e6e6 + #111;
+        cursor: not-allowed;
+        $disabled_color: $placeholder_color - #111;
+        &::-webkit-input-placeholder {
+            color: $disabled_color;
+        }
+        &::-moz-placeholder {
+            color: $disabled_color;
+        }
+        &:-ms-input-placeholder {
+            color: $disabled_color;
+        }
+        &:-moz-placeholder {
+            color: $disabled_color;
+        }
+    }
     right: -15px;
     top: 80px;
     transform: scale(.8);
@@ -16,17 +51,30 @@
     transition: right 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
     transition-delay: 100ms;
     .reset {
-        width: 80px;
-        height: 30px;
-        background-color: #999;
+        $button: #ddd;
+        $reset_color: #fff;
+        background-color: $button;
+        border: 3px solid $button - #333;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        width: 75px;
+        height: 25px;
         position: absolute;
-        bottom: 15px;
-        left: 110px;
+        bottom: 17px;
+        left: 113px;
         &:hover {
-            background-color: #999 - #111;
+            background-color: $button - #555;
+            border-color: $button - #888;
         }
         &:active {
-            background-color: #999 - #222;
+            background-color: $button - #777;
+            border-color: $button - #888;
+        }
+        &.inactive {
+            border-color: $reset_color;
+            background-color: $button;
         }
     }
     .screen {
@@ -152,18 +200,21 @@
 }
 
 .error {
-    margin: 0;
     float: inherit;
     background: none;
     color: $red;
-    font-size: 10px;
+    font-size: 13px;
     border: none;
+    text-align: center;
 }
 
 .info {
     border: none;
     text-align: center;
     color: #bbb;
+}
+
+.webhook {
     word-break: break-all;
 }
 

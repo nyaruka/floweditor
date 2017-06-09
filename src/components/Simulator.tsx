@@ -34,6 +34,7 @@ interface SimulatorState {
     contact: Contact;
     channel: string;
     events: Event[];
+    active: boolean;
 }
 
 interface Contact {
@@ -123,13 +124,13 @@ class LogEvent extends React.Component<Event, LogEventState> {
         var detailTitle = "";
 
         if (this.props.type == "msg_received") {
-            text = this.props.text
+            text = this.props.text;
             classes.push(styles.msg_received);
         } else if (this.props.type == "send_msg") {
-            text = this.props.text
+            text = this.props.text;
             classes.push(styles.send_msg);
         } else if (this.props.type == "error") {
-            text = this.props.text
+            text = "Error: " + this.props.text;
             classes.push(styles.error);
         } else if (this.props.type == "msg_wait") {
             text = "Waiting for reply"
@@ -162,6 +163,7 @@ class LogEvent extends React.Component<Event, LogEventState> {
         } else if (this.props.type == "webhook_called") {
             text = "Called webhook " + this.props.url
             classes.push(styles.info);
+            classes.push(styles.webhook);
             detailTitle = "Webhook Details";
             details = (
                 <pre>
@@ -169,6 +171,9 @@ class LogEvent extends React.Component<Event, LogEventState> {
                     {this.props.response}
                 </pre>
             )
+        } else if (this.props.type == "info") {
+            text = this.props.text;
+            classes.push(styles.info);
         }
 
         classes.push(styles.evt);
@@ -216,6 +221,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     constructor(props: SimulatorProps) {
         super(props);
         this.state = {
+            active: false,
             visible: false,
             events: [],
             contact: {
@@ -280,10 +286,27 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
     private updateRunContext(body: any, runContext: RunContext) {
         var events = update(this.state.events, { $push: runContext.events });
+
+        var activeRuns = false;
+        for (let run of runContext.session.runs) {
+            if (run.status == "A") {
+                activeRuns = true;
+                break;
+            }
+        }
+
+        if (!activeRuns) {
+            events.push({
+                type: "info",
+                text: "Exited flow"
+            });
+        }
+
         this.setState({
             session: runContext.session,
             contact: runContext.contact,
-            events: events
+            events: events,
+            active: activeRuns
         }, () => {
             this.updateActivity();
         });
@@ -345,7 +368,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 }
             };
 
-            axios.default.post(this.props.engineURL + '/flow/resume', JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
+            axios.default.post(this.props.engineURL + 'flow/resume', JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
                 this.updateRunContext(body, response.data as RunContext);
             }).catch((error) => {
                 var events = update(this.state.events, {
@@ -414,7 +437,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             <div>
                 <div className={styles.simulator_container}>
                     <div className={styles.simulator + " " + simHidden} key={"sim"}>
-                        <a className={styles.reset} onClick={this.onReset.bind(this)} />
+                        <a className={styles.reset + " " + (this.state.active ? styles.active : styles.inactive)} onClick={this.onReset.bind(this)} />
                         <div className={styles.icon_simulator + " icon-simulator"} />
                         <div className={styles.icon_close + " icon-remove"} onClick={this.toggle.bind(this)} />
                         <div className={styles.screen}>
@@ -423,7 +446,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                                 <div id="bottom" style={{ float: "left", clear: "both" }} ref={(el) => { this.bottom = el; }}></div>
                             </div>
                             <div className={styles.controls}>
-                                <input type="text" onKeyUp={this.onKeyUp.bind(this)} />
+                                <input type="text" onKeyUp={this.onKeyUp.bind(this)} disabled={!this.state.active} placeholder={this.state.active ? "Enter message" : "Press home to start again"} />
                             </div>
                         </div>
                     </div>
