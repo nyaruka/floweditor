@@ -97,8 +97,14 @@ export class SubflowForm extends SwitchRouterForm<SubflowProps, SubflowState> {
             default_exit_uuid: null
         }
 
+        // HACK: this should go away with modal <refactor></refactor>
+        var nodeUUID = this.props.uuid;
+        if (this.props.action && this.props.action.uuid == nodeUUID) {
+            nodeUUID = UUID.v4();
+        }
+
         modal.onUpdateRouter({
-            uuid: this.props.uuid,
+            uuid: nodeUUID,
             router: router,
             exits: exits,
             actions: [newAction],

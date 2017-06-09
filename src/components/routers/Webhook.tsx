@@ -125,6 +125,8 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
 
         var postBody = defaultBody;
 
+        var nodeUUID = this.props.uuid;
+
         if (this.props.action) {
             var action = this.props.action;
             if (action.type == "call_webhook") {
@@ -274,8 +276,14 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
             default_exit_uuid: exits[1].uuid
         }
 
+        // HACK: this should go away with modal <refactor></refactor>
+        var nodeUUID = this.props.uuid;
+        if (this.props.action && this.props.action.uuid == nodeUUID) {
+            nodeUUID = UUID.v4();
+        }
+
         modal.onUpdateRouter({
-            uuid: this.props.uuid,
+            uuid: nodeUUID,
             router: router,
             exits: exits,
             actions: [newAction]
