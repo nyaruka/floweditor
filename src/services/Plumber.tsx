@@ -184,6 +184,7 @@ export class Plumber {
     }
 
     reset() {
+        // console.log("resetting plumbing");
         this.jsPlumb.reset();
     }
 }

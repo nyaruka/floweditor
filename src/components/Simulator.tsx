@@ -10,8 +10,11 @@ import { FlowStore } from '../services/FlowStore';
 import { Plumber } from '../services/Plumber';
 import { External, FlowDetails } from '../services/External';
 import { FlowDefinition, Group } from '../FlowDefinition';
+import { ActivityManager, Activity } from "../services/ActivityManager";
 
 var styles = require("./Simulator.scss");
+
+const ACTIVE = "A";
 
 interface Message {
     text: string;
@@ -22,6 +25,7 @@ interface SimulatorProps {
     engineURL: string;
     external: External;
     flowUUID: string;
+    showDefinition(definition: FlowDefinition): void;
 }
 
 interface SimulatorState {
@@ -63,6 +67,8 @@ interface Step {
     arrived_on: Date;
     events: Event[];
     node: string;
+    exit_uuid: string;
+    node_uuid: string;
 }
 
 interface Wait {
@@ -72,6 +78,8 @@ interface Wait {
 
 interface Run {
     path: Step[];
+    flow_uuid: string;
+    status: string;
     wait?: Wait;
 }
 
@@ -197,7 +205,9 @@ class LogEvent extends React.Component<Event, LogEventState> {
  */
 export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
-    private debug: Session[] = []
+    private debug: Session[] = [];
+    private flows: FlowDefinition[] = [];
+    private currentFlow: string;
 
     // marks the bottom of our chat
     private bottom: any;
@@ -215,6 +225,56 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             },
             channel: UUID.v4(),
         }
+        this.currentFlow = this.props.flowUUID;
+    }
+
+    private updateActivity() {
+
+        if (this.state.session) {
+            var lastExit: string = null;
+            var paths: { [key: string]: number } = {};
+            var active: { [nodeUUID: string]: number } = {};
+            var activeFlow: string;
+
+
+            for (let run of this.state.session.runs) {
+                var finalStep: Step = null;
+
+                for (let step of run.path) {
+                    if (lastExit) {
+                        var key = lastExit + ":" + step.node_uuid;
+                        var count = paths[key]
+                        if (!count) { count = 0 }
+                        paths[key] = ++count;
+                    }
+                    lastExit = step.exit_uuid;
+                    finalStep = step;
+
+                }
+
+                if (run.status == ACTIVE && finalStep) {
+                    var count = active[finalStep.node_uuid];
+                    if (!count) { count = 0 }
+                    active[finalStep.node_uuid] = ++count;
+                    activeFlow = run.flow_uuid;
+                }
+            }
+
+            var activity: Activity = { paths: paths, active: active };
+
+            // console.log(JSON.stringify(activity, null, 1));
+            ActivityManager.get().setSimulation(activity);
+
+            if (activeFlow && activeFlow != this.currentFlow) {
+                var flow = this.flows.find((flow: FlowDefinition) => { return flow.uuid == activeFlow });
+                if (flow) {
+                    this.props.showDefinition(flow);
+                }
+                this.currentFlow = activeFlow;
+            } else if (!activeFlow) {
+                this.props.showDefinition(null);
+            }
+        }
     }
 
     private updateRunContext(body: any, runContext: RunContext) {
@@ -223,6 +283,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             session: runContext.session,
             contact: runContext.contact,
             events: events
+        }, () => {
+            this.updateActivity();
         });
     }
 
@@ -240,9 +302,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         }, () => {
 
             this.props.external.getFlow(this.props.flowUUID, true).then((details: FlowDetails) => {
-
+                this.flows = [details.definition].concat(details.dependencies)
                 var body: any = {
-                    flows: [details.definition].concat(details.dependencies),
+                    flows: this.flows,
                     contact: this.state.contact,
                 };
 
@@ -256,7 +318,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
     private resume(text: string) {
         if (text == "\\debug") {
-            console.log(JSON.stringify(this.debug, null, 2))
+            console.log(JSON.stringify(this.debug, null, 2));
             return;
         }
 
@@ -267,8 +329,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         }
 
         this.props.external.getFlow(this.props.flowUUID, true).then((details: FlowDetails) => {
+            this.flows = [details.definition].concat(details.dependencies)
             var body: any = {
-                flows: [details.definition].concat(details.dependencies),
+                flows: this.flows,
                 session: this.state.session,
                 contact: this.state.contact,
                 event: {
@@ -309,7 +372,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     private onKeyUp(event: any) {
         if (event.key === 'Enter') {
             var ele = event.target;
-            var text = ele.value
+            var text = ele.value;
             ele.value = "";
             this.resume(text);
         }
@@ -317,18 +380,28 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
     private toggle(event: any) {
         var newVisible = !this.state.visible;
-        this.setState({ visible: newVisible })
+        this.setState({ visible: newVisible }, () => {
 
-        // start our flow if we haven't already
-        if (this.state.events.length == 0) {
-            this.startFlow()
-        }
+            // clear our viewing definition
+            if (!this.state.visible) {
+                this.props.showDefinition(null);
+                ActivityManager.get().clearSimulation();
+            } else {
+                this.updateActivity();
+
+                // start our flow if we haven't already
+                if (this.state.events.length == 0) {
+                    this.startFlow();
+                }
+            }
+        });
+
     }
 
     public render() {
         var messages: JSX.Element[] = [];
         for (let event of this.state.events) {
-            messages.push(<LogEvent {...event} key={String(event.created_on)} />)
+            messages.push(<LogEvent {...event} key={String(event.created_on)} />);
         }
 
         var simHidden = !this.state.visible ? styles.sim_hidden : "";

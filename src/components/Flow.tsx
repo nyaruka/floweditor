@@ -52,6 +52,7 @@ interface FlowState {
     modalProps?: NodeModalProps
     loading: boolean
     context: FlowContext
+    viewDefinition?: FlowDefinition
 }
 
 interface Connection {
@@ -84,6 +85,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.onUpdateAction = this.onUpdateAction.bind(this);
         this.onUpdateRouter = this.onUpdateRouter.bind(this);
         this.onModalClose = this.onModalClose.bind(this);
+        this.onShowDefinition = this.onShowDefinition.bind(this);
 
         ActivityManager.initialize(this.props.external);
 
@@ -412,6 +414,12 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.props.mutator.updateConnection(event.sourceId, event.targetId);
     }
 
+    private onShowDefinition(definition: FlowDefinition) {
+        // TODO: make this work, it's cool!
+        // Plumber.get().reset();
+        // this.setState({ viewDefinition: definition }, () => { Plumber.get().repaint() });
+    }
+
     /**
      * Called the moment a connector is done dragging, whether it is dropped on an
      * existing node or on to empty space.
@@ -437,9 +445,16 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
     }
 
     render() {
+
+        var definition = this.props.definition;
+
+        if (this.state.viewDefinition) {
+            definition = this.state.viewDefinition;
+        }
+
         var nodes: JSX.Element[] = [];
-        for (let node of this.props.definition.nodes) {
-            var uiNode = this.props.definition._ui.nodes[node.uuid];
+        for (let node of definition.nodes) {
+            var uiNode = definition._ui.nodes[node.uuid];
             nodes.push(<NodeComp key={node.uuid} node={node} ui={uiNode} context={this.state.context} external={this.props.external} />)
         }
 
@@ -473,6 +488,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                 external={this.props.external}
                 engineURL={this.props.endpoints.engine}
                 flowUUID={this.props.definition.uuid}
+                showDefinition={this.onShowDefinition}
             />
         }
 
@@ -485,9 +501,11 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
         return (
             <div className={loading}>
+                <div className={styles.flow_name}>{definition.name}</div>
+
                 {simulator}
-                <div className={styles.flow}>
-                    <div className={styles["node-list"]}>
+                <div key={definition.uuid} className={styles.flow}>
+                    <div className={styles.node_list}>
                         {nodes}
                         {dragNode}
                     </div>
