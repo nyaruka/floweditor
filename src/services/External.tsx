@@ -35,9 +35,9 @@ export class External {
     /**
      * Gets the path activity and the count of active particpants at each node
      */
-    public getActivity(): Promise<Activity> {
+    public getActivity(flowUUID: string): Promise<Activity> {
         return new Promise<Activity>((resolve, reject) => {
-            axios.get(this.endpoints.activity, { headers: this.headers }).then((response: AxiosResponse) => {
+            axios.get(this.endpoints.activity + "?flow=" + flowUUID, { headers: this.headers }).then((response: AxiosResponse) => {
                 resolve(response.data as Activity);
             }).catch((error) => {
                 reject(error);

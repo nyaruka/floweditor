@@ -11,10 +11,10 @@ const REFRESH_SECONDS = 10;
 export interface Activity {
 
     // exit_uuid:destination_node_uuid -> count
-    paths: { [key: string]: number };
+    segments: { [key: string]: number };
 
     // node_uuid -> count
-    active: { [key: string]: number };
+    nodes: { [key: string]: number };
 }
 
 
@@ -29,6 +29,8 @@ export class ActivityManager {
     // our simulation activity
     private simulation: Activity;
 
+    private flowUUID: string;
+
     private listeners: { [key: string]: CounterComp } = {};
     private timer: any;
 
@@ -36,18 +38,20 @@ export class ActivityManager {
         return ActivityManager.singleton;
     }
 
-    static initialize(external: External) {
-        this.singleton = new ActivityManager(external);
+    static initialize(external: External, flowUUID: string) {
+        this.singleton = new ActivityManager(external, flowUUID);
     }
 
-    constructor(external: External) {
+    constructor(external: External, flowUUID: string) {
         this.external = external;
+        this.flowUUID = flowUUID;
         this.fetchActivity();
         this.registerListener = this.registerListener.bind(this);
     }
 
     public clearSimulation() {
         this.simulation = null;
+        this.notifyListeners();
         this.fetchActivity();
     }
 
@@ -64,7 +68,7 @@ export class ActivityManager {
         if (!this.timer) {
             this.timer = window.setTimeout(() => {
                 this.timer = null;
-                this.external.getActivity().then((activity: Activity) => {
+                this.external.getActivity(this.flowUUID).then((activity: Activity) => {
                     this.activity = activity;
                     this.notifyListeners();
                 });
@@ -101,7 +105,7 @@ export class ActivityManager {
     public getActiveCount(nodeUUID: string): number {
         var activity = this.getActivity();
         if (activity) {
-            var count = activity.active[nodeUUID];
+            var count = activity.nodes[nodeUUID];
             if (count !== undefined) {
                 return count;
             }
@@ -113,7 +117,7 @@ export class ActivityManager {
         var activity = this.getActivity();
         if (activity) {
             if (exit.destination_node_uuid) {
-                var count = activity.paths[exit.uuid + ":" + exit.destination_node_uuid];
+                var count = activity.segments[exit.uuid + ":" + exit.destination_node_uuid];
                 if (count !== undefined) {
                     return count;
                 }

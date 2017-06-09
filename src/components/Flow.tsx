@@ -87,7 +87,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.onModalClose = this.onModalClose.bind(this);
         this.onShowDefinition = this.onShowDefinition.bind(this);
 
-        ActivityManager.initialize(this.props.external);
+        ActivityManager.initialize(this.props.external, this.props.definition.uuid);
 
         this.state = {
             loading: true,
@@ -501,8 +501,6 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
         return (
             <div className={loading}>
-                <div className={styles.flow_name}>{definition.name}</div>
-
                 {simulator}
                 <div key={definition.uuid} className={styles.flow}>
                     <div className={styles.node_list}>
