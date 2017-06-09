@@ -12,7 +12,7 @@ var styles = require("./FormElement.scss");
 interface GroupElementProps extends FormElementProps {
     groups: { group: string, name: string }[];
 
-    getLocalGroups?(): SearchResult[];
+    localGroups?: SearchResult[];
     endpoint?: string;
     add?: boolean;
     placeholder?: string;
@@ -103,7 +103,7 @@ export class GroupElement extends FormWidget<GroupElementProps, GroupState> {
                     name={this.props.name}
                     url={this.props.endpoint}
                     resultType="group"
-                    localSearchOptions={this.props.getLocalGroups()}
+                    localSearchOptions={this.props.localGroups}
                     multi={false}
                     clearable={false}
                     initial={this.state.groups}

@@ -3,7 +3,7 @@ import * as UUID from 'uuid';
 import { toBoolMap } from '../../utils';
 import { FormElement, FormElementProps } from './FormElement';
 import { FormWidget, FormValueState } from './FormWidget';
-import { SearchResult } from '../ComponentMap';
+import { SearchResult, ComponentMap } from '../ComponentMap';
 import { SelectSearch } from '../SelectSearch';
 
 var Select = require('react-select');
@@ -32,7 +32,7 @@ var reserved = toBoolMap([
 interface FieldElementProps extends FormElementProps {
     initial: SearchResult;
 
-    getLocalFields?(): SearchResult[];
+    localFields?: SearchResult[];
     endpoint?: string;
     add?: boolean;
     placeholder?: string;
@@ -124,7 +124,7 @@ export class FieldElement extends FormWidget<FieldElementProps, FieldState> {
                     name={this.props.name}
                     url={this.props.endpoint}
                     resultType="field"
-                    localSearchOptions={this.props.getLocalFields()}
+                    localSearchOptions={ComponentMap.get().getContactFields()}
                     multi={false}
                     clearable={false}
                     initial={initial}

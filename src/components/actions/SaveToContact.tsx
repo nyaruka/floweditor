@@ -2,13 +2,14 @@ import * as React from 'react';
 import { FlowStore } from '../../services/FlowStore';
 import { toBoolMap } from '../../utils';
 import { SelectSearch } from '../SelectSearch';
-import { SearchResult } from '../ComponentMap';
+import { ComponentMap, SearchResult } from '../ComponentMap';
 import { SaveToContact, UpdateContact } from '../../FlowDefinition';
 import { NodeModalProps } from '../NodeModal';
 import { ActionForm } from '../NodeForm';
 import { ActionComp } from '../Action';
 import { FieldElement } from '../form/FieldElement';
 import { TextInputElement } from '../form/TextInputElement';
+
 
 var UUID = require('uuid');
 
@@ -92,7 +93,7 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
                     ref={ref}
                     name="Field" showLabel={true}
                     endpoint={this.props.context.endpoints.fields}
-                    getLocalFields={this.props.context.getContactFields}
+                    localFields={ComponentMap.get().getContactFields()}
                     helpText={"Select an existing field to update or type any name to create a new one"}
                     initial={initial} add required
                 />
@@ -136,14 +137,6 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
         }
 
         modal.onUpdateAction(newAction);
-
-        if (field.extraResult) {
-            this.props.context.eventHandler.onAddContactField({
-                id: field.id,
-                name: field.name,
-                type: field.type
-            });
-        }
     }
 }
 

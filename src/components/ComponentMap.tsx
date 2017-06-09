@@ -1,5 +1,12 @@
 import { DragPoint } from '../components/Node';
-import { FlowDefinition, SaveToContact, ChangeGroup, Exit } from '../FlowDefinition';
+import { FlowDefinition, SaveToContact, ChangeGroup, Exit, SaveFlowResult } from '../FlowDefinition';
+
+import { snakify } from '../utils';
+
+const RESERVED_FIELDS: ContactFieldResult[] = [
+    { id: "name", name: "Name", type: "update_contact" },
+    // { id: "language", name: "Language", type: "update_contact" }
+];
 
 export interface ContactField {
     uuid: string;
@@ -28,18 +35,34 @@ interface ComponentDetails {
     pointers?: string[]
 }
 
+export interface CompletionOption {
+    name: string;
+    description: string;
+}
+
 export class ComponentMap {
+
+    private static singleton: ComponentMap;
+
+    public static initialize(definition: FlowDefinition): ComponentMap {
+        this.singleton = new ComponentMap(definition);
+        return this.singleton;
+    }
+
+    public static get(): ComponentMap {
+        return this.singleton;
+    }
 
     private components: { [uuid: string]: ComponentDetails };
     private pendingConnections: { [uuid: string]: DragPoint };
     private contactFields: ContactFieldResult[];
+    private resultNames: CompletionOption[];
     private groups: SearchResult[];
 
     // initialize our map with our flow def
-    constructor(definition: FlowDefinition) {
+    private constructor(definition: FlowDefinition) {
         console.time("ComponentMap");
-        this.initializeUUIDMap(definition);
-        this.initializeFieldsAndGroups(definition);
+        this.refresh(definition);
         this.pendingConnections = {};
         console.timeEnd("ComponentMap");
     }
@@ -56,10 +79,14 @@ export class ComponentMap {
         delete this.pendingConnections[nodeUUID];
     }
 
-    public initializeUUIDMap(definition: FlowDefinition) {
+    public refresh(definition: FlowDefinition) {
 
         var components: { [uuid: string]: ComponentDetails } = {};
         var exitsWithDestinations: Exit[] = [];
+
+        var fields: { [id: string]: ContactFieldResult } = {}
+        var groups: { [id: string]: SearchResult } = {}
+        var resultNames: { [name: string]: string } = {}
 
         if (!definition) {
             this.components = components;
@@ -87,7 +114,30 @@ export class ComponentMap {
                         actionUUID: action.uuid,
                         actionIdx: actionIdx,
                     }
+
+                    if (action.type == "save_flow_result") {
+                        var resultProps = action as SaveFlowResult;
+                        resultNames[snakify(resultProps.result_name)] = resultProps.result_name;
+                    } else if (action.type == 'save_contact_field') {
+                        var saveProps = action as SaveToContact;
+                        if (!RESERVED_FIELDS.some(fieldName => fieldName.name === saveProps.field_name)) {
+                            if (!(saveProps.field_uuid in fields)) {
+                                fields[saveProps.field_uuid] = { id: saveProps.field_uuid, name: saveProps.field_name, type: "field" }
+                            }
+                        }
+                    } else if (action.type == 'add_to_group' || action.type == 'remove_from_group') {
+                        var groupProps = action as ChangeGroup;
+                        for (let group of groupProps.groups) {
+                            if (!(group.uuid in groups)) {
+                                groups[group.uuid] = { id: group.uuid, name: group.name, type: "group" }
+                            }
+                        }
+                    }
                 }
+            }
+
+            if (node.router && node.router.result_name) {
+                resultNames[snakify(node.router.result_name)] = node.router.result_name;
             }
 
             // and the same for exits
@@ -113,52 +163,8 @@ export class ComponentMap {
             components[exit.destination_node_uuid].pointers.push(exit.uuid);
         }
 
-        this.components = components;
-
-    }
-
-    private initializeFieldsAndGroups(definition: FlowDefinition) {
-        var fields: { [id: string]: ContactFieldResult } = {}
-        var groups: { [id: string]: SearchResult } = {}
-
-        if (!definition) {
-            this.contactFields = [];
-            this.groups = [];
-            return;
-        }
-
-        var reservedFields: ContactFieldResult[] = [
-            { id: "name", name: "Name", type: "update_contact" },
-            // { id: "language", name: "Language", type: "update_contact" }
-        ];
-
-        // TODO: Add language support to save_contact_field
-        // {id:"language", name: "Language", type: "field"}];
-
-        for (let node of definition.nodes) {
-            if (node.actions) {
-                for (let action of node.actions) {
-                    if (action.type == 'save_contact_field') {
-                        var saveProps = action as SaveToContact;
-                        if (!reservedFields.some(fieldName => fieldName.name === saveProps.field_name)) {
-                            if (!(saveProps.field_uuid in fields)) {
-                                fields[saveProps.field_uuid] = { id: saveProps.field_uuid, name: saveProps.field_name, type: "field" }
-                            }
-                        }
-                    } else if (action.type == 'add_to_group' || action.type == 'remove_from_group') {
-                        var groupProps = action as ChangeGroup;
-                        for (let group of groupProps.groups) {
-                            if (!(group.uuid in groups)) {
-                                groups[group.uuid] = { id: group.uuid, name: group.name, type: "group" }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         var existingFields: ContactFieldResult[] = []
-        for (let reserved of reservedFields) {
+        for (let reserved of RESERVED_FIELDS) {
             existingFields.push(reserved);
         }
 
@@ -171,11 +177,18 @@ export class ComponentMap {
             existingGroups.push(groups[key]);
         }
 
+        var existingResultNames: CompletionOption[] = []
+        for (var key in resultNames) {
+            if (key && key.trim().length > 0) {
+                existingResultNames.push({ name: "run.results." + key, description: "Result for \"" + resultNames[key] + "\"" });
+                existingResultNames.push({ name: "run.results." + key + ".category", description: "Category for \"" + resultNames[key] + "\"" });
+            }
+        }
+
         this.contactFields = existingFields;
         this.groups = existingGroups;
-
-        // console.log("fields", this.contactFields);
-        // console.log("groups", this.groups);
+        this.components = components;
+        this.resultNames = existingResultNames;
     }
 
     public getDetails(uuid: string): ComponentDetails {
@@ -186,21 +199,13 @@ export class ComponentMap {
         return this.groups;
     }
 
+    public getResultNames(): CompletionOption[] {
+        return this.resultNames;
+    }
+
     public getContactFields(): ContactFieldResult[] {
-        // console.log("Get", this.contactFields)
         return this.contactFields;
     }
-
-    public addContactField(field: SearchResult): ContactFieldResult {
-        this.contactFields.push(field);
-        return field;
-    }
-
-    public addGroup(group: SearchResult): SearchResult {
-        this.groups.push(group);
-        return group;
-    }
-
 }
 
 export default ComponentMap;

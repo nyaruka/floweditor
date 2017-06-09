@@ -23,6 +23,7 @@ export interface Exit {
 
 export interface Router {
     type: string;
+    result_name?: string;
 }
 
 export interface Case {
@@ -33,7 +34,6 @@ export interface Case {
 }
 
 export interface SwitchRouter extends Router {
-    result_name?: string;
     cases: Case[];
     operand: string;
     default_exit_uuid: string;

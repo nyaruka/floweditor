@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ActionProps } from './Action';
 import { FlowDefinition, Action, Node, Position, SendMessage, UINode, SwitchRouter, Exit } from '../FlowDefinition';
-import { ContactFieldResult, SearchResult } from './ComponentMap';
+import { ContactFieldResult, SearchResult, ComponentMap } from './ComponentMap';
 import { NodeComp, NodeProps } from './Node';
 import { NodeModal, NodeModalProps, EditableProps, NodeEditorProps } from './NodeModal';
 import { FlowMutator } from './FlowMutator';
@@ -20,8 +20,6 @@ var styles = require("./Flow.scss");
 export interface FlowContext {
     eventHandler: FlowEventHandler;
     endpoints: Endpoints;
-    getContactFields(): ContactFieldResult[];
-    getGroups(): SearchResult[];
 }
 
 export interface FlowEventHandler {
@@ -34,8 +32,6 @@ export interface FlowEventHandler {
     onEditNode(props: NodeProps): void;
     onEditAction(props: ActionProps, onlyActions: boolean): void;
     onNodeMounted(props: Node): void;
-    onAddContactField(field: ContactFieldResult): void;
-    onAddGroup(group: SearchResult): void;
 }
 
 
@@ -99,10 +95,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                 onClose: this.onModalClose
             },
             context: {
-                getContactFields: this.props.mutator.getContactFields,
-                getGroups: this.props.mutator.getGroups,
                 eventHandler: {
-                    onAddContactField: this.props.mutator.addContactField,
                     onRemoveAction: this.props.mutator.removeAction,
                     onMoveActionUp: this.props.mutator.moveActionUp,
                     onAddAction: this.onAddAction,
@@ -111,7 +104,6 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                     onEditAction: this.onEditAction,
                     onNodeMoved: this.onNodeMoved,
                     onNodeMounted: this.onNodeMounted,
-                    onAddGroup: this.props.mutator.addGroup,
                     onDisconnectExit: this.props.mutator.disconnectExit
                 },
                 endpoints: this.props.endpoints
@@ -154,7 +146,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var config = Config.get().getTypeConfig(props.action.type);
         if (config.form.prototype instanceof SwitchRouterForm) {
             // if we are editing an existing action, get the node
-            var indexes = this.props.mutator.getComponents().getDetails(props.action.uuid);
+            var indexes = ComponentMap.get().getDetails(props.action.uuid);
             if (indexes) {
                 var node = this.props.mutator.getNode(indexes.nodeUUID);
                 var nodeProps: NodeProps = {
@@ -275,7 +267,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
      */
     private onConnectionDrag(event: ConnectionEvent) {
         // we finished dragging a ghost node, create the spec for our new ghost component
-        let draggedFromDetails = this.props.mutator.getComponents().getDetails(event.sourceId);
+        let draggedFromDetails = ComponentMap.get().getDetails(event.sourceId);
         let fromNode = this.props.mutator.getNode(draggedFromDetails.nodeUUID);
         var nodeUUID = UUID.v4();
         var draggedFrom = {
