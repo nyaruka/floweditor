@@ -73,7 +73,8 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
             setResultName: false,
             cases: [],
             headers: headers,
-            method: method
+            method: method,
+            operand: "@webhook"
         };
     }
 

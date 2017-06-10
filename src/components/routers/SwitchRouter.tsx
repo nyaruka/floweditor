@@ -4,7 +4,7 @@ import * as UUID from 'uuid';
 //import {Case} from '../Case';
 import { CaseElement, CaseElementProps } from '../form/CaseElement';
 import { NodeProps } from '../Node';
-import { TextInputElement } from '../form/TextInputElement';
+import { TextInputElement, HTMLTextElement } from '../form/TextInputElement';
 import { NodeForm } from '../NodeForm';
 import { NodeEditorProps, NodeModalProps } from '../NodeModal';
 import { Config } from '../../services/Config';
@@ -21,6 +21,7 @@ export class SwitchRouterState {
     cases: CaseProps[]
     resultName: string;
     setResultName: boolean
+    operand: string;
 }
 
 export interface CaseProps {
@@ -201,18 +202,31 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
             resultName = this.props.router.result_name;
         }
 
+        var operand = "@input";
+        if (this.props.router && this.props.router.operand) {
+            operand = this.props.router.operand;
+        }
+
         this.state = {
             cases: cases,
             setResultName: false,
-            resultName: resultName
+            resultName: resultName,
+            operand: operand
         } as S
 
         this.onCaseChanged = this.onCaseChanged.bind(this);
+        this.onExpressionChanged = this.onExpressionChanged.bind(this);
     }
 
     private onShowNameField() {
         this.setState({
             setResultName: true
+        })
+    }
+
+    onExpressionChanged(event: React.SyntheticEvent<HTMLTextElement>) {
+        this.setState({
+            operand: event.currentTarget.value
         })
     }
 
@@ -327,20 +341,16 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
         }
 
         else if (this.props.config.type == "expression") {
-
-            var expression = this.props.router ? this.props.router.operand : null;
-            if (!expression) {
-                expression = "@input";
-            }
-
             leadIn = (
                 <div className={styles.instructions}>
                     <p>If the expression..</p>
                     <TextInputElement
                         ref={this.ref.bind(this)}
+                        key={"expression_" + this.props.uuid}
                         name="Expression"
                         showLabel={false}
-                        defaultValue={expression}
+                        defaultValue={this.state.operand}
+                        onChange={this.onExpressionChanged}
                         autocomplete
                         required
                     />
@@ -378,13 +388,6 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
 
     submit(modal: NodeModalProps) {
         const { cases, exits, defaultExit } = resolveExits(this.state.cases, this.props);
-
-        var operand = "@input";
-        if (this.props.type == "expression") {
-            var operandEle: TextInputElement = this.elements[0];
-            operand = operandEle.state.value;
-        }
-
         var lastElement = this.elements[this.elements.length - 1];
         var optionalRouter = {}
         if (lastElement instanceof TextInputElement) {
@@ -404,7 +407,7 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
             type: "switch",
             default_exit_uuid: defaultExit,
             cases: cases,
-            operand: operand,
+            operand: this.state.operand,
             ...optionalRouter
         }
 

@@ -97,6 +97,8 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
     constructor(props: any) {
         super(props);
 
+        console.log("new text input element", this.props.defaultValue);
+
         this.state = {
             value: this.props.defaultValue ? this.props.defaultValue : "",
             caretOffset: 0,
