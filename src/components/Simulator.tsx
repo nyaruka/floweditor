@@ -62,6 +62,7 @@ interface Event {
     groups?: Group[];
     field_name: string;
     field_uuid: string;
+    result_name: string;
 }
 
 interface Step {
@@ -119,49 +120,57 @@ class LogEvent extends React.Component<Event, LogEventState> {
 
     render() {
         var classes = [];
-        var text = "";
+        var text: JSX.Element = null;
         var details: JSX.Element = null;
         var detailTitle = "";
 
         if (this.props.type == "msg_received") {
-            text = this.props.text;
+            text = (<span>{this.props.text}</span>);
             classes.push(styles.msg_received);
         } else if (this.props.type == "send_msg") {
-            text = this.props.text;
+            var spans = this.props.text.split('\n').map((item, key) => {
+                return <span key={key}>{item}<br /></span>
+            });
+            text = (<span> {spans} </span>);
             classes.push(styles.send_msg);
         } else if (this.props.type == "error") {
-            text = "Error: " + this.props.text;
+            text = (<span> Error: {this.props.text} </span>);
             classes.push(styles.error);
         } else if (this.props.type == "msg_wait") {
-            text = "Waiting for reply"
+            text = (<span>Waiting for reply</span>)
             classes.push(styles.info);
         } else if (this.props.type == "add_to_group") {
-            text = "Added to "
+            var groupText = "Added to "
             var delim = " "
             for (let group of this.props.groups) {
-                text += delim + "\"" + group.name + "\""
+                groupText += delim + "\"" + group.name + "\""
                 delim = ", "
             }
+            text = (<span>{groupText}</span>)
             classes.push(styles.info);
         } else if (this.props.type == "remove_from_group") {
-            text = "Removed from "
+            var groupText = "Removed from "
             var delim = " "
             for (let group of this.props.groups) {
-                text += delim + "\"" + group.name + "\""
+                groupText += delim + "\"" + group.name + "\""
                 delim = ", "
             }
+            text = (<span>{groupText}</span>)
             classes.push(styles.info);
         } else if (this.props.type == "save_contact_field") {
-            text = "Set contact field \"" + this.props.field_name + "\" to \"" + this.props.value + "\"";
+            text = (<span>Set contact field "{this.props.field_name}" to "{this.props.value}"</span>)
+            classes.push(styles.info);
+        } else if (this.props.type == "save_flow_result") {
+            text = (<span>Set flow result "{this.props.result_name}" to "{this.props.value}"</span>)
             classes.push(styles.info);
         } else if (this.props.type == "update_contact") {
-            text = "Updated contact " + this.props.field_name + " to \"" + this.props.value + "\"";
+            text = (<span>Updated contact {this.props.field_name} to "{this.props.value}"</span>)
             classes.push(styles.info);
         } else if (this.props.type == "send_email") {
-            text = "Sent email to \"" + this.props.email + "\" with subject \"" + this.props.subject + "\" and body \"" + this.props.body + "\""
+            text = (<span>Sent email to "{this.props.email}" with subject "{this.props.subject}" and body "{this.props.body}"</span>)
             classes.push(styles.info);
         } else if (this.props.type == "webhook_called") {
-            text = "Called webhook " + this.props.url
+            text = (<span>Called webhook {this.props.url}</span>)
             classes.push(styles.info);
             classes.push(styles.webhook);
             detailTitle = "Webhook Details";
@@ -176,7 +185,7 @@ class LogEvent extends React.Component<Event, LogEventState> {
                 </div>
             )
         } else if (this.props.type == "info") {
-            text = this.props.text;
+            text = (<span>{this.props.text}</span>)
             classes.push(styles.info);
         }
 
