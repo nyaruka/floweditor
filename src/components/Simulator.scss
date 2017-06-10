@@ -216,6 +216,10 @@
 
 .webhook {
     word-break: break-all;
+    text-decoration: underline;
+    &:hover {
+        color: #999;
+    }
 }
 
 .webhook_details {
