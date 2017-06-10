@@ -55,6 +55,11 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
     // map our new cases to an appropriate exit
     for (let props of newCases) {
 
+        // ignore cases with empty names
+        if (!props.exitName || props.exitName.trim().length == 0) {
+            continue;
+        }
+
         // skip missing names
         /*if (!kase.exitName || kase.exitName.trim().length == 0) {
             continue;
