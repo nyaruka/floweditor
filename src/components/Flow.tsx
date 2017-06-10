@@ -267,8 +267,12 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
      */
     private onConnectionDrag(event: ConnectionEvent) {
         // we finished dragging a ghost node, create the spec for our new ghost component
-        let draggedFromDetails = ComponentMap.get().getDetails(event.sourceId);
+        let components = ComponentMap.get();
+        let draggedFromDetails = components.getDetails(event.sourceId);
+
         let fromNode = this.props.mutator.getNode(draggedFromDetails.nodeUUID);
+        let fromNodeUI = this.props.mutator.getNodeUI(fromNode.uuid);
+
         var nodeUUID = UUID.v4();
         var draggedFrom = {
             nodeUUID: draggedFromDetails.nodeUUID,
@@ -297,7 +301,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         };
 
         // add an action if we are coming from a split
-        if (fromNode.wait) {
+        if (fromNode.wait || "webhook" == fromNodeUI.type) {
             let replyAction: SendMessage = {
                 uuid: UUID.v4(),
                 type: "reply",

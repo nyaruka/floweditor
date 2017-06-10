@@ -402,7 +402,7 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
         }
 
         var optionalNode = {}
-        if (this.props.type == "wait_for_response") {
+        if (this.props.config.type == "wait_for_response") {
             optionalNode = {
                 wait: { type: "msg" }
             }
