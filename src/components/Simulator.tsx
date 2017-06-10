@@ -166,10 +166,14 @@ class LogEvent extends React.Component<Event, LogEventState> {
             classes.push(styles.webhook);
             detailTitle = "Webhook Details";
             details = (
-                <pre>
-                    {this.props.request}
-                    {this.props.response}
-                </pre>
+                <div className={styles.webhook_details}>
+                    <div className={styles.request}>
+                        {this.props.request}
+                    </div>
+                    <div className={styles.response}>
+                        {this.props.response}
+                    </div>
+                </div>
             )
         } else if (this.props.type == "info") {
             text = this.props.text;
@@ -214,6 +218,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     private debug: Session[] = [];
     private flows: FlowDefinition[] = [];
     private currentFlow: string;
+    private inputBox: HTMLInputElement;
 
     // marks the bottom of our chat
     private bottom: any;
@@ -309,6 +314,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             active: activeRuns
         }, () => {
             this.updateActivity();
+            this.inputBox.focus();
         });
     }
 
@@ -419,6 +425,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 if (this.state.events.length == 0) {
                     this.startFlow();
                 }
+
+                this.inputBox.focus();
             }
         });
 
@@ -446,7 +454,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                                 <div id="bottom" style={{ float: "left", clear: "both" }} ref={(el) => { this.bottom = el; }}></div>
                             </div>
                             <div className={styles.controls}>
-                                <input type="text" onKeyUp={this.onKeyUp.bind(this)} disabled={!this.state.active} placeholder={this.state.active ? "Enter message" : "Press home to start again"} />
+                                <input ref={(ele) => { this.inputBox = ele }} type="text" onKeyUp={this.onKeyUp.bind(this)} disabled={!this.state.active} placeholder={this.state.active ? "Enter message" : "Press home to start again"} />
                             </div>
                         </div>
                     </div>
