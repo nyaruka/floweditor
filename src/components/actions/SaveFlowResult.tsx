@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ActionComp } from "../Action";
 import { ActionForm } from "../NodeForm";
 import { SaveFlowResult } from "../../FlowDefinition";
-import { NodeModalProps } from "../NodeModal";
+import { NodeModal } from "../NodeModal";
 import { TextInputElement } from "../form/TextInputElement";
 
 var styles = require('./SaveFlowResult.scss');
@@ -39,7 +39,7 @@ export class SaveFlowResultForm extends ActionForm<SaveFlowResult, {}> {
         )
     }
 
-    submit(modal: NodeModalProps) {
+    submit(modal: NodeModal) {
         var eles = this.getElements();
         var nameEle = eles[0] as TextInputElement;
         var valueEle = eles[1] as TextInputElement;

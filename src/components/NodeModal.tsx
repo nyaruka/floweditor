@@ -35,7 +35,7 @@ export interface NodeModalProps {
     editableProps?: EditableProps;
     changeType?: boolean;
 
-    onUpdateAction(action: Action): void;
+    onUpdateAction(action: Action, previousNodeUUID: string): void;
     onUpdateRouter(node: Node, type: string): void;
 
     newPosition?: Position;
@@ -107,7 +107,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
 
         // if we are valid, submit it
         if (valid) {
-            this.form.submit(this.props);
+            this.form.submit(this);
             this.closeModal();
         }
     }
@@ -165,6 +165,20 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
 
     public getClassName() {
         return this.state.config.type.split('_').join('-');
+    }
+
+    public onUpdateAction(action: Action) {
+        var previousNodeUUID = null;
+        var initialUUID = this.props.editableProps.initial.uuid;
+        if (initialUUID != action.uuid) {
+            previousNodeUUID = initialUUID;
+        }
+
+        this.props.onUpdateAction(action, previousNodeUUID);
+    }
+
+    public onUpdateRouter(node: Node, type: string) {
+        this.props.onUpdateRouter(node, type)
     }
 
     render() {

@@ -243,8 +243,9 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         });
     }
 
-    private onUpdateAction(action: Action) {
+    private onUpdateAction(action: Action, previousNodeUUID: string) {
         this.props.mutator.updateAction(action,
+            previousNodeUUID,
             this.state.modalProps.draggedFrom,
             this.state.modalProps.newPosition,
             this.state.modalProps.addToNode

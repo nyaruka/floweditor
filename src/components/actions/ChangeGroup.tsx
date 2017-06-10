@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as UUID from 'uuid';
 import { ActionComp, ActionProps } from '../Action';
 import { ActionForm } from '../NodeForm';
-import { NodeModalProps } from '../NodeModal';
+import { NodeModal } from '../NodeModal';
 import { SearchResult, ComponentMap } from '../ComponentMap';
 import { GroupElement } from '../form/GroupElement';
 import { ChangeGroup } from '../../FlowDefinition';
@@ -39,7 +39,7 @@ export class ChangeGroupForm extends ActionForm<ChangeGroup, {}> {
         )
     }
 
-    submit(modal: NodeModalProps) {
+    submit(modal: NodeModal) {
 
         var groupEle = this.getElements()[0];
         var group = groupEle.state.groups[0];

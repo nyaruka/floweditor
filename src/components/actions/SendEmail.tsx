@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ActionComp } from '../Action';
 import { ActionForm } from '../NodeForm';
 import { SendEmail } from '../../FlowDefinition';
-import { NodeModalProps } from '../NodeModal';
+import { NodeModal } from '../NodeModal';
 import { TextInputElement } from '../form/TextInputElement';
 import { EmailElement } from '../form/EmailElement';
 
@@ -32,7 +32,7 @@ export class SendEmailForm extends ActionForm<SendEmail, SendEmailState> {
         )
     }
 
-    submit(modal: NodeModalProps) {
+    submit(modal: NodeModal) {
 
         var eles = this.getElements();
         var emailEle = eles[0] as EmailElement;

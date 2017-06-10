@@ -6,7 +6,7 @@ import { NodeForm } from "../NodeForm";
 import { SwitchRouterProps, SwitchRouterState, SwitchRouterForm } from "./SwitchRouter";
 import { SelectElement } from '../form/SelectElement';
 import { Webhook, Case, Exit, SwitchRouter } from '../../FlowDefinition';
-import { NodeModalProps } from "../NodeModal";
+import { NodeModal } from "../NodeModal";
 import { TextInputElement, HTMLTextElement } from '../form/TextInputElement';
 
 import { FormElement, FormElementProps } from '../form/FormElement';
@@ -204,7 +204,7 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
         return UUID.v4();
     }
 
-    submit(modal: NodeModalProps): void {
+    submit(modal: NodeModal): void {
 
         var eles = this.getElements();
 

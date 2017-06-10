@@ -6,7 +6,7 @@ import { CaseElement, CaseElementProps } from '../form/CaseElement';
 import { NodeProps } from '../Node';
 import { TextInputElement, HTMLTextElement } from '../form/TextInputElement';
 import { NodeForm } from '../NodeForm';
-import { NodeEditorProps, NodeModalProps } from '../NodeModal';
+import { NodeEditorProps, NodeModal } from '../NodeModal';
 import { Config } from '../../services/Config';
 import { Node, SwitchRouter, Exit, Case, UINode, Action } from '../../FlowDefinition';
 
@@ -391,7 +391,7 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
         }));
     }
 
-    submit(modal: NodeModalProps) {
+    submit(modal: NodeModal) {
         const { cases, exits, defaultExit } = resolveExits(this.state.cases, this.props);
         var lastElement = this.elements[this.elements.length - 1];
         var optionalRouter = {}

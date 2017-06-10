@@ -3,7 +3,7 @@ import * as UUID from 'uuid';
 import { NodeForm } from "../NodeForm";
 import { SwitchRouterProps, SwitchRouterState, SwitchRouterForm } from "./SwitchRouter";
 import { StartFlow, Case, Exit, SwitchRouter } from '../../FlowDefinition';
-import { NodeModalProps } from "../NodeModal";
+import { NodeModal } from "../NodeModal";
 import { FlowElement } from "../form/FlowElement";
 
 
@@ -51,7 +51,7 @@ export class SubflowForm extends SwitchRouterForm<SubflowProps, SubflowState> {
         return UUID.v4();
     }
 
-    submit(modal: NodeModalProps): void {
+    submit(modal: NodeModal): void {
         var select = this.getElements()[0] as FlowElement;
         var flow = select.state.flow;
 
