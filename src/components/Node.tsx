@@ -29,7 +29,7 @@ var shared = require("./shared.scss");
 export interface DragPoint {
     exitUUID: string;
     nodeUUID: string;
-    onResolved?: Function;
+    onResolved?(canceled: boolean): void;
 }
 
 export interface NodeState {

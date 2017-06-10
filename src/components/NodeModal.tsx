@@ -108,13 +108,13 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         // if we are valid, submit it
         if (valid) {
             this.form.submit(this);
-            this.closeModal();
+            this.closeModal(false);
         }
     }
 
-    private closeModal() {
+    private closeModal(canceled: boolean) {
         if (this.props.draggedFrom) {
-            this.props.draggedFrom.onResolved();
+            this.props.draggedFrom.onResolved(canceled);
         }
         this.close();
     }
@@ -127,7 +127,7 @@ export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
         if ($(event.target).data('type') == 'ok') {
             this.processForm();
         } else {
-            this.closeModal();
+            this.closeModal(true);
         }
     }
 

@@ -63,6 +63,15 @@ export class FlowMutator {
         return this.definition.nodes[details.nodeIdx];
     }
 
+    public getExit(uuid: string): Exit {
+        var details = this.components.getDetails(uuid);
+        if (details) {
+            var node = this.definition.nodes[details.nodeIdx];
+            return node.exits[details.exitIdx];
+        }
+        return null;
+    }
+
     public getNodeUI(uuid: string): UINode {
         return this.definition._ui.nodes[uuid];
     }
@@ -432,8 +441,8 @@ export class FlowMutator {
         return null;
     }
 
-    public disconnectExit(exit: Exit) {
-        this.updateExitDestination(exit.uuid, null);
+    public disconnectExit(exitUUID: string) {
+        this.updateExitDestination(exitUUID, null);
     }
 
     private updateExitDestination(exitUUID: string, destination: string) {

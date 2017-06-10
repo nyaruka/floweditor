@@ -25,7 +25,7 @@ export interface FlowContext {
 export interface FlowEventHandler {
     onRemoveAction(action: Action): void;
     onMoveActionUp(action: Action): void;
-    onDisconnectExit(exit: Exit): void;
+    onDisconnectExit(exitUUID: string): void;
     onNodeMoved(nodeUUID: string, position: Position): void;
     onAddAction(nodeUUID: string): void;
     onRemoveNode(props: Node): void;
@@ -278,7 +278,16 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var draggedFrom = {
             nodeUUID: draggedFromDetails.nodeUUID,
             exitUUID: draggedFromDetails.exitUUID,
-            onResolved: (() => {
+            onResolved: ((canceled: boolean) => {
+
+                // make sure we re-wire the old connection
+                if (canceled) {
+                    var exit = this.props.mutator.getExit(draggedFrom.exitUUID);
+                    if (exit) {
+                        Plumber.get().connectExit(exit, false);
+                    }
+                }
+
                 this.setState({
                     ghost: null,
                     modalProps: {
