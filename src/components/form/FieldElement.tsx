@@ -12,21 +12,8 @@ var styles = require("./FormElement.scss");
 // TODO: these should come from an external source
 var reserved = toBoolMap([
     "language",
-    "facebook",
-    "telegram",
-    "email",
-    "mailto",
     "name",
-    "first name",
-    "phone",
-    "groups",
-    "uuid",
-    "created by",
-    "modified by",
-    "org",
-    "is",
-    "has",
-    "tel"
+    "timezone"
 ]);
 
 interface FieldElementProps extends FormElementProps {
