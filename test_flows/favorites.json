@@ -15,7 +15,7 @@
       "exits": [
         {
           "uuid": "ced3fdb5-65d4-4409-be18-f7f86ae3b03d",
-          "destination": "67f02df1-f268-4282-b868-7d1e0c4fd676"
+          "destination_node_uuid": "67f02df1-f268-4282-b868-7d1e0c4fd676"
         }
       ]
     },
@@ -31,7 +31,7 @@
       "exits": [
         {
           "uuid": "a1915b0b-bcbf-4efc-a6cc-0e8edcf0c1a8",
-          "destination": "67f02df1-f268-4282-b868-7d1e0c4fd676"
+          "destination_node_uuid": "67f02df1-f268-4282-b868-7d1e0c4fd676"
         }
       ]
     },
@@ -52,7 +52,7 @@
       "exits": [
         {
           "uuid": "518a4e87-0c29-4d8d-8138-7156636d8f97",
-          "destination": null
+          "destination_node_uuid": null
         }
       ]
     },
@@ -68,7 +68,7 @@
       "exits": [
         {
           "uuid": "b8932457-9cd5-4ca7-a0ac-f5018d57147e",
-          "destination": "f4d66f67-bc18-4ec3-85a4-03ac7383a5c3"
+          "destination_node_uuid": "f4d66f67-bc18-4ec3-85a4-03ac7383a5c3"
         }
       ]
     },
@@ -84,7 +84,7 @@
       "exits": [
         {
           "uuid": "8f49defa-ace2-491a-926a-f1d76c395c6d",
-          "destination": "f4d66f67-bc18-4ec3-85a4-03ac7383a5c3"
+          "destination_node_uuid": "f4d66f67-bc18-4ec3-85a4-03ac7383a5c3"
         }
       ]
     },
@@ -92,7 +92,7 @@
       "uuid": "67f02df1-f268-4282-b868-7d1e0c4fd676",
       "router": {
         "type": "switch",
-        "default": "372300ae-4565-4cae-b3fa-225b16fa0c5c",
+        "default_exit_uuid": "372300ae-4565-4cae-b3fa-225b16fa0c5c",
         "operand": "@input.value",
         "cases": [
           {
@@ -101,7 +101,7 @@
             "arguments": [
               "Tornado"
             ],
-            "exit": "872f5f36-4a4d-4e45-a857-d512251bf236"
+            "exit_uuid": "872f5f36-4a4d-4e45-a857-d512251bf236"
           },
           {
             "uuid": "91db69c2-6b36-48df-bb84-2bd5b5f6add5",
@@ -109,7 +109,7 @@
             "arguments": [
               "Tsunami"
             ],
-            "exit": "32124f4e-acdf-432a-9bc7-9495733e77b2"
+            "exit_uuid": "32124f4e-acdf-432a-9bc7-9495733e77b2"
           },
           {
             "uuid": "c700e8af-9407-46e5-8456-d4c65987c14e",
@@ -117,7 +117,7 @@
             "arguments": [
               "Earthquake"
             ],
-            "exit": "ea73449c-995b-4bfb-8c5d-1dbd8c472b58"
+            "exit_uuid": "ea73449c-995b-4bfb-8c5d-1dbd8c472b58"
           }
         ],
         "name": "Disaster"
@@ -125,22 +125,22 @@
       "exits": [
         {
           "uuid": "872f5f36-4a4d-4e45-a857-d512251bf236",
-          "destination": "3579b599-d543-4e01-9900-945db3c11248",
+          "destination_node_uuid": "3579b599-d543-4e01-9900-945db3c11248",
           "name": "Tornado"
         },
         {
           "uuid": "32124f4e-acdf-432a-9bc7-9495733e77b2",
-          "destination": "3579b599-d543-4e01-9900-945db3c11248",
+          "destination_node_uuid": "3579b599-d543-4e01-9900-945db3c11248",
           "name": "Tsunami"
         },
         {
           "uuid": "ea73449c-995b-4bfb-8c5d-1dbd8c472b58",
-          "destination": "3579b599-d543-4e01-9900-945db3c11248",
+          "destination_node_uuid": "3579b599-d543-4e01-9900-945db3c11248",
           "name": "Earthquake"
         },
         {
           "uuid": "372300ae-4565-4cae-b3fa-225b16fa0c5c",
-          "destination": "84fa70e4-a028-45a7-887e-1ae00320bcce",
+          "destination_node_uuid": "84fa70e4-a028-45a7-887e-1ae00320bcce",
           "name": "Other"
         }
       ]
@@ -149,7 +149,7 @@
       "uuid": "f4d66f67-bc18-4ec3-85a4-03ac7383a5c3",
       "router": {
         "type": "switch",
-        "default": "edfac2a6-d18e-4bbc-9caa-9b695ea6e00f",
+        "default_exit_uuid": "edfac2a6-d18e-4bbc-9caa-9b695ea6e00f",
         "operand": "@input.value",
         "cases": [
           {
@@ -158,7 +158,7 @@
             "arguments": [
               "fant britt glowinski"
             ],
-            "exit": "d1e70ff1-efaa-401d-9d24-7086b7381092"
+            "exit_uuid": "d1e70ff1-efaa-401d-9d24-7086b7381092"
           },
           {
             "uuid": "7b7b4a74-6b94-4c98-be10-5508a346c6eb",
@@ -166,7 +166,7 @@
             "arguments": [
               "wilson rawls baldwin wagner chancellor thomas wright bennett avril sherman"
             ],
-            "exit": "4f9fae94-3b97-4610-a71b-39e1634cb045"
+            "exit_uuid": "4f9fae94-3b97-4610-a71b-39e1634cb045"
           },
           {
             "uuid": "896f71e2-f8e7-4daf-bab4-2bd3b35ab887",
@@ -174,7 +174,7 @@
             "arguments": [
               "graham"
             ],
-            "exit": "364dc922-3c71-434c-89a2-52f4bbca5b05"
+            "exit_uuid": "364dc922-3c71-434c-89a2-52f4bbca5b05"
           }
         ],
         "name": "seahawk"
@@ -182,22 +182,22 @@
       "exits": [
         {
           "uuid": "d1e70ff1-efaa-401d-9d24-7086b7381092",
-          "destination": "47a0be00-59ad-4558-bd13-ec66518ce44a",
-          "name": "the offensive Line"
+          "destination_node_uuid": "47a0be00-59ad-4558-bd13-ec66518ce44a",
+          "name": "the offensive line"
         },
         {
           "uuid": "4f9fae94-3b97-4610-a71b-39e1634cb045",
-          "destination": "47a0be00-59ad-4558-bd13-ec66518ce44a",
+          "destination_node_uuid": "47a0be00-59ad-4558-bd13-ec66518ce44a",
           "name": "the stars"
         },
         {
           "uuid": "364dc922-3c71-434c-89a2-52f4bbca5b05",
-          "destination": "47a0be00-59ad-4558-bd13-ec66518ce44a",
+          "destination_node_uuid": "47a0be00-59ad-4558-bd13-ec66518ce44a",
           "name": "JIMMY GRAHAM!"
         },
         {
           "uuid": "edfac2a6-d18e-4bbc-9caa-9b695ea6e00f",
-          "destination": "8bd28da2-0f97-4622-a36c-c2876e41b44c",
+          "destination_node_uuid": "8bd28da2-0f97-4622-a36c-c2876e41b44c",
           "name": "Other"
         }
       ]

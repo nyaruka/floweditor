@@ -23,7 +23,7 @@ module.exports = {
             {
                 test: /\.woff(2)?(\?[a-z0-9]+)?$/,
                 loader: "url-loader?limit=10000&mimetype=application/font-woff"
-            }, 
+            },
             {
                 test: /\.(ttf|eot|svg)(\?[a-z0-9]+)?$/,
                 loader: "file-loader"
@@ -50,11 +50,11 @@ module.exports = {
             {
                 test: /\.css$/,
                 exclude: path.join(__dirname, 'src/components'),
-                use: [ 'style-loader', 'css-loader' ]
+                use: ['style-loader', 'css-loader']
             },
             {
                 test: /\.tsx?$/,
-                use: [ {loader: 'awesome-typescript-loader'} ],
+                use: [{ loader: 'awesome-typescript-loader' }],
                 exclude: /node_modules/
             },
             {
@@ -63,7 +63,7 @@ module.exports = {
                 use: [
                     { loader: "style-loader" },   // creates style nodes from JS strings
                     { loader: "css-loader" },     // translates CSS into CommonJS
-                    { loader: "sass-loader"}      // compiles Sass to CSS
+                    { loader: "sass-loader" }      // compiles Sass to CSS
                 ]
             }
         ]

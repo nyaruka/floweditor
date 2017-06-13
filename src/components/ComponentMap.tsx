@@ -67,6 +67,10 @@ export class ComponentMap {
         console.timeEnd("ComponentMap");
     }
 
+    public getPendingConnections(): { [uuid: string]: DragPoint } {
+        return this.pendingConnections;
+    }
+
     public addPendingConnection(draggedTo: string, draggedFrom: DragPoint) {
         this.pendingConnections[draggedTo] = draggedFrom;
     }

@@ -31,13 +31,18 @@ export interface CaseProps {
     moveCase: Function;
 }
 
+export interface CombinedExits {
+    cases: Case[];
+    exits: Exit[];
+    defaultExit: string;
+}
 /**
  * Given a set of cases and previous exits, determines correct merging of cases
  * and the union of exits
  * @param newCases 
  * @param previousExits 
  */
-export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps): { cases: Case[], exits: Exit[], defaultExit: string } {
+export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps): CombinedExits {
 
     // create mapping of our old exit uuids to old exit settings
     var previousExitMap: { [uuid: string]: Exit } = {};
