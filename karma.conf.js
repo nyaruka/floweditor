@@ -1,6 +1,7 @@
 
 var webpackConfig = require("./webpack.dev");
 var webpack = require("webpack");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = function (config) {
     config.set({
@@ -83,8 +84,8 @@ module.exports = function (config) {
          * npm module to be npm installed and added to the "plugins" field.
          */
         preprocessors: {
-            "test/**/*.ts*": ["webpack"], // Using karma-webpack npm module
-            // "src/**/*.ts*": ["webpack"]
+            "test/**/*.ts*": ["webpack", "sourcemap"], // Using karma-webpack npm module
+            // "src/**/*.ts*": ["webpack", "sourcemap"]
         },
 
         /*
@@ -92,7 +93,7 @@ module.exports = function (config) {
          * use the karma-mocha-reporter, you must npm install the module and
          * include it in the list of plugins.
          */
-        reporters: ['mocha'],
+        reporters: ['mocha', 'progress'],
 
         /*
          * If true, Karma will start and capture all configured browsers, run
@@ -111,35 +112,15 @@ module.exports = function (config) {
          */
         webpackMiddleware: { stats: 'errors-only' },
         webpack: {
+            entry: './test/FlowMutator.test.tsx',
+
             devtool: 'inline-source-map',
-            module: {
-                rules: [{
-                    test: /\.tsx?$/,
-                    use: [{ loader: 'awesome-typescript-loader' }],
-                    exclude: /node_modules/
-                }, {
-                    test: /src\/.+\.ts*$/,
-                    exclude: /(node_modules|\.spec\.tsx?$)/,
-                    loader: 'sourcemap-istanbul-instrumenter-loader?force-sourcemap=true',
-                    enforce: 'post'
-                },
-                {
-                    test: /\.css$/,
-                    use: ['style-loader', 'css-loader']
-                },
-                {
-                    test: /\.scss$/,
-                    use: [
-                        { loader: "style-loader" },   // creates style nodes from JS strings
-                        { loader: "css-loader" },     // translates CSS into CommonJS
-                        { loader: "sass-loader" }      // compiles Sass to CSS
-                    ]
-                }]
-            },
+            module: webpackConfig.module,
             plugins: [
+                new ExtractTextPlugin("styles.css"),
                 new webpack.SourceMapDevToolPlugin({
                     filename: null,
-                    test: /\.(ts*|js)($|\?)/i
+                    test: /\.(ts(x?)|js)($|\?)/i
                 })
             ],
             resolve: webpackConfig.resolve,
@@ -147,7 +128,8 @@ module.exports = function (config) {
                 "react/lib/ExecutionEnvironment": "window",
                 "react/lib/ReactContext": "window",
                 "react/addons": "window"
-            }
+            },
+
         }
     });
 };

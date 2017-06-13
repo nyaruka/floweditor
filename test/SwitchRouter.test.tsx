@@ -1,9 +1,10 @@
 import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
-import { resolveExits, CaseProps, SwitchRouterProps } from '../src/components/routers/SwitchRouter';
 import { FlowMutator } from '../src/components/FlowMutator';
 import { FlowDefinition, Case, SwitchRouter, Exit } from '../src/FlowDefinition';
 import { getFavorites, dump } from './utils';
+import { Config } from "../src/services/Config";
+import { SwitchRouterProps, CaseProps, resolveExits, CombinedExits } from "../src/components/routers/SwitchRouter";
 
 describe('SwitchRouter', () => {
 
@@ -20,12 +21,15 @@ describe('SwitchRouter', () => {
         definition = getFavorites();
 
         var switchNode = definition.nodes[5];
+
         disasterChoice = {
             router: switchNode.router as SwitchRouter,
             exits: switchNode.exits,
             type: switchNode.router.type,
             uuid: switchNode.uuid,
-            context: null
+            context: null,
+            action: null,
+            config: Config.get().getTypeConfig(switchNode.router.type)
         }
 
         originalCases = makeCaseProps(disasterChoice.router.cases);
@@ -35,9 +39,9 @@ describe('SwitchRouter', () => {
         chai.assert.equal(originalCases[earthquake].kase.arguments[0], "Earthquake");
 
         // we have a default exit that is routed
-        var defaultExit = getExit(disasterChoice.router.default, disasterChoice.exits);
+        var defaultExit = getExit(disasterChoice.router.default_exit_uuid, disasterChoice.exits);
         chai.assert.isNotNull(defaultExit);
-        chai.assert.isNotNull(defaultExit.destination);
+        chai.assert.isNotNull(defaultExit.destination_node_uuid);
 
     });
 
@@ -50,43 +54,30 @@ describe('SwitchRouter', () => {
     }
 
     function getExit(exitUUID: string, exits: Exit[]): Exit {
-        for (let exit of exits) {
-            if (exit.uuid == exitUUID) {
-                return exit;
-            }
-        }
+        return exits.find((exit: Exit) => { return exit.uuid == exitUUID });
     }
 
-    function resolve(newCases: CaseProps[], previous: SwitchRouterProps): { cases: Case[], exits: Exit[], defaultExit: string } {
-        const { cases, exits, defaultExit } = resolveExits(newCases, previous);
-        assertUniqueExits(exits);
-        assertCasesHaveExits(cases, exits, defaultExit);
-        assertNoOrphanedExits(cases, exits, defaultExit);
-        return { cases, exits, defaultExit };
-    }
-
-    function assertNoOrphanedExits(cases: Case[], exits: Exit[], defaultExit: string) {
-        for (let exit of exits) {
-            if (exit.uuid != defaultExit && !cases.some(kase => kase.exit == exit.uuid)) {
-                dump(exits);
+    function assertNoOrphanedExits(combined: CombinedExits) {
+        for (let exit of combined.exits) {
+            if (exit.uuid != combined.defaultExit && !combined.cases.some(kase => kase.exit_uuid == exit.uuid)) {
+                dump(combined.exits);
                 chai.assert.fail(exit.name, exit.name, "Found orphaned exit: " + exit.name)
             }
         }
     }
 
-    function assertCasesHaveExits(cases: Case[], exits: Exit[], defaultExit: string) {
+    function assertCasesHaveExits(combined: CombinedExits) {
 
-        for (let kase of cases) {
-            if (!exits.some(exit => exit.uuid == kase.exit)) {
-                dump(cases);
-                chai.assert.fail(kase.exit, kase.exit, "Case routes to non-exisiting exit: " + kase.exit);
+        for (let kase of combined.cases) {
+            if (!combined.exits.some(exit => exit.uuid == kase.exit_uuid)) {
+                dump(combined.cases);
+                chai.assert.fail(kase.exit_uuid, kase.exit_uuid, "Case routes to non-exisiting exit: " + kase.exit_uuid);
             }
         }
 
-        if (!exits.some(exit => exit.uuid == defaultExit)) {
-            chai.assert.fail(defaultExit, defaultExit, "Default route missing from exits: " + defaultExit);
+        if (!combined.exits.some(exit => exit.uuid == combined.defaultExit)) {
+            chai.assert.fail(combined.defaultExit, combined.defaultExit, "Default route missing from exits: " + combined.defaultExit);
         }
-
     }
 
     function assertUniqueExits(exits: Exit[]) {
@@ -111,16 +102,24 @@ describe('SwitchRouter', () => {
         }
     }
 
+    function resolve(newCases: CaseProps[], previous: SwitchRouterProps): CombinedExits {
+        var combined = resolveExits(newCases, previous);
+        assertUniqueExits(combined.exits);
+        assertCasesHaveExits(combined);
+        assertNoOrphanedExits(combined);
+        return combined;
+    }
+
+
     it('maintains the "other" destination', () => {
 
         // update without making any changes
         const { cases, exits, defaultExit } = resolve(originalCases, disasterChoice);
 
-        // console.log(cases, exits, defaultExit);
         // our default route should be present and routed properly
         var exit = getExit(defaultExit, exits);
         chai.assert.isNotNull(exit);
-        chai.assert.isNotNull(exit.destination);
+        chai.assert.isNotNull(exit.destination_node_uuid);
     });
 
     it('merges cases to the same exit', () => {
@@ -134,7 +133,7 @@ describe('SwitchRouter', () => {
         chai.assert.equal(exits.length, disasterChoice.exits.length - 1, "Incorrect number of exits after merged cases");
 
         // we should now be pointed to our tsunami exit
-        chai.assert.equal(cases[earthquake].exit, disasterChoice.exits[tsunami].uuid);
+        chai.assert.equal(cases[earthquake].exit_uuid, disasterChoice.exits[tsunami].uuid);
 
     });
 
@@ -151,7 +150,7 @@ describe('SwitchRouter', () => {
         // but we should have a new name for one of our exits
         chai.assert.equal("Terramoto", exits[earthquake].name);
         chai.assert.equal(cases[earthquake].arguments[0], "Earthquake");
-        chai.assert.equal(cases[earthquake].exit, exits[earthquake].uuid);
+        chai.assert.equal(cases[earthquake].exit_uuid, exits[earthquake].uuid);
 
         // and the uuid for our exit should not have changed
         chai.assert.equal(cases[earthquake].uuid, originalCases[earthquake].kase.uuid);
@@ -174,7 +173,7 @@ describe('SwitchRouter', () => {
         chai.assert.equal(exits.length, disasterChoice.exits.length);
 
         // pointing to the same place
-        chai.assert.equal(disasterChoice.exits[earthquake].destination, exits[earthquake].destination);
+        chai.assert.equal(disasterChoice.exits[earthquake].destination_node_uuid, exits[earthquake].destination_node_uuid);
 
     });
 
@@ -214,13 +213,15 @@ describe('SwitchRouter', () => {
             router: {
                 cases: [],
                 operand: "@input.text",
-                default: defaultUUID,
+                default_exit_uuid: defaultUUID,
                 type: "switch",
             },
             exits: [],
             type: "switch",
             uuid: defaultUUID,
-            context: null
+            context: null,
+            action: null,
+            config: Config.get().getTypeConfig("switch")
         };
 
         // an empty switch with new cases
@@ -237,7 +238,7 @@ describe('SwitchRouter', () => {
             kase: {
                 uuid: UUID.v4(),
                 type: "has_any_word",
-                exit: null // no exit yet!
+                exit_uuid: null // no exit yet!
             },
             exitName: "New Exit",
             onChanged: null,
@@ -251,10 +252,9 @@ describe('SwitchRouter', () => {
         chai.assert.equal(exits.length, 2);
 
         // the exitName should not be saved
-        chai.assert.isNotNull(cases[0].exit);
-        chai.assert.equal(cases[0].exit, exits[0].uuid);
+        chai.assert.isNotNull(cases[0].exit_uuid);
+        chai.assert.equal(cases[0].exit_uuid, exits[0].uuid);
 
     });
-
 });
 

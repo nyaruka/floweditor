@@ -4,17 +4,21 @@ import { FlowMutator } from '../src/components/FlowMutator';
 import { FlowDefinition, UINode, SendMessage, Webhook } from '../src/FlowDefinition';
 import { NodeProps } from '../src/components/Node';
 import { getFavorites, dump } from './utils';
+import { ComponentMap } from "../src/components/ComponentMap";
 
 describe('FlowMutator', () => {
 
     var mutator: FlowMutator;
     var definition: FlowDefinition;
+    var components: ComponentMap;
 
     beforeEach(() => {
         definition = getFavorites()
         mutator = new FlowMutator(definition, (updated: FlowDefinition) => {
             definition = updated;
         });
+
+        components = ComponentMap.get();
     });
 
     describe('Nodes', () => {
@@ -36,7 +40,7 @@ describe('FlowMutator', () => {
             chai.assert.notEqual(definition.nodes[0].uuid, firstNode, "Entry node didn't change on move");
 
             // check our component map agrees
-            var details = mutator.getComponents().getDetails(firstNode);
+            var details = components.getDetails(firstNode);
             chai.assert.notEqual(details.nodeIdx, 0);
 
         });
@@ -57,7 +61,7 @@ describe('FlowMutator', () => {
             // our previous non-other exits should be rerouted to the next node
             for (let exit of definition.nodes[4].exits) {
                 if (exit.name != "Other") {
-                    chai.assert.equal(definition.nodes[5].uuid, exit.destination);
+                    chai.assert.equal(definition.nodes[5].uuid, exit.destination_node_uuid);
                 }
             }
 
@@ -75,11 +79,11 @@ describe('FlowMutator', () => {
         it('removes actions', () => {
 
             // our last node has two actions
-            var indexes = mutator.getComponents().getDetails("47a0be00-59ad-4558-bd13-ec66518ce44a");
+            var indexes = components.getDetails("47a0be00-59ad-4558-bd13-ec66518ce44a");
             chai.assert.equal(definition.nodes[indexes.nodeIdx].actions.length, 2);
 
             // get our last message action in the flow
-            var indexes = mutator.getComponents().getDetails("76fe3759-e0b6-437e-ae6c-6005ff43fbb8");
+            var indexes = components.getDetails("76fe3759-e0b6-437e-ae6c-6005ff43fbb8");
             var action = definition.nodes[indexes.nodeIdx].actions[indexes.actionIdx];
 
             // remove that action
@@ -104,7 +108,7 @@ describe('FlowMutator', () => {
             chai.assert.equal(definition.nodes.length, 6);
         });
 
-        xit('adds new actions to new nodes', () => {
+        it('adds new actions to new nodes', () => {
             var lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
             var actionUUID = UUID.v4();
 
@@ -114,36 +118,29 @@ describe('FlowMutator', () => {
                 text: "A new message after dragging"
             }
 
-            var newNode = mutator.updateAction(newAction);
-
-            /*
-                draggedFrom: {
-                    exitUUID: lastNode.exits[0].uuid, 
+            var newNode = mutator.updateAction(newAction,
+                {
+                    exitUUID: lastNode.exits[0].uuid,
                     nodeUUID: lastNode.uuid
                 },
-                newPosition: {
+                {
                     x: 444,
                     y: 555
                 }
-            */
+            );
 
             // we should have a new node
             chai.assert.equal(definition.nodes.length, 8, "Failed to add new node");
 
             // we should now have a pending connection on our new ndoe
             lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a");
-            //chai.assert.isNull(lastNode.exits[0].destination);
-            //chai.assert.equal(newNode.pendingConnection.exitUUID, lastNode.exits[0].uuid);
+            chai.assert.isNull(lastNode.exits[0].destination_node_uuid);
+            chai.assert.equal(components.getPendingConnection(newNode.uuid).exitUUID, lastNode.exits[0].uuid);
 
             // resolve our pending connection and check the exit destination
-            //mutator.resolvePendingConnection(newNode);
-            //lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a");
-            //chai.assert.isNotNull(lastNode.exits[0].destination);
-
-            // we shouldn't have any turds
-            //newNode = mutator.getNode(newNode.uuid);
-            // chai.assert.isUndefined(newNode.actions[0].draggedFrom, "Still has reference to draggedFrom: " + newNode.draggedFrom);
-            //chai.assert.isUndefined(newNode.pendingConnection, "Still has a reference to pendingConnection");
+            mutator.resolvePendingConnection(newNode);
+            lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a");
+            chai.assert.isNotNull(lastNode.exits[0].destination_node_uuid);
 
             // check that we have our location set
             var ui = definition._ui.nodes[newNode.uuid] as UINode;
@@ -187,7 +184,7 @@ describe('FlowMutator', () => {
             chai.assert.equal(action.method, "GET");
         });
 
-        xit('adds actions to an existing node', () => {
+        it('adds actions to an existing node', () => {
             mutator.updateAction({
                 uuid: UUID.v4(),
                 type: "msg",
@@ -195,7 +192,7 @@ describe('FlowMutator', () => {
                 addToNode: "47a0be00-59ad-4558-bd13-ec66518ce44a",
                 dragging: false,
                 context: null
-            } as SendMessage);
+            } as SendMessage, null, null, "47a0be00-59ad-4558-bd13-ec66518ce44a");
 
             var lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
             chai.assert.equal(3, lastNode.actions.length);
@@ -204,7 +201,7 @@ describe('FlowMutator', () => {
             chai.assert.equal(action.text, "Add action to an existing node");
         });
 
-        xit('can remove added actions on new nodes', () => {
+        it('can remove added actions on new nodes', () => {
             var lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
 
             var newAction: SendMessage = {
@@ -214,21 +211,19 @@ describe('FlowMutator', () => {
             }
 
             // first add a new action
-            var newNode = mutator.updateAction(newAction);
-
-            /*
-            draggedFrom: {
-                    exitUUID: lastNode.exits[0].uuid, 
+            var newNode = mutator.updateAction(newAction,
+                {
+                    exitUUID: lastNode.exits[0].uuid,
                     nodeUUID: lastNode.uuid
                 },
-                newPosition: {
+                {
                     x: 444,
                     y: 555
                 }
-            */
+            );
 
             // resolve its pending connection
-            // mutator.resolvePendingConnection(newNode);
+            mutator.resolvePendingConnection(newNode);
 
             // now add an action to that node
             var newAction: SendMessage = {

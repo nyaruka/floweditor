@@ -421,7 +421,6 @@ export class FlowMutator {
      * @param props with a pendingConnection set
      */
     public resolvePendingConnection(props: Node) {
-
         // only resolve connection if we have one
         var pendingConnection = this.components.getPendingConnection(props.uuid);
         if (pendingConnection != null) {
