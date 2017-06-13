@@ -6,7 +6,7 @@ import { NodeForm } from "../NodeForm";
 import { SwitchRouterProps, SwitchRouterState, SwitchRouterForm } from "./SwitchRouter";
 import { SelectElement } from '../form/SelectElement';
 import { Webhook, Case, Exit, SwitchRouter } from '../../FlowDefinition';
-import { NodeModalProps } from "../NodeModal";
+import { NodeModal } from "../NodeModal";
 import { TextInputElement, HTMLTextElement } from '../form/TextInputElement';
 
 import { FormElement, FormElementProps } from '../form/FormElement';
@@ -16,8 +16,11 @@ var forms = require('../form/FormElement.scss');
 var styles = require('./Webhook.scss');
 
 var defaultBody: string = `{
-    "contact": @(json(contact)),
-    "results": @(json(run.results))
+    "contact": @(to_json(contact.uuid)),
+    "contact_urn": @(to_json(contact.urns)),
+    "message": @(to_json(input.text)),
+    "flow": @(to_json(run.flow.uuid)),
+    "flow_name": @(to_json(run.flow.name))
 }`;
 
 export interface Header {
@@ -70,7 +73,8 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
             setResultName: false,
             cases: [],
             headers: headers,
-            method: method
+            method: method,
+            operand: "@webhook"
         };
     }
 
@@ -122,6 +126,8 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
 
 
         var postBody = defaultBody;
+
+        var nodeUUID = this.props.uuid;
 
         if (this.props.action) {
             var action = this.props.action;
@@ -198,7 +204,7 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
         return UUID.v4();
     }
 
-    submit(modal: NodeModalProps): void {
+    submit(modal: NodeModal): void {
 
         var eles = this.getElements();
 
@@ -272,8 +278,14 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
             default_exit_uuid: exits[1].uuid
         }
 
+        // HACK: this should go away with modal <refactor></refactor>
+        var nodeUUID = this.props.uuid;
+        if (this.props.action && this.props.action.uuid == nodeUUID) {
+            nodeUUID = UUID.v4();
+        }
+
         modal.onUpdateRouter({
-            uuid: this.props.uuid,
+            uuid: nodeUUID,
             router: router,
             exits: exits,
             actions: [newAction]

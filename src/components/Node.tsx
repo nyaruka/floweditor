@@ -29,7 +29,7 @@ var shared = require("./shared.scss");
 export interface DragPoint {
     exitUUID: string;
     nodeUUID: string;
-    onResolved?: Function;
+    onResolved?(canceled: boolean): void;
 }
 
 export interface NodeState {
@@ -177,6 +177,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
     render() {
         var classes = ["plumb-drag", styles.node];
         var actions: JSX.Element[] = [];
+        var actionList = null;
         if (this.props.node.actions) {
             // save the first reference off to manage our clicks
             var firstRef: any = { ref: (ele: any) => { this.firstAction = ele } };
@@ -197,6 +198,12 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                 first = false;
                 firstRef = {};
             }
+
+            actionList = (
+                <div className={styles.actions}>
+                    {actions}
+                </div>
+            )
         }
 
         var events = {}
@@ -290,9 +297,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                     countStyle={styles.count}
                 />
                 {header}
-                <div className={styles.actions}>
-                    {actions}
-                </div>
+                {actionList}
                 <div className={styles.exit_table + " " + exitClass}>
                     <div className={styles.exits} {...events}>
                         {exits}

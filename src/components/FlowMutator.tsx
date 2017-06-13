@@ -63,6 +63,15 @@ export class FlowMutator {
         return this.definition.nodes[details.nodeIdx];
     }
 
+    public getExit(uuid: string): Exit {
+        var details = this.components.getDetails(uuid);
+        if (details) {
+            var node = this.definition.nodes[details.nodeIdx];
+            return node.exits[details.exitIdx];
+        }
+        return null;
+    }
+
     public getNodeUI(uuid: string): UINode {
         return this.definition._ui.nodes[uuid];
     }
@@ -178,6 +187,7 @@ export class FlowMutator {
      * @param changes immutability spec to modify at the given action
      */
     public updateAction(action: Action,
+        previousNodeUUID: string,
         draggedFrom: DragPoint = null,
         newPosition: Position = null,
         addToNode: string = null): Node {
@@ -216,16 +226,48 @@ export class FlowMutator {
         else {
             // update the action into our new flow definition
             let actionDetails = this.components.getDetails(action.uuid)
-            if (actionDetails) {
-                this.definition = update(this.definition, {
-                    nodes: {
-                        [actionDetails.nodeIdx]: {
-                            actions: { [actionDetails.actionIdx]: { $set: action } },
-                        }
-                    }
-                });
 
-                var node = this.definition.nodes[actionDetails.nodeIdx];
+            var node: Node = null;
+            var nodeIdx = -1;
+            var actionIdx = -1;
+            var nodeUUID;
+
+            if (actionDetails) {
+                node = this.definition.nodes[actionDetails.nodeIdx];
+                nodeIdx = actionDetails.nodeIdx;
+                actionIdx = actionDetails.actionIdx;
+                nodeUUID = actionDetails.nodeUUID
+            }
+            // HACK: look it up by previous node
+            // this should fall away with nodemodal refactor based on nodes
+            else if (previousNodeUUID) {
+                var nodeDetails = this.components.getDetails(previousNodeUUID);
+                node = this.definition.nodes[nodeDetails.nodeIdx];
+                nodeIdx = nodeDetails.nodeIdx;
+                actionIdx = 0;
+                nodeUUID = previousNodeUUID;
+            }
+
+            if (node) {
+
+                if (node.actions && node.actions.length > 0) {
+                    this.definition = update(this.definition, {
+                        nodes: {
+                            [nodeIdx]: {
+                                actions: { [actionIdx]: { $set: action } },
+                            }
+                        }
+                    });
+                } else if (actionIdx == 0) {
+                    this.definition = update(this.definition, {
+                        nodes: {
+                            [nodeIdx]: {
+                                actions: { $set: [action] },
+                            }
+                        }
+                    });
+                }
+
                 var previousDestination = null;
                 var previousUUID = UUID.v4();
                 if (node.exits.length == 1) {
@@ -235,7 +277,8 @@ export class FlowMutator {
 
                 this.definition = update(this.definition, {
                     nodes: {
-                        [actionDetails.nodeIdx]: {
+                        [nodeIdx]: {
+                            $unset: ["router", "wait"],
                             exits: {
                                 $set: [
                                     {
@@ -250,14 +293,14 @@ export class FlowMutator {
                 });
 
                 // make sure we don't have a type set
-                var uiNode = this.definition._ui.nodes[actionDetails.nodeUUID];
-                this.updateNodeUI(actionDetails.nodeUUID, { $unset: ["type"] });
+                var uiNode = this.definition._ui.nodes[nodeUUID];
+                this.updateNodeUI(nodeUUID, { $unset: ["type"] });
 
-                node = this.definition.nodes[actionDetails.nodeIdx];
+                node = this.definition.nodes[nodeIdx];
             }
             // otherwise we might be adding a new action
             else {
-                // console.log("Couldn't find node, not updating");
+                console.log("Couldn't find node, not updating");
                 return;
             }
         }
@@ -397,8 +440,8 @@ export class FlowMutator {
         return null;
     }
 
-    public disconnectExit(exit: Exit) {
-        this.updateExitDestination(exit.uuid, null);
+    public disconnectExit(exitUUID: string) {
+        this.updateExitDestination(exitUUID, null);
     }
 
     private updateExitDestination(exitUUID: string, destination: string) {

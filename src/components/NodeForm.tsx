@@ -17,7 +17,7 @@ import { ActionProps } from './Action';
 export abstract class NodeForm<P extends NodeEditorProps, S> extends React.PureComponent<P, S> {
 
     // abstract validate(ele: any): string;
-    abstract submit(modalProps: NodeModalProps): void;
+    abstract submit(modal: NodeModal): void;
     abstract renderForm(): JSX.Element;
 
     public elements: any[] = [];

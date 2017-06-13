@@ -10,7 +10,7 @@ var styles = require('./Exit.scss');
 
 export interface ExitProps {
     exit: Exit;
-    onDisconnect(exit: Exit): void;
+    onDisconnect(exitUUID: string): void;
 }
 
 export interface ExitState {
@@ -55,7 +55,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         if (this.timeout) {
             window.clearTimeout(this.timeout);
         }
-        this.props.onDisconnect(this.props.exit);
+        this.props.onDisconnect(this.props.exit.uuid);
     }
 
     componentDidMount() {

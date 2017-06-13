@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ActionComp, ActionProps } from '../Action';
 import { ActionForm } from '../NodeForm';
 import { SendMessage } from '../../FlowDefinition';
-import { NodeModalProps } from '../NodeModal';
+import { NodeModal } from '../NodeModal';
 import { TextInputElement } from '../form/TextInputElement';
 
 export class SendMessageComp extends ActionComp<SendMessage> {
@@ -24,7 +24,7 @@ export class SendMessageForm extends ActionForm<SendMessage, {}> {
         )
     }
 
-    submit(modal: NodeModalProps) {
+    submit(modal: NodeModal) {
         var textarea = this.getElements()[0] as TextInputElement;
 
         var newAction: SendMessage = {

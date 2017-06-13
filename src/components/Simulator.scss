@@ -87,6 +87,7 @@
             max-height: 454px;
             padding: 10px;
             overflow-y: auto;
+            overflow-x: hidden;
             font-weight: 300;
             position: relative;
         }
@@ -216,6 +217,31 @@
 
 .webhook {
     word-break: break-all;
+    text-decoration: underline;
+    &:hover {
+        color: #999;
+    }
+}
+
+.webhook_details {
+    unicode-bidi: embed;
+    font-family: monospace; // white-space: pre-wrap;
+    overflow-y: auto;
+    max-height: 500px;
+    padding: 16px;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+     ::first-line {
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+    }
+    .response {
+        padding-top: 20px;
+    }
 }
 
 .event_viewer {

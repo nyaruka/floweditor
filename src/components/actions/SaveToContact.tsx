@@ -4,7 +4,7 @@ import { toBoolMap } from '../../utils';
 import { SelectSearch } from '../SelectSearch';
 import { ComponentMap, SearchResult } from '../ComponentMap';
 import { SaveToContact, UpdateContact } from '../../FlowDefinition';
-import { NodeModalProps } from '../NodeModal';
+import { NodeModal } from '../NodeModal';
 import { ActionForm } from '../NodeForm';
 import { ActionComp } from '../Action';
 import { FieldElement } from '../form/FieldElement';
@@ -107,7 +107,7 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
         )
     }
 
-    submit(modal: NodeModalProps) {
+    submit(modal: NodeModal) {
 
         var elements = this.getElements();
         var fieldEle = elements[0];

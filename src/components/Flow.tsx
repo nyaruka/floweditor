@@ -25,7 +25,7 @@ export interface FlowContext {
 export interface FlowEventHandler {
     onRemoveAction(action: Action): void;
     onMoveActionUp(action: Action): void;
-    onDisconnectExit(exit: Exit): void;
+    onDisconnectExit(exitUUID: string): void;
     onNodeMoved(nodeUUID: string, position: Position): void;
     onAddAction(nodeUUID: string): void;
     onRemoveNode(props: Node): void;
@@ -243,8 +243,9 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         });
     }
 
-    private onUpdateAction(action: Action) {
+    private onUpdateAction(action: Action, previousNodeUUID: string) {
         this.props.mutator.updateAction(action,
+            previousNodeUUID,
             this.state.modalProps.draggedFrom,
             this.state.modalProps.newPosition,
             this.state.modalProps.addToNode
@@ -267,13 +268,26 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
      */
     private onConnectionDrag(event: ConnectionEvent) {
         // we finished dragging a ghost node, create the spec for our new ghost component
-        let draggedFromDetails = ComponentMap.get().getDetails(event.sourceId);
+        let components = ComponentMap.get();
+        let draggedFromDetails = components.getDetails(event.sourceId);
+
         let fromNode = this.props.mutator.getNode(draggedFromDetails.nodeUUID);
+        let fromNodeUI = this.props.mutator.getNodeUI(fromNode.uuid);
+
         var nodeUUID = UUID.v4();
         var draggedFrom = {
             nodeUUID: draggedFromDetails.nodeUUID,
             exitUUID: draggedFromDetails.exitUUID,
-            onResolved: (() => {
+            onResolved: ((canceled: boolean) => {
+
+                // make sure we re-wire the old connection
+                if (canceled) {
+                    var exit = this.props.mutator.getExit(draggedFrom.exitUUID);
+                    if (exit) {
+                        Plumber.get().connectExit(exit, false);
+                    }
+                }
+
                 this.setState({
                     ghost: null,
                     modalProps: {
@@ -297,7 +311,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         };
 
         // add an action if we are coming from a split
-        if (fromNode.wait) {
+        if (fromNode.wait || "webhook" == fromNodeUI.type) {
             let replyAction: SendMessage = {
                 uuid: UUID.v4(),
                 type: "reply",

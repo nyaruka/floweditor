@@ -3,7 +3,7 @@ import * as UUID from 'uuid';
 import { NodeForm } from "../NodeForm";
 import { SwitchRouterProps, SwitchRouterState, SwitchRouterForm } from "./SwitchRouter";
 import { StartFlow, Case, Exit, SwitchRouter } from '../../FlowDefinition';
-import { NodeModalProps } from "../NodeModal";
+import { NodeModal } from "../NodeModal";
 import { FlowElement } from "../form/FlowElement";
 
 
@@ -51,7 +51,7 @@ export class SubflowForm extends SwitchRouterForm<SubflowProps, SubflowState> {
         return UUID.v4();
     }
 
-    submit(modal: NodeModalProps): void {
+    submit(modal: NodeModal): void {
         var select = this.getElements()[0] as FlowElement;
         var flow = select.state.flow;
 
@@ -97,8 +97,14 @@ export class SubflowForm extends SwitchRouterForm<SubflowProps, SubflowState> {
             default_exit_uuid: null
         }
 
+        // HACK: this should go away with modal <refactor></refactor>
+        var nodeUUID = this.props.uuid;
+        if (this.props.action && this.props.action.uuid == nodeUUID) {
+            nodeUUID = UUID.v4();
+        }
+
         modal.onUpdateRouter({
-            uuid: this.props.uuid,
+            uuid: nodeUUID,
             router: router,
             exits: exits,
             actions: [newAction],

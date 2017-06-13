@@ -11,7 +11,7 @@
     "start": "webpack-dev-server --env=dev --progress --colors",
     "build:dev": "webpack --env=dev --progress --profile --colors",
     "build:prod": "webpack --env=prod --progress --profile --colors && cp index.html dist/index.html && cp -R test_flows dist/test_flows && cp -R fonts dist/fonts",
-    "flowbase": "webpack --env=prod --progress --profile --colors && cp index.html dist/index.html && cp -R test_flows dist/test_flows && cp -R fonts dist/fonts && cp -rf dist/floweditor.js ../flowbase/static/floweditor.js && cp -rf dist/styles.css ../flowbase/static/styles.css"
+    "flowbase": "npm run build:prod && cp -f ./dist/* ../flowbase/static/"
   },
   "devDependencies": {
     "@types/chai": "^3.4.35",
