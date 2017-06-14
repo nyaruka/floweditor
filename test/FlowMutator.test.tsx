@@ -1,7 +1,7 @@
 import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import { FlowMutator } from '../src/components/FlowMutator';
-import { FlowDefinition, UINode, SendMessage, Webhook } from '../src/FlowDefinition';
+import { FlowDefinition, UINode, SendMessage, Webhook, SaveFlowResult } from '../src/FlowDefinition';
 import { NodeProps } from '../src/components/Node';
 import { getFavorites, dump } from './utils';
 import { ComponentMap } from "../src/components/ComponentMap";
@@ -118,7 +118,7 @@ describe('FlowMutator', () => {
                 text: "A new message after dragging"
             }
 
-            var newNode = mutator.updateAction(newAction,
+            var newNode = mutator.updateAction(newAction, "47a0be00-59ad-4558-bd13-ec66518ce44a",
                 {
                     exitUUID: lastNode.exits[0].uuid,
                     nodeUUID: lastNode.uuid
@@ -162,7 +162,7 @@ describe('FlowMutator', () => {
                 type: "msg",
                 text: "An update to an existing action",
             }
-            mutator.updateAction(newAction);
+            mutator.updateAction(newAction, "47a0be00-59ad-4558-bd13-ec66518ce44a");
 
             lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
             var action = lastNode.actions[0] as SendMessage;
@@ -173,15 +173,15 @@ describe('FlowMutator', () => {
             var lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
             mutator.updateAction({
                 uuid: lastNode.actions[0].uuid,
-                type: "webhook",
-                url: "http://www.webhook.com/endpoint",
-                method: "GET"
-            } as Webhook);
+                type: "save_flow_result",
+                value: "My Value",
+                result_name: "New Flow Result"
+            } as SaveFlowResult, null);
 
             lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
-            var action = lastNode.actions[0] as Webhook;
-            chai.assert.equal(action.url, "http://www.webhook.com/endpoint");
-            chai.assert.equal(action.method, "GET");
+            var action = lastNode.actions[0] as SaveFlowResult;
+            chai.assert.equal(action.result_name, "New Flow Result");
+            chai.assert.equal(action.value, "My Value");
         });
 
         it('adds actions to an existing node', () => {
@@ -192,7 +192,7 @@ describe('FlowMutator', () => {
                 addToNode: "47a0be00-59ad-4558-bd13-ec66518ce44a",
                 dragging: false,
                 context: null
-            } as SendMessage, null, null, "47a0be00-59ad-4558-bd13-ec66518ce44a");
+            } as SendMessage, null, null, null, "47a0be00-59ad-4558-bd13-ec66518ce44a");
 
             var lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
             chai.assert.equal(3, lastNode.actions.length);
@@ -211,7 +211,7 @@ describe('FlowMutator', () => {
             }
 
             // first add a new action
-            var newNode = mutator.updateAction(newAction,
+            var newNode = mutator.updateAction(newAction, "47a0be00-59ad-4558-bd13-ec66518ce44a",
                 {
                     exitUUID: lastNode.exits[0].uuid,
                     nodeUUID: lastNode.uuid
@@ -232,7 +232,7 @@ describe('FlowMutator', () => {
                 text: "Add new action on our new node",
             }
 
-            mutator.updateAction(newAction, null, null, newNode.uuid);
+            mutator.updateAction(newAction, null, null, null, newNode.uuid);
 
             // we should have two actions now
             newNode = mutator.getNode(newNode.uuid);

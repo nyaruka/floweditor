@@ -6,7 +6,8 @@ module.exports = {
     entry: ['./src/app.tsx'],
     output: {
         path: path.resolve(__dirname, "dist"),
-        filename: "floweditor.js"
+        filename: "floweditor.js",
+        publicPath: ''
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js"]
@@ -26,7 +27,10 @@ module.exports = {
             },
             {
                 test: /\.(ttf|eot|svg)(\?[a-z0-9]+)?$/,
-                loader: "file-loader"
+                loader: "file-loader",
+                options: {
+                    name: 'fonts/[hash].[ext]',
+                },
             },
             {
                 test: /\.scss$/,
@@ -61,9 +65,9 @@ module.exports = {
                 test: /\.scss$/,
                 exclude: path.join(__dirname, 'src/components'),
                 use: [
-                    { loader: "style-loader" },   // creates style nodes from JS strings
-                    { loader: "css-loader" },     // translates CSS into CommonJS
-                    { loader: "sass-loader" }      // compiles Sass to CSS
+                    { loader: "style-loader" },
+                    { loader: "css-loader" },
+                    { loader: "sass-loader" }
                 ]
             }
         ]

@@ -3,7 +3,7 @@ var webpackConfig = require("./webpack.dev");
 var webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-module.exports = function (config) {
+module.exports = function(config) {
     config.set({
         /*
          * Enable or disable watching files and executing the tests whenever

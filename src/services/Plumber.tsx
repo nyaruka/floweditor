@@ -73,7 +73,7 @@ export class Plumber {
             drag: (event: DragEvent) => drag(event),
             stop: (event: DragEvent) => stop(event),
             containment: true
-        })
+        });
     }
 
     makeSource(uuid: string) {

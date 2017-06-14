@@ -60,32 +60,17 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
     // map our new cases to an appropriate exit
     for (let props of newCases) {
 
-        // ignore cases with empty names
-        if (!props.exitName || props.exitName.trim().length == 0) {
-            continue;
-        }
-
-        // skip missing names
-        /*if (!kase.exitName || kase.exitName.trim().length == 0) {
-            continue;
-        } else {
-            // skip missing arguments
-            if (kase.type) {
-                let config = Config.get().getOperatorConfig(kase.type);
-                if (config.operands == 1) {
-                    if (!kase.arguments || kase.arguments[0].trim().length == 0) {
-                        continue;
-                    }
-                }
-            }
-        }*/
-
         // see if we have a suitable exit for our case already
         var existingExit: Exit = null;
 
         // use our previous exit name if it isn't set
         if (!props.exitName && props.kase.exit_uuid in previousExitMap) {
             props.exitName = previousExitMap[props.kase.exit_uuid].name;
+        }
+
+        // ignore cases with empty names
+        if (!props.exitName || props.exitName.trim().length == 0) {
+            continue;
         }
 
         if (props.exitName) {

@@ -10,8 +10,8 @@
     "test": "karma start --env=dev",
     "start": "webpack-dev-server --env=dev --progress --colors",
     "build:dev": "webpack --env=dev --progress --profile --colors",
-    "build:prod": "webpack --env=prod --progress --profile --colors && cp index.html dist/index.html && cp -R test_flows dist/test_flows && cp -R fonts dist/fonts",
-    "flowbase": "npm run build:prod && cp -f ./dist/* ../flowbase/static/"
+    "build:prod": "webpack --env=prod --progress --profile --colors",
+    "flowbase": "npm run build:prod && mkdir -p ../flowbase/static/floweditor && cp -Rf ./dist/* ../flowbase/static/floweditor/"
   },
   "devDependencies": {
     "@types/chai": "^3.4.35",
