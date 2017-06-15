@@ -1,16 +1,17 @@
 import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import { FlowMutator } from '../src/components/FlowMutator';
-import { FlowDefinition, Case, SwitchRouter, Exit } from '../src/FlowDefinition';
+import { FlowDefinition, Case, SwitchRouter, Exit, Node } from '../src/FlowDefinition';
 import { getFavorites, dump } from './utils';
 import { Config } from "../src/services/Config";
-import { SwitchRouterProps, CaseProps, resolveExits, CombinedExits } from "../src/components/routers/SwitchRouter";
+import { CaseProps, resolveExits, CombinedExits } from "../src/components/routers/SwitchRouter";
 
 describe('SwitchRouter', () => {
 
     var definition: FlowDefinition;
-    var disasterChoice: SwitchRouterProps;
+    var disasterChoice: Node;
     var originalCases: CaseProps[];
+    var router: SwitchRouter;
 
     var tornado = 0;
     var tsunami = 1;
@@ -20,26 +21,17 @@ describe('SwitchRouter', () => {
     beforeEach(() => {
         definition = getFavorites();
 
-        var switchNode = definition.nodes[5];
+        disasterChoice = definition.nodes[5];
+        router = disasterChoice.router as SwitchRouter;
 
-        disasterChoice = {
-            router: switchNode.router as SwitchRouter,
-            exits: switchNode.exits,
-            type: switchNode.router.type,
-            uuid: switchNode.uuid,
-            context: null,
-            action: null,
-            config: Config.get().getTypeConfig(switchNode.router.type)
-        }
-
-        originalCases = makeCaseProps(disasterChoice.router.cases);
+        originalCases = makeCaseProps(router.cases);
 
         // assert our starting point
         chai.assert.equal(disasterChoice.exits[earthquake].name, "Earthquake");
         chai.assert.equal(originalCases[earthquake].kase.arguments[0], "Earthquake");
 
         // we have a default exit that is routed
-        var defaultExit = getExit(disasterChoice.router.default_exit_uuid, disasterChoice.exits);
+        var defaultExit = getExit(router.default_exit_uuid, disasterChoice.exits);
         chai.assert.isNotNull(defaultExit);
         chai.assert.isNotNull(defaultExit.destination_node_uuid);
 
@@ -102,7 +94,7 @@ describe('SwitchRouter', () => {
         }
     }
 
-    function resolve(newCases: CaseProps[], previous: SwitchRouterProps): CombinedExits {
+    function resolve(newCases: CaseProps[], previous: Node): CombinedExits {
         var combined = resolveExits(newCases, previous);
         assertUniqueExits(combined.exits);
         assertCasesHaveExits(combined);
@@ -165,7 +157,7 @@ describe('SwitchRouter', () => {
         chai.assert.equal(exits.length, disasterChoice.exits.length - 1);
 
         // now rename earthquake
-        disasterChoice.router.cases = cases;
+        router.cases = cases;
         newCases = update(makeCaseProps(cases), { [earthquake]: { $merge: { exitName: "Terramoto" } } });
         var { exits } = resolve(newCases, disasterChoice);
 
@@ -184,7 +176,7 @@ describe('SwitchRouter', () => {
         chai.assert.equal(exits.length, disasterChoice.exits.length - 1);
 
         // merge tsunami into tornado
-        disasterChoice.router.cases = cases;
+        router.cases = cases;
         disasterChoice.exits = exits;
         newCases = update(makeCaseProps(cases), { [1]: { $merge: { exitName: "Tornado" } } });
 
@@ -192,7 +184,7 @@ describe('SwitchRouter', () => {
         chai.assert.equal(exits.length, disasterChoice.exits.length - 1, "Incorrect number of exits after two merges");
 
         // now separate it back out
-        disasterChoice.router.cases = cases;
+        router.cases = cases;
         disasterChoice.exits = exits;
         newCases = update(makeCaseProps(cases), { [0]: { $merge: { exitName: "Big Swirly Wind" } } });
 
@@ -209,19 +201,15 @@ describe('SwitchRouter', () => {
     it('creates cases from scratch', () => {
 
         var defaultUUID = UUID.v4();
-        var emptySwitch: SwitchRouterProps = {
+        var emptySwitch: Node = {
             router: {
                 cases: [],
                 operand: "@input.text",
                 default_exit_uuid: defaultUUID,
                 type: "switch",
-            },
+            } as SwitchRouter,
             exits: [],
-            type: "switch",
             uuid: defaultUUID,
-            context: null,
-            action: null,
-            config: Config.get().getTypeConfig("switch")
         };
 
         // an empty switch with new cases

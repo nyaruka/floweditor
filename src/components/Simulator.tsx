@@ -200,9 +200,14 @@ class LogEvent extends React.Component<Event, LogEventState> {
                         className={styles["detail_" + this.props.type]}
                         title={<div>{detailTitle}</div>}
                         show={this.state.detailsVisible}
-                        onClickPrimary={() => {
-                            this.setState({ detailsVisible: false })
+                        buttons={{
+                            primary: {
+                                name: "Ok", onClick: () => {
+                                    this.setState({ detailsVisible: false });
+                                }
+                            }
                         }}>
+
                         <div className={styles.event_viewer}>
                             {details}
                         </div>

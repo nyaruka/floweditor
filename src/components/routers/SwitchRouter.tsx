@@ -50,26 +50,27 @@ export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExi
 
 
     // map our new cases to an appropriate exit
-    for (let props of newCases) {
+    for (let newCase of newCases) {
 
         // see if we have a suitable exit for our case already
         var existingExit: Exit = null;
 
         // use our previous exit name if it isn't set
-        if (!props.exitName && props.kase.exit_uuid in previousExitMap) {
-            props.exitName = previousExitMap[props.kase.exit_uuid].name;
+        if (!newCase.exitName && newCase.kase.exit_uuid in previousExitMap) {
+            newCase.exitName = previousExitMap[newCase.kase.exit_uuid].name;
+            console.log("using old exitName", newCase.exitName);
         }
 
         // ignore cases with empty names
-        if (!props.exitName || props.exitName.trim().length == 0) {
+        if (!newCase.exitName || newCase.exitName.trim().length == 0) {
             continue;
         }
 
-        if (props.exitName) {
+        if (newCase.exitName) {
             // look through our new exits to see if we've already created one
             for (let exit of exits) {
-                if (props.exitName && exit.name) {
-                    if (exit.name.toLowerCase() == props.exitName.trim().toLowerCase()) {
+                if (newCase.exitName && exit.name) {
+                    if (exit.name.toLowerCase() == newCase.exitName.trim().toLowerCase()) {
                         existingExit = exit;
                         break;
                     }
@@ -81,8 +82,8 @@ export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExi
                 // look through our previous cases for a match
                 if (previous.exits) {
                     for (let exit of previous.exits) {
-                        if (props.exitName && exit.name) {
-                            if (exit.name.toLowerCase() == props.exitName.trim().toLowerCase()) {
+                        if (newCase.exitName && exit.name) {
+                            if (exit.name.toLowerCase() == newCase.exitName.trim().toLowerCase()) {
                                 existingExit = exit;
                                 exits.push(existingExit);
                                 break;
@@ -95,7 +96,7 @@ export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExi
 
         // we found a suitable exit, point our case to it
         if (existingExit) {
-            props.kase.exit_uuid = existingExit.uuid;
+            newCase.kase.exit_uuid = existingExit.uuid;
         }
 
         // no existing exit, create a new one
@@ -103,21 +104,21 @@ export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExi
 
             // find our previous destination if we have one
             var destination = null;
-            if (props.kase.exit_uuid in previousExitMap) {
-                destination = previousExitMap[props.kase.exit_uuid].destination_node_uuid
+            if (newCase.kase.exit_uuid in previousExitMap) {
+                destination = previousExitMap[newCase.kase.exit_uuid].destination_node_uuid
             }
 
-            props.kase.exit_uuid = UUID.v4();
+            newCase.kase.exit_uuid = UUID.v4();
 
             exits.push({
-                name: props.exitName,
-                uuid: props.kase.exit_uuid,
+                name: newCase.exitName,
+                uuid: newCase.kase.exit_uuid,
                 destination_node_uuid: destination
             });
         }
 
         // remove exitName from our case
-        cases.push(props.kase);
+        cases.push(newCase.kase);
     }
 
     // add in our default exit
@@ -262,7 +263,7 @@ export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterS
         var cases: JSX.Element[] = [];
         var needsEmpty = true;
         if (this.state.cases) {
-            this.state.cases.map((c: CaseProps) => {
+            this.state.cases.map((c: CaseProps, index: number) => {
 
                 // is this case empty?
                 if ((!c.exitName || c.exitName.trim().length == 0) && (!c.kase.arguments || c.kase.arguments[0].trim().length == 0)) {
@@ -273,7 +274,7 @@ export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterS
                     key={c.kase.uuid}
                     kase={c.kase}
                     ref={ref}
-                    name="Case"
+                    name={"case_" + index}
                     exitName={c.exitName}
                     onRemove={this.onCaseRemoved.bind(this)}
                     onChanged={this.onCaseChanged.bind(this)}
@@ -293,7 +294,7 @@ export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterS
 
                 key={newCaseUUID}
                 ref={ref}
-                name="Case"
+                name={"case_" + cases.length}
                 exitName={null}
                 onRemove={this.onCaseRemoved.bind(this)}
                 moveCase={this.moveCase.bind(this)}

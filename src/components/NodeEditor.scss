@@ -1,13 +1,13 @@
 $inner_spacing: 15px;
 .advanced_buttons {
     position: absolute;
-    top: 0px;
-    right: 10px;
+    top: 16px;
+    right: 20px;
     cursor: pointer;
+    color: #fff;
+    font-size: 26px;
     .show_advanced_button {
         display: block;
-        top: 0px;
-        right: 10px;
     }
     .hide_advanced_button {
         display: none;

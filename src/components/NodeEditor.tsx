@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as UUID from "uuid";
-import { Modal } from "./Modal";
+import { Modal, ButtonSet } from "./Modal";
 import { Node, Router, Action, SendMessage, UINode } from "../FlowDefinition";
 import { TypeConfig, Config } from "../services/Config";
 import { ComponentMap } from "./ComponentMap";
@@ -8,6 +8,7 @@ import { TextInputElement } from "./form/TextInputElement";
 import { FlowContext } from "./Flow";
 import { FormWidget, FormValueState } from "./form/FormWidget";
 import { FormElementProps } from "./form/FormElement";
+import { ButtonProps } from "./Button";
 
 var Select = require('react-select');
 var formStyles = require("./NodeEditor.scss");
@@ -29,6 +30,8 @@ export interface NodeEditorProps {
 export interface NodeEditorState {
     config: TypeConfig;
     show: boolean;
+    initialButtons: ButtonSet;
+    temporaryButtons?: ButtonSet;
 }
 
 function getType(props: NodeEditorProps) {
@@ -53,6 +56,12 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorS
     constructor(props: NodeEditorProps) {
         super(props);
 
+        this.onOpen = this.onOpen.bind(this);
+        this.onSave = this.onSave.bind(this);
+        this.onCancel = this.onCancel.bind(this);
+        this.onTypeChange = this.onTypeChange.bind(this);
+        this.onKeyPress = this.onKeyPress.bind(this);
+
         // determine our initial config
         var type = getType(props);
 
@@ -62,13 +71,12 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorS
 
         this.state = {
             show: false,
-            config: Config.get().getTypeConfig(type)
+            config: Config.get().getTypeConfig(type),
+            initialButtons: {
+                primary: { name: "Save", onClick: this.onSave },
+                secondary: { name: "Cancel", onClick: this.onCancel }
+            }
         }
-
-        this.onOpen = this.onOpen.bind(this);
-        this.onSave = this.onSave.bind(this);
-        this.onCancel = this.onCancel.bind(this);
-        this.onTypeChange = this.onTypeChange.bind(this);
     }
 
     getType(): string {
@@ -119,7 +127,9 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorS
             var isTextarea = $(event.target).prop("tagName") == 'TEXTAREA'
             if (!isTextarea || event.shiftKey) {
                 event.preventDefault();
-                this.form.submit();
+                if (this.form.submit()) {
+                    this.close(false);
+                }
             }
         }
     }
@@ -142,7 +152,18 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorS
                     node: this.props.node,
                     action: this.props.action,
                     onTypeChange: this.onTypeChange,
-                    actionsOnly: this.props.actionsOnly,
+
+                    resetButtons: () => {
+                        this.setState({
+                            temporaryButtons: null
+                        })
+                    },
+
+                    setButtons: (buttons: ButtonSet) => {
+                        this.setState({
+                            temporaryButtons: buttons
+                        })
+                    },
 
                     updateAction: (action: Action) => {
                         this.props.context.eventHandler.onUpdateAction(this.props.node, action);
@@ -162,6 +183,11 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorS
             key += '_' + this.props.action.uuid;
         }
 
+        var buttons = this.state.initialButtons;
+        if (this.state.temporaryButtons) {
+            buttons = this.state.temporaryButtons;
+        }
+
         return (
             <Modal
                 key={key}
@@ -169,16 +195,14 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorS
                 width="600px"
                 title={<div>{this.state.config.name}</div>}
                 show={this.state.show}
-                onClickPrimary={this.onSave}
-                onClickSecondary={this.onCancel}
-                onModalOpen={this.onOpen}
-                ok='Save'
-                cancel='Cancel'>
+                buttons={buttons}
+                onModalOpen={this.onOpen}>
                 <div className={formStyles.node_editor}>
                     <form onKeyPress={this.onKeyPress} ref={(ele: any) => { this.formElement = ele; }}>
                         {<div>{form}</div>}
                     </form>
                 </div>
+
             </Modal>
         )
     }
@@ -188,7 +212,6 @@ export interface TypeChooserProps {
     className: string;
     initialType: TypeConfig;
     onChange(config: TypeConfig): void;
-    actionsOnly: boolean;
 }
 
 export interface TypeChooserState {
@@ -214,13 +237,7 @@ class TypeChooser extends React.PureComponent<TypeChooserProps, TypeChooserState
     }
 
     render() {
-        var options = [];
-        if (this.props.actionsOnly) {
-            options = Config.get().getActionTypes();
-        } else {
-            options = Config.get().typeConfigs;
-        }
-
+        var options = Config.get().typeConfigs;
         return (
             <div className={this.props.className}>
                 <p>When a contact arrives at this point in your flow</p>
@@ -247,7 +264,10 @@ export interface NodeEditorFormProps {
     node: Node;
     action?: Action;
 
-    actionsOnly: boolean;
+    // allow forms to modify the buttons on our modal
+    setButtons(buttons: ButtonSet): void;
+    resetButtons(): void;
+
     onTypeChange(config: TypeConfig): void;
     updateAction(action: Action): void;
     updateRouter(node: Node, type: string): void;
@@ -311,10 +331,39 @@ abstract class NodeEditorForm<S extends NodeEditorFormState> extends React.PureC
                 }
             }
 
-            this.setState({ showAdvanced: advError });
+            if (advError) {
+                this.showAdvanced();
+            }
         }
 
         return false;
+    }
+
+    public showAdvanced(event?: React.MouseEvent<HTMLElement>) {
+        this.setState({
+            showAdvanced: true
+        })
+
+        this.props.setButtons({ primary: { name: "Back", onClick: () => { this.hideAdvanced() } } });
+
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+    }
+
+    public hideAdvanced(event?: React.MouseEvent<HTMLElement>) {
+        this.setState({
+            showAdvanced: false
+        });
+
+        this.props.resetButtons();
+
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
     }
 
     render() {
@@ -333,8 +382,8 @@ abstract class NodeEditorForm<S extends NodeEditorFormState> extends React.PureC
         if (advanced) {
             advButtons = (
                 <div className={formStyles.advanced_buttons}>
-                    <div className={formStyles.show_advanced_button} onClick={() => { this.setState({ showAdvanced: true }) }}>Show Advanced</div>
-                    <div className={formStyles.hide_advanced_button} onClick={() => { this.setState({ showAdvanced: false }) }}>Hide Advanced</div>
+                    <div className={formStyles.show_advanced_button} onClick={this.showAdvanced.bind(this)}><span className="icon-settings"></span></div>
+                    <div className={formStyles.hide_advanced_button} onClick={this.hideAdvanced.bind(this)}><span className="icon-back"></span></div>
                 </div>
             )
         }
@@ -342,7 +391,7 @@ abstract class NodeEditorForm<S extends NodeEditorFormState> extends React.PureC
         return (
             <div className={classes.join(" ")}>
                 {advButtons}
-                <TypeChooser className={formStyles.type_chooser} initialType={this.props.config} actionsOnly={this.props.actionsOnly} onChange={this.props.onTypeChange} />
+                <TypeChooser className={formStyles.type_chooser} initialType={this.props.config} onChange={this.props.onTypeChange} />
                 <div key={"primary"} className={formStyles.primary_form}>
                     {this.renderForm(this.addWidget.bind(this))}
                 </div>

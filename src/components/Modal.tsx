@@ -2,27 +2,25 @@ import * as React from 'react';
 import * as UUID from 'uuid';
 import * as ReactModal from 'react-modal';
 
-import { Button } from './Button';
+import { Button, ButtonProps } from './Button';
 import { Config } from '../services/Config';
 
 var styles = require('./Modal.scss');
 
+export interface ButtonSet {
+    primary: ButtonProps;
+    secondary?: ButtonProps;
+    tertiary?: ButtonProps;
+}
+
 interface ModalProps {
     show: boolean;
+    buttons: ButtonSet;
 
     onModalOpen?: any;
     className?: string;
     title: JSX.Element;
     width?: string;
-
-    // button options
-    ok?: string;
-    cancel?: string;
-    tertiary?: string;
-
-    onClickPrimary?: any;
-    onClickSecondary?: any;
-    onClickTertiary?: any;
 }
 
 /**
@@ -52,18 +50,18 @@ export class Modal extends React.Component<ModalProps, {}> {
         var rightButtons: JSX.Element[] = [];
         var leftButtons: JSX.Element[] = [];
 
-        if (this.props.cancel) {
-            //rightButtons.push(<a key={Math.random()} href="javascript:void(0);" data-type="cancel" className={styles.btn + ' ' + styles.cancel} onClick={this.props.onModalClose}>{this.props.cancel}</a>)
-            rightButtons.push(<Button key={Math.random()} name={this.props.cancel} onClick={this.props.onClickSecondary} type="secondary" />);
+        var buttons = this.props.buttons;
+
+        if (buttons.secondary) {
+            rightButtons.push(<Button key={Math.random()} {...buttons.secondary} type="secondary" />);
         }
 
         // no matter what, we'll have a primary button
-        // rightButtons.push(<a tabIndex={0} key={Math.random()} href="javascript:void(0);" data-type="ok" className={styles.btn + ' ok'} onClick={this.props.onModalClose}>{this.props.ok ? this.props.ok : 'Ok'}</a>)
-        rightButtons.push(<Button key={Math.random()} name={this.props.ok ? this.props.ok : 'Ok'} onClick={this.props.onClickPrimary} type="primary" />);
+        rightButtons.push(<Button key={Math.random()} {...buttons.primary} type="primary" />);
 
         // our left most button if we have one
-        if (this.props.tertiary) {
-            leftButtons.push(<Button key={Math.random()} name={this.props.tertiary} onClick={this.props.onClickTertiary} type="tertiary" />);
+        if (buttons.tertiary) {
+            leftButtons.push(<Button key={Math.random()} {...buttons.tertiary} type="tertiary" />);
         }
 
         // closeTimeoutMS={200}
@@ -71,7 +69,7 @@ export class Modal extends React.Component<ModalProps, {}> {
             <ReactModal
                 isOpen={this.props.show}
                 onAfterOpen={this.props.onModalOpen}
-                onRequestClose={this.props.onClickSecondary}
+                onRequestClose={buttons.secondary ? buttons.secondary.onClick : null}
                 style={customStyles}
                 shouldCloseOnOverlayClick={false}
                 contentLabel="Modal"

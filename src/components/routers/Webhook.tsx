@@ -121,21 +121,13 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
         this.setState({ method: method.value });
     }
 
-    renderForm(ref: any): JSX.Element {
-
-        var method = "GET";
-        var url = "";
+    renderAdvanced(ref: any): JSX.Element {
 
         var postBody = defaultBody;
-        var nodeUUID = this.props.node.uuid;
-
         if (this.props.action) {
             var action = this.props.action;
             if (action.type == "call_webhook") {
                 var webhookAction: Webhook = action as Webhook;
-                method = webhookAction.method
-                url = webhookAction.url;
-
                 if (webhookAction.body) {
                     postBody = webhookAction.body;
                 }
@@ -155,24 +147,53 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
             />);
         });
 
-        var summary = null;
+        var postForm = null;
         if (this.state.method == "POST") {
-            summary = (
+            postForm = (
                 <div>
+                    <h4>POST Body</h4>
+                    <p>Modify the body that is sent as part of your POST.</p>
                     <TextInputElement className={styles.post_body} ref={ref} name="Body" showLabel={false} value={postBody} helpText="Modify the body of the POST sent to your webhook." autocomplete textarea required />
-                    <p>If your server responds with JSON, each property will be added to the Flow. They can be accessed using <span className={styles.example}>@webhook.json.my_response_value</span></p>
                 </div>
             )
+        }
+
+
+
+        return (
+            <div>
+                <h4>Headers</h4>
+                <p>Add any additional headers below that you would like to send along with your request.</p>
+                <div>
+                    {headerElements}
+                </div>
+                {postForm}
+            </div>
+        );
+    }
+
+    renderForm(ref: any): JSX.Element {
+
+        var method = "GET";
+        var url = "";
+
+
+        var nodeUUID = this.props.node.uuid;
+
+        if (this.props.action) {
+            var action = this.props.action;
+            if (action.type == "call_webhook") {
+                var webhookAction: Webhook = action as Webhook;
+                method = webhookAction.method
+                url = webhookAction.url;
+            }
+        }
+
+        var summary = null;
+        if (this.state.method == "GET") {
+            summary = <span>If you need to, you can also <a href="#" onClick={this.showAdvanced.bind(this)}>modify the headers</a> for your request. </span>
         } else {
-            summary = (
-                <div className={styles.instructions}>
-                    <p>If your server responds with JSON, each property will be added to the Flow.</p>
-                    <pre className={styles.code}>{
-                        `{ "product": "Solar Charging Kit", "stock level": 32 }`
-                    }</pre>
-                    <p>In this example <span className={styles.example}>@webhook.json.product</span> and <span className={styles.example}>@webhook.json["stock level"]</span> would be available in all future steps.</p>
-                </div>
-            )
+            summary = <span>If you need to, you can also <a href="#" onClick={this.showAdvanced.bind(this)}>modify the headers and body</a> for your request. </span>
         }
 
         return (
@@ -186,11 +207,14 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
                     <TextInputElement ref={ref} name="URL" placeholder="Enter a URL" value={url} autocomplete required url />
                 </div>
 
-                <div>
-                    {headerElements}
-                </div>
 
-                {summary}
+                <div className={styles.instructions}>
+                    <p>{summary}If your server responds with JSON, each property will be added to the Flow.</p>
+                    <pre className={styles.code}>{
+                        `{ "product": "Solar Charging Kit", "stock level": 32 }`
+                    }</pre>
+                    <p>In this example <span className={styles.example}>@webhook.json.product</span> and <span className={styles.example}>@webhook.json["stock level"]</span> would be available in all future steps.</p>
+                </div>
 
             </div>
         )

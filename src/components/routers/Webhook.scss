@@ -6,8 +6,12 @@
 }
 
 .url {
-    width: 439px;
+    width: 466px;
     display: inline-block;
+    input {
+        height: 36px;
+        border-color: #ccc;
+    }
 }
 
 .code {
@@ -56,6 +60,7 @@
         line-height: 1.2em;
         font-size: 12px;
         padding: 2px 10px;
+        border-color: #ccc;
     }
     margin-top: 8px;
 }
@@ -66,7 +71,7 @@
 }
 
 .header_value {
-    width: 349px;
+    width: 380px;
     display: inline-block;
     margin-left: 10px;
 }

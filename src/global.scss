@@ -39,6 +39,31 @@ body {
             border-bottom-color: $error_color !important;
         }
     }
+    .select-medium {
+        .Select-menu-outer {
+            z-index: 6000;
+            .Select-option {
+                font-size: 13px;
+                padding: 5px 10px;
+            }
+        }
+        .Select-control {
+            font-size: 13px;
+            height: 28px;
+            .Select-placeholder {
+                line-height: 26px;
+            }
+            .Select-value {
+                line-height: 26px !important;
+                .Select-value-label {
+                    line-height: 26px;
+                }
+            }
+            .Select-input {
+                height: 26px;
+            }
+        }
+    }
     .select-small {
         .Select-menu-outer {
             z-index: 6000;

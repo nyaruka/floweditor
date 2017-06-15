@@ -185,6 +185,8 @@ describe('FlowMutator', () => {
         });
 
         it('adds actions to an existing node', () => {
+            var lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a");
+
             mutator.updateAction({
                 uuid: UUID.v4(),
                 type: "msg",
@@ -192,9 +194,9 @@ describe('FlowMutator', () => {
                 addToNode: "47a0be00-59ad-4558-bd13-ec66518ce44a",
                 dragging: false,
                 context: null
-            } as SendMessage, null, null, null, "47a0be00-59ad-4558-bd13-ec66518ce44a");
+            } as SendMessage, null, null, null, lastNode);
 
-            var lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
+            lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a");
             chai.assert.equal(3, lastNode.actions.length);
 
             var action = lastNode.actions[2] as SendMessage;
@@ -232,7 +234,7 @@ describe('FlowMutator', () => {
                 text: "Add new action on our new node",
             }
 
-            mutator.updateAction(newAction, null, null, null, newNode.uuid);
+            mutator.updateAction(newAction, null, null, null, newNode);
 
             // we should have two actions now
             newNode = mutator.getNode(newNode.uuid);

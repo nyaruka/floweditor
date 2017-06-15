@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'flows';
-  src:  url('fonts/flows.eot?nzjaqo');
-  src:  url('fonts/flows.eot?nzjaqo#iefix') format('embedded-opentype'),
-    url('fonts/flows.ttf?nzjaqo') format('truetype'),
-    url('fonts/flows.woff?nzjaqo') format('woff'),
-    url('fonts/flows.svg?nzjaqo#flows') format('svg');
+  src:  url('fonts/flows.eot?51x3a1');
+  src:  url('fonts/flows.eot?51x3a1#iefix') format('embedded-opentype'),
+    url('fonts/flows.ttf?51x3a1') format('truetype'),
+    url('fonts/flows.woff?51x3a1') format('woff'),
+    url('fonts/flows.svg?51x3a1#flows') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -58,6 +58,9 @@
 .icon-envelop:before {
   content: "\ea34";
 }
+.icon-back:before {
+  content: "\eabf";
+}
 .icon-msg:before {
   content: "\ead8";
 }
@@ -66,6 +69,9 @@
 }
 .icon-group:before {
   content: "\eaf8";
+}
+.icon-settings:before {
+  content: "\eb61";
 }
 .icon-flow:before {
   content: "\ec65";
@@ -81,6 +87,12 @@
 }
 .icon-add:before {
   content: "\ed61";
+}
+.icon-info:before {
+  content: "\ed63";
+}
+.icon-info2:before {
+  content: "\ed64";
 }
 .icon-remove:before {
   content: "\ed6e";
@@ -112,4 +124,3 @@
 .icon-simulator:before {
   content: "\e900";
 }
-

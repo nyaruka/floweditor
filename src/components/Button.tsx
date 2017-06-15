@@ -2,10 +2,10 @@ import * as React from "react";
 
 var styles = require('./Button.scss');
 
-interface ButtonProps {
+export interface ButtonProps {
     name: string;
-    type: string;
     onClick: any;
+    type?: string;
 }
 
 export class Button extends React.PureComponent<ButtonProps, {}> {
