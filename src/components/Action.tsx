@@ -1,20 +1,20 @@
 import * as React from "react";
 import * as axios from "axios";
 import * as UUID from 'uuid';
-import { NodeEditorProps } from './NodeModal';
+import { NodeModalInitialProps } from './NodeModal';
 import { FlowContext } from './Flow';
-import { Action, SwitchRouter } from '../FlowDefinition';
+import { Node, Action, SwitchRouter } from '../FlowDefinition';
 import { Plumber } from '../services/Plumber';
 import { FlowStore } from '../services/FlowStore';
 import { Config } from '../services/Config';
 import { TitleBar } from './TitleBar';
-import { SwitchRouterProps } from "./routers/SwitchRouter";
 import { NodeProps } from "./Node";
 
 var shared = require('./shared.scss');
 var styles = require('./Action.scss');
 
-export interface ActionProps extends NodeEditorProps {
+export interface ActionProps extends NodeModalInitialProps {
+    node: Node;
     action: Action;
     context: FlowContext;
     dragging: boolean;
@@ -29,6 +29,7 @@ export interface ActionProps extends NodeEditorProps {
 export class ActionComp<A extends Action> extends React.PureComponent<ActionProps, {}> {
 
     public form: HTMLFormElement;
+    private cancelClick: boolean;
 
     constructor(props: ActionProps) {
         super(props);
@@ -44,13 +45,26 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
     }
 
     onClick(event: React.SyntheticEvent<MouseEvent>) {
-        if (!this.props.dragging) {
-            this.props.context.eventHandler.onEditAction(this.props, true);
+        if (this.cancelClick) {
+            this.cancelClick = false;
+            return;
         }
+        event.preventDefault();
+        event.stopPropagation();
+
+        this.props.context.eventHandler.openEditor({
+            context: this.props.context,
+            node: this.props.node,
+            action: this.props.action,
+            actionsOnly: true,
+            nodeUI: null
+        });
     }
 
-    getClassName() {
-        return this.props.action.type.split('_').join('-');
+    componentDidUpdate(prevProps: ActionProps, prevState: ActionProps) {
+        if (this.props.dragging) {
+            this.cancelClick = true;
+        }
     }
 
     private onConfirmRemoval(evt: React.SyntheticEvent<MouseEvent>) {
@@ -74,12 +88,9 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
 
     render() {
         let config = Config.get().getTypeConfig(this.props.action.type);
-        var events = { onMouseUp: this.onClick.bind(this) }
-
         return (
             <div id={this.props.action.uuid} className={styles.action}>
-                <div {...events}>
-
+                <div onClick={this.onClick.bind(this)}>
                     <TitleBar
                         className={shared[this.props.action.type]}
                         title={config.name}
@@ -87,11 +98,9 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
                         showMove={!this.props.first}
                         onMoveUp={this.onMoveUp.bind(this)}
                     />
-
                     <div className={styles.body}>
                         {this.renderNode()}
                     </div>
-
                 </div>
             </div>
         )

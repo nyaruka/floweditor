@@ -107,14 +107,17 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
     }
 
     private onChangeArguments(val: React.ChangeEvent<HTMLTextElement>) {
-        var args = [val.target.value]
+
+        var args = [val.target.value];
+        var exitName = this.getExitName(args);
         this.setState({
             arguments: args,
-            exitName: this.getExitName(args)
+            exitName: exitName
         }, () => {
             this.props.onChanged(this);
         });
 
+        this.category.setState({ value: exitName });
     }
 
     private onChangeExitName(val: React.ChangeEvent<HTMLTextElement>) {
@@ -195,7 +198,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
 
         var args: JSX.Element = null;
         if (this.operatorConfig.operands == 1) {
-            args = <TextInputElement className={styles.input} name="arguments" onChange={this.onChangeArguments.bind(this)} defaultValue={value} autocomplete />
+            args = <TextInputElement className={styles.input} name="arguments" onChange={this.onChangeArguments.bind(this)} value={value} autocomplete />
         }
 
         return (
@@ -221,9 +224,9 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
                         categorize as
                     </div>
                     <div className={styles.category}>
-                        <TextInputElement ref={(ele) => this.category = ele} className={styles.input} name="exitName" onChange={this.onChangeExitName.bind(this)} defaultValue={this.state.exitName} />
+                        <TextInputElement ref={(ele) => this.category = ele} className={styles.input} name="exitName" onChange={this.onChangeExitName.bind(this)} value={this.state.exitName} />
                     </div>
-                    <div className={styles["remove-button"]} onMouseUp={this.onRemove.bind(this)}><span className="icon-remove" /></div>
+                    <div className={styles["remove-button"]} onClick={this.onRemove.bind(this)}><span className="icon-remove" /></div>
                 </div>
             </FormElement>
         )

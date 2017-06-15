@@ -5,10 +5,11 @@ import { SelectSearch } from '../SelectSearch';
 import { ComponentMap, SearchResult } from '../ComponentMap';
 import { SaveToContact, UpdateContact } from '../../FlowDefinition';
 import { NodeModal } from '../NodeModal';
-import { ActionForm } from '../NodeForm';
 import { ActionComp } from '../Action';
 import { FieldElement } from '../form/FieldElement';
 import { TextInputElement } from '../form/TextInputElement';
+import { NodeActionForm } from "../NodeEditor";
+import { Config } from "../../services/Config";
 
 
 var UUID = require('uuid');
@@ -44,7 +45,7 @@ export class SaveToContactComp extends ActionComp<SaveToContact> {
     }
 }
 
-export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
+export class SaveToContactForm extends NodeActionForm<SaveToContact> {
 
     fieldValue: string;
     fieldSelect: SelectSearch;
@@ -66,9 +67,9 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
         return newOption;
     }
 
-    renderForm(): JSX.Element {
+    renderForm(ref: any): JSX.Element {
         var initial: SearchResult = null;
-        var action = this.getAction();
+        var action = this.getInitial();
 
         if (action) {
             if (action.type == "save_contact_field") {
@@ -86,19 +87,18 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
             }
         }
 
-        var ref = this.ref.bind(this);
         return (
             <div>
                 <FieldElement
                     ref={ref}
                     name="Field" showLabel={true}
-                    endpoint={this.props.context.endpoints.fields}
+                    endpoint={Config.get().endpoints.fields}
                     localFields={ComponentMap.get().getContactFields()}
                     helpText={"Select an existing field to update or type any name to create a new one"}
                     initial={initial} add required
                 />
 
-                <TextInputElement ref={ref} name="Value" showLabel={true} defaultValue={action.value}
+                <TextInputElement ref={ref} name="Value" showLabel={true} value={action.value}
                     helpText="The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json."
                     autocomplete
                 />
@@ -107,18 +107,17 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
         )
     }
 
-    submit(modal: NodeModal) {
+    onValid() {
 
-        var elements = this.getElements();
-        var fieldEle = elements[0];
-        var valueEle = elements[1];
+        var fieldEle = this.getWidget("Field") as FieldElement;
+        var valueEle = this.getWidget("Value") as TextInputElement;
 
         var field = fieldEle.state.field;
 
         var newAction = null;
         if (field.type == "field") {
             newAction = {
-                uuid: this.getUUID(),
+                uuid: this.getActionUUID(),
                 type: "save_contact_field",
                 field_name: field.name,
                 field_uuid: field.id,
@@ -129,14 +128,13 @@ export class SaveToContactForm extends ActionForm<SaveToContact, {}> {
         // updating contact properties are different action
         else if (field.type == "update_contact") {
             newAction = {
-                uuid: this.getUUID(),
+                uuid: this.getActionUUID(),
                 type: "update_contact",
                 field_name: field.id,
                 value: valueEle.state.value
             } as UpdateContact
         }
-
-        modal.onUpdateAction(newAction);
+        this.props.updateAction(newAction);
     }
 }
 

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
 import { NodeForm } from "../NodeForm";
-import { SwitchRouterProps, SwitchRouterState, SwitchRouterForm } from "./SwitchRouter";
+import { SwitchRouterForm } from "./SwitchRouter";
 import { StartFlow, Case, Exit, SwitchRouter } from '../../FlowDefinition';
 import { NodeModal } from "../NodeModal";
 import { FlowElement } from "../form/FlowElement";
 
-
+/*
 interface SubflowProps extends SwitchRouterProps {
 
 }
@@ -77,7 +77,7 @@ export class SubflowForm extends SwitchRouterForm<SubflowProps, SubflowState> {
                     uuid: UUID.v4(),
                     name: "Other",
                     destination_node_uuid: null
-                }*/
+                }*//*
             ]
         }
 
@@ -112,3 +112,4 @@ export class SubflowForm extends SwitchRouterForm<SubflowProps, SubflowState> {
         }, "subflow");
     }
 }
+*/

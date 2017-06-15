@@ -7,10 +7,10 @@ import { SaveFlowResultComp, SaveFlowResultForm } from '../components/actions/Sa
 import { StartFlowComp } from '../components/actions/StartFlow';
 import { SendEmailComp, SendEmailForm } from '../components/actions/SendEmail';
 import { SwitchRouterForm } from '../components/routers/SwitchRouter';
-import { SubflowForm } from "../components/routers/Subflow";
-import { WebhookForm } from "../components/routers/Webhook";
-import { WaitForResponseForm } from "../components/routers/WaitForResponse";
-import { ExpressionForm } from "../components/routers/Expression";
+//import { SubflowForm } from "../components/routers/Subflow";
+//import { WebhookForm } from "../components/routers/Webhook";
+//import { WaitForResponseForm } from "../components/routers/WaitForResponse";
+//import { ExpressionForm } from "../components/routers/Expression";
 
 export interface Endpoints {
     fields: string;
@@ -42,16 +42,23 @@ export interface Operator {
 
 export class Config {
 
-    private static singleton: Config = new Config();
+    private static singleton: Config;
 
     private typeConfigMap: { [type: string]: TypeConfig } = {};
     private actionTypes: TypeConfig[];
+    public endpoints: Endpoints;
 
     static get(): Config {
         return Config.singleton;
     }
 
-    private constructor() {
+    static initialize(endpoints: Endpoints) {
+        Config.singleton = new Config(endpoints);
+    }
+
+    private constructor(endpoints: Endpoints) {
+
+        this.endpoints = endpoints;
 
         // create a mapping for quick lookups
         for (let typeConfig of this.typeConfigs) {
@@ -92,12 +99,12 @@ export class Config {
         // {type: "set_preferred_channel", name: "Set Preferred Channel", description: "Set their preferred channel", component: Missing},
 
         // hybrids
-        { type: "call_webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: WebhookComp, aliases: ["webhook"] },
-        { type: "start_flow", name: "Run Flow", description: "Run another flow", form: SubflowForm, component: StartFlowComp, aliases: ["subflow"] },
+        //{ type: "call_webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: WebhookComp, aliases: ["webhook"] },
+        //{ type: "start_flow", name: "Run Flow", description: "Run another flow", form: SubflowForm, component: StartFlowComp, aliases: ["subflow"] },
 
         // routers
-        { type: "expression", name: "Split by Expression", description: "Split by a custom expression", form: ExpressionForm },
-        { type: "wait_for_response", name: "Wait for Response", description: "Wait for them to respond", form: WaitForResponseForm },
+        //{ type: "expression", name: "Split by Expression", description: "Split by a custom expression", form: ExpressionForm },
+        { type: "wait_for_response", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm },
         // {type: "random", name: "Random Split", description: "Split them up randomly", form: RandomRouterForm}
     ]
 

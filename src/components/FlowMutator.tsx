@@ -121,40 +121,43 @@ export class FlowMutator {
         }
     }
 
-    public addNode(props: Node, ui: UINode, pendingConnection?: DragPoint) {
+    public addNode(node: Node, ui: UINode, pendingConnection?: DragPoint): Node {
         console.time("addNode");
+
+        // give our node a unique uuid
+        node = update(node, { $merge: { uuid: UUID.v4() } });
 
         // add our node
         this.definition = update(this.definition, {
             nodes: {
-                $push: [props]
+                $push: [node]
             },
             _ui: {
-                nodes: { $merge: { [props.uuid]: ui } }
+                nodes: { $merge: { [node.uuid]: ui } }
             }
         });
 
         // save off our pending connection if we have one
         if (pendingConnection) {
-            this.components.addPendingConnection(props.uuid, pendingConnection);
+            this.components.addPendingConnection(node.uuid, pendingConnection);
         }
 
         this.components.refresh(this.definition);
         this.markDirty();
         console.timeEnd("addNode");
-        return props;
+        return node;
     }
 
-    public updateRouter(props: Node, type: string,
+    public updateRouter(node: Node, type: string,
         draggedFrom: DragPoint = null,
         newPosition: Position = null): Node {
 
         console.time("updateRouter");
-        var node: Node;
+
         if (draggedFrom) {
             // console.log("adding new router node", props);
             node = this.addNode(
-                props, { position: newPosition }, {
+                node, { position: newPosition, type: type }, {
                     exitUUID: draggedFrom.exitUUID,
                     nodeUUID: draggedFrom.nodeUUID
                 }
@@ -162,17 +165,16 @@ export class FlowMutator {
         }
         // we are updating
         else {
-            //console.log("Updating router node", props);
-            let nodeDetails = this.components.getDetails(props.uuid)
+            let nodeDetails = this.components.getDetails(node.uuid)
             this.definition = update(this.definition, {
-                nodes: { [nodeDetails.nodeIdx]: { $set: props } }
+                nodes: { [nodeDetails.nodeIdx]: { $set: node } }
             });
             node = this.definition.nodes[nodeDetails.nodeIdx];
-        }
 
-        // update our type
-        var uiNode = this.definition._ui.nodes[props.uuid];
-        this.updateNodeUI(props.uuid, { $merge: { type: type } })
+            // update our type 
+            var uiNode = this.definition._ui.nodes[node.uuid];
+            this.updateNodeUI(node.uuid, { $merge: { type: type } })
+        }
 
         this.components.refresh(this.definition);
         this.markDirty();
@@ -190,7 +192,7 @@ export class FlowMutator {
         previousNodeUUID: string,
         draggedFrom: DragPoint = null,
         newPosition: Position = null,
-        addToNode: string = null): Node {
+        addToNode: Node = null): Node {
         console.time("updateAction");
         var node: Node;
 
@@ -210,7 +212,7 @@ export class FlowMutator {
 
         }
         else if (addToNode) {
-            let nodeDetails = this.components.getDetails(addToNode);
+            let nodeDetails = this.components.getDetails(addToNode.uuid);
             this.definition = update(this.definition, {
                 nodes: {
                     [nodeDetails.nodeIdx]: {

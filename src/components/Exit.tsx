@@ -105,7 +105,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         var classes: string[] = [styles.exit, "plumb-exit"]
         var confirm: JSX.Element = null;
         if (this.state.confirmDelete && this.props.exit.destination_node_uuid) {
-            confirm = <span onMouseUp={this.onDisconnect} className="icon-remove" />
+            confirm = <span onClick={this.onDisconnect} className="icon-remove" />
             classes.push(styles.confirm_delete);
         }
         // console.log('Rendering exit', this.props.exit.uuid);
@@ -116,7 +116,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
                 <div className={styles.name}>
                     {this.props.exit.name}
                 </div>
-                <div onMouseUp={this.onClick} id={this.props.exit.uuid} className={styles.endpoint + " " + connected}>
+                <div onClick={this.onClick} id={this.props.exit.uuid} className={styles.endpoint + " " + connected}>
                     {confirm}
                 </div>
                 {this.renderActivity()}

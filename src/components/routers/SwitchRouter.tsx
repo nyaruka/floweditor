@@ -6,23 +6,17 @@ import { CaseElement, CaseElementProps } from '../form/CaseElement';
 import { NodeProps } from '../Node';
 import { TextInputElement, HTMLTextElement } from '../form/TextInputElement';
 import { NodeForm } from '../NodeForm';
-import { NodeEditorProps, NodeModal } from '../NodeModal';
+import { NodeModalInitialProps, NodeModal } from '../NodeModal';
 import { Config } from '../../services/Config';
 import { Node, SwitchRouter, Exit, Case, UINode, Action } from '../../FlowDefinition';
 
 import { DragDropContext } from 'react-dnd';
+import { NodeRouterForm, NodeEditorFormProps, NodeEditorFormState } from "../NodeEditor";
 
 
 let HTML5Backend = require('react-dnd-html5-backend');
 let update = require('immutability-helper');
 var styles = require('./SwitchRouter.scss');
-
-export class SwitchRouterState {
-    cases: CaseProps[]
-    resultName: string;
-    setResultName: boolean
-    operand: string;
-}
 
 export interface CaseProps {
     kase: Case;
@@ -43,7 +37,7 @@ export interface CombinedExits {
  * @param newCases 
  * @param previousExits 
  */
-export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps): CombinedExits {
+export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExits {
 
     // create mapping of our old exit uuids to old exit settings
     var previousExitMap: { [uuid: string]: Exit } = {};
@@ -130,8 +124,11 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
 
     // add in our default exit
     var defaultUUID = UUID.v4();
-    if (previous.router && previous.router.default_exit_uuid) {
-        defaultUUID = previous.router.default_exit_uuid;
+    if (previous.router && previous.router.type == "switch") {
+        var router = previous.router as SwitchRouter;
+        if (router && router.default_exit_uuid) {
+            defaultUUID = router.default_exit_uuid;
+        }
     }
 
     var defaultName = "All Responses";
@@ -153,25 +150,30 @@ export function resolveExits(newCases: CaseProps[], previous: SwitchRouterProps)
     return { cases: cases, exits: exits, defaultExit: defaultUUID };
 }
 
-export interface SwitchRouterProps extends NodeEditorProps {
-    action: Action;
-    router: SwitchRouter;
-    exits: Exit[];
+interface SwitchRouterState extends NodeEditorFormState {
+    cases: CaseProps[]
+    resultName: string;
+    setResultName: boolean
+    operand: string;
 }
 
-export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRouterState> extends NodeForm<P, S> {
+export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterState>{
 
-    constructor(props: P) {
+    constructor(props: NodeEditorFormProps) {
         super(props);
 
         var cases: CaseProps[] = [];
+        var resultName = "";
+        var operand = "@input";
 
-        if (this.props.router && this.props.router.cases) {
-            for (let kase of this.props.router.cases) {
+        var initial = this.getInitial();
 
+        var exits = this.props.node.exits;
+        if (initial && initial.type == "switch" && initial.cases) {
+            for (let kase of initial.cases) {
                 var exitName = null;
                 if (kase.exit_uuid) {
-                    var exit = this.props.exits.find((exit) => { return exit.uuid == kase.exit_uuid });
+                    var exit = exits.find((exit) => { return exit.uuid == kase.exit_uuid });
                     if (exit) {
                         exitName = exit.name;
                     }
@@ -189,17 +191,9 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
                     // ignore missing cases
                 }
             }
-        }
 
-
-        var resultName = "";
-        if (this.props.router) {
-            resultName = this.props.router.result_name;
-        }
-
-        var operand = "@input";
-        if (this.props.router && this.props.router.operand) {
-            operand = this.props.router.operand;
+            resultName = initial.result_name;
+            operand = initial.operand;
         }
 
         this.state = {
@@ -207,7 +201,7 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
             setResultName: false,
             resultName: resultName,
             operand: operand
-        } as S
+        } as SwitchRouterState
 
         this.onCaseChanged = this.onCaseChanged.bind(this);
         this.onExpressionChanged = this.onExpressionChanged.bind(this);
@@ -266,9 +260,7 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
         })
     }
 
-    renderForm(): JSX.Element {
-
-        var ref = this.ref.bind(this);
+    renderForm(ref: any): JSX.Element {
         var cases: JSX.Element[] = [];
         var needsEmpty = true;
         if (this.state.cases) {
@@ -315,10 +307,10 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
         var nameField = null;
         if (this.state.setResultName || this.state.resultName) {
             nameField = <TextInputElement
-                ref={this.ref.bind(this)}
+                ref={ref}
                 name="Result Name"
                 showLabel={true}
-                defaultValue={this.state.resultName}
+                value={this.state.resultName}
                 helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
             />
         } else {
@@ -340,11 +332,11 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
                 <div className={styles.instructions}>
                     <p>If the expression..</p>
                     <TextInputElement
-                        ref={this.ref.bind(this)}
-                        key={"expression_" + this.props.uuid}
+                        ref={ref}
+                        key={"expression_" + this.props.node.uuid}
                         name="Expression"
                         showLabel={false}
-                        defaultValue={this.state.operand}
+                        value={this.state.operand}
                         onChange={this.onExpressionChanged}
                         autocomplete
                         required
@@ -381,13 +373,13 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
         }));
     }
 
-    submit(modal: NodeModal) {
-        const { cases, exits, defaultExit } = resolveExits(this.state.cases, this.props);
-        var lastElement = this.elements[this.elements.length - 1];
+    onValid() {
+        const { cases, exits, defaultExit } = resolveExits(this.state.cases, this.props.node);
         var optionalRouter = {}
-        if (lastElement instanceof TextInputElement) {
+        var resultNameEle = this.getWidget("Result Name") as TextInputElement;
+        if (resultNameEle) {
             optionalRouter = {
-                result_name: lastElement.state.value
+                result_name: resultNameEle.state.value
             }
         }
 
@@ -406,8 +398,8 @@ export class SwitchRouterForm<P extends SwitchRouterProps, S extends SwitchRoute
             ...optionalRouter
         }
 
-        modal.onUpdateRouter({
-            uuid: this.props.uuid,
+        this.props.updateRouter({
+            uuid: this.props.node.uuid,
             router: router,
             exits: exits,
             ...optionalNode

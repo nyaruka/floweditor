@@ -2,15 +2,15 @@ import * as React from 'react';
 import { ActionProps } from './Action';
 import { FlowDefinition, Action, Node, Position, SendMessage, UINode, SwitchRouter, Exit } from '../FlowDefinition';
 import { ContactFieldResult, SearchResult, ComponentMap } from './ComponentMap';
-import { NodeComp, NodeProps } from './Node';
-import { NodeModal, NodeModalProps, EditableProps, NodeEditorProps } from './NodeModal';
+import { NodeComp, NodeProps, DragPoint } from './Node';
 import { FlowMutator } from './FlowMutator';
 import { Simulator } from './Simulator';
 import { Plumber } from '../services/Plumber';
 import { External } from '../services/External';
 import { Config, Endpoints } from '../services/Config';
-import { SwitchRouterProps, SwitchRouterForm } from "./routers/SwitchRouter";
+import { SwitchRouterForm } from "./routers/SwitchRouter";
 import { ActivityManager } from "../services/ActivityManager";
+import { NodeEditor, NodeEditorProps } from "./NodeEditor";
 
 var update = require('immutability-helper');
 var UUID = require('uuid');
@@ -23,14 +23,16 @@ export interface FlowContext {
 }
 
 export interface FlowEventHandler {
+    onUpdateAction(node: Node, action: Action): void;
+    onUpdateRouter(node: Node, type: string): void;
+
     onRemoveAction(action: Action): void;
     onMoveActionUp(action: Action): void;
     onDisconnectExit(exitUUID: string): void;
     onNodeMoved(nodeUUID: string, position: Position): void;
-    onAddAction(nodeUUID: string): void;
+    onAddAction(addToNode: Node): void;
     onRemoveNode(props: Node): void;
-    onEditNode(props: NodeProps): void;
-    onEditAction(props: ActionProps, onlyActions: boolean): void;
+    openEditor(props: NodeEditorProps): void;
     onNodeMounted(props: Node): void;
 }
 
@@ -44,11 +46,11 @@ interface FlowProps {
 }
 
 interface FlowState {
-    ghost?: Node
-    modalProps?: NodeModalProps
-    loading: boolean
-    context: FlowContext
-    viewDefinition?: FlowDefinition
+    ghost?: Node;
+    nodeEditor?: NodeEditorProps;
+    loading: boolean;
+    context: FlowContext;
+    viewDefinition?: FlowDefinition;
 }
 
 interface Connection {
@@ -66,15 +68,18 @@ interface ConnectionEvent {
 
 export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
+    // dragging details, TODO, state this?
+    private pendingConnection: DragPoint;
+    private createNodePosition: Position;
+    private addToNode: Node;
+
     private ghostComp: NodeComp;
-    private modalComp: NodeModal;
+    private nodeEditorComp: NodeEditor;
 
     constructor(props: FlowProps, state: FlowState) {
         super(props);
+
         this.onConnectionDrag = this.onConnectionDrag.bind(this);
-        this.onEdit = this.onEdit.bind(this);
-        this.onEditAction = this.onEditAction.bind(this);
-        this.onEditNode = this.onEditNode.bind(this);
         this.onNodeMoved = this.onNodeMoved.bind(this);
         this.onNodeMounted = this.onNodeMounted.bind(this);
         this.onAddAction = this.onAddAction.bind(this);
@@ -82,26 +87,23 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.onUpdateRouter = this.onUpdateRouter.bind(this);
         this.onModalClose = this.onModalClose.bind(this);
         this.onShowDefinition = this.onShowDefinition.bind(this);
+        this.openEditor = this.openEditor.bind(this);
+        this.onUpdateRouter = this.onUpdateRouter.bind(this);
 
         ActivityManager.initialize(this.props.external, this.props.definition.uuid);
+        Config.initialize(this.props.endpoints);
 
         this.state = {
             loading: true,
-            modalProps: {
-                onlyActions: false,
-                changeType: true,
-                onUpdateAction: this.onUpdateAction,
-                onUpdateRouter: this.onUpdateRouter,
-                onClose: this.onModalClose
-            },
             context: {
                 eventHandler: {
+                    onUpdateAction: this.onUpdateAction,
+                    onUpdateRouter: this.onUpdateRouter,
+                    openEditor: this.openEditor,
                     onRemoveAction: this.props.mutator.removeAction,
                     onMoveActionUp: this.props.mutator.moveActionUp,
                     onAddAction: this.onAddAction,
                     onRemoveNode: this.props.mutator.removeNode,
-                    onEditNode: this.onEditNode,
-                    onEditAction: this.onEditAction,
                     onNodeMoved: this.onNodeMoved,
                     onNodeMounted: this.onNodeMounted,
                     onDisconnectExit: this.props.mutator.disconnectExit
@@ -112,108 +114,45 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         console.time("RenderAndPlumb");
     }
 
-    private onEditNode(props: NodeProps) {
+    private openEditor(props: NodeEditorProps) {
 
-        var uuid = props.node.uuid;
-        if (props.ghost) {
-            uuid = null;
-        }
+        props.onClose = (canceled: boolean) => {
+            // make sure we re-wire the old connection
+            if (canceled) {
+                if (this.pendingConnection) {
+                    var exit = this.props.mutator.getExit(this.pendingConnection.exitUUID);
+                    if (exit) {
+                        Plumber.get().connectExit(exit, false);
+                    }
+                }
+            }
 
-        var action = null;
-        if (props.node.actions && props.node.actions.length > 0) {
-            action = props.node.actions[0];
-        }
-
-        var initial: SwitchRouterProps = {
-            router: props.node.router as SwitchRouter,
-            action: action,
-            exits: props.node.exits,
-            type: props.ui.type,
-            uuid: props.node.uuid,
-            context: props.context,
-            config: Config.get().getTypeConfig(props.ui.type)
+            this.setState({
+                ghost: null
+            });
         };
 
-        this.onEdit({
-            initial: initial,
-            uuid: uuid,
-            type: props.ui.type,
-            context: props.context
+        this.setState({ nodeEditor: props }, () => {
+            this.nodeEditorComp.open();
         });
     }
 
-    private onEditAction(props: ActionProps, onlyActions: boolean) {
-        var config = Config.get().getTypeConfig(props.action.type);
-        if (config.form.prototype instanceof SwitchRouterForm) {
-            // if we are editing an existing action, get the node
-            var indexes = ComponentMap.get().getDetails(props.action.uuid);
-            if (indexes) {
-                var node = this.props.mutator.getNode(indexes.nodeUUID);
-                var nodeProps: NodeProps = {
-                    node: node,
-                    context: this.state.context,
-                    ui: this.props.mutator.getNodeUI(node.uuid),
-                    external: this.props.external
-                }
-                this.onEditNode(nodeProps);
-            }
-        } else {
-            var modalProps = update(this.state.modalProps, { $merge: { onlyActions: onlyActions } });
-            this.setState({
-                modalProps: modalProps
-            }, () => {
-                this.onEdit({
-                    initial: props,
-                    type: props.action.type,
-                    uuid: props.action.uuid,
-                    context: this.state.context
-                });
-            });
-        }
-    }
+    private onAddAction(addToNode: Node) {
 
-    private onEdit(props: EditableProps) {
-        var modalProps = update(this.state.modalProps, { $merge: { editableProps: props } });
-        delete modalProps["addToNode"];
-        this.setState({ modalProps: modalProps }, () => { this.modalComp.open() });
-    }
-
-
-    private onAddAction(addToNode: string) {
-
-        var uuid = UUID.v4();
-        var newAction: ActionProps = {
-            action: {
-                uuid: uuid,
-                type: "reply",
-                text: ""
-            } as SendMessage,
-            context: this.state.context,
-            dragging: false,
+        var newAction: SendMessage = {
+            uuid: UUID.v4(),
             type: "reply",
-            uuid: uuid,
-            config: Config.get().getTypeConfig("reply"),
-            first: false
+            text: ""
         };
 
-        var editableProps: EditableProps = {
-            initial: newAction,
-            type: newAction.type,
-            uuid: newAction.uuid,
-            context: this.state.context
-        }
+        this.openEditor({
+            context: this.state.context,
+            node: addToNode,
+            action: newAction,
+            actionsOnly: true,
+        });
 
-        var modalProps: NodeModalProps = {
-            editableProps: editableProps,
-            changeType: true,
-            onUpdateAction: this.onUpdateAction,
-            onUpdateRouter: this.onUpdateRouter,
-            addToNode: addToNode,
-            onlyActions: true,
-            onClose: this.onModalClose
-        };
-
-        this.setState({ modalProps: modalProps }, () => { this.modalComp.open() });
+        this.addToNode = addToNode;
     }
 
     private onNodeMoved(uuid: string, position: Position) {
@@ -231,33 +170,22 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
     }
 
     private resetState() {
-        this.setState({
-            ghost: null,
-            modalProps: {
-                onClose: this.onModalClose,
-                onUpdateAction: this.onUpdateAction,
-                onUpdateRouter: this.onUpdateRouter,
-                changeType: true,
-                onlyActions: false
-            }
-        });
+        this.setState({ ghost: null });
+        this.pendingConnection = null;
+        this.createNodePosition = null;
+        this.addToNode = null;
     }
 
-    private onUpdateAction(action: Action, previousNodeUUID: string) {
-        this.props.mutator.updateAction(action,
-            previousNodeUUID,
-            this.state.modalProps.draggedFrom,
-            this.state.modalProps.newPosition,
-            this.state.modalProps.addToNode
-        );
+    private onUpdateAction(node: Node, action: Action) {
+        console.log("Flow.onUpdateAction", action);
+        this.props.mutator.updateAction(action, node.uuid, this.pendingConnection, this.createNodePosition, this.addToNode);
         this.resetState();
     }
 
-    private onUpdateRouter(props: Node, type: string) {
-        this.props.mutator.updateRouter(props, type,
-            this.state.modalProps.draggedFrom,
-            this.state.modalProps.newPosition);
-
+    private onUpdateRouter(node: Node, type: string) {
+        console.log("Flow.onUpdateRouter", node);
+        var router = node.router as any;
+        this.props.mutator.updateRouter(node, type, this.pendingConnection, this.createNodePosition);
         this.resetState();
     }
 
@@ -280,24 +208,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             exitUUID: draggedFromDetails.exitUUID,
             onResolved: ((canceled: boolean) => {
 
-                // make sure we re-wire the old connection
-                if (canceled) {
-                    var exit = this.props.mutator.getExit(draggedFrom.exitUUID);
-                    if (exit) {
-                        Plumber.get().connectExit(exit, false);
-                    }
-                }
 
-                this.setState({
-                    ghost: null,
-                    modalProps: {
-                        onClose: this.onModalClose,
-                        onUpdateAction: this.onUpdateAction,
-                        onUpdateRouter: this.onUpdateRouter,
-                        changeType: true,
-                        onlyActions: false
-                    }
-                });
             })
         }
 
@@ -326,15 +237,6 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             ghost.router = { type: "switch" }
         }
 
-        var modalProps = {
-            draggedFrom: draggedFrom,
-            onClose: this.onModalClose,
-            onUpdateAction: this.onUpdateAction,
-            onUpdateRouter: this.onUpdateRouter,
-            onlyActions: false,
-            changeType: true
-        }
-
         // set our ghost spec so it gets rendered
         // TODO: this is here to workaround a jsplumb
         // weirdness where offsets go off the handle upon
@@ -342,11 +244,12 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         window.setTimeout(() => {
             this.setState({
                 ghost: ghost,
-                modalProps: modalProps,
             });
         }, 0);
-    }
 
+        // save off our drag point for later
+        this.pendingConnection = draggedFrom;
+    }
 
     componentDidMount() {
 
@@ -432,22 +335,27 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
      */
     private onConnectorDrop(event: ConnectionEvent) {
 
-        if (this.ghostComp && $(this.ghostComp.ele).is(":visible")) {
-            // wire up the drag from to our ghost node
-            let dragPoint = this.state.modalProps.draggedFrom;
-            Plumber.get().revalidate(this.state.ghost.uuid);
-            Plumber.get().connect(dragPoint.exitUUID, this.state.ghost.uuid);
+        // we put this in a zero timeout so jsplumb doesn't swallow any stack traces
+        window.setTimeout(() => {
+            if (this.ghostComp && $(this.ghostComp.ele).is(":visible")) {
+                // wire up the drag from to our ghost node
+                let dragPoint = this.pendingConnection;
+                Plumber.get().revalidate(this.state.ghost.uuid);
+                Plumber.get().connect(dragPoint.exitUUID, this.state.ghost.uuid);
 
-            // update our modal with our drop location
-            var { offsetTop, offsetLeft } = $(this.ghostComp.ele)[0];
-            var modalProps = update(this.state.modalProps, { $merge: { newPosition: { x: offsetLeft, y: offsetTop } } });
-            this.setState({ modalProps: modalProps });
+                // save our position for later
+                var { offsetTop, offsetLeft } = $(this.ghostComp.ele)[0];
+                this.createNodePosition = { x: offsetLeft, y: offsetTop };
 
-            // click on our ghost node to bring up the editor
-            this.ghostComp.onClick(null);
-        }
+                // click on our ghost node to bring up the editor
+                this.ghostComp.onClick();
+            }
+            
+            $(document).unbind('mousemove');
+        }, 0);
 
-        $(document).unbind('mousemove');
+        return true;
+
     }
 
     render() {
@@ -499,8 +407,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         }
 
         var modal = null;
-        if (this.state.modalProps && this.state.modalProps.editableProps) {
-            modal = <NodeModal ref={(ele) => { this.modalComp = ele }} {...this.state.modalProps} />
+        if (this.state.nodeEditor) {
+            modal = <NodeEditor ref={(ele) => { this.nodeEditorComp = ele }} {...this.state.nodeEditor} />
         }
 
         var loading = this.state.loading ? styles.loading : styles.loaded

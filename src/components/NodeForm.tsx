@@ -4,7 +4,7 @@ import { DragPoint } from './Node';
 import { Plumber } from '../services/Plumber';
 import { FlowStore } from '../services/FlowStore';
 import { Config } from '../services/Config';
-import { NodeEditorProps, NodeModal, NodeModalProps } from './NodeModal';
+import { NodeModalInitialProps, NodeModal, NodeModalProps } from './NodeModal';
 import { TitleBar } from './TitleBar';
 import { FormWidget } from './form/FormWidget';
 import { Action } from '../FlowDefinition';
@@ -14,7 +14,7 @@ import { ActionProps } from './Action';
 /**
  * Base Action class for the rendered flow
  */
-export abstract class NodeForm<P extends NodeEditorProps, S> extends React.PureComponent<P, S> {
+export abstract class NodeForm<P extends NodeModalInitialProps, S> extends React.PureComponent<P, S> {
 
     // abstract validate(ele: any): string;
     abstract submit(modal: NodeModal): void;
@@ -45,7 +45,7 @@ export abstract class NodeForm<P extends NodeEditorProps, S> extends React.PureC
 }
 
 
-export abstract class ActionForm<A extends Action, S> extends NodeForm<ActionProps, S> {
+/*export abstract class ActionForm<A extends Action, S> extends NodeForm<ActionProps, S> {
     private uuid: string;
 
     getUUID() {
@@ -66,6 +66,6 @@ export abstract class ActionForm<A extends Action, S> extends NodeForm<ActionPro
         return {} as A;
     }
 
-}
+}*/
 
 export default NodeForm;

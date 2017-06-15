@@ -1,0 +1,60 @@
+$inner_spacing: 15px;
+.advanced_buttons {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    cursor: pointer;
+    .show_advanced_button {
+        display: block;
+        top: 0px;
+        right: 10px;
+    }
+    .hide_advanced_button {
+        display: none;
+    }
+}
+
+.primary_form {
+    display: block;
+    margin-bottom: $inner_spacing;
+}
+
+.advanced_form {
+    display: none;
+    margin-bottom: $inner_spacing;
+}
+
+.advanced {
+    .type_chooser {
+        display: none;
+    }
+    .show_advanced_button {
+        display: none;
+    }
+    .hide_advanced_button {
+        display: block;
+    }
+    .primary_form {
+        display: none;
+    }
+    .advanced_form {
+        display: block;
+    }
+}
+
+.node_editor {
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-right: 20px;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 15px;
+}
+
+.type_chooser {
+    margin-bottom: $inner_spacing;
+}
+
+.header {
+    margin-bottom: $inner_spacing;
+}

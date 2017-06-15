@@ -56,7 +56,7 @@ export class CounterComp extends React.Component<CounterProps, CounterState> {
         if (this.state && this.state.count > 0) {
             var count = addCommas(this.state.count);
             return (
-                <div className={styles.counter + " " + this.props.containerStyle} onMouseUp={this.onClick}>
+                <div className={styles.counter + " " + this.props.containerStyle} onClick={this.onClick}>
                     <div className={this.props.countStyle}>
                         {count}
                     </div>

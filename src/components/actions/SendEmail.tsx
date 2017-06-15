@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { ActionComp } from '../Action';
-import { ActionForm } from '../NodeForm';
 import { SendEmail } from '../../FlowDefinition';
 import { NodeModal } from '../NodeModal';
 import { TextInputElement } from '../form/TextInputElement';
 import { EmailElement } from '../form/EmailElement';
+import { NodeActionForm } from "../NodeEditor";
 
 var styles = require('./SendEmail.scss');
 
@@ -14,30 +14,24 @@ export class SendEmailComp extends ActionComp<SendEmail> {
     }
 }
 
-interface SendEmailState {
-    emails: { label: string, value: string }[]
-}
+export class SendEmailForm extends NodeActionForm<SendEmail> {
 
-export class SendEmailForm extends ActionForm<SendEmail, SendEmailState> {
-
-    renderForm(): JSX.Element {
-        var action = this.getAction();
-        var ref = this.ref.bind(this);
+    renderForm(ref: any): JSX.Element {
+        var action = this.getInitial();
         return (
             <div className={styles.ele}>
                 <EmailElement ref={ref} name="Recipient" placeholder="To" emails={action.emails} required />
-                <TextInputElement className={styles.subject} ref={ref} name="Subject" placeholder="Subject" defaultValue={action.subject} autocomplete required />
-                <TextInputElement className={styles.message} ref={ref} name="Message" showLabel={false} defaultValue={action.body} autocomplete required textarea />
+                <TextInputElement className={styles.subject} ref={ref} name="Subject" placeholder="Subject" value={action.subject} autocomplete required />
+                <TextInputElement className={styles.message} ref={ref} name="Message" showLabel={false} value={action.body} autocomplete required textarea />
             </div>
         )
     }
 
-    submit(modal: NodeModal) {
+    onValid() {
 
-        var eles = this.getElements();
-        var emailEle = eles[0] as EmailElement;
-        var subjectEle = eles[1] as TextInputElement;
-        var bodyEle = eles[2] as TextInputElement;
+        var emailEle = this.getWidget("Recipient") as EmailElement;
+        var subjectEle = this.getWidget("Subject") as TextInputElement;
+        var bodyEle = this.getWidget("Message") as TextInputElement;
 
         var emails: string[] = []
         for (let email of emailEle.state.emails) {
@@ -45,13 +39,13 @@ export class SendEmailForm extends ActionForm<SendEmail, SendEmailState> {
         }
 
         var newAction: SendEmail = {
-            uuid: this.getUUID(),
+            uuid: this.getActionUUID(),
             type: this.props.config.type,
             body: bodyEle.state.value,
             subject: subjectEle.state.value,
             emails: emails
         }
 
-        modal.onUpdateAction(newAction);
+        this.props.updateAction(newAction);
     }
 }

@@ -33,7 +33,7 @@ export interface HTMLTextElement {
 }
 
 interface TextInputProps extends FormElementProps {
-    defaultValue: string;
+    value: string;
 
     // validates that the input is a url
     url?: boolean;
@@ -98,7 +98,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
         super(props);
 
         this.state = {
-            value: this.props.defaultValue ? this.props.defaultValue : "",
+            value: this.props.value ? this.props.value : "",
             caretOffset: 0,
             caretCoordinates: { left: 0, top: 0 },
             errors: [],
@@ -131,14 +131,6 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
             this.setState({
                 selectedOptionIndex: index
             })
-        }
-    }
-
-    componentWillReceiveProps(props: TextInputProps) {
-        if (props.defaultValue != this.state.value) {
-            this.setState({
-                value: props.defaultValue
-            });
         }
     }
 
@@ -387,6 +379,14 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
             }
         }
     }
+
+    /*componentWillReceiveProps(props: TextInputProps) {
+        if (props.defaultValue != this.state.value) {
+            this.setState({
+                value: props.defaultValue
+            });
+        }
+    }*/
 
     private renderOption(option: CompletionOption, selected: boolean): JSX.Element {
         if (selected) {

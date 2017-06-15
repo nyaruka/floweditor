@@ -3,7 +3,7 @@ import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
 
 import { NodeForm } from "../NodeForm";
-import { SwitchRouterProps, SwitchRouterState, SwitchRouterForm } from "./SwitchRouter";
+import { SwitchRouterForm } from "./SwitchRouter";
 import { SelectElement } from '../form/SelectElement';
 import { Webhook, Case, Exit, SwitchRouter } from '../../FlowDefinition';
 import { NodeModal } from "../NodeModal";
@@ -28,7 +28,7 @@ export interface Header {
     name: string;
     value: string;
 }
-
+/*
 interface WebhookProps extends SwitchRouterProps {
 
 }
@@ -371,9 +371,9 @@ export class HeaderElement extends FormWidget<HeaderElementProps, HeaderElementS
                     <div className={styles.header_value}>
                         <TextInputElement placeholder="Value" name="value" onChange={this.onChangeValue} defaultValue={this.state.value} autocomplete />
                     </div>
-                    <div className={styles.remove_button} onMouseUp={this.onRemove.bind(this)}><span className="icon-remove" /></div>
+                    <div className={styles.remove_button} onClick={this.onRemove.bind(this)}><span className="icon-remove" /></div>
                 </div>
             </FormElement>
         )
     }
-}
+}*/

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { ActionComp, ActionProps } from '../Action';
-import { ActionForm } from '../NodeForm';
 import { SendMessage } from '../../FlowDefinition';
 import { NodeModal } from '../NodeModal';
 import { TextInputElement } from '../form/TextInputElement';
+import { NodeActionForm } from "../NodeEditor";
 
 export class SendMessageComp extends ActionComp<SendMessage> {
     renderNode(): JSX.Element {
@@ -16,22 +16,24 @@ export class SendMessageComp extends ActionComp<SendMessage> {
     }
 }
 
-export class SendMessageForm extends ActionForm<SendMessage, {}> {
+export class SendMessageForm extends NodeActionForm<SendMessage> {
+    renderForm(ref: any): JSX.Element {
+        var text = "";
+        var action = this.getInitial();
+        if (action && action.type == "reply") {
+            text = action.text;
+        }
 
-    renderForm(): JSX.Element {
-        return (
-            <TextInputElement ref={this.ref.bind(this)} name="Message" showLabel={false} defaultValue={this.getAction().text} autocomplete required textarea />
-        )
+        return <TextInputElement ref={ref} name="Message" showLabel={false} value={text} autocomplete required textarea />
     }
 
-    submit(modal: NodeModal) {
-        var textarea = this.getElements()[0] as TextInputElement;
-
+    onValid() {
+        var textarea = this.getWidget("Message") as TextInputElement;
         var newAction: SendMessage = {
-            uuid: this.getUUID(),
+            uuid: this.getActionUUID(),
             type: this.props.config.type,
             text: textarea.state.value,
         }
-        modal.onUpdateAction(newAction);
+        this.props.updateAction(newAction);
     }
 }

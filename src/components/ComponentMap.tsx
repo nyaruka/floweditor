@@ -32,7 +32,8 @@ interface ComponentDetails {
     actionUUID?: string;
     exitIdx?: number
     exitUUID?: string;
-    pointers?: string[]
+    pointers?: string[];
+    type?: string;
 }
 
 export interface CompletionOption {
@@ -97,6 +98,7 @@ export class ComponentMap {
             return;
         }
 
+
         // determine our indexes
         for (let nodeIdx = 0; nodeIdx < definition.nodes.length; nodeIdx++) {
             let node = definition.nodes[nodeIdx];
@@ -108,6 +110,12 @@ export class ComponentMap {
                 pointers: []
             }
 
+            // set our type
+            let _ui = definition._ui.nodes[node.uuid]
+            if (_ui && _ui.type) {
+                components[node.uuid].type = _ui.type;
+            }
+
             // map out our action idexes
             if (node.actions) {
                 for (let actionIdx = 0; actionIdx < node.actions.length; actionIdx++) {
@@ -117,6 +125,7 @@ export class ComponentMap {
                         nodeIdx: nodeIdx,
                         actionUUID: action.uuid,
                         actionIdx: actionIdx,
+                        type: action.type
                     }
 
                     if (action.type == "save_flow_result") {

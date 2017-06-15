@@ -13,7 +13,7 @@ var Select = require('react-select');
 var styles = require('./NodeModal.scss');
 var shared = require('./shared.scss');
 
-export interface NodeEditorProps {
+export interface NodeModalInitialProps {
     type: string;
     uuid: string;
     context: FlowContext;
@@ -21,7 +21,7 @@ export interface NodeEditorProps {
 }
 
 export interface EditableProps {
-    initial: NodeEditorProps;
+    initial: NodeModalInitialProps;
     type: string;
     uuid: string;
     context: FlowContext;
@@ -57,7 +57,7 @@ interface NodeModalState {
 export class NodeModal extends React.Component<NodeModalProps, NodeModalState> {
 
     private formElement: HTMLFormElement;
-    private form: NodeForm<NodeEditorProps, any>;
+    private form: NodeForm<NodeModalInitialProps, any>;
 
     private nodeUUID: string;
 
