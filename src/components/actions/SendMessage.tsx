@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { ActionComp, ActionProps } from '../Action';
 import { SendMessage } from '../../FlowDefinition';
-import { NodeModal } from '../NodeModal';
 import { TextInputElement } from '../form/TextInputElement';
 import { NodeActionForm } from "../NodeEditor";
 

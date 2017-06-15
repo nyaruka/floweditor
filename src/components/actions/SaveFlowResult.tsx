@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { ActionComp } from "../Action";
 import { SaveFlowResult } from "../../FlowDefinition";
-import { NodeModal } from "../NodeModal";
 import { TextInputElement } from "../form/TextInputElement";
 import { NodeActionForm } from "../NodeEditor";
 

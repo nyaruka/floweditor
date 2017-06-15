@@ -2,15 +2,15 @@ import * as React from 'react';
 import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
 
-import { NodeForm } from "../NodeForm";
-import { SwitchRouterForm } from "./SwitchRouter";
+import { SwitchRouterForm, SwitchRouterState } from "./SwitchRouter";
 import { SelectElement } from '../form/SelectElement';
 import { Webhook, Case, Exit, SwitchRouter } from '../../FlowDefinition';
-import { NodeModal } from "../NodeModal";
 import { TextInputElement, HTMLTextElement } from '../form/TextInputElement';
 
 import { FormElement, FormElementProps } from '../form/FormElement';
 import { FormWidget, FormValueState } from '../form/FormWidget';
+import { NodeRouterForm, NodeEditorFormProps } from "../NodeEditor";
+import { ComponentMap } from "../ComponentMap";
 
 var forms = require('../form/FormElement.scss');
 var styles = require('./Webhook.scss');
@@ -28,8 +28,8 @@ export interface Header {
     name: string;
     value: string;
 }
-/*
-interface WebhookProps extends SwitchRouterProps {
+
+interface WebhookProps extends SwitchRouter {
 
 }
 
@@ -38,9 +38,10 @@ interface WebhookState extends SwitchRouterState {
     method: string;
 }
 
-export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
+// extends NodeRouterForm<SwitchRouter, SwitchRouterState>
+export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
     private methodOptions = [{ value: 'GET', label: 'GET' }, { value: 'POST', label: 'POST' }];
-    constructor(props: WebhookProps) {
+    constructor(props: NodeEditorFormProps) {
         super(props);
         this.onHeaderRemoved = this.onHeaderRemoved.bind(this);
         this.onHeaderChanged = this.onHeaderChanged.bind(this);
@@ -69,6 +70,7 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
         this.addEmptyHeader(headers);
 
         this.state = {
+            showAdvanced: false,
             resultName: null,
             setResultName: false,
             cases: [],
@@ -119,15 +121,13 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
         this.setState({ method: method.value });
     }
 
-    renderForm(): JSX.Element {
+    renderForm(ref: any): JSX.Element {
 
         var method = "GET";
         var url = "";
 
-
         var postBody = defaultBody;
-
-        var nodeUUID = this.props.uuid;
+        var nodeUUID = this.props.node.uuid;
 
         if (this.props.action) {
             var action = this.props.action;
@@ -142,13 +142,12 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
             }
         }
 
-        var ref = this.ref.bind(this);
         var headerElements: JSX.Element[] = [];
         this.state.headers.map((header: Header, index: number) => {
             headerElements.push(<HeaderElement
                 key={header.uuid}
                 ref={ref}
-                name={header.name}
+                name={"header_" + index}
                 header={header}
                 onRemove={this.onHeaderRemoved}
                 onChange={this.onHeaderChanged}
@@ -160,7 +159,7 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
         if (this.state.method == "POST") {
             summary = (
                 <div>
-                    <TextInputElement className={styles.post_body} ref={ref} name="Body" showLabel={false} defaultValue={postBody} helpText="Modify the body of the POST sent to your webhook." autocomplete textarea required />
+                    <TextInputElement className={styles.post_body} ref={ref} name="Body" showLabel={false} value={postBody} helpText="Modify the body of the POST sent to your webhook." autocomplete textarea required />
                     <p>If your server responds with JSON, each property will be added to the Flow. They can be accessed using <span className={styles.example}>@webhook.json.my_response_value</span></p>
                 </div>
             )
@@ -184,7 +183,7 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
                     <SelectElement ref={ref} name="Method" defaultValue={method} onChange={this.onMethodChanged} options={this.methodOptions} />
                 </div>
                 <div className={styles.url}>
-                    <TextInputElement ref={ref} name="URL" placeholder="Enter a URL" defaultValue={url} autocomplete required url />
+                    <TextInputElement ref={ref} name="URL" placeholder="Enter a URL" value={url} autocomplete required url />
                 </div>
 
                 <div>
@@ -204,23 +203,20 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
         return UUID.v4();
     }
 
-    submit(modal: NodeModal): void {
-
-        var eles = this.getElements();
-
-        var methodEle = eles[0] as SelectElement;
-        var urlEle = eles[1] as TextInputElement;
-        var Ele = eles[1] as TextInputElement;
+    onValid(): void {
 
         var method = "GET";
         var body = null;
+
+        var methodEle = this.getWidget("Method") as SelectElement;
+        var urlEle = this.getWidget("URL") as TextInputElement;
 
         if (methodEle.state.value) {
             method = methodEle.state.value;
         }
 
         if (method == "POST") {
-            var bodyEle = eles[eles.length - 1] as TextInputElement;
+            var bodyEle = this.getWidget("Body") as TextInputElement;
             body = bodyEle.state.value
         }
 
@@ -243,11 +239,18 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
             body: body
         }
 
-        // if we were already a subflow, lean on those exits
+        // if we were already a webhook, lean on those exits and cases
         var exits = [];
-        if (this.props.type == "webhook") {
-            exits = this.props.exits;
-        } else {
+        var cases: Case[];
+
+        var details = ComponentMap.get().getDetails(this.props.node.uuid);
+        if (details && details.type == "webhook") {
+            exits = this.props.node.exits;
+            cases = (this.props.node.router as SwitchRouter).cases;
+        }
+
+        // otherwise, let's create some new ones
+        else {
             exits = [
                 {
                     uuid: UUID.v4(),
@@ -259,17 +262,17 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
                     name: "Failure",
                     destination_node_uuid: null
                 }
+            ];
+
+            cases = [
+                {
+                    uuid: UUID.v4(),
+                    type: "has_webhook_status",
+                    arguments: ["S"],
+                    exit_uuid: exits[0].uuid
+                }
             ]
         }
-
-        var cases: Case[] = [
-            {
-                uuid: UUID.v4(),
-                type: "has_webhook_status",
-                arguments: ["S"],
-                exit_uuid: exits[0].uuid
-            }
-        ]
 
         var router: SwitchRouter = {
             type: "switch",
@@ -279,12 +282,12 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
         }
 
         // HACK: this should go away with modal <refactor></refactor>
-        var nodeUUID = this.props.uuid;
+        var nodeUUID = this.props.node.uuid;
         if (this.props.action && this.props.action.uuid == nodeUUID) {
             nodeUUID = UUID.v4();
         }
 
-        modal.onUpdateRouter({
+        this.props.updateRouter({
             uuid: nodeUUID,
             router: router,
             exits: exits,
@@ -294,7 +297,7 @@ export class WebhookForm extends SwitchRouterForm<WebhookProps, WebhookState> {
 }
 
 export interface HeaderElementProps {
-    name: string; // satisfy form widget
+    name: string;
 
     header: Header;
     index: number;
@@ -366,14 +369,14 @@ export class HeaderElement extends FormWidget<HeaderElementProps, HeaderElementS
             <FormElement name={this.props.name} errors={this.state.errors} className={styles.group}>
                 <div className={styles.header}>
                     <div className={styles.header_name}>
-                        <TextInputElement placeholder="Header Name" name="name" onChange={this.onChangeName} defaultValue={this.state.name} />
+                        <TextInputElement placeholder="Header Name" name="name" onChange={this.onChangeName} value={this.state.name} />
                     </div>
                     <div className={styles.header_value}>
-                        <TextInputElement placeholder="Value" name="value" onChange={this.onChangeValue} defaultValue={this.state.value} autocomplete />
+                        <TextInputElement placeholder="Value" name="value" onChange={this.onChangeValue} value={this.state.value} autocomplete />
                     </div>
                     <div className={styles.remove_button} onClick={this.onRemove.bind(this)}><span className="icon-remove" /></div>
                 </div>
             </FormElement>
         )
     }
-}*/
+}

@@ -1,4 +1,3 @@
-import { EditableProps } from '../components/NodeModal';
 import { ChangeGroupComp, ChangeGroupForm } from '../components/actions/ChangeGroup';
 import { SaveToContactComp, SaveToContactForm } from '../components/actions/SaveToContact';
 import { SendMessageComp, SendMessageForm } from '../components/actions/SendMessage';
@@ -7,10 +6,8 @@ import { SaveFlowResultComp, SaveFlowResultForm } from '../components/actions/Sa
 import { StartFlowComp } from '../components/actions/StartFlow';
 import { SendEmailComp, SendEmailForm } from '../components/actions/SendEmail';
 import { SwitchRouterForm } from '../components/routers/SwitchRouter';
-//import { SubflowForm } from "../components/routers/Subflow";
-//import { WebhookForm } from "../components/routers/Webhook";
-//import { WaitForResponseForm } from "../components/routers/WaitForResponse";
-//import { ExpressionForm } from "../components/routers/Expression";
+import { SubflowForm } from "../components/routers/Subflow";
+import { WebhookForm } from "../components/routers/Webhook";
 
 export interface Endpoints {
     fields: string;
@@ -99,11 +96,11 @@ export class Config {
         // {type: "set_preferred_channel", name: "Set Preferred Channel", description: "Set their preferred channel", component: Missing},
 
         // hybrids
-        //{ type: "call_webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: WebhookComp, aliases: ["webhook"] },
-        //{ type: "start_flow", name: "Run Flow", description: "Run another flow", form: SubflowForm, component: StartFlowComp, aliases: ["subflow"] },
+        { type: "call_webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: WebhookComp, aliases: ["webhook"] },
+        { type: "start_flow", name: "Run Flow", description: "Run another flow", form: SubflowForm, component: StartFlowComp, aliases: ["subflow"] },
 
         // routers
-        //{ type: "expression", name: "Split by Expression", description: "Split by a custom expression", form: ExpressionForm },
+        { type: "expression", name: "Split by Expression", description: "Split by a custom expression", form: SwitchRouterForm },
         { type: "wait_for_response", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm },
         // {type: "random", name: "Random Split", description: "Split them up randomly", form: RandomRouterForm}
     ]

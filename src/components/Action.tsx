@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as axios from "axios";
 import * as UUID from 'uuid';
-import { NodeModalInitialProps } from './NodeModal';
 import { FlowContext } from './Flow';
 import { Node, Action, SwitchRouter } from '../FlowDefinition';
 import { Plumber } from '../services/Plumber';
@@ -13,7 +12,7 @@ import { NodeProps } from "./Node";
 var shared = require('./shared.scss');
 var styles = require('./Action.scss');
 
-export interface ActionProps extends NodeModalInitialProps {
+export interface ActionProps {
     node: Node;
     action: Action;
     context: FlowContext;

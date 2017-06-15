@@ -188,16 +188,13 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
                     var actionProps: ActionProps = {
                         action: action,
-                        type: action.type,
-                        config: Config.get().getTypeConfig(action.type),
-                        uuid: action.uuid,
                         dragging: this.state.dragging,
                         context: this.props.context,
                         node: this.props.node,
                         first: first,
                     };
 
-                    actions.push(React.createElement(actionConfig.component, { key: actionProps.uuid, ...actionProps, ...firstRef }));
+                    actions.push(React.createElement(actionConfig.component, { key: action.uuid, ...actionProps, ...firstRef }));
                 }
                 first = false;
                 firstRef = {};

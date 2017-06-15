@@ -3,7 +3,6 @@ import * as update from 'immutability-helper';
 
 import { ContactFieldResult, SearchResult } from './ComponentMap';
 import { FlowDefinition, Node, Action, Exit, UIMetaData, UINode, Position } from '../FlowDefinition';
-import { NodeModalProps } from './NodeModal';
 import { NodeComp, NodeProps, DragPoint } from './Node';
 import { ComponentMap } from './ComponentMap';
 import { FlowLoaderProps } from './FlowLoader';

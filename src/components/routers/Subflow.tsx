@@ -1,23 +1,16 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
-import { NodeForm } from "../NodeForm";
-import { SwitchRouterForm } from "./SwitchRouter";
+import { SwitchRouterForm, SwitchRouterState } from "./SwitchRouter";
 import { StartFlow, Case, Exit, SwitchRouter } from '../../FlowDefinition';
-import { NodeModal } from "../NodeModal";
 import { FlowElement } from "../form/FlowElement";
+import { NodeRouterForm } from "../NodeEditor";
+import { Config } from "../../services/Config";
+import { ComponentMap } from "../ComponentMap";
 
-/*
-interface SubflowProps extends SwitchRouterProps {
 
-}
+export class SubflowForm extends NodeRouterForm<SwitchRouter, SwitchRouterState> {
 
-interface SubflowState extends SwitchRouterState {
-
-}
-
-export class SubflowForm extends SwitchRouterForm<SubflowProps, SubflowState> {
-
-    renderForm(): JSX.Element {
+    renderForm(ref: any): JSX.Element {
         var flow_name, flow_uuid: string = null;
         if (this.props.action) {
             var action = this.props.action;
@@ -32,9 +25,9 @@ export class SubflowForm extends SwitchRouterForm<SubflowProps, SubflowState> {
             <div>
                 <p>Select a flow to run</p>
                 <FlowElement
-                    ref={this.ref.bind(this)}
+                    ref={ref}
                     name="Flow"
-                    endpoint={this.props.context.endpoints.flows}
+                    endpoint={Config.get().endpoints.flows}
                     flow_name={flow_name}
                     flow_uuid={flow_uuid}
                     required
@@ -51,8 +44,8 @@ export class SubflowForm extends SwitchRouterForm<SubflowProps, SubflowState> {
         return UUID.v4();
     }
 
-    submit(modal: NodeModal): void {
-        var select = this.getElements()[0] as FlowElement;
+    onValid(): void {
+        var select = this.getWidget("Flow") as FlowElement;
         var flow = select.state.flow;
 
         var newAction: StartFlow = {
@@ -62,33 +55,36 @@ export class SubflowForm extends SwitchRouterForm<SubflowProps, SubflowState> {
             flow_uuid: flow.id
         }
 
-        // if we were already a subflow, lean on those exits
+        // if we were already a subflow, lean on those exits and cases
         var exits = [];
-        if (this.props.type == "subflow") {
-            exits = this.props.exits;
-        } else {
+        var cases: Case[];
+
+        var details = ComponentMap.get().getDetails(this.props.node.uuid);
+        if (details && details.type == "subflow") {
+            exits = this.props.node.exits;
+            cases = (this.props.node.router as SwitchRouter).cases;
+        }
+
+        // otherwise, let's create some new ones
+        else {
             exits = [
                 {
                     uuid: UUID.v4(),
                     name: "Complete",
                     destination_node_uuid: null
-                }/*,
+                }
+            ];
+
+            cases = [
                 {
                     uuid: UUID.v4(),
-                    name: "Other",
-                    destination_node_uuid: null
-                }*//*
-            ]
+                    type: "has_run_status",
+                    arguments: ["C"],
+                    exit_uuid: exits[0].uuid
+                }
+            ];
         }
 
-        var cases: Case[] = [
-            {
-                uuid: UUID.v4(),
-                type: "has_run_status",
-                arguments: ["C"],
-                exit_uuid: exits[0].uuid
-            }
-        ]
 
         var router: SwitchRouter = {
             type: "switch",
@@ -97,13 +93,13 @@ export class SubflowForm extends SwitchRouterForm<SubflowProps, SubflowState> {
             default_exit_uuid: null
         }
 
-        // HACK: this should go away with modal <refactor></refactor>
-        var nodeUUID = this.props.uuid;
+        // HACK: this should go away with modal refactor
+        var nodeUUID = this.props.node.uuid;
         if (this.props.action && this.props.action.uuid == nodeUUID) {
             nodeUUID = UUID.v4();
         }
 
-        modal.onUpdateRouter({
+        this.props.updateRouter({
             uuid: nodeUUID,
             router: router,
             exits: exits,
@@ -112,4 +108,3 @@ export class SubflowForm extends SwitchRouterForm<SubflowProps, SubflowState> {
         }, "subflow");
     }
 }
-*/

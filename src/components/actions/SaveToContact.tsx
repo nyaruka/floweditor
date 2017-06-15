@@ -4,7 +4,6 @@ import { toBoolMap } from '../../utils';
 import { SelectSearch } from '../SelectSearch';
 import { ComponentMap, SearchResult } from '../ComponentMap';
 import { SaveToContact, UpdateContact } from '../../FlowDefinition';
-import { NodeModal } from '../NodeModal';
 import { ActionComp } from '../Action';
 import { FieldElement } from '../form/FieldElement';
 import { TextInputElement } from '../form/TextInputElement';

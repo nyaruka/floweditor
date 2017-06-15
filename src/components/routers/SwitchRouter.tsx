@@ -5,8 +5,6 @@ import * as UUID from 'uuid';
 import { CaseElement, CaseElementProps } from '../form/CaseElement';
 import { NodeProps } from '../Node';
 import { TextInputElement, HTMLTextElement } from '../form/TextInputElement';
-import { NodeForm } from '../NodeForm';
-import { NodeModalInitialProps, NodeModal } from '../NodeModal';
 import { Config } from '../../services/Config';
 import { Node, SwitchRouter, Exit, Case, UINode, Action } from '../../FlowDefinition';
 
@@ -150,14 +148,14 @@ export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExi
     return { cases: cases, exits: exits, defaultExit: defaultUUID };
 }
 
-interface SwitchRouterState extends NodeEditorFormState {
+export interface SwitchRouterState extends NodeEditorFormState {
     cases: CaseProps[]
     resultName: string;
     setResultName: boolean
     operand: string;
 }
 
-export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterState>{
+export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterState> {
 
     constructor(props: NodeEditorFormProps) {
         super(props);
