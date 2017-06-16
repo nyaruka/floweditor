@@ -16,12 +16,22 @@ export class SendEmailComp extends ActionComp<SendEmail> {
 export class SendEmailForm extends NodeActionForm<SendEmail> {
 
     renderForm(ref: any): JSX.Element {
+        var emails: string[] = [];
+        var subject = "";
+        var body = "";
+
         var action = this.getInitial();
+        if (action && action.type == "send_email") {
+            emails = action.emails;
+            subject = action.subject;
+            body = action.body;
+        }
+
         return (
             <div className={styles.ele}>
-                <EmailElement ref={ref} name="Recipient" placeholder="To" emails={action.emails} required />
-                <TextInputElement className={styles.subject} ref={ref} name="Subject" placeholder="Subject" value={action.subject} autocomplete required />
-                <TextInputElement className={styles.message} ref={ref} name="Message" showLabel={false} value={action.body} autocomplete required textarea />
+                <EmailElement ref={ref} name="Recipient" placeholder="To" emails={emails} required />
+                <TextInputElement className={styles.subject} ref={ref} name="Subject" placeholder="Subject" value={subject} autocomplete required />
+                <TextInputElement className={styles.message} ref={ref} name="Message" showLabel={false} value={body} autocomplete required textarea />
             </div>
         )
     }

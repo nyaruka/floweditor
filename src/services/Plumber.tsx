@@ -67,7 +67,7 @@ export class Plumber {
         return this.jsPlumb;
     }
 
-    draggable(ele: JSX.Element, start: Function, drag: Function, stop: Function) {
+    draggable(ele: HTMLElement, start: Function, drag: Function, stop: Function) {
         this.jsPlumb.draggable(ele, {
             start: (event: any) => start(event),
             drag: (event: DragEvent) => drag(event),
@@ -86,6 +86,33 @@ export class Plumber {
 
     connectExit(exit: Exit, confirmDelete: boolean) {
         this.connect(exit.uuid, exit.destination_node_uuid, confirmDelete ? "confirm_delete" : null);
+    }
+
+    private animateInterval: any = null;
+
+    cancelAnimate() {
+        if (this.animateInterval) {
+            window.clearInterval(this.animateInterval);
+            this.animateInterval = null;
+        }
+    }
+    animate(duration: number) {
+        var times = 0;
+        var pause = 1;
+        this.animateInterval = window.setInterval(() => {
+            // this.revalidate(uuid);
+            this.jsPlumb.repaintEverything();
+            if (times++ * pause > duration) {
+                window.clearInterval(this.animateInterval);
+                console.log("animation complete");
+            }
+        }, pause);
+    }
+
+    repaintFor(millis: number) {
+        window.setInterval(() => {
+            this.jsPlumb.repaintEverything();
+        }, 1);
     }
 
     private handlePendingConnections() {

@@ -106,8 +106,14 @@ export interface Position {
     y: number;
 }
 
+export interface Dimensions {
+    width: number;
+    height: number;
+}
+
 export interface UINode {
     position: Position;
+    dimensions?: Dimensions;
 
     // ui type, used for split by expression, contact field, etc
     type?: string

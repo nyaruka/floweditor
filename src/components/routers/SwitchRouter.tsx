@@ -58,7 +58,6 @@ export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExi
         // use our previous exit name if it isn't set
         if (!newCase.exitName && newCase.kase.exit_uuid in previousExitMap) {
             newCase.exitName = previousExitMap[newCase.kase.exit_uuid].name;
-            console.log("using old exitName", newCase.exitName);
         }
 
         // ignore cases with empty names

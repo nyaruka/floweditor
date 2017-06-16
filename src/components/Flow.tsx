@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ActionProps } from './Action';
-import { FlowDefinition, Action, Node, Position, SendMessage, UINode, SwitchRouter, Exit } from '../FlowDefinition';
+import { FlowDefinition, Action, Node, Position, SendMessage, UINode, SwitchRouter, Exit, Dimensions } from '../FlowDefinition';
 import { ContactFieldResult, SearchResult, ComponentMap } from './ComponentMap';
 import { NodeComp, NodeProps, DragPoint } from './Node';
 import { FlowMutator } from './FlowMutator';
@@ -25,6 +25,7 @@ export interface FlowContext {
 export interface FlowEventHandler {
     onUpdateAction(node: Node, action: Action): void;
     onUpdateRouter(node: Node, type: string): void;
+    onUpdateDimensions(node: Node, dimensions: Dimensions): void;
 
     onRemoveAction(action: Action): void;
     onMoveActionUp(action: Action): void;
@@ -99,6 +100,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                 eventHandler: {
                     onUpdateAction: this.onUpdateAction,
                     onUpdateRouter: this.onUpdateRouter,
+                    onUpdateDimensions: this.props.mutator.updateDimensions,
                     openEditor: this.openEditor,
                     onRemoveAction: this.props.mutator.removeAction,
                     onMoveActionUp: this.props.mutator.moveActionUp,
@@ -159,6 +161,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.props.mutator.updateNodeUI(uuid, {
             position: { $set: position }
         });
+
+        Plumber.get().animate(200);
     }
 
     private onNodeMounted(props: Node) {
@@ -180,12 +184,17 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         console.log("Flow.onUpdateAction", action);
         this.props.mutator.updateAction(action, node.uuid, this.pendingConnection, this.createNodePosition, this.addToNode);
         this.resetState();
+
+        Plumber.get().animate(200);
     }
 
     private onUpdateRouter(node: Node, type: string) {
         console.log("Flow.onUpdateRouter", node);
         var router = node.router as any;
-        this.props.mutator.updateRouter(node, type, this.pendingConnection, this.createNodePosition);
+        var newNode = this.props.mutator.updateRouter(node, type, this.pendingConnection, this.createNodePosition);
+        if (newNode.uuid != node.uuid) {
+            Plumber.get().animate(200);
+        }
         this.resetState();
     }
 
@@ -195,6 +204,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
      * @param event 
      */
     private onConnectionDrag(event: ConnectionEvent) {
+
         // we finished dragging a ghost node, create the spec for our new ghost component
         let components = ComponentMap.get();
         let draggedFromDetails = components.getDetails(event.sourceId);
@@ -205,11 +215,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var nodeUUID = UUID.v4();
         var draggedFrom = {
             nodeUUID: draggedFromDetails.nodeUUID,
-            exitUUID: draggedFromDetails.exitUUID,
-            onResolved: ((canceled: boolean) => {
-
-
-            })
+            exitUUID: draggedFromDetails.exitUUID
         }
 
         var ghost: Node = {
@@ -249,6 +255,11 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
         // save off our drag point for later
         this.pendingConnection = draggedFrom;
+    }
+
+    componentDidUpdate(prevProps: FlowProps, prevState: FlowState) {
+        // console.log("Updated", this.props.definition);
+        this.props.mutator.reflow();
     }
 
     componentDidMount() {
@@ -350,7 +361,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                 // click on our ghost node to bring up the editor
                 this.ghostComp.onClick();
             }
-            
+
             $(document).unbind('mousemove');
         }, 0);
 
@@ -368,8 +379,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
         var nodes: JSX.Element[] = [];
         for (let node of definition.nodes) {
-            var uiNode = definition._ui.nodes[node.uuid];
-            nodes.push(<NodeComp key={node.uuid} node={node} ui={uiNode} context={this.state.context} external={this.props.external} />)
+            var ui = definition._ui.nodes[node.uuid];
+            nodes.push(<NodeComp key={node.uuid} node={node} ui={ui} context={this.state.context} external={this.props.external} />)
         }
 
         var dragNode = null;

@@ -46,9 +46,9 @@ export interface NodeProps {
 /**
  * A single node in the rendered flow
  */
-export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
+export class NodeComp extends React.Component<NodeProps, NodeState> {
 
-    public ele: any;
+    public ele: HTMLDivElement;
     private firstAction: ActionComp<Action>;
     private cancelClick: boolean;
 
@@ -59,9 +59,9 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
     }
 
     onDragStart(event: any) {
-        console.log(event);
         this.cancelClick = true;
         this.setState({ dragging: true });
+        Plumber.get().cancelAnimate();
         $('#root').addClass('dragging');
     }
 
@@ -80,10 +80,8 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
     }
 
     shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState): boolean {
-
-        // TODO: these should be inverse evaluations since things can be batched
         if (nextProps.ui.position.x != this.props.ui.position.x || nextProps.ui.position.y != this.props.ui.position.y) {
-            return false;
+            return true;
         }
         return shallowCompare(this, nextProps, nextState);
     }
@@ -121,7 +119,16 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
                     nodeEle.show();
                 }
             });
+        } else {
+            this.updateDimensions();
         }
+    }
+
+    private updateDimensions() {
+        this.props.context.eventHandler.onUpdateDimensions(this.props.node, {
+            width: this.ele.clientWidth,
+            height: this.ele.clientHeight
+        });
     }
 
     componentWillUnmount() {
@@ -129,12 +136,17 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
     }
 
     componentDidUpdate(prevProps: NodeProps, prevState: NodeState) {
-        // console.log("Node updated..", this.props.uuid);
+        // console.log("Node updated..", this.props.node.uuid, this.props.ui.position);
         if (!this.props.ghost) {
             try {
                 Plumber.get().recalculate(this.props.node.uuid);
             } catch (error) {
                 console.log(error);
+            }
+
+            if (!this.props.ui.dimensions || (this.props.ui.dimensions.width != this.ele.clientWidth ||
+                this.props.ui.dimensions.height != this.ele.clientHeight)) {
+                this.updateDimensions();
             }
         }
 
@@ -264,9 +276,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
         // are we dragging
         if (this.state.dragging) {
-            classes.push("z-depth-4");
-        } else {
-            classes.push("z-depth-1");
+            classes.push(styles.dragging);
         }
 
         // is this a ghost node
@@ -281,7 +291,7 @@ export class NodeComp extends React.PureComponent<NodeProps, NodeState> {
 
         var activity = ActivityManager.get();
 
-        // console.log("Rendering node", this.props.uuid);
+        // console.log("Rendering " + this.props.node.uuid, this.props.ui.position);
         return (
             <div className={classes.join(' ')}
                 ref={(ele: any) => { this.ele = ele }}

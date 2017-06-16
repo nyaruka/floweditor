@@ -2,10 +2,21 @@ import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
 
 import { ContactFieldResult, SearchResult } from './ComponentMap';
-import { FlowDefinition, Node, Action, Exit, UIMetaData, UINode, Position } from '../FlowDefinition';
+import { FlowDefinition, Node, Action, Exit, UIMetaData, UINode, Position, Dimensions } from '../FlowDefinition';
 import { NodeComp, NodeProps, DragPoint } from './Node';
 import { ComponentMap } from './ComponentMap';
 import { FlowLoaderProps } from './FlowLoader';
+
+interface Bounds {
+    left: number;
+    top: number;
+    right: number;
+    bottom: number;
+}
+interface Reflow {
+    uuid: string;
+    bounds: Bounds;
+}
 
 export class FlowMutator {
 
@@ -22,6 +33,7 @@ export class FlowMutator {
 
     private quietUI: number;
     private quietSave: number;
+
 
     constructor(definition: FlowDefinition = null,
         updateMethod: Function = null,
@@ -44,6 +56,8 @@ export class FlowMutator {
         this.getContactFields = this.getContactFields.bind(this);
         this.getGroups = this.getGroups.bind(this);
         this.disconnectExit = this.disconnectExit.bind(this);
+        this.updateDimensions = this.updateDimensions.bind(this);
+
     }
 
     public getContactFields(): ContactFieldResult[] {
@@ -59,6 +73,9 @@ export class FlowMutator {
      */
     public getNode(uuid: string): Node {
         var details = this.components.getDetails(uuid)
+        if (!details) {
+            return null;
+        }
         return this.definition.nodes[details.nodeIdx];
     }
 
@@ -120,6 +137,129 @@ export class FlowMutator {
         }
     }
 
+    private collides(a: Bounds, b: Bounds) {
+        if (a.bottom < b.top ||
+            a.top > b.bottom ||
+            a.left > b.right ||
+            a.right < b.left) {
+            return false;
+        }
+        // console.log("COLLISION!");
+        return true;
+    }
+
+    private pushNodesDown(fromY: number, amount: number) {
+        var toPush: string[] = []
+        for (let node of this.definition.nodes) {
+            var ui = this.definition._ui.nodes[node.uuid];
+            if (ui.position.y >= fromY) {
+                toPush.push(node.uuid);
+            }
+        }
+
+        if (toPush.length > 0) {
+            var updated = this.definition;
+            for (let uuid of toPush) {
+                var ui = updated._ui.nodes[uuid];
+                updated = update(updated, { _ui: { nodes: { [uuid]: { position: { $set: { x: ui.position.x, y: ui.position.y += amount } } } } } });
+            }
+
+            this.definition = updated;
+            this.markDirty();
+        }
+    }
+
+    /**
+     * Reflows the entire flow pushing nodes downward until there are no collisions
+     */
+    public reflow() {
+
+        console.time("reflow");
+
+        // get a list of nodes to flow
+        var uis: Reflow[] = [];
+        for (let node of this.definition.nodes) {
+            var uiNode = this.definition._ui.nodes[node.uuid];
+
+            // this should only happen with freshly added nodes, since
+            // they don't have dimensions until they are rendered
+            var dimensions = uiNode.dimensions;
+            if (!dimensions) {
+                dimensions = { width: 250, height: 120 };
+            }
+
+            uis.push({
+                uuid: node.uuid, bounds: {
+                    left: uiNode.position.x,
+                    top: uiNode.position.y,
+                    right: uiNode.position.x + dimensions.width,
+                    bottom: uiNode.position.y + dimensions.height
+                }
+            });
+        }
+
+        // sort them by their y positions
+        //  uis.sort((a: Reflow, b: Reflow) => { return a.bounds.top - b.bounds.top });
+
+        var dirty = false;
+        var previous: Reflow;
+
+        var updatedNodes: Reflow[] = [];
+        for (var i = 0; i < uis.length; i++) {
+            let current = uis[i];
+            for (var j = i + 1; j < uis.length; j++) {
+                let other = uis[j];
+
+                if (!current.bounds) {
+                    throw new Error("Dimensions missing for " + current.uuid);
+                }
+
+                if (this.collides(current.bounds, other.bounds)) {
+                    other.bounds.top = current.bounds.bottom + 30;
+                    updatedNodes.push(other);
+
+                    // see if our collision cascades
+                    if (uis.length > j + 1) {
+                        let next = uis[j + 1];
+                        //if (this.collides(other.bounds, next.bounds)) {
+                        // if so, push everybody else down
+                        for (var k = j + 1; k < uis.length; k++) {
+                            let below = uis[k];
+                            below.bounds.top += other.bounds.bottom - other.bounds.top + 30;
+                            updatedNodes.push(below);
+                        }
+                        //}
+                    }
+                    break;
+                }
+                // if they start below our lowest point, move on
+                else if (other.bounds.top > current.bounds.bottom) {
+                    break;
+                }
+            }
+            previous = current;
+        }
+
+        if (updatedNodes.length > 0) {
+            var updated = this.definition;
+            for (let node of updatedNodes) {
+                updated = update(updated, { _ui: { nodes: { [node.uuid]: { position: { $merge: { y: node.bounds.top } } } } } });
+            }
+            this.definition = updated;
+            this.markDirty();
+        }
+
+        console.timeEnd("reflow");
+    }
+
+
+    public updateDimensions(node: Node, dimensions: Dimensions) {
+        var ui = this.getNodeUI(node.uuid);
+        if (!ui.dimensions || ui.dimensions.height != dimensions.height || ui.dimensions.width != dimensions.width) {
+            this.updateNodeUI(node.uuid, { $merge: { dimensions: dimensions } });
+        }
+    }
+
     public addNode(node: Node, ui: UINode, pendingConnection?: DragPoint): Node {
         console.time("addNode");
 
@@ -152,6 +292,32 @@ export class FlowMutator {
         newPosition: Position = null): Node {
 
         console.time("updateRouter");
+
+        // TODO: deal with case of editing an existing action into a router
+        // if we are updating a node with actions, inject a new node and attach our old node to it
+        var previousNode = this.getNode(node.uuid);
+        if (previousNode) {
+            var details = this.components.getDetails(node.uuid);
+            if (details && !details.type && previousNode.actions.length > 0) {
+                var previousUI = this.getNodeUI(node.uuid);
+                // console.log("XXXXX");
+                var pos = previousUI.position;
+
+                this.pushNodesDown(pos.y + previousUI.dimensions.height, 130);
+
+                var newNode = this.addNode(node, { position: { x: pos.x, y: pos.y + previousUI.dimensions.height + 50 }, type: type });
+
+                // rewire our old connections
+                var previousDestination = previousNode.exits[0].destination_node_uuid
+                this.updateExitDestination(previousNode.exits[0].uuid, newNode.uuid);
+
+                // and our new node should point where the old one did
+                this.updateExitDestination(newNode.exits[0].uuid, previousDestination);
+
+                // all done
+                return newNode;
+            }
+        }
 
         if (draggedFrom) {
             // console.log("adding new router node", props);
@@ -323,9 +489,7 @@ export class FlowMutator {
         this.markDirty();
     }
 
-    updateNodeUI(uuid: string, changes: any) {
-        this.definition = update(this.definition, { _ui: { nodes: { [uuid]: changes } } });
-
+    private sortNodes() {
         // find our first node
         var top: Position;
         var topNode: string;
@@ -353,6 +517,11 @@ export class FlowMutator {
 
         this.components.refresh(this.definition);
         this.markDirty();
+    }
+
+    updateNodeUI(uuid: string, changes: any) {
+        this.definition = update(this.definition, { _ui: { nodes: { [uuid]: changes } } });
+        this.sortNodes();
     }
 
     public removeNode(props: Node) {
