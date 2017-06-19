@@ -139,7 +139,6 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
     validate(): boolean {
 
         var errors: string[] = [];
-        console.log("Validating case: ", this.state);
         if (this.operatorConfig.operands == 0) {
             if (this.state.exitName.trim().length == 0) {
                 errors.push("A category name is required when using \"" + this.operatorConfig.verboseName + "\"");

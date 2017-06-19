@@ -8,7 +8,7 @@
       "actions": [
         {
           "uuid": "9ec116cd-52a8-4efa-b0c3-e30e7574ea91",
-          "type": "msg",
+          "type": "reply",
           "text": "What is your favorite natural disaster?"
         }
       ],
@@ -24,7 +24,7 @@
       "actions": [
         {
           "uuid": "9c01d6f4-5231-49c6-a50f-baee9693bf45",
-          "type": "msg",
+          "type": "reply",
           "text": "Sorry, I didn't recognize that. Answer with Tornado, Tsunami, or Earthquake."
         }
       ],
@@ -39,13 +39,13 @@
       "uuid": "47a0be00-59ad-4558-bd13-ec66518ce44a",
       "actions": [
         {
-          "type": "msg",
+          "type": "reply",
           "uuid": "574cc1f6-6d42-47ab-a0d8-0648e2d28b8f",
           "text": "I see you are a fan of @results.seahawk. I can appreciate that."
         },
         {
           "uuid": "76fe3759-e0b6-437e-ae6c-6005ff43fbb8",
-          "type": "msg",
+          "type": "reply",
           "text": "That's it for now."
         }
       ],
@@ -61,7 +61,7 @@
       "actions": [
         {
           "uuid": "c17f4140-fe92-4367-b92f-6092aa94e64b",
-          "type": "msg",
+          "type": "reply",
           "text": "I don't know that one, can you try again?"
         }
       ],
@@ -77,7 +77,7 @@
       "actions": [
         {
           "uuid": "4a008cb0-3ebb-460c-9edf-08d3a28d2bb6",
-          "type": "msg",
+          "type": "reply",
           "text": "You picked @results.disaster.category. I really like those too. Who is your favorite Seahawk?"
         }
       ],

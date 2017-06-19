@@ -45,7 +45,15 @@ function getType(props: NodeEditorProps) {
     }
 
     var details = ComponentMap.get().getDetails(props.node.uuid);
-    return details.type;
+    if (details.type) {
+        return details.type;
+    }
+
+    if (props.node.router) {
+        return props.node.router.type
+    }
+
+    return null;
 }
 
 export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorState> {

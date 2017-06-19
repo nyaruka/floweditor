@@ -203,8 +203,8 @@ export class FlowMutator {
             // they don't have dimensions until they are rendered
             var dimensions = uiNode.dimensions;
             if (!dimensions) {
-                console.log("using default dimensions");
-                dimensions = { width: 250, height: 120 };
+                // console.log("using default dimensions");
+                dimensions = { width: 250, height: 100 };
             }
 
             uis.push({
@@ -265,7 +265,8 @@ export class FlowMutator {
         }
 
         if (updatedNodes.length > 0) {
-            console.log("::REFLOWED::", updatedNodes);
+            // console.log("::REFLOWED::", updatedNodes);
+
             var updated = this.definition;
             for (let node of updatedNodes) {
                 updated = update(updated, { _ui: { nodes: { [node.uuid]: { position: { $merge: { y: node.bounds.top } } } } } });
@@ -273,6 +274,8 @@ export class FlowMutator {
             this.definition = updated;
             this.markDirty();
         }
+
+
 
         console.timeEnd("reflow");
     }
@@ -323,7 +326,7 @@ export class FlowMutator {
         var previousNode = this.getNode(node.uuid);
         if (previousNode) {
             var details = this.components.getDetails(node.uuid);
-            if (details && !details.type && previousNode.actions.length > 0) {
+            if (details && !details.type && previousNode.actions && previousNode.actions.length > 0) {
                 var previousUI = this.getNodeUI(node.uuid);
                 // console.log("XXXXX");
                 var pos = previousUI.position;

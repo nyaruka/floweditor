@@ -101,7 +101,7 @@ export class Config {
 
         // routers
         { type: "expression", name: "Split by Expression", description: "Split by a custom expression", form: SwitchRouterForm },
-        { type: "wait_for_response", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm },
+        { type: "wait_for_response", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm, aliases: ["switch"] },
         // {type: "random", name: "Random Split", description: "Split them up randomly", form: RandomRouterForm}
     ]
 

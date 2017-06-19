@@ -90,6 +90,7 @@ describe('FlowMutator', () => {
             mutator.removeAction(action);
 
             // now our node should have one action
+            var indexes = components.getDetails("47a0be00-59ad-4558-bd13-ec66518ce44a");
             chai.assert.equal(1, definition.nodes[indexes.nodeIdx].actions.length);
 
         });
