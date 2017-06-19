@@ -101,6 +101,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         return null;
     }
 
+    private clicking: boolean;
     render() {
         var classes: string[] = [styles.exit, "plumb-exit"]
         var confirm: JSX.Element = null;
@@ -116,7 +117,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
                 <div className={styles.name}>
                     {this.props.exit.name}
                 </div>
-                <div onClick={this.onClick} id={this.props.exit.uuid} className={styles.endpoint + " " + connected}>
+                <div onMouseUp={(event: any) => { event.preventDefault(); event.stopPropagation(); }} onClick={this.onClick} id={this.props.exit.uuid} className={styles.endpoint + " " + connected}>
                     {confirm}
                 </div>
                 {this.renderActivity()}

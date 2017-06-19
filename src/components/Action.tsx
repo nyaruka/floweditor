@@ -28,7 +28,7 @@ export interface ActionProps {
 export class ActionComp<A extends Action> extends React.PureComponent<ActionProps, {}> {
 
     public form: HTMLFormElement;
-    private cancelClick: boolean;
+    private clicking = false;
 
     constructor(props: ActionProps) {
         super(props);
@@ -44,10 +44,6 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
     }
 
     onClick(event: React.SyntheticEvent<MouseEvent>) {
-        if (this.cancelClick) {
-            this.cancelClick = false;
-            return;
-        }
         event.preventDefault();
         event.stopPropagation();
 
@@ -62,7 +58,7 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
 
     componentDidUpdate(prevProps: ActionProps, prevState: ActionProps) {
         if (this.props.dragging) {
-            this.cancelClick = true;
+            this.clicking = false;
         }
     }
 
@@ -85,11 +81,16 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
         return null;
     }
 
+
+
     render() {
         let config = Config.get().getTypeConfig(this.props.action.type);
         return (
             <div id={this.props.action.uuid} className={styles.action}>
-                <div onClick={this.onClick.bind(this)}>
+                <div
+                    onMouseDown={() => { this.clicking = true }}
+                    onMouseUp={(event: any) => { if (this.clicking) { this.onClick(event) } }}
+                >
                     <TitleBar
                         className={shared[this.props.action.type]}
                         title={config.name}

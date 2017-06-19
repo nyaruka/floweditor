@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'flows';
-  src:  url('fonts/flows.eot?51x3a1');
-  src:  url('fonts/flows.eot?51x3a1#iefix') format('embedded-opentype'),
-    url('fonts/flows.ttf?51x3a1') format('truetype'),
-    url('fonts/flows.woff?51x3a1') format('woff'),
-    url('fonts/flows.svg?51x3a1#flows') format('svg');
+  src:  url('fonts/flows.eot?ygndt6');
+  src:  url('fonts/flows.eot?ygndt6#iefix') format('embedded-opentype'),
+    url('fonts/flows.ttf?ygndt6') format('truetype'),
+    url('fonts/flows.woff?ygndt6') format('woff'),
+    url('fonts/flows.svg?ygndt6#flows') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -84,6 +84,9 @@
 }
 .icon-language:before {
   content: "\ec97";
+}
+.icon-link:before {
+  content: "\ec99";
 }
 .icon-add:before {
   content: "\ed61";

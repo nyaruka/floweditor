@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: 'flows';
-  src:  url('#{$icomoon-font-path}/flows.eot?51x3a1');
-  src:  url('#{$icomoon-font-path}/flows.eot?51x3a1#iefix') format('embedded-opentype'),
-    url('#{$icomoon-font-path}/flows.ttf?51x3a1') format('truetype'),
-    url('#{$icomoon-font-path}/flows.woff?51x3a1') format('woff'),
-    url('#{$icomoon-font-path}/flows.svg?51x3a1#flows') format('svg');
+  src:  url('#{$icomoon-font-path}/flows.eot?ygndt6');
+  src:  url('#{$icomoon-font-path}/flows.eot?ygndt6#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/flows.ttf?ygndt6') format('truetype'),
+    url('#{$icomoon-font-path}/flows.woff?ygndt6') format('woff'),
+    url('#{$icomoon-font-path}/flows.svg?ygndt6#flows') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -119,6 +119,11 @@
 .icon-language {
   &:before {
     content: $icon-language;
+  }
+}
+.icon-link {
+  &:before {
+    content: $icon-link;
   }
 }
 .icon-add {

@@ -60,6 +60,8 @@
             'cloud7': '&#xec7b;',
             'earth2': '&#xec97;',
             'globe7': '&#xec97;',
+            'link': '&#xec99;',
+            'chain': '&#xec99;',
             'plus-circle2': '&#xed61;',
             'add5': '&#xed61;',
             'info': '&#xed63;',

@@ -63,14 +63,14 @@ export class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
             confirmation = (
                 <div className={styles.remove_confirm}>
                     Remove?
-                    <div className={styles.remove_button} onClick={this.props.onRemoval}><span className="icon-remove" /></div>
+                    <div className={styles.remove_button} onMouseUp={(event: any) => { event.stopPropagation(); event.preventDefault(); }} onClick={this.props.onRemoval}><span className="icon-remove" /></div>
                 </div>
             )
         }
 
         var moveArrow = null;
         if (this.props.showMove) {
-            moveArrow = <div className={styles.up_button} onClick={this.props.onMoveUp}><span className="icon-arrow-up" /></div>
+            moveArrow = <div className={styles.up_button} onMouseUp={(event: any) => { event.stopPropagation(); event.preventDefault(); }} onClick={this.props.onMoveUp}><span className="icon-arrow-up" /></div>
         } else {
             moveArrow = <div className={styles.up_button} />
         }
@@ -80,7 +80,7 @@ export class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
                 <div className={this.props.className + " " + styles.normal}>
                     {moveArrow}
                     {this.props.title}
-                    <div className={styles.remove_button} onClick={this.onConfirmRemoval}><span className="icon-remove" /></div>
+                    <div className={styles.remove_button} onMouseUp={(event: any) => { event.stopPropagation(); event.preventDefault(); }} onClick={this.onConfirmRemoval}><span className="icon-remove" /></div>
                 </div>
                 {confirmation}
             </div>

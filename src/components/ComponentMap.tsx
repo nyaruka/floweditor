@@ -1,5 +1,5 @@
 import { DragPoint } from '../components/Node';
-import { FlowDefinition, SaveToContact, ChangeGroup, Exit, SaveFlowResult } from '../FlowDefinition';
+import { FlowDefinition, Node, SaveToContact, ChangeGroup, Exit, SaveFlowResult } from '../FlowDefinition';
 
 import { snakify } from '../utils';
 
@@ -59,6 +59,7 @@ export class ComponentMap {
     private contactFields: ContactFieldResult[];
     private resultNames: CompletionOption[];
     private groups: SearchResult[];
+    private nodes: Node[];
 
     // initialize our map with our flow def
     private constructor(definition: FlowDefinition) {
@@ -66,6 +67,11 @@ export class ComponentMap {
         this.refresh(definition);
         this.pendingConnections = {};
         console.timeEnd("ComponentMap");
+    }
+
+    public getNodesBelow(node: Node) {
+        var idx = this.nodes.findIndex((n: Node) => { return n.uuid == node.uuid });
+        return this.nodes.slice(idx, this.nodes.length);
     }
 
     public getPendingConnections(): { [uuid: string]: DragPoint } {
@@ -97,7 +103,6 @@ export class ComponentMap {
             this.components = components;
             return;
         }
-
 
         // determine our indexes
         for (let nodeIdx = 0; nodeIdx < definition.nodes.length; nodeIdx++) {
@@ -202,6 +207,7 @@ export class ComponentMap {
         this.groups = existingGroups;
         this.components = components;
         this.resultNames = existingResultNames;
+        this.nodes = definition.nodes;
     }
 
     public getDetails(uuid: string): ComponentDetails {

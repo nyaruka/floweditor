@@ -1,5 +1,5 @@
 var lib = require('../../node_modules/jsplumb/dist/js/jsplumb.js');
-import { FlowDefinition, Exit } from '../FlowDefinition';
+import { FlowDefinition, Exit, Node } from '../FlowDefinition';
 
 export interface DragEvent {
     el: Element
@@ -20,6 +20,7 @@ export class Plumber {
     // we batch up connections to apply them together
     private pendingConnections: { [id: string]: { source: string, target: string, className: string } } = {}
     private pendingConnectionTimeout: any;
+    private animateInterval: any = null;
 
     static get(): Plumber {
         return Plumber.singleton;
@@ -67,12 +68,17 @@ export class Plumber {
         return this.jsPlumb;
     }
 
-    draggable(ele: HTMLElement, start: Function, drag: Function, stop: Function) {
-        this.jsPlumb.draggable(ele, {
+    draggable(uuid: string, start: Function, drag: Function, stop: Function, beforeDrag: Function) {
+        this.jsPlumb.draggable(uuid, {
+            //over: (event: any) => { console.log("Over", event) },
+            // beforeStart: (event: any) => { console.log("beforeStart"); },
             start: (event: any) => start(event),
             drag: (event: DragEvent) => drag(event),
             stop: (event: DragEvent) => stop(event),
-            containment: true
+            canDrag: () => { beforeDrag(); return true; },
+            containment: true,
+            consumeFilteredEvents: false,
+            consumeStartEvent: false
         });
     }
 
@@ -88,23 +94,36 @@ export class Plumber {
         this.connect(exit.uuid, exit.destination_node_uuid, confirmDelete ? "confirm_delete" : null);
     }
 
-    private animateInterval: any = null;
+    setDragSelection(nodes: Node[]) {
+        this.cancelDurationRepaint();
+        this.jsPlumb.clearDragSelection();
+        for (let node of nodes) {
+            this.jsPlumb.addToDragSelection(node.uuid);
+        }
+    }
 
-    cancelAnimate() {
+    clearDragSelection() {
+        this.jsPlumb.clearDragSelection();
+    }
+
+    cancelDurationRepaint() {
         if (this.animateInterval) {
             window.clearInterval(this.animateInterval);
             this.animateInterval = null;
         }
     }
-    animate(duration: number) {
-        var times = 0;
-        var pause = 1;
+
+    repaintForDuration(duration: number) {
+        this.cancelDurationRepaint();
+        var pause = 20;
+        duration = duration / pause;
+
+        var cycles = 0;
         this.animateInterval = window.setInterval(() => {
             // this.revalidate(uuid);
             this.jsPlumb.repaintEverything();
-            if (times++ * pause > duration) {
+            if (cycles++ > duration) {
                 window.clearInterval(this.animateInterval);
-                console.log("animation complete");
             }
         }, pause);
     }
@@ -153,7 +172,7 @@ export class Plumber {
 
         // revalidate the targets that we updated
         for (let target in targets) {
-            this.revalidate(target);
+            this.recalculate(target);
         }
     }
 
@@ -176,11 +195,6 @@ export class Plumber {
         return this.jsPlumb.bind(event, onEvent);
     }
 
-    revalidate(uuid: string) {
-        this.jsPlumb.revalidate(uuid);
-        this.jsPlumb.repaint(uuid);
-    }
-
     repaint(uuid?: string) {
         if (!uuid) {
             this.jsPlumb.recalculateOffsets();
@@ -201,13 +215,16 @@ export class Plumber {
     }
 
     recalculate(uuid?: string) {
-        this.jsPlumb.revalidate(uuid);
-        if (uuid) {
-            this.jsPlumb.recalculateOffsets(uuid);
-        } else {
-            this.jsPlumb.recalculateOffsets();
-        }
-        this.jsPlumb.repaint(uuid);
+        window.setTimeout(() => {
+            this.jsPlumb.revalidate(uuid);
+            if (uuid) {
+                this.jsPlumb.recalculateOffsets(uuid);
+            } else {
+                this.jsPlumb.recalculateOffsets();
+            }
+            this.jsPlumb.repaint(uuid);
+        }, 0);
+
     }
 
     reset() {

@@ -17,6 +17,7 @@ import { External } from '../services/External';
 import { Node, Position, SwitchRouter, Action, UINode, Exit } from '../FlowDefinition'
 import { CounterComp } from "./Counter";
 import { ActivityManager } from "../services/ActivityManager";
+import { ComponentMap } from "./ComponentMap";
 
 var styles = require("./Node.scss");
 var shared = require("./shared.scss");
@@ -50,7 +51,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     public ele: HTMLDivElement;
     private firstAction: ActionComp<Action>;
-    private cancelClick: boolean;
+    private clicking: boolean;
+    private dragGroup: boolean;
 
     constructor(props: NodeProps) {
         super(props);
@@ -59,17 +61,16 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     onDragStart(event: any) {
-        this.cancelClick = true;
+        this.clicking = false;
         this.setState({ dragging: true });
-        Plumber.get().cancelAnimate();
-        $('#root').addClass('dragging');
     }
 
     onDrag(event: DragEvent) { }
 
     onDragStop(event: DragEvent) {
         this.setState({ dragging: false });
-        $('#root').removeClass('dragging');
+        this.props.context.eventHandler.onNodeDragStop(this.props.node)
+
         var position = $(event.target).position();
         event.e.preventDefault();
         event.e.stopPropagation();
@@ -88,10 +89,11 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     componentDidMount() {
         let plumber = Plumber.get();
-        plumber.draggable(this.ele,
+        plumber.draggable(this.props.node.uuid,
             (event: DragEvent) => { this.onDragStart.bind(this)(event) },
             (event: DragEvent) => { this.onDrag.bind(this)(event) },
-            (event: DragEvent) => { this.onDragStop.bind(this)(event) }
+            (event: DragEvent) => { this.onDragStop.bind(this)(event); },
+            () => { this.props.context.eventHandler.onNodeDragStart(this.props.node, this.dragGroup); }
         );
 
         // make ourselves a target
@@ -136,7 +138,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     componentDidUpdate(prevProps: NodeProps, prevState: NodeState) {
-        // console.log("Node updated..", this.props.node.uuid, this.props.ui.position);
         if (!this.props.ghost) {
             try {
                 Plumber.get().recalculate(this.props.node.uuid);
@@ -148,17 +149,12 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 this.props.ui.dimensions.height != this.ele.clientHeight)) {
                 this.updateDimensions();
             }
+        } else {
+            Plumber.get().recalculate(this.props.node.uuid);
         }
-
-        Plumber.get().revalidate(this.props.node.uuid);
     }
 
     onClick(event?: any) {
-
-        if (this.cancelClick) {
-            this.cancelClick = false;
-            return;
-        }
 
         // console.log("Node.onClick");
         var action: Action = null;
@@ -220,9 +216,13 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         }
 
         var events = {}
-        if (!this.state.dragging) {
-            events = { onClick: (event: any) => { this.onClick(event) } }
+        //if (!this.state.dragging) {
+
+        events = {
+            onMouseDown: () => { this.clicking = true },
+            onMouseUp: (event: any) => { if (this.clicking) { this.onClick(event) } }
         }
+        //}
 
         var header: JSX.Element = null;
         var addActions: JSX.Element = null;
@@ -290,7 +290,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         }
 
         var activity = ActivityManager.get();
-
         // console.log("Rendering " + this.props.node.uuid, this.props.ui.position);
         return (
             <div className={classes.join(' ')}
@@ -300,6 +299,11 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                     left: this.props.ui.position.x,
                     top: this.props.ui.position.y
                 }}>
+                <a title="Drag to move all nodes below here" className={styles.drag_group}
+                    onMouseOver={() => { this.dragGroup = true; }}
+                    onMouseOut={() => { this.dragGroup = false; }}>
+
+                    <span className="icon-link" /></a>
                 <CounterComp
                     ref={activity.registerListener}
                     getCount={() => { return activity.getActiveCount(this.props.node.uuid) }}

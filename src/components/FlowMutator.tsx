@@ -30,6 +30,7 @@ export class FlowMutator {
     private dirty: boolean;
     private uiTimeout: any;
     private saveTimeout: any;
+    private reflowTimeout: any;
 
     private quietUI: number;
     private quietSave: number;
@@ -98,6 +99,20 @@ export class FlowMutator {
         this.save();
     }
 
+    private markReflow() {
+        if (this.quietUI > 0) {
+            if (this.reflowTimeout) {
+                window.clearTimeout(this.reflowTimeout);
+            }
+
+            this.reflowTimeout = window.setTimeout(() => {
+                this.reflow();
+            }, this.quietUI);
+        } else {
+            this.reflow();
+        }
+    }
+
     public updateUI() {
 
         if (this.updateMethod) {
@@ -149,6 +164,7 @@ export class FlowMutator {
     }
 
     private pushNodesDown(fromY: number, amount: number) {
+        console.log("Pushing nodes down", fromY, amount);
         var toPush: string[] = []
         for (let node of this.definition.nodes) {
             var ui = this.definition._ui.nodes[node.uuid];
@@ -176,6 +192,8 @@ export class FlowMutator {
 
         console.time("reflow");
 
+        this.sortNodes();
+
         // get a list of nodes to flow
         var uis: Reflow[] = [];
         for (let node of this.definition.nodes) {
@@ -185,6 +203,7 @@ export class FlowMutator {
             // they don't have dimensions until they are rendered
             var dimensions = uiNode.dimensions;
             if (!dimensions) {
+                console.log("using default dimensions");
                 dimensions = { width: 250, height: 120 };
             }
 
@@ -215,7 +234,11 @@ export class FlowMutator {
                 }
 
                 if (this.collides(current.bounds, other.bounds)) {
-                    other.bounds.top = current.bounds.bottom + 30;
+
+                    var diff = current.bounds.bottom - other.bounds.top + 30;
+                    other.bounds.top += diff;
+                    other.bounds.bottom += diff;
+
                     updatedNodes.push(other);
 
                     // see if our collision cascades
@@ -225,7 +248,8 @@ export class FlowMutator {
                         // if so, push everybody else down
                         for (var k = j + 1; k < uis.length; k++) {
                             let below = uis[k];
-                            below.bounds.top += other.bounds.bottom - other.bounds.top + 30;
+                            below.bounds.top += diff;
+                            below.bounds.bottom += diff;
                             updatedNodes.push(below);
                         }
                         //}
@@ -241,6 +265,7 @@ export class FlowMutator {
         }
 
         if (updatedNodes.length > 0) {
+            console.log("::REFLOWED::", updatedNodes);
             var updated = this.definition;
             for (let node of updatedNodes) {
                 updated = update(updated, { _ui: { nodes: { [node.uuid]: { position: { $merge: { y: node.bounds.top } } } } } });
@@ -473,6 +498,7 @@ export class FlowMutator {
         }
 
         this.markDirty();
+        this.markReflow();
         console.timeEnd("updateAction");
         return node;
     }
@@ -486,6 +512,7 @@ export class FlowMutator {
         var index = this.components.getDetails(uuid).nodeIdx
         this.definition = update(this.definition, { nodes: { [index]: changes } });
         this.components.refresh(this.definition);
+        this.markReflow();
         this.markDirty();
     }
 
@@ -521,7 +548,7 @@ export class FlowMutator {
 
     updateNodeUI(uuid: string, changes: any) {
         this.definition = update(this.definition, { _ui: { nodes: { [uuid]: changes } } });
-        this.sortNodes();
+        this.markReflow();
     }
 
     public removeNode(props: Node) {

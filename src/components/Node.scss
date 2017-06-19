@@ -1,13 +1,16 @@
 @import "../variables.scss";
 .node {
     &.dragging {
-        z-index: $z_dragging;
-        box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, .1), 0 0 0 1px rgba(0, 0, 0, .1) inset; // transform: scale(1.05); // border: 1px solid #ddd;
+        z-index: $z_dragging; // box-shadow: 0 0 0 4px rgba(0, 0, 0, .1), 0 0 0 1px rgba(0, 0, 0, .1) inset; // transform: scale(1.05); // border: 1px solid #ddd;
         .add {
             visibility: hidden !important;
         }
-        transition: none;
+        transition: none; // transform: scale(1.05);
     }
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     transition: top 200ms ease;
     position: absolute;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, .1) inset; // border: 1px solid ;
@@ -43,6 +46,21 @@
             }
         }
     }
+    .drag_group {
+        position: absolute;
+        visibility: hidden;
+        bottom: 0px;
+        left: 0px;
+        padding: 3px;
+        color: $light_grey - #222;
+        font-size: 8px;
+        text-decoration: none;
+        cursor: move;
+        &:hover {
+            color: $light-grey - #333;
+            border-color: $light_grey - #222;
+        }
+    }
     .add {
         position: absolute;
         right: -5px;
@@ -59,6 +77,9 @@
     }
     &:hover {
         .add {
+            visibility: visible;
+        }
+        .drag_group {
             visibility: visible;
         }
     }
