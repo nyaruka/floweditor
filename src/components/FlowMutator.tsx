@@ -18,6 +18,8 @@ interface Reflow {
     bounds: Bounds;
 }
 
+const NODE_SPACING = 60;
+
 export class FlowMutator {
 
     private definition: FlowDefinition;
@@ -163,28 +165,6 @@ export class FlowMutator {
         return true;
     }
 
-    private pushNodesDown(fromY: number, amount: number) {
-        // console.log("Pushing nodes down", fromY, amount);
-        var toPush: string[] = []
-        for (let node of this.definition.nodes) {
-            var ui = this.definition._ui.nodes[node.uuid];
-            if (ui.position.y >= fromY) {
-                toPush.push(node.uuid);
-            }
-        }
-
-        if (toPush.length > 0) {
-            var updated = this.definition;
-            for (let uuid of toPush) {
-                var ui = updated._ui.nodes[uuid];
-                updated = update(updated, { _ui: { nodes: { [uuid]: { position: { $set: { x: ui.position.x, y: ui.position.y += amount } } } } } });
-            }
-
-            this.definition = updated;
-            this.markDirty();
-        }
-    }
-
     /**
      * Reflows the entire flow pushing nodes downward until there are no collisions
      */
@@ -217,9 +197,6 @@ export class FlowMutator {
             });
         }
 
-        // sort them by their y positions
-        //  uis.sort((a: Reflow, b: Reflow) => { return a.bounds.top - b.bounds.top });
-
         var dirty = false;
         var previous: Reflow;
 
@@ -236,7 +213,7 @@ export class FlowMutator {
                 if (this.collides(current.bounds, other.bounds)) {
                     // console.log("COLLISON:", current, other);
 
-                    var diff = current.bounds.bottom - other.bounds.top + 30;
+                    var diff = current.bounds.bottom - other.bounds.top + NODE_SPACING;
                     other.bounds.top += diff;
                     other.bounds.bottom += diff;
 
@@ -344,7 +321,7 @@ export class FlowMutator {
         var { x, y } = previousUI.position;
 
         // add our new router node, do this fist so our top can point to it
-        var routerY = topActions.length ? y + 50 : y;
+        var routerY = topActions.length ? y + NODE_SPACING : y;
         var newRouterNode = this.addNode(node, { position: { x: x, y: routerY }, type: type });
 
         // add our top node if we have one
@@ -359,7 +336,7 @@ export class FlowMutator {
             };
 
             lastNode = this.addNode(topActionNode, { position: { x: x, y: y } });
-            y += 50;
+            y += NODE_SPACING;
         }
 
         // add our bottom 
@@ -375,7 +352,7 @@ export class FlowMutator {
 
             lastNode = this.addNode(bottomActionNode, { position: { x: x, y: y } });
             this.updateExitDestination(newRouterNode.exits[0].uuid, lastNode.uuid);
-            y += 50;
+            y += NODE_SPACING;
         } else {
             this.updateExitDestination(newRouterNode.exits[0].uuid, previousNode.exits[0].destination_node_uuid);
         }
@@ -391,25 +368,17 @@ export class FlowMutator {
      */
     private appendNewRouter(node: Node, type: string) {
         var previousNode = this.getNode(node.uuid);
-        // if we are updating a node with actions, inject a new node and attach our old node to it
-        var details = this.components.getDetails(node.uuid);
-        if (details && !details.type && previousNode.actions && previousNode.actions.length > 0) {
-            var previousUI = this.getNodeUI(node.uuid);
-            var pos = previousUI.position;
-            this.pushNodesDown(pos.y + previousUI.dimensions.height, 130);
+        var { x, y } = this.getNodeUI(node.uuid).position;
+        var newRouterNode = this.addNode(node, { position: { x: x, y: y + NODE_SPACING }, type: type });
 
-            var newNode = this.addNode(node, { position: { x: pos.x, y: pos.y + previousUI.dimensions.height + 50 }, type: type });
+        // rewire our old connections
+        var previousDestination = previousNode.exits[0].destination_node_uuid
+        this.updateExitDestination(previousNode.exits[0].uuid, newRouterNode.uuid);
 
-            // rewire our old connections
-            var previousDestination = previousNode.exits[0].destination_node_uuid
-            this.updateExitDestination(previousNode.exits[0].uuid, newNode.uuid);
+        // and our new node should point where the old one did
+        this.updateExitDestination(newRouterNode.exits[0].uuid, previousDestination);
 
-            // and our new node should point where the old one did
-            this.updateExitDestination(newNode.exits[0].uuid, previousDestination);
-
-            // all done
-            return newNode;
-        }
+        return newRouterNode;
     }
 
     public updateRouter(node: Node, type: string,
@@ -418,9 +387,13 @@ export class FlowMutator {
         previousAction: Action = null): Node {
 
         console.time("updateRouter");
+
+        var details = this.components.getDetails(node.uuid);
         var previousNode = this.getNode(node.uuid);
-        if (previousNode) {
-            if (previousAction) {
+
+        if (details && !details.type && previousNode && previousNode.actions && previousNode.actions.length > 0) {
+            // make sure our previous action exists in our map
+            if (previousAction && this.components.getDetails(previousAction.uuid)) {
                 return this.spliceInRouter(node, type, previousAction);
             } else {
                 return this.appendNewRouter(node, type);
@@ -610,6 +583,7 @@ export class FlowMutator {
                 }]
             };
 
+            console.log("Adding start node", node);
             this.addNode(node, { position: { x: 0, y: 0 } });
         }
     }

@@ -66,13 +66,13 @@ describe('FlowMutator', () => {
             }
 
             // remove each remaining node, one by one
-            while (definition.nodes.length > 0) {
+            while (definition.nodes.length > 1) {
                 mutator.removeNode(definition.nodes[0]);
             }
 
             // we should be left with no nodes
-            chai.assert.equal(definition.nodes.length, 0);
-            chai.assert.equal(Object.keys(definition._ui.nodes).length, 0);
+            chai.assert.equal(definition.nodes.length, 1);
+            chai.assert.equal(Object.keys(definition._ui.nodes).length, 1);
 
         });
 
