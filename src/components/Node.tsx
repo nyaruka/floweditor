@@ -90,10 +90,13 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     componentDidMount() {
         let plumber = Plumber.get();
         plumber.draggable(this.props.node.uuid,
-            (event: DragEvent) => { this.onDragStart.bind(this)(event) },
+            (event: DragEvent) => {
+                this.onDragStart.bind(this)(event);
+                this.props.context.eventHandler.onNodeDragStart(this.props.node);
+            },
             (event: DragEvent) => { this.onDrag.bind(this)(event) },
             (event: DragEvent) => { this.onDragStop.bind(this)(event); },
-            () => { this.props.context.eventHandler.onNodeDragStart(this.props.node, this.dragGroup); }
+            () => { this.props.context.eventHandler.onNodeBeforeDrag(this.props.node, this.dragGroup); }
         );
 
         // make ourselves a target
@@ -215,14 +218,10 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             )
         }
 
-        var events = {}
-        //if (!this.state.dragging) {
-
-        events = {
+        var events = {
             onMouseDown: () => { this.clicking = true },
-            onMouseUp: (event: any) => { if (this.clicking) { this.onClick(event) } }
+            onMouseUp: (event: any) => { if (this.clicking) { this.clicking = false; this.onClick(event) } }
         }
-        //}
 
         var header: JSX.Element = null;
         var addActions: JSX.Element = null;

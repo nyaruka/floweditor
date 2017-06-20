@@ -115,13 +115,16 @@ export class Plumber {
 
     repaintForDuration(duration: number) {
         this.cancelDurationRepaint();
-        var pause = 20;
+        var pause = 10;
         duration = duration / pause;
 
         var cycles = 0;
         this.animateInterval = window.setInterval(() => {
+
+            // TODO: optimize this to paint as little as possible
             // this.revalidate(uuid);
             this.jsPlumb.repaintEverything();
+
             if (cycles++ > duration) {
                 window.clearInterval(this.animateInterval);
             }

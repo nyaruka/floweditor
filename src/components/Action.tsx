@@ -89,7 +89,7 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
             <div id={this.props.action.uuid} className={styles.action}>
                 <div
                     onMouseDown={() => { this.clicking = true }}
-                    onMouseUp={(event: any) => { if (this.clicking) { this.onClick(event) } }}
+                    onMouseUp={(event: any) => { if (this.clicking) { this.clicking = false; this.onClick(event) } }}
                 >
                     <TitleBar
                         className={shared[this.props.action.type]}

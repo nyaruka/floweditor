@@ -27,7 +27,8 @@ export interface FlowEventHandler {
     onUpdateRouter(node: Node, type: string): void;
     onUpdateDimensions(node: Node, dimensions: Dimensions): void;
 
-    onNodeDragStart(node: Node, dragGroup: boolean): void;
+    onNodeBeforeDrag(node: Node, dragGroup: boolean): void;
+    onNodeDragStart(node: Node): void;
     onNodeDragStop(node: Node): void;
 
     onRemoveAction(action: Action): void;
@@ -71,6 +72,8 @@ interface ConnectionEvent {
     endpoints: any[];
 }
 
+const REPAINT_DURATION = 600;
+
 export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
     // dragging details, TODO, state this?
@@ -96,6 +99,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.onUpdateRouter = this.onUpdateRouter.bind(this);
         this.onNodeDragStart = this.onNodeDragStart.bind(this);
         this.onNodeDragStop = this.onNodeDragStop.bind(this);
+        this.onNodeBeforeDrag = this.onNodeBeforeDrag.bind(this);
+        this.resetState = this.resetState.bind(this);
 
         ActivityManager.initialize(this.props.external, this.props.definition.uuid);
         Config.initialize(this.props.endpoints);
@@ -108,6 +113,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                     onUpdateRouter: this.onUpdateRouter,
                     onUpdateDimensions: this.props.mutator.updateDimensions,
 
+                    onNodeBeforeDrag: this.onNodeBeforeDrag,
                     onNodeDragStart: this.onNodeDragStart,
                     onNodeDragStop: this.onNodeDragStop,
 
@@ -126,11 +132,10 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         console.time("RenderAndPlumb");
     }
 
-    private onNodeDragStart(node: Node, dragGroup: boolean) {
+    private onNodeBeforeDrag(node: Node, dragGroup: boolean) {
         if (!this.state.draggingNode) {
-            this.setState({ draggingNode: node });
             if (dragGroup) {
-                var nodesBelow = ComponentMap.get().getNodesBelow(node)
+                var nodesBelow = ComponentMap.get().getNodesBelow(node);
                 Plumber.get().setDragSelection(nodesBelow);
             } else {
                 Plumber.get().clearDragSelection();
@@ -138,12 +143,16 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         }
     }
 
+    private onNodeDragStart(node: Node) {
+        if (!this.state.draggingNode) {
+            this.setState({ draggingNode: node });
+        }
+    }
+
     private onNodeDragStop(node: Node) {
         if (this.state.draggingNode) {
             this.setState({ draggingNode: null });
-            // Plumber.get().stopDrag();
         }
-        //Plumber.get().stopDrag();
     }
 
     private openEditor(props: NodeEditorProps) {
@@ -161,7 +170,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
             this.setState({
                 ghost: null
-            });
+            }, () => { this.resetState() });
         };
 
         this.setState({ nodeEditor: props, draggingNode: null }, () => {
@@ -191,7 +200,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.props.mutator.updateNodeUI(uuid, {
             position: { $set: position }
         });
-        Plumber.get().repaintForDuration(200);
+        Plumber.get().repaintForDuration(REPAINT_DURATION);
     }
 
     private onNodeMounted(props: Node) {
@@ -203,10 +212,11 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
     }
 
     private resetState() {
-        this.setState({ ghost: null });
-        this.pendingConnection = null;
-        this.createNodePosition = null;
-        this.addToNode = null;
+        this.setState({ ghost: null }, () => {
+            this.pendingConnection = null;
+            this.createNodePosition = null;
+            this.addToNode = null;
+        });
     }
 
     private onUpdateAction(node: Node, action: Action) {
@@ -214,7 +224,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.props.mutator.updateAction(action, node.uuid, this.pendingConnection, this.createNodePosition, this.addToNode);
         this.resetState();
 
-        Plumber.get().repaintForDuration(200);
+        Plumber.get().repaintForDuration(REPAINT_DURATION);
     }
 
     private onUpdateRouter(node: Node, type: string) {
@@ -222,7 +232,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var router = node.router as any;
         var newNode = this.props.mutator.updateRouter(node, type, this.pendingConnection, this.createNodePosition);
         if (newNode.uuid != node.uuid) {
-            Plumber.get().repaintForDuration(200);
+            Plumber.get().repaintForDuration(REPAINT_DURATION);
         }
         this.resetState();
     }

@@ -234,6 +234,7 @@ export class FlowMutator {
                 }
 
                 if (this.collides(current.bounds, other.bounds)) {
+                    // console.log("COLLISON:", current, other);
 
                     var diff = current.bounds.bottom - other.bounds.top + 30;
                     other.bounds.top += diff;
@@ -264,16 +265,19 @@ export class FlowMutator {
             previous = current;
         }
 
-        if (updatedNodes.length > 0) {
-            // console.log("::REFLOWED::", updatedNodes);
+        window.setTimeout(() => {
+            if (updatedNodes.length > 0) {
+                console.log("::REFLOWED::", updatedNodes);
 
-            var updated = this.definition;
-            for (let node of updatedNodes) {
-                updated = update(updated, { _ui: { nodes: { [node.uuid]: { position: { $merge: { y: node.bounds.top } } } } } });
+                var updated = this.definition;
+                for (let node of updatedNodes) {
+                    updated = update(updated, { _ui: { nodes: { [node.uuid]: { position: { $merge: { y: node.bounds.top } } } } } });
+                }
+                this.definition = updated;
+                this.markDirty();
             }
-            this.definition = updated;
-            this.markDirty();
-        }
+
+        }, 100);
 
 
 
@@ -419,6 +423,9 @@ export class FlowMutator {
             this.components.refresh(this.definition);
         }
         else {
+
+            console.log("Updating existing action");
+
             // update the action into our new flow definition
             let actionDetails = this.components.getDetails(action.uuid)
 
