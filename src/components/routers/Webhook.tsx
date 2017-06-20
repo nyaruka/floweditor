@@ -137,8 +137,7 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
 
         var headerElements: JSX.Element[] = [];
         this.state.headers.map((header: Header, index: number) => {
-            headerElements.push(<div><HeaderElement
-                key={header.uuid}
+            headerElements.push(<div key={header.uuid}><HeaderElement
                 ref={ref}
                 name={"header_" + index}
                 header={header}
