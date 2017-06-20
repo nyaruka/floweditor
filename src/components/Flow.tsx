@@ -24,7 +24,7 @@ export interface FlowContext {
 
 export interface FlowEventHandler {
     onUpdateAction(node: Node, action: Action): void;
-    onUpdateRouter(node: Node, type: string): void;
+    onUpdateRouter(node: Node, type: string, previousAction?: Action): void;
     onUpdateDimensions(node: Node, dimensions: Dimensions): void;
 
     onNodeBeforeDrag(node: Node, dragGroup: boolean): void;
@@ -227,10 +227,10 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         Plumber.get().repaintForDuration(REPAINT_DURATION);
     }
 
-    private onUpdateRouter(node: Node, type: string) {
+    private onUpdateRouter(node: Node, type: string, previousAction?: Action) {
         console.log("Flow.onUpdateRouter", node);
         var router = node.router as any;
-        var newNode = this.props.mutator.updateRouter(node, type, this.pendingConnection, this.createNodePosition);
+        var newNode = this.props.mutator.updateRouter(node, type, this.pendingConnection, this.createNodePosition, previousAction);
         if (newNode.uuid != node.uuid) {
             Plumber.get().repaintForDuration(REPAINT_DURATION);
         }
@@ -312,37 +312,19 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         plumb.bind("beforeDetach", (event: ConnectionEvent) => { return this.onBeforeDetach(event) });
         plumb.bind("beforeDrop", (event: ConnectionEvent) => { return this.onBeforeConnectorDrop(event) });
 
+        this.props.mutator.ensureStartNode();
+
         // if we don't have any nodes, create our first one
-        if (this.props.definition.nodes.length == 0) {
 
-            let initialAction: SendMessage = {
-                uuid: UUID.v4(),
-                type: "reply",
-                text: "Hi there, this the first message in your flow!"
-            };
+        console.timeEnd("RenderAndPlumb");
+        this.setState({ loading: false });
 
-            var node: Node = {
-                uuid: UUID.v4(),
-                actions: [initialAction],
-                exits: [{
-                    uuid: UUID.v4()
-                }]
-            };
+        // deals with safari load rendering throwing 
+        // off the jsplumb offsets
+        window.setTimeout(() => {
+            Plumber.get().repaint();
+        }, 500);
 
-            this.props.mutator.addNode(node, { position: { x: 0, y: 0 } });
-            this.setState({ loading: false });
-
-        } else {
-
-            console.timeEnd("RenderAndPlumb");
-            this.setState({ loading: false });
-
-            // deals with safari load rendering throwing 
-            // off the jsplumb offsets
-            window.setTimeout(() => {
-                Plumber.get().repaint();
-            }, 500);
-        }
     }
 
     componentWillUnmount() {

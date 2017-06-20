@@ -2,7 +2,7 @@ import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
 
 import { ContactFieldResult, SearchResult } from './ComponentMap';
-import { FlowDefinition, Node, Action, Exit, UIMetaData, UINode, Position, Dimensions } from '../FlowDefinition';
+import { FlowDefinition, Node, Action, Exit, UIMetaData, UINode, Position, Dimensions, SendMessage } from '../FlowDefinition';
 import { NodeComp, NodeProps, DragPoint } from './Node';
 import { ComponentMap } from './ComponentMap';
 import { FlowLoaderProps } from './FlowLoader';
@@ -164,7 +164,7 @@ export class FlowMutator {
     }
 
     private pushNodesDown(fromY: number, amount: number) {
-        console.log("Pushing nodes down", fromY, amount);
+        // console.log("Pushing nodes down", fromY, amount);
         var toPush: string[] = []
         for (let node of this.definition.nodes) {
             var ui = this.definition._ui.nodes[node.uuid];
@@ -319,35 +319,111 @@ export class FlowMutator {
         return node;
     }
 
+    /**
+     * Splices a router into a list of actions creating up to three nodes where there 
+     * was once one node. 
+     * @param node the new node being added (shares the previous node uuid)
+     * @param type the type of the new router
+     * @param previousAction the previous action that is being replaced with our router
+     */
+    private spliceInRouter(node: Node, type: string, previousAction: Action): Node {
+        var previousNode = this.getNode(node.uuid);
+        console.log("previousAction:", previousAction);
+        var details = this.components.getDetails(previousAction.uuid);
+
+        // we need to splice a wait node where our previousAction was
+        var topActions: Action[] = [];
+        var bottomActions: Action[] = previousNode.actions.slice(details.actionIdx + 1, previousNode.actions.length);
+        if (details.actionIdx > 0) {
+            topActions = previousNode.actions.slice(0, details.actionIdx);
+        }
+
+        var lastNode: Node;
+
+        var previousUI = this.getNodeUI(node.uuid);
+        var { x, y } = previousUI.position;
+
+        // add our new router node, do this fist so our top can point to it
+        var routerY = topActions.length ? y + 50 : y;
+        var newRouterNode = this.addNode(node, { position: { x: x, y: routerY }, type: type });
+
+        // add our top node if we have one
+        if (topActions.length > 0) {
+            var topActionNode: Node = {
+                uuid: UUID.v4(),
+                actions: topActions,
+                exits: [{
+                    uuid: UUID.v4(),
+                    destination_node_uuid: newRouterNode.uuid
+                }]
+            };
+
+            lastNode = this.addNode(topActionNode, { position: { x: x, y: y } });
+            y += 50;
+        }
+
+        // add our bottom 
+        if (bottomActions.length > 0) {
+            var bottomActionNode: Node = {
+                uuid: UUID.v4(),
+                actions: bottomActions,
+                exits: [{
+                    uuid: UUID.v4(),
+                    destination_node_uuid: previousNode.exits[0].destination_node_uuid
+                }]
+            };
+
+            lastNode = this.addNode(bottomActionNode, { position: { x: x, y: y } });
+            this.updateExitDestination(newRouterNode.exits[0].uuid, lastNode.uuid);
+            y += 50;
+        } else {
+            this.updateExitDestination(newRouterNode.exits[0].uuid, previousNode.exits[0].destination_node_uuid);
+        }
+
+        // remove our previous node since we created new nodes to take it's place
+        this.removeNode(previousNode);
+
+        return newRouterNode;
+    }
+
+    /**
+     * Appends a new node instead of editing the node in place
+     */
+    private appendNewRouter(node: Node, type: string) {
+        var previousNode = this.getNode(node.uuid);
+        // if we are updating a node with actions, inject a new node and attach our old node to it
+        var details = this.components.getDetails(node.uuid);
+        if (details && !details.type && previousNode.actions && previousNode.actions.length > 0) {
+            var previousUI = this.getNodeUI(node.uuid);
+            var pos = previousUI.position;
+            this.pushNodesDown(pos.y + previousUI.dimensions.height, 130);
+
+            var newNode = this.addNode(node, { position: { x: pos.x, y: pos.y + previousUI.dimensions.height + 50 }, type: type });
+
+            // rewire our old connections
+            var previousDestination = previousNode.exits[0].destination_node_uuid
+            this.updateExitDestination(previousNode.exits[0].uuid, newNode.uuid);
+
+            // and our new node should point where the old one did
+            this.updateExitDestination(newNode.exits[0].uuid, previousDestination);
+
+            // all done
+            return newNode;
+        }
+    }
+
     public updateRouter(node: Node, type: string,
         draggedFrom: DragPoint = null,
-        newPosition: Position = null): Node {
+        newPosition: Position = null,
+        previousAction: Action = null): Node {
 
         console.time("updateRouter");
-
-        // TODO: deal with case of editing an existing action into a router
-        // if we are updating a node with actions, inject a new node and attach our old node to it
         var previousNode = this.getNode(node.uuid);
         if (previousNode) {
-            var details = this.components.getDetails(node.uuid);
-            if (details && !details.type && previousNode.actions && previousNode.actions.length > 0) {
-                var previousUI = this.getNodeUI(node.uuid);
-                // console.log("XXXXX");
-                var pos = previousUI.position;
-
-                this.pushNodesDown(pos.y + previousUI.dimensions.height, 130);
-
-                var newNode = this.addNode(node, { position: { x: pos.x, y: pos.y + previousUI.dimensions.height + 50 }, type: type });
-
-                // rewire our old connections
-                var previousDestination = previousNode.exits[0].destination_node_uuid
-                this.updateExitDestination(previousNode.exits[0].uuid, newNode.uuid);
-
-                // and our new node should point where the old one did
-                this.updateExitDestination(newNode.exits[0].uuid, previousDestination);
-
-                // all done
-                return newNode;
+            if (previousAction) {
+                return this.spliceInRouter(node, type, previousAction);
+            } else {
+                return this.appendNewRouter(node, type);
             }
         }
 
@@ -514,6 +590,31 @@ export class FlowMutator {
     }
 
     /**
+     * Makes sure there is always at least a node to start with
+     */
+    public ensureStartNode() {
+
+        if (this.definition.nodes.length == 0) {
+
+            let initialAction: SendMessage = {
+                uuid: UUID.v4(),
+                type: "reply",
+                text: "Hi there, this the first message in your flow!"
+            };
+
+            var node: Node = {
+                uuid: UUID.v4(),
+                actions: [initialAction],
+                exits: [{
+                    uuid: UUID.v4()
+                }]
+            };
+
+            this.addNode(node, { position: { x: 0, y: 0 } });
+        }
+    }
+
+    /**
      * Update the definition for a node
      * @param uuid 
      * @param changes immutability spec to modify the node
@@ -587,6 +688,8 @@ export class FlowMutator {
 
         // remove us from the ui map as well
         this.definition = update(this.definition, { _ui: { nodes: { $unset: [props.uuid] } } });
+
+        this.ensureStartNode();
 
         this.components.refresh(this.definition);
         this.markDirty();

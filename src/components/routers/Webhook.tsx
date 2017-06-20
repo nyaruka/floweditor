@@ -316,7 +316,7 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
             router: router,
             exits: exits,
             actions: [newAction]
-        }, "webhook");
+        }, "webhook", this.props.action);
     }
 }
 

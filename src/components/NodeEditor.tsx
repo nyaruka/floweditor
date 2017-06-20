@@ -177,8 +177,8 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorS
                         this.props.context.eventHandler.onUpdateAction(this.props.node, action);
                     },
 
-                    updateRouter: (node: Node, type: string) => {
-                        this.props.context.eventHandler.onUpdateRouter(node, type);
+                    updateRouter: (node: Node, type: string, previousAction?: Action) => {
+                        this.props.context.eventHandler.onUpdateRouter(node, type, previousAction);
                     }
                 };
 
@@ -278,7 +278,7 @@ export interface NodeEditorFormProps {
 
     onTypeChange(config: TypeConfig): void;
     updateAction(action: Action): void;
-    updateRouter(node: Node, type: string): void;
+    updateRouter(node: Node, type: string, previousAction: Action): void;
 }
 
 export interface NodeEditorFormState {

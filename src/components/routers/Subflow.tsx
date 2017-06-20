@@ -105,6 +105,6 @@ export class SubflowForm extends NodeRouterForm<SwitchRouter, SwitchRouterState>
             exits: exits,
             actions: [newAction],
             wait: { type: "flow", flow_uuid: flow.id }
-        }, "subflow");
+        }, "subflow", this.props.action);
     }
 }

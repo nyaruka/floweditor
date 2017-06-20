@@ -401,7 +401,7 @@ export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterS
             router: router,
             exits: exits,
             ...optionalNode
-        }, this.props.config.type);
+        }, this.props.config.type, this.props.action);
     }
 }
 
