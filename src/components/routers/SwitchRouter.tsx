@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
+import * as FlipMove from 'react-flip-move';
 
 //import {Case} from '../Case';
 import { CaseElement, CaseElementProps } from '../form/CaseElement';
@@ -349,7 +350,6 @@ export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterS
                 <div className={styles.cases}>
                     {cases}
                 </div>
-
                 <div className={styles.save_as}>
                     {nameField}
                 </div>

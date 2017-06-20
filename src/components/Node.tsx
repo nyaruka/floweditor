@@ -3,6 +3,7 @@ import * as axios from 'axios';
 import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
+import * as FlipMove from 'react-flip-move';
 
 import { ActionProps } from './Action';
 import { FlowContext } from './Flow';
@@ -212,9 +213,9 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             }
 
             actionList = (
-                <div className={styles.actions}>
+                <FlipMove enterAnimation="fade" leaveAnimation="fade" className={styles.actions} duration={300} easing="ease-out">
                     {actions}
-                </div>
+                </FlipMove>
             )
         }
 

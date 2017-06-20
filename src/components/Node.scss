@@ -1,5 +1,6 @@
 @import "../variables.scss";
 .node {
+    padding: 0;
     &.dragging {
         z-index: $z_dragging; // box-shadow: 0 0 0 4px rgba(0, 0, 0, .1), 0 0 0 1px rgba(0, 0, 0, .1) inset; // transform: scale(1.05); // border: 1px solid #ddd;
         .add {
@@ -12,9 +13,7 @@
     -ms-user-select: none;
     user-select: none;
     transition: top 200ms ease;
-    position: absolute;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, .1) inset; // border: 1px solid ;
-    background: #fff;
+    position: absolute; // box-shadow: 0 0 0 1px rgba(0, 0, 0, .1) inset; // border: 1px solid ;
     width: $node_width;
     z-index: $z_nodes;
     cursor: pointer; // box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, .4);
@@ -33,9 +32,10 @@
         }
     }
     .exit_table {
+        background: #fff;
         display: table;
-        width: 100%;
-        border-top: 1px solid #f6f6f6;
+        width: 100%; //border-top: 1px solid #f6f6f6;
+        border: 1px solid $borders;
         .exits {
             border-collapse: collapse;
             display: table-row;

@@ -1,11 +1,14 @@
 @import "../variables.scss";
-
 .action {
-    border: none;
+    // border: none;
+    margin: 0px;
 }
 
 .body {
     padding: 8px;
-    word-wrap:break-word;
+    word-wrap: break-word;
     width: $node_width;
+    background: #fff; // border: 3px transparent;
+    border-left: 1px solid $borders;
+    border-right: 1px solid $borders;
 }

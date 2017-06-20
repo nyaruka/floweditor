@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
+import * as FlipMove from 'react-flip-move';
 
 import { SwitchRouterForm, SwitchRouterState } from "./SwitchRouter";
 import { SelectElement } from '../form/SelectElement';
@@ -136,7 +137,7 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
 
         var headerElements: JSX.Element[] = [];
         this.state.headers.map((header: Header, index: number) => {
-            headerElements.push(<HeaderElement
+            headerElements.push(<div><HeaderElement
                 key={header.uuid}
                 ref={ref}
                 name={"header_" + index}
@@ -144,7 +145,7 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
                 onRemove={this.onHeaderRemoved}
                 onChange={this.onHeaderChanged}
                 index={index}
-            />);
+            /></div>);
         });
 
         var postForm = null;
@@ -164,9 +165,9 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
             <div>
                 <h4>Headers</h4>
                 <p>Add any additional headers below that you would like to send along with your request.</p>
-                <div>
+                <FlipMove enterAnimation="fade" leaveAnimation="fade" className={styles.actions} duration={300} easing="ease-out">
                     {headerElements}
-                </div>
+                </FlipMove>
                 {postForm}
             </div>
         );
