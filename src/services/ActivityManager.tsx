@@ -1,6 +1,7 @@
 import { Exit } from '../FlowDefinition';
 import { External } from './External';
 import { CounterComp } from "../components/Counter";
+import { Config } from "./Config";
 
 // how often we ask the server for new data
 const REFRESH_SECONDS = 10;
@@ -21,7 +22,6 @@ export interface Activity {
 export class ActivityManager {
 
     private static singleton: ActivityManager;
-    private external: External;
 
     // our main activity fetch from the external
     private activity: Activity;
@@ -38,12 +38,11 @@ export class ActivityManager {
         return ActivityManager.singleton;
     }
 
-    public static initialize(external: External, flowUUID: string) {
-        this.singleton = new ActivityManager(external, flowUUID);
+    public static initialize(flowUUID: string) {
+        this.singleton = new ActivityManager(flowUUID);
     }
 
-    private constructor(external: External, flowUUID: string) {
-        this.external = external;
+    private constructor(flowUUID: string) {
         this.flowUUID = flowUUID;
         this.fetchActivity();
         this.registerListener = this.registerListener.bind(this);
@@ -68,7 +67,7 @@ export class ActivityManager {
         if (!this.timer) {
             this.timer = window.setTimeout(() => {
                 this.timer = null;
-                this.external.getActivity(this.flowUUID).then((activity: Activity) => {
+                Config.get().external.getActivity(this.flowUUID).then((activity: Activity) => {
                     this.activity = activity;
                     this.notifyListeners();
                 });

@@ -11,6 +11,7 @@ import { Plumber } from '../services/Plumber';
 import { External, FlowDetails } from '../services/External';
 import { FlowDefinition, Group } from '../FlowDefinition';
 import { ActivityManager, Activity } from "../services/ActivityManager";
+import { Config, Endpoints } from "../services/Config";
 
 var styles = require("./Simulator.scss");
 
@@ -22,8 +23,6 @@ interface Message {
 }
 
 interface SimulatorProps {
-    engineURL: string;
-    external: External;
     flowUUID: string;
     showDefinition(definition: FlowDefinition): void;
 }
@@ -234,6 +233,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     private currentFlow: string;
     private inputBox: HTMLInputElement;
 
+    private external: External;
+    private engineURL: string;
+
     // marks the bottom of our chat
     private bottom: any;
 
@@ -252,6 +254,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             channel: UUID.v4(),
         }
         this.currentFlow = this.props.flowUUID;
+
+        var config = Config.get();
+        this.external = config.external;
+        this.engineURL = config.endpoints.engine;
     }
 
     private updateActivity() {
@@ -345,14 +351,14 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             }
         }, () => {
 
-            this.props.external.getFlow(this.props.flowUUID, true).then((details: FlowDetails) => {
+            this.external.getFlow(this.props.flowUUID, true).then((details: FlowDetails) => {
                 this.flows = [details.definition].concat(details.dependencies)
                 var body: any = {
                     flows: this.flows,
                     contact: this.state.contact,
                 };
 
-                axios.default.post(urljoin(this.props.engineURL + '/flow/start'), JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
+                axios.default.post(urljoin(this.engineURL + '/flow/start'), JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
                     this.updateRunContext(body, response.data as RunContext);
                 });
             });
@@ -372,7 +378,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             return;
         }
 
-        this.props.external.getFlow(this.props.flowUUID, true).then((details: FlowDetails) => {
+        this.external.getFlow(this.props.flowUUID, true).then((details: FlowDetails) => {
             this.flows = [details.definition].concat(details.dependencies)
             var body: any = {
                 flows: this.flows,
@@ -388,7 +394,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 }
             };
 
-            axios.default.post(this.props.engineURL + 'flow/resume', JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
+            axios.default.post(this.engineURL + 'flow/resume', JSON.stringify(body, null, 2)).then((response: axios.AxiosResponse) => {
                 this.updateRunContext(body, response.data as RunContext);
             }).catch((error) => {
                 var events = update(this.state.events, {

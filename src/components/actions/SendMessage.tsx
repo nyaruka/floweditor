@@ -5,6 +5,9 @@ import { TextInputElement } from '../form/TextInputElement';
 import { NodeActionForm } from "../NodeEditor";
 
 export class SendMessageComp extends ActionComp<SendMessage> {
+
+    localizedKeys = ["text"];
+
     renderNode(): JSX.Element {
         var action = this.getAction();
         if (action.text) {

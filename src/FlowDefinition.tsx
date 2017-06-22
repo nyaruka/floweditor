@@ -1,5 +1,8 @@
+export type LocalizationMap = { [lang: string]: { [uuid: string]: any } };
+
 export interface FlowDefinition {
-    localization: { [lang: string]: { [uuid: string]: any } };
+    localization: LocalizationMap;
+    language: string,
     name: string
     nodes: Node[]
     uuid: string
@@ -99,6 +102,7 @@ export interface StartFlow extends Action {
 
 export interface UIMetaData {
     nodes: { [key: string]: UINode };
+    languages: { [iso: string]: string };
 }
 
 export interface Position {

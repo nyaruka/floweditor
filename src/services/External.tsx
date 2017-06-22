@@ -124,7 +124,7 @@ export class External {
         }
 
         if (!definition._ui) {
-            definition._ui = { nodes: {} }
+            definition._ui = { nodes: {}, languages: {} }
         }
     }
 }

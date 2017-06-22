@@ -305,7 +305,6 @@ export class FlowMutator {
      */
     private spliceInRouter(node: Node, type: string, previousAction: Action): Node {
         var previousNode = this.getNode(node.uuid);
-        console.log("previousAction:", previousAction);
         var details = this.components.getDetails(previousAction.uuid);
 
         // we need to splice a wait node where our previousAction was
@@ -582,8 +581,6 @@ export class FlowMutator {
                     uuid: UUID.v4()
                 }]
             };
-
-            console.log("Adding start node", node);
             this.addNode(node, { position: { x: 0, y: 0 } });
         }
     }

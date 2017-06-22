@@ -1,7 +1,21 @@
 @import "../variables.scss";
 .action {
-    // border: none;
+    position: relative; // border: none;
     margin: 0px;
+    &:last-child {
+        .body {
+            padding-bottom: 20px;
+        }
+    }
+    &.has_router {
+        &:last-child {
+            .body {
+                padding-bottom: 8px;
+            }
+            border-bottom: 1px solid $borders;
+        }
+    }
+    clear: both;
 }
 
 .body {
@@ -10,5 +24,39 @@
     width: $node_width;
     background: #fff; // border: 3px transparent;
     border-left: 1px solid $borders;
-    border-right: 1px solid $borders;
+    border-right: 1px solid $borders; //border-bottom: 1px solid $borders;
+}
+
+.not_localizable {
+    /*.body {
+        background: #f7f7f7;
+        color: #ccc;
+        cursor: default;
+    }*/
+    .overlay {
+        display: block;
+    }
+}
+
+.missing_localization {
+    .body {
+        box-shadow: 0 0 0 2px $translation_bg - #111 inset;
+        position: relative;
+        background: $translation_bg; //border-top: 1px solid $translation_bg - #111;
+        //border-left: 1px solid $translation_bg - #111;
+        //border-right: 1px solid $translation_bg - #111;
+        //border-bottom: 1px solid $translation_bg - #111; // margin-top: -1px;
+        color: $translation_text;
+    }
+}
+
+.overlay {
+    cursor: default;
+    position: absolute;
+    display: none;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, .9); // border-bottom: 1px solid $borders;
+    $color_1: rgba(0, 0, 0, .12);
+    $color_2: rgba(0, 0, 0, .1); //background: repeating-linear-gradient(-60deg, $color_1, $color_1 3px, $color_2 3px, $color_2 6px); // background: rgba(200, 200, 200, .3);
 }

@@ -18,9 +18,7 @@ var QUIET_UI = 10;
 var QUIET_SAVE = 1000;
 
 export interface FlowLoaderProps {
-    endpoints?: Endpoints;
     uuid?: string;
-    external?: External;
 }
 
 export interface FlowLoaderState {
@@ -42,11 +40,7 @@ export class FlowLoader extends React.PureComponent<FlowLoaderProps, FlowLoaderS
     }
 
     private save(definition: FlowDefinition) {
-        if (this.props.external) {
-            this.props.external.saveFlow(definition);
-        } else {
-            FlowStore.get().save(definition);
-        }
+        Config.get().external.saveFlow(definition);
     }
 
     private initialize(definition: FlowDefinition) {
@@ -61,7 +55,7 @@ export class FlowLoader extends React.PureComponent<FlowLoaderProps, FlowLoaderS
     }
 
     componentDidMount() {
-        this.props.external.getFlow(this.props.uuid, false).then((details: FlowDetails) => {
+        Config.get().external.getFlow(this.props.uuid, false).then((details: FlowDetails) => {
             this.initialize(details.definition);
         });
     }
@@ -79,9 +73,7 @@ export class FlowLoader extends React.PureComponent<FlowLoaderProps, FlowLoaderS
         var flow = null;
         if (this.state.definition) {
             flow = <Flow
-                endpoints={this.props.endpoints}
                 definition={this.state.definition}
-                external={this.props.external}
                 dependencies={this.state.dependencies}
                 mutator={this.mutator} />
         }

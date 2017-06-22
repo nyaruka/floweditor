@@ -5,12 +5,14 @@ import { External } from '../services/External';
 import { addCommas } from '../utils';
 import { CounterComp } from "./Counter";
 import { ActivityManager } from "../services/ActivityManager";
+import { LocalizedObject } from "../Localization";
 
 var styles = require('./Exit.scss');
 
 export interface ExitProps {
     exit: Exit;
     onDisconnect(exitUUID: string): void;
+    localization: LocalizedObject;
 }
 
 export interface ExitState {
@@ -20,6 +22,7 @@ export interface ExitState {
 export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 
     private timeout: any;
+    private clicking: boolean;
 
     constructor(props: ExitProps) {
         super(props);
@@ -31,12 +34,16 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         }
     }
 
+    private isMutable() {
+        return this.props.localization == null;
+    }
+
     private onClick(event: React.MouseEvent<HTMLDivElement>) {
 
         event.preventDefault();
         event.stopPropagation();
 
-        if (this.props.exit.destination_node_uuid) {
+        if (this.props.exit.destination_node_uuid && this.isMutable()) {
             this.setState({
                 confirmDelete: true
             }, () => {
@@ -81,7 +88,16 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     }
 
     private connect() {
-        Plumber.get().connectExit(this.props.exit, this.state.confirmDelete);
+        var classes: string[] = [];
+        if (this.state.confirmDelete) {
+            classes.push("confirm_delete");
+        }
+
+        if (this.props.localization != null) {
+            classes.push("translating");
+        }
+
+        Plumber.get().connectExit(this.props.exit, classes.join(" "));
     }
 
     private renderActivity(): JSX.Element {
@@ -101,10 +117,11 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         return null;
     }
 
-    private clicking: boolean;
+
     render() {
         var classes: string[] = [styles.exit, "plumb-exit"]
         var confirm: JSX.Element = null;
+
         if (this.state.confirmDelete && this.props.exit.destination_node_uuid) {
             confirm = <span onClick={this.onDisconnect} className="icon-remove" />
             classes.push(styles.confirm_delete);
@@ -112,10 +129,24 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         // console.log('Rendering exit', this.props.exit.uuid);
         var connected = this.props.exit.destination_node_uuid ? " jtk-connected" : "";
 
+        var nameStyle = "";
+
+        var exit = this.props.exit;
+        if (this.props.localization) {
+            exit = this.props.localization.getObject() as Exit;
+            if (!("name" in this.props.localization.localizedKeys)) {
+                classes.push(styles.missing_localization);
+            }
+        }
+
+        if (exit.name) {
+            nameStyle = styles.name;
+        }
+
         return (
             <div className={classes.join(" ")}>
-                <div className={styles.name}>
-                    {this.props.exit.name}
+                <div className={nameStyle}>
+                    {exit.name}
                 </div>
                 <div onMouseUp={(event: any) => { event.preventDefault(); event.stopPropagation(); }} onClick={this.onClick} id={this.props.exit.uuid} className={styles.endpoint + " " + connected}>
                     {confirm}

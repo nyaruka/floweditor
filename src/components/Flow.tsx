@@ -11,6 +11,8 @@ import { Config, Endpoints } from '../services/Config';
 import { SwitchRouterForm } from "./routers/SwitchRouter";
 import { ActivityManager } from "../services/ActivityManager";
 import { NodeEditor, NodeEditorProps } from "./NodeEditor";
+import { LanguageSelectorComp, Language } from "./LanguageSelector";
+import { Localization } from "../Localization";
 
 var update = require('immutability-helper');
 var UUID = require('uuid');
@@ -19,7 +21,7 @@ var styles = require("./Flow.scss");
 
 export interface FlowContext {
     eventHandler: FlowEventHandler;
-    endpoints: Endpoints;
+    localization: Localization;
 }
 
 export interface FlowEventHandler {
@@ -45,9 +47,7 @@ export interface FlowEventHandler {
 interface FlowProps {
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
-    external: External;
     mutator: FlowMutator;
-    endpoints: Endpoints;
 }
 
 interface FlowState {
@@ -57,6 +57,7 @@ interface FlowState {
     context: FlowContext;
     viewDefinition?: FlowDefinition;
     draggingNode?: Node;
+    language?: Language;
 }
 
 interface Connection {
@@ -101,9 +102,9 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.onNodeDragStop = this.onNodeDragStop.bind(this);
         this.onNodeBeforeDrag = this.onNodeBeforeDrag.bind(this);
         this.resetState = this.resetState.bind(this);
+        this.showLanguage = this.showLanguage.bind(this);
 
-        ActivityManager.initialize(this.props.external, this.props.definition.uuid);
-        Config.initialize(this.props.endpoints);
+        ActivityManager.initialize(this.props.definition.uuid);
 
         this.state = {
             loading: true,
@@ -126,7 +127,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                     onNodeMounted: this.onNodeMounted,
                     onDisconnectExit: this.props.mutator.disconnectExit
                 },
-                endpoints: this.props.endpoints
+                localization: new Localization(this.props.definition.localization)
             }
         }
         console.time("RenderAndPlumb");
@@ -163,7 +164,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                 if (this.pendingConnection) {
                     var exit = this.props.mutator.getExit(this.pendingConnection.exitUUID);
                     if (exit) {
-                        Plumber.get().connectExit(exit, false);
+                        Plumber.get().connectExit(exit, );
                     }
                 }
             }
@@ -306,6 +307,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var plumb = Plumber.get();
 
         plumb.bind("connection", (event: ConnectionEvent) => { return this.onConnection(event) });
+        plumb.bind("beforeDrag", (event: ConnectionEvent) => { return this.beforeConnectionDrag(event) });
         plumb.bind("connectionDrag", (event: ConnectionEvent) => { return this.onConnectionDrag(event) });
         plumb.bind("connectionDragStop", (event: ConnectionEvent) => { return this.onConnectorDrop(event) });
         plumb.bind("beforeStartDetach", (event: ConnectionEvent) => { return this.onBeforeStartDetach(event) });
@@ -331,8 +333,16 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         Plumber.get().reset();
     }
 
+    private isMutable() {
+        return this.state.language == null;
+    }
+
+    private beforeConnectionDrag(event: ConnectionEvent) {
+        return this.isMutable();
+    }
+
     private onBeforeStartDetach(event: any) {
-        return true;
+        return this.isMutable();
     }
 
     private onBeforeDetach(event: ConnectionEvent) {
@@ -387,13 +397,27 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         }, 0);
 
         return true;
+    }
+
+
+    private showLanguage(language: Language): void {
+        if (language.iso != this.props.definition.language) {
+            this.setState({ language: language });
+        } else {
+            // back to the default language
+            this.setState({ language: null });
+        }
 
     }
 
     render() {
 
-        var definition = this.props.definition;
+        var language = null;
+        if (this.state.language) {
+            language = this.state.language.iso;
+        }
 
+        var definition = this.props.definition;
         if (this.state.viewDefinition) {
             definition = this.state.viewDefinition;
         }
@@ -401,7 +425,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var nodes: JSX.Element[] = [];
         for (let node of definition.nodes) {
             var ui = definition._ui.nodes[node.uuid];
-            nodes.push(<NodeComp key={node.uuid} node={node} ui={ui} context={this.state.context} external={this.props.external} />)
+            nodes.push(<NodeComp key={node.uuid} node={node} ui={ui} context={this.state.context} language={language} />);
         }
 
         var dragNode = null;
@@ -420,19 +444,17 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             dragNode = <NodeComp
                 key={ghost.uuid}
                 ref={(ele) => { this.ghostComp = ele }}
+                language={null}
                 node={ghost}
                 context={this.state.context}
                 ui={ui}
                 ghost={true}
-                external={this.props.external}
             />
         }
 
         var simulator = null;
-        if (this.props.endpoints.engine) {
+        if (Config.get().endpoints.engine) {
             simulator = <Simulator
-                external={this.props.external}
-                engineURL={this.props.endpoints.engine}
                 flowUUID={this.props.definition.uuid}
                 showDefinition={this.onShowDefinition}
             />
@@ -455,8 +477,15 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             classes.push(styles.dragging);
         }
 
+        if (language == null) {
+            language = this.props.definition.language;
+        } else {
+            classes.push(styles.translation);
+        }
+
         return (
             <div className={classes.join(" ")}>
+                <LanguageSelectorComp iso={language} onChange={this.showLanguage} />
                 {simulator}
                 <div key={definition.uuid} className={styles.flow}>
                     <div className={styles.node_list}>
