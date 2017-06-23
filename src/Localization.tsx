@@ -51,37 +51,14 @@ export class LocalizedObject {
 }
 
 export class Localization {
-    private mappings: LocalizationMap;
-
-    constructor(mappings: LocalizationMap) {
-        this.mappings = mappings;
-    }
-
-    translate(object: Action | Exit | Case, iso: string, translations: any): LocalizedObject {
-        var localized = new LocalizedObject(object, iso);
-        if (object.uuid in translations) {
-            var translations = translations[object.uuid];
-            // we don't want to side affect our action
-            for (let key of Object.keys(translations)) {
-                localized.addTranslation(key, translations[key]);
-            }
-        }
-        return localized;
-    }
-
-    getTranslations(object: Action | Exit | Case, iso: string): LocalizedObject {
-        if (iso) {
+    static translate(object: Action | Exit | Case, iso: string, translations: { [uuid: string]: any }): LocalizedObject {
+        if (translations) {
             var localized = new LocalizedObject(object, iso);
-            if (this.mappings) {
-                if (iso in this.mappings) {
-                    var languageValues = this.mappings[iso];
-                    if (object.uuid in languageValues) {
-                        var translations = languageValues[object.uuid];
-                        // we don't want to side affect our action
-                        for (let key of Object.keys(translations)) {
-                            localized.addTranslation(key, translations[key]);
-                        }
-                    }
+            if (object.uuid in translations) {
+                var values = translations[object.uuid];
+                // we don't want to side affect our action
+                for (let key of Object.keys(values)) {
+                    localized.addTranslation(key, values[key]);
                 }
             }
             return localized;

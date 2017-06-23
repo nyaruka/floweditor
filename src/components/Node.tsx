@@ -19,7 +19,7 @@ import { Node, Position, SwitchRouter, Action, UINode, Exit } from '../FlowDefin
 import { CounterComp } from "./Counter";
 import { ActivityManager } from "../services/ActivityManager";
 import { ComponentMap } from "./ComponentMap";
-import { LocalizedObject } from "../Localization";
+import { LocalizedObject, Localization } from "../Localization";
 
 var styles = require("./Node.scss");
 var shared = require("./shared.scss");
@@ -42,7 +42,7 @@ export interface NodeProps {
     node: Node;
     context: FlowContext;
     ui: UINode;
-    translations: any;
+    translations: { [uuid: string]: any };
     language: string;
     ghost?: boolean;
 }
@@ -223,7 +223,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
                     var localization: LocalizedObject;
                     if (this.props.translations) {
-                        localization = this.props.context.localization.translate(action, this.props.language, this.props.translations)
+                        localization = Localization.translate(action, this.props.language, this.props.translations)
                     }
 
                     var actionProps: ActionProps = {
@@ -300,7 +300,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                     <ExitComp
                         exit={exit}
                         key={exit.uuid}
-                        localization={this.props.context.localization.getTranslations(exit, this.props.language)}
+                        localization={Localization.translate(exit, this.props.language, this.props.translations)}
                         onDisconnect={this.props.context.eventHandler.onDisconnectExit}
                     />
                 );

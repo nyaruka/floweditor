@@ -21,7 +21,6 @@ var styles = require("./Flow.scss");
 
 export interface FlowContext {
     eventHandler: FlowEventHandler;
-    localization: Localization;
 }
 
 export interface FlowEventHandler {
@@ -128,8 +127,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                     onNodeMoved: this.onNodeMoved,
                     onNodeMounted: this.onNodeMounted,
                     onDisconnectExit: this.props.mutator.disconnectExit
-                },
-                localization: new Localization(this.props.definition.localization)
+                }
             }
         }
         console.time("RenderAndPlumb");
@@ -415,7 +413,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
     render() {
 
         var language = null;
-        var translations: any;
+        var translations: { [uuid: string]: any };
         if (this.state.language) {
             language = this.state.language.iso;
             translations = this.props.definition.localization[language];
