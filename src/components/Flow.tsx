@@ -274,7 +274,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             let replyAction: SendMessage = {
                 uuid: UUID.v4(),
                 type: "reply",
-                text: ""
+                text: null
             }
             ghost.actions.push(replyAction);
         }

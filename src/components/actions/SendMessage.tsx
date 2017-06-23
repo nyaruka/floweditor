@@ -12,7 +12,7 @@ export class SendMessageComp extends ActionComp<SendMessage> {
 
     renderNode(): JSX.Element {
         var action = this.getAction();
-        if (action.text != undefined) {
+        if (action.text != null) {
             return <div>{action.text}</div>
         } else {
             return <div className='placeholder'>Send a message to the contact</div>
