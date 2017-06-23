@@ -504,7 +504,7 @@ export abstract class NodeRouterForm<R extends Router, S extends NodeEditorFormS
 
         return (
             <div>
-                <div className={formStyles.title}>Category Names</div>
+                <div className={formStyles.title}>Categories</div>
                 <div className={formStyles.instructions}>When category names are referenced later in the flow, the appropriate language for the category will be used. If no translation is provided, the original text will be used.</div>
                 <div className={formStyles.translating_exits}>{exits}</div>
             </div>

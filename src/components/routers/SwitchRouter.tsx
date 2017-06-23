@@ -12,6 +12,7 @@ import { Node, SwitchRouter, Exit, Case, UINode, Action } from '../../FlowDefini
 import { DragDropContext } from 'react-dnd';
 import { NodeRouterForm, NodeEditorFormProps, NodeEditorFormState } from "../NodeEditor";
 import { Language } from "../LanguageSelector";
+import { LocalizedObject } from "../../Localization";
 
 
 let HTML5Backend = require('react-dnd-html5-backend');
@@ -260,56 +261,83 @@ export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterS
         })
     }
 
-    renderTranslationForm(ref: any): JSX.Element {
+    saveLocalization() {
+        var updates = this.getLocalizedExits();
+        var language = this.props.localizations[0].getLanguage().iso
+        updates = updates.concat(this.getLocalizedCases());
+        this.props.updateLocalizations(language, updates);
+    }
 
-        var cases: JSX.Element[] = [];
-        var exits: JSX.Element[] = [];
-
-        var language: Language;
-        if (this.props.localizations.length > 0) {
-            language = this.props.localizations[0].getLanguage();
-        }
-
-        if (!language) {
-            return null;
-        }
-
-        for (let item of this.props.localizations) {
-            var localizedObject = item.getObject();
-
-            // bit of a hack here to type crack for exit
-            if ('destination_node_uuid' in localizedObject) {
-                var exit = localizedObject as Exit
-                var value = null;
-                if ("name" in item.localizedKeys) {
-                    value = exit.name;
-                }
-
-                exits.push(
-                    <div key={"translate_" + exit.uuid} className={styles.translating_exit}>
-                        <div className={styles.translating_from}>
-                            {exit.name}
-                        </div>
-                        <div className={styles.translating_to}>
-                            <TextInputElement ref={ref} name={exit.uuid} placeholder={language.name + " Translation"} showLabel={false} value={value} />
-                        </div>
-                    </div >
-                );
+    getLocalizedCases(): { uuid: string, translations: any }[] {
+        var results: { uuid: string, translations: any }[] = [];
+        var router = this.getInitial();
+        for (let kase of router.cases) {
+            var input = this.getWidget(kase.uuid) as TextInputElement;
+            var value = input.state.value.trim();
+            if (value) {
+                results.push({ uuid: kase.uuid, translations: { arguments: [value] } })
             } else {
-                var kase = localizedObject as Case
-                // console.log(kase.arguments[0]);
+                results.push({ uuid: kase.uuid, translations: null });
+            }
+        }
+        return results;
+    }
+
+    renderAdvanced(ref: any): JSX.Element {
+
+        if (this.isTranslating()) {
+            // var cases: JSX.Element[] = [];
+            var kases: JSX.Element[] = [];
+
+            var language: Language;
+            if (this.props.localizations.length > 0) {
+                language = this.props.localizations[0].getLanguage();
             }
 
-            //localizedObject.uuid
-        }
+            if (!language) {
+                return null;
+            }
 
-        return (
-            <div>
-                <div>{cases}</div>
-                <div className={styles.translating_exits}>{exits}</div>
-                <div style={{ clear: "both" }}></div>
-            </div>
-        )
+            var router = this.getInitial();
+            for (let kase of router.cases) {
+                if (kase.arguments && kase.arguments.length == 1) {
+                    var localized = this.props.localizations.find((localizedObject: LocalizedObject) => { return localizedObject.getObject().uuid == kase.uuid });
+                    if (localized) {
+                        var value = null;
+                        if ("arguments" in localized.localizedKeys) {
+                            var localizedCase: Case = localized.getObject() as Case;
+                            if (localizedCase.arguments.length > 0) {
+                                value = localizedCase.arguments[0];
+                            }
+                        }
+
+                        var config = Config.get().getOperatorConfig(kase.type);
+
+                        kases.push(
+                            <div key={"translate_" + kase.uuid} className={styles.translating_case}>
+                                <div className={styles.translating_operator}>
+                                    {config.verboseName}
+                                </div>
+                                <div className={styles.translating_from}>
+                                    {kase.arguments[0]}
+                                </div>
+                                <div className={styles.translating_to}>
+                                    <TextInputElement ref={ref} name={kase.uuid} placeholder={language.name + " Translation"} showLabel={false} value={value} />
+                                </div>
+                            </div >
+                        );
+                    }
+                }
+            }
+            return (
+                <div>
+                    <div className={styles.title}>Rules</div>
+                    <div className={styles.instructions}>Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.</div>
+                    <div>{kases}</div>
+                </div>
+            );
+        }
+        return null;
     }
 
     renderForm(ref: any): JSX.Element {
@@ -431,7 +459,7 @@ export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterS
 
     onValid() {
         if (this.isTranslating()) {
-            return this.saveLocalizedExits();
+            return this.saveLocalization();
         }
 
         const { cases, exits, defaultExit } = resolveExits(this.state.cases, this.props.node);

@@ -45,7 +45,7 @@ export class LocalizedObject {
         this.localizedKeys[key] = true;
     }
 
-    public getObject() {
+    public getObject(): Action | Case | Exit {
         return this.localizedObject;
     }
 }
