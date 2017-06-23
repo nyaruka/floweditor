@@ -26,7 +26,7 @@ export interface FlowContext {
 export interface FlowEventHandler {
     onUpdateAction(node: Node, action: Action): void;
     onUpdateRouter(node: Node, type: string, previousAction?: Action): void;
-    onUpdateLocalization(uuid: string, language: string, values: any): void;
+    onUpdateLocalizations(language: string, changes: { uuid: string, translations: any }[]): void;
     onUpdateDimensions(node: Node, dimensions: Dimensions): void;
 
     onNodeBeforeDrag(node: Node, dragGroup: boolean): void;
@@ -112,7 +112,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                 eventHandler: {
                     onUpdateAction: this.onUpdateAction,
                     onUpdateRouter: this.onUpdateRouter,
-                    onUpdateLocalization: this.props.mutator.updateLocalization,
+                    onUpdateLocalizations: this.props.mutator.updateLocalizations,
                     onUpdateDimensions: this.props.mutator.updateDimensions,
 
                     onNodeBeforeDrag: this.onNodeBeforeDrag,
@@ -158,13 +158,15 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
     private openEditor(props: NodeEditorProps) {
 
+        console.log("openEditor", props);
+
         props.onClose = (canceled: boolean) => {
             // make sure we re-wire the old connection
             if (canceled) {
                 if (this.pendingConnection) {
                     var exit = this.props.mutator.getExit(this.pendingConnection.exitUUID);
                     if (exit) {
-                        Plumber.get().connectExit(exit, );
+                        Plumber.get().connectExit(exit);
                     }
                 }
             }

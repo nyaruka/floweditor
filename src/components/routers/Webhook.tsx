@@ -123,6 +123,9 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
     }
 
     renderAdvanced(ref: any): JSX.Element {
+        if (this.isTranslating()) {
+            return null;
+        }
 
         var postBody = defaultBody;
         if (this.props.action) {
@@ -173,6 +176,9 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
     }
 
     renderForm(ref: any): JSX.Element {
+        if (this.isTranslating()) {
+            return this.renderExitTranslations(ref);
+        }
 
         var method = "GET";
         var url = "";
@@ -228,6 +234,10 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
     }
 
     onValid(): void {
+
+        if (this.isTranslating()) {
+            return this.saveLocalizedExits();
+        }
 
         var method = "GET";
         var body = null;

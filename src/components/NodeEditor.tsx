@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as UUID from "uuid";
 import { Modal, ButtonSet } from "./Modal";
-import { Node, Router, Action, SendMessage, UINode } from "../FlowDefinition";
+import { Node, Router, Action, SendMessage, UINode, Exit } from "../FlowDefinition";
 import { TypeConfig, Config } from "../services/Config";
 import { ComponentMap } from "./ComponentMap";
 import { TextInputElement } from "./form/TextInputElement";
@@ -10,6 +10,7 @@ import { FormWidget, FormValueState } from "./form/FormWidget";
 import { FormElementProps } from "./form/FormElement";
 import { ButtonProps } from "./Button";
 import { LocalizedObject } from "../Localization";
+import { Language } from "./LanguageSelector";
 
 var Select = require('react-select');
 var formStyles = require("./NodeEditor.scss");
@@ -177,8 +178,8 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorS
                         })
                     },
 
-                    updateLocalization: (uuid: string, language: string, values: any) => {
-                        this.props.context.eventHandler.onUpdateLocalization(uuid, language, values);
+                    updateLocalizations: (language: string, changes: { uuid: string, translations: any }[]) => {
+                        this.props.context.eventHandler.onUpdateLocalizations(language, changes);
                     },
 
                     updateAction: (action: Action) => {
@@ -204,12 +205,17 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorS
             buttons = this.state.temporaryButtons;
         }
 
+        var title = this.state.config.name;
+        if (this.props.localizations && this.props.localizations.length > 0) {
+            title = this.props.localizations[0].getLanguage().name + " Translation";
+        }
+
         return (
             <Modal
                 key={key}
                 className={shared[this.state.config.type]}
                 width="600px"
-                title={<div>{this.state.config.name}</div>}
+                title={<div>{title}</div>}
                 show={this.state.show}
                 buttons={buttons}
                 onModalOpen={this.onOpen}>
@@ -286,7 +292,7 @@ export interface NodeEditorFormProps {
     resetButtons(): void;
 
     onTypeChange(config: TypeConfig): void;
-    updateLocalization(uuid: string, language: string, translations: any): void;
+    updateLocalizations(language: string, changes: { uuid: string, translations: any }[]): void;
     updateAction(action: Action): void;
     updateRouter(node: Node, type: string, previousAction: Action): void;
 }
@@ -302,6 +308,10 @@ abstract class NodeEditorForm<S extends NodeEditorFormState> extends React.PureC
 
     private elements: { [name: string]: Widget } = {};
     private advancedWidgets: { [name: string]: boolean } = {};
+
+    public isTranslating() {
+        return this.props.localizations && this.props.localizations.length > 0;
+    }
 
     public getWidget(name: string): Widget {
         return this.elements[name];
@@ -455,6 +465,72 @@ export abstract class NodeActionForm<A extends Action> extends NodeEditorForm<No
 }
 
 export abstract class NodeRouterForm<R extends Router, S extends NodeEditorFormState> extends NodeEditorForm<S> {
+
+    renderExitTranslations(ref: any): JSX.Element {
+
+        // var cases: JSX.Element[] = [];
+        var exits: JSX.Element[] = [];
+
+        var language: Language;
+        if (this.props.localizations.length > 0) {
+            language = this.props.localizations[0].getLanguage();
+        }
+
+        if (!language) {
+            return null;
+        }
+
+        for (let exit of this.props.node.exits) {
+            var localized = this.props.localizations.find((localizedObject: LocalizedObject) => { return localizedObject.getObject().uuid == exit.uuid });
+            if (localized) {
+                var value = null;
+                if ("name" in localized.localizedKeys) {
+                    var localizedExit: Exit = localized.getObject();
+                    value = localizedExit.name;
+                }
+
+                exits.push(
+                    <div key={"translate_" + exit.uuid} className={formStyles.translating_exit}>
+                        <div className={formStyles.translating_from}>
+                            {exit.name}
+                        </div>
+                        <div className={formStyles.translating_to}>
+                            <TextInputElement ref={ref} name={exit.uuid} placeholder={language.name + " Translation"} showLabel={false} value={value} />
+                        </div>
+                    </div >
+                );
+            }
+        }
+
+        return (
+            <div>
+                <div className={formStyles.title}>Category Names</div>
+                <div className={formStyles.instructions}>When category names are referenced later in the flow, the appropriate language for the category will be used. If no translation is provided, the original text will be used.</div>
+                <div className={formStyles.translating_exits}>{exits}</div>
+            </div>
+        )
+    }
+
+    saveLocalizedExits() {
+        var exits = this.getLocalizedExits();
+        var language = this.props.localizations[0].getLanguage().iso
+        this.props.updateLocalizations(language, exits);
+    }
+
+    getLocalizedExits(): { uuid: string, translations: any }[] {
+        var results: { uuid: string, translations: any }[] = [];
+        for (let exit of this.props.node.exits) {
+            var input = this.getWidget(exit.uuid) as TextInputElement;
+            var value = input.state.value.trim();
+            if (value) {
+                results.push({ uuid: exit.uuid, translations: { name: value } })
+            } else {
+                results.push({ uuid: exit.uuid, translations: null });
+            }
+        }
+        return results;
+    }
+
     public getInitial(): R {
         if (this.props.node.router) {
             return this.props.node.router as R;

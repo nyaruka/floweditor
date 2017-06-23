@@ -60,9 +60,10 @@
 
 .translating {
     .body {
-        // box-shadow: 0 0 0 1px $translation_bg - #111 inset;
-        // background: $green + #222;
-        border: none; // color: $green;
+        box-shadow: 0 0 0 2px $translation_bg - #111 inset; // background: $green + #222;
+        //padding-left: 9px;
+        border-left: 1px solid $translation_bg - #111; // color: $green;
+        border-right: 1px solid $translation_bg - #111; // color: $green;
     }
 }
 

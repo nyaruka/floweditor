@@ -9,19 +9,7 @@
     &:first-child {
         border-left: none;
     }
-    &.missing_localization {
-        background: $translation_bg;
-        border: none;
-        box-shadow: 0 0 0 2px $translation_bg - #111 inset;
-        &:first-child {
-            border-left: none;
-        }
-        border-color: $translation_bg - #111;
-        color: $translation_text;
-        .name {
-            padding-top: 11px;
-            padding-bottom: 11px;
-        }
+    &.translating {
         .endpoint {
             position: relative;
             z-index: 1; //visibility: hidden;
@@ -29,6 +17,30 @@
             background: $translation_connector !important;
             border: 2px solid $translation_connector - #111 !important;
             top: 0px;
+        } // background: $translation_bg;
+        background: #fefefe;
+        box-shadow: 0 0 0 2px $translation_bg - #111 inset;
+        border: none; //box-shadow: 0 0 0 2px $green - #111 inset;
+        &:first-child {
+            border-left: none;
+        } // border-color: $green - #111;
+        color: $translation_text;
+        .name {
+            padding-top: 11px;
+            padding-bottom: 11px;
+        }
+    }
+    &.missing_localization {
+        background: $translation_bg;
+        border: none;
+        box-shadow: 0 0 0 2px $translation_bg - #111 inset;
+        &:first-child {
+            border-left: none;
+        } // border-color: $translation_bg - #111;
+        color: $translation_text;
+        .name {
+            padding-top: 11px;
+            padding-bottom: 11px;
         }
     }
     .name {

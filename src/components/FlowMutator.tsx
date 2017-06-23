@@ -60,7 +60,7 @@ export class FlowMutator {
         this.getGroups = this.getGroups.bind(this);
         this.disconnectExit = this.disconnectExit.bind(this);
         this.updateDimensions = this.updateDimensions.bind(this);
-        this.updateLocalization = this.updateLocalization.bind(this);
+        this.updateLocalizations = this.updateLocalizations.bind(this);
 
     }
 
@@ -260,7 +260,7 @@ export class FlowMutator {
         console.timeEnd("reflow");
     }
 
-    public updateLocalization(uuid: string, language: string, values: any) {
+    public updateLocalizations(language: string, changes: { uuid: string, translations: any }[]) {
 
         if (this.definition.localization == null) {
             this.definition.localization = {};
@@ -270,10 +270,12 @@ export class FlowMutator {
             this.definition.localization[language] = {};
         }
 
-        if (values) {
-            this.definition = update(this.definition, { localization: { [language]: { [uuid]: { $set: values } } } });
-        } else {
-            this.definition = update(this.definition, { localization: { [language]: { $unset: [uuid] } } });
+        for (let change of changes) {
+            if (change.translations) {
+                this.definition = update(this.definition, { localization: { [language]: { [change.uuid]: { $set: change.translations } } } });
+            } else {
+                this.definition = update(this.definition, { localization: { [language]: { $unset: [change.uuid] } } });
+            }
         }
 
         this.markDirty();

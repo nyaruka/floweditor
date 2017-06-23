@@ -174,22 +174,37 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     onClick(event?: any) {
 
         // console.log("Node.onClick");
-        if (!this.props.language) {
-            var action: Action = null;
+        var action: Action = null;
 
-            // click the last action in the list if we have one
-            if (this.props.node.actions && this.props.node.actions.length > 0) {
-                action = this.props.node.actions[this.props.node.actions.length - 1];
+        var localizations: LocalizedObject[] = [];
+
+        // click the last action in the list if we have one
+
+        if (this.props.language) {
+            if (this.props.node.router.type == "switch") {
+                var router = this.props.node.router as SwitchRouter;
+                for (let kase of router.cases) {
+                    localizations.push(Localization.translate(kase, this.props.language, this.props.translations));
+                }
             }
 
-            this.props.context.eventHandler.openEditor({
-                context: this.props.context,
-                node: this.props.node,
-                action: action,
-                actionsOnly: true,
-                nodeUI: this.props.ui
-            });
+            // add our exit localizations
+            for (let exit of this.props.node.exits) {
+                localizations.push(Localization.translate(exit, this.props.language, this.props.translations));
+            }
+
+        } else if (this.props.node.actions && this.props.node.actions.length > 0) {
+            action = this.props.node.actions[this.props.node.actions.length - 1];
         }
+
+        this.props.context.eventHandler.openEditor({
+            context: this.props.context,
+            node: this.props.node,
+            action: action,
+            actionsOnly: true,
+            nodeUI: this.props.ui,
+            localizations: localizations
+        });
 
     }
 

@@ -120,6 +120,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 
     render() {
         var classes: string[] = [styles.exit, "plumb-exit"]
+
         var confirm: JSX.Element = null;
 
         if (this.state.confirmDelete && this.props.exit.destination_node_uuid) {
@@ -133,6 +134,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 
         var exit = this.props.exit;
         if (this.props.localization) {
+            classes.push(styles.translating);
             exit = this.props.localization.getObject() as Exit;
             if (!("name" in this.props.localization.localizedKeys)) {
                 classes.push(styles.missing_localization);

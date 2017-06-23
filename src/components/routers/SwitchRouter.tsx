@@ -11,6 +11,7 @@ import { Node, SwitchRouter, Exit, Case, UINode, Action } from '../../FlowDefini
 
 import { DragDropContext } from 'react-dnd';
 import { NodeRouterForm, NodeEditorFormProps, NodeEditorFormState } from "../NodeEditor";
+import { Language } from "../LanguageSelector";
 
 
 let HTML5Backend = require('react-dnd-html5-backend');
@@ -259,102 +260,159 @@ export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterS
         })
     }
 
-    renderForm(ref: any): JSX.Element {
-        var cases: JSX.Element[] = [];
-        var needsEmpty = true;
-        if (this.state.cases) {
-            this.state.cases.map((c: CaseProps, index: number) => {
+    renderTranslationForm(ref: any): JSX.Element {
 
-                // is this case empty?
-                if ((!c.exitName || c.exitName.trim().length == 0) && (!c.kase.arguments || c.kase.arguments[0].trim().length == 0)) {
-                    needsEmpty = false;
+        var cases: JSX.Element[] = [];
+        var exits: JSX.Element[] = [];
+
+        var language: Language;
+        if (this.props.localizations.length > 0) {
+            language = this.props.localizations[0].getLanguage();
+        }
+
+        if (!language) {
+            return null;
+        }
+
+        for (let item of this.props.localizations) {
+            var localizedObject = item.getObject();
+
+            // bit of a hack here to type crack for exit
+            if ('destination_node_uuid' in localizedObject) {
+                var exit = localizedObject as Exit
+                var value = null;
+                if ("name" in item.localizedKeys) {
+                    value = exit.name;
                 }
 
-                cases.push(<CaseElement
-                    key={c.kase.uuid}
-                    kase={c.kase}
-                    ref={ref}
-                    name={"case_" + index}
-                    exitName={c.exitName}
-                    onRemove={this.onCaseRemoved.bind(this)}
-                    onChanged={this.onCaseChanged.bind(this)}
-                    moveCase={this.moveCase.bind(this)}
-                />);
-            });
-        }
+                exits.push(
+                    <div key={"translate_" + exit.uuid} className={styles.translating_exit}>
+                        <div className={styles.translating_from}>
+                            {exit.name}
+                        </div>
+                        <div className={styles.translating_to}>
+                            <TextInputElement ref={ref} name={exit.uuid} placeholder={language.name + " Translation"} showLabel={false} value={value} />
+                        </div>
+                    </div >
+                );
+            } else {
+                var kase = localizedObject as Case
+                // console.log(kase.arguments[0]);
+            }
 
-        if (needsEmpty) {
-            var newCaseUUID = UUID.v4()
-            cases.push(<CaseElement
-                kase={{
-                    uuid: newCaseUUID,
-                    type: "has_any_word",
-                    exit_uuid: null
-                }}
-
-                key={newCaseUUID}
-                ref={ref}
-                name={"case_" + cases.length}
-                exitName={null}
-                onRemove={this.onCaseRemoved.bind(this)}
-                moveCase={this.moveCase.bind(this)}
-                onChanged={this.onCaseChanged.bind(this)}
-
-            />);
-        }
-
-        var nameField = null;
-        if (this.state.setResultName || this.state.resultName) {
-            nameField = <TextInputElement
-                ref={ref}
-                name="Result Name"
-                showLabel={true}
-                value={this.state.resultName}
-                helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
-            />
-        } else {
-            nameField = <span className={styles.save_link} onClick={this.onShowNameField.bind(this)}>Save as..</span>
-        }
-
-        var leadIn = null;
-
-        if (this.props.config.type == "wait_for_response") {
-            leadIn = (
-                <div className={styles.instructions}>
-                    If the message response..
-                </div>
-            );
-        }
-
-        else if (this.props.config.type == "expression") {
-            leadIn = (
-                <div className={styles.instructions}>
-                    <p>If the expression..</p>
-                    <TextInputElement
-                        ref={ref}
-                        key={"expression_" + this.props.node.uuid}
-                        name="Expression"
-                        showLabel={false}
-                        value={this.state.operand}
-                        onChange={this.onExpressionChanged}
-                        autocomplete
-                        required
-                    />
-                </div>
-            )
+            //localizedObject.uuid
         }
 
         return (
-            <div className={styles.switch}>
-                {leadIn}
-                <div className={styles.cases}>
-                    {cases}
-                </div>
-                <div className={styles.save_as}>
-                    {nameField}
-                </div>
+            <div>
+                <div>{cases}</div>
+                <div className={styles.translating_exits}>{exits}</div>
+                <div style={{ clear: "both" }}></div>
             </div>
         )
+    }
+
+    renderForm(ref: any): JSX.Element {
+
+        if (this.isTranslating()) {
+            return this.renderExitTranslations(ref);
+        } else {
+            var cases: JSX.Element[] = [];
+            var needsEmpty = true;
+            if (this.state.cases) {
+                this.state.cases.map((c: CaseProps, index: number) => {
+
+                    // is this case empty?
+                    if ((!c.exitName || c.exitName.trim().length == 0) && (!c.kase.arguments || c.kase.arguments[0].trim().length == 0)) {
+                        needsEmpty = false;
+                    }
+
+                    cases.push(<CaseElement
+                        key={c.kase.uuid}
+                        kase={c.kase}
+                        ref={ref}
+                        name={"case_" + index}
+                        exitName={c.exitName}
+                        onRemove={this.onCaseRemoved.bind(this)}
+                        onChanged={this.onCaseChanged.bind(this)}
+                        moveCase={this.moveCase.bind(this)}
+                    />);
+                });
+            }
+
+            if (needsEmpty) {
+                var newCaseUUID = UUID.v4()
+                cases.push(<CaseElement
+                    kase={{
+                        uuid: newCaseUUID,
+                        type: "has_any_word",
+                        exit_uuid: null
+                    }}
+
+                    key={newCaseUUID}
+                    ref={ref}
+                    name={"case_" + cases.length}
+                    exitName={null}
+                    onRemove={this.onCaseRemoved.bind(this)}
+                    moveCase={this.moveCase.bind(this)}
+                    onChanged={this.onCaseChanged.bind(this)}
+
+                />);
+            }
+
+            var nameField = null;
+            if (this.state.setResultName || this.state.resultName) {
+                nameField = <TextInputElement
+                    ref={ref}
+                    name="Result Name"
+                    showLabel={true}
+                    value={this.state.resultName}
+                    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+                />
+            } else {
+                nameField = <span className={styles.save_link} onClick={this.onShowNameField.bind(this)}>Save as..</span>
+            }
+
+            var leadIn = null;
+
+            if (this.props.config.type == "wait_for_response") {
+                leadIn = (
+                    <div className={styles.instructions}>
+                        If the message response..
+                </div>
+                );
+            }
+
+            else if (this.props.config.type == "expression") {
+                leadIn = (
+                    <div className={styles.instructions}>
+                        <p>If the expression..</p>
+                        <TextInputElement
+                            ref={ref}
+                            key={"expression_" + this.props.node.uuid}
+                            name="Expression"
+                            showLabel={false}
+                            value={this.state.operand}
+                            onChange={this.onExpressionChanged}
+                            autocomplete
+                            required
+                        />
+                    </div>
+                )
+            }
+
+            return (
+                <div className={styles.switch}>
+                    {leadIn}
+                    <div className={styles.cases}>
+                        {cases}
+                    </div>
+                    <div className={styles.save_as}>
+                        {nameField}
+                    </div>
+                </div>
+            )
+        }
     }
 
     moveCase(dragIndex: number, hoverIndex: number) {
@@ -372,6 +430,10 @@ export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterS
     }
 
     onValid() {
+        if (this.isTranslating()) {
+            return this.saveLocalizedExits();
+        }
+
         const { cases, exits, defaultExit } = resolveExits(this.state.cases, this.props.node);
         var optionalRouter = {}
         var resultNameEle = this.getWidget("Result Name") as TextInputElement;

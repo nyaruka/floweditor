@@ -11,6 +11,10 @@ import { ComponentMap } from "../ComponentMap";
 export class SubflowForm extends NodeRouterForm<SwitchRouter, SwitchRouterState> {
 
     renderForm(ref: any): JSX.Element {
+        if (this.isTranslating()) {
+            return this.renderExitTranslations(ref);
+        }
+
         var flow_name, flow_uuid: string = null;
         if (this.props.action) {
             var action = this.props.action;
@@ -34,7 +38,6 @@ export class SubflowForm extends NodeRouterForm<SwitchRouter, SwitchRouterState>
                 />
             </div>
         )
-
     }
 
     getUUID(): string {
@@ -45,6 +48,10 @@ export class SubflowForm extends NodeRouterForm<SwitchRouter, SwitchRouterState>
     }
 
     onValid(): void {
+        if (this.isTranslating()) {
+            return this.saveLocalizedExits();
+        }
+
         var select = this.getWidget("Flow") as FlowElement;
         var flow = select.state.flow;
 

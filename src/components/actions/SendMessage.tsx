@@ -31,14 +31,13 @@ export class SendMessageForm extends NodeActionForm<SendMessage> {
         var translation = null;
 
         var localizedObject = this.getLocalizedObject();
+        var placeholder = null;
         if (localizedObject) {
+            placeholder = localizedObject.getLanguage().name + " Translation";
             translation = (
                 <div className={styles.translation}>
                     <div className={styles.translate_from}>
                         {text}
-                    </div>
-                    <div className={styles.translate_to}>
-                        {localizedObject.getLanguage().name} Translation
                     </div>
                 </div>
             )
@@ -53,7 +52,7 @@ export class SendMessageForm extends NodeActionForm<SendMessage> {
         return (
             <div>
                 {translation}
-                <TextInputElement ref={ref} name="Message" showLabel={false} value={text} autocomplete required={localizedObject == null} textarea />
+                <TextInputElement ref={ref} name="Message" showLabel={false} value={text} placeholder={placeholder} autocomplete required={localizedObject == null} textarea />
             </div>
         )
     }
@@ -65,9 +64,9 @@ export class SendMessageForm extends NodeActionForm<SendMessage> {
         if (localizedObject) {
             var translation = textarea.state.value.trim();
             if (translation) {
-                this.props.updateLocalization(this.props.action.uuid, localizedObject.getLanguage().iso, { text: textarea.state.value });
+                this.props.updateLocalizations(localizedObject.getLanguage().iso, [{ uuid: this.props.action.uuid, translations: { text: textarea.state.value } }]);
             } else {
-                this.props.updateLocalization(this.props.action.uuid, localizedObject.getLanguage().iso, null);
+                this.props.updateLocalizations(localizedObject.getLanguage().iso, [{ uuid: this.props.action.uuid, translations: null }]);
             }
 
         } else {
