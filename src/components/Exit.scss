@@ -3,14 +3,51 @@
     font-size: 13px;
     text-align: center;
     border-left: 1px solid $borders;
-    padding-top: 8px;
-    padding-left: 4px;
-    padding-right: 8px;
     min-width: 60px;
     display: table-cell;
     white-space: nowrap;
     &:first-child {
         border-left: none;
+    }
+    &.translating {
+        .endpoint {
+            position: relative;
+            z-index: 1; //visibility: hidden;
+            visibility: hidden; //margin-top: -5px;
+            background: $translation_connector !important;
+            border: 2px solid $translation_connector - #111 !important;
+            top: 0px;
+        } // background: $translation_bg;
+        background: #fefefe;
+        box-shadow: 0 0 0 2px $translation_bg - #111 inset;
+        border: none; //box-shadow: 0 0 0 2px $green - #111 inset;
+        &:first-child {
+            border-left: none;
+        } // border-color: $green - #111;
+        color: $translation_text;
+        .name {
+            padding-top: 11px;
+            padding-bottom: 11px;
+        }
+    }
+    &.missing_localization {
+        background: $translation_bg;
+        border: none;
+        box-shadow: 0 0 0 2px $translation_bg - #111 inset;
+        &:first-child {
+            border-left: none;
+        } // border-color: $translation_bg - #111;
+        color: $translation_text;
+        .name {
+            padding-top: 11px;
+            padding-bottom: 11px;
+        }
+    }
+    .name {
+        padding-left: 8px;
+        padding-right: 8px;
+        padding-top: 8px;
+        padding-bottom: 14px;
     }
     .activity {
         float: left;
@@ -46,6 +83,7 @@
         top: 6px;
         -webkit-box-sizing: content-box !important;
         box-sizing: content-box !important;
+        margin-top: -14px;
     }
     &.confirm_delete {
         .activity {

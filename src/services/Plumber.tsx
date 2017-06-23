@@ -75,11 +75,15 @@ export class Plumber {
             start: (event: any) => start(event),
             drag: (event: DragEvent) => drag(event),
             stop: (event: DragEvent) => stop(event),
-            canDrag: () => { beforeDrag(); return true; },
+            canDrag: () => { return beforeDrag(); },
             containment: true,
             consumeFilteredEvents: false,
             consumeStartEvent: false
         });
+    }
+
+    setSourceEnabled(uuid: string, enabled: boolean) {
+        this.jsPlumb.setSourceEnabled(uuid, enabled);
     }
 
     makeSource(uuid: string) {
@@ -90,8 +94,8 @@ export class Plumber {
         this.jsPlumb.makeTarget(uuid, this.targetDefaults);
     }
 
-    connectExit(exit: Exit, confirmDelete: boolean) {
-        this.connect(exit.uuid, exit.destination_node_uuid, confirmDelete ? "confirm_delete" : null);
+    connectExit(exit: Exit, className: string = null) {
+        this.connect(exit.uuid, exit.destination_node_uuid, className);
     }
 
     setDragSelection(nodes: Node[]) {

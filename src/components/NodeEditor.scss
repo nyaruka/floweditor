@@ -1,3 +1,4 @@
+@import '../variables.scss';
 $inner_spacing: 15px;
 .advanced_buttons {
     position: absolute;
@@ -12,6 +13,16 @@ $inner_spacing: 15px;
     .hide_advanced_button {
         display: none;
     }
+}
+
+.title {
+    font-weight: 400;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.instructions {
+    padding-bottom: 12px;
 }
 
 .primary_form {
@@ -57,4 +68,36 @@ $inner_spacing: 15px;
 
 .header {
     margin-bottom: $inner_spacing;
+}
+
+.translating_exits {
+    clear: both;
+}
+
+.translating_exit {
+    clear: both;
+    margin-bottom: 6px;
+}
+
+.translating_from {
+    clear: both;
+    background: $translation_bg;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 9px;
+    border: 2px solid $translation_bg - #111;
+    display: inline-block;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0px;
+    margin-right: 10px;
+}
+
+.translating_to {
+    display: inline-block;
+    overflow: hidden;
+    width: 346px;
 }

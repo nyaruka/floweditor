@@ -348,6 +348,14 @@
       }
     ],
     "_ui": {
+      "languages": [
+        {
+          "eng": "English"
+        },
+        {
+          "spa": "Spanish"
+        }
+      ],
       "nodes": {
         "04909396-7d7c-4be3-bd6a-567ea89a96f9": {
           "position": {

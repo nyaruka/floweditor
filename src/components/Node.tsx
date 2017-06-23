@@ -19,6 +19,7 @@ import { Node, Position, SwitchRouter, Action, UINode, Exit } from '../FlowDefin
 import { CounterComp } from "./Counter";
 import { ActivityManager } from "../services/ActivityManager";
 import { ComponentMap } from "./ComponentMap";
+import { LocalizedObject, Localization } from "../Localization";
 
 var styles = require("./Node.scss");
 var shared = require("./shared.scss");
@@ -41,7 +42,8 @@ export interface NodeProps {
     node: Node;
     context: FlowContext;
     ui: UINode;
-    external: External;
+    translations: { [uuid: string]: any };
+    language: string;
     ghost?: boolean;
 }
 
@@ -64,6 +66,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     onDragStart(event: any) {
         this.clicking = false;
         this.setState({ dragging: true });
+        return false;
     }
 
     onDrag(event: DragEvent) { }
@@ -82,6 +85,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState): boolean {
+
         if (nextProps.ui.position.x != this.props.ui.position.x || nextProps.ui.position.y != this.props.ui.position.y) {
             return true;
         }
@@ -97,7 +101,14 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             },
             (event: DragEvent) => { this.onDrag.bind(this)(event) },
             (event: DragEvent) => { this.onDragStop.bind(this)(event); },
-            () => { this.props.context.eventHandler.onNodeBeforeDrag(this.props.node, this.dragGroup); }
+            () => {
+                if (this.isMutable()) {
+                    this.props.context.eventHandler.onNodeBeforeDrag(this.props.node, this.dragGroup);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         );
 
         // make ourselves a target
@@ -151,7 +162,9 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
             if (!this.props.ui.dimensions || (this.props.ui.dimensions.width != this.ele.clientWidth ||
                 this.props.ui.dimensions.height != this.ele.clientHeight)) {
-                this.updateDimensions();
+                if (!this.props.language) {
+                    this.updateDimensions();
+                }
             }
         } else {
             Plumber.get().recalculate(this.props.node.uuid);
@@ -163,8 +176,24 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         // console.log("Node.onClick");
         var action: Action = null;
 
+        var localizations: LocalizedObject[] = [];
+
         // click the last action in the list if we have one
-        if (this.props.node.actions && this.props.node.actions.length > 0) {
+
+        if (this.props.language) {
+            if (this.props.node.router.type == "switch") {
+                var router = this.props.node.router as SwitchRouter;
+                for (let kase of router.cases) {
+                    localizations.push(Localization.translate(kase, this.props.language, this.props.translations));
+                }
+            }
+
+            // add our exit localizations
+            for (let exit of this.props.node.exits) {
+                localizations.push(Localization.translate(exit, this.props.language, this.props.translations));
+            }
+
+        } else if (this.props.node.actions && this.props.node.actions.length > 0) {
             action = this.props.node.actions[this.props.node.actions.length - 1];
         }
 
@@ -173,7 +202,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             node: this.props.node,
             action: action,
             actionsOnly: true,
-            nodeUI: this.props.ui
+            nodeUI: this.props.ui,
+            localizations: localizations
         });
 
     }
@@ -186,31 +216,46 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         this.props.context.eventHandler.onRemoveNode(this.props.node);
     }
 
+    private isMutable(): boolean {
+        return this.props.language == null;
+    }
+
     render() {
         var classes = ["plumb-drag", styles.node];
+
+        if (this.props.language) {
+            classes.push(styles.translating);
+        }
+
         var actions: JSX.Element[] = [];
         var actionList = null;
         if (this.props.node.actions) {
             // save the first reference off to manage our clicks
             var firstRef: any = { ref: (ele: any) => { this.firstAction = ele } };
-            var first = true;
-            for (let action of this.props.node.actions) {
+            this.props.node.actions.map((action: Action, idx: number) => {
                 let actionConfig = Config.get().getTypeConfig(action.type);
                 if (actionConfig.component != null) {
+
+                    var localization: LocalizedObject;
+                    if (this.props.translations) {
+                        localization = Localization.translate(action, this.props.language, this.props.translations)
+                    }
 
                     var actionProps: ActionProps = {
                         action: action,
                         dragging: this.state.dragging,
                         context: this.props.context,
                         node: this.props.node,
-                        first: first,
+                        first: idx == 0,
+                        hasRouter: this.props.node.router != null,
+                        localization: localization
                     };
 
                     actions.push(React.createElement(actionConfig.component, { key: action.uuid, ...actionProps, ...firstRef }));
                 }
-                first = false;
                 firstRef = {};
-            }
+            });
+
 
             actionList = (
                 <FlipMove enterAnimation="fade" leaveAnimation="fade" className={styles.actions} duration={300} easing="ease-out">
@@ -251,12 +296,16 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             if (!this.props.node.actions || this.props.node.actions.length == 0) {
                 header = (
                     <div {...events}>
-                        <TitleBar className={shared[config.type]} onRemoval={this.onRemoval.bind(this)} title={title} />
+                        <TitleBar className={shared[config.type]} showRemoval={!this.props.language} onRemoval={this.onRemoval.bind(this)} title={title} />
                     </div>
                 )
             }
         } else {
-            addActions = <a className={styles.add} onClick={() => { this.props.context.eventHandler.onAddAction(this.props.node) }}><span className="icon-add" /></a>
+
+            // don't show add actions option if we are translating
+            if (this.isMutable()) {
+                addActions = <a className={styles.add} onClick={() => { this.props.context.eventHandler.onAddAction(this.props.node) }}><span className="icon-add" /></a>
+            }
         }
 
         var exits: JSX.Element[] = []
@@ -266,6 +315,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                     <ExitComp
                         exit={exit}
                         key={exit.uuid}
+                        localization={Localization.translate(exit, this.props.language, this.props.translations)}
                         onDisconnect={this.props.context.eventHandler.onDisconnectExit}
                     />
                 );
@@ -289,6 +339,17 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             exitClass = styles.actions;
         }
 
+        var dragLink = null;
+        if (this.isMutable()) {
+            dragLink = (
+                <a title="Drag to move all nodes below here" className={styles.drag_group}
+                    onMouseOver={() => { this.dragGroup = true; }}
+                    onMouseOut={() => { this.dragGroup = false; }}>
+                    <span className="icon-link" />
+                </a>
+            );
+        }
+
         var activity = ActivityManager.get();
         // console.log("Rendering " + this.props.node.uuid, this.props.ui.position);
         return (
@@ -299,11 +360,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                     left: this.props.ui.position.x,
                     top: this.props.ui.position.y
                 }}>
-                <a title="Drag to move all nodes below here" className={styles.drag_group}
-                    onMouseOver={() => { this.dragGroup = true; }}
-                    onMouseOut={() => { this.dragGroup = false; }}>
-
-                    <span className="icon-link" /></a>
+                {dragLink}
                 <CounterComp
                     ref={activity.registerListener}
                     getCount={() => { return activity.getActiveCount(this.props.node.uuid) }}

@@ -60,6 +60,7 @@ export class FlowMutator {
         this.getGroups = this.getGroups.bind(this);
         this.disconnectExit = this.disconnectExit.bind(this);
         this.updateDimensions = this.updateDimensions.bind(this);
+        this.updateLocalizations = this.updateLocalizations.bind(this);
 
     }
 
@@ -256,11 +257,29 @@ export class FlowMutator {
 
         }, 100);
 
-
-
         console.timeEnd("reflow");
     }
 
+    public updateLocalizations(language: string, changes: { uuid: string, translations: any }[]) {
+
+        if (this.definition.localization == null) {
+            this.definition.localization = {};
+        }
+
+        if (!this.definition.localization[language]) {
+            this.definition.localization[language] = {};
+        }
+
+        for (let change of changes) {
+            if (change.translations) {
+                this.definition = update(this.definition, { localization: { [language]: { [change.uuid]: { $set: change.translations } } } });
+            } else {
+                this.definition = update(this.definition, { localization: { [language]: { $unset: [change.uuid] } } });
+            }
+        }
+
+        this.markDirty();
+    }
 
     public updateDimensions(node: Node, dimensions: Dimensions) {
         var ui = this.getNodeUI(node.uuid);
@@ -305,7 +324,6 @@ export class FlowMutator {
      */
     private spliceInRouter(node: Node, type: string, previousAction: Action): Node {
         var previousNode = this.getNode(node.uuid);
-        console.log("previousAction:", previousAction);
         var details = this.components.getDetails(previousAction.uuid);
 
         // we need to splice a wait node where our previousAction was
@@ -582,8 +600,6 @@ export class FlowMutator {
                     uuid: UUID.v4()
                 }]
             };
-
-            console.log("Adding start node", node);
             this.addNode(node, { position: { x: 0, y: 0 } });
         }
     }
@@ -634,6 +650,7 @@ export class FlowMutator {
     updateNodeUI(uuid: string, changes: any) {
         this.definition = update(this.definition, { _ui: { nodes: { [uuid]: changes } } });
         this.markReflow();
+        this.markDirty();
     }
 
     public removeNode(props: Node) {

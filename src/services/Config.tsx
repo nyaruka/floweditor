@@ -8,6 +8,7 @@ import { SendEmailComp, SendEmailForm } from '../components/actions/SendEmail';
 import { SwitchRouterForm } from '../components/routers/SwitchRouter';
 import { SubflowForm } from "../components/routers/Subflow";
 import { WebhookForm } from "../components/routers/Webhook";
+import { External } from "./External";
 
 export interface Endpoints {
     fields: string;
@@ -44,18 +45,22 @@ export class Config {
     private typeConfigMap: { [type: string]: TypeConfig } = {};
     private actionTypes: TypeConfig[];
     public endpoints: Endpoints;
+    public external: External;
+    public languages: { [iso: string]: string };
 
     static get(): Config {
         return Config.singleton;
     }
 
-    static initialize(endpoints: Endpoints) {
-        Config.singleton = new Config(endpoints);
+    static initialize(config: FlowEditorConfig) {
+        Config.singleton = new Config(config);
     }
 
-    private constructor(endpoints: Endpoints) {
+    private constructor(config: FlowEditorConfig) {
 
-        this.endpoints = endpoints;
+        this.endpoints = config.endpoints;
+        this.external = new External(this.endpoints);
+        this.languages = config.languages;
 
         // create a mapping for quick lookups
         for (let typeConfig of this.typeConfigs) {

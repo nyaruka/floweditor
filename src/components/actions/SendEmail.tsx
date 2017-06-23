@@ -8,8 +8,11 @@ import { NodeActionForm } from "../NodeEditor";
 var styles = require('./SendEmail.scss');
 
 export class SendEmailComp extends ActionComp<SendEmail> {
+
+    // localizedKeys = ["subject", "body"];
     renderNode(): JSX.Element {
-        return <div>{this.getAction().subject}</div>
+        var action = this.getAction();
+        return <div>{action.subject}</div>
     }
 }
 

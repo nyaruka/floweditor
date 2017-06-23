@@ -8,7 +8,6 @@
     .normal {
         padding: 3px 0;
         border: 0px solid green;
-        padding-left: 14px;
     }
     .remove_confirm {
         position: absolute;
@@ -16,7 +15,6 @@
         border: 0px solid #c14c46;
         background: #c14c46;
         padding: 3px 0px;
-        padding-left: 13px;
         width: 100%;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -26,12 +24,13 @@
         }
     }
     .remove_button {
-        float: right;
+        position: absolute;
         padding-right: 4px;
         visibility: hidden;
         font-size: 15px;
         line-height: 12px;
         width: 20px;
+        right: 0;
     }
     .up_button {
         // float: left;

@@ -5,13 +5,12 @@ import { External, FlowDetails } from '../services/External';
 import { FlowLoader } from './FlowLoader';
 import { FlowList } from './FlowList';
 import { Flow } from './Flow';
-import { Endpoints } from '../services/Config';
+import { Endpoints, Config } from '../services/Config';
 
 var styles = require("./Editor.scss");
 
 interface EditorProps {
-    endpoints: Endpoints;
-    flowUUID: string;
+    config: FlowEditorConfig;
 }
 
 interface EditorState {
@@ -27,10 +26,11 @@ export class Editor extends React.PureComponent<EditorProps, EditorState> {
 
     constructor(props: EditorProps) {
         super(props);
-        this.external = new External(this.props.endpoints);
         this.state = {
-            flowUUID: this.props.flowUUID
+            flowUUID: this.props.config.flow
         }
+
+        Config.initialize(this.props.config);
     }
 
     private onFlowSelect(uuid: string) {
@@ -43,17 +43,13 @@ export class Editor extends React.PureComponent<EditorProps, EditorState> {
         if (this.state.flowUUID) {
             flow = <FlowLoader
                 key={this.state.flowUUID}
-                endpoints={this.props.endpoints}
                 uuid={this.state.flowUUID}
-                external={this.external}
             />
         } else {
             var newUUID = UUID.v4()
             flow = <FlowLoader
                 key={newUUID}
-                endpoints={this.props.endpoints}
                 uuid={newUUID}
-                external={this.external}
             />
 
         }

@@ -21,59 +21,7 @@ axios.default.defaults.headers.post['Content-Type'] = 'application/javascript';
 axios.default.defaults.responseType = 'json';
 
 var parms = qs.parse(window.location.search);
-var flowURL = parms.flow
-if (flowURL == null) {
-    flowURL = 'test_flows/lots_of_action.json';
-}
-
-var token = null;
-var site = null;
-
-if (parms.rapid) {
-    token = parms.rapid;
-    site = "rapid";
-}
-
-if (parms.textit) {
-    token = parms.textit;
-    site = "textit";
-}
-
-if (parms.resist) {
-    token = parms.resist;
-    site = "resist";
-}
-
-if (parms.local) {
-    token = parms.local;
-    site = "local";
-}
-
-if (parms.reset) {
-    FlowStore.get().reset();
-}
-
-var fields = root.getAttribute("fields");
-var contacts = root.getAttribute("contacts");
-var groups = root.getAttribute("groups");
-var engine = root.getAttribute("engine");
-var flows = root.getAttribute("flows");
-var activity = root.getAttribute("activity");
-var flowUUID = root.getAttribute("flow");
-
-var endpoints: Endpoints = {
-    engine: engine ? engine : 'http://localhost:9000',
-    contacts: contacts ? contacts : 'http://localhost:9000/assets/contacts.json',
-    groups: groups ? groups : 'http://localhost:9000/assets/groups.json',
-    fields: fields ? fields : 'http://localhost:9000/assets/fields.json',
-    flows: flows ? flows : 'http://localhost:9000/assets/flows.json',
-    activity: activity ? activity : 'http://localhost:9000/assets/activity.json'
-}
-
 ReactDOM.render(
-    <Editor
-        endpoints={endpoints}
-        flowUUID={flowUUID}
-    />,
+    <Editor config={__flow_editor_config__} />,
     document.getElementById("flow-editor")
 );

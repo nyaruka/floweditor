@@ -1,3 +1,4 @@
+@import '../../variables.scss';
 .instructions {
     margin-bottom: 9px;
 }
@@ -16,4 +17,48 @@ $case_height: 29px;
 .save_as {
     width: 100%;
     padding-top: 10px;
+}
+
+.translating_case {
+    margin-bottom: 6px;
+}
+
+.translating_operator {
+    display: inline-block;
+    overflow: hidden;
+    width: 160px;
+    padding: 10px;
+}
+
+.translating_from {
+    clear: both;
+    background: $translation_bg;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 9px;
+    border: 2px solid $translation_bg - #111;
+    display: inline-block;
+    width: 156px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0px;
+    margin-right: 10px;
+}
+
+.translating_to {
+    display: inline-block;
+    overflow: hidden;
+    width: 226px;
+}
+
+.title {
+    font-weight: 400;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.instructions {
+    padding-bottom: 12px;
 }

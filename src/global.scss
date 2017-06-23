@@ -119,18 +119,6 @@ body {
     .plumb-drop-hover {
         box-shadow: 0 0 2px 1px $hover;
     }
-    .plumb-drag.jtk-drag {
-        //box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, .1);
-        //z-index: $z_dragging;
-        .jtk-endpoint-anchor,
-        .jtk-droppable {
-            // visibility: hidden !important;
-        }
-        .plumb-exit {
-            //padding-top: 12px;
-            //padding-bottom: 6px;
-        }
-    }
     .plumb-endpoint-hover {
         cursor: pointer;
     }
@@ -139,6 +127,11 @@ body {
 svg.confirm_delete path {
     stroke: $red;
     fill: $red;
+}
+
+svg.translating path {
+    stroke: $translation_connector;
+    fill: $translation_connector;
 }
 
 .clearfix {

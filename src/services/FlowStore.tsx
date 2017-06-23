@@ -25,11 +25,13 @@ export class FlowStore {
         } else {
             return {
                 name: "New Flow",
+                language: null,
                 uuid: uuid,
                 nodes: [],
                 localization: null,
                 _ui: {
-                    nodes: {}
+                    nodes: {},
+                    languages: {}
                 }
             }
         }
