@@ -19,6 +19,7 @@ import { Node, Position, SwitchRouter, Action, UINode, Exit } from '../FlowDefin
 import { CounterComp } from "./Counter";
 import { ActivityManager } from "../services/ActivityManager";
 import { ComponentMap } from "./ComponentMap";
+import { LocalizedObject } from "../Localization";
 
 var styles = require("./Node.scss");
 var shared = require("./shared.scss");
@@ -41,6 +42,7 @@ export interface NodeProps {
     node: Node;
     context: FlowContext;
     ui: UINode;
+    translations: any;
     language: string;
     ghost?: boolean;
 }
@@ -83,6 +85,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState): boolean {
+
         if (nextProps.ui.position.x != this.props.ui.position.x || nextProps.ui.position.y != this.props.ui.position.y) {
             return true;
         }
@@ -159,7 +162,9 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
             if (!this.props.ui.dimensions || (this.props.ui.dimensions.width != this.ele.clientWidth ||
                 this.props.ui.dimensions.height != this.ele.clientHeight)) {
-                this.updateDimensions();
+                if (!this.props.language) {
+                    this.updateDimensions();
+                }
             }
         } else {
             Plumber.get().recalculate(this.props.node.uuid);
@@ -216,6 +221,11 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 let actionConfig = Config.get().getTypeConfig(action.type);
                 if (actionConfig.component != null) {
 
+                    var localization: LocalizedObject;
+                    if (this.props.translations) {
+                        localization = this.props.context.localization.translate(action, this.props.language, this.props.translations)
+                    }
+
                     var actionProps: ActionProps = {
                         action: action,
                         dragging: this.state.dragging,
@@ -223,7 +233,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                         node: this.props.node,
                         first: idx == 0,
                         hasRouter: this.props.node.router != null,
-                        localization: this.props.context.localization.getTranslations(action, this.props.language)
+                        localization: localization
                     };
 
                     actions.push(React.createElement(actionConfig.component, { key: action.uuid, ...actionProps, ...firstRef }));

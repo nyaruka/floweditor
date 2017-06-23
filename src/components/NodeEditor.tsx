@@ -9,6 +9,7 @@ import { FlowContext } from "./Flow";
 import { FormWidget, FormValueState } from "./form/FormWidget";
 import { FormElementProps } from "./form/FormElement";
 import { ButtonProps } from "./Button";
+import { LocalizedObject } from "../Localization";
 
 var Select = require('react-select');
 var formStyles = require("./NodeEditor.scss");
@@ -20,6 +21,8 @@ export interface NodeEditorProps {
 
     nodeUI?: UINode;
     actionsOnly: boolean;
+
+    localizations?: LocalizedObject[];
 
     context: FlowContext;
 
@@ -160,6 +163,7 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorS
                     node: this.props.node,
                     action: this.props.action,
                     onTypeChange: this.onTypeChange,
+                    localizations: this.props.localizations,
 
                     resetButtons: () => {
                         this.setState({
@@ -171,6 +175,10 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorS
                         this.setState({
                             temporaryButtons: buttons
                         })
+                    },
+
+                    updateLocalization: (uuid: string, language: string, values: any) => {
+                        this.props.context.eventHandler.onUpdateLocalization(uuid, language, values);
                     },
 
                     updateAction: (action: Action) => {
@@ -270,6 +278,7 @@ abstract class Widget extends FormWidget<FormElementProps, FormValueState> { }
 export interface NodeEditorFormProps {
     config: TypeConfig;
     node: Node;
+    localizations?: LocalizedObject[];
     action?: Action;
 
     // allow forms to modify the buttons on our modal
@@ -277,6 +286,7 @@ export interface NodeEditorFormProps {
     resetButtons(): void;
 
     onTypeChange(config: TypeConfig): void;
+    updateLocalization(uuid: string, language: string, translations: any): void;
     updateAction(action: Action): void;
     updateRouter(node: Node, type: string, previousAction: Action): void;
 }
@@ -396,10 +406,15 @@ abstract class NodeEditorForm<S extends NodeEditorFormState> extends React.PureC
             )
         }
 
+        var chooser = null;
+        if (!this.props.localizations || this.props.localizations.length == 0) {
+            chooser = <TypeChooser className={formStyles.type_chooser} initialType={this.props.config} onChange={this.props.onTypeChange} />
+        }
+
         return (
             <div className={classes.join(" ")}>
                 {advButtons}
-                <TypeChooser className={formStyles.type_chooser} initialType={this.props.config} onChange={this.props.onTypeChange} />
+                {chooser}
                 <div key={"primary"} className={formStyles.primary_form}>
                     {this.renderForm(this.addWidget.bind(this))}
                 </div>
@@ -413,6 +428,12 @@ abstract class NodeEditorForm<S extends NodeEditorFormState> extends React.PureC
 
 export abstract class NodeActionForm<A extends Action> extends NodeEditorForm<NodeEditorFormState> {
     private actionUUID: string;
+
+    public getLocalizedObject(): LocalizedObject {
+        if (this.props.localizations && this.props.localizations.length == 1) {
+            return this.props.localizations[0];
+        }
+    }
 
     public getInitial(): A {
         if (this.props.action) {

@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as axios from "axios";
 import * as UUID from 'uuid';
+import * as shallowCompare from 'react-addons-shallow-compare';
+
 import { FlowContext } from './Flow';
 import { Node, Action, SwitchRouter } from '../FlowDefinition';
 import { Plumber } from '../services/Plumber';
@@ -43,6 +45,7 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
 
     getAction(): A {
         var action = this.props.action;
+
         if (this.props.localization) {
             action = this.props.localization.getObject() as A;
         }
@@ -57,15 +60,19 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
         event.preventDefault();
         event.stopPropagation();
 
-        if (!this.props.localization) {
-            this.props.context.eventHandler.openEditor({
-                context: this.props.context,
-                node: this.props.node,
-                action: this.props.action,
-                actionsOnly: true,
-                nodeUI: null
-            });
+        var localizations: LocalizedObject[] = [];
+        if (this.props.localization) {
+            localizations.push(this.props.localization);
         }
+
+        this.props.context.eventHandler.openEditor({
+            context: this.props.context,
+            node: this.props.node,
+            action: this.props.action,
+            actionsOnly: true,
+            nodeUI: null,
+            localizations: localizations
+        });
     }
 
     componentDidUpdate(prevProps: ActionProps, prevState: ActionProps) {
@@ -109,6 +116,7 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
         }
 
         if (this.props.localization) {
+            classes.push(styles.translating);
 
             if (this.localizedKeys.length == 0) {
                 classes.push(styles.not_localizable);

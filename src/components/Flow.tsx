@@ -27,6 +27,7 @@ export interface FlowContext {
 export interface FlowEventHandler {
     onUpdateAction(node: Node, action: Action): void;
     onUpdateRouter(node: Node, type: string, previousAction?: Action): void;
+    onUpdateLocalization(uuid: string, language: string, values: any): void;
     onUpdateDimensions(node: Node, dimensions: Dimensions): void;
 
     onNodeBeforeDrag(node: Node, dragGroup: boolean): void;
@@ -112,6 +113,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                 eventHandler: {
                     onUpdateAction: this.onUpdateAction,
                     onUpdateRouter: this.onUpdateRouter,
+                    onUpdateLocalization: this.props.mutator.updateLocalization,
                     onUpdateDimensions: this.props.mutator.updateDimensions,
 
                     onNodeBeforeDrag: this.onNodeBeforeDrag,
@@ -413,8 +415,13 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
     render() {
 
         var language = null;
+        var translations: any;
         if (this.state.language) {
             language = this.state.language.iso;
+            translations = this.props.definition.localization[language];
+            if (!translations) {
+                translations = {}
+            }
         }
 
         var definition = this.props.definition;
@@ -425,7 +432,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var nodes: JSX.Element[] = [];
         for (let node of definition.nodes) {
             var ui = definition._ui.nodes[node.uuid];
-            nodes.push(<NodeComp key={node.uuid} node={node} ui={ui} context={this.state.context} language={language} />);
+            nodes.push(<NodeComp key={node.uuid} node={node} ui={ui} context={this.state.context} language={language} translations={translations} />);
         }
 
         var dragNode = null;
@@ -445,6 +452,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                 key={ghost.uuid}
                 ref={(ele) => { this.ghostComp = ele }}
                 language={null}
+                translations={null}
                 node={ghost}
                 context={this.state.context}
                 ui={ui}

@@ -9,7 +9,7 @@ var styles = require('./SendEmail.scss');
 
 export class SendEmailComp extends ActionComp<SendEmail> {
 
-    localizedKeys = ["subject", "body"];
+    // localizedKeys = ["subject", "body"];
     renderNode(): JSX.Element {
         var action = this.getAction();
         return <div>{action.subject}</div>

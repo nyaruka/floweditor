@@ -60,6 +60,7 @@ export class FlowMutator {
         this.getGroups = this.getGroups.bind(this);
         this.disconnectExit = this.disconnectExit.bind(this);
         this.updateDimensions = this.updateDimensions.bind(this);
+        this.updateLocalization = this.updateLocalization.bind(this);
 
     }
 
@@ -256,11 +257,27 @@ export class FlowMutator {
 
         }, 100);
 
-
-
         console.timeEnd("reflow");
     }
 
+    public updateLocalization(uuid: string, language: string, values: any) {
+
+        if (this.definition.localization == null) {
+            this.definition.localization = {};
+        }
+
+        if (!this.definition.localization[language]) {
+            this.definition.localization[language] = {};
+        }
+
+        if (values) {
+            this.definition = update(this.definition, { localization: { [language]: { [uuid]: { $set: values } } } });
+        } else {
+            this.definition = update(this.definition, { localization: { [language]: { $unset: [uuid] } } });
+        }
+
+        this.markDirty();
+    }
 
     public updateDimensions(node: Node, dimensions: Dimensions) {
         var ui = this.getNodeUI(node.uuid);
@@ -631,6 +648,7 @@ export class FlowMutator {
     updateNodeUI(uuid: string, changes: any) {
         this.definition = update(this.definition, { _ui: { nodes: { [uuid]: changes } } });
         this.markReflow();
+        this.markDirty();
     }
 
     public removeNode(props: Node) {
