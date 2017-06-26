@@ -273,11 +273,13 @@ export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterS
         var router = this.getInitial();
         for (let kase of router.cases) {
             var input = this.getWidget(kase.uuid) as TextInputElement;
-            var value = input.state.value.trim();
-            if (value) {
-                results.push({ uuid: kase.uuid, translations: { arguments: [value] } })
-            } else {
-                results.push({ uuid: kase.uuid, translations: null });
+            if (input) {
+                var value = input.state.value.trim();
+                if (value) {
+                    results.push({ uuid: kase.uuid, translations: { arguments: [value] } })
+                } else {
+                    results.push({ uuid: kase.uuid, translations: null });
+                }
             }
         }
         return results;
@@ -329,6 +331,11 @@ export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterS
                     }
                 }
             }
+
+            if (kases.length == 0) {
+                return null;
+            }
+
             return (
                 <div>
                     <div className={styles.title}>Rules</div>

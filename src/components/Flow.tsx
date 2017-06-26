@@ -418,7 +418,9 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var translations: { [uuid: string]: any };
         if (this.state.language) {
             language = this.state.language.iso;
-            translations = this.props.definition.localization[language];
+            if (this.props.definition.localization) {
+                translations = this.props.definition.localization[language];
+            }
             if (!translations) {
                 translations = {}
             }
