@@ -5,7 +5,7 @@
     "type": "git",
     "url": "git://github.com/nyaruka/floweditor.git"
   },
-  "version": "1.0.4",
+  "version": "1.0.5",
   "scripts": {
     "test": "karma start --env=dev",
     "start": "webpack-dev-server --env=dev --progress --colors --debug=5858",
