@@ -7,7 +7,7 @@
   },
   "version": "1.0.8",
   "scripts": {
-    "test": "karma start --env=dev --single-run",
+    "test": "karma start --env=dev --single-run --browsers PhantomJS",
     "start": "webpack-dev-server --env=dev --progress --colors --debug=5858",
     "test:watch": "karma start --env=dev",
     "build:dev": "webpack --env=dev --progress --profile --colors",

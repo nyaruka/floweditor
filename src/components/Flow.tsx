@@ -465,7 +465,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var simulator = null;
         if (Config.get().endpoints.engine) {
             simulator = <Simulator
-                flowUUID={this.props.definition.uuid}
+                flow={this.props.definition}
                 showDefinition={this.onShowDefinition}
             />
         }

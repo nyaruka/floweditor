@@ -23,7 +23,7 @@ interface Message {
 }
 
 interface SimulatorProps {
-    flowUUID: string;
+    flow: FlowDefinition;
     showDefinition(definition: FlowDefinition): void;
 }
 
@@ -253,7 +253,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             },
             channel: UUID.v4(),
         }
-        this.currentFlow = this.props.flowUUID;
+        this.currentFlow = this.props.flow.uuid;
 
         var config = Config.get();
         this.external = config.external;
@@ -351,8 +351,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             }
         }, () => {
 
-            this.external.getFlow(this.props.flowUUID, true).then((details: FlowDetails) => {
-                this.flows = [details.definition].concat(details.dependencies)
+            this.external.getFlow(this.props.flow.uuid, true).then((details: FlowDetails) => {
+                this.flows = [this.props.flow].concat(details.dependencies)
                 var body: any = {
                     flows: this.flows,
                     contact: this.state.contact,
@@ -378,8 +378,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             return;
         }
 
-        this.external.getFlow(this.props.flowUUID, true).then((details: FlowDetails) => {
-            this.flows = [details.definition].concat(details.dependencies)
+        this.external.getFlow(this.props.flow.uuid, true).then((details: FlowDetails) => {
+            this.flows = [this.props.flow].concat(details.dependencies)
             var body: any = {
                 flows: this.flows,
                 session: this.state.session,
