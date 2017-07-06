@@ -1,6 +1,6 @@
 {
   "name": "flow2",
-  "license": "AGPL-1.0",
+  "license": "AGPL-3.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/nyaruka/floweditor.git"
@@ -10,11 +10,7 @@
     "test": "karma start --env=dev",
     "start": "webpack-dev-server --env=dev --progress --colors --debug=5858",
     "build:dev": "webpack --env=dev --progress --profile --colors",
-    "build:prod": "webpack --env=prod --progress --profile --colors",
-    "private:flowbase": "npm run build:prod && mkdir -p ../flowbase/static/floweditor && cp package.json ./dist/package.json && cp -Rf ./dist/* ../flowbase/static/floweditor/",
-    "patch": "npm version patch && npm run private:flowbase",
-    "minor": "npm version minor && npm run private:flowbase",
-    "major": "npm version minor && npm run private:flowbase"
+    "build:prod": "webpack --env=prod --progress --profile --colors"
   },
   "devDependencies": {
     "@types/chai": "^3.4.35",
