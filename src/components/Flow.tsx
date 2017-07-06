@@ -493,9 +493,14 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             classes.push(styles.translation);
         }
 
+        var languageSelector = null;
+        if (Config.get().languages) {
+            languageSelector = <LanguageSelectorComp iso={language} onChange={this.showLanguage} />
+        }
+
         return (
             <div className={classes.join(" ")}>
-                <LanguageSelectorComp iso={language} onChange={this.showLanguage} />
+                {languageSelector}
                 {simulator}
                 <div key={definition.uuid} className={styles.flow}>
                     <div className={styles.node_list}>
