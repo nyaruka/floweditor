@@ -31,16 +31,19 @@ export class LocalizedObject {
     }
 
     // We use explicit any here to make this generic across all actions,
-    // note this means we'll attempt to set any propertiy in our localization
-    // dictionary regardless of the action type
-    addTranslation(key: string, value: string) {
+    // note this means we'll attempt to set any property in our localization
+    // dictionary regardless of the object type
+    addTranslation(key: string, value: any) {
 
-        // localization shouldn't side-affect the original action
+        // localization shouldn't side-affect the original object
         if (!this.localized) {
             this.localizedObject = Object.assign({}, this.localizedObject);
             this.localized = true;
         }
 
+        if (((this.localizedObject as any)[key]).constructor.name == "String") {
+            value = value[0]
+        }
         (this.localizedObject as any)[key] = value;
         this.localizedKeys[key] = true;
     }

@@ -64,7 +64,7 @@ export class SendMessageForm extends NodeActionForm<SendMessage> {
         if (localizedObject) {
             var translation = textarea.state.value.trim();
             if (translation) {
-                this.props.updateLocalizations(localizedObject.getLanguage().iso, [{ uuid: this.props.action.uuid, translations: { text: textarea.state.value } }]);
+                this.props.updateLocalizations(localizedObject.getLanguage().iso, [{ uuid: this.props.action.uuid, translations: { text: [textarea.state.value] } }]);
             } else {
                 this.props.updateLocalizations(localizedObject.getLanguage().iso, [{ uuid: this.props.action.uuid, translations: null }]);
             }

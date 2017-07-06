@@ -523,7 +523,7 @@ export abstract class NodeRouterForm<R extends Router, S extends NodeEditorFormS
             var input = this.getWidget(exit.uuid) as TextInputElement;
             var value = input.state.value.trim();
             if (value) {
-                results.push({ uuid: exit.uuid, translations: { name: value } })
+                results.push({ uuid: exit.uuid, translations: { name: [value] } })
             } else {
                 results.push({ uuid: exit.uuid, translations: null });
             }
