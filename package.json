@@ -10,7 +10,8 @@
     "test": "karma start --env=dev",
     "start": "webpack-dev-server --env=dev --progress --colors --debug=5858",
     "build:dev": "webpack --env=dev --progress --profile --colors",
-    "build:prod": "webpack --env=prod --progress --profile --colors"
+    "build:prod": "webpack --env=prod --progress --profile --colors",
+    "preversion": "npm test && npm run build:prod"
   },
   "devDependencies": {
     "@types/chai": "^3.4.35",
