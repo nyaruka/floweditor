@@ -12,7 +12,9 @@
     "test:watch": "karma start --env=dev",
     "build:dev": "webpack --env=dev --progress --profile --colors",
     "build:prod": "webpack --env=prod --progress --profile --colors",
-    "preversion": "npm test && npm run build:prod"
+    "preversion": "npm test",
+    "version": "npm run build:prod",
+    "postversion": "git push && git push --tags"
   },
   "devDependencies": {
     "@types/chai": "^3.4.35",
