@@ -7,8 +7,9 @@
   },
   "version": "1.0.6",
   "scripts": {
-    "test": "karma start --env=dev",
+    "test": "karma start --env=dev --single-run",
     "start": "webpack-dev-server --env=dev --progress --colors --debug=5858",
+    "test:watch": "karma start --env=dev",
     "build:dev": "webpack --env=dev --progress --profile --colors",
     "build:prod": "webpack --env=prod --progress --profile --colors",
     "preversion": "npm test && npm run build:prod"
