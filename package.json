@@ -14,7 +14,7 @@
     "build:prod": "webpack --env=prod --progress --profile --colors",
     "preversion": "npm test",
     "version": "npm run build:prod",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags && npm publish"
   },
   "devDependencies": {
     "@types/chai": "^3.4.35",
