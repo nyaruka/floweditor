@@ -70,6 +70,8 @@ export class ActivityManager {
                 Config.get().external.getActivity(this.flowUUID).then((activity: Activity) => {
                     this.activity = activity;
                     this.notifyListeners();
+                }).catch(() => {
+                    // ignore missing activity
                 });
 
                 this.fetchActivity(REFRESH_SECONDS * 1000);

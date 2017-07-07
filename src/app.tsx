@@ -1,5 +1,5 @@
 var root = document.getElementById("flow-editor");
-var publicPath = root.getAttribute("path");
+var publicPath = __flow_editor_config__.path;
 if (publicPath) {
     __webpack_public_path__ = publicPath;
 }

@@ -37,12 +37,15 @@ export class External {
      */
     public getActivity(flowUUID: string): Promise<Activity> {
         return new Promise<Activity>((resolve, reject) => {
-            axios.get(this.endpoints.activity + "?flow=" + flowUUID, { headers: this.headers }).then((response: AxiosResponse) => {
-                resolve(response.data as Activity);
-            }).catch((error) => {
-                reject(error);
-            });
-
+            if (this.endpoints.activity) {
+                axios.get(this.endpoints.activity + "?flow=" + flowUUID, { headers: this.headers }).then((response: AxiosResponse) => {
+                    resolve(response.data as Activity);
+                }).catch((error) => {
+                    reject(error);
+                });
+            } else {
+                reject();
+            }
         });
     }
 
