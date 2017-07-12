@@ -98,7 +98,7 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
         var newHeaders = update(this.state.headers, { $splice: [[header.props.index, 1]] });
         this.addEmptyHeader(newHeaders);
         this.setState({ headers: newHeaders });
-        this.props.removeWidget(header);
+        this.props.removeWidget(header.props.name);
     }
 
     onHeaderChanged(ele: HeaderElement) {
@@ -126,6 +126,10 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
     public onUpdateForm(widgets: { [name: string]: Widget }) {
         if (this.props.advanced) {
             var methodEle = widgets["Method"] as SelectElement;
+            if (methodEle.state.value == "GET") {
+                this.props.removeWidget("Body")
+            }
+
             this.setState({
                 method: methodEle.state.value
             })
@@ -164,7 +168,7 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
 
         if (this.state.method == "POST") {
             postForm = (
-                <div>
+                <div className={styles.post_body_form}>
                     <h4>POST Body</h4>
                     <p>Modify the body that is sent as part of your POST.</p>
                     <TextInputElement className={styles.post_body} ref={ref} name="Body" showLabel={false} value={postBody} helpText="Modify the body of the POST sent to your webhook." autocomplete textarea required />
@@ -175,8 +179,9 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
             <div>
                 <h4 className={styles.headers_title}>Headers</h4>
                 <p>Add any additional headers belows that you would like to send along with your request.</p>
-                <FlipMove enterAnimation="fade" leaveAnimation="fade" className={styles.actions} duration={300} easing="ease-out">
+                <FlipMove easing="ease-out" enterAnimation="accordionVertical" leaveAnimation="accordionVertical" className={styles.headers} duration={300}>
                     {headerElements}
+                    <div style={{ height: "25px" }} />
                 </FlipMove>
                 {postForm}
             </div>
@@ -399,12 +404,6 @@ export class HeaderElement extends FormWidget<HeaderElementProps, HeaderElementS
                 errors.push("HTTP headers must have a name");
             }
         }
-
-        if (this.state.errors.length == 0 && errors.length == 0) {
-            return true;
-        }
-
-        console.log("Setting state: ", this.state.errors.length, errors.length);
 
         this.setState({ errors: errors });
         return errors.length == 0;

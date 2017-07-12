@@ -68,8 +68,9 @@ export interface UpdateContact extends Action {
     value: string;
 }
 
-export interface SendMessage extends Action {
+export interface Reply extends Action {
     text: string;
+    all_urns?: boolean;
 }
 
 export interface SetLanguage extends Action {

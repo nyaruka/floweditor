@@ -90,7 +90,7 @@ export class Config {
     public typeConfigs: TypeConfig[] = [
 
         // actions
-        { type: "reply", name: "Send Message", description: "Send them a message", form: SendMessageForm, component: SendMessageComp },
+        { type: "reply", name: "Send Message", description: "Send them a message", form: SendMessageForm, component: SendMessageComp, hasAdvanced: true },
         // { type: "msg", name: "Send Message", description: "Send somebody else a message", form: SendMessageForm, component: SendMessage },
 
         { type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: ChangeGroupForm, component: ChangeGroupComp },
