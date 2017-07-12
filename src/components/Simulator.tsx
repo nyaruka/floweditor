@@ -197,7 +197,7 @@ class LogEvent extends React.Component<Event, LogEventState> {
                     <div className={classes.join(" ")} onClick={this.showDetails}>{text}</div>
                     <Modal
                         className={styles["detail_" + this.props.type]}
-                        title={<div>{detailTitle}</div>}
+                        title={[<div>{detailTitle}</div>]}
                         show={this.state.detailsVisible}
                         buttons={{
                             primary: {

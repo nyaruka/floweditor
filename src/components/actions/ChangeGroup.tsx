@@ -4,7 +4,7 @@ import { ActionComp, ActionProps } from '../Action';
 import { SearchResult, ComponentMap } from '../ComponentMap';
 import { GroupElement } from '../form/GroupElement';
 import { ChangeGroup } from '../../FlowDefinition';
-import { NodeActionForm } from "../NodeEditor";
+import { NodeActionForm, Widget } from "../NodeEditor";
 import { Config } from "../../services/Config";
 
 
@@ -40,9 +40,9 @@ export class ChangeGroupForm extends NodeActionForm<ChangeGroup> {
         )
     }
 
-    onValid() {
+    onValid(widgets: { [name: string]: Widget }) {
 
-        var groupEle = this.getWidget("Group") as any;
+        var groupEle = widgets["Group"] as any;
         var group = groupEle.state.groups[0];
 
         if (group) {

@@ -10,7 +10,7 @@ import { Config } from '../../services/Config';
 import { Node, SwitchRouter, Exit, Case, UINode, Action } from '../../FlowDefinition';
 
 import { DragDropContext } from 'react-dnd';
-import { NodeRouterForm, NodeEditorFormProps, NodeEditorFormState } from "../NodeEditor";
+import { NodeRouterForm, NodeEditorFormProps, NodeEditorFormState, Widget } from "../NodeEditor";
 import { Language } from "../LanguageSelector";
 import { LocalizedObject } from "../../Localization";
 
@@ -261,18 +261,18 @@ export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterS
         })
     }
 
-    saveLocalization() {
-        var updates = this.getLocalizedExits();
+    saveLocalization(widgets: { [name: string]: Widget }) {
+        var updates = this.getLocalizedExits(widgets);
         var language = this.props.localizations[0].getLanguage().iso
-        updates = updates.concat(this.getLocalizedCases());
+        updates = updates.concat(this.getLocalizedCases(widgets));
         this.props.updateLocalizations(language, updates);
     }
 
-    getLocalizedCases(): { uuid: string, translations: any }[] {
+    getLocalizedCases(widgets: { [name: string]: Widget }): { uuid: string, translations: any }[] {
         var results: { uuid: string, translations: any }[] = [];
         var router = this.getInitial();
         for (let kase of router.cases) {
-            var input = this.getWidget(kase.uuid) as TextInputElement;
+            var input = widgets[kase.uuid] as TextInputElement;
             if (input) {
                 var value = input.state.value.trim();
                 if (value) {
@@ -464,14 +464,14 @@ export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterS
         }));
     }
 
-    onValid() {
+    onValid(widgets: { [name: string]: Widget }) {
         if (this.isTranslating()) {
-            return this.saveLocalization();
+            return this.saveLocalization(widgets);
         }
 
         const { cases, exits, defaultExit } = resolveExits(this.state.cases, this.props.node);
         var optionalRouter = {}
-        var resultNameEle = this.getWidget("Result Name") as TextInputElement;
+        var resultNameEle = widgets["Result Name"] as TextInputElement;
         if (resultNameEle) {
             optionalRouter = {
                 result_name: resultNameEle.state.value

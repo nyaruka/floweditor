@@ -6,6 +6,7 @@ import { Button, ButtonProps } from './Button';
 import { Config } from '../services/Config';
 
 var styles = require('./Modal.scss');
+var shared = require('./shared.scss');
 
 export interface ButtonSet {
     primary: ButtonProps;
@@ -17,19 +18,38 @@ interface ModalProps {
     show: boolean;
     buttons: ButtonSet;
 
+    advanced?: JSX.Element;
     onModalOpen?: any;
     className?: string;
-    title: JSX.Element;
+    title: JSX.Element[];
     width?: string;
+}
+
+interface ModalState {
+    flipped: boolean
 }
 
 /**
  * A base modal for displaying messages or performing single button actions
  */
-export class Modal extends React.Component<ModalProps, {}> {
+export class Modal extends React.Component<ModalProps, ModalState> {
 
     constructor(props: ModalProps) {
         super(props);
+        this.toggleFlip = this.toggleFlip.bind(this);
+        this.state = {
+            flipped: false
+        }
+    }
+
+    public toggleFlip() {
+        this.setState({ flipped: !this.state.flipped });
+    }
+
+    componentWillReceiveProps(nextProps: ModalProps) {
+        if (this.props.show != nextProps.show && !nextProps.show) {
+            this.setState({ flipped: false });
+        }
     }
 
     render() {
@@ -65,6 +85,62 @@ export class Modal extends React.Component<ModalProps, {}> {
         }
 
         // closeTimeoutMS={200}
+
+        var topStyle = styles.container;
+        if (this.state.flipped) {
+            topStyle += " " + styles.flipped
+        }
+
+        var children = React.Children.toArray(this.props.children);
+        var hasAdvanced = children.length > 1 && children[1] != null;
+
+        var sides = children.map((child: React.ReactChild, i: number) => {
+
+            var classes = [styles.side];
+            var title = this.props.title[i];
+            if (i == 0) {
+                classes.push(styles.front);
+            } else {
+                title = <div><div className={styles.background + " icon-settings"} /><div style={{ marginLeft: "40px" }}>{title}</div></div>
+                classes.push(styles.back);
+            }
+
+            if (child == null) {
+                return null;
+            }
+
+            var flip = null;
+            if (hasAdvanced) {
+                if (i == 0) {
+                    flip = <div className={styles.show_back} onClick={this.toggleFlip}><span className="icon-settings" /></div>
+                } else {
+                    flip = <div className={styles.show_front} onClick={this.toggleFlip}><span className="icon-back" /></div>
+                }
+            }
+
+            return (
+                <div key={"modal_side_" + i} className={classes.join(" ")}>
+                    <div className={styles.modal}>
+                        <div className={styles.header + " " + this.props.className + " " + shared["modal_side_" + i]}>
+                            {flip}
+                            {title}
+                        </div>
+                        <div className={styles.content}>
+                            {child}
+                        </div>
+                        <div className={styles.footer}>
+                            <div className={styles.left}>
+                                {leftButtons}
+                            </div>
+                            <div className={styles.right}>
+                                {rightButtons}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
+        });
+
         return (
             <ReactModal
                 isOpen={this.props.show}
@@ -72,24 +148,9 @@ export class Modal extends React.Component<ModalProps, {}> {
                 onRequestClose={buttons.secondary ? buttons.secondary.onClick : null}
                 style={customStyles}
                 shouldCloseOnOverlayClick={false}
-                contentLabel="Modal"
-            >
-
-                <div className={styles.modal}>
-                    <div className={styles["modal-header"] + " " + this.props.className}>
-                        {this.props.title}
-                    </div>
-                    <div className={styles["modal-content"]}>
-                        {this.props.children}
-                    </div>
-                    <div className={styles["modal-footer"]}>
-                        <div className={styles.left}>
-                            {leftButtons}
-                        </div>
-                        <div className={styles.right}>
-                            {rightButtons}
-                        </div>
-                    </div>
+                contentLabel="Modal">
+                <div className={topStyle}>
+                    {sides}
                 </div>
             </ReactModal>
         )

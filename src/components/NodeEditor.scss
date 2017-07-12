@@ -1,20 +1,5 @@
 @import '../variables.scss';
 $inner_spacing: 15px;
-.advanced_buttons {
-    position: absolute;
-    top: 16px;
-    right: 20px;
-    cursor: pointer;
-    color: #fff;
-    font-size: 26px;
-    .show_advanced_button {
-        display: block;
-    }
-    .hide_advanced_button {
-        display: none;
-    }
-}
-
 .title {
     font-weight: 400;
     font-size: 18px;
@@ -25,34 +10,6 @@ $inner_spacing: 15px;
     padding-bottom: 12px;
 }
 
-.primary_form {
-    display: block;
-    margin-bottom: $inner_spacing;
-}
-
-.advanced_form {
-    display: none;
-    margin-bottom: $inner_spacing;
-}
-
-.advanced {
-    .type_chooser {
-        display: none;
-    }
-    .show_advanced_button {
-        display: none;
-    }
-    .hide_advanced_button {
-        display: block;
-    }
-    .primary_form {
-        display: none;
-    }
-    .advanced_form {
-        display: block;
-    }
-}
-
 .node_editor {
     padding-left: 20px;
     padding-top: 20px;
@@ -60,10 +17,16 @@ $inner_spacing: 15px;
     font-size: 14px;
     font-weight: 300;
     line-height: 15px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
 }
 
 .type_chooser {
     margin-bottom: $inner_spacing;
+}
+
+.advanced {
+    background: #fefefe;
 }
 
 .header {

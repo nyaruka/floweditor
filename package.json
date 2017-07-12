@@ -8,7 +8,7 @@
   "version": "1.1.0",
   "scripts": {
     "test": "karma start --env=dev --single-run --browsers PhantomJS",
-    "start": "webpack-dev-server --env=dev --progress --colors --debug=5858",
+    "start": "webpack-dev-server --env=dev --progress --colors",
     "test:watch": "karma start --env=dev",
     "build:dev": "webpack --env=dev --progress --profile --colors",
     "build:prod": "webpack --env=prod --progress --profile --colors",
@@ -93,8 +93,8 @@
     "url-join": "^2.0.2",
     "url-loader": "^0.5.8",
     "uuid": "^3.0.1",
-    "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.4.1",
+    "webpack": "^2.7.0",
+    "webpack-dev-server": "^2.5.1",
     "webpack-merge": "^4.1.0",
     "xregexp": "^3.2.0"
   }

@@ -23,10 +23,12 @@ export interface TypeConfig {
     type: string;
     name: string;
     description: string;
+
+    hasAdvanced?: boolean;
     aliases?: string[];
 
-    form: { new (props: any): any };
-    component?: { new (props: any): any };
+    form: { new(props: any): any };
+    component?: { new(props: any): any };
 }
 
 export interface Operator {
@@ -101,12 +103,12 @@ export class Config {
         // {type: "set_preferred_channel", name: "Set Preferred Channel", description: "Set their preferred channel", component: Missing},
 
         // hybrids
-        { type: "call_webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: WebhookComp, aliases: ["webhook"] },
+        { type: "call_webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: WebhookComp, hasAdvanced: true, aliases: ["webhook"] },
         { type: "start_flow", name: "Run Flow", description: "Run another flow", form: SubflowForm, component: StartFlowComp, aliases: ["subflow"] },
 
         // routers
         { type: "expression", name: "Split by Expression", description: "Split by a custom expression", form: SwitchRouterForm },
-        { type: "wait_for_response", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm, aliases: ["switch"] },
+        { type: "wait_for_response", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm, hasAdvanced: true, aliases: ["switch"] },
         // {type: "random", name: "Random Split", description: "Split them up randomly", form: RandomRouterForm}
     ]
 

@@ -13,6 +13,7 @@ import { ActivityManager } from "../services/ActivityManager";
 import { NodeEditor, NodeEditorProps } from "./NodeEditor";
 import { LanguageSelectorComp, Language } from "./LanguageSelector";
 import { Localization } from "../Localization";
+import * as FlipMove from 'react-flip-move';
 
 var update = require('immutability-helper');
 var UUID = require('uuid');
@@ -193,7 +194,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             context: this.state.context,
             node: addToNode,
             action: newAction,
-            actionsOnly: true,
+            actionsOnly: true
         });
 
         this.addToNode = addToNode;
@@ -505,8 +506,8 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                 <div key={definition.uuid} className={styles.flow}>
                     <div className={styles.node_list}>
                         {nodes}
-                        {dragNode}
                     </div>
+                    {dragNode}
                     {modal}
                 </div>
             </div>

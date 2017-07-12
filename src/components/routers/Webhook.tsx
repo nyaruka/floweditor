@@ -10,7 +10,7 @@ import { TextInputElement, HTMLTextElement } from '../form/TextInputElement';
 
 import { FormElement, FormElementProps } from '../form/FormElement';
 import { FormWidget, FormValueState } from '../form/FormWidget';
-import { NodeRouterForm, NodeEditorFormProps } from "../NodeEditor";
+import { NodeRouterForm, NodeEditorFormProps, Widget } from "../NodeEditor";
 import { ComponentMap } from "../ComponentMap";
 
 var forms = require('../form/FormElement.scss');
@@ -71,7 +71,6 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
         this.addEmptyHeader(headers);
 
         this.state = {
-            showAdvanced: false,
             resultName: null,
             setResultName: false,
             cases: [],
@@ -99,6 +98,7 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
         var newHeaders = update(this.state.headers, { $splice: [[header.props.index, 1]] });
         this.addEmptyHeader(newHeaders);
         this.setState({ headers: newHeaders });
+        this.props.removeWidget(header);
     }
 
     onHeaderChanged(ele: HeaderElement) {
@@ -120,6 +120,16 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
 
     onMethodChanged(method: { value: string, label: string }) {
         this.setState({ method: method.value });
+        this.props.triggerFormUpdate();
+    }
+
+    public onUpdateForm(widgets: { [name: string]: Widget }) {
+        if (this.props.advanced) {
+            var methodEle = widgets["Method"] as SelectElement;
+            this.setState({
+                method: methodEle.state.value
+            })
+        }
     }
 
     renderAdvanced(ref: any): JSX.Element {
@@ -151,6 +161,7 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
         });
 
         var postForm = null;
+
         if (this.state.method == "POST") {
             postForm = (
                 <div>
@@ -160,13 +171,10 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
                 </div>
             )
         }
-
-
-
         return (
             <div>
-                <h4>Headers</h4>
-                <p>Add any additional headers below that you would like to send along with your request.</p>
+                <h4 className={styles.headers_title}>Headers</h4>
+                <p>Add any additional headers belows that you would like to send along with your request.</p>
                 <FlipMove enterAnimation="fade" leaveAnimation="fade" className={styles.actions} duration={300} easing="ease-out">
                     {headerElements}
                 </FlipMove>
@@ -183,7 +191,6 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
         var method = "GET";
         var url = "";
 
-
         var nodeUUID = this.props.node.uuid;
 
         if (this.props.action) {
@@ -197,9 +204,9 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
 
         var summary = null;
         if (this.state.method == "GET") {
-            summary = <span>If you need to, you can also <a href="#" onClick={this.showAdvanced.bind(this)}>modify the headers</a> for your request. </span>
+            summary = <span>If you need to, you can also <a href="#" onClick={this.props.onToggleAdvanced}>modify the headers</a> for your request. </span>
         } else {
-            summary = <span>If you need to, you can also <a href="#" onClick={this.showAdvanced.bind(this)}>modify the headers and body</a> for your request. </span>
+            summary = <span>If you need to, you can also <a href="#" onClick={this.props.onToggleAdvanced}>modify the headers and body</a> for your request. </span>
         }
 
         return (
@@ -212,7 +219,6 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
                 <div className={styles.url}>
                     <TextInputElement ref={ref} name="URL" placeholder="Enter a URL" value={url} autocomplete required url />
                 </div>
-
 
                 <div className={styles.instructions}>
                     <p>{summary}If your server responds with JSON, each property will be added to the Flow.</p>
@@ -233,36 +239,40 @@ export class WebhookForm extends NodeRouterForm<WebhookProps, WebhookState> {
         return UUID.v4();
     }
 
-    onValid(): void {
+    onValid(widgets: { [name: string]: Widget }): void {
 
         if (this.isTranslating()) {
-            return this.saveLocalizedExits();
+            return this.saveLocalizedExits(widgets);
         }
 
         var method = "GET";
         var body = null;
 
-        var methodEle = this.getWidget("Method") as SelectElement;
-        var urlEle = this.getWidget("URL") as TextInputElement;
+        var methodEle = widgets["Method"] as SelectElement;
+        var urlEle = widgets["URL"] as TextInputElement;
 
         if (methodEle.state.value) {
             method = methodEle.state.value;
         }
 
         if (method == "POST") {
-            var bodyEle = this.getWidget("Body") as TextInputElement;
+            var bodyEle = widgets["Body"] as TextInputElement;
             body = bodyEle.state.value
         }
 
         // go through any headers we have
         var headers: { [name: string]: string } = {}
-
-        this.state.headers.map((header: Header, index: number) => {
-            const { name, value, uuid } = header;
-            if (name.trim().length > 0) {
-                headers[name] = value;
+        var header: HeaderElement = null;
+        for (let key of Object.keys(widgets)) {
+            if (key.startsWith("header_")) {
+                header = widgets[key] as HeaderElement;
+                var name = header.state.name.trim();
+                var value = header.state.value.trim();
+                if (name.length > 0) {
+                    headers[name] = value;
+                }
             }
-        });
+        }
 
         var newAction: Webhook = {
             uuid: this.getUUID(),
@@ -389,6 +399,13 @@ export class HeaderElement extends FormWidget<HeaderElementProps, HeaderElementS
                 errors.push("HTTP headers must have a name");
             }
         }
+
+        if (this.state.errors.length == 0 && errors.length == 0) {
+            return true;
+        }
+
+        console.log("Setting state: ", this.state.errors.length, errors.length);
+
         this.setState({ errors: errors });
         return errors.length == 0;
     }
