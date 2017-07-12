@@ -150,7 +150,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
 
             // if we have arguments, we need an exit name
             if (this.hasArguments()) {
-                if (!this.category.state.value) {
+                if (!this.category || !this.category.state.value) {
                     errors.push("A category name is required.");
                 }
             }
@@ -181,6 +181,10 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
                     }
                 }
             }
+        }
+
+        if (this.state.errors.length == 0 && errors.length == 0) {
+            return true;
         }
 
         this.setState({ errors: errors });

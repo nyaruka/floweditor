@@ -7,7 +7,7 @@ import { SaveToContact, UpdateContact } from '../../FlowDefinition';
 import { ActionComp } from '../Action';
 import { FieldElement } from '../form/FieldElement';
 import { TextInputElement } from '../form/TextInputElement';
-import { NodeActionForm } from "../NodeEditor";
+import { NodeActionForm, Widget } from "../NodeEditor";
 import { Config } from "../../services/Config";
 
 
@@ -106,10 +106,10 @@ export class SaveToContactForm extends NodeActionForm<SaveToContact> {
         )
     }
 
-    onValid() {
+    onValid(widgets: { [name: string]: Widget }) {
 
-        var fieldEle = this.getWidget("Field") as FieldElement;
-        var valueEle = this.getWidget("Value") as TextInputElement;
+        var fieldEle = widgets["Field"] as FieldElement;
+        var valueEle = widgets["Value"] as TextInputElement;
 
         var field = fieldEle.state.field;
 

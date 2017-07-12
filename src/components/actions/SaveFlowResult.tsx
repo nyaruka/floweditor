@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ActionComp } from "../Action";
 import { SaveFlowResult } from "../../FlowDefinition";
 import { TextInputElement } from "../form/TextInputElement";
-import { NodeActionForm } from "../NodeEditor";
+import { NodeActionForm, Widget } from "../NodeEditor";
 
 var styles = require('./SaveFlowResult.scss');
 
@@ -37,10 +37,10 @@ export class SaveFlowResultForm extends NodeActionForm<SaveFlowResult> {
         )
     }
 
-    onValid() {
-        var nameEle = this.getWidget("Name") as TextInputElement;
-        var valueEle = this.getWidget("Value") as TextInputElement;
-        var categoryEle = this.getWidget("Category") as TextInputElement;
+    onValid(widgets: { [name: string]: Widget }) {
+        var nameEle = widgets["Name"] as TextInputElement;
+        var valueEle = widgets["Value"] as TextInputElement;
+        var categoryEle = widgets["Category"] as TextInputElement;
 
         var newAction: SaveFlowResult = {
             uuid: this.getActionUUID(),

@@ -79,7 +79,13 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         event.e.preventDefault();
         event.e.stopPropagation();
         event.e.stopImmediatePropagation();
-        window.event.cancelBubble = true;
+
+        // for older IE
+        //var e: any = e || window.event;
+        if (window.event) {
+            window.event.cancelBubble = true;
+        }
+
         // update our coordinates
         this.props.context.eventHandler.onNodeMoved(this.props.node.uuid, { x: event.finalPos[0], y: event.finalPos[1] });
     }

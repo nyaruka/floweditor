@@ -339,6 +339,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
                 errors.push(this.props.name + " is required");
             }
         }
+
         this.setState({ errors: errors });
 
         // see if it should be a valid url
@@ -379,14 +380,6 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
             }
         }
     }
-
-    /*componentWillReceiveProps(props: TextInputProps) {
-        if (props.defaultValue != this.state.value) {
-            this.setState({
-                value: props.defaultValue
-            });
-        }
-    }*/
 
     private renderOption(option: CompletionOption, selected: boolean): JSX.Element {
         if (selected) {

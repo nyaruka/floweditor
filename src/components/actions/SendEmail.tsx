@@ -3,7 +3,7 @@ import { ActionComp } from '../Action';
 import { SendEmail } from '../../FlowDefinition';
 import { TextInputElement } from '../form/TextInputElement';
 import { EmailElement } from '../form/EmailElement';
-import { NodeActionForm } from "../NodeEditor";
+import { NodeActionForm, Widget } from "../NodeEditor";
 
 var styles = require('./SendEmail.scss');
 
@@ -39,11 +39,11 @@ export class SendEmailForm extends NodeActionForm<SendEmail> {
         )
     }
 
-    onValid() {
+    onValid(widgets: { [name: string]: Widget }) {
 
-        var emailEle = this.getWidget("Recipient") as EmailElement;
-        var subjectEle = this.getWidget("Subject") as TextInputElement;
-        var bodyEle = this.getWidget("Message") as TextInputElement;
+        var emailEle = widgets["Recipient"] as EmailElement;
+        var subjectEle = widgets["Subject"] as TextInputElement;
+        var bodyEle = widgets["Message"] as TextInputElement;
 
         var emails: string[] = []
         for (let email of emailEle.state.emails) {

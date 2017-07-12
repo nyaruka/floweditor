@@ -178,7 +178,10 @@ export class ComponentMap {
 
         // add in our reverse lookups
         for (let exit of exitsWithDestinations) {
-            components[exit.destination_node_uuid].pointers.push(exit.uuid);
+            var details = components[exit.destination_node_uuid]
+            if (details) {
+                details.pointers.push(exit.uuid);
+            }
         }
 
         var existingFields: ContactFieldResult[] = []

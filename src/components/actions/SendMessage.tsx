@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ActionComp, ActionProps } from '../Action';
 import { SendMessage } from '../../FlowDefinition';
 import { TextInputElement } from '../form/TextInputElement';
-import { NodeActionForm } from "../NodeEditor";
+import { NodeActionForm, Widget } from "../NodeEditor";
 
 var styles = require('../Action.scss');
 
@@ -57,9 +57,9 @@ export class SendMessageForm extends NodeActionForm<SendMessage> {
         )
     }
 
-    onValid() {
+    onValid(widgets: { [name: string]: Widget }) {
         var localizedObject = this.getLocalizedObject();
-        var textarea = this.getWidget("Message") as TextInputElement;
+        var textarea = widgets["Message"] as TextInputElement;
 
         if (localizedObject) {
             var translation = textarea.state.value.trim();

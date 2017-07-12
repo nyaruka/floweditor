@@ -3,7 +3,7 @@ import * as UUID from 'uuid';
 import { SwitchRouterForm, SwitchRouterState } from "./SwitchRouter";
 import { StartFlow, Case, Exit, SwitchRouter } from '../../FlowDefinition';
 import { FlowElement } from "../form/FlowElement";
-import { NodeRouterForm } from "../NodeEditor";
+import { NodeRouterForm, Widget } from "../NodeEditor";
 import { Config } from "../../services/Config";
 import { ComponentMap } from "../ComponentMap";
 
@@ -47,12 +47,12 @@ export class SubflowForm extends NodeRouterForm<SwitchRouter, SwitchRouterState>
         return UUID.v4();
     }
 
-    onValid(): void {
+    onValid(widgets: { [name: string]: Widget }): void {
         if (this.isTranslating()) {
-            return this.saveLocalizedExits();
+            return this.saveLocalizedExits(widgets);
         }
 
-        var select = this.getWidget("Flow") as FlowElement;
+        var select = widgets["Flow"] as FlowElement;
         var flow = select.state.flow;
 
         var newAction: StartFlow = {
