@@ -7,7 +7,7 @@ import { CheckboxElement } from "../form/CheckboxElement";
 
 var styles = require('../Action.scss');
 
-export class SendMessageComp extends ActionComp<Reply> {
+export class ReplyComp extends ActionComp<Reply> {
 
     localizedKeys = ["text"];
 
@@ -21,7 +21,7 @@ export class SendMessageComp extends ActionComp<Reply> {
     }
 }
 
-export class SendMessageForm extends NodeActionForm<Reply> {
+export class ReplyForm extends NodeActionForm<Reply> {
     renderForm(ref: any): JSX.Element {
         var text = "";
         var action = this.getInitial();

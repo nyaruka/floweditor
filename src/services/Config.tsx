@@ -1,6 +1,6 @@
 import { ChangeGroupComp, ChangeGroupForm } from '../components/actions/ChangeGroup';
 import { SaveToContactComp, SaveToContactForm } from '../components/actions/SaveToContact';
-import { SendMessageComp, SendMessageForm } from '../components/actions/SendMessage';
+import { ReplyComp, ReplyForm } from '../components/actions/Reply';
 import { WebhookComp } from '../components/actions/Webhook';
 import { SaveFlowResultComp, SaveFlowResultForm } from '../components/actions/SaveFlowResult';
 import { StartFlowComp } from '../components/actions/StartFlow';
@@ -90,7 +90,7 @@ export class Config {
     public typeConfigs: TypeConfig[] = [
 
         // actions
-        { type: "reply", name: "Send Message", description: "Send them a message", form: SendMessageForm, component: SendMessageComp, hasAdvanced: true },
+        { type: "reply", name: "Send Message", description: "Send them a message", form: ReplyForm, component: ReplyComp, hasAdvanced: true },
         // { type: "msg", name: "Send Message", description: "Send somebody else a message", form: SendMessageForm, component: SendMessage },
 
         { type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: ChangeGroupForm, component: ChangeGroupComp },

@@ -1,7 +1,7 @@
 import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import { FlowMutator } from '../src/components/FlowMutator';
-import { FlowDefinition, UINode, SendMessage, Webhook, SaveFlowResult } from '../src/FlowDefinition';
+import { FlowDefinition, UINode, Reply, Webhook, SaveFlowResult } from '../src/FlowDefinition';
 import { NodeProps } from '../src/components/Node';
 import { getFavorites, dump } from './utils';
 import { ComponentMap } from "../src/components/ComponentMap";
@@ -113,7 +113,7 @@ describe('FlowMutator', () => {
             var lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
             var actionUUID = UUID.v4();
 
-            var newAction: SendMessage = {
+            var newAction: Reply = {
                 uuid: actionUUID,
                 type: "msg",
                 text: "A new message after dragging"
@@ -158,7 +158,7 @@ describe('FlowMutator', () => {
         it('updates existing actions to the same type', () => {
             var lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
 
-            var newAction: SendMessage = {
+            var newAction: Reply = {
                 uuid: lastNode.actions[0].uuid,
                 type: "msg",
                 text: "An update to an existing action",
@@ -166,7 +166,7 @@ describe('FlowMutator', () => {
             mutator.updateAction(newAction, "47a0be00-59ad-4558-bd13-ec66518ce44a");
 
             lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
-            var action = lastNode.actions[0] as SendMessage;
+            var action = lastNode.actions[0] as Reply;
             chai.assert.equal(action.text, "An update to an existing action");
         });
 
@@ -195,19 +195,19 @@ describe('FlowMutator', () => {
                 addToNode: "47a0be00-59ad-4558-bd13-ec66518ce44a",
                 dragging: false,
                 context: null
-            } as SendMessage, null, null, null, lastNode);
+            } as Reply, null, null, null, lastNode);
 
             lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a");
             chai.assert.equal(3, lastNode.actions.length);
 
-            var action = lastNode.actions[2] as SendMessage;
+            var action = lastNode.actions[2] as Reply;
             chai.assert.equal(action.text, "Add action to an existing node");
         });
 
         it('can remove added actions on new nodes', () => {
             var lastNode = mutator.getNode("47a0be00-59ad-4558-bd13-ec66518ce44a")
 
-            var newAction: SendMessage = {
+            var newAction: Reply = {
                 uuid: UUID.v4(),
                 type: "msg",
                 text: "An action that creates a new node",
@@ -229,7 +229,7 @@ describe('FlowMutator', () => {
             mutator.resolvePendingConnection(newNode);
 
             // now add an action to that node
-            var newAction: SendMessage = {
+            var newAction: Reply = {
                 uuid: UUID.v4(),
                 type: "msg",
                 text: "Add new action on our new node",
