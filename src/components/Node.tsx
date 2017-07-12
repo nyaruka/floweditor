@@ -81,7 +81,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         event.e.stopImmediatePropagation();
 
         // for older IE
-        //var e: any = e || window.event;
         if (window.event) {
             window.event.cancelBubble = true;
         }
