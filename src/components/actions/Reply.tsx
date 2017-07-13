@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { ActionComp, ActionProps } from '../Action';
-import { SendMessage } from '../../FlowDefinition';
+import { Reply } from '../../FlowDefinition';
 import { TextInputElement } from '../form/TextInputElement';
 import { NodeActionForm, Widget } from "../NodeEditor";
+import { CheckboxElement } from "../form/CheckboxElement";
 
 var styles = require('../Action.scss');
 
-export class SendMessageComp extends ActionComp<SendMessage> {
+export class ReplyComp extends ActionComp<Reply> {
 
     localizedKeys = ["text"];
 
@@ -20,7 +21,7 @@ export class SendMessageComp extends ActionComp<SendMessage> {
     }
 }
 
-export class SendMessageForm extends NodeActionForm<SendMessage> {
+export class ReplyForm extends NodeActionForm<Reply> {
     renderForm(ref: any): JSX.Element {
         var text = "";
         var action = this.getInitial();
@@ -43,7 +44,7 @@ export class SendMessageForm extends NodeActionForm<SendMessage> {
             )
 
             if (localizedObject.hasTranslation("text")) {
-                text = (localizedObject.getObject() as SendMessage).text;
+                text = (localizedObject.getObject() as Reply).text;
             } else {
                 text = "";
             }
@@ -57,9 +58,15 @@ export class SendMessageForm extends NodeActionForm<SendMessage> {
         )
     }
 
+    renderAdvanced(ref: any): JSX.Element {
+        var action = this.getInitial();
+        return <CheckboxElement ref={ref} name="All Destinations" defaultValue={action.all_urns} description="Send a message to all destinations known for this contact." />
+    }
+
     onValid(widgets: { [name: string]: Widget }) {
         var localizedObject = this.getLocalizedObject();
         var textarea = widgets["Message"] as TextInputElement;
+        var sendAll = widgets["All Destinations"] as CheckboxElement;
 
         if (localizedObject) {
             var translation = textarea.state.value.trim();
@@ -70,11 +77,16 @@ export class SendMessageForm extends NodeActionForm<SendMessage> {
             }
 
         } else {
-            var newAction: SendMessage = {
+            var newAction: Reply = {
                 uuid: this.getActionUUID(),
                 type: this.props.config.type,
                 text: textarea.state.value,
             }
+
+            if (sendAll.state.checked) {
+                newAction.all_urns = true;
+            }
+
             this.props.updateAction(newAction);
         }
     }

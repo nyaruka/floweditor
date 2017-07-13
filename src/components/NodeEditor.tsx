@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as UUID from "uuid";
 import { Modal, ButtonSet } from "./Modal";
-import { Node, Router, Action, SendMessage, UINode, Exit } from "../FlowDefinition";
+import { Node, Router, Action, Reply, UINode, Exit } from "../FlowDefinition";
 import { TypeConfig, Config } from "../services/Config";
 import { ComponentMap } from "./ComponentMap";
 import { TextInputElement } from "./form/TextInputElement";
@@ -116,8 +116,6 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorS
 
     public submit(): boolean {
 
-        console.log("Submitting form");
-
         var invalid: Widget[] = [];
         for (let key in this.widgets) {
             let widget = this.widgets[key];
@@ -230,11 +228,15 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorS
         }
     }
 
-    private removeWidget(widget: Widget) {
-        delete this.widgets[widget.props.name];
+    private removeWidget(name: string) {
+        delete this.widgets[name];
     }
 
     render() {
+
+        this.widgets = {};
+        this.advancedWidgets = {};
+
         var front: JSX.Element = null;
         var back: JSX.Element = null;
 
@@ -378,7 +380,7 @@ export interface NodeEditorFormProps {
     onToggleAdvanced(): void;
     onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void;
     triggerFormUpdate(): void;
-    removeWidget(widget: Widget): void;
+    removeWidget(name: string): void;
 
     onTypeChange(config: TypeConfig): void;
     updateLocalizations(language: string, changes: { uuid: string, translations: any }[]): void;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ActionProps } from './Action';
-import { FlowDefinition, Action, Node, Position, SendMessage, UINode, SwitchRouter, Exit, Dimensions } from '../FlowDefinition';
+import { FlowDefinition, Action, Node, Position, Reply, UINode, SwitchRouter, Exit, Dimensions } from '../FlowDefinition';
 import { ContactFieldResult, SearchResult, ComponentMap } from './ComponentMap';
 import { NodeComp, NodeProps, DragPoint } from './Node';
 import { FlowMutator } from './FlowMutator';
@@ -184,7 +184,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
     private onAddAction(addToNode: Node) {
 
-        var newAction: SendMessage = {
+        var newAction: Reply = {
             uuid: UUID.v4(),
             type: "reply",
             text: ""
@@ -272,7 +272,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
 
         // add an action if we are coming from a split
         if (fromNode.wait || "webhook" == fromNodeUI.type) {
-            let replyAction: SendMessage = {
+            let replyAction: Reply = {
                 uuid: UUID.v4(),
                 type: "reply",
                 text: null

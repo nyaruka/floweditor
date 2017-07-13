@@ -1,0 +1,13 @@
+.label {
+    font-weight: 300;
+    cursor: pointer;
+    .title {
+        display: inline-block;
+        margin-left: 10px;
+        font-weight: 400;
+    }
+    .description {
+        margin-left: 22px;
+        margin-top: 5px;
+    }
+}

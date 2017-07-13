@@ -10,6 +10,7 @@ export interface FormElementProps {
     showLabel?: boolean;
     required?: boolean;
     className?: string;
+    border?: boolean;
 }
 
 export class FormElement extends React.PureComponent<FormElementProps, {}> {
@@ -49,6 +50,11 @@ export class FormElement extends React.PureComponent<FormElementProps, {}> {
         if (this.props.className) {
             classes.push(this.props.className);
         }
+
+        if (this.props.border) {
+            classes.push(styles.border);
+        }
+
 
         return (
             <div className={classes.join(" ")}>

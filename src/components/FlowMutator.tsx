@@ -2,7 +2,7 @@ import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
 
 import { ContactFieldResult, SearchResult } from './ComponentMap';
-import { FlowDefinition, Node, Action, Exit, UIMetaData, UINode, Position, Dimensions, SendMessage } from '../FlowDefinition';
+import { FlowDefinition, Node, Action, Exit, UIMetaData, UINode, Position, Dimensions, Reply } from '../FlowDefinition';
 import { NodeComp, NodeProps, DragPoint } from './Node';
 import { ComponentMap } from './ComponentMap';
 import { FlowLoaderProps } from './FlowLoader';
@@ -587,7 +587,7 @@ export class FlowMutator {
 
         if (this.definition.nodes.length == 0) {
 
-            let initialAction: SendMessage = {
+            let initialAction: Reply = {
                 uuid: UUID.v4(),
                 type: "reply",
                 text: "Hi there, this the first message in your flow!"

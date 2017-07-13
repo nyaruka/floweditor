@@ -226,6 +226,7 @@ export class SwitchRouterForm extends NodeRouterForm<SwitchRouter, SwitchRouterS
             var cases = update(this.state.cases, { $splice: [[idx, 1]] });
             this.setState({ cases: cases });
         }
+        this.props.removeWidget(c.props.name);
     }
 
     onCaseChanged(c: CaseElement) {
