@@ -278,7 +278,7 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorS
                 };
 
                 front = React.createElement(this.state.config.form, { ref: (ele: any) => { this.form = ele; }, ...formProps });
-                if (TypeConfig.showAdvanced(this.state.config.advanced, mode)) {
+                if (this.state.config.allows(mode)) {
                     back = React.createElement(this.state.config.form, { ref: (ref: any) => { this.advanced = ref }, advanced: true, ...formProps });
                 }
 
