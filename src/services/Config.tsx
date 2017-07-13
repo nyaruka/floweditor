@@ -10,6 +10,12 @@ import { SubflowForm } from "../components/routers/Subflow";
 import { WebhookForm } from "../components/routers/Webhook";
 import { External } from "./External";
 
+export enum Mode {
+    EDITING = 0x1,
+    TRANSLATING = 0x2,
+    ALL = EDITING | TRANSLATING
+}
+
 export interface Endpoints {
     fields: string;
     groups: string;
@@ -19,16 +25,20 @@ export interface Endpoints {
     activity: string;
 }
 
-export interface TypeConfig {
+export class TypeConfig {
     type: string;
     name: string;
     description: string;
 
-    hasAdvanced?: boolean;
-    aliases?: string[];
-
     form: { new(props: any): any };
     component?: { new(props: any): any };
+
+    advanced?: Mode;
+    aliases?: string[];
+
+    public static showAdvanced(advanced: Mode, mode: number): boolean {
+        return (advanced & mode) === mode;
+    }
 }
 
 export interface Operator {
@@ -90,7 +100,7 @@ export class Config {
     public typeConfigs: TypeConfig[] = [
 
         // actions
-        { type: "reply", name: "Send Message", description: "Send them a message", form: ReplyForm, component: ReplyComp, hasAdvanced: true },
+        { type: "reply", name: "Send Message", description: "Send them a message", form: ReplyForm, component: ReplyComp, advanced: Mode.EDITING },
         // { type: "msg", name: "Send Message", description: "Send somebody else a message", form: SendMessageForm, component: SendMessage },
 
         { type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: ChangeGroupForm, component: ChangeGroupComp },
@@ -103,12 +113,12 @@ export class Config {
         // {type: "set_preferred_channel", name: "Set Preferred Channel", description: "Set their preferred channel", component: Missing},
 
         // hybrids
-        { type: "call_webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: WebhookComp, hasAdvanced: true, aliases: ["webhook"] },
+        { type: "call_webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: WebhookComp, advanced: Mode.EDITING, aliases: ["webhook"] },
         { type: "start_flow", name: "Run Flow", description: "Run another flow", form: SubflowForm, component: StartFlowComp, aliases: ["subflow"] },
 
         // routers
         { type: "expression", name: "Split by Expression", description: "Split by a custom expression", form: SwitchRouterForm },
-        { type: "wait_for_response", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm, hasAdvanced: true, aliases: ["switch"] },
+        { type: "wait_for_response", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm, advanced: Mode.TRANSLATING, aliases: ["switch"] },
         // {type: "random", name: "Random Split", description: "Split them up randomly", form: RandomRouterForm}
     ]
 

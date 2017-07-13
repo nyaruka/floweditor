@@ -2,7 +2,7 @@ import * as React from "react";
 import * as UUID from "uuid";
 import { Modal, ButtonSet } from "./Modal";
 import { Node, Router, Action, Reply, UINode, Exit } from "../FlowDefinition";
-import { TypeConfig, Config } from "../services/Config";
+import { TypeConfig, Config, Mode } from "../services/Config";
 import { ComponentMap } from "./ComponentMap";
 import { TextInputElement } from "./form/TextInputElement";
 import { FlowContext } from "./Flow";
@@ -234,11 +234,18 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorS
 
     render() {
 
+        var isTranslating = this.props.localizations && this.props.localizations.length > 0;
+        var mode = Mode.EDITING;
+        if (isTranslating) {
+            mode = Mode.TRANSLATING;
+        }
+
         this.widgets = {};
         this.advancedWidgets = {};
 
         var front: JSX.Element = null;
         var back: JSX.Element = null;
+
 
         if (this.state.show) {
             // create our form element
@@ -271,8 +278,7 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorS
                 };
 
                 front = React.createElement(this.state.config.form, { ref: (ele: any) => { this.form = ele; }, ...formProps });
-
-                if (this.state.config.hasAdvanced) {
+                if (TypeConfig.showAdvanced(this.state.config.advanced, mode)) {
                     back = React.createElement(this.state.config.form, { ref: (ref: any) => { this.advanced = ref }, advanced: true, ...formProps });
                 }
 
