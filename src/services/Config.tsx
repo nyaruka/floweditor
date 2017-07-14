@@ -10,6 +10,12 @@ import { SubflowForm } from "../components/routers/Subflow";
 import { WebhookForm } from "../components/routers/Webhook";
 import { External } from "./External";
 
+export enum Mode {
+    EDITING = 0x1,
+    TRANSLATING = 0x2,
+    ALL = EDITING | TRANSLATING
+}
+
 export interface Endpoints {
     fields: string;
     groups: string;
@@ -19,16 +25,24 @@ export interface Endpoints {
     activity: string;
 }
 
-export interface TypeConfig {
+export class TypeConfig {
     type: string;
     name: string;
     description: string;
 
-    hasAdvanced?: boolean;
-    aliases?: string[];
-
     form: { new(props: any): any };
     component?: { new(props: any): any };
+
+    advanced?: Mode;
+    aliases?: string[];
+
+    public constructor(init?: Partial<TypeConfig>) {
+        Object.assign(this, init);
+    }
+
+    public allows(mode: Mode): boolean {
+        return (this.advanced & mode) === mode;
+    }
 }
 
 export interface Operator {
@@ -90,25 +104,25 @@ export class Config {
     public typeConfigs: TypeConfig[] = [
 
         // actions
-        { type: "reply", name: "Send Message", description: "Send them a message", form: ReplyForm, component: ReplyComp, hasAdvanced: true },
+        new TypeConfig({ type: "reply", name: "Send Message", description: "Send them a message", form: ReplyForm, component: ReplyComp, advanced: Mode.EDITING }),
         // { type: "msg", name: "Send Message", description: "Send somebody else a message", form: SendMessageForm, component: SendMessage },
 
-        { type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: ChangeGroupForm, component: ChangeGroupComp },
-        { type: "remove_from_group", name: "Remove from Group", description: "Remove them from a group", form: ChangeGroupForm, component: ChangeGroupComp },
-        { type: "save_contact_field", name: "Update Contact", description: "Update the contact", form: SaveToContactForm, component: SaveToContactComp, aliases: ["update_contact"] },
-        { type: "send_email", name: "Send Email", description: "Send an email", form: SendEmailForm, component: SendEmailComp },
-        { type: "save_flow_result", name: "Save Flow Result", description: "Save a result for this flow", form: SaveFlowResultForm, component: SaveFlowResultComp },
+        new TypeConfig({ type: "add_to_group", name: "Add to Group", description: "Add them to a group", form: ChangeGroupForm, component: ChangeGroupComp }),
+        new TypeConfig({ type: "remove_from_group", name: "Remove from Group", description: "Remove them from a group", form: ChangeGroupForm, component: ChangeGroupComp }),
+        new TypeConfig({ type: "save_contact_field", name: "Update Contact", description: "Update the contact", form: SaveToContactForm, component: SaveToContactComp, aliases: ["update_contact"] }),
+        new TypeConfig({ type: "send_email", name: "Send Email", description: "Send an email", form: SendEmailForm, component: SendEmailComp }),
+        new TypeConfig({ type: "save_flow_result", name: "Save Flow Result", description: "Save a result for this flow", form: SaveFlowResultForm, component: SaveFlowResultComp }),
 
         // {type: "add_label", name: "Add Label", description: "Label the message", component: Missing},
         // {type: "set_preferred_channel", name: "Set Preferred Channel", description: "Set their preferred channel", component: Missing},
 
         // hybrids
-        { type: "call_webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: WebhookComp, hasAdvanced: true, aliases: ["webhook"] },
-        { type: "start_flow", name: "Run Flow", description: "Run another flow", form: SubflowForm, component: StartFlowComp, aliases: ["subflow"] },
+        new TypeConfig({ type: "call_webhook", name: "Call Webhook", description: "Call a webook", form: WebhookForm, component: WebhookComp, advanced: Mode.EDITING, aliases: ["webhook"] }),
+        new TypeConfig({ type: "start_flow", name: "Run Flow", description: "Run another flow", form: SubflowForm, component: StartFlowComp, aliases: ["subflow"] }),
 
         // routers
-        { type: "expression", name: "Split by Expression", description: "Split by a custom expression", form: SwitchRouterForm },
-        { type: "wait_for_response", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm, hasAdvanced: true, aliases: ["switch"] },
+        new TypeConfig({ type: "expression", name: "Split by Expression", description: "Split by a custom expression", form: SwitchRouterForm }),
+        new TypeConfig({ type: "wait_for_response", name: "Wait for Response", description: "Wait for them to respond", form: SwitchRouterForm, advanced: Mode.TRANSLATING, aliases: ["switch"] }),
         // {type: "random", name: "Random Split", description: "Split them up randomly", form: RandomRouterForm}
     ]
 

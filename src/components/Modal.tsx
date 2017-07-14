@@ -105,10 +105,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 classes.push(styles.back);
             }
 
-            if (child == null) {
-                return null;
-            }
-
             var flip = null;
             if (hasAdvanced) {
                 if (i == 0) {
