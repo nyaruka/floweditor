@@ -3,23 +3,23 @@
    "results":[
       {
          "name":"Customers",
-         "id":"23ff7152-b588-43e4-90de-fda77aeaf7c0"
+         "uuid":"23ff7152-b588-43e4-90de-fda77aeaf7c0"
       },
       {
          "name":"Unsatisfied Customers",
-         "id":"2429d573-80d7-47f8-879f-f2ba442a1bfd"
+         "uuid":"2429d573-80d7-47f8-879f-f2ba442a1bfd"
       },
       {
          "name":"Early Adopters",
-         "id":"cdbf9e01-aaa7-4381-8259-ee042447bcac"
+         "uuid":"cdbf9e01-aaa7-4381-8259-ee042447bcac"
       },
       {
          "name":"Testers",
-         "id":"afaba971-8943-4dd8-860b-3561ed4f1fe1"
+         "uuid":"afaba971-8943-4dd8-860b-3561ed4f1fe1"
       },
       {
         "name":"Subscribers",
-        "id":"33b28bac-b588-43e4-90de-fda77aeaf7c0"
+        "uuid":"33b28bac-b588-43e4-90de-fda77aeaf7c0"
       }
    ],
    "more": null

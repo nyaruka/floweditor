@@ -76,7 +76,7 @@
     "react-measure": "^2.0.0",
     "react-modal": "^1.7.5",
     "react-modal-dialog": "^4.0.7",
-    "react-select": "1.0.0-rc.5",
+    "react-select": "^1.0.0-rc.10",
     "react-test-renderer": "^15.5.4",
     "react-tether": "^0.5.7",
     "sass-loader": "^6.0.3",

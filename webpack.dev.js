@@ -1,5 +1,7 @@
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
+const queryString = require('query-string');
+var parse = require('url-parse')
 
 module.exports = merge(common, {
     devtool: 'inline-source-map',
@@ -7,6 +9,16 @@ module.exports = merge(common, {
         compress: true,
         port: 9000,
         proxy: {
+            "/assets/flows" : {
+                bypass: function(req, res, proxyOptions) {
+                    if (req.query.uuid != null) {
+                        return '/test_flows/' + req.query.uuid + '.json'
+                    }
+                    return req.originalUrl;
+                },         
+                changeOrigin: true,
+                secure: false
+            },
             "/resist": {
                 target: "https://rapidbot.io/api/v2/",
                 pathRewrite: {"^/resist" : ""},

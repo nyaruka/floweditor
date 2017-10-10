@@ -21,16 +21,27 @@ export class SaveFlowResultForm extends NodeActionForm<SaveFlowResult> {
 
     renderForm(ref: any) {
         var action = this.getInitial();
+
+        var name = ""
+        var value = ""
+        var category = ""
+
+        if (action && action.value) {
+            name = action.result_name;
+            value = action.value;
+            category = action.category;
+        }
+
         return (
             <div className={styles.form}>
 
-                <TextInputElement className={styles.name} ref={ref} name="Name" showLabel={true} value={action.result_name} required
+                <TextInputElement className={styles.name} ref={ref} name="Name" showLabel={true} value={name} required
                     helpText="The name of the result, used to reference later, for example: @run.results.my_result_name"
                 />
-                <TextInputElement className={styles.value} ref={ref} name="Value" showLabel={true} value={action.value} autocomplete
+                <TextInputElement className={styles.value} ref={ref} name="Value" showLabel={true} value={value} autocomplete
                     helpText="The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))"
                 />
-                <TextInputElement className={styles.category} ref={ref} name="Category" placeholder="Optional" showLabel={true} value={action.category} autocomplete
+                <TextInputElement className={styles.category} ref={ref} name="Category" placeholder="Optional" showLabel={true} value={category} autocomplete
                     helpText="An optional category for your result. For age, the value might be 17, but the category might be 'Young Adult'"
                 />
             </div>

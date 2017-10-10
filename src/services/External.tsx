@@ -12,7 +12,7 @@ export interface FlowDetails {
 }
 
 /**
- * Exgternal API Accessor.
+ * External API Accessor.
  */
 export class External {
 
@@ -69,6 +69,7 @@ export class External {
     public getFlow(uuid: string, dependencies: boolean): Promise<FlowDetails> {
         // console.log("Getting flow:", uuid, this.endpoints.flows + "?uuid=" + uuid);
         return new Promise<FlowDetails>((resolve, reject) => {
+
             axios.get(this.endpoints.flows + "?uuid=" + uuid + "&dependencies=" + dependencies, this.getRequestOptions()).then((response: AxiosResponse) => {
 
                 var details: FlowDetails = {

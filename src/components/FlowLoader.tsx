@@ -40,7 +40,9 @@ export class FlowLoader extends React.PureComponent<FlowLoaderProps, FlowLoaderS
     }
 
     private save(definition: FlowDefinition) {
-        Config.get().external.saveFlow(definition);
+        //Config.get().external.saveFlow(definition).catch((error) => { 
+            // do nothing
+        //});
     }
 
     private initialize(definition: FlowDefinition) {

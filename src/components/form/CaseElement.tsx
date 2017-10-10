@@ -6,7 +6,7 @@ import { Config, Operator } from '../../services/Config';
 import { CaseProps } from '../routers/SwitchRouter';
 import { TextInputElement, HTMLTextElement } from './TextInputElement';
 
-var Select = require('react-select');
+import Select from 'react-select';
 var forms = require("./FormElement.scss");
 var styles = require("./CaseElement.scss");
 
@@ -204,6 +204,8 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
             args = <TextInputElement className={styles.input} name="arguments" onChange={this.onChangeArguments.bind(this)} value={value} autocomplete />
         }
 
+        var options: any = Config.get().operators
+
         return (
             <FormElement name={this.props.name} errors={this.state.errors} className={styles.group}>
                 <div className={styles.case + " select-medium"}>
@@ -211,7 +213,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
                         <Select
                             name="operator"
                             clearable={false}
-                            options={Config.get().operators}
+                            options={options}
                             value={this.state.operator}
                             valueKey="type"
                             labelKey="verboseName"

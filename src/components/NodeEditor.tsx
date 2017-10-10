@@ -12,7 +12,8 @@ import { ButtonProps } from "./Button";
 import { LocalizedObject } from "../Localization";
 import { Language } from "./LanguageSelector";
 
-var Select = require('react-select');
+import Select from 'react-select';
+// var Select = require('react-select');
 var formStyles = require("./NodeEditor.scss");
 var shared = require("./shared.scss");
 
@@ -351,10 +352,11 @@ class TypeChooser extends React.PureComponent<TypeChooserProps, TypeChooserState
     }
 
     render() {
-        var options = Config.get().typeConfigs;
+        var options: any = Config.get().typeConfigs;
+
         return (
             <div className={this.props.className}>
-                <p>When a contact arrives at this point in your flow</p>
+                <div className={formStyles.intro}>When a contact arrives at this point in your flow</div>
                 <div>
                     <Select
                         value={this.state.config.type}

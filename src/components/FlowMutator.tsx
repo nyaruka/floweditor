@@ -457,6 +457,7 @@ export class FlowMutator {
         draggedFrom: DragPoint = null,
         newPosition: Position = null,
         addToNode: Node = null): Node {
+
         console.time("updateAction");
         var node: Node;
 
@@ -490,8 +491,6 @@ export class FlowMutator {
             this.components.refresh(this.definition);
         }
         else {
-
-            console.log("Updating existing action");
 
             // update the action into our new flow definition
             let actionDetails = this.components.getDetails(action.uuid)

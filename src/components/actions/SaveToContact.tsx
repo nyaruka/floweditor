@@ -86,6 +86,11 @@ export class SaveToContactForm extends NodeActionForm<SaveToContact> {
             }
         }
 
+        var value = "";
+        if (action && action.value) {
+            value = action.value;
+        }
+
         return (
             <div>
                 <FieldElement
@@ -97,7 +102,7 @@ export class SaveToContactForm extends NodeActionForm<SaveToContact> {
                     initial={initial} add required
                 />
 
-                <TextInputElement ref={ref} name="Value" showLabel={true} value={action.value}
+                <TextInputElement ref={ref} name="Value" showLabel={true} value={value}
                     helpText="The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json."
                     autocomplete
                 />

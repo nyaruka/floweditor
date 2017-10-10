@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { FormElement, FormElementProps } from './FormElement';
 import { FormWidget, FormValueState } from './FormWidget';
-var Select = require('react-select');
+import Select from 'react-select';
 
 var styles = require("./FormElement.scss");
 
