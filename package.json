@@ -64,6 +64,7 @@
     "mocha": "^3.2.0",
     "node-sass": "^4.5.0",
     "phantomjs-prebuilt": "^2.1.14",
+    "prettier": "^1.7.4",
     "promise-polyfill": "^6.0.2",
     "prop-types": "^15.5.8",
     "query-string": "^4.3.4",
