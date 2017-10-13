@@ -1,11 +1,11 @@
 {
   "name": "flow-editor",
   "license": "AGPL-3.0",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/nyaruka/floweditor.git"
-  },
+  "repository": "git://github.com/nyaruka/floweditor.git",
   "version": "1.1.0",
+  "description": "'Standalone flow editing tool designed for use within the RapidPro suite of messaging tools but can be adopted for use outside of that ecosystem.'",
+  "main": "app.tsx",
+  "author": "Nyaruka <code@nyaruka.com>",
   "scripts": {
     "test": "karma start --env=dev --single-run --browsers PhantomJS",
     "start": "webpack-dev-server --env=dev --progress --colors",
