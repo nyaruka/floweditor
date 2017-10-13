@@ -1,12 +1,14 @@
 {
-  "defaultSeverity": "error",
+  "defaultSeverity": "warn",
   "extends": [
     "tslint:recommended",
     "tslint-react",
     "tslint-immutable",
-    "tslint-eslint-rules"
+    "tslint-eslint-rules",
+    "tslint-config-prettier"
   ],
   "rules": {
+    "quotemark": [true, "single"],
     "no-var-keyword": true,
     "no-parameter-reassignment": true,
     "typedef": [true, "call-signature"],
