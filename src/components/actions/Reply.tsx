@@ -64,7 +64,7 @@ export class ReplyForm extends NodeActionForm<Reply> {
         if (action) {
             sendAll = action.all_urns;
         }
-        return <CheckboxElement ref={ref} name="All Destinations" defaultValue={sendAll} description="Send a message to all destinations known for this contact." />
+        return <CheckboxElement ref={ref} name="All Destinations" defaultValue={sendAll} description="Senddd a message to all destinations known for this contact." />
     }
 
     onValid(widgets: { [name: string]: Widget }) {
