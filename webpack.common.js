@@ -1,16 +1,17 @@
-const path = require('path');
-const webpack = require('webpack');
+const { ProvidePlugin } = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const { resolve, join } = require('path');
+
+const paths = {
+    app: './src/app',
+    dist: resolve(__dirname, 'dist'),
+    components: join(__dirname, 'src/components')
+};
 
 module.exports = {
-    entry: [
-        'react-hot-loader/patch',
-        'webpack-dev-server/client?http://localhost:9000',
-        'webpack/hot/only-dev-server',
-        './src/app.tsx'
-    ],
+    entry: [paths.app],
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: paths.dist,
         filename: 'floweditor.js',
         publicPath: ''
     },
@@ -18,12 +19,11 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js']
     },
     plugins: [
-        new webpack.ProvidePlugin({
+        new ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery'
         }),
-        new ExtractTextPlugin('styles.css'),
-        new webpack.HotModuleReplacementPlugin()
+        new ExtractTextPlugin('styles.css')
     ],
     module: {
         rules: [
@@ -40,7 +40,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                include: path.join(__dirname, 'src/components'),
+                include: paths.components,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: [
@@ -60,17 +60,17 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                exclude: path.join(__dirname, 'src/components'),
+                exclude: paths.components,
                 use: ['style-loader', 'css-loader']
             },
             {
                 test: /\.tsx?$/,
-                use: ['react-hot-loader/webpack', 'awesome-typescript-loader'],
+                use: ['awesome-typescript-loader'],
                 exclude: /node_modules/
             },
             {
                 test: /\.scss$/,
-                exclude: path.join(__dirname, 'src/components'),
+                exclude: paths.components,
                 use: [
                     { loader: 'style-loader' },
                     { loader: 'css-loader' },

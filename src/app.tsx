@@ -27,7 +27,7 @@ axios.default.defaults.responseType = 'json';
 
 if (module.hot) {
     module.hot.accept('./components/Editor', () => {
-        const NextEditor = require('./components/Editor').Editor;
+        const { Editor: NextEditor } = require('./components/Editor');
         render(
             <HotContainer>
                 <NextEditor config={__flow_editor_config__} />
