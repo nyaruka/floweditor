@@ -1,4 +1,6 @@
-module.exports = function(env) {
-    if (!env) { env = "dev"; }
-    return require(`./webpack.${env}.js`);
-}
+/**
+ * Webpack configuration.
+ *
+ * @param env arguments passed in on the command line: https://webpack.js.org/guides/environment-variables/
+ */
+module.exports = ({ NODE_ENV }) => require(`./webpack.${NODE_ENV}.js`);

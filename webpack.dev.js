@@ -1,21 +1,23 @@
 const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
 const queryString = require('query-string');
-var parse = require('url-parse')
+const parse = require('url-parse');
+const common = require('./webpack.common');
 
 module.exports = merge(common, {
-    devtool: 'inline-source-map',
+    devtool: 'eval',
     devServer: {
         compress: true,
+        hot: true,
         port: 9000,
         proxy: {
-            "/assets/flows" : {
-                bypass: function(req, res, proxyOptions) {
-                    if (req.query.uuid != null) {
-                        return '/test_flows/' + req.query.uuid + '.json'
+            "/assets/flows": {
+                bypass: (req, res, proxyOptions) => {
+                    const { query: { uuid } } = req;
+                    if (uuid != null) {
+                        return `/test_flows/${uuid}.json`;
                     }
                     return req.originalUrl;
-                },         
+                },
                 changeOrigin: true,
                 secure: false
             },
@@ -51,4 +53,4 @@ module.exports = merge(common, {
             }
         }
     },
-})
+});
