@@ -4,7 +4,7 @@ import { ReactWrapper, ShallowWrapper, mount, render } from 'enzyme';
 import { SaveToContactComp } from '../src/components/actions/SaveToContact';
 import { FlowMutator } from '../src/components/FlowMutator';
 import { FlowDefinition } from '../src/FlowDefinition';
-import { getFavorites } from './utils';
+import { getFavorites } from './test-utils';
 
 describe('SaveToContact', () => {
 
@@ -24,11 +24,11 @@ describe('SaveToContact', () => {
 
     it('should render', () => {
         /*
-        let action = new SaveToContact({            
+        let action = new SaveToContact({
             name: "name",
-            type: "save_contact_field", 
-            value: "@results.name", 
-            field: "field-uuid", 
+            type: "save_contact_field",
+            value: "@results.name",
+            field: "field-uuid",
             uuid: "action-uuid",
             mutator: mutator
         });

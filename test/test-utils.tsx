@@ -1,4 +1,5 @@
 import { FlowDefinition } from '../src/FlowDefinition';
+
 var request = require('sync-request');
 
 
