@@ -94,7 +94,6 @@
     "tslint": "^5.7.0",
     "tslint-config-prettier": "^1.5.0",
     "tslint-eslint-rules": "^4.1.1",
-    "tslint-immutable": "^4.4.0",
     "tslint-react": "^3.2.0",
     "typescript": "^2.2.2",
     "typings-for-css-modules-loader": "^1.5.0",

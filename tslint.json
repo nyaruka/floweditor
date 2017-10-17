@@ -3,7 +3,6 @@
   "extends": [
     "tslint:recommended",
     "tslint-react",
-    "tslint-immutable",
     "tslint-eslint-rules",
     "tslint-config-prettier"
   ],
@@ -11,10 +10,6 @@
     "quotemark": [true, "single"],
     "no-var-keyword": true,
     "no-parameter-reassignment": true,
-    "typedef": [true, "call-signature"],
-    "readonly-keyword": true,
-    "readonly-array": true,
-    "no-let": true,
-    "no-object-mutation": true
+    "typedef": [true, "call-signature"]
   }
 }
