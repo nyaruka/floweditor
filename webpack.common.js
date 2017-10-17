@@ -1,40 +1,46 @@
-var path = require("path");
-var webpack = require("webpack");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const { ProvidePlugin } = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const { resolve, join } = require('path');
+
+const paths = {
+    app: './src/app',
+    dist: resolve(__dirname, 'dist'),
+    components: join(__dirname, 'src/components')
+};
 
 module.exports = {
-    entry: ['./src/app.tsx'],
+    entry: [paths.app],
     output: {
-        path: path.resolve(__dirname, "dist"),
-        filename: "floweditor.js",
+        path: paths.dist,
+        filename: 'floweditor.js',
         publicPath: ''
     },
     resolve: {
-        extensions: [".ts", ".tsx", ".js"]
+        extensions: ['.ts', '.tsx', '.js']
     },
     plugins: [
-        new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery"
+        new ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
         }),
-        new ExtractTextPlugin("styles.css"),
+        new ExtractTextPlugin('styles.css')
     ],
     module: {
         rules: [
             {
                 test: /\.woff(2)?(\?[a-z0-9]+)?$/,
-                loader: "url-loader?limit=10000&mimetype=application/font-woff"
+                loader: 'url-loader?limit=10000&mimetype=application/font-woff'
             },
             {
                 test: /\.(ttf|eot|svg)(\?[a-z0-9]+)?$/,
-                loader: "file-loader",
+                loader: 'file-loader',
                 options: {
-                    name: 'fonts/[hash].[ext]',
-                },
+                    name: 'fonts/[hash].[ext]'
+                }
             },
             {
                 test: /\.scss$/,
-                include: path.join(__dirname, 'src/components'),
+                include: paths.components,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: [
@@ -44,32 +50,33 @@ module.exports = {
                                 modules: true,
                                 sourceMap: true,
                                 importLoaders: 2,
-                                localIdentName: '[name]__[local]___[hash:base64:5]'
+                                localIdentName:
+                                    '[name]__[local]___[hash:base64:5]'
                             }
                         },
                         'sass-loader'
                     ]
-                }),
+                })
             },
             {
                 test: /\.css$/,
-                exclude: path.join(__dirname, 'src/components'),
+                exclude: paths.components,
                 use: ['style-loader', 'css-loader']
             },
             {
                 test: /\.tsx?$/,
-                use: [{ loader: 'awesome-typescript-loader' }],
+                use: ['awesome-typescript-loader'],
                 exclude: /node_modules/
             },
             {
                 test: /\.scss$/,
-                exclude: path.join(__dirname, 'src/components'),
+                exclude: paths.components,
                 use: [
-                    { loader: "style-loader" },
-                    { loader: "css-loader" },
-                    { loader: "sass-loader" }
+                    { loader: 'style-loader' },
+                    { loader: 'css-loader' },
+                    { loader: 'sass-loader' }
                 ]
             }
         ]
     }
-}
+};
