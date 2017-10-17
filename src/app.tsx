@@ -1,15 +1,16 @@
-import * as React from 'react';
-import { render } from 'react-dom';
-import * as qs from 'query-string';
-import { Editor } from './components/Editor';
-import { FlowStore } from './services/FlowStore';
-import { Endpoints } from './services/Config';
-import { AppContainer as HotContainer } from 'react-hot-loader';
-import * as axios from 'axios';
-
 import 'react-select/dist/react-select.css';
-import './global.scss';
 import '../fonts/flows/style.css';
+import './global.scss';
+
+import * as axios from 'axios';
+import * as qs from 'query-string';
+import * as React from 'react';
+
+import { render } from 'react-dom';
+import { AppContainer as HotContainer } from 'react-hot-loader';
+import { Editor } from './components/Editor';
+import { Endpoints } from './services/Config';
+import { FlowStore } from './services/FlowStore';
 
 const root = document.getElementById('flow-editor');
 const publicPath = __flow_editor_config__.path;
