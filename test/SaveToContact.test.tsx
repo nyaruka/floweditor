@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ReactWrapper, ShallowWrapper, mount, render } from 'enzyme';
+import { mount } from 'enzyme';
 
 import { SaveToContactComp } from '../src/components/actions/SaveToContact';
 import { FlowMutator } from '../src/components/FlowMutator';
@@ -7,40 +7,44 @@ import { FlowDefinition } from '../src/FlowDefinition';
 import { getFavorites } from './test-utils';
 
 describe('SaveToContact', () => {
-
-    var definition: FlowDefinition;
-    var mutator: FlowMutator;
+    let definition: FlowDefinition;
+    let mutator: FlowMutator;
 
     beforeEach(() => {
-        definition = getFavorites()
-        mutator = new FlowMutator(definition, (updated: FlowDefinition) => {
-            definition = updated;
-        }, () => { }, {
+        definition = getFavorites();
+        mutator = new FlowMutator(
+            definition,
+            (updated: FlowDefinition) => {
+                definition = updated;
+            },
+            () => {},
+            {
                 // contactsURL:'/assets/contacts.json'
-            });
+            }
+        );
     });
 
-    afterEach(() => { });
-
     it('should render', () => {
-        /*
-        let action = new SaveToContact({
-            name: "name",
-            type: "save_contact_field",
-            value: "@results.name",
-            field: "field-uuid",
-            uuid: "action-uuid",
-            mutator: mutator
-        });
-        */
-
+        const props = {
+            action: {
+                field: 'field-uuid',
+                mutator,
+                name: 'name',
+                type: 'save_contact_field',
+                uuid: 'action-uuid',
+                value: '@results.name'
+            },
+            context: {
+                eventHandler:
+            },
+            node: 'b4ac7bff-2852-4874-b47d-1163c902e22c',
+        };
+        const wrapper = mount(<SaveToContactComp {...props} />)
         // our top level thing renders a div
         // let element = action.renderNode();
         // chai.assert.equal(element.type, "div");
-
         // action.renderForm();
         // console.log(element.key, element.props, element.type);
         // chai.assert.isNotNull();
     });
-
 });

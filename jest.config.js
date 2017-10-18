@@ -1,5 +1,5 @@
 module.exports = {
-    bail: true,
+    verbose: true,
     snapshotSerializers: ['enzyme-to-json/serializer'],
     transform: {
         '.(ts|tsx)': '<rootDir>/node_modules/ts-jest/preprocessor.js'

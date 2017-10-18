@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as UUID from 'uuid';
 import { FlowStore } from '../../services/FlowStore';
 import { toBoolMap } from '../../utils';
 import { SelectSearch } from '../SelectSearch';
@@ -10,34 +11,31 @@ import { TextInputElement } from '../form/TextInputElement';
 import { NodeActionForm, Widget } from "../NodeEditor";
 import { Config } from "../../services/Config";
 
-
-var UUID = require('uuid');
-
 // TODO: these should come from an external source
-var reserved = toBoolMap([
-    "language",
-    "facebook",
-    "telegram",
-    "email",
-    "mailto",
-    "name",
-    "first name",
-    "phone",
-    "groups",
-    "uuid",
-    "created by",
-    "modified by",
-    "org",
-    "is",
-    "has",
-    "tel"
+const reserved = toBoolMap([
+    'language',
+    'facebook',
+    'telegram',
+    'email',
+    'mailto',
+    'name',
+    'first name',
+    'phone',
+    'groups',
+    'uuid',
+    'created by',
+    'modified by',
+    'org',
+    'is',
+    'has',
+    'tel'
 ]);
 
 export class SaveToContactComp extends ActionComp<SaveToContact> {
     renderNode() {
-        var action = this.getAction();
+        const action = this.getAction();
         if (action.value) {
-            return <div>Update <span className="emph">{action.field_name}</span> to {this.getAction().value}</div >
+            return <div>Update <span className="emph">{action.field_name}</span> to {this.getAction().value}</div>
         } else {
             return <div>Clear value for <span className="emph">{action.field_name}</span></div>
         }

@@ -1,4 +1,4 @@
-import XRegExp from 'xregexp';
+const XRegExp = require('xregexp');
 
 const SNAKED_CHARS = XRegExp('[^\\p{Letter}\\d]+');
 

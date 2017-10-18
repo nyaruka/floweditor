@@ -4,9 +4,21 @@ exports[`utils snakify replaces spaces with underscores 1`] = `"my_result_name"`
 
 exports[`utils toBoolMap turns a string array into a bool map 1`] = `
 Object {
-  "I'm": true,
-  "a": true,
-  "array": true,
-  "string": true,
+  "created by": true,
+  "email": true,
+  "facebook": true,
+  "first name": true,
+  "groups": true,
+  "has": true,
+  "is": true,
+  "language": true,
+  "mailto": true,
+  "modified by": true,
+  "name": true,
+  "org": true,
+  "phone": true,
+  "tel": true,
+  "telegram": true,
+  "uuid": true,
 }
 `;
