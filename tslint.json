@@ -10,6 +10,7 @@
     "quotemark": [true, "single"],
     "no-var-keyword": true,
     "no-parameter-reassignment": true,
-    "typedef": [true, "call-signature"]
+    "typedef": [true, "call-signature"],
+    "interface-name": [true, "never-prefix"]
   }
 }

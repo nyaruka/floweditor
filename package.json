@@ -9,6 +9,7 @@
   "scripts": {
     "test": "karma start --env.NODE_ENV=dev --single-run --browsers PhantomJS",
     "test:jest": "jest",
+    "coverage": "jest --coverage",
     "start": "webpack-dev-server --env.NODE_ENV=dev --progress --colors",
     "test:watch": "karma start --env.NODE_ENV=dev",
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
@@ -42,6 +43,7 @@
     "@types/url-join": "^0.8.2",
     "@types/uuid": "^2.0.29",
     "@types/webpack-env": "^1.13.1",
+    "@types/xregexp": "^3.0.29",
     "awesome-typescript-loader": "^3.1.2",
     "axios": "^0.15.3",
     "chai": "^3.5.0",

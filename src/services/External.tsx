@@ -44,7 +44,8 @@ export class External {
                     reject(error);
                 });
             } else {
-                reject();
+                // reject();
+                return;
             }
         });
     }

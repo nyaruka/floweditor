@@ -155,6 +155,8 @@ export class ComponentMap {
             }
 
             if (node.router && node.router.result_name) {
+                console.log(`preSnakify: ${node.router.result_name}`);
+                console.log(`postSnakify: ${snakify(node.router.result_name)}`);
                 resultNames[snakify(node.router.result_name)] = node.router.result_name;
             }
 

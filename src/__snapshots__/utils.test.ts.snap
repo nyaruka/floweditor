@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`utils snakify replaces spaces with underscores 1`] = `"my_result_name"`;
+
+exports[`utils toBoolMap turns a string array into a bool map 1`] = `
+Object {
+  "I'm": true,
+  "a": true,
+  "array": true,
+  "string": true,
+}
+`;
