@@ -82,7 +82,6 @@ export class Config {
         this.typeConfigMap = this.typeConfigs.reduce((typeConfigMap: TypeConfigMap, typeConfig: TypeConfig) => {
             const { type } = typeConfig;
             typeConfigMap[type] = typeConfig;
-            /** Thorough 'aliases' check per the 'strict' rule in .../../tsconfig.json */
             if (typeConfig.hasOwnProperty('aliases') && typeConfig.aliases) {
                 const { aliases } = typeConfig;
                 aliases.forEach(alias => typeConfigMap[alias] = typeConfig);
