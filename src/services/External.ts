@@ -85,7 +85,7 @@ export class External {
         return new Promise<FlowDetails>((resolve, reject) => {
             axios
                 .get(
-                    `${this.endpoints.flows}?uuid=${uuid}&dependencies=${dependencies}`
+                    `${this.endpoints.flows}?uuid=${uuid}&dependencies=${dependencies}`,
                     this.getRequestOptions()
                 )
                 .then((response: AxiosResponse) => {
@@ -173,7 +173,7 @@ export class External {
         return new Promise<FlowDefinition>((resolve, reject) => {
             axios
                 .post(
-                    `${this.endpoints.flows}?uuid=${definition.uuid}`
+                    `${this.endpoints.flows}?uuid=${definition.uuid}`,
                     postData,
                     this.getRequestOptions()
                 )

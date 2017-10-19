@@ -13,6 +13,7 @@ import { Flow } from './Flow';
 import { FlowDefinition } from '../FlowDefinition';
 import { External, FlowDetails } from '../services/External';
 
+
 const FORCE_FETCH = true;
 const QUIET_UI = 10;
 const QUIET_SAVE = 1000;
@@ -73,13 +74,13 @@ export class FlowLoader extends React.PureComponent<FlowLoaderProps, FlowLoaderS
 
     render() {
         return (
-            this.state.definition && (
+            this.state.definition ? (
                 <Flow
                     definition={this.state.definition}
                     dependencies={this.state.dependencies}
                     mutator={this.mutator}
                 />
-            )
+            ) : null
         );
     }
 }
