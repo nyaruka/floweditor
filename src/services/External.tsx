@@ -43,10 +43,10 @@ export class External {
                 }).catch((error) => {
                     reject(error);
                 });
-            } else {
-                // reject();
-                return;
             }
+            // else {
+            //     // reject();
+            // }
         });
     }
 

@@ -24,9 +24,5 @@ export function addCommas(value: number): string {
  * Replaces spaces with underscores
  */
 export function snakify(value: string): string {
-    if (value) {
-        return XRegExp.replace(value.toLowerCase(), SNAKED_CHARS, '_', 'all');
-    } else {
-        return value;
-    }
+    return XRegExp.replace(value.toLowerCase(), SNAKED_CHARS, '_', 'all');
 }

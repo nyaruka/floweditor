@@ -6,17 +6,16 @@ import { getFavorites, dump } from './test-utils';
 import { Config } from "../src/services/Config";
 import { CaseProps, resolveExits, CombinedExits } from "../src/components/routers/SwitchRouter";
 
-describe('SwitchRouter', () => {
+xdescribe('SwitchRouter', () => {
+    let definition: FlowDefinition;
+    let disasterChoice: Node;
+    let originalCases: CaseProps[];
+    let router: SwitchRouter;
 
-    var definition: FlowDefinition;
-    var disasterChoice: Node;
-    var originalCases: CaseProps[];
-    var router: SwitchRouter;
-
-    var tornado = 0;
-    var tsunami = 1;
-    var earthquake = 2;
-    var other = 3;
+    const tornado = 0;
+    const tsunami = 1;
+    const earthquake = 2;
+    const other = 3;
 
     beforeEach(() => {
         definition = getFavorites();

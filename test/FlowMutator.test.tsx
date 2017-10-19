@@ -6,7 +6,7 @@ import { NodeProps } from '../src/components/Node';
 import { getFavorites, dump } from './test-utils';
 import { ComponentMap } from "../src/components/ComponentMap";
 
-describe('FlowMutator', () => {
+xdescribe('FlowMutator', () => {
 
     var mutator: FlowMutator;
     var definition: FlowDefinition;
