@@ -62,6 +62,7 @@ export class External {
         });
     }
 
+    /** Filter WIP */
     // public getFlows(name: string): Promise<FlowDetails[]> {
     //     return new Promise<FlowDetails[]>((resolve, reject) => {
     //         axios
