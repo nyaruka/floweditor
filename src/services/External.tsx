@@ -89,7 +89,7 @@ export class External {
                     this.getRequestOptions()
                 )
                 .then((response: AxiosResponse) => {
-                    let details: FlowDetails = {
+                    const details: FlowDetails = {
                         uuid,
                         name: null,
                         definition: null as FlowDefinition,
@@ -111,6 +111,7 @@ export class External {
                             details.dependencies.push(flowDetail.definition);
                         }
                     }
+
                     // flowDetails.forEach((detail: FlowDetails)) => {
                     //     if (!detail.definition.uuid) {
                     //         detail = update(detail, { definition: { uuid: { $set: detail.uuid } } });
@@ -132,6 +133,28 @@ export class External {
                     //         details = update(details, { dependencies: { $push: detail.definition } });
                     //     }
                     // });
+
+                    // const fetchedDetails = flowDetails.reduce((detailsMap: FlowDetails, flowDetail: FlowDetails) => {
+                    //     if (!flowDetail.definition.uuid) {
+                    //         flowDetail = update(flowDetail, { definition: { uuid: { $set: flowDetail.uuid } } });
+                    //         this.initialize(flowDetail.definition);
+                    //     }
+                    //     if (flowDetail.uuid === uuid) {
+                    //         detailsMap = update(
+                    //             details,
+                    //             {
+                    //                 definition: {
+                    //                     $set: flowDetail.definition
+                    //                 },
+                    //                 name: {
+                    //                     $set: flowDetail.name
+                    //                 }
+                    //             }
+                    //         );
+                    //     } else {
+                    //         detailsMap = update(details, { dependencies: { $push: flowDetail.definition } });
+                    //     }
+                    // }, details);
                     resolve(details);
                 })
                 .catch(error => {
