@@ -1,8 +1,9 @@
-import axios from 'axios';
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import update from 'immutability-helper';
 import { Endpoints } from '../services/Config';
 import { FlowDefinition, StartFlow } from '../FlowDefinition';
 import { Activity } from "./ActivityManager";
+
 
 export interface FlowDetails {
     uuid: string;
@@ -15,7 +16,6 @@ export interface FlowDetails {
  * External API Accessor.
  */
 export class External {
-
     private endpoints: Endpoints;
     private headers: any;
 
@@ -25,11 +25,7 @@ export class External {
     }
 
     private getRequestOptions(): any {
-        if (this.headers) {
-            return { headers: this.headers }
-        } else {
-            return {};
-        }
+        return this.headers ? { headers: this.headers } : {};
     }
 
     /**
@@ -38,11 +34,12 @@ export class External {
     public getActivity(flowUUID: string): Promise<Activity> {
         return new Promise<Activity>((resolve, reject) => {
             if (this.endpoints.activity) {
-                axios.get(this.endpoints.activity + "?flow=" + flowUUID, { headers: this.headers }).then((response: AxiosResponse) => {
-                    resolve(response.data as Activity);
-                }).catch((error) => {
-                    reject(error);
-                });
+                axios
+                    .get(`${this.endpoints.activity}?flow=${flowUUID}`, { headers: this.headers })
+                    .then((response: AxiosResponse) => {
+                        resolve(response.data as Activity);
+                    })
+                    .catch(error => reject(error));
             }
             // else {
             //     // reject();
@@ -56,13 +53,29 @@ export class External {
      */
     public getFlows(): Promise<FlowDetails[]> {
         return new Promise<FlowDetails[]>((resolve, reject) => {
-            axios.get(this.endpoints.flows, { headers: this.headers }).then((response: AxiosResponse) => {
-                resolve(response.data.results as FlowDetails[])
-            }).catch((error) => {
-                reject(error);
-            });
+            axios
+                .get(this.endpoints.flows, { headers: this.headers })
+                .then((response: AxiosResponse) => {
+                    resolve(response.data.results as FlowDetails[]);
+                })
+                .catch(error => reject(error));
         });
     }
+
+    // public getFlows(name: string): Promise<FlowDetails[]> {
+    //     return new Promise<FlowDetails[]>((resolve, reject) => {
+    //         axios
+    //             .get(this.endpoints.flows, { headers: this.headers })
+    //             .then((response: AxiosReponse) => {
+    //                 const { data: { results }: FlowDetails[] } = response;
+    //                 const filteredResults = results.filter(
+    //                     ({ name: flowName }: string) => flowName === name
+    //                 );
+    //                 resolve(filteredResults as FlowDetails[]);
+    //             })
+    //             .catch(error => reject(error));
+    //     });
+    // }
 
     /**
      * Gets a flow definition for a given flow uuid
@@ -70,38 +83,60 @@ export class External {
     public getFlow(uuid: string, dependencies: boolean): Promise<FlowDetails> {
         // console.log("Getting flow:", uuid, this.endpoints.flows + "?uuid=" + uuid);
         return new Promise<FlowDetails>((resolve, reject) => {
+            axios
+                .get(
+                    `${this.endpoints.flows}?uuid=${uuid}&dependencies=${dependencies}`
+                    this.getRequestOptions()
+                )
+                .then((response: AxiosResponse) => {
+                    let details: FlowDetails = {
+                        uuid,
+                        name: null,
+                        definition: null as FlowDefinition,
+                        dependencies: [] as FlowDefinition[]
+                    };
 
-            axios.get(this.endpoints.flows + "?uuid=" + uuid + "&dependencies=" + dependencies, this.getRequestOptions()).then((response: AxiosResponse) => {
+                    const flowDetails = response.data.results as FlowDetails[];
 
-                var details: FlowDetails = {
-                    uuid: uuid,
-                    name: null,
-                    definition: null,
-                    dependencies: []
-                }
+                    for (let flowDetail of flowDetails) {
+                        if (!flowDetail.definition.uuid) {
+                            flowDetail.definition.uuid = flowDetail.uuid;
+                        }
 
-                var definition: FlowDefinition = null;
-                var dependencies: FlowDefinition[] = [];
-                var flowDetails = response.data.results as FlowDetails[];
-
-                for (let flowDetail of flowDetails) {
-                    if (!flowDetail.definition.uuid) {
-                        flowDetail.definition.uuid = flowDetail.uuid;
+                        this.initialize(flowDetail.definition);
+                        if (flowDetail.uuid == uuid) {
+                            details.definition = flowDetail.definition;
+                            details.name = flowDetail.name;
+                        } else {
+                            details.dependencies.push(flowDetail.definition);
+                        }
                     }
-
-                    this.initialize(flowDetail.definition);
-                    if (flowDetail.uuid == uuid) {
-                        details.definition = flowDetail.definition;
-                        details.name = flowDetail.name;
-                    } else {
-                        details.dependencies.push(flowDetail.definition);
-                    }
-                }
-
-                resolve(details);
-            }).catch((error) => {
-                reject(error);
-            });
+                    // flowDetails.forEach((detail: FlowDetails)) => {
+                    //     if (!detail.definition.uuid) {
+                    //         detail = update(detail, { definition: { uuid: { $set: detail.uuid } } });
+                    //     }
+                    //     this.initialize(detail.definition);
+                    //     if (detail.uuid === uuid) {
+                    //         details = update(
+                    //             details,
+                    //             {
+                    //                 definition: {
+                    //                     $set: detail.definition
+                    //                 },
+                    //                 name: {
+                    //                     $set: detail.name
+                    //                 }
+                    //             }
+                    //         );
+                    //     } else {
+                    //         details = update(details, { dependencies: { $push: detail.definition } });
+                    //     }
+                    // });
+                    resolve(details);
+                })
+                .catch(error => {
+                    reject(error);
+                });
         });
     }
 
@@ -110,26 +145,33 @@ export class External {
      * @param definition the definition to update
      */
     public saveFlow(definition: FlowDefinition): Promise<FlowDefinition> {
-        console.log("Saving to" + this.endpoints.flows);
-        var postData = { definition: definition }
+        console.log('Saving to' + this.endpoints.flows);
+        const postData = { definition };
         return new Promise<FlowDefinition>((resolve, reject) => {
-            axios.post(this.endpoints.flows + "?uuid=" + definition.uuid, postData, this.getRequestOptions()).then((response: AxiosResponse) => {
-                console.log(response);
-            }).catch((error) => {
-                reject(error);
-            });
+            axios
+                .post(
+                    `${this.endpoints.flows}?uuid=${definition.uuid}`
+                    postData,
+                    this.getRequestOptions()
+                )
+                .then((response: AxiosResponse) => {
+                    console.log(response);
+                })
+                .catch(error => {
+                    reject(error);
+                });
         });
     }
 
     /** Makes sure our flow definition has the very basics */
     private initialize(definition: FlowDefinition) {
-
         if (!definition.nodes) {
             definition.nodes = [];
+            definition = update(definition, { nodes: { $set: [] } });
         }
 
         if (!definition._ui) {
-            definition._ui = { nodes: {}, languages: {} }
+            definition = update(definition, { _ui: { $set: { nodes: {}, languages: {} } } });
         }
     }
 }
