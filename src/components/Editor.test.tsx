@@ -3,7 +3,7 @@ import '../../enzyme.adapter';
 import { mount } from 'enzyme';
 import { Editor } from './Editor';
 import { FlowLoader } from './FlowLoader';  
-import { validUUID } from '../../__test__/utils'; 
+import { validUUID } from '../../__tests__/utils'; 
 
 const __flow_editor_config__: FlowEditorConfig = {
     endpoints: {

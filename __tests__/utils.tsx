@@ -1,4 +1,4 @@
-import { ReactWrapper } from 'enzyme';
+import { ReactWrapper, ShallowWrapper } from 'enzyme';
 import { ReactElement } from 'react';
 import { FlowDefinition } from '../src/FlowDefinition';
 
@@ -37,7 +37,7 @@ export const getSpecWrapper = (
     specName: string,
     typeFilter: string
 ): ReactElement<any> => {
-    let specWrappers;
+    let specWrappers: ReactWrapper|ReactWrapper[]|ShallowWrapper|ShallowWrapper[];
 
     if (!typeFilter) {
         specWrappers = componentWrapper.find(`[${DATA_SPEC_ATTRIBUTE_NAME}="${specName}"]`);
@@ -53,7 +53,7 @@ export const getSpecWrapper = (
 
 /**
  * Returns true if a given UUID matches v4 format
- * @param {string} uuid version 4 UUID
+ * @param {string} uuid version 4 UUID (no braces, uppercase OK)
  * @returns {boolean} 
  */
 export function validUUID(uuid: string): boolean {
