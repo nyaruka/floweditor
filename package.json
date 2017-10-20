@@ -8,6 +8,7 @@
   "author": "Nyaruka <code@nyaruka.com>",
   "scripts": {
     "test": "jest",
+    "test:watch": "npm run test -- --watch",
     "test:update": "npm run test -- --updateSnapshot",
     "test:coverage": "npm run test -- --coverage",
     "start": "webpack-dev-server --env.NODE_ENV=dev --progress --colors",
