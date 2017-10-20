@@ -35,7 +35,7 @@ export const DATA_SPEC_ATTRIBUTE_NAME: string = 'data-spec';
 export const getSpecWrapper = (
     componentWrapper: ReactWrapper,
     specName: string,
-    typeFilter: string
+    typeFilter?: string
 ): ReactElement<any> => {
     let specWrappers: ReactWrapper|ReactWrapper[]|ShallowWrapper|ShallowWrapper[];
 

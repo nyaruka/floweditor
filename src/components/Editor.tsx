@@ -48,6 +48,6 @@ export class Editor extends React.PureComponent<EditorProps, EditorState> {
         // temba={this.temba}
         //    onFlowSelect={this.onFlowSelect.bind(this)}
         /// >)
-        return <div className={styles.editor}>{flow}</div>;
+        return <div className={styles.editor} data-spec='editor'>{flow}</div>;
     }        
 }
