@@ -20,7 +20,7 @@ interface EditorState {
  * A navigable list of flows for an account
  */
 export class Editor extends React.PureComponent<EditorProps, EditorState> {
-    private external: External;
+    private external: External;    
 
     constructor(props: EditorProps) {
         super(props);
@@ -34,7 +34,7 @@ export class Editor extends React.PureComponent<EditorProps, EditorState> {
         this.setState({ flowUUID: uuid });
     }
 
-    render() {
+    public render() {
         let flow;
 
         if (this.state.flowUUID) {
@@ -43,13 +43,11 @@ export class Editor extends React.PureComponent<EditorProps, EditorState> {
             const newUUID = UUID.v4();
             flow = <FlowLoader key={newUUID} uuid={newUUID} />;
         }
-
         // disable the flow list for now
-        //var flowList = (<FlowList
+        // var flowList = (<FlowList
         // temba={this.temba}
         //    onFlowSelect={this.onFlowSelect.bind(this)}
-        ///>)
-
+        /// >)
         return <div className={styles.editor}>{flow}</div>;
-    }
+    }        
 }

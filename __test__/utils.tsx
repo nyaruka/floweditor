@@ -50,3 +50,13 @@ export const getSpecWrapper = (
 
     return specWrappers;
 };
+
+/**
+ * Returns true if a given UUID matches v4 format
+ * @param {string} uuid version 4 UUID
+ * @returns {boolean} 
+ */
+export function validUUID(uuid: string): boolean {
+    const regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i; 
+    return regex.test(uuid); 
+}

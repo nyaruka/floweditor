@@ -12,8 +12,8 @@
     "no-parameter-reassignment": true,
     "typedef": [true, "call-signature"],
     "interface-name": [true, "never-prefix"],
-    "member-ordering": [true, {"order": "statics-first"}],
+    "member-ordering": false,
     "max-classes-per-file": [true, 3],
-    "ordered-imports": false
+    "ordered-imports": false,
   }
 }
