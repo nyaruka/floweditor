@@ -12,7 +12,6 @@
     "test:update": "npm run test -- --updateSnapshot",
     "test:coverage": "npm run test -- --coverage",
     "start": "webpack-dev-server --env.NODE_ENV=dev --progress --colors",
-    "test:watch": "karma start --env.NODE_ENV=dev",
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
     "build:dev": "webpack --env.NODE_ENV=dev --progress --profile --colors",
     "build:prod": "webpack --env.NODE_ENV=prod --progress --profile --colors",
