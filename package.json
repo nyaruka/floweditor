@@ -54,6 +54,7 @@
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
     "get-input-selection": "^1.1.4",
+    "identity-obj-proxy": "^3.0.0",
     "immutability-helper": "^2.1.2",
     "jest": "^21.2.1",
     "jest-enzyme": "^4.0.1",
