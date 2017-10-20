@@ -27,16 +27,16 @@ export const DATA_SPEC_ATTRIBUTE_NAME: string = 'data-spec';
  * NOTE: borrowed from EventBrite: https://github.com/eventbrite/javascript/blob/master/react/testing.md#finding-nodes
  * Finds all instances of components in the rendered `componentWrapper` that are DOM components
  * with the `data-spec` attribute matching `name`.
- * @param componentWrapper - Rendered componentWrapper (result of mount, shallow, or render)
- * @param - Name of `data-spec` attribute value to find
- * @param typeFilter - (Optional) Expected type of the wrappers (defaults to all HTML tags)
- * @returns All matching DOM components
+ * @param {ReactWrapper|ShallowWrapper} componentWrapper - Rendered componentWrapper (result of mount, shallow, or render)
+ * @param  {string} snacName - Name of `data-spec` attribute value to find
+ * @param {string|Function} (Optional) typeFilter - (Optional) Expected type of the wrappers (defaults to all HTML tags)
+ * @returns {ReactWrapper|ReactWrapper[]|ShallowWrapper|ShallowWrapper[]} matching DOM components
  */
 export const getSpecWrapper = (
     componentWrapper: ReactWrapper,
     specName: string,
     typeFilter?: string
-): ReactElement<any> => {
+): ReactWrapper|ReactWrapper[]|ShallowWrapper|ShallowWrapper[] => {
     let specWrappers: ReactWrapper|ReactWrapper[]|ShallowWrapper|ShallowWrapper[];
 
     if (!typeFilter) {
@@ -53,7 +53,7 @@ export const getSpecWrapper = (
 
 /**
  * Returns true if a given UUID matches v4 format
- * @param {string} uuid version 4 UUID (no braces, uppercase OK)
+ * @param {string} uuid - A version 4 UUID (no braces, uppercase OK)
  * @returns {boolean} 
  */
 export function validUUID(uuid: string): boolean {
