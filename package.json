@@ -8,7 +8,9 @@
   "author": "Nyaruka <code@nyaruka.com>",
   "scripts": {
     "test": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "test:watch": "jest --watchAll",
+    "test:local": "jest",
+    "test:watch": "npm run test -- --watchAll",
+    "test:coverage": "npm run test -- --coverage",
     "test:update": "npm run test -- --updateSnapshot",
     "start": "webpack-dev-server --env.NODE_ENV=dev --progress --colors",
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
