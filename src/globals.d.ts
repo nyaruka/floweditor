@@ -1,5 +1,5 @@
 declare interface FlowEditorConfig {
-    path: string;
+    path?: string;
     languages: { [iso: string]: string };
     endpoints: Endpoints;
     flow: string;

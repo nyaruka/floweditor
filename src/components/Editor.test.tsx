@@ -20,25 +20,25 @@ const __flow_editor_config__: FlowEditorConfig = {
     flow: 'a4f64f1b-85bc-477e-b706-de313a022979'
 };
 
-const EditorWrapper = shallow(<Editor config={__flow_editor_config__} />); 
+const EditorShallow = shallow(<Editor config={__flow_editor_config__} />); 
 
 describe('Editor Component', () => {
-    it ('Initializes with proper state, { flowUUID: this.props.config.flow }', () => {
+    it ('Initializes with expected state', () => {
         const { flow: flowUUID }: string = __flow_editor_config__; 
-        expect(EditorWrapper).toBePresent(); 
-        expect(EditorWrapper).toHaveState('flowUUID', flowUUID); 
+        expect(EditorShallow).toBePresent(); 
+        expect(EditorShallow).toHaveState('flowUUID', flowUUID); 
     }); 
 
     it ('Renders the editor div', () => {
-        const editorDivWrapper = getSpecWrapper(EditorWrapper, 'editor'); 
-        expect(editorDivWrapper).toBePresent(); 
+        const editorDivShallow = getSpecWrapper(EditorShallow, 'editor'); 
+        expect(editorDivShallow).toBePresent(); 
     }); 
 
     it('Renders a FlowLoader component with valid key and props', () => {
-        const FlowLoaderWrapper = EditorWrapper.find(FlowLoader);
-        expect(FlowLoaderWrapper).toBePresent(); 
-        expect(validUUID(FlowLoaderWrapper.key())).toBeTruthy(); 
-        expect(FlowLoaderWrapper).toHaveProp('uuid'); 
-        expect(validUUID(FlowLoaderWrapper.prop('uuid'))).toBeTruthy(); 
+        const FlowLoaderShallow = EditorShallow.find(FlowLoader);
+        expect(FlowLoaderShallow).toBePresent(); 
+        expect(validUUID(FlowLoaderShallow.key())).toBeTruthy(); 
+        expect(FlowLoaderShallow).toHaveProp('uuid'); 
+        expect(validUUID(FlowLoaderShallow.prop('uuid'))).toBeTruthy(); 
     });
 });

@@ -2,7 +2,7 @@ import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import { FlowMutator } from '../src/components/FlowMutator';
 import { FlowDefinition, Case, SwitchRouter, Exit, Node } from '../src/FlowDefinition';
-import { getFavorites, dump } from './test-utils';
+import { getFavorites, dump } from './utils';
 import { Config } from "../src/services/Config";
 import { CaseProps, resolveExits, CombinedExits } from "../src/components/routers/SwitchRouter";
 

@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 import { SaveToContactComp } from '../src/components/actions/SaveToContact';
 import { FlowMutator } from '../src/components/FlowMutator';
 import { FlowDefinition } from '../src/FlowDefinition';
-import { getFavorites } from './test-utils';
+import { getFavorites } from './utils';
 
 xdescribe('SaveToContact', () => {
     let definition: FlowDefinition;

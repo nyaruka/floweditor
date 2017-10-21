@@ -3,7 +3,7 @@ import * as UUID from 'uuid';
 import { FlowMutator } from '../src/components/FlowMutator';
 import { FlowDefinition, UINode, Reply, Webhook, SaveFlowResult } from '../src/FlowDefinition';
 import { NodeProps } from '../src/components/Node';
-import { getFavorites, dump } from './test-utils';
+import { getFavorites, dump } from './utils';
 import { ComponentMap } from "../src/components/ComponentMap";
 
 xdescribe('FlowMutator', () => {

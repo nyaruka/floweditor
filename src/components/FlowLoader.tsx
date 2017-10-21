@@ -13,6 +13,7 @@ const QUIET_SAVE = 1000;
 
 export interface FlowLoaderProps {
     uuid?: string;
+    config?: FlowEditorConfig;
 }
 
 export interface FlowLoaderState {
