@@ -43,6 +43,14 @@ describe('utils', () => {
         });
     });
 
+    describe('addCommas', () => {
+        it('Inserts commas into numbers where appropriate', () => {
+            expect(addCommas(999)).toEqual('999'); 
+            expect(addCommas(10000)).toEqual('10,000'); 
+            expect(addCommas(10000000)).toEqual('10,000,000');  
+        }); 
+    }); 
+
     describe('snakify()', () => {
         it('replaces spaces with underscores', () => {
             const fieldName: string = 'my result name';

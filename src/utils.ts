@@ -18,6 +18,11 @@ export function toBoolMap(array: string[]): BoolMap {
     }, {});
 }
 
+/**
+ * Inserts commas into numbers where appropriate for better readability
+ * @param {number} value - A number, e.g. 10000
+ * @returns {string} A comma-separated string, e.g. 10,000
+ */
 export function addCommas(value: number): string {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
