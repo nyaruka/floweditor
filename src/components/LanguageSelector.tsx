@@ -14,15 +14,16 @@ interface LanguageSelectorProps {
 }
 
 export class LanguageSelectorComp extends React.PureComponent<LanguageSelectorProps, {}> {
-
     private options: Language[] = [];
+
     constructor(props: LanguageSelectorProps) {
         super(props);
-        var languages = Config.get().languages;
-        for (let iso of Object.keys(languages)) {
-            var name = languages[iso];
-            this.options.push({ name: name, iso: iso });
-        }
+        const languages = Config.get().languages;
+        /** Config stores languages as shape { iso, name } */
+        Object.keys(languages).forEach(iso => {
+            const name = languages[iso]; 
+            this.options = [...this.options, { name, iso }]; 
+        }); 
     }
 
     render() {
