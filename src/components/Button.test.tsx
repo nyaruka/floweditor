@@ -9,7 +9,7 @@ const props: ButtonProps = {
     onClick: jest.fn(),
     type: 'primary'
 };
-const ButtonReact = mount(<Button name={props.name} onClick={props.onClick} type={props.type} />);
+const ButtonReact = mount(<Button {...props} />);
 const buttonDivReact = getSpecWrapper(
     ButtonReact,
     `button-${props.type}-${props.name.toLowerCase()}`
@@ -17,6 +17,7 @@ const buttonDivReact = getSpecWrapper(
 
 describe('Button Component', () => {
     it('Renders', () => {
+        expect(ButtonReact).toBePresent(); 
         expect(buttonDivReact).toBePresent();
     });
 
