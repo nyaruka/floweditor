@@ -26,7 +26,7 @@ describe('Button Component', () => {
     });
 
     it('Renders with the right name', () => {
-        expect(buttonDivReact.text()).toEqual('Save');
+        expect(buttonDivReact).toHaveText('Save');
     });
 
     it('Executes onClick callback when clicked', () => {

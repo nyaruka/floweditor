@@ -4,8 +4,9 @@ import { ReactWrapper, mount } from 'enzyme';
 import { CounterProps, CounterComp } from './Counter';
 import { getSpecWrapper } from '../../__tests__/utils';
 import { addCommas } from '../utils'; 
+import { validUUID } from '../../__tests__/utils'; 
 
-/** TODO: Test CSS properly */
+/** TODO: Test CSS properly, test getKey and add tobecalledwith to final test */
 
 let props: CounterProps;
 let handleClick: SpyInstance;
@@ -23,8 +24,10 @@ beforeAll(() => {
             .mockReturnValue(10000),
         onUnmount: jest.fn()
     };
+
     /** Spies on object properties that contain functions need to be intialized before the component is rendered */
     handleClick = spyOn(CounterComp.prototype, 'handleClick');
+
     CounterReact = mount(<CounterComp {...props} />);
     counterOutterReact = getSpecWrapper(
         CounterReact,
@@ -53,7 +56,11 @@ describe('Button Component', () => {
     }); 
 
     it('Displays a count', () => {
-        expect(counterInnerReact.text()).toBe(addCommas(props.getCount())); 
+        expect(counterInnerReact).toHaveText(addCommas(props.getCount())); 
+    }); 
+
+    it('Initializes with a valid key and exposes it via getKey()', () => {
+        expect(CounterReact.key()).toBeTruthy(); 
     }); 
 
     it('Calls \'onUnmount\' prop before unmounting', () => { 
