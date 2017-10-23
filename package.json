@@ -17,6 +17,9 @@
     "build:dev": "webpack --env.NODE_ENV=dev --progress --profile --colors",
     "build:prod": "webpack --env.NODE_ENV=prod --progress --profile --colors",
     "build:both": "npm run build:dev && npm run build:prod",
+    "preprettify": "prettier --debug-check '{,!(node_modules)/**/}*.@(ts|tsx)'",
+    "prettify": "prettier --write 'src/**/*.tsx?'",
+    "pre-push": "npm run test:local && npm run build:both", 
     "preversion": "npm test",
     "version": "npm run build:prod",
     "postversion": "git push && git push --tags && npm publish"
