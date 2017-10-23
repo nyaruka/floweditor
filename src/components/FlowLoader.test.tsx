@@ -3,8 +3,8 @@ import '../../enzyme.adapter';
 import { shallow, mount } from 'enzyme';
 import { FlowLoader } from './FlowLoader';  
 import { Flow } from './Flow'; 
-import { editorConfig } from '../__tests__/flow-editor-config'; 
-import { getSpecWrapper } from '../__tests__/utils'; 
+import { editorConfig } from '../../__tests__/flow-editor-config'; 
+import { getSpecWrapper } from '../../__tests__/utils'; 
 
 const uuid: string = editorConfig.flow; 
 
