@@ -3,24 +3,10 @@ import '../../enzyme.adapter';
 import { shallow, mount } from 'enzyme';
 import { FlowLoader } from './FlowLoader';  
 import { Flow } from './Flow'; 
-import { getSpecWrapper } from '../../__tests__/utils'; 
+import { editorConfig } from '../__tests__/flow-editor-config'; 
+import { getSpecWrapper } from '../__tests__/utils'; 
 
-const __flow_editor_config__: FlowEditorConfig = {
-    endpoints: {
-        contacts: '../assets/contacts.json',
-        fields: '../assets/fields.json',
-        flow: 'a4f64f1b-85bc-477e-b706-de313a022979',
-        flows: '../assets/flows.json',
-        groups: '../assets/groups.json',
-        languages: {
-            eng: 'English',
-            spa: 'Spanish'
-        }
-    },
-    flow: 'a4f64f1b-85bc-477e-b706-de313a022979'
-};
-
-const { flow: uuid }: string = __flow_editor_config__; 
+const uuid: string = editorConfig.flow; 
 
 // const FlowLoaderShallow = shallow(<FlowLoader key={uuid} uuid={uuid} />);
 // const FlowLoaderReact = mount(<FlowLoader key={uuid} uuid={uuid} />); 

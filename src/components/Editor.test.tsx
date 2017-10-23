@@ -3,28 +3,14 @@ import '../../enzyme.adapter';
 import { shallow } from 'enzyme';
 import { Editor } from './Editor';
 import { FlowLoader } from './FlowLoader';
-import { getSpecWrapper, validUUID } from '../../__tests__/utils';
+import { editorConfig } from '../__tests__/flow-editor-config'; 
+import { getSpecWrapper, validUUID } from '../__tests__/utils';
 
-const __flow_editor_config__: FlowEditorConfig = {
-    endpoints: {
-        contacts: '../assets/contacts.json',
-        fields: '../assets/fields.json',
-        flow: 'a4f64f1b-85bc-477e-b706-de313a022979',
-        flows: '../assets/flows.json',
-        groups: '../assets/groups.json',
-        languages: {
-            eng: 'English',
-            spa: 'Spanish'
-        }
-    },
-    flow: 'a4f64f1b-85bc-477e-b706-de313a022979'
-};
-
-const EditorShallow = shallow(<Editor config={__flow_editor_config__} />);
+const EditorShallow = shallow(<Editor config={editorConfig} />);
 
 describe('Editor Component', () => {
     it('Initializes with expected state', () => {
-        const { flow: flowUUID }: string = __flow_editor_config__;
+        const flowUUID: string = editorConfig.flow; 
         expect(EditorShallow).toBePresent();
         expect(EditorShallow).toHaveState('flowUUID', flowUUID);
     });

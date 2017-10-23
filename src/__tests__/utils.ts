@@ -1,6 +1,7 @@
-import { ReactWrapper, ShallowWrapper } from 'enzyme';
 import { ReactElement } from 'react';
-import { FlowDefinition } from '../src/FlowDefinition';
+import '../../enzyme.adapter';
+import { ShallowWrapper, ReactWrapper } from 'enzyme';
+import { FlowDefinition } from '../FlowDefinition';
 
 const request = require('sync-request');
 
@@ -35,20 +36,8 @@ export const DATA_SPEC_ATTRIBUTE_NAME: string = 'data-spec';
 export const getSpecWrapper = (
     componentWrapper: ReactWrapper|ShallowWrapper,
     specName: string,
-    typeFilter?: string|Function 
-): ReactWrapper|ReactWrapper[]|ShallowWrapper|ShallowWrapper[] => {
-    let specWrappers: ReactWrapper|ReactWrapper[]|ShallowWrapper|ShallowWrapper[];
-
-    if (!typeFilter) {
-        specWrappers = componentWrapper.find(`[${DATA_SPEC_ATTRIBUTE_NAME}="${specName}"]`);
-    } else {
-        specWrappers = componentWrapper.findWhere(
-            wrapper =>
-                wrapper.prop(DATA_SPEC_ATTRIBUTE_NAME) === specName && wrapper.type() === typeFilter
-        );
-    }
-
-    return specWrappers;
+): ShallowWrapper|ReactWrapper|ShallowWrapper[]|ReactWrapper[] => {
+    return componentWrapper.find(`[${DATA_SPEC_ATTRIBUTE_NAME}="${specName}"]`);
 };
 
 /**

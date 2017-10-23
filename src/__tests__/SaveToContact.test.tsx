@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
 
-import { SaveToContactComp } from '../src/components/actions/SaveToContact';
-import { FlowMutator } from '../src/components/FlowMutator';
-import { FlowDefinition } from '../src/FlowDefinition';
+import { SaveToContactComp } from '../components/actions/SaveToContact';
+import { FlowMutator } from '../components/FlowMutator';
+import { FlowDefinition } from '../FlowDefinition';
 import { getFavorites } from './utils';
 
 describe.skip('SaveToContact', () => {

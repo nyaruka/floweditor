@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { NodeComp, NodeState } from '../src/components/Node';
-import { FlowLoader, FlowLoaderProps } from '../src/components/FlowLoader';
+import { NodeComp, NodeState } from '../components/Node';
+import { FlowLoader, FlowLoaderProps } from '../components/FlowLoader';
 import { ShallowWrapper, shallow, mount, render } from 'enzyme';
 
 xdescribe('Nodes', () => {

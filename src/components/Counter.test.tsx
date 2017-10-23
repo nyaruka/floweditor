@@ -2,14 +2,14 @@ import * as React from 'react';
 import '../../enzyme.adapter';
 import { ReactWrapper, mount } from 'enzyme';
 import { CounterProps, CounterComp } from './Counter';
-import { getSpecWrapper } from '../../__tests__/utils';
+import { getSpecWrapper } from '../__tests__/utils';
 import { addCommas } from '../utils'; 
-import { validUUID } from '../../__tests__/utils'; 
+import { validUUID } from '../__tests__/utils'; 
 
 /** TODO: Test CSS properly, test getKey and add tobecalledwith to final test */
 
 let props: CounterProps;
-let handleClick: SpyInstance;
+let handleClick: Spy;
 let CounterReact: ReactWrapper;
 let counterOutterReact: ReactWrapper;
 let counterInnerReact: ReactWrapper; 
@@ -17,7 +17,7 @@ let counterInnerReact: ReactWrapper;
 /** This is only necessary because Jasmine requires spies to be initialied in a 'before' function */
 beforeAll(() => {
     props = {
-        containerSyle: 'style goes here',
+        containerStyle: 'style goes here',
         countStyle: 'count style goes here',
         getCount: jest
             .fn()
@@ -32,11 +32,11 @@ beforeAll(() => {
     counterOutterReact = getSpecWrapper(
         CounterReact,
         'counter-outter'
-    ); 
+    ) as ReactWrapper; 
     counterInnerReact = getSpecWrapper(
         CounterReact,
         `counter-inner`
-    );
+    ) as ReactWrapper;
 })
 
 describe('Button Component', () => {
