@@ -1,7 +1,6 @@
 import { ReactElement } from 'react';
-import '../../enzyme.adapter';
 import { ShallowWrapper, ReactWrapper } from 'enzyme';
-import { FlowDefinition } from '../FlowDefinition';
+import { FlowDefinition } from '../src/FlowDefinition';
 
 const request = require('sync-request');
 

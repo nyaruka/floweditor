@@ -2,9 +2,9 @@ import * as React from 'react';
 import '../../enzyme.adapter';
 import { ReactWrapper, mount } from 'enzyme';
 import { CounterProps, CounterComp } from './Counter';
-import { getSpecWrapper } from '../__tests__/utils';
+import { getSpecWrapper } from '../../__tests__/utils';
 import { addCommas } from '../utils'; 
-import { validUUID } from '../__tests__/utils'; 
+import { validUUID } from '../../__tests__/utils'; 
 
 /** TODO: Test CSS properly, test getKey and add tobecalledwith to final test */
 

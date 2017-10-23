@@ -2,7 +2,7 @@ import * as React from 'react';
 import '../../enzyme.adapter';
 import { mount, ReactWrapper } from 'enzyme';
 import { ButtonProps, Button } from './Button';
-import { getSpecWrapper } from '../__tests__/utils';
+import { getSpecWrapper } from '../../__tests__/utils';
 
 const props: ButtonProps = {
     name: 'Save',

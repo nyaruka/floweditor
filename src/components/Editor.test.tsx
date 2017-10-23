@@ -3,8 +3,8 @@ import '../../enzyme.adapter';
 import { shallow } from 'enzyme';
 import { Editor } from './Editor';
 import { FlowLoader } from './FlowLoader';
-import { editorConfig } from '../__tests__/flow-editor-config'; 
-import { getSpecWrapper, validUUID } from '../__tests__/utils';
+import { editorConfig } from '../../__tests__/flow-editor-config'; 
+import { getSpecWrapper, validUUID } from '../../__tests__/utils';
 
 const EditorShallow = shallow(<Editor config={editorConfig} />);
 
