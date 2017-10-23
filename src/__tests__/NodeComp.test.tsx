@@ -1,15 +1,14 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { NodeComp, NodeState } from '../src/components/Node';
-import { FlowLoader, FlowLoaderProps } from '../src/components/FlowLoader';
+import { NodeComp, NodeState } from '../components/Node';
+import { FlowLoader, FlowLoaderProps } from '../components/FlowLoader';
 import { ShallowWrapper, shallow, mount, render } from 'enzyme';
 
-/*
-describe('Nodes', () => {
+xdescribe('Nodes', () => {
 
     describe('Router Node', ()=>{
         let wrapper: ShallowWrapper<Interfaces.NodeProps, NodeState>;
-        
+
         beforeEach(() => {
             var testProps = {
                 _ui: {
@@ -69,7 +68,7 @@ describe('Nodes', () => {
                         destination: null
                 } as Interfaces.ExitProps ]
 
-            } as Interfaces.NodeProps;            
+            } as Interfaces.NodeProps;
         });
 
         it('should render', () => {
@@ -85,10 +84,10 @@ describe('Nodes', () => {
             chai.assert.isTrue(node.hasClass('node'), "Missing node class: " + node.html());
             chai.assert.isTrue(node.hasClass('z-depth-1'), "Not z-depth-1: " + node.attr("class"));
             chai.expect(node.attr('style')).to.contain('left:100px;top:200px');
-            
+
             var action = node.find('.action').first()
             chai.assert.isNotNull(action, "First action is missing" + node.html());
             chai.assert.equal('Send Message', action.find('.action-title').text());
         });
     });
-});*/
+});

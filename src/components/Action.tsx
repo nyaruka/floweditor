@@ -96,6 +96,9 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
         this.props.context.eventHandler.onMoveActionUp(this.props.action);
     }
 
+    /**
+     * Overwritten by actions that inherit this class
+     */
     renderNode(): JSX.Element {
         return null;
     }

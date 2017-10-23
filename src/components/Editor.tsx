@@ -1,13 +1,12 @@
-import * as React from "react";
-import * as axios from "axios";
+import * as React from 'react';
+import * as axios from 'axios';
 import * as UUID from 'uuid';
 import { External, FlowDetails } from '../services/External';
 import { FlowLoader } from './FlowLoader';
-import { FlowList } from './FlowList';
-import { Flow } from './Flow';
+// import { FlowList } from './FlowList';
 import { Endpoints, Config } from '../services/Config';
 
-var styles = require("./Editor.scss");
+const styles = require('./Editor.scss');
 
 interface EditorProps {
     config: FlowEditorConfig;
@@ -21,15 +20,13 @@ interface EditorState {
  * A navigable list of flows for an account
  */
 export class Editor extends React.PureComponent<EditorProps, EditorState> {
-
-    private external: External;
+    private external: External;    
 
     constructor(props: EditorProps) {
         super(props);
         this.state = {
             flowUUID: this.props.config.flow
-        }
-
+        };
         Config.initialize(this.props.config);
     }
 
@@ -37,33 +34,20 @@ export class Editor extends React.PureComponent<EditorProps, EditorState> {
         this.setState({ flowUUID: uuid });
     }
 
-    render() {
-        var flow = null;
+    public render() {
+        let flow;
 
         if (this.state.flowUUID) {
-            flow = <FlowLoader
-                key={this.state.flowUUID}
-                uuid={this.state.flowUUID}
-            />
+            flow = <FlowLoader key={this.state.flowUUID} uuid={this.state.flowUUID} />;
         } else {
-            var newUUID = UUID.v4()
-            flow = <FlowLoader
-                key={newUUID}
-                uuid={newUUID}
-            />
-
+            const newUUID = UUID.v4();
+            flow = <FlowLoader key={newUUID} uuid={newUUID} />;
         }
-
         // disable the flow list for now
-        //var flowList = (<FlowList 
+        // var flowList = (<FlowList
         // temba={this.temba}
         //    onFlowSelect={this.onFlowSelect.bind(this)}
-        ///>)
-
-        return (
-            <div className={styles.editor}>
-                {flow}
-            </div>
-        )
-    }
+        /// >)
+        return <div className={styles.editor} data-spec='editor'>{flow}</div>;
+    }        
 }

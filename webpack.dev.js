@@ -8,7 +8,7 @@ const devConfig = {
         'webpack-dev-server/client?http://localhost:9000',
         'webpack/hot/only-dev-server'
     ],
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     devServer: {
         compress: true,
         hot: true,

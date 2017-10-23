@@ -3,3 +3,6 @@ dist
 .vscode/
 .DS_Store
 *scss\.d\.ts
+coverage
+scratch.tsx
+

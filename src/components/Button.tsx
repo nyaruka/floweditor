@@ -1,6 +1,6 @@
-import * as React from "react";
+import * as React from 'react';
 
-var styles = require('./Button.scss');
+const styles = require('./Button.scss');
 
 export interface ButtonProps {
     name: string;
@@ -10,8 +10,12 @@ export interface ButtonProps {
 
 export class Button extends React.PureComponent<ButtonProps, {}> {
     render() {
-        var classes = [styles.btn];
-        classes.push(styles[this.props.type]);
-        return (<div onClick={this.props.onClick} className={classes.join(" ")}>{this.props.name}</div>)
+        const { name, onClick, type } = this.props;
+        const classes = [styles.btn, styles[type]].join(' ');
+        return (
+            <div onClick={onClick} className={classes} data-spec={`button-${type}-${name.toLowerCase()}`}>
+                {name}
+            </div>
+        );
     }
 }

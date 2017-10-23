@@ -1,31 +1,29 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
 
-import { Exit, Node } from '../FlowDefinition';
-import { External } from '../services/External';
-import { ActivityManager } from "../services/ActivityManager";
 import { addCommas } from '../utils';
 
-var styles = require('./Counter.scss');
+const styles = require('./Counter.scss');
 
-interface CounterProps {
+export interface CounterProps {
     containerStyle: string;
     countStyle: string;
     getCount(): number;
     onUnmount(key: string): void;
 }
 
-interface CounterState {
+export interface CounterState {
     count: number;
 }
 
 export class CounterComp extends React.Component<CounterProps, CounterState> {
-
     private key: string;
 
     constructor(props: CounterProps) {
         super(props);
         this.key = UUID.v4();
+        this.getKey = this.getKey.bind(this); 
+        this.requestUpdate = this.requestUpdate.bind(this); 
     }
 
     componentDidMount() {
@@ -36,7 +34,7 @@ export class CounterComp extends React.Component<CounterProps, CounterState> {
         this.props.onUnmount(this.getKey());
     }
 
-    private onClick(event: React.MouseEvent<HTMLDivElement>) {
+    private handleClick(event: React.MouseEvent<HTMLDivElement>) {
         // for now, just make sure it doesn't propagate to our parent
         event.preventDefault();
         event.stopPropagation();
@@ -47,21 +45,25 @@ export class CounterComp extends React.Component<CounterProps, CounterState> {
     }
 
     public requestUpdate() {
-        this.setState({
-            count: this.props.getCount()
-        });
+        const count = this.props.getCount();
+        this.setState({ count });
     }
 
     render() {
         if (this.state && this.state.count > 0) {
-            var count = addCommas(this.state.count);
+            const count = addCommas(this.state.count);
             return (
-                <div className={styles.counter + " " + this.props.containerStyle} onClick={this.onClick}>
-                    <div className={this.props.countStyle}>
+                <div
+                    className={styles.counter + ' ' + this.props.containerStyle}
+                    onClick={this.handleClick}
+                    data-spec='counter-outter'>
+                    <div
+                        className={this.props.countStyle}
+                        data-spec='counter-inner'>
                         {count}
                     </div>
                 </div>
-            )
+            );
         }
         return null;
     }
