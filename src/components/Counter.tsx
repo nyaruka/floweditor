@@ -17,12 +17,12 @@ export interface CounterState {
 }
 
 export class CounterComp extends React.Component<CounterProps, CounterState> {
-    // private key: string;
+    private key: string;
 
     constructor(props: CounterProps) {
         super(props);
-        // this.key = UUID.v4();
-        // this.getKey = this.getKey.bind(this); 
+        this.key = UUID.v4();
+        this.getKey = this.getKey.bind(this); 
         this.requestUpdate = this.requestUpdate.bind(this); 
     }
 
@@ -31,7 +31,7 @@ export class CounterComp extends React.Component<CounterProps, CounterState> {
     }
 
     componentWillUnmount() {
-        // this.props.onUnmount(this.getKey());
+        this.props.onUnmount(this.getKey());
     }
 
     private handleClick(event: React.MouseEvent<HTMLDivElement>) {
@@ -40,9 +40,9 @@ export class CounterComp extends React.Component<CounterProps, CounterState> {
         event.stopPropagation();
     }
 
-    // public getKey() {
-    //     return this.key;
-    // }
+    public getKey() {
+        return this.key;
+    }
 
     public requestUpdate() {
         const count = this.props.getCount();

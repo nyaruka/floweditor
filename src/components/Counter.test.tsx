@@ -58,13 +58,4 @@ describe('Button Component', () => {
     it('Displays a count', () => {
         expect(counterInnerReact).toHaveText(addCommas(props.getCount())); 
     }); 
-
-    it('Initializes with a valid key and exposes it via getKey()', () => {
-        expect(CounterReact.key()).toBeTruthy(); 
-    }); 
-
-    it('Calls \'onUnmount\' prop before unmounting', () => { 
-        CounterReact.unmount();
-        expect(props.onUnmount).toBeCalled();
-    });
 });
