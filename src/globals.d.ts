@@ -1,4 +1,4 @@
-declare interface FlowEditorConfig {
+declare interface IFlowEditorConfig {
     path?: string;
     languages: { [iso: string]: string };
     endpoints: Endpoints;
