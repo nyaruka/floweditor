@@ -1,15 +1,14 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
-import { shallow } from 'enzyme';
+import { shallow, mount, render } from 'enzyme';
 import { IChangeGroup } from '../../../flowTypes';
 import { IActionProps } from '../../Action';
+import { getSpecWrapper } from '../../../helpers/utils';
 import EditorConfig from '../../../services/EditorConfig';
 import CompMap from '../../../services/ComponentMap';
-import { LocalizedObject } from '../../../services/Localization';
+import LocalizationService, { LocalizedObject } from '../../../services/Localization';
 import { languages } from '../../../flowEditorConfig';
 import ChangeGroupComp from './ChangeGroupComp';
-
-const { results: groups } = require('../../../../assets/groups.json');
 
 const definition = {
     name: 'Lots of Action',
@@ -70,6 +69,12 @@ const definition = {
     }
 };
 
+const { nodes: [node], language: flowLanguage } = definition;
+
+const addToGroupAction = node.actions[1];
+
+const { groups } = addToGroupAction;
+
 const {
     typeConfigList,
     operatorConfigList,
@@ -80,11 +85,9 @@ const {
 
 const ComponentMap = new CompMap(definition as any);
 
-const Localization: LocalizedObject = new LocalizedObject(
-    {
-        uuid: '10e2b6f4-8587-463e-9248-a6069d4897d6'
-    },
-    'spa',
+const Localization: LocalizedObject = LocalizationService.translate(
+    addToGroupAction,
+    flowLanguage,
     languages
 );
 
@@ -95,26 +98,8 @@ const changeGroupCompProps: IActionProps & IChangeGroup = {
     getOperatorConfig,
     endpoints,
     ComponentMap,
-    node: {
-        uuid: 'd5293394-c6d4-407c-97da-8149faea24cf',
-        type: 'add_to_group',
-        groups: [
-            {
-                uuid: 'afaba971-8943-4dd8-860b-3561ed4f1fe1',
-                name: 'Testers'
-            }
-        ]
-    },
-    action: {
-        uuid: 'd5293394-c6d4-407c-97da-8149faea24cf',
-        type: 'add_to_group',
-        groups: [
-            {
-                uuid: 'afaba971-8943-4dd8-860b-3561ed4f1fe1',
-                name: 'Testers'
-            }
-        ]
-    },
+    node,
+    action: addToGroupAction,
     context: {
         eventHandler: {
             onUpdateAction: jest.fn(),
@@ -145,6 +130,7 @@ const ChangeGroupCompShallow = shallow(<ChangeGroupComp {...changeGroupCompProps
 
 xdescribe('Component: ChangeGroup', () => {
     it('ChangeGroupComp should render', () => {
+        const [{ name: groupName }] = groups;
         expect(ChangeGroupCompShallow).toBePresent();
     });
 });
