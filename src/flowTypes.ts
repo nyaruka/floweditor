@@ -1,130 +1,137 @@
-export type LocalizationMap = { [lang: string]: { [uuid: string]: any } };
-
-export interface FlowDefinition {
-    localization: LocalizationMap;
-    language: string,
-    name: string
-    nodes: Node[]
-    uuid: string
-    _ui: UIMetaData
+export interface ILocalizationMap {
+    [lang: string]: {
+        [uuid: string]: any;
+    };
 }
 
-export interface Node {
+export interface IFlowDefinition {
+    localization: ILocalizationMap;
+    language: string;
+    name: string;
+    nodes: INode[];
     uuid: string;
-    exits: Exit[];
+    _ui: IUIMetaData;
+}
 
-    router?: Router;
-    actions?: Action[];
+export interface INode {
+    uuid: string;
+    exits: IExit[];
+
+    router?: IRouter;
+    actions?: IAction[];
     wait?: any;
 }
 
-export interface Exit {
+export interface IExit {
     uuid: string;
     name?: string;
     destination_node_uuid?: string;
 }
 
-export interface Router {
+export interface IRouter {
     type: string;
     result_name?: string;
 }
 
-export interface Case {
+export interface ICase {
     uuid: string;
     type: string;
     exit_uuid: string;
     arguments?: string[];
 }
 
-export interface SwitchRouter extends Router {
-    cases: Case[];
+export interface ISwitchRouter extends IRouter {
+    cases: ICase[];
     operand: string;
     default_exit_uuid: string;
 }
 
-export interface Action {
+export interface IAction {
     type: string;
     uuid: string;
 }
 
-export interface ChangeGroup extends Action {
-    groups: Group[];
+export interface IChangeGroup extends IAction {
+    groups: IGroup[];
 }
 
-export interface Group {
+export interface IGroup {
     uuid: string;
     name: string;
 }
 
-export interface SaveToContact extends Action {
-    field_uuid: string
+export interface ISaveToContact extends IAction {
+    field_uuid: string;
     field_name: string;
     value: string;
     created_on?: Date;
 }
 
-export interface UpdateContact extends Action {
+export interface IUpdateContact extends IAction {
     field_name: string;
     value: string;
 }
 
-export interface Reply extends Action {
+export interface IReply extends IAction {
     text: string;
     all_urns?: boolean;
 }
 
-export interface SetLanguage extends Action {
+export interface ISetLanguage extends IAction {
     language: string;
 }
 
-export interface SendEmail extends Action {
-    subject: string,
-    body: string,
-    emails: string[]
+export interface ISendEmail extends IAction {
+    subject: string;
+    body: string;
+    emails: string[];
 }
 
-export interface SaveFlowResult extends Action {
+export interface ISaveFlowResult extends IAction {
     result_name: string;
     value: string;
     category: string;
 }
 
-export interface Webhook extends Action {
+export interface IHeaders {
+    [name: string]: string;
+}
+
+export interface IWebhook extends IAction {
     url: string;
     method: string;
     body?: string;
-    headers?: { [name: string]: string };
+    headers?: IHeaders;
 }
 
-export interface StartFlow extends Action {
+export interface IStartFlow extends IAction {
     flow_name: string;
     flow_uuid: string;
 }
 
-export interface UIMetaData {
-    nodes: { [key: string]: UINode };
+export interface IUIMetaData {
+    nodes: { [key: string]: IUINode };
     languages: { [iso: string]: string };
 }
 
-export interface Position {
+export interface IPosition {
     x: number;
     y: number;
 }
 
-export interface Dimensions {
+export interface IDimensions {
     width: number;
     height: number;
 }
 
-export interface UINode {
-    position: Position;
-    dimensions?: Dimensions;
+export interface IUINode {
+    position: IPosition;
+    dimensions?: IDimensions;
 
     // ui type, used for split by expression, contact field, etc
-    type?: string
+    type?: string;
 }
 
-export interface UIMetaData {
-    nodes: { [key: string]: UINode };
+export interface IUIMetaData {
+    nodes: { [key: string]: IUINode };
 }
-
