@@ -20,7 +20,6 @@
     "build:both": "npm run build:dev && npm run build:prod",
     "preprettify": "prettier --debug-check '{,!(node_modules)/**/}*.@(ts|tsx)'",
     "prettify": "prettier --write 'src/**/*.tsx?'",
-    "prepush": "npm run test:local && npm run prettify",
     "preversion": "npm test",
     "version": "npm run build:prod",
     "postversion": "git push && git push --tags && npm publish"
@@ -97,7 +96,7 @@
     "tslint-config-prettier": "^1.5.0",
     "tslint-eslint-rules": "^4.1.1",
     "tslint-react": "^3.2.0",
-    "typescript": "^2.2.2",
+    "typescript": "^2.6.1",
     "typings-for-css-modules-loader": "^1.5.0",
     "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#harmony",
     "uglifyjs-webpack-plugin": "^0.4.3",
