@@ -2,22 +2,22 @@ import * as React from 'react';
 import * as axios from 'axios';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
-import { IFlowContext } from './Flow';
-import { INode, IAction, IAnyAction } from '../flowTypes';
-import { getDisplayName } from '../helpers/utils';
+import { IFlowContext } from '../Flow';
+import { INode, IAction, IAnyAction } from '../../flowTypes';
+import { getDisplayName } from '../../helpers/utils';
 import {
     TGetTypeConfig,
     TGetOperatorConfig,
     IType,
     IOperator,
     IEndpoints
-} from '../services/EditorConfig';
-import ComponentMap from '../services/ComponentMap';
-import TitleBar from './TitleBar';
-import { LocalizedObject } from '../services/Localization';
+} from '../../services/EditorConfig';
+import ComponentMap from '../../services/ComponentMap';
+import TitleBar from '../TitleBar';
+import { LocalizedObject } from '../../services/Localization';
 
-const shared = require('./shared.scss');
-const styles = require('./Action.scss');
+const shared = require('../shared.scss');
+const styles = require('./withAction.scss');
 
 type HOCWrapped<P, PHoc> = React.ComponentClass<P & PHoc> | React.SFC<P & PHoc>;
 
@@ -48,9 +48,10 @@ interface IWithActionState {
 
 export type TWithAction = React.ComponentClass<{} & IActionProps>;
 
-
 function withAction() {
-    return function <OriginalProps extends {}>(Component: HOCWrapped<OriginalProps, IAnyAction>): React.ComponentClass<OriginalProps & IActionProps> {
+    return function<OriginalProps extends {}>(
+        Component: HOCWrapped<OriginalProps, IAnyAction>
+    ): React.ComponentClass<OriginalProps & IActionProps> {
         return class WithAction extends React.Component<OriginalProps & IActionProps> {
             static displayName = getDisplayName('WithAction', Component);
 
@@ -171,7 +172,8 @@ function withAction() {
                                     this.clicking = false;
                                     this.onClick(event);
                                 }
-                            }}>
+                            }}
+                            data-spec="interactive-div">
                             <TitleBar
                                 className={shared[this.props.action.type]}
                                 title={config.name}
@@ -187,7 +189,7 @@ function withAction() {
                 );
             }
         };
-    }
+    };
 }
 
 export default withAction;

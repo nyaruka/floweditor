@@ -4,7 +4,7 @@ import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 import * as FlipMove from 'react-flip-move';
-import { IActionProps } from './Action';
+import { IActionProps } from './enhancers/withAction';
 import { IFlowContext } from './Flow';
 import { IDragEvent } from '../services/Plumber';
 import {
@@ -15,7 +15,7 @@ import {
     IEndpoints,
     ILanguages
 } from '../services/EditorConfig';
-import { TWithAction } from './Action';
+import { TWithAction } from './enhancers/withAction';
 import ExitComp from './Exit';
 import TitleBar from './TitleBar';
 import { INode, IPosition, ISwitchRouter, IAction, IUINode } from '../flowTypes';

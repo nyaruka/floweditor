@@ -5,7 +5,7 @@ import NodeActionForm from '../../NodeEditor/NodeActionForm';
 import Widget from '../../NodeEditor/Widget';
 import { CheckboxElement } from '../../form/CheckboxElement';
 
-const styles = require('../../Action.scss');
+const styles = require('../../enhancers/withAction.scss');
 
 class ReplyForm extends NodeActionForm<IReply> {
     renderForm(ref: any): JSX.Element {
