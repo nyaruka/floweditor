@@ -1,34 +1,35 @@
-import * as React from "react";
-import { Config } from "../services/Config";
-var Select = require("react-select");
-var styles = require("./LanguageSelector.scss")
+import * as React from 'react';
+import Select from 'react-select';
+import { ILanguages } from '../services/EditorConfig';
 
-export interface Language {
+const styles = require('./LanguageSelector.scss');
+
+export interface ILanguage {
     name: string;
     iso: string;
 }
 
-interface LanguageSelectorProps {
+export interface ILanguageSelectorProps {
     iso: string;
-    onChange(language: Language): void;
+    languages: ILanguages;
+    onChange(language: ILanguage): void;
 }
 
-export class LanguageSelectorComp extends React.PureComponent<LanguageSelectorProps, {}> {
-    private options: Language[] = [];
+class LanguageSelectorComp extends React.PureComponent<ILanguageSelectorProps, {}> {
+    private options: ILanguage[] = [];
 
-    constructor(props: LanguageSelectorProps) {
+    constructor(props: ILanguageSelectorProps) {
         super(props);
-        const languages = Config.get().languages;
         /** Config stores languages as shape { iso, name } */
-        Object.keys(languages).forEach(iso => {
-            const name = languages[iso]; 
-            this.options = [...this.options, { name, iso }]; 
-        }); 
+        Object.keys(this.props.languages).forEach(iso => {
+            const name = this.props.languages[iso];
+            this.options = [...this.options, { name, iso }];
+        });
     }
 
     render() {
         return (
-            <div className={styles.ele + " select-small"}>
+            <div className={styles.ele + ' select-small'}>
                 <Select
                     value={this.props.iso}
                     onChange={this.props.onChange}
@@ -38,6 +39,9 @@ export class LanguageSelectorComp extends React.PureComponent<LanguageSelectorPr
                     clearable={false}
                     options={this.options}
                 />
-            </div>)
+            </div>
+        );
     }
 }
+
+export default LanguageSelectorComp;
