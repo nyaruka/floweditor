@@ -2,21 +2,20 @@ import * as React from 'react';
 import * as UUID from 'uuid';
 import * as ReactModal from 'react-modal';
 
-import { Button, ButtonProps } from './Button';
-import { Config } from '../services/Config';
+import { Button, IButtonProps } from './Button';
 
-var styles = require('./Modal.scss');
-var shared = require('./shared.scss');
+const styles = require('./Modal.scss');
+const shared = require('./shared.scss');
 
-export interface ButtonSet {
-    primary: ButtonProps;
-    secondary?: ButtonProps;
-    tertiary?: ButtonProps;
+export interface IButtonSet {
+    primary: IButtonProps;
+    secondary?: IButtonProps;
+    tertiary?: IButtonProps;
 }
 
-interface ModalProps {
+export interface IModalProps {
     show: boolean;
-    buttons: ButtonSet;
+    buttons: IButtonSet;
 
     advanced?: JSX.Element;
     onModalOpen?: any;
@@ -25,28 +24,27 @@ interface ModalProps {
     width?: string;
 }
 
-interface ModalState {
-    flipped: boolean
+interface IModalState {
+    flipped: boolean;
 }
 
 /**
  * A base modal for displaying messages or performing single button actions
  */
-export class Modal extends React.Component<ModalProps, ModalState> {
-
-    constructor(props: ModalProps) {
+class Modal extends React.Component<IModalProps, IModalState> {
+    constructor(props: IModalProps) {
         super(props);
         this.toggleFlip = this.toggleFlip.bind(this);
         this.state = {
             flipped: false
-        }
+        };
     }
 
     public toggleFlip() {
         this.setState({ flipped: !this.state.flipped });
     }
 
-    componentWillReceiveProps(nextProps: ModalProps) {
+    componentWillReceiveProps(nextProps: IModalProps) {
         if (this.props.show != nextProps.show && !nextProps.show) {
             this.setState({ flipped: false });
         }
@@ -62,10 +60,10 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 padding: 'none',
                 borderRadius: 'none',
                 outline: 'none',
-                width: this.props.width ? this.props.width : "700px",
+                width: this.props.width ? this.props.width : '700px',
                 border: 'none'
             }
-        }
+        };
 
         var rightButtons: JSX.Element[] = [];
         var leftButtons: JSX.Element[] = [];
@@ -73,7 +71,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
         var buttons = this.props.buttons;
 
         if (buttons.secondary) {
-            rightButtons.push(<Button key={Math.random()} {...buttons.secondary} type="secondary" />);
+            rightButtons.push(
+                <Button key={Math.random()} {...buttons.secondary} type="secondary" />
+            );
         }
 
         // no matter what, we'll have a primary button
@@ -88,53 +88,66 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
         var topStyle = styles.container;
         if (this.state.flipped) {
-            topStyle += " " + styles.flipped
+            topStyle += ' ' + styles.flipped;
         }
 
         var children = React.Children.toArray(this.props.children);
         var hasAdvanced = children.length > 1 && children[1] != null;
 
         var sides = children.map((child: React.ReactChild, i: number) => {
-
             var classes = [styles.side];
             var title = this.props.title[i];
             if (i == 0) {
                 classes.push(styles.front);
             } else {
-                title = <div><div className={styles.background + " icon-settings"} /><div style={{ marginLeft: "40px" }}>{title}</div></div>
+                title = (
+                    <div>
+                        <div className={styles.background + ' icon-settings'} />
+                        <div style={{ marginLeft: '40px' }}>{title}</div>
+                    </div>
+                );
                 classes.push(styles.back);
             }
 
             var flip = null;
             if (hasAdvanced) {
                 if (i == 0) {
-                    flip = <div className={styles.show_back} onClick={this.toggleFlip}><span className="icon-settings" /></div>
+                    flip = (
+                        <div className={styles.show_back} onClick={this.toggleFlip}>
+                            <span className="icon-settings" />
+                        </div>
+                    );
                 } else {
-                    flip = <div className={styles.show_front} onClick={this.toggleFlip}><span className="icon-back" /></div>
+                    flip = (
+                        <div className={styles.show_front} onClick={this.toggleFlip}>
+                            <span className="icon-back" />
+                        </div>
+                    );
                 }
             }
 
             return (
-                <div key={"modal_side_" + i} className={classes.join(" ")}>
+                <div key={'modal_side_' + i} className={classes.join(' ')}>
                     <div className={styles.modal}>
-                        <div className={styles.header + " " + this.props.className + " " + shared["modal_side_" + i]}>
+                        <div
+                            className={
+                                styles.header +
+                                ' ' +
+                                this.props.className +
+                                ' ' +
+                                shared['modal_side_' + i]
+                            }>
                             {flip}
                             {title}
                         </div>
-                        <div className={styles.content}>
-                            {child}
-                        </div>
+                        <div className={styles.content}>{child}</div>
                         <div className={styles.footer}>
-                            <div className={styles.left}>
-                                {leftButtons}
-                            </div>
-                            <div className={styles.right}>
-                                {rightButtons}
-                            </div>
+                            <div className={styles.left}>{leftButtons}</div>
+                            <div className={styles.right}>{rightButtons}</div>
                         </div>
                     </div>
                 </div>
-            )
+            );
         });
 
         return (
@@ -145,11 +158,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 style={customStyles}
                 shouldCloseOnOverlayClick={false}
                 contentLabel="Modal">
-                <div className={topStyle}>
-                    {sides}
-                </div>
+                <div className={topStyle}>{sides}</div>
             </ReactModal>
-        )
+        );
     }
 }
 
