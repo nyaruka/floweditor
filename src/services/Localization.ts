@@ -10,16 +10,18 @@ import __flow_editor_config__ from '../flowEditorConfig';
     private localized: boolean;
     private iso: string;
     private language: ILanguage;
+    private languages: ILanguages;
 
     constructor(object: IAction | IExit | ICase, iso: string, languages: ILanguages) {
         this.localizedObject = object;
         this.iso = iso;
+        this.languages = languages;
     }
 
     getLanguage() {
         if (!this.language) {
             if (this.iso) {
-                this.language = { iso: this.iso, name: __flow_editor_config__.languages[this.iso] };
+                this.language = { iso: this.iso, name: this.languages[this.iso] };
             }
         }
         return this.language;
