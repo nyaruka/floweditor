@@ -1,25 +1,24 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
-import { SwitchRouterForm, SwitchRouterState } from "./SwitchRouter";
-import { StartFlow, Case, Exit, SwitchRouter } from '../../FlowDefinition';
-import { FlowElement } from "../form/FlowElement";
-import { NodeRouterForm, Widget } from "../NodeEditor";
-import { Config } from "../../services/Config";
-import { ComponentMap } from "../ComponentMap";
+import { SwitchRouterForm, ISwitchRouterState } from './SwitchRouter';
+import { IStartFlow, ICase, ISwitchRouter } from '../../flowTypes';
+import { FlowElement } from '../form/FlowElement';
+import NodeRouterForm from '../NodeEditor/NodeRouterForm';
+import Widget from '../NodeEditor/Widget';
+import ComponentMap from '../../services/ComponentMap';
 
-
-export class SubflowForm extends NodeRouterForm<SwitchRouter, SwitchRouterState> {
-
+export class SubflowForm extends NodeRouterForm<ISwitchRouter, ISwitchRouterState> {
     renderForm(ref: any): JSX.Element {
         if (this.isTranslating()) {
             return this.renderExitTranslations(ref);
         }
 
-        var flow_name, flow_uuid: string = null;
+        var flow_name,
+            flow_uuid: string = null;
         if (this.props.action) {
             var action = this.props.action;
-            if (action.type == "start_flow") {
-                var startAction: StartFlow = action as StartFlow;
+            if (action.type == 'start_flow') {
+                var startAction: IStartFlow = action as IStartFlow;
                 flow_name = startAction.flow_name;
                 flow_uuid = startAction.flow_uuid;
             }
@@ -31,13 +30,13 @@ export class SubflowForm extends NodeRouterForm<SwitchRouter, SwitchRouterState>
                 <FlowElement
                     ref={ref}
                     name="Flow"
-                    endpoint={Config.get().endpoints.flows}
+                    endpoint={this.props.endpoints.flows}
                     flow_name={flow_name}
                     flow_uuid={flow_uuid}
                     required
                 />
             </div>
-        )
+        );
     }
 
     getUUID(): string {
@@ -52,32 +51,30 @@ export class SubflowForm extends NodeRouterForm<SwitchRouter, SwitchRouterState>
             return this.saveLocalizedExits(widgets);
         }
 
-        var select = widgets["Flow"] as FlowElement;
+        var select = widgets['Flow'] as FlowElement;
         var flow = select.state.flow;
 
-        var newAction: StartFlow = {
+        var newAction: IStartFlow = {
             uuid: this.getUUID(),
             type: this.props.config.type,
             flow_name: flow.name,
             flow_uuid: flow.id
-        }
+        };
 
         // if we were already a subflow, lean on those exits and cases
         var exits = [];
-        var cases: Case[];
+        var cases: ICase[];
 
-        var details = ComponentMap.get().getDetails(this.props.node.uuid);
-        if (details && details.type == "subflow") {
+        var details = this.props.ComponentMap.getDetails(this.props.node.uuid);
+        if (details && details.type == 'subflow') {
             exits = this.props.node.exits;
-            cases = (this.props.node.router as SwitchRouter).cases;
-        }
-
-        // otherwise, let's create some new ones
-        else {
+            cases = (this.props.node.router as ISwitchRouter).cases;
+        } else {
+            // otherwise, let's create some new ones
             exits = [
                 {
                     uuid: UUID.v4(),
-                    name: "Complete",
+                    name: 'Complete',
                     destination_node_uuid: null
                 }
             ];
@@ -85,20 +82,19 @@ export class SubflowForm extends NodeRouterForm<SwitchRouter, SwitchRouterState>
             cases = [
                 {
                     uuid: UUID.v4(),
-                    type: "has_run_status",
-                    arguments: ["C"],
+                    type: 'has_run_status',
+                    arguments: ['C'],
                     exit_uuid: exits[0].uuid
                 }
             ];
         }
 
-
-        var router: SwitchRouter = {
-            type: "switch",
-            operand: "@child",
+        var router: ISwitchRouter = {
+            type: 'switch',
+            operand: '@child',
             cases: cases,
             default_exit_uuid: null
-        }
+        };
 
         // HACK: this should go away with modal refactor
         var nodeUUID = this.props.node.uuid;
@@ -106,12 +102,16 @@ export class SubflowForm extends NodeRouterForm<SwitchRouter, SwitchRouterState>
             nodeUUID = UUID.v4();
         }
 
-        this.props.updateRouter({
-            uuid: nodeUUID,
-            router: router,
-            exits: exits,
-            actions: [newAction],
-            wait: { type: "flow", flow_uuid: flow.id }
-        }, "subflow", this.props.action);
+        this.props.updateRouter(
+            {
+                uuid: nodeUUID,
+                router: router,
+                exits: exits,
+                actions: [newAction],
+                wait: { type: 'flow', flow_uuid: flow.id }
+            },
+            'subflow',
+            this.props.action
+        );
     }
 }
