@@ -1,72 +1,78 @@
 import * as React from 'react';
-import { ActionProps } from './Action';
-import { FlowDefinition, Action, Node, Position, Reply, UINode, SwitchRouter, Exit, Dimensions } from '../FlowDefinition';
-import { ContactFieldResult, SearchResult, ComponentMap } from './ComponentMap';
-import { NodeComp, NodeProps, DragPoint } from './Node';
-import { FlowMutator } from './FlowMutator';
-import { Simulator } from './Simulator';
-import { Plumber } from '../services/Plumber';
-import { External } from '../services/External';
-import { Config, Endpoints } from '../services/Config';
-import { SwitchRouterForm } from "./routers/SwitchRouter";
-import { ActivityManager } from "../services/ActivityManager";
-import { NodeEditor, NodeEditorProps } from "./NodeEditor";
-import { LanguageSelectorComp, Language } from "./LanguageSelector";
-import { Localization } from "../Localization";
+import {
+    IFlowDefinition,
+    IAction,
+    INode,
+    IPosition,
+    IReply,
+    IUINode,
+    IDimensions
+} from '../flowTypes';
+import ComponentMap from '../services/ComponentMap';
+import { NodeComp, IDragPoint } from './Node';
+import FlowMutator from '../services/FlowMutator';
+import Simulator from './Simulator';
+import Plumber from '../services/Plumber';
+import EditorConfig from '../services/EditorConfig';
+import External from '../services/External';
+import ActivityManager from '../services/ActivityManager';
+import NodeEditor, { INodeEditorProps } from './NodeEditor';
+import LanguageSelectorComp, { ILanguage } from './LanguageSelector';
 import * as FlipMove from 'react-flip-move';
 
-var update = require('immutability-helper');
-var UUID = require('uuid');
+const update = require('immutability-helper');
+const UUID = require('uuid');
+const styles = require('./Flow.scss');
 
-var styles = require("./Flow.scss");
+export interface IFlowEventHandler {
+    onUpdateAction(node: INode, action: IAction): void;
+    onUpdateRouter(node: INode, type: string, previousAction?: IAction): void;
+    onUpdateLocalizations(language: string, changes: { uuid: string; translations: any }[]): void;
+    onUpdateDimensions(node: INode, dimensions: IDimensions): void;
 
-export interface FlowContext {
-    eventHandler: FlowEventHandler;
-}
+    onNodeBeforeDrag(node: INode, dragGroup: boolean): void;
+    onNodeDragStart(node: INode): void;
+    onNodeDragStop(node: INode): void;
 
-export interface FlowEventHandler {
-    onUpdateAction(node: Node, action: Action): void;
-    onUpdateRouter(node: Node, type: string, previousAction?: Action): void;
-    onUpdateLocalizations(language: string, changes: { uuid: string, translations: any }[]): void;
-    onUpdateDimensions(node: Node, dimensions: Dimensions): void;
-
-    onNodeBeforeDrag(node: Node, dragGroup: boolean): void;
-    onNodeDragStart(node: Node): void;
-    onNodeDragStop(node: Node): void;
-
-    onRemoveAction(action: Action): void;
-    onMoveActionUp(action: Action): void;
+    onRemoveAction(action: IAction): void;
+    onMoveActionUp(action: IAction): void;
     onDisconnectExit(exitUUID: string): void;
-    onNodeMoved(nodeUUID: string, position: Position): void;
-    onAddAction(addToNode: Node): void;
-    onRemoveNode(props: Node): void;
-    openEditor(props: NodeEditorProps): void;
-    onNodeMounted(props: Node): void;
+    onNodeMoved(nodeUUID: string, position: IPosition): void;
+    onAddAction(addToNode: INode): void;
+    onRemoveNode(props: INode): void;
+    openEditor(props: INodeEditorProps): void;
+    onNodeMounted(props: INode): void;
 }
 
-
-interface FlowProps {
-    definition: FlowDefinition;
-    dependencies: FlowDefinition[];
-    mutator: FlowMutator;
+export interface IFlowContext {
+    eventHandler: IFlowEventHandler;
 }
 
-interface FlowState {
-    ghost?: Node;
-    nodeEditor?: NodeEditorProps;
+export interface IFlowProps {
+    EditorConfig: EditorConfig;
+    definition: IFlowDefinition;
+    dependencies: IFlowDefinition[];
+    External: External;
+    Mutator: FlowMutator;
+    ComponentMap: ComponentMap;
+}
+
+export interface IFlowState {
+    ghost?: INode;
+    nodeEditor?: INodeEditorProps;
     loading: boolean;
-    context: FlowContext;
-    viewDefinition?: FlowDefinition;
-    draggingNode?: Node;
-    language?: Language;
+    context: IFlowContext;
+    viewDefinition?: IFlowDefinition;
+    draggingNode?: INode;
+    language?: ILanguage;
 }
 
-interface Connection {
-    previousConnection: Connection;
+export interface IConnection {
+    previousConnection: IConnection;
 }
 
-interface ConnectionEvent {
-    connection: Connection;
+export interface IConnectionEvent {
+    connection: IConnection;
     source: Element;
     target: Element;
     sourceId: string;
@@ -75,26 +81,37 @@ interface ConnectionEvent {
 }
 
 const REPAINT_DURATION = 600;
-
-export class Flow extends React.PureComponent<FlowProps, FlowState> {
+export class Flow extends React.PureComponent<IFlowProps, IFlowState> {
+    private repaintDuration: number;
+    private Activity: ActivityManager;
+    private Plumber: any;
+    private Mutator: FlowMutator;
 
     // dragging details, TODO, state this?
-    private pendingConnection: DragPoint;
-    private createNodePosition: Position;
-    private addToNode: Node;
+    private pendingConnection: IDragPoint;
+    private createNodePosition: IPosition;
+    private addToNode: INode;
 
     private ghostComp: NodeComp;
     private nodeEditorComp: NodeEditor;
 
-    constructor(props: FlowProps, state: FlowState) {
+    constructor(props: IFlowProps) {
         super(props);
+
+        this.repaintDuration = REPAINT_DURATION;
+
+        this.Activity = new ActivityManager(
+            this.props.definition.uuid,
+            this.props.External.getActivity
+        );
+
+        this.Plumber = new Plumber();
 
         this.onConnectionDrag = this.onConnectionDrag.bind(this);
         this.onNodeMoved = this.onNodeMoved.bind(this);
         this.onNodeMounted = this.onNodeMounted.bind(this);
         this.onAddAction = this.onAddAction.bind(this);
         this.onUpdateAction = this.onUpdateAction.bind(this);
-        this.onUpdateRouter = this.onUpdateRouter.bind(this);
         this.onModalClose = this.onModalClose.bind(this);
         this.onShowDefinition = this.onShowDefinition.bind(this);
         this.openEditor = this.openEditor.bind(this);
@@ -105,76 +122,79 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.resetState = this.resetState.bind(this);
         this.showLanguage = this.showLanguage.bind(this);
 
-        ActivityManager.initialize(this.props.definition.uuid);
-
         this.state = {
             loading: true,
             context: {
                 eventHandler: {
                     onUpdateAction: this.onUpdateAction,
                     onUpdateRouter: this.onUpdateRouter,
-                    onUpdateLocalizations: this.props.mutator.updateLocalizations,
-                    onUpdateDimensions: this.props.mutator.updateDimensions,
+                    onUpdateLocalizations: this.props.Mutator.updateLocalizations,
+                    onUpdateDimensions: this.props.Mutator.updateDimensions,
 
                     onNodeBeforeDrag: this.onNodeBeforeDrag,
                     onNodeDragStart: this.onNodeDragStart,
                     onNodeDragStop: this.onNodeDragStop,
 
                     openEditor: this.openEditor,
-                    onRemoveAction: this.props.mutator.removeAction,
-                    onMoveActionUp: this.props.mutator.moveActionUp,
+                    onRemoveAction: this.props.Mutator.removeAction,
+                    onMoveActionUp: this.props.Mutator.moveActionUp,
                     onAddAction: this.onAddAction,
-                    onRemoveNode: this.props.mutator.removeNode,
+                    onRemoveNode: this.props.Mutator.removeNode,
                     onNodeMoved: this.onNodeMoved,
                     onNodeMounted: this.onNodeMounted,
-                    onDisconnectExit: this.props.mutator.disconnectExit
+                    onDisconnectExit: this.props.Mutator.disconnectExit
                 }
             }
-        }
-        console.time("RenderAndPlumb");
+        };
+
+        console.time('RenderAndPlumb');
     }
 
-    private onNodeBeforeDrag(node: Node, dragGroup: boolean) {
+    private onNodeBeforeDrag(node: INode, dragGroup: boolean) {
         if (!this.state.draggingNode) {
             if (dragGroup) {
-                var nodesBelow = ComponentMap.get().getNodesBelow(node);
-                Plumber.get().setDragSelection(nodesBelow);
+                const nodesBelow = this.props.ComponentMap.getNodesBelow(node);
+                this.Plumber.setDragSelection(nodesBelow);
             } else {
-                Plumber.get().clearDragSelection();
+                this.Plumber.clearDragSelection();
             }
         }
     }
 
-    private onNodeDragStart(node: Node) {
+    private onNodeDragStart(node: INode) {
         if (!this.state.draggingNode) {
             this.setState({ draggingNode: node });
         }
     }
 
-    private onNodeDragStop(node: Node) {
+    private onNodeDragStop(node: INode) {
         if (this.state.draggingNode) {
             this.setState({ draggingNode: null });
         }
     }
 
-    private openEditor(props: NodeEditorProps) {
-
-        console.log("openEditor", props);
+    private openEditor(props: INodeEditorProps) {
+        console.log('openEditor', props);
 
         props.onClose = (canceled: boolean) => {
             // make sure we re-wire the old connection
             if (canceled) {
                 if (this.pendingConnection) {
-                    var exit = this.props.mutator.getExit(this.pendingConnection.exitUUID);
+                    const exit = this.props.Mutator.getExit(this.pendingConnection.exitUUID);
                     if (exit) {
-                        Plumber.get().connectExit(exit);
+                        this.Plumber.connectExit(exit);
                     }
                 }
             }
 
-            this.setState({
-                ghost: null
-            }, () => { this.resetState() });
+            this.setState(
+                {
+                    ghost: null
+                },
+                () => {
+                    this.resetState();
+                }
+            );
         };
 
         this.setState({ nodeEditor: props, draggingNode: null }, () => {
@@ -182,33 +202,38 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         });
     }
 
-    private onAddAction(addToNode: Node) {
-
-        var newAction: Reply = {
+    private onAddAction(addToNode: INode) {
+        const newAction: IReply = {
             uuid: UUID.v4(),
-            type: "reply",
-            text: ""
+            type: 'reply',
+            text: ''
         };
 
         this.openEditor({
             context: this.state.context,
             node: addToNode,
             action: newAction,
-            actionsOnly: true
+            actionsOnly: true,
+            typeConfigList: this.props.EditorConfig.typeConfigList,
+            operatorConfigList: this.props.EditorConfig.operatorConfigList,
+            getTypeConfig: this.props.EditorConfig.getTypeConfig,
+            getOperatorConfig: this.props.EditorConfig.getOperatorConfig,
+            endpoints: this.props.EditorConfig.endpoints,
+            ComponentMap: this.props.ComponentMap
         });
 
         this.addToNode = addToNode;
     }
 
-    private onNodeMoved(uuid: string, position: Position) {
-        this.props.mutator.updateNodeUI(uuid, {
+    private onNodeMoved(uuid: string, position: IPosition) {
+        this.props.Mutator.updateNodeUI(uuid, {
             position: { $set: position }
         });
-        Plumber.get().repaintForDuration(REPAINT_DURATION);
+        this.Plumber.repaintForDuration(this.repaintDuration);
     }
 
-    private onNodeMounted(props: Node) {
-        this.props.mutator.resolvePendingConnection(props);
+    private onNodeMounted(props: INode) {
+        this.props.Mutator.resolvePendingConnection(props);
     }
 
     private onModalClose() {
@@ -223,67 +248,96 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         });
     }
 
-    private onUpdateAction(node: Node, action: Action) {
-        console.log("Flow.onUpdateAction", action);
-        this.props.mutator.updateAction(action, node.uuid, this.pendingConnection, this.createNodePosition, this.addToNode);
+    private onUpdateAction(node: INode, action: IAction) {
+        console.log('Flow.onUpdateAction', action);
+        this.props.Mutator.updateAction(
+            action,
+            node.uuid,
+            this.pendingConnection,
+            this.createNodePosition,
+            this.addToNode
+        );
+
         this.resetState();
 
-        Plumber.get().repaintForDuration(REPAINT_DURATION);
+        this.Plumber.repaintForDuration(this.repaintDuration);
     }
 
-    private onUpdateRouter(node: Node, type: string, previousAction?: Action) {
-        console.log("Flow.onUpdateRouter", node);
-        var router = node.router as any;
-        var newNode = this.props.mutator.updateRouter(node, type, this.pendingConnection, this.createNodePosition, previousAction);
-        if (newNode.uuid != node.uuid) {
-            Plumber.get().repaintForDuration(REPAINT_DURATION);
+    private onUpdateRouter(node: INode, type: string, previousAction?: IAction) {
+        console.log('Flow.onUpdateRouter', node);
+
+        const { uuid: nodeUUID } = node;
+        const { uuid: newUUID } = this.props.Mutator.updateRouter(
+            node,
+            type,
+            this.pendingConnection,
+            this.createNodePosition,
+            previousAction
+        );
+
+        if (nodeUUID != newUUID) {
+            this.Plumber.repaintForDuration(this.repaintDuration);
         }
+
         this.resetState();
     }
 
     /**
      * Called when a connection begins to be dragged from an endpoint both
      * when a new connection is desired or when an existing one is being moved.
-     * @param event 
+     * @param event
      */
-    private onConnectionDrag(event: ConnectionEvent) {
-
+    private onConnectionDrag(event: IConnectionEvent) {
         // we finished dragging a ghost node, create the spec for our new ghost component
-        let components = ComponentMap.get();
-        let draggedFromDetails = components.getDetails(event.sourceId);
+        let draggedFromDetails = this.props.ComponentMap.getDetails(event.sourceId);
 
-        let fromNode = this.props.mutator.getNode(draggedFromDetails.nodeUUID);
-        let fromNodeUI = this.props.mutator.getNodeUI(fromNode.uuid);
+        let fromNode = this.props.Mutator.getNode(draggedFromDetails.nodeUUID);
+        let fromNodeUI = this.props.Mutator.getNodeUI(fromNode.uuid);
 
-        var nodeUUID = UUID.v4();
-        var draggedFrom = {
+        const draggedFrom = {
             nodeUUID: draggedFromDetails.nodeUUID,
             exitUUID: draggedFromDetails.exitUUID
-        }
+        };
 
-        var ghost: Node = {
-            uuid: nodeUUID,
+        let ghost: INode = {
+            uuid: UUID.v4(),
             actions: [],
-            exits: [{
-                uuid: UUID.v4(),
-                destination_node_uuid: null
-            }]
+            exits: [
+                {
+                    uuid: UUID.v4(),
+                    destination_node_uuid: null
+                }
+            ]
         };
 
         // add an action if we are coming from a split
-        if (fromNode.wait || "webhook" == fromNodeUI.type) {
-            let replyAction: Reply = {
+        if (fromNode.wait || fromNodeUI.type === 'webhook') {
+            let replyAction: IReply = {
                 uuid: UUID.v4(),
-                type: "reply",
+                type: 'reply',
                 text: null
-            }
-            ghost.actions.push(replyAction);
-        }
+            };
 
-        // otherwise we are going to a switch
-        else {
-            ghost.exits[0].name = "All Responses";
-            ghost.router = { type: "switch" }
+            ghost = update(
+                ghost,
+                {
+                    actions: {
+                        $push: [replyAction]
+                    }
+                }
+            );
+        } else {
+            // otherwise we are going to a switch
+            ghost = {
+                ...ghost,
+                exits: [
+                    {
+                        ...ghost.exits[0],
+                        name: 'All Responses'
+                    }
+                ],
+                router: { type: 'switch' }
+            }
         }
 
         // set our ghost spec so it gets rendered
@@ -292,7 +346,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         // dragging connections
         window.setTimeout(() => {
             this.setState({
-                ghost: ghost,
+                ghost: ghost
             });
         }, 0);
 
@@ -300,47 +354,55 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         this.pendingConnection = draggedFrom;
     }
 
-    componentDidUpdate(prevProps: FlowProps, prevState: FlowState) {
+    componentDidUpdate(prevProps: IFlowProps, prevState: IFlowState) {
         // console.log("Updated", this.props.definition);
-        // this.props.mutator.reflow();
+        // this.props.Mutator.reflow();
     }
 
     componentDidMount() {
+        const Plumber = this.Plumber;
 
-        var plumb = Plumber.get();
+        Plumber.bind('connection', (event: IConnectionEvent) => this.onConnection(event));
+        Plumber.bind('beforeDrag', (event: IConnectionEvent) =>
+            this.beforeConnectionDrag(event)
+        );
+        Plumber.bind('connectionDrag', (event: IConnectionEvent) =>
+            this.onConnectionDrag(event)
+        );
+        Plumber.bind('connectionDragStop', (event: IConnectionEvent) =>
+            this.onConnectorDrop(event)
+        );
+        Plumber.bind('beforeStartDetach', (event: IConnectionEvent) =>
+            this.onBeforeStartDetach(event)
+        );
+        Plumber.bind('beforeDetach', (event: IConnectionEvent) => this.onBeforeDetach(event));
+        Plumber.bind('beforeDrop', (event: IConnectionEvent) =>
+            this.onBeforeConnectorDrop(event)
+        );
 
-        plumb.bind("connection", (event: ConnectionEvent) => { return this.onConnection(event) });
-        plumb.bind("beforeDrag", (event: ConnectionEvent) => { return this.beforeConnectionDrag(event) });
-        plumb.bind("connectionDrag", (event: ConnectionEvent) => { return this.onConnectionDrag(event) });
-        plumb.bind("connectionDragStop", (event: ConnectionEvent) => { return this.onConnectorDrop(event) });
-        plumb.bind("beforeStartDetach", (event: ConnectionEvent) => { return this.onBeforeStartDetach(event) });
-        plumb.bind("beforeDetach", (event: ConnectionEvent) => { return this.onBeforeDetach(event) });
-        plumb.bind("beforeDrop", (event: ConnectionEvent) => { return this.onBeforeConnectorDrop(event) });
-
-        this.props.mutator.ensureStartNode();
+        this.props.Mutator.ensureStartNode();
 
         // if we don't have any nodes, create our first one
 
-        console.timeEnd("RenderAndPlumb");
+        console.timeEnd('RenderAndPlumb');
         this.setState({ loading: false });
 
-        // deals with safari load rendering throwing 
+        // deals with safari load rendering throwing
         // off the jsplumb offsets
         window.setTimeout(() => {
-            Plumber.get().repaint();
+            this.Plumber.repaint();
         }, 500);
-
     }
 
     componentWillUnmount() {
-        Plumber.get().reset();
+        this.Plumber.reset();
     }
 
     private isMutable() {
         return this.state.language == null;
     }
 
-    private beforeConnectionDrag(event: ConnectionEvent) {
+    private beforeConnectionDrag(event: IConnectionEvent) {
         return this.isMutable();
     }
 
@@ -348,45 +410,44 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         return this.isMutable();
     }
 
-    private onBeforeDetach(event: ConnectionEvent) {
+    private onBeforeDetach(event: IConnectionEvent) {
         return true;
     }
 
     /**
      * Called right before a connector is dropped onto a new node
      */
-    private onBeforeConnectorDrop(event: ConnectionEvent) {
+    private onBeforeConnectorDrop(event: IConnectionEvent) {
         this.resetState();
-        var connectionError = this.props.mutator.getConnectionError(event.sourceId, event.targetId);
+        var connectionError = this.props.Mutator.getConnectionError(event.sourceId, event.targetId);
         if (connectionError != null) {
             console.error(connectionError);
         }
         return connectionError == null;
     }
 
-    private onConnection(event: ConnectionEvent) {
-        this.props.mutator.updateConnection(event.sourceId, event.targetId);
+    private onConnection(event: IConnectionEvent) {
+        this.props.Mutator.updateConnection(event.sourceId, event.targetId);
     }
 
-    private onShowDefinition(definition: FlowDefinition) {
+    private onShowDefinition(definition: IFlowDefinition) {
         // TODO: make this work, it's cool!
-        // Plumber.get().reset();
-        // this.setState({ viewDefinition: definition }, () => { Plumber.get().repaint() });
+        // this.Plumber.reset();
+        // this.setState({ viewDefinition: definition }, () => { this.Plumber.repaint() });
     }
 
     /**
      * Called the moment a connector is done dragging, whether it is dropped on an
      * existing node or on to empty space.
      */
-    private onConnectorDrop(event: ConnectionEvent) {
-
+    private onConnectorDrop(event: IConnectionEvent) {
         // we put this in a zero timeout so jsplumb doesn't swallow any stack traces
         window.setTimeout(() => {
-            if (this.ghostComp && $(this.ghostComp.ele).is(":visible")) {
+            if (this.ghostComp && $(this.ghostComp.ele).is(':visible')) {
                 // wire up the drag from to our ghost node
                 let dragPoint = this.pendingConnection;
-                Plumber.get().recalculate(this.state.ghost.uuid);
-                Plumber.get().connect(dragPoint.exitUUID, this.state.ghost.uuid);
+                this.Plumber.recalculate(this.state.ghost.uuid);
+                this.Plumber.connect(dragPoint.exitUUID, this.state.ghost.uuid);
 
                 // save our position for later
                 var { offsetTop, offsetLeft } = $(this.ghostComp.ele)[0];
@@ -402,19 +463,16 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         return true;
     }
 
-
-    private showLanguage(language: Language): void {
+    private showLanguage(language: ILanguage): void {
         if (language.iso != this.props.definition.language) {
             this.setState({ language: language });
         } else {
             // back to the default language
             this.setState({ language: null });
         }
-
     }
 
     render() {
-
         var language = null;
         var translations: { [uuid: string]: any };
         if (this.state.language) {
@@ -423,7 +481,7 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
                 translations = this.props.definition.localization[language];
             }
             if (!translations) {
-                translations = {}
+                translations = {};
             }
         }
 
@@ -435,7 +493,30 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         var nodes: JSX.Element[] = [];
         for (let node of definition.nodes) {
             var ui = definition._ui.nodes[node.uuid];
-            nodes.push(<NodeComp key={node.uuid} node={node} ui={ui} context={this.state.context} language={language} translations={translations} />);
+            nodes.push(
+                <NodeComp
+                    key={node.uuid}
+                    node={node}
+                    ui={ui}
+                    Activity={this.Activity}
+                    context={this.state.context}
+                    language={language}
+                    translations={translations}
+                    typeConfigList={this.props.EditorConfig.typeConfigList}
+                    operatorConfigList={this.props.EditorConfig.operatorConfigList}
+                    getTypeConfig={this.props.EditorConfig.getTypeConfig}
+                    getOperatorConfig={this.props.EditorConfig.getOperatorConfig}
+                    endpoints={this.props.EditorConfig.endpoints}
+                    languages={this.props.EditorConfig.languages}
+                    ComponentMap={this.props.ComponentMap}
+                    plumberDraggable={this.Plumber.draggable}
+                    plumberMakeTarget={this.Plumber.makeTarget}
+                    plumberRemove={this.Plumber.remove}
+                    plumberRecalculate={this.Plumber.recalculate}
+                    plumberMakeSource={this.Plumber.makeSource}
+                    plumberConnectExit={this.Plumber.connectExit}
+                />
+            );
         }
 
         var dragNode = null;
@@ -443,41 +524,78 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
             let ghost = this.state.ghost;
 
             // start off screen
-            var ui: UINode = {
+            var ui: IUINode = {
                 position: { x: -1000, y: -1000 }
-            }
+            };
 
             if (ghost.router) {
-                ui.type = "wait_for_response"
+                ui.type = 'wait_for_response';
             }
 
-            dragNode = <NodeComp
-                key={ghost.uuid}
-                ref={(ele) => { this.ghostComp = ele }}
-                language={null}
-                translations={null}
-                node={ghost}
-                context={this.state.context}
-                ui={ui}
-                ghost={true}
-            />
+            dragNode = (
+                <NodeComp
+                    key={ghost.uuid}
+                    ref={ele => {
+                        this.ghostComp = ele;
+                    }}
+                    language={null}
+                    translations={null}
+                    Activity={this.Activity}
+                    node={ghost}
+                    context={this.state.context}
+                    ui={ui}
+                    ghost={true}
+                    typeConfigList={this.props.EditorConfig.typeConfigList}
+                    operatorConfigList={this.props.EditorConfig.operatorConfigList}
+                    getTypeConfig={this.props.EditorConfig.getTypeConfig}
+                    getOperatorConfig={this.props.EditorConfig.getOperatorConfig}
+                    endpoints={this.props.EditorConfig.endpoints}
+                    languages={this.props.EditorConfig.languages}
+                    ComponentMap={this.props.ComponentMap}
+                    plumberDraggable={this.Plumber.draggable}
+                    plumberMakeTarget={this.Plumber.makeTarget}
+                    plumberRemove={this.Plumber.remove}
+                    plumberRecalculate={this.Plumber.recalculate}
+                    plumberMakeSource={this.Plumber.makeSource}
+                    plumberConnectExit={this.Plumber.connectExit}
+                />
+            );
         }
 
         var simulator = null;
-        if (Config.get().endpoints.engine) {
-            simulator = <Simulator
-                flow={this.props.definition}
-                showDefinition={this.onShowDefinition}
-            />
+        if (this.props.EditorConfig.endpoints.engine) {
+            simulator = (
+                <Simulator
+                    definition={this.props.definition}
+                    engineURL={this.props.EditorConfig.endpoints.engine}
+                    getFlow={this.props.External.getFlow}
+                    showDefinition={this.onShowDefinition}
+                    plumberRepaint={this.Plumber.repaint}
+                    Activity={this.Activity}
+                />
+            );
         }
 
         var modal = null;
         if (this.state.nodeEditor) {
-            modal = <NodeEditor ref={(ele) => { this.nodeEditorComp = ele }} {...this.state.nodeEditor} />
+            modal = (
+                <NodeEditor
+                    ref={ele => {
+                        this.nodeEditorComp = ele;
+                    }}
+                    typeConfigList={this.props.EditorConfig.typeConfigList}
+                    operatorConfigList={this.props.EditorConfig.operatorConfigList}
+                    getTypeConfig={this.props.EditorConfig.getTypeConfig}
+                    getOperatorConfig={this.props.EditorConfig.getOperatorConfig}
+                    endpoints={this.props.EditorConfig.endpoints}
+                    ComponentMap={this.props.ComponentMap}
+                    {...this.state.nodeEditor}
+                />
+            );
         }
 
         var classes: string[] = [];
-        var loading = this.state.loading ? styles.loading : styles.loaded
+        var loading = this.state.loading ? styles.loading : styles.loaded;
         if (this.state.loading) {
             classes.push(styles.loading);
         } else {
@@ -495,23 +613,27 @@ export class Flow extends React.PureComponent<FlowProps, FlowState> {
         }
 
         var languageSelector = null;
-        if (Config.get().languages) {
-            languageSelector = <LanguageSelectorComp iso={language} onChange={this.showLanguage} />
+        if (this.props.EditorConfig.languages) {
+            languageSelector = (
+                <LanguageSelectorComp
+                    iso={language}
+                    languages={this.props.EditorConfig.languages}
+                    onChange={this.showLanguage}
+                />
+            );
         }
 
         return (
-            <div className={classes.join(" ")}>
+            <div className={classes.join(' ')}>
                 {languageSelector}
                 {simulator}
                 <div key={definition.uuid} className={styles.flow}>
-                    <div className={styles.node_list}>
-                        {nodes}
-                    </div>
+                    <div className={styles.node_list}>{nodes}</div>
                     {dragNode}
                     {modal}
                 </div>
             </div>
-        )
+        );
     }
 }
 
