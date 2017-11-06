@@ -1,23 +1,25 @@
 import * as React from 'react';
-import '../../enzyme.adapter';
+import '../../src/enzymeAdapter';
 import { mount, ReactWrapper } from 'enzyme';
-import { ButtonProps, Button } from './Button';
-import { getSpecWrapper } from '../../__tests__/utils';
+import { IButtonProps, Button } from './Button';
+import { getSpecWrapper } from '../helpers/utils';
 
-const props: ButtonProps = {
+const props: IButtonProps = {
     name: 'Save',
     onClick: jest.fn(),
     type: 'primary'
 };
-const ButtonReact: ReactWrapper = mount(<Button {...props} />);
-const buttonDivReact: ReactWrapper = getSpecWrapper(
+
+const ButtonReact = mount(<Button {...props} />);
+
+const buttonDivReact = getSpecWrapper(
     ButtonReact,
     `button-${props.type}-${props.name.toLowerCase()}`
 ) as ReactWrapper;
 
-describe('Button Component', () => {
+describe('Component: Button', () => {
     it('Renders', () => {
-        expect(ButtonReact).toBePresent(); 
+        expect(ButtonReact).toBePresent();
         expect(buttonDivReact).toBePresent();
     });
 
