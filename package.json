@@ -13,13 +13,14 @@
     "test:coverage": "npm run test -- --coverage",
     "test:update": "npm run test -- --updateSnapshot",
     "start": "webpack-dev-server --env.NODE_ENV=dev --progress --colors",
+    "start:dash": "webpack-dashboard -- npm run start",
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
     "build:dev": "webpack --env.NODE_ENV=dev --progress --profile --colors",
     "build:prod": "webpack --env.NODE_ENV=prod --progress --profile --colors",
     "build:both": "npm run build:dev && npm run build:prod",
     "preprettify": "prettier --debug-check '{,!(node_modules)/**/}*.@(ts|tsx)'",
     "prettify": "prettier --write 'src/**/*.tsx?'",
-    "prepush": "npm run test:local && npm run build:both", 
+    "prepush": "npm run test:local && npm run build:both",
     "preversion": "npm test",
     "version": "npm run build:prod",
     "postversion": "git push && git push --tags && npm publish"
@@ -103,6 +104,7 @@
     "url-loader": "^0.5.8",
     "uuid": "^3.0.1",
     "webpack": "^2.7.0",
+    "webpack-dashboard": "^1.0.0",
     "webpack-dev-server": "^2.5.1",
     "webpack-merge": "^4.1.0",
     "xregexp": "^3.2.0"
