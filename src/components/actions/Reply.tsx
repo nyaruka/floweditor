@@ -1,31 +1,31 @@
 import * as React from 'react';
-import { ActionComp, ActionProps } from '../Action';
-import { Reply } from '../../FlowDefinition';
+import { ActionComp } from '../Action';
+import { IReply } from '../../flowTypes';
 import { TextInputElement } from '../form/TextInputElement';
-import { NodeActionForm, Widget } from "../NodeEditor";
-import { CheckboxElement } from "../form/CheckboxElement";
+import NodeActionForm from '../NodeEditor/NodeActionForm';
+import Widget from '../NodeEditor/Widget';
+import { CheckboxElement } from '../form/CheckboxElement';
 
 var styles = require('../Action.scss');
 
-export class ReplyComp extends ActionComp<Reply> {
-
-    localizedKeys = ["text"];
+export class ReplyComp extends ActionComp<IReply> {
+    localizedKeys = ['text'];
 
     renderNode(): JSX.Element {
         var action = this.getAction();
         if (action.text != null) {
-            return <div>{action.text}</div>
+            return <div>{action.text}</div>;
         } else {
-            return <div className='placeholder'>Send a message to the contact</div>
+            return <div className="placeholder">Send a message to the contact</div>;
         }
     }
 }
 
-export class ReplyForm extends NodeActionForm<Reply> {
+export class ReplyForm extends NodeActionForm<IReply> {
     renderForm(ref: any): JSX.Element {
-        var text = "";
+        var text = '';
         var action = this.getInitial();
-        if (action && action.type == "reply") {
+        if (action && action.type == 'reply') {
             text = action.text;
         }
 
@@ -34,28 +34,36 @@ export class ReplyForm extends NodeActionForm<Reply> {
         var localizedObject = this.getLocalizedObject();
         var placeholder = null;
         if (localizedObject) {
-            placeholder = localizedObject.getLanguage().name + " Translation";
+            placeholder = localizedObject.getLanguage().name + ' Translation';
             translation = (
                 <div className={styles.translation}>
-                    <div className={styles.translate_from}>
-                        {text}
-                    </div>
+                    <div className={styles.translate_from}>{text}</div>
                 </div>
-            )
+            );
 
-            if (localizedObject.hasTranslation("text")) {
-                text = (localizedObject.getObject() as Reply).text;
+            if (localizedObject.hasTranslation('text')) {
+                text = (localizedObject.getObject() as IReply).text;
             } else {
-                text = "";
+                text = '';
             }
         }
 
         return (
             <div>
                 {translation}
-                <TextInputElement ref={ref} name="Message" showLabel={false} value={text} placeholder={placeholder} autocomplete required={localizedObject == null} textarea />
+                <TextInputElement
+                    ref={ref}
+                    name="Message"
+                    showLabel={false}
+                    value={text}
+                    placeholder={placeholder}
+                    autocomplete
+                    required={localizedObject == null}
+                    textarea
+                    ComponentMap={this.props.ComponentMap}
+                />
             </div>
-        )
+        );
     }
 
     renderAdvanced(ref: any): JSX.Element {
@@ -64,28 +72,38 @@ export class ReplyForm extends NodeActionForm<Reply> {
         if (action) {
             sendAll = action.all_urns;
         }
-        return <CheckboxElement ref={ref} name="All Destinations" defaultValue={sendAll} description="Send a message to all destinations known for this contact." />
+        return (
+            <CheckboxElement
+                ref={ref}
+                name="All Destinations"
+                defaultValue={sendAll}
+                description="Send a message to all destinations known for this contact."
+            />
+        );
     }
 
     onValid(widgets: { [name: string]: Widget }) {
         var localizedObject = this.getLocalizedObject();
-        var textarea = widgets["Message"] as TextInputElement;
-        var sendAll = widgets["All Destinations"] as CheckboxElement;
+        var textarea = widgets['Message'] as TextInputElement;
+        var sendAll = widgets['All Destinations'] as CheckboxElement;
 
         if (localizedObject) {
             var translation = textarea.state.value.trim();
             if (translation) {
-                this.props.updateLocalizations(localizedObject.getLanguage().iso, [{ uuid: this.props.action.uuid, translations: { text: [textarea.state.value] } }]);
+                this.props.updateLocalizations(localizedObject.getLanguage().iso, [
+                    { uuid: this.props.action.uuid, translations: { text: [textarea.state.value] } }
+                ]);
             } else {
-                this.props.updateLocalizations(localizedObject.getLanguage().iso, [{ uuid: this.props.action.uuid, translations: null }]);
+                this.props.updateLocalizations(localizedObject.getLanguage().iso, [
+                    { uuid: this.props.action.uuid, translations: null }
+                ]);
             }
-
         } else {
-            var newAction: Reply = {
+            var newAction: IReply = {
                 uuid: this.getActionUUID(),
                 type: this.props.config.type,
-                text: textarea.state.value,
-            }
+                text: textarea.state.value
+            };
 
             if (sendAll.state.checked) {
                 newAction.all_urns = true;
