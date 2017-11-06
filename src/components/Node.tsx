@@ -15,7 +15,7 @@ import {
     IEndpoints,
     ILanguages
 } from '../services/EditorConfig';
-import { ActionComp } from './Action';
+import { TWithAction } from './Action';
 import ExitComp from './Exit';
 import TitleBar from './TitleBar';
 import { INode, IPosition, ISwitchRouter, IAction, IUINode } from '../flowTypes';
@@ -71,7 +71,7 @@ export interface INodeCompProps {
  */
 export class NodeComp extends React.Component<INodeCompProps, INodeState> {
     public ele: HTMLDivElement;
-    private firstAction: ActionComp<IAction>;
+    private firstAction: TWithAction;
     private clicking: boolean;
     private dragGroup: boolean;
 

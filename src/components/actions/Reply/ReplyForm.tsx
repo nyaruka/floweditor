@@ -1,27 +1,13 @@
 import * as React from 'react';
-import { ActionComp } from '../Action';
-import { IReply } from '../../flowTypes';
-import { TextInputElement } from '../form/TextInputElement';
-import NodeActionForm from '../NodeEditor/NodeActionForm';
-import Widget from '../NodeEditor/Widget';
-import { CheckboxElement } from '../form/CheckboxElement';
+import { IReply } from '../../../flowTypes';
+import { TextInputElement } from '../../form/TextInputElement';
+import NodeActionForm from '../../NodeEditor/NodeActionForm';
+import Widget from '../../NodeEditor/Widget';
+import { CheckboxElement } from '../../form/CheckboxElement';
 
-var styles = require('../Action.scss');
+const styles = require('../../Action.scss');
 
-export class ReplyComp extends ActionComp<IReply> {
-    localizedKeys = ['text'];
-
-    renderNode(): JSX.Element {
-        var action = this.getAction();
-        if (action.text != null) {
-            return <div>{action.text}</div>;
-        } else {
-            return <div className="placeholder">Send a message to the contact</div>;
-        }
-    }
-}
-
-export class ReplyForm extends NodeActionForm<IReply> {
+class ReplyForm extends NodeActionForm<IReply> {
     renderForm(ref: any): JSX.Element {
         var text = '';
         var action = this.getInitial();
@@ -113,3 +99,5 @@ export class ReplyForm extends NodeActionForm<IReply> {
         }
     }
 }
+
+export default ReplyForm;

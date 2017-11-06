@@ -1,12 +1,13 @@
 import __flow_editor_config__ from '../flowEditorConfig';
 import ChangeGroupComp from '../components/actions/ChangeGroup/ChangeGroupComp';
 import ChangeGroupForm from '../components/actions/ChangeGroup/ChangeGroupForm';
-import { SaveToContactComp, SaveToContactForm } from '../components/actions/SaveToContact';
-import { ReplyComp, ReplyForm } from '../components/actions/Reply';
-import { WebhookComp } from '../components/actions/Webhook';
-import { SaveFlowResultComp, SaveFlowResultForm } from '../components/actions/SaveFlowResult';
-import { StartFlowComp } from '../components/actions/StartFlow';
-import { SendEmailComp, SendEmailForm } from '../components/actions/SendEmail';
+// import { SaveToContactComp, SaveToContactForm } from '../components/actions/SaveToContact';
+import ReplyComp from '../components/actions/Reply/ReplyComp';
+import ReplyForm from '../components/actions/Reply/ReplyForm';
+// import { WebhookComp } from '../components/actions/Webhook';
+// import { SaveFlowResultComp, SaveFlowResultForm } from '../components/actions/SaveFlowResult';
+// import { StartFlowComp } from '../components/actions/StartFlow';
+// import { SendEmailComp, SendEmailForm } from '../components/actions/SendEmail';
 import { SwitchRouterForm } from '../components/routers/SwitchRouter';
 import { SubflowForm } from '../components/routers/Subflow';
 import { WebhookForm } from '../components/routers/Webhook';
@@ -95,63 +96,63 @@ const TYPE_CONFIG_LIST: IType[] = [
             return (this.advanced & mode) === mode;
         }
     },
-    {
-        type: 'save_contact_field',
-        name: 'Update Contact',
-        description: 'Update the contact',
-        form: SaveToContactForm,
-        component: SaveToContactComp,
-        aliases: ['update_contact'],
-        allows(mode: EMode): boolean {
-            return (this.advanced & mode) === mode;
-        }
-    },
-    {
-        type: 'send_email',
-        name: 'Send Email',
-        description: 'Send an email',
-        form: SendEmailForm,
-        component: SendEmailComp,
-        allows(mode: EMode): boolean {
-            return (this.advanced & mode) === mode;
-        }
-    },
-    {
-        type: 'save_flow_result',
-        name: 'Save Flow Result',
-        description: 'Save a result for this flow',
-        form: SaveFlowResultForm,
-        component: SaveFlowResultComp,
-        allows(mode: EMode): boolean {
-            return (this.advanced & mode) === mode;
-        }
-    },
-    // {type: 'add_label', name: 'Add Label', description: 'Label the message', component: Missing},
-    // {type: 'set_preferred_channel', name: 'Set Preferred Channel', description: 'Set their preferred channel', component: Missing},
-    /** Hybrids */
-    {
-        type: 'call_webhook',
-        name: 'Call Webhook',
-        description: 'Call a webook',
-        form: WebhookForm,
-        component: WebhookComp,
-        advanced: EMode.EDITING,
-        aliases: ['webhook'],
-        allows(mode: EMode): boolean {
-            return (this.advanced & mode) === mode;
-        }
-    },
-    {
-        type: 'start_flow',
-        name: 'Run Flow',
-        description: 'Run another flow',
-        form: SubflowForm,
-        component: StartFlowComp,
-        aliases: ['subflow'],
-        allows(mode: EMode): boolean {
-            return (this.advanced & mode) === mode;
-        }
-    },
+    // {
+    //     type: 'save_contact_field',
+    //     name: 'Update Contact',
+    //     description: 'Update the contact',
+    //     form: SaveToContactForm,
+    //     component: SaveToContactComp,
+    //     aliases: ['update_contact'],
+    //     allows(mode: EMode): boolean {
+    //         return (this.advanced & mode) === mode;
+    //     }
+    // },
+    // {
+    //     type: 'send_email',
+    //     name: 'Send Email',
+    //     description: 'Send an email',
+    //     form: SendEmailForm,
+    //     component: SendEmailComp,
+    //     allows(mode: EMode): boolean {
+    //         return (this.advanced & mode) === mode;
+    //     }
+    // },
+    // {
+    //     type: 'save_flow_result',
+    //     name: 'Save Flow Result',
+    //     description: 'Save a result for this flow',
+    //     form: SaveFlowResultForm,
+    //     component: SaveFlowResultComp,
+    //     allows(mode: EMode): boolean {
+    //         return (this.advanced & mode) === mode;
+    //     }
+    // },
+    // // {type: 'add_label', name: 'Add Label', description: 'Label the message', component: Missing},
+    // // {type: 'set_preferred_channel', name: 'Set Preferred Channel', description: 'Set their preferred channel', component: Missing},
+    // /** Hybrids */
+    // {
+    //     type: 'call_webhook',
+    //     name: 'Call Webhook',
+    //     description: 'Call a webook',
+    //     form: WebhookForm,
+    //     component: WebhookComp,
+    //     advanced: EMode.EDITING,
+    //     aliases: ['webhook'],
+    //     allows(mode: EMode): boolean {
+    //         return (this.advanced & mode) === mode;
+    //     }
+    // },
+    // {
+    //     type: 'start_flow',
+    //     name: 'Run Flow',
+    //     description: 'Run another flow',
+    //     form: SubflowForm,
+    //     component: StartFlowComp,
+    //     aliases: ['subflow'],
+    //     allows(mode: EMode): boolean {
+    //         return (this.advanced & mode) === mode;
+    //     }
+    // },
 
     /** Routers */
     {
