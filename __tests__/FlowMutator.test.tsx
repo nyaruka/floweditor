@@ -1,10 +1,9 @@
 import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
-import { FlowMutator } from '../src/components/FlowMutator';
-import { FlowDefinition, UINode, Reply, Webhook, SaveFlowResult } from '../src/FlowDefinition';
-import { NodeProps } from '../src/components/Node';
-import { getFavorites, dump } from './utils';
-import { ComponentMap } from "../src/components/ComponentMap";
+import FlowMutator from '../src/services/FlowMutator';
+import { IFlowDefinition, IUINode, IReply, IWebhook, ISaveFlowResult } from '../src/flowTypes';
+import { getFavorites, dump } from '../src/helpers/utils';
+import ComponentMap from "../src/services/ComponentMap";
 
 xdescribe('FlowMutator', () => {
 
