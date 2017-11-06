@@ -1,18 +1,17 @@
-import { LocalizationMap, Action, Exit, Case } from "./FlowDefinition";
-import { Language } from "./components/LanguageSelector";
-import { Config } from "./services/Config";
+import { IAction, IExit, ICase } from '../flowTypes';
+import { ILanguages } from '../services/EditorConfig';
+import { ILanguage } from '../components/LanguageSelector';
+import __flow_editor_config__ from '../flowEditorConfig';
 
-
-export class LocalizedObject {
-
+ export class LocalizedObject {
     public localizedKeys: { [key: string]: boolean } = {};
 
-    private localizedObject: Action | Exit | Case;
+    private localizedObject: IAction | IExit | ICase;
     private localized: boolean;
     private iso: string;
-    private language: Language;
+    private language: ILanguage;
 
-    constructor(object: Action | Exit | Case, iso: string) {
+    constructor(object: IAction | IExit | ICase, iso: string, languages: ILanguages) {
         this.localizedObject = object;
         this.iso = iso;
     }
@@ -20,7 +19,7 @@ export class LocalizedObject {
     getLanguage() {
         if (!this.language) {
             if (this.iso) {
-                this.language = { iso: this.iso, name: Config.get().languages[this.iso] };
+                this.language = { iso: this.iso, name: __flow_editor_config__.languages[this.iso] };
             }
         }
         return this.language;
@@ -34,31 +33,34 @@ export class LocalizedObject {
     // note this means we'll attempt to set any property in our localization
     // dictionary regardless of the object type
     addTranslation(key: string, value: any) {
-
         // localization shouldn't side-affect the original object
         if (!this.localized) {
             this.localizedObject = Object.assign({}, this.localizedObject);
             this.localized = true;
         }
 
-        if (((this.localizedObject as any)[key]).constructor.name == "String") {
-            value = value[0]
+        if ((this.localizedObject as any)[key].constructor.name == 'String') {
+            value = value[0];
         }
         (this.localizedObject as any)[key] = value;
         this.localizedKeys[key] = true;
     }
 
-    public getObject(): Action | Case | Exit {
+    public getObject(): IAction | ICase | IExit {
         return this.localizedObject;
     }
 }
-
-export class Localization {
-    static translate(object: Action | Exit | Case, iso: string, translations: { [uuid: string]: any }): LocalizedObject {
+class Localization {
+    static translate(
+        object: IAction | IExit | ICase,
+        iso: string,
+        languages: ILanguages,
+        translations?: { [uuid: string]: any }
+    ): LocalizedObject {
         if (translations) {
-            var localized = new LocalizedObject(object, iso);
+            const localized = new LocalizedObject(object, iso, languages);
             if (object.uuid in translations) {
-                var values = translations[object.uuid];
+                const values = translations[object.uuid];
                 // we don't want to side affect our action
                 for (let key of Object.keys(values)) {
                     localized.addTranslation(key, values[key]);
@@ -69,3 +71,5 @@ export class Localization {
         return null;
     }
 }
+
+export default Localization;

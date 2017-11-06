@@ -1,7 +1,6 @@
-import { Exit } from '../FlowDefinition';
-import { External } from './External';
-import { CounterComp } from "../components/Counter";
-import { Config } from "./Config";
+import { IExit } from '../flowTypes';
+import { TGetActivity } from '../services/External';
+import { CounterComp } from '../components/Counter';
 
 // how often we ask the server for new data
 const REFRESH_SECONDS = 10;
@@ -9,8 +8,7 @@ const REFRESH_SECONDS = 10;
 /**
  * Contains all the activity data for a flow
  */
-export interface Activity {
-
+export interface IActivity {
     // exit_uuid:destination_node_uuid -> count
     segments: { [key: string]: number };
 
@@ -18,34 +16,36 @@ export interface Activity {
     nodes: { [key: string]: number };
 }
 
-
-export class ActivityManager {
-
+class ActivityManager {
     private static singleton: ActivityManager;
 
     // our main activity fetch from the external
-    private activity: Activity;
+    private activity: IActivity;
 
     // our simulation activity
-    private simulation: Activity;
+    private simulation: IActivity;
 
     private flowUUID: string;
+    private getActivityExternal: TGetActivity;
 
     private listeners: { [key: string]: CounterComp } = {};
     private timer: any;
 
-    public static get(): ActivityManager {
-        return ActivityManager.singleton;
-    }
-
-    public static initialize(flowUUID: string) {
-        this.singleton = new ActivityManager(flowUUID);
-    }
-
-    private constructor(flowUUID: string) {
+    constructor(flowUUID: string, getActivity: TGetActivity) {
         this.flowUUID = flowUUID;
-        this.fetchActivity();
+        this.getActivityExternal = getActivity;
+
+        this.clearSimulation = this.clearSimulation.bind(this);
+        this.setSimulation = this.setSimulation.bind(this);
+        this.fetchActivity = this.fetchActivity.bind(this);
+        this.notifyListeners = this.notifyListeners.bind(this);
+        this.deregister = this.deregister.bind(this);
         this.registerListener = this.registerListener.bind(this);
+        this.getActivity = this.getActivity.bind(this);
+        this.getActiveCount = this.getActiveCount.bind(this);
+        this.getPathCount = this.getPathCount.bind(this);
+
+        this.fetchActivity();
     }
 
     public clearSimulation() {
@@ -54,7 +54,7 @@ export class ActivityManager {
         this.fetchActivity();
     }
 
-    public setSimulation(activity: Activity) {
+    public setSimulation(activity: IActivity) {
         this.simulation = activity;
         if (this.timer) {
             window.clearTimeout(this.timer);
@@ -67,12 +67,14 @@ export class ActivityManager {
         if (!this.timer) {
             this.timer = window.setTimeout(() => {
                 this.timer = null;
-                Config.get().external.getActivity(this.flowUUID).then((activity: Activity) => {
-                    this.activity = activity;
-                    this.notifyListeners();
-                }).catch(() => {
-                    // ignore missing activity
-                });
+                this.getActivityExternal(this.flowUUID)
+                    .then((activity: IActivity) => {
+                        this.activity = activity;
+                        this.notifyListeners();
+                    })
+                    .catch(() => {
+                        // ignore missing activity
+                    });
 
                 this.fetchActivity(REFRESH_SECONDS * 1000);
             }, wait);
@@ -96,7 +98,7 @@ export class ActivityManager {
         }
     }
 
-    public getActivity(): Activity {
+    public getActivity(): IActivity {
         if (this.simulation) {
             return this.simulation;
         }
@@ -114,11 +116,11 @@ export class ActivityManager {
         return 0;
     }
 
-    public getPathCount(exit: Exit): number {
+    public getPathCount(exit: IExit): number {
         var activity = this.getActivity();
         if (activity) {
             if (exit.destination_node_uuid) {
-                var count = activity.segments[exit.uuid + ":" + exit.destination_node_uuid];
+                var count = activity.segments[exit.uuid + ':' + exit.destination_node_uuid];
                 if (count !== undefined) {
                     return count;
                 }
@@ -127,3 +129,5 @@ export class ActivityManager {
         return 0;
     }
 }
+
+export default ActivityManager;

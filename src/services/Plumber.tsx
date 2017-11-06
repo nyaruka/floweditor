@@ -1,130 +1,162 @@
-var lib = require('../../node_modules/jsplumb/dist/js/jsplumb.js');
-import { FlowDefinition, Exit, Node } from '../FlowDefinition';
+const { jsPlumb: { importDefaults } } = require('../../node_modules/jsplumb/dist/js/jsplumb.js');
+import { IFlowDefinition, IExit, INode } from '../flowTypes';
 
-export interface DragEvent {
-    el: Element
-    pos: number[]
-    finalPos: number[]
-    e: MouseEvent
-    clientX: number
-    clientY: number
-    target: Element
+export interface IDragEvent {
+    el: Element;
+    pos: number[];
+    finalPos: number[];
+    e: MouseEvent;
+    clientX: number;
+    clientY: number;
+    target: Element;
 }
 
-export class Plumber {
+export interface IPendingConnections {
+    [id: string]: { source: string; target: string; className: string };
+}
 
+class Plumber {
     public jsPlumb: any;
 
-    private static singleton: Plumber = new Plumber();
-
     // we batch up connections to apply them together
-    private pendingConnections: { [id: string]: { source: string, target: string, className: string } } = {}
+    private pendingConnections: IPendingConnections = {};
     private pendingConnectionTimeout: any;
+
     private animateInterval: any = null;
 
-    static get(): Plumber {
-        return Plumber.singleton;
-    }
-
-    targetDefaults = {
-        anchor: ["Continuous", { faces: ["left", "top", "right"] }],
-        endpoint: ["Dot", { width: 10, height: 10, hoverClass: 'plumb-endpoint-hover' }],
-        dropOptions: { tolerance: "touch", hoverClass: "plumb-drop-hover", isTarget: false },
+    private targetDefaults = {
+        anchor: ['Continuous', { faces: ['left', 'top', 'right'] }],
+        endpoint: ['Dot', { width: 10, height: 10, hoverClass: 'plumb-endpoint-hover' }],
+        dropOptions: { tolerance: 'touch', hoverClass: 'plumb-drop-hover', isTarget: false },
         dragAllowedWhenFull: false,
         deleteEndpointsOnEmpty: true,
         isTarget: false
-    }
+    };
 
-    sourceDefaults = {
-        anchor: "BottomCenter",
+    private sourceDefaults = {
+        anchor: 'BottomCenter',
         maxConnections: 1,
         dragAllowedWhenFull: false,
         deleteEndpointsOnEmpty: true,
         isSource: true
-    }
+    };
 
-    private constructor() {
-        this.jsPlumb = lib.jsPlumb.importDefaults({
+    constructor() {
+        this.jsPlumb = importDefaults({
             DragOptions: { cursor: 'pointer', zIndex: 1000 },
-            DropOptions: { tolerance: "touch", hoverClass: "plumb-hover" },
-            Endpoint: "Blank",
-            EndpointStyle: { strokeStyle: "transparent" },
-            PaintStyle: { strokeWidth: 5, stroke: "#98C0D9" },
-            ConnectorHoverStyle: { stroke: "#27ae60" },
-            ConnectorHoverClass: "plumb-connector-hover",
+            DropOptions: { tolerance: 'touch', hoverClass: 'plumb-hover' },
+            Endpoint: 'Blank',
+            EndpointStyle: { strokeStyle: 'transparent' },
+            PaintStyle: { strokeWidth: 5, stroke: '#98C0D9' },
+            ConnectorHoverStyle: { stroke: '#27ae60' },
+            ConnectorHoverClass: 'plumb-connector-hover',
             ConnectionsDetachable: true,
-            Connector: ["Flowchart", { stub: 12, midpoint: .85, alwaysRespectStubs: false, gap: [0, 7], cornerRadius: 2 }],
-            ConnectionOverlays: [["PlainArrow", { location: .9999, width: 12, length: 12, foldback: 1 }]],
-            Container: "flow-editor"
+            Connector: [
+                'Flowchart',
+                {
+                    stub: 12,
+                    midpoint: 0.85,
+                    alwaysRespectStubs: false,
+                    gap: [0, 7],
+                    cornerRadius: 2
+                }
+            ],
+            ConnectionOverlays: [
+                ['PlainArrow', { location: 0.9999, width: 12, length: 12, foldback: 1 }]
+            ],
+            Container: 'flow-editor'
         });
 
+        this.debug = this.debug.bind(this);
+        this.draggable = this.draggable.bind(this);
+        this.setSourceEnabled = this.setSourceEnabled.bind(this);
+        this.makeSource = this.makeSource.bind(this);
+        this.makeTarget = this.makeTarget.bind(this);
+        this.connectExit = this.connectExit.bind(this);
+        this.setDragSelection = this.setDragSelection.bind(this);
+        this.clearDragSelection = this.clearDragSelection.bind(this);
+        this.cancelDurationRepaint = this.cancelDurationRepaint.bind(this);
+        this.remove = this.remove.bind(this);
+        this.repaintForDuration = this.repaintForDuration.bind(this);
+        this.repaintFor = this.repaintFor.bind(this);
+        this.handlePendingConnections = this.handlePendingConnections.bind(this);
+        this.checkForPendingConnections = this.checkForPendingConnections.bind(this);
+        this.connect = this.connect.bind(this);
+        this.bind = this.bind.bind(this);
+        this.repaint = this.repaint.bind(this);
+        this.recalculate = this.recalculate.bind(this);
+        this.reset = this.reset.bind(this);
+
         // if our browser resizes, make sure to repaint accordingly
-        window.onresize = () => {
-            this.jsPlumb.repaintEverything();
-        }
+        window.onresize = () => this.jsPlumb.repaintEverything();
     }
 
-    debug(): any {
+    public debug(): any {
         return this.jsPlumb;
     }
 
-    draggable(uuid: string, start: Function, drag: Function, stop: Function, beforeDrag: Function) {
+    public draggable(
+        uuid: string,
+        start: Function,
+        drag: Function,
+        stop: Function,
+        beforeDrag: Function
+    ) {
         this.jsPlumb.draggable(uuid, {
             //over: (event: any) => { console.log("Over", event) },
             // beforeStart: (event: any) => { console.log("beforeStart"); },
             start: (event: any) => start(event),
-            drag: (event: DragEvent) => drag(event),
-            stop: (event: DragEvent) => stop(event),
-            canDrag: () => { return beforeDrag(); },
+            drag: (event: IDragEvent) => drag(event),
+            stop: (event: IDragEvent) => stop(event),
+            canDrag: () => {
+                return beforeDrag();
+            },
             containment: true,
             consumeFilteredEvents: false,
             consumeStartEvent: false
         });
     }
 
-    setSourceEnabled(uuid: string, enabled: boolean) {
+    public setSourceEnabled(uuid: string, enabled: boolean) {
         this.jsPlumb.setSourceEnabled(uuid, enabled);
     }
 
-    makeSource(uuid: string) {
+    public makeSource(uuid: string) {
         this.jsPlumb.makeSource(uuid, this.sourceDefaults);
     }
 
-    makeTarget(uuid: string) {
+    public makeTarget(uuid: string) {
         this.jsPlumb.makeTarget(uuid, this.targetDefaults);
     }
 
-    connectExit(exit: Exit, className: string = null) {
+    public connectExit(exit: IExit, className: string = null) {
         this.connect(exit.uuid, exit.destination_node_uuid, className);
     }
 
-    setDragSelection(nodes: Node[]) {
+    public setDragSelection(nodes: INode[]) {
         this.cancelDurationRepaint();
         this.jsPlumb.clearDragSelection();
-        for (let node of nodes) {
-            this.jsPlumb.addToDragSelection(node.uuid);
-        }
+        nodes.forEach(({ uuid }) => this.jsPlumb.addToDragSelection(uuid));
     }
 
-    clearDragSelection() {
+    public clearDragSelection() {
         this.jsPlumb.clearDragSelection();
     }
 
-    cancelDurationRepaint() {
+    public cancelDurationRepaint() {
         if (this.animateInterval) {
             window.clearInterval(this.animateInterval);
             this.animateInterval = null;
         }
     }
 
-    repaintForDuration(duration: number) {
+    public repaintForDuration(duration: number) {
         this.cancelDurationRepaint();
         var pause = 10;
         duration = duration / pause;
 
         var cycles = 0;
         this.animateInterval = window.setInterval(() => {
-
             // TODO: optimize this to paint as little as possible
             // this.revalidate(uuid);
             this.jsPlumb.repaintEverything();
@@ -135,18 +167,18 @@ export class Plumber {
         }, pause);
     }
 
-    repaintFor(millis: number) {
+    public repaintFor(millis: number) {
         window.setInterval(() => {
             this.jsPlumb.repaintEverything();
         }, 1);
     }
 
     private handlePendingConnections() {
-        var targets: { [id: string]: boolean } = {}
+        var targets: { [id: string]: boolean } = {};
         this.jsPlumb.batch(() => {
             var batch = Object.keys(this.pendingConnections).length;
             if (batch > 1) {
-                console.log("batching " + batch + " connections");
+                console.log('batching ' + batch + ' connections');
             }
 
             for (let key in this.pendingConnections) {
@@ -159,12 +191,22 @@ export class Plumber {
 
                     // now make our new connection
                     if (target != null) {
-
                         // don't allow manual detachments if our connection is styled
                         if (className) {
-                            this.jsPlumb.connect({ source: source, target: target, fireEvent: false, cssClass: className, detachable: false });
+                            this.jsPlumb.connect({
+                                source: source,
+                                target: target,
+                                fireEvent: false,
+                                cssClass: className,
+                                detachable: false
+                            });
                         } else {
-                            this.jsPlumb.connect({ source: source, target: target, fireEvent: false, cssClass: className });
+                            this.jsPlumb.connect({
+                                source: source,
+                                target: target,
+                                fireEvent: false,
+                                cssClass: className
+                            });
                         }
                     }
                 }
@@ -193,16 +235,20 @@ export class Plumber {
         }, 0);
     }
 
-    connect(source: string, target: string, className: string = null) {
-        this.pendingConnections[source + ":" + target + ":" + className] = { source, target, className };
+    public connect(source: string, target: string, className: string = null) {
+        this.pendingConnections[source + ':' + target + ':' + className] = {
+            source,
+            target,
+            className
+        };
         this.checkForPendingConnections();
     }
 
-    bind(event: string, onEvent: Function) {
+    public bind(event: string, onEvent: Function) {
         return this.jsPlumb.bind(event, onEvent);
     }
 
-    repaint(uuid?: string) {
+    public repaint(uuid?: string) {
         if (!uuid) {
             this.jsPlumb.recalculateOffsets();
             this.jsPlumb.repaintEverything();
@@ -212,7 +258,7 @@ export class Plumber {
         }
     }
 
-    remove(uuid: string) {
+    public remove(uuid: string) {
         if (this.jsPlumb.isSource(uuid)) {
             this.jsPlumb.unmakeSource(uuid);
             this.jsPlumb.remove(uuid);
@@ -221,7 +267,7 @@ export class Plumber {
         }
     }
 
-    recalculate(uuid?: string) {
+    public recalculate(uuid?: string) {
         window.setTimeout(() => {
             this.jsPlumb.revalidate(uuid);
             if (uuid) {
@@ -231,10 +277,9 @@ export class Plumber {
             }
             this.jsPlumb.repaint(uuid);
         }, 0);
-
     }
 
-    reset() {
+    public reset() {
         // console.log("resetting plumbing");
         this.jsPlumb.reset();
     }

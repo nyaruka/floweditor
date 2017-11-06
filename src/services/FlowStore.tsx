@@ -1,30 +1,29 @@
 import axios from 'axios';
 import { AxiosResponse } from 'axios';
-import { FlowDefinition } from '../FlowDefinition';
+import { IFlowDefinition } from '../flowTypes';
 
-var storage = require('local-storage');
+const storage = require('local-storage');
 
-export class FlowStore {
-
+class FlowStore {
     private static singleton: FlowStore = new FlowStore();
 
     static get(): FlowStore {
         return FlowStore.singleton;
     }
 
-    private constructor() { }
+    private constructor() {}
 
     reset() {
-        storage.remove("flow");
+        storage.remove('flow');
     }
 
-    getFlowFromStore(uuid: string): FlowDefinition {
-        var flow = storage.get("flow");
+    getFlowFromStore(uuid: string): IFlowDefinition {
+        var flow = storage.get('flow');
         if (flow != null) {
-            return flow as FlowDefinition;
+            return flow as IFlowDefinition;
         } else {
             return {
-                name: "New Flow",
+                name: 'New Flow',
                 language: null,
                 uuid: uuid,
                 nodes: [],
@@ -33,22 +32,22 @@ export class FlowStore {
                     nodes: {},
                     languages: {}
                 }
-            }
+            };
         }
     }
 
     loadFromUrl(url: string, token: string, onLoad: Function) {
         return axios.get(url).then((response: AxiosResponse) => {
             var json = eval(response.data);
-            let definition = json as FlowDefinition;
+            let definition = json as IFlowDefinition;
             onLoad(definition);
         });
     }
 
-    save(definition: FlowDefinition) {
-        console.log("Saving: ", definition);
-        storage.set("flow", definition);
+    save(definition: IFlowDefinition) {
+        console.log('Saving: ', definition);
+        storage.set('flow', definition);
     }
 }
 
-export default FlowStore;           
+export default FlowStore;
