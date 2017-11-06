@@ -36,7 +36,7 @@ declare interface Spy {
     identity: string;
     and: SpyAnd;
     calls: Calls;
-    mostRecentCall: { args: any[]; };
+    mostRecentCall: { args: any[] };
     argsForCall: any[];
     wasCalled: boolean;
 }

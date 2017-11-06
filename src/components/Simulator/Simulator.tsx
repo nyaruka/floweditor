@@ -24,7 +24,7 @@ export interface ISimulatorProps {
     getFlow: TGetFlow;
     showDefinition(definition: IFlowDefinition): void;
     plumberRepaint: Function;
-    Activity: any
+    Activity: any;
 }
 
 interface ISimulatorState {

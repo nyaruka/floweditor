@@ -4,9 +4,7 @@ import { IAction } from '../../flowTypes';
 import { LocalizedObject } from '../../services/Localization';
 import NodeEditorForm, { INodeEditorFormState } from './NodeEditorForm';
 
-abstract class NodeActionForm<A extends IAction> extends NodeEditorForm<
-    INodeEditorFormState
-> {
+abstract class NodeActionForm<A extends IAction> extends NodeEditorForm<INodeEditorFormState> {
     private actionUUID: string;
 
     public getLocalizedObject(): LocalizedObject {

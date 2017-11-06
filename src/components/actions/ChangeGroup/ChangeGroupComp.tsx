@@ -4,7 +4,7 @@ import { IChangeGroup } from '../../../flowTypes';
 
 class ChangeGroupComp extends ActionComp<IChangeGroup> {
     renderNode() {
-        const { groups: [ { name: groupName } ] } = this.getAction();
+        const { groups: [{ name: groupName }] } = this.getAction();
         return <div>{groupName}</div>;
     }
 }

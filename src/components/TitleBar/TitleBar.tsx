@@ -20,7 +20,7 @@ interface ITitleBarState {
 /**
  * Simple title bar with confirmation removal
  */
- class TitleBar extends React.Component<ITitleBarProps, ITitleBarState> {
+class TitleBar extends React.Component<ITitleBarProps, ITitleBarState> {
     private timeout: any;
 
     constructor(props: ITitleBarProps) {

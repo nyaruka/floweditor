@@ -3,7 +3,7 @@ import { ILanguages } from '../services/EditorConfig';
 import { ILanguage } from '../components/LanguageSelector';
 import __flow_editor_config__ from '../flowEditorConfig';
 
- export class LocalizedObject {
+export class LocalizedObject {
     public localizedKeys: { [key: string]: boolean } = {};
 
     private localizedObject: IAction | IExit | ICase;

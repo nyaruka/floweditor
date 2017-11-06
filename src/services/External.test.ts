@@ -19,7 +19,7 @@ const getFlowNock = nock('http://localhost:9000')
     .query({ uuid: flowUUID })
     .reply(200, getFlowsResponse);
 
-afterAll(() => nock.cleanAll())
+afterAll(() => nock.cleanAll());
 
 describe('Helpers: external', () => {
     it('should get a flow', () => {

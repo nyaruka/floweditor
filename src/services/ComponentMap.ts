@@ -76,7 +76,7 @@ class ComponentMap {
     }
 
     public getNodesBelow({ uuid: nodeUUID }: INode) {
-        const idx = this.nodes.findIndex(({ uuid }: INode) => (uuid === nodeUUID));
+        const idx = this.nodes.findIndex(({ uuid }: INode) => uuid === nodeUUID);
         return this.nodes.slice(idx, this.nodes.length);
     }
 

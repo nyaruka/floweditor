@@ -80,7 +80,7 @@ class External {
                     const results: IFlowDetails[] = response.data.results;
                     if (flowName) {
                         const filteredResults: IFlowDetails[] = results.filter(
-                            (result: IFlowDetails) => (result.name === flowName)
+                            (result: IFlowDetails) => result.name === flowName
                         );
                         resolve(filteredResults);
                     } else {
@@ -144,7 +144,7 @@ class External {
                     resolve(details);
                 })
                 .catch(error => reject(error))
-        )
+        );
     }
 
     public saveFlow(

@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { IType, IOperator, TGetTypeConfig, TGetOperatorConfig, IEndpoints } from '../../services/EditorConfig';
+import {
+    IType,
+    IOperator,
+    TGetTypeConfig,
+    TGetOperatorConfig,
+    IEndpoints
+} from '../../services/EditorConfig';
 import { INode, IAction } from '../../flowTypes';
 import { LocalizedObject } from '../../services/Localization';
 import ComponentMap from '../../services/ComponentMap';

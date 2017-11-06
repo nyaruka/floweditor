@@ -16,14 +16,15 @@ const editorProps: IEditorProps = {
     flowUUID,
     EditorConfig: new EditorConfig(),
     External: {
-        getFlow: jest.fn(() =>
-            new Promise((resolve, reject) =>
-                process.nextTick(
-                    () => resolve({
-                        definition
-                    })
+        getFlow: jest.fn(
+            () =>
+                new Promise((resolve, reject) =>
+                    process.nextTick(() =>
+                        resolve({
+                            definition
+                        })
+                    )
                 )
-            )
         )
     } as any
 };
@@ -32,7 +33,10 @@ const EditorShallow = shallow(<Editor {...editorProps} />);
 
 describe('Component: Editor', () => {
     it('Renders w/ expected state', () => {
-        const { EditorConfig: { endpoints: { flows: flowsEndpoint } }, External: { getFlow } } = editorProps;
+        const {
+            EditorConfig: { endpoints: { flows: flowsEndpoint } },
+            External: { getFlow }
+        } = editorProps;
         expect(EditorShallow).toBePresent();
         expect(getSpecWrapper(EditorShallow, 'editor')).toBePresent();
         expect(EditorShallow).toHaveState('flowUUID', flowUUID);

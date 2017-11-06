@@ -2,7 +2,7 @@ import * as React from 'react';
 import '../enzymeAdapter';
 import { ReactWrapper, mount } from 'enzyme';
 import { ICounterProps, CounterComp } from './Counter';
-import { getSpecWrapper, validUUID, addCommas} from '../helpers/utils';
+import { getSpecWrapper, validUUID, addCommas } from '../helpers/utils';
 
 let props: ICounterProps;
 let handleClick: Spy;

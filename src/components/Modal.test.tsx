@@ -1,7 +1,7 @@
 import * as React from 'react';
 import '../enzymeAdapter';
 import { shallow } from 'enzyme';
-import Modal, { IButtonSet, IModalProps }  from './Modal';
+import Modal, { IButtonSet, IModalProps } from './Modal';
 
 const title: JSX.Element = <div>Send Message</div>;
 

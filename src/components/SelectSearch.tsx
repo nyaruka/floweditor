@@ -3,7 +3,6 @@ import { Async as SelectAsync, AsyncCreatable as SelectAsyncCreatable } from 're
 import axios, { AxiosResponse } from 'axios';
 import { ISearchResult } from '../services/ComponentMap';
 
-
 export interface ISelectSearchProps {
     url: string;
     name: string;

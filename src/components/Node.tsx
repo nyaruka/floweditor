@@ -226,7 +226,12 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                 var router = this.props.node.router as ISwitchRouter;
                 for (let kase of router.cases) {
                     localizations.push(
-                        Localization.translate(kase, this.props.language, this.props.languages, this.props.translations)
+                        Localization.translate(
+                            kase,
+                            this.props.language,
+                            this.props.languages,
+                            this.props.translations
+                        )
                     );
                 }
             }
@@ -234,7 +239,12 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
             // add our exit localizations
             for (let exit of this.props.node.exits) {
                 localizations.push(
-                    Localization.translate(exit, this.props.language, this.props.languages, this.props.translations)
+                    Localization.translate(
+                        exit,
+                        this.props.language,
+                        this.props.languages,
+                        this.props.translations
+                    )
                 );
             }
         } else if (this.props.node.actions && this.props.node.actions.length > 0) {
@@ -411,15 +421,12 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                         exit={exit}
                         key={exit.uuid}
                         onDisconnect={this.props.context.eventHandler.onDisconnectExit}
-
                         Activity={this.props.Activity}
-
                         Localization={Localization.translate(
                             exit,
                             this.props.language,
                             this.props.translations
                         )}
-
                         plumberMakeSource={this.props.plumberMakeSource}
                         plumberRemove={this.props.plumberRemove}
                         plumberConnectExit={this.props.plumberConnectExit}

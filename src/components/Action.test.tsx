@@ -65,7 +65,7 @@ const actionProps: IActionProps = {
     first: true,
     action: { type: 'reply', uuid: '827c67cf-3acd-47b1-acae-37b71461549e' },
     Localization
-}
+};
 
 const ActionCompShallow = shallow(<ActionComp {...actionProps} />);
 

@@ -318,14 +318,11 @@ export class Flow extends React.PureComponent<IFlowProps, IFlowState> {
                 text: null
             };
 
-            ghost = update(
-                ghost,
-                {
-                    actions: {
-                        $push: [replyAction]
-                    }
+            ghost = update(ghost, {
+                actions: {
+                    $push: [replyAction]
                 }
-            );
+            });
         } else {
             // otherwise we are going to a switch
             ghost = {
@@ -337,7 +334,7 @@ export class Flow extends React.PureComponent<IFlowProps, IFlowState> {
                     }
                 ],
                 router: { type: 'switch' }
-            }
+            };
         }
 
         // set our ghost spec so it gets rendered
@@ -363,12 +360,8 @@ export class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         const Plumber = this.Plumber;
 
         Plumber.bind('connection', (event: IConnectionEvent) => this.onConnection(event));
-        Plumber.bind('beforeDrag', (event: IConnectionEvent) =>
-            this.beforeConnectionDrag(event)
-        );
-        Plumber.bind('connectionDrag', (event: IConnectionEvent) =>
-            this.onConnectionDrag(event)
-        );
+        Plumber.bind('beforeDrag', (event: IConnectionEvent) => this.beforeConnectionDrag(event));
+        Plumber.bind('connectionDrag', (event: IConnectionEvent) => this.onConnectionDrag(event));
         Plumber.bind('connectionDragStop', (event: IConnectionEvent) =>
             this.onConnectorDrop(event)
         );
@@ -376,9 +369,7 @@ export class Flow extends React.PureComponent<IFlowProps, IFlowState> {
             this.onBeforeStartDetach(event)
         );
         Plumber.bind('beforeDetach', (event: IConnectionEvent) => this.onBeforeDetach(event));
-        Plumber.bind('beforeDrop', (event: IConnectionEvent) =>
-            this.onBeforeConnectorDrop(event)
-        );
+        Plumber.bind('beforeDrop', (event: IConnectionEvent) => this.onBeforeConnectorDrop(event));
 
         this.props.Mutator.ensureStartNode();
 

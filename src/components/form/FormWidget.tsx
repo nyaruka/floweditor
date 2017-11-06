@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 import { IFormElementProps } from './FormElement';
 
@@ -9,6 +9,9 @@ export interface IFormValueState {
     errors: string[];
 }
 
-export abstract class FormWidget<P extends IFormElementProps, S extends IFormValueState> extends React.PureComponent<P, S> {
+export abstract class FormWidget<
+    P extends IFormElementProps,
+    S extends IFormValueState
+> extends React.PureComponent<P, S> {
     abstract validate(): boolean;
 }
