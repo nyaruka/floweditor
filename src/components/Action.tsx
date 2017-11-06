@@ -1,44 +1,53 @@
-import * as React from "react";
-import * as axios from "axios";
+import * as React from 'react';
+import * as axios from 'axios';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
+import { IFlowContext } from './Flow';
+import { INode, IAction } from '../flowTypes';
+import {
+    TGetTypeConfig,
+    TGetOperatorConfig,
+    IType,
+    IOperator,
+    IEndpoints
+} from '../services/EditorConfig';
+import ComponentMap from '../services/ComponentMap';
+import TitleBar from './TitleBar';
+import { LocalizedObject } from '../services/Localization';
 
-import { FlowContext } from './Flow';
-import { Node, Action, SwitchRouter } from '../FlowDefinition';
-import { Plumber } from '../services/Plumber';
-import { FlowStore } from '../services/FlowStore';
-import { Config } from '../services/Config';
-import { TitleBar } from './TitleBar';
-import { NodeProps } from "./Node";
-import { LocalizedObject } from "../Localization";
+const shared = require('./shared.scss');
+const styles = require('./Action.scss');
 
-var shared = require('./shared.scss');
-var styles = require('./Action.scss');
-
-export interface ActionProps {
-    node: Node;
-    action: Action;
-    context: FlowContext;
+export interface IActionProps {
+    node: INode;
+    action: IAction;
+    context: IFlowContext;
     dragging: boolean;
-    localization: LocalizedObject;
-
     hasRouter: boolean;
-
     // are we the first action
     first: boolean;
+
+    Localization: LocalizedObject;
+
+    typeConfigList: IType[];
+    operatorConfigList: IOperator[];
+    getTypeConfig: TGetTypeConfig;
+    getOperatorConfig: TGetOperatorConfig;
+    endpoints: IEndpoints;
+
+    ComponentMap: ComponentMap;
 }
 
 /**
  * Base Action class for the rendered flow
  */
-export class ActionComp<A extends Action> extends React.PureComponent<ActionProps, {}> {
-
+export class ActionComp<A extends IAction> extends React.PureComponent<IActionProps, {}> {
     public form: HTMLFormElement;
     private clicking = false;
 
     protected localizedKeys: string[] = [];
 
-    constructor(props: ActionProps) {
+    constructor(props: IActionProps) {
         super(props);
         this.onClick = this.onClick.bind(this);
     }
@@ -46,14 +55,15 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
     getAction(): A {
         var action = this.props.action;
 
-        if (this.props.localization) {
-            action = this.props.localization.getObject() as A;
+        if (this.props.Localization) {
+            action = this.props.Localization.getObject() as A;
         }
+
         return action as A;
     }
 
     setEditing(editing: boolean) {
-        this.setState({ editing: editing })
+        this.setState({ editing: editing });
     }
 
     onClick(event: React.SyntheticEvent<MouseEvent>) {
@@ -61,8 +71,8 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
         event.stopPropagation();
 
         var localizations: LocalizedObject[] = [];
-        if (this.props.localization) {
-            localizations.push(this.props.localization);
+        if (this.props.Localization) {
+            localizations.push(this.props.Localization);
         }
 
         this.props.context.eventHandler.openEditor({
@@ -71,11 +81,17 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
             action: this.props.action,
             actionsOnly: true,
             nodeUI: null,
-            localizations: localizations
+            localizations: localizations,
+            typeConfigList: this.props.typeConfigList,
+            operatorConfigList: this.props.operatorConfigList,
+            getTypeConfig: this.props.getTypeConfig,
+            getOperatorConfig: this.props.getOperatorConfig,
+            endpoints: this.props.endpoints,
+            ComponentMap: this.props.ComponentMap
         });
     }
 
-    componentDidUpdate(prevProps: ActionProps, prevState: ActionProps) {
+    componentDidUpdate(prevProps: IActionProps, prevState: IActionProps) {
         if (this.props.dragging) {
             this.clicking = false;
         }
@@ -83,7 +99,7 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
 
     private onConfirmRemoval(evt: React.SyntheticEvent<MouseEvent>) {
         evt.stopPropagation();
-        this.setState({ confirmRemoval: true })
+        this.setState({ confirmRemoval: true });
     }
 
     private onRemoval(evt: React.SyntheticEvent<MouseEvent>) {
@@ -104,10 +120,9 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
     }
 
     render() {
+        // console.log("rendering ", this.props.action.uuid, this.props.Localization);
 
-        // console.log("rendering ", this.props.action.uuid, this.props.localization);
-
-        let config = Config.get().getTypeConfig(this.props.action.type);
+        let config = this.props.getTypeConfig(this.props.action.type);
         var classes = [styles.action];
 
         if (this.props.first) {
@@ -118,14 +133,14 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
             classes.push(styles.has_router);
         }
 
-        if (this.props.localization) {
+        if (this.props.Localization) {
             classes.push(styles.translating);
 
             if (this.localizedKeys.length == 0) {
                 classes.push(styles.not_localizable);
             } else {
                 for (let key of this.localizedKeys) {
-                    if (!(key in this.props.localization.localizedKeys)) {
+                    if (!(key in this.props.Localization.localizedKeys)) {
                         classes.push(styles.missing_localization);
                         break;
                     }
@@ -134,25 +149,30 @@ export class ActionComp<A extends Action> extends React.PureComponent<ActionProp
         }
 
         return (
-            <div id={this.props.action.uuid} className={classes.join(" ")}>
+            <div id={this.props.action.uuid} className={classes.join(' ')}>
                 <div className={styles.overlay} />
                 <div
-                    onMouseDown={() => { this.clicking = true }}
-                    onMouseUp={(event: any) => { if (this.clicking) { this.clicking = false; this.onClick(event) } }}>
+                    onMouseDown={() => {
+                        this.clicking = true;
+                    }}
+                    onMouseUp={(event: any) => {
+                        if (this.clicking) {
+                            this.clicking = false;
+                            this.onClick(event);
+                        }
+                    }}>
                     <TitleBar
                         className={shared[this.props.action.type]}
                         title={config.name}
                         onRemoval={this.onRemoval.bind(this)}
-                        showRemoval={!this.props.localization}
-                        showMove={!this.props.first && !this.props.localization}
+                        showRemoval={!this.props.Localization}
+                        showMove={!this.props.first && !this.props.Localization}
                         onMoveUp={this.onMoveUp.bind(this)}
                     />
-                    <div className={styles.body}>
-                        {this.renderNode()}
-                    </div>
+                    <div className={styles.body}>{this.renderNode()}</div>
                 </div>
             </div>
-        )
+        );
     }
 
     getType() {
