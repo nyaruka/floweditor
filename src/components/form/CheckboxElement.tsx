@@ -1,36 +1,34 @@
-import * as React from "react";
+import * as React from 'react';
+import Select from 'react-select';
+import { FormElement, IFormElementProps } from './FormElement';
+import { FormWidget, IFormValueState } from './FormWidget';
 
-import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormValueState } from './FormWidget';
-var Select = require('react-select');
+var styles = require('./CheckboxElement.scss');
 
-var styles = require("./CheckboxElement.scss");
-
-interface CheckboxElementProps extends FormElementProps {
+interface ICheckboxElementProps extends IFormElementProps {
     defaultValue?: boolean;
     description?: string;
     border?: boolean;
 }
 
-interface CheckboxState extends FormValueState {
+interface ICheckboxState extends IFormValueState {
     checked: boolean;
 }
 
-export class CheckboxElement extends FormWidget<CheckboxElementProps, CheckboxState> {
-
+export class CheckboxElement extends FormWidget<ICheckboxElementProps, ICheckboxState> {
     constructor(props: any) {
         super(props);
         this.onChange = this.onChange.bind(this);
         this.state = {
             checked: this.props.defaultValue,
             errors: []
-        }
+        };
     }
 
     private onChange(event: React.FormEvent<HTMLInputElement>) {
         this.setState({
             checked: event.currentTarget.checked
-        })
+        });
     }
 
     validate(): boolean {
@@ -39,15 +37,21 @@ export class CheckboxElement extends FormWidget<CheckboxElementProps, CheckboxSt
 
     render() {
         return (
-            <FormElement border={this.props.border} name={this.props.name} required={this.props.required} errors={this.state.errors}>
+            <FormElement
+                border={this.props.border}
+                name={this.props.name}
+                required={this.props.required}
+                errors={this.state.errors}>
                 <label className={styles.label}>
-                    <input type="checkbox" defaultChecked={this.state.checked} onChange={this.onChange} />
+                    <input
+                        type="checkbox"
+                        defaultChecked={this.state.checked}
+                        onChange={this.onChange}
+                    />
                     <div className={styles.title}>{this.props.name}</div>
-                    <div className={styles.description}>
-                        {this.props.description}
-                    </div>
+                    <div className={styles.description}>{this.props.description}</div>
                 </label>
             </FormElement>
-        )
+        );
     }
 }

@@ -1,43 +1,62 @@
-import * as React from "react";
+import * as React from 'react';
+
+import { IFormElementProps } from './FormElement';
+
+var styles = require('./FormElement.scss');
+
+export interface IFormValueState {
+    value?: any;
+    errors: string[];
+}
+
+export abstract class FormWidget<
+    P extends IFormElementProps,
+    S extends IFormValueState
+> extends React.PureComponent<P, S> {
+    abstract validate(): boolean;
+}
+
+// flow element
+
+import * as React from 'react';
 import * as UUID from 'uuid';
 
-import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormValueState } from './FormWidget';
-import { SearchResult } from '../ComponentMap';
+import { FormElement, IFormElementProps } from './FormElement';
+import { FormWidget, IFormValueState } from './FormWidget';
+import { ISearchResult } from '../../services/ComponentMap';
 import { SelectSearch } from '../SelectSearch';
 
 var Select = require('react-select');
-var styles = require("./FormElement.scss");
+var styles = require('./FormElement.scss');
 
-interface FlowElementProps extends FormElementProps {
+interface IFlowElementProps extends IFormElementProps {
     flow_name: string;
     flow_uuid: string;
     endpoint?: string;
     placeholder?: string;
 }
 
-interface FlowState extends FormValueState {
-    flow: SearchResult;
+interface IFlowState extends IFormValueState {
+    flow: ISearchResult;
 }
 
-export class FlowElement extends FormWidget<FlowElementProps, FlowState> {
-
+export class FlowElement extends FormWidget<IFlowElementProps, IFlowState> {
     constructor(props: any) {
         super(props);
 
-        var flow: SearchResult = null;
+        var flow: ISearchResult = null;
         if (this.props.flow_uuid) {
             flow = {
                 name: this.props.flow_name,
                 id: this.props.flow_uuid,
-                type: "flow"
-            }
+                type: 'flow'
+            };
         }
 
         this.state = {
             flow: flow,
             errors: []
-        }
+        };
 
         this.onChange = this.onChange.bind(this);
     }
@@ -49,10 +68,10 @@ export class FlowElement extends FormWidget<FlowElementProps, FlowState> {
     }
 
     validate(): boolean {
-        var errors: string[] = []
+        var errors: string[] = [];
         if (this.props.required) {
             if (!this.state.flow) {
-                errors.push(this.props.name + " is required");
+                errors.push(this.props.name + ' is required');
             }
         }
 
@@ -61,7 +80,6 @@ export class FlowElement extends FormWidget<FlowElementProps, FlowState> {
     }
 
     render() {
-
         var isValidNewOption = null;
         var createNewOption = null;
         var createPrompt = null;
@@ -70,13 +88,13 @@ export class FlowElement extends FormWidget<FlowElementProps, FlowState> {
         var classes = [];
         if (this.state.errors.length > 0) {
             // we use a global selector here for react-select
-            classes.push("select-invalid");
+            classes.push('select-invalid');
         }
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <SelectSearch
-                    className={classes.join(" ")}
+                    className={classes.join(' ')}
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
@@ -87,6 +105,6 @@ export class FlowElement extends FormWidget<FlowElementProps, FlowState> {
                     {...createOptions}
                 />
             </FormElement>
-        )
+        );
     }
 }

@@ -1,41 +1,40 @@
-import * as React from "react";
+import * as React from 'react';
 import * as UUID from 'uuid';
 
-import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormValueState } from './FormWidget';
-import { SearchResult } from '../ComponentMap';
+import { FormElement, IFormElementProps } from './FormElement';
+import { FormWidget, IFormValueState } from './FormWidget';
+import { ISearchResult } from '../../services/ComponentMap';
 import { SelectSearch } from '../SelectSearch';
 
 var Select = require('react-select');
-var styles = require("./FormElement.scss");
+var styles = require('./FormElement.scss');
 
-interface GroupElementProps extends FormElementProps {
-    groups: { group: string, name: string }[];
+interface IGroupElementProps extends IFormElementProps {
+    groups: { group: string; name: string }[];
 
-    localGroups?: SearchResult[];
+    localGroups?: ISearchResult[];
     endpoint?: string;
     add?: boolean;
     placeholder?: string;
 }
 
-interface GroupState extends FormValueState {
-    groups: SearchResult[];
+interface IGroupState extends IFormValueState {
+    groups: ISearchResult[];
 }
 
-export class GroupElement extends FormWidget<GroupElementProps, GroupState> {
-
+export class GroupElement extends FormWidget<IGroupElementProps, IGroupState> {
     constructor(props: any) {
         super(props);
 
-        var groups: SearchResult[] = [];
+        var groups: ISearchResult[] = [];
         for (let g of this.props.groups) {
-            groups.push({ name: g.name, id: g.group, type: "group" });
+            groups.push({ name: g.name, id: g.group, type: 'group' });
         }
 
         this.state = {
             groups: groups,
             errors: []
-        }
+        };
 
         this.onChange = this.onChange.bind(this);
     }
@@ -47,10 +46,10 @@ export class GroupElement extends FormWidget<GroupElementProps, GroupState> {
     }
 
     validate(): boolean {
-        var errors: string[] = []
+        var errors: string[] = [];
         if (this.props.required) {
             if (this.state.groups.length == 0) {
-                errors.push(this.props.name + " is required");
+                errors.push(this.props.name + ' is required');
             }
         }
 
@@ -59,23 +58,24 @@ export class GroupElement extends FormWidget<GroupElementProps, GroupState> {
     }
 
     isValidNewOption(option: { label: string }): boolean {
-        if (!option || !option.label) { return false; }
+        if (!option || !option.label) {
+            return false;
+        }
         let lowered = option.label.toLowerCase();
         return lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered);
     }
 
-    createNewOption(arg: { label: string }): SearchResult {
-        var newOption: SearchResult = {
+    createNewOption(arg: { label: string }): ISearchResult {
+        var newOption: ISearchResult = {
             id: UUID.v4(),
             name: arg.label,
             extraResult: true
-        } as SearchResult;
+        } as ISearchResult;
 
         return newOption;
     }
 
     render() {
-
         var isValidNewOption = null;
         var createNewOption = null;
         var createPrompt = null;
@@ -85,20 +85,20 @@ export class GroupElement extends FormWidget<GroupElementProps, GroupState> {
             createOptions = {
                 isValidNewOption: this.isValidNewOption.bind(this),
                 createNewOption: this.createNewOption.bind(this),
-                createPrompt: "New group: "
-            }
+                createPrompt: 'New group: '
+            };
         }
 
         var classes = [];
         if (this.state.errors.length > 0) {
             // we use a global selector here for react-select
-            classes.push("select-invalid");
+            classes.push('select-invalid');
         }
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <SelectSearch
-                    className={classes.join(" ")}
+                    className={classes.join(' ')}
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
@@ -110,6 +110,6 @@ export class GroupElement extends FormWidget<GroupElementProps, GroupState> {
                     {...createOptions}
                 />
             </FormElement>
-        )
+        );
     }
 }

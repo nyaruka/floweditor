@@ -1,15 +1,15 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 
-import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormValueState } from './FormWidget';
-import { ComponentMap, CompletionOption } from "../ComponentMap";
+import { FormElement, IFormElementProps } from './FormElement';
+import { FormWidget, IFormValueState } from './FormWidget';
+import ComponentMap, { ICompletionOption } from '../../services/ComponentMap';
 
 var getCaretCoordinates = require('textarea-caret');
 var inputSelection = require('get-input-selection');
 
-var styles = require("./TextInputElement.scss");
-var shared = require("./FormElement.scss");
+var styles = require('./TextInputElement.scss');
+var shared = require('./FormElement.scss');
 
 const KEY_AT = 50;
 const KEY_SPACE = 32;
@@ -22,17 +22,17 @@ const KEY_N = 78;
 const KEY_ESC = 27;
 const KEY_BACKSPACE = 8;
 
-export interface Coordinates {
-    left: number,
-    top: number
+export interface ICoordinates {
+    left: number;
+    top: number;
 }
 
-export interface HTMLTextElement {
+export interface IHTMLTextElement {
     value: string;
     selectionStart: number;
 }
 
-interface TextInputProps extends FormElementProps {
+interface ITextInputProps extends IFormElementProps {
     value: string;
 
     // validates that the input is a url
@@ -47,65 +47,69 @@ interface TextInputProps extends FormElementProps {
     // do we show autocompletion choices
     autocomplete?: boolean;
 
-    onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
-    onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
+    onChange?(event: React.ChangeEvent<IHTMLTextElement>): void;
+    onBlur?(event: React.ChangeEvent<IHTMLTextElement>): void;
+
+    ComponentMap: ComponentMap;
 }
 
-export interface TextInputState extends FormValueState {
+export interface ITextInputState extends IFormValueState {
     caretOffset: number;
-    caretCoordinates: Coordinates;
+    caretCoordinates: ICoordinates;
     completionVisible: boolean;
     selectedOptionIndex: number;
-    matches: CompletionOption[];
+    matches: ICompletionOption[];
     query: string;
 }
 
-const OPTIONS: CompletionOption[] = [
-    { name: "contact", description: "The name of the contact." },
-    { name: "contact.name", description: "The name of the contact." },
-    { name: "contact.language", description: "The language code for the contact." },
-    { name: "contact.fields", description: "Custom fields on the contact." },
-    { name: "contact.groups", description: "The groups for the contact." },
-    { name: "contact.urns", description: "URNs on the contact." },
-    { name: "contact.urns.tel", description: "The preferred telephone number for the contact." },
-    { name: "contact.urns.telegram", description: "The preferred telegram id for the contact." },
-    { name: "input", description: "The last input from the contact if any." },
-    { name: "run", description: "Run details" },
-    { name: "run.contact", description: "The contact in this run" },
-    { name: "run.results", description: "Results for the run" },
-    { name: "child", description: "Run details after running a child flow" },
-    { name: "child.results", description: "The results for the child flow" },
-    { name: "parent", description: "Run details if being called from a parent flow" },
-    { name: "parent.results", description: "The results for the parent flow" },
-    { name: "webhook", description: "The body of the webhook response" },
-    { name: "webhook.status", description: "The status of the webhook call" },
-    { name: "webhook.status_code", description: "The status code returned from the webhook" },
-    { name: "webhook.url", description: "The URL which was called" },
-    { name: "webhook.body", description: "The body of the webhook response" },
-    { name: "webhook.json", description: "The JSON parsed body of the response, can access subelements" },
-    { name: "webhook.request", description: "The raw request of the webhook including headers" },
-    { name: "webhook.response", description: "The raw response of the webhook including headers" },
-]
+const OPTIONS: ICompletionOption[] = [
+    { name: 'contact', description: 'The name of the contact.' },
+    { name: 'contact.name', description: 'The name of the contact.' },
+    { name: 'contact.language', description: 'The language code for the contact.' },
+    { name: 'contact.fields', description: 'Custom fields on the contact.' },
+    { name: 'contact.groups', description: 'The groups for the contact.' },
+    { name: 'contact.urns', description: 'URNs on the contact.' },
+    { name: 'contact.urns.tel', description: 'The preferred telephone number for the contact.' },
+    { name: 'contact.urns.telegram', description: 'The preferred telegram id for the contact.' },
+    { name: 'input', description: 'The last input from the contact if any.' },
+    { name: 'run', description: 'Run details' },
+    { name: 'run.contact', description: 'The contact in this run' },
+    { name: 'run.results', description: 'Results for the run' },
+    { name: 'child', description: 'Run details after running a child flow' },
+    { name: 'child.results', description: 'The results for the child flow' },
+    { name: 'parent', description: 'Run details if being called from a parent flow' },
+    { name: 'parent.results', description: 'The results for the parent flow' },
+    { name: 'webhook', description: 'The body of the webhook response' },
+    { name: 'webhook.status', description: 'The status of the webhook call' },
+    { name: 'webhook.status_code', description: 'The status code returned from the webhook' },
+    { name: 'webhook.url', description: 'The URL which was called' },
+    { name: 'webhook.body', description: 'The body of the webhook response' },
+    {
+        name: 'webhook.json',
+        description: 'The JSON parsed body of the response, can access subelements'
+    },
+    { name: 'webhook.request', description: 'The raw request of the webhook including headers' },
+    { name: 'webhook.response', description: 'The raw response of the webhook including headers' }
+];
 
-export class TextInputElement extends FormWidget<TextInputProps, TextInputState> {
-
+export class TextInputElement extends FormWidget<ITextInputProps, ITextInputState> {
     private selectedEle: any;
-    private textElement: HTMLTextElement;
+    private textElement: IHTMLTextElement;
 
-    private options: CompletionOption[];
+    private options: ICompletionOption[];
 
     constructor(props: any) {
         super(props);
 
         this.state = {
-            value: this.props.value ? this.props.value : "",
+            value: this.props.value ? this.props.value : '',
             caretOffset: 0,
             caretCoordinates: { left: 0, top: 0 },
             errors: [],
             completionVisible: false,
             selectedOptionIndex: 0,
             matches: [],
-            query: ""
+            query: ''
         };
 
         this.onKeyDown = this.onKeyDown.bind(this);
@@ -113,29 +117,29 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
         this.onBlur = this.onBlur.bind(this);
 
         if (this.props.autocomplete) {
-            this.options = OPTIONS.concat(ComponentMap.get().getResultNames());
+            this.options = OPTIONS.concat(this.props.ComponentMap.getResultNames());
         }
     }
 
     private setSelection(index: number) {
-
         // can't exceed the last option
         if (index >= this.state.matches.length) {
             index = this.state.matches.length - 1;
         }
 
         // can't go beyond the first option
-        if (index < 0) { index = 0; }
+        if (index < 0) {
+            index = 0;
+        }
 
         if (index != this.state.selectedOptionIndex) {
             this.setState({
                 selectedOptionIndex: index
-            })
+            });
         }
     }
 
     private onKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
-
         if (!this.props.autocomplete) {
             return;
         }
@@ -167,7 +171,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
 
                 this.setState({
                     completionVisible: true,
-                    caretCoordinates: getCaretCoordinates(ele, ele.selectionEnd),
+                    caretCoordinates: getCaretCoordinates(ele, ele.selectionEnd)
                 });
 
                 break;
@@ -176,7 +180,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
                 if (this.state.completionVisible) {
                     this.setState({
                         completionVisible: false
-                    })
+                    });
                     event.preventDefault();
                     event.stopPropagation();
                 }
@@ -186,31 +190,40 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
             case KEY_ENTER:
                 if (this.state.completionVisible && this.state.matches.length > 0) {
                     var option = this.state.matches[this.state.selectedOptionIndex];
-                    var newValue = this.state.value.substr(0, this.state.caretOffset - this.state.query.length);
+                    var newValue = this.state.value.substr(
+                        0,
+                        this.state.caretOffset - this.state.query.length
+                    );
                     newValue += option.name;
 
                     var newCaret = newValue.length;
                     newValue += this.state.value.substr(this.state.caretOffset);
 
-                    var query = ""
-                    var completionVisible = false
-                    var matches: CompletionOption[] = []
+                    var query = '';
+                    var completionVisible = false;
+                    var matches: ICompletionOption[] = [];
                     if (event.keyCode == KEY_TAB) {
-                        query = option.name
-                        matches = this.filterOptions(query)
-                        completionVisible = matches.length > 0
+                        query = option.name;
+                        matches = this.filterOptions(query);
+                        completionVisible = matches.length > 0;
                     }
 
-                    this.setState({
-                        query: query,
-                        value: newValue,
-                        matches: matches,
-                        caretOffset: newCaret,
-                        completionVisible: completionVisible,
-                        selectedOptionIndex: 0,
-                    }, () => {
-                        inputSelection.setCaretPosition(ReactDOM.findDOMNode(this.textElement as any), newCaret);
-                    });
+                    this.setState(
+                        {
+                            query: query,
+                            value: newValue,
+                            matches: matches,
+                            caretOffset: newCaret,
+                            completionVisible: completionVisible,
+                            selectedOptionIndex: 0
+                        },
+                        () => {
+                            inputSelection.setCaretPosition(
+                                ReactDOM.findDOMNode(this.textElement as any),
+                                newCaret
+                            );
+                        }
+                    );
 
                     // TODO: set caret position
                     event.preventDefault();
@@ -225,19 +238,19 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
                 // iterate backwards on our value until we reach either a space or @
                 var caret = event.currentTarget.selectionStart - 1;
                 for (var i = caret - 1; i >= 0; i--) {
-                    var curr = this.state.value[i]
+                    var curr = this.state.value[i];
 
                     // space, don't do anything but break out
-                    if (curr == " ") {
-                        break
+                    if (curr == ' ') {
+                        break;
                     }
 
                     // @ we display again
-                    if (curr == "@") {
+                    if (curr == '@') {
                         var ele: any = ReactDOM.findDOMNode(this.textElement as any);
-                        query = this.state.value.substr(i + 1, caret - i - 1)
-                        matches = this.filterOptions(query)
-                        completionVisible = matches.length > 0
+                        query = this.state.value.substr(i + 1, caret - i - 1);
+                        matches = this.filterOptions(query);
+                        completionVisible = matches.length > 0;
                         this.setState({
                             query: query,
                             matches: matches,
@@ -245,24 +258,24 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
                             caretOffset: caret,
                             completionVisible: completionVisible,
                             selectedOptionIndex: 0,
-                            caretCoordinates: getCaretCoordinates(ele, i),
+                            caretCoordinates: getCaretCoordinates(ele, i)
                         });
-                        return
+                        return;
                     }
                 }
 
                 // we are visible still but really shouldn't be, clear out
                 if (this.state.completionVisible) {
                     this.setState({
-                        query: "",
+                        query: '',
                         matches: [],
                         value: this.state.value,
                         caretOffset: caret,
                         completionVisible: false,
-                        selectedOptionIndex: 0,
-                    })
+                        selectedOptionIndex: 0
+                    });
                 }
-                break
+                break;
 
             case KEY_SPACE:
                 this.setState({
@@ -272,31 +285,33 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
         }
     }
 
-    private onBlur(event: React.ChangeEvent<HTMLTextElement>) {
-        this.setState({
-            query: "",
-            matches: [],
-            value: this.state.value,
-            caretOffset: 0,
-            selectedOptionIndex: 0,
-            completionVisible: false
-        }, () => {
-            if (this.props.onBlur) {
-                this.props.onBlur(event);
+    private onBlur(event: React.ChangeEvent<IHTMLTextElement>) {
+        this.setState(
+            {
+                query: '',
+                matches: [],
+                value: this.state.value,
+                caretOffset: 0,
+                selectedOptionIndex: 0,
+                completionVisible: false
+            },
+            () => {
+                if (this.props.onBlur) {
+                    this.props.onBlur(event);
+                }
             }
-        });
+        );
     }
 
-    private onChange(event: React.ChangeEvent<HTMLTextElement>) {
-
+    private onChange(event: React.ChangeEvent<IHTMLTextElement>) {
         if (this.props.autocomplete) {
             var query: string = null;
-            var matches: CompletionOption[] = [];
+            var matches: ICompletionOption[] = [];
             if (this.state.completionVisible) {
                 var text = event.currentTarget.value;
                 query = text.substring(0, event.currentTarget.selectionStart);
 
-                let lastIdx = query.lastIndexOf("@");
+                let lastIdx = query.lastIndexOf('@');
                 if (lastIdx > -1) {
                     query = query.substring(lastIdx + 1);
                 }
@@ -311,10 +326,9 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
                 value: event.currentTarget.value,
                 query: query
             });
-
         } else {
             this.setState({
-                value: event.currentTarget.value,
+                value: event.currentTarget.value
             });
         }
 
@@ -333,10 +347,10 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
     }
 
     validate(): boolean {
-        var errors: string[] = []
+        var errors: string[] = [];
         if (this.props.required) {
             if (!this.state.value) {
-                errors.push(this.props.name + " is required");
+                errors.push(this.props.name + ' is required');
             }
         }
 
@@ -346,7 +360,7 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
         if (errors.length == 0) {
             if (this.props.url) {
                 if (!this.isValidURL(this.state.value)) {
-                    errors.push("Enter a valid URL");
+                    errors.push('Enter a valid URL');
                 }
             }
         }
@@ -354,25 +368,26 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
         return errors.length == 0;
     }
 
-    private filterOptions(query: string): CompletionOption[] {
+    private filterOptions(query: string): ICompletionOption[] {
         if (query != null) {
             var search = query.toLowerCase();
-            var results = this.options.filter(
-                (option: CompletionOption) => {
-                    var rest = option.name.substr(search.length);
-                    return option.name.indexOf(search) == 0 && (rest.length == 0 || rest.substr(1).indexOf(".") == -1)
-                }
-            );
+            var results = this.options.filter((option: ICompletionOption) => {
+                var rest = option.name.substr(search.length);
+                return (
+                    option.name.indexOf(search) == 0 &&
+                    (rest.length == 0 || rest.substr(1).indexOf('.') == -1)
+                );
+            });
             return results;
         }
         return [];
     }
 
-    private getOptionName(query: string, option: CompletionOption): string {
+    private getOptionName(query: string, option: ICompletionOption): string {
         return option.name;
     }
 
-    componentDidUpdate(previous: TextInputProps) {
+    componentDidUpdate(previous: ITextInputProps) {
         if (this.selectedEle != null) {
             var selectedOption = ReactDOM.findDOMNode(this.selectedEle);
             if (selectedOption != null) {
@@ -381,16 +396,16 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
         }
     }
 
-    private renderOption(option: CompletionOption, selected: boolean): JSX.Element {
+    private renderOption(option: ICompletionOption, selected: boolean): JSX.Element {
         if (selected) {
             return (
                 <div>
                     <div className={styles.option_name}>{option.name}</div>
                     <div className={styles.option_description}>{option.description}</div>
                 </div>
-            )
+            );
         } else {
-            return <div className={styles.option_name}>{option.name}</div>
+            return <div className={styles.option_name}>{option.name}</div>;
         }
     }
 
@@ -406,44 +421,65 @@ export class TextInputElement extends FormWidget<TextInputProps, TextInputState>
         }
 
         var options: JSX.Element[] = [];
-        this.state.matches.map((option: CompletionOption, index: number) => {
-            var optionClasses = [styles.option]
+        this.state.matches.map((option: ICompletionOption, index: number) => {
+            var optionClasses = [styles.option];
             if (index == this.state.selectedOptionIndex) {
                 optionClasses.push(styles.selected);
                 if (index == 0) {
                     optionClasses.push(styles.first_option);
                 }
-                options.push(<li ref={(ele) => { this.selectedEle = ele }} className={optionClasses.join(" ")} key={option.name}>{this.renderOption(option, true)}</li>);
+                options.push(
+                    <li
+                        ref={ele => {
+                            this.selectedEle = ele;
+                        }}
+                        className={optionClasses.join(' ')}
+                        key={option.name}>
+                        {this.renderOption(option, true)}
+                    </li>
+                );
             } else {
-                options.push(<li className={optionClasses.join(" ")} key={option.name}>{this.renderOption(option, false)}</li>);
+                options.push(
+                    <li className={optionClasses.join(' ')} key={option.name}>
+                        {this.renderOption(option, false)}
+                    </li>
+                );
             }
         });
 
         // use the proper form element
-        var TextElement = "input";
+        var TextElement = 'input';
         if (this.props.textarea) {
-            TextElement = "textarea";
+            TextElement = 'textarea';
         }
 
         return (
-            <FormElement className={this.props.className} name={this.props.name} helpText={this.props.helpText} showLabel={this.props.showLabel} errors={this.state.errors}>
+            <FormElement
+                className={this.props.className}
+                name={this.props.name}
+                helpText={this.props.helpText}
+                showLabel={this.props.showLabel}
+                errors={this.state.errors}>
                 <div className={styles.wrapper}>
-                    <TextElement ref={(ref: any) => { this.textElement = ref }}
-                        className={classes.join(" ")}
+                    <TextElement
+                        ref={(ref: any) => {
+                            this.textElement = ref;
+                        }}
+                        className={classes.join(' ')}
                         value={this.state.value}
                         onChange={this.onChange}
                         onBlur={this.onBlur}
                         onKeyDown={this.onKeyDown}
                         placeholder={this.props.placeholder}
                     />
-                    <div style={this.state.caretCoordinates} className={completionClasses.join(" ")}>
-                        <ul className={styles.option_list}>
-                            {options}
-                        </ul>
+                    <div
+                        style={this.state.caretCoordinates}
+                        className={completionClasses.join(' ')}>
+                        <ul className={styles.option_list}>{options}</ul>
                         <div className={styles.help}>Tab to complete, enter to select</div>
                     </div>
                 </div>
             </FormElement>
-        )
+        );
     }
 }

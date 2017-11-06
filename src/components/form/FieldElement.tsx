@@ -1,43 +1,38 @@
-import * as React from "react";
+import * as React from 'react';
 import * as UUID from 'uuid';
-import { toBoolMap } from '../../utils';
-import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormValueState } from './FormWidget';
-import { SearchResult, ComponentMap } from '../ComponentMap';
+import { toBoolMap } from '../../helpers/utils';
+import { FormElement, IFormElementProps } from './FormElement';
+import { FormWidget, IFormValueState } from './FormWidget';
+import ComponentMap, { ISearchResult } from '../../services/ComponentMap';
 import { SelectSearch } from '../SelectSearch';
 
 var Select = require('react-select');
-var styles = require("./FormElement.scss");
+var styles = require('./FormElement.scss');
 
 // TODO: these should come from an external source
-var reserved = toBoolMap([
-    "language",
-    "name",
-    "timezone"
-]);
+var reserved = toBoolMap(['language', 'name', 'timezone']);
 
-interface FieldElementProps extends FormElementProps {
-    initial: SearchResult;
+interface IFieldElementProps extends IFormElementProps {
+    initial: ISearchResult;
 
-    localFields?: SearchResult[];
+    localFields?: ISearchResult[];
     endpoint?: string;
     add?: boolean;
     placeholder?: string;
 }
 
-interface FieldState extends FormValueState {
-    field: SearchResult;
+interface IFieldState extends IFormValueState {
+    field: ISearchResult;
 }
 
-export class FieldElement extends FormWidget<FieldElementProps, FieldState> {
-
+export class FieldElement extends FormWidget<IFieldElementProps, IFieldState> {
     constructor(props: any) {
         super(props);
 
         this.state = {
             field: this.props.initial,
             errors: []
-        }
+        };
 
         this.onChange = this.onChange.bind(this);
     }
@@ -49,10 +44,10 @@ export class FieldElement extends FormWidget<FieldElementProps, FieldState> {
     }
 
     validate(): boolean {
-        var errors: string[] = []
+        var errors: string[] = [];
         if (this.props.required) {
             if (!this.state.field) {
-                errors.push(this.props.name + " is required");
+                errors.push(this.props.name + ' is required');
             }
         }
 
@@ -61,24 +56,30 @@ export class FieldElement extends FormWidget<FieldElementProps, FieldState> {
     }
 
     isValidNewOption(option: { label: string }): boolean {
-        if (!option || !option.label) { return false; }
+        if (!option || !option.label) {
+            return false;
+        }
         let lowered = option.label.toLowerCase();
-        return lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered) && !reserved[lowered];
+        return (
+            lowered.length > 0 &&
+            lowered.length <= 36 &&
+            /^[a-z0-9-][a-z0-9- ]*$/.test(lowered) &&
+            !reserved[lowered]
+        );
     }
 
-    createNewOption(arg: { label: string }): SearchResult {
-        var newOption: SearchResult = {
+    createNewOption(arg: { label: string }): ISearchResult {
+        var newOption: ISearchResult = {
             id: UUID.v4(),
             name: arg.label,
-            type: "field",
+            type: 'field',
             extraResult: true
-        } as SearchResult;
+        } as ISearchResult;
 
         return newOption;
     }
 
     render() {
-
         var isValidNewOption = null;
         var createNewOption = null;
         var createPrompt = null;
@@ -88,25 +89,29 @@ export class FieldElement extends FormWidget<FieldElementProps, FieldState> {
             createOptions = {
                 isValidNewOption: this.isValidNewOption.bind(this),
                 createNewOption: this.createNewOption.bind(this),
-                createPrompt: "New Field: "
-            }
+                createPrompt: 'New Field: '
+            };
         }
 
         var classes = [];
         if (this.state.errors.length > 0) {
             // we use a global selector here for react-select
-            classes.push("select-invalid");
+            classes.push('select-invalid');
         }
 
-        var initial: SearchResult[] = [];
+        var initial: ISearchResult[] = [];
         if (this.state.field) {
             initial = [this.state.field];
         }
 
         return (
-            <FormElement showLabel={this.props.showLabel} name={this.props.name} helpText={this.props.helpText} errors={this.state.errors}>
+            <FormElement
+                showLabel={this.props.showLabel}
+                name={this.props.name}
+                helpText={this.props.helpText}
+                errors={this.state.errors}>
                 <SelectSearch
-                    className={classes.join(" ")}
+                    className={classes.join(' ')}
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
@@ -118,6 +123,6 @@ export class FieldElement extends FormWidget<FieldElementProps, FieldState> {
                     {...createOptions}
                 />
             </FormElement>
-        )
+        );
     }
 }
