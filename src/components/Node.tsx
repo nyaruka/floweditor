@@ -280,25 +280,29 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
     }
 
     render() {
-        var classes = ['plumb-drag', styles.node];
+        let classes = ['plumb-drag', styles.node];
 
-        if (this.props.language) {
-            classes.push(styles.translating);
+        if (this.props.hasOwnProperty('language') && this.props.language) {
+            classes = [...classes, styles.translating];
         }
 
-        var actions: JSX.Element[] = [];
-        var actionList = null;
+        let actions: JSX.Element[] = [];
+        let actionList = null;
+
         if (this.props.node.actions) {
             // save the first reference off to manage our clicks
-            var firstRef: any = {
+            let firstRef: any = {
                 ref: (ele: any) => {
                     this.firstAction = ele;
                 }
             };
+
             this.props.node.actions.map((action: IAction, idx: number) => {
                 let actionConfig = this.props.getTypeConfig(action.type);
-                if (actionConfig.component != null) {
-                    var localization: LocalizedObject;
+
+                if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
+                    let localization: LocalizedObject;
+
                     if (this.props.translations) {
                         localization = Localization.translate(
                             action,
@@ -308,13 +312,16 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                         );
                     }
 
-                    var actionProps: IActionProps = {
+                    const actionProps: IActionProps = {
                         action: action,
                         dragging: this.state.dragging,
                         context: this.props.context,
                         node: this.props.node,
                         first: idx === 0,
-                        hasRouter: this.props.node.router != null,
+                        hasRouter:
+                            this.props.node.hasOwnProperty('router') &&
+                            (this.props.node.router !== undefined ||
+                                this.props.node.router !== null),
                         Localization: localization,
                         getTypeConfig: this.props.getTypeConfig,
                         getOperatorConfig: this.props.getOperatorConfig,
@@ -324,14 +331,14 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                         ComponentMap: this.props.ComponentMap
                     };
 
-                    actions.push(
-                        React.createElement(actionConfig.component, {
-                            key: action.uuid,
-                            ...actionProps,
-                            ...firstRef
-                        })
-                    );
+                    const { component: Component } = actionConfig;
+
+                    actions = [
+                        ...actions,
+                        <Component key={action.uuid} {...actionProps} {...firstRef} />
+                    ];
                 }
+
                 firstRef = {};
             });
 
