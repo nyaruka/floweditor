@@ -99,7 +99,7 @@ const Localization: LocalizedObject = LocalizationService.translate(
 );
 
 const startFlowProps = {
-    groups
+    flow_name
 };
 
 const actionProps = {
