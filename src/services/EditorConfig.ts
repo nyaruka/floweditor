@@ -7,9 +7,8 @@ import SaveToContactCompEnhanced from '../components/actions/SaveToContact/SaveT
 import SaveToContactForm from '../components/actions/SaveToContact/SaveToContactForm';
 import ReplyComp from '../components/actions/Reply/ReplyComp';
 import ReplyForm from '../components/actions/Reply/ReplyForm';
-// import { WebhookComp } from '../components/actions/Webhook';
+import WebhookCompEnhanced from '../components/actions/Webhook/WebhookComp';
 // import { StartFlowComp } from '../components/actions/StartFlow';
-// import { SendEmailComp, SendEmailForm } from '../components/actions/SendEmail';
 import SendEmailCompEnhanced from '../components/actions/SendEmail/SendEmailComp';
 import SendEmailForm from '../components/actions/SendEmail/SendEmailForm';
 import { SwitchRouterForm } from '../components/routers/SwitchRouter';
@@ -134,18 +133,18 @@ const TYPE_CONFIG_LIST: IType[] = [
     // {type: 'add_label', name: 'Add Label', description: 'Label the message', component: Missing},
     // {type: 'set_preferred_channel', name: 'Set Preferred Channel', description: 'Set their preferred channel', component: Missing},
     /** Hybrids */
-    // {
-    //     type: 'call_webhook',
-    //     name: 'Call Webhook',
-    //     description: 'Call a webook',
-    //     form: WebhookForm,
-    //     component: WebhookComp,
-    //     advanced: EMode.EDITING,
-    //     aliases: ['webhook'],
-    //     allows(mode: EMode): boolean {
-    //         return (this.advanced & mode) === mode;
-    //     }
-    // },
+    {
+        type: 'call_webhook',
+        name: 'Call Webhook',
+        description: 'Call a webook',
+        form: WebhookForm,
+        component: WebhookCompEnhanced,
+        advanced: EMode.EDITING,
+        aliases: ['webhook'],
+        allows(mode: EMode): boolean {
+            return (this.advanced & mode) === mode;
+        }
+    },
     // {
     //     type: 'start_flow',
     //     name: 'Run Flow',

@@ -6,7 +6,6 @@ import EditorConfig from '../../../services/EditorConfig';
 import CompMap from '../../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../../services/Localization';
 import { languages } from '../../../flowEditorConfig';
-import TitleBar from '../../TitleBar';
 import SaveToContactCompEnhanced, { SaveToContactCompBase } from './SaveToContactComp';
 
 const definition = {
