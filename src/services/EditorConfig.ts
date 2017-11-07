@@ -1,11 +1,12 @@
 import __flow_editor_config__ from '../flowEditorConfig';
-import ChangeGroupComp from '../components/actions/ChangeGroup/ChangeGroupComp';
+import ChangeGroupCompEnhanced from '../components/actions/ChangeGroup/ChangeGroupComp';
 import ChangeGroupForm from '../components/actions/ChangeGroup/ChangeGroupForm';
+import SaveFlowResultCompEnhanced from '../components/actions/SaveFlowResult/SaveFlowResultComp';
+import SaveFlowResultForm from '../components/actions/SaveFlowResult/SaveFlowResultForm';
 // import { SaveToContactComp, SaveToContactForm } from '../components/actions/SaveToContact';
 import ReplyComp from '../components/actions/Reply/ReplyComp';
 import ReplyForm from '../components/actions/Reply/ReplyForm';
 // import { WebhookComp } from '../components/actions/Webhook';
-// import { SaveFlowResultComp, SaveFlowResultForm } from '../components/actions/SaveFlowResult';
 // import { StartFlowComp } from '../components/actions/StartFlow';
 // import { SendEmailComp, SendEmailForm } from '../components/actions/SendEmail';
 import { SwitchRouterForm } from '../components/routers/SwitchRouter';
@@ -81,7 +82,7 @@ const TYPE_CONFIG_LIST: IType[] = [
         name: 'Add to Group',
         description: 'Add them to a group',
         form: ChangeGroupForm,
-        component: ChangeGroupComp,
+        component: ChangeGroupCompEnhanced,
         allows(mode: EMode): boolean {
             return (this.advanced & mode) === mode;
         }
@@ -91,7 +92,7 @@ const TYPE_CONFIG_LIST: IType[] = [
         name: 'Remove from Group',
         description: 'Remove them from a group',
         form: ChangeGroupForm,
-        component: ChangeGroupComp,
+        component: ChangeGroupCompEnhanced,
         allows(mode: EMode): boolean {
             return (this.advanced & mode) === mode;
         }
@@ -117,19 +118,19 @@ const TYPE_CONFIG_LIST: IType[] = [
     //         return (this.advanced & mode) === mode;
     //     }
     // },
-    // {
-    //     type: 'save_flow_result',
-    //     name: 'Save Flow Result',
-    //     description: 'Save a result for this flow',
-    //     form: SaveFlowResultForm,
-    //     component: SaveFlowResultComp,
-    //     allows(mode: EMode): boolean {
-    //         return (this.advanced & mode) === mode;
-    //     }
-    // },
-    // // {type: 'add_label', name: 'Add Label', description: 'Label the message', component: Missing},
-    // // {type: 'set_preferred_channel', name: 'Set Preferred Channel', description: 'Set their preferred channel', component: Missing},
-    // /** Hybrids */
+    {
+        type: 'save_flow_result',
+        name: 'Save Flow Result',
+        description: 'Save a result for this flow',
+        form: SaveFlowResultForm,
+        component: SaveFlowResultCompEnhanced,
+        allows(mode: EMode): boolean {
+            return (this.advanced & mode) === mode;
+        }
+    },
+    // {type: 'add_label', name: 'Add Label', description: 'Label the message', component: Missing},
+    // {type: 'set_preferred_channel', name: 'Set Preferred Channel', description: 'Set their preferred channel', component: Missing},
+    /** Hybrids */
     // {
     //     type: 'call_webhook',
     //     name: 'Call Webhook',

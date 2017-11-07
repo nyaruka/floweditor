@@ -89,7 +89,7 @@ export interface ISendEmail extends IAction {
 export interface ISaveFlowResult extends IAction {
     result_name: string;
     value: string;
-    category: string;
+    category?: string;
 }
 
 export interface IHeaders {

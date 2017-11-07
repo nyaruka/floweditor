@@ -50,6 +50,8 @@ class Editor extends React.PureComponent<IEditorProps, IEditorState> {
     }
 
     private setDefinition(definition: IFlowDefinition, dependencies?: IFlowDefinition[]): void {
+        console.log(`DEFINITION: ${JSON.stringify(definition, null, 2)}`);
+
         if (dependencies) {
             this.setState({
                 definition,
