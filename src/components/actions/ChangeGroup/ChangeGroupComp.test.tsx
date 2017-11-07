@@ -9,7 +9,7 @@ import CompMap from '../../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../../services/Localization';
 import { languages } from '../../../flowEditorConfig';
 import TitleBar from '../../TitleBar';
-import ChangeGroupComp from './ChangeGroupComp';
+import ChangeGroupCompEnhanced, { ChangeGroupCompBase } from './ChangeGroupComp';
 
 const definition = {
     name: 'Lots of Action',
@@ -74,7 +74,7 @@ const { nodes: [node], language: flowLanguage } = definition;
 
 const addToGroupAction = node.actions[1] as IChangeGroup;
 
-const { groups } = addToGroupAction;
+const { uuid, groups } = addToGroupAction;
 
 const {
     typeConfigList,
@@ -133,17 +133,22 @@ const actionProps = {
 const changeGroupCompProps: IWithActionProps = {
     ...changeGroupProps,
     ...actionProps
-}
+};
 
-const ChangeGroupCompEnhanced = shallow(<ChangeGroupComp {...changeGroupCompProps} />);
+const ChangeGroupCompEnhancedShallow = shallow(<ChangeGroupCompEnhanced {...changeGroupCompProps} />);
 
 describe('Component: ChangeGroup', () => {
-    it('should render ChangeGroupComp & pass it appropriate props', () => {
-        const ChangeGroupCompShallow = ChangeGroupCompEnhanced.find('ChangeGroupComp');
+    it('should render enhanced ChangeGroupComp & pass it appropriate props', () => {
+        const ChangeGroupCompShallow = ChangeGroupCompEnhancedShallow.find({ type: 'add_to_group' });
 
         expect(ChangeGroupCompShallow).toBePresent()
         expect(ChangeGroupCompShallow).toHaveProp('groups', groups);
-        expect(ChangeGroupCompShallow).toHaveProp('type', 'add_to_group');
-        expect(ChangeGroupCompShallow).toHaveProp('uuid', addToGroupAction.uuid);
+        expect(ChangeGroupCompShallow).toHaveProp('uuid', uuid);
+    });
+
+    it('should render base ChangeGroupComp with group name', () => {
+        const ChangeGroupCompBaseShallow = shallow(<ChangeGroupCompBase{...changeGroupCompProps} />);
+
+        expect(ChangeGroupCompBaseShallow).toHaveText(groups[0].name);
     });
 });

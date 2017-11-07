@@ -1,6 +1,6 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
-import { shallow, mount, render } from 'enzyme';
+import { shallow } from 'enzyme';
 import { IReply } from '../../../flowTypes';
 import { IWithActionProps } from '../../enhancers/withAction';
 import { getSpecWrapper } from '../../../helpers/utils';
@@ -9,7 +9,7 @@ import CompMap from '../../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../../services/Localization';
 import { languages } from '../../../flowEditorConfig';
 import TitleBar from '../../TitleBar';
-import ReplyComp from './ReplyComp';
+import ReplyCompEnhanced, { ReplyCompBase } from './ReplyComp';
 
 const definition = {
     name: 'Lots of Action',
@@ -64,7 +64,7 @@ const { nodes: [node], language: flowLanguage } = definition;
 
 const replyAction = node.actions[0] as IReply;
 
-const { text } = replyAction;
+const { uuid, text } = replyAction;
 
 const {
     typeConfigList,
@@ -126,14 +126,25 @@ const replyCompProps: IWithActionProps = {
     ...actionProps
 };
 
-const ReplyCompEnhanced = shallow(<ReplyComp {...replyCompProps} />);
-
 describe('Component: ReplyComp', () => {
-    it('should render ReplyComp & pass it appropriate props', () => {
-        const ReplyCompShallow = ReplyCompEnhanced.find('ReplyComp');
+    it('should render enhanced ReplyComp and pass it appropriate props', () => {
+        const ReplyCompEnhancedShallow = shallow(<ReplyCompEnhanced {...replyCompProps} />);
+        const ReplyCompShallow = ReplyCompEnhancedShallow.find({ type: 'reply' });
 
         expect(ReplyCompShallow).toBePresent();
-        expect(ReplyCompShallow).toHaveProp('type', 'reply');
-        expect(ReplyCompShallow).toHaveProp('uuid', replyAction.uuid);
+        expect(ReplyCompShallow).toHaveProp('uuid', uuid);
+        expect(ReplyCompShallow).toHaveProp('text', text);
+    });
+
+    it('should render base ReplyComp with text prop when passed', () => {
+        const ReplyCompBaseShallow = shallow(<ReplyCompBase {...replyProps} />);
+
+        expect(ReplyCompBaseShallow).toHaveText(text);
+    });
+
+    it("should render base ReplyComp with placeholder when text prop isn't passed", () => {
+        const ReplyCompBaseShallow = shallow(<ReplyCompBase />);
+
+        expect(ReplyCompBaseShallow).toHaveText('Send a message to the contact');
     });
 });
