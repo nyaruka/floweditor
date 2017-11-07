@@ -1,7 +1,7 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { IWithActionProps } from '../../enhancers/withAction';
+import { IWithActionExternalProps } from '../../enhancers/withAction';
 import EditorConfig from '../../../services/EditorConfig';
 import CompMap from '../../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../../services/Localization';
@@ -114,9 +114,7 @@ const definition = {
     }
 };
 
-const { language: flowLanguage } = definition;
-
-const node = definition.nodes[2];
+const { language: flowLanguage, nodes: [, , node] } = definition;
 
 const { actions: [saveToContactAction] } = node;
 
@@ -143,7 +141,7 @@ const saveToContactProps = {
     value
 };
 
-const actionProps = {
+const actionProps: IWithActionExternalProps = {
     typeConfigList,
     operatorConfigList,
     getTypeConfig,
@@ -177,14 +175,9 @@ const actionProps = {
     Localization
 };
 
-const saveToContactCompProps: IWithActionProps = {
-    ...saveToContactProps,
-    ...actionProps
-};
-
 describe('Component: SaveToContactComp', () => {
     it('should render enhanced SaveToContactComp and pass it appropriate props', () => {
-        const SaveToContactEnhancedShallow = shallow(<SaveToContactCompEnhanced {...saveToContactCompProps} />);
+        const SaveToContactEnhancedShallow = shallow(<SaveToContactCompEnhanced {...actionProps} />);
         const SaveToContactShallow = SaveToContactEnhancedShallow.find({ type });
 
         expect(SaveToContactShallow).toBePresent();
@@ -194,13 +187,13 @@ describe('Component: SaveToContactComp', () => {
     });
 
     it("should render base SaveToContactComp with 'update...' div when value prop passed", () => {
-        const SaveToContactCompBaseShallow = shallow(<SaveToContactCompBase {...saveToContactProps} />);
+        const SaveToContactCompBaseShallow = shallow(<SaveToContactCompBase {...saveToContactAction} />);
 
         expect(SaveToContactCompBaseShallow).toHaveText(`Update ${field_name} to ${value}`);
     });
 
     it("should render base SaveToContactComp with 'clear...' div when value prop isn't passed", () => {
-        const SaveToContactCompBaseShallow = shallow(<SaveToContactCompBase field_name={field_name} />);
+        const SaveToContactCompBaseShallow = shallow(<SaveToContactCompBase {...{...saveToContactAction, value: ''}} />);
 
         expect(SaveToContactCompBaseShallow).toHaveText(`Clear value for ${field_name}`);
     });

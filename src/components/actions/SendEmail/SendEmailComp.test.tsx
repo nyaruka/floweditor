@@ -1,7 +1,7 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { IWithActionProps } from '../../enhancers/withAction';
+import { IWithActionExternalProps } from '../../enhancers/withAction';
 import EditorConfig from '../../../services/EditorConfig';
 import CompMap from '../../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../../services/Localization';
@@ -83,11 +83,7 @@ const Localization: LocalizedObject = LocalizationService.translate(
     languages
 );
 
-const sendEmailProps = {
-    subject
-};
-
-const actionProps = {
+const actionProps: IWithActionExternalProps = {
     typeConfigList,
     operatorConfigList,
     getTypeConfig,
@@ -121,15 +117,10 @@ const actionProps = {
     Localization
 };
 
-const sendEmailCompProps: IWithActionProps = {
-    ...sendEmailProps,
-    ...actionProps
-};
-
 describe('Component: SendEmailComp', () => {
     it('should render enhanced SendEmailComp and pass it appropriate props', () => {
         const SendEmailCompEnhancedShallow = shallow(
-            <SendEmailCompEnhanced {...sendEmailCompProps} />
+            <SendEmailCompEnhanced {...actionProps} />
         );
         const SendEmailCompShallow = SendEmailCompEnhancedShallow.find({ type });
 
@@ -141,7 +132,7 @@ describe('Component: SendEmailComp', () => {
     });
 
     it("should render base SendEmailComp with subject prop", () => {
-        const SendEmailCompBaseShallow = shallow(<SendEmailCompBase {...sendEmailProps} />);
+        const SendEmailCompBaseShallow = shallow(<SendEmailCompBase {...sendEmailAction} />);
 
         expect(SendEmailCompBaseShallow).toHaveText(subject);
     });

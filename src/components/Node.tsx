@@ -4,7 +4,7 @@ import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 import * as FlipMove from 'react-flip-move';
-import { IWithActionProps } from './enhancers/withAction';
+import { IWithActionExternalProps } from './enhancers/withAction';
 import { IFlowContext } from './Flow';
 import { IDragEvent } from '../services/Plumber';
 import {
@@ -15,10 +15,9 @@ import {
     IEndpoints,
     ILanguages
 } from '../services/EditorConfig';
-import { TWithAction } from './enhancers/withAction';
 import ExitComp from './Exit';
 import TitleBar from './TitleBar';
-import { INode, IPosition, ISwitchRouter, IAction, IUINode } from '../flowTypes';
+import { INode, IPosition, ISwitchRouter, TAnyAction, IUINode } from '../flowTypes';
 import { CounterComp } from './Counter';
 import ActivityManager from '../services/ActivityManager';
 import ComponentMap from '../services/ComponentMap';
@@ -71,7 +70,7 @@ export interface INodeCompProps {
  */
 export class NodeComp extends React.Component<INodeCompProps, INodeState> {
     public ele: HTMLDivElement;
-    private firstAction: TWithAction;
+    private firstAction: React.ComponentClass<{}>;
     private clicking: boolean;
     private dragGroup: boolean;
 
@@ -215,7 +214,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
 
     onClick(event?: any) {
         // console.log("INode.onClick");
-        var action: IAction = null;
+        let action;
 
         var localizations: LocalizedObject[] = [];
 
@@ -254,7 +253,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
         this.props.context.eventHandler.openEditor({
             context: this.props.context,
             node: this.props.node,
-            action: action,
+            action,
             actionsOnly: true,
             nodeUI: this.props.ui,
             localizations: localizations,
@@ -297,7 +296,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                 }
             };
 
-            this.props.node.actions.map((action: IAction, idx: number) => {
+            this.props.node.actions.map((action: TAnyAction, idx: number) => {
                 let actionConfig = this.props.getTypeConfig(action.type);
 
                 if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
@@ -312,8 +311,8 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                         );
                     }
 
-                    const actionProps: IWithActionProps = {
-                        action: action,
+                    const actionProps: IWithActionExternalProps = {
+                        action,
                         dragging: this.state.dragging,
                         context: this.props.context,
                         node: this.props.node,

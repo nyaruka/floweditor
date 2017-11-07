@@ -3,7 +3,7 @@ import * as axios from 'axios';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 import { IFlowContext } from '../Flow';
-import { INode, IAction, IGroup, IAnyAction } from '../../flowTypes';
+import { INode, IGroup, TAnyAction } from '../../flowTypes';
 import { getDisplayName } from '../../helpers/utils';
 import {
     TGetTypeConfig,
@@ -19,13 +19,14 @@ import { LocalizedObject } from '../../services/Localization';
 const shared = require('../shared.scss');
 const styles = require('./withAction.scss');
 
-export interface IWithActionProps {
+// props passed to the HOC but not threaded through to wrapped component
+export interface IWithActionExternalProps {
     node: INode;
-    action: IAction;
+    action: TAnyAction;
     context: IFlowContext;
     dragging: boolean;
     hasRouter: boolean;
-    // are we the first action
+
     first: boolean;
 
     Localization: LocalizedObject;
@@ -37,9 +38,6 @@ export interface IWithActionProps {
     endpoints: IEndpoints;
 
     ComponentMap: ComponentMap;
-
-    text?: string;
-    group?: IGroup[];
 }
 
 interface IWithActionState {
@@ -47,42 +45,41 @@ interface IWithActionState {
     confirmRemoval: boolean;
 }
 
-type HOCWrapped<P, PHoc> = React.ComponentClass<P & PHoc> | React.SFC<P & PHoc>;
+type HOCWrapped<P> = React.ComponentClass<P> | React.SFC<P>;
 
-export type TWithAction = React.ComponentClass<{} & IWithActionProps>;
-
-function withAction() {
-    return function<OriginalProps extends {}>(
-        Component: HOCWrapped<OriginalProps, IAnyAction>
-    ): React.ComponentClass<OriginalProps & IWithActionProps> {
-        return class WithAction extends React.Component<OriginalProps & IWithActionProps> {
+const withAction = () =>
+    <TWithActionOriginalProps extends {}>(Component: HOCWrapped<TAnyAction>) => {
+        type TResultProps = TWithActionOriginalProps & IWithActionExternalProps;
+        const result = class WithAction extends React.Component<TResultProps, IWithActionState> {
             static displayName = getDisplayName('WithAction', Component);
 
             private clicking = false;
 
             protected localizedKeys: string[] = [];
 
-            constructor(props: OriginalProps & IWithActionProps) {
+            constructor(props: TResultProps) {
                 super(props);
                 this.state = { editing: false, confirmRemoval: false };
                 this.onClick = this.onClick.bind(this);
             }
 
-            getAction(): IAction {
-                let action = this.props.action;
+            getAction(): TAnyAction {
+                let action;
 
                 if (this.props.Localization) {
-                    action = this.props.Localization.getObject() as IAction;
+                    action = this.props.Localization.getObject();
+                } else {
+                    action = this.props.action;
                 }
 
-                return action;
+                return action as TAnyAction;
             }
 
-            setEditing(editing: boolean) {
+            setEditing(editing: boolean): void {
                 this.setState({ editing });
             }
 
-            onClick(event: React.SyntheticEvent<MouseEvent>) {
+            onClick(event: React.SyntheticEvent<MouseEvent>): void {
                 event.preventDefault();
                 event.stopPropagation();
 
@@ -107,28 +104,28 @@ function withAction() {
                 });
             }
 
-            componentDidUpdate(prevProps: IWithActionProps, prevState: IWithActionState) {
+            componentDidUpdate(prevProps: IWithActionExternalProps, prevState: IWithActionState): void {
                 if (this.props.dragging) {
                     this.clicking = false;
                 }
             }
 
-            private onConfirmRemoval(evt: React.SyntheticEvent<MouseEvent>) {
+            private onConfirmRemoval(evt: React.SyntheticEvent<MouseEvent>): void {
                 evt.stopPropagation();
                 this.setState({ confirmRemoval: true });
             }
 
-            private onRemoval(evt: React.SyntheticEvent<MouseEvent>) {
+            private onRemoval(evt: React.SyntheticEvent<MouseEvent>): void {
                 evt.stopPropagation();
                 this.props.context.eventHandler.onRemoveAction(this.props.action);
             }
 
-            private onMoveUp(evt: React.SyntheticEvent<MouseEvent>) {
+            private onMoveUp(evt: React.SyntheticEvent<MouseEvent>): void {
                 evt.stopPropagation();
                 this.props.context.eventHandler.onMoveActionUp(this.props.action);
             }
 
-            public getType() {
+            public getType(): string {
                 return this.props.action.type;
             }
 
@@ -163,6 +160,8 @@ function withAction() {
                     }
                 }
 
+                const withActionInjectedProps = this.getAction();
+
                 return (
                     <div id={`action-${this.props.action.uuid}`} className={classes.join(' ')}>
                         <div className={styles.overlay} />
@@ -185,14 +184,15 @@ function withAction() {
                                 showMove={!this.props.first && !this.props.Localization}
                             />
                             <div className={styles.body}>
-                                <Component {...this.getAction()} />
+                                <Component {...withActionInjectedProps} />
                             </div>
                         </div>
                     </div>
                 );
             }
         };
+
+        return result;
     };
-}
 
 export default withAction;

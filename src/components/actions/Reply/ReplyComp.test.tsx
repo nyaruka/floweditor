@@ -2,7 +2,7 @@ import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
 import { IReply } from '../../../flowTypes';
-import { IWithActionProps } from '../../enhancers/withAction';
+import { IWithActionExternalProps } from '../../enhancers/withAction';
 import EditorConfig from '../../../services/EditorConfig';
 import CompMap from '../../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../../services/Localization';
@@ -77,15 +77,10 @@ const ComponentMap = new CompMap(definition as any);
 const Localization: LocalizedObject = LocalizationService.translate(
     replyAction,
     flowLanguage,
-    languages,
-
+    languages
 );
 
-const replyProps = {
-    text
-};
-
-const actionProps = {
+const actionProps: IWithActionExternalProps = {
     typeConfigList,
     operatorConfigList,
     getTypeConfig,
@@ -119,14 +114,9 @@ const actionProps = {
     Localization
 };
 
-const replyCompProps: IWithActionProps = {
-    ...replyProps,
-    ...actionProps
-};
-
 describe('Component: ReplyComp', () => {
     it('should render enhanced ReplyComp and pass it appropriate props', () => {
-        const ReplyCompEnhancedShallow = shallow(<ReplyCompEnhanced {...replyCompProps} />);
+        const ReplyCompEnhancedShallow = shallow(<ReplyCompEnhanced {...actionProps} />);
         const ReplyCompShallow = ReplyCompEnhancedShallow.find({ type: 'reply' });
 
         expect(ReplyCompShallow).toBePresent();
@@ -135,13 +125,13 @@ describe('Component: ReplyComp', () => {
     });
 
     it('should render base ReplyComp with text prop when passed', () => {
-        const ReplyCompBaseShallow = shallow(<ReplyCompBase {...replyProps} />);
+        const ReplyCompBaseShallow = shallow(<ReplyCompBase {...replyAction} />);
 
         expect(ReplyCompBaseShallow).toHaveText(text);
     });
 
     it("should render base ReplyComp with placeholder when text prop isn't passed", () => {
-        const ReplyCompBaseShallow = shallow(<ReplyCompBase />);
+        const ReplyCompBaseShallow = shallow(<ReplyCompBase {...{...replyAction, text: ''}} />);
 
         expect(ReplyCompBaseShallow).toHaveText('Send a message to the contact');
     });

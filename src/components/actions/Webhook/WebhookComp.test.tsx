@@ -1,7 +1,7 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { IWithActionProps } from '../../enhancers/withAction';
+import { IWithActionExternalProps } from '../../enhancers/withAction';
 import EditorConfig from '../../../services/EditorConfig';
 import CompMap from '../../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../../services/Localization';
@@ -101,11 +101,7 @@ const Localization: LocalizedObject = LocalizationService.translate(
     languages
 );
 
-const webhookProps = {
-    url
-};
-
-const actionProps = {
+const actionProps: IWithActionExternalProps = {
     typeConfigList,
     operatorConfigList,
     getTypeConfig,
@@ -139,15 +135,11 @@ const actionProps = {
     Localization
 };
 
-const webhookCompProps: IWithActionProps = {
-    ...webhookProps,
-    ...actionProps
-};
 
 describe('Component: WebhookComp', () => {
     it('should render enhanced WebhookComp and pass it appropriate props', () => {
         const WebhookCompEnhancedShallow = shallow(
-            <WebhookCompEnhanced {...webhookCompProps} />
+            <WebhookCompEnhanced {...actionProps} />
         );
         const WebhookCompShallow = WebhookCompEnhancedShallow.find({ type });
 
@@ -157,7 +149,7 @@ describe('Component: WebhookComp', () => {
     });
 
     it('should render base WebhookComp with url prop', () => {
-        const WebhookCompBaseShallow = shallow(<WebhookCompBase {...webhookProps} />);
+        const WebhookCompBaseShallow = shallow(<WebhookCompBase {...webhookAction} />);
 
         expect(WebhookCompBaseShallow).toHaveText(url);
     });

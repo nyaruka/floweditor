@@ -96,7 +96,7 @@ export interface IHeaders {
     [name: string]: string;
 }
 
-export interface IWebhook extends IAction {
+export interface ICallWebhook extends IAction {
     url: string;
     method: string;
     body?: string;
@@ -135,31 +135,13 @@ export interface IUIMetaData {
     nodes: { [key: string]: IUINode };
 }
 
-export interface IAnyAction extends IAction {
-    /** ChangeGroup */
-    groups?: IGroup[];
-    /** SaveToContact | UpdateContact */
-    field_uuid?: string;
-    field_name?: string;
-    value?: string;
-    created_on?: Date;
-    /** Reply */
-    text?: string;
-    all_urns?: boolean;
-    /** SetLanguage */
-    language?: string;
-    /** SendEmail */
-    subject?: string;
-    body?: string;
-    emails?: string[];
-    /** SaveFlowResult */
-    result_name?: string;
-    category?: string;
-    /** Webhook */
-    url?: string;
-    method?: string;
-    headers?: IHeaders;
-    /** StartFlow */
-    flow_name?: string;
-    flow_uuid?: string;
-}
+export type TAnyAction =
+    | IAction
+    | IChangeGroup
+    | ISaveToContact
+    | ISaveFlowResult
+    | IReply
+    | ISetLanguage
+    | ISendEmail
+    | ICallWebhook
+    | IStartFlow;

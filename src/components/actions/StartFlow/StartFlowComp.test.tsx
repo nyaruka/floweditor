@@ -1,7 +1,7 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { IWithActionProps } from '../../enhancers/withAction';
+import { IWithActionExternalProps } from '../../enhancers/withAction';
 import EditorConfig from '../../../services/EditorConfig';
 import CompMap from '../../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../../services/Localization';
@@ -98,11 +98,7 @@ const Localization: LocalizedObject = LocalizationService.translate(
     languages
 );
 
-const startFlowProps = {
-    flow_name
-};
-
-const actionProps = {
+const actionProps: IWithActionExternalProps = {
     typeConfigList,
     operatorConfigList,
     getTypeConfig,
@@ -136,14 +132,9 @@ const actionProps = {
     Localization
 };
 
-const startFlowCompProps: IWithActionProps = {
-    ...startFlowProps,
-    ...actionProps
-};
-
 describe('Component: StartFlowComp', () => {
     it('should render enhanced StartFlowComp & pass it appropriate props', () => {
-        const StartFlowCompEnhancedShallow = shallow(<StartFlowCompEnhanced {...startFlowCompProps} />);
+        const StartFlowCompEnhancedShallow = shallow(<StartFlowCompEnhanced {...actionProps} />);
         const StartFlowCompShallow = StartFlowCompEnhancedShallow.find({ type });
 
         expect(StartFlowCompShallow).toBePresent();
@@ -153,7 +144,7 @@ describe('Component: StartFlowComp', () => {
     });
 
     it('should render base StartFlowComp with flow name', () => {
-        const ChangeGroupCompBaseShallow = shallow(<StartFlowCompBase{...startFlowCompProps} />);
+        const ChangeGroupCompBaseShallow = shallow(<StartFlowCompBase{...startFlowAction} />);
 
         expect(ChangeGroupCompBaseShallow).toHaveText(flow_name);
     });
