@@ -65,7 +65,7 @@ const { language: flowLanguage, nodes: [node] } = definition;
 
 const { actions: [sendEmailAction] } = node;
 
-const { uuid, type, subject } = sendEmailAction;
+const { uuid, type, subject, body, emails } = sendEmailAction;
 
 const {
     typeConfigList,
@@ -135,7 +135,9 @@ describe('Component: SendEmailComp', () => {
 
         expect(SendEmailCompShallow).toBePresent();
         expect(SendEmailCompShallow).toHaveProp('uuid', uuid);
+        expect(SendEmailCompShallow).toHaveProp('emails', emails);
         expect(SendEmailCompShallow).toHaveProp('subject', subject);
+        expect(SendEmailCompShallow).toHaveProp('body', body);
     });
 
     it("should render base SendEmailComp with subject prop", () => {

@@ -80,7 +80,7 @@ const { nodes: [node], language: flowLanguage } = definition;
 
 const { actions: [startFlowAction]} = node;
 
-const { uuid, type, flow_name } = startFlowAction;
+const { uuid, type, flow_name, flow_uuid } = startFlowAction;
 
 const {
     typeConfigList,
@@ -148,6 +148,7 @@ describe('Component: StartFlowComp', () => {
 
         expect(StartFlowCompShallow).toBePresent();
         expect(StartFlowCompShallow).toHaveProp('uuid', uuid);
+        expect(StartFlowCompShallow).toHaveProp('flow_uuid', flow_uuid);
         expect(StartFlowCompShallow).toHaveProp('flow_name', flow_name);
     });
 
