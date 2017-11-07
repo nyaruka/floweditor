@@ -1,7 +1,6 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { ISaveFlowResult } from '../../../flowTypes';
 import { IWithActionProps } from '../../enhancers/withAction';
 import { getSpecWrapper } from '../../../helpers/utils';
 import EditorConfig from '../../../services/EditorConfig';
@@ -9,7 +8,7 @@ import CompMap from '../../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../../services/Localization';
 import { languages } from '../../../flowEditorConfig';
 import TitleBar from '../../TitleBar';
-import SaveFlowResultCompEnhanced, { SaveFlowResultCompBase } from './SaveFlowResultComp';
+import SaveToContactCompEnhanced, { SaveToContactCompBase } from './SaveToContactComp';
 
 const definition = {
     name: 'Lots of Action',
@@ -36,24 +35,24 @@ const definition = {
                 {
                     uuid: '445fc64c-2a18-47cc-89d0-15172826bfcc',
                     destination: null,
-                    destination_node_uuid: '17f42c2a-0a46-4c6c-ac3e-c416d487e44a'
+                    destination_node_uuid: '82bd47ed-44c9-4946-a035-ca0232d3b920'
                 }
             ]
         },
         {
-            uuid: '17f42c2a-0a46-4c6c-ac3e-c416d487e44a',
+            uuid: '82bd47ed-44c9-4946-a035-ca0232d3b920',
             router: {
                 type: 'switch',
-                default_exit_uuid: 'cf9d9cdc-da00-4b0c-8162-5b0c7b9216f4',
+                default_exit_uuid: '200b3957-12a4-4be1-a361-5628a6dc4ee5',
                 cases: [],
                 operand: '@input',
-                result_name: 'name '
+                result_name: 'Name'
             },
             exits: [
                 {
-                    uuid: 'cf9d9cdc-da00-4b0c-8162-5b0c7b9216f4',
+                    uuid: '200b3957-12a4-4be1-a361-5628a6dc4ee5',
                     name: 'All Responses',
-                    destination_node_uuid: 'c63699de-4d3d-4b87-acec-2a96f806535d'
+                    destination_node_uuid: 'b60337f6-d595-44bb-83f0-7d1ce1d6aa9a'
                 }
             ],
             wait: {
@@ -61,20 +60,24 @@ const definition = {
             }
         },
         {
-            uuid: 'c63699de-4d3d-4b87-acec-2a96f806535d',
+            uuid: 'b60337f6-d595-44bb-83f0-7d1ce1d6aa9a',
             actions: [
                 {
-                    uuid: 'e0d4b5a7-286b-4de8-bb29-7cf1fb2c57b7',
-                    type: 'save_flow_result',
-                    result_name: 'name',
-                    value: '@run.results.name',
-                    category: ''
+                    uuid: '37c8ee53-bbbf-445a-8aee-fd6e7b7c7de8',
+                    type: 'update_contact',
+                    field_name: 'name',
+                    value: '@run.results.name '
+                },
+                {
+                    uuid: 'ae9e157f-71b4-49d9-8a76-aaf80fee53bd',
+                    type: 'reply',
+                    text: 'Thanks @contact.name! '
                 }
             ],
             exits: [
                 {
                     name: null,
-                    uuid: '29a41cd0-2302-4943-913d-4913b5d05343',
+                    uuid: '59a3f38c-89d5-4e10-80b4-880f602a2619',
                     destination_node_uuid: null
                 }
             ]
@@ -96,17 +99,17 @@ const definition = {
                     y: 20
                 }
             },
-            '17f42c2a-0a46-4c6c-ac3e-c416d487e44a': {
+            '82bd47ed-44c9-4946-a035-ca0232d3b920': {
                 position: {
-                    x: 356,
-                    y: 194
+                    x: 284,
+                    y: 201
                 },
                 type: 'wait_for_response'
             },
-            'c63699de-4d3d-4b87-acec-2a96f806535d': {
+            'b60337f6-d595-44bb-83f0-7d1ce1d6aa9a': {
                 position: {
-                    x: 27,
-                    y: 347
+                    x: 22,
+                    y: 341
                 }
             }
         }
@@ -117,9 +120,9 @@ const { language: flowLanguage } = definition;
 
 const node = definition.nodes[2];
 
-const { actions: [saveFlowResultAction]} = node;
+const { actions: [saveToContactAction] } = node;
 
-const { uuid, type, value, result_name } = saveFlowResultAction;
+const { uuid, type, field_name, value } = saveToContactAction;
 
 const {
     typeConfigList,
@@ -132,14 +135,14 @@ const {
 const ComponentMap = new CompMap(definition as any);
 
 const Localization: LocalizedObject = LocalizationService.translate(
-    saveFlowResultAction,
+    saveToContactAction,
     flowLanguage,
     languages
 );
 
-const saveFlowResultProps = {
-    value,
-    result_name
+const saveToContactProps = {
+    field_name,
+    value
 };
 
 const actionProps = {
@@ -150,7 +153,7 @@ const actionProps = {
     endpoints,
     ComponentMap,
     node,
-    action: saveFlowResultAction,
+    action: saveToContactAction,
     context: {
         eventHandler: {
             onUpdateAction: jest.fn(),
@@ -176,31 +179,30 @@ const actionProps = {
     Localization
 };
 
-const saveFlowResultCompProps: IWithActionProps = {
-    ...saveFlowResultProps,
+const saveToContactCompProps: IWithActionProps = {
+    ...saveToContactProps,
     ...actionProps
 };
 
-describe('Component: SaveFlowResultComp', () => {
-    it('should render enhanced SaveFlowResultComp and pass it appropriate props', () => {
-        const SaveFlowResultCompEnhancedShallow = shallow(<SaveFlowResultCompEnhanced {...saveFlowResultCompProps} />);
-        const SaveFlowResultCompShallow = SaveFlowResultCompEnhancedShallow.find({ type });
+describe('Component: SaveToContactComp', () => {
+    it('should render enhanced SaveToContactComp and pass it appropriate props', () => {
+        const SaveToContactEnhancedShallow = shallow(<SaveToContactCompEnhanced {...saveToContactCompProps} />);
+        const SaveToContactShallow = SaveToContactEnhancedShallow.find({ type });
 
-        expect(SaveFlowResultCompShallow).toBePresent();
-        expect(SaveFlowResultCompShallow).toHaveProp('uuid', uuid);
-        expect(SaveFlowResultCompShallow).toHaveProp('value', value);
-        expect(SaveFlowResultCompShallow).toHaveProp('result_name', result_name);
+        expect(SaveToContactShallow).toBePresent();
+        expect(SaveToContactShallow).toHaveProp('field_name', field_name);
+        expect(SaveToContactShallow).toHaveProp('value', value);
     });
 
-    it("should render base SaveFlowResultComp with 'save...' div when value prop passed", () => {
-        const SaveFlowResultCompBaseShallow = shallow(<SaveFlowResultCompBase {...saveFlowResultProps} />);
+    it("should render base SaveToContactComp with 'update...' div when value prop passed", () => {
+        const SaveToContactCompBaseShallow = shallow(<SaveToContactCompBase {...saveToContactProps} />);
 
-        expect(SaveFlowResultCompBaseShallow).toHaveText(`Save ${value} as ${result_name}`);
+        expect(SaveToContactCompBaseShallow).toHaveText(`Update ${field_name} to ${value}`);
     });
 
-    it("should render base SaveFlowResultComp with 'clear...' div when value prop isn't passed", () => {
-        const SaveFlowResultCompBaseShallow = shallow(<SaveFlowResultCompBase result_name={result_name} />);
+    it("should render base SaveToContactComp with 'clear...' div when value prop isn't passed", () => {
+        const SaveToContactCompBaseShallow = shallow(<SaveToContactCompBase field_name={field_name} />);
 
-        expect(SaveFlowResultCompBaseShallow).toHaveText(`Clear value for ${result_name}`);
+        expect(SaveToContactCompBaseShallow).toHaveText(`Clear value for ${field_name}`);
     });
 });

@@ -3,7 +3,8 @@ import ChangeGroupCompEnhanced from '../components/actions/ChangeGroup/ChangeGro
 import ChangeGroupForm from '../components/actions/ChangeGroup/ChangeGroupForm';
 import SaveFlowResultCompEnhanced from '../components/actions/SaveFlowResult/SaveFlowResultComp';
 import SaveFlowResultForm from '../components/actions/SaveFlowResult/SaveFlowResultForm';
-// import { SaveToContactComp, SaveToContactForm } from '../components/actions/SaveToContact';
+import SaveToContactCompEnhanced from '../components/actions/SaveToContact/SaveToContactComp';
+import SaveToContactForm from '../components/actions/SaveToContact/SaveToContactForm';
 import ReplyComp from '../components/actions/Reply/ReplyComp';
 import ReplyForm from '../components/actions/Reply/ReplyForm';
 // import { WebhookComp } from '../components/actions/Webhook';
@@ -97,17 +98,17 @@ const TYPE_CONFIG_LIST: IType[] = [
             return (this.advanced & mode) === mode;
         }
     },
-    // {
-    //     type: 'save_contact_field',
-    //     name: 'Update Contact',
-    //     description: 'Update the contact',
-    //     form: SaveToContactForm,
-    //     component: SaveToContactComp,
-    //     aliases: ['update_contact'],
-    //     allows(mode: EMode): boolean {
-    //         return (this.advanced & mode) === mode;
-    //     }
-    // },
+    {
+        type: 'save_contact_field',
+        name: 'Update Contact',
+        description: 'Update the contact',
+        form: SaveToContactForm,
+        component: SaveToContactCompEnhanced,
+        aliases: ['update_contact'],
+        allows(mode: EMode): boolean {
+            return (this.advanced & mode) === mode;
+        }
+    },
     // {
     //     type: 'send_email',
     //     name: 'Send Email',
