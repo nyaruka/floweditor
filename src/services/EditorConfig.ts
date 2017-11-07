@@ -10,6 +10,8 @@ import ReplyForm from '../components/actions/Reply/ReplyForm';
 // import { WebhookComp } from '../components/actions/Webhook';
 // import { StartFlowComp } from '../components/actions/StartFlow';
 // import { SendEmailComp, SendEmailForm } from '../components/actions/SendEmail';
+import SendEmailCompEnhanced from '../components/actions/SendEmail/SendEmailComp';
+import SendEmailForm from '../components/actions/SendEmail/SendEmailForm';
 import { SwitchRouterForm } from '../components/routers/SwitchRouter';
 import { SubflowForm } from '../components/routers/Subflow';
 import { WebhookForm } from '../components/routers/Webhook';
@@ -109,16 +111,16 @@ const TYPE_CONFIG_LIST: IType[] = [
             return (this.advanced & mode) === mode;
         }
     },
-    // {
-    //     type: 'send_email',
-    //     name: 'Send Email',
-    //     description: 'Send an email',
-    //     form: SendEmailForm,
-    //     component: SendEmailComp,
-    //     allows(mode: EMode): boolean {
-    //         return (this.advanced & mode) === mode;
-    //     }
-    // },
+    {
+        type: 'send_email',
+        name: 'Send Email',
+        description: 'Send an email',
+        form: SendEmailForm,
+        component: SendEmailCompEnhanced,
+        allows(mode: EMode): boolean {
+            return (this.advanced & mode) === mode;
+        }
+    },
     {
         type: 'save_flow_result',
         name: 'Save Flow Result',

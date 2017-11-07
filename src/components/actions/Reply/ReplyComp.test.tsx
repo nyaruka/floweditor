@@ -3,7 +3,6 @@ import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
 import { IReply } from '../../../flowTypes';
 import { IWithActionProps } from '../../enhancers/withAction';
-import { getSpecWrapper } from '../../../helpers/utils';
 import EditorConfig from '../../../services/EditorConfig';
 import CompMap from '../../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../../services/Localization';

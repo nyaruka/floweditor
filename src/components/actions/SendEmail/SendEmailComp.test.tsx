@@ -1,14 +1,13 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
-import { shallow, mount, render } from 'enzyme';
-import { IChangeGroup } from '../../../flowTypes';
+import { shallow } from 'enzyme';
 import { IWithActionProps } from '../../enhancers/withAction';
 import EditorConfig from '../../../services/EditorConfig';
 import CompMap from '../../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../../services/Localization';
 import { languages } from '../../../flowEditorConfig';
 import TitleBar from '../../TitleBar';
-import ChangeGroupCompEnhanced, { ChangeGroupCompBase } from './ChangeGroupComp';
+import SendEmailCompEnhanced, { SendEmailCompBase } from './SendEmailComp';
 
 const definition = {
     name: 'Lots of Action',
@@ -17,7 +16,7 @@ const definition = {
     localization: {
         spa: {
             '24afc61e-e528-4ac0-b887-78cebd39f12b': {
-                text: 'Como te llamas?'
+                text: ['Como te llamas?']
             }
         }
     },
@@ -26,25 +25,18 @@ const definition = {
             uuid: '24afc61e-e528-4ac0-b887-78cebd39f12b',
             actions: [
                 {
-                    type: 'reply',
                     uuid: '360a28a1-6741-4f16-9421-f6f313cf753e',
-                    text: 'Hi there, what is your name?'
-                },
-                {
-                    uuid: 'd5293394-c6d4-407c-97da-8149faea24cf',
-                    type: 'add_to_group',
-                    groups: [
-                        {
-                            uuid: 'afaba971-8943-4dd8-860b-3561ed4f1fe1',
-                            name: 'Testers'
-                        }
-                    ]
+                    type: 'send_email',
+                    body:
+                        'Mixtape vinyl blog drinking vinegar. Butcher taxidermy artisan, trust fund direct trade forage activated charcoal meh pickled. Kickstarter typewriter la croix chicharrones shabby chic beard pok pok green juice fingerstache pickled kombucha meh palo santo. ',
+                    subject: 'Alo!',
+                    emails: ['kellan@nyaruka.com']
                 }
             ],
             exits: [
                 {
-                    uuid: '445fc64c-2a18-47cc-89d0-15172826bfcc',
-                    destination: null
+                    name: null,
+                    uuid: '445fc64c-2a18-47cc-89d0-15172826bfcc'
                 }
             ]
         }
@@ -69,11 +61,12 @@ const definition = {
     }
 };
 
-const { nodes: [node], language: flowLanguage } = definition;
+const { language: flowLanguage, nodes: [node] } = definition;
 
-const addToGroupAction = node.actions[1] as IChangeGroup;
 
-const { uuid, groups } = addToGroupAction;
+const { actions: [sendEmailAction] } = node;
+
+const { uuid, type, subject } = sendEmailAction;
 
 const {
     typeConfigList,
@@ -86,13 +79,13 @@ const {
 const ComponentMap = new CompMap(definition as any);
 
 const Localization: LocalizedObject = LocalizationService.translate(
-    addToGroupAction,
+    sendEmailAction,
     flowLanguage,
     languages
 );
 
-const changeGroupProps = {
-    groups
+const sendEmailProps = {
+    subject
 };
 
 const actionProps = {
@@ -103,7 +96,7 @@ const actionProps = {
     endpoints,
     ComponentMap,
     node,
-    action: addToGroupAction,
+    action: sendEmailAction,
     context: {
         eventHandler: {
             onUpdateAction: jest.fn(),
@@ -129,25 +122,26 @@ const actionProps = {
     Localization
 };
 
-const changeGroupCompProps: IWithActionProps = {
-    ...changeGroupProps,
+const sendEmailCompProps: IWithActionProps = {
+    ...sendEmailProps,
     ...actionProps
 };
 
-const ChangeGroupCompEnhancedShallow = shallow(<ChangeGroupCompEnhanced {...changeGroupCompProps} />);
+describe('Component: SendEmailComp', () => {
+    it('should render enhanced SendEmailComp and pass it appropriate props', () => {
+        const SendEmailCompEnhancedShallow = shallow(
+            <SendEmailCompEnhanced {...sendEmailCompProps} />
+        );
+        const SendEmailCompShallow = SendEmailCompEnhancedShallow.find({ type });
 
-describe('Component: ChangeGroup', () => {
-    it('should render enhanced ChangeGroupComp & pass it appropriate props', () => {
-        const ChangeGroupCompShallow = ChangeGroupCompEnhancedShallow.find({ type: 'add_to_group' });
-
-        expect(ChangeGroupCompShallow).toBePresent();
-        expect(ChangeGroupCompShallow).toHaveProp('uuid', uuid);
-        expect(ChangeGroupCompShallow).toHaveProp('groups', groups);
+        expect(SendEmailCompShallow).toBePresent();
+        expect(SendEmailCompShallow).toHaveProp('uuid', uuid);
+        expect(SendEmailCompShallow).toHaveProp('subject', subject);
     });
 
-    it('should render base ChangeGroupComp with group name', () => {
-        const ChangeGroupCompBaseShallow = shallow(<ChangeGroupCompBase{...changeGroupCompProps} />);
+    it("should render base SendEmailComp with subject prop", () => {
+        const SendEmailCompBaseShallow = shallow(<SendEmailCompBase {...sendEmailProps} />);
 
-        expect(ChangeGroupCompBaseShallow).toHaveText(groups[0].name);
+        expect(SendEmailCompBaseShallow).toHaveText(subject);
     });
 });

@@ -2,7 +2,6 @@ import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
 import { IWithActionProps } from '../../enhancers/withAction';
-import { getSpecWrapper } from '../../../helpers/utils';
 import EditorConfig from '../../../services/EditorConfig';
 import CompMap from '../../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../../services/Localization';
@@ -190,6 +189,7 @@ describe('Component: SaveToContactComp', () => {
         const SaveToContactShallow = SaveToContactEnhancedShallow.find({ type });
 
         expect(SaveToContactShallow).toBePresent();
+        expect(SaveToContactShallow).toHaveProp('uuid', uuid);
         expect(SaveToContactShallow).toHaveProp('field_name', field_name);
         expect(SaveToContactShallow).toHaveProp('value', value);
     });
