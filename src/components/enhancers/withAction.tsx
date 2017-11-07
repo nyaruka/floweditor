@@ -3,7 +3,7 @@ import * as axios from 'axios';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 import { IFlowContext } from '../Flow';
-import { INode, IAction, IAnyAction } from '../../flowTypes';
+import { INode, IAction, IGroup, IAnyAction } from '../../flowTypes';
 import { getDisplayName } from '../../helpers/utils';
 import {
     TGetTypeConfig,
@@ -19,9 +19,7 @@ import { LocalizedObject } from '../../services/Localization';
 const shared = require('../shared.scss');
 const styles = require('./withAction.scss');
 
-type HOCWrapped<P, PHoc> = React.ComponentClass<P & PHoc> | React.SFC<P & PHoc>;
-
-export interface IActionProps {
+export interface IWithActionProps {
     node: INode;
     action: IAction;
     context: IFlowContext;
@@ -39,6 +37,9 @@ export interface IActionProps {
     endpoints: IEndpoints;
 
     ComponentMap: ComponentMap;
+
+    text?: string;
+    group?: IGroup[];
 }
 
 interface IWithActionState {
@@ -46,20 +47,22 @@ interface IWithActionState {
     confirmRemoval: boolean;
 }
 
-export type TWithAction = React.ComponentClass<{} & IActionProps>;
+type HOCWrapped<P, PHoc> = React.ComponentClass<P & PHoc> | React.SFC<P & PHoc>;
+
+export type TWithAction = React.ComponentClass<{} & IWithActionProps>;
 
 function withAction() {
     return function<OriginalProps extends {}>(
         Component: HOCWrapped<OriginalProps, IAnyAction>
-    ): React.ComponentClass<OriginalProps & IActionProps> {
-        return class WithAction extends React.Component<OriginalProps & IActionProps> {
+    ): React.ComponentClass<OriginalProps & IWithActionProps> {
+        return class WithAction extends React.Component<OriginalProps & IWithActionProps> {
             static displayName = getDisplayName('WithAction', Component);
 
             private clicking = false;
 
             protected localizedKeys: string[] = [];
 
-            constructor(props: OriginalProps & IActionProps) {
+            constructor(props: OriginalProps & IWithActionProps) {
                 super(props);
                 this.state = { editing: false, confirmRemoval: false };
                 this.onClick = this.onClick.bind(this);
@@ -104,7 +107,7 @@ function withAction() {
                 });
             }
 
-            componentDidUpdate(prevProps: IActionProps, prevState: IWithActionState) {
+            componentDidUpdate(prevProps: IWithActionProps, prevState: IWithActionState) {
                 if (this.props.dragging) {
                     this.clicking = false;
                 }
@@ -161,7 +164,7 @@ function withAction() {
                 }
 
                 return (
-                    <div id={this.props.action.uuid} className={classes.join(' ')}>
+                    <div id={`action-${this.props.action.uuid}`} className={classes.join(' ')}>
                         <div className={styles.overlay} />
                         <div
                             onMouseDown={() => {

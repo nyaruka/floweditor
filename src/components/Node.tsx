@@ -4,7 +4,7 @@ import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 import * as FlipMove from 'react-flip-move';
-import { IActionProps } from './enhancers/withAction';
+import { IWithActionProps } from './enhancers/withAction';
 import { IFlowContext } from './Flow';
 import { IDragEvent } from '../services/Plumber';
 import {
@@ -312,7 +312,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                         );
                     }
 
-                    const actionProps: IActionProps = {
+                    const actionProps: IWithActionProps = {
                         action: action,
                         dragging: this.state.dragging,
                         context: this.props.context,

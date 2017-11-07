@@ -2,7 +2,7 @@ import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow, mount, render } from 'enzyme';
 import { IChangeGroup } from '../../../flowTypes';
-import { IActionProps } from '../../Action';
+import { IWithActionProps } from '../../enhancers/withAction';
 import { getSpecWrapper } from '../../../helpers/utils';
 import EditorConfig from '../../../services/EditorConfig';
 import CompMap from '../../../services/ComponentMap';
@@ -72,7 +72,7 @@ const definition = {
 
 const { nodes: [node], language: flowLanguage } = definition;
 
-const addToGroupAction = node.actions[1];
+const addToGroupAction = node.actions[1] as IChangeGroup;
 
 const { groups } = addToGroupAction;
 
@@ -92,7 +92,11 @@ const Localization: LocalizedObject = LocalizationService.translate(
     languages
 );
 
-const changeGroupCompProps: IActionProps & IChangeGroup = {
+const changeGroupProps = {
+    groups
+};
+
+const actionProps = {
     typeConfigList,
     operatorConfigList,
     getTypeConfig,
@@ -123,36 +127,17 @@ const changeGroupCompProps: IActionProps & IChangeGroup = {
     dragging: false,
     hasRouter: false,
     first: true,
-    Localization,
-    groups
+    Localization
 };
+
+const changeGroupCompProps: IWithActionProps = {
+    ...changeGroupProps,
+    ...actionProps
+}
 
 const ChangeGroupCompEnhanced = shallow(<ChangeGroupComp {...changeGroupCompProps} />);
 
 describe('Component: ChangeGroup', () => {
-    it ('should render action div', () => {
-        const ActionContainerShallow = ChangeGroupCompEnhanced.find(`#${addToGroupAction.uuid}`);
-        const OverLayContainerShallow = ChangeGroupCompEnhanced.find('.overlay');
-        const InteractiveContainerShallow = getSpecWrapper(ChangeGroupCompEnhanced, 'interactive-div');
-
-        expect(ActionContainerShallow).toBePresent();
-        expect(ActionContainerShallow).toHaveClassName('action');
-
-        expect(OverLayContainerShallow).toBePresent();
-
-        expect(InteractiveContainerShallow).toBePresent();
-        expect(InteractiveContainerShallow).toHaveProp('onMouseDown');
-        expect(InteractiveContainerShallow).toHaveProp('onMouseUp');
-    });
-
-    it('should render TitleBar & pass it appropriate props', () => {
-        const TitleBarShallow = ChangeGroupCompEnhanced.find('TitleBar');
-
-        expect(TitleBarShallow).toBePresent();
-        expect(TitleBarShallow).toHaveClassName('add_to_group');
-        expect(TitleBarShallow).toHaveProp('title', 'Add to Group');
-    });
-
     it('should render ChangeGroupComp & pass it appropriate props', () => {
         const ChangeGroupCompShallow = ChangeGroupCompEnhanced.find('ChangeGroupComp');
 
