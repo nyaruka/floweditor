@@ -1,8 +1,7 @@
 import * as React from 'react';
 import '../../enzymeAdapter';
-import { shallow, mount, render } from 'enzyme';
-import { IReply } from '../../flowTypes';
-import { IWithActionProps } from '../enhancers/withAction';
+import { shallow } from 'enzyme';
+import { IWithActionExternalProps } from '../enhancers/withAction';
 import { getSpecWrapper } from '../../helpers/utils';
 import EditorConfig from '../../services/EditorConfig';
 import CompMap from '../../services/ComponentMap';
@@ -62,7 +61,7 @@ const definition = {
 
 const { nodes: [node], language: flowLanguage } = definition;
 
-const replyAction = node.actions[0] as IReply;
+const { actions: [replyAction] } = node;
 
 const { text } = replyAction;
 
@@ -83,11 +82,7 @@ const Localization: LocalizedObject = LocalizationService.translate(
 
 );
 
-const replyProps = {
-    text
-};
-
-const actionProps = {
+const actionProps: IWithActionExternalProps = {
     typeConfigList,
     operatorConfigList,
     getTypeConfig,
@@ -121,12 +116,7 @@ const actionProps = {
     Localization
 };
 
-const replyCompProps: IWithActionProps = {
-    ...replyProps,
-    ...actionProps
-};
-
-const ReplyCompEnhanced = shallow(<ReplyComp {...replyCompProps} />);
+const ReplyCompEnhanced = shallow(<ReplyComp {...actionProps} />);
 
 describe('Component: ReplyComp', () => {
     it('should render action div', () => {
