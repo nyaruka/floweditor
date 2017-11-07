@@ -8,7 +8,7 @@ import SaveToContactForm from '../components/actions/SaveToContact/SaveToContact
 import ReplyComp from '../components/actions/Reply/ReplyComp';
 import ReplyForm from '../components/actions/Reply/ReplyForm';
 import WebhookCompEnhanced from '../components/actions/Webhook/WebhookComp';
-// import { StartFlowComp } from '../components/actions/StartFlow';
+import StartFlowCompEnhanced from '../components/actions/StartFlow/StartFlowComp';
 import SendEmailCompEnhanced from '../components/actions/SendEmail/SendEmailComp';
 import SendEmailForm from '../components/actions/SendEmail/SendEmailForm';
 import { SwitchRouterForm } from '../components/routers/SwitchRouter';
@@ -145,17 +145,17 @@ const TYPE_CONFIG_LIST: IType[] = [
             return (this.advanced & mode) === mode;
         }
     },
-    // {
-    //     type: 'start_flow',
-    //     name: 'Run Flow',
-    //     description: 'Run another flow',
-    //     form: SubflowForm,
-    //     component: StartFlowComp,
-    //     aliases: ['subflow'],
-    //     allows(mode: EMode): boolean {
-    //         return (this.advanced & mode) === mode;
-    //     }
-    // },
+    {
+        type: 'start_flow',
+        name: 'Run Flow',
+        description: 'Run another flow',
+        form: SubflowForm,
+        component: StartFlowCompEnhanced,
+        aliases: ['subflow'],
+        allows(mode: EMode): boolean {
+            return (this.advanced & mode) === mode;
+        }
+    },
 
     /** Routers */
     {

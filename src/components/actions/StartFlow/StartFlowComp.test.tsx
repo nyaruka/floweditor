@@ -1,13 +1,12 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { IChangeGroup } from '../../../flowTypes';
 import { IWithActionProps } from '../../enhancers/withAction';
 import EditorConfig from '../../../services/EditorConfig';
 import CompMap from '../../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../../services/Localization';
 import { languages } from '../../../flowEditorConfig';
-import ChangeGroupCompEnhanced, { ChangeGroupCompBase } from './ChangeGroupComp';
+import StartFlowCompEnhanced, { StartFlowCompBase } from './StartFlowComp';
 
 const definition = {
     name: 'Lots of Action',
@@ -16,36 +15,44 @@ const definition = {
     localization: {
         spa: {
             '24afc61e-e528-4ac0-b887-78cebd39f12b': {
-                text: 'Como te llamas?'
+                text: ['Como te llamas?']
             }
         }
     },
     nodes: [
         {
-            uuid: '24afc61e-e528-4ac0-b887-78cebd39f12b',
-            actions: [
-                {
-                    type: 'reply',
-                    uuid: '360a28a1-6741-4f16-9421-f6f313cf753e',
-                    text: 'Hi there, what is your name?'
-                },
-                {
-                    uuid: 'd5293394-c6d4-407c-97da-8149faea24cf',
-                    type: 'add_to_group',
-                    groups: [
-                        {
-                            uuid: 'afaba971-8943-4dd8-860b-3561ed4f1fe1',
-                            name: 'Testers'
-                        }
-                    ]
-                }
-            ],
+            uuid: 'f1f9320e-4b7c-4b3a-baa2-88dfe08f5491',
+            router: {
+                type: 'switch',
+                operand: '@child',
+                cases: [
+                    {
+                        uuid: '776cc8fc-1312-4321-8ac9-8d6c8629f27d',
+                        type: 'has_run_status',
+                        arguments: ['C'],
+                        exit_uuid: '97065e15-f793-4ff2-8ae6-80bbc4df4566'
+                    }
+                ],
+                default_exit_uuid: null
+            },
             exits: [
                 {
-                    uuid: '445fc64c-2a18-47cc-89d0-15172826bfcc',
-                    destination: null
+                    uuid: '97065e15-f793-4ff2-8ae6-80bbc4df4566',
+                    name: 'Complete'
                 }
-            ]
+            ],
+            actions: [
+                {
+                    uuid: '81736952-436a-476e-ac4f-604cbfe3a004',
+                    type: 'start_flow',
+                    flow_name: 'Collect Child Details',
+                    flow_uuid: '23ff7152-b588-43e4-90de-fda77aeaf7c0'
+                }
+            ],
+            wait: {
+                type: 'flow',
+                flow_uuid: '23ff7152-b588-43e4-90de-fda77aeaf7c0'
+            }
         }
     ],
     _ui: {
@@ -58,11 +65,12 @@ const definition = {
             }
         ],
         nodes: {
-            '24afc61e-e528-4ac0-b887-78cebd39f12b': {
+            'f1f9320e-4b7c-4b3a-baa2-88dfe08f5491': {
                 position: {
-                    x: 20,
-                    y: 20
-                }
+                    x: 526,
+                    y: 199
+                },
+                type: 'subflow'
             }
         }
     }
@@ -70,9 +78,9 @@ const definition = {
 
 const { nodes: [node], language: flowLanguage } = definition;
 
-const addToGroupAction = node.actions[1] as IChangeGroup;
+const { actions: [startFlowAction]} = node;
 
-const { uuid, type, groups } = addToGroupAction;
+const { uuid, type, flow_name } = startFlowAction;
 
 const {
     typeConfigList,
@@ -85,12 +93,12 @@ const {
 const ComponentMap = new CompMap(definition as any);
 
 const Localization: LocalizedObject = LocalizationService.translate(
-    addToGroupAction,
+    startFlowAction,
     flowLanguage,
     languages
 );
 
-const changeGroupProps = {
+const startFlowProps = {
     groups
 };
 
@@ -102,7 +110,7 @@ const actionProps = {
     endpoints,
     ComponentMap,
     node,
-    action: addToGroupAction,
+    action: startFlowAction,
     context: {
         eventHandler: {
             onUpdateAction: jest.fn(),
@@ -128,24 +136,24 @@ const actionProps = {
     Localization
 };
 
-const changeGroupCompProps: IWithActionProps = {
-    ...changeGroupProps,
+const startFlowCompProps: IWithActionProps = {
+    ...startFlowProps,
     ...actionProps
 };
 
 describe('Component: StartFlowComp', () => {
-    it('should render enhanced ChangeGroupComp & pass it appropriate props', () => {
-        const ChangeGroupCompEnhancedShallow = shallow(<ChangeGroupCompEnhanced {...changeGroupCompProps} />);
-        const ChangeGroupCompShallow = ChangeGroupCompEnhancedShallow.find({ type });
+    it('should render enhanced StartFlowComp & pass it appropriate props', () => {
+        const StartFlowCompEnhancedShallow = shallow(<StartFlowCompEnhanced {...startFlowCompProps} />);
+        const StartFlowCompShallow = StartFlowCompEnhancedShallow.find({ type });
 
-        expect(ChangeGroupCompShallow).toBePresent();
-        expect(ChangeGroupCompShallow).toHaveProp('uuid', uuid);
-        expect(ChangeGroupCompShallow).toHaveProp('groups', groups);
+        expect(StartFlowCompShallow).toBePresent();
+        expect(StartFlowCompShallow).toHaveProp('uuid', uuid);
+        expect(StartFlowCompShallow).toHaveProp('flow_name', flow_name);
     });
 
-    it('should render base ChangeGroupComp with group name', () => {
-        const ChangeGroupCompBaseShallow = shallow(<ChangeGroupCompBase{...changeGroupCompProps} />);
+    it('should render base StartFlowComp with flow name', () => {
+        const ChangeGroupCompBaseShallow = shallow(<StartFlowCompBase{...startFlowCompProps} />);
 
-        expect(ChangeGroupCompBaseShallow).toHaveText(groups[0].name);
+        expect(ChangeGroupCompBaseShallow).toHaveText(flow_name);
     });
 });
