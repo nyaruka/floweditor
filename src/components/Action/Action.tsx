@@ -14,7 +14,7 @@ import TitleBar from '../TitleBar';
 import { LocalizedObject } from '../../services/Localization';
 
 const shared = require('../shared.scss');
-const styles = require('./withAction.scss');
+const styles = require('./Action.scss');
 
 // props passed to the HOC but not threaded through to wrapped component
 export interface IActionProps {
@@ -41,6 +41,8 @@ export interface IActionProps {
     onUpdateLocalizations: Function;
     onUpdateAction: Function;
     onUpdateRouter: Function;
+
+    children?(actionDivProps: TAnyAction): JSX.Element;
 }
 
 interface IActionState {
@@ -59,11 +61,11 @@ class Action extends React.Component<IActionProps, IActionState> {
         this.onClick = this.onClick.bind(this);
     }
 
-    setEditing(editing: boolean): void {
+    public setEditing(editing: boolean): void {
         this.setState({ editing });
     }
 
-    onClick(event: React.SyntheticEvent<MouseEvent>): void {
+    public onClick(event: React.SyntheticEvent<MouseEvent>): void {
         event.preventDefault();
         event.stopPropagation();
 
@@ -114,6 +116,18 @@ class Action extends React.Component<IActionProps, IActionState> {
 
     public getType(): string {
         return this.props.action.type;
+    }
+
+    public getAction(): TAnyAction {
+        let actionDivProps;
+
+        if (this.props.Localization) {
+            actionDivProps = this.props.Localization.getObject() as TAnyAction;
+        } else {
+            actionDivProps = this.props.action;
+        }
+
+        return actionDivProps;
     }
 
     render(): JSX.Element {
@@ -169,7 +183,7 @@ class Action extends React.Component<IActionProps, IActionState> {
                         showMove={!this.props.first && !this.props.Localization}
                     />
                     <div className={styles.body}>
-                        {this.props.children}
+                        {this.props.children(this.getAction())}
                     </div>
                 </div>
             </div>

@@ -353,18 +353,10 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
 
                     const { component: ActionDiv } = actionConfig;
 
-                    let actionDivProps;
-
-                    if (localization) {
-                        actionDivProps = localization.getObject() as TAnyAction;
-                    } else {
-                        actionDivProps = action;
-                    }
-
                     actions = [
                         ...actions,
                         <Action key={action.uuid} {...actionProps} {...firstRef}>
-                            <ActionDiv {...actionDivProps} />
+                            {(actionDivProps: TAnyAction) => <ActionDiv {...actionDivProps} />}
                         </Action>
                     ];
                 }

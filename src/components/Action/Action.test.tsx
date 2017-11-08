@@ -1,6 +1,7 @@
 import * as React from 'react';
 import '../../enzymeAdapter';
 import { shallow } from 'enzyme';
+import { IReply } from '../../flowTypes';
 import Action, { IActionProps } from './Action';
 import { getSpecWrapper } from '../../helpers/utils';
 import EditorConfig from '../../services/EditorConfig';
@@ -78,8 +79,7 @@ const ComponentMap = new CompMap(definition as any);
 const Localization: LocalizedObject = LocalizationService.translate(
     replyAction,
     flowLanguage,
-    languages,
-
+    languages
 );
 
 const actionProps: IActionProps = {
@@ -103,7 +103,11 @@ const actionProps: IActionProps = {
     Localization
 };
 
-const ReplyActionShallow = shallow(<Action {...actionProps}><Reply {...replyAction} /></Action>);
+const ReplyActionShallow = shallow(
+    <Action {...actionProps}>
+        {(actionDivProps: IReply) => <Reply {...actionDivProps} />}
+    </Action>
+);
 
 describe('Component: Reply', () => {
     it('should render action div', () => {
@@ -134,5 +138,5 @@ describe('Component: Reply', () => {
         expect(ReplyDiv).toBePresent();
         expect(ReplyDiv).toHaveProp('uuid', uuid);
         expect(ReplyDiv).toHaveProp('text', text);
-    })
+    });
 });
