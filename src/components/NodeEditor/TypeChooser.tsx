@@ -27,7 +27,7 @@ class TypeChooser extends React.PureComponent<ITypeChooserProps, ITypeChooserSta
     private onChangeType(config: IType): void {
         this.setState(
             {
-                config: config
+                config
             },
             () => {
                 this.props.onChange(config);

@@ -51,7 +51,7 @@ class Modal extends React.Component<IModalProps, IModalState> {
     }
 
     render() {
-        var customStyles = {
+        const customStyles = {
             content: {
                 marginLeft: 'auto',
                 marginRight: 'auto',
@@ -65,40 +65,39 @@ class Modal extends React.Component<IModalProps, IModalState> {
             }
         };
 
-        var rightButtons: JSX.Element[] = [];
-        var leftButtons: JSX.Element[] = [];
+        let rightButtons: JSX.Element[] = [];
+        let leftButtons: JSX.Element[] = [];
 
-        var buttons = this.props.buttons;
-
-        if (buttons.secondary) {
-            rightButtons.push(
-                <Button key={Math.random()} {...buttons.secondary} type="secondary" />
-            );
+        if (this.props.buttons.secondary) {
+            rightButtons = [...rightButtons, <Button key={Math.random()} {...this.props.buttons.secondary} type="secondary" />]
         }
 
         // no matter what, we'll have a primary button
-        rightButtons.push(<Button key={Math.random()} {...buttons.primary} type="primary" />);
+        rightButtons = [...rightButtons, <Button key={Math.random()} {...this.props.buttons.primary} type="primary" />]
 
         // our left most button if we have one
-        if (buttons.tertiary) {
-            leftButtons.push(<Button key={Math.random()} {...buttons.tertiary} type="tertiary" />);
+        if (this.props.buttons.tertiary) {
+            leftButtons = [...leftButtons, <Button key={Math.random()} {...this.props.buttons.tertiary} type="tertiary" />];
         }
 
         // closeTimeoutMS={200}
 
-        var topStyle = styles.container;
+        let topStyle = styles.container;
+
         if (this.state.flipped) {
-            topStyle += ' ' + styles.flipped;
+            topStyle += ` ${styles.flipped}`;
         }
 
-        var children = React.Children.toArray(this.props.children);
-        var hasAdvanced = children.length > 1 && children[1] != null;
+        const children = React.Children.toArray(this.props.children);
 
-        var sides = children.map((child: React.ReactChild, i: number) => {
-            var classes = [styles.side];
-            var title = this.props.title[i];
+        const hasAdvanced = children.length > 1 && children[1] != null;
+
+        const sides = children.map((child: React.ReactChild, i: number) => {
+            let classes = [styles.side];
+            let title = this.props.title[i];
+
             if (i == 0) {
-                classes.push(styles.front);
+                classes = [...classes, styles.front];
             } else {
                 title = (
                     <div>
@@ -106,10 +105,11 @@ class Modal extends React.Component<IModalProps, IModalState> {
                         <div style={{ marginLeft: '40px' }}>{title}</div>
                     </div>
                 );
-                classes.push(styles.back);
+                classes = [...classes, styles.back];
             }
 
-            var flip = null;
+            let flip;
+
             if (hasAdvanced) {
                 if (i == 0) {
                     flip = (
@@ -154,7 +154,7 @@ class Modal extends React.Component<IModalProps, IModalState> {
             <ReactModal
                 isOpen={this.props.show}
                 onAfterOpen={this.props.onModalOpen}
-                onRequestClose={buttons.secondary ? buttons.secondary.onClick : null}
+                onRequestClose={this.props.buttons.secondary ? this.props.buttons.secondary.onClick : null}
                 style={customStyles}
                 shouldCloseOnOverlayClick={false}
                 contentLabel="Modal">

@@ -46,28 +46,6 @@ export interface INodeEditorState {
     temporaryButtons?: IButtonSet;
 }
 
-function getType(props: INodeEditorProps) {
-    var type: string;
-    if (props.action) {
-        return props.action.type;
-    } else {
-        if (props.nodeUI && props.nodeUI.type) {
-            return props.nodeUI.type;
-        }
-    }
-
-    var details = props.ComponentMap.getDetails(props.node.uuid);
-    if (details.type) {
-        return details.type;
-    }
-
-    if (props.node.router) {
-        return props.node.router.type;
-    }
-
-    return null;
-}
-
 class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState> {
     private modal: Modal;
     private form: NodeEditorForm<INodeEditorFormState>;
@@ -77,6 +55,9 @@ class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState>
 
     constructor(props: INodeEditorProps) {
         super(props);
+
+        // determine our initial config
+        const type = this.determineConfig(this.props);
 
         this.onOpen = this.onOpen.bind(this);
         this.onSave = this.onSave.bind(this);
@@ -91,15 +72,6 @@ class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState>
         this.triggerFormUpdate = this.triggerFormUpdate.bind(this);
         this.removeWidget = this.removeWidget.bind(this);
 
-        // determine our initial config
-        var type = getType(props);
-
-        if (!type) {
-            throw new Error(
-                'Cannot initialize NodeEditor without a valid type: ' + this.props.node.uuid
-            );
-        }
-
         this.state = {
             show: false,
             config: this.props.getTypeConfig(type),
@@ -108,6 +80,30 @@ class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState>
                 secondary: { name: 'Cancel', onClick: this.onCancel }
             }
         };
+    }
+
+    private determineConfig(props: INodeEditorProps) {
+        if (props.action) {
+            return props.action.type;
+        } else {
+            if (props.nodeUI && props.nodeUI.type) {
+                return props.nodeUI.type;
+            }
+        }
+
+        const details = props.ComponentMap.getDetails(props.node.uuid);
+
+        if (details.type) {
+            return details.type;
+        }
+
+        if (props.node.router) {
+            return props.node.router.type;
+        }
+
+        throw new Error(
+            `Cannot initialize NodeEditor without a valid type: ${this.props.node.uuid}`
+        );
     }
 
     public onBindWidget(widget: Widget) {
@@ -173,7 +169,7 @@ class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState>
     open() {
         this.setState({
             show: true,
-            config: this.props.getTypeConfig(getType(this.props))
+            config: this.props.getTypeConfig(this.determineConfig(this.props))
         });
     }
 
@@ -316,29 +312,36 @@ class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState>
             }
         }
 
-        var key = 'modal_' + this.props.node.uuid;
+        let key = `modal_${this.props.node.uuid}`;
+
         if (this.props.action) {
-            key += '_' + this.props.action.uuid;
+            key += `_${this.props.action.uuid}`;
         }
 
-        var buttons = this.state.initialButtons;
+        let buttons;
+
         if (this.state.temporaryButtons) {
             buttons = this.state.temporaryButtons;
+        } else {
+            buttons = this.state.initialButtons;
         }
 
-        var titleText = this.state.config.name;
+        let titleText = this.state.config.name;
+
         if (this.props.localizations && this.props.localizations.length > 0) {
-            titleText = this.props.localizations[0].getLanguage().name + ' Translation';
+            titleText = `${this.props.localizations[0].getLanguage().name} Translation`;
         }
 
-        var titles: JSX.Element[] = [<div>{titleText}</div>];
+        let titles: JSX.Element[] = [<div>{titleText}</div>];
+
         if (back) {
-            titles.push(
+            titles = [
+                ...titles,
                 <div>
                     <div>{titleText}</div>
                     <div className={shared.advanced_title}>Advanced Settings</div>
                 </div>
-            );
+            ];
         }
 
         return (

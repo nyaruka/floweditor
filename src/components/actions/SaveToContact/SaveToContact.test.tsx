@@ -1,12 +1,7 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { IWithActionExternalProps } from '../../enhancers/withAction';
-import EditorConfig from '../../../services/EditorConfig';
-import CompMap from '../../../services/ComponentMap';
-import LocalizationService, { LocalizedObject } from '../../../services/Localization';
-import { languages } from '../../../flowEditorConfig';
-import SaveToContactCompEnhanced, { SaveToContactCompBase } from './SaveToContactComp';
+import SaveToContact from './SaveToContact';
 
 const definition = {
     name: 'Lots of Action',
@@ -120,68 +115,16 @@ const { actions: [saveToContactAction] } = node;
 
 const { uuid, type, field_name, value } = saveToContactAction;
 
-const {
-    typeConfigList,
-    operatorConfigList,
-    getTypeConfig,
-    getOperatorConfig,
-    endpoints
-} = new EditorConfig();
-
-const ComponentMap = new CompMap(definition as any);
-
-const Localization: LocalizedObject = LocalizationService.translate(
-    saveToContactAction,
-    flowLanguage,
-    languages
-);
-
-const saveToContactProps = {
-    field_name,
-    value
-};
-
-const actionProps: IWithActionExternalProps = {
-    typeConfigList,
-    operatorConfigList,
-    getTypeConfig,
-    getOperatorConfig,
-    endpoints,
-    ComponentMap,
-    node,
-    action: saveToContactAction,
-    onUpdateAction: jest.fn(),
-    onUpdateRouter: jest.fn(),
-    onUpdateLocalizations: jest.fn(),
-    openEditor: jest.fn(),
-    onMoveActionUp: jest.fn(),
-    onRemoveAction: jest.fn(),
-    dragging: false,
-    hasRouter: false,
-    first: true,
-    Localization
-};
-
 describe('Component: SaveToContactComp', () => {
-    it('should render enhanced SaveToContactComp and pass it appropriate props', () => {
-        const SaveToContactEnhancedShallow = shallow(<SaveToContactCompEnhanced {...actionProps} />);
-        const SaveToContactShallow = SaveToContactEnhancedShallow.find({ type });
-
-        expect(SaveToContactShallow).toBePresent();
-        expect(SaveToContactShallow).toHaveProp('uuid', uuid);
-        expect(SaveToContactShallow).toHaveProp('field_name', field_name);
-        expect(SaveToContactShallow).toHaveProp('value', value);
-    });
-
     it("should render base SaveToContactComp with 'update...' div when value prop passed", () => {
-        const SaveToContactCompBaseShallow = shallow(<SaveToContactCompBase {...saveToContactAction} />);
+        const SaveToContactDivShallow = shallow(<SaveToContact {...saveToContactAction} />);
 
-        expect(SaveToContactCompBaseShallow).toHaveText(`Update ${field_name} to ${value}`);
+        expect(SaveToContactDivShallow).toHaveText(`Update ${field_name} to ${value}`);
     });
 
     it("should render base SaveToContactComp with 'clear...' div when value prop isn't passed", () => {
-        const SaveToContactCompBaseShallow = shallow(<SaveToContactCompBase {...{...saveToContactAction, value: ''}} />);
+        const SaveToContactDivShallow = shallow(<SaveToContact {...{...saveToContactAction, value: ''}} />);
 
-        expect(SaveToContactCompBaseShallow).toHaveText(`Clear value for ${field_name}`);
+        expect(SaveToContactDivShallow).toHaveText(`Clear value for ${field_name}`);
     });
 });

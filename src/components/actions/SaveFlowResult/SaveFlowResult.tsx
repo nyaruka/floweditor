@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { ISaveFlowResult } from '../../../flowTypes';
-import withAction from '../../enhancers/withAction';
 
-export const SaveFlowResultCompBase = ({ value, result_name }: ISaveFlowResult) => {
+export default ({ value, result_name }: ISaveFlowResult) => {
     if (value) {
         return (
             <div>
@@ -16,5 +15,3 @@ export const SaveFlowResultCompBase = ({ value, result_name }: ISaveFlowResult) 
         </div>
     );
 };
-
-export default withAction()(SaveFlowResultCompBase)

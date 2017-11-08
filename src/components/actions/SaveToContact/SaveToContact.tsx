@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { ISaveToContact } from '../../../flowTypes';
-import withAction from '../../enhancers/withAction';
 
-export const SaveToContactCompBase = ({ value, field_name }: ISaveToContact) => {
+export default ({ value, field_name }: ISaveToContact) => {
     if (value) {
         return (
             <div>
@@ -16,5 +15,3 @@ export const SaveToContactCompBase = ({ value, field_name }: ISaveToContact) => 
         </div>
     );
 };
-
-export default withAction()(SaveToContactCompBase);

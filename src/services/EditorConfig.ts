@@ -1,15 +1,17 @@
+import { SFC } from 'react';
+import { TAnyAction } from '../flowTypes';
 import __flow_editor_config__ from '../flowEditorConfig';
-import ChangeGroupCompEnhanced from '../components/actions/ChangeGroup/ChangeGroupComp';
+import ChangeGroup from '../components/actions/ChangeGroup/ChangeGroup';
 import ChangeGroupForm from '../components/actions/ChangeGroup/ChangeGroupForm';
-import SaveFlowResultCompEnhanced from '../components/actions/SaveFlowResult/SaveFlowResultComp';
+import SaveFlowResult from '../components/actions/SaveFlowResult/SaveFlowResult';
 import SaveFlowResultForm from '../components/actions/SaveFlowResult/SaveFlowResultForm';
-import SaveToContactCompEnhanced from '../components/actions/SaveToContact/SaveToContactComp';
+import SaveToContact from '../components/actions/SaveToContact/SaveToContact';
 import SaveToContactForm from '../components/actions/SaveToContact/SaveToContactForm';
-import ReplyComp from '../components/actions/Reply/ReplyComp';
+import Reply from '../components/actions/Reply/Reply';
 import ReplyForm from '../components/actions/Reply/ReplyForm';
-import WebhookCompEnhanced from '../components/actions/Webhook/WebhookComp';
-import StartFlowCompEnhanced from '../components/actions/StartFlow/StartFlowComp';
-import SendEmailCompEnhanced from '../components/actions/SendEmail/SendEmailComp';
+import Webhook from '../components/actions/Webhook/Webhook';
+import StartFlow from '../components/actions/StartFlow/StartFlow';
+import SendEmail from '../components/actions/SendEmail/SendEmail';
 import SendEmailForm from '../components/actions/SendEmail/SendEmailForm';
 import { SwitchRouterForm } from '../components/routers/SwitchRouter';
 import { SubflowForm } from '../components/routers/Subflow';
@@ -40,7 +42,7 @@ export interface IType {
     description: string;
     form: { new (props: any): any };
     allows(mode: EMode): boolean;
-    component?: { new (props: any): any };
+    component?: SFC<TAnyAction>;
     advanced?: EMode;
     aliases?: string[];
 }
@@ -72,7 +74,7 @@ const TYPE_CONFIG_LIST: IType[] = [
         name: 'Send Message',
         description: 'Send them a message',
         form: ReplyForm,
-        component: ReplyComp,
+        component: Reply,
         advanced: EMode.EDITING,
         allows(mode: EMode): boolean {
             return (this.advanced & mode) === mode;
@@ -84,7 +86,7 @@ const TYPE_CONFIG_LIST: IType[] = [
         name: 'Add to Group',
         description: 'Add them to a group',
         form: ChangeGroupForm,
-        component: ChangeGroupCompEnhanced,
+        component: ChangeGroup,
         allows(mode: EMode): boolean {
             return (this.advanced & mode) === mode;
         }
@@ -94,7 +96,7 @@ const TYPE_CONFIG_LIST: IType[] = [
         name: 'Remove from Group',
         description: 'Remove them from a group',
         form: ChangeGroupForm,
-        component: ChangeGroupCompEnhanced,
+        component: ChangeGroup,
         allows(mode: EMode): boolean {
             return (this.advanced & mode) === mode;
         }
@@ -104,7 +106,7 @@ const TYPE_CONFIG_LIST: IType[] = [
         name: 'Update Contact',
         description: 'Update the contact',
         form: SaveToContactForm,
-        component: SaveToContactCompEnhanced,
+        component: SaveToContact,
         aliases: ['update_contact'],
         allows(mode: EMode): boolean {
             return (this.advanced & mode) === mode;
@@ -115,7 +117,7 @@ const TYPE_CONFIG_LIST: IType[] = [
         name: 'Send Email',
         description: 'Send an email',
         form: SendEmailForm,
-        component: SendEmailCompEnhanced,
+        component: SendEmail,
         allows(mode: EMode): boolean {
             return (this.advanced & mode) === mode;
         }
@@ -125,7 +127,7 @@ const TYPE_CONFIG_LIST: IType[] = [
         name: 'Save Flow Result',
         description: 'Save a result for this flow',
         form: SaveFlowResultForm,
-        component: SaveFlowResultCompEnhanced,
+        component: SaveFlowResult,
         allows(mode: EMode): boolean {
             return (this.advanced & mode) === mode;
         }
@@ -138,7 +140,7 @@ const TYPE_CONFIG_LIST: IType[] = [
         name: 'Call Webhook',
         description: 'Call a webook',
         form: WebhookForm,
-        component: WebhookCompEnhanced,
+        component: Webhook,
         advanced: EMode.EDITING,
         aliases: ['webhook'],
         allows(mode: EMode): boolean {
@@ -150,7 +152,7 @@ const TYPE_CONFIG_LIST: IType[] = [
         name: 'Run Flow',
         description: 'Run another flow',
         form: SubflowForm,
-        component: StartFlowCompEnhanced,
+        component: StartFlow,
         aliases: ['subflow'],
         allows(mode: EMode): boolean {
             return (this.advanced & mode) === mode;

@@ -1,15 +1,7 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { ISaveFlowResult } from '../../../flowTypes';
-import { IWithActionExternalProps } from '../../enhancers/withAction';
-import { getSpecWrapper } from '../../../helpers/utils';
-import EditorConfig from '../../../services/EditorConfig';
-import CompMap from '../../../services/ComponentMap';
-import LocalizationService, { LocalizedObject } from '../../../services/Localization';
-import { languages } from '../../../flowEditorConfig';
-import TitleBar from '../../TitleBar';
-import SaveFlowResultCompEnhanced, { SaveFlowResultCompBase } from './SaveFlowResultComp';
+import SaveFlowResult from './SaveFlowResult';
 
 const definition = {
     name: 'Lots of Action',
@@ -119,63 +111,16 @@ const { actions: [saveFlowResultAction]} = node;
 
 const { uuid, type, value, result_name } = saveFlowResultAction;
 
-const {
-    typeConfigList,
-    operatorConfigList,
-    getTypeConfig,
-    getOperatorConfig,
-    endpoints
-} = new EditorConfig();
+describe('Component: SaveFlowResult', () => {
+    it("should render SaveFlowResult with 'save...' div when value prop passed", () => {
+        const SaveFlowResultDivShallow = shallow(<SaveFlowResult {...saveFlowResultAction} />);
 
-const ComponentMap = new CompMap(definition as any);
-
-const Localization: LocalizedObject = LocalizationService.translate(
-    saveFlowResultAction,
-    flowLanguage,
-    languages
-);
-
-const actionProps: IWithActionExternalProps = {
-    typeConfigList,
-    operatorConfigList,
-    getTypeConfig,
-    getOperatorConfig,
-    endpoints,
-    ComponentMap,
-    node,
-    action: saveFlowResultAction,
-    onUpdateAction: jest.fn(),
-    onUpdateRouter: jest.fn(),
-    onUpdateLocalizations: jest.fn(),
-    openEditor: jest.fn(),
-    onMoveActionUp: jest.fn(),
-    onRemoveAction: jest.fn(),
-    dragging: false,
-    hasRouter: false,
-    first: true,
-    Localization
-};
-
-describe('Component: SaveFlowResultComp', () => {
-    it('should render enhanced SaveFlowResultComp and pass it appropriate props', () => {
-        const SaveFlowResultCompEnhancedShallow = shallow(<SaveFlowResultCompEnhanced {...actionProps} />);
-        const SaveFlowResultCompShallow = SaveFlowResultCompEnhancedShallow.find({ type });
-
-        expect(SaveFlowResultCompShallow).toBePresent();
-        expect(SaveFlowResultCompShallow).toHaveProp('uuid', uuid);
-        expect(SaveFlowResultCompShallow).toHaveProp('value', value);
-        expect(SaveFlowResultCompShallow).toHaveProp('result_name', result_name);
+        expect(SaveFlowResultDivShallow).toHaveText(`Save ${value} as ${result_name}`);
     });
 
-    it("should render base SaveFlowResultComp with 'save...' div when value prop passed", () => {
-        const SaveFlowResultCompBaseShallow = shallow(<SaveFlowResultCompBase {...saveFlowResultAction} />);
+    it("should render SaveFlowResult with 'clear...' div when value prop isn't passed", () => {
+        const SaveFlowResultDivShallow = shallow(<SaveFlowResult {...{...saveFlowResultAction, value: ''}} />);
 
-        expect(SaveFlowResultCompBaseShallow).toHaveText(`Save ${value} as ${result_name}`);
-    });
-
-    it("should render base SaveFlowResultComp with 'clear...' div when value prop isn't passed", () => {
-        const SaveFlowResultCompBaseShallow = shallow(<SaveFlowResultCompBase {...{...saveFlowResultAction, value: ''}} />);
-
-        expect(SaveFlowResultCompBaseShallow).toHaveText(`Clear value for ${result_name}`);
+        expect(SaveFlowResultDivShallow).toHaveText(`Clear value for ${result_name}`);
     });
 });

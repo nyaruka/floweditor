@@ -1,12 +1,7 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { IWithActionExternalProps } from '../../enhancers/withAction';
-import EditorConfig from '../../../services/EditorConfig';
-import CompMap from '../../../services/ComponentMap';
-import LocalizationService, { LocalizedObject } from '../../../services/Localization';
-import { languages } from '../../../flowEditorConfig';
-import StartFlowCompEnhanced, { StartFlowCompBase } from './StartFlowComp';
+import StartFlow from './StartFlow';
 
 const definition = {
     name: 'Lots of Action',
@@ -82,57 +77,10 @@ const { actions: [startFlowAction]} = node;
 
 const { uuid, type, flow_name, flow_uuid } = startFlowAction;
 
-const {
-    typeConfigList,
-    operatorConfigList,
-    getTypeConfig,
-    getOperatorConfig,
-    endpoints
-} = new EditorConfig();
+describe('Component: StartFlow', () => {
+    it('should render StartFlow with flow name', () => {
+        const StartFlowDivShallow = shallow(<StartFlow {...startFlowAction} />);
 
-const ComponentMap = new CompMap(definition as any);
-
-const Localization: LocalizedObject = LocalizationService.translate(
-    startFlowAction,
-    flowLanguage,
-    languages
-);
-
-const actionProps: IWithActionExternalProps = {
-    typeConfigList,
-    operatorConfigList,
-    getTypeConfig,
-    getOperatorConfig,
-    endpoints,
-    ComponentMap,
-    node,
-    action: startFlowAction,
-    onUpdateAction: jest.fn(),
-    onUpdateRouter: jest.fn(),
-    onUpdateLocalizations: jest.fn(),
-    openEditor: jest.fn(),
-    onMoveActionUp: jest.fn(),
-    onRemoveAction: jest.fn(),
-    dragging: false,
-    hasRouter: false,
-    first: true,
-    Localization
-};
-
-describe('Component: StartFlowComp', () => {
-    it('should render enhanced StartFlowComp & pass it appropriate props', () => {
-        const StartFlowCompEnhancedShallow = shallow(<StartFlowCompEnhanced {...actionProps} />);
-        const StartFlowCompShallow = StartFlowCompEnhancedShallow.find({ type });
-
-        expect(StartFlowCompShallow).toBePresent();
-        expect(StartFlowCompShallow).toHaveProp('uuid', uuid);
-        expect(StartFlowCompShallow).toHaveProp('flow_uuid', flow_uuid);
-        expect(StartFlowCompShallow).toHaveProp('flow_name', flow_name);
-    });
-
-    it('should render base StartFlowComp with flow name', () => {
-        const ChangeGroupCompBaseShallow = shallow(<StartFlowCompBase{...startFlowAction} />);
-
-        expect(ChangeGroupCompBaseShallow).toHaveText(flow_name);
+        expect(StartFlowDivShallow).toHaveText(flow_name);
     });
 });

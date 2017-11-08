@@ -1,12 +1,7 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { IWithActionExternalProps } from '../../enhancers/withAction';
-import EditorConfig from '../../../services/EditorConfig';
-import CompMap from '../../../services/ComponentMap';
-import LocalizationService, { LocalizedObject } from '../../../services/Localization';
-import { languages } from '../../../flowEditorConfig';
-import WebhookCompEnhanced, { WebhookCompBase } from './WebhookComp';
+import Webhook from './Webhook';
 
 const definition = {
     name: 'Lots of Action',
@@ -85,59 +80,10 @@ const { actions: [webhookAction] } = node;
 
 const { uuid, type, url } = webhookAction;
 
-const {
-    typeConfigList,
-    operatorConfigList,
-    getTypeConfig,
-    getOperatorConfig,
-    endpoints
-} = new EditorConfig();
+describe('Component: Webhook', () => {
+    it('should render Webhook with url prop', () => {
+        const WebhookDivShallow = shallow(<Webhook {...webhookAction} />);
 
-const ComponentMap = new CompMap(definition as any);
-
-const Localization: LocalizedObject = LocalizationService.translate(
-    webhookAction,
-    flowLanguage,
-    languages
-);
-
-const actionProps: IWithActionExternalProps = {
-    typeConfigList,
-    operatorConfigList,
-    getTypeConfig,
-    getOperatorConfig,
-    endpoints,
-    ComponentMap,
-    node,
-    action: webhookAction,
-    onUpdateAction: jest.fn(),
-    onUpdateRouter: jest.fn(),
-    onUpdateLocalizations: jest.fn(),
-    openEditor: jest.fn(),
-    onMoveActionUp: jest.fn(),
-    onRemoveAction: jest.fn(),
-    dragging: false,
-    hasRouter: false,
-    first: true,
-    Localization
-};
-
-
-describe('Component: WebhookComp', () => {
-    it('should render enhanced WebhookComp and pass it appropriate props', () => {
-        const WebhookCompEnhancedShallow = shallow(
-            <WebhookCompEnhanced {...actionProps} />
-        );
-        const WebhookCompShallow = WebhookCompEnhancedShallow.find({ type });
-
-        expect(WebhookCompShallow).toBePresent();
-        expect(WebhookCompShallow).toHaveProp('uuid', uuid);
-        expect(WebhookCompShallow).toHaveProp('url', url);
-    });
-
-    it('should render base WebhookComp with url prop', () => {
-        const WebhookCompBaseShallow = shallow(<WebhookCompBase {...webhookAction} />);
-
-        expect(WebhookCompBaseShallow).toHaveText(url);
+        expect(WebhookDivShallow).toHaveText(url);
     });
 });

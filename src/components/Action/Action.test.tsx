@@ -1,13 +1,14 @@
 import * as React from 'react';
-import '../../../enzymeAdapter';
+import '../../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { IReply } from '../../../flowTypes';
-import { IWithActionExternalProps } from '../../enhancers/withAction';
-import EditorConfig from '../../../services/EditorConfig';
-import CompMap from '../../../services/ComponentMap';
-import LocalizationService, { LocalizedObject } from '../../../services/Localization';
-import { languages } from '../../../flowEditorConfig';
-import ReplyCompEnhanced, { ReplyCompBase } from './ReplyComp';
+import Action, { IActionProps } from './Action';
+import { getSpecWrapper } from '../../helpers/utils';
+import EditorConfig from '../../services/EditorConfig';
+import CompMap from '../../services/ComponentMap';
+import LocalizationService, { LocalizedObject } from '../../services/Localization';
+import { languages } from '../../flowEditorConfig';
+import TitleBar from '../TitleBar';
+import Reply from '../actions/Reply/Reply';
 
 const definition = {
     name: 'Lots of Action',
@@ -60,9 +61,9 @@ const definition = {
 
 const { nodes: [node], language: flowLanguage } = definition;
 
-const replyAction = node.actions[0] as IReply;
+const { actions: [replyAction] } = node;
 
-const { uuid, text } = replyAction;
+const { uuid, type, text } = replyAction;
 
 const {
     typeConfigList,
@@ -77,10 +78,11 @@ const ComponentMap = new CompMap(definition as any);
 const Localization: LocalizedObject = LocalizationService.translate(
     replyAction,
     flowLanguage,
-    languages
+    languages,
+
 );
 
-const actionProps: IWithActionExternalProps = {
+const actionProps: IActionProps = {
     typeConfigList,
     operatorConfigList,
     getTypeConfig,
@@ -101,25 +103,36 @@ const actionProps: IWithActionExternalProps = {
     Localization
 };
 
-describe('Component: ReplyComp', () => {
-    it('should render enhanced ReplyComp and pass it appropriate props', () => {
-        const ReplyCompEnhancedShallow = shallow(<ReplyCompEnhanced {...actionProps} />);
-        const ReplyCompShallow = ReplyCompEnhancedShallow.find({ type: 'reply' });
+const ReplyActionShallow = shallow(<Action {...actionProps}><Reply {...replyAction} /></Action>);
 
-        expect(ReplyCompShallow).toBePresent();
-        expect(ReplyCompShallow).toHaveProp('uuid', uuid);
-        expect(ReplyCompShallow).toHaveProp('text', text);
+describe('Component: Reply', () => {
+    it('should render action div', () => {
+        const ActionContainerShallow = ReplyActionShallow.find(`#action-${replyAction.uuid}`);
+        const OverLayContainerShallow = ReplyActionShallow.find('.overlay');
+        const InteractiveContainerShallow = getSpecWrapper(ReplyActionShallow, 'interactive-div');
+
+        expect(ActionContainerShallow).toBePresent();
+
+        expect(OverLayContainerShallow).toBePresent();
+
+        expect(InteractiveContainerShallow).toBePresent();
+        expect(InteractiveContainerShallow).toHaveProp('onMouseDown');
+        expect(InteractiveContainerShallow).toHaveProp('onMouseUp');
     });
 
-    it('should render base ReplyComp with text prop when passed', () => {
-        const ReplyCompBaseShallow = shallow(<ReplyCompBase {...replyAction} />);
+    it('should render TitleBar & pass it appropriate props', () => {
+        const TitleBarShallow = ReplyActionShallow.find('TitleBar');
 
-        expect(ReplyCompBaseShallow).toHaveText(text);
+        expect(TitleBarShallow).toBePresent();
+        expect(TitleBarShallow).toHaveClassName('reply');
+        expect(TitleBarShallow).toHaveProp('title', 'Send Message');
     });
 
-    it("should render base ReplyComp with placeholder when text prop isn't passed", () => {
-        const ReplyCompBaseShallow = shallow(<ReplyCompBase {...{...replyAction, text: ''}} />);
+    it('should render Reply action and pass it appropriate props', () => {
+        const ReplyDiv = ReplyActionShallow.find({ type });
 
-        expect(ReplyCompBaseShallow).toHaveText('Send a message to the contact');
-    });
+        expect(ReplyDiv).toBePresent();
+        expect(ReplyDiv).toHaveProp('uuid', uuid);
+        expect(ReplyDiv).toHaveProp('text', text);
+    })
 });

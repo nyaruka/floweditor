@@ -4,7 +4,7 @@ import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 import * as FlipMove from 'react-flip-move';
-import { IWithActionExternalProps } from './enhancers/withAction';
+import Action, { IActionProps } from './Action/Action';
 import { IDragEvent } from '../services/Plumber';
 import {
     IType,
@@ -313,7 +313,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
             };
 
             this.props.node.actions.map((action: TAnyAction, idx: number) => {
-                let actionConfig = this.props.getTypeConfig(action.type);
+                const actionConfig = this.props.getTypeConfig(action.type);
 
                 if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
                     let localization: LocalizedObject;
@@ -327,7 +327,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                         );
                     }
 
-                    const actionProps: IWithActionExternalProps = {
+                    const actionProps: IActionProps = {
                         action,
                         dragging: this.state.dragging,
                         openEditor: this.props.openEditor,
@@ -351,11 +351,21 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                         ComponentMap: this.props.ComponentMap
                     };
 
-                    const { component: Component } = actionConfig;
+                    const { component: ActionDiv } = actionConfig;
+
+                    let actionDivProps;
+
+                    if (localization) {
+                        actionDivProps = localization.getObject() as TAnyAction;
+                    } else {
+                        actionDivProps = action;
+                    }
 
                     actions = [
                         ...actions,
-                        <Component key={action.uuid} {...actionProps} {...firstRef} />
+                        <Action key={action.uuid} {...actionProps} {...firstRef}>
+                            <ActionDiv {...actionDivProps} />
+                        </Action>
                     ];
                 }
 
