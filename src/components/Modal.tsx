@@ -34,10 +34,10 @@ interface IModalState {
 class Modal extends React.Component<IModalProps, IModalState> {
     constructor(props: IModalProps) {
         super(props);
-        this.toggleFlip = this.toggleFlip.bind(this);
         this.state = {
             flipped: false
         };
+        this.toggleFlip = this.toggleFlip.bind(this);
     }
 
     public toggleFlip() {

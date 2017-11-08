@@ -5,7 +5,7 @@ import * as FlipMove from 'react-flip-move';
 
 import { ISwitchRouterState } from './SwitchRouter';
 import { SelectElement } from '../form/SelectElement';
-import { IWebhook, ICase, IExit, ISwitchRouter } from '../../flowTypes';
+import { ICallWebhook, ICase, IExit, ISwitchRouter } from '../../flowTypes';
 import { TextInputElement, IHTMLTextElement } from '../form/TextInputElement';
 
 import { FormElement } from '../form/FormElement';
@@ -54,7 +54,7 @@ export class WebhookForm extends NodeRouterForm<IWebhookProps, IWebhookState> {
         if (this.props.action) {
             var action = this.props.action;
             if (action.type == 'call_webhook') {
-                var webhookAction: IWebhook = action as IWebhook;
+                var webhookAction: ICallWebhook = action as ICallWebhook;
                 if (webhookAction.headers) {
                     for (let key in webhookAction.headers) {
                         headers.push({
@@ -144,7 +144,7 @@ export class WebhookForm extends NodeRouterForm<IWebhookProps, IWebhookState> {
         if (this.props.action) {
             var action = this.props.action;
             if (action.type == 'call_webhook') {
-                var webhookAction: IWebhook = action as IWebhook;
+                var webhookAction: ICallWebhook = action as ICallWebhook;
                 if (webhookAction.body) {
                     postBody = webhookAction.body;
                 }
@@ -224,7 +224,7 @@ export class WebhookForm extends NodeRouterForm<IWebhookProps, IWebhookState> {
         if (this.props.action) {
             var action = this.props.action;
             if (action.type == 'call_webhook') {
-                var webhookAction: IWebhook = action as IWebhook;
+                var webhookAction: ICallWebhook = action as ICallWebhook;
                 method = webhookAction.method;
                 url = webhookAction.url;
             }
@@ -256,7 +256,7 @@ export class WebhookForm extends NodeRouterForm<IWebhookProps, IWebhookState> {
         return (
             <div>
                 <p>
-                    Using a IWebhook you can trigger actions in external services or fetch data to
+                    Using a ICallWebhook you can trigger actions in external services or fetch data to
                     use in this Flow. Enter a URL to call below.
                 </p>
 
@@ -343,7 +343,7 @@ export class WebhookForm extends NodeRouterForm<IWebhookProps, IWebhookState> {
             }
         }
 
-        var newAction: IWebhook = {
+        var newAction: ICallWebhook = {
             uuid: this.getUUID(),
             type: this.props.config.type,
             url: urlEle.state.value,

@@ -37,25 +37,12 @@ const nodeCompProps: INodeCompProps = {
         exits: [{ uuid: '451f633d-d95b-4a54-8d7b-41778bf528d1' }],
         actions: [{ type: 'reply', uuid: '827c67cf-3acd-47b1-acae-37b71461549e' }]
     },
-    context: {
-        eventHandler: {
-            onUpdateAction: jest.fn(),
-            onUpdateRouter: jest.fn(),
-            onUpdateLocalizations: jest.fn(),
-            onUpdateDimensions: jest.fn(),
-            onNodeBeforeDrag: jest.fn(),
-            onNodeDragStart: jest.fn(),
-            onNodeDragStop: jest.fn(),
-            onRemoveAction: jest.fn(),
-            onMoveActionUp: jest.fn(),
-            onDisconnectExit: jest.fn(),
-            onNodeMoved: jest.fn(),
-            onAddAction: jest.fn(),
-            onRemoveNode: jest.fn(),
-            openEditor: jest.fn(),
-            onNodeMounted: jest.fn()
-        }
-    },
+    onUpdateAction: jest.fn(),
+    onUpdateRouter: jest.fn(),
+    onUpdateLocalizations: jest.fn(),
+    openEditor: jest.fn(),
+    onMoveActionUp: jest.fn(),
+    onRemoveAction: jest.fn(),
     ui: {
         position: {
             x: 20,

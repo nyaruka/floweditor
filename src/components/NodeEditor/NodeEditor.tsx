@@ -10,7 +10,6 @@ import {
     IEndpoints
 } from '../../services/EditorConfig';
 import ComponentMap from '../../services/ComponentMap';
-import { IFlowContext } from '../Flow';
 import { LocalizedObject } from '../../services/Localization';
 import NodeEditorForm, { INodeEditorFormProps, INodeEditorFormState } from './NodeEditorForm';
 import Widget from './Widget';
@@ -24,7 +23,11 @@ export interface INodeEditorProps {
     nodeUI?: IUINode;
     actionsOnly?: boolean;
     localizations?: LocalizedObject[];
-    context: IFlowContext;
+
+    onUpdateLocalizations: Function;
+    onUpdateAction: Function;
+    onUpdateRouter: Function;
+
     // actions to perform when we are closed
     onClose?(canceled: boolean): void;
 
@@ -243,22 +246,26 @@ class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState>
     }
 
     render() {
-        var isTranslating = this.props.localizations && this.props.localizations.length > 0;
-        var mode = EMode.EDITING;
+        const isTranslating = this.props.localizations && this.props.localizations.length > 0;
+
+        let mode;
+
         if (isTranslating) {
             mode = EMode.TRANSLATING;
+        } else {
+            mode = EMode.EDITING;
         }
 
         this.widgets = {};
         this.advancedWidgets = {};
 
-        var front: JSX.Element = null;
-        var back: JSX.Element = null;
+        let front: JSX.Element;
+        let back: JSX.Element;
 
         if (this.state.show) {
             // create our form element
-            if (this.state.config.form != null) {
-                var formProps: INodeEditorFormProps = {
+            if (this.state.config.hasOwnProperty('form') && this.state.config.form) {
+                const formProps: INodeEditorFormProps = {
                     typeConfigList: this.props.typeConfigList,
                     operatorConfigList: this.props.operatorConfigList,
                     getTypeConfig: this.props.getTypeConfig,
@@ -281,32 +288,30 @@ class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState>
                         language: string,
                         changes: { uuid: string; translations: any }[]
                     ) => {
-                        this.props.context.eventHandler.onUpdateLocalizations(language, changes);
+                        this.props.onUpdateLocalizations(language, changes);
                     },
 
                     updateAction: (action: IAction) => {
-                        this.props.context.eventHandler.onUpdateAction(this.props.node, action);
+                        this.props.onUpdateAction(this.props.node, action);
                     },
 
                     updateRouter: (node: INode, type: string, previousAction?: IAction) => {
-                        this.props.context.eventHandler.onUpdateRouter(node, type, previousAction);
+                        this.props.onUpdateRouter(node, type, previousAction);
                     }
                 };
 
-                front = React.createElement(this.state.config.form, {
-                    ref: (ele: any) => {
-                        this.form = ele;
-                    },
-                    ...formProps
-                });
+                const { config: { form: FormComp } } = this.state;
+
+                front = <FormComp ref={(ele: any) => (this.form = ele)} {...formProps} />;
+
                 if (this.state.config.allows(mode)) {
-                    back = React.createElement(this.state.config.form, {
-                        ref: (ref: any) => {
-                            this.advanced = ref;
-                        },
-                        advanced: true,
-                        ...formProps
-                    });
+                    back = (
+                        <FormComp
+                            ref={(ele: any) => (this.advanced = ele)}
+                            advanced={true}
+                            {...formProps}
+                        />
+                    );
                 }
             }
         }

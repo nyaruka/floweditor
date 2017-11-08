@@ -24,30 +24,6 @@ const update = require('immutability-helper');
 const UUID = require('uuid');
 const styles = require('./Flow.scss');
 
-export interface IFlowEventHandler {
-    onUpdateAction(node: INode, action: IAction): void;
-    onUpdateRouter(node: INode, type: string, previousAction?: IAction): void;
-    onUpdateLocalizations(language: string, changes: { uuid: string; translations: any }[]): void;
-    onUpdateDimensions(node: INode, dimensions: IDimensions): void;
-
-    onNodeBeforeDrag(node: INode, dragGroup: boolean): void;
-    onNodeDragStart(node: INode): void;
-    onNodeDragStop(node: INode): void;
-
-    onRemoveAction(action: IAction): void;
-    onMoveActionUp(action: IAction): void;
-    onDisconnectExit(exitUUID: string): void;
-    onNodeMoved(nodeUUID: string, position: IPosition): void;
-    onAddAction(addToNode: INode): void;
-    onRemoveNode(props: INode): void;
-    openEditor(props: INodeEditorProps): void;
-    onNodeMounted(props: INode): void;
-}
-
-export interface IFlowContext {
-    eventHandler: IFlowEventHandler;
-}
-
 export interface IFlowProps {
     EditorConfig: EditorConfig;
     definition: IFlowDefinition;
@@ -61,7 +37,6 @@ export interface IFlowState {
     ghost?: INode;
     nodeEditor?: INodeEditorProps;
     loading: boolean;
-    context: IFlowContext;
     viewDefinition?: IFlowDefinition;
     draggingNode?: INode;
     language?: ILanguage;
@@ -98,6 +73,15 @@ export class Flow extends React.PureComponent<IFlowProps, IFlowState> {
     constructor(props: IFlowProps) {
         super(props);
 
+        this.state = {
+            loading: true,
+            ghost: null,
+            nodeEditor: null,
+            viewDefinition: null,
+            draggingNode: null,
+            language: null
+        };
+
         this.repaintDuration = REPAINT_DURATION;
 
         this.Activity = new ActivityManager(
@@ -121,31 +105,6 @@ export class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         this.onNodeBeforeDrag = this.onNodeBeforeDrag.bind(this);
         this.resetState = this.resetState.bind(this);
         this.showLanguage = this.showLanguage.bind(this);
-
-        this.state = {
-            loading: true,
-            context: {
-                eventHandler: {
-                    onUpdateAction: this.onUpdateAction,
-                    onUpdateRouter: this.onUpdateRouter,
-                    onUpdateLocalizations: this.props.Mutator.updateLocalizations,
-                    onUpdateDimensions: this.props.Mutator.updateDimensions,
-
-                    onNodeBeforeDrag: this.onNodeBeforeDrag,
-                    onNodeDragStart: this.onNodeDragStart,
-                    onNodeDragStop: this.onNodeDragStop,
-
-                    openEditor: this.openEditor,
-                    onRemoveAction: this.props.Mutator.removeAction,
-                    onMoveActionUp: this.props.Mutator.moveActionUp,
-                    onAddAction: this.onAddAction,
-                    onRemoveNode: this.props.Mutator.removeNode,
-                    onNodeMoved: this.onNodeMoved,
-                    onNodeMounted: this.onNodeMounted,
-                    onDisconnectExit: this.props.Mutator.disconnectExit
-                }
-            }
-        };
 
         console.time('RenderAndPlumb');
     }
@@ -210,7 +169,9 @@ export class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         };
 
         this.openEditor({
-            context: this.state.context,
+            onUpdateAction: this.onUpdateAction,
+            onUpdateLocalizations: this.props.Mutator.updateLocalizations,
+            onUpdateRouter: this.onUpdateRouter,
             node: addToNode,
             action: newAction,
             actionsOnly: true,
@@ -343,7 +304,7 @@ export class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         // dragging connections
         window.setTimeout(() => {
             this.setState({
-                ghost: ghost
+                ghost
             });
         }, 0);
 
@@ -456,7 +417,7 @@ export class Flow extends React.PureComponent<IFlowProps, IFlowState> {
 
     private showLanguage(language: ILanguage): void {
         if (language.iso != this.props.definition.language) {
-            this.setState({ language: language });
+            this.setState({ language });
         } else {
             // back to the default language
             this.setState({ language: null });
@@ -490,7 +451,21 @@ export class Flow extends React.PureComponent<IFlowProps, IFlowState> {
                     node={node}
                     ui={ui}
                     Activity={this.Activity}
-                    context={this.state.context}
+                    onNodeMounted={this.onNodeMounted}
+                    onUpdateDimensions={this.props.Mutator.updateDimensions}
+                    onNodeMoved={this.onNodeMoved}
+                    onNodeDragStart={this.onNodeDragStart}
+                    onNodeBeforeDrag={this.onNodeBeforeDrag}
+                    onDisconnectExit={this.props.Mutator.disconnectExit}
+                    onNodeDragStop={this.onNodeDragStop}
+                    openEditor={this.openEditor}
+                    onAddAction={this.onAddAction}
+                    onRemoveNode={this.props.Mutator.removeNode}
+                    onUpdateLocalizations={this.props.Mutator.updateLocalizations}
+                    onUpdateAction={this.onUpdateAction}
+                    onUpdateRouter={this.onUpdateRouter}
+                    onRemoveAction={this.props.Mutator.removeAction}
+                    onMoveActionUp={this.props.Mutator.moveActionUp}
                     language={language}
                     translations={translations}
                     typeConfigList={this.props.EditorConfig.typeConfigList}
@@ -533,7 +508,21 @@ export class Flow extends React.PureComponent<IFlowProps, IFlowState> {
                     translations={null}
                     Activity={this.Activity}
                     node={ghost}
-                    context={this.state.context}
+                    onNodeMounted={this.onNodeMounted}
+                    onUpdateDimensions={this.props.Mutator.updateDimensions}
+                    onNodeMoved={this.onNodeMoved}
+                    onNodeDragStart={this.onNodeDragStart}
+                    onNodeBeforeDrag={this.onNodeBeforeDrag}
+                    onDisconnectExit={this.props.Mutator.disconnectExit}
+                    onNodeDragStop={this.onNodeDragStop}
+                    openEditor={this.openEditor}
+                    onAddAction={this.onAddAction}
+                    onRemoveNode={this.props.Mutator.removeNode}
+                    onUpdateLocalizations={this.props.Mutator.updateLocalizations}
+                    onUpdateAction={this.onUpdateAction}
+                    onUpdateRouter={this.onUpdateRouter}
+                    onRemoveAction={this.props.Mutator.removeAction}
+                    onMoveActionUp={this.props.Mutator.moveActionUp}
                     ui={ui}
                     ghost={true}
                     typeConfigList={this.props.EditorConfig.typeConfigList}

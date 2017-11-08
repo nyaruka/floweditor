@@ -2,7 +2,7 @@ import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
 import { IChangeGroup } from '../../../flowTypes';
-import { IWithActionProps } from '../../enhancers/withAction';
+import { IWithActionExternalProps } from '../../enhancers/withAction';
 import EditorConfig from '../../../services/EditorConfig';
 import CompMap from '../../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../../services/Localization';
@@ -90,11 +90,7 @@ const Localization: LocalizedObject = LocalizationService.translate(
     languages
 );
 
-const changeGroupProps = {
-    groups
-};
-
-const actionProps = {
+const actionProps: IWithActionExternalProps = {
     typeConfigList,
     operatorConfigList,
     getTypeConfig,
@@ -103,39 +99,22 @@ const actionProps = {
     ComponentMap,
     node,
     action: addToGroupAction,
-    context: {
-        eventHandler: {
-            onUpdateAction: jest.fn(),
-            onUpdateRouter: jest.fn(),
-            onUpdateLocalizations: jest.fn(),
-            onUpdateDimensions: jest.fn(),
-            onNodeBeforeDrag: jest.fn(),
-            onNodeDragStart: jest.fn(),
-            onNodeDragStop: jest.fn(),
-            onRemoveAction: jest.fn(),
-            onMoveActionUp: jest.fn(),
-            onDisconnectExit: jest.fn(),
-            onNodeMoved: jest.fn(),
-            onAddAction: jest.fn(),
-            onRemoveNode: jest.fn(),
-            openEditor: jest.fn(),
-            onNodeMounted: jest.fn()
-        }
-    },
+    onUpdateAction: jest.fn(),
+    onUpdateRouter: jest.fn(),
+    onUpdateLocalizations: jest.fn(),
+    openEditor: jest.fn(),
+    onMoveActionUp: jest.fn(),
+    onRemoveAction: jest.fn(),
     dragging: false,
     hasRouter: false,
     first: true,
     Localization
 };
 
-const changeGroupCompProps: IWithActionProps = {
-    ...changeGroupProps,
-    ...actionProps
-};
 
 describe('Component: StartFlowComp', () => {
     it('should render enhanced ChangeGroupComp & pass it appropriate props', () => {
-        const ChangeGroupCompEnhancedShallow = shallow(<ChangeGroupCompEnhanced {...changeGroupCompProps} />);
+        const ChangeGroupCompEnhancedShallow = shallow(<ChangeGroupCompEnhanced {...actionProps} />);
         const ChangeGroupCompShallow = ChangeGroupCompEnhancedShallow.find({ type });
 
         expect(ChangeGroupCompShallow).toBePresent();
@@ -144,7 +123,7 @@ describe('Component: StartFlowComp', () => {
     });
 
     it('should render base ChangeGroupComp with group name', () => {
-        const ChangeGroupCompBaseShallow = shallow(<ChangeGroupCompBase{...changeGroupCompProps} />);
+        const ChangeGroupCompBaseShallow = shallow(<ChangeGroupCompBase{...addToGroupAction} />);
 
         expect(ChangeGroupCompBaseShallow).toHaveText(groups[0].name);
     });

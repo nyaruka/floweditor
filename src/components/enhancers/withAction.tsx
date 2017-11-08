@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as axios from 'axios';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
-import { IFlowContext } from '../Flow';
 import { INode, IGroup, TAnyAction } from '../../flowTypes';
 import { getDisplayName } from '../../helpers/utils';
 import {
@@ -23,7 +22,6 @@ const styles = require('./withAction.scss');
 export interface IWithActionExternalProps {
     node: INode;
     action: TAnyAction;
-    context: IFlowContext;
     dragging: boolean;
     hasRouter: boolean;
 
@@ -38,6 +36,13 @@ export interface IWithActionExternalProps {
     endpoints: IEndpoints;
 
     ComponentMap: ComponentMap;
+
+    openEditor: Function;
+    onRemoveAction: Function;
+    onMoveActionUp: Function;
+    onUpdateLocalizations: Function;
+    onUpdateAction: Function;
+    onUpdateRouter: Function;
 }
 
 interface IWithActionState {
@@ -48,16 +53,15 @@ interface IWithActionState {
 type HOCWrapped<P> = React.ComponentClass<P> | React.SFC<P>;
 
 const withAction = () =>
-    <TWithActionOriginalProps extends {}>(Component: HOCWrapped<TAnyAction>) => {
-        type TResultProps = TWithActionOriginalProps & IWithActionExternalProps;
-        const result = class WithAction extends React.Component<TResultProps, IWithActionState> {
+    <TWithActionOriginalProps extends {}>(Component: HOCWrapped<TAnyAction>) =>
+    class WithAction extends React.Component<TWithActionOriginalProps & IWithActionExternalProps, IWithActionState> {
             static displayName = getDisplayName('WithAction', Component);
 
             private clicking = false;
 
             protected localizedKeys: string[] = [];
 
-            constructor(props: TResultProps) {
+            constructor(props: TWithActionOriginalProps & IWithActionExternalProps) {
                 super(props);
                 this.state = { editing: false, confirmRemoval: false };
                 this.onClick = this.onClick.bind(this);
@@ -88,8 +92,10 @@ const withAction = () =>
                     localizations.push(this.props.Localization);
                 }
 
-                this.props.context.eventHandler.openEditor({
-                    context: this.props.context,
+                this.props.openEditor({
+                    onUpdateLocalizations: this.props.onUpdateLocalizations,
+                    onUpdateAction: this.props.onUpdateAction,
+                    onUpdateRouter: this.props.onUpdateRouter,
                     node: this.props.node,
                     action: this.props.action,
                     actionsOnly: true,
@@ -117,12 +123,12 @@ const withAction = () =>
 
             private onRemoval(evt: React.SyntheticEvent<MouseEvent>): void {
                 evt.stopPropagation();
-                this.props.context.eventHandler.onRemoveAction(this.props.action);
+                this.props.onRemoveAction(this.props.action);
             }
 
             private onMoveUp(evt: React.SyntheticEvent<MouseEvent>): void {
                 evt.stopPropagation();
-                this.props.context.eventHandler.onMoveActionUp(this.props.action);
+                this.props.onMoveActionUp(this.props.action);
             }
 
             public getType(): string {
@@ -191,8 +197,5 @@ const withAction = () =>
                 );
             }
         };
-
-        return result;
-    };
 
 export default withAction;

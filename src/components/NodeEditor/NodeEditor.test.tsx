@@ -87,25 +87,9 @@ const nodeEditorProps: INodeEditorProps = {
     endpoints,
     node,
     action: replyAction,
-    context: {
-        eventHandler: {
-            onUpdateAction: jest.fn(),
-            onUpdateRouter: jest.fn(),
-            onUpdateLocalizations: jest.fn(),
-            onUpdateDimensions: jest.fn(),
-            onNodeBeforeDrag: jest.fn(),
-            onNodeDragStart: jest.fn(),
-            onNodeDragStop: jest.fn(),
-            onRemoveAction: jest.fn(),
-            onMoveActionUp: jest.fn(),
-            onDisconnectExit: jest.fn(),
-            onNodeMoved: jest.fn(),
-            onAddAction: jest.fn(),
-            onRemoveNode: jest.fn(),
-            openEditor: jest.fn(),
-            onNodeMounted: jest.fn()
-        }
-    },
+    onUpdateAction: jest.fn(),
+    onUpdateRouter: jest.fn(),
+    onUpdateLocalizations: jest.fn(),
     ComponentMap
 };
 

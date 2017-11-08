@@ -5,7 +5,6 @@ import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 import * as FlipMove from 'react-flip-move';
 import { IWithActionExternalProps } from './enhancers/withAction';
-import { IFlowContext } from './Flow';
 import { IDragEvent } from '../services/Plumber';
 import {
     IType,
@@ -42,12 +41,27 @@ export interface INodeState {
 
 export interface INodeCompProps {
     node: INode;
-    context: IFlowContext;
     ui: IUINode;
     Activity: ActivityManager;
     translations: { [uuid: string]: any };
     language: string;
     ghost?: boolean;
+
+    onNodeMounted: Function;
+    onUpdateDimensions: Function;
+    onNodeMoved: Function;
+    onNodeDragStart: Function;
+    onNodeBeforeDrag: Function;
+    onDisconnectExit(exitUUID: string): void;
+    onNodeDragStop: Function;
+    openEditor: Function;
+    onAddAction: Function;
+    onRemoveNode: Function;
+    onUpdateLocalizations: Function;
+    onUpdateAction: Function;
+    onUpdateRouter: Function;
+    onRemoveAction: Function;
+    onMoveActionUp: Function;
 
     typeConfigList: IType[];
     operatorConfigList: IOperator[];
@@ -90,7 +104,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
 
     onDragStop(event: IDragEvent) {
         this.setState({ dragging: false });
-        this.props.context.eventHandler.onNodeDragStop(this.props.node);
+        this.props.onNodeDragStop(this.props.node);
 
         var position = $(event.target).position();
         event.e.preventDefault();
@@ -103,7 +117,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
         }
 
         // update our coordinates
-        this.props.context.eventHandler.onNodeMoved(this.props.node.uuid, {
+        this.props.onNodeMoved(this.props.node.uuid, {
             x: event.finalPos[0],
             y: event.finalPos[1]
         });
@@ -124,7 +138,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
             this.props.node.uuid,
             (event: IDragEvent) => {
                 this.onDragStart.bind(this)(event);
-                this.props.context.eventHandler.onNodeDragStart(this.props.node);
+                this.props.onNodeDragStart(this.props.node);
             },
             (event: IDragEvent) => {
                 this.onDrag.bind(this)(event);
@@ -134,7 +148,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
             },
             () => {
                 if (this.isMutable()) {
-                    this.props.context.eventHandler.onNodeBeforeDrag(
+                    this.props.onNodeBeforeDrag(
                         this.props.node,
                         this.dragGroup
                     );
@@ -149,8 +163,8 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
         this.props.plumberMakeTarget(this.props.node.uuid);
 
         // resolve our pending connections, etc
-        if (this.props.context.eventHandler.onNodeMounted) {
-            this.props.context.eventHandler.onNodeMounted(this.props.node);
+        if (this.props.onNodeMounted) {
+            this.props.onNodeMounted(this.props.node);
         }
 
         // move our drag node around as necessary
@@ -178,7 +192,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
     private updateDimensions() {
         if (this.ele) {
             if (this.ele.hasOwnProperty('clientWidth') && this.ele.hasOwnProperty('clientHeight')) {
-                this.props.context.eventHandler.onUpdateDimensions(this.props.node, {
+                this.props.onUpdateDimensions(this.props.node, {
                     width: this.ele.clientWidth,
                     height: this.ele.clientHeight
                 });
@@ -250,8 +264,10 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
             action = this.props.node.actions[this.props.node.actions.length - 1];
         }
 
-        this.props.context.eventHandler.openEditor({
-            context: this.props.context,
+        this.props.openEditor({
+            onUpdateLocalizations: this.props.onUpdateLocalizations,
+            onUpdateAction: this.props.onUpdateAction,
+            onUpdateRouter: this.props.onUpdateRouter,
             node: this.props.node,
             action,
             actionsOnly: true,
@@ -271,7 +287,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
             event.preventDefault();
             event.stopPropagation();
         }
-        this.props.context.eventHandler.onRemoveNode(this.props.node);
+        this.props.onRemoveNode(this.props.node);
     }
 
     private isMutable(): boolean {
@@ -314,7 +330,12 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                     const actionProps: IWithActionExternalProps = {
                         action,
                         dragging: this.state.dragging,
-                        context: this.props.context,
+                        openEditor: this.props.openEditor,
+                        onRemoveAction: this.props.onRemoveAction,
+                        onMoveActionUp: this.props.onMoveActionUp,
+                        onUpdateLocalizations: this.props.onUpdateLocalizations,
+                        onUpdateAction: this.props.onUpdateAction,
+                        onUpdateRouter: this.props.onUpdateRouter,
                         node: this.props.node,
                         first: idx === 0,
                         hasRouter:
@@ -411,7 +432,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                     <a
                         className={styles.add}
                         onClick={() => {
-                            this.props.context.eventHandler.onAddAction(this.props.node);
+                            this.props.onAddAction(this.props.node);
                         }}>
                         <span className="icon-add" />
                     </a>
@@ -426,7 +447,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                     <ExitComp
                         exit={exit}
                         key={exit.uuid}
-                        onDisconnect={this.props.context.eventHandler.onDisconnectExit}
+                        onDisconnect={this.props.onDisconnectExit}
                         Activity={this.props.Activity}
                         Localization={Localization.translate(
                             exit,
