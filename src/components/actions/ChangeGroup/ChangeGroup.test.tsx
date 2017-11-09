@@ -1,6 +1,7 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
+import { IChangeGroup } from '../../../flowTypes';
 import ChangeGroup from './ChangeGroup';
 
 const definition = {
@@ -66,7 +67,7 @@ const { nodes: [node], language: flowLanguage } = definition;
 
 const { actions: [, addToGroupAction] } = node;
 
-const { uuid, type, groups: [{ name: groupName}] } = addToGroupAction;
+const { uuid, type, groups: [{ name: groupName}] } = addToGroupAction as IChangeGroup;
 
 describe('Component: ChangeGroup', () => {
     it('should render ChangeGroupComp with group name', () => {

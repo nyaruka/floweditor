@@ -49,6 +49,18 @@ export default ({
     const renderForm = (): JSX.Element => {
         const initialAction = getInitialAction();
         let groups: { group: string; name: string }[] = [];
+        let p: JSX.Element;
+
+        const { type } = config;
+
+        if (type === 'add_to_group') {
+            p = <p>Select the group(s) to add the contact to.</p>;
+        } else if (type === 'remove_from_group') {
+            p = <p>Select the group(s) to remove the contact from.</p>
+        } else {
+            p = null;
+        }
+
 
         if (
             initialAction &&
@@ -65,14 +77,14 @@ export default ({
 
         return (
             <div>
-                <p>Select the group(s) to add the contact to.</p>
+                { p }
                 <GroupElement
                     ref={onBindWidget}
                     name="Group"
                     endpoint={endpoints.groups}
                     localGroups={ComponentMap.getGroups()}
                     groups={groups}
-                    add={config.type == 'add_to_group'}
+                    add={config.type === 'add_to_group'}
                     required
                 />
             </div>

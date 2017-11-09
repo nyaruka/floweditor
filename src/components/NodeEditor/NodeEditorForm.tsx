@@ -231,7 +231,6 @@ export default class NodeEditorForm extends React.Component<INodeEditorFormProps
     }
 
     public render(): JSX.Element {
-        let form: JSX.Element;
         let chooser: JSX.Element;
 
         let classes = [formStyles.form];

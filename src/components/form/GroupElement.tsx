@@ -32,7 +32,7 @@ export class GroupElement extends FormWidget<IGroupElementProps, IGroupState> {
         }
 
         this.state = {
-            groups: groups,
+            groups,
             errors: []
         };
 
