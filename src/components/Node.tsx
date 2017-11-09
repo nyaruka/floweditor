@@ -14,7 +14,7 @@ import {
     IEndpoints,
     ILanguages
 } from '../services/EditorConfig';
-import ExitComp from './Exit';
+import Exit from './Exit';
 import TitleBar from './TitleBar';
 import { INode, IPosition, ISwitchRouter, TAnyAction, IUINode } from '../flowTypes';
 import { CounterComp } from './Counter';
@@ -148,10 +148,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
             },
             () => {
                 if (this.isMutable()) {
-                    this.props.onNodeBeforeDrag(
-                        this.props.node,
-                        this.dragGroup
-                    );
+                    this.props.onNodeBeforeDrag(this.props.node, this.dragGroup);
                     return true;
                 } else {
                     return false;
@@ -235,7 +232,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
         // click the last action in the list if we have one
 
         if (this.props.language) {
-            if (this.props.node.router.type == 'switch') {
+            if (this.props.node.router.type === 'switch') {
                 var router = this.props.node.router as ISwitchRouter;
                 for (let kase of router.cases) {
                     localizations.push(
@@ -298,7 +295,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
         let classes = ['plumb-drag', styles.node];
 
         if (this.props.hasOwnProperty('language') && this.props.language) {
-            classes = [...classes, styles.translating];
+            // classes = [...classes, styles.translating];
         }
 
         let actions: JSX.Element[] = [];
@@ -404,13 +401,13 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
             let config = this.props.getTypeConfig(type);
             var title = config.name;
 
-            if (this.props.node.router.type == 'switch') {
+            if (this.props.node.router.type === 'switch') {
                 let switchRouter = this.props.node.router as ISwitchRouter;
                 if (switchRouter.result_name) {
-                    if (this.props.ui.type == 'expression') {
-                        title = 'Split by ' + switchRouter.result_name;
+                    if (this.props.ui.type === 'expression') {
+                        title = `Split by ${switchRouter.result_name}`;
                     } else if (this.props.ui.type == 'wait_for_response') {
-                        title = 'Wait for ' + switchRouter.result_name;
+                        title = `Wait for ${switchRouter.result_name}`;
                     }
                 }
             }
@@ -442,11 +439,13 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
             }
         }
 
-        var exits: JSX.Element[] = [];
+        let exits: JSX.Element[] = [];
+
         if (this.props.node.exits) {
             for (let exit of this.props.node.exits) {
-                exits.push(
-                    <ExitComp
+                exits = [
+                    ...exits,
+                    <Exit
                         exit={exit}
                         key={exit.uuid}
                         onDisconnect={this.props.onDisconnectExit}
@@ -454,13 +453,14 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                         Localization={Localization.translate(
                             exit,
                             this.props.language,
+                            this.props.languages,
                             this.props.translations
                         )}
                         plumberMakeSource={this.props.plumberMakeSource}
                         plumberRemove={this.props.plumberRemove}
                         plumberConnectExit={this.props.plumberConnectExit}
                     />
-                );
+                ];
             }
         }
 

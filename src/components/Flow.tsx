@@ -416,7 +416,7 @@ export class Flow extends React.PureComponent<IFlowProps, IFlowState> {
     }
 
     private showLanguage(language: ILanguage): void {
-        if (language.iso != this.props.definition.language) {
+        if (language.iso !== this.props.definition.language) {
             this.setState({ language });
         } else {
             // back to the default language
@@ -438,6 +438,7 @@ export class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         }
 
         var definition = this.props.definition;
+
         if (this.state.viewDefinition) {
             definition = this.state.viewDefinition;
         }
