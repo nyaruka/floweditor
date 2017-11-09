@@ -1,44 +1,39 @@
 import * as React from 'react';
-import { GroupElement } from '../../form/GroupElement';
 import { IChangeGroup } from '../../../flowTypes';
-import NodeActionForm from '../../NodeEditor/NodeActionForm';
+import { IType, IEndpoints } from '../../../services/EditorConfig';
+import ComponentMap from '../../../services/ComponentMap';
+import { GroupElement } from '../../form/GroupElement';
 import Widget from '../../NodeEditor/Widget';
 
-class ChangeGroupForm extends NodeActionForm<IChangeGroup> {
-    renderForm(ref: any): JSX.Element {
-        var action = this.getInitial();
-        var groups: { group: string; name: string }[] = [];
+export interface IChangeGroupFormProps {
+    validationCallback: Function;
+    getActionUUID: Function;
+    config: IType;
+    updateAction(action: IChangeGroup): void;
+    getInitialAction(): IChangeGroup;
+    onBindWidget(ref: any): void;
+    endpoints: IEndpoints;
+    ComponentMap: ComponentMap;
+}
 
-        if (action && (action.type == 'add_to_group' || action.type == 'remove_from_group')) {
-            if (action.groups) {
-                groups.push({ group: action.groups[0].uuid, name: action.groups[0].name });
-            }
-        }
-
-        return (
-            <div>
-                <p>Select the group(s) to add the contact to.</p>
-                <GroupElement
-                    ref={ref}
-                    name="Group"
-                    endpoint={this.props.endpoints.groups}
-                    localGroups={this.props.ComponentMap.getGroups()}
-                    groups={groups}
-                    add={this.props.config.type == 'add_to_group'}
-                    required
-                />
-            </div>
-        );
-    }
-
-    onValid(widgets: { [name: string]: Widget }) {
-        var groupEle = widgets['Group'] as any;
-        var group = groupEle.state.groups[0];
+export default ({
+    validationCallback,
+    getActionUUID,
+    config,
+    updateAction,
+    getInitialAction,
+    onBindWidget,
+    endpoints,
+    ComponentMap
+}: IChangeGroupFormProps): JSX.Element => {
+    validationCallback((widgets: { [name: string]: Widget }) => {
+        const groupEle = widgets['Group'] as any;
+        const { state: { groups: [group] } } = groupEle;
 
         if (group) {
-            var newAction: IChangeGroup = {
-                uuid: this.getActionUUID(),
-                type: this.props.config.type,
+            const newAction: IChangeGroup = {
+                uuid: getActionUUID(),
+                type: config.type,
                 groups: [
                     {
                         uuid: group.id,
@@ -47,9 +42,42 @@ class ChangeGroupForm extends NodeActionForm<IChangeGroup> {
                 ]
             };
 
-            this.props.updateAction(newAction);
+            updateAction(newAction);
         }
-    }
-}
+    });
 
-export default ChangeGroupForm;
+    const renderForm = (): JSX.Element => {
+        const initialAction = getInitialAction();
+        let groups: { group: string; name: string }[] = [];
+
+        if (
+            initialAction &&
+            (initialAction.type === 'add_to_group' || initialAction.type === 'remove_from_group')
+        ) {
+            if (initialAction.groups) {
+                const { groups: [{ uuid: group, name }] } = initialAction;
+                groups = [
+                    ...groups,
+                    { group, name }
+                ];
+            }
+        }
+
+        return (
+            <div>
+                <p>Select the group(s) to add the contact to.</p>
+                <GroupElement
+                    ref={onBindWidget}
+                    name="Group"
+                    endpoint={endpoints.groups}
+                    localGroups={ComponentMap.getGroups()}
+                    groups={groups}
+                    add={config.type == 'add_to_group'}
+                    required
+                />
+            </div>
+        );
+    };
+
+    return renderForm();
+};

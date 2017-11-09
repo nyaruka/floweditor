@@ -54,47 +54,6 @@ Array [
     "name": "Save Flow Result",
     "type": "save_flow_result",
   },
-  Object {
-    "advanced": 1,
-    "aliases": Array [
-      "webhook",
-    ],
-    "allows": [Function],
-    "component": [Function],
-    "description": "Call a webook",
-    "form": [Function],
-    "name": "Call Webhook",
-    "type": "call_webhook",
-  },
-  Object {
-    "aliases": Array [
-      "subflow",
-    ],
-    "allows": [Function],
-    "component": [Function],
-    "description": "Run another flow",
-    "form": [Function],
-    "name": "Run Flow",
-    "type": "start_flow",
-  },
-  Object {
-    "allows": [Function],
-    "description": "Split by a custom expression",
-    "form": [Function],
-    "name": "Split by Expression",
-    "type": "expression",
-  },
-  Object {
-    "advanced": 2,
-    "aliases": Array [
-      "switch",
-    ],
-    "allows": [Function],
-    "description": "Wait for them to respond",
-    "form": [Function],
-    "name": "Wait for Response",
-    "type": "wait_for_response",
-  },
 ]
 `;
 

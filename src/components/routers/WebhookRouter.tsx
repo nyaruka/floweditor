@@ -3,14 +3,14 @@ import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
 import * as FlipMove from 'react-flip-move';
 
+import { IType } from '../../services/EditorConfig';
 import { ISwitchRouterState } from './SwitchRouter';
 import { SelectElement } from '../form/SelectElement';
-import { ICallWebhook, ICase, IExit, ISwitchRouter } from '../../flowTypes';
+import { ICallWebhook, ICase, IExit, ISwitchRouter, INode, TAnyAction } from '../../flowTypes';
 import { TextInputElement, IHTMLTextElement } from '../form/TextInputElement';
 
 import { FormElement } from '../form/FormElement';
 import { FormWidget, IFormValueState } from '../form/FormWidget';
-import NodeRouterForm from '../NodeEditor/NodeRouterForm';
 import { INodeEditorFormProps } from '../NodeEditor/NodeEditorForm';
 import Widget from '../NodeEditor/Widget';
 import ComponentMap from '../../services/ComponentMap';
@@ -32,18 +32,36 @@ export interface IHeader {
     value: string;
 }
 
-interface IWebhookProps extends ISwitchRouter {}
+export interface IWebhookRouterFormProps {
+    config: IType;
+    node: INode;
+    advanced: boolean;
+    action: TAnyAction;
+    removeWidget(name: string): void;
+    isTranslating: boolean,
+    triggerFormUpdate(): void;
+    ComponentMap: ComponentMap,
+    renderExitTranslations(): JSX.Element;
+    onToggleAdvanced(): void;
+    saveLocalizedExits(widgets: { [name: string]: Widget }): void;
+    updateRouter(node: INode, type: string, previousAction: TAnyAction): void;
+    onBindWidget(ref: any): void;
+    onBindAdvancedWidget(ref: any): void;
+    validationCallback: Function;
+    updateFormCallback: Function;
+}
 
 interface IWebhookState extends ISwitchRouterState {
     headers: IHeader[];
     method: string;
 }
 
-// extends NodeRouterForm<ISwitchRouter, ISwitchRouterState>
-export class WebhookForm extends NodeRouterForm<IWebhookProps, IWebhookState> {
+export default class WebhookForm extends React.Component<IWebhookRouterFormProps, IWebhookState> {
     private methodOptions = [{ value: 'GET', label: 'GET' }, { value: 'POST', label: 'POST' }];
-    constructor(props: INodeEditorFormProps) {
+
+    constructor(props: IWebhookRouterFormProps) {
         super(props);
+
         this.onHeaderRemoved = this.onHeaderRemoved.bind(this);
         this.onHeaderChanged = this.onHeaderChanged.bind(this);
         this.onMethodChanged = this.onMethodChanged.bind(this);
@@ -78,6 +96,9 @@ export class WebhookForm extends NodeRouterForm<IWebhookProps, IWebhookState> {
             method: method,
             operand: '@webhook'
         };
+
+        this.onValid = this.onValid.bind(this);
+        this.onUpdateForm = this.onUpdateForm.bind(this);
     }
 
     addEmptyHeader(headers: IHeader[]) {
@@ -122,7 +143,7 @@ export class WebhookForm extends NodeRouterForm<IWebhookProps, IWebhookState> {
         this.props.triggerFormUpdate();
     }
 
-    public onUpdateForm(widgets: { [name: string]: Widget }) {
+    onUpdateForm(widgets: { [name: string]: Widget }) {
         if (this.props.advanced) {
             var methodEle = widgets['Method'] as SelectElement;
             if (methodEle.state.value == 'GET') {
@@ -135,8 +156,8 @@ export class WebhookForm extends NodeRouterForm<IWebhookProps, IWebhookState> {
         }
     }
 
-    renderAdvanced(ref: any): JSX.Element {
-        if (this.isTranslating()) {
+    renderAdvanced(): JSX.Element {
+        if (this.props.isTranslating) {
             return null;
         }
 
@@ -156,7 +177,7 @@ export class WebhookForm extends NodeRouterForm<IWebhookProps, IWebhookState> {
             headerElements.push(
                 <div key={header.uuid}>
                     <IHeaderElement
-                        ref={ref}
+                        ref={this.props.onBindAdvancedWidget}
                         name={'header_' + index}
                         header={header}
                         onRemove={this.onHeaderRemoved}
@@ -177,7 +198,7 @@ export class WebhookForm extends NodeRouterForm<IWebhookProps, IWebhookState> {
                     <p>Modify the body that is sent as part of your POST.</p>
                     <TextInputElement
                         className={styles.post_body}
-                        ref={ref}
+                        ref={this.props.onBindAdvancedWidget}
                         name="Body"
                         showLabel={false}
                         value={postBody}
@@ -211,9 +232,9 @@ export class WebhookForm extends NodeRouterForm<IWebhookProps, IWebhookState> {
         );
     }
 
-    renderForm(ref: any): JSX.Element {
-        if (this.isTranslating()) {
-            return this.renderExitTranslations(ref);
+    renderForm(): JSX.Element {
+        if (this.props.isTranslating) {
+            return this.props.renderExitTranslations();
         }
 
         var method = 'GET';
@@ -262,7 +283,7 @@ export class WebhookForm extends NodeRouterForm<IWebhookProps, IWebhookState> {
 
                 <div className={styles.method}>
                     <SelectElement
-                        ref={ref}
+                        ref={this.props.onBindWidget}
                         name="Method"
                         defaultValue={method}
                         onChange={this.onMethodChanged}
@@ -271,7 +292,7 @@ export class WebhookForm extends NodeRouterForm<IWebhookProps, IWebhookState> {
                 </div>
                 <div className={styles.url}>
                     <TextInputElement
-                        ref={ref}
+                        ref={this.props.onBindWidget}
                         name="URL"
                         placeholder="Enter a URL"
                         value={url}
@@ -310,8 +331,8 @@ export class WebhookForm extends NodeRouterForm<IWebhookProps, IWebhookState> {
     }
 
     onValid(widgets: { [name: string]: Widget }): void {
-        if (this.isTranslating()) {
-            return this.saveLocalizedExits(widgets);
+        if (this.props.isTranslating) {
+            return this.props.saveLocalizedExits(widgets);
         }
 
         var method = 'GET';
@@ -408,6 +429,16 @@ export class WebhookForm extends NodeRouterForm<IWebhookProps, IWebhookState> {
             'webhook',
             this.props.action
         );
+    }
+
+    render(): JSX.Element {
+        this.props.validationCallback(this.onValid);
+        this.props.updateFormCallback(this.onUpdateForm);
+
+        if (this.props.advanced) {
+            return this.renderAdvanced();
+        }
+        return this.renderForm();
     }
 }
 

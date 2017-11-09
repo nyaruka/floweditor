@@ -11,7 +11,7 @@ import {
 } from '../../services/EditorConfig';
 import ComponentMap from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
-import NodeEditorForm, { INodeEditorFormProps, INodeEditorFormState } from './NodeEditorForm';
+import NodeEditorForm, { INodeEditorFormProps } from './NodeEditorForm';
 import Widget from './Widget';
 
 const formStyles = require('./NodeEditor.scss');
@@ -46,18 +46,15 @@ export interface INodeEditorState {
     temporaryButtons?: IButtonSet;
 }
 
-class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState> {
+export default class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState> {
     private modal: Modal;
-    private form: NodeEditorForm<INodeEditorFormState>;
-    private advanced: NodeEditorForm<INodeEditorFormState>;
+    private form: any;
+    private advanced: any;
     private widgets: { [name: string]: Widget } = {};
     private advancedWidgets: { [name: string]: boolean } = {};
 
     constructor(props: INodeEditorProps) {
         super(props);
-
-        // determine our initial config
-        const type = this.determineConfig(this.props);
 
         this.onOpen = this.onOpen.bind(this);
         this.onSave = this.onSave.bind(this);
@@ -71,6 +68,9 @@ class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState>
         this.toggleAdvanced = this.toggleAdvanced.bind(this);
         this.triggerFormUpdate = this.triggerFormUpdate.bind(this);
         this.removeWidget = this.removeWidget.bind(this);
+
+        // determine our initial config
+        const type = this.determineConfig(this.props);
 
         this.state = {
             show: false,
@@ -227,7 +227,7 @@ class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState>
         this.advancedWidgets = {};
 
         this.setState({
-            config: config
+            config
         });
     }
 
@@ -252,6 +252,8 @@ class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState>
             mode = EMode.EDITING;
         }
 
+        const advanced = this.state.config.allows(mode);
+
         this.widgets = {};
         this.advancedWidgets = {};
 
@@ -261,7 +263,8 @@ class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState>
         if (this.state.show) {
             // create our form element
             if (this.state.config.hasOwnProperty('form') && this.state.config.form) {
-                const formProps: INodeEditorFormProps = {
+                const nodeEditorProps = {
+                    isTranslating,
                     typeConfigList: this.props.typeConfigList,
                     operatorConfigList: this.props.operatorConfigList,
                     getTypeConfig: this.props.getTypeConfig,
@@ -296,17 +299,19 @@ class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState>
                     }
                 };
 
-                const { config: { form: FormComp } } = this.state;
+                const { config: { form: Form } } = this.state;
 
-                front = <FormComp ref={(ele: any) => (this.form = ele)} {...formProps} />;
+                front = (
+                    <NodeEditorForm ref={(ele: any) => (this.form = ele)} {...{...nodeEditorProps, advanced: false}}>
+                        {formProps => <Form {...formProps} />}
+                    </NodeEditorForm>
+                );
 
-                if (this.state.config.allows(mode)) {
+                if (advanced) {
                     back = (
-                        <FormComp
-                            ref={(ele: any) => (this.advanced = ele)}
-                            advanced={true}
-                            {...formProps}
-                        />
+                        <NodeEditorForm ref={(ele: any) => (this.advanced = ele)} {...{...nodeEditorProps, advanced: true}}>
+                            {formProps => <Form {...formProps} />}
+                        </NodeEditorForm>
                     );
                 }
             }
@@ -347,9 +352,7 @@ class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState>
         return (
             <Modal
                 key={key}
-                ref={(ref: any) => {
-                    this.modal = ref;
-                }}
+                ref={(ref: any) => (this.modal = ref)}
                 className={shared[this.state.config.type]}
                 width="600px"
                 title={titles}
@@ -362,5 +365,3 @@ class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState>
         );
     }
 }
-
-export default NodeEditor;

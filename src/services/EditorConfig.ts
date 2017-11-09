@@ -1,5 +1,6 @@
-import { SFC } from 'react';
+import { ComponentClass, SFC } from 'react';
 import { TAnyAction } from '../flowTypes';
+import { TFormProps } from '../components/NodeEditor/NodeEditorForm';
 import __flow_editor_config__ from '../flowEditorConfig';
 import ChangeGroup from '../components/actions/ChangeGroup/ChangeGroup';
 import ChangeGroupForm from '../components/actions/ChangeGroup/ChangeGroupForm';
@@ -13,9 +14,9 @@ import Webhook from '../components/actions/Webhook/Webhook';
 import StartFlow from '../components/actions/StartFlow/StartFlow';
 import SendEmail from '../components/actions/SendEmail/SendEmail';
 import SendEmailForm from '../components/actions/SendEmail/SendEmailForm';
-import { SwitchRouterForm } from '../components/routers/SwitchRouter';
-import { SubflowForm } from '../components/routers/Subflow';
-import { WebhookForm } from '../components/routers/Webhook';
+import SwitchRouterForm from '../components/routers/SwitchRouter';
+import SubflowRouterForm from '../components/routers/SubflowRouter';
+import WebhookRouterForm from '../components/routers/WebhookRouter';
 
 export enum EMode {
     EDITING = 0x1,
@@ -40,9 +41,9 @@ export interface IType {
     type: string;
     name: string;
     description: string;
-    form: { new (props: any): any };
     allows(mode: EMode): boolean;
     component?: SFC<TAnyAction>;
+    form?: ComponentClass<TFormProps> | SFC<TFormProps>;
     advanced?: EMode;
     aliases?: string[];
 }
@@ -139,7 +140,7 @@ const TYPE_CONFIG_LIST: IType[] = [
         type: 'call_webhook',
         name: 'Call Webhook',
         description: 'Call a webook',
-        form: WebhookForm,
+        form: WebhookRouterForm,
         component: Webhook,
         advanced: EMode.EDITING,
         aliases: ['webhook'],
@@ -151,7 +152,7 @@ const TYPE_CONFIG_LIST: IType[] = [
         type: 'start_flow',
         name: 'Run Flow',
         description: 'Run another flow',
-        form: SubflowForm,
+        form: SubflowRouterForm,
         component: StartFlow,
         aliases: ['subflow'],
         allows(mode: EMode): boolean {
@@ -251,7 +252,7 @@ const OPERATOR_CONFIG_LIST: IOperator[] = [
     }
 ];
 
-class EditorConfig {
+export default class EditorConfig {
     public typeConfigList: IType[] = TYPE_CONFIG_LIST;
     public operatorConfigList: IOperator[] = OPERATOR_CONFIG_LIST;
     public actionConfigList: IType[];
@@ -273,7 +274,11 @@ class EditorConfig {
 
     private filterActionConfigs(): IType[] {
         return this.typeConfigList.filter(
-            ({ form: { prototype } }) => !(prototype instanceof SwitchRouterForm)
+            ({ name }) =>
+                name !== 'Wait for Response' &&
+                name !== 'Split by Expression' &&
+                name !== 'Run Flow' &&
+                name !== 'Call Webhook'
         );
     }
 
@@ -319,6 +324,4 @@ class EditorConfig {
             return this.operatorConfigMap[type];
         }
     }
-}
-
-export default EditorConfig;
+};

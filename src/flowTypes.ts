@@ -66,7 +66,7 @@ export interface ISaveToContact extends IAction {
     created_on?: Date;
 }
 
-export interface IUpdateContact extends IAction {
+export interface IUpdateContact extends ISaveToContact {
     field_name: string;
     value: string;
 }

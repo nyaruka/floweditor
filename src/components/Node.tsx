@@ -356,7 +356,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                     actions = [
                         ...actions,
                         <Action key={action.uuid} {...actionProps} {...firstRef}>
-                            {(actionDivProps: TAnyAction) => <ActionDiv {...actionDivProps} />}
+                            {actionDivProps => <ActionDiv {...actionDivProps} />}
                         </Action>
                     ];
                 }

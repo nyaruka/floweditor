@@ -90,13 +90,13 @@ class Modal extends React.Component<IModalProps, IModalState> {
 
         const children = React.Children.toArray(this.props.children);
 
-        const hasAdvanced = children.length > 1 && children[1] != null;
+        const hasAdvanced = children.length > 1 && children[1];
 
-        const sides = children.map((child: React.ReactChild, i: number) => {
+        const sides = children.map((child: React.ReactChild, childIdx: number) => {
             let classes = [styles.side];
-            let title = this.props.title[i];
+            let title = this.props.title[childIdx];
 
-            if (i == 0) {
+            if (childIdx === 0) {
                 classes = [...classes, styles.front];
             } else {
                 title = (
@@ -111,7 +111,7 @@ class Modal extends React.Component<IModalProps, IModalState> {
             let flip;
 
             if (hasAdvanced) {
-                if (i == 0) {
+                if (childIdx === 0) {
                     flip = (
                         <div className={styles.show_back} onClick={this.toggleFlip}>
                             <span className="icon-settings" />
@@ -127,7 +127,7 @@ class Modal extends React.Component<IModalProps, IModalState> {
             }
 
             return (
-                <div key={'modal_side_' + i} className={classes.join(' ')}>
+                <div key={'modal_side_' + childIdx} className={classes.join(' ')}>
                     <div className={styles.modal}>
                         <div
                             className={
@@ -135,7 +135,7 @@ class Modal extends React.Component<IModalProps, IModalState> {
                                 ' ' +
                                 this.props.className +
                                 ' ' +
-                                shared['modal_side_' + i]
+                                shared['modal_side_' + childIdx]
                             }>
                             {flip}
                             {title}

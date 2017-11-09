@@ -3,13 +3,13 @@ import * as UUID from 'uuid';
 import * as FlipMove from 'react-flip-move';
 
 //import {ICase} from '../Case';
+import { IType, TGetOperatorConfig, IOperator } from '../../services/EditorConfig';
+import ComponentMap from '../../services/ComponentMap';
 import { CaseElement } from '../form/CaseElement';
 import { TextInputElement, IHTMLTextElement } from '../form/TextInputElement';
-import { INode, ISwitchRouter, IExit, ICase } from '../../flowTypes';
+import { INode, IRouter, ISwitchRouter, IExit, ICase, TAnyAction } from '../../flowTypes';
 
 import { DragDropContext } from 'react-dnd';
-import NodeRouterForm from '../NodeEditor/NodeRouterForm';
-import { INodeEditorFormProps, INodeEditorFormState } from '../NodeEditor/NodeEditorForm';
 import Widget from '../NodeEditor/Widget';
 import { ILanguage } from '../LanguageSelector';
 import { LocalizedObject } from '../../services/Localization';
@@ -144,25 +144,48 @@ export function resolveExits(newCases: ICaseProps[], previous: INode): ICombined
     return { cases: cases, exits: exits, defaultExit: defaultUUID };
 }
 
-export interface ISwitchRouterState extends INodeEditorFormState {
+export interface ISwitchRouterState {
     cases: ICaseProps[];
     resultName: string;
     setResultName: boolean;
     operand: string;
 }
 
-export class SwitchRouterForm extends NodeRouterForm<ISwitchRouter, ISwitchRouterState> {
-    constructor(props: INodeEditorFormProps) {
+export interface ISwitchRouterFormProps {
+    advanced: boolean;
+    node: INode;
+    action: TAnyAction;
+    config: IType;
+    updateRouter(node: INode, type: string, previousAction: TAnyAction): void;
+    getOperatorConfig: TGetOperatorConfig;
+    onBindWidget(ref: any): void;
+    onBindAdvancedWidget(ref: any): void;
+    removeWidget(name: string): void;
+    localizations: LocalizedObject[];
+    updateLocalizations(language: string, changes: { uuid: string; translations: any }[]): void;
+    ComponentMap: ComponentMap;
+    operatorConfigList: IOperator[];
+    isTranslating: boolean;
+    getLocalizedExits(widgets: {
+        [name: string]: Widget;
+    }): { uuid: string; translations: any }[];
+    getInitialRouter(): IRouter;
+    renderExitTranslations(): JSX.Element;
+    validationCallback: Function;
+}
+
+class SwitchRouterForm extends React.Component<ISwitchRouterFormProps, ISwitchRouterState> {
+    constructor(props: ISwitchRouterFormProps) {
         super(props);
 
         var cases: ICaseProps[] = [];
         var resultName = '';
         var operand = '@input';
 
-        var initial = this.getInitial();
+        var initial = this.props.getInitialRouter() as ISwitchRouter;
 
         var exits = this.props.node.exits;
-        if (initial && initial.type == 'switch' && initial.cases) {
+        if (initial && initial.type === 'switch' && initial.cases) {
             for (let kase of initial.cases) {
                 var exitName = null;
                 if (kase.exit_uuid) {
@@ -192,12 +215,13 @@ export class SwitchRouterForm extends NodeRouterForm<ISwitchRouter, ISwitchRoute
         }
 
         this.state = {
-            cases: cases,
+            cases,
             setResultName: false,
             resultName: resultName,
             operand: operand
         } as ISwitchRouterState;
 
+        this.validationCallback = this.validationCallback.bind(this);
         this.onCaseChanged = this.onCaseChanged.bind(this);
         this.onExpressionChanged = this.onExpressionChanged.bind(this);
     }
@@ -259,7 +283,7 @@ export class SwitchRouterForm extends NodeRouterForm<ISwitchRouter, ISwitchRoute
     }
 
     saveLocalization(widgets: { [name: string]: Widget }) {
-        var updates = this.getLocalizedExits(widgets);
+        var updates = this.props.getLocalizedExits(widgets);
         var language = this.props.localizations[0].getLanguage().iso;
         updates = updates.concat(this.getLocalizedCases(widgets));
         this.props.updateLocalizations(language, updates);
@@ -267,7 +291,7 @@ export class SwitchRouterForm extends NodeRouterForm<ISwitchRouter, ISwitchRoute
 
     getLocalizedCases(widgets: { [name: string]: Widget }): { uuid: string; translations: any }[] {
         var results: { uuid: string; translations: any }[] = [];
-        var router = this.getInitial();
+        var router = this.props.getInitialRouter() as ISwitchRouter;
         for (let kase of router.cases) {
             var input = widgets[kase.uuid] as TextInputElement;
             if (input) {
@@ -282,8 +306,8 @@ export class SwitchRouterForm extends NodeRouterForm<ISwitchRouter, ISwitchRoute
         return results;
     }
 
-    renderAdvanced(ref: any): JSX.Element {
-        if (this.isTranslating()) {
+    renderAdvanced(): JSX.Element {
+        if (this.props.isTranslating) {
             // var cases: JSX.Element[] = [];
             var kases: JSX.Element[] = [];
 
@@ -296,7 +320,7 @@ export class SwitchRouterForm extends NodeRouterForm<ISwitchRouter, ISwitchRoute
                 return null;
             }
 
-            var router = this.getInitial();
+            var router = this.props.getInitialRouter() as ISwitchRouter;
             for (let kase of router.cases) {
                 if (kase.arguments && kase.arguments.length == 1) {
                     var localized = this.props.localizations.find(
@@ -323,7 +347,7 @@ export class SwitchRouterForm extends NodeRouterForm<ISwitchRouter, ISwitchRoute
                                 <div className={styles.translating_from}>{kase.arguments[0]}</div>
                                 <div className={styles.translating_to}>
                                     <TextInputElement
-                                        ref={ref}
+                                        ref={this.props.onBindAdvancedWidget}
                                         name={kase.uuid}
                                         placeholder={language.name + ' Translation'}
                                         showLabel={false}
@@ -355,9 +379,9 @@ export class SwitchRouterForm extends NodeRouterForm<ISwitchRouter, ISwitchRoute
         return null;
     }
 
-    renderForm(ref: any): JSX.Element {
-        if (this.isTranslating()) {
-            return this.renderExitTranslations(ref);
+    renderForm(): JSX.Element {
+        if (this.props.isTranslating) {
+            return this.props.renderExitTranslations();
         } else {
             var cases: JSX.Element[] = [];
             var needsEmpty = true;
@@ -375,7 +399,7 @@ export class SwitchRouterForm extends NodeRouterForm<ISwitchRouter, ISwitchRoute
                         <CaseElement
                             key={c.kase.uuid}
                             kase={c.kase}
-                            ref={ref}
+                            ref={this.props.onBindWidget}
                             name={'case_' + index}
                             exitName={c.exitName}
                             onRemove={this.onCaseRemoved.bind(this)}
@@ -399,7 +423,7 @@ export class SwitchRouterForm extends NodeRouterForm<ISwitchRouter, ISwitchRoute
                             exit_uuid: null
                         }}
                         key={newCaseUUID}
-                        ref={ref}
+                        ref={this.props.onBindWidget}
                         name={'case_' + cases.length}
                         exitName={null}
                         onRemove={this.onCaseRemoved.bind(this)}
@@ -416,7 +440,7 @@ export class SwitchRouterForm extends NodeRouterForm<ISwitchRouter, ISwitchRoute
             if (this.state.setResultName || this.state.resultName) {
                 nameField = (
                     <TextInputElement
-                        ref={ref}
+                        ref={this.props.onBindWidget}
                         name="Result Name"
                         showLabel={true}
                         value={this.state.resultName}
@@ -441,7 +465,7 @@ export class SwitchRouterForm extends NodeRouterForm<ISwitchRouter, ISwitchRoute
                     <div className={styles.instructions}>
                         <p>If the expression..</p>
                         <TextInputElement
-                            ref={ref}
+                            ref={this.props.onBindWidget}
                             key={'expression_' + this.props.node.uuid}
                             name="Expression"
                             showLabel={false}
@@ -478,8 +502,8 @@ export class SwitchRouterForm extends NodeRouterForm<ISwitchRouter, ISwitchRoute
         );
     }
 
-    onValid(widgets: { [name: string]: Widget }) {
-        if (this.isTranslating()) {
+    validationCallback(widgets: { [name: string]: Widget }) {
+        if (this.props.isTranslating) {
             return this.saveLocalization(widgets);
         }
 
@@ -517,6 +541,15 @@ export class SwitchRouterForm extends NodeRouterForm<ISwitchRouter, ISwitchRoute
             this.props.config.type,
             this.props.action
         );
+    }
+
+    render(): JSX.Element {
+        this.props.validationCallback(this.validationCallback);
+
+        if (this.props.advanced) {
+            return this.renderAdvanced();
+        }
+        return this.renderForm();
     }
 }
 
