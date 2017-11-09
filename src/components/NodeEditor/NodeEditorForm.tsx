@@ -42,6 +42,7 @@ export interface INodeEditorFormChildProps {
     node: INode;
     action: TAnyAction;
     endpoints: IEndpoints;
+    localizations?: LocalizedObject[];
     config: IType;
     ComponentMap: ComponentMap;
     updateAction(action: TAnyAction): void;
@@ -241,6 +242,7 @@ export default class NodeEditorForm extends React.Component<INodeEditorFormProps
             action: this.props.action,
             config: this.props.config,
             endpoints: this.props.endpoints,
+            localizations: this.props.localizations,
             ComponentMap: this.props.ComponentMap,
             updateAction: this.props.updateAction,
             onBindWidget: this.props.onBindWidget,
@@ -258,6 +260,7 @@ export default class NodeEditorForm extends React.Component<INodeEditorFormProps
             updateFormCallback: this.updateFormCallback,
             getLocalizedObject: this.getLocalizedObject,
             getActionUUID: this.getActionUUID,
+            getLocalizedExits: this.getLocalizedExits,
             saveLocalizedExits: this.saveLocalizedExits,
             getInitialAction: this.getInitialAction,
             getInitialRouter: this.getInitialRouter

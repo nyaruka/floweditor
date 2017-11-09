@@ -161,7 +161,7 @@ export interface ISwitchRouterFormProps {
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
     removeWidget(name: string): void;
-    localizations: LocalizedObject[];
+    localizations?: LocalizedObject[];
     updateLocalizations(language: string, changes: { uuid: string; translations: any }[]): void;
     ComponentMap: ComponentMap;
     operatorConfigList: IOperator[];
@@ -312,7 +312,7 @@ class SwitchRouterForm extends React.Component<ISwitchRouterFormProps, ISwitchRo
             var kases: JSX.Element[] = [];
 
             var language: ILanguage;
-            if (this.props.localizations.length > 0) {
+            if (this.props.hasOwnProperty('localizations') && this.props.localizations.length > 0) {
                 language = this.props.localizations[0].getLanguage();
             }
 
