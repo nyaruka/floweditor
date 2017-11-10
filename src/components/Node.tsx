@@ -18,7 +18,7 @@ import {
 import Exit from './Exit';
 import TitleBar from './TitleBar';
 import { INode, IPosition, ISwitchRouter, TAnyAction, IUINode } from '../flowTypes';
-import { CounterComp } from './Counter';
+import CounterComp from './Counter';
 import ActivityManager from '../services/ActivityManager';
 import ComponentMap from '../services/ComponentMap';
 import Localization, { LocalizedObject } from '../services/Localization';
@@ -46,6 +46,7 @@ export interface INodeCompProps {
     Activity: ActivityManager;
     translations: { [uuid: string]: any };
     iso: string;
+    isMutable(): boolean;
     baseLanguage: ILanguage;
     ghost?: boolean;
 
@@ -149,7 +150,7 @@ export default class NodeComp extends React.Component<INodeCompProps, INodeState
                 this.onDragStop.bind(this)(event);
             },
             () => {
-                if (this.isMutable()) {
+                if (this.props.isMutable()) {
                     this.props.onNodeBeforeDrag(this.props.node, this.dragGroup);
                     return true;
                 } else {
@@ -216,7 +217,7 @@ export default class NodeComp extends React.Component<INodeCompProps, INodeState
                 (this.props.ui.dimensions.width != this.ele.clientWidth ||
                     this.props.ui.dimensions.height != this.ele.clientHeight)
             ) {
-                if (this.isMutable()) {
+                if (this.props.isMutable()) {
                     this.updateDimensions();
                 }
             }
@@ -233,7 +234,7 @@ export default class NodeComp extends React.Component<INodeCompProps, INodeState
 
         // click the last action in the list if we have one
 
-        if (!this.isMutable()) {
+        if (!this.props.isMutable()) {
             if (this.props.node.router.type === 'switch') {
                 var router = this.props.node.router as ISwitchRouter;
                 for (let kase of router.cases) {
@@ -289,14 +290,10 @@ export default class NodeComp extends React.Component<INodeCompProps, INodeState
         this.props.onRemoveNode(this.props.node);
     }
 
-    private isMutable(): boolean {
-        return this.props.iso === this.props.baseLanguage.iso;
-    }
-
     render() {
         let classes = ['plumb-drag', styles.node];
 
-        if (this.props.hasOwnProperty('iso') && !this.isMutable()) {
+        if (this.props.hasOwnProperty('iso') && !this.props.isMutable()) {
             classes = [...classes, styles.translating];
         }
 
@@ -419,7 +416,7 @@ export default class NodeComp extends React.Component<INodeCompProps, INodeState
                     <div {...events}>
                         <TitleBar
                             className={shared[config.type]}
-                            showRemoval={this.isMutable()}
+                            showRemoval={this.props.isMutable()}
                             onRemoval={this.onRemoval.bind(this)}
                             title={title}
                         />
@@ -428,7 +425,7 @@ export default class NodeComp extends React.Component<INodeCompProps, INodeState
             }
         } else {
             // don't show add actions option if we are translating
-            if (this.isMutable()) {
+            if (this.props.isMutable()) {
                 addActions = (
                     <a
                         className={styles.add}
@@ -450,6 +447,7 @@ export default class NodeComp extends React.Component<INodeCompProps, INodeState
                     <Exit
                         exit={exit}
                         key={exit.uuid}
+                        isMutable={this.props.isMutable}
                         onDisconnect={this.props.onDisconnectExit}
                         Activity={this.props.Activity}
                         Localization={Localization.translate(
@@ -484,7 +482,7 @@ export default class NodeComp extends React.Component<INodeCompProps, INodeState
         }
 
         var dragLink = null;
-        if (this.isMutable()) {
+        if (this.props.isMutable()) {
             dragLink = (
                 <a
                     title="Drag to move all nodes below here"

@@ -105,6 +105,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         this.onNodeBeforeDrag = this.onNodeBeforeDrag.bind(this);
         this.resetState = this.resetState.bind(this);
         this.showLanguage = this.showLanguage.bind(this);
+        this.isMutable = this.isMutable.bind(this);
 
         console.time('RenderAndPlumb');
     }
@@ -453,6 +454,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
                     key={key}
                     node={node}
                     ui={ui}
+                    isMutable={this.isMutable}
                     Activity={this.Activity}
                     onNodeMounted={this.onNodeMounted}
                     onUpdateDimensions={this.props.Mutator.updateDimensions}
@@ -508,6 +510,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
                     key={ghost.uuid}
                     ref={(ele: any) => (this.ghostComp = ele)}
                     iso={null}
+                    isMutable={this.isMutable}
                     translations={null}
                     Activity={this.Activity}
                     node={ghost}

@@ -57,7 +57,7 @@ class TitleBar extends React.Component<ITitleBarProps, ITitleBarState> {
     }
 
     render() {
-        var confirmation;
+        let confirmation;
 
         if (this.state.confirmingRemoval) {
             confirmation = (
@@ -76,7 +76,8 @@ class TitleBar extends React.Component<ITitleBarProps, ITitleBarState> {
             );
         }
 
-        var moveArrow = null;
+        let moveArrow = null;
+
         if (this.props.showMove) {
             moveArrow = (
                 <div
@@ -93,7 +94,8 @@ class TitleBar extends React.Component<ITitleBarProps, ITitleBarState> {
             moveArrow = <div className={styles.up_button} />;
         }
 
-        var remove = null;
+        let remove = null;
+
         if (this.props.showRemoval) {
             remove = (
                 <div
