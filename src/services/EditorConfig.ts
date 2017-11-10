@@ -1,7 +1,7 @@
 import { ComponentClass, SFC } from 'react';
-import { TAnyAction } from '../flowTypes';
-import { ILanguage } from '../components/LanguageSelector';
-import { TFormProps } from '../components/NodeEditor/NodeEditorForm';
+import { AnyAction } from '../flowTypes';
+import { Language } from '../components/LanguageSelector';
+import { AnyFormProps } from '../components/NodeEditor/NodeEditorForm';
 import { languages, endpoints } from '../flowEditorConfig';
 import ChangeGroup from '../components/actions/ChangeGroup/ChangeGroup';
 import ChangeGroupForm from '../components/actions/ChangeGroup/ChangeGroupForm';
@@ -25,7 +25,7 @@ export enum EMode {
     ALL = EDITING | TRANSLATING
 }
 
-export interface IEndpoints {
+export interface Endpoints {
     fields: string;
     groups: string;
     engine: string;
@@ -34,26 +34,26 @@ export interface IEndpoints {
     activity: string;
 }
 
-export interface ILanguages {
+export interface Languages {
     [iso: string]: string;
 }
 
-export interface IType {
+export interface Type {
     type: string;
     name: string;
     description: string;
     allows(mode: EMode): boolean;
-    component?: SFC<TAnyAction>;
-    form?: ComponentClass<TFormProps> | SFC<TFormProps>;
+    component?: SFC<AnyAction>;
+    form?: ComponentClass<AnyFormProps> | SFC<AnyFormProps>;
     advanced?: EMode;
     aliases?: string[];
 }
 
-export interface ITypeMap {
-    [propName: string]: IType;
+export interface TypeMap {
+    [propName: string]: Type;
 }
 
-export interface IOperator {
+export interface Operator {
     type: string;
     verboseName: string;
     operands: number;
@@ -61,15 +61,15 @@ export interface IOperator {
     categoryName?: string;
 }
 
-export interface IOperatorMap {
-    [propName: string]: IOperator;
+export interface OperatorMap {
+    [propName: string]: Operator;
 }
 
-export type TGetTypeConfig = (type: string) => IType;
+export type GetTypeConfig = (type: string) => Type;
 
-export type TGetOperatorConfig = (type: string) => IOperator;
+export type GetOperatorConfig = (type: string) => Operator;
 
-const TYPE_CONFIG_LIST: IType[] = [
+const TYPE_CONFIG_LIST: Type[] = [
     /** Actions */
     {
         type: 'reply',
@@ -185,7 +185,7 @@ const TYPE_CONFIG_LIST: IType[] = [
     // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];
 
-const OPERATOR_CONFIG_LIST: IOperator[] = [
+const OPERATOR_CONFIG_LIST: Operator[] = [
     { type: 'has_any_word', verboseName: 'has any of the words', operands: 1 },
     { type: 'has_all_words', verboseName: 'has all of the words', operands: 1 },
     { type: 'has_phrase', verboseName: 'has the phrase', operands: 1 },
@@ -254,16 +254,16 @@ const OPERATOR_CONFIG_LIST: IOperator[] = [
 ];
 
 export default class EditorConfig {
-    public typeConfigList: IType[];
-    public operatorConfigList: IOperator[];
-    public actionConfigList: IType[];
+    public typeConfigList: Type[];
+    public operatorConfigList: Operator[];
+    public actionConfigList: Type[];
 
-    public typeConfigMap: ITypeMap;
-    public operatorConfigMap: IOperatorMap;
+    public typeConfigMap: TypeMap;
+    public operatorConfigMap: OperatorMap;
 
-    public endpoints: IEndpoints;
-    public languages: ILanguages;
-    public baseLanguage: ILanguage;
+    public endpoints: Endpoints;
+    public languages: Languages;
+    public baseLanguage: Language;
 
     constructor() {
         this.typeConfigList = TYPE_CONFIG_LIST;
@@ -280,7 +280,7 @@ export default class EditorConfig {
         this.getBaseLanguage = this.getBaseLanguage.bind(this);
     }
 
-    private filterActionConfigs(): IType[] {
+    private filterActionConfigs(): Type[] {
         return this.typeConfigList.filter(
             ({ name }) =>
                 name !== 'Wait for Response' &&
@@ -290,8 +290,8 @@ export default class EditorConfig {
         );
     }
 
-    private mapTypeConfigs(): ITypeMap {
-        return this.typeConfigList.reduce((typeConfigMap: ITypeMap, typeConfig: IType) => {
+    private mapTypeConfigs(): TypeMap {
+        return this.typeConfigList.reduce((typeConfigMap: TypeMap, typeConfig: Type) => {
             typeConfigMap = Object.assign(typeConfigMap, { [typeConfig.type]: typeConfig });
             if (typeConfig.hasOwnProperty('aliases') && typeConfig.aliases) {
                 typeConfig.aliases.forEach(
@@ -303,9 +303,9 @@ export default class EditorConfig {
         }, {});
     }
 
-    private mapOperatorConfigs(): IOperatorMap {
+    private mapOperatorConfigs(): OperatorMap {
         return this.operatorConfigList.reduce(
-            (operatorConfigMap: IOperatorMap, operatorConfig: IOperator) =>
+            (operatorConfigMap: OperatorMap, operatorConfig: Operator) =>
                 Object.assign(operatorConfigMap, { [operatorConfig.type]: operatorConfig }),
             {}
         );
@@ -316,7 +316,7 @@ export default class EditorConfig {
     * @param {string} type - The type of the type config to return, e.g. 'reply'
     * @returns {Object} - The type config found at typeConfigs[type] or -1
     */
-    public getTypeConfig(type: string): IType {
+    public getTypeConfig(type: string): Type {
         if (this.typeConfigMap.hasOwnProperty(type)) {
             return this.typeConfigMap[type];
         }
@@ -327,13 +327,13 @@ export default class EditorConfig {
     * @param {string} type - The type of the operator config to return, e.g. 'reply'
     * @returns {Object} - The operator config found at operatorConfigs[type] or -1
     */
-    public getOperatorConfig(type: string): IOperator {
+    public getOperatorConfig(type: string): Operator {
         if (this.operatorConfigMap.hasOwnProperty(type)) {
             return this.operatorConfigMap[type];
         }
     }
 
-    private getBaseLanguage(): ILanguage {
+    private getBaseLanguage(): Language {
         const [iso] = Object.keys(this.languages);
         const name = this.languages[iso];
         return {

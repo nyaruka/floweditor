@@ -4,20 +4,20 @@ import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 import * as FlipMove from 'react-flip-move';
-import { ILanguage } from './LanguageSelector';
-import Action, { IActionProps } from './Action/Action';
+import { Language } from './LanguageSelector';
+import Action, { ActionProps } from './Action/Action';
 import { IDragEvent } from '../services/Plumber';
 import {
-    IType,
-    IOperator,
-    TGetTypeConfig,
-    TGetOperatorConfig,
-    IEndpoints,
-    ILanguages
+    Type,
+    Operator,
+    GetTypeConfig,
+    GetOperatorConfig,
+    Endpoints,
+    Languages
 } from '../services/EditorConfig';
-import Exit from './Exit';
-import TitleBar from './TitleBar';
-import { INode, IPosition, ISwitchRouter, TAnyAction, IUINode } from '../flowTypes';
+import ExitComp from './Exit';
+import TitleBarComp from './TitleBar';
+import { Node, UINode, Position, SwitchRouter, AnyAction } from '../flowTypes';
 import CounterComp from './Counter';
 import ActivityManager from '../services/ActivityManager';
 import ComponentMap from '../services/ComponentMap';
@@ -29,25 +29,25 @@ const shared = require('./shared.scss');
 /**
  * A point in the flow from which a drag is initiated
  */
-export interface IDragPoint {
+export interface DragPoint {
     exitUUID: string;
     nodeUUID: string;
     onResolved?(canceled: boolean): void;
 }
 
-export interface INodeState {
+export interface NodeState {
     dragging?: boolean;
-    createPosition?: IPosition;
+    createPosition?: Position;
 }
 
-export interface INodeProps {
-    node: INode;
-    ui: IUINode;
+export interface NodeProps {
+    node: Node;
+    ui: UINode;
     Activity: ActivityManager;
     translations: { [uuid: string]: any };
     iso: string;
     isMutable(): boolean;
-    baseLanguage: ILanguage;
+    baseLanguage: Language;
     ghost?: boolean;
 
     onNodeMounted: Function;
@@ -66,12 +66,12 @@ export interface INodeProps {
     onRemoveAction: Function;
     onMoveActionUp: Function;
 
-    typeConfigList: IType[];
-    operatorConfigList: IOperator[];
-    getTypeConfig: TGetTypeConfig;
-    getOperatorConfig: TGetOperatorConfig;
-    endpoints: IEndpoints;
-    languages: ILanguages;
+    typeConfigList: Type[];
+    operatorConfigList: Operator[];
+    getTypeConfig: GetTypeConfig;
+    getOperatorConfig: GetOperatorConfig;
+    endpoints: Endpoints;
+    languages: Languages;
     ComponentMap: ComponentMap;
 
     plumberDraggable: Function;
@@ -85,16 +85,22 @@ export interface INodeProps {
 /**
  * A single node in the rendered flow
  */
-export default class NodeC extends React.Component<INodeProps, INodeState> {
+export default class NodeComp extends React.Component<NodeProps, NodeState> {
     public ele: HTMLDivElement;
     private firstAction: React.ComponentClass<{}>;
     private clicking: boolean;
     private dragGroup: boolean;
 
-    constructor(props: INodeProps) {
+    constructor(props: NodeProps) {
         super(props);
+
         this.state = { dragging: false };
+
         this.onClick = this.onClick.bind(this);
+        this.onDragStart = this.onDragStart.bind(this);
+        this.onDrag = this.onDrag.bind(this);
+        this.onDragStop = this.onDragStop.bind(this);
+        this.onRemoval = this.onRemoval.bind(this);
     }
 
     onDragStart(event: any) {
@@ -126,7 +132,7 @@ export default class NodeC extends React.Component<INodeProps, INodeState> {
         });
     }
 
-    shouldComponentUpdate(nextProps: INodeProps, nextState: INodeState): boolean {
+    shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState): boolean {
         if (
             nextProps.ui.position.x != this.props.ui.position.x ||
             nextProps.ui.position.y != this.props.ui.position.y
@@ -140,14 +146,14 @@ export default class NodeC extends React.Component<INodeProps, INodeState> {
         this.props.plumberDraggable(
             this.props.node.uuid,
             (event: IDragEvent) => {
-                this.onDragStart.bind(this)(event);
+                this.onDragStart(event);
                 this.props.onNodeDragStart(this.props.node);
             },
             (event: IDragEvent) => {
-                this.onDrag.bind(this)(event);
+                this.onDrag(event);
             },
             (event: IDragEvent) => {
-                this.onDragStop.bind(this)(event);
+                this.onDragStop(event);
             },
             () => {
                 if (this.props.isMutable()) {
@@ -204,7 +210,7 @@ export default class NodeC extends React.Component<INodeProps, INodeState> {
         this.props.plumberRemove(this.props.node.uuid);
     }
 
-    componentDidUpdate(prevProps: INodeProps, prevState: INodeState) {
+    componentDidUpdate(prevProps: NodeProps, prevState: NodeState) {
         if (!this.props.ghost) {
             try {
                 this.props.plumberRecalculate(this.props.node.uuid);
@@ -227,7 +233,7 @@ export default class NodeC extends React.Component<INodeProps, INodeState> {
     }
 
     onClick(event?: any) {
-        // console.log("INode.onClick");
+        // console.log("Node.onClick");
         let action;
 
         var localizations: LocalizedObject[] = [];
@@ -236,7 +242,7 @@ export default class NodeC extends React.Component<INodeProps, INodeState> {
 
         if (!this.props.isMutable()) {
             if (this.props.node.router.type === 'switch') {
-                var router = this.props.node.router as ISwitchRouter;
+                var router = this.props.node.router as SwitchRouter;
                 for (let kase of router.cases) {
                     localizations.push(
                         Localization.translate(
@@ -306,7 +312,7 @@ export default class NodeC extends React.Component<INodeProps, INodeState> {
                 ref: (ele: any) => this.firstAction = ele
             };
 
-            this.props.node.actions.map((action: TAnyAction, idx: number) => {
+            this.props.node.actions.map((action: AnyAction, idx: number) => {
                 const actionConfig = this.props.getTypeConfig(action.type);
 
                 if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
@@ -321,7 +327,7 @@ export default class NodeC extends React.Component<INodeProps, INodeState> {
                         );
                     }
 
-                    const actionProps: IActionProps = {
+                    const actionProps: ActionProps = {
                         action,
                         dragging: this.state.dragging,
                         openEditor: this.props.openEditor,
@@ -399,7 +405,7 @@ export default class NodeC extends React.Component<INodeProps, INodeState> {
             var title = config.name;
 
             if (this.props.node.router.type === 'switch') {
-                let switchRouter = this.props.node.router as ISwitchRouter;
+                let switchRouter = this.props.node.router as SwitchRouter;
                 if (switchRouter.result_name) {
                     if (this.props.ui.type === 'expression') {
                         title = `Split by ${switchRouter.result_name}`;
@@ -412,10 +418,10 @@ export default class NodeC extends React.Component<INodeProps, INodeState> {
             if (!this.props.node.actions || this.props.node.actions.length == 0) {
                 header = (
                     <div {...events}>
-                        <TitleBar
+                        <TitleBarComp
                             className={shared[config.type]}
                             showRemoval={this.props.isMutable()}
-                            onRemoval={this.onRemoval.bind(this)}
+                            onRemoval={this.onRemoval}
                             title={title}
                         />
                     </div>
@@ -442,8 +448,7 @@ export default class NodeC extends React.Component<INodeProps, INodeState> {
             for (let exit of this.props.node.exits) {
                 exits = [
                     ...exits,
-                    <Exit
-                        exit={exit}
+                    <ExitComp                         exit={exit}
                         key={exit.uuid}
                         isMutable={this.props.isMutable}
                         onDisconnect={this.props.onDisconnectExit}

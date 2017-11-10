@@ -3,91 +3,91 @@ import * as axios from 'axios';
 import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
 import * as urljoin from 'url-join';
-import * as ReactDOM from 'react-dom';
-import { IFlowDetails, TGetFlow } from '../../services/External';
-import { IFlowDefinition, IGroup } from '../../flowTypes';
-import ActivityManager, { IActivity } from '../../services/ActivityManager';
-import LogEvent, { IEventProps } from './LogEvent';
+import { findDOMNode } from 'react-dom';
+import { FlowDetails, GetFlow } from '../../services/External';
+import { FlowDefinition, Group } from '../../flowTypes';
+import ActivityManager, { Activity } from '../../services/ActivityManager';
+import LogEvent, { EventProps } from './LogEvent';
 
 const styles = require('./Simulator.scss');
 
 const ACTIVE = 'A';
 
-interface IMessage {
+interface Message {
     text: string;
     inbound: boolean;
 }
 
-export interface ISimulatorProps {
-    definition: IFlowDefinition;
+export interface SimulatorProps {
+    definition: FlowDefinition;
     engineURL: string;
-    getFlow: TGetFlow;
-    showDefinition(definition: IFlowDefinition): void;
+    getFlow: GetFlow;
+    showDefinition(definition: FlowDefinition): void;
     plumberRepaint: Function;
     Activity: any;
 }
 
-interface ISimulatorState {
+interface SimulatorState {
     visible: boolean;
-    session?: ISession;
-    contact: IContact;
+    session?: Session;
+    contact: Contact;
     channel: string;
-    events: IEventProps[];
+    events: EventProps[];
     active: boolean;
 }
 
-interface IContact {
+interface Contact {
     uuid: string;
     urns: string[];
     fields: {};
-    groups: IGroup[];
+    groups: Group[];
 }
 
-interface IStep {
+interface Step {
     arrived_on: Date;
-    events: IEventProps[];
+    events: EventProps[];
     node: string;
     exit_uuid: string;
     node_uuid: string;
 }
 
-interface IWait {
+interface Wait {
     timeout: number;
     type: string;
 }
 
-interface IRun {
-    path: IStep[];
+interface Run {
+    path: Step[];
     flow_uuid: string;
     status: string;
-    wait?: IWait;
+    wait?: Wait;
 }
 
-interface IRunContext {
-    contact: IContact;
-    session: ISession;
-    events: IEventProps[];
+interface RunContext {
+    contact: Contact;
+    session: Session;
+    events: EventProps[];
 }
 
-interface ISession {
-    runs: IRun[];
-    events: IEventProps[];
+interface Session {
+    runs: Run[];
+    events: EventProps[];
     input?: any;
 }
 
 /**
  * Our dev console for simulating or testing expressions
  */
-class Simulator extends React.Component<ISimulatorProps, ISimulatorState> {
-    private debug: ISession[] = [];
-    private flows: IFlowDefinition[] = [];
+class Simulator extends React.Component<SimulatorProps, SimulatorState> {
+    private debug: Session[] = [];
+    private flows: FlowDefinition[] = [];
     private currentFlow: string;
     private inputBox: HTMLInputElement;
 
     // marks the bottom of our chat
     private bottom: any;
 
-    constructor(props: ISimulatorProps) {
+    constructor(props: SimulatorProps) {
         super(props);
         this.state = {
             active: false,
@@ -112,7 +112,7 @@ class Simulator extends React.Component<ISimulatorProps, ISimulatorState> {
             var activeFlow: string;
 
             for (let run of this.state.session.runs) {
-                var finalStep: IStep = null;
+                var finalStep: Step = null;
 
                 for (let step of run.path) {
                     if (lastExit) {
@@ -137,13 +137,13 @@ class Simulator extends React.Component<ISimulatorProps, ISimulatorState> {
                 }
             }
 
-            var activity: IActivity = { segments: paths, nodes: active };
+            var activity: Activity = { segments: paths, nodes: active };
 
             // console.log(JSON.stringify(activity, null, 1));
             this.props.Activity.setSimulation(activity);
 
             if (activeFlow && activeFlow != this.currentFlow) {
-                var flow = this.flows.find((flow: IFlowDefinition) => {
+                var flow = this.flows.find((flow: FlowDefinition) => {
                     return flow.uuid == activeFlow;
                 });
                 if (flow) {
@@ -156,7 +156,7 @@ class Simulator extends React.Component<ISimulatorProps, ISimulatorState> {
         }
     }
 
-    private updateRunContext(body: any, runContext: IRunContext) {
+    private updateRunContext(body: any, runContext: RunContext) {
         var events = update(this.state.events, { $push: runContext.events });
 
         var activeRuns = false;
@@ -203,7 +203,7 @@ class Simulator extends React.Component<ISimulatorProps, ISimulatorState> {
             () => {
                 this.props
                     .getFlow(this.props.definition.uuid, true)
-                    .then((details: IFlowDetails) => {
+                    .then((details: FlowDetails) => {
                         this.flows = [this.props.definition].concat(details.dependencies);
                         var body: any = {
                             flows: this.flows,
@@ -216,7 +216,7 @@ class Simulator extends React.Component<ISimulatorProps, ISimulatorState> {
                                 JSON.stringify(body, null, 2)
                             )
                             .then((response: axios.AxiosResponse) => {
-                                this.updateRunContext(body, response.data as IRunContext);
+                                this.updateRunContext(body, response.data as RunContext);
                             });
                     });
             }
@@ -235,7 +235,7 @@ class Simulator extends React.Component<ISimulatorProps, ISimulatorState> {
             return;
         }
 
-        this.props.getFlow(this.props.definition.uuid, true).then((details: IFlowDetails) => {
+        this.props.getFlow(this.props.definition.uuid, true).then((details: FlowDetails) => {
             this.flows = [this.props.definition].concat(details.dependencies);
             var body: any = {
                 flows: this.flows,
@@ -254,7 +254,7 @@ class Simulator extends React.Component<ISimulatorProps, ISimulatorState> {
             axios.default
                 .post(this.props.engineURL + 'flow/resume', JSON.stringify(body, null, 2))
                 .then((response: axios.AxiosResponse) => {
-                    this.updateRunContext(body, response.data as IRunContext);
+                    this.updateRunContext(body, response.data as RunContext);
                 })
                 .catch(error => {
                     var events = update(this.state.events, {
@@ -274,9 +274,9 @@ class Simulator extends React.Component<ISimulatorProps, ISimulatorState> {
         this.startFlow();
     }
 
-    componentDidUpdate(prevProps: ISimulatorProps) {
-        const node = ReactDOM.findDOMNode(this.bottom);
-        if (node != null) {
+    componentDidUpdate(prevProps: SimulatorProps) {
+        const node = findDOMNode(this.bottom);
+        if (node) {
             node.scrollIntoView(false);
         }
     }

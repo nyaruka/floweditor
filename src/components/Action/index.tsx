@@ -1,5 +1,5 @@
-import Action, { IActionProps } from './Action';
+import Action, { ActionProps } from './Action';
 
-export { IActionProps }
+export { ActionProps }
 
 export default Action;

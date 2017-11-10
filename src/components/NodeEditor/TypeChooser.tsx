@@ -1,30 +1,32 @@
 import * as React from 'react';
 import Select from 'react-select';
-import { IType } from '../../services/EditorConfig';
+import { Type } from '../../services/EditorConfig';
 
 const formStyles = require('./NodeEditor.scss');
 
-export interface ITypeChooserProps {
+export interface TypeChooserProps {
     className: string;
-    typeConfigList: IType[];
-    initialType: IType;
-    onChange(config: IType): void;
+    typeConfigList: Type[];
+    initialType: Type;
+    onChange(config: Type): void;
 }
 
-export interface ITypeChooserState {
-    config: IType;
+export interface TypeChooserState {
+    config: Type;
 }
 
-class TypeChooser extends React.PureComponent<ITypeChooserProps, ITypeChooserState> {
-    constructor(props: ITypeChooserProps) {
+export default class TypeChooser extends React.PureComponent<TypeChooserProps, TypeChooserState> {
+    constructor(props: TypeChooserProps) {
         super(props);
 
         this.state = {
             config: this.props.initialType
         };
+
+        this.onChangeType = this.onChangeType.bind(this);
     }
 
-    private onChangeType(config: IType): void {
+    private onChangeType(config: Type): void {
         this.setState(
             {
                 config
@@ -45,7 +47,7 @@ class TypeChooser extends React.PureComponent<ITypeChooserProps, ITypeChooserSta
                 <div>
                     <Select
                         value={this.state.config.type}
-                        onChange={this.onChangeType.bind(this)}
+                        onChange={this.onChangeType}
                         valueKey="type"
                         searchable={false}
                         clearable={false}
@@ -56,6 +58,4 @@ class TypeChooser extends React.PureComponent<ITypeChooserProps, ITypeChooserSta
             </div>
         );
     }
-}
-
-export default TypeChooser;
+};

@@ -1,147 +1,147 @@
-export interface ILocalizationMap {
+export interface LocalizationMap {
     [lang: string]: {
         [uuid: string]: any;
     };
 }
 
-export interface IFlowDefinition {
-    localization: ILocalizationMap;
+export interface FlowDefinition {
+    localization: LocalizationMap;
     language: string;
     name: string;
-    nodes: INode[];
+    nodes: Node[];
     uuid: string;
-    _ui: IUIMetaData;
+    _ui: UIMetaData;
 }
 
-export interface INode {
+export interface Node {
     uuid: string;
-    exits: IExit[];
+    exits: Exit[];
 
-    router?: IRouter;
-    actions?: IAction[];
+    router?: Router;
+    actions?: Action[];
     wait?: any;
 }
 
-export interface IExit {
+export interface Exit {
     uuid: string;
     name?: string;
     destination_node_uuid?: string;
 }
 
-export interface IRouter {
+export interface Router {
     type: string;
     result_name?: string;
 }
 
-export interface ICase {
+export interface Case {
     uuid: string;
     type: string;
     exit_uuid: string;
     arguments?: string[];
 }
 
-export interface ISwitchRouter extends IRouter {
-    cases: ICase[];
+export interface SwitchRouter extends Router {
+    cases: Case[];
     operand: string;
     default_exit_uuid: string;
 }
 
-export interface IGroup {
+export interface Group {
     uuid: string;
     name: string;
 }
 
-export interface IAction {
+export interface Action {
     type: string;
     uuid: string;
 }
 
-export interface IChangeGroup extends IAction {
-    groups: IGroup[];
+export interface ChangeGroup extends Action {
+    groups: Group[];
 }
-export interface ISaveToContact extends IAction {
+export interface SaveToContact extends Action {
     field_uuid: string;
     field_name: string;
     value: string;
     created_on?: Date;
 }
 
-export interface IUpdateContact extends ISaveToContact {
+export interface IUpdateContact extends SaveToContact {
     field_name: string;
     value: string;
 }
 
-export interface IReply extends IAction {
+export interface Reply extends Action {
     text: string;
     all_urns?: boolean;
 }
 
-export interface ISetLanguage extends IAction {
+export interface SetLanguage extends Action {
     language: string;
 }
 
-export interface ISendEmail extends IAction {
+export interface SendEmail extends Action {
     subject: string;
     body: string;
     emails: string[];
 }
 
-export interface ISaveFlowResult extends IAction {
+export interface SaveFlowResult extends Action {
     result_name: string;
     value: string;
     category?: string;
 }
 
-export interface IHeaders {
+export interface Headers {
     [name: string]: string;
 }
 
-export interface ICallWebhook extends IAction {
+export interface CallWebhook extends Action {
     url: string;
     method: string;
     body?: string;
-    headers?: IHeaders;
+    headers?: Headers;
 }
 
-export interface IStartFlow extends IAction {
+export interface StartFlow extends Action {
     flow_name: string;
     flow_uuid: string;
 }
 
-export interface IUIMetaData {
-    nodes: { [key: string]: IUINode };
+export interface UIMetaData {
+    nodes: { [key: string]: UINode };
     languages: { [iso: string]: string };
 }
 
-export interface IPosition {
+export interface Position {
     x: number;
     y: number;
 }
 
-export interface IDimensions {
+export interface Dimensions {
     width: number;
     height: number;
 }
 
-export interface IUINode {
-    position: IPosition;
-    dimensions?: IDimensions;
+export interface UINode {
+    position: Position;
+    dimensions?: Dimensions;
 
     // ui type, used for split by expression, contact field, etc
     type?: string;
 }
 
-export interface IUIMetaData {
-    nodes: { [key: string]: IUINode };
+export interface UIMetaData {
+    nodes: { [key: string]: UINode };
 }
 
-export type TAnyAction =
-    | IAction
-    | IChangeGroup
-    | ISaveToContact
-    | ISaveFlowResult
-    | IReply
-    | ISetLanguage
-    | ISendEmail
-    | ICallWebhook
-    | IStartFlow;
+export type AnyAction =
+    | Action
+    | ChangeGroup
+    | SaveToContact
+    | SaveFlowResult
+    | Reply
+    | SetLanguage
+    | SendEmail
+    | CallWebhook
+    | StartFlow;

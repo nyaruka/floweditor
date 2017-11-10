@@ -1,4 +1,4 @@
 import * as React from 'react';
-import { ISendEmail } from '../../../flowTypes';
+import { SendEmail } from '../../../flowTypes';
 
-export default ({ subject }: ISendEmail) => <div>{subject}</div>;
+export default ({ subject }: SendEmail) => <div>{subject}</div>;

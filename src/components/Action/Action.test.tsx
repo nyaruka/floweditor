@@ -1,15 +1,14 @@
 import * as React from 'react';
 import '../../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { IReply } from '../../flowTypes';
-import Action, { IActionProps } from './Action';
+import { Reply } from '../../flowTypes';
+import ActionComp, { ActionProps } from './Action';
 import { getSpecWrapper } from '../../helpers/utils';
 import EditorConfig from '../../services/EditorConfig';
 import CompMap from '../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../services/Localization';
 import { languages } from '../../flowEditorConfig';
-import TitleBar from '../TitleBar';
-import Reply from '../actions/Reply/Reply';
+import ReplyComp from '../actions/Reply/Reply';
 
 const definition = {
     name: 'Lots of Action',
@@ -82,7 +81,7 @@ const Localization: LocalizedObject = LocalizationService.translate(
     languages
 );
 
-const actionProps: IActionProps = {
+const actionProps: ActionProps = {
     typeConfigList,
     operatorConfigList,
     getTypeConfig,
@@ -104,9 +103,9 @@ const actionProps: IActionProps = {
 };
 
 const ReplyActionShallow = shallow(
-    <Action {...actionProps}>
-        {(actionDivProps: IReply) => <Reply {...actionDivProps} />}
-    </Action>
+    <ActionComp {...actionProps}>
+        {(actionDivProps: Reply) => <ReplyComp {...actionDivProps} />}
+    </ActionComp>
 );
 
 describe('Component: Reply', () => {

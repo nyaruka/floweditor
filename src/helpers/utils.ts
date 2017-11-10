@@ -1,6 +1,6 @@
 import { ComponentClass, SFC, ReactElement } from 'react';
 import { ShallowWrapper, ReactWrapper } from 'enzyme';
-import { IFlowDefinition } from '../flowTypes';
+import { FlowDefinition } from '../flowTypes';
 
 const request = require('sync-request');
 
@@ -8,7 +8,7 @@ const XRegExp = require('xregexp');
 
 const SNAKED_CHARS = XRegExp('[^\\p{Letter}\\d]+');
 
-interface IBoolMap {
+interface BoolMap {
     [key: string]: boolean;
 }
 
@@ -17,8 +17,8 @@ interface IBoolMap {
  * @param {string[]} array - an array of strings, e.g. contact fields
  * @returns {object} A map of each string
  */
-export function toBoolMap(array: string[]): IBoolMap {
-    return array.reduce((map: IBoolMap, item: string) => {
+export function toBoolMap(array: string[]): BoolMap {
+    return array.reduce((map: BoolMap, item: string) => {
         map[item] = true;
         return map;
     }, {});
@@ -52,16 +52,16 @@ export function getDisplayName(HOCName: string, Component: ComponentClass | SFC)
     return `${HOCName}(${ComponentDisplayName})`;
 }
 
-function getFlow(name: string): IFlowDefinition {
+function getFlow(name: string): FlowDefinition {
     const definition = request('GET', 'base/test_flows/' + name + '.json').getBody();
-    return JSON.parse(definition) as IFlowDefinition;
+    return JSON.parse(definition) as FlowDefinition;
 }
 
-export function getFavorites(): IFlowDefinition {
+export function getFavorites(): FlowDefinition {
     return getFlow('favorites');
 }
 
-export function getTest(): IFlowDefinition {
+export function getTest(): FlowDefinition {
     return getFlow('a4f64f1b-85bc-477e-b706-de313a022979');
 }
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { IReply } from '../../../flowTypes';
+import { Reply } from '../../../flowTypes';
 
-export default ({ text }: IReply) => {
+export default ({ text }: Reply) => {
     if (text) {
         return <div>{text}</div>;
     }

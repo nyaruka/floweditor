@@ -1,26 +1,26 @@
 import * as React from 'react';
 import Modal, { IButtonSet } from '../Modal';
-import { INode, IAction, IUINode } from '../../flowTypes';
+import { Action, Node, UINode } from '../../flowTypes';
 import {
-    IType,
-    IOperator,
+    Type,
+    Operator,
     EMode,
-    TGetTypeConfig,
-    TGetOperatorConfig,
-    IEndpoints
+    GetTypeConfig,
+    GetOperatorConfig,
+    Endpoints
 } from '../../services/EditorConfig';
 import ComponentMap from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
-import NodeEditorForm, { INodeEditorFormProps } from './NodeEditorForm';
+import NodeEditorForm, { NodeEditorFormProps } from './NodeEditorForm';
 import Widget from './Widget';
 
 const formStyles = require('./NodeEditor.scss');
 const shared = require('../shared.scss');
 
-export interface INodeEditorProps {
-    node: INode;
-    action?: IAction;
-    nodeUI?: IUINode;
+export interface NodeEditorProps {
+    node: Node;
+    action?: Action;
+    nodeUI?: UINode;
     actionsOnly?: boolean;
     localizations?: LocalizedObject[];
 
@@ -31,43 +31,30 @@ export interface INodeEditorProps {
     // actions to perform when we are closed
     onClose?(canceled: boolean): void;
 
-    typeConfigList: IType[];
-    operatorConfigList: IOperator[];
-    getTypeConfig: TGetTypeConfig;
-    getOperatorConfig: TGetOperatorConfig;
-    endpoints: IEndpoints;
+    typeConfigList: Type[];
+    operatorConfigList: Operator[];
+    getTypeConfig: GetTypeConfig;
+    getOperatorConfig: GetOperatorConfig;
+    endpoints: Endpoints;
     ComponentMap: ComponentMap;
 }
 
-export interface INodeEditorState {
-    config: IType;
+export interface NodeEditorState {
+    config: Type;
     show: boolean;
     initialButtons: IButtonSet;
     temporaryButtons?: IButtonSet;
 }
 
-export default class NodeEditor extends React.PureComponent<INodeEditorProps, INodeEditorState> {
+export default class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorState> {
     private modal: Modal;
     private form: any;
     private advanced: any;
     private widgets: { [name: string]: Widget } = {};
     private advancedWidgets: { [name: string]: boolean } = {};
 
-    constructor(props: INodeEditorProps) {
+    constructor(props: NodeEditorProps) {
         super(props);
-
-        this.onOpen = this.onOpen.bind(this);
-        this.onSave = this.onSave.bind(this);
-        this.onCancel = this.onCancel.bind(this);
-        this.onTypeChange = this.onTypeChange.bind(this);
-        this.onKeyPress = this.onKeyPress.bind(this);
-
-        this.onBindWidget = this.onBindWidget.bind(this);
-        this.onBindAdvancedWidget = this.onBindAdvancedWidget.bind(this);
-
-        this.toggleAdvanced = this.toggleAdvanced.bind(this);
-        this.triggerFormUpdate = this.triggerFormUpdate.bind(this);
-        this.removeWidget = this.removeWidget.bind(this);
 
         // determine our initial config
         const type = this.determineConfig(this.props);
@@ -76,13 +63,22 @@ export default class NodeEditor extends React.PureComponent<INodeEditorProps, IN
             show: false,
             config: this.props.getTypeConfig(type),
             initialButtons: {
-                primary: { name: 'Save', onClick: this.onSave },
-                secondary: { name: 'Cancel', onClick: this.onCancel }
+                primary: { name: 'Save', onClick: this.onSave.bind(this) },
+                secondary: { name: 'Cancel', onClick: this.onCancel.bind(this) }
             }
         };
+
+        this.onOpen = this.onOpen.bind(this);
+        this.onTypeChange = this.onTypeChange.bind(this);
+        this.onKeyPress = this.onKeyPress.bind(this);
+        this.onBindWidget = this.onBindWidget.bind(this);
+        this.onBindAdvancedWidget = this.onBindAdvancedWidget.bind(this);
+        this.toggleAdvanced = this.toggleAdvanced.bind(this);
+        this.triggerFormUpdate = this.triggerFormUpdate.bind(this);
+        this.removeWidget = this.removeWidget.bind(this);
     }
 
-    private determineConfig(props: INodeEditorProps) {
+    private determineConfig(props: NodeEditorProps) {
         if (props.action) {
             return props.action.type;
         } else {
@@ -122,11 +118,12 @@ export default class NodeEditor extends React.PureComponent<INodeEditorProps, IN
     }
 
     public submit(): boolean {
-        var invalid: Widget[] = [];
-        for (let key in this.widgets) {
+        let invalid: Widget[] = [];
+
+        for (const key in this.widgets) {
             let widget = this.widgets[key];
             if (!widget.validate()) {
-                invalid.push(widget);
+                invalid = [...invalid, widget];
             }
         }
 
@@ -135,7 +132,7 @@ export default class NodeEditor extends React.PureComponent<INodeEditorProps, IN
             this.form.onValid(this.widgets);
             return true;
         } else {
-            var frontError = false;
+            let frontError = false;
             for (let widget of invalid) {
                 if (!this.advancedWidgets[widget.props.name]) {
                     frontError = true;
@@ -156,7 +153,8 @@ export default class NodeEditor extends React.PureComponent<INodeEditorProps, IN
     }
 
     getType(): string {
-        var type: string;
+        let type: string;
+
         if (this.props.action) {
             type = this.props.action.type;
         } else {
@@ -222,7 +220,7 @@ export default class NodeEditor extends React.PureComponent<INodeEditorProps, IN
         }
     }
 
-    private onTypeChange(config: IType) {
+    private onTypeChange(config: Type) {
         this.widgets = {};
         this.advancedWidgets = {};
 
@@ -290,11 +288,11 @@ export default class NodeEditor extends React.PureComponent<INodeEditorProps, IN
                         this.props.onUpdateLocalizations(language, changes);
                     },
 
-                    updateAction: (action: IAction) => {
+                    updateAction: (action: Action) => {
                         this.props.onUpdateAction(this.props.node, action);
                     },
 
-                    updateRouter: (node: INode, type: string, previousAction?: IAction) => {
+                    updateRouter: (node: Node, type: string, previousAction?: Action) => {
                         this.props.onUpdateRouter(node, type, previousAction);
                     }
                 };
@@ -364,4 +362,4 @@ export default class NodeEditor extends React.PureComponent<INodeEditorProps, IN
             </Modal>
         );
     }
-}
+};

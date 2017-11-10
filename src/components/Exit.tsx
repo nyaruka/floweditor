@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IExit } from '../flowTypes';
+import { Exit } from '../flowTypes';
 import { addCommas } from '../helpers/utils';
 import Counter from './Counter';
 import ActivityManager from '../services/ActivityManager';
@@ -7,8 +7,8 @@ import { LocalizedObject } from '../services/Localization';
 
 const styles = require('./Exit.scss');
 
-export interface IExitProps {
-    exit: IExit;
+export interface ExitProps {
+    exit: Exit;
     onDisconnect(exitUUID: string): void;
 
     Localization: LocalizedObject;
@@ -21,15 +21,15 @@ export interface IExitProps {
     plumberConnectExit: Function;
 }
 
-export interface IExitState {
+export interface ExitState {
     confirmDelete: boolean;
 }
 
-class ExitComp extends React.PureComponent<IExitProps, IExitState> {
+export default class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     private timeout: any;
     private clicking: boolean;
 
-    constructor(props: IExitProps) {
+    constructor(props: ExitProps) {
         super(props);
 
         this.state = {
@@ -76,7 +76,7 @@ class ExitComp extends React.PureComponent<IExitProps, IExitState> {
         }
     }
 
-    componentDidUpdate(prevProps: IExitProps) {
+    componentDidUpdate(prevProps: ExitProps) {
         this.connect();
         if (prevProps.exit.destination_node_uuid && !this.props.exit.destination_node_uuid) {
             if (this.state.confirmDelete) {
@@ -143,7 +143,7 @@ class ExitComp extends React.PureComponent<IExitProps, IExitState> {
         var exit = this.props.exit;
         if (this.props.Localization) {
             classes.push(styles.translating);
-            exit = this.props.Localization.getObject() as IExit;
+            exit = this.props.Localization.getObject() as Exit;
             if (!('name' in this.props.Localization.localizedKeys)) {
                 classes.push(styles.missing_localization);
             }
@@ -170,6 +170,4 @@ class ExitComp extends React.PureComponent<IExitProps, IExitState> {
             </div>
         );
     }
-}
-
-export default ExitComp;
+};

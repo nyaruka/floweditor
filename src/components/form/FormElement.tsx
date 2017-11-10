@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-var styles = require('./FormElement.scss');
+const styles = require('./FormElement.scss');
 
-export interface IFormElementProps {
+export interface FormElementProps {
     name: string;
     helpText?: string;
     errors?: string[];
@@ -13,43 +13,48 @@ export interface IFormElementProps {
     border?: boolean;
 }
 
-export class FormElement extends React.PureComponent<IFormElementProps, {}> {
+export class FormElement extends React.PureComponent<FormElementProps, {}> {
     render() {
-        var errors: JSX.Element[] = [];
+        let errors: JSX.Element[] = [];
         if (this.props.errors) {
             this.props.errors.map(error => {
-                errors.push(
+                errors = [
+                    ...errors,
                     <div key={Math.random()} className={styles.error}>
                         {error}
                     </div>
-                );
+                ];
             });
         }
 
-        var errorDisplay = null;
+        let errorDisplay: JSX.Element = null;
+
         if (errors.length > 0) {
             errorDisplay = <div className={styles.errors}>{errors}</div>;
         }
 
-        var name = null;
+        let name: JSX.Element = null;
+
         if (this.props.showLabel && this.props.name) {
             name = <div className={styles.label}>{this.props.name}</div>;
         }
 
-        var helpText =
-            this.props.helpText && !errorDisplay ? (
-                <div className={styles.help_text}>{this.props.helpText}</div>
-            ) : (
-                ''
-            );
+        let helpText: JSX.Element | string;
 
-        var classes = [styles.group, styles.ele];
+        if (this.props.helpText && !errorDisplay) {
+            helpText =  <div className={styles.help_text}>{this.props.helpText}</div>;
+        } else {
+            helpText = '';
+        }
+
+        let classes = [styles.group, styles.ele];
+
         if (this.props.className) {
-            classes.push(this.props.className);
+            classes = [...classes, this.props.className];
         }
 
         if (this.props.border) {
-            classes.push(styles.border);
+            classes = [...classes, this.props.className];
         }
 
         return (

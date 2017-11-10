@@ -1,18 +1,18 @@
 import * as React from 'react';
-import { IChangeGroup } from '../../../flowTypes';
-import { IType, IEndpoints } from '../../../services/EditorConfig';
+import { ChangeGroup } from '../../../flowTypes';
+import { Type, Endpoints } from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
 import { GroupElement } from '../../form/GroupElement';
 import Widget from '../../NodeEditor/Widget';
 
-export interface IChangeGroupFormProps {
+export interface ChangeGroupFormProps {
     validationCallback: Function;
     getActionUUID: Function;
-    config: IType;
-    updateAction(action: IChangeGroup): void;
-    getInitialAction(): IChangeGroup;
+    config: Type;
+    updateAction(action: ChangeGroup): void;
+    getInitialAction(): ChangeGroup;
     onBindWidget(ref: any): void;
-    endpoints: IEndpoints;
+    endpoints: Endpoints;
     ComponentMap: ComponentMap;
 }
 
@@ -25,13 +25,13 @@ export default ({
     onBindWidget,
     endpoints,
     ComponentMap
-}: IChangeGroupFormProps): JSX.Element => {
+}: ChangeGroupFormProps): JSX.Element => {
     validationCallback((widgets: { [name: string]: Widget }) => {
         const groupEle = widgets['Group'] as any;
         const { state: { groups: [group] } } = groupEle;
 
         if (group) {
-            const newAction: IChangeGroup = {
+            const newAction: ChangeGroup = {
                 uuid: getActionUUID(),
                 type: config.type,
                 groups: [

@@ -1,29 +1,27 @@
 import * as React from 'react';
 import axios, { AxiosResponse } from 'axios';
 import * as update from 'immutability-helper';
-import { IEndpoints } from '../services/EditorConfig';
-import { IFlowDefinition, IStartFlow } from '../flowTypes';
-import { IActivity } from '../services/ActivityManager';
-import __flow_editor_config__ from '../flowEditorConfig';
+import { Endpoints } from '../services/EditorConfig';
+import { FlowDefinition, StartFlow } from '../flowTypes';
+import { Activity } from '../services/ActivityManager';
+import { endpoints } from '../flowEditorConfig';
 
-export interface IFlowDetails {
+export interface FlowDetails {
     uuid: string;
     name: string;
-    definition: IFlowDefinition;
-    dependencies: IFlowDefinition[];
+    definition: FlowDefinition;
+    dependencies: FlowDefinition[];
 }
 
 // prettier-ignore
-export type TGetActivity = (flowUUID: string, activityEndpoint?: string, headers?: {}) => Promise<IActivity>;
+export type GetActivity = (flowUUID: string, activityEndpoint?: string, headers?: {}) => Promise<Activity>;
 // prettier-ignore
-export type TGetFlows = (flowsEndpoint?: string, headers?: {}, flowName?: string) => Promise<IFlowDetails[]>;
+export type GetFlows = (flowsEndpoint?: string, headers?: {}, flowName?: string) => Promise<FlowDetails[]>;
 // prettier-ignore
-export type TGetFlow = (uuidToGet: string, dependencies?: boolean, flowsEndpoint?: string, headers?: {}) => Promise<IFlowDetails>;
-export type TSaveFlow = (definition: IFlowDefinition, flowsEndpoint?: string, headers?: {}) => void;
+export type GetFlow = (uuidToGet: string, dependencies?: boolean, flowsEndpoint?: string, headers?: {}) => Promise<FlowDetails>;
+export type SaveFlow = (definition: FlowDefinition, flowsEndpoint?: string, headers?: {}) => void;
 
-const {
-    endpoints: { activity: ACTIVITY_ENDPOINT, flows: FLOWS_ENDPOINT }
-}: IFlowEditorConfig = __flow_editor_config__;
+const { activity: ACTIVITY_ENDPOINT, flows: FLOWS_ENDPOINT }: Endpoints = endpoints;
 
 export { ACTIVITY_ENDPOINT };
 export { FLOWS_ENDPOINT };
@@ -53,11 +51,11 @@ class External {
         flowUUID: string,
         activityEndpoint: string = this.activityEndpoint,
         headers = {}
-    ): Promise<IActivity> {
-        return new Promise<IActivity>((resolve, reject) =>
+    ): Promise<Activity> {
+        return new Promise<Activity>((resolve, reject) =>
             axios
                 .get(`${activityEndpoint}?flow=${flowUUID}`, { headers })
-                .then((response: AxiosResponse) => resolve(response.data as IActivity))
+                .then((response: AxiosResponse) => resolve(response.data as Activity))
                 .catch(error => reject(error))
         );
     }
@@ -72,15 +70,15 @@ class External {
         flowsEndpoint: string = this.flowsEndpoint,
         headers = {},
         flowName?: string
-    ): Promise<IFlowDetails[]> {
-        return new Promise<IFlowDetails[]>((resolve, reject) =>
+    ): Promise<FlowDetails[]> {
+        return new Promise<FlowDetails[]>((resolve, reject) =>
             axios
                 .get(flowsEndpoint, { headers })
                 .then((response: AxiosResponse) => {
-                    const results: IFlowDetails[] = response.data.results;
+                    const results: FlowDetails[] = response.data.results;
                     if (flowName) {
-                        const filteredResults: IFlowDetails[] = results.filter(
-                            (result: IFlowDetails) => result.name === flowName
+                        const filteredResults: FlowDetails[] = results.filter(
+                            (result: FlowDetails) => result.name === flowName
                         );
                         resolve(filteredResults);
                     } else {
@@ -103,14 +101,14 @@ class External {
         dependencies = false,
         flowsEndpoint: string = this.flowsEndpoint,
         headers = {}
-    ): Promise<IFlowDetails> {
-        return new Promise<IFlowDetails>((resolve, reject) =>
+    ): Promise<FlowDetails> {
+        return new Promise<FlowDetails>((resolve, reject) =>
             axios
                 .get(`${flowsEndpoint}?uuid=${uuidToGet}&dependencies=${dependencies}`, headers)
                 .then((response: AxiosResponse) => {
                     const { data: { results: flows } } = response;
-                    const details: IFlowDetails = flows.reduce(
-                        (acc: IFlowDetails, val: IFlowDetails) => {
+                    const details: FlowDetails = flows.reduce(
+                        (acc: FlowDetails, val: FlowDetails) => {
                             if (!val.definition.uuid) {
                                 val = update(val, {
                                     definition: {
@@ -137,8 +135,8 @@ class External {
                         {
                             uuid: uuidToGet,
                             name: null,
-                            definition: null as IFlowDefinition,
-                            dependencies: [] as IFlowDefinition[]
+                            definition: null as FlowDefinition,
+                            dependencies: [] as FlowDefinition[]
                         }
                     );
                     resolve(details);
@@ -148,12 +146,12 @@ class External {
     }
 
     public saveFlow(
-        definition: IFlowDefinition,
+        definition: FlowDefinition,
         flowsEndpoint: string = this.flowsEndpoint,
         headers = {}
     ) {
         const postData = { ...definition };
-        return new Promise<IFlowDefinition>((resolve, reject) =>
+        return new Promise<FlowDefinition>((resolve, reject) =>
             axios
                 .post(`${flowsEndpoint}?uuid=${definition.uuid}`, postData, headers)
                 .then((response: AxiosResponse) => resolve(response.data.results))

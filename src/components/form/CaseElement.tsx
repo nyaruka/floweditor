@@ -2,52 +2,54 @@ import * as React from 'react';
 import Select from 'react-select';
 import ComponentMap from '../../services/ComponentMap';
 import { FormElement } from './FormElement';
-import { FormWidget, IFormValueState } from './FormWidget';
-import { TGetOperatorConfig, IOperator } from '../../services/EditorConfig';
-import { ICaseProps } from '../routers/SwitchRouter';
-import { TextInputElement, IHTMLTextElement } from './TextInputElement';
+import { FormWidget, FormValueState } from './FormWidget';
+import { GetOperatorConfig, Operator } from '../../services/EditorConfig';
+import { CaseProps } from '../routers/SwitchRouter';
+import TextInputElement, { HTMLTextElement } from './TextInputElement';
 
 const forms = require('./FormElement.scss');
 const styles = require('./CaseElement.scss');
 
-export interface ICaseElementProps extends ICaseProps {
+export interface CaseElementProps extends CaseProps {
     name: string; // satisfy form widget props
-    operatorConfigList: IOperator[];
-    getOperatorConfig: TGetOperatorConfig;
+    operatorConfigList: Operator[];
+    getOperatorConfig: GetOperatorConfig;
     onRemove(c: CaseElement): void;
     ComponentMap: ComponentMap;
 }
 
-interface ICaseElementState extends IFormValueState {
+interface CaseElementState extends FormValueState {
     operator: string;
     arguments: string[];
     exitName: string;
 }
 
-export class CaseElement extends FormWidget<ICaseElementProps, ICaseElementState> {
+export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> {
     private category: TextInputElement;
-    private operatorConfig: IOperator;
+    private operatorConfig: Operator;
 
-    constructor(props: ICaseElementProps) {
+    constructor(props: CaseElementProps) {
         super(props);
 
-        var exitName = '';
-        if (this.props.exitName) {
-            exitName = this.props.exitName;
-        }
-
-        this.hasArguments = this.hasArguments.bind(this);
-        this.operatorConfig = this.props.getOperatorConfig(props.kase.type);
         this.state = {
             errors: [],
             operator: props.kase.type,
             arguments: props.kase.arguments,
-            exitName: exitName
+            exitName: this.props.exitName ? '' : this.props.exitName
         };
+
+        this.operatorConfig = this.props.getOperatorConfig(props.kase.type);
+
+        this.hasArguments = this.hasArguments.bind(this);
+        this.onChangeArguments = this.onChangeArguments.bind(this);
+        this.onChangeOperator = this.onChangeOperator.bind(this);
+        this.onChangeExitName = this.onChangeExitName.bind(this);
+        this.onRemove = this.onRemove.bind(this);
     }
 
     private generateExitNameFromArguments(args: string[]): string {
-        var prefix = '';
+        let prefix = '';
+
         if (this.state.operator.indexOf('_lt') > -1) {
             if (this.state.operator.indexOf('date') > -1) {
                 prefix = 'Before ';
@@ -71,20 +73,22 @@ export class CaseElement extends FormWidget<ICaseElementProps, ICaseElementState
         }
 
         if (args && args.length > 0) {
-            var words = args[0].match(/\w+/g);
+            const words = args[0].match(/\w+/g);
+
             if (words && words.length > 0) {
-                var firstWord = words[0];
+                const [firstWord] = words;
+
                 return prefix + firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
             }
             return prefix + args[0].charAt(0).toUpperCase() + args[0].slice(1);
         }
-
         return null;
     }
 
     private getExitName(args: string[] = null) {
-        var exitName = this.state.exitName;
-        if (args == null) {
+        let exitName = this.state.exitName;
+
+        if (args === null) {
             // if the category name is specified for our operator, use that
             if (this.operatorConfig.categoryName) {
                 exitName = this.operatorConfig.categoryName;
@@ -100,8 +104,9 @@ export class CaseElement extends FormWidget<ICaseElementProps, ICaseElementState
         return exitName;
     }
 
-    private onChangeOperator(val: IOperator) {
+    private onChangeOperator(val: Operator) {
         this.operatorConfig = val;
+
         this.setState(
             {
                 operator: val.type,
@@ -113,13 +118,14 @@ export class CaseElement extends FormWidget<ICaseElementProps, ICaseElementState
         );
     }
 
-    private onChangeArguments(val: React.ChangeEvent<IHTMLTextElement>) {
-        var args = [val.target.value];
-        var exitName = this.getExitName(args);
+    private onChangeArguments(val: React.ChangeEvent<HTMLTextElement>) {
+        const args = [val.target.value];
+        const exitName = this.getExitName(args);
+
         this.setState(
             {
                 arguments: args,
-                exitName: exitName
+                exitName
             },
             () => {
                 this.props.onChanged(this);
@@ -129,7 +135,7 @@ export class CaseElement extends FormWidget<ICaseElementProps, ICaseElementState
         this.category.setState({ value: exitName });
     }
 
-    private onChangeExitName(val: React.ChangeEvent<IHTMLTextElement>) {
+    private onChangeExitName(val: React.ChangeEvent<HTMLTextElement>) {
         this.setState(
             {
                 exitName: val.target.value
@@ -153,31 +159,31 @@ export class CaseElement extends FormWidget<ICaseElementProps, ICaseElementState
     }
 
     validate(): boolean {
-        var errors: string[] = [];
-        if (this.operatorConfig.operands == 0) {
-            if (this.state.exitName.trim().length == 0) {
-                errors.push(
-                    'A category name is required when using "' +
-                        this.operatorConfig.verboseName +
-                        '"'
-                );
+        let errors: string[] = [];
+
+        if (this.operatorConfig.operands === 0) {
+            if (this.state.exitName.trim().length === 0) {
+                const { verboseName } = this.operatorConfig;
+                errors = [
+                    ...errors,
+                    `A category name is required when using "${verboseName}"`
+                ];
             }
         } else {
             // check our argument list
             // if we have arguments, we need an exit name
             if (this.hasArguments()) {
                 if (!this.category || !this.category.state.value) {
-                    errors.push('A category name is required.');
+                    errors = [...errors, 'A category name is required'];
                 }
             }
 
             // if we have an exit name we need arguments
             if (this.state.exitName) {
                 if (!this.hasArguments()) {
-                    var operator = this.props.getOperatorConfig(this.state.operator);
-                    errors.push(
-                        'When using "' + operator.verboseName + '", an argument is required.'
-                    );
+                    const operator = this.props.getOperatorConfig(this.state.operator);
+                    const { verboseName } = operator;
+                    errors = [...errors, `When using "${verboseName}", an argument is required.`];
                 }
             }
 
@@ -186,7 +192,7 @@ export class CaseElement extends FormWidget<ICaseElementProps, ICaseElementState
                 if (this.state.operator.indexOf('number') > -1) {
                     if (this.state.arguments[0]) {
                         if (isNaN(parseInt(this.state.arguments[0]))) {
-                            errors.push('Enter a number when using numeric rules.');
+                            errors = [...errors, 'Enter a number when using numeric rules.'];
                         }
                     }
                 }
@@ -194,14 +200,14 @@ export class CaseElement extends FormWidget<ICaseElementProps, ICaseElementState
                 if (this.state.operator.indexOf('date') > -1) {
                     if (this.state.arguments[0]) {
                         if (isNaN(Date.parse(this.state.arguments[0]))) {
-                            errors.push('Enter a date when using date rules (e.g. 1/1/2017).');
+                            errors = [...errors, 'Enter a date when using date rules (e.g. 1/1/2017).'];
                         }
                     }
                 }
             }
         }
 
-        if (this.state.errors.length == 0 && errors.length == 0) {
+        if (this.state.errors.length === 0 && errors.length === 0) {
             return true;
         }
 
@@ -210,20 +216,22 @@ export class CaseElement extends FormWidget<ICaseElementProps, ICaseElementState
     }
 
     render() {
-        var classes = [styles.case];
+        let classes = [styles.case];
+
         if (this.state.errors.length > 0) {
-            classes.push(forms.invalid);
+            classes = [...classes, forms.invalid]
         }
 
-        var value = this.state.arguments ? this.state.arguments[0] : '';
+        const value = this.state.arguments ? this.state.arguments[0] : '';
 
-        var args: JSX.Element = null;
-        if (this.operatorConfig.operands == 1) {
+        let args: JSX.Element = null;
+
+        if (this.operatorConfig.operands === 1) {
             args = (
                 <TextInputElement
                     className={styles.input}
                     name="arguments"
-                    onChange={this.onChangeArguments.bind(this)}
+                    onChange={this.onChangeArguments}
                     value={value}
                     autocomplete
                     ComponentMap={this.props.ComponentMap}
@@ -235,7 +243,7 @@ export class CaseElement extends FormWidget<ICaseElementProps, ICaseElementState
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors} className={styles.group}>
-                <div className={styles.case + ' select-medium'}>
+                <div className={`${styles.case} select-medium`}>
                     <div className={styles.choice}>
                         <Select
                             name="operator"
@@ -246,7 +254,7 @@ export class CaseElement extends FormWidget<ICaseElementProps, ICaseElementState
                             labelKey="verboseName"
                             optionClassName="operator"
                             searchable={false}
-                            onChange={this.onChangeOperator.bind(this)}
+                            onChange={this.onChangeOperator}
                         />
                     </div>
                     <div className={styles.operand}>{args}</div>
@@ -256,12 +264,12 @@ export class CaseElement extends FormWidget<ICaseElementProps, ICaseElementState
                             ref={ele => (this.category = ele)}
                             className={styles.input}
                             name="exitName"
-                            onChange={this.onChangeExitName.bind(this)}
+                            onChange={this.onChangeExitName}
                             value={this.state.exitName}
                             ComponentMap={this.props.ComponentMap}
                         />
                     </div>
-                    <div className={styles['remove-button']} onClick={this.onRemove.bind(this)}>
+                    <div className={styles['remove-button']} onClick={this.onRemove}>
                         <span className="icon-remove" />
                     </div>
                 </div>

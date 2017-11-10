@@ -1,42 +1,42 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
 
-import { FormElement, IFormElementProps } from './FormElement';
-import { FormWidget, IFormValueState } from './FormWidget';
-import { ISearchResult } from '../../services/ComponentMap';
-import { SelectSearch } from '../SelectSearch';
+import { FormElement, FormElementProps } from './FormElement';
+import { FormWidget, FormValueState } from './FormWidget';
+import { SearchResult } from '../../services/ComponentMap';
+import SelectSearch from '../SelectSearch';
 
-var Select = require('react-select');
-var styles = require('./FormElement.scss');
+const Select = require('react-select');
+const styles = require('./FormElement.scss');
 
-interface IGroupElementProps extends IFormElementProps {
+interface GroupElementProps extends FormElementProps {
     groups: { group: string; name: string }[];
 
-    localGroups?: ISearchResult[];
+    localGroups?: SearchResult[];
     endpoint?: string;
     add?: boolean;
     placeholder?: string;
 }
 
-interface IGroupState extends IFormValueState {
-    groups: ISearchResult[];
+interface GroupState extends FormValueState {
+    groups: SearchResult[];
 }
 
-export class GroupElement extends FormWidget<IGroupElementProps, IGroupState> {
+export const transformGroups = (groups: { group: string; name: string }[]): SearchResult[] =>
+    groups.map(({ name, group }) => ({ name, id: group, type: 'group' }));
+
+export class GroupElement extends FormWidget<GroupElementProps, GroupState> {
     constructor(props: any) {
         super(props);
 
-        var groups: ISearchResult[] = [];
-        for (let g of this.props.groups) {
-            groups.push({ name: g.name, id: g.group, type: 'group' });
-        }
-
         this.state = {
-            groups,
+            groups: transformGroups(this.props.groups),
             errors: []
         };
 
         this.onChange = this.onChange.bind(this);
+        this.isValidNewOption = this.isValidNewOption.bind(this);
+        this.createNewOption = this.createNewOption.bind(this);
     }
 
     onChange(selected: any) {
@@ -46,53 +46,53 @@ export class GroupElement extends FormWidget<IGroupElementProps, IGroupState> {
     }
 
     validate(): boolean {
-        var errors: string[] = [];
+        let errors: string[] = [];
+
         if (this.props.required) {
-            if (this.state.groups.length == 0) {
-                errors.push(this.props.name + ' is required');
+            if (this.state.groups.length === 0) {
+                errors = [...errors, `${this.props.name} is required`];
             }
         }
 
-        this.setState({ errors: errors });
-        return errors.length == 0;
+        this.setState({ errors });
+
+        return errors.length === 0;
     }
 
     isValidNewOption(option: { label: string }): boolean {
         if (!option || !option.label) {
             return false;
         }
-        let lowered = option.label.toLowerCase();
+        const lowered = option.label.toLowerCase();
         return lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered);
     }
 
-    createNewOption(arg: { label: string }): ISearchResult {
-        var newOption: ISearchResult = {
+    createNewOption(arg: { label: string }): SearchResult {
+        const newOption: SearchResult = {
             id: UUID.v4(),
             name: arg.label,
             extraResult: true
-        } as ISearchResult;
+        } as SearchResult;
 
         return newOption;
     }
 
     render() {
-        var isValidNewOption = null;
-        var createNewOption = null;
-        var createPrompt = null;
-        var createOptions = {};
+        let createOptions = {};
 
         if (this.props.add) {
             createOptions = {
-                isValidNewOption: this.isValidNewOption.bind(this),
-                createNewOption: this.createNewOption.bind(this),
+                isValidNewOption: this.isValidNewOption,
+                createNewOption: this.createNewOption,
                 createPrompt: 'New group: '
             };
         }
 
-        var classes = [];
+        let classes: string[] = [];
+
         if (this.state.errors.length > 0) {
             // we use a global selector here for react-select
-            classes.push('select-invalid');
+            classes = [...classes, 'select-invalid'];
         }
 
         return (

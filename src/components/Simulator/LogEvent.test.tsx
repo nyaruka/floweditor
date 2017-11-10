@@ -1,9 +1,9 @@
 import * as React from 'react';
 import '../../enzymeAdapter';
 import { shallow } from 'enzyme';
-import LogEvent, { IEventProps } from './LogEvent';
+import LogEventComp, { EventProps } from './LogEvent';
 
-const logEventProps: IEventProps = {
+const logEventProps: EventProps = {
     uuid: '580387d9-a593-453a-9327-46ede2ade646',
     type: 'save_contact_field',
     field_name: 'favorite_color',
@@ -12,7 +12,7 @@ const logEventProps: IEventProps = {
     value: 'tomato'
 };
 
-const LogEventShallow = shallow(<LogEvent {...logEventProps} />);
+const LogEventShallow = shallow(<LogEventComp {...logEventProps} />);
 
 describe('Component: LogEvent', () => {
     it('should render', () => {

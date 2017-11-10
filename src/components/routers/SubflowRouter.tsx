@@ -1,24 +1,24 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
-import { IExit, IStartFlow, ICase, ISwitchRouter } from '../../flowTypes';
-import { IType } from '../../services/EditorConfig';
-import { FlowElement } from '../form/FlowElement';
+import { Exit, StartFlow, Case, SwitchRouter } from '../../flowTypes';
+import { Type } from '../../services/EditorConfig';
+import FlowElement from '../form/FlowElement';
 import Widget from '../NodeEditor/Widget';
 import ComponentMap from '../../services/ComponentMap';
 
-import { INode, TAnyAction } from '../../flowTypes';
-import { IEndpoints } from '../../services/EditorConfig';
+import { Node, AnyAction } from '../../flowTypes';
+import { Endpoints } from '../../services/EditorConfig';
 
-export interface ISubflowRouterFormProps {
-    action: TAnyAction;
-    endpoints: IEndpoints;
-    node: INode;
-    updateRouter(node: INode, type: string, previousAction: TAnyAction): void;
+export interface SubflowRouterFormProps {
+    action: AnyAction;
+    endpoints: Endpoints;
+    node: Node;
+    updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     validationCallback: Function;
     onBindWidget(ref: any): void;
     isTranslating: boolean;
     renderExitTranslations(): JSX.Element;
-    config: IType;
+    config: Type;
     saveLocalizedExits(widgets: { [name: string]: Widget }): void;
     getActionUUID(): string;
     ComponentMap: ComponentMap;
@@ -37,7 +37,7 @@ export default ({
     saveLocalizedExits,
     getActionUUID,
     ComponentMap
-}: ISubflowRouterFormProps) => {
+}: SubflowRouterFormProps) => {
     validationCallback((widgets: { [name: string]: Widget }): void => {
         if (isTranslating) {
             return saveLocalizedExits(widgets);
@@ -46,7 +46,7 @@ export default ({
         const select = widgets['Flow'] as FlowElement;
         const flow = select.state.flow;
 
-        const newAction: IStartFlow = {
+        const newAction: StartFlow = {
             uuid: getActionUUID(),
             type: config.type,
             flow_name: flow.name,
@@ -54,15 +54,15 @@ export default ({
         };
 
         // if we were already a subflow, lean on those exits and cases
-        let exits: IExit[];
-        let cases: ICase[];
+        let exits: Exit[];
+        let cases: Case[];
 
         const details = ComponentMap.getDetails(node.uuid);
 
         if (details && details.type === 'subflow') {
             exits = node.exits;
             ({ exits } = node);
-            ({ cases } = node.router as ISwitchRouter);
+            ({ cases } = node.router as SwitchRouter);
         } else {
             // otherwise, let's create some new ones
             exits = [
@@ -83,7 +83,7 @@ export default ({
             ];
         }
 
-        const router: ISwitchRouter = {
+        const router: SwitchRouter = {
             type: 'switch',
             operand: '@child',
             cases: cases,
@@ -120,7 +120,7 @@ export default ({
 
         if (action) {
             if (action.type === 'start_flow') {
-                const startAction = action as IStartFlow;
+                const startAction = action as StartFlow;
                 flow_name = startAction.flow_name;
                 ({ flow_name, flow_uuid } = startAction);
             }

@@ -1,19 +1,19 @@
 import * as React from 'react';
 
-import { FormElement, IFormElementProps } from './FormElement';
-import { FormWidget, IFormValueState } from './FormWidget';
+import { FormElement, FormElementProps } from './FormElement';
+import { FormWidget, FormValueState } from './FormWidget';
 import Select from 'react-select';
 
 var styles = require('./FormElement.scss');
 
-interface ISelectElementProps extends IFormElementProps {
+interface SelectElementProps extends FormElementProps {
     onChange(value: any): void;
     defaultValue: any;
     options: any;
     placeholder?: string;
 }
 
-export class SelectElement extends FormWidget<ISelectElementProps, IFormValueState> {
+export class SelectElement extends FormWidget<SelectElementProps, FormValueState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -38,22 +38,25 @@ export class SelectElement extends FormWidget<ISelectElementProps, IFormValueSta
     }
 
     validate(): boolean {
-        var errors: string[] = [];
+        let errors: string[] = [];
+
         if (this.props.required) {
             if (!this.state.value || this.state.value.length == 0) {
-                errors.push(this.props.name + ' is required');
+                errors = [...errors, `${this.props.name} is required`];
             }
         }
 
-        this.setState({ errors: errors });
+        this.setState({ errors });
+
         return errors.length == 0;
     }
 
     render() {
-        var classes = [];
+        let classes: string[] = [];
+
         if (this.state.errors.length > 0) {
             // we use a global selector here for react-select
-            classes.push('select-invalid');
+            classes = [...classes, 'select-invalid'];
         }
 
         return (
@@ -64,7 +67,7 @@ export class SelectElement extends FormWidget<ISelectElementProps, IFormValueSta
                 <Select
                     name={this.props.name}
                     value={this.state.value}
-                    onChange={this.onChange.bind(this)}
+                    onChange={this.onChange}
                     searchable={false}
                     clearable={false}
                     options={this.props.options}

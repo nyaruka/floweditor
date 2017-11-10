@@ -1,13 +1,13 @@
-import { ILanguages, IEndpoints } from './services/EditorConfig';
+import { Languages, Endpoints } from './services/EditorConfig';
 
 export const flowUUID: string = 'a4f64f1b-85bc-477e-b706-de313a022979';
 
-export const languages: ILanguages = {
+export const languages: Languages = {
     eng: 'English',
     spa: 'Spanish'
 };
 
-export const endpoints: IEndpoints = {
+export const endpoints: Endpoints = {
     flows: '/assets/flows.json',
     groups: '/assets/groups.json',
     contacts: '/assets/contacts.json',
@@ -16,7 +16,7 @@ export const endpoints: IEndpoints = {
     engine: ''
 };
 
-const flowEditorConfig: IFlowEditorConfig = {
+const flowEditorConfig: FlowEditorConfig = {
     flow: flowUUID,
     languages,
     endpoints

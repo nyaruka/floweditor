@@ -1,26 +1,26 @@
 import * as React from 'react';
-import { IReply } from '../../../flowTypes';
-import { IType } from '../../../services/EditorConfig';
+import { Reply } from '../../../flowTypes';
+import { Type } from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
-import { TextInputElement } from '../../form/TextInputElement';
+import TextInputElement from '../../form/TextInputElement';
 import Widget from '../../NodeEditor/Widget';
 import { CheckboxElement } from '../../form/CheckboxElement';
 
 const styles = require('../../Action/Action.scss');
 
-export interface IReplyFormProps {
-    action: IReply;
+export interface ReplyFormProps {
+    action: Reply;
     advanced: boolean;
-    config: IType;
+    config: Type;
     ComponentMap: ComponentMap;
-    updateAction(action: IReply): void;
+    updateAction(action: Reply): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
     updateLocalizations(language: string, changes: { uuid: string; translations: any }[]): void;
     validationCallback: Function;
     getLocalizedObject: Function;
     getActionUUID: Function;
-    getInitialAction(): IReply;
+    getInitialAction(): Reply;
 }
 
 export default ({
@@ -36,7 +36,7 @@ export default ({
     getLocalizedObject,
     getActionUUID,
     getInitialAction
-}: IReplyFormProps): JSX.Element => {
+}: ReplyFormProps): JSX.Element => {
     /** Register this form's validationCallback callback (make it available on NodeEditorForm for NodeEditor to access) */
     validationCallback((widgets: { [name: string]: Widget }) => {
         const localizedObject = getLocalizedObject();
@@ -57,7 +57,7 @@ export default ({
                 ]);
             }
         } else {
-            const newAction: IReply = {
+            const newAction: Reply = {
                 uuid: getActionUUID(),
                 type: config.type,
                 text: textarea.state.value
@@ -121,7 +121,7 @@ export default ({
         const initialAction = getInitialAction();
 
         if (initialAction) {
-            const { all_urns } = initialAction as IReply;
+            const { all_urns } = initialAction as Reply;
             sendAll = all_urns;
         } else {
             sendAll = false;

@@ -1,5 +1,5 @@
-import { IExit } from '../flowTypes';
-import { TGetActivity } from '../services/External';
+import { Exit } from '../flowTypes';
+import { GetActivity } from '../services/External';
 import Counter from '../components/Counter';
 
 // how often we ask the server for new data
@@ -8,7 +8,7 @@ const REFRESH_SECONDS = 10;
 /**
  * Contains all the activity data for a flow
  */
-export interface IActivity {
+export interface Activity {
     // exit_uuid:destination_node_uuid -> count
     segments: { [key: string]: number };
 
@@ -16,22 +16,22 @@ export interface IActivity {
     nodes: { [key: string]: number };
 }
 
-class ActivityManager {
+export default class ActivityManager {
     private static singleton: ActivityManager;
 
     // our main activity fetch from the external
-    private activity: IActivity;
+    private activity: Activity;
 
     // our simulation activity
-    private simulation: IActivity;
+    private simulation: Activity;
 
     private flowUUID: string;
-    private getActivityExternal: TGetActivity;
+    private getActivityExternal: GetActivity;
 
     private listeners: { [key: string]: Counter } = {};
     private timer: any;
 
-    constructor(flowUUID: string, getActivity: TGetActivity) {
+    constructor(flowUUID: string, getActivity: GetActivity) {
         this.flowUUID = flowUUID;
         this.getActivityExternal = getActivity;
 
@@ -54,7 +54,7 @@ class ActivityManager {
         this.fetchActivity();
     }
 
-    public setSimulation(activity: IActivity) {
+    public setSimulation(activity: Activity) {
         this.simulation = activity;
         if (this.timer) {
             window.clearTimeout(this.timer);
@@ -68,7 +68,7 @@ class ActivityManager {
             this.timer = window.setTimeout(() => {
                 this.timer = null;
                 this.getActivityExternal(this.flowUUID)
-                    .then((activity: IActivity) => {
+                    .then((activity: Activity) => {
                         this.activity = activity;
                         this.notifyListeners();
                     })
@@ -98,7 +98,7 @@ class ActivityManager {
         }
     }
 
-    public getActivity(): IActivity {
+    public getActivity(): Activity {
         if (this.simulation) {
             return this.simulation;
         }
@@ -116,7 +116,7 @@ class ActivityManager {
         return 0;
     }
 
-    public getPathCount(exit: IExit): number {
+    public getPathCount(exit: Exit): number {
         var activity = this.getActivity();
         if (activity) {
             if (exit.destination_node_uuid) {
@@ -128,6 +128,4 @@ class ActivityManager {
         }
         return 0;
     }
-}
-
-export default ActivityManager;
+};

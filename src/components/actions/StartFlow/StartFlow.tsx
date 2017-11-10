@@ -1,4 +1,4 @@
 import * as React from 'react';
-import { IStartFlow } from '../../../flowTypes';
+import { StartFlow } from '../../../flowTypes';
 
-export default ({ flow_name }: IStartFlow) => <div>{flow_name}</div>;
+export default ({ flow_name }: StartFlow) => <div>{flow_name}</div>;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ICallWebhook } from '../../../flowTypes';
+import { CallWebhook } from '../../../flowTypes';
 
-export default ({ url }: ICallWebhook) => <div>{url}</div>;
+export default ({ url }: CallWebhook) => <div>{url}</div>;
 

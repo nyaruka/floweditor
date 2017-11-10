@@ -1,63 +1,63 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
-import { INode, IRouter, IExit, TAnyAction } from '../../flowTypes';
+import { Node, Router, Exit, AnyAction } from '../../flowTypes';
 import {
-    IType,
-    IOperator,
-    TGetTypeConfig,
-    TGetOperatorConfig,
-    IEndpoints
+    Type,
+    Operator,
+    GetTypeConfig,
+    GetOperatorConfig,
+    Endpoints
 } from '../../services/EditorConfig';
-import { ILanguage } from '../LanguageSelector';
+import { Language } from '../LanguageSelector';
 import { LocalizedObject } from '../../services/Localization';
 import ComponentMap from '../../services/ComponentMap';
 import Widget from './Widget';
 import TypeChooser from './TypeChooser';
-import { TextInputElement } from '../form/TextInputElement';
+import TextInputElement from '../form/TextInputElement';
 
-import { IReplyFormProps } from '../actions/Reply/ReplyForm';
-import { IChangeGroupFormProps } from '../actions/ChangeGroup/ChangeGroupForm';
-import { ISaveFlowResultFormProps } from '../actions/SaveFlowResult/SaveFlowResultForm';
-import { ISendEmailFormProps } from '../actions/SendEmail/SendEmailForm';
-import { ISaveToContactFormProps } from '../actions/SaveToContact/SaveToContactForm';
+import { ReplyFormProps } from '../actions/Reply/ReplyForm';
+import { ChangeGroupFormProps } from '../actions/ChangeGroup/ChangeGroupForm';
+import { SaveFlowResultFormProps } from '../actions/SaveFlowResult/SaveFlowResultForm';
+import { SendEmailFormProps } from '../actions/SendEmail/SendEmailForm';
+import { SaveToContactFormProps } from '../actions/SaveToContact/SaveToContactForm';
 
-import { ISubflowRouterFormProps } from '../routers/SubflowRouter';
-import { ISwitchRouterFormProps } from '../routers/SwitchRouter';
-import { IWebhookRouterFormProps } from '../routers/WebhookRouter';
+import { SubflowRouterFormProps } from '../routers/SubflowRouter';
+import { SwitchRouterFormProps } from '../routers/SwitchRouter';
+import { WebhookRouterFormProps } from '../routers/WebhookRouter';
 
-export type TFormProps =
-    | IReplyFormProps
-    | IChangeGroupFormProps
-    | ISaveFlowResultFormProps
-    | ISendEmailFormProps
-    | ISaveToContactFormProps
-    | ISubflowRouterFormProps
-    | ISwitchRouterFormProps
-    | IWebhookRouterFormProps;
+export type AnyFormProps =
+    | ReplyFormProps
+    | ChangeGroupFormProps
+    | SaveFlowResultFormProps
+    | SendEmailFormProps
+    | SaveToContactFormProps
+    | SubflowRouterFormProps
+    | SwitchRouterFormProps
+    | WebhookRouterFormProps;
 
 const formStyles = require('./NodeEditor.scss');
 
-export interface INodeEditorFormChildProps {
+export interface NodeEditorFormChildProps {
     advanced: boolean;
-    node: INode;
-    action: TAnyAction;
-    endpoints: IEndpoints;
+    node: Node;
+    action: AnyAction;
+    endpoints: Endpoints;
     localizations?: LocalizedObject[];
-    config: IType;
+    config: Type;
     ComponentMap: ComponentMap;
-    updateAction(action: TAnyAction): void;
+    updateAction(action: AnyAction): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
     updateLocalizations(language: string, changes: { uuid: string; translations: any }[]): void;
-    updateRouter(node: INode, type: string, previousAction: TAnyAction): void;
+    updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     removeWidget(name: string): void;
     renderExitTranslations(): JSX.Element;
-    operatorConfigList: IOperator[];
-    getOperatorConfig: TGetOperatorConfig;
+    operatorConfigList: Operator[];
+    getOperatorConfig: GetOperatorConfig;
     triggerFormUpdate(): void;
     onToggleAdvanced(): void;
-    getInitialAction(): TAnyAction;
-    getInitialRouter(): IRouter;
+    getInitialAction(): AnyAction;
+    getInitialRouter(): Router;
     validationCallback: Function;
     updateFormCallback: Function;
     getLocalizedObject: Function;
@@ -66,18 +66,18 @@ export interface INodeEditorFormChildProps {
     saveLocalizedExits(widgets: { [name: string]: Widget }): void;
 }
 
-export interface INodeEditorFormProps {
-    config: IType;
-    node: INode;
+export interface NodeEditorFormProps {
+    config: Type;
+    node: Node;
     localizations?: LocalizedObject[];
-    action?: TAnyAction;
+    action?: AnyAction;
     isTranslating: boolean;
 
-    typeConfigList: IType[];
-    operatorConfigList: IOperator[];
-    getTypeConfig: TGetTypeConfig;
-    getOperatorConfig: TGetOperatorConfig;
-    endpoints: IEndpoints;
+    typeConfigList: Type[];
+    operatorConfigList: Operator[];
+    getTypeConfig: GetTypeConfig;
+    getOperatorConfig: GetOperatorConfig;
+    endpoints: Endpoints;
     ComponentMap: ComponentMap;
 
     onBindWidget(ref: any): void;
@@ -87,20 +87,20 @@ export interface INodeEditorFormProps {
     triggerFormUpdate(): void;
     removeWidget(name: string): void;
 
-    onTypeChange(config: IType): void;
+    onTypeChange(config: Type): void;
     updateLocalizations(language: string, changes: { uuid: string; translations: any }[]): void;
-    updateAction(action: TAnyAction): void;
-    updateRouter(node: INode, type: string, previousAction: TAnyAction): void;
+    updateAction(action: AnyAction): void;
+    updateRouter(node: Node, type: string, previousAction: AnyAction): void;
 
     advanced: boolean;
-    children(childProps: INodeEditorFormChildProps): JSX.Element;
+    children(childProps: NodeEditorFormChildProps): JSX.Element;
 }
 
-export default class NodeEditorForm extends React.Component<INodeEditorFormProps> {
+export default class NodeEditorForm extends React.Component<NodeEditorFormProps> {
     public onValid: Function;
     public onUpdateForm: Function;
 
-    constructor(props: INodeEditorFormProps) {
+    constructor(props: NodeEditorFormProps) {
         super(props);
 
         this.getLocalizedObject = this.getLocalizedObject.bind(this);
@@ -141,7 +141,7 @@ export default class NodeEditorForm extends React.Component<INodeEditorFormProps
 
     private renderExitTranslations(): JSX.Element {
         let exits: JSX.Element[] = [];
-        let language: ILanguage;
+        let language: Language;
 
         if (this.props.localizations.length > 0) {
             language = this.props.localizations[0].getLanguage();
@@ -151,7 +151,7 @@ export default class NodeEditorForm extends React.Component<INodeEditorFormProps
             return null;
         }
 
-        this.props.node.exits.forEach(exit => {
+        this.props.node.exits.forEach((exit: Exit) => {
             const localized = this.props.localizations.find(
                 (localizedObject: LocalizedObject) => localizedObject.getObject().uuid === exit.uuid
             );
@@ -160,7 +160,7 @@ export default class NodeEditorForm extends React.Component<INodeEditorFormProps
                 let value;
 
                 if ('name' in localized.localizedKeys) {
-                    let localizedExit: IExit = localized.getObject();
+                    let localizedExit: Exit = localized.getObject();
                     value = localizedExit.name;
                 }
 
@@ -199,7 +199,7 @@ export default class NodeEditorForm extends React.Component<INodeEditorFormProps
     private getLocalizedExits(widgets: { [name: string]: Widget }): { uuid: string; translations: any }[] {
         let results: { uuid: string; translations: any }[] = [];
 
-        this.props.node.exits.forEach(({ uuid: exitUUID }) => {
+        this.props.node.exits.forEach(({ uuid: exitUUID }: Exit) => {
             let input = widgets[exitUUID] as TextInputElement;
             let value = input.state.value.trim();
             if (value) {
@@ -218,14 +218,14 @@ export default class NodeEditorForm extends React.Component<INodeEditorFormProps
         this.props.updateLocalizations(language, exits);
     }
 
-    private getInitialAction(): TAnyAction {
+    private getInitialAction(): AnyAction {
         if (this.props.action) {
             return this.props.action;
         }
         return;
     }
 
-    private getInitialRouter(): IRouter {
+    private getInitialRouter(): Router {
         if (this.props.node.router) {
             return this.props.node.router;
         }

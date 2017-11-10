@@ -1,18 +1,18 @@
 import * as React from 'react';
-import { ISaveFlowResult } from '../../../flowTypes';
-import { IType } from '../../../services/EditorConfig';
+import { SaveFlowResult } from '../../../flowTypes';
+import { Type } from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
-import { TextInputElement } from '../../form/TextInputElement';
+import TextInputElement from '../../form/TextInputElement';
 import Widget from '../../NodeEditor/Widget';
 
 const styles = require('./SaveFlowResult.scss');
 
-export interface ISaveFlowResultFormProps {
+export interface SaveFlowResultFormProps {
     validationCallback: Function;
     getActionUUID: Function;
-    config: IType;
-    updateAction(action: ISaveFlowResult): void;
-    getInitialAction(): ISaveFlowResult;
+    config: Type;
+    updateAction(action: SaveFlowResult): void;
+    getInitialAction(): SaveFlowResult;
     onBindWidget(ref: any): void;
     ComponentMap: ComponentMap;
 }
@@ -25,13 +25,13 @@ export default ({
     getInitialAction,
     onBindWidget,
     ComponentMap
-}: ISaveFlowResultFormProps): JSX.Element => {
+}: SaveFlowResultFormProps): JSX.Element => {
     validationCallback((widgets: { [name: string]: Widget }) => {
         const nameEle = widgets['Name'] as TextInputElement;
         const valueEle = widgets['Value'] as TextInputElement;
         const categoryEle = widgets['Category'] as TextInputElement;
 
-        const newAction: ISaveFlowResult = {
+        const newAction: SaveFlowResult = {
             uuid: getActionUUID(),
             type: config.type,
             result_name: nameEle.state.value,

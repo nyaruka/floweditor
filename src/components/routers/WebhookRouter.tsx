@@ -3,22 +3,21 @@ import * as UUID from 'uuid';
 import * as update from 'immutability-helper';
 import * as FlipMove from 'react-flip-move';
 
-import { IType } from '../../services/EditorConfig';
-import { ISwitchRouterState } from './SwitchRouter';
+import { Type } from '../../services/EditorConfig';
+import { SwitchRouterState } from './SwitchRouter';
 import { SelectElement } from '../form/SelectElement';
-import { ICallWebhook, ICase, IExit, ISwitchRouter, INode, TAnyAction } from '../../flowTypes';
-import { TextInputElement, IHTMLTextElement } from '../form/TextInputElement';
+import { CallWebhook, Case, Exit, SwitchRouter, Node, AnyAction } from '../../flowTypes';
+import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 
 import { FormElement } from '../form/FormElement';
-import { FormWidget, IFormValueState } from '../form/FormWidget';
-import { INodeEditorFormProps } from '../NodeEditor/NodeEditorForm';
+import { FormWidget, FormValueState } from '../form/FormWidget';
 import Widget from '../NodeEditor/Widget';
 import ComponentMap from '../../services/ComponentMap';
 
-var forms = require('../form/FormElement.scss');
-var styles = require('./Webhook.scss');
+const forms = require('../form/FormElement.scss');
+const styles = require('./Webhook.scss');
 
-var defaultBody: string = `{
+const defaultBody: string = `{
     "contact": @(to_json(contact.uuid)),
     "contact_urn": @(to_json(contact.urns)),
     "message": @(to_json(input.text)),
@@ -26,17 +25,17 @@ var defaultBody: string = `{
     "flow_name": @(to_json(run.flow.name))
 }`;
 
-export interface IHeader {
+export interface Header {
     uuid: string;
     name: string;
     value: string;
 }
 
-export interface IWebhookRouterFormProps {
-    config: IType;
-    node: INode;
+export interface WebhookRouterFormProps {
+    config: Type;
+    node: Node;
     advanced: boolean;
-    action: TAnyAction;
+    action: AnyAction;
     removeWidget(name: string): void;
     isTranslating: boolean,
     triggerFormUpdate(): void;
@@ -44,35 +43,35 @@ export interface IWebhookRouterFormProps {
     renderExitTranslations(): JSX.Element;
     onToggleAdvanced(): void;
     saveLocalizedExits(widgets: { [name: string]: Widget }): void;
-    updateRouter(node: INode, type: string, previousAction: TAnyAction): void;
+    updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
     validationCallback: Function;
     updateFormCallback: Function;
 }
 
-interface IWebhookState extends ISwitchRouterState {
-    headers: IHeader[];
+interface WebhookState extends SwitchRouterState {
+    headers: Header[];
     method: string;
 }
 
-export default class WebhookForm extends React.Component<IWebhookRouterFormProps, IWebhookState> {
+export default class WebhookForm extends React.Component<WebhookRouterFormProps, WebhookState> {
     private methodOptions = [{ value: 'GET', label: 'GET' }, { value: 'POST', label: 'POST' }];
 
-    constructor(props: IWebhookRouterFormProps) {
+    constructor(props: WebhookRouterFormProps) {
         super(props);
 
         this.onHeaderRemoved = this.onHeaderRemoved.bind(this);
         this.onHeaderChanged = this.onHeaderChanged.bind(this);
         this.onMethodChanged = this.onMethodChanged.bind(this);
 
-        var headers: IHeader[] = [];
-        var method = 'GET';
+        let headers: Header[] = [];
+        let method = 'GET';
 
         if (this.props.action) {
             var action = this.props.action;
             if (action.type == 'call_webhook') {
-                var webhookAction: ICallWebhook = action as ICallWebhook;
+                var webhookAction: CallWebhook = action as CallWebhook;
                 if (webhookAction.headers) {
                     for (let key in webhookAction.headers) {
                         headers.push({
@@ -101,7 +100,7 @@ export default class WebhookForm extends React.Component<IWebhookRouterFormProps
         this.onUpdateForm = this.onUpdateForm.bind(this);
     }
 
-    addEmptyHeader(headers: IHeader[]) {
+    addEmptyHeader(headers: Header[]) {
         var hasEmpty = false;
         for (let header of headers) {
             if (header.name.trim().length == 0 && header.value.trim().length == 0) {
@@ -115,14 +114,14 @@ export default class WebhookForm extends React.Component<IWebhookRouterFormProps
         }
     }
 
-    onHeaderRemoved(header: IHeaderElement) {
+    onHeaderRemoved(header: HeaderElement) {
         var newHeaders = update(this.state.headers, { $splice: [[header.props.index, 1]] });
         this.addEmptyHeader(newHeaders);
         this.setState({ headers: newHeaders });
         this.props.removeWidget(header.props.name);
     }
 
-    onHeaderChanged(ele: IHeaderElement) {
+    onHeaderChanged(ele: HeaderElement) {
         const { name, value } = ele.state;
         var newHeaders = update(this.state.headers, {
             [ele.props.index]: {
@@ -130,7 +129,7 @@ export default class WebhookForm extends React.Component<IWebhookRouterFormProps
                     name: name,
                     value: value,
                     uuid: ele.props.header.uuid
-                } as IHeader
+                } as Header
             }
         });
 
@@ -165,7 +164,7 @@ export default class WebhookForm extends React.Component<IWebhookRouterFormProps
         if (this.props.action) {
             var action = this.props.action;
             if (action.type == 'call_webhook') {
-                var webhookAction: ICallWebhook = action as ICallWebhook;
+                var webhookAction: CallWebhook = action as CallWebhook;
                 if (webhookAction.body) {
                     postBody = webhookAction.body;
                 }
@@ -173,10 +172,10 @@ export default class WebhookForm extends React.Component<IWebhookRouterFormProps
         }
 
         var headerElements: JSX.Element[] = [];
-        this.state.headers.map((header: IHeader, index: number) => {
+        this.state.headers.map((header: Header, index: number) => {
             headerElements.push(
                 <div key={header.uuid}>
-                    <IHeaderElement
+                    <HeaderElement
                         ref={this.props.onBindAdvancedWidget}
                         name={'header_' + index}
                         header={header}
@@ -245,7 +244,7 @@ export default class WebhookForm extends React.Component<IWebhookRouterFormProps
         if (this.props.action) {
             var action = this.props.action;
             if (action.type == 'call_webhook') {
-                var webhookAction: ICallWebhook = action as ICallWebhook;
+                var webhookAction: CallWebhook = action as CallWebhook;
                 method = webhookAction.method;
                 url = webhookAction.url;
             }
@@ -277,7 +276,7 @@ export default class WebhookForm extends React.Component<IWebhookRouterFormProps
         return (
             <div>
                 <p>
-                    Using a ICallWebhook you can trigger actions in external services or fetch data to
+                    Using a CallWebhook you can trigger actions in external services or fetch data to
                     use in this Flow. Enter a URL to call below.
                 </p>
 
@@ -352,10 +351,10 @@ export default class WebhookForm extends React.Component<IWebhookRouterFormProps
 
         // go through any headers we have
         var headers: { [name: string]: string } = {};
-        var header: IHeaderElement = null;
+        var header: HeaderElement = null;
         for (let key of Object.keys(widgets)) {
             if (key.startsWith('header_')) {
-                header = widgets[key] as IHeaderElement;
+                header = widgets[key] as HeaderElement;
                 var name = header.state.name.trim();
                 var value = header.state.value.trim();
                 if (name.length > 0) {
@@ -364,7 +363,7 @@ export default class WebhookForm extends React.Component<IWebhookRouterFormProps
             }
         }
 
-        var newAction: ICallWebhook = {
+        var newAction: CallWebhook = {
             uuid: this.getUUID(),
             type: this.props.config.type,
             url: urlEle.state.value,
@@ -375,12 +374,12 @@ export default class WebhookForm extends React.Component<IWebhookRouterFormProps
 
         // if we were already a webhook, lean on those exits and cases
         var exits = [];
-        var cases: ICase[];
+        var cases: Case[];
 
         var details = this.props.ComponentMap.getDetails(this.props.node.uuid);
         if (details && details.type == 'webhook') {
             exits = this.props.node.exits;
-            cases = (this.props.node.router as ISwitchRouter).cases;
+            cases = (this.props.node.router as SwitchRouter).cases;
         } else {
             // otherwise, let's create some new ones
             exits = [
@@ -406,7 +405,7 @@ export default class WebhookForm extends React.Component<IWebhookRouterFormProps
             ];
         }
 
-        var router: ISwitchRouter = {
+        var router: SwitchRouter = {
             type: 'switch',
             operand: '@webhook',
             cases: cases,
@@ -442,26 +441,26 @@ export default class WebhookForm extends React.Component<IWebhookRouterFormProps
     }
 }
 
-export interface IHeaderElementProps {
+export interface HeaderElementProps {
     name: string;
 
-    header: IHeader;
+    header: Header;
     index: number;
-    onRemove(header: IHeaderElement): void;
-    onChange(header: IHeaderElement): void;
+    onRemove(header: HeaderElement): void;
+    onChange(header: HeaderElement): void;
 
     ComponentMap: ComponentMap;
 }
 
-interface IHeaderElementState extends IFormValueState {
+interface HeaderElementState extends FormValueState {
     name: string;
     value: string;
 }
 
-export class IHeaderElement extends FormWidget<IHeaderElementProps, IHeaderElementState> {
+export class HeaderElement extends FormWidget<HeaderElementProps, HeaderElementState> {
     private category: TextInputElement;
 
-    constructor(props: IHeaderElementProps) {
+    constructor(props: HeaderElementProps) {
         super(props);
 
         this.onChangeName = this.onChangeName.bind(this);
@@ -474,7 +473,7 @@ export class IHeaderElement extends FormWidget<IHeaderElementProps, IHeaderEleme
         };
     }
 
-    private onChangeName(event: React.SyntheticEvent<IHTMLTextElement>) {
+    private onChangeName(event: React.SyntheticEvent<HTMLTextElement>) {
         this.setState(
             {
                 name: event.currentTarget.value
@@ -485,7 +484,7 @@ export class IHeaderElement extends FormWidget<IHeaderElementProps, IHeaderEleme
         );
     }
 
-    private onChangeValue(event: React.SyntheticEvent<IHTMLTextElement>) {
+    private onChangeValue(event: React.SyntheticEvent<HTMLTextElement>) {
         this.setState(
             {
                 value: event.currentTarget.value

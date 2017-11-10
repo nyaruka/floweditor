@@ -1,26 +1,26 @@
-import { IDragPoint } from '../components/Node';
+import { DragPoint } from '../components/Node';
 import {
-    IFlowDefinition,
-    INode,
-    ISaveToContact,
-    IChangeGroup,
-    IExit,
-    ISaveFlowResult
+    FlowDefinition,
+    Node,
+    SaveToContact,
+    ChangeGroup,
+    Exit,
+    SaveFlowResult
 } from '../flowTypes';
 
 import { snakify } from '../helpers/utils';
 
-const RESERVED_FIELDS: IContactFieldResult[] = [
+const RESERVED_FIELDS: ContactFieldResult[] = [
     { id: 'name', name: 'Name', type: 'update_contact' }
     // { id: "language", name: "Language", type: "update_contact" }
 ];
 
-export interface IContactField {
+export interface ContactField {
     uuid: string;
     name: string;
 }
 
-export interface ISearchResult {
+export interface SearchResult {
     name: string;
     id: string;
     type: string;
@@ -28,11 +28,11 @@ export interface ISearchResult {
     extraResult?: boolean;
 }
 
-export interface IContactFieldResult extends ISearchResult {
+export interface ContactFieldResult extends SearchResult {
     key?: string;
 }
 
-interface IComponentDetails {
+interface ComponentDetails {
     nodeUUID: string;
     nodeIdx: number;
     actionIdx?: number;
@@ -43,21 +43,21 @@ interface IComponentDetails {
     type?: string;
 }
 
-export interface ICompletionOption {
+export interface CompletionOption {
     name: string;
     description: string;
 }
 
-class ComponentMap {
-    private components: { [uuid: string]: IComponentDetails };
-    private pendingConnections: { [uuid: string]: IDragPoint };
-    private contactFields: IContactFieldResult[];
-    private resultNames: ICompletionOption[];
-    private groups: ISearchResult[];
-    private nodes: INode[];
+export default class ComponentMap {
+    private components: { [uuid: string]: ComponentDetails };
+    private pendingConnections: { [uuid: string]: DragPoint };
+    private contactFields: ContactFieldResult[];
+    private resultNames: CompletionOption[];
+    private groups: SearchResult[];
+    private nodes: Node[];
 
     // initialize our map with our flow def
-    constructor(definition: IFlowDefinition) {
+    constructor(definition: FlowDefinition) {
         console.time('ComponentMap');
         this.refresh(definition);
         this.pendingConnections = {};
@@ -75,23 +75,23 @@ class ComponentMap {
         this.getContactFields = this.getContactFields.bind(this);
     }
 
-    public getNodesBelow({ uuid: nodeUUID }: INode) {
-        const idx = this.nodes.findIndex(({ uuid }: INode) => uuid === nodeUUID);
+    public getNodesBelow({ uuid: nodeUUID }: Node) {
+        const idx = this.nodes.findIndex(({ uuid }: Node) => uuid === nodeUUID);
         return this.nodes.slice(idx, this.nodes.length);
     }
 
-    public getPendingConnections(): { [uuid: string]: IDragPoint } {
+    public getPendingConnections(): { [uuid: string]: DragPoint } {
         return this.pendingConnections;
     }
 
-    public addPendingConnection(draggedTo: string, draggedFrom: IDragPoint) {
+    public addPendingConnection(draggedTo: string, draggedFrom: DragPoint) {
         this.pendingConnections = {
             ...this.pendingConnections,
             [draggedTo]: draggedFrom
         };
     }
 
-    public getPendingConnection(nodeUUID: string): IDragPoint {
+    public getPendingConnection(nodeUUID: string): DragPoint {
         return this.pendingConnections[nodeUUID];
     }
 
@@ -99,12 +99,12 @@ class ComponentMap {
         delete this.pendingConnections[nodeUUID];
     }
 
-    public refresh(definition: IFlowDefinition) {
-        var components: { [uuid: string]: IComponentDetails } = {};
-        var exitsWithDestinations: IExit[] = [];
+    public refresh(definition: FlowDefinition) {
+        var components: { [uuid: string]: ComponentDetails } = {};
+        var exitsWithDestinations: Exit[] = [];
 
-        var fields: { [id: string]: IContactFieldResult } = {};
-        var groups: { [id: string]: ISearchResult } = {};
+        var fields: { [id: string]: ContactFieldResult } = {};
+        var groups: { [id: string]: SearchResult } = {};
         var resultNames: { [name: string]: string } = {};
 
         if (!definition) {
@@ -142,10 +142,10 @@ class ComponentMap {
                     };
 
                     if (action.type == 'save_flow_result') {
-                        var resultProps = action as ISaveFlowResult;
+                        var resultProps = action as SaveFlowResult;
                         resultNames[snakify(resultProps.result_name)] = resultProps.result_name;
                     } else if (action.type == 'save_contact_field') {
-                        var saveProps = action as ISaveToContact;
+                        var saveProps = action as SaveToContact;
                         if (
                             !RESERVED_FIELDS.some(
                                 fieldName => fieldName.name === saveProps.field_name
@@ -163,7 +163,7 @@ class ComponentMap {
                         action.type == 'add_to_group' ||
                         action.type == 'remove_from_group'
                     ) {
-                        var groupProps = action as IChangeGroup;
+                        var groupProps = action as ChangeGroup;
                         for (let group of groupProps.groups) {
                             if (!(group.uuid in groups)) {
                                 groups[group.uuid] = {
@@ -207,7 +207,7 @@ class ComponentMap {
             }
         }
 
-        var existingFields: IContactFieldResult[] = [];
+        var existingFields: ContactFieldResult[] = [];
         for (let reserved of RESERVED_FIELDS) {
             existingFields.push(reserved);
         }
@@ -216,12 +216,12 @@ class ComponentMap {
             existingFields.push(fields[key]);
         }
 
-        var existingGroups: ISearchResult[] = [];
+        var existingGroups: SearchResult[] = [];
         for (var key in groups) {
             existingGroups.push(groups[key]);
         }
 
-        var existingResultNames: ICompletionOption[] = [];
+        var existingResultNames: CompletionOption[] = [];
         for (var key in resultNames) {
             if (key && key.trim().length > 0) {
                 existingResultNames.push({
@@ -242,21 +242,19 @@ class ComponentMap {
         this.nodes = definition.nodes;
     }
 
-    public getDetails(uuid: string): IComponentDetails {
+    public getDetails(uuid: string): ComponentDetails {
         return this.components[uuid];
     }
 
-    public getGroups(): ISearchResult[] {
+    public getGroups(): SearchResult[] {
         return this.groups;
     }
 
-    public getResultNames(): ICompletionOption[] {
+    public getResultNames(): CompletionOption[] {
         return this.resultNames;
     }
 
-    public getContactFields(): IContactFieldResult[] {
+    public getContactFields(): ContactFieldResult[] {
         return this.contactFields;
     }
-}
-
-export default ComponentMap;
+};

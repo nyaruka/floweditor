@@ -1,25 +1,25 @@
 import * as React from 'react';
 import * as axios from 'axios';
 import * as UUID from 'uuid';
-import { INode, IGroup, TAnyAction } from '../../flowTypes';
+import { Node, Group, AnyAction } from '../../flowTypes';
 import {
-    TGetTypeConfig,
-    TGetOperatorConfig,
-    IType,
-    IOperator,
-    IEndpoints
+    GetTypeConfig,
+    GetOperatorConfig,
+    Type,
+    Operator,
+    Endpoints
 } from '../../services/EditorConfig';
 import ComponentMap from '../../services/ComponentMap';
-import TitleBar from '../TitleBar';
+import TitleBarComp from '../TitleBar';
 import { LocalizedObject } from '../../services/Localization';
 
 const shared = require('../shared.scss');
 const styles = require('./Action.scss');
 
 // props passed to the HOC but not threaded through to wrapped component
-export interface IActionProps {
-    node: INode;
-    action: TAnyAction;
+export interface ActionProps {
+    node: Node;
+    action: AnyAction;
     dragging: boolean;
     hasRouter: boolean;
 
@@ -27,11 +27,11 @@ export interface IActionProps {
 
     Localization: LocalizedObject;
 
-    typeConfigList: IType[];
-    operatorConfigList: IOperator[];
-    getTypeConfig: TGetTypeConfig;
-    getOperatorConfig: TGetOperatorConfig;
-    endpoints: IEndpoints;
+    typeConfigList: Type[];
+    operatorConfigList: Operator[];
+    getTypeConfig: GetTypeConfig;
+    getOperatorConfig: GetOperatorConfig;
+    endpoints: Endpoints;
 
     ComponentMap: ComponentMap;
 
@@ -42,33 +42,35 @@ export interface IActionProps {
     onUpdateAction: Function;
     onUpdateRouter: Function;
 
-    children?(actionDivProps: TAnyAction): JSX.Element;
+    children?(actionDivProps: AnyAction): JSX.Element;
 }
 
-interface IActionState {
+interface ActionState {
     editing: boolean;
     confirmRemoval: boolean;
 }
 
-class Action extends React.Component<IActionProps, IActionState> {
+class Action extends React.Component<ActionProps, ActionState> {
     private clicking = false;
 
     protected localizedKeys: string[] = [];
 
-    constructor(props: IActionProps) {
+    constructor(props: ActionProps) {
         super(props);
         this.state = { editing: false, confirmRemoval: false };
 
         this.onClick = this.onClick.bind(this);
         this.onRemoval = this.onRemoval.bind(this);
         this.onMoveUp = this.onMoveUp.bind(this);
+        this.onMouseUp = this.onMouseUp.bind(this);
+        this.onMouseDown = this.onMouseDown.bind(this);
     }
 
     public setEditing(editing: boolean): void {
         this.setState({ editing });
     }
 
-    public onClick(event: React.SyntheticEvent<MouseEvent>): void {
+    public onClick(event: React.MouseEvent<HTMLDivElement>): void {
         event.preventDefault();
         event.stopPropagation();
 
@@ -96,7 +98,7 @@ class Action extends React.Component<IActionProps, IActionState> {
         });
     }
 
-    componentDidUpdate(prevProps: IActionProps, prevState: IActionState): void {
+    public componentDidUpdate(prevProps: ActionProps, prevState: ActionState): void {
         if (this.props.dragging) {
             this.clicking = false;
         }
@@ -112,16 +114,27 @@ class Action extends React.Component<IActionProps, IActionState> {
         this.props.onMoveActionUp(this.props.action);
     }
 
-    public getAction(): TAnyAction {
+    public getAction(): AnyAction {
         let actionDivProps;
 
         if (this.props.Localization) {
-            actionDivProps = this.props.Localization.getObject() as TAnyAction;
+            actionDivProps = this.props.Localization.getObject() as AnyAction;
         } else {
             actionDivProps = this.props.action;
         }
 
         return actionDivProps;
+    }
+
+    private onMouseUp(evt: React.MouseEvent<HTMLDivElement>): void {
+        if (this.clicking) {
+            this.clicking = false;
+            this.onClick(evt);
+        }
+    }
+
+    private onMouseDown(evt: React.MouseEvent<HTMLDivElement>): void {
+        this.clicking = true;
     }
 
     render(): JSX.Element {
@@ -159,17 +172,10 @@ class Action extends React.Component<IActionProps, IActionState> {
             <div id={`action-${this.props.action.uuid}`} className={classes.join(' ')}>
                 <div className={styles.overlay} />
                 <div
-                    onMouseDown={() => {
-                        this.clicking = true;
-                    }}
-                    onMouseUp={(event: any) => {
-                        if (this.clicking) {
-                            this.clicking = false;
-                            this.onClick(event);
-                        }
-                    }}
+                    onMouseDown={this.onMouseDown}
+                    onMouseUp={this.onMouseUp}
                     data-spec="interactive-div">
-                    <TitleBar
+                    <TitleBarComp
                         className={shared[this.props.action.type]}
                         title={config.name}
                         onRemoval={this.onRemoval}

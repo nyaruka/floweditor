@@ -1,72 +1,80 @@
 import * as React from 'react';
 import { Async as SelectAsync, AsyncCreatable as SelectAsyncCreatable } from 'react-select';
 import axios, { AxiosResponse } from 'axios';
-import { ISearchResult } from '../services/ComponentMap';
+import { SearchResult } from '../services/ComponentMap';
 
-export interface ISelectSearchProps {
+export interface SelectSearchProps {
     url: string;
     name: string;
     resultType: string;
     placeholder?: string;
     multi?: boolean;
     clearable?: boolean;
-    initial?: ISearchResult[];
-    localSearchOptions?: ISearchResult[];
+    initial?: SearchResult[];
+    localSearchOptions?: SearchResult[];
     className?: string;
     createPrompt?: string;
-    onChange?(selection: ISearchResult): void;
+    onChange?(selection: SearchResult): void;
     isValidNewOption?(option: { label: string }): boolean;
     createNewOption?(option: { label: string; labelKey: string; valueKey: string }): any;
 }
 
-interface ISelectSearchState {
-    selection: ISearchResult[];
+interface SelectSearchState {
+    selection: SearchResult[];
 }
 
-interface ISearchParams {
+interface SearchParams {
     term: string;
     page: number;
     _type: string;
 }
 
-interface ISelectSearchResult {
-    options: ISearchResult[];
+interface SelectSearchResult {
+    options: SearchResult[];
     complete: boolean;
 }
 
-export class SelectSearch extends React.PureComponent<ISelectSearchProps, ISelectSearchState> {
+export default class SelectSearch extends React.PureComponent<
+    SelectSearchProps,
+    SelectSearchState
+> {
     private select: any;
 
-    constructor(props: ISelectSearchProps) {
+    constructor(props: SelectSearchProps) {
         super(props);
         this.state = {
             selection: props.initial
         };
+
+        this.loadOptions = this.loadOptions.bind(this);
+        this.onInputChange = this.onInputChange.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
     /**
      * Sorts all search results by name
      */
-    private sortResults(a: ISearchResult, b: ISearchResult): number {
+    private sortResults(a: SearchResult, b: SearchResult): number {
         return a.name.localeCompare(b.name);
     }
 
-    private addSearchResult(results: ISearchResult[], result: ISearchResult) {
-        var found = false;
+    private addSearchResult(results: SearchResult[], result: SearchResult) {
+        let found = false;
+
         for (let existing of results) {
-            if (result.id == existing.id) {
+            if (result.id === existing.id) {
                 found = true;
                 break;
             }
         }
 
         if (!found) {
-            results.push(result);
+            results = [...results, result];
         }
     }
 
-    search(term: string, remoteResults: ISearchResult[] = []): ISelectSearchResult {
-        var combined = remoteResults.concat([]);
+    search(term: string, remoteResults: SearchResult[] = []): SelectSearchResult {
+        let combined = remoteResults.concat([]);
 
         if (term) {
             term = term.toLowerCase();
@@ -80,8 +88,9 @@ export class SelectSearch extends React.PureComponent<ISelectSearchProps, ISelec
             }
         }
 
-        combined.sort(this.sortResults);
-        var results: ISelectSearchResult = {
+        combined = combined.sort(this.sortResults);
+
+        const results: SelectSearchResult = {
             options: combined,
             complete: true
         };
@@ -90,18 +99,22 @@ export class SelectSearch extends React.PureComponent<ISelectSearchProps, ISelec
     }
 
     loadOptions(input: string, callback: any) {
-        if (this.props.url == null) {
+        if (!this.props.url) {
             callback(this.search(input));
         } else {
             axios.get(this.props.url).then((response: AxiosResponse) => {
-                var results: ISearchResult[] = [];
-                for (let result of response.data.results) {
-                    results.push({
-                        name: result['name'],
-                        id: result['uuid'],
-                        type: this.props.resultType
-                    });
-                }
+                let results: SearchResult[] = [];
+                response.data.results.forEach(
+                    (result: any) =>
+                        (results = [
+                            ...results,
+                            {
+                                name: result['name'],
+                                id: result['uuid'],
+                                type: this.props.resultType
+                            }
+                        ])
+                );
                 callback(null, this.search(input, results));
             });
         }
@@ -115,18 +128,17 @@ export class SelectSearch extends React.PureComponent<ISelectSearchProps, ISelec
         if (this.props.onChange) {
             this.props.onChange(selection);
         }
-        this.setState({ selection: selection });
-        this.select.focus();
+        this.setState({ selection }, () => this.select.focus());
     }
 
     private onInputChange(value: string) {}
 
-    private filterOption(option: ISearchResult, term: string) {
+    private filterOption(option: SearchResult, term: string) {
         return option.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
     }
 
     render() {
-        var value: any;
+        let value: any;
 
         if (this.props.multi) {
             value = [];
@@ -135,7 +147,7 @@ export class SelectSearch extends React.PureComponent<ISelectSearchProps, ISelec
         if (this.state.selection) {
             for (let selection of this.state.selection) {
                 if (selection) {
-                    var selectionValue;
+                    let selectionValue;
                     if (selection.extraResult || this.props.multi) {
                         selectionValue = selection;
                     } else {
@@ -143,7 +155,7 @@ export class SelectSearch extends React.PureComponent<ISelectSearchProps, ISelec
                     }
 
                     if (this.props.multi) {
-                        value.push(selectionValue);
+                        value = [...value, selectionValue];
                     } else {
                         value = selectionValue;
                     }
@@ -151,30 +163,30 @@ export class SelectSearch extends React.PureComponent<ISelectSearchProps, ISelec
             }
         }
 
-        var options: any = {};
+        let options: any = {};
+
         if (this.props.createPrompt) {
-            options['promptTextCreator'] = (label: string) => {
-                return this.props.createPrompt + label;
+            options = {
+                ...options,
+                promptTextCreator: (label: string) => this.props.createPrompt + label
             };
         }
 
         if (this.props.createNewOption) {
-            options['newOptionCreator'] = this.props.createNewOption;
+            options = { ...options, newOptionCreator: this.props.createNewOption };
         }
 
         if (this.props.isValidNewOption) {
-            options['isValidNewOption'] = this.props.isValidNewOption;
+            options = { ...options, isValidNewOption: this.props.isValidNewOption };
         }
 
         if (this.props.createNewOption) {
             return (
                 <SelectAsyncCreatable
                     className={this.props.className}
-                    ref={(ele: any) => {
-                        this.select = ele;
-                    }}
+                    ref={(ele: any) => this.select = ele}
                     name={this.props.name}
-                    loadOptions={this.loadOptions.bind(this)}
+                    loadOptions={this.loadOptions}
                     clearable={this.props.clearable}
                     ignoreCase={false}
                     ignoreAccents={false}
@@ -188,8 +200,8 @@ export class SelectSearch extends React.PureComponent<ISelectSearchProps, ISelec
                     onCloseResetsInput={true}
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
-                    onInputChange={this.onInputChange.bind(this)}
-                    onChange={this.onChange.bind(this)}
+                    onInputChange={this.onInputChange}
+                    onChange={this.onChange}
                     {...options}
                 />
             );
@@ -197,11 +209,9 @@ export class SelectSearch extends React.PureComponent<ISelectSearchProps, ISelec
             return (
                 <SelectAsync
                     className={this.props.className}
-                    ref={(ele: any) => {
-                        this.select = ele;
-                    }}
+                    ref={(ele: any) => this.select = ele}
                     name={this.props.name}
-                    loadOptions={this.loadOptions.bind(this)}
+                    loadOptions={this.loadOptions}
                     clearable={this.props.clearable}
                     ignoreCase={false}
                     ignoreAccents={false}
@@ -215,8 +225,8 @@ export class SelectSearch extends React.PureComponent<ISelectSearchProps, ISelec
                     onCloseResetsInput={true}
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
-                    onInputChange={this.onInputChange.bind(this)}
-                    onChange={this.onChange.bind(this)}
+                    onInputChange={this.onInputChange}
+                    onChange={this.onChange}
                     {...options}
                 />
             );

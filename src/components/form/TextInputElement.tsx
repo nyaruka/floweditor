@@ -1,15 +1,15 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { FormElement, IFormElementProps } from './FormElement';
-import { FormWidget, IFormValueState } from './FormWidget';
-import ComponentMap, { ICompletionOption } from '../../services/ComponentMap';
+import { FormElement, FormElementProps } from './FormElement';
+import { FormWidget, FormValueState } from './FormWidget';
+import ComponentMap, { CompletionOption } from '../../services/ComponentMap';
 
-var getCaretCoordinates = require('textarea-caret');
-var inputSelection = require('get-input-selection');
+const getCaretCoordinates = require('textarea-caret');
+const inputSelection = require('get-input-selection');
 
-var styles = require('./TextInputElement.scss');
-var shared = require('./FormElement.scss');
+const styles = require('./TextInputElement.scss');
+const shared = require('./FormElement.scss');
 
 const KEY_AT = 50;
 const KEY_SPACE = 32;
@@ -22,17 +22,17 @@ const KEY_N = 78;
 const KEY_ESC = 27;
 const KEY_BACKSPACE = 8;
 
-export interface ICoordinates {
+export interface Coordinates {
     left: number;
     top: number;
 }
 
-export interface IHTMLTextElement {
+export interface HTMLTextElement {
     value: string;
     selectionStart: number;
 }
 
-interface ITextInputProps extends IFormElementProps {
+interface TextInputProps extends FormElementProps {
     value: string;
 
     // validates that the input is a url
@@ -47,22 +47,22 @@ interface ITextInputProps extends IFormElementProps {
     // do we show autocompletion choices
     autocomplete?: boolean;
 
-    onChange?(event: React.ChangeEvent<IHTMLTextElement>): void;
-    onBlur?(event: React.ChangeEvent<IHTMLTextElement>): void;
+    onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
+    onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
 
     ComponentMap: ComponentMap;
 }
 
-export interface ITextInputState extends IFormValueState {
+export interface TextInputState extends FormValueState {
     caretOffset: number;
-    caretCoordinates: ICoordinates;
+    caretCoordinates: Coordinates;
     completionVisible: boolean;
     selectedOptionIndex: number;
-    matches: ICompletionOption[];
+    matches: CompletionOption[];
     query: string;
 }
 
-const OPTIONS: ICompletionOption[] = [
+const OPTIONS: CompletionOption[] = [
     { name: 'contact', description: 'The name of the contact.' },
     { name: 'contact.name', description: 'The name of the contact.' },
     { name: 'contact.language', description: 'The language code for the contact.' },
@@ -92,11 +92,11 @@ const OPTIONS: ICompletionOption[] = [
     { name: 'webhook.response', description: 'The raw response of the webhook including headers' }
 ];
 
-export class TextInputElement extends FormWidget<ITextInputProps, ITextInputState> {
+export default class TextInputElement extends FormWidget<TextInputProps, TextInputState> {
     private selectedEle: any;
-    private textElement: IHTMLTextElement;
+    private textElement: HTMLTextElement;
 
-    private options: ICompletionOption[];
+    private options: CompletionOption[];
 
     constructor(props: any) {
         super(props);
@@ -112,13 +112,13 @@ export class TextInputElement extends FormWidget<ITextInputProps, ITextInputStat
             query: ''
         };
 
+        if (this.props.autocomplete) {
+            this.options = [...OPTIONS, ...this.props.ComponentMap.getResultNames()] as any;
+        }
+
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
-
-        if (this.props.autocomplete) {
-            this.options = OPTIONS.concat(this.props.ComponentMap.getResultNames());
-        }
     }
 
     private setSelection(index: number) {
@@ -201,8 +201,8 @@ export class TextInputElement extends FormWidget<ITextInputProps, ITextInputStat
 
                     var query = '';
                     var completionVisible = false;
-                    var matches: ICompletionOption[] = [];
-                    if (event.keyCode == KEY_TAB) {
+                    var matches: CompletionOption[] = [];
+                    if (event.keyCode === KEY_TAB) {
                         query = option.name;
                         matches = this.filterOptions(query);
                         completionVisible = matches.length > 0;
@@ -241,12 +241,12 @@ export class TextInputElement extends FormWidget<ITextInputProps, ITextInputStat
                     var curr = this.state.value[i];
 
                     // space, don't do anything but break out
-                    if (curr == ' ') {
+                    if (curr === ' ') {
                         break;
                     }
 
                     // @ we display again
-                    if (curr == '@') {
+                    if (curr === '@') {
                         var ele: any = ReactDOM.findDOMNode(this.textElement as any);
                         query = this.state.value.substr(i + 1, caret - i - 1);
                         matches = this.filterOptions(query);
@@ -285,7 +285,7 @@ export class TextInputElement extends FormWidget<ITextInputProps, ITextInputStat
         }
     }
 
-    private onBlur(event: React.ChangeEvent<IHTMLTextElement>) {
+    private onBlur(event: React.ChangeEvent<HTMLTextElement>) {
         this.setState(
             {
                 query: '',
@@ -303,15 +303,18 @@ export class TextInputElement extends FormWidget<ITextInputProps, ITextInputStat
         );
     }
 
-    private onChange(event: React.ChangeEvent<IHTMLTextElement>) {
+    private onChange(event: React.ChangeEvent<HTMLTextElement>) {
+        const { currentTarget: { selectionStart, value } } = event;
+
         if (this.props.autocomplete) {
-            var query: string = null;
-            var matches: ICompletionOption[] = [];
+            let query: string;
+            let matches: CompletionOption[] = [];
+
             if (this.state.completionVisible) {
-                var text = event.currentTarget.value;
-                query = text.substring(0, event.currentTarget.selectionStart);
+                query = value.substring(0, selectionStart);
 
                 let lastIdx = query.lastIndexOf('@');
+
                 if (lastIdx > -1) {
                     query = query.substring(lastIdx + 1);
                 }
@@ -320,15 +323,15 @@ export class TextInputElement extends FormWidget<ITextInputProps, ITextInputStat
             }
 
             this.setState({
-                caretOffset: event.currentTarget.selectionStart,
-                matches: matches,
+                caretOffset: selectionStart,
+                matches,
                 selectedOptionIndex: 0,
-                value: event.currentTarget.value,
-                query: query
+                value,
+                query
             });
         } else {
             this.setState({
-                value: event.currentTarget.value
+                value
             });
         }
 
@@ -347,35 +350,36 @@ export class TextInputElement extends FormWidget<ITextInputProps, ITextInputStat
     }
 
     validate(): boolean {
-        var errors: string[] = [];
+        let errors: string[] = [];
+
         if (this.props.required) {
             if (!this.state.value) {
-                errors.push(this.props.name + ' is required');
+                errors = [...errors, `${this.props.name} is required`];
             }
         }
 
-        this.setState({ errors: errors });
+        this.setState({ errors });
 
         // see if it should be a valid url
-        if (errors.length == 0) {
+        if (errors.length === 0) {
             if (this.props.url) {
                 if (!this.isValidURL(this.state.value)) {
-                    errors.push('Enter a valid URL');
+                    errors = [...errors, 'Enter a valid URL'];
                 }
             }
         }
 
-        return errors.length == 0;
+        return errors.length === 0;
     }
 
-    private filterOptions(query: string): ICompletionOption[] {
-        if (query != null) {
-            var search = query.toLowerCase();
-            var results = this.options.filter((option: ICompletionOption) => {
-                var rest = option.name.substr(search.length);
+    private filterOptions(query: string): CompletionOption[] {
+        if (query) {
+            const search = query.toLowerCase();
+            const results = this.options.filter((option: CompletionOption) => {
+                const rest = option.name.substr(search.length);
                 return (
-                    option.name.indexOf(search) == 0 &&
-                    (rest.length == 0 || rest.substr(1).indexOf('.') == -1)
+                    option.name.indexOf(search) === 0 &&
+                    (rest.length === 0 || rest.substr(1).indexOf('.') === -1)
                 );
             });
             return results;
@@ -383,11 +387,11 @@ export class TextInputElement extends FormWidget<ITextInputProps, ITextInputStat
         return [];
     }
 
-    private getOptionName(query: string, option: ICompletionOption): string {
+    private getOptionName(query: string, option: CompletionOption): string {
         return option.name;
     }
 
-    componentDidUpdate(previous: ITextInputProps) {
+    componentDidUpdate(previous: TextInputProps) {
         if (this.selectedEle != null) {
             var selectedOption = ReactDOM.findDOMNode(this.selectedEle);
             if (selectedOption != null) {
@@ -396,7 +400,7 @@ export class TextInputElement extends FormWidget<ITextInputProps, ITextInputStat
         }
     }
 
-    private renderOption(option: ICompletionOption, selected: boolean): JSX.Element {
+    private renderOption(option: CompletionOption, selected: boolean): JSX.Element {
         if (selected) {
             return (
                 <div>
@@ -410,25 +414,29 @@ export class TextInputElement extends FormWidget<ITextInputProps, ITextInputStat
     }
 
     render() {
-        var classes = [styles.textinput];
+        let classes: string[] = [styles.textinput];
+
         if (this.state.errors.length > 0) {
-            classes.push(shared.invalid);
+            classes = [...classes, shared.invalid];
         }
 
-        var completionClasses: string[] = [styles.completion_container];
-        if (!this.state.completionVisible || this.state.matches.length == 0) {
-            completionClasses.push(styles.hidden);
+        let completionClasses: string[] = [styles.completion_container];
+
+        if (!this.state.completionVisible || this.state.matches.length === 0) {
+            completionClasses = [...completionClasses, styles.hidden];
         }
 
-        var options: JSX.Element[] = [];
-        this.state.matches.map((option: ICompletionOption, index: number) => {
-            var optionClasses = [styles.option];
-            if (index == this.state.selectedOptionIndex) {
-                optionClasses.push(styles.selected);
-                if (index == 0) {
-                    optionClasses.push(styles.first_option);
+        const options = this.state.matches.map((option: CompletionOption, index: number) => {
+            let optionClasses = [styles.option];
+
+            if (index === this.state.selectedOptionIndex) {
+                optionClasses = [...optionClasses, styles.selected];
+
+                if (index === 0) {
+                    optionClasses = [...optionClasses, styles.first_options];
                 }
-                options.push(
+
+                return (
                     <li
                         ref={ele => {
                             this.selectedEle = ele;
@@ -438,17 +446,17 @@ export class TextInputElement extends FormWidget<ITextInputProps, ITextInputStat
                         {this.renderOption(option, true)}
                     </li>
                 );
-            } else {
-                options.push(
-                    <li className={optionClasses.join(' ')} key={option.name}>
-                        {this.renderOption(option, false)}
-                    </li>
-                );
             }
+            return (
+                <li className={optionClasses.join(' ')} key={option.name}>
+                    {this.renderOption(option, false)}
+                </li>
+            );
         });
 
         // use the proper form element
-        var TextElement = 'input';
+        let TextElement = 'input';
+
         if (this.props.textarea) {
             TextElement = 'textarea';
         }
@@ -462,9 +470,7 @@ export class TextInputElement extends FormWidget<ITextInputProps, ITextInputStat
                 errors={this.state.errors}>
                 <div className={styles.wrapper}>
                     <TextElement
-                        ref={(ref: any) => {
-                            this.textElement = ref;
-                        }}
+                        ref={(ref: any) => (this.textElement = ref)}
                         className={classes.join(' ')}
                         value={this.state.value}
                         onChange={this.onChange}

@@ -3,10 +3,10 @@ import * as axios from 'axios';
 import * as UUID from 'uuid';
 // import { FlowList } from './FlowList';
 import EditorConfig from '../services/EditorConfig';
-import External, { IFlowDetails } from '../services/External';
-import { IFlowDefinition } from '../flowTypes';
+import External, { FlowDetails } from '../services/External';
+import { FlowDefinition } from '../flowTypes';
 import FlowMutator from '../services/FlowMutator';
-import { Temba } from '../services/Temba';
+import Temba from '../services/Temba';
 import ComponentMap from '../services/ComponentMap';
 import Flow from './Flow';
 
@@ -20,8 +20,8 @@ export interface IEditorProps {
 
 export interface IEditorState {
     flowUUID: string;
-    definition: IFlowDefinition;
-    dependencies: IFlowDefinition[];
+    definition: FlowDefinition;
+    dependencies: FlowDefinition[];
 }
 
 /**
@@ -49,7 +49,7 @@ export default class Editor extends React.PureComponent<IEditorProps, IEditorSta
         this.setState({ flowUUID: uuid }, () => this.fetchFlow());
     }
 
-    private setDefinition(definition: IFlowDefinition, dependencies?: IFlowDefinition[]): void {
+    private setDefinition(definition: FlowDefinition, dependencies?: FlowDefinition[]): void {
         if (dependencies) {
             this.setState({
                 definition,
@@ -62,14 +62,14 @@ export default class Editor extends React.PureComponent<IEditorProps, IEditorSta
         }
     }
 
-    private save(definition: IFlowDefinition) {
+    private save(definition: FlowDefinition) {
         // this.props.External.saveFlow(definition).catch((error) => {
         // do nothing
         //});
     }
 
     /** TODO: determine full dependency list and fetch those at simulation time */
-    private initialize(definition: IFlowDefinition): void {
+    private initialize(definition: FlowDefinition): void {
         this.ComponentMap = new ComponentMap(definition);
 
         this.Mutator = new FlowMutator(
@@ -86,7 +86,7 @@ export default class Editor extends React.PureComponent<IEditorProps, IEditorSta
     private fetchFlow(): void {
         this.props.External
             .getFlow(this.state.flowUUID, false, this.props.EditorConfig.endpoints.flows)
-            .then(({ definition }: IFlowDetails) => this.initialize(definition))
+            .then(({ definition }: FlowDetails) => this.initialize(definition))
             .catch((error: {}) => console.log(error));
     }
 

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import '../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { SelectSearch, ISelectSearchProps } from './SelectSearch';
+import SelectSearch, { SelectSearchProps } from './SelectSearch';
 
-const selectSearchProps: ISelectSearchProps = {
+const selectSearchProps: SelectSearchProps = {
     url: 'https://some-url.com',
     name: 'name',
     resultType: 'resultType'

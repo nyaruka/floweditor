@@ -1,8 +1,8 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { IChangeGroup } from '../../../flowTypes';
-import ChangeGroup from './ChangeGroup';
+import { ChangeGroup } from '../../../flowTypes';
+import ChangeGroupComp from './ChangeGroup';
 
 const definition = {
     name: 'Lots of Action',
@@ -67,11 +67,11 @@ const { nodes: [node], language: flowLanguage } = definition;
 
 const { actions: [, addToGroupAction] } = node;
 
-const { uuid, type, groups: [{ name: groupName}] } = addToGroupAction as IChangeGroup;
+const { uuid, type, groups: [{ name: groupName}] } = addToGroupAction as ChangeGroup;
 
 describe('Component: ChangeGroup', () => {
     it('should render ChangeGroupComp with group name', () => {
-        const ChangeGroupDivShallow = shallow(<ChangeGroup {...addToGroupAction as IChangeGroup} />);
+        const ChangeGroupDivShallow = shallow(<ChangeGroupComp {...addToGroupAction as ChangeGroup} />);
 
         expect(ChangeGroupDivShallow.text()).toBe(groupName);
     });

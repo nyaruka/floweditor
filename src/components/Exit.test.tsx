@@ -5,7 +5,7 @@ import { languages } from '../flowEditorConfig';
 import { LocalizedObject } from '../services/Localization';
 import Plumber from '../services/Plumber';
 import ActivityManager from '../services/ActivityManager';
-import ExitComp, { IExitProps } from './Exit';
+import ExitComp, { ExitProps } from './Exit';
 
 const {
     results: [{ definition, uuid: flowUUID }]
@@ -21,7 +21,7 @@ const Localization: LocalizedObject = new LocalizedObject(
     languages
 );
 
-const exitProps: IExitProps = {
+const exitProps: ExitProps = {
     Activity,
     exit: {
         uuid: '10e2b6f4-8587-463e-9248-a6069d4897d6'

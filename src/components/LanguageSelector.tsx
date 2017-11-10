@@ -1,24 +1,24 @@
 import * as React from 'react';
 import Select from 'react-select';
-import { ILanguages } from '../services/EditorConfig';
+import { Languages } from '../services/EditorConfig';
 
 const styles = require('./LanguageSelector.scss');
 
-export interface ILanguage {
+export interface Language {
     name: string;
     iso: string;
 }
 
-export interface ILanguageSelectorProps {
+export interface LanguageSelectorProps {
     iso: string;
-    languages: ILanguages;
-    onChange(language: ILanguage): void;
+    languages: Languages;
+    onChange(language: Language): void;
 }
 
-export default class LanguageSelectorComp extends React.PureComponent<ILanguageSelectorProps, {}> {
-    private options: ILanguage[] = [];
+export default class LanguageSelectorComp extends React.PureComponent<LanguageSelectorProps, {}> {
+    private options: Language[] = [];
 
-    constructor(props: ILanguageSelectorProps) {
+    constructor(props: LanguageSelectorProps) {
         super(props);
         /** Config stores languages as shape { iso, name } */
         this.options = Object.keys(this.props.languages).map(iso => {

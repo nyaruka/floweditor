@@ -1,18 +1,17 @@
-import { IAction, IExit, ICase } from '../flowTypes';
-import { ILanguages } from '../services/EditorConfig';
-import { ILanguage } from '../components/LanguageSelector';
-import __flow_editor_config__ from '../flowEditorConfig';
+import { Action, Exit, Case } from '../flowTypes';
+import { Languages } from '../services/EditorConfig';
+import { Language } from '../components/LanguageSelector';
 
 export class LocalizedObject {
     public localizedKeys: { [key: string]: boolean } = {};
 
-    private localizedObject: IAction | IExit | ICase;
+    private localizedObject: Action | Exit | Case;
     private localized: boolean;
     private iso: string;
-    private language: ILanguage;
-    private languages: ILanguages;
+    private language: Language;
+    private languages: Languages;
 
-    constructor(object: IAction | IExit | ICase, iso: string, languages: ILanguages) {
+    constructor(object: Action | Exit | Case, iso: string, languages: Languages) {
         this.localizedObject = object;
         this.iso = iso;
         this.languages = languages;
@@ -48,15 +47,15 @@ export class LocalizedObject {
         this.localizedKeys[key] = true;
     }
 
-    public getObject(): IAction | ICase | IExit {
+    public getObject(): Action | Case | Exit {
         return this.localizedObject;
     }
 }
-class Localization {
+export default class Localization {
     static translate(
-        object: IAction | IExit | ICase,
+        object: Action | Exit | Case,
         iso: string,
-        languages: ILanguages,
+        languages: Languages,
         translations?: { [uuid: string]: any }
     ): LocalizedObject {
         if (translations) {
@@ -70,6 +69,4 @@ class Localization {
         }
         return null;
     }
-}
-
-export default Localization;
+};

@@ -2,33 +2,33 @@ import * as React from 'react';
 import * as UUID from 'uuid';
 import * as FlipMove from 'react-flip-move';
 
-//import {ICase} from '../Case';
-import { IType, TGetOperatorConfig, IOperator } from '../../services/EditorConfig';
+//import {Case} from '../Case';
+import { Type, GetOperatorConfig, Operator } from '../../services/EditorConfig';
 import ComponentMap from '../../services/ComponentMap';
 import { CaseElement } from '../form/CaseElement';
-import { TextInputElement, IHTMLTextElement } from '../form/TextInputElement';
-import { INode, IRouter, ISwitchRouter, IExit, ICase, TAnyAction } from '../../flowTypes';
+import TextInputElement, {  HTMLTextElement } from '../form/TextInputElement';
+import { Node, Router, SwitchRouter, Exit, Case, AnyAction } from '../../flowTypes';
 
 import { DragDropContext } from 'react-dnd';
 import Widget from '../NodeEditor/Widget';
-import { ILanguage } from '../LanguageSelector';
+import { Language } from '../LanguageSelector';
 import { LocalizedObject } from '../../services/Localization';
 
-let HTML5Backend = require('react-dnd-html5-backend');
-let update = require('immutability-helper');
-var styles = require('./SwitchRouter.scss');
+const HTML5Backend = require('react-dnd-html5-backend');
+const update = require('immutability-helper');
+const styles = require('./SwitchRouter.scss');
 
-export interface ICaseProps {
-    kase: ICase;
+export interface CaseProps {
+    kase: Case;
 
     exitName: string;
     onChanged: Function;
     moveCase: Function;
 }
 
-export interface ICombinedExits {
-    cases: ICase[];
-    exits: IExit[];
+export interface CombinedExits {
+    cases: Case[];
+    exits: Exit[];
     defaultExit: string;
 }
 /**
@@ -37,22 +37,22 @@ export interface ICombinedExits {
  * @param newCases
  * @param previousExits
  */
-export function resolveExits(newCases: ICaseProps[], previous: INode): ICombinedExits {
+export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExits {
     // create mapping of our old exit uuids to old exit settings
-    var previousExitMap: { [uuid: string]: IExit } = {};
+    var previousExitMap: { [uuid: string]: Exit } = {};
     if (previous.exits) {
         for (let exit of previous.exits) {
             previousExitMap[exit.uuid] = exit;
         }
     }
 
-    var exits: IExit[] = [];
-    var cases: ICase[] = [];
+    var exits: Exit[] = [];
+    var cases: Case[] = [];
 
     // map our new cases to an appropriate exit
     for (let newCase of newCases) {
         // see if we have a suitable exit for our case already
-        var existingExit: IExit = null;
+        var existingExit: Exit = null;
 
         // use our previous exit name if it isn't set
         if (!newCase.exitName && newCase.kase.exit_uuid in previousExitMap) {
@@ -119,7 +119,7 @@ export function resolveExits(newCases: ICaseProps[], previous: INode): ICombined
     // add in our default exit
     var defaultUUID = UUID.v4();
     if (previous.router && previous.router.type == 'switch') {
-        var router = previous.router as ISwitchRouter;
+        var router = previous.router as SwitchRouter;
         if (router && router.default_exit_uuid) {
             defaultUUID = router.default_exit_uuid;
         }
@@ -144,45 +144,45 @@ export function resolveExits(newCases: ICaseProps[], previous: INode): ICombined
     return { cases: cases, exits: exits, defaultExit: defaultUUID };
 }
 
-export interface ISwitchRouterState {
-    cases: ICaseProps[];
+export interface SwitchRouterState {
+    cases: CaseProps[];
     resultName: string;
     setResultName: boolean;
     operand: string;
 }
 
-export interface ISwitchRouterFormProps {
+export interface SwitchRouterFormProps {
     advanced: boolean;
-    node: INode;
-    action: TAnyAction;
-    config: IType;
-    updateRouter(node: INode, type: string, previousAction: TAnyAction): void;
-    getOperatorConfig: TGetOperatorConfig;
+    node: Node;
+    action: AnyAction;
+    config: Type;
+    updateRouter(node: Node, type: string, previousAction: AnyAction): void;
+    getOperatorConfig: GetOperatorConfig;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
     removeWidget(name: string): void;
     localizations?: LocalizedObject[];
     updateLocalizations(language: string, changes: { uuid: string; translations: any }[]): void;
     ComponentMap: ComponentMap;
-    operatorConfigList: IOperator[];
+    operatorConfigList: Operator[];
     isTranslating: boolean;
     getLocalizedExits(widgets: {
         [name: string]: Widget;
     }): { uuid: string; translations: any }[];
-    getInitialRouter(): IRouter;
+    getInitialRouter(): Router;
     renderExitTranslations(): JSX.Element;
     validationCallback: Function;
 }
 
-class SwitchRouterForm extends React.Component<ISwitchRouterFormProps, ISwitchRouterState> {
-    constructor(props: ISwitchRouterFormProps) {
+class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRouterState> {
+    constructor(props: SwitchRouterFormProps) {
         super(props);
 
-        var cases: ICaseProps[] = [];
+        var cases: CaseProps[] = [];
         var resultName = '';
         var operand = '@input';
 
-        var initial = this.props.getInitialRouter() as ISwitchRouter;
+        var initial = this.props.getInitialRouter() as SwitchRouter;
 
         var exits = this.props.node.exits;
         if (initial && initial.type === 'switch' && initial.cases) {
@@ -219,7 +219,7 @@ class SwitchRouterForm extends React.Component<ISwitchRouterFormProps, ISwitchRo
             setResultName: false,
             resultName: resultName,
             operand: operand
-        } as ISwitchRouterState;
+        } as SwitchRouterState;
 
         this.validationCallback = this.validationCallback.bind(this);
         this.onCaseChanged = this.onCaseChanged.bind(this);
@@ -232,14 +232,14 @@ class SwitchRouterForm extends React.Component<ISwitchRouterFormProps, ISwitchRo
         });
     }
 
-    onExpressionChanged(event: React.SyntheticEvent<IHTMLTextElement>) {
+    onExpressionChanged(event: React.SyntheticEvent<HTMLTextElement>) {
         this.setState({
             operand: event.currentTarget.value
         });
     }
 
     onCaseRemoved(c: CaseElement) {
-        let idx = this.state.cases.findIndex((props: ICaseProps) => {
+        let idx = this.state.cases.findIndex((props: CaseProps) => {
             return props.kase.uuid == c.props.kase.uuid;
         });
         if (idx > -1) {
@@ -251,7 +251,7 @@ class SwitchRouterForm extends React.Component<ISwitchRouterFormProps, ISwitchRo
 
     onCaseChanged(c: CaseElement) {
         var cases = this.state.cases;
-        var newCase: ICaseProps = {
+        var newCase: CaseProps = {
             kase: {
                 uuid: c.props.kase.uuid,
                 type: c.state.operator,
@@ -291,7 +291,7 @@ class SwitchRouterForm extends React.Component<ISwitchRouterFormProps, ISwitchRo
 
     getLocalizedCases(widgets: { [name: string]: Widget }): { uuid: string; translations: any }[] {
         var results: { uuid: string; translations: any }[] = [];
-        var router = this.props.getInitialRouter() as ISwitchRouter;
+        var router = this.props.getInitialRouter() as SwitchRouter;
         for (let kase of router.cases) {
             var input = widgets[kase.uuid] as TextInputElement;
             if (input) {
@@ -311,7 +311,7 @@ class SwitchRouterForm extends React.Component<ISwitchRouterFormProps, ISwitchRo
             // var cases: JSX.Element[] = [];
             var kases: JSX.Element[] = [];
 
-            var language: ILanguage;
+            var language: Language;
             if (this.props.hasOwnProperty('localizations') && this.props.localizations.length > 0) {
                 language = this.props.localizations[0].getLanguage();
             }
@@ -320,7 +320,7 @@ class SwitchRouterForm extends React.Component<ISwitchRouterFormProps, ISwitchRo
                 return null;
             }
 
-            var router = this.props.getInitialRouter() as ISwitchRouter;
+            var router = this.props.getInitialRouter() as SwitchRouter;
             for (let kase of router.cases) {
                 if (kase.arguments && kase.arguments.length == 1) {
                     var localized = this.props.localizations.find(
@@ -331,7 +331,7 @@ class SwitchRouterForm extends React.Component<ISwitchRouterFormProps, ISwitchRo
                     if (localized) {
                         var value = null;
                         if ('arguments' in localized.localizedKeys) {
-                            var localizedCase: ICase = localized.getObject() as ICase;
+                            var localizedCase: Case = localized.getObject() as Case;
                             if (localizedCase.arguments.length > 0) {
                                 value = localizedCase.arguments[0];
                             }
@@ -386,7 +386,7 @@ class SwitchRouterForm extends React.Component<ISwitchRouterFormProps, ISwitchRo
             var cases: JSX.Element[] = [];
             var needsEmpty = true;
             if (this.state.cases) {
-                this.state.cases.map((c: ICaseProps, index: number) => {
+                this.state.cases.map((c: CaseProps, index: number) => {
                     // is this case empty?
                     if (
                         (!c.exitName || c.exitName.trim().length == 0) &&
@@ -523,7 +523,7 @@ class SwitchRouterForm extends React.Component<ISwitchRouterFormProps, ISwitchRo
             };
         }
 
-        var router: ISwitchRouter = {
+        var router: SwitchRouter = {
             type: 'switch',
             default_exit_uuid: defaultExit,
             cases: cases,

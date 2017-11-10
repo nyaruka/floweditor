@@ -1,24 +1,25 @@
 import * as React from 'react';
+import * as FlipMove from 'react-flip-move';
 import {
-    IFlowDefinition,
-    IAction,
-    INode,
-    IPosition,
-    IReply,
-    IUINode,
-    IDimensions
+    FlowDefinition,
+    Action,
+    Position,
+    Reply,
+    Node,
+    UINode,
+    LocalizationMap,
+    Dimensions
 } from '../flowTypes';
 import ComponentMap from '../services/ComponentMap';
-import Node, { IDragPoint } from './Node';
+import NodeComp, { DragPoint } from './Node';
 import FlowMutator from '../services/FlowMutator';
-import Simulator from './Simulator';
+import SimulatorComp from './Simulator';
 import Plumber from '../services/Plumber';
 import EditorConfig from '../services/EditorConfig';
 import External from '../services/External';
 import ActivityManager from '../services/ActivityManager';
-import NodeEditor, { INodeEditorProps } from './NodeEditor';
-import LanguageSelector, { ILanguage } from './LanguageSelector';
-import * as FlipMove from 'react-flip-move';
+import NodeEditorComp, { NodeEditorProps } from './NodeEditor';
+import LanguageSelectorComp, { Language } from './LanguageSelector';
 
 const update = require('immutability-helper');
 const UUID = require('uuid');
@@ -26,20 +27,20 @@ const styles = require('./Flow.scss');
 
 export interface IFlowProps {
     EditorConfig: EditorConfig;
-    definition: IFlowDefinition;
-    dependencies: IFlowDefinition[];
+    definition: FlowDefinition;
+    dependencies: FlowDefinition[];
     External: External;
     Mutator: FlowMutator;
     ComponentMap: ComponentMap;
 }
 
 export interface IFlowState {
-    ghost?: INode;
-    nodeEditor?: INodeEditorProps;
+    ghost?: Node;
+    nodeEditor?: NodeEditorProps;
     loading: boolean;
-    viewDefinition?: IFlowDefinition;
-    draggingNode?: INode;
-    language?: ILanguage;
+    viewDefinition?: FlowDefinition;
+    draggingNode?: Node;
+    language?: Language;
 }
 
 export interface IConnection {
@@ -63,12 +64,12 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
     private Mutator: FlowMutator;
 
     // dragging details, TODO, state this?
-    private pendingConnection: IDragPoint;
-    private createNodePosition: IPosition;
-    private addToNode: INode;
+    private pendingConnection: DragPoint;
+    private createNodePosition: Position;
+    private addToNode: Node;
 
-    private ghostComp: Node;
-    private nodeEditorComp: NodeEditor;
+    private ghostComp: NodeComp;
+    private nodeEditorComp: NodeEditorComp;
 
     constructor(props: IFlowProps) {
         super(props);
@@ -110,7 +111,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         console.time('RenderAndPlumb');
     }
 
-    private onNodeBeforeDrag(node: INode, dragGroup: boolean) {
+    private onNodeBeforeDrag(node: Node, dragGroup: boolean) {
         if (!this.state.draggingNode) {
             if (dragGroup) {
                 const nodesBelow = this.props.ComponentMap.getNodesBelow(node);
@@ -121,19 +122,19 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         }
     }
 
-    private onNodeDragStart(node: INode) {
+    private onNodeDragStart(node: Node) {
         if (!this.state.draggingNode) {
             this.setState({ draggingNode: node });
         }
     }
 
-    private onNodeDragStop(node: INode) {
+    private onNodeDragStop(node: Node) {
         if (this.state.draggingNode) {
             this.setState({ draggingNode: null });
         }
     }
 
-    private openEditor(props: INodeEditorProps) {
+    private openEditor(props: NodeEditorProps) {
         console.log('openEditor', props);
 
         props.onClose = (canceled: boolean) => {
@@ -162,8 +163,8 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         });
     }
 
-    private onAddAction(addToNode: INode) {
-        const newAction: IReply = {
+    private onAddAction(addToNode: Node) {
+        const newAction: Reply = {
             uuid: UUID.v4(),
             type: 'reply',
             text: ''
@@ -187,14 +188,14 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         this.addToNode = addToNode;
     }
 
-    private onNodeMoved(uuid: string, position: IPosition) {
+    private onNodeMoved(uuid: string, position: Position) {
         this.props.Mutator.updateNodeUI(uuid, {
             position: { $set: position }
         });
         this.Plumber.repaintForDuration(this.repaintDuration);
     }
 
-    private onNodeMounted(props: INode) {
+    private onNodeMounted(props: Node) {
         this.props.Mutator.resolvePendingConnection(props);
     }
 
@@ -210,7 +211,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         });
     }
 
-    private onUpdateAction(node: INode, action: IAction) {
+    private onUpdateAction(node: Node, action: Action) {
         console.log('Flow.onUpdateAction', action);
         this.props.Mutator.updateAction(
             action,
@@ -225,7 +226,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         this.Plumber.repaintForDuration(this.repaintDuration);
     }
 
-    private onUpdateRouter(node: INode, type: string, previousAction?: IAction) {
+    private onUpdateRouter(node: Node, type: string, previousAction?: Action) {
         console.log('Flow.onUpdateRouter', node);
 
         const { uuid: nodeUUID } = node;
@@ -261,7 +262,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
             exitUUID: draggedFromDetails.exitUUID
         };
 
-        let ghost: INode = {
+        let ghost: Node = {
             uuid: UUID.v4(),
             actions: [],
             exits: [
@@ -274,7 +275,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
 
         // add an action if we are coming from a split
         if (fromNode.wait || fromNodeUI.type === 'webhook') {
-            let replyAction: IReply = {
+            let replyAction: Reply = {
                 uuid: UUID.v4(),
                 type: 'reply',
                 text: null
@@ -386,7 +387,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         this.props.Mutator.updateConnection(event.sourceId, event.targetId);
     }
 
-    private onShowDefinition(definition: IFlowDefinition) {
+    private onShowDefinition(definition: FlowDefinition) {
         // TODO: make this work, it's cool!
         // this.Plumber.reset();
         // this.setState({ viewDefinition: definition }, () => { this.Plumber.repaint() });
@@ -419,7 +420,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         return true;
     }
 
-    private showLanguage(language: ILanguage): void {
+    private showLanguage(language: Language): void {
         this.setState({ language });
     }
 
@@ -450,7 +451,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
 
             nodes = [
                 ...nodes,
-                <Node
+                <NodeComp
                     key={key}
                     node={node}
                     ui={ui}
@@ -497,7 +498,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
             let ghost = this.state.ghost;
 
             // start off screen
-            let ui: IUINode = {
+            let ui: UINode = {
                 position: { x: -1000, y: -1000 }
             };
 
@@ -506,7 +507,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
             }
 
             dragNode = (
-                <Node
+                <NodeComp
                     key={ghost.uuid}
                     ref={(ele: any) => (this.ghostComp = ele)}
                     iso={null}
@@ -553,7 +554,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
 
         if (this.props.EditorConfig.endpoints.engine) {
             simulator = (
-                <Simulator
+                <SimulatorComp
                     definition={this.props.definition}
                     engineURL={this.props.EditorConfig.endpoints.engine}
                     getFlow={this.props.External.getFlow}
@@ -568,7 +569,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
 
         if (this.state.nodeEditor) {
             modal = (
-                <NodeEditor
+                <NodeEditorComp
                     ref={ele => (this.nodeEditorComp = ele)}
                     typeConfigList={this.props.EditorConfig.typeConfigList}
                     operatorConfigList={this.props.EditorConfig.operatorConfigList}
@@ -601,7 +602,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
 
         if (this.props.EditorConfig.languages) {
             languageSelector = (
-                <LanguageSelector
+                <LanguageSelectorComp
                     iso={this.state.language.iso}
                     languages={this.props.EditorConfig.languages}
                     onChange={this.showLanguage}

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { ISaveFlowResult } from '../../../flowTypes';
+import { SaveFlowResult } from '../../../flowTypes';
 
-export default ({ value, result_name }: ISaveFlowResult) => {
+export default ({ value, result_name }: SaveFlowResult) => {
     if (value) {
         return (
             <div>

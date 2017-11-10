@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { ISaveToContact } from '../../../flowTypes';
+import { SaveToContact } from '../../../flowTypes';
 
-export default ({ value, field_name }: ISaveToContact) => {
+export default ({ value, field_name }: SaveToContact) => {
     if (value) {
         return (
             <div>

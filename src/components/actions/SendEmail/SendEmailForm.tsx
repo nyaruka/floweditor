@@ -1,19 +1,19 @@
 import * as React from 'react';
-import { ISendEmail } from '../../../flowTypes';
-import { IType } from '../../../services/EditorConfig';
+import { SendEmail } from '../../../flowTypes';
+import { Type } from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
-import { TextInputElement } from '../../form/TextInputElement';
+import TextInputElement from '../../form/TextInputElement';
 import { EmailElement } from '../../form/EmailElement';
 import Widget from '../../NodeEditor/Widget';
 
 const styles = require('./SendEmail.scss');
 
-export interface ISendEmailFormProps {
+export interface SendEmailFormProps {
     validationCallback: Function;
-    config: IType;
-    getInitialAction(): ISendEmail;
+    config: Type;
+    getInitialAction(): SendEmail;
     ComponentMap: ComponentMap;
-    updateAction(action: ISendEmail): void;
+    updateAction(action: SendEmail): void;
     onBindWidget(ref: any): void;
     getActionUUID: Function;
 }
@@ -26,7 +26,7 @@ export default ({
     updateAction,
     onBindWidget,
     getActionUUID
-}: ISendEmailFormProps): JSX.Element => {
+}: SendEmailFormProps): JSX.Element => {
     validationCallback((widgets: { [name: string]: Widget }) => {
         const emailEle = widgets['Recipient'] as EmailElement;
         const subjectEle = widgets['Subject'] as TextInputElement;
@@ -38,7 +38,7 @@ export default ({
             emails = [...emails, value];
         });
 
-        const newAction: ISendEmail = {
+        const newAction: SendEmail = {
             uuid: getActionUUID(),
             type: config.type,
             body: bodyEle.state.value,

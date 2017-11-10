@@ -1,70 +1,76 @@
 import * as React from 'react';
 
-import { FormElement, IFormElementProps } from './FormElement';
-import { FormWidget, IFormValueState } from './FormWidget';
+import { FormElement, FormElementProps } from './FormElement';
+import { FormWidget, FormValueState } from './FormWidget';
 
-var Select = require('react-select');
-var styles = require('./FormElement.scss');
+const Select = require('react-select');
+const styles = require('./FormElement.scss');
 
-interface IEmailElementProps extends IFormElementProps {
+interface EmailElementProps extends FormElementProps {
     emails: string[];
     placeholder?: string;
 }
 
-interface IEmailState extends IFormValueState {
+interface EmailState extends FormValueState {
     emails: { label: string; value: string }[];
 }
 
-export class EmailElement extends FormWidget<IEmailElementProps, IEmailState> {
+export const transformEmails = (emails: string[]): { label: string; value: string }[] =>
+    emails.map(email => ({ label: email, value: email }));
+
+export class EmailElement extends FormWidget<EmailElementProps, EmailState> {
     private emailPattern = /\S+@\S+\.\S+/;
 
     constructor(props: any) {
         super(props);
 
-        var emails: { label: string; value: string }[] = [];
-        if (this.props.emails) {
-            for (let initial of this.props.emails) {
-                emails.push({ label: initial, value: initial });
-            }
-        }
-
         this.state = {
-            emails: emails,
+            emails: transformEmails(this.props.emails),
             errors: []
         };
+
+        this.onChangeEmails = this.onChangeEmails.bind(this);
+        this.isValidEmail = this.isValidEmail.bind(this);
+        this.validEmailPrompt = this.validEmailPrompt.bind(this);
     }
 
     validate(): boolean {
-        var errors: string[] = [];
+        let errors: string[] = [];
         if (this.props.required) {
-            if (this.state.emails.length == 0) {
-                errors.push(this.props.name + ' is required');
+            if (this.state.emails.length === 0) {
+                errors = [...errors, `${this.props.name} is required`];
             }
         }
 
         this.setState({ errors: errors });
-        return errors.length == 0;
+
+        return errors.length === 0;
     }
 
     private onChangeEmails(emails: { label: string; value: string }[]) {
         this.setState({
-            emails: emails
+            emails
         });
     }
 
     private validEmailPrompt(value: string): string {
-        return 'Send email to ' + value;
+        return `Send email to ${value}`;
     }
 
     private isValidEmail(value: { label: string }): boolean {
         return this.emailPattern.test(value.label);
     }
 
+    private arrowRenderer(): JSX.Element {
+        return <div />;
+    }
+
     render() {
-        var classes = [];
+        let classes: string[] = [];
+
         if (this.state.errors.length > 0) {
             // we use a global selector here for react-select
-            classes.push('select-invalid');
+            classes = [...classes, 'select-invalid'];
         }
 
         return (
@@ -77,16 +83,14 @@ export class EmailElement extends FormWidget<IEmailElementProps, IEmailState> {
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     value={this.state.emails}
-                    onChange={this.onChangeEmails.bind(this)}
+                    onChange={this.onChangeEmails}
                     multi={true}
                     searchable={true}
                     clearable={false}
                     noResultsText={'Enter an email address'}
-                    isValidNewOption={this.isValidEmail.bind(this)}
-                    promptTextCreator={this.validEmailPrompt.bind(this)}
-                    arrowRenderer={() => {
-                        return <div />;
-                    }}
+                    isValidNewOption={this.isValidEmail}
+                    promptTextCreator={this.validEmailPrompt}
+                    arrowRenderer={this.arrowRenderer}
                     options={[]}
                 />
             </FormElement>

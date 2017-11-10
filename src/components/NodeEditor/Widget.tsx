@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { IFormElementProps } from '../form/FormElement';
-import { FormWidget, IFormValueState } from '../form/FormWidget';
+import { FormElementProps } from '../form/FormElement';
+import { FormWidget, FormValueState } from '../form/FormWidget';
 
-abstract class Widget extends FormWidget<IFormElementProps, IFormValueState> {}
+abstract class Widget extends FormWidget<FormElementProps, FormValueState> {}
 
 export default Widget;

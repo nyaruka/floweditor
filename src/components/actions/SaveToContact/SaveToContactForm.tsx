@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
-import { ISaveToContact, IUpdateContact } from '../../../flowTypes';
-import { IType, IEndpoints } from '../../../services/EditorConfig';
+import { SaveToContact, IUpdateContact } from '../../../flowTypes';
+import { Type, Endpoints } from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
 import { toBoolMap } from '../../../helpers/utils';
-import { SelectSearch } from '../../SelectSearch';
-import { ISearchResult } from '../../../services/ComponentMap';
+import SelectSearch from '../../SelectSearch';
+import { SearchResult } from '../../../services/ComponentMap';
 import { FieldElement } from '../../form/FieldElement';
-import { TextInputElement } from '../../form/TextInputElement';
+import TextInputElement from '../../form/TextInputElement';
 import Widget from '../../NodeEditor/Widget';
 
 // TODO: these should come from an external source
@@ -30,14 +30,14 @@ const reserved = toBoolMap([
     'tel'
 ]);
 
-export interface ISaveToContactFormProps {
+export interface SaveToContactFormProps {
     validationCallback: Function;
     getActionUUID: Function;
-    config: IType;
-    updateAction(action: ISaveToContact): void;
-    getInitialAction(): ISaveToContact;
+    config: Type;
+    updateAction(action: SaveToContact): void;
+    getInitialAction(): SaveToContact;
     onBindWidget(ref: any): void;
-    endpoints: IEndpoints;
+    endpoints: Endpoints;
     ComponentMap: ComponentMap;
 }
 
@@ -50,7 +50,7 @@ export default ({
     onBindWidget,
     ComponentMap,
     endpoints
-}: ISaveToContactFormProps): JSX.Element => {
+}: SaveToContactFormProps): JSX.Element => {
     validationCallback((widgets: { [name: string]: Widget }) => {
         const fieldEle = widgets['Field'] as FieldElement;
         const valueEle = widgets['Value'] as TextInputElement;
@@ -66,7 +66,7 @@ export default ({
                 field_name: field.name,
                 field_uuid: field.id,
                 value: valueEle.state.value
-            } as ISaveToContact;
+            } as SaveToContact;
         } else if (field.type === 'update_contact') {
             // updating contact properties are different action
             newAction = {
@@ -93,20 +93,20 @@ export default ({
         );
     };
 
-    const createNewOption = (arg: { label: string }): ISearchResult => {
-        const newOption: ISearchResult = {
+    const createNewOption = (arg: { label: string }): SearchResult => {
+        const newOption: SearchResult = {
             id: UUID.v4(),
             name: arg.label,
             type: 'field',
             extraResult: true
-        } as ISearchResult;
+        } as SearchResult;
 
         return newOption;
     };
 
     const renderForm = (): JSX.Element => {
         const initialAction = getInitialAction();
-        let initial: ISearchResult;
+        let initial: SearchResult;
 
         if (initialAction) {
             if (initialAction.type === 'save_contact_field') {

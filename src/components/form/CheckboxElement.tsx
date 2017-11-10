@@ -1,28 +1,29 @@
 import * as React from 'react';
 import Select from 'react-select';
-import { FormElement, IFormElementProps } from './FormElement';
-import { FormWidget, IFormValueState } from './FormWidget';
+import { FormElement, FormElementProps } from './FormElement';
+import { FormWidget, FormValueState } from './FormWidget';
 
-var styles = require('./CheckboxElement.scss');
+const styles = require('./CheckboxElement.scss');
 
-interface ICheckboxElementProps extends IFormElementProps {
+interface CheckboxElementProps extends FormElementProps {
     defaultValue?: boolean;
     description?: string;
     border?: boolean;
 }
 
-interface ICheckboxState extends IFormValueState {
+interface CheckboxState extends FormValueState {
     checked: boolean;
 }
 
-export class CheckboxElement extends FormWidget<ICheckboxElementProps, ICheckboxState> {
+export class CheckboxElement extends FormWidget<CheckboxElementProps, CheckboxState> {
     constructor(props: any) {
         super(props);
-        this.onChange = this.onChange.bind(this);
         this.state = {
             checked: this.props.defaultValue,
             errors: []
         };
+
+        this.onChange = this.onChange.bind(this);
     }
 
     private onChange(event: React.FormEvent<HTMLInputElement>) {

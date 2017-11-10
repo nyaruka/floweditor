@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { AxiosResponse } from 'axios';
-import { IFlowDefinition } from '../flowTypes';
+import { FlowDefinition } from '../flowTypes';
 
 const storage = require('local-storage');
 
-class FlowStore {
+export class FlowStore {
     private static singleton: FlowStore = new FlowStore();
 
     static get(): FlowStore {
@@ -17,10 +17,10 @@ class FlowStore {
         storage.remove('flow');
     }
 
-    getFlowFromStore(uuid: string): IFlowDefinition {
+    getFlowFromStore(uuid: string): FlowDefinition {
         var flow = storage.get('flow');
         if (flow != null) {
-            return flow as IFlowDefinition;
+            return flow as FlowDefinition;
         } else {
             return {
                 name: 'New Flow',
@@ -39,15 +39,13 @@ class FlowStore {
     loadFromUrl(url: string, token: string, onLoad: Function) {
         return axios.get(url).then((response: AxiosResponse) => {
             var json = eval(response.data);
-            let definition = json as IFlowDefinition;
+            let definition = json as FlowDefinition;
             onLoad(definition);
         });
     }
 
-    save(definition: IFlowDefinition) {
+    save(definition: FlowDefinition) {
         console.log('Saving: ', definition);
         storage.set('flow', definition);
     }
-}
-
-export default FlowStore;
+};

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { IChangeGroup } from '../../../flowTypes';
+import { ChangeGroup } from '../../../flowTypes';
 
-export default ({ groups: [{ name: groupName }] }: IChangeGroup): JSX.Element => (
+export default ({ groups: [{ name: groupName }] }: ChangeGroup): JSX.Element => (
     <div>{groupName}</div>
 );

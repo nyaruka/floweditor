@@ -1,5 +1,5 @@
-import NodeEditor, { INodeEditorProps } from './NodeEditor';
+import NodeEditor, { NodeEditorProps } from './NodeEditor';
 
-export { INodeEditorProps };
+export { NodeEditorProps };
 
 export default NodeEditor;

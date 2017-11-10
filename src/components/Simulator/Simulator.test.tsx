@@ -2,7 +2,7 @@ import * as React from 'react';
 import '../../enzymeAdapter';
 import { shallow } from 'enzyme';
 import ActivityManager from '../../services/ActivityManager';
-import Simulator, { ISimulatorProps } from './Simulator';
+import SimulatorComp, { SimulatorProps } from './Simulator';
 
 const {
     results: [{ definition, uuid: flowUUID }]
@@ -10,7 +10,7 @@ const {
 
 const Activity = new ActivityManager(flowUUID, jest.fn());
 
-const simulatorProps: ISimulatorProps = {
+const simulatorProps: SimulatorProps = {
     definition,
     engineURL: 'https://your-engine.com',
     getFlow: jest.fn(),
@@ -19,7 +19,7 @@ const simulatorProps: ISimulatorProps = {
     Activity
 };
 
-const SimulatorShallow = shallow(<Simulator {...simulatorProps} />);
+const SimulatorShallow = shallow(<SimulatorComp {...simulatorProps} />);
 
 describe('Component: Simulator', () => {
     it('should render', () => {

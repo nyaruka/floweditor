@@ -1,7 +1,7 @@
 import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import FlowMutator from '../src/services/FlowMutator';
-import { IFlowDefinition, IUINode, IReply, IWebhook, ISaveFlowResult } from '../src/flowTypes';
+import { FlowDefinition, LocalizationMap, Reply, SaveFlowResult } from '../src/flowTypes';
 import { getFavorites, dump } from '../src/helpers/utils';
 import ComponentMap from "../src/services/ComponentMap";
 
@@ -143,7 +143,7 @@ xdescribe('FlowMutator', () => {
             chai.assert.isNotNull(lastNode.exits[0].destination_node_uuid);
 
             // check that we have our location set
-            var ui = definition._ui.nodes[newNode.uuid] as UINode;
+            var ui = definition._ui.nodes[newNode.uuid] as LocalizationMap;
             chai.assert.notEqual(ui, undefined, "Couldn't find ui details for new node");
             chai.assert.deepEqual(ui.position, { x: 444, y: 555 })
         });

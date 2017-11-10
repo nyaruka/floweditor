@@ -1,28 +1,28 @@
 import * as React from 'react';
 import * as UUID from 'uuid';
 import { toBoolMap } from '../../helpers/utils';
-import { FormElement, IFormElementProps } from './FormElement';
-import { FormWidget, IFormValueState } from './FormWidget';
-import ComponentMap, { ISearchResult } from '../../services/ComponentMap';
-import { SelectSearch } from '../SelectSearch';
+import { FormElement, FormElementProps } from './FormElement';
+import { FormWidget, FormValueState } from './FormWidget';
+import ComponentMap, { SearchResult } from '../../services/ComponentMap';
+import  SelectSearch from '../SelectSearch';
 
-var Select = require('react-select');
-var styles = require('./FormElement.scss');
+const Select = require('react-select');
+const styles = require('./FormElement.scss');
 
 // TODO: these should come from an external source
-var reserved = toBoolMap(['language', 'name', 'timezone']);
+const reserved = toBoolMap(['language', 'name', 'timezone']);
 
-interface IFieldElementProps extends IFormElementProps {
-    initial: ISearchResult;
+interface IFieldElementProps extends FormElementProps {
+    initial: SearchResult;
 
-    localFields?: ISearchResult[];
+    localFields?: SearchResult[];
     endpoint?: string;
     add?: boolean;
     placeholder?: string;
 }
 
-interface IFieldState extends IFormValueState {
-    field: ISearchResult;
+interface IFieldState extends FormValueState {
+    field: SearchResult;
 }
 
 export class FieldElement extends FormWidget<IFieldElementProps, IFieldState> {
@@ -35,6 +35,8 @@ export class FieldElement extends FormWidget<IFieldElementProps, IFieldState> {
         };
 
         this.onChange = this.onChange.bind(this);
+        this.isValidNewOption = this.isValidNewOption.bind(this);
+        this.createNewOption = this.createNewOption.bind(this);
     }
 
     onChange(selected: any) {
@@ -44,14 +46,16 @@ export class FieldElement extends FormWidget<IFieldElementProps, IFieldState> {
     }
 
     validate(): boolean {
-        var errors: string[] = [];
+        let errors: string[] = [];
+
         if (this.props.required) {
             if (!this.state.field) {
-                errors.push(this.props.name + ' is required');
+                errors = [...errors, `${this.props.name} is required`];
             }
         }
 
-        this.setState({ errors: errors });
+        this.setState({ errors });
+
         return errors.length == 0;
     }
 
@@ -59,7 +63,7 @@ export class FieldElement extends FormWidget<IFieldElementProps, IFieldState> {
         if (!option || !option.label) {
             return false;
         }
-        let lowered = option.label.toLowerCase();
+        const lowered = option.label.toLowerCase();
         return (
             lowered.length > 0 &&
             lowered.length <= 36 &&
@@ -68,40 +72,39 @@ export class FieldElement extends FormWidget<IFieldElementProps, IFieldState> {
         );
     }
 
-    createNewOption(arg: { label: string }): ISearchResult {
-        var newOption: ISearchResult = {
+    createNewOption(arg: { label: string }): SearchResult {
+        const newOption: SearchResult = {
             id: UUID.v4(),
             name: arg.label,
             type: 'field',
             extraResult: true
-        } as ISearchResult;
+        } as SearchResult;
 
         return newOption;
     }
 
     render() {
-        var isValidNewOption = null;
-        var createNewOption = null;
-        var createPrompt = null;
-        var createOptions = {};
+        let createOptions = {};
 
         if (this.props.add) {
             createOptions = {
-                isValidNewOption: this.isValidNewOption.bind(this),
-                createNewOption: this.createNewOption.bind(this),
+                isValidNewOption: this.isValidNewOption,
+                createNewOption: this.createNewOption,
                 createPrompt: 'New Field: '
             };
         }
 
-        var classes = [];
+        let classes: string[] = [];
+
         if (this.state.errors.length > 0) {
             // we use a global selector here for react-select
-            classes.push('select-invalid');
+            classes = [...classes, 'select-invalid'];
         }
 
-        var initial: ISearchResult[] = [];
+        let initial: SearchResult[] = [];
+
         if (this.state.field) {
-            initial = [this.state.field];
+            initial = [...initial, this.state.field];
         }
 
         return (

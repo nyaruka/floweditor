@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { AxiosResponse } from 'axios';
-import { IFlowDefinition } from '../flowTypes';
+import { FlowDefinition } from '../flowTypes';
 
-export interface IFlowDetails {
+export interface FlowDetails {
     uuid: string;
     name: string;
     type: string;
@@ -11,7 +11,7 @@ export interface IFlowDetails {
 /**
  * RapidPro API Accessor. Depends on goflow legacy migration.
  */
-export class Temba {
+export default class Temba {
     private site: string;
     private token: string;
 
@@ -23,17 +23,17 @@ export class Temba {
     /**
      * Gets a list of flows for the account
      */
-    public getFlows(): Promise<IFlowDetails[]> {
-        var url = '/' + this.site + '/flows.json';
-        var headers = {
-            Authorization: 'Token ' + this.token
+    public getFlows(): Promise<FlowDetails[]> {
+        const url = `/${this.site}/flows.json`;
+        const headers = {
+            Authorization: `Token ${this.token}`
         };
 
-        return new Promise<IFlowDetails[]>((resolve, reject) => {
-            axios.get(url, { headers: headers }).then((response: AxiosResponse) => {
-                resolve(response.data.results as IFlowDetails[]);
-            });
-        });
+        return new Promise<FlowDetails[]>((resolve, reject) =>
+            axios
+                .get(url, { headers })
+                .then((response: AxiosResponse) => resolve(response.data.results as FlowDetails[]))
+        );
     }
 
     /**
@@ -44,33 +44,36 @@ export class Temba {
     public fetchLegacyFlows(
         uuid: string,
         ignoreDependencies: boolean = false
-    ): Promise<IFlowDefinition[]> {
-        var url = '/' + this.site + '/definitions.json?flow=' + uuid;
-        var headers = {
-            Authorization: 'Token ' + this.token
+    ): Promise<FlowDefinition[]> {
+        const url = `/${this.site}/definitions.json?flow=${uuid}`;
+        const headers = {
+            Authorization: `Token ${this.token}`
         };
 
-        return new Promise<IFlowDefinition[]>((resolve, reject) => {
-            axios.get(url, { headers: headers }).then((response: AxiosResponse) => {
-                var json = response.data;
+        return new Promise<FlowDefinition[]>((resolve, reject) => {
+            axios.get(url, { headers }).then((response: AxiosResponse) => {
+                const json = response.data;
                 if (json.version >= 10) {
-                    var toMigrate: IFlowDefinition[] = [];
+                    let toMigrate: FlowDefinition[] = [];
+                    const { data: { flows } } = response;
 
                     if (ignoreDependencies) {
-                        for (let def of response.data.flows) {
-                            if (def.metadata.uuid == uuid) {
-                                toMigrate.push(def);
+                        flows.forEach((flowDef: any) => {
+                            const { metadata: { uuid: defUUID } } = flowDef;
+                            if (defUUID === uuid) {
+                                toMigrate = [...toMigrate, flowDef];
                             }
-                        }
+                        });
                     } else {
-                        toMigrate = response.data.flows as IFlowDefinition[];
+                        toMigrate = flows as FlowDefinition[];
                     }
 
                     // console.log(toMigrate);
-                    axios.post('/migrate', { flows: toMigrate }).then((response: AxiosResponse) => {
-                        // console.log(response.data)
-                        resolve(response.data as IFlowDefinition[]);
-                    });
+                    axios
+                        .post('/migrate', { flows: toMigrate })
+                        .then((response: AxiosResponse) =>
+                            resolve(response.data as FlowDefinition[])
+                        );
                 }
             });
         });
