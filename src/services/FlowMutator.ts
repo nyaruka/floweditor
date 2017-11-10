@@ -12,7 +12,7 @@ import {
     IDimensions,
     IReply
 } from '../flowTypes';
-import { NodeComp, IDragPoint } from '../components/Node';
+import { IDragPoint } from '../components/Node';
 import ComponentMap from './ComponentMap';
 import { IFlowProps } from '../components/Flow';
 

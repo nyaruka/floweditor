@@ -1,7 +1,8 @@
 import { ComponentClass, SFC } from 'react';
 import { TAnyAction } from '../flowTypes';
+import { ILanguage } from '../components/LanguageSelector';
 import { TFormProps } from '../components/NodeEditor/NodeEditorForm';
-import __flow_editor_config__ from '../flowEditorConfig';
+import { languages, endpoints } from '../flowEditorConfig';
 import ChangeGroup from '../components/actions/ChangeGroup/ChangeGroup';
 import ChangeGroupForm from '../components/actions/ChangeGroup/ChangeGroupForm';
 import SaveFlowResult from '../components/actions/SaveFlowResult/SaveFlowResult';
@@ -253,23 +254,30 @@ const OPERATOR_CONFIG_LIST: IOperator[] = [
 ];
 
 export default class EditorConfig {
-    public typeConfigList: IType[] = TYPE_CONFIG_LIST;
-    public operatorConfigList: IOperator[] = OPERATOR_CONFIG_LIST;
+    public typeConfigList: IType[];
+    public operatorConfigList: IOperator[];
     public actionConfigList: IType[];
 
     public typeConfigMap: ITypeMap;
     public operatorConfigMap: IOperatorMap;
 
-    public endpoints: IEndpoints = __flow_editor_config__.endpoints;
-    public languages: ILanguages = __flow_editor_config__.languages;
+    public endpoints: IEndpoints;
+    public languages: ILanguages;
+    public baseLanguage: ILanguage;
 
     constructor() {
+        this.typeConfigList = TYPE_CONFIG_LIST;
+        this.operatorConfigList = OPERATOR_CONFIG_LIST;
         this.actionConfigList = this.filterActionConfigs();
         this.typeConfigMap = this.mapTypeConfigs();
         this.operatorConfigMap = this.mapOperatorConfigs();
+        this.endpoints = endpoints;
+        this.languages = languages;
+        this.baseLanguage = this.getBaseLanguage();
 
         this.getTypeConfig = this.getTypeConfig.bind(this);
         this.getOperatorConfig = this.getOperatorConfig.bind(this);
+        this.getBaseLanguage = this.getBaseLanguage.bind(this);
     }
 
     private filterActionConfigs(): IType[] {
@@ -323,5 +331,14 @@ export default class EditorConfig {
         if (this.operatorConfigMap.hasOwnProperty(type)) {
             return this.operatorConfigMap[type];
         }
+    }
+
+    private getBaseLanguage(): ILanguage {
+        const [iso] = Object.keys(this.languages);
+        const name = this.languages[iso];
+        return {
+            name,
+            iso
+        };
     }
 };

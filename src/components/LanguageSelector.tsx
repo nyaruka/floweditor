@@ -21,15 +21,18 @@ class LanguageSelectorComp extends React.PureComponent<ILanguageSelectorProps, {
     constructor(props: ILanguageSelectorProps) {
         super(props);
         /** Config stores languages as shape { iso, name } */
-        Object.keys(this.props.languages).forEach(iso => {
+        this.options = Object.keys(this.props.languages).map(iso => {
             const name = this.props.languages[iso];
-            this.options = [...this.options, { name, iso }];
+            return {
+                name,
+                iso
+            }
         });
     }
 
     render() {
         return (
-            <div className={styles.ele + ' select-small'}>
+            <div className={`${styles.ele} select-small`}>
                 <Select
                     value={this.props.iso}
                     onChange={this.props.onChange}

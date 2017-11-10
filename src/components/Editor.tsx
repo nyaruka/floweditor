@@ -27,7 +27,7 @@ export interface IEditorState {
 /**
  * A navigable list of flows for an account
  */
-class Editor extends React.PureComponent<IEditorProps, IEditorState> {
+export default class Editor extends React.PureComponent<IEditorProps, IEditorState> {
     private Temba: Temba;
     private Mutator: FlowMutator;
     private ComponentMap: ComponentMap;
@@ -116,6 +116,4 @@ class Editor extends React.PureComponent<IEditorProps, IEditorState> {
             </div>
         );
     }
-}
-
-export default Editor;
+};

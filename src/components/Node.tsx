@@ -4,6 +4,7 @@ import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 import * as FlipMove from 'react-flip-move';
+import { ILanguage } from './LanguageSelector';
 import Action, { IActionProps } from './Action/Action';
 import { IDragEvent } from '../services/Plumber';
 import {
@@ -44,7 +45,8 @@ export interface INodeCompProps {
     ui: IUINode;
     Activity: ActivityManager;
     translations: { [uuid: string]: any };
-    language: string;
+    iso: string;
+    baseLanguage: ILanguage;
     ghost?: boolean;
 
     onNodeMounted: Function;
@@ -82,7 +84,7 @@ export interface INodeCompProps {
 /**
  * A single node in the rendered flow
  */
-export class NodeComp extends React.Component<INodeCompProps, INodeState> {
+export default class NodeComp extends React.Component<INodeCompProps, INodeState> {
     public ele: HTMLDivElement;
     private firstAction: React.ComponentClass<{}>;
     private clicking: boolean;
@@ -214,7 +216,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                 (this.props.ui.dimensions.width != this.ele.clientWidth ||
                     this.props.ui.dimensions.height != this.ele.clientHeight)
             ) {
-                if (!this.props.language) {
+                if (this.isMutable()) {
                     this.updateDimensions();
                 }
             }
@@ -231,14 +233,14 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
 
         // click the last action in the list if we have one
 
-        if (this.props.language) {
+        if (!this.isMutable()) {
             if (this.props.node.router.type === 'switch') {
                 var router = this.props.node.router as ISwitchRouter;
                 for (let kase of router.cases) {
                     localizations.push(
                         Localization.translate(
                             kase,
-                            this.props.language,
+                            this.props.iso,
                             this.props.languages,
                             this.props.translations
                         )
@@ -251,7 +253,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                 localizations.push(
                     Localization.translate(
                         exit,
-                        this.props.language,
+                        this.props.iso,
                         this.props.languages,
                         this.props.translations
                     )
@@ -288,14 +290,14 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
     }
 
     private isMutable(): boolean {
-        return this.props.language == null;
+        return this.props.iso === this.props.baseLanguage.iso;
     }
 
     render() {
         let classes = ['plumb-drag', styles.node];
 
-        if (this.props.hasOwnProperty('language') && this.props.language) {
-            // classes = [...classes, styles.translating];
+        if (this.props.hasOwnProperty('iso') && !this.isMutable()) {
+            classes = [...classes, styles.translating];
         }
 
         let actions: JSX.Element[] = [];
@@ -318,7 +320,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                     if (this.props.translations) {
                         localization = Localization.translate(
                             action,
-                            this.props.language,
+                            this.props.iso,
                             this.props.languages,
                             this.props.translations
                         );
@@ -417,7 +419,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                     <div {...events}>
                         <TitleBar
                             className={shared[config.type]}
-                            showRemoval={!this.props.language}
+                            showRemoval={this.isMutable()}
                             onRemoval={this.onRemoval.bind(this)}
                             title={title}
                         />
@@ -452,7 +454,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                         Activity={this.props.Activity}
                         Localization={Localization.translate(
                             exit,
-                            this.props.language,
+                            this.props.iso,
                             this.props.languages,
                             this.props.translations
                         )}
@@ -533,6 +535,4 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
             </div>
         );
     }
-}
-
-export default NodeComp;
+};
