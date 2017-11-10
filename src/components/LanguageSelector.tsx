@@ -15,7 +15,7 @@ export interface ILanguageSelectorProps {
     onChange(language: ILanguage): void;
 }
 
-class LanguageSelectorComp extends React.PureComponent<ILanguageSelectorProps, {}> {
+export default class LanguageSelectorComp extends React.PureComponent<ILanguageSelectorProps, {}> {
     private options: ILanguage[] = [];
 
     constructor(props: ILanguageSelectorProps) {
@@ -45,6 +45,4 @@ class LanguageSelectorComp extends React.PureComponent<ILanguageSelectorProps, {
             </div>
         );
     }
-}
-
-export default LanguageSelectorComp;
+};

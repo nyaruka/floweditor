@@ -16,7 +16,7 @@ const LogEventShallow = shallow(<LogEvent {...logEventProps} />);
 
 describe('Component: LogEvent', () => {
     it('should render', () => {
-        expect(LogEventShallow).toBePresent();
-        expect(LogEventShallow).toHaveState('detailsVisible', false);
+        expect(LogEventShallow.exists()).toBeTruthy();
+        expect(LogEventShallow.state('detailsVisible')).toBeFalsy();
     });
 });

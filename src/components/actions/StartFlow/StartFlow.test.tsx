@@ -81,6 +81,6 @@ describe('Component: StartFlow', () => {
     it('should render StartFlow with flow name', () => {
         const StartFlowDivShallow = shallow(<StartFlow {...startFlowAction} />);
 
-        expect(StartFlowDivShallow).toHaveText(flow_name);
+        expect(StartFlowDivShallow.text()).toBe(flow_name);
     });
 });

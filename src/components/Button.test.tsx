@@ -19,8 +19,8 @@ const buttonDivReact = getSpecWrapper(
 
 describe('Component: Button', () => {
     it('Renders', () => {
-        expect(ButtonReact).toBePresent();
-        expect(buttonDivReact).toBePresent();
+        expect(ButtonReact.exists()).toBeTruthy();
+        expect(buttonDivReact.exists()).toBeTruthy();
     });
 
     it('Renders with the right CSS classes', () => {
@@ -28,7 +28,7 @@ describe('Component: Button', () => {
     });
 
     it('Renders with the right name', () => {
-        expect(buttonDivReact).toHaveText('Save');
+        expect(buttonDivReact.text()).toBe('Save');
     });
 
     it('Executes onClick callback when clicked', () => {

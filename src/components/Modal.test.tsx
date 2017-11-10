@@ -27,7 +27,7 @@ const ModalShallow = shallow(<Modal {...modalProps} />);
 
 describe('Component: Modal', () => {
     it('should render', () => {
-        expect(ModalShallow).toBePresent();
-        expect(ModalShallow).toHaveState('flipped', false);
+        expect(ModalShallow.exists()).toBeTruthy();
+        expect(ModalShallow.state('flipped')).toBeFalsy();
     });
 });

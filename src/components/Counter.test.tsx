@@ -1,11 +1,11 @@
 import * as React from 'react';
 import '../enzymeAdapter';
 import { ReactWrapper, mount } from 'enzyme';
-import { ICounterProps, CounterComp } from './Counter';
+import Counter, { ICounterProps } from './Counter';
 import { getSpecWrapper, validUUID, addCommas } from '../helpers/utils';
 
 let props: ICounterProps;
-let handleClick: Spy;
+let handleClick;
 let CounterReact: ReactWrapper;
 let counterOutterReact: ReactWrapper;
 let counterInnerReact: ReactWrapper;
@@ -20,22 +20,22 @@ beforeAll(() => {
     };
 
     /** Spies on object properties that contain functions need to be intialized before the component is rendered */
-    handleClick = spyOn(CounterComp.prototype, 'handleClick');
+    handleClick = spyOn(Counter.prototype, 'handleClick');
 
-    CounterReact = mount(<CounterComp {...props} />);
+    CounterReact = mount(<Counter {...props} />);
     counterOutterReact = getSpecWrapper(CounterReact, 'counter-outter') as ReactWrapper;
     counterInnerReact = getSpecWrapper(CounterReact, `counter-inner`) as ReactWrapper;
 });
 
 describe('Button Component', () => {
     it('Renders', () => {
-        expect(CounterReact).toBePresent();
-        expect(counterOutterReact).toBePresent();
-        expect(counterInnerReact).toBePresent();
+        expect(CounterReact.exists()).toBeTruthy();
+        expect(counterOutterReact.exists()).toBeTruthy();
+        expect(counterInnerReact.exists()).toBeTruthy();
     });
 
     it('Initializes with expected state', () => {
-        expect(CounterReact).toHaveState('count', props.getCount());
+        expect(CounterReact.state('count')).toEqual(props.getCount());
     });
 
     it('Handles clicks', () => {
@@ -44,6 +44,6 @@ describe('Button Component', () => {
     });
 
     it('Displays a count', () => {
-        expect(counterInnerReact).toHaveText(addCommas(props.getCount()));
+        expect(counterInnerReact.text()).toBe(addCommas(props.getCount()));
     });
 });

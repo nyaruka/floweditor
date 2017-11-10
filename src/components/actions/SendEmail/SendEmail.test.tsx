@@ -66,6 +66,6 @@ describe('Component: SendEmail', () => {
     it("should render SendEmail with subject prop", () => {
         const SendEmailDivShallow = shallow(<SendEmail {...sendEmailAction} />);
 
-        expect(SendEmailDivShallow).toHaveText(subject);
+        expect(SendEmailDivShallow.text()).toBe(subject);
     });
 });

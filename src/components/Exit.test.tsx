@@ -26,6 +26,7 @@ const exitProps: IExitProps = {
     exit: {
         uuid: '10e2b6f4-8587-463e-9248-a6069d4897d6'
     },
+    isMutable: jest.fn(() => true),
     onDisconnect: jest.fn(),
     Localization,
     plumberMakeSource: jest.fn(),
@@ -37,7 +38,7 @@ const ExitCompShallow = shallow(<ExitComp {...exitProps} />);
 
 describe('Component: ExitComp', () => {
     it('should mount', () => {
-        expect(ExitCompShallow).toBePresent();
-        expect(ExitCompShallow).toHaveState('confirmDelete', false);
+        expect(ExitCompShallow.exists()).toBeTruthy();
+        expect(ExitCompShallow.state('confirmDelete')).toBeFalsy();
     });
 });

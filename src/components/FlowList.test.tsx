@@ -18,9 +18,9 @@ describe('Component: FlowList', () => {
     it('should mount', () => {
         const { getFlows } = flowListProps;
 
-        expect(FlowListShallow).toBePresent();
+        expect(FlowListShallow.exists()).toBeTruthy();
         expect(getFlows).toBeCalled();
-        expect(FlowListShallow).toHaveState('flows', flowDetails);
-        expect(FlowListShallow).toHaveState('show', true);
+        expect(FlowListShallow.state('flows')).toEqual(flowDetails);
+        expect(FlowListShallow.state('show')).toBeTruthy();
     });
 });

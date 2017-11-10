@@ -115,28 +115,28 @@ describe('Component: Reply', () => {
         const OverLayContainerShallow = ReplyActionShallow.find('.overlay');
         const InteractiveContainerShallow = getSpecWrapper(ReplyActionShallow, 'interactive-div');
 
-        expect(ActionContainerShallow).toBePresent();
+        expect(ActionContainerShallow.exists()).toBeTruthy();
 
-        expect(OverLayContainerShallow).toBePresent();
+        expect(OverLayContainerShallow.exists()).toBeTruthy();
 
-        expect(InteractiveContainerShallow).toBePresent();
-        expect(InteractiveContainerShallow).toHaveProp('onMouseDown');
-        expect(InteractiveContainerShallow).toHaveProp('onMouseUp');
+        expect(InteractiveContainerShallow.exists()).toBeTruthy();
+        expect(InteractiveContainerShallow.prop('onMouseDown')).toBeTruthy();
+        expect(InteractiveContainerShallow.prop('onMouseUp')).toBeTruthy();
     });
 
     it('should render TitleBar & pass it appropriate props', () => {
         const TitleBarShallow = ReplyActionShallow.find('TitleBar');
 
-        expect(TitleBarShallow).toBePresent();
-        expect(TitleBarShallow).toHaveClassName('reply');
-        expect(TitleBarShallow).toHaveProp('title', 'Send Message');
+        expect(TitleBarShallow.exists()).toBeTruthy();
+        expect(TitleBarShallow.hasClass('reply')).toBeTruthy();
+        expect(TitleBarShallow.prop('title')).toBe('Send Message');
     });
 
     it('should render Reply action and pass it appropriate props', () => {
         const ReplyDiv = ReplyActionShallow.find({ type });
 
-        expect(ReplyDiv).toBePresent();
-        expect(ReplyDiv).toHaveProp('uuid', uuid);
-        expect(ReplyDiv).toHaveProp('text', text);
+        expect(ReplyDiv.exists()).toBeTruthy();
+        expect(ReplyDiv.prop('uuid')).toBe(uuid);
+        expect(ReplyDiv.prop('text')).toBe(text);
     });
 });

@@ -28,6 +28,6 @@ const FlowShallow = shallow(<Flow {...flowProps} />);
 
 describe('Component: Flow', () => {
     it('should render', () => {
-        expect(FlowShallow).toBePresent();
+        expect(FlowShallow.exists()).toBeTruthy();
     });
 });

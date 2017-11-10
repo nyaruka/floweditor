@@ -115,12 +115,12 @@ describe('Component: SaveFlowResult', () => {
     it("should render SaveFlowResult with 'save...' div when value prop passed", () => {
         const SaveFlowResultDivShallow = shallow(<SaveFlowResult {...saveFlowResultAction} />);
 
-        expect(SaveFlowResultDivShallow).toHaveText(`Save ${value} as ${result_name}`);
+        expect(SaveFlowResultDivShallow.text()).toBe(`Save ${value} as ${result_name}`);
     });
 
     it("should render SaveFlowResult with 'clear...' div when value prop isn't passed", () => {
         const SaveFlowResultDivShallow = shallow(<SaveFlowResult {...{...saveFlowResultAction, value: ''}} />);
 
-        expect(SaveFlowResultDivShallow).toHaveText(`Clear value for ${result_name}`);
+        expect(SaveFlowResultDivShallow.text()).toBe(`Clear value for ${result_name}`);
     });
 });

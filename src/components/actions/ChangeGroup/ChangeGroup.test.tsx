@@ -71,9 +71,9 @@ const { uuid, type, groups: [{ name: groupName}] } = addToGroupAction as IChange
 
 describe('Component: ChangeGroup', () => {
     it('should render ChangeGroupComp with group name', () => {
-        const ChangeGroupDivShallow = shallow(<ChangeGroup {...addToGroupAction} />);
+        const ChangeGroupDivShallow = shallow(<ChangeGroup {...addToGroupAction as IChangeGroup} />);
 
-        expect(ChangeGroupDivShallow).toHaveText(groupName);
+        expect(ChangeGroupDivShallow.text()).toBe(groupName);
     });
 });
 

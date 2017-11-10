@@ -37,10 +37,10 @@ describe('Component: Editor', () => {
             EditorConfig: { endpoints: { flows: flowsEndpoint } },
             External: { getFlow }
         } = editorProps;
-        expect(EditorShallow).toBePresent();
-        expect(getSpecWrapper(EditorShallow, 'editor')).toBePresent();
-        expect(EditorShallow).toHaveState('flowUUID', flowUUID);
+        expect(EditorShallow.exists()).toBeTruthy();
+        expect(getSpecWrapper(EditorShallow, 'editor').exists()).toBeTruthy();
+        expect(EditorShallow.state('flowUUID')).toBe(flowUUID);
         expect(getFlow).toBeCalledWith(flowUUID, false, flowsEndpoint);
-        expect(EditorShallow).toHaveState('definition', definition);
+        expect(EditorShallow.state('definition')).toEqual(definition);
     });
 });
