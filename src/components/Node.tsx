@@ -40,7 +40,7 @@ export interface INodeState {
     createPosition?: IPosition;
 }
 
-export interface INodeCompProps {
+export interface INodeProps {
     node: INode;
     ui: IUINode;
     Activity: ActivityManager;
@@ -85,13 +85,13 @@ export interface INodeCompProps {
 /**
  * A single node in the rendered flow
  */
-export default class NodeComp extends React.Component<INodeCompProps, INodeState> {
+export default class NodeC extends React.Component<INodeProps, INodeState> {
     public ele: HTMLDivElement;
     private firstAction: React.ComponentClass<{}>;
     private clicking: boolean;
     private dragGroup: boolean;
 
-    constructor(props: INodeCompProps) {
+    constructor(props: INodeProps) {
         super(props);
         this.state = { dragging: false };
         this.onClick = this.onClick.bind(this);
@@ -126,7 +126,7 @@ export default class NodeComp extends React.Component<INodeCompProps, INodeState
         });
     }
 
-    shouldComponentUpdate(nextProps: INodeCompProps, nextState: INodeState): boolean {
+    shouldComponentUpdate(nextProps: INodeProps, nextState: INodeState): boolean {
         if (
             nextProps.ui.position.x != this.props.ui.position.x ||
             nextProps.ui.position.y != this.props.ui.position.y
@@ -204,7 +204,7 @@ export default class NodeComp extends React.Component<INodeCompProps, INodeState
         this.props.plumberRemove(this.props.node.uuid);
     }
 
-    componentDidUpdate(prevProps: INodeCompProps, prevState: INodeState) {
+    componentDidUpdate(prevProps: INodeProps, prevState: INodeState) {
         if (!this.props.ghost) {
             try {
                 this.props.plumberRecalculate(this.props.node.uuid);

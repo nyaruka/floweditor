@@ -1,7 +1,7 @@
 import * as React from 'react';
 import '../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { FlowList, IFlowListProps } from './FlowList';
+import FlowList, { IFlowListProps } from './FlowList';
 
 const { results: flowDetails } = require('../../assets/flows.json');
 

@@ -12,10 +12,10 @@ const languageSelectorProps: ILanguageSelectorProps = {
     onChange: jest.fn()
 };
 
-const LanguageSelectorCompShallow = shallow(<LanguageSelector {...languageSelectorProps} />);
+const LanguageSelectorShallow = shallow(<LanguageSelector {...languageSelectorProps} />);
 
 describe('Component: LanguageSelector', () => {
     it('should render', () => {
-        expect(LanguageSelectorCompShallow.exists()).toBeTruthy();
+        expect(LanguageSelectorShallow.exists()).toBeTruthy();
     });
 });

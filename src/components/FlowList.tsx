@@ -16,7 +16,7 @@ interface FlowListState {
 /**
  * A navigable list of flows for an account
  */
-export class FlowList extends React.PureComponent<IFlowListProps, FlowListState> {
+export default class FlowList extends React.PureComponent<IFlowListProps, FlowListState> {
     constructor(props: IFlowListProps) {
         super(props);
         this.onFlowSelect = this.onFlowSelect.bind(this);
@@ -75,4 +75,4 @@ export class FlowList extends React.PureComponent<IFlowListProps, FlowListState>
 
         return null;
     }
-}
+};
