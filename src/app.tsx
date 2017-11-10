@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { AppContainer as HotContainer } from 'react-hot-loader';
-import __flow_editor_config__ from './flowEditorConfig';
+import { flowUUID } from './flowEditorConfig';
 import EditorConfig from './services/EditorConfig';
 import External from './services/External';
 import Editor from './components/Editor';
@@ -22,7 +22,7 @@ if (module.hot) {
         render(
             <HotContainer>
                 <NextEditor
-                    flowUUID={__flow_editor_config__.flow}
+                    flowUUID={flowUUID}
                     EditorConfig={new EditorConfig()}
                     External={new External()}
                 />
@@ -35,7 +35,7 @@ if (module.hot) {
 render(
     <HotContainer>
         <Editor
-            flowUUID={__flow_editor_config__.flow}
+            flowUUID={flowUUID}
             EditorConfig={new EditorConfig()}
             External={new External()}
         />

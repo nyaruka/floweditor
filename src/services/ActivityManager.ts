@@ -1,6 +1,6 @@
 import { IExit } from '../flowTypes';
 import { TGetActivity } from '../services/External';
-import { CounterComp } from '../components/Counter';
+import Counter from '../components/Counter';
 
 // how often we ask the server for new data
 const REFRESH_SECONDS = 10;
@@ -28,7 +28,7 @@ class ActivityManager {
     private flowUUID: string;
     private getActivityExternal: TGetActivity;
 
-    private listeners: { [key: string]: CounterComp } = {};
+    private listeners: { [key: string]: Counter } = {};
     private timer: any;
 
     constructor(flowUUID: string, getActivity: TGetActivity) {
@@ -91,7 +91,7 @@ class ActivityManager {
         delete this.listeners[key];
     }
 
-    public registerListener(counter: CounterComp) {
+    public registerListener(counter: Counter) {
         // this is called from ref, which is null on unmounts
         if (counter) {
             this.listeners[counter.getKey()] = counter;

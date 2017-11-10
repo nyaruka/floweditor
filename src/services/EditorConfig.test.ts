@@ -38,4 +38,8 @@ describe('Helpers: config', () => {
     it('should provide a languages object', () => {
         expect(editorConfig.languages).toMatchSnapshot();
     });
+
+    it('should provide a base language object', () => {
+        expect(editorConfig.baseLanguage).toMatchSnapshot();
+    });
 });

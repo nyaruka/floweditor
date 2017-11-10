@@ -10,6 +10,5 @@ module.exports = {
     moduleNameMapper: {
         '^.+\\.scss$': 'identity-obj-proxy'
     },
-    setupTestFrameworkScriptFile: './node_modules/jest-enzyme/lib/index.js',
     mapCoverage: true
 };

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { IExit } from '../flowTypes';
 import { addCommas } from '../helpers/utils';
-import { CounterComp } from './Counter';
+import Counter from './Counter';
 import ActivityManager from '../services/ActivityManager';
 import { LocalizedObject } from '../services/Localization';
 
@@ -12,6 +12,7 @@ export interface IExitProps {
     onDisconnect(exitUUID: string): void;
 
     Localization: LocalizedObject;
+    isMutable(): boolean;
 
     Activity: ActivityManager;
 
@@ -39,15 +40,11 @@ class ExitComp extends React.PureComponent<IExitProps, IExitState> {
         this.onDisconnect = this.onDisconnect.bind(this);
     }
 
-    private isMutable() {
-        return this.props.Localization == null;
-    }
-
     private onClick(event: React.MouseEvent<HTMLDivElement>) {
         event.preventDefault();
         event.stopPropagation();
 
-        if (this.props.exit.destination_node_uuid && this.isMutable()) {
+        if (this.props.exit.destination_node_uuid && this.props.isMutable()) {
             this.setState(
                 {
                     confirmDelete: true
@@ -112,7 +109,7 @@ class ExitComp extends React.PureComponent<IExitProps, IExitState> {
         if (this.props.exit.destination_node_uuid) {
             var key = 'count:' + this.props.exit.uuid + ':' + this.props.exit.destination_node_uuid;
             return (
-                <CounterComp
+                <Counter
                     key={key}
                     ref={this.props.Activity.registerListener}
                     getCount={() => {

@@ -23,12 +23,11 @@ const SimulatorShallow = shallow(<Simulator {...simulatorProps} />);
 
 describe('Component: Simulator', () => {
     it('should render', () => {
-        expect(SimulatorShallow).toBePresent();
-        expect(SimulatorShallow).toHaveState('active', false);
-        expect(SimulatorShallow).toHaveState('visible', false);
-        expect(SimulatorShallow).toHaveState('events', []);
-        expect(SimulatorShallow).toHaveState('active', false);
-        expect(SimulatorShallow).toHaveState('contact');
-        expect(SimulatorShallow).toHaveState('channel');
+        expect(SimulatorShallow.exists()).toBeTruthy();
+        expect(SimulatorShallow.state('active')).toBeFalsy();
+        expect(SimulatorShallow.state('visible')).toBeFalsy();
+        expect(SimulatorShallow.state('events')).toEqual([]);
+        expect(SimulatorShallow.state()).toBeTruthy();
+        expect(SimulatorShallow.state()).toBeTruthy();
     });
 });

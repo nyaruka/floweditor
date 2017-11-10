@@ -16,7 +16,7 @@ export interface ICounterState {
     count: number;
 }
 
-export class CounterComp extends React.Component<ICounterProps, ICounterState> {
+export default class Counter extends React.Component<ICounterProps, ICounterState> {
     private key: string;
 
     constructor(props: ICounterProps) {
@@ -65,4 +65,4 @@ export class CounterComp extends React.Component<ICounterProps, ICounterState> {
         }
         return null;
     }
-}
+};

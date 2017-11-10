@@ -12,7 +12,7 @@ const TitleBarShallow = shallow(<TitleBar {...titleBarProps} />);
 
 describe('Component: TitleBar', () => {
     it('should render', () => {
-        expect(TitleBarShallow).toBePresent();
-        expect(TitleBarShallow).toHaveState('confirmingRemoval', false);
+        expect(TitleBarShallow.exists()).toBeTruthy();
+        expect(TitleBarShallow.state('confirmRemoval')).toBeFalsy();
     });
 });

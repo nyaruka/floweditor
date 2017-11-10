@@ -4,6 +4,7 @@ import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 import * as FlipMove from 'react-flip-move';
+import { ILanguage } from './LanguageSelector';
 import Action, { IActionProps } from './Action/Action';
 import { IDragEvent } from '../services/Plumber';
 import {
@@ -14,10 +15,10 @@ import {
     IEndpoints,
     ILanguages
 } from '../services/EditorConfig';
-import ExitComp from './Exit';
+import Exit from './Exit';
 import TitleBar from './TitleBar';
 import { INode, IPosition, ISwitchRouter, TAnyAction, IUINode } from '../flowTypes';
-import { CounterComp } from './Counter';
+import CounterComp from './Counter';
 import ActivityManager from '../services/ActivityManager';
 import ComponentMap from '../services/ComponentMap';
 import Localization, { LocalizedObject } from '../services/Localization';
@@ -44,7 +45,9 @@ export interface INodeCompProps {
     ui: IUINode;
     Activity: ActivityManager;
     translations: { [uuid: string]: any };
-    language: string;
+    iso: string;
+    isMutable(): boolean;
+    baseLanguage: ILanguage;
     ghost?: boolean;
 
     onNodeMounted: Function;
@@ -82,7 +85,7 @@ export interface INodeCompProps {
 /**
  * A single node in the rendered flow
  */
-export class NodeComp extends React.Component<INodeCompProps, INodeState> {
+export default class NodeComp extends React.Component<INodeCompProps, INodeState> {
     public ele: HTMLDivElement;
     private firstAction: React.ComponentClass<{}>;
     private clicking: boolean;
@@ -147,11 +150,8 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                 this.onDragStop.bind(this)(event);
             },
             () => {
-                if (this.isMutable()) {
-                    this.props.onNodeBeforeDrag(
-                        this.props.node,
-                        this.dragGroup
-                    );
+                if (this.props.isMutable()) {
+                    this.props.onNodeBeforeDrag(this.props.node, this.dragGroup);
                     return true;
                 } else {
                     return false;
@@ -217,7 +217,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                 (this.props.ui.dimensions.width != this.ele.clientWidth ||
                     this.props.ui.dimensions.height != this.ele.clientHeight)
             ) {
-                if (!this.props.language) {
+                if (this.props.isMutable()) {
                     this.updateDimensions();
                 }
             }
@@ -234,14 +234,14 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
 
         // click the last action in the list if we have one
 
-        if (this.props.language) {
-            if (this.props.node.router.type == 'switch') {
+        if (!this.props.isMutable()) {
+            if (this.props.node.router.type === 'switch') {
                 var router = this.props.node.router as ISwitchRouter;
                 for (let kase of router.cases) {
                     localizations.push(
                         Localization.translate(
                             kase,
-                            this.props.language,
+                            this.props.iso,
                             this.props.languages,
                             this.props.translations
                         )
@@ -254,7 +254,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                 localizations.push(
                     Localization.translate(
                         exit,
-                        this.props.language,
+                        this.props.iso,
                         this.props.languages,
                         this.props.translations
                     )
@@ -290,14 +290,10 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
         this.props.onRemoveNode(this.props.node);
     }
 
-    private isMutable(): boolean {
-        return this.props.language == null;
-    }
-
     render() {
         let classes = ['plumb-drag', styles.node];
 
-        if (this.props.hasOwnProperty('language') && this.props.language) {
+        if (this.props.hasOwnProperty('iso') && !this.props.isMutable()) {
             classes = [...classes, styles.translating];
         }
 
@@ -307,9 +303,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
         if (this.props.node.actions) {
             // save the first reference off to manage our clicks
             let firstRef: any = {
-                ref: (ele: any) => {
-                    this.firstAction = ele;
-                }
+                ref: (ele: any) => this.firstAction = ele
             };
 
             this.props.node.actions.map((action: TAnyAction, idx: number) => {
@@ -321,7 +315,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                     if (this.props.translations) {
                         localization = Localization.translate(
                             action,
-                            this.props.language,
+                            this.props.iso,
                             this.props.languages,
                             this.props.translations
                         );
@@ -404,13 +398,13 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
             let config = this.props.getTypeConfig(type);
             var title = config.name;
 
-            if (this.props.node.router.type == 'switch') {
+            if (this.props.node.router.type === 'switch') {
                 let switchRouter = this.props.node.router as ISwitchRouter;
                 if (switchRouter.result_name) {
-                    if (this.props.ui.type == 'expression') {
-                        title = 'Split by ' + switchRouter.result_name;
+                    if (this.props.ui.type === 'expression') {
+                        title = `Split by ${switchRouter.result_name}`;
                     } else if (this.props.ui.type == 'wait_for_response') {
-                        title = 'Wait for ' + switchRouter.result_name;
+                        title = `Wait for ${switchRouter.result_name}`;
                     }
                 }
             }
@@ -420,7 +414,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
                     <div {...events}>
                         <TitleBar
                             className={shared[config.type]}
-                            showRemoval={!this.props.language}
+                            showRemoval={this.props.isMutable()}
                             onRemoval={this.onRemoval.bind(this)}
                             title={title}
                         />
@@ -429,7 +423,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
             }
         } else {
             // don't show add actions option if we are translating
-            if (this.isMutable()) {
+            if (this.props.isMutable()) {
                 addActions = (
                     <a
                         className={styles.add}
@@ -442,25 +436,29 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
             }
         }
 
-        var exits: JSX.Element[] = [];
+        let exits: JSX.Element[] = [];
+
         if (this.props.node.exits) {
             for (let exit of this.props.node.exits) {
-                exits.push(
-                    <ExitComp
+                exits = [
+                    ...exits,
+                    <Exit
                         exit={exit}
                         key={exit.uuid}
+                        isMutable={this.props.isMutable}
                         onDisconnect={this.props.onDisconnectExit}
                         Activity={this.props.Activity}
                         Localization={Localization.translate(
                             exit,
-                            this.props.language,
+                            this.props.iso,
+                            this.props.languages,
                             this.props.translations
                         )}
                         plumberMakeSource={this.props.plumberMakeSource}
                         plumberRemove={this.props.plumberRemove}
                         plumberConnectExit={this.props.plumberConnectExit}
                     />
-                );
+                ];
             }
         }
 
@@ -482,7 +480,7 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
         }
 
         var dragLink = null;
-        if (this.isMutable()) {
+        if (this.props.isMutable()) {
             dragLink = (
                 <a
                     title="Drag to move all nodes below here"
@@ -533,6 +531,4 @@ export class NodeComp extends React.Component<INodeCompProps, INodeState> {
             </div>
         );
     }
-}
-
-export default NodeComp;
+};

@@ -58,7 +58,10 @@ class Action extends React.Component<IActionProps, IActionState> {
     constructor(props: IActionProps) {
         super(props);
         this.state = { editing: false, confirmRemoval: false };
+
         this.onClick = this.onClick.bind(this);
+        this.onRemoval = this.onRemoval.bind(this);
+        this.onMoveUp = this.onMoveUp.bind(this);
     }
 
     public setEditing(editing: boolean): void {
@@ -99,23 +102,14 @@ class Action extends React.Component<IActionProps, IActionState> {
         }
     }
 
-    private onConfirmRemoval(evt: React.SyntheticEvent<MouseEvent>): void {
-        evt.stopPropagation();
-        this.setState({ confirmRemoval: true });
-    }
-
-    private onRemoval(evt: React.SyntheticEvent<MouseEvent>): void {
+    private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
         this.props.onRemoveAction(this.props.action);
     }
 
-    private onMoveUp(evt: React.SyntheticEvent<MouseEvent>): void {
+    private onMoveUp(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
         this.props.onMoveActionUp(this.props.action);
-    }
-
-    public getType(): string {
-        return this.props.action.type;
     }
 
     public getAction(): TAnyAction {
@@ -178,9 +172,10 @@ class Action extends React.Component<IActionProps, IActionState> {
                     <TitleBar
                         className={shared[this.props.action.type]}
                         title={config.name}
-                        onRemoval={this.onRemoval.bind(this)}
+                        onRemoval={this.onRemoval}
                         showRemoval={!this.props.Localization}
                         showMove={!this.props.first && !this.props.Localization}
+                        onMoveUp={this.onMoveUp}
                     />
                     <div className={styles.body}>
                         {this.props.children(this.getAction())}

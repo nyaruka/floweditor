@@ -64,9 +64,7 @@ class Localization {
             if (object.uuid in translations) {
                 const values = translations[object.uuid];
                 // we don't want to side affect our action
-                for (let key of Object.keys(values)) {
-                    localized.addTranslation(key, values[key]);
-                }
+                Object.keys(values).forEach(key => localized.addTranslation(key, values[key]));
             }
             return localized;
         }

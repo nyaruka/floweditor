@@ -83,7 +83,7 @@ export const DATA_SPEC_ATTRIBUTE_NAME: string = 'data-spec';
 export function getSpecWrapper(
     componentWrapper: ReactWrapper | ShallowWrapper,
     specName: string
-): ShallowWrapper | ReactWrapper | ShallowWrapper[] | ReactWrapper[] {
+): ShallowWrapper | ReactWrapper {
     return componentWrapper.find(`[${DATA_SPEC_ATTRIBUTE_NAME}="${specName}"]`);
 }
 

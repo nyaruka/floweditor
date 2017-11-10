@@ -84,6 +84,6 @@ describe('Component: Webhook', () => {
     it('should render Webhook with url prop', () => {
         const WebhookDivShallow = shallow(<Webhook {...webhookAction} />);
 
-        expect(WebhookDivShallow).toHaveText(url);
+        expect(WebhookDivShallow.text()).toBe(url);
     });
 });

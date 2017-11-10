@@ -98,9 +98,9 @@ const ModalShallow = NodeEditorShallow.find(Modal);
 
 describe('Component: NodeEditor', () => {
     it('should render itself, Modal', () => {
-        expect(NodeEditorShallow).toBePresent();
-        expect(ModalShallow).toBePresent();
-        expect(ModalShallow).toHaveClassName(replyAction.type);
-        expect(ModalShallow).toHaveProp('title', [<div>Send Message</div>]);
+        expect(NodeEditorShallow.exists()).toBeTruthy();
+        expect(ModalShallow.exists()).toBeTruthy();
+        expect(ModalShallow.hasClass(replyAction.type)).toBeTruthy();
+        expect(ModalShallow.prop('title')).toEqual([<div>Send Message</div>]);
     });
 });

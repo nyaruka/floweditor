@@ -345,6 +345,13 @@ Object {
 }
 `;
 
+exports[`Helpers: config should provide a base language object 1`] = `
+Object {
+  "iso": "eng",
+  "name": "English",
+}
+`;
+
 exports[`Helpers: config should provide a languages object 1`] = `
 Object {
   "eng": "English",

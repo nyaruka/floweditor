@@ -9,10 +9,8 @@ const selectSearchProps: ISelectSearchProps = {
     resultType: 'resultType'
 };
 
-const SelectSearchShallow = shallow(<SelectSearch {...selectSearchProps} />);
-
 describe('Component: SelectSearch', () => {
     it('should mount', () => {
-        expect(SelectSearchShallow).toBePresent();
+        expect(shallow(<SelectSearch {...selectSearchProps} />).exists()).toBeTruthy();
     });
 });
