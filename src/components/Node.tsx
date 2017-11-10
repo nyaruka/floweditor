@@ -303,9 +303,7 @@ export default class NodeComp extends React.Component<INodeCompProps, INodeState
         if (this.props.node.actions) {
             // save the first reference off to manage our clicks
             let firstRef: any = {
-                ref: (ele: any) => {
-                    this.firstAction = ele;
-                }
+                ref: (ele: any) => this.firstAction = ele
             };
 
             this.props.node.actions.map((action: TAnyAction, idx: number) => {
