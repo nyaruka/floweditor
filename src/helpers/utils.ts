@@ -2,11 +2,8 @@ import { ComponentClass, SFC, ReactElement } from 'react';
 import { ShallowWrapper, ReactWrapper } from 'enzyme';
 import { FlowDefinition } from '../flowTypes';
 
-const request = require('sync-request');
-
-const XRegExp = require('xregexp');
-
-const SNAKED_CHARS = XRegExp('[^\\p{Letter}\\d]+');
+const SNAKED_CHARS = /\s+(?=\S)/g;
+const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 
 interface BoolMap {
     [key: string]: boolean;
@@ -39,7 +36,7 @@ export function addCommas(value: number): string {
  * @returns {string} A snaked string, e.g. 'my_flow_field'
  */
 export function snakify(value: string): string {
-    return XRegExp.replace(value.toLowerCase().trim(), SNAKED_CHARS, '_', 'all');
+    return value.toLowerCase().trim().replace(SNAKED_CHARS, '_');
 }
 
 /**
@@ -50,23 +47,6 @@ export function snakify(value: string): string {
 export function getDisplayName(HOCName: string, Component: ComponentClass | SFC): string {
     const ComponentDisplayName = Component.displayName || Component.name || 'Component';
     return `${HOCName}(${ComponentDisplayName})`;
-}
-
-function getFlow(name: string): FlowDefinition {
-    const definition = request('GET', 'base/test_flows/' + name + '.json').getBody();
-    return JSON.parse(definition) as FlowDefinition;
-}
-
-export function getFavorites(): FlowDefinition {
-    return getFlow('favorites');
-}
-
-export function getTest(): FlowDefinition {
-    return getFlow('a4f64f1b-85bc-477e-b706-de313a022979');
-}
-
-export function dump(object: any) {
-    console.log(JSON.stringify(object, null, 1));
 }
 
 export const DATA_SPEC_ATTRIBUTE_NAME: string = 'data-spec';
@@ -93,6 +73,5 @@ export function getSpecWrapper(
  * @returns {boolean}
  */
 export function validUUID(uuid: string): boolean {
-    const regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
-    return regex.test(uuid);
+    return V4_UUID.test(uuid);
 }
