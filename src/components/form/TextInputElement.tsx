@@ -211,7 +211,7 @@ export default class TextInputElement extends FormWidget<TextInputProps, TextInp
                     this.setState(
                         {
                             query: query,
-                            value: newValue,
+                            value: newValue.trim(),
                             matches: matches,
                             caretOffset: newCaret,
                             completionVisible: completionVisible,

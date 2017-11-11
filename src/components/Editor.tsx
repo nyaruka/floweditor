@@ -50,6 +50,7 @@ export default class Editor extends React.PureComponent<IEditorProps, IEditorSta
     }
 
     private setDefinition(definition: FlowDefinition, dependencies?: FlowDefinition[]): void {
+        console.log(`DEFINITION: ${JSON.stringify(definition, null, 2)}`);
         if (dependencies) {
             this.setState({
                 definition,

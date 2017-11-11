@@ -60,7 +60,7 @@ export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExi
         }
 
         // ignore cases with empty names
-        if (!newCase.exitName || newCase.exitName.trim().length == 0) {
+        if (!newCase.exitName || newCase.exitName.trim().length === 0) {
             continue;
         }
 
@@ -68,7 +68,7 @@ export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExi
             // look through our new exits to see if we've already created one
             for (let exit of exits) {
                 if (newCase.exitName && exit.name) {
-                    if (exit.name.toLowerCase() == newCase.exitName.trim().toLowerCase()) {
+                    if (exit.name.toLowerCase() === newCase.exitName.trim().toLowerCase()) {
                         existingExit = exit;
                         break;
                     }
@@ -81,7 +81,7 @@ export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExi
                 if (previous.exits) {
                     for (let exit of previous.exits) {
                         if (newCase.exitName && exit.name) {
-                            if (exit.name.toLowerCase() == newCase.exitName.trim().toLowerCase()) {
+                            if (exit.name.toLowerCase() === newCase.exitName.trim().toLowerCase()) {
                                 existingExit = exit;
                                 exits.push(existingExit);
                                 break;
@@ -118,7 +118,7 @@ export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExi
 
     // add in our default exit
     var defaultUUID = UUID.v4();
-    if (previous.router && previous.router.type == 'switch') {
+    if (previous.router && previous.router.type === 'switch') {
         var router = previous.router as SwitchRouter;
         if (router && router.default_exit_uuid) {
             defaultUUID = router.default_exit_uuid;
@@ -190,7 +190,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                 var exitName = null;
                 if (kase.exit_uuid) {
                     var exit = exits.find(exit => {
-                        return exit.uuid == kase.exit_uuid;
+                        return exit.uuid === kase.exit_uuid;
                     });
                     if (exit) {
                         exitName = exit.name;
@@ -219,11 +219,14 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
             setResultName: false,
             resultName: resultName,
             operand: operand
-        } as SwitchRouterState;
+        };
 
         this.validationCallback = this.validationCallback.bind(this);
         this.onCaseChanged = this.onCaseChanged.bind(this);
         this.onExpressionChanged = this.onExpressionChanged.bind(this);
+        this.onCaseRemoved = this.onCaseRemoved.bind(this);
+        this.moveCase = this.moveCase.bind(this);
+        this.onShowNameField = this.onShowNameField.bind(this);
     }
 
     private onShowNameField() {
@@ -402,9 +405,9 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                             ref={this.props.onBindWidget}
                             name={'case_' + index}
                             exitName={c.exitName}
-                            onRemove={this.onCaseRemoved.bind(this)}
-                            onChanged={this.onCaseChanged.bind(this)}
-                            moveCase={this.moveCase.bind(this)}
+                            onRemove={this.onCaseRemoved}
+                            onChanged={this.onCaseChanged}
+                            moveCase={this.moveCase}
                             getOperatorConfig={this.props.getOperatorConfig}
                             operatorConfigList={this.props.operatorConfigList}
                             ComponentMap={this.props.ComponentMap}
@@ -426,9 +429,9 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                         ref={this.props.onBindWidget}
                         name={'case_' + cases.length}
                         exitName={null}
-                        onRemove={this.onCaseRemoved.bind(this)}
-                        moveCase={this.moveCase.bind(this)}
-                        onChanged={this.onCaseChanged.bind(this)}
+                        onRemove={this.onCaseRemoved}
+                        moveCase={this.moveCase}
+                        onChanged={this.onCaseChanged}
                         getOperatorConfig={this.props.getOperatorConfig}
                         operatorConfigList={this.props.operatorConfigList}
                         ComponentMap={this.props.ComponentMap}
@@ -450,7 +453,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                 );
             } else {
                 nameField = (
-                    <span className={styles.save_link} onClick={this.onShowNameField.bind(this)}>
+                    <span className={styles.save_link} onClick={this.onShowNameField}>
                         Save as..
                     </span>
                 );
@@ -458,9 +461,9 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
 
             var leadIn = null;
 
-            if (this.props.config.type == 'wait_for_response') {
+            if (this.props.config.type === 'wait_for_response') {
                 leadIn = <div className={styles.instructions}>If the message response..</div>;
-            } else if (this.props.config.type == 'expression') {
+            } else if (this.props.config.type === 'expression') {
                 leadIn = (
                     <div className={styles.instructions}>
                         <p>If the expression..</p>
@@ -517,7 +520,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
         }
 
         var optionalNode = {};
-        if (this.props.config.type == 'wait_for_response') {
+        if (this.props.config.type === 'wait_for_response') {
             optionalNode = {
                 wait: { type: 'msg' }
             };

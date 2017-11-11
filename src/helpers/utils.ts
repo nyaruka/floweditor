@@ -39,7 +39,7 @@ export function addCommas(value: number): string {
  * @returns {string} A snaked string, e.g. 'my_flow_field'
  */
 export function snakify(value: string): string {
-    return XRegExp.replace(value.toLowerCase(), SNAKED_CHARS, '_', 'all');
+    return XRegExp.replace(value.toLowerCase().trim(), SNAKED_CHARS, '_', 'all');
 }
 
 /**
