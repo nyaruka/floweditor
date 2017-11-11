@@ -36,7 +36,10 @@ export function addCommas(value: number): string {
  * @returns {string} A snaked string, e.g. 'my_flow_field'
  */
 export function snakify(value: string): string {
-    return value.toLowerCase().trim().replace(SNAKED_CHARS, '_');
+    return value
+        .toLowerCase()
+        .trim()
+        .replace(SNAKED_CHARS, '_');
 }
 
 /**
@@ -58,7 +61,7 @@ export const DATA_SPEC_ATTRIBUTE_NAME: string = 'data-spec';
  * @param {ReactWrapper|ShallowWrapper} componentWrapper - Rendered componentWrapper (result of mount, shallow, or render)
  * @param  {string} snacName - Name of `data-spec` attribute value to find
  * @param {string|Function} (Optional) typeFilter - (Optional) Expected type of the wrappers (defaults to all HTML tags)
- * @returns {ReactWrapper|ReactWrapper[]|ShallowWrapper|ShallowWrapper[]} matching DOM components
+ * @returns {ReactWrapper|ReactWrapper[]|ShallowWrapper|ShallowWrapper[]} Matching DOM components
  */
 export function getSpecWrapper(
     componentWrapper: ReactWrapper | ShallowWrapper,
@@ -74,4 +77,13 @@ export function getSpecWrapper(
  */
 export function validUUID(uuid: string): boolean {
     return V4_UUID.test(uuid);
+}
+
+/**
+ * Returns a given string in title case, e.g. 'full name' becomes 'Full Name'
+ * @param {string} str - string to be title-cased
+ * @returns {string} Title-cased string
+ */
+export function titleCase(str: string): string {
+    return str.replace(/\b\w+/g, s => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase());
 }

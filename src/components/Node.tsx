@@ -1,7 +1,5 @@
 import * as React from 'react';
 import * as axios from 'axios';
-import * as update from 'immutability-helper';
-import * as UUID from 'uuid';
 import * as shallowCompare from 'react-addons-shallow-compare';
 import * as FlipMove from 'react-flip-move';
 import { Language } from './LanguageSelector';
@@ -18,6 +16,7 @@ import {
 import ExitComp from './Exit';
 import TitleBarComp from './TitleBar';
 import { Node, UINode, Position, SwitchRouter, AnyAction } from '../flowTypes';
+import { titleCase } from '../helpers/utils';
 import CounterComp from './Counter';
 import ActivityManager from '../services/ActivityManager';
 import ComponentMap from '../services/ComponentMap';
@@ -408,14 +407,14 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 let switchRouter = this.props.node.router as SwitchRouter;
                 if (switchRouter.result_name) {
                     if (this.props.ui.type === 'expression') {
-                        title = `Split by ${switchRouter.result_name}`;
-                    } else if (this.props.ui.type == 'wait_for_response') {
-                        title = `Wait for ${switchRouter.result_name}`;
+                        title = `Split by ${titleCase(switchRouter.result_name)}`;
+                    } else if (this.props.ui.type === 'wait_for_response') {
+                        title = `Wait for ${titleCase(switchRouter.result_name)}`;
                     }
                 }
             }
 
-            if (!this.props.node.actions || this.props.node.actions.length == 0) {
+            if (!this.props.node.actions || this.props.node.actions.length === 0) {
                 header = (
                     <div {...events}>
                         <TitleBarComp
@@ -480,7 +479,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         }
 
         var exitClass = '';
-        if (this.props.node.exits.length == 1 && !this.props.node.exits[0].name) {
+        if (this.props.node.exits.length === 1 && !this.props.node.exits[0].name) {
             exitClass = styles.actions;
         }
 
