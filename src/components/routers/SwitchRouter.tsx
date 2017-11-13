@@ -1,25 +1,21 @@
 import * as React from 'react';
-import * as UUID from 'uuid';
-import * as FlipMove from 'react-flip-move';
-
-//import {Case} from '../Case';
+import UUID from 'uuid';
+import FlipMove from 'react-flip-move';
+import update from 'immutability-helper';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
+import { Node, Router, SwitchRouter, Exit, Case, AnyAction } from '../../flowTypes';
 import { Type, GetOperatorConfig, Operator } from '../../services/EditorConfig';
 import ComponentMap from '../../services/ComponentMap';
-import { CaseElement } from '../form/CaseElement';
-import TextInputElement, {  HTMLTextElement } from '../form/TextInputElement';
-import { Node, Router, SwitchRouter, Exit, Case, AnyAction } from '../../flowTypes';
-
-import { DragDropContext } from 'react-dnd';
 import { Language } from '../LanguageSelector';
 import { LocalizedObject } from '../../services/Localization';
+import CaseElement from '../form/CaseElement';
+import TextInputElement, {  HTMLTextElement } from '../form/TextInputElement';
 
-const HTML5Backend = require('react-dnd-html5-backend');
-const update = require('immutability-helper');
 const styles = require('./SwitchRouter.scss');
 
 export interface CaseProps {
     kase: Case;
-
     exitName: string;
     onChanged: Function;
     moveCase: Function;
@@ -30,6 +26,7 @@ export interface CombinedExits {
     exits: Exit[];
     defaultExit: string;
 }
+
 /**
  * Given a set of cases and previous exits, determines correct merging of cases
  * and the union of exits
@@ -166,7 +163,7 @@ export interface SwitchRouterFormProps {
     operatorConfigList: Operator[];
     isTranslating: boolean;
     getLocalizedExits(widgets: {
-        [name: string]: Widget;
+        [name: string]: any;
     }): { uuid: string; translations: any }[];
     getInitialRouter(): Router;
     renderExitTranslations(): JSX.Element;
@@ -284,14 +281,14 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
         });
     }
 
-    saveLocalization(widgets: { [name: string]: Widget }) {
+    saveLocalization(widgets: { [name: string]: any }) {
         let updates = this.props.getLocalizedExits(widgets);
         let { iso: language } = this.props.localizations[0].getLanguage();
         updates = [...updates, this.getLocalizedCases(widgets)] as { uuid: string; translations: any }[];
         this.props.updateLocalizations(language, updates);
     }
 
-    getLocalizedCases(widgets: { [name: string]: Widget }): { uuid: string; translations: any }[] {
+    getLocalizedCases(widgets: { [name: string]: any }): { uuid: string; translations: any }[] {
         var results: { uuid: string; translations: any }[] = [];
         var router = this.props.getInitialRouter() as SwitchRouter;
         for (let kase of router.cases) {
@@ -504,7 +501,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
         );
     }
 
-    onValidCallback(widgets: { [name: string]: Widget }) {
+    onValidCallback(widgets: { [name: string]: any }) {
         if (this.props.isTranslating) {
             return this.saveLocalization(widgets);
         }

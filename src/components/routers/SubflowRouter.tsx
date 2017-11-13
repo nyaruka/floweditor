@@ -2,11 +2,10 @@ import * as React from 'react';
 import * as UUID from 'uuid';
 import { Exit, StartFlow, Case, SwitchRouter } from '../../flowTypes';
 import { Type } from '../../services/EditorConfig';
-import FlowElement from '../form/FlowElement';
-import ComponentMap from '../../services/ComponentMap';
-
 import { Node, AnyAction } from '../../flowTypes';
 import { Endpoints } from '../../services/EditorConfig';
+import FlowElement from '../form/FlowElement';
+import ComponentMap from '../../services/ComponentMap';
 
 export interface SubflowRouterFormProps {
     action: AnyAction;
@@ -18,7 +17,7 @@ export interface SubflowRouterFormProps {
     isTranslating: boolean;
     renderExitTranslations(): JSX.Element;
     config: Type;
-    saveLocalizedExits(widgets: { [name: string]: Widget }): void;
+    saveLocalizedExits(widgets: { [name: string]: any }): void;
     getActionUUID(): string;
     ComponentMap: ComponentMap;
 }
@@ -37,7 +36,7 @@ export default ({
     getActionUUID,
     ComponentMap
 }: SubflowRouterFormProps) => {
-    onValidCallback((widgets: { [name: string]: Widget }): void => {
+    onValidCallback((widgets: { [name: string]: any }): void => {
         if (isTranslating) {
             return saveLocalizedExits(widgets);
         }

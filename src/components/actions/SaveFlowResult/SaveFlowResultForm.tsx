@@ -25,7 +25,7 @@ export default ({
     onBindWidget,
     ComponentMap
 }: SaveFlowResultFormProps): JSX.Element => {
-    onValidCallback((widgets: { [name: string]: Widget }) => {
+    onValidCallback((widgets: { [name: string]: any }) => {
         const nameEle = widgets['Name'] as TextInputElement;
         const valueEle = widgets['Value'] as TextInputElement;
         const categoryEle = widgets['Category'] as TextInputElement;

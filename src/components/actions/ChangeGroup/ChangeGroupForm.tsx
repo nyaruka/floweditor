@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ChangeGroup } from '../../../flowTypes';
 import { Type, Endpoints } from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
-import { GroupElement } from '../../form/GroupElement';
+import GroupElement from '../../form/GroupElement';
 
 export interface ChangeGroupFormProps {
     onValidCallback: Function;
@@ -25,7 +25,7 @@ export default ({
     endpoints,
     ComponentMap
 }: ChangeGroupFormProps): JSX.Element => {
-    onValidCallback((widgets: { [name: string]: Widget }) => {
+    onValidCallback((widgets: { [name: string]: any }) => {
         const groupEle = widgets['Group'] as any;
         const { state: { groups: [group] } } = groupEle;
 

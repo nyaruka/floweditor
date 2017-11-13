@@ -3,7 +3,7 @@ import { SendEmail } from '../../../flowTypes';
 import { Type } from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement from '../../form/TextInputElement';
-import { EmailElement } from '../../form/EmailElement';
+import EmailElement from '../../form/EmailElement';
 
 const styles = require('./SendEmail.scss');
 
@@ -26,7 +26,7 @@ export default ({
     onBindWidget,
     getActionUUID
 }: SendEmailFormProps): JSX.Element => {
-    onValidCallback((widgets: { [name: string]: Widget }) => {
+    onValidCallback((widgets: { [name: string]: any }) => {
         const emailEle = widgets['Recipient'] as EmailElement;
         const subjectEle = widgets['Subject'] as TextInputElement;
         const bodyEle = widgets['Message'] as TextInputElement;

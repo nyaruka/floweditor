@@ -6,7 +6,7 @@ import ComponentMap from '../../../services/ComponentMap';
 import { toBoolMap } from '../../../helpers/utils';
 import SelectSearch from '../../SelectSearch';
 import { SearchResult } from '../../../services/ComponentMap';
-import { FieldElement } from '../../form/FieldElement';
+import FieldElement from '../../form/FieldElement';
 import TextInputElement from '../../form/TextInputElement';
 
 // TODO: these should come from an external source
@@ -50,7 +50,7 @@ export default ({
     ComponentMap,
     endpoints
 }: SaveToContactFormProps): JSX.Element => {
-    onValidCallback((widgets: { [name: string]: Widget }) => {
+    onValidCallback((widgets: { [name: string]: any }) => {
         const fieldEle = widgets['Field'] as FieldElement;
         const valueEle = widgets['Value'] as TextInputElement;
 

@@ -62,7 +62,7 @@ export interface NodeEditorFormChildProps {
     getLocalizedObject: Function;
     getActionUUID: Function;
     isTranslating: boolean;
-    saveLocalizedExits(widgets: { [name: string]: Widget }): void;
+    saveLocalizedExits(widgets: { [name: string]: any }): void;
 }
 
 export interface NodeEditorFormProps {
@@ -195,7 +195,7 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
         );
     }
 
-    private getLocalizedExits(widgets: { [name: string]: Widget }): { uuid: string; translations: any }[] {
+    private getLocalizedExits(widgets: { [name: string]: any }): { uuid: string; translations: any }[] {
         let results: { uuid: string; translations: any }[] = [];
 
         this.props.node.exits.forEach(({ uuid: exitUUID }: Exit) => {
@@ -211,7 +211,7 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
         return results;
     }
 
-    private saveLocalizedExits(widgets: { [name: string]: Widget }): void {
+    private saveLocalizedExits(widgets: { [name: string]: any }): void {
         const exits = this.getLocalizedExits(widgets);
         const language = this.props.localizations[0].getLanguage().iso;
         this.props.updateLocalizations(language, exits);

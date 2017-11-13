@@ -49,7 +49,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     private modal: Modal;
     private form: any;
     private advanced: any;
-    private widgets: { [name: string]: Widget } = {};
+    private widgets: { [name: string]: any } = {};
     private advancedWidgets: { [name: string]: boolean } = {};
 
     constructor(props: NodeEditorProps) {
@@ -101,7 +101,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         );
     }
 
-    public onBindWidget(widget: Widget) {
+    public onBindWidget(widget: any) {
         if (widget) {
             if (this.widgets) {
                 this.widgets[widget.props.name] = widget;
@@ -109,7 +109,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         }
     }
 
-    public onBindAdvancedWidget(widget: Widget) {
+    public onBindAdvancedWidget(widget: any) {
         if (widget) {
             this.onBindWidget(widget);
             this.advancedWidgets[widget.props.name] = true;
@@ -117,7 +117,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     public submit(): boolean {
-        let invalid: Widget[] = [];
+        let invalid: any[] = [];
 
         for (const key in this.widgets) {
             let widget = this.widgets[key];
