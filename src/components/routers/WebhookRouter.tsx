@@ -1,20 +1,16 @@
 import * as React from 'react';
-import * as UUID from 'uuid';
-import * as update from 'immutability-helper';
-import * as FlipMove from 'react-flip-move';
-
+import UUID from 'uuid';
+import update from 'immutability-helper';
+import FlipMove from 'react-flip-move';
 import { Type } from '../../services/EditorConfig';
 import { SwitchRouterState } from './SwitchRouter';
-import { SelectElement } from '../form/SelectElement';
+import SelectElement from '../form/SelectElement';
 import { CallWebhook, Case, Exit, SwitchRouter, Node, AnyAction } from '../../flowTypes';
+import HeaderElement, { Header } from '../form/HeaderElement';
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
-
-import { FormElement } from '../form/FormElement';
-import { FormWidget, FormWidgetState } from '../form/FormWidget';
-import Widget from '../NodeEditor/Widget';
+import FormElement from '../form/FormElement';
 import ComponentMap from '../../services/ComponentMap';
 
-const forms = require('../form/FormElement.scss');
 const styles = require('./Webhook.scss');
 
 const defaultBody: string = `{
@@ -24,12 +20,6 @@ const defaultBody: string = `{
     "flow": @(to_json(run.flow.uuid)),
     "flow_name": @(to_json(run.flow.name))
 }`;
-
-export interface Header {
-    uuid: string;
-    name: string;
-    value: string;
-}
 
 export interface WebhookRouterFormProps {
     config: Type;
@@ -42,7 +32,7 @@ export interface WebhookRouterFormProps {
     ComponentMap: ComponentMap,
     renderExitTranslations(): JSX.Element;
     onToggleAdvanced(): void;
-    saveLocalizedExits(widgets: { [name: string]: Widget }): void;
+    saveLocalizedExits(widgets: { [name: string]: React.Component }): void;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
@@ -115,7 +105,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
     }
 
     onHeaderRemoved(header: HeaderElement) {
-        var newHeaders = update(this.state.headers, { $splice: [[header.props.index, 1]] });
+        const newHeaders = update(this.state.headers, { $splice: [[header.props.index, 1]] });
         this.addEmptyHeader(newHeaders);
         this.setState({ headers: newHeaders });
         this.props.removeWidget(header.props.name);
@@ -123,7 +113,8 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
 
     onHeaderChanged(ele: HeaderElement) {
         const { name, value } = ele.state;
-        var newHeaders = update(this.state.headers, {
+
+        const newHeaders = update(this.state.headers, {
             [ele.props.index]: {
                 $set: {
                     name: name,
@@ -142,7 +133,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         this.props.triggerFormUpdate();
     }
 
-    onUpdateForm(widgets: { [name: string]: Widget }) {
+    onUpdateForm(widgets: { [name: string]: React.Component }) {
         if (this.props.advanced) {
             var methodEle = widgets['Method'] as SelectElement;
             if (methodEle.state.value == 'GET') {
@@ -329,7 +320,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         return UUID.v4();
     }
 
-    onValid(widgets: { [name: string]: Widget }): void {
+    onValid(widgets: { [name: string]: React.Component }): void {
         if (this.props.isTranslating) {
             return this.props.saveLocalizedExits(widgets);
         }
@@ -439,112 +430,4 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         }
         return this.renderForm();
     }
-}
-
-export interface HeaderElementProps {
-    name: string;
-
-    header: Header;
-    index: number;
-    onRemove(header: HeaderElement): void;
-    onChange(header: HeaderElement): void;
-
-    ComponentMap: ComponentMap;
-}
-
-interface HeaderElementState extends FormWidgetState {
-    name: string;
-    value: string;
-}
-
-export class HeaderElement extends FormWidget<HeaderElementProps, HeaderElementState> {
-    private category: TextInputElement;
-
-    constructor(props: HeaderElementProps) {
-        super(props);
-
-        this.onChangeName = this.onChangeName.bind(this);
-        this.onChangeValue = this.onChangeValue.bind(this);
-
-        this.state = {
-            errors: [],
-            name: this.props.header.name,
-            value: this.props.header.value
-        };
-    }
-
-    private onChangeName(event: React.SyntheticEvent<HTMLTextElement>) {
-        this.setState(
-            {
-                name: event.currentTarget.value
-            },
-            () => {
-                this.props.onChange(this);
-            }
-        );
-    }
-
-    private onChangeValue(event: React.SyntheticEvent<HTMLTextElement>) {
-        this.setState(
-            {
-                value: event.currentTarget.value
-            },
-            () => {
-                this.props.onChange(this);
-            }
-        );
-    }
-
-    private onRemove(ele: any) {
-        this.props.onRemove(this);
-    }
-
-    validate(): boolean {
-        var errors: string[] = [];
-
-        if (this.state.value.trim().length > 0) {
-            if (this.state.name.trim().length == 0) {
-                errors.push('HTTP headers must have a name');
-            }
-        }
-
-        this.setState({ errors: errors });
-        return errors.length == 0;
-    }
-
-    render() {
-        var classes = [styles.header];
-        if (this.state.errors.length > 0) {
-            classes.push(forms.invalid);
-        }
-
-        return (
-            <FormElement name={this.props.name} errors={this.state.errors} className={styles.group}>
-                <div className={styles.header}>
-                    <div className={styles.header_name}>
-                        <TextInputElement
-                            placeholder="Header Name"
-                            name="name"
-                            onChange={this.onChangeName}
-                            value={this.state.name}
-                            ComponentMap={this.props.ComponentMap}
-                        />
-                    </div>
-                    <div className={styles.header_value}>
-                        <TextInputElement
-                            placeholder="Value"
-                            name="value"
-                            onChange={this.onChangeValue}
-                            value={this.state.value}
-                            autocomplete
-                            ComponentMap={this.props.ComponentMap}
-                        />
-                    </div>
-                    <div className={styles.remove_button} onClick={this.onRemove.bind(this)}>
-                        <span className="icon-remove" />
-                    </div>
-                </div>
-            </FormElement>
-        );
-    }
-}
+};
