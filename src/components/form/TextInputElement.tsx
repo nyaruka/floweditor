@@ -1,8 +1,6 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-
+import { findDOMNode } from 'react-dom';
 import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormWidgetState } from './FormWidget';
 import ComponentMap, { CompletionOption } from '../../services/ComponentMap';
 
 const getCaretCoordinates = require('textarea-caret');
@@ -34,30 +32,26 @@ export interface HTMLTextElement {
 
 interface TextInputProps extends FormElementProps {
     value: string;
-
-    // validates that the input is a url
+    /** Validates that the input is a url */
     url?: boolean;
-
-    // should we display in a textarea
+    /** Should we display in a textarea */
     textarea?: boolean;
-
-    // text to display when there is no value
+    /** Text to display when there is no value */
     placeholder?: string;
-
-    // do we show autocompletion choices
+    /** Do we show autocompletion choices */
     autocomplete?: boolean;
-
     onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
     onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
-
     ComponentMap: ComponentMap;
 }
 
-export interface TextInputState extends FormWidgetState {
+export interface TextInputState {
+    value: any;
+    errors: string[];
     caretOffset: number;
     caretCoordinates: Coordinates;
     completionVisible: boolean;
-    selectedOptionIndex: number;
+    selectedOptionIdx: number;
     matches: CompletionOption[];
     query: string;
 }
@@ -92,10 +86,9 @@ const OPTIONS: CompletionOption[] = [
     { name: 'webhook.response', description: 'The raw response of the webhook including headers' }
 ];
 
-export default class TextInputElement extends FormWidget<TextInputProps, TextInputState> {
+export default class TextInputElement extends React.Component<TextInputProps, TextInputState> {
     private selectedEle: any;
     private textElement: HTMLTextElement;
-
     private options: CompletionOption[];
 
     constructor(props: any) {
@@ -107,7 +100,7 @@ export default class TextInputElement extends FormWidget<TextInputProps, TextInp
             caretCoordinates: { left: 0, top: 0 },
             errors: [],
             completionVisible: false,
-            selectedOptionIndex: 0,
+            selectedOptionIdx: 0,
             matches: [],
             query: ''
         };
@@ -121,28 +114,35 @@ export default class TextInputElement extends FormWidget<TextInputProps, TextInp
         this.onBlur = this.onBlur.bind(this);
     }
 
-    private setSelection(index: number) {
-        // can't exceed the last option
-        if (index >= this.state.matches.length) {
-            index = this.state.matches.length - 1;
+    private setSelection(selectedIdx: number) {
+        let idx: number;
+
+        /** Can't exceed the last option */
+        if (selectedIdx >= this.state.matches.length) {
+            idx = this.state.matches.length - 1;
         }
 
-        // can't go beyond the first option
-        if (index < 0) {
-            index = 0;
+        /** Can't go beyond the first option */
+        if (selectedIdx < 0) {
+            idx = 0;
         }
 
-        if (index != this.state.selectedOptionIndex) {
-            this.setState({
-                selectedOptionIndex: index
-            });
+        if (selectedIdx !== this.state.selectedOptionIdx) {
+            this.setState({ selectedOptionIdx: idx });
         }
     }
 
-    private onKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
+    private onKeyDown(event: React.KeyboardEvent<HTMLTextElement>) {
         if (!this.props.autocomplete) {
             return;
         }
+
+        let ele: any;
+        let query: string = '';
+        let matches: CompletionOption[] = [];
+        let completionVisible = matches.length > 0;
+
+        const { value: currentValue, caretOffset, query: { length: queryLength } } = this.state;
 
         switch (event.keyCode) {
             case KEY_P:
@@ -151,7 +151,7 @@ export default class TextInputElement extends FormWidget<TextInputProps, TextInp
                 }
             case KEY_UP:
                 if (this.state.completionVisible) {
-                    this.setSelection(this.state.selectedOptionIndex - 1);
+                    this.setSelection(this.state.selectedOptionIdx - 1);
                     event.preventDefault();
                 }
                 break;
@@ -162,20 +162,17 @@ export default class TextInputElement extends FormWidget<TextInputProps, TextInp
                 }
             case KEY_DOWN:
                 if (this.state.completionVisible) {
-                    this.setSelection(this.state.selectedOptionIndex + 1);
+                    this.setSelection(this.state.selectedOptionIdx + 1);
                     event.preventDefault();
                 }
                 break;
             case KEY_AT:
-                var ele: any = ReactDOM.findDOMNode(this.textElement as any);
-
+                ele = findDOMNode(this.textElement as any);
                 this.setState({
                     completionVisible: true,
                     caretCoordinates: getCaretCoordinates(ele, ele.selectionEnd)
                 });
-
                 break;
-
             case KEY_ESC:
                 if (this.state.completionVisible) {
                     this.setState({
@@ -185,103 +182,93 @@ export default class TextInputElement extends FormWidget<TextInputProps, TextInp
                     event.stopPropagation();
                 }
                 break;
-
             case KEY_TAB:
             case KEY_ENTER:
                 if (this.state.completionVisible && this.state.matches.length > 0) {
-                    var option = this.state.matches[this.state.selectedOptionIndex];
-                    var newValue = this.state.value.substr(
-                        0,
-                        this.state.caretOffset - this.state.query.length
-                    );
-                    newValue += option.name;
+                    const { name: optionName } = this.state.matches[this.state.selectedOptionIdx];
 
-                    var newCaret = newValue.length;
-                    newValue += this.state.value.substr(this.state.caretOffset);
+                    const newValue =
+                        currentValue.substr(0, caretOffset - queryLength) +
+                        optionName +
+                        currentValue.substr(caretOffset);
 
-                    var query = '';
-                    var completionVisible = false;
-                    var matches: CompletionOption[] = [];
+                    const { length: newCaretOffset } = newValue;
+
                     if (event.keyCode === KEY_TAB) {
-                        query = option.name;
+                        query = optionName;
                         matches = this.filterOptions(query);
-                        completionVisible = matches.length > 0;
                     }
 
                     this.setState(
                         {
-                            query: query,
-                            value: newValue.trim(),
-                            matches: matches,
-                            caretOffset: newCaret,
-                            completionVisible: completionVisible,
-                            selectedOptionIndex: 0
+                            query,
+                            value: newValue,
+                            matches,
+                            caretOffset: newCaretOffset,
+                            completionVisible,
+                            selectedOptionIdx: 0
                         },
                         () => {
                             inputSelection.setCaretPosition(
-                                ReactDOM.findDOMNode(this.textElement as any),
-                                newCaret
+                                findDOMNode(this.textElement as any),
+                                newCaretOffset
                             );
                         }
                     );
 
-                    // TODO: set caret position
+                    /** TODO: set caret position */
                     event.preventDefault();
                     event.stopPropagation();
-
-                    //
                 }
-
                 break;
 
             case KEY_BACKSPACE:
-                // iterate backwards on our value until we reach either a space or @
-                var caret = event.currentTarget.selectionStart - 1;
-                for (var i = caret - 1; i >= 0; i--) {
-                    var curr = this.state.value[i];
+                const carretOffset = event.currentTarget.selectionStart - 1;
 
-                    // space, don't do anything but break out
+                /** Iterate backwards on our value until we reach either a space or @ */
+                for (let i = carretOffset - 1; i >= 0; i--) {
+                    let curr = currentValue[i];
+
+                    /** Space, don't do anything but break out */
                     if (curr === ' ') {
                         break;
                     }
 
-                    // @ we display again
+                    /** If @ we display autocompletion again */
                     if (curr === '@') {
-                        var ele: any = ReactDOM.findDOMNode(this.textElement as any);
-                        query = this.state.value.substr(i + 1, caret - i - 1);
+                        ele = findDOMNode(this.textElement as any);
+                        query = currentValue.substr(i + 1, carretOffset - i - 1);
                         matches = this.filterOptions(query);
                         completionVisible = matches.length > 0;
-                        this.setState({
-                            query: query,
-                            matches: matches,
-                            value: this.state.value,
-                            caretOffset: caret,
-                            completionVisible: completionVisible,
-                            selectedOptionIndex: 0,
+
+                        return this.setState({
+                            query,
+                            matches,
+                            value: currentValue,
+                            caretOffset,
+                            completionVisible,
+                            selectedOptionIdx: 0,
                             caretCoordinates: getCaretCoordinates(ele, i)
                         });
-                        return;
                     }
                 }
 
-                // we are visible still but really shouldn't be, clear out
+                /** Completion is still visible but really shouldn't be, clear it out */
                 if (this.state.completionVisible) {
-                    this.setState({
+                    return this.setState({
                         query: '',
                         matches: [],
                         value: this.state.value,
-                        caretOffset: caret,
+                        caretOffset,
                         completionVisible: false,
-                        selectedOptionIndex: 0
+                        selectedOptionIdx: 0
                     });
                 }
                 break;
-
             case KEY_SPACE:
-                this.setState({
+                return this.setState({
                     completionVisible: false
                 });
-                break;
         }
     }
 
@@ -292,25 +279,22 @@ export default class TextInputElement extends FormWidget<TextInputProps, TextInp
                 matches: [],
                 value: this.state.value,
                 caretOffset: 0,
-                selectedOptionIndex: 0,
+                selectedOptionIdx: 0,
                 completionVisible: false
             },
-            () => {
-                if (this.props.onBlur) {
-                    this.props.onBlur(event);
-                }
-            }
+            () => this.props.onBlur && this.props.onBlur(event)
         );
     }
 
     private onChange(event: React.ChangeEvent<HTMLTextElement>) {
         const { currentTarget: { selectionStart, value } } = event;
+        const { completionVisible }  = this.state;
 
         if (this.props.autocomplete) {
             let query: string;
             let matches: CompletionOption[] = [];
 
-            if (this.state.completionVisible) {
+            if (completionVisible) {
                 query = value.substring(0, selectionStart);
 
                 let lastIdx = query.lastIndexOf('@');
@@ -325,7 +309,7 @@ export default class TextInputElement extends FormWidget<TextInputProps, TextInp
             this.setState({
                 caretOffset: selectionStart,
                 matches,
-                selectedOptionIndex: 0,
+                selectedOptionIdx: 0,
                 value,
                 query
             });
@@ -341,12 +325,8 @@ export default class TextInputElement extends FormWidget<TextInputProps, TextInp
     }
 
     private isValidURL(string: string) {
-        var pattern = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/; // fragment locater
-        if (!pattern.test(string)) {
-            return false;
-        } else {
-            return true;
-        }
+        const pattern = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/; // fragment locater
+        return pattern.test(string);
     }
 
     validate(): boolean {
@@ -375,10 +355,10 @@ export default class TextInputElement extends FormWidget<TextInputProps, TextInp
     private filterOptions(query: string): CompletionOption[] {
         if (query) {
             const search = query.toLowerCase();
-            const results = this.options.filter((option: CompletionOption) => {
-                const rest = option.name.substr(search.length);
+            const results = this.options.filter(({ name: optionName }: CompletionOption) => {
+                const rest = optionName.substr(search.length);
                 return (
-                    option.name.indexOf(search) === 0 &&
+                    optionName.indexOf(search) === 0 &&
                     (rest.length === 0 || rest.substr(1).indexOf('.') === -1)
                 );
             });
@@ -392,25 +372,24 @@ export default class TextInputElement extends FormWidget<TextInputProps, TextInp
     }
 
     componentDidUpdate(previous: TextInputProps) {
-        if (this.selectedEle != null) {
-            var selectedOption = ReactDOM.findDOMNode(this.selectedEle);
-            if (selectedOption != null) {
+        if (this.selectedEle) {
+            const selectedOption = findDOMNode(this.selectedEle);
+            if (selectedOption) {
                 selectedOption.scrollIntoView(false);
             }
         }
     }
 
-    private renderOption(option: CompletionOption, selected: boolean): JSX.Element {
+    private renderOption({ name, description }: CompletionOption, selected: boolean): JSX.Element {
         if (selected) {
             return (
                 <div>
-                    <div className={styles.option_name}>{option.name}</div>
-                    <div className={styles.option_description}>{option.description}</div>
+                    <div className={styles.option_name}>{name}</div>
+                    <div className={styles.option_description}>{description}</div>
                 </div>
             );
-        } else {
-            return <div className={styles.option_name}>{option.name}</div>;
         }
+        return <div className={styles.option_name}>{name}</div>;
     }
 
     render() {
@@ -429,7 +408,7 @@ export default class TextInputElement extends FormWidget<TextInputProps, TextInp
         const options = this.state.matches.map((option: CompletionOption, index: number) => {
             let optionClasses = [styles.option];
 
-            if (index === this.state.selectedOptionIndex) {
+            if (index === this.state.selectedOptionIdx) {
                 optionClasses = [...optionClasses, styles.selected];
 
                 if (index === 0) {
@@ -454,7 +433,7 @@ export default class TextInputElement extends FormWidget<TextInputProps, TextInp
             );
         });
 
-        // use the proper form element
+        /** Use the proper form element */
         let TextElement = 'input';
 
         if (this.props.textarea) {
@@ -488,4 +467,4 @@ export default class TextInputElement extends FormWidget<TextInputProps, TextInp
             </FormElement>
         );
     }
-}
+};

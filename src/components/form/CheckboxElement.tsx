@@ -15,7 +15,7 @@ interface CheckboxState {
     errors: string[];
 }
 
-export class CheckboxElement extends React.Component<CheckboxElementProps, CheckboxState> {
+export default class CheckboxElement extends React.Component<CheckboxElementProps, CheckboxState> {
     constructor(props: any) {
         super(props);
 
@@ -58,4 +58,4 @@ export class CheckboxElement extends React.Component<CheckboxElementProps, Check
             </FormElement>
         );
     }
-}
+};
