@@ -42,6 +42,7 @@ export default class SelectSearch extends React.PureComponent<
 
     constructor(props: SelectSearchProps) {
         super(props);
+
         this.state = {
             selection: props.initial
         };
@@ -74,7 +75,7 @@ export default class SelectSearch extends React.PureComponent<
     }
 
     search(term: string, remoteResults: SearchResult[] = []): SelectSearchResult {
-        let combined = remoteResults.concat([]);
+        let combined = [...remoteResults];
 
         if (term) {
             term = term.toLowerCase();
@@ -232,4 +233,4 @@ export default class SelectSearch extends React.PureComponent<
             );
         }
     }
-}
+};

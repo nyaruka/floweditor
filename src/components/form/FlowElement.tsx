@@ -1,12 +1,10 @@
 import * as React from 'react';
-import * as UUID from 'uuid';
-
-import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormWidgetState } from './FormWidget';
+import UUID from 'uuid';
+import Select from 'react-select';
+import FormElement, { FormElementProps } from './FormElement';
 import { SearchResult } from '../../services/ComponentMap';
 import SelectSearch from '../SelectSearch';
 
-const Select = require('react-select');
 const styles = require('./FormElement.scss');
 
 interface FlowElementProps extends FormElementProps {
@@ -16,11 +14,12 @@ interface FlowElementProps extends FormElementProps {
     placeholder?: string;
 }
 
-interface FlowState extends FormWidgetState {
+interface FlowState {
     flow: SearchResult;
+    errors: string[];
 }
 
-export default class FlowElement extends FormWidget<FlowElementProps, FlowState> {
+export default class FlowElement extends React.Component<FlowElementProps, FlowState> {
     constructor(props: any) {
         super(props);
 
@@ -35,21 +34,22 @@ export default class FlowElement extends FormWidget<FlowElementProps, FlowState>
         }
 
         this.state = {
-            flow: flow,
+            flow,
             errors: []
         };
 
         this.onChange = this.onChange.bind(this);
     }
 
-    onChange([selected]: any) {
+    onChange([flow]: any) {
         this.setState({
-            flow: selected
+            flow
         });
     }
 
     validate(): boolean {
         let errors: string[] = [];
+
         if (this.props.required) {
             if (!this.state.flow) {
                 errors = [...errors, `${this.props.name} is required`];

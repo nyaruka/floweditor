@@ -3,8 +3,7 @@ import { Reply } from '../../../flowTypes';
 import { Type } from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement from '../../form/TextInputElement';
-import Widget from '../../NodeEditor/Widget';
-import { CheckboxElement } from '../../form/CheckboxElement';
+import CheckboxElement from '../../form/CheckboxElement';
 
 const styles = require('../../Action/Action.scss');
 

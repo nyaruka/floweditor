@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Select from 'react-select';
-import { FormElement, FormElementProps } from './FormElement';
+import FormElement, { FormElementProps } from './FormElement';
 
 const styles = require('./CheckboxElement.scss');
 
