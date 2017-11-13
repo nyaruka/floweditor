@@ -13,7 +13,7 @@ export interface FormElementProps {
     border?: boolean;
 }
 
-const FormElement: React.SFC<FormElementProps> = props => {
+const FormElement: React.SFC<FormElementProps> = (props): JSX.Element => {
     let errors: JSX.Element[] = [];
 
     if (props.errors) {

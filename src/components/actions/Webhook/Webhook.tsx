@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { CallWebhook } from '../../../flowTypes';
 
-export default ({ url }: CallWebhook) => <div>{url}</div>;
+const WebhookComp: React.SFC<CallWebhook> = ({ url }): JSX.Element => <div>{url}</div>;
 
+export default WebhookComp;

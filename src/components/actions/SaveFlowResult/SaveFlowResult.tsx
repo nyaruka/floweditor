@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SaveFlowResult } from '../../../flowTypes';
 
-export default ({ value, result_name }: SaveFlowResult) => {
+const SaveFlowResultComp: React.SFC<SaveFlowResult> = ({ value, result_name }): JSX.Element => {
     if (value) {
         return (
             <div>
@@ -15,3 +15,5 @@ export default ({ value, result_name }: SaveFlowResult) => {
         </div>
     );
 };
+
+export default SaveFlowResultComp;

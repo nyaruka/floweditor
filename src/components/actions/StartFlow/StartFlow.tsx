@@ -1,4 +1,6 @@
 import * as React from 'react';
 import { StartFlow } from '../../../flowTypes';
 
-export default ({ flow_name }: StartFlow) => <div>{flow_name}</div>;
+const StartFlowComp: React.SFC<StartFlow> = ({ flow_name }): JSX.Element => <div>{flow_name}</div>;
+
+export default StartFlowComp;
