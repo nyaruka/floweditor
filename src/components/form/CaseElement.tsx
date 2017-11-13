@@ -1,10 +1,9 @@
 import * as React from 'react';
 import Select from 'react-select';
-import ComponentMap from '../../services/ComponentMap';
-import { FormElement } from './FormElement';
-import { FormWidgetState } from './FormWidget';
 import { GetOperatorConfig, Operator } from '../../services/EditorConfig';
 import { CaseProps } from '../routers/SwitchRouter';
+import ComponentMap from '../../services/ComponentMap';
+import FormElement from './FormElement';
 import TextInputElement, { HTMLTextElement } from './TextInputElement';
 
 const forms = require('./FormElement.scss');
@@ -18,13 +17,14 @@ export interface CaseElementProps extends CaseProps {
     ComponentMap: ComponentMap;
 }
 
-interface CaseElementState extends FormWidgetState {
+interface CaseElementState {
+    errors: string[];
     operator: string;
     arguments: string[];
     exitName: string;
 }
 
-export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> {
+export default class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
     private category: TextInputElement;
     private operatorConfig: Operator;
 
@@ -47,7 +47,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
         this.onRemove = this.onRemove.bind(this);
     }
 
-    private generateExitNameFromArguments(args: string[]): string {
+    private generateExitNameFromArguments([arg]: string[]): string {
         let prefix = '';
 
         if (this.state.operator.indexOf('_lt') > -1) {
@@ -72,15 +72,15 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
             }
         }
 
-        if (args && args.length > 0) {
-            const words = args[0].match(/\w+/g);
+        if (arg) {
+            const words = arg.match(/\w+/g);
 
             if (words && words.length > 0) {
                 const [firstWord] = words;
 
                 return prefix + firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
             }
-            return prefix + args[0].charAt(0).toUpperCase() + args[0].slice(1);
+            return prefix + arg.charAt(0).toUpperCase() + arg.slice(1);
         }
         return null;
     }
@@ -88,19 +88,20 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
     private getExitName(args: string[] = null) {
         let exitName = this.state.exitName;
 
-        if (args === null) {
-            // if the category name is specified for our operator, use that
+        if (!args) {
+            /** If the category name is specified for our operator, use that */
             if (this.operatorConfig.categoryName) {
-                exitName = this.operatorConfig.categoryName;
+                ({ categoryName: exitName } = this.operatorConfig);
             }
         } else {
             if (
                 !exitName ||
-                exitName == this.generateExitNameFromArguments(this.props.kase.arguments)
+                exitName === this.generateExitNameFromArguments(this.props.kase.arguments)
             ) {
                 exitName = this.generateExitNameFromArguments(args);
             }
         }
+
         return exitName;
     }
 
@@ -112,9 +113,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
                 operator: val.type,
                 exitName: this.getExitName()
             },
-            () => {
-                this.props.onChanged(this);
-            }
+            () => this.props.onChanged(this)
         );
     }
 
@@ -140,9 +139,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
             {
                 exitName: val.target.value
             },
-            () => {
-                this.props.onChanged(this);
-            }
+            () => this.props.onChanged(this)
         );
     }
 
@@ -164,21 +161,18 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
         if (this.operatorConfig.operands === 0) {
             if (this.state.exitName.trim().length === 0) {
                 const { verboseName } = this.operatorConfig;
-                errors = [
-                    ...errors,
-                    `A category name is required when using "${verboseName}"`
-                ];
+                errors = [...errors, `A category name is required when using "${verboseName}"`];
             }
         } else {
-            // check our argument list
-            // if we have arguments, we need an exit name
+            /** Check our argument list */
+            /** If we have arguments, we need an exit name */
             if (this.hasArguments()) {
                 if (!this.category || !this.category.state.value) {
                     errors = [...errors, 'A category name is required'];
                 }
             }
 
-            // if we have an exit name we need arguments
+            /** If we have an exit name we need arguments */
             if (this.state.exitName) {
                 if (!this.hasArguments()) {
                     const operator = this.props.getOperatorConfig(this.state.operator);
@@ -187,8 +181,8 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
                 }
             }
 
-            // validate numeric and date operators
-            if (this.hasArguments() && this.state.arguments[0].trim().indexOf('@') != 0) {
+            /** Validate numeric and date operators */
+            if (this.hasArguments() && this.state.arguments[0].trim().indexOf('@') !== 0) {
                 if (this.state.operator.indexOf('number') > -1) {
                     if (this.state.arguments[0]) {
                         if (isNaN(parseInt(this.state.arguments[0]))) {
@@ -200,7 +194,10 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
                 if (this.state.operator.indexOf('date') > -1) {
                     if (this.state.arguments[0]) {
                         if (isNaN(Date.parse(this.state.arguments[0]))) {
-                            errors = [...errors, 'Enter a date when using date rules (e.g. 1/1/2017).'];
+                            errors = [
+                                ...errors,
+                                'Enter a date when using date rules (e.g. 1/1/2017).'
+                            ];
                         }
                     }
                 }
@@ -211,15 +208,16 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
             return true;
         }
 
-        this.setState({ errors: errors });
-        return errors.length == 0;
+        this.setState({ errors });
+
+        return errors.length === 0;
     }
 
     render() {
         let classes = [styles.case];
 
         if (this.state.errors.length > 0) {
-            classes = [...classes, forms.invalid]
+            classes = [...classes, forms.invalid];
         }
 
         const value = this.state.arguments ? this.state.arguments[0] : '';
@@ -239,7 +237,7 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
             );
         }
 
-        var options: any = this.props.operatorConfigList;
+        const options = this.props.operatorConfigList;
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors} className={styles.group}>
