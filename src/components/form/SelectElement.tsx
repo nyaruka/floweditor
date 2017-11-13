@@ -1,10 +1,8 @@
 import * as React from 'react';
-
-import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormWidgetState } from './FormWidget';
 import Select from 'react-select';
+import { FormElement, FormElementProps } from './FormElement';
 
-var styles = require('./FormElement.scss');
+const styles = require('./FormElement.scss');
 
 interface SelectElementProps extends FormElementProps {
     onChange(value: any): void;
@@ -13,9 +11,15 @@ interface SelectElementProps extends FormElementProps {
     placeholder?: string;
 }
 
-export class SelectElement extends FormWidget<SelectElementProps, FormWidgetState> {
+interface SelectElementState {
+    value: any;
+    errors: string[];
+}
+
+export default class SelectElement extends React.Component<SelectElementProps, SelectElementState> {
     constructor(props: any) {
         super(props);
+
         this.state = {
             value: this.props.defaultValue,
             errors: []
@@ -41,21 +45,21 @@ export class SelectElement extends FormWidget<SelectElementProps, FormWidgetStat
         let errors: string[] = [];
 
         if (this.props.required) {
-            if (!this.state.value || this.state.value.length == 0) {
+            if (!this.state.value || this.state.value.length === 0) {
                 errors = [...errors, `${this.props.name} is required`];
             }
         }
 
         this.setState({ errors });
 
-        return errors.length == 0;
+        return errors.length === 0;
     }
 
     render() {
         let classes: string[] = [];
 
         if (this.state.errors.length > 0) {
-            // we use a global selector here for react-select
+            /** We use a global selector here for react-select */
             classes = [...classes, 'select-invalid'];
         }
 
@@ -75,4 +79,4 @@ export class SelectElement extends FormWidget<SelectElementProps, FormWidgetStat
             </FormElement>
         );
     }
-}
+};

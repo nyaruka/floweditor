@@ -46,7 +46,7 @@ interface TextInputProps extends FormElementProps {
 }
 
 export interface TextInputState {
-    value: any;
+    value: string;
     errors: string[];
     caretOffset: number;
     caretCoordinates: Coordinates;
