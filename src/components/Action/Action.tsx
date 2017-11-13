@@ -1,6 +1,5 @@
 import * as React from 'react';
-import * as axios from 'axios';
-import * as UUID from 'uuid';
+import axios from 'axios';
 import { Node, Group, AnyAction } from '../../flowTypes';
 import {
     GetTypeConfig,

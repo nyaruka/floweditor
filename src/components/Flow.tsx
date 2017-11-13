@@ -1,5 +1,7 @@
 import * as React from 'react';
-import * as FlipMove from 'react-flip-move';
+import FlipMove from 'react-flip-move';
+import update from 'immutability-helper';
+import { v4 } from 'uuid';
 import {
     FlowDefinition,
     Action,
@@ -21,8 +23,6 @@ import ActivityManager from '../services/ActivityManager';
 import NodeEditorComp, { NodeEditorProps } from './NodeEditor';
 import LanguageSelectorComp, { Language } from './LanguageSelector';
 
-const update = require('immutability-helper');
-const UUID = require('uuid');
 const styles = require('./Flow.scss');
 
 export interface IFlowProps {
@@ -165,7 +165,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
 
     private onAddAction(addToNode: Node) {
         const newAction: Reply = {
-            uuid: UUID.v4(),
+            uuid: v4(),
             type: 'reply',
             text: ''
         };
@@ -263,11 +263,11 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         };
 
         let ghost: Node = {
-            uuid: UUID.v4(),
+            uuid: v4(),
             actions: [],
             exits: [
                 {
-                    uuid: UUID.v4(),
+                    uuid: v4(),
                     destination_node_uuid: null
                 }
             ]
@@ -276,7 +276,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         // add an action if we are coming from a split
         if (fromNode.wait || fromNodeUI.type === 'webhook') {
             let replyAction: Reply = {
-                uuid: UUID.v4(),
+                uuid: v4(),
                 type: 'reply',
                 text: null
             };

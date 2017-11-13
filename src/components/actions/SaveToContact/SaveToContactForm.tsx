@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as UUID from 'uuid';
+import { v4 } from 'uuid';
 import { SaveToContact, IUpdateContact } from '../../../flowTypes';
 import { Type, Endpoints } from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
@@ -94,7 +94,7 @@ export default ({
 
     const createNewOption = (arg: { label: string }): SearchResult => {
         const newOption: SearchResult = {
-            id: UUID.v4(),
+            id: v4.v4(),
             name: arg.label,
             type: 'field',
             extraResult: true

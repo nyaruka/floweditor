@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as UUID from 'uuid';
+import { v4 } from 'uuid';
 
 import { addCommas } from '../helpers/utils';
 
@@ -21,7 +21,7 @@ export default class Counter extends React.Component<ICounterProps, ICounterStat
 
     constructor(props: ICounterProps) {
         super(props);
-        this.key = UUID.v4();
+        this.key = v4();
         this.getKey = this.getKey.bind(this);
         this.requestUpdate = this.requestUpdate.bind(this);
     }

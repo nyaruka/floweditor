@@ -1,5 +1,5 @@
 import * as React from 'react';
-import UUID from 'uuid';
+import { v4 } from 'uuid';
 import Select from 'react-select';
 import { toBoolMap } from '../../helpers/utils';
 import FormElement, { FormElementProps } from './FormElement';
@@ -75,7 +75,7 @@ export default class FieldElement extends React.Component<IFieldElementProps, IF
 
     createNewOption({ label }: { label: string }): SearchResult {
         const newOption: SearchResult = {
-            id: UUID.v4(),
+            id: v4(),
             name: label,
             type: 'field',
             extraResult: true

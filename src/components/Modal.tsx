@@ -1,6 +1,5 @@
 import * as React from 'react';
-import * as UUID from 'uuid';
-import * as ReactModal from 'react-modal';
+import ReactModal from 'react-modal';
 
 import { Button, IButtonProps } from './Button';
 

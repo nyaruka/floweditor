@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as axios from 'axios';
-import * as UUID from 'uuid';
-import * as update from 'immutability-helper';
-import * as urljoin from 'url-join';
+import { v4 } from 'uuid';
+import update from 'immutability-helper';
+import urljoin from 'url-join';
 import { findDOMNode } from 'react-dom';
 import { FlowDetails, GetFlow } from '../../services/External';
 import { FlowDefinition, Group } from '../../flowTypes';
@@ -94,12 +94,12 @@ class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             visible: false,
             events: [],
             contact: {
-                uuid: UUID.v4(),
+                uuid: v4(),
                 urns: ['tel:+12065551212'],
                 fields: {},
                 groups: []
             },
-            channel: UUID.v4()
+            channel: v4()
         };
         this.currentFlow = this.props.definition.uuid;
     }
@@ -194,7 +194,7 @@ class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             {
                 events: [],
                 contact: {
-                    uuid: UUID.v4(),
+                    uuid: v4(),
                     urns: ['tel:+12065551212'],
                     fields: {},
                     groups: []

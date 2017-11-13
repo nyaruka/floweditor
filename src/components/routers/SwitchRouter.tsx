@@ -1,5 +1,5 @@
 import * as React from 'react';
-import UUID from 'uuid';
+import { v4 } from 'uuid';
 import FlipMove from 'react-flip-move';
 import update from 'immutability-helper';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -99,7 +99,7 @@ export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExi
                 destination = previousExitMap[newCase.kase.exit_uuid].destination_node_uuid;
             }
 
-            newCase.kase.exit_uuid = UUID.v4();
+            newCase.kase.exit_uuid = v4();
 
             exits.push({
                 name: newCase.exitName,
@@ -113,7 +113,7 @@ export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExi
     }
 
     // add in our default exit
-    var defaultUUID = UUID.v4();
+    var defaultUUID = v4();
     if (previous.router && previous.router.type === 'switch') {
         var router = previous.router as SwitchRouter;
         if (router && router.default_exit_uuid) {
@@ -413,7 +413,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
             }
 
             if (needsEmpty) {
-                var newCaseUUID = UUID.v4();
+                var newCaseUUID = v4();
                 cases.push(
                     <CaseElement
                         kase={{

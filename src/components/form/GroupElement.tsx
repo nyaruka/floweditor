@@ -1,5 +1,5 @@
 import * as React from 'react';
-import UUID from 'uuid';
+import { v4 } from 'uuid';
 import Select from 'react-select';
 import { SearchResult } from '../../services/ComponentMap';
 import FormElement, { FormElementProps } from './FormElement';
@@ -68,7 +68,7 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
 
     createNewOption(arg: { label: string }): SearchResult {
         const newOption: SearchResult = {
-            id: UUID.v4(),
+            id: v4(),
             name: arg.label,
             extraResult: true
         } as SearchResult;

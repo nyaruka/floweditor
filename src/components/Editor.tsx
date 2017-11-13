@@ -1,6 +1,5 @@
 import * as React from 'react';
-import * as axios from 'axios';
-import * as UUID from 'uuid';
+import axios from 'axios';
 // import { FlowList } from './FlowList';
 import EditorConfig from '../services/EditorConfig';
 import External, { FlowDetails } from '../services/External';

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as UUID from 'uuid';
+import { v4 } from 'uuid';
 import { Node, Router, Exit, AnyAction } from '../../flowTypes';
 import {
     Type,
@@ -13,13 +13,11 @@ import { LocalizedObject } from '../../services/Localization';
 import ComponentMap from '../../services/ComponentMap';
 import TypeListComp from './TypeList';
 import TextInputElement from '../form/TextInputElement';
-
 import { ReplyFormProps } from '../actions/Reply/ReplyForm';
 import { ChangeGroupFormProps } from '../actions/ChangeGroup/ChangeGroupForm';
 import { SaveFlowResultFormProps } from '../actions/SaveFlowResult/SaveFlowResultForm';
 import { SendEmailFormProps } from '../actions/SendEmail/SendEmailForm';
 import { SaveToContactFormProps } from '../actions/SaveToContact/SaveToContactForm';
-
 import { SubflowRouterFormProps } from '../routers/SubflowRouter';
 import { SwitchRouterFormProps } from '../routers/SwitchRouter';
 import { WebhookRouterFormProps } from '../routers/WebhookRouter';
@@ -133,7 +131,7 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
             if (this.props.action.hasOwnProperty('uuid') && this.props.action.uuid) {
                 return this.props.action.uuid;
             } else {
-                return UUID.v4();
+                return v4();
             }
         }
     }
