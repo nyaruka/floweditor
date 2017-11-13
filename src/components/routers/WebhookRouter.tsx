@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { v4 } from 'uuid';
-import update from 'immutability-helper';
-import FlipMove from 'react-flip-move';
+import * as update from 'immutability-helper';
+import * as FlipMove from 'react-flip-move';
 import { Type } from '../../services/EditorConfig';
 import { SwitchRouterState } from './SwitchRouter';
 import SelectElement from '../form/SelectElement';

@@ -56,17 +56,12 @@ class Action extends React.Component<ActionProps, ActionState> {
 
     constructor(props: ActionProps) {
         super(props);
-        this.state = { editing: false, confirmRemoval: false };
 
         this.onClick = this.onClick.bind(this);
         this.onRemoval = this.onRemoval.bind(this);
         this.onMoveUp = this.onMoveUp.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
         this.onMouseDown = this.onMouseDown.bind(this);
-    }
-
-    public setEditing(editing: boolean): void {
-        this.setState({ editing });
     }
 
     public onClick(event: React.MouseEvent<HTMLDivElement>): void {

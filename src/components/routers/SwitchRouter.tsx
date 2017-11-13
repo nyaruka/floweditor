@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { v4 } from 'uuid';
-import FlipMove from 'react-flip-move';
-import update from 'immutability-helper';
+import * as FlipMove from 'react-flip-move';
+import * as update from 'immutability-helper';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import { Node, Router, SwitchRouter, Exit, Case, AnyAction } from '../../flowTypes';

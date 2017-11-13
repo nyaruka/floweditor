@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import update from 'immutability-helper';
+import * as update from 'immutability-helper';
 
 import { ContactFieldResult, SearchResult } from './ComponentMap';
 import {

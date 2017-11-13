@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as axios from 'axios';
 import { v4 } from 'uuid';
-import update from 'immutability-helper';
+import * as update from 'immutability-helper';
 import urljoin from 'url-join';
 import { findDOMNode } from 'react-dom';
 import { FlowDetails, GetFlow } from '../../services/External';

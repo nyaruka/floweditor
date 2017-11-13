@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ReactModal from 'react-modal';
+import * as ReactModal from 'react-modal';
 
 import { Button, IButtonProps } from './Button';
 
@@ -33,9 +33,11 @@ interface IModalState {
 class Modal extends React.Component<IModalProps, IModalState> {
     constructor(props: IModalProps) {
         super(props);
+
         this.state = {
             flipped: false
         };
+
         this.toggleFlip = this.toggleFlip.bind(this);
     }
 
@@ -71,15 +73,15 @@ class Modal extends React.Component<IModalProps, IModalState> {
             rightButtons = [...rightButtons, <Button key={Math.random()} {...this.props.buttons.secondary} type="secondary" />]
         }
 
-        // no matter what, we'll have a primary button
+        /** No matter what, we'll have a primary button */
         rightButtons = [...rightButtons, <Button key={Math.random()} {...this.props.buttons.primary} type="primary" />]
 
-        // our left most button if we have one
+        /** Our left most button if we have one */
         if (this.props.buttons.tertiary) {
             leftButtons = [...leftButtons, <Button key={Math.random()} {...this.props.buttons.tertiary} type="tertiary" />];
         }
 
-        // closeTimeoutMS={200}
+        /** closeTimeoutMS={200} */
 
         let topStyle = styles.container;
 
