@@ -13,59 +13,60 @@ export interface FormElementProps {
     border?: boolean;
 }
 
-export class FormElement extends React.PureComponent<FormElementProps, {}> {
-    render() {
-        let errors: JSX.Element[] = [];
-        if (this.props.errors) {
-            this.props.errors.map(error => {
-                errors = [
-                    ...errors,
-                    <div key={Math.random()} className={styles.error}>
-                        {error}
-                    </div>
-                ];
-            });
-        }
+const FormElement: React.SFC<FormElementProps> = props => {
+    let errors: JSX.Element[] = [];
 
-        let errorDisplay: JSX.Element = null;
-
-        if (errors.length > 0) {
-            errorDisplay = <div className={styles.errors}>{errors}</div>;
-        }
-
-        let name: JSX.Element = null;
-
-        if (this.props.showLabel && this.props.name) {
-            name = <div className={styles.label}>{this.props.name}</div>;
-        }
-
-        let helpText: JSX.Element | string;
-
-        if (this.props.helpText && !errorDisplay) {
-            helpText =  <div className={styles.help_text}>{this.props.helpText}</div>;
-        } else {
-            helpText = '';
-        }
-
-        let classes = [styles.group, styles.ele];
-
-        if (this.props.className) {
-            classes = [...classes, this.props.className];
-        }
-
-        if (this.props.border) {
-            classes = [...classes, this.props.className];
-        }
-
-        return (
-            <div className={classes.join(' ')}>
-                {name}
-                {this.props.children}
-                <div className={styles.bottom}>
-                    {helpText}
-                    {errorDisplay}
+    if (props.errors) {
+        props.errors.map(error => {
+            errors = [
+                ...errors,
+                <div key={Math.random()} className={styles.error}>
+                    {error}
                 </div>
-            </div>
-        );
+            ];
+        });
     }
-}
+
+    let errorDisplay: JSX.Element = null;
+
+    if (errors.length > 0) {
+        errorDisplay = <div className={styles.errors}>{errors}</div>;
+    }
+
+    let name: JSX.Element = null;
+
+    if (props.showLabel && props.name) {
+        name = <div className={styles.label}>{props.name}</div>;
+    }
+
+    let helpText: JSX.Element | string;
+
+    if (props.helpText && !errorDisplay) {
+        helpText =  <div className={styles.help_text}>{props.helpText}</div>;
+    } else {
+        helpText = '';
+    }
+
+    let classes = [styles.group, styles.ele];
+
+    if (props.className) {
+        classes = [...classes, props.className];
+    }
+
+    if (props.border) {
+        classes = [...classes, props.className];
+    }
+
+    return (
+        <div className={classes.join(' ')}>
+            {name}
+            {props.children}
+            <div className={styles.bottom}>
+                {helpText}
+                {errorDisplay}
+            </div>
+        </div>
+    );
+};
+
+export default FormElement;
