@@ -1,31 +1,29 @@
 import * as React from 'react';
-import * as UUID from 'uuid';
-
+import UUID from 'uuid';
+import Select from 'react-select';
 import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormWidgetState } from './FormWidget';
 import { SearchResult } from '../../services/ComponentMap';
 import SelectSearch from '../SelectSearch';
 
-const Select = require('react-select');
 const styles = require('./FormElement.scss');
 
 interface GroupElementProps extends FormElementProps {
     groups: { group: string; name: string }[];
-
     localGroups?: SearchResult[];
     endpoint?: string;
     add?: boolean;
     placeholder?: string;
 }
 
-interface GroupState extends FormWidgetState {
+interface GroupElementState {
     groups: SearchResult[];
+    errors: string[];
 }
 
 export const transformGroups = (groups: { group: string; name: string }[]): SearchResult[] =>
     groups.map(({ name, group }) => ({ name, id: group, type: 'group' }));
 
-export class GroupElement extends FormWidget<GroupElementProps, GroupState> {
+export default class GroupElement extends React.Component<GroupElementProps, GroupElementState> {
     constructor(props: any) {
         super(props);
 
@@ -39,17 +37,18 @@ export class GroupElement extends FormWidget<GroupElementProps, GroupState> {
         this.createNewOption = this.createNewOption.bind(this);
     }
 
-    onChange(selected: any) {
+    onChange(groups: any) {
         this.setState({
-            groups: selected
+            groups
         });
     }
 
     validate(): boolean {
         let errors: string[] = [];
+        const { groups } = this.state;
 
         if (this.props.required) {
-            if (this.state.groups.length === 0) {
+            if (groups.length === 0) {
                 errors = [...errors, `${this.props.name} is required`];
             }
         }
@@ -59,11 +58,11 @@ export class GroupElement extends FormWidget<GroupElementProps, GroupState> {
         return errors.length === 0;
     }
 
-    isValidNewOption(option: { label: string }): boolean {
-        if (!option || !option.label) {
+    isValidNewOption({ label }: { label: string }): boolean {
+        if (!label) {
             return false;
         }
-        const lowered = option.label.toLowerCase();
+        const lowered = label.toLowerCase();
         return lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered);
     }
 
@@ -112,4 +111,4 @@ export class GroupElement extends FormWidget<GroupElementProps, GroupState> {
             </FormElement>
         );
     }
-}
+};
