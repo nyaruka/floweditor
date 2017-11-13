@@ -40,7 +40,7 @@ export interface SaveToContactFormProps {
     ComponentMap: ComponentMap;
 }
 
-export default ({
+const SaveToContactForm: React.SFC<SaveToContactFormProps> = ({
     onValidCallback,
     getActionUUID,
     config,
@@ -49,7 +49,7 @@ export default ({
     onBindWidget,
     ComponentMap,
     endpoints
-}: SaveToContactFormProps): JSX.Element => {
+}): JSX.Element => {
     onValidCallback((widgets: { [name: string]: any }) => {
         const fieldEle = widgets['Field'] as FieldElement;
         const valueEle = widgets['Value'] as TextInputElement;
@@ -160,3 +160,5 @@ export default ({
 
     return renderForm();
 };
+
+export default SaveToContactForm;

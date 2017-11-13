@@ -22,7 +22,7 @@ export interface ReplyFormProps {
     getInitialAction(): Reply;
 }
 
-export default ({
+const ReplyForm: React.SFC<ReplyFormProps> = ({
     action,
     advanced,
     config,
@@ -35,7 +35,7 @@ export default ({
     getLocalizedObject,
     getActionUUID,
     getInitialAction
-}: ReplyFormProps): JSX.Element => {
+}): JSX.Element => {
     /** Register this form's onValidCallback callback (make it available on NodeEditorForm for NodeEditor to access) */
     onValidCallback((widgets: { [name: string]: any }) => {
         const localizedObject = getLocalizedObject();
@@ -138,3 +138,5 @@ export default ({
 
     return advanced ? renderAdvanced() : renderForm();
 };
+
+export default ReplyForm;

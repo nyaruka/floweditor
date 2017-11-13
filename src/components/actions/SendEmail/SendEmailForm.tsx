@@ -17,7 +17,7 @@ export interface SendEmailFormProps {
     getActionUUID: Function;
 }
 
-export default ({
+const SendEmailForm: React.SFC<SendEmailFormProps> = ({
     onValidCallback,
     config,
     getInitialAction,
@@ -25,7 +25,7 @@ export default ({
     updateAction,
     onBindWidget,
     getActionUUID
-}: SendEmailFormProps): JSX.Element => {
+}): JSX.Element => {
     onValidCallback((widgets: { [name: string]: any }) => {
         const emailEle = widgets['Recipient'] as EmailElement;
         const subjectEle = widgets['Subject'] as TextInputElement;
@@ -97,3 +97,5 @@ export default ({
 
     return renderForm();
 };
+
+export default SendEmailForm;

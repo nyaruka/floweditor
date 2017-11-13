@@ -15,7 +15,7 @@ export interface ChangeGroupFormProps {
     ComponentMap: ComponentMap;
 }
 
-export default ({
+const ChangeGroup: React.SFC<ChangeGroupFormProps> = ({
     onValidCallback,
     getActionUUID,
     config,
@@ -24,7 +24,7 @@ export default ({
     onBindWidget,
     endpoints,
     ComponentMap
-}: ChangeGroupFormProps): JSX.Element => {
+}): JSX.Element => {
     onValidCallback((widgets: { [name: string]: any }) => {
         const groupEle = widgets['Group'] as any;
         const { state: { groups: [group] } } = groupEle;
@@ -92,3 +92,5 @@ export default ({
 
     return renderForm();
 };
+
+export default ChangeGroupForm;

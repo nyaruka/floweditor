@@ -3,17 +3,17 @@ import { AnyAction } from '../flowTypes';
 import { Language } from '../components/LanguageSelector';
 import { AnyFormProps } from '../components/NodeEditor/NodeEditorForm';
 import { languages, endpoints } from '../flowEditorConfig';
-import ChangeGroup from '../components/actions/ChangeGroup/ChangeGroup';
+import ChangeGroupComp from '../components/actions/ChangeGroup/ChangeGroup';
 import ChangeGroupForm from '../components/actions/ChangeGroup/ChangeGroupForm';
-import SaveFlowResult from '../components/actions/SaveFlowResult/SaveFlowResult';
+import SaveFlowResultComp from '../components/actions/SaveFlowResult/SaveFlowResult';
 import SaveFlowResultForm from '../components/actions/SaveFlowResult/SaveFlowResultForm';
-import SaveToContact from '../components/actions/SaveToContact/SaveToContact';
+import SaveToContactComp from '../components/actions/SaveToContact/SaveToContact';
 import SaveToContactForm from '../components/actions/SaveToContact/SaveToContactForm';
-import Reply from '../components/actions/Reply/Reply';
+import ReplyComp from '../components/actions/Reply/Reply';
 import ReplyForm from '../components/actions/Reply/ReplyForm';
-import Webhook from '../components/actions/Webhook/Webhook';
-import StartFlow from '../components/actions/StartFlow/StartFlow';
-import SendEmail from '../components/actions/SendEmail/SendEmail';
+import WebhookComp from '../components/actions/Webhook/Webhook';
+import StartFlowComp from '../components/actions/StartFlow/StartFlow';
+import SendEmailComp from '../components/actions/SendEmail/SendEmail';
 import SendEmailForm from '../components/actions/SendEmail/SendEmailForm';
 import SwitchRouterForm from '../components/routers/SwitchRouter';
 import SubflowRouterForm from '../components/routers/SubflowRouter';
@@ -76,7 +76,7 @@ const TYPE_CONFIG_LIST: Type[] = [
         name: 'Send Message',
         description: 'Send them a message',
         form: ReplyForm,
-        component: Reply,
+        component: ReplyComp,
         advanced: EMode.EDITING,
         allows(mode: EMode): boolean {
             return (this.advanced & mode) === mode;
@@ -88,7 +88,7 @@ const TYPE_CONFIG_LIST: Type[] = [
         name: 'Add to Group',
         description: 'Add them to a group',
         form: ChangeGroupForm,
-        component: ChangeGroup,
+        component: ChangeGroupComp,
         allows(mode: EMode): boolean {
             return (this.advanced & mode) === mode;
         }
@@ -98,7 +98,7 @@ const TYPE_CONFIG_LIST: Type[] = [
         name: 'Remove from Group',
         description: 'Remove them from a group',
         form: ChangeGroupForm,
-        component: ChangeGroup,
+        component: ChangeGroupComp,
         allows(mode: EMode): boolean {
             return (this.advanced & mode) === mode;
         }
@@ -108,7 +108,7 @@ const TYPE_CONFIG_LIST: Type[] = [
         name: 'Update Contact',
         description: 'Update the contact',
         form: SaveToContactForm,
-        component: SaveToContact,
+        component: SaveToContactComp,
         aliases: ['update_contact'],
         allows(mode: EMode): boolean {
             return (this.advanced & mode) === mode;
@@ -119,7 +119,7 @@ const TYPE_CONFIG_LIST: Type[] = [
         name: 'Send Email',
         description: 'Send an email',
         form: SendEmailForm,
-        component: SendEmail,
+        component: SendEmailComp,
         allows(mode: EMode): boolean {
             return (this.advanced & mode) === mode;
         }
@@ -129,7 +129,7 @@ const TYPE_CONFIG_LIST: Type[] = [
         name: 'Save Flow Result',
         description: 'Save a result for this flow',
         form: SaveFlowResultForm,
-        component: SaveFlowResult,
+        component: SaveFlowResultComp,
         allows(mode: EMode): boolean {
             return (this.advanced & mode) === mode;
         }
@@ -142,7 +142,7 @@ const TYPE_CONFIG_LIST: Type[] = [
         name: 'Call Webhook',
         description: 'Call a webook',
         form: WebhookRouterForm,
-        component: Webhook,
+        component: WebhookComp,
         advanced: EMode.EDITING,
         aliases: ['webhook'],
         allows(mode: EMode): boolean {
@@ -154,7 +154,7 @@ const TYPE_CONFIG_LIST: Type[] = [
         name: 'Run Flow',
         description: 'Run another flow',
         form: SubflowRouterForm,
-        component: StartFlow,
+        component: StartFlowComp,
         aliases: ['subflow'],
         allows(mode: EMode): boolean {
             return (this.advanced & mode) === mode;

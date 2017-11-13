@@ -1,5 +1,4 @@
 import * as React from 'react';
-import axios from 'axios';
 import { Node, Group, AnyAction } from '../../flowTypes';
 import {
     GetTypeConfig,

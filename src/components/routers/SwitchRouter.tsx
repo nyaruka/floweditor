@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { v4 } from 'uuid';
 import * as FlipMove from 'react-flip-move';
 import * as update from 'immutability-helper';
-import HTML5Backend from 'react-dnd-html5-backend';
+import { v4 } from 'uuid';
 import { DragDropContext } from 'react-dnd';
 import { Node, Router, SwitchRouter, Exit, Case, AnyAction } from '../../flowTypes';
 import { Type, GetOperatorConfig, Operator } from '../../services/EditorConfig';
@@ -12,6 +11,7 @@ import { LocalizedObject } from '../../services/Localization';
 import CaseElement from '../form/CaseElement';
 import TextInputElement, {  HTMLTextElement } from '../form/TextInputElement';
 
+const HTML5Backend = require('react-dnd-html5-backend');
 const styles = require('./SwitchRouter.scss');
 
 export interface CaseProps {
@@ -180,6 +180,9 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
 
         var initial = this.props.getInitialRouter() as SwitchRouter;
 
+        this.onCaseChanged = this.onCaseChanged.bind(this);
+        this.moveCase = this.moveCase.bind(this);
+
         var exits = this.props.node.exits;
         if (initial && initial.type === 'switch' && initial.cases) {
             for (let kase of initial.cases) {
@@ -198,8 +201,8 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                     cases.push({
                         kase: kase,
                         exitName: exitName,
-                        onChanged: this.onCaseChanged.bind(this),
-                        moveCase: this.moveCase.bind(this)
+                        onChanged: this.onCaseChanged,
+                        moveCase: this.moveCase
                     });
                 } catch (error) {
                     // ignore missing cases
@@ -218,10 +221,8 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
         };
 
         this.onValidCallback = this.onValidCallback.bind(this);
-        this.onCaseChanged = this.onCaseChanged.bind(this);
         this.onExpressionChanged = this.onExpressionChanged.bind(this);
         this.onCaseRemoved = this.onCaseRemoved.bind(this);
-        this.moveCase = this.moveCase.bind(this);
         this.onShowNameField = this.onShowNameField.bind(this);
     }
 

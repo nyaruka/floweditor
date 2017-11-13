@@ -16,7 +16,7 @@ export interface SaveFlowResultFormProps {
     ComponentMap: ComponentMap;
 }
 
-export default ({
+const SaveFlowResultFormProps: React.SFC<SaveFlowResultFormProps> = ({
     onValidCallback,
     getActionUUID,
     config,
@@ -24,7 +24,7 @@ export default ({
     getInitialAction,
     onBindWidget,
     ComponentMap
-}: SaveFlowResultFormProps): JSX.Element => {
+}): JSX.Element => {
     onValidCallback((widgets: { [name: string]: any }) => {
         const nameEle = widgets['Name'] as TextInputElement;
         const valueEle = widgets['Value'] as TextInputElement;
@@ -93,3 +93,5 @@ export default ({
 
     return renderForm();
 };
+
+export default SaveFlowResultFormProps
