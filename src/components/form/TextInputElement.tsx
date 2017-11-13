@@ -137,13 +137,6 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             return;
         }
 
-        let ele: any;
-        let query: string = '';
-        let matches: CompletionOption[] = [];
-        let completionVisible = matches.length > 0;
-
-        const { value: currentValue, caretOffset, query: { length: queryLength } } = this.state;
-
         switch (event.keyCode) {
             case KEY_P:
                 if (!event.ctrlKey) {
@@ -155,7 +148,6 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                     event.preventDefault();
                 }
                 break;
-
             case KEY_N:
                 if (!event.ctrlKey) {
                     break;
@@ -167,17 +159,18 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 }
                 break;
             case KEY_AT:
-                ele = findDOMNode(this.textElement as any);
+                var ele: any = findDOMNode(this.textElement as any);
+
                 this.setState({
                     completionVisible: true,
-                    caretCoordinates: getCaretCoordinates(ele, ele.selectionEnd)
+                    caretCoordinates: getCaretCoordinates(ele, ele.selectionEnd),
                 });
                 break;
             case KEY_ESC:
                 if (this.state.completionVisible) {
                     this.setState({
                         completionVisible: false
-                    });
+                    })
                     event.preventDefault();
                     event.stopPropagation();
                 }
@@ -185,90 +178,85 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             case KEY_TAB:
             case KEY_ENTER:
                 if (this.state.completionVisible && this.state.matches.length > 0) {
-                    const { name: optionName } = this.state.matches[this.state.selectedOptionIdx];
+                    var option = this.state.matches[this.state.selectedOptionIdx];
+                    var newValue = this.state.value.substr(0, this.state.caretOffset - this.state.query.length);
+                    newValue += option.name;
 
-                    const newValue =
-                        currentValue.substr(0, caretOffset - queryLength) +
-                        optionName +
-                        currentValue.substr(caretOffset);
+                    var newCaret = newValue.length;
+                    newValue += this.state.value.substr(this.state.caretOffset);
 
-                    const { length: newCaretOffset } = newValue;
-
+                    var query = ""
+                    var completionVisible = false
+                    var matches: CompletionOption[] = []
                     if (event.keyCode === KEY_TAB) {
-                        query = optionName;
-                        matches = this.filterOptions(query);
+                        query = option.name
+                        matches = this.filterOptions(query)
+                        completionVisible = matches.length > 0
                     }
 
-                    this.setState(
-                        {
-                            query,
-                            value: newValue,
-                            matches,
-                            caretOffset: newCaretOffset,
-                            completionVisible,
-                            selectedOptionIdx: 0
-                        },
-                        () => {
-                            inputSelection.setCaretPosition(
-                                findDOMNode(this.textElement as any),
-                                newCaretOffset
-                            );
-                        }
-                    );
+                    this.setState({
+                        query: query,
+                        value: newValue,
+                        matches: matches,
+                        caretOffset: newCaret,
+                        completionVisible: completionVisible,
+                        selectedOptionIdx: 0,
+                    }, () => {
+                        inputSelection.setCaretPosition(findDOMNode(this.textElement as any), newCaret);
+                    });
 
                     /** TODO: set caret position */
                     event.preventDefault();
                     event.stopPropagation();
                 }
                 break;
-
             case KEY_BACKSPACE:
-                const carretOffset = event.currentTarget.selectionStart - 1;
-
-                /** Iterate backwards on our value until we reach either a space or @ */
-                for (let i = carretOffset - 1; i >= 0; i--) {
-                    let curr = currentValue[i];
+                // iterate backwards on our value until we reach either a space or @
+                var caret = event.currentTarget.selectionStart - 1;
+                for (var i = caret - 1; i >= 0; i--) {
+                    var curr = this.state.value[i]
 
                     /** Space, don't do anything but break out */
-                    if (curr === ' ') {
-                        break;
+                    if (curr === " ") {
+                        break
                     }
 
-                    /** If @ we display autocompletion again */
-                    if (curr === '@') {
-                        ele = findDOMNode(this.textElement as any);
-                        query = currentValue.substr(i + 1, carretOffset - i - 1);
-                        matches = this.filterOptions(query);
-                        completionVisible = matches.length > 0;
-
-                        return this.setState({
-                            query,
-                            matches,
-                            value: currentValue,
-                            caretOffset,
-                            completionVisible,
+                    /** @ we display again **/
+                    if (curr === "@") {
+                        var ele: any = findDOMNode(this.textElement as any);
+                        query = this.state.value.substr(i + 1, caret - i - 1)
+                        matches = this.filterOptions(query)
+                        completionVisible = matches.length > 0
+                        this.setState({
+                            query: query,
+                            matches: matches,
+                            value: this.state.value,
+                            caretOffset: caret,
+                            completionVisible: completionVisible,
                             selectedOptionIdx: 0,
-                            caretCoordinates: getCaretCoordinates(ele, i)
+                            caretCoordinates: getCaretCoordinates(ele, i),
                         });
+                        return
                     }
                 }
 
-                /** Completion is still visible but really shouldn't be, clear it out */
+                /** We are visible still but really shouldn't be, clear out **/
                 if (this.state.completionVisible) {
-                    return this.setState({
-                        query: '',
+                    this.setState({
+                        query: "",
                         matches: [],
                         value: this.state.value,
-                        caretOffset,
+                        caretOffset: caret,
                         completionVisible: false,
-                        selectedOptionIdx: 0
-                    });
+                        selectedOptionIdx: 0,
+                    })
                 }
-                break;
+                break
             case KEY_SPACE:
-                return this.setState({
+                this.setState({
                     completionVisible: false
                 });
+                break;
         }
     }
 
@@ -340,7 +328,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
         this.setState({ errors });
 
-        // see if it should be a valid url
+        /** See if it should be a valid url */
         if (errors.length === 0) {
             if (this.props.url) {
                 if (!this.isValidURL(this.state.value)) {
