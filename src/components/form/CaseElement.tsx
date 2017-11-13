@@ -2,7 +2,7 @@ import * as React from 'react';
 import Select from 'react-select';
 import ComponentMap from '../../services/ComponentMap';
 import { FormElement } from './FormElement';
-import { FormWidget, FormValueState } from './FormWidget';
+import { FormWidgetState } from './FormWidget';
 import { GetOperatorConfig, Operator } from '../../services/EditorConfig';
 import { CaseProps } from '../routers/SwitchRouter';
 import TextInputElement, { HTMLTextElement } from './TextInputElement';
@@ -18,7 +18,7 @@ export interface CaseElementProps extends CaseProps {
     ComponentMap: ComponentMap;
 }
 
-interface CaseElementState extends FormValueState {
+interface CaseElementState extends FormWidgetState {
     operator: string;
     arguments: string[];
     exitName: string;

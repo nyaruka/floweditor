@@ -11,8 +11,7 @@ import {
 import { Language } from '../LanguageSelector';
 import { LocalizedObject } from '../../services/Localization';
 import ComponentMap from '../../services/ComponentMap';
-import Widget from './Widget';
-import TypeChooser from './TypeChooser';
+import TypeListComp from './TypeList';
 import TextInputElement from '../form/TextInputElement';
 
 import { ReplyFormProps } from '../actions/Reply/ReplyForm';
@@ -58,8 +57,8 @@ export interface NodeEditorFormChildProps {
     onToggleAdvanced(): void;
     getInitialAction(): AnyAction;
     getInitialRouter(): Router;
-    validationCallback: Function;
-    updateFormCallback: Function;
+    onValidCallback: Function;
+    onUpdateFormCallback: Function;
     getLocalizedObject: Function;
     getActionUUID: Function;
     isTranslating: boolean;
@@ -104,8 +103,8 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
         super(props);
 
         this.getLocalizedObject = this.getLocalizedObject.bind(this);
-        this.validationCallback = this.validationCallback.bind(this);
-        this.updateFormCallback = this.updateFormCallback.bind(this);
+        this.onValidCallback = this.onValidCallback.bind(this);
+        this.onUpdateFormCallback = this.onUpdateFormCallback.bind(this);
         this.getActionUUID = this.getActionUUID.bind(this);
         this.renderExitTranslations = this.renderExitTranslations.bind(this);
         this.getLocalizedExits = this.getLocalizedExits.bind(this);
@@ -114,11 +113,11 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
         this.getInitialRouter = this.getInitialRouter.bind(this);
     }
 
-    private validationCallback(callback: Function): Function {
+    private onValidCallback(callback: Function) {
         return (this.onValid = callback);
     }
 
-    private updateFormCallback(callback: Function): Function {
+    private onUpdateFormCallback(callback: Function) {
         return (this.onUpdateForm = callback);
     }
 
@@ -256,8 +255,8 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
             onToggleAdvanced: this.props.onToggleAdvanced,
             isTranslating: this.props.isTranslating,
             renderExitTranslations: this.renderExitTranslations,
-            validationCallback: this.validationCallback,
-            updateFormCallback: this.updateFormCallback,
+            onValidCallback: this.onValidCallback,
+            onUpdateFormCallback: this.onUpdateFormCallback,
             getLocalizedObject: this.getLocalizedObject,
             getActionUUID: this.getActionUUID,
             getLocalizedExits: this.getLocalizedExits,
@@ -271,7 +270,7 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
         } else {
             if (!this.props.localizations || this.props.localizations.length === 0) {
                 chooser = (
-                    <TypeChooser
+                    <TypeListComp
                         className={formStyles.type_chooser}
                         initialType={this.props.config}
                         typeConfigList={this.props.typeConfigList}

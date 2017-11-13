@@ -3,7 +3,6 @@ import * as UUID from 'uuid';
 import { Exit, StartFlow, Case, SwitchRouter } from '../../flowTypes';
 import { Type } from '../../services/EditorConfig';
 import FlowElement from '../form/FlowElement';
-import Widget from '../NodeEditor/Widget';
 import ComponentMap from '../../services/ComponentMap';
 
 import { Node, AnyAction } from '../../flowTypes';
@@ -14,7 +13,7 @@ export interface SubflowRouterFormProps {
     endpoints: Endpoints;
     node: Node;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
-    validationCallback: Function;
+    onValidCallback: Function;
     onBindWidget(ref: any): void;
     isTranslating: boolean;
     renderExitTranslations(): JSX.Element;
@@ -30,7 +29,7 @@ export default ({
     node,
     config,
     updateRouter,
-    validationCallback,
+    onValidCallback,
     onBindWidget,
     isTranslating,
     renderExitTranslations,
@@ -38,7 +37,7 @@ export default ({
     getActionUUID,
     ComponentMap
 }: SubflowRouterFormProps) => {
-    validationCallback((widgets: { [name: string]: Widget }): void => {
+    onValidCallback((widgets: { [name: string]: Widget }): void => {
         if (isTranslating) {
             return saveLocalizedExits(widgets);
         }

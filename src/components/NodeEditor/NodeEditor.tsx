@@ -11,8 +11,7 @@ import {
 } from '../../services/EditorConfig';
 import ComponentMap from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
-import NodeEditorForm, { NodeEditorFormProps } from './NodeEditorForm';
-import Widget from './Widget';
+import NodeEditorFormComp, { NodeEditorFormProps } from './NodeEditorForm';
 
 const formStyles = require('./NodeEditor.scss');
 const shared = require('../shared.scss');
@@ -205,8 +204,8 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     /**
-    * Allow enter key to submit our form
-    */
+     * Allow enter key to submit our form
+     */
     private onKeyPress(event: React.KeyboardEvent<HTMLFormElement>) {
         // enter key
         if (event.which == 13) {
@@ -240,9 +239,9 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     render() {
-        const isTranslating = this.props.localizations && this.props.localizations.length > 0;
+        const isTranslating: boolean = this.props.localizations && this.props.localizations.length > 0;
 
-        let mode;
+        let mode: EMode;
 
         if (isTranslating) {
             mode = EMode.TRANSLATING;
@@ -250,7 +249,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             mode = EMode.EDITING;
         }
 
-        const advanced = this.state.config.allows(mode);
+        const advanced: boolean = this.state.config.allows(mode);
 
         this.widgets = {};
         this.advancedWidgets = {};
@@ -300,28 +299,32 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 const { config: { form: Form } } = this.state;
 
                 front = (
-                    <NodeEditorForm ref={(ele: any) => (this.form = ele)} {...{...nodeEditorProps, advanced: false}}>
+                    <NodeEditorFormComp
+                        ref={(ele: any) => (this.form = ele)}
+                        {...{ ...nodeEditorProps, advanced: false }}>
                         {formProps => <Form {...formProps} />}
-                    </NodeEditorForm>
+                    </NodeEditorFormComp>
                 );
 
                 if (advanced) {
                     back = (
-                        <NodeEditorForm ref={(ele: any) => (this.advanced = ele)} {...{...nodeEditorProps, advanced: true}}>
+                        <NodeEditorFormComp
+                            ref={(ele: any) => (this.advanced = ele)}
+                            {...{ ...nodeEditorProps, advanced: true }}>
                             {formProps => <Form {...formProps} />}
-                        </NodeEditorForm>
+                        </NodeEditorFormComp>
                     );
                 }
             }
         }
 
-        let key = `modal_${this.props.node.uuid}`;
+        let key: string = `modal_${this.props.node.uuid}`;
 
         if (this.props.action) {
             key += `_${this.props.action.uuid}`;
         }
 
-        let buttons;
+        let buttons: IButtonSet;
 
         if (this.state.temporaryButtons) {
             buttons = this.state.temporaryButtons;
@@ -329,7 +332,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             buttons = this.state.initialButtons;
         }
 
-        let titleText = this.state.config.name;
+        let titleText: string = this.state.config.name;
 
         if (this.props.localizations && this.props.localizations.length > 0) {
             titleText = `${this.props.localizations[0].getLanguage().name} Translation`;
@@ -362,4 +365,4 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             </Modal>
         );
     }
-};
+}

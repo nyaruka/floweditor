@@ -10,7 +10,6 @@ import TextInputElement, {  HTMLTextElement } from '../form/TextInputElement';
 import { Node, Router, SwitchRouter, Exit, Case, AnyAction } from '../../flowTypes';
 
 import { DragDropContext } from 'react-dnd';
-import Widget from '../NodeEditor/Widget';
 import { Language } from '../LanguageSelector';
 import { LocalizedObject } from '../../services/Localization';
 
@@ -171,7 +170,7 @@ export interface SwitchRouterFormProps {
     }): { uuid: string; translations: any }[];
     getInitialRouter(): Router;
     renderExitTranslations(): JSX.Element;
-    validationCallback: Function;
+    onValidCallback: Function;
 }
 
 class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRouterState> {
@@ -221,7 +220,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
             operand: operand
         };
 
-        this.validationCallback = this.validationCallback.bind(this);
+        this.onValidCallback = this.onValidCallback.bind(this);
         this.onCaseChanged = this.onCaseChanged.bind(this);
         this.onExpressionChanged = this.onExpressionChanged.bind(this);
         this.onCaseRemoved = this.onCaseRemoved.bind(this);
@@ -505,7 +504,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
         );
     }
 
-    validationCallback(widgets: { [name: string]: Widget }) {
+    onValidCallback(widgets: { [name: string]: Widget }) {
         if (this.props.isTranslating) {
             return this.saveLocalization(widgets);
         }
@@ -547,7 +546,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
     }
 
     render(): JSX.Element {
-        this.props.validationCallback(this.validationCallback);
+        this.props.onValidCallback(this.onValidCallback);
 
         if (this.props.advanced) {
             return this.renderAdvanced();

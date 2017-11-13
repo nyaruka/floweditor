@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as UUID from 'uuid';
 import { toBoolMap } from '../../helpers/utils';
 import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormValueState } from './FormWidget';
+import { FormWidget, FormWidgetState } from './FormWidget';
 import ComponentMap, { SearchResult } from '../../services/ComponentMap';
 import  SelectSearch from '../SelectSearch';
 
@@ -21,7 +21,7 @@ interface IFieldElementProps extends FormElementProps {
     placeholder?: string;
 }
 
-interface IFieldState extends FormValueState {
+interface IFieldState extends FormWidgetState {
     field: SearchResult;
 }
 

@@ -4,12 +4,11 @@ import { Type } from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement from '../../form/TextInputElement';
 import { EmailElement } from '../../form/EmailElement';
-import Widget from '../../NodeEditor/Widget';
 
 const styles = require('./SendEmail.scss');
 
 export interface SendEmailFormProps {
-    validationCallback: Function;
+    onValidCallback: Function;
     config: Type;
     getInitialAction(): SendEmail;
     ComponentMap: ComponentMap;
@@ -19,7 +18,7 @@ export interface SendEmailFormProps {
 }
 
 export default ({
-    validationCallback,
+    onValidCallback,
     config,
     getInitialAction,
     ComponentMap,
@@ -27,7 +26,7 @@ export default ({
     onBindWidget,
     getActionUUID
 }: SendEmailFormProps): JSX.Element => {
-    validationCallback((widgets: { [name: string]: Widget }) => {
+    onValidCallback((widgets: { [name: string]: Widget }) => {
         const emailEle = widgets['Recipient'] as EmailElement;
         const subjectEle = widgets['Subject'] as TextInputElement;
         const bodyEle = widgets['Message'] as TextInputElement;

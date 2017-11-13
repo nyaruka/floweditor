@@ -3,12 +3,11 @@ import { SaveFlowResult } from '../../../flowTypes';
 import { Type } from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement from '../../form/TextInputElement';
-import Widget from '../../NodeEditor/Widget';
 
 const styles = require('./SaveFlowResult.scss');
 
 export interface SaveFlowResultFormProps {
-    validationCallback: Function;
+    onValidCallback: Function;
     getActionUUID: Function;
     config: Type;
     updateAction(action: SaveFlowResult): void;
@@ -18,7 +17,7 @@ export interface SaveFlowResultFormProps {
 }
 
 export default ({
-    validationCallback,
+    onValidCallback,
     getActionUUID,
     config,
     updateAction,
@@ -26,7 +25,7 @@ export default ({
     onBindWidget,
     ComponentMap
 }: SaveFlowResultFormProps): JSX.Element => {
-    validationCallback((widgets: { [name: string]: Widget }) => {
+    onValidCallback((widgets: { [name: string]: Widget }) => {
         const nameEle = widgets['Name'] as TextInputElement;
         const valueEle = widgets['Value'] as TextInputElement;
         const categoryEle = widgets['Category'] as TextInputElement;

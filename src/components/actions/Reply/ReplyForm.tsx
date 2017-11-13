@@ -17,7 +17,7 @@ export interface ReplyFormProps {
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
     updateLocalizations(language: string, changes: { uuid: string; translations: any }[]): void;
-    validationCallback: Function;
+    onValidCallback: Function;
     getLocalizedObject: Function;
     getActionUUID: Function;
     getInitialAction(): Reply;
@@ -32,13 +32,13 @@ export default ({
     onBindWidget,
     onBindAdvancedWidget,
     updateLocalizations,
-    validationCallback,
+    onValidCallback,
     getLocalizedObject,
     getActionUUID,
     getInitialAction
 }: ReplyFormProps): JSX.Element => {
-    /** Register this form's validationCallback callback (make it available on NodeEditorForm for NodeEditor to access) */
-    validationCallback((widgets: { [name: string]: Widget }) => {
+    /** Register this form's onValidCallback callback (make it available on NodeEditorForm for NodeEditor to access) */
+    onValidCallback((widgets: { [name: string]: Widget }) => {
         const localizedObject = getLocalizedObject();
 
         const textarea = widgets['Message'] as TextInputElement;

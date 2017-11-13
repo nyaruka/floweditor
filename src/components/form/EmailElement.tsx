@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormValueState } from './FormWidget';
+import { FormWidget, FormWidgetState } from './FormWidget';
 
 const Select = require('react-select');
 const styles = require('./FormElement.scss');
@@ -11,7 +11,7 @@ interface EmailElementProps extends FormElementProps {
     placeholder?: string;
 }
 
-interface EmailState extends FormValueState {
+interface EmailState extends FormWidgetState {
     emails: { label: string; value: string }[];
 }
 

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Select from 'react-select';
 import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormValueState } from './FormWidget';
 
 const styles = require('./CheckboxElement.scss');
 
@@ -11,13 +10,15 @@ interface CheckboxElementProps extends FormElementProps {
     border?: boolean;
 }
 
-interface CheckboxState extends FormValueState {
+interface CheckboxState {
     checked: boolean;
+    errors: string[];
 }
 
-export class CheckboxElement extends FormWidget<CheckboxElementProps, CheckboxState> {
+export class CheckboxElement extends React.Component<CheckboxElementProps, CheckboxState> {
     constructor(props: any) {
         super(props);
+
         this.state = {
             checked: this.props.defaultValue,
             errors: []
@@ -27,16 +28,18 @@ export class CheckboxElement extends FormWidget<CheckboxElementProps, CheckboxSt
     }
 
     private onChange(event: React.FormEvent<HTMLInputElement>) {
+        const { currentTarget: { checked } } = event;
+
         this.setState({
-            checked: event.currentTarget.checked
+            checked
         });
     }
 
-    validate(): boolean {
+    public validate(): boolean {
         return true;
     }
 
-    render() {
+    public render(): JSX.Element {
         return (
             <FormElement
                 border={this.props.border}

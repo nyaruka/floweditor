@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as UUID from 'uuid';
 
 import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormValueState } from './FormWidget';
+import { FormWidget, FormWidgetState } from './FormWidget';
 import { SearchResult } from '../../services/ComponentMap';
 import SelectSearch from '../SelectSearch';
 
@@ -18,7 +18,7 @@ interface GroupElementProps extends FormElementProps {
     placeholder?: string;
 }
 
-interface GroupState extends FormValueState {
+interface GroupState extends FormWidgetState {
     groups: SearchResult[];
 }
 

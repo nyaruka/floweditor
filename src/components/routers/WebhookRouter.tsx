@@ -10,7 +10,7 @@ import { CallWebhook, Case, Exit, SwitchRouter, Node, AnyAction } from '../../fl
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 
 import { FormElement } from '../form/FormElement';
-import { FormWidget, FormValueState } from '../form/FormWidget';
+import { FormWidget, FormWidgetState } from '../form/FormWidget';
 import Widget from '../NodeEditor/Widget';
 import ComponentMap from '../../services/ComponentMap';
 
@@ -46,8 +46,8 @@ export interface WebhookRouterFormProps {
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
-    validationCallback: Function;
-    updateFormCallback: Function;
+    onValidCallback: Function;
+    onUpdateFormCallback: Function;
 }
 
 interface WebhookState extends SwitchRouterState {
@@ -431,8 +431,8 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
     }
 
     render(): JSX.Element {
-        this.props.validationCallback(this.onValid);
-        this.props.updateFormCallback(this.onUpdateForm);
+        this.props.onValidCallback(this.onValid);
+        this.props.onUpdateFormCallback(this.onUpdateForm);
 
         if (this.props.advanced) {
             return this.renderAdvanced();
@@ -452,7 +452,7 @@ export interface HeaderElementProps {
     ComponentMap: ComponentMap;
 }
 
-interface HeaderElementState extends FormValueState {
+interface HeaderElementState extends FormWidgetState {
     name: string;
     value: string;
 }

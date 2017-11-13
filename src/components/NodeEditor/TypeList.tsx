@@ -4,19 +4,19 @@ import { Type } from '../../services/EditorConfig';
 
 const formStyles = require('./NodeEditor.scss');
 
-export interface TypeChooserProps {
+export interface TypeListProps {
     className: string;
     typeConfigList: Type[];
     initialType: Type;
     onChange(config: Type): void;
 }
 
-export interface TypeChooserState {
+export interface TypeListState {
     config: Type;
 }
 
-export default class TypeChooser extends React.PureComponent<TypeChooserProps, TypeChooserState> {
-    constructor(props: TypeChooserProps) {
+export default class TypeList extends React.PureComponent<TypeListProps, TypeListState> {
+    constructor(props: TypeListProps) {
         super(props);
 
         this.state = {

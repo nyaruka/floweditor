@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormValueState } from './FormWidget';
+import { FormWidget, FormWidgetState } from './FormWidget';
 import Select from 'react-select';
 
 var styles = require('./FormElement.scss');
@@ -13,7 +13,7 @@ interface SelectElementProps extends FormElementProps {
     placeholder?: string;
 }
 
-export class SelectElement extends FormWidget<SelectElementProps, FormValueState> {
+export class SelectElement extends FormWidget<SelectElementProps, FormWidgetState> {
     constructor(props: any) {
         super(props);
         this.state = {

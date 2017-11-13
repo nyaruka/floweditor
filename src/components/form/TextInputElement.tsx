@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormValueState } from './FormWidget';
+import { FormWidget, FormWidgetState } from './FormWidget';
 import ComponentMap, { CompletionOption } from '../../services/ComponentMap';
 
 const getCaretCoordinates = require('textarea-caret');
@@ -53,7 +53,7 @@ interface TextInputProps extends FormElementProps {
     ComponentMap: ComponentMap;
 }
 
-export interface TextInputState extends FormValueState {
+export interface TextInputState extends FormWidgetState {
     caretOffset: number;
     caretCoordinates: Coordinates;
     completionVisible: boolean;

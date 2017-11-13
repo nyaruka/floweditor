@@ -11,6 +11,6 @@ const selectSearchProps: SelectSearchProps = {
 
 describe('Component: SelectSearch', () => {
     it('should mount', () => {
-        expect(shallow(<SelectSearch {...selectSearchProps} />)).toBePresent();
+        expect(shallow(<SelectSearch {...selectSearchProps} />).exists()).toBeTruthy();
     });
 });

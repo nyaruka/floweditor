@@ -8,7 +8,6 @@ import SelectSearch from '../../SelectSearch';
 import { SearchResult } from '../../../services/ComponentMap';
 import { FieldElement } from '../../form/FieldElement';
 import TextInputElement from '../../form/TextInputElement';
-import Widget from '../../NodeEditor/Widget';
 
 // TODO: these should come from an external source
 const reserved = toBoolMap([
@@ -31,7 +30,7 @@ const reserved = toBoolMap([
 ]);
 
 export interface SaveToContactFormProps {
-    validationCallback: Function;
+    onValidCallback: Function;
     getActionUUID: Function;
     config: Type;
     updateAction(action: SaveToContact): void;
@@ -42,7 +41,7 @@ export interface SaveToContactFormProps {
 }
 
 export default ({
-    validationCallback,
+    onValidCallback,
     getActionUUID,
     config,
     updateAction,
@@ -51,7 +50,7 @@ export default ({
     ComponentMap,
     endpoints
 }: SaveToContactFormProps): JSX.Element => {
-    validationCallback((widgets: { [name: string]: Widget }) => {
+    onValidCallback((widgets: { [name: string]: Widget }) => {
         const fieldEle = widgets['Field'] as FieldElement;
         const valueEle = widgets['Value'] as TextInputElement;
 

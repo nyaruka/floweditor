@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as UUID from 'uuid';
 
 import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormValueState } from './FormWidget';
+import { FormWidget, FormWidgetState } from './FormWidget';
 import { SearchResult } from '../../services/ComponentMap';
 import SelectSearch from '../SelectSearch';
 
@@ -16,7 +16,7 @@ interface FlowElementProps extends FormElementProps {
     placeholder?: string;
 }
 
-interface FlowState extends FormValueState {
+interface FlowState extends FormWidgetState {
     flow: SearchResult;
 }
 

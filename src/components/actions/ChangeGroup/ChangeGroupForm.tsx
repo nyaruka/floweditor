@@ -3,10 +3,9 @@ import { ChangeGroup } from '../../../flowTypes';
 import { Type, Endpoints } from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
 import { GroupElement } from '../../form/GroupElement';
-import Widget from '../../NodeEditor/Widget';
 
 export interface ChangeGroupFormProps {
-    validationCallback: Function;
+    onValidCallback: Function;
     getActionUUID: Function;
     config: Type;
     updateAction(action: ChangeGroup): void;
@@ -17,7 +16,7 @@ export interface ChangeGroupFormProps {
 }
 
 export default ({
-    validationCallback,
+    onValidCallback,
     getActionUUID,
     config,
     updateAction,
@@ -26,7 +25,7 @@ export default ({
     endpoints,
     ComponentMap
 }: ChangeGroupFormProps): JSX.Element => {
-    validationCallback((widgets: { [name: string]: Widget }) => {
+    onValidCallback((widgets: { [name: string]: Widget }) => {
         const groupEle = widgets['Group'] as any;
         const { state: { groups: [group] } } = groupEle;
 
