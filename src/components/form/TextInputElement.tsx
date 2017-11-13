@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import { FormElement, FormElementProps } from './FormElement';
+import FormElement, { FormElementProps } from './FormElement';
 import ComponentMap, { CompletionOption } from '../../services/ComponentMap';
 
 const getCaretCoordinates = require('textarea-caret');

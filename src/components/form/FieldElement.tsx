@@ -1,12 +1,11 @@
 import * as React from 'react';
-import * as UUID from 'uuid';
+import UUID from 'uuid';
+import Select from 'react-select';
 import { toBoolMap } from '../../helpers/utils';
-import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormWidgetState } from './FormWidget';
+import FormElement, { FormElementProps } from './FormElement';
 import ComponentMap, { SearchResult } from '../../services/ComponentMap';
 import  SelectSearch from '../SelectSearch';
 
-const Select = require('react-select');
 const styles = require('./FormElement.scss');
 
 // TODO: these should come from an external source
@@ -14,18 +13,18 @@ const reserved = toBoolMap(['language', 'name', 'timezone']);
 
 interface IFieldElementProps extends FormElementProps {
     initial: SearchResult;
-
     localFields?: SearchResult[];
     endpoint?: string;
     add?: boolean;
     placeholder?: string;
 }
 
-interface IFieldState extends FormWidgetState {
+interface IFieldState {
     field: SearchResult;
+    errors: string[];
 }
 
-export class FieldElement extends FormWidget<IFieldElementProps, IFieldState> {
+export default class FieldElement extends React.Component<IFieldElementProps, IFieldState> {
     constructor(props: any) {
         super(props);
 
@@ -39,9 +38,9 @@ export class FieldElement extends FormWidget<IFieldElementProps, IFieldState> {
         this.createNewOption = this.createNewOption.bind(this);
     }
 
-    onChange(selected: any) {
+    onChange([field]: any) {
         this.setState({
-            field: selected[0]
+            field
         });
     }
 
@@ -59,11 +58,13 @@ export class FieldElement extends FormWidget<IFieldElementProps, IFieldState> {
         return errors.length == 0;
     }
 
-    isValidNewOption(option: { label: string }): boolean {
-        if (!option || !option.label) {
+    isValidNewOption({ label }: { label: string }): boolean {
+        if (!label) {
             return false;
         }
-        const lowered = option.label.toLowerCase();
+
+        const lowered = label.toLowerCase();
+
         return (
             lowered.length > 0 &&
             lowered.length <= 36 &&
@@ -72,10 +73,10 @@ export class FieldElement extends FormWidget<IFieldElementProps, IFieldState> {
         );
     }
 
-    createNewOption(arg: { label: string }): SearchResult {
+    createNewOption({ label }: { label: string }): SearchResult {
         const newOption: SearchResult = {
             id: UUID.v4(),
-            name: arg.label,
+            name: label,
             type: 'field',
             extraResult: true
         } as SearchResult;
@@ -128,4 +129,4 @@ export class FieldElement extends FormWidget<IFieldElementProps, IFieldState> {
             </FormElement>
         );
     }
-}
+};

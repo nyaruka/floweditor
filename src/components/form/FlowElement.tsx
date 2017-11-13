@@ -1,8 +1,8 @@
 import * as React from 'react';
 import UUID from 'uuid';
 import Select from 'react-select';
-import FormElement, { FormElementProps } from './FormElement';
 import { SearchResult } from '../../services/ComponentMap';
+import FormElement, { FormElementProps } from './FormElement';
 import SelectSearch from '../SelectSearch';
 
 const styles = require('./FormElement.scss');
