@@ -238,7 +238,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
             previousAction
         );
 
-        if (nodeUUID != newUUID) {
+        if (nodeUUID !== newUUID) {
             this.Plumber.repaintForDuration(this.repaintDuration);
         }
 

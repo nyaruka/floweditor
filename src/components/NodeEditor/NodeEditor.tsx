@@ -126,8 +126,8 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             }
         }
 
-        // if we are valid, submit it
-        if (invalid.length == 0) {
+        /** If we are valid, submit it */
+        if (invalid.length === 0) {
             this.form.onValid(this.widgets);
             return true;
         } else {
@@ -139,7 +139,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 }
             }
 
-            // show the right pane for our error
+            /** Show the right pane for our error */
             if (
                 (frontError && this.modal.state.flipped) ||
                 (!frontError && !this.modal.state.flipped)

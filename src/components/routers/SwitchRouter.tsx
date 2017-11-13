@@ -388,8 +388,8 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                 this.state.cases.map((c: CaseProps, index: number) => {
                     // is this case empty?
                     if (
-                        (!c.exitName || c.exitName.trim().length == 0) &&
-                        (!c.kase.arguments || c.kase.arguments[0].trim().length == 0)
+                        (!c.exitName || c.exitName.trim().length === 0) &&
+                        (!c.kase.arguments || c.kase.arguments[0].trim().length === 0)
                     ) {
                         needsEmpty = false;
                     }
@@ -525,7 +525,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
         var router: SwitchRouter = {
             type: 'switch',
             default_exit_uuid: defaultExit,
-            cases: cases,
+            cases,
             operand: this.state.operand,
             ...optionalRouter
         };

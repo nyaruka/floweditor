@@ -219,7 +219,6 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 var caret = event.currentTarget.selectionStart - 1;
                 for (let i = caret - 1; i >= 0; i--) {
                     const curr = this.state.value[i];
-                    console.log(`curr: ${curr}`);
                     /** Space, don't do anything but break out */
                     if (curr === ' ') {
                         break;

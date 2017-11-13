@@ -35,7 +35,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             errors: [],
             operator: props.kase.type,
             arguments: props.kase.arguments,
-            exitName: this.props.exitName ? '' : this.props.exitName
+            exitName: this.props.exitName ? this.props.exitName : ''
         };
 
         this.operatorConfig = this.props.getOperatorConfig(props.kase.type);
@@ -47,7 +47,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         this.onRemove = this.onRemove.bind(this);
     }
 
-    private generateExitNameFromArguments([arg]: string[]): string {
+    private generateExitNameFromArguments(args: string[]): string {
         let prefix = '';
 
         if (this.state.operator.indexOf('_lt') > -1) {
@@ -72,15 +72,15 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             }
         }
 
-        if (arg) {
-            const words = arg.match(/\w+/g);
+        if (args && args.length > 0) {
+            const [firstArg] = args;
+            const words = firstArg.match(/\w+/g);
 
             if (words && words.length > 0) {
                 const [firstWord] = words;
-
                 return prefix + firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
             }
-            return prefix + arg.charAt(0).toUpperCase() + arg.slice(1);
+            return prefix + firstArg.charAt(0).toUpperCase() + firstArg.slice(1);
         }
         return null;
     }
