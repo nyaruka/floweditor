@@ -1,24 +1,25 @@
 import * as React from 'react';
+import { Creatable as SelectCreatable } from 'react-select';
+import FormElement, { FormElementProps } from './FormElement';
 
-import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormWidgetState } from './FormWidget';
-
-const Select = require('react-select');
 const styles = require('./FormElement.scss');
+
+type Emails = { label: string; value: string }[];
 
 interface EmailElementProps extends FormElementProps {
     emails: string[];
     placeholder?: string;
 }
 
-interface EmailState extends FormWidgetState {
-    emails: { label: string; value: string }[];
+interface EmailState {
+    emails: Emails;
+    errors: string[];
 }
 
 export const transformEmails = (emails: string[]): { label: string; value: string }[] =>
     emails.map(email => ({ label: email, value: email }));
 
-export class EmailElement extends FormWidget<EmailElementProps, EmailState> {
+export default class EmailElement extends React.Component<EmailElementProps, EmailState> {
     private emailPattern = /\S+@\S+\.\S+/;
 
     constructor(props: any) {
@@ -47,7 +48,7 @@ export class EmailElement extends FormWidget<EmailElementProps, EmailState> {
         return errors.length === 0;
     }
 
-    private onChangeEmails(emails: { label: string; value: string }[]) {
+    private onChangeEmails(emails: Emails) {
         this.setState({
             emails
         });
@@ -57,8 +58,8 @@ export class EmailElement extends FormWidget<EmailElementProps, EmailState> {
         return `Send email to ${value}`;
     }
 
-    private isValidEmail(value: { label: string }): boolean {
-        return this.emailPattern.test(value.label);
+    private isValidEmail({ label }: { label: string }): boolean {
+        return this.emailPattern.test(label);
     }
 
     private arrowRenderer(): JSX.Element {
@@ -78,7 +79,7 @@ export class EmailElement extends FormWidget<EmailElementProps, EmailState> {
                 name={this.props.name}
                 required={this.props.required}
                 errors={this.state.errors}>
-                <Select.Creatable
+                <SelectCreatable
                     className={classes.join(' ')}
                     name={this.props.name}
                     placeholder={this.props.placeholder}
@@ -96,4 +97,4 @@ export class EmailElement extends FormWidget<EmailElementProps, EmailState> {
             </FormElement>
         );
     }
-}
+};
