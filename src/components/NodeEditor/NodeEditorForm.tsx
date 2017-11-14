@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { v4 } from 'uuid';
-import { Node, Router, Exit, AnyAction } from '../../flowTypes';
+import { Node, Router, SwitchRouter, Exit, AnyAction } from '../../flowTypes';
 import {
     Type,
     Operator,
@@ -37,10 +37,14 @@ const formStyles = require('./NodeEditor.scss');
 export interface NodeEditorFormChildProps {
     advanced: boolean;
     node: Node;
+    nodeUUID: string;
+    exits: Exit[];
+    router: Router | SwitchRouter;
     action: AnyAction;
-    endpoints: Endpoints;
+    fieldsEndpoint: string;
+    groupsEndpoint: string;
     localizations?: LocalizedObject[];
-    config: Type;
+    type: string;
     ComponentMap: ComponentMap;
     updateAction(action: AnyAction): void;
     onBindWidget(ref: any): void;
@@ -53,10 +57,10 @@ export interface NodeEditorFormChildProps {
     getOperatorConfig: GetOperatorConfig;
     triggerFormUpdate(): void;
     onToggleAdvanced(): void;
-    getInitialRouter(): Router;
     onValidCallback: Function;
     onUpdateFormCallback: Function;
     getLocalizedObject: Function;
+    getLocalizedExits(widgets: { [name: string]: any }): { uuid: string; translations: any }[];
     getActionUUID: Function;
     isTranslating: boolean;
     saveLocalizedExits(widgets: { [name: string]: any }): void;
@@ -106,7 +110,6 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
         this.renderExitTranslations = this.renderExitTranslations.bind(this);
         this.getLocalizedExits = this.getLocalizedExits.bind(this);
         this.saveLocalizedExits = this.saveLocalizedExits.bind(this);
-        this.getInitialRouter = this.getInitialRouter.bind(this);
     }
 
     private onValidCallback(callback: Function) {
@@ -213,23 +216,21 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
         this.props.updateLocalizations(language, exits);
     }
 
-    private getInitialRouter(): Router {
-        if (this.props.node.router) {
-            return this.props.node.router;
-        }
-    }
-
     public render(): JSX.Element {
         let chooser: JSX.Element;
 
         let classes = [formStyles.form];
 
-        const injectedProps = {
+        const injectedProps: NodeEditorFormChildProps = {
             advanced: this.props.advanced,
             node: this.props.node,
+            nodeUUID: this.props.node.uuid,
+            exits: this.props.node.exits,
+            router: this.props.node.router,
             action: this.props.action,
-            config: this.props.config,
-            endpoints: this.props.endpoints,
+            type: this.props.config.type,
+            groupsEndpoint: this.props.endpoints.groups,
+            fieldsEndpoint: this.props.endpoints.fields,
             localizations: this.props.localizations,
             ComponentMap: this.props.ComponentMap,
             updateAction: this.props.updateAction,
@@ -250,7 +251,6 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
             getActionUUID: this.getActionUUID,
             getLocalizedExits: this.getLocalizedExits,
             saveLocalizedExits: this.saveLocalizedExits,
-            getInitialRouter: this.getInitialRouter
         };
 
         if (this.props.advanced) {

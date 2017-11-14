@@ -33,46 +33,44 @@ export interface SaveToContactFormProps {
     action: SaveToContact;
     onValidCallback: Function;
     getActionUUID: Function;
-    config: Type;
     updateAction(action: SaveToContact): void;
     onBindWidget(ref: any): void;
-    endpoints: Endpoints;
     ComponentMap: ComponentMap;
+    fieldsEndpoint: string;
 }
 
 const SaveToContactForm: React.SFC<SaveToContactFormProps> = ({
     action,
     onValidCallback,
     getActionUUID,
-    config,
     updateAction,
     onBindWidget,
     ComponentMap,
-    endpoints
+    fieldsEndpoint
 }): JSX.Element => {
     onValidCallback((widgets: { [name: string]: any }) => {
-        const fieldEle = widgets['Field'] as FieldElement;
-        const valueEle = widgets['Value'] as TextInputElement;
-
-        const { state: { field } } = fieldEle;
+        const { state: { value } } = widgets['Value'] as TextInputElement;
+        const { state: { field: { type: fieldType, name: field_name, id: field_uuid } } } = widgets[
+            'Field'
+        ] as FieldElement;
 
         let newAction;
 
-        if (field.type === 'field') {
+        if (fieldType === 'field') {
             newAction = {
                 uuid: getActionUUID(),
                 type: 'save_contact_field',
-                field_name: field.name,
-                field_uuid: field.id,
-                value: valueEle.state.value
+                field_name,
+                field_uuid,
+                value
             } as SaveToContact;
-        } else if (field.type === 'update_contact') {
+        } else if (fieldType === 'update_contact') {
             // updating contact properties are different action
             newAction = {
                 uuid: getActionUUID(),
                 type: 'update_contact',
-                field_name: field.id,
-                value: valueEle.state.value
+                field_name: field_uuid,
+                value
             } as IUpdateContact;
         }
 
@@ -107,16 +105,18 @@ const SaveToContactForm: React.SFC<SaveToContactFormProps> = ({
         let initial: SearchResult;
 
         if (action) {
-            if (action.type === 'save_contact_field') {
+            const { type: actionType, field_uuid, field_name } = action;
+
+            if (actionType === 'save_contact_field') {
                 initial = {
-                    id: action.field_uuid,
-                    name: action.field_name,
+                    id: field_uuid,
+                    name: field_name,
                     type: 'field'
                 };
-            } else if (action.type === 'update_contact') {
+            } else if (actionType === 'update_contact') {
                 initial = {
-                    id: action.field_name.toLowerCase(),
-                    name: action.field_name,
+                    id: field_name.toLowerCase(),
+                    name: field_name,
                     type: 'update_contact'
                 };
             }
@@ -134,7 +134,7 @@ const SaveToContactForm: React.SFC<SaveToContactFormProps> = ({
                     ref={onBindWidget}
                     name="Field"
                     showLabel={true}
-                    endpoint={endpoints.fields}
+                    endpoint={fieldsEndpoint}
                     localFields={ComponentMap.getContactFields()}
                     helpText={
                         'Select an existing field to update or type any name to create a new one'

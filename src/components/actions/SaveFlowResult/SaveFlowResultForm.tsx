@@ -10,7 +10,7 @@ export interface SaveFlowResultFormProps {
     action: SaveFlowResult;
     onValidCallback: Function;
     getActionUUID: Function;
-    config: Type;
+    type: string;
     updateAction(action: SaveFlowResult): void;
     getInitialAction(): SaveFlowResult;
     onBindWidget(ref: any): void;
@@ -21,22 +21,22 @@ const SaveFlowResultFormProps: React.SFC<SaveFlowResultFormProps> = ({
     action,
     onValidCallback,
     getActionUUID,
-    config,
+    type,
     updateAction,
     onBindWidget,
     ComponentMap
 }): JSX.Element => {
     onValidCallback((widgets: { [name: string]: any }) => {
-        const nameEle = widgets['Name'] as TextInputElement;
-        const valueEle = widgets['Value'] as TextInputElement;
-        const categoryEle = widgets['Category'] as TextInputElement;
+        const { state: { value: result_name } } = widgets['Name'] as TextInputElement;
+        const { state: { value } } = widgets['Value'] as TextInputElement;
+        const { state: { value: category } } = widgets['Category'] as TextInputElement;
 
         const newAction: SaveFlowResult = {
             uuid: getActionUUID(),
-            type: config.type,
-            result_name: nameEle.state.value,
-            value: valueEle.state.value,
-            category: categoryEle.state.value
+            type,
+            result_name,
+            value,
+            category
         };
 
         updateAction(newAction);

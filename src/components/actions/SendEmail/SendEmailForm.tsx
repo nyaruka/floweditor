@@ -10,7 +10,7 @@ const styles = require('./SendEmail.scss');
 export interface SendEmailFormProps {
     action: SendEmail;
     onValidCallback: Function;
-    config: Type;
+    type: string;
     ComponentMap: ComponentMap;
     updateAction(action: SendEmail): void;
     onBindWidget(ref: any): void;
@@ -20,29 +20,25 @@ export interface SendEmailFormProps {
 const SendEmailForm: React.SFC<SendEmailFormProps> = ({
     action,
     onValidCallback,
-    config,
+    type,
     ComponentMap,
     updateAction,
     onBindWidget,
     getActionUUID
 }): JSX.Element => {
     onValidCallback((widgets: { [name: string]: any }) => {
-        const emailEle = widgets['Recipient'] as EmailElement;
-        const subjectEle = widgets['Subject'] as TextInputElement;
-        const bodyEle = widgets['Message'] as TextInputElement;
+        const { state: { emails: emailAddresses } } = widgets['Recipient'] as EmailElement;
+        const { state: { value: subject } } = widgets['Subject'] as TextInputElement;
+        const { state: { value: body } } = widgets['Message'] as TextInputElement;
 
-        let emails: string[] = [];
-
-        emailEle.state.emails.forEach(({ value }) => {
-            emails = [...emails, value];
-        });
+        const emails = emailAddresses.map(({ value }) => value);
 
         const newAction: SendEmail = {
             uuid: getActionUUID(),
-            type: config.type,
-            body: bodyEle.state.value,
-            subject: subjectEle.state.value,
-            emails: emails
+            type,
+            body,
+            subject,
+            emails
         };
 
         updateAction(newAction);

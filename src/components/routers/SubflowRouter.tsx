@@ -11,12 +11,13 @@ export interface SubflowRouterFormProps {
     action: AnyAction;
     endpoints: Endpoints;
     node: Node;
+    type: string;
+    router: SwitchRouter;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     onValidCallback: Function;
     onBindWidget(ref: any): void;
     isTranslating: boolean;
     renderExitTranslations(): JSX.Element;
-    config: Type;
     saveLocalizedExits(widgets: { [name: string]: any }): void;
     getActionUUID(): string;
     ComponentMap: ComponentMap;
@@ -26,7 +27,8 @@ export default ({
     action,
     endpoints: { flows: flowsEndpoint },
     node,
-    config,
+    router,
+    type,
     updateRouter,
     onValidCallback,
     onBindWidget,
@@ -42,13 +44,13 @@ export default ({
         }
 
         const select = widgets['Flow'] as FlowElement;
-        const flow = select.state.flow;
+        const { name: flow_name, id: flow_uuid } = select.state.flow;
 
         const newAction: StartFlow = {
             uuid: getActionUUID(),
-            type: config.type,
-            flow_name: flow.name,
-            flow_uuid: flow.id
+            type,
+            flow_name,
+            flow_uuid
         };
 
         // if we were already a subflow, lean on those exits and cases
@@ -58,9 +60,8 @@ export default ({
         const details = ComponentMap.getDetails(node.uuid);
 
         if (details && details.type === 'subflow') {
-            exits = node.exits;
             ({ exits } = node);
-            ({ cases } = node.router as SwitchRouter);
+            ({ cases } = router);
         } else {
             // otherwise, let's create some new ones
             exits = [
@@ -81,15 +82,15 @@ export default ({
             ];
         }
 
-        const router: SwitchRouter = {
+        const newRouter: SwitchRouter = {
             type: 'switch',
             operand: '@child',
-            cases: cases,
+            cases,
             default_exit_uuid: null
         };
 
         // HACK: this should go away with modal refactor
-        let {uuid: nodeUUID} = node;
+        let { uuid: nodeUUID } = node;
 
         if (action && action.uuid === nodeUUID) {
             nodeUUID = v4();
@@ -98,10 +99,10 @@ export default ({
         updateRouter(
             {
                 uuid: nodeUUID,
-                router: router,
-                exits: exits,
+                router: newRouter,
+                exits,
                 actions: [newAction],
-                wait: { type: 'flow', flow_uuid: flow.id }
+                wait: { type: 'flow', flow_uuid }
             },
             'subflow',
             action
@@ -118,9 +119,7 @@ export default ({
 
         if (action) {
             if (action.type === 'start_flow') {
-                const startAction = action as StartFlow;
-                flow_name = startAction.flow_name;
-                ({ flow_name, flow_uuid } = startAction);
+                ({ flow_name, flow_uuid } = action as StartFlow);
             }
         }
 

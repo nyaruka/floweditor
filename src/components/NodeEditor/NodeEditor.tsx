@@ -302,7 +302,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     <NodeEditorFormComp
                         ref={(ele: any) => (this.form = ele)}
                         {...{ ...nodeEditorProps, advanced: false }}>
-                        {formProps => <Form {...formProps} />}
+                        {(formProps) => <Form {...formProps} />}
                     </NodeEditorFormComp>
                 );
 
@@ -311,7 +311,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                         <NodeEditorFormComp
                             ref={(ele: any) => (this.advanced = ele)}
                             {...{ ...nodeEditorProps, advanced: true }}>
-                            {formProps => <Form {...formProps} />}
+                            {(formProps) => <Form {...formProps} />}
                         </NodeEditorFormComp>
                     );
                 }

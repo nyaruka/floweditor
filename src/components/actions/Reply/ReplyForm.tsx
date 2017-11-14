@@ -10,7 +10,7 @@ const styles = require('../../Action/Action.scss');
 export interface ReplyFormProps {
     action: Reply;
     advanced: boolean;
-    config: Type;
+    type: string;
     ComponentMap: ComponentMap;
     updateAction(action: Reply): void;
     onBindWidget(ref: any): void;
@@ -24,7 +24,7 @@ export interface ReplyFormProps {
 const ReplyForm: React.SFC<ReplyFormProps> = ({
     action,
     advanced,
-    config,
+    type,
     ComponentMap,
     updateAction,
     onBindWidget,
@@ -57,7 +57,7 @@ const ReplyForm: React.SFC<ReplyFormProps> = ({
         } else {
             let newAction: Reply = {
                 uuid: getActionUUID(),
-                type: config.type,
+                type,
                 text: textarea.state.value
             };
 

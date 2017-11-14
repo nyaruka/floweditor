@@ -3,13 +3,13 @@ import * as FlipMove from 'react-flip-move';
 import * as update from 'immutability-helper';
 import { v4 } from 'uuid';
 import { DragDropContext } from 'react-dnd';
-import { Node, Router, SwitchRouter, Exit, Case, AnyAction } from '../../flowTypes';
+import { Node, SwitchRouter, Exit, Case, AnyAction } from '../../flowTypes';
 import { Type, GetOperatorConfig, Operator } from '../../services/EditorConfig';
 import ComponentMap from '../../services/ComponentMap';
 import { Language } from '../LanguageSelector';
 import { LocalizedObject } from '../../services/Localization';
 import CaseElement from '../form/CaseElement';
-import TextInputElement, {  HTMLTextElement } from '../form/TextInputElement';
+import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 
 const HTML5Backend = require('react-dnd-html5-backend');
 const styles = require('./SwitchRouter.scss');
@@ -151,7 +151,8 @@ export interface SwitchRouterFormProps {
     advanced: boolean;
     node: Node;
     action: AnyAction;
-    config: Type;
+    type: string;
+    router: SwitchRouter;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     getOperatorConfig: GetOperatorConfig;
     onBindWidget(ref: any): void;
@@ -162,10 +163,7 @@ export interface SwitchRouterFormProps {
     ComponentMap: ComponentMap;
     operatorConfigList: Operator[];
     isTranslating: boolean;
-    getLocalizedExits(widgets: {
-        [name: string]: any;
-    }): { uuid: string; translations: any }[];
-    getInitialRouter(): Router;
+    getLocalizedExits(widgets: { [name: string]: any }): { uuid: string; translations: any }[];
     renderExitTranslations(): JSX.Element;
     onValidCallback: Function;
 }
@@ -178,14 +176,12 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
         var resultName = '';
         var operand = '@input';
 
-        var initial = this.props.getInitialRouter() as SwitchRouter;
-
         this.onCaseChanged = this.onCaseChanged.bind(this);
         this.moveCase = this.moveCase.bind(this);
 
         var exits = this.props.node.exits;
-        if (initial && initial.type === 'switch' && initial.cases) {
-            for (let kase of initial.cases) {
+        if (this.props.router && this.props.router.type === 'switch' && this.props.router.cases) {
+            for (let kase of this.props.router.cases) {
                 var exitName = null;
                 if (kase.exit_uuid) {
                     var exit = exits.find(exit => {
@@ -209,8 +205,8 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                 }
             }
 
-            resultName = initial.result_name;
-            operand = initial.operand;
+            resultName = this.props.router.result_name;
+            operand = this.props.router.operand;
         }
 
         this.state = {
@@ -285,14 +281,16 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
     saveLocalization(widgets: { [name: string]: any }) {
         let updates = this.props.getLocalizedExits(widgets);
         let { iso: language } = this.props.localizations[0].getLanguage();
-        updates = [...updates, this.getLocalizedCases(widgets)] as { uuid: string; translations: any }[];
+        updates = [...updates, this.getLocalizedCases(widgets)] as {
+            uuid: string;
+            translations: any;
+        }[];
         this.props.updateLocalizations(language, updates);
     }
 
     getLocalizedCases(widgets: { [name: string]: any }): { uuid: string; translations: any }[] {
         var results: { uuid: string; translations: any }[] = [];
-        var router = this.props.getInitialRouter() as SwitchRouter;
-        for (let kase of router.cases) {
+        for (let kase of this.props.router.cases) {
             var input = widgets[kase.uuid] as TextInputElement;
             if (input) {
                 var value = input.state.value.trim();
@@ -320,8 +318,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                 return null;
             }
 
-            var router = this.props.getInitialRouter() as SwitchRouter;
-            for (let kase of router.cases) {
+            for (let kase of this.props.router.cases) {
                 if (kase.arguments && kase.arguments.length == 1) {
                     var localized = this.props.localizations.find(
                         (localizedObject: LocalizedObject) => {
@@ -337,19 +334,17 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                             }
                         }
 
-                        var config = this.props.getOperatorConfig(kase.type);
+                        const { verboseName } = this.props.getOperatorConfig(kase.type);
 
                         kases.push(
                             <div key={'translate_' + kase.uuid} className={styles.translating_case}>
-                                <div className={styles.translating_operator}>
-                                    {config.verboseName}
-                                </div>
+                                <div className={styles.translating_operator}>{verboseName}</div>
                                 <div className={styles.translating_from}>{kase.arguments[0]}</div>
                                 <div className={styles.translating_to}>
                                     <TextInputElement
                                         ref={this.props.onBindAdvancedWidget}
                                         name={kase.uuid}
-                                        placeholder={language.name + ' Translation'}
+                                        placeholder={`${language.name} Translation`}
                                         showLabel={false}
                                         value={value}
                                         ComponentMap={this.props.ComponentMap}
@@ -458,9 +453,9 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
 
             var leadIn = null;
 
-            if (this.props.config.type === 'wait_for_response') {
+            if (this.props.type === 'wait_for_response') {
                 leadIn = <div className={styles.instructions}>If the message response..</div>;
-            } else if (this.props.config.type === 'expression') {
+            } else if (this.props.type === 'expression') {
                 leadIn = (
                     <div className={styles.instructions}>
                         <p>If the expression..</p>
@@ -517,7 +512,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
         }
 
         var optionalNode = {};
-        if (this.props.config.type === 'wait_for_response') {
+        if (this.props.type === 'wait_for_response') {
             optionalNode = {
                 wait: { type: 'msg' }
             };
@@ -538,7 +533,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                 exits: exits,
                 ...optionalNode
             },
-            this.props.config.type,
+            this.props.type,
             this.props.action
         );
     }

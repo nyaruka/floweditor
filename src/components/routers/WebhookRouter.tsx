@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { v4 } from 'uuid';
 import * as update from 'immutability-helper';
 import * as FlipMove from 'react-flip-move';
+import { v4 } from 'uuid';
+import { CallWebhook, Case, Exit, Router, SwitchRouter, Node, AnyAction } from '../../flowTypes';
 import { Type } from '../../services/EditorConfig';
 import { SwitchRouterState } from './SwitchRouter';
 import SelectElement from '../form/SelectElement';
-import { CallWebhook, Case, Exit, SwitchRouter, Node, AnyAction } from '../../flowTypes';
 import HeaderElement, { Header } from '../form/HeaderElement';
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 import FormElement from '../form/FormElement';
@@ -22,8 +22,10 @@ const defaultBody: string = `{
 }`;
 
 export interface WebhookRouterFormProps {
-    config: Type;
+    type: string;
+    nodeUUID: string;
     node: Node;
+    router: Router;
     advanced: boolean;
     action: AnyAction;
     removeWidget(name: string): void;
@@ -356,7 +358,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
 
         var newAction: CallWebhook = {
             uuid: this.getUUID(),
-            type: this.props.config.type,
+            type: this.props.type,
             url: urlEle.state.value,
             headers: headers,
             method: method,
@@ -370,7 +372,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         var details = this.props.ComponentMap.getDetails(this.props.node.uuid);
         if (details && details.type == 'webhook') {
             exits = this.props.node.exits;
-            cases = (this.props.node.router as SwitchRouter).cases;
+            cases = (this.props.router as SwitchRouter).cases;
         } else {
             // otherwise, let's create some new ones
             exits = [
@@ -412,8 +414,8 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         this.props.updateRouter(
             {
                 uuid: nodeUUID,
-                router: router,
-                exits: exits,
+                router,
+                exits,
                 actions: [newAction]
             },
             'webhook',

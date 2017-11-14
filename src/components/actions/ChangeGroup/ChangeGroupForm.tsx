@@ -8,10 +8,10 @@ export interface ChangeGroupFormProps {
     action: ChangeGroup;
     onValidCallback: Function;
     getActionUUID: Function;
-    config: Type;
+    type: string;
     updateAction(action: ChangeGroup): void;
     onBindWidget(ref: any): void;
-    endpoints: Endpoints;
+    groupsEndpoint: string;
     ComponentMap: ComponentMap;
 }
 
@@ -19,10 +19,10 @@ const ChangeGroupForm: React.SFC<ChangeGroupFormProps> = ({
     action,
     onValidCallback,
     getActionUUID,
-    config,
+    type,
     updateAction,
     onBindWidget,
-    endpoints,
+    groupsEndpoint,
     ComponentMap
 }): JSX.Element => {
     onValidCallback((widgets: { [name: string]: any }) => {
@@ -32,7 +32,7 @@ const ChangeGroupForm: React.SFC<ChangeGroupFormProps> = ({
         if (group) {
             const newAction: ChangeGroup = {
                 uuid: getActionUUID(),
-                type: config.type,
+                type,
                 groups: [
                     {
                         uuid: group.id,
@@ -48,8 +48,6 @@ const ChangeGroupForm: React.SFC<ChangeGroupFormProps> = ({
     const renderForm = (): JSX.Element => {
         let groups: { group: string; name: string }[] = [];
         let p: JSX.Element;
-
-        const { type } = config;
 
         if (type === 'add_to_group') {
             p = <p>Select the group(s) to add the contact to.</p>;
@@ -79,10 +77,10 @@ const ChangeGroupForm: React.SFC<ChangeGroupFormProps> = ({
                 <GroupElement
                     ref={onBindWidget}
                     name="Group"
-                    endpoint={endpoints.groups}
+                    endpoint={groupsEndpoint}
                     localGroups={ComponentMap.getGroups()}
                     groups={groups}
-                    add={config.type === 'add_to_group'}
+                    add={type === 'add_to_group'}
                     required
                 />
             </div>
