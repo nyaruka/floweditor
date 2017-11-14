@@ -57,6 +57,7 @@ export interface IConnectionEvent {
 }
 
 const REPAINT_DURATION = 600;
+
 export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
     private repaintDuration: number;
     private Activity: ActivityManager;
@@ -622,4 +623,4 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
             </div>
         );
     }
-}
+};

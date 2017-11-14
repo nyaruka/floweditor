@@ -7,6 +7,7 @@ import TextInputElement from '../../form/TextInputElement';
 const styles = require('./SaveFlowResult.scss');
 
 export interface SaveFlowResultFormProps {
+    action: SaveFlowResult;
     onValidCallback: Function;
     getActionUUID: Function;
     config: Type;
@@ -17,11 +18,11 @@ export interface SaveFlowResultFormProps {
 }
 
 const SaveFlowResultFormProps: React.SFC<SaveFlowResultFormProps> = ({
+    action,
     onValidCallback,
     getActionUUID,
     config,
     updateAction,
-    getInitialAction,
     onBindWidget,
     ComponentMap
 }): JSX.Element => {
@@ -42,16 +43,14 @@ const SaveFlowResultFormProps: React.SFC<SaveFlowResultFormProps> = ({
     });
 
     const renderForm = (): JSX.Element => {
-        const initialAction = getInitialAction();
-
         let name;
         let value;
         let category;
 
-        if (initialAction && initialAction.value) {
-            name = initialAction.result_name;
-            value = initialAction.value;
-            category = initialAction.category;
+        if (action && action.value) {
+            ({ result_name: name } = action);
+            ({ value } = action);
+            ({ category } = action);
         }
 
         return (

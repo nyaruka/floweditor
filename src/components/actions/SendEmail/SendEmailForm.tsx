@@ -8,9 +8,9 @@ import EmailElement from '../../form/EmailElement';
 const styles = require('./SendEmail.scss');
 
 export interface SendEmailFormProps {
+    action: SendEmail;
     onValidCallback: Function;
     config: Type;
-    getInitialAction(): SendEmail;
     ComponentMap: ComponentMap;
     updateAction(action: SendEmail): void;
     onBindWidget(ref: any): void;
@@ -18,9 +18,9 @@ export interface SendEmailFormProps {
 }
 
 const SendEmailForm: React.SFC<SendEmailFormProps> = ({
+    action,
     onValidCallback,
     config,
-    getInitialAction,
     ComponentMap,
     updateAction,
     onBindWidget,
@@ -53,12 +53,10 @@ const SendEmailForm: React.SFC<SendEmailFormProps> = ({
         let subject = '';
         let body = '';
 
-        const initialAction = getInitialAction();
-
-        if (initialAction && initialAction.type == 'send_email') {
-            ({ emails } = initialAction);
-            ({ subject } = initialAction);
-            ({ body } = initialAction);
+        if (action && action.type == 'send_email') {
+            ({ emails } = action);
+            ({ subject } = action);
+            ({ body } = action);
         }
 
         return (

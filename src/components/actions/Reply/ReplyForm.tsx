@@ -19,7 +19,6 @@ export interface ReplyFormProps {
     onValidCallback: Function;
     getLocalizedObject: Function;
     getActionUUID: Function;
-    getInitialAction(): Reply;
 }
 
 const ReplyForm: React.SFC<ReplyFormProps> = ({
@@ -33,11 +32,11 @@ const ReplyForm: React.SFC<ReplyFormProps> = ({
     updateLocalizations,
     onValidCallback,
     getLocalizedObject,
-    getActionUUID,
-    getInitialAction
+    getActionUUID
 }): JSX.Element => {
     /** Register this form's onValidCallback callback (make it available on NodeEditorForm for NodeEditor to access) */
     onValidCallback((widgets: { [name: string]: any }) => {
+
         const localizedObject = getLocalizedObject();
 
         const textarea = widgets['Message'] as TextInputElement;
@@ -56,14 +55,14 @@ const ReplyForm: React.SFC<ReplyFormProps> = ({
                 ]);
             }
         } else {
-            const newAction: Reply = {
+            let newAction: Reply = {
                 uuid: getActionUUID(),
                 type: config.type,
                 text: textarea.state.value
             };
 
             if (sendAll.state.checked) {
-                newAction.all_urns = true;
+                newAction = { ...newAction, all_urns: true };
             }
 
             updateAction(newAction);
@@ -72,10 +71,9 @@ const ReplyForm: React.SFC<ReplyFormProps> = ({
 
     const renderForm = (): JSX.Element => {
         let text = '';
-        const initialAction = getInitialAction();
 
-        if (initialAction && initialAction.type === 'reply') {
-            ({ text } = initialAction);
+        if (action && action.type === 'reply') {
+            ({ text } = action);
         }
 
         let translation;
@@ -117,10 +115,9 @@ const ReplyForm: React.SFC<ReplyFormProps> = ({
 
     const renderAdvanced = (): JSX.Element => {
         let sendAll;
-        const initialAction = getInitialAction();
 
-        if (initialAction) {
-            const { all_urns } = initialAction as Reply;
+        if (action) {
+            const { all_urns } = action as Reply;
             sendAll = all_urns;
         } else {
             sendAll = false;

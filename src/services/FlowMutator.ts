@@ -186,11 +186,11 @@ export default class FlowMutator {
         // get a list of nodes to flow
         var uis: Reflow[] = [];
         for (let node of this.definition.nodes) {
-            var uLocalizationMap = this.definition._ui.nodes[node.uuid];
+            var LocalizationMap = this.definition._ui.nodes[node.uuid];
 
             // this should only happen with freshly added nodes, since
             // they don't have dimensions until they are rendered
-            var dimensions = uLocalizationMap.dimensions;
+            var dimensions = LocalizationMap.dimensions;
             if (!dimensions) {
                 // console.log("using default dimensions");
                 dimensions = { width: 250, height: 100 };
@@ -199,10 +199,10 @@ export default class FlowMutator {
             uis.push({
                 uuid: node.uuid,
                 bounds: {
-                    left: uLocalizationMap.position.x,
-                    top: uLocalizationMap.position.y,
-                    right: uLocalizationMap.position.x + dimensions.width,
-                    bottom: uLocalizationMap.position.y + dimensions.height
+                    left: LocalizationMap.position.x,
+                    top: LocalizationMap.position.y,
+                    right: LocalizationMap.position.x + dimensions.width,
+                    bottom: LocalizationMap.position.y + dimensions.height
                 }
             });
         }
@@ -476,7 +476,7 @@ export default class FlowMutator {
             node = this.definition.nodes[nodeDetails.nodeIdx];
 
             // update our type
-            var uLocalizationMap = this.definition._ui.nodes[node.uuid];
+            var LocalizationMap = this.definition._ui.nodes[node.uuid];
             this.updateNodeUI(node.uuid, { $merge: { type: type } });
         }
 
@@ -597,7 +597,7 @@ export default class FlowMutator {
                 });
 
                 // make sure we don't have a type set
-                var uLocalizationMap = this.definition._ui.nodes[nodeUUID];
+                var LocalizationMap = this.definition._ui.nodes[nodeUUID];
                 this.updateNodeUI(nodeUUID, { $unset: ['type'] });
 
                 node = this.definition.nodes[nodeIdx];

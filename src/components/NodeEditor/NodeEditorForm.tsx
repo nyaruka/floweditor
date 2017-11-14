@@ -53,7 +53,6 @@ export interface NodeEditorFormChildProps {
     getOperatorConfig: GetOperatorConfig;
     triggerFormUpdate(): void;
     onToggleAdvanced(): void;
-    getInitialAction(): AnyAction;
     getInitialRouter(): Router;
     onValidCallback: Function;
     onUpdateFormCallback: Function;
@@ -107,7 +106,6 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
         this.renderExitTranslations = this.renderExitTranslations.bind(this);
         this.getLocalizedExits = this.getLocalizedExits.bind(this);
         this.saveLocalizedExits = this.saveLocalizedExits.bind(this);
-        this.getInitialAction = this.getInitialAction.bind(this);
         this.getInitialRouter = this.getInitialRouter.bind(this);
     }
 
@@ -130,10 +128,10 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
         if (this.props.action) {
             if (this.props.action.hasOwnProperty('uuid') && this.props.action.uuid) {
                 return this.props.action.uuid;
-            } else {
-                return v4();
             }
+            return v4();
         }
+        return v4();
     }
 
     private renderExitTranslations(): JSX.Element {
@@ -215,13 +213,6 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
         this.props.updateLocalizations(language, exits);
     }
 
-    private getInitialAction(): AnyAction {
-        if (this.props.action) {
-            return this.props.action;
-        }
-        return;
-    }
-
     private getInitialRouter(): Router {
         if (this.props.node.router) {
             return this.props.node.router;
@@ -259,7 +250,6 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
             getActionUUID: this.getActionUUID,
             getLocalizedExits: this.getLocalizedExits,
             saveLocalizedExits: this.saveLocalizedExits,
-            getInitialAction: this.getInitialAction,
             getInitialRouter: this.getInitialRouter
         };
 
