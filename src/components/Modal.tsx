@@ -46,7 +46,7 @@ class Modal extends React.Component<IModalProps, IModalState> {
     }
 
     componentWillReceiveProps(nextProps: IModalProps) {
-        if (this.props.show != nextProps.show && !nextProps.show) {
+        if (this.props.show !== nextProps.show && !nextProps.show) {
             this.setState({ flipped: false });
         }
     }
@@ -70,15 +70,24 @@ class Modal extends React.Component<IModalProps, IModalState> {
         let leftButtons: JSX.Element[] = [];
 
         if (this.props.buttons.secondary) {
-            rightButtons = [...rightButtons, <Button key={Math.random()} {...this.props.buttons.secondary} type="secondary" />]
+            rightButtons = [
+                ...rightButtons,
+                <Button key={Math.random()} {...this.props.buttons.secondary} type="secondary" />
+            ];
         }
 
         /** No matter what, we'll have a primary button */
-        rightButtons = [...rightButtons, <Button key={Math.random()} {...this.props.buttons.primary} type="primary" />]
+        rightButtons = [
+            ...rightButtons,
+            <Button key={Math.random()} {...this.props.buttons.primary} type="primary" />
+        ];
 
         /** Our left most button if we have one */
         if (this.props.buttons.tertiary) {
-            leftButtons = [...leftButtons, <Button key={Math.random()} {...this.props.buttons.tertiary} type="tertiary" />];
+            leftButtons = [
+                ...leftButtons,
+                <Button key={Math.random()} {...this.props.buttons.tertiary} type="tertiary" />
+            ];
         }
 
         /** closeTimeoutMS={200} */
@@ -102,7 +111,7 @@ class Modal extends React.Component<IModalProps, IModalState> {
             } else {
                 title = (
                     <div>
-                        <div className={styles.background + ' icon-settings'} />
+                        <div className={`${styles.background} icon-settings`} />
                         <div style={{ marginLeft: '40px' }}>{title}</div>
                     </div>
                 );
@@ -128,16 +137,12 @@ class Modal extends React.Component<IModalProps, IModalState> {
             }
 
             return (
-                <div key={'modal_side_' + childIdx} className={classes.join(' ')}>
+                <div key={`modal_side_${childIdx}`} className={classes.join(' ')}>
                     <div className={styles.modal}>
                         <div
-                            className={
-                                styles.header +
-                                ' ' +
-                                this.props.className +
-                                ' ' +
-                                shared['modal_side_' + childIdx]
-                            }>
+                            className={`${styles.header} ${this.props.className} ${
+                                shared[`modal_side_${childIdx}`]
+                            }`}>
                             {flip}
                             {title}
                         </div>
@@ -155,7 +160,9 @@ class Modal extends React.Component<IModalProps, IModalState> {
             <ReactModal
                 isOpen={this.props.show}
                 onAfterOpen={this.props.onModalOpen}
-                onRequestClose={this.props.buttons.secondary ? this.props.buttons.secondary.onClick : null}
+                onRequestClose={
+                    this.props.buttons.secondary ? this.props.buttons.secondary.onClick : null
+                }
                 style={customStyles}
                 shouldCloseOnOverlayClick={false}
                 contentLabel="Modal">
