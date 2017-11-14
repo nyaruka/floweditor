@@ -111,4 +111,4 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
             </FormElement>
         );
     }
-};
+}

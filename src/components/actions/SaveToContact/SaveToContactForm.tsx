@@ -30,22 +30,22 @@ const reserved = toBoolMap([
 ]);
 
 export interface SaveToContactFormProps {
+    action: SaveToContact;
     onValidCallback: Function;
     getActionUUID: Function;
     config: Type;
     updateAction(action: SaveToContact): void;
-    getInitialAction(): SaveToContact;
     onBindWidget(ref: any): void;
     endpoints: Endpoints;
     ComponentMap: ComponentMap;
 }
 
 const SaveToContactForm: React.SFC<SaveToContactFormProps> = ({
+    action,
     onValidCallback,
     getActionUUID,
     config,
     updateAction,
-    getInitialAction,
     onBindWidget,
     ComponentMap,
     endpoints
@@ -104,20 +104,19 @@ const SaveToContactForm: React.SFC<SaveToContactFormProps> = ({
     };
 
     const renderForm = (): JSX.Element => {
-        const initialAction = getInitialAction();
         let initial: SearchResult;
 
-        if (initialAction) {
-            if (initialAction.type === 'save_contact_field') {
+        if (action) {
+            if (action.type === 'save_contact_field') {
                 initial = {
-                    id: initialAction.field_uuid,
-                    name: initialAction.field_name,
+                    id: action.field_uuid,
+                    name: action.field_name,
                     type: 'field'
                 };
-            } else if (initialAction.type === 'update_contact') {
+            } else if (action.type === 'update_contact') {
                 initial = {
-                    id: initialAction.field_name.toLowerCase(),
-                    name: initialAction.field_name,
+                    id: action.field_name.toLowerCase(),
+                    name: action.field_name,
                     type: 'update_contact'
                 };
             }
@@ -125,8 +124,8 @@ const SaveToContactForm: React.SFC<SaveToContactFormProps> = ({
 
         let value = '';
 
-        if (initialAction && initialAction.value) {
-            value = initialAction.value;
+        if (action && action.value) {
+            value = action.value;
         }
 
         return (

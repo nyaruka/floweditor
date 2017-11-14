@@ -5,22 +5,22 @@ import ComponentMap from '../../../services/ComponentMap';
 import GroupElement from '../../form/GroupElement';
 
 export interface ChangeGroupFormProps {
+    action: ChangeGroup;
     onValidCallback: Function;
     getActionUUID: Function;
     config: Type;
     updateAction(action: ChangeGroup): void;
-    getInitialAction(): ChangeGroup;
     onBindWidget(ref: any): void;
     endpoints: Endpoints;
     ComponentMap: ComponentMap;
 }
 
-const ChangeGroup: React.SFC<ChangeGroupFormProps> = ({
+const ChangeGroupForm: React.SFC<ChangeGroupFormProps> = ({
+    action,
     onValidCallback,
     getActionUUID,
     config,
     updateAction,
-    getInitialAction,
     onBindWidget,
     endpoints,
     ComponentMap
@@ -46,7 +46,6 @@ const ChangeGroup: React.SFC<ChangeGroupFormProps> = ({
     });
 
     const renderForm = (): JSX.Element => {
-        const initialAction = getInitialAction();
         let groups: { group: string; name: string }[] = [];
         let p: JSX.Element;
 
@@ -62,11 +61,11 @@ const ChangeGroup: React.SFC<ChangeGroupFormProps> = ({
 
 
         if (
-            initialAction &&
-            (initialAction.type === 'add_to_group' || initialAction.type === 'remove_from_group')
+            action &&
+            (action.type === 'add_to_group' || action.type === 'remove_from_group')
         ) {
-            if (initialAction.groups) {
-                const { groups: [{ uuid: group, name }] } = initialAction;
+            if (action.groups) {
+                const { groups: [{ uuid: group, name }] } = action;
                 groups = [
                     ...groups,
                     { group, name }

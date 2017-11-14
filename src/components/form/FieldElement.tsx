@@ -98,7 +98,7 @@ export default class FieldElement extends React.Component<IFieldElementProps, IF
         let classes: string[] = [];
 
         if (this.state.errors.length > 0) {
-            // we use a global selector here for react-select
+            /** We use a global selector here for react-select */
             classes = [...classes, 'select-invalid'];
         }
 

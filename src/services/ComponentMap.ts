@@ -26,6 +26,7 @@ export interface SearchResult {
     type: string;
     prefix?: string;
     extraResult?: boolean;
+    label?: string;
 }
 
 export interface ContactFieldResult extends SearchResult {
