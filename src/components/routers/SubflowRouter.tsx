@@ -2,19 +2,18 @@ import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 import { Exit, StartFlow, Case, SwitchRouter } from '../../flowTypes';
 import { Type } from '../../services/EditorConfig';
+import { NodeEditorFormChildProps } from '../NodeEditor/NodeEditorForm';
 import { Node, AnyAction } from '../../flowTypes';
 import { Endpoints } from '../../services/EditorConfig';
 import FlowElement from '../form/FlowElement';
 import ComponentMap from '../../services/ComponentMap';
 
-export interface SubflowRouterFormProps {
+export interface SubflowRouterFormProps extends NodeEditorFormChildProps {
     action: AnyAction;
     endpoints: Endpoints;
     node: Node;
-    type: string;
-    router: SwitchRouter;
+    config: Type;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
-    onValidCallback: Function;
     onBindWidget(ref: any): void;
     isTranslating: boolean;
     renderExitTranslations(): JSX.Element;
@@ -23,45 +22,37 @@ export interface SubflowRouterFormProps {
     ComponentMap: ComponentMap;
 }
 
-export default ({
-    action,
-    endpoints: { flows: flowsEndpoint },
-    node,
-    router,
-    type,
-    updateRouter,
-    onValidCallback,
-    onBindWidget,
-    isTranslating,
-    renderExitTranslations,
-    saveLocalizedExits,
-    getActionUUID,
-    ComponentMap
-}: SubflowRouterFormProps) => {
-    onValidCallback((widgets: { [name: string]: any }): void => {
-        if (isTranslating) {
-            return saveLocalizedExits(widgets);
+export default class SubflowRouter extends React.PureComponent<SubflowRouterFormProps> {
+    constructor(props: SubflowRouterFormProps) {
+        super(props);
+
+        this.onValid = this.onValid.bind(this);
+    }
+
+    public onValid(widgets: { [name: string]: any }): void {
+        if (this.props.isTranslating) {
+            return this.props.saveLocalizedExits(widgets);
         }
 
         const select = widgets['Flow'] as FlowElement;
         const { name: flow_name, id: flow_uuid } = select.state.flow;
 
         const newAction: StartFlow = {
-            uuid: getActionUUID(),
-            type,
+            uuid: this.props.getActionUUID(),
+            type: this.props.config.type,
             flow_name,
             flow_uuid
         };
 
-        // if we were already a subflow, lean on those exits and cases
+        /** If we were already a subflow, lean on those exits and cases */
         let exits: Exit[];
         let cases: Case[];
 
-        const details = ComponentMap.getDetails(node.uuid);
+        const details = this.props.ComponentMap.getDetails(this.props.node.uuid);
 
         if (details && details.type === 'subflow') {
-            ({ exits } = node);
-            ({ cases } = router);
+            ({ exits } = this.props.node);
+            ({ cases } = this.props.node.router as SwitchRouter);
         } else {
             // otherwise, let's create some new ones
             exits = [
@@ -89,14 +80,14 @@ export default ({
             default_exit_uuid: null
         };
 
-        // HACK: this should go away with modal refactor
-        let { uuid: nodeUUID } = node;
+        /** HACK: this should go away with modal refactor */
+        let { uuid: nodeUUID } = this.props.node;
 
-        if (action && action.uuid === nodeUUID) {
+        if (this.props.action && this.props.action.uuid === nodeUUID) {
             nodeUUID = generateUUID();
         }
 
-        updateRouter(
+        this.props.updateRouter(
             {
                 uuid: nodeUUID,
                 router: newRouter,
@@ -105,21 +96,21 @@ export default ({
                 wait: { type: 'flow', flow_uuid }
             },
             'subflow',
-            action
+            this.props.action
         );
-    });
+    }
 
-    const renderForm = (): JSX.Element => {
-        if (isTranslating) {
-            renderExitTranslations();
+    private renderForm(): JSX.Element {
+        if (this.props.isTranslating) {
+            this.props.renderExitTranslations();
         }
 
         let flow_name: string;
         let flow_uuid: string;
 
-        if (action) {
-            if (action.type === 'start_flow') {
-                ({ flow_name, flow_uuid } = action as StartFlow);
+        if (this.props.action) {
+            if (this.props.action.type === 'start_flow') {
+                ({ flow_name, flow_uuid } = this.props.action as StartFlow);
             }
         }
 
@@ -127,16 +118,18 @@ export default ({
             <div>
                 <p>Select a flow to run</p>
                 <FlowElement
-                    ref={onBindWidget}
+                    ref={this.props.onBindWidget}
                     name="Flow"
-                    endpoint={flowsEndpoint}
+                    endpoint={this.props.endpoints.flows}
                     flow_name={flow_name}
                     flow_uuid={flow_uuid}
                     required
                 />
             </div>
         );
-    };
+    }
 
-    return renderForm();
-};
+    public render(): JSX.Element {
+        return this.renderForm();
+    }
+}

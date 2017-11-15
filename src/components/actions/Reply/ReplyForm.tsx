@@ -1,42 +1,35 @@
 import * as React from 'react';
 import { Reply } from '../../../flowTypes';
 import { Type } from '../../../services/EditorConfig';
+import { NodeEditorFormChildProps } from '../../NodeEditor/NodeEditorForm';
 import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement from '../../form/TextInputElement';
 import CheckboxElement from '../../form/CheckboxElement';
 
 const styles = require('../../Action/Action.scss');
 
-export interface ReplyFormProps {
+export interface ReplyFormProps extends NodeEditorFormChildProps {
     action: Reply;
-    advanced: boolean;
-    type: string;
+    showAdvanced: boolean;
+    config: Type;
     ComponentMap: ComponentMap;
     updateAction(action: Reply): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
     updateLocalizations(language: string, changes: { uuid: string; translations: any }[]): void;
-    onValidCallback: Function;
     getLocalizedObject: Function;
     getActionUUID: Function;
 }
 
-const ReplyForm: React.SFC<ReplyFormProps> = ({
-    action,
-    advanced,
-    type,
-    ComponentMap,
-    updateAction,
-    onBindWidget,
-    onBindAdvancedWidget,
-    updateLocalizations,
-    onValidCallback,
-    getLocalizedObject,
-    getActionUUID
-}): JSX.Element => {
-    /** Register this form's onValidCallback callback (make it available on NodeEditorForm for NodeEditor to access) */
-    onValidCallback((widgets: { [name: string]: any }) => {
-        const localizedObject = getLocalizedObject();
+export default class ReplyForm extends React.Component<ReplyFormProps> {
+    constructor(props: ReplyFormProps) {
+        super(props);
+
+        this.onValid = this.onValid.bind(this);
+    }
+
+    public onValid(widgets: { [name: string]: any }): void {
+        const localizedObject = this.props.getLocalizedObject();
 
         const textarea = widgets['Message'] as TextInputElement;
         const sendAll = widgets['All Destinations'] as CheckboxElement;
@@ -45,18 +38,18 @@ const ReplyForm: React.SFC<ReplyFormProps> = ({
             const translation = textarea.state.value.trim();
 
             if (translation) {
-                updateLocalizations(localizedObject.getLanguage().iso, [
-                    { uuid: action.uuid, translations: { text: [textarea.state.value] } }
+                this.props.updateLocalizations(localizedObject.getLanguage().iso, [
+                    { uuid: this.props.action.uuid, translations: { text: [textarea.state.value] } }
                 ]);
             } else {
-                updateLocalizations(localizedObject.getLanguage().iso, [
-                    { uuid: action.uuid, translations: null }
+                this.props.updateLocalizations(localizedObject.getLanguage().iso, [
+                    { uuid: this.props.action.uuid, translations: null }
                 ]);
             }
         } else {
             let newAction: Reply = {
-                uuid: getActionUUID(),
-                type,
+                uuid: this.props.getActionUUID(),
+                type: this.props.config.type,
                 text: textarea.state.value
             };
 
@@ -64,21 +57,21 @@ const ReplyForm: React.SFC<ReplyFormProps> = ({
                 newAction = { ...newAction, all_urns: true };
             }
 
-            updateAction(newAction);
+            this.props.updateAction(newAction);
         }
-    });
+    }
 
-    const renderForm = (): JSX.Element => {
+    public renderForm(): JSX.Element {
         let text = '';
 
-        if (action && action.type === 'reply') {
-            ({ text } = action);
+        if (this.props.action && this.props.action.type === 'reply') {
+            ({ text } = this.props.action);
         }
 
         let translation;
         let placeholder;
 
-        const localizedObject = getLocalizedObject();
+        const localizedObject = this.props.getLocalizedObject();
 
         if (localizedObject) {
             placeholder = `${localizedObject.getLanguage().name} Translation`;
@@ -98,41 +91,40 @@ const ReplyForm: React.SFC<ReplyFormProps> = ({
             <div>
                 {translation}
                 <TextInputElement
-                    ref={onBindWidget}
+                    ref={this.props.onBindWidget}
                     name="Message"
                     showLabel={false}
                     value={text}
                     placeholder={placeholder}
                     autocomplete
-                    required={localizedObject == null}
+                    required={!localizedObject}
                     textarea
-                    ComponentMap={ComponentMap}
+                    ComponentMap={this.props.ComponentMap}
                 />
             </div>
         );
-    };
+    }
 
-    const renderAdvanced = (): JSX.Element => {
-        let sendAll;
+    public renderAdvanced(): JSX.Element {
+        let sendAll: boolean;
 
-        if (action) {
-            const { all_urns } = action as Reply;
-            sendAll = all_urns;
+        if (this.props.action) {
+            sendAll = this.props.action.all_urns;
         } else {
             sendAll = false;
         }
 
         return (
             <CheckboxElement
-                ref={onBindAdvancedWidget}
+                ref={this.props.onBindAdvancedWidget}
                 name="All Destinations"
                 defaultValue={sendAll}
                 description="Send a message to all destinations known for this contact."
             />
         );
-    };
+    }
 
-    return advanced ? renderAdvanced() : renderForm();
+    public render(): JSX.Element {
+        return this.props.showAdvanced ? this.renderAdvanced() : this.renderForm();
+    }
 };
-
-export default ReplyForm;

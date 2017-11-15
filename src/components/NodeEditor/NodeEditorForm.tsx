@@ -35,16 +35,12 @@ export type AnyFormProps =
 const formStyles = require('./NodeEditor.scss');
 
 export interface NodeEditorFormChildProps {
-    advanced: boolean;
+    showAdvanced: boolean;
     node: Node;
-    nodeUUID: string;
-    exits: Exit[];
-    router: Router | SwitchRouter;
     action: AnyAction;
-    fieldsEndpoint: string;
-    groupsEndpoint: string;
+    endpoints: Endpoints;
     localizations?: LocalizedObject[];
-    type: string;
+    config: Type;
     ComponentMap: ComponentMap;
     updateAction(action: AnyAction): void;
     onBindWidget(ref: any): void;
@@ -57,8 +53,6 @@ export interface NodeEditorFormChildProps {
     getOperatorConfig: GetOperatorConfig;
     triggerFormUpdate(): void;
     onToggleAdvanced(): void;
-    onValidCallback: Function;
-    onUpdateFormCallback: Function;
     getLocalizedObject: Function;
     getLocalizedExits(widgets: { [name: string]: any }): { uuid: string; translations: any }[];
     getActionUUID: Function;
@@ -92,32 +86,19 @@ export interface NodeEditorFormProps {
     updateAction(action: AnyAction): void;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
 
-    advanced: boolean;
+    showAdvanced: boolean;
     children(childProps: NodeEditorFormChildProps): JSX.Element;
 }
 
 export default class NodeEditorForm extends React.Component<NodeEditorFormProps> {
-    public onValid: Function;
-    public onUpdateForm: Function;
-
     constructor(props: NodeEditorFormProps) {
         super(props);
 
         this.getLocalizedObject = this.getLocalizedObject.bind(this);
-        this.onValidCallback = this.onValidCallback.bind(this);
-        this.onUpdateFormCallback = this.onUpdateFormCallback.bind(this);
         this.getActionUUID = this.getActionUUID.bind(this);
         this.renderExitTranslations = this.renderExitTranslations.bind(this);
         this.getLocalizedExits = this.getLocalizedExits.bind(this);
         this.saveLocalizedExits = this.saveLocalizedExits.bind(this);
-    }
-
-    private onValidCallback(callback: Function) {
-        return (this.onValid = callback);
-    }
-
-    private onUpdateFormCallback(callback: Function) {
-        return (this.onUpdateForm = callback);
     }
 
     private getLocalizedObject() {
@@ -129,7 +110,7 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
 
     private getActionUUID(): string {
         if (this.props.action) {
-            if (this.props.action.hasOwnProperty('uuid') && this.props.action.uuid) {
+            if (this.props.action.uuid) {
                 return this.props.action.uuid;
             }
             return generateUUID();
@@ -222,15 +203,11 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
         let classes = [formStyles.form];
 
         const injectedProps: NodeEditorFormChildProps = {
-            advanced: this.props.advanced,
+            showAdvanced: this.props.showAdvanced,
             node: this.props.node,
-            nodeUUID: this.props.node.uuid,
-            exits: this.props.node.exits,
-            router: this.props.node.router,
             action: this.props.action,
-            type: this.props.config.type,
-            groupsEndpoint: this.props.endpoints.groups,
-            fieldsEndpoint: this.props.endpoints.fields,
+            config: this.props.config,
+            endpoints: this.props.endpoints,
             localizations: this.props.localizations,
             ComponentMap: this.props.ComponentMap,
             updateAction: this.props.updateAction,
@@ -245,16 +222,16 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
             onToggleAdvanced: this.props.onToggleAdvanced,
             isTranslating: this.props.isTranslating,
             renderExitTranslations: this.renderExitTranslations,
-            onValidCallback: this.onValidCallback,
-            onUpdateFormCallback: this.onUpdateFormCallback,
             getLocalizedObject: this.getLocalizedObject,
             getActionUUID: this.getActionUUID,
             getLocalizedExits: this.getLocalizedExits,
             saveLocalizedExits: this.saveLocalizedExits,
         };
 
-        if (this.props.advanced) {
-            classes = [classes, ...formStyles.advanced];
+        console.log('showAdvanced', this.props.showAdvanced);
+
+        if (this.props.showAdvanced) {
+            classes = [classes, ...formStyles.showAdvanced];
         } else {
             if (!this.props.localizations || this.props.localizations.length === 0) {
                 chooser = (

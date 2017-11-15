@@ -1,38 +1,35 @@
 import * as React from 'react';
 import { ChangeGroup } from '../../../flowTypes';
 import { Type, Endpoints } from '../../../services/EditorConfig';
+import { NodeEditorFormChildProps } from '../../NodeEditor/NodeEditorForm';
 import ComponentMap from '../../../services/ComponentMap';
 import GroupElement from '../../form/GroupElement';
 
-export interface ChangeGroupFormProps {
+export interface ChangeGroupFormProps extends NodeEditorFormChildProps {
     action: ChangeGroup;
-    onValidCallback: Function;
     getActionUUID: Function;
-    type: string;
+    config: Type;
     updateAction(action: ChangeGroup): void;
     onBindWidget(ref: any): void;
-    groupsEndpoint: string;
+    endpoints: Endpoints;
     ComponentMap: ComponentMap;
 }
 
-const ChangeGroupForm: React.SFC<ChangeGroupFormProps> = ({
-    action,
-    onValidCallback,
-    getActionUUID,
-    type,
-    updateAction,
-    onBindWidget,
-    groupsEndpoint,
-    ComponentMap
-}): JSX.Element => {
-    onValidCallback((widgets: { [name: string]: any }) => {
+export default class ChangeGroupForm extends React.PureComponent<ChangeGroupFormProps> {
+    constructor(props: ChangeGroupFormProps) {
+        super(props);
+
+        this.onValid = this.onValid.bind(this);
+    }
+
+    public onValid(widgets: { [name: string]: any }): void {
         const groupEle = widgets['Group'] as any;
         const { state: { groups: [group] } } = groupEle;
 
         if (group) {
             const newAction: ChangeGroup = {
-                uuid: getActionUUID(),
-                type,
+                uuid: this.props.getActionUUID(),
+                type: this.props.config.type,
                 groups: [
                     {
                         uuid: group.id,
@@ -41,17 +38,17 @@ const ChangeGroupForm: React.SFC<ChangeGroupFormProps> = ({
                 ]
             };
 
-            updateAction(newAction);
+            this.props.updateAction(newAction);
         }
-    });
+    }
 
-    const renderForm = (): JSX.Element => {
+    private renderForm(): JSX.Element {
         let groups: { group: string; name: string }[] = [];
         let p: JSX.Element;
 
-        if (type === 'add_to_group') {
+        if (this.props.config.type === 'add_to_group') {
             p = <p>Select the group(s) to add the contact to.</p>;
-        } else if (type === 'remove_from_group') {
+        } else if (this.props.config.type === 'remove_from_group') {
             p = <p>Select the group(s) to remove the contact from.</p>
         } else {
             p = null;
@@ -59,11 +56,11 @@ const ChangeGroupForm: React.SFC<ChangeGroupFormProps> = ({
 
 
         if (
-            action &&
-            (action.type === 'add_to_group' || action.type === 'remove_from_group')
+            this.props.action &&
+            (this.props.action.type === 'add_to_group' || this.props.action.type === 'remove_from_group')
         ) {
-            if (action.groups) {
-                const { groups: [{ uuid: group, name }] } = action;
+            if (this.props.action.groups) {
+                const { groups: [{ uuid: group, name }] } = this.props.action;
                 groups = [
                     ...groups,
                     { group, name }
@@ -75,19 +72,19 @@ const ChangeGroupForm: React.SFC<ChangeGroupFormProps> = ({
             <div>
                 { p }
                 <GroupElement
-                    ref={onBindWidget}
+                    ref={this.props.onBindWidget}
                     name="Group"
-                    endpoint={groupsEndpoint}
-                    localGroups={ComponentMap.getGroups()}
+                    endpoint={this.props.endpoints.groups}
+                    localGroups={this.props.ComponentMap.getGroups()}
                     groups={groups}
-                    add={type === 'add_to_group'}
+                    add={this.props.config.type === 'add_to_group'}
                     required
                 />
             </div>
         );
-    };
+    }
 
-    return renderForm();
+    public render(): JSX.Element {
+        return this.renderForm();
+    }
 };
-
-export default ChangeGroupForm;

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 import { SaveToContact, IUpdateContact } from '../../../flowTypes';
 import { Type, Endpoints } from '../../../services/EditorConfig';
+import { NodeEditorFormChildProps } from '../../NodeEditor/NodeEditorForm';
 import ComponentMap from '../../../services/ComponentMap';
 import { toBoolMap } from '../../../helpers/utils';
 import SelectSearch from '../../SelectSearch';
@@ -9,7 +10,7 @@ import { SearchResult } from '../../../services/ComponentMap';
 import FieldElement from '../../form/FieldElement';
 import TextInputElement from '../../form/TextInputElement';
 
-// TODO: these should come from an external source
+/** TODO: these should come from an external source */
 const reserved = toBoolMap([
     'language',
     'facebook',
@@ -29,26 +30,23 @@ const reserved = toBoolMap([
     'tel'
 ]);
 
-export interface SaveToContactFormProps {
+export interface SaveToContactFormProps extends NodeEditorFormChildProps {
     action: SaveToContact;
-    onValidCallback: Function;
     getActionUUID: Function;
     updateAction(action: SaveToContact): void;
     onBindWidget(ref: any): void;
     ComponentMap: ComponentMap;
-    fieldsEndpoint: string;
+    endpoints: Endpoints;
 }
 
-const SaveToContactForm: React.SFC<SaveToContactFormProps> = ({
-    action,
-    onValidCallback,
-    getActionUUID,
-    updateAction,
-    onBindWidget,
-    ComponentMap,
-    fieldsEndpoint
-}): JSX.Element => {
-    onValidCallback((widgets: { [name: string]: any }) => {
+export default class SaveToContactForm extends React.PureComponent<SaveToContactFormProps> {
+    constructor(props: SaveToContactFormProps) {
+        super(props);
+
+        this.onValid = this.onValid.bind(this);
+    }
+
+    public onValid(widgets: { [name: string]: any }) {
         const { state: { value } } = widgets['Value'] as TextInputElement;
         const { state: { field: { type: fieldType, name: field_name, id: field_uuid } } } = widgets[
             'Field'
@@ -58,26 +56,26 @@ const SaveToContactForm: React.SFC<SaveToContactFormProps> = ({
 
         if (fieldType === 'field') {
             newAction = {
-                uuid: getActionUUID(),
+                uuid: this.props.getActionUUID(),
                 type: 'save_contact_field',
                 field_name,
                 field_uuid,
                 value
             } as SaveToContact;
         } else if (fieldType === 'update_contact') {
-            // updating contact properties are different action
+            /** Updating contact properties are different action **/
             newAction = {
-                uuid: getActionUUID(),
+                uuid: this.props.getActionUUID(),
                 type: 'update_contact',
                 field_name: field_uuid,
                 value
             } as IUpdateContact;
         }
 
-        updateAction(newAction);
-    });
+        this.props.updateAction(newAction);
+    }
 
-    const isValidNewOption = (option: { label: string }): boolean => {
+    public isValidNewOption(option: { label: string }): boolean {
         if (!option || !option.label) {
             return false;
         }
@@ -88,24 +86,13 @@ const SaveToContactForm: React.SFC<SaveToContactFormProps> = ({
             /^[a-z0-9-][a-z0-9- ]*$/.test(lowered) &&
             !reserved[lowered]
         );
-    };
+    }
 
-    const createNewOption = (arg: { label: string }): SearchResult => {
-        const newOption: SearchResult = {
-            id: generateUUID(),
-            name: arg.label,
-            type: 'field',
-            extraResult: true
-        } as SearchResult;
-
-        return newOption;
-    };
-
-    const renderForm = (): JSX.Element => {
+    public renderForm(): JSX.Element {
         let initial: SearchResult;
 
-        if (action) {
-            const { type: actionType, field_uuid, field_name } = action;
+        if (this.props.action) {
+            const { type: actionType, field_uuid, field_name } = this.props.action;
 
             if (actionType === 'save_contact_field') {
                 initial = {
@@ -124,18 +111,18 @@ const SaveToContactForm: React.SFC<SaveToContactFormProps> = ({
 
         let value = '';
 
-        if (action && action.value) {
-            value = action.value;
+        if (this.props.action && this.props.action.value) {
+            ({ action: { value } } = this.props);
         }
 
         return (
             <div>
                 <FieldElement
-                    ref={onBindWidget}
+                    ref={this.props.onBindWidget}
                     name="Field"
                     showLabel={true}
-                    endpoint={fieldsEndpoint}
-                    localFields={ComponentMap.getContactFields()}
+                    endpoint={this.props.endpoints.fields}
+                    localFields={this.props.ComponentMap.getContactFields()}
                     helpText={
                         'Select an existing field to update or type any name to create a new one'
                     }
@@ -145,19 +132,19 @@ const SaveToContactForm: React.SFC<SaveToContactFormProps> = ({
                 />
 
                 <TextInputElement
-                    ref={onBindWidget}
+                    ref={this.props.onBindWidget}
                     name="Value"
                     showLabel={true}
                     value={value}
                     helpText="The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json."
                     autocomplete
-                    ComponentMap={ComponentMap}
+                    ComponentMap={this.props.ComponentMap}
                 />
             </div>
         );
-    };
+    }
 
-    return renderForm();
-};
-
-export default SaveToContactForm;
+    public render(): JSX.Element {
+        return this.renderForm();
+    }
+}

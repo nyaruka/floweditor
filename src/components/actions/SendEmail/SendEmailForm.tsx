@@ -1,32 +1,30 @@
 import * as React from 'react';
 import { SendEmail } from '../../../flowTypes';
 import { Type } from '../../../services/EditorConfig';
+import { NodeEditorFormChildProps } from '../../NodeEditor/NodeEditorForm';
 import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement from '../../form/TextInputElement';
 import EmailElement from '../../form/EmailElement';
 
 const styles = require('./SendEmail.scss');
 
-export interface SendEmailFormProps {
+export interface SendEmailFormProps extends NodeEditorFormChildProps {
     action: SendEmail;
-    onValidCallback: Function;
-    type: string;
+    config: Type;
     ComponentMap: ComponentMap;
     updateAction(action: SendEmail): void;
     onBindWidget(ref: any): void;
     getActionUUID: Function;
 }
 
-const SendEmailForm: React.SFC<SendEmailFormProps> = ({
-    action,
-    onValidCallback,
-    type,
-    ComponentMap,
-    updateAction,
-    onBindWidget,
-    getActionUUID
-}): JSX.Element => {
-    onValidCallback((widgets: { [name: string]: any }) => {
+export default class SendEmailForm extends React.Component<SendEmailFormProps> {
+    constructor(props: SendEmailFormProps) {
+        super(props);
+
+        this.onValid = this.onValid.bind(this);
+    }
+
+    public onValid(widgets: { [name: string]: any }): void {
         const { state: { emails: emailAddresses } } = widgets['Recipient'] as EmailElement;
         const { state: { value: subject } } = widgets['Subject'] as TextInputElement;
         const { state: { value: body } } = widgets['Message'] as TextInputElement;
@@ -34,31 +32,29 @@ const SendEmailForm: React.SFC<SendEmailFormProps> = ({
         const emails = emailAddresses.map(({ value }) => value);
 
         const newAction: SendEmail = {
-            uuid: getActionUUID(),
-            type,
+            uuid: this.props.getActionUUID(),
+            type: this.props.config.type,
             body,
             subject,
             emails
         };
 
-        updateAction(newAction);
-    });
+        this.props.updateAction(newAction);
+    }
 
-    const renderForm = (): JSX.Element => {
+    private renderForm(): JSX.Element {
         let emails: string[] = [];
         let subject = '';
         let body = '';
 
-        if (action && action.type == 'send_email') {
-            ({ emails } = action);
-            ({ subject } = action);
-            ({ body } = action);
+        if (this.props.action && this.props.action.type == 'send_email') {
+            ({ emails, subject, body } = this.props.action);
         }
 
         return (
             <div className={styles.ele}>
                 <EmailElement
-                    ref={onBindWidget}
+                    ref={this.props.onBindWidget}
                     name="Recipient"
                     placeholder="To"
                     emails={emails}
@@ -66,30 +62,30 @@ const SendEmailForm: React.SFC<SendEmailFormProps> = ({
                 />
                 <TextInputElement
                     className={styles.subject}
-                    ref={onBindWidget}
+                    ref={this.props.onBindWidget}
                     name="Subject"
                     placeholder="Subject"
                     value={subject}
                     autocomplete
                     required
-                    ComponentMap={ComponentMap}
+                    ComponentMap={this.props.ComponentMap}
                 />
                 <TextInputElement
                     className={styles.message}
-                    ref={onBindWidget}
+                    ref={this.props.onBindWidget}
                     name="Message"
                     showLabel={false}
                     value={body}
                     autocomplete
                     required
                     textarea
-                    ComponentMap={ComponentMap}
+                    ComponentMap={this.props.ComponentMap}
                 />
             </div>
         );
-    };
+    }
 
-    return renderForm();
-};
-
-export default SendEmailForm;
+    public render(): JSX.Element {
+        return this.renderForm();
+    }
+}

@@ -44,7 +44,7 @@ export interface Type {
     description: string;
     allows(mode: Mode): boolean;
     component?: SFC<AnyAction>;
-    form?: ComponentClass<AnyFormProps> | SFC<AnyFormProps>;
+    form?: ComponentClass<AnyFormProps>;
     advanced?: Mode;
     aliases?: string[];
 }

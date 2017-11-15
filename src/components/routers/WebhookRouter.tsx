@@ -5,6 +5,7 @@ import { v4 as generateUUID } from 'uuid';
 import { CallWebhook, Case, Exit, Router, SwitchRouter, Node, AnyAction } from '../../flowTypes';
 import { Type } from '../../services/EditorConfig';
 import { SwitchRouterState } from './SwitchRouter';
+import { NodeEditorFormChildProps } from '../NodeEditor/NodeEditorForm';
 import SelectElement from '../form/SelectElement';
 import HeaderElement, { Header } from '../form/HeaderElement';
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
@@ -21,25 +22,22 @@ const defaultBody: string = `{
     "flow_name": @(to_json(run.flow.name))
 }`;
 
-export interface WebhookRouterFormProps {
-    type: string;
-    nodeUUID: string;
+export interface WebhookRouterFormProps extends NodeEditorFormChildProps {
+    config: Type;
     node: Node;
-    router: Router;
-    advanced: boolean;
+    showAdvanced: boolean;
     action: AnyAction;
+    getActionUUID(): string;
     removeWidget(name: string): void;
-    isTranslating: boolean,
+    isTranslating: boolean;
     triggerFormUpdate(): void;
-    ComponentMap: ComponentMap,
+    ComponentMap: ComponentMap;
     renderExitTranslations(): JSX.Element;
     onToggleAdvanced(): void;
     saveLocalizedExits(widgets: { [name: string]: React.Component }): void;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
-    onValidCallback: Function;
-    onUpdateFormCallback: Function;
 }
 
 interface WebhookState extends SwitchRouterState {
@@ -48,31 +46,32 @@ interface WebhookState extends SwitchRouterState {
 }
 
 export default class WebhookForm extends React.Component<WebhookRouterFormProps, WebhookState> {
-    private methodOptions = [{ value: 'GET', label: 'GET' }, { value: 'POST', label: 'POST' }];
+    private methodOptions: { value: string; label: string }[];
 
     constructor(props: WebhookRouterFormProps) {
         super(props);
 
-        this.onHeaderRemoved = this.onHeaderRemoved.bind(this);
-        this.onHeaderChanged = this.onHeaderChanged.bind(this);
-        this.onMethodChanged = this.onMethodChanged.bind(this);
-
         let headers: Header[] = [];
-        let method = 'GET';
+        let method: string = 'GET';
 
         if (this.props.action) {
-            var action = this.props.action;
-            if (action.type == 'call_webhook') {
-                var webhookAction: CallWebhook = action as CallWebhook;
+            const { action } = this.props;
+            if (action.type === 'call_webhook') {
+                const webhookAction: CallWebhook = action as CallWebhook;
+
                 if (webhookAction.headers) {
                     for (let key in webhookAction.headers) {
-                        headers.push({
-                            name: key,
-                            value: webhookAction.headers[key],
-                            uuid: generateUUID()
-                        });
+                        headers = [
+                            ...headers,
+                            {
+                                name: key,
+                                value: webhookAction.headers[key],
+                                uuid: generateUUID()
+                            }
+                        ];
                     }
                 }
+
                 method = webhookAction.method;
             }
         }
@@ -83,13 +82,18 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
             resultName: null,
             setResultName: false,
             cases: [],
-            headers: headers,
-            method: method,
+            headers,
+            method,
             operand: '@webhook'
         };
 
+        this.methodOptions = [{ value: 'GET', label: 'GET' }, { value: 'POST', label: 'POST' }];
+
         this.onValid = this.onValid.bind(this);
         this.onUpdateForm = this.onUpdateForm.bind(this);
+        this.onHeaderRemoved = this.onHeaderRemoved.bind(this);
+        this.onHeaderChanged = this.onHeaderChanged.bind(this);
+        this.onMethodChanged = this.onMethodChanged.bind(this);
     }
 
     addEmptyHeader(headers: Header[]) {
@@ -135,8 +139,8 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         this.props.triggerFormUpdate();
     }
 
-    onUpdateForm(widgets: { [name: string]: React.Component }) {
-        if (this.props.advanced) {
+    public onUpdateForm(widgets: { [name: string]: React.Component }): void {
+        if (this.props.showAdvanced) {
             var methodEle = widgets['Method'] as SelectElement;
             if (methodEle.state.value == 'GET') {
                 this.props.removeWidget('Body');
@@ -148,7 +152,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         }
     }
 
-    renderAdvanced(): JSX.Element {
+    private renderAdvanced(): JSX.Element {
         if (this.props.isTranslating) {
             return null;
         }
@@ -224,7 +228,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         );
     }
 
-    renderForm(): JSX.Element {
+    private renderForm(): JSX.Element {
         if (this.props.isTranslating) {
             return this.props.renderExitTranslations();
         }
@@ -269,8 +273,8 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         return (
             <div>
                 <p>
-                    Using a CallWebhook you can trigger actions in external services or fetch data to
-                    use in this Flow. Enter a URL to call below.
+                    Using a CallWebhook you can trigger actions in external services or fetch data
+                    to use in this Flow. Enter a URL to call below.
                 </p>
 
                 <div className={styles.method}>
@@ -315,14 +319,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         );
     }
 
-    getUUID(): string {
-        if (this.props.action) {
-            return this.props.action.uuid;
-        }
-        return generateUUID();
-    }
-
-    onValid(widgets: { [name: string]: React.Component }): void {
+    public onValid(widgets: { [name: string]: React.Component }): void {
         if (this.props.isTranslating) {
             return this.props.saveLocalizedExits(widgets);
         }
@@ -342,7 +339,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
             body = bodyEle.state.value;
         }
 
-        // go through any headers we have
+        /** Go through any headers we have */
         var headers: { [name: string]: string } = {};
         var header: HeaderElement = null;
         for (let key of Object.keys(widgets)) {
@@ -357,8 +354,8 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         }
 
         var newAction: CallWebhook = {
-            uuid: this.getUUID(),
-            type: this.props.type,
+            uuid: this.props.getActionUUID(),
+            type: this.props.config.type,
             url: urlEle.state.value,
             headers: headers,
             method: method,
@@ -372,7 +369,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         var details = this.props.ComponentMap.getDetails(this.props.node.uuid);
         if (details && details.type == 'webhook') {
             exits = this.props.node.exits;
-            cases = (this.props.router as SwitchRouter).cases;
+            cases = (this.props.node.router as SwitchRouter).cases;
         } else {
             // otherwise, let's create some new ones
             exits = [
@@ -424,12 +421,9 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
     }
 
     render(): JSX.Element {
-        this.props.onValidCallback(this.onValid);
-        this.props.onUpdateFormCallback(this.onUpdateForm);
-
-        if (this.props.advanced) {
+        if (this.props.showAdvanced) {
             return this.renderAdvanced();
         }
         return this.renderForm();
     }
-};
+}
