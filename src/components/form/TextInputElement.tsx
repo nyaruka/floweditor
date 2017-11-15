@@ -87,8 +87,8 @@ const OPTIONS: CompletionOption[] = [
 ];
 
 export default class TextInputElement extends React.Component<TextInputProps, TextInputState> {
-    private selectedEle: any;
-    private textElement: HTMLTextElement;
+    private selectedEl: any;
+    private textEl: HTMLTextElement;
     private options: CompletionOption[];
 
     constructor(props: any) {
@@ -109,9 +109,19 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             this.options = [...OPTIONS, ...this.props.ComponentMap.getResultNames()] as any;
         }
 
+        this.selectedElRef = this.selectedElRef.bind(this);
+        this.textElRef = this.textElRef.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
+    }
+
+    private selectedElRef(ref: any) {
+        return (this.selectedEl = ref);
+    }
+
+    private textElRef(ref: any) {
+        return (this.textEl = ref);
     }
 
     private setSelection(selectedIdx: number) {
@@ -157,7 +167,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 }
                 break;
             case KEY_AT:
-                var ele: any = findDOMNode(this.textElement as any);
+                var ele: any = findDOMNode(this.textEl as any);
 
                 this.setState({
                     completionVisible: true,
@@ -205,7 +215,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                             selectedOptionIndex: 0
                         },
                         () => {
-                            setCaretPosition(findDOMNode(this.textElement as any), newCaret);
+                            setCaretPosition(findDOMNode(this.textEl as any), newCaret);
                         }
                     );
 
@@ -226,7 +236,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
                     /** @ we display again **/
                     if (curr === '@') {
-                        var ele: any = findDOMNode(this.textElement as any);
+                        var ele: any = findDOMNode(this.textEl as any);
                         query = this.state.value.substr(i + 1, caret - i - 1);
                         matches = this.filterOptions(query);
                         completionVisible = matches.length > 0;
@@ -278,14 +288,16 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     }
 
     private onChange(event: React.ChangeEvent<HTMLTextElement>) {
-        if (this.props.autocomplete) {
-            var query: string = null;
-            var matches: CompletionOption[] = [];
-            if (this.state.completionVisible) {
-                var text = event.currentTarget.value;
-                query = text.substring(0, event.currentTarget.selectionStart);
+        const { currentTarget: { value: text, selectionStart } } = event;
 
-                let lastIdx = query.lastIndexOf('@');
+        if (this.props.autocomplete) {
+            let query: string = null;
+            let matches: CompletionOption[] = [];
+
+            if (this.state.completionVisible) {
+                query = text.substring(0, selectionStart);
+                const lastIdx = query.lastIndexOf('@');
+
                 if (lastIdx > -1) {
                     query = query.substring(lastIdx + 1);
                 }
@@ -294,15 +306,15 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             }
 
             this.setState({
-                caretOffset: event.currentTarget.selectionStart,
-                matches: matches,
+                caretOffset: selectionStart,
+                matches,
                 selectedOptionIndex: 0,
                 value: event.currentTarget.value,
                 query: query
             });
         } else {
             this.setState({
-                value: event.currentTarget.value
+                value
             });
         }
 
@@ -359,8 +371,8 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     }
 
     componentDidUpdate(previous: TextInputProps) {
-        if (this.selectedEle !== null) {
-            const selectedOption = findDOMNode(this.selectedEle);
+        if (this.selectedEl !== null) {
+            const selectedOption = findDOMNode(this.selectedEl);
             if (selectedOption !== null) {
                 selectedOption.scrollIntoView(false);
             }
@@ -404,7 +416,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
                 return (
                     <li
-                        ref={ele => (this.selectedEle = ele)}
+                        ref={this.selectedElRef}
                         className={optionClasses.join(' ')}
                         key={option.name}>
                         {this.renderOption(option, true)}
@@ -434,7 +446,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 errors={this.state.errors}>
                 <div className={styles.wrapper}>
                     <TextElement
-                        ref={(ref: any) => (this.textElement = ref)}
+                        ref={this.textElRef}
                         className={classes.join(' ')}
                         value={this.state.value}
                         onChange={this.onChange}
