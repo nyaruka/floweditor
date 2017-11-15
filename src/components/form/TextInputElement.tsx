@@ -314,7 +314,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             });
         } else {
             this.setState({
-                value
+                value: text
             });
         }
 
