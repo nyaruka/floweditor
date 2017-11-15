@@ -568,76 +568,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 const key: string = this.getModalKey();
                 const buttons: ButtonSet = this.getButtons();
                 const titles: JSX.Element[] = this.getTitles();
-                // const { front, back }: { front: JSX.Element; back: JSX.Element } = this.getSides();
-
-                const formProps = {
-                    isTranslating: this.isTranslating(),
-                    typeConfigList: this.props.typeConfigList,
-                    operatorConfigList: this.props.operatorConfigList,
-                    getTypeConfig: this.props.getTypeConfig,
-                    getOperatorConfig: this.props.getOperatorConfig,
-                    endpoints: this.props.endpoints,
-                    ComponentMap: this.props.ComponentMap,
-                    config: this.state.config,
-                    node: this.props.node,
-                    action: this.props.action,
-                    onTypeChange: this.onTypeChange,
-                    localizations: this.props.localizations,
-                    getLocalizedExits: this.getLocalizedExits,
-                    getLocalizedObject: this.getLocalizedObject,
-                    saveLocalizedExits: this.saveLocalizedExits,
-                    getActionUUID: this.getActionUUID,
-                    renderExitTranslations: this.renderExitTranslations,
-                    onBindWidget: this.onBindWidget,
-                    onBindAdvancedWidget: this.onBindAdvancedWidget,
-                    onToggleAdvanced: this.toggleAdvanced,
-                    onKeyPress: this.onKeyPress,
-                    triggerFormUpdate: this.triggerFormUpdate,
-                    removeWidget: this.removeWidget,
-                    updateLocalizations: (
-                        language: string,
-                        changes: { uuid: string; translations: any }[]
-                    ) => {
-                        this.props.onUpdateLocalizations(language, changes);
-                    },
-                    updateAction: (action: Action) => {
-                        this.props.onUpdateAction(this.props.node, action);
-                    },
-                    updateRouter: (node: Node, type: string, previousAction?: Action) => {
-                        this.props.onUpdateRouter(node, type, previousAction);
-                    }
-                };
-
-                const FormWrapper: React.SFC<{ styles: string[] }> = ({ children, styles }) => (
-                    <div className={styles.join(' ')}>
-                        <div className={formStyles.node_editor}>
-                            <form onKeyPress={this.onKeyPress}>{children}</form>
-                        </div>
-                    </div>
-                );
-
-                const { config: { form: Form } }: NodeEditorState = this.state;
-                const typeList = this.getTypeList();
-
-                const formClassesBase: string[] = [formStyles.form];
-                const formClassesAdvanced: string[] = [...formClassesBase, formStyles.showAdvanced];
-
-                const front = (
-                    <FormWrapper styles={formClassesBase}>
-                        {typeList}
-                        <Form ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />
-                    </FormWrapper>
-                );
-
-                let back: JSX.Element = null;
-
-                if (this.hasAdvanced()) {
-                    back = (
-                        <FormWrapper styles={formClassesAdvanced}>
-                            <Form ref={this.formRef} {...{ ...formProps, showAdvanced: true }} />
-                        </FormWrapper>
-                    );
-                }
+                const { front, back }: { front: JSX.Element; back: JSX.Element } = this.getSides();
 
                 return (
                     <Modal
