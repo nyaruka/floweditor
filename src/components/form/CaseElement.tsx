@@ -33,12 +33,12 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
         this.state = {
             errors: [],
-            operator: props.kase.type,
-            arguments: props.kase.arguments,
+            operator: this.props.kase.type,
+            arguments: this.props.kase.arguments,
             exitName: this.props.exitName ? this.props.exitName : ''
         };
 
-        this.operatorConfig = this.props.getOperatorConfig(props.kase.type);
+        this.operatorConfig = this.props.getOperatorConfig(this.props.kase.type);
 
         this.hasArguments = this.hasArguments.bind(this);
         this.onChangeArguments = this.onChangeArguments.bind(this);
@@ -224,7 +224,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
         let args: JSX.Element = null;
 
-        if (this.operatorConfig.operands === 1) {
+        if (this.operatorConfig && this.operatorConfig.operands === 1) {
             args = (
                 <TextInputElement
                     className={styles.input}

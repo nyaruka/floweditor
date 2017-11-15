@@ -575,6 +575,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                         key={key}
                         ref={this.modalRef}
                         className={shared[this.state.config.type]}
+                        node={this.props.node}
                         width="600px"
                         title={titles}
                         show={this.state.show}

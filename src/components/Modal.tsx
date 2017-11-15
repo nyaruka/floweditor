@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactModal from 'react-modal';
 import * as uniqID from 'uniqid';
+import { Node, Case, SwitchRouter } from '../flowTypes';
 import Button, { ButtonProps } from './Button';
 
 const styles = require('./Modal.scss');
@@ -15,7 +16,7 @@ export interface ButtonSet {
 export interface ModalProps {
     show: boolean;
     buttons: ButtonSet;
-
+    node?: Node;
     advanced?: JSX.Element;
     onModalOpen?: any;
     className?: string;
@@ -114,15 +115,26 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
                 classes = [...classes, styles.back];
             }
 
-            let flip;
+            let flip: JSX.Element;
 
             if (hasAdvanced) {
+                /** Don't show advanced settings for SwitchRouter unless we have cases to translate */
+                let cases: Case[];
+
+                if (this.props.node && this.props.node.router) {
+                    ({ cases } = this.props.node.router as SwitchRouter);
+                }
+
                 if (childIdx === 0) {
-                    flip = (
-                        <div className={styles.show_back} onClick={this.toggleFlip}>
-                            <span className="icon-settings" />
-                        </div>
-                    );
+                    if (cases && !cases.length) {
+                        flip = null;
+                    } else {
+                        flip = (
+                            <div className={styles.show_back} onClick={this.toggleFlip}>
+                                <span className="icon-settings" />
+                            </div>
+                        );
+                    }
                 } else {
                     flip = (
                         <div className={styles.show_front} onClick={this.toggleFlip}>
