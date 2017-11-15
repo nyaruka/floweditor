@@ -468,6 +468,23 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         return titles;
     }
 
+    private getTypeList(): JSX.Element {
+        let typeList: JSX.Element = null;
+
+        if (!this.props.localizations || !this.props.localizations.length) {
+            typeList = (
+                <TypeListComp
+                    className={formStyles.type_chooser}
+                    initialType={this.state.config}
+                    typeConfigList={this.props.typeConfigList}
+                    onChange={this.onTypeChange}
+                />
+            );
+        }
+
+        return typeList;
+    }
+
     private getSides(): { front: JSX.Element; back: JSX.Element } {
         const formProps = {
             isTranslating: this.isTranslating(),
@@ -516,18 +533,14 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         );
 
         const { config: { form: Form } }: NodeEditorState = this.state;
+        const typeList = this.getTypeList();
 
         const formClassesBase = [formStyles.form];
         const formClassesAdvanced = [...formClassesBase, formStyles.showAdvanced];
 
         const front = (
             <FormWrapper styles={formClassesBase}>
-                <TypeListComp
-                    className={formStyles.type_chooser}
-                    initialType={this.state.config}
-                    typeConfigList={this.props.typeConfigList}
-                    onChange={this.onTypeChange}
-                />
+                {typeList}
                 <Form ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />
             </FormWrapper>
         );
