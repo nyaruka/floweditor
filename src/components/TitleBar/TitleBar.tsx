@@ -2,28 +2,26 @@ import * as React from 'react';
 
 const styles = require('./TitleBar.scss');
 
-interface ITitleBarProps {
+interface TitleBarProps {
     title: string;
-    className?: string;
-
-    showRemoval?: boolean;
     onRemoval(event: React.MouseEvent<HTMLDivElement>): any;
-
+    className?: string;
+    showRemoval?: boolean;
     showMove?: boolean;
     onMoveUp?(event: React.MouseEvent<HTMLDivElement>): any;
 }
 
-interface ITitleBarState {
+interface TitleBarState {
     confirmingRemoval: boolean;
 }
 
 /**
  * Simple title bar with confirmation removal
  */
-class TitleBar extends React.Component<ITitleBarProps, ITitleBarState> {
+class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
     private timeout: any;
 
-    constructor(props: ITitleBarProps) {
+    constructor(props: TitleBarProps) {
         super(props);
 
         this.state = {
@@ -33,7 +31,7 @@ class TitleBar extends React.Component<ITitleBarProps, ITitleBarState> {
         this.onConfirmRemoval = this.onConfirmRemoval.bind(this);
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount(): void {
         if (this.timeout) {
             window.clearTimeout(this.timeout);
         }
@@ -56,8 +54,8 @@ class TitleBar extends React.Component<ITitleBarProps, ITitleBarState> {
         }, 2000);
     }
 
-    render() {
-        let confirmation;
+    private getConfirmationEl(): JSX.Element {
+        let confirmation: JSX.Element;
 
         if (this.state.confirmingRemoval) {
             confirmation = (
@@ -76,7 +74,11 @@ class TitleBar extends React.Component<ITitleBarProps, ITitleBarState> {
             );
         }
 
-        let moveArrow = null;
+        return confirmation;
+    }
+
+    private getMoveArrow(): JSX.Element {
+        let moveArrow: JSX.Element = null;
 
         if (this.props.showMove) {
             moveArrow = (
@@ -94,7 +96,11 @@ class TitleBar extends React.Component<ITitleBarProps, ITitleBarState> {
             moveArrow = <div className={styles.up_button} />;
         }
 
-        let remove = null;
+        return moveArrow;
+    }
+
+    private getRemove() {
+        let remove: JSX.Element = null;
 
         if (this.props.showRemoval) {
             remove = (
@@ -110,9 +116,17 @@ class TitleBar extends React.Component<ITitleBarProps, ITitleBarState> {
             );
         }
 
+        return remove;
+    }
+
+    render() {
+        const confirmation: JSX.Element = this.getConfirmationEl();
+        const moveArrow: JSX.Element = this.getMoveArrow();
+        const remove: JSX.Element = this.getRemove();
+
         return (
             <div className={styles.titlebar}>
-                <div className={this.props.className + ' ' + styles.normal}>
+                <div className={`${this.props.className} ${styles.normal}`}>
                     {moveArrow}
                     {remove}
                     {this.props.title}

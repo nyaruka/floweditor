@@ -16,6 +16,13 @@ import NodeEditorFormComp, { NodeEditorFormProps } from './NodeEditorForm';
 const formStyles = require('./NodeEditor.scss');
 const shared = require('../shared.scss');
 
+// pass ref through NodeEditor form to ReplyForm to access validation (if this works, maybe you don't need NodeEditorForm after all; can just declare generic methods here and the ones you need to overwrite, like onValid, there)
+// clean up NodeEditorForm, props (config instead of just type, 👍)
+// refactor action/subflow forms according to what you find, write those flow definitions, get FlowList up, write tests for all
+// clean up render methods elsewhere, make sure we're defining refs on instance
+// clean up props
+// see other deliverables for thurs
+
 export interface NodeEditorProps {
     node: Node;
     action?: Action;
