@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as update from 'immutability-helper';
 import * as FlipMove from 'react-flip-move';
-import { v4 } from 'uuid';
+import { v4 as generateUUID } from 'uuid';
 import { CallWebhook, Case, Exit, Router, SwitchRouter, Node, AnyAction } from '../../flowTypes';
 import { Type } from '../../services/EditorConfig';
 import { SwitchRouterState } from './SwitchRouter';
@@ -69,7 +69,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                         headers.push({
                             name: key,
                             value: webhookAction.headers[key],
-                            uuid: v4()
+                            uuid: generateUUID()
                         });
                     }
                 }
@@ -102,7 +102,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         }
 
         if (!hasEmpty) {
-            headers.push({ name: '', value: '', uuid: v4() });
+            headers.push({ name: '', value: '', uuid: generateUUID() });
         }
     }
 
@@ -319,7 +319,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         if (this.props.action) {
             return this.props.action.uuid;
         }
-        return v4();
+        return generateUUID();
     }
 
     onValid(widgets: { [name: string]: React.Component }): void {
@@ -377,12 +377,12 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
             // otherwise, let's create some new ones
             exits = [
                 {
-                    uuid: v4(),
+                    uuid: generateUUID(),
                     name: 'Success',
                     destination_node_uuid: null
                 },
                 {
-                    uuid: v4(),
+                    uuid: generateUUID(),
                     name: 'Failure',
                     destination_node_uuid: null
                 }
@@ -390,7 +390,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
 
             cases = [
                 {
-                    uuid: v4(),
+                    uuid: generateUUID(),
                     type: 'has_webhook_status',
                     arguments: ['S'],
                     exit_uuid: exits[0].uuid
@@ -408,7 +408,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         // HACK: this should go away with modal <refactor></refactor>
         var nodeUUID = this.props.node.uuid;
         if (this.props.action && this.props.action.uuid == nodeUUID) {
-            nodeUUID = v4();
+            nodeUUID = generateUUID();
         }
 
         this.props.updateRouter(

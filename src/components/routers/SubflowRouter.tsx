@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { v4 } from 'uuid';
+import { v4 as generateUUID } from 'uuid';
 import { Exit, StartFlow, Case, SwitchRouter } from '../../flowTypes';
 import { Type } from '../../services/EditorConfig';
 import { Node, AnyAction } from '../../flowTypes';
@@ -66,7 +66,7 @@ export default ({
             // otherwise, let's create some new ones
             exits = [
                 {
-                    uuid: v4(),
+                    uuid: generateUUID(),
                     name: 'Complete',
                     destination_node_uuid: null
                 }
@@ -74,7 +74,7 @@ export default ({
 
             cases = [
                 {
-                    uuid: v4(),
+                    uuid: generateUUID(),
                     type: 'has_run_status',
                     arguments: ['C'],
                     exit_uuid: exits[0].uuid
@@ -93,7 +93,7 @@ export default ({
         let { uuid: nodeUUID } = node;
 
         if (action && action.uuid === nodeUUID) {
-            nodeUUID = v4();
+            nodeUUID = generateUUID();
         }
 
         updateRouter(

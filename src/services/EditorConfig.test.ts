@@ -1,4 +1,4 @@
-import EditorConfig, { EMode } from './EditorConfig';
+import EditorConfig, { Mode } from './EditorConfig';
 
 const editorConfig = new EditorConfig();
 

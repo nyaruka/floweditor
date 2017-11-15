@@ -19,7 +19,7 @@ import SwitchRouterForm from '../components/routers/SwitchRouter';
 import SubflowRouterForm from '../components/routers/SubflowRouter';
 import WebhookRouterForm from '../components/routers/WebhookRouter';
 
-export enum EMode {
+export enum Mode {
     EDITING = 0x1,
     TRANSLATING = 0x2,
     ALL = EDITING | TRANSLATING
@@ -42,10 +42,10 @@ export interface Type {
     type: string;
     name: string;
     description: string;
-    allows(mode: EMode): boolean;
+    allows(mode: Mode): boolean;
     component?: SFC<AnyAction>;
     form?: ComponentClass<AnyFormProps> | SFC<AnyFormProps>;
-    advanced?: EMode;
+    advanced?: Mode;
     aliases?: string[];
 }
 
@@ -77,8 +77,8 @@ const TYPE_CONFIG_LIST: Type[] = [
         description: 'Send them a message',
         form: ReplyForm,
         component: ReplyComp,
-        advanced: EMode.EDITING,
-        allows(mode: EMode): boolean {
+        advanced: Mode.EDITING,
+        allows(mode: Mode): boolean {
             return (this.advanced & mode) === mode;
         }
     },
@@ -89,7 +89,7 @@ const TYPE_CONFIG_LIST: Type[] = [
         description: 'Add them to a group',
         form: ChangeGroupForm,
         component: ChangeGroupComp,
-        allows(mode: EMode): boolean {
+        allows(mode: Mode): boolean {
             return (this.advanced & mode) === mode;
         }
     },
@@ -99,7 +99,7 @@ const TYPE_CONFIG_LIST: Type[] = [
         description: 'Remove them from a group',
         form: ChangeGroupForm,
         component: ChangeGroupComp,
-        allows(mode: EMode): boolean {
+        allows(mode: Mode): boolean {
             return (this.advanced & mode) === mode;
         }
     },
@@ -110,7 +110,7 @@ const TYPE_CONFIG_LIST: Type[] = [
         form: SaveToContactForm,
         component: SaveToContactComp,
         aliases: ['update_contact'],
-        allows(mode: EMode): boolean {
+        allows(mode: Mode): boolean {
             return (this.advanced & mode) === mode;
         }
     },
@@ -120,7 +120,7 @@ const TYPE_CONFIG_LIST: Type[] = [
         description: 'Send an email',
         form: SendEmailForm,
         component: SendEmailComp,
-        allows(mode: EMode): boolean {
+        allows(mode: Mode): boolean {
             return (this.advanced & mode) === mode;
         }
     },
@@ -130,7 +130,7 @@ const TYPE_CONFIG_LIST: Type[] = [
         description: 'Save a result for this flow',
         form: SaveFlowResultForm,
         component: SaveFlowResultComp,
-        allows(mode: EMode): boolean {
+        allows(mode: Mode): boolean {
             return (this.advanced & mode) === mode;
         }
     },
@@ -143,9 +143,9 @@ const TYPE_CONFIG_LIST: Type[] = [
         description: 'Call a webook',
         form: WebhookRouterForm,
         component: WebhookComp,
-        advanced: EMode.EDITING,
+        advanced: Mode.EDITING,
         aliases: ['webhook'],
-        allows(mode: EMode): boolean {
+        allows(mode: Mode): boolean {
             return (this.advanced & mode) === mode;
         }
     },
@@ -156,7 +156,7 @@ const TYPE_CONFIG_LIST: Type[] = [
         form: SubflowRouterForm,
         component: StartFlowComp,
         aliases: ['subflow'],
-        allows(mode: EMode): boolean {
+        allows(mode: Mode): boolean {
             return (this.advanced & mode) === mode;
         }
     },
@@ -167,7 +167,7 @@ const TYPE_CONFIG_LIST: Type[] = [
         name: 'Split by Expression',
         description: 'Split by a custom expression',
         form: SwitchRouterForm,
-        allows(mode: EMode): boolean {
+        allows(mode: Mode): boolean {
             return (this.advanced & mode) === mode;
         }
     },
@@ -176,9 +176,9 @@ const TYPE_CONFIG_LIST: Type[] = [
         name: 'Wait for Response',
         description: 'Wait for them to respond',
         form: SwitchRouterForm,
-        advanced: EMode.TRANSLATING,
+        advanced: Mode.TRANSLATING,
         aliases: ['switch'],
-        allows(mode: EMode): boolean {
+        allows(mode: Mode): boolean {
             return (this.advanced & mode) === mode;
         }
     }

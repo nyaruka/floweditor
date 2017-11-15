@@ -1,10 +1,10 @@
 import * as React from 'react';
-import Modal, { IButtonSet } from '../Modal';
+import Modal, { ButtonSet } from '../Modal';
 import { Action, Node, UINode } from '../../flowTypes';
 import {
     Type,
     Operator,
-    EMode,
+    Mode,
     GetTypeConfig,
     GetOperatorConfig,
     Endpoints
@@ -27,7 +27,7 @@ export interface NodeEditorProps {
     onUpdateAction: Function;
     onUpdateRouter: Function;
 
-    // actions to perform when we are closed
+    /** Perform when editor is closed */
     onClose?(canceled: boolean): void;
 
     typeConfigList: Type[];
@@ -41,8 +41,6 @@ export interface NodeEditorProps {
 export interface NodeEditorState {
     config: Type;
     show: boolean;
-    initialButtons: IButtonSet;
-    temporaryButtons?: IButtonSet;
 }
 
 export default class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorState> {
@@ -51,22 +49,27 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     private advanced: any;
     private widgets: { [name: string]: any } = {};
     private advancedWidgets: { [name: string]: boolean } = {};
+    private initialButtons: ButtonSet;
+    private temporaryButtons?: ButtonSet;
 
     constructor(props: NodeEditorProps) {
         super(props);
 
-        // determine our initial config
-        const type = this.determineConfig(this.props);
-
         this.state = {
             show: false,
-            config: this.props.getTypeConfig(type),
-            initialButtons: {
-                primary: { name: 'Save', onClick: this.onSave.bind(this) },
-                secondary: { name: 'Cancel', onClick: this.onCancel.bind(this) }
-            }
+            config: this.props.getTypeConfig(this.determineConfigType())
         };
 
+        this.initialButtons = {
+            primary: { name: 'Save', onClick: this.onSave.bind(this) },
+            secondary: { name: 'Cancel', onClick: this.onCancel.bind(this) }
+        };
+        this.widgets = {};
+        this.advancedWidgets = {};
+
+        this.formRef = this.formRef.bind(this);
+        this.advancedRef = this.advancedRef.bind(this);
+        this.modalRef = this.modalRef.bind(this);
         this.onOpen = this.onOpen.bind(this);
         this.onTypeChange = this.onTypeChange.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
@@ -75,25 +78,41 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         this.toggleAdvanced = this.toggleAdvanced.bind(this);
         this.triggerFormUpdate = this.triggerFormUpdate.bind(this);
         this.removeWidget = this.removeWidget.bind(this);
+        this.isTranslating = this.isTranslating.bind(this);
     }
 
-    private determineConfig(props: NodeEditorProps) {
-        if (props.action) {
-            return props.action.type;
+    private formRef(ref: any): void {
+        return (this.form = ref);
+    }
+
+    private advancedRef(ref: any): void {
+        return (this.advanced = ref);
+    }
+
+    private modalRef(ref: any): void {
+        return (this.modal = ref);
+    }
+
+    private determineConfigType(): string {
+        if (this.props.hasOwnProperty('action') && this.props.action) {
+            return this.props.action.type;
         } else {
-            if (props.nodeUI && props.nodeUI.type) {
-                return props.nodeUI.type;
+            if (this.props.hasOwnProperty('nodeUI') && this.props.nodeUI) {
+                if (this.props.nodeUI.hasOwnProperty('type') && this.props.nodeUI.type)
+                    return this.props.nodeUI.type;
             }
         }
 
-        const details = props.ComponentMap.getDetails(props.node.uuid);
+        const details = this.props.ComponentMap.getDetails(this.props.node.uuid);
 
-        if (details.type) {
+        if (details.hasOwnProperty('type') && details.type) {
             return details.type;
         }
 
-        if (props.node.router) {
-            return props.node.router.type;
+        if (this.props.hasOwnProperty('node') && this.props.node) {
+            if (this.props.node.hasOwnProperty('router') && this.props.node.router) {
+                return this.props.node.router.type;
+            }
         }
 
         throw new Error(
@@ -101,7 +120,8 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         );
     }
 
-    public onBindWidget(widget: any) {
+    /** Make NodeEditor aware of base form inputs */
+    public onBindWidget(widget: any): void {
         if (widget) {
             if (this.widgets) {
                 this.widgets[widget.props.name] = widget;
@@ -109,7 +129,8 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         }
     }
 
-    public onBindAdvancedWidget(widget: any) {
+    /** Make NodeEditor aware of advanced form inputs */
+    public onBindAdvancedWidget(widget: any): void {
         if (widget) {
             this.onBindWidget(widget);
             this.advancedWidgets[widget.props.name] = true;
@@ -119,27 +140,27 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     public submit(): boolean {
         let invalid: any[] = [];
 
-        for (const key in this.widgets) {
-            let widget = this.widgets[key];
+        Object.keys(this.widgets).forEach(key => {
+            const widget = this.widgets[key];
             if (!widget.validate()) {
                 invalid = [...invalid, widget];
             }
-        }
+        });
 
-        /** If we are valid, submit it */
+        /** If all form inputs are valid, submit it */
         if (invalid.length === 0) {
             this.form.onValid(this.widgets);
             return true;
         } else {
             let frontError = false;
-            for (let widget of invalid) {
-                if (!this.advancedWidgets[widget.props.name]) {
+            for (const widget of invalid) {
+                if (!this.advancedWidgets.hasOwnProperty(widget.props.name)) {
                     frontError = true;
                     break;
                 }
             }
 
-            /** Show the right pane for our error */
+            /** Show the right pane for the error */
             if (
                 (frontError && this.modal.state.flipped) ||
                 (!frontError && !this.modal.state.flipped)
@@ -151,26 +172,14 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         return false;
     }
 
-    getType(): string {
-        let type: string;
-
-        if (this.props.action) {
-            type = this.props.action.type;
-        } else {
-            var details = this.props.ComponentMap.getDetails(this.props.node.uuid);
-            type = details.type;
-        }
-        return type;
-    }
-
-    open() {
+    public open(): void {
         this.setState({
             show: true,
-            config: this.props.getTypeConfig(this.determineConfig(this.props))
+            config: this.props.getTypeConfig(this.determineConfigType())
         });
     }
 
-    close(canceled: boolean) {
+    public close(canceled: boolean): void {
         this.widgets = {};
         this.advancedWidgets = {};
 
@@ -184,31 +193,29 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         );
     }
 
-    onOpen() {}
+    private onOpen(): void {}
 
-    onSave() {
+    private onSave(): void {
         if (this.submit()) {
             this.close(false);
         }
     }
 
-    onCancel() {
+    private onCancel(): void {
         this.close(true);
     }
 
-    private triggerFormUpdate() {
+    private triggerFormUpdate(): void {
         this.form.onUpdateForm(this.widgets);
         if (this.advanced) {
             this.advanced.onUpdateForm(this.widgets);
         }
     }
 
-    /**
-     * Allow enter key to submit our form
-     */
-    private onKeyPress(event: React.KeyboardEvent<HTMLFormElement>) {
-        // enter key
-        if (event.which == 13) {
+    /** Allow return key to submit our form */
+    private onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void {
+        /** Return key */
+        if (event.which === 13) {
             var isTextarea = $(event.target).prop('tagName') == 'TEXTAREA';
             if (!isTextarea || event.shiftKey) {
                 event.preventDefault();
@@ -219,7 +226,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         }
     }
 
-    private onTypeChange(config: Type) {
+    private onTypeChange(config: Type): void {
         this.widgets = {};
         this.advancedWidgets = {};
 
@@ -228,40 +235,92 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         });
     }
 
-    private toggleAdvanced() {
+    private toggleAdvanced(): void {
         if (this.modal) {
             this.modal.toggleFlip();
         }
     }
 
-    private removeWidget(name: string) {
+    private removeWidget(name: string): void {
         delete this.widgets[name];
     }
 
-    render() {
-        const isTranslating: boolean = this.props.localizations && this.props.localizations.length > 0;
+    private isTranslating(): boolean {
+        return this.props.localizations && this.props.localizations.length > 0;
+    }
+    private getMode(): Mode {
+        let mode: Mode;
 
-        let mode: EMode;
-
-        if (isTranslating) {
-            mode = EMode.TRANSLATING;
+        if (this.isTranslating()) {
+            mode = Mode.TRANSLATING;
         } else {
-            mode = EMode.EDITING;
+            mode = Mode.EDITING;
         }
 
-        const advanced: boolean = this.state.config.allows(mode);
+        return mode;
+    }
 
-        this.widgets = {};
-        this.advancedWidgets = {};
+    private hasAdvanced(): boolean {
+        const mode: Mode = this.getMode();
 
-        let front: JSX.Element;
-        let back: JSX.Element;
+        return this.state.config.allows(mode);
+    }
 
+    private getModalKey(): string {
+        let key: string = `modal_${this.props.node.uuid}`;
+
+        if (this.props.action) {
+            key += `_${this.props.action.uuid}`;
+        }
+
+        return key;
+    }
+
+    private getButtons(): ButtonSet {
+        let buttons: ButtonSet;
+
+        if (this.temporaryButtons) {
+            buttons = this.temporaryButtons;
+        } else {
+            buttons = this.initialButtons;
+        }
+
+        return buttons;
+    }
+
+    private getTitleText(): string {
+        let titleText: string = this.state.config.name;
+
+        if (this.props.localizations && this.props.localizations.length > 0) {
+            titleText = `${this.props.localizations[0].getLanguage().name} Translation`;
+        }
+
+        return titleText;
+    }
+
+    private getTitles(): JSX.Element[] {
+        const titleText: string = this.getTitleText();
+        let titles: JSX.Element[] = [<div>{titleText}</div>];
+
+        if (this.hasAdvanced()) {
+            titles = [
+                ...titles,
+                <div>
+                    <div>{titleText}</div>
+                    <div className={shared.advanced_title}>Advanced Settings</div>
+                </div>
+            ];
+        }
+
+        return titles;
+    }
+
+    public render(): JSX.Element {
         if (this.state.show) {
-            // create our form element
+            /** Create our form element */
             if (this.state.config.hasOwnProperty('form') && this.state.config.form) {
                 const nodeEditorProps = {
-                    isTranslating,
+                    isTranslating: this.isTranslating(),
                     typeConfigList: this.props.typeConfigList,
                     operatorConfigList: this.props.operatorConfigList,
                     getTypeConfig: this.props.getTypeConfig,
@@ -279,90 +338,62 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     onKeyPress: this.onKeyPress,
                     triggerFormUpdate: this.triggerFormUpdate,
                     removeWidget: this.removeWidget,
-
                     updateLocalizations: (
                         language: string,
                         changes: { uuid: string; translations: any }[]
                     ) => {
                         this.props.onUpdateLocalizations(language, changes);
                     },
-
                     updateAction: (action: Action) => {
                         this.props.onUpdateAction(this.props.node, action);
                     },
-
                     updateRouter: (node: Node, type: string, previousAction?: Action) => {
                         this.props.onUpdateRouter(node, type, previousAction);
                     }
                 };
 
-                const { config: { form: Form } } = this.state;
+                const { config: { form: Form } }: NodeEditorState = this.state;
 
-                front = (
+                const front = (
                     <NodeEditorFormComp
-                        ref={(ele: any) => (this.form = ele)}
+                        ref={this.formRef}
                         {...{ ...nodeEditorProps, advanced: false }}>
-                        {(formProps) => <Form {...formProps} />}
+                        {formProps => <Form {...formProps} />}
                     </NodeEditorFormComp>
                 );
 
-                if (advanced) {
+                let back: JSX.Element = null;
+
+                if (this.hasAdvanced()) {
                     back = (
                         <NodeEditorFormComp
-                            ref={(ele: any) => (this.advanced = ele)}
+                            ref={this.advancedRef}
                             {...{ ...nodeEditorProps, advanced: true }}>
-                            {(formProps) => <Form {...formProps} />}
+                            {formProps => <Form {...formProps} />}
                         </NodeEditorFormComp>
                     );
                 }
+
+                const key: string = this.getModalKey();
+                const buttons: ButtonSet = this.getButtons();
+                const titles = this.getTitles();
+
+                return (
+                    <Modal
+                        key={key}
+                        ref={this.modalRef}
+                        className={shared[this.state.config.type]}
+                        width="600px"
+                        title={titles}
+                        show={this.state.show}
+                        buttons={buttons}
+                        onModalOpen={this.onOpen}>
+                        {front}
+                        {back}
+                    </Modal>
+                );
             }
         }
-
-        let key: string = `modal_${this.props.node.uuid}`;
-
-        if (this.props.action) {
-            key += `_${this.props.action.uuid}`;
-        }
-
-        let buttons: IButtonSet;
-
-        if (this.state.temporaryButtons) {
-            buttons = this.state.temporaryButtons;
-        } else {
-            buttons = this.state.initialButtons;
-        }
-
-        let titleText: string = this.state.config.name;
-
-        if (this.props.localizations && this.props.localizations.length > 0) {
-            titleText = `${this.props.localizations[0].getLanguage().name} Translation`;
-        }
-
-        let titles: JSX.Element[] = [<div>{titleText}</div>];
-
-        if (back) {
-            titles = [
-                ...titles,
-                <div>
-                    <div>{titleText}</div>
-                    <div className={shared.advanced_title}>Advanced Settings</div>
-                </div>
-            ];
-        }
-
-        return (
-            <Modal
-                key={key}
-                ref={(ref: any) => (this.modal = ref)}
-                className={shared[this.state.config.type]}
-                width="600px"
-                title={titles}
-                show={this.state.show}
-                buttons={buttons}
-                onModalOpen={this.onOpen}>
-                {front}
-                {back}
-            </Modal>
-        );
+        return null;
     }
 }

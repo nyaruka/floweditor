@@ -36,7 +36,6 @@ const ReplyForm: React.SFC<ReplyFormProps> = ({
 }): JSX.Element => {
     /** Register this form's onValidCallback callback (make it available on NodeEditorForm for NodeEditor to access) */
     onValidCallback((widgets: { [name: string]: any }) => {
-
         const localizedObject = getLocalizedObject();
 
         const textarea = widgets['Message'] as TextInputElement;

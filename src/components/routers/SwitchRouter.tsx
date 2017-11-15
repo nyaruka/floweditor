@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import * as update from 'immutability-helper';
-import { v4 } from 'uuid';
+import { v4 as generateUUID } from 'uuid';
 import { DragDropContext } from 'react-dnd';
 import { Node, SwitchRouter, Exit, Case, AnyAction } from '../../flowTypes';
 import { Type, GetOperatorConfig, Operator } from '../../services/EditorConfig';
@@ -99,7 +99,7 @@ export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExi
                 destination = previousExitMap[newCase.kase.exit_uuid].destination_node_uuid;
             }
 
-            newCase.kase.exit_uuid = v4();
+            newCase.kase.exit_uuid = generateUUID();
 
             exits.push({
                 name: newCase.exitName,
@@ -113,7 +113,7 @@ export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExi
     }
 
     // add in our default exit
-    var defaultUUID = v4();
+    var defaultUUID = generateUUID();
     if (previous.router && previous.router.type === 'switch') {
         var router = previous.router as SwitchRouter;
         if (router && router.default_exit_uuid) {
@@ -409,7 +409,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
             }
 
             if (needsEmpty) {
-                var newCaseUUID = v4();
+                var newCaseUUID = generateUUID();
                 cases.push(
                     <CaseElement
                         kase={{

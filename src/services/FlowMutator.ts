@@ -1,5 +1,5 @@
-import { v4 } from 'uuid';
 import * as update from 'immutability-helper';
+import { v4 as generateUUID } from 'uuid';
 
 import { ContactFieldResult, SearchResult } from './ComponentMap';
 import {
@@ -310,7 +310,7 @@ export default class FlowMutator {
         console.time('addNode');
 
         // give our node a unique uuid
-        node = update(node, { $merge: { uuid: v4() } });
+        node = update(node, { $merge: { uuid: generateUUID() } });
 
         // add our node
         this.definition = update(this.definition, {
@@ -366,11 +366,11 @@ export default class FlowMutator {
         // add our top node if we have one
         if (topActions.length > 0) {
             var topActionNode: Node = {
-                uuid: v4(),
+                uuid: generateUUID(),
                 actions: topActions,
                 exits: [
                     {
-                        uuid: v4(),
+                        uuid: generateUUID(),
                         destination_node_uuid: newRouterNode.uuid
                     }
                 ]
@@ -383,11 +383,11 @@ export default class FlowMutator {
         // add our bottom
         if (bottomActions.length > 0) {
             var bottomActionNode: Node = {
-                uuid: v4(),
+                uuid: generateUUID(),
                 actions: bottomActions,
                 exits: [
                     {
-                        uuid: v4(),
+                        uuid: generateUUID(),
                         destination_node_uuid: previousNode.exits[0].destination_node_uuid
                     }
                 ]
@@ -503,12 +503,12 @@ export default class FlowMutator {
         var node: Node;
 
         if (draggedFrom) {
-            var newNodeUUID = v4();
+            var newNodeUUID = generateUUID();
             node = this.addNode(
                 {
                     uuid: newNodeUUID,
                     actions: [action],
-                    exits: [{ uuid: v4(), destination_node_uuid: null, name: null }]
+                    exits: [{ uuid: generateUUID(), destination_node_uuid: null, name: null }]
                 },
                 { position: newPosition },
                 {
@@ -573,7 +573,7 @@ export default class FlowMutator {
                 }
 
                 var previousDestination = null;
-                var previousUUID = v4();
+                var previousUUID = generateUUID();
                 if (node.exits.length == 1) {
                     previousDestination = node.exits[0].destination_node_uuid;
                     previousUUID = node.exits[0].uuid;
@@ -620,17 +620,17 @@ export default class FlowMutator {
     public ensureStartNode() {
         if (this.definition.nodes.length == 0) {
             let initialAction: Reply = {
-                uuid: v4(),
+                uuid: generateUUID(),
                 type: 'reply',
                 text: 'Hi there, this the first message in your flow!'
             };
 
             var node: Node = {
-                uuid: v4(),
+                uuid: generateUUID(),
                 actions: [initialAction],
                 exits: [
                     {
-                        uuid: v4()
+                        uuid: generateUUID()
                     }
                 ]
             };

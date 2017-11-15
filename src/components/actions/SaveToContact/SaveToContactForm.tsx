@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { v4 } from 'uuid';
+import { v4 as generateUUID } from 'uuid';
 import { SaveToContact, IUpdateContact } from '../../../flowTypes';
 import { Type, Endpoints } from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
@@ -92,7 +92,7 @@ const SaveToContactForm: React.SFC<SaveToContactFormProps> = ({
 
     const createNewOption = (arg: { label: string }): SearchResult => {
         const newOption: SearchResult = {
-            id: v4.v4(),
+            id: generateUUID(),
             name: arg.label,
             type: 'field',
             extraResult: true

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { v4 } from 'uuid';
+import { v4 as generateUUID } from 'uuid';
 import { Node, Router, SwitchRouter, Exit, AnyAction } from '../../flowTypes';
 import {
     Type,
@@ -132,9 +132,9 @@ export default class NodeEditorForm extends React.Component<NodeEditorFormProps>
             if (this.props.action.hasOwnProperty('uuid') && this.props.action.uuid) {
                 return this.props.action.uuid;
             }
-            return v4();
+            return generateUUID();
         }
-        return v4();
+        return generateUUID();
     }
 
     private renderExitTranslations(): JSX.Element {

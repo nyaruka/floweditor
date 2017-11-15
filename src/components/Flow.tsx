@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import * as update from 'immutability-helper';
-import { v4 } from 'uuid';
+import { v4 as generateUUID } from 'uuid';
 import {
     FlowDefinition,
     Action,
@@ -166,7 +166,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
 
     private onAddAction(addToNode: Node) {
         const newAction: Reply = {
-            uuid: v4(),
+            uuid: generateUUID(),
             type: 'reply',
             text: ''
         };
@@ -264,11 +264,11 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         };
 
         let ghost: Node = {
-            uuid: v4(),
+            uuid: generateUUID(),
             actions: [],
             exits: [
                 {
-                    uuid: v4(),
+                    uuid: generateUUID(),
                     destination_node_uuid: null
                 }
             ]
@@ -277,7 +277,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         // add an action if we are coming from a split
         if (fromNode.wait || fromNodeUI.type === 'webhook') {
             let replyAction: Reply = {
-                uuid: v4(),
+                uuid: generateUUID(),
                 type: 'reply',
                 text: null
             };

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as axios from 'axios';
-import { v4 } from 'uuid';
+import { v4 as generateUUID } from 'uuid';
 import * as update from 'immutability-helper';
 import urljoin from 'url-join';
 import { findDOMNode } from 'react-dom';
@@ -94,12 +94,12 @@ class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             visible: false,
             events: [],
             contact: {
-                uuid: v4(),
+                uuid: generateUUID(),
                 urns: ['tel:+12065551212'],
                 fields: {},
                 groups: []
             },
-            channel: v4()
+            channel: generateUUID()
         };
         this.currentFlow = this.props.definition.uuid;
     }
@@ -194,7 +194,7 @@ class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             {
                 events: [],
                 contact: {
-                    uuid: v4(),
+                    uuid: generateUUID(),
                     urns: ['tel:+12065551212'],
                     fields: {},
                     groups: []
