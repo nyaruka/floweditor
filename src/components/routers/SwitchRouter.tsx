@@ -377,9 +377,6 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
     private saveLocalization(widgets: { [name: string]: any }): void {
         const { iso: language } = this.props.localizations[0].getLanguage();
 
-        console.log('localizedExits', this.props.getLocalizedExits(widgets))
-        console.log('lozalizedCases', this.getLocalizedCases(widgets));
-
         const updates = [
             ...this.props.getLocalizedExits(widgets),
             ...this.getLocalizedCases(widgets)
