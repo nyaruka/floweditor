@@ -5,7 +5,7 @@ import { v4 as generateUUID } from 'uuid';
 import { DragDropContext } from 'react-dnd';
 import { Node, SwitchRouter, Exit, Case, AnyAction } from '../../flowTypes';
 import { Type, GetOperatorConfig, Operator } from '../../services/EditorConfig';
-import { NodeEditorFormChildProps } from '../NodeEditor/NodeEditorForm';
+import { FormProps } from '../NodeEditor';
 import ComponentMap from '../../services/ComponentMap';
 import { Language } from '../LanguageSelector';
 import { LocalizedObject } from '../../services/Localization';
@@ -179,7 +179,7 @@ export interface SwitchRouterState {
     operand: string;
 }
 
-export interface SwitchRouterFormProps extends NodeEditorFormChildProps {
+export interface SwitchRouterFormProps extends FormProps {
     showAdvanced: boolean;
     node: Node;
     action: AnyAction;

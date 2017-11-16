@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { SaveFlowResult } from '../../../flowTypes';
 import { Type } from '../../../services/EditorConfig';
-import { NodeEditorFormChildProps } from '../../NodeEditor/NodeEditorForm';
+import { FormProps } from '../../NodeEditor';
 import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement from '../../form/TextInputElement';
 
 const styles = require('./SaveFlowResult.scss');
 
-export interface SaveFlowResultFormProps extends NodeEditorFormChildProps {
+export interface SaveFlowResultFormProps extends FormProps {
     action: SaveFlowResult;
     getActionUUID: Function;
     config: Type;

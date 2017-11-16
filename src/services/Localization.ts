@@ -60,6 +60,7 @@ export default class Localization {
     ): LocalizedObject {
         if (translations) {
             const localized = new LocalizedObject(object, iso, languages);
+
             if (object.uuid in translations) {
                 const values = translations[object.uuid];
                 // we don't want to side affect our action

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 import { SaveToContact, IUpdateContact } from '../../../flowTypes';
 import { Type, Endpoints } from '../../../services/EditorConfig';
-import { NodeEditorFormChildProps } from '../../NodeEditor/NodeEditorForm';
+import { FormProps } from '../../NodeEditor';
 import ComponentMap from '../../../services/ComponentMap';
 import { toBoolMap } from '../../../helpers/utils';
 import SelectSearch from '../../SelectSearch';
@@ -30,7 +30,7 @@ const reserved = toBoolMap([
     'tel'
 ]);
 
-export interface SaveToContactFormProps extends NodeEditorFormChildProps {
+export interface SaveToContactFormProps extends FormProps {
     action: SaveToContact;
     getActionUUID: Function;
     updateAction(action: SaveToContact): void;

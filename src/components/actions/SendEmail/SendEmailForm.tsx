@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { SendEmail } from '../../../flowTypes';
 import { Type } from '../../../services/EditorConfig';
-import { NodeEditorFormChildProps } from '../../NodeEditor/NodeEditorForm';
+import { FormProps } from '../../NodeEditor';
 import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement from '../../form/TextInputElement';
 import EmailElement from '../../form/EmailElement';
 
 const styles = require('./SendEmail.scss');
 
-export interface SendEmailFormProps extends NodeEditorFormChildProps {
+export interface SendEmailFormProps extends FormProps {
     action: SendEmail;
     config: Type;
     ComponentMap: ComponentMap;

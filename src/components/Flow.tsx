@@ -41,6 +41,7 @@ export interface IFlowState {
     viewDefinition?: FlowDefinition;
     draggingNode?: Node;
     language?: Language;
+    translating: boolean;
 }
 
 export interface IConnection {
@@ -69,8 +70,8 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
     private createNodePosition: Position;
     private addToNode: Node;
 
-    private ghostComp: NodeComp;
-    private nodeEditorComp: NodeEditorComp;
+    private ghost: NodeComp;
+    private nodeEditor: NodeEditorComp;
 
     constructor(props: IFlowProps) {
         super(props);
@@ -81,7 +82,8 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
             nodeEditor: null,
             viewDefinition: null,
             draggingNode: null,
-            language: this.props.EditorConfig.baseLanguage
+            language: this.props.EditorConfig.baseLanguage,
+            translating: false
         };
 
         this.repaintDuration = REPAINT_DURATION;
@@ -93,6 +95,8 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
 
         this.Plumber = new Plumber();
 
+        this.nodeEditorRef = this.nodeEditorRef.bind(this);
+        this.ghostRef = this.ghostRef.bind(this);
         this.onConnectionDrag = this.onConnectionDrag.bind(this);
         this.onNodeMoved = this.onNodeMoved.bind(this);
         this.onNodeMounted = this.onNodeMounted.bind(this);
@@ -106,10 +110,17 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         this.onNodeDragStop = this.onNodeDragStop.bind(this);
         this.onNodeBeforeDrag = this.onNodeBeforeDrag.bind(this);
         this.resetState = this.resetState.bind(this);
-        this.showLanguage = this.showLanguage.bind(this);
-        this.isMutable = this.isMutable.bind(this);
+        this.setLanguage = this.setLanguage.bind(this);
 
         console.time('RenderAndPlumb');
+    }
+
+    private nodeEditorRef(ref: any): void {
+        return (this.nodeEditor = ref);
+    }
+
+    private ghostRef(ref: any): void {
+        return (this.ghost = ref);
     }
 
     private onNodeBeforeDrag(node: Node, dragGroup: boolean) {
@@ -160,7 +171,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         };
 
         this.setState({ nodeEditor: props, draggingNode: null }, () => {
-            this.nodeEditorComp.open();
+            this.nodeEditor.open();
         });
     }
 
@@ -353,19 +364,12 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         this.Plumber.reset();
     }
 
-    private isMutable() {
-        return (
-            this.state.language.iso === this.props.EditorConfig.baseLanguage.iso &&
-            this.state.language.name === this.props.EditorConfig.baseLanguage.name
-        );
-    }
-
     private beforeConnectionDrag(event: IConnectionEvent) {
-        return this.isMutable();
+        return !this.state.translating
     }
 
     private onBeforeStartDetach(event: any) {
-        return this.isMutable();
+        return !this.state.translating;
     }
 
     private onBeforeDetach(event: IConnectionEvent) {
@@ -401,18 +405,18 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
     private onConnectorDrop(event: IConnectionEvent) {
         // we put this in a zero timeout so jsplumb doesn't swallow any stack traces
         window.setTimeout(() => {
-            if (this.ghostComp && $(this.ghostComp.ele).is(':visible')) {
+            if (this.ghost && $(this.ghost.ele).is(':visible')) {
                 // wire up the drag from to our ghost node
                 let dragPoint = this.pendingConnection;
                 this.Plumber.recalculate(this.state.ghost.uuid);
                 this.Plumber.connect(dragPoint.exitUUID, this.state.ghost.uuid);
 
                 // save our position for later
-                var { offsetTop, offsetLeft } = $(this.ghostComp.ele)[0];
+                var { offsetTop, offsetLeft } = $(this.ghost.ele)[0];
                 this.createNodePosition = { x: offsetLeft, y: offsetTop };
 
                 // click on our ghost node to bring up the editor
-                this.ghostComp.onClick();
+                this.ghost.onClick();
             }
 
             $(document).unbind('mousemove');
@@ -421,8 +425,14 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         return true;
     }
 
-    private showLanguage(language: Language): void {
-        this.setState({ language });
+    private setLanguage(language: Language): void {
+        const { EditorConfig: { baseLanguage } } = this.props;
+        const translating: boolean = JSON.stringify(language) !== JSON.stringify(baseLanguage);
+
+        this.setState({
+            language,
+            translating
+        });
     }
 
     render() {
@@ -456,7 +466,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
                     key={key}
                     node={node}
                     ui={ui}
-                    isMutable={this.isMutable}
+                    translating={this.state.translating}
                     Activity={this.Activity}
                     onNodeMounted={this.onNodeMounted}
                     onUpdateDimensions={this.props.Mutator.updateDimensions}
@@ -510,9 +520,9 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
             dragNode = (
                 <NodeComp
                     key={ghost.uuid}
-                    ref={(ele: any) => (this.ghostComp = ele)}
+                    ref={this.ghostRef}
                     iso={null}
-                    isMutable={this.isMutable}
+                    translating={this.state.translating}
                     translations={null}
                     Activity={this.Activity}
                     node={ghost}
@@ -571,7 +581,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
         if (this.state.nodeEditor) {
             modal = (
                 <NodeEditorComp
-                    ref={ele => (this.nodeEditorComp = ele)}
+                    ref={this.nodeEditorRef}
                     typeConfigList={this.props.EditorConfig.typeConfigList}
                     operatorConfigList={this.props.EditorConfig.operatorConfigList}
                     getTypeConfig={this.props.EditorConfig.getTypeConfig}
@@ -595,7 +605,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
             classes = [...classes, styles.dragging];
         }
 
-        if (!this.isMutable()) {
+        if (this.state.translating) {
             classes = [...classes, styles.translation];
         }
 
@@ -606,7 +616,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
                 <LanguageSelectorComp
                     iso={this.state.language.iso}
                     languages={this.props.EditorConfig.languages}
-                    onChange={this.showLanguage}
+                    onChange={this.setLanguage}
                 />
             );
         }
@@ -623,4 +633,4 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
             </div>
         );
     }
-};
+}

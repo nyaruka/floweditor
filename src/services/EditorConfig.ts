@@ -1,7 +1,7 @@
 import { ComponentClass, SFC } from 'react';
 import { AnyAction } from '../flowTypes';
 import { Language } from '../components/LanguageSelector';
-import { AnyFormProps } from '../components/NodeEditor/NodeEditorForm';
+import { AnyFormProps } from '../components/NodeEditor/NodeEditor';
 import { languages, endpoints } from '../flowEditorConfig';
 import ChangeGroupComp from '../components/actions/ChangeGroup/ChangeGroup';
 import ChangeGroupForm from '../components/actions/ChangeGroup/ChangeGroupForm';

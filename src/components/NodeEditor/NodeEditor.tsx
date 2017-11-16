@@ -172,7 +172,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     private getLocalizedObject() {
-        if (this.props.localizations && this.props.localizations.length === 1) {
+        if (this.props.localizations && this.props.localizations.length) {
             return this.props.localizations[0];
         }
     }

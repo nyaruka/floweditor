@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { ChangeGroup } from '../../../flowTypes';
 import { Type, Endpoints } from '../../../services/EditorConfig';
-import { NodeEditorFormChildProps } from '../../NodeEditor/NodeEditorForm';
+import { FormProps } from '../../NodeEditor';
 import ComponentMap from '../../../services/ComponentMap';
 import GroupElement from '../../form/GroupElement';
 
-export interface ChangeGroupFormProps extends NodeEditorFormChildProps {
+export interface ChangeGroupFormProps extends FormProps {
     action: ChangeGroup;
     getActionUUID: Function;
     config: Type;

@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { Reply } from '../../../flowTypes';
 import { Type } from '../../../services/EditorConfig';
-import { NodeEditorFormChildProps } from '../../NodeEditor/NodeEditorForm';
+import { FormProps } from '../../NodeEditor';
 import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement from '../../form/TextInputElement';
 import CheckboxElement from '../../form/CheckboxElement';
 
 const styles = require('../../Action/Action.scss');
 
-export interface ReplyFormProps extends NodeEditorFormChildProps {
+export interface ReplyFormProps extends FormProps {
     action: Reply;
     showAdvanced: boolean;
     config: Type;

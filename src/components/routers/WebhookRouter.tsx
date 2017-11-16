@@ -5,7 +5,7 @@ import { v4 as generateUUID } from 'uuid';
 import { CallWebhook, Case, Exit, Router, SwitchRouter, Node, AnyAction } from '../../flowTypes';
 import { Type } from '../../services/EditorConfig';
 import { SwitchRouterState } from './SwitchRouter';
-import { NodeEditorFormChildProps } from '../NodeEditor/NodeEditorForm';
+import { FormProps } from '../NodeEditor';
 import SelectElement from '../form/SelectElement';
 import HeaderElement, { Header } from '../form/HeaderElement';
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
@@ -22,7 +22,7 @@ const defaultBody: string = `{
     "flow_name": @(to_json(run.flow.name))
 }`;
 
-export interface WebhookRouterFormProps extends NodeEditorFormChildProps {
+export interface WebhookRouterFormProps extends FormProps {
     config: Type;
     node: Node;
     showAdvanced: boolean;

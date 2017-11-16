@@ -12,7 +12,7 @@ export interface ExitProps {
     onDisconnect(exitUUID: string): void;
 
     Localization: LocalizedObject;
-    isMutable(): boolean;
+    translating: boolean;
 
     Activity: ActivityManager;
 
@@ -44,7 +44,7 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
         event.preventDefault();
         event.stopPropagation();
 
-        if (this.props.exit.destination_node_uuid && this.props.isMutable()) {
+        if (this.props.exit.destination_node_uuid && !this.props.translating) {
             this.setState(
                 {
                     confirmDelete: true

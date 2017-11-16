@@ -45,7 +45,7 @@ export interface NodeProps {
     Activity: ActivityManager;
     translations: { [uuid: string]: any };
     iso: string;
-    isMutable(): boolean;
+    translating: boolean;
     baseLanguage: Language;
     ghost?: boolean;
 
@@ -133,8 +133,8 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
     shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState): boolean {
         if (
-            nextProps.ui.position.x != this.props.ui.position.x ||
-            nextProps.ui.position.y != this.props.ui.position.y
+            nextProps.ui.position.x !== this.props.ui.position.x ||
+            nextProps.ui.position.y !== this.props.ui.position.y
         ) {
             return true;
         }
@@ -155,7 +155,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 this.onDragStop(event);
             },
             () => {
-                if (this.props.isMutable()) {
+                if (!this.props.translating) {
                     this.props.onNodeBeforeDrag(this.props.node, this.dragGroup);
                     return true;
                 } else {
@@ -222,7 +222,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 (this.props.ui.dimensions.width != this.ele.clientWidth ||
                     this.props.ui.dimensions.height != this.ele.clientHeight)
             ) {
-                if (this.props.isMutable()) {
+                if (!this.props.translating) {
                     this.updateDimensions();
                 }
             }
@@ -239,7 +239,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
         // click the last action in the list if we have one
 
-        if (!this.props.isMutable()) {
+        if (this.props.translating) {
             if (this.props.node.router.type === 'switch') {
                 var router = this.props.node.router as SwitchRouter;
                 for (let kase of router.cases) {
@@ -298,7 +298,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
     render() {
         let classes = ['plumb-drag', styles.node];
 
-        if (this.props.hasOwnProperty('iso') && !this.props.isMutable()) {
+        if (this.props.hasOwnProperty('iso') && !this.props.translating) {
             classes = [...classes, styles.translating];
         }
 
@@ -308,7 +308,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         if (this.props.node.actions) {
             // save the first reference off to manage our clicks
             let firstRef: any = {
-                ref: (ele: any) => this.firstAction = ele
+                ref: (ele: any) => (this.firstAction = ele)
             };
 
             this.props.node.actions.map((action: AnyAction, idx: number) => {
@@ -419,7 +419,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                     <div {...events}>
                         <TitleBarComp
                             className={shared[config.type]}
-                            showRemoval={this.props.isMutable()}
+                            showRemoval={!this.props.translating}
                             onRemoval={this.onRemoval}
                             title={title}
                         />
@@ -428,7 +428,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             }
         } else {
             // don't show add actions option if we are translating
-            if (this.props.isMutable()) {
+            if (!this.props.translating) {
                 addActions = (
                     <a
                         className={styles.add}
@@ -447,9 +447,10 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             for (let exit of this.props.node.exits) {
                 exits = [
                     ...exits,
-                    <ExitComp                         exit={exit}
+                    <ExitComp
+                        exit={exit}
                         key={exit.uuid}
-                        isMutable={this.props.isMutable}
+                        translating={this.props.translating}
                         onDisconnect={this.props.onDisconnectExit}
                         Activity={this.props.Activity}
                         Localization={Localization.translate(
@@ -484,7 +485,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         }
 
         var dragLink = null;
-        if (this.props.isMutable()) {
+        if (!this.props.translating) {
             dragLink = (
                 <a
                     title="Drag to move all nodes below here"
@@ -535,4 +536,4 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             </div>
         );
     }
-};
+}

@@ -272,25 +272,35 @@ export default class FlowMutator {
     }
 
     public updateLocalizations(language: string, changes: { uuid: string; translations: any }[]) {
-        if (this.definition.localization == null) {
-            this.definition.localization = {};
+        if (!this.definition.localization) {
+            this.definition = update(this.definition, {
+                localization: {
+                    $set: {}
+                }
+            });
         }
 
         if (!this.definition.localization[language]) {
-            this.definition.localization[language] = {};
+            this.definition = update(this.definition, {
+                localization: {
+                    [language]: {
+                        $set: {}
+                    }
+                }
+            });
         }
 
-        for (let change of changes) {
-            if (change.translations) {
+        changes.forEach(({ translations, uuid }) => {
+            if (translations) {
                 this.definition = update(this.definition, {
-                    localization: { [language]: { [change.uuid]: { $set: change.translations } } }
+                    localization: { [language]: { [uuid]: { $set: translations } } }
                 });
             } else {
                 this.definition = update(this.definition, {
-                    localization: { [language]: { $unset: [change.uuid] } }
+                    localization: { [language]: { $unset: [uuid] } }
                 });
             }
-        }
+        });
 
         this.markDirty();
     }
