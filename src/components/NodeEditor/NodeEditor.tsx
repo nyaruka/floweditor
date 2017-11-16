@@ -524,8 +524,8 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             }
         };
 
-        const FormWrapper: React.SFC<{ styles: string[] }> = ({ children, styles }) => (
-            <div className={styles.join(' ')}>
+        const FormWrapper: React.SFC<{ styles?: string }> = ({ children, styles }) => (
+            <div className={styles ? styles : null}>
                 <div className={formStyles.node_editor}>
                     <form onKeyPress={this.onKeyPress}>{children}</form>
                 </div>
@@ -535,11 +535,8 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         const { config: { form: Form } }: NodeEditorState = this.state;
         const typeList = this.getTypeList();
 
-        const formClassesBase: string[] = [formStyles.form];
-        const formClassesAdvanced: string[] = [...formClassesBase, formStyles.showAdvanced];
-
         const front = (
-            <FormWrapper styles={formClassesBase}>
+            <FormWrapper>
                 {typeList}
                 <Form ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />
             </FormWrapper>
@@ -549,7 +546,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         if (this.hasAdvanced()) {
             back = (
-                <FormWrapper styles={formClassesAdvanced}>
+                <FormWrapper styles={formStyles.advanced}>
                     <Form ref={this.formRef} {...{ ...formProps, showAdvanced: true }} />
                 </FormWrapper>
             );
