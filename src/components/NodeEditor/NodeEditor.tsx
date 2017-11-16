@@ -1,7 +1,16 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 import Modal, { ButtonSet } from '../Modal';
-import { Action, AnyAction, Router, SwitchRouter, Exit, Node, UINode } from '../../flowTypes';
+import {
+    FlowDefinition,
+    Action,
+    AnyAction,
+    Router,
+    SwitchRouter,
+    Exit,
+    Node,
+    UINode
+} from '../../flowTypes';
 import {
     Type,
     Operator,
@@ -43,6 +52,7 @@ export interface FormProps {
     action: AnyAction;
     endpoints: Endpoints;
     localizations?: LocalizedObject[];
+    definition: FlowDefinition;
     config: Type;
     ComponentMap: ComponentMap;
     updateAction(action: AnyAction): void;
@@ -59,7 +69,7 @@ export interface FormProps {
     getLocalizedObject: Function;
     getLocalizedExits(widgets: { [name: string]: any }): { uuid: string; translations: any }[];
     getActionUUID: Function;
-    isTranslating: boolean;
+    translating: boolean;
     saveLocalizedExits(widgets: { [name: string]: any }): void;
 }
 
@@ -69,6 +79,8 @@ export interface NodeEditorProps {
     nodeUI?: UINode;
     actionsOnly?: boolean;
     localizations?: LocalizedObject[];
+    definition: FlowDefinition;
+    translating: boolean;
 
     onUpdateLocalizations: Function;
     onUpdateAction: Function;
@@ -130,7 +142,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         this.toggleAdvanced = this.toggleAdvanced.bind(this);
         this.triggerFormUpdate = this.triggerFormUpdate.bind(this);
         this.removeWidget = this.removeWidget.bind(this);
-        this.isTranslating = this.isTranslating.bind(this);
     }
 
     private formRef(ref: any): void {
@@ -404,13 +415,10 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         delete this.widgets[name];
     }
 
-    private isTranslating(): boolean {
-        return this.props.localizations && this.props.localizations.length > 0;
-    }
     private getMode(): Mode {
         let mode: Mode;
 
-        if (this.isTranslating()) {
+        if (this.props.translating) {
             mode = Mode.TRANSLATING;
         } else {
             mode = Mode.EDITING;
@@ -493,8 +501,9 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
     private getSides(): { front: JSX.Element; back: JSX.Element } {
         const formProps = {
-            isTranslating: this.isTranslating(),
+            translating: this.props.translating,
             typeConfigList: this.props.typeConfigList,
+            definition: this.props.definition,
             operatorConfigList: this.props.operatorConfigList,
             getTypeConfig: this.props.getTypeConfig,
             getOperatorConfig: this.props.getOperatorConfig,

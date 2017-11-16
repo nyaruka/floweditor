@@ -15,7 +15,7 @@ export interface SubflowRouterFormProps extends FormProps {
     config: Type;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     onBindWidget(ref: any): void;
-    isTranslating: boolean;
+    translating: boolean;
     renderExitTranslations(): JSX.Element;
     saveLocalizedExits(widgets: { [name: string]: any }): void;
     getActionUUID(): string;
@@ -30,7 +30,7 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        if (this.props.isTranslating) {
+        if (this.props.translating) {
             return this.props.saveLocalizedExits(widgets);
         }
 
@@ -101,7 +101,7 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
     }
 
     private renderForm(): JSX.Element {
-        if (this.props.isTranslating) {
+        if (this.props.translating) {
             this.props.renderExitTranslations();
         }
 

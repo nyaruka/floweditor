@@ -193,7 +193,7 @@ export interface SwitchRouterFormProps extends FormProps {
     updateLocalizations(language: string, changes: { uuid: string; translations: any }[]): void;
     ComponentMap: ComponentMap;
     operatorConfigList: Operator[];
-    isTranslating: boolean;
+    translating: boolean;
     getLocalizedExits(widgets: { [name: string]: any }): { uuid: string; translations: any }[];
     renderExitTranslations(): JSX.Element;
 }
@@ -269,7 +269,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        if (this.props.isTranslating) {
+        if (this.props.translating) {
             return this.saveLocalization(widgets);
         }
 
@@ -416,7 +416,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
     }
 
     private renderAdvanced(): JSX.Element {
-        if (this.props.isTranslating) {
+        if (this.props.translating) {
             let kases: JSX.Element[] = [];
 
             let language: Language;
@@ -494,7 +494,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
     }
 
     private renderForm(): JSX.Element {
-        if (this.props.isTranslating) {
+        if (this.props.translating) {
             return this.props.renderExitTranslations();
         } else {
             let cases: JSX.Element[] = [];

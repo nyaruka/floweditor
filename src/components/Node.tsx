@@ -15,7 +15,7 @@ import {
 } from '../services/EditorConfig';
 import ExitComp from './Exit';
 import TitleBarComp from './TitleBar';
-import { Node, UINode, Position, SwitchRouter, AnyAction } from '../flowTypes';
+import { FlowDefinition, Node, UINode, Position, SwitchRouter, AnyAction } from '../flowTypes';
 import { titleCase } from '../helpers/utils';
 import CounterComp from './Counter';
 import ActivityManager from '../services/ActivityManager';
@@ -46,7 +46,7 @@ export interface NodeProps {
     translations: { [uuid: string]: any };
     iso: string;
     translating: boolean;
-    baseLanguage: Language;
+    definition: FlowDefinition;
     ghost?: boolean;
 
     onNodeMounted: Function;
@@ -274,6 +274,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             onUpdateAction: this.props.onUpdateAction,
             onUpdateRouter: this.props.onUpdateRouter,
             node: this.props.node,
+            definitinon: this.props.definition,
             action,
             actionsOnly: true,
             nodeUI: this.props.ui,

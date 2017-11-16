@@ -29,7 +29,7 @@ export interface WebhookRouterFormProps extends FormProps {
     action: AnyAction;
     getActionUUID(): string;
     removeWidget(name: string): void;
-    isTranslating: boolean;
+    translating: boolean;
     triggerFormUpdate(): void;
     ComponentMap: ComponentMap;
     renderExitTranslations(): JSX.Element;
@@ -153,7 +153,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
     }
 
     private renderAdvanced(): JSX.Element {
-        if (this.props.isTranslating) {
+        if (this.props.translating) {
             return null;
         }
 
@@ -229,7 +229,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
     }
 
     private renderForm(): JSX.Element {
-        if (this.props.isTranslating) {
+        if (this.props.translating) {
             return this.props.renderExitTranslations();
         }
 
@@ -320,7 +320,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
     }
 
     public onValid(widgets: { [name: string]: React.Component }): void {
-        if (this.props.isTranslating) {
+        if (this.props.translating) {
             return this.props.saveLocalizedExits(widgets);
         }
 

@@ -186,6 +186,8 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
             onUpdateAction: this.onUpdateAction,
             onUpdateLocalizations: this.props.Mutator.updateLocalizations,
             onUpdateRouter: this.onUpdateRouter,
+            definition: this.props.definition,
+            translating: this.state.translating,
             node: addToNode,
             action: newAction,
             actionsOnly: true,
@@ -468,6 +470,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
                     ui={ui}
                     translating={this.state.translating}
                     Activity={this.Activity}
+                    definition={this.props.definition}
                     onNodeMounted={this.onNodeMounted}
                     onUpdateDimensions={this.props.Mutator.updateDimensions}
                     onNodeMoved={this.onNodeMoved}
@@ -483,7 +486,6 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
                     onUpdateRouter={this.onUpdateRouter}
                     onRemoveAction={this.props.Mutator.removeAction}
                     onMoveActionUp={this.props.Mutator.moveActionUp}
-                    baseLanguage={this.props.EditorConfig.baseLanguage}
                     iso={this.state.language.iso}
                     translations={translations}
                     typeConfigList={this.props.EditorConfig.typeConfigList}
@@ -522,11 +524,11 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
                     key={ghost.uuid}
                     ref={this.ghostRef}
                     iso={null}
+                    definition={this.props.definition}
                     translating={this.state.translating}
                     translations={null}
                     Activity={this.Activity}
                     node={ghost}
-                    baseLanguage={this.props.EditorConfig.baseLanguage}
                     onNodeMounted={this.onNodeMounted}
                     onUpdateDimensions={this.props.Mutator.updateDimensions}
                     onNodeMoved={this.onNodeMoved}
@@ -582,6 +584,8 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
             modal = (
                 <NodeEditorComp
                     ref={this.nodeEditorRef}
+                    definition={this.props.definition}
+                    translating={this.state.translating}
                     typeConfigList={this.props.EditorConfig.typeConfigList}
                     operatorConfigList={this.props.EditorConfig.operatorConfigList}
                     getTypeConfig={this.props.EditorConfig.getTypeConfig}
