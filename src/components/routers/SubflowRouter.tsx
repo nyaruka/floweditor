@@ -102,7 +102,7 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
 
     private renderForm(): JSX.Element {
         if (this.props.translating) {
-            this.props.renderExitTranslations();
+            return this.props.renderExitTranslations();
         }
 
         let flow_name: string;
