@@ -271,7 +271,7 @@ export default class FlowMutator {
         console.timeEnd('reflow');
     }
 
-    public updateLocalizations(language: string, changes: { uuid: string; translations: any }[]) {
+    public updateLocalizations(language: string, changes: { uuid: string; translations?: any }[]) {
         if (!this.definition.localization) {
             this.definition = update(this.definition, {
                 localization: {

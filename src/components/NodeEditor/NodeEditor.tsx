@@ -70,11 +70,13 @@ export interface FormProps {
     getLocalizedExits(widgets: { [name: string]: any }): { uuid: string; translations: any }[];
     getActionUUID: Function;
     translating: boolean;
+    iso: string;
     saveLocalizedExits(widgets: { [name: string]: any }): void;
 }
 
 export interface NodeEditorProps {
     node: Node;
+    iso: string;
     action?: Action;
     nodeUI?: UINode;
     actionsOnly?: boolean;
@@ -501,6 +503,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
     private getSides(): { front: JSX.Element; back: JSX.Element } {
         const formProps = {
+            iso: this.props.iso,
             translating: this.props.translating,
             typeConfigList: this.props.typeConfigList,
             definition: this.props.definition,

@@ -181,6 +181,7 @@ export interface SwitchRouterState {
 
 export interface SwitchRouterFormProps extends FormProps {
     showAdvanced: boolean;
+    iso: string;
     node: Node;
     action: AnyAction;
     config: Type;
@@ -190,7 +191,7 @@ export interface SwitchRouterFormProps extends FormProps {
     onBindAdvancedWidget(ref: any): void;
     removeWidget(name: string): void;
     localizations?: LocalizedObject[];
-    updateLocalizations(language: string, changes: { uuid: string; translations: any }[]): void;
+    updateLocalizations(language: string, changes: { uuid: string; translations?: any }[]): void;
     ComponentMap: ComponentMap;
     operatorConfigList: Operator[];
     translating: boolean;
@@ -313,6 +314,41 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
             this.props.config.type,
             this.props.action
         );
+
+        /**
+         * If the user has a localized 'All Responses' case and they're adding another case,
+         * bump off the translation for the initial case.
+         * */
+        if (
+            this.props.definition.localization &&
+            Object.keys(this.props.definition.localization).length &&
+            this.state.cases.length === 1
+        ) {
+            const { uuid: nodeUUID, exits } = this.props.node;
+            const exitMap: { [uuid: string]: Exit } = exits.reduce(
+                (map, exit) => ({ ...map, [exit.uuid]: exit }),
+                {}
+            );
+
+            Object.keys(this.props.definition.localization).forEach(iso => {
+                const language = this.props.definition.localization[iso];
+
+                Object.keys(language).forEach(localizationUUID => {
+                    if (exitMap[localizationUUID]) {
+                        const exitMatch = exitMap[localizationUUID];
+
+                        if (exitMatch.name) {
+                            if (exitMatch.name === 'All Responses') {
+                                /** Bingo */
+                                this.props.updateLocalizations(iso, [
+                                    { uuid: localizationUUID }
+                                ]);
+                            }
+                        }
+                    }
+                });
+            });
+        }
     }
 
     private onShowNameField(): void {

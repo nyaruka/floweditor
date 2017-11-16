@@ -188,6 +188,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
             onUpdateRouter: this.onUpdateRouter,
             definition: this.props.definition,
             translating: this.state.translating,
+            iso: this.state.language.iso,
             node: addToNode,
             action: newAction,
             actionsOnly: true,
@@ -584,6 +585,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
             modal = (
                 <NodeEditorComp
                     ref={this.nodeEditorRef}
+                    iso={this.state.language.iso}
                     definition={this.props.definition}
                     translating={this.state.translating}
                     typeConfigList={this.props.EditorConfig.typeConfigList}

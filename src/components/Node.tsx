@@ -276,6 +276,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             node: this.props.node,
             definitinon: this.props.definition,
             action,
+            iso: this.props.iso,
             actionsOnly: true,
             nodeUI: this.props.ui,
             localizations: localizations,
