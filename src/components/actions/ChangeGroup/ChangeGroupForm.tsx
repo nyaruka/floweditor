@@ -5,7 +5,7 @@ import { FormProps } from '../../NodeEditor';
 import ComponentMap from '../../../services/ComponentMap';
 import GroupElement from '../../form/GroupElement';
 
-export interface ChangeGroupFormProps extends FormProps {
+export interface ChangeGroupFormProps {
     action: ChangeGroup;
     getActionUUID: Function;
     config: Type;

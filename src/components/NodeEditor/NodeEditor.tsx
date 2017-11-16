@@ -33,6 +33,8 @@ import { LocalizedObject } from '../../services/Localization';
 import TypeListComp from './TypeList';
 import TextInputElement from '../form/TextInputElement';
 
+const uniqid = require('uniqid');
+
 const formStyles = require('./NodeEditor.scss');
 const shared = require('../shared.scss');
 
@@ -566,7 +568,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         const typeList = this.getTypeList();
 
         const front = (
-            <FormWrapper>
+            <FormWrapper key={uniqid()}>
                 {typeList}
                 <Form ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />
             </FormWrapper>
@@ -576,7 +578,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         if (this.hasAdvanced()) {
             back = (
-                <FormWrapper styles={formStyles.advanced}>
+                <FormWrapper key={uniqid()} styles={formStyles.advanced}>
                     <Form ref={this.formRef} {...{ ...formProps, showAdvanced: true }} />
                 </FormWrapper>
             );
