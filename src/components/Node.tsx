@@ -309,7 +309,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
         if (this.props.node.actions) {
             // save the first reference off to manage our clicks
-            const firstRef: any = {
+            let firstRef: any = {
                 ref: (ele: any) => (this.firstAction = ele)
             };
 
