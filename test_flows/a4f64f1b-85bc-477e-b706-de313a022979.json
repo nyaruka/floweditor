@@ -1,8 +1,8 @@
 {
     "results": [
         {
-            "uuid": "a4f64f1b-85bc-477e-b706-de313a022979",
             "name": "Colors",
+            "uuid": "a4f64f1b-85bc-477e-b706-de313a022979",
             "definition": {
                 "name": "Colors",
                 "language": "eng",
@@ -174,7 +174,7 @@
                         "exits": [
                             {
                                 "uuid": "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf",
-                                "destination_node_uuid": null,
+                                "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
                                 "name": null
                             }
                         ]
@@ -195,6 +195,41 @@
                                 "name": null
                             }
                         ]
+                    },
+                    {
+                        "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+                        "router": {
+                            "type": "switch",
+                            "operand": "@child",
+                            "cases": [
+                                {
+                                    "uuid": "2d247ecc-1d5d-4381-914a-3195b1888f04",
+                                    "type": "has_run_status",
+                                    "arguments": ["C"],
+                                    "exit_uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69"
+                                }
+                            ],
+                            "default_exit_uuid": null
+                        },
+                        "exits": [
+                            {
+                                "uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+                                "name": "Complete",
+                                "destination_node_uuid": null
+                            }
+                        ],
+                        "actions": [
+                            {
+                                "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
+                                "type": "start_flow",
+                                "flow_name": "Customer Service",
+                                "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b"
+                            }
+                        ],
+                        "wait": {
+                            "type": "flow",
+                            "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b"
+                        }
                     }
                 ],
                 "_ui": {
@@ -238,6 +273,13 @@
                                 "x": 759,
                                 "y": 657
                             }
+                        },
+                        "059a8daa-0697-44a6-9486-2386cc417e9d": {
+                            "position": {
+                                "x": 517,
+                                "y": 786
+                            },
+                            "type": "subflow"
                         }
                     }
                 }

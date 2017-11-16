@@ -23,10 +23,8 @@ const Localization: LocalizedObject = new LocalizedObject(
 
 const exitProps: ExitProps = {
     Activity,
-    exit: {
-        uuid: '10e2b6f4-8587-463e-9248-a6069d4897d6'
-    },
-    isMutable: jest.fn(() => true),
+    exit: definition.nodes[0].exits[0],
+    translating: false,
     onDisconnect: jest.fn(),
     Localization,
     plumberMakeSource: jest.fn(),

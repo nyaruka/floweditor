@@ -49,7 +49,7 @@
                             "default_exit_uuid": "984fefee-3bf3-4e7b-bf84-e6e650253b2b",
                             "cases": [],
                             "operand": "@input",
-                            "result_name": "Name "
+                            "result_name": "Name"
                         },
                         "exits": [
                             {
@@ -110,10 +110,17 @@
                         "uuid": "a8a09d00-7cab-4375-9d44-58f6783732f6",
                         "actions": [
                             {
+                                "uuid": "9c10156e-aec0-45a3-a144-da84e87222c2",
+                                "type": "save_flow_result",
+                                "result_name": "Phone",
+                                "value": "@contact.urns.tel",
+                                "category": ""
+                            },
+                            {
                                 "uuid": "225a67f4-28b5-4819-a25b-eb9a0ecea11d",
                                 "type": "send_email",
                                 "body":
-                                    "@run.results.name says: \n\n@run.results.issue \n\nPlease reach out to them at @contact.urns.tel ",
+                                    "@run.results.name says: \n\n@run.results.issue \n\nPlease reach out to them at @run.results.phone",
                                 "subject": "New Issue",
                                 "emails": ["support@acme.co"]
                             },
@@ -196,27 +203,27 @@
                         },
                         "7a19060d-6d93-4217-a4e5-9cbd479be051": {
                             "position": {
-                                "x": 75,
-                                "y": 326
+                                "x": 79,
+                                "y": 359
                             }
                         },
                         "fc349688-3589-42ac-b61c-d5ef54cedaa5": {
                             "position": {
-                                "x": 496,
-                                "y": 464
+                                "x": 498,
+                                "y": 547
                             },
                             "type": "wait_for_response"
                         },
                         "a8a09d00-7cab-4375-9d44-58f6783732f6": {
                             "position": {
-                                "x": 76,
-                                "y": 572
+                                "x": 78,
+                                "y": 630
                             }
                         },
                         "471f6f94-c683-48f9-8e27-ece1d7604315": {
                             "position": {
-                                "x": 497,
-                                "y": 721
+                                "x": 491,
+                                "y": 809
                             },
                             "type": "webhook"
                         }

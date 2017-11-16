@@ -28,6 +28,10 @@ const FlowShallow = shallow(<Flow {...flowProps} />);
 
 describe('Component: Flow', () => {
     it('should render', () => {
+        const { EditorConfig: { baseLanguage } } = flowProps;
+
         expect(FlowShallow.exists()).toBeTruthy();
+        expect(FlowShallow.state('language')).toEqual(baseLanguage);
+        expect(FlowShallow.state('translating')).toBeFalsy();
     });
 });

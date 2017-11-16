@@ -1,7 +1,7 @@
 import * as React from 'react';
 import '../enzymeAdapter';
 import { shallow } from 'enzyme';
-import Modal, { IButtonSet, IModalProps } from './Modal';
+import Modal, { ButtonSet, ModalProps } from './Modal';
 
 const title: JSX.Element = <div>Send Message</div>;
 
@@ -12,12 +12,12 @@ const titleAdvanced: JSX.Element = (
     </div>
 );
 
-const initialButtons: IButtonSet = {
+const initialButtons: ButtonSet = {
     primary: { name: 'Save', onClick: jest.fn() },
     secondary: { name: 'Cancel', onClick: jest.fn() }
 };
 
-const modalProps: IModalProps = {
+const modalProps: ModalProps = {
     show: true,
     title: [title, titleAdvanced],
     buttons: initialButtons

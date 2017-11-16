@@ -6,7 +6,7 @@ import CompMap from '../services/ComponentMap';
 import Plumber from '../services/Plumber';
 import ActivityManager from '../services/ActivityManager';
 import EditorConfig from '../services/EditorConfig';
-import Node, { INodeCompProps } from './Node';
+import Node, { NodeProps } from './Node';
 
 const {
     results: [{ uuid: flowUUID, definition }]
@@ -25,14 +25,16 @@ const Activity = new ActivityManager(flowUUID, jest.fn());
 
 const ComponentMap = new CompMap(definition);
 
-const nodeCompProps: INodeCompProps = {
+const nodeCompProps: NodeProps = {
     ComponentMap,
     typeConfigList,
     operatorConfigList,
     getTypeConfig,
     getOperatorConfig,
     endpoints,
-    isMutable: jest.fn(() => true),
+    iso: 'eng',
+    translating: false,
+    definition,
     onNodeMounted: jest.fn(),
     onUpdateDimensions: jest.fn(),
     onNodeMoved: jest.fn(),
@@ -43,12 +45,7 @@ const nodeCompProps: INodeCompProps = {
     onAddAction: jest.fn(),
     onRemoveAction: jest.fn(),
     onRemoveNode: jest.fn(),
-    baseLanguage: { name: 'Spanish', iso: 'spa' },
-    node: {
-        uuid: '3b5964a4-58ca-4581-a4ba-8afc7d5838f9',
-        exits: [{ uuid: '451f633d-d95b-4a54-8d7b-41778bf528d1' }],
-        actions: [{ type: 'reply', uuid: '827c67cf-3acd-47b1-acae-37b71461549e' }]
-    },
+    node: definition.nodes[0],
     onUpdateAction: jest.fn(),
     onUpdateRouter: jest.fn(),
     onUpdateLocalizations: jest.fn(),
@@ -66,7 +63,6 @@ const nodeCompProps: INodeCompProps = {
     },
     Activity,
     translations: {},
-    iso: 'spa',
     languages,
     plumberDraggable: jest.fn(),
     plumberMakeTarget: jest.fn(),

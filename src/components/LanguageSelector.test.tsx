@@ -1,9 +1,9 @@
 import * as React from 'react';
 import '../enzymeAdapter';
 import { shallow } from 'enzyme';
-import LanguageSelector, { ILanguageSelectorProps } from './LanguageSelector';
+import LanguageSelector, { LanguageSelectorProps } from './LanguageSelector';
 
-const languageSelectorProps: ILanguageSelectorProps = {
+const languageSelectorProps: LanguageSelectorProps = {
     iso: 'spa',
     languages: {
         eng: 'English',
