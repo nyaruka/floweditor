@@ -52,6 +52,7 @@ export default class FlowList extends React.PureComponent<FlowListProps, FlowLis
                 id="flow-list"
                 style={{ position: 'absolute', zIndex: 2000, padding: 15, width: 300 }}>
                 <Select
+                    /** FlowList */
                     placeholder="Select a flow"
                     onChange={this.onFlowSelect}
                     searchable={false}
@@ -59,6 +60,7 @@ export default class FlowList extends React.PureComponent<FlowListProps, FlowLis
                     labelKey="name"
                     valueKey="uuid"
                     options={flows}
+                    /** Editor */
                     isLoading={this.props.fetching}
                 />
             </div>

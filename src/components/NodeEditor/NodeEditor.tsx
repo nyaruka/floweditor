@@ -48,13 +48,18 @@ export type AnyFormProps =
 
 export interface FormProps {
     showAdvanced: boolean;
+
     node: Node;
+    translating: boolean;
+    iso: string;
     action: AnyAction;
-    endpoints: Endpoints;
     localizations?: LocalizedObject[];
     definition: FlowDefinition;
+
     config: Type;
+
     ComponentMap: ComponentMap;
+
     updateAction(action: AnyAction): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
@@ -62,16 +67,17 @@ export interface FormProps {
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     removeWidget(name: string): void;
     renderExitTranslations(): JSX.Element;
+
     operatorConfigList: Operator[];
     getOperatorConfig: GetOperatorConfig;
+    endpoints: Endpoints;
+
     triggerFormUpdate(): void;
     onToggleAdvanced(): void;
     getLocalizedObject: Function;
     getLocalizedExits(widgets: { [name: string]: any }): { uuid: string; translations: any }[];
-    getActionUUID: Function;
-    translating: boolean;
-    iso: string;
     saveLocalizedExits(widgets: { [name: string]: any }): void;
+    getActionUUID: Function;
 }
 
 export interface NodeEditorProps {
@@ -88,7 +94,6 @@ export interface NodeEditorProps {
     onUpdateLocalizations: Function;
     onUpdateAction: Function;
     onUpdateRouter: Function;
-
     /** Perform when editor is closed */
     onClose?(canceled: boolean): void;
 
@@ -97,6 +102,7 @@ export interface NodeEditorProps {
     getTypeConfig: GetTypeConfig;
     getOperatorConfig: GetOperatorConfig;
     endpoints: Endpoints;
+
     ComponentMap: ComponentMap;
 }
 
@@ -237,6 +243,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                                 placeholder={`${language.name} Translation`}
                                 showLabel={false}
                                 value={value}
+                                /** Node */
                                 ComponentMap={this.props.ComponentMap}
                             />
                         </div>
@@ -492,9 +499,11 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             typeList = (
                 <TypeListComp
                     className={formStyles.type_chooser}
+                    /** NodeEditor */
                     initialType={this.state.config}
-                    typeConfigList={this.props.typeConfigList}
                     onChange={this.onTypeChange}
+                    /** Node */
+                    typeConfigList={this.props.typeConfigList}
                 />
             );
         }
@@ -504,31 +513,20 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
     private getSides(): { front: JSX.Element; back: JSX.Element } {
         const formProps = {
+            /** Node */
+            node: this.props.node,
             iso: this.props.iso,
             translating: this.props.translating,
-            typeConfigList: this.props.typeConfigList,
             definition: this.props.definition,
             operatorConfigList: this.props.operatorConfigList,
+            typeConfigList: this.props.typeConfigList,
             getTypeConfig: this.props.getTypeConfig,
             getOperatorConfig: this.props.getOperatorConfig,
             endpoints: this.props.endpoints,
             ComponentMap: this.props.ComponentMap,
             config: this.state.config,
-            node: this.props.node,
             action: this.props.action,
-            onTypeChange: this.onTypeChange,
             localizations: this.props.localizations,
-            getLocalizedExits: this.getLocalizedExits,
-            getLocalizedObject: this.getLocalizedObject,
-            saveLocalizedExits: this.saveLocalizedExits,
-            getActionUUID: this.getActionUUID,
-            renderExitTranslations: this.renderExitTranslations,
-            onBindWidget: this.onBindWidget,
-            onBindAdvancedWidget: this.onBindAdvancedWidget,
-            onToggleAdvanced: this.toggleAdvanced,
-            onKeyPress: this.onKeyPress,
-            triggerFormUpdate: this.triggerFormUpdate,
-            removeWidget: this.removeWidget,
             updateLocalizations: (
                 language: string,
                 changes: { uuid: string; translations: any }[]
@@ -540,7 +538,20 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             },
             updateRouter: (node: Node, type: string, previousAction?: Action) => {
                 this.props.onUpdateRouter(node, type, previousAction);
-            }
+            },
+            /** NodeEditor */
+            onTypeChange: this.onTypeChange,
+            getLocalizedExits: this.getLocalizedExits,
+            getLocalizedObject: this.getLocalizedObject,
+            saveLocalizedExits: this.saveLocalizedExits,
+            getActionUUID: this.getActionUUID,
+            renderExitTranslations: this.renderExitTranslations,
+            onBindWidget: this.onBindWidget,
+            onBindAdvancedWidget: this.onBindAdvancedWidget,
+            onToggleAdvanced: this.toggleAdvanced,
+            onKeyPress: this.onKeyPress,
+            triggerFormUpdate: this.triggerFormUpdate,
+            removeWidget: this.removeWidget
         };
 
         const FormWrapper: React.SFC<{ styles?: string }> = ({ children, styles }) => (
@@ -590,13 +601,15 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     <Modal
                         key={key}
                         ref={this.modalRef}
+                        /** NodeEditor */
                         className={shared[this.state.config.type]}
-                        node={this.props.node}
                         width="600px"
                         title={titles}
                         show={this.state.show}
                         buttons={buttons}
-                        onModalOpen={this.onOpen}>
+                        onModalOpen={this.onOpen}
+                        /** Node */
+                        node={this.props.node}>
                         {front}
                         {back}
                     </Modal>

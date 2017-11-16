@@ -369,7 +369,7 @@ export default class Flow extends React.Component<IFlowProps, IFlowState> {
     }
 
     private beforeConnectionDrag(event: IConnectionEvent) {
-        return !this.state.translating
+        return !this.state.translating;
     }
 
     private onBeforeStartDetach(event: any) {
@@ -468,35 +468,37 @@ export default class Flow extends React.Component<IFlowProps, IFlowState> {
                 ...nodes,
                 <NodeComp
                     key={key}
-                    node={node}
-                    ui={ui}
-                    translating={this.state.translating}
-                    Activity={this.Activity}
+                    /** Editor */
                     definition={this.props.definition}
-                    onNodeMounted={this.onNodeMounted}
+                    ComponentMap={this.props.ComponentMap}
                     onUpdateDimensions={this.props.Mutator.updateDimensions}
-                    onNodeMoved={this.onNodeMoved}
-                    onNodeDragStart={this.onNodeDragStart}
-                    onNodeBeforeDrag={this.onNodeBeforeDrag}
                     onDisconnectExit={this.props.Mutator.disconnectExit}
-                    onNodeDragStop={this.onNodeDragStop}
-                    openEditor={this.openEditor}
-                    onAddAction={this.onAddAction}
                     onRemoveNode={this.props.Mutator.removeNode}
                     onUpdateLocalizations={this.props.Mutator.updateLocalizations}
-                    onUpdateAction={this.onUpdateAction}
-                    onUpdateRouter={this.onUpdateRouter}
                     onRemoveAction={this.props.Mutator.removeAction}
                     onMoveActionUp={this.props.Mutator.moveActionUp}
-                    iso={this.state.language.iso}
-                    translations={translations}
                     typeConfigList={this.props.EditorConfig.typeConfigList}
                     operatorConfigList={this.props.EditorConfig.operatorConfigList}
                     getTypeConfig={this.props.EditorConfig.getTypeConfig}
                     getOperatorConfig={this.props.EditorConfig.getOperatorConfig}
                     endpoints={this.props.EditorConfig.endpoints}
                     languages={this.props.EditorConfig.languages}
-                    ComponentMap={this.props.ComponentMap}
+                    /** Flow */
+                    node={node}
+                    ui={ui}
+                    iso={this.state.language.iso}
+                    translations={translations}
+                    translating={this.state.translating}
+                    Activity={this.Activity}
+                    onNodeMounted={this.onNodeMounted}
+                    onNodeMoved={this.onNodeMoved}
+                    onNodeDragStart={this.onNodeDragStart}
+                    onNodeBeforeDrag={this.onNodeBeforeDrag}
+                    onNodeDragStop={this.onNodeDragStop}
+                    openEditor={this.openEditor}
+                    onAddAction={this.onAddAction}
+                    onUpdateAction={this.onUpdateAction}
+                    onUpdateRouter={this.onUpdateRouter}
                     plumberDraggable={this.Plumber.draggable}
                     plumberMakeTarget={this.Plumber.makeTarget}
                     plumberRemove={this.Plumber.remove}
@@ -523,44 +525,46 @@ export default class Flow extends React.Component<IFlowProps, IFlowState> {
 
             dragNode = (
                 <NodeComp
-                    key={ghost.uuid}
-                    ref={this.ghostRef}
-                    iso={null}
-                    definition={this.props.definition}
-                    translating={this.state.translating}
-                    translations={null}
-                    Activity={this.Activity}
-                    node={ghost}
-                    onNodeMounted={this.onNodeMounted}
-                    onUpdateDimensions={this.props.Mutator.updateDimensions}
-                    onNodeMoved={this.onNodeMoved}
-                    onNodeDragStart={this.onNodeDragStart}
-                    onNodeBeforeDrag={this.onNodeBeforeDrag}
-                    onDisconnectExit={this.props.Mutator.disconnectExit}
-                    onNodeDragStop={this.onNodeDragStop}
-                    openEditor={this.openEditor}
-                    onAddAction={this.onAddAction}
-                    onRemoveNode={this.props.Mutator.removeNode}
-                    onUpdateLocalizations={this.props.Mutator.updateLocalizations}
-                    onUpdateAction={this.onUpdateAction}
-                    onUpdateRouter={this.onUpdateRouter}
-                    onRemoveAction={this.props.Mutator.removeAction}
-                    onMoveActionUp={this.props.Mutator.moveActionUp}
-                    ui={ui}
-                    ghost={true}
-                    typeConfigList={this.props.EditorConfig.typeConfigList}
-                    operatorConfigList={this.props.EditorConfig.operatorConfigList}
-                    getTypeConfig={this.props.EditorConfig.getTypeConfig}
-                    getOperatorConfig={this.props.EditorConfig.getOperatorConfig}
-                    endpoints={this.props.EditorConfig.endpoints}
-                    languages={this.props.EditorConfig.languages}
-                    ComponentMap={this.props.ComponentMap}
-                    plumberDraggable={this.Plumber.draggable}
-                    plumberMakeTarget={this.Plumber.makeTarget}
-                    plumberRemove={this.Plumber.remove}
-                    plumberRecalculate={this.Plumber.recalculate}
-                    plumberMakeSource={this.Plumber.makeSource}
-                    plumberConnectExit={this.Plumber.connectExit}
+                     key={ghost.uuid}
+                     ref={this.ghostRef}
+                     /** Editor */
+                     definition={this.props.definition}
+                     ComponentMap={this.props.ComponentMap}
+                     onUpdateDimensions={this.props.Mutator.updateDimensions}
+                     onDisconnectExit={this.props.Mutator.disconnectExit}
+                     onRemoveNode={this.props.Mutator.removeNode}
+                     onUpdateLocalizations={this.props.Mutator.updateLocalizations}
+                     onRemoveAction={this.props.Mutator.removeAction}
+                     onMoveActionUp={this.props.Mutator.moveActionUp}
+                     typeConfigList={this.props.EditorConfig.typeConfigList}
+                     operatorConfigList={this.props.EditorConfig.operatorConfigList}
+                     getTypeConfig={this.props.EditorConfig.getTypeConfig}
+                     getOperatorConfig={this.props.EditorConfig.getOperatorConfig}
+                     endpoints={this.props.EditorConfig.endpoints}
+                     languages={this.props.EditorConfig.languages}
+                     /** Flow */
+                     ghost={true}
+                     node={ghost}
+                     ui={ui}
+                     iso={null}
+                     translations={null}
+                     translating={this.state.translating}
+                     Activity={this.Activity}
+                     onNodeMounted={this.onNodeMounted}
+                     onNodeMoved={this.onNodeMoved}
+                     onNodeDragStart={this.onNodeDragStart}
+                     onNodeBeforeDrag={this.onNodeBeforeDrag}
+                     onNodeDragStop={this.onNodeDragStop}
+                     openEditor={this.openEditor}
+                     onAddAction={this.onAddAction}
+                     onUpdateAction={this.onUpdateAction}
+                     onUpdateRouter={this.onUpdateRouter}
+                     plumberDraggable={this.Plumber.draggable}
+                     plumberMakeTarget={this.Plumber.makeTarget}
+                     plumberRemove={this.Plumber.remove}
+                     plumberRecalculate={this.Plumber.recalculate}
+                     plumberMakeSource={this.Plumber.makeSource}
+                     plumberConnectExit={this.Plumber.connectExit}
                 />
             );
         }
@@ -570,9 +574,11 @@ export default class Flow extends React.Component<IFlowProps, IFlowState> {
         if (this.props.EditorConfig.endpoints.engine) {
             simulator = (
                 <SimulatorComp
+                    /** Editor */
                     definition={this.props.definition}
                     engineURL={this.props.EditorConfig.endpoints.engine}
                     getFlow={this.props.External.getFlow}
+                    /** Flow */
                     showDefinition={this.onShowDefinition}
                     plumberRepaint={this.Plumber.repaint}
                     Activity={this.Activity}
@@ -586,15 +592,17 @@ export default class Flow extends React.Component<IFlowProps, IFlowState> {
             modal = (
                 <NodeEditorComp
                     ref={this.nodeEditorRef}
-                    iso={this.state.language.iso}
-                    definition={this.props.definition}
-                    translating={this.state.translating}
+                    /** Editor */
                     typeConfigList={this.props.EditorConfig.typeConfigList}
                     operatorConfigList={this.props.EditorConfig.operatorConfigList}
                     getTypeConfig={this.props.EditorConfig.getTypeConfig}
                     getOperatorConfig={this.props.EditorConfig.getOperatorConfig}
                     endpoints={this.props.EditorConfig.endpoints}
                     ComponentMap={this.props.ComponentMap}
+                    /** Flow */
+                    iso={this.state.language.iso}
+                    definition={this.props.definition}
+                    translating={this.state.translating}
                     {...this.state.nodeEditor}
                 />
             );
@@ -621,8 +629,8 @@ export default class Flow extends React.Component<IFlowProps, IFlowState> {
         if (this.props.EditorConfig.languages) {
             languageSelector = (
                 <LanguageSelectorComp
-                    iso={this.state.language.iso}
                     languages={this.props.EditorConfig.languages}
+                    iso={this.state.language.iso}
                     onChange={this.setLanguage}
                 />
             );

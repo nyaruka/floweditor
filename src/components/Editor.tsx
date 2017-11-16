@@ -105,9 +105,9 @@ export default class Editor extends React.PureComponent<IEditorProps, IEditorSta
         return (
             <div className={styles.editor} data-spec="editor">
                 <FlowList
-                    fetching={this.state.fetching}
                     EditorConfig={this.props.EditorConfig}
                     External={this.props.External}
+                    fetching={this.state.fetching}
                     onFlowSelect={this.onFlowSelect}
                 />
                 {this.state.definition ? (

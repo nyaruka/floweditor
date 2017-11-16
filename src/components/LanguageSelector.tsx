@@ -20,7 +20,7 @@ export default class LanguageSelectorComp extends React.PureComponent<LanguageSe
 
     constructor(props: LanguageSelectorProps) {
         super(props);
-        /** Config stores languages as shape { iso, name } */
+
         this.options = Object.keys(this.props.languages).map(iso => {
             const name = this.props.languages[iso];
             return {
@@ -34,8 +34,10 @@ export default class LanguageSelectorComp extends React.PureComponent<LanguageSe
         return (
             <div className={`${styles.ele} select-small`}>
                 <Select
+                    /** Flow */
                     value={this.props.iso}
                     onChange={this.props.onChange}
+                    /** LanguageSelector */
                     valueKey="iso"
                     labelKey="name"
                     searchable={false}

@@ -48,7 +48,6 @@ export interface NodeProps {
     translating: boolean;
     definition: FlowDefinition;
     ghost?: boolean;
-
     onNodeMounted: Function;
     onUpdateDimensions: Function;
     onNodeMoved: Function;
@@ -64,7 +63,6 @@ export interface NodeProps {
     onUpdateRouter: Function;
     onRemoveAction: Function;
     onMoveActionUp: Function;
-
     typeConfigList: Type[];
     operatorConfigList: Operator[];
     getTypeConfig: GetTypeConfig;
@@ -72,7 +70,6 @@ export interface NodeProps {
     endpoints: Endpoints;
     languages: Languages;
     ComponentMap: ComponentMap;
-
     plumberDraggable: Function;
     plumberMakeTarget: Function;
     plumberRemove: Function;
@@ -270,14 +267,13 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         }
 
         this.props.openEditor({
-            onUpdateLocalizations: this.props.onUpdateLocalizations,
-            onUpdateAction: this.props.onUpdateAction,
-            onUpdateRouter: this.props.onUpdateRouter,
+            /** Node */
+            action,
+            actionsOnly: true,
+            /** Flow */
             node: this.props.node,
             definitinon: this.props.definition,
-            action,
             iso: this.props.iso,
-            actionsOnly: true,
             nodeUI: this.props.ui,
             localizations: localizations,
             typeConfigList: this.props.typeConfigList,
@@ -285,7 +281,10 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             getTypeConfig: this.props.getTypeConfig,
             getOperatorConfig: this.props.getOperatorConfig,
             endpoints: this.props.endpoints,
-            ComponentMap: this.props.ComponentMap
+            ComponentMap: this.props.ComponentMap,
+            onUpdateLocalizations: this.props.onUpdateLocalizations,
+            onUpdateAction: this.props.onUpdateAction,
+            onUpdateRouter: this.props.onUpdateRouter,
         });
     }
 
@@ -329,27 +328,29 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                     }
 
                     const actionProps: ActionProps = {
-                        action,
-                        dragging: this.state.dragging,
+                        /** Flow */
+                        node: this.props.node,
+                        getTypeConfig: this.props.getTypeConfig,
+                        getOperatorConfig: this.props.getOperatorConfig,
+                        typeConfigList: this.props.typeConfigList,
+                        operatorConfigList: this.props.operatorConfigList,
+                        endpoints: this.props.endpoints,
+                        ComponentMap: this.props.ComponentMap,
                         openEditor: this.props.openEditor,
                         onRemoveAction: this.props.onRemoveAction,
                         onMoveActionUp: this.props.onMoveActionUp,
                         onUpdateLocalizations: this.props.onUpdateLocalizations,
                         onUpdateAction: this.props.onUpdateAction,
                         onUpdateRouter: this.props.onUpdateRouter,
-                        node: this.props.node,
+                        /** Node */
+                        dragging: this.state.dragging,
+                        action,
                         first: idx === 0,
                         hasRouter:
                             this.props.node.hasOwnProperty('router') &&
                             (this.props.node.router !== undefined ||
                                 this.props.node.router !== null),
                         Localization: localization,
-                        getTypeConfig: this.props.getTypeConfig,
-                        getOperatorConfig: this.props.getOperatorConfig,
-                        typeConfigList: this.props.typeConfigList,
-                        operatorConfigList: this.props.operatorConfigList,
-                        endpoints: this.props.endpoints,
-                        ComponentMap: this.props.ComponentMap
                     };
 
                     const { component: ActionDiv } = actionConfig;
@@ -450,17 +451,19 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 exits = [
                     ...exits,
                     <ExitComp
-                        exit={exit}
                         key={exit.uuid}
-                        translating={this.props.translating}
-                        onDisconnect={this.props.onDisconnectExit}
-                        Activity={this.props.Activity}
+                        /** Node */
+                        exit={exit}
                         Localization={Localization.translate(
                             exit,
                             this.props.iso,
                             this.props.languages,
                             this.props.translations
                         )}
+                        /** Flow */
+                        translating={this.props.translating}
+                        onDisconnect={this.props.onDisconnectExit}
+                        Activity={this.props.Activity}
                         plumberMakeSource={this.props.plumberMakeSource}
                         plumberRemove={this.props.plumberRemove}
                         plumberConnectExit={this.props.plumberConnectExit}
