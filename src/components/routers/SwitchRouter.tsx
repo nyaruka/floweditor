@@ -270,8 +270,72 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
     }
 
     public onValid(widgets: { [name: string]: any }): void {
+        /** Is the user translating this router? */
         if (this.props.translating) {
             return this.saveLocalization(widgets);
+        }
+
+        /**
+         * If the user has a localized 'All Responses' case and they're adding another case,
+         * bump off the translation for the initial case.
+         * */
+        if (
+            this.props.definition.localization &&
+            Object.keys(this.props.definition.localization).length &&
+            this.state.cases.length === 1
+        ) {
+            const { uuid: nodeUUID, exits } = this.props.node;
+            const exitMap: { [uuid: string]: Exit } = exits.reduce(
+                (map, exit) => ({ ...map, [exit.uuid]: exit }),
+                {}
+            );
+
+            Object.keys(this.props.definition.localization).forEach(iso => {
+                const language = this.props.definition.localization[iso];
+
+                Object.keys(language).forEach(localizationUUID => {
+                    if (exitMap[localizationUUID]) {
+                        const exitMatch = exitMap[localizationUUID];
+
+                        if (exitMatch.name) {
+                            if (exitMatch.name === 'All Responses') {
+                                /** Bingo */
+                                this.props.updateLocalizations(iso, [{ uuid: localizationUUID }]);
+                            }
+                        }
+                    }
+                });
+            });
+        }
+
+        /** If the user is going from 1 or more cases to 0 and this router has a translation for the 'Other' case, lose it */
+        if (
+            !this.state.cases.length &&
+            this.props.definition.localization &&
+            Object.keys(this.props.definition.localization).length
+        ) {
+            const { uuid: nodeUUID, exits } = this.props.node;
+            const exitMap: { [uuid: string]: Exit } = exits.reduce(
+                (map, exit) => ({ ...map, [exit.uuid]: exit }),
+                {}
+            );
+
+            Object.keys(this.props.definition.localization).forEach(iso => {
+                const language = this.props.definition.localization[iso];
+
+                Object.keys(language).forEach(localizationUUID => {
+                    if (exitMap[localizationUUID]) {
+                        const exitMatch = exitMap[localizationUUID];
+
+                        if (exitMatch.name) {
+                            if (exitMatch.name === 'Other') {
+                                /** Listo */
+                                this.props.updateLocalizations(iso, [{ uuid: localizationUUID }]);
+                            }
+                        }
+                    }
+                });
+            });
         }
 
         const { cases, exits, defaultExit } = resolveExits(this.state.cases, this.props.node);
@@ -314,41 +378,6 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
             this.props.config.type,
             this.props.action
         );
-
-        /**
-         * If the user has a localized 'All Responses' case and they're adding another case,
-         * bump off the translation for the initial case.
-         * */
-        if (
-            this.props.definition.localization &&
-            Object.keys(this.props.definition.localization).length &&
-            this.state.cases.length === 1
-        ) {
-            const { uuid: nodeUUID, exits } = this.props.node;
-            const exitMap: { [uuid: string]: Exit } = exits.reduce(
-                (map, exit) => ({ ...map, [exit.uuid]: exit }),
-                {}
-            );
-
-            Object.keys(this.props.definition.localization).forEach(iso => {
-                const language = this.props.definition.localization[iso];
-
-                Object.keys(language).forEach(localizationUUID => {
-                    if (exitMap[localizationUUID]) {
-                        const exitMatch = exitMap[localizationUUID];
-
-                        if (exitMatch.name) {
-                            if (exitMatch.name === 'All Responses') {
-                                /** Bingo */
-                                this.props.updateLocalizations(iso, [
-                                    { uuid: localizationUUID }
-                                ]);
-                            }
-                        }
-                    }
-                });
-            });
-        }
     }
 
     private onShowNameField(): void {
