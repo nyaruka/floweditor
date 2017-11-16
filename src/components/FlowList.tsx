@@ -1,16 +1,17 @@
 import * as React from 'react';
-import * as axios from 'axios';
-import * as UUID from 'uuid';
-import { FlowDetails } from '../services/Temba';
+import Select from 'react-select';
+import EditorConfig from '../services/EditorConfig';
+import External, { FlowDetails } from '../services/External';
 
 export interface FlowListProps {
-    getFlows: Function;
+    fetching: boolean;
+    EditorConfig: EditorConfig;
+    External: External;
     onFlowSelect: Function;
 }
 
 interface FlowListState {
     flows?: FlowDetails[];
-    show: boolean;
 }
 
 /**
@@ -21,57 +22,44 @@ export default class FlowList extends React.PureComponent<FlowListProps, FlowLis
         super(props);
 
         this.state = {
-            show: false
+            flows: []
         };
 
         this.onFlowSelect = this.onFlowSelect.bind(this);
-        this.onToggle = this.onFlowSelect.bind(this);
     }
 
-    componentDidMount() {
-        this.props.getFlows().then((flows: FlowDetails[]) => this.setState({ flows, show: true }));
-    }
-
-    onFlowSelect(uuid: string) {
-        this.setState({ show: false });
+    private onFlowSelect({ uuid }: any): void {
         this.props.onFlowSelect(uuid);
     }
 
-    onToggle() {
-        this.setState({ show: !this.state.show });
+    public componentDidMount(): void {
+        this.props.External.getFlows(this.props.EditorConfig.endpoints.flows).then(
+            (flows: FlowDetails[]) =>
+                this.setState({
+                    flows
+                })
+        );
     }
 
-    render() {
-        let flows: JSX.Element[] = [];
+    public render(): JSX.Element {
+        const flows: { uuid: string; name: string }[] = this.state.flows.map(({ uuid, name }) => ({
+            uuid,
+            name
+        }));
 
-        if (this.state.flows) {
-            flows = this.state.flows.map(({ uuid, name }) => (
-                <div key={uuid} style={{ background: 'rgba(255,255,255,.8)' }}>
-                    <a href="javscript:void(0);" onClick={() => this.onFlowSelect(uuid)}>
-                        {name}
-                    </a>
-                </div>
-            ));
-        }
-
-        if (this.state.show) {
-            return (
-                <div id="flow-list" style={{ position: 'absolute', zIndex: 2000 }}>
-                    {flows}
-                </div>
-            );
-        }
-
-        if (this.state.flows) {
-            return (
-                <div style={{ position: 'absolute', zIndex: 2000 }}>
-                    <a href="javascript:void(0);" onClick={this.onToggle}>
-                        Flows
-                    </a>
-                </div>
-            );
-        }
-
-        return null;
+        return (
+            <div id="flow-list" style={{ position: 'absolute', zIndex: 2000, padding: 15, width: 300 }}>
+                <Select
+                    placeholder='Select a flow 🌊'
+                    onChange={this.onFlowSelect}
+                    searchable={false}
+                    clearable={false}
+                    labelKey="name"
+                    valueKey="uuid"
+                    options={flows}
+                    isLoading={this.props.fetching}
+                />
+            </div>
+        );
     }
-};
+}

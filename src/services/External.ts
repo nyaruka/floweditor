@@ -75,15 +75,15 @@ class External {
             axios
                 .get(flowsEndpoint, { headers })
                 .then((response: AxiosResponse) => {
-                    const results: FlowDetails[] = response.data.results;
+                    const { data: { results } } = response;
+
                     if (flowName) {
                         const filteredResults: FlowDetails[] = results.filter(
                             (result: FlowDetails) => result.name === flowName
                         );
                         resolve(filteredResults);
-                    } else {
-                        resolve(results);
                     }
+                    resolve(results);
                 })
                 .catch(error => reject(error))
         );
@@ -106,40 +106,42 @@ class External {
             axios
                 .get(`${flowsEndpoint}?uuid=${uuidToGet}&dependencies=${dependencies}`, headers)
                 .then((response: AxiosResponse) => {
-                    const { data: { results: flows } } = response;
-                    const details: FlowDetails = flows.reduce(
-                        (acc: FlowDetails, val: FlowDetails) => {
-                            if (!val.definition.uuid) {
-                                val = update(val, {
-                                    definition: {
-                                        uuid: {
-                                            $set: val.uuid
-                                        }
-                                    }
-                                });
-                            }
-                            if (val.uuid === uuidToGet) {
-                                acc = {
-                                    ...acc,
-                                    definition: val.definition,
-                                    name: val.name
-                                };
-                            } else {
-                                acc = {
-                                    ...acc,
-                                    dependencies: [...acc.dependencies, val.definition]
-                                };
-                            }
-                            return acc;
-                        },
-                        {
-                            uuid: uuidToGet,
-                            name: null,
-                            definition: null as FlowDefinition,
-                            dependencies: [] as FlowDefinition[]
-                        }
-                    );
-                    resolve(details);
+                    const { data: { results: [flow] } } = response;
+
+                    resolve(flow);
+                    // const details: FlowDetails = flows.reduce(
+                    //     (acc: FlowDetails, val: FlowDetails) => {
+                    //         if (!val.definition.uuid) {
+                    //             val = update(val, {
+                    //                 definition: {
+                    //                     uuid: {
+                    //                         $set: val.uuid
+                    //                     }
+                    //                 }
+                    //             });
+                    //         }
+                    //         if (val.uuid === uuidToGet) {
+                    //             acc = {
+                    //                 ...acc,
+                    //                 definition: val.definition,
+                    //                 name: val.name
+                    //             };
+                    //         } else {
+                    //             acc = {
+                    //                 ...acc,
+                    //                 dependencies: [...acc.dependencies, val.definition]
+                    //             };
+                    //         }
+                    //         return acc;
+                    //     },
+                    //     {
+                    //         uuid: uuidToGet,
+                    //         name: null,
+                    //         definition: null as FlowDefinition,
+                    //         dependencies: [] as FlowDefinition[]
+                    //     }
+                    // );
+                    // resolve(details);
                 })
                 .catch(error => reject(error))
         );

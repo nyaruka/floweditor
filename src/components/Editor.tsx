@@ -1,6 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
-// import { FlowList } from './FlowList';
+import FlowList from './FlowList';
 import EditorConfig from '../services/EditorConfig';
 import External, { FlowDetails } from '../services/External';
 import { FlowDefinition } from '../flowTypes';
@@ -18,7 +18,7 @@ export interface IEditorProps {
 }
 
 export interface IEditorState {
-    flowUUID: string;
+    fetching: boolean;
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
 }
@@ -34,7 +34,7 @@ export default class Editor extends React.PureComponent<IEditorProps, IEditorSta
     constructor(props: IEditorProps) {
         super(props);
         this.state = {
-            flowUUID: this.props.flowUUID,
+            fetching: false,
             definition: null,
             dependencies: null
         };
@@ -44,19 +44,23 @@ export default class Editor extends React.PureComponent<IEditorProps, IEditorSta
         this.onFlowSelect = this.onFlowSelect.bind(this);
     }
 
-    private onFlowSelect(uuid: string): void {
-        this.setState({ flowUUID: uuid }, () => this.fetchFlow());
+    private onFlowSelect(uuid: any): void {
+        console.log('uuid', uuid);
+        this.setState({ fetching: true }, () => this.fetchFlow(uuid));
     }
 
     private setDefinition(definition: FlowDefinition, dependencies?: FlowDefinition[]): void {
-        console.log(`DEFINITION: ${JSON.stringify(definition, null, 2)}`);
+        console.log(`\nDEFINITION: \n${JSON.stringify(definition, null, 2)}\n`);
+
         if (dependencies) {
             this.setState({
+                fetching: false,
                 definition,
                 dependencies
             });
         } else {
             this.setState({
+                fetching: false,
                 definition
             });
         }
@@ -83,26 +87,30 @@ export default class Editor extends React.PureComponent<IEditorProps, IEditorSta
         this.setDefinition(definition);
     }
 
-    private fetchFlow(): void {
-        this.props.External
-            .getFlow(this.state.flowUUID, false, this.props.EditorConfig.endpoints.flows)
+    private fetchFlow(uuid: string): void {
+        this.props.External.getFlow(
+            uuid,
+            false,
+            this.props.EditorConfig.endpoints.flows
+        )
             .then(({ definition }: FlowDetails) => this.initialize(definition))
             .catch((error: {}) => console.log(error));
+
     }
 
     public componentDidMount(): void {
-        this.fetchFlow();
+        this.fetchFlow(this.props.flowUUID);
     }
 
     public render(): JSX.Element {
         return (
             <div className={styles.editor} data-spec="editor">
-                {/* disable the flow list for now
-                    <FlowList
-                        getFlows={this.temba.getFlows}
-                        onFlowSelect={this.onFlowSelect.bind(this)}
-                    />
-                */}
+                <FlowList
+                    fetching={this.state.fetching}
+                    EditorConfig={this.props.EditorConfig}
+                    External={this.props.External}
+                    onFlowSelect={this.onFlowSelect}
+                />
                 {this.state.definition ? (
                     <Flow
                         EditorConfig={this.props.EditorConfig}
@@ -116,4 +124,4 @@ export default class Editor extends React.PureComponent<IEditorProps, IEditorSta
             </div>
         );
     }
-};
+}

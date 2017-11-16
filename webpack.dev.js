@@ -18,7 +18,7 @@ const devConfig = {
             '/assets/flows': {
                 bypass: (req, res, proxyOptions) => {
                     const { query: { uuid } } = req;
-                    if (uuid != null) {
+                    if (uuid) {
                         return `/test_flows/${uuid}.json`;
                     }
                     return req.originalUrl;

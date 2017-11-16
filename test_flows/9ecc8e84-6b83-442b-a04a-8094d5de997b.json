@@ -1,0 +1,182 @@
+{
+    "results": [
+        {
+            "name": "Customer Service",
+            "uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+            "definition": {
+                "name": "Customer Service",
+                "language": "eng",
+                "uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+                "localization": {
+                    "spa": {
+                        "24afc61e-e528-4ac0-b887-78cebd39f12b": {
+                            "text": "Como te llamas?"
+                        }
+                    }
+                },
+                "nodes": [
+                    {
+                        "uuid": "24afc61e-e528-4ac0-b887-78cebd39f12b",
+                        "actions": [
+                            {
+                                "uuid": "360a28a1-6741-4f16-9421-f6f313cf753e",
+                                "type": "reply",
+                                "text": "Hi there, what is your name?"
+                            },
+                            {
+                                "uuid": "d5293394-c6d4-407c-97da-8149faea24cf",
+                                "type": "add_to_group",
+                                "groups": [
+                                    {
+                                        "uuid": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
+                                        "name": "Unsatisfied Customers"
+                                    }
+                                ]
+                            }
+                        ],
+                        "exits": [
+                            {
+                                "name": null,
+                                "uuid": "445fc64c-2a18-47cc-89d0-15172826bfcc",
+                                "destination_node_uuid": "d642b014-3c91-418f-ad5b-0fb4f8c5ee60"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "d642b014-3c91-418f-ad5b-0fb4f8c5ee60",
+                        "router": {
+                            "type": "switch",
+                            "default_exit_uuid": "984fefee-3bf3-4e7b-bf84-e6e650253b2b",
+                            "cases": [],
+                            "operand": "@input",
+                            "result_name": "Name "
+                        },
+                        "exits": [
+                            {
+                                "uuid": "984fefee-3bf3-4e7b-bf84-e6e650253b2b",
+                                "name": "All Responses",
+                                "destination_node_uuid": "7a19060d-6d93-4217-a4e5-9cbd479be051"
+                            }
+                        ],
+                        "wait": {
+                            "type": "msg"
+                        }
+                    },
+                    {
+                        "uuid": "7a19060d-6d93-4217-a4e5-9cbd479be051",
+                        "actions": [
+                            {
+                                "uuid": "505e8da9-0b73-4cf4-84a7-ce2a58d70f3e",
+                                "type": "save_contact_field",
+                                "field_name": "Full Name",
+                                "field_uuid": "9c9c46de-0ddf-4d26-b834-a67ae56ef618",
+                                "value": "@run.results.name"
+                            },
+                            {
+                                "uuid": "21541123-ab0f-4c2f-9835-5c97e9be133f",
+                                "type": "reply",
+                                "text": "Thanks @run.results.name, what can we help you with?"
+                            }
+                        ],
+                        "exits": [
+                            {
+                                "uuid": "890ec71a-edaa-47a0-90ac-09f6f8d0d5b0",
+                                "destination_node_uuid": "fc349688-3589-42ac-b61c-d5ef54cedaa5",
+                                "name": null
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "fc349688-3589-42ac-b61c-d5ef54cedaa5",
+                        "router": {
+                            "type": "switch",
+                            "default_exit_uuid": "28adcb5e-8208-4e35-82c3-f377cbba5a7c",
+                            "cases": [],
+                            "operand": "@input",
+                            "result_name": "Issue"
+                        },
+                        "exits": [
+                            {
+                                "uuid": "28adcb5e-8208-4e35-82c3-f377cbba5a7c",
+                                "name": "All Responses",
+                                "destination_node_uuid": "a8a09d00-7cab-4375-9d44-58f6783732f6"
+                            }
+                        ],
+                        "wait": {
+                            "type": "msg"
+                        }
+                    },
+                    {
+                        "uuid": "a8a09d00-7cab-4375-9d44-58f6783732f6",
+                        "actions": [
+                            {
+                                "uuid": "225a67f4-28b5-4819-a25b-eb9a0ecea11d",
+                                "type": "send_email",
+                                "body":
+                                    "@run.results.name says: \n\n@run.results.issue \n\nPlease reach out to them at @contact.urns.tel ",
+                                "subject": "New Issue",
+                                "emails": ["support@acme.co"]
+                            },
+                            {
+                                "uuid": "71c026a5-7c1c-4e79-8421-21b8c3689510",
+                                "type": "reply",
+                                "text": "Thanks! We'll be in touch shortly 👍"
+                            }
+                        ],
+                        "exits": [
+                            {
+                                "name": null,
+                                "uuid": "b319dff7-cdb6-4ce4-9f48-5e72818bae77",
+                                "destination_node_uuid": null
+                            }
+                        ]
+                    }
+                ],
+                "_ui": {
+                    "languages": [
+                        {
+                            "eng": "English"
+                        },
+                        {
+                            "spa": "Spanish"
+                        }
+                    ],
+                    "nodes": {
+                        "24afc61e-e528-4ac0-b887-78cebd39f12b": {
+                            "position": {
+                                "x": 74,
+                                "y": 115
+                            }
+                        },
+                        "d642b014-3c91-418f-ad5b-0fb4f8c5ee60": {
+                            "position": {
+                                "x": 495,
+                                "y": 272
+                            },
+                            "type": "wait_for_response"
+                        },
+                        "7a19060d-6d93-4217-a4e5-9cbd479be051": {
+                            "position": {
+                                "x": 75,
+                                "y": 326
+                            }
+                        },
+                        "fc349688-3589-42ac-b61c-d5ef54cedaa5": {
+                            "position": {
+                                "x": 496,
+                                "y": 464
+                            },
+                            "type": "wait_for_response"
+                        },
+                        "a8a09d00-7cab-4375-9d44-58f6783732f6": {
+                            "position": {
+                                "x": 76,
+                                "y": 572
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
