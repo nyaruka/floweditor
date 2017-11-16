@@ -14,7 +14,6 @@ import { LocalizedObject } from '../../services/Localization';
 const shared = require('../shared.scss');
 const styles = require('./Action.scss');
 
-// props passed to the HOC but not threaded through to wrapped component
 export interface ActionProps {
     node: Node;
     action: AnyAction;

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import '../../src/enzymeAdapter';
 import { mount, ReactWrapper } from 'enzyme';
-import { IButtonProps, Button } from './Button';
+import Button, { ButtonProps } from './Button';
 import { getSpecWrapper } from '../helpers/utils';
 
-const props: IButtonProps = {
+const props: ButtonProps = {
     name: 'Save',
     onClick: jest.fn(),
     type: 'primary'

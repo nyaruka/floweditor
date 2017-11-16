@@ -22,17 +22,17 @@ export class FlowStore {
         if (flow != null) {
             return flow as FlowDefinition;
         } else {
-            return {
-                name: 'New Flow',
-                language: null,
-                uuid: uuid,
-                nodes: [],
-                localization: null,
-                _ui: {
-                    nodes: {},
-                    languages: {}
-                }
-            };
+            // return {
+            //     name: 'New Flow',
+            //     language: null,
+            //     uuid: uuid,
+            //     nodes: [],
+            //     localization: null,
+            //     _ui: {
+            //         nodes: {},
+            //         languages: {}
+            //     }
+            // };
         }
     }
 

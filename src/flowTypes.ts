@@ -110,7 +110,7 @@ export interface StartFlow extends Action {
 
 export interface UIMetaData {
     nodes: { [key: string]: UINode };
-    languages: { [iso: string]: string };
+    languages: { [iso: string]: string }[];
 }
 
 export interface Position {

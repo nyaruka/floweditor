@@ -83,6 +83,7 @@ export interface NodeEditorProps {
     localizations?: LocalizedObject[];
     definition: FlowDefinition;
     translating: boolean;
+    show?: boolean;
 
     onUpdateLocalizations: Function;
     onUpdateAction: Function;
@@ -117,7 +118,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         super(props);
 
         this.state = {
-            show: false,
+            show: this.props.show || false,
             config: this.props.getTypeConfig(this.determineConfigType())
         };
 

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import * as ReactModal from 'react-modal';
-import * as uniqID from 'uniqid';
 import { Node, Case, SwitchRouter } from '../flowTypes';
 import Button, { ButtonProps } from './Button';
+
+const uniqid = require('uniqid');
 
 const styles = require('./Modal.scss');
 const shared = require('./shared.scss');
@@ -60,13 +61,13 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
         /** No matter what, we'll have a primary button */
         rightButtons = [
             ...rightButtons,
-            <Button key={uniqID()} {...this.props.buttons.primary} type="primary" />
+            <Button key={uniqid()} {...this.props.buttons.primary} type="primary" />
         ];
 
         if (this.props.buttons.secondary) {
             rightButtons = [
                 ...rightButtons,
-                <Button key={uniqID()} {...this.props.buttons.secondary} type="secondary" />
+                <Button key={uniqid()} {...this.props.buttons.secondary} type="secondary" />
             ];
         }
 
@@ -74,7 +75,7 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
         if (this.props.buttons.tertiary) {
             leftButtons = [
                 ...leftButtons,
-                <Button key={uniqID()} {...this.props.buttons.tertiary} type="tertiary" />
+                <Button key={uniqid()} {...this.props.buttons.tertiary} type="tertiary" />
             ];
         }
 
