@@ -249,13 +249,19 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }): { uuid: string; translations: any }[] {
         let results: { uuid: string; translations: any }[] = [];
 
-        this.props.node.exits.forEach(({ uuid: exitUUID }: Exit) => {
-            let input = widgets[exitUUID] as TextInputElement;
-            let value = input.state.value.trim();
-            if (value) {
-                results = [...results, { uuid: exitUUID, translations: { name: [value] } }];
-            } else {
-                results = [...results, { uuid: exitUUID, translations: null }];
+        const { exits } = this.props.node;
+
+        exits.forEach(({ uuid: exitUUID }: Exit) => {
+            const input = widgets[exitUUID] as TextInputElement;
+
+            if (input) {
+                const value = input.state.value.trim();
+
+                if (value) {
+                    results = [...results, { uuid: exitUUID, translations: { name: [value] } }];
+                } else {
+                    results = [...results, { uuid: exitUUID, translations: null }];
+                }
             }
         });
 

@@ -376,9 +376,13 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
 
     private saveLocalization(widgets: { [name: string]: any }): void {
         const { iso: language } = this.props.localizations[0].getLanguage();
+
+        console.log('localizedExits', this.props.getLocalizedExits(widgets))
+        console.log('lozalizedCases', this.getLocalizedCases(widgets));
+
         const updates = [
             ...this.props.getLocalizedExits(widgets),
-            this.getLocalizedCases(widgets)
+            ...this.getLocalizedCases(widgets)
         ] as {
             uuid: string;
             translations: any;
@@ -391,20 +395,22 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
         [name: string]: any;
     }): { uuid: string; translations: any }[] {
         let results: { uuid: string; translations: any }[] = [];
+
         const { cases } = this.props.node.router as SwitchRouter;
 
-        cases.forEach(kase => {
-            const input = widgets[kase.uuid] as TextInputElement;
+        cases.forEach(({ uuid: kaseUUID }) => {
+            const input = widgets[kaseUUID] as TextInputElement;
 
             if (input) {
                 const value = input.state.value.trim();
+
                 if (value) {
                     results = [
                         ...results,
-                        { uuid: kase.uuid, translations: { arguments: [value] } }
+                        { uuid: kaseUUID, translations: { arguments: [value] } }
                     ];
                 } else {
-                    results = [...results, { uuid: kase.uuid, translations: null }];
+                    results = [...results, { uuid: kaseUUID, translations: null }];
                 }
             }
         });
@@ -429,7 +435,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
             const { cases } = this.props.node.router as SwitchRouter;
 
             cases.forEach(kase => {
-                if (kase.arguments && kase.arguments.length === 1) {
+                if (kase.arguments && kase.arguments.length) {
                     const localized = this.props.localizations.find(
                         (localizedObject: LocalizedObject) =>
                             localizedObject.getObject().uuid === kase.uuid
@@ -441,7 +447,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                         if ('arguments' in localized.localizedKeys) {
                             const localizedCase: Case = localized.getObject() as Case;
 
-                            if (localizedCase.arguments.length > 0) {
+                            if (localizedCase.arguments.length) {
                                 [value] = localizedCase.arguments;
                             }
                         }
@@ -619,10 +625,9 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
     }
 
     public render(): JSX.Element {
-        const { cases } = this.state;
         const { showAdvanced } = this.props;
 
-        if (showAdvanced && cases.length) {
+        if (showAdvanced) {
             return this.renderAdvanced();
         }
         return this.renderForm();
