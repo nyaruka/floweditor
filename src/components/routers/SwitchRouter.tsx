@@ -209,18 +209,20 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
         let resultName = '';
         let operand = '@input';
 
-        const { exits } = this.props.node;
         const router = this.props.node.router as SwitchRouter;
 
-        if (router && router.type === 'switch' && router.cases) {
-            resultName = router.result_name;
-            operand = router.operand;
+        if (this.isSwitchRouterNode() && router.cases) {
+            ({ operand } = router);
+
+            if (router.result_name) {
+                ({ result_name: resultName } = router);
+            }
 
             router.cases.forEach(kase => {
                 let exitName: string = null;
 
                 if (kase.exit_uuid) {
-                    const exit = exits.find(exit => exit.uuid === kase.exit_uuid);
+                    const exit = this.props.node.exits.find(exit => exit.uuid === kase.exit_uuid);
 
                     if (exit) {
                         exitName = exit.name;
@@ -258,6 +260,14 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
         this.onShowNameField = this.onShowNameField.bind(this);
     }
 
+    private isSwitchRouterNode(): boolean {
+        return (
+            this.props.node.wait &&
+            this.props.node.wait.type &&
+            (this.props.node.wait.type === 'exp' || this.props.node.wait.type === 'msg')
+        );
+    }
+
     public onValid(widgets: { [name: string]: any }): void {
         if (this.props.isTranslating) {
             return this.saveLocalization(widgets);
@@ -278,6 +288,10 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
         if (this.props.config.type === 'wait_for_response') {
             optionalNode = {
                 wait: { type: 'msg' }
+            };
+        } else if (this.props.config.type === 'expression') {
+            optionalNode = {
+                wait: { type: 'exp' }
             };
         }
 
