@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { Reply } from '../../../flowTypes';
 import { Type } from '../../../services/EditorConfig';
-import { FormProps } from '../../NodeEditor';
 import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement from '../../form/TextInputElement';
 import CheckboxElement from '../../form/CheckboxElement';
 
 const styles = require('../../Action/Action.scss');
 
-export interface ReplyFormProps extends FormProps {
+export interface ReplyFormProps {
     action: Reply;
     showAdvanced: boolean;
     config: Type;
@@ -61,15 +60,15 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
         }
     }
 
-    public renderForm(): JSX.Element {
+    private renderForm(): JSX.Element {
         let text = '';
 
         if (this.props.action && this.props.action.type === 'reply') {
             ({ text } = this.props.action);
         }
 
-        let translation;
-        let placeholder;
+        let translation: JSX.Element = null;
+        let placeholder: string = '';
 
         const localizedObject = this.props.getLocalizedObject();
 
@@ -77,8 +76,8 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
             placeholder = `${localizedObject.getLanguage().name} Translation`;
 
             translation = (
-                <div className={styles.translation}>
-                    <div className={styles.translate_from}>{text}</div>
+                <div data-spec='translation-container' className={styles.translation}>
+                    <div data-spec='text-to-translate' className={styles.translate_from}>{text}</div>
                 </div>
             );
 
@@ -105,7 +104,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
         );
     }
 
-    public renderAdvanced(): JSX.Element {
+    private renderAdvanced(): JSX.Element {
         let sendAll: boolean;
 
         if (this.props.action) {

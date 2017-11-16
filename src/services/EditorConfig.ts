@@ -69,7 +69,7 @@ export type GetTypeConfig = (type: string) => Type;
 
 export type GetOperatorConfig = (type: string) => Operator;
 
-const TYPE_CONFIG_LIST: Type[] = [
+export const TYPE_CONFIG_LIST: Type[] = [
     /** Actions */
     {
         type: 'reply',
@@ -185,7 +185,7 @@ const TYPE_CONFIG_LIST: Type[] = [
     // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];
 
-const OPERATOR_CONFIG_LIST: Operator[] = [
+export const OPERATOR_CONFIG_LIST: Operator[] = [
     { type: 'has_any_word', verboseName: 'has any of the words', operands: 1 },
     { type: 'has_all_words', verboseName: 'has all of the words', operands: 1 },
     { type: 'has_phrase', verboseName: 'has the phrase', operands: 1 },
