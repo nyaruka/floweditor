@@ -45,7 +45,6 @@ export default class Editor extends React.PureComponent<IEditorProps, IEditorSta
     }
 
     private onFlowSelect(uuid: any): void {
-        console.log('uuid', uuid);
         this.setState({ fetching: true }, () => this.fetchFlow(uuid));
     }
 

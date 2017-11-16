@@ -249,6 +249,7 @@ class Plumber {
     }
 
     public repaint(uuid?: string) {
+        console.log('repaint', uuid);
         if (!uuid) {
             this.jsPlumb.recalculateOffsets();
             this.jsPlumb.repaintEverything();

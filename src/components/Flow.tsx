@@ -59,7 +59,7 @@ export interface IConnectionEvent {
 
 const REPAINT_DURATION = 600;
 
-export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
+export default class Flow extends React.Component<IFlowProps, IFlowState> {
     private repaintDuration: number;
     private Activity: ActivityManager;
     private Plumber: any;
@@ -364,6 +364,7 @@ export default class Flow extends React.PureComponent<IFlowProps, IFlowState> {
     }
 
     componentWillUnmount() {
+        console.log('unmounting');
         this.Plumber.reset();
     }
 

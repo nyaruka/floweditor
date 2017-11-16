@@ -127,7 +127,46 @@
                             {
                                 "name": null,
                                 "uuid": "b319dff7-cdb6-4ce4-9f48-5e72818bae77",
+                                "destination_node_uuid": "471f6f94-c683-48f9-8e27-ece1d7604315"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "471f6f94-c683-48f9-8e27-ece1d7604315",
+                        "router": {
+                            "type": "switch",
+                            "operand": "@webhook",
+                            "cases": [
+                                {
+                                    "uuid": "379eed12-fe01-44b4-85c5-a1f2816e3557",
+                                    "type": "has_webhook_status",
+                                    "arguments": ["S"],
+                                    "exit_uuid": "f783f0b5-1d08-4981-9547-bae6d35e84c2"
+                                }
+                            ],
+                            "default_exit_uuid": "c1432a6b-0fe4-435f-915a-15d55e269147"
+                        },
+                        "exits": [
+                            {
+                                "uuid": "f783f0b5-1d08-4981-9547-bae6d35e84c2",
+                                "name": "Success",
                                 "destination_node_uuid": null
+                            },
+                            {
+                                "uuid": "c1432a6b-0fe4-435f-915a-15d55e269147",
+                                "name": "Failure",
+                                "destination_node_uuid": null
+                            }
+                        ],
+                        "actions": [
+                            {
+                                "uuid": "b29914f6-94f4-44ab-be48-55a51a76afdf",
+                                "type": "call_webhook",
+                                "url": "http://example.com",
+                                "headers": {},
+                                "method": "POST",
+                                "body":
+                                    "{\n    \"contact\": @(to_json(contact.uuid)),\n    \"contact_urn\": @(to_json(contact.urns)),\n    \"message\": @(to_json(input.text)),\n    \"flow\": @(to_json(run.flow.uuid)),\n    \"flow_name\": @(to_json(run.flow.name))\n}"
                             }
                         ]
                     }
@@ -173,6 +212,13 @@
                                 "x": 76,
                                 "y": 572
                             }
+                        },
+                        "471f6f94-c683-48f9-8e27-ece1d7604315": {
+                            "position": {
+                                "x": 497,
+                                "y": 721
+                            },
+                            "type": "webhook"
                         }
                     }
                 }

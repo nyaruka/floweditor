@@ -48,9 +48,11 @@ export default class FlowList extends React.PureComponent<FlowListProps, FlowLis
         }));
 
         return (
-            <div id="flow-list" style={{ position: 'absolute', zIndex: 2000, padding: 15, width: 300 }}>
+            <div
+                id="flow-list"
+                style={{ position: 'absolute', zIndex: 2000, padding: 15, width: 300 }}>
                 <Select
-                    placeholder='Select a flow 🌊'
+                    placeholder="Select a flow"
                     onChange={this.onFlowSelect}
                     searchable={false}
                     clearable={false}

@@ -3,17 +3,17 @@ import '../enzymeAdapter';
 import { shallow, mount } from 'enzyme';
 import Editor, { IEditorProps } from './Editor';
 import Flow from './Flow';
-import { flowUUID } from '../flowEditorConfig';
 import EditorConfig from '../services/EditorConfig';
 import External from '../services/External';
 import { getSpecWrapper } from '../helpers/utils';
 
+const { results: [{ uuid }]} = require('../../assets/flows.json');
 const {
     results: [{ definition }]
 } = require('../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
 const editorProps: IEditorProps = {
-    flowUUID,
+    flowUUID: uuid,
     EditorConfig: new EditorConfig(),
     External: {
         getFlow: jest.fn(
@@ -30,6 +30,7 @@ const editorProps: IEditorProps = {
 };
 
 const EditorShallow = shallow(<Editor {...editorProps} />);
+const FlowListShallow = EditorShallow.find('FlowList');
 
 describe('Component: Editor', () => {
     it('Renders w/ expected state', () => {
@@ -39,8 +40,8 @@ describe('Component: Editor', () => {
         } = editorProps;
         expect(EditorShallow.exists()).toBeTruthy();
         expect(getSpecWrapper(EditorShallow, 'editor').exists()).toBeTruthy();
-        expect(EditorShallow.state('flowUUID')).toBe(flowUUID);
-        expect(getFlow).toBeCalledWith(flowUUID, false, flowsEndpoint);
+        expect(EditorShallow.state('fetching')).toBeFalsy();
+        expect(getFlow).toBeCalledWith(uuid, false, flowsEndpoint);
         expect(EditorShallow.state('definition')).toEqual(definition);
     });
 });
