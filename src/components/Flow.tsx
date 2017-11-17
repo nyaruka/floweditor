@@ -9,7 +9,6 @@ import {
     Reply,
     Node,
     UINode,
-    LocalizationMap,
     Dimensions
 } from '../flowTypes';
 import ComponentMap from '../services/ComponentMap';
@@ -598,7 +597,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                 {simulator}
                 {dragNode}
                 {modal}
-                <div className={styles.node_list}>{nodes}</div>
+                <div className={styles.node_list} data-spec='nodes'>{nodes}</div>
             </div>
         );
     }

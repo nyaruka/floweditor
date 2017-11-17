@@ -1,19 +1,19 @@
 import * as React from 'react';
 import '../enzymeAdapter';
-import { shallow, mount } from 'enzyme';
-import Editor, { IEditorProps } from './Editor';
+import { shallow } from 'enzyme';
+import Editor, { EditorProps } from './Editor';
 import Flow from './Flow';
 import EditorConfig from '../services/EditorConfig';
 import External from '../services/External';
 import { getSpecWrapper } from '../helpers/utils';
 
-const { results: [{ uuid }]} = require('../../assets/flows.json');
+const { results } = require('../../assets/flows.json');
 const {
     results: [{ definition }]
 } = require('../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
-const editorProps: IEditorProps = {
-    flowUUID: uuid,
+const props: EditorProps = {
+    flowUUID: results[0].uuid,
     EditorConfig: new EditorConfig(),
     External: {
         getFlow: jest.fn(
@@ -25,23 +25,52 @@ const editorProps: IEditorProps = {
                         })
                     )
                 )
+        ),
+        getFlows: jest.fn(
+            () => new Promise((resolve, reject) => process.nextTick(() => resolve({ results })))
         )
     } as any
 };
 
-const EditorShallow = shallow(<Editor {...editorProps} />);
-const FlowListShallow = EditorShallow.find('FlowList');
-
+// your base test is done, now test each instance method
+// test flow
+// push up
+// send eric a msg
 describe('Component: Editor', () => {
-    it('Renders w/ expected state', () => {
-        const {
-            EditorConfig: { endpoints: { flows: flowsEndpoint } },
-            External: { getFlow }
-        } = editorProps;
-        expect(EditorShallow.exists()).toBeTruthy();
-        expect(getSpecWrapper(EditorShallow, 'editor').exists()).toBeTruthy();
-        expect(EditorShallow.state('fetching')).toBeFalsy();
-        expect(getFlow).toBeCalledWith(uuid, false, flowsEndpoint);
-        expect(EditorShallow.state('definition')).toEqual(definition);
+    const EditorComp = shallow(<Editor {...props} />);
+    const languageSelectorExpectedProps = {
+        languages: props.EditorConfig.languages,
+        iso: props.EditorConfig.baseLanguage.iso,
+        onChange: EditorComp.instance().setLanguage
+    };
+    it('Renders itself, children', () => {
+        expect(getSpecWrapper(EditorComp, 'editor-container').exists()).toBeTruthy();
+        expect(getSpecWrapper(EditorComp, 'editor').hasClass('editor')).toBeTruthy();
+        expect(EditorComp.find('FlowList').props()).toEqual({
+            EditorConfig: props.EditorConfig,
+            External: props.External,
+            fetching: false,
+            onFlowSelect: EditorComp.instance().onFlowSelect
+        });
+        expect(EditorComp.find('LanguageSelectorComp').props()).toEqual(
+            languageSelectorExpectedProps
+        );
+        expect(EditorComp.state('language')).toBe(props.EditorConfig.baseLanguage);
+    });
+
+    it('Applies translating style when the user selects a language other than base', () => {
+        const language = { iso: 'spa', name: 'Spanish' };
+
+        EditorComp.setState({ language, translating: true });
+
+        expect(EditorComp.state('language')).toEqual(language);
+        expect(EditorComp.state('translating')).toBeTruthy();
+        expect(
+            getSpecWrapper(EditorComp, 'editor-container').hasClass('translating')
+        ).toBeTruthy();
+        expect(EditorComp.find('LanguageSelectorComp').props()).toEqual({
+            ...languageSelectorExpectedProps,
+            iso: language.iso
+        });
     });
 });

@@ -48,6 +48,8 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
 
         this.onFlowSelect = this.onFlowSelect.bind(this);
         this.setLanguage = this.setLanguage.bind(this);
+        this.setDefinition = this.setDefinition.bind(this);
+        this.save = this.save.bind(this);
     }
 
     private onFlowSelect(uuid: any): void {
@@ -84,8 +86,8 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
         this.Mutator = new FlowMutator(
             this.ComponentMap,
             definition,
-            this.setDefinition.bind(this),
-            this.save.bind(this)
+            this.setDefinition,
+            this.save
             // this.props,
         );
 
@@ -100,7 +102,7 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
 
     private setLanguage(language: Language): void {
         const { EditorConfig: { baseLanguage } } = this.props;
-        const translating: boolean = JSON.stringify(language) !== JSON.stringify(baseLanguage);
+        const translating: boolean = baseLanguage.iso !== language.iso && baseLanguage.name !== language.name;
 
         this.setState({
             language,
@@ -132,7 +134,7 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
         const languageSelector: JSX.Element = this.getLanguageSelector();
 
         return (
-            <div className={this.state.translating ? styles.translating : null}>
+            <div className={this.state.translating ? styles.translating : null} data-spec='editor-container'>
                 <div className={styles.editor} data-spec="editor">
                     <FlowList
                         EditorConfig={this.props.EditorConfig}

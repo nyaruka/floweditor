@@ -1,6 +1,6 @@
 import * as React from 'react';
 import '../enzymeAdapter';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { languages } from '../flowEditorConfig';
 import CompMap from '../services/ComponentMap';
 import Plumber from '../services/Plumber';
@@ -20,12 +20,9 @@ const {
     getOperatorConfig,
     endpoints
 } = new EditorConfig();
-
 const Activity = new ActivityManager(flowUUID, jest.fn());
-
 const ComponentMap = new CompMap(definition);
-
-const nodeCompProps: NodeProps = {
+const props: NodeProps = {
     ComponentMap,
     typeConfigList,
     operatorConfigList,
@@ -62,7 +59,7 @@ const nodeCompProps: NodeProps = {
         }
     },
     Activity,
-    translations: {},
+    translations: null,
     languages,
     plumberDraggable: jest.fn(),
     plumberMakeTarget: jest.fn(),
@@ -72,7 +69,7 @@ const nodeCompProps: NodeProps = {
     plumberConnectExit: jest.fn()
 };
 
-const NodeShallow = shallow(<Node {...nodeCompProps} />);
+const NodeShallow = shallow(<Node {...props} />);
 
 describe('Component: NodeComp', () => {
     it('should render', () => {

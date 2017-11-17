@@ -1,7 +1,4 @@
 import * as React from 'react';
-import * as axios from 'axios';
-import * as shallowCompare from 'react-addons-shallow-compare';
-import * as FlipMove from 'react-flip-move';
 import { Language } from './LanguageSelector';
 import Action, { ActionProps } from './Action/Action';
 import { IDragEvent } from '../services/Plumber';
@@ -21,6 +18,9 @@ import CounterComp from './Counter';
 import ActivityManager from '../services/ActivityManager';
 import ComponentMap from '../services/ComponentMap';
 import Localization, { LocalizedObject } from '../services/Localization';
+
+const FlipMove = require('react-flip-move');
+const shallowCompare = require('react-addons-shallow-compare');
 
 const styles = require('./Node.scss');
 const shared = require('./shared.scss');
@@ -299,7 +299,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
     render() {
         let classes = ['plumb-drag', styles.node];
 
-        if (this.props.hasOwnProperty('iso') && !this.props.translating) {
+        if (this.props.hasOwnProperty('iso') && this.props.translating) {
             classes = [...classes, styles.translating];
         }
 
@@ -417,7 +417,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 }
             }
 
-            if (!this.props.node.actions || this.props.node.actions.length === 0) {
+            if (!this.props.node.actions || !this.props.node.actions.length) {
                 header = (
                     <div {...events}>
                         <TitleBarComp
