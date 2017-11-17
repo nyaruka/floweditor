@@ -7,18 +7,21 @@ import { FlowDefinition } from '../flowTypes';
 import FlowMutator from '../services/FlowMutator';
 import Temba from '../services/Temba';
 import ComponentMap from '../services/ComponentMap';
+import { Language } from './LanguageSelector';
 import Flow from './Flow';
 
 const styles = require('./Editor.scss');
 
-export interface IEditorProps {
+export interface EditorProps {
     flowUUID: string;
     EditorConfig: EditorConfig;
     External: External;
 }
 
-export interface IEditorState {
+export interface EditorState {
     fetching: boolean;
+    language: Language;
+    translating: boolean;
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
 }
@@ -26,14 +29,16 @@ export interface IEditorState {
 /**
  * A navigable list of flows for an account
  */
-export default class Editor extends React.PureComponent<IEditorProps, IEditorState> {
+export default class Editor extends React.PureComponent<EditorProps, EditorState> {
     private Temba: Temba;
     private Mutator: FlowMutator;
     private ComponentMap: ComponentMap;
 
-    constructor(props: IEditorProps) {
+    constructor(props: EditorProps) {
         super(props);
         this.state = {
+            language: this.props.EditorConfig.baseLanguage,
+            translating: false,
             fetching: false,
             definition: null,
             dependencies: null
@@ -42,6 +47,7 @@ export default class Editor extends React.PureComponent<IEditorProps, IEditorSta
         // this.Temba = new Temba('https://your-site.com', '05594lM5uQsTHLlvrBts5lenb5Iyex6P');
 
         this.onFlowSelect = this.onFlowSelect.bind(this);
+        this.setLanguage = this.setLanguage.bind(this);
     }
 
     private onFlowSelect(uuid: any): void {
@@ -97,6 +103,16 @@ export default class Editor extends React.PureComponent<IEditorProps, IEditorSta
 
     }
 
+    private setLanguage(language: Language): void {
+        const { EditorConfig: { baseLanguage } } = this.props;
+        const translating: boolean = JSON.stringify(language) !== JSON.stringify(baseLanguage);
+
+        this.setState({
+            language,
+            translating
+        });
+    }
+
     public componentDidMount(): void {
         this.fetchFlow(this.props.flowUUID);
     }
@@ -112,6 +128,9 @@ export default class Editor extends React.PureComponent<IEditorProps, IEditorSta
                 />
                 {this.state.definition &&!this.state.fetching ? (
                     <Flow
+                        language={this.state.language}
+                        translating={this.state.translating}
+                        setLanguage={this.setLanguage}
                         EditorConfig={this.props.EditorConfig}
                         External={this.props.External}
                         definition={this.state.definition}

@@ -26,6 +26,9 @@ import LanguageSelectorComp, { Language } from './LanguageSelector';
 const styles = require('./Flow.scss');
 
 export interface FlowProps {
+    language: Language;
+    translating: boolean;
+    setLanguage(language: Language): void;
     EditorConfig: EditorConfig;
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
@@ -40,8 +43,6 @@ export interface FlowState {
     loading: boolean;
     viewDefinition?: FlowDefinition;
     draggingNode?: Node;
-    language?: Language;
-    translating: boolean;
 }
 
 export interface Connection {
@@ -81,9 +82,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             ghost: null,
             nodeEditor: null,
             viewDefinition: null,
-            draggingNode: null,
-            language: this.props.EditorConfig.baseLanguage,
-            translating: false
+            draggingNode: null
         };
 
         this.repaintDuration = REPAINT_DURATION;
@@ -110,7 +109,6 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         this.onNodeDragStop = this.onNodeDragStop.bind(this);
         this.onNodeBeforeDrag = this.onNodeBeforeDrag.bind(this);
         this.resetState = this.resetState.bind(this);
-        this.setLanguage = this.setLanguage.bind(this);
 
         console.time('RenderAndPlumb');
     }
@@ -187,8 +185,8 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             onUpdateLocalizations: this.props.Mutator.updateLocalizations,
             onUpdateRouter: this.onUpdateRouter,
             definition: this.props.definition,
-            translating: this.state.translating,
-            iso: this.state.language.iso,
+            translating: this.props.translating,
+            iso: this.props.language.iso,
             node: addToNode,
             action: newAction,
             actionsOnly: true,
@@ -369,11 +367,11 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
     }
 
     private beforeConnectionDrag(event: ConnectionEvent) {
-        return !this.state.translating;
+        return !this.props.translating;
     }
 
     private onBeforeStartDetach(event: any) {
-        return !this.state.translating;
+        return !this.props.translating;
     }
 
     private onBeforeDetach(event: ConnectionEvent) {
@@ -429,21 +427,11 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         return true;
     }
 
-    private setLanguage(language: Language): void {
-        const { EditorConfig: { baseLanguage } } = this.props;
-        const translating: boolean = JSON.stringify(language) !== JSON.stringify(baseLanguage);
-
-        this.setState({
-            language,
-            translating
-        });
-    }
-
     render() {
         let translations: { [uuid: string]: any };
 
         if (this.props.definition.localization) {
-            translations = this.props.definition.localization[this.state.language.iso];
+            translations = this.props.definition.localization[this.props.language.iso];
         }
 
         if (!translations) {
@@ -486,9 +474,9 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                     /** Flow */
                     node={node}
                     ui={ui}
-                    iso={this.state.language.iso}
+                    iso={this.props.language.iso}
                     translations={translations}
-                    translating={this.state.translating}
+                    translating={this.props.translating}
                     Activity={this.Activity}
                     onNodeMounted={this.onNodeMounted}
                     onNodeMoved={this.onNodeMoved}
@@ -548,7 +536,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                      ui={ui}
                      iso={null}
                      translations={null}
-                     translating={this.state.translating}
+                     translating={this.props.translating}
                      Activity={this.Activity}
                      onNodeMounted={this.onNodeMounted}
                      onNodeMoved={this.onNodeMoved}
@@ -600,9 +588,9 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                     endpoints={this.props.EditorConfig.endpoints}
                     ComponentMap={this.props.ComponentMap}
                     /** Flow */
-                    iso={this.state.language.iso}
+                    iso={this.props.language.iso}
                     definition={this.props.definition}
-                    translating={this.state.translating}
+                    translating={this.props.translating}
                     {...this.state.nodeEditor}
                 />
             );
@@ -620,7 +608,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             classes = [...classes, styles.dragging];
         }
 
-        if (this.state.translating) {
+        if (this.props.translating) {
             classes = [...classes, styles.translation];
         }
 
@@ -630,8 +618,8 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             languageSelector = (
                 <LanguageSelectorComp
                     languages={this.props.EditorConfig.languages}
-                    iso={this.state.language.iso}
-                    onChange={this.setLanguage}
+                    iso={this.props.language.iso}
+                    onChange={this.props.setLanguage}
                 />
             );
         }
@@ -640,7 +628,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             <div className={classes.join(' ')}>
                 {languageSelector}
                 {simulator}
-                <div key={definition.uuid} className={styles.flow}>
+                <div key={definition.uuid}>
                     <div className={styles.node_list}>{nodes}</div>
                     {dragNode}
                     {modal}
