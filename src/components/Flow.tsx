@@ -443,7 +443,6 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                     key={key}
                     /** Editor */
                     nodeDragging={this.props.nodeDragging}
-                    onDrag={this.props.onDrag}
                     definition={this.props.definition}
                     ComponentMap={this.props.ComponentMap}
                     onUpdateDimensions={this.props.Mutator.updateDimensions}

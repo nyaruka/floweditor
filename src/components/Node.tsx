@@ -41,7 +41,6 @@ export interface NodeState {
 
 export interface NodeProps {
     nodeDragging?: boolean;
-    onDrag?: Function;
     node: Node;
     ui: UINode;
     Activity: ActivityManager;
