@@ -71,7 +71,6 @@ export default class FlowList extends React.Component<FlowListProps, FlowListSta
                     valueKey="uuid"
                     value={this.state.selected}
                     options={flows}
-                    /** Editor */
                     isLoading={!this.state.flows.length}
                 />
             </div>
