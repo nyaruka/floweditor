@@ -17,6 +17,8 @@ import LanguageSelectorComp, { Language } from './LanguageSelector';
 const styles = require('./Flow.scss');
 
 export interface FlowProps {
+    nodeDragging: boolean;
+    onDrag: Function;
     language: Language;
     translating: boolean;
     EditorConfig: EditorConfig;
@@ -445,6 +447,8 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                 <NodeComp
                     key={key}
                     /** Editor */
+                    nodeDragging={this.props.nodeDragging}
+                    onDrag={this.props.onDrag}
                     definition={this.props.definition}
                     ComponentMap={this.props.ComponentMap}
                     onUpdateDimensions={this.props.Mutator.updateDimensions}

@@ -40,6 +40,8 @@ export interface NodeState {
 }
 
 export interface NodeProps {
+    nodeDragging?: boolean;
+    onDrag?: Function;
     node: Node;
     ui: UINode;
     Activity: ActivityManager;
@@ -101,14 +103,14 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
     onDragStart(event: any) {
         this.clicking = false;
-        this.setState({ dragging: true });
+        this.setState({ dragging: true }, () => this.props.onDrag(true));
         return false;
     }
 
     onDrag(event: IDragEvent) {}
 
     onDragStop(event: IDragEvent) {
-        this.setState({ dragging: false });
+        this.setState({ dragging: false }, () => this.props.onDrag(false));
         this.props.onNodeDragStop(this.props.node);
 
         var position = $(event.target).position();
@@ -480,7 +482,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         }
 
         // is this a ghost node
-        if (this.props.ghost) {
+        if (this.props.ghost || this.props.nodeDragging && !this.state.dragging) {
             classes.push(styles.ghost);
         }
 

@@ -22,6 +22,7 @@ export interface EditorState {
     fetching: boolean;
     language: Language;
     translating: boolean;
+    nodeDragging: boolean;
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
 }
@@ -40,6 +41,7 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
             language: this.props.EditorConfig.baseLanguage,
             translating: false,
             fetching: false,
+            nodeDragging: false,
             definition: null,
             dependencies: null
         };
@@ -49,6 +51,7 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
         this.onFlowSelect = this.onFlowSelect.bind(this);
         this.setLanguage = this.setLanguage.bind(this);
         this.setDefinition = this.setDefinition.bind(this);
+        this.onDrag = this.onDrag.bind(this);
         this.save = this.save.bind(this);
     }
 
@@ -70,6 +73,12 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
                 fetching: false,
                 definition
             });
+        }
+    }
+
+    private onDrag(dragging: boolean): void {
+        if (this.state.nodeDragging !== dragging) {
+            this.setState({ nodeDragging: dragging });
         }
     }
 
@@ -147,6 +156,8 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
                     {languageSelector}
                     {this.state.definition && !this.state.fetching ? (
                         <Flow
+                            nodeDragging={this.state.nodeDragging}
+                            onDrag={this.onDrag}
                             language={this.state.language}
                             translating={this.state.translating}
                             EditorConfig={this.props.EditorConfig}
