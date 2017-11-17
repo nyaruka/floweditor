@@ -18,6 +18,8 @@ const { baseLanguage } = Config;
 const ComponentMap = new CompMap(definition);
 const Mutator = new FlowMutator(ComponentMap, definition, jest.fn(), jest.fn());
 const props: FlowProps = {
+    nodeDragging: false,
+    onDrag: jest.fn(),
     language,
     translating: baseLanguage.iso !== language.iso && baseLanguage.name === language.name,
     EditorConfig: Config,
