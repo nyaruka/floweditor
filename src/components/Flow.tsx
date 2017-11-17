@@ -34,7 +34,6 @@ export interface FlowState {
     nodeEditor?: NodeEditorProps;
     loading: boolean;
     viewDefinition?: FlowDefinition;
-    draggingNode?: Node;
 }
 
 export interface Connection {
@@ -74,7 +73,6 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             ghost: null,
             nodeEditor: null,
             viewDefinition: null,
-            draggingNode: null
         };
 
         this.repaintDuration = REPAINT_DURATION;
@@ -114,7 +112,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
     }
 
     private onNodeBeforeDrag(node: Node, dragGroup: boolean) {
-        if (!this.state.draggingNode) {
+        if (!this.props.nodeDragging) {
             if (dragGroup) {
                 const nodesBelow = this.props.ComponentMap.getNodesBelow(node);
                 this.Plumber.setDragSelection(nodesBelow);
@@ -125,15 +123,11 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
     }
 
     private onNodeDragStart(node: Node) {
-        if (!this.state.draggingNode) {
-            this.setState({ draggingNode: node });
-        }
+        this.props.onDrag(true);
     }
 
     private onNodeDragStop(node: Node) {
-        if (this.state.draggingNode) {
-            this.setState({ draggingNode: null });
-        }
+        this.props.onDrag(false);
     }
 
     private openEditor(props: NodeEditorProps) {
@@ -160,7 +154,8 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             );
         };
 
-        this.setState({ nodeEditor: props, draggingNode: null }, () => {
+        this.setState({ nodeEditor: props }, () => {
+            this.props.onDrag(false);
             this.nodeEditor.open();
         });
     }

@@ -103,14 +103,14 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
     onDragStart(event: any) {
         this.clicking = false;
-        this.setState({ dragging: true }, () => this.props.onDrag(true));
+        this.setState({ dragging: true });
         return false;
     }
 
     onDrag(event: IDragEvent) {}
 
     onDragStop(event: IDragEvent) {
-        this.setState({ dragging: false }, () => this.props.onDrag(false));
+        this.setState({ dragging: false });
         this.props.onNodeDragStop(this.props.node);
 
         var position = $(event.target).position();
