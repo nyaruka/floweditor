@@ -4,6 +4,8 @@ import { shallow } from 'enzyme';
 import Editor, { EditorProps } from './Editor';
 import Flow from './Flow';
 import EditorConfig from '../services/EditorConfig';
+import ComponentMap from '../services/ComponentMap';
+import FlowMutator from '../services/FlowMutator';
 import External from '../services/External';
 import { getSpecWrapper } from '../helpers/utils';
 
@@ -31,14 +33,22 @@ const props: EditorProps = {
         )
     } as any
 };
+const EditorComp = shallow(<Editor {...props} />);
+const CompMap = new ComponentMap(definition);
+const Mutator = new FlowMutator(
+    CompMap,
+    definition,
+    EditorComp.instance().setDefinition,
+    EditorComp.instance().save
+);
+
+const languageSelectorExpectedProps = {
+    languages: props.EditorConfig.languages,
+    iso: props.EditorConfig.baseLanguage.iso,
+    onChange: EditorComp.instance().setLanguage
+};
 
 describe('Component: Editor', () => {
-    const EditorComp = shallow(<Editor {...props} />);
-    const languageSelectorExpectedProps = {
-        languages: props.EditorConfig.languages,
-        iso: props.EditorConfig.baseLanguage.iso,
-        onChange: EditorComp.instance().setLanguage
-    };
     it('Renders itself, children', () => {
         expect(getSpecWrapper(EditorComp, 'editor-container').exists()).toBeTruthy();
         expect(getSpecWrapper(EditorComp, 'editor').hasClass('editor')).toBeTruthy();
@@ -53,10 +63,24 @@ describe('Component: Editor', () => {
         expect(EditorComp.state('language')).toBe(props.EditorConfig.baseLanguage);
     });
 
+    it('Renders a Flow', () => {
+        EditorComp.setState({
+            fetching: false,
+            definition
+        });
+
+        expect(EditorComp.find('Flow').exists()).toBeTruthy();
+    });
+
     it('Applies translating style when the user selects a language other than base', () => {
         const language = { iso: 'spa', name: 'Spanish' };
 
-        EditorComp.setState({ language, translating: true });
+        EditorComp.setState({
+            language,
+            translating:
+                props.EditorConfig.baseLanguage.iso !== language.iso &&
+                props.EditorConfig.baseLanguage.name !== language.name
+        });
 
         expect(EditorComp.state('language')).toEqual(language);
         expect(EditorComp.state('translating')).toBeTruthy();

@@ -21,7 +21,7 @@ interface FlowListState {
 export default class FlowList extends React.Component<FlowListProps, FlowListState> {
     constructor(props: FlowListProps) {
         super(props);
-        console.log('props', this.props);
+
         this.state = {
             flows: [],
             selected: null
