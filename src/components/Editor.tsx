@@ -110,7 +110,7 @@ export default class Editor extends React.PureComponent<IEditorProps, IEditorSta
                     fetching={this.state.fetching}
                     onFlowSelect={this.onFlowSelect}
                 />
-                {this.state.definition ? (
+                {this.state.definition &&!this.state.fetching ? (
                     <Flow
                         EditorConfig={this.props.EditorConfig}
                         External={this.props.External}
