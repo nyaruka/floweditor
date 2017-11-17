@@ -1,5 +1,5 @@
 const { jsPlumb: { importDefaults } } = require('../../node_modules/jsplumb/dist/js/jsplumb.js');
-import { FlowDefinition, Exit, LocalizationMap } from '../flowTypes';
+import { Node, FlowDefinition, Exit, LocalizationMap } from '../flowTypes';
 
 export interface IDragEvent {
     el: Element;
@@ -133,7 +133,7 @@ class Plumber {
         this.connect(exit.uuid, exit.destination_node_uuid, className);
     }
 
-    public setDragSelection(nodes: LocalizationMap[]) {
+    public setDragSelection(nodes: Node[]) {
         this.cancelDurationRepaint();
         this.jsPlumb.clearDragSelection();
         nodes.forEach(({ uuid }) => this.jsPlumb.addToDragSelection(uuid));
@@ -249,7 +249,7 @@ class Plumber {
     }
 
     public repaint(uuid?: string) {
-        console.log('repaint', uuid);
+        console.log('repaint');
         if (!uuid) {
             this.jsPlumb.recalculateOffsets();
             this.jsPlumb.repaintEverything();

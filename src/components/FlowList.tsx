@@ -11,7 +11,8 @@ export interface FlowListProps {
 }
 
 interface FlowListState {
-    flows?: FlowDetails[];
+    flows: FlowDetails[];
+    selected: FlowDetails;
 }
 
 /**
@@ -22,14 +23,23 @@ export default class FlowList extends React.PureComponent<FlowListProps, FlowLis
         super(props);
 
         this.state = {
-            flows: []
+            flows: [],
+            selected: null
         };
 
-        this.onFlowSelect = this.onFlowSelect.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
-    private onFlowSelect({ uuid }: any): void {
-        this.props.onFlowSelect(uuid);
+    private onChange(flow: any) {
+        const { flows, selected } = this.state;
+        if (flows.length) {
+            if (selected) {
+                if (flow.uuid === selected.uuid) {
+                    return;
+                }
+            }
+            this.setState({ selected: flow }, () => this.props.onFlowSelect(flow.uuid));
+        }
     }
 
     public componentDidMount(): void {
@@ -54,11 +64,12 @@ export default class FlowList extends React.PureComponent<FlowListProps, FlowLis
                 <Select
                     /** FlowList */
                     placeholder="Select a flow"
-                    onChange={this.onFlowSelect}
+                    onChange={this.onChange}
                     searchable={false}
                     clearable={false}
                     labelKey="name"
                     valueKey="uuid"
+                    value={this.state.selected}
                     options={flows}
                     /** Editor */
                     isLoading={this.props.fetching}

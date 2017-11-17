@@ -14,7 +14,7 @@ import {
 } from '../flowTypes';
 import { DragPoint } from '../components/Node';
 import ComponentMap from './ComponentMap';
-import { IFlowProps } from '../components/Flow';
+import { FlowProps } from '../components/Flow';
 
 interface Bounds {
     left: number;

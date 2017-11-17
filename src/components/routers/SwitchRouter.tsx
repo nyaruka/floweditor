@@ -35,141 +35,111 @@ export interface CombinedExits {
  * @param previousExits
  */
 export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExits {
-    /** Create mapping of our old exit uuids to old exit settings */
-    let previousExitMap: { [uuid: string]: Exit } = {};
+    // create mapping of our old exit uuids to old exit settings
+    var previousExitMap: { [uuid: string]: Exit } = {};
 
     if (previous.exits) {
-        previousExitMap = previous.exits.reduce(
-            (map, exit) => (map = { ...map, [exit.uuid]: exit }),
-            {}
-        );
+        for (let exit of previous.exits) {
+            previousExitMap[exit.uuid] = exit;
+        }
+    }
 
-        let exits: Exit[] = [];
-        let cases: Case[] = [];
+    var exits: Exit[] = [];
+    var cases: Case[] = [];
 
-        /** Map our new cases to an appropriate exit */
-        newCases.forEach(newCase => {
-            /** See if we already have a suitable exit */
-            let existingExit: Exit = null;
+    // map our new cases to an appropriate exit
+    for (let newCase of newCases) {
+        // see if we have a suitable exit for our case already
+        var existingExit: Exit = null;
 
-            /** Use our previous exit name if it isn't set */
-            if (!newCase.exitName && newCase.kase.exit_uuid in previousExitMap) {
-                newCase = { ...newCase, exitName: previousExitMap[newCase.kase.exit_uuid].name };
-            }
+        // use our previous exit name if it isn't set
+        if (!newCase.exitName && newCase.kase.exit_uuid in previousExitMap) {
+            newCase.exitName = previousExitMap[newCase.kase.exit_uuid].name;
+        }
 
-            /** Ignore cases with empty names */
-            if (!newCase.exitName || newCase.exitName.trim().length === 0) {
-                return;
-            }
+        // ignore cases with empty names
+        if (!newCase.exitName || newCase.exitName.trim().length === 0) {
+            continue;
+        }
 
-            if (newCase.exitName) {
-                /** Look through our new exits to see if we've already created one */
-                for (let exit of exits) {
-                    if (newCase.exitName && exit.name) {
-                        if (exit.name.toLowerCase() === newCase.exitName.trim().toLowerCase()) {
-                            existingExit = exit;
-                            break;
-                        }
+        if (newCase.exitName) {
+            // look through our new exits to see if we've already created one
+            for (let exit of exits) {
+                if (newCase.exitName && exit.name) {
+                    if (exit.name.toLowerCase() === newCase.exitName.trim().toLowerCase()) {
+                        existingExit = exit;
+                        break;
                     }
                 }
+            }
 
-                /** Couldn't find a new exit, look through our old ones */
-                if (!existingExit) {
-                    /** Look through our previous cases for a match */
-                    if (previous.exits) {
-                        for (let exit of previous.exits) {
-                            if (newCase.exitName && exit.name) {
-                                if (
-                                    exit.name.toLowerCase() ===
-                                    newCase.exitName.trim().toLowerCase()
-                                ) {
-                                    existingExit = exit;
-                                    exits = [...exits, existingExit];
-                                    break;
-                                }
+            // couldn't find a new exit, look through our old ones
+            if (!existingExit) {
+                // look through our previous cases for a match
+                if (previous.exits) {
+                    for (let exit of previous.exits) {
+                        if (newCase.exitName && exit.name) {
+                            if (exit.name.toLowerCase() === newCase.exitName.trim().toLowerCase()) {
+                                existingExit = exit;
+                                exits.push(existingExit);
+                                break;
                             }
                         }
                     }
                 }
             }
-
-            /** We found a suitable exit, point our case to it */
-            if (existingExit) {
-                newCase = update(newCase, {
-                    kase: {
-                        exit_uuid: {
-                            $set: existingExit.uuid
-                        }
-                    }
-                });
-            } else {
-                /** No existing exit, create a new one */
-                /** Find our previous destination if we have one */
-                let destination_node_uuid: string = null;
-
-                if (newCase.kase.exit_uuid in previousExitMap) {
-                    ({ [newCase.kase.exit_uuid]: { destination_node_uuid } } = previousExitMap);
-                }
-
-                newCase = update(newCase, {
-                    kase: {
-                        exit_uuid: {
-                            $set: generateUUID()
-                        }
-                    }
-                });
-
-                const { exitName: name, kase: { exit_uuid: uuid } } = newCase;
-
-                exits = [
-                    ...exits,
-                    {
-                        name,
-                        uuid,
-                        destination_node_uuid
-                    }
-                ];
-            }
-
-            const { kase } = newCase;
-
-            /** Remove exitName from our case */
-            cases = [...cases, kase];
-        });
-
-        /** Add in our default exit */
-        let defaultUUID: string = generateUUID();
-
-        if (previous.router && previous.router.type === 'switch') {
-            const router = previous.router as SwitchRouter;
-            if (router && router.default_exit_uuid) {
-                defaultUUID = router.default_exit_uuid;
-            }
         }
 
-        let defaultName: string = 'All Responses';
-
-        if (exits.length > 0) {
-            defaultName = 'Other';
-        }
-
-        let defaultDestination: string = null;
-
-        if (defaultUUID in previousExitMap) {
-            ({ [defaultUUID]: { destination_node_uuid: defaultDestination } } = previousExitMap);
-        }
-
-        exits = [
-            ...exits,
-            {
-                uuid: defaultUUID,
-                name: defaultName,
-                destination_node_uuid: defaultDestination
+        // we found a suitable exit, point our case to it
+        if (existingExit) {
+            newCase.kase.exit_uuid = existingExit.uuid;
+        } else {
+            // no existing exit, create a new one
+            // find our previous destination if we have one
+            var destination = null;
+            if (newCase.kase.exit_uuid in previousExitMap) {
+                destination = previousExitMap[newCase.kase.exit_uuid].destination_node_uuid;
             }
-        ];
 
-        return { cases, exits, defaultExit: defaultUUID };
+            newCase.kase.exit_uuid = generateUUID();
+
+            exits.push({
+                name: newCase.exitName,
+                uuid: newCase.kase.exit_uuid,
+                destination_node_uuid: destination
+            });
+        }
+
+        // remove exitName from our case
+        cases.push(newCase.kase);
     }
+
+    // add in our default exit
+    var defaultUUID = generateUUID();
+    if (previous.router && previous.router.type === 'switch') {
+        var router = previous.router as SwitchRouter;
+        if (router && router.default_exit_uuid) {
+            defaultUUID = router.default_exit_uuid;
+        }
+    }
+
+    var defaultName = 'All Responses';
+    if (exits.length > 0) {
+        defaultName = 'Other';
+    }
+
+    var defaultDestination = null;
+    if (defaultUUID in previousExitMap) {
+        defaultDestination = previousExitMap[defaultUUID].destination_node_uuid;
+    }
+
+    exits.push({
+        uuid: defaultUUID,
+        name: defaultName,
+        destination_node_uuid: defaultDestination
+    });
+
+    return { cases: cases, exits: exits, defaultExit: defaultUUID };
 }
 
 export interface SwitchRouterState {
@@ -687,9 +657,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
     }
 
     public render(): JSX.Element {
-        const { showAdvanced } = this.props;
-
-        if (showAdvanced) {
+        if (this.props.showAdvanced) {
             return this.renderAdvanced();
         }
         return this.renderForm();
