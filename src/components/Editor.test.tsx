@@ -32,10 +32,6 @@ const props: EditorProps = {
     } as any
 };
 
-// your base test is done, now test each instance method
-// test flow
-// push up
-// send eric a msg
 describe('Component: Editor', () => {
     const EditorComp = shallow(<Editor {...props} />);
     const languageSelectorExpectedProps = {
