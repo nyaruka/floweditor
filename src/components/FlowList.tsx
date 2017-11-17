@@ -11,7 +11,7 @@ export interface FlowListProps {
 }
 
 interface FlowListState {
-    flows: Partial<FlowDetails>[];
+    flows: { uuid: string; name: string }[];
     selected: Partial<FlowDetails>;
 }
 
@@ -44,19 +44,20 @@ export default class FlowList extends React.Component<FlowListProps, FlowListSta
 
     public componentDidMount(): void {
         this.props.External.getFlows(this.props.EditorConfig.endpoints.flows).then(
-            (flows: FlowDetails[]) =>
+            (flows: FlowDetails[]) => {
+                const flowList = flows.map(({ uuid, name }) => ({
+                    uuid,
+                    name
+                }));
+
                 this.setState({
-                    flows
-                })
+                    flows: flowList
+                });
+            }
         );
     }
 
     public render(): JSX.Element {
-        const flows: { uuid: string; name: string }[] = this.state.flows.map(({ uuid, name }) => ({
-            uuid,
-            name
-        }));
-
         return (
             <div
                 id="flow-list"
@@ -70,7 +71,7 @@ export default class FlowList extends React.Component<FlowListProps, FlowListSta
                     labelKey="name"
                     valueKey="uuid"
                     value={this.state.selected}
-                    options={flows}
+                    options={this.state.flows}
                     isLoading={!this.state.flows.length}
                 />
             </div>
