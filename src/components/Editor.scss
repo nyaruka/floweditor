@@ -1,4 +1,5 @@
 @import "../variables.scss";
+
 .editor {
     position: relative;
     font-family: 'Roboto', sans-serif;
@@ -13,4 +14,16 @@
     $color_1: rgba(80, 80, 80, 0.05);
     background-image: linear-gradient(0deg, transparent 24%, $color_1 25%, $color_1 26%, transparent 27%, transparent 74%, $color_1 75%, $color_1 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, $color_1 25%, $color_1 26%, transparent 27%, transparent 74%, $color_1 75%, $color_1 76%, transparent 77%, transparent);
     background-size: 40px 40px;
+}
+
+.translating {
+    .editor {
+        $color_1: rgba(0, 0, 0, .08);
+        $color_2: rgba(0, 0, 0, .05);
+        background: repeating-linear-gradient(-60deg, $color_1, $color_1 3px, $color_2 3px, $color_2 6px); // background: rgba(200, 200, 200, .3);
+    }
+    svg path {
+        stroke: $red !important;
+        fill: $red !important;
+    }
 }

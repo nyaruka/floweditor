@@ -7,7 +7,7 @@ import { FlowDefinition } from '../flowTypes';
 import FlowMutator from '../services/FlowMutator';
 import Temba from '../services/Temba';
 import ComponentMap from '../services/ComponentMap';
-import { Language } from './LanguageSelector';
+import LanguageSelectorComp, { Language } from './LanguageSelector';
 import Flow from './Flow';
 
 const styles = require('./Editor.scss');
@@ -93,14 +93,9 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
     }
 
     private fetchFlow(uuid: string): void {
-        this.props.External.getFlow(
-            uuid,
-            false,
-            this.props.EditorConfig.endpoints.flows
-        )
+        this.props.External.getFlow(uuid, false, this.props.EditorConfig.endpoints.flows)
             .then(({ definition }: FlowDetails) => this.initialize(definition))
             .catch((error: {}) => console.log(error));
-
     }
 
     private setLanguage(language: Language): void {
@@ -113,32 +108,52 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
         });
     }
 
+    private getLanguageSelector(): JSX.Element {
+        let languageSelector: JSX.Element = null;
+
+        if (this.props.EditorConfig.languages) {
+            languageSelector = (
+                <LanguageSelectorComp
+                    languages={this.props.EditorConfig.languages}
+                    iso={this.state.language.iso}
+                    onChange={this.setLanguage}
+                />
+            );
+        }
+
+        return languageSelector;
+    }
+
     public componentDidMount(): void {
         this.fetchFlow(this.props.flowUUID);
     }
 
     public render(): JSX.Element {
+        const languageSelector: JSX.Element = this.getLanguageSelector();
+
         return (
-            <div className={styles.editor} data-spec="editor">
-                <FlowList
-                    EditorConfig={this.props.EditorConfig}
-                    External={this.props.External}
-                    fetching={this.state.fetching}
-                    onFlowSelect={this.onFlowSelect}
-                />
-                {this.state.definition &&!this.state.fetching ? (
-                    <Flow
-                        language={this.state.language}
-                        translating={this.state.translating}
-                        setLanguage={this.setLanguage}
+            <div className={this.state.translating ? styles.translating : null}>
+                <div className={styles.editor} data-spec="editor">
+                    <FlowList
                         EditorConfig={this.props.EditorConfig}
                         External={this.props.External}
-                        definition={this.state.definition}
-                        dependencies={this.state.dependencies}
-                        ComponentMap={this.ComponentMap}
-                        Mutator={this.Mutator}
+                        fetching={this.state.fetching}
+                        onFlowSelect={this.onFlowSelect}
                     />
-                ) : null}
+                    {languageSelector}
+                    {this.state.definition && !this.state.fetching ? (
+                        <Flow
+                            language={this.state.language}
+                            translating={this.state.translating}
+                            EditorConfig={this.props.EditorConfig}
+                            External={this.props.External}
+                            definition={this.state.definition}
+                            dependencies={this.state.dependencies}
+                            ComponentMap={this.ComponentMap}
+                            Mutator={this.Mutator}
+                        />
+                    ) : null}
+                </div>
             </div>
         );
     }

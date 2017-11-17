@@ -28,7 +28,6 @@ const styles = require('./Flow.scss');
 export interface FlowProps {
     language: Language;
     translating: boolean;
-    setLanguage(language: Language): void;
     EditorConfig: EditorConfig;
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
@@ -338,9 +337,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         Plumber.bind('connection', (event: ConnectionEvent) => this.onConnection(event));
         Plumber.bind('beforeDrag', (event: ConnectionEvent) => this.beforeConnectionDrag(event));
         Plumber.bind('connectionDrag', (event: ConnectionEvent) => this.onConnectionDrag(event));
-        Plumber.bind('connectionDragStop', (event: ConnectionEvent) =>
-            this.onConnectorDrop(event)
-        );
+        Plumber.bind('connectionDragStop', (event: ConnectionEvent) => this.onConnectorDrop(event));
         Plumber.bind('beforeStartDetach', (event: ConnectionEvent) =>
             this.onBeforeStartDetach(event)
         );
@@ -513,46 +510,46 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
 
             dragNode = (
                 <NodeComp
-                     key={ghost.uuid}
-                     ref={this.ghostRef}
-                     /** Editor */
-                     definition={this.props.definition}
-                     ComponentMap={this.props.ComponentMap}
-                     onUpdateDimensions={this.props.Mutator.updateDimensions}
-                     onDisconnectExit={this.props.Mutator.disconnectExit}
-                     onRemoveNode={this.props.Mutator.removeNode}
-                     onUpdateLocalizations={this.props.Mutator.updateLocalizations}
-                     onRemoveAction={this.props.Mutator.removeAction}
-                     onMoveActionUp={this.props.Mutator.moveActionUp}
-                     typeConfigList={this.props.EditorConfig.typeConfigList}
-                     operatorConfigList={this.props.EditorConfig.operatorConfigList}
-                     getTypeConfig={this.props.EditorConfig.getTypeConfig}
-                     getOperatorConfig={this.props.EditorConfig.getOperatorConfig}
-                     endpoints={this.props.EditorConfig.endpoints}
-                     languages={this.props.EditorConfig.languages}
-                     /** Flow */
-                     ghost={true}
-                     node={ghost}
-                     ui={ui}
-                     iso={null}
-                     translations={null}
-                     translating={this.props.translating}
-                     Activity={this.Activity}
-                     onNodeMounted={this.onNodeMounted}
-                     onNodeMoved={this.onNodeMoved}
-                     onNodeDragStart={this.onNodeDragStart}
-                     onNodeBeforeDrag={this.onNodeBeforeDrag}
-                     onNodeDragStop={this.onNodeDragStop}
-                     openEditor={this.openEditor}
-                     onAddAction={this.onAddAction}
-                     onUpdateAction={this.onUpdateAction}
-                     onUpdateRouter={this.onUpdateRouter}
-                     plumberDraggable={this.Plumber.draggable}
-                     plumberMakeTarget={this.Plumber.makeTarget}
-                     plumberRemove={this.Plumber.remove}
-                     plumberRecalculate={this.Plumber.recalculate}
-                     plumberMakeSource={this.Plumber.makeSource}
-                     plumberConnectExit={this.Plumber.connectExit}
+                    key={ghost.uuid}
+                    ref={this.ghostRef}
+                    /** Editor */
+                    definition={this.props.definition}
+                    ComponentMap={this.props.ComponentMap}
+                    onUpdateDimensions={this.props.Mutator.updateDimensions}
+                    onDisconnectExit={this.props.Mutator.disconnectExit}
+                    onRemoveNode={this.props.Mutator.removeNode}
+                    onUpdateLocalizations={this.props.Mutator.updateLocalizations}
+                    onRemoveAction={this.props.Mutator.removeAction}
+                    onMoveActionUp={this.props.Mutator.moveActionUp}
+                    typeConfigList={this.props.EditorConfig.typeConfigList}
+                    operatorConfigList={this.props.EditorConfig.operatorConfigList}
+                    getTypeConfig={this.props.EditorConfig.getTypeConfig}
+                    getOperatorConfig={this.props.EditorConfig.getOperatorConfig}
+                    endpoints={this.props.EditorConfig.endpoints}
+                    languages={this.props.EditorConfig.languages}
+                    /** Flow */
+                    ghost={true}
+                    node={ghost}
+                    ui={ui}
+                    iso={null}
+                    translations={null}
+                    translating={this.props.translating}
+                    Activity={this.Activity}
+                    onNodeMounted={this.onNodeMounted}
+                    onNodeMoved={this.onNodeMoved}
+                    onNodeDragStart={this.onNodeDragStart}
+                    onNodeBeforeDrag={this.onNodeBeforeDrag}
+                    onNodeDragStop={this.onNodeDragStop}
+                    openEditor={this.openEditor}
+                    onAddAction={this.onAddAction}
+                    onUpdateAction={this.onUpdateAction}
+                    onUpdateRouter={this.onUpdateRouter}
+                    plumberDraggable={this.Plumber.draggable}
+                    plumberMakeTarget={this.Plumber.makeTarget}
+                    plumberRemove={this.Plumber.remove}
+                    plumberRecalculate={this.Plumber.recalculate}
+                    plumberMakeSource={this.Plumber.makeSource}
+                    plumberConnectExit={this.Plumber.connectExit}
                 />
             );
         }
@@ -596,43 +593,12 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             );
         }
 
-        let classes: string[] = [];
-
-        if (this.state.loading) {
-            classes = [...classes, styles.loading];
-        } else {
-            classes = [...classes, styles.loaded];
-        }
-
-        if (this.state.draggingNode) {
-            classes = [...classes, styles.dragging];
-        }
-
-        if (this.props.translating) {
-            classes = [...classes, styles.translation];
-        }
-
-        let languageSelector: JSX.Element;
-
-        if (this.props.EditorConfig.languages) {
-            languageSelector = (
-                <LanguageSelectorComp
-                    languages={this.props.EditorConfig.languages}
-                    iso={this.props.language.iso}
-                    onChange={this.props.setLanguage}
-                />
-            );
-        }
-
         return (
-            <div className={classes.join(' ')}>
-                {languageSelector}
+            <div key={definition.uuid}>
                 {simulator}
-                <div key={definition.uuid}>
-                    <div className={styles.node_list}>{nodes}</div>
-                    {dragNode}
-                    {modal}
-                </div>
+                {dragNode}
+                {modal}
+                <div className={styles.node_list}>{nodes}</div>
             </div>
         );
     }
