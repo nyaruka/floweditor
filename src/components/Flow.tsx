@@ -25,7 +25,7 @@ import LanguageSelectorComp, { Language } from './LanguageSelector';
 
 const styles = require('./Flow.scss');
 
-export interface IFlowProps {
+export interface FlowProps {
     EditorConfig: EditorConfig;
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
@@ -34,7 +34,7 @@ export interface IFlowProps {
     ComponentMap: ComponentMap;
 }
 
-export interface IFlowState {
+export interface FlowState {
     ghost?: Node;
     nodeEditor?: NodeEditorProps;
     loading: boolean;
@@ -44,12 +44,12 @@ export interface IFlowState {
     translating: boolean;
 }
 
-export interface IConnection {
-    previousConnection: IConnection;
+export interface Connection {
+    previousConnection: Connection;
 }
 
-export interface IConnectionEvent {
-    connection: IConnection;
+export interface ConnectionEvent {
+    connection: Connection;
     source: Element;
     target: Element;
     sourceId: string;
@@ -59,7 +59,7 @@ export interface IConnectionEvent {
 
 const REPAINT_DURATION = 600;
 
-export default class Flow extends React.Component<IFlowProps, IFlowState> {
+export default class Flow extends React.Component<FlowProps, FlowState> {
     private repaintDuration: number;
     private Activity: ActivityManager;
     private Plumber: any;
@@ -73,7 +73,7 @@ export default class Flow extends React.Component<IFlowProps, IFlowState> {
     private ghost: NodeComp;
     private nodeEditor: NodeEditorComp;
 
-    constructor(props: IFlowProps) {
+    constructor(props: FlowProps) {
         super(props);
 
         this.state = {
@@ -265,7 +265,7 @@ export default class Flow extends React.Component<IFlowProps, IFlowState> {
      * when a new connection is desired or when an existing one is being moved.
      * @param event
      */
-    private onConnectionDrag(event: IConnectionEvent) {
+    private onConnectionDrag(event: ConnectionEvent) {
         // we finished dragging a ghost node, create the spec for our new ghost component
         let draggedFromDetails = this.props.ComponentMap.getDetails(event.sourceId);
 
@@ -329,7 +329,7 @@ export default class Flow extends React.Component<IFlowProps, IFlowState> {
         this.pendingConnection = draggedFrom;
     }
 
-    componentDidUpdate(prevProps: IFlowProps, prevState: IFlowState) {
+    componentDidUpdate(prevProps: FlowProps, prevState: FlowState) {
         // console.log("Updated", this.props.definition);
         // this.props.Mutator.reflow();
     }
@@ -337,17 +337,17 @@ export default class Flow extends React.Component<IFlowProps, IFlowState> {
     componentDidMount() {
         const Plumber = this.Plumber;
 
-        Plumber.bind('connection', (event: IConnectionEvent) => this.onConnection(event));
-        Plumber.bind('beforeDrag', (event: IConnectionEvent) => this.beforeConnectionDrag(event));
-        Plumber.bind('connectionDrag', (event: IConnectionEvent) => this.onConnectionDrag(event));
-        Plumber.bind('connectionDragStop', (event: IConnectionEvent) =>
+        Plumber.bind('connection', (event: ConnectionEvent) => this.onConnection(event));
+        Plumber.bind('beforeDrag', (event: ConnectionEvent) => this.beforeConnectionDrag(event));
+        Plumber.bind('connectionDrag', (event: ConnectionEvent) => this.onConnectionDrag(event));
+        Plumber.bind('connectionDragStop', (event: ConnectionEvent) =>
             this.onConnectorDrop(event)
         );
-        Plumber.bind('beforeStartDetach', (event: IConnectionEvent) =>
+        Plumber.bind('beforeStartDetach', (event: ConnectionEvent) =>
             this.onBeforeStartDetach(event)
         );
-        Plumber.bind('beforeDetach', (event: IConnectionEvent) => this.onBeforeDetach(event));
-        Plumber.bind('beforeDrop', (event: IConnectionEvent) => this.onBeforeConnectorDrop(event));
+        Plumber.bind('beforeDetach', (event: ConnectionEvent) => this.onBeforeDetach(event));
+        Plumber.bind('beforeDrop', (event: ConnectionEvent) => this.onBeforeConnectorDrop(event));
 
         this.props.Mutator.ensureStartNode();
 
@@ -368,7 +368,7 @@ export default class Flow extends React.Component<IFlowProps, IFlowState> {
         this.Plumber.reset();
     }
 
-    private beforeConnectionDrag(event: IConnectionEvent) {
+    private beforeConnectionDrag(event: ConnectionEvent) {
         return !this.state.translating;
     }
 
@@ -376,14 +376,14 @@ export default class Flow extends React.Component<IFlowProps, IFlowState> {
         return !this.state.translating;
     }
 
-    private onBeforeDetach(event: IConnectionEvent) {
+    private onBeforeDetach(event: ConnectionEvent) {
         return true;
     }
 
     /**
      * Called right before a connector is dropped onto a new node
      */
-    private onBeforeConnectorDrop(event: IConnectionEvent) {
+    private onBeforeConnectorDrop(event: ConnectionEvent) {
         this.resetState();
         var connectionError = this.props.Mutator.getConnectionError(event.sourceId, event.targetId);
         if (connectionError != null) {
@@ -392,7 +392,7 @@ export default class Flow extends React.Component<IFlowProps, IFlowState> {
         return connectionError == null;
     }
 
-    private onConnection(event: IConnectionEvent) {
+    private onConnection(event: ConnectionEvent) {
         this.props.Mutator.updateConnection(event.sourceId, event.targetId);
     }
 
@@ -406,7 +406,7 @@ export default class Flow extends React.Component<IFlowProps, IFlowState> {
      * Called the moment a connector is done dragging, whether it is dropped on an
      * existing node or on to empty space.
      */
-    private onConnectorDrop(event: IConnectionEvent) {
+    private onConnectorDrop(event: ConnectionEvent) {
         // we put this in a zero timeout so jsplumb doesn't swallow any stack traces
         window.setTimeout(() => {
             if (this.ghost && $(this.ghost.ele).is(':visible')) {
