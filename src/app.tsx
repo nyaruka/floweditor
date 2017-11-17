@@ -34,11 +34,7 @@ if (module.hot) {
 
 render(
     <HotContainer>
-        <Editor
-            flowUUID={flowUUID}
-            EditorConfig={new EditorConfig()}
-            External={new External()}
-        />
+        <Editor flowUUID={flowUUID} EditorConfig={new EditorConfig()} External={new External()} />
     </HotContainer>,
     root
 );

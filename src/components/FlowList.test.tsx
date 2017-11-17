@@ -5,9 +5,7 @@ import EditorConfig from '../services/EditorConfig';
 import FlowList, { FlowListProps } from './FlowList';
 
 const { results: flowDetails } = require('../../assets/flows.json');
-
-export const flowListProps: FlowListProps = {
-    fetching: true,
+export const props: FlowListProps = {
     EditorConfig: new EditorConfig(),
     External: {
         getFlows: jest.fn(
@@ -16,14 +14,13 @@ export const flowListProps: FlowListProps = {
     } as any,
     onFlowSelect: jest.fn()
 };
-
-const FlowListShallow = shallow(<FlowList {...flowListProps} />);
+const FlowListShallow = shallow(<FlowList {...props} />);
 const FlowListDiv = FlowListShallow.find('#flow-list');
 const FlowSelector = FlowListShallow.find('Select');
 
 describe('Component: FlowList', () => {
     it('should mount', () => {
-        const { External: { getFlows } } = flowListProps;
+        const { External: { getFlows } } = props;
 
         expect(FlowListShallow.exists()).toBeTruthy();
         expect(getFlows).toBeCalled();

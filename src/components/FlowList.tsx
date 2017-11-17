@@ -1,27 +1,27 @@
 import * as React from 'react';
 import Select from 'react-select';
+import { FlowDefinition } from '../flowtypes';
 import EditorConfig from '../services/EditorConfig';
 import External, { FlowDetails } from '../services/External';
 
 export interface FlowListProps {
-    fetching: boolean;
     EditorConfig: EditorConfig;
     External: External;
     onFlowSelect: Function;
 }
 
 interface FlowListState {
-    flows: FlowDetails[];
-    selected: FlowDetails;
+    flows: Partial<FlowDetails>[];
+    selected: Partial<FlowDetails>;
 }
 
 /**
  * A navigable list of flows for an account
  */
-export default class FlowList extends React.PureComponent<FlowListProps, FlowListState> {
+export default class FlowList extends React.Component<FlowListProps, FlowListState> {
     constructor(props: FlowListProps) {
         super(props);
-
+        console.log('props', this.props);
         this.state = {
             flows: [],
             selected: null
@@ -72,7 +72,7 @@ export default class FlowList extends React.PureComponent<FlowListProps, FlowLis
                     value={this.state.selected}
                     options={flows}
                     /** Editor */
-                    isLoading={this.props.fetching}
+                    isLoading={!this.state.flows.length}
                 />
             </div>
         );

@@ -97,4 +97,4 @@ export default class EmailElement extends React.Component<EmailElementProps, Ema
             </FormElement>
         );
     }
-};
+}

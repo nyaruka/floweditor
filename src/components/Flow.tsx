@@ -2,15 +2,7 @@ import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import * as update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
-import {
-    FlowDefinition,
-    Action,
-    Position,
-    Reply,
-    Node,
-    UINode,
-    Dimensions
-} from '../flowTypes';
+import { FlowDefinition, Action, Position, Reply, Node, UINode, Dimensions } from '../flowTypes';
 import ComponentMap from '../services/ComponentMap';
 import NodeComp, { DragPoint } from './Node';
 import FlowMutator from '../services/FlowMutator';
@@ -597,7 +589,9 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                 {simulator}
                 {dragNode}
                 {modal}
-                <div className={styles.node_list} data-spec='nodes'>{nodes}</div>
+                <div className={styles.node_list} data-spec="nodes">
+                    {nodes}
+                </div>
             </div>
         );
     }

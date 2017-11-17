@@ -79,4 +79,4 @@ export default class SelectElement extends React.Component<SelectElementProps, S
             </FormElement>
         );
     }
-};
+}

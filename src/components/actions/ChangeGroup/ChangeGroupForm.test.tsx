@@ -13,7 +13,7 @@ const Config = new EditorConfig();
 const CompMap = new ComponentMap(definition);
 
 const testGroupForm = (type: string) => {
-    const { nodes: [{ actions: [, action ] } ] } = definition;
+    const { nodes: [{ actions: [, action] }] } = definition;
     const typeConfig = Config.getTypeConfig(type);
     const { endpoints } = Config;
     const props = {

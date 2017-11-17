@@ -49,7 +49,6 @@ describe('Component: Editor', () => {
         expect(EditorComp.find('FlowList').props()).toEqual({
             EditorConfig: props.EditorConfig,
             External: props.External,
-            fetching: false,
             onFlowSelect: EditorComp.instance().onFlowSelect
         });
         expect(EditorComp.find('LanguageSelectorComp').props()).toEqual(
@@ -65,9 +64,7 @@ describe('Component: Editor', () => {
 
         expect(EditorComp.state('language')).toEqual(language);
         expect(EditorComp.state('translating')).toBeTruthy();
-        expect(
-            getSpecWrapper(EditorComp, 'editor-container').hasClass('translating')
-        ).toBeTruthy();
+        expect(getSpecWrapper(EditorComp, 'editor-container').hasClass('translating')).toBeTruthy();
         expect(EditorComp.find('LanguageSelectorComp').props()).toEqual({
             ...languageSelectorExpectedProps,
             iso: language.iso

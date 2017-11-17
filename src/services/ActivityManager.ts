@@ -128,4 +128,4 @@ export default class ActivityManager {
         }
         return 0;
     }
-};
+}

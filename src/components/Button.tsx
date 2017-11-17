@@ -21,4 +21,4 @@ export default class Button extends React.PureComponent<ButtonProps, {}> {
             </div>
         );
     }
-};
+}

@@ -5,7 +5,9 @@ import EditorConfig from '../../services/EditorConfig';
 import CompMap from '../../services/ComponentMap';
 import NodeEditor, { NodeEditorProps } from './index';
 
-const { results: [{ definition }] } = require('../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
+const {
+    results: [{ definition }]
+} = require('../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 const { nodes: [node], language: flowLanguage } = definition;
 
 const { actions: [replyAction] } = node;

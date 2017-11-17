@@ -312,10 +312,10 @@ export default class EditorConfig {
     }
 
     /**
-    * Shortcut for constant lookup of type config in type configs map
-    * @param {string} type - The type of the type config to return, e.g. 'reply'
-    * @returns {Object} - The type config found at typeConfigs[type] or -1
-    */
+     * Shortcut for constant lookup of type config in type configs map
+     * @param {string} type - The type of the type config to return, e.g. 'reply'
+     * @returns {Object} - The type config found at typeConfigs[type] or -1
+     */
     public getTypeConfig(type: string): Type {
         if (this.typeConfigMap.hasOwnProperty(type)) {
             return this.typeConfigMap[type];
@@ -323,10 +323,10 @@ export default class EditorConfig {
     }
 
     /**
-    * Shortcut for constant lookup of operator config in operator configs map
-    * @param {string} type - The type of the operator config to return, e.g. 'reply'
-    * @returns {Object} - The operator config found at operatorConfigs[type] or -1
-    */
+     * Shortcut for constant lookup of operator config in operator configs map
+     * @param {string} type - The type of the operator config to return, e.g. 'reply'
+     * @returns {Object} - The operator config found at operatorConfigs[type] or -1
+     */
     public getOperatorConfig(type: string): Operator {
         if (this.operatorConfigMap.hasOwnProperty(type)) {
             return this.operatorConfigMap[type];
@@ -341,4 +341,4 @@ export default class EditorConfig {
             iso
         };
     }
-};
+}

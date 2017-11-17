@@ -284,7 +284,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             ComponentMap: this.props.ComponentMap,
             onUpdateLocalizations: this.props.onUpdateLocalizations,
             onUpdateAction: this.props.onUpdateAction,
-            onUpdateRouter: this.props.onUpdateRouter,
+            onUpdateRouter: this.props.onUpdateRouter
         });
     }
 
@@ -350,7 +350,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                             this.props.node.hasOwnProperty('router') &&
                             (this.props.node.router !== undefined ||
                                 this.props.node.router !== null),
-                        Localization: localization,
+                        Localization: localization
                     };
 
                     const { component: ActionDiv } = actionConfig;

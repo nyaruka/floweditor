@@ -48,28 +48,25 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
         if (this.props.config.type === 'add_to_group') {
             p = <p>Select the group(s) to add the contact to.</p>;
         } else if (this.props.config.type === 'remove_from_group') {
-            p = <p>Select the group(s) to remove the contact from.</p>
+            p = <p>Select the group(s) to remove the contact from.</p>;
         } else {
             p = null;
         }
 
-
         if (
             this.props.action &&
-            (this.props.action.type === 'add_to_group' || this.props.action.type === 'remove_from_group')
+            (this.props.action.type === 'add_to_group' ||
+                this.props.action.type === 'remove_from_group')
         ) {
             if (this.props.action.groups) {
                 const { groups: [{ uuid: group, name }] } = this.props.action;
-                groups = [
-                    ...groups,
-                    { group, name }
-                ];
+                groups = [...groups, { group, name }];
             }
         }
 
         return (
             <div>
-                { p }
+                {p}
                 <GroupElement
                     ref={this.props.onBindWidget}
                     name="Group"
@@ -86,4 +83,4 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
     public render(): JSX.Element {
         return this.renderForm();
     }
-};
+}

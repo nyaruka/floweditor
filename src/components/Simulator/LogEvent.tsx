@@ -53,7 +53,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         let groupText: string = '';
         let delim: string = '';
 
-        switch(this.props.type) {
+        switch (this.props.type) {
             case 'msg_received':
                 text = <span>{this.props.text}</span>;
                 classes = [...classes, styles.msg_received];
@@ -117,8 +117,8 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
             case 'send_email':
                 text = (
                     <span>
-                        Sent email to "{this.props.email}" with subject "{this.props.subject}" and body
-                        "{this.props.body}"
+                        Sent email to "{this.props.email}" with subject "{this.props.subject}" and
+                        body "{this.props.body}"
                     </span>
                 );
                 classes = [...classes, styles.info];
@@ -173,4 +173,4 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
             );
         }
     }
-};
+}

@@ -170,4 +170,4 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
             </div>
         );
     }
-};
+}

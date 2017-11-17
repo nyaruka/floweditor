@@ -76,8 +76,10 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
             placeholder = `${localizedObject.getLanguage().name} Translation`;
 
             translation = (
-                <div data-spec='translation-container' className={styles.translation}>
-                    <div data-spec='text-to-translate' className={styles.translate_from}>{text}</div>
+                <div data-spec="translation-container" className={styles.translation}>
+                    <div data-spec="text-to-translate" className={styles.translate_from}>
+                        {text}
+                    </div>
                 </div>
             );
 
@@ -126,4 +128,4 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
     public render(): JSX.Element {
         return this.props.showAdvanced ? this.renderAdvanced() : this.renderForm();
     }
-};
+}

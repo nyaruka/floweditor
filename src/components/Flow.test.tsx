@@ -10,7 +10,7 @@ import CompMap from '../services/ComponentMap';
 
 const {
     results: [{ definition }]
-} = require('../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json')
+} = require('../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
 const Config = new EditorConfig();
 const language = { iso: 'eng', name: 'English' };

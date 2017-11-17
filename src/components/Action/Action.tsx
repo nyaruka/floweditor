@@ -175,9 +175,7 @@ class Action extends React.Component<ActionProps, ActionState> {
                         showMove={!this.props.first && !this.props.Localization}
                         onMoveUp={this.onMoveUp}
                     />
-                    <div className={styles.body}>
-                        {this.props.children(this.getAction())}
-                    </div>
+                    <div className={styles.body}>{this.props.children(this.getAction())}</div>
                 </div>
             </div>
         );

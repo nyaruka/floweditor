@@ -42,7 +42,7 @@ const FormElement: React.SFC<FormElementProps> = (props): JSX.Element => {
     let helpText: JSX.Element | string;
 
     if (props.helpText && !errorDisplay) {
-        helpText =  <div className={styles.help_text}>{props.helpText}</div>;
+        helpText = <div className={styles.help_text}>{props.helpText}</div>;
     } else {
         helpText = '';
     }

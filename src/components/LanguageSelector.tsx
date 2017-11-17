@@ -26,7 +26,7 @@ export default class LanguageSelectorComp extends React.PureComponent<LanguageSe
             return {
                 name,
                 iso
-            }
+            };
         });
     }
 
@@ -47,4 +47,4 @@ export default class LanguageSelectorComp extends React.PureComponent<LanguageSe
             </div>
         );
     }
-};
+}

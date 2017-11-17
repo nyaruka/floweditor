@@ -257,4 +257,4 @@ export default class ComponentMap {
     public getContactFields(): ContactFieldResult[] {
         return this.contactFields;
     }
-};
+}

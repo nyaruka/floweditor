@@ -817,4 +817,4 @@ export default class FlowMutator {
             console.error('Attempt to route to self, ignored');
         }
     }
-};
+}

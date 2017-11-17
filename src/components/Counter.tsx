@@ -65,4 +65,4 @@ export default class Counter extends React.Component<ICounterProps, ICounterStat
         }
         return null;
     }
-};
+}

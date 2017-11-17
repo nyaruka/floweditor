@@ -102,7 +102,8 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
 
     private setLanguage(language: Language): void {
         const { EditorConfig: { baseLanguage } } = this.props;
-        const translating: boolean = baseLanguage.iso !== language.iso && baseLanguage.name !== language.name;
+        const translating: boolean =
+            baseLanguage.iso !== language.iso && baseLanguage.name !== language.name;
 
         this.setState({
             language,
@@ -134,12 +135,13 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
         const languageSelector: JSX.Element = this.getLanguageSelector();
 
         return (
-            <div className={this.state.translating ? styles.translating : null} data-spec='editor-container'>
+            <div
+                className={this.state.translating ? styles.translating : null}
+                data-spec="editor-container">
                 <div className={styles.editor} data-spec="editor">
                     <FlowList
                         EditorConfig={this.props.EditorConfig}
                         External={this.props.External}
-                        fetching={this.state.fetching}
                         onFlowSelect={this.onFlowSelect}
                     />
                     {languageSelector}

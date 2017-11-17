@@ -58,4 +58,4 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
             </div>
         );
     }
-};
+}

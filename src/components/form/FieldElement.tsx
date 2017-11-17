@@ -4,7 +4,7 @@ import Select from 'react-select';
 import { toBoolMap } from '../../helpers/utils';
 import FormElement, { FormElementProps } from './FormElement';
 import ComponentMap, { SearchResult } from '../../services/ComponentMap';
-import  SelectSearch from '../SelectSearch';
+import SelectSearch from '../SelectSearch';
 
 const styles = require('./FormElement.scss');
 
@@ -129,4 +129,4 @@ export default class FieldElement extends React.Component<IFieldElementProps, IF
             </FormElement>
         );
     }
-};
+}

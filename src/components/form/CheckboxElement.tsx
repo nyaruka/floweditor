@@ -58,4 +58,4 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
             </FormElement>
         );
     }
-};
+}

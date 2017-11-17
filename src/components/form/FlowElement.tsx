@@ -87,4 +87,4 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
             </FormElement>
         );
     }
-};
+}

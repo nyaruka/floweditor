@@ -48,4 +48,4 @@ export class FlowStore {
         console.log('Saving: ', definition);
         storage.set('flow', definition);
     }
-};
+}

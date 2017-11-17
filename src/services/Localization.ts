@@ -70,4 +70,4 @@ export default class Localization {
         }
         return null;
     }
-};
+}
