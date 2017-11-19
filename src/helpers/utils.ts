@@ -4,6 +4,7 @@ import { FlowDefinition } from '../flowTypes';
 
 const SNAKED_CHARS = /\s+(?=\S)/g;
 const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+const GSM = /^[A-Za-z0-9\r\n @£$¥èéùìòÇØøÅå\u0394_\u03A6\u0393\u039B\u03A‌​9\u03A0\u03A8\u03A3\‌​u0398\u039EÆæßÉ!"#$%‌​&amp;'()*+,\-./:;&lt‌​;=&gt;?¡ÄÖÑÜ§¿äöñüà^‌​{}\\[~]|\u20‌​AC]*$/;
 
 interface BoolMap {
     [key: string]: boolean;
@@ -87,3 +88,7 @@ export function validUUID(uuid: string): boolean {
 export function titleCase(str: string): string {
     return str.replace(/\b\w+/g, s => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase());
 }
+
+export function isGSM(str: any) {
+    return GSM.test(str);
+};

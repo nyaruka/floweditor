@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
+import { isGSM } from '../../helpers/utils';
 import FormElement, { FormElementProps } from './FormElement';
 import ComponentMap, { CompletionOption } from '../../services/ComponentMap';
 
@@ -19,42 +20,6 @@ const KEY_P = 80;
 const KEY_N = 78;
 const KEY_ESC = 27;
 const KEY_BACKSPACE = 8;
-
-export interface Coordinates {
-    left: number;
-    top: number;
-}
-
-export interface HTMLTextElement {
-    value: string;
-    selectionStart: number;
-}
-
-interface TextInputProps extends FormElementProps {
-    value: string;
-    /** Validates that the input is a url */
-    url?: boolean;
-    /** Should we display in a textarea */
-    textarea?: boolean;
-    /** Text to display when there is no value */
-    placeholder?: string;
-    /** Do we show autocompletion choices */
-    autocomplete?: boolean;
-    onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
-    onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
-    ComponentMap: ComponentMap;
-}
-
-export interface TextInputState {
-    value: string;
-    errors: string[];
-    caretOffset: number;
-    caretCoordinates: Coordinates;
-    completionVisible: boolean;
-    selectedOptionIndex: number;
-    matches: CompletionOption[];
-    query: string;
-}
 
 const OPTIONS: CompletionOption[] = [
     { name: 'contact', description: 'The name of the contact.' },
@@ -86,6 +51,47 @@ const OPTIONS: CompletionOption[] = [
     { name: 'webhook.response', description: 'The raw response of the webhook including headers' }
 ];
 
+export interface Coordinates {
+    left: number;
+    top: number;
+}
+
+export interface HTMLTextElement {
+    value: string;
+    selectionStart: number;
+}
+
+interface TextInputProps extends FormElementProps {
+    counter?: boolean;
+    value: string;
+    /** Validates that the input is a url */
+    url?: boolean;
+    /** Should we display in a textarea */
+    textarea?: boolean;
+    /** Text to display when there is no value */
+    placeholder?: string;
+    /** Do we show autocompletion choices */
+    autocomplete?: boolean;
+    onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
+    onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
+    ComponentMap: ComponentMap;
+}
+
+export interface TextInputState {
+    remaining: number;
+    max: number;
+    segments: number;
+    unicode: boolean;
+    value: string;
+    errors: string[];
+    caretOffset: number;
+    caretCoordinates: Coordinates;
+    completionVisible: boolean;
+    selectedOptionIndex: number;
+    matches: CompletionOption[];
+    query: string;
+}
+
 export default class TextInputElement extends React.Component<TextInputProps, TextInputState> {
     private selectedEl: any;
     private textEl: HTMLTextElement;
@@ -94,7 +100,34 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     constructor(props: any) {
         super(props);
 
+        let unicode: boolean = false;
+        let max: number = 160;
+        let remaining: number = 160;
+        let segments: number = 0;
+
+        if (this.props.counter) {
+            for (const char of this.props.value) {
+                if (/[^\u0000-\u00ff]/.test(char)) {
+                    unicode = true;
+                    break;
+                }
+            }
+
+            if (unicode) {
+                max = 70;
+            }
+
+
+            const chars = this.props.value.length;
+            segments = Math.ceil(chars / max);
+            remaining = segments * max - (chars % (segments * max) || segments * max);
+        }
+
         this.state = {
+            max,
+            remaining,
+            unicode,
+            segments,
             value: this.props.value ? this.props.value : '',
             caretOffset: 0,
             caretCoordinates: { left: 0, top: 0 },
@@ -112,6 +145,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         this.selectedElRef = this.selectedElRef.bind(this);
         this.textElRef = this.textElRef.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
+        this.onKeyUp = this.onKeyUp.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
     }
@@ -137,6 +171,42 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
         if (selectedIdx !== this.state.selectedOptionIndex) {
             this.setState({ selectedOptionIndex: selectedIdx });
+        }
+    }
+
+    private onKeyUp(event: React.KeyboardEvent<HTMLTextElement>) {
+        if (!this.state.completionVisible) {
+            let updates = {};
+            const { value: { length: chars } }: TextInputState = this.state;
+            let max: number;
+            let segments: number;
+            let remaining: number;
+
+            if (isGSM(event.key)) {
+                max = 160;
+                segments = Math.ceil(chars / max);
+                remaining = segments * max - (chars % (segments * max) || segments * max);
+                updates = {
+                    ...updates,
+                    unicode: false,
+                    max,
+                    remaining,
+                    segments
+                };
+            } else {
+                max = 70;
+                segments = Math.ceil(chars / max);
+                remaining = segments * max - (chars % (segments * max) || segments * max);
+                updates = {
+                    ...updates,
+                    unicode: true,
+                    max,
+                    remaining,
+                    segments
+                };
+            }
+
+            this.setState(updates);
         }
     }
 
@@ -290,6 +360,10 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     private onChange(event: React.ChangeEvent<HTMLTextElement>) {
         const { currentTarget: { value: text, selectionStart } } = event;
 
+        let update: any = {
+            value: text
+        };
+
         if (this.props.autocomplete) {
             let query: string = null;
             let matches: CompletionOption[] = [];
@@ -305,18 +379,17 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 matches = this.filterOptions(query);
             }
 
-            this.setState({
+            update = {
+                ...update,
                 caretOffset: selectionStart,
                 matches,
                 selectedOptionIndex: 0,
-                value: event.currentTarget.value,
-                query: query
-            });
-        } else {
-            this.setState({
-                value: text
-            });
+                value: text,
+                query
+            } as TextInputState;
         }
+
+        this.setState(update);
 
         if (this.props.onChange) {
             this.props.onChange(event);
@@ -437,6 +510,23 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             TextElement = 'textarea';
         }
 
+        let counter: JSX.Element = null;
+
+        if (this.props.counter) {
+            const { remaining, segments } = this.state;
+            counter = (
+                <div
+                    style={{
+                        margin: 5,
+                        color: remaining <= 20 ? 'tomato' : null
+                    }}>
+                    {remaining}
+                    {segments > 1 && `/${segments}`}
+                    /{this.state.unicode ? 'UNICODE' : 'GSM'}
+                </div>
+            );
+        }
+
         return (
             <FormElement
                 className={this.props.className}
@@ -452,6 +542,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                         onChange={this.onChange}
                         onBlur={this.onBlur}
                         onKeyDown={this.onKeyDown}
+                        onKeyUp={this.onKeyUp}
                         placeholder={this.props.placeholder}
                     />
                     <div
@@ -461,6 +552,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                         <div className={styles.help}>Tab to complete, enter to select</div>
                     </div>
                 </div>
+                {counter}
             </FormElement>
         );
     }
