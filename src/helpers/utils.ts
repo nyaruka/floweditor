@@ -15,10 +15,13 @@ interface BoolMap {
  * @returns {object} A map of each string
  */
 export function toBoolMap(array: string[]): BoolMap {
-    return array.reduce((map: BoolMap, item: string) => {
-        map[item] = true;
-        return map;
-    }, {});
+    return array.reduce(
+        (map: BoolMap, item: string) => ({
+            ...map,
+            [item]: true
+        }),
+        {}
+    );
 }
 
 /**

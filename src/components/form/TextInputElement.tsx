@@ -398,9 +398,19 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     }
 
     private onPaste(event: React.ClipboardEvent<string>): void {
-        event.clipboardData.items[0].getAsString(str => {
-            const newCount = this.getCount(this.state.value);
-            this.setState(newCount);
+        event.clipboardData.items[0].getAsString(() => {
+            const commonUnicodeReplaced = this.state.value
+                .replace(/[\u2018\u2019]/g, "'")
+                .replace(/[\u201C\u201D]/g, '"')
+                .replace(/[\u2013\u2014]/g, '-')
+                .replace(/\u2026/g, '...');
+
+            const newCount = this.getCount(commonUnicodeReplaced);
+
+            this.setState({
+                value: commonUnicodeReplaced,
+                ...newCount
+            });
         });
     }
 

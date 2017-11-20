@@ -305,8 +305,10 @@ export default class EditorConfig {
 
     private mapOperatorConfigs(): OperatorMap {
         return this.operatorConfigList.reduce(
-            (operatorConfigMap: OperatorMap, operatorConfig: Operator) =>
-                Object.assign(operatorConfigMap, { [operatorConfig.type]: operatorConfig }),
+            (operatorConfigMap: OperatorMap, operatorConfig: Operator) => ({
+                ...operatorConfigMap,
+                [operatorConfig.type]: operatorConfig
+            }),
             {}
         );
     }
