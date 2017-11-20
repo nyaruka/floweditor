@@ -42,6 +42,7 @@ describe('Component: ReplyForm', () => {
             value: props.action.text,
             placeholder: '',
             autocomplete: true,
+            focus: true,
             required: true,
             textarea: true,
             ComponentMap: props.ComponentMap
@@ -85,6 +86,7 @@ describe('Component: ReplyForm', () => {
             value: 'Como te llamas?',
             placeholder: 'Spanish Translation',
             autocomplete: true,
+            focus: true,
             required: false,
             textarea: true,
             ComponentMap: props.ComponentMap
