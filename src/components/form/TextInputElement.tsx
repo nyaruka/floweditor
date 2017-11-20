@@ -211,6 +211,7 @@ export interface Coordinates {
 export interface HTMLTextElement {
     value: string;
     selectionStart: number;
+    focus(): void;
 }
 
 interface TextInputProps extends FormElementProps {
@@ -232,6 +233,7 @@ interface TextInputProps extends FormElementProps {
 export interface TextInputState {
     max: number;
     segments: number;
+    charCount: number;
     unicode: boolean;
     value: string;
     errors: string[];
@@ -245,18 +247,20 @@ export interface TextInputState {
 
 export default class TextInputElement extends React.Component<TextInputProps, TextInputState> {
     private selectedEl: any;
-    private textEl: HTMLTextElement;
+    private inputEl: HTMLTextElement;
+    private textareaEl: HTMLTextElement;
     private options: CompletionOption[];
 
     constructor(props: any) {
         super(props);
 
-        const { max, unicode, segments } = this.getCount(this.props.value);
+        const { max, unicode, segments, charCount } = this.getCount(this.props.value);
 
         this.state = {
             max,
             unicode,
             segments,
+            charCount,
             value: this.props.value ? this.props.value : '',
             caretOffset: 0,
             caretCoordinates: { left: 0, top: 0 },
@@ -285,7 +289,11 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     }
 
     private textElRef(ref: any) {
-        return (this.textEl = ref);
+        if (this.props.textarea) {
+            this.textareaEl = ref;
+        } else {
+            this.inputEl = ref;
+        }
     }
 
     private getCount(value: string) {
@@ -295,31 +303,36 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
         let unicode: boolean = false;
         let doubleChar: boolean = false;
-        let chars = 0;
+        let charCount = 0;
         let segChars = 0;
         let segment: number = 1;
 
-        /** Determine base encoding */
+        /** Determine base encoding, character count */
         for (const char of value) {
             if (CHARSET_7_BIT[char]) {
-                chars += 1;
+                charCount += 1;
             } else if (CHARSET_7_BIT_TEXT[char]) {
-                chars += 2;
+                charCount += 2;
             } else {
-                unicode = true;
-                ({ length: chars } = value);
-                break;
+                if (!unicode) {
+                    unicode = true;
+                }
+                if (byteLength(char) > 3) {
+                    charCount += 2;
+                } else {
+                    charCount += 1;
+                }
             }
         }
 
         if (unicode) {
             max = MAX_UNICODE_SINGLE;
 
-            if (chars > MAX_UNICODE_SINGLE) {
+            if (charCount > MAX_UNICODE_SINGLE) {
                 max = MAX_UNICODE_MULTI;
             }
 
-            segments = Math.ceil(chars / max);
+            segments = Math.ceil(charCount / max);
 
             for (const char of value) {
                 /** Calculate segment/segChars based on whether character is more than 3 UTF-8 bytes */
@@ -344,11 +357,11 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         } else {
             max = MAX_GSM_SINGLE;
 
-            if (chars > MAX_GSM_SINGLE) {
+            if (charCount > MAX_GSM_SINGLE) {
                 max = MAX_GSM_MULTI;
             }
 
-            segments = Math.ceil(chars / max);
+            segments = Math.ceil(charCount / max);
 
             for (const char of value) {
                 /** Calculate segment/segChars based on whether character is 7 or 14 bits */
@@ -372,12 +385,14 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             }
         }
 
-        remaining = segments * max - chars;
+        remaining = segments * max - charCount;
+
 
         return {
             max,
             unicode,
-            segments
+            segments,
+            charCount
         };
     }
 
@@ -448,7 +463,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 }
                 break;
             case KEY_AT:
-                var ele: any = findDOMNode(this.textEl as any);
+                var ele: any = findDOMNode(this.textareaEl || this.inputEl as any);
 
                 this.setState({
                     completionVisible: true,
@@ -496,7 +511,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                             selectedOptionIndex: 0
                         },
                         () => {
-                            setCaretPosition(findDOMNode(this.textEl as any), newCaret);
+                            setCaretPosition(findDOMNode(this.textareaEl || this.inputEl as any), newCaret);
                         }
                     );
 
@@ -517,7 +532,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
                     /** @ we display again **/
                     if (curr === '@') {
-                        var ele: any = findDOMNode(this.textEl as any);
+                        var ele: any = findDOMNode(this.textareaEl || this.inputEl as any);
                         query = this.state.value.substr(i + 1, caret - i - 1);
                         matches = this.filterOptions(query);
                         completionVisible = matches.length > 0;
@@ -654,15 +669,6 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         return option.name;
     }
 
-    componentDidUpdate(previous: TextInputProps) {
-        if (this.selectedEl !== null) {
-            const selectedOption = findDOMNode(this.selectedEl);
-            if (selectedOption !== null) {
-                selectedOption.scrollIntoView(false);
-            }
-        }
-    }
-
     private renderOption({ name, description }: CompletionOption, selected: boolean): JSX.Element {
         if (selected) {
             return (
@@ -673,6 +679,19 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             );
         }
         return <div className={styles.option_name}>{name}</div>;
+    }
+
+    public componentDidMount(): void {
+        this.textareaEl && this.textareaEl.focus();
+    }
+
+    public componentDidUpdate(previous: TextInputProps): void {
+        if (this.selectedEl !== null) {
+            const selectedOption = findDOMNode(this.selectedEl);
+            if (selectedOption !== null) {
+                selectedOption.scrollIntoView(false);
+            }
+        }
     }
 
     render() {
@@ -724,13 +743,13 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         let counter: JSX.Element = null;
 
         if (this.props.count === Count.SMS) {
-            const { unicode, max, segments, value: { length: chars } } = this.state;
+            const { unicode, max, segments, charCount } = this.state;
             const encoding = unicode ? 'Unicode' : '7-bit';
 
             counter = (
                 <div className={styles.count} data-spec="counter">
                     <div>
-                        {chars}/{segments}{' '}
+                        {charCount}/{segments}{' '}
                         <span className={styles.tooltip}>
                             <b>&#63;</b>
                             <span className={styles.tooltiptext}>
@@ -744,7 +763,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                                 </div>
                                 <div>
                                     <b>Character Count</b>
-                                    {`  ${chars}`}
+                                    {`  ${charCount}`}
                                 </div>
                                 <div>
                                     <b>Limit Per Segment</b>
