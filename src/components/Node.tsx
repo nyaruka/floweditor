@@ -481,7 +481,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         }
 
         // is this a ghost node
-        if (this.props.ghost || this.props.nodeDragging && !this.state.dragging) {
+        if (this.props.ghost || (this.props.nodeDragging && !this.state.dragging)) {
             classes.push(styles.ghost);
         }
 

@@ -72,7 +72,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             loading: true,
             ghost: null,
             nodeEditor: null,
-            viewDefinition: null,
+            viewDefinition: null
         };
 
         this.repaintDuration = REPAINT_DURATION;

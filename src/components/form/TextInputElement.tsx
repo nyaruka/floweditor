@@ -718,23 +718,27 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             const encoding = unicode ? 'Unicode' : '7-bit';
 
             counter = (
-                <div className={styles.count} data-spec='counter'>
+                <div className={styles.count} data-spec="counter">
                     <div>
                         {chars}/{segments}{' '}
                         <span className={styles.tooltip}>
                             <b>&#63;</b>
                             <span className={styles.tooltiptext}>
                                 <div>
-                                    <b>Encoding</b>{`  ${encoding}`}
+                                    <b>Encoding</b>
+                                    {`  ${encoding}`}
                                 </div>
                                 <div>
-                                    <b>Segments</b>{`  ${segments}`}
+                                    <b>Segments</b>
+                                    {`  ${segments}`}
                                 </div>
                                 <div>
-                                    <b>Character Count</b>{`  ${chars}`}
+                                    <b>Character Count</b>
+                                    {`  ${chars}`}
                                 </div>
                                 <div>
-                                    <b>Limit Per Segment</b>{`  ${max}`}
+                                    <b>Limit Per Segment</b>
+                                    {`  ${max}`}
                                 </div>
                             </span>
                         </span>
