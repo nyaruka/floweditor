@@ -80,6 +80,7 @@ describe('Component: ReplyForm', () => {
         expect(getSpecWrapper(ReplyFormBase, 'text-to-translate').text()).toBe(props.action.text);
         expect(ReplyFormBase.find('TextInputElement').props()).toEqual({
             name: 'Message',
+            count: Count.SMS,
             showLabel: false,
             value: 'Como te llamas?',
             placeholder: 'Spanish Translation',

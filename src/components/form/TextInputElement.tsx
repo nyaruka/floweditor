@@ -194,10 +194,10 @@ const CHARSET_7_BIT_TEXT: { [key: string]: boolean } = {
     'â‚¬': true
 };
 
-const MAX_GSM_SINGLE = 160;
-const MAX_GSM_MULTI = 153;
-const MAX_UNICODE_SINGLE = 70;
-const MAX_UNICODE_MULTI = 67;
+export const MAX_GSM_SINGLE = 160;
+export const MAX_GSM_MULTI = 153;
+export const MAX_UNICODE_SINGLE = 70;
+export const MAX_UNICODE_MULTI = 67;
 
 export enum Count {
     SMS = 'SMS'
@@ -718,7 +718,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             const encoding = unicode ? 'Unicode' : '7-bit';
 
             counter = (
-                <div className={styles.count}>
+                <div className={styles.count} data-spec='counter'>
                     <div>
                         {chars}/{segments}{' '}
                         <span className={styles.tooltip}>
