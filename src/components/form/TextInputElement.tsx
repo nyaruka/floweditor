@@ -199,6 +199,10 @@ const MAX_GSM_MULTI = 153;
 const MAX_UNICODE_SINGLE = 70;
 const MAX_UNICODE_MULTI = 67;
 
+export enum Count {
+    SMS = 'SMS'
+}
+
 export interface Coordinates {
     left: number;
     top: number;
@@ -210,7 +214,7 @@ export interface HTMLTextElement {
 }
 
 interface TextInputProps extends FormElementProps {
-    count_sms?: boolean;
+    count?: Count;
     value: string;
     /** Validates that the input is a url */
     url?: boolean;
@@ -709,7 +713,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
         let counter: JSX.Element = null;
 
-        if (this.props.count_sms) {
+        if (this.props.count === Count.SMS) {
             const { unicode, max, segments, value: { length: chars } } = this.state;
             const encoding = unicode ? 'Unicode' : '7-bit';
 
@@ -721,16 +725,16 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                             <b>&#63;</b>
                             <span className={styles.tooltiptext}>
                                 <div>
-                                    <b>ENCODING</b>{`  ${encoding}`}
+                                    <b>Encoding</b>{`  ${encoding}`}
                                 </div>
                                 <div>
-                                    <b>SEGMENTS</b>{`  ${segments}`}
+                                    <b>Segments</b>{`  ${segments}`}
                                 </div>
                                 <div>
-                                    <b>CHARACTER COUNT</b>{`  ${chars}`}
+                                    <b>Character Count</b>{`  ${chars}`}
                                 </div>
                                 <div>
-                                    <b>LIMIT PER SEGMENT</b>{`  ${max}`}
+                                    <b>Limit Per Segment</b>{`  ${max}`}
                                 </div>
                             </span>
                         </span>

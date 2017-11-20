@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 .count {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -27,19 +29,19 @@
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between;
-    height: 85px;
-    width: 200px;
+    height: 75px;
+    width: 175px;
     background-color: #f5f5f5;
     color: $grey;
     text-align: left;
-    padding: 15px;
+    padding: 10px;
     border-radius: 6px;
 
     /* Position tooltip text */
     position: absolute;
     z-index: 1;
     bottom: 180%;
-    left: -580%;
+    left: -490%;
     margin-left: -60px;
 
     /* Fade in tooltip */

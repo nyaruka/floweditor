@@ -4,6 +4,7 @@ import { shallow, mount } from 'enzyme';
 import { getSpecWrapper } from '../../../helpers/utils';
 import EditorConfig from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
+import { Count } from '../../form/TextInputElement';
 import ReplyForm, { ReplyFormProps } from './ReplyForm';
 
 const {
@@ -36,6 +37,7 @@ describe('Component: ReplyForm', () => {
         expect(props.onBindWidget).toBeCalled();
         expect(ReplyFormBase.find('TextInputElement').props()).toEqual({
             name: 'Message',
+            count: Count.SMS,
             showLabel: false,
             value: props.action.text,
             placeholder: '',

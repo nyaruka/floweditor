@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Reply } from '../../../flowTypes';
 import { Type } from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
-import TextInputElement from '../../form/TextInputElement';
+import TextInputElement, { Count } from '../../form/TextInputElement';
 import CheckboxElement from '../../form/CheckboxElement';
 
 const styles = require('../../Action/Action.scss');
@@ -95,7 +95,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                     ref={this.props.onBindWidget}
                     name="Message"
                     showLabel={false}
-                    count_sms
+                    count={Count.SMS}
                     value={text}
                     placeholder={placeholder}
                     autocomplete
