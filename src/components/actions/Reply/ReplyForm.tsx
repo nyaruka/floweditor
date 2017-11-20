@@ -99,6 +99,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                     value={text}
                     placeholder={placeholder}
                     autocomplete
+                    focus
                     required={!localizedObject}
                     textarea
                     ComponentMap={this.props.ComponentMap}

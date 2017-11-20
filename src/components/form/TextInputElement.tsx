@@ -225,6 +225,7 @@ interface TextInputProps extends FormElementProps {
     placeholder?: string;
     /** Do we show autocompletion choices */
     autocomplete?: boolean;
+    focus?: boolean;
     onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
     onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
     ComponentMap: ComponentMap;
@@ -247,8 +248,7 @@ export interface TextInputState {
 
 export default class TextInputElement extends React.Component<TextInputProps, TextInputState> {
     private selectedEl: any;
-    private inputEl: HTMLTextElement;
-    private textareaEl: HTMLTextElement;
+    private textEl: HTMLTextElement;
     private options: CompletionOption[];
 
     constructor(props: any) {
@@ -289,11 +289,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     }
 
     private textElRef(ref: any) {
-        if (this.props.textarea) {
-            this.textareaEl = ref;
-        } else {
-            this.inputEl = ref;
-        }
+        return (this.textEl = ref);
     }
 
     private getCount(value: string) {
@@ -463,7 +459,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 }
                 break;
             case KEY_AT:
-                var ele: any = findDOMNode(this.textareaEl || this.inputEl as any);
+                var ele: any = findDOMNode(this.textEl as any);
 
                 this.setState({
                     completionVisible: true,
@@ -511,7 +507,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                             selectedOptionIndex: 0
                         },
                         () => {
-                            setCaretPosition(findDOMNode(this.textareaEl || this.inputEl as any), newCaret);
+                            setCaretPosition(findDOMNode(this.textEl as any), newCaret);
                         }
                     );
 
@@ -532,7 +528,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
                     /** @ we display again **/
                     if (curr === '@') {
-                        var ele: any = findDOMNode(this.textareaEl || this.inputEl as any);
+                        var ele: any = findDOMNode(this.textEl as any);
                         query = this.state.value.substr(i + 1, caret - i - 1);
                         matches = this.filterOptions(query);
                         completionVisible = matches.length > 0;
@@ -682,7 +678,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     }
 
     public componentDidMount(): void {
-        this.textareaEl && this.textareaEl.focus();
+        this.props.focus && this.textEl.focus();
     }
 
     public componentDidUpdate(previous: TextInputProps): void {
