@@ -1,4 +1,4 @@
-import { addCommas, snakify, toBoolMap, validUUID, getDisplayName, isGSM } from './utils';
+import { addCommas, snakify, toBoolMap, validUUID, getDisplayName, byteLength } from './utils';
 
 describe('utils', () => {
     describe('toBoolMap()', () => {
@@ -76,13 +76,13 @@ describe('utils', () => {
         });
     });
 
-    describe('isGSM', () => {
-        it('matches GSM 7-bit alphabet', () => expect(isGSM(' @£$¥èéùìòÇØøÅåΔ_ΦΓΛΩΠΨΣΘΞ^{}[~]|€ÆæßÉ!"#¤%&\'()*+,-./0123456789:;<=>?¡ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÑÜ§¿abcdefghijklmnopqrstuvwxyzäöñüà')).toBeTruthy());
-
-        it("doesn't match unicode", () =>
-            expect(
-                isGSM('💩')
-            ).toBeFalsy());
+    describe('byteLength', () => {
+        it('Returns the byte length of an utf8 string', () => {
+            expect(byteLength('a')).toBe(1);
+            expect(byteLength('☀')).toBe(3);
+            expect(byteLength('💩')).toBe(4);
+            expect(byteLength('🙌')).toBe(4);
+        });
     });
 
     xdescribe('getDisplayName', () => {

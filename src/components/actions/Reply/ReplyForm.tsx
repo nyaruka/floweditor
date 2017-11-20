@@ -95,7 +95,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                     ref={this.props.onBindWidget}
                     name="Message"
                     showLabel={false}
-                    counter
+                    count_sms
                     value={text}
                     placeholder={placeholder}
                     autocomplete

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import { isGSM } from '../../helpers/utils';
+import { byteLength } from '../../helpers/utils';
 import FormElement, { FormElementProps } from './FormElement';
 import ComponentMap, { CompletionOption } from '../../services/ComponentMap';
 
@@ -51,6 +51,154 @@ const OPTIONS: CompletionOption[] = [
     { name: 'webhook.response', description: 'The raw response of the webhook including headers' }
 ];
 
+const CHARSET_7_BIT: { [key: string]: boolean } = {
+    0: true,
+    1: true,
+    2: true,
+    3: true,
+    4: true,
+    5: true,
+    6: true,
+    7: true,
+    8: true,
+    9: true,
+    '@': true,
+    'Â£': true,
+    $: true,
+    'Â¥': true,
+    'Ã¨': true,
+    'Ã©': true,
+    'Ã¹': true,
+    'Ã¬': true,
+    'Ã²': true,
+    'Ã‡': true,
+    '\n': true,
+    'Ã˜': true,
+    'Ã¸': true,
+    '\r': true,
+    'Ã…': true,
+    'Ã¥': true,
+    'Î”': true,
+    _: true,
+    'Î¦': true,
+    'Î“': true,
+    'Î›': true,
+    'Î©': true,
+    'Î ': true,
+    'Î¨': true,
+    'Î£': true,
+    'Î˜': true,
+    Îž: true,
+    'Ã†': true,
+    'Ã¦': true,
+    ÃŸ: true,
+    'Ã‰': true,
+    ' ': true,
+    '!': true,
+    '"': true,
+    '#': true,
+    'Â¤': true,
+    '%': true,
+    '&': true,
+    "'": true,
+    '(': true,
+    ')': true,
+    '*': true,
+    '+': true,
+    ',': true,
+    '-': true,
+    '.': true,
+    '/': true,
+    ':': true,
+    ';': true,
+    '<': true,
+    '=': true,
+    '>': true,
+    '?': true,
+    'Â¡': true,
+    A: true,
+    B: true,
+    C: true,
+    D: true,
+    E: true,
+    F: true,
+    G: true,
+    H: true,
+    I: true,
+    J: true,
+    K: true,
+    L: true,
+    M: true,
+    N: true,
+    O: true,
+    P: true,
+    Q: true,
+    R: true,
+    S: true,
+    T: true,
+    U: true,
+    V: true,
+    W: true,
+    X: true,
+    Y: true,
+    Z: true,
+    'Ã„': true,
+    'Ã–': true,
+    'Ã‘': true,
+    Ãœ: true,
+    'Â§': true,
+    'Â¿': true,
+    a: true,
+    b: true,
+    c: true,
+    d: true,
+    e: true,
+    f: true,
+    g: true,
+    h: true,
+    i: true,
+    j: true,
+    k: true,
+    l: true,
+    m: true,
+    n: true,
+    o: true,
+    p: true,
+    q: true,
+    r: true,
+    s: true,
+    t: true,
+    u: true,
+    v: true,
+    w: true,
+    x: true,
+    y: true,
+    z: true,
+    'Ã¤': true,
+    'Ã¶': true,
+    'Ã±': true,
+    'Ã¼': true,
+    'Ã ': true
+};
+
+const CHARSET_7_BIT_TEXT: { [key: string]: boolean } = {
+    '\f': true,
+    '^': true,
+    '{': true,
+    '}': true,
+    '\\': true,
+    '[': true,
+    '~': true,
+    ']': true,
+    '|': true,
+    'â‚¬': true
+};
+
+const MAX_GSM_SINGLE = 160;
+const MAX_GSM_MULTI = 153;
+const MAX_UNICODE_SINGLE = 70;
+const MAX_UNICODE_MULTI = 67;
+
 export interface Coordinates {
     left: number;
     top: number;
@@ -62,7 +210,7 @@ export interface HTMLTextElement {
 }
 
 interface TextInputProps extends FormElementProps {
-    counter?: boolean;
+    count_sms?: boolean;
     value: string;
     /** Validates that the input is a url */
     url?: boolean;
@@ -78,7 +226,6 @@ interface TextInputProps extends FormElementProps {
 }
 
 export interface TextInputState {
-    remaining: number;
     max: number;
     segments: number;
     unicode: boolean;
@@ -100,32 +247,10 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     constructor(props: any) {
         super(props);
 
-        let unicode: boolean = false;
-        let max: number = 160;
-        let remaining: number = 160;
-        let segments: number = 0;
-
-        if (this.props.counter) {
-            for (const char of this.props.value) {
-                if (/[^\u0000-\u00ff]/.test(char)) {
-                    unicode = true;
-                    break;
-                }
-            }
-
-            if (unicode) {
-                max = 70;
-            }
-
-
-            const chars = this.props.value.length;
-            segments = Math.ceil(chars / max);
-            remaining = segments * max - (chars % (segments * max) || segments * max);
-        }
+        const { max, unicode, segments } = this.getCount(this.props.value);
 
         this.state = {
             max,
-            remaining,
             unicode,
             segments,
             value: this.props.value ? this.props.value : '',
@@ -146,6 +271,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         this.textElRef = this.textElRef.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
         this.onKeyUp = this.onKeyUp.bind(this);
+        this.onPaste = this.onPaste.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
     }
@@ -156,6 +282,99 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
     private textElRef(ref: any) {
         return (this.textEl = ref);
+    }
+
+    private getCount(value: string) {
+        let max: number;
+        let segments: number;
+        let remaining: number;
+
+        let unicode: boolean = false;
+        let doubleChar: boolean = false;
+        let chars = 0;
+        let segChars = 0;
+        let segment: number = 1;
+
+        /** Determine base encoding */
+        for (const char of value) {
+            if (CHARSET_7_BIT[char]) {
+                chars += 1;
+            } else if (CHARSET_7_BIT_TEXT[char]) {
+                chars += 2;
+            } else {
+                unicode = true;
+                ({ length: chars } = value);
+                break;
+            }
+        }
+
+        if (unicode) {
+            max = MAX_UNICODE_SINGLE;
+
+            if (chars > MAX_UNICODE_SINGLE) {
+                max = MAX_UNICODE_MULTI;
+            }
+
+            segments = Math.ceil(chars / max);
+
+            for (const char of value) {
+                /** Calculate segment/segChars based on whether character is more than 3 UTF-8 bytes */
+                doubleChar = byteLength(char) > 3;
+
+                if (segChars + 1 > max) {
+                    segment += 1;
+                    segChars = 0;
+                }
+
+                if (doubleChar && segChars + 2 > max) {
+                    segment += 1;
+                    segChars = 0;
+                }
+
+                if (doubleChar) {
+                    segChars += 2;
+                } else {
+                    segChars += 1;
+                }
+            }
+        } else {
+            max = MAX_GSM_SINGLE;
+
+            if (chars > MAX_GSM_SINGLE) {
+                max = MAX_GSM_MULTI;
+            }
+
+            segments = Math.ceil(chars / max);
+
+            for (const char of value) {
+                /** Calculate segment/segChars based on whether character is 7 or 14 bits */
+                doubleChar = CHARSET_7_BIT_TEXT[char];
+
+                if (segChars + 1 > MAX_GSM_SINGLE) {
+                    segment += 1;
+                    segChars = 0;
+                }
+
+                if (doubleChar && segChars + 2 > MAX_GSM_SINGLE) {
+                    segment += 1;
+                    segChars = 0;
+                }
+
+                if (doubleChar) {
+                    segChars += 2;
+                } else {
+                    segChars += 1;
+                }
+            }
+        }
+
+        remaining = segments * max - chars;
+
+        return {
+            max,
+            unicode,
+            segments
+        };
     }
 
     private setSelection(selectedIdx: number) {
@@ -174,43 +393,21 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         }
     }
 
-    private onKeyUp(event: React.KeyboardEvent<HTMLTextElement>) {
+    private onPaste(event: React.ClipboardEvent<string>): void {
+        event.clipboardData.items[0].getAsString(str => {
+            const newCount = this.getCount(this.state.value);
+            this.setState(newCount);
+        });
+    }
+
+    private onKeyUp(event: React.KeyboardEvent<HTMLTextElement>): void {
         if (!this.state.completionVisible) {
-            let updates = {};
-            const { value: { length: chars } }: TextInputState = this.state;
-            let max: number;
-            let segments: number;
-            let remaining: number;
-
-            if (isGSM(event.key)) {
-                max = 160;
-                segments = Math.ceil(chars / max);
-                remaining = segments * max - (chars % (segments * max) || segments * max);
-                updates = {
-                    ...updates,
-                    unicode: false,
-                    max,
-                    remaining,
-                    segments
-                };
-            } else {
-                max = 70;
-                segments = Math.ceil(chars / max);
-                remaining = segments * max - (chars % (segments * max) || segments * max);
-                updates = {
-                    ...updates,
-                    unicode: true,
-                    max,
-                    remaining,
-                    segments
-                };
-            }
-
-            this.setState(updates);
+            const newCount = this.getCount(this.state.value);
+            this.setState(newCount);
         }
     }
 
-    private onKeyDown(event: React.KeyboardEvent<HTMLTextElement>) {
+    private onKeyDown(event: React.KeyboardEvent<HTMLTextElement>): void {
         if (!this.props.autocomplete) {
             return;
         }
@@ -512,17 +709,32 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
         let counter: JSX.Element = null;
 
-        if (this.props.counter) {
-            const { remaining, segments } = this.state;
+        if (this.props.count_sms) {
+            const { unicode, max, segments, value: { length: chars } } = this.state;
+            const encoding = unicode ? 'Unicode' : '7-bit';
+
             counter = (
-                <div
-                    style={{
-                        margin: 5,
-                        color: remaining <= 20 ? 'tomato' : null
-                    }}>
-                    {remaining}
-                    {segments > 1 && `/${segments}`}
-                    /{this.state.unicode ? 'UNICODE' : 'GSM'}
+                <div className={styles.count}>
+                    <div>
+                        {chars}/{segments}{' '}
+                        <span className={styles.tooltip}>
+                            <b>&#63;</b>
+                            <span className={styles.tooltiptext}>
+                                <div>
+                                    <b>ENCODING</b>{`  ${encoding}`}
+                                </div>
+                                <div>
+                                    <b>SEGMENTS</b>{`  ${segments}`}
+                                </div>
+                                <div>
+                                    <b>CHARACTER COUNT</b>{`  ${chars}`}
+                                </div>
+                                <div>
+                                    <b>LIMIT PER SEGMENT</b>{`  ${max}`}
+                                </div>
+                            </span>
+                        </span>
+                    </div>
                 </div>
             );
         }
@@ -543,6 +755,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                         onBlur={this.onBlur}
                         onKeyDown={this.onKeyDown}
                         onKeyUp={this.onKeyUp}
+                        onPaste={this.onPaste}
                         placeholder={this.props.placeholder}
                     />
                     <div
