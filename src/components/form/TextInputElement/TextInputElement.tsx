@@ -383,7 +383,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             } else {
                 updates = {
                     ...updates,
-                    ...this.getCharCount(value)
+                    ...this.getCharCount(value, true)
                 };
             }
 
