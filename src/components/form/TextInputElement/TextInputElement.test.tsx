@@ -1,19 +1,19 @@
 import * as React from 'react';
-import '../../enzymeAdapter';
+import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { getSpecWrapper } from '../../helpers/utils';
-import ComponentMap from '../../services/ComponentMap';
-import TextInputElement, {
+import { getSpecWrapper } from '../../../helpers/utils';
+import ComponentMap from '../../../services/ComponentMap';
+import {
     MAX_GSM_SINGLE,
     MAX_GSM_MULTI,
     MAX_UNICODE_SINGLE,
-    MAX_UNICODE_MULTI,
-    Count
-} from './TextInputElement';
+    MAX_UNICODE_MULTI
+} from './gsm-chars';
+import TextInputElement, { Count } from './TextInputElement';
 
 const {
     results: [{ definition }]
-} = require('../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
+} = require('../../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
 const CompMap = new ComponentMap(definition);
 const props = {
@@ -53,7 +53,7 @@ describe('Component: TextInputElement', () => {
                 {...{
                     ...props,
                     value:
-                        "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet? Fun fact: Approximately seven million different colors can be seen by the human eye."
+                        "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet? { Fun fact: Approximately seven million different colors can be seen by the human eye. }"
                 }}
             />
         );
@@ -61,10 +61,11 @@ describe('Component: TextInputElement', () => {
         expect(TextInputGSM.state('max')).toBe(MAX_GSM_MULTI);
         expect(TextInputGSM.state('segments')).toBe(2);
         expect(TextInputGSM.state('unicode')).toBeFalsy();
+        expect(TextInputGSM.state('charCount')).toBe(184);
         expect(
             getSpecWrapper(TextInputGSM, 'counter')
                 .text()
-                .indexOf('178/2 ?')
+                .indexOf('184/2 ?')
         ).toBe(0);
     });
 
@@ -81,6 +82,7 @@ describe('Component: TextInputElement', () => {
         expect(TextInputUni.state('max')).toBe(MAX_UNICODE_SINGLE);
         expect(TextInputUni.state('segments')).toBe(1);
         expect(TextInputUni.state('unicode')).toBeTruthy();
+        expect(TextInputUni.state('charCount')).toBe(24);
         expect(
             getSpecWrapper(TextInputUni, 'counter')
                 .text()
@@ -100,6 +102,7 @@ describe('Component: TextInputElement', () => {
         expect(TextInputUni.state('max')).toBe(MAX_UNICODE_MULTI);
         expect(TextInputUni.state('segments')).toBe(2);
         expect(TextInputUni.state('unicode')).toBeTruthy();
+        expect(TextInputUni.state('charCount')).toBe(101);
         expect(
             getSpecWrapper(TextInputUni, 'counter')
                 .text()

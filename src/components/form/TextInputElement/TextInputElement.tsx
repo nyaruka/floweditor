@@ -1,14 +1,22 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import { byteLength } from '../../helpers/utils';
-import FormElement, { FormElementProps } from './FormElement';
-import ComponentMap, { CompletionOption } from '../../services/ComponentMap';
+import ComponentMap, { CompletionOption } from '../../../services/ComponentMap';
+import FormElement, { FormElementProps } from '../FormElement';
+import { OPTIONS } from './completion-options';
+import {
+    CHARSET_7_BIT_BASE,
+    CHARSET_7_BIT_EXT,
+    MAX_GSM_SINGLE,
+    MAX_GSM_MULTI,
+    MAX_UNICODE_SINGLE,
+    MAX_UNICODE_MULTI
+} from './gsm-chars';
 
 const getCaretCoordinates = require('textarea-caret');
 const { setCaretPosition } = require('get-input-selection');
 
 const styles = require('./TextInputElement.scss');
-const shared = require('./FormElement.scss');
+const shared = require('../FormElement.scss');
 
 const KEY_AT = 50;
 const KEY_SPACE = 32;
@@ -20,184 +28,6 @@ const KEY_P = 80;
 const KEY_N = 78;
 const KEY_ESC = 27;
 const KEY_BACKSPACE = 8;
-
-const OPTIONS: CompletionOption[] = [
-    { name: 'contact', description: 'The name of the contact.' },
-    { name: 'contact.name', description: 'The name of the contact.' },
-    { name: 'contact.language', description: 'The language code for the contact.' },
-    { name: 'contact.fields', description: 'Custom fields on the contact.' },
-    { name: 'contact.groups', description: 'The groups for the contact.' },
-    { name: 'contact.urns', description: 'URNs on the contact.' },
-    { name: 'contact.urns.tel', description: 'The preferred telephone number for the contact.' },
-    { name: 'contact.urns.telegram', description: 'The preferred telegram id for the contact.' },
-    { name: 'input', description: 'The last input from the contact if any.' },
-    { name: 'run', description: 'Run details' },
-    { name: 'run.contact', description: 'The contact in this run' },
-    { name: 'run.results', description: 'Results for the run' },
-    { name: 'child', description: 'Run details after running a child flow' },
-    { name: 'child.results', description: 'The results for the child flow' },
-    { name: 'parent', description: 'Run details if being called from a parent flow' },
-    { name: 'parent.results', description: 'The results for the parent flow' },
-    { name: 'webhook', description: 'The body of the webhook response' },
-    { name: 'webhook.status', description: 'The status of the webhook call' },
-    { name: 'webhook.status_code', description: 'The status code returned from the webhook' },
-    { name: 'webhook.url', description: 'The URL which was called' },
-    { name: 'webhook.body', description: 'The body of the webhook response' },
-    {
-        name: 'webhook.json',
-        description: 'The JSON parsed body of the response, can access subelements'
-    },
-    { name: 'webhook.request', description: 'The raw request of the webhook including headers' },
-    { name: 'webhook.response', description: 'The raw response of the webhook including headers' }
-];
-
-const CHARSET_7_BIT: { [key: string]: boolean } = {
-    0: true,
-    1: true,
-    2: true,
-    3: true,
-    4: true,
-    5: true,
-    6: true,
-    7: true,
-    8: true,
-    9: true,
-    '@': true,
-    'Â£': true,
-    $: true,
-    'Â¥': true,
-    'Ã¨': true,
-    'Ã©': true,
-    'Ã¹': true,
-    'Ã¬': true,
-    'Ã²': true,
-    'Ã‡': true,
-    '\n': true,
-    'Ã˜': true,
-    'Ã¸': true,
-    '\r': true,
-    'Ã…': true,
-    'Ã¥': true,
-    'Î”': true,
-    _: true,
-    'Î¦': true,
-    'Î“': true,
-    'Î›': true,
-    'Î©': true,
-    'Î ': true,
-    'Î¨': true,
-    'Î£': true,
-    'Î˜': true,
-    Îž: true,
-    'Ã†': true,
-    'Ã¦': true,
-    ÃŸ: true,
-    'Ã‰': true,
-    ' ': true,
-    '!': true,
-    '"': true,
-    '#': true,
-    'Â¤': true,
-    '%': true,
-    '&': true,
-    "'": true,
-    '(': true,
-    ')': true,
-    '*': true,
-    '+': true,
-    ',': true,
-    '-': true,
-    '.': true,
-    '/': true,
-    ':': true,
-    ';': true,
-    '<': true,
-    '=': true,
-    '>': true,
-    '?': true,
-    'Â¡': true,
-    A: true,
-    B: true,
-    C: true,
-    D: true,
-    E: true,
-    F: true,
-    G: true,
-    H: true,
-    I: true,
-    J: true,
-    K: true,
-    L: true,
-    M: true,
-    N: true,
-    O: true,
-    P: true,
-    Q: true,
-    R: true,
-    S: true,
-    T: true,
-    U: true,
-    V: true,
-    W: true,
-    X: true,
-    Y: true,
-    Z: true,
-    'Ã„': true,
-    'Ã–': true,
-    'Ã‘': true,
-    Ãœ: true,
-    'Â§': true,
-    'Â¿': true,
-    a: true,
-    b: true,
-    c: true,
-    d: true,
-    e: true,
-    f: true,
-    g: true,
-    h: true,
-    i: true,
-    j: true,
-    k: true,
-    l: true,
-    m: true,
-    n: true,
-    o: true,
-    p: true,
-    q: true,
-    r: true,
-    s: true,
-    t: true,
-    u: true,
-    v: true,
-    w: true,
-    x: true,
-    y: true,
-    z: true,
-    'Ã¤': true,
-    'Ã¶': true,
-    'Ã±': true,
-    'Ã¼': true,
-    'Ã ': true
-};
-
-const CHARSET_7_BIT_TEXT: { [key: string]: boolean } = {
-    '\f': true,
-    '^': true,
-    '{': true,
-    '}': true,
-    '\\': true,
-    '[': true,
-    '~': true,
-    ']': true,
-    '|': true,
-    'â‚¬': true
-};
-
-export const MAX_GSM_SINGLE = 160;
-export const MAX_GSM_MULTI = 153;
-export const MAX_UNICODE_SINGLE = 70;
-export const MAX_UNICODE_MULTI = 67;
 
 export enum Count {
     SMS = 'SMS'
@@ -254,7 +84,9 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     constructor(props: any) {
         super(props);
 
-        const { max, unicode, segments, charCount } = this.getCount(this.props.value);
+        const { value } = this.props;
+
+        const { max, unicode, segments, charCount } = this.getCharCount(value);
 
         this.state = {
             max,
@@ -278,8 +110,6 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         this.selectedElRef = this.selectedElRef.bind(this);
         this.textElRef = this.textElRef.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
-        this.onKeyUp = this.onKeyUp.bind(this);
-        this.onPaste = this.onPaste.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
     }
@@ -292,103 +122,73 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         return (this.textEl = ref);
     }
 
-    private getCount(value: string) {
-        let max: number;
-        let segments: number;
-        let remaining: number;
-
+    /**
+     * First pass at providing the user with an accurate character count for their SMS messages.
+     * Determines encoding, segments, max character limit per message and calculates character count.
+     * Optionally replaces common unicode 'gotcha characters' with their GSM counterparts.
+     * @param value
+     * @param replace
+     */
+    private getCharCount(
+        value: string,
+        replace?: boolean
+    ): { max: number; segments: number; unicode: boolean; charCount: number, value: string } {
+        let max: number = MAX_GSM_SINGLE;
+        let segments: number = 1;
         let unicode: boolean = false;
-        let doubleChar: boolean = false;
-        let charCount = 0;
-        let segChars = 0;
-        let segment: number = 1;
+        let charCount: number = 0;
 
-        /** Determine base encoding, character count */
-        for (const char of value) {
-            if (CHARSET_7_BIT[char]) {
-                charCount += 1;
-            } else if (CHARSET_7_BIT_TEXT[char]) {
-                charCount += 2;
-            } else {
-                if (!unicode) {
-                    unicode = true;
-                }
-                if (byteLength(char) > 3) {
-                    charCount += 2;
+        if (value) {
+            if (replace) {
+                value = value
+                    .replace(/[\u2018\u2019]/g, "'")
+                    .replace(/[\u201C\u201D]/g, '"')
+                    .replace(/[\u2013\u2014]/g, '-')
+                    .replace(/\u2026/g, '...')
+                    .replace(/\u2002/g, ' ');
+            }
+
+            for (let i = 0; i < value.length; i++) {
+                const char = value[i];
+                if (CHARSET_7_BIT_EXT[char]) {
+                    if (unicode) {
+                        charCount += 1;
+                    } else {
+                        charCount += 2;
+                    }
+                } else if (CHARSET_7_BIT_BASE[char]) {
+                    charCount += 1;
                 } else {
+                    if (!unicode) {
+                        const previousChars = value.slice(0, i);
+                        charCount = previousChars.length;
+                        unicode = true;
+                    }
                     charCount += 1;
                 }
             }
-        }
 
-        if (unicode) {
-            max = MAX_UNICODE_SINGLE;
-
-            if (charCount > MAX_UNICODE_SINGLE) {
-                max = MAX_UNICODE_MULTI;
-            }
-
-            segments = Math.ceil(charCount / max);
-
-            for (const char of value) {
-                /** Calculate segment/segChars based on whether character is more than 3 UTF-8 bytes */
-                doubleChar = byteLength(char) > 3;
-
-                if (segChars + 1 > max) {
-                    segment += 1;
-                    segChars = 0;
-                }
-
-                if (doubleChar && segChars + 2 > max) {
-                    segment += 1;
-                    segChars = 0;
-                }
-
-                if (doubleChar) {
-                    segChars += 2;
+            if (unicode) {
+                if (charCount > MAX_UNICODE_SINGLE) {
+                    max = MAX_UNICODE_MULTI;
                 } else {
-                    segChars += 1;
+                    max = MAX_UNICODE_SINGLE;
                 }
-            }
-        } else {
-            max = MAX_GSM_SINGLE;
-
-            if (charCount > MAX_GSM_SINGLE) {
-                max = MAX_GSM_MULTI;
-            }
-
-            segments = Math.ceil(charCount / max);
-
-            for (const char of value) {
-                /** Calculate segment/segChars based on whether character is 7 or 14 bits */
-                doubleChar = CHARSET_7_BIT_TEXT[char];
-
-                if (segChars + 1 > MAX_GSM_SINGLE) {
-                    segment += 1;
-                    segChars = 0;
+                segments = Math.ceil(charCount / max);
+            } else {
+                if (charCount > MAX_GSM_SINGLE) {
+                    max = MAX_GSM_MULTI;
                 }
-
-                if (doubleChar && segChars + 2 > MAX_GSM_SINGLE) {
-                    segment += 1;
-                    segChars = 0;
-                }
-
-                if (doubleChar) {
-                    segChars += 2;
-                } else {
-                    segChars += 1;
-                }
+                segments = Math.ceil(charCount / max);
             }
         }
-
-        remaining = segments * max - charCount;
-
 
         return {
             max,
             unicode,
             segments,
-            charCount
+            charCount,
+            value
         };
     }
 
@@ -405,30 +205,6 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
         if (selectedIdx !== this.state.selectedOptionIndex) {
             this.setState({ selectedOptionIndex: selectedIdx });
-        }
-    }
-
-    private onPaste(event: React.ClipboardEvent<string>): void {
-        event.clipboardData.items[0].getAsString(() => {
-            const commonUnicodeReplaced = this.state.value
-                .replace(/[\u2018\u2019]/g, "'")
-                .replace(/[\u201C\u201D]/g, '"')
-                .replace(/[\u2013\u2014]/g, '-')
-                .replace(/\u2026/g, '...');
-
-            const newCount = this.getCount(commonUnicodeReplaced);
-
-            this.setState({
-                value: commonUnicodeReplaced,
-                ...newCount
-            });
-        });
-    }
-
-    private onKeyUp(event: React.KeyboardEvent<HTMLTextElement>): void {
-        if (!this.state.completionVisible) {
-            const newCount = this.getCount(this.state.value);
-            this.setState(newCount);
         }
     }
 
@@ -580,18 +356,17 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     }
 
     private onChange(event: React.ChangeEvent<HTMLTextElement>) {
-        const { currentTarget: { value: text, selectionStart } } = event;
-
-        let update: any = {
-            value: text
-        };
+        let { currentTarget: { value, selectionStart } } = event;
 
         if (this.props.autocomplete) {
+            let updates: any = {
+                value
+            };
             let query: string = null;
             let matches: CompletionOption[] = [];
 
             if (this.state.completionVisible) {
-                query = text.substring(0, selectionStart);
+                query = value.substring(0, selectionStart);
                 const lastIdx = query.lastIndexOf('@');
 
                 if (lastIdx > -1) {
@@ -599,19 +374,27 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 }
 
                 matches = this.filterOptions(query);
+
+                updates = {
+                    ...updates,
+                    query,
+                    matches
+                };
+            } else {
+                updates = {
+                    ...updates,
+                    ...this.getCharCount(value)
+                };
             }
 
-            update = {
-                ...update,
+            updates = {
+                ...updates,
                 caretOffset: selectionStart,
-                matches,
-                selectedOptionIndex: 0,
-                value: text,
-                query
+                selectedOptionIndex: 0
             } as TextInputState;
-        }
 
-        this.setState(update);
+            this.setState(updates);
+        }
 
         if (this.props.onChange) {
             this.props.onChange(event);
@@ -787,8 +570,6 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                         onChange={this.onChange}
                         onBlur={this.onBlur}
                         onKeyDown={this.onKeyDown}
-                        onKeyUp={this.onKeyUp}
-                        onPaste={this.onPaste}
                         placeholder={this.props.placeholder}
                     />
                     <div
