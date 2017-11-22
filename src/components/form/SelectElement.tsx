@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Select from 'react-select';
 import FormElement, { FormElementProps } from './FormElement';
+import { getSelectClass } from '../../helpers/utils';
 
 const styles = require('./FormElement.scss');
 
@@ -42,11 +43,11 @@ export default class SelectElement extends React.Component<SelectElementProps, S
     }
 
     validate(): boolean {
-        let errors: string[] = [];
+        const errors: string[] = [];
 
         if (this.props.required) {
             if (!this.state.value || this.state.value.length === 0) {
-                errors = [...errors, `${this.props.name} is required`];
+                errors.push(`${this.props.name} is required`);
             }
         }
 
@@ -56,12 +57,7 @@ export default class SelectElement extends React.Component<SelectElementProps, S
     }
 
     render() {
-        let classes: string[] = [];
-
-        if (this.state.errors.length > 0) {
-            /** We use a global selector here for react-select */
-            classes = [...classes, 'select-invalid'];
-        }
+        const classes: string[] = getSelectClass(this.state.errors.length);
 
         return (
             <FormElement

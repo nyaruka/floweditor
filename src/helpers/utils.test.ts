@@ -6,7 +6,7 @@ import {
     validUUID,
     getDisplayName,
     toCharSetEnum,
-    replacePastedUnicode
+    cleanMsg
 } from './utils';
 
 describe('utils', () => {
@@ -92,9 +92,9 @@ describe('utils', () => {
         });
     });
 
-    describe('replacePastedUnicode()', () => {
+    describe('cleanMsg()', () => {
         it('should replace specified unicode characters with their GSM counterparts', () => {
-            expect(replacePastedUnicode('“”‘’— …–')).toBe(`""''- ...-`);
+            expect(cleanMsg('“”‘’— …–')).toBe(`""''- ...-`);
         });
     });
 

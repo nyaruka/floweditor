@@ -156,19 +156,19 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     }
 
     validate(): boolean {
-        let errors: string[] = [];
+        const errors: string[] = [];
 
         if (this.operatorConfig.operands === 0) {
             if (this.state.exitName.trim().length === 0) {
                 const { verboseName } = this.operatorConfig;
-                errors = [...errors, `A category name is required when using "${verboseName}"`];
+                errors.push(`A category name is required when using "${verboseName}"`);
             }
         } else {
             /** Check our argument list */
             /** If we have arguments, we need an exit name */
             if (this.hasArguments()) {
                 if (!this.category || !this.category.state.value) {
-                    errors = [...errors, 'A category name is required'];
+                    errors.push('A category name is required');
                 }
             }
 
@@ -177,7 +177,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 if (!this.hasArguments()) {
                     const operator = this.props.getOperatorConfig(this.state.operator);
                     const { verboseName } = operator;
-                    errors = [...errors, `When using "${verboseName}", an argument is required.`];
+                    errors.push(`When using "${verboseName}", an argument is required.`);
                 }
             }
 
@@ -186,7 +186,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 if (this.state.operator.indexOf('number') > -1) {
                     if (this.state.arguments[0]) {
                         if (isNaN(parseInt(this.state.arguments[0]))) {
-                            errors = [...errors, 'Enter a number when using numeric rules.'];
+                            errors.push('Enter a number when using numeric rules.');
                         }
                     }
                 }
@@ -194,10 +194,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 if (this.state.operator.indexOf('date') > -1) {
                     if (this.state.arguments[0]) {
                         if (isNaN(Date.parse(this.state.arguments[0]))) {
-                            errors = [
-                                ...errors,
-                                'Enter a date when using date rules (e.g. 1/1/2017).'
-                            ];
+                            errors.push('Enter a date when using date rules (e.g. 1/1/2017).');
                         }
                     }
                 }
@@ -214,10 +211,10 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     }
 
     render() {
-        let classes = [styles.case];
+        const classes = [styles.case];
 
         if (this.state.errors.length > 0) {
-            classes = [...classes, forms.invalid];
+            classes.push(forms.invalid);
         }
 
         const value = this.state.arguments ? this.state.arguments[0] : '';

@@ -4,6 +4,7 @@ import Select from 'react-select';
 import { SearchResult } from '../../services/ComponentMap';
 import FormElement, { FormElementProps } from './FormElement';
 import SelectSearch from '../SelectSearch';
+import { getSelectClass } from '../../helpers/utils';
 
 const styles = require('./FormElement.scss');
 
@@ -44,12 +45,12 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
     }
 
     validate(): boolean {
-        let errors: string[] = [];
+        const errors: string[] = [];
         const { groups } = this.state;
 
         if (this.props.required) {
             if (groups.length === 0) {
-                errors = [...errors, `${this.props.name} is required`];
+                errors.push(`${this.props.name} is required`);
             }
         }
 
@@ -87,12 +88,7 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
             };
         }
 
-        let classes: string[] = [];
-
-        if (this.state.errors.length > 0) {
-            // we use a global selector here for react-select
-            classes = [...classes, 'select-invalid'];
-        }
+        const classes: string[] = getSelectClass(this.state.errors.length);
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>

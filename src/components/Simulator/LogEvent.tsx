@@ -46,7 +46,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
     }
 
     render() {
-        let classes: string[] = [];
+        const classes: string[] = [];
         let text: JSX.Element = null;
         let details: JSX.Element = null;
         let detailTitle: string = '';
@@ -56,7 +56,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         switch (this.props.type) {
             case 'msg_received':
                 text = <span>{this.props.text}</span>;
-                classes = [...classes, styles.msg_received];
+                classes.push(styles.msg_received);
                 break;
             case 'send_msg':
                 const spans = this.props.text.split('\n').map((item, key) => {
@@ -68,15 +68,15 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                     );
                 });
                 text = <span> {spans} </span>;
-                classes = [...classes, styles.send_msg];
+                classes.push(styles.send_msg);
                 break;
             case 'error':
                 text = <span> Error: {this.props.text} </span>;
-                classes = [...classes, styles.error];
+                classes.push(styles.error);
                 break;
             case 'msg_wait':
                 text = <span>Waiting for reply</span>;
-                classes = [...classes, styles.info];
+                classes.push(styles.info);
                 break;
             /** fall-through desired in this case */
             case 'add_to_group':
@@ -88,7 +88,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                     delim = ', ';
                 });
                 text = <span>{groupText}</span>;
-                classes = [...classes, styles.info];
+                classes.push(styles.info);
                 break;
             case 'save_contact_field':
                 text = (
@@ -96,7 +96,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                         Set contact field "{this.props.field_name}" to "{this.props.value}"
                     </span>
                 );
-                classes = [...classes, styles.info];
+                classes.push(styles.info);
                 break;
             case 'save_flow_result':
                 text = (
@@ -104,7 +104,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                         Set flow result "{this.props.result_name}" to "{this.props.value}"
                     </span>
                 );
-                classes = [...classes, styles.info];
+                classes.push(styles.info);
                 break;
             case 'update_contact':
                 text = (
@@ -112,7 +112,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                         Updated contact {this.props.field_name} to "{this.props.value}"
                     </span>
                 );
-                classes = [...classes, styles.info];
+                classes.push(styles.info);
                 break;
             case 'send_email':
                 text = (
@@ -121,11 +121,11 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                         body "{this.props.body}"
                     </span>
                 );
-                classes = [...classes, styles.info];
+                classes.push(styles.info);
                 break;
             case 'webhook_called':
                 text = <span>Called webhook {this.props.url}</span>;
-                classes = [...classes, styles.info, styles.webhook];
+                classes.push(styles.info, styles.webhook);
                 detailTitle = 'Webhook Details';
                 details = (
                     <div className={styles.webhook_details}>
@@ -136,14 +136,15 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 break;
             case 'info':
                 text = <span>{this.props.text}</span>;
-                classes = [...classes, styles.info];
+                classes.push(styles.info);
                 break;
         }
 
-        classes = [...classes, styles.evt];
+        classes.push(styles.evt);
 
         if (details) {
-            classes = [...classes, styles.has_detail];
+            classes.push(styles.has_detail);
+
             return (
                 <div>
                     <div className={classes.join(' ')} onClick={this.showDetails}>

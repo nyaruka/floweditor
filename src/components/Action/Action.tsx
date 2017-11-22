@@ -66,10 +66,10 @@ class Action extends React.Component<ActionProps, ActionState> {
         event.preventDefault();
         event.stopPropagation();
 
-        let localizations: LocalizedObject[] = [];
+        const localizations: LocalizedObject[] = [];
 
         if (this.props.Localization) {
-            localizations = [...localizations, this.props.Localization];
+            localizations.push(this.props.Localization);
         }
 
         this.props.openEditor({
@@ -131,29 +131,29 @@ class Action extends React.Component<ActionProps, ActionState> {
 
     render(): JSX.Element {
         let config = this.props.getTypeConfig(this.props.action.type);
-        let classes = [styles.action];
+        const classes = [styles.action];
 
         if (this.props.first) {
-            classes = [...classes, styles.first];
+            classes.push(styles.first);
         }
 
         if (this.props.hasRouter) {
-            classes = [...classes, styles.has_router];
+            classes.push(styles.has_router);
         }
 
         if (this.props.Localization) {
-            classes = [...classes, styles.translating];
+            classes.push(styles.translating);
 
             if (this.props.action.type === 'reply') {
-                this.localizedKeys = [...this.localizedKeys, 'text'];
+                this.localizedKeys.push('text');
             }
 
             if (this.localizedKeys.length === 0) {
-                classes = [...classes, styles.not_localizable];
+                classes.push(styles.not_localizable);
             } else {
                 for (let key of this.localizedKeys) {
                     if (!(key in this.props.Localization.localizedKeys)) {
-                        classes = [...classes, styles.missing_localization];
+                        classes.push(styles.missing_localization);
                         break;
                     }
                 }

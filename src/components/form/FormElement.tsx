@@ -47,14 +47,14 @@ const FormElement: React.SFC<FormElementProps> = (props): JSX.Element => {
         helpText = '';
     }
 
-    let classes = [styles.group, styles.ele];
+    const classes = [styles.group, styles.ele];
 
     if (props.className) {
-        classes = [...classes, props.className];
+        classes.push(props.className);
     }
 
     if (props.border) {
-        classes = [...classes, props.className];
+        classes.push(styles.border);
     }
 
     return (

@@ -42,7 +42,7 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
     }
 
     private renderForm(): JSX.Element {
-        let groups: { group: string; name: string }[] = [];
+        const groups: { group: string; name: string }[] = [];
         let p: JSX.Element;
 
         if (this.props.config.type === 'add_to_group') {
@@ -60,7 +60,7 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
         ) {
             if (this.props.action.groups) {
                 const { groups: [{ uuid: group, name }] } = this.props.action;
-                groups = [...groups, { group, name }];
+                groups.push({ group, name });
             }
         }
 

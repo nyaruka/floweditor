@@ -70,7 +70,7 @@ export default class SelectSearch extends React.PureComponent<
         }
 
         if (!found) {
-            results = [...results, result];
+            results.push(result);
         }
     }
 
@@ -89,10 +89,8 @@ export default class SelectSearch extends React.PureComponent<
             }
         }
 
-        combined = combined.sort(this.sortResults);
-
         const results: SelectSearchResult = {
-            options: combined,
+            options: combined.sort(this.sortResults),
             complete: true
         };
 
@@ -104,17 +102,13 @@ export default class SelectSearch extends React.PureComponent<
             callback(this.search(input));
         } else {
             axios.get(this.props.url).then((response: AxiosResponse) => {
-                let results: SearchResult[] = [];
-                response.data.results.forEach(
-                    (result: any) =>
-                        (results = [
-                            ...results,
-                            {
-                                name: result['name'],
-                                id: result['uuid'],
-                                type: this.props.resultType
-                            }
-                        ])
+                const results: SearchResult[] = [];
+                response.data.results.forEach((result: any) =>
+                    results.push({
+                        name: result.name,
+                        id: result.uuid,
+                        type: this.props.resultType
+                    })
                 );
                 callback(null, this.search(input, results));
             });
@@ -164,21 +158,18 @@ export default class SelectSearch extends React.PureComponent<
             }
         }
 
-        let options: any = {};
+        const options: any = {};
 
         if (this.props.createPrompt) {
-            options = {
-                ...options,
-                promptTextCreator: (label: string) => this.props.createPrompt + label
-            };
+            options.promptTextCreator = (label: string) => this.props.createPrompt + label;
         }
 
         if (this.props.createNewOption) {
-            options = { ...options, newOptionCreator: this.props.createNewOption };
+            options.newOptionCreator = this.props.createNewOption;
         }
 
         if (this.props.isValidNewOption) {
-            options = { ...options, isValidNewOption: this.props.isValidNewOption };
+            options.isValidNewOption = this.props.isValidNewOption;
         }
 
         if (this.props.createNewOption) {

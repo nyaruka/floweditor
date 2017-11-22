@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Creatable as SelectCreatable } from 'react-select';
 import FormElement, { FormElementProps } from './FormElement';
+import { getSelectClass } from '../../helpers/utils';
 
 const styles = require('./FormElement.scss');
 
@@ -36,10 +37,11 @@ export default class EmailElement extends React.Component<EmailElementProps, Ema
     }
 
     validate(): boolean {
-        let errors: string[] = [];
+        const errors: string[] = [];
+
         if (this.props.required) {
             if (this.state.emails.length === 0) {
-                errors = [...errors, `${this.props.name} is required`];
+                errors.push(`${this.props.name} is required`);
             }
         }
 
@@ -67,12 +69,7 @@ export default class EmailElement extends React.Component<EmailElementProps, Ema
     }
 
     render() {
-        let classes: string[] = [];
-
-        if (this.state.errors.length > 0) {
-            // we use a global selector here for react-select
-            classes = [...classes, 'select-invalid'];
-        }
+        const classes: string[] = getSelectClass(this.state.errors.length);
 
         return (
             <FormElement

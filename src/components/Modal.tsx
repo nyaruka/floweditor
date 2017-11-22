@@ -55,28 +55,23 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
     }
 
     private getButtons(): { leftButtons: JSX.Element[]; rightButtons: JSX.Element[] } {
-        let rightButtons: JSX.Element[] = [];
-        let leftButtons: JSX.Element[] = [];
-
         /** No matter what, we'll have a primary button */
-        rightButtons = [
-            ...rightButtons,
+        const rightButtons: JSX.Element[] = [
             <Button key={uniqid()} {...this.props.buttons.primary} type="primary" />
         ];
+        const leftButtons: JSX.Element[] = [];
 
         if (this.props.buttons.secondary) {
-            rightButtons = [
-                ...rightButtons,
+            rightButtons.push(
                 <Button key={uniqid()} {...this.props.buttons.secondary} type="secondary" />
-            ];
+            );
         }
 
         /** Our left most button if we have one */
         if (this.props.buttons.tertiary) {
-            leftButtons = [
-                ...leftButtons,
+            leftButtons.push(
                 <Button key={uniqid()} {...this.props.buttons.tertiary} type="tertiary" />
-            ];
+            );
         }
 
         return {
@@ -101,11 +96,11 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
         const { leftButtons, rightButtons } = this.getButtons();
 
         return children.map((child: React.ReactChild, childIdx: number) => {
-            let classes = [styles.side];
+            const classes = [styles.side];
             let title = this.props.title[childIdx];
 
             if (childIdx === 0) {
-                classes = [...classes, styles.front];
+                classes.push(styles.front);
             } else {
                 title = (
                     <div>
@@ -113,7 +108,7 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
                         <div style={{ marginLeft: '40px' }}>{title}</div>
                     </div>
                 );
-                classes = [...classes, styles.back];
+                classes.push(styles.back);
             }
 
             let flip: JSX.Element;

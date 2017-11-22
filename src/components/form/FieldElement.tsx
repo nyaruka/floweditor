@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 import Select from 'react-select';
-import { toBoolMap } from '../../helpers/utils';
+import { toBoolMap, getSelectClass } from '../../helpers/utils';
 import FormElement, { FormElementProps } from './FormElement';
 import ComponentMap, { SearchResult } from '../../services/ComponentMap';
 import SelectSearch from '../SelectSearch';
@@ -45,11 +45,11 @@ export default class FieldElement extends React.Component<IFieldElementProps, IF
     }
 
     validate(): boolean {
-        let errors: string[] = [];
+        const errors: string[] = [];
 
         if (this.props.required) {
             if (!this.state.field) {
-                errors = [...errors, `${this.props.name} is required`];
+                errors.push(`${this.props.name} is required`);
             }
         }
 
@@ -95,18 +95,13 @@ export default class FieldElement extends React.Component<IFieldElementProps, IF
             };
         }
 
-        let classes: string[] = [];
-
-        if (this.state.errors.length > 0) {
-            /** We use a global selector here for react-select */
-            classes = [...classes, 'select-invalid'];
-        }
-
-        let initial: SearchResult[] = [];
+        const initial: SearchResult[] = [];
 
         if (this.state.field) {
-            initial = [...initial, this.state.field];
+            initial.push(this.state.field);
         }
+
+        const classes: string[] = getSelectClass(this.state.errors.length);
 
         return (
             <FormElement

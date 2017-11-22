@@ -66,7 +66,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
     }
 
     validate(): boolean {
-        var errors: string[] = [];
+        const errors: string[] = [];
 
         if (this.state.value.trim().length > 0) {
             if (this.state.name.trim().length == 0) {
@@ -75,14 +75,15 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
         }
 
         this.setState({ errors: errors });
-        return errors.length == 0;
+
+        return errors.length === 0;
     }
 
     render() {
-        let classes = [styles.header];
+        const classes = [styles.header];
 
         if (this.state.errors.length > 0) {
-            classes = [...classes, forms.invalid];
+            classes.push(forms.invalid);
         }
 
         return (

@@ -93,11 +93,16 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
         this.state = { dragging: false };
 
+        this.eleRef = this.eleRef.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onDragStart = this.onDragStart.bind(this);
         this.onDrag = this.onDrag.bind(this);
         this.onDragStop = this.onDragStop.bind(this);
         this.onRemoval = this.onRemoval.bind(this);
+    }
+
+    private eleRef(ref: any): void {
+        return (this.ele = ref);
     }
 
     onDragStart(event: any) {
@@ -194,7 +199,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
     private updateDimensions() {
         if (this.ele) {
-            if (this.ele.hasOwnProperty('clientWidth') && this.ele.hasOwnProperty('clientHeight')) {
+            if (this.ele.clientWidth && this.ele.clientHeight) {
                 this.props.onUpdateDimensions(this.props.node, {
                     width: this.ele.clientWidth,
                     height: this.ele.clientHeight
@@ -298,10 +303,10 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     render() {
-        let classes = ['plumb-drag', styles.node];
+        const classes = ['plumb-drag', styles.node];
 
         if (this.props.hasOwnProperty('iso') && this.props.translating) {
-            classes = [...classes, styles.translating];
+            classes.push(styles.translating);
         }
 
         let actions: JSX.Element[] = [];
@@ -356,12 +361,11 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
                     const { component: ActionDiv } = actionConfig;
 
-                    actions = [
-                        ...actions,
+                    actions.push(
                         <Action {...firstRef} key={action.uuid} {...actionProps}>
                             {actionDivProps => <ActionDiv {...actionDivProps} />}
                         </Action>
-                    ];
+                    );
                 }
 
                 firstRef = {};
@@ -380,9 +384,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         }
 
         var events = {
-            onMouseDown: () => {
-                this.clicking = true;
-            },
+            onMouseDown: () => (this.clicking = true),
             onMouseUp: (event: any) => {
                 if (this.clicking) {
                     this.clicking = false;
@@ -445,12 +447,11 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             }
         }
 
-        let exits: JSX.Element[] = [];
+        const exits: JSX.Element[] = [];
 
         if (this.props.node.exits) {
             for (let exit of this.props.node.exits) {
-                exits = [
-                    ...exits,
+                exits.push(
                     <ExitComp
                         key={exit.uuid}
                         /** Node */
@@ -469,7 +470,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                         plumberRemove={this.props.plumberRemove}
                         plumberConnectExit={this.props.plumberConnectExit}
                     />
-                ];
+                );
             }
         }
 
@@ -511,9 +512,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         return (
             <div
                 className={classes.join(' ')}
-                ref={(ele: any) => {
-                    this.ele = ele;
-                }}
+                ref={this.eleRef}
                 id={this.props.node.uuid}
                 style={{
                     left: this.props.ui.position.x,
@@ -522,18 +521,14 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 {dragLink}
                 <CounterComp
                     ref={this.props.Activity.registerListener}
-                    getCount={() => {
-                        return this.props.Activity.getActiveCount(this.props.node.uuid);
-                    }}
-                    onUnmount={(key: string) => {
-                        this.props.Activity.deregister(key);
-                    }}
+                    getCount={() => this.props.Activity.getActiveCount(this.props.node.uuid)}
+                    onUnmount={(key: string) => this.props.Activity.deregister(key)}
                     containerStyle={styles.active}
                     countStyle={styles.count}
                 />
                 {header}
                 {actionList}
-                <div className={styles.exit_table + ' ' + exitClass}>
+                <div className={`${styles.exit_table} ${exitClass}`}>
                     <div className={styles.exits} {...events}>
                         {exits}
                     </div>

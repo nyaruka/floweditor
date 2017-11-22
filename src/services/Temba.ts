@@ -61,7 +61,7 @@ export default class Temba {
                         flows.forEach((flowDef: any) => {
                             const { metadata: { uuid: defUUID } } = flowDef;
                             if (defUUID === uuid) {
-                                toMigrate = [...toMigrate, flowDef];
+                                toMigrate.push(flowDef);
                             }
                         });
                     } else {

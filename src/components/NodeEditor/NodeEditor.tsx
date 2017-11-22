@@ -210,8 +210,8 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     private renderExitTranslations(): JSX.Element {
-        let exits: JSX.Element[] = [];
         let language: Language;
+        const exits: JSX.Element[] = [];
 
         if (this.props.localizations.length > 0) {
             language = this.props.localizations[0].getLanguage();
@@ -234,8 +234,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     value = localizedExit.name;
                 }
 
-                exits = [
-                    ...exits,
+                exits.push(
                     <div key={`translate_${exit.uuid}`} className={formStyles.translating_exit}>
                         <div className={formStyles.translating_from}>{exit.name}</div>
                         <div className={formStyles.translating_to}>
@@ -250,7 +249,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                             />
                         </div>
                     </div>
-                ];
+                );
             }
         });
 
@@ -270,7 +269,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     private getLocalizedExits(widgets: {
         [name: string]: any;
     }): { uuid: string; translations: any }[] {
-        let results: { uuid: string; translations: any }[] = [];
+        const results: { uuid: string; translations: any }[] = [];
 
         const { exits } = this.props.node;
 
@@ -281,9 +280,9 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 const value = input.state.value.trim();
 
                 if (value) {
-                    results = [...results, { uuid: exitUUID, translations: { name: [value] } }];
+                    results.push({ uuid: exitUUID, translations: { name: [value] } });
                 } else {
-                    results = [...results, { uuid: exitUUID, translations: null }];
+                    results.push({ uuid: exitUUID, translations: null });
                 }
             }
         });
@@ -315,12 +314,12 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     public submit(): boolean {
-        let invalid: any[] = [];
+        const invalid: any[] = [];
 
         Object.keys(this.widgets).forEach(key => {
             const widget = this.widgets[key];
             if (!widget.validate()) {
-                invalid = [...invalid, widget];
+                invalid.push(widget);
             }
         });
 

@@ -142,6 +142,14 @@ export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExi
     return { cases: cases, exits: exits, defaultExit: defaultUUID };
 }
 
+const composeExitMap = (exits: Exit[]): { [uuid: string]: Exit } => exits.reduce(
+    (map, exit) => {
+        map[exit.uuid] = exit;
+        return map;
+    },
+    {} as { [uuid: string]: Exit }
+);
+
 export interface SwitchRouterState {
     cases: CaseProps[];
     resultName: string;
@@ -176,7 +184,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
         this.onCaseChanged = this.onCaseChanged.bind(this);
         this.moveCase = this.moveCase.bind(this);
 
-        let cases: CaseProps[] = [];
+        const cases: CaseProps[] = [];
         let resultName = '';
         let operand = '@input';
 
@@ -203,15 +211,12 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                 try {
                     const config = this.props.getOperatorConfig(kase.type);
 
-                    cases = [
-                        ...cases,
-                        {
-                            kase,
-                            exitName,
-                            onChanged: this.onCaseChanged,
-                            moveCase: this.moveCase
-                        }
-                    ];
+                    cases.push({
+                        kase,
+                        exitName,
+                        onChanged: this.onCaseChanged,
+                        moveCase: this.moveCase
+                    });
                 } catch (error) {
                     /** Ignore missing cases */
                 }
@@ -255,10 +260,8 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
             this.state.cases.length === 1
         ) {
             const { uuid: nodeUUID, exits } = this.props.node;
-            const exitMap: { [uuid: string]: Exit } = exits.reduce(
-                (map, exit) => ({ ...map, [exit.uuid]: exit }),
-                {}
-            );
+
+            const exitMap: { [uuid: string]: Exit } = composeExitMap(exits);
 
             Object.keys(this.props.definition.localization).forEach(iso => {
                 const language = this.props.definition.localization[iso];
@@ -285,10 +288,8 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
             Object.keys(this.props.definition.localization).length
         ) {
             const { uuid: nodeUUID, exits } = this.props.node;
-            const exitMap: { [uuid: string]: Exit } = exits.reduce(
-                (map, exit) => ({ ...map, [exit.uuid]: exit }),
-                {}
-            );
+
+            const exitMap: { [uuid: string]: Exit } = composeExitMap(exits);
 
             Object.keys(this.props.definition.localization).forEach(iso => {
                 const language = this.props.definition.localization[iso];
@@ -426,7 +427,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
     private getLocalizedCases(widgets: {
         [name: string]: any;
     }): { uuid: string; translations: any }[] {
-        let results: { uuid: string; translations: any }[] = [];
+        const results: { uuid: string; translations: any }[] = [];
 
         const { cases } = this.props.node.router as SwitchRouter;
 
@@ -437,12 +438,9 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                 const value = input.state.value.trim();
 
                 if (value) {
-                    results = [
-                        ...results,
-                        { uuid: kaseUUID, translations: { arguments: [value] } }
-                    ];
+                    results.push({ uuid: kaseUUID, translations: { arguments: [value] } });
                 } else {
-                    results = [...results, { uuid: kaseUUID, translations: null }];
+                    results.push({ uuid: kaseUUID, translations: null });
                 }
             }
         });
@@ -452,9 +450,8 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
 
     private renderAdvanced(): JSX.Element {
         if (this.props.translating) {
-            let kases: JSX.Element[] = [];
-
             let language: Language;
+            const kases: JSX.Element[] = [];
 
             if (this.props.localizations && this.props.localizations.length) {
                 language = this.props.localizations[0].getLanguage();
@@ -488,8 +485,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
 
                         const [argument] = kase.arguments;
 
-                        kases = [
-                            ...kases,
+                        kases.push(
                             <div key={`translate_${kase.uuid}`} className={styles.translating_case}>
                                 <div className={styles.translating_operator}>{verboseName}</div>
                                 <div className={styles.translating_from}>{argument}</div>
@@ -504,7 +500,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                                     />
                                 </div>
                             </div>
-                        ];
+                        );
                     }
                 }
             });
@@ -532,8 +528,8 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
         if (this.props.translating) {
             return this.props.renderExitTranslations();
         } else {
-            let cases: JSX.Element[] = [];
             let needsEmpty: boolean = true;
+            const cases: JSX.Element[] = [];
 
             if (this.state.cases) {
                 this.state.cases.map((c: CaseProps, index: number) => {
@@ -545,8 +541,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                         needsEmpty = false;
                     }
 
-                    cases = [
-                        ...cases,
+                    cases.push(
                         <CaseElement
                             key={c.kase.uuid}
                             kase={c.kase}
@@ -560,15 +555,14 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                             operatorConfigList={this.props.operatorConfigList}
                             ComponentMap={this.props.ComponentMap}
                         />
-                    ];
+                    );
                 });
             }
 
             if (needsEmpty) {
                 const newCaseUUID = generateUUID();
 
-                cases = [
-                    ...cases,
+                cases.push(
                     <CaseElement
                         kase={{
                             uuid: newCaseUUID,
@@ -586,7 +580,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                         operatorConfigList={this.props.operatorConfigList}
                         ComponentMap={this.props.ComponentMap}
                     />
-                ];
+                );
             }
 
             let nameField: JSX.Element = null;

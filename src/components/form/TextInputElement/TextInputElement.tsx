@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import { toCharSetEnum, replacePastedUnicode } from '../../../helpers/utils';
+import { toCharSetEnum, cleanMsg } from '../../../helpers/utils';
 import ComponentMap, { CompletionOption } from '../../../services/ComponentMap';
 import FormElement, { FormElementProps } from '../FormElement';
 import { OPTIONS } from './completion-options';
@@ -66,11 +66,11 @@ interface TextInputProps extends FormElementProps {
 }
 
 export interface TextInputState {
-    maxLength: number;
-    parts: string[];
-    characterCount: number;
-    characterSet: CharacterSet;
-    remainingInPart: number;
+    maxLength?: number;
+    parts?: string[];
+    characterCount?: number;
+    characterSet?: CharacterSet;
+    remainingInPart?: number;
     value: string;
     errors: string[];
     caretOffset: number;
@@ -89,23 +89,10 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     constructor(props: any) {
         super(props);
 
-        const { value } = this.props;
-
-        const {
-            maxLength,
-            characterSet,
-            remainingInPart,
-            parts,
-            characterCount
-        } = this.getCharCount(value);
+        const value = this.props.value ? this.props.value : '';
 
         this.state = {
-            maxLength,
-            characterSet,
-            parts,
-            characterCount,
-            remainingInPart,
-            value: this.props.value ? this.props.value : '',
+            value,
             caretOffset: 0,
             caretCoordinates: { left: 0, top: 0 },
             errors: [],
@@ -114,6 +101,13 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             matches: [],
             query: ''
         };
+
+        if (this.props.count && this.props.count === Count.SMS) {
+            this.state = {
+                ...this.state,
+                ...this.getCharCount(value)
+            };
+        }
 
         if (this.props.autocomplete) {
             this.options = [...OPTIONS, ...this.props.ComponentMap.getResultNames()] as any;
@@ -153,7 +147,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         value: string;
     } {
         if (replace) {
-            value = replacePastedUnicode(value);
+            value = cleanMsg(value);
         }
 
         let { length: characterCount, remainingInPart, characterSet, parts } = split(value);
@@ -350,10 +344,11 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     private onChange(event: React.ChangeEvent<HTMLTextElement>) {
         let { currentTarget: { value, selectionStart } } = event;
 
+        const updates: any = {
+            value
+        };
+
         if (this.props.autocomplete) {
-            let updates: any = {
-                value
-            };
             let query: string = null;
             let matches: CompletionOption[] = [];
 
@@ -367,26 +362,30 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
                 matches = this.filterOptions(query);
 
-                updates = {
-                    ...updates,
-                    query,
-                    matches
-                };
+                updates.query = query;
+                updates.matches = matches;
             } else {
-                updates = {
-                    ...updates,
-                    ...this.getCharCount(value, true)
-                };
+
+                const {
+                    maxLength,
+                    characterSet,
+                    remainingInPart,
+                    parts,
+                    characterCount
+                } = this.getCharCount(value, true);
+
+                updates.maxLength = maxLength;
+                updates.characterSet = characterSet;
+                updates.remainingInPart = remainingInPart;
+                updates.parts = parts;
+                updates.characterCount = characterCount;
             }
 
-            updates = {
-                ...updates,
-                caretOffset: selectionStart,
-                selectedOptionIndex: 0
-            } as TextInputState;
-
-            this.setState(updates);
+            updates.caretOffset = selectionStart;
+            updates.selectedOptionIndex = 0;
         }
+
+        this.setState(updates);
 
         if (this.props.onChange) {
             this.props.onChange(event);
@@ -399,11 +398,11 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     }
 
     validate(): boolean {
-        let errors: string[] = [];
+        const errors: string[] = [];
 
         if (this.props.required) {
             if (!this.state.value) {
-                errors = [...errors, `${this.props.name} is required`];
+                errors.push(`${this.props.name} is required`);
             }
         }
 
@@ -413,7 +412,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         if (errors.length === 0) {
             if (this.props.url) {
                 if (!this.isValidURL(this.state.value)) {
-                    errors = [...errors, 'Enter a valid URL'];
+                    errors.push('Enter a valid URL');
                 }
             }
         }
@@ -466,26 +465,26 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     }
 
     render() {
-        let classes: string[] = [styles.textinput];
+        const classes: string[] = [styles.textinput];
 
         if (this.state.errors.length > 0) {
-            classes = [...classes, shared.invalid];
+            classes.push(shared.invalid);
         }
 
-        let completionClasses: string[] = [styles.completion_container];
+        const completionClasses: string[] = [styles.completion_container];
 
         if (!this.state.completionVisible || this.state.matches.length === 0) {
-            completionClasses = [...completionClasses, styles.hidden];
+            completionClasses.push(styles.hidden);
         }
 
         const options = this.state.matches.map((option: CompletionOption, index: number) => {
-            let optionClasses = [styles.option];
+            const optionClasses: string[] = [styles.option];
 
             if (index === this.state.selectedOptionIndex) {
-                optionClasses = [...optionClasses, styles.selected];
+                optionClasses.push(styles.selected);
 
                 if (index === 0) {
-                    optionClasses = [...optionClasses, styles.first_options];
+                    optionClasses.push(styles.first_options);
                 }
 
                 return (
@@ -513,7 +512,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
         let counter: JSX.Element = null;
 
-        if (this.props.count === Count.SMS) {
+        if (this.props.count && this.props.count === Count.SMS) {
             const { remainingInPart, characterSet, maxLength, parts, characterCount } = this.state;
 
             counter = (
