@@ -9,7 +9,7 @@ import TextInputElement, {
     MAX_GSM_SINGLE,
     MAX_GSM_MULTI,
     MAX_UNICODE_SINGLE,
-    MAX_UNICODE_MULTI
+    MAX_UNICODE_MULTI,
 } from './TextInputElement';
 
 const {

@@ -1,6 +1,7 @@
 import { ComponentClass, SFC, ReactElement } from 'react';
 import { ShallowWrapper, ReactWrapper } from 'enzyme';
 import { FlowDefinition } from '../flowTypes';
+import { CharacterSet } from '../components/form/TextInputElement';
 
 const SNAKED_CHARS = /\s+(?=\S)/g;
 const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
@@ -91,20 +92,15 @@ export function titleCase(str: string): string {
     return str.replace(/\b\w+/g, s => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase());
 }
 
-// prettier-ignore
-/** Returns the byte length of an utf8 string, TextEncoder('utf-8').encode(str) is an alternative but needs to be polyfilled */
-export function byteLength(str: string) {
-    let { length: s } = str;
-    for (let i = length; i >= 0; i--) {
-        const code = str.charCodeAt(i);
-        if (code > 0x7f && code <= 0x7ff) {
-            s++;
-        } else if (code > 0x7ff && code <= 0xffff) {
-            s += 2;
-        }
-        if (code >= 0xdc00 && code <= 0xdfff) { /** trail surrogate */
-            i--;
-        }
-    }
-    return s;
+export function toCharSetEnum(characterSet: string): CharacterSet {
+    return characterSet.toLowerCase() === 'gsm' ? CharacterSet.GSM : CharacterSet.UNICODE;
+}
+
+export function replacePastedUnicode(str: string): string {
+    return str
+        .replace(/[\u2018\u2019]/g, "'") /** Smart single quotes */
+        .replace(/[\u201C\u201D]/g, '"') /** Smart double quotes */
+        .replace(/[\u2013\u2014]/g, '-') /** En/em dash */
+        .replace(/\u2026/g, '...') /** Horizontal ellipsis */
+        .replace(/\u2002/g, ' '); /** En space */
 }

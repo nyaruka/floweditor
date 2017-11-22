@@ -1,5 +1,5 @@
-import TextInputElement, { Count, HTMLTextElement } from './TextInputElement';
+import TextInputElement, { Count, CharacterSet, HTMLTextElement } from './TextInputElement';
 
-export { Count, HTMLTextElement };
+export { Count, CharacterSet, HTMLTextElement };
 
 export default TextInputElement;

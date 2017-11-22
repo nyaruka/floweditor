@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
+import { toCharSetEnum, replacePastedUnicode } from '../../../helpers/utils';
 import ComponentMap, { CompletionOption } from '../../../services/ComponentMap';
 import FormElement, { FormElementProps } from '../FormElement';
 import { OPTIONS } from './completion-options';
@@ -80,8 +81,6 @@ export interface TextInputState {
     query: string;
 }
 
-const toCharSetEnum = (characterSet: string) =>
-    characterSet === 'GSM' ? CharacterSet.GSM : CharacterSet.UNICODE;
 export default class TextInputElement extends React.Component<TextInputProps, TextInputState> {
     private selectedEl: any;
     private textEl: HTMLTextElement;
@@ -92,9 +91,13 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
         const { value } = this.props;
 
-        const { maxLength, characterSet, remainingInPart, parts, characterCount } = this.getCharCount(
-            value
-        );
+        const {
+            maxLength,
+            characterSet,
+            remainingInPart,
+            parts,
+            characterCount
+        } = this.getCharCount(value);
 
         this.state = {
             maxLength,
@@ -150,12 +153,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         value: string;
     } {
         if (replace) {
-            value = value
-                .replace(/[\u2018\u2019]/g, "'")
-                .replace(/[\u201C\u201D]/g, '"')
-                .replace(/[\u2013\u2014]/g, '-')
-                .replace(/\u2026/g, '...')
-                .replace(/\u2002/g, ' ');
+            value = replacePastedUnicode(value);
         }
 
         let { length: characterCount, remainingInPart, characterSet, parts } = split(value);

@@ -1,4 +1,13 @@
-import { addCommas, snakify, toBoolMap, validUUID, getDisplayName, byteLength } from './utils';
+import { CharacterSet } from '../components/form/TextInputElement';
+import {
+    addCommas,
+    snakify,
+    toBoolMap,
+    validUUID,
+    getDisplayName,
+    toCharSetEnum,
+    replacePastedUnicode
+} from './utils';
 
 describe('utils', () => {
     describe('toBoolMap()', () => {
@@ -76,12 +85,16 @@ describe('utils', () => {
         });
     });
 
-    describe('byteLength', () => {
-        it('Returns the byte length of an utf8 string', () => {
-            expect(byteLength('a')).toBe(1);
-            expect(byteLength('☀')).toBe(3);
-            expect(byteLength('💩')).toBe(4);
-            expect(byteLength('🙌')).toBe(4);
+    describe('toCharSetEnum()', () => {
+        it('should return the CharacterSet enum value that matches its argument', () => {
+            expect(toCharSetEnum('GSM')).toBe(CharacterSet.GSM);
+            expect(toCharSetEnum('Unicode')).toBe(CharacterSet.UNICODE);
+        });
+    });
+
+    describe('replacePastedUnicode()', () => {
+        it('should replace specified unicode characters with their GSM counterparts', () => {
+            expect(replacePastedUnicode('“”‘’— …–')).toBe(`""''- ...-`);
         });
     });
 
