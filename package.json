@@ -87,6 +87,7 @@
     "react-tether": "^0.5.7",
     "sass-loader": "^6.0.3",
     "source-map-loader": "^0.1.6",
+    "split-sms": "^0.1.7",
     "style-loader": "^0.13.2",
     "textarea-caret": "^3.0.2",
     "ts-jest": "^21.1.3",
