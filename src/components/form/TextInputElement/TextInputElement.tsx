@@ -3,17 +3,10 @@ import { findDOMNode } from 'react-dom';
 import ComponentMap, { CompletionOption } from '../../../services/ComponentMap';
 import FormElement, { FormElementProps } from '../FormElement';
 import { OPTIONS } from './completion-options';
-import {
-    CHARSET_7_BIT_BASE,
-    CHARSET_7_BIT_EXT,
-    MAX_GSM_SINGLE,
-    MAX_GSM_MULTI,
-    MAX_UNICODE_SINGLE,
-    MAX_UNICODE_MULTI
-} from './gsm-chars';
 
 const getCaretCoordinates = require('textarea-caret');
 const { setCaretPosition } = require('get-input-selection');
+const { split } = require('split-sms');
 
 const styles = require('./TextInputElement.scss');
 const shared = require('../FormElement.scss');
@@ -29,8 +22,18 @@ const KEY_N = 78;
 const KEY_ESC = 27;
 const KEY_BACKSPACE = 8;
 
+export const MAX_GSM_SINGLE = 160;
+export const MAX_GSM_MULTI = 153;
+export const MAX_UNICODE_SINGLE = 70;
+export const MAX_UNICODE_MULTI = 67;
+
 export enum Count {
     SMS = 'SMS'
+}
+
+export enum CharacterSet {
+    GSM = 'GSM',
+    UNICODE = 'UNICODE'
 }
 
 export interface Coordinates {
@@ -62,10 +65,11 @@ interface TextInputProps extends FormElementProps {
 }
 
 export interface TextInputState {
-    max: number;
-    segments: number;
-    charCount: number;
-    unicode: boolean;
+    maxLength: number;
+    parts: string[];
+    characterCount: number;
+    characterSet: CharacterSet;
+    remainingInPart: number;
     value: string;
     errors: string[];
     caretOffset: number;
@@ -76,6 +80,8 @@ export interface TextInputState {
     query: string;
 }
 
+const toCharSetEnum = (characterSet: string) =>
+    characterSet === 'GSM' ? CharacterSet.GSM : CharacterSet.UNICODE;
 export default class TextInputElement extends React.Component<TextInputProps, TextInputState> {
     private selectedEl: any;
     private textEl: HTMLTextElement;
@@ -86,13 +92,16 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
         const { value } = this.props;
 
-        const { max, unicode, segments, charCount } = this.getCharCount(value);
+        const { maxLength, characterSet, remainingInPart, parts, characterCount } = this.getCharCount(
+            value
+        );
 
         this.state = {
-            max,
-            unicode,
-            segments,
-            charCount,
+            maxLength,
+            characterSet,
+            parts,
+            characterCount,
+            remainingInPart,
             value: this.props.value ? this.props.value : '',
             caretOffset: 0,
             caretCoordinates: { left: 0, top: 0 },
@@ -132,62 +141,47 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     private getCharCount(
         value: string,
         replace?: boolean
-    ): { max: number; segments: number; unicode: boolean; charCount: number, value: string } {
-        let max: number = MAX_GSM_SINGLE;
-        let segments: number = 1;
-        let unicode: boolean = false;
-        let charCount: number = 0;
+    ): {
+        maxLength: number;
+        parts: string[];
+        characterSet: CharacterSet;
+        characterCount: number;
+        remainingInPart: number;
+        value: string;
+    } {
+        if (replace) {
+            value = value
+                .replace(/[\u2018\u2019]/g, "'")
+                .replace(/[\u201C\u201D]/g, '"')
+                .replace(/[\u2013\u2014]/g, '-')
+                .replace(/\u2026/g, '...')
+                .replace(/\u2002/g, ' ');
+        }
 
-        if (value) {
-            if (replace) {
-                value = value
-                    .replace(/[\u2018\u2019]/g, "'")
-                    .replace(/[\u201C\u201D]/g, '"')
-                    .replace(/[\u2013\u2014]/g, '-')
-                    .replace(/\u2026/g, '...')
-                    .replace(/\u2002/g, ' ');
-            }
+        let { length: characterCount, remainingInPart, characterSet, parts } = split(value);
 
-            for (let i = 0; i < value.length; i++) {
-                const char = value[i];
-                if (CHARSET_7_BIT_EXT[char]) {
-                    if (unicode) {
-                        charCount += 1;
-                    } else {
-                        charCount += 2;
-                    }
-                } else if (CHARSET_7_BIT_BASE[char]) {
-                    charCount += 1;
-                } else {
-                    if (!unicode) {
-                        const previousChars = value.slice(0, i);
-                        charCount = previousChars.length;
-                        unicode = true;
-                    }
-                    charCount += 1;
-                }
-            }
+        characterSet = toCharSetEnum(characterSet);
 
-            if (unicode) {
-                if (charCount > MAX_UNICODE_SINGLE) {
-                    max = MAX_UNICODE_MULTI;
-                } else {
-                    max = MAX_UNICODE_SINGLE;
-                }
-                segments = Math.ceil(charCount / max);
+        let maxLength: number = MAX_GSM_SINGLE;
+
+        if (characterSet === CharacterSet.UNICODE) {
+            if (characterCount > MAX_UNICODE_SINGLE) {
+                maxLength = MAX_UNICODE_MULTI;
             } else {
-                if (charCount > MAX_GSM_SINGLE) {
-                    max = MAX_GSM_MULTI;
-                }
-                segments = Math.ceil(charCount / max);
+                maxLength = MAX_UNICODE_SINGLE;
+            }
+        } else {
+            if (characterCount > MAX_GSM_SINGLE) {
+                maxLength = MAX_GSM_MULTI;
             }
         }
 
         return {
-            max,
-            unicode,
-            segments,
-            charCount,
+            maxLength,
+            parts,
+            characterCount,
+            remainingInPart,
+            characterSet,
             value
         };
     }
@@ -522,31 +516,30 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         let counter: JSX.Element = null;
 
         if (this.props.count === Count.SMS) {
-            const { unicode, max, segments, charCount } = this.state;
-            const encoding = unicode ? 'Unicode' : '7-bit';
+            const { remainingInPart, characterSet, maxLength, parts, characterCount } = this.state;
 
             counter = (
                 <div className={styles.count} data-spec="counter">
                     <div>
-                        {charCount}/{segments}{' '}
+                        {remainingInPart}/{parts.length}{' '}
                         <span className={styles.tooltip}>
                             <b>&#63;</b>
                             <span className={styles.tooltiptext}>
                                 <div>
                                     <b>Encoding</b>
-                                    {`  ${encoding}`}
+                                    {`  ${characterSet}`}
                                 </div>
                                 <div>
-                                    <b>Segments</b>
-                                    {`  ${segments}`}
+                                    <b>Parts</b>
+                                    {`  ${parts.length}`}
                                 </div>
                                 <div>
-                                    <b>Character Count</b>
-                                    {`  ${charCount}`}
+                                    <b>Characters</b>
+                                    {`  ${characterCount}`}
                                 </div>
                                 <div>
-                                    <b>Limit Per Segment</b>
-                                    {`  ${max}`}
+                                    <b>Limit Per Part</b>
+                                    {`  ${maxLength}`}
                                 </div>
                             </span>
                         </span>

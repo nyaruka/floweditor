@@ -3,13 +3,14 @@ import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
 import { getSpecWrapper } from '../../../helpers/utils';
 import ComponentMap from '../../../services/ComponentMap';
-import {
+import TextInputElement, {
+    Count,
+    CharacterSet,
     MAX_GSM_SINGLE,
     MAX_GSM_MULTI,
     MAX_UNICODE_SINGLE,
     MAX_UNICODE_MULTI
-} from './gsm-chars';
-import TextInputElement, { Count } from './TextInputElement';
+} from './TextInputElement';
 
 const {
     results: [{ definition }]
@@ -39,13 +40,15 @@ describe('Component: TextInputElement', () => {
             />
         );
 
-        expect(TextInputGSM.state('max')).toBe(MAX_GSM_SINGLE);
-        expect(TextInputGSM.state('segments')).toBe(1);
-        expect(TextInputGSM.state('unicode')).toBeFalsy();
+        expect(TextInputGSM.state('maxLength')).toBe(MAX_GSM_SINGLE);
+        expect(TextInputGSM.state('parts').length).toBe(1);
+        expect(TextInputGSM.state('characterSet')).toBe(CharacterSet.GSM);
+        expect(TextInputGSM.state('remainingInPart')).toBe(67);
+        expect(TextInputGSM.state('characterCount')).toBe(93);
         expect(
             getSpecWrapper(TextInputGSM, 'counter')
                 .text()
-                .indexOf('93/1 ?')
+                .indexOf('67/1 ?')
         ).toBe(0);
 
         TextInputGSM = shallow(
@@ -58,14 +61,15 @@ describe('Component: TextInputElement', () => {
             />
         );
 
-        expect(TextInputGSM.state('max')).toBe(MAX_GSM_MULTI);
-        expect(TextInputGSM.state('segments')).toBe(2);
-        expect(TextInputGSM.state('unicode')).toBeFalsy();
-        expect(TextInputGSM.state('charCount')).toBe(184);
+        expect(TextInputGSM.state('maxLength')).toBe(MAX_GSM_MULTI);
+        expect(TextInputGSM.state('parts').length).toBe(2);
+        expect(TextInputGSM.state('characterSet')).toBe(CharacterSet.GSM);
+        expect(TextInputGSM.state('characterCount')).toBe(182);
+        expect(TextInputGSM.state('remainingInPart')).toBe(122);
         expect(
             getSpecWrapper(TextInputGSM, 'counter')
                 .text()
-                .indexOf('184/2 ?')
+                .indexOf('122/2 ?')
         ).toBe(0);
     });
 
@@ -79,14 +83,15 @@ describe('Component: TextInputElement', () => {
             />
         );
 
-        expect(TextInputUni.state('max')).toBe(MAX_UNICODE_SINGLE);
-        expect(TextInputUni.state('segments')).toBe(1);
-        expect(TextInputUni.state('unicode')).toBeTruthy();
-        expect(TextInputUni.state('charCount')).toBe(24);
+        expect(TextInputUni.state('maxLength')).toBe(MAX_UNICODE_SINGLE);
+        expect(TextInputUni.state('parts').length).toBe(1);
+        expect(TextInputUni.state('characterSet')).toBe(CharacterSet.UNICODE);
+        expect(TextInputUni.state('characterCount')).toBe(23);
+        expect(TextInputUni.state('remainingInPart')).toBe(46);
         expect(
             getSpecWrapper(TextInputUni, 'counter')
                 .text()
-                .indexOf('24/1 ?')
+                .indexOf('46/1 ?')
         ).toBe(0);
 
         TextInputUni = shallow(
@@ -99,14 +104,15 @@ describe('Component: TextInputElement', () => {
             />
         );
 
-        expect(TextInputUni.state('max')).toBe(MAX_UNICODE_MULTI);
-        expect(TextInputUni.state('segments')).toBe(2);
-        expect(TextInputUni.state('unicode')).toBeTruthy();
-        expect(TextInputUni.state('charCount')).toBe(101);
+        expect(TextInputUni.state('maxLength')).toBe(MAX_UNICODE_MULTI);
+        expect(TextInputUni.state('parts').length).toBe(2);
+        expect(TextInputUni.state('characterSet')).toBe(CharacterSet.UNICODE);
+        expect(TextInputUni.state('remainingInPart')).toBe(33);
+        expect(TextInputUni.state('characterCount')).toBe(100);
         expect(
             getSpecWrapper(TextInputUni, 'counter')
                 .text()
-                .indexOf('101/2 ?')
+                .indexOf('33/2 ?')
         ).toBe(0);
     });
 });

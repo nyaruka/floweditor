@@ -65,7 +65,14 @@ module.exports = {
             },
             {
                 test: /\.tsx?$/,
-                use: ['awesome-typescript-loader'],
+                use: [
+                    {
+                        loader: 'awesome-typescript-loader',
+                        options: {
+                            useCache: true
+                        }
+                    }
+                ],
                 exclude: /node_modules/
             },
             {

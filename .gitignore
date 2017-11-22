@@ -5,4 +5,4 @@ dist
 *scss\.d\.ts
 coverage
 scratch.tsx
-
+.awcache
