@@ -39,7 +39,7 @@ export interface ActionProps {
     onUpdateAction: Function;
     onUpdateRouter: Function;
 
-    children?(actionDivProps: AnyAction): JSX.Element;
+    children?(action: AnyAction): JSX.Element;
 }
 
 interface ActionState {
@@ -48,9 +48,8 @@ interface ActionState {
 }
 
 class Action extends React.Component<ActionProps, ActionState> {
-    private clicking = false;
-
     protected localizedKeys: string[] = [];
+    private clicking = false;
 
     constructor(props: ActionProps) {
         super(props);

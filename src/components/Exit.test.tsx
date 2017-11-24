@@ -1,11 +1,12 @@
 import * as React from 'react';
 import '../enzymeAdapter';
 import { shallow } from 'enzyme';
-import { languages } from '../flowEditorConfig';
 import { LocalizedObject } from '../services/Localization';
 import Plumber from '../services/Plumber';
 import ActivityManager from '../services/ActivityManager';
 import ExitComp, { ExitProps } from './Exit';
+
+const { languages } = require('../editor.config.json');
 
 const {
     results: [{ definition, uuid: flowUUID }]

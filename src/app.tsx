@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { AppContainer as HotContainer } from 'react-hot-loader';
-import { flowUUID } from './flowEditorConfig';
 import EditorConfig from './services/EditorConfig';
 import External from './services/External';
 import Editor from './components/Editor';
@@ -9,6 +8,8 @@ import Editor from './components/Editor';
 import 'react-select/dist/react-select.css';
 import '../fonts/flows/style.css';
 import './global.scss';
+
+const { flow: flowUUID } = require('./editor.config.json');
 
 const root = document.getElementById('flow-editor');
 

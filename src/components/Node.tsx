@@ -363,7 +363,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
                     actions.push(
                         <Action {...firstRef} key={action.uuid} {...actionProps}>
-                            {actionDivProps => <ActionDiv {...actionDivProps} />}
+                            {(action: AnyAction) => <ActionDiv {...action} />}
                         </Action>
                     );
                 }
@@ -438,9 +438,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 addActions = (
                     <a
                         className={styles.add}
-                        onClick={() => {
-                            this.props.onAddAction(this.props.node);
-                        }}>
+                        onClick={() => this.props.onAddAction(this.props.node)}>
                         <span className="icon-add" />
                     </a>
                 );

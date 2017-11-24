@@ -4,7 +4,8 @@ import * as update from 'immutability-helper';
 import { Endpoints } from '../services/EditorConfig';
 import { FlowDefinition, StartFlow } from '../flowTypes';
 import { Activity } from '../services/ActivityManager';
-import { endpoints } from '../flowEditorConfig';
+
+const { endpoints } = require('../editor.config.json');
 
 export interface FlowDetails {
     uuid: string;

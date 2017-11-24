@@ -2,7 +2,6 @@ import { ComponentClass, SFC } from 'react';
 import { AnyAction } from '../flowTypes';
 import { Language } from '../components/LanguageSelector';
 import { AnyFormProps } from '../components/NodeEditor/NodeEditor';
-import { languages, endpoints } from '../flowEditorConfig';
 import ChangeGroupComp from '../components/actions/ChangeGroup/ChangeGroup';
 import ChangeGroupForm from '../components/actions/ChangeGroup/ChangeGroupForm';
 import SaveFlowResultComp from '../components/actions/SaveFlowResult/SaveFlowResult';
@@ -18,6 +17,8 @@ import SendEmailForm from '../components/actions/SendEmail/SendEmailForm';
 import SwitchRouterForm from '../components/routers/SwitchRouter';
 import SubflowRouterForm from '../components/routers/SubflowRouter';
 import WebhookRouterForm from '../components/routers/WebhookRouter';
+
+const { languages, endpoints } = require('../editor.config.json');
 
 export enum Mode {
     EDITING = 0x1,
