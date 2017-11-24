@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ChangeGroup } from '../../../flowTypes';
-import { Type, Endpoints } from '../../../services/EditorConfig';
+import { Endpoints } from '../../../editor.config';
+import { Type } from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
 import GroupElement from '../../form/GroupElement';
 

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Node, Group, AnyAction } from '../../flowTypes';
+import { Endpoints } from '../../editor.config';
 import {
     GetTypeConfig,
     GetOperatorConfig,
     Type,
-    Operator,
-    Endpoints
+    Operator
 } from '../../services/EditorConfig';
 import ComponentMap from '../../services/ComponentMap';
 import TitleBarComp from '../TitleBar';

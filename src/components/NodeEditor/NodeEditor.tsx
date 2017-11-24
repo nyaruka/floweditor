@@ -11,13 +11,13 @@ import {
     Node,
     UINode
 } from '../../flowTypes';
+import { Endpoints } from '../../editor.config';
 import {
     Type,
     Operator,
     Mode,
     GetTypeConfig,
-    GetOperatorConfig,
-    Endpoints
+    GetOperatorConfig
 } from '../../services/EditorConfig';
 import { Language } from '../LanguageSelector';
 import { ReplyFormProps } from '../actions/Reply/ReplyForm';

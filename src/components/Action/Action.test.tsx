@@ -7,9 +7,8 @@ import { getSpecWrapper } from '../../helpers/utils';
 import EditorConfig from '../../services/EditorConfig';
 import CompMap from '../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../services/Localization';
+import { languages } from '../../editor.config';
 import ReplyComp from '../actions/Reply/Reply';
-
-const { languages } = require('../../editor.config.json');
 
 const definition = {
     name: 'Lots of Action',

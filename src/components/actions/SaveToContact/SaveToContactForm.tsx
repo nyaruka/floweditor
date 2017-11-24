@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 import { SaveToContact, IUpdateContact } from '../../../flowTypes';
-import { Type, Endpoints } from '../../../services/EditorConfig';
+import { Endpoints } from '../../../editor.config';
+import { Type } from '../../../services/EditorConfig';
 import { FormProps } from '../../NodeEditor';
 import ComponentMap from '../../../services/ComponentMap';
 import { toBoolMap } from '../../../helpers/utils';

@@ -1,11 +1,9 @@
 import * as React from 'react';
 import axios, { AxiosResponse } from 'axios';
 import * as update from 'immutability-helper';
-import { Endpoints } from '../services/EditorConfig';
+import { endpoints, Endpoints } from '../editor.config';
 import { FlowDefinition, StartFlow } from '../flowTypes';
 import { Activity } from '../services/ActivityManager';
-
-const { endpoints } = require('../editor.config.json');
 
 export interface FlowDetails {
     uuid: string;

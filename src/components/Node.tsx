@@ -2,14 +2,8 @@ import * as React from 'react';
 import { Language } from './LanguageSelector';
 import Action, { ActionProps } from './Action/Action';
 import { IDragEvent } from '../services/Plumber';
-import {
-    Type,
-    Operator,
-    GetTypeConfig,
-    GetOperatorConfig,
-    Endpoints,
-    Languages
-} from '../services/EditorConfig';
+import { Endpoints, Languages } from '../editor.config';
+import { Type, Operator, GetTypeConfig, GetOperatorConfig } from '../services/EditorConfig';
 import ExitComp from './Exit';
 import TitleBarComp from './TitleBar';
 import { FlowDefinition, Node, UINode, Position, SwitchRouter, AnyAction } from '../flowTypes';

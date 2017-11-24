@@ -4,9 +4,8 @@ import { shallow } from 'enzyme';
 import { LocalizedObject } from '../services/Localization';
 import Plumber from '../services/Plumber';
 import ActivityManager from '../services/ActivityManager';
+import { languages } from '../editor.config';
 import ExitComp, { ExitProps } from './Exit';
-
-const { languages } = require('../editor.config.json');
 
 const {
     results: [{ definition, uuid: flowUUID }]

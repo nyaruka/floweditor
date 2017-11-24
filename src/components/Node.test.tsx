@@ -5,9 +5,8 @@ import CompMap from '../services/ComponentMap';
 import Plumber from '../services/Plumber';
 import ActivityManager from '../services/ActivityManager';
 import EditorConfig from '../services/EditorConfig';
+import { languages } from '../editor.config';
 import Node, { NodeProps } from './Node';
-
-const { languages } = require('../editor.config.json');
 
 const {
     results: [{ uuid: flowUUID, definition }]

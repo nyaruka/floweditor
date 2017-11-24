@@ -4,7 +4,7 @@ import { Exit, StartFlow, Case, SwitchRouter } from '../../flowTypes';
 import { Type } from '../../services/EditorConfig';
 import { FormProps } from '../NodeEditor';
 import { Node, AnyAction } from '../../flowTypes';
-import { Endpoints } from '../../services/EditorConfig';
+import { Endpoints } from '../../editor.config';
 import FlowElement from '../form/FlowElement';
 import ComponentMap from '../../services/ComponentMap';
 
