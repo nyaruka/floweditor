@@ -1,4 +1,4 @@
-/* const CompressionPlugin = require('compression-webpack-plugin'); */
+const CompressionPlugin = require('compression-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const { smartStrategy } = require('webpack-merge');
 const { LoaderOptionsPlugin, DefinePlugin } = require('webpack');
@@ -20,26 +20,28 @@ const prodConfig = {
             }
         }),
         new UglifyJSPlugin({
-            beautify: false,
             mangle: {
                 screw_ie8: true,
                 keep_fnames: true
             },
             compress: {
+                warnings: false, /** Suppress uglification warnings */
                 screw_ie8: true,
                 drop_console: true
             },
-            comments: false
+            output: {
+                beautify: false,
+                comments: false
+            },
+            exclude: [/\.min\.(j|t)sx?$/gi] /** Skip pre-minified libs */
+        }),
+        new CompressionPlugin({
+            asset: '[path].gz[query]',
+            algorithm: 'gzip',
+            test: /\.(t|j)sx?$|\.s?css$|\.html$/,
+            threshold: 10240,
+            minRatio: 0
         })
-        /*
-            new CompressionPlugin({
-                asset: "[path].gz[query]",
-                algorithm: "gzip",
-                test: /\.js$|\.css$|\.html$/,
-                threshold: 10240,
-                minRatio: 0.8
-            })
-        */
     ]
 };
 
