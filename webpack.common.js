@@ -50,8 +50,7 @@ module.exports = {
                                 modules: true,
                                 sourceMap: true,
                                 importLoaders: 2,
-                                localIdentName:
-                                    '[name]__[local]___[hash:base64:5]'
+                                localIdentName: '[name]__[local]___[hash:base64:5]'
                             }
                         },
                         'sass-loader'
@@ -69,7 +68,8 @@ module.exports = {
                     {
                         loader: 'awesome-typescript-loader',
                         options: {
-                            useCache: true
+                            useCache: true,
+                            silent: process.argv.indexOf('--json') !== -1
                         }
                     }
                 ],

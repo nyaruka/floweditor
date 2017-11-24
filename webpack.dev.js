@@ -1,6 +1,5 @@
 const { smartStrategy } = require('webpack-merge');
 const { HotModuleReplacementPlugin, NamedModulesPlugin } = require('webpack');
-const DashboardPlugin = require('webpack-dashboard/plugin');
 const commonConfig = require('./webpack.common');
 
 const devConfig = {
@@ -58,7 +57,7 @@ const devConfig = {
             }
         }
     },
-    plugins: [new HotModuleReplacementPlugin(), new NamedModulesPlugin(), new DashboardPlugin()],
+    plugins: [new HotModuleReplacementPlugin(), new NamedModulesPlugin()],
     module: {
         rules: [
             {

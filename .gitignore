@@ -6,3 +6,5 @@ dist
 coverage
 scratch.tsx
 .awcache
+stats.json
+report.html
