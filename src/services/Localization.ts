@@ -1,5 +1,4 @@
-import { Action, Exit, Case } from '../flowTypes';
-import { Languages } from '../editor.config';
+import { Action, Languages, Exit, Case } from '../flowTypes';
 import { Language } from '../components/LanguageSelector';
 
 export class LocalizedObject {

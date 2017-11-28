@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { AppContainer as HotContainer } from 'react-hot-loader';
-import { flow as flowUUID } from './editor.config';
+import { flow as flowUUID } from 'Config';
 import EditorConfig from './services/EditorConfig';
 import External from './services/External';
 import Editor from './components/Editor';

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 import Modal, { ButtonSet } from '../Modal';
 import {
+    Endpoints,
     FlowDefinition,
     Action,
     AnyAction,
@@ -11,7 +12,6 @@ import {
     Node,
     UINode
 } from '../../flowTypes';
-import { Endpoints } from '../../editor.config';
 import {
     Type,
     Operator,
@@ -610,7 +610,8 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                         buttons={buttons}
                         onModalOpen={this.onOpen}
                         /** Node */
-                        node={this.props.node}>
+                        node={this.props.node}
+                    >
                         {front}
                         {back}
                     </Modal>

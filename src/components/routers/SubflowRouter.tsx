@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
-import { Exit, StartFlow, Case, SwitchRouter } from '../../flowTypes';
+import { Endpoints, Exit, StartFlow, Case, SwitchRouter } from '../../flowTypes';
 import { Type } from '../../services/EditorConfig';
 import { FormProps } from '../NodeEditor';
 import { Node, AnyAction } from '../../flowTypes';
-import { Endpoints } from '../../editor.config';
 import FlowElement from '../form/FlowElement';
 import ComponentMap from '../../services/ComponentMap';
 

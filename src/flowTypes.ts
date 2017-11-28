@@ -1,3 +1,16 @@
+export interface Languages {
+    [iso: string]: string;
+}
+
+export interface Endpoints {
+    fields: string;
+    groups: string;
+    engine: string;
+    contacts: string;
+    flows: string;
+    activity: string;
+}
+
 export interface LocalizationMap {
     [lang: string]: {
         [uuid: string]: any;

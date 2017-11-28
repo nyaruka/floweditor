@@ -1,12 +1,7 @@
 import * as React from 'react';
 import { Node, Group, AnyAction } from '../../flowTypes';
-import { Endpoints } from '../../editor.config';
-import {
-    GetTypeConfig,
-    GetOperatorConfig,
-    Type,
-    Operator
-} from '../../services/EditorConfig';
+import { Endpoints } from '../../flowTypes';
+import { GetTypeConfig, GetOperatorConfig, Type, Operator } from '../../services/EditorConfig';
 import ComponentMap from '../../services/ComponentMap';
 import TitleBarComp from '../TitleBar';
 import { LocalizedObject } from '../../services/Localization';
@@ -165,7 +160,8 @@ class Action extends React.Component<ActionProps, ActionState> {
                 <div
                     onMouseDown={this.onMouseDown}
                     onMouseUp={this.onMouseUp}
-                    data-spec="interactive-div">
+                    data-spec="interactive-div"
+                >
                     <TitleBarComp
                         className={shared[this.props.action.type]}
                         title={config.name}

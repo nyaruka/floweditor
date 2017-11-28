@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Language } from './LanguageSelector';
 import Action, { ActionProps } from './Action/Action';
 import { IDragEvent } from '../services/Plumber';
-import { Endpoints, Languages } from '../editor.config';
+import { Endpoints, Languages } from '../flowTypes';
 import { Type, Operator, GetTypeConfig, GetOperatorConfig } from '../services/EditorConfig';
 import ExitComp from './Exit';
 import TitleBarComp from './TitleBar';
@@ -371,7 +371,8 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                     leaveAnimation="fade"
                     className={styles.actions}
                     duration={300}
-                    easing="ease-out">
+                    easing="ease-out"
+                >
                     {actions}
                 </FlipMove>
             );
@@ -432,7 +433,8 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 addActions = (
                     <a
                         className={styles.add}
-                        onClick={() => this.props.onAddAction(this.props.node)}>
+                        onClick={() => this.props.onAddAction(this.props.node)}
+                    >
                         <span className="icon-add" />
                     </a>
                 );
@@ -494,7 +496,8 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                     }}
                     onMouseOut={() => {
                         this.dragGroup = false;
-                    }}>
+                    }}
+                >
                     <span className="icon-link" />
                 </a>
             );
@@ -509,7 +512,8 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 style={{
                     left: this.props.ui.position.x,
                     top: this.props.ui.position.y
-                }}>
+                }}
+            >
                 {dragLink}
                 <CounterComp
                     ref={this.props.Activity.registerListener}

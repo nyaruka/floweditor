@@ -1,7 +1,8 @@
 import * as React from 'react';
 import axios, { AxiosResponse } from 'axios';
 import * as update from 'immutability-helper';
-import { endpoints, Endpoints } from '../editor.config';
+import { Endpoints } from '../flowTypes';
+import { endpoints } from 'Config';
 import { FlowDefinition, StartFlow } from '../flowTypes';
 import { Activity } from '../services/ActivityManager';
 
@@ -12,11 +13,8 @@ export interface FlowDetails {
     dependencies: FlowDefinition[];
 }
 
-// prettier-ignore
 export type GetActivity = (flowUUID: string, activityEndpoint?: string, headers?: {}) => Promise<Activity>;
-// prettier-ignore
 export type GetFlows = (flowsEndpoint?: string, headers?: {}, flowName?: string) => Promise<FlowDetails[]>;
-// prettier-ignore
 export type GetFlow = (uuidToGet: string, dependencies?: boolean, flowsEndpoint?: string, headers?: {}) => Promise<FlowDetails>;
 export type SaveFlow = (definition: FlowDefinition, flowsEndpoint?: string, headers?: {}) => void;
 

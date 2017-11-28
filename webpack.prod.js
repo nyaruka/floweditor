@@ -3,6 +3,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const { smartStrategy } = require('webpack-merge');
 const { LoaderOptionsPlugin, DefinePlugin } = require('webpack');
 const commonConfig = require('./webpack.common');
+const Config = require('./flowEditor.config.prod');
 
 const prodConfig = {
     output: {
@@ -25,7 +26,7 @@ const prodConfig = {
                 keep_fnames: true
             },
             compress: {
-                warnings: false, /** Suppress uglification warnings */
+                warnings: false /** Suppress uglification warnings */,
                 screw_ie8: true,
                 drop_console: true
             },
@@ -42,7 +43,10 @@ const prodConfig = {
             threshold: 10240,
             minRatio: 0
         })
-    ]
+    ],
+    externals: {
+        Config: JSON.stringify(Config)
+    }
 };
 
 module.exports = smartStrategy({

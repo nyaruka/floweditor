@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Select from 'react-select';
-import { Languages } from '../editor.config';
+import { Languages } from '../flowTypes';
 
 const styles = require('./LanguageSelector.scss');
 
