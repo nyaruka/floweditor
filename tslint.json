@@ -14,6 +14,6 @@
     "interface-name": [true, "never-prefix"],
     "member-ordering": false,
     "max-classes-per-file": [true, 3],
-    "ordered-imports": false,
+    "ordered-imports": false
   }
 }
