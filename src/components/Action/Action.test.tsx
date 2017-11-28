@@ -1,3 +1,5 @@
+jest.mock('Config');
+
 import * as React from 'react';
 import '../../enzymeAdapter';
 import { shallow } from 'enzyme';
@@ -7,7 +9,7 @@ import { getSpecWrapper } from '../../helpers/utils';
 import EditorConfig from '../../services/EditorConfig';
 import CompMap from '../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../services/Localization';
-import { languages } from '../../editor.config';
+import { languages } from 'Config';
 import ReplyComp from '../actions/Reply/Reply';
 
 const definition = {
@@ -40,14 +42,7 @@ const definition = {
         }
     ],
     _ui: {
-        languages: [
-            {
-                eng: 'English'
-            },
-            {
-                spa: 'Spanish'
-            }
-        ],
+        languages,
         nodes: {
             '24afc61e-e528-4ac0-b887-78cebd39f12b': {
                 position: {

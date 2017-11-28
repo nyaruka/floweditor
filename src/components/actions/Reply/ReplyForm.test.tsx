@@ -7,6 +7,8 @@ import ComponentMap from '../../../services/ComponentMap';
 import { Count } from '../../form/TextInputElement';
 import ReplyForm, { ReplyFormProps } from './ReplyForm';
 
+jest.mock('Config');
+
 const {
     results: [{ definition }]
 } = require('../../../../test_flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
