@@ -7,7 +7,7 @@ import ComponentMap from '../services/ComponentMap';
 import FlowList from './FlowList';
 import LanguageSelectorComp, { Language } from './LanguageSelector';
 import Flow from './Flow';
-import { flowPT, baseLanguagePT, languagesPT, getFlowPT } from '../providers/propTypes';
+import { flowPT, baseLanguagePT, languagesPT, getFlowPT, getFlowsPT, endpointsPT } from '../providers/propTypes';
 import { ConfigProviderContext } from '../providers/ConfigProvider';
 
 const styles = require('./Editor.scss');
@@ -18,6 +18,7 @@ export interface EditorState {
     translating: boolean;
     nodeDragging: boolean;
     definition: FlowDefinition;
+    flows: { uuid: string; name: string }[];
     dependencies: FlowDefinition[];
 }
 
@@ -33,7 +34,9 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
         flow: flowPT,
         baseLanguage: baseLanguagePT,
         languages: languagesPT,
-        getFlow: getFlowPT
+        getFlow: getFlowPT,
+        getFlows: getFlowsPT,
+        endpoints: endpointsPT
     };
 
     constructor(props: {}, context: ConfigProviderContext) {
@@ -47,6 +50,7 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
             fetching: false,
             nodeDragging: false,
             definition: null,
+            flows: [],
             dependencies: null
         };
 
@@ -59,8 +63,13 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
         this.save = this.save.bind(this);
     }
 
-    private onFlowSelect(uuid: any): void {
-        this.setState({ fetching: true }, () => this.fetchFlow(uuid));
+    private onFlowSelect({ uuid }: { uuid: string; name: string }): void {
+        const { flows } = this.state;
+        if (flows.length) {
+            if (uuid !== this.state.definition.uuid) {
+                this.setState({ fetching: true }, () => this.fetchFlow(uuid));
+            }
+        }
     }
 
     private setDefinition(definition: FlowDefinition, dependencies?: FlowDefinition[]): void {
@@ -114,6 +123,18 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
             .catch((error: {}) => console.log(error));
     }
 
+    private fetchFlowList() {
+        const { getFlows, endpoints: { flows: flowsEndpoint } } = this.context;
+        getFlows(flowsEndpoint).then((flows: FlowDetails[]) => {
+            this.setState({
+                flows: flows.map(({ uuid, name }) => ({
+                    uuid,
+                    name
+                }))
+            });
+        });
+    }
+
     private setLanguage(language: Language): void {
         const { baseLanguage } = this.context;
         const translating: boolean =
@@ -144,17 +165,26 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
     public componentDidMount(): void {
         const { flow } = this.context;
         this.fetchFlow(flow);
+        this.fetchFlowList();
     }
 
     public render(): JSX.Element {
         const languageSelector: JSX.Element = this.getLanguageSelector();
+        const flow = this.state.definition
+            ? { uuid: this.state.definition.uuid, name: this.state.definition.name }
+            : null;
 
         return (
             <div
                 className={this.state.translating ? styles.translating : null}
-                data-spec="editor-container">
+                data-spec="editor-container"
+            >
                 <div className={styles.editor} data-spec="editor">
-                    <FlowList onFlowSelect={this.onFlowSelect} />
+                    <FlowList
+                        flow={flow}
+                        flows={this.state.flows}
+                        onFlowSelect={this.onFlowSelect}
+                    />
                     {languageSelector}
                     {this.state.definition && !this.state.fetching ? (
                         <Flow

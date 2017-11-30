@@ -53,7 +53,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
             };
 
             if (sendAll.state.checked) {
-                newAction = { ...newAction, all_urns: true };
+                newAction.all_urns = true;
             }
 
             this.props.updateAction(newAction);
