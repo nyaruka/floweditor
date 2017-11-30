@@ -51,9 +51,8 @@ export function snakify(value: string): string {
  * @param {ComponentClass | SFC} Component - A React component
  * @returns {string} The component's name
  */
-export function getDisplayName(HOCName: string, Component: ComponentClass | SFC): string {
-    const ComponentDisplayName = Component.displayName || Component.name || 'Component';
-    return `${HOCName}(${ComponentDisplayName})`;
+export function getDisplayName(WrappedComponent: ComponentClass | SFC): string {
+    return WrappedComponent.displayName || WrappedComponent.name || 'Component';
 }
 
 export const DATA_SPEC_ATTRIBUTE_NAME: string = 'data-spec';

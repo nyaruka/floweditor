@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { AppContainer as HotContainer } from 'react-hot-loader';
-import { flow as flowUUID } from 'Config';
-import EditorConfig from './services/EditorConfig';
-import External from './services/External';
+import ConfigProvider from './providers/ConfigProvider';
 import Editor from './components/Editor';
 
 import 'react-select/dist/react-select.css';
 import '../fonts/flows/style.css';
 import './global.scss';
+
+const flowEditorConfig = require('Config');
 
 const root = document.getElementById('flow-editor');
 
@@ -16,25 +16,21 @@ const root = document.getElementById('flow-editor');
 //     __webpack_public_path__ = __flow_editor_config__.path;
 // }
 
+const renderHot = (App: React.ComponentClass) =>
+    render(
+        <HotContainer>
+            <ConfigProvider flowEditorConfig={flowEditorConfig}>
+                <App />
+            </ConfigProvider>
+        </HotContainer>,
+        root
+    );
+
 if (module.hot) {
     module.hot.accept('./components/Editor', () => {
-        const NextEditor = require('./components/Editor');
-        render(
-            <HotContainer>
-                <NextEditor
-                    flowUUID={flowUUID}
-                    EditorConfig={new EditorConfig()}
-                    External={new External()}
-                />
-            </HotContainer>,
-            root
-        );
+        const { default: NextEditor } = require('./components/Editor');
+        renderHot(NextEditor);
     });
 }
 
-render(
-    <HotContainer>
-        <Editor flowUUID={flowUUID} EditorConfig={new EditorConfig()} External={new External()} />
-    </HotContainer>,
-    root
-);
+renderHot(Editor);

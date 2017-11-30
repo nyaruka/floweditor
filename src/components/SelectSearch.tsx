@@ -47,9 +47,14 @@ export default class SelectSearch extends React.PureComponent<
             selection: props.initial
         };
 
+        this.selectRef = this.selectRef.bind(this);
         this.loadOptions = this.loadOptions.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
         this.onChange = this.onChange.bind(this);
+    }
+
+    private selectRef(ref: any) {
+        return this.select = ref;
     }
 
     /**
@@ -176,7 +181,7 @@ export default class SelectSearch extends React.PureComponent<
             return (
                 <SelectAsyncCreatable
                     className={this.props.className}
-                    ref={(ele: any) => (this.select = ele)}
+                    ref={this.selectRef}
                     name={this.props.name}
                     loadOptions={this.loadOptions}
                     clearable={this.props.clearable}
@@ -201,7 +206,7 @@ export default class SelectSearch extends React.PureComponent<
             return (
                 <SelectAsync
                     className={this.props.className}
-                    ref={(ele: any) => (this.select = ele)}
+                    ref={this.selectRef}
                     name={this.props.name}
                     loadOptions={this.loadOptions}
                     clearable={this.props.clearable}

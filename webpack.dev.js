@@ -1,7 +1,7 @@
 const { smartStrategy } = require('webpack-merge');
 const { HotModuleReplacementPlugin, NamedModulesPlugin } = require('webpack');
 const commonConfig = require('./webpack.common');
-const Config = require('./flowEditor.config.dev');
+const flowEditorConfig = require('./flowEditor.config.dev');
 
 const devConfig = {
     entry: [
@@ -68,7 +68,7 @@ const devConfig = {
         ]
     },
     externals: {
-        Config: JSON.stringify(Config)
+        Config: JSON.stringify(flowEditorConfig)
     }
 };
 

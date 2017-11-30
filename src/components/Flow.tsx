@@ -8,11 +8,18 @@ import NodeComp, { DragPoint } from './Node';
 import FlowMutator from '../services/FlowMutator';
 import SimulatorComp from './Simulator';
 import Plumber from '../services/Plumber';
-import EditorConfig from '../services/EditorConfig';
-import External from '../services/External';
 import ActivityManager from '../services/ActivityManager';
 import NodeEditorComp, { NodeEditorProps } from './NodeEditor';
 import LanguageSelectorComp, { Language } from './LanguageSelector';
+import { ConfigProviderContext } from '../providers/ConfigProvider';
+import {
+    typeConfigListPT,
+    operatorConfigListPT,
+    getTypeConfigPT,
+    getOperatorConfigPT,
+    endpointsPT,
+    getActivityPT
+} from '../providers/propTypes';
 
 const styles = require('./Flow.scss');
 
@@ -21,10 +28,8 @@ export interface FlowProps {
     onDrag: Function;
     language: Language;
     translating: boolean;
-    EditorConfig: EditorConfig;
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
-    External: External;
     Mutator: FlowMutator;
     ComponentMap: ComponentMap;
 }
@@ -65,8 +70,17 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
     private ghost: NodeComp;
     private nodeEditor: NodeEditorComp;
 
-    constructor(props: FlowProps) {
-        super(props);
+    public static contextTypes = {
+        typeConfigList: typeConfigListPT,
+        operatorConfigList: operatorConfigListPT,
+        getTypeConfig: getTypeConfigPT,
+        getOperatorConfig: getOperatorConfigPT,
+        endpoints: endpointsPT,
+        getActivity: getActivityPT
+    };
+
+    constructor(props: FlowProps, context: ConfigProviderContext) {
+        super(props, context);
 
         this.state = {
             loading: true,
@@ -77,10 +91,10 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
 
         this.repaintDuration = REPAINT_DURATION;
 
-        this.Activity = new ActivityManager(
-            this.props.definition.uuid,
-            this.props.External.getActivity
-        );
+        const { definition: { uuid } } = this.props;
+        const { getActivity } = this.context;
+
+        this.Activity = new ActivityManager(uuid, getActivity);
 
         this.Plumber = new Plumber();
 
@@ -130,7 +144,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         this.props.onDrag(false);
     }
 
-    private openEditor(props: NodeEditorProps) {
+    private openEditor(props: any) {
         console.log('openEditor', props);
 
         props.onClose = (canceled: boolean) => {
@@ -160,7 +174,25 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         });
     }
 
-    private onAddAction(addToNode: Node) {
+    private onAddAction(node: Node) {
+        const {
+            Mutator: { updateLocalizations: onUpdateLocalizations },
+            definition,
+            translating,
+            language: { iso },
+            ComponentMap,
+        } = this.props;
+
+        const {
+            typeConfigList,
+            operatorConfigList,
+            getTypeConfig,
+            getOperatorConfig,
+            endpoints
+        } = this.context;
+
+        const { onUpdateAction, onUpdateRouter } = this;
+
         const newAction: Reply = {
             uuid: generateUUID(),
             type: 'reply',
@@ -168,24 +200,24 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         };
 
         this.openEditor({
-            onUpdateAction: this.onUpdateAction,
-            onUpdateLocalizations: this.props.Mutator.updateLocalizations,
-            onUpdateRouter: this.onUpdateRouter,
-            definition: this.props.definition,
-            translating: this.props.translating,
-            iso: this.props.language.iso,
-            node: addToNode,
+            onUpdateAction,
+            onUpdateLocalizations,
+            onUpdateRouter,
+            definition,
+            translating,
+            iso,
+            node,
             action: newAction,
             actionsOnly: true,
-            typeConfigList: this.props.EditorConfig.typeConfigList,
-            operatorConfigList: this.props.EditorConfig.operatorConfigList,
-            getTypeConfig: this.props.EditorConfig.getTypeConfig,
-            getOperatorConfig: this.props.EditorConfig.getOperatorConfig,
-            endpoints: this.props.EditorConfig.endpoints,
-            ComponentMap: this.props.ComponentMap
+            typeConfigList,
+            operatorConfigList,
+            getTypeConfig,
+            getOperatorConfig,
+            endpoints,
+            ComponentMap
         });
 
-        this.addToNode = addToNode;
+        this.addToNode = node;
     }
 
     private onNodeMoved(uuid: string, position: Position) {
@@ -424,7 +456,6 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         }
 
         let definition = this.props.definition;
-
         if (this.state.viewDefinition) {
             definition = this.state.viewDefinition;
         }
@@ -451,12 +482,6 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                     onUpdateLocalizations={this.props.Mutator.updateLocalizations}
                     onRemoveAction={this.props.Mutator.removeAction}
                     onMoveActionUp={this.props.Mutator.moveActionUp}
-                    typeConfigList={this.props.EditorConfig.typeConfigList}
-                    operatorConfigList={this.props.EditorConfig.operatorConfigList}
-                    getTypeConfig={this.props.EditorConfig.getTypeConfig}
-                    getOperatorConfig={this.props.EditorConfig.getOperatorConfig}
-                    endpoints={this.props.EditorConfig.endpoints}
-                    languages={this.props.EditorConfig.languages}
                     /** Flow */
                     node={node}
                     ui={ui}
@@ -510,12 +535,6 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                     onUpdateLocalizations={this.props.Mutator.updateLocalizations}
                     onRemoveAction={this.props.Mutator.removeAction}
                     onMoveActionUp={this.props.Mutator.moveActionUp}
-                    typeConfigList={this.props.EditorConfig.typeConfigList}
-                    operatorConfigList={this.props.EditorConfig.operatorConfigList}
-                    getTypeConfig={this.props.EditorConfig.getTypeConfig}
-                    getOperatorConfig={this.props.EditorConfig.getOperatorConfig}
-                    endpoints={this.props.EditorConfig.endpoints}
-                    languages={this.props.EditorConfig.languages}
                     /** Flow */
                     ghost={true}
                     node={ghost}
@@ -545,13 +564,11 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
 
         let simulator: JSX.Element = null;
 
-        if (this.props.EditorConfig.endpoints.engine) {
+        if (this.context.endpoints.engine) {
             simulator = (
                 <SimulatorComp
                     /** Editor */
                     definition={this.props.definition}
-                    engineURL={this.props.EditorConfig.endpoints.engine}
-                    getFlow={this.props.External.getFlow}
                     /** Flow */
                     showDefinition={this.onShowDefinition}
                     plumberRepaint={this.Plumber.repaint}
@@ -567,11 +584,6 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                 <NodeEditorComp
                     ref={this.nodeEditorRef}
                     /** Editor */
-                    typeConfigList={this.props.EditorConfig.typeConfigList}
-                    operatorConfigList={this.props.EditorConfig.operatorConfigList}
-                    getTypeConfig={this.props.EditorConfig.getTypeConfig}
-                    getOperatorConfig={this.props.EditorConfig.getOperatorConfig}
-                    endpoints={this.props.EditorConfig.endpoints}
                     ComponentMap={this.props.ComponentMap}
                     /** Flow */
                     iso={this.props.language.iso}

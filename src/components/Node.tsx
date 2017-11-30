@@ -3,7 +3,6 @@ import { Language } from './LanguageSelector';
 import Action, { ActionProps } from './Action/Action';
 import { IDragEvent } from '../services/Plumber';
 import { Endpoints, Languages } from '../flowTypes';
-import { Type, Operator, GetTypeConfig, GetOperatorConfig } from '../services/EditorConfig';
 import ExitComp from './Exit';
 import TitleBarComp from './TitleBar';
 import { FlowDefinition, Node, UINode, Position, SwitchRouter, AnyAction } from '../flowTypes';
@@ -12,6 +11,15 @@ import CounterComp from './Counter';
 import ActivityManager from '../services/ActivityManager';
 import ComponentMap from '../services/ComponentMap';
 import Localization, { LocalizedObject } from '../services/Localization';
+import {
+    typeConfigListPT,
+    operatorConfigListPT,
+    getOperatorConfigPT,
+    endpointsPT,
+    getTypeConfigPT,
+    languagesPT
+} from '../providers/propTypes';
+import { ConfigProviderContext } from '../providers/ConfigProvider';
 
 const FlipMove = require('react-flip-move');
 const shallowCompare = require('react-addons-shallow-compare');
@@ -58,12 +66,6 @@ export interface NodeProps {
     onUpdateRouter: Function;
     onRemoveAction: Function;
     onMoveActionUp: Function;
-    typeConfigList: Type[];
-    operatorConfigList: Operator[];
-    getTypeConfig: GetTypeConfig;
-    getOperatorConfig: GetOperatorConfig;
-    endpoints: Endpoints;
-    languages: Languages;
     ComponentMap: ComponentMap;
     plumberDraggable: Function;
     plumberMakeTarget: Function;
@@ -82,7 +84,16 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
     private clicking: boolean;
     private dragGroup: boolean;
 
-    constructor(props: NodeProps) {
+    public static contextTypes = {
+        typeConfigList: typeConfigListPT,
+        operatorConfigList: operatorConfigListPT,
+        getTypeConfig: getTypeConfigPT,
+        getOperatorConfig: getOperatorConfigPT,
+        endpoints: endpointsPT,
+        languages: languagesPT
+    };
+
+    constructor(props: NodeProps, context: ConfigProviderContext) {
         super(props);
 
         this.state = { dragging: false };
@@ -232,7 +243,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         // console.log("Node.onClick");
         let action;
 
-        var localizations: LocalizedObject[] = [];
+        const localizations: LocalizedObject[] = [];
 
         // click the last action in the list if we have one
 
@@ -244,7 +255,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                         Localization.translate(
                             kase,
                             this.props.iso,
-                            this.props.languages,
+                            this.context.languages,
                             this.props.translations
                         )
                     );
@@ -257,7 +268,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                     Localization.translate(
                         exit,
                         this.props.iso,
-                        this.props.languages,
+                        this.context.languages,
                         this.props.translations
                     )
                 );
@@ -275,12 +286,12 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             definitinon: this.props.definition,
             iso: this.props.iso,
             nodeUI: this.props.ui,
-            localizations: localizations,
-            typeConfigList: this.props.typeConfigList,
-            operatorConfigList: this.props.operatorConfigList,
-            getTypeConfig: this.props.getTypeConfig,
-            getOperatorConfig: this.props.getOperatorConfig,
-            endpoints: this.props.endpoints,
+            localizations,
+            typeConfigList: this.context.typeConfigList,
+            operatorConfigList: this.context.operatorConfigList,
+            getTypeConfig: this.context.getTypeConfig,
+            getOperatorConfig: this.context.getOperatorConfig,
+            endpoints: this.context.endpoints,
             ComponentMap: this.props.ComponentMap,
             onUpdateLocalizations: this.props.onUpdateLocalizations,
             onUpdateAction: this.props.onUpdateAction,
@@ -299,7 +310,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
     render() {
         const classes = ['plumb-drag', styles.node];
 
-        if (this.props.hasOwnProperty('iso') && this.props.translating) {
+        if (this.props.iso && this.props.translating) {
             classes.push(styles.translating);
         }
 
@@ -313,7 +324,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             };
 
             this.props.node.actions.map((action: AnyAction, idx: number) => {
-                const actionConfig = this.props.getTypeConfig(action.type);
+                const actionConfig = this.context.getTypeConfig(action.type);
 
                 if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
                     let localization: LocalizedObject;
@@ -322,7 +333,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                         localization = Localization.translate(
                             action,
                             this.props.iso,
-                            this.props.languages,
+                            this.context.languages,
                             this.props.translations
                         );
                     }
@@ -330,11 +341,6 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                     const actionProps: ActionProps = {
                         /** Flow */
                         node: this.props.node,
-                        getTypeConfig: this.props.getTypeConfig,
-                        getOperatorConfig: this.props.getOperatorConfig,
-                        typeConfigList: this.props.typeConfigList,
-                        operatorConfigList: this.props.operatorConfigList,
-                        endpoints: this.props.endpoints,
                         ComponentMap: this.props.ComponentMap,
                         openEditor: this.props.openEditor,
                         onRemoveAction: this.props.onRemoveAction,
@@ -378,7 +384,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             );
         }
 
-        var events = {
+        const events = {
             onMouseDown: () => (this.clicking = true),
             onMouseUp: (event: any) => {
                 if (this.clicking) {
@@ -388,21 +394,21 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             }
         };
 
-        var header: JSX.Element = null;
-        var addActions: JSX.Element = null;
+        let header: JSX.Element = null;
+        let addActions: JSX.Element = null;
 
         if (
             !this.props.node.actions ||
             this.props.node.actions.length == 0 ||
             this.props.ui.type != null
         ) {
-            var type = this.props.node.router.type;
+            let type = this.props.node.router.type;
             if (this.props.ui.type) {
                 type = this.props.ui.type;
             }
 
-            let config = this.props.getTypeConfig(type);
-            var title = config.name;
+            let config = this.context.getTypeConfig(type);
+            let { name: title } = config;
 
             if (this.props.node.router.type === 'switch') {
                 let switchRouter = this.props.node.router as SwitchRouter;
@@ -444,7 +450,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         const exits: JSX.Element[] = [];
 
         if (this.props.node.exits) {
-            for (let exit of this.props.node.exits) {
+            for (const exit of this.props.node.exits) {
                 exits.push(
                     <ExitComp
                         key={exit.uuid}
@@ -453,7 +459,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                         Localization={Localization.translate(
                             exit,
                             this.props.iso,
-                            this.props.languages,
+                            this.context.languages,
                             this.props.translations
                         )}
                         /** Flow */
@@ -468,7 +474,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             }
         }
 
-        var modalTitle = <div>Router</div>;
+        const modalTitle = <div>Router</div>;
 
         // are we dragging
         if (this.state.dragging) {
@@ -480,23 +486,19 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             classes.push(styles.ghost);
         }
 
-        var exitClass = '';
+        let exitClass = '';
         if (this.props.node.exits.length === 1 && !this.props.node.exits[0].name) {
             exitClass = styles.actions;
         }
 
-        var dragLink = null;
+        let dragLink = null;
         if (!this.props.translating) {
             dragLink = (
                 <a
                     title="Drag to move all nodes below here"
                     className={styles.drag_group}
-                    onMouseOver={() => {
-                        this.dragGroup = true;
-                    }}
-                    onMouseOut={() => {
-                        this.dragGroup = false;
-                    }}
+                    onMouseOver={() => (this.dragGroup = true)}
+                    onMouseOut={() => (this.dragGroup = false)}
                 >
                     <span className="icon-link" />
                 </a>

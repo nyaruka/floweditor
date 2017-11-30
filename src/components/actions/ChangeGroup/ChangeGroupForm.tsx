@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { ChangeGroup, Endpoints } from '../../../flowTypes';
-import { Type } from '../../../services/EditorConfig';
+import { Type } from '../../../providers/typeConfigs';
 import ComponentMap from '../../../services/ComponentMap';
 import GroupElement from '../../form/GroupElement';
+import { endpointsPT } from '../../../providers/propTypes';
+import { ConfigProviderContext } from '../../../providers/ConfigProvider';
 
 export interface ChangeGroupFormProps {
     action: ChangeGroup;
@@ -10,16 +12,19 @@ export interface ChangeGroupFormProps {
     config: Type;
     updateAction(action: ChangeGroup): void;
     onBindWidget(ref: any): void;
-    endpoints: Endpoints;
     ComponentMap: ComponentMap;
 }
 
 export default class ChangeGroupForm extends React.PureComponent<ChangeGroupFormProps> {
-    constructor(props: ChangeGroupFormProps) {
-        super(props);
+    public static contextTypes = {
+        endpoints: endpointsPT
+    };
 
+    constructor(props: ChangeGroupFormProps, context: ConfigProviderContext) {
+        super(props);
         this.onValid = this.onValid.bind(this);
     }
+
 
     public onValid(widgets: { [name: string]: any }): void {
         const groupEle = widgets['Group'] as any;
@@ -70,7 +75,7 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
                 <GroupElement
                     ref={this.props.onBindWidget}
                     name="Group"
-                    endpoint={this.props.endpoints.groups}
+                    endpoint={this.context.endpoints.groups}
                     localGroups={this.props.ComponentMap.getGroups()}
                     groups={groups}
                     add={this.props.config.type === 'add_to_group'}

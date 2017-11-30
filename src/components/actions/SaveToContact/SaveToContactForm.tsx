@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 import { Endpoints, SaveToContact, IUpdateContact } from '../../../flowTypes';
-import { Type } from '../../../services/EditorConfig';
 import { FormProps } from '../../NodeEditor';
 import ComponentMap from '../../../services/ComponentMap';
 import { toBoolMap } from '../../../helpers/utils';
@@ -9,6 +8,8 @@ import SelectSearch from '../../SelectSearch';
 import { SearchResult } from '../../../services/ComponentMap';
 import FieldElement from '../../form/FieldElement';
 import TextInputElement from '../../form/TextInputElement';
+import { endpointsPT } from '../../../providers/propTypes';
+import { ConfigProviderContext } from '../../../providers/ConfigProvider';
 
 /** TODO: these should come from an external source */
 const reserved = toBoolMap([
@@ -36,13 +37,15 @@ export interface SaveToContactFormProps extends FormProps {
     updateAction(action: SaveToContact): void;
     onBindWidget(ref: any): void;
     ComponentMap: ComponentMap;
-    endpoints: Endpoints;
 }
 
 export default class SaveToContactForm extends React.PureComponent<SaveToContactFormProps> {
-    constructor(props: SaveToContactFormProps) {
-        super(props);
+    public static contextTypes = {
+        endpoints: endpointsPT
+    };
 
+    constructor(props: SaveToContactFormProps, context: ConfigProviderContext) {
+        super(props);
         this.onValid = this.onValid.bind(this);
     }
 
@@ -121,7 +124,7 @@ export default class SaveToContactForm extends React.PureComponent<SaveToContact
                     ref={this.props.onBindWidget}
                     name="Field"
                     showLabel={true}
-                    endpoint={this.props.endpoints.fields}
+                    endpoint={this.context.endpoints.fields}
                     localFields={this.props.ComponentMap.getContactFields()}
                     helpText={
                         'Select an existing field to update or type any name to create a new one'

@@ -1,16 +1,15 @@
 import * as React from 'react';
 import Select from 'react-select';
-import { FlowDefinition } from '../flowtypes';
-import EditorConfig from '../services/EditorConfig';
-import External, { FlowDetails } from '../services/External';
+import { FlowDetails, GetFlows } from '../providers/external';
+import { Endpoints } from '../flowTypes';
+import { getFlowsPT, endpointsPT } from '../providers/propTypes';
+import { ConfigProviderContext } from '../providers/ConfigProvider';
 
 export interface FlowListProps {
-    EditorConfig: EditorConfig;
-    External: External;
     onFlowSelect: Function;
 }
 
-interface FlowListState {
+export interface FlowListState {
     flows: { uuid: string; name: string }[];
     selected: Partial<FlowDetails>;
 }
@@ -18,9 +17,18 @@ interface FlowListState {
 /**
  * A navigable list of flows for an account
  */
-export default class FlowList extends React.Component<FlowListProps, FlowListState> {
-    constructor(props: FlowListProps) {
-        super(props);
+export default class FlowList extends React.Component<
+    FlowListProps,
+    FlowListState
+> {
+
+    public static contextTypes = {
+        getFlows: getFlowsPT,
+        endpoints: endpointsPT
+    };
+
+    constructor(props: FlowListProps, context: ConfigProviderContext) {
+        super(props, context);
 
         this.state = {
             flows: [],
@@ -43,18 +51,16 @@ export default class FlowList extends React.Component<FlowListProps, FlowListSta
     }
 
     public componentDidMount(): void {
-        this.props.External.getFlows(this.props.EditorConfig.endpoints.flows).then(
-            (flows: FlowDetails[]) => {
-                const flowList = flows.map(({ uuid, name }) => ({
-                    uuid,
-                    name
-                }));
-
-                this.setState({
-                    flows: flowList
-                });
-            }
-        );
+        const { getFlows, endpoints: { flows: flowsEndpoint } } = this.context;
+        getFlows(flowsEndpoint).then((flows: FlowDetails[]) => {
+            const flowList = flows.map(({ uuid, name }) => ({
+                uuid,
+                name
+            }));
+            this.setState({
+                flows: flowList
+            });
+        });
     }
 
     public render(): JSX.Element {
@@ -78,3 +84,4 @@ export default class FlowList extends React.Component<FlowListProps, FlowListSta
         );
     }
 }
+

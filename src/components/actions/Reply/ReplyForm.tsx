@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Reply } from '../../../flowTypes';
-import { Type } from '../../../services/EditorConfig';
+import { Type } from '../../../providers/typeConfigs';
 import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement, { Count } from '../../form/TextInputElement';
 import CheckboxElement from '../../form/CheckboxElement';

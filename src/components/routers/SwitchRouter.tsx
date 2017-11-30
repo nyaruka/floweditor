@@ -2,17 +2,19 @@ import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import * as update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
-import { DragDropContext } from 'react-dnd';
+// import { DragDropContext } from 'react-dnd';
 import { Node, SwitchRouter, Exit, Case, AnyAction } from '../../flowTypes';
-import { Type, GetOperatorConfig, Operator } from '../../services/EditorConfig';
+import { Type } from '../../providers/typeConfigs';
 import { FormProps } from '../NodeEditor';
 import ComponentMap from '../../services/ComponentMap';
 import { Language } from '../LanguageSelector';
 import { LocalizedObject } from '../../services/Localization';
 import CaseElement from '../form/CaseElement';
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
+import { getOperatorConfigPT } from '../../providers/propTypes';
+import { ConfigProviderContext } from '../../providers/ConfigProvider';
 
-const HTML5Backend = require('react-dnd-html5-backend');
+// const HTML5Backend = require('react-dnd-html5-backend');
 const styles = require('./SwitchRouter.scss');
 
 export interface CaseProps {
@@ -142,13 +144,14 @@ export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExi
     return { cases: cases, exits: exits, defaultExit: defaultUUID };
 }
 
-const composeExitMap = (exits: Exit[]): { [uuid: string]: Exit } => exits.reduce(
-    (map, exit) => {
-        map[exit.uuid] = exit;
-        return map;
-    },
-    {} as { [uuid: string]: Exit }
-);
+const composeExitMap = (exits: Exit[]): { [uuid: string]: Exit } =>
+    exits.reduce(
+        (map, exit) => {
+            map[exit.uuid] = exit;
+            return map;
+        },
+        {} as { [uuid: string]: Exit }
+    );
 
 export interface SwitchRouterState {
     cases: CaseProps[];
@@ -164,22 +167,27 @@ export interface SwitchRouterFormProps extends FormProps {
     action: AnyAction;
     config: Type;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
-    getOperatorConfig: GetOperatorConfig;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
     removeWidget(name: string): void;
     localizations?: LocalizedObject[];
     updateLocalizations(language: string, changes: { uuid: string; translations?: any }[]): void;
     ComponentMap: ComponentMap;
-    operatorConfigList: Operator[];
     translating: boolean;
     getLocalizedExits(widgets: { [name: string]: any }): { uuid: string; translations: any }[];
     renderExitTranslations(): JSX.Element;
 }
 
-class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRouterState> {
-    constructor(props: SwitchRouterFormProps) {
-        super(props);
+export default class SwitchRouterForm extends React.Component<
+    SwitchRouterFormProps,
+    SwitchRouterState
+> {
+    public static contextTypes = {
+        getOperatorConfig: getOperatorConfigPT
+    };
+
+    constructor(props: SwitchRouterFormProps, context: ConfigProviderContext) {
+        super(props, context);
 
         this.onCaseChanged = this.onCaseChanged.bind(this);
         this.moveCase = this.moveCase.bind(this);
@@ -209,7 +217,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                 }
 
                 try {
-                    const config = this.props.getOperatorConfig(kase.type);
+                    const config = this.context.getOperatorConfig(kase.type);
 
                     cases.push({
                         kase,
@@ -481,7 +489,7 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                             }
                         }
 
-                        const { verboseName } = this.props.getOperatorConfig(kase.type);
+                        const { verboseName } = this.context.getOperatorConfig(kase.type);
 
                         const [argument] = kase.arguments;
 
@@ -551,8 +559,6 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                             onRemove={this.onCaseRemoved}
                             onChanged={this.onCaseChanged}
                             moveCase={this.moveCase}
-                            getOperatorConfig={this.props.getOperatorConfig}
-                            operatorConfigList={this.props.operatorConfigList}
                             ComponentMap={this.props.ComponentMap}
                         />
                     );
@@ -576,8 +582,6 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
                         onRemove={this.onCaseRemoved}
                         moveCase={this.moveCase}
                         onChanged={this.onCaseChanged}
-                        getOperatorConfig={this.props.getOperatorConfig}
-                        operatorConfigList={this.props.operatorConfigList}
                         ComponentMap={this.props.ComponentMap}
                     />
                 );
@@ -657,5 +661,3 @@ class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRout
         return this.renderForm();
     }
 }
-
-export default DragDropContext(HTML5Backend)(SwitchRouterForm);

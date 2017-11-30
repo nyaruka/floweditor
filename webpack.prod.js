@@ -3,7 +3,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const { smartStrategy } = require('webpack-merge');
 const { LoaderOptionsPlugin, DefinePlugin } = require('webpack');
 const commonConfig = require('./webpack.common');
-const Config = require('./flowEditor.config.prod');
+const flowEditorConfig = require('./flowEditor.config.prod');
 
 const prodConfig = {
     output: {
@@ -45,7 +45,7 @@ const prodConfig = {
         })
     ],
     externals: {
-        Config: JSON.stringify(Config)
+        Config: JSON.stringify(flowEditorConfig)
     }
 };
 

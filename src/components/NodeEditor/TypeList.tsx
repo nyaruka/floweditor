@@ -1,12 +1,13 @@
 import * as React from 'react';
 import Select from 'react-select';
-import { Type } from '../../services/EditorConfig';
+import { Type } from '../../providers/typeConfigs';
+import { typeConfigListPT } from '../../providers/propTypes';
+import { ConfigProviderContext } from '../../providers/ConfigProvider';
 
 const formStyles = require('./NodeEditor.scss');
 
 export interface TypeListProps {
     className: string;
-    typeConfigList: Type[];
     initialType: Type;
     onChange(config: Type): void;
 }
@@ -16,7 +17,11 @@ export interface TypeListState {
 }
 
 export default class TypeList extends React.PureComponent<TypeListProps, TypeListState> {
-    constructor(props: TypeListProps) {
+    public static contextTypes = {
+        typeConfigList: typeConfigListPT
+    };
+
+    constructor(props: TypeListProps, context: ConfigProviderContext) {
         super(props);
 
         this.state = {
@@ -38,11 +43,10 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
     }
 
     render(): JSX.Element {
-        const options: any = this.props.typeConfigList;
         return (
             <div className={this.props.className}>
                 <div className={formStyles.intro}>
-                    When a contact arrives at this point in your flow
+                    When a contact arrives at this point in your flow...
                 </div>
                 <div>
                     <Select
@@ -52,7 +56,7 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
                         searchable={false}
                         clearable={false}
                         labelKey="description"
-                        options={options}
+                        options={this.context.typeConfigList}
                     />
                 </div>
             </div>

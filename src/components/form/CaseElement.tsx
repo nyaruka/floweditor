@@ -1,18 +1,18 @@
 import * as React from 'react';
 import Select from 'react-select';
-import { GetOperatorConfig, Operator } from '../../services/EditorConfig';
+import { Operator } from '../../providers/operatorConfigs';
 import { CaseProps } from '../routers/SwitchRouter';
 import ComponentMap from '../../services/ComponentMap';
 import FormElement from './FormElement';
 import TextInputElement, { HTMLTextElement } from './TextInputElement';
+import { operatorConfigListPT, getOperatorConfigPT } from '../../providers/propTypes';
+import { ConfigProviderContext } from '../../providers/ConfigProvider';
 
 const forms = require('./FormElement.scss');
 const styles = require('./CaseElement.scss');
 
 export interface CaseElementProps extends CaseProps {
     name: string; // satisfy form widget props
-    operatorConfigList: Operator[];
-    getOperatorConfig: GetOperatorConfig;
     onRemove(c: CaseElement): void;
     ComponentMap: ComponentMap;
 }
@@ -28,8 +28,13 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     private category: TextInputElement;
     private operatorConfig: Operator;
 
-    constructor(props: CaseElementProps) {
-        super(props);
+    public static contextTypes = {
+        operatorConfigList: operatorConfigListPT,
+        getOperatorConfig: getOperatorConfigPT
+    };
+
+    constructor(props: CaseElementProps, context: ConfigProviderContext) {
+        super(props, context);
 
         this.state = {
             errors: [],
@@ -38,7 +43,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             exitName: this.props.exitName ? this.props.exitName : ''
         };
 
-        this.operatorConfig = this.props.getOperatorConfig(this.props.kase.type);
+        this.operatorConfig = this.context.getOperatorConfig(this.props.kase.type);
 
         this.hasArguments = this.hasArguments.bind(this);
         this.onChangeArguments = this.onChangeArguments.bind(this);
@@ -175,7 +180,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             /** If we have an exit name we need arguments */
             if (this.state.exitName) {
                 if (!this.hasArguments()) {
-                    const operator = this.props.getOperatorConfig(this.state.operator);
+                    const operator = this.context.getOperatorConfig(this.state.operator);
                     const { verboseName } = operator;
                     errors.push(`When using "${verboseName}", an argument is required.`);
                 }
@@ -234,8 +239,6 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             );
         }
 
-        const options = this.props.operatorConfigList;
-
         return (
             <FormElement name={this.props.name} errors={this.state.errors} className={styles.group}>
                 <div className={`${styles.case} select-medium`}>
@@ -243,7 +246,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                         <Select
                             name="operator"
                             clearable={false}
-                            options={options}
+                            options={this.context.operatorConfigList}
                             value={this.state.operator}
                             valueKey="type"
                             labelKey="verboseName"

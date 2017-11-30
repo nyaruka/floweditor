@@ -6,7 +6,6 @@ export interface FormElementProps {
     name: string;
     helpText?: string;
     errors?: string[];
-
     showLabel?: boolean;
     required?: boolean;
     className?: string;

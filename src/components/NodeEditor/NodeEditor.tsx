@@ -12,13 +12,7 @@ import {
     Node,
     UINode
 } from '../../flowTypes';
-import {
-    Type,
-    Operator,
-    Mode,
-    GetTypeConfig,
-    GetOperatorConfig
-} from '../../services/EditorConfig';
+import { Type, Mode } from '../../providers/typeConfigs';
 import { Language } from '../LanguageSelector';
 import { ReplyFormProps } from '../actions/Reply/ReplyForm';
 import { ChangeGroupFormProps } from '../actions/ChangeGroup/ChangeGroupForm';
@@ -32,21 +26,13 @@ import ComponentMap from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
 import TypeListComp from './TypeList';
 import TextInputElement from '../form/TextInputElement';
+import { getTypeConfigPT } from '../../providers/propTypes';
+import { ConfigProviderContext } from '../../providers/ConfigProvider';
 
 const uniqid = require('uniqid');
 
 const formStyles = require('./NodeEditor.scss');
 const shared = require('../shared.scss');
-
-export type AnyFormProps =
-    | ReplyFormProps
-    | ChangeGroupFormProps
-    | SaveFlowResultFormProps
-    | SendEmailFormProps
-    | SaveToContactFormProps
-    | SubflowRouterFormProps
-    | SwitchRouterFormProps
-    | WebhookRouterFormProps;
 
 export interface FormProps {
     showAdvanced: boolean;
@@ -69,10 +55,6 @@ export interface FormProps {
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     removeWidget(name: string): void;
     renderExitTranslations(): JSX.Element;
-
-    operatorConfigList: Operator[];
-    getOperatorConfig: GetOperatorConfig;
-    endpoints: Endpoints;
 
     triggerFormUpdate(): void;
     onToggleAdvanced(): void;
@@ -99,12 +81,6 @@ export interface NodeEditorProps {
     /** Perform when editor is closed */
     onClose?(canceled: boolean): void;
 
-    typeConfigList: Type[];
-    operatorConfigList: Operator[];
-    getTypeConfig: GetTypeConfig;
-    getOperatorConfig: GetOperatorConfig;
-    endpoints: Endpoints;
-
     ComponentMap: ComponentMap;
 }
 
@@ -113,7 +89,10 @@ export interface NodeEditorState {
     show: boolean;
 }
 
-export default class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorState> {
+export default class NodeEditor extends React.PureComponent<
+    NodeEditorProps,
+    NodeEditorState
+> {
     private modal: Modal;
     private form: any;
     private advanced: any;
@@ -122,12 +101,18 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     private initialButtons: ButtonSet;
     private temporaryButtons?: ButtonSet;
 
-    constructor(props: NodeEditorProps) {
-        super(props);
+    public static contextTypes = {
+        getTypeConfig: getTypeConfigPT
+    }
+
+    constructor(props: NodeEditorProps, context: ConfigProviderContext) {
+        super(props, context);
+
+        const config = this.context.getTypeConfig(this.determineConfigType());
 
         this.state = {
             show: this.props.show || false,
-            config: this.props.getTypeConfig(this.determineConfigType())
+            config
         };
 
         this.initialButtons = {
@@ -328,7 +313,9 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             if (this.form.onValid) {
                 this.form.onValid(this.widgets);
             } else {
-                /** Reach into wrapped components, e.g. that which is exported from SwitchRouter */
+                /**
+                 * Access wrapped component (for SwitchRouter, wrapped by HOC - React-DnD).
+                 */
                 this.form.getDecoratedComponentInstance().onValid(this.widgets);
             }
             return true;
@@ -354,9 +341,10 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     public open(): void {
+        const config = this.context.getTypeConfig(this.determineConfigType());
         this.setState({
             show: true,
-            config: this.props.getTypeConfig(this.determineConfigType())
+            config
         });
     }
 
@@ -478,16 +466,15 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
     private getTitles(): JSX.Element[] {
         const titleText: string = this.getTitleText();
-        let titles: JSX.Element[] = [<div>{titleText}</div>];
+        const titles: JSX.Element[] = [<div>{titleText}</div>];
 
         if (this.hasAdvanced()) {
-            titles = [
-                ...titles,
+            titles.push(
                 <div>
                     <div>{titleText}</div>
                     <div className={shared.advanced_title}>Advanced Settings</div>
                 </div>
-            ];
+            );
         }
 
         return titles;
@@ -503,8 +490,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     /** NodeEditor */
                     initialType={this.state.config}
                     onChange={this.onTypeChange}
-                    /** Node */
-                    typeConfigList={this.props.typeConfigList}
                 />
             );
         }
@@ -519,11 +504,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             iso: this.props.iso,
             translating: this.props.translating,
             definition: this.props.definition,
-            operatorConfigList: this.props.operatorConfigList,
-            typeConfigList: this.props.typeConfigList,
-            getTypeConfig: this.props.getTypeConfig,
-            getOperatorConfig: this.props.getOperatorConfig,
-            endpoints: this.props.endpoints,
             ComponentMap: this.props.ComponentMap,
             config: this.state.config,
             action: this.props.action,
@@ -564,6 +544,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         );
 
         const { config: { form: Form } }: NodeEditorState = this.state;
+
         const typeList = this.getTypeList();
 
         const front = (
@@ -622,3 +603,5 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         return null;
     }
 }
+
+

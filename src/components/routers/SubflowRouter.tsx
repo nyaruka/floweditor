@@ -1,15 +1,16 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 import { Endpoints, Exit, StartFlow, Case, SwitchRouter } from '../../flowTypes';
-import { Type } from '../../services/EditorConfig';
+import { Type } from '../../providers/typeConfigs';
 import { FormProps } from '../NodeEditor';
 import { Node, AnyAction } from '../../flowTypes';
 import FlowElement from '../form/FlowElement';
 import ComponentMap from '../../services/ComponentMap';
+import { endpointsPT } from '../../providers/propTypes';
+import { ConfigProviderContext } from '../../providers/ConfigProvider';
 
 export interface SubflowRouterFormProps extends FormProps {
     action: AnyAction;
-    endpoints: Endpoints;
     node: Node;
     config: Type;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
@@ -22,9 +23,12 @@ export interface SubflowRouterFormProps extends FormProps {
 }
 
 export default class SubflowRouter extends React.PureComponent<SubflowRouterFormProps> {
-    constructor(props: SubflowRouterFormProps) {
-        super(props);
+    public static contextTypes = {
+        endpoints: endpointsPT
+    };
 
+    constructor(props: SubflowRouterFormProps, context: ConfigProviderContext) {
+        super(props);
         this.onValid = this.onValid.bind(this);
     }
 
@@ -104,8 +108,8 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
             return this.props.renderExitTranslations();
         }
 
-        let flow_name: string;
-        let flow_uuid: string;
+        let flow_name: string = '';
+        let flow_uuid: string = '';
 
         if (this.props.action) {
             if (this.props.action.type === 'start_flow') {
@@ -119,7 +123,7 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
                 <FlowElement
                     ref={this.props.onBindWidget}
                     name="Flow"
-                    endpoint={this.props.endpoints.flows}
+                    endpoint={this.context.endpoints.flows}
                     flow_name={flow_name}
                     flow_uuid={flow_uuid}
                     required

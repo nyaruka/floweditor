@@ -365,7 +365,6 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 updates.query = query;
                 updates.matches = matches;
             } else {
-
                 const {
                     maxLength,
                     characterSet,

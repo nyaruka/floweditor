@@ -11,7 +11,7 @@ const styles = require('./FormElement.scss');
 // TODO: these should come from an external source
 const reserved = toBoolMap(['language', 'name', 'timezone']);
 
-interface IFieldElementProps extends FormElementProps {
+interface FieldElementProps extends FormElementProps {
     initial: SearchResult;
     localFields?: SearchResult[];
     endpoint?: string;
@@ -19,12 +19,12 @@ interface IFieldElementProps extends FormElementProps {
     placeholder?: string;
 }
 
-interface IFieldState {
+interface FieldState {
     field: SearchResult;
     errors: string[];
 }
 
-export default class FieldElement extends React.Component<IFieldElementProps, IFieldState> {
+export default class FieldElement extends React.Component<FieldElementProps, FieldState> {
     constructor(props: any) {
         super(props);
 

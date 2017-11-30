@@ -1,22 +1,16 @@
 import * as React from 'react';
-import axios from 'axios';
-import FlowList from './FlowList';
-import EditorConfig from '../services/EditorConfig';
-import External, { FlowDetails } from '../services/External';
-import { FlowDefinition } from '../flowTypes';
+import { FlowDetails, GetFlow } from '../providers/external';
+import { FlowDefinition, Languages } from '../flowTypes';
 import FlowMutator from '../services/FlowMutator';
 import Temba from '../services/Temba';
 import ComponentMap from '../services/ComponentMap';
+import FlowList from './FlowList';
 import LanguageSelectorComp, { Language } from './LanguageSelector';
 import Flow from './Flow';
+import { flowPT, baseLanguagePT, languagesPT, getFlowPT } from '../providers/propTypes';
+import { ConfigProviderContext } from '../providers/ConfigProvider';
 
 const styles = require('./Editor.scss');
-
-export interface EditorProps {
-    flowUUID: string;
-    EditorConfig: EditorConfig;
-    External: External;
-}
 
 export interface EditorState {
     fetching: boolean;
@@ -30,15 +24,25 @@ export interface EditorState {
 /**
  * A navigable list of flows for an account
  */
-export default class Editor extends React.PureComponent<EditorProps, EditorState> {
+export default class Editor extends React.PureComponent<{}, EditorState> {
     private Temba: Temba;
     private Mutator: FlowMutator;
     private ComponentMap: ComponentMap;
 
-    constructor(props: EditorProps) {
-        super(props);
+    public static contextTypes = {
+        flow: flowPT,
+        baseLanguage: baseLanguagePT,
+        languages: languagesPT,
+        getFlow: getFlowPT
+    };
+
+    constructor(props: {}, context: ConfigProviderContext) {
+        super(props, context);
+
+        const { baseLanguage: language } = this.context;
+
         this.state = {
-            language: this.props.EditorConfig.baseLanguage,
+            language,
             translating: false,
             fetching: false,
             nodeDragging: false,
@@ -104,16 +108,16 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
     }
 
     private fetchFlow(uuid: string): void {
-        this.props.External.getFlow(uuid, false, this.props.EditorConfig.endpoints.flows)
+        const { getFlow } = this.context;
+        getFlow(uuid, false)
             .then(({ definition }: FlowDetails) => this.initialize(definition))
             .catch((error: {}) => console.log(error));
     }
 
     private setLanguage(language: Language): void {
-        const { EditorConfig: { baseLanguage } } = this.props;
+        const { baseLanguage } = this.context;
         const translating: boolean =
             baseLanguage.iso !== language.iso && baseLanguage.name !== language.name;
-
         this.setState({
             language,
             translating
@@ -122,11 +126,12 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
 
     private getLanguageSelector(): JSX.Element {
         let languageSelector: JSX.Element = null;
+        const { languages } = this.context;
 
-        if (this.props.EditorConfig.languages) {
+        if (languages) {
             languageSelector = (
                 <LanguageSelectorComp
-                    languages={this.props.EditorConfig.languages}
+                    languages={languages}
                     iso={this.state.language.iso}
                     onChange={this.setLanguage}
                 />
@@ -137,7 +142,8 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
     }
 
     public componentDidMount(): void {
-        this.fetchFlow(this.props.flowUUID);
+        const { flow } = this.context;
+        this.fetchFlow(flow);
     }
 
     public render(): JSX.Element {
@@ -148,11 +154,7 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
                 className={this.state.translating ? styles.translating : null}
                 data-spec="editor-container">
                 <div className={styles.editor} data-spec="editor">
-                    <FlowList
-                        EditorConfig={this.props.EditorConfig}
-                        External={this.props.External}
-                        onFlowSelect={this.onFlowSelect}
-                    />
+                    <FlowList onFlowSelect={this.onFlowSelect} />
                     {languageSelector}
                     {this.state.definition && !this.state.fetching ? (
                         <Flow
@@ -160,8 +162,6 @@ export default class Editor extends React.PureComponent<EditorProps, EditorState
                             onDrag={this.onDrag}
                             language={this.state.language}
                             translating={this.state.translating}
-                            EditorConfig={this.props.EditorConfig}
-                            External={this.props.External}
                             definition={this.state.definition}
                             dependencies={this.state.dependencies}
                             ComponentMap={this.ComponentMap}

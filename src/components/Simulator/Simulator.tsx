@@ -4,10 +4,12 @@ import * as update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
 import urljoin from 'url-join';
 import { findDOMNode } from 'react-dom';
-import { FlowDetails, GetFlow } from '../../services/External';
+import { FlowDetails } from '../../providers/external';
 import { FlowDefinition, Group } from '../../flowTypes';
 import ActivityManager, { Activity } from '../../services/ActivityManager';
 import LogEvent, { EventProps } from './LogEvent';
+import { getFlowPT, endpointsPT } from '../../providers/propTypes';
+import { ConfigProviderContext } from '../../providers/ConfigProvider';
 
 const styles = require('./Simulator.scss');
 
@@ -20,8 +22,6 @@ interface Message {
 
 export interface SimulatorProps {
     definition: FlowDefinition;
-    engineURL: string;
-    getFlow: GetFlow;
     showDefinition(definition: FlowDefinition): void;
     plumberRepaint: Function;
     Activity: any;
@@ -78,7 +78,10 @@ interface Session {
 /**
  * Our dev console for simulating or testing expressions
  */
-class Simulator extends React.Component<SimulatorProps, SimulatorState> {
+export default class Simulator extends React.Component<
+    SimulatorProps,
+    SimulatorState
+> {
     private debug: Session[] = [];
     private flows: FlowDefinition[] = [];
     private currentFlow: string;
@@ -87,7 +90,12 @@ class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     // marks the bottom of our chat
     private bottom: any;
 
-    constructor(props: SimulatorProps) {
+    public static contextTypes = {
+        getFlow: getFlowPT,
+        endpoints: endpointsPT
+    };
+
+    constructor(props: SimulatorProps, context: ConfigProviderContext) {
         super(props);
         this.state = {
             active: false,
@@ -101,7 +109,17 @@ class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             },
             channel: generateUUID()
         };
+        this.bottomRef = this.bottomRef.bind(this);
+        this.inputBoxRef = this.inputBoxRef.bind(this);
         this.currentFlow = this.props.definition.uuid;
+    }
+
+    private bottomRef(ref: any) {
+        return this.bottom = ref;
+    }
+
+    private inputBoxRef(ref: any) {
+        this.inputBox = ref;
     }
 
     private updateActivity() {
@@ -201,7 +219,7 @@ class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 }
             },
             () => {
-                this.props
+                this.context
                     .getFlow(this.props.definition.uuid, true)
                     .then((details: FlowDetails) => {
                         this.flows = [this.props.definition].concat(details.dependencies);
@@ -212,7 +230,7 @@ class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
                         axios.default
                             .post(
-                                urljoin(this.props.engineURL + '/flow/start'),
+                                urljoin(this.context.endpoints.engine + '/flow/start'),
                                 JSON.stringify(body, null, 2)
                             )
                             .then((response: axios.AxiosResponse) => {
@@ -235,7 +253,7 @@ class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             return;
         }
 
-        this.props.getFlow(this.props.definition.uuid, true).then((details: FlowDetails) => {
+        this.context.getFlow(this.props.definition.uuid, true).then((details: FlowDetails) => {
             this.flows = [this.props.definition].concat(details.dependencies);
             var body: any = {
                 flows: this.flows,
@@ -252,7 +270,7 @@ class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             };
 
             axios.default
-                .post(this.props.engineURL + 'flow/resume', JSON.stringify(body, null, 2))
+                .post(`${this.context.endpoints.engine}/flow/resume`, JSON.stringify(body, null, 2))
                 .then((response: axios.AxiosResponse) => {
                     this.updateRunContext(body, response.data as RunContext);
                 })
@@ -344,16 +362,12 @@ class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                                 <div
                                     id="bottom"
                                     style={{ float: 'left', clear: 'both' }}
-                                    ref={el => {
-                                        this.bottom = el;
-                                    }}
+                                    ref={this.bottomRef}
                                 />
                             </div>
                             <div className={styles.controls}>
                                 <input
-                                    ref={ele => {
-                                        this.inputBox = ele;
-                                    }}
+                                    ref={this.inputBoxRef}
                                     type="text"
                                     onKeyUp={this.onKeyUp.bind(this)}
                                     disabled={!this.state.active}
@@ -379,5 +393,3 @@ class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         );
     }
 }
-
-export default Simulator;

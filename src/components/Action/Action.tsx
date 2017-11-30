@@ -1,10 +1,17 @@
 import * as React from 'react';
 import { Node, Group, AnyAction } from '../../flowTypes';
 import { Endpoints } from '../../flowTypes';
-import { GetTypeConfig, GetOperatorConfig, Type, Operator } from '../../services/EditorConfig';
 import ComponentMap from '../../services/ComponentMap';
-import TitleBarComp from '../TitleBar';
 import { LocalizedObject } from '../../services/Localization';
+import TitleBarComp from '../TitleBar';
+import {
+    typeConfigListPT,
+    operatorConfigListPT,
+    getTypeConfigPT,
+    getOperatorConfigPT,
+    endpointsPT
+} from '../../providers/propTypes';
+import { ConfigProviderContext } from '../../providers/ConfigProvider';
 
 const shared = require('../shared.scss');
 const styles = require('./Action.scss');
@@ -18,12 +25,6 @@ export interface ActionProps {
     first: boolean;
 
     Localization: LocalizedObject;
-
-    typeConfigList: Type[];
-    operatorConfigList: Operator[];
-    getTypeConfig: GetTypeConfig;
-    getOperatorConfig: GetOperatorConfig;
-    endpoints: Endpoints;
 
     ComponentMap: ComponentMap;
 
@@ -42,11 +43,19 @@ interface ActionState {
     confirmRemoval: boolean;
 }
 
-class Action extends React.Component<ActionProps, ActionState> {
+export default class Action extends React.Component<ActionProps, ActionState> {
     protected localizedKeys: string[] = [];
     private clicking = false;
 
-    constructor(props: ActionProps) {
+    public static contextTypes = {
+        typeConfigList: typeConfigListPT,
+        operatorConfigList: operatorConfigListPT,
+        getTypeConfig: getTypeConfigPT,
+        getOperatorConfig: getOperatorConfigPT,
+        endpoints: endpointsPT
+    };
+
+    constructor(props: ActionProps, context: ConfigProviderContext) {
         super(props);
 
         this.onClick = this.onClick.bind(this);
@@ -75,11 +84,11 @@ class Action extends React.Component<ActionProps, ActionState> {
             actionsOnly: true,
             nodeUI: null,
             localizations: localizations,
-            typeConfigList: this.props.typeConfigList,
-            operatorConfigList: this.props.operatorConfigList,
-            getTypeConfig: this.props.getTypeConfig,
-            getOperatorConfig: this.props.getOperatorConfig,
-            endpoints: this.props.endpoints,
+            typeConfigList: this.context.typeConfigList,
+            operatorConfigList: this.context.operatorConfigList,
+            getTypeConfig: this.context.getTypeConfig,
+            getOperatorConfig: this.context.getOperatorConfig,
+            endpoints: this.context.endpoints,
             ComponentMap: this.props.ComponentMap
         });
     }
@@ -124,7 +133,7 @@ class Action extends React.Component<ActionProps, ActionState> {
     }
 
     render(): JSX.Element {
-        let config = this.props.getTypeConfig(this.props.action.type);
+        let config = this.context.getTypeConfig(this.props.action.type);
         const classes = [styles.action];
 
         if (this.props.first) {
@@ -160,8 +169,7 @@ class Action extends React.Component<ActionProps, ActionState> {
                 <div
                     onMouseDown={this.onMouseDown}
                     onMouseUp={this.onMouseUp}
-                    data-spec="interactive-div"
-                >
+                    data-spec="interactive-div">
                     <TitleBarComp
                         className={shared[this.props.action.type]}
                         title={config.name}
@@ -176,5 +184,3 @@ class Action extends React.Component<ActionProps, ActionState> {
         );
     }
 }
-
-export default Action;
