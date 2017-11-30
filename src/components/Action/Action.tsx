@@ -83,7 +83,7 @@ export default class Action extends React.Component<ActionProps, ActionState> {
             action: this.props.action,
             actionsOnly: true,
             nodeUI: null,
-            localizations: localizations,
+            localizations,
             typeConfigList: this.context.typeConfigList,
             operatorConfigList: this.context.operatorConfigList,
             getTypeConfig: this.context.getTypeConfig,

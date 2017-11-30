@@ -136,7 +136,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
      * @param replace
      */
     private getCharCount(
-        value: string,
+        value: string | string[],
         replace?: boolean
     ): {
         maxLength: number;
@@ -146,11 +146,21 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         remainingInPart: number;
         value: string;
     } {
-        if (replace) {
-            value = cleanMsg(value);
+        /**
+         * In ReplyForm we store localized text as an array
+         * e.g. { uuid: this.props.action.uuid, translations: { text: [textarea.state.value] } }
+         */
+        const isLocalizedValue = value.constructor === Array;
+
+        if (isLocalizedValue) {
+            value = value[0];
         }
 
-        let { length: characterCount, remainingInPart, characterSet, parts } = split(value);
+        if (replace) {
+            value = cleanMsg(value as string);
+        }
+
+        let { length: characterCount, remainingInPart, characterSet, parts } = split(value as string);
 
         characterSet = toCharSetEnum(characterSet);
 
@@ -174,7 +184,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             characterCount,
             remainingInPart,
             characterSet,
-            value
+            value: value as string
         };
     }
 

@@ -309,12 +309,12 @@ export default class NodeEditor extends React.PureComponent<
         });
 
         /** If all form inputs are valid, submit it */
-        if (invalid.length === 0) {
+        if (!invalid.length) {
             if (this.form.onValid) {
                 this.form.onValid(this.widgets);
             } else {
                 /**
-                 * Access wrapped component (for SwitchRouter, wrapped by HOC - React-DnD).
+                 * Access wrapped component (for components wrapped by React-DnD HOC).
                  */
                 this.form.getDecoratedComponentInstance().onValid(this.widgets);
             }
@@ -535,7 +535,7 @@ export default class NodeEditor extends React.PureComponent<
             removeWidget: this.removeWidget
         };
 
-        const FormWrapper: React.SFC<{ styles?: string }> = ({ children, styles }) => (
+        const FormContainer: React.SFC<{ styles?: string }> = ({ children, styles }) => (
             <div className={styles ? styles : null}>
                 <div className={formStyles.node_editor}>
                     <form onKeyPress={this.onKeyPress}>{children}</form>
@@ -548,19 +548,19 @@ export default class NodeEditor extends React.PureComponent<
         const typeList = this.getTypeList();
 
         const front = (
-            <FormWrapper key={uniqid()}>
+            <FormContainer key={uniqid()}>
                 {typeList}
                 <Form ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />
-            </FormWrapper>
+            </FormContainer>
         );
 
         let back: JSX.Element = null;
 
         if (this.hasAdvanced()) {
             back = (
-                <FormWrapper key={uniqid()} styles={formStyles.advanced}>
+                <FormContainer key={uniqid()} styles={formStyles.advanced}>
                     <Form ref={this.formRef} {...{ ...formProps, showAdvanced: true }} />
-                </FormWrapper>
+                </FormContainer>
             );
         }
 

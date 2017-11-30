@@ -240,7 +240,6 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     onClick(event?: any) {
-        // console.log("Node.onClick");
         let action;
 
         const localizations: LocalizedObject[] = [];

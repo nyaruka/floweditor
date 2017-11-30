@@ -9,17 +9,17 @@
                 "uuid": "a4f64f1b-85bc-477e-b706-de313a022979",
                 "localization": {
                     "spa": {
-                        "24afc61e-e528-4ac0-b887-78cebd39f12b": {
+                        "64378fc1-19e4-4c8a-be27-aee49ebc728a": {
                             "text": "Como te llamas?"
                         }
                     }
                 },
                 "nodes": [
                     {
-                        "uuid": "24afc61e-e528-4ac0-b887-78cebd39f12b",
+                        "uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
                         "actions": [
                             {
-                                "uuid": "360a28a1-6741-4f16-9421-f6f313cf753e",
+                                "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
                                 "type": "reply",
                                 "text":
                                     "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?"
@@ -124,7 +124,7 @@
                             {
                                 "uuid": "326a41b7-9bce-453b-8783-1113f649663c",
                                 "name": "Other",
-                                "destination_node_uuid": "24afc61e-e528-4ac0-b887-78cebd39f12b"
+                                "destination_node_uuid": "4fac7935-d13b-4b36-bf15-98075dca822a"
                             }
                         ],
                         "wait": {
@@ -242,7 +242,7 @@
                         }
                     ],
                     "nodes": {
-                        "24afc61e-e528-4ac0-b887-78cebd39f12b": {
+                        "4fac7935-d13b-4b36-bf15-98075dca822a": {
                             "position": {
                                 "x": 74,
                                 "y": 115
