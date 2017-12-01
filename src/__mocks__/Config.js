@@ -1,3 +1,1 @@
-const testConfig = require('../../flowEditor.config.dev');
-
-module.exports = testConfig;
+module.exports = require('../../flowEditor.config.dev');

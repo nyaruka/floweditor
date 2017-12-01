@@ -1,5 +1,3 @@
-jest.mock('Config');
-
 import * as React from 'react';
 import '../enzymeAdapter';
 import { shallow } from 'enzyme';
