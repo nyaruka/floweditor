@@ -4,6 +4,7 @@ import { Type } from '../../../providers/ConfigProvider/typeConfigs';
 import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement, { Count } from '../../form/TextInputElement';
 import CheckboxElement from '../../form/CheckboxElement';
+import { getBaseLanguage } from '../../../providers/ConfigProvider/configContext';
 
 const styles = require('../../Action/Action.scss');
 
@@ -11,6 +12,7 @@ export interface ReplyFormProps {
     action: Reply;
     showAdvanced: boolean;
     config: Type;
+    translating: boolean;
     ComponentMap: ComponentMap;
     updateAction(action: Reply): void;
     onBindWidget(ref: any): void;
@@ -61,31 +63,30 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
     }
 
     private renderForm(): JSX.Element {
-        let text = '';
-
-        if (this.props.action && this.props.action.type === 'reply') {
-            ({ text } = this.props.action);
-        }
-
-        let translation: JSX.Element = null;
+        let text: string = '';
         let placeholder: string = '';
+        let translation: JSX.Element = null;
 
-        const localizedObject = this.props.getLocalizedObject();
-
-        if (localizedObject) {
-            placeholder = `${localizedObject.getLanguage().name} Translation`;
+        if (this.props.translating) {
+            const localizedObject = this.props.getLocalizedObject();
+            const { text: textToTrans } = this.props.action;
+            const { name } = localizedObject.getLanguage();
 
             translation = (
                 <div data-spec="translation-container" className={styles.translation}>
                     <div data-spec="text-to-translate" className={styles.translate_from}>
-                        {text}
+                        {textToTrans}
                     </div>
                 </div>
             );
 
-            if (localizedObject.hasTranslation('text')) {
-                ({ text } = localizedObject.getObject());
+            placeholder = `${name} Translation`;
+
+            if (localizedObject.localized) {
+                ({text} = localizedObject.getObject())
             }
+        } else {
+            ({ text } = this.props.action);
         }
 
         return (
@@ -100,7 +101,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                     placeholder={placeholder}
                     autocomplete
                     focus
-                    required={!localizedObject}
+                    required={!this.props.translating}
                     textarea
                     ComponentMap={this.props.ComponentMap}
                 />

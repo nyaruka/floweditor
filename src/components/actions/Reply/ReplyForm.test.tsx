@@ -19,6 +19,7 @@ const props = {
     action,
     config,
     endpoints,
+    translating: false,
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
     onBindAdvancedWidget: jest.fn(),
@@ -59,36 +60,80 @@ describe('Component: ReplyForm', () => {
         });
     });
 
-    it('Renders localization form', () => {
-        const ReplyFormBase = shallow(
-            <ReplyForm
-                {...{
-                    ...props,
-                    showAdvanced: false,
-                    getLocalizedObject: () => ({
-                        hasTranslation: () => true,
-                        getLanguage: () => ({ name: 'Spanish' }),
-                        getObject: () => ({
-                            text: 'Como te llamas?'
+    describe('Localization', () => {
+        it('Renders localization form with localized input when action is localized', () => {
+            const localizedText = '¿Como te llamas?';
+            const ReplyFormBase = shallow(
+                <ReplyForm
+                    {...{
+                        ...props,
+                        translating: true,
+                        showAdvanced: false,
+                        getLocalizedObject: () => ({
+                            hasTranslation: () => true,
+                            getLanguage: () => ({ name: 'Spanish' }),
+                            localized: true,
+                            getObject: () => ({
+                                text: localizedText
+                            })
                         })
-                    })
-                }}
-            />
-        );
+                    }}
+                />
+            );
 
-        expect(getSpecWrapper(ReplyFormBase, 'translation-container').exists()).toBeTruthy();
-        expect(getSpecWrapper(ReplyFormBase, 'text-to-translate').text()).toBe(props.action.text);
-        expect(ReplyFormBase.find('TextInputElement').props()).toEqual({
-            name: 'Message',
-            count: Count.SMS,
-            showLabel: false,
-            value: 'Como te llamas?',
-            placeholder: 'Spanish Translation',
-            autocomplete: true,
-            focus: true,
-            required: false,
-            textarea: true,
-            ComponentMap: props.ComponentMap
+            expect(getSpecWrapper(ReplyFormBase, 'translation-container').exists()).toBeTruthy();
+            expect(getSpecWrapper(ReplyFormBase, 'text-to-translate').text()).toBe(
+                props.action.text
+            );
+            expect(ReplyFormBase.find('TextInputElement').props()).toEqual({
+                name: 'Message',
+                count: Count.SMS,
+                showLabel: false,
+                value: localizedText,
+                placeholder: 'Spanish Translation',
+                autocomplete: true,
+                focus: true,
+                required: false,
+                textarea: true,
+                ComponentMap: props.ComponentMap
+            });
+        });
+
+        it('Renders localization form without localized input when action is not localized', () => {
+            const ReplyFormBase = shallow(
+                <ReplyForm
+                    {...{
+                        ...props,
+                        translating: true,
+                        showAdvanced: false,
+                        getLocalizedObject: () => ({
+                            hasTranslation: () => true,
+                            getLanguage: () => ({ name: 'Spanish' }),
+                            localized: false,
+                            getObject: () => ({
+                                text: 'Como to llanmas'
+                            })
+                        })
+                    }}
+                />
+            );
+
+            expect(getSpecWrapper(ReplyFormBase, 'translation-container').exists()).toBeTruthy();
+            expect(getSpecWrapper(ReplyFormBase, 'text-to-translate').text()).toBe(
+                props.action.text
+            );
+            expect(ReplyFormBase.find('TextInputElement').props()).toEqual({
+                name: 'Message',
+                count: Count.SMS,
+                showLabel: false,
+                value: '',
+                placeholder: 'Spanish Translation',
+                autocomplete: true,
+                focus: true,
+                required: false,
+                textarea: true,
+                ComponentMap: props.ComponentMap
+            });
         });
     });
 });
