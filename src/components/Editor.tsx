@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FlowDetails, GetFlow } from '../providers/external';
+import { FlowDetails, GetFlow } from '../providers/ConfigProvider/external';
 import { FlowDefinition, Languages } from '../flowTypes';
 import FlowMutator from '../services/FlowMutator';
 import Temba from '../services/Temba';
@@ -7,8 +7,8 @@ import ComponentMap from '../services/ComponentMap';
 import FlowList from './FlowList';
 import LanguageSelectorComp, { Language } from './LanguageSelector';
 import Flow from './Flow';
-import { flowPT, baseLanguagePT, languagesPT, getFlowPT, getFlowsPT, endpointsPT } from '../providers/propTypes';
-import { ConfigProviderContext } from '../providers/ConfigProvider';
+import { flowPT, baseLanguagePT, languagesPT, getFlowPT, getFlowsPT, endpointsPT } from '../providers/ConfigProvider/propTypes';
+import { ConfigProviderContext } from '../providers/ConfigProvider/configContext';
 
 const styles = require('./Editor.scss');
 
@@ -36,7 +36,6 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
         languages: languagesPT,
         getFlow: getFlowPT,
         getFlows: getFlowsPT,
-        endpoints: endpointsPT
     };
 
     constructor(props: {}, context: ConfigProviderContext) {
@@ -124,8 +123,8 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
     }
 
     private fetchFlowList() {
-        const { getFlows, endpoints: { flows: flowsEndpoint } } = this.context;
-        getFlows(flowsEndpoint).then((flows: FlowDetails[]) => {
+        const { getFlows } = this.context;
+        getFlows().then((flows: FlowDetails[]) => {
             this.setState({
                 flows: flows.map(({ uuid, name }) => ({
                     uuid,

@@ -12,7 +12,7 @@ import {
     Node,
     UINode
 } from '../../flowTypes';
-import { Type, Mode } from '../../providers/typeConfigs';
+import { Type, Mode } from '../../providers/ConfigProvider/typeConfigs';
 import { Language } from '../LanguageSelector';
 import { ReplyFormProps } from '../actions/Reply/ReplyForm';
 import { ChangeGroupFormProps } from '../actions/ChangeGroup/ChangeGroupForm';
@@ -26,8 +26,8 @@ import ComponentMap from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
 import TypeListComp from './TypeList';
 import TextInputElement from '../form/TextInputElement';
-import { getTypeConfigPT } from '../../providers/propTypes';
-import { ConfigProviderContext } from '../../providers/ConfigProvider';
+import { getTypeConfigPT } from '../../providers/ConfigProvider/propTypes';
+import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
 const uniqid = require('uniqid');
 

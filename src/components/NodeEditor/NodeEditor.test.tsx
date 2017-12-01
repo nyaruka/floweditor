@@ -1,9 +1,9 @@
 import * as React from 'react';
 import '../../enzymeAdapter';
 import { shallow } from 'enzyme';
-import EditorConfig from '../../services/EditorConfig';
 import CompMap from '../../services/ComponentMap';
 import NodeEditor, { NodeEditorProps } from './index';
+import context from '../../providers/ConfigProvider/configContext';
 
 const {
     results: [{ definition }]
@@ -12,14 +12,6 @@ const { nodes: [node], language: flowLanguage } = definition;
 
 const { actions: [replyAction] } = node;
 
-const {
-    typeConfigList,
-    operatorConfigList,
-    getTypeConfig,
-    getOperatorConfig,
-    endpoints
-} = new EditorConfig();
-
 const ComponentMap = new CompMap(definition as any);
 
 const nodeEditorProps: NodeEditorProps = {
@@ -27,11 +19,6 @@ const nodeEditorProps: NodeEditorProps = {
     translating: false,
     show: true,
     definition,
-    typeConfigList,
-    operatorConfigList,
-    getTypeConfig,
-    getOperatorConfig,
-    endpoints,
     node,
     action: replyAction,
     onUpdateAction: jest.fn(),
@@ -40,7 +27,9 @@ const nodeEditorProps: NodeEditorProps = {
     ComponentMap
 };
 
-const NodeEditorShallow = shallow(<NodeEditor {...nodeEditorProps} />);
+const NodeEditorShallow = shallow(<NodeEditor {...nodeEditorProps} />, {
+    context
+});
 const ModalShallow = NodeEditorShallow.find('Modal');
 
 describe('Component: NodeEditor', () => {

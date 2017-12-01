@@ -8,8 +8,8 @@ import SelectSearch from '../../SelectSearch';
 import { SearchResult } from '../../../services/ComponentMap';
 import FieldElement from '../../form/FieldElement';
 import TextInputElement from '../../form/TextInputElement';
-import { endpointsPT } from '../../../providers/propTypes';
-import { ConfigProviderContext } from '../../../providers/ConfigProvider';
+import { endpointsPT } from '../../../providers/ConfigProvider/propTypes';
+import { ConfigProviderContext } from '../../../providers/ConfigProvider/configContext';
 
 /** TODO: these should come from an external source */
 const reserved = toBoolMap([

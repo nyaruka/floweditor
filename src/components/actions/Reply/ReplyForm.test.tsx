@@ -2,25 +2,22 @@ import * as React from 'react';
 import '../../../enzymeAdapter';
 import { shallow, mount } from 'enzyme';
 import { getSpecWrapper } from '../../../helpers/utils';
-import EditorConfig from '../../../services/EditorConfig';
 import ComponentMap from '../../../services/ComponentMap';
 import { Count } from '../../form/TextInputElement';
 import ReplyForm, { ReplyFormProps } from './ReplyForm';
-
-jest.mock('Config');
+import configContext from '../../../providers/ConfigProvider/configContext';
 
 const {
     results: [{ definition }]
 } = require('../../../../test_flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
 
-const Config = new EditorConfig();
 const CompMap = new ComponentMap(definition);
 const { nodes: [{ actions: [action] }] } = definition;
-const { endpoints } = Config;
-const typeConfig = Config.getTypeConfig('reply');
+const { endpoints, getTypeConfig } = configContext;
+const config = getTypeConfig('reply');
 const props = {
     action,
-    config: typeConfig,
+    config,
     endpoints,
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),

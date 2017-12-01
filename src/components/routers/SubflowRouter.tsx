@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 import { Endpoints, Exit, StartFlow, Case, SwitchRouter } from '../../flowTypes';
-import { Type } from '../../providers/typeConfigs';
+import { Type } from '../../providers/ConfigProvider/typeConfigs';
 import { FormProps } from '../NodeEditor';
 import { Node, AnyAction } from '../../flowTypes';
 import FlowElement from '../form/FlowElement';
 import ComponentMap from '../../services/ComponentMap';
-import { endpointsPT } from '../../providers/propTypes';
-import { ConfigProviderContext } from '../../providers/ConfigProvider';
+import { endpointsPT } from '../../providers/ConfigProvider/propTypes';
+import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
 export interface SubflowRouterFormProps extends FormProps {
     action: AnyAction;

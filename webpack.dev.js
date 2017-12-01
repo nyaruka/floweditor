@@ -3,6 +3,8 @@ const { HotModuleReplacementPlugin, NamedModulesPlugin } = require('webpack');
 const commonConfig = require('./webpack.common');
 const flowEditorConfig = require('./flowEditor.config.dev');
 
+const devServerPort = 9000;
+
 const devConfig = {
     entry: [
         'react-hot-loader/patch',
@@ -13,7 +15,7 @@ const devConfig = {
     devServer: {
         compress: true,
         hot: true,
-        port: 9000,
+        port: devServerPort,
         proxy: {
             '/assets/flows': {
                 bypass: (req, res, proxyOptions) => {
@@ -72,8 +74,11 @@ const devConfig = {
     }
 };
 
-module.exports = smartStrategy({
-    entry: 'prepend',
-    plugins: 'append',
-    'module.rules': 'prepend'
-})(commonConfig, devConfig);
+module.exports = {
+    devServerPort,
+    config: smartStrategy({
+        entry: 'prepend',
+        plugins: 'append',
+        'module.rules': 'prepend'
+    })(commonConfig, devConfig)
+};

@@ -4,12 +4,12 @@ import * as update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
 import urljoin from 'url-join';
 import { findDOMNode } from 'react-dom';
-import { FlowDetails } from '../../providers/external';
+import { FlowDetails } from '../../providers/ConfigProvider/external';
 import { FlowDefinition, Group } from '../../flowTypes';
 import ActivityManager, { Activity } from '../../services/ActivityManager';
 import LogEvent, { EventProps } from './LogEvent';
-import { getFlowPT, endpointsPT } from '../../providers/propTypes';
-import { ConfigProviderContext } from '../../providers/ConfigProvider';
+import { getFlowPT, endpointsPT } from '../../providers/ConfigProvider/propTypes';
+import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
 const styles = require('./Simulator.scss');
 

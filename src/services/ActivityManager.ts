@@ -1,5 +1,5 @@
 import { Exit } from '../flowTypes';
-import { GetActivity } from '../providers/external';
+import { GetActivity } from '../providers/ConfigProvider/external';
 import Counter from '../components/Counter';
 
 // how often we ask the server for new data

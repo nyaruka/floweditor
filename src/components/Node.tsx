@@ -18,8 +18,8 @@ import {
     endpointsPT,
     getTypeConfigPT,
     languagesPT
-} from '../providers/propTypes';
-import { ConfigProviderContext } from '../providers/ConfigProvider';
+} from '../providers/ConfigProvider/propTypes';
+import { ConfigProviderContext } from '../providers/ConfigProvider/configContext';
 
 const FlipMove = require('react-flip-move');
 const shallowCompare = require('react-addons-shallow-compare');

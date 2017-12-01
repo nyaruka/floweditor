@@ -1,9 +1,5 @@
 import * as React from 'react';
 import Select from 'react-select';
-import { FlowDetails, GetFlows } from '../providers/external';
-import { Endpoints } from '../flowTypes';
-import { getFlowsPT, endpointsPT } from '../providers/propTypes';
-import { ConfigProviderContext } from '../providers/ConfigProvider';
 
 export interface FlowListProps {
     onFlowSelect({ uuid }: { uuid: string; name: string }): void;

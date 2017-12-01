@@ -6,11 +6,12 @@ import { shallow } from 'enzyme';
 import { Reply } from '../../flowTypes';
 import ActionComp, { ActionProps } from './Action';
 import { getSpecWrapper } from '../../helpers/utils';
-import EditorConfig from '../../services/EditorConfig';
 import CompMap from '../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../services/Localization';
-import { languages } from 'Config';
 import ReplyComp from '../actions/Reply/Reply';
+import context from '../../providers/ConfigProvider/configContext';
+
+const { languages } = context;
 
 const definition = {
     name: 'Lots of Action',
@@ -60,14 +61,6 @@ const { actions: [replyAction] } = node;
 
 const { uuid, type, text } = replyAction;
 
-const {
-    typeConfigList,
-    operatorConfigList,
-    getTypeConfig,
-    getOperatorConfig,
-    endpoints
-} = new EditorConfig();
-
 const ComponentMap = new CompMap(definition as any);
 
 const Localization: LocalizedObject = LocalizationService.translate(
@@ -77,11 +70,6 @@ const Localization: LocalizedObject = LocalizationService.translate(
 );
 
 const actionProps: ActionProps = {
-    typeConfigList,
-    operatorConfigList,
-    getTypeConfig,
-    getOperatorConfig,
-    endpoints,
     ComponentMap,
     node,
     action: replyAction,
@@ -100,7 +88,10 @@ const actionProps: ActionProps = {
 const ReplyActionShallow = shallow(
     <ActionComp {...actionProps}>
         {(actionDivProps: Reply) => <ReplyComp {...actionDivProps} />}
-    </ActionComp>
+    </ActionComp>,
+    {
+        context
+    }
 );
 
 describe('Component: Reply', () => {

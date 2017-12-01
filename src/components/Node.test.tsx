@@ -6,31 +6,17 @@ import { shallow } from 'enzyme';
 import CompMap from '../services/ComponentMap';
 import Plumber from '../services/Plumber';
 import ActivityManager from '../services/ActivityManager';
-import EditorConfig from '../services/EditorConfig';
-import { languages } from 'Config';
 import Node, { NodeProps } from './Node';
+import context from '../providers/ConfigProvider/configContext';
 
 const {
     results: [{ uuid: flowUUID, definition }]
 } = require('../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
-const {
-    typeConfigList,
-    operatorConfigList,
-    actionConfigList,
-    getTypeConfig,
-    getOperatorConfig,
-    endpoints
-} = new EditorConfig();
 const Activity = new ActivityManager(flowUUID, jest.fn());
 const ComponentMap = new CompMap(definition);
 const props: NodeProps = {
     ComponentMap,
-    typeConfigList,
-    operatorConfigList,
-    getTypeConfig,
-    getOperatorConfig,
-    endpoints,
     iso: 'eng',
     translating: false,
     definition,
@@ -62,7 +48,6 @@ const props: NodeProps = {
     },
     Activity,
     translations: null,
-    languages,
     plumberDraggable: jest.fn(),
     plumberMakeTarget: jest.fn(),
     plumberRemove: jest.fn(),
@@ -71,7 +56,7 @@ const props: NodeProps = {
     plumberConnectExit: jest.fn()
 };
 
-const NodeShallow = shallow(<Node {...props} />);
+const NodeShallow = shallow(<Node {...props} />, { context });
 
 describe('Component: NodeComp', () => {
     it('should render', () => {

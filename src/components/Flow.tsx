@@ -11,7 +11,7 @@ import Plumber from '../services/Plumber';
 import ActivityManager from '../services/ActivityManager';
 import NodeEditorComp, { NodeEditorProps } from './NodeEditor';
 import LanguageSelectorComp, { Language } from './LanguageSelector';
-import { ConfigProviderContext } from '../providers/ConfigProvider';
+import { ConfigProviderContext } from '../providers/ConfigProvider/configContext';
 import {
     typeConfigListPT,
     operatorConfigListPT,
@@ -19,7 +19,7 @@ import {
     getOperatorConfigPT,
     endpointsPT,
     getActivityPT
-} from '../providers/propTypes';
+} from '../providers/ConfigProvider/propTypes';
 
 const styles = require('./Flow.scss');
 

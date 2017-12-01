@@ -1,20 +1,20 @@
-import { AnyAction } from '../flowTypes';
-import { Language } from '../components/LanguageSelector';
-import ChangeGroupComp from '../components/actions/ChangeGroup/ChangeGroup';
-import ChangeGroupForm from '../components/actions/ChangeGroup/ChangeGroupForm';
-import SaveFlowResultComp from '../components/actions/SaveFlowResult/SaveFlowResult';
-import SaveFlowResultForm from '../components/actions/SaveFlowResult/SaveFlowResultForm';
-import SaveToContactComp from '../components/actions/SaveToContact/SaveToContact';
-import SaveToContactForm from '../components/actions/SaveToContact/SaveToContactForm';
-import ReplyComp from '../components/actions/Reply/Reply';
-import ReplyForm from '../components/actions/Reply/ReplyForm';
-import WebhookComp from '../components/actions/Webhook/Webhook';
-import StartFlowComp from '../components/actions/StartFlow/StartFlow';
-import SendEmailComp from '../components/actions/SendEmail/SendEmail';
-import SendEmailForm from '../components/actions/SendEmail/SendEmailForm';
-import SwitchRouterForm from '../components/routers/SwitchRouter';
-import SubflowRouterForm from '../components/routers/SubflowRouter';
-import WebhookRouterForm from '../components/routers/WebhookRouter';
+import { AnyAction } from '../../flowTypes';
+import { Language } from '../../components/LanguageSelector';
+import ChangeGroupComp from '../../components/actions/ChangeGroup/ChangeGroup';
+import ChangeGroupForm from '../../components/actions/ChangeGroup/ChangeGroupForm';
+import SaveFlowResultComp from '../../components/actions/SaveFlowResult/SaveFlowResult';
+import SaveFlowResultForm from '../../components/actions/SaveFlowResult/SaveFlowResultForm';
+import SaveToContactComp from '../../components/actions/SaveToContact/SaveToContact';
+import SaveToContactForm from '../../components/actions/SaveToContact/SaveToContactForm';
+import ReplyComp from '../../components/actions/Reply/Reply';
+import ReplyForm from '../../components/actions/Reply/ReplyForm';
+import WebhookComp from '../../components/actions/Webhook/Webhook';
+import StartFlowComp from '../../components/actions/StartFlow/StartFlow';
+import SendEmailComp from '../../components/actions/SendEmail/SendEmail';
+import SendEmailForm from '../../components/actions/SendEmail/SendEmailForm';
+import SwitchRouterForm from '../../components/routers/SwitchRouter';
+import SubflowRouterForm from '../../components/routers/SubflowRouter';
+import WebhookRouterForm from '../../components/routers/WebhookRouter';
 
 export enum Mode {
     EDITING = 0x1,

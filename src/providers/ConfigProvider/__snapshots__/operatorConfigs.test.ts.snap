@@ -1,0 +1,253 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Providers: ConfigProvider: operatorConfigs should provide operator config 1`] = `
+Array [
+  Object {
+    "operands": 1,
+    "type": "has_any_word",
+    "verboseName": "has any of the words",
+  },
+  Object {
+    "operands": 1,
+    "type": "has_all_words",
+    "verboseName": "has all of the words",
+  },
+  Object {
+    "operands": 1,
+    "type": "has_phrase",
+    "verboseName": "has the phrase",
+  },
+  Object {
+    "operands": 1,
+    "type": "has_only_phrase",
+    "verboseName": "has only the phrase",
+  },
+  Object {
+    "operands": 1,
+    "type": "has_beginning",
+    "verboseName": "starts with",
+  },
+  Object {
+    "operands": 2,
+    "type": "has_number_between",
+    "verboseName": "has a number between",
+  },
+  Object {
+    "operands": 1,
+    "type": "has_number_lt",
+    "verboseName": "has a number below",
+  },
+  Object {
+    "operands": 1,
+    "type": "has_number_lte",
+    "verboseName": "has a number at or below",
+  },
+  Object {
+    "operands": 1,
+    "type": "has_number_eq",
+    "verboseName": "has a number equal to",
+  },
+  Object {
+    "operands": 1,
+    "type": "has_number_gte",
+    "verboseName": "has a number at or above",
+  },
+  Object {
+    "operands": 1,
+    "type": "has_number_gt",
+    "verboseName": "has a number above",
+  },
+  Object {
+    "operands": 0,
+    "type": "has_date",
+    "verboseName": "has a date",
+  },
+  Object {
+    "operands": 1,
+    "type": "has_date_lt",
+    "verboseName": "has a date before",
+  },
+  Object {
+    "operands": 1,
+    "type": "has_date_eq",
+    "verboseName": "has a date equal to",
+  },
+  Object {
+    "operands": 1,
+    "type": "has_date_gt",
+    "verboseName": "has a date after",
+  },
+  Object {
+    "operands": 1,
+    "type": "has_run_status",
+    "verboseName": "has a run status of",
+  },
+  Object {
+    "operands": 1,
+    "type": "has_group",
+    "verboseName": "is in the group",
+  },
+  Object {
+    "categoryName": "Has Text",
+    "operands": 0,
+    "type": "has_text",
+    "verboseName": "has some text",
+  },
+  Object {
+    "categoryName": "Number",
+    "operands": 0,
+    "type": "has_number",
+    "verboseName": "has a number",
+  },
+  Object {
+    "categoryName": "Phone",
+    "operands": 0,
+    "type": "has_phone",
+    "verboseName": "has a phone number",
+  },
+  Object {
+    "categoryName": "Email",
+    "operands": 0,
+    "type": "has_email",
+    "verboseName": "has an email",
+  },
+  Object {
+    "categoryName": "Error",
+    "operands": 0,
+    "type": "has_error",
+    "verboseName": "has an error",
+  },
+  Object {
+    "categoryName": "Not Empty",
+    "operands": 0,
+    "type": "has_value",
+    "verboseName": "is not empty",
+  },
+]
+`;
+
+exports[`Providers: ConfigProvider: operatorConfigs should provide operator config 2`] = `
+Object {
+  "has_all_words": Object {
+    "operands": 1,
+    "type": "has_all_words",
+    "verboseName": "has all of the words",
+  },
+  "has_any_word": Object {
+    "operands": 1,
+    "type": "has_any_word",
+    "verboseName": "has any of the words",
+  },
+  "has_beginning": Object {
+    "operands": 1,
+    "type": "has_beginning",
+    "verboseName": "starts with",
+  },
+  "has_date": Object {
+    "operands": 0,
+    "type": "has_date",
+    "verboseName": "has a date",
+  },
+  "has_date_eq": Object {
+    "operands": 1,
+    "type": "has_date_eq",
+    "verboseName": "has a date equal to",
+  },
+  "has_date_gt": Object {
+    "operands": 1,
+    "type": "has_date_gt",
+    "verboseName": "has a date after",
+  },
+  "has_date_lt": Object {
+    "operands": 1,
+    "type": "has_date_lt",
+    "verboseName": "has a date before",
+  },
+  "has_email": Object {
+    "categoryName": "Email",
+    "operands": 0,
+    "type": "has_email",
+    "verboseName": "has an email",
+  },
+  "has_error": Object {
+    "categoryName": "Error",
+    "operands": 0,
+    "type": "has_error",
+    "verboseName": "has an error",
+  },
+  "has_group": Object {
+    "operands": 1,
+    "type": "has_group",
+    "verboseName": "is in the group",
+  },
+  "has_number": Object {
+    "categoryName": "Number",
+    "operands": 0,
+    "type": "has_number",
+    "verboseName": "has a number",
+  },
+  "has_number_between": Object {
+    "operands": 2,
+    "type": "has_number_between",
+    "verboseName": "has a number between",
+  },
+  "has_number_eq": Object {
+    "operands": 1,
+    "type": "has_number_eq",
+    "verboseName": "has a number equal to",
+  },
+  "has_number_gt": Object {
+    "operands": 1,
+    "type": "has_number_gt",
+    "verboseName": "has a number above",
+  },
+  "has_number_gte": Object {
+    "operands": 1,
+    "type": "has_number_gte",
+    "verboseName": "has a number at or above",
+  },
+  "has_number_lt": Object {
+    "operands": 1,
+    "type": "has_number_lt",
+    "verboseName": "has a number below",
+  },
+  "has_number_lte": Object {
+    "operands": 1,
+    "type": "has_number_lte",
+    "verboseName": "has a number at or below",
+  },
+  "has_only_phrase": Object {
+    "operands": 1,
+    "type": "has_only_phrase",
+    "verboseName": "has only the phrase",
+  },
+  "has_phone": Object {
+    "categoryName": "Phone",
+    "operands": 0,
+    "type": "has_phone",
+    "verboseName": "has a phone number",
+  },
+  "has_phrase": Object {
+    "operands": 1,
+    "type": "has_phrase",
+    "verboseName": "has the phrase",
+  },
+  "has_run_status": Object {
+    "operands": 1,
+    "type": "has_run_status",
+    "verboseName": "has a run status of",
+  },
+  "has_text": Object {
+    "categoryName": "Has Text",
+    "operands": 0,
+    "type": "has_text",
+    "verboseName": "has some text",
+  },
+  "has_value": Object {
+    "categoryName": "Not Empty",
+    "operands": 0,
+    "type": "has_value",
+    "verboseName": "is not empty",
+  },
+}
+`;

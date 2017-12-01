@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Select from 'react-select';
-import { Operator } from '../../providers/operatorConfigs';
+import { Operator } from '../../providers/ConfigProvider/operatorConfigs';
 import { CaseProps } from '../routers/SwitchRouter';
 import ComponentMap from '../../services/ComponentMap';
 import FormElement from './FormElement';
 import TextInputElement, { HTMLTextElement } from './TextInputElement';
-import { operatorConfigListPT, getOperatorConfigPT } from '../../providers/propTypes';
-import { ConfigProviderContext } from '../../providers/ConfigProvider';
+import { operatorConfigListPT, getOperatorConfigPT } from '../../providers/ConfigProvider/propTypes';
+import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
 const forms = require('./FormElement.scss');
 const styles = require('./CaseElement.scss');

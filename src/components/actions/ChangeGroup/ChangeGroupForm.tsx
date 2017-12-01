@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { ChangeGroup, Endpoints } from '../../../flowTypes';
-import { Type } from '../../../providers/typeConfigs';
+import { Type } from '../../../providers/ConfigProvider/typeConfigs';
 import ComponentMap from '../../../services/ComponentMap';
 import GroupElement from '../../form/GroupElement';
-import { endpointsPT } from '../../../providers/propTypes';
-import { ConfigProviderContext } from '../../../providers/ConfigProvider';
+import { endpointsPT } from '../../../providers/ConfigProvider/propTypes';
+import { ConfigProviderContext } from '../../../providers/ConfigProvider/configContext';
 
 export interface ChangeGroupFormProps {
     action: ChangeGroup;

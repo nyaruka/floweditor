@@ -10,8 +10,8 @@ import {
     getTypeConfigPT,
     getOperatorConfigPT,
     endpointsPT
-} from '../../providers/propTypes';
-import { ConfigProviderContext } from '../../providers/ConfigProvider';
+} from '../../providers/ConfigProvider/propTypes';
+import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
 const shared = require('../shared.scss');
 const styles = require('./Action.scss');

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SendEmail } from '../../../flowTypes';
-import { Type } from '../../../providers/typeConfigs';
+import { Type } from '../../../providers/ConfigProvider/typeConfigs';
 import { FormProps } from '../../NodeEditor';
 import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement from '../../form/TextInputElement';

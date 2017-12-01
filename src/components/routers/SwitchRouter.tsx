@@ -4,15 +4,15 @@ import * as update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
 // import { DragDropContext } from 'react-dnd';
 import { Node, SwitchRouter, Exit, Case, AnyAction } from '../../flowTypes';
-import { Type } from '../../providers/typeConfigs';
+import { Type } from '../../providers/ConfigProvider/typeConfigs';
 import { FormProps } from '../NodeEditor';
 import ComponentMap from '../../services/ComponentMap';
 import { Language } from '../LanguageSelector';
 import { LocalizedObject } from '../../services/Localization';
 import CaseElement from '../form/CaseElement';
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
-import { getOperatorConfigPT } from '../../providers/propTypes';
-import { ConfigProviderContext } from '../../providers/ConfigProvider';
+import { getOperatorConfigPT } from '../../providers/ConfigProvider/propTypes';
+import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
 // const HTML5Backend = require('react-dnd-html5-backend');
 const styles = require('./SwitchRouter.scss');

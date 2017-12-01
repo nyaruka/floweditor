@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Select from 'react-select';
-import { Type } from '../../providers/typeConfigs';
-import { typeConfigListPT } from '../../providers/propTypes';
-import { ConfigProviderContext } from '../../providers/ConfigProvider';
+import { Type } from '../../providers/ConfigProvider/typeConfigs';
+import { typeConfigListPT } from '../../providers/ConfigProvider/propTypes';
+import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
 const formStyles = require('./NodeEditor.scss');
 

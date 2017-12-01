@@ -1,12 +1,11 @@
 import * as React from 'react';
 import '../enzymeAdapter';
 import { shallow } from 'enzyme';
-import Editor, { EditorProps } from './Editor';
+import Editor from './Editor';
 import Flow from './Flow';
-import EditorConfig from '../services/EditorConfig';
 import ComponentMap from '../services/ComponentMap';
 import FlowMutator from '../services/FlowMutator';
-import External from '../services/External';
+import context from '../providers/ConfigProvider/configContext';
 import { getSpecWrapper } from '../helpers/utils';
 
 const { results } = require('../../assets/flows.json');
@@ -14,26 +13,8 @@ const {
     results: [{ definition }]
 } = require('../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
-const props: EditorProps = {
-    flowUUID: results[0].uuid,
-    EditorConfig: new EditorConfig(),
-    External: {
-        getFlow: jest.fn(
-            () =>
-                new Promise((resolve, reject) =>
-                    process.nextTick(() =>
-                        resolve({
-                            definition
-                        })
-                    )
-                )
-        ),
-        getFlows: jest.fn(
-            () => new Promise((resolve, reject) => process.nextTick(() => resolve({ results })))
-        )
-    } as any
-};
-const EditorComp = shallow(<Editor {...props} />);
+const { baseLanguage, languages } = context;
+const EditorComp = shallow(<Editor />, { context }) as any;
 const CompMap = new ComponentMap(definition);
 const Mutator = new FlowMutator(
     CompMap,
@@ -43,24 +24,24 @@ const Mutator = new FlowMutator(
 );
 
 const languageSelectorExpectedProps = {
-    languages: props.EditorConfig.languages,
-    iso: props.EditorConfig.baseLanguage.iso,
+    languages,
+    iso: baseLanguage.iso,
     onChange: EditorComp.instance().setLanguage
 };
 
 describe('Component: Editor', () => {
-    it('Renders itself, children', () => {
+    it('should render itself, children', () => {
         expect(getSpecWrapper(EditorComp, 'editor-container').exists()).toBeTruthy();
         expect(getSpecWrapper(EditorComp, 'editor').hasClass('editor')).toBeTruthy();
         expect(EditorComp.find('FlowList').props()).toEqual({
-            EditorConfig: props.EditorConfig,
-            External: props.External,
-            onFlowSelect: EditorComp.instance().onFlowSelect
+            onFlowSelect: EditorComp.instance().onFlowSelect,
+            flow: null,
+            flows: []
         });
         expect(EditorComp.find('LanguageSelectorComp').props()).toEqual(
             languageSelectorExpectedProps
         );
-        expect(EditorComp.state('language')).toBe(props.EditorConfig.baseLanguage);
+        expect(EditorComp.state('language')).toBe(baseLanguage);
     });
 
     it('Renders a Flow', () => {
@@ -72,14 +53,14 @@ describe('Component: Editor', () => {
         expect(EditorComp.find('Flow').exists()).toBeTruthy();
     });
 
-    it('Applies translating style when the user selects a language other than base', () => {
+    it('should apply translating style when the user selects a language other than base', () => {
         const language = { iso: 'spa', name: 'Spanish' };
 
         EditorComp.setState({
             language,
             translating:
-                props.EditorConfig.baseLanguage.iso !== language.iso &&
-                props.EditorConfig.baseLanguage.name !== language.name
+                baseLanguage.iso !== language.iso &&
+                baseLanguage.name !== language.name
         });
 
         expect(EditorComp.state('language')).toEqual(language);

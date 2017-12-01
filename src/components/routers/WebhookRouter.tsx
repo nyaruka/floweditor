@@ -3,7 +3,7 @@ import * as update from 'immutability-helper';
 import * as FlipMove from 'react-flip-move';
 import { v4 as generateUUID } from 'uuid';
 import { CallWebhook, Case, Exit, Router, SwitchRouter, Node, AnyAction } from '../../flowTypes';
-import { Type } from '../../providers/typeConfigs';
+import { Type } from '../../providers/ConfigProvider/typeConfigs';
 import { SwitchRouterState } from './SwitchRouter';
 import { FormProps } from '../NodeEditor';
 import SelectElement from '../form/SelectElement';
