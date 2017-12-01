@@ -1,3 +1,8 @@
+/**
+ * Composes context provided by ConfigProvider
+ * Draws from flowEditor.config.*.js in app root
+ */
+
 import { flow, endpoints, languages } from 'Config';
 import {
     Type,

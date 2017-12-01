@@ -8,8 +8,6 @@ import 'react-select/dist/react-select.css';
 import '../fonts/flows/style.css';
 import './global.scss';
 
-const flowEditorConfig = require('Config');
-
 const root = document.getElementById('flow-editor');
 
 // if (__flow_editor_config__.hasOwnProperty('path')) {
@@ -19,7 +17,7 @@ const root = document.getElementById('flow-editor');
 const renderHot = (App: React.ComponentClass) =>
     render(
         <HotContainer>
-            <ConfigProvider flowEditorConfig={flowEditorConfig}>
+            <ConfigProvider>
                 <App />
             </ConfigProvider>
         </HotContainer>,
