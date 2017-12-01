@@ -57,13 +57,13 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
     private getButtons(): { leftButtons: JSX.Element[]; rightButtons: JSX.Element[] } {
         /** No matter what, we'll have a primary button */
         const rightButtons: JSX.Element[] = [
-            <Button key={uniqid()} {...this.props.buttons.primary} type="primary" />
+            <Button key={uniqid()} {...this.props.buttons.secondary} type="secondary" />
         ];
         const leftButtons: JSX.Element[] = [];
 
         if (this.props.buttons.secondary) {
             rightButtons.push(
-                <Button key={uniqid()} {...this.props.buttons.secondary} type="secondary" />
+                <Button key={uniqid()} {...this.props.buttons.primary} type="primary" />
             );
         }
 
