@@ -29,12 +29,13 @@ afterAll(() => nock.cleanAll());
 describe('Providers: external', () => {
     describe('getFlow', () => {
         it('should get a flow', () => {
-            getFlow(flowUUID, false)
-                .then(response => expect(response).toEqual(getFlowResp));
+            getFlow(flowUUID, false).then(response => expect(response).toEqual(getFlowResp));
         });
-    })
+    });
 
     describe('getFlows', () => {
-        getFlows().then(response => expect(response).toEqual(getFlowsResp));
-    })
+        it('should fetch a list of flows', () => {
+            getFlows().then(response => expect(response).toEqual(getFlowsResp));
+        });
+    });
 });
