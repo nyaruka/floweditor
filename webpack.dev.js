@@ -1,6 +1,9 @@
 const { smartStrategy } = require('webpack-merge');
 const { HotModuleReplacementPlugin, NamedModulesPlugin } = require('webpack');
 const commonConfig = require('./webpack.common');
+const flowEditorConfig = require('./flowEditor.config.dev');
+
+const devServerPort = 9000;
 
 const devConfig = {
     entry: [
@@ -12,12 +15,12 @@ const devConfig = {
     devServer: {
         compress: true,
         hot: true,
-        port: 9000,
+        port: devServerPort,
         proxy: {
             '/assets/flows': {
                 bypass: (req, res, proxyOptions) => {
                     const { query: { uuid } } = req;
-                    if (uuid != null) {
+                    if (uuid) {
                         return `/test_flows/${uuid}.json`;
                     }
                     return req.originalUrl;
@@ -65,11 +68,17 @@ const devConfig = {
                 use: ['react-hot-loader/webpack']
             }
         ]
+    },
+    externals: {
+        Config: JSON.stringify(flowEditorConfig)
     }
 };
 
-module.exports = smartStrategy({
-    entry: 'prepend',
-    plugins: 'append',
-    'module.rules': 'prepend'
-})(commonConfig, devConfig);
+module.exports = {
+    devServerPort,
+    config: smartStrategy({
+        entry: 'prepend',
+        plugins: 'append',
+        'module.rules': 'prepend'
+    })(commonConfig, devConfig)
+};

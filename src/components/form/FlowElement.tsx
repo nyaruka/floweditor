@@ -1,13 +1,12 @@
-import * as React from "react";
-import * as UUID from 'uuid';
+import * as React from 'react';
+import UUID from 'uuid';
+import Select from 'react-select';
+import { SearchResult } from '../../services/ComponentMap';
+import FormElement, { FormElementProps } from './FormElement';
+import SelectSearch from '../SelectSearch';
+import { getSelectClass } from '../../helpers/utils';
 
-import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormValueState } from './FormWidget';
-import { SearchResult } from '../ComponentMap';
-import { SelectSearch } from '../SelectSearch';
-
-var Select = require('react-select');
-var styles = require("./FormElement.scss");
+const styles = require('./FormElement.scss');
 
 interface FlowElementProps extends FormElementProps {
     flow_name: string;
@@ -16,67 +15,62 @@ interface FlowElementProps extends FormElementProps {
     placeholder?: string;
 }
 
-interface FlowState extends FormValueState {
+interface FlowState {
     flow: SearchResult;
+    errors: string[];
 }
 
-export class FlowElement extends FormWidget<FlowElementProps, FlowState> {
-
+export default class FlowElement extends React.Component<FlowElementProps, FlowState> {
     constructor(props: any) {
         super(props);
 
-        var flow: SearchResult = null;
+        let flow: SearchResult = null;
+
         if (this.props.flow_uuid) {
             flow = {
                 name: this.props.flow_name,
                 id: this.props.flow_uuid,
-                type: "flow"
-            }
+                type: 'flow'
+            };
         }
 
         this.state = {
-            flow: flow,
+            flow,
             errors: []
-        }
+        };
 
         this.onChange = this.onChange.bind(this);
     }
 
-    onChange(selected: any) {
+    onChange([flow]: any) {
         this.setState({
-            flow: selected[0]
+            flow
         });
     }
 
     validate(): boolean {
-        var errors: string[] = []
+        const errors: string[] = [];
+
         if (this.props.required) {
             if (!this.state.flow) {
-                errors.push(this.props.name + " is required");
+                errors.push(`${this.props.name} is required`);
             }
         }
 
         this.setState({ errors: errors });
-        return errors.length == 0;
+
+        return errors.length === 0;
     }
 
     render() {
+        let createOptions = {};
 
-        var isValidNewOption = null;
-        var createNewOption = null;
-        var createPrompt = null;
-        var createOptions = {};
-
-        var classes = [];
-        if (this.state.errors.length > 0) {
-            // we use a global selector here for react-select
-            classes.push("select-invalid");
-        }
+        const classes: string[] = getSelectClass(this.state.errors.length);
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <SelectSearch
-                    className={classes.join(" ")}
+                    className={classes.join(' ')}
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
@@ -87,6 +81,6 @@ export class FlowElement extends FormWidget<FlowElementProps, FlowState> {
                     {...createOptions}
                 />
             </FormElement>
-        )
+        );
     }
 }

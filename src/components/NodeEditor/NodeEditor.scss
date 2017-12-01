@@ -1,0 +1,71 @@
+@import '../../variables.scss';
+
+$inner_spacing: 15px;
+.title {
+    font-weight: 400;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.instructions {
+    padding-bottom: 12px;
+}
+
+.intro {
+    padding-bottom:10px;
+}
+
+.node_editor {
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-right: 20px;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 15px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.type_chooser {
+    margin-bottom: $inner_spacing;
+}
+
+.advanced {
+    background: #fefefe;
+}
+
+.header {
+    margin-bottom: $inner_spacing;
+}
+
+.translating_exits {
+    clear: both;
+}
+
+.translating_exit {
+    clear: both;
+    margin-bottom: 6px;
+}
+
+.translating_from {
+    clear: both;
+    background: $translation_bg;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 9px;
+    border: 2px solid $translation_bg - #111;
+    display: inline-block;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0px;
+    margin-right: 10px;
+}
+
+.translating_to {
+    display: inline-block;
+    overflow: hidden;
+    width: 346px;
+}

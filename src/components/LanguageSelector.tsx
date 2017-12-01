@@ -1,43 +1,50 @@
-import * as React from "react";
-import { Config } from "../services/Config";
-var Select = require("react-select");
-var styles = require("./LanguageSelector.scss")
+import * as React from 'react';
+import Select from 'react-select';
+import { Languages } from '../flowTypes';
+
+const styles = require('./LanguageSelector.scss');
 
 export interface Language {
     name: string;
     iso: string;
 }
 
-interface LanguageSelectorProps {
+export interface LanguageSelectorProps {
     iso: string;
+    languages: Languages;
     onChange(language: Language): void;
 }
 
-export class LanguageSelectorComp extends React.PureComponent<LanguageSelectorProps, {}> {
+export default class LanguageSelectorComp extends React.PureComponent<LanguageSelectorProps, {}> {
     private options: Language[] = [];
 
     constructor(props: LanguageSelectorProps) {
         super(props);
-        const languages = Config.get().languages;
-        /** Config stores languages as shape { iso, name } */
-        Object.keys(languages).forEach(iso => {
-            const name = languages[iso]; 
-            this.options = [...this.options, { name, iso }]; 
-        }); 
+
+        this.options = Object.keys(this.props.languages).map(iso => {
+            const name = this.props.languages[iso];
+            return {
+                name,
+                iso
+            };
+        });
     }
 
     render() {
         return (
-            <div className={styles.ele + " select-small"}>
+            <div className={`${styles.ele} select-small`}>
                 <Select
+                    /** Flow */
                     value={this.props.iso}
                     onChange={this.props.onChange}
+                    /** LanguageSelector */
                     valueKey="iso"
                     labelKey="name"
                     searchable={false}
                     clearable={false}
                     options={this.options}
                 />
-            </div>)
+            </div>
+        );
     }
 }

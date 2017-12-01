@@ -6,8 +6,8 @@ import { FlowMutator } from '../src/components/FlowMutator';
 import { FlowDefinition } from '../src/FlowDefinition';
 import { getFavorites } from './utils';
 
-describe.skip('SaveToContact', () => {
-    it('should render', () => {}); 
+xdescribe('SaveToContact', () => {
+    it('should render', () => {});
     // let definition: FlowDefinition;
     // let mutator: FlowMutator;
 
@@ -47,5 +47,5 @@ describe.skip('SaveToContact', () => {
         // action.renderForm();
         // console.log(element.key, element.props, element.type);
         // chai.assert.isNotNull();
-    });
+    // });
 });

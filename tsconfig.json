@@ -11,16 +11,10 @@
     "target": "es5",
     "allowJs": true,
     "watch": true,
+    "alwaysStrict": true,
     "allowSyntheticDefaultImports": true,
-    "lib": [
-      "es2015",
-      "dom"
-    ]
+    "lib": ["es2015", "dom"]
   },
-  "include": [
-    "./src/**/*.ts*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["./src/**/*.ts*"],
+  "exclude": ["node_modules", "__mocks__", "./src/**/*.test.ts*"]
 }

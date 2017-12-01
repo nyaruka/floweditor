@@ -1,8 +1,10 @@
-node_modules
-dist
+node_modules/
+dist/
 .vscode/
 .DS_Store
 *scss\.d\.ts
-coverage
+coverage/
 scratch.tsx
-
+.awcache
+stats.json
+report.html

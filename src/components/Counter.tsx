@@ -1,29 +1,29 @@
 import * as React from 'react';
-import * as UUID from 'uuid';
+import { v4 as generateUUID } from 'uuid';
 
-import { addCommas } from '../utils';
+import { addCommas } from '../helpers/utils';
 
 const styles = require('./Counter.scss');
 
-export interface CounterProps {
+export interface ICounterProps {
     containerStyle: string;
     countStyle: string;
     getCount(): number;
     onUnmount(key: string): void;
 }
 
-export interface CounterState {
+export interface ICounterState {
     count: number;
 }
 
-export class CounterComp extends React.Component<CounterProps, CounterState> {
+export default class Counter extends React.Component<ICounterProps, ICounterState> {
     private key: string;
 
-    constructor(props: CounterProps) {
+    constructor(props: ICounterProps) {
         super(props);
-        this.key = UUID.v4();
-        this.getKey = this.getKey.bind(this); 
-        this.requestUpdate = this.requestUpdate.bind(this); 
+        this.key = generateUUID();
+        this.getKey = this.getKey.bind(this);
+        this.requestUpdate = this.requestUpdate.bind(this);
     }
 
     componentDidMount() {
@@ -56,10 +56,8 @@ export class CounterComp extends React.Component<CounterProps, CounterState> {
                 <div
                     className={styles.counter + ' ' + this.props.containerStyle}
                     onClick={this.handleClick}
-                    data-spec='counter-outter'>
-                    <div
-                        className={this.props.countStyle}
-                        data-spec='counter-inner'>
+                    data-spec="counter-outter">
+                    <div className={this.props.countStyle} data-spec="counter-inner">
                         {count}
                     </div>
                 </div>

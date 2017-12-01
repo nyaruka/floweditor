@@ -1,10 +1,10 @@
 import * as update from 'immutability-helper';
 import * as UUID from 'uuid';
-import { FlowMutator } from '../src/components/FlowMutator';
-import { FlowDefinition, Case, SwitchRouter, Exit, Node } from '../src/FlowDefinition';
-import { getFavorites, dump } from './utils';
-import { Config } from "../src/services/Config";
-import { CaseProps, resolveExits, CombinedExits } from "../src/components/routers/SwitchRouter";
+import FlowMutator from '../src/services/FlowMutator';
+import { FlowDefinition, Case, SwitchRouter, Exit, LocalizationMap } from '../src/flowTypes';
+import { getFavorites, dump } from '../src/helpers/utils';
+import EditorConfig from "../src/services/EditorConfig";
+import { CaseProps, resolveExits, ICombinedExits } from "../src/components/routers/SwitchRouter";
 
 xdescribe('SwitchRouter', () => {
     let definition: FlowDefinition;

@@ -1,0 +1,272 @@
+@import "../../variables.scss";
+
+.simulator.sim_hidden {
+    right: -300px;
+    transition: right 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
+    transition-delay: 100ms;
+}
+
+.simulator {
+    input {
+        &:focus {
+            outline-color: transparent;
+            outline-style: none;
+        }
+        &::-webkit-input-placeholder {
+            color: $placeholder_color;
+        }
+        &::-moz-placeholder {
+            color: $placeholder_color;
+        }
+        &:-ms-input-placeholder {
+            color: $placeholder_color;
+        }
+        &:-moz-placeholder {
+            color: $placeholder_color;
+        }
+    }
+    input:disabled {
+        background: #e6e6e6 + #111;
+        cursor: not-allowed;
+        $disabled_color: $placeholder_color - #111;
+        &::-webkit-input-placeholder {
+            color: $disabled_color;
+        }
+        &::-moz-placeholder {
+            color: $disabled_color;
+        }
+        &:-ms-input-placeholder {
+            color: $disabled_color;
+        }
+        &:-moz-placeholder {
+            color: $disabled_color;
+        }
+    }
+    right: -15px;
+    top: 80px;
+    transform: scale(.8);
+    position: fixed;
+    height: 600px;
+    width: 304px;
+    z-index: $z_simulator;
+    transition: right 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
+    transition-delay: 100ms;
+    .reset {
+        $button: #ddd;
+        $reset_color: #fff;
+        background-color: $button;
+        border: 3px solid $button - #333;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        width: 75px;
+        height: 25px;
+        position: absolute;
+        bottom: 17px;
+        left: 113px;
+        &:hover {
+            background-color: $button - #555;
+            border-color: $button - #888;
+        }
+        &:active {
+            background-color: $button - #777;
+            border-color: $button - #888;
+        }
+        &.inactive {
+            border-color: $reset_color;
+            background-color: $button;
+        }
+    }
+    .screen {
+        top: 46px;
+        height: 494px;
+        background-color: #fff;
+        position: relative;
+        margin: 0px 18px;
+        .messages {
+            max-height: 454px;
+            padding: 10px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            font-weight: 300;
+            position: relative;
+        }
+        .controls {
+            background: $light_grey;
+            position: absolute;
+            border: 0px solid yellow;
+            bottom: 0px;
+            width: 100%;
+            padding: 5px 10px;
+            input {
+                font-size: 14px;
+                font-weight: 300;
+                width: 100%;
+                padding: 5px;
+            }
+        }
+    }
+    .icon_close {
+        font-size: 25px;
+        width: 25px;
+        height: 25px;
+        right: 20px;
+        top: 10px;
+        position: absolute;
+        color: #bbb;
+        cursor: pointer;
+        &:hover {
+            color: #fff;
+        }
+    }
+    .icon_simulator {
+        font-size: 600px;
+        color: #333;
+        border: 0px solid green;
+        position: absolute;
+        right: 0;
+        top: 0;
+        pointer-events: none; // text-shadow: 0px 0px 5px $grey;
+    }
+}
+
+.simulator_tab.tab_hidden,
+.simulator_tab:hover.tab_hidden {
+    right: -110px;
+    transition: right 100ms;
+}
+
+.simulator_tab {
+    background-color: #2db379;
+    width: 110px;
+    height: 50px;
+    position: fixed;
+    right: -80px;
+    top: 220px;
+    cursor: pointer;
+    z-index: $z_simulator;
+    transition: right 200ms, opacity 300ms;
+    transition-delay: 300ms;
+    .simulator_tab_icon {
+        position: absolute;
+        font-size: 35px;
+        color: white;
+        padding: 8px 6px;
+    }
+    .simulator_tab_text {
+        position: absolute;
+        left: 35px;
+        top: 12px;
+        color: white;
+        opacity: .01;
+        font-weight: 400;
+        transition: opacity 500ms;
+        transition-delay: 1000ms;
+    }
+}
+
+.simulator_tab:hover {
+    right: -10px;
+    transition: right 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    .simulator_tab_text {
+        opacity: .99;
+        transition: opacity 500ms;
+    }
+}
+
+.evt {
+    clear: both;
+    margin-bottom: 8px;
+}
+
+.msg_received {
+    padding: 8px 15px;
+    background: $light_grey;
+    border: 1px solid $light_grey + #111;
+    border-radius: 15px;
+    margin-right: 24px;
+    font-size: 120%;
+    color: #333;
+}
+
+.send_msg {
+    padding: 8px 15px;
+    text-align: right;
+    background: #2095FE;
+    border: 1px solid #2095FE + #111;
+    border-radius: 15px;
+    margin-left: 24px;
+    color: #fff;
+    font-size: 120%;
+}
+
+.error {
+    float: inherit;
+    background: none;
+    color: $red;
+    font-size: 13px;
+    border: none;
+    text-align: center;
+}
+
+.info {
+    border: none;
+    text-align: center;
+    color: #bbb;
+}
+
+.webhook {
+    word-break: break-all;
+    text-decoration: underline;
+    &:hover {
+        color: #999;
+    }
+}
+
+.webhook_details {
+    unicode-bidi: embed;
+    font-family: monospace; // white-space: pre-wrap;
+    overflow-y: auto;
+    max-height: 500px;
+    padding: 16px;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+     ::first-line {
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+    }
+    .response {
+        padding-top: 20px;
+    }
+}
+
+.event_viewer {
+    pre {
+        height: 400px;
+        white-space: pre-wrap;
+        /* css-3 */
+        white-space: -moz-pre-wrap;
+        /* Mozilla, since 1999 */
+        white-space: -pre-wrap;
+        /* Opera 4-6 */
+        white-space: -o-pre-wrap;
+        /* Opera 7 */
+        word-wrap: break-word;
+        border: none;
+        border-radius: none;
+        background-color: white;
+    }
+}
+
+.has_detail {
+    cursor: pointer;
+}
+
+.detail_webhook_called {
+    background: $orange;
+}

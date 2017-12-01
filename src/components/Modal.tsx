@@ -1,12 +1,12 @@
 import * as React from 'react';
-import * as UUID from 'uuid';
 import * as ReactModal from 'react-modal';
+import { Node, Case, SwitchRouter } from '../flowTypes';
+import Button, { ButtonProps } from './Button';
 
-import { Button, ButtonProps } from './Button';
-import { Config } from '../services/Config';
+const uniqid = require('uniqid');
 
-var styles = require('./Modal.scss');
-var shared = require('./shared.scss');
+const styles = require('./Modal.scss');
+const shared = require('./shared.scss');
 
 export interface ButtonSet {
     primary: ButtonProps;
@@ -14,10 +14,10 @@ export interface ButtonSet {
     tertiary?: ButtonProps;
 }
 
-interface ModalProps {
+export interface ModalProps {
     show: boolean;
     buttons: ButtonSet;
-
+    node?: Node;
     advanced?: JSX.Element;
     onModalOpen?: any;
     className?: string;
@@ -26,34 +26,143 @@ interface ModalProps {
 }
 
 interface ModalState {
-    flipped: boolean
+    flipped: boolean;
 }
 
-/**
- * A base modal for displaying messages or performing single button actions
- */
-export class Modal extends React.Component<ModalProps, ModalState> {
+/** A base modal for displaying messages or performing single button actions */
+class Modal extends React.PureComponent<ModalProps, ModalState> {
+    private children: React.ReactChild[];
+    private hasAdvanced: boolean;
 
     constructor(props: ModalProps) {
         super(props);
-        this.toggleFlip = this.toggleFlip.bind(this);
+
         this.state = {
             flipped: false
-        }
+        };
+
+        this.toggleFlip = this.toggleFlip.bind(this);
     }
 
-    public toggleFlip() {
+    public toggleFlip(): void {
         this.setState({ flipped: !this.state.flipped });
     }
 
-    componentWillReceiveProps(nextProps: ModalProps) {
-        if (this.props.show != nextProps.show && !nextProps.show) {
+    public componentWillReceiveProps(nextProps: ModalProps): void {
+        if (this.props.show !== nextProps.show && !nextProps.show) {
             this.setState({ flipped: false });
         }
     }
 
+    private getButtons(): { leftButtons: JSX.Element[]; rightButtons: JSX.Element[] } {
+        /** No matter what, we'll have a primary button */
+        const rightButtons: JSX.Element[] = [
+            <Button key={uniqid()} {...this.props.buttons.primary} type="primary" />
+        ];
+        const leftButtons: JSX.Element[] = [];
+
+        if (this.props.buttons.secondary) {
+            rightButtons.push(
+                <Button key={uniqid()} {...this.props.buttons.secondary} type="secondary" />
+            );
+        }
+
+        /** Our left most button if we have one */
+        if (this.props.buttons.tertiary) {
+            leftButtons.push(
+                <Button key={uniqid()} {...this.props.buttons.tertiary} type="tertiary" />
+            );
+        }
+
+        return {
+            leftButtons,
+            rightButtons
+        };
+    }
+
+    private getTopStyle(): string {
+        let topStyle = styles.container;
+
+        if (this.state.flipped) {
+            topStyle += ` ${styles.flipped}`;
+        }
+
+        return topStyle;
+    }
+
+    private mapSides(): JSX.Element[] {
+        const children = React.Children.toArray(this.props.children);
+        const hasAdvanced = children.length > 1;
+        const { leftButtons, rightButtons } = this.getButtons();
+
+        return children.map((child: React.ReactChild, childIdx: number) => {
+            const classes = [styles.side];
+            let title = this.props.title[childIdx];
+
+            if (childIdx === 0) {
+                classes.push(styles.front);
+            } else {
+                title = (
+                    <div>
+                        <div className={`${styles.background} icon-settings`} />
+                        <div style={{ marginLeft: '40px' }}>{title}</div>
+                    </div>
+                );
+                classes.push(styles.back);
+            }
+
+            let flip: JSX.Element;
+
+            if (hasAdvanced) {
+                /** Don't show advanced settings for SwitchRouter unless we have cases to translate */
+                let cases: Case[];
+
+                if (this.props.node && this.props.node.router) {
+                    ({ cases } = this.props.node.router as SwitchRouter);
+                }
+
+                if (childIdx === 0) {
+                    if (cases && !cases.length) {
+                        flip = null;
+                    } else {
+                        flip = (
+                            <div className={styles.show_back} onClick={this.toggleFlip}>
+                                <span className="icon-settings" />
+                            </div>
+                        );
+                    }
+                } else {
+                    flip = (
+                        <div className={styles.show_front} onClick={this.toggleFlip}>
+                            <span className="icon-back" />
+                        </div>
+                    );
+                }
+            }
+
+            return (
+                <div key={`modal_side_${childIdx}`} className={classes.join(' ')}>
+                    <div className={styles.modal}>
+                        <div
+                            className={`${styles.header} ${this.props.className} ${
+                                shared[`modal_side_${childIdx}`]
+                            }`}>
+                            {flip}
+                            {title}
+                        </div>
+                        <div className={styles.content}>{child}</div>
+                        <div className={styles.footer}>
+                            <div className={styles.left}>{leftButtons}</div>
+                            <div className={styles.right}>{rightButtons}</div>
+                        </div>
+                    </div>
+                </div>
+            );
+        });
+    }
+
     render() {
-        var customStyles = {
+        const customStyles = {
             content: {
                 marginLeft: 'auto',
                 marginRight: 'auto',
@@ -62,94 +171,26 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 padding: 'none',
                 borderRadius: 'none',
                 outline: 'none',
-                width: this.props.width ? this.props.width : "700px",
+                width: this.props.width ? this.props.width : '700px',
                 border: 'none'
             }
-        }
-
-        var rightButtons: JSX.Element[] = [];
-        var leftButtons: JSX.Element[] = [];
-
-        var buttons = this.props.buttons;
-
-        if (buttons.secondary) {
-            rightButtons.push(<Button key={Math.random()} {...buttons.secondary} type="secondary" />);
-        }
-
-        // no matter what, we'll have a primary button
-        rightButtons.push(<Button key={Math.random()} {...buttons.primary} type="primary" />);
-
-        // our left most button if we have one
-        if (buttons.tertiary) {
-            leftButtons.push(<Button key={Math.random()} {...buttons.tertiary} type="tertiary" />);
-        }
-
-        // closeTimeoutMS={200}
-
-        var topStyle = styles.container;
-        if (this.state.flipped) {
-            topStyle += " " + styles.flipped
-        }
-
-        var children = React.Children.toArray(this.props.children);
-        var hasAdvanced = children.length > 1 && children[1] != null;
-
-        var sides = children.map((child: React.ReactChild, i: number) => {
-
-            var classes = [styles.side];
-            var title = this.props.title[i];
-            if (i == 0) {
-                classes.push(styles.front);
-            } else {
-                title = <div><div className={styles.background + " icon-settings"} /><div style={{ marginLeft: "40px" }}>{title}</div></div>
-                classes.push(styles.back);
-            }
-
-            var flip = null;
-            if (hasAdvanced) {
-                if (i == 0) {
-                    flip = <div className={styles.show_back} onClick={this.toggleFlip}><span className="icon-settings" /></div>
-                } else {
-                    flip = <div className={styles.show_front} onClick={this.toggleFlip}><span className="icon-back" /></div>
-                }
-            }
-
-            return (
-                <div key={"modal_side_" + i} className={classes.join(" ")}>
-                    <div className={styles.modal}>
-                        <div className={styles.header + " " + this.props.className + " " + shared["modal_side_" + i]}>
-                            {flip}
-                            {title}
-                        </div>
-                        <div className={styles.content}>
-                            {child}
-                        </div>
-                        <div className={styles.footer}>
-                            <div className={styles.left}>
-                                {leftButtons}
-                            </div>
-                            <div className={styles.right}>
-                                {rightButtons}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )
-        });
+        };
+        const topStyle = this.getTopStyle();
+        const sides = this.mapSides();
 
         return (
             <ReactModal
                 isOpen={this.props.show}
                 onAfterOpen={this.props.onModalOpen}
-                onRequestClose={buttons.secondary ? buttons.secondary.onClick : null}
+                onRequestClose={
+                    this.props.buttons.secondary ? this.props.buttons.secondary.onClick : null
+                }
                 style={customStyles}
                 shouldCloseOnOverlayClick={false}
                 contentLabel="Modal">
-                <div className={topStyle}>
-                    {sides}
-                </div>
+                <div className={topStyle}>{sides}</div>
             </ReactModal>
-        )
+        );
     }
 }
 

@@ -1,91 +1,97 @@
-import * as React from "react";
+import * as React from 'react';
+import { Creatable as SelectCreatable } from 'react-select';
+import FormElement, { FormElementProps } from './FormElement';
+import { getSelectClass } from '../../helpers/utils';
 
-import {FormElement, FormElementProps} from './FormElement';
-import {FormWidget, FormValueState} from './FormWidget';
-var Select = require('react-select');
+const styles = require('./FormElement.scss');
 
-var styles = require("./FormElement.scss");
+type Emails = { label: string; value: string }[];
 
 interface EmailElementProps extends FormElementProps {
     emails: string[];
     placeholder?: string;
 }
 
-interface EmailState extends FormValueState {
-    emails: {label: string, value: string}[];
+interface EmailState {
+    emails: Emails;
+    errors: string[];
 }
 
-export class EmailElement extends FormWidget<EmailElementProps, EmailState> {
+export const transformEmails = (emails: string[]): { label: string; value: string }[] =>
+    emails.map(email => ({ label: email, value: email }));
 
+export default class EmailElement extends React.Component<EmailElementProps, EmailState> {
     private emailPattern = /\S+@\S+\.\S+/;
 
     constructor(props: any) {
         super(props);
 
-        var emails: {label: string, value: string}[] = [];
-        if (this.props.emails) {
-            for (let initial of this.props.emails) {
-                emails.push({label: initial, value: initial});
-            }
-        }
-
         this.state = {
-            emails: emails,
+            emails: transformEmails(this.props.emails),
             errors: []
-        }
+        };
+
+        this.onChangeEmails = this.onChangeEmails.bind(this);
+        this.isValidEmail = this.isValidEmail.bind(this);
+        this.validEmailPrompt = this.validEmailPrompt.bind(this);
     }
 
     validate(): boolean {
-        var errors: string[] = []
-        if (this.props.required){
-            if (this.state.emails.length == 0) {
-                errors.push(this.props.name + " is required");
+        const errors: string[] = [];
+
+        if (this.props.required) {
+            if (this.state.emails.length === 0) {
+                errors.push(`${this.props.name} is required`);
             }
         }
 
-        this.setState({errors: errors});
-        return errors.length == 0;
+        this.setState({ errors: errors });
+
+        return errors.length === 0;
     }
 
-    private onChangeEmails(emails: {label: string, value: string}[]) {
+    private onChangeEmails(emails: Emails) {
         this.setState({
-            emails: emails
+            emails
         });
     }
 
     private validEmailPrompt(value: string): string {
-        return "Send email to " + value;
+        return `Send email to ${value}`;
     }
 
-    private isValidEmail(value: {label: string}): boolean {
-        return this.emailPattern.test(value.label);
+    private isValidEmail({ label }: { label: string }): boolean {
+        return this.emailPattern.test(label);
+    }
+
+    private arrowRenderer(): JSX.Element {
+        return <div />;
     }
 
     render() {
-        var classes = [];
-        if (this.state.errors.length > 0) {
-            // we use a global selector here for react-select
-            classes.push("select-invalid");
-        }
+        const classes: string[] = getSelectClass(this.state.errors.length);
 
         return (
-            <FormElement name={this.props.name} required={this.props.required} errors={this.state.errors}>
-                <Select.Creatable
-                    className={classes.join(" ")}
+            <FormElement
+                name={this.props.name}
+                required={this.props.required}
+                errors={this.state.errors}>
+                <SelectCreatable
+                    className={classes.join(' ')}
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     value={this.state.emails}
-                    onChange={this.onChangeEmails.bind(this)}
+                    onChange={this.onChangeEmails}
                     multi={true}
                     searchable={true}
                     clearable={false}
-                    noResultsText={"Enter an email address"}
-                    isValidNewOption={this.isValidEmail.bind(this)}
-                    promptTextCreator={this.validEmailPrompt.bind(this)}
-                    arrowRenderer={()=>{return <div/>}}
+                    noResultsText={'Enter an email address'}
+                    isValidNewOption={this.isValidEmail}
+                    promptTextCreator={this.validEmailPrompt}
+                    arrowRenderer={this.arrowRenderer}
                     options={[]}
                 />
             </FormElement>
-        )
+        );
     }
 }

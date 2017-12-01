@@ -8,12 +8,15 @@ export interface ButtonProps {
     type?: string;
 }
 
-export class Button extends React.PureComponent<ButtonProps, {}> {
+export default class Button extends React.PureComponent<ButtonProps, {}> {
     render() {
         const { name, onClick, type } = this.props;
         const classes = [styles.btn, styles[type]].join(' ');
         return (
-            <div onClick={onClick} className={classes} data-spec={`button-${type}-${name.toLowerCase()}`}>
+            <div
+                onClick={onClick}
+                className={classes}
+                data-spec={`button-${type}-${name.toLowerCase()}`}>
                 {name}
             </div>
         );

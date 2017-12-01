@@ -1,131 +1,151 @@
-import * as React from "react";
-
-import { FormElement, FormElementProps } from './FormElement';
-import { FormWidget, FormValueState } from './FormWidget';
-import { Config, Operator } from '../../services/Config';
-import { CaseProps } from '../routers/SwitchRouter';
-import { TextInputElement, HTMLTextElement } from './TextInputElement';
-
+import * as React from 'react';
 import Select from 'react-select';
-var forms = require("./FormElement.scss");
-var styles = require("./CaseElement.scss");
+import { Operator } from '../../providers/ConfigProvider/operatorConfigs';
+import { CaseProps } from '../routers/SwitchRouter';
+import ComponentMap from '../../services/ComponentMap';
+import FormElement from './FormElement';
+import TextInputElement, { HTMLTextElement } from './TextInputElement';
+import { operatorConfigListPT, getOperatorConfigPT } from '../../providers/ConfigProvider/propTypes';
+import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
+
+const forms = require('./FormElement.scss');
+const styles = require('./CaseElement.scss');
 
 export interface CaseElementProps extends CaseProps {
     name: string; // satisfy form widget props
     onRemove(c: CaseElement): void;
+    ComponentMap: ComponentMap;
 }
 
-interface CaseElementState extends FormValueState {
+interface CaseElementState {
+    errors: string[];
     operator: string;
     arguments: string[];
     exitName: string;
 }
 
-export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> {
-
+export default class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
     private category: TextInputElement;
     private operatorConfig: Operator;
 
-    constructor(props: CaseElementProps) {
-        super(props);
+    public static contextTypes = {
+        operatorConfigList: operatorConfigListPT,
+        getOperatorConfig: getOperatorConfigPT
+    };
 
-        var exitName = "";
-        if (this.props.exitName) {
-            exitName = this.props.exitName;
-        }
+    constructor(props: CaseElementProps, context: ConfigProviderContext) {
+        super(props, context);
 
-        this.hasArguments = this.hasArguments.bind(this);
-        this.operatorConfig = Config.get().getOperatorConfig(props.kase.type);
         this.state = {
             errors: [],
-            operator: props.kase.type,
-            arguments: props.kase.arguments,
-            exitName: exitName
-        }
+            operator: this.props.kase.type,
+            arguments: this.props.kase.arguments,
+            exitName: this.props.exitName ? this.props.exitName : ''
+        };
+
+        this.operatorConfig = this.context.getOperatorConfig(this.props.kase.type);
+
+        this.hasArguments = this.hasArguments.bind(this);
+        this.onChangeArguments = this.onChangeArguments.bind(this);
+        this.onChangeOperator = this.onChangeOperator.bind(this);
+        this.onChangeExitName = this.onChangeExitName.bind(this);
+        this.onRemove = this.onRemove.bind(this);
     }
 
     private generateExitNameFromArguments(args: string[]): string {
+        let prefix = '';
 
-        var prefix = "";
-        if (this.state.operator.indexOf("_lt") > -1) {
-            if (this.state.operator.indexOf("date") > -1) {
-                prefix = "Before ";
+        if (this.state.operator.indexOf('_lt') > -1) {
+            if (this.state.operator.indexOf('date') > -1) {
+                prefix = 'Before ';
             } else {
-                if (this.state.operator.indexOf("lte") > -1) {
-                    prefix = "<= ";
+                if (this.state.operator.indexOf('lte') > -1) {
+                    prefix = '<= ';
                 } else {
-                    prefix = "< "
+                    prefix = '< ';
                 }
             }
-        } else if (this.state.operator.indexOf("_gt") > -1) {
-            if (this.state.operator.indexOf("date") > -1) {
-                prefix = "After ";
+        } else if (this.state.operator.indexOf('_gt') > -1) {
+            if (this.state.operator.indexOf('date') > -1) {
+                prefix = 'After ';
             } else {
-                if (this.state.operator.indexOf("gte") > -1) {
-                    prefix = ">= ";
+                if (this.state.operator.indexOf('gte') > -1) {
+                    prefix = '>= ';
                 } else {
-                    prefix = ">";
+                    prefix = '>';
                 }
             }
         }
 
         if (args && args.length > 0) {
-            var words = args[0].match(/\w+/g);
+            const [firstArg] = args;
+            const words = firstArg.match(/\w+/g);
+
             if (words && words.length > 0) {
-                var firstWord = words[0];
+                const [firstWord] = words;
                 return prefix + firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
             }
-            return prefix + args[0].charAt(0).toUpperCase() + args[0].slice(1);
+            return prefix + firstArg.charAt(0).toUpperCase() + firstArg.slice(1);
         }
-
         return null;
     }
 
     private getExitName(args: string[] = null) {
-        var exitName = this.state.exitName;
-        if (args == null) {
-            // if the category name is specified for our operator, use that
+        let exitName = this.state.exitName;
+
+        if (!args) {
+            /** If the category name is specified for our operator, use that */
             if (this.operatorConfig.categoryName) {
-                exitName = this.operatorConfig.categoryName;
+                ({ categoryName: exitName } = this.operatorConfig);
             }
         } else {
-            if (!exitName || exitName == this.generateExitNameFromArguments(this.props.kase.arguments)) {
+            if (
+                !exitName ||
+                exitName === this.generateExitNameFromArguments(this.props.kase.arguments)
+            ) {
                 exitName = this.generateExitNameFromArguments(args);
             }
         }
+
         return exitName;
     }
 
     private onChangeOperator(val: Operator) {
         this.operatorConfig = val;
-        this.setState({
-            operator: val.type,
-            exitName: this.getExitName(),
-        }, () => {
-            this.props.onChanged(this);
-        });
+
+        this.setState(
+            {
+                operator: val.type,
+                exitName: this.getExitName()
+            },
+            () => this.props.onChanged(this)
+        );
     }
 
     private onChangeArguments(val: React.ChangeEvent<HTMLTextElement>) {
+        const args = [val.target.value];
+        const exitName = this.getExitName(args);
 
-        var args = [val.target.value];
-        var exitName = this.getExitName(args);
-        this.setState({
-            arguments: args,
-            exitName: exitName
-        }, () => {
-            this.props.onChanged(this);
-        });
+        this.setState(
+            {
+                arguments: args,
+                exitName
+            },
+            () => {
+                this.props.onChanged(this);
+            }
+        );
 
         this.category.setState({ value: exitName });
     }
 
     private onChangeExitName(val: React.ChangeEvent<HTMLTextElement>) {
-        this.setState({
-            exitName: val.target.value
-        }, () => {
-            this.props.onChanged(this);
-        });
+        this.setState(
+            {
+                exitName: val.target.value
+            },
+            () => this.props.onChanged(this)
+        );
     }
 
     private onRemove(ele: any) {
@@ -133,107 +153,125 @@ export class CaseElement extends FormWidget<CaseElementProps, CaseElementState> 
     }
 
     hasArguments(): boolean {
-        return this.state.arguments && this.state.arguments.length > 0 && this.state.arguments[0].trim().length > 0;
+        return (
+            this.state.arguments &&
+            this.state.arguments.length > 0 &&
+            this.state.arguments[0].trim().length > 0
+        );
     }
 
     validate(): boolean {
+        const errors: string[] = [];
 
-        var errors: string[] = [];
-        if (this.operatorConfig.operands == 0) {
-            if (this.state.exitName.trim().length == 0) {
-                errors.push("A category name is required when using \"" + this.operatorConfig.verboseName + "\"");
+        if (this.operatorConfig.operands === 0) {
+            if (this.state.exitName.trim().length === 0) {
+                const { verboseName } = this.operatorConfig;
+                errors.push(`A category name is required when using "${verboseName}"`);
             }
-        }
-
-        // check our argument list
-        else {
-
-            // if we have arguments, we need an exit name
+        } else {
+            /** Check our argument list */
+            /** If we have arguments, we need an exit name */
             if (this.hasArguments()) {
                 if (!this.category || !this.category.state.value) {
-                    errors.push("A category name is required.");
+                    errors.push('A category name is required');
                 }
             }
 
-            // if we have an exit name we need arguments
+            /** If we have an exit name we need arguments */
             if (this.state.exitName) {
                 if (!this.hasArguments()) {
-                    var operator = Config.get().getOperatorConfig(this.state.operator);
-                    errors.push("When using \"" + operator.verboseName + "\", an argument is required.");
+                    const operator = this.context.getOperatorConfig(this.state.operator);
+                    const { verboseName } = operator;
+                    errors.push(`When using "${verboseName}", an argument is required.`);
                 }
             }
 
-            // validate numeric and date operators
-            if (this.hasArguments() && this.state.arguments[0].trim().indexOf("@") != 0) {
-                if (this.state.operator.indexOf("number") > -1) {
+            /** Validate numeric and date operators */
+            if (this.hasArguments() && this.state.arguments[0].trim().indexOf('@') !== 0) {
+                if (this.state.operator.indexOf('number') > -1) {
                     if (this.state.arguments[0]) {
                         if (isNaN(parseInt(this.state.arguments[0]))) {
-                            errors.push("Enter a number when using numeric rules.");
+                            errors.push('Enter a number when using numeric rules.');
                         }
                     }
                 }
 
-                if (this.state.operator.indexOf("date") > -1) {
+                if (this.state.operator.indexOf('date') > -1) {
                     if (this.state.arguments[0]) {
                         if (isNaN(Date.parse(this.state.arguments[0]))) {
-                            errors.push("Enter a date when using date rules (e.g. 1/1/2017).");
+                            errors.push('Enter a date when using date rules (e.g. 1/1/2017).');
                         }
                     }
                 }
             }
         }
 
-        if (this.state.errors.length == 0 && errors.length == 0) {
+        if (this.state.errors.length === 0 && errors.length === 0) {
             return true;
         }
 
-        this.setState({ errors: errors });
-        return errors.length == 0;
+        this.setState({ errors });
+
+        return errors.length === 0;
     }
 
     render() {
-        var classes = [styles.case];
+        const classes = [styles.case];
+
         if (this.state.errors.length > 0) {
             classes.push(forms.invalid);
         }
 
-        var value = this.state.arguments ? this.state.arguments[0] : "";
+        const value = this.state.arguments ? this.state.arguments[0] : '';
 
-        var args: JSX.Element = null;
-        if (this.operatorConfig.operands == 1) {
-            args = <TextInputElement className={styles.input} name="arguments" onChange={this.onChangeArguments.bind(this)} value={value} autocomplete />
+        let args: JSX.Element = null;
+
+        if (this.operatorConfig && this.operatorConfig.operands === 1) {
+            args = (
+                <TextInputElement
+                    className={styles.input}
+                    name="arguments"
+                    onChange={this.onChangeArguments}
+                    value={value}
+                    autocomplete
+                    ComponentMap={this.props.ComponentMap}
+                />
+            );
         }
-
-        var options: any = Config.get().operators
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors} className={styles.group}>
-                <div className={styles.case + " select-medium"}>
+                <div className={`${styles.case} select-medium`}>
                     <div className={styles.choice}>
                         <Select
                             name="operator"
                             clearable={false}
-                            options={options}
+                            options={this.context.operatorConfigList}
                             value={this.state.operator}
                             valueKey="type"
                             labelKey="verboseName"
                             optionClassName="operator"
                             searchable={false}
-                            onChange={this.onChangeOperator.bind(this)}
+                            onChange={this.onChangeOperator}
                         />
                     </div>
-                    <div className={styles.operand}>
-                        {args}
-                    </div>
-                    <div className={styles["categorize-as"]}>
-                        categorize as
-                    </div>
+                    <div className={styles.operand}>{args}</div>
+                    <div className={styles['categorize-as']}>categorize as</div>
                     <div className={styles.category}>
-                        <TextInputElement ref={(ele) => this.category = ele} className={styles.input} name="exitName" onChange={this.onChangeExitName.bind(this)} value={this.state.exitName} />
+                        <TextInputElement
+                            ref={ele => (this.category = ele)}
+                            className={styles.input}
+                            name="exitName"
+                            onChange={this.onChangeExitName}
+                            value={this.state.exitName}
+                            ComponentMap={this.props.ComponentMap}
+                        />
                     </div>
-                    <div className={styles["remove-button"]} onClick={this.onRemove.bind(this)}><span className="icon-remove" /></div>
+                    <div className={styles['remove-button']} onClick={this.onRemove}>
+                        <span className="icon-remove" />
+                    </div>
                 </div>
             </FormElement>
-        )
+        );
     }
 }
