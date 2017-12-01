@@ -28,10 +28,6 @@ or
 % npm run build:prod
 ```
 
-### Configuration
-
-This project is currently configured via `flowEditor.config.*.js` in the root directory and loaded into the bundle as an [external](https://webpack.js.org/configuration/externals/) via Webpack. The `ConfigProvider` component composes the app's configuration and provides it to each component via React's [context API](https://reactjs.org/docs/context.html). 
-
 ## Development
 You can run the editor in a development server. To start a development server, compile all necessary bits, and then launch your default browser with the results. The development server watches for changes to any TypeScript or SASS documents and automatically recompiles them. 
 ```
@@ -40,6 +36,10 @@ You can run the editor in a development server. To start a development server, c
 
 ### Hot Reloading
 This project uses [React Hot Loader](https://github.com/gaearon/react-hot-loader) to keep components mounted/preserve their state while in development.
+
+### Configuration
+
+This project is currently configured via `flowEditor.config.*.js` in the root directory and loaded into the bundle as an [external](https://webpack.js.org/configuration/externals/) via Webpack. The `ConfigProvider` component composes the app's configuration and provides it to each component via React's [context API](https://reactjs.org/docs/context.html). 
 
 ## Running Tests
 
