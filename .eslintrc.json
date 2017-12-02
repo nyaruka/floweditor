@@ -1,5 +1,8 @@
 {
   "extends": "xo-space/esnext",
+  "env": {
+    "node": true
+  },
   "rules": {
     "indent": ["error", 4],
     "camelcase": "off",
