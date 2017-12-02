@@ -29,9 +29,21 @@ const props = {
     ComponentMap: CompMap
 };
 
+const createReplyForm = (newProps: any, mountIt: boolean = false) => {
+    const Component = (
+        <ReplyForm
+            {...{
+                ...props,
+                ...newProps
+            }}
+        />
+    );
+    return mountIt ? mount(Component) : shallow(Component);
+};
+
 describe('Component: ReplyForm', () => {
     it('Renders base form', () => {
-        const ReplyFormBase = mount(<ReplyForm {...{ ...props, showAdvanced: false }} />);
+        const ReplyFormBase = createReplyForm({ showAdvanced: false }, true);
 
         expect(ReplyFormBase.find('div').exists()).toBeTruthy();
         expect(props.onBindWidget).toBeCalled();
@@ -50,7 +62,7 @@ describe('Component: ReplyForm', () => {
     });
 
     it('Renders advanced form', () => {
-        const ReplyFormBase = mount(<ReplyForm {...{ ...props, showAdvanced: true }} />);
+        const ReplyFormBase = createReplyForm({ showAdvanced: false }, true);
 
         expect(props.onBindAdvancedWidget).toBeCalled();
         expect(ReplyFormBase.find('CheckboxElement').props()).toEqual({
@@ -63,23 +75,18 @@ describe('Component: ReplyForm', () => {
     describe('Localization', () => {
         it('Renders localization form with localized input when action is localized', () => {
             const localizedText = '¿Como te llamas?';
-            const ReplyFormBase = shallow(
-                <ReplyForm
-                    {...{
-                        ...props,
-                        translating: true,
-                        showAdvanced: false,
-                        getLocalizedObject: () => ({
-                            hasTranslation: () => true,
-                            getLanguage: () => ({ name: 'Spanish' }),
-                            localized: true,
-                            getObject: () => ({
-                                text: localizedText
-                            })
-                        })
-                    }}
-                />
-            );
+            const ReplyFormBase = createReplyForm({
+                translating: true,
+                showAdvanced: false,
+                getLocalizedObject: () => ({
+                    hasTranslation: () => true,
+                    getLanguage: () => ({ name: 'Spanish' }),
+                    localized: true,
+                    getObject: () => ({
+                        text: localizedText
+                    })
+                })
+            });
 
             expect(getSpecWrapper(ReplyFormBase, 'translation-container').exists()).toBeTruthy();
             expect(getSpecWrapper(ReplyFormBase, 'text-to-translate').text()).toBe(
@@ -100,23 +107,18 @@ describe('Component: ReplyForm', () => {
         });
 
         it('Renders localization form without localized input when action is not localized', () => {
-            const ReplyFormBase = shallow(
-                <ReplyForm
-                    {...{
-                        ...props,
-                        translating: true,
-                        showAdvanced: false,
-                        getLocalizedObject: () => ({
-                            hasTranslation: () => true,
-                            getLanguage: () => ({ name: 'Spanish' }),
-                            localized: false,
-                            getObject: () => ({
-                                text: 'Como to llanmas'
-                            })
-                        })
-                    }}
-                />
-            );
+            const ReplyFormBase = createReplyForm({
+                translating: true,
+                showAdvanced: false,
+                getLocalizedObject: () => ({
+                    hasTranslation: () => true,
+                    getLanguage: () => ({ name: 'Spanish' }),
+                    localized: false,
+                    getObject: () => ({
+                        text: 'Como to llanmas'
+                    })
+                })
+            });
 
             expect(getSpecWrapper(ReplyFormBase, 'translation-container').exists()).toBeTruthy();
             expect(getSpecWrapper(ReplyFormBase, 'text-to-translate').text()).toBe(
