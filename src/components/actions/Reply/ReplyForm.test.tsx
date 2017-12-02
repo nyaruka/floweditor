@@ -29,6 +29,8 @@ const props = {
     ComponentMap: CompMap
 };
 
+const localizedText = '¿Hola, como te llamas?';
+
 const createReplyForm = (newProps: any, mountIt: boolean = false) => {
     const Component = (
         <ReplyForm
@@ -62,7 +64,7 @@ describe('Component: ReplyForm', () => {
     });
 
     it('Renders advanced form', () => {
-        const ReplyFormBase = createReplyForm({ showAdvanced: false }, true);
+        const ReplyFormBase = createReplyForm({ showAdvanced: true }, true);
 
         expect(props.onBindAdvancedWidget).toBeCalled();
         expect(ReplyFormBase.find('CheckboxElement').props()).toEqual({
@@ -73,13 +75,11 @@ describe('Component: ReplyForm', () => {
     });
 
     describe('Localization', () => {
-        it('Renders localization form with localized input when action is localized', () => {
-            const localizedText = '¿Como te llamas?';
+        it('Renders translation container, text to be translated', () => {
             const ReplyFormBase = createReplyForm({
                 translating: true,
                 showAdvanced: false,
                 getLocalizedObject: () => ({
-                    hasTranslation: () => true,
                     getLanguage: () => ({ name: 'Spanish' }),
                     localized: true,
                     getObject: () => ({
@@ -92,6 +92,21 @@ describe('Component: ReplyForm', () => {
             expect(getSpecWrapper(ReplyFormBase, 'text-to-translate').text()).toBe(
                 props.action.text
             );
+        });
+
+        it('Renders localization form with localized input when action is localized', () => {
+            const ReplyFormBase = createReplyForm({
+                translating: true,
+                showAdvanced: false,
+                getLocalizedObject: () => ({
+                    getLanguage: () => ({ name: 'Spanish' }),
+                    localized: true,
+                    getObject: () => ({
+                        text: localizedText
+                    })
+                })
+            });
+
             expect(ReplyFormBase.find('TextInputElement').props()).toEqual({
                 name: 'Message',
                 count: Count.SMS,
@@ -111,19 +126,14 @@ describe('Component: ReplyForm', () => {
                 translating: true,
                 showAdvanced: false,
                 getLocalizedObject: () => ({
-                    hasTranslation: () => true,
                     getLanguage: () => ({ name: 'Spanish' }),
                     localized: false,
                     getObject: () => ({
-                        text: 'Como to llanmas'
+                        text: props.action.text
                     })
                 })
             });
 
-            expect(getSpecWrapper(ReplyFormBase, 'translation-container').exists()).toBeTruthy();
-            expect(getSpecWrapper(ReplyFormBase, 'text-to-translate').text()).toBe(
-                props.action.text
-            );
             expect(ReplyFormBase.find('TextInputElement').props()).toEqual({
                 name: 'Message',
                 count: Count.SMS,
