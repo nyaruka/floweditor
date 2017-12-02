@@ -4,7 +4,6 @@ import { Type } from '../../../providers/ConfigProvider/typeConfigs';
 import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement, { Count } from '../../form/TextInputElement';
 import CheckboxElement from '../../form/CheckboxElement';
-import { getBaseLanguage } from '../../../providers/ConfigProvider/configContext';
 
 const styles = require('../../Action/Action.scss');
 
