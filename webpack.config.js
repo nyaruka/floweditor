@@ -8,6 +8,6 @@ module.exports = ({ NODE_ENV }) => {
         const { config } = require('./webpack.dev.js');
         return config;
     }
-    return require(`./webpack.prod.js`)
+    return require(`./webpack.prod.js`);
 };
 
