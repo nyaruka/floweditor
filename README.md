@@ -39,7 +39,7 @@ This project uses [React Hot Loader](https://github.com/gaearon/react-hot-loader
 
 ### Configuration
 
-This project is currently configured via `flowEditor.config.*.js` in the root directory and loaded into the bundle as an [external](https://webpack.js.org/configuration/externals/) via Webpack. The `ConfigProvider` component composes the app's configuration and provides it to each component via React's [context API](https://reactjs.org/docs/context.html). 
+This project is currently configured via `flowEditor.config.*.js` in the root directory, which is loaded into the bundle as an [external](https://webpack.js.org/configuration/externals/), `Config`, via Webpack. The `ConfigProvider` component composes the app's configuration and provides it to each component via React's [context API](https://reactjs.org/docs/context.html). 
 
 ## Running Tests
 
