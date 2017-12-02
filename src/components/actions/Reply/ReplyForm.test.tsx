@@ -1,6 +1,6 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
-import { shallow, mount } from 'enzyme';
+import { shallow, mount, ShallowWrapper, ReactWrapper } from 'enzyme';
 import { getSpecWrapper } from '../../../helpers/utils';
 import ComponentMap from '../../../services/ComponentMap';
 import { Count } from '../../form/TextInputElement';
@@ -15,10 +15,9 @@ const CompMap = new ComponentMap(definition);
 const { nodes: [{ actions: [action] }] } = definition;
 const { endpoints, getTypeConfig } = configContext;
 const config = getTypeConfig('reply');
-const props = {
+const props: Partial<ReplyFormProps> = {
     action,
     config,
-    endpoints,
     translating: false,
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
@@ -29,9 +28,9 @@ const props = {
     ComponentMap: CompMap
 };
 
-const localizedText = '¿Hola, como te llamas?';
+const localizedText: string = '¿Hola, como te llamas?';
 
-const createReplyForm = (newProps: any, mountIt: boolean = false) => {
+const createReplyForm = (newProps: any, mountIt: boolean = false): ShallowWrapper | ReactWrapper => {
     const Component = (
         <ReplyForm
             {...{
