@@ -39,7 +39,7 @@ This project uses [React Hot Loader](https://github.com/gaearon/react-hot-loader
 
 ### Configuration
 
-This project is currently configured via `flowEditor.config.*.js` in the root directory and loaded into the bundle as an [external](https://webpack.js.org/configuration/externals/) via Webpack. The `ConfigProvider` component composes the app's configuration and provides it to each component via React's [context API](https://reactjs.org/docs/context.html). 
+This project is currently configured via `flowEditor.config.*.js` in the root directory, which is loaded into the bundle as an [external](https://webpack.js.org/configuration/externals/), `Config`, via Webpack. The `ConfigProvider` component composes the app's configuration and provides it to each component via React's [context API](https://reactjs.org/docs/context.html). 
 
 ## Running Tests
 
@@ -64,4 +64,11 @@ This project uses [tslint](https://github.com/palantir/tslint) to enforce consis
 % npm run prettify
 ```
 
+## Contributing
+
+Please read [CONTRIBUTING.md](https://github.com/nyaruka/floweditor/blob/master/CONTRIBUTING.md) for details on this project's code of conduct, and the process for submitting pull requests to this repo.
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see this repo's [tags](https://github.com/nyaruka/floweditor/tags). 
 
