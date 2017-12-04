@@ -3,7 +3,6 @@ import * as axios from 'axios';
 import * as update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
 import urljoin from 'url-join';
-import { findDOMNode } from 'react-dom';
 import { FlowDetails } from '../../providers/ConfigProvider/external';
 import { FlowDefinition, Group } from '../../flowTypes';
 import ActivityManager, { Activity } from '../../services/ActivityManager';
@@ -293,9 +292,8 @@ export default class Simulator extends React.Component<
     }
 
     componentDidUpdate(prevProps: SimulatorProps) {
-        const node = findDOMNode(this.bottom);
-        if (node) {
-            node.scrollIntoView(false);
+        if (this.bottom) {
+            this.bottom.scrollIntoView(false);
         }
     }
 

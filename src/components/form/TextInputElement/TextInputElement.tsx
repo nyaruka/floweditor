@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
 import { toCharSetEnum, cleanMsg } from '../../../helpers/utils';
 import ComponentMap, { CompletionOption } from '../../../services/ComponentMap';
 import FormElement, { FormElementProps } from '../FormElement';
@@ -45,6 +44,7 @@ export interface Coordinates {
 export interface HTMLTextElement {
     value: string;
     selectionStart: number;
+    selectionEnd: number;
     focus(): void;
 }
 
@@ -160,7 +160,9 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             value = cleanMsg(value as string);
         }
 
-        let { length: characterCount, remainingInPart, characterSet, parts } = split(value as string);
+        let { length: characterCount, remainingInPart, characterSet, parts } = split(
+            value as string
+        );
 
         characterSet = toCharSetEnum(characterSet);
 
@@ -231,11 +233,9 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 }
                 break;
             case KEY_AT:
-                var ele: any = findDOMNode(this.textEl as any);
-
                 this.setState({
                     completionVisible: true,
-                    caretCoordinates: getCaretCoordinates(ele, ele.selectionEnd)
+                    caretCoordinates: getCaretCoordinates(this.textEl, this.textEl.selectionEnd)
                 });
                 break;
             case KEY_ESC:
@@ -279,7 +279,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                             selectedOptionIndex: 0
                         },
                         () => {
-                            setCaretPosition(findDOMNode(this.textEl as any), newCaret);
+                            setCaretPosition(this.textEl, newCaret);
                         }
                     );
 
@@ -300,20 +300,18 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
                     /** @ we display again **/
                     if (curr === '@') {
-                        var ele: any = findDOMNode(this.textEl as any);
                         query = this.state.value.substr(i + 1, caret - i - 1);
                         matches = this.filterOptions(query);
                         completionVisible = matches.length > 0;
-                        this.setState({
+                        return this.setState({
                             query,
                             matches,
                             value: this.state.value,
                             caretOffset: caret,
                             completionVisible,
                             selectedOptionIndex: 0,
-                            caretCoordinates: getCaretCoordinates(ele, i)
+                            caretCoordinates: getCaretCoordinates(this.textEl, i)
                         });
-                        return;
                     }
                 }
 
@@ -465,12 +463,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     }
 
     public componentDidUpdate(previous: TextInputProps): void {
-        if (this.selectedEl !== null) {
-            const selectedOption = findDOMNode(this.selectedEl);
-            if (selectedOption !== null) {
-                selectedOption.scrollIntoView(false);
-            }
-        }
+        this.selectedEl && this.selectedEl.scrollIntoView(false);
     }
 
     render() {
