@@ -2,10 +2,18 @@ import * as React from 'react';
 import { Language } from './LanguageSelector';
 import Action, { ActionProps } from './Action/Action';
 import { IDragEvent } from '../services/Plumber';
-import { Endpoints, Languages } from '../flowTypes';
 import ExitComp from './Exit';
 import TitleBarComp from './TitleBar';
-import { FlowDefinition, Node, UINode, Position, SwitchRouter, AnyAction } from '../flowTypes';
+import {
+    FlowDefinition,
+    Node,
+    UINode,
+    Position,
+    SwitchRouter,
+    AnyAction,
+    Endpoints,
+    Languages
+} from '../flowTypes';
 import { titleCase } from '../helpers/utils';
 import CounterComp from './Counter';
 import ActivityManager from '../services/ActivityManager';
@@ -240,13 +248,14 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     onClick(event?: any) {
-        let action;
+        let action: AnyAction;
 
         const localizations: LocalizedObject[] = [];
 
         // click the last action in the list if we have one
 
         if (this.props.translating) {
+            /** Account for localized cases */
             if (this.props.node.router.type === 'switch') {
                 var router = this.props.node.router as SwitchRouter;
                 for (let kase of router.cases) {
@@ -261,7 +270,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 }
             }
 
-            // add our exit localizations
+            /** Account for localized exits */
             for (let exit of this.props.node.exits) {
                 localizations.push(
                     Localization.translate(
@@ -376,8 +385,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                     leaveAnimation="fade"
                     className={styles.actions}
                     duration={300}
-                    easing="ease-out"
-                >
+                    easing="ease-out">
                     {actions}
                 </FlipMove>
             );
@@ -438,8 +446,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 addActions = (
                     <a
                         className={styles.add}
-                        onClick={() => this.props.onAddAction(this.props.node)}
-                    >
+                        onClick={() => this.props.onAddAction(this.props.node)}>
                         <span className="icon-add" />
                     </a>
                 );
@@ -497,8 +504,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                     title="Drag to move all nodes below here"
                     className={styles.drag_group}
                     onMouseOver={() => (this.dragGroup = true)}
-                    onMouseOut={() => (this.dragGroup = false)}
-                >
+                    onMouseOut={() => (this.dragGroup = false)}>
                     <span className="icon-link" />
                 </a>
             );
@@ -513,8 +519,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 style={{
                     left: this.props.ui.position.x,
                     top: this.props.ui.position.y
-                }}
-            >
+                }}>
                 {dragLink}
                 <CounterComp
                     ref={this.props.Activity.registerListener}

@@ -54,6 +54,10 @@ export interface ConnectionEvent {
     endpoints: any[];
 }
 
+export interface Translations {
+    [uuid: string]: any;
+}
+
 const REPAINT_DURATION = 600;
 
 export default class Flow extends React.Component<FlowProps, FlowState> {
@@ -180,7 +184,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             definition,
             translating,
             language: { iso },
-            ComponentMap,
+            ComponentMap
         } = this.props;
 
         const {
@@ -444,16 +448,21 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         return true;
     }
 
-    render() {
-        let translations: { [uuid: string]: any };
+    /**
+     * Computes translations prop for `Node` components in render()
+     */
+    private getTranslations(): Translations {
+        let translations: Translations = null;
 
         if (this.props.definition.localization) {
             translations = this.props.definition.localization[this.props.language.iso];
         }
 
-        if (!translations) {
-            translations = null;
-        }
+        return translations;
+    }
+
+    public render(): JSX.Element {
+        const translations: Translations = this.getTranslations();
 
         let definition = this.props.definition;
         if (this.state.viewDefinition) {
