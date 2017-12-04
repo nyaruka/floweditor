@@ -1,6 +1,6 @@
 import * as React from 'react';
 import '../../../enzymeAdapter';
-import { shallow, mount } from 'enzyme';
+import { shallow, mount, ShallowWrapper, ReactWrapper } from 'enzyme';
 import { getSpecWrapper } from '../../../helpers/utils';
 import ComponentMap from '../../../services/ComponentMap';
 import { Count } from '../../form/TextInputElement';
@@ -15,10 +15,10 @@ const CompMap = new ComponentMap(definition);
 const { nodes: [{ actions: [action] }] } = definition;
 const { endpoints, getTypeConfig } = configContext;
 const config = getTypeConfig('reply');
-const props = {
+const props: Partial<ReplyFormProps> = {
     action,
     config,
-    endpoints,
+    translating: false,
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
     onBindAdvancedWidget: jest.fn(),
@@ -28,9 +28,23 @@ const props = {
     ComponentMap: CompMap
 };
 
+const localizedText: string = '¿Hola, como te llamas?';
+
+const createReplyForm = (newProps: any, mountIt: boolean = false): ShallowWrapper | ReactWrapper => {
+    const Component = (
+        <ReplyForm
+            {...{
+                ...props,
+                ...newProps
+            }}
+        />
+    );
+    return mountIt ? mount(Component) : shallow(Component);
+};
+
 describe('Component: ReplyForm', () => {
     it('Renders base form', () => {
-        const ReplyFormBase = mount(<ReplyForm {...{ ...props, showAdvanced: false }} />);
+        const ReplyFormBase = createReplyForm({ showAdvanced: false }, true);
 
         expect(ReplyFormBase.find('div').exists()).toBeTruthy();
         expect(props.onBindWidget).toBeCalled();
@@ -49,7 +63,7 @@ describe('Component: ReplyForm', () => {
     });
 
     it('Renders advanced form', () => {
-        const ReplyFormBase = mount(<ReplyForm {...{ ...props, showAdvanced: true }} />);
+        const ReplyFormBase = createReplyForm({ showAdvanced: true }, true);
 
         expect(props.onBindAdvancedWidget).toBeCalled();
         expect(ReplyFormBase.find('CheckboxElement').props()).toEqual({
@@ -59,36 +73,78 @@ describe('Component: ReplyForm', () => {
         });
     });
 
-    it('Renders localization form', () => {
-        const ReplyFormBase = shallow(
-            <ReplyForm
-                {...{
-                    ...props,
-                    showAdvanced: false,
-                    getLocalizedObject: () => ({
-                        hasTranslation: () => true,
-                        getLanguage: () => ({ name: 'Spanish' }),
-                        getObject: () => ({
-                            text: 'Como te llamas?'
-                        })
+    describe('Localization', () => {
+        it('Renders translation container, text to be translated', () => {
+            const ReplyFormBase = createReplyForm({
+                translating: true,
+                showAdvanced: false,
+                getLocalizedObject: () => ({
+                    getLanguage: () => ({ name: 'Spanish' }),
+                    localized: true,
+                    getObject: () => ({
+                        text: localizedText
                     })
-                }}
-            />
-        );
+                })
+            });
 
-        expect(getSpecWrapper(ReplyFormBase, 'translation-container').exists()).toBeTruthy();
-        expect(getSpecWrapper(ReplyFormBase, 'text-to-translate').text()).toBe(props.action.text);
-        expect(ReplyFormBase.find('TextInputElement').props()).toEqual({
-            name: 'Message',
-            count: Count.SMS,
-            showLabel: false,
-            value: 'Como te llamas?',
-            placeholder: 'Spanish Translation',
-            autocomplete: true,
-            focus: true,
-            required: false,
-            textarea: true,
-            ComponentMap: props.ComponentMap
+            expect(getSpecWrapper(ReplyFormBase, 'translation-container').exists()).toBeTruthy();
+            expect(getSpecWrapper(ReplyFormBase, 'text-to-translate').text()).toBe(
+                props.action.text
+            );
+        });
+
+        it('Renders localization form with localized input when action is localized', () => {
+            const ReplyFormBase = createReplyForm({
+                translating: true,
+                showAdvanced: false,
+                getLocalizedObject: () => ({
+                    getLanguage: () => ({ name: 'Spanish' }),
+                    localized: true,
+                    getObject: () => ({
+                        text: localizedText
+                    })
+                })
+            });
+
+            expect(ReplyFormBase.find('TextInputElement').props()).toEqual({
+                name: 'Message',
+                count: Count.SMS,
+                showLabel: false,
+                value: localizedText,
+                placeholder: 'Spanish Translation',
+                autocomplete: true,
+                focus: true,
+                required: false,
+                textarea: true,
+                ComponentMap: props.ComponentMap
+            });
+        });
+
+        it('Renders localization form without localized input when action is not localized', () => {
+            const ReplyFormBase = createReplyForm({
+                translating: true,
+                showAdvanced: false,
+                getLocalizedObject: () => ({
+                    getLanguage: () => ({ name: 'Spanish' }),
+                    localized: false,
+                    getObject: () => ({
+                        text: props.action.text
+                    })
+                })
+            });
+
+            expect(ReplyFormBase.find('TextInputElement').props()).toEqual({
+                name: 'Message',
+                count: Count.SMS,
+                showLabel: false,
+                value: '',
+                placeholder: 'Spanish Translation',
+                autocomplete: true,
+                focus: true,
+                required: false,
+                textarea: true,
+                ComponentMap: props.ComponentMap
+            });
         });
     });
 });

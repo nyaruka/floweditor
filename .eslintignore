@@ -1,0 +1,8 @@
+node_modules/
+fonts/
+assets/
+__tests__/
+dist/
+coverage/
+
+

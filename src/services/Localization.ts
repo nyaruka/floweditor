@@ -58,15 +58,15 @@ export default class Localization {
         languages: Languages,
         translations?: { [uuid: string]: any }
     ): LocalizedObject {
+        let localized: LocalizedObject = null;
         if (translations) {
-            const localized = new LocalizedObject(object, iso, languages);
+            localized = new LocalizedObject(object, iso, languages);
             if (object.uuid in translations) {
                 const values = translations[object.uuid];
                 // we don't want to side affect our action
                 Object.keys(values).forEach(key => localized.addTranslation(key, values[key]));
             }
-            return localized;
         }
-        return null;
+        return localized;
     }
 }

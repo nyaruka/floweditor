@@ -18,7 +18,7 @@ const devConfig = {
         port: devServerPort,
         proxy: {
             '/assets/flows': {
-                bypass: (req, res, proxyOptions) => {
+                bypass: req => {
                     const { query: { uuid } } = req;
                     if (uuid) {
                         return `/test_flows/${uuid}.json`;

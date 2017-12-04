@@ -4,8 +4,8 @@
 # Flow Editor
 This is a standalone flow editing tool designed for use within the [RapidPro](https://github.com/rapidpro/rapidpro)
  suite of messaging tools but can be adopted for use outside of that ecosystem. The editor is a React component built with TypeScript and bundled with Webpack. It is open-sourced under the AGPL-3.0 license.
- 
- 
+
+
 ### Prerequisites
 ```
 NPM
@@ -29,7 +29,7 @@ or
 ```
 
 ## Development
-You can run the editor in a development server. To start a development server, compile all necessary bits, and then launch your default browser with the results. The development server watches for changes to any TypeScript or SASS documents and automatically recompiles them. 
+You can run the editor in a development server. To start a development server, compile all necessary bits, and then launch your default browser with the results. The development server watches for changes to any TypeScript or SASS documents and automatically recompiles them.
 ```
 % npm start
 ```
@@ -39,21 +39,22 @@ This project uses [React Hot Loader](https://github.com/gaearon/react-hot-loader
 
 ### Configuration
 
-This project is currently configured via `flowEditor.config.*.js` in the root directory, which is loaded into the bundle as an [external](https://webpack.js.org/configuration/externals/), `Config`, via Webpack. The `ConfigProvider` component composes the app's configuration and provides it to each component via React's [context API](https://reactjs.org/docs/context.html). 
+This project is currently configured via `flowEditor.config.*.js` in the root directory, which is loaded into the bundle as an [external](https://webpack.js.org/configuration/externals/), `Config`, via Webpack. The `ConfigProvider` component composes the app's configuration and provides it to each component via React's [context API](https://reactjs.org/docs/context.html).
 
 ## Running Tests
 
-This project uses [Jest](https://facebook.github.io/jest/) for unit/snapshot testing and [Enzyme](https://github.com/airbnb/enzyme) to test React components. Typescript and Jest are integrated via [ts-jest](https://github.com/kulshekhar/ts-jest). 
+This project uses [Jest](https://facebook.github.io/jest/) for unit/snapshot testing and [Enzyme](https://github.com/airbnb/enzyme) to test React components. Typescript and Jest are integrated via [ts-jest](https://github.com/kulshekhar/ts-jest).
 
 ```
-% npm run test:local 
+% npm run test:local
 ```
 ### Linting
 
-This project uses [tslint](https://github.com/palantir/tslint) to enforce consistent style.
+This project uses both [eslint](https://eslint.org/) (Node) & [tslint](https://github.com/palantir/tslint) (TypeScript) to enforce consistent style.
 
 ```
-% npm run lint
+% npm run lint:es
+% npm run lint:ts
 ```
 
 ### Formatting
@@ -70,5 +71,5 @@ Please read [CONTRIBUTING.md](https://github.com/nyaruka/floweditor/blob/master/
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see this repo's [tags](https://github.com/nyaruka/floweditor/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see this repo's [tags](https://github.com/nyaruka/floweditor/tags).
 
