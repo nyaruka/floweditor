@@ -11,14 +11,17 @@ const Activity = new ActivityManager(flowUUID, jest.fn());
 
 const simulatorProps: SimulatorProps = {
     definition,
-    engineURL: 'https://your-engine.com',
-    getFlow: jest.fn(),
     showDefinition: jest.fn(),
     plumberRepaint: jest.fn(),
     Activity
 };
 
-const SimulatorShallow = shallow(<SimulatorComp {...simulatorProps} />);
+const SimulatorShallow = shallow(<SimulatorComp {...simulatorProps} />, {
+    context: {
+        engineURL: 'https://your-engine.com',
+        getFlow: jest.fn()
+    }
+});
 
 describe('Component: Simulator', () => {
     it('should render', () => {
