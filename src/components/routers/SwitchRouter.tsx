@@ -464,16 +464,16 @@ export default class SwitchRouterForm extends React.Component<
 
         const { cases } = this.props.node.router as SwitchRouter;
 
-        cases.forEach(({ uuid: kaseUUID }) => {
-            const input = widgets[kaseUUID] as TextInputElement;
+        cases.forEach(({ uuid: caseUUID }) => {
+            const input = widgets[caseUUID] as TextInputElement;
 
             if (input) {
                 const value = input.state.value.trim();
 
                 if (value) {
-                    results.push({ uuid: kaseUUID, translations: { arguments: [value] } });
+                    results.push({ uuid: caseUUID, translations: { arguments: [value] } });
                 } else {
-                    results.push({ uuid: kaseUUID, translations: null });
+                    results.push({ uuid: caseUUID, translations: null });
                 }
             }
         });
@@ -481,64 +481,76 @@ export default class SwitchRouterForm extends React.Component<
         return results;
     }
 
+    private getLanguage(): Language {
+        let language: Language;
+
+        if (this.props.localizations && this.props.localizations.length) {
+            language = this.props.localizations[0].getLanguage();
+        }
+
+        return language;
+    }
+
+    private getCasesForLocalization(language: Language): JSX.Element[] {
+        const casesForLocalization: JSX.Element[] = [];
+
+        const { cases } = this.props.node.router as SwitchRouter;
+
+        cases.forEach(item => {
+            if (item.arguments && item.arguments.length) {
+                const localized = this.props.localizations.find(
+                    (localizedObject: LocalizedObject) =>
+                        localizedObject.getObject().uuid === item.uuid
+                );
+
+                if (localized) {
+                    let value: string = null;
+
+                    if ('arguments' in localized.localizedKeys) {
+                        const localizedCase: Case = localized.getObject() as Case;
+
+                        if (localizedCase.arguments.length) {
+                            [value] = localizedCase.arguments;
+                        }
+                    }
+
+                    const { verboseName } = this.context.getOperatorConfig(item.type);
+                    const [argument] = item.arguments;
+
+                    casesForLocalization.push(
+                        <div key={`translate_${item.uuid}`} className={styles.translating_item}>
+                            <div className={styles.translating_operator}>{verboseName}</div>
+                            <div className={styles.translating_from}>{argument}</div>
+                            <div className={styles.translating_to}>
+                                <TextInputElement
+                                    ref={this.props.onBindAdvancedWidget}
+                                    name={item.uuid}
+                                    placeholder={`${language.name} Translation`}
+                                    showLabel={false}
+                                    value={value}
+                                    ComponentMap={this.props.ComponentMap}
+                                />
+                            </div>
+                        </div>
+                    );
+                }
+            }
+        });
+
+        return casesForLocalization;
+    }
+
     private renderAdvanced(): JSX.Element {
         if (this.props.translating) {
-            let language: Language;
-            const kases: JSX.Element[] = [];
-
-            if (this.props.localizations && this.props.localizations.length) {
-                language = this.props.localizations[0].getLanguage();
-            }
+            const language: Language = this.getLanguage();
 
             if (!language) {
                 return null;
             }
 
-            const { cases } = this.props.node.router as SwitchRouter;
+            const cases: JSX.Element[] = this.getCasesForLocalization(language);
 
-            cases.forEach(kase => {
-                if (kase.arguments && kase.arguments.length) {
-                    const localized = this.props.localizations.find(
-                        (localizedObject: LocalizedObject) =>
-                            localizedObject.getObject().uuid === kase.uuid
-                    );
-
-                    if (localized) {
-                        let value: string = null;
-
-                        if ('arguments' in localized.localizedKeys) {
-                            const localizedCase: Case = localized.getObject() as Case;
-
-                            if (localizedCase.arguments.length) {
-                                [value] = localizedCase.arguments;
-                            }
-                        }
-
-                        const { verboseName } = this.context.getOperatorConfig(kase.type);
-
-                        const [argument] = kase.arguments;
-
-                        kases.push(
-                            <div key={`translate_${kase.uuid}`} className={styles.translating_case}>
-                                <div className={styles.translating_operator}>{verboseName}</div>
-                                <div className={styles.translating_from}>{argument}</div>
-                                <div className={styles.translating_to}>
-                                    <TextInputElement
-                                        ref={this.props.onBindAdvancedWidget}
-                                        name={kase.uuid}
-                                        placeholder={`${language.name} Translation`}
-                                        showLabel={false}
-                                        value={value}
-                                        ComponentMap={this.props.ComponentMap}
-                                    />
-                                </div>
-                            </div>
-                        );
-                    }
-                }
-            });
-
-            if (!kases.length) {
+            if (!cases.length) {
                 return null;
             }
 
@@ -549,7 +561,7 @@ export default class SwitchRouterForm extends React.Component<
                         Sometimes languages need special rules to route things properly. If a
                         translation is not provided, the original rule will be used.
                     </div>
-                    <div>{kases}</div>
+                    <div>{cases}</div>
                 </div>
             );
         }
