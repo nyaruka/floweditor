@@ -4,7 +4,10 @@ import { Operator } from '../../providers/ConfigProvider/operatorConfigs';
 import ComponentMap from '../../services/ComponentMap';
 import FormElement from './FormElement';
 import TextInputElement, { HTMLTextElement } from './TextInputElement';
-import { operatorConfigListPT, getOperatorConfigPT } from '../../providers/ConfigProvider/propTypes';
+import {
+    operatorConfigListPT,
+    getOperatorConfigPT
+} from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 import { Case } from '../../flowTypes';
 
@@ -17,6 +20,7 @@ export interface CaseElementProps {
     ComponentMap: ComponentMap;
     kase: Case;
     exitName: string;
+    empty?: boolean;
     onChanged: Function;
 }
 
@@ -244,7 +248,9 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors} className={styles.group}>
-                <div className={`${styles.case} select-medium`}>
+                <div
+                    className={`${styles.case} select-medium`}
+                    style={{ cursor: !this.props.empty && 'pointer' }}>
                     <div className={styles.choice}>
                         <Select
                             name="operator"

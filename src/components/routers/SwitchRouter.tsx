@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import * as update from 'immutability-helper';
+import { createPortal } from 'react-dom';
 import { v4 as generateUUID } from 'uuid';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Node, SwitchRouter, Exit, AnyAction, Case } from '../../flowTypes';
@@ -14,6 +15,7 @@ import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 import { getOperatorConfigPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 import { CaseElementProps } from '../form/CaseElement';
+import { reorderList } from '../../helpers/utils';
 
 const styles = require('./SwitchRouter.scss');
 
@@ -146,45 +148,14 @@ const composeExitMap = (exits: Exit[]): { [uuid: string]: Exit } =>
         {} as { [uuid: string]: Exit }
     );
 
-/* HELPERS */
-
-// a little function to help us with reordering the result
-const reorder = (list: any, startIndex: any, endIndex: any) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-
-    return result;
-};
-
-// using some little inline style helpers to make the app look okay
-const grid = 8;
-
-const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
-    // some basic styles to make the items look a bit nicer
-    userSelect: 'none',
-    padding: grid * 2,
-    margin: `0 0 ${grid}px 0`,
-
-    // change background colour if dragging
-    background: isDragging ? 'lightgreen' : 'grey',
-
-    // styles we need to apply on draggables
-    ...draggableStyle
-});
-const getListStyle = (isDraggingOver: boolean) => ({
-    background: isDraggingOver ? 'lightblue' : 'lightgrey',
-    padding: grid,
-    width: 250
-});
-
-/* HELPERS */
 
 export interface SwitchRouterState {
     cases: CaseElementProps[];
     resultName: string;
     setResultName: boolean;
     operand: string;
+    screenX?: number;
+    screenY?: number;
 }
 
 export interface SwitchRouterFormProps extends FormProps {
@@ -266,6 +237,7 @@ export default class SwitchRouterForm extends React.Component<
 
         this.onValid = this.onValid.bind(this);
         this.onExpressionChanged = this.onExpressionChanged.bind(this);
+        this.onDragEnd = this.onDragEnd.bind(this);
         this.onCaseRemoved = this.onCaseRemoved.bind(this);
         this.onShowNameField = this.onShowNameField.bind(this);
     }
@@ -570,14 +542,23 @@ export default class SwitchRouterForm extends React.Component<
     }
 
     private onDragEnd(result: any): void {
-        // dropped outside the list
-        // if (!result.destination) {
-        //     return;
-        // }
-        // const items = reorder(this.state.items, result.source.index, result.destination.index);
-        // this.setState({
-        //     items
-        // });
+        /** If case dropped outside the list */
+        if (!result.destination) {
+            return;
+        }
+
+        const cases: any = reorderList(
+            this.state.cases,
+            result.source.index,
+            result.destination.index
+        );
+
+        console.log('cases', cases);
+        console.log('state', this.state.cases);
+
+        this.setState({
+            cases
+        });
     }
 
     private getCases(): JSX.Element[] {
@@ -622,6 +603,7 @@ export default class SwitchRouterForm extends React.Component<
                     ref={this.props.onBindWidget}
                     name={`case_${cases.length}`}
                     exitName={null}
+                    empty
                     onRemove={this.onCaseRemoved}
                     onChanged={this.onCaseChanged}
                     ComponentMap={this.props.ComponentMap}
@@ -691,7 +673,8 @@ export default class SwitchRouterForm extends React.Component<
             const cases: JSX.Element[] = this.getCases();
             const nameField: JSX.Element = this.getNameField();
             const leadIn: JSX.Element = this.getLeadIn();
-
+            const draggableCases = cases.slice(0, cases.length - 1);
+            const emptyCase = cases[cases.length - 1];
             return (
                 <div className={styles.switch}>
                     {leadIn}
@@ -700,19 +683,22 @@ export default class SwitchRouterForm extends React.Component<
                             <Droppable droppableId="droppable">
                                 {(provided, snapshot) => (
                                     <div ref={provided.innerRef}>
-                                        {cases.map((item, idx) => {
+                                        {draggableCases.map((item, idx) => {
                                             const caseId = `draggable-case-${idx}`;
                                             return (
                                                 <Draggable key={caseId} draggableId={caseId}>
                                                     {(provided, snapshot) => (
-                                                        <div>
-                                                            <div
-                                                                ref={provided.innerRef}
-                                                                {...provided.dragHandleProps}>
-                                                                {item}
-                                                            </div>
-                                                            {provided.placeholder}
-                                                        </div>
+                                                        <DraggablePortal
+                                                            toBeDragged={item}
+                                                            isDragging={snapshot.isDragging}
+                                                            provided={provided}
+                                                            styles={{
+                                                                userSelect: 'none',
+                                                                opacity: snapshot.isDragging
+                                                                    ? 0.5
+                                                                    : 1
+                                                            }}
+                                                        />
                                                     )}
                                                 </Draggable>
                                             );
@@ -722,6 +708,7 @@ export default class SwitchRouterForm extends React.Component<
                                 )}
                             </Droppable>
                         </DragDropContext>
+                        {emptyCase}
                     </div>
                     <div className={styles.save_as}>{nameField}</div>
                 </div>
@@ -734,5 +721,64 @@ export default class SwitchRouterForm extends React.Component<
             return this.renderAdvanced();
         }
         return this.renderForm();
+    }
+}
+
+export interface DraggablePortalProps {
+    toBeDragged: JSX.Element;
+    isDragging: boolean;
+    provided: any;
+    styles: any;
+}
+
+/**
+ * Portal is necessary because Modal has a transform: https://github.com/atlassian/react-beautiful-dnd#warning-position-fixed
+ * A better solution is on Atlassian's radar: https://github.com/atlassian/react-beautiful-dnd/issues/192
+ */
+class DraggablePortal extends React.Component<DraggablePortalProps> {
+    private ref: any;
+
+    constructor(props: DraggablePortalProps) {
+        super(props);
+        this.setRef = this.setRef.bind(this);
+    }
+
+    componentDidUpdate() {
+        const { isDragging } = this.props;
+        /**
+         * If the element is being dragged we need to give it
+         * back focus after it's moved into a portal for keyboard dragging
+         */
+        if (isDragging) {
+            this.ref.focus();
+        }
+    }
+
+    setRef(ref: any) {
+        this.ref = ref;
+        this.props.provided.innerRef(ref);
+    }
+
+    render() {
+        const { toBeDragged, provided, isDragging, styles } = this.props;
+
+        const element = (
+            <div ref={this.setRef} style={styles} {...provided.dragHandleProps}>
+                {toBeDragged}
+            </div>
+        );
+
+        /** Create a portal for the draggable */
+        const portal = document.createElement('div');
+        document.body.appendChild(portal);
+
+        const result = isDragging ? createPortal(element, portal) : element;
+
+        return (
+            <div>
+                {result}
+                {provided.placeholder}
+            </div>
+        );
     }
 }
