@@ -1,20 +1,23 @@
 import * as React from 'react';
 import Select from 'react-select';
 import { Operator } from '../../providers/ConfigProvider/operatorConfigs';
-import { CaseProps } from '../routers/SwitchRouter';
 import ComponentMap from '../../services/ComponentMap';
 import FormElement from './FormElement';
 import TextInputElement, { HTMLTextElement } from './TextInputElement';
 import { operatorConfigListPT, getOperatorConfigPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
+import { Case } from '../../flowTypes';
 
 const forms = require('./FormElement.scss');
 const styles = require('./CaseElement.scss');
 
-export interface CaseElementProps extends CaseProps {
-    name: string; // satisfy form widget props
+export interface CaseElementProps {
+    name?: string; // satisfy form widget props
     onRemove(c: CaseElement): void;
     ComponentMap: ComponentMap;
+    kase: Case;
+    exitName: string;
+    onChanged: Function;
 }
 
 interface CaseElementState {

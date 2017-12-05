@@ -2,8 +2,8 @@ import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import * as update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
-// import { DragDropContext } from 'react-dnd';
-import { Node, SwitchRouter, Exit, Case, AnyAction } from '../../flowTypes';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { Node, SwitchRouter, Exit, AnyAction, Case } from '../../flowTypes';
 import { Type } from '../../providers/ConfigProvider/typeConfigs';
 import { FormProps } from '../NodeEditor';
 import ComponentMap from '../../services/ComponentMap';
@@ -13,16 +13,9 @@ import CaseElement from '../form/CaseElement';
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 import { getOperatorConfigPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
+import { CaseElementProps } from '../form/CaseElement';
 
-// const HTML5Backend = require('react-dnd-html5-backend');
 const styles = require('./SwitchRouter.scss');
-
-export interface CaseProps {
-    kase: Case;
-    exitName: string;
-    onChanged: Function;
-    moveCase: Function;
-}
 
 export interface CombinedExits {
     cases: Case[];
@@ -36,7 +29,7 @@ export interface CombinedExits {
  * @param newCases
  * @param previousExits
  */
-export function resolveExits(newCases: CaseProps[], previous: Node): CombinedExits {
+export function resolveExits(newCases: CaseElementProps[], previous: Node): CombinedExits {
     // create mapping of our old exit uuids to old exit settings
     var previousExitMap: { [uuid: string]: Exit } = {};
 
@@ -153,8 +146,42 @@ const composeExitMap = (exits: Exit[]): { [uuid: string]: Exit } =>
         {} as { [uuid: string]: Exit }
     );
 
+/* HELPERS */
+
+// a little function to help us with reordering the result
+const reorder = (list: any, startIndex: any, endIndex: any) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+};
+
+// using some little inline style helpers to make the app look okay
+const grid = 8;
+
+const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
+    // some basic styles to make the items look a bit nicer
+    userSelect: 'none',
+    padding: grid * 2,
+    margin: `0 0 ${grid}px 0`,
+
+    // change background colour if dragging
+    background: isDragging ? 'lightgreen' : 'grey',
+
+    // styles we need to apply on draggables
+    ...draggableStyle
+});
+const getListStyle = (isDraggingOver: boolean) => ({
+    background: isDraggingOver ? 'lightblue' : 'lightgrey',
+    padding: grid,
+    width: 250
+});
+
+/* HELPERS */
+
 export interface SwitchRouterState {
-    cases: CaseProps[];
+    cases: CaseElementProps[];
     resultName: string;
     setResultName: boolean;
     operand: string;
@@ -190,9 +217,8 @@ export default class SwitchRouterForm extends React.Component<
         super(props, context);
 
         this.onCaseChanged = this.onCaseChanged.bind(this);
-        this.moveCase = this.moveCase.bind(this);
 
-        const cases: CaseProps[] = [];
+        const cases: CaseElementProps[] = [];
         let resultName = '';
         let operand = '@input';
 
@@ -223,8 +249,8 @@ export default class SwitchRouterForm extends React.Component<
                         kase,
                         exitName,
                         onChanged: this.onCaseChanged,
-                        moveCase: this.moveCase
-                    });
+                        onRemove: this.onCaseRemoved
+                    } as any);
                 } catch (error) {
                     /** Ignore missing cases */
                 }
@@ -373,7 +399,7 @@ export default class SwitchRouterForm extends React.Component<
 
     private onCaseRemoved(c: CaseElement): void {
         let idx = this.state.cases.findIndex(
-            (props: CaseProps) => props.kase.uuid === c.props.kase.uuid
+            (props: CaseElementProps) => props.kase.uuid === c.props.kase.uuid
         );
 
         if (idx > -1) {
@@ -385,7 +411,7 @@ export default class SwitchRouterForm extends React.Component<
     }
 
     private onCaseChanged(c: CaseElement): void {
-        const newCase: CaseProps = {
+        const newCase: Partial<CaseElementProps> = {
             kase: {
                 uuid: c.props.kase.uuid,
                 type: c.state.operator,
@@ -393,7 +419,6 @@ export default class SwitchRouterForm extends React.Component<
                 arguments: c.state.arguments
             },
             onChanged: c.props.onChanged,
-            moveCase: c.props.moveCase,
             exitName: c.state.exitName
         };
 
@@ -532,126 +557,164 @@ export default class SwitchRouterForm extends React.Component<
         return null;
     }
 
-    private renderForm(): JSX.Element {
-        if (this.props.translating) {
-            return this.props.renderExitTranslations();
-        } else {
-            let needsEmpty: boolean = true;
-            const cases: JSX.Element[] = [];
+    private onDragEnd(result: any): void {
+        // dropped outside the list
+        // if (!result.destination) {
+        //     return;
+        // }
+        // const items = reorder(this.state.items, result.source.index, result.destination.index);
+        // this.setState({
+        //     items
+        // });
+    }
 
-            if (this.state.cases) {
-                this.state.cases.map((c: CaseProps, index: number) => {
-                    /** Is this case empty? */
-                    if (
-                        (!c.exitName || c.exitName.trim().length === 0) &&
-                        (!c.kase.arguments || c.kase.arguments[0].trim().length === 0)
-                    ) {
-                        needsEmpty = false;
-                    }
+    private getCases(): JSX.Element[] {
+        let needsEmpty: boolean = true;
+        const cases: JSX.Element[] = [];
 
-                    cases.push(
-                        <CaseElement
-                            key={c.kase.uuid}
-                            kase={c.kase}
-                            ref={this.props.onBindWidget}
-                            name={`case_${index}`}
-                            exitName={c.exitName}
-                            onRemove={this.onCaseRemoved}
-                            onChanged={this.onCaseChanged}
-                            moveCase={this.moveCase}
-                            ComponentMap={this.props.ComponentMap}
-                        />
-                    );
-                });
-            }
-
-            if (needsEmpty) {
-                const newCaseUUID = generateUUID();
+        if (this.state.cases) {
+            this.state.cases.map((c: CaseElementProps, index: number) => {
+                /** Is this case empty? */
+                if (
+                    (!c.exitName || c.exitName.trim().length === 0) &&
+                    (!c.kase.arguments || c.kase.arguments[0].trim().length === 0)
+                ) {
+                    needsEmpty = false;
+                }
 
                 cases.push(
                     <CaseElement
-                        kase={{
-                            uuid: newCaseUUID,
-                            type: 'has_any_word',
-                            exit_uuid: null
-                        }}
-                        key={newCaseUUID}
+                        key={c.kase.uuid}
+                        kase={c.kase}
                         ref={this.props.onBindWidget}
-                        name={`case_${cases.length}`}
-                        exitName={null}
+                        name={`case_${index}`}
+                        exitName={c.exitName}
                         onRemove={this.onCaseRemoved}
-                        moveCase={this.moveCase}
                         onChanged={this.onCaseChanged}
                         ComponentMap={this.props.ComponentMap}
                     />
                 );
-            }
+            });
+        }
 
-            let nameField: JSX.Element = null;
+        if (needsEmpty) {
+            const newCaseUUID = generateUUID();
+            cases.push(
+                <CaseElement
+                    kase={{
+                        uuid: newCaseUUID,
+                        type: 'has_any_word',
+                        exit_uuid: null
+                    }}
+                    key={newCaseUUID}
+                    ref={this.props.onBindWidget}
+                    name={`case_${cases.length}`}
+                    exitName={null}
+                    onRemove={this.onCaseRemoved}
+                    onChanged={this.onCaseChanged}
+                    ComponentMap={this.props.ComponentMap}
+                />
+            );
+        }
 
-            if (this.state.setResultName || this.state.resultName) {
-                nameField = (
+        return cases;
+    }
+
+    private getNameField(): JSX.Element {
+        let nameField: JSX.Element = null;
+
+        if (this.state.setResultName || this.state.resultName) {
+            nameField = (
+                <TextInputElement
+                    ref={this.props.onBindWidget}
+                    name="Result Name"
+                    showLabel={true}
+                    value={this.state.resultName}
+                    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+                    ComponentMap={this.props.ComponentMap}
+                />
+            );
+        } else {
+            nameField = (
+                <span className={styles.save_link} onClick={this.onShowNameField}>
+                    Save as..
+                </span>
+            );
+        }
+
+        return nameField;
+    }
+
+    private getLeadIn(): JSX.Element {
+        let leadIn: JSX.Element = null;
+
+        if (this.props.config.type === 'wait_for_response') {
+            leadIn = <div className={styles.instructions}>If the message response..</div>;
+        } else if (this.props.config.type === 'expression') {
+            leadIn = (
+                <div className={styles.instructions}>
+                    <p>If the expression..</p>
                     <TextInputElement
                         ref={this.props.onBindWidget}
-                        name="Result Name"
-                        showLabel={true}
-                        value={this.state.resultName}
-                        helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+                        key={`expression_${this.props.node.uuid}`}
+                        name="Expression"
+                        showLabel={false}
+                        value={this.state.operand}
+                        onChange={this.onExpressionChanged}
+                        autocomplete
+                        required
                         ComponentMap={this.props.ComponentMap}
                     />
-                );
-            } else {
-                nameField = (
-                    <span className={styles.save_link} onClick={this.onShowNameField}>
-                        Save as..
-                    </span>
-                );
-            }
+                </div>
+            );
+        }
 
-            let leadIn: JSX.Element = null;
+        return leadIn;
+    }
 
-            if (this.props.config.type === 'wait_for_response') {
-                leadIn = <div className={styles.instructions}>If the message response..</div>;
-            } else if (this.props.config.type === 'expression') {
-                leadIn = (
-                    <div className={styles.instructions}>
-                        <p>If the expression..</p>
-                        <TextInputElement
-                            ref={this.props.onBindWidget}
-                            key={`expression_${this.props.node.uuid}`}
-                            name="Expression"
-                            showLabel={false}
-                            value={this.state.operand}
-                            onChange={this.onExpressionChanged}
-                            autocomplete
-                            required
-                            ComponentMap={this.props.ComponentMap}
-                        />
-                    </div>
-                );
-            }
+    private renderForm(): JSX.Element {
+        if (this.props.translating) {
+            return this.props.renderExitTranslations();
+        } else {
+            const cases: JSX.Element[] = this.getCases();
+            const nameField: JSX.Element = this.getNameField();
+            const leadIn: JSX.Element = this.getLeadIn();
 
             return (
                 <div className={styles.switch}>
                     {leadIn}
-                    <div className={styles.cases}>{cases}</div>
+                    <div className={styles.cases}>
+                        <DragDropContext onDragEnd={this.onDragEnd}>
+                            <Droppable droppableId="droppable">
+                                {(provided, snapshot) => (
+                                    <div ref={provided.innerRef}>
+                                        {cases.map((item, idx) => {
+                                            const caseId = `draggable-case-${idx}`;
+                                            return (
+                                                <Draggable key={caseId} draggableId={caseId}>
+                                                    {(provided, snapshot) => (
+                                                        <div>
+                                                            <div
+                                                                ref={provided.innerRef}
+                                                                {...provided.dragHandleProps}>
+                                                                {item}
+                                                            </div>
+                                                            {provided.placeholder}
+                                                        </div>
+                                                    )}
+                                                </Draggable>
+                                            );
+                                        })}
+                                        {provided.placeholder}
+                                    </div>
+                                )}
+                            </Droppable>
+                        </DragDropContext>
+                    </div>
                     <div className={styles.save_as}>{nameField}</div>
                 </div>
             );
         }
-    }
-
-    private moveCase(dragIndex: number, hoverIndex: number): void {
-        const { cases } = this.state;
-        const dragCase = cases[dragIndex];
-
-        this.setState(
-            update(this.state, {
-                cards: {
-                    $splice: [[dragIndex, 1], [hoverIndex, 0, dragCase]]
-                }
-            })
-        );
     }
 
     public render(): JSX.Element {
