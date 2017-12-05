@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../../../enzymeAdapter';
 import { shallow, mount, ShallowWrapper, ReactWrapper } from 'enzyme';
 import { getSpecWrapper } from '../../../helpers/utils';
 import ComponentMap from '../../../services/ComponentMap';

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../../src/enzymeAdapter';
 import { mount, ReactWrapper } from 'enzyme';
 import Button, { ButtonProps } from './Button';
 import { getSpecWrapper } from '../helpers/utils';

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../../enzymeAdapter.ts';
 import { shallow, mount } from 'enzyme';
 import TitleBar from './TitleBar';
 

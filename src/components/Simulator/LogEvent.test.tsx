@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../../enzymeAdapter';
 import { shallow } from 'enzyme';
 import LogEventComp, { EventProps } from './LogEvent';
 

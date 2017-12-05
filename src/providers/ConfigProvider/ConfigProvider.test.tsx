@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { renderIntoDocument, findRenderedComponentWithType } from 'react-dom/test-utils';
-import '../../enzymeAdapter';
 import { shallow } from 'enzyme';
 import ConfigProvider from './ConfigProvider';
 import configContext from './configContext';
