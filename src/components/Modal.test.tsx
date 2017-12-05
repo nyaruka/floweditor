@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../enzymeAdapter';
 import { shallow } from 'enzyme';
 import Modal, { ButtonSet, ModalProps } from './Modal';
 

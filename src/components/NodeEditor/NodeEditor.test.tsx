@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../../enzymeAdapter';
 import { shallow } from 'enzyme';
 import CompMap from '../../services/ComponentMap';
 import NodeEditor, { NodeEditorProps } from './index';
