@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../enzymeAdapter';
 import { shallow } from 'enzyme';
 import { LocalizedObject } from '../services/Localization';
 import Plumber from '../services/Plumber';

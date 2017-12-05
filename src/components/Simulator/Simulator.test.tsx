@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../../enzymeAdapter';
 import { shallow } from 'enzyme';
 import ActivityManager from '../../services/ActivityManager';
 import SimulatorComp, { SimulatorProps } from './Simulator';
@@ -12,14 +11,17 @@ const Activity = new ActivityManager(flowUUID, jest.fn());
 
 const simulatorProps: SimulatorProps = {
     definition,
-    engineURL: 'https://your-engine.com',
-    getFlow: jest.fn(),
     showDefinition: jest.fn(),
     plumberRepaint: jest.fn(),
     Activity
 };
 
-const SimulatorShallow = shallow(<SimulatorComp {...simulatorProps} />);
+const SimulatorShallow = shallow(<SimulatorComp {...simulatorProps} />, {
+    context: {
+        engineURL: 'https://your-engine.com',
+        getFlow: jest.fn()
+    }
+});
 
 describe('Component: Simulator', () => {
     it('should render', () => {

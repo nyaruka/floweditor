@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../../../enzymeAdapter';
 import { mount } from 'enzyme';
 import ComponentMap from '../../../services/ComponentMap';
 import ChangeGroupForm, { ChangeGroupFormProps } from './ChangeGroupForm';
