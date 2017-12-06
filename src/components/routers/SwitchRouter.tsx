@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import * as update from 'immutability-helper';
-import { createPortal } from 'react-dom';
 import { v4 as generateUUID } from 'uuid';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Node, SwitchRouter, Exit, AnyAction, Case } from '../../flowTypes';
@@ -724,61 +723,3 @@ export default class SwitchRouterForm extends React.Component<
     }
 }
 
-export interface DraggablePortalProps {
-    toBeDragged: JSX.Element;
-    isDragging: boolean;
-    provided: any;
-    styles: any;
-}
-
-/**
- * Portal is necessary because Modal has a transform: https://github.com/atlassian/react-beautiful-dnd#warning-position-fixed
- * A better solution is on Atlassian's radar: https://github.com/atlassian/react-beautiful-dnd/issues/192
- */
-class DraggablePortal extends React.Component<DraggablePortalProps> {
-    private ref: any;
-
-    constructor(props: DraggablePortalProps) {
-        super(props);
-        this.setRef = this.setRef.bind(this);
-    }
-
-    componentDidUpdate() {
-        const { isDragging } = this.props;
-        /**
-         * If the element is being dragged we need to give it
-         * back focus after it's moved into a portal for keyboard dragging
-         */
-        if (isDragging) {
-            this.ref.focus();
-        }
-    }
-
-    setRef(ref: any) {
-        this.ref = ref;
-        this.props.provided.innerRef(ref);
-    }
-
-    render() {
-        const { toBeDragged, provided, isDragging, styles } = this.props;
-
-        const element = (
-            <div ref={this.setRef} style={styles} {...provided.dragHandleProps}>
-                {toBeDragged}
-            </div>
-        );
-
-        /** Create a portal for the draggable */
-        const portal = document.createElement('div');
-        document.body.appendChild(portal);
-
-        const result = isDragging ? createPortal(element, portal) : element;
-
-        return (
-            <div>
-                {result}
-                {provided.placeholder}
-            </div>
-        );
-    }
-}
