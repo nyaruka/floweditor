@@ -56,7 +56,8 @@ $spacing: 10px;
 }
 
 .dragging {
-    cursor: pointer;
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
     opacity: 0.5;
 }
 

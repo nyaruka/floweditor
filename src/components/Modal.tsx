@@ -179,6 +179,7 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
 
         return (
             <ReactModal
+                ariaHideApp={false}
                 isOpen={this.props.show}
                 onAfterOpen={this.props.onModalOpen}
                 onRequestClose={
