@@ -10,18 +10,31 @@ import {
 } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 import { Case } from '../../flowTypes';
+import { DragSource, DropTarget } from 'react-dnd';
+
+const flow = require('lodash.flow');
 
 const forms = require('./FormElement.scss');
 const styles = require('./CaseElement.scss');
 
+export enum DragTypes {
+    CASE = 'CASE'
+}
+
 export interface CaseElementProps {
+    id: number;
     name?: string; // satisfy form widget props
     onRemove(c: CaseElement): void;
     ComponentMap: ComponentMap;
     kase: Case;
     exitName: string;
     empty?: boolean;
+    moveCase: Function;
+    findCase: Function;
     onChanged: Function;
+    isDragging?: boolean;
+    connectDragSource?: Function;
+    connectDropTarget?: Function;
 }
 
 interface CaseElementState {
@@ -31,7 +44,7 @@ interface CaseElementState {
     exitName: string;
 }
 
-export default class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
+export class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
     private category: TextInputElement;
     private operatorConfig: Operator;
 
@@ -246,41 +259,105 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             );
         }
 
-        return (
-            <FormElement name={this.props.name} errors={this.state.errors} className={styles.group}>
-                <div
-                    className={`${styles.case} select-medium`}
-                    style={{ cursor: !this.props.empty && 'pointer' }}>
-                    <div className={styles.choice}>
-                        <Select
-                            name="operator"
-                            clearable={false}
-                            options={this.context.operatorConfigList}
-                            value={this.state.operator}
-                            valueKey="type"
-                            labelKey="verboseName"
-                            optionClassName="operator"
-                            searchable={false}
-                            onChange={this.onChangeOperator}
-                        />
-                    </div>
-                    <div className={styles.operand}>{args}</div>
-                    <div className={styles['categorize-as']}>categorize as</div>
-                    <div className={styles.category}>
-                        <TextInputElement
-                            ref={ele => (this.category = ele)}
-                            className={styles.input}
-                            name="exitName"
-                            onChange={this.onChangeExitName}
-                            value={this.state.exitName}
-                            ComponentMap={this.props.ComponentMap}
-                        />
-                    </div>
-                    <div className={styles['remove-button']} onClick={this.onRemove}>
-                        <span className="icon-remove" />
-                    </div>
+        const { isDragging, connectDragSource, connectDropTarget } = this.props;
+
+        return connectDragSource(
+            connectDropTarget(
+                /**
+                 * Only native element nodes can be passed to React DnD connectors,
+                 * so we wrap FormElement in a div.
+                 */
+                <div>
+                    <FormElement
+                        name={this.props.name}
+                        errors={this.state.errors}
+                        className={styles.group}>
+                        <div
+                            className={`${styles.case} select-medium ${isDragging &&
+                                styles.dragging}`}>
+                            <div className={styles.choice}>
+                                <Select
+                                    name="operator"
+                                    clearable={false}
+                                    options={this.context.operatorConfigList}
+                                    value={this.state.operator}
+                                    valueKey="type"
+                                    labelKey="verboseName"
+                                    optionClassName="operator"
+                                    searchable={false}
+                                    onChange={this.onChangeOperator}
+                                />
+                            </div>
+                            <div className={styles.operand}>{args}</div>
+                            <div className={styles['categorize-as']}>categorize as</div>
+                            <div className={styles.category}>
+                                <TextInputElement
+                                    ref={ele => (this.category = ele)}
+                                    className={styles.input}
+                                    name="exitName"
+                                    onChange={this.onChangeExitName}
+                                    value={this.state.exitName}
+                                    ComponentMap={this.props.ComponentMap}
+                                />
+                            </div>
+                            <div className={styles['remove-button']} onClick={this.onRemove}>
+                                <span className="icon-remove" />
+                            </div>
+                        </div>
+                    </FormElement>
                 </div>
-            </FormElement>
+            )
         );
     }
 }
+
+const caseSource = {
+    beginDrag(props: any) {
+        return {
+            id: props.id,
+            originalIndex: props.findCase(props.id).index
+        };
+    },
+    endDrag(props: any, monitor: any) {
+        const { id: droppedId, originalIndex } = monitor.getItem();
+        const didDrop = monitor.didDrop();
+
+        if (!didDrop) {
+            props.moveCase(droppedId, originalIndex);
+        }
+    }
+};
+
+const caseTarget = {
+    canDrop() {
+        return false;
+    },
+    hover(props: any, monitor: any) {
+        const { id: draggedId } = monitor.getItem();
+        const { id: overId } = props;
+
+        if (draggedId !== overId) {
+            const { index: overIndex } = props.findCase(overId);
+            props.moveCase(draggedId, overIndex);
+        }
+    }
+};
+
+// prettier-ignore
+export default flow(
+    DragSource(
+        DragTypes.CASE,
+        caseSource,
+        (connect, monitor) => ({
+            connectDragSource: connect.dragSource(),
+            isDragging: monitor.isDragging(),
+        })
+    ),
+    DropTarget(
+        DragTypes.CASE,
+        caseTarget,
+        connect => ({
+            connectDropTarget: connect.dropTarget(),
+        })
+    ),
+)(CaseElement);

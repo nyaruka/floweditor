@@ -55,6 +55,11 @@ $spacing: 10px;
     }
 }
 
+.dragging {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
 .remove-button {
     color: #ccc;
     border: 0px solid green;

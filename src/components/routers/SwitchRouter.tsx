@@ -1,20 +1,24 @@
 import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import * as update from 'immutability-helper';
+import { DropTarget } from 'react-dnd';
 import { v4 as generateUUID } from 'uuid';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Node, SwitchRouter, Exit, AnyAction, Case } from '../../flowTypes';
 import { Type } from '../../providers/ConfigProvider/typeConfigs';
 import { FormProps } from '../NodeEditor';
 import ComponentMap from '../../services/ComponentMap';
 import { Language } from '../LanguageSelector';
 import { LocalizedObject } from '../../services/Localization';
-import CaseElement from '../form/CaseElement';
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 import { getOperatorConfigPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
-import { CaseElementProps } from '../form/CaseElement';
+import CaseElement, { CaseElementProps } from '../form/CaseElement';
 import { reorderList } from '../../helpers/utils';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragTypes } from '../form/CaseElement';
+
+const flow = require('lodash.flow');
 
 const styles = require('./SwitchRouter.scss');
 
@@ -147,14 +151,11 @@ const composeExitMap = (exits: Exit[]): { [uuid: string]: Exit } =>
         {} as { [uuid: string]: Exit }
     );
 
-
 export interface SwitchRouterState {
     cases: CaseElementProps[];
     resultName: string;
     setResultName: boolean;
     operand: string;
-    screenX?: number;
-    screenY?: number;
 }
 
 export interface SwitchRouterFormProps extends FormProps {
@@ -163,6 +164,7 @@ export interface SwitchRouterFormProps extends FormProps {
     node: Node;
     action: AnyAction;
     config: Type;
+    connectDropTarget: Function;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
@@ -175,10 +177,7 @@ export interface SwitchRouterFormProps extends FormProps {
     renderExitTranslations(): JSX.Element;
 }
 
-export default class SwitchRouterForm extends React.Component<
-    SwitchRouterFormProps,
-    SwitchRouterState
-> {
+export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRouterState> {
     public static contextTypes = {
         getOperatorConfig: getOperatorConfigPT
     };
@@ -187,6 +186,7 @@ export default class SwitchRouterForm extends React.Component<
         super(props, context);
 
         this.onCaseChanged = this.onCaseChanged.bind(this);
+        this.onCaseRemoved = this.onCaseRemoved.bind(this);
 
         const cases: CaseElementProps[] = [];
         let resultName = '';
@@ -201,21 +201,22 @@ export default class SwitchRouterForm extends React.Component<
                 ({ result_name: resultName } = router);
             }
 
-            router.cases.forEach(kase => {
+            router.cases.forEach((kase, idx) => {
+                const id = idx + 1;
                 let exitName: string = null;
 
                 if (kase.exit_uuid) {
                     const exit = this.props.node.exits.find(exit => exit.uuid === kase.exit_uuid);
 
                     if (exit) {
-                        exitName = exit.name;
+                        ({ name: exitName } = exit);
                     }
                 }
 
                 try {
                     const config = this.context.getOperatorConfig(kase.type);
-
                     cases.push({
+                        id,
                         kase,
                         exitName,
                         onChanged: this.onCaseChanged,
@@ -237,8 +238,9 @@ export default class SwitchRouterForm extends React.Component<
         this.onValid = this.onValid.bind(this);
         this.onExpressionChanged = this.onExpressionChanged.bind(this);
         this.onDragEnd = this.onDragEnd.bind(this);
-        this.onCaseRemoved = this.onCaseRemoved.bind(this);
         this.onShowNameField = this.onShowNameField.bind(this);
+        this.moveCase = this.moveCase.bind(this);
+        this.findCase = this.findCase.bind(this);
     }
 
     private isSwitchRouterNode(): boolean {
@@ -368,7 +370,7 @@ export default class SwitchRouterForm extends React.Component<
         });
     }
 
-    private onCaseRemoved(c: CaseElement): void {
+    private onCaseRemoved(c: any): void {
         let idx = this.state.cases.findIndex(
             (props: CaseElementProps) => props.kase.uuid === c.props.kase.uuid
         );
@@ -381,7 +383,7 @@ export default class SwitchRouterForm extends React.Component<
         this.props.removeWidget(c.props.name);
     }
 
-    private onCaseChanged(c: CaseElement): void {
+    private onCaseChanged(c: any): void {
         const newCase: Partial<CaseElementProps> = {
             kase: {
                 uuid: c.props.kase.uuid,
@@ -560,6 +562,27 @@ export default class SwitchRouterForm extends React.Component<
         });
     }
 
+    private moveCase(dragIdx: number, hoverIdx: number) {
+        const { cases } = this.state;
+        const dragCard = cases[dragIdx];
+        this.setState(
+            update(this.state, {
+                cases: {
+                    $splice: [[dragIdx, 1], [hoverIdx, 0, dragCard]]
+                }
+            })
+        );
+    }
+
+    private findCase(id: number) {
+        const { cases } = this.state;
+        const [kase] = cases.filter(c => c.id === id);
+        return {
+            case: kase,
+            index: cases.indexOf(kase)
+        };
+    }
+
     private getCases(): JSX.Element[] {
         let needsEmpty: boolean = true;
         const cases: JSX.Element[] = [];
@@ -577,12 +600,15 @@ export default class SwitchRouterForm extends React.Component<
                 cases.push(
                     <CaseElement
                         key={c.kase.uuid}
+                        id={c.id}
                         kase={c.kase}
                         ref={this.props.onBindWidget}
                         name={`case_${index}`}
                         exitName={c.exitName}
                         onRemove={this.onCaseRemoved}
                         onChanged={this.onCaseChanged}
+                        moveCase={this.moveCase}
+                        findCase={this.findCase}
                         ComponentMap={this.props.ComponentMap}
                     />
                 );
@@ -593,18 +619,21 @@ export default class SwitchRouterForm extends React.Component<
             const newCaseUUID = generateUUID();
             cases.push(
                 <CaseElement
+                    key={newCaseUUID}
+                    id={cases.length + 1}
                     kase={{
                         uuid: newCaseUUID,
                         type: 'has_any_word',
                         exit_uuid: null
                     }}
-                    key={newCaseUUID}
                     ref={this.props.onBindWidget}
                     name={`case_${cases.length}`}
                     exitName={null}
                     empty
                     onRemove={this.onCaseRemoved}
                     onChanged={this.onCaseChanged}
+                    moveCase={this.moveCase}
+                    findCase={this.findCase}
                     ComponentMap={this.props.ComponentMap}
                 />
             );
@@ -672,43 +701,16 @@ export default class SwitchRouterForm extends React.Component<
             const cases: JSX.Element[] = this.getCases();
             const nameField: JSX.Element = this.getNameField();
             const leadIn: JSX.Element = this.getLeadIn();
-            const draggableCases = cases.slice(0, cases.length - 1);
-            const emptyCase = cases[cases.length - 1];
+            const { connectDropTarget } = this.props;
+
+            const connectedCaseList = connectDropTarget(
+                <div className={styles.cases}>{cases}</div>
+            );
+
             return (
                 <div className={styles.switch}>
                     {leadIn}
-                    <div className={styles.cases}>
-                        <DragDropContext onDragEnd={this.onDragEnd}>
-                            <Droppable droppableId="droppable">
-                                {(provided, snapshot) => (
-                                    <div ref={provided.innerRef}>
-                                        {draggableCases.map((item, idx) => {
-                                            const caseId = `draggable-case-${idx}`;
-                                            return (
-                                                <Draggable key={caseId} draggableId={caseId}>
-                                                    {(provided, snapshot) => (
-                                                        <DraggablePortal
-                                                            toBeDragged={item}
-                                                            isDragging={snapshot.isDragging}
-                                                            provided={provided}
-                                                            styles={{
-                                                                userSelect: 'none',
-                                                                opacity: snapshot.isDragging
-                                                                    ? 0.5
-                                                                    : 1
-                                                            }}
-                                                        />
-                                                    )}
-                                                </Draggable>
-                                            );
-                                        })}
-                                        {provided.placeholder}
-                                    </div>
-                                )}
-                            </Droppable>
-                        </DragDropContext>
-                        {emptyCase}
-                    </div>
+                    {connectedCaseList}
                     <div className={styles.save_as}>{nameField}</div>
                 </div>
             );
@@ -723,3 +725,20 @@ export default class SwitchRouterForm extends React.Component<
     }
 }
 
+const caseTarget = {
+    drop(props: any, monitor: any, component: any) {}
+    // hover(props: any, monitor: any, component: any) {},
+    // canDrop(props: any, monitor: any): boolean { return }
+};
+
+// prettier-ignore
+export default flow(
+    DropTarget(
+        DragTypes.CASE,
+        caseTarget,
+        connect => ({
+            connectDropTarget: connect.dropTarget()
+        })
+    ),
+    DragDropContext(HTML5Backend)
+)(SwitchRouterForm);
