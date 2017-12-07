@@ -77,10 +77,7 @@ interface Session {
 /**
  * Our dev console for simulating or testing expressions
  */
-export default class Simulator extends React.Component<
-    SimulatorProps,
-    SimulatorState
-> {
+export default class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     private debug: Session[] = [];
     private flows: FlowDefinition[] = [];
     private currentFlow: string;
@@ -114,7 +111,7 @@ export default class Simulator extends React.Component<
     }
 
     private bottomRef(ref: any) {
-        return this.bottom = ref;
+        return (this.bottom = ref);
     }
 
     private inputBoxRef(ref: any) {

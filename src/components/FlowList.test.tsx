@@ -9,7 +9,6 @@ const flows = flowDetails.map(({ uuid, name }) => ({
     name
 }));
 
-
 const flow = {
     name: flowDetails[0].name,
     uuid: flowDetails[0].uuid

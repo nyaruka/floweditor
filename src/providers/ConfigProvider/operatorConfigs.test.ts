@@ -8,5 +8,5 @@ describe('Providers: ConfigProvider: operatorConfigs', () => {
         Object.keys(operatorConfigMap).forEach(key =>
             expect(getOperatorConfig(key)).toEqual(operatorConfigMap[key])
         );
-    })
+    });
 });

@@ -29,7 +29,10 @@ const props: Partial<ReplyFormProps> = {
 
 const localizedText: string = '¿Hola, como te llamas?';
 
-const createReplyForm = (newProps: any, mountIt: boolean = false): ShallowWrapper | ReactWrapper => {
+const createReplyForm = (
+    newProps: any,
+    mountIt: boolean = false
+): ShallowWrapper | ReactWrapper => {
     const Component = (
         <ReplyForm
             {...{

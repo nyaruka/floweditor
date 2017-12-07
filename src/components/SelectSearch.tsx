@@ -54,7 +54,7 @@ export default class SelectSearch extends React.PureComponent<
     }
 
     private selectRef(ref: any) {
-        return this.select = ref;
+        return (this.select = ref);
     }
 
     /**

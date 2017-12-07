@@ -82,7 +82,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
             placeholder = `${name} Translation`;
 
             if (localizedObject.localized) {
-                ({text} = localizedObject.getObject())
+                ({ text } = localizedObject.getObject());
             }
         } else {
             ({ text } = this.props.action);

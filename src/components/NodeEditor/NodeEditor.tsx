@@ -89,10 +89,7 @@ export interface NodeEditorState {
     show: boolean;
 }
 
-export default class NodeEditor extends React.PureComponent<
-    NodeEditorProps,
-    NodeEditorState
-> {
+export default class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorState> {
     private modal: Modal;
     private form: any;
     private advanced: any;
@@ -103,7 +100,7 @@ export default class NodeEditor extends React.PureComponent<
 
     public static contextTypes = {
         getTypeConfig: getTypeConfigPT
-    }
+    };
 
     constructor(props: NodeEditorProps, context: ConfigProviderContext) {
         super(props, context);
@@ -302,9 +299,29 @@ export default class NodeEditor extends React.PureComponent<
         const invalid: any[] = [];
 
         Object.keys(this.widgets).forEach(key => {
-            const widget = this.widgets[key];
-            if (!widget.validate()) {
-                invalid.push(widget);
+            let widget = this.widgets[key];
+            if (!widget.validate) {
+                /** This is a wrapped component, so we need to reach into it */
+                if (widget.props.kase) {
+                    if (widget.props.kase.type) {
+                        /** Don't validate wrapped 'empty' cases */
+                        if (widget.props.kase.type !== 'has_any_word') {
+                            if (
+                                /** Drag/Drop-enabled CaseElements are doubly-wrapped */
+                                !widget
+                                    .getDecoratedComponentInstance()
+                                    .getDecoratedComponentInstance()
+                                    .validate()
+                            ) {
+                                invalid.push(widget);
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (!widget.validate()) {
+                    invalid.push(widget);
+                }
             }
         });
 
@@ -313,10 +330,11 @@ export default class NodeEditor extends React.PureComponent<
             if (this.form.onValid) {
                 this.form.onValid(this.widgets);
             } else {
-                /**
-                 * Access wrapped component (for components wrapped by React-DnD HOC).
-                 */
-                this.form.getDecoratedComponentInstance().onValid(this.widgets);
+                /** Reaching into CaseElements wrapped by React-DnD HOCs */
+                this.form
+                    .getDecoratedComponentInstance()
+                    .getDecoratedComponentInstance()
+                    .onValid(this.widgets);
             }
             return true;
         } else {
@@ -591,8 +609,7 @@ export default class NodeEditor extends React.PureComponent<
                         buttons={buttons}
                         onModalOpen={this.onOpen}
                         /** Node */
-                        node={this.props.node}
-                    >
+                        node={this.props.node}>
                         {front}
                         {back}
                     </Modal>
@@ -603,5 +620,3 @@ export default class NodeEditor extends React.PureComponent<
         return null;
     }
 }
-
-

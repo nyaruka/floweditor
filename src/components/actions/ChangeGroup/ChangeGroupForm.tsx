@@ -25,7 +25,6 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
         this.onValid = this.onValid.bind(this);
     }
 
-
     public onValid(widgets: { [name: string]: any }): void {
         const groupEle = widgets['Group'] as any;
         const { state: { groups: [group] } } = groupEle;

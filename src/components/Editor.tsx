@@ -7,7 +7,14 @@ import ComponentMap from '../services/ComponentMap';
 import FlowList from './FlowList';
 import LanguageSelectorComp, { Language } from './LanguageSelector';
 import Flow from './Flow';
-import { flowPT, baseLanguagePT, languagesPT, getFlowPT, getFlowsPT, endpointsPT } from '../providers/ConfigProvider/propTypes';
+import {
+    flowPT,
+    baseLanguagePT,
+    languagesPT,
+    getFlowPT,
+    getFlowsPT,
+    endpointsPT
+} from '../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../providers/ConfigProvider/configContext';
 
 const styles = require('./Editor.scss');
@@ -35,7 +42,7 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
         baseLanguage: baseLanguagePT,
         languages: languagesPT,
         getFlow: getFlowPT,
-        getFlows: getFlowsPT,
+        getFlows: getFlowsPT
     };
 
     constructor(props: {}, context: ConfigProviderContext) {
@@ -176,8 +183,7 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
         return (
             <div
                 className={this.state.translating ? styles.translating : null}
-                data-spec="editor-container"
-            >
+                data-spec="editor-container">
                 <div className={styles.editor} data-spec="editor">
                     <FlowList
                         flow={flow}

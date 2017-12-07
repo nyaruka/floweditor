@@ -22,7 +22,7 @@ const props: FlowProps = {
     definition,
     dependencies: null,
     Mutator,
-ComponentMap
+    ComponentMap
 };
 const FlowComp = shallow(<Flow {...props} />, { context });
 

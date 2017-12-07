@@ -6,8 +6,6 @@ import 'raf/polyfill';
 import * as React from 'react';
 import { render } from 'react-dom';
 import { AppContainer as HotContainer } from 'react-hot-loader';
-import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContextProvider } from 'react-dnd';
 import ConfigProvider from './providers/ConfigProvider';
 import Editor from './components/Editor';
 
