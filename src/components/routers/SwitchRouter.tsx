@@ -373,8 +373,6 @@ export default class SwitchRouterForm extends React.Component<
             (props: CaseElementProps) => props.kase.uuid === c.props.kase.uuid
         );
 
-        console.log('idx to remove', idx);
-
         if (idx > -1) {
             // prettier-ignore
             const cases = update(this.state.cases, { $splice: [[idx, 1]] }).map(
@@ -384,20 +382,22 @@ export default class SwitchRouterForm extends React.Component<
                     return kase;
                 }
             );
-
-            console.log('cases after so-called removal', cases);
-
             this.setState({ cases });
         }
-
-        console.log('widget to remove (name)', c.props.name);
-
         this.props.removeWidget(c.props.name);
     }
 
     private onCaseChanged(c: any): void {
-        const newCase: Partial<CaseElementProps> = {
-            id: c.id,
+        let id: number;
+
+        if (!c.id) {
+            id = this.state.cases.length + 1;
+        } else {
+            ({ id } = c);
+        }
+
+        const newCase: CaseElementProps = {
+            id,
             kase: {
                 uuid: c.props.kase.uuid,
                 type: c.state.operator,
@@ -411,19 +411,19 @@ export default class SwitchRouterForm extends React.Component<
         let { cases } = this.state;
         let found = false;
 
-        for (let idx in cases) {
-            const props = cases[idx];
+        for (let key in cases) {
+            const props = cases[key];
             if (props.kase.uuid === c.props.kase.uuid) {
-                cases = update(cases, { [idx]: { $set: newCase } });
+                const existingCase = cases[key];
+                newCase.id = existingCase.id;
+                cases[key] = newCase;
                 found = true;
                 break;
             }
         }
 
         if (!found) {
-            /** This is a new case, mark it as such */
-            newCase.empty = true;
-            cases = update(cases, { $push: [newCase] });
+            cases[cases.length] = newCase;
         }
 
         this.setState({

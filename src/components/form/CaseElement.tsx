@@ -19,8 +19,8 @@ const styles = require('./CaseElement.scss');
 export interface CaseElementProps {
     id?: number;
     name?: string; // satisfy form widget props
-    onRemove(c: CaseElement): void;
-    ComponentMap: ComponentMap;
+    onRemove?(c: CaseElement): void;
+    ComponentMap?: ComponentMap;
     kase: Case;
     exitName: string;
     empty?: boolean;
