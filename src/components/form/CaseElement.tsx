@@ -13,14 +13,8 @@ import { Case } from '../../flowTypes';
 import { DragSource, DropTarget } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
 
-const flow = require('lodash.flow');
-
 const forms = require('./FormElement.scss');
 const styles = require('./CaseElement.scss');
-
-export enum DragTypes {
-    CASE = 'CASE'
-}
 
 export interface CaseElementProps {
     id?: number;
@@ -30,9 +24,8 @@ export interface CaseElementProps {
     kase: Case;
     exitName: string;
     empty?: boolean;
-    findCase: Function;
-    moveCase: Function;
     onChanged: Function;
+    draggable?: boolean;
     canDrag?: boolean;
     draggingCase?: any;
     isOver?: boolean;
@@ -47,7 +40,7 @@ interface CaseElementState {
     exitName: string;
 }
 
-export class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
+export default class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
     private category: TextInputElement;
     private operatorConfig: Operator;
 
@@ -278,21 +271,25 @@ export class CaseElement extends React.Component<CaseElementProps, CaseElementSt
             );
         }
 
-        // prettier-ignore
-        const {
-            draggingCase,
-            canDrag,
-            isOver
-        } = this.props;
+        let cursor: string = 'default';
+        let opacity: number = 1;
 
-        const dragging = draggingCase && draggingCase.id === this.props.id;
+        /** All cases except the empty, last case are draggable */
+        if (this.props.draggable) {
+            /** Draggable props */
+            // prettier-ignore
+            const {
+                draggingCase,
+                canDrag,
+                isOver
+            } = this.props;
 
-        let cursor: string;
+            const dragging = draggingCase && draggingCase.id === this.props.id;
 
-        /** canDrag is false while case is being dragged */
-        if (!canDrag && !draggingCase) {
-            cursor = 'default';
-        } else {
+            if (dragging) {
+                opacity = 0.25;
+            }
+
             if (draggingCase) {
                 cursor = 'move';
             } else {
@@ -311,7 +308,7 @@ export class CaseElement extends React.Component<CaseElementProps, CaseElementSt
                 style={{
                     /** Entire list should honor dragging cursor if we have a draggingCase */
                     cursor,
-                    opacity: dragging ? 0.25 : 1
+                    opacity
                 }}>
                 <FormElement
                     name={this.props.name}
@@ -374,59 +371,3 @@ export class CaseElement extends React.Component<CaseElementProps, CaseElementSt
         }
     }
 }
-
-const caseSource = {
-    canDrag(props: any, monitor: any) {
-        return props.empty ? false : true;
-    },
-    beginDrag(props: any) {
-        return {
-            id: props.id,
-            originalIndex: props.findCase(props.id).index
-        };
-    },
-    endDrag(props: any, monitor: any) {
-        const { id: droppedId, originalIndex } = monitor.getItem();
-        const didDrop = monitor.didDrop();
-
-        if (!didDrop) {
-            props.moveCase(droppedId, originalIndex);
-        }
-    }
-};
-
-const caseTarget = {
-    canDrop() {
-        return false;
-    },
-    hover(props: any, monitor: any) {
-        const { id: draggingId } = monitor.getItem();
-        const { id: overId } = props;
-
-        if (draggingId !== overId) {
-            const { index: overIndex } = props.findCase(overId);
-            props.moveCase(draggingId, overIndex);
-        }
-    }
-};
-
-// prettier-ignore
-export default flow(
-    DragSource(
-        DragTypes.CASE,
-        caseSource,
-        (connect, monitor) => ({
-            connectDragSource: connect.dragSource(),
-            canDrag: monitor.canDrag(),
-            draggingCase: monitor.getItem()
-        })
-    ),
-    DropTarget(
-        DragTypes.CASE,
-        caseTarget,
-        (connect, monitor) => ({
-            connectDropTarget: connect.dropTarget(),
-            isOver: monitor.isOver()
-        })
-    ),
-)(CaseElement);

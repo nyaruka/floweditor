@@ -15,8 +15,9 @@ import { ConfigProviderContext } from '../../providers/ConfigProvider/configCont
 import CaseElement, { CaseElementProps } from '../form/CaseElement';
 import TouchBackend from 'react-dnd-touch-backend';
 import { DragDropContext } from 'react-dnd';
-import { DragTypes } from '../form/CaseElement';
+import Draggable, { DragTypes, DraggableChildProps } from '../form/Draggable';
 
+const uniqid = require('uniqid');
 const flow = require('lodash.flow');
 
 const styles = require('./SwitchRouter.scss');
@@ -585,20 +586,38 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
                 }
 
                 return (
-                    <CaseElement
-                        key={c.kase.uuid}
+                    // prettier-ignore
+                    <Draggable
+                        key={uniqid()}
                         id={c.id}
-                        idx={idx}
-                        kase={c.kase}
-                        ref={this.props.onBindWidget}
-                        name={`case_${idx}`}
-                        exitName={c.exitName}
-                        onRemove={this.onCaseRemoved}
-                        onChanged={this.onCaseChanged}
                         findCase={this.findCase}
                         moveCase={this.moveCase}
-                        ComponentMap={this.props.ComponentMap}
-                    />
+                    >
+                        {({
+                            connectDragSource,
+                            connectDropTarget,
+                            canDrag,
+                            isOver,
+                            draggingCase
+                        }: DraggableChildProps) => (
+                            <CaseElement
+                                key={c.kase.uuid}
+                                id={c.id}
+                                kase={c.kase}
+                                ref={this.props.onBindWidget}
+                                name={`case_${idx}`}
+                                exitName={c.exitName}
+                                onRemove={this.onCaseRemoved}
+                                onChanged={this.onCaseChanged}
+                                ComponentMap={this.props.ComponentMap}
+                                draggable
+                                connectDragSource={connectDragSource}
+                                connectDropTarget={connectDropTarget}
+                                canDrag={canDrag}
+                                draggingCase={draggingCase}
+                            />
+                        )}
+                    </Draggable>
                 );
             });
         }
@@ -608,8 +627,6 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
             cases.push(
                 <CaseElement
                     key={newCaseUUID}
-                    id={cases.length}
-                    idx={cases.length + 1}
                     kase={{
                         uuid: newCaseUUID,
                         type: 'has_any_word',
@@ -621,8 +638,6 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
                     empty
                     onRemove={this.onCaseRemoved}
                     onChanged={this.onCaseChanged}
-                    findCase={this.findCase}
-                    moveCase={this.moveCase}
                     ComponentMap={this.props.ComponentMap}
                 />
             );
@@ -716,9 +731,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
 }
 
 const caseTarget = {
-    hover(props: any, monitor: any) {
-
-    }
+    hover(props: any, monitor: any) {}
 };
 
 // prettier-ignore
