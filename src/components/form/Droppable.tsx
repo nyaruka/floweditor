@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DragTypes } from './Draggable';
-import { DropTarget, DragDropContext } from 'react-dnd';
+import { DropTarget, DragDropContext, DropTargetSpec, DropTargetConnector } from 'react-dnd';
 import TouchBackend from 'react-dnd-touch-backend';
 
 const flow = require('lodash.flow');
@@ -14,7 +14,7 @@ const Droppable: React.SFC = props => {
     return children(rest);
 };
 
-const caseTarget = {
+const caseTarget: DropTargetSpec<{}> = {
     hover(props: any, monitor: any) {}
 };
 
@@ -23,7 +23,7 @@ export default flow(
     DropTarget(
         DragTypes.CASE,
         caseTarget,
-        connect => ({
+        (connect: DropTargetConnector) => ({
             connectDropTarget: connect.dropTarget()
         })
     ),

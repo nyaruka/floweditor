@@ -1,5 +1,15 @@
 import * as React from 'react';
-import { DragSource, DropTarget } from 'react-dnd';
+import {
+    DragSource,
+    DropTarget,
+    DragSourceMonitor,
+    DropTargetMonitor,
+    DropTargetConnector,
+    DragSourceConnector,
+    DragSourceSpec,
+    DropTargetSpec
+} from 'react-dnd';
+import { CaseElementProps } from './CaseElement';
 
 const flow = require('lodash.flow');
 
@@ -21,23 +31,23 @@ export interface DraggableChildProps {
     draggingCase: any;
 }
 
-const Draggable: React.SFC<DraggableProps> = (props) => {
+const Draggable: React.SFC<DraggableProps> = props => {
     const { children, ...rest }: any = props;
     return children(rest);
 };
 
-const caseSource = {
-    canDrag(props: any, monitor: any) {
-        return props.empty ? false : true;
-    },
-    beginDrag(props: any) {
+const caseSource: DragSourceSpec<DraggableProps> = {
+    beginDrag(props: DraggableProps) {
         return {
             id: props.id,
             originalIndex: props.findCase(props.id).index
         };
     },
-    endDrag(props: any, monitor: any) {
-        const { id: droppedId, originalIndex } = monitor.getItem();
+    endDrag(props: DraggableProps, monitor: DragSourceMonitor) {
+        const { id: droppedId, originalIndex } = monitor.getItem() as {
+            id: number;
+            originalIndex: number;
+        };
         const didDrop = monitor.didDrop();
 
         if (!didDrop) {
@@ -46,12 +56,12 @@ const caseSource = {
     }
 };
 
-const caseTarget = {
+const caseTarget: DropTargetSpec<DraggableProps> = {
     canDrop() {
         return false;
     },
-    hover(props: any, monitor: any) {
-        const { id: draggingId } = monitor.getItem();
+    hover(props: DraggableProps, monitor: DropTargetMonitor) {
+        const { id: draggingId } = monitor.getItem() as { id: number };
         const { id: overId } = props;
 
         if (draggingId !== overId) {
@@ -66,7 +76,7 @@ export default flow(
     DragSource(
         DragTypes.CASE,
         caseSource,
-        (connect, monitor) => ({
+        (connect: DragSourceConnector, monitor: DragSourceMonitor) => ({
             connectDragSource: connect.dragSource(),
             canDrag: monitor.canDrag(),
             draggingCase: monitor.getItem()
@@ -75,7 +85,7 @@ export default flow(
     DropTarget(
         DragTypes.CASE,
         caseTarget,
-        (connect, monitor) => ({
+        (connect: DropTargetConnector, monitor: DropTargetMonitor) => ({
             connectDropTarget: connect.dropTarget(),
             isOver: monitor.isOver()
         })
