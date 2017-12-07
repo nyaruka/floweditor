@@ -85,7 +85,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                 ({ text } = localizedObject.getObject());
             }
         } else {
-            ({ text } = this.props.action);
+            this.props.action && ({ text } = this.props.action);
         }
 
         return (

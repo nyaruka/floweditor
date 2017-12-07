@@ -65,7 +65,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         this.onChangeArguments = this.onChangeArguments.bind(this);
         this.onChangeOperator = this.onChangeOperator.bind(this);
         this.onChangeExitName = this.onChangeExitName.bind(this);
-        this.onRemove = this.onRemove.bind(this);
+        this.remove = this.remove.bind(this);
     }
 
     private generateExitNameFromArguments(args: string[]): string {
@@ -142,6 +142,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         const args = [val.target.value];
         const exitName = this.getExitName(args);
 
+        // prettier-ignore
         this.setState(
             {
                 arguments: args,
@@ -149,10 +150,19 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             },
             () => {
                 this.props.onChanged(this);
+                this.category.setState(
+                    {
+                        value: exitName
+                    },
+                    () => {
+                        /** If the case doesn't have both an argument & an exit name, remove it */
+                        if (!this.state.arguments[0] && !this.state.exitName) {
+                            return this.remove();
+                        }
+                    }
+                );
             }
         );
-
-        this.category.setState({ value: exitName });
     }
 
     private onChangeExitName(val: React.ChangeEvent<HTMLTextElement>) {
@@ -164,7 +174,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         );
     }
 
-    private onRemove(ele: any) {
+    private remove(ele?: any) {
         this.props.onRemove(this);
     }
 
@@ -238,7 +248,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
         if (!this.props.empty) {
             removeButton = (
-                <div className={styles['remove-button']} onClick={this.onRemove}>
+                <div className={styles['remove-button']} onClick={this.remove}>
                     <span className="icon-remove" />
                 </div>
             );
@@ -274,7 +284,10 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         let cursor: string = 'default';
         let opacity: number = 1;
 
-        /** All cases except the empty, last case are draggable */
+        /**
+         * All cases except the empty, last case
+         * and cases that have no siblings are draggable
+         */
         if (this.props.draggable) {
             /** Draggable props */
             // prettier-ignore
@@ -349,11 +362,11 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
     public render(): JSX.Element {
         const kase: JSX.Element = this.getCase();
-
-        if (this.props.empty) {
+        if (this.props.empty || !this.props.draggable) {
             /**
              * We return an unconnected case here because we don't
-             * want empty cases to participate in dragging or dropping.
+             * want empty cases or cases that don't have siblings to participate
+             * in dragging or dropping.
              */
             return kase;
         } else {

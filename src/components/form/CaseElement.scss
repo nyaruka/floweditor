@@ -39,7 +39,7 @@ $spacing: 10px;
         position: relative;
         top: -10px;
         input {
-            width: 102px;
+            width: 105px;
         }
     }
     &:hover {
@@ -58,14 +58,14 @@ $spacing: 10px;
 .remove-button {
     color: #ccc;
     border: 0px solid green;
-    margin-right: -20px;
-    margin-top: 5px;
+    padding-top: 5px;
     float: right;
     opacity: 0;
     font-size: 15px;
     line-height: 12px;
-    width: 20px;
+    width: 15px;
     &:hover {
+        cursor: pointer;
         opacity: 1;
     }
 }

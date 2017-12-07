@@ -26,6 +26,7 @@
     }
     .actions {
         border-radius: 25px;
+        width: 200px;
         &.exit_table {
             border-top: none;
             .exit {
@@ -40,7 +41,7 @@
     .exit_table {
         background: #fff;
         display: table;
-        width: 100%; //border-top: 1px solid #f6f6f6;
+        width: 198px; //border-top: 1px solid #f6f6f6;
         border-left: 1px solid $borders;
         border-right: 1px solid $borders;
         border-bottom: 1px solid $borders;

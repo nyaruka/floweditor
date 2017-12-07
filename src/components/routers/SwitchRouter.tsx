@@ -14,7 +14,6 @@ import { ConfigProviderContext } from '../../providers/ConfigProvider/configCont
 import CaseElement, { CaseElementProps } from '../form/CaseElement';
 import Draggable, { DragTypes, DraggableChildProps } from '../form/Draggable';
 
-const uniqid = require('uniqid');
 const flow = require('lodash.flow');
 
 const styles = require('./SwitchRouter.scss');
@@ -174,7 +173,10 @@ export interface SwitchRouterFormProps extends FormProps {
     renderExitTranslations(): JSX.Element;
 }
 
-export default class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRouterState> {
+export default class SwitchRouterForm extends React.Component<
+    SwitchRouterFormProps,
+    SwitchRouterState
+> {
     public static contextTypes = {
         getOperatorConfig: getOperatorConfigPT
     };
@@ -371,6 +373,8 @@ export default class SwitchRouterForm extends React.Component<SwitchRouterFormPr
             (props: CaseElementProps) => props.kase.uuid === c.props.kase.uuid
         );
 
+        console.log('idx to remove', idx);
+
         if (idx > -1) {
             // prettier-ignore
             const cases = update(this.state.cases, { $splice: [[idx, 1]] }).map(
@@ -380,8 +384,13 @@ export default class SwitchRouterForm extends React.Component<SwitchRouterFormPr
                     return kase;
                 }
             );
+
+            console.log('cases after so-called removal', cases);
+
             this.setState({ cases });
         }
+
+        console.log('widget to remove (name)', c.props.name);
 
         this.props.removeWidget(c.props.name);
     }
@@ -573,50 +582,66 @@ export default class SwitchRouterForm extends React.Component<SwitchRouterFormPr
         let cases: JSX.Element[] = [];
 
         if (this.state.cases) {
-            cases = this.state.cases.map((c: CaseElementProps, idx) => {
-                /** Is this case empty? */
-                if (
-                    (!c.exitName || c.exitName.trim().length === 0) &&
-                    (!c.kase.arguments || c.kase.arguments[0].trim().length === 0)
-                ) {
-                    needsEmpty = false;
-                }
-
-                return (
-                    // prettier-ignore
-                    <Draggable
-                        key={uniqid()}
-                        id={c.id}
-                        findCase={this.findCase}
-                        moveCase={this.moveCase}
-                    >
-                        {({
-                            connectDragSource,
-                            connectDropTarget,
-                            canDrag,
-                            isOver,
-                            draggingCase
-                        }: DraggableChildProps) => (
-                            <CaseElement
-                                key={c.kase.uuid}
-                                id={c.id}
-                                kase={c.kase}
-                                ref={this.props.onBindWidget}
-                                name={`case_${idx}`}
-                                exitName={c.exitName}
-                                onRemove={this.onCaseRemoved}
-                                onChanged={this.onCaseChanged}
-                                ComponentMap={this.props.ComponentMap}
-                                draggable
-                                connectDragSource={connectDragSource}
-                                connectDropTarget={connectDropTarget}
-                                canDrag={canDrag}
-                                draggingCase={draggingCase}
-                            />
-                        )}
-                    </Draggable>
+            if (this.state.cases.length === 1) {
+                const [{ id, kase, exitName }] = this.state.cases;
+                cases.push(
+                    <CaseElement
+                        key={kase.uuid}
+                        id={id}
+                        kase={kase}
+                        ref={this.props.onBindWidget}
+                        name={'case_0'}
+                        exitName={exitName}
+                        onRemove={this.onCaseRemoved}
+                        onChanged={this.onCaseChanged}
+                        ComponentMap={this.props.ComponentMap}
+                    />
                 );
-            });
+            } else {
+                cases = this.state.cases.map((c: CaseElementProps, idx) => {
+                    /** Is this case empty? */
+                    if (
+                        (!c.exitName || c.exitName.trim().length === 0) &&
+                        (!c.kase.arguments || c.kase.arguments[0].trim().length === 0)
+                    ) {
+                        needsEmpty = false;
+                    }
+
+                    return (
+                        // prettier-ignore
+                        <Draggable
+                            key={c.kase.uuid}
+                            id={c.id}
+                            findCase={this.findCase}
+                            moveCase={this.moveCase}
+                        >
+                            {({
+                                connectDragSource,
+                                connectDropTarget,
+                                canDrag,
+                                isOver,
+                                draggingCase
+                            }: DraggableChildProps) => (
+                                <CaseElement
+                                    id={c.id}
+                                    kase={c.kase}
+                                    ref={this.props.onBindWidget}
+                                    name={`case_${idx}`}
+                                    exitName={c.exitName}
+                                    onRemove={this.onCaseRemoved}
+                                    onChanged={this.onCaseChanged}
+                                    ComponentMap={this.props.ComponentMap}
+                                    draggable
+                                    connectDragSource={connectDragSource}
+                                    connectDropTarget={connectDropTarget}
+                                    canDrag={canDrag}
+                                    draggingCase={draggingCase}
+                                />
+                            )}
+                        </Draggable>
+                    );
+                });
+            }
         }
 
         if (needsEmpty) {
@@ -726,5 +751,3 @@ export default class SwitchRouterForm extends React.Component<SwitchRouterFormPr
         return this.renderForm();
     }
 }
-
-
