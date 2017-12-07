@@ -221,7 +221,6 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                     className={styles.headers}
                     duration={300}>
                     {headerElements}
-                    <div style={{ height: '25px' }} />
                 </FlipMove>
                 {postForm}
             </div>
