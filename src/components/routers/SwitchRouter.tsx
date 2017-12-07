@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import * as update from 'immutability-helper';
-import { DropTarget } from 'react-dnd';
 import { v4 as generateUUID } from 'uuid';
 import { Node, SwitchRouter, Exit, AnyAction, Case } from '../../flowTypes';
 import { Type } from '../../providers/ConfigProvider/typeConfigs';
@@ -13,8 +12,6 @@ import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 import { getOperatorConfigPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 import CaseElement, { CaseElementProps } from '../form/CaseElement';
-import TouchBackend from 'react-dnd-touch-backend';
-import { DragDropContext } from 'react-dnd';
 import Draggable, { DragTypes, DraggableChildProps } from '../form/Draggable';
 
 const uniqid = require('uniqid');
@@ -177,7 +174,7 @@ export interface SwitchRouterFormProps extends FormProps {
     renderExitTranslations(): JSX.Element;
 }
 
-export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRouterState> {
+export default class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRouterState> {
     public static contextTypes = {
         getOperatorConfig: getOperatorConfigPT
     };
@@ -730,24 +727,4 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
     }
 }
 
-const caseTarget = {
-    hover(props: any, monitor: any) {}
-};
 
-// prettier-ignore
-export default flow(
-    DropTarget(
-        DragTypes.CASE,
-        caseTarget,
-        connect => ({
-            connectDropTarget: connect.dropTarget()
-        })
-    ),
-    DragDropContext(
-        TouchBackend({
-            enableMouseEvents: true,
-            /** Drag should end when user presses 'esc' key. */
-            enableKeyboardEvents: true
-        })
-    )
-)(SwitchRouterForm);

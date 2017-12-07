@@ -28,6 +28,7 @@ import TypeListComp from './TypeList';
 import TextInputElement from '../form/TextInputElement';
 import { getTypeConfigPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
+import Droppable, { DroppableChildProps } from '../form/Droppable';
 
 const uniqid = require('uniqid');
 
@@ -62,6 +63,8 @@ export interface FormProps {
     getLocalizedExits(widgets: { [name: string]: any }): { uuid: string; translations: any }[];
     saveLocalizedExits(widgets: { [name: string]: any }): void;
     getActionUUID: Function;
+
+    connectDropTarget: Function;
 }
 
 export interface NodeEditorProps {
@@ -299,43 +302,15 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         const invalid: any[] = [];
 
         Object.keys(this.widgets).forEach(key => {
-            let widget = this.widgets[key];
-            if (!widget.validate) {
-                /** This is a wrapped component, so we need to reach into it */
-                if (widget.props.kase) {
-                    if (widget.props.kase.type) {
-                        /** Don't validate wrapped 'empty' cases */
-                        if (widget.props.kase.type !== 'has_any_word') {
-                            if (
-                                /** Drag/Drop-enabled CaseElements are doubly-wrapped */
-                                !widget
-                                    .getDecoratedComponentInstance()
-                                    .getDecoratedComponentInstance()
-                                    .validate()
-                            ) {
-                                invalid.push(widget);
-                            }
-                        }
-                    }
-                }
-            } else {
-                if (!widget.validate()) {
-                    invalid.push(widget);
-                }
+            const widget = this.widgets[key];
+            if (!widget.validate()) {
+                invalid.push(widget);
             }
         });
 
         /** If all form inputs are valid, submit it */
         if (!invalid.length) {
-            if (this.form.onValid) {
-                this.form.onValid(this.widgets);
-            } else {
-                /** Reaching into CaseElements wrapped by React-DnD HOCs */
-                this.form
-                    .getDecoratedComponentInstance()
-                    .getDecoratedComponentInstance()
-                    .onValid(this.widgets);
-            }
+            this.form.onValid(this.widgets);
             return true;
         } else {
             let frontError = false;
@@ -565,10 +540,31 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         const typeList = this.getTypeList();
 
+        let frontForm: JSX.Element = null;
+
+        if (
+            this.state.config.type === 'expression' ||
+            this.state.config.type === 'wait_for_response' ||
+            this.state.config.type === 'switch'
+        ) {
+            frontForm = (
+                <Droppable>
+                    {({ connectDropTarget }: DroppableChildProps) => (
+                        <Form
+                            ref={this.formRef}
+                            {...{ ...formProps, connectDropTarget, showAdvanced: false }}
+                        />
+                    )}
+                </Droppable>
+            );
+        } else {
+            frontForm = <Form ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />;
+        }
+
         const front = (
             <FormContainer key={uniqid()}>
                 {typeList}
-                <Form ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />
+                {frontForm}
             </FormContainer>
         );
 
