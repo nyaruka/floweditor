@@ -582,11 +582,12 @@ export default class SwitchRouterForm extends React.Component<
         let cases: JSX.Element[] = [];
 
         if (this.state.cases) {
+            /** Cases shouldn't be draggable unless they have siblings */
             if (this.state.cases.length === 1) {
                 const [{ id, kase, exitName }] = this.state.cases;
                 cases.push(
                     <CaseElement
-                        key={kase.uuid}
+                        key={`case-${kase.uuid}`}
                         id={id}
                         kase={kase}
                         ref={this.props.onBindWidget}
@@ -610,7 +611,6 @@ export default class SwitchRouterForm extends React.Component<
                     return (
                         // prettier-ignore
                         <Draggable
-                            key={c.kase.uuid}
                             id={c.id}
                             findCase={this.findCase}
                             moveCase={this.moveCase}
@@ -643,12 +643,10 @@ export default class SwitchRouterForm extends React.Component<
                 });
             }
         }
-
         if (needsEmpty) {
             const newCaseUUID = generateUUID();
             cases.push(
                 <CaseElement
-                    key={newCaseUUID}
                     kase={{
                         uuid: newCaseUUID,
                         type: 'has_any_word',
@@ -697,14 +695,14 @@ export default class SwitchRouterForm extends React.Component<
         let leadIn: JSX.Element = null;
 
         if (this.props.config.type === 'wait_for_response') {
-            leadIn = <div className={styles.instructions}>If the message response..</div>;
+            leadIn = <div className={styles.instructions}>If the message response...</div>;
         } else if (this.props.config.type === 'expression') {
             leadIn = (
                 <div className={styles.instructions}>
-                    <p>If the expression..</p>
+                    <p>If the expression...</p>
                     <TextInputElement
                         ref={this.props.onBindWidget}
-                        key={`expression_${this.props.node.uuid}`}
+                        key={this.props.node.uuid}
                         name="Expression"
                         showLabel={false}
                         value={this.state.operand}
@@ -731,7 +729,10 @@ export default class SwitchRouterForm extends React.Component<
             const { connectDropTarget } = this.props;
 
             const connectedDropTarget = connectDropTarget(
-                <div className={styles.cases}>{cases}</div>
+                <div
+                    className={styles.cases}>
+                    {cases}
+                </div>
             );
 
             return (

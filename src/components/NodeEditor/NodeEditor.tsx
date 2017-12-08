@@ -30,8 +30,6 @@ import { getTypeConfigPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 import Droppable, { DroppableChildProps } from '../form/Droppable';
 
-const uniqid = require('uniqid');
-
 const formStyles = require('./NodeEditor.scss');
 const shared = require('../shared.scss');
 
@@ -220,7 +218,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 }
 
                 exits.push(
-                    <div key={`translate_${exit.uuid}`} className={formStyles.translating_exit}>
+                    <div key={exit.uuid} className={formStyles.translating_exit}>
                         <div className={formStyles.translating_from}>{exit.name}</div>
                         <div className={formStyles.translating_to}>
                             <TextInputElement
@@ -425,15 +423,15 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         return this.state.config.allows(mode);
     }
 
-    private getModalKey(): string {
-        let key: string = `modal_${this.props.node.uuid}`;
+    // private getModalKey(): string {
+    //     let key: string = `modal_${this.props.node.uuid}`;
 
-        if (this.props.action) {
-            key += `_${this.props.action.uuid}`;
-        }
+    //     if (this.props.action) {
+    //         key += `_${this.props.action.uuid}`;
+    //     }
 
-        return key;
-    }
+    //     return key;
+    // }
 
     private getButtons(): ButtonSet {
         let buttons: ButtonSet;
@@ -562,7 +560,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         }
 
         const front = (
-            <FormContainer key={uniqid()}>
+            <FormContainer>
                 {typeList}
                 {frontForm}
             </FormContainer>
@@ -572,7 +570,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         if (this.hasAdvanced()) {
             back = (
-                <FormContainer key={uniqid()} styles={formStyles.advanced}>
+                <FormContainer styles={formStyles.advanced}>
                     <Form ref={this.formRef} {...{ ...formProps, showAdvanced: true }} />
                 </FormContainer>
             );
@@ -588,14 +586,13 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         if (this.state.show) {
             /** Create our form element */
             if (this.state.config.form) {
-                const key: string = this.getModalKey();
+                // const key: string = this.getModalKey();
                 const buttons: ButtonSet = this.getButtons();
                 const titles: JSX.Element[] = this.getTitles();
                 const { front, back }: { front: JSX.Element; back: JSX.Element } = this.getSides();
 
                 return (
                     <Modal
-                        key={key}
                         ref={this.modalRef}
                         /** NodeEditor */
                         className={shared[this.state.config.type]}

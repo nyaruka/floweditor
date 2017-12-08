@@ -3,8 +3,6 @@ import * as ReactModal from 'react-modal';
 import { Node, Case, SwitchRouter } from '../flowTypes';
 import Button, { ButtonProps } from './Button';
 
-const uniqid = require('uniqid');
-
 const styles = require('./Modal.scss');
 const shared = require('./shared.scss');
 
@@ -56,20 +54,20 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
 
     private getButtons(): { leftButtons: JSX.Element[]; rightButtons: JSX.Element[] } {
         const rightButtons: JSX.Element[] = [
-            <Button key={uniqid()} {...this.props.buttons.secondary} type="secondary" />
+            <Button key={0} {...this.props.buttons.secondary} type="secondary" />
         ];
         const leftButtons: JSX.Element[] = [];
 
         if (this.props.buttons.secondary) {
             rightButtons.push(
-                <Button key={uniqid()} {...this.props.buttons.primary} type="primary" />
+                <Button key={1} {...this.props.buttons.primary} type="primary" />
             );
         }
 
         /** Our left most button if we have one */
         if (this.props.buttons.tertiary) {
             leftButtons.push(
-                <Button key={uniqid()} {...this.props.buttons.tertiary} type="tertiary" />
+                <Button key={0} {...this.props.buttons.tertiary} type="tertiary" />
             );
         }
 

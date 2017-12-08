@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Select from 'react-select';
+import { v4 as generateUUID } from 'uuid';
 import { Operator } from '../../providers/ConfigProvider/operatorConfigs';
 import ComponentMap from '../../services/ComponentMap';
 import FormElement from './FormElement';
@@ -268,7 +269,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
         let args: JSX.Element = null;
 
-        if (this.operatorConfig && this.operatorConfig.operands === 1) {
+        if (this.operatorConfig && this.operatorConfig.operands > 0) {
             args = (
                 <TextInputElement
                     className={styles.input}
@@ -321,7 +322,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 style={{
                     /** Entire list should honor dragging cursor if we have a draggingCase */
                     cursor,
-                    opacity,
+                    opacity
                 }}>
                 <FormElement
                     name={this.props.name}

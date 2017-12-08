@@ -16,10 +16,10 @@ const FormElement: React.SFC<FormElementProps> = (props): JSX.Element => {
     let errors: JSX.Element[] = [];
 
     if (props.errors) {
-        props.errors.map(error => {
+        props.errors.map((error, idx) => {
             errors = [
                 ...errors,
-                <div key={Math.random()} className={styles.error}>
+                <div key={idx} className={styles.error}>
                     {error}
                 </div>
             ];

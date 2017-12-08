@@ -505,13 +505,6 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             );
         });
 
-        /** Use the proper form element */
-        let TextElement = 'input';
-
-        if (this.props.textarea) {
-            TextElement = 'textarea';
-        }
-
         let counter: JSX.Element = null;
 
         if (this.props.count && this.props.count === Count.SMS) {
@@ -545,6 +538,13 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                     </div>
                 </div>
             );
+        }
+
+        /** Use the proper form element */
+        let TextElement = 'input';
+
+        if (this.props.textarea) {
+            TextElement = 'textarea';
         }
 
         return (
