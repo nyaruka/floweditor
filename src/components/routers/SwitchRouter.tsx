@@ -587,7 +587,7 @@ export default class SwitchRouterForm extends React.Component<
                 const [{ id, kase, exitName }] = this.state.cases;
                 cases.push(
                     <CaseElement
-                        key={`case-${kase.uuid}`}
+                        key={kase.uuid}
                         id={id}
                         kase={kase}
                         ref={this.props.onBindWidget}
@@ -611,6 +611,7 @@ export default class SwitchRouterForm extends React.Component<
                     return (
                         // prettier-ignore
                         <Draggable
+                            key={`draggable-${c.kase.uuid}`}
                             id={c.id}
                             findCase={this.findCase}
                             moveCase={this.moveCase}
@@ -623,6 +624,7 @@ export default class SwitchRouterForm extends React.Component<
                                 draggingCase
                             }: DraggableChildProps) => (
                                 <CaseElement
+                                    key={`case-${c.kase.uuid}`}
                                     id={c.id}
                                     kase={c.kase}
                                     ref={this.props.onBindWidget}
@@ -647,6 +649,7 @@ export default class SwitchRouterForm extends React.Component<
             const newCaseUUID = generateUUID();
             cases.push(
                 <CaseElement
+                    key={cases.length}
                     kase={{
                         uuid: newCaseUUID,
                         type: 'has_any_word',
@@ -729,10 +732,7 @@ export default class SwitchRouterForm extends React.Component<
             const { connectDropTarget } = this.props;
 
             const connectedDropTarget = connectDropTarget(
-                <div
-                    className={styles.cases}>
-                    {cases}
-                </div>
+                <div className={styles.cases}>{cases}</div>
             );
 
             return (
