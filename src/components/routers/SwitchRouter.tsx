@@ -609,14 +609,12 @@ export default class SwitchRouterForm extends React.Component<
                     }
 
                     return (
-                        // prettier-ignore
                         <Draggable
                             key={`draggable-${c.kase.uuid}`}
                             id={c.id}
                             findCase={this.findCase}
                             moveCase={this.moveCase}
-                        >
-                            {({
+                            render={({
                                 connectDragSource,
                                 connectDropTarget,
                                 canDrag,
@@ -640,7 +638,7 @@ export default class SwitchRouterForm extends React.Component<
                                     draggingCase={draggingCase}
                                 />
                             )}
-                        </Draggable>
+                        />
                     );
                 });
             }

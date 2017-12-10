@@ -10,11 +10,12 @@ const flow = require('lodash.flow');
 
 export interface DroppableChildProps {
     connectDropTarget: Function;
+    render: Function;
 }
 
 const Droppable: React.SFC = props => {
-    const { children, ...rest }: any = props;
-    return children(rest);
+    const { render, ...rest }: any = props;
+    return render(rest);
 };
 
 const caseTarget: DropTargetSpec<{}> = {

@@ -21,6 +21,7 @@ export interface DraggableProps {
     id: number;
     findCase: Function;
     moveCase: Function;
+    render: Function;
 }
 
 export interface DraggableChildProps {
@@ -32,8 +33,8 @@ export interface DraggableChildProps {
 }
 
 const Draggable: React.SFC<DraggableProps> = props => {
-    const { children, ...rest }: any = props;
-    return children(rest);
+    const { render, ...rest } = props;
+    return render(rest);
 };
 
 const caseSource: DragSourceSpec<DraggableProps> = {

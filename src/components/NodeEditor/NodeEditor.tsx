@@ -546,14 +546,14 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             this.state.config.type === 'switch'
         ) {
             frontForm = (
-                <Droppable>
-                    {({ connectDropTarget }: DroppableChildProps) => (
+                <Droppable
+                    render={({ connectDropTarget }: DroppableChildProps) => (
                         <Form
                             ref={this.formRef}
                             {...{ ...formProps, connectDropTarget, showAdvanced: false }}
                         />
                     )}
-                </Droppable>
+                />
             );
         } else {
             frontForm = <Form ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />;

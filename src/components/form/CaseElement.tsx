@@ -284,6 +284,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
         let cursor: string = 'default';
         let opacity: number = 1;
+        let dragging: boolean;
 
         /**
          * All cases except the empty, last case
@@ -298,7 +299,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 isOver
             } = this.props;
 
-            const dragging = draggingCase && draggingCase.id === this.props.id;
+            dragging = draggingCase && draggingCase.id === this.props.id;
 
             if (dragging) {
                 opacity = 0.5;
@@ -322,7 +323,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 style={{
                     /** Entire list should honor dragging cursor if we have a draggingCase */
                     cursor,
-                    opacity
+                    opacity,
+                    background: dragging && '#f2f9fc',
                 }}>
                 <FormElement
                     name={this.props.name}
