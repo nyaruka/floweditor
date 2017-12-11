@@ -13,8 +13,7 @@ import { getOperatorConfigPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 import CaseElement, { CaseElementProps } from '../form/CaseElement';
 import Draggable, { DragTypes, DraggableChildProps } from '../form/Draggable';
-
-const flow = require('lodash.flow');
+import flow = require('lodash.flow');
 
 const styles = require('./SwitchRouter.scss');
 
@@ -32,21 +31,21 @@ export interface CombinedExits {
  */
 export function resolveExits(newCases: CaseElementProps[], previous: Node): CombinedExits {
     // create mapping of our old exit uuids to old exit settings
-    var previousExitMap: { [uuid: string]: Exit } = {};
+    const previousExitMap: { [uuid: string]: Exit } = {};
 
     if (previous.exits) {
-        for (let exit of previous.exits) {
+        for (const exit of previous.exits) {
             previousExitMap[exit.uuid] = exit;
         }
     }
 
-    var exits: Exit[] = [];
-    var cases: Case[] = [];
+    const exits: Exit[] = [];
+    const cases: Case[] = [];
 
     // map our new cases to an appropriate exit
-    for (let newCase of newCases) {
+    for (const newCase of newCases) {
         // see if we have a suitable exit for our case already
-        var existingExit: Exit = null;
+        let existingExit: Exit = null;
 
         // use our previous exit name if it isn't set
         if (!newCase.exitName && newCase.kase.exit_uuid in previousExitMap) {
@@ -60,7 +59,7 @@ export function resolveExits(newCases: CaseElementProps[], previous: Node): Comb
 
         if (newCase.exitName) {
             // look through our new exits to see if we've already created one
-            for (let exit of exits) {
+            for (const exit of exits) {
                 if (newCase.exitName && exit.name) {
                     if (exit.name.toLowerCase() === newCase.exitName.trim().toLowerCase()) {
                         existingExit = exit;
@@ -73,7 +72,7 @@ export function resolveExits(newCases: CaseElementProps[], previous: Node): Comb
             if (!existingExit) {
                 // look through our previous cases for a match
                 if (previous.exits) {
-                    for (let exit of previous.exits) {
+                    for (const exit of previous.exits) {
                         if (newCase.exitName && exit.name) {
                             if (exit.name.toLowerCase() === newCase.exitName.trim().toLowerCase()) {
                                 existingExit = exit;
@@ -111,20 +110,20 @@ export function resolveExits(newCases: CaseElementProps[], previous: Node): Comb
     }
 
     // add in our default exit
-    var defaultUUID = generateUUID();
+    let defaultUUID = generateUUID();
     if (previous.router && previous.router.type === 'switch') {
-        var router = previous.router as SwitchRouter;
+        const router = previous.router as SwitchRouter;
         if (router && router.default_exit_uuid) {
             defaultUUID = router.default_exit_uuid;
         }
     }
 
-    var defaultName = 'All Responses';
+    let defaultName = 'All Responses';
     if (exits.length > 0) {
         defaultName = 'Other';
     }
 
-    var defaultDestination = null;
+    let defaultDestination = null;
     if (defaultUUID in previousExitMap) {
         defaultDestination = previousExitMap[defaultUUID].destination_node_uuid;
     }
@@ -135,7 +134,7 @@ export function resolveExits(newCases: CaseElementProps[], previous: Node): Comb
         destination_node_uuid: defaultDestination
     });
 
-    return { cases: cases, exits: exits, defaultExit: defaultUUID };
+    return { cases, exits, defaultExit: defaultUUID };
 }
 
 const composeExitMap = (exits: Exit[]): { [uuid: string]: Exit } =>
@@ -166,10 +165,13 @@ export interface SwitchRouterFormProps extends FormProps {
     onBindAdvancedWidget(ref: any): void;
     removeWidget(name: string): void;
     localizations?: LocalizedObject[];
-    updateLocalizations(language: string, changes: { uuid: string; translations?: any }[]): void;
+    updateLocalizations(
+        language: string,
+        changes: Array<{ uuid: string; translations?: any }>
+    ): void;
     ComponentMap: ComponentMap;
     translating: boolean;
-    getLocalizedExits(widgets: { [name: string]: any }): { uuid: string; translations: any }[];
+    getLocalizedExits(widgets: { [name: string]: any }): Array<{ uuid: string; translations: any }>;
     renderExitTranslations(): JSX.Element;
 }
 
@@ -205,7 +207,7 @@ export default class SwitchRouterForm extends React.Component<
                 const id = idx + 1;
 
                 if (kase.exit_uuid) {
-                    const exit = this.props.node.exits.find(exit => exit.uuid === kase.exit_uuid);
+                    const exit = this.props.node.exits.find(({ uuid }) => uuid === kase.exit_uuid);
 
                     if (exit) {
                         ({ name: exitName } = exit);
@@ -258,15 +260,15 @@ export default class SwitchRouterForm extends React.Component<
         /**
          * If the user has a localized 'All Responses' case and they're adding another case,
          * bump off the translation for the initial case.
-         * */
+         */
         if (
             this.props.definition.localization &&
             Object.keys(this.props.definition.localization).length &&
             this.state.cases.length === 1
         ) {
-            const { uuid: nodeUUID, exits } = this.props.node;
+            const { uuid: nodeUUID, exits: nodeExits } = this.props.node;
 
-            const exitMap: { [uuid: string]: Exit } = composeExitMap(exits);
+            const exitMap: { [uuid: string]: Exit } = composeExitMap(nodeExits);
 
             Object.keys(this.props.definition.localization).forEach(iso => {
                 const language = this.props.definition.localization[iso];
@@ -292,9 +294,9 @@ export default class SwitchRouterForm extends React.Component<
             this.props.definition.localization &&
             Object.keys(this.props.definition.localization).length
         ) {
-            const { uuid: nodeUUID, exits } = this.props.node;
+            const { uuid: nodeUUID, exits: nodeExits } = this.props.node;
 
-            const exitMap: { [uuid: string]: Exit } = composeExitMap(exits);
+            const exitMap: { [uuid: string]: Exit } = composeExitMap(nodeExits);
 
             Object.keys(this.props.definition.localization).forEach(iso => {
                 const language = this.props.definition.localization[iso];
@@ -369,16 +371,16 @@ export default class SwitchRouterForm extends React.Component<
     }
 
     private onCaseRemoved(c: any): void {
-        let idx = this.state.cases.findIndex(
+        const idx = this.state.cases.findIndex(
             (props: CaseElementProps) => props.kase.uuid === c.props.kase.uuid
         );
 
         if (idx > -1) {
             // prettier-ignore
             const cases = update(this.state.cases, { $splice: [[idx, 1]] }).map(
-                (kase, idx) => {
+                (kase, index) => {
                     /** Reflow id's */
-                    kase.id = idx + 1;
+                    kase.id = index + 1;
                     return kase;
                 }
             );
@@ -408,17 +410,19 @@ export default class SwitchRouterForm extends React.Component<
             exitName: c.state.exitName
         };
 
-        let { cases } = this.state;
+        const { cases } = this.state;
         let found = false;
 
-        for (let key in cases) {
-            const props = cases[key];
-            if (props.kase.uuid === c.props.kase.uuid) {
-                const existingCase = cases[key];
-                newCase.id = existingCase.id;
-                cases[key] = newCase;
-                found = true;
-                break;
+        for (const key in cases) {
+            if (cases.hasOwnProperty(key)) {
+                const props = cases[key];
+                if (props.kase.uuid === c.props.kase.uuid) {
+                    const existingCase = cases[key];
+                    newCase.id = existingCase.id;
+                    cases[key] = newCase;
+                    found = true;
+                    break;
+                }
             }
         }
 
@@ -437,18 +441,18 @@ export default class SwitchRouterForm extends React.Component<
         const updates = [
             ...this.props.getLocalizedExits(widgets),
             ...this.getLocalizedCases(widgets)
-        ] as {
+        ] as Array<{
             uuid: string;
             translations: any;
-        }[];
+        }>;
 
         this.props.updateLocalizations(language, updates);
     }
 
     private getLocalizedCases(widgets: {
         [name: string]: any;
-    }): { uuid: string; translations: any }[] {
-        const results: { uuid: string; translations: any }[] = [];
+    }): Array<{ uuid: string; translations: any }> {
+        const results: Array<{ uuid: string; translations: any }> = [];
 
         const { cases } = this.props.node.router as SwitchRouter;
 
@@ -557,7 +561,12 @@ export default class SwitchRouterForm extends React.Component<
         return null;
     }
 
-    private findCase(id: any) {
+    private findCase(
+        id: any
+    ): {
+        kase: CaseElementProps;
+        index: number;
+    } {
         const { cases } = this.state;
         const [kase] = cases.filter(c => c.id === id);
         return {
@@ -708,8 +717,8 @@ export default class SwitchRouterForm extends React.Component<
                         showLabel={false}
                         value={this.state.operand}
                         onChange={this.onExpressionChanged}
-                        autocomplete
-                        required
+                        autocomplete={true}
+                        required={true}
                         ComponentMap={this.props.ComponentMap}
                     />
                 </div>
