@@ -12,7 +12,8 @@ import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 import { getOperatorConfigPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 import CaseElement, { CaseElementProps } from '../form/CaseElement';
-import Draggable, { DragTypes, DraggableChildProps } from '../form/Draggable';
+import { reorderList } from '../../helpers/utils';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import flow = require('lodash.flow');
 
 const styles = require('./SwitchRouter.scss');
@@ -159,7 +160,6 @@ export interface SwitchRouterFormProps extends FormProps {
     node: Node;
     action: AnyAction;
     config: Type;
-    connectDropTarget: Function;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
@@ -174,6 +174,23 @@ export interface SwitchRouterFormProps extends FormProps {
     getLocalizedExits(widgets: { [name: string]: any }): Array<{ uuid: string; translations: any }>;
     renderExitTranslations(): JSX.Element;
 }
+const getListStyle = (isDraggingOver: boolean) => ({
+    cursor: isDraggingOver ? 'move' : 'pointer'
+});
+
+const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
+    userSelect: 'none',
+    paddingLeft: isDragging && 13.5,
+    background: isDragging && 'white',
+    borderRadius: isDragging && 4,
+    opacity: isDragging && 0.5,
+    /** Overwriting default draggableStyle object from this point down */
+    ...draggableStyle,
+    top: draggableStyle && draggableStyle.top && draggableStyle.top - 105,
+    left: isDragging && 20,
+    height: isDragging && draggableStyle.height + 26,
+    width: isDragging && draggableStyle.width + 10
+});
 
 export default class SwitchRouterForm extends React.Component<
     SwitchRouterFormProps,
@@ -236,11 +253,11 @@ export default class SwitchRouterForm extends React.Component<
             operand
         };
 
+        this.onDragEnd = this.onDragEnd.bind(this);
+
         this.onValid = this.onValid.bind(this);
         this.onExpressionChanged = this.onExpressionChanged.bind(this);
         this.onShowNameField = this.onShowNameField.bind(this);
-        this.findCase = this.findCase.bind(this);
-        this.moveCase = this.moveCase.bind(this);
     }
 
     private isSwitchRouterNode(): boolean {
@@ -561,34 +578,9 @@ export default class SwitchRouterForm extends React.Component<
         return null;
     }
 
-    private findCase(
-        id: any
-    ): {
-        kase: CaseElementProps;
-        index: number;
-    } {
-        const { cases } = this.state;
-        const [kase] = cases.filter(c => c.id === id);
-        return {
-            kase,
-            index: cases.indexOf(kase)
-        };
-    }
-
-    private moveCase(id: number, atIdx: number): void {
-        const { kase, index } = this.findCase(id);
-        this.setState(
-            update(this.state, {
-                cases: {
-                    $splice: [[index, 1], [atIdx, 0, kase]]
-                }
-            })
-        );
-    }
-
-    private getCases(): JSX.Element[] {
+    private getCases(): Array<JSX.Element> {
         let needsEmpty: boolean = true;
-        let cases: JSX.Element[] = [];
+        let cases: Array<JSX.Element> = [];
 
         if (this.state.cases) {
             /** Cases shouldn't be draggable unless they have siblings */
@@ -618,45 +610,41 @@ export default class SwitchRouterForm extends React.Component<
                     }
 
                     return (
-                        <Draggable
-                            key={`draggable-${c.kase.uuid}`}
-                            id={c.id}
-                            findCase={this.findCase}
-                            moveCase={this.moveCase}
-                            render={({
-                                connectDragSource,
-                                connectDropTarget,
-                                canDrag,
-                                isOver,
-                                draggingCase
-                            }: DraggableChildProps) => (
-                                <CaseElement
-                                    key={`case-${c.kase.uuid}`}
-                                    id={c.id}
-                                    kase={c.kase}
-                                    ref={this.props.onBindWidget}
-                                    name={`case_${idx}`}
-                                    exitName={c.exitName}
-                                    onRemove={this.onCaseRemoved}
-                                    onChanged={this.onCaseChanged}
-                                    ComponentMap={this.props.ComponentMap}
-                                    draggable
-                                    connectDragSource={connectDragSource}
-                                    connectDropTarget={connectDropTarget}
-                                    canDrag={canDrag}
-                                    draggingCase={draggingCase}
-                                />
+                        <Draggable key={idx} draggableId={`case-${c.id}`}>
+                            {(provided, snapshot) => (
+                                <div>
+                                    <div
+                                        ref={provided.innerRef}
+                                        style={getItemStyle(
+                                            provided.draggableStyle,
+                                            snapshot.isDragging
+                                        )}
+                                        {...provided.dragHandleProps}>
+                                        <CaseElement
+                                            id={c.id}
+                                            kase={c.kase}
+                                            ref={this.props.onBindWidget}
+                                            name={`case_${idx}`}
+                                            exitName={c.exitName}
+                                            onRemove={this.onCaseRemoved}
+                                            onChanged={this.onCaseChanged}
+                                            ComponentMap={this.props.ComponentMap}
+                                        />
+                                    </div>
+                                    {provided.placeholder}
+                                </div>
                             )}
-                        />
+                        </Draggable>
                     );
                 });
             }
         }
+
         if (needsEmpty) {
             const newCaseUUID = generateUUID();
             cases.push(
                 <CaseElement
-                    key={cases.length}
+                    key={newCaseUUID}
                     kase={{
                         uuid: newCaseUUID,
                         type: 'has_any_word',
@@ -665,7 +653,7 @@ export default class SwitchRouterForm extends React.Component<
                     ref={this.props.onBindWidget}
                     name={`case_${cases.length}`}
                     exitName={null}
-                    empty
+                    empty={true}
                     onRemove={this.onCaseRemoved}
                     onChanged={this.onCaseChanged}
                     ComponentMap={this.props.ComponentMap}
@@ -728,24 +716,43 @@ export default class SwitchRouterForm extends React.Component<
         return leadIn;
     }
 
+    private onDragEnd(result: any): void {
+        if (!result.destination) {
+            return;
+        }
+
+        const cases = reorderList(this.state.cases, result.source.index, result.destination.index);
+
+        this.setState({
+            cases
+        });
+    }
+
     private renderForm(): JSX.Element {
         if (this.props.translating) {
             return this.props.renderExitTranslations();
         } else {
-            const cases: JSX.Element[] = this.getCases();
+            const cases: Array<JSX.Element> = this.getCases();
             const nameField: JSX.Element = this.getNameField();
             const leadIn: JSX.Element = this.getLeadIn();
-
-            const { connectDropTarget } = this.props;
-
-            const connectedDropTarget = connectDropTarget(
-                <div className={styles.cases}>{cases}</div>
-            );
 
             return (
                 <div className={styles.switch}>
                     {leadIn}
-                    {connectedDropTarget}
+                    <div className={styles.cases}>
+                        <DragDropContext onDragEnd={this.onDragEnd}>
+                            <Droppable droppableId="droppable">
+                                {(provided, snapshot) => (
+                                    <div
+                                        ref={provided.innerRef}
+                                        style={getListStyle(snapshot.isDraggingOver)}>
+                                        {cases}
+                                        {provided.placeholder}
+                                    </div>
+                                )}
+                            </Droppable>
+                        </DragDropContext>
+                    </div>
                     <div className={styles.save_as}>{nameField}</div>
                 </div>
             );

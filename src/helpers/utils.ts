@@ -121,3 +121,9 @@ export function getSelectClass(errors: number) {
     /** We use a global selector here for react-select */
     return ['select-invalid'];
 }
+
+export function reorderList(list: any[], startIndex: number, endIndex: number): any[] {
+    const [removed] = list.splice(startIndex, 1);
+    list.splice(endIndex, 0, removed);
+    return list;
+};

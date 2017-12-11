@@ -11,8 +11,6 @@ import {
 } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 import { Case } from '../../flowTypes';
-import { DragSource, DropTarget } from 'react-dnd';
-import { findDOMNode } from 'react-dom';
 
 const forms = require('./FormElement.scss');
 const styles = require('./CaseElement.scss');
@@ -27,11 +25,6 @@ export interface CaseElementProps {
     empty?: boolean;
     onChanged: Function;
     draggable?: boolean;
-    canDrag?: boolean;
-    draggingCase?: any;
-    isOver?: boolean;
-    connectDragSource?: Function;
-    connectDropTarget?: Function;
 }
 
 interface CaseElementState {
@@ -187,7 +180,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         );
     }
 
-    validate(): boolean {
+    public validate(): boolean {
         const errors: string[] = [];
 
         if (this.operatorConfig.operands === 0) {
@@ -276,114 +269,49 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                     name="arguments"
                     onChange={this.onChangeArguments}
                     value={value}
-                    autocomplete
+                    autocomplete={true}
                     ComponentMap={this.props.ComponentMap}
                 />
             );
         }
-
-        let cursor: string = 'default';
-        let opacity: number = 1;
-        let dragging: boolean;
-
-        /**
-         * All cases except the empty, last case
-         * and cases that have no siblings are draggable
-         */
-        if (this.props.draggable) {
-            /** Draggable props */
-            // prettier-ignore
-            const {
-                draggingCase,
-                canDrag,
-                isOver
-            } = this.props;
-
-            dragging = draggingCase && draggingCase.id === this.props.id;
-
-            if (dragging) {
-                opacity = 0.5;
-            }
-
-            if (draggingCase) {
-                cursor = 'move';
-            } else {
-                cursor = 'pointer';
-            }
-        }
-
         const removeButton: JSX.Element = this.getRemoveButton();
 
         return (
-            /**
-             * NOTE: Only native element nodes can be passed to React DnD connectors,
-             * so we wrap FormElement in an arbitrary div.
-             */
-            <div
-                style={{
-                    /** Entire list should honor dragging cursor if we have a draggingCase */
-                    cursor,
-                    opacity,
-                    background: dragging && '#f2f9fc',
-                }}>
-                <FormElement
-                    name={this.props.name}
-                    errors={this.state.errors}
-                    className={styles.group}>
-                    <div className={`${styles.case} select-medium`}>
-                        <div className={styles.choice}>
-                            <Select
-                                name="operator"
-                                clearable={false}
-                                options={this.context.operatorConfigList}
-                                value={this.state.operator}
-                                valueKey="type"
-                                labelKey="verboseName"
-                                optionClassName="operator"
-                                searchable={false}
-                                onChange={this.onChangeOperator}
-                            />
-                        </div>
-                        <div className={styles.operand}>{args}</div>
-                        <div className={styles['categorize-as']}>categorize as</div>
-                        <div className={styles.category}>
-                            <TextInputElement
-                                ref={ele => (this.category = ele)}
-                                className={styles.input}
-                                name="exitName"
-                                onChange={this.onChangeExitName}
-                                value={this.state.exitName}
-                                ComponentMap={this.props.ComponentMap}
-                            />
-                        </div>
-                        {removeButton}
+            <FormElement name={this.props.name} errors={this.state.errors} className={styles.group}>
+                <div className={`${styles.case} select-medium`}>
+                    <div className={styles.choice}>
+                        <Select
+                            name="operator"
+                            clearable={false}
+                            options={this.context.operatorConfigList}
+                            value={this.state.operator}
+                            valueKey="type"
+                            labelKey="verboseName"
+                            optionClassName="operator"
+                            searchable={false}
+                            onChange={this.onChangeOperator}
+                        />
                     </div>
-                </FormElement>
-            </div>
+                    <div className={styles.operand}>{args}</div>
+                    <div className={styles['categorize-as']}>categorize as</div>
+                    <div className={styles.category}>
+                        <TextInputElement
+                            ref={ele => (this.category = ele)}
+                            className={styles.input}
+                            name="exitName"
+                            onChange={this.onChangeExitName}
+                            value={this.state.exitName}
+                            ComponentMap={this.props.ComponentMap}
+                        />
+                    </div>
+                    {removeButton}
+                </div>
+            </FormElement>
         );
     }
 
     public render(): JSX.Element {
         const kase: JSX.Element = this.getCase();
-        if (this.props.empty || !this.props.draggable) {
-            /**
-             * We return an unconnected case here because we don't
-             * want empty cases or cases that don't have siblings to participate
-             * in dragging or dropping.
-             */
-            return kase;
-        } else {
-            // prettier-ignore
-            const {
-                connectDragSource,
-                connectDropTarget
-            } = this.props;
-            // prettier-ignore
-            return connectDragSource(
-                connectDropTarget(
-                    kase
-                )
-            );
-        }
+        return kase;
     }
 }

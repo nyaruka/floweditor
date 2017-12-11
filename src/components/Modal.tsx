@@ -158,7 +158,7 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
         });
     }
 
-    render() {
+    public render(): JSX.Element {
         const customStyles = {
             content: {
                 marginLeft: 'auto',

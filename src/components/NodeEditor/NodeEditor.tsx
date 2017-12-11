@@ -28,7 +28,6 @@ import TypeListComp from './TypeList';
 import TextInputElement from '../form/TextInputElement';
 import { getTypeConfigPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
-import Droppable, { DroppableChildProps } from '../form/Droppable';
 
 const formStyles = require('./NodeEditor.scss');
 const shared = require('../shared.scss');
@@ -251,8 +250,8 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
     private getLocalizedExits(widgets: {
         [name: string]: any;
-    }): { uuid: string; translations: any }[] {
-        const results: { uuid: string; translations: any }[] = [];
+    }): Array<{ uuid: string; translations: any }> {
+        const results: Array<{ uuid: string; translations: any }> = [];
 
         const { exits } = this.props.node;
 
@@ -376,7 +375,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     private onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void {
         /** Return key */
         if (event.which === 13) {
-            var isTextarea = $(event.target).prop('tagName') == 'TEXTAREA';
+            const isTextarea = $(event.target).prop('tagName') === 'TEXTAREA';
             if (!isTextarea || event.shiftKey) {
                 event.preventDefault();
                 if (this.submit()) {
@@ -457,11 +456,11 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
     private getTitles(): JSX.Element[] {
         const titleText: string = this.getTitleText();
-        const titles: JSX.Element[] = [<div>{titleText}</div>];
+        const titles: JSX.Element[] = [<div key={0}>{titleText}</div>];
 
         if (this.hasAdvanced()) {
             titles.push(
-                <div>
+                <div key={1}>
                     <div>{titleText}</div>
                     <div className={shared.advanced_title}>Advanced Settings</div>
                 </div>
@@ -501,7 +500,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             localizations: this.props.localizations,
             updateLocalizations: (
                 language: string,
-                changes: { uuid: string; translations: any }[]
+                changes: Array<{ uuid: string; translations: any }>
             ) => {
                 this.props.onUpdateLocalizations(language, changes);
             },
@@ -538,31 +537,10 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         const typeList = this.getTypeList();
 
-        let frontForm: JSX.Element = null;
-
-        if (
-            this.state.config.type === 'expression' ||
-            this.state.config.type === 'wait_for_response' ||
-            this.state.config.type === 'switch'
-        ) {
-            frontForm = (
-                <Droppable
-                    render={({ connectDropTarget }: DroppableChildProps) => (
-                        <Form
-                            ref={this.formRef}
-                            {...{ ...formProps, connectDropTarget, showAdvanced: false }}
-                        />
-                    )}
-                />
-            );
-        } else {
-            frontForm = <Form ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />;
-        }
-
         const front = (
             <FormContainer>
                 {typeList}
-                {frontForm}
+                <Form ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />
             </FormContainer>
         );
 
