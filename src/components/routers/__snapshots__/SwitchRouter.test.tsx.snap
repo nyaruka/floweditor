@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SwitchRouter style utils getItemStyle should return dragging style when passed a truthy isDragging arg (snapshot) 1`] = `
+Object {
+  "WebkitTapHighlightColor": "rgba(0,0,0,0)",
+  "WebkitTouchCallout": "none",
+  "background": "#f2f9fc",
+  "borderRadius": 4,
+  "boxSizing": "border-box",
+  "height": 55,
+  "left": 20,
+  "margin": 0,
+  "opacity": 0.65,
+  "pointerEvents": "none",
+  "position": "fixed",
+  "top": 166.33334350585938,
+  "touchAction": "manipulation",
+  "transform": "translate(-2px, 17px)",
+  "userSelect": "none",
+  "width": 590,
+  "zIndex": 5000,
+}
+`;
+
+exports[`SwitchRouter style utils getItemStyle should return notDragging style when passed a falsy isDragging arg (snapshot) 1`] = `
+Object {
+  "WebkitTapHighlightColor": "rgba(0,0,0,0)",
+  "WebkitTouchCallout": "none",
+  "background": false,
+  "borderRadius": false,
+  "height": false,
+  "left": false,
+  "opacity": false,
+  "pointerEvents": "auto",
+  "top": false,
+  "touchAction": "manipulation",
+  "transform": null,
+  "transition": null,
+  "userSelect": "none",
+  "width": false,
+}
+`;

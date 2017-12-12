@@ -169,7 +169,7 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
                 borderRadius: 'none',
                 outline: 'none',
                 width: this.props.width ? this.props.width : '700px',
-                border: 'none'
+                border: 'none',
             }
         };
         const topStyle = this.getTopStyle();

@@ -34,34 +34,30 @@ const shared = require('../shared.scss');
 
 export interface FormProps {
     showAdvanced: boolean;
-
     node: Node;
     translating: boolean;
     iso: string;
     action: AnyAction;
     localizations?: LocalizedObject[];
     definition: FlowDefinition;
-
     config: Type;
-
     ComponentMap: ComponentMap;
-
     updateAction(action: AnyAction): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
-    updateLocalizations(language: string, changes: { uuid: string; translations: any }[]): void;
+    updateLocalizations(
+        language: string,
+        changes: Array<{ uuid: string; translations: any }>
+    ): void;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     removeWidget(name: string): void;
     renderExitTranslations(): JSX.Element;
-
     triggerFormUpdate(): void;
     onToggleAdvanced(): void;
     getLocalizedObject: Function;
-    getLocalizedExits(widgets: { [name: string]: any }): { uuid: string; translations: any }[];
+    getLocalizedExits(widgets: { [name: string]: any }): Array<{ uuid: string; translations: any }>;
     saveLocalizedExits(widgets: { [name: string]: any }): void;
     getActionUUID: Function;
-
-    connectDropTarget: Function;
 }
 
 export interface NodeEditorProps {
@@ -74,13 +70,11 @@ export interface NodeEditorProps {
     definition: FlowDefinition;
     translating: boolean;
     show?: boolean;
-
     onUpdateLocalizations: Function;
     onUpdateAction: Function;
     onUpdateRouter: Function;
     /** Perform when editor is closed */
     onClose?(canceled: boolean): void;
-
     ComponentMap: ComponentMap;
 }
 
@@ -154,7 +148,9 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             return this.props.action.type;
         } else {
             if (this.props.nodeUI) {
-                if (this.props.nodeUI.type) return this.props.nodeUI.type;
+                if (this.props.nodeUI.type) {
+                    return this.props.nodeUI.type;
+                }
             }
         }
 
@@ -175,7 +171,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         );
     }
 
-    private getLocalizedObject() {
+    private getLocalizedObject(): LocalizedObject {
         if (this.props.localizations && this.props.localizations.length) {
             return this.props.localizations[0];
         }
@@ -212,7 +208,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 let value;
 
                 if ('name' in localized.localizedKeys) {
-                    let localizedExit: Exit = localized.getObject();
+                    const localizedExit: Exit = localized.getObject();
                     value = localizedExit.name;
                 }
 
