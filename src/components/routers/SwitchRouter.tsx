@@ -147,6 +147,23 @@ const composeExitMap = (exits: Exit[]): { [uuid: string]: Exit } =>
         {} as { [uuid: string]: Exit }
     );
 
+const getListStyle = (isDraggingOver: boolean) => ({
+    cursor: isDraggingOver ? 'move' : 'pointer'
+});
+
+const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
+    userSelect: 'none',
+    background: isDragging && '#f2f9fc',
+    borderRadius: isDragging && 4,
+    opacity: isDragging && 0.75,
+    /** Overwriting default draggableStyle object from this point down */
+    ...draggableStyle,
+    top: isDragging && draggableStyle.top - 105,
+    left: isDragging && 20,
+    height: isDragging && draggableStyle.height + 27,
+    width: isDragging && draggableStyle.width - 5
+});
+
 export enum ChangedCaseInput {
     ARGS = 'ARGS',
     EXIT = 'EXIT'
@@ -179,23 +196,6 @@ export interface SwitchRouterFormProps extends FormProps {
     getLocalizedExits(widgets: { [name: string]: any }): Array<{ uuid: string; translations: any }>;
     renderExitTranslations(): JSX.Element;
 }
-
-const getListStyle = (isDraggingOver: boolean) => ({
-    cursor: isDraggingOver ? 'move' : 'pointer'
-});
-
-const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
-    userSelect: 'none',
-    background: isDragging && '#f2f9fc',
-    borderRadius: isDragging && 4,
-    opacity: isDragging && 0.75,
-    /** Overwriting default draggableStyle object from this point down */
-    ...draggableStyle,
-    top: isDragging && draggableStyle.top - 105,
-    left: isDragging && 20,
-    height: isDragging && draggableStyle.height + 27,
-    width: isDragging && draggableStyle.width - 5
-});
 
 export default class SwitchRouterForm extends React.Component<
     SwitchRouterFormProps,
@@ -577,18 +577,17 @@ export default class SwitchRouterForm extends React.Component<
         return null;
     }
 
-    private getCases(): Array<JSX.Element> {
+    private getCases(): JSX.Element[] {
         let needsEmpty: boolean = true;
-        let cases: Array<JSX.Element> = [];
+        let cases: JSX.Element[] = [];
 
         if (this.state.cases) {
             /** Cases shouldn't be draggable unless they have siblings */
             if (this.state.cases.length === 1) {
-                const [{ id, kase, exitName }] = this.state.cases;
+                const [{ kase, exitName }] = this.state.cases;
                 cases.push(
                     <CaseElement
                         key={kase.uuid}
-                        id={id}
                         kase={kase}
                         ref={this.props.onBindWidget}
                         name={'case_0'}
