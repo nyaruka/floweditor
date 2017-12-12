@@ -10,6 +10,7 @@ export interface FormElementProps {
     required?: boolean;
     className?: string;
     border?: boolean;
+    case?: boolean;
 }
 
 const FormElement: React.SFC<FormElementProps> = (props): JSX.Element => {
@@ -29,7 +30,13 @@ const FormElement: React.SFC<FormElementProps> = (props): JSX.Element => {
     let errorDisplay: JSX.Element = null;
 
     if (errors.length > 0) {
-        errorDisplay = <div className={styles.errors}>{errors}</div>;
+        errorDisplay = (
+            <div
+                className={styles.errors}
+                style={{ paddingTop: props.case && 5, paddingLeft: props.case && 10 }}>
+                {errors}
+            </div>
+        );
     }
 
     let name: JSX.Element = null;

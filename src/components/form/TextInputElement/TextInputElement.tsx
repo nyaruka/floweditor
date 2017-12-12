@@ -458,8 +458,14 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         return <div className={styles.option_name}>{name}</div>;
     }
 
+    private focusInput(): void {
+        const { value: { length } } = this.textEl;
+        this.textEl.focus();
+        this.textEl.selectionStart = length;
+    }
+
     public componentDidMount(): void {
-        this.props.focus && this.textEl.focus();
+        this.props.focus && this.focusInput();
     }
 
     public componentDidUpdate(previous: TextInputProps): void {

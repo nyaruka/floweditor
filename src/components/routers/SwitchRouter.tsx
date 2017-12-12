@@ -147,6 +147,11 @@ const composeExitMap = (exits: Exit[]): { [uuid: string]: Exit } =>
         {} as { [uuid: string]: Exit }
     );
 
+export enum ChangedCaseInput {
+    ARGS = 'ARGS',
+    EXIT = 'EXIT'
+}
+
 export interface SwitchRouterState {
     cases: CaseElementProps[];
     resultName: string;
@@ -406,7 +411,7 @@ export default class SwitchRouterForm extends React.Component<
         this.props.removeWidget(c.props.name);
     }
 
-    private onCaseChanged(c: any): void {
+    private onCaseChanged(c: any, type?: ChangedCaseInput): void {
         let id: number;
 
         if (!c.id) {
@@ -446,6 +451,19 @@ export default class SwitchRouterForm extends React.Component<
         if (!found) {
             /** Add new case */
             cases[cases.length] = newCase;
+            /** Ensure new case has focus */
+            Object.keys(cases).forEach((key, idx, arr) => {
+                if (idx === arr.length - 1) {
+                    if (type) {
+                        if (type === ChangedCaseInput.ARGS) {
+                            cases[idx].focusArgsInput = true;
+                        } else if (type === ChangedCaseInput.EXIT) {
+                            cases[idx].focusExitInput = true;
+                        }
+                    }
+
+                }
+            });
         }
 
         this.setState({
@@ -629,7 +647,8 @@ export default class SwitchRouterForm extends React.Component<
                                             onRemove={this.onCaseRemoved}
                                             onChanged={this.onCaseChanged}
                                             ComponentMap={this.props.ComponentMap}
-                                            focusArgs={c.hasOwnProperty('focusArgs')}
+                                            focusArgsInput={c.focusArgsInput}
+                                            focusExitInput={c.focusExitInput}
                                         />
                                     </div>
                                     {provided.placeholder}

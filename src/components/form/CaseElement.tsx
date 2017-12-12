@@ -11,6 +11,7 @@ import {
 } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 import { Case } from '../../flowTypes';
+import { ChangedCaseInput } from '../routers/SwitchRouter';
 
 const forms = require('./FormElement.scss');
 const styles = require('./CaseElement.scss');
@@ -24,7 +25,8 @@ export interface CaseElementProps {
     exitName: string;
     empty?: boolean;
     onChanged: Function;
-    focusArgs?: boolean;
+    focusArgsInput?: boolean;
+    focusExitInput?: boolean;
 }
 
 interface CaseElementState {
@@ -35,7 +37,6 @@ interface CaseElementState {
 }
 
 export default class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
-    private args: TextInputElement;
     private category: TextInputElement;
     private operatorConfig: Operator;
 
@@ -61,10 +62,6 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         this.onChangeOperator = this.onChangeOperator.bind(this);
         this.onChangeExitName = this.onChangeExitName.bind(this);
         this.remove = this.remove.bind(this);
-    }
-
-    private argsRef(ref: any) {
-        this.args = ref;
     }
 
     private generateExitNameFromArguments(args: string[]): string {
@@ -148,7 +145,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 exitName
             },
             () => {
-                this.props.onChanged(this);
+                this.props.onChanged(this, ChangedCaseInput.ARGS);
                 this.category.setState(
                     {
                         value: exitName
@@ -169,7 +166,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             {
                 exitName: val.target.value
             },
-            () => this.props.onChanged(this)
+            () => this.props.onChanged(this, ChangedCaseInput.EXIT)
         );
     }
 
@@ -242,6 +239,22 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         return errors.length === 0;
     }
 
+    private getDndBlock(): JSX.Element {
+        let dndBlock: JSX.Element = null;
+
+        if (!this.props.empty) {
+            dndBlock = (
+                <div className={styles['dnd-icon']}>
+                    <span>&#8597;</span>
+                </div>
+            );
+        } else {
+            dndBlock = <div style={{ display: 'inline-block', width: 15 }} />;
+        }
+
+        return dndBlock;
+    }
+
     private getRemoveButton(): JSX.Element {
         let removeButton: JSX.Element = null;
 
@@ -268,27 +281,32 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         let args: JSX.Element = null;
 
         if (this.operatorConfig && this.operatorConfig.operands > 0) {
+            console.log('props', this.props);
             args = (
                 <TextInputElement
-                    focus={this.props.focusArgs}
                     className={styles.input}
                     name="arguments"
                     onChange={this.onChangeArguments}
                     value={value}
+                    focus={this.props.focusArgsInput}
                     autocomplete={true}
                     ComponentMap={this.props.ComponentMap}
                 />
             );
         }
 
+        const dndBlock: JSX.Element = this.getDndBlock();
+
         const removeButton: JSX.Element = this.getRemoveButton();
 
         return (
-            <FormElement name={this.props.name} errors={this.state.errors} className={styles.group}>
+            <FormElement
+                name={this.props.name}
+                errors={this.state.errors}
+                className={styles.group}
+                case={true}>
                 <div className={`${styles.case} select-medium`}>
-                    <div className={styles['dnd-icon']}>
-                        <span>&#8597;</span>
-                    </div>
+                    {dndBlock}
                     <div className={styles.choice}>
                         <Select
                             name="operator"
@@ -311,6 +329,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                             name="exitName"
                             onChange={this.onChangeExitName}
                             value={this.state.exitName}
+                            focus={this.props.focusExitInput}
                             ComponentMap={this.props.ComponentMap}
                         />
                     </div>
