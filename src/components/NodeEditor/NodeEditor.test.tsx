@@ -37,8 +37,8 @@ describe('Component: NodeEditor', () => {
         expect(ModalShallow.exists()).toBeTruthy();
         expect(ModalShallow.hasClass(replyAction.type)).toBeTruthy();
         expect(ModalShallow.prop('title')).toEqual([
-            <div>Send Message</div>,
-            <div>
+            <div key={'front'}>Send Message</div>,
+            <div key={'advanced'}>
                 <div>Send Message</div>
                 <div className="advanced_title">Advanced Settings</div>
             </div>

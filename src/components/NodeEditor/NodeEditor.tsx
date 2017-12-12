@@ -456,11 +456,11 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
     private getTitles(): JSX.Element[] {
         const titleText: string = this.getTitleText();
-        const titles: JSX.Element[] = [<div key={0}>{titleText}</div>];
+        const titles: JSX.Element[] = [<div key={'front'}>{titleText}</div>];
 
         if (this.hasAdvanced()) {
             titles.push(
-                <div key={1}>
+                <div key={'advanced'}>
                     <div>{titleText}</div>
                     <div className={shared.advanced_title}>Advanced Settings</div>
                 </div>
