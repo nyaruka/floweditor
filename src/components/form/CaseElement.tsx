@@ -280,7 +280,6 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         let args: JSX.Element = null;
 
         if (this.operatorConfig && this.operatorConfig.operands > 0) {
-            console.log('props', this.props);
             args = (
                 <TextInputElement
                     className={styles.input}
