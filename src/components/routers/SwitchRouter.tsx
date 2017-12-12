@@ -224,9 +224,8 @@ export default class SwitchRouterForm extends React.Component<
                 ({ result_name: resultName } = router);
             }
 
-            router.cases.forEach((kase, idx) => {
+            router.cases.forEach(kase => {
                 let exitName: string = null;
-                const id = idx + 1;
 
                 if (kase.exit_uuid) {
                     const exit = this.props.node.exits.find(({ uuid }) => uuid === kase.exit_uuid);
@@ -239,7 +238,6 @@ export default class SwitchRouterForm extends React.Component<
                 try {
                     const config = this.context.getOperatorConfig(kase.type);
                     cases.push({
-                        id,
                         kase,
                         exitName,
                         onChanged: this.onCaseChanged,
@@ -399,29 +397,14 @@ export default class SwitchRouterForm extends React.Component<
 
         if (idx > -1) {
             // prettier-ignore
-            const cases = update(this.state.cases, { $splice: [[idx, 1]] }).map(
-                (kase, index) => {
-                    /** Reflow id's */
-                    kase.id = index + 1;
-                    return kase;
-                }
-            );
+            const cases = update(this.state.cases, { $splice: [[idx, 1]] })
             this.setState({ cases });
         }
         this.props.removeWidget(c.props.name);
     }
 
     private onCaseChanged(c: any, type?: ChangedCaseInput): void {
-        let id: number;
-
-        if (!c.id) {
-            id = this.state.cases.length + 1;
-        } else {
-            ({ id } = c);
-        }
-
         const newCase: CaseElementProps = {
-            id,
             kase: {
                 uuid: c.props.kase.uuid,
                 type: c.state.operator,
@@ -439,8 +422,6 @@ export default class SwitchRouterForm extends React.Component<
             if (cases.hasOwnProperty(key)) {
                 const props = cases[key];
                 if (props.kase.uuid === c.props.kase.uuid) {
-                    const existingCase = cases[key];
-                    newCase.id = existingCase.id;
                     cases[key] = newCase;
                     found = true;
                     break;
@@ -461,7 +442,6 @@ export default class SwitchRouterForm extends React.Component<
                             cases[idx].focusExitInput = true;
                         }
                     }
-
                 }
             });
         }
