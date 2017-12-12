@@ -731,7 +731,7 @@ export default class SwitchRouterForm extends React.Component<
         if (this.props.translating) {
             return this.props.renderExitTranslations();
         } else {
-            const cases: Array<JSX.Element> = this.getCases();
+            const cases: JSX.Element[] = this.getCases();
             const nameField: JSX.Element = this.getNameField();
             const leadIn: JSX.Element = this.getLeadIn();
 
