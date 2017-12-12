@@ -595,6 +595,7 @@ export default class SwitchRouterForm extends React.Component<
                         onRemove={this.onCaseRemoved}
                         onChanged={this.onCaseChanged}
                         ComponentMap={this.props.ComponentMap}
+                        solo={true}
                     />
                 );
             } else {

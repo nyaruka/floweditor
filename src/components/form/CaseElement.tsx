@@ -26,6 +26,7 @@ export interface CaseElementProps {
     onChanged: Function;
     focusArgsInput?: boolean;
     focusExitInput?: boolean;
+    solo?: boolean;
 }
 
 interface CaseElementState {
@@ -241,7 +242,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     private getDndBlock(): JSX.Element {
         let dndBlock: JSX.Element = null;
 
-        if (!this.props.empty) {
+        if (!this.props.empty && !this.props.solo) {
             dndBlock = (
                 <div className={styles['dnd-icon']}>
                     <span>&#8597;</span>
