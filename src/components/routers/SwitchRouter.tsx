@@ -174,22 +174,22 @@ export interface SwitchRouterFormProps extends FormProps {
     getLocalizedExits(widgets: { [name: string]: any }): Array<{ uuid: string; translations: any }>;
     renderExitTranslations(): JSX.Element;
 }
+
 const getListStyle = (isDraggingOver: boolean) => ({
     cursor: isDraggingOver ? 'move' : 'pointer'
 });
 
 const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
     userSelect: 'none',
-    paddingLeft: isDragging && 13.5,
-    background: isDragging && 'white',
+    background: isDragging && '#f2f9fc',
     borderRadius: isDragging && 4,
-    opacity: isDragging && 0.5,
+    opacity: isDragging && 0.75,
     /** Overwriting default draggableStyle object from this point down */
     ...draggableStyle,
-    top: draggableStyle && draggableStyle.top && draggableStyle.top - 105,
+    top: isDragging && draggableStyle.top - 105,
     left: isDragging && 20,
-    height: isDragging && draggableStyle.height + 26,
-    width: isDragging && draggableStyle.width + 10
+    height: isDragging && draggableStyle.height + 27,
+    width: isDragging && draggableStyle.width - 5
 });
 
 export default class SwitchRouterForm extends React.Component<
@@ -444,6 +444,7 @@ export default class SwitchRouterForm extends React.Component<
         }
 
         if (!found) {
+            /** Add new case */
             cases[cases.length] = newCase;
         }
 
@@ -610,7 +611,7 @@ export default class SwitchRouterForm extends React.Component<
                     }
 
                     return (
-                        <Draggable key={idx} draggableId={`case-${c.id}`}>
+                        <Draggable key={c.kase.uuid} draggableId={c.kase.uuid}>
                             {(provided, snapshot) => (
                                 <div>
                                     <div
@@ -621,14 +622,14 @@ export default class SwitchRouterForm extends React.Component<
                                         )}
                                         {...provided.dragHandleProps}>
                                         <CaseElement
-                                            id={c.id}
-                                            kase={c.kase}
                                             ref={this.props.onBindWidget}
+                                            kase={c.kase}
                                             name={`case_${idx}`}
                                             exitName={c.exitName}
                                             onRemove={this.onCaseRemoved}
                                             onChanged={this.onCaseChanged}
                                             ComponentMap={this.props.ComponentMap}
+                                            focusArgs={c.hasOwnProperty('focusArgs')}
                                         />
                                     </div>
                                     {provided.placeholder}

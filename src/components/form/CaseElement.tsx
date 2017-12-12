@@ -24,7 +24,7 @@ export interface CaseElementProps {
     exitName: string;
     empty?: boolean;
     onChanged: Function;
-    draggable?: boolean;
+    focusArgs?: boolean;
 }
 
 interface CaseElementState {
@@ -35,6 +35,7 @@ interface CaseElementState {
 }
 
 export default class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
+    private args: TextInputElement;
     private category: TextInputElement;
     private operatorConfig: Operator;
 
@@ -60,6 +61,10 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         this.onChangeOperator = this.onChangeOperator.bind(this);
         this.onChangeExitName = this.onChangeExitName.bind(this);
         this.remove = this.remove.bind(this);
+    }
+
+    private argsRef(ref: any) {
+        this.args = ref;
     }
 
     private generateExitNameFromArguments(args: string[]): string {
@@ -100,7 +105,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         return null;
     }
 
-    private getExitName(args: string[] = null) {
+    private getExitName(args: string[] = null): string {
         let exitName = this.state.exitName;
 
         if (!args) {
@@ -120,7 +125,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         return exitName;
     }
 
-    private onChangeOperator(val: Operator) {
+    private onChangeOperator(val: Operator): void {
         this.operatorConfig = val;
 
         this.setState(
@@ -132,7 +137,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         );
     }
 
-    private onChangeArguments(val: React.ChangeEvent<HTMLTextElement>) {
+    private onChangeArguments(val: React.ChangeEvent<HTMLTextElement>): void {
         const args = [val.target.value];
         const exitName = this.getExitName(args);
 
@@ -159,7 +164,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         );
     }
 
-    private onChangeExitName(val: React.ChangeEvent<HTMLTextElement>) {
+    private onChangeExitName(val: React.ChangeEvent<HTMLTextElement>): void {
         this.setState(
             {
                 exitName: val.target.value
@@ -168,7 +173,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         );
     }
 
-    private remove(ele?: any) {
+    private remove(ele?: any): void {
         this.props.onRemove(this);
     }
 
@@ -251,7 +256,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         return removeButton;
     }
 
-    private getCase(): JSX.Element {
+    public render(): JSX.Element {
         const classes = [styles.case];
 
         if (this.state.errors.length > 0) {
@@ -265,6 +270,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         if (this.operatorConfig && this.operatorConfig.operands > 0) {
             args = (
                 <TextInputElement
+                    focus={this.props.focusArgs}
                     className={styles.input}
                     name="arguments"
                     onChange={this.onChangeArguments}
@@ -274,11 +280,15 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 />
             );
         }
+
         const removeButton: JSX.Element = this.getRemoveButton();
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors} className={styles.group}>
                 <div className={`${styles.case} select-medium`}>
+                    <div className={styles['dnd-icon']}>
+                        <span>&#8597;</span>
+                    </div>
                     <div className={styles.choice}>
                         <Select
                             name="operator"
@@ -308,10 +318,5 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 </div>
             </FormElement>
         );
-    }
-
-    public render(): JSX.Element {
-        const kase: JSX.Element = this.getCase();
-        return kase;
     }
 }

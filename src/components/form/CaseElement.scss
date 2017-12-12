@@ -46,6 +46,10 @@ $spacing: 10px;
         .remove-button {
             opacity: 1;
         }
+
+        .dnd-icon {
+            opacity: 1;
+        }
     }
     input {
         padding: 6px 7px;
@@ -55,17 +59,22 @@ $spacing: 10px;
     }
 }
 
+.dnd-icon {
+    color: #ccc;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-right: 5px;
+    float: left;
+    opacity: 0;
+    font-size: 18px;
+    line-height: 12px;
+}
+
 .remove-button {
     color: #ccc;
-    border: 0px solid green;
     padding-top: 5px;
     float: right;
     opacity: 0;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 12px;
-    width: 15px;
-    &:hover {
-        cursor: pointer;
-        opacity: 1;
-    }
 }
