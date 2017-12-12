@@ -23,7 +23,7 @@ export interface CaseElementProps {
     kase: Case;
     exitName: string;
     empty?: boolean;
-    onChanged: Function;
+    onChanged?: Function;
     focusArgsInput?: boolean;
     focusExitInput?: boolean;
     solo?: boolean;

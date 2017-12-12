@@ -143,8 +143,7 @@ export enum DragCursor {
     pointer = 'pointer'
 }
 
-
-const composeExitMap = (exits: Exit[]): { [uuid: string]: Exit } =>
+export const composeExitMap = (exits: Exit[]): { [uuid: string]: Exit } =>
     exits.reduce(
         (map, exit) => {
             map[exit.uuid] = exit;
@@ -158,18 +157,17 @@ export const getListStyle = (isDraggingOver: boolean): { cursor: DragCursor } =>
 });
 
 export const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
-        userSelect: 'none',
-        background: isDragging && '#f2f9fc',
-        borderRadius: isDragging && 4,
-        opacity: isDragging && 0.65,
-        /** Overwriting default draggableStyle object from this point down */
-        ...draggableStyle,
-        top: isDragging && draggableStyle.top - 105,
-        left: isDragging && 20,
-        height: isDragging && draggableStyle.height + 27,
-        width: isDragging && draggableStyle.width - 5
-    })
-};
+    userSelect: 'none',
+    background: isDragging && '#f2f9fc',
+    borderRadius: isDragging && 4,
+    opacity: isDragging && 0.65,
+    /** Overwriting default draggableStyle object from this point down */
+    ...draggableStyle,
+    top: isDragging && draggableStyle.top - 105,
+    left: isDragging && 20,
+    height: isDragging && draggableStyle.height + 27,
+    width: isDragging && draggableStyle.width - 5
+});
 
 export enum ChangedCaseInput {
     ARGS = 'ARGS',
