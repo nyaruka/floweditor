@@ -5,7 +5,7 @@ export class LocalizedObject {
     public localizedKeys: { [key: string]: boolean } = {};
 
     private localizedObject: Action | Exit | Case;
-    private localized: boolean;
+    private localized: boolean = false;
     private iso: string;
     private language: Language;
     private languages: Languages;
@@ -45,6 +45,10 @@ export class LocalizedObject {
 
         (this.localizedObject as any)[key] = value;
         this.localizedKeys[key] = true;
+    }
+
+    public isLocalized(): boolean {
+        return this.localized;
     }
 
     public getObject(): Action | Case | Exit {

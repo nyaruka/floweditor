@@ -25,7 +25,7 @@ export interface EditorState {
     translating: boolean;
     nodeDragging: boolean;
     definition: FlowDefinition;
-    flows: { uuid: string; name: string }[];
+    flows: Array<{ uuid: string; name: string }>;
     dependencies: FlowDefinition[];
 }
 
@@ -79,7 +79,7 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
     }
 
     private setDefinition(definition: FlowDefinition, dependencies?: FlowDefinition[]): void {
-        // console.log(`\nDEFINITION: \n${JSON.stringify(definition, null, 2)}\n`);
+        console.log(`\nDEFINITION: \n${JSON.stringify(definition, null, 2)}\n`);
 
         if (dependencies) {
             this.setState({
@@ -129,7 +129,7 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
             .catch((error: {}) => console.log(error));
     }
 
-    private fetchFlowList() {
+    private fetchFlowList(): void {
         const { getFlows } = this.context;
         getFlows().then((flows: FlowDetails[]) => {
             this.setState({

@@ -614,6 +614,7 @@ export default class SwitchRouterForm extends React.Component<
                 const { uuid: caseUUID } = kase;
                 cases.push(
                     <CaseElement
+                        data-spec="case"
                         key={kase.uuid}
                         kase={kase}
                         ref={this.props.onBindWidget}
@@ -640,7 +641,7 @@ export default class SwitchRouterForm extends React.Component<
                     return (
                         <Draggable key={caseUUID} draggableId={caseUUID}>
                             {(provided, snapshot) => (
-                                <div>
+                                <div data-spec="case-draggable">
                                     <div
                                         ref={provided.innerRef}
                                         style={getItemStyle(
@@ -649,6 +650,7 @@ export default class SwitchRouterForm extends React.Component<
                                         )}
                                         {...provided.dragHandleProps}>
                                         <CaseElement
+                                            data-spec="case"
                                             ref={this.props.onBindWidget}
                                             kase={c.kase}
                                             name={`case_${caseUUID}`}
@@ -673,6 +675,7 @@ export default class SwitchRouterForm extends React.Component<
             const newCaseUUID = generateUUID();
             cases.push(
                 <CaseElement
+                    data-spec="case"
                     key={newCaseUUID}
                     kase={{
                         uuid: newCaseUUID,
@@ -699,6 +702,7 @@ export default class SwitchRouterForm extends React.Component<
         if (this.state.setResultName || this.state.resultName) {
             nameField = (
                 <TextInputElement
+                    data-spec="name-field"
                     ref={this.props.onBindWidget}
                     name="Result Name"
                     showLabel={true}
@@ -709,7 +713,10 @@ export default class SwitchRouterForm extends React.Component<
             );
         } else {
             nameField = (
-                <span className={styles.save_link} onClick={this.onShowNameField}>
+                <span
+                    data-spec="name-field"
+                    className={styles.save_link}
+                    onClick={this.onShowNameField}>
                     Save as..
                 </span>
             );
@@ -722,10 +729,14 @@ export default class SwitchRouterForm extends React.Component<
         let leadIn: JSX.Element = null;
 
         if (this.props.config.type === 'wait_for_response') {
-            leadIn = <div className={styles.instructions}>If the message response...</div>;
+            leadIn = (
+                <div data-spec="lead-in" className={styles.instructions}>
+                    If the message response...
+                </div>
+            );
         } else if (this.props.config.type === 'expression') {
             leadIn = (
-                <div className={styles.instructions}>
+                <div data-spec="lead-in" className={styles.instructions}>
                     <p>If the expression...</p>
                     <TextInputElement
                         ref={this.props.onBindWidget}

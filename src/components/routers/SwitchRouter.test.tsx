@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
+import { getSpecWrapper } from '../../helpers/utils';
 import Config from '../../providers/ConfigProvider/configContext';
 import SwitchRouterForm, {
     getListStyle,
@@ -9,7 +10,7 @@ import SwitchRouterForm, {
     SwitchRouterFormProps
 } from './SwitchRouter';
 import CompMap from '../../services/ComponentMap';
-import { getSpecWrapper } from '../../helpers/utils';
+import { LocalizedObject } from '../../services/Localization';
 
 const colorsFlow = require('../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
@@ -128,7 +129,7 @@ describe('SwitchRouter', () => {
     });
 
     describe('Component: SwitchRouterForm', () => {
-        const { definition } = colorsFlow;
+        const { results: [{ definition }] } = colorsFlow;
         const { nodes: [, node] } = definition;
         const config = getTypeConfig('wait_for_response');
         const ComponentMap = new CompMap(definition);
@@ -136,6 +137,17 @@ describe('SwitchRouter', () => {
         const localizations = [
             {
                 localizedKeys: {},
+                getLanguage: jest.fn(),
+                hasTranslation: jest.fn(),
+                addTranslation: jest.fn(),
+                isLocalized: jest.fn(),
+                getObject: jest.fn(() => ({
+                    uuid: 'fa0a9b24-5f19-4b8e-b287-27af5811de1d',
+                    type: 'has_any_word',
+                    exit_uuid: '55855afc-f612-4ef9-9288-dcb1dd136052',
+                    arguments: ['red, r']
+                })),
+                localized: false,
                 localizedObject: {
                     uuid: 'fa0a9b24-5f19-4b8e-b287-27af5811de1d',
                     type: 'has_any_word',
@@ -154,12 +166,23 @@ describe('SwitchRouter', () => {
             },
             {
                 localizedKeys: {},
+                getLanguage: jest.fn(),
+                hasTranslation: jest.fn(),
+                addTranslation: jest.fn(),
+                isLocalized: jest.fn(),
+                getObject: jest.fn(() => ({
+                    uuid: 'b5f900b9-ad13-479a-8ad3-1f1ad5ac88f2',
+                    type: 'has_any_word',
+                    exit_uuid: '668ca2ab-8d49-47f5-82a1-e3a82a58e5fb',
+                    arguments: ['orange, o']
+                })),
                 localizedObject: {
                     uuid: 'b5f900b9-ad13-479a-8ad3-1f1ad5ac88f2',
                     type: 'has_any_word',
                     exit_uuid: '668ca2ab-8d49-47f5-82a1-e3a82a58e5fb',
                     arguments: ['orange, o']
                 },
+                localized: false,
                 iso: 'spa',
                 languages: {
                     eng: 'English',
@@ -168,6 +191,17 @@ describe('SwitchRouter', () => {
             },
             {
                 localizedKeys: {},
+                getLanguage: jest.fn(),
+                hasTranslation: jest.fn(),
+                addTranslation: jest.fn(),
+                isLocalized: jest.fn(),
+                getObject: jest.fn(() => ({
+                    uuid: 'e9c842e8-f1c5-4f07-97e7-50a4f93b22e5',
+                    type: 'has_any_word',
+                    exit_uuid: '14806949-d583-49e2-aa55-03aa16ee5a3a',
+                    arguments: ['yellow, y']
+                })),
+                localized: false,
                 localizedObject: {
                     uuid: 'e9c842e8-f1c5-4f07-97e7-50a4f93b22e5',
                     type: 'has_any_word',
@@ -182,6 +216,17 @@ describe('SwitchRouter', () => {
             },
             {
                 localizedKeys: {},
+                getLanguage: jest.fn(),
+                hasTranslation: jest.fn(),
+                addTranslation: jest.fn(),
+                isLocalized: jest.fn(),
+                getObject: jest.fn(() => ({
+                    uuid: 'cc5894af-5dce-454e-a525-3d7c5c41d21d',
+                    type: 'has_any_word',
+                    exit_uuid: '77394377-f6b8-4366-9bef-d468621258ef',
+                    arguments: ['green, g']
+                })),
+                localized: false,
                 localizedObject: {
                     uuid: 'cc5894af-5dce-454e-a525-3d7c5c41d21d',
                     type: 'has_any_word',
@@ -196,6 +241,17 @@ describe('SwitchRouter', () => {
             },
             {
                 localizedKeys: {},
+                getLanguage: jest.fn(),
+                hasTranslation: jest.fn(),
+                addTranslation: jest.fn(),
+                isLocalized: jest.fn(),
+                getObject: jest.fn(() => ({
+                    uuid: '590d13e3-7b47-44e3-b8a0-ba9bd41d75d2',
+                    type: 'has_any_word',
+                    exit_uuid: '92d429d8-c275-4306-9360-93f4b9c7acb1',
+                    arguments: ['blue, b']
+                })),
+                localized: false,
                 localizedObject: {
                     uuid: '590d13e3-7b47-44e3-b8a0-ba9bd41d75d2',
                     type: 'has_any_word',
@@ -210,6 +266,17 @@ describe('SwitchRouter', () => {
             },
             {
                 localizedKeys: {},
+                getLanguage: jest.fn(),
+                hasTranslation: jest.fn(),
+                addTranslation: jest.fn(),
+                isLocalized: jest.fn(),
+                getObject: jest.fn(() => ({
+                    uuid: '2a7cbed1-6597-4545-b145-14a2e9282e6c',
+                    type: 'has_any_word',
+                    exit_uuid: '2de9af80-1bd9-4f37-839f-073edbd14369',
+                    arguments: ['indigo, i']
+                })),
+                localized: false,
                 localizedObject: {
                     uuid: '2a7cbed1-6597-4545-b145-14a2e9282e6c',
                     type: 'has_any_word',
@@ -224,6 +291,17 @@ describe('SwitchRouter', () => {
             },
             {
                 localizedKeys: {},
+                getLanguage: jest.fn(),
+                hasTranslation: jest.fn(),
+                addTranslation: jest.fn(),
+                isLocalized: jest.fn(),
+                getObject: jest.fn(() => ({
+                    uuid: 'ab99e18c-433f-436e-9278-08bcf506f433',
+                    type: 'has_any_word',
+                    exit_uuid: '5760ec2f-04d4-492b-817b-9f395633ec79',
+                    arguments: ['violet, v']
+                })),
+                localized: false,
                 localizedObject: {
                     uuid: 'ab99e18c-433f-436e-9278-08bcf506f433',
                     type: 'has_any_word',
@@ -240,8 +318,18 @@ describe('SwitchRouter', () => {
                 localizedKeys: {
                     name: true
                 },
+                getLanguage: jest.fn(),
+                hasTranslation: jest.fn(),
+                addTranslation: jest.fn(),
+                isLocalized: jest.fn(),
+                getObject: jest.fn(() => ({
+                    name: ['rojo'],
+                    uuid: '55855afc-f612-4ef9-9288-dcb1dd136052',
+                    destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
+                })),
+                localized: true,
                 localizedObject: {
-                    name: ['Rojo'],
+                    name: ['rojo'],
                     uuid: '55855afc-f612-4ef9-9288-dcb1dd136052',
                     destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
                 },
@@ -249,13 +337,24 @@ describe('SwitchRouter', () => {
                 languages: {
                     eng: 'English',
                     spa: 'Spanish'
-                },
-                localized: true
+                }
             },
             {
-                localizedKeys: {},
+                localizedKeys: {
+                    name: true
+                },
+                getLanguage: jest.fn(),
+                hasTranslation: jest.fn(),
+                addTranslation: jest.fn(),
+                isLocalized: jest.fn(),
+                getObject: jest.fn(() => ({
+                    name: ['naranja'],
+                    uuid: '668ca2ab-8d49-47f5-82a1-e3a82a58e5fb',
+                    destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
+                })),
+                localized: true,
                 localizedObject: {
-                    name: 'Orange',
+                    name: ['naranja'],
                     uuid: '668ca2ab-8d49-47f5-82a1-e3a82a58e5fb',
                     destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
                 },
@@ -269,8 +368,18 @@ describe('SwitchRouter', () => {
                 localizedKeys: {
                     name: true
                 },
+                getLanguage: jest.fn(),
+                hasTranslation: jest.fn(),
+                addTranslation: jest.fn(),
+                isLocalized: jest.fn(),
+                getObject: jest.fn(() => ({
+                    name: ['amarillo'],
+                    uuid: '14806949-d583-49e2-aa55-03aa16ee5a3a',
+                    destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
+                })),
+                localized: true,
                 localizedObject: {
-                    name: ['Amarillo'],
+                    name: ['amarillo'],
                     uuid: '14806949-d583-49e2-aa55-03aa16ee5a3a',
                     destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
                 },
@@ -278,15 +387,24 @@ describe('SwitchRouter', () => {
                 languages: {
                     eng: 'English',
                     spa: 'Spanish'
-                },
-                localized: true
+                }
             },
             {
                 localizedKeys: {
                     name: true
                 },
+                getLanguage: jest.fn(),
+                hasTranslation: jest.fn(),
+                addTranslation: jest.fn(),
+                isLocalized: jest.fn(),
+                getObject: jest.fn(() => ({
+                    name: ['verde'],
+                    uuid: '77394377-f6b8-4366-9bef-d468621258ef',
+                    destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
+                })),
+                localized: true,
                 localizedObject: {
-                    name: ['Verde'],
+                    name: ['verde'],
                     uuid: '77394377-f6b8-4366-9bef-d468621258ef',
                     destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
                 },
@@ -294,13 +412,24 @@ describe('SwitchRouter', () => {
                 languages: {
                     eng: 'English',
                     spa: 'Spanish'
-                },
-                localized: true
+                }
             },
             {
-                localizedKeys: {},
+                localizedKeys: {
+                    name: true
+                },
+                getLanguage: jest.fn(),
+                getObject: jest.fn(() => ({
+                    name: ['azul'],
+                    uuid: '92d429d8-c275-4306-9360-93f4b9c7acb1',
+                    destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
+                })),
+                hasTranslation: jest.fn(),
+                addTranslation: jest.fn(),
+                isLocalized: jest.fn(),
+                localized: true,
                 localizedObject: {
-                    name: 'Blue',
+                    name: ['azul'],
                     uuid: '92d429d8-c275-4306-9360-93f4b9c7acb1',
                     destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
                 },
@@ -312,7 +441,17 @@ describe('SwitchRouter', () => {
             },
             {
                 localizedKeys: {},
-                localizedObject: {
+                getLanguage: jest.fn(),
+                hasTranslation: jest.fn(),
+                addTranslation: jest.fn(),
+                isLocalized: jest.fn(),
+                getObject: jest.fn(() => ({
+                    name: 'Indigo',
+                    uuid: '2de9af80-1bd9-4f37-839f-073edbd14369',
+                    destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
+                })),
+                localized: false,
+                LocalizedObject: {
                     name: 'Indigo',
                     uuid: '2de9af80-1bd9-4f37-839f-073edbd14369',
                     destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
@@ -325,6 +464,16 @@ describe('SwitchRouter', () => {
             },
             {
                 localizedKeys: {},
+                getLanguage: jest.fn(),
+                hasTranslation: jest.fn(),
+                addTranslation: jest.fn(),
+                isLocalized: jest.fn(),
+                getObject: jest.fn(() => ({
+                    name: 'Violet',
+                    uuid: '5760ec2f-04d4-492b-817b-9f395633ec79',
+                    destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
+                })),
+                localized: false,
                 localizedObject: {
                     name: 'Violet',
                     uuid: '5760ec2f-04d4-492b-817b-9f395633ec79',
@@ -338,6 +487,15 @@ describe('SwitchRouter', () => {
             },
             {
                 localizedKeys: {},
+                getLanguage: jest.fn(),
+                hasTranslation: jest.fn(),
+                addTranslation: jest.fn(() => ({
+                    uuid: '326a41b7-9bce-453b-8783-1113f649663c',
+                    name: 'Other',
+                    destination_node_uuid: '4fac7935-d13b-4b36-bf15-98075dca822a'
+                })),
+                getObject: jest.fn(),
+                localized: false,
                 localizedObject: {
                     uuid: '326a41b7-9bce-453b-8783-1113f649663c',
                     name: 'Other',
@@ -370,7 +528,7 @@ describe('SwitchRouter', () => {
             getOperatorConfig
         };
 
-        const SwitchFormWaitBasic = shallow(
+        const SwitchFormWaitBasic = mount(
             <SwitchRouterForm
                 {...{
                     ...props,
@@ -382,27 +540,42 @@ describe('SwitchRouter', () => {
             { context }
         );
 
-        const SwitchFormWaitTranslating = shallow(
-            <SwitchRouterForm
-                {...{
-                    ...props,
-                    showAdvanced: false,
-                    translating: false,
-                    iso: 'spa',
-                    localizations,
-                    renderExitTranslations: jest.fn(),
-                    getLocalizedExits: jest.fn()
-                }}
-            />,
-            { context }
-        );
+        const translatingProps = {
+            ...props,
+            showAdvanced: false,
+            translating: false,
+            iso: 'spa',
+            localizations,
+            renderExitTranslations: jest.fn(),
+            getLocalizedExits: jest.fn()
+        } as any;
 
-        // const SwitchFormWaitAdvanced = shallow();
+        const SwitchFormWaitTranslating = mount(<SwitchRouterForm {...translatingProps} />, {
+            context
+        });
 
         describe('render', () => {
-            it('should render basic form', () => {});
+            it('should render wait_for_response form (not translating)', () => {
+                /** Cases */
+                expect(getSpecWrapper(SwitchFormWaitBasic, 'case').length).toBe(8);
+                expect(getSpecWrapper(SwitchFormWaitBasic, 'case-draggable').length).toBe(7);
+                expect(getSpecWrapper(SwitchFormWaitBasic, 'case').last().prop('empty')).toBeTruthy();
 
-            it('should render advanced form', () => {});
+                /** Fields */
+                expect(getSpecWrapper(SwitchFormWaitBasic, 'name-field').name()).toBe('TextInputElement');
+                expect(getSpecWrapper(SwitchFormWaitBasic, 'name-field').props()).toEqual({
+                    'data-spec': 'name-field',
+                    name: 'Result Name',
+                    showLabel: true,
+                    value: props.node.router.result_name,
+                    helpText: "By naming the result, you can reference it later using @run.results.whatever_the_name_is",
+                   ComponentMap: props.ComponentMap
+                });
+                expect(getSpecWrapper(SwitchFormWaitBasic, 'lead-in').text()).toBe('If the message response...')
+
+            });
+
+            it('should render wait_for_response `form (translating)', () => {});
         });
     });
 });

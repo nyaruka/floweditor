@@ -257,8 +257,8 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         if (this.props.translating) {
             /** Account for localized cases */
             if (this.props.node.router.type === 'switch') {
-                var router = this.props.node.router as SwitchRouter;
-                for (let kase of router.cases) {
+                const router = this.props.node.router as SwitchRouter;
+                router.cases.forEach(kase =>
                     localizations.push(
                         Localization.translate(
                             kase,
@@ -266,12 +266,12 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                             this.context.languages,
                             this.props.translations
                         )
-                    );
-                }
+                    )
+                );
             }
 
             /** Account for localized exits */
-            for (let exit of this.props.node.exits) {
+            this.props.node.exits.forEach(exit => {
                 localizations.push(
                     Localization.translate(
                         exit,
@@ -280,7 +280,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                         this.props.translations
                     )
                 );
-            }
+            });
         } else if (this.props.node.actions && this.props.node.actions.length > 0) {
             action = this.props.node.actions[this.props.node.actions.length - 1];
         }

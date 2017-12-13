@@ -80,13 +80,13 @@ describe('Component: ReplyForm', () => {
             const ReplyFormBase = createReplyForm({
                 translating: true,
                 showAdvanced: false,
-                getLocalizedObject: () => ({
+                getLocalizedObject: jest.fn(() => ({
                     getLanguage: () => ({ name: 'Spanish' }),
-                    localized: true,
                     getObject: () => ({
                         text: localizedText
-                    })
-                })
+                    }),
+                    isLocalized: () => true
+                }))
             });
 
             expect(getSpecWrapper(ReplyFormBase, 'translation-container').exists()).toBeTruthy();
@@ -99,13 +99,13 @@ describe('Component: ReplyForm', () => {
             const ReplyFormBase = createReplyForm({
                 translating: true,
                 showAdvanced: false,
-                getLocalizedObject: () => ({
+                getLocalizedObject: jest.fn(() => ({
                     getLanguage: () => ({ name: 'Spanish' }),
-                    localized: true,
                     getObject: () => ({
                         text: localizedText
-                    })
-                })
+                    }),
+                    isLocalized: () => true
+                }))
             });
 
             expect(ReplyFormBase.find('TextInputElement').props()).toEqual({
@@ -126,13 +126,13 @@ describe('Component: ReplyForm', () => {
             const ReplyFormBase = createReplyForm({
                 translating: true,
                 showAdvanced: false,
-                getLocalizedObject: () => ({
+                getLocalizedObject: jest.fn(() => ({
                     getLanguage: () => ({ name: 'Spanish' }),
-                    localized: false,
                     getObject: () => ({
                         text: props.action.text
-                    })
-                })
+                    }),
+                    isLocalized: () => false
+                }))
             });
 
             expect(ReplyFormBase.find('TextInputElement').props()).toEqual({
