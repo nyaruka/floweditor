@@ -11,6 +11,7 @@ import SwitchRouterForm, {
 } from './SwitchRouter';
 import CompMap from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
+import SwitchRouterForm from './SwitchRouter';
 
 const colorsFlow = require('../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
@@ -540,6 +541,21 @@ describe('SwitchRouter', () => {
             { context }
         );
 
+        const SwitchFormExpressionBasic = mount(
+            <SwitchRouterForm
+                {...{
+                    ...props,
+                    config: {
+                        ...getTypeConfig('expression')
+                    },
+                    showAdvanced: false,
+                    translating: false,
+                    iso: 'eng'
+                }}
+            />,
+            { context }
+        );
+
         const translatingProps = {
             ...props,
             showAdvanced: false,
@@ -559,23 +575,51 @@ describe('SwitchRouter', () => {
                 /** Cases */
                 expect(getSpecWrapper(SwitchFormWaitBasic, 'case').length).toBe(8);
                 expect(getSpecWrapper(SwitchFormWaitBasic, 'case-draggable').length).toBe(7);
-                expect(getSpecWrapper(SwitchFormWaitBasic, 'case').last().prop('empty')).toBeTruthy();
+                expect(
+                    getSpecWrapper(SwitchFormWaitBasic, 'case')
+                        .last()
+                        .prop('empty')
+                ).toBeTruthy();
 
                 /** Fields */
-                expect(getSpecWrapper(SwitchFormWaitBasic, 'name-field').name()).toBe('TextInputElement');
+                expect(getSpecWrapper(SwitchFormWaitBasic, 'name-field').name()).toBe(
+                    'TextInputElement'
+                );
                 expect(getSpecWrapper(SwitchFormWaitBasic, 'name-field').props()).toEqual({
                     'data-spec': 'name-field',
                     name: 'Result Name',
                     showLabel: true,
                     value: props.node.router.result_name,
-                    helpText: "By naming the result, you can reference it later using @run.results.whatever_the_name_is",
-                   ComponentMap: props.ComponentMap
+                    helpText:
+                        'By naming the result, you can reference it later using @run.results.whatever_the_name_is',
+                    ComponentMap: props.ComponentMap
                 });
-                expect(getSpecWrapper(SwitchFormWaitBasic, 'lead-in').text()).toBe('If the message response...')
-
+                expect(getSpecWrapper(SwitchFormWaitBasic, 'lead-in').text()).toBe(
+                    'If the message response...'
+                );
             });
 
             it('should render wait_for_response `form (translating)', () => {});
+
+            it('should render expression form (not translating)', () => {
+                /** Note: cases and name field tested in wait_for_expression test above */
+
+                /** Fields */
+                expect(
+                    getSpecWrapper(SwitchFormExpressionBasic, 'lead-in')
+                        .find('p')
+                        .text()
+                ).toBe('If the expression...');
+                expect(getSpecWrapper(SwitchFormExpressionBasic, 'lead-in').find('TextInputElement').props()).toEqual({
+                    name: 'Expression',
+                    showLabel: false,
+                    value: '@input',
+                    onChange: SwitchFormExpressionBasic.instance().onExpressionChanged,
+                    autocomplete: true,
+                    required: true,
+                    ComponentMap: props.ComponentMap
+                });
+            });
         });
     });
 });
