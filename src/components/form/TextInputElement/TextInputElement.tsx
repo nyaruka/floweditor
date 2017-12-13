@@ -146,10 +146,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         remainingInPart: number;
         value: string;
     } {
-        /**
-         * In ReplyForm we store localized text as an array
-         * e.g. { uuid: this.props.action.uuid, translations: { text: [textarea.state.value] } }
-         */
+        /** Localized values are stored as string arrays */
         const isLocalizedValue = value.constructor === Array;
 
         if (isLocalizedValue) {

@@ -58,7 +58,7 @@ const { actions: [replyAction] } = node;
 
 const { uuid, type, text } = replyAction;
 
-const ComponentMap = new CompMap(definition as any);
+const ComponentMap = new CompMap(definition);
 
 const Localization: LocalizedObject = LocalizationService.translate(
     replyAction,

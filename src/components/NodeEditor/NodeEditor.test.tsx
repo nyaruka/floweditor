@@ -11,7 +11,7 @@ const { nodes: [node], language: flowLanguage } = definition;
 
 const { actions: [replyAction] } = node;
 
-const ComponentMap = new CompMap(definition as any);
+const ComponentMap = new CompMap(definition);
 
 const nodeEditorProps: NodeEditorProps = {
     iso: 'eng',

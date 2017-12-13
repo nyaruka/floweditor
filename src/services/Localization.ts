@@ -16,7 +16,7 @@ export class LocalizedObject {
         this.languages = languages;
     }
 
-    getLanguage() {
+    public getLanguage(): Language {
         if (!this.language) {
             if (this.iso) {
                 this.language = { iso: this.iso, name: this.languages[this.iso] };
@@ -25,14 +25,14 @@ export class LocalizedObject {
         return this.language;
     }
 
-    hasTranslation(key: string) {
+    public hasTranslation(key: string): boolean {
         return key in this.localizedKeys;
     }
 
     // We use explicit any here to make this generic across all actions,
     // note this means we'll attempt to set any property in our localization
     // dictionary regardless of the object type
-    addTranslation(key: string, value: any) {
+    public addTranslation(key: string, value: any): void {
         // localization shouldn't side-affect the original object
         if (!this.localized) {
             this.localizedObject = Object.assign({}, this.localizedObject);
@@ -52,7 +52,7 @@ export class LocalizedObject {
     }
 }
 export default class Localization {
-    static translate(
+    public static translate(
         object: Action | Exit | Case,
         iso: string,
         languages: Languages,

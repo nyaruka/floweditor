@@ -37,7 +37,7 @@ export interface FormProps {
     node: Node;
     translating: boolean;
     iso: string;
-    action: AnyAction;
+    action?: AnyAction;
     localizations?: LocalizedObject[];
     definition: FlowDefinition;
     config: Type;
@@ -308,7 +308,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         } else {
             let frontError = false;
             for (const widget of invalid) {
-                if (!this.advancedWidgets.hasOwnProperty(widget.props.name)) {
+                if (!this.advancedWidgets[widget.props.name]) {
                     frontError = true;
                     break;
                 }
@@ -534,7 +534,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         const typeList = this.getTypeList();
 
         const front = (
-            <FormContainer>
+            <FormContainer key={'fc-front'}>
                 {typeList}
                 <Form ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />
             </FormContainer>
@@ -544,7 +544,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         if (this.hasAdvanced()) {
             back = (
-                <FormContainer styles={formStyles.advanced}>
+                <FormContainer key={'fc-back'} styles={formStyles.advanced}>
                     <Form ref={this.formRef} {...{ ...formProps, showAdvanced: true }} />
                 </FormContainer>
             );
