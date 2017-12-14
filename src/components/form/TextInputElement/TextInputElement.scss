@@ -94,9 +94,9 @@
     padding: 5px;
     font-size: 14px;
     &.selected {
-        border-color: #eee;
-        background: $selected_background;
-        color: $selected_color;
+        border-color: $blue-select;
+        background: $blue-select;
+        color: $text_color;
         font-weight: 500;
         &.first_option {
             border-top-color: transparent !important;

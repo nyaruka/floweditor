@@ -713,7 +713,7 @@ describe('SwitchRouter', () => {
 
         FIX: can't translated arguments in expression form for some reason
 
-        gotta test case translation as well
+        gotta test case translation as well (advanced form)
 
         THEN: Fix Axios error (where does it come from?)
         */
