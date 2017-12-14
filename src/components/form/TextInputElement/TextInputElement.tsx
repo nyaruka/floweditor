@@ -370,19 +370,21 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 updates.query = query;
                 updates.matches = matches;
             } else {
-                const {
-                    maxLength,
-                    characterSet,
-                    remainingInPart,
-                    parts,
-                    characterCount
-                } = this.getCharCount(value, true);
+                if (this.props.count === Count.SMS) {
+                    const {
+                        maxLength,
+                        characterSet,
+                        remainingInPart,
+                        parts,
+                        characterCount
+                    } = this.getCharCount(value, true);
 
-                updates.maxLength = maxLength;
-                updates.characterSet = characterSet;
-                updates.remainingInPart = remainingInPart;
-                updates.parts = parts;
-                updates.characterCount = characterCount;
+                    updates.maxLength = maxLength;
+                    updates.characterSet = characterSet;
+                    updates.remainingInPart = remainingInPart;
+                    updates.parts = parts;
+                    updates.characterCount = characterCount;
+                }
             }
 
             updates.caretOffset = selectionStart;

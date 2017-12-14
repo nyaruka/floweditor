@@ -300,7 +300,7 @@ export default class SwitchRouterForm extends React.Component<
     public onValid(widgets: { [name: string]: any }): void {
         /** Is the user translating this router? */
         if (this.props.translating) {
-            return this.saveLocalization(widgets);
+            return this.saveLocalizations(widgets);
         }
 
         /**
@@ -481,7 +481,7 @@ export default class SwitchRouterForm extends React.Component<
         });
     }
 
-    private saveLocalization(widgets: { [name: string]: any }): void {
+    private saveLocalizations(widgets: { [name: string]: any }): void {
         const { iso: language } = this.props.localizations[0].getLanguage();
 
         const updates = [
@@ -530,52 +530,52 @@ export default class SwitchRouterForm extends React.Component<
     }
 
     private getCasesForLocalization(language: Language): JSX.Element[] {
-        const casesForLocalization: JSX.Element[] = [];
-
         const { cases } = this.props.node.router as SwitchRouter;
-
-        cases.forEach(item => {
-            if (item.arguments && item.arguments.length) {
-                const localized = this.props.localizations.find(
-                    (localizedObject: LocalizedObject) =>
-                        localizedObject.getObject().uuid === item.uuid
-                );
-
-                if (localized) {
-                    let value: string = null;
-
-                    if ('arguments' in localized.localizedKeys) {
-                        const localizedCase: Case = localized.getObject() as Case;
-
-                        if (localizedCase.arguments.length) {
-                            [value] = localizedCase.arguments;
-                        }
-                    }
-
-                    const { verboseName } = this.context.getOperatorConfig(item.type);
-                    const [argument] = item.arguments;
-
-                    casesForLocalization.push(
-                        <div key={`translate_${item.uuid}`} className={styles.translating_item}>
-                            <div className={styles.translating_operator}>{verboseName}</div>
-                            <div className={styles.translating_from}>{argument}</div>
-                            <div className={styles.translating_to}>
-                                <TextInputElement
-                                    ref={this.props.onBindAdvancedWidget}
-                                    name={item.uuid}
-                                    placeholder={`${language.name} Translation`}
-                                    showLabel={false}
-                                    value={value}
-                                    ComponentMap={this.props.ComponentMap}
-                                />
-                            </div>
-                        </div>
+        return cases.reduce(
+            (casesForLocalization: JSX.Element[], kase) => {
+                if (kase.arguments && kase.arguments.length) {
+                    const localized = this.props.localizations.find(
+                        (localizedObject: LocalizedObject) =>
+                            localizedObject.getObject().uuid === kase.uuid
                     );
-                }
-            }
-        });
 
-        return casesForLocalization;
+                    if (localized) {
+                        let value: string = null;
+
+                        if ('arguments' in localized.localizedKeys) {
+                            const localizedCase: Case = localized.getObject() as Case;
+
+                            if (localizedCase.arguments.length) {
+                                [value] = localizedCase.arguments;
+                            }
+                        }
+
+                        const { verboseName } = this.context.getOperatorConfig(kase.type);
+                        const [argument] = kase.arguments;
+
+                        casesForLocalization.push(
+                            <div key={`translate_${kase.uuid}`} className={styles.translating_item}>
+                                <div className={styles.translating_operator}>{verboseName}</div>
+                                <div className={styles.translating_from}>{argument}</div>
+                                <div className={styles.translating_to}>
+                                    <TextInputElement
+                                        ref={this.props.onBindAdvancedWidget}
+                                        name={kase.uuid}
+                                        placeholder={`${language.name} Translation`}
+                                        showLabel={false}
+                                        value={value}
+                                        ComponentMap={this.props.ComponentMap}
+                                    />
+                                </div>
+                            </div>
+                        );
+                    }
+                }
+
+                return casesForLocalization;
+            },
+            []
+        );
     }
 
     private renderAdvanced(): JSX.Element {

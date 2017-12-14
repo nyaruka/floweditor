@@ -13,6 +13,7 @@ export class LocalizedObject {
     constructor(object: Action | Exit | Case, iso: string, languages: Languages) {
         this.localizedObject = object;
         this.iso = iso;
+        this.language = { iso, name: languages[iso] };
         this.languages = languages;
     }
 

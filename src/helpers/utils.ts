@@ -67,7 +67,7 @@ export function getDisplayName(WrappedComponent: ComponentClass | SFC): string {
 export function getSpecWrapper(
     componentWrapper: ReactWrapper | ShallowWrapper,
     specName: string
-): ShallowWrapper | ReactWrapper {
+): any {
     const DATA_SPEC_ATTRIBUTE_NAME: string = 'data-spec';
     return componentWrapper.find(`[${DATA_SPEC_ATTRIBUTE_NAME}="${specName}"]`);
 }

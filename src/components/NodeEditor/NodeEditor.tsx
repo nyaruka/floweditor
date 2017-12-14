@@ -188,38 +188,39 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     private renderExitTranslations(): JSX.Element {
-        let language: Language;
-        const exits: JSX.Element[] = [];
+        let languageName: string = '';
 
         if (this.props.localizations.length > 0) {
-            language = this.props.localizations[0].getLanguage();
+            ({ name: languageName } = this.props.localizations[0].getLanguage());
         }
 
-        if (!language) {
+        if (!languageName) {
             return null;
         }
 
-        this.props.node.exits.forEach((exit: Exit) => {
+        const exits = this.props.node.exits.reduce((exits, {uuid: exitUUID, name: exitName}) => {
             const localized = this.props.localizations.find(
-                (localizedObject: LocalizedObject) => localizedObject.getObject().uuid === exit.uuid
+                (localizedObject: LocalizedObject) => localizedObject.getObject().uuid === exitUUID
             );
 
             if (localized) {
-                let value;
+                let value = '';
 
                 if ('name' in localized.localizedKeys) {
-                    const localizedExit: Exit = localized.getObject();
-                    value = localizedExit.name;
+                    ({ name: value } = localized.getObject() as Exit);
                 }
 
                 exits.push(
-                    <div key={exit.uuid} className={formStyles.translating_exit}>
-                        <div className={formStyles.translating_from}>{exit.name}</div>
+                    <div key={exitUUID} className={formStyles.translating_exit}>
+                        <div data-spec="exit-name" className={formStyles.translating_from}>
+                            {exitName}
+                        </div>
                         <div className={formStyles.translating_to}>
                             <TextInputElement
+                                data-spec="localization-input"
                                 ref={this.onBindWidget}
-                                name={exit.uuid}
-                                placeholder={`${language.name} Translation`}
+                                name={exitUUID}
+                                placeholder={`${languageName} Translation`}
                                 showLabel={false}
                                 value={value}
                                 /** Node */
@@ -229,12 +230,16 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     </div>
                 );
             }
-        });
+
+            return exits;
+        }, []);
 
         return (
             <div>
-                <div className={formStyles.title}>Categories</div>
-                <div className={formStyles.instructions}>
+                <div data-spec="title" className={formStyles.title}>
+                    Categories
+                </div>
+                <div data-spec="instructions" className={formStyles.instructions}>
                     When category names are referenced later in the flow, the appropriate language
                     for the category will be used. If no translation is provided, the original text
                     will be used.
@@ -247,15 +252,15 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     private getLocalizedExits(widgets: {
         [name: string]: any;
     }): Array<{ uuid: string; translations: any }> {
-        const results: Array<{ uuid: string; translations: any }> = [];
-
-        const { exits } = this.props.node;
-
-        exits.forEach(({ uuid: exitUUID }: Exit) => {
+        return this.props.node.exits.reduce((results, { uuid: exitUUID }: Exit) => {
             const input = widgets[exitUUID] as TextInputElement;
 
             if (input) {
-                const value = input.state.value.trim();
+                /** We save localized values as string arrays */
+                const value =
+                    input.state.value.constructor === Array
+                        ? input.state.value[0].trim()
+                        : input.state.value.trim();
 
                 if (value) {
                     results.push({ uuid: exitUUID, translations: { name: [value] } });
@@ -263,9 +268,9 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     results.push({ uuid: exitUUID, translations: null });
                 }
             }
-        });
 
-        return results;
+            return results;
+        }, []);
     }
 
     private saveLocalizedExits(widgets: { [name: string]: any }): void {
