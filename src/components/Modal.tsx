@@ -118,9 +118,6 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
                     ({ cases } = this.props.node.router as SwitchRouter);
                 }
 
-                console.log('router', JSON.stringify(this.props.node.router, null, 2));
-                console.log('cases', cases);
-
                 if (childIdx === 0) {
                     if (cases && !cases.length) {
                         flip = null;

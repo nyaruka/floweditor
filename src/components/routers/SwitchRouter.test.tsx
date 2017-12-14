@@ -12,7 +12,7 @@ import SwitchRouterForm, {
 import CompMap from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
 import TextInputElement from '../form/TextInputElement/TextInputElement';
-import { Exit } from '../../flowTypes';
+import { Exit, Case } from '../../flowTypes';
 
 const colorsFlow = require('../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 const formStyles = require('../NodeEditor/NodeEditor.scss');
@@ -704,20 +704,12 @@ describe('SwitchRouter', () => {
             context
         });
 
-        // const SwitchFormWaitAdvanced = mount();
-
-        /*
-        TESTING GOALS:
-        1. Render (Wait & Expression) standard/localized & advanced
-        2. Form Elements themselves (CaseElements in this case)
-
-        FIX: can't translated arguments in expression form for some reason
-
-        inputs should do what antd's inputs do
-        gotta test case translation as well (advanced form)
-
-        THEN: Fix Axios error (where does it come from?)
-        */
+        const SwitchFormTranslatingArgs = mount(
+            <SwitchRouterForm {...{ ...translatingProps, showAdvanced: true }} />,
+            {
+                context
+            }
+        );
 
         describe('render', () => {
             it('should render wait_for_response form (not translating)', () => {
@@ -768,27 +760,29 @@ describe('SwitchRouter', () => {
                 getSpecWrapper(SwitchFormWaitTranslatingExits, 'localization-input').forEach(
                     (node, idx) => {
                         const exitUUID: string = props.node.exits[idx].uuid;
-                        const placeholder: string = `${localizations[0].getLanguage().name} Translation`;
+                        const placeholder: string = `${
+                            localizations[0].getLanguage().name
+                        } Translation`;
                         let value: string = '';
-                        const localized = localizations
-                            .find(
-                                (localizedObject: LocalizedObject) =>
-                                    localizedObject.getObject().uuid === exitUUID
-                            );
+                        const localized = localizations.find(
+                            (localizedObject: LocalizedObject) =>
+                                localizedObject.getObject().uuid === exitUUID
+                        );
 
                         if (localized) {
                             if ('name' in localized.localizedKeys) {
                                 ({ name: value } = localized.getObject() as Exit);
                             }
 
-                        expect(node.props()).toEqual({
-                            'data-spec': 'localization-input',
-                            name: exitUUID,
-                            placeholder,
-                            showLabel: false,
-                            value,
-                            ComponentMap: props.ComponentMap
-                        });
+                            expect(node.props()).toEqual({
+                                'data-spec': 'localization-input',
+                                name: exitUUID,
+                                placeholder,
+                                showLabel: false,
+                                value,
+                                ComponentMap: props.ComponentMap
+                            });
+                        }
                     }
                 );
             });
@@ -815,6 +809,70 @@ describe('SwitchRouter', () => {
                     autocomplete: true,
                     required: true,
                     ComponentMap: props.ComponentMap
+                });
+            });
+
+            it('should render advanced form (translating case args)', () => {
+                expect(getSpecWrapper(SwitchFormTranslatingArgs, 'advanced-title').text()).toBe(
+                    'Rules'
+                );
+
+                expect(
+                    getSpecWrapper(SwitchFormTranslatingArgs, 'advanced-instructions').text()
+                ).toBe(
+                    'Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.'
+                );
+
+                expect(getSpecWrapper(SwitchFormTranslatingArgs, 'operator-field').length).toBe(7);
+
+                const localizedArgs = props.node.router.cases.reduce((argsArr, kase) => {
+                    if (kase.arguments && kase.arguments.length) {
+                        const localized = localizations.find(
+                            (localizedObject: LocalizedObject) =>
+                                localizedObject.getObject().uuid === kase.uuid
+                        );
+
+                        if (localized) {
+                            let value: string = '';
+
+                            if ('arguments' in localized.localizedKeys) {
+                                const localizedCase = localized.getObject() as Case;
+
+                                if (localizedCase.arguments.length) {
+                                    [value] = localizedCase.arguments;
+                                }
+                            }
+
+                            const { verboseName } = context.getOperatorConfig(kase.type);
+                            const [argument] = kase.arguments;
+
+                            argsArr.push({
+                                value,
+                                verboseName,
+                                argument,
+                                uuid: kase.uuid
+                            });
+                        }
+                    }
+
+                    return argsArr
+                }, []);
+
+                getSpecWrapper(SwitchFormTranslatingArgs, 'operator-field').forEach((node, idx) => {
+                    const { verboseName, argument, uuid, value } = localizedArgs[idx];
+
+                    expect(getSpecWrapper(node, 'verbose-name').text()).toBe(verboseName);
+                    expect(getSpecWrapper(node, 'argument-to-translate').text()).toBe(argument);
+                    expect(getSpecWrapper(node, 'translation-input').props()).toEqual({
+                        'data-spec': 'translation-input',
+                        name: uuid,
+                        placeholder: `${
+                            localizations[0].getLanguage().name
+                        } Translation`,
+                        showLabel: false,
+                        value,
+                        ComponentMap: props.ComponentMap
+                    });
                 });
             });
         });

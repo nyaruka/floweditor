@@ -402,6 +402,7 @@ Object {
       "type": "start_flow",
     },
     Object {
+      "advanced": 2,
       "allows": [Function],
       "description": "Split by a custom expression",
       "form": [Function],
@@ -442,6 +443,7 @@ Object {
       "type": "call_webhook",
     },
     "expression": Object {
+      "advanced": 2,
       "allows": [Function],
       "description": "Split by a custom expression",
       "form": [Function],

@@ -131,6 +131,7 @@ export const typeConfigList: Type[] = [
         name: 'Split by Expression',
         description: 'Split by a custom expression',
         form: SwitchRouterForm,
+        advanced: Mode.TRANSLATING,
         allows(mode: Mode): boolean {
             return (this.advanced & mode) === mode;
         }

@@ -531,51 +531,49 @@ export default class SwitchRouterForm extends React.Component<
 
     private getCasesForLocalization(language: Language): JSX.Element[] {
         const { cases } = this.props.node.router as SwitchRouter;
-        return cases.reduce(
-            (casesForLocalization: JSX.Element[], kase) => {
-                if (kase.arguments && kase.arguments.length) {
-                    const localized = this.props.localizations.find(
-                        (localizedObject: LocalizedObject) =>
-                            localizedObject.getObject().uuid === kase.uuid
-                    );
+        return cases.reduce((casesForLocalization: JSX.Element[], kase) => {
+            if (kase.arguments && kase.arguments.length) {
+                const localized = this.props.localizations.find(
+                    (localizedObject: LocalizedObject) =>
+                        localizedObject.getObject().uuid === kase.uuid
+                );
 
-                    if (localized) {
-                        let value: string = null;
+                if (localized) {
+                    let value: string = '';
 
-                        if ('arguments' in localized.localizedKeys) {
-                            const localizedCase: Case = localized.getObject() as Case;
+                    if ('arguments' in localized.localizedKeys) {
+                        const localizedCase = localized.getObject() as Case;
 
-                            if (localizedCase.arguments.length) {
-                                [value] = localizedCase.arguments;
-                            }
+                        if (localizedCase.arguments.length) {
+                            [value] = localizedCase.arguments;
                         }
-
-                        const { verboseName } = this.context.getOperatorConfig(kase.type);
-                        const [argument] = kase.arguments;
-
-                        casesForLocalization.push(
-                            <div key={`translate_${kase.uuid}`} className={styles.translating_item}>
-                                <div className={styles.translating_operator}>{verboseName}</div>
-                                <div className={styles.translating_from}>{argument}</div>
-                                <div className={styles.translating_to}>
-                                    <TextInputElement
-                                        ref={this.props.onBindAdvancedWidget}
-                                        name={kase.uuid}
-                                        placeholder={`${language.name} Translation`}
-                                        showLabel={false}
-                                        value={value}
-                                        ComponentMap={this.props.ComponentMap}
-                                    />
-                                </div>
-                            </div>
-                        );
                     }
-                }
 
-                return casesForLocalization;
-            },
-            []
-        );
+                    const { verboseName } = this.context.getOperatorConfig(kase.type);
+                    const [argument] = kase.arguments;
+
+                    casesForLocalization.push(
+                        <div key={`translate_${kase.uuid}`} data-spec='operator-field' className={styles.translating_operator_container}>
+                            <div data-spec='verbose-name' className={styles.translating_operator}>{verboseName}</div>
+                            <div data-spec='argument-to-translate' className={styles.translating_from}>{argument}</div>
+                            <div className={styles.translating_to}>
+                                <TextInputElement
+                                    ref={this.props.onBindAdvancedWidget}
+                                    data-spec='translation-input'
+                                    name={kase.uuid}
+                                    placeholder={`${language.name} Translation`}
+                                    showLabel={false}
+                                    value={value}
+                                    ComponentMap={this.props.ComponentMap}
+                                />
+                            </div>
+                        </div>
+                    );
+                }
+            }
+
+            return casesForLocalization;
+        }, []);
     }
 
     private renderAdvanced(): JSX.Element {
@@ -593,8 +591,14 @@ export default class SwitchRouterForm extends React.Component<
 
         return (
             <div>
-                <div className={styles.title}>Rules</div>
-                <div className={styles.instructions}>
+                <div
+                    data-spec='advanced-title'
+                    className={styles.translating_operator_title}>
+                    Rules
+                </div>
+                <div
+                    data-spec='advanced-instructions'
+                    className={styles.translating_operator_instructions}>
                     Sometimes languages need special rules to route things properly. If a
                     translation is not provided, the original rule will be used.
                 </div>

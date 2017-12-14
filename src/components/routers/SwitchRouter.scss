@@ -19,7 +19,21 @@
 }
 
 .save_as {
-    padding: 10px 15px 0 15px;
+    padding: 10px 0 0 0;
+}
+
+.translating_operator_title {
+    font-weight: 400;
+    font-size: 18px;
+    margin: 0 9px 15px;
+}
+
+.translating_operator_instructions {
+    margin: 0 10px 15px;
+}
+
+.translating_operator_container {
+    margin: 5px 0;
 }
 
 .translating_case {
@@ -30,7 +44,8 @@
     display: inline-block;
     overflow: hidden;
     width: 160px;
-    padding: 10px;
+    padding: 10px 0px 10px 10px;
+    font-style: italic;
 }
 
 .translating_from {
