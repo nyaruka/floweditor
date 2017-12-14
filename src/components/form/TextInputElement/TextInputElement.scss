@@ -94,8 +94,8 @@
     padding: 5px;
     font-size: 14px;
     &.selected {
-        border-color: $blue-select;
-        background: $blue-select;
+        border-color: $blue_select;
+        background: $blue_select;
         color: $text_color;
         font-weight: 500;
         &.first_option {
@@ -107,12 +107,11 @@
 .completion_container {
     position: absolute;
     background: #fff;
-    border: 1px solid #e6e6e6; // margin: 0;
     margin-top: 20px;
     width: 250px;
-    border-radius: 3px;
-    -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, .1);
-            box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, .1);
+    border-radius: 4px;
+    -webkit-box-shadow: $shadow_down;
+            box-shadow: $shadow_down;
     z-index: $z_completion;
 }
 
@@ -124,6 +123,7 @@
     font-size: 10px;
     color: #999;
     padding: 4px;
+    border-radius: 4px;
     background-color: #f5f5f5;
 }
 
