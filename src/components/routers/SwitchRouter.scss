@@ -1,7 +1,6 @@
 @import '../../variables.scss';
 .instructions {
-    margin-left: 15px;
-    margin-bottom: 9px;
+    margin: 0 15px;
 }
 
 // $case_height: 28px;
@@ -20,9 +19,7 @@
 }
 
 .save_as {
-    padding-top: 10px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 10px 15px 0 15px;
 }
 
 .translating_case {

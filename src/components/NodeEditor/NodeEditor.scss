@@ -16,20 +16,15 @@ $inner_spacing: 15px;
 }
 
 .node_editor {
-    padding-left: 20px;
-    padding-top: 20px;
-    padding-right: 20px;
+    padding: 23px;
     font-size: 14px;
     font-weight: 300;
     line-height: 15px;
-    padding-bottom: 20px;
     box-sizing: border-box;
 }
 
 .type_chooser {
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: $inner_spacing;
+    margin: 0 15px $inner_spacing 15px;
 }
 
 .advanced {
@@ -62,12 +57,11 @@ $inner_spacing: 15px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-bottom: 0px;
     margin-right: 10px;
 }
 
 .translating_to {
     display: inline-block;
     overflow: hidden;
-    width: 346px;
+    width: 355px;
 }
