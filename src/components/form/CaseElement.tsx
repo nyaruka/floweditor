@@ -283,6 +283,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         if (this.operatorConfig && this.operatorConfig.operands > 0) {
             args = (
                 <TextInputElement
+                    data-spec="args-input"
                     className={styles.input}
                     name="arguments"
                     onChange={this.onChangeArguments}
@@ -300,6 +301,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
         return (
             <FormElement
+                data-spec="case-form"
                 name={this.props.name}
                 errors={this.state.errors}
                 className={styles.group}
@@ -308,6 +310,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                     {dndBlock}
                     <div className={styles.choice}>
                         <Select
+                            data-spec='operator-list'
                             name="operator"
                             clearable={false}
                             options={this.context.operatorConfigList}
@@ -324,6 +327,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                     <div className={styles.category}>
                         <TextInputElement
                             ref={ele => (this.category = ele)}
+                            data-spec="exit-input"
                             className={styles.input}
                             name="exitName"
                             onChange={this.onChangeExitName}
