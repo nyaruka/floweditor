@@ -198,7 +198,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             return null;
         }
 
-        const exits = this.props.node.exits.reduce((exits, {uuid: exitUUID, name: exitName}) => {
+        const exits = this.props.node.exits.reduce((exits, { uuid: exitUUID, name: exitName }) => {
             const localized = this.props.localizations.find(
                 (localizedObject: LocalizedObject) => localizedObject.getObject().uuid === exitUUID
             );
@@ -477,7 +477,12 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         if (!this.props.localizations || !this.props.localizations.length) {
             typeList = (
                 <TypeListComp
-                    className={formStyles.type_chooser}
+                    className={
+                        this.state.config.type === 'wait_for_response' ||
+                        this.state.config.type === 'expression'
+                            ? formStyles.type_chooser_switch
+                            : formStyles.type_chooser
+                    }
                     /** NodeEditor */
                     initialType={this.state.config}
                     onChange={this.onTypeChange}

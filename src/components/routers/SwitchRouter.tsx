@@ -708,6 +708,7 @@ export default class SwitchRouterForm extends React.Component<
                 <TextInputElement
                     data-spec="name-field"
                     ref={this.props.onBindWidget}
+                    className={styles.name_field}
                     name="Result Name"
                     showLabel={true}
                     value={this.state.resultName}
