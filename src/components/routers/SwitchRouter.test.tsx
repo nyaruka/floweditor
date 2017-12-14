@@ -713,7 +713,7 @@ describe('SwitchRouter', () => {
 
         FIX: can't translated arguments in expression form for some reason
 
-        autocomplete style should match antd (make note to do 'update style' PR)
+        inputs should do what antd's inputs do
         gotta test case translation as well (advanced form)
 
         THEN: Fix Axios error (where does it come from?)

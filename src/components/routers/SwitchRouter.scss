@@ -1,5 +1,6 @@
 @import '../../variables.scss';
 .instructions {
+    margin-left: 15px;
     margin-bottom: 9px;
 }
 
@@ -19,8 +20,9 @@
 }
 
 .save_as {
-    width: 100%;
     padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .translating_case {
