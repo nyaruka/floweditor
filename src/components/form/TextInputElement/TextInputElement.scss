@@ -31,11 +31,11 @@
             justify-content: space-between;
     height: 75px;
     width: 175px;
-    background-color: #f5f5f5;
-    color: $grey;
+    background-color: rgba(0, 0, 0, .75);
+    color: white;
     text-align: left;
-    padding: 10px;
-    border-radius: 6px;
+    padding: 12px;
+    border-radius: 4px;
 
     /* Position tooltip text */
     position: absolute;
@@ -46,9 +46,9 @@
 
     /* Fade in tooltip */
     opacity: 0;
-    -webkit-transition: opacity 1s;
-    -o-transition: opacity 1s;
-    transition: opacity 1s;
+    -webkit-transition: opacity 0.25s;
+    -o-transition: opacity 0.25s;
+    transition: opacity 0.25s;
 }
 
 /* Tooltip arrow */
@@ -60,13 +60,18 @@
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: #f5f5f5 transparent transparent transparent;
+    border-color: rgba(0, 0, 0, .75) transparent transparent transparent;
 }
 
-/* Show the tooltip text when you mouse over the tooltip container */
+/* Show tooltip text when mouse hovers over the tooltip container */
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+
+.tooltiprow {
+    display: flex;
+    justify-content: space-between;
 }
 
 .option_list {

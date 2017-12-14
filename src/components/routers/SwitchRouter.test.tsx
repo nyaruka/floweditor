@@ -706,6 +706,18 @@ describe('SwitchRouter', () => {
 
         // const SwitchFormWaitAdvanced = mount();
 
+        /*
+        TESTING GOALS:
+        1. Render (Wait & Expression) standard/localized & advanced
+        2. Form Elements themselves (CaseElements in this case)
+
+        FIX: can't translated arguments in expression form for some reason
+
+        gotta test case translation as well
+
+        THEN: Fix Axios error (where does it come from?)
+        */
+
         describe('render', () => {
             it('should render wait_for_response form (not translating)', () => {
                 /** Cases */

@@ -519,24 +519,24 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 <div className={styles.count} data-spec="counter">
                     <div>
                         {remainingInPart}/{parts.length}{' '}
-                        <span className={styles.tooltip}>
+                        <span className={`${styles.tooltip} ${styles.expand}`}>
                             <b>&#63;</b>
                             <span className={styles.tooltiptext}>
-                                <div>
+                                <div className={styles.tooltiprow}>
                                     <b>Encoding</b>
-                                    {`  ${characterSet}`}
+                                    <span>{`  ${characterSet}`}</span>
                                 </div>
-                                <div>
+                                <div className={styles.tooltiprow}>
                                     <b>Parts</b>
-                                    {`  ${parts.length}`}
+                                    <span>{`  ${parts.length}`}</span>
                                 </div>
-                                <div>
+                                <div className={styles.tooltiprow}>
                                     <b>Characters</b>
-                                    {`  ${characterCount}`}
+                                    <span>{`  ${characterCount}`}</span>
                                 </div>
-                                <div>
+                                <div className={styles.tooltiprow}>
                                     <b>Limit Per Part</b>
-                                    {`  ${maxLength}`}
+                                    <span>{`  ${maxLength}`}</span>
                                 </div>
                             </span>
                         </span>
