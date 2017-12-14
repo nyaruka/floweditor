@@ -729,7 +729,7 @@ describe('SwitchRouter', () => {
                     'TextInputElement'
                 );
 
-                expect(getSpecWrapper(SwitchFormWaitBasic, 'name-field').props()).toEqual({
+                expect(getSpecWrapper(SwitchFormWaitBasic, 'name-field').props()).toEqual(expect.objectContaining({
                     'data-spec': 'name-field',
                     name: 'Result Name',
                     showLabel: true,
@@ -737,7 +737,7 @@ describe('SwitchRouter', () => {
                     helpText:
                         'By naming the result, you can reference it later using @run.results.whatever_the_name_is',
                     ComponentMap: props.ComponentMap
-                });
+                }));
 
                 expect(getSpecWrapper(SwitchFormWaitBasic, 'lead-in').text()).toBe(
                     'If the message response...'

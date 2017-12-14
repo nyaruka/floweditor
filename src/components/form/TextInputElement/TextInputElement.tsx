@@ -562,7 +562,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 <div className={styles.wrapper}>
                     <TextElement
                         ref={this.textElRef}
-                        type={!this.props.textarea && 'text'}
+                        type={!this.props.textarea ? 'text' : undefined}
                         className={classes.join(' ')}
                         value={this.state.value}
                         onChange={this.onChange}
