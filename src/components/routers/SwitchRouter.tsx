@@ -14,7 +14,6 @@ import { ConfigProviderContext } from '../../providers/ConfigProvider/configCont
 import CaseElement, { CaseElementProps } from '../form/CaseElement';
 import { reorderList } from '../../helpers/utils';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import flow = require('lodash.flow');
 
 const styles = require('./SwitchRouter.scss');
 
