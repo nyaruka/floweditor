@@ -19,11 +19,7 @@
 }
 
 .save_as {
-    padding: 10px 0 0 0;
-}
-
-.name_field {
-    margin: 0 15px;
+    padding: 15px 15px 0px 15px;
 }
 
 .translating_operator_title {
@@ -37,42 +33,35 @@
 }
 
 .translating_operator_container {
-    margin: 5px 0;
-}
-
-.translating_case {
-    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
 }
 
 .translating_operator {
-    display: inline-block;
     overflow: hidden;
-    width: 160px;
-    padding: 10px 0px 10px 10px;
+    width: 145px;
     font-style: italic;
+    padding-top: 10px;
+    padding-left: 10px;
 }
 
 .translating_from {
-    clear: both;
     background: $translation_bg;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
     padding: 9px;
     border: 2px solid $translation_bg - #111;
-    display: inline-block;
     width: 156px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-bottom: 0px;
-    margin-right: 10px;
 }
 
 .translating_to {
-    display: inline-block;
-    overflow: hidden;
     width: 226px;
+    padding-right: 10px;
 }
 
 .title {

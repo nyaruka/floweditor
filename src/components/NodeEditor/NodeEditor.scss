@@ -20,7 +20,8 @@ $inner_spacing: 15px;
     font-size: 14px;
     font-weight: 300;
     line-height: 15px;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
 .type_chooser {
@@ -44,15 +45,16 @@ $inner_spacing: 15px;
 }
 
 .translating_exit {
-    clear: both;
-    margin-bottom: 6px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+    margin-bottom: 10px;
 }
 
 .translating_from {
-    clear: both;
     background: $translation_bg;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
     border-radius: 5px;
     padding: 9px;
     border: 2px solid $translation_bg - #111;
@@ -60,12 +62,12 @@ $inner_spacing: 15px;
     width: 200px;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+       text-overflow: ellipsis;
     margin-right: 10px;
 }
 
 .translating_to {
     display: inline-block;
-    overflow: hidden;
     width: 355px;
 }
