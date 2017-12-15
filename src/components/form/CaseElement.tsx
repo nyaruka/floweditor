@@ -244,7 +244,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
         if (!this.props.empty && !this.props.solo) {
             dndBlock = (
-                <div className={styles['dnd-icon']}>
+                <div className={styles.dndIcon}>
                     <span>&#8597;</span>
                 </div>
             );
@@ -260,7 +260,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
         if (!this.props.empty) {
             removeButton = (
-                <div className={styles['remove-button']} onClick={this.remove}>
+                <div className={styles.removeButton} onClick={this.remove}>
                     <span className="icon-remove" />
                 </div>
             );
@@ -270,7 +270,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     }
 
     public render(): JSX.Element {
-        const classes = [styles.case];
+        const classes = [styles.kase];
 
         if (this.state.errors.length > 0) {
             classes.push(forms.invalid);
@@ -306,7 +306,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 errors={this.state.errors}
                 className={styles.group}
                 case={true}>
-                <div className={`${styles.case} select-medium`}>
+                <div className={`${styles.kase} select-medium`}>
                     {dndBlock}
                     <div className={styles.choice}>
                         <Select
@@ -323,7 +323,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                         />
                     </div>
                     <div className={styles.operand}>{args}</div>
-                    <div className={styles['categorize-as']}>categorize as</div>
+                    <div className={styles.categorizeAs}>categorize as</div>
                     <div className={styles.category}>
                         <TextInputElement
                             ref={ele => (this.category = ele)}

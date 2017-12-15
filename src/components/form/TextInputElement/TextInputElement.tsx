@@ -1,15 +1,14 @@
 import * as React from 'react';
+import getCaretCoordinates from 'textarea-caret';
+import setCaretPosition from 'get-input-selection';
+import { split } from 'split-sms';
 import { toCharSetEnum, cleanMsg } from '../../../helpers/utils';
 import ComponentMap, { CompletionOption } from '../../../services/ComponentMap';
 import FormElement, { FormElementProps } from '../FormElement';
 import { OPTIONS } from './completion-options';
 
-const getCaretCoordinates = require('textarea-caret');
-const { setCaretPosition } = require('get-input-selection');
-const { split } = require('split-sms');
-
-const styles = require('./TextInputElement.scss');
-const shared = require('../FormElement.scss');
+import * as styles from './TextInputElement.scss';
+import * as shared from '../FormElement.scss';
 
 const KEY_AT = 50;
 const KEY_SPACE = 32;
@@ -449,12 +448,12 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         if (selected) {
             return (
                 <div>
-                    <div className={styles.option_name}>{name}</div>
+                    <div>{name}</div>
                     <div className={styles.option_description}>{description}</div>
                 </div>
             );
         }
-        return <div className={styles.option_name}>{name}</div>;
+        return <div>{name}</div>;
     }
 
     private focusInput(): void {
@@ -475,7 +474,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         const classes: string[] = [styles.textinput];
 
         if (this.state.errors.length > 0) {
-            classes.push(shared.invalid);
+            classes.push('invalid');
         }
 
         const completionClasses: string[] = [styles.completion_container];
@@ -491,7 +490,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 optionClasses.push(styles.selected);
 
                 if (index === 0) {
-                    optionClasses.push(styles.first_options);
+                    optionClasses.push(styles.first_option);
                 }
 
                 return (
@@ -519,7 +518,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 <div className={styles.count} data-spec="counter">
                     <div>
                         {remainingInPart}/{parts.length}{' '}
-                        <span className={`${styles.tooltip} ${styles.expand}`}>
+                        <span className={`${styles.tooltip}`}>
                             <b>&#63;</b>
                             <span className={styles.tooltiptext}>
                                 <div className={styles.tooltiprow}>
