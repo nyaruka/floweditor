@@ -33,8 +33,12 @@
 }
 
 .translating_operator_container {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: space-between;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
     margin: 10px 0;
 }
 
@@ -48,15 +52,14 @@
 
 .translating_from {
     background: $translation_bg;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
     border-radius: 5px;
     padding: 9px;
     border: 2px solid $translation_bg - #111;
     width: 156px;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+       text-overflow: ellipsis;
 }
 
 .translating_to {
