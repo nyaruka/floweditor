@@ -8,12 +8,11 @@
     "outDir": "./dist/",
     "preserveConstEnums": true,
     "removeComments": true,
-    "target": "es2015",
-    "module": "es2015",
+    "target": "es6",
     "allowJs": true,
     "watch": true,
     "alwaysStrict": true,
-    "lib": ["es2016", "dom"]
+    "lib": ["es2015", "dom"]
   },
   "include": ["./src/**/*.ts*"],
   "exclude": ["node_modules", "__mocks__", "./src/**/*.test.ts*"]
