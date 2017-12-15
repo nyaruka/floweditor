@@ -1,19 +1,19 @@
 {
   "compilerOptions": {
+    "moduleResolution": "node",
     "jsx": "react",
-    "module": "commonjs",
     "noImplicitAny": true,
     "skipLibCheck": true,
     "sourceMap": true,
     "outDir": "./dist/",
     "preserveConstEnums": true,
     "removeComments": true,
-    "target": "es5",
+    "target": "es2015",
+    "module": "es2015",
     "allowJs": true,
     "watch": true,
     "alwaysStrict": true,
-    "allowSyntheticDefaultImports": true,
-    "lib": ["es2015", "dom"]
+    "lib": ["es2016", "dom"]
   },
   "include": ["./src/**/*.ts*"],
   "exclude": ["node_modules", "__mocks__", "./src/**/*.test.ts*"]

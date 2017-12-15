@@ -1,5 +1,4 @@
 import * as React from 'react';
-import UUID from 'uuid';
 import Select from 'react-select';
 import { SearchResult } from '../../services/ComponentMap';
 import FormElement, { FormElementProps } from './FormElement';

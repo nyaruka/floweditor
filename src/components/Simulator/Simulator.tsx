@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as axios from 'axios';
 import * as update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
-import urljoin from 'url-join';
 import { FlowDetails } from '../../providers/ConfigProvider/external';
 import { FlowDefinition, Group } from '../../flowTypes';
 import ActivityManager, { Activity } from '../../services/ActivityManager';
@@ -226,7 +225,7 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
 
                         axios.default
                             .post(
-                                urljoin(this.context.endpoints.engine + '/flow/start'),
+                                `${this.context.endpoints.engine}/flow/start`,
                                 JSON.stringify(body, null, 2)
                             )
                             .then((response: axios.AxiosResponse) => {
