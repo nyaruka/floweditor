@@ -98,8 +98,8 @@
     padding: 5px;
     font-size: 14px;
     &.selected {
-        border-color: $blue_select;
-        background: $blue_select;
+        border-color: $blue_antd;
+        background: $blue_antd;
         color: $text_color;
         font-weight: 500;
         &.first_option {
