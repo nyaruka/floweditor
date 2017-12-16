@@ -284,7 +284,6 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             args = (
                 <TextInputElement
                     data-spec="args-input"
-                    className={styles.input}
                     name="arguments"
                     onChange={this.onChangeArguments}
                     value={value}
@@ -328,7 +327,6 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                         <TextInputElement
                             ref={ele => (this.category = ele)}
                             data-spec="exit-input"
-                            className={styles.input}
                             name="exitName"
                             onChange={this.onChangeExitName}
                             value={this.state.exitName}

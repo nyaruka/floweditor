@@ -32,7 +32,7 @@ const FormElement: React.SFC<FormElementProps> = (props): JSX.Element => {
     if (errors.length > 0) {
         errorDisplay = (
             <div
-                className={styles.errors}
+                className={styles.error}
                 style={{ paddingTop: props.case && 5, paddingLeft: props.case && 10 }}>
                 {errors}
             </div>
@@ -53,7 +53,7 @@ const FormElement: React.SFC<FormElementProps> = (props): JSX.Element => {
         helpText = '';
     }
 
-    const classes = [styles.group, styles.ele];
+    const classes = [styles.ele];
 
     if (props.className) {
         classes.push(props.className);
@@ -67,7 +67,7 @@ const FormElement: React.SFC<FormElementProps> = (props): JSX.Element => {
         <div className={classes.join(' ')}>
             {name}
             {props.children}
-            <div className={styles.bottom}>
+            <div>
                 {helpText}
                 {errorDisplay}
             </div>
