@@ -13,8 +13,8 @@ import { ConfigProviderContext } from '../../providers/ConfigProvider/configCont
 import { Case } from '../../flowTypes';
 import { ChangedCaseInput } from '../routers/SwitchRouter';
 
-const forms = require('./FormElement.scss');
-const styles = require('./CaseElement.scss');
+import * as forms from './FormElement.scss';
+import * as styles from './CaseElement.scss';
 
 export interface CaseElementProps {
     name?: string; // satisfy form widget props

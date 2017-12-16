@@ -29,8 +29,8 @@ import TextInputElement from '../form/TextInputElement';
 import { getTypeConfigPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
-const formStyles = require('./NodeEditor.scss');
-const shared = require('../shared.scss');
+import * as formStyles from './NodeEditor.scss';
+import * as shared from '../shared.scss';
 
 export interface FormProps {
     showAdvanced: boolean;

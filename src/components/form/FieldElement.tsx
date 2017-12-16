@@ -6,7 +6,7 @@ import FormElement, { FormElementProps } from './FormElement';
 import ComponentMap, { SearchResult } from '../../services/ComponentMap';
 import SelectSearch from '../SelectSearch';
 
-const styles = require('./FormElement.scss');
+import * as styles from './FormElement.scss';
 
 // TODO: these should come from an external source
 const reserved = toBoolMap(['language', 'name', 'timezone']);

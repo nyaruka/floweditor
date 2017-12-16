@@ -3,7 +3,7 @@ import { Creatable as SelectCreatable } from 'react-select';
 import FormElement, { FormElementProps } from './FormElement';
 import { getSelectClass } from '../../helpers/utils';
 
-const styles = require('./FormElement.scss');
+import * as styles from './FormElement.scss';
 
 type Emails = { label: string; value: string }[];
 

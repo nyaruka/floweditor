@@ -17,7 +17,7 @@ import {
 } from '../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../providers/ConfigProvider/configContext';
 
-const styles = require('./Editor.scss');
+import * as styles from './Editor.scss';
 
 export interface EditorState {
     fetching: boolean;

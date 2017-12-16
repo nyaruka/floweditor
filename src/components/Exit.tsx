@@ -5,7 +5,7 @@ import Counter from './Counter';
 import ActivityManager from '../services/ActivityManager';
 import { LocalizedObject } from '../services/Localization';
 
-const styles = require('./Exit.scss');
+import * as styles from './Exit.scss';
 
 export interface ExitProps {
     exit: Exit;

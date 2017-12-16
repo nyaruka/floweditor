@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const styles = require('./TitleBar.scss');
+import * as styles from './TitleBar.scss';
 
 interface TitleBarProps {
     title: string;

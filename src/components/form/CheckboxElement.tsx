@@ -2,7 +2,7 @@ import * as React from 'react';
 import Select from 'react-select';
 import FormElement, { FormElementProps } from './FormElement';
 
-const styles = require('./CheckboxElement.scss');
+import * as styles from './CheckboxElement.scss';
 
 interface CheckboxElementProps extends FormElementProps {
     defaultValue?: boolean;

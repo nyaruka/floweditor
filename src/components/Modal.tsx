@@ -3,8 +3,8 @@ import * as ReactModal from 'react-modal';
 import { Node, Case, SwitchRouter } from '../flowTypes';
 import Button, { ButtonProps } from './Button';
 
-const styles = require('./Modal.scss');
-const shared = require('./shared.scss');
+import * as styles from './Modal.scss';
+import * as shared from './shared.scss';
 
 export interface ButtonSet {
     primary: ButtonProps;

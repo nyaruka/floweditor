@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const styles = require('./FormElement.scss');
+import * as styles from './FormElement.scss';
 
 export interface FormElementProps {
     name: string;

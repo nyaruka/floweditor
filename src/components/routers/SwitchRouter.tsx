@@ -15,7 +15,7 @@ import CaseElement, { CaseElementProps } from '../form/CaseElement';
 import { reorderList } from '../../helpers/utils';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-const styles = require('./SwitchRouter.scss');
+import * as styles from './SwitchRouter.scss';
 
 export interface CombinedExits {
     cases: Case[];
@@ -787,7 +787,7 @@ export default class SwitchRouterForm extends React.Component<
             const leadIn: JSX.Element = this.getLeadIn();
 
             return (
-                <div className={styles.switch}>
+                <div>
                     {leadIn}
                     <div className={styles.cases}>
                         <DragDropContext onDragEnd={this.onDragEnd}>

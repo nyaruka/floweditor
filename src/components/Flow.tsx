@@ -21,7 +21,7 @@ import {
     getActivityPT
 } from '../providers/ConfigProvider/propTypes';
 
-const styles = require('./Flow.scss');
+import * as styles from './Flow.scss';
 
 export interface FlowProps {
     nodeDragging: boolean;

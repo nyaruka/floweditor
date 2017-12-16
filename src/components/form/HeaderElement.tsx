@@ -3,8 +3,8 @@ import ComponentMap from '../../services/ComponentMap';
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 import FormElement from './FormElement';
 
-const forms = require('./FormElement.scss');
-const styles = require('../routers/Webhook.scss');
+import * as forms from './FormElement.scss';
+import * as styles from '../routers/Webhook.scss';
 
 export interface Header {
     uuid: string;
@@ -87,7 +87,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
         }
 
         return (
-            <FormElement name={this.props.name} errors={this.state.errors} className={styles.group}>
+            <FormElement name={this.props.name} errors={this.state.errors}>
                 <div className={styles.header}>
                     <div className={styles.header_name}>
                         <TextInputElement

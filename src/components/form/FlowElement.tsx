@@ -5,7 +5,7 @@ import FormElement, { FormElementProps } from './FormElement';
 import SelectSearch from '../SelectSearch';
 import { getSelectClass } from '../../helpers/utils';
 
-const styles = require('./FormElement.scss');
+import * as styles from './FormElement.scss';
 
 interface FlowElementProps extends FormElementProps {
     flow_name: string;

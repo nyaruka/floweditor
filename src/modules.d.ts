@@ -7,3 +7,5 @@ declare module 'textarea-caret';
 declare module 'get-input-selection';
 
 declare module 'split-sms';
+
+declare module 'jsplumb';

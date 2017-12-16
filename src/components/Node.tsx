@@ -1,4 +1,6 @@
 import * as React from 'react';
+import * as FlipMove from 'react-flip-move';
+import * as shallowCompare from 'react-addons-shallow-compare';
 import { Language } from './LanguageSelector';
 import Action, { ActionProps } from './Action/Action';
 import { IDragEvent } from '../services/Plumber';
@@ -29,11 +31,8 @@ import {
 } from '../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../providers/ConfigProvider/configContext';
 
-const FlipMove = require('react-flip-move');
-const shallowCompare = require('react-addons-shallow-compare');
-
-const styles = require('./Node.scss');
-const shared = require('./shared.scss');
+import * as styles from './Node.scss';
+import * as shared from './shared.scss';
 
 /**
  * A point in the flow from which a drag is initiated
@@ -318,12 +317,8 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
     render() {
         const classes = ['plumb-drag', styles.node];
 
-        if (this.props.iso && this.props.translating) {
-            classes.push(styles.translating);
-        }
-
         let actions: JSX.Element[] = [];
-        let actionList = null;
+        let actionList: JSX.Element = null;
 
         if (this.props.node.actions) {
             // save the first reference off to manage our clicks
@@ -526,7 +521,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                     getCount={() => this.props.Activity.getActiveCount(this.props.node.uuid)}
                     onUnmount={(key: string) => this.props.Activity.deregister(key)}
                     containerStyle={styles.active}
-                    countStyle={styles.count}
+                    countStyle={''}
                 />
                 {header}
                 {actionList}

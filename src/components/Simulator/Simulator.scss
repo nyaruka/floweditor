@@ -69,7 +69,7 @@
             background-color: $button - #555;
             border-color: $button - #888;
         }
-        &:active {
+        &.active {
             background-color: $button - #777;
             border-color: $button - #888;
         }

@@ -9,7 +9,7 @@ import LogEvent, { EventProps } from './LogEvent';
 import { getFlowPT, endpointsPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
-const styles = require('./Simulator.scss');
+import * as styles from './Simulator.scss';
 
 const ACTIVE = 'A';
 
@@ -335,7 +335,7 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
 
         return (
             <div>
-                <div className={styles.simulator_container}>
+                <div>
                     <div className={styles.simulator + ' ' + simHidden} key={'sim'}>
                         <a
                             className={

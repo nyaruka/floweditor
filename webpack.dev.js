@@ -1,5 +1,5 @@
 const { smartStrategy } = require('webpack-merge');
-const { HotModuleReplacementPlugin, NamedModulesPlugin } = require('webpack');
+const { HotModuleReplacementPlugin, NamedModulesPlugin, WatchIgnorePlugin } = require('webpack');
 const commonConfig = require('./webpack.common');
 const flowEditorConfig = require('./flowEditor.config.dev');
 
@@ -60,7 +60,11 @@ const devConfig = {
             }
         }
     },
-    plugins: [new HotModuleReplacementPlugin(), new NamedModulesPlugin()],
+    plugins: [
+        new HotModuleReplacementPlugin(),
+        new NamedModulesPlugin(),
+        new WatchIgnorePlugin([/scss\.d\.ts$/])
+    ],
     module: {
         rules: [
             {
