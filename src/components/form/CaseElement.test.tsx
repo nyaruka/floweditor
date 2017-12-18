@@ -72,7 +72,6 @@ describe('Component: CaseElement', () => {
             expect(getSpecWrapper(EmptyCase, 'args-input').props()).toEqual({
                 'data-spec': 'args-input',
                 name: 'arguments',
-                className: 'input',
                 onChange: EmptyCase.instance().onChangeArguments,
                 value: '',
                 focus: props.focusArgsInput,
@@ -82,7 +81,6 @@ describe('Component: CaseElement', () => {
 
             expect(getSpecWrapper(EmptyCase, 'exit-input').props()).toEqual({
                 'data-spec': 'exit-input',
-                className: 'input',
                 name: 'exitName',
                 onChange: EmptyCase.instance().onChangeExitName,
                 value: props.exitName ? props.exitName : '',
