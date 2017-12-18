@@ -1,5 +1,5 @@
 const CompressionPlugin = require('compression-webpack-plugin');
-const MinifyPlugin = require('babel-minify-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const { smartStrategy } = require('webpack-merge');
 const { LoaderOptionsPlugin, DefinePlugin } = require('webpack');
 const commonConfig = require('./webpack.common');
@@ -20,7 +20,18 @@ const prodConfig = {
                 NODE_ENV: JSON.stringify('production')
             }
         }),
-        new MinifyPlugin(),
+        new UglifyJsPlugin({
+            parallel: true,
+            uglifyOptions: {
+                compress: {
+                    passes: 2
+                },
+                output: {
+                    beautify: false
+                },
+                warnings: false
+            }
+        }),
         new CompressionPlugin({
             asset: '[path].gz[query]',
             algorithm: 'gzip',
