@@ -82,6 +82,30 @@ export interface NodeProps {
     plumberConnectExit: Function;
 }
 
+const getLocalizations = (
+    node: Node,
+    iso: string,
+    languages: Languages,
+    translations?: { [uuid: string]: any }
+): LocalizedObject[] => {
+    const localizations: LocalizedObject[] = [];
+
+    /** Account for localized cases */
+    if (node.router.type === 'switch') {
+        const router = node.router as SwitchRouter;
+        router.cases.forEach(kase =>
+            localizations.push(Localization.translate(kase, iso, languages, translations))
+        );
+    }
+
+    /** Account for localized exits */
+    node.exits.forEach(exit => {
+        localizations.push(Localization.translate(exit, iso, languages, translations));
+    });
+
+    return localizations;
+};
+
 /**
  * A single node in the rendered flow
  */
@@ -248,38 +272,16 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
     onClick(event?: any) {
         let action: AnyAction;
-
-        const localizations: LocalizedObject[] = [];
+        let localizations: LocalizedObject[] = [];
 
         // click the last action in the list if we have one
-
         if (this.props.translating) {
-            /** Account for localized cases */
-            if (this.props.node.router.type === 'switch') {
-                const router = this.props.node.router as SwitchRouter;
-                router.cases.forEach(kase =>
-                    localizations.push(
-                        Localization.translate(
-                            kase,
-                            this.props.iso,
-                            this.context.languages,
-                            this.props.translations
-                        )
-                    )
-                );
-            }
-
-            /** Account for localized exits */
-            this.props.node.exits.forEach(exit => {
-                localizations.push(
-                    Localization.translate(
-                        exit,
-                        this.props.iso,
-                        this.context.languages,
-                        this.props.translations
-                    )
-                );
-            });
+            localizations = getLocalizations(
+                this.props.node,
+                this.props.iso,
+                this.context.languages,
+                this.props.translations
+            );
         } else if (this.props.node.actions && this.props.node.actions.length > 0) {
             action = this.props.node.actions[this.props.node.actions.length - 1];
         }
