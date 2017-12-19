@@ -14,7 +14,6 @@
     "allowJs": true,
     "watch": true,
     "alwaysStrict": true,
-    "allowSyntheticDefaultImports": true,
     "lib": ["es6", "dom"]
   },
   "include": ["./src/**/*.ts*"],

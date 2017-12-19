@@ -3,7 +3,7 @@ import * as FlipMove from 'react-flip-move';
 import * as shallowCompare from 'react-addons-shallow-compare';
 import { Language } from './LanguageSelector';
 import Action, { ActionProps } from './Action/Action';
-import { IDragEvent } from '../services/Plumber';
+import { DragEvent } from '../services/Plumber';
 import ExitComp from './Exit';
 import TitleBarComp from './TitleBar';
 import {
@@ -147,9 +147,9 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         return false;
     }
 
-    onDrag(event: IDragEvent) {}
+    onDrag(event: DragEvent) {}
 
-    onDragStop(event: IDragEvent) {
+    onDragStop(event: DragEvent) {
         this.setState({ dragging: false });
         this.props.onNodeDragStop(this.props.node);
 
@@ -183,14 +183,14 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
     componentDidMount() {
         this.props.plumberDraggable(
             this.props.node.uuid,
-            (event: IDragEvent) => {
+            (event: DragEvent) => {
                 this.onDragStart(event);
                 this.props.onNodeDragStart(this.props.node);
             },
-            (event: IDragEvent) => {
+            (event: DragEvent) => {
                 this.onDrag(event);
             },
-            (event: IDragEvent) => {
+            (event: DragEvent) => {
                 this.onDragStop(event);
             },
             () => {
