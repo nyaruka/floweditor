@@ -82,7 +82,7 @@ export interface NodeProps {
     plumberConnectExit: Function;
 }
 
-const getLocalizations = (
+export const getLocalizations = (
     node: Node,
     iso: string,
     languages: Languages,

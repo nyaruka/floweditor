@@ -13,11 +13,12 @@ import CompMap from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
 import TextInputElement from '../form/TextInputElement/TextInputElement';
 import { Exit, Case } from '../../flowTypes';
+import { getLocalizations } from '../Node';
 
 const colorsFlow = require('../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 const formStyles = require('../NodeEditor/NodeEditor.scss');
 
-const { getTypeConfig, getOperatorConfig } = Config;
+const { languages, getTypeConfig, getOperatorConfig } = Config;
 
 describe('SwitchRouter', () => {
     describe('style utils', () => {
@@ -133,221 +134,14 @@ describe('SwitchRouter', () => {
 
     describe('Component: SwitchRouterForm', () => {
         const { results: [{ definition }] } = colorsFlow;
-        const { nodes: [, node] } = definition;
+        const { nodes: [, node], localization: locals } = definition;
         const config = getTypeConfig('wait_for_response');
         const ComponentMap = new CompMap(definition);
 
-        const localizedKeys = {};
-        const getLanguage = jest.fn(() => ({
-            iso: 'spa',
-            name: 'Spanish'
-        }));
-        const spanish = {
-            iso: 'spa',
-            name: 'Spanish'
-        };
         const iso = 'spa';
+        const translations = locals[iso];
 
-        const locals =
-
-        const localizations = [
-            {
-                localizedKeys,
-                getLanguage,
-                getObject: jest.fn(() => ({
-                    uuid: 'fa0a9b24-5f19-4b8e-b287-27af5811de1d',
-                    type: 'has_any_word',
-                    exit_uuid: '55855afc-f612-4ef9-9288-dcb1dd136052',
-                    arguments: ['red, r']
-                }))
-            },
-            {
-                localizedKeys,
-                getLanguage,
-                getObject: jest.fn(() => ({
-                    uuid: 'b5f900b9-ad13-479a-8ad3-1f1ad5ac88f2',
-                    type: 'has_any_word',
-                    exit_uuid: '668ca2ab-8d49-47f5-82a1-e3a82a58e5fb',
-                    arguments: ['orange, o']
-                }))
-            },
-            {
-                localizedKeys,
-                getLanguage,
-                getObject: jest.fn(() => ({
-                    uuid: 'e9c842e8-f1c5-4f07-97e7-50a4f93b22e5',
-                    type: 'has_any_word',
-                    exit_uuid: '14806949-d583-49e2-aa55-03aa16ee5a3a',
-                    arguments: ['yellow, y']
-                }))
-            },
-            {
-                localizedKeys,
-                getLanguage,
-                getObject: jest.fn(() => ({
-                    uuid: 'cc5894af-5dce-454e-a525-3d7c5c41d21d',
-                    type: 'has_any_word',
-                    exit_uuid: '77394377-f6b8-4366-9bef-d468621258ef',
-                    arguments: ['green, g']
-                }))
-            },
-            {
-                localizedKeys: {
-                    ...localizedKeys,
-                    arguments: true
-                },
-
-                getObject: jest.fn(() => ({
-                    uuid: 'fa0a9b24-5f19-4b8e-b287-27af5811de1d',
-                    type: 'has_any_word',
-                    exit_uuid: '55855afc-f612-4ef9-9288-dcb1dd136052',
-                    arguments: ['rojo, r']
-                }))
-            },
-            {
-                localizedKeys: {
-                    ...localizedKeys,
-                    arguments: true
-                },
-
-                getObject: jest.fn(() => ({
-                    uuid: 'b5f900b9-ad13-479a-8ad3-1f1ad5ac88f2',
-                    type: 'has_any_word',
-                    exit_uuid: '668ca2ab-8d49-47f5-82a1-e3a82a58e5fb',
-                    arguments: ['naranja, n']
-                }))
-            },
-            {
-                localizedKeys: {
-                    ...localizedKeys,
-                    arguments: true
-                },
-
-                getObject: jest.fn(() => ({
-                    uuid: 'e9c842e8-f1c5-4f07-97e7-50a4f93b22e5',
-                    type: 'has_any_word',
-                    exit_uuid: '14806949-d583-49e2-aa55-03aa16ee5a3a',
-                    arguments: ['amarillo, a']
-                }))
-            },
-            {
-                localizedKeys,
-                getLanguage,
-                getObject: jest.fn(() => ({
-                    uuid: '590d13e3-7b47-44e3-b8a0-ba9bd41d75d2',
-                    type: 'has_any_word',
-                    exit_uuid: '92d429d8-c275-4306-9360-93f4b9c7acb1',
-                    arguments: ['blue, b']
-                }))
-            },
-            {
-                localizedKeys,
-                getLanguage,
-                getObject: jest.fn(() => ({
-                    uuid: '2a7cbed1-6597-4545-b145-14a2e9282e6c',
-                    type: 'has_any_word',
-                    exit_uuid: '2de9af80-1bd9-4f37-839f-073edbd14369',
-                    arguments: ['indigo, i']
-                }))
-            },
-            {
-                localizedKeys,
-                getLanguage,
-                getObject: jest.fn(() => ({
-                    uuid: 'ab99e18c-433f-436e-9278-08bcf506f433',
-                    type: 'has_any_word',
-                    exit_uuid: '5760ec2f-04d4-492b-817b-9f395633ec79',
-                    arguments: ['violet, v']
-                }))
-            },
-            {
-                localizedKeys: {
-                    ...localizedKeys,
-                    name: true
-                },
-                getLanguage,
-                getObject: jest.fn(() => ({
-                    name: ['rojo'],
-                    uuid: '55855afc-f612-4ef9-9288-dcb1dd136052',
-                    destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
-                }))
-            },
-            {
-                localizedKeys: {
-                    ...localizedKeys,
-                    name: true
-                },
-                getLanguage,
-                getObject: jest.fn(() => ({
-                    name: ['naranja'],
-                    uuid: '668ca2ab-8d49-47f5-82a1-e3a82a58e5fb',
-                    destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
-                }))
-            },
-            {
-                localizedKeys: {
-                    ...localizedKeys,
-                    name: true
-                },
-                getLanguage,
-                getObject: jest.fn(() => ({
-                    name: ['amarillo'],
-                    uuid: '14806949-d583-49e2-aa55-03aa16ee5a3a',
-                    destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
-                }))
-            },
-            {
-                localizedKeys: {
-                    ...localizedKeys,
-                    name: true
-                },
-                getLanguage,
-                getObject: jest.fn(() => ({
-                    name: ['verde'],
-                    uuid: '77394377-f6b8-4366-9bef-d468621258ef',
-                    destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
-                }))
-            },
-            {
-                localizedKeys: {
-                    ...localizedKeys,
-                    name: true
-                },
-                getLanguage,
-                getObject: jest.fn(() => ({
-                    name: ['azul'],
-                    uuid: '92d429d8-c275-4306-9360-93f4b9c7acb1',
-                    destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
-                }))
-            },
-            {
-                localizedKeys,
-                getLanguage,
-                getObject: jest.fn(() => ({
-                    name: 'Indigo',
-                    uuid: '2de9af80-1bd9-4f37-839f-073edbd14369',
-                    destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
-                }))
-            },
-            {
-                localizedKeys,
-                getLanguage,
-                getObject: jest.fn(() => ({
-                    name: 'Violet',
-                    uuid: '5760ec2f-04d4-492b-817b-9f395633ec79',
-                    destination_node_uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925'
-                }))
-            },
-            {
-                localizedKeys,
-                getLanguage,
-                getObject: jest.fn(() => ({
-                    uuid: '326a41b7-9bce-453b-8783-1113f649663c',
-                    name: 'Other',
-                    destination_node_uuid: '4fac7935-d13b-4b36-bf15-98075dca822a'
-                }))
-            }
-        ];
+        const localizations = getLocalizations(node, iso, languages, translations);
 
         const props = {
             node,
@@ -475,6 +269,8 @@ describe('SwitchRouter', () => {
         );
 
         describe('render', () => {
+            const placeholder: string = `${localizations[0].getLanguage().name} Translation`;
+
             it('should render wait_for_response form (not translating)', () => {
                 /** Cases */
                 expect(getSpecWrapper(SwitchFormWaitBasic, 'case').length).toBe(8);
@@ -525,7 +321,6 @@ describe('SwitchRouter', () => {
                 getSpecWrapper(SwitchFormWaitTranslatingExits, 'localization-input').forEach(
                     (uiNode, idx) => {
                         const exitUUID: string = props.node.exits[idx].uuid;
-                        const placeholder: string = `${localizations[0].getLanguage().name} `;
                         let value: string = '';
                         const localized = localizations.find(
                             localizedObject => localizedObject.getObject().uuid === exitUUID
@@ -619,20 +414,24 @@ describe('SwitchRouter', () => {
                     return argsArr;
                 }, []);
 
-                getSpecWrapper(SwitchFormTranslatingArgs, 'operator-field').forEach((uiNode, idx) => {
-                    const { verboseName, argument, uuid, value } = localizedArgs[idx];
+                getSpecWrapper(SwitchFormTranslatingArgs, 'operator-field').forEach(
+                    (uiNode, idx) => {
+                        const { verboseName, argument, uuid, value } = localizedArgs[idx];
 
-                    expect(getSpecWrapper(uiNode, 'verbose-name').text()).toBe(verboseName);
-                    expect(getSpecWrapper(uiNode, 'argument-to-translate').text()).toBe(argument);
-                    expect(getSpecWrapper(uiNode, 'translation-input').props()).toEqual({
-                        'data-spec': 'translation-input',
-                        name: uuid,
-                        placeholder: `${localizations[0].getLanguage().name} Translation`,
-                        showLabel: false,
-                        value,
-                        ComponentMap: props.ComponentMap
-                    });
-                });
+                        expect(getSpecWrapper(uiNode, 'verbose-name').text()).toBe(verboseName);
+                        expect(getSpecWrapper(uiNode, 'argument-to-translate').text()).toBe(
+                            argument
+                        );
+                        expect(getSpecWrapper(uiNode, 'translation-input').props()).toEqual({
+                            'data-spec': 'translation-input',
+                            name: uuid,
+                            placeholder,
+                            showLabel: false,
+                            value,
+                            ComponentMap: props.ComponentMap
+                        });
+                    }
+                );
             });
         });
     });
