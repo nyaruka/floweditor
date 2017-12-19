@@ -148,6 +148,8 @@ describe('SwitchRouter', () => {
         };
         const iso = 'spa';
 
+        const locals =
+
         const localizations = [
             {
                 localizedKeys,
@@ -409,10 +411,9 @@ describe('SwitchRouter', () => {
                     return null;
                 }
 
-                const exits = node.exits.reduce((exits, { uuid: exitUUID, name: exitName }) => {
+                const exits = node.exits.reduce((exitsArr, { uuid: exitUUID, name: exitName }) => {
                     const localized = localizations.find(
-                        (localizedObject: LocalizedObject) =>
-                            localizedObject.getObject().uuid === exitUUID
+                        localizedObject => localizedObject.getObject().uuid === exitUUID
                     );
 
                     if (localized) {
@@ -422,7 +423,7 @@ describe('SwitchRouter', () => {
                             ({ name: value } = localized.getObject() as Exit);
                         }
 
-                        exits.push(
+                        exitsArr.push(
                             <div key={exitUUID} className={formStyles.translating_exit}>
                                 <div data-spec="exit-name" className={formStyles.translating_from}>
                                     {exitName}
@@ -443,7 +444,7 @@ describe('SwitchRouter', () => {
                         );
                     }
 
-                    return exits;
+                    return exitsArr;
                 }, []);
 
                 return (
@@ -517,20 +518,17 @@ describe('SwitchRouter', () => {
                     'When category names are referenced later in the flow, the appropriate language for the category will be used. If no translation is provided, the original text will be used.'
                 );
 
-                getSpecWrapper(SwitchFormWaitTranslatingExits, 'exit-name').forEach((node, idx) =>
-                    expect(node.text()).toBe(props.node.exits[idx].name)
+                getSpecWrapper(SwitchFormWaitTranslatingExits, 'exit-name').forEach((uiNode, idx) =>
+                    expect(uiNode.text()).toBe(props.node.exits[idx].name)
                 );
 
                 getSpecWrapper(SwitchFormWaitTranslatingExits, 'localization-input').forEach(
-                    (node, idx) => {
+                    (uiNode, idx) => {
                         const exitUUID: string = props.node.exits[idx].uuid;
-                        const placeholder: string = `${
-                            localizations[0].getLanguage().name
-                        } Translation`;
+                        const placeholder: string = `${localizations[0].getLanguage().name} `;
                         let value: string = '';
                         const localized = localizations.find(
-                            (localizedObject: LocalizedObject) =>
-                                localizedObject.getObject().uuid === exitUUID
+                            localizedObject => localizedObject.getObject().uuid === exitUUID
                         );
 
                         if (localized) {
@@ -538,7 +536,7 @@ describe('SwitchRouter', () => {
                                 ({ name: value } = localized.getObject() as Exit);
                             }
 
-                            expect(node.props()).toEqual({
+                            expect(uiNode.props()).toEqual({
                                 'data-spec': 'localization-input',
                                 name: exitUUID,
                                 placeholder,
@@ -592,8 +590,7 @@ describe('SwitchRouter', () => {
                 const localizedArgs = props.node.router.cases.reduce((argsArr, kase) => {
                     if (kase.arguments && kase.arguments.length) {
                         const localized = localizations.find(
-                            (localizedObject: LocalizedObject) =>
-                                localizedObject.getObject().uuid === kase.uuid
+                            localizedObject => localizedObject.getObject().uuid === kase.uuid
                         );
 
                         if (localized) {
@@ -622,12 +619,12 @@ describe('SwitchRouter', () => {
                     return argsArr;
                 }, []);
 
-                getSpecWrapper(SwitchFormTranslatingArgs, 'operator-field').forEach((node, idx) => {
+                getSpecWrapper(SwitchFormTranslatingArgs, 'operator-field').forEach((uiNode, idx) => {
                     const { verboseName, argument, uuid, value } = localizedArgs[idx];
 
-                    expect(getSpecWrapper(node, 'verbose-name').text()).toBe(verboseName);
-                    expect(getSpecWrapper(node, 'argument-to-translate').text()).toBe(argument);
-                    expect(getSpecWrapper(node, 'translation-input').props()).toEqual({
+                    expect(getSpecWrapper(uiNode, 'verbose-name').text()).toBe(verboseName);
+                    expect(getSpecWrapper(uiNode, 'argument-to-translate').text()).toBe(argument);
+                    expect(getSpecWrapper(uiNode, 'translation-input').props()).toEqual({
                         'data-spec': 'translation-input',
                         name: uuid,
                         placeholder: `${localizations[0].getLanguage().name} Translation`,
