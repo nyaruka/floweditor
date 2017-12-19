@@ -425,24 +425,26 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
      * Called the moment a connector is done dragging, whether it is dropped on an
      * existing node or on to empty space.
      */
-    private onConnectorDrop(event: ConnectionEvent) {
+    private onConnectorDrop(event: ConnectionEvent): boolean {
         // we put this in a zero timeout so jsplumb doesn't swallow any stack traces
         window.setTimeout(() => {
-            if (this.ghost && $(this.ghost.ele).is(':visible')) {
+            if (this.state.ghost) {
                 // wire up the drag from to our ghost node
-                let dragPoint = this.pendingConnection;
+                const dragPoint = this.pendingConnection;
+
                 this.Plumber.recalculate(this.state.ghost.uuid);
                 this.Plumber.connect(dragPoint.exitUUID, this.state.ghost.uuid);
 
                 // save our position for later
-                var { offsetTop, offsetLeft } = $(this.ghost.ele)[0];
+                const { offsetTop, offsetLeft } = this.ghost.ele;
+
                 this.createNodePosition = { x: offsetLeft, y: offsetTop };
 
                 // click on our ghost node to bring up the editor
                 this.ghost.onClick();
             }
 
-            $(document).unbind('mousemove');
+            $(document).off('mousemove');
         }, 0);
 
         return true;
