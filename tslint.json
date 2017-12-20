@@ -7,13 +7,15 @@
     "tslint-config-prettier"
   ],
   "rules": {
-    "quotemark": [true, "single"],
     "no-var-keyword": true,
     "no-parameter-reassignment": true,
     "typedef": [true, "call-signature"],
     "interface-name": [true, "never-prefix"],
     "member-ordering": false,
     "max-classes-per-file": [true, 3],
-    "ordered-imports": false
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "no-var-requires": false,
+    "quotemark": [true, "single", "jsx-double", "avoid-template", "avoid-escape"]
   }
 }

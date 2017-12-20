@@ -2,7 +2,7 @@
 body {
     .ReactModal__Content {
         overflow: visible !important;
-        top: 70px !important;
+        top: 50px !important;
         box-shadow: 1px 1px 5px 1px #555;
     }
     .ReactModal__Overlay {
@@ -141,6 +141,21 @@ svg.translating path {
 .emph {
     font-weight: 500;
 }
+
+input[type=text], textarea {
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    transition: all 0.30s ease-in-out;
+    outline: none;
+}
+
+input[type=text]:focus, textarea:focus {
+    box-shadow: 0 0 0 3px #E7F2FF;
+    border: 1px solid #1681FB;
+}
+
 
 
 /*

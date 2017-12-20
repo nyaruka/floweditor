@@ -9,5 +9,5 @@ describe('Providers: ConfigProvider: typeConfigs', () => {
         Object.keys(typeConfigMap).forEach(key =>
             expect(getTypeConfig(key)).toEqual(typeConfigMap[key])
         );
-    })
+    });
 });

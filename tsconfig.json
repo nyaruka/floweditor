@@ -1,19 +1,20 @@
 {
   "compilerOptions": {
+    "moduleResolution": "node",
     "jsx": "react",
-    "module": "commonjs",
     "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
     "skipLibCheck": true,
     "sourceMap": true,
     "outDir": "./dist/",
     "preserveConstEnums": true,
     "removeComments": true,
-    "target": "es5",
+    "target": "es6",
+    "module": "es6",
     "allowJs": true,
     "watch": true,
     "alwaysStrict": true,
-    "allowSyntheticDefaultImports": true,
-    "lib": ["es2015", "dom"]
+    "lib": ["es6", "dom"]
   },
   "include": ["./src/**/*.ts*"],
   "exclude": ["node_modules", "__mocks__", "./src/**/*.test.ts*"]

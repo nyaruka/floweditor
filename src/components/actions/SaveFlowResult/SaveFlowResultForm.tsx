@@ -5,7 +5,7 @@ import { FormProps } from '../../NodeEditor';
 import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement from '../../form/TextInputElement';
 
-const styles = require('./SaveFlowResult.scss');
+import * as styles from './SaveFlowResult.scss';
 
 export interface SaveFlowResultFormProps extends FormProps {
     action: SaveFlowResult;

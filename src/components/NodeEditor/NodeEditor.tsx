@@ -29,37 +29,33 @@ import TextInputElement from '../form/TextInputElement';
 import { getTypeConfigPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
-const uniqid = require('uniqid');
-
-const formStyles = require('./NodeEditor.scss');
-const shared = require('../shared.scss');
+import * as formStyles from './NodeEditor.scss';
+import * as shared from '../shared.scss';
 
 export interface FormProps {
     showAdvanced: boolean;
-
     node: Node;
     translating: boolean;
     iso: string;
-    action: AnyAction;
+    action?: AnyAction;
     localizations?: LocalizedObject[];
     definition: FlowDefinition;
-
     config: Type;
-
     ComponentMap: ComponentMap;
-
     updateAction(action: AnyAction): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
-    updateLocalizations(language: string, changes: { uuid: string; translations: any }[]): void;
+    updateLocalizations(
+        language: string,
+        changes: Array<{ uuid: string; translations: any }>
+    ): void;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     removeWidget(name: string): void;
     renderExitTranslations(): JSX.Element;
-
     triggerFormUpdate(): void;
     onToggleAdvanced(): void;
     getLocalizedObject: Function;
-    getLocalizedExits(widgets: { [name: string]: any }): { uuid: string; translations: any }[];
+    getLocalizedExits(widgets: { [name: string]: any }): Array<{ uuid: string; translations: any }>;
     saveLocalizedExits(widgets: { [name: string]: any }): void;
     getActionUUID: Function;
 }
@@ -74,13 +70,11 @@ export interface NodeEditorProps {
     definition: FlowDefinition;
     translating: boolean;
     show?: boolean;
-
     onUpdateLocalizations: Function;
     onUpdateAction: Function;
     onUpdateRouter: Function;
     /** Perform when editor is closed */
     onClose?(canceled: boolean): void;
-
     ComponentMap: ComponentMap;
 }
 
@@ -89,10 +83,7 @@ export interface NodeEditorState {
     show: boolean;
 }
 
-export default class NodeEditor extends React.PureComponent<
-    NodeEditorProps,
-    NodeEditorState
-> {
+export default class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorState> {
     private modal: Modal;
     private form: any;
     private advanced: any;
@@ -103,7 +94,7 @@ export default class NodeEditor extends React.PureComponent<
 
     public static contextTypes = {
         getTypeConfig: getTypeConfigPT
-    }
+    };
 
     constructor(props: NodeEditorProps, context: ConfigProviderContext) {
         super(props, context);
@@ -157,7 +148,9 @@ export default class NodeEditor extends React.PureComponent<
             return this.props.action.type;
         } else {
             if (this.props.nodeUI) {
-                if (this.props.nodeUI.type) return this.props.nodeUI.type;
+                if (this.props.nodeUI.type) {
+                    return this.props.nodeUI.type;
+                }
             }
         }
 
@@ -178,7 +171,7 @@ export default class NodeEditor extends React.PureComponent<
         );
     }
 
-    private getLocalizedObject() {
+    private getLocalizedObject(): LocalizedObject {
         if (this.props.localizations && this.props.localizations.length) {
             return this.props.localizations[0];
         }
@@ -195,38 +188,39 @@ export default class NodeEditor extends React.PureComponent<
     }
 
     private renderExitTranslations(): JSX.Element {
-        let language: Language;
-        const exits: JSX.Element[] = [];
+        let languageName: string = '';
 
         if (this.props.localizations.length > 0) {
-            language = this.props.localizations[0].getLanguage();
+            ({ name: languageName } = this.props.localizations[0].getLanguage());
         }
 
-        if (!language) {
+        if (!languageName) {
             return null;
         }
 
-        this.props.node.exits.forEach((exit: Exit) => {
+        const exits = this.props.node.exits.reduce((exits, { uuid: exitUUID, name: exitName }) => {
             const localized = this.props.localizations.find(
-                (localizedObject: LocalizedObject) => localizedObject.getObject().uuid === exit.uuid
+                (localizedObject: LocalizedObject) => localizedObject.getObject().uuid === exitUUID
             );
 
             if (localized) {
-                let value;
+                let value = '';
 
                 if ('name' in localized.localizedKeys) {
-                    let localizedExit: Exit = localized.getObject();
-                    value = localizedExit.name;
+                    ({ name: value } = localized.getObject() as Exit);
                 }
 
                 exits.push(
-                    <div key={`translate_${exit.uuid}`} className={formStyles.translating_exit}>
-                        <div className={formStyles.translating_from}>{exit.name}</div>
+                    <div key={exitUUID} className={formStyles.translating_exit}>
+                        <div data-spec="exit-name" className={formStyles.translating_from}>
+                            {exitName}
+                        </div>
                         <div className={formStyles.translating_to}>
                             <TextInputElement
+                                data-spec="localization-input"
                                 ref={this.onBindWidget}
-                                name={exit.uuid}
-                                placeholder={`${language.name} Translation`}
+                                name={exitUUID}
+                                placeholder={`${languageName} Translation`}
                                 showLabel={false}
                                 value={value}
                                 /** Node */
@@ -236,12 +230,16 @@ export default class NodeEditor extends React.PureComponent<
                     </div>
                 );
             }
-        });
+
+            return exits;
+        }, []);
 
         return (
             <div>
-                <div className={formStyles.title}>Categories</div>
-                <div className={formStyles.instructions}>
+                <div data-spec="title" className={formStyles.title}>
+                    Categories
+                </div>
+                <div data-spec="instructions" className={formStyles.instructions}>
                     When category names are referenced later in the flow, the appropriate language
                     for the category will be used. If no translation is provided, the original text
                     will be used.
@@ -253,16 +251,16 @@ export default class NodeEditor extends React.PureComponent<
 
     private getLocalizedExits(widgets: {
         [name: string]: any;
-    }): { uuid: string; translations: any }[] {
-        const results: { uuid: string; translations: any }[] = [];
-
-        const { exits } = this.props.node;
-
-        exits.forEach(({ uuid: exitUUID }: Exit) => {
+    }): Array<{ uuid: string; translations: any }> {
+        return this.props.node.exits.reduce((results, { uuid: exitUUID }: Exit) => {
             const input = widgets[exitUUID] as TextInputElement;
 
             if (input) {
-                const value = input.state.value.trim();
+                /** We save localized values as string arrays */
+                const value =
+                    input.state.value.constructor === Array
+                        ? input.state.value[0].trim()
+                        : input.state.value.trim();
 
                 if (value) {
                     results.push({ uuid: exitUUID, translations: { name: [value] } });
@@ -270,9 +268,9 @@ export default class NodeEditor extends React.PureComponent<
                     results.push({ uuid: exitUUID, translations: null });
                 }
             }
-        });
 
-        return results;
+            return results;
+        }, []);
     }
 
     private saveLocalizedExits(widgets: { [name: string]: any }): void {
@@ -310,19 +308,12 @@ export default class NodeEditor extends React.PureComponent<
 
         /** If all form inputs are valid, submit it */
         if (!invalid.length) {
-            if (this.form.onValid) {
-                this.form.onValid(this.widgets);
-            } else {
-                /**
-                 * Access wrapped component (for components wrapped by React-DnD HOC).
-                 */
-                this.form.getDecoratedComponentInstance().onValid(this.widgets);
-            }
+            this.form.onValid(this.widgets);
             return true;
         } else {
             let frontError = false;
             for (const widget of invalid) {
-                if (!this.advancedWidgets.hasOwnProperty(widget.props.name)) {
+                if (!this.advancedWidgets[widget.props.name]) {
                     frontError = true;
                     break;
                 }
@@ -385,7 +376,7 @@ export default class NodeEditor extends React.PureComponent<
     private onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void {
         /** Return key */
         if (event.which === 13) {
-            var isTextarea = $(event.target).prop('tagName') == 'TEXTAREA';
+            const isTextarea = $(event.target).prop('tagName') === 'TEXTAREA';
             if (!isTextarea || event.shiftKey) {
                 event.preventDefault();
                 if (this.submit()) {
@@ -432,15 +423,15 @@ export default class NodeEditor extends React.PureComponent<
         return this.state.config.allows(mode);
     }
 
-    private getModalKey(): string {
-        let key: string = `modal_${this.props.node.uuid}`;
+    // private getModalKey(): string {
+    //     let key: string = `modal_${this.props.node.uuid}`;
 
-        if (this.props.action) {
-            key += `_${this.props.action.uuid}`;
-        }
+    //     if (this.props.action) {
+    //         key += `_${this.props.action.uuid}`;
+    //     }
 
-        return key;
-    }
+    //     return key;
+    // }
 
     private getButtons(): ButtonSet {
         let buttons: ButtonSet;
@@ -466,11 +457,11 @@ export default class NodeEditor extends React.PureComponent<
 
     private getTitles(): JSX.Element[] {
         const titleText: string = this.getTitleText();
-        const titles: JSX.Element[] = [<div>{titleText}</div>];
+        const titles: JSX.Element[] = [<div key={'front'}>{titleText}</div>];
 
         if (this.hasAdvanced()) {
             titles.push(
-                <div>
+                <div key={'advanced'}>
                     <div>{titleText}</div>
                     <div className={shared.advanced_title}>Advanced Settings</div>
                 </div>
@@ -486,7 +477,12 @@ export default class NodeEditor extends React.PureComponent<
         if (!this.props.localizations || !this.props.localizations.length) {
             typeList = (
                 <TypeListComp
-                    className={formStyles.type_chooser}
+                    className={
+                        this.state.config.type === 'wait_for_response' ||
+                        this.state.config.type === 'expression'
+                            ? formStyles.type_chooser_switch
+                            : formStyles.type_chooser
+                    }
                     /** NodeEditor */
                     initialType={this.state.config}
                     onChange={this.onTypeChange}
@@ -510,7 +506,7 @@ export default class NodeEditor extends React.PureComponent<
             localizations: this.props.localizations,
             updateLocalizations: (
                 language: string,
-                changes: { uuid: string; translations: any }[]
+                changes: Array<{ uuid: string; translations: any }>
             ) => {
                 this.props.onUpdateLocalizations(language, changes);
             },
@@ -548,7 +544,7 @@ export default class NodeEditor extends React.PureComponent<
         const typeList = this.getTypeList();
 
         const front = (
-            <FormContainer key={uniqid()}>
+            <FormContainer key={'fc-front'}>
                 {typeList}
                 <Form ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />
             </FormContainer>
@@ -558,7 +554,7 @@ export default class NodeEditor extends React.PureComponent<
 
         if (this.hasAdvanced()) {
             back = (
-                <FormContainer key={uniqid()} styles={formStyles.advanced}>
+                <FormContainer key={'fc-back'} styles={formStyles.advanced}>
                     <Form ref={this.formRef} {...{ ...formProps, showAdvanced: true }} />
                 </FormContainer>
             );
@@ -574,14 +570,13 @@ export default class NodeEditor extends React.PureComponent<
         if (this.state.show) {
             /** Create our form element */
             if (this.state.config.form) {
-                const key: string = this.getModalKey();
+                // const key: string = this.getModalKey();
                 const buttons: ButtonSet = this.getButtons();
                 const titles: JSX.Element[] = this.getTitles();
                 const { front, back }: { front: JSX.Element; back: JSX.Element } = this.getSides();
 
                 return (
                     <Modal
-                        key={key}
                         ref={this.modalRef}
                         /** NodeEditor */
                         className={shared[this.state.config.type]}
@@ -591,8 +586,7 @@ export default class NodeEditor extends React.PureComponent<
                         buttons={buttons}
                         onModalOpen={this.onOpen}
                         /** Node */
-                        node={this.props.node}
-                    >
+                        node={this.props.node}>
                         {front}
                         {back}
                     </Modal>
@@ -603,5 +597,3 @@ export default class NodeEditor extends React.PureComponent<
         return null;
     }
 }
-
-

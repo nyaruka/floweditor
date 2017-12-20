@@ -12,7 +12,7 @@ import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 import FormElement from '../form/FormElement';
 import ComponentMap from '../../services/ComponentMap';
 
-const styles = require('./Webhook.scss');
+import * as styles from './Webhook.scss';
 
 const defaultBody: string = `{
     "contact": @(to_json(contact.uuid)),
@@ -218,10 +218,8 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                     easing="ease-out"
                     enterAnimation="accordionVertical"
                     leaveAnimation="accordionVertical"
-                    className={styles.headers}
                     duration={300}>
                     {headerElements}
-                    <div style={{ height: '25px' }} />
                 </FlipMove>
                 {postForm}
             </div>

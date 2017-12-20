@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../../enzymeAdapter';
 import { shallow } from 'enzyme';
 import CompMap from '../../services/ComponentMap';
 import NodeEditor, { NodeEditorProps } from './index';
@@ -12,7 +11,7 @@ const { nodes: [node], language: flowLanguage } = definition;
 
 const { actions: [replyAction] } = node;
 
-const ComponentMap = new CompMap(definition as any);
+const ComponentMap = new CompMap(definition);
 
 const nodeEditorProps: NodeEditorProps = {
     iso: 'eng',
@@ -38,8 +37,8 @@ describe('Component: NodeEditor', () => {
         expect(ModalShallow.exists()).toBeTruthy();
         expect(ModalShallow.hasClass(replyAction.type)).toBeTruthy();
         expect(ModalShallow.prop('title')).toEqual([
-            <div>Send Message</div>,
-            <div>
+            <div key={'front'}>Send Message</div>,
+            <div key={'advanced'}>
                 <div>Send Message</div>
                 <div className="advanced_title">Advanced Settings</div>
             </div>

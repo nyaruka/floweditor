@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../../../enzymeAdapter';
 import { shallow, mount, ShallowWrapper, ReactWrapper } from 'enzyme';
 import { getSpecWrapper } from '../../../helpers/utils';
 import ComponentMap from '../../../services/ComponentMap';
@@ -30,7 +29,10 @@ const props: Partial<ReplyFormProps> = {
 
 const localizedText: string = '¿Hola, como te llamas?';
 
-const createReplyForm = (newProps: any, mountIt: boolean = false): ShallowWrapper | ReactWrapper => {
+const createReplyForm = (
+    newProps: any,
+    mountIt: boolean = false
+): ShallowWrapper | ReactWrapper => {
     const Component = (
         <ReplyForm
             {...{
@@ -78,13 +80,13 @@ describe('Component: ReplyForm', () => {
             const ReplyFormBase = createReplyForm({
                 translating: true,
                 showAdvanced: false,
-                getLocalizedObject: () => ({
+                getLocalizedObject: jest.fn(() => ({
                     getLanguage: () => ({ name: 'Spanish' }),
-                    localized: true,
                     getObject: () => ({
                         text: localizedText
-                    })
-                })
+                    }),
+                    isLocalized: () => true
+                }))
             });
 
             expect(getSpecWrapper(ReplyFormBase, 'translation-container').exists()).toBeTruthy();
@@ -97,13 +99,13 @@ describe('Component: ReplyForm', () => {
             const ReplyFormBase = createReplyForm({
                 translating: true,
                 showAdvanced: false,
-                getLocalizedObject: () => ({
+                getLocalizedObject: jest.fn(() => ({
                     getLanguage: () => ({ name: 'Spanish' }),
-                    localized: true,
                     getObject: () => ({
                         text: localizedText
-                    })
-                })
+                    }),
+                    isLocalized: () => true
+                }))
             });
 
             expect(ReplyFormBase.find('TextInputElement').props()).toEqual({
@@ -124,13 +126,13 @@ describe('Component: ReplyForm', () => {
             const ReplyFormBase = createReplyForm({
                 translating: true,
                 showAdvanced: false,
-                getLocalizedObject: () => ({
+                getLocalizedObject: jest.fn(() => ({
                     getLanguage: () => ({ name: 'Spanish' }),
-                    localized: false,
                     getObject: () => ({
                         text: props.action.text
-                    })
-                })
+                    }),
+                    isLocalized: () => false
+                }))
             });
 
             expect(ReplyFormBase.find('TextInputElement').props()).toEqual({

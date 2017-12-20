@@ -1,7 +1,9 @@
 import * as React from 'react';
+import * as FlipMove from 'react-flip-move';
+import * as shallowCompare from 'react-addons-shallow-compare';
 import { Language } from './LanguageSelector';
 import Action, { ActionProps } from './Action/Action';
-import { IDragEvent } from '../services/Plumber';
+import { DragEvent } from '../services/Plumber';
 import ExitComp from './Exit';
 import TitleBarComp from './TitleBar';
 import {
@@ -29,11 +31,8 @@ import {
 } from '../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../providers/ConfigProvider/configContext';
 
-const FlipMove = require('react-flip-move');
-const shallowCompare = require('react-addons-shallow-compare');
-
-const styles = require('./Node.scss');
-const shared = require('./shared.scss');
+import * as styles from './Node.scss';
+import * as shared from './shared.scss';
 
 /**
  * A point in the flow from which a drag is initiated
@@ -83,6 +82,30 @@ export interface NodeProps {
     plumberConnectExit: Function;
 }
 
+export const getLocalizations = (
+    node: Node,
+    iso: string,
+    languages: Languages,
+    translations?: { [uuid: string]: any }
+): LocalizedObject[] => {
+    const localizations: LocalizedObject[] = [];
+
+    /** Account for localized cases */
+    if (node.router.type === 'switch') {
+        const router = node.router as SwitchRouter;
+        router.cases.forEach(kase =>
+            localizations.push(Localization.translate(kase, iso, languages, translations))
+        );
+    }
+
+    /** Account for localized exits */
+    node.exits.forEach(exit => {
+        localizations.push(Localization.translate(exit, iso, languages, translations));
+    });
+
+    return localizations;
+};
+
 /**
  * A single node in the rendered flow
  */
@@ -124,9 +147,9 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         return false;
     }
 
-    onDrag(event: IDragEvent) {}
+    onDrag(event: DragEvent) {}
 
-    onDragStop(event: IDragEvent) {
+    onDragStop(event: DragEvent) {
         this.setState({ dragging: false });
         this.props.onNodeDragStop(this.props.node);
 
@@ -160,14 +183,14 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
     componentDidMount() {
         this.props.plumberDraggable(
             this.props.node.uuid,
-            (event: IDragEvent) => {
+            (event: DragEvent) => {
                 this.onDragStart(event);
                 this.props.onNodeDragStart(this.props.node);
             },
-            (event: IDragEvent) => {
+            (event: DragEvent) => {
                 this.onDrag(event);
             },
-            (event: IDragEvent) => {
+            (event: DragEvent) => {
                 this.onDragStop(event);
             },
             () => {
@@ -249,38 +272,16 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
     onClick(event?: any) {
         let action: AnyAction;
-
-        const localizations: LocalizedObject[] = [];
+        let localizations: LocalizedObject[] = [];
 
         // click the last action in the list if we have one
-
         if (this.props.translating) {
-            /** Account for localized cases */
-            if (this.props.node.router.type === 'switch') {
-                var router = this.props.node.router as SwitchRouter;
-                for (let kase of router.cases) {
-                    localizations.push(
-                        Localization.translate(
-                            kase,
-                            this.props.iso,
-                            this.context.languages,
-                            this.props.translations
-                        )
-                    );
-                }
-            }
-
-            /** Account for localized exits */
-            for (let exit of this.props.node.exits) {
-                localizations.push(
-                    Localization.translate(
-                        exit,
-                        this.props.iso,
-                        this.context.languages,
-                        this.props.translations
-                    )
-                );
-            }
+            localizations = getLocalizations(
+                this.props.node,
+                this.props.iso,
+                this.context.languages,
+                this.props.translations
+            );
         } else if (this.props.node.actions && this.props.node.actions.length > 0) {
             action = this.props.node.actions[this.props.node.actions.length - 1];
         }
@@ -318,12 +319,8 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
     render() {
         const classes = ['plumb-drag', styles.node];
 
-        if (this.props.iso && this.props.translating) {
-            classes.push(styles.translating);
-        }
-
         let actions: JSX.Element[] = [];
-        let actionList = null;
+        let actionList: JSX.Element = null;
 
         if (this.props.node.actions) {
             // save the first reference off to manage our clicks
@@ -526,7 +523,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                     getCount={() => this.props.Activity.getActiveCount(this.props.node.uuid)}
                     onUnmount={(key: string) => this.props.Activity.deregister(key)}
                     containerStyle={styles.active}
-                    countStyle={styles.count}
+                    countStyle={''}
                 />
                 {header}
                 {actionList}

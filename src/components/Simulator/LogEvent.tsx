@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Group } from '../../flowTypes';
 import Modal from '../Modal';
 
-const styles = require('./Simulator.scss');
+import * as styles from './Simulator.scss';
 
 export interface EventProps {
     uuid: string;
@@ -129,7 +129,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 detailTitle = 'Webhook Details';
                 details = (
                     <div className={styles.webhook_details}>
-                        <div className={styles.request}>{this.props.request}</div>
+                        <div className={''}>{this.props.request}</div>
                         <div className={styles.response}>{this.props.response}</div>
                     </div>
                 );

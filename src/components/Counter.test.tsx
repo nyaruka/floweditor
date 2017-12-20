@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../enzymeAdapter';
 import { ReactWrapper, mount } from 'enzyme';
 import Counter, { ICounterProps } from './Counter';
 import { getSpecWrapper, validUUID, addCommas } from '../helpers/utils';

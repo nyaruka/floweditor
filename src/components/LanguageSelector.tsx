@@ -2,7 +2,7 @@ import * as React from 'react';
 import Select from 'react-select';
 import { Languages } from '../flowTypes';
 
-const styles = require('./LanguageSelector.scss');
+import * as styles from './LanguageSelector.scss';
 
 export interface Language {
     name: string;

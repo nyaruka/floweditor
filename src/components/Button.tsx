@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const styles = require('./Button.scss');
+import * as styles from './Button.scss';
 
 export interface ButtonProps {
     name: string;

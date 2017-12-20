@@ -6,7 +6,7 @@ import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement from '../../form/TextInputElement';
 import EmailElement from '../../form/EmailElement';
 
-const styles = require('./SendEmail.scss');
+import * as styles from './SendEmail.scss';
 
 export interface SendEmailFormProps extends FormProps {
     action: SendEmail;

@@ -3,23 +3,23 @@ import { v4 as generateUUID } from 'uuid';
 
 import { addCommas } from '../helpers/utils';
 
-const styles = require('./Counter.scss');
+import * as styles from './Counter.scss';
 
-export interface ICounterProps {
+export interface CounterProps {
     containerStyle: string;
     countStyle: string;
     getCount(): number;
     onUnmount(key: string): void;
 }
 
-export interface ICounterState {
+export interface CounterState {
     count: number;
 }
 
-export default class Counter extends React.Component<ICounterProps, ICounterState> {
+export default class Counter extends React.Component<CounterProps, CounterState> {
     private key: string;
 
-    constructor(props: ICounterProps) {
+    constructor(props: CounterProps) {
         super(props);
         this.key = generateUUID();
         this.getKey = this.getKey.bind(this);

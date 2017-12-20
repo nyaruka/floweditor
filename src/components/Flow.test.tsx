@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../enzymeAdapter';
 import { shallow } from 'enzyme';
 import { getSpecWrapper } from '../helpers/utils';
 import Flow, { FlowProps } from '../components/Flow';
@@ -23,7 +22,7 @@ const props: FlowProps = {
     definition,
     dependencies: null,
     Mutator,
-ComponentMap
+    ComponentMap
 };
 const FlowComp = shallow(<Flow {...props} />, { context });
 

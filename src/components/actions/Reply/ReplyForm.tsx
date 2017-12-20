@@ -5,7 +5,7 @@ import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement, { Count } from '../../form/TextInputElement';
 import CheckboxElement from '../../form/CheckboxElement';
 
-const styles = require('../../Action/Action.scss');
+import * as styles from '../../Action/Action.scss';
 
 export interface ReplyFormProps {
     action: Reply;
@@ -72,7 +72,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
             const { name } = localizedObject.getLanguage();
 
             translation = (
-                <div data-spec="translation-container" className={styles.translation}>
+                <div data-spec="translation-container">
                     <div data-spec="text-to-translate" className={styles.translate_from}>
                         {textToTrans}
                     </div>
@@ -81,11 +81,11 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
 
             placeholder = `${name} Translation`;
 
-            if (localizedObject.localized) {
-                ({text} = localizedObject.getObject())
+            if (localizedObject.isLocalized()) {
+                ({ text } = localizedObject.getObject());
             }
         } else {
-            ({ text } = this.props.action);
+            this.props.action && ({ text } = this.props.action);
         }
 
         return (

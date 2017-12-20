@@ -55,8 +55,6 @@ export function getDisplayName(WrappedComponent: ComponentClass | SFC): string {
     return WrappedComponent.displayName || WrappedComponent.name || 'Component';
 }
 
-export const DATA_SPEC_ATTRIBUTE_NAME: string = 'data-spec';
-
 /**
  * NOTE: borrowed from EventBrite: https://github.com/eventbrite/javascript/blob/master/react/testing.md#finding-nodes
  * Finds all instances of components in the rendered `componentWrapper` that are DOM components
@@ -69,7 +67,8 @@ export const DATA_SPEC_ATTRIBUTE_NAME: string = 'data-spec';
 export function getSpecWrapper(
     componentWrapper: ReactWrapper | ShallowWrapper,
     specName: string
-): ShallowWrapper | ReactWrapper {
+): any {
+    const DATA_SPEC_ATTRIBUTE_NAME: string = 'data-spec';
     return componentWrapper.find(`[${DATA_SPEC_ATTRIBUTE_NAME}="${specName}"]`);
 }
 
@@ -114,10 +113,16 @@ export function cleanMsg(msg: string): string {
         .replace(/\u2002/g, ' '); /** En space */
 }
 
-export function getSelectClass(errors: number) {
+export function getSelectClass(errors: number): string[] {
     if (errors === 0) {
         return [];
     }
     /** We use a global selector here for react-select */
     return ['select-invalid'];
+}
+
+export function reorderList(list: any[], startIndex: number, endIndex: number): any[] {
+    const [removed] = list.splice(startIndex, 1);
+    list.splice(endIndex, 0, removed);
+    return list;
 }

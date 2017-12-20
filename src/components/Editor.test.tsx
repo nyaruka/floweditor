@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../enzymeAdapter';
 import { shallow } from 'enzyme';
 import Editor from './Editor';
 import Flow from './Flow';
@@ -58,9 +57,7 @@ describe('Component: Editor', () => {
 
         EditorComp.setState({
             language,
-            translating:
-                baseLanguage.iso !== language.iso &&
-                baseLanguage.name !== language.name
+            translating: baseLanguage.iso !== language.iso && baseLanguage.name !== language.name
         });
 
         expect(EditorComp.state('language')).toEqual(language);

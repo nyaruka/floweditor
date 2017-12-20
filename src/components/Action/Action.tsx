@@ -13,8 +13,8 @@ import {
 } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
-const shared = require('../shared.scss');
-const styles = require('./Action.scss');
+import * as shared from '../shared.scss';
+import * as styles from './Action.scss';
 
 export interface ActionProps {
     node: Node;
@@ -135,10 +135,6 @@ export default class Action extends React.Component<ActionProps, ActionState> {
     render(): JSX.Element {
         let config = this.context.getTypeConfig(this.props.action.type);
         const classes = [styles.action];
-
-        if (this.props.first) {
-            classes.push(styles.first);
-        }
 
         if (this.props.hasRouter) {
             classes.push(styles.has_router);

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../../enzymeAdapter';
 import { shallow } from 'enzyme';
 import { Reply } from '../../flowTypes';
 import ActionComp, { ActionProps } from './Action';
@@ -59,7 +58,7 @@ const { actions: [replyAction] } = node;
 
 const { uuid, type, text } = replyAction;
 
-const ComponentMap = new CompMap(definition as any);
+const ComponentMap = new CompMap(definition);
 
 const Localization: LocalizedObject = LocalizationService.translate(
     replyAction,

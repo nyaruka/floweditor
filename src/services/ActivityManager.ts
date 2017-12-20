@@ -64,21 +64,21 @@ export default class ActivityManager {
     }
 
     private fetchActivity(wait: number = 0) {
-        if (!this.timer) {
-            this.timer = window.setTimeout(() => {
-                this.timer = null;
-                this.getActivityExternal(this.flowUUID)
-                    .then((activity: Activity) => {
-                        this.activity = activity;
-                        this.notifyListeners();
-                    })
-                    .catch(() => {
-                        // ignore missing activity
-                    });
+        // if (!this.timer) {
+        //     this.timer = window.setTimeout(() => {
+        //         this.timer = null;
+        //         this.getActivityExternal(this.flowUUID)
+        //             .then((activity: Activity) => {
+        //                 this.activity = activity;
+        //                 this.notifyListeners();
+        //             })
+        //             .catch(() => {
+        //                 // ignore missing activity
+        //             });
 
-                this.fetchActivity(REFRESH_SECONDS * 1000);
-            }, wait);
-        }
+        //         this.fetchActivity(REFRESH_SECONDS * 1000);
+        //     }, wait);
+        // }
     }
 
     public notifyListeners() {

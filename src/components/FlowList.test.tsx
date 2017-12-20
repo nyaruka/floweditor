@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../enzymeAdapter';
 import { shallow } from 'enzyme';
 import FlowList, { FlowListProps } from './FlowList';
 
@@ -9,7 +8,6 @@ const flows = flowDetails.map(({ uuid, name }) => ({
     uuid,
     name
 }));
-
 
 const flow = {
     name: flowDetails[0].name,

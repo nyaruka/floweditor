@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../../../enzymeAdapter';
 import { shallow } from 'enzyme';
 import { ChangeGroup } from '../../../flowTypes';
 import ChangeGroupComp from './ChangeGroup';

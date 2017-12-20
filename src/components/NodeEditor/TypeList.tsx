@@ -4,7 +4,7 @@ import { Type } from '../../providers/ConfigProvider/typeConfigs';
 import { typeConfigListPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
-const formStyles = require('./NodeEditor.scss');
+import * as formStyles from './NodeEditor.scss';
 
 export interface TypeListProps {
     className: string;

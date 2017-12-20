@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as axios from 'axios';
 import * as update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
-import urljoin from 'url-join';
 import { FlowDetails } from '../../providers/ConfigProvider/external';
 import { FlowDefinition, Group } from '../../flowTypes';
 import ActivityManager, { Activity } from '../../services/ActivityManager';
@@ -10,7 +9,7 @@ import LogEvent, { EventProps } from './LogEvent';
 import { getFlowPT, endpointsPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
-const styles = require('./Simulator.scss');
+import * as styles from './Simulator.scss';
 
 const ACTIVE = 'A';
 
@@ -77,10 +76,7 @@ interface Session {
 /**
  * Our dev console for simulating or testing expressions
  */
-export default class Simulator extends React.Component<
-    SimulatorProps,
-    SimulatorState
-> {
+export default class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     private debug: Session[] = [];
     private flows: FlowDefinition[] = [];
     private currentFlow: string;
@@ -114,7 +110,7 @@ export default class Simulator extends React.Component<
     }
 
     private bottomRef(ref: any) {
-        return this.bottom = ref;
+        return (this.bottom = ref);
     }
 
     private inputBoxRef(ref: any) {
@@ -229,7 +225,7 @@ export default class Simulator extends React.Component<
 
                         axios.default
                             .post(
-                                urljoin(this.context.endpoints.engine + '/flow/start'),
+                                `${this.context.endpoints.engine}/flow/start`,
                                 JSON.stringify(body, null, 2)
                             )
                             .then((response: axios.AxiosResponse) => {
@@ -339,7 +335,7 @@ export default class Simulator extends React.Component<
 
         return (
             <div>
-                <div className={styles.simulator_container}>
+                <div>
                     <div className={styles.simulator + ' ' + simHidden} key={'sim'}>
                         <a
                             className={

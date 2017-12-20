@@ -1,15 +1,14 @@
 import * as React from 'react';
+import getCaretCoordinates from 'textarea-caret';
+import setCaretPosition from 'get-input-selection';
+import { split } from 'split-sms';
 import { toCharSetEnum, cleanMsg } from '../../../helpers/utils';
 import ComponentMap, { CompletionOption } from '../../../services/ComponentMap';
 import FormElement, { FormElementProps } from '../FormElement';
 import { OPTIONS } from './completion-options';
 
-const getCaretCoordinates = require('textarea-caret');
-const { setCaretPosition } = require('get-input-selection');
-const { split } = require('split-sms');
-
-const styles = require('./TextInputElement.scss');
-const shared = require('../FormElement.scss');
+import * as styles from './TextInputElement.scss';
+import * as shared from '../FormElement.scss';
 
 const KEY_AT = 50;
 const KEY_SPACE = 32;
@@ -146,10 +145,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         remainingInPart: number;
         value: string;
     } {
-        /**
-         * In ReplyForm we store localized text as an array
-         * e.g. { uuid: this.props.action.uuid, translations: { text: [textarea.state.value] } }
-         */
+        /** Localized values are stored as string arrays */
         const isLocalizedValue = value.constructor === Array;
 
         if (isLocalizedValue) {
@@ -373,19 +369,21 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 updates.query = query;
                 updates.matches = matches;
             } else {
-                const {
-                    maxLength,
-                    characterSet,
-                    remainingInPart,
-                    parts,
-                    characterCount
-                } = this.getCharCount(value, true);
+                if (this.props.count === Count.SMS) {
+                    const {
+                        maxLength,
+                        characterSet,
+                        remainingInPart,
+                        parts,
+                        characterCount
+                    } = this.getCharCount(value, true);
 
-                updates.maxLength = maxLength;
-                updates.characterSet = characterSet;
-                updates.remainingInPart = remainingInPart;
-                updates.parts = parts;
-                updates.characterCount = characterCount;
+                    updates.maxLength = maxLength;
+                    updates.characterSet = characterSet;
+                    updates.remainingInPart = remainingInPart;
+                    updates.parts = parts;
+                    updates.characterCount = characterCount;
+                }
             }
 
             updates.caretOffset = selectionStart;
@@ -450,16 +448,22 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         if (selected) {
             return (
                 <div>
-                    <div className={styles.option_name}>{name}</div>
+                    <div>{name}</div>
                     <div className={styles.option_description}>{description}</div>
                 </div>
             );
         }
-        return <div className={styles.option_name}>{name}</div>;
+        return <div>{name}</div>;
+    }
+
+    private focusInput(): void {
+        const { value: { length } } = this.textEl;
+        this.textEl.focus();
+        this.textEl.selectionStart = length;
     }
 
     public componentDidMount(): void {
-        this.props.focus && this.textEl.focus();
+        this.props.focus && this.focusInput();
     }
 
     public componentDidUpdate(previous: TextInputProps): void {
@@ -470,7 +474,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         const classes: string[] = [styles.textinput];
 
         if (this.state.errors.length > 0) {
-            classes.push(shared.invalid);
+            classes.push('invalid');
         }
 
         const completionClasses: string[] = [styles.completion_container];
@@ -486,7 +490,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 optionClasses.push(styles.selected);
 
                 if (index === 0) {
-                    optionClasses.push(styles.first_options);
+                    optionClasses.push(styles.first_option);
                 }
 
                 return (
@@ -505,13 +509,6 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             );
         });
 
-        /** Use the proper form element */
-        let TextElement = 'input';
-
-        if (this.props.textarea) {
-            TextElement = 'textarea';
-        }
-
         let counter: JSX.Element = null;
 
         if (this.props.count && this.props.count === Count.SMS) {
@@ -521,30 +518,37 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 <div className={styles.count} data-spec="counter">
                     <div>
                         {remainingInPart}/{parts.length}{' '}
-                        <span className={styles.tooltip}>
+                        <span className={`${styles.tooltip}`}>
                             <b>&#63;</b>
                             <span className={styles.tooltiptext}>
-                                <div>
+                                <div className={styles.tooltiprow}>
                                     <b>Encoding</b>
-                                    {`  ${characterSet}`}
+                                    <span>{`  ${characterSet}`}</span>
                                 </div>
-                                <div>
+                                <div className={styles.tooltiprow}>
                                     <b>Parts</b>
-                                    {`  ${parts.length}`}
+                                    <span>{`  ${parts.length}`}</span>
                                 </div>
-                                <div>
+                                <div className={styles.tooltiprow}>
                                     <b>Characters</b>
-                                    {`  ${characterCount}`}
+                                    <span>{`  ${characterCount}`}</span>
                                 </div>
-                                <div>
+                                <div className={styles.tooltiprow}>
                                     <b>Limit Per Part</b>
-                                    {`  ${maxLength}`}
+                                    <span>{`  ${maxLength}`}</span>
                                 </div>
                             </span>
                         </span>
                     </div>
                 </div>
             );
+        }
+
+        /** Use the proper form element */
+        let TextElement = 'input';
+
+        if (this.props.textarea) {
+            TextElement = 'textarea';
         }
 
         return (
@@ -557,6 +561,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 <div className={styles.wrapper}>
                     <TextElement
                         ref={this.textElRef}
+                        type={!this.props.textarea ? 'text' : undefined}
                         className={classes.join(' ')}
                         value={this.state.value}
                         onChange={this.onChange}

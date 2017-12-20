@@ -31,11 +31,11 @@
             justify-content: space-between;
     height: 75px;
     width: 175px;
-    background-color: #f5f5f5;
-    color: $grey;
+    background-color: rgba(0, 0, 0, .75);
+    color: white;
     text-align: left;
-    padding: 10px;
-    border-radius: 6px;
+    padding: 12px;
+    border-radius: 4px;
 
     /* Position tooltip text */
     position: absolute;
@@ -46,9 +46,9 @@
 
     /* Fade in tooltip */
     opacity: 0;
-    -webkit-transition: opacity 1s;
-    -o-transition: opacity 1s;
-    transition: opacity 1s;
+    -webkit-transition: opacity 0.25s;
+    -o-transition: opacity 0.25s;
+    transition: opacity 0.25s;
 }
 
 /* Tooltip arrow */
@@ -60,13 +60,22 @@
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: #f5f5f5 transparent transparent transparent;
+    border-color: rgba(0, 0, 0, .75) transparent transparent transparent;
 }
 
-/* Show the tooltip text when you mouse over the tooltip container */
+/* Show tooltip text when mouse hovers over the tooltip container */
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+
+.tooltiprow {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
 }
 
 .option_list {
@@ -89,9 +98,9 @@
     padding: 5px;
     font-size: 14px;
     &.selected {
-        border-color: #eee;
-        background: $selected_background;
-        color: $selected_color;
+        border-color: $blue_antd;
+        background: $blue_antd;
+        color: $text_color;
         font-weight: 500;
         &.first_option {
             border-top-color: transparent !important;
@@ -102,12 +111,11 @@
 .completion_container {
     position: absolute;
     background: #fff;
-    border: 1px solid #e6e6e6; // margin: 0;
     margin-top: 20px;
     width: 250px;
-    border-radius: 3px;
-    -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, .1);
-            box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, .1);
+    border-radius: 4px;
+    -webkit-box-shadow: $shadow_down;
+            box-shadow: $shadow_down;
     z-index: $z_completion;
 }
 
@@ -119,6 +127,7 @@
     font-size: 10px;
     color: #999;
     padding: 4px;
+    border-radius: 4px;
     background-color: #f5f5f5;
 }
 

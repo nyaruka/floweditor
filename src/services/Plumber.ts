@@ -1,7 +1,7 @@
-const { jsPlumb: { importDefaults } } = require('../../node_modules/jsplumb/dist/js/jsplumb.js');
+const {jsPlumb: { importDefaults }} = require('jsplumb');
 import { Node, FlowDefinition, Exit, LocalizationMap } from '../flowTypes';
 
-export interface IDragEvent {
+export interface DragEvent {
     el: Element;
     pos: number[];
     finalPos: number[];
@@ -11,7 +11,7 @@ export interface IDragEvent {
     target: Element;
 }
 
-export interface IPendingConnections {
+export interface PendingConnections {
     [id: string]: { source: string; target: string; className: string };
 }
 
@@ -19,7 +19,7 @@ class Plumber {
     public jsPlumb: any;
 
     // we batch up connections to apply them together
-    private pendingConnections: IPendingConnections = {};
+    private pendingConnections: PendingConnections = {};
     private pendingConnectionTimeout: any;
 
     private animateInterval: any = null;
@@ -106,8 +106,8 @@ class Plumber {
             //over: (event: any) => { console.log("Over", event) },
             // beforeStart: (event: any) => { console.log("beforeStart"); },
             start: (event: any) => start(event),
-            drag: (event: IDragEvent) => drag(event),
-            stop: (event: IDragEvent) => stop(event),
+            drag: (event: DragEvent) => drag(event),
+            stop: (event: DragEvent) => stop(event),
             canDrag: () => {
                 return beforeDrag();
             },

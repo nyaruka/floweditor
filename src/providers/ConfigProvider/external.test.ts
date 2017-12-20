@@ -1,4 +1,4 @@
-import nock from 'nock';
+import * as nock from 'nock';
 import { devServerPort } from '../../../webpack.dev';
 import { ACTIVITY_ENDPOINT, FLOWS_ENDPOINT, getFlow, getFlows } from './external';
 

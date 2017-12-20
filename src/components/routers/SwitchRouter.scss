@@ -1,10 +1,14 @@
 @import '../../variables.scss';
 .instructions {
-    margin-bottom: 9px;
+    margin: 0 15px;
 }
 
-$case_height: 29px;
+// $case_height: 28px;
+
 .cases {
+    // overflow-y: auto;
+    // overflow-x: visible;
+    // height: 200px;
     margin-bottom: 9px;
 }
 
@@ -15,50 +19,56 @@ $case_height: 29px;
 }
 
 .save_as {
-    width: 100%;
-    padding-top: 10px;
+    padding: 15px 15px 0px 15px;
 }
 
-.translating_case {
-    margin-bottom: 6px;
+.translating_operator_title {
+    font-weight: 400;
+    font-size: 18px;
+    margin: 0 9px 15px;
+}
+
+.translating_operator_instructions {
+    margin: 0 10px 15px;
+}
+
+.translating_operator_container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    margin: 10px 0;
 }
 
 .translating_operator {
-    display: inline-block;
     overflow: hidden;
-    width: 160px;
-    padding: 10px;
+    width: 145px;
+    font-style: italic;
+    padding-top: 10px;
+    padding-left: 10px;
 }
 
 .translating_from {
-    clear: both;
     background: $translation_bg;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
     border-radius: 5px;
     padding: 9px;
     border: 2px solid $translation_bg - #111;
-    display: inline-block;
     width: 156px;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 0px;
-    margin-right: 10px;
+    -o-text-overflow: ellipsis;
+       text-overflow: ellipsis;
 }
 
 .translating_to {
-    display: inline-block;
-    overflow: hidden;
     width: 226px;
+    padding-right: 10px;
 }
 
 .title {
     font-weight: 400;
     font-size: 18px;
     margin-bottom: 8px;
-}
-
-.instructions {
-    padding-bottom: 12px;
 }
