@@ -41,6 +41,10 @@ This project uses [React Hot Loader](https://github.com/gaearon/react-hot-loader
 
 This project is currently configured via `flowEditor.config.*.js` in the root directory, which is loaded into the bundle as an [external](https://webpack.js.org/configuration/externals/), `Config`, via Webpack. The `ConfigProvider` component composes the app's configuration and provides it to each component via React's [context API](https://reactjs.org/docs/context.html).
 
+### Styling
+
+This project uses SASS (SCSS) to compose styles and [CSS Modules](https://github.com/css-modules/css-modules) to scope those styles to components. Typings for CSS Modules are generated on the fly by [typings-for-css-modules-loader](https://github.com/Jimdo/typings-for-css-modules-loader). 
+
 ## Running Tests
 
 This project uses [Jest](https://facebook.github.io/jest/) for unit/snapshot testing and [Enzyme](https://github.com/airbnb/enzyme) to test React components. Typescript and Jest are integrated via [ts-jest](https://github.com/kulshekhar/ts-jest).
