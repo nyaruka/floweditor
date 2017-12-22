@@ -244,20 +244,20 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         return args;
     }
 
-    private getDndBlock(): JSX.Element {
-        let dndBlock: JSX.Element = null;
+    private getDndIco(): JSX.Element {
+        let dndIco: JSX.Element = null;
 
         if (!this.props.empty && !this.props.solo) {
-            dndBlock = (
+            dndIco = (
                 <div className={styles.dndIcon}>
                     <span>&#8597;</span>
                 </div>
             );
         } else {
-            dndBlock = <div style={{ display: 'inline-block', width: 15 }} />;
+            dndIco = <div style={{ display: 'inline-block', width: 15 }} />;
         }
 
-        return dndBlock;
+        return dndIco;
     }
 
     private getRemoveButton(): JSX.Element {
@@ -275,14 +275,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     }
 
     public render(): JSX.Element {
-        const classes = [styles.kase];
-
-        if (this.state.errors.length > 0) {
-            classes.push(forms.invalid);
-        }
-
         const args: JSX.Element = this.getArgs();
-        const dndBlock: JSX.Element = this.getDndBlock();
+        const dndIco: JSX.Element = this.getDndIco();
         const removeButton: JSX.Element = this.getRemoveButton();
 
         return (
@@ -290,10 +284,10 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 data-spec="case-form"
                 name={this.props.name}
                 errors={this.state.errors}
-                className={styles.group}
+                className={styles.kase}
                 case={true}>
-                <div className={`${styles.kase} select-medium`}>
-                    {dndBlock}
+                <div className="select-medium">
+                    {dndIco}
                     <div className={styles.choice}>
                         <Select
                             data-spec="operator-list"

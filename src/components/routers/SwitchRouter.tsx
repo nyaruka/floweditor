@@ -162,9 +162,9 @@ export const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
     opacity: isDragging && 0.75,
     /** Overwriting default draggableStyle object from this point down */
     ...draggableStyle,
-    top: isDragging && draggableStyle.top - 105,
+    top: isDragging && draggableStyle.top - 90,
     left: isDragging && 20,
-    height: isDragging && draggableStyle.height + 27,
+    height: isDragging && draggableStyle.height + 15,
     width: isDragging && draggableStyle.width - 5
 });
 
