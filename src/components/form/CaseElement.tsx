@@ -94,17 +94,17 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     private getExitName(args: string[] = null): string {
         let exitName = this.state.exitName;
 
-        if (!args) {
-            /** If the category name is specified for our operator, use that */
-            if (this.operatorConfig.categoryName) {
-                ({ categoryName: exitName } = this.operatorConfig);
-            }
-        } else {
+        if (args) {
             if (
                 !exitName ||
                 exitName === this.generateExitNameFromArguments(this.props.kase.arguments)
             ) {
                 exitName = this.generateExitNameFromArguments(args);
+            }
+        } else {
+            /** If the category name is specified for our operator, use that */
+            if (this.operatorConfig.categoryName) {
+                ({ categoryName: exitName } = this.operatorConfig);
             }
         }
 
@@ -260,7 +260,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         return dndIco;
     }
 
-    private getRemoveButton(): JSX.Element {
+    private getRemoveIco(): JSX.Element {
         let removeButton: JSX.Element = null;
 
         if (!this.props.empty) {
@@ -277,7 +277,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     public render(): JSX.Element {
         const args: JSX.Element = this.getArgs();
         const dndIco: JSX.Element = this.getDndIco();
-        const removeButton: JSX.Element = this.getRemoveButton();
+        const removeIco: JSX.Element = this.getRemoveIco();
 
         return (
             <FormElement
@@ -315,7 +315,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                             ComponentMap={this.props.ComponentMap}
                         />
                     </div>
-                    {removeButton}
+                    {removeIco}
                 </div>
             </FormElement>
         );

@@ -79,9 +79,9 @@ export const operatorConfigList: Operator[] = [
 ];
 
 export const operatorConfigMap: OperatorMap = operatorConfigList.reduce(
-    (operatorConfigMap: OperatorMap, operatorConfig: Operator) => {
-        operatorConfigMap[operatorConfig.type] = operatorConfig;
-        return operatorConfigMap;
+    (map: OperatorMap, operatorConfig: Operator) => {
+        map[operatorConfig.type] = operatorConfig;
+        return map;
     },
     {}
 );

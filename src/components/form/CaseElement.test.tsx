@@ -139,4 +139,28 @@ describe('Component: CaseElement', () => {
                 ));
         });
     });
+
+    describe('class methods', () => {
+        // describe('getExitName', () => {
+        //     const case = {
+
+        //     }
+        //     const props = {
+        //         name: `case_${kase.uuid}`,
+        //         kase,
+        //         exitName: exits[idx].name,
+        //         onRemove: jest.fn(),
+        //         onChanged: jest.fn(),
+        //         focusArgsInput: false,
+        //         focusExitInput: false,
+        //         ComponentMap
+        //     };
+
+        //     it("should return the exitName stored in state", () => {
+        //         const { getExitName } = mount(<CaseElement {...props} />).instance();
+
+        //         expect(getExitName()).toBe('');
+        //     });
+        // });
+    });
 });
