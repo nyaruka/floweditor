@@ -142,7 +142,7 @@ describe('Component: CaseElement', () => {
     describe('helpers', () => {
         describe('prefix', () =>
             operatorConfigList.forEach(({ verboseName, type }) =>
-                it(`should prefix '${verboseName}' operator accordingly`, () =>
+                it(`should prefix '${verboseName}' operator appropriately`, () =>
                     expect(prefix(type)).toMatchSnapshot())
             ));
 
