@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
 import CompMap from '../../services/ComponentMap';
-import CaseElement from './CaseElement';
+import CaseElement, { prefix, composeExitName, getExitName } from './CaseElement';
 import { getSpecWrapper } from '../../helpers/utils';
-import { v4 as generateUUID } from 'uuid';
 import {
     operatorConfigList,
     getOperatorConfig
@@ -26,7 +25,7 @@ const ComponentMap = new CompMap(definition);
 describe('Component: CaseElement', () => {
     describe('render', () => {
         it('should render empty case', () => {
-            const uuid = generateUUID();
+            const uuid = '29b18c7e-c232-414c-9fc0-2e0b6260d9ca';
 
             const props = {
                 name: `case_${uuid}`,
@@ -140,27 +139,55 @@ describe('Component: CaseElement', () => {
         });
     });
 
-    describe('class methods', () => {
-        // describe('getExitName', () => {
-        //     const case = {
+    describe('helpers', () => {
+        describe('prefix', () =>
+            operatorConfigList.forEach(({ verboseName, type }) =>
+                it(`should prefix '${verboseName}' operator accordingly`, () =>
+                    expect(prefix(type)).toMatchSnapshot())
+            ));
 
-        //     }
-        //     const props = {
-        //         name: `case_${kase.uuid}`,
-        //         kase,
-        //         exitName: exits[idx].name,
-        //         onRemove: jest.fn(),
-        //         onChanged: jest.fn(),
-        //         focusArgsInput: false,
-        //         focusExitInput: false,
-        //         ComponentMap
-        //     };
+        describe('composeExitName', () => {
+            const operatorType = 'has_any_word';
+            const strArgOperators = operatorConfigList.slice(0, 6);
+            let args = [['tomato, t'], ['papayawhip'], []];
 
-        //     it("should return the exitName stored in state", () => {
-        //         const { getExitName } = mount(<CaseElement {...props} />).instance();
+            it('should handle empty arg lists appropriately', () =>
+                expect(composeExitName(operatorType, args[2])).toBe(''));
 
-        //         expect(getExitName()).toBe('');
-        //     });
-        // });
+
+            it('should return the first arg in list, capitalized', () => {
+                args = args.slice(0, 2);
+                strArgOperators.forEach(({ type }) =>
+                    args.slice(0, 2).forEach(argList => {
+                        const [firstArg] = argList[0].split(',');
+                        expect(composeExitName(type, argList)).toBe(
+                            firstArg.charAt(0).toUpperCase() + firstArg.slice(1)
+                        );
+                    })
+                );
+            });
+        });
+
+        describe('getExitName', () => {
+            const type = 'has_value';
+            const kase = {
+                uuid: 'fa0a9b24-5f19-4b8e-b287-27af5811de1d',
+                type,
+                exit_uuid: '55855afc-f612-4ef9-9288-dcb1dd136052'
+            };
+            const operatorConfig = getOperatorConfig(type);
+            const { categoryName: expectedExitName } = operatorConfig;
+
+            it("should return a given operator's default category name if it has one", () =>
+                // prettier-ignore
+                expect(
+                    getExitName(
+                        'somePerhapsPreExistingExitName',
+                        type,
+                        operatorConfig,
+                        kase
+                    )
+                ).toBe(expectedExitName));
+        });
     });
 });

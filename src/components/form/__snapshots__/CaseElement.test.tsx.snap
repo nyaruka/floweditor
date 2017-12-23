@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has a date after' operator accordingly 1`] = `"After "`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has a date before' operator accordingly 1`] = `"Before "`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has a date equal to' operator accordingly 1`] = `""`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has a date' operator accordingly 1`] = `""`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has a number above' operator accordingly 1`] = `">"`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has a number at or above' operator accordingly 1`] = `">= "`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has a number at or below' operator accordingly 1`] = `"<= "`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has a number below' operator accordingly 1`] = `"< "`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has a number between' operator accordingly 1`] = `""`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has a number equal to' operator accordingly 1`] = `""`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has a number' operator accordingly 1`] = `""`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has a phone number' operator accordingly 1`] = `""`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has a run status of' operator accordingly 1`] = `""`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has all of the words' operator accordingly 1`] = `""`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has an email' operator accordingly 1`] = `""`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has an error' operator accordingly 1`] = `""`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has any of the words' operator accordingly 1`] = `""`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has only the phrase' operator accordingly 1`] = `""`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has some text' operator accordingly 1`] = `""`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'has the phrase' operator accordingly 1`] = `""`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'is in the group' operator accordingly 1`] = `""`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'is not empty' operator accordingly 1`] = `""`;
+
+exports[`Component: CaseElement utility methods prefix should prefix 'starts with' operator accordingly 1`] = `""`;

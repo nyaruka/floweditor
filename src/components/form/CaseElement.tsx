@@ -36,6 +36,69 @@ interface CaseElementState {
     exitName: string;
 }
 
+export const prefix = (operatorType: string): string => {
+    let pre = '';
+    if (operatorType.indexOf('_lt') > -1) {
+        if (operatorType.indexOf('date') > -1) {
+            pre = 'Before ';
+        } else {
+            if (operatorType.indexOf('lte') > -1) {
+                pre = '<= ';
+            } else {
+                pre = '< ';
+            }
+        }
+    } else if (operatorType.indexOf('_gt') > -1) {
+        if (operatorType.indexOf('date') > -1) {
+            pre = 'After ';
+        } else {
+            if (operatorType.indexOf('gte') > -1) {
+                pre = '>= ';
+            } else {
+                pre = '>';
+            }
+        }
+    }
+    return pre;
+};
+
+export const composeExitName = (operator: string, newArgList: string[]): string => {
+    const pre: string = prefix(operator);
+    if (newArgList.length > 0) {
+        const [firstArg] = newArgList;
+        const words = firstArg.match(/\w+/g);
+        if (words && words.length > 0) {
+            const [firstWord] = words;
+            return pre + firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
+        }
+        return pre + firstArg.charAt(0).toUpperCase() + firstArg.slice(1);
+    }
+    return pre;
+};
+
+export const getExitName = (
+    exitName: string,
+    operator: string,
+    operatorConfig: Operator,
+    kase: Case,
+    newArgList: string[] = []
+): string => {
+    // Don't reassign args
+    let newExitName = exitName;
+    // Some operators don't expect args
+    if (newArgList.length) {
+        if (!newExitName || newExitName === composeExitName(operator, kase.arguments)) {
+            newExitName = composeExitName(operator, newArgList);
+        }
+    } else {
+        // If the operator has a default category name, use that
+        if (operatorConfig.categoryName) {
+            ({ categoryName: newExitName } = operatorConfig);
+        }
+    }
+    return newExitName;
+};
+
 export default class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
     private category: TextInputElement;
 
@@ -53,71 +116,18 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
     private operatorConfig: Operator = this.context.getOperatorConfig(this.props.kase.type);
 
-    private generateExitNameFromArguments(args: string[]): string {
-        let prefix = '';
-
-        if (this.state.operator.indexOf('_lt') > -1) {
-            if (this.state.operator.indexOf('date') > -1) {
-                prefix = 'Before ';
-            } else {
-                if (this.state.operator.indexOf('lte') > -1) {
-                    prefix = '<= ';
-                } else {
-                    prefix = '< ';
-                }
-            }
-        } else if (this.state.operator.indexOf('_gt') > -1) {
-            if (this.state.operator.indexOf('date') > -1) {
-                prefix = 'After ';
-            } else {
-                if (this.state.operator.indexOf('gte') > -1) {
-                    prefix = '>= ';
-                } else {
-                    prefix = '>';
-                }
-            }
-        }
-
-        if (args && args.length > 0) {
-            const [firstArg] = args;
-            const words = firstArg.match(/\w+/g);
-
-            if (words && words.length > 0) {
-                const [firstWord] = words;
-                return prefix + firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
-            }
-            return prefix + firstArg.charAt(0).toUpperCase() + firstArg.slice(1);
-        }
-        return null;
-    }
-
-    private getExitName(args: string[] = null): string {
-        let exitName = this.state.exitName;
-
-        if (args) {
-            if (
-                !exitName ||
-                exitName === this.generateExitNameFromArguments(this.props.kase.arguments)
-            ) {
-                exitName = this.generateExitNameFromArguments(args);
-            }
-        } else {
-            /** If the category name is specified for our operator, use that */
-            if (this.operatorConfig.categoryName) {
-                ({ categoryName: exitName } = this.operatorConfig);
-            }
-        }
-
-        return exitName;
-    }
-
     private onChangeOperator = (val: Operator): void => {
         this.operatorConfig = val;
 
         this.setState(
             {
                 operator: val.type,
-                exitName: this.getExitName()
+                exitName: getExitName(
+                    this.state.exitName,
+                    this.state.operator,
+                    this.operatorConfig,
+                    this.props.kase
+                )
             },
             () => this.props.onChanged(this)
         );
@@ -125,7 +135,13 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
     private onChangeArguments = (val: React.ChangeEvent<HTMLTextElement>): void => {
         const args = [val.target.value];
-        const exitName = this.getExitName(args);
+        const exitName = getExitName(
+            this.state.exitName,
+            this.state.operator,
+            this.operatorConfig,
+            this.props.kase,
+            args
+        );
 
         // prettier-ignore
         this.setState(
