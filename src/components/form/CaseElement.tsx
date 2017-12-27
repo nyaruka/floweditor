@@ -107,7 +107,7 @@ export const getArgsEle = (
     args: string[],
     onChangeArguments: (val: React.ChangeEvent<HTMLTextElement>) => void,
     focusArgsInput: boolean,
-    ComponentMap: ComponentMap
+    CompMap: ComponentMap
 ): JSX.Element => {
     let argsEl: JSX.Element = null;
 
@@ -122,7 +122,7 @@ export const getArgsEle = (
                 value={value}
                 focus={focusArgsInput}
                 autocomplete={true}
-                ComponentMap={ComponentMap}
+                ComponentMap={CompMap}
             />
         );
     }
