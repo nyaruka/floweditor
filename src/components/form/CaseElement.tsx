@@ -146,12 +146,12 @@ export const getDndIco = (empty: boolean = false, solo: boolean = false): JSX.El
     return dndIco;
 };
 
-export const getRemoveIco = (empty: boolean = false): JSX.Element => {
+export const getRemoveIco = (empty: boolean = false, onRemove: () => void): JSX.Element => {
     let removeIcon: JSX.Element = null;
 
     if (!empty) {
         removeIcon = (
-            <div className={styles.removeIcon} onClick={this.remove}>
+            <div className={styles.removeIcon} onClick={onRemove}>
                 <span className="icon-remove" />
             </div>
         );
@@ -179,11 +179,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         this.setState(
             {
                 operatorConfig: val,
-                exitName: getExitName(
-                    this.state.exitName,
-                    val,
-                    this.props.kase
-                )
+                exitName: getExitName(this.state.exitName, val, this.props.kase)
             },
             () => this.props.onChanged(this)
         );
@@ -229,7 +225,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             () => this.props.onChanged(this, ChangedCaseInput.EXIT)
         );
 
-    private remove = (ele?: any): void => this.props.onRemove(this);
+    private remove = (): void => this.props.onRemove(this);
 
     public validate(): boolean {
         const errors: string[] = [];
@@ -299,7 +295,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             this.props.ComponentMap
         );
         const dndIco: JSX.Element = getDndIco(this.props.empty, this.props.solo);
-        const removeIco: JSX.Element = getRemoveIco(this.props.empty);
+        const removeIco: JSX.Element = getRemoveIco(this.props.empty, this.remove);
 
         return (
             <FormElement
