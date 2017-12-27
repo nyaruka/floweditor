@@ -1,6 +1,6 @@
 import { CompletionOption } from '../../../services/ComponentMap';
 
-export const OPTIONS: CompletionOption[] = [
+export const OPTION_LIST: CompletionOption[] = [
     { name: 'contact', description: 'The name of the contact.' },
     { name: 'contact.name', description: 'The name of the contact.' },
     { name: 'contact.language', description: 'The language code for the contact.' },

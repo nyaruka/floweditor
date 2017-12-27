@@ -85,19 +85,6 @@ describe('utils', () => {
         });
     });
 
-    describe('toCharSetEnum()', () => {
-        it('should return the CharacterSet enum value that matches its argument', () => {
-            expect(toCharSetEnum('GSM')).toBe(CharacterSet.GSM);
-            expect(toCharSetEnum('Unicode')).toBe(CharacterSet.UNICODE);
-        });
-    });
-
-    describe('cleanMsg()', () => {
-        it('should replace specified unicode characters with their GSM counterparts', () => {
-            expect(cleanMsg('“”‘’— …–')).toBe(`""''- ...-`);
-        });
-    });
-
     xdescribe('getDisplayName', () => {
         it("should return a HOC's wrapped component's display name", () => {});
     });

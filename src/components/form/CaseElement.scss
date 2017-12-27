@@ -40,7 +40,7 @@ $spacing: 10px;
         }
     }
     &:hover {
-        .remove-button {
+        .remove-icon {
             opacity: 1;
         }
 
@@ -67,7 +67,7 @@ $spacing: 10px;
     line-height: 12px;
 }
 
-.remove-button {
+.remove-icon {
     color: #ccc;
     padding-top: 5px;
     float: right;
