@@ -77,6 +77,7 @@ export interface TextInputState {
     selectedOptionIndex: number;
     matches: CompletionOption[];
     query: string;
+    options: CompletionOption[];
 }
 
 /**
@@ -207,14 +208,13 @@ const isValidURL = (str: string): boolean => {
 export const filterOptions = (options: CompletionOption[], query?: string): CompletionOption[] => {
     if (query != null) {
         const search = query.toLowerCase();
-        const results = options.filter(({ name: optionName }: CompletionOption) => {
+        return options.filter(({ name: optionName }: CompletionOption) => {
             const rest = optionName.substr(search.length);
             return (
                 optionName.indexOf(search) === 0 &&
                 (rest.length === 0 || rest.substr(1).indexOf('.') === -1)
             );
         });
-        return results;
     }
     return [];
 };
@@ -241,14 +241,12 @@ export const getOptions = (
 ): JSX.Element[] =>
     matches.map((option: CompletionOption, idx: number) => {
         const optionClasses: string[] = [styles.option];
-
         if (idx === selectedOptionIndex) {
             optionClasses.push(styles.selected);
 
             if (idx === 0) {
                 optionClasses.push(styles.first_option);
             }
-
             return (
                 <li ref={selectedElRef} className={optionClasses.join(' ')} key={option.name}>
                     {renderOption(option, true)}
@@ -276,7 +274,6 @@ export const getCharCountEle = (
     count?: boolean
 ): JSX.Element => {
     let charCountEle: JSX.Element = null;
-
     if (count) {
         charCountEle = (
             <div className={styles.count} data-spec="counter">
@@ -307,7 +304,6 @@ export const getCharCountEle = (
             </div>
         );
     }
-
     return charCountEle;
 };
 
@@ -330,12 +326,21 @@ export const initialState: Pick<
     query: ''
 };
 
-export const initializeState = (props: TextInputProps): TextInputState => {
-    const value = props.value ? props.value : '';
+export const initializeState = ({
+    value: val,
+    autocomplete,
+    ComponentMap: { getResultNames },
+    count
+}: TextInputProps): TextInputState => {
+    const value = val ? val : '';
+    const options: CompletionOption[] = autocomplete
+        ? [...OPTION_LIST, ...getResultNames()]
+        : OPTION_LIST;
     return {
         value,
+        options,
         ...initialState,
-        ...props.count && props.count === Count.SMS ? getCharCount(value) : {}
+        ...count && count === Count.SMS ? getCharCount(value) : {}
     };
 };
 
@@ -345,12 +350,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
     public state: TextInputState = initializeState(this.props);
 
-    private options: CompletionOption[] = this.props.autocomplete
-        ? [...OPTION_LIST, ...this.props.ComponentMap.getResultNames()]
-        : OPTION_LIST;
-
     private selectedElRef = (ref: HTMLLIElement) => (this.selectedEl = ref);
-
     private textElRef = (ref: HTMLTextElement) => (this.textEl = ref);
 
     private setSelection(selectedIdx: number): void {
@@ -430,7 +430,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                     var matches: CompletionOption[] = [];
                     if (event.keyCode === KEY_TAB) {
                         query = option.name;
-                        matches = filterOptions(this.options, query);
+                        matches = filterOptions(this.state.options, query);
                         completionVisible = matches.length > 0;
                     }
 
@@ -466,7 +466,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                     // if '@' we display completion menu again
                     if (curr === '@') {
                         query = this.state.value.substr(i + 1, caret - i - 1);
-                        matches = filterOptions(this.options, query);
+                        matches = filterOptions(this.state.options, query);
                         completionVisible = matches.length > 0;
                         return this.setState({
                             query,
@@ -530,7 +530,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 }
 
                 updates.query = query;
-                updates.matches = filterOptions(this.options, query);
+                updates.matches = filterOptions(this.state.options, query);
             } else {
                 if (this.props.count === Count.SMS) {
                     const {
