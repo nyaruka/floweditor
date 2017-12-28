@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Select from 'react-select';
 import { v4 as generateUUID } from 'uuid';
-import { titleCase } from '../../helpers/utils';
+import { titleCase, jsonEqual } from '../../helpers/utils';
 import { Operator } from '../../providers/ConfigProvider/operatorConfigs';
 import ComponentMap from '../../services/ComponentMap';
 import FormElement from './FormElement';
@@ -24,7 +24,7 @@ export interface CaseElementProps {
     kase: Case;
     exitName: string;
     empty?: boolean;
-    onChanged?(c: any, type?: ChangedCaseInput): void;
+    onChange?(c: any, type?: ChangedCaseInput): void;
     focusArgsInput?: boolean;
     focusExitInput?: boolean;
     solo?: boolean;
@@ -149,22 +149,24 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     };
 
     private onChangeOperator = (val: Operator): void => {
-        const exitName = getExitName(
-            this.state.exitName,
-            val,
-            this.props.kase,
-            this.state.arguments
-        );
-        return this.setState(
-            {
-                operatorConfig: val,
-                exitName
-            },
-            () => {
-                this.props.onChanged(this);
-                this.category.setState({ value: exitName });
-            }
-        );
+        if (!jsonEqual(val, this.state.operatorConfig)) {
+            const exitName = getExitName(
+                this.state.exitName,
+                val,
+                this.props.kase,
+                this.state.arguments
+            );
+            return this.setState(
+                {
+                    operatorConfig: val,
+                    exitName
+                },
+                () => {
+                    this.props.onChange(this);
+                    this.category.setState({ value: exitName });
+                }
+            );
+        }
     };
 
     private onChangeArguments = (val: React.ChangeEvent<HTMLTextElement>): void => {
@@ -182,7 +184,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 exitName
             },
             () => {
-                this.props.onChanged(this, ChangedCaseInput.ARGS);
+                this.props.onChange(this, ChangedCaseInput.ARGS);
                 this.category.setState({ value: exitName },
                     () =>
                         /** If the case doesn't have both an argument & an exit name, remove it */
@@ -198,7 +200,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             {
                 exitName: val.target.value
             },
-            () => this.props.onChanged(this, ChangedCaseInput.EXIT)
+            () => this.props.onChange(this, ChangedCaseInput.EXIT)
         );
 
     private remove = (): void => this.props.onRemove(this);

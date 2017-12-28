@@ -21,10 +21,10 @@ exports[`CaseElement > helpers > getDndIco > should return an empty div if eithe
 />
 `;
 
-exports[`CaseElement > helpers > getRemoveIco should return a remove icon if passed a falsy "empty" argument 1`] = `
+exports[`CaseElement > helpers > getRemoveIco > should return a remove icon if passed a falsy "empty" argument 1`] = `
 <div
   className="removeIcon"
-  onClick={undefined}
+  onClick={[Function]}
 >
   <span
     className="icon-remove"

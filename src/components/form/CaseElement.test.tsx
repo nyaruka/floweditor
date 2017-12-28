@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import CompMap from '../../services/ComponentMap';
 import CaseElement, {
     prefix,
@@ -114,31 +114,36 @@ describe('CaseElement >', () => {
                 expect(getDndIco(true, true)).toMatchSnapshot());
         });
 
-        describe('getRemoveIco', () =>
+        describe('getRemoveIco >', () =>
             it('should return a remove icon if passed a falsy "empty" argument', () =>
-                expect(getRemoveIco()).toMatchSnapshot()));
+                expect(getRemoveIco(false, jest.fn())).toMatchSnapshot()));
     });
 
     describe('Component >', () => {
+        const caseUUID = '29b18c7e-c232-414c-9fc0-2e0b6260d9ca';
+        const onChange = jest.fn();
+        const onRemove = jest.fn();
+        const props = {
+            name: `case_${caseUUID}`,
+            kase: {
+                uuid: caseUUID,
+                type: 'has_any_word',
+                exit_uuid: '38c1m4g4-b424-585d-8cgi-384d6260ymca'
+            },
+            exitName: 'Red, ',
+            empty: true,
+            onRemove: jest.fn(),
+            onChange,
+            focusArgsInput: false,
+            focusExitInput: false,
+            ComponentMap
+        };
+
         describe('render >', () => {
             it('should render empty case', () => {
-                const uuid = '29b18c7e-c232-414c-9fc0-2e0b6260d9ca';
-                const props = {
-                    name: `case_${uuid}`,
-                    kase: {
-                        uuid,
-                        type: 'has_any_word',
-                        exit_uuid: null
-                    },
-                    exitName: null,
-                    emtpy: true,
-                    onRemove: jest.fn(),
-                    onChanged: jest.fn(),
-                    focusArgsInput: false,
-                    focusExitInput: false,
-                    ComponentMap
-                };
-                const EmptyCase = shallow(<CaseElement {...props} />, { context });
+                const EmptyCase = shallow(<CaseElement {...{ ...props, exitName: null }} />, {
+                    context
+                });
                 const {
                     onChangeOperator,
                     onChangeArguments,
@@ -182,14 +187,14 @@ describe('CaseElement >', () => {
                     'data-spec': 'exit-input',
                     name: 'exitName',
                     onChange: onChangeExitName,
-                    value: props.exitName ? props.exitName : '',
+                    value: '',
                     focus: props.focusExitInput,
                     ComponentMap
                 });
             });
 
             cases.forEach((kase, idx) => {
-                const props = {
+                const caseProps = {
                     name: `case_${kase.uuid}`,
                     kase,
                     exitName: exits[idx].name,
@@ -199,14 +204,14 @@ describe('CaseElement >', () => {
                     focusExitInput: false,
                     ComponentMap
                 };
-                const CaseWrapper = shallow(<CaseElement {...props} />, {
+                const CaseWrapper = shallow(<CaseElement {...caseProps} />, {
                     context
                 });
 
                 it('should render FormElements with expected props', () =>
                     expect(getSpecWrapper(CaseWrapper, 'case-form').props()).toEqual(
                         expect.objectContaining({
-                            name: props.name,
+                            name: caseProps.name,
                             errors: []
                         })
                     ));
@@ -231,10 +236,40 @@ describe('CaseElement >', () => {
                 it('should render exit inputs w/ expected props', () =>
                     expect(getSpecWrapper(CaseWrapper, 'exit-input').props()).toEqual(
                         expect.objectContaining({
-                            value: props.exitName ? props.exitName : '',
-                            focus: props.focusExitInput
+                            value: caseProps.exitName || '',
+                            focus: caseProps.focusExitInput
                         })
                     ));
+            });
+        });
+
+        describe('instance methods >', () => {
+            describe('onChangeOperator >', () => {
+                const Case = mount(<CaseElement {...props} />, { context });
+                const { onChangeOperator } = Case.instance() as any;
+                const [anyWordOperator, allWordsOperator] = operatorConfigList;
+
+                it("should update state operator config to the value it's passed if value is different than operatorConfig in state", () => {
+                    onChangeOperator(allWordsOperator);
+                    expect(Case.state('operatorConfig')).toEqual(allWordsOperator);
+                });
+
+                it("should update exitName if value it's passed is different than operatorConfig in state", () => {
+                    onChangeOperator(anyWordOperator);
+                    expect(Case.state('exitName')).toBe(
+                        getExitName(
+                            Case.state('exitName'),
+                            anyWordOperator,
+                            props.kase,
+                            Case.state('arguments')
+                        )
+                    );
+                });
+
+                it('should call "onChange" prop after setting own state', () => {
+                    onChangeOperator(allWordsOperator);
+                    expect(onChange).toHaveBeenCalled();
+                });
             });
         });
     });
