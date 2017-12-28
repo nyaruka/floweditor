@@ -34,12 +34,12 @@ export const operatorConfigList: Operator[] = [
         operands: 1
     },
     { type: 'has_number_gt', verboseName: 'has a number above', operands: 1 },
-    { type: 'has_date', verboseName: 'has a date', operands: 0 },
     { type: 'has_date_lt', verboseName: 'has a date before', operands: 1 },
     { type: 'has_date_eq', verboseName: 'has a date equal to', operands: 1 },
     { type: 'has_date_gt', verboseName: 'has a date after', operands: 1 },
     { type: 'has_run_status', verboseName: 'has a run status of', operands: 1 },
     { type: 'has_group', verboseName: 'is in the group', operands: 1 },
+    { type: 'has_date', verboseName: 'has a date', operands: 0, categoryName: 'Has Date' },
     {
         type: 'has_text',
         verboseName: 'has some text',
@@ -50,25 +50,25 @@ export const operatorConfigList: Operator[] = [
         type: 'has_number',
         verboseName: 'has a number',
         operands: 0,
-        categoryName: 'Number'
+        categoryName: 'Has Number'
     },
     {
         type: 'has_phone',
         verboseName: 'has a phone number',
         operands: 0,
-        categoryName: 'Phone'
+        categoryName: 'Has Phone'
     },
     {
         type: 'has_email',
         verboseName: 'has an email',
         operands: 0,
-        categoryName: 'Email'
+        categoryName: 'Has Email'
     },
     {
         type: 'has_error',
         verboseName: 'has an error',
         operands: 0,
-        categoryName: 'Error'
+        categoryName: 'Has Error'
     },
     {
         type: 'has_value',
@@ -79,9 +79,9 @@ export const operatorConfigList: Operator[] = [
 ];
 
 export const operatorConfigMap: OperatorMap = operatorConfigList.reduce(
-    (operatorConfigMap: OperatorMap, operatorConfig: Operator) => {
-        operatorConfigMap[operatorConfig.type] = operatorConfig;
-        return operatorConfigMap;
+    (map: OperatorMap, operatorConfig: Operator) => {
+        map[operatorConfig.type] = operatorConfig;
+        return map;
     },
     {}
 );

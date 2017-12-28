@@ -1,15 +1,25 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { getSpecWrapper } from '../../../helpers/utils';
-import ComponentMap from '../../../services/ComponentMap';
+import ComponentMap, { CompletionOption } from '../../../services/ComponentMap';
 import TextInputElement, {
     Count,
     CharacterSet,
     MAX_GSM_SINGLE,
     MAX_GSM_MULTI,
     MAX_UNICODE_SINGLE,
-    MAX_UNICODE_MULTI
+    MAX_UNICODE_MULTI,
+    toCharSetEnum,
+    cleanMsg,
+    filterOptions,
+    renderOption,
+    getCharCount,
+    getOptions,
+    getCharCountEle,
+    getOptionsList,
+    getCharCountStats
 } from './TextInputElement';
+import { OPTION_LIST } from './completionOptions';
 
 const {
     results: [{ definition }]
@@ -27,91 +37,145 @@ const props = {
     ComponentMap: CompMap
 };
 
-describe('Component: TextInputElement', () => {
-    it('should recognize GSM 7-bit characters and maintain count accordingly', () => {
-        let TextInputGSM = shallow(
-            <TextInputElement
-                {...{
-                    ...props,
-                    value:
-                        "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?"
-                }}
-            />
-        );
+const msgs = [
+    ['GSM, regular 7-bit chars', 'GSM: 7-bit'],
+    ['GSM, escape chars: |^€{}[]~', 'GSM: escape'],
+    ['Unicode 💩', 'Unicode'],
+    ['Unicode 💩 w/ GSM escape chars |^€{}[]~', 'Unicode + GSM escape']
+];
 
-        expect(TextInputGSM.state('maxLength')).toBe(MAX_GSM_SINGLE);
-        expect(TextInputGSM.state('parts').length).toBe(1);
-        expect(TextInputGSM.state('characterSet')).toBe(CharacterSet.GSM);
-        expect(TextInputGSM.state('remainingInPart')).toBe(67);
-        expect(TextInputGSM.state('characterCount')).toBe(93);
-        expect(
-            getSpecWrapper(TextInputGSM, 'counter')
-                .text()
-                .indexOf('67/1 ?')
-        ).toBe(0);
+const optionQueryMap = OPTION_LIST.reduce((argMap, { name }) => {
+    const lastIndex = name.lastIndexOf('.');
 
-        TextInputGSM = shallow(
-            <TextInputElement
-                {...{
-                    ...props,
-                    value:
-                        "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet? { Fun fact: Approximately seven million different colors can be seen by the human eye. }"
-                }}
-            />
-        );
+    if (lastIndex > -1) {
+        argMap[name.slice(0, lastIndex + 2)] = true;
+        argMap[name.slice(0, lastIndex + 3)] = true;
+        argMap[name] = true;
+    } else {
+        argMap[name.slice(0, 1)] = true;
+        argMap[name.slice(0, 2)] = true;
+        argMap[name] = true;
+        argMap[`${name}.`] = true;
+    }
 
-        expect(TextInputGSM.state('maxLength')).toBe(MAX_GSM_MULTI);
-        expect(TextInputGSM.state('parts').length).toBe(2);
-        expect(TextInputGSM.state('characterSet')).toBe(CharacterSet.GSM);
-        expect(TextInputGSM.state('characterCount')).toBe(182);
-        expect(TextInputGSM.state('remainingInPart')).toBe(122);
-        expect(
-            getSpecWrapper(TextInputGSM, 'counter')
-                .text()
-                .indexOf('122/2 ?')
-        ).toBe(0);
+    return argMap;
+}, {});
+
+describe('TextInputElement >', () => {
+    describe('helpers >', () => {
+        describe('toCharSetEnum()', () =>
+            it('should return the CharacterSet enum value that matches its argument', () => {
+                expect(toCharSetEnum('GSM')).toBe(CharacterSet.GSM);
+                expect(toCharSetEnum('Unicode')).toBe(CharacterSet.UNICODE);
+            }));
+
+        describe('cleanMsg >', () => {
+            it('should replace specified unicode characters with their GSM counterparts', () =>
+                expect(cleanMsg('“”‘’— …–')).toBe(`""''- ...-`));
+        });
+
+        describe('getCharCount >', () =>
+            msgs.forEach(msg =>
+                it(`should generate character count stats for msg of type "${msg[1]}"`, () =>
+                    expect(getCharCount(msg[0])).toMatchSnapshot())
+            ));
+
+        describe('filterOptions >', () => {
+            it('should return an empty array if not passed a query', () =>
+                expect(filterOptions(OPTION_LIST)).toEqual([]));
+
+            Object.keys(optionQueryMap).forEach(query =>
+                it(`should filter options for "${query}"`, () =>
+                    expect(filterOptions(OPTION_LIST, query)).toMatchSnapshot())
+            );
+        });
+
+        describe('renderOption >', () => {
+            it('should render option w/ selected style if passed "selected" arg', () =>
+                expect(shallow(renderOption(OPTION_LIST[0], true))).toMatchSnapshot());
+
+            it('should render option w/o selected style if not passed "selected" arg', () =>
+                expect(shallow(renderOption(OPTION_LIST[0], false))).toMatchSnapshot());
+        });
+
+        describe('getOptions >', () => {
+            const { selectedElRef } = shallow(
+                <TextInputElement
+                    {...{
+                        ...props,
+                        value: ''
+                    }}
+                />
+            ).instance() as any;
+            const query = 'contact';
+            const matches = filterOptions(OPTION_LIST, query);
+
+            it(`should render a list of completion options for query "${query}"`, () =>
+                expect(getOptions(matches, 0, selectedElRef)).toMatchSnapshot());
+        });
+
+        describe('getCharCountEle >', () => {
+            const charCountStats = getCharCount(msgs[0][0]);
+
+            it('should return a charCount element when passed a truthy "count" arg', () =>
+                expect(getCharCountEle(charCountStats, true)).toMatchSnapshot());
+        });
+
+        describe('getOptionsList >', () => {
+            const hasResults = (optionsList: CompletionOption[]): boolean => {
+                let results = false;
+                for (const option of optionsList) {
+                    if (
+                        option.description.indexOf('Result for') > -1 ||
+                        option.description.indexOf('Category for') > -1
+                    ) {
+                        results = true;
+                        break;
+                    }
+                }
+                return results;
+            };
+
+            it('should return options list + result names if passed a truthy autocomplete arg', () =>
+                expect(hasResults(getOptionsList(true, CompMap))).toBeTruthy());
+
+            it('should only return an options list if passed a falsy autocomplete arg', () =>
+                expect(hasResults(getOptionsList(false, CompMap))).toBeFalsy());
+        });
+
+        describe('getCharCountStats >', () => {
+            it('should return an object containing character count stats if passed Count.SMS enum', () =>
+                expect(getCharCountStats(Count.SMS, msgs[0][0])).toMatchSnapshot());
+
+            it('should return an empty object if not passed Count.SMS enum', () =>
+                expect(getCharCountStats(undefined, msgs[0][0])).toEqual({}));
+        });
     });
 
-    it('should recognize unicode characters and maintain count accordingly', () => {
-        let TextInputUni = shallow(
-            <TextInputElement
-                {...{
-                    ...props,
-                    value: "👋 Hi, what's your name?"
-                }}
-            />
-        );
+    describe('render >', () => {
+        it('should display count', () => {
+            const TextInput = shallow(
+                <TextInputElement
+                    {...{
+                        ...props,
+                        value: msgs[0][0]
+                    }}
+                />
+            );
 
-        expect(TextInputUni.state('maxLength')).toBe(MAX_UNICODE_SINGLE);
-        expect(TextInputUni.state('parts').length).toBe(1);
-        expect(TextInputUni.state('characterSet')).toBe(CharacterSet.UNICODE);
-        expect(TextInputUni.state('characterCount')).toBe(23);
-        expect(TextInputUni.state('remainingInPart')).toBe(46);
-        expect(
-            getSpecWrapper(TextInputUni, 'counter')
-                .text()
-                .indexOf('46/1 ?')
-        ).toBe(0);
+            const { onBlur, onChange, onKeyDown } = TextInput.instance() as any;
 
-        TextInputUni = shallow(
-            <TextInputElement
-                {...{
-                    ...props,
-                    value:
-                        "👋 Hi, what's your name? We're doing a survey in your local community and would appreciate your help!"
-                }}
-            />
-        );
-
-        expect(TextInputUni.state('maxLength')).toBe(MAX_UNICODE_MULTI);
-        expect(TextInputUni.state('parts').length).toBe(2);
-        expect(TextInputUni.state('characterSet')).toBe(CharacterSet.UNICODE);
-        expect(TextInputUni.state('remainingInPart')).toBe(33);
-        expect(TextInputUni.state('characterCount')).toBe(100);
-        expect(
-            getSpecWrapper(TextInputUni, 'counter')
-                .text()
-                .indexOf('33/2 ?')
-        ).toBe(0);
+            expect(getSpecWrapper(TextInput, 'input').props()).toEqual(
+                expect.objectContaining({
+                    className: 'textinput false',
+                    placeholder: '',
+                    type: undefined,
+                    value: msgs[0][0],
+                    onBlur,
+                    onChange,
+                    onKeyDown
+                })
+            );
+        });
     });
 });

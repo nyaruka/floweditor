@@ -1,16 +1,18 @@
 import { CharacterSet } from '../components/form/TextInputElement';
+import { operatorConfigList } from '../providers/ConfigProvider/operatorConfigs';
 import {
     addCommas,
     snakify,
     toBoolMap,
     validUUID,
-    getDisplayName,
-    toCharSetEnum,
-    cleanMsg
+    titleCase,
+    getSelectClass,
+    reorderList,
+    jsonEqual
 } from './utils';
 
-describe('utils', () => {
-    describe('toBoolMap()', () => {
+describe('utils >', () => {
+    describe('toBoolMap >', () => {
         it('should turn a string array into a bool map', () => {
             const strArr: string[] = [
                 'language',
@@ -53,7 +55,7 @@ describe('utils', () => {
         });
     });
 
-    describe('addCommas', () => {
+    describe('addCommas >', () => {
         it('should insert commas into numbers where appropriate', () => {
             expect(addCommas(999)).toBe('999');
             expect(addCommas(10000)).toBe('10,000');
@@ -61,13 +63,13 @@ describe('utils', () => {
         });
     });
 
-    describe('snakify()', () => {
+    describe('snakify >', () => {
         it('should replace spaces with underscores', () => {
             expect(snakify('my result name')).toBe('my_result_name');
         });
     });
 
-    describe('validUUID()', () => {
+    describe('validUUID >', () => {
         it('matches a valid v4 UUID', () => {
             const v4 = '9ddd2483-3071-498d-bd4e-0fe9c0b2fa94';
             const v4Upper = '06FDAF8D-9905-4DA7-B94D-7BA3532D3953';
@@ -85,20 +87,31 @@ describe('utils', () => {
         });
     });
 
-    describe('toCharSetEnum()', () => {
-        it('should return the CharacterSet enum value that matches its argument', () => {
-            expect(toCharSetEnum('GSM')).toBe(CharacterSet.GSM);
-            expect(toCharSetEnum('Unicode')).toBe(CharacterSet.UNICODE);
-        });
+    describe('titleCase >', () =>
+        it('should apply title case to each word in a given string', () =>
+            ['one', 'one two', 'one two three', 'one,two', 'one, two'].forEach(str =>
+                expect(titleCase(str)).toMatchSnapshot()
+            )));
+
+    describe('getSelectClass >', () => {
+        it('should return an empty array if passed "errors" arg less than 1', () =>
+            expect(getSelectClass(0)).toEqual([]));
+
+        it("should return an array containing react-select's invalid class", () =>
+            expect(getSelectClass(1)).toEqual(['select-invalid']));
     });
 
-    describe('cleanMsg()', () => {
-        it('should replace specified unicode characters with their GSM counterparts', () => {
-            expect(cleanMsg('“”‘’— …–')).toBe(`""''- ...-`);
-        });
-    });
+    describe('reorderList', () =>
+        it('should reorder a given list according to index params', () =>
+            expect(reorderList([1, 2, 3], 2, 0)).toEqual([3, 1, 2])));
 
-    xdescribe('getDisplayName', () => {
-        it("should return a HOC's wrapped component's display name", () => {});
+    describe('jsonEqual', () => {
+        const [anyWordOperator, allWordsOperator] = operatorConfigList;
+
+        it('should return true if basic objects are equal in contents and order', () =>
+            expect(jsonEqual(anyWordOperator, anyWordOperator)).toBeTruthy());
+
+        it('should return false if basic objects are not equal in contents and order', () =>
+            expect(jsonEqual(anyWordOperator, allWordsOperator)).toBeFalsy());
     });
 });

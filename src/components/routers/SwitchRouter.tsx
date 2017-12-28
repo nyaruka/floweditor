@@ -162,9 +162,9 @@ export const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
     opacity: isDragging && 0.75,
     /** Overwriting default draggableStyle object from this point down */
     ...draggableStyle,
-    top: isDragging && draggableStyle.top - 105,
+    top: isDragging && draggableStyle.top - 90,
     left: isDragging && 20,
-    height: isDragging && draggableStyle.height + 27,
+    height: isDragging && draggableStyle.height + 15,
     width: isDragging && draggableStyle.width - 5
 });
 
@@ -210,33 +210,13 @@ export default class SwitchRouterForm extends React.Component<
         getOperatorConfig: getOperatorConfigPT
     };
 
-    constructor(props: SwitchRouterFormProps, context: ConfigProviderContext) {
-        super(props, context);
-
-        this.onCaseChanged = this.onCaseChanged.bind(this);
-        this.onCaseRemoved = this.onCaseRemoved.bind(this);
-
-        const { cases, resultName, operand } = this.composeCaseProps(
-            this.onCaseChanged,
-            this.onCaseRemoved
-        );
-
-        this.state = {
-            cases,
-            setResultName: false,
-            resultName,
-            operand
-        };
-
-        this.onDragEnd = this.onDragEnd.bind(this);
-
-        this.onValid = this.onValid.bind(this);
-        this.onExpressionChanged = this.onExpressionChanged.bind(this);
-        this.onShowNameField = this.onShowNameField.bind(this);
-    }
+    public state: SwitchRouterState = {
+        setResultName: false,
+        ...this.composeCaseProps(this.onCaseChanged, this.onCaseRemoved)
+    };
 
     private composeCaseProps(
-        onChanged: (c: any, type?: ChangedCaseInput) => void,
+        onChange: (c: any, type?: ChangedCaseInput) => void,
         onRemove: (c: any) => void
     ): {
         cases: CaseElementProps[];
@@ -244,8 +224,8 @@ export default class SwitchRouterForm extends React.Component<
         operand: string;
     } {
         const cases: CaseElementProps[] = [];
-        let resultName = '';
-        let operand = '@input';
+        let resultName: string = '';
+        let operand: string = '@input';
 
         const router = this.props.node.router as SwitchRouter;
 
@@ -272,7 +252,7 @@ export default class SwitchRouterForm extends React.Component<
                     cases.push({
                         kase,
                         exitName,
-                        onChanged,
+                        onChange,
                         onRemove
                     } as any);
                 } catch (error) {
@@ -296,7 +276,7 @@ export default class SwitchRouterForm extends React.Component<
         );
     }
 
-    public onValid(widgets: { [name: string]: any }): void {
+    public onValid = (widgets: { [name: string]: any }): void => {
         /** Is the user translating this router? */
         if (this.props.translating) {
             return this.saveLocalizations(widgets);
@@ -401,21 +381,19 @@ export default class SwitchRouterForm extends React.Component<
             this.props.config.type,
             this.props.action
         );
-    }
+    };
 
-    private onShowNameField(): void {
+    private onShowNameField = (): void =>
         this.setState({
             setResultName: true
         });
-    }
 
-    private onExpressionChanged(event: React.SyntheticEvent<HTMLTextElement>): void {
+    private onExpressionChanged = (event: React.SyntheticEvent<HTMLTextElement>): void =>
         this.setState({
             operand: event.currentTarget.value
         });
-    }
 
-    private onCaseRemoved(c: any): void {
+    private onCaseRemoved = (c: any): void => {
         const idx = this.state.cases.findIndex(
             (props: CaseElementProps) => props.kase.uuid === c.props.kase.uuid
         );
@@ -430,9 +408,9 @@ export default class SwitchRouterForm extends React.Component<
         }
 
         this.props.removeWidget(c.props.name);
-    }
+    };
 
-    private onCaseChanged(c: any, type?: ChangedCaseInput): void {
+    private onCaseChanged = (c: any, type?: ChangedCaseInput): void => {
         const newCase: CaseElementProps = {
             kase: {
                 uuid: c.props.kase.uuid,
@@ -440,7 +418,7 @@ export default class SwitchRouterForm extends React.Component<
                 exit_uuid: c.props.kase.exit_uuid,
                 arguments: c.state.arguments
             },
-            onChanged: c.props.onChanged,
+            onChange: c.props.onChange,
             exitName: c.state.exitName
         };
 
@@ -478,7 +456,7 @@ export default class SwitchRouterForm extends React.Component<
         this.setState({
             cases
         });
-    }
+    };
 
     private saveLocalizations(widgets: { [name: string]: any }): void {
         const { iso: language } = this.props.localizations[0].getLanguage();
@@ -631,7 +609,7 @@ export default class SwitchRouterForm extends React.Component<
                         name={`case_${caseUUID}`}
                         exitName={exitName}
                         onRemove={this.onCaseRemoved}
-                        onChanged={this.onCaseChanged}
+                        onChange={this.onCaseChanged}
                         ComponentMap={this.props.ComponentMap}
                         solo={true}
                     />
@@ -666,7 +644,7 @@ export default class SwitchRouterForm extends React.Component<
                                             name={`case_${caseUUID}`}
                                             exitName={c.exitName}
                                             onRemove={this.onCaseRemoved}
-                                            onChanged={this.onCaseChanged}
+                                            onChange={this.onCaseChanged}
                                             ComponentMap={this.props.ComponentMap}
                                             focusArgsInput={c.focusArgsInput}
                                             focusExitInput={c.focusExitInput}
@@ -697,7 +675,7 @@ export default class SwitchRouterForm extends React.Component<
                     exitName={null}
                     empty={true}
                     onRemove={this.onCaseRemoved}
-                    onChanged={this.onCaseChanged}
+                    onChange={this.onCaseChanged}
                     ComponentMap={this.props.ComponentMap}
                 />
             );
@@ -766,7 +744,7 @@ export default class SwitchRouterForm extends React.Component<
         return leadIn;
     }
 
-    private onDragEnd(result: any): void {
+    private onDragEnd = (result: any): void => {
         if (!result.destination) {
             return;
         }
@@ -776,7 +754,7 @@ export default class SwitchRouterForm extends React.Component<
         this.setState({
             cases
         });
-    }
+    };
 
     private renderForm(): JSX.Element {
         if (this.props.translating) {

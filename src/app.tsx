@@ -30,10 +30,13 @@ const renderHot = (App: React.ComponentClass) =>
     );
 
 if (module.hot) {
-    module.hot.accept('./components/Editor', () => {
-        const { default: NextEditor } = require('./components/Editor');
-        renderHot(NextEditor);
-    });
+    // prettier-ignore
+    module.hot.accept(
+        './components/Editor',
+        () => renderHot(
+            require('./components/Editor').default
+        )
+    );
 }
 
 renderHot(Editor);
