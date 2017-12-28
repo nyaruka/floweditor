@@ -917,6 +917,23 @@ exports[`TextInputElement > helpers > getCharCountEle > should return a charCoun
 </div>
 `;
 
+exports[`TextInputElement > helpers > getCharCountStats > should return an object containing character count stats if passed Count.SMS enum 1`] = `
+Object {
+  "characterCount": 24,
+  "characterSet": "GSM",
+  "maxLength": 160,
+  "parts": Array [
+    Object {
+      "bytes": 24,
+      "content": "GSM, regular 7-bit chars",
+      "length": 24,
+    },
+  ],
+  "remainingInPart": 136,
+  "value": "GSM, regular 7-bit chars",
+}
+`;
+
 exports[`TextInputElement > helpers > getOptions > should render a list of completion options for query "contact" 1`] = `
 Array [
   <li

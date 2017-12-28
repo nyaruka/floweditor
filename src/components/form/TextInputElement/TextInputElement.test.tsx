@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { getSpecWrapper } from '../../../helpers/utils';
-import ComponentMap from '../../../services/ComponentMap';
+import ComponentMap, { CompletionOption } from '../../../services/ComponentMap';
 import TextInputElement, {
     Count,
     CharacterSet,
@@ -15,7 +15,9 @@ import TextInputElement, {
     renderOption,
     getCharCount,
     getOptions,
-    getCharCountEle
+    getCharCountEle,
+    getOptionsList,
+    getCharCountStats
 } from './TextInputElement';
 import { OPTION_LIST } from './completionOptions';
 
@@ -117,6 +119,36 @@ describe('TextInputElement >', () => {
 
             it('should return a charCount element when passed a truthy "count" arg', () =>
                 expect(getCharCountEle(charCountStats, true)).toMatchSnapshot());
+        });
+
+        describe('getOptionsList >', () => {
+            const hasResults = (optionsList: CompletionOption[]): boolean => {
+                let results = false;
+                for (const option of optionsList) {
+                    if (
+                        option.description.indexOf('Result for') > -1 ||
+                        option.description.indexOf('Category for') > -1
+                    ) {
+                        results = true;
+                        break;
+                    }
+                }
+                return results;
+            };
+
+            it('should return options list + result names if passed a truthy autocomplete arg', () =>
+                expect(hasResults(getOptionsList(true, CompMap))).toBeTruthy());
+
+            it('should only return an options list if passed a falsy autocomplete arg', () =>
+                expect(hasResults(getOptionsList(false, CompMap))).toBeFalsy());
+        });
+
+        describe('getCharCountStats >', () => {
+            it('should return an object containing character count stats if passed Count.SMS enum', () =>
+                expect(getCharCountStats(Count.SMS, msgs[0][0])).toMatchSnapshot());
+
+            it('should return an empty object if not passed Count.SMS enum', () =>
+                expect(getCharCountStats(undefined, msgs[0][0])).toEqual({}));
         });
     });
 

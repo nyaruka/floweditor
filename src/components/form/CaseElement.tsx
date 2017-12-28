@@ -83,18 +83,14 @@ export const getExitName = (
     kase: Case,
     newArgList: string[] = []
 ): string => {
-    // Don't reassign args
+    // Don't reassign func params
     let newExitName = exitName;
     // Some operators don't expect args
-    if (newArgList.length) {
-        if (!newExitName || newExitName === composeExitName(operatorConfig.type, kase.arguments)) {
-            newExitName = composeExitName(operatorConfig.type, newArgList);
-        }
+    if (newArgList.length && !operatorConfig.categoryName) {
+        newExitName = composeExitName(operatorConfig.type, newArgList);
     } else {
-        // If the operator has a default category name, use that
-        if (operatorConfig.categoryName) {
-            ({ categoryName: newExitName } = operatorConfig);
-        }
+        // Use the operator's default category name
+        ({ categoryName: newExitName } = operatorConfig);
     }
     return newExitName;
 };
@@ -108,57 +104,34 @@ export const getArgsEle = (
     onChangeArguments: (val: React.ChangeEvent<HTMLTextElement>) => void,
     focusArgsInput: boolean,
     CompMap: ComponentMap
-): JSX.Element => {
-    let argsEl: JSX.Element = null;
+): JSX.Element =>
+    operatorConfig && operatorConfig.operands > 0 ? (
+        <TextInputElement
+            data-spec="args-input"
+            name="arguments"
+            onChange={onChangeArguments}
+            value={hasArgs(args) ? args[0] : ''}
+            focus={focusArgsInput}
+            autocomplete={true}
+            ComponentMap={CompMap}
+        />
+    ) : null;
 
-    if (operatorConfig && operatorConfig.operands > 0) {
-        const value = hasArgs(args) ? args[0] : '';
+export const getDndIco = (empty: boolean = false, solo: boolean = false): JSX.Element =>
+    !empty && !solo ? (
+        <div className={styles.dndIcon}>
+            <span>&#8597;</span>
+        </div>
+    ) : (
+        <div style={{ display: 'inline-block', width: 15 }} />
+    );
 
-        argsEl = (
-            <TextInputElement
-                data-spec="args-input"
-                name="arguments"
-                onChange={onChangeArguments}
-                value={value}
-                focus={focusArgsInput}
-                autocomplete={true}
-                ComponentMap={CompMap}
-            />
-        );
-    }
-
-    return argsEl;
-};
-
-export const getDndIco = (empty: boolean = false, solo: boolean = false): JSX.Element => {
-    let dndIco: JSX.Element = null;
-
-    if (!empty && !solo) {
-        dndIco = (
-            <div className={styles.dndIcon}>
-                <span>&#8597;</span>
-            </div>
-        );
-    } else {
-        dndIco = <div style={{ display: 'inline-block', width: 15 }} />;
-    }
-
-    return dndIco;
-};
-
-export const getRemoveIco = (empty: boolean = false, onRemove: () => void): JSX.Element => {
-    let removeIcon: JSX.Element = null;
-
-    if (!empty) {
-        removeIcon = (
-            <div className={styles.removeIcon} onClick={onRemove}>
-                <span className="icon-remove" />
-            </div>
-        );
-    }
-
-    return removeIcon;
-};
+export const getRemoveIco = (empty: boolean = false, onRemove: () => void): JSX.Element =>
+    !empty ? (
+        <div className={styles.removeIcon} onClick={onRemove}>
+            <span className="icon-remove" />
+        </div>
+    ) : null;
 
 export default class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
     private category: TextInputElement;
@@ -172,16 +145,25 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         errors: [],
         operatorConfig: this.context.getOperatorConfig(this.props.kase.type),
         arguments: this.props.kase.arguments,
-        exitName: this.props.exitName ? this.props.exitName : ''
+        exitName: this.props.exitName || ''
     };
 
     private onChangeOperator = (val: Operator): void => {
-        this.setState(
+        const exitName = getExitName(
+            this.state.exitName,
+            val,
+            this.props.kase,
+            this.state.arguments
+        );
+        return this.setState(
             {
                 operatorConfig: val,
-                exitName: getExitName(this.state.exitName, val, this.props.kase)
+                exitName
             },
-            () => this.props.onChanged(this)
+            () => {
+                this.props.onChanged(this);
+                this.category.setState({ value: exitName });
+            }
         );
     };
 
@@ -193,25 +175,19 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             this.props.kase,
             args
         );
-
         // prettier-ignore
-        this.setState(
+        return this.setState(
             {
                 arguments: args,
                 exitName
             },
             () => {
                 this.props.onChanged(this, ChangedCaseInput.ARGS);
-                this.category.setState(
-                    {
-                        value: exitName
-                    },
-                    () => {
+                this.category.setState({ value: exitName },
+                    () =>
                         /** If the case doesn't have both an argument & an exit name, remove it */
-                        if (!this.state.arguments[0] && !this.state.exitName) {
-                            return this.remove();
-                        }
-                    }
+                        (!this.state.arguments[0] && !this.state.exitName) && this.remove()
+
                 );
             }
         );
@@ -296,7 +272,6 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         );
         const dndIco: JSX.Element = getDndIco(this.props.empty, this.props.solo);
         const removeIco: JSX.Element = getRemoveIco(this.props.empty, this.remove);
-
         return (
             <FormElement
                 data-spec="case-form"

@@ -101,6 +101,15 @@ export const cleanMsg = (msg: string): string =>
         .replace(/\u2026/g, '...') /** Horizontal ellipsis */
         .replace(/\u2002/g, ' '); /** En space */
 
+interface CharCountStats {
+    maxLength: number;
+    parts: string[];
+    characterSet: CharacterSet;
+    characterCount: number;
+    remainingInPart: number;
+    value: string;
+}
+
 /**
  * First pass at providing the user with an accurate character count for their SMS messages.
  * Determines encoding, segments, max character limit per message and calculates character count.
@@ -108,17 +117,7 @@ export const cleanMsg = (msg: string): string =>
  * @param value
  * @param replace
  */
-export const getCharCount = (
-    value: string | string[],
-    replace?: boolean
-): {
-    maxLength: number;
-    parts: string[];
-    characterSet: CharacterSet;
-    characterCount: number;
-    remainingInPart: number;
-    value: string;
-} => {
+export const getCharCount = (value: string | string[], replace?: boolean): CharCountStats => {
     let newVal = value as string;
 
     // Localized values are stored as string arrays
@@ -272,42 +271,45 @@ export const getCharCountEle = (
         'remainingInPart' | 'characterSet' | 'maxLength' | 'parts' | 'characterCount'
     >,
     count?: boolean
-): JSX.Element => {
-    let charCountEle: JSX.Element = null;
-    if (count) {
-        charCountEle = (
-            <div className={styles.count} data-spec="counter">
-                <div>
-                    {remainingInPart}/{parts.length}{' '}
-                    <span className={`${styles.tooltip}`}>
-                        <b>&#63;</b>
-                        <span className={styles.tooltiptext}>
-                            <div className={styles.tooltiprow}>
-                                <b>Encoding</b>
-                                <span>{`  ${characterSet}`}</span>
-                            </div>
-                            <div className={styles.tooltiprow}>
-                                <b>Parts</b>
-                                <span>{`  ${parts.length}`}</span>
-                            </div>
-                            <div className={styles.tooltiprow}>
-                                <b>Characters</b>
-                                <span>{`  ${characterCount}`}</span>
-                            </div>
-                            <div className={styles.tooltiprow}>
-                                <b>Limit Per Part</b>
-                                <span>{`  ${maxLength}`}</span>
-                            </div>
-                        </span>
+): JSX.Element =>
+    count ? (
+        <div className={styles.count} data-spec="counter">
+            <div>
+                {remainingInPart}/{parts.length}{' '}
+                <span className={`${styles.tooltip}`}>
+                    <b>&#63;</b>
+                    <span className={styles.tooltiptext}>
+                        <div className={styles.tooltiprow}>
+                            <b>Encoding</b>
+                            <span>{`  ${characterSet}`}</span>
+                        </div>
+                        <div className={styles.tooltiprow}>
+                            <b>Parts</b>
+                            <span>{`  ${parts.length}`}</span>
+                        </div>
+                        <div className={styles.tooltiprow}>
+                            <b>Characters</b>
+                            <span>{`  ${characterCount}`}</span>
+                        </div>
+                        <div className={styles.tooltiprow}>
+                            <b>Limit Per Part</b>
+                            <span>{`  ${maxLength}`}</span>
+                        </div>
                     </span>
-                </div>
+                </span>
             </div>
-        );
-    }
-    return charCountEle;
-};
+        </div>
+    ) : null;
 
-export const initialState: Pick<
+export const getOptionsList = (
+    autocomplete: boolean,
+    { getResultNames }: ComponentMap
+): CompletionOption[] => (autocomplete ? [...OPTION_LIST, ...getResultNames()] : OPTION_LIST);
+
+export const getCharCountStats = (count: Count, value: string = ''): CharCountStats | {} =>
+    count && count === Count.SMS ? getCharCount(value) : {};
+
+const initialState: Pick<
     TextInputState,
     | 'caretOffset'
     | 'caretCoordinates'
@@ -326,29 +328,16 @@ export const initialState: Pick<
     query: ''
 };
 
-export const initializeState = ({
-    value: val,
-    autocomplete,
-    ComponentMap: { getResultNames },
-    count
-}: TextInputProps): TextInputState => {
-    const value = val ? val : '';
-    const options: CompletionOption[] = autocomplete
-        ? [...OPTION_LIST, ...getResultNames()]
-        : OPTION_LIST;
-    return {
-        value,
-        options,
-        ...initialState,
-        ...count && count === Count.SMS ? getCharCount(value) : {}
-    };
-};
-
 export default class TextInputElement extends React.Component<TextInputProps, TextInputState> {
     private selectedEl: HTMLLIElement;
     private textEl: HTMLTextElement;
 
-    public state: TextInputState = initializeState(this.props);
+    public state: TextInputState = {
+        value: this.props.value,
+        options: getOptionsList(this.props.autocomplete, this.props.ComponentMap),
+        ...initialState,
+        ...getCharCountStats(this.props.count, this.props.value)
+    };
 
     private selectedElRef = (ref: HTMLLIElement) => (this.selectedEl = ref);
     private textElRef = (ref: HTMLTextElement) => (this.textEl = ref);
