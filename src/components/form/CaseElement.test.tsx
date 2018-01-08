@@ -1,13 +1,9 @@
 import * as React from 'react';
 import { shallow, mount } from 'enzyme';
 import CompMap from '../../services/ComponentMap';
-import CaseElement, {
-    prefix,
-    composeExitName,
-    getExitName,
-    hasArgs
-} from './CaseElement';
+import CaseElement, { prefix, composeExitName, getExitName, hasArgs } from './CaseElement';
 import { getSpecWrapper, titleCase } from '../../helpers/utils';
+import { object } from 'prop-types';
 import {
     operatorConfigList,
     getOperatorConfig
@@ -85,7 +81,7 @@ describe('CaseElement >', () => {
 
     describe('Component >', () => {
         const caseUUID = '29b18c7e-c232-414c-9fc0-2e0b6260d9ca';
-        const onChanged = jest.fn();
+        const onChange = jest.fn();
         const onRemove = jest.fn();
         const props = {
             name: `case_${caseUUID}`,
@@ -96,8 +92,8 @@ describe('CaseElement >', () => {
             },
             exitName: 'Red, ',
             empty: true,
-            onRemove: jest.fn(),
-            onChanged,
+            onRemove,
+            onChange,
             focusArgsInput: false,
             focusExitInput: false,
             ComponentMap
@@ -128,30 +124,31 @@ describe('CaseElement >', () => {
                         options: operatorConfigList,
                         clearable: false,
                         name: 'operator',
-                        searchable: false,
                         optionClassName: 'operator',
                         labelKey: 'verboseName',
                         valueKey: 'type',
                         value: props.kase.type,
                         'data-spec': 'operator-list',
-                        onChanged: onChangeOperator
+                        onChange: onChangeOperator
                     })
                 );
 
-                expect(getSpecWrapper(EmptyCase, 'args-input').props()).toEqual({
-                    'data-spec': 'args-input',
-                    name: 'arguments',
-                    onChanged: onChangeArguments,
-                    value: '',
-                    focus: props.focusArgsInput,
-                    autocomplete: true,
-                    ComponentMap
-                });
+                expect(getSpecWrapper(EmptyCase, 'args-input').props()).toEqual(
+                    expect.objectContaining({
+                        'data-spec': 'args-input',
+                        name: 'arguments',
+                        onChange: onChangeArguments,
+                        value: '',
+                        focus: props.focusArgsInput,
+                        autocomplete: true,
+                        ComponentMap
+                    })
+                );
 
                 expect(getSpecWrapper(EmptyCase, 'exit-input').props()).toEqual({
                     'data-spec': 'exit-input',
                     name: 'exitName',
-                    onChanged: onChangeExitName,
+                    onChange: onChangeExitName,
                     value: '',
                     focus: props.focusExitInput,
                     ComponentMap
@@ -164,7 +161,7 @@ describe('CaseElement >', () => {
                     kase,
                     exitName: exits[idx].name,
                     onRemove: jest.fn(),
-                    onChanged: jest.fn(),
+                    onChange: jest.fn(),
                     focusArgsInput: false,
                     focusExitInput: false,
                     ComponentMap
@@ -231,9 +228,9 @@ describe('CaseElement >', () => {
                     );
                 });
 
-                it('should call "onChanged" prop after setting own state', () => {
+                it('should call "onChange" prop after setting own state', () => {
                     onChangeOperator(allWordsOperator);
-                    expect(onChanged).toHaveBeenCalled();
+                    expect(onChange).toHaveBeenCalled();
                 });
             });
         });

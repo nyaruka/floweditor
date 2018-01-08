@@ -374,7 +374,7 @@ export default class SwitchRouterForm extends React.Component<
                 exit_uuid: c.props.kase.exit_uuid,
                 arguments: c.state.arguments
             },
-            onChanged: c.props.onChange,
+            onChange: c.props.onChange,
             exitName: c.state.exitName
         };
 
@@ -469,7 +469,7 @@ export default class SwitchRouterForm extends React.Component<
                     cases.push({
                         kase,
                         exitName,
-                        onChanged: this.onCaseChanged,
+                        onChange: this.onCaseChanged,
                         onRemove: this.onCaseRemoved
                     } as any);
                 } catch (error) {
@@ -614,7 +614,7 @@ export default class SwitchRouterForm extends React.Component<
                         name={`case_${kase.uuid}`}
                         exitName={exitName}
                         onRemove={this.onCaseRemoved}
-                        onChanged={this.onCaseChanged}
+                        onChange={this.onCaseChanged}
                         ComponentMap={this.props.ComponentMap}
                         solo={true}
                     />
@@ -640,7 +640,7 @@ export default class SwitchRouterForm extends React.Component<
                                 name={`case_${c.kase.uuid}`}
                                 exitName={c.exitName}
                                 onRemove={this.onCaseRemoved}
-                                onChanged={this.onCaseChanged}
+                                onChange={this.onCaseChanged}
                                 ComponentMap={this.props.ComponentMap}
                                 focusArgsInput={c.focusArgsInput}
                                 focusExitInput={c.focusExitInput}
@@ -666,7 +666,7 @@ export default class SwitchRouterForm extends React.Component<
                                             name={`case_${c.kase.uuid}`}
                                             exitName={c.exitName}
                                             onRemove={this.onCaseRemoved}
-                                            onChanged={this.onCaseChanged}
+                                            onChange={this.onCaseChanged}
                                             ComponentMap={this.props.ComponentMap}
                                             focusArgsInput={c.focusArgsInput}
                                             focusExitInput={c.focusExitInput}
@@ -697,7 +697,7 @@ export default class SwitchRouterForm extends React.Component<
                     exitName={null}
                     empty={true}
                     onRemove={this.onCaseRemoved}
-                    onChanged={this.onCaseChanged}
+                    onChange={this.onCaseChanged}
                     ComponentMap={this.props.ComponentMap}
                 />
             );
