@@ -368,7 +368,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
                     actions.push(
                         <Action {...firstRef} key={action.uuid} {...actionProps}>
-                            {(action: AnyAction) => <ActionDiv {...action} />}
+                            {(injectedProps: AnyAction) => <ActionDiv {...injectedProps} />}
                         </Action>
                     );
                 }

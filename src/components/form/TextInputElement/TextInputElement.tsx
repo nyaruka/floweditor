@@ -172,6 +172,9 @@ export const getCharCount = (value: string | string[], replace?: boolean): CharC
     };
 };
 
+export const getCharCountStats = (count: Count, value: string = ''): CharCountStats | {} =>
+    count && count === Count.SMS ? getCharCount(value) : {};
+
 const isValidURL = (str: string): boolean => {
     // Courtesy of @diegoperini: https://gist.github.com/dperini/729294
     // Expected behavior: https://mathiasbynens.be/demo/url-regex
@@ -237,9 +240,6 @@ export const getOptionsList = (
     autocomplete: boolean,
     { getResultNames }: ComponentMap
 ): CompletionOption[] => (autocomplete ? [...OPTIONS, ...getResultNames()] : OPTIONS);
-
-export const getCharCountStats = (count: Count, value: string = ''): CharCountStats | {} =>
-    count && count === Count.SMS ? getCharCount(value) : {};
 
 const initialState: InitialState = {
     caretOffset: 0,

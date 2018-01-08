@@ -16,7 +16,7 @@ export interface ReplyFormProps {
     updateAction(action: Reply): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
-    updateLocalizations(language: string, changes: { uuid: string; translations: any }[]): void;
+    updateLocalizations(language: string, changes: Array<{ uuid: string; translations: any }>): void;
     getLocalizedObject: Function;
     getActionUUID: Function;
 }
@@ -31,7 +31,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
     public onValid(widgets: { [name: string]: any }): void {
         const localizedObject = this.props.getLocalizedObject();
 
-        const textarea = widgets['Message'] as TextInputElement;
+        const textarea = widgets.Message as TextInputElement;
         const sendAll = widgets['All Destinations'] as CheckboxElement;
 
         if (localizedObject) {
@@ -47,7 +47,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                 ]);
             }
         } else {
-            let newAction: Reply = {
+            const newAction: Reply = {
                 uuid: this.props.getActionUUID(),
                 type: this.props.config.type,
                 text: textarea.state.value
@@ -85,8 +85,12 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                 ({ text } = localizedObject.getObject());
             }
         } else {
-            this.props.action && ({ text } = this.props.action);
+            if (this.props.action) {
+                ({ text } = this.props.action);
+            }
         }
+
+        const required = !this.props.translating;
 
         return (
             <div>
@@ -98,10 +102,10 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                     count={Count.SMS}
                     value={text}
                     placeholder={placeholder}
-                    autocomplete
-                    focus
-                    required={!this.props.translating}
-                    textarea
+                    autocomplete={true}
+                    focus={true}
+                    required={required}
+                    textarea={true}
                     ComponentMap={this.props.ComponentMap}
                 />
             </div>

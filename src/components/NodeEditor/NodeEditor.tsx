@@ -83,6 +83,17 @@ export interface NodeEditorState {
     show: boolean;
 }
 
+export const FormContainer: React.SFC<{
+    onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void;
+    styles?: string;
+}> = ({ children, onKeyPress, styles }) => (
+    <div className={styles ? styles : null}>
+        <div className={formStyles.node_editor}>
+            <form onKeyPress={onKeyPress}>{children}</form>
+        </div>
+    </div>
+);
+
 export default class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorState> {
     private modal: Modal;
     private form: any;
@@ -198,41 +209,45 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             return null;
         }
 
-        const exits = this.props.node.exits.reduce((exitList, { uuid: exitUUID, name: exitName }) => {
-            const localized = this.props.localizations.find(
-                (localizedObject: LocalizedObject) => localizedObject.getObject().uuid === exitUUID
-            );
+        const exits = this.props.node.exits.reduce(
+            (exitList, { uuid: exitUUID, name: exitName }) => {
+                const localized = this.props.localizations.find(
+                    (localizedObject: LocalizedObject) =>
+                        localizedObject.getObject().uuid === exitUUID
+                );
 
-            if (localized) {
-                let value = '';
+                if (localized) {
+                    let value = '';
 
-                if ('name' in localized.localizedKeys) {
-                    ({ name: value } = localized.getObject() as Exit);
+                    if ('name' in localized.localizedKeys) {
+                        ({ name: value } = localized.getObject() as Exit);
+                    }
+
+                    exitList.push(
+                        <div key={exitUUID} className={formStyles.translating_exit}>
+                            <div data-spec="exit-name" className={formStyles.translating_from}>
+                                {exitName}
+                            </div>
+                            <div className={formStyles.translating_to}>
+                                <TextInputElement
+                                    data-spec="localization-input"
+                                    ref={this.onBindWidget}
+                                    name={exitUUID}
+                                    placeholder={`${languageName} Translation`}
+                                    showLabel={false}
+                                    value={value}
+                                    /** Node */
+                                    ComponentMap={this.props.ComponentMap}
+                                />
+                            </div>
+                        </div>
+                    );
                 }
 
-                exitList.push(
-                    <div key={exitUUID} className={formStyles.translating_exit}>
-                        <div data-spec="exit-name" className={formStyles.translating_from}>
-                            {exitName}
-                        </div>
-                        <div className={formStyles.translating_to}>
-                            <TextInputElement
-                                data-spec="localization-input"
-                                ref={this.onBindWidget}
-                                name={exitUUID}
-                                placeholder={`${languageName} Translation`}
-                                showLabel={false}
-                                value={value}
-                                /** Node */
-                                ComponentMap={this.props.ComponentMap}
-                            />
-                        </div>
-                    </div>
-                );
-            }
-
-            return exitList;
-        }, []);
+                return exitList;
+            },
+            []
+        );
 
         return (
             <div>
@@ -531,20 +546,12 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             removeWidget: this.removeWidget
         };
 
-        const FormContainer: React.SFC<{ styles?: string }> = ({ children, styles }) => (
-            <div className={styles ? styles : null}>
-                <div className={formStyles.node_editor}>
-                    <form onKeyPress={this.onKeyPress}>{children}</form>
-                </div>
-            </div>
-        );
-
         const { config: { form: Form } }: NodeEditorState = this.state;
 
         const typeList = this.getTypeList();
 
         const front = (
-            <FormContainer key={'fc-front'}>
+            <FormContainer key={'fc-front'} onKeyPress={this.onKeyPress}>
                 {typeList}
                 <Form ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />
             </FormContainer>
@@ -554,7 +561,10 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         if (this.hasAdvanced()) {
             back = (
-                <FormContainer key={'fc-back'} styles={formStyles.advanced}>
+                <FormContainer
+                    key={'fc-back'}
+                    onKeyPress={this.onKeyPress}
+                    styles={formStyles.advanced}>
                     <Form ref={this.formRef} {...{ ...formProps, showAdvanced: true }} />
                 </FormContainer>
             );

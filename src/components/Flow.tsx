@@ -184,7 +184,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             definition,
             translating,
             language: { iso },
-            ComponentMap
+            ComponentMap: CompMap
         } = this.props;
 
         const {
@@ -218,7 +218,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             getTypeConfig,
             getOperatorConfig,
             endpoints,
-            ComponentMap
+            ComponentMap: CompMap
         });
 
         this.addToNode = node;
@@ -311,10 +311,10 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
 
         // add an action if we are coming from a split
         if (fromNode.wait || fromNodeUI.type === 'webhook') {
-            let replyAction: Reply = {
+            const replyAction: Reply = {
                 uuid: generateUUID(),
                 type: 'reply',
-                text: null
+                text: ''
             };
 
             ghost = update(ghost, {
@@ -522,7 +522,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         let dragNode: JSX.Element = null;
 
         if (this.state.ghost) {
-            let ghost = this.state.ghost;
+            const { ghost } = this.state;
 
             // start off screen
             let ui: UINode = {
