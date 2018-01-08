@@ -51,17 +51,22 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         this.state = {
             errors: [],
             operator: this.props.kase.type,
-            arguments: this.props.kase.arguments,
-            exitName: this.props.exitName ? this.props.exitName : ''
+            arguments: this.props.kase.arguments || [],
+            exitName: this.props.exitName || ''
         };
 
         this.operatorConfig = this.context.getOperatorConfig(this.props.kase.type);
 
+        this.categoryRef = this.categoryRef.bind(this);
         this.hasArguments = this.hasArguments.bind(this);
         this.onChangeArguments = this.onChangeArguments.bind(this);
         this.onChangeOperator = this.onChangeOperator.bind(this);
         this.onChangeExitName = this.onChangeExitName.bind(this);
         this.onRemove = this.onRemove.bind(this);
+    }
+
+    private categoryRef(ref: TextInputElement): TextInputElement {
+        return (this.category = ref);
     }
 
     private onChangeOperator(val: Operator): void {
@@ -155,10 +160,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     }
 
     private hasArguments(): boolean {
-        return (
-            this.state.arguments.length > 0 &&
-            this.state.arguments[0].trim().length > 0
-        );
+        return this.state.arguments.length && this.state.arguments[0].trim().length > 0;
     }
 
     public validate(): boolean {
@@ -322,7 +324,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                     <div className={styles.categorizeAs}>categorize as</div>
                     <div className={styles.category}>
                         <TextInputElement
-                            ref={ele => (this.category = ele)}
+                            ref={this.categoryRef}
                             data-spec="exit-input"
                             name="exitName"
                             onChange={this.onChangeExitName}
