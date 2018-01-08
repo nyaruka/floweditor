@@ -23,13 +23,47 @@ export interface CombinedExits {
     defaultExit: string;
 }
 
+export enum DragCursor {
+    move = 'move',
+    pointer = 'pointer'
+}
+
+export interface SwitchRouterState {
+    cases: CaseElementProps[];
+    resultName: string;
+    setResultName: boolean;
+    operand: string;
+}
+
+export interface SwitchRouterFormProps {
+    showAdvanced: boolean;
+    iso: string;
+    node: Node;
+    action?: AnyAction;
+    config: Type;
+    definition: FlowDefinition;
+    updateRouter(node: Node, type: string, previousAction: AnyAction): void;
+    onBindWidget(ref: any): void;
+    onBindAdvancedWidget(ref: any): void;
+    removeWidget(name: string): void;
+    localizations?: LocalizedObject[];
+    updateLocalizations(
+        language: string,
+        changes: Array<{ uuid: string; translations?: any }>
+    ): void;
+    ComponentMap: ComponentMap;
+    translating: boolean;
+    getLocalizedExits(widgets: { [name: string]: any }): Array<{ uuid: string; translations: any }>;
+    renderExitTranslations(): JSX.Element;
+}
+
 /**
  * Given a set of cases and previous exits, determines correct merging of cases
  * and the union of exits
  * @param newCases
  * @param previousExits
  */
-export function resolveExits(newCases: CaseElementProps[], previous: Node): CombinedExits {
+export const resolveExits = (newCases: CaseElementProps[], previous: Node): CombinedExits => {
     // create mapping of our old exit uuids to old exit settings
     const previousExitMap: { [uuid: string]: Exit } = {};
 
@@ -135,12 +169,7 @@ export function resolveExits(newCases: CaseElementProps[], previous: Node): Comb
     });
 
     return { cases, exits, defaultExit: defaultUUID };
-}
-
-export enum DragCursor {
-    move = 'move',
-    pointer = 'pointer'
-}
+};
 
 export const composeExitMap = (exits: Exit[]): { [uuid: string]: Exit } =>
     exits.reduce(
@@ -162,44 +191,15 @@ export const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
     opacity: isDragging && 0.75,
     /** Overwriting default draggableStyle object from this point down */
     ...draggableStyle,
-    top: isDragging && draggableStyle.top - 105,
+    top: isDragging && draggableStyle.top - 90,
     left: isDragging && 20,
-    height: isDragging && draggableStyle.height + 27,
+    height: isDragging && draggableStyle.height + 15,
     width: isDragging && draggableStyle.width - 5
 });
 
 export enum ChangedCaseInput {
     ARGS = 'ARGS',
     EXIT = 'EXIT'
-}
-
-export interface SwitchRouterState {
-    cases: CaseElementProps[];
-    resultName: string;
-    setResultName: boolean;
-    operand: string;
-}
-
-export interface SwitchRouterFormProps {
-    showAdvanced: boolean;
-    iso: string;
-    node: Node;
-    action?: AnyAction;
-    config: Type;
-    definition: FlowDefinition;
-    updateRouter(node: Node, type: string, previousAction: AnyAction): void;
-    onBindWidget(ref: any): void;
-    onBindAdvancedWidget(ref: any): void;
-    removeWidget(name: string): void;
-    localizations?: LocalizedObject[];
-    updateLocalizations(
-        language: string,
-        changes: Array<{ uuid: string; translations?: any }>
-    ): void;
-    ComponentMap: ComponentMap;
-    translating: boolean;
-    getLocalizedExits(widgets: { [name: string]: any }): Array<{ uuid: string; translations: any }>;
-    renderExitTranslations(): JSX.Element;
 }
 
 export default class SwitchRouterForm extends React.Component<
@@ -480,6 +480,23 @@ export default class SwitchRouterForm extends React.Component<
         });
     }
 
+    private onDragEnd(result: any): void {
+        if (!result.destination) {
+            return;
+        }
+
+        // prettier-ignore
+        const cases = reorderList(
+            this.state.cases,
+            result.source.index,
+            result.destination.index
+        );
+
+        this.setState({
+            cases
+        });
+    }
+
     private saveLocalizations(widgets: { [name: string]: any }): void {
         const { iso: language } = this.props.localizations[0].getLanguage();
 
@@ -582,35 +599,6 @@ export default class SwitchRouterForm extends React.Component<
 
             return casesForLocalization;
         }, []);
-    }
-
-    private renderAdvanced(): JSX.Element {
-        const language: Language = this.getLanguage();
-
-        if (!language) {
-            return null;
-        }
-
-        const operators: JSX.Element[] = this.getOperatorsForLocalization(language);
-
-        if (!operators.length) {
-            return null;
-        }
-
-        return (
-            <div>
-                <div data-spec="advanced-title" className={styles.translating_operator_title}>
-                    Rules
-                </div>
-                <div
-                    data-spec="advanced-instructions"
-                    className={styles.translating_operator_instructions}>
-                    Sometimes languages need special rules to route things properly. If a
-                    translation is not provided, the original rule will be used.
-                </div>
-                <div>{operators}</div>
-            </div>
-        );
     }
 
     private getCases(): JSX.Element[] {
@@ -766,18 +754,6 @@ export default class SwitchRouterForm extends React.Component<
         return leadIn;
     }
 
-    private onDragEnd(result: any): void {
-        if (!result.destination) {
-            return;
-        }
-
-        const cases = reorderList(this.state.cases, result.source.index, result.destination.index);
-
-        this.setState({
-            cases
-        });
-    }
-
     private renderForm(): JSX.Element {
         if (this.props.translating) {
             return this.props.renderExitTranslations();
@@ -807,6 +783,35 @@ export default class SwitchRouterForm extends React.Component<
                 </div>
             );
         }
+    }
+
+    private renderAdvanced(): JSX.Element {
+        const language: Language = this.getLanguage();
+
+        if (!language) {
+            return null;
+        }
+
+        const operators: JSX.Element[] = this.getOperatorsForLocalization(language);
+
+        if (!operators.length) {
+            return null;
+        }
+
+        return (
+            <div>
+                <div data-spec="advanced-title" className={styles.translating_operator_title}>
+                    Rules
+                </div>
+                <div
+                    data-spec="advanced-instructions"
+                    className={styles.translating_operator_instructions}>
+                    Sometimes languages need special rules to route things properly. If a
+                    translation is not provided, the original rule will be used.
+                </div>
+                <div>{operators}</div>
+            </div>
+        );
     }
 
     public render(): JSX.Element {
