@@ -23,7 +23,7 @@ export interface CaseElementProps {
     kase: Case;
     exitName: string;
     empty?: boolean;
-    onChanged?: Function;
+    onChanged?(c: any, type?: ChangedCaseInput): void;
     focusArgsInput?: boolean;
     focusExitInput?: boolean;
     solo?: boolean;
@@ -61,7 +61,59 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         this.onChangeArguments = this.onChangeArguments.bind(this);
         this.onChangeOperator = this.onChangeOperator.bind(this);
         this.onChangeExitName = this.onChangeExitName.bind(this);
-        this.remove = this.remove.bind(this);
+        this.onRemove = this.onRemove.bind(this);
+    }
+
+    private onChangeOperator(val: Operator): void {
+        this.operatorConfig = val;
+
+        this.setState(
+            {
+                operator: val.type,
+                exitName: this.getExitName()
+            },
+            () => this.props.onChanged(this)
+        );
+    }
+
+    private onChangeArguments(val: React.ChangeEvent<HTMLTextElement>): void {
+        const args = [val.target.value];
+        const exitName = this.getExitName(args);
+
+        // prettier-ignore
+        this.setState(
+            {
+                arguments: args,
+                exitName
+            },
+            () => {
+                this.props.onChanged(this, ChangedCaseInput.ARGS);
+                this.category.setState(
+                    {
+                        value: exitName
+                    },
+                    () => {
+                        /** If the case doesn't have both an argument & an exit name, remove it */
+                        if (!this.state.arguments[0] && !this.state.exitName) {
+                            return this.onRemove();
+                        }
+                    }
+                );
+            }
+        );
+    }
+
+    private onChangeExitName(val: React.ChangeEvent<HTMLTextElement>): void {
+        this.setState(
+            {
+                exitName: val.target.value
+            },
+            () => this.props.onChanged(this, ChangedCaseInput.EXIT)
+        );
+    }
+
+    private onRemove(): void {
+        this.props.onRemove(this);
     }
 
     private generateExitNameFromArguments(args: string[]): string {
@@ -102,81 +154,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         return null;
     }
 
-    private getExitName(args: string[] = null): string {
-        let exitName = this.state.exitName;
-
-        if (!args) {
-            /** If the category name is specified for our operator, use that */
-            if (this.operatorConfig.categoryName) {
-                ({ categoryName: exitName } = this.operatorConfig);
-            }
-        } else {
-            if (
-                !exitName ||
-                exitName === this.generateExitNameFromArguments(this.props.kase.arguments)
-            ) {
-                exitName = this.generateExitNameFromArguments(args);
-            }
-        }
-
-        return exitName;
-    }
-
-    private onChangeOperator(val: Operator): void {
-        this.operatorConfig = val;
-
-        this.setState(
-            {
-                operator: val.type,
-                exitName: this.getExitName()
-            },
-            () => this.props.onChanged(this)
-        );
-    }
-
-    private onChangeArguments(val: React.ChangeEvent<HTMLTextElement>): void {
-        const args = [val.target.value];
-        const exitName = this.getExitName(args);
-
-        // prettier-ignore
-        this.setState(
-            {
-                arguments: args,
-                exitName
-            },
-            () => {
-                this.props.onChanged(this, ChangedCaseInput.ARGS);
-                this.category.setState(
-                    {
-                        value: exitName
-                    },
-                    () => {
-                        /** If the case doesn't have both an argument & an exit name, remove it */
-                        if (!this.state.arguments[0] && !this.state.exitName) {
-                            return this.remove();
-                        }
-                    }
-                );
-            }
-        );
-    }
-
-    private onChangeExitName(val: React.ChangeEvent<HTMLTextElement>): void {
-        this.setState(
-            {
-                exitName: val.target.value
-            },
-            () => this.props.onChanged(this, ChangedCaseInput.EXIT)
-        );
-    }
-
-    private remove(ele?: any): void {
-        this.props.onRemove(this);
-    }
-
     private hasArguments(): boolean {
         return (
-            this.state.arguments &&
             this.state.arguments.length > 0 &&
             this.state.arguments[0].trim().length > 0
         );
@@ -214,7 +193,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             if (this.hasArguments() && this.state.arguments[0].trim().indexOf('@') !== 0) {
                 if (this.state.operator.indexOf('number') > -1) {
                     if (this.state.arguments[0]) {
-                        if (isNaN(parseInt(this.state.arguments[0]))) {
+                        if (isNaN(parseInt(this.state.arguments[0], 10))) {
                             errors.push('Enter a number when using numeric rules.');
                         }
                     }
@@ -239,49 +218,31 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         return errors.length === 0;
     }
 
-    private getDndIco(): JSX.Element {
-        let dndIco: JSX.Element = null;
+    private getExitName(args: string[] = null): string {
+        let { exitName } = this.state;
 
-        if (!this.props.empty && !this.props.solo) {
-            dndIco = (
-                <div className={styles.dndIcon}>
-                    <span>&#8597;</span>
-                </div>
-            );
+        if (!args) {
+            /** If the category name is specified for our operator, use that */
+            if (this.operatorConfig.categoryName) {
+                ({ categoryName: exitName } = this.operatorConfig);
+            }
         } else {
-            dndIco = <div style={{ display: 'inline-block', width: 15 }} />;
+            if (
+                !exitName ||
+                exitName === this.generateExitNameFromArguments(this.props.kase.arguments)
+            ) {
+                exitName = this.generateExitNameFromArguments(args);
+            }
         }
 
-        return dndIco;
+        return exitName;
     }
 
-    private getRemoveButton(): JSX.Element {
-        let removeButton: JSX.Element = null;
-
-        if (!this.props.empty) {
-            removeButton = (
-                <div className={styles.removeButton} onClick={this.remove}>
-                    <span className="icon-remove" />
-                </div>
-            );
-        }
-
-        return removeButton;
-    }
-
-    public render(): JSX.Element {
-        const classes = [styles.kase];
-
-        if (this.state.errors.length > 0) {
-            classes.push(forms.invalid);
-        }
-
-        const value = this.state.arguments ? this.state.arguments[0] : '';
-
-        let args: JSX.Element = null;
-
+    private getArgs(): JSX.Element {
         if (this.operatorConfig && this.operatorConfig.operands > 0) {
-            args = (
+            const value = this.state.arguments ? this.state.arguments[0] : '';
+
+            return (
                 <TextInputElement
                     data-spec="args-input"
                     name="arguments"
@@ -293,6 +254,42 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 />
             );
         }
+
+        return null;
+    }
+
+    private getDndIco(): JSX.Element {
+        if (!this.props.empty && !this.props.solo) {
+            return (
+                <div className={styles.dndIcon}>
+                    <span>&#8597;</span>
+                </div>
+            );
+        }
+
+        return <div style={{ display: 'inline-block', width: 15 }} />;
+    }
+
+    private getRemoveButton(): JSX.Element {
+        if (!this.props.empty) {
+            return (
+                <div className={styles.removeIcon} onClick={this.onRemove}>
+                    <span className="icon-remove" />
+                </div>
+            );
+        }
+
+        return null;
+    }
+
+    public render(): JSX.Element {
+        const classes = [styles.kase];
+
+        if (this.state.errors.length > 0) {
+            classes.push(forms.invalid);
+        }
+
+        const args: JSX.Element = this.getArgs();
 
         const dndIco: JSX.Element = this.getDndIco();
 

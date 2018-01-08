@@ -28,6 +28,11 @@ export enum DragCursor {
     pointer = 'pointer'
 }
 
+export enum ChangedCaseInput {
+    ARGS = 'ARGS',
+    EXIT = 'EXIT'
+}
+
 export interface SwitchRouterState {
     cases: CaseElementProps[];
     resultName: string;
@@ -196,11 +201,6 @@ export const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
     height: isDragging && draggableStyle.height + 15,
     width: isDragging && draggableStyle.width - 5
 });
-
-export enum ChangedCaseInput {
-    ARGS = 'ARGS',
-    EXIT = 'EXIT'
-}
 
 export default class SwitchRouterForm extends React.Component<
     SwitchRouterFormProps,
