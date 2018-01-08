@@ -1,0 +1,225 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CaseElement > Component > render > should render empty case 1`] = `
+<Select
+  arrowRenderer={[Function]}
+  autosize={true}
+  backspaceRemoves={true}
+  backspaceToRemoveMessage="Press backspace to remove {label}"
+  clearAllText="Clear all"
+  clearRenderer={[Function]}
+  clearValueText="Clear value"
+  clearable={false}
+  closeOnSelect={true}
+  data-spec="operator-list"
+  deleteRemoves={true}
+  delimiter=","
+  disabled={false}
+  escapeClearsValue={true}
+  filterOptions={[Function]}
+  ignoreAccents={true}
+  ignoreCase={true}
+  inputProps={Object {}}
+  isLoading={false}
+  joinValues={false}
+  labelKey="verboseName"
+  matchPos="any"
+  matchProp="any"
+  menuBuffer={0}
+  menuRenderer={[Function]}
+  multi={false}
+  name="operator"
+  noResultsText="No results found"
+  onBlurResetsInput={true}
+  onChange={[Function]}
+  onCloseResetsInput={true}
+  onSelectResetsInput={true}
+  openOnClick={true}
+  optionClassName="operator"
+  optionComponent={[Function]}
+  options={
+    Array [
+      Object {
+        "operands": 1,
+        "type": "has_any_word",
+        "verboseName": "has any of the words",
+      },
+      Object {
+        "operands": 1,
+        "type": "has_all_words",
+        "verboseName": "has all of the words",
+      },
+      Object {
+        "operands": 1,
+        "type": "has_phrase",
+        "verboseName": "has the phrase",
+      },
+      Object {
+        "operands": 1,
+        "type": "has_only_phrase",
+        "verboseName": "has only the phrase",
+      },
+      Object {
+        "operands": 1,
+        "type": "has_beginning",
+        "verboseName": "starts with",
+      },
+      Object {
+        "operands": 2,
+        "type": "has_number_between",
+        "verboseName": "has a number between",
+      },
+      Object {
+        "operands": 1,
+        "type": "has_number_lt",
+        "verboseName": "has a number below",
+      },
+      Object {
+        "operands": 1,
+        "type": "has_number_lte",
+        "verboseName": "has a number at or below",
+      },
+      Object {
+        "operands": 1,
+        "type": "has_number_eq",
+        "verboseName": "has a number equal to",
+      },
+      Object {
+        "operands": 1,
+        "type": "has_number_gte",
+        "verboseName": "has a number at or above",
+      },
+      Object {
+        "operands": 1,
+        "type": "has_number_gt",
+        "verboseName": "has a number above",
+      },
+      Object {
+        "operands": 0,
+        "type": "has_date",
+        "verboseName": "has a date",
+      },
+      Object {
+        "operands": 1,
+        "type": "has_date_lt",
+        "verboseName": "has a date before",
+      },
+      Object {
+        "operands": 1,
+        "type": "has_date_eq",
+        "verboseName": "has a date equal to",
+      },
+      Object {
+        "operands": 1,
+        "type": "has_date_gt",
+        "verboseName": "has a date after",
+      },
+      Object {
+        "operands": 1,
+        "type": "has_run_status",
+        "verboseName": "has a run status of",
+      },
+      Object {
+        "operands": 1,
+        "type": "has_group",
+        "verboseName": "is in the group",
+      },
+      Object {
+        "categoryName": "Has Text",
+        "operands": 0,
+        "type": "has_text",
+        "verboseName": "has some text",
+      },
+      Object {
+        "categoryName": "Number",
+        "operands": 0,
+        "type": "has_number",
+        "verboseName": "has a number",
+      },
+      Object {
+        "categoryName": "Phone",
+        "operands": 0,
+        "type": "has_phone",
+        "verboseName": "has a phone number",
+      },
+      Object {
+        "categoryName": "Email",
+        "operands": 0,
+        "type": "has_email",
+        "verboseName": "has an email",
+      },
+      Object {
+        "categoryName": "Error",
+        "operands": 0,
+        "type": "has_error",
+        "verboseName": "has an error",
+      },
+      Object {
+        "categoryName": "Not Empty",
+        "operands": 0,
+        "type": "has_value",
+        "verboseName": "is not empty",
+      },
+    ]
+  }
+  pageSize={5}
+  placeholder="Select..."
+  removeSelected={true}
+  required={false}
+  rtl={false}
+  scrollMenuIntoView={true}
+  searchable={false}
+  simpleValue={false}
+  tabSelectsValue={true}
+  trimFilter={true}
+  value="has_any_word"
+  valueComponent={[Function]}
+  valueKey="type"
+/>
+`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has a date after" operator appropriately 1`] = `"After "`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has a date before" operator appropriately 1`] = `"Before "`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has a date equal to" operator appropriately 1`] = `""`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has a date" operator appropriately 1`] = `""`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has a number above" operator appropriately 1`] = `">"`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has a number at or above" operator appropriately 1`] = `">= "`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has a number at or below" operator appropriately 1`] = `"<= "`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has a number below" operator appropriately 1`] = `"< "`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has a number between" operator appropriately 1`] = `""`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has a number equal to" operator appropriately 1`] = `""`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has a number" operator appropriately 1`] = `""`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has a phone number" operator appropriately 1`] = `""`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has a run status of" operator appropriately 1`] = `""`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has all of the words" operator appropriately 1`] = `""`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has an email" operator appropriately 1`] = `""`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has an error" operator appropriately 1`] = `""`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has any of the words" operator appropriately 1`] = `""`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has only the phrase" operator appropriately 1`] = `""`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has some text" operator appropriately 1`] = `""`;
+
+exports[`CaseElement > helpers > prefix > should prefix "has the phrase" operator appropriately 1`] = `""`;
+
+exports[`CaseElement > helpers > prefix > should prefix "is in the group" operator appropriately 1`] = `""`;
+
+exports[`CaseElement > helpers > prefix > should prefix "is not empty" operator appropriately 1`] = `""`;
+
+exports[`CaseElement > helpers > prefix > should prefix "starts with" operator appropriately 1`] = `""`;

@@ -12,6 +12,7 @@ import {
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 import { Case } from '../../flowTypes';
 import { ChangedCaseInput } from '../routers/SwitchRouter';
+import { jsonEqual, titleCase } from '../../helpers/utils';
 
 import * as forms from './FormElement.scss';
 import * as styles from './CaseElement.scss';
@@ -31,10 +32,79 @@ export interface CaseElementProps {
 
 interface CaseElementState {
     errors: string[];
-    operator: string;
+    operatorConfig: Operator;
     arguments: string[];
     exitName: string;
 }
+
+export const prefix = (operatorType: string): string => {
+    let pre = '';
+
+    if (operatorType.indexOf('_lt') > -1) {
+        if (operatorType.indexOf('date') > -1) {
+            pre = 'Before ';
+        } else {
+            if (operatorType.indexOf('lte') > -1) {
+                pre = '<= ';
+            } else {
+                pre = '< ';
+            }
+        }
+    } else if (operatorType.indexOf('_gt') > -1) {
+        if (operatorType.indexOf('date') > -1) {
+            pre = 'After ';
+        } else {
+            if (operatorType.indexOf('gte') > -1) {
+                pre = '>= ';
+            } else {
+                pre = '>';
+            }
+        }
+    }
+
+    return pre;
+};
+
+export const composeExitName = (operator: string, newArgList: string[]): string => {
+    const pre: string = prefix(operator);
+
+    if (newArgList.length > 0) {
+        const [firstArg] = newArgList;
+        const words = firstArg.match(/\w+/g);
+
+        if (words && words.length > 0) {
+            const [firstWord] = words;
+
+            return pre + titleCase(firstWord);
+        }
+
+        return pre + titleCase(firstArg);
+    }
+
+    return pre;
+};
+
+export const getExitName = (
+    exitName: string,
+    operatorConfig: Operator,
+    kase: Case,
+    newArgList: string[] = []
+): string => {
+    // Don't reassign func params
+    let newExitName = exitName;
+    // Some operators don't expect args
+    if (newArgList.length && !operatorConfig.categoryName) {
+        newExitName = composeExitName(operatorConfig.type, newArgList);
+    } else {
+        // Use the operator's default category name
+        ({ categoryName: newExitName } = operatorConfig);
+    }
+
+    return newExitName;
+};
+
+export const hasArgs = (args: string[] = []): boolean =>
+    args.length > 0 && args[0].trim().length > 0;
 
 export default class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
     private category: TextInputElement;
@@ -48,17 +118,16 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     constructor(props: CaseElementProps, context: ConfigProviderContext) {
         super(props, context);
 
+        const operatorConfig = this.context.getOperatorConfig(this.props.kase.type);
+
         this.state = {
             errors: [],
-            operator: this.props.kase.type,
+            operatorConfig,
             arguments: this.props.kase.arguments || [],
             exitName: this.props.exitName || ''
         };
 
-        this.operatorConfig = this.context.getOperatorConfig(this.props.kase.type);
-
         this.categoryRef = this.categoryRef.bind(this);
-        this.hasArguments = this.hasArguments.bind(this);
         this.onChangeArguments = this.onChangeArguments.bind(this);
         this.onChangeOperator = this.onChangeOperator.bind(this);
         this.onChangeExitName = this.onChangeExitName.bind(this);
@@ -70,22 +139,36 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     }
 
     private onChangeOperator(val: Operator): void {
-        this.operatorConfig = val;
+        if (!jsonEqual(val, this.state.operatorConfig)) {
+            const exitName = getExitName(
+                this.state.exitName,
+                val,
+                this.props.kase,
+                this.state.arguments
+            );
 
-        this.setState(
-            {
-                operator: val.type,
-                exitName: this.getExitName()
-            },
-            () => this.props.onChanged(this)
-        );
+            this.setState(
+                {
+                    operatorConfig: val,
+                    exitName
+                },
+                () => {
+                    this.props.onChanged(this);
+                    this.category.setState({ value: exitName });
+                }
+            );
+        }
     }
 
     private onChangeArguments(val: React.ChangeEvent<HTMLTextElement>): void {
         const args = [val.target.value];
-        const exitName = this.getExitName(args);
+        const exitName = getExitName(
+            this.state.exitName,
+            this.state.operatorConfig,
+            this.props.kase,
+            args
+        );
 
-        // prettier-ignore
         this.setState(
             {
                 arguments: args,
@@ -93,17 +176,12 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             },
             () => {
                 this.props.onChanged(this, ChangedCaseInput.ARGS);
-                this.category.setState(
-                    {
-                        value: exitName
-                    },
-                    () => {
-                        /** If the case doesn't have both an argument & an exit name, remove it */
-                        if (!this.state.arguments[0] && !this.state.exitName) {
-                            return this.onRemove();
-                        }
+                this.category.setState({ value: exitName }, () => {
+                    // If the case doesn't have both an argument & an exit name, remove it */
+                    if (!this.state.arguments[0] && !this.state.exitName) {
+                        this.onRemove();
                     }
-                );
+                });
             }
         );
     }
@@ -121,79 +199,37 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         this.props.onRemove(this);
     }
 
-    private generateExitNameFromArguments(args: string[]): string {
-        let prefix = '';
-
-        if (this.state.operator.indexOf('_lt') > -1) {
-            if (this.state.operator.indexOf('date') > -1) {
-                prefix = 'Before ';
-            } else {
-                if (this.state.operator.indexOf('lte') > -1) {
-                    prefix = '<= ';
-                } else {
-                    prefix = '< ';
-                }
-            }
-        } else if (this.state.operator.indexOf('_gt') > -1) {
-            if (this.state.operator.indexOf('date') > -1) {
-                prefix = 'After ';
-            } else {
-                if (this.state.operator.indexOf('gte') > -1) {
-                    prefix = '>= ';
-                } else {
-                    prefix = '>';
-                }
-            }
-        }
-
-        if (args && args.length > 0) {
-            const [firstArg] = args;
-            const words = firstArg.match(/\w+/g);
-
-            if (words && words.length > 0) {
-                const [firstWord] = words;
-                return prefix + firstWord.charAt(0).toUpperCase() + firstWord.slice(1);
-            }
-            return prefix + firstArg.charAt(0).toUpperCase() + firstArg.slice(1);
-        }
-        return null;
-    }
-
-    private hasArguments(): boolean {
-        return this.state.arguments.length && this.state.arguments[0].trim().length > 0;
-    }
-
     public validate(): boolean {
         const errors: string[] = [];
 
-        if (this.operatorConfig.operands === 0) {
+        if (this.state.operatorConfig.operands === 0) {
             if (this.state.exitName.trim().length === 0) {
-                const { verboseName } = this.operatorConfig;
+                const { verboseName } = this.state.operatorConfig;
                 errors.push(`A category name is required when using "${verboseName}"`);
             }
         } else {
-            /**
-             * Check our argument list
-             * If we have arguments, we need an exit name
-             */
-            if (this.hasArguments()) {
+            // Check our argument list.
+            // If we have arguments, we need an exit name.
+            if (hasArgs(this.state.arguments)) {
                 if (!this.category || !this.category.state.value) {
                     errors.push('A category name is required');
                 }
             }
 
-            /** If we have an exit name we need arguments */
+            // If we have an exit name we need arguments
             if (this.state.exitName) {
-                if (!this.hasArguments()) {
-                    const operator = this.context.getOperatorConfig(this.state.operator);
-                    const { verboseName } = operator;
+                if (!hasArgs(this.state.arguments)) {
+                    const { verboseName } = this.state.operatorConfig;
                     errors.push(`When using "${verboseName}", an argument is required.`);
                 }
             }
 
-            /** Validate numeric and date operators */
-            if (this.hasArguments() && this.state.arguments[0].trim().indexOf('@') !== 0) {
-                if (this.state.operator.indexOf('number') > -1) {
+            // Validate numeric and date operators
+            if (
+                hasArgs(this.state.arguments) &&
+                this.state.arguments[0].trim().indexOf('@') !== 0
+            ) {
+                if (this.state.operatorConfig.type.indexOf('number') > -1) {
                     if (this.state.arguments[0]) {
                         if (isNaN(parseInt(this.state.arguments[0], 10))) {
                             errors.push('Enter a number when using numeric rules.');
@@ -201,7 +237,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                     }
                 }
 
-                if (this.state.operator.indexOf('date') > -1) {
+                if (this.state.operatorConfig.type.indexOf('date') > -1) {
                     if (this.state.arguments[0]) {
                         if (isNaN(Date.parse(this.state.arguments[0]))) {
                             errors.push('Enter a date when using date rules (e.g. 1/1/2017).');
@@ -220,28 +256,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         return errors.length === 0;
     }
 
-    private getExitName(args: string[] = null): string {
-        let { exitName } = this.state;
-
-        if (!args) {
-            /** If the category name is specified for our operator, use that */
-            if (this.operatorConfig.categoryName) {
-                ({ categoryName: exitName } = this.operatorConfig);
-            }
-        } else {
-            if (
-                !exitName ||
-                exitName === this.generateExitNameFromArguments(this.props.kase.arguments)
-            ) {
-                exitName = this.generateExitNameFromArguments(args);
-            }
-        }
-
-        return exitName;
-    }
-
-    private getArgs(): JSX.Element {
-        if (this.operatorConfig && this.operatorConfig.operands > 0) {
+    private getArgsEle(): JSX.Element {
+        if (this.state.operatorConfig && this.state.operatorConfig.operands > 0) {
             const value = this.state.arguments ? this.state.arguments[0] : '';
 
             return (
@@ -272,7 +288,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         return <div style={{ display: 'inline-block', width: 15 }} />;
     }
 
-    private getRemoveButton(): JSX.Element {
+    private getRemoveIco(): JSX.Element {
         if (!this.props.empty) {
             return (
                 <div className={styles.removeIcon} onClick={this.onRemove}>
@@ -291,11 +307,11 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             classes.push(forms.invalid);
         }
 
-        const args: JSX.Element = this.getArgs();
+        const args: JSX.Element = this.getArgsEle();
 
         const dndIco: JSX.Element = this.getDndIco();
 
-        const removeButton: JSX.Element = this.getRemoveButton();
+        const removeIco: JSX.Element = this.getRemoveIco();
 
         return (
             <FormElement
@@ -304,7 +320,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 errors={this.state.errors}
                 className={styles.kase}
                 case={true}>
-                <div className={'select-medium'}>
+                <div className="select-medium">
                     {dndIco}
                     <div className={styles.choice}>
                         <Select
@@ -312,7 +328,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                             name="operator"
                             clearable={false}
                             options={this.context.operatorConfigList}
-                            value={this.state.operator}
+                            value={this.state.operatorConfig.type}
                             valueKey="type"
                             labelKey="verboseName"
                             optionClassName="operator"
@@ -333,7 +349,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                             ComponentMap={this.props.ComponentMap}
                         />
                     </div>
-                    {removeButton}
+                    {removeIco}
                 </div>
             </FormElement>
         );
