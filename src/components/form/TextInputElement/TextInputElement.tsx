@@ -84,7 +84,6 @@ type InitialState = Pick<
     | 'query'
 >;
 
-
 const KEY_AT = 50;
 const KEY_SPACE = 32;
 const KEY_ENTER = 13;
@@ -621,6 +620,8 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         // Make sure we're rendering the right text element
         const TextElement: string = this.props.textarea ? 'textarea' : 'input';
 
+        const inputType: string = this.props.textarea ? undefined : 'text';
+
         return (
             <FormElement
                 className={this.props.className}
@@ -632,7 +633,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                     <TextElement
                         data-spec="input"
                         ref={this.textElRef}
-                        type={this.props.textarea ? undefined : 'text'}
+                        type={inputType}
                         className={classes.join(' ')}
                         value={this.state.value}
                         onChange={this.onChange}
