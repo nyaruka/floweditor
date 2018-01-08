@@ -29,7 +29,6 @@ export interface FlowDefinition {
 export interface Node {
     uuid: string;
     exits: Exit[];
-
     router?: Router;
     actions?: Action[];
     wait?: any;

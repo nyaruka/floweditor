@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SwitchRouter exit utils composeExits should compose a map of exits 1`] = `
+exports[`SwitchRouter > helpers > composeExitMap > should compose a map of exits 1`] = `
 Object {
   "63e20770-64c1-4bad-bd73-a34cf6d46866": Object {
     "destination_node_uuid": null,
@@ -10,7 +10,7 @@ Object {
 }
 `;
 
-exports[`SwitchRouter exit utils resolveExits should resolve exits 1`] = `
+exports[`SwitchRouter > helpers > resolveExits > should resolve exits 1`] = `
 Object {
   "cases": Array [
     Object {
@@ -38,7 +38,7 @@ Object {
 }
 `;
 
-exports[`SwitchRouter style utils getItemStyle should return dragging style when passed a truthy isDragging arg (snapshot) 1`] = `
+exports[`SwitchRouter > style utils > getItemStyle > should return dragging style when passed a truthy isDragging arg (snapshot) 1`] = `
 Object {
   "WebkitTapHighlightColor": "rgba(0,0,0,0)",
   "WebkitTouchCallout": "none",
@@ -60,7 +60,7 @@ Object {
 }
 `;
 
-exports[`SwitchRouter style utils getItemStyle should return notDragging style when passed a falsy isDragging arg (snapshot) 1`] = `
+exports[`SwitchRouter > style utils > getItemStyle > should return not-dragging style when passed a falsy isDragging arg (snapshot) 1`] = `
 Object {
   "WebkitTapHighlightColor": "rgba(0,0,0,0)",
   "WebkitTouchCallout": "none",

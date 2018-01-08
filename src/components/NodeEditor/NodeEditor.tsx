@@ -51,7 +51,7 @@ export interface FormProps {
     ): void;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     removeWidget(name: string): void;
-    renderExitTranslations(): JSX.Element;
+    getExitTranslations(): JSX.Element;
     triggerFormUpdate(): void;
     onToggleAdvanced(): void;
     getLocalizedObject: Function;
@@ -118,7 +118,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         this.modalRef = this.modalRef.bind(this);
         this.getLocalizedObject = this.getLocalizedObject.bind(this);
         this.getActionUUID = this.getActionUUID.bind(this);
-        this.renderExitTranslations = this.renderExitTranslations.bind(this);
+        this.getExitTranslations = this.getExitTranslations.bind(this);
         this.getLocalizedExits = this.getLocalizedExits.bind(this);
         this.saveLocalizedExits = this.saveLocalizedExits.bind(this);
         this.onOpen = this.onOpen.bind(this);
@@ -154,16 +154,16 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             }
         }
 
-        const details = this.props.ComponentMap.getDetails(this.props.node.uuid);
-
-        if (details.type) {
-            return details.type;
-        }
-
         if (this.props.node) {
             if (this.props.node.router) {
                 return this.props.node.router.type;
             }
+        }
+
+        const details = this.props.ComponentMap.getDetails(this.props.node.uuid);
+
+        if (details.type) {
+            return details.type;
         }
 
         throw new Error(
@@ -187,7 +187,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         return generateUUID();
     }
 
-    private renderExitTranslations(): JSX.Element {
+    private getExitTranslations(): JSX.Element {
         let languageName: string = '';
 
         if (this.props.localizations.length > 0) {
@@ -198,7 +198,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             return null;
         }
 
-        const exits = this.props.node.exits.reduce((exits, { uuid: exitUUID, name: exitName }) => {
+        const exits = this.props.node.exits.reduce((exitList, { uuid: exitUUID, name: exitName }) => {
             const localized = this.props.localizations.find(
                 (localizedObject: LocalizedObject) => localizedObject.getObject().uuid === exitUUID
             );
@@ -210,7 +210,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     ({ name: value } = localized.getObject() as Exit);
                 }
 
-                exits.push(
+                exitList.push(
                     <div key={exitUUID} className={formStyles.translating_exit}>
                         <div data-spec="exit-name" className={formStyles.translating_from}>
                             {exitName}
@@ -231,7 +231,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 );
             }
 
-            return exits;
+            return exitList;
         }, []);
 
         return (
@@ -522,7 +522,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             getLocalizedObject: this.getLocalizedObject,
             saveLocalizedExits: this.saveLocalizedExits,
             getActionUUID: this.getActionUUID,
-            renderExitTranslations: this.renderExitTranslations,
+            getExitTranslations: this.getExitTranslations,
             onBindWidget: this.onBindWidget,
             onBindAdvancedWidget: this.onBindAdvancedWidget,
             onToggleAdvanced: this.toggleAdvanced,

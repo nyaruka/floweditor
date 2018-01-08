@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { getSpecWrapper } from '../../helpers/utils';
 import Config from '../../providers/ConfigProvider/configContext';
 import SwitchRouterForm, {
@@ -11,18 +11,18 @@ import SwitchRouterForm, {
 } from './SwitchRouter';
 import CompMap from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
-import TextInputElement from '../form/TextInputElement/TextInputElement';
 import { Exit, Case } from '../../flowTypes';
 import { getLocalizations } from '../Node';
+import NodeEditor from '../NodeEditor/NodeEditor';
 
 const colorsFlow = require('../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 const formStyles = require('../NodeEditor/NodeEditor.scss');
 
-const { languages, getTypeConfig, getOperatorConfig } = Config;
+const { languages, getTypeConfig, getOperatorConfig, operatorConfigList } = Config;
 
-describe('SwitchRouter', () => {
-    describe('style utils', () => {
-        describe('getListStyle', () => {
+describe('SwitchRouter >', () => {
+    describe('style utils >', () => {
+        describe('getListStyle >', () => {
             it('should return "pointer" cursor style when passed a falsy isDraggingOver arg', () =>
                 expect(getListStyle(false)).toEqual({
                     cursor: 'pointer'
@@ -34,7 +34,7 @@ describe('SwitchRouter', () => {
                 }));
         });
 
-        describe('getItemStyle', () => {
+        describe('getItemStyle >', () => {
             const notDraggingStyle = {
                 transition: null,
                 transform: null,
@@ -60,7 +60,7 @@ describe('SwitchRouter', () => {
                 touchAction: 'manipulation'
             };
 
-            it('should return notDragging style when passed a falsy isDragging arg (snapshot)', () =>
+            it('should return not-dragging style when passed a falsy isDragging arg (snapshot)', () =>
                 expect(getItemStyle(notDraggingStyle, false)).toMatchSnapshot());
 
             it('should return dragging style when passed a truthy isDragging arg (snapshot)', () =>
@@ -68,8 +68,8 @@ describe('SwitchRouter', () => {
         });
     });
 
-    describe('exit utils', () => {
-        describe('resolveExits', () =>
+    describe('helpers >', () => {
+        describe('resolveExits >', () =>
             it('should resolve exits', () => {
                 const newCases = [
                     {
@@ -118,7 +118,7 @@ describe('SwitchRouter', () => {
                 expect(resolveExits(newCases, node)).toMatchSnapshot();
             }));
 
-        describe('composeExits', () => {
+        describe('composeExitMap >', () =>
             it('should compose a map of exits', () =>
                 expect(
                     composeExitMap([
@@ -128,310 +128,267 @@ describe('SwitchRouter', () => {
                             destination_node_uuid: null
                         }
                     ])
-                ).toMatchSnapshot());
-        });
+                ).toMatchSnapshot()));
     });
 
-    describe('Component: SwitchRouterForm', () => {
+    describe('render >', () => {
         const { results: [{ definition }] } = colorsFlow;
         const { nodes: [, node], localization: locals } = definition;
         const config = getTypeConfig('wait_for_response');
         const ComponentMap = new CompMap(definition);
-
         const iso = 'spa';
         const translations = locals[iso];
-
         const localizations = getLocalizations(node, iso, languages, translations);
 
-        const props = {
+        const nodeEditorContext = {
+            getTypeConfig
+        };
+
+        const switchRouterContext = {
+            getOperatorConfig,
+            operatorConfigList
+        };
+
+        const nodeProps = {
+            show: true,
+            node,
+            iso,
+            definition,
+            localizations,
+            ComponentMap
+        };
+
+        const {
+            onBindWidget,
+            onBindAdvancedWidget,
+            removeWidget,
+            getExitTranslations,
+            getLocalizedExits
+        } = shallow(<NodeEditor {...nodeProps as any} />, {
+            context: nodeEditorContext
+        }).instance() as any;
+
+        const switchProps = {
             node,
             config,
             definition,
             ComponentMap,
             updateRouter: jest.fn(),
-            onBindWidget: jest.fn(),
-            onBindAdvancedWidget: jest.fn(),
-            removeWidget: jest.fn(),
-            updateLocalizations: jest.fn(),
-            renderExitTranslations: jest.fn(),
-            getLocalizedExits: jest.fn()
+            onBindWidget,
+            onBindAdvancedWidget,
+            removeWidget
         };
 
-        const context = {
-            getOperatorConfig
+        const switchPropsTranslating = {
+            ...switchProps,
+            showAdvanced: false,
+            translating: true,
+            iso: 'spa',
+            localizations,
+            getExitTranslations,
+            getLocalizedExits
         };
+
+        const placeholder: string = `${localizations[0].getLanguage().name} Translation`;
 
         const SwitchFormWaitBasic = mount(
             <SwitchRouterForm
                 {...{
-                    ...props,
+                    ...switchProps,
                     showAdvanced: false,
                     translating: false,
                     iso: 'eng'
-                }}
+                } as any}
             />,
-            { context }
+            { context: switchRouterContext }
         );
 
         const SwitchFormExpressionBasic = mount(
             <SwitchRouterForm
                 {...{
-                    ...props,
+                    ...switchProps,
                     config: {
                         ...getTypeConfig('expression')
                     },
                     showAdvanced: false,
                     translating: false,
                     iso: 'eng'
-                }}
+                } as any}
             />,
-            { context }
+            { context: switchRouterContext }
         );
 
-        const translatingProps = {
-            ...props,
-            showAdvanced: false,
-            translating: true,
-            iso: 'spa',
-            localizations,
-            renderExitTranslations: jest.fn(() => {
-                let languageName: string = '';
+        const SwitchFormWaitTranslatingExits = mount(
+            <SwitchRouterForm {...switchPropsTranslating as any} />,
+            {
+                context: switchRouterContext
+            }
+        );
 
-                if (localizations.length > 0) {
-                    ({ name: languageName } = localizations[0].getLanguage());
-                }
+        const SwitchFormTranslatingArgs = mount(
+            <SwitchRouterForm {...{ ...switchPropsTranslating, showAdvanced: true } as any} />,
+            {
+                context: switchRouterContext
+            }
+        );
 
-                if (!languageName) {
-                    return null;
-                }
+        it('should render wait_for_response form (not translating)', () => {
+            /** Cases */
+            expect(getSpecWrapper(SwitchFormWaitBasic, 'case').length).toBe(8);
 
-                const exits = node.exits.reduce((exitsArr, { uuid: exitUUID, name: exitName }) => {
+            expect(getSpecWrapper(SwitchFormWaitBasic, 'case-draggable').length).toBe(7);
+
+            expect(
+                getSpecWrapper(SwitchFormWaitBasic, 'case')
+                    .last()
+                    .prop('empty')
+            ).toBeTruthy();
+
+            /** Fields */
+            expect(getSpecWrapper(SwitchFormWaitBasic, 'name-field').name()).toBe(
+                'TextInputElement'
+            );
+
+            expect(getSpecWrapper(SwitchFormWaitBasic, 'name-field').props()).toEqual(
+                expect.objectContaining({
+                    'data-spec': 'name-field',
+                    name: 'Result Name',
+                    showLabel: true,
+                    value: switchProps.node.router.result_name,
+                    helpText:
+                        'By naming the result, you can reference it later using @run.results.whatever_the_name_is',
+                    ComponentMap: switchProps.ComponentMap
+                })
+            );
+
+            expect(getSpecWrapper(SwitchFormWaitBasic, 'lead-in').text()).toBe(
+                'If the message response...'
+            );
+        });
+
+        it('should render wait_for_response form (translating)', () => {
+            expect(getSpecWrapper(SwitchFormWaitTranslatingExits, 'title').exists()).toBeTruthy();
+
+            expect(getSpecWrapper(SwitchFormWaitTranslatingExits, 'instructions').text()).toBe(
+                'When category names are referenced later in the flow, the appropriate language for the category will be used. If no translation is provided, the original text will be used.'
+            );
+
+            getSpecWrapper(SwitchFormWaitTranslatingExits, 'exit-name').forEach((uiNode, idx) =>
+                expect(uiNode.text()).toBe(switchProps.node.exits[idx].name)
+            );
+
+            getSpecWrapper(SwitchFormWaitTranslatingExits, 'localization-input').forEach(
+                (uiNode, idx) => {
+                    const exitUUID: string = switchProps.node.exits[idx].uuid;
+                    let value: string = '';
                     const localized = localizations.find(
                         localizedObject => localizedObject.getObject().uuid === exitUUID
                     );
 
                     if (localized) {
-                        let value = '';
-
                         if ('name' in localized.localizedKeys) {
                             ({ name: value } = localized.getObject() as Exit);
                         }
 
-                        exitsArr.push(
-                            <div key={exitUUID} className={formStyles.translating_exit}>
-                                <div data-spec="exit-name" className={formStyles.translating_from}>
-                                    {exitName}
-                                </div>
-                                <div className={formStyles.translating_to}>
-                                    <TextInputElement
-                                        data-spec="localization-input"
-                                        ref={() => {}}
-                                        name={exitUUID}
-                                        placeholder={`${languageName} Translation`}
-                                        showLabel={false}
-                                        value={value}
-                                        /** Node */
-                                        ComponentMap={props.ComponentMap}
-                                    />
-                                </div>
-                            </div>
-                        );
-                    }
-
-                    return exitsArr;
-                }, []);
-
-                return (
-                    <div>
-                        <div data-spec="title" className={formStyles.title}>
-                            Categories
-                        </div>
-                        <div data-spec="instructions" className={formStyles.instructions}>
-                            When category names are referenced later in the flow, the appropriate
-                            language for the category will be used. If no translation is provided,
-                            the original text will be used.
-                        </div>
-                        <div className={formStyles.translating_exits}>{exits}</div>
-                    </div>
-                );
-            })
-        } as any;
-
-        const SwitchFormWaitTranslatingExits = mount(<SwitchRouterForm {...translatingProps} />, {
-            context
-        });
-
-        const SwitchFormTranslatingArgs = mount(
-            <SwitchRouterForm {...{ ...translatingProps, showAdvanced: true }} />,
-            {
-                context
-            }
-        );
-
-        describe('render', () => {
-            const placeholder: string = `${localizations[0].getLanguage().name} Translation`;
-
-            it('should render wait_for_response form (not translating)', () => {
-                /** Cases */
-                expect(getSpecWrapper(SwitchFormWaitBasic, 'case').length).toBe(8);
-
-                expect(getSpecWrapper(SwitchFormWaitBasic, 'case-draggable').length).toBe(7);
-
-                expect(
-                    getSpecWrapper(SwitchFormWaitBasic, 'case')
-                        .last()
-                        .prop('empty')
-                ).toBeTruthy();
-
-                /** Fields */
-                expect(getSpecWrapper(SwitchFormWaitBasic, 'name-field').name()).toBe(
-                    'TextInputElement'
-                );
-
-                expect(getSpecWrapper(SwitchFormWaitBasic, 'name-field').props()).toEqual(
-                    expect.objectContaining({
-                        'data-spec': 'name-field',
-                        name: 'Result Name',
-                        showLabel: true,
-                        value: props.node.router.result_name,
-                        helpText:
-                            'By naming the result, you can reference it later using @run.results.whatever_the_name_is',
-                        ComponentMap: props.ComponentMap
-                    })
-                );
-
-                expect(getSpecWrapper(SwitchFormWaitBasic, 'lead-in').text()).toBe(
-                    'If the message response...'
-                );
-            });
-
-            it('should render wait_for_response `form (translating)', () => {
-                expect(
-                    getSpecWrapper(SwitchFormWaitTranslatingExits, 'title').exists()
-                ).toBeTruthy();
-
-                expect(getSpecWrapper(SwitchFormWaitTranslatingExits, 'instructions').text()).toBe(
-                    'When category names are referenced later in the flow, the appropriate language for the category will be used. If no translation is provided, the original text will be used.'
-                );
-
-                getSpecWrapper(SwitchFormWaitTranslatingExits, 'exit-name').forEach((uiNode, idx) =>
-                    expect(uiNode.text()).toBe(props.node.exits[idx].name)
-                );
-
-                getSpecWrapper(SwitchFormWaitTranslatingExits, 'localization-input').forEach(
-                    (uiNode, idx) => {
-                        const exitUUID: string = props.node.exits[idx].uuid;
-                        let value: string = '';
-                        const localized = localizations.find(
-                            localizedObject => localizedObject.getObject().uuid === exitUUID
-                        );
-
-                        if (localized) {
-                            if ('name' in localized.localizedKeys) {
-                                ({ name: value } = localized.getObject() as Exit);
-                            }
-
-                            expect(uiNode.props()).toEqual({
+                        expect(uiNode.props()).toEqual(
+                            expect.objectContaining({
                                 'data-spec': 'localization-input',
                                 name: exitUUID,
                                 placeholder,
                                 showLabel: false,
                                 value,
-                                ComponentMap: props.ComponentMap
-                            });
-                        }
+                                ComponentMap: switchProps.ComponentMap
+                            })
+                        );
                     }
-                );
-            });
+                }
+            );
+        });
 
-            it('should render expression form (not translating)', () => {
-                /** Note: cases and name field tested in wait_for_expression test above */
+        it('should render expression form (not translating)', () => {
+            /** Note: cases and name field tested in wait_for_expression test above */
 
-                /** Fields */
-                expect(
-                    getSpecWrapper(SwitchFormExpressionBasic, 'lead-in')
-                        .find('p')
-                        .text()
-                ).toBe('If the expression...');
+            /** Fields */
+            expect(
+                getSpecWrapper(SwitchFormExpressionBasic, 'lead-in')
+                    .find('p')
+                    .text()
+            ).toBe('If the expression...');
 
-                expect(
-                    getSpecWrapper(SwitchFormExpressionBasic, 'lead-in')
-                        .find('TextInputElement')
-                        .props()
-                ).toEqual({
+            expect(
+                getSpecWrapper(SwitchFormExpressionBasic, 'lead-in')
+                    .find('TextInputElement')
+                    .props()
+            ).toEqual(
+                expect.objectContaining({
                     name: 'Expression',
                     showLabel: false,
                     value: '@input',
                     onChange: SwitchFormExpressionBasic.instance().onExpressionChanged,
                     autocomplete: true,
                     required: true,
-                    ComponentMap: props.ComponentMap
-                });
-            });
+                    ComponentMap: switchProps.ComponentMap
+                })
+            );
+        });
 
-            it('should render advanced form (translating case args)', () => {
-                expect(getSpecWrapper(SwitchFormTranslatingArgs, 'advanced-title').text()).toBe(
-                    'Rules'
-                );
+        it('should render advanced form (translating case args)', () => {
+            expect(getSpecWrapper(SwitchFormTranslatingArgs, 'advanced-title').text()).toBe(
+                'Rules'
+            );
 
-                expect(
-                    getSpecWrapper(SwitchFormTranslatingArgs, 'advanced-instructions').text()
-                ).toBe(
-                    'Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.'
-                );
+            expect(getSpecWrapper(SwitchFormTranslatingArgs, 'advanced-instructions').text()).toBe(
+                'Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.'
+            );
 
-                expect(getSpecWrapper(SwitchFormTranslatingArgs, 'operator-field').length).toBe(7);
+            expect(getSpecWrapper(SwitchFormTranslatingArgs, 'operator-field').length).toBe(7);
 
-                const localizedArgs = props.node.router.cases.reduce((argsArr, kase) => {
-                    if (kase.arguments && kase.arguments.length) {
-                        const localized = localizations.find(
-                            localizedObject => localizedObject.getObject().uuid === kase.uuid
-                        );
+            const localizedArgs = switchProps.node.router.cases.reduce((argsArr, kase) => {
+                if (kase.arguments && kase.arguments.length) {
+                    const localized = localizations.find(
+                        localizedObject => localizedObject.getObject().uuid === kase.uuid
+                    );
 
-                        if (localized) {
-                            let value: string = '';
+                    if (localized) {
+                        let value: string = '';
 
-                            if ('arguments' in localized.localizedKeys) {
-                                const localizedCase = localized.getObject() as Case;
+                        if ('arguments' in localized.localizedKeys) {
+                            const localizedCase = localized.getObject() as Case;
 
-                                if (localizedCase.arguments.length) {
-                                    [value] = localizedCase.arguments;
-                                }
+                            if (localizedCase.arguments.length) {
+                                [value] = localizedCase.arguments;
                             }
-
-                            const { verboseName } = context.getOperatorConfig(kase.type);
-                            const [argument] = kase.arguments;
-
-                            argsArr.push({
-                                value,
-                                verboseName,
-                                argument,
-                                uuid: kase.uuid
-                            });
                         }
-                    }
 
-                    return argsArr;
-                }, []);
+                        const { verboseName } = switchRouterContext.getOperatorConfig(kase.type);
 
-                getSpecWrapper(SwitchFormTranslatingArgs, 'operator-field').forEach(
-                    (uiNode, idx) => {
-                        const { verboseName, argument, uuid, value } = localizedArgs[idx];
+                        const [argument] = kase.arguments;
 
-                        expect(getSpecWrapper(uiNode, 'verbose-name').text()).toBe(verboseName);
-                        expect(getSpecWrapper(uiNode, 'argument-to-translate').text()).toBe(
-                            argument
-                        );
-                        expect(getSpecWrapper(uiNode, 'translation-input').props()).toEqual({
-                            'data-spec': 'translation-input',
-                            name: uuid,
-                            placeholder,
-                            showLabel: false,
+                        argsArr.push({
                             value,
-                            ComponentMap: props.ComponentMap
+                            verboseName,
+                            argument,
+                            uuid: kase.uuid
                         });
                     }
-                );
+                }
+
+                return argsArr;
+            }, []);
+
+            getSpecWrapper(SwitchFormTranslatingArgs, 'operator-field').forEach((uiNode, idx) => {
+                const { verboseName, argument, uuid, value } = localizedArgs[idx];
+
+                expect(getSpecWrapper(uiNode, 'verbose-name').text()).toBe(verboseName);
+                expect(getSpecWrapper(uiNode, 'argument-to-translate').text()).toBe(argument);
+                expect(getSpecWrapper(uiNode, 'translation-input').props()).toEqual({
+                    'data-spec': 'translation-input',
+                    name: uuid,
+                    placeholder,
+                    showLabel: false,
+                    value,
+                    ComponentMap: switchProps.ComponentMap
+                });
             });
         });
     });
