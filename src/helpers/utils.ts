@@ -83,27 +83,6 @@ export const validUUID = (uuid: string): boolean => V4_UUID.test(uuid);
 export const titleCase = (str: string): string =>
     str.replace(/\b\w+/g, s => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase());
 
-/**
- * Transforms a given characterSet into its CharacterSet equivalent; defaults to CharacterSet.GSM
- * @param {string} characterSet - characterSet, i.e. 'unicode' or 'gsm'
- * @returns {CharacterSet} CharacterSet
- */
-export const toCharSetEnum = (characterSet: string): CharacterSet =>
-    characterSet.toLowerCase() === 'unicode' ? CharacterSet.UNICODE : CharacterSet.GSM;
-
-/**
- * Replaces unicode characters commonly inserted by text editors like MSWord in a given string with their GSM equivalents
- * @param {string} msg - msg to be cleaned
- * @returns {string} Cleaned msg
- */
-export const cleanMsg = (msg: string): string =>
-    msg
-        .replace(/[\u2018\u2019]/g, "'") /** Smart single quotes */
-        .replace(/[\u201C\u201D]/g, '"') /** Smart double quotes */
-        .replace(/[\u2013\u2014]/g, '-') /** En/em dash */
-        .replace(/\u2026/g, '...') /** Horizontal ellipsis */
-        .replace(/\u2002/g, ' '); /** En space */
-
 export const getSelectClass = (errors: number): string[] => {
     if (errors === 0) {
         return [];

@@ -128,10 +128,11 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         };
 
         this.categoryRef = this.categoryRef.bind(this);
-        this.onChangeArguments = this.onChangeArguments.bind(this);
         this.onChangeOperator = this.onChangeOperator.bind(this);
+        this.onChangeArguments = this.onChangeArguments.bind(this);
         this.onChangeExitName = this.onChangeExitName.bind(this);
         this.onRemove = this.onRemove.bind(this);
+        this.validate = this.validate.bind(this);
     }
 
     private categoryRef(ref: TextInputElement): TextInputElement {
