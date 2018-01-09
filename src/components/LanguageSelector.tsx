@@ -15,12 +15,14 @@ export interface LanguageSelectorProps {
     onChange(language: Language): void;
 }
 
-const LanguageSelectorComp: React.SFC<LanguageSelectorProps> = (props): JSX.Element => {
-    const options: Language[] = Object.keys(props.languages).map(iso => ({
-        name: props.languages[iso],
+export const composeLanguageMap = (languages: Languages): Language[] =>
+    Object.keys(languages).map(iso => ({
+        name: languages[iso],
         iso
     }));
 
+const LanguageSelectorComp: React.SFC<LanguageSelectorProps> = (props): JSX.Element => {
+    const options = composeLanguageMap(props.languages);
     return (
         <div className={`${languageSelector} select-small`}>
             <Select

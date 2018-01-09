@@ -278,7 +278,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     private getExitTranslations(): JSX.Element {
-        let languageName: string = '';
+        let languageName: string = 'Spanish';
 
         if (this.props.translating) {
             ({ name: languageName } = this.props.language);

@@ -17,6 +17,7 @@ const config = getTypeConfig('reply');
 const props: Partial<ReplyFormProps> = {
     action,
     config,
+    language: configContext.baseLanguage,
     translating: false,
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
@@ -49,7 +50,9 @@ describe('Component: ReplyForm', () => {
         const ReplyFormBase = createReplyForm({ showAdvanced: false }, true);
 
         expect(ReplyFormBase.find('div').exists()).toBeTruthy();
+
         expect(props.onBindWidget).toBeCalled();
+
         expect(ReplyFormBase.find('TextInputElement').props()).toEqual({
             name: 'Message',
             count: Count.SMS,
@@ -68,6 +71,7 @@ describe('Component: ReplyForm', () => {
         const ReplyFormBase = createReplyForm({ showAdvanced: true }, true);
 
         expect(props.onBindAdvancedWidget).toBeCalled();
+
         expect(ReplyFormBase.find('CheckboxElement').props()).toEqual({
             name: 'All Destinations',
             defaultValue: action.all_urns && action.all_urns,
@@ -76,39 +80,29 @@ describe('Component: ReplyForm', () => {
     });
 
     describe('Localization', () => {
-        it('Renders translation container, text to be translated', () => {
-            const ReplyFormBase = createReplyForm({
-                translating: true,
-                showAdvanced: false,
-                getLocalizedObject: jest.fn(() => ({
-                    getLanguage: () => ({ name: 'Spanish' }),
-                    getObject: () => ({
-                        text: localizedText
-                    }),
-                    isLocalized: () => true
-                }))
-            });
+        const ReplyFormBaseLocalized = createReplyForm({
+            translating: true,
+            language: { name: 'Spanish', iso: 'spa' },
+            showAdvanced: false,
+            getLocalizedObject: jest.fn(() => ({
+                getLanguage: () => ({ name: 'Spanish' }),
+                getObject: () => ({
+                    text: localizedText
+                }),
+                isLocalized: () => true
+            }))
+        });
 
-            expect(getSpecWrapper(ReplyFormBase, 'translation-container').exists()).toBeTruthy();
-            expect(getSpecWrapper(ReplyFormBase, 'text-to-translate').text()).toBe(
+        it('Renders translation container, text to be translated', () => {
+            expect(getSpecWrapper(ReplyFormBaseLocalized, 'translation-container').exists()).toBeTruthy();
+
+            expect(getSpecWrapper(ReplyFormBaseLocalized, 'text-to-translate').text()).toBe(
                 props.action.text
             );
         });
 
         it('Renders localization form with localized input when action is localized', () => {
-            const ReplyFormBase = createReplyForm({
-                translating: true,
-                showAdvanced: false,
-                getLocalizedObject: jest.fn(() => ({
-                    getLanguage: () => ({ name: 'Spanish' }),
-                    getObject: () => ({
-                        text: localizedText
-                    }),
-                    isLocalized: () => true
-                }))
-            });
-
-            expect(ReplyFormBase.find('TextInputElement').props()).toEqual({
+            expect(ReplyFormBaseLocalized.find('TextInputElement').props()).toEqual({
                 name: 'Message',
                 count: Count.SMS,
                 showLabel: false,
@@ -125,6 +119,7 @@ describe('Component: ReplyForm', () => {
         it('Renders localization form without localized input when action is not localized', () => {
             const ReplyFormBase = createReplyForm({
                 translating: true,
+                language: { name: 'Spanish', iso: 'spa' },
                 showAdvanced: false,
                 getLocalizedObject: jest.fn(() => ({
                     getLanguage: () => ({ name: 'Spanish' }),

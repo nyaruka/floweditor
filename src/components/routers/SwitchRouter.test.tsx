@@ -18,7 +18,7 @@ import NodeEditor from '../NodeEditor/NodeEditor';
 const colorsFlow = require('../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 const formStyles = require('../NodeEditor/NodeEditor.scss');
 
-const { languages, getTypeConfig, getOperatorConfig, operatorConfigList } = Config;
+const { baseLanguage, languages, getTypeConfig, getOperatorConfig, operatorConfigList } = Config;
 
 describe('SwitchRouter >', () => {
     describe('style utils >', () => {
@@ -149,10 +149,12 @@ describe('SwitchRouter >', () => {
             operatorConfigList
         };
 
+        const spanish = { name: 'Spanish', iso: 'spa' };
+
         const nodeProps = {
             show: true,
             node,
-            iso,
+            language: spanish,
             definition,
             localizations,
             ComponentMap
@@ -176,14 +178,16 @@ describe('SwitchRouter >', () => {
             updateRouter: jest.fn(),
             onBindWidget,
             onBindAdvancedWidget,
-            removeWidget
+            removeWidget,
+            language: baseLanguage,
+            showAdvanced: false,
+            translating: false
         };
 
         const switchPropsTranslating = {
             ...switchProps,
-            showAdvanced: false,
             translating: true,
-            iso: 'spa',
+            language: spanish,
             localizations,
             getExitTranslations,
             getLocalizedExits
@@ -191,28 +195,15 @@ describe('SwitchRouter >', () => {
 
         const placeholder: string = `${localizations[0].getLanguage().name} Translation`;
 
-        const SwitchFormWaitBasic = mount(
-            <SwitchRouterForm
-                {...{
-                    ...switchProps,
-                    showAdvanced: false,
-                    translating: false,
-                    iso: 'eng'
-                } as any}
-            />,
-            { context: switchRouterContext }
-        );
+        const SwitchFormWaitBasic = mount(<SwitchRouterForm {...switchProps as any} />, {
+            context: switchRouterContext
+        });
 
         const SwitchFormExpressionBasic = mount(
             <SwitchRouterForm
                 {...{
                     ...switchProps,
-                    config: {
-                        ...getTypeConfig('expression')
-                    },
-                    showAdvanced: false,
-                    translating: false,
-                    iso: 'eng'
+                    config: getTypeConfig('expression')
                 } as any}
             />,
             { context: switchRouterContext }
@@ -233,7 +224,7 @@ describe('SwitchRouter >', () => {
         );
 
         it('should render wait_for_response form (not translating)', () => {
-            /** Cases */
+            // Cases
             expect(getSpecWrapper(SwitchFormWaitBasic, 'case').length).toBe(8);
 
             expect(getSpecWrapper(SwitchFormWaitBasic, 'case-draggable').length).toBe(7);
