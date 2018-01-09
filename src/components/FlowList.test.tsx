@@ -4,28 +4,29 @@ import FlowList, { FlowListProps } from './FlowList';
 
 const { results: flowDetails } = require('../../assets/flows.json');
 
-const flows = flowDetails.map(({ uuid, name }) => ({
+const flowOptions = flowDetails.map(({ uuid, name }) => ({
     uuid,
     name
 }));
 
-const flow = {
+const flowOption = {
     name: flowDetails[0].name,
     uuid: flowDetails[0].uuid
 };
 
 const props: FlowListProps = {
-    onFlowSelect: jest.fn(),
-    flow,
-    flows
+    onSelectFlow: jest.fn(),
+    flowOption,
+    flowOptions
 };
 
-describe('Component: FlowList', () => {
-    it('should render Select component', () => {
-        const Select = shallow(<FlowList {...props} />).find('Select');
-        const SelectProps = Select.props();
-        expect(SelectProps).toHaveProperty('value', flow);
-        expect(SelectProps).toHaveProperty('isLoading', false);
-        expect(SelectProps).toHaveProperty('options', flows);
-    });
+describe('FlowList >', () => {
+    describe('render >', () =>
+        it('should render Select component', () => {
+            const Select = shallow(<FlowList {...props} />).find('Select');
+            const SelectProps = Select.props();
+            expect(SelectProps).toHaveProperty('value', flowOption);
+            expect(SelectProps).toHaveProperty('isLoading', false);
+            expect(SelectProps).toHaveProperty('options', flowOptions);
+        }));
 });
