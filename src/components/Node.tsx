@@ -2,10 +2,10 @@ import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import * as shallowCompare from 'react-addons-shallow-compare';
 import { Language } from './LanguageSelector';
-import Action, { ActionProps } from './Action/Action';
+import ActionComp, { ActionProps } from './Action/Action';
 import { DragEvent } from '../services/Plumber';
 import ExitComp from './Exit';
-import TitleBarComp from './TitleBar';
+import TitleBar from './TitleBar';
 import {
     FlowDefinition,
     Node,
@@ -53,7 +53,7 @@ export interface NodeProps {
     ui: UINode;
     Activity: ActivityManager;
     translations: { [uuid: string]: any };
-    iso: string;
+    language: Language;
     translating: boolean;
     definition: FlowDefinition;
     ghost?: boolean;
@@ -89,15 +89,16 @@ export const getLocalizations = (
 ): LocalizedObject[] => {
     const localizations: LocalizedObject[] = [];
 
-    /** Account for localized cases */
+    // Account for localized cases
     if (node.router.type === 'switch') {
         const router = node.router as SwitchRouter;
+
         router.cases.forEach(kase =>
             localizations.push(Localization.translate(kase, iso, languages, translations))
         );
     }
 
-    /** Account for localized exits */
+    // Account for localized exits
     node.exits.forEach(exit => {
         localizations.push(Localization.translate(exit, iso, languages, translations));
     });
@@ -110,9 +111,10 @@ export const getLocalizations = (
  */
 export default class NodeComp extends React.Component<NodeProps, NodeState> {
     public ele: HTMLDivElement;
-    private firstAction: React.ComponentClass<{}>;
+    private firstAction: ActionComp;
     private clicking: boolean;
     private dragGroup: boolean;
+    private events: { onMouseDown(): void; onMouseUp(event: any): void };
 
     public static contextTypes = {
         typeConfigList: typeConfigListPT,
@@ -129,72 +131,46 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         this.state = { dragging: false };
 
         this.eleRef = this.eleRef.bind(this);
+        this.onMouseOver = this.onMouseOver.bind(this);
+        this.onMouseOut = this.onMouseOut.bind(this);
+        this.onAddAction = this.onAddAction.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onDragStart = this.onDragStart.bind(this);
         this.onDrag = this.onDrag.bind(this);
         this.onDragStop = this.onDragStop.bind(this);
         this.onRemoval = this.onRemoval.bind(this);
+        this.onUnmount = this.onUnmount.bind(this);
+        this.getCount = this.getCount.bind(this);
+
+        this.events = {
+            onMouseDown: () => (this.clicking = true),
+            onMouseUp: (event: any) => {
+                if (this.clicking) {
+                    this.clicking = false;
+
+                    this.onClick(event);
+                }
+            }
+        };
     }
 
     private eleRef(ref: HTMLDivElement): HTMLDivElement {
         return (this.ele = ref);
     }
 
-    onDragStart(event: any) {
-        this.clicking = false;
-        this.setState({ dragging: true });
-        return false;
-    }
-
-    onDrag(event: DragEvent) {}
-
-    onDragStop(event: DragEvent) {
-        this.setState({ dragging: false });
-        this.props.onNodeDragStop(this.props.node);
-
-        var position = $(event.target).position();
-        event.e.preventDefault();
-        event.e.stopPropagation();
-        event.e.stopImmediatePropagation();
-
-        // for older IE
-        if (window.event) {
-            window.event.cancelBubble = true;
-        }
-
-        // update our coordinates
-        this.props.onNodeMoved(this.props.node.uuid, {
-            x: event.finalPos[0],
-            y: event.finalPos[1]
-        });
-    }
-
-    shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState): boolean {
-        if (
-            nextProps.ui.position.x !== this.props.ui.position.x ||
-            nextProps.ui.position.y !== this.props.ui.position.y
-        ) {
-            return true;
-        }
-        return shallowCompare(this, nextProps, nextState);
-    }
-
-    componentDidMount() {
+    public componentDidMount(): void {
         this.props.plumberDraggable(
             this.props.node.uuid,
             (event: DragEvent) => {
                 this.onDragStart(event);
                 this.props.onNodeDragStart(this.props.node);
             },
-            (event: DragEvent) => {
-                this.onDrag(event);
-            },
-            (event: DragEvent) => {
-                this.onDragStop(event);
-            },
+            (event: DragEvent) => this.onDrag(event),
+            (event: DragEvent) => this.onDragStop(event),
             () => {
                 if (!this.props.translating) {
                     this.props.onNodeBeforeDrag(this.props.node, this.dragGroup);
+
                     return true;
                 } else {
                     return false;
@@ -202,10 +178,10 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             }
         );
 
-        // make ourselves a target
+        // Make ourselves a target
         this.props.plumberMakeTarget(this.props.node.uuid);
 
-        // resolve our pending connections, etc
+        // Resolve our pending connections, etc
         if (this.props.onNodeMounted) {
             this.props.onNodeMounted(this.props.node);
         }
@@ -213,10 +189,11 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         // move our drag node around as necessary
         if (this.props.ghost) {
             $(document).bind('mousemove', e => {
-                var ele = $(this.ele);
-                var left = e.pageX - ele.width() / 2;
-                var top = e.pageY;
-                var nodeEle = $(this.ele);
+                const ele = $(this.ele);
+                const left = e.pageX - ele.width() / 2;
+                const top = e.pageY;
+                const nodeEle = $(this.ele);
+
                 nodeEle.offset({ left, top });
 
                 // hide ourselves there's a drop target
@@ -232,22 +209,17 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         }
     }
 
-    private updateDimensions() {
-        if (this.ele) {
-            if (this.ele.clientWidth && this.ele.clientHeight) {
-                this.props.onUpdateDimensions(this.props.node, {
-                    width: this.ele.clientWidth,
-                    height: this.ele.clientHeight
-                });
-            }
+    public shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState): boolean {
+        if (
+            nextProps.ui.position.x !== this.props.ui.position.x ||
+            nextProps.ui.position.y !== this.props.ui.position.y
+        ) {
+            return true;
         }
+        return shallowCompare(this, nextProps, nextState);
     }
 
-    componentWillUnmount() {
-        this.props.plumberRemove(this.props.node.uuid);
-    }
-
-    componentDidUpdate(prevProps: NodeProps, prevState: NodeState) {
+    public componentDidUpdate(prevProps: NodeProps, prevState: NodeState): void {
         if (!this.props.ghost) {
             try {
                 this.props.plumberRecalculate(this.props.node.uuid);
@@ -257,8 +229,8 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
             if (
                 !this.props.ui.dimensions ||
-                (this.props.ui.dimensions.width != this.ele.clientWidth ||
-                    this.props.ui.dimensions.height != this.ele.clientHeight)
+                (this.props.ui.dimensions.width !== this.ele.clientWidth ||
+                    this.props.ui.dimensions.height !== this.ele.clientHeight)
             ) {
                 if (!this.props.translating) {
                     this.updateDimensions();
@@ -269,33 +241,87 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         }
     }
 
-    onClick(event?: any) {
-        let action: AnyAction;
+    public componentWillUnmount(): void {
+        this.props.plumberRemove(this.props.node.uuid);
+    }
+
+    private onMouseOver(): boolean {
+        return (this.dragGroup = true);
+    }
+
+    private onMouseOut(): boolean {
+        return (this.dragGroup = false);
+    }
+
+    private onAddAction(): void {
+        this.props.onAddAction(this.props.node);
+    }
+
+    private onDragStart(event: any): boolean {
+        this.clicking = false;
+        this.setState({ dragging: true });
+
+        return false;
+    }
+
+    private onDrag(event: DragEvent): void {}
+
+    private onDragStop(event: DragEvent): void {
+        this.setState({ dragging: false });
+
+        this.props.onNodeDragStop(this.props.node);
+
+        const position = $(event.target).position();
+
+        event.e.preventDefault();
+        event.e.stopPropagation();
+        event.e.stopImmediatePropagation();
+
+        // For older IE
+        if (window.event) {
+            window.event.cancelBubble = true;
+        }
+
+        // Update our coordinates
+        this.props.onNodeMoved(this.props.node.uuid, {
+            x: event.finalPos[0],
+            y: event.finalPos[1]
+        });
+    }
+
+    private updateDimensions(): void {
+        if (this.ele) {
+            if (this.ele.clientWidth && this.ele.clientHeight) {
+                this.props.onUpdateDimensions(this.props.node, {
+                    width: this.ele.clientWidth,
+                    height: this.ele.clientHeight
+                });
+            }
+        }
+    }
+
+    // Applies only to router nodes; ./Action/Action handles click logic for Action nodes
+    public onClick(event?: any): void {
         let localizations: LocalizedObject[] = [];
 
         // click the last action in the list if we have one
         if (this.props.translating) {
             localizations = getLocalizations(
                 this.props.node,
-                this.props.iso,
+                this.props.language.iso,
                 this.context.languages,
                 this.props.translations
             );
-        } else if (this.props.node.actions && this.props.node.actions.length > 0) {
-            action = this.props.node.actions[this.props.node.actions.length - 1];
         }
 
         this.props.openEditor({
-            /** Node */
-            action,
-            actionsOnly: true,
-            /** Flow */
+            // Flow
             node: this.props.node,
             definition: this.props.definition,
-            iso: this.props.iso,
+            language: this.props.language,
             nodeUI: this.props.ui,
-            localizations,
             translating: this.props.translating,
+            localizations,
             ComponentMap: this.props.ComponentMap,
             onUpdateLocalizations: this.props.onUpdateLocalizations,
             onUpdateAction: this.props.onUpdateAction,
@@ -303,49 +329,98 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         });
     }
 
-    private onRemoval(event: React.MouseEvent<HTMLDivElement>) {
+    private onRemoval(event: React.MouseEvent<HTMLDivElement>): void {
         if (event) {
             event.preventDefault();
             event.stopPropagation();
         }
+
         this.props.onRemoveNode(this.props.node);
     }
 
-    render() {
+    private onUnmount(key: string): void {
+        this.props.Activity.deregister(key);
+    }
+
+    private getCount(): number {
+        return this.props.Activity.getActiveCount(this.props.node.uuid);
+    }
+
+    private getExits(): JSX.Element[] {
+        if (this.props.node.exits) {
+            return this.props.node.exits.map(exit => {
+                const localization: LocalizedObject = Localization.translate(
+                    exit,
+                    this.props.language.iso,
+                    this.context.languages,
+                    this.props.translations
+                );
+
+                return (
+                    <ExitComp
+                        key={exit.uuid}
+                        // Node
+                        exit={exit}
+                        localization={localization}
+                        // Flow
+                        translating={this.props.translating}
+                        onDisconnect={this.props.onDisconnectExit}
+                        Activity={this.props.Activity}
+                        plumberMakeSource={this.props.plumberMakeSource}
+                        plumberRemove={this.props.plumberRemove}
+                        plumberConnectExit={this.props.plumberConnectExit}
+                    />
+                );
+            });
+        }
+
+        return [];
+    }
+
+    private getDragLink(): JSX.Element {
+        if (!this.props.translating) {
+            return (
+                <a
+                    title="Drag to move all nodes below here"
+                    className={styles.drag_group}
+                    onMouseOver={this.onMouseOver}
+                    onMouseOut={this.onMouseOut}>
+                    <span className="icon-link" />
+                </a>
+            );
+        }
+
+        return null;
+    }
+
+    public render(): JSX.Element {
         const classes = ['plumb-drag', styles.node];
 
-        let actions: JSX.Element[] = [];
+        const actions: JSX.Element[] = [];
         let actionList: JSX.Element = null;
 
         if (this.props.node.actions) {
-            // save the first reference off to manage our clicks
-            let firstRef: any = {
-                ref: (ele: any) => (this.firstAction = ele)
+            // Save the first reference off to manage our clicks
+            let firstRef: { ref(ref: ActionComp): ActionComp } | {} = {
+                ref: (ref: ActionComp): ActionComp => (this.firstAction = ref)
             };
 
-            this.props.node.actions.map((action: AnyAction, idx: number) => {
+            this.props.node.actions.forEach((action: AnyAction, idx: number) => {
                 const actionConfig = this.context.getTypeConfig(action.type);
 
                 if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
-                    let localization: LocalizedObject;
-
-                    if (this.props.translations) {
-                        localization = Localization.translate(
-                            action,
-                            this.props.iso,
-                            this.context.languages,
-                            this.props.translations
-                        );
-                    }
+                    const localization: LocalizedObject = Localization.translate(
+                        action,
+                        this.props.language.iso,
+                        this.context.languages,
+                        this.props.translations
+                    );
 
                     const actionProps: ActionProps = {
-                        /** Flow */
+                        // Flow
                         node: this.props.node,
                         ComponentMap: this.props.ComponentMap,
                         openEditor: this.props.openEditor,
-                        iso: this.props.iso,
-                        translating: this.props.translating,
-                        definition: this.props.definition,
                         onRemoveAction: this.props.onRemoveAction,
                         onMoveActionUp: this.props.onMoveActionUp,
                         onUpdateLocalizations: this.props.onUpdateLocalizations,
@@ -359,15 +434,18 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                             this.props.node.hasOwnProperty('router') &&
                             (this.props.node.router !== undefined ||
                                 this.props.node.router !== null),
-                        Localization: localization
+                        definition: this.props.definition,
+                        language: this.props.language,
+                        translating: this.props.translating,
+                        localization
                     };
 
                     const { component: ActionDiv } = actionConfig;
 
                     actions.push(
-                        <Action {...firstRef} key={action.uuid} {...actionProps}>
-                            {(injectedProps: AnyAction) => <ActionDiv {...injectedProps} />}
-                        </Action>
+                        <ActionComp {...firstRef} key={action.uuid} {...actionProps}>
+                            {(actionDivProps: AnyAction) => <ActionDiv {...actionDivProps} />}
+                        </ActionComp>
                     );
                 }
 
@@ -386,34 +464,26 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             );
         }
 
-        const events = {
-            onMouseDown: () => (this.clicking = true),
-            onMouseUp: (event: any) => {
-                if (this.clicking) {
-                    this.clicking = false;
-                    this.onClick(event);
-                }
-            }
-        };
-
         let header: JSX.Element = null;
         let addActions: JSX.Element = null;
 
+        // Router node display logic
         if (
             !this.props.node.actions ||
-            this.props.node.actions.length == 0 ||
+            !this.props.node.actions.length ||
             this.props.ui.type != null
         ) {
             let type = this.props.node.router.type;
+
             if (this.props.ui.type) {
                 type = this.props.ui.type;
             }
 
-            let config = this.context.getTypeConfig(type);
+            const config = this.context.getTypeConfig(type);
             let { name: title } = config;
 
             if (this.props.node.router.type === 'switch') {
-                let switchRouter = this.props.node.router as SwitchRouter;
+                const switchRouter = this.props.node.router as SwitchRouter;
                 if (switchRouter.result_name) {
                     if (this.props.ui.type === 'expression') {
                         title = `Split by ${titleCase(switchRouter.result_name)}`;
@@ -424,9 +494,10 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             }
 
             if (!this.props.node.actions || !this.props.node.actions.length) {
+                // Router headers are introduced here while action headers are introduced in ./Action/Action
                 header = (
-                    <div {...events}>
-                        <TitleBarComp
+                    <div {...this.events}>
+                        <TitleBar
                             className={shared[config.type]}
                             showRemoval={!this.props.translating}
                             onRemoval={this.onRemoval}
@@ -436,76 +507,36 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 );
             }
         } else {
-            // don't show add actions option if we are translating
+            // Don't show add actions option if we are translating
             if (!this.props.translating) {
                 addActions = (
-                    <a
-                        className={styles.add}
-                        onClick={() => this.props.onAddAction(this.props.node)}>
+                    <a className={styles.add} onClick={this.onAddAction}>
                         <span className="icon-add" />
                     </a>
                 );
             }
         }
 
-        const exits: JSX.Element[] = [];
-
-        if (this.props.node.exits) {
-            for (const exit of this.props.node.exits) {
-                exits.push(
-                    <ExitComp
-                        key={exit.uuid}
-                        /** Node */
-                        exit={exit}
-                        Localization={Localization.translate(
-                            exit,
-                            this.props.iso,
-                            this.context.languages,
-                            this.props.translations
-                        )}
-                        /** Flow */
-                        translating={this.props.translating}
-                        onDisconnect={this.props.onDisconnectExit}
-                        Activity={this.props.Activity}
-                        plumberMakeSource={this.props.plumberMakeSource}
-                        plumberRemove={this.props.plumberRemove}
-                        plumberConnectExit={this.props.plumberConnectExit}
-                    />
-                );
-            }
-        }
+        const exits: JSX.Element[] = this.getExits();
 
         const modalTitle = <div>Router</div>;
 
-        // are we dragging
         if (this.state.dragging) {
             classes.push(styles.dragging);
         }
 
-        // is this a ghost node
         if (this.props.ghost || (this.props.nodeDragging && !this.state.dragging)) {
             classes.push(styles.ghost);
         }
 
         let exitClass = '';
+
         if (this.props.node.exits.length === 1 && !this.props.node.exits[0].name) {
             exitClass = styles.actions;
         }
 
-        let dragLink = null;
-        if (!this.props.translating) {
-            dragLink = (
-                <a
-                    title="Drag to move all nodes below here"
-                    className={styles.drag_group}
-                    onMouseOver={() => (this.dragGroup = true)}
-                    onMouseOut={() => (this.dragGroup = false)}>
-                    <span className="icon-link" />
-                </a>
-            );
-        }
+        const dragLink = this.getDragLink();
 
-        // console.log("Rendering " + this.props.node.uuid, this.props.ui.position);
         return (
             <div
                 className={classes.join(' ')}
@@ -518,15 +549,15 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 {dragLink}
                 <CounterComp
                     ref={this.props.Activity.registerListener}
-                    getCount={() => this.props.Activity.getActiveCount(this.props.node.uuid)}
-                    onUnmount={(key: string) => this.props.Activity.deregister(key)}
+                    getCount={this.getCount}
+                    onUnmount={this.onUnmount}
                     containerStyle={styles.active}
                     countStyle={''}
                 />
                 {header}
                 {actionList}
                 <div className={`${styles.exit_table} ${exitClass}`}>
-                    <div className={styles.exits} {...events}>
+                    <div className={styles.exits} {...this.events}>
                         {exits}
                     </div>
                 </div>

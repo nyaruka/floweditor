@@ -452,7 +452,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             return (
                 <NodeComp
                     key={key}
-                    /** Editor */
+                    // Editor
                     nodeDragging={this.props.nodeDragging}
                     definition={this.props.definition}
                     ComponentMap={this.props.ComponentMap}
@@ -462,10 +462,10 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                     onUpdateLocalizations={this.props.Mutator.updateLocalizations}
                     onRemoveAction={this.props.Mutator.removeAction}
                     onMoveActionUp={this.props.Mutator.moveActionUp}
-                    /** Flow */
+                    // Flow
                     node={node}
                     ui={ui}
-                    iso={this.props.language.iso}
+                    language={this.props.language}
                     translations={translations}
                     translating={this.props.translating}
                     Activity={this.Activity}
@@ -504,7 +504,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                 <NodeComp
                     key={this.state.ghost.uuid}
                     ref={this.ghostRef}
-                    /** Editor */
+                    // Editor
                     definition={this.props.definition}
                     ComponentMap={this.props.ComponentMap}
                     onUpdateDimensions={this.props.Mutator.updateDimensions}
@@ -513,11 +513,11 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                     onUpdateLocalizations={this.props.Mutator.updateLocalizations}
                     onRemoveAction={this.props.Mutator.removeAction}
                     onMoveActionUp={this.props.Mutator.moveActionUp}
-                    /** Flow */
+                    // Flow
                     ghost={true}
                     node={this.state.ghost}
                     ui={ui}
-                    iso={null}
+                    language={this.props.language}
                     translations={null}
                     translating={this.props.translating}
                     Activity={this.Activity}
@@ -547,9 +547,9 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         if (this.context.endpoints.engine) {
             return (
                 <SimulatorComp
-                    /** Editor */
+                    // Editor
                     definition={this.props.definition}
-                    /** Flow */
+                    // Flow
                     showDefinition={this.onShowDefinition}
                     plumberRepaint={this.Plumber.repaint}
                     Activity={this.Activity}
