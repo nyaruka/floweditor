@@ -28,6 +28,18 @@ Array [
     "verboseName": "starts with",
   },
   Object {
+    "categoryName": "Has Text",
+    "operands": 0,
+    "type": "has_text",
+    "verboseName": "has some text",
+  },
+  Object {
+    "categoryName": "Has Number",
+    "operands": 0,
+    "type": "has_number",
+    "verboseName": "has a number",
+  },
+  Object {
     "operands": 2,
     "type": "has_number_between",
     "verboseName": "has a number between",
@@ -58,6 +70,12 @@ Array [
     "verboseName": "has a number above",
   },
   Object {
+    "categoryName": "Has Date",
+    "operands": 0,
+    "type": "has_date",
+    "verboseName": "has a date",
+  },
+  Object {
     "operands": 1,
     "type": "has_date_lt",
     "verboseName": "has a date before",
@@ -81,24 +99,6 @@ Array [
     "operands": 1,
     "type": "has_group",
     "verboseName": "is in the group",
-  },
-  Object {
-    "categoryName": "Has Date",
-    "operands": 0,
-    "type": "has_date",
-    "verboseName": "has a date",
-  },
-  Object {
-    "categoryName": "Has Text",
-    "operands": 0,
-    "type": "has_text",
-    "verboseName": "has some text",
-  },
-  Object {
-    "categoryName": "Has Number",
-    "operands": 0,
-    "type": "has_number",
-    "verboseName": "has a number",
   },
   Object {
     "categoryName": "Has Phone",
