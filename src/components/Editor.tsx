@@ -4,7 +4,7 @@ import { FlowDefinition, Languages } from '../flowTypes';
 import FlowMutator from '../services/FlowMutator';
 import Temba from '../services/Temba';
 import ComponentMap from '../services/ComponentMap';
-import FlowList from './FlowList';
+import FlowList, { FlowOption } from './FlowList';
 import LanguageSelectorComp, { Language } from './LanguageSelector';
 import Flow from './Flow';
 import {
@@ -48,10 +48,8 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
     constructor(props: {}, context: ConfigProviderContext) {
         super(props, context);
 
-        const { baseLanguage: language } = this.context;
-
         this.state = {
-            language,
+            language: this.context.baseLanguage,
             translating: false,
             fetching: false,
             nodeDragging: false,
@@ -62,19 +60,29 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
 
         // this.Temba = new Temba('https://your-site.com', '05594lM5uQsTHLlvrBts5lenb5Iyex6P');
 
-        this.onFlowSelect = this.onFlowSelect.bind(this);
+        this.onSelectFlow = this.onSelectFlow.bind(this);
         this.setLanguage = this.setLanguage.bind(this);
         this.setDefinition = this.setDefinition.bind(this);
         this.onDrag = this.onDrag.bind(this);
         this.save = this.save.bind(this);
     }
 
-    private onFlowSelect({ uuid }: { uuid: string; name: string }): void {
-        const { flows } = this.state;
-        if (flows.length) {
+    public componentDidMount(): void {
+        this.fetchFlow(this.context.flow);
+        this.fetchFlowList();
+    }
+
+    private onSelectFlow({ uuid }: { uuid: string; name: string }): void {
+        if (this.state.flows.length) {
             if (uuid !== this.state.definition.uuid) {
                 this.setState({ fetching: true }, () => this.fetchFlow(uuid));
             }
+        }
+    }
+
+    private onDrag(dragging: boolean): void {
+        if (this.state.nodeDragging !== dragging) {
+            this.setState({ nodeDragging: dragging });
         }
     }
 
@@ -95,19 +103,13 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
         }
     }
 
-    private onDrag(dragging: boolean): void {
-        if (this.state.nodeDragging !== dragging) {
-            this.setState({ nodeDragging: dragging });
-        }
-    }
-
-    private save(definition: FlowDefinition) {
+    private save(definition: FlowDefinition): void {
         // this.props.External.saveFlow(definition).catch((error) => {
         // do nothing
-        //});
+        // });
     }
 
-    /** TODO: determine full dependency list and fetch those at simulation time */
+    // TODO: determine full dependency list and fetch those at simulation time
     private initialize(definition: FlowDefinition): void {
         this.ComponentMap = new ComponentMap(definition);
 
@@ -123,28 +125,28 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
     }
 
     private fetchFlow(uuid: string): void {
-        const { getFlow } = this.context;
-        getFlow(uuid, false)
+        this.context
+            .getFlow(uuid, false)
             .then(({ definition }: FlowDetails) => this.initialize(definition))
             .catch((error: {}) => console.log(error));
     }
 
     private fetchFlowList(): void {
-        const { getFlows } = this.context;
-        getFlows().then((flows: FlowDetails[]) => {
+        this.context.getFlows().then((flows: FlowDetails[]) =>
             this.setState({
                 flows: flows.map(({ uuid, name }) => ({
                     uuid,
                     name
                 }))
-            });
-        });
+            })
+        );
     }
 
     private setLanguage(language: Language): void {
-        const { baseLanguage } = this.context;
         const translating: boolean =
-            baseLanguage.iso !== language.iso && baseLanguage.name !== language.name;
+            this.context.baseLanguage.iso !== language.iso &&
+            this.context.baseLanguage.name !== language.name;
+
         this.setState({
             language,
             translating
@@ -152,57 +154,59 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
     }
 
     private getLanguageSelector(): JSX.Element {
-        let languageSelector: JSX.Element = null;
-        const { languages } = this.context;
-
-        if (languages) {
-            languageSelector = (
+        if (this.context.languages) {
+            return (
                 <LanguageSelectorComp
-                    languages={languages}
+                    languages={this.context.languages}
                     iso={this.state.language.iso}
                     onChange={this.setLanguage}
                 />
             );
         }
 
-        return languageSelector;
+        return null;
     }
 
-    public componentDidMount(): void {
-        const { flow } = this.context;
-        this.fetchFlow(flow);
-        this.fetchFlowList();
+    private getFlow(): JSX.Element {
+        if (this.state.definition && !this.state.fetching) {
+            return (
+                <Flow
+                    nodeDragging={this.state.nodeDragging}
+                    onDrag={this.onDrag}
+                    language={this.state.language}
+                    translating={this.state.translating}
+                    definition={this.state.definition}
+                    dependencies={this.state.dependencies}
+                    ComponentMap={this.ComponentMap}
+                    Mutator={this.Mutator}
+                />
+            );
+        }
+
+        return null;
     }
 
     public render(): JSX.Element {
         const languageSelector: JSX.Element = this.getLanguageSelector();
-        const flow = this.state.definition
+
+        const flowOption: FlowOption = this.state.definition
             ? { uuid: this.state.definition.uuid, name: this.state.definition.name }
             : null;
 
+        const flow: JSX.Element = this.getFlow();
+
+        const translatingStyle = this.state.translating ? styles.translating : null;
+
         return (
-            <div
-                className={this.state.translating ? styles.translating : null}
-                data-spec="editor-container">
+            <div className={translatingStyle} data-spec="editor-container">
                 <div className={styles.editor} data-spec="editor">
                     <FlowList
-                        flow={flow}
-                        flows={this.state.flows}
-                        onFlowSelect={this.onFlowSelect}
+                        flowOption={flowOption}
+                        flowOptions={this.state.flows}
+                        onSelectFlow={this.onSelectFlow}
                     />
                     {languageSelector}
-                    {this.state.definition && !this.state.fetching ? (
-                        <Flow
-                            nodeDragging={this.state.nodeDragging}
-                            onDrag={this.onDrag}
-                            language={this.state.language}
-                            translating={this.state.translating}
-                            definition={this.state.definition}
-                            dependencies={this.state.dependencies}
-                            ComponentMap={this.ComponentMap}
-                            Mutator={this.Mutator}
-                        />
-                    ) : null}
+                    {flow}
                 </div>
             </div>
         );
