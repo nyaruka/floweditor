@@ -16,7 +16,7 @@ export interface SubflowRouterFormProps extends FormProps {
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     onBindWidget(ref: any): void;
     translating: boolean;
-    renderExitTranslations(): JSX.Element;
+    getExitTranslations(): JSX.Element;
     saveLocalizedExits(widgets: { [name: string]: any }): void;
     getActionUUID(): string;
     ComponentMap: ComponentMap;
@@ -29,6 +29,7 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
 
     constructor(props: SubflowRouterFormProps, context: ConfigProviderContext) {
         super(props);
+
         this.onValid = this.onValid.bind(this);
     }
 
@@ -37,14 +38,14 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
             return this.props.saveLocalizedExits(widgets);
         }
 
-        const select = widgets['Flow'] as FlowElement;
-        const { name: flow_name, id: flow_uuid } = select.state.flow;
+        const select = widgets.Flow as FlowElement;
+        const { name: flowName, id: flowUUID } = select.state.flow;
 
         const newAction: StartFlow = {
             uuid: this.props.getActionUUID(),
             type: this.props.config.type,
-            flow_name,
-            flow_uuid
+            flow_name: flowName,
+            flow_uuid: flowUUID
         };
 
         /** If we were already a subflow, lean on those exits and cases */
@@ -83,7 +84,7 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
             default_exit_uuid: null
         };
 
-        /** HACK: this should go away with modal refactor */
+        // HACK: this should go away with modal refactor
         let { uuid: nodeUUID } = this.props.node;
 
         if (this.props.action && this.props.action.uuid === nodeUUID) {
@@ -96,24 +97,24 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
                 router: newRouter,
                 exits,
                 actions: [newAction],
-                wait: { type: 'flow', flow_uuid }
+                wait: { type: 'flow', flow_uuid: flowUUID }
             },
             'subflow',
             this.props.action
         );
     }
 
-    private renderForm(): JSX.Element {
+    public render(): JSX.Element {
         if (this.props.translating) {
-            return this.props.renderExitTranslations();
+            return this.props.getExitTranslations();
         }
 
-        let flow_name: string = '';
-        let flow_uuid: string = '';
+        let flowName: string = '';
+        let flowUUID: string = '';
 
         if (this.props.action) {
             if (this.props.action.type === 'start_flow') {
-                ({ flow_name, flow_uuid } = this.props.action as StartFlow);
+                ({ flow_name: flowName, flow_uuid: flowUUID } = this.props.action as StartFlow);
             }
         }
 
@@ -124,15 +125,11 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
                     ref={this.props.onBindWidget}
                     name="Flow"
                     endpoint={this.context.endpoints.flows}
-                    flow_name={flow_name}
-                    flow_uuid={flow_uuid}
-                    required
+                    flow_name={flowName}
+                    flow_uuid={flowUUID}
+                    required={true}
                 />
             </div>
         );
-    }
-
-    public render(): JSX.Element {
-        return this.renderForm();
     }
 }
