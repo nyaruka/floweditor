@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Node, Group, AnyAction } from '../../flowTypes';
+import { FlowDefinition, Node, Group, AnyAction } from '../../flowTypes';
 import { Endpoints } from '../../flowTypes';
 import ComponentMap from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
@@ -12,6 +12,7 @@ import {
     endpointsPT
 } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
+import { NodeEditorProps } from '../NodeEditor/NodeEditor';
 
 import * as shared from '../shared.scss';
 import * as styles from './Action.scss';
@@ -21,14 +22,13 @@ export interface ActionProps {
     action: AnyAction;
     dragging: boolean;
     hasRouter: boolean;
-
+    iso: string;
+    translating: boolean;
+    definition: FlowDefinition;
     first: boolean;
-
     Localization: LocalizedObject;
-
     ComponentMap: ComponentMap;
-
-    openEditor: Function;
+    openEditor(props: NodeEditorProps): void;
     onRemoveAction: Function;
     onMoveActionUp: Function;
     onUpdateLocalizations: Function;
@@ -84,11 +84,9 @@ export default class Action extends React.Component<ActionProps, ActionState> {
             actionsOnly: true,
             nodeUI: null,
             localizations,
-            typeConfigList: this.context.typeConfigList,
-            operatorConfigList: this.context.operatorConfigList,
-            getTypeConfig: this.context.getTypeConfig,
-            getOperatorConfig: this.context.getOperatorConfig,
-            endpoints: this.context.endpoints,
+            translating: this.props.translating,
+            iso: this.props.iso,
+            definition: this.props.definition,
             ComponentMap: this.props.ComponentMap
         });
     }

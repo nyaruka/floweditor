@@ -30,13 +30,12 @@ import {
     languagesPT
 } from '../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../providers/ConfigProvider/configContext';
+import { NodeEditorProps } from './NodeEditor/NodeEditor';
 
 import * as styles from './Node.scss';
 import * as shared from './shared.scss';
 
-/**
- * A point in the flow from which a drag is initiated
- */
+// A point in the flow from which a drag is initiated
 export interface DragPoint {
     exitUUID: string;
     nodeUUID: string;
@@ -65,7 +64,7 @@ export interface NodeProps {
     onNodeBeforeDrag: Function;
     onDisconnectExit(exitUUID: string): void;
     onNodeDragStop: Function;
-    openEditor: Function;
+    openEditor(props: NodeEditorProps): void;
     onAddAction: Function;
     onRemoveNode: Function;
     onUpdateLocalizations: Function;
@@ -137,7 +136,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         this.onRemoval = this.onRemoval.bind(this);
     }
 
-    private eleRef(ref: any): void {
+    private eleRef(ref: HTMLDivElement): HTMLDivElement {
         return (this.ele = ref);
     }
 
@@ -292,15 +291,11 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             actionsOnly: true,
             /** Flow */
             node: this.props.node,
-            definitinon: this.props.definition,
+            definition: this.props.definition,
             iso: this.props.iso,
             nodeUI: this.props.ui,
             localizations,
-            typeConfigList: this.context.typeConfigList,
-            operatorConfigList: this.context.operatorConfigList,
-            getTypeConfig: this.context.getTypeConfig,
-            getOperatorConfig: this.context.getOperatorConfig,
-            endpoints: this.context.endpoints,
+            translating: this.props.translating,
             ComponentMap: this.props.ComponentMap,
             onUpdateLocalizations: this.props.onUpdateLocalizations,
             onUpdateAction: this.props.onUpdateAction,
@@ -348,6 +343,9 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                         node: this.props.node,
                         ComponentMap: this.props.ComponentMap,
                         openEditor: this.props.openEditor,
+                        iso: this.props.iso,
+                        translating: this.props.translating,
+                        definition: this.props.definition,
                         onRemoveAction: this.props.onRemoveAction,
                         onMoveActionUp: this.props.onMoveActionUp,
                         onUpdateLocalizations: this.props.onUpdateLocalizations,

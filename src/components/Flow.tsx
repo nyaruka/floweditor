@@ -25,7 +25,7 @@ import * as styles from './Flow.scss';
 
 export interface FlowProps {
     nodeDragging: boolean;
-    onDrag: Function;
+    onDrag(dragging: boolean): void;
     language: Language;
     translating: boolean;
     definition: FlowDefinition;
@@ -148,7 +148,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         this.props.onDrag(false);
     }
 
-    private openEditor(props: any) {
+    private openEditor(props: NodeEditorProps) {
         console.log('openEditor', props);
 
         props.onClose = (canceled: boolean) => {
@@ -213,11 +213,6 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             node,
             action: newAction,
             actionsOnly: true,
-            typeConfigList,
-            operatorConfigList,
-            getTypeConfig,
-            getOperatorConfig,
-            endpoints,
             ComponentMap: CompMap
         });
 
