@@ -88,6 +88,7 @@ export default class SaveToContactForm extends React.PureComponent<SaveToContact
             !reserved[lowered]
         );
     }
+
     public render(): JSX.Element {
         let initial: SearchResult;
 
