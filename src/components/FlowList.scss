@@ -1,9 +1,9 @@
 @import "../variables.scss";
 
-.language_selector {
+.flow_list {
     z-index: $z_editor_menu;
     position: absolute;
-    right: 40px;
+    left: 40px;
     top: 20px;
-    width: 180px;
+    width: 300px;
 }

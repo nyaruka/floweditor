@@ -9,7 +9,7 @@ import * as styles from './SaveFlowResult.scss';
 
 export interface SaveFlowResultFormProps extends FormProps {
     action: SaveFlowResult;
-    getActionUUID: Function;
+    getActionUUID(): string;
     config: Type;
     updateAction(action: SaveFlowResult): void;
     getInitialAction(): SaveFlowResult;
@@ -25,14 +25,14 @@ export default class extends React.PureComponent<SaveFlowResultFormProps> {
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        const { state: { value: result_name } } = widgets['Name'] as TextInputElement;
-        const { state: { value } } = widgets['Value'] as TextInputElement;
-        const { state: { value: category } } = widgets['Category'] as TextInputElement;
+        const { state: { value: resultName } } = widgets.Name as TextInputElement;
+        const { state: { value } } = widgets.Value as TextInputElement;
+        const { state: { value: category } } = widgets.Category as TextInputElement;
 
         const newAction: SaveFlowResult = {
             uuid: this.props.getActionUUID(),
             type: this.props.config.type,
-            result_name,
+            result_name: resultName,
             value,
             category
         };
@@ -40,10 +40,10 @@ export default class extends React.PureComponent<SaveFlowResultFormProps> {
         this.props.updateAction(newAction);
     }
 
-    public renderForm(): JSX.Element {
-        let name;
-        let value;
-        let category;
+    public render(): JSX.Element {
+        let name: string = '';
+        let value: string = '';
+        let category: string = '';
 
         if (this.props.action && this.props.action.value) {
             ({ result_name: name } = this.props.action);
@@ -59,7 +59,7 @@ export default class extends React.PureComponent<SaveFlowResultFormProps> {
                     name="Name"
                     showLabel={true}
                     value={name}
-                    required
+                    required={true}
                     helpText="The name of the result, used to reference later, for example: @run.results.my_result_name"
                     ComponentMap={this.props.ComponentMap}
                 />
@@ -69,7 +69,7 @@ export default class extends React.PureComponent<SaveFlowResultFormProps> {
                     name="Value"
                     showLabel={true}
                     value={value}
-                    autocomplete
+                    autocomplete={true}
                     helpText="The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))"
                     ComponentMap={this.props.ComponentMap}
                 />
@@ -80,15 +80,11 @@ export default class extends React.PureComponent<SaveFlowResultFormProps> {
                     placeholder="Optional"
                     showLabel={true}
                     value={category}
-                    autocomplete
+                    autocomplete={true}
                     helpText="An optional category for your result. For age, the value might be 17, but the category might be 'Young Adult'"
                     ComponentMap={this.props.ComponentMap}
                 />
             </div>
         );
-    }
-
-    public render(): JSX.Element {
-        return this.renderForm();
     }
 }

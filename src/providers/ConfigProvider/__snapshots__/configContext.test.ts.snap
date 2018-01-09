@@ -76,6 +76,7 @@ Object {
   "getTypeConfig": [Function],
   "languages": Object {
     "eng": "English",
+    "fre": "French",
     "spa": "Spanish",
   },
   "operatorConfigList": Array [
@@ -103,6 +104,18 @@ Object {
       "operands": 1,
       "type": "has_beginning",
       "verboseName": "starts with",
+    },
+    Object {
+      "categoryName": "Has Text",
+      "operands": 0,
+      "type": "has_text",
+      "verboseName": "has some text",
+    },
+    Object {
+      "categoryName": "Has Number",
+      "operands": 0,
+      "type": "has_number",
+      "verboseName": "has a number",
     },
     Object {
       "operands": 2,
@@ -135,6 +148,7 @@ Object {
       "verboseName": "has a number above",
     },
     Object {
+      "categoryName": "Has Date",
       "operands": 0,
       "type": "has_date",
       "verboseName": "has a date",
@@ -165,31 +179,19 @@ Object {
       "verboseName": "is in the group",
     },
     Object {
-      "categoryName": "Has Text",
-      "operands": 0,
-      "type": "has_text",
-      "verboseName": "has some text",
-    },
-    Object {
-      "categoryName": "Number",
-      "operands": 0,
-      "type": "has_number",
-      "verboseName": "has a number",
-    },
-    Object {
-      "categoryName": "Phone",
+      "categoryName": "Has Phone",
       "operands": 0,
       "type": "has_phone",
       "verboseName": "has a phone number",
     },
     Object {
-      "categoryName": "Email",
+      "categoryName": "Has Email",
       "operands": 0,
       "type": "has_email",
       "verboseName": "has an email",
     },
     Object {
-      "categoryName": "Error",
+      "categoryName": "Has Error",
       "operands": 0,
       "type": "has_error",
       "verboseName": "has an error",
@@ -218,6 +220,7 @@ Object {
       "verboseName": "starts with",
     },
     "has_date": Object {
+      "categoryName": "Has Date",
       "operands": 0,
       "type": "has_date",
       "verboseName": "has a date",
@@ -238,13 +241,13 @@ Object {
       "verboseName": "has a date before",
     },
     "has_email": Object {
-      "categoryName": "Email",
+      "categoryName": "Has Email",
       "operands": 0,
       "type": "has_email",
       "verboseName": "has an email",
     },
     "has_error": Object {
-      "categoryName": "Error",
+      "categoryName": "Has Error",
       "operands": 0,
       "type": "has_error",
       "verboseName": "has an error",
@@ -255,7 +258,7 @@ Object {
       "verboseName": "is in the group",
     },
     "has_number": Object {
-      "categoryName": "Number",
+      "categoryName": "Has Number",
       "operands": 0,
       "type": "has_number",
       "verboseName": "has a number",
@@ -296,7 +299,7 @@ Object {
       "verboseName": "has only the phrase",
     },
     "has_phone": Object {
-      "categoryName": "Phone",
+      "categoryName": "Has Phone",
       "operands": 0,
       "type": "has_phone",
       "verboseName": "has a phone number",

@@ -10,6 +10,7 @@ Array [
     },
     "languages": Object {
       "eng": "English",
+      "fre": "French",
       "spa": "Spanish",
     },
     "localized": true,
@@ -33,6 +34,7 @@ Array [
     },
     "languages": Object {
       "eng": "English",
+      "fre": "French",
       "spa": "Spanish",
     },
     "localized": true,
@@ -56,6 +58,7 @@ Array [
     },
     "languages": Object {
       "eng": "English",
+      "fre": "French",
       "spa": "Spanish",
     },
     "localized": true,
@@ -79,6 +82,7 @@ Array [
     },
     "languages": Object {
       "eng": "English",
+      "fre": "French",
       "spa": "Spanish",
     },
     "localized": false,
@@ -100,6 +104,7 @@ Array [
     },
     "languages": Object {
       "eng": "English",
+      "fre": "French",
       "spa": "Spanish",
     },
     "localized": false,
@@ -121,6 +126,7 @@ Array [
     },
     "languages": Object {
       "eng": "English",
+      "fre": "French",
       "spa": "Spanish",
     },
     "localized": false,
@@ -142,6 +148,7 @@ Array [
     },
     "languages": Object {
       "eng": "English",
+      "fre": "French",
       "spa": "Spanish",
     },
     "localized": false,
@@ -163,6 +170,7 @@ Array [
     },
     "languages": Object {
       "eng": "English",
+      "fre": "French",
       "spa": "Spanish",
     },
     "localized": true,
@@ -185,6 +193,7 @@ Array [
     },
     "languages": Object {
       "eng": "English",
+      "fre": "French",
       "spa": "Spanish",
     },
     "localized": true,
@@ -207,6 +216,7 @@ Array [
     },
     "languages": Object {
       "eng": "English",
+      "fre": "French",
       "spa": "Spanish",
     },
     "localized": true,
@@ -229,6 +239,7 @@ Array [
     },
     "languages": Object {
       "eng": "English",
+      "fre": "French",
       "spa": "Spanish",
     },
     "localized": true,
@@ -251,6 +262,7 @@ Array [
     },
     "languages": Object {
       "eng": "English",
+      "fre": "French",
       "spa": "Spanish",
     },
     "localized": true,
@@ -273,6 +285,7 @@ Array [
     },
     "languages": Object {
       "eng": "English",
+      "fre": "French",
       "spa": "Spanish",
     },
     "localized": false,
@@ -291,6 +304,7 @@ Array [
     },
     "languages": Object {
       "eng": "English",
+      "fre": "French",
       "spa": "Spanish",
     },
     "localized": false,
@@ -309,6 +323,7 @@ Array [
     },
     "languages": Object {
       "eng": "English",
+      "fre": "French",
       "spa": "Spanish",
     },
     "localized": false,

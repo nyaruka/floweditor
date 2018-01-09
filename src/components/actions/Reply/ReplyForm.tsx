@@ -1,6 +1,10 @@
+// ReplyForm
+
 import * as React from 'react';
 import { Reply } from '../../../flowTypes';
+import { Language } from '../../LanguageSelector';
 import { Type } from '../../../providers/ConfigProvider/typeConfigs';
+import { LocalizedObject } from '../../../services/Localization';
 import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement, { Count } from '../../form/TextInputElement';
 import CheckboxElement from '../../form/CheckboxElement';
@@ -8,6 +12,7 @@ import CheckboxElement from '../../form/CheckboxElement';
 import * as styles from '../../Action/Action.scss';
 
 export interface ReplyFormProps {
+    language: Language;
     action: Reply;
     showAdvanced: boolean;
     config: Type;
@@ -16,9 +21,12 @@ export interface ReplyFormProps {
     updateAction(action: Reply): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
-    updateLocalizations(language: string, changes: { uuid: string; translations: any }[]): void;
-    getLocalizedObject: Function;
-    getActionUUID: Function;
+    updateLocalizations(
+        language: string,
+        changes: Array<{ uuid: string; translations: any }>
+    ): void;
+    getLocalizedObject(): LocalizedObject;
+    getActionUUID(): string;
 }
 
 export default class ReplyForm extends React.Component<ReplyFormProps> {
@@ -30,24 +38,23 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
 
     public onValid(widgets: { [name: string]: any }): void {
         const localizedObject = this.props.getLocalizedObject();
-
-        const textarea = widgets['Message'] as TextInputElement;
+        const textarea = widgets.Message as TextInputElement;
         const sendAll = widgets['All Destinations'] as CheckboxElement;
 
         if (localizedObject) {
             const translation = textarea.state.value.trim();
 
             if (translation) {
-                this.props.updateLocalizations(localizedObject.getLanguage().iso, [
+                this.props.updateLocalizations(this.props.language.iso, [
                     { uuid: this.props.action.uuid, translations: { text: [textarea.state.value] } }
                 ]);
             } else {
-                this.props.updateLocalizations(localizedObject.getLanguage().iso, [
+                this.props.updateLocalizations(this.props.language.iso, [
                     { uuid: this.props.action.uuid, translations: null }
                 ]);
             }
         } else {
-            let newAction: Reply = {
+            const newAction: Reply = {
                 uuid: this.props.getActionUUID(),
                 type: this.props.config.type,
                 text: textarea.state.value
@@ -69,7 +76,6 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
         if (this.props.translating) {
             const localizedObject = this.props.getLocalizedObject();
             const { text: textToTrans } = this.props.action;
-            const { name } = localizedObject.getLanguage();
 
             translation = (
                 <div data-spec="translation-container">
@@ -79,14 +85,18 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                 </div>
             );
 
-            placeholder = `${name} Translation`;
+            placeholder = `${this.props.language.name} Translation`;
 
             if (localizedObject.isLocalized()) {
-                ({ text } = localizedObject.getObject());
+                ({ text } = localizedObject.getObject() as Reply);
             }
         } else {
-            this.props.action && ({ text } = this.props.action);
+            if (this.props.action) {
+                ({ text } = this.props.action);
+            }
         }
+
+        const required: boolean = !this.props.translating;
 
         return (
             <div>
@@ -98,10 +108,10 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                     count={Count.SMS}
                     value={text}
                     placeholder={placeholder}
-                    autocomplete
-                    focus
-                    required={!this.props.translating}
-                    textarea
+                    autocomplete={true}
+                    focus={true}
+                    required={required}
+                    textarea={true}
                     ComponentMap={this.props.ComponentMap}
                 />
             </div>

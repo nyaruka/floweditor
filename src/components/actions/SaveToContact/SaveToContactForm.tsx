@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
-import { Endpoints, SaveToContact, IUpdateContact } from '../../../flowTypes';
+import { Endpoints, SaveToContact, UpdateContact } from '../../../flowTypes';
 import { FormProps } from '../../NodeEditor';
 import ComponentMap from '../../../services/ComponentMap';
 import { toBoolMap } from '../../../helpers/utils';
@@ -33,7 +33,7 @@ const reserved = toBoolMap([
 
 export interface SaveToContactFormProps extends FormProps {
     action: SaveToContact;
-    getActionUUID: Function;
+    getActionUUID(): string;
     updateAction(action: SaveToContact): void;
     onBindWidget(ref: any): void;
     ComponentMap: ComponentMap;
@@ -46,33 +46,29 @@ export default class SaveToContactForm extends React.PureComponent<SaveToContact
 
     constructor(props: SaveToContactFormProps, context: ConfigProviderContext) {
         super(props);
+
         this.onValid = this.onValid.bind(this);
     }
 
-    public onValid(widgets: { [name: string]: any }) {
-        const { state: { value } } = widgets['Value'] as TextInputElement;
-        const { state: { field: { type: fieldType, name: field_name, id: field_uuid } } } = widgets[
-            'Field'
-        ] as FieldElement;
+    public onValid(widgets: { [name: string]: any }): void {
+        const { state: { value } } = widgets.Value as TextInputElement;
+        const {
+            state: { field: { type: fieldType, name: fieldName, id: fieldUUID } }
+        } = widgets.Field as FieldElement;
 
-        let newAction;
+        const newAction: any = {
+            uuid: this.props.getActionUUID(),
+            value
+        };
 
         if (fieldType === 'field') {
-            newAction = {
-                uuid: this.props.getActionUUID(),
-                type: 'save_contact_field',
-                field_name,
-                field_uuid,
-                value
-            } as SaveToContact;
+            newAction.type = 'save_contact_field';
+            newAction.field_name = fieldName;
+            newAction.field_uuid = fieldUUID;
         } else if (fieldType === 'update_contact') {
-            /** Updating contact properties are different action **/
-            newAction = {
-                uuid: this.props.getActionUUID(),
-                type: 'update_contact',
-                field_name: field_uuid,
-                value
-            } as IUpdateContact;
+            // Updating contact properties are different action
+            newAction.type = 'update_contact';
+            newAction.field_name = fieldUUID;
         }
 
         this.props.updateAction(newAction);
@@ -82,7 +78,9 @@ export default class SaveToContactForm extends React.PureComponent<SaveToContact
         if (!option || !option.label) {
             return false;
         }
+
         const lowered = option.label.toLowerCase();
+
         return (
             lowered.length > 0 &&
             lowered.length <= 36 &&
@@ -91,22 +89,26 @@ export default class SaveToContactForm extends React.PureComponent<SaveToContact
         );
     }
 
-    public renderForm(): JSX.Element {
+    public render(): JSX.Element {
         let initial: SearchResult;
 
         if (this.props.action) {
-            const { type: actionType, field_uuid, field_name } = this.props.action;
+            const {
+                type: actionType,
+                field_uuid: fieldUUID,
+                field_name: fieldName
+            } = this.props.action;
 
             if (actionType === 'save_contact_field') {
                 initial = {
-                    id: field_uuid,
-                    name: field_name,
+                    id: fieldUUID,
+                    name: fieldName,
                     type: 'field'
                 };
             } else if (actionType === 'update_contact') {
                 initial = {
-                    id: field_name.toLowerCase(),
-                    name: field_name,
+                    id: fieldName.toLowerCase(),
+                    name: fieldName,
                     type: 'update_contact'
                 };
             }
@@ -130,8 +132,8 @@ export default class SaveToContactForm extends React.PureComponent<SaveToContact
                         'Select an existing field to update or type any name to create a new one'
                     }
                     initial={initial}
-                    add
-                    required
+                    add={true}
+                    required={true}
                 />
 
                 <TextInputElement
@@ -140,14 +142,10 @@ export default class SaveToContactForm extends React.PureComponent<SaveToContact
                     showLabel={true}
                     value={value}
                     helpText="The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json."
-                    autocomplete
+                    autocomplete={true}
                     ComponentMap={this.props.ComponentMap}
                 />
             </div>
         );
-    }
-
-    public render(): JSX.Element {
-        return this.renderForm();
     }
 }

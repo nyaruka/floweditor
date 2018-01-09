@@ -1,30 +1,43 @@
 import * as React from 'react';
 import Select from 'react-select';
 
-export interface FlowListProps {
-    onFlowSelect({ uuid }: { uuid: string; name: string }): void;
-    flow: { uuid: string; name: string };
-    flows: { uuid: string; name: string }[];
+import { flowList } from './FlowList.scss';
+
+export interface FlowOption {
+    uuid: string;
+    name: string;
 }
 
-/**
- * A navigable list of flows for an account
- */
-const FlowList: React.SFC<FlowListProps> = ({ flow, flows, onFlowSelect }): JSX.Element => (
-    <div id="flow-list" style={{ position: 'absolute', zIndex: 2000, padding: 15, width: 300 }}>
-        <Select
-            /** FlowList */
-            placeholder="Select a flow..."
-            onChange={onFlowSelect}
-            searchable={false}
-            clearable={false}
-            labelKey="name"
-            valueKey="uuid"
-            value={flow}
-            options={flows}
-            isLoading={!flow || !flows}
-        />
-    </div>
-);
+export interface FlowListProps {
+    onSelectFlow({ uuid }: FlowOption): void;
+    flowOption: FlowOption;
+    flowOptions: FlowOption[];
+}
+
+// Navigable list of flows for an account
+const FlowList: React.SFC<FlowListProps> = ({
+    flowOption,
+    flowOptions,
+    onSelectFlow
+}): JSX.Element => {
+    const isLoading = !flowOption || !flowOptions;
+
+    return (
+        <div id="flow-list" className={flowList}>
+            <Select
+                /** FlowList */
+                placeholder="Select a flow..."
+                onChange={onSelectFlow}
+                searchable={false}
+                clearable={false}
+                labelKey="name"
+                valueKey="uuid"
+                value={flowOption}
+                options={flowOptions}
+                isLoading={isLoading}
+            />
+        </div>
+    );
+};
 
 export default FlowList;

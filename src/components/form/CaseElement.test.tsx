@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { mount } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import CompMap from '../../services/ComponentMap';
-import CaseElement from './CaseElement';
-import { getSpecWrapper } from '../../helpers/utils';
-import { v4 as generateUUID } from 'uuid';
+import CaseElement, { prefix, composeExitName, getExitName, hasArgs } from './CaseElement';
+import { getSpecWrapper, titleCase } from '../../helpers/utils';
+import { object } from 'prop-types';
 import {
     operatorConfigList,
     getOperatorConfig
@@ -23,120 +23,216 @@ const context = {
 
 const ComponentMap = new CompMap(definition);
 
-describe('Component: CaseElement', () => {
-    describe('render', () => {
-        it('should render empty case', () => {
-            const uuid = generateUUID();
+describe('CaseElement >', () => {
+    describe('helpers >', () => {
+        describe('prefix >', () =>
+            operatorConfigList.forEach(({ verboseName, type }) =>
+                it(`should prefix "${verboseName}" operator appropriately`, () =>
+                    expect(prefix(type)).toMatchSnapshot())
+            ));
 
-            const props = {
-                name: `case_${uuid}`,
-                kase: {
-                    uuid,
-                    type: 'has_any_word',
-                    exit_uuid: null
-                },
-                exitName: null,
-                emtpy: true,
-                onRemove: jest.fn(),
-                onChanged: jest.fn(),
-                focusArgsInput: false,
-                focusExitInput: false,
-                ComponentMap
-            };
+        describe('composeExitName >', () => {
+            const operatorType = 'has_any_word';
+            const strArgOperators = operatorConfigList.slice(0, 6);
+            let args = [['tomato, t'], ['papayawhip'], []];
 
-            const EmptyCase = mount(<CaseElement {...props} />, { context });
+            it('should handle empty arg lists appropriately', () =>
+                expect(composeExitName(operatorType, args[2])).toBe(''));
 
-            expect(getSpecWrapper(EmptyCase, 'case-form').props()).toEqual(
-                expect.objectContaining({
-                    name: props.name,
-                    errors: [],
-                    case: true
-                })
-            );
-
-            expect(getSpecWrapper(EmptyCase, 'operator-list').props()).toEqual(
-                expect.objectContaining({
-                    options: operatorConfigList,
-                    clearable: false,
-                    name: 'operator',
-                    searchable: false,
-                    optionClassName: 'operator',
-                    labelKey: 'verboseName',
-                    valueKey: 'type',
-                    value: props.kase.type,
-                    'data-spec': 'operator-list',
-                    onChange: EmptyCase.instance().onChangeOperator
-                })
-            );
-
-            expect(getSpecWrapper(EmptyCase, 'args-input').props()).toEqual({
-                'data-spec': 'args-input',
-                name: 'arguments',
-                onChange: EmptyCase.instance().onChangeArguments,
-                value: '',
-                focus: props.focusArgsInput,
-                autocomplete: true,
-                ComponentMap
-            });
-
-            expect(getSpecWrapper(EmptyCase, 'exit-input').props()).toEqual({
-                'data-spec': 'exit-input',
-                name: 'exitName',
-                onChange: EmptyCase.instance().onChangeExitName,
-                value: props.exitName ? props.exitName : '',
-                focus: props.focusExitInput,
-                ComponentMap
+            it('should return the first arg in list, capitalized', () => {
+                args = args.slice(0, 2);
+                strArgOperators.forEach(({ type }) =>
+                    args.slice(0, 2).forEach(argList => {
+                        const [firstArg] = argList[0].split(',');
+                        expect(composeExitName(type, argList)).toBe(titleCase(firstArg));
+                    })
+                );
             });
         });
 
-        cases.forEach((kase, idx) => {
-            const props = {
-                name: `case_${kase.uuid}`,
-                kase,
-                exitName: exits[idx].name,
-                onRemove: jest.fn(),
-                onChanged: jest.fn(),
-                focusArgsInput: false,
-                focusExitInput: false,
-                ComponentMap
+        describe('getExitName >', () => {
+            const type = 'has_value';
+            const kase = {
+                uuid: 'fa0a9b24-5f19-4b8e-b287-27af5811de1d',
+                type,
+                exit_uuid: '55855afc-f612-4ef9-9288-dcb1dd136052'
             };
+            const operatorConfig = getOperatorConfig(type);
+            const { categoryName: expectedExitName } = operatorConfig;
 
-            const CaseWrapper = mount(<CaseElement {...props} />, {
-                context
-            });
+            it("should return a given operator's default category name if it has one", () =>
+                // prettier-ignore
+                expect(
+                    getExitName(
+                        'somePerhapsPreExistingExitName',
+                        operatorConfig,
+                        kase
+                    )
+                ).toBe(expectedExitName));
+        });
 
-            it('should render FormElements with expected props', () =>
-                expect(getSpecWrapper(CaseWrapper, 'case-form').props()).toEqual(
+        describe('hasArgs >', () =>
+            it(`should reflect the presence of an arguments array in the passed object's "arguments" property`, () => {
+                expect(hasArgs(['tomato, t'])).toBeTruthy();
+                expect(hasArgs([])).toBeFalsy();
+                expect(hasArgs()).toBeFalsy();
+            }));
+    });
+
+    describe('Component >', () => {
+        const caseUUID = '29b18c7e-c232-414c-9fc0-2e0b6260d9ca';
+        const onChange = jest.fn();
+        const onRemove = jest.fn();
+        const props = {
+            name: `case_${caseUUID}`,
+            kase: {
+                uuid: caseUUID,
+                type: 'has_any_word',
+                exit_uuid: '38c1m4g4-b424-585d-8cgi-384d6260ymca'
+            },
+            exitName: 'Red, ',
+            empty: true,
+            onRemove,
+            onChange,
+            focusArgsInput: false,
+            focusExitInput: false,
+            ComponentMap
+        };
+
+        describe('render >', () => {
+            it('should render empty case', () => {
+                const EmptyCase = shallow(<CaseElement {...{ ...props, exitName: null }} />, {
+                    context
+                });
+
+                const {
+                    onChangeOperator,
+                    onChangeArguments,
+                    onChangeExitName
+                } = EmptyCase.instance() as any;
+
+                expect(getSpecWrapper(EmptyCase, 'case-form').props()).toEqual(
                     expect.objectContaining({
                         name: props.name,
-                        errors: []
+                        errors: [],
+                        case: true
                     })
-                ));
+                );
 
-            it('should render operator lists w/ expected props', () =>
-                expect(getSpecWrapper(CaseWrapper, 'operator-list').props()).toEqual(
+                expect(getSpecWrapper(EmptyCase, 'operator-list').props()).toEqual(
                     expect.objectContaining({
-                        value: kase.type
+                        options: operatorConfigList,
+                        clearable: false,
+                        name: 'operator',
+                        optionClassName: 'operator',
+                        labelKey: 'verboseName',
+                        valueKey: 'type',
+                        value: props.kase.type,
+                        'data-spec': 'operator-list',
+                        onChange: onChangeOperator
                     })
-                ));
+                );
 
-            it('should render arguments inputs w/ expected props', () =>
-                expect(getSpecWrapper(CaseWrapper, 'args-input').props()).toEqual(
+                expect(getSpecWrapper(EmptyCase, 'args-input').props()).toEqual(
                     expect.objectContaining({
-                        value:
-                            kase.arguments.constructor === Array
-                                ? kase.arguments[0]
-                                : kase.arguments
+                        'data-spec': 'args-input',
+                        name: 'arguments',
+                        onChange: onChangeArguments,
+                        value: '',
+                        focus: props.focusArgsInput,
+                        autocomplete: true,
+                        ComponentMap
                     })
-                ));
+                );
 
-            it('should render exit inputs w/ expected props', () =>
-                expect(getSpecWrapper(CaseWrapper, 'exit-input').props()).toEqual(
-                    expect.objectContaining({
-                        value: props.exitName ? props.exitName : '',
-                        focus: props.focusExitInput
-                    })
-                ));
+                expect(getSpecWrapper(EmptyCase, 'exit-input').props()).toEqual({
+                    'data-spec': 'exit-input',
+                    name: 'exitName',
+                    onChange: onChangeExitName,
+                    value: '',
+                    focus: props.focusExitInput,
+                    ComponentMap
+                });
+            });
+
+            cases.forEach((kase, idx) => {
+                const caseProps = {
+                    name: `case_${kase.uuid}`,
+                    kase,
+                    exitName: exits[idx].name,
+                    onRemove: jest.fn(),
+                    onChange: jest.fn(),
+                    focusArgsInput: false,
+                    focusExitInput: false,
+                    ComponentMap
+                };
+                const CaseWrapper = shallow(<CaseElement {...caseProps} />, {
+                    context
+                });
+
+                it('should render FormElements with expected props', () =>
+                    expect(getSpecWrapper(CaseWrapper, 'case-form').props()).toEqual(
+                        expect.objectContaining({
+                            name: caseProps.name,
+                            errors: []
+                        })
+                    ));
+
+                it('should render operator lists w/ expected props', () =>
+                    expect(getSpecWrapper(CaseWrapper, 'operator-list').props()).toEqual(
+                        expect.objectContaining({
+                            value: kase.type
+                        })
+                    ));
+
+                it('should render arguments inputs w/ expected props', () =>
+                    expect(getSpecWrapper(CaseWrapper, 'args-input').props()).toEqual(
+                        expect.objectContaining({
+                            value:
+                                kase.arguments.constructor === Array
+                                    ? kase.arguments[0]
+                                    : kase.arguments
+                        })
+                    ));
+
+                it('should render exit inputs w/ expected props', () =>
+                    expect(getSpecWrapper(CaseWrapper, 'exit-input').props()).toEqual(
+                        expect.objectContaining({
+                            value: caseProps.exitName || '',
+                            focus: caseProps.focusExitInput
+                        })
+                    ));
+            });
+        });
+
+        describe('instance methods >', () => {
+            describe('onChangeOperator >', () => {
+                const Case = mount(<CaseElement {...props} />, { context });
+                const { onChangeOperator } = Case.instance() as any;
+                const [anyWordOperator, allWordsOperator] = operatorConfigList;
+
+                it("should update state operator config to the value it's passed if value is different than operatorConfig in state", () => {
+                    onChangeOperator(allWordsOperator);
+                    expect(Case.state('operatorConfig')).toEqual(allWordsOperator);
+                });
+
+                it("should update exitName if value it's passed is different than operatorConfig in state", () => {
+                    onChangeOperator(anyWordOperator);
+                    expect(Case.state('exitName')).toBe(
+                        getExitName(
+                            Case.state('exitName'),
+                            anyWordOperator,
+                            props.kase,
+                            Case.state('arguments')
+                        )
+                    );
+                });
+
+                it('should call "onChange" prop after setting own state', () => {
+                    onChangeOperator(allWordsOperator);
+                    expect(onChange).toHaveBeenCalled();
+                });
+            });
         });
     });
 });

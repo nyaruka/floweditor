@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Node, Group, AnyAction } from '../../flowTypes';
+import { FlowDefinition, Node, Group, AnyAction } from '../../flowTypes';
 import { Endpoints } from '../../flowTypes';
 import ComponentMap from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
-import TitleBarComp from '../TitleBar';
+import TitleBar from '../TitleBar';
 import {
     typeConfigListPT,
     operatorConfigListPT,
@@ -12,6 +12,8 @@ import {
     endpointsPT
 } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
+import { NodeEditorProps } from '../NodeEditor/NodeEditor';
+import { Language } from '../LanguageSelector';
 
 import * as shared from '../shared.scss';
 import * as styles from './Action.scss';
@@ -21,14 +23,13 @@ export interface ActionProps {
     action: AnyAction;
     dragging: boolean;
     hasRouter: boolean;
-
+    language: Language;
+    translating: boolean;
+    definition: FlowDefinition;
     first: boolean;
-
-    Localization: LocalizedObject;
-
+    localization: LocalizedObject;
     ComponentMap: ComponentMap;
-
-    openEditor: Function;
+    openEditor(props: NodeEditorProps): void;
     onRemoveAction: Function;
     onMoveActionUp: Function;
     onUpdateLocalizations: Function;
@@ -69,11 +70,9 @@ export default class Action extends React.Component<ActionProps, ActionState> {
         event.preventDefault();
         event.stopPropagation();
 
-        const localizations: LocalizedObject[] = [];
-
-        if (this.props.Localization) {
-            localizations.push(this.props.Localization);
-        }
+        const localizations: LocalizedObject[] = this.props.localization
+            ? [this.props.localization]
+            : [];
 
         this.props.openEditor({
             onUpdateLocalizations: this.props.onUpdateLocalizations,
@@ -81,14 +80,11 @@ export default class Action extends React.Component<ActionProps, ActionState> {
             onUpdateRouter: this.props.onUpdateRouter,
             node: this.props.node,
             action: this.props.action,
-            actionsOnly: true,
             nodeUI: null,
+            language: this.props.language,
             localizations,
-            typeConfigList: this.context.typeConfigList,
-            operatorConfigList: this.context.operatorConfigList,
-            getTypeConfig: this.context.getTypeConfig,
-            getOperatorConfig: this.context.getOperatorConfig,
-            endpoints: this.context.endpoints,
+            definition: this.props.definition,
+            translating: this.props.translating,
             ComponentMap: this.props.ComponentMap
         });
     }
@@ -109,18 +105,6 @@ export default class Action extends React.Component<ActionProps, ActionState> {
         this.props.onMoveActionUp(this.props.action);
     }
 
-    public getAction(): AnyAction {
-        let actionDivProps;
-
-        if (this.props.Localization) {
-            actionDivProps = this.props.Localization.getObject() as AnyAction;
-        } else {
-            actionDivProps = this.props.action;
-        }
-
-        return actionDivProps;
-    }
-
     private onMouseUp(evt: React.MouseEvent<HTMLDivElement>): void {
         if (this.clicking) {
             this.clicking = false;
@@ -132,15 +116,14 @@ export default class Action extends React.Component<ActionProps, ActionState> {
         this.clicking = true;
     }
 
-    render(): JSX.Element {
-        let config = this.context.getTypeConfig(this.props.action.type);
+    private getClasses(): string[] {
         const classes = [styles.action];
 
         if (this.props.hasRouter) {
             classes.push(styles.has_router);
         }
 
-        if (this.props.Localization) {
+        if (this.props.translating) {
             classes.push(styles.translating);
 
             if (this.props.action.type === 'reply') {
@@ -150,14 +133,36 @@ export default class Action extends React.Component<ActionProps, ActionState> {
             if (this.localizedKeys.length === 0) {
                 classes.push(styles.not_localizable);
             } else {
-                for (let key of this.localizedKeys) {
-                    if (!(key in this.props.Localization.localizedKeys)) {
-                        classes.push(styles.missing_localization);
-                        break;
+                if (this.props.localization.isLocalized()) {
+                    for (const key of this.localizedKeys) {
+                        if (!(key in this.props.localization.localizedKeys)) {
+                            classes.push(styles.missing_localization);
+                            break;
+                        }
                     }
+                } else {
+                    classes.push(styles.missing_localization);
                 }
             }
         }
+
+        return classes;
+    }
+
+    public render(): JSX.Element {
+        const { name } = this.context.getTypeConfig(this.props.action.type);
+
+        const classes: string[] = this.getClasses();
+
+        const propsToInject: AnyAction = this.props.localization
+            ? (this.props.localization.getObject() as AnyAction)
+            : this.props.action;
+
+        const titleBarClass: string = shared[this.props.action.type];
+
+        const showRemoval: boolean = !this.props.translating;
+
+        const showMove: boolean = !this.props.first && !this.props.translating;
 
         return (
             <div id={`action-${this.props.action.uuid}`} className={classes.join(' ')}>
@@ -166,15 +171,15 @@ export default class Action extends React.Component<ActionProps, ActionState> {
                     onMouseDown={this.onMouseDown}
                     onMouseUp={this.onMouseUp}
                     data-spec="interactive-div">
-                    <TitleBarComp
-                        className={shared[this.props.action.type]}
-                        title={config.name}
+                    <TitleBar
+                        className={titleBarClass}
+                        title={name}
                         onRemoval={this.onRemoval}
-                        showRemoval={!this.props.Localization}
-                        showMove={!this.props.first && !this.props.Localization}
+                        showRemoval={showRemoval}
+                        showMove={showMove}
                         onMoveUp={this.onMoveUp}
                     />
-                    <div className={styles.body}>{this.props.children(this.getAction())}</div>
+                    <div className={styles.body}>{this.props.children(propsToInject)}</div>
                 </div>
             </div>
         );

@@ -14,7 +14,7 @@ export interface SendEmailFormProps extends FormProps {
     ComponentMap: ComponentMap;
     updateAction(action: SendEmail): void;
     onBindWidget(ref: any): void;
-    getActionUUID: Function;
+    getActionUUID(): string;
 }
 
 export default class SendEmailForm extends React.Component<SendEmailFormProps> {
@@ -25,9 +25,9 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        const { state: { emails: emailAddresses } } = widgets['Recipient'] as EmailElement;
-        const { state: { value: subject } } = widgets['Subject'] as TextInputElement;
-        const { state: { value: body } } = widgets['Message'] as TextInputElement;
+        const { state: { emails: emailAddresses } } = widgets.Recipient as EmailElement;
+        const { state: { value: subject } } = widgets.Subject as TextInputElement;
+        const { state: { value: body } } = widgets.Message as TextInputElement;
 
         const emails = emailAddresses.map(({ value }) => value);
 
@@ -42,7 +42,7 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
         this.props.updateAction(newAction);
     }
 
-    private renderForm(): JSX.Element {
+    public render(): JSX.Element {
         let emails: string[] = [];
         let subject = '';
         let body = '';
@@ -58,7 +58,7 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
                     name="Recipient"
                     placeholder="To"
                     emails={emails}
-                    required
+                    required={true}
                 />
                 <TextInputElement
                     className={styles.subject}
@@ -66,8 +66,8 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
                     name="Subject"
                     placeholder="Subject"
                     value={subject}
-                    autocomplete
-                    required
+                    autocomplete={true}
+                    required={true}
                     ComponentMap={this.props.ComponentMap}
                 />
                 <TextInputElement
@@ -76,16 +76,12 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
                     name="Message"
                     showLabel={false}
                     value={body}
-                    autocomplete
-                    required
-                    textarea
+                    autocomplete={true}
+                    required={true}
+                    textarea={true}
                     ComponentMap={this.props.ComponentMap}
                 />
             </div>
         );
-    }
-
-    public render(): JSX.Element {
-        return this.renderForm();
     }
 }

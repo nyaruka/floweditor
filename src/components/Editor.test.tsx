@@ -8,13 +8,17 @@ import context from '../providers/ConfigProvider/configContext';
 import { getSpecWrapper } from '../helpers/utils';
 
 const { results } = require('../../assets/flows.json');
+
 const {
     results: [{ definition }]
 } = require('../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
 const { baseLanguage, languages } = context;
+
 const EditorComp = shallow(<Editor />, { context }) as any;
+
 const CompMap = new ComponentMap(definition);
+
 const Mutator = new FlowMutator(
     CompMap,
     definition,
@@ -28,44 +32,49 @@ const languageSelectorExpectedProps = {
     onChange: EditorComp.instance().setLanguage
 };
 
-describe('Component: Editor', () => {
-    it('should render itself, children', () => {
-        expect(getSpecWrapper(EditorComp, 'editor-container').exists()).toBeTruthy();
-        expect(getSpecWrapper(EditorComp, 'editor').hasClass('editor')).toBeTruthy();
-        expect(EditorComp.find('FlowList').props()).toEqual({
-            onFlowSelect: EditorComp.instance().onFlowSelect,
-            flow: null,
-            flows: []
-        });
-        expect(EditorComp.find('LanguageSelectorComp').props()).toEqual(
-            languageSelectorExpectedProps
-        );
-        expect(EditorComp.state('language')).toBe(baseLanguage);
-    });
-
-    it('Renders a Flow', () => {
-        EditorComp.setState({
-            fetching: false,
-            definition
+describe('Editor >', () => {
+    describe('render >', () => {
+        it('should render itself, children', () => {
+            expect(getSpecWrapper(EditorComp, 'editor-container').exists()).toBeTruthy();
+            expect(getSpecWrapper(EditorComp, 'editor').hasClass('editor')).toBeTruthy();
+            expect(EditorComp.find('FlowList').props()).toEqual({
+                onSelectFlow: EditorComp.instance().onSelectFlow,
+                flowOption: null,
+                flowOptions: []
+            });
+            expect(EditorComp.find('LanguageSelectorComp').props()).toEqual(
+                languageSelectorExpectedProps
+            );
+            expect(EditorComp.state('language')).toBe(baseLanguage);
         });
 
-        expect(EditorComp.find('Flow').exists()).toBeTruthy();
-    });
+        it('renders a Flow component', () => {
+            EditorComp.setState({
+                fetching: false,
+                definition
+            });
 
-    it('should apply translating style when the user selects a language other than base', () => {
-        const language = { iso: 'spa', name: 'Spanish' };
-
-        EditorComp.setState({
-            language,
-            translating: baseLanguage.iso !== language.iso && baseLanguage.name !== language.name
+            expect(EditorComp.find('Flow').exists()).toBeTruthy();
         });
 
-        expect(EditorComp.state('language')).toEqual(language);
-        expect(EditorComp.state('translating')).toBeTruthy();
-        expect(getSpecWrapper(EditorComp, 'editor-container').hasClass('translating')).toBeTruthy();
-        expect(EditorComp.find('LanguageSelectorComp').props()).toEqual({
-            ...languageSelectorExpectedProps,
-            iso: language.iso
+        it('should apply translating style when the user selects a language other than base', () => {
+            const language = { iso: 'spa', name: 'Spanish' };
+
+            EditorComp.setState({
+                language,
+                translating:
+                    baseLanguage.iso !== language.iso && baseLanguage.name !== language.name
+            });
+
+            expect(EditorComp.state('language')).toEqual(language);
+            expect(EditorComp.state('translating')).toBeTruthy();
+            expect(
+                getSpecWrapper(EditorComp, 'editor-container').hasClass('translating')
+            ).toBeTruthy();
+            expect(EditorComp.find('LanguageSelectorComp').props()).toEqual({
+                ...languageSelectorExpectedProps,
+                iso: language.iso
+            });
         });
     });
 });

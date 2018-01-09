@@ -15,7 +15,7 @@ const Activity = new ActivityManager(flowUUID, jest.fn());
 const ComponentMap = new CompMap(definition);
 const props: NodeProps = {
     ComponentMap,
-    iso: 'eng',
+    language: context.baseLanguage,
     translating: false,
     definition,
     onNodeMounted: jest.fn(),
