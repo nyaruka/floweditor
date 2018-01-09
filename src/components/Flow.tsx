@@ -9,7 +9,7 @@ import FlowMutator from '../services/FlowMutator';
 import SimulatorComp from './Simulator';
 import Plumber from '../services/Plumber';
 import ActivityManager from '../services/ActivityManager';
-import NodeEditorComp, { NodeEditorProps } from './NodeEditor';
+import NodeEditor, { NodeEditorProps } from './NodeEditor';
 import LanguageSelectorComp, { Language } from './LanguageSelector';
 import { ConfigProviderContext } from '../providers/ConfigProvider/configContext';
 import {
@@ -72,7 +72,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
     private addToNode: Node;
 
     private ghost: NodeComp;
-    private nodeEditor: NodeEditorComp;
+    private nodeEditor: NodeEditor;
 
     public static contextTypes = {
         typeConfigList: typeConfigListPT,
@@ -118,7 +118,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         console.time('RenderAndPlumb');
     }
 
-    private nodeEditorRef(ref: NodeEditorComp): NodeEditorComp {
+    private nodeEditorRef(ref: NodeEditor): NodeEditor {
         return (this.nodeEditor = ref);
     }
 
@@ -220,7 +220,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             Mutator: { updateLocalizations: onUpdateLocalizations },
             definition,
             translating,
-            language: { iso },
+            language,
             ComponentMap: CompMap
         } = this.props;
 
@@ -236,7 +236,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             onUpdateLocalizations,
             definition,
             translating,
-            iso,
+            language,
             node,
             action: newAction,
             actionsOnly: true,
@@ -324,7 +324,7 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             ]
         };
 
-        // add an action if we are coming from a split
+        // Add an action if we are coming from a split
         if (fromNode.wait || fromNodeUI.type === 'webhook') {
             const replyAction: Reply = {
                 uuid: generateUUID(),
@@ -563,12 +563,12 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
     private getModal(): JSX.Element {
         if (this.state.nodeEditor) {
             return (
-                <NodeEditorComp
+                <NodeEditor
                     ref={this.nodeEditorRef}
                     // Editor
                     ComponentMap={this.props.ComponentMap}
                     // Flow
-                    iso={this.props.language.iso}
+                    language={this.props.language}
                     definition={this.props.definition}
                     translating={this.props.translating}
                     {...this.state.nodeEditor}

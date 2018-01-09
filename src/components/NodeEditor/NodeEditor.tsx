@@ -36,7 +36,7 @@ export interface FormProps {
     showAdvanced: boolean;
     node: Node;
     translating: boolean;
-    iso: string;
+    language: Language;
     action?: AnyAction;
     localizations?: LocalizedObject[];
     definition: FlowDefinition;
@@ -62,7 +62,7 @@ export interface FormProps {
 
 export interface NodeEditorProps {
     node: Node;
-    iso: string;
+    language: Language;
     action?: Action;
     nodeUI?: UINode;
     actionsOnly?: boolean;
@@ -121,8 +121,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             primary: { name: 'Save', onClick: this.onSave.bind(this) },
             secondary: { name: 'Cancel', onClick: this.onCancel.bind(this) }
         };
-        this.widgets = {};
-        this.advancedWidgets = {};
 
         this.formRef = this.formRef.bind(this);
         this.modalRef = this.modalRef.bind(this);
@@ -188,16 +186,18 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             if (this.props.action.uuid) {
                 return this.props.action.uuid;
             }
+
             return generateUUID();
         }
+
         return generateUUID();
     }
 
     private getExitTranslations(): JSX.Element {
         let languageName: string = '';
 
-        if (this.props.localizations.length > 0) {
-            ({ name: languageName } = this.props.localizations[0].getLanguage());
+        if (this.props.translating) {
+            ({ name: languageName } = this.props.language);
         }
 
         if (!languageName) {
@@ -218,6 +218,8 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                         ({ name: value } = localized.getObject() as Exit);
                     }
 
+                    const placeholder = `${languageName} Translation`
+
                     exitList.push(
                         <div key={exitUUID} className={formStyles.translating_exit}>
                             <div data-spec="exit-name" className={formStyles.translating_from}>
@@ -228,10 +230,10 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                                     data-spec="localization-input"
                                     ref={this.onBindWidget}
                                     name={exitUUID}
-                                    placeholder={`${languageName} Translation`}
+                                    placeholder={placeholder}
                                     showLabel={false}
                                     value={value}
-                                    /** Node */
+                                    // Node
                                     ComponentMap={this.props.ComponentMap}
                                 />
                             </div>
@@ -266,7 +268,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             const input = widgets[exitUUID] as TextInputElement;
 
             if (input) {
-                /** We save localized values as string arrays */
+                // We save localized values as string arrays
                 const value =
                     input.state.value.constructor === Array
                         ? input.state.value[0].trim()
@@ -285,8 +287,9 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
     private saveLocalizedExits(widgets: { [name: string]: any }): void {
         const exits = this.getLocalizedExits(widgets);
-        const language = this.props.localizations[0].getLanguage().iso;
-        this.props.onUpdateLocalizations(language, exits);
+        const { iso } = this.props.language;
+
+        this.props.onUpdateLocalizations(iso, exits);
     }
 
     /** Make NodeEditor aware of base form inputs */
@@ -302,6 +305,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     public onBindAdvancedWidget(widget: any): void {
         if (widget) {
             this.onBindWidget(widget);
+
             this.advancedWidgets[widget.props.name] = true;
         }
     }
@@ -311,6 +315,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         Object.keys(this.widgets).forEach(key => {
             const widget = this.widgets[key];
+
             if (!widget.validate()) {
                 invalid.push(widget);
             }
@@ -319,9 +324,11 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         /** If all form inputs are valid, submit it */
         if (!invalid.length) {
             this.form.onValid(this.widgets);
+
             return true;
         } else {
             let frontError = false;
+
             for (const widget of invalid) {
                 if (!this.advancedWidgets[widget.props.name]) {
                     frontError = true;
@@ -329,7 +336,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 }
             }
 
-            /** Show the right pane for the error */
+            // Show the right pane for the error
             if (
                 (frontError && this.modal.state.flipped) ||
                 (!frontError && !this.modal.state.flipped)
@@ -343,6 +350,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
     public open(): void {
         const config = this.context.getTypeConfig(this.determineConfigType());
+
         this.setState({
             show: true,
             config
@@ -357,9 +365,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             {
                 show: false
             },
-            () => {
-                this.props.onClose(canceled);
-            }
+            () => this.props.onClose(canceled)
         );
     }
 
@@ -377,14 +383,15 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
     private triggerFormUpdate(): void {
         this.form.onUpdateForm(this.widgets);
+
         if (this.advanced) {
             this.advanced.onUpdateForm(this.widgets);
         }
     }
 
-    /** Allow return key to submit our form */
+    // Allow return key to submit our form
     private onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void {
-        /** Return key */
+        // Return key
         if (event.which === 13) {
             const isTextarea = $(event.target).prop('tagName') === 'TEXTAREA';
             if (!isTextarea || event.shiftKey) {
@@ -416,15 +423,11 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     private getMode(): Mode {
-        let mode: Mode;
-
         if (this.props.translating) {
-            mode = Mode.TRANSLATING;
-        } else {
-            mode = Mode.EDITING;
+            return Mode.TRANSLATING;
         }
 
-        return mode;
+        return Mode.EDITING;
     }
 
     private hasAdvanced(): boolean {
@@ -433,36 +436,20 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         return this.state.config.allows(mode);
     }
 
-    // private getModalKey(): string {
-    //     let key: string = `modal_${this.props.node.uuid}`;
-
-    //     if (this.props.action) {
-    //         key += `_${this.props.action.uuid}`;
-    //     }
-
-    //     return key;
-    // }
-
     private getButtons(): ButtonSet {
-        let buttons: ButtonSet;
-
         if (this.temporaryButtons) {
-            buttons = this.temporaryButtons;
-        } else {
-            buttons = this.initialButtons;
+            return this.temporaryButtons;
         }
 
-        return buttons;
+        return this.initialButtons;
     }
 
     private getTitleText(): string {
-        let titleText: string = this.state.config.name;
-
-        if (this.props.localizations && this.props.localizations.length > 0) {
-            titleText = `${this.props.localizations[0].getLanguage().name} Translation`;
+        if (this.props.translating) {
+            return `${this.props.language.name} Translation`;
         }
 
-        return titleText;
+        return this.state.config.name;
     }
 
     private getTitles(): JSX.Element[] {
@@ -505,9 +492,9 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
     private getSides(): { front: JSX.Element; back: JSX.Element } {
         const formProps = {
-            /** Node */
+            // Node
             node: this.props.node,
-            iso: this.props.iso,
+            language: this.props.language,
             translating: this.props.translating,
             definition: this.props.definition,
             ComponentMap: this.props.ComponentMap,
@@ -526,7 +513,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             updateRouter: (node: Node, type: string, previousAction?: Action) => {
                 this.props.onUpdateRouter(node, type, previousAction);
             },
-            /** NodeEditor */
+            // NodeEditor
             onTypeChange: this.onTypeChange,
             getLocalizedExits: this.getLocalizedExits,
             getLocalizedObject: this.getLocalizedObject,
@@ -573,24 +560,23 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
     public render(): JSX.Element {
         if (this.state.show) {
-            /** Create our form element */
             if (this.state.config.form) {
-                // const key: string = this.getModalKey();
-                const buttons: ButtonSet = this.getButtons();
+                const style = shared[this.state.config.type];
                 const titles: JSX.Element[] = this.getTitles();
+                const buttons: ButtonSet = this.getButtons();
                 const { front, back }: { front: JSX.Element; back: JSX.Element } = this.getSides();
 
                 return (
                     <Modal
                         ref={this.modalRef}
-                        /** NodeEditor */
-                        className={shared[this.state.config.type]}
+                        // NodeEditor
+                        className={style}
                         width="600px"
                         title={titles}
                         show={this.state.show}
                         buttons={buttons}
                         onModalOpen={this.onOpen}
-                        /** Node */
+                        // Node
                         node={this.props.node}>
                         {front}
                         {back}
