@@ -78,7 +78,7 @@ export interface SaveToContact extends Action {
     created_on?: Date;
 }
 
-export interface IUpdateContact extends SaveToContact {
+export interface UpdateContact extends SaveToContact {
     field_name: string;
     value: string;
 }
