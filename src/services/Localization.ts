@@ -23,6 +23,7 @@ export class LocalizedObject {
                 this.language = { iso: this.iso, name: this.languages[this.iso] };
             }
         }
+
         return this.language;
     }
 
@@ -63,15 +64,16 @@ export default class Localization {
         languages: Languages,
         translations?: { [uuid: string]: any }
     ): LocalizedObject {
-        let localized: LocalizedObject = null;
+        const localized: LocalizedObject = new LocalizedObject(object, iso, languages);
+
         if (translations) {
-            localized = new LocalizedObject(object, iso, languages);
             if (object.uuid in translations) {
                 const values = translations[object.uuid];
                 // we don't want to side affect our action
                 Object.keys(values).forEach(key => localized.addTranslation(key, values[key]));
             }
         }
+
         return localized;
     }
 }

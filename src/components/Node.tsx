@@ -444,7 +444,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
                     actions.push(
                         <ActionComp {...firstRef} key={action.uuid} {...actionProps}>
-                            {(actionDivProps: AnyAction) => <ActionDiv {...actionDivProps} />}
+                            {(injectedProps: AnyAction) => <ActionDiv {...injectedProps} />}
                         </ActionComp>
                     );
                 }
@@ -537,15 +537,17 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
         const dragLink = this.getDragLink();
 
+        const style = {
+            left: this.props.ui.position.x,
+            top: this.props.ui.position.y
+        };
+
         return (
             <div
                 className={classes.join(' ')}
                 ref={this.eleRef}
                 id={this.props.node.uuid}
-                style={{
-                    left: this.props.ui.position.x,
-                    top: this.props.ui.position.y
-                }}>
+                style={style}>
                 {dragLink}
                 <CounterComp
                     ref={this.props.Activity.registerListener}

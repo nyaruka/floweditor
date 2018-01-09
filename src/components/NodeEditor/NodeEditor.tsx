@@ -147,6 +147,59 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         return (this.modal = ref);
     }
 
+    // Make NodeEditor aware of base form inputs
+    public onBindWidget(widget: any): void {
+        if (widget) {
+            if (this.widgets) {
+                this.widgets[widget.props.name] = widget;
+            }
+        }
+    }
+
+    // Make NodeEditor aware of advanced form inputs
+    public onBindAdvancedWidget(widget: any): void {
+        if (widget) {
+            this.onBindWidget(widget);
+
+            this.advancedWidgets[widget.props.name] = true;
+        }
+    }
+
+    private onOpen(): void {}
+
+    private onSave(): void {
+        if (this.submit()) {
+            this.close(false);
+        }
+    }
+
+    private onCancel(): void {
+        this.close(true);
+    }
+
+    // Allow return key to submit our form
+    private onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void {
+        // Return key
+        if (event.which === 13) {
+            const isTextarea = $(event.target).prop('tagName') === 'TEXTAREA';
+            if (!isTextarea || event.shiftKey) {
+                event.preventDefault();
+                if (this.submit()) {
+                    this.close(false);
+                }
+            }
+        }
+    }
+
+    private onTypeChange(config: Type): void {
+        this.widgets = {};
+        this.advancedWidgets = {};
+
+        this.setState({
+            config
+        });
+    }
+
     private determineConfigType(): string {
         if (this.props.action) {
             return this.props.action.type;
@@ -193,6 +246,37 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         return generateUUID();
     }
 
+    private getLocalizedExits(widgets: {
+        [name: string]: any;
+    }): Array<{ uuid: string; translations: any }> {
+        return this.props.node.exits.reduce((results, { uuid: exitUUID }: Exit) => {
+            const input = widgets[exitUUID] as TextInputElement;
+
+            if (input) {
+                // We save localized values as string arrays
+                const value =
+                    input.state.value.constructor === Array
+                        ? input.state.value[0].trim()
+                        : input.state.value.trim();
+
+                if (value) {
+                    results.push({ uuid: exitUUID, translations: { name: [value] } });
+                } else {
+                    results.push({ uuid: exitUUID, translations: null });
+                }
+            }
+
+            return results;
+        }, []);
+    }
+
+    private saveLocalizedExits(widgets: { [name: string]: any }): void {
+        const exits = this.getLocalizedExits(widgets);
+        const { iso } = this.props.language;
+
+        this.props.onUpdateLocalizations(iso, exits);
+    }
+
     private getExitTranslations(): JSX.Element {
         let languageName: string = '';
 
@@ -204,7 +288,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             return null;
         }
 
-        const exits = this.props.node.exits.reduce(
+        const exits: Exit[] = this.props.node.exits.reduce(
             (exitList, { uuid: exitUUID, name: exitName }) => {
                 const localized = this.props.localizations.find(
                     (localizedObject: LocalizedObject) =>
@@ -218,7 +302,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                         ({ name: value } = localized.getObject() as Exit);
                     }
 
-                    const placeholder = `${languageName} Translation`
+                    const placeholder = `${languageName} Translation`;
 
                     exitList.push(
                         <div key={exitUUID} className={formStyles.translating_exit}>
@@ -261,67 +345,18 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         );
     }
 
-    private getLocalizedExits(widgets: {
-        [name: string]: any;
-    }): Array<{ uuid: string; translations: any }> {
-        return this.props.node.exits.reduce((results, { uuid: exitUUID }: Exit) => {
-            const input = widgets[exitUUID] as TextInputElement;
-
-            if (input) {
-                // We save localized values as string arrays
-                const value =
-                    input.state.value.constructor === Array
-                        ? input.state.value[0].trim()
-                        : input.state.value.trim();
-
-                if (value) {
-                    results.push({ uuid: exitUUID, translations: { name: [value] } });
-                } else {
-                    results.push({ uuid: exitUUID, translations: null });
-                }
-            }
-
-            return results;
-        }, []);
-    }
-
-    private saveLocalizedExits(widgets: { [name: string]: any }): void {
-        const exits = this.getLocalizedExits(widgets);
-        const { iso } = this.props.language;
-
-        this.props.onUpdateLocalizations(iso, exits);
-    }
-
-    /** Make NodeEditor aware of base form inputs */
-    public onBindWidget(widget: any): void {
-        if (widget) {
-            if (this.widgets) {
-                this.widgets[widget.props.name] = widget;
-            }
-        }
-    }
-
-    /** Make NodeEditor aware of advanced form inputs */
-    public onBindAdvancedWidget(widget: any): void {
-        if (widget) {
-            this.onBindWidget(widget);
-
-            this.advancedWidgets[widget.props.name] = true;
-        }
-    }
-
     public submit(): boolean {
-        const invalid: any[] = [];
-
-        Object.keys(this.widgets).forEach(key => {
+        const invalid: any[] = Object.keys(this.widgets).reduce((invalidList, key) => {
             const widget = this.widgets[key];
 
             if (!widget.validate()) {
-                invalid.push(widget);
+                invalidList.push(widget);
             }
-        });
 
-        /** If all form inputs are valid, submit it */
+            return invalidList;
+        }, []);
+
+        // If all form inputs are valid, submit it
         if (!invalid.length) {
             this.form.onValid(this.widgets);
 
@@ -369,47 +404,12 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         );
     }
 
-    private onOpen(): void {}
-
-    private onSave(): void {
-        if (this.submit()) {
-            this.close(false);
-        }
-    }
-
-    private onCancel(): void {
-        this.close(true);
-    }
-
     private triggerFormUpdate(): void {
         this.form.onUpdateForm(this.widgets);
 
         if (this.advanced) {
             this.advanced.onUpdateForm(this.widgets);
         }
-    }
-
-    // Allow return key to submit our form
-    private onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void {
-        // Return key
-        if (event.which === 13) {
-            const isTextarea = $(event.target).prop('tagName') === 'TEXTAREA';
-            if (!isTextarea || event.shiftKey) {
-                event.preventDefault();
-                if (this.submit()) {
-                    this.close(false);
-                }
-            }
-        }
-    }
-
-    private onTypeChange(config: Type): void {
-        this.widgets = {};
-        this.advancedWidgets = {};
-
-        this.setState({
-            config
-        });
     }
 
     private toggleAdvanced(): void {
@@ -583,8 +583,10 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     </Modal>
                 );
             }
+
             return null;
         }
+
         return null;
     }
 }
