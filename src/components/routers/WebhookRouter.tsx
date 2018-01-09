@@ -32,7 +32,7 @@ export interface WebhookRouterFormProps extends FormProps {
     translating: boolean;
     triggerFormUpdate(): void;
     ComponentMap: ComponentMap;
-    renderExitTranslations(): JSX.Element;
+    getExitTranslations(): JSX.Element;
     onToggleAdvanced(): void;
     saveLocalizedExits(widgets: { [name: string]: React.Component }): void;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
@@ -228,7 +228,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
 
     private renderForm(): JSX.Element {
         if (this.props.translating) {
-            return this.props.renderExitTranslations();
+            return this.props.getExitTranslations();
         }
 
         var method = 'GET';
