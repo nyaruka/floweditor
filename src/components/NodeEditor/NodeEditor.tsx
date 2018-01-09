@@ -125,7 +125,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         this.advancedWidgets = {};
 
         this.formRef = this.formRef.bind(this);
-        this.advancedRef = this.advancedRef.bind(this);
         this.modalRef = this.modalRef.bind(this);
         this.getLocalizedObject = this.getLocalizedObject.bind(this);
         this.getActionUUID = this.getActionUUID.bind(this);
@@ -142,15 +141,11 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         this.removeWidget = this.removeWidget.bind(this);
     }
 
-    private formRef(ref: any): void {
+    private formRef(ref: React.Component<{}>): React.Component<{}> {
         return (this.form = ref);
     }
 
-    private advancedRef(ref: any): void {
-        return (this.advanced = ref);
-    }
-
-    private modalRef(ref: any): void {
+    private modalRef(ref: Modal): Modal {
         return (this.modal = ref);
     }
 

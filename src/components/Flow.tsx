@@ -340,11 +340,13 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         // TODO: this is here to workaround a jsplumb
         // weirdness where offsets go off the handle upon
         // dragging connections
-        window.setTimeout(() => {
-            this.setState({
-                ghost
-            });
-        }, 0);
+        window.setTimeout(
+            () =>
+                this.setState({
+                    ghost
+                }),
+            0
+        );
 
         // save off our drag point for later
         this.pendingConnection = draggedFrom;

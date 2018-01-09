@@ -9,8 +9,14 @@ import ComponentMap from '../../services/ComponentMap';
 import { Language } from '../LanguageSelector';
 import { LocalizedObject } from '../../services/Localization';
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
-import { GetOperatorConfig, operatorConfigList } from '../../providers/ConfigProvider/operatorConfigs';
-import { getOperatorConfigPT, operatorConfigListPT } from '../../providers/ConfigProvider/propTypes';
+import {
+    GetOperatorConfig,
+    operatorConfigList
+} from '../../providers/ConfigProvider/operatorConfigs';
+import {
+    getOperatorConfigPT,
+    operatorConfigListPT
+} from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 import CaseElement, { CaseElementProps } from '../form/CaseElement';
 import { reorderList } from '../../helpers/utils';
@@ -425,11 +431,11 @@ export default class SwitchRouterForm extends React.Component<
         this.setState({
             cases
         });
-    };
+    }
 
     private isSwitchRouterNode(): boolean {
         return (
-            this.props.node.wait.type &&
+            this.props.node.wait &&
             (this.props.node.wait.type === 'exp' || this.props.node.wait.type === 'msg')
         );
     }
