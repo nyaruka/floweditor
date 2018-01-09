@@ -38,14 +38,12 @@ export class LocalizedObject {
         // localization shouldn't side-affect the original object
         if (!this.localized) {
             this.localizedObject = Object.assign({}, this.localizedObject);
+
             this.localized = true;
         }
 
-        // if ((this.localizedObject as any)[key].constructor.name == 'String') {
-        //     value = value[0];
-        // }
+        this.localizedObject[key] = value;
 
-        (this.localizedObject as any)[key] = value;
         this.localizedKeys[key] = true;
     }
 
@@ -69,7 +67,7 @@ export default class Localization {
         if (translations) {
             if (object.uuid in translations) {
                 const values = translations[object.uuid];
-                // we don't want to side affect our action
+                // We don't want to side affect our action
                 Object.keys(values).forEach(key => localized.addTranslation(key, values[key]));
             }
         }
