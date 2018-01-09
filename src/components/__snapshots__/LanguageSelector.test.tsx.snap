@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LanguageSelector > helpers > composeLanguageMap should return an array of language maps with 'name' and 'iso' keys 1`] = `
+Array [
+  Object {
+    "iso": "eng",
+    "name": "English",
+  },
+  Object {
+    "iso": "spa",
+    "name": "Spanish",
+  },
+  Object {
+    "iso": "fre",
+    "name": "French",
+  },
+]
+`;

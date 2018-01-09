@@ -26,6 +26,7 @@ const LanguageSelectorComp: React.SFC<LanguageSelectorProps> = (props): JSX.Elem
     return (
         <div className={`${languageSelector} select-small`}>
             <Select
+                data-spec="language-selector"
                 // Flow
                 value={props.iso}
                 onChange={props.onChange}
