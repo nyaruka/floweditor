@@ -8,7 +8,7 @@ import { ConfigProviderContext } from '../../../providers/ConfigProvider/configC
 
 export interface ChangeGroupFormProps {
     action: ChangeGroup;
-    getActionUUID: Function;
+    getActionUUID(): string;
     config: Type;
     updateAction(action: ChangeGroup): void;
     onBindWidget(ref: any): void;
@@ -22,11 +22,12 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
 
     constructor(props: ChangeGroupFormProps, context: ConfigProviderContext) {
         super(props);
+
         this.onValid = this.onValid.bind(this);
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        const groupEle = widgets['Group'] as any;
+        const groupEle = widgets.Group as any;
         const { state: { groups: [group] } } = groupEle;
 
         if (group) {
@@ -45,8 +46,7 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
         }
     }
 
-    private renderForm(): JSX.Element {
-        const groups: { group: string; name: string }[] = [];
+    public render(): JSX.Element {
         let p: JSX.Element;
 
         if (this.props.config.type === 'add_to_group') {
@@ -56,6 +56,8 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
         } else {
             p = null;
         }
+
+        const groups: Array<{ group: string; name: string }> = [];
 
         if (
             this.props.action &&
@@ -78,13 +80,9 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
                     localGroups={this.props.ComponentMap.getGroups()}
                     groups={groups}
                     add={this.props.config.type === 'add_to_group'}
-                    required
+                    required={true}
                 />
             </div>
         );
-    }
-
-    public render(): JSX.Element {
-        return this.renderForm();
     }
 }
