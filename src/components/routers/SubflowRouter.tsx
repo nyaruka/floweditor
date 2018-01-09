@@ -48,7 +48,7 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
             flow_uuid: flowUUID
         };
 
-        // If we were already a subflow, lean on those exits and cases
+        // If we're already a subflow, lean on those exits and cases
         let exits: Exit[];
         let cases: Case[];
 

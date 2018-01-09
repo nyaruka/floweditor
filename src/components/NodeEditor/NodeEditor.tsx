@@ -295,6 +295,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                         localizedObject.getObject().uuid === exitUUID
                 );
 
+
                 if (localized) {
                     let value = '';
 

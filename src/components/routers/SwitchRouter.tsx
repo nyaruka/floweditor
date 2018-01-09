@@ -49,7 +49,7 @@ export interface SwitchRouterState {
 
 export interface SwitchRouterFormProps {
     showAdvanced: boolean;
-    iso: string;
+    language: Language;
     node: Node;
     action?: AnyAction;
     config: Type;
@@ -265,7 +265,6 @@ export default class SwitchRouterForm extends React.Component<
 
                         if (exitMatch.name) {
                             if (exitMatch.name === 'All Responses') {
-                                /** Bingo */
                                 this.props.updateLocalizations(iso, [{ uuid: localizationUUID }]);
                             }
                         }
@@ -293,7 +292,6 @@ export default class SwitchRouterForm extends React.Component<
 
                         if (exitMatch.name) {
                             if (exitMatch.name === 'Other') {
-                                /** Listo */
                                 this.props.updateLocalizations(iso, [{ uuid: localizationUUID }]);
                             }
                         }
@@ -400,9 +398,9 @@ export default class SwitchRouterForm extends React.Component<
         }
 
         if (!found) {
-            /** Add new case */
+            // Add new case
             cases[cases.length] = newCase;
-            /** Ensure new case has focus */
+            // Ensure new case has focus
             Object.keys(cases).forEach((key, idx, arr) => {
                 if (idx === arr.length - 1) {
                     if (type) {
@@ -500,7 +498,7 @@ export default class SwitchRouterForm extends React.Component<
             translations: any;
         }>;
 
-        this.props.updateLocalizations(this.props.iso, updates);
+        this.props.updateLocalizations(this.props.language.iso, updates);
     }
 
     private getLocalizedCases(widgets: {
@@ -833,9 +831,8 @@ export default class SwitchRouterForm extends React.Component<
     }
 
     public render(): JSX.Element {
-        if (this.props.showAdvanced && this.props.translating) {
-            return this.renderAdvanced();
-        }
-        return this.renderForm();
+        return this.props.showAdvanced && this.props.translating
+            ? this.renderAdvanced()
+            : this.renderForm();
     }
 }
