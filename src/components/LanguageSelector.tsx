@@ -15,7 +15,7 @@ export interface LanguageSelectorProps {
     onChange(language: Language): void;
 }
 
-const LanguageSelectorComp: React.SFC<LanguageSelectorProps> = props => {
+const LanguageSelectorComp: React.SFC<LanguageSelectorProps> = (props): JSX.Element => {
     const options: Language[] = Object.keys(props.languages).map(iso => ({
         name: props.languages[iso],
         iso
