@@ -201,8 +201,8 @@ export const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
     background: isDragging && '#f2f9fc',
     borderRadius: isDragging && 4,
     opacity: isDragging && 0.75,
-    /** Overwriting default draggableStyle object from this point down */
     ...draggableStyle,
+    // Overwriting default draggableStyle object from this point down
     top: isDragging && draggableStyle.top - 90,
     left: isDragging && 20,
     height: isDragging && draggableStyle.height + 15,
@@ -809,28 +809,40 @@ export default class SwitchRouterForm extends React.Component<
             return this.props.getExitTranslations();
         } else {
             const cases: JSX.Element[] = this.getCases();
-
             const nameField: JSX.Element = this.getNameField();
-
             const leadIn: JSX.Element = this.getLeadIn();
 
-            return (
-                <div>
-                    {leadIn}
-                    <div className={styles.cases}>
+            let caseContext: JSX.Element[] | JSX.Element;
+
+            if (cases.length <= 2) {
+                caseContext = cases;
+            } else {
+                const draggableCases: JSX.Element[] = cases.slice(0, cases.length - 1);
+                const emptyCase: JSX.Element = cases[cases.length - 1];
+
+                caseContext = (
+                    <div>
                         <DragDropContext onDragEnd={this.onDragEnd}>
                             <Droppable droppableId="droppable">
                                 {(provided, snapshot) => (
                                     <div
                                         ref={provided.innerRef}
                                         style={getListStyle(snapshot.isDraggingOver)}>
-                                        {cases}
+                                        {draggableCases}
                                         {provided.placeholder}
                                     </div>
                                 )}
                             </Droppable>
                         </DragDropContext>
+                        {emptyCase}
                     </div>
+                );
+            }
+
+            return (
+                <div>
+                    {leadIn}
+                    <div className={styles.cases}>{caseContext}</div>
                     <div className={styles.save_as}>{nameField}</div>
                 </div>
             );
