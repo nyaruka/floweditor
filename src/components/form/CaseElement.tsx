@@ -202,21 +202,13 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     public validate(): boolean {
         const errors: string[] = [];
 
-        if (this.state.operatorConfig.operands === 0) {
+        if (this.state.operatorConfig.operands < 1) {
             if (this.state.exitName.trim().length === 0) {
                 const { verboseName } = this.state.operatorConfig;
 
                 errors.push(`A category name is required when using "${verboseName}."`);
             }
         } else {
-            // Check our argument list.
-            // If we have arguments, we need an exit name.
-            if (hasArgs(this.state.arguments)) {
-                if (!this.category || !this.category.state.value) {
-                    errors.push('A category name is required.');
-                }
-            }
-
             // If we have an exit name we need arguments
             if (this.state.exitName) {
                 if (!hasArgs(this.state.arguments)) {
@@ -245,6 +237,14 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                             errors.push('Enter a date when using date rules (e.g. 1/1/2017).');
                         }
                     }
+                }
+            }
+
+            // Check our argument list.
+            // If we have arguments, we need an exit name.
+            if (hasArgs(this.state.arguments)) {
+                if (!this.category || !this.category.state.value) {
+                    errors.push('A category name is required.');
                 }
             }
         }
@@ -308,6 +308,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         const args: JSX.Element = this.getArgsEle();
         const dndIco: JSX.Element = this.getDndIco();
         const removeIco: JSX.Element = this.getRemoveIco();
+        const kaseError: boolean = this.state.errors.length > 0;
         const hasExitError: boolean = hasErrorType(this.state.errors, ['category']);
 
         return (
@@ -316,7 +317,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 name={this.props.name}
                 errors={this.state.errors}
                 __className={styles.group}
-                kase={true}>
+                kaseError={kaseError}>
                 <div className={`${styles.kase} select-medium`}>
                     {dndIco}
                     <div className={styles.choice}>

@@ -621,7 +621,8 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
         const charCount: JSX.Element = this.getCharCountEle();
 
-        const reply: boolean =
+        const replyError: boolean =
+            this.state.errors.length &&
             this.props.name === 'Message' &&
             this.props.textarea &&
             this.props.autocomplete &&
@@ -639,7 +640,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 helpText={this.props.helpText}
                 showLabel={this.props.showLabel}
                 errors={this.state.errors}
-                reply={reply}>
+                replyError={replyError}>
                 <div className={styles.wrapper}>
                     <TextElement
                         data-spec="input"
