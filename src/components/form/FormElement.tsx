@@ -1,6 +1,9 @@
 import * as React from 'react';
+import * as classNames from 'classnames/bind';
 
 import * as styles from './FormElement.scss';
+
+const cx = classNames.bind(styles);
 
 export interface FormElementProps {
     name: string;
@@ -10,7 +13,6 @@ export interface FormElementProps {
     required?: boolean;
     __className?: string;
     border?: boolean;
-    kase?: boolean;
 }
 
 export default class FormElement extends React.PureComponent<FormElementProps> {
@@ -31,41 +33,31 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
     }
 
     private getErrors(): JSX.Element {
-        let errors: JSX.Element[];
-
-        if (this.props.errors) {
-            errors = this.props.errors.map((error, idx) => (
-                <div key={idx} className={styles.error}>
-                    {error}
-                </div>
-            ));
-        } else {
-            errors = [];
+        if (this.props.errors.length < 1) {
+            return null;
         }
 
-        if (errors.length > 0) {
-            return <div className={styles.error}>{errors}</div>;
-        }
+        const errors: JSX.Element[] = this.props.errors.map((error, idx) => (
+            <div key={idx} className={styles.error}>
+                {error}
+            </div>
+        ));
 
-        return null;
+        return <div className={styles.error}>{errors}</div>;
     }
     public render(): JSX.Element {
         const name: JSX.Element = this.getName();
         const helpText: JSX.Element = this.getHelpText();
         const errorsToDisplay: JSX.Element = this.getErrors();
 
-        const classes = [styles.ele];
-
-        if (this.props.__className) {
-            classes.push(this.props.__className);
-        }
-
-        if (this.props.border) {
-            classes.push(styles.border);
-        }
+        const className = cx({
+            [styles.ele]: true,
+            [styles.border]: this.props.border,
+            [this.props.__className]: this.props.__className !== undefined
+        });
 
         return (
-            <div className={classes.join(' ')}>
+            <div className={className}>
                 {name}
                 {this.props.children}
                 <div>
