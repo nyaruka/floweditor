@@ -134,7 +134,7 @@ describe('TextInputElement >', () => {
 
             expect(getSpecWrapper(TextInput, 'input').props()).toEqual(
                 expect.objectContaining({
-                    className: 'textinput false',
+                    className: 'textinput',
                     placeholder: '',
                     type: undefined,
                     value: msgs[0][0],

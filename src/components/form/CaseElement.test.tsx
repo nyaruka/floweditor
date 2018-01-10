@@ -114,8 +114,7 @@ describe('CaseElement >', () => {
                 expect(getSpecWrapper(EmptyCase, 'case-form').props()).toEqual(
                     expect.objectContaining({
                         name: props.name,
-                        errors: [],
-                        kase: true
+                        errors: []
                     })
                 );
 
