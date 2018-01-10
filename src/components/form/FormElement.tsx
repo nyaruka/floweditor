@@ -8,55 +8,35 @@ export interface FormElementProps {
     errors?: string[];
     showLabel?: boolean;
     required?: boolean;
-    className?: string;
+    __className?: string;
     border?: boolean;
-    case?: boolean;
+    kase?: boolean;
 }
 
 const FormElement: React.SFC<FormElementProps> = (props): JSX.Element => {
-    let errors: JSX.Element[] = [];
+    const errorDivs: JSX.Element[] = props.errors
+        ? props.errors.map((error, idx) => (
+              <div key={idx} className={styles.error}>
+                  {error}
+              </div>
+          ))
+        : [];
 
-    if (props.errors) {
-        props.errors.map((error, idx) => {
-            errors = [
-                ...errors,
-                <div key={idx} className={styles.error}>
-                    {error}
-                </div>
-            ];
-        });
-    }
+    const errorsToDisplay: JSX.Element =
+        errorDivs.length > 0 ? <div className={styles.error}>{errorDivs}</div> : null;
 
-    let errorDisplay: JSX.Element = null;
+    const name: JSX.Element =
+        props.showLabel && props.name ? <div className={styles.label}>{props.name}</div> : null;
 
-    if (errors.length > 0) {
-        errorDisplay = (
-            <div
-                className={styles.error}
-                style={{ paddingTop: props.case && 5, paddingLeft: props.case && 10 }}>
-                {errors}
-            </div>
-        );
-    }
-
-    let name: JSX.Element = null;
-
-    if (props.showLabel && props.name) {
-        name = <div className={styles.label}>{props.name}</div>;
-    }
-
-    let helpText: JSX.Element | string;
-
-    if (props.helpText && !errorDisplay) {
-        helpText = <div className={styles.help_text}>{props.helpText}</div>;
-    } else {
-        helpText = '';
-    }
+    const helpText: JSX.Element =
+        props.helpText && !errorsToDisplay ? (
+            <div className={styles.helpText}>{props.helpText}</div>
+        ) : null;
 
     const classes = [styles.ele];
 
-    if (props.className) {
-        classes.push(props.className);
+    if (props.__className) {
+        classes.push(props.__className);
     }
 
     if (props.border) {
@@ -69,7 +49,7 @@ const FormElement: React.SFC<FormElementProps> = (props): JSX.Element => {
             {props.children}
             <div>
                 {helpText}
-                {errorDisplay}
+                {errorsToDisplay}
             </div>
         </div>
     );

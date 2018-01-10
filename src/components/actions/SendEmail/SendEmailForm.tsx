@@ -61,7 +61,7 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
                     required={true}
                 />
                 <TextInputElement
-                    className={styles.subject}
+                    __className={styles.subject}
                     ref={this.props.onBindWidget}
                     name="Subject"
                     placeholder="Subject"
@@ -71,7 +71,7 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
                     ComponentMap={this.props.ComponentMap}
                 />
                 <TextInputElement
-                    className={styles.message}
+                    __className={styles.message}
                     ref={this.props.onBindWidget}
                     name="Message"
                     showLabel={false}

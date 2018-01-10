@@ -320,8 +320,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 data-spec="case-form"
                 name={this.props.name}
                 errors={this.state.errors}
-                className={styles.kase}
-                case={true}>
+                __className={styles.kase}
+                kase={true}>
                 <div className="select-medium">
                     {dndIco}
                     <div className={styles.choice}>

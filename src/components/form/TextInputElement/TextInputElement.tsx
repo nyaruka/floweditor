@@ -40,15 +40,12 @@ interface CharCountStats {
 }
 
 interface TextInputProps extends FormElementProps {
-    count?: Count;
     value: string;
-    /** Validates that the input is a url */
+    __className?: string;
+    count?: Count;
     url?: boolean;
-    /** Should we display in a textarea */
     textarea?: boolean;
-    /** Text to display when there is no value */
     placeholder?: string;
-    /** Do we show autocompletion choices */
     autocomplete?: boolean;
     focus?: boolean;
     onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
@@ -624,7 +621,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
         return (
             <FormElement
-                className={this.props.className}
+                __className={this.props.__className}
                 name={this.props.name}
                 helpText={this.props.helpText}
                 showLabel={this.props.showLabel}

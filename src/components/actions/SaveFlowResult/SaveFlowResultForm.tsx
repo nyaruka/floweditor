@@ -54,7 +54,7 @@ export default class extends React.PureComponent<SaveFlowResultFormProps> {
         return (
             <div className={styles.form}>
                 <TextInputElement
-                    className={styles.name}
+                    __className={styles.name}
                     ref={this.props.onBindWidget}
                     name="Name"
                     showLabel={true}
@@ -64,7 +64,7 @@ export default class extends React.PureComponent<SaveFlowResultFormProps> {
                     ComponentMap={this.props.ComponentMap}
                 />
                 <TextInputElement
-                    className={styles.value}
+                    __className={styles.value}
                     ref={this.props.onBindWidget}
                     name="Value"
                     showLabel={true}
@@ -74,7 +74,7 @@ export default class extends React.PureComponent<SaveFlowResultFormProps> {
                     ComponentMap={this.props.ComponentMap}
                 />
                 <TextInputElement
-                    className={styles.category}
+                    __className={styles.category}
                     ref={this.props.onBindWidget}
                     name="Category"
                     placeholder="Optional"
