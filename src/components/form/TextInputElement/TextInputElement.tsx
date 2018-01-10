@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classNames from 'classnames/bind';
 import getCaretCoordinates from 'textarea-caret';
 import setCaretPosition from 'get-input-selection';
 import { split } from 'split-sms';
@@ -247,6 +248,8 @@ const initialState: InitialState = {
     matches: [],
     query: ''
 };
+
+const cx = classNames.bind({ ...styles, ...shared });
 
 export default class TextInputElement extends React.Component<TextInputProps, TextInputState> {
     private selectedEl: HTMLLIElement;
@@ -603,12 +606,15 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     }
 
     public render(): JSX.Element {
-        const classes: string[] = [styles.textinput, this.state.errors.length > 0 && 'invalid'];
+        const textElClassName: string = cx({
+            [styles.textinput]: true,
+            [shared.invalid]: this.state.errors.length > 0
+        });
 
-        const completionClasses: string[] = [
-            styles.completion_container,
-            (!this.state.completionVisible || this.state.matches.length === 0) && styles.hidden
-        ];
+        const completionClassName: string = cx({
+            [styles.completion_container]: true,
+            [styles.hidden]: !this.state.completionVisible || this.state.matches.length === 0
+        });
 
         const options: JSX.Element[] = this.getOptions();
 
@@ -631,16 +637,14 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                         data-spec="input"
                         ref={this.textElRef}
                         type={inputType}
-                        className={classes.join(' ')}
+                        className={textElClassName}
                         value={this.state.value}
                         onChange={this.onChange}
                         onBlur={this.onBlur}
                         onKeyDown={this.onKeyDown}
                         placeholder={this.props.placeholder}
                     />
-                    <div
-                        style={this.state.caretCoordinates}
-                        className={completionClasses.join(' ')}>
+                    <div className={completionClassName} style={this.state.caretCoordinates}>
                         <ul className={styles.option_list}>{options}</ul>
                         <div className={styles.help}>Tab to complete, enter to select</div>
                     </div>
