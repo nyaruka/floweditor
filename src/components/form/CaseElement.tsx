@@ -92,8 +92,9 @@ export const getExitName = (
 ): string => {
     // Don't reassign func params
     let newExitName = exitName;
+
     // Some operators don't expect args
-    if (newArgList.length && !operatorConfig.categoryName) {
+    if (newArgList.length >= 0 && !operatorConfig.categoryName) {
         newExitName = composeExitName(operatorConfig.type, newArgList);
     } else {
         // Use the operator's default category name
@@ -153,10 +154,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                     operatorConfig: val,
                     exitName
                 },
-                () => {
-                    this.props.onChange(this);
-                    this.category.setState({ value: exitName });
-                }
+                () => this.category.setState({ value: exitName }, () => this.props.onChange(this))
             );
         }
     }
@@ -176,11 +174,12 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 exitName
             },
             () => {
-                this.props.onChange(this, ChangedCaseInput.ARGS);
                 this.category.setState({ value: exitName }, () => {
                     // If the case doesn't have both an argument & an exit name, remove it */
                     if (!this.state.arguments[0] && !this.state.exitName) {
                         this.onRemove();
+                    } else {
+                        this.props.onChange(this, ChangedCaseInput.ARGS);
                     }
                 });
             }
@@ -206,6 +205,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         if (this.state.operatorConfig.operands === 0) {
             if (this.state.exitName.trim().length === 0) {
                 const { verboseName } = this.state.operatorConfig;
+
                 errors.push(`A category name is required when using "${verboseName}"`);
             }
         } else {
@@ -221,6 +221,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             if (this.state.exitName) {
                 if (!hasArgs(this.state.arguments)) {
                     const { verboseName } = this.state.operatorConfig;
+
                     errors.push(`When using "${verboseName}", an argument is required.`);
                 }
             }
@@ -286,7 +287,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             );
         }
 
-        return <div style={{ display: 'inline-block', width: 15 }} />;
+        return <div className={styles.empty} />;
     }
 
     private getRemoveIco(): JSX.Element {
