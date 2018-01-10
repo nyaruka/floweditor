@@ -101,7 +101,7 @@ describe('CaseElement >', () => {
 
         describe('render >', () => {
             it('should render empty case', () => {
-                const EmptyCase = shallow(<CaseElement {...{ ...props, exitName: null }} />, {
+                const EmptyCase = shallow(<CaseElement {...{ ...props, exitName: '' }} />, {
                     context
                 });
 
@@ -115,7 +115,7 @@ describe('CaseElement >', () => {
                     expect.objectContaining({
                         name: props.name,
                         errors: [],
-                        case: true
+                        kase: true
                     })
                 );
 
