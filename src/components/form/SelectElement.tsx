@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Select from 'react-select';
 import FormElement, { FormElementProps } from './FormElement';
-import { getSelectClass } from '../../helpers/utils';
 
 import * as styles from './FormElement.scss';
 
@@ -57,8 +56,6 @@ export default class SelectElement extends React.Component<SelectElementProps, S
     }
 
     render() {
-        const classes: string[] = getSelectClass(this.state.errors.length);
-
         return (
             <FormElement
                 name={this.props.name}

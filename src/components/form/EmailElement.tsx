@@ -5,7 +5,7 @@ import { getSelectClass } from '../../helpers/utils';
 
 import * as styles from './FormElement.scss';
 
-type Emails = { label: string; value: string }[];
+type EmailList = Array<{ label: string; value: string }>;
 
 interface EmailElementProps extends FormElementProps {
     emails: string[];
@@ -13,11 +13,11 @@ interface EmailElementProps extends FormElementProps {
 }
 
 interface EmailState {
-    emails: Emails;
+    emails: EmailList;
     errors: string[];
 }
 
-export const transformEmails = (emails: string[]): { label: string; value: string }[] =>
+export const transformEmails = (emails: string[]): EmailList =>
     emails.map(email => ({ label: email, value: email }));
 
 export default class EmailElement extends React.Component<EmailElementProps, EmailState> {
@@ -36,7 +36,7 @@ export default class EmailElement extends React.Component<EmailElementProps, Ema
         this.validEmailPrompt = this.validEmailPrompt.bind(this);
     }
 
-    validate(): boolean {
+    public validate(): boolean {
         const errors: string[] = [];
 
         if (this.props.required) {
@@ -45,12 +45,12 @@ export default class EmailElement extends React.Component<EmailElementProps, Ema
             }
         }
 
-        this.setState({ errors: errors });
+        this.setState({ errors });
 
         return errors.length === 0;
     }
 
-    private onChangeEmails(emails: Emails) {
+    private onChangeEmails(emails: EmailList): void {
         this.setState({
             emails
         });
@@ -68,8 +68,8 @@ export default class EmailElement extends React.Component<EmailElementProps, Ema
         return <div />;
     }
 
-    render() {
-        const classes: string[] = getSelectClass(this.state.errors.length);
+    public render(): JSX.Element {
+        const className: string = getSelectClass(this.state.errors.length);
 
         return (
             <FormElement
@@ -77,7 +77,7 @@ export default class EmailElement extends React.Component<EmailElementProps, Ema
                 required={this.props.required}
                 errors={this.state.errors}>
                 <SelectCreatable
-                    className={classes.join(' ')}
+                    className={className}
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     value={this.state.emails}

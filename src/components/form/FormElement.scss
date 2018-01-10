@@ -9,6 +9,9 @@
         border-radius: 5px;
         padding: 10px;
     }
+    &:focus {
+        outline: none;
+    }
 }
 
 .label {
@@ -35,9 +38,15 @@
 .error {
     color: $error_color;
     font-size: 11px;
-    padding-bottom: 5px;
     padding-top: 5px;
-    padding-left: 8px;
+    padding-left: 2px;
+    .reply {
+        padding-top: 0px;
+        margin-top: -25px;
+    }
+    .kase {
+        padding-left: 15px;
+    }
 }
 
 .help_text {

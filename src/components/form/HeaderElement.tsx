@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { hasErrorType } from '../../helpers/utils';
 import ComponentMap from '../../services/ComponentMap';
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 import FormElement from './FormElement';
@@ -28,8 +29,6 @@ interface HeaderElementState {
 }
 
 export default class HeaderElement extends React.Component<HeaderElementProps, HeaderElementState> {
-    private category: TextInputElement;
-
     constructor(props: HeaderElementProps) {
         super(props);
 
@@ -41,9 +40,10 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
 
         this.onChangeName = this.onChangeName.bind(this);
         this.onChangeValue = this.onChangeValue.bind(this);
+        this.onRemove = this.onRemove.bind(this);
     }
 
-    private onChangeName(event: React.SyntheticEvent<HTMLTextElement>) {
+    private onChangeName(event: React.SyntheticEvent<HTMLTextElement>): void {
         this.setState(
             {
                 name: event.currentTarget.value
@@ -52,7 +52,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
         );
     }
 
-    private onChangeValue(event: React.SyntheticEvent<HTMLTextElement>) {
+    private onChangeValue(event: React.SyntheticEvent<HTMLTextElement>): void {
         this.setState(
             {
                 value: event.currentTarget.value
@@ -61,30 +61,26 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
         );
     }
 
-    private onRemove(ele: any) {
+    private onRemove(ele: any): void {
         this.props.onRemove(this);
     }
 
-    validate(): boolean {
+    public validate(): boolean {
         const errors: string[] = [];
 
         if (this.state.value.trim().length > 0) {
-            if (this.state.name.trim().length == 0) {
+            if (this.state.name.trim().length === 0) {
                 errors.push('HTTP headers must have a name');
             }
         }
 
-        this.setState({ errors: errors });
+        this.setState({ errors });
 
         return errors.length === 0;
     }
 
-    render() {
-        const classes = [styles.header];
-
-        if (this.state.errors.length > 0) {
-            classes.push(forms.invalid);
-        }
+    public render(): JSX.Element {
+        const hasHeaderError = hasErrorType(this.state.errors, ['headers']);
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
@@ -96,6 +92,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
                             onChange={this.onChangeName}
                             value={this.state.name}
                             ComponentMap={this.props.ComponentMap}
+                            showInvalid={hasHeaderError}
                         />
                     </div>
                     <div className={styles.header_value}>
@@ -104,11 +101,11 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
                             name="value"
                             onChange={this.onChangeValue}
                             value={this.state.value}
-                            autocomplete
+                            autocomplete={true}
                             ComponentMap={this.props.ComponentMap}
                         />
                     </div>
-                    <div className={styles.remove_button} onClick={this.onRemove.bind(this)}>
+                    <div className={styles.remove_button} onClick={this.onRemove}>
                         <span className="icon-remove" />
                     </div>
                 </div>

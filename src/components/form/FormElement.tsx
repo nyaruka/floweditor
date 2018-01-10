@@ -13,6 +13,8 @@ export interface FormElementProps {
     required?: boolean;
     __className?: string;
     border?: boolean;
+    reply?: boolean;
+    kase?: boolean;
 }
 
 export default class FormElement extends React.PureComponent<FormElementProps> {
@@ -37,11 +39,19 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
             return null;
         }
 
-        const errors: JSX.Element[] = this.props.errors.map((error, idx) => (
-            <div key={idx} className={styles.error}>
-                {error}
-            </div>
-        ));
+        const errors: JSX.Element[] = this.props.errors.map((error, idx) => {
+            const className = cx({
+                [styles.error]: true,
+                [styles.reply]: this.props.reply === true,
+                [styles.kase]: this.props.kase === true
+            });
+
+            return (
+                <div key={idx} className={className}>
+                    {error}
+                </div>
+            );
+        });
 
         return <div className={styles.error}>{errors}</div>;
     }

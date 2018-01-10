@@ -7,6 +7,10 @@ $spacing: 10px;
     margin-bottom: 0px;
 }
 
+textarea:focus, input:focus{
+    outline: none;
+}
+
 .kase {
     width: 100%;
     height: 25px;

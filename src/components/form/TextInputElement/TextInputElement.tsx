@@ -42,6 +42,7 @@ interface CharCountStats {
 
 interface TextInputProps extends FormElementProps {
     value: string;
+    ComponentMap: ComponentMap;
     __className?: string;
     count?: Count;
     url?: boolean;
@@ -51,7 +52,7 @@ interface TextInputProps extends FormElementProps {
     focus?: boolean;
     onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
     onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
-    ComponentMap: ComponentMap;
+    showInvalid?: boolean;
 }
 
 export interface TextInputState {
@@ -502,14 +503,14 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         const errors: string[] = [];
 
         if (this.props.required) {
-            if (!this.state.value) {
+            if (!this.state.value.length) {
                 errors.push(`${this.props.name} is required`);
             }
         }
 
         this.setState({ errors });
 
-        /** See if it should be a valid url */
+        // See if it should be a valid url
         if (errors.length === 0) {
             if (this.props.url) {
                 if (!isValidURL(this.state.value)) {
@@ -608,7 +609,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     public render(): JSX.Element {
         const textElClassName: string = cx({
             [styles.textinput]: true,
-            [shared.invalid]: this.state.errors.length > 0
+            [shared.invalid]: this.state.errors.length > 0 || this.props.showInvalid === true
         });
 
         const completionClassName: string = cx({
@@ -619,6 +620,12 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         const options: JSX.Element[] = this.getOptions();
 
         const charCount: JSX.Element = this.getCharCountEle();
+
+        const reply: boolean =
+            this.props.name === 'Message' &&
+            this.props.textarea &&
+            this.props.autocomplete &&
+            this.props.required;
 
         // Make sure we're rendering the right text element
         const TextElement: string = this.props.textarea ? 'textarea' : 'input';
@@ -631,7 +638,8 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 name={this.props.name}
                 helpText={this.props.helpText}
                 showLabel={this.props.showLabel}
-                errors={this.state.errors}>
+                errors={this.state.errors}
+                reply={reply}>
                 <div className={styles.wrapper}>
                     <TextElement
                         data-spec="input"
