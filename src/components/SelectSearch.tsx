@@ -40,7 +40,7 @@ export default class SelectSearch extends React.PureComponent<
     SelectSearchProps,
     SelectSearchState
 > {
-    private select: any;
+    private select: HTMLInputElement;
 
     constructor(props: SelectSearchProps) {
         super(props);
@@ -55,7 +55,7 @@ export default class SelectSearch extends React.PureComponent<
         this.onChange = this.onChange.bind(this);
     }
 
-    private selectRef(ref: any) {
+    private selectRef(ref: HTMLInputElement): HTMLInputElement {
         return (this.select = ref);
     }
 
@@ -66,10 +66,10 @@ export default class SelectSearch extends React.PureComponent<
         return a.name.localeCompare(b.name);
     }
 
-    private addSearchResult(results: SearchResult[], result: SearchResult) {
+    private addSearchResult(results: SearchResult[], result: SearchResult): void {
         let found = false;
 
-        for (let existing of results) {
+        for (const existing of results) {
             if (result.id === existing.id) {
                 found = true;
                 break;
@@ -81,15 +81,15 @@ export default class SelectSearch extends React.PureComponent<
         }
     }
 
-    search(term: string, remoteResults: SearchResult[] = []): SelectSearchResult {
-        let combined = [...remoteResults];
+    private search(term: string, remoteResults: SearchResult[] = []): SelectSearchResult {
+        const combined = [...remoteResults];
 
         if (term) {
             term = term.toLowerCase();
         }
 
         if (this.props.localSearchOptions) {
-            for (let local of this.props.localSearchOptions) {
+            for (const local of this.props.localSearchOptions) {
                 if (!term || local.name.toLowerCase().indexOf(term) > -1) {
                     this.addSearchResult(combined, local);
                 }
@@ -104,7 +104,7 @@ export default class SelectSearch extends React.PureComponent<
         return results;
     }
 
-    loadOptions(input: string, callback: any) {
+    private loadOptions(input: string, callback: Function): void {
         if (!this.props.url) {
             callback(this.search(input));
         } else {
@@ -122,7 +122,7 @@ export default class SelectSearch extends React.PureComponent<
         }
     }
 
-    private onChange(selection: any) {
+    private onChange(selection: any): void {
         if (!this.props.multi) {
             selection = [selection];
         }
@@ -133,13 +133,13 @@ export default class SelectSearch extends React.PureComponent<
         this.setState({ selection }, () => this.select.focus());
     }
 
-    private onInputChange(value: string) {}
+    private onInputChange(value: string): void {}
 
-    private filterOption(option: SearchResult, term: string) {
+    private filterOption(option: SearchResult, term: string): boolean {
         return option.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
     }
 
-    render() {
+    public render(): JSX.Element {
         let value: any;
 
         if (this.props.multi) {
