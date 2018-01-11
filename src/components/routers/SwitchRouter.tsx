@@ -198,6 +198,7 @@ export const getListStyle = (isDraggingOver: boolean): { cursor: DragCursor } =>
 
 export const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
     userSelect: 'none',
+    outline: 'none',
     background: isDragging && '#f2f9fc',
     borderRadius: isDragging && 4,
     opacity: isDragging && 0.75,
@@ -485,7 +486,7 @@ export default class SwitchRouterForm extends React.Component<
                         onRemove: this.onCaseRemoved
                     } as any);
                 } catch (error) {
-                    /** Ignore missing cases */
+                    // Ignore missing cases
                 }
             });
         }
