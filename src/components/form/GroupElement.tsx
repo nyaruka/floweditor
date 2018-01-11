@@ -21,6 +21,7 @@ interface GroupElementProps extends FormElementProps {
     endpoint?: string;
     add?: boolean;
     placeholder?: string;
+    searchPromptText?: string;
 }
 
 interface GroupElementState {
@@ -108,9 +109,12 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
                     url={this.props.endpoint}
                     resultType="group"
                     localSearchOptions={this.props.localGroups}
-                    multi={false}
+                    multi={true}
                     clearable={false}
                     initial={this.state.groups}
+                    closeOnSelect={false}
+                    placeholder={this.props.placeholder}
+                    searchPromptText={this.props.searchPromptText}
                     {...createOptions}
                 />
             </FormElement>

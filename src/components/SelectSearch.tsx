@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Async as SelectAsync, AsyncCreatable as SelectAsyncCreatable } from 'react-select';
+import { Async, AsyncCreatable } from 'react-select';
 import axios, { AxiosResponse } from 'axios';
 import { SearchResult } from '../services/ComponentMap';
 
@@ -8,7 +8,9 @@ export interface SelectSearchProps {
     name: string;
     resultType: string;
     placeholder?: string;
+    searchPromptText?: string;
     multi?: boolean;
+    closeOnSelect?: string;
     clearable?: boolean;
     initial?: SearchResult[];
     localSearchOptions?: SearchResult[];
@@ -145,7 +147,7 @@ export default class SelectSearch extends React.PureComponent<
         }
 
         if (this.state.selection) {
-            for (let selection of this.state.selection) {
+            for (const selection of this.state.selection) {
                 if (selection) {
                     let selectionValue;
                     if (selection.extraResult || this.props.multi) {
@@ -165,6 +167,14 @@ export default class SelectSearch extends React.PureComponent<
 
         const options: any = {};
 
+        if (this.props.placeholder) {
+            options.placeholder = this.props.placeholder;
+        }
+
+        if (this.props.searchPromptText) {
+            options.searchPromptText = this.props.searchPromptText;
+        }
+
         if (this.props.createPrompt) {
             options.promptTextCreator = (label: string) => this.props.createPrompt + label;
         }
@@ -179,12 +189,13 @@ export default class SelectSearch extends React.PureComponent<
 
         if (this.props.createNewOption) {
             return (
-                <SelectAsyncCreatable
+                <AsyncCreatable
                     className={this.props.className}
                     ref={this.selectRef}
                     name={this.props.name}
                     loadOptions={this.loadOptions}
                     clearable={this.props.clearable}
+                    closeOnSelect={this.props.closeOnSelect}
                     ignoreCase={false}
                     ignoreAccents={false}
                     value={value}
@@ -204,12 +215,13 @@ export default class SelectSearch extends React.PureComponent<
             );
         } else {
             return (
-                <SelectAsync
+                <Async
                     className={this.props.className}
                     ref={this.selectRef}
                     name={this.props.name}
                     loadOptions={this.loadOptions}
                     clearable={this.props.clearable}
+                    closeOnSelect={this.props.closeOnSelect}
                     ignoreCase={false}
                     ignoreAccents={false}
                     value={value}

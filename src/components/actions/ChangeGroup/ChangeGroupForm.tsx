@@ -48,11 +48,13 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
 
     public render(): JSX.Element {
         let p: JSX.Element;
+        let searchPromptText: string;
 
         if (this.props.config.type === 'add_to_group') {
             p = <p>Select the group(s) to add the contact to.</p>;
         } else if (this.props.config.type === 'remove_from_group') {
             p = <p>Select the group(s) to remove the contact from.</p>;
+            searchPromptText = 'Enter the name of an existing group';
         } else {
             p = null;
         }
@@ -71,16 +73,20 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
             }
         }
 
+        const add: boolean = this.props.config.type === 'add_to_group';
+
         return (
             <div>
                 {p}
                 <GroupElement
                     ref={this.props.onBindWidget}
                     name="Group"
+                    placeholder="Enter a group name..."
+                    searchPromptText={searchPromptText}
                     endpoint={this.context.endpoints.groups}
                     localGroups={this.props.ComponentMap.getGroups()}
                     groups={groups}
-                    add={this.props.config.type === 'add_to_group'}
+                    add={add}
                     required={true}
                 />
             </div>
