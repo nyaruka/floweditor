@@ -11,7 +11,6 @@ export interface SelectSearchProps {
     searchPromptText?: string;
     multi?: boolean;
     closeOnSelect?: string;
-    clearable?: boolean;
     initial?: SearchResult[];
     localSearchOptions?: SearchResult[];
     className?: string;
@@ -167,6 +166,10 @@ export default class SelectSearch extends React.PureComponent<
 
         const options: any = {};
 
+        if (this.props.multi) {
+            options.clearable = true;
+        }
+
         if (this.props.placeholder) {
             options.placeholder = this.props.placeholder;
         }
@@ -194,7 +197,6 @@ export default class SelectSearch extends React.PureComponent<
                     ref={this.selectRef}
                     name={this.props.name}
                     loadOptions={this.loadOptions}
-                    clearable={this.props.clearable}
                     closeOnSelect={this.props.closeOnSelect}
                     ignoreCase={false}
                     ignoreAccents={false}
@@ -220,7 +222,6 @@ export default class SelectSearch extends React.PureComponent<
                     ref={this.selectRef}
                     name={this.props.name}
                     loadOptions={this.loadOptions}
-                    clearable={this.props.clearable}
                     closeOnSelect={this.props.closeOnSelect}
                     ignoreCase={false}
                     ignoreAccents={false}

@@ -110,7 +110,6 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
                     resultType="group"
                     localSearchOptions={this.props.localGroups}
                     multi={true}
-                    clearable={false}
                     initial={this.state.groups}
                     closeOnSelect={false}
                     placeholder={this.props.placeholder}

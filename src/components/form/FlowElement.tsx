@@ -75,7 +75,6 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
                     url={this.props.endpoint}
                     resultType="flow"
                     multi={false}
-                    clearable={false}
                     initial={[this.state.flow]}
                     {...createOptions}
                 />
