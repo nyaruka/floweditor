@@ -10,7 +10,6 @@ body {
         z-index: $z_modal;
     }
     &.ReactModal__Body--open {
-        position: fixed;
         overflow-y: hidden !important;
     }
     .ReactModal__Overlay {
