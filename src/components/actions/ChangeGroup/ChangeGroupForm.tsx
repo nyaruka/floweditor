@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ChangeGroup, Endpoints } from '../../../flowTypes';
 import { Type } from '../../../providers/ConfigProvider/typeConfigs';
 import ComponentMap from '../../../services/ComponentMap';
-import GroupElement from '../../form/GroupElement';
+import GroupElement, { GroupList } from '../../form/GroupElement';
 import { endpointsPT } from '../../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../../providers/ConfigProvider/configContext';
 
@@ -57,7 +57,7 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
             p = null;
         }
 
-        const groups: Array<{ group: string; name: string }> = [];
+        const groups: GroupList = [];
 
         if (
             this.props.action &&
@@ -66,6 +66,7 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
         ) {
             if (this.props.action.groups) {
                 const { groups: [{ uuid: group, name }] } = this.props.action;
+
                 groups.push({ group, name });
             }
         }

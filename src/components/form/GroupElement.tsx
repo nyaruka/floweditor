@@ -8,8 +8,15 @@ import { getSelectClass } from '../../helpers/utils';
 
 import * as styles from './FormElement.scss';
 
+interface GroupOption {
+    group: string;
+    name: string;
+}
+
+export type GroupList = GroupOption[];
+
 interface GroupElementProps extends FormElementProps {
-    groups: { group: string; name: string }[];
+    groups: GroupList;
     localGroups?: SearchResult[];
     endpoint?: string;
     add?: boolean;
@@ -21,15 +28,17 @@ interface GroupElementState {
     errors: string[];
 }
 
-export const transformGroups = (groups: { group: string; name: string }[]): SearchResult[] =>
+export const transformGroups = (groups: GroupList): SearchResult[] =>
     groups.map(({ name, group }) => ({ name, id: group, type: 'group' }));
 
 export default class GroupElement extends React.Component<GroupElementProps, GroupElementState> {
-    constructor(props: any) {
+    constructor(props: GroupElementProps) {
         super(props);
 
+        const groups = transformGroups(this.props.groups);
+
         this.state = {
-            groups: transformGroups(this.props.groups),
+            groups,
             errors: []
         };
 
@@ -38,13 +47,13 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
         this.createNewOption = this.createNewOption.bind(this);
     }
 
-    onChange(groups: any) {
+    private onChange(groups: SearchResult[]): void {
         this.setState({
             groups
         });
     }
 
-    validate(): boolean {
+    public validate(): boolean {
         const errors: string[] = [];
         const { groups } = this.state;
 
@@ -59,15 +68,17 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
         return errors.length === 0;
     }
 
-    isValidNewOption({ label }: { label: string }): boolean {
+    private isValidNewOption({ label }: { label: string }): boolean {
         if (!label) {
             return false;
         }
+
         const lowered = label.toLowerCase();
+
         return lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered);
     }
 
-    createNewOption(arg: { label: string }): SearchResult {
+    private createNewOption(arg: { label: string }): SearchResult {
         const newOption = {
             id: generateUUID(),
             name: arg.label,
@@ -77,7 +88,7 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
         return newOption;
     }
 
-    render() {
+    public render(): JSX.Element {
         const createOptions: any = {};
 
         if (this.props.add) {
