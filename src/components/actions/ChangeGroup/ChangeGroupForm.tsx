@@ -12,7 +12,8 @@ export interface ChangeGroupFormProps {
     getActionUUID(): string;
     config: Type;
     updateAction(action: ChangeGroup): void;
-    onBindWidget(ref: any): void;
+    onBindWidget(ref: React.Component): void;
+    removeWidget(name: string): void;
     ComponentMap: ComponentMap;
 }
 
@@ -121,6 +122,8 @@ export default class ChangeGroupForm extends React.PureComponent<
                         required={true}
                     />
                 );
+            } else {
+                this.props.removeWidget('Group');
             }
 
             const sibling: boolean = !this.state.removeFromAll;

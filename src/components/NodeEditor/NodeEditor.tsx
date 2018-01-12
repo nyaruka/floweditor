@@ -85,7 +85,7 @@ export interface NodeEditorState {
 export const FormContainer: React.SFC<{
     onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void;
     styles?: string;
-}> = ({ children, onKeyPress, styles }) => (
+}> = ({ children, onKeyPress, styles }): JSX.Element => (
     <div className={styles ? styles : null}>
         <div className={formStyles.node_editor}>
             <form onKeyPress={onKeyPress}>{children}</form>
