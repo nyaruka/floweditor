@@ -3,6 +3,7 @@ import { mount } from 'enzyme';
 import ComponentMap from '../../../services/ComponentMap';
 import ChangeGroupForm, { ChangeGroupFormProps } from './ChangeGroupForm';
 import Config from '../../../providers/ConfigProvider/configContext';
+import { notFoundAdd, notFoundRemove, placeholder } from './ChangeGroupForm';
 
 const {
     results: [{ definition }]
@@ -31,21 +32,24 @@ const testGroupForm = (type: string) => {
     const GroupForm = mount(<ChangeGroupForm {...props} />, {
         context
     });
-    const expectedPgrh =
+    const expectedPrompt =
         type === 'add_to_group'
             ? 'Select the group(s) to add the contact to.'
             : 'Select the group(s) to remove the contact from.';
+    const searchPromptText = type === 'add_to_group' ? notFoundAdd : notFoundRemove;
 
     expect(GroupForm.find('div').exists()).toBeTruthy();
-    expect(GroupForm.find('p').text()).toBe(expectedPgrh);
+    expect(GroupForm.find('p').text()).toBe(expectedPrompt);
     expect(props.onBindWidget).toBeCalled();
     expect(GroupForm.find('GroupElement').props()).toEqual({
         name: 'Group',
+        placeholder,
         endpoint: endpoints.groups,
         groups,
         localGroups,
         add: type === 'add_to_group',
-        required: true
+        required: true,
+        searchPromptText
     });
 };
 

@@ -15,6 +15,10 @@ export interface ChangeGroupFormProps {
     ComponentMap: ComponentMap;
 }
 
+export const notFoundAdd = 'Invalid group name';
+export const notFoundRemove = 'Enter the name of an existing group';
+export const placeholder = 'Enter a group name...';
+
 export default class ChangeGroupForm extends React.PureComponent<ChangeGroupFormProps> {
     public static contextTypes = {
         endpoints: endpointsPT
@@ -51,11 +55,11 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
         if (this.props.config.type === 'add_to_group') {
             p = <p>Select the group(s) to add the contact to.</p>;
 
-            searchPromptText = 'Invalid group name';
+            searchPromptText = notFoundAdd;
         } else if (this.props.config.type === 'remove_from_group') {
             p = <p>Select the group(s) to remove the contact from.</p>;
 
-            searchPromptText = 'Enter the name of an existing group';
+            searchPromptText = notFoundRemove;
         } else {
             p = null;
         }
@@ -78,7 +82,7 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
                 <GroupElement
                     ref={this.props.onBindWidget}
                     name="Group"
-                    placeholder="Enter a group name..."
+                    placeholder={placeholder}
                     searchPromptText={searchPromptText}
                     endpoint={this.context.endpoints.groups}
                     localGroups={this.props.ComponentMap.getGroups()}
