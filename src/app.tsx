@@ -19,7 +19,9 @@ const root = document.getElementById('flow-editor');
 //     __webpack_public_path__ = __flow_editor_config__.path;
 // }
 
-const renderHot = (App: React.ComponentClass) =>
+const renderHot = (
+    App: React.ComponentClass
+): void | Element | React.Component<any, React.ComponentState> =>
     render(
         <HotContainer>
             <ConfigProvider>
