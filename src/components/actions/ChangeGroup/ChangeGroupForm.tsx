@@ -38,8 +38,11 @@ export default class ChangeGroupForm extends React.PureComponent<
     constructor(props: ChangeGroupFormProps, context: ConfigProviderContext) {
         super(props);
 
+        const removeFromAll: boolean =
+            this.props.action.groups != null && !this.props.action.groups.length;
+
         this.state = {
-            removeFromAll: false
+            removeFromAll
         };
 
         this.onCheck = this.onCheck.bind(this);
@@ -152,9 +155,7 @@ export default class ChangeGroupForm extends React.PureComponent<
 
     public render(): JSX.Element {
         const label: string = this.props.config.type === 'add_to_group' ? addLabel : removeLabel;
-
         const field: JSX.Element = this.getField();
-
         return (
             <div>
                 <p>{label}</p>
