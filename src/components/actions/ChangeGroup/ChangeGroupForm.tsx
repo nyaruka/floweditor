@@ -48,12 +48,15 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
 
     public render(): JSX.Element {
         let p: JSX.Element;
-        let searchPromptText: string;
+        let searchPromptText: string | JSX.Element;
 
         if (this.props.config.type === 'add_to_group') {
             p = <p>Select the group(s) to add the contact to.</p>;
+
+            searchPromptText = 'Invalid group name';
         } else if (this.props.config.type === 'remove_from_group') {
             p = <p>Select the group(s) to remove the contact from.</p>;
+
             searchPromptText = 'Enter the name of an existing group';
         } else {
             p = null;

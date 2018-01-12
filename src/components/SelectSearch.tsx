@@ -8,7 +8,7 @@ export interface SelectSearchProps {
     name: string;
     resultType: string;
     placeholder?: string;
-    searchPromptText?: string;
+    searchPromptText?: string | JSX.Element;
     multi?: boolean;
     closeOnSelect?: string;
     initial?: SearchResult[];
@@ -129,6 +129,7 @@ export default class SelectSearch extends React.PureComponent<
         if (this.props.onChange) {
             this.props.onChange(selection);
         }
+
         this.setState({ selection }, () => this.select.focus());
     }
 
@@ -166,18 +167,6 @@ export default class SelectSearch extends React.PureComponent<
 
         const options: any = {};
 
-        if (this.props.multi) {
-            options.clearable = true;
-        }
-
-        if (this.props.placeholder) {
-            options.placeholder = this.props.placeholder;
-        }
-
-        if (this.props.searchPromptText) {
-            options.searchPromptText = this.props.searchPromptText;
-        }
-
         if (this.props.createPrompt) {
             options.promptTextCreator = (label: string) => this.props.createPrompt + label;
         }
@@ -193,9 +182,10 @@ export default class SelectSearch extends React.PureComponent<
         if (this.props.createNewOption) {
             return (
                 <AsyncCreatable
-                    className={this.props.className}
                     ref={this.selectRef}
+                    className={this.props.className}
                     name={this.props.name}
+                    placeholder={this.props.placeholder}
                     loadOptions={this.loadOptions}
                     closeOnSelect={this.props.closeOnSelect}
                     ignoreCase={false}
@@ -206,21 +196,24 @@ export default class SelectSearch extends React.PureComponent<
                     valueKey="id"
                     labelKey="name"
                     multi={this.props.multi}
+                    clearable={this.props.multi}
                     searchable={true}
                     onCloseResetsInput={true}
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
                     onInputChange={this.onInputChange}
                     onChange={this.onChange}
+                    searchPromptText={this.props.searchPromptText}
                     {...options}
                 />
             );
         } else {
             return (
                 <Async
-                    className={this.props.className}
                     ref={this.selectRef}
+                    className={this.props.className}
                     name={this.props.name}
+                    placeholder={this.props.placeholder}
                     loadOptions={this.loadOptions}
                     closeOnSelect={this.props.closeOnSelect}
                     ignoreCase={false}
@@ -231,12 +224,14 @@ export default class SelectSearch extends React.PureComponent<
                     valueKey="id"
                     labelKey="name"
                     multi={this.props.multi}
+                    clearable={this.props.multi}
                     searchable={true}
                     onCloseResetsInput={true}
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
                     onInputChange={this.onInputChange}
                     onChange={this.onChange}
+                    searchPromptText={this.props.searchPromptText}
                     {...options}
                 />
             );

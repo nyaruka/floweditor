@@ -21,7 +21,7 @@ interface GroupElementProps extends FormElementProps {
     endpoint?: string;
     add?: boolean;
     placeholder?: string;
-    searchPromptText?: string;
+    searchPromptText?: string | JSX.Element;
 }
 
 interface GroupElementState {
