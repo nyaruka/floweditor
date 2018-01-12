@@ -412,7 +412,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                         name="Body"
                         showLabel={false}
                         value={body}
-                        helpText="Modify the body of the POST sent to your webhook."
+                        helpText="Modify the body of the POST request sent to your webhook."
                         autocomplete={true}
                         textarea={true}
                         required={true}
@@ -425,7 +425,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
             <div>
                 <h4 className={styles.headers_title}>Headers</h4>
                 <p className={styles.info}>
-                    Add any additional headers belows that you would like to send along with your
+                    Add any additional headers below that you would like to send along with your
                     request.
                 </p>
                 <FlipMove
