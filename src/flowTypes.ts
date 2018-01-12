@@ -110,7 +110,7 @@ export interface Headers {
 
 export interface CallWebhook extends Action {
     url: string;
-    method: string;
+    method: Methods;
     body?: string;
     headers?: Headers;
 }
@@ -145,6 +145,12 @@ export interface UINode {
 
 export interface UIMetaData {
     nodes: { [key: string]: UINode };
+}
+
+export enum Methods {
+    GET = 'GET',
+    POST = 'POST',
+    PUT = 'PUT'
 }
 
 export type AnyAction =
