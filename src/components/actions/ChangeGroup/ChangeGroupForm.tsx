@@ -21,6 +21,8 @@ export interface ChangeGroupFormState {
     removeFromAll: boolean;
 }
 
+export const addLabel = ' Select the group(s) to add the contact to.';
+export const removeLabel = 'Select the group(s) to remove the contact from.';
 export const notFoundAdd = 'Invalid group name';
 export const notFoundRemove = 'Enter the name of an existing group';
 export const placeholder = 'Enter a group name...';
@@ -75,7 +77,7 @@ export default class ChangeGroupForm extends React.PureComponent<
     private getField(): JSX.Element {
         let groupElement: JSX.Element = null;
         let checkboxElement: JSX.Element = null;
-        let searchPromptText: string | JSX.Element;
+        let searchPromptText: string | JSX.Element = '';
 
         const localGroups: SearchResult[] = this.props.ComponentMap.getGroups();
 
@@ -118,7 +120,7 @@ export default class ChangeGroupForm extends React.PureComponent<
                         endpoint={this.context.endpoints.groups}
                         localGroups={localGroups}
                         groups={groups}
-                        add={true}
+                        add={false}
                         required={true}
                     />
                 );
@@ -149,10 +151,7 @@ export default class ChangeGroupForm extends React.PureComponent<
     }
 
     public render(): JSX.Element {
-        const label: string =
-            this.props.config.type === 'add_to_group'
-                ? ' Select the group(s) to add the contact to.'
-                : 'Select the group(s) to remove the contact from.';
+        const label: string = this.props.config.type === 'add_to_group' ? addLabel : removeLabel;
 
         const field: JSX.Element = this.getField();
 

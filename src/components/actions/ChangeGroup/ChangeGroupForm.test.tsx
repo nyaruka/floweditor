@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import ComponentMap from '../../../services/ComponentMap';
 import ChangeGroupForm, { ChangeGroupFormProps } from './ChangeGroupForm';
 import Config from '../../../providers/ConfigProvider/configContext';
-import { notFoundAdd, notFoundRemove, placeholder } from './ChangeGroupForm';
+import { addLabel, removeLabel, notFoundAdd, notFoundRemove, placeholder } from './ChangeGroupForm';
 
 const {
     results: [{ definition }]
@@ -11,35 +11,37 @@ const {
 
 const CompMap = new ComponentMap(definition);
 
-const testGroupForm = (type: string) => {
+const addType: string = 'add_to_group';
+const removeType: string = 'remove_from_group';
+
+const testGroupForm = (type: string): void => {
     const { nodes: [{ actions: [, action] }] } = definition;
     const typeConfig = Config.getTypeConfig(type);
     const { endpoints } = Config;
     const context = {
         endpoints
     };
-    const props = {
+    const props: ChangeGroupFormProps = {
         action,
         getActionUUID: jest.fn(() => action.uuid),
         config: typeConfig,
         updateAction: jest.fn(),
         onBindWidget: jest.fn(),
+        removeWidget: jest.fn(),
         ComponentMap: CompMap
     };
     const { groups: [{ uuid, name }] } = action;
     const groups = [{ group: uuid, name }];
     const localGroups = [{ id: uuid, name, type: 'group' }];
-    const GroupForm = mount(<ChangeGroupForm {...props} />, {
+    const GroupForm: ReactWrapper = mount(<ChangeGroupForm {...props} />, {
         context
     });
-    const expectedPrompt =
-        type === 'add_to_group'
-            ? 'Select the group(s) to add the contact to.'
-            : 'Select the group(s) to remove the contact from.';
-    const searchPromptText = type === 'add_to_group' ? notFoundAdd : notFoundRemove;
+    const add: boolean = type === addType;
+    const searchPromptText: string = add ? notFoundAdd : notFoundRemove;
+    const label: string = add ? addLabel : removeLabel;
 
     expect(GroupForm.find('div').exists()).toBeTruthy();
-    expect(GroupForm.find('p').text()).toBe(expectedPrompt);
+    expect(GroupForm.find('p').text()).toBe(label);
     expect(props.onBindWidget).toBeCalled();
     expect(GroupForm.find('GroupElement').props()).toEqual({
         name: 'Group',
@@ -47,18 +49,14 @@ const testGroupForm = (type: string) => {
         endpoint: endpoints.groups,
         groups,
         localGroups,
-        add: type === 'add_to_group',
+        add,
         required: true,
         searchPromptText
     });
 };
 
 describe('Component: ChangeGroupForm', () => {
-    it("renders an 'Add to Group' form", () => {
-        testGroupForm('add_to_group');
-    });
+    it("renders an 'Add to Group' form", () => testGroupForm(addType));
 
-    it("renders a 'Remove from Group' form", () => {
-        testGroupForm('remove_from_group');
-    });
+    it("renders a 'Remove from Group' form", () => testGroupForm(removeType));
 });
