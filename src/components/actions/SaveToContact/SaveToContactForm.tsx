@@ -4,7 +4,7 @@ import { Endpoints, SaveToContact, UpdateContact } from '../../../flowTypes';
 import { FormProps } from '../../NodeEditor';
 import ComponentMap from '../../../services/ComponentMap';
 import { toBoolMap } from '../../../helpers/utils';
-import SelectSearch from '../../SelectSearch';
+import SelectSearch from '../../form/SelectSearch';
 import { SearchResult } from '../../../services/ComponentMap';
 import FieldElement from '../../form/FieldElement';
 import TextInputElement from '../../form/TextInputElement';

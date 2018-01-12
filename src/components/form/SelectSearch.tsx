@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Async, AsyncCreatable } from 'react-select';
 import axios, { AxiosResponse } from 'axios';
-import { SearchResult } from '../services/ComponentMap';
+import { SearchResult } from '../../services/ComponentMap';
 
 export interface SelectSearchProps {
     url: string;

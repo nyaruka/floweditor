@@ -4,7 +4,7 @@ import Select from 'react-select';
 import { toBoolMap, getSelectClass } from '../../helpers/utils';
 import FormElement, { FormElementProps } from './FormElement';
 import ComponentMap, { SearchResult } from '../../services/ComponentMap';
-import SelectSearch from '../SelectSearch';
+import SelectSearch from './SelectSearch';
 
 import * as styles from './FormElement.scss';
 

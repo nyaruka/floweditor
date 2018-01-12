@@ -3,7 +3,7 @@ import { v4 as generateUUID } from 'uuid';
 import Select from 'react-select';
 import { SearchResult } from '../../services/ComponentMap';
 import FormElement, { FormElementProps } from './FormElement';
-import SelectSearch from '../SelectSearch';
+import SelectSearch from './SelectSearch';
 import { getSelectClass } from '../../helpers/utils';
 
 import * as styles from './FormElement.scss';
