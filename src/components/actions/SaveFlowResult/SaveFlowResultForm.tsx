@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { v4 as generateUUID } from 'uuid';
 import { SaveFlowResult } from '../../../flowTypes';
 import { Type } from '../../../providers/ConfigProvider/typeConfigs';
 import { FormProps } from '../../NodeEditor';
@@ -9,7 +10,6 @@ import * as styles from './SaveFlowResult.scss';
 
 export interface SaveFlowResultFormProps extends FormProps {
     action: SaveFlowResult;
-    getActionUUID(): string;
     config: Type;
     updateAction(action: SaveFlowResult): void;
     getInitialAction(): SaveFlowResult;
@@ -29,8 +29,10 @@ export default class extends React.PureComponent<SaveFlowResultFormProps> {
         const { state: { value } } = widgets.Value as TextInputElement;
         const { state: { value: category } } = widgets.Category as TextInputElement;
 
+        const uuid: string = this.props.action.uuid || generateUUID();
+
         const newAction: SaveFlowResult = {
-            uuid: this.props.getActionUUID(),
+            uuid,
             type: this.props.config.type,
             result_name: resultName,
             value,

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { v4 as generateUUID } from 'uuid';
 import { SendEmail } from '../../../flowTypes';
 import { Type } from '../../../providers/ConfigProvider/typeConfigs';
 import { FormProps } from '../../NodeEditor';
@@ -14,7 +15,6 @@ export interface SendEmailFormProps extends FormProps {
     ComponentMap: ComponentMap;
     updateAction(action: SendEmail): void;
     onBindWidget(ref: any): void;
-    getActionUUID(): string;
 }
 
 export default class SendEmailForm extends React.Component<SendEmailFormProps> {
@@ -31,8 +31,10 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
 
         const emails = emailAddresses.map(({ value }) => value);
 
+        const uuid: string = this.props.action.uuid || generateUUID();
+
         const newAction: SendEmail = {
-            uuid: this.props.getActionUUID(),
+            uuid,
             type: this.props.config.type,
             body,
             subject,

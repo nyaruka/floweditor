@@ -18,7 +18,6 @@ export interface SubflowRouterFormProps extends FormProps {
     translating: boolean;
     getExitTranslations(): JSX.Element;
     saveLocalizedExits(widgets: { [name: string]: any }): void;
-    getActionUUID(): string;
     ComponentMap: ComponentMap;
 }
 
@@ -41,8 +40,10 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
         const select = widgets.Flow as FlowElement;
         const { name: flowName, id: flowUUID } = select.state.flow;
 
+        const uuid: string = this.props.action.uuid || generateUUID();
+
         const newAction: StartFlow = {
-            uuid: this.props.getActionUUID(),
+            uuid,
             type: this.props.config.type,
             flow_name: flowName,
             flow_uuid: flowUUID

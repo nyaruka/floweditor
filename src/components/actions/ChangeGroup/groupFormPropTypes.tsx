@@ -5,7 +5,6 @@ import ComponentMap from '../../../services/ComponentMap';
 
 export default interface ChangeGroupFormProps {
     action: ChangeGroup;
-    getActionUUID(): string;
     config: Type;
     updateAction(action: ChangeGroup): void;
     onBindWidget(ref: Widget): void;

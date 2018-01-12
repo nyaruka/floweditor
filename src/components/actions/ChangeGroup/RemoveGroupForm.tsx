@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { v4 as generateUUID } from 'uuid';
 import ChangeGroupFormProps from './groupFormPropTypes';
 import { ChangeGroup, Endpoints } from '../../../flowTypes';
 import ComponentMap, { SearchResult } from '../../../services/ComponentMap';
@@ -43,8 +44,10 @@ export default class RemoveGroupForm extends React.PureComponent<
     }
 
     public onValid(widgets: Widgets): void {
+        const uuid: string = this.props.action.uuid || generateUUID();
+
         const newAction: ChangeGroup = {
-            uuid: this.props.getActionUUID(),
+            uuid,
             type: this.props.config.type,
             groups: []
         };

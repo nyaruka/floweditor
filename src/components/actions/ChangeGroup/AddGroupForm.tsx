@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { v4 as generateUUID } from 'uuid';
 import ChangeGroupFormProps from './groupFormPropTypes';
 import { ChangeGroup, Endpoints } from '../../../flowTypes';
 import ComponentMap, { SearchResult } from '../../../services/ComponentMap';
@@ -10,7 +11,8 @@ import { Widgets } from '../../NodeEditor/NodeEditor';
 
 export const label: string = ' Select the group(s) to add the contact to.';
 export const notFound: string = 'Invalid group name';
-export const placeholder: string = 'Enter the name of an existing group, or create a new group to add the contact to';
+export const placeholder: string =
+    'Enter the name of an existing group, or create a new group to add the contact to';
 
 export default class AddGroupForm extends React.PureComponent<ChangeGroupFormProps> {
     public static contextTypes = {
@@ -27,8 +29,10 @@ export default class AddGroupForm extends React.PureComponent<ChangeGroupFormPro
         const groupEle = widgets.Group as GroupElement;
         const { state: { groups } } = groupEle;
 
+        const uuid: string = this.props.action.uuid || generateUUID();
+
         const newAction: ChangeGroup = {
-            uuid: this.props.getActionUUID(),
+            uuid,
             type: this.props.config.type,
             groups: groups.map((group: SearchResult) => ({
                 uuid: group.id,

@@ -33,7 +33,6 @@ const reserved = toBoolMap([
 
 export interface SaveToContactFormProps extends FormProps {
     action: SaveToContact;
-    getActionUUID(): string;
     updateAction(action: SaveToContact): void;
     onBindWidget(ref: any): void;
     ComponentMap: ComponentMap;
@@ -56,8 +55,10 @@ export default class SaveToContactForm extends React.PureComponent<SaveToContact
             state: { field: { type: fieldType, name: fieldName, id: fieldUUID } }
         } = widgets.Field as FieldElement;
 
+        const uuid: string = this.props.action.uuid || generateUUID();
+
         const newAction: any = {
-            uuid: this.props.getActionUUID(),
+            uuid,
             value
         };
 

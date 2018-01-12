@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { v4 as generateUUID } from 'uuid';
 import Modal, { ButtonSet } from '../Modal';
 import {
     Endpoints,
@@ -50,8 +49,6 @@ export interface FormProps {
     node: Node;
     translating: boolean;
     language: Language;
-    action?: AnyAction;
-    localizations?: LocalizedObject[];
     definition: FlowDefinition;
     config: Type;
     ComponentMap: ComponentMap;
@@ -70,7 +67,8 @@ export interface FormProps {
     getLocalizedObject: Function;
     getLocalizedExits(widgets: Widgets): Array<{ uuid: string; translations: any }>;
     saveLocalizedExits(widgets: Widgets): void;
-    getActionUUID(): void;
+    action?: AnyAction;
+    localizations?: LocalizedObject[];
 }
 
 export interface NodeEditorProps {
@@ -126,7 +124,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         this.formRef = this.formRef.bind(this);
         this.modalRef = this.modalRef.bind(this);
         this.getLocalizedObject = this.getLocalizedObject.bind(this);
-        this.getActionUUID = this.getActionUUID.bind(this);
         this.getExitTranslations = this.getExitTranslations.bind(this);
         this.getLocalizedExits = this.getLocalizedExits.bind(this);
         this.saveLocalizedExits = this.saveLocalizedExits.bind(this);
@@ -233,18 +230,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         if (this.props.localizations && this.props.localizations.length) {
             return this.props.localizations[0];
         }
-    }
-
-    private getActionUUID(): string {
-        if (this.props.action) {
-            if (this.props.action.uuid) {
-                return this.props.action.uuid;
-            }
-
-            return generateUUID();
-        }
-
-        return generateUUID();
     }
 
     private getLocalizedExits(widgets: {
@@ -523,7 +508,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             getLocalizedExits: this.getLocalizedExits,
             getLocalizedObject: this.getLocalizedObject,
             saveLocalizedExits: this.saveLocalizedExits,
-            getActionUUID: this.getActionUUID,
             getExitTranslations: this.getExitTranslations,
             onBindWidget: this.onBindWidget,
             onBindAdvancedWidget: this.onBindAdvancedWidget,

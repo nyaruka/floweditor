@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { v4 as generateUUID } from 'uuid';
 import { Reply } from '../../../flowTypes';
 import { Language } from '../../LanguageSelector';
 import { Type } from '../../../providers/ConfigProvider/typeConfigs';
@@ -16,6 +17,7 @@ export interface ReplyFormProps {
     config: Type;
     translating: boolean;
     ComponentMap: ComponentMap;
+    actionUUID: string;
     updateAction(action: Reply): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
@@ -24,7 +26,6 @@ export interface ReplyFormProps {
         changes: Array<{ uuid: string; translations: any }>
     ): void;
     getLocalizedObject(): LocalizedObject;
-    getActionUUID(): string;
 }
 
 export default class ReplyForm extends React.Component<ReplyFormProps> {
@@ -51,8 +52,10 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                 ]);
             }
         } else {
+            const uuid: string = this.props.action.uuid || generateUUID();
+
             const newAction: Reply = {
-                uuid: this.props.getActionUUID(),
+                uuid,
                 type: this.props.config.type,
                 text: textarea.state.value
             };
