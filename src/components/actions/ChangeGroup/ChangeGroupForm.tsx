@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ChangeGroup, Endpoints } from '../../../flowTypes';
 import { Type } from '../../../providers/ConfigProvider/typeConfigs';
-import ComponentMap from '../../../services/ComponentMap';
+import ComponentMap, { SearchResult } from '../../../services/ComponentMap';
 import GroupElement, { GroupList } from '../../form/GroupElement';
 import { endpointsPT } from '../../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../../providers/ConfigProvider/configContext';
@@ -28,18 +28,16 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
 
     public onValid(widgets: { [name: string]: any }): void {
         const groupEle = widgets.Group as any;
-        const { state: { groups: [group] } } = groupEle;
+        const { state: { groups } } = groupEle;
 
-        if (group) {
+        if (groups.length) {
             const newAction: ChangeGroup = {
                 uuid: this.props.getActionUUID(),
                 type: this.props.config.type,
-                groups: [
-                    {
-                        uuid: group.id,
-                        name: group.name
-                    }
-                ]
+                groups: groups.map((group: SearchResult) => ({
+                    uuid: group.id,
+                    name: group.name
+                }))
             };
 
             this.props.updateAction(newAction);
@@ -62,19 +60,15 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
             p = null;
         }
 
-        const groups: GroupList = [];
-
-        if (
-            this.props.action &&
-            (this.props.action.type === 'add_to_group' ||
-                this.props.action.type === 'remove_from_group')
-        ) {
-            if (this.props.action.groups) {
-                const { groups: [{ uuid: group, name }] } = this.props.action;
-
-                groups.push({ group, name });
-            }
-        }
+        const groups: GroupList = this.props.action.groups
+            ? this.props.action.groups.map(
+                  ({ uuid: group, name }) => ({
+                      group,
+                      name
+                  }),
+                  []
+              )
+            : [];
 
         const add: boolean = this.props.config.type === 'add_to_group';
 

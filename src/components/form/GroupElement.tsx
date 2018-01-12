@@ -8,7 +8,7 @@ import { getSelectClass } from '../../helpers/utils';
 
 import * as styles from './FormElement.scss';
 
-interface GroupOption {
+export interface GroupOption {
     group: string;
     name: string;
 }
@@ -56,10 +56,9 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
 
     public validate(): boolean {
         const errors: string[] = [];
-        const { groups } = this.state;
 
         if (this.props.required) {
-            if (groups.length === 0) {
+            if (this.state.groups.length < 1) {
                 errors.push(`${this.props.name} is required`);
             }
         }
