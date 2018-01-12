@@ -19,19 +19,19 @@ interface FlowState {
     errors: string[];
 }
 
+export const notFound = 'Enter the name of an existing flow';
+
 export default class FlowElement extends React.Component<FlowElementProps, FlowState> {
     constructor(props: any) {
         super(props);
 
-        let flow: SearchResult = null;
-
-        if (this.props.flow_uuid) {
-            flow = {
-                name: this.props.flow_name,
-                id: this.props.flow_uuid,
-                type: 'flow'
-            };
-        }
+        const flow: SearchResult = this.props.flow_uuid
+            ? {
+                  name: this.props.flow_name,
+                  id: this.props.flow_uuid,
+                  type: 'flow'
+              }
+            : null;
 
         this.state = {
             flow,
@@ -41,13 +41,13 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
         this.onChange = this.onChange.bind(this);
     }
 
-    onChange([flow]: any) {
+    private onChange([flow]: any): void {
         this.setState({
             flow
         });
     }
 
-    validate(): boolean {
+    private validate(): boolean {
         const errors: string[] = [];
 
         if (this.props.required) {
@@ -56,16 +56,13 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
             }
         }
 
-        this.setState({ errors: errors });
+        this.setState({ errors });
 
         return errors.length === 0;
     }
 
-    render() {
-        const createOptions = {};
-
+    public render(): JSX.Element {
         const className: string = getSelectClass(this.state.errors.length);
-
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <SelectSearch
@@ -76,7 +73,7 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
                     resultType="flow"
                     multi={false}
                     initial={[this.state.flow]}
-                    {...createOptions}
+                    searchPromptText={notFound}
                 />
             </FormElement>
         );

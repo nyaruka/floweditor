@@ -122,8 +122,6 @@ export default class SelectSearch extends React.PureComponent<
     }
 
     private onChange(selection: any): void {
-        console.log('selection', selection);
-
         if (!this.props.multi) {
             selection = [selection];
         }
