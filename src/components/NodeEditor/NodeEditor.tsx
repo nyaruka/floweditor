@@ -32,6 +32,26 @@ import { ConfigProviderContext } from '../../providers/ConfigProvider/configCont
 import * as formStyles from './NodeEditor.scss';
 import * as shared from '../shared.scss';
 
+export class Widget extends React.Component<{ name: string }> {
+    public validate(): void {
+        return;
+    }
+}
+
+export class Form extends React.Component<FormProps> {
+    public onUpdateForm(widgets: Widgets): void {
+        return;
+    }
+
+    public onValid(widgets: Widgets): void {
+        return;
+    }
+}
+
+export interface Widgets {
+    [name: string]: Widget;
+}
+
 export interface FormProps {
     showAdvanced: boolean;
     node: Node;
@@ -43,7 +63,7 @@ export interface FormProps {
     config: Type;
     ComponentMap: ComponentMap;
     updateAction(action: AnyAction): void;
-    onBindWidget(ref: any): void;
+    onBindWidget(ref: React.Component): void;
     onBindAdvancedWidget(ref: any): void;
     updateLocalizations(
         language: string,
@@ -55,9 +75,9 @@ export interface FormProps {
     triggerFormUpdate(): void;
     onToggleAdvanced(): void;
     getLocalizedObject: Function;
-    getLocalizedExits(widgets: { [name: string]: any }): Array<{ uuid: string; translations: any }>;
-    saveLocalizedExits(widgets: { [name: string]: any }): void;
-    getActionUUID: Function;
+    getLocalizedExits(widgets: Widgets): Array<{ uuid: string; translations: any }>;
+    saveLocalizedExits(widgets: Widgets): void;
+    getActionUUID(): void;
 }
 
 export interface NodeEditorProps {
@@ -95,9 +115,9 @@ export const FormContainer: React.SFC<{
 
 export default class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorState> {
     private modal: Modal;
-    private form: any;
-    private advanced: any;
-    private widgets: { [name: string]: any } = {};
+    private form: Form;
+    private advanced: Form;
+    private widgets: Widgets = {};
     private advancedWidgets: { [name: string]: boolean } = {};
     private initialButtons: ButtonSet;
     private temporaryButtons?: ButtonSet;
@@ -138,7 +158,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         this.removeWidget = this.removeWidget.bind(this);
     }
 
-    private formRef(ref: React.Component<{}>): React.Component<{}> {
+    private formRef(ref: Form): Form {
         return (this.form = ref);
     }
 
@@ -147,7 +167,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     // Make NodeEditor aware of base form inputs
-    public onBindWidget(widget: any): void {
+    public onBindWidget(widget: Widget): void {
         if (widget) {
             if (this.widgets) {
                 this.widgets[widget.props.name] = widget;
@@ -156,7 +176,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     // Make NodeEditor aware of advanced form inputs
-    public onBindAdvancedWidget(widget: any): void {
+    public onBindAdvancedWidget(widget: Widget): void {
         if (widget) {
             this.onBindWidget(widget);
 
@@ -269,7 +289,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         }, []);
     }
 
-    private saveLocalizedExits(widgets: { [name: string]: any }): void {
+    private saveLocalizedExits(widgets: Widgets): void {
         const exits = this.getLocalizedExits(widgets);
         const { iso } = this.props.language;
 
@@ -531,14 +551,14 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             removeWidget: this.removeWidget
         };
 
-        const { config: { form: Form } }: NodeEditorState = this.state;
+        const { config: { form: FormComp } }: NodeEditorState = this.state;
 
         const typeList = this.getTypeList();
 
         const front = (
             <FormContainer key={'fc-front'} onKeyPress={this.onKeyPress}>
                 {typeList}
-                <Form ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />
+                <FormComp ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />
             </FormContainer>
         );
 
@@ -550,7 +570,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     key={'fc-back'}
                     onKeyPress={this.onKeyPress}
                     styles={formStyles.advanced}>
-                    <Form ref={this.formRef} {...{ ...formProps, showAdvanced: true }} />
+                    <FormComp ref={this.formRef} {...{ ...formProps, showAdvanced: true }} />
                 </FormContainer>
             );
         }

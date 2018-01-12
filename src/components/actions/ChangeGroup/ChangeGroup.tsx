@@ -4,7 +4,7 @@ import { ChangeGroup } from '../../../flowTypes';
 const getContent = ({ type, groups }: ChangeGroup): JSX.Element[] => {
     const content: JSX.Element[] = [];
 
-    if (type === 'remove_from_group') {
+    if (type === 'remove_from_group' && !groups.length) {
         content.push(<div key="remove_from_all">Remove from all groups</div>);
     } else {
         const groupEls = groups.reduce((groupList, { name }, idx) => {

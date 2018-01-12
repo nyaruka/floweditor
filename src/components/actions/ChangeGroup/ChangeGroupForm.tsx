@@ -6,13 +6,14 @@ import GroupElement, { GroupList } from '../../form/GroupElement';
 import CheckboxElement from '../../form/CheckboxElement';
 import { endpointsPT } from '../../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../../providers/ConfigProvider/configContext';
+import { Widget, Widgets } from '../../NodeEditor/NodeEditor';
 
 export interface ChangeGroupFormProps {
     action: ChangeGroup;
     getActionUUID(): string;
     config: Type;
     updateAction(action: ChangeGroup): void;
-    onBindWidget(ref: React.Component): void;
+    onBindWidget(ref: Widget): void;
     removeWidget(name: string): void;
     ComponentMap: ComponentMap;
 }
@@ -21,11 +22,13 @@ export interface ChangeGroupFormState {
     removeFromAll: boolean;
 }
 
-export const addLabel = ' Select the group(s) to add the contact to.';
-export const removeLabel = 'Select the group(s) to remove the contact from.';
-export const notFoundAdd = 'Invalid group name';
-export const notFoundRemove = 'Enter the name of an existing group';
-export const placeholder = 'Enter a group name...';
+export const addType: string = 'add_to_group';
+export const removeType: string = 'remove_from_group';
+export const addLabel: string = ' Select the group(s) to add the contact to.';
+export const removeLabel: string = 'Select the group(s) to remove the contact from.';
+export const notFoundAdd: string = 'Invalid group name';
+export const notFoundRemove: string = 'Enter the name of an existing group';
+export const placeholder: string = 'Enter a group name...';
 
 export default class ChangeGroupForm extends React.PureComponent<
     ChangeGroupFormProps,
@@ -53,7 +56,7 @@ export default class ChangeGroupForm extends React.PureComponent<
         this.setState({ removeFromAll: !this.state.removeFromAll });
     }
 
-    public onValid(widgets: { [name: string]: any }): void {
+    public onValid(widgets: Widgets): void {
         const newAction: ChangeGroup = {
             uuid: this.props.getActionUUID(),
             type: this.props.config.type,
@@ -80,10 +83,10 @@ export default class ChangeGroupForm extends React.PureComponent<
     private getField(): JSX.Element {
         let groupElement: JSX.Element = null;
         let checkboxElement: JSX.Element = null;
-        let searchPromptText: string | JSX.Element = '';
 
+        const adding = this.props.config.type === addType;
+        const sibling: boolean = !this.state.removeFromAll;
         const localGroups: SearchResult[] = this.props.ComponentMap.getGroups();
-
         const groups: GroupList = this.props.action.groups
             ? this.props.action.groups.map(
                   ({ uuid: group, name }) => ({
@@ -94,8 +97,8 @@ export default class ChangeGroupForm extends React.PureComponent<
               )
             : [];
 
-        if (this.props.config.type === 'add_to_group') {
-            searchPromptText = notFoundAdd;
+        if (adding || (!adding && sibling)) {
+            const searchPromptText: string | JSX.Element = adding ? notFoundAdd : notFoundRemove;
 
             groupElement = (
                 <GroupElement
@@ -106,33 +109,15 @@ export default class ChangeGroupForm extends React.PureComponent<
                     endpoint={this.context.endpoints.groups}
                     localGroups={localGroups}
                     groups={groups}
-                    add={true}
+                    add={adding}
                     required={true}
                 />
             );
         } else {
-            if (!this.state.removeFromAll) {
-                searchPromptText = notFoundRemove;
+            this.props.removeWidget('Group');
+        }
 
-                groupElement = (
-                    <GroupElement
-                        ref={this.props.onBindWidget}
-                        name="Group"
-                        placeholder={placeholder}
-                        searchPromptText={searchPromptText}
-                        endpoint={this.context.endpoints.groups}
-                        localGroups={localGroups}
-                        groups={groups}
-                        add={false}
-                        required={true}
-                    />
-                );
-            } else {
-                this.props.removeWidget('Group');
-            }
-
-            const sibling: boolean = !this.state.removeFromAll;
-
+        if (!adding) {
             checkboxElement = (
                 <CheckboxElement
                     ref={this.props.onBindWidget}

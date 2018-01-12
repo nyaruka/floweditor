@@ -3,16 +3,21 @@ import { mount, ReactWrapper } from 'enzyme';
 import ComponentMap from '../../../services/ComponentMap';
 import ChangeGroupForm, { ChangeGroupFormProps } from './ChangeGroupForm';
 import Config from '../../../providers/ConfigProvider/configContext';
-import { addLabel, removeLabel, notFoundAdd, notFoundRemove, placeholder } from './ChangeGroupForm';
+import {
+    addType,
+    removeType,
+    addLabel,
+    removeLabel,
+    notFoundAdd,
+    notFoundRemove,
+    placeholder
+} from './ChangeGroupForm';
 
 const {
     results: [{ definition }]
 } = require('../../../../test_flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
 
 const CompMap = new ComponentMap(definition);
-
-const addType: string = 'add_to_group';
-const removeType: string = 'remove_from_group';
 
 const testGroupForm = (type: string): void => {
     const { nodes: [{ actions: [, action] }] } = definition;
