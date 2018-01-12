@@ -33,7 +33,7 @@ const Form: ReactWrapper = mount(<RemoveGroupForm {...props} />, {
     context
 });
 
-describe('RemoveGroupForm >', () => {
+describe('RemoveGroupForm >', () =>
     describe('render >', () =>
         it("renders an 'Add to Group' form", () => {
             expect(Form.find('div').exists()).toBeTruthy();
@@ -49,5 +49,4 @@ describe('RemoveGroupForm >', () => {
                 required: true,
                 searchPromptText: notFound
             });
-        }));
-});
+        })));

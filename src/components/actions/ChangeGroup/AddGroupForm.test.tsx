@@ -33,7 +33,7 @@ const Form: ReactWrapper = mount(<AddGroupForm {...props} />, {
     context
 });
 
-describe('AddGroupForm >', () => {
+describe('AddGroupForm >', () =>
     describe('render >', () =>
         it("renders an 'Add to Group' form", () => {
             expect(Form.find('div').exists()).toBeTruthy();
@@ -49,5 +49,4 @@ describe('AddGroupForm >', () => {
                 required: true,
                 searchPromptText: notFound
             });
-        }));
-});
+        })));
