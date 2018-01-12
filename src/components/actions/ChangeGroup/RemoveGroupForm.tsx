@@ -1,38 +1,24 @@
 import * as React from 'react';
+import ChangeGroupFormProps from './groupFormPropTypes';
 import { ChangeGroup, Endpoints } from '../../../flowTypes';
-import { Type } from '../../../providers/ConfigProvider/typeConfigs';
 import ComponentMap, { SearchResult } from '../../../services/ComponentMap';
 import GroupElement, { GroupList } from '../../form/GroupElement';
 import CheckboxElement from '../../form/CheckboxElement';
 import { endpointsPT } from '../../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../../providers/ConfigProvider/configContext';
-import { Widget, Widgets } from '../../NodeEditor/NodeEditor';
+import { Widgets } from '../../NodeEditor/NodeEditor';
 
-export interface ChangeGroupFormProps {
-    action: ChangeGroup;
-    getActionUUID(): string;
-    config: Type;
-    updateAction(action: ChangeGroup): void;
-    onBindWidget(ref: Widget): void;
-    removeWidget(name: string): void;
-    ComponentMap: ComponentMap;
-}
-
-export interface ChangeGroupFormState {
+export interface RemoveGroupFormState {
     removeFromAll: boolean;
 }
 
-export const addType: string = 'add_to_group';
-export const removeType: string = 'remove_from_group';
-export const addLabel: string = ' Select the group(s) to add the contact to.';
-export const removeLabel: string = 'Select the group(s) to remove the contact from.';
-export const notFoundAdd: string = 'Invalid group name';
-export const notFoundRemove: string = 'Enter the name of an existing group';
-export const placeholder: string = 'Enter a group name...';
+export const label: string = 'Select the group(s) to remove the contact from.';
+export const notFound: string = 'Enter the name of an existing group';
+export const placeholder: string = 'Enter the name an existing group';
 
-export default class ChangeGroupForm extends React.PureComponent<
+export default class RemoveGroupForm extends React.PureComponent<
     ChangeGroupFormProps,
-    ChangeGroupFormState
+    RemoveGroupFormState
 > {
     public static contextTypes = {
         endpoints: endpointsPT
@@ -80,11 +66,10 @@ export default class ChangeGroupForm extends React.PureComponent<
         this.props.updateAction(newAction);
     }
 
-    private getField(): JSX.Element {
+    private getFields(): JSX.Element {
         let groupElement: JSX.Element = null;
         let checkboxElement: JSX.Element = null;
 
-        const adding = this.props.config.type === addType;
         const sibling: boolean = !this.state.removeFromAll;
         const localGroups: SearchResult[] = this.props.ComponentMap.getGroups();
         const groups: GroupList = this.props.action.groups
@@ -97,19 +82,17 @@ export default class ChangeGroupForm extends React.PureComponent<
               )
             : [];
 
-        if (adding || (!adding && sibling)) {
-            const searchPromptText: string | JSX.Element = adding ? notFoundAdd : notFoundRemove;
-
+        if (sibling) {
             groupElement = (
                 <GroupElement
                     ref={this.props.onBindWidget}
                     name="Group"
                     placeholder={placeholder}
-                    searchPromptText={searchPromptText}
+                    searchPromptText={notFound}
                     endpoint={this.context.endpoints.groups}
                     localGroups={localGroups}
                     groups={groups}
-                    add={adding}
+                    add={false}
                     required={true}
                 />
             );
@@ -117,18 +100,16 @@ export default class ChangeGroupForm extends React.PureComponent<
             this.props.removeWidget('Group');
         }
 
-        if (!adding) {
-            checkboxElement = (
-                <CheckboxElement
-                    ref={this.props.onBindWidget}
-                    name="Remove from All"
-                    defaultValue={this.state.removeFromAll}
-                    description="Remove the active contact from all groups they're a member of."
-                    sibling={sibling}
-                    onCheck={this.onCheck}
-                />
-            );
-        }
+        checkboxElement = (
+            <CheckboxElement
+                ref={this.props.onBindWidget}
+                name="Remove from All"
+                defaultValue={this.state.removeFromAll}
+                description="Remove the active contact from all groups they're a member of."
+                sibling={sibling}
+                onCheck={this.onCheck}
+            />
+        );
 
         return (
             <div>
@@ -139,12 +120,11 @@ export default class ChangeGroupForm extends React.PureComponent<
     }
 
     public render(): JSX.Element {
-        const label: string = this.props.config.type === 'add_to_group' ? addLabel : removeLabel;
-        const field: JSX.Element = this.getField();
+        const fields: JSX.Element = this.getFields();
         return (
             <div>
                 <p>{label}</p>
-                {field}
+                {fields}
             </div>
         );
     }

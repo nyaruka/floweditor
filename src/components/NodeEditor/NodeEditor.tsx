@@ -14,18 +14,11 @@ import {
 } from '../../flowTypes';
 import { Type, Mode } from '../../providers/ConfigProvider/typeConfigs';
 import { Language } from '../LanguageSelector';
-import { ReplyFormProps } from '../actions/Reply/ReplyForm';
-import { ChangeGroupFormProps } from '../actions/ChangeGroup/ChangeGroupForm';
-import { SaveFlowResultFormProps } from '../actions/SaveFlowResult/SaveFlowResultForm';
-import { SendEmailFormProps } from '../actions/SendEmail/SendEmailForm';
-import { SaveToContactFormProps } from '../actions/SaveToContact/SaveToContactForm';
-import { SubflowRouterFormProps } from '../routers/SubflowRouter';
-import { SwitchRouterFormProps } from '../routers/SwitchRouter';
-import { WebhookRouterFormProps } from '../routers/WebhookRouter';
 import ComponentMap from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
 import TypeList from './TypeList';
 import TextInputElement from '../form/TextInputElement';
+import FormContainer from './FormContainer';
 import { getTypeConfigPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
@@ -101,17 +94,6 @@ export interface NodeEditorState {
     config: Type;
     show: boolean;
 }
-
-export const FormContainer: React.SFC<{
-    onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void;
-    styles?: string;
-}> = ({ children, onKeyPress, styles }): JSX.Element => (
-    <div className={styles ? styles : null}>
-        <div className={formStyles.node_editor}>
-            <form onKeyPress={onKeyPress}>{children}</form>
-        </div>
-    </div>
-);
 
 export default class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorState> {
     private modal: Modal;
@@ -489,20 +471,20 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
     private getTypeList(): JSX.Element {
         if (!this.props.translating) {
-            let style: string;
+            let className: string = '';
 
             if (
                 this.state.config.type === 'wait_for_response' ||
                 this.state.config.type === 'expression'
             ) {
-                ({ type_chooser_switch: style } = formStyles);
+                ({ type_chooser_switch: className } = formStyles);
             } else {
-                ({ type_chooser: style } = formStyles);
+                ({ type_chooser: className } = formStyles);
             }
 
             return (
                 <TypeList
-                    className={style}
+                    className={className}
                     // NodeEditor
                     initialType={this.state.config}
                     onChange={this.onTypeChange}
