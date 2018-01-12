@@ -10,7 +10,7 @@ import { Widgets } from '../../NodeEditor/NodeEditor';
 
 export const label: string = ' Select the group(s) to add the contact to.';
 export const notFound: string = 'Invalid group name';
-export const placeholder: string = 'Enter the name of an existing group, or create a new one';
+export const placeholder: string = 'Enter the name of an existing group, or create a new group to add the contact to';
 
 export default class AddGroupForm extends React.PureComponent<ChangeGroupFormProps> {
     public static contextTypes = {

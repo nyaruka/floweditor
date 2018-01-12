@@ -19,7 +19,7 @@ interface FlowState {
     errors: string[];
 }
 
-export const notFound = 'Enter the name of an existing flow';
+export const notFound: string = 'Enter the name of an existing flow';
 
 export default class FlowElement extends React.Component<FlowElementProps, FlowState> {
     constructor(props: any) {

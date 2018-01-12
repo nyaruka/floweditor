@@ -24,6 +24,10 @@ interface FieldState {
     errors: string[];
 }
 
+export const placeholder: string =
+    'Enter the name of an existing group, or create a new group to add the contact to';
+export const notFound: string = 'Invalid field name';
+
 export default class FieldElement extends React.Component<FieldElementProps, FieldState> {
     constructor(props: any) {
         super(props);
@@ -116,6 +120,8 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
                     multi={false}
                     clearable={false}
                     initial={initial}
+                    searchPromptText={notFound}
+                    placeholder={placeholder}
                     {...createOptions}
                 />
             </FormElement>
