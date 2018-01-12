@@ -67,8 +67,9 @@ export default class RemoveGroupForm extends React.PureComponent<
     }
 
     private getFields(): JSX.Element {
-        let groupElement: JSX.Element = null;
-        let checkboxElement: JSX.Element = null;
+        let groupElLabel: JSX.Element = null;
+        let groupEl: JSX.Element = null;
+        let checkboxEl: JSX.Element = null;
 
         const sibling: boolean = !this.state.removeFromAll;
         const localGroups: SearchResult[] = this.props.ComponentMap.getGroups();
@@ -83,7 +84,9 @@ export default class RemoveGroupForm extends React.PureComponent<
             : [];
 
         if (sibling) {
-            groupElement = (
+            groupElLabel = <p>{label}</p>;
+
+            groupEl = (
                 <GroupElement
                     ref={this.props.onBindWidget}
                     name="Group"
@@ -100,7 +103,7 @@ export default class RemoveGroupForm extends React.PureComponent<
             this.props.removeWidget('Group');
         }
 
-        checkboxElement = (
+        checkboxEl = (
             <CheckboxElement
                 ref={this.props.onBindWidget}
                 name="Remove from All"
@@ -113,19 +116,15 @@ export default class RemoveGroupForm extends React.PureComponent<
 
         return (
             <div>
-                {groupElement}
-                {checkboxElement}
+                {groupElLabel}
+                {groupEl}
+                {checkboxEl}
             </div>
         );
     }
 
     public render(): JSX.Element {
         const fields: JSX.Element = this.getFields();
-        return (
-            <div>
-                <p>{label}</p>
-                {fields}
-            </div>
-        );
+        return <div>{fields}</div>;
     }
 }
