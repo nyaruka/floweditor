@@ -9,6 +9,7 @@ import TextInputElement, {
     MAX_GSM_MULTI,
     MAX_UNICODE_SINGLE,
     MAX_UNICODE_MULTI,
+    COUNTER_HELP,
     toCharSetEnum,
     cleanMsg,
     filterOptions,
@@ -143,6 +144,8 @@ describe('TextInputElement >', () => {
                     onKeyDown
                 })
             );
+
+            expect(getSpecWrapper(TextInput, 'tooltip-content')).toMatchSnapshot();
         });
     });
 });

@@ -13,7 +13,7 @@ import 'react-select/dist/react-select.css';
 import '../fonts/flows/style.css';
 import './global.scss';
 
-const root = document.getElementById('flow-editor');
+const root: HTMLElement = document.getElementById('flow-editor');
 
 // if (__flow_editor_config__.hasOwnProperty('path')) {
 //     __webpack_public_path__ = __flow_editor_config__.path;

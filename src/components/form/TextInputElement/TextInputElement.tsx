@@ -9,6 +9,7 @@ import { OPTIONS } from './completionOptions';
 
 import * as styles from './TextInputElement.scss';
 import * as shared from '../FormElement.scss';
+import { messages } from '../../Simulator/Simulator.scss';
 
 export enum Count {
     SMS = 'SMS'
@@ -484,12 +485,12 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     private setSelection(selectedIdx: number): void {
         let selectedOptionIndex: number = selectedIdx;
 
-        /** Can't exceed the last option */
+        // Can't exceed the last option
         if (selectedIdx >= this.state.matches.length) {
             selectedOptionIndex = this.state.matches.length - 1;
         }
 
-        /** Can't go beyond the first option */
+        // Can't go beyond the first option
         if (selectedIdx < 0) {
             selectedOptionIndex = 0;
         }
@@ -580,21 +581,15 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                         <span className={`${styles.tooltip}`}>
                             <b>&#63;</b>
                             <span className={styles.tooltiptext}>
-                                <div className={styles.tooltiprow}>
-                                    <b>Encoding</b>
-                                    <span>{`  ${this.state.characterSet}`}</span>
-                                </div>
-                                <div className={styles.tooltiprow}>
-                                    <b>Parts</b>
-                                    <span>{`  ${this.state.parts.length}`}</span>
-                                </div>
-                                <div className={styles.tooltiprow}>
-                                    <b>Characters</b>
-                                    <span>{`  ${this.state.characterCount}`}</span>
-                                </div>
-                                <div className={styles.tooltiprow}>
-                                    <b>Limit Per Part</b>
-                                    <span>{`  ${this.state.maxLength}`}</span>
+                                <div className={styles.tooltiprow} data-spec="tooltip-content">
+                                    <span>
+                                        The character-counter provides an estimate of the number of
+                                        messages your response is expected to be split into by the
+                                        carriers that send your messages. For example, the count{' '}
+                                        <b>67/2</b> indicates that the current message will be split
+                                        into <b>2</b> messages and you have <b>67</b> characters
+                                        left until it's split into <b>3</b> messages.
+                                    </span>
                                 </div>
                             </span>
                         </span>
