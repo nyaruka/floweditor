@@ -8,19 +8,35 @@ import CheckboxElement from '../../form/CheckboxElement';
 import { endpointsPT } from '../../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../../providers/ConfigProvider/configContext';
 import { Widgets } from '../../NodeEditor/NodeEditor';
+import GroupFormState from './groupFormState';
 
 export const label: string = ' Select the group(s) to add the contact to.';
 export const notFound: string = 'Invalid group name';
 export const placeholder: string =
     'Enter the name of an existing group, or create a new group to add the contact to';
 
-export default class AddGroupForm extends React.PureComponent<ChangeGroupFormProps> {
+export default class AddGroupForm extends React.PureComponent<
+    ChangeGroupFormProps,
+    GroupFormState
+> {
     public static contextTypes = {
         endpoints: endpointsPT
     };
 
     constructor(props: ChangeGroupFormProps, context: ConfigProviderContext) {
         super(props);
+
+        const fromRouter: boolean = !this.props.action;
+
+        // Whether or not the action has a groups key, which may be 'null', '[]' or a list of groups
+        const actionHasGroups: boolean = fromRouter
+            ? false
+            : this.props.action.groups && this.props.action.groups != null;
+
+        this.state = {
+            fromRouter,
+            actionHasGroups
+        };
 
         this.onValid = this.onValid.bind(this);
     }
@@ -29,7 +45,7 @@ export default class AddGroupForm extends React.PureComponent<ChangeGroupFormPro
         const groupEle = widgets.Group as GroupElement;
         const { state: { groups } } = groupEle;
 
-        const uuid: string = this.props.action.uuid || generateUUID();
+        const uuid: string = this.state.fromRouter ? generateUUID() : this.props.action.uuid;
 
         const newAction: ChangeGroup = {
             uuid,
@@ -45,15 +61,16 @@ export default class AddGroupForm extends React.PureComponent<ChangeGroupFormPro
 
     public render(): JSX.Element {
         const localGroups: SearchResult[] = this.props.ComponentMap.getGroups();
-        const groups: GroupList = this.props.action.groups
-            ? this.props.action.groups.map(
-                  ({ uuid: group, name }) => ({
-                      group,
-                      name
-                  }),
-                  []
-              )
-            : [];
+        const groups: GroupList =
+            !this.state.fromRouter && this.state.actionHasGroups
+                ? this.props.action.groups.map(
+                      ({ uuid: group, name }) => ({
+                          group,
+                          name
+                      }),
+                      []
+                  )
+                : [];
         return (
             <div>
                 <p>{label}</p>

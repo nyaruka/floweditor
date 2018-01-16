@@ -29,7 +29,7 @@ export default class extends React.PureComponent<SaveFlowResultFormProps> {
         const { state: { value } } = widgets.Value as TextInputElement;
         const { state: { value: category } } = widgets.Category as TextInputElement;
 
-        const uuid: string = this.props.action.uuid || generateUUID();
+        const uuid: string = !this.props.action ? generateUUID() : this.props.action.uuid;
 
         const newAction: SaveFlowResult = {
             uuid,

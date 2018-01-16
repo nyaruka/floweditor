@@ -31,7 +31,7 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
 
         const emails = emailAddresses.map(({ value }) => value);
 
-        const uuid: string = this.props.action.uuid || generateUUID();
+        const uuid: string = !this.props.action ? generateUUID() : this.props.action.uuid;
 
         const newAction: SendEmail = {
             uuid,
@@ -49,7 +49,7 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
         let subject = '';
         let body = '';
 
-        if (this.props.action && this.props.action.type == 'send_email') {
+        if (this.props.action && this.props.action.type === 'send_email') {
             ({ emails, subject, body } = this.props.action);
         }
 

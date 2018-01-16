@@ -55,7 +55,7 @@ export default class SaveToContactForm extends React.PureComponent<SaveToContact
             state: { field: { type: fieldType, name: fieldName, id: fieldUUID } }
         } = widgets.Field as FieldElement;
 
-        const uuid: string = this.props.action.uuid || generateUUID();
+        const uuid: string = !this.props.action ? generateUUID() : this.props.action.uuid;
 
         const newAction: any = {
             uuid,

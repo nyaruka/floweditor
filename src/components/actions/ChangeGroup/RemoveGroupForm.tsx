@@ -8,8 +8,9 @@ import CheckboxElement from '../../form/CheckboxElement';
 import { endpointsPT } from '../../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../../providers/ConfigProvider/configContext';
 import { Widgets } from '../../NodeEditor/NodeEditor';
+import GroupFormState from './groupFormState';
 
-export interface RemoveGroupFormState {
+export interface RemoveGroupFormState extends GroupFormState {
     removeFromAll: boolean;
 }
 
@@ -28,10 +29,18 @@ export default class RemoveGroupForm extends React.PureComponent<
     constructor(props: ChangeGroupFormProps, context: ConfigProviderContext) {
         super(props);
 
-        const removeFromAll: boolean =
-            this.props.action.groups != null && !this.props.action.groups.length;
+        const fromRouter: boolean = !this.props.action;
+
+        // Whether or not the action has a groups key, which may be 'null', '[]' or a list of groups
+        const actionHasGroups: boolean = fromRouter
+            ? false
+            : this.props.action.groups && this.props.action.groups != null;
+
+        const removeFromAll: boolean = actionHasGroups && !this.props.action.groups.length;
 
         this.state = {
+            fromRouter,
+            actionHasGroups,
             removeFromAll
         };
 
@@ -44,7 +53,7 @@ export default class RemoveGroupForm extends React.PureComponent<
     }
 
     public onValid(widgets: Widgets): void {
-        const uuid: string = this.props.action.uuid || generateUUID();
+        const uuid: string = this.state.fromRouter ? generateUUID() : this.props.action.uuid;
 
         const newAction: ChangeGroup = {
             uuid,
@@ -76,15 +85,16 @@ export default class RemoveGroupForm extends React.PureComponent<
 
         const sibling: boolean = !this.state.removeFromAll;
         const localGroups: SearchResult[] = this.props.ComponentMap.getGroups();
-        const groups: GroupList = this.props.action.groups
-            ? this.props.action.groups.map(
-                  ({ uuid: group, name }) => ({
-                      group,
-                      name
-                  }),
-                  []
-              )
-            : [];
+        const groups: GroupList =
+            !this.state.fromRouter && this.state.actionHasGroups
+                ? this.props.action.groups.map(
+                      ({ uuid: group, name }) => ({
+                          group,
+                          name
+                      }),
+                      []
+                  )
+                : [];
 
         if (sibling) {
             groupElLabel = <p>{label}</p>;

@@ -52,7 +52,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                 ]);
             }
         } else {
-            const uuid: string = this.props.action.uuid || generateUUID();
+            const uuid: string = !this.props.action ? generateUUID() : this.props.action.uuid;
 
             const newAction: Reply = {
                 uuid,
