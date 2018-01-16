@@ -10,6 +10,10 @@ import { ConfigProviderContext } from '../../../providers/ConfigProvider/configC
 import { Widgets } from '../../NodeEditor/NodeEditor';
 import GroupFormState from './groupFormState';
 
+export interface AddGroupFormState extends GroupFormState {
+    hasAddAction: boolean;
+}
+
 export const label: string = ' Select the group(s) to add the contact to.';
 export const notFound: string = 'Invalid group name';
 export const placeholder: string =
@@ -17,7 +21,7 @@ export const placeholder: string =
 
 export default class AddGroupForm extends React.PureComponent<
     ChangeGroupFormProps,
-    GroupFormState
+    AddGroupFormState
 > {
     public static contextTypes = {
         endpoints: endpointsPT
@@ -28,14 +32,12 @@ export default class AddGroupForm extends React.PureComponent<
 
         const fromRouter: boolean = !this.props.action;
 
-        // Whether or not the action has a groups key, which may be 'null', '[]' or a list of groups
-        const actionHasGroups: boolean = fromRouter
-            ? false
-            : this.props.action.groups && this.props.action.groups != null;
+        // Does this node have an existing action? If so, is it a 'add_to_group' action?
+        const hasAddAction: boolean = this.hasAddAction();
 
         this.state = {
             fromRouter,
-            actionHasGroups
+            hasAddAction
         };
 
         this.onValid = this.onValid.bind(this);
@@ -59,18 +61,40 @@ export default class AddGroupForm extends React.PureComponent<
         this.props.updateAction(newAction);
     }
 
+    private hasAddAction(): boolean {
+        if (!this.props.action) {
+            return false;
+        } else {
+            if (this.props.action.type === 'add_to_group') {
+                return true;
+            }
+            return false;
+        }
+    }
+
+    private getGroups(): GroupList {
+        if (this.state.hasAddAction) {
+            if (this.props.action.groups == null) {
+                return [];
+            }
+
+            if (this.props.action.groups.length) {
+                return this.props.action.groups.map(
+                    ({ uuid: group, name }) => ({
+                        group,
+                        name
+                    }),
+                    []
+                );
+            }
+        }
+
+        return [];
+    }
+
     public render(): JSX.Element {
         const localGroups: SearchResult[] = this.props.ComponentMap.getGroups();
-        const groups: GroupList =
-            !this.state.fromRouter && this.state.actionHasGroups
-                ? this.props.action.groups.map(
-                      ({ uuid: group, name }) => ({
-                          group,
-                          name
-                      }),
-                      []
-                  )
-                : [];
+        const groups: GroupList = this.getGroups();
         return (
             <div>
                 <p>{label}</p>

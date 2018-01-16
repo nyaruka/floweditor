@@ -19,7 +19,6 @@ const context = {
 };
 const props: ChangeGroupFormProps = {
     action,
-    getActionUUID: jest.fn(() => action.uuid),
     config: typeConfig,
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
@@ -29,17 +28,41 @@ const props: ChangeGroupFormProps = {
 const { groups: [{ uuid, name }] } = action;
 const groups = [{ group: uuid, name }];
 const localGroups = [{ id: uuid, name, type: 'group' }];
-const Form: ReactWrapper = mount(<AddGroupForm {...props} />, {
+const Form: ReactWrapper = mount(<AddGroupForm {...{...props, action: {...action, type: 'remove_from_group'}}} />, {
     context
 });
 
-describe('AddGroupForm >', () =>
-    describe('render >', () =>
-        it("renders an 'Add to Group' form", () => {
+describe('AddGroupForm >', () => {
+    describe('render >', () => {
+        it('should render form label', () => {
             expect(Form.find('div').exists()).toBeTruthy();
             expect(Form.find('p').text()).toBe(label);
-            expect(props.onBindWidget).toBeCalled();
+        });
+
+        it("should call 'onBindWidget'", () => expect(props.onBindWidget).toBeCalled());
+
+        it("should pass GroupElement an empty 'groups' prop if previous action isn't of type 'add_to_group'", () => {
             expect(Form.find('GroupElement').props()).toEqual({
+                name: 'Group',
+                placeholder,
+                endpoint: endpoints.groups,
+                groups: [],
+                localGroups,
+                add: true,
+                required: true,
+                searchPromptText: notFound
+            });
+        });
+
+        it("should pass GroupElement groups to remove if previous action was of type 'add_to_group'", () => {
+            const FormNewAction: ReactWrapper = mount(
+                <AddGroupForm {...props} />,
+                {
+                    context
+                }
+            );
+
+            expect(FormNewAction.find('GroupElement').props()).toEqual({
                 name: 'Group',
                 placeholder,
                 endpoint: endpoints.groups,
@@ -49,4 +72,5 @@ describe('AddGroupForm >', () =>
                 required: true,
                 searchPromptText: notFound
             });
-        })));
+    });
+});

@@ -29,17 +29,44 @@ const props: ChangeGroupFormProps = {
 const { groups: [{ uuid, name }] } = action;
 const groups = [{ group: uuid, name }];
 const localGroups = [{ id: uuid, name, type: 'group' }];
+
 const Form: ReactWrapper = mount(<RemoveGroupForm {...props} />, {
     context
 });
 
 describe('RemoveGroupForm >', () => {
-    describe('render >', () =>
-        it("should render a 'Remove from Group' form", () => {
+    describe('render >', () => {
+        it('should render form label', () => {
             expect(Form.find('div').exists()).toBeTruthy();
             expect(Form.find('p').text()).toBe(label);
-            expect(props.onBindWidget).toBeCalled();
+        });
+
+        it("should call 'onBindWidget'", () => expect(props.onBindWidget).toBeCalled());
+
+        it("should pass GroupElement an empty 'groups' prop if existing action isn't of type 'remove_from_group", () => {
             expect(Form.find('GroupElement').props()).toEqual({
+                name: 'Group',
+                placeholder,
+                endpoint: endpoints.groups,
+                groups: [],
+                localGroups,
+                add: false,
+                required: true,
+                searchPromptText: notFound
+            });
+        });
+
+        it("should pass GroupElement groups to remove if existing action is of type 'remove_from_group'", () => {
+            const FormNewAction: ReactWrapper = mount(
+                <RemoveGroupForm
+                    {...{ ...props, action: { ...action, type: 'remove_from_group' } }}
+                />,
+                {
+                    context
+                }
+            );
+
+            expect(FormNewAction.find('GroupElement').props()).toEqual({
                 name: 'Group',
                 placeholder,
                 endpoint: endpoints.groups,
@@ -49,7 +76,8 @@ describe('RemoveGroupForm >', () => {
                 required: true,
                 searchPromptText: notFound
             });
-        }));
+        });
+    });
 
     it("should render only the 'Remove from Group' checkbox element when it's checked", () => {
         Form.find('CheckboxElement')

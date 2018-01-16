@@ -11,6 +11,7 @@ import { Widgets } from '../../NodeEditor/NodeEditor';
 import GroupFormState from './groupFormState';
 
 export interface RemoveGroupFormState extends GroupFormState {
+    hasRemoveAction: boolean;
     removeFromAll: boolean;
 }
 
@@ -31,16 +32,14 @@ export default class RemoveGroupForm extends React.PureComponent<
 
         const fromRouter: boolean = !this.props.action;
 
-        // Whether or not the action has a groups key, which may be 'null', '[]' or a list of groups
-        const actionHasGroups: boolean = fromRouter
-            ? false
-            : this.props.action.groups && this.props.action.groups != null;
+        // Does this node have an existing action? If so, is it a 'remove_from_group' action?
+        const hasRemoveAction: boolean = this.hasRemoveAction();
 
-        const removeFromAll: boolean = actionHasGroups && !this.props.action.groups.length;
+        const removeFromAll: boolean = hasRemoveAction && !this.props.action.groups.length;
 
         this.state = {
             fromRouter,
-            actionHasGroups,
+            hasRemoveAction,
             removeFromAll
         };
 
@@ -78,6 +77,37 @@ export default class RemoveGroupForm extends React.PureComponent<
         this.props.updateAction(newAction);
     }
 
+    private hasRemoveAction(): boolean {
+        if (!this.props.action) {
+            return false;
+        } else {
+            if (this.props.action.type === 'remove_from_group') {
+                return true;
+            }
+            return false;
+        }
+    }
+
+    private getGroups(): GroupList {
+        if (this.state.hasRemoveAction) {
+            if (this.state.removeFromAll || this.props.action.groups == null) {
+                return [];
+            }
+
+            if (this.props.action.groups.length) {
+                return this.props.action.groups.map(
+                    ({ uuid: group, name }) => ({
+                        group,
+                        name
+                    }),
+                    []
+                );
+            }
+        }
+
+        return [];
+    }
+
     private getFields(): JSX.Element {
         let groupElLabel: JSX.Element = null;
         let groupEl: JSX.Element = null;
@@ -85,16 +115,7 @@ export default class RemoveGroupForm extends React.PureComponent<
 
         const sibling: boolean = !this.state.removeFromAll;
         const localGroups: SearchResult[] = this.props.ComponentMap.getGroups();
-        const groups: GroupList =
-            !this.state.fromRouter && this.state.actionHasGroups
-                ? this.props.action.groups.map(
-                      ({ uuid: group, name }) => ({
-                          group,
-                          name
-                      }),
-                      []
-                  )
-                : [];
+        const groups: GroupList = this.getGroups();
 
         if (sibling) {
             groupElLabel = <p>{label}</p>;
