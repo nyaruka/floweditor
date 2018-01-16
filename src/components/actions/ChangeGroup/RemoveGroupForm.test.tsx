@@ -4,6 +4,7 @@ import ComponentMap from '../../../services/ComponentMap';
 import ChangeGroupFormProps from './groupFormPropTypes';
 import Config from '../../../providers/ConfigProvider/configContext';
 import RemoveGroupForm, { label, notFound, placeholder } from './RemoveGroupForm';
+import { getSpecWrapper } from '../../../helpers/utils';
 
 const {
     results: [{ definition }]
@@ -19,7 +20,6 @@ const context = {
 };
 const props: ChangeGroupFormProps = {
     action,
-    getActionUUID: jest.fn(() => action.uuid),
     config: typeConfig,
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
@@ -33,9 +33,9 @@ const Form: ReactWrapper = mount(<RemoveGroupForm {...props} />, {
     context
 });
 
-describe('RemoveGroupForm >', () =>
+describe('RemoveGroupForm >', () => {
     describe('render >', () =>
-        it("renders an 'Add to Group' form", () => {
+        it("should render a 'Remove from Group' form", () => {
             expect(Form.find('div').exists()).toBeTruthy();
             expect(Form.find('p').text()).toBe(label);
             expect(props.onBindWidget).toBeCalled();
@@ -49,4 +49,17 @@ describe('RemoveGroupForm >', () =>
                 required: true,
                 searchPromptText: notFound
             });
-        })));
+        }));
+
+    it("should render only the 'Remove from Group' checkbox element when it's checked", () => {
+        Form.find('CheckboxElement')
+            .find('input')
+            .simulate('change');
+
+        const FieldContainer = getSpecWrapper(Form, 'field-container');
+
+        expect(Form.state('removeFromAll')).toBeTruthy();
+        expect(FieldContainer.children()).toHaveLength(1);
+        expect(FieldContainer.find('CheckboxElement').exists()).toBeTruthy();
+    });
+});

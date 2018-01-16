@@ -128,7 +128,7 @@ export default class RemoveGroupForm extends React.PureComponent<
         );
 
         return (
-            <div>
+            <div data-spec="field-container">
                 {groupElLabel}
                 {groupEl}
                 {checkboxEl}
