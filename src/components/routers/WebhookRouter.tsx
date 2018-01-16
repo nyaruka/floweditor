@@ -2,7 +2,16 @@ import * as React from 'react';
 import * as update from 'immutability-helper';
 import * as FlipMove from 'react-flip-move';
 import { v4 as generateUUID } from 'uuid';
-import { CallWebhook, Case, Exit, Router, SwitchRouter, Node, AnyAction } from '../../flowTypes';
+import {
+    CallWebhook,
+    Case,
+    Exit,
+    Router,
+    SwitchRouter,
+    Node,
+    AnyAction,
+    Methods
+} from '../../flowTypes';
 import { Type } from '../../providers/ConfigProvider/typeConfigs';
 import { SwitchRouterState } from './SwitchRouter';
 import { FormProps } from '../NodeEditor';
@@ -14,20 +23,11 @@ import ComponentMap from '../../services/ComponentMap';
 
 import * as styles from './Webhook.scss';
 
-const defaultBody: string = `{
-    "contact": @(to_json(contact.uuid)),
-    "contact_urn": @(to_json(contact.urns)),
-    "message": @(to_json(input.text)),
-    "flow": @(to_json(run.flow.uuid)),
-    "flow_name": @(to_json(run.flow.name))
-}`;
-
 export interface WebhookRouterFormProps extends FormProps {
     config: Type;
     node: Node;
     showAdvanced: boolean;
     action: AnyAction;
-    getActionUUID(): string;
     removeWidget(name: string): void;
     translating: boolean;
     triggerFormUpdate(): void;
@@ -42,188 +42,285 @@ export interface WebhookRouterFormProps extends FormProps {
 
 interface WebhookState extends SwitchRouterState {
     headers: Header[];
-    method: string;
+    method: Methods;
 }
 
+interface Method {
+    value: Methods;
+    label: Methods;
+}
+
+type MethodOptions = Method[];
+
+const defaultBody: string = `{
+    "contact": @(to_json(contact.uuid)),
+    "contact_urn": @(to_json(contact.urns)),
+    "message": @(to_json(input.text)),
+    "flow": @(to_json(run.flow.uuid)),
+    "flow_name": @(to_json(run.flow.name))
+}`;
+
 export default class WebhookForm extends React.Component<WebhookRouterFormProps, WebhookState> {
-    private methodOptions: { value: string; label: string }[];
+    private methodOptions: MethodOptions = [
+        { value: Methods.GET, label: Methods.GET },
+        { value: Methods.POST, label: Methods.POST },
+        { value: Methods.PUT, label: Methods.PUT }
+    ];
 
     constructor(props: WebhookRouterFormProps) {
         super(props);
-
-        let headers: Header[] = [];
-        let method: string = 'GET';
-
-        if (this.props.action) {
-            const { action } = this.props;
-            if (action.type === 'call_webhook') {
-                const webhookAction: CallWebhook = action as CallWebhook;
-
-                if (webhookAction.headers) {
-                    for (let key in webhookAction.headers) {
-                        headers = [
-                            ...headers,
-                            {
-                                name: key,
-                                value: webhookAction.headers[key],
-                                uuid: generateUUID()
-                            }
-                        ];
-                    }
-                }
-
-                method = webhookAction.method;
-            }
-        }
-
-        this.addEmptyHeader(headers);
 
         this.state = {
             resultName: null,
             setResultName: false,
             cases: [],
-            headers,
-            method,
-            operand: '@webhook'
+            operand: '@webhook',
+            ...this.getRequestAttrs()
         };
-
-        this.methodOptions = [{ value: 'GET', label: 'GET' }, { value: 'POST', label: 'POST' }];
 
         this.onValid = this.onValid.bind(this);
         this.onUpdateForm = this.onUpdateForm.bind(this);
-        this.onHeaderRemoved = this.onHeaderRemoved.bind(this);
-        this.onHeaderChanged = this.onHeaderChanged.bind(this);
         this.onMethodChanged = this.onMethodChanged.bind(this);
     }
 
-    addEmptyHeader(headers: Header[]) {
-        var hasEmpty = false;
-        for (let header of headers) {
-            if (header.name.trim().length == 0 && header.value.trim().length == 0) {
+    public onValid(widgets: { [name: string]: React.Component }): void {
+        if (this.props.translating) {
+            return this.props.saveLocalizedExits(widgets);
+        }
+
+        const urlEle = widgets.URL as TextInputElement;
+
+        // Determine method
+        let method: Methods = Methods.GET;
+        const methodEle = widgets.Method as SelectElement;
+        if (methodEle.state.value) {
+            method = methodEle.state.value;
+        }
+
+        // Determine body
+        let body = null;
+        if (method === Methods.POST) {
+            const bodyEle = widgets.Body as TextInputElement;
+            body = bodyEle.state.value;
+        }
+
+        // Go through any headers we have
+        const headers: { [name: string]: string } = {};
+        let header: HeaderElement = null;
+
+        Object.keys(widgets).forEach(key => {
+            if (key.startsWith('header_')) {
+                header = widgets[key] as HeaderElement;
+
+                const name = header.state.name.trim();
+
+                if (name.length > 0) {
+                    headers[name] = header.state.value.trim();
+                }
+            }
+        });
+
+        const uuid = this.props.action.uuid || generateUUID();
+
+        const newAction: CallWebhook = {
+            uuid,
+            type: this.props.config.type,
+            url: urlEle.state.value,
+            headers,
+            method,
+            body
+        };
+
+        const exits: Exit[] = [];
+        const cases: Case[] = [];
+        const details = this.props.ComponentMap.getDetails(this.props.node.uuid);
+
+        // If we were already a webhook, lean on those exits and cases
+        if (details && details.type === 'webhook') {
+            this.props.node.exits.forEach(exit => exits.push(exit));
+
+            (this.props.node.router as SwitchRouter).cases.forEach(kase => cases.push(kase));
+        } else {
+            // Otherwise, let's create some new ones
+            exits.push(
+                {
+                    uuid: generateUUID(),
+                    name: 'Success',
+                    destination_node_uuid: null
+                },
+                {
+                    uuid: generateUUID(),
+                    name: 'Failure',
+                    destination_node_uuid: null
+                }
+            );
+
+            cases.push({
+                uuid: generateUUID(),
+                type: 'has_webhook_status',
+                arguments: ['S'],
+                exit_uuid: exits[0].uuid
+            });
+        }
+
+        const router: SwitchRouter = {
+            type: 'switch',
+            operand: '@webhook',
+            cases,
+            default_exit_uuid: exits[1].uuid
+        };
+
+        // HACK: this should go away with modal <refactor></refactor>
+        const nodeUUID: string =
+            this.props.action && this.props.action.uuid === this.props.node.uuid
+                ? generateUUID()
+                : this.props.node.uuid;
+
+        this.props.updateRouter(
+            {
+                uuid: nodeUUID,
+                router,
+                exits,
+                actions: [newAction]
+            },
+            'webhook',
+            this.props.action
+        );
+    }
+
+    public onUpdateForm(widgets: { [name: string]: React.Component }): void {
+        if (this.props.showAdvanced) {
+            const methodEle = widgets.Method as SelectElement;
+            const { state: { value: method } } = methodEle;
+
+            if (method === Methods.GET) {
+                this.props.removeWidget('Body');
+            }
+
+            this.setState({
+                method
+            });
+        }
+    }
+
+    private onHeaderRemoved = (header: HeaderElement): void => {
+        const newHeaders = this.addEmptyHeader(
+            update(this.state.headers, { $splice: [[header.props.index, 1]] })
+        );
+
+        this.setState({ headers: newHeaders });
+        this.props.removeWidget(header.props.name);
+    };
+
+    private onHeaderChanged = (ele: HeaderElement): void => {
+        const { state: { name, value }, props: { header: { uuid } } } = ele;
+
+        const headers = this.addEmptyHeader(
+            update(this.state.headers, {
+                [ele.props.index]: {
+                    $set: {
+                        name,
+                        value,
+                        uuid
+                    } as Header
+                }
+            })
+        );
+
+        this.setState({ headers });
+    };
+
+    private onMethodChanged(method: Method): void {
+        this.setState({ method: method.value as Methods }, () => this.props.triggerFormUpdate());
+    }
+
+    private getRequestAttrs(): { headers: Header[]; method: Methods } {
+        let headers: Header[] = [];
+        let method: Methods = Methods.PUT;
+
+        if (this.props.action) {
+            if (this.props.action.type === 'call_webhook') {
+                const webhookAction = this.props.action as CallWebhook;
+
+                ({ method } = webhookAction);
+
+                if (webhookAction.headers) {
+                    headers = this.addEmptyHeader(
+                        Object.keys(webhookAction.headers).map(key => ({
+                            name: key,
+                            value: webhookAction.headers[key],
+                            uuid: generateUUID()
+                        }))
+                    );
+                }
+            }
+        }
+
+        return { headers, method };
+    }
+
+    private addEmptyHeader(headers: Header[]): Header[] {
+        const newHeaders = headers;
+        let hasEmpty: boolean = false;
+
+        for (const header of newHeaders) {
+            if (header.name.trim().length === 0 && header.value.trim().length === 0) {
                 hasEmpty = true;
                 break;
             }
         }
 
         if (!hasEmpty) {
-            headers.push({ name: '', value: '', uuid: generateUUID() });
-        }
-    }
-
-    onHeaderRemoved(header: HeaderElement) {
-        const newHeaders = update(this.state.headers, { $splice: [[header.props.index, 1]] });
-        this.addEmptyHeader(newHeaders);
-        this.setState({ headers: newHeaders });
-        this.props.removeWidget(header.props.name);
-    }
-
-    onHeaderChanged(ele: HeaderElement) {
-        const { name, value } = ele.state;
-
-        const newHeaders = update(this.state.headers, {
-            [ele.props.index]: {
-                $set: {
-                    name: name,
-                    value: value,
-                    uuid: ele.props.header.uuid
-                } as Header
-            }
-        });
-
-        this.addEmptyHeader(newHeaders);
-        this.setState({ headers: newHeaders });
-    }
-
-    onMethodChanged(method: { value: string; label: string }) {
-        this.setState({ method: method.value });
-        this.props.triggerFormUpdate();
-    }
-
-    public onUpdateForm(widgets: { [name: string]: React.Component }): void {
-        if (this.props.showAdvanced) {
-            var methodEle = widgets['Method'] as SelectElement;
-            if (methodEle.state.value == 'GET') {
-                this.props.removeWidget('Body');
-            }
-
-            this.setState({
-                method: methodEle.state.value
-            });
-        }
-    }
-
-    private renderAdvanced(): JSX.Element {
-        if (this.props.translating) {
-            return null;
+            newHeaders.push({ name: '', value: '', uuid: generateUUID() });
         }
 
-        var postBody = defaultBody;
+        return newHeaders;
+    }
+
+    private getFormAttrs(): { method: Methods; url: string } {
+        let method = Methods.GET;
+        let url = '';
+
         if (this.props.action) {
-            var action = this.props.action;
-            if (action.type == 'call_webhook') {
-                var webhookAction: CallWebhook = action as CallWebhook;
-                if (webhookAction.body) {
-                    postBody = webhookAction.body;
+            if (this.props.action.type === 'call_webhook') {
+                ({ method, url } = this.props.action as CallWebhook);
+            }
+        }
+
+        return {
+            method,
+            url
+        };
+    }
+
+    private getSummary(): JSX.Element {
+        const baseText: string = 'configure the headers';
+        const linkText: string =
+            this.state.method === Methods.GET ? baseText : `${baseText} and body`;
+
+        return (
+            <span>
+                If you need to, you can also{' '}
+                <a href="#" onClick={this.props.onToggleAdvanced}>
+                    {linkText}
+                </a>{' '}
+                for your request.
+            </span>
+        );
+    }
+
+    private getBody(): string {
+        let postBody: string = defaultBody;
+
+        if (this.props.action) {
+            if (this.props.action.type === 'call_webhook') {
+                if ((this.props.action as CallWebhook).body) {
+                    ({ body: postBody } = this.props.action as CallWebhook);
                 }
             }
         }
 
-        var headerElements: JSX.Element[] = [];
-        this.state.headers.map((header: Header, index: number) => {
-            headerElements.push(
-                <div key={header.uuid}>
-                    <HeaderElement
-                        ref={this.props.onBindAdvancedWidget}
-                        name={'header_' + index}
-                        header={header}
-                        onRemove={this.onHeaderRemoved}
-                        onChange={this.onHeaderChanged}
-                        index={index}
-                        ComponentMap={this.props.ComponentMap}
-                    />
-                </div>
-            );
-        });
-
-        var postForm = null;
-
-        if (this.state.method == 'POST') {
-            postForm = (
-                <div className={styles.post_body_form}>
-                    <h4>POST Body</h4>
-                    <p>Modify the body that is sent as part of your POST.</p>
-                    <TextInputElement
-                        __className={styles.post_body}
-                        ref={this.props.onBindAdvancedWidget}
-                        name="Body"
-                        showLabel={false}
-                        value={postBody}
-                        helpText="Modify the body of the POST sent to your webhook."
-                        autocomplete
-                        textarea
-                        required
-                        ComponentMap={this.props.ComponentMap}
-                    />
-                </div>
-            );
-        }
-        return (
-            <div>
-                <h4 className={styles.headers_title}>Headers</h4>
-                <p>
-                    Add any additional headers belows that you would like to send along with your
-                    request.
-                </p>
-                <FlipMove
-                    easing="ease-out"
-                    enterAnimation="accordionVertical"
-                    leaveAnimation="accordionVertical"
-                    duration={300}>
-                    {headerElements}
-                </FlipMove>
-                {postForm}
-            </div>
-        );
+        return postBody;
     }
 
     private renderForm(): JSX.Element {
@@ -231,50 +328,16 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
             return this.props.getExitTranslations();
         }
 
-        var method = 'GET';
-        var url = '';
+        const { method, url }: { method: Methods; url: string } = this.getFormAttrs();
 
-        var nodeUUID = this.props.node.uuid;
-
-        if (this.props.action) {
-            var action = this.props.action;
-            if (action.type == 'call_webhook') {
-                var webhookAction: CallWebhook = action as CallWebhook;
-                method = webhookAction.method;
-                url = webhookAction.url;
-            }
-        }
-
-        var summary = null;
-        if (this.state.method == 'GET') {
-            summary = (
-                <span>
-                    If you need to, you can also{' '}
-                    <a href="#" onClick={this.props.onToggleAdvanced}>
-                        modify the headers
-                    </a>{' '}
-                    for your request.{' '}
-                </span>
-            );
-        } else {
-            summary = (
-                <span>
-                    If you need to, you can also{' '}
-                    <a href="#" onClick={this.props.onToggleAdvanced}>
-                        modify the headers and body
-                    </a>{' '}
-                    for your request.{' '}
-                </span>
-            );
-        }
+        const summary: JSX.Element = this.getSummary();
 
         return (
             <div>
                 <p>
-                    Using a CallWebhook you can trigger actions in external services or fetch data
-                    to use in this Flow. Enter a URL to call below.
+                    Use this step to trigger actions in external services or fetch data to use in
+                    this Flow. Enter a URL to call below.
                 </p>
-
                 <div className={styles.method}>
                     <SelectElement
                         ref={this.props.onBindWidget}
@@ -290,22 +353,20 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                         name="URL"
                         placeholder="Enter a URL"
                         value={url}
-                        autocomplete
-                        required
-                        url
+                        autocomplete={true}
+                        required={true}
+                        url={true}
                         ComponentMap={this.props.ComponentMap}
                     />
                 </div>
-
                 <div className={styles.instructions}>
                     <p>
-                        {summary}If your server responds with JSON, each property will be added to
+                        {summary} If your server responds with JSON, each property will be added to
                         the Flow.
                     </p>
-                    <pre
-                        className={
-                            styles.code
-                        }>{`{ "product": "Solar Charging Kit", "stock level": 32 }`}</pre>
+                    <pre className={styles.code}>
+                        {'{ "product": "Solar Charging Kit", "stock level": 32 }'}
+                    </pre>
                     <p>
                         In this example{' '}
                         <span className={styles.example}>@webhook.json.product</span> and{' '}
@@ -317,111 +378,69 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         );
     }
 
-    public onValid(widgets: { [name: string]: React.Component }): void {
+    private renderAdvanced(): JSX.Element {
         if (this.props.translating) {
-            return this.props.saveLocalizedExits(widgets);
+            return null;
         }
 
-        var method = 'GET';
-        var body = null;
+        const body: string = this.getBody();
 
-        var methodEle = widgets['Method'] as SelectElement;
-        var urlEle = widgets['URL'] as TextInputElement;
+        const headerElements: JSX.Element[] = this.state.headers.map(
+            (header: Header, index: number) => (
+                <div key={header.uuid}>
+                    <HeaderElement
+                        ref={this.props.onBindAdvancedWidget}
+                        name={`header_${index}`}
+                        header={header}
+                        onRemove={this.onHeaderRemoved}
+                        onChange={this.onHeaderChanged}
+                        index={index}
+                        ComponentMap={this.props.ComponentMap}
+                    />
+                </div>
+            )
+        );
 
-        if (methodEle.state.value) {
-            method = methodEle.state.value;
-        }
+        const bodyForm: JSX.Element =
+            this.state.method === Methods.POST ? (
+                <div className={styles.bodyForm}>
+                    <h4>POST Body</h4>
+                    <p>Modify the body that is sent as part of your POST.</p>
+                    <TextInputElement
+                        __className={styles.body}
+                        ref={this.props.onBindAdvancedWidget}
+                        name="Body"
+                        showLabel={false}
+                        value={body}
+                        helpText="Modify the body of the POST request sent to your webhook."
+                        autocomplete={true}
+                        textarea={true}
+                        required={true}
+                        ComponentMap={this.props.ComponentMap}
+                    />
+                </div>
+            ) : null;
 
-        if (method == 'POST') {
-            var bodyEle = widgets['Body'] as TextInputElement;
-            body = bodyEle.state.value;
-        }
-
-        /** Go through any headers we have */
-        var headers: { [name: string]: string } = {};
-        var header: HeaderElement = null;
-        for (let key of Object.keys(widgets)) {
-            if (key.startsWith('header_')) {
-                header = widgets[key] as HeaderElement;
-                var name = header.state.name.trim();
-                var value = header.state.value.trim();
-                if (name.length > 0) {
-                    headers[name] = value;
-                }
-            }
-        }
-
-        var newAction: CallWebhook = {
-            uuid: this.props.getActionUUID(),
-            type: this.props.config.type,
-            url: urlEle.state.value,
-            headers: headers,
-            method: method,
-            body: body
-        };
-
-        // if we were already a webhook, lean on those exits and cases
-        var exits = [];
-        var cases: Case[];
-
-        var details = this.props.ComponentMap.getDetails(this.props.node.uuid);
-        if (details && details.type == 'webhook') {
-            exits = this.props.node.exits;
-            cases = (this.props.node.router as SwitchRouter).cases;
-        } else {
-            // otherwise, let's create some new ones
-            exits = [
-                {
-                    uuid: generateUUID(),
-                    name: 'Success',
-                    destination_node_uuid: null
-                },
-                {
-                    uuid: generateUUID(),
-                    name: 'Failure',
-                    destination_node_uuid: null
-                }
-            ];
-
-            cases = [
-                {
-                    uuid: generateUUID(),
-                    type: 'has_webhook_status',
-                    arguments: ['S'],
-                    exit_uuid: exits[0].uuid
-                }
-            ];
-        }
-
-        var router: SwitchRouter = {
-            type: 'switch',
-            operand: '@webhook',
-            cases: cases,
-            default_exit_uuid: exits[1].uuid
-        };
-
-        // HACK: this should go away with modal <refactor></refactor>
-        var nodeUUID = this.props.node.uuid;
-        if (this.props.action && this.props.action.uuid == nodeUUID) {
-            nodeUUID = generateUUID();
-        }
-
-        this.props.updateRouter(
-            {
-                uuid: nodeUUID,
-                router,
-                exits,
-                actions: [newAction]
-            },
-            'webhook',
-            this.props.action
+        return (
+            <div>
+                <h4 className={styles.headers_title}>Headers</h4>
+                <p className={styles.info}>
+                    Add any additional headers below that you would like to send along with your
+                    request.
+                </p>
+                <FlipMove
+                    easing="ease-out"
+                    enterAnimation="accordionVertical"
+                    leaveAnimation="accordionVertical"
+                    duration={300}>
+                    {headerElements}
+                </FlipMove>
+                {bodyForm}
+            </div>
         );
     }
 
-    render(): JSX.Element {
-        if (this.props.showAdvanced) {
-            return this.renderAdvanced();
-        }
-        return this.renderForm();
+    public render(): JSX.Element {
+        return this.props.showAdvanced ? this.renderAdvanced() : this.renderForm();
     }
 }
