@@ -588,7 +588,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                                         carriers that send your messages. For example, the count{' '}
                                         <b>67/2</b> indicates that the current message will be split
                                         into <b>2</b> messages and you have <b>67</b> characters
-                                        left until it's split into <b>3</b> messages.
+                                        left until it will be split into <b>3</b> messages.
                                     </span>
                                 </div>
                             </span>

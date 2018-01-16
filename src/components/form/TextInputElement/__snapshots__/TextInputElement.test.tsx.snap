@@ -888,7 +888,7 @@ exports[`TextInputElement > render > should display count 1`] = `
     <b>
       67
     </b>
-     characters left until it's split into 
+     characters left until it will be split into 
     <b>
       3
     </b>
