@@ -211,7 +211,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             }
         }
 
-        // Account for drag (ghost) nodes
+        // Account for ghost nodes
         if (this.props.node) {
             if (this.props.node.router) {
                 return this.props.node.router.type;
