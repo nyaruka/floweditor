@@ -10,40 +10,52 @@ import {
     SwitchRouter,
     Exit,
     Node,
-    UINode
+    UINode,
+    Methods
 } from '../../flowTypes';
 import { Type, Mode } from '../../providers/ConfigProvider/typeConfigs';
 import { Language } from '../LanguageSelector';
-import { ReplyFormProps } from '../actions/Reply/ReplyForm';
-import { ChangeGroupFormProps } from '../actions/ChangeGroup/ChangeGroupForm';
-import { SaveFlowResultFormProps } from '../actions/SaveFlowResult/SaveFlowResultForm';
-import { SendEmailFormProps } from '../actions/SendEmail/SendEmailForm';
-import { SaveToContactFormProps } from '../actions/SaveToContact/SaveToContactForm';
-import { SubflowRouterFormProps } from '../routers/SubflowRouter';
-import { SwitchRouterFormProps } from '../routers/SwitchRouter';
-import { WebhookRouterFormProps } from '../routers/WebhookRouter';
 import ComponentMap from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
-import TypeListComp from './TypeList';
+import TypeList from './TypeList';
 import TextInputElement from '../form/TextInputElement';
-import { getTypeConfigPT } from '../../providers/ConfigProvider/propTypes';
+import FormContainer from './FormContainer';
+import { getTypeConfigPT, typeConfigListPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
 import * as formStyles from './NodeEditor.scss';
 import * as shared from '../shared.scss';
+
+export class Widget extends React.Component<{ name: string }> {
+    public validate(): void {
+        return;
+    }
+}
+
+export class Form extends React.Component<FormProps> {
+    public onUpdateForm(widgets: Widgets): void {
+        return;
+    }
+
+    public onValid(widgets: Widgets): void {
+        return;
+    }
+}
+
+export interface Widgets {
+    [name: string]: Widget;
+}
 
 export interface FormProps {
     showAdvanced: boolean;
     node: Node;
     translating: boolean;
     language: Language;
-    action?: AnyAction;
-    localizations?: LocalizedObject[];
     definition: FlowDefinition;
     config: Type;
     ComponentMap: ComponentMap;
     updateAction(action: AnyAction): void;
-    onBindWidget(ref: any): void;
+    onBindWidget(ref: React.Component): void;
     onBindAdvancedWidget(ref: any): void;
     updateLocalizations(
         language: string,
@@ -55,9 +67,10 @@ export interface FormProps {
     triggerFormUpdate(): void;
     onToggleAdvanced(): void;
     getLocalizedObject: Function;
-    getLocalizedExits(widgets: { [name: string]: any }): Array<{ uuid: string; translations: any }>;
-    saveLocalizedExits(widgets: { [name: string]: any }): void;
-    getActionUUID: Function;
+    getLocalizedExits(widgets: Widgets): Array<{ uuid: string; translations: any }>;
+    saveLocalizedExits(widgets: Widgets): void;
+    action?: AnyAction;
+    localizations?: LocalizedObject[];
 }
 
 export interface NodeEditorProps {
@@ -73,7 +86,6 @@ export interface NodeEditorProps {
     onUpdateLocalizations: Function;
     onUpdateAction: Function;
     onUpdateRouter: Function;
-    /** Perform when editor is closed */
     onClose?(canceled: boolean): void;
     ComponentMap: ComponentMap;
 }
@@ -83,28 +95,18 @@ export interface NodeEditorState {
     show: boolean;
 }
 
-export const FormContainer: React.SFC<{
-    onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void;
-    styles?: string;
-}> = ({ children, onKeyPress, styles }) => (
-    <div className={styles ? styles : null}>
-        <div className={formStyles.node_editor}>
-            <form onKeyPress={onKeyPress}>{children}</form>
-        </div>
-    </div>
-);
-
 export default class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorState> {
     private modal: Modal;
-    private form: any;
-    private advanced: any;
-    private widgets: { [name: string]: any } = {};
+    private form: Form;
+    private advanced: Form;
+    private widgets: Widgets = {};
     private advancedWidgets: { [name: string]: boolean } = {};
     private initialButtons: ButtonSet;
     private temporaryButtons?: ButtonSet;
 
     public static contextTypes = {
-        getTypeConfig: getTypeConfigPT
+        getTypeConfig: getTypeConfigPT,
+        typeConfigList: typeConfigListPT
     };
 
     constructor(props: NodeEditorProps, context: ConfigProviderContext) {
@@ -125,7 +127,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         this.formRef = this.formRef.bind(this);
         this.modalRef = this.modalRef.bind(this);
         this.getLocalizedObject = this.getLocalizedObject.bind(this);
-        this.getActionUUID = this.getActionUUID.bind(this);
         this.getExitTranslations = this.getExitTranslations.bind(this);
         this.getLocalizedExits = this.getLocalizedExits.bind(this);
         this.saveLocalizedExits = this.saveLocalizedExits.bind(this);
@@ -139,7 +140,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         this.removeWidget = this.removeWidget.bind(this);
     }
 
-    private formRef(ref: React.Component<{}>): React.Component<{}> {
+    private formRef(ref: Form): Form {
         return (this.form = ref);
     }
 
@@ -148,7 +149,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     // Make NodeEditor aware of base form inputs
-    public onBindWidget(widget: any): void {
+    public onBindWidget(widget: Widget): void {
         if (widget) {
             if (this.widgets) {
                 this.widgets[widget.props.name] = widget;
@@ -157,7 +158,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     // Make NodeEditor aware of advanced form inputs
-    public onBindAdvancedWidget(widget: any): void {
+    public onBindAdvancedWidget(widget: Widget): void {
         if (widget) {
             this.onBindWidget(widget);
 
@@ -211,9 +212,14 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             }
         }
 
+        // Account for drag (ghost) nodes
         if (this.props.node) {
             if (this.props.node.router) {
                 return this.props.node.router.type;
+            }
+
+            if (this.props.node.actions) {
+                return this.props.node.actions[0].type;
             }
         }
 
@@ -232,18 +238,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         if (this.props.localizations && this.props.localizations.length) {
             return this.props.localizations[0];
         }
-    }
-
-    private getActionUUID(): string {
-        if (this.props.action) {
-            if (this.props.action.uuid) {
-                return this.props.action.uuid;
-            }
-
-            return generateUUID();
-        }
-
-        return generateUUID();
     }
 
     private getLocalizedExits(widgets: {
@@ -270,7 +264,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         }, []);
     }
 
-    private saveLocalizedExits(widgets: { [name: string]: any }): void {
+    private saveLocalizedExits(widgets: Widgets): void {
         const exits = this.getLocalizedExits(widgets);
         const { iso } = this.props.language;
 
@@ -294,7 +288,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     (localizedObject: LocalizedObject) =>
                         localizedObject.getObject().uuid === exitUUID
                 );
-
 
                 if (localized) {
                     let value = '';
@@ -423,6 +416,48 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         delete this.widgets[name];
     }
 
+    /**
+     * Compose a localActions map that includes the fully-formed current action (if any)
+     * and a bare-bones representation of every other possible action.
+     */
+    private getAction(): AnyAction {
+        if (this.props.action) {
+            return this.props.action;
+        } else {
+            const action: any = {
+                type: this.state.config.type,
+                uuid: generateUUID()
+            };
+
+            switch (this.state.config.type) {
+                case 'reply':
+                    action.text = '';
+                    action.all_urns = false;
+                case 'add_to_group' || 'remove_from_group':
+                    action.groups = null;
+                case 'save_contact_field':
+                    action.field_uuid = null;
+                    action.field_name = null;
+                    action.value = '';
+                case 'send_email':
+                    action.subject = '';
+                    action.body = '';
+                    action.emails = null;
+                case 'save_flow_result':
+                    action.resultName = '';
+                    action.value = '';
+                case 'call_webhook':
+                    action.url = '';
+                    action.method = Methods.GET;
+                case 'start_flow':
+                    action.flow_name = null;
+                    action.flow_uuid = null;
+            }
+
+            return action;
+        }
+    }
+
     private getMode(): Mode {
         if (this.props.translating) {
             return Mode.TRANSLATING;
@@ -470,28 +505,36 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     private getTypeList(): JSX.Element {
-        let typeList: JSX.Element = null;
+        if (!this.props.translating) {
+            let className: string = '';
 
-        if (!this.props.localizations || !this.props.localizations.length) {
-            typeList = (
-                <TypeListComp
-                    className={
-                        this.state.config.type === 'wait_for_response' ||
-                        this.state.config.type === 'expression'
-                            ? formStyles.type_chooser_switch
-                            : formStyles.type_chooser
-                    }
-                    /** NodeEditor */
+            if (
+                this.state.config.type === 'wait_for_response' ||
+                this.state.config.type === 'expression'
+            ) {
+                ({ type_chooser_switch: className } = formStyles);
+            } else {
+                ({ type_chooser: className } = formStyles);
+            }
+
+            return (
+                <TypeList
+                    className={className}
+                    // NodeEditor
                     initialType={this.state.config}
                     onChange={this.onTypeChange}
                 />
             );
         }
 
-        return typeList;
+        return null;
     }
 
+    /**
+     * Returns existing action (if any), or a bare-bones representation of the form's action.
+     */
     private getSides(): { front: JSX.Element; back: JSX.Element } {
+        const action = this.getAction();
         const formProps = {
             // Node
             node: this.props.node,
@@ -500,7 +543,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             definition: this.props.definition,
             ComponentMap: this.props.ComponentMap,
             config: this.state.config,
-            action: this.props.action,
+            action,
             localizations: this.props.localizations,
             updateLocalizations: (
                 language: string,
@@ -508,18 +551,14 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             ) => {
                 this.props.onUpdateLocalizations(language, changes);
             },
-            updateAction: (action: Action) => {
-                this.props.onUpdateAction(this.props.node, action);
-            },
-            updateRouter: (node: Node, type: string, previousAction?: Action) => {
-                this.props.onUpdateRouter(node, type, previousAction);
-            },
+            updateAction: (action: Action) => this.props.onUpdateAction(this.props.node, action),
+            updateRouter: (node: Node, type: string, previousAction?: Action) =>
+                this.props.onUpdateRouter(node, type, previousAction),
             // NodeEditor
             onTypeChange: this.onTypeChange,
             getLocalizedExits: this.getLocalizedExits,
             getLocalizedObject: this.getLocalizedObject,
             saveLocalizedExits: this.saveLocalizedExits,
-            getActionUUID: this.getActionUUID,
             getExitTranslations: this.getExitTranslations,
             onBindWidget: this.onBindWidget,
             onBindAdvancedWidget: this.onBindAdvancedWidget,
@@ -529,14 +568,14 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             removeWidget: this.removeWidget
         };
 
-        const { config: { form: Form } }: NodeEditorState = this.state;
+        const { config: { form: FormComp } }: NodeEditorState = this.state;
 
         const typeList = this.getTypeList();
 
         const front = (
             <FormContainer key={'fc-front'} onKeyPress={this.onKeyPress}>
                 {typeList}
-                <Form ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />
+                <FormComp ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />
             </FormContainer>
         );
 
@@ -548,7 +587,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     key={'fc-back'}
                     onKeyPress={this.onKeyPress}
                     styles={formStyles.advanced}>
-                    <Form ref={this.formRef} {...{ ...formProps, showAdvanced: true }} />
+                    <FormComp ref={this.formRef} {...{ ...formProps, showAdvanced: true }} />
                 </FormContainer>
             );
         }

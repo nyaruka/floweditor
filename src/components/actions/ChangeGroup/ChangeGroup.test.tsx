@@ -9,13 +9,9 @@ const {
 const { nodes: [node], language: flowLanguage } = definition;
 const { actions: [, addToGroupAction] } = node;
 const { uuid, type, groups: [{ name: groupName }] } = addToGroupAction as ChangeGroup;
+const ChangeGroupDivShallow = shallow(<ChangeGroupComp {...addToGroupAction as ChangeGroup} />);
 
 describe('Component: ChangeGroup', () => {
-    it('should render ChangeGroupComp with group name', () => {
-        const ChangeGroupDivShallow = shallow(
-            <ChangeGroupComp {...addToGroupAction as ChangeGroup} />
-        );
-
-        expect(ChangeGroupDivShallow.text()).toBe(groupName);
-    });
+    it('should render ChangeGroupComp with group name', () =>
+        expect(ChangeGroupDivShallow.text()).toBe(groupName));
 });

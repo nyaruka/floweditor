@@ -1,4 +1,4 @@
-/** React v16 polyfills (https://reactjs.org/docs/javascript-environment-requirements.html) */
+// React v16 polyfills (https://reactjs.org/docs/javascript-environment-requirements.html)
 import 'core-js/es6/map';
 import 'core-js/es6/set';
 import 'raf/polyfill';
@@ -13,13 +13,15 @@ import 'react-select/dist/react-select.css';
 import '../fonts/flows/style.css';
 import './global.scss';
 
-const root = document.getElementById('flow-editor');
+const root: HTMLElement = document.getElementById('flow-editor');
 
 // if (__flow_editor_config__.hasOwnProperty('path')) {
 //     __webpack_public_path__ = __flow_editor_config__.path;
 // }
 
-const renderHot = (App: React.ComponentClass) =>
+const renderHot = (
+    App: React.ComponentClass
+): void | Element | React.Component<any, React.ComponentState> =>
     render(
         <HotContainer>
             <ConfigProvider>

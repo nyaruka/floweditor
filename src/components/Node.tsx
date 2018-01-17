@@ -416,6 +416,8 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                         this.props.translations
                     );
 
+                    const first: boolean = idx === 0;
+
                     const actionProps: ActionProps = {
                         // Flow
                         node: this.props.node,
@@ -429,7 +431,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                         /** Node */
                         dragging: this.state.dragging,
                         action,
-                        first: idx === 0,
+                        first,
                         hasRouter:
                             this.props.node.hasOwnProperty('router') &&
                             (this.props.node.router !== undefined ||

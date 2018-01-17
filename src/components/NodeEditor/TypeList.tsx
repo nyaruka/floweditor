@@ -36,13 +36,11 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
             {
                 config
             },
-            () => {
-                this.props.onChange(config);
-            }
+            () => this.props.onChange(config)
         );
     }
 
-    render(): JSX.Element {
+    public render(): JSX.Element {
         return (
             <div className={this.props.className}>
                 <div className={formStyles.intro}>

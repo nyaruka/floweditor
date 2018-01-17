@@ -4,7 +4,7 @@ import Select from 'react-select';
 import { toBoolMap, getSelectClass } from '../../helpers/utils';
 import FormElement, { FormElementProps } from './FormElement';
 import ComponentMap, { SearchResult } from '../../services/ComponentMap';
-import SelectSearch from '../SelectSearch';
+import SelectSearch from './SelectSearch';
 
 import * as styles from './FormElement.scss';
 
@@ -24,6 +24,10 @@ interface FieldState {
     errors: string[];
 }
 
+export const placeholder: string =
+    'Enter the name of an existing group, or create a new group to add the contact to';
+export const notFound: string = 'Invalid field name';
+
 export default class FieldElement extends React.Component<FieldElementProps, FieldState> {
     constructor(props: any) {
         super(props);
@@ -38,13 +42,13 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
         this.createNewOption = this.createNewOption.bind(this);
     }
 
-    onChange([field]: any) {
+    private onChange([field]: any): void {
         this.setState({
             field
         });
     }
 
-    validate(): boolean {
+    public validate(): boolean {
         const errors: string[] = [];
 
         if (this.props.required) {
@@ -55,10 +59,10 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
 
         this.setState({ errors });
 
-        return errors.length == 0;
+        return errors.length === 0;
     }
 
-    isValidNewOption({ label }: { label: string }): boolean {
+    private isValidNewOption({ label }: { label: string }): boolean {
         if (!label) {
             return false;
         }
@@ -73,7 +77,7 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
         );
     }
 
-    createNewOption({ label }: { label: string }): SearchResult {
+    private createNewOption({ label }: { label: string }): SearchResult {
         const newOption: SearchResult = {
             id: generateUUID(),
             name: label,
@@ -84,33 +88,30 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
         return newOption;
     }
 
-    render() {
-        let createOptions = {};
+    public render(): JSX.Element {
+        const createOptions: any = {};
 
         if (this.props.add) {
-            createOptions = {
-                isValidNewOption: this.isValidNewOption,
-                createNewOption: this.createNewOption,
-                createPrompt: 'New Field: '
-            };
+            createOptions.isValidNewOption = this.isValidNewOption;
+            createOptions.createNewOption = this.createNewOption;
+            createOptions.createPrompt = 'New Field: ';
         }
 
-        const initial: SearchResult[] = [];
+        const initial: SearchResult[] = this.state.field ? [this.state.field] : [];
 
-        if (this.state.field) {
-            initial.push(this.state.field);
-        }
+        const className: string = getSelectClass(this.state.errors.length);
 
-        const classes: string[] = getSelectClass(this.state.errors.length);
+        const fieldError = this.state.errors.length > 0;
 
         return (
             <FormElement
                 showLabel={this.props.showLabel}
                 name={this.props.name}
                 helpText={this.props.helpText}
-                errors={this.state.errors}>
+                errors={this.state.errors}
+                fieldError={fieldError}>
                 <SelectSearch
-                    className={classes.join(' ')}
+                    className={className}
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
@@ -119,6 +120,8 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
                     multi={false}
                     clearable={false}
                     initial={initial}
+                    searchPromptText={notFound}
+                    placeholder={placeholder}
                     {...createOptions}
                 />
             </FormElement>

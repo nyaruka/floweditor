@@ -4,7 +4,7 @@ import { Endpoints, SaveToContact, UpdateContact } from '../../../flowTypes';
 import { FormProps } from '../../NodeEditor';
 import ComponentMap from '../../../services/ComponentMap';
 import { toBoolMap } from '../../../helpers/utils';
-import SelectSearch from '../../SelectSearch';
+import SelectSearch from '../../form/SelectSearch';
 import { SearchResult } from '../../../services/ComponentMap';
 import FieldElement from '../../form/FieldElement';
 import TextInputElement from '../../form/TextInputElement';
@@ -33,7 +33,6 @@ const reserved = toBoolMap([
 
 export interface SaveToContactFormProps extends FormProps {
     action: SaveToContact;
-    getActionUUID(): string;
     updateAction(action: SaveToContact): void;
     onBindWidget(ref: any): void;
     ComponentMap: ComponentMap;
@@ -57,7 +56,7 @@ export default class SaveToContactForm extends React.PureComponent<SaveToContact
         } = widgets.Field as FieldElement;
 
         const newAction: any = {
-            uuid: this.props.getActionUUID(),
+            uuid: this.props.action.uuid,
             value
         };
 
@@ -90,33 +89,31 @@ export default class SaveToContactForm extends React.PureComponent<SaveToContact
     }
 
     public render(): JSX.Element {
+        const {
+            type: actionType,
+            field_uuid: fieldUUID,
+            field_name: fieldName
+        } = this.props.action;
+
         let initial: SearchResult;
 
-        if (this.props.action) {
-            const {
-                type: actionType,
-                field_uuid: fieldUUID,
-                field_name: fieldName
-            } = this.props.action;
-
-            if (actionType === 'save_contact_field') {
-                initial = {
-                    id: fieldUUID,
-                    name: fieldName,
-                    type: 'field'
-                };
-            } else if (actionType === 'update_contact') {
-                initial = {
-                    id: fieldName.toLowerCase(),
-                    name: fieldName,
-                    type: 'update_contact'
-                };
-            }
+        if (actionType === 'save_contact_field') {
+            initial = {
+                id: fieldUUID,
+                name: fieldName,
+                type: 'field'
+            };
+        } else if (actionType === 'update_contact') {
+            initial = {
+                id: fieldName.toLowerCase(),
+                name: fieldName,
+                type: 'update_contact'
+            };
         }
 
         let value = '';
 
-        if (this.props.action && this.props.action.value) {
+        if (this.props.action.value) {
             ({ action: { value } } = this.props);
         }
 

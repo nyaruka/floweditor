@@ -1,6 +1,5 @@
-// ReplyForm
-
 import * as React from 'react';
+import { v4 as generateUUID } from 'uuid';
 import { Reply } from '../../../flowTypes';
 import { Language } from '../../LanguageSelector';
 import { Type } from '../../../providers/ConfigProvider/typeConfigs';
@@ -18,6 +17,7 @@ export interface ReplyFormProps {
     config: Type;
     translating: boolean;
     ComponentMap: ComponentMap;
+    actionUUID: string;
     updateAction(action: Reply): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
@@ -26,7 +26,6 @@ export interface ReplyFormProps {
         changes: Array<{ uuid: string; translations: any }>
     ): void;
     getLocalizedObject(): LocalizedObject;
-    getActionUUID(): string;
 }
 
 export default class ReplyForm extends React.Component<ReplyFormProps> {
@@ -37,11 +36,10 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        const localizedObject = this.props.getLocalizedObject();
         const textarea = widgets.Message as TextInputElement;
         const sendAll = widgets['All Destinations'] as CheckboxElement;
 
-        if (localizedObject) {
+        if (this.props.translating) {
             const translation = textarea.state.value.trim();
 
             if (translation) {
@@ -55,7 +53,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
             }
         } else {
             const newAction: Reply = {
-                uuid: this.props.getActionUUID(),
+                uuid: this.props.action.uuid,
                 type: this.props.config.type,
                 text: textarea.state.value
             };
@@ -91,9 +89,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                 ({ text } = localizedObject.getObject() as Reply);
             }
         } else {
-            if (this.props.action) {
-                ({ text } = this.props.action);
-            }
+            ({ text } = this.props.action);
         }
 
         const required: boolean = !this.props.translating;
@@ -113,25 +109,18 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                     required={required}
                     textarea={true}
                     ComponentMap={this.props.ComponentMap}
+                    config={this.props.config}
                 />
             </div>
         );
     }
 
     private renderAdvanced(): JSX.Element {
-        let sendAll: boolean;
-
-        if (this.props.action) {
-            sendAll = this.props.action.all_urns;
-        } else {
-            sendAll = false;
-        }
-
         return (
             <CheckboxElement
                 ref={this.props.onBindAdvancedWidget}
                 name="All Destinations"
-                defaultValue={sendAll}
+                defaultValue={this.props.action.all_urns}
                 description="Send a message to all destinations known for this contact."
             />
         );

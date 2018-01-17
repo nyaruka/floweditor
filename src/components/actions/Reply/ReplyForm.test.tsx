@@ -22,7 +22,6 @@ const props: Partial<ReplyFormProps> = {
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
     onBindAdvancedWidget: jest.fn(),
-    getActionUUID: jest.fn(() => action.uuid),
     getLocalizedObject: jest.fn(),
     updateLocalizations: jest.fn(),
     ComponentMap: CompMap
