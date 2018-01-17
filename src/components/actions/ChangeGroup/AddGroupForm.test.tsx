@@ -28,9 +28,12 @@ const props: ChangeGroupFormProps = {
 const { groups: [{ uuid, name }] } = action;
 const groups = [{ group: uuid, name }];
 const localGroups = [{ id: uuid, name, type: 'group' }];
-const Form: ReactWrapper = mount(<AddGroupForm {...{...props, action: {...action, type: 'remove_from_group'}}} />, {
-    context
-});
+const Form: ReactWrapper = mount(
+    <AddGroupForm {...{ ...props, action: { ...action, type: 'remove_from_group' } }} />,
+    {
+        context
+    }
+);
 
 describe('AddGroupForm >', () => {
     describe('render >', () => {
@@ -55,12 +58,9 @@ describe('AddGroupForm >', () => {
         });
 
         it("should pass GroupElement groups to remove if previous action was of type 'add_to_group'", () => {
-            const FormNewAction: ReactWrapper = mount(
-                <AddGroupForm {...props} />,
-                {
-                    context
-                }
-            );
+            const FormNewAction: ReactWrapper = mount(<AddGroupForm {...props} />, {
+                context
+            });
 
             expect(FormNewAction.find('GroupElement').props()).toEqual({
                 name: 'Group',
@@ -72,5 +72,6 @@ describe('AddGroupForm >', () => {
                 required: true,
                 searchPromptText: notFound
             });
+        });
     });
 });

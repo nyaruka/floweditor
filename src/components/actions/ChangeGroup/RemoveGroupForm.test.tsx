@@ -77,17 +77,17 @@ describe('RemoveGroupForm >', () => {
                 searchPromptText: notFound
             });
         });
-    });
 
-    it("should render only the 'Remove from Group' checkbox element when it's checked", () => {
-        Form.find('CheckboxElement')
-            .find('input')
-            .simulate('change');
+        it("should render only the 'Remove from Group' checkbox element when it's checked", () => {
+            Form.find('CheckboxElement')
+                .find('input')
+                .simulate('change');
 
-        const FieldContainer = getSpecWrapper(Form, 'field-container');
+            const FieldContainer = getSpecWrapper(Form, 'field-container');
 
-        expect(Form.state('removeFromAll')).toBeTruthy();
-        expect(FieldContainer.children()).toHaveLength(1);
-        expect(FieldContainer.find('CheckboxElement').exists()).toBeTruthy();
+            expect(Form.state('removeFromAll')).toBeTruthy();
+            expect(FieldContainer.children()).toHaveLength(1);
+            expect(FieldContainer.find('CheckboxElement').exists()).toBeTruthy();
+        });
     });
 });
