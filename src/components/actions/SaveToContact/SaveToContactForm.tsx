@@ -55,10 +55,8 @@ export default class SaveToContactForm extends React.PureComponent<SaveToContact
             state: { field: { type: fieldType, name: fieldName, id: fieldUUID } }
         } = widgets.Field as FieldElement;
 
-        const uuid: string = !this.props.action ? generateUUID() : this.props.action.uuid;
-
         const newAction: any = {
-            uuid,
+            uuid: this.props.action.uuid,
             value
         };
 
@@ -91,33 +89,31 @@ export default class SaveToContactForm extends React.PureComponent<SaveToContact
     }
 
     public render(): JSX.Element {
+        const {
+            type: actionType,
+            field_uuid: fieldUUID,
+            field_name: fieldName
+        } = this.props.action;
+
         let initial: SearchResult;
 
-        if (this.props.action) {
-            const {
-                type: actionType,
-                field_uuid: fieldUUID,
-                field_name: fieldName
-            } = this.props.action;
-
-            if (actionType === 'save_contact_field') {
-                initial = {
-                    id: fieldUUID,
-                    name: fieldName,
-                    type: 'field'
-                };
-            } else if (actionType === 'update_contact') {
-                initial = {
-                    id: fieldName.toLowerCase(),
-                    name: fieldName,
-                    type: 'update_contact'
-                };
-            }
+        if (actionType === 'save_contact_field') {
+            initial = {
+                id: fieldUUID,
+                name: fieldName,
+                type: 'field'
+            };
+        } else if (actionType === 'update_contact') {
+            initial = {
+                id: fieldName.toLowerCase(),
+                name: fieldName,
+                type: 'update_contact'
+            };
         }
 
         let value = '';
 
-        if (this.props.action && this.props.action.value) {
+        if (this.props.action.value) {
             ({ action: { value } } = this.props);
         }
 
