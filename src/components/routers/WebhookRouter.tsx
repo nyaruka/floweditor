@@ -120,10 +120,8 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
             }
         });
 
-        const uuid = this.props.action.uuid || generateUUID();
-
         const newAction: CallWebhook = {
-            uuid,
+            uuid: this.props.action.uuid,
             type: this.props.config.type,
             url: urlEle.state.value,
             headers,
@@ -172,9 +170,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
 
         // HACK: this should go away with modal <refactor></refactor>
         const nodeUUID: string =
-            this.props.action && this.props.action.uuid === this.props.node.uuid
-                ? generateUUID()
-                : this.props.node.uuid;
+            this.props.action.uuid === this.props.node.uuid ? generateUUID() : this.props.node.uuid;
 
         this.props.updateRouter(
             {
@@ -238,22 +234,16 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         let headers: Header[] = [];
         let method: Methods = Methods.PUT;
 
-        if (this.props.action) {
-            if (this.props.action.type === 'call_webhook') {
-                const webhookAction = this.props.action as CallWebhook;
+        ({ method } = this.props.action as CallWebhook);
 
-                ({ method } = webhookAction);
-
-                if (webhookAction.headers) {
-                    headers = this.addEmptyHeader(
-                        Object.keys(webhookAction.headers).map(key => ({
-                            name: key,
-                            value: webhookAction.headers[key],
-                            uuid: generateUUID()
-                        }))
-                    );
-                }
-            }
+        if ((this.props.action as CallWebhook).headers) {
+            headers = this.addEmptyHeader(
+                Object.keys((this.props.action as CallWebhook).headers).map(key => ({
+                    name: key,
+                    value: (this.props.action as CallWebhook).headers[key],
+                    uuid: generateUUID()
+                }))
+            );
         }
 
         return { headers, method };
@@ -278,14 +268,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
     }
 
     private getFormAttrs(): { method: Methods; url: string } {
-        let method = Methods.GET;
-        let url = '';
-
-        if (this.props.action) {
-            if (this.props.action.type === 'call_webhook') {
-                ({ method, url } = this.props.action as CallWebhook);
-            }
-        }
+        const { method, url } = this.props.action as CallWebhook;
 
         return {
             method,
@@ -312,12 +295,8 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
     private getBody(): string {
         let postBody: string = defaultBody;
 
-        if (this.props.action) {
-            if (this.props.action.type === 'call_webhook') {
-                if ((this.props.action as CallWebhook).body) {
-                    ({ body: postBody } = this.props.action as CallWebhook);
-                }
-            }
+        if ((this.props.action as CallWebhook).body) {
+            ({ body: postBody } = this.props.action as CallWebhook);
         }
 
         return postBody;
