@@ -19,7 +19,7 @@ const context = {
     endpoints
 };
 const props: ChangeGroupFormProps = {
-    action,
+    action: { ...action, type: 'remove_from_group' },
     config: typeConfig,
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
@@ -43,8 +43,28 @@ describe('RemoveGroupForm >', () => {
 
         it("should call 'onBindWidget'", () => expect(props.onBindWidget).toBeCalled());
 
-        it("should pass GroupElement an empty 'groups' prop if existing action isn't of type 'remove_from_group", () => {
+        it('should pass GroupElement groups to remove if action has groups', () => {
             expect(Form.find('GroupElement').props()).toEqual({
+                name: 'Group',
+                placeholder,
+                endpoint: endpoints.groups,
+                groups,
+                localGroups,
+                add: false,
+                required: true,
+                searchPromptText: notFound
+            });
+        });
+
+        it("should pass GroupElement an empty 'groups' prop if action doesn't have groups", () => {
+            const GroupsNull: ReactWrapper = mount(
+                <RemoveGroupForm {...{ ...props, action: { ...props.action, groups: null } }} />,
+                {
+                    context
+                }
+            );
+
+            expect(GroupsNull.find('GroupElement').props()).toEqual({
                 name: 'Group',
                 placeholder,
                 endpoint: endpoints.groups,
@@ -56,21 +76,21 @@ describe('RemoveGroupForm >', () => {
             });
         });
 
-        it("should pass GroupElement groups to remove if existing action is of type 'remove_from_group'", () => {
-            const FormNewAction: ReactWrapper = mount(
+        it("should pass GroupElement an empty 'groups' prop if action is of type 'add_to_group'", () => {
+            const RemoveGroup: ReactWrapper = mount(
                 <RemoveGroupForm
-                    {...{ ...props, action: { ...action, type: 'remove_from_group' } }}
+                    {...{ ...props, action: { ...props.action, type: 'add_to_group' } }}
                 />,
                 {
                     context
                 }
             );
 
-            expect(FormNewAction.find('GroupElement').props()).toEqual({
+            expect(RemoveGroup.find('GroupElement').props()).toEqual({
                 name: 'Group',
                 placeholder,
                 endpoint: endpoints.groups,
-                groups,
+                groups: [],
                 localGroups,
                 add: false,
                 required: true,
