@@ -31,10 +31,8 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
 
         const emails = emailAddresses.map(({ value }) => value);
 
-        const uuid: string = !this.props.action ? generateUUID() : this.props.action.uuid;
-
         const newAction: SendEmail = {
-            uuid,
+            uuid: this.props.action.uuid,
             type: this.props.config.type,
             body,
             subject,
@@ -45,21 +43,13 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
     }
 
     public render(): JSX.Element {
-        let emails: string[] = [];
-        let subject = '';
-        let body = '';
-
-        if (this.props.action && this.props.action.type === 'send_email') {
-            ({ emails, subject, body } = this.props.action);
-        }
-
         return (
             <div className={styles.ele}>
                 <EmailElement
                     ref={this.props.onBindWidget}
                     name="Recipient"
                     placeholder="To"
-                    emails={emails}
+                    emails={this.props.action.emails}
                     required={true}
                 />
                 <TextInputElement
@@ -67,21 +57,23 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
                     ref={this.props.onBindWidget}
                     name="Subject"
                     placeholder="Subject"
-                    value={subject}
+                    value={this.props.action.subject}
                     autocomplete={true}
                     required={true}
                     ComponentMap={this.props.ComponentMap}
+                    config={this.props.config}
                 />
                 <TextInputElement
                     __className={styles.message}
                     ref={this.props.onBindWidget}
                     name="Message"
                     showLabel={false}
-                    value={body}
+                    value={this.props.action.body}
                     autocomplete={true}
                     required={true}
                     textarea={true}
                     ComponentMap={this.props.ComponentMap}
+                    config={this.props.config}
                 />
             </div>
         );

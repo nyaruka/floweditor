@@ -26,7 +26,7 @@ export default class EmailElement extends React.Component<EmailElementProps, Ema
     constructor(props: any) {
         super(props);
 
-        const emails = transformEmails(this.props.emails);
+        const emails = transformEmails(this.props.emails || []);
 
         this.state = {
             emails,

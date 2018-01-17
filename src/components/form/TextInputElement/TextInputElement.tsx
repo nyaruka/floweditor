@@ -6,10 +6,10 @@ import { split } from 'split-sms';
 import ComponentMap, { CompletionOption } from '../../../services/ComponentMap';
 import FormElement, { FormElementProps } from '../FormElement';
 import { OPTIONS } from './completionOptions';
+import { Type } from '../../../providers/ConfigProvider/typeConfigs';
 
 import * as styles from './TextInputElement.scss';
 import * as shared from '../FormElement.scss';
-import { messages } from '../../Simulator/Simulator.scss';
 
 export enum Count {
     SMS = 'SMS'
@@ -44,6 +44,7 @@ interface CharCountStats {
 interface TextInputProps extends FormElementProps {
     value: string;
     ComponentMap: ComponentMap;
+    config?: Type;
     __className?: string;
     count?: Count;
     url?: boolean;
@@ -392,7 +393,6 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                         return this.setState({
                             query,
                             matches,
-                            value: this.state.value,
                             caretOffset: caret,
                             completionVisible,
                             selectedOptionIndex: 0,
@@ -406,7 +406,6 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                     this.setState({
                         query: '',
                         matches: [],
-                        value: this.state.value,
                         caretOffset: caret,
                         completionVisible: false,
                         selectedOptionIndex: 0
@@ -426,7 +425,6 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             {
                 query: '',
                 matches: [],
-                value: this.state.value,
                 caretOffset: 0,
                 selectedOptionIndex: 0,
                 completionVisible: false
@@ -504,7 +502,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         const errors: string[] = [];
 
         if (this.props.required) {
-            if (!this.state.value.length) {
+            if (!this.state.value) {
                 errors.push(`${this.props.name} is required`);
             }
         }
@@ -619,9 +617,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         const replyError: boolean =
             this.state.errors.length &&
             this.props.name === 'Message' &&
-            this.props.textarea &&
-            this.props.autocomplete &&
-            this.props.required;
+            this.props.config.type === 'reply';
 
         // Make sure we're rendering the right text element
         const TextElement: string = this.props.textarea ? 'textarea' : 'input';
