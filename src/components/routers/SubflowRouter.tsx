@@ -40,10 +40,8 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
         const select = widgets.Flow as FlowElement;
         const { name: flowName, id: flowUUID } = select.state.flow;
 
-        const uuid: string = this.props.action.uuid || generateUUID();
-
         const newAction: StartFlow = {
-            uuid,
+            uuid: this.props.action.uuid,
             type: this.props.config.type,
             flow_name: flowName,
             flow_uuid: flowUUID
@@ -88,7 +86,7 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
         // HACK: this should go away with modal refactor
         let { uuid: nodeUUID } = this.props.node;
 
-        if (this.props.action && this.props.action.uuid === nodeUUID) {
+        if (this.props.action.uuid === nodeUUID) {
             nodeUUID = generateUUID();
         }
 
@@ -110,15 +108,6 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
             return this.props.getExitTranslations();
         }
 
-        let flowName: string = '';
-        let flowUUID: string = '';
-
-        if (this.props.action) {
-            if (this.props.action.type === 'start_flow') {
-                ({ flow_name: flowName, flow_uuid: flowUUID } = this.props.action as StartFlow);
-            }
-        }
-
         return (
             <div>
                 <p>Select a flow to run</p>
@@ -126,8 +115,8 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
                     ref={this.props.onBindWidget}
                     name="Flow"
                     endpoint={this.context.endpoints.flows}
-                    flow_name={flowName}
-                    flow_uuid={flowUUID}
+                    flow_name={(this.props.action as StartFlow).flow_name}
+                    flow_uuid={(this.props.action as StartFlow).flow_uuid}
                     required={true}
                 />
             </div>
