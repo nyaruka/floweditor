@@ -686,15 +686,15 @@ export default class SwitchRouterForm extends React.Component<
                         } else {
                             cases.push(
                                 <Draggable key={kase.uuid} draggableId={kase.uuid}>
-                                    {(provided, snapshot) => (
+                                    {(
+                                        { innerRef, draggableStyle, dragHandleProps, placeholder },
+                                        { isDragging }
+                                    ) => (
                                         <div data-spec="case-draggable">
                                             <div
-                                                ref={provided.innerRef}
-                                                style={getItemStyle(
-                                                    provided.draggableStyle,
-                                                    snapshot.isDragging
-                                                )}
-                                                {...provided.dragHandleProps}>
+                                                ref={innerRef}
+                                                style={getItemStyle(draggableStyle, isDragging)}
+                                                {...dragHandleProps}>
                                                 <CaseElement
                                                     data-spec="case"
                                                     ref={this.props.onBindWidget}
@@ -708,7 +708,7 @@ export default class SwitchRouterForm extends React.Component<
                                                     focusExitInput={focusExitInput}
                                                 />
                                             </div>
-                                            {provided.placeholder}
+                                            {placeholder}
                                         </div>
                                     )}
                                 </Draggable>
@@ -825,12 +825,10 @@ export default class SwitchRouterForm extends React.Component<
                     <div>
                         <DragDropContext onDragEnd={this.onDragEnd}>
                             <Droppable droppableId="droppable">
-                                {(provided, snapshot) => (
-                                    <div
-                                        ref={provided.innerRef}
-                                        style={getListStyle(snapshot.isDraggingOver)}>
+                                {({ innerRef, placeholder }, { isDraggingOver }) => (
+                                    <div ref={innerRef} style={getListStyle(isDraggingOver)}>
                                         {draggableCases}
-                                        {provided.placeholder}
+                                        {placeholder}
                                     </div>
                                 )}
                             </Droppable>
