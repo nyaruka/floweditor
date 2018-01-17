@@ -109,6 +109,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                     required={required}
                     textarea={true}
                     ComponentMap={this.props.ComponentMap}
+                    config={this.props.config}
                 />
             </div>
         );
