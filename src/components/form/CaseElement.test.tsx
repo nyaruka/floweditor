@@ -4,6 +4,7 @@ import CompMap from '../../services/ComponentMap';
 import CaseElement, { prefix, composeExitName, getExitName, hasArgs } from './CaseElement';
 import { getSpecWrapper, titleCase } from '../../helpers/utils';
 import { object } from 'prop-types';
+import { getTypeConfig } from '../../providers/ConfigProvider/typeConfigs';
 import {
     operatorConfigList,
     getOperatorConfig
@@ -22,6 +23,8 @@ const context = {
 };
 
 const ComponentMap = new CompMap(definition);
+
+const config = getTypeConfig('wait_for_response');
 
 describe('CaseElement >', () => {
     describe('helpers >', () => {
@@ -96,12 +99,13 @@ describe('CaseElement >', () => {
             onChange,
             focusArgsInput: false,
             focusExitInput: false,
-            ComponentMap
+            ComponentMap,
+            config
         };
 
         describe('render >', () => {
             it('should render empty case', () => {
-                const EmptyCase = shallow(<CaseElement {...{ ...props, exitName: null }} />, {
+                const EmptyCase = shallow(<CaseElement {...{ ...props, exitName: '' }} />, {
                     context
                 });
 
@@ -115,7 +119,8 @@ describe('CaseElement >', () => {
                     expect.objectContaining({
                         name: props.name,
                         errors: [],
-                        case: true
+                        kaseError: false,
+                        __className: 'group'
                     })
                 );
 
@@ -133,17 +138,17 @@ describe('CaseElement >', () => {
                     })
                 );
 
-                expect(getSpecWrapper(EmptyCase, 'args-input').props()).toEqual(
-                    expect.objectContaining({
-                        'data-spec': 'args-input',
-                        name: 'arguments',
-                        onChange: onChangeArguments,
-                        value: '',
-                        focus: props.focusArgsInput,
-                        autocomplete: true,
-                        ComponentMap
-                    })
-                );
+                expect(getSpecWrapper(EmptyCase, 'args-input').props()).toEqual({
+                    'data-spec': 'args-input',
+                    name: 'arguments',
+                    onChange: onChangeArguments,
+                    value: '',
+                    focus: props.focusArgsInput,
+                    autocomplete: true,
+                    ComponentMap,
+                    showInvalid: false,
+                    config
+                });
 
                 expect(getSpecWrapper(EmptyCase, 'exit-input').props()).toEqual({
                     'data-spec': 'exit-input',
@@ -151,20 +156,18 @@ describe('CaseElement >', () => {
                     onChange: onChangeExitName,
                     value: '',
                     focus: props.focusExitInput,
-                    ComponentMap
+                    ComponentMap,
+                    showInvalid: false,
+                    config
                 });
             });
 
             cases.forEach((kase, idx) => {
                 const caseProps = {
+                    ...props,
                     name: `case_${kase.uuid}`,
                     kase,
-                    exitName: exits[idx].name,
-                    onRemove: jest.fn(),
-                    onChange: jest.fn(),
-                    focusArgsInput: false,
-                    focusExitInput: false,
-                    ComponentMap
+                    exitName: exits[idx].name
                 };
                 const CaseWrapper = shallow(<CaseElement {...caseProps} />, {
                     context

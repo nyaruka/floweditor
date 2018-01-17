@@ -8,6 +8,8 @@ interface CheckboxElementProps extends FormElementProps {
     defaultValue?: boolean;
     description?: string;
     border?: boolean;
+    onCheck?(): void;
+    sibling?: boolean;
 }
 
 interface CheckboxState {
@@ -27,12 +29,15 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
         this.onChange = this.onChange.bind(this);
     }
 
-    private onChange(event: React.FormEvent<HTMLInputElement>) {
+    private onChange(event: React.FormEvent<HTMLInputElement>): void {
         const { currentTarget: { checked } } = event;
 
-        this.setState({
-            checked
-        });
+        this.setState(
+            {
+                checked
+            },
+            () => this.props.onCheck && this.props.onCheck()
+        );
     }
 
     public validate(): boolean {
@@ -40,8 +45,11 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
     }
 
     public render(): JSX.Element {
+        const className: string = this.props.sibling === true ? styles.sibling : null;
+
         return (
             <FormElement
+                __className={styles.sibling}
                 border={this.props.border}
                 name={this.props.name}
                 required={this.props.required}

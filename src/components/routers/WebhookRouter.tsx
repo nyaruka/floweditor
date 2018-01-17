@@ -27,7 +27,6 @@ export interface WebhookRouterFormProps extends FormProps {
     node: Node;
     showAdvanced: boolean;
     action: AnyAction;
-    getActionUUID(): string;
     removeWidget(name: string): void;
     translating: boolean;
     triggerFormUpdate(): void;
@@ -117,21 +116,25 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         this.props.removeWidget(header.props.name);
     }
 
-    onHeaderChanged(ele: HeaderElement) {
+    private onHeaderChanged(ele: HeaderElement): void {
         const { name, value } = ele.state;
 
-        const newHeaders = update(this.state.headers, {
-            [ele.props.index]: {
-                $set: {
-                    name: name,
-                    value: value,
-                    uuid: ele.props.header.uuid
-                } as Header
-            }
-        });
+        if (!name && !value) {
+            this.onHeaderRemoved(ele);
+        } else {
+            const newHeaders = update(this.state.headers, {
+                [ele.props.index]: {
+                    $set: {
+                        name,
+                        value,
+                        uuid: ele.props.header.uuid
+                    } as Header
+                }
+            });
 
-        this.addEmptyHeader(newHeaders);
-        this.setState({ headers: newHeaders });
+            this.addEmptyHeader(newHeaders);
+            this.setState({ headers: newHeaders });
+        }
     }
 
     onMethodChanged(method: { value: string; label: string }) {
@@ -169,7 +172,8 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         }
 
         var headerElements: JSX.Element[] = [];
-        this.state.headers.map((header: Header, index: number) => {
+        this.state.headers.map((header: Header, index: number, arr: Header[]) => {
+            const isEmpty: boolean = index === this.state.headers.length - 1;
             headerElements.push(
                 <div key={header.uuid}>
                     <HeaderElement
@@ -179,7 +183,9 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                         onRemove={this.onHeaderRemoved}
                         onChange={this.onHeaderChanged}
                         index={index}
+                        empty={isEmpty}
                         ComponentMap={this.props.ComponentMap}
+                        config={this.props.config}
                     />
                 </div>
             );
@@ -193,7 +199,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                     <h4>POST Body</h4>
                     <p>Modify the body that is sent as part of your POST.</p>
                     <TextInputElement
-                        className={styles.post_body}
+                        __className={styles.post_body}
                         ref={this.props.onBindAdvancedWidget}
                         name="Body"
                         showLabel={false}
@@ -203,6 +209,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                         textarea
                         required
                         ComponentMap={this.props.ComponentMap}
+                        config={this.props.config}
                     />
                 </div>
             );
@@ -294,6 +301,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                         required
                         url
                         ComponentMap={this.props.ComponentMap}
+                        config={this.props.config}
                     />
                 </div>
 
@@ -321,22 +329,17 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         if (this.props.translating) {
             return this.props.saveLocalizedExits(widgets);
         }
-
         var method = 'GET';
         var body = null;
-
         var methodEle = widgets['Method'] as SelectElement;
         var urlEle = widgets['URL'] as TextInputElement;
-
         if (methodEle.state.value) {
             method = methodEle.state.value;
         }
-
         if (method == 'POST') {
             var bodyEle = widgets['Body'] as TextInputElement;
             body = bodyEle.state.value;
         }
-
         /** Go through any headers we have */
         var headers: { [name: string]: string } = {};
         var header: HeaderElement = null;
@@ -350,20 +353,17 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                 }
             }
         }
-
         var newAction: CallWebhook = {
-            uuid: this.props.getActionUUID(),
+            uuid: this.props.action.uuid,
             type: this.props.config.type,
             url: urlEle.state.value,
             headers: headers,
             method: method,
             body: body
         };
-
         // if we were already a webhook, lean on those exits and cases
         var exits = [];
         var cases: Case[];
-
         var details = this.props.ComponentMap.getDetails(this.props.node.uuid);
         if (details && details.type == 'webhook') {
             exits = this.props.node.exits;
@@ -382,7 +382,6 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                     destination_node_uuid: null
                 }
             ];
-
             cases = [
                 {
                     uuid: generateUUID(),
@@ -392,20 +391,17 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                 }
             ];
         }
-
         var router: SwitchRouter = {
             type: 'switch',
             operand: '@webhook',
             cases: cases,
             default_exit_uuid: exits[1].uuid
         };
-
         // HACK: this should go away with modal <refactor></refactor>
         var nodeUUID = this.props.node.uuid;
-        if (this.props.action && this.props.action.uuid == nodeUUID) {
+        if (this.props.action.uuid === nodeUUID) {
             nodeUUID = generateUUID();
         }
-
         this.props.updateRouter(
             {
                 uuid: nodeUUID,
