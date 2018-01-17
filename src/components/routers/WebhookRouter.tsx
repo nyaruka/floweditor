@@ -193,7 +193,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                     <h4>POST Body</h4>
                     <p>Modify the body that is sent as part of your POST.</p>
                     <TextInputElement
-                        className={styles.post_body}
+                        __className={styles.post_body}
                         ref={this.props.onBindAdvancedWidget}
                         name="Body"
                         showLabel={false}

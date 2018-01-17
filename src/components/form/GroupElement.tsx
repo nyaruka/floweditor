@@ -68,7 +68,7 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
     }
 
     createNewOption(arg: { label: string }): SearchResult {
-        const newOption: SearchResult = {
+        const newOption = {
             id: generateUUID(),
             name: arg.label,
             extraResult: true
@@ -78,22 +78,20 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
     }
 
     render() {
-        let createOptions = {};
+        const createOptions: any = {};
 
         if (this.props.add) {
-            createOptions = {
-                isValidNewOption: this.isValidNewOption,
-                createNewOption: this.createNewOption,
-                createPrompt: 'New group: '
-            };
+            createOptions.isValidNewOption = this.isValidNewOption;
+            createOptions.createNewOption = this.createNewOption;
+            createOptions.createPrompt = 'New group: ';
         }
 
-        const classes: string[] = getSelectClass(this.state.errors.length);
+        const className: string = getSelectClass(this.state.errors.length);
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <SelectSearch
-                    className={classes.join(' ')}
+                    className={className}
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}

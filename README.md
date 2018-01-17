@@ -18,7 +18,7 @@ The flow editor uses npm for all dependencies.
 % npm install
 ```
 
-## Buildling
+## Building
 Webpack is used to transpile TypeScript and SASS. After invoking a build, the compiled results will arrive in the /dist folder.
 ```
 % npm run build:dev
@@ -43,7 +43,7 @@ This project is currently configured via `flowEditor.config.*.js` in the root di
 
 ### Styling
 
-This project uses SASS (SCSS) to compose styles and [CSS Modules](https://github.com/css-modules/css-modules) to scope those styles to components. Typings for CSS Modules are generated on the fly by [typings-for-css-modules-loader](https://github.com/Jimdo/typings-for-css-modules-loader). 
+This project uses SASS (SCSS) to compose styles and [CSS Modules](https://github.com/css-modules/css-modules) to scope those styles to components. Typings for CSS Modules are generated on the fly by [typings-for-css-modules-loader](https://github.com/Jimdo/typings-for-css-modules-loader).
 
 ## Running Tests
 

@@ -83,12 +83,12 @@ export const validUUID = (uuid: string): boolean => V4_UUID.test(uuid);
 export const titleCase = (str: string): string =>
     str.replace(/\b\w+/g, s => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase());
 
-export const getSelectClass = (errors: number): string[] => {
+export const getSelectClass = (errors: number): string => {
     if (errors === 0) {
-        return [];
+        return '';
     }
-    /** We use a global selector here for react-select */
-    return ['select-invalid'];
+    // We use a global selector here for react-select
+    return 'select-invalid';
 };
 
 export const reorderList = (list: any[], startIndex: number, endIndex: number): any[] => {
@@ -107,3 +107,26 @@ export const reorderList = (list: any[], startIndex: number, endIndex: number): 
  */
 export const jsonEqual = (objA: {}, objB: {}): boolean =>
     JSON.stringify(objA) === JSON.stringify(objB);
+
+/**
+ * Checks whether any of a list of error strings contain one or more queries.
+ * Used to determine whether a particular error has been encountered.
+ * @param {Array.<string>} errors - list of error messages
+ * @param {Array.<string>} queries  - list of queries
+ * @returns {boolean}
+ */
+export const hasErrorType = (errors: string[], queries: string[]): boolean => {
+    if (!errors.length) {
+        return false;
+    }
+
+    for (const error of errors) {
+        for (const query of queries) {
+            if (error.indexOf(query) > -1) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+};

@@ -1,5 +1,3 @@
-// ReplyForm
-
 import * as React from 'react';
 import { Reply } from '../../../flowTypes';
 import { Language } from '../../LanguageSelector';

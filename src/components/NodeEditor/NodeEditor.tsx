@@ -24,7 +24,7 @@ import { SwitchRouterFormProps } from '../routers/SwitchRouter';
 import { WebhookRouterFormProps } from '../routers/WebhookRouter';
 import ComponentMap from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
-import TypeListComp from './TypeList';
+import TypeList from './TypeList';
 import TextInputElement from '../form/TextInputElement';
 import { getTypeConfigPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
@@ -73,7 +73,6 @@ export interface NodeEditorProps {
     onUpdateLocalizations: Function;
     onUpdateAction: Function;
     onUpdateRouter: Function;
-    /** Perform when editor is closed */
     onClose?(canceled: boolean): void;
     ComponentMap: ComponentMap;
 }
@@ -295,7 +294,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                         localizedObject.getObject().uuid === exitUUID
                 );
 
-
                 if (localized) {
                     let value = '';
 
@@ -470,25 +468,29 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     private getTypeList(): JSX.Element {
-        let typeList: JSX.Element = null;
+        if (!this.props.translating) {
+            let style: string;
 
-        if (!this.props.localizations || !this.props.localizations.length) {
-            typeList = (
-                <TypeListComp
-                    className={
-                        this.state.config.type === 'wait_for_response' ||
-                        this.state.config.type === 'expression'
-                            ? formStyles.type_chooser_switch
-                            : formStyles.type_chooser
-                    }
-                    /** NodeEditor */
+            if (
+                this.state.config.type === 'wait_for_response' ||
+                this.state.config.type === 'expression'
+            ) {
+                ({ type_chooser_switch: style } = formStyles);
+            } else {
+                ({ type_chooser: style } = formStyles);
+            }
+
+            return (
+                <TypeList
+                    className={style}
+                    // NodeEditor
                     initialType={this.state.config}
                     onChange={this.onTypeChange}
                 />
             );
         }
 
-        return typeList;
+        return null;
     }
 
     private getSides(): { front: JSX.Element; back: JSX.Element } {

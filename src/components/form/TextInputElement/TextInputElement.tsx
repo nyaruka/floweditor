@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classNames from 'classnames/bind';
 import getCaretCoordinates from 'textarea-caret';
 import setCaretPosition from 'get-input-selection';
 import { split } from 'split-sms';
@@ -40,20 +41,18 @@ interface CharCountStats {
 }
 
 interface TextInputProps extends FormElementProps {
-    count?: Count;
     value: string;
-    /** Validates that the input is a url */
+    ComponentMap: ComponentMap;
+    __className?: string;
+    count?: Count;
     url?: boolean;
-    /** Should we display in a textarea */
     textarea?: boolean;
-    /** Text to display when there is no value */
     placeholder?: string;
-    /** Do we show autocompletion choices */
     autocomplete?: boolean;
     focus?: boolean;
     onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
     onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
-    ComponentMap: ComponentMap;
+    showInvalid?: boolean;
 }
 
 export interface TextInputState {
@@ -250,6 +249,8 @@ const initialState: InitialState = {
     matches: [],
     query: ''
 };
+
+const cx = classNames.bind({ ...styles, ...shared });
 
 export default class TextInputElement extends React.Component<TextInputProps, TextInputState> {
     private selectedEl: HTMLLIElement;
@@ -502,14 +503,14 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         const errors: string[] = [];
 
         if (this.props.required) {
-            if (!this.state.value) {
+            if (!this.state.value.length) {
                 errors.push(`${this.props.name} is required`);
             }
         }
 
         this.setState({ errors });
 
-        /** See if it should be a valid url */
+        // See if it should be a valid url
         if (errors.length === 0) {
             if (this.props.url) {
                 if (!isValidURL(this.state.value)) {
@@ -606,16 +607,26 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     }
 
     public render(): JSX.Element {
-        const classes: string[] = [styles.textinput, this.state.errors.length > 0 && 'invalid'];
+        const textElClassName: string = cx({
+            [styles.textinput]: true,
+            [shared.invalid]: this.state.errors.length > 0 || this.props.showInvalid === true
+        });
 
-        const completionClasses: string[] = [
-            styles.completion_container,
-            (!this.state.completionVisible || this.state.matches.length === 0) && styles.hidden
-        ];
+        const completionClassName: string = cx({
+            [styles.completion_container]: true,
+            [styles.hidden]: !this.state.completionVisible || this.state.matches.length === 0
+        });
 
         const options: JSX.Element[] = this.getOptions();
 
         const charCount: JSX.Element = this.getCharCountEle();
+
+        const replyError: boolean =
+            this.state.errors.length &&
+            this.props.name === 'Message' &&
+            this.props.textarea &&
+            this.props.autocomplete &&
+            this.props.required;
 
         // Make sure we're rendering the right text element
         const TextElement: string = this.props.textarea ? 'textarea' : 'input';
@@ -624,26 +635,25 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
         return (
             <FormElement
-                className={this.props.className}
+                __className={this.props.__className}
                 name={this.props.name}
                 helpText={this.props.helpText}
                 showLabel={this.props.showLabel}
-                errors={this.state.errors}>
+                errors={this.state.errors}
+                replyError={replyError}>
                 <div className={styles.wrapper}>
                     <TextElement
                         data-spec="input"
                         ref={this.textElRef}
                         type={inputType}
-                        className={classes.join(' ')}
+                        className={textElClassName}
                         value={this.state.value}
                         onChange={this.onChange}
                         onBlur={this.onBlur}
                         onKeyDown={this.onKeyDown}
                         placeholder={this.props.placeholder}
                     />
-                    <div
-                        style={this.state.caretCoordinates}
-                        className={completionClasses.join(' ')}>
+                    <div className={completionClassName} style={this.state.caretCoordinates}>
                         <ul className={styles.option_list}>{options}</ul>
                         <div className={styles.help}>Tab to complete, enter to select</div>
                     </div>

@@ -101,7 +101,7 @@ describe('CaseElement >', () => {
 
         describe('render >', () => {
             it('should render empty case', () => {
-                const EmptyCase = shallow(<CaseElement {...{ ...props, exitName: null }} />, {
+                const EmptyCase = shallow(<CaseElement {...{ ...props, exitName: '' }} />, {
                     context
                 });
 
@@ -115,7 +115,8 @@ describe('CaseElement >', () => {
                     expect.objectContaining({
                         name: props.name,
                         errors: [],
-                        case: true
+                        kaseError: false,
+                        __className: 'group'
                     })
                 );
 
@@ -133,17 +134,16 @@ describe('CaseElement >', () => {
                     })
                 );
 
-                expect(getSpecWrapper(EmptyCase, 'args-input').props()).toEqual(
-                    expect.objectContaining({
-                        'data-spec': 'args-input',
-                        name: 'arguments',
-                        onChange: onChangeArguments,
-                        value: '',
-                        focus: props.focusArgsInput,
-                        autocomplete: true,
-                        ComponentMap
-                    })
-                );
+                expect(getSpecWrapper(EmptyCase, 'args-input').props()).toEqual({
+                    'data-spec': 'args-input',
+                    name: 'arguments',
+                    onChange: onChangeArguments,
+                    value: '',
+                    focus: props.focusArgsInput,
+                    autocomplete: true,
+                    ComponentMap,
+                    showInvalid: false
+                });
 
                 expect(getSpecWrapper(EmptyCase, 'exit-input').props()).toEqual({
                     'data-spec': 'exit-input',
@@ -151,7 +151,8 @@ describe('CaseElement >', () => {
                     onChange: onChangeExitName,
                     value: '',
                     focus: props.focusExitInput,
-                    ComponentMap
+                    ComponentMap,
+                    showInvalid: false
                 });
             });
 
