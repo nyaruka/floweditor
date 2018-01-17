@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { v4 as generateUUID } from 'uuid';
 import Modal, { ButtonSet } from '../Modal';
 import {
     Endpoints,
@@ -9,7 +10,8 @@ import {
     SwitchRouter,
     Exit,
     Node,
-    UINode
+    UINode,
+    Methods
 } from '../../flowTypes';
 import { Type, Mode } from '../../providers/ConfigProvider/typeConfigs';
 import { Language } from '../LanguageSelector';
@@ -18,7 +20,7 @@ import { LocalizedObject } from '../../services/Localization';
 import TypeList from './TypeList';
 import TextInputElement from '../form/TextInputElement';
 import FormContainer from './FormContainer';
-import { getTypeConfigPT } from '../../providers/ConfigProvider/propTypes';
+import { getTypeConfigPT, typeConfigListPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
 import * as formStyles from './NodeEditor.scss';
@@ -103,7 +105,8 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     private temporaryButtons?: ButtonSet;
 
     public static contextTypes = {
-        getTypeConfig: getTypeConfigPT
+        getTypeConfig: getTypeConfigPT,
+        typeConfigList: typeConfigListPT
     };
 
     constructor(props: NodeEditorProps, context: ConfigProviderContext) {
@@ -413,6 +416,46 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         delete this.widgets[name];
     }
 
+    /**
+     * Compose a localActions map that includes the fully-formed current action (if any)
+     * and a bare-bones representation of every other possible action.
+     */
+    private getAction(): AnyAction {
+        if (this.props.action) {
+            return this.props.action;
+        } else {
+            const action: any = {
+                type: this.state.config.type,
+                uuid: generateUUID()
+            };
+
+            switch (this.state.config.type) {
+                case 'reply':
+                    action.text = '';
+                    action.all_urns = false;
+                case 'add_to_group' || 'remove_from_group':
+                    action.groups = null;
+                case 'save_contact_field':
+                    action.field_uuid = null;
+                    action.field_name = null;
+                    action.value = '';
+                case 'send_email':
+                    action.subject = '';
+                    action.body = '';
+                    action.emails = null;
+                case 'save_flow_result':
+                    action.resultName = '';
+                    action.value = '';
+                case 'call_webhook':
+                    action.url = '';
+                    action.method = Methods.GET;
+                case 'start_flow':
+                    action.flow_name = null;
+                    action.flow_uuid = null;
+            }
+        }
+    }
+
     private getMode(): Mode {
         if (this.props.translating) {
             return Mode.TRANSLATING;
@@ -485,6 +528,9 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         return null;
     }
 
+    /**
+     * Returns existing action (if any), or a bare-bones representation of the form's action.
+     */
     private getSides(): { front: JSX.Element; back: JSX.Element } {
         const formProps = {
             // Node
@@ -494,7 +540,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             definition: this.props.definition,
             ComponentMap: this.props.ComponentMap,
             config: this.state.config,
-            action: this.props.action,
+            action: this.getAction(),
             localizations: this.props.localizations,
             updateLocalizations: (
                 language: string,
@@ -502,12 +548,9 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             ) => {
                 this.props.onUpdateLocalizations(language, changes);
             },
-            updateAction: (action: Action) => {
-                this.props.onUpdateAction(this.props.node, action);
-            },
-            updateRouter: (node: Node, type: string, previousAction?: Action) => {
-                this.props.onUpdateRouter(node, type, previousAction);
-            },
+            updateAction: (action: Action) => this.props.onUpdateAction(this.props.node, action),
+            updateRouter: (node: Node, type: string, previousAction?: Action) =>
+                this.props.onUpdateRouter(node, type, previousAction),
             // NodeEditor
             onTypeChange: this.onTypeChange,
             getLocalizedExits: this.getLocalizedExits,
