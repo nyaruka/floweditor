@@ -37,11 +37,10 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        const localizedObject = this.props.getLocalizedObject();
         const textarea = widgets.Message as TextInputElement;
         const sendAll = widgets['All Destinations'] as CheckboxElement;
 
-        if (localizedObject) {
+        if (this.props.translating) {
             const translation = textarea.state.value.trim();
 
             if (translation) {
