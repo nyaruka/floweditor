@@ -52,10 +52,8 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                 ]);
             }
         } else {
-            const uuid: string = !this.props.action ? generateUUID() : this.props.action.uuid;
-
             const newAction: Reply = {
-                uuid,
+                uuid: this.props.action.uuid,
                 type: this.props.config.type,
                 text: textarea.state.value
             };
@@ -91,9 +89,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                 ({ text } = localizedObject.getObject() as Reply);
             }
         } else {
-            if (this.props.action) {
-                ({ text } = this.props.action);
-            }
+            ({ text } = this.props.action);
         }
 
         const required: boolean = !this.props.translating;
@@ -119,19 +115,11 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
     }
 
     private renderAdvanced(): JSX.Element {
-        let sendAll: boolean;
-
-        if (this.props.action) {
-            sendAll = this.props.action.all_urns;
-        } else {
-            sendAll = false;
-        }
-
         return (
             <CheckboxElement
                 ref={this.props.onBindAdvancedWidget}
                 name="All Destinations"
-                defaultValue={sendAll}
+                defaultValue={this.props.action.all_urns}
                 description="Send a message to all destinations known for this contact."
             />
         );
