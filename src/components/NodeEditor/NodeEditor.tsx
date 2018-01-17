@@ -453,6 +453,8 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     action.flow_name = null;
                     action.flow_uuid = null;
             }
+
+            return action;
         }
     }
 
@@ -532,6 +534,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
      * Returns existing action (if any), or a bare-bones representation of the form's action.
      */
     private getSides(): { front: JSX.Element; back: JSX.Element } {
+        const action = this.getAction();
         const formProps = {
             // Node
             node: this.props.node,
@@ -540,7 +543,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             definition: this.props.definition,
             ComponentMap: this.props.ComponentMap,
             config: this.state.config,
-            action: this.getAction(),
+            action,
             localizations: this.props.localizations,
             updateLocalizations: (
                 language: string,
