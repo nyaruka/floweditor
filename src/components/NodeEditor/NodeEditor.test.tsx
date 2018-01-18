@@ -14,7 +14,7 @@ const { actions: [replyAction] } = node;
 const ComponentMap = new CompMap(definition);
 
 const nodeEditorProps: NodeEditorProps = {
-    iso: 'eng',
+    language: flowLanguage,
     translating: false,
     show: true,
     definition,
@@ -31,17 +31,17 @@ const NodeEditorShallow = shallow(<NodeEditor {...nodeEditorProps} />, {
 });
 const ModalShallow = NodeEditorShallow.find('Modal');
 
-describe('Component: NodeEditor', () => {
-    it('should render itself, Modal', () => {
-        expect(NodeEditorShallow.exists()).toBeTruthy();
-        expect(ModalShallow.exists()).toBeTruthy();
-        expect(ModalShallow.hasClass(replyAction.type)).toBeTruthy();
-        expect(ModalShallow.prop('title')).toEqual([
-            <div key={'front'}>Send Message</div>,
-            <div key={'advanced'}>
-                <div>Send Message</div>
-                <div className="advanced_title">Advanced Settings</div>
-            </div>
-        ]);
+describe('NodeEditor >', () => {
+    describe('render >', () => {
+        it('should render Modal', () => {
+            expect(ModalShallow.prop('__className')).toBe(replyAction.type);
+            expect(ModalShallow.prop('title')).toEqual([
+                <div key={'front'}>Send Message</div>,
+                <div key={'advanced'}>
+                    <div>Send Message</div>
+                    <div className="advanced_title">Advanced Settings</div>
+                </div>
+            ]);
+        });
     });
 });

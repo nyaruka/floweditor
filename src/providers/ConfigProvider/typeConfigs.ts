@@ -127,6 +127,17 @@ export const typeConfigList: Type[] = [
 
     /** Routers */
     {
+        type: 'wait_for_response',
+        name: 'Wait for Response',
+        description: 'Wait for them to respond',
+        form: SwitchRouterForm,
+        advanced: Mode.TRANSLATING,
+        aliases: ['switch'],
+        allows(mode: Mode): boolean {
+            return (this.advanced & mode) === mode;
+        }
+    },
+    {
         type: 'expression',
         name: 'Split by Expression',
         description: 'Split by a custom expression',
@@ -137,12 +148,11 @@ export const typeConfigList: Type[] = [
         }
     },
     {
-        type: 'wait_for_response',
-        name: 'Wait for Response',
-        description: 'Wait for them to respond',
+        type: 'contact_field',
+        name: 'Split by Contact Field',
+        description: 'Split by a contact field',
         form: SwitchRouterForm,
         advanced: Mode.TRANSLATING,
-        aliases: ['switch'],
         allows(mode: Mode): boolean {
             return (this.advanced & mode) === mode;
         }
@@ -162,16 +172,13 @@ export interface TypeMap {
     [propName: string]: Type;
 }
 
-export const typeConfigMap: TypeMap = typeConfigList.reduce(
-    (typeConfigMap: TypeMap, typeConfig: Type) => {
-        typeConfigMap[typeConfig.type] = typeConfig;
-        if (typeConfig.aliases) {
-            typeConfig.aliases.forEach((alias: string) => (typeConfigMap[alias] = typeConfig));
-        }
-        return typeConfigMap;
-    },
-    {}
-);
+export const typeConfigMap: TypeMap = typeConfigList.reduce((map: TypeMap, typeConfig: Type) => {
+    map[typeConfig.type] = typeConfig;
+    if (typeConfig.aliases) {
+        typeConfig.aliases.forEach((alias: string) => (map[alias] = typeConfig));
+    }
+    return map;
+}, {});
 
 export type GetTypeConfig = (type: string) => Type;
 

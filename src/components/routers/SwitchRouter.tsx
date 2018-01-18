@@ -1,25 +1,42 @@
 import * as React from 'react';
+import { Fragment } from 'react';
 import * as FlipMove from 'react-flip-move';
 import * as update from 'immutability-helper';
+import Select from 'react-select';
+import { AxiosError } from 'axios';
 import { v4 as generateUUID } from 'uuid';
-import { Node, SwitchRouter, Exit, AnyAction, Case, FlowDefinition } from '../../flowTypes';
+import {
+    Node,
+    SwitchRouter,
+    Exit,
+    AnyAction,
+    Case,
+    FlowDefinition,
+    Router,
+    ContactField
+} from '../../flowTypes';
 import { Type } from '../../providers/ConfigProvider/typeConfigs';
 import { FormProps } from '../NodeEditor';
-import ComponentMap from '../../services/ComponentMap';
+import ComponentMap, { SearchResult, ContactFieldResult } from '../../services/ComponentMap';
 import { Language } from '../LanguageSelector';
 import { LocalizedObject } from '../../services/Localization';
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 import {
     GetOperatorConfig,
-    operatorConfigList
+    operatorConfigList,
+    getOperatorConfig,
+    Operator
 } from '../../providers/ConfigProvider/operatorConfigs';
 import {
     getOperatorConfigPT,
-    operatorConfigListPT
+    operatorConfigListPT,
+    endpointsPT,
+    getFieldsPT
 } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
+import FieldElement, { FieldElementProps } from '../form/FieldElement';
 import CaseElement, { CaseElementProps } from '../form/CaseElement';
-import { reorderList } from '../../helpers/utils';
+import { reorderList, snakify, jsonEqual } from '../../helpers/utils';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import * as styles from './SwitchRouter.scss';
@@ -45,9 +62,10 @@ export interface SwitchRouterState {
     resultName: string;
     setResultName: boolean;
     operand: string;
+    field?: SearchResult;
 }
 
-export interface SwitchRouterFormProps {
+export interface SwitchRouterProps {
     showAdvanced: boolean;
     language: Language;
     node: Node;
@@ -69,13 +87,21 @@ export interface SwitchRouterFormProps {
     getExitTranslations(): JSX.Element;
 }
 
+export type OnCaseChanged = (c: CaseElement, type?: ChangedCaseInput) => void;
+
+export type OnCaseRemoved = (c: CaseElement) => void;
+
 /**
  * Given a set of cases and previous exits, determines correct merging of cases
  * and the union of exits
  * @param newCases
  * @param previousExits
  */
-export const resolveExits = (newCases: CaseElementProps[], previous: Node): CombinedExits => {
+export const resolveExits = (
+    newCases: CaseElementProps[],
+    previous: Node,
+    config: Type
+): CombinedExits => {
     // create mapping of our old exit uuids to old exit settings
     const previousExitMap: { [uuid: string]: Exit } = {};
 
@@ -137,7 +163,7 @@ export const resolveExits = (newCases: CaseElementProps[], previous: Node): Comb
         } else {
             // no existing exit, create a new one
             // find our previous destination if we have one
-            var destination = null;
+            let destination = null;
             if (newCase.kase.exit_uuid in previousExitMap) {
                 destination = previousExitMap[newCase.kase.exit_uuid].destination_node_uuid;
             }
@@ -164,9 +190,13 @@ export const resolveExits = (newCases: CaseElementProps[], previous: Node): Comb
         }
     }
 
-    let defaultName = 'All Responses';
+    let defaultName: string;
     if (exits.length > 0) {
         defaultName = 'Other';
+    } else if (config.type === 'expression' || config.type === 'contact_field') {
+        defaultName = 'Any Value';
+    } else {
+        defaultName = 'All Responses';
     }
 
     let defaultDestination = null;
@@ -209,34 +239,160 @@ export const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
     width: isDragging && draggableStyle.width - 5
 });
 
+export const isSwitchRouterNode = (node: Node): boolean =>
+    node.wait &&
+    (node.wait.type === 'msg' || node.wait.type === 'exp' || node.wait.type === 'field');
+
+export const hasCases = (node: Node): boolean => {
+    if (
+        isSwitchRouterNode(node) &&
+        (node.router as SwitchRouter).cases &&
+        (node.router as SwitchRouter).cases.length
+    ) {
+        return true;
+    }
+
+    return false;
+};
+
+export const parseFieldName = (operand: string): string =>
+    operand.slice(operand.indexOf('.') + 1).replace(/_/gi, ' ');
+
+export const composeCaseProps = (
+    node: Node,
+    onChange: OnCaseChanged,
+    onRemove: OnCaseRemoved
+): CaseElementProps[] =>
+    (node.router as SwitchRouter).cases.reduce((caseList, kase) => {
+        let exitName: string = '';
+
+        if (kase.exit_uuid) {
+            const [exit]: Exit[] = node.exits.filter(({ uuid }) => uuid === kase.exit_uuid);
+
+            if (exit) {
+                ({ name: exitName } = exit);
+            }
+        }
+
+        try {
+            caseList.push({
+                kase,
+                exitName,
+                onChange,
+                onRemove
+            } as any);
+        } catch (error) {
+            // Ignore missing cases
+            console.log(`'composeCaseProps' error: ${error}`);
+        }
+
+        return caseList;
+    }, []);
+
+export const DEFAULT_OPERAND = '@input';
+export const WAIT_LABEL = 'If the message response...';
+export const EXPRESSION_LABEL = 'If the expression...';
+export const FIELD_LABEL = 'If the contact field...';
+export const FIELD_PLACEHOLDER = 'Enter the name of an existing field...';
+export const FIELD_NOT_FOUND = 'Enter the name of an existing field';
+export const OPERATOR_LOCALIZATION_LEGEND =
+    'Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.';
+
 export default class SwitchRouterForm extends React.Component<
-    SwitchRouterFormProps,
+    SwitchRouterProps,
     SwitchRouterState
 > {
     public static contextTypes = {
         getOperatorConfig: getOperatorConfigPT,
-        operatorConfigList: operatorConfigListPT
+        operatorConfigList: operatorConfigListPT,
+        endpoints: endpointsPT,
+        getFields: getFieldsPT
     };
 
-    constructor(props: SwitchRouterFormProps, context: ConfigProviderContext) {
+    constructor(props: SwitchRouterProps, context: ConfigProviderContext) {
         super(props, context);
 
         this.onCaseChanged = this.onCaseChanged.bind(this);
         this.onCaseRemoved = this.onCaseRemoved.bind(this);
 
-        const { cases, resultName, operand } = this.composeCaseProps();
+        const initialState: SwitchRouterState = this.getInitialState();
 
-        this.state = {
-            cases,
-            setResultName: false,
-            resultName,
-            operand
-        };
+        this.state = initialState;
 
         this.onValid = this.onValid.bind(this);
         this.onShowNameField = this.onShowNameField.bind(this);
         this.onExpressionChanged = this.onExpressionChanged.bind(this);
         this.onDragEnd = this.onDragEnd.bind(this);
+        this.onFieldChanged = this.onFieldChanged.bind(this);
+    }
+
+    public componentWillReceiveProps(nextProps: SwitchRouterProps): void {
+        const fieldNeedsUpdating: boolean =
+            nextProps.config.type === 'contact_field' &&
+            (!this.state.operand ||
+                (this.state.operand && this.state.operand.indexOf('@contact.') === -1));
+
+        if (fieldNeedsUpdating) {
+            this.updateField();
+        }
+
+        const updates: Partial<SwitchRouterState> = {};
+
+        if (this.props.node.router as SwitchRouter) {
+            if ((this.props.node.router as SwitchRouter).operand) {
+                if (nextProps.config.type === 'expression') {
+                    if (this.props.node.wait.type === 'exp') {
+                        updates.operand = (this.props.node.router as SwitchRouter).operand;
+                    }
+                } else if (nextProps.config.type === 'wait_for_response') {
+                    updates.operand = DEFAULT_OPERAND;
+                }
+            }
+        }
+
+        if (!updates.operand) {
+            updates.operand = DEFAULT_OPERAND;
+        }
+
+        // If we have an existing switch router node and it has cases
+        if (hasCases(this.props.node)) {
+            // If the existing node has a group switch router and the user has switched to a different switch router form
+            if (
+                this.props.node.wait.type === 'group' &&
+                (nextProps.config.type === 'expression' ||
+                    nextProps.config.type === 'wait_for_response')
+            ) {
+                updates.cases = [];
+            } else {
+                updates.cases = composeCaseProps(
+                    this.props.node,
+                    this.onCaseChanged,
+                    this.onCaseRemoved
+                );
+            }
+        }
+
+        this.setState(updates as SwitchRouterState);
+    }
+
+    public componentDidMount(): void {
+        if (this.props.config.type === 'contact_field') {
+            const existingFieldRouter: boolean =
+                this.props.node.wait && this.props.node.wait.type === 'field';
+
+            if (existingFieldRouter) {
+                const operandsNotEqual: boolean =
+                    parseFieldName((this.props.node.router as SwitchRouter).operand) !==
+                    this.state.operand;
+
+                if (operandsNotEqual) {
+                    this.updateField();
+                }
+                // If we're coming from, say, an action node
+            } else {
+                this.updateField();
+            }
+        }
     }
 
     public onValid(widgets: { [name: string]: any }): void {
@@ -300,28 +456,25 @@ export default class SwitchRouterForm extends React.Component<
             });
         }
 
-        const { cases, exits, defaultExit } = resolveExits(this.state.cases, this.props.node);
+        const { cases, exits, defaultExit } = resolveExits(
+            this.state.cases,
+            this.props.node,
+            this.props.config
+        );
 
-        let optionalRouter = {};
-
+        const optionalRouter: Pick<Router, 'result_name'> = {};
         const resultNameEle = widgets['Result Name'] as TextInputElement;
-
         if (resultNameEle) {
-            optionalRouter = {
-                result_name: resultNameEle.state.value
-            };
+            optionalRouter.result_name = resultNameEle.state.value;
         }
 
-        let optionalNode = {};
-
+        const optionalNode: Pick<Node, 'wait'> = {};
         if (this.props.config.type === 'wait_for_response') {
-            optionalNode = {
-                wait: { type: 'msg' }
-            };
+            optionalNode.wait = { type: 'msg' };
         } else if (this.props.config.type === 'expression') {
-            optionalNode = {
-                wait: { type: 'exp' }
-            };
+            optionalNode.wait = { type: 'exp' };
+        } else if (this.props.config.type === 'contact_field') {
+            optionalNode.wait = { type: 'field' };
         }
 
         const router: SwitchRouter = {
@@ -356,7 +509,7 @@ export default class SwitchRouterForm extends React.Component<
         });
     }
 
-    private onCaseRemoved(c: any): void {
+    private onCaseRemoved(c: CaseElement): void {
         const idx = this.state.cases.findIndex(
             (props: CaseElementProps) => props.kase.uuid === c.props.kase.uuid
         );
@@ -370,7 +523,7 @@ export default class SwitchRouterForm extends React.Component<
         this.props.removeWidget(c.props.name);
     }
 
-    private onCaseChanged(c: any, type?: ChangedCaseInput): void {
+    private onCaseChanged(c: CaseElement, type?: ChangedCaseInput): void {
         const newCase: CaseElementProps = {
             kase: {
                 uuid: c.props.kase.uuid,
@@ -384,7 +537,7 @@ export default class SwitchRouterForm extends React.Component<
 
         const { cases } = this.state;
 
-        let found = false;
+        let found: boolean = false;
 
         for (const key in cases) {
             if (cases.hasOwnProperty(key)) {
@@ -419,73 +572,127 @@ export default class SwitchRouterForm extends React.Component<
         });
     }
 
+    private onFieldChanged(field: SearchResult): void {
+        if (!jsonEqual(this.state.field, field)) {
+            const operand: string = `@contact.${snakify(field.name)}`;
+
+            this.setState({
+                operand,
+                field
+            });
+        }
+    }
+
     private onDragEnd(result: any): void {
         if (!result.destination) {
             return;
         }
 
-        const cases = reorderList(this.state.cases, result.source.index, result.destination.index);
+        const cases: CaseElementProps[] = reorderList(
+            this.state.cases,
+            result.source.index,
+            result.destination.index
+        );
 
         this.setState({
             cases
         });
     }
 
-    private isSwitchRouterNode(): boolean {
-        return (
-            this.props.node.wait &&
-            (this.props.node.wait.type === 'exp' || this.props.node.wait.type === 'msg')
-        );
+    /**
+     * Fetches the user's fields and returns either the first field or,
+     * if the node has a contact field router, the field the existing router
+     * is evaluating.
+     */
+    private updateField(): void {
+        this.context.getFields().then((fields: ContactField[]) => {
+            const [firstField]: ContactField[] = fields;
+
+            const field: SearchResult = {
+                name: firstField.name,
+                id: firstField.uuid,
+                type: firstField.type
+            };
+
+            const updates: Partial<SwitchRouterState> = {
+                field
+            };
+
+            const existingOperand: string =
+                (this.props.node.router as SwitchRouter) &&
+                (this.props.node.router as SwitchRouter).operand;
+
+            if (existingOperand && existingOperand.indexOf('@contact.') > -1) {
+                updates.operand = existingOperand;
+
+                const filterForMatch = ({ name }: ContactField | ContactFieldResult): boolean =>
+                    name.toLowerCase() === parseFieldName(existingOperand);
+
+                const [matchingField]: ContactField[] = fields.filter(filterForMatch);
+
+                if (matchingField) {
+                    updates.field = {
+                        name: matchingField.name,
+                        id: matchingField.uuid,
+                        type: matchingField.type
+                    };
+                } else {
+                    const [
+                        matchingLocalField
+                    ]: ContactFieldResult[] = this.props.ComponentMap.getContactFields().filter(
+                        filterForMatch
+                    );
+
+                    if (matchingLocalField) {
+                        updates.field = {
+                            name: matchingLocalField.name,
+                            id: matchingLocalField.id,
+                            type: matchingLocalField.type
+                        };
+                    }
+                }
+            } else {
+                updates.operand = `@contact.${snakify(firstField.name)}`;
+            }
+
+            this.setState(updates as Pick<SwitchRouterState, 'field' | 'operand'>);
+        });
     }
 
-    private composeCaseProps(): {
-        cases: CaseElementProps[];
-        resultName: string;
-        operand: string;
-    } {
-        const cases: CaseElementProps[] = [];
-        let resultName = '';
-        let operand = '@input';
+    private getInitialState(): SwitchRouterState {
+        let cases: CaseElementProps[] = [];
+        let resultName: string = '';
+        let setResultName: boolean = false;
+        let operand: string = '@input';
 
-        const router = this.props.node.router as SwitchRouter;
+        const router: SwitchRouter = this.props.node.router as SwitchRouter;
 
-        if (this.isSwitchRouterNode() && router.cases) {
+        // If a router already exists at this node and it has cases
+        if (isSwitchRouterNode(this.props.node)) {
             ({ operand } = router);
 
             if (router.result_name) {
                 ({ result_name: resultName } = router);
+
+                setResultName = true;
             }
 
-            router.cases.forEach(kase => {
-                let exitName: string = null;
+            if (router.cases && router.cases.length) {
+                const caseProps: CaseElementProps[] = composeCaseProps(
+                    this.props.node,
+                    this.onCaseChanged,
+                    this.onCaseRemoved
+                );
 
-                if (kase.exit_uuid) {
-                    const exit = this.props.node.exits.find(({ uuid }) => uuid === kase.exit_uuid);
-
-                    if (exit) {
-                        ({ name: exitName } = exit);
-                    }
-                }
-
-                try {
-                    const config = this.context.getOperatorConfig(kase.type);
-
-                    cases.push({
-                        kase,
-                        exitName,
-                        onChange: this.onCaseChanged,
-                        onRemove: this.onCaseRemoved
-                    } as any);
-                } catch (error) {
-                    /** Ignore missing cases */
-                }
-            });
+                cases = cases.concat(caseProps);
+            }
         }
 
         return {
             cases,
             resultName,
-            operand
+            operand,
+            setResultName
         };
     }
 
@@ -711,10 +918,8 @@ export default class SwitchRouterForm extends React.Component<
     }
 
     private getNameField(): JSX.Element {
-        let nameField: JSX.Element = null;
-
-        if (this.state.setResultName || this.state.resultName) {
-            nameField = (
+        if (this.state.setResultName) {
+            return (
                 <TextInputElement
                     data-spec="name-field"
                     ref={this.props.onBindWidget}
@@ -725,33 +930,27 @@ export default class SwitchRouterForm extends React.Component<
                     ComponentMap={this.props.ComponentMap}
                 />
             );
-        } else {
-            nameField = (
-                <span
-                    data-spec="name-field"
-                    className={styles.save_link}
-                    onClick={this.onShowNameField}>
-                    Save as..
-                </span>
-            );
         }
 
-        return nameField;
+        return (
+            <span
+                data-spec="name-field"
+                className={styles.save_link}
+                onClick={this.onShowNameField}>
+                Save as..
+            </span>
+        );
     }
 
     private getLeadIn(): JSX.Element {
-        let leadIn: JSX.Element = null;
+        let leadIn: JSX.Element | string = null;
 
         if (this.props.config.type === 'wait_for_response') {
-            leadIn = (
-                <div data-spec="lead-in" className={styles.instructions}>
-                    If the message response...
-                </div>
-            );
+            leadIn = WAIT_LABEL;
         } else if (this.props.config.type === 'expression') {
-            leadIn = (
-                <div data-spec="lead-in" className={styles.instructions}>
-                    <p>If the expression...</p>
+            leadIn = leadIn = (
+                <Fragment>
+                    <p>{EXPRESSION_LABEL}</p>
                     <TextInputElement
                         ref={this.props.onBindWidget}
                         key={this.props.node.uuid}
@@ -763,11 +962,35 @@ export default class SwitchRouterForm extends React.Component<
                         required={true}
                         ComponentMap={this.props.ComponentMap}
                     />
+                </Fragment>
+            );
+        } else if (this.props.config.type === 'contact_field') {
+            const localFields: ContactFieldResult[] = this.props.ComponentMap.getContactFields();
+
+            leadIn = (
+                <div className="select-medium">
+                    <span className={styles.fieldsText}>{FIELD_LABEL}</span>
+                    <FieldElement
+                        ref={this.props.onBindWidget}
+                        __className={styles.fields}
+                        name="Field"
+                        placeholder={FIELD_PLACEHOLDER}
+                        endpoint={this.context.endpoints.fields}
+                        onChange={this.onFieldChanged}
+                        searchPromptText={FIELD_NOT_FOUND}
+                        required={true}
+                        localFields={localFields}
+                        initial={this.state.field}
+                    />
                 </div>
             );
         }
 
-        return leadIn;
+        return (
+            <div data-spec="lead-in" className={styles.instructions}>
+                {leadIn}
+            </div>
+        );
     }
 
     private renderForm(): JSX.Element {
@@ -822,8 +1045,7 @@ export default class SwitchRouterForm extends React.Component<
                 <div
                     data-spec="advanced-instructions"
                     className={styles.translating_operator_instructions}>
-                    Sometimes languages need special rules to route things properly. If a
-                    translation is not provided, the original rule will be used.
+                    {OPERATOR_LOCALIZATION_LEGEND}
                 </div>
                 <div>{operators}</div>
             </div>

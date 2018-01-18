@@ -1,22 +1,22 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 import Select from 'react-select';
-import { toBoolMap, getSelectClass } from '../../helpers/utils';
+import { Node } from '../../flowTypes';
+import { toBoolMap, getSelectClass, BoolMap, jsonEqual } from '../../helpers/utils';
 import FormElement, { FormElementProps } from './FormElement';
 import ComponentMap, { SearchResult } from '../../services/ComponentMap';
-import SelectSearch from '../SelectSearch';
+import SelectSearch, { SelectSearchProps } from '../SelectSearch';
 
-import * as styles from './FormElement.scss';
-
-// TODO: these should come from an external source
-const reserved = toBoolMap(['language', 'name', 'timezone']);
-
-interface FieldElementProps extends FormElementProps {
-    initial: SearchResult;
+export interface FieldElementProps extends FormElementProps {
+    initial?: SearchResult;
     localFields?: SearchResult[];
     endpoint?: string;
     add?: boolean;
     placeholder?: string;
+    __className?: string;
+    searchPromptText?: string;
+    fieldNameAtNode?: string;
+    onChange?: (field: SearchResult) => void;
 }
 
 interface FieldState {
@@ -24,87 +24,99 @@ interface FieldState {
     errors: string[];
 }
 
+export const isValidNewOption = ({ label }: { label: string } = { label: '' }): boolean => {
+    if (!label) {
+        return false;
+    }
+
+    const lowered: string = label.toLowerCase();
+
+    const isValid: boolean =
+        lowered.length > 0 &&
+        lowered.length <= 36 &&
+        /^[a-z0-9-][a-z0-9- ]*$/.test(lowered) &&
+        !reserved[lowered];
+
+    return isValid;
+};
+
+export const createNewOption = ({ label }: { label: string }): SearchResult => {
+    const newOption: SearchResult = {
+        id: generateUUID(),
+        name: label,
+        type: 'field',
+        extraResult: true
+    } as SearchResult;
+
+    return newOption;
+};
+
+// TODO: these should come from an external source
+const reserved: BoolMap = toBoolMap(['language', 'name', 'timezone']);
+
+export const NEW_FIELD_PROMPT = 'New Field: ';
+export const RESULT_TYPE_FIELD = 'field';
+
 export default class FieldElement extends React.Component<FieldElementProps, FieldState> {
     constructor(props: any) {
         super(props);
 
         this.state = {
-            field: this.props.initial,
+            field: props.initial,
             errors: []
         };
 
         this.onChange = this.onChange.bind(this);
-        this.isValidNewOption = this.isValidNewOption.bind(this);
-        this.createNewOption = this.createNewOption.bind(this);
     }
 
-    onChange([field]: any) {
-        this.setState({
-            field
-        });
+    public componentWillReceiveProps(nextProps: FieldElementProps): void {
+        if (!jsonEqual(this.props.initial, nextProps.initial)) {
+            this.setState({ field: nextProps.initial });
+        }
     }
 
-    validate(): boolean {
+    private onChange([field]: SearchResult[]): void {
+        if (this.state.field !== field) {
+            this.setState(
+                {
+                    field
+                },
+                () => this.props.onChange && this.props.onChange(field)
+            );
+        }
+    }
+
+    public validate(): boolean {
         const errors: string[] = [];
 
-        if (this.props.required) {
-            if (!this.state.field) {
-                errors.push(`${this.props.name} is required`);
-            }
+        if (this.props.required && !this.state.field) {
+            errors.push(`${this.props.name} is required`);
         }
 
         this.setState({ errors });
 
-        return errors.length == 0;
+        const isValid: boolean = errors.length === 0;
+
+        return isValid;
     }
 
-    isValidNewOption({ label }: { label: string }): boolean {
-        if (!label) {
-            return false;
-        }
-
-        const lowered = label.toLowerCase();
-
-        return (
-            lowered.length > 0 &&
-            lowered.length <= 36 &&
-            /^[a-z0-9-][a-z0-9- ]*$/.test(lowered) &&
-            !reserved[lowered]
-        );
-    }
-
-    createNewOption({ label }: { label: string }): SearchResult {
-        const newOption: SearchResult = {
-            id: generateUUID(),
-            name: label,
-            type: 'field',
-            extraResult: true
-        } as SearchResult;
-
-        return newOption;
-    }
-
-    render() {
-        let createOptions = {};
+    public render(): JSX.Element {
+        const createOptions: Partial<SelectSearchProps> = {};
 
         if (this.props.add) {
-            createOptions = {
-                isValidNewOption: this.isValidNewOption,
-                createNewOption: this.createNewOption,
-                createPrompt: 'New Field: '
-            };
+            createOptions.isValidNewOption = isValidNewOption;
+            createOptions.createNewOption = createNewOption;
+            createOptions.createPrompt = NEW_FIELD_PROMPT;
         }
 
-        const initial: SearchResult[] = [];
-
-        if (this.state.field) {
-            initial.push(this.state.field);
-        }
+        // SelectSearch expects a list of `SearchResult`'s
+        const initial: SearchResult[] = this.state.field ? [this.state.field] : [];
 
         const classes: string[] = getSelectClass(this.state.errors.length);
 
         return (
             <FormElement
+                className={this.props.__className}
                 showLabel={this.props.showLabel}
                 name={this.props.name}
                 helpText={this.props.helpText}
@@ -114,11 +126,12 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
-                    resultType="field"
+                    resultType={RESULT_TYPE_FIELD}
                     localSearchOptions={this.props.localFields}
                     multi={false}
-                    clearable={false}
                     initial={initial}
+                    placeholder={this.props.placeholder}
+                    searchPromptText={this.props.searchPromptText}
                     {...createOptions}
                 />
             </FormElement>

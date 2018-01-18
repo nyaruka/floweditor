@@ -151,7 +151,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                         {text}
                     </div>
                     <Modal
-                        className={styles[`detail_${this.props.type}`]}
+                        __className={styles[`detail_${this.props.type}`]}
                         title={[<div>{detailTitle}</div>]}
                         show={this.state.detailsVisible}
                         buttons={{

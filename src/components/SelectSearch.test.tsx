@@ -1,15 +1,64 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import SelectSearch, { SelectSearchProps } from './SelectSearch';
+import Config from '../providers/ConfigProvider/configContext';
+import { SearchResult } from '../services/ComponentMap';
+import { FIELD_PLACEHOLDER, FIELD_NOT_FOUND } from './routers/SwitchRouter';
+import { RESULT_TYPE_FIELD } from './form/FieldElement';
+import { ContactField } from '../flowTypes';
 
-const selectSearchProps: SelectSearchProps = {
-    url: 'https://some-url.com',
-    name: 'name',
-    resultType: 'resultType'
-};
+const { results: fieldsResp } = require('../../assets/fields.json');
 
-describe('Component: SelectSearch', () => {
-    it('should mount', () => {
-        expect(shallow(<SelectSearch {...selectSearchProps} />).exists()).toBeTruthy();
+describe('SelectSearch >', () => {
+    const loadOptionsSpy = jest.spyOn(
+        SelectSearch.prototype,
+        'loadOptions' as any
+    );
+
+    const props: SelectSearchProps = {
+        url: Config.endpoints.groups,
+        name: 'Field',
+        resultType: RESULT_TYPE_FIELD,
+        placeholder: FIELD_PLACEHOLDER,
+        searchPromptText: FIELD_NOT_FOUND,
+        closeOnSelect: false,
+        initial: []
+    };
+
+    const fieldOptions: SearchResult[] = fieldsResp.map(({ name, uuid, type }: ContactField) => ({
+        name,
+        id: uuid,
+        type
+    }));
+
+    describe('render >', () => {
+        describe('split by contact field >', () => {
+            const wrapper = mount(<SelectSearch {...props} />);
+
+            it('should render <Async />, pass it expected props', () => {
+                expect(wrapper.find('Async').props()).toEqual(
+                    expect.objectContaining({
+                        name: props.name,
+                        placeholder: props.placeholder,
+                        searchPromptText: props.searchPromptText,
+                        closeOnSelect: props.closeOnSelect
+                    })
+                );
+
+                expect(loadOptionsSpy).toHaveBeenCalled();
+            });
+        });
+    });
+
+    describe('instance methods >', () => {
+        describe('componentWillReceiveProps >', () => {
+            it("should update state if next 'initial' prop is different than existing version", () => {
+                const wrapper = mount(<SelectSearch {...props} />);
+
+                wrapper.setProps({ initial: [fieldOptions[1]] });
+
+                expect(wrapper.state('selections')).toEqual([fieldOptions[1]]);
+            });
+        });
     });
 });

@@ -21,10 +21,12 @@ import {
 } from './operatorConfigs';
 import {
     GetActivity,
+    GetFields,
     GetFlows,
     GetFlow,
     SaveFlow,
     getActivity,
+    getFields,
     getFlows,
     getFlow,
     saveFlow
@@ -51,6 +53,7 @@ export interface ConfigProviderContext {
     getTypeConfig: GetTypeConfig;
     getOperatorConfig: GetOperatorConfig;
     getActivity: GetActivity;
+    getFields: GetFields;
     getFlows: GetFlows;
     getFlow: GetFlow;
     saveFlow: SaveFlow;
@@ -71,6 +74,7 @@ export default {
     getTypeConfig,
     getOperatorConfig,
     getActivity,
+    getFields,
     getFlows,
     getFlow,
     saveFlow,

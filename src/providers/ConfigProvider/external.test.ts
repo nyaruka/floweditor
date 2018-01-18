@@ -1,41 +1,53 @@
-import * as nock from 'nock';
-import { devServerPort } from '../../../webpack.dev';
-import { ACTIVITY_ENDPOINT, FLOWS_ENDPOINT, getFlow, getFlows } from './external';
+import axios from 'axios';
+import MockAdapter = require('axios-mock-adapter');
+import { ContactField } from '../../flowTypes';
+import {
+    FlowDetails,
+    FLOWS_ENDPOINT,
+    FIELDS_ENDPOINT,
+    getFlow,
+    getFlows,
+    getFields
+} from './external';
+
+const moxios = new MockAdapter(axios);
 
 const {
     results: [{ uuid: flowUUID, name: flowName, definition }]
 } = require('../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
-
 const { results: getFlowsResp } = require('../../../assets/flows.json');
+const { results: getFieldsResp } = require('../../../assets/fields.json');
 
-const getFlowResp = {
+const getFlowResp: FlowDetails = {
     uuid: flowUUID,
     name: flowName,
     definition,
     dependencies: []
 };
 
-const getFlowNock = nock(`http://localhost:${devServerPort}`)
-    .get(FLOWS_ENDPOINT)
-    .query({ uuid: flowUUID })
-    .reply(200, getFlowResp);
+moxios
+    .onGet(FLOWS_ENDPOINT)
+    .reply(200, getFlowsResp)
+    .onGet(FLOWS_ENDPOINT, { params: { uuid: flowUUID } })
+    .reply(200, getFlowResp)
+    .onGet(FIELDS_ENDPOINT)
+    .reply(200, getFieldsResp);
 
-const getFlowsNock = nock(`http://localhost:${devServerPort}`)
-    .get(FLOWS_ENDPOINT)
-    .reply(200, getFlowsResp);
+afterAll(() => moxios.reset());
 
-afterAll(() => nock.cleanAll());
+describe('external >', () => {
+    describe('getFlow >', () =>
+        it('should fetch a flow by UUID', () => {
+            getFlow(flowUUID, false).then(res => expect(res).toEqual(getFlowResp));
+        }));
 
-describe('Providers: external', () => {
-    describe('getFlow', () => {
-        it('should get a flow', () => {
-            getFlow(flowUUID, false).then(response => expect(response).toEqual(getFlowResp));
-        });
-    });
-
-    describe('getFlows', () => {
+    describe('getFlows >', () =>
         it('should fetch a list of flows', () => {
-            getFlows().then(response => expect(response).toEqual(getFlowsResp));
-        });
-    });
+            getFlows().then(res => expect(res).toEqual(getFlowsResp));
+        }));
+
+    describe('getFields >', () =>
+        it('should fetch a list of contact fields', () => {
+            getFields().then(res => expect(res).toEqual(getFieldsResp));
+        }));
 });
