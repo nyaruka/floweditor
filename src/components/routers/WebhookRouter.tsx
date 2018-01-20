@@ -209,8 +209,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
             update(this.state.headers, { $splice: [[header.props.index, 1]] })
         );
 
-        this.setState({ headers: newHeaders });
-        this.props.removeWidget(header.props.name);
+        this.setState({ headers: newHeaders }, () => this.props.removeWidget(header.props.name));
     }
 
     private onHeaderChanged(ele: HeaderElement): void {
@@ -402,9 +401,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
             this.state.method
         } request that will be sent to your webhook.`;
         const reqBodyLabel: string = `${this.state.method} Body`;
-        const reqBodyHelp: string = `Modify the body of your ${
-            this.state.method
-        } request.`;
+        const reqBodyHelp: string = `Modify the body of your ${this.state.method} request.`;
 
         const bodyForm: JSX.Element =
             this.state.method === Methods.POST || this.state.method === Methods.PUT ? (
