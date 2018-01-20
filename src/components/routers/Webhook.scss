@@ -1,4 +1,9 @@
 @import '../../variables.scss';
+
+.info {
+    margin-bottom: 0px;
+}
+
 .method {
     width: 15%;
     float: left;
@@ -80,8 +85,8 @@
     margin-left: 10px;
 }
 
-.post_body_form {
-    .post_body {
+.body_form {
+    .req-body {
         margin-top: 8px;
         textarea {
             unicode-bidi: embed;

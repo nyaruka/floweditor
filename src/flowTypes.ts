@@ -68,6 +68,12 @@ export interface Action {
     uuid: string;
 }
 
+export enum Methods {
+    GET = 'GET',
+    POST = 'POST',
+    PUT = 'PUT'
+}
+
 export interface ChangeGroup extends Action {
     groups: Group[];
 }
@@ -110,7 +116,7 @@ export interface Headers {
 
 export interface CallWebhook extends Action {
     url: string;
-    method: string;
+    method: Methods;
     body?: string;
     headers?: Headers;
 }
