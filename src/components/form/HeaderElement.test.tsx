@@ -17,13 +17,36 @@ const headers: Header[] = [
 describe('render >', () => {
     headers.forEach((header, idx, arr) => {
         const isEmpty: boolean = idx === arr.length - 1;
+        const wrapper: ShallowWrapper = shallow(
+            <HeaderElement {...{ header, index: idx, empty: isEmpty } as any} />
+        );
+
+        it('should render header name input', () => {
+            expect(wrapper.find({ name: 'name' }).props()).toEqual(
+                expect.objectContaining({
+                    placeholder: 'Header Name',
+                    value: header.name
+                })
+            );
+        });
+
+        it('should render header value input', () => {
+            expect(wrapper.find({ name: 'value' }).props()).toEqual(
+                expect.objectContaining({
+                    autocomplete: true,
+                    placeholder: 'Value',
+                    value: header.value
+                })
+            );
+        });
+
         if (idx === 0 || isEmpty) {
             it("shouldn't render remove icon for first or last header", () => {
-                const wrapper: ShallowWrapper = shallow(
-                    <HeaderElement {...{ header, empty: isEmpty } as any} />
-                );
-
-                expect(wrapper.find('.remove-ico').exists()).toBeFalsy();
+                expect(wrapper.find('.removeIco').exists()).toBeFalsy();
+            });
+        } else {
+            it('should render remove icon it header not first or last', () => {
+                expect(wrapper.find('.removeIco').exists()).toBeTruthy();
             });
         }
     });
