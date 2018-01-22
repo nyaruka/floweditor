@@ -156,7 +156,7 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
             this.props.Activity.setSimulation(activity);
 
             if (activeFlow && activeFlow != this.currentFlow) {
-                var flow = this.flows.find((flow: FlowDefinition) => {
+                var [flow] = this.flows.filter((flow: FlowDefinition) => {
                     return flow.uuid == activeFlow;
                 });
                 if (flow) {

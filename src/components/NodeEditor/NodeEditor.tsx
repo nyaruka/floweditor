@@ -211,9 +211,14 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             }
         }
 
+        // Account for ghost nodes
         if (this.props.node) {
             if (this.props.node.router) {
                 return this.props.node.router.type;
+            }
+
+            if (this.props.node.actions) {
+                return this.props.node.actions[0].type;
             }
         }
 
@@ -290,11 +295,10 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         const exits: Exit[] = this.props.node.exits.reduce(
             (exitList, { uuid: exitUUID, name: exitName }) => {
-                const localized = this.props.localizations.find(
+                const [localized] = this.props.localizations.filter(
                     (localizedObject: LocalizedObject) =>
                         localizedObject.getObject().uuid === exitUUID
                 );
-
 
                 if (localized) {
                     let value = '';
@@ -472,15 +476,17 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     private getTypeList(): JSX.Element {
         let typeList: JSX.Element = null;
 
-        if (!this.props.localizations || !this.props.localizations.length) {
+        const className: string =
+            this.state.config.type === 'wait_for_response' ||
+            this.state.config.type === 'expression' ||
+            this.state.config.type === 'group'
+                ? formStyles.type_chooser_switch
+                : formStyles.type_chooser;
+
+        if (!this.props.translating) {
             typeList = (
                 <TypeListComp
-                    className={
-                        this.state.config.type === 'wait_for_response' ||
-                        this.state.config.type === 'expression'
-                            ? formStyles.type_chooser_switch
-                            : formStyles.type_chooser
-                    }
+                    className={className}
                     /** NodeEditor */
                     initialType={this.state.config}
                     onChange={this.onTypeChange}

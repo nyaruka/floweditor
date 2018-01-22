@@ -1,10 +1,12 @@
 import { ComponentClass, SFC, ReactElement } from 'react';
 import { ShallowWrapper, ReactWrapper } from 'enzyme';
+import { substArr } from '@ycleptkellan/substantive';
 import { FlowDefinition } from '../flowTypes';
 import { CharacterSet } from '../components/form/TextInputElement';
 
-const SNAKED_CHARS = /\s+(?=\S)/g;
-const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+const SNAKED_CHARS: RegExp = /\s+(?=\S)/g;
+
+const V4_UUID: RegExp = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 
 interface BoolMap {
     [key: string]: boolean;
@@ -12,7 +14,7 @@ interface BoolMap {
 
 /**
  * Turns a string array into a bool map for constant lookup
- * @param {string[]} array - an array of strings, e.g. contact fields
+ * @param {Array.<string>} array - an array of strings, e.g. contact fields
  * @returns {object} A map of each string
  */
 export const toBoolMap = (array: string[]): BoolMap =>
@@ -52,7 +54,7 @@ export const getDisplayName = (WrappedComponent: ComponentClass | SFC): string =
     WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
 /**
- * NOTE: borrowed from EventBrite: https://github.com/eventbrite/javascript/blob/master/react/testing.md#finding-nodes
+ * Borrowed from EventBrite: https://github.com/eventbrite/javascript/blob/master/react/testing.md#finding-nodes
  * Finds all instances of components in the rendered `componentWrapper` that are DOM components
  * with the `data-spec` attribute matching `name`.
  * @param {ReactWrapper|ShallowWrapper} componentWrapper - Rendered componentWrapper (result of mount, shallow, or render)
@@ -83,27 +85,40 @@ export const validUUID = (uuid: string): boolean => V4_UUID.test(uuid);
 export const titleCase = (str: string): string =>
     str.replace(/\b\w+/g, s => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase());
 
-export const getSelectClass = (errors: number): string[] => {
+/**
+ * Helper that determines whether or not `react-select`'s error class should be applied
+ * @param {number} errors - The number of errors a form field component may hold in its state
+ * @returns {string} Class to apply
+ */
+export const getSelectClass = (errors: number): string => {
     if (errors === 0) {
-        return [];
+        return '';
     }
-    /** We use a global selector here for react-select */
-    return ['select-invalid'];
-};
-
-export const reorderList = (list: any[], startIndex: number, endIndex: number): any[] => {
-    const [removed] = list.splice(startIndex, 1);
-
-    list.splice(endIndex, 0, removed);
-
-    return list;
+    // We use a global selector here for react-select
+    return 'select-invalid';
 };
 
 /**
- * Compares basic objects (no methods and DOM nodes; property order important)
+ * Simple comparison of basic objects (no methods and DOM nodes; property order important)
  * @param {object} objA - basic object
  * @param {object} objB - basic object
  * @returns {boolean}
  */
-export const jsonEqual = (objA: {}, objB: {}): boolean =>
+export const jsonEqual = (objA: object, objB: object): boolean =>
     JSON.stringify(objA) === JSON.stringify(objB);
+
+/**
+ * Helper that reorders a list of items given a start and end index
+ * @param {Array} list
+ * @param {number} startIndex
+ * @param {number} endIndex
+ */
+export const reorderList = (list: any[], startIndex: number, endIndex: number): any[] => {
+    if (!substArr(list)) {
+        return [];
+    }
+    const reorderedList = [...list];
+    const [removed] = reorderedList.splice(startIndex, 1);
+    reorderedList.splice(endIndex, 0, removed);
+    return reorderedList;
+};

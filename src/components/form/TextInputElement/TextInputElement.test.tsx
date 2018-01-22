@@ -9,7 +9,6 @@ import TextInputElement, {
     MAX_GSM_MULTI,
     MAX_UNICODE_SINGLE,
     MAX_UNICODE_MULTI,
-    toCharSetEnum,
     cleanMsg,
     filterOptions,
     getCharCount,
@@ -61,12 +60,6 @@ const optionQueryMap = OPTIONS.reduce((argMap, { name }) => {
 
 describe('TextInputElement >', () => {
     describe('helpers >', () => {
-        describe('toCharSetEnum()', () =>
-            it('should return the CharacterSet enum value that matches its argument', () => {
-                expect(toCharSetEnum('GSM')).toBe(CharacterSet.GSM);
-                expect(toCharSetEnum('Unicode')).toBe(CharacterSet.UNICODE);
-            }));
-
         describe('cleanMsg >', () => {
             it('should replace specified unicode characters with their GSM counterparts', () =>
                 expect(cleanMsg('“”‘’— …–')).toBe(`""''- ...-`));

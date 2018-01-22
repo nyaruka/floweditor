@@ -47,37 +47,30 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
         });
     }
 
-    validate(): boolean {
+    public validate(): boolean {
         const errors: string[] = [];
 
-        if (this.props.required) {
-            if (!this.state.flow) {
-                errors.push(`${this.props.name} is required`);
-            }
+        if (this.props.required && !this.state.flow) {
+            errors.push(`${this.props.name} is required`);
         }
 
-        this.setState({ errors: errors });
+        this.setState({ errors });
 
         return errors.length === 0;
     }
 
-    render() {
-        let createOptions = {};
-
-        const classes: string[] = getSelectClass(this.state.errors.length);
-
+    public render(): JSX.Element {
+        const className: string = getSelectClass(this.state.errors.length);
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <SelectSearch
-                    className={classes.join(' ')}
+                    className={className}
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
                     resultType="flow"
                     multi={false}
-                    clearable={false}
                     initial={[this.state.flow]}
-                    {...createOptions}
                 />
             </FormElement>
         );

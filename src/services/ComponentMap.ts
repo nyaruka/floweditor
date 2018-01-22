@@ -23,7 +23,7 @@ export interface ContactField {
 export interface SearchResult {
     name: string;
     id: string;
-    type: string;
+    type?: string;
     prefix?: string;
     extraResult?: boolean;
 }

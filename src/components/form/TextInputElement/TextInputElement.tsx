@@ -15,7 +15,7 @@ export enum Count {
 
 export enum CharacterSet {
     GSM = 'GSM',
-    UNICODE = 'UNICODE'
+    UNICODE = 'Unicode'
 }
 
 export interface Coordinates {
@@ -40,28 +40,19 @@ interface CharCountStats {
 }
 
 interface TextInputProps extends FormElementProps {
-    count?: Count;
     value: string;
-    /** Validates that the input is a url */
+    ComponentMap: ComponentMap;
+    count?: Count;
     url?: boolean;
-    /** Should we display in a textarea */
     textarea?: boolean;
-    /** Text to display when there is no value */
     placeholder?: string;
-    /** Do we show autocompletion choices */
     autocomplete?: boolean;
     focus?: boolean;
     onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
     onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
-    ComponentMap: ComponentMap;
 }
 
 export interface TextInputState {
-    maxLength?: number;
-    parts?: string[];
-    characterCount?: number;
-    characterSet?: CharacterSet;
-    remainingInPart?: number;
     value: string;
     errors: string[];
     caretOffset: number;
@@ -71,6 +62,11 @@ export interface TextInputState {
     matches: CompletionOption[];
     query: string;
     options: CompletionOption[];
+    maxLength?: number;
+    parts?: string[];
+    characterCount?: number;
+    characterSet?: CharacterSet;
+    remainingInPart?: number;
 }
 
 type InitialState = Pick<
@@ -99,14 +95,6 @@ export const MAX_GSM_SINGLE = 160;
 export const MAX_GSM_MULTI = 153;
 export const MAX_UNICODE_SINGLE = 70;
 export const MAX_UNICODE_MULTI = 67;
-
-/**
- * Transforms a given characterSet into its CharacterSet equivalent; defaults to CharacterSet.GSM
- * @param {string} characterSet - characterSet, i.e. 'unicode' or 'gsm'
- * @returns {CharacterSet} CharacterSet
- */
-export const toCharSetEnum = (characterSet: string): CharacterSet =>
-    characterSet.toLowerCase() === 'unicode' ? CharacterSet.UNICODE : CharacterSet.GSM;
 
 /**
  * Replaces unicode characters commonly inserted by text editors like MSWord in a given string with their GSM equivalents
@@ -150,7 +138,7 @@ export const getCharCount = (value: string | string[], replace?: boolean): CharC
 
     let maxLength: number = MAX_GSM_SINGLE;
 
-    if (toCharSetEnum(characterSet) === CharacterSet.UNICODE) {
+    if (characterSet === CharacterSet.UNICODE) {
         if (characterCount > MAX_UNICODE_SINGLE) {
             maxLength = MAX_UNICODE_MULTI;
         } else {
