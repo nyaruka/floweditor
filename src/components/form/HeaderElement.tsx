@@ -16,8 +16,8 @@ export interface HeaderElementProps {
     name: string;
     header: Header;
     index: number;
-    onRemove(header: HeaderElement): void;
-    onChange(header: HeaderElement): void;
+    onRemove: (header: HeaderElement) => void;
+    onChange: (header: HeaderElement) => void;
     ComponentMap: ComponentMap;
 }
 
@@ -82,13 +82,20 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
         return errors.length === 0;
     }
 
-    public render(): JSX.Element {
-        const classes = [styles.header];
-
-        if (this.state.errors.length > 0) {
-            classes.push(forms.invalid);
+    private getRemoveIco(): JSX.Element {
+        if (this.props.index !== 0) {
+            return (
+                <div className={styles.remove_button} onClick={this.onRemove}>
+                    <span className="icon-remove" />
+                </div>
+            );
         }
 
+        return null;
+    }
+
+    public render(): JSX.Element {
+        const removeIco: JSX.Element = this.getRemoveIco();
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <div className={styles.header}>
@@ -111,9 +118,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
                             ComponentMap={this.props.ComponentMap}
                         />
                     </div>
-                    <div className={styles.remove_button} onClick={this.onRemove}>
-                        <span className="icon-remove" />
-                    </div>
+                    {removeIco}
                 </div>
             </FormElement>
         );
