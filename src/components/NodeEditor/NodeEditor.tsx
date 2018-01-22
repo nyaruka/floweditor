@@ -295,7 +295,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                         localizedObject.getObject().uuid === exitUUID
                 );
 
-
                 if (localized) {
                     let value = '';
 
@@ -472,15 +471,17 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     private getTypeList(): JSX.Element {
         let typeList: JSX.Element = null;
 
+        const className: string =
+            this.state.config.type === 'wait_for_response' ||
+            this.state.config.type === 'expression' ||
+            this.state.config.type === 'group'
+                ? formStyles.type_chooser_switch
+                : formStyles.type_chooser;
+
         if (!this.props.translating) {
             typeList = (
                 <TypeListComp
-                    className={
-                        this.state.config.type === 'wait_for_response' ||
-                        this.state.config.type === 'expression'
-                            ? formStyles.type_chooser_switch
-                            : formStyles.type_chooser
-                    }
+                    className={className}
                     /** NodeEditor */
                     initialType={this.state.config}
                     onChange={this.onTypeChange}
