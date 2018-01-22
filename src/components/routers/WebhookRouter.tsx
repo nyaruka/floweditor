@@ -169,7 +169,8 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         }
 
         var headerElements: JSX.Element[] = [];
-        this.state.headers.map((header: Header, index: number) => {
+        this.state.headers.map((header: Header, index: number, arr: Header[]) => {
+            const isEmpty: boolean = index === this.state.headers.length - 1;
             headerElements.push(
                 <div key={header.uuid}>
                     <HeaderElement
@@ -179,6 +180,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                         onRemove={this.onHeaderRemoved}
                         onChange={this.onHeaderChanged}
                         index={index}
+                        empty={isEmpty}
                         ComponentMap={this.props.ComponentMap}
                     />
                 </div>

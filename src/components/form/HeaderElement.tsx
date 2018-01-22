@@ -19,6 +19,7 @@ export interface HeaderElementProps {
     onRemove: (header: HeaderElement) => void;
     onChange: (header: HeaderElement) => void;
     ComponentMap: ComponentMap;
+    empty?: boolean;
 }
 
 interface HeaderElementState {
@@ -83,7 +84,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
     }
 
     private getRemoveIco(): JSX.Element {
-        if (this.props.index !== 0) {
+        if (this.props.index !== 0 && !this.props.empty) {
             return (
                 <div className={styles.removeIco} onClick={this.onRemove}>
                     <span className="icon-remove" />
