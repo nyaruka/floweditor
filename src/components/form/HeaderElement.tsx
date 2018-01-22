@@ -41,45 +41,48 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
 
         this.onChangeName = this.onChangeName.bind(this);
         this.onChangeValue = this.onChangeValue.bind(this);
+        this.onRemove = this.onRemove.bind(this);
     }
 
-    private onChangeName(event: React.SyntheticEvent<HTMLTextElement>) {
+    private onChangeName({
+        currentTarget: { value }
+    }: React.SyntheticEvent<HTMLTextElement>): void {
         this.setState(
             {
-                name: event.currentTarget.value
+                name: value
             },
             () => this.props.onChange(this)
         );
     }
 
-    private onChangeValue(event: React.SyntheticEvent<HTMLTextElement>) {
+    private onChangeValue({
+        currentTarget: { value }
+    }: React.SyntheticEvent<HTMLTextElement>): void {
         this.setState(
             {
-                value: event.currentTarget.value
+                value
             },
             () => this.props.onChange(this)
         );
     }
 
-    private onRemove(ele: any) {
+    private onRemove(): void {
         this.props.onRemove(this);
     }
 
-    validate(): boolean {
+    public validate(): boolean {
         const errors: string[] = [];
 
-        if (this.state.value.trim().length > 0) {
-            if (this.state.name.trim().length == 0) {
-                errors.push('HTTP headers must have a name');
-            }
+        if (this.state.value.trim().length > 0 && this.state.name.trim().length === 0) {
+            errors.push('HTTP headers must have a name');
         }
 
-        this.setState({ errors: errors });
+        this.setState({ errors });
 
         return errors.length === 0;
     }
 
-    render() {
+    public render(): JSX.Element {
         const classes = [styles.header];
 
         if (this.state.errors.length > 0) {
@@ -104,11 +107,11 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
                             name="value"
                             onChange={this.onChangeValue}
                             value={this.state.value}
-                            autocomplete
+                            autocomplete={true}
                             ComponentMap={this.props.ComponentMap}
                         />
                     </div>
-                    <div className={styles.remove_button} onClick={this.onRemove.bind(this)}>
+                    <div className={styles.remove_button} onClick={this.onRemove}>
                         <span className="icon-remove" />
                     </div>
                 </div>
