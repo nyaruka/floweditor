@@ -472,7 +472,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     private getTypeList(): JSX.Element {
         let typeList: JSX.Element = null;
 
-        if (!this.props.localizations || !this.props.localizations.length) {
+        if (!this.props.translating) {
             typeList = (
                 <TypeListComp
                     className={
