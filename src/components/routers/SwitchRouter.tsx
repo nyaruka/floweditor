@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Fragment } from 'react';
 import * as FlipMove from 'react-flip-move';
 import * as update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
@@ -208,6 +209,13 @@ export const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
     height: isDragging && draggableStyle.height + 15,
     width: isDragging && draggableStyle.width - 5
 });
+
+export const waitLabel: string = 'If the message response...';
+export const expressionLabel: string = 'If the expression...';
+export const groupLabel: string = "Select the group(s) you'd like to split by below";
+export const groupPlaceHolder: string = 'Select one or more groups...';
+export const operatorLocalizationLegend: string =
+    'Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.';
 
 export default class SwitchRouterForm extends React.Component<
     SwitchRouterFormProps,
@@ -466,7 +474,7 @@ export default class SwitchRouterForm extends React.Component<
                     cases.push({
                         kase,
                         exitName,
-                        onChange: this.onCaseChanged,
+                        onChange: this.onCaseChanged.bind,
                         onRemove: this.onCaseRemoved
                     } as any);
                 } catch (error) {
@@ -734,18 +742,14 @@ export default class SwitchRouterForm extends React.Component<
     }
 
     private getLeadIn(): JSX.Element {
-        let leadIn: JSX.Element = null;
+        let leadIn: JSX.Element | string = null;
 
         if (this.props.config.type === 'wait_for_response') {
-            leadIn = (
-                <div data-spec="lead-in" className={styles.instructions}>
-                    If the message response...
-                </div>
-            );
+            leadIn = waitLabel;
         } else if (this.props.config.type === 'expression') {
-            leadIn = (
-                <div data-spec="lead-in" className={styles.instructions}>
-                    <p>If the expression...</p>
+            leadIn = leadIn = (
+                <Fragment>
+                    <p>{expressionLabel}</p>
                     <TextInputElement
                         ref={this.props.onBindWidget}
                         key={this.props.node.uuid}
@@ -757,11 +761,21 @@ export default class SwitchRouterForm extends React.Component<
                         required={true}
                         ComponentMap={this.props.ComponentMap}
                     />
+                </Fragment>
+            );
+        } else if (this.props.config.type === 'group') {
+            leadIn = (
+                <div className="select-medium">
+                    <p>{groupLabel}</p>
                 </div>
             );
         }
 
-        return leadIn;
+        return (
+            <div data-spec="lead-in" className={styles.instructions}>
+                {leadIn}
+            </div>
+        );
     }
 
     private renderForm(): JSX.Element {
@@ -816,8 +830,7 @@ export default class SwitchRouterForm extends React.Component<
                 <div
                     data-spec="advanced-instructions"
                     className={styles.translating_operator_instructions}>
-                    Sometimes languages need special rules to route things properly. If a
-                    translation is not provided, the original rule will be used.
+                    {operatorLocalizationLegend}
                 </div>
                 <div>{operators}</div>
             </div>
