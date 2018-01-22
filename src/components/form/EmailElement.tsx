@@ -69,15 +69,14 @@ export default class EmailElement extends React.Component<EmailElementProps, Ema
     }
 
     render() {
-        const classes: string[] = getSelectClass(this.state.errors.length);
-
+        const className: string = getSelectClass(this.state.errors.length);
         return (
             <FormElement
                 name={this.props.name}
                 required={this.props.required}
                 errors={this.state.errors}>
                 <SelectCreatable
-                    className={classes.join(' ')}
+                    className={className}
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     value={this.state.emails}

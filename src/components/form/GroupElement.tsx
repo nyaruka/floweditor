@@ -88,12 +88,12 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
             };
         }
 
-        const classes: string[] = getSelectClass(this.state.errors.length);
+        const className: string = getSelectClass(this.state.errors.length);
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <SelectSearch
-                    className={classes.join(' ')}
+                    className={className}
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}

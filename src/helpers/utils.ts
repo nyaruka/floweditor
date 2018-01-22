@@ -83,12 +83,12 @@ export const validUUID = (uuid: string): boolean => V4_UUID.test(uuid);
 export const titleCase = (str: string): string =>
     str.replace(/\b\w+/g, s => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase());
 
-export const getSelectClass = (errors: number): string[] => {
+export const getSelectClass = (errors: number): string => {
     if (errors === 0) {
-        return [];
+        return '';
     }
-    /** We use a global selector here for react-select */
-    return ['select-invalid'];
+    // We use a global selector here for react-select
+    return 'select-invalid';
 };
 
 export const reorderList = (list: any[], startIndex: number, endIndex: number): any[] => {

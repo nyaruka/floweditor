@@ -101,7 +101,7 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
             initial.push(this.state.field);
         }
 
-        const classes: string[] = getSelectClass(this.state.errors.length);
+        const className: string = getSelectClass(this.state.errors.length);
 
         return (
             <FormElement
@@ -110,7 +110,7 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
                 helpText={this.props.helpText}
                 errors={this.state.errors}>
                 <SelectSearch
-                    className={classes.join(' ')}
+                    className={className}
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
