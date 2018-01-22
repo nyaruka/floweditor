@@ -224,14 +224,9 @@ export default class SwitchRouterForm extends React.Component<
         this.onCaseChanged = this.onCaseChanged.bind(this);
         this.onCaseRemoved = this.onCaseRemoved.bind(this);
 
-        const { cases, resultName, operand } = this.composeCaseProps();
+        const initialState: SwitchRouterState = this.getInitialState();
 
-        this.state = {
-            cases,
-            setResultName: false,
-            resultName,
-            operand
-        };
+        this.state = initialState;
 
         this.onValid = this.onValid.bind(this);
         this.onShowNameField = this.onShowNameField.bind(this);
@@ -438,22 +433,20 @@ export default class SwitchRouterForm extends React.Component<
         );
     }
 
-    private composeCaseProps(): {
-        cases: CaseElementProps[];
-        resultName: string;
-        operand: string;
-    } {
+    private getInitialState(): SwitchRouterState {
         const cases: CaseElementProps[] = [];
-        let resultName = '';
-        let operand = '@input';
+        let resultName: string = '';
+        let setResultName: boolean = false;
+        let operand: string = '@input';
 
-        const router = this.props.node.router as SwitchRouter;
+        const router: SwitchRouter = this.props.node.router as SwitchRouter;
 
         if (this.isSwitchRouterNode() && router.cases) {
             ({ operand } = router);
 
             if (router.result_name) {
                 ({ result_name: resultName } = router);
+                setResultName = true;
             }
 
             router.cases.forEach(kase => {
@@ -477,7 +470,7 @@ export default class SwitchRouterForm extends React.Component<
                         onRemove: this.onCaseRemoved
                     } as any);
                 } catch (error) {
-                    /** Ignore missing cases */
+                    // Ignore missing cases
                 }
             });
         }
@@ -485,7 +478,8 @@ export default class SwitchRouterForm extends React.Component<
         return {
             cases,
             resultName,
-            operand
+            operand,
+            setResultName
         };
     }
 
