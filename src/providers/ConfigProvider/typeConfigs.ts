@@ -163,12 +163,12 @@ export interface TypeMap {
 }
 
 export const typeConfigMap: TypeMap = typeConfigList.reduce(
-    (typeConfigMap: TypeMap, typeConfig: Type) => {
-        typeConfigMap[typeConfig.type] = typeConfig;
+    (map: TypeMap, typeConfig: Type) => {
+        map[typeConfig.type] = typeConfig;
         if (typeConfig.aliases) {
-            typeConfig.aliases.forEach((alias: string) => (typeConfigMap[alias] = typeConfig));
+            typeConfig.aliases.forEach((alias: string) => (map[alias] = typeConfig));
         }
-        return typeConfigMap;
+        return map;
     },
     {}
 );
