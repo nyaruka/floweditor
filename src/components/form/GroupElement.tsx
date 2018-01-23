@@ -12,13 +12,14 @@ export interface GroupOption {
 
 export type GroupList = GroupOption[];
 
-interface GroupElementProps extends FormElementProps {
-    groups: GroupList;
+export interface GroupElementProps extends FormElementProps {
+    groups?: GroupList;
     localGroups?: SearchResult[];
     endpoint?: string;
     add?: boolean;
     placeholder?: string;
     searchPromptText?: string | JSX.Element;
+    onChange?: (groups: SearchResult[]) => void;
 }
 
 interface GroupElementState {
@@ -33,7 +34,7 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
     constructor(props: GroupElementProps) {
         super(props);
 
-        const groups: SearchResult[] = transformGroups(this.props.groups);
+        const groups: SearchResult[] = this.getGroups();
 
         this.state = {
             groups,
@@ -46,9 +47,26 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
     }
 
     private onChange(groups: SearchResult[]): void {
-        this.setState({
-            groups
-        });
+        this.setState(
+            {
+                groups
+            },
+            () => this.props.onChange && this.props.onChange(groups)
+        );
+    }
+
+    private getGroups(): SearchResult[] {
+        let groups: SearchResult[];
+
+        if (this.props.groups) {
+            groups = transformGroups(this.props.groups);
+        } else if (this.props.localGroups) {
+            ({ localGroups: groups } = this.props);
+        } else {
+            groups = [];
+        }
+
+        return groups;
     }
 
     public validate(): boolean {
@@ -70,7 +88,10 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
 
         const lowered: string = label.toLowerCase();
 
-        return lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered);
+        const isValid: boolean =
+            lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered);
+
+        return isValid;
     }
 
     private createNewOption({ label }: { label: string }): SearchResult {

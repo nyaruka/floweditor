@@ -3,20 +3,31 @@ import { Fragment } from 'react';
 import * as FlipMove from 'react-flip-move';
 import * as update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
-import { Node, SwitchRouter, Exit, AnyAction, Case, FlowDefinition } from '../../flowTypes';
+import {
+    Wait,
+    Node,
+    SwitchRouter,
+    Exit,
+    AnyAction,
+    Case,
+    FlowDefinition,
+    Router
+} from '../../flowTypes';
 import { Type } from '../../providers/ConfigProvider/typeConfigs';
 import { FormProps } from '../NodeEditor';
-import ComponentMap from '../../services/ComponentMap';
+import ComponentMap, { SearchResult } from '../../services/ComponentMap';
 import { Language } from '../LanguageSelector';
 import { LocalizedObject } from '../../services/Localization';
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
+import GroupElement, { GroupList, GroupElementProps } from '../form/GroupElement';
 import {
     GetOperatorConfig,
     operatorConfigList
 } from '../../providers/ConfigProvider/operatorConfigs';
 import {
     getOperatorConfigPT,
-    operatorConfigListPT
+    operatorConfigListPT,
+    endpointsPT
 } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 import CaseElement, { CaseElementProps } from '../form/CaseElement';
@@ -210,6 +221,31 @@ export const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
     width: isDragging && draggableStyle.width - 5
 });
 
+export const isSwitchRouterNode = (wait: Wait): boolean =>
+    wait && (wait.type === 'exp' || wait.type === 'group' || wait.type === 'msg');
+
+export const hasGroupCase = (cases: CaseElementProps[]): boolean => {
+    for (const { kase: { type } } of cases) {
+        if (type === 'has_group') {
+            return true;
+        }
+    }
+    return false;
+};
+
+export const extractGroups = ({ exits, router }: Node): GroupList =>
+    (router as SwitchRouter).cases.map(kase => {
+        const resultName = exits.reduce((result, { name, uuid }) => {
+            if (uuid === kase.exit_uuid) {
+                result += name;
+            }
+
+            return result;
+        }, '');
+
+        return { name: resultName, group: kase.arguments[0] };
+    });
+
 export const waitLabel: string = 'If the message response...';
 export const expressionLabel: string = 'If the expression...';
 export const groupLabel: string = "Select the group(s) you'd like to split by below";
@@ -224,7 +260,8 @@ export default class SwitchRouterForm extends React.Component<
 > {
     public static contextTypes = {
         getOperatorConfig: getOperatorConfigPT,
-        operatorConfigList: operatorConfigListPT
+        operatorConfigList: operatorConfigListPT,
+        endpoints: endpointsPT
     };
 
     constructor(props: SwitchRouterFormProps, context: ConfigProviderContext) {
@@ -238,9 +275,32 @@ export default class SwitchRouterForm extends React.Component<
         this.state = initialState;
 
         this.onValid = this.onValid.bind(this);
+        this.onGroupsChanged = this.onGroupsChanged.bind(this);
         this.onShowNameField = this.onShowNameField.bind(this);
         this.onExpressionChanged = this.onExpressionChanged.bind(this);
         this.onDragEnd = this.onDragEnd.bind(this);
+    }
+
+    public componentWillReceiveProps(nextProps: SwitchRouterFormProps): void {
+        const updates: Partial<SwitchRouterState> = {};
+
+        if (nextProps.config.type === 'group') {
+            if (this.state.operand.indexOf('groups') === -1) {
+                updates.operand = '@contact.groups';
+            }
+
+            if (!hasGroupCase(this.state.cases)) {
+                updates.cases = [];
+            }
+        } else {
+            if (isSwitchRouterNode(this.props.node.wait)) {
+                updates.cases = this.composeCaseProps();
+            }
+        }
+
+        // THIS METHOD SHOULD UPDATE STATE SELECTIVELY, NO?
+
+        this.setState(updates as SwitchRouterState);
     }
 
     public onValid(widgets: { [name: string]: any }): void {
@@ -306,26 +366,19 @@ export default class SwitchRouterForm extends React.Component<
 
         const { cases, exits, defaultExit } = resolveExits(this.state.cases, this.props.node);
 
-        let optionalRouter = {};
-
+        const optionalRouter: Pick<Router, 'result_name'> = {};
         const resultNameEle = widgets['Result Name'] as TextInputElement;
-
         if (resultNameEle) {
-            optionalRouter = {
-                result_name: resultNameEle.state.value
-            };
+            optionalRouter.result_name = resultNameEle.state.value;
         }
 
-        let optionalNode = {};
-
+        const optionalNode: Pick<Node, 'wait'> = {};
         if (this.props.config.type === 'wait_for_response') {
-            optionalNode = {
-                wait: { type: 'msg' }
-            };
+            optionalNode.wait = { type: 'msg' };
         } else if (this.props.config.type === 'expression') {
-            optionalNode = {
-                wait: { type: 'exp' }
-            };
+            optionalNode.wait = { type: 'exp' };
+        } else if (this.props.config.type === 'group') {
+            optionalNode.wait = { type: 'group' };
         }
 
         const router: SwitchRouter = {
@@ -346,6 +399,20 @@ export default class SwitchRouterForm extends React.Component<
             this.props.config.type,
             this.props.action
         );
+    }
+
+    private onGroupsChanged(groups: SearchResult[]): void {
+        const cases: CaseElementProps[] = groups.map(({ name, id }) => ({
+            kase: {
+                uuid: generateUUID(),
+                type: 'has_group',
+                exit_uuid: null,
+                arguments: [id]
+            },
+            exitName: name
+        }));
+
+        this.setState({ cases });
     }
 
     private onShowNameField(): void {
@@ -435,22 +502,45 @@ export default class SwitchRouterForm extends React.Component<
         });
     }
 
-    private isSwitchRouterNode(): boolean {
-        return (
-            this.props.node.wait &&
-            (this.props.node.wait.type === 'exp' || this.props.node.wait.type === 'msg')
-        );
+    private composeCaseProps(): CaseElementProps[] {
+        return (this.props.node.router as SwitchRouter).cases.reduce((caseList, kase) => {
+            let exitName: string = null;
+
+            if (kase.exit_uuid) {
+                const exit = this.props.node.exits.find(({ uuid }) => uuid === kase.exit_uuid);
+
+                if (exit) {
+                    ({ name: exitName } = exit);
+                }
+            }
+
+            try {
+                const config = this.context.getOperatorConfig(kase.type);
+
+                caseList.push({
+                    kase,
+                    exitName,
+                    onChange: this.onCaseChanged,
+                    onRemove: this.onCaseRemoved
+                } as any);
+            } catch (error) {
+                // Ignore missing cases
+            }
+
+            return caseList;
+        }, []);
     }
 
     private getInitialState(): SwitchRouterState {
-        const cases: CaseElementProps[] = [];
+        let cases: CaseElementProps[] = [];
         let resultName: string = '';
         let setResultName: boolean = false;
         let operand: string = '@input';
 
         const router: SwitchRouter = this.props.node.router as SwitchRouter;
 
-        if (this.isSwitchRouterNode() && router.cases) {
+        // If a router already exists at this node and it has cases
+        if (isSwitchRouterNode(this.props.node.wait) && router.cases) {
             ({ operand } = router);
 
             if (router.result_name) {
@@ -458,30 +548,12 @@ export default class SwitchRouterForm extends React.Component<
                 setResultName = true;
             }
 
-            router.cases.forEach(kase => {
-                let exitName: string = null;
-
-                if (kase.exit_uuid) {
-                    const exit = this.props.node.exits.find(({ uuid }) => uuid === kase.exit_uuid);
-
-                    if (exit) {
-                        ({ name: exitName } = exit);
-                    }
-                }
-
-                try {
-                    const config = this.context.getOperatorConfig(kase.type);
-
-                    cases.push({
-                        kase,
-                        exitName,
-                        onChange: this.onCaseChanged.bind,
-                        onRemove: this.onCaseRemoved
-                    } as any);
-                } catch (error) {
-                    // Ignore missing cases
-                }
-            });
+            cases = cases.concat(this.composeCaseProps());
+            // If we're creating a new node or switching from an action to a router
+        } else {
+            if (this.props.config.type === 'group') {
+                operand = '@contact.groups';
+            }
         }
 
         return {
@@ -599,7 +671,9 @@ export default class SwitchRouterForm extends React.Component<
         let needsEmpty: boolean = true;
         let cases: JSX.Element[] = [];
 
-        if (this.state.cases) {
+        if (this.props.config.type === 'group') {
+            return cases;
+        } else if (this.state.cases) {
             // Cases shouldn't be draggable unless they have fully-formed siblings
             if (
                 // prettier-ignore
@@ -765,9 +839,32 @@ export default class SwitchRouterForm extends React.Component<
                 </Fragment>
             );
         } else if (this.props.config.type === 'group') {
+            const groupProps: Partial<GroupElementProps> = {
+                localGroups: this.props.ComponentMap.getGroups()
+            };
+
+            if (
+                this.props.node.wait &&
+                this.props.node.wait.type === 'group' &&
+                (this.props.node.router as SwitchRouter).cases.length
+            ) {
+                groupProps.groups = extractGroups(this.props.node);
+            }
+
             leadIn = (
-                <div className="select-medium">
+                <div>
                     <p>{groupLabel}</p>
+                    <GroupElement
+                        ref={this.props.onBindWidget}
+                        name="Group"
+                        placeholder={groupPlaceHolder}
+                        searchPromptText={groupNotFound}
+                        endpoint={this.context.endpoints.groups}
+                        add={false}
+                        required={true}
+                        onChange={this.onGroupsChanged}
+                        {...groupProps}
+                    />
                 </div>
             );
         }
@@ -784,26 +881,29 @@ export default class SwitchRouterForm extends React.Component<
             return this.props.getExitTranslations();
         } else {
             const cases: JSX.Element[] = this.getCases();
+            const caseContext: JSX.Element = cases.length ? (
+                <div className={styles.cases}>
+                    <DragDropContext onDragEnd={this.onDragEnd}>
+                        <Droppable droppableId="droppable">
+                            {(provided, snapshot) => (
+                                <div
+                                    ref={provided.innerRef}
+                                    style={getListStyle(snapshot.isDraggingOver)}>
+                                    {cases}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
+                </div>
+            ) : null;
             const nameField: JSX.Element = this.getNameField();
             const leadIn: JSX.Element = this.getLeadIn();
 
             return (
                 <div>
                     {leadIn}
-                    <div className={styles.cases}>
-                        <DragDropContext onDragEnd={this.onDragEnd}>
-                            <Droppable droppableId="droppable">
-                                {(provided, snapshot) => (
-                                    <div
-                                        ref={provided.innerRef}
-                                        style={getListStyle(snapshot.isDraggingOver)}>
-                                        {cases}
-                                        {provided.placeholder}
-                                    </div>
-                                )}
-                            </Droppable>
-                        </DragDropContext>
-                    </div>
+                    {caseContext}
                     <div className={styles.save_as}>{nameField}</div>
                 </div>
             );

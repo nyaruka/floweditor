@@ -18,13 +18,13 @@ import * as forms from './FormElement.scss';
 import * as styles from './CaseElement.scss';
 
 export interface CaseElementProps {
-    name?: string; // satisfy form widget props
-    onRemove?(c: CaseElement): void;
-    ComponentMap?: ComponentMap;
     kase: Case;
     exitName: string;
+    name?: string; // satisfy form widget props
+    onRemove?: (c: CaseElement) => void;
+    ComponentMap?: ComponentMap;
     empty?: boolean;
-    onChange?(c: any, type?: ChangedCaseInput): void;
+    onChange?: (c: any, type?: ChangedCaseInput) => void;
     focusArgsInput?: boolean;
     focusExitInput?: boolean;
     solo?: boolean;

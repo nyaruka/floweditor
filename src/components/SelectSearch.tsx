@@ -15,19 +15,13 @@ export interface SelectSearchProps {
     localSearchOptions?: SearchResult[];
     className?: string;
     createPrompt?: string;
-    onChange?(selection: SearchResult): void;
-    isValidNewOption?(option: { label: string }): boolean;
-    createNewOption?(option: { label: string; labelKey: string; valueKey: string }): any;
+    onChange?: (selection: SearchResult) => void;
+    isValidNewOption?: (option: { label: string }) => boolean;
+    createNewOption?: (option: { label: string; labelKey: string; valueKey: string }) => any;
 }
 
 interface SelectSearchState {
     selection: SearchResult[];
-}
-
-interface SearchParams {
-    term: string;
-    page: number;
-    _type: string;
 }
 
 interface SelectSearchResult {
@@ -103,12 +97,13 @@ export default class SelectSearch extends React.PureComponent<
         return results;
     }
 
-    private loadOptions(input: string, callback: Function): void {
+    private loadOptions(input: string, callback: (arg1: any, arg2?: any) => void): void {
         if (!this.props.url) {
             callback(this.search(input));
         } else {
             axios.get(this.props.url).then((response: AxiosResponse) => {
                 const results: SearchResult[] = [];
+
                 response.data.results.forEach((result: any) =>
                     results.push({
                         name: result.name,
@@ -116,6 +111,7 @@ export default class SelectSearch extends React.PureComponent<
                         type: this.props.resultType
                     })
                 );
+
                 callback(null, this.search(input, results));
             });
         }

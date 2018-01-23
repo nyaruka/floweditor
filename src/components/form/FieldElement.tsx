@@ -117,7 +117,6 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
                     resultType="field"
                     localSearchOptions={this.props.localFields}
                     multi={false}
-                    clearable={false}
                     initial={initial}
                     {...createOptions}
                 />
