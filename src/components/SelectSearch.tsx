@@ -59,10 +59,11 @@ export default class SelectSearch extends React.PureComponent<
         return a.name.localeCompare(b.name);
     }
 
-    private addSearchResult(results: SearchResult[], result: SearchResult): void {
-        let found = false;
+    private addSearchResult(results: SearchResult[], result: SearchResult): SearchResult[] {
+        const newResults: SearchResult[] = [...results];
 
-        for (const existing of results) {
+        let found: boolean = false;
+        for (const existing of newResults) {
             if (result.id === existing.id) {
                 found = true;
                 break;
@@ -70,60 +71,56 @@ export default class SelectSearch extends React.PureComponent<
         }
 
         if (!found) {
-            results.push(result);
+            newResults.push(result);
         }
+
+        return newResults;
     }
 
     private search(term: string, remoteResults: SearchResult[] = []): SelectSearchResult {
-        const combined = [...remoteResults];
-
-        if (term) {
-            term = term.toLowerCase();
-        }
+        let combined: SearchResult[] = [...remoteResults];
 
         if (this.props.localSearchOptions) {
             for (const local of this.props.localSearchOptions) {
-                if (!term || local.name.toLowerCase().indexOf(term) > -1) {
-                    this.addSearchResult(combined, local);
+                if (!term || local.name.toLowerCase().indexOf(term.toLowerCase()) > -1) {
+                    combined = this.addSearchResult(combined, local);
                 }
             }
         }
 
+        const options: SearchResult[] = combined.sort(this.sortResults);
+
         const results: SelectSearchResult = {
-            options: combined.sort(this.sortResults),
+            options,
             complete: true
         };
 
         return results;
     }
 
-    private loadOptions(input: string, callback: (arg1: any, arg2?: any) => void): void {
+    private loadOptions(input: string, callback: Function): void {
         if (!this.props.url) {
-            callback(this.search(input));
+            const result: SelectSearchResult = this.search(input);
+
+            callback(result);
         } else {
             axios.get(this.props.url).then((response: AxiosResponse) => {
-                const results: SearchResult[] = [];
+                const groups: SearchResult[] = response.data.results.map((result: any) => ({
+                    name: result.name,
+                    id: result.uuid,
+                    type: this.props.resultType
+                }));
 
-                response.data.results.forEach((result: any) =>
-                    results.push({
-                        name: result.name,
-                        id: result.uuid,
-                        type: this.props.resultType
-                    })
-                );
+                const results: SelectSearchResult = this.search(input, groups);
 
-                callback(null, this.search(input, results));
+                callback(null, results);
             });
         }
     }
 
     private onChange(selection: any): void {
-        if (!this.props.multi) {
-            selection = [selection];
-        }
-
         if (this.props.onChange) {
-            this.props.onChange(selection);
+            this.props.onChange(!this.props.multi ? [selection] : selection);
         }
 
         this.setState({ selection }, () => this.select.focus());

@@ -249,6 +249,8 @@ export const extractGroups = ({ exits, router }: Node): GroupList =>
         return { name: resultName, group: kase.arguments[0] };
     });
 
+export const DEFAULT_OPERAND: string = '@input';
+export const GROUP_OPERAND: string = '@contact.groups';
 export const WAIT_LABEL: string = 'If the message response...';
 export const EXPRESSION_LABEL: string = 'If the expression...';
 export const GROUP_LABEL: string = "Select the group(s) you'd like to split by below";
@@ -289,7 +291,7 @@ export default class SwitchRouterForm extends React.Component<
 
         if (nextProps.config.type === 'group') {
             if (this.state.operand.indexOf('groups') === -1) {
-                updates.operand = '@contact.groups';
+                updates.operand = GROUP_OPERAND;
             }
 
             if (!hasGroupCase(this.state.cases)) {
@@ -550,7 +552,7 @@ export default class SwitchRouterForm extends React.Component<
         let cases: CaseElementProps[] = [];
         let resultName: string = '';
         let setResultName: boolean = false;
-        let operand: string = '@input';
+        let operand: string = DEFAULT_OPERAND;
 
         const router: SwitchRouter = this.props.node.router as SwitchRouter;
 
@@ -567,7 +569,7 @@ export default class SwitchRouterForm extends React.Component<
             // If we're creating a new node or switching from an action to a router
         } else {
             if (this.props.config.type === 'group') {
-                operand = '@contact.groups';
+                operand = GROUP_OPERAND;
             }
         }
 
