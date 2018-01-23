@@ -141,7 +141,6 @@ export const typeConfigList: Type[] = [
         name: 'Split by Group Membership',
         description: 'Split by group membership',
         form: SwitchRouterForm,
-        advanced: Mode.TRANSLATING,
         allows(mode: Mode): boolean {
             return (this.advanced & mode) === mode;
         }

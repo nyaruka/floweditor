@@ -149,7 +149,7 @@ export const resolveExits = (newCases: CaseElementProps[], previous: Node): Comb
         } else {
             // no existing exit, create a new one
             // find our previous destination if we have one
-            var destination = null;
+            let destination = null;
             if (newCase.kase.exit_uuid in previousExitMap) {
                 destination = previousExitMap[newCase.kase.exit_uuid].destination_node_uuid;
             }
@@ -776,6 +776,7 @@ export default class SwitchRouterForm extends React.Component<
 
         if (needsEmpty) {
             const newCaseUUID = generateUUID();
+
             cases.push(
                 <CaseElement
                     data-spec="case"

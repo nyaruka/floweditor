@@ -56,7 +56,6 @@ Object {
       "type": "save_flow_result",
     },
     Object {
-      "advanced": 2,
       "allows": [Function],
       "description": "Split by group membership",
       "form": [Function],
@@ -421,7 +420,6 @@ Object {
       "type": "expression",
     },
     Object {
-      "advanced": 2,
       "allows": [Function],
       "description": "Split by group membership",
       "form": [Function],
@@ -470,7 +468,6 @@ Object {
       "type": "expression",
     },
     "group": Object {
-      "advanced": 2,
       "allows": [Function],
       "description": "Split by group membership",
       "form": [Function],
