@@ -1,9 +1,10 @@
 import * as React from 'react';
+import axios from 'axios';
+import MockAdapter = require('axios-mock-adapter');
 import { shallow, mount, ReactWrapper } from 'enzyme';
 import { getSpecWrapper } from '../../helpers/utils';
 import Config from '../../providers/ConfigProvider/configContext';
 import SwitchRouterForm, {
-    GROUP_OPERAND,
     GROUP_LABEL,
     GROUP_PLACEHOLDER,
     GROUP_NOT_FOUND,
@@ -17,13 +18,12 @@ import SwitchRouterForm, {
     SwitchRouterFormProps,
     SwitchRouterState
 } from './SwitchRouter';
-import CompMap, { SearchResult } from '../../services/ComponentMap';
+import CompMap from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
 import { Exit, Case, SwitchRouter } from '../../flowTypes';
 import { getLocalizations } from '../Node';
 import NodeEditor from '../NodeEditor/NodeEditor';
 import { GroupList, GroupElementProps } from '../form/GroupElement';
-import SelectSearch from '../SelectSearch';
 
 const colorsFlow = require('../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 const formStyles = require('../NodeEditor/NodeEditor.scss');
@@ -42,6 +42,14 @@ const {
     nodes: [replyNode, switchNodeMsg, switchNodeExp, , , switchNodeGroup],
     localization: locals
 } = definition;
+
+const { results: getGroupsResp } = require('../../../assets/fields.json');
+
+const moxios = new MockAdapter(axios);
+
+moxios.onGet(endpoints.groups).reply(200, getGroupsResp);
+
+afterAll(() => moxios.reset());
 
 describe('SwitchRouter >', () => {
     const msgRouterConfig = getTypeConfig('wait_for_response');
@@ -81,7 +89,7 @@ describe('SwitchRouter >', () => {
         getLocalizedExits
     } = shallow(<NodeEditor {...nodeProps as any} />, {
         context: nodeEditorContext
-    }).instance() as any;
+    }).instance();
 
     const switchProps = {
         node: switchNodeMsg,
@@ -353,13 +361,15 @@ describe('SwitchRouter >', () => {
             );
         });
 
-        it('should render group form with groups pulled from existing cases if group router exists at node', () => {
+        it('should render group form with groups pulled from existing cases', () => {
             const wrapper: ReactWrapper = mount(<SwitchRouterForm {...groupRouterProps} />, {
                 context: switchRouterContext
             });
+
             const groups: GroupList = extractGroups(switchNodeGroup);
             const name: string = 'Group';
             const { onGroupsChanged } = wrapper.instance() as any;
+
             const groupElementProps: GroupElementProps = {
                 add: false,
                 endpoint: endpoints.groups,
@@ -372,10 +382,9 @@ describe('SwitchRouter >', () => {
                 onChange: onGroupsChanged
             };
 
-            expect(wrapper.state('operand')).toBe(GROUP_OPERAND);
             expect(wrapper.find('p').text()).toBe(GROUP_LABEL);
             expect(wrapper.find('GroupElement').props()).toEqual(groupElementProps);
-        });
+=        });
 
         it('should render advanced form (translating case args)', () => {
             const wrapper: ReactWrapper = mount(
