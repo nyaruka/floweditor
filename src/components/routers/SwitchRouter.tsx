@@ -507,7 +507,7 @@ export default class SwitchRouterForm extends React.Component<
             let exitName: string = null;
 
             if (kase.exit_uuid) {
-                const exit = this.props.node.exits.find(({ uuid }) => uuid === kase.exit_uuid);
+                const [exit] = this.props.node.exits.filter(({ uuid }) => uuid === kase.exit_uuid);
 
                 if (exit) {
                     ({ name: exitName } = exit);
@@ -614,7 +614,7 @@ export default class SwitchRouterForm extends React.Component<
         const { cases } = this.props.node.router as SwitchRouter;
         return cases.reduce((casesForLocalization: JSX.Element[], kase) => {
             if (kase.arguments && kase.arguments.length) {
-                const localized = this.props.localizations.find(
+                const [localized] = this.props.localizations.filter(
                     (localizedObject: LocalizedObject) =>
                         localizedObject.getObject().uuid === kase.uuid
                 );

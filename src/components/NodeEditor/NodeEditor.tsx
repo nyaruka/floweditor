@@ -290,7 +290,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         const exits: Exit[] = this.props.node.exits.reduce(
             (exitList, { uuid: exitUUID, name: exitName }) => {
-                const localized = this.props.localizations.find(
+                const [localized] = this.props.localizations.filter(
                     (localizedObject: LocalizedObject) =>
                         localizedObject.getObject().uuid === exitUUID
                 );
