@@ -1,6 +1,4 @@
 import * as React from 'react';
-import axios from 'axios';
-import MockAdapter = require('axios-mock-adapter');
 import { shallow, mount, ReactWrapper } from 'enzyme';
 import { getSpecWrapper } from '../../helpers/utils';
 import Config from '../../providers/ConfigProvider/configContext';
@@ -26,7 +24,6 @@ import NodeEditor from '../NodeEditor/NodeEditor';
 import { GroupList, GroupElementProps } from '../form/GroupElement';
 
 const colorsFlow = require('../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
-const formStyles = require('../NodeEditor/NodeEditor.scss');
 
 const {
     baseLanguage,
@@ -42,14 +39,6 @@ const {
     nodes: [replyNode, switchNodeMsg, switchNodeExp, , , switchNodeGroup],
     localization: locals
 } = definition;
-
-const { results: getGroupsResp } = require('../../../assets/fields.json');
-
-const moxios = new MockAdapter(axios);
-
-moxios.onGet(endpoints.groups).reply(200, getGroupsResp);
-
-afterAll(() => moxios.reset());
 
 describe('SwitchRouter >', () => {
     const msgRouterConfig = getTypeConfig('wait_for_response');
@@ -89,7 +78,7 @@ describe('SwitchRouter >', () => {
         getLocalizedExits
     } = shallow(<NodeEditor {...nodeProps as any} />, {
         context: nodeEditorContext
-    }).instance();
+    }).instance() as any;
 
     const switchProps = {
         node: switchNodeMsg,
