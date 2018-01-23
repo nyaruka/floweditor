@@ -211,9 +211,14 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             }
         }
 
+        // Account for ghost nodes
         if (this.props.node) {
             if (this.props.node.router) {
                 return this.props.node.router.type;
+            }
+
+            if (this.props.node.actions) {
+                return this.props.node.actions[0].type;
             }
         }
 

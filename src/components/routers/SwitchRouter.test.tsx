@@ -8,6 +8,7 @@ import SwitchRouterForm, {
     composeExitMap,
     resolveExits,
     isSwitchRouterNode,
+    hasGroupCase,
     SwitchRouterFormProps,
     SwitchRouterState
 } from './SwitchRouter';
@@ -23,9 +24,73 @@ const formStyles = require('../NodeEditor/NodeEditor.scss');
 const { baseLanguage, languages, getTypeConfig, getOperatorConfig, operatorConfigList } = Config;
 
 const { results: [{ definition }] } = colorsFlow;
-const { nodes: [replyNode, switchNodeMsg], localization: locals } = definition;
+const {
+    nodes: [replyNode, switchNodeMsg, , , , switchNodeGroup],
+    localization: locals
+} = definition;
 
 describe('SwitchRouter >', () => {
+    const config = getTypeConfig('wait_for_response');
+    const ComponentMap = new CompMap(definition);
+    const iso = 'spa';
+    const translations = locals[iso];
+    const localizations = getLocalizations(switchNodeMsg, iso, languages, translations);
+
+    const nodeEditorContext = {
+        getTypeConfig
+    };
+
+    const switchRouterContext = {
+        getOperatorConfig,
+        operatorConfigList
+    };
+
+    const spanish = { name: 'Spanish', iso: 'spa' };
+
+    const nodeProps = {
+        show: true,
+        node: switchNodeMsg,
+        language: spanish,
+        definition,
+        localizations,
+        ComponentMap
+    };
+
+    const {
+        onBindWidget,
+        onBindAdvancedWidget,
+        removeWidget,
+        getExitTranslations,
+        getLocalizedExits
+    } = shallow(<NodeEditor {...nodeProps as any} />, {
+        context: nodeEditorContext
+    }).instance() as any;
+
+    const switchProps = {
+        node: switchNodeMsg,
+        config,
+        definition,
+        ComponentMap,
+        updateRouter: jest.fn(),
+        onBindWidget,
+        onBindAdvancedWidget,
+        removeWidget,
+        language: baseLanguage,
+        showAdvanced: false,
+        translating: false
+    };
+
+    const switchPropsTranslating = {
+        ...switchProps,
+        translating: true,
+        language: spanish,
+        localizations,
+        getExitTranslations,
+        getLocalizedExits
+    };
+
+    const placeholder: string = `${localizations[0].getLanguage().name} Translation`;
+
     describe('style utils >', () => {
         describe('getListStyle >', () => {
             it('should return "pointer" cursor style when passed a falsy isDraggingOver arg', () =>
@@ -145,67 +210,6 @@ describe('SwitchRouter >', () => {
     });
 
     describe('render >', () => {
-        const config = getTypeConfig('wait_for_response');
-        const ComponentMap = new CompMap(definition);
-        const iso = 'spa';
-        const translations = locals[iso];
-        const localizations = getLocalizations(switchNodeMsg, iso, languages, translations);
-
-        const nodeEditorContext = {
-            getTypeConfig
-        };
-
-        const switchRouterContext = {
-            getOperatorConfig,
-            operatorConfigList
-        };
-
-        const spanish = { name: 'Spanish', iso: 'spa' };
-
-        const nodeProps = {
-            show: true,
-            node: switchNodeMsg,
-            language: spanish,
-            definition,
-            localizations,
-            ComponentMap
-        };
-
-        const {
-            onBindWidget,
-            onBindAdvancedWidget,
-            removeWidget,
-            getExitTranslations,
-            getLocalizedExits
-        } = shallow(<NodeEditor {...nodeProps as any} />, {
-            context: nodeEditorContext
-        }).instance() as any;
-
-        const switchProps = {
-            node: switchNodeMsg,
-            config,
-            definition,
-            ComponentMap,
-            updateRouter: jest.fn(),
-            onBindWidget,
-            onBindAdvancedWidget,
-            removeWidget,
-            language: baseLanguage,
-            showAdvanced: false,
-            translating: false
-        };
-
-        const switchPropsTranslating = {
-            ...switchProps,
-            translating: true,
-            language: spanish,
-            localizations,
-            getExitTranslations,
-            getLocalizedExits
-        };
-
-        const placeholder: string = `${localizations[0].getLanguage().name} Translation`;
-
         it('should render wait_for_response form (not translating)', () => {
             // Cases
             const wrapper: ReactWrapper = mount(<SwitchRouterForm {...switchProps as any} />, {
