@@ -11,5 +11,5 @@ module.exports = {
         '^.+\\.scss$': 'identity-obj-proxy'
     },
     mapCoverage: true,
-    setupFiles: ['<rootDir>/rafShim.js', '<rootDir>/enzymeAdapter.js']
+    setupFiles: ['<rootDir>/rafShim.js', '<rootDir>/enzymeAdapter.js', 'jest-plugin-context/setup']
 };
