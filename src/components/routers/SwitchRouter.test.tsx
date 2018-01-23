@@ -1,14 +1,20 @@
 import * as React from 'react';
+import axios from 'axios';
+import MockAdapter = require('axios-mock-adapter');
 import { shallow, mount, ReactWrapper } from 'enzyme';
 import { getSpecWrapper } from '../../helpers/utils';
 import Config from '../../providers/ConfigProvider/configContext';
 import SwitchRouterForm, {
+    GROUP_LABEL,
+    GROUP_PLACEHOLDER,
+    GROUP_NOT_FOUND,
     getListStyle,
     getItemStyle,
     composeExitMap,
     resolveExits,
     isSwitchRouterNode,
     hasGroupCase,
+    extractGroups,
     SwitchRouterFormProps,
     SwitchRouterState
 } from './SwitchRouter';
@@ -17,20 +23,38 @@ import { LocalizedObject } from '../../services/Localization';
 import { Exit, Case, SwitchRouter } from '../../flowTypes';
 import { getLocalizations } from '../Node';
 import NodeEditor from '../NodeEditor/NodeEditor';
+import { GroupList, GroupElementProps } from '../form/GroupElement';
 
 const colorsFlow = require('../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 const formStyles = require('../NodeEditor/NodeEditor.scss');
 
-const { baseLanguage, languages, getTypeConfig, getOperatorConfig, operatorConfigList } = Config;
+const {
+    baseLanguage,
+    languages,
+    getTypeConfig,
+    getOperatorConfig,
+    operatorConfigList,
+    endpoints
+} = Config;
 
 const { results: [{ definition }] } = colorsFlow;
 const {
-    nodes: [replyNode, switchNodeMsg, , , , switchNodeGroup],
+    nodes: [replyNode, switchNodeMsg, switchNodeExp, , , switchNodeGroup],
     localization: locals
 } = definition;
 
+const { results: getGroupsResp } = require('../../../assets/fields.json');
+
+const moxios = new MockAdapter(axios);
+
+moxios.onGet(endpoints.groups).reply(200, getGroupsResp);
+
+afterAll(() => moxios.reset());
+
 describe('SwitchRouter >', () => {
-    const config = getTypeConfig('wait_for_response');
+    const msgRouterConfig = getTypeConfig('wait_for_response');
+    const expRouterConfig = getTypeConfig('expression');
+    const groupRouterConfig = getTypeConfig('group');
     const ComponentMap = new CompMap(definition);
     const iso = 'spa';
     const translations = locals[iso];
@@ -42,7 +66,8 @@ describe('SwitchRouter >', () => {
 
     const switchRouterContext = {
         getOperatorConfig,
-        operatorConfigList
+        operatorConfigList,
+        endpoints
     };
 
     const spanish = { name: 'Spanish', iso: 'spa' };
@@ -64,20 +89,23 @@ describe('SwitchRouter >', () => {
         getLocalizedExits
     } = shallow(<NodeEditor {...nodeProps as any} />, {
         context: nodeEditorContext
-    }).instance() as any;
+    }).instance();
 
     const switchProps = {
         node: switchNodeMsg,
-        config,
+        config: msgRouterConfig,
         definition,
         ComponentMap,
-        updateRouter: jest.fn(),
         onBindWidget,
         onBindAdvancedWidget,
         removeWidget,
         language: baseLanguage,
         showAdvanced: false,
-        translating: false
+        translating: false,
+        updateRouter: jest.fn(),
+        updateLocalizations: jest.fn(),
+        getLocalizedExits: jest.fn(),
+        getExitTranslations: jest.fn()
     };
 
     const switchPropsTranslating = {
@@ -87,6 +115,18 @@ describe('SwitchRouter >', () => {
         localizations,
         getExitTranslations,
         getLocalizedExits
+    };
+
+    const expRouterProps = {
+        ...switchProps,
+        node: switchNodeExp,
+        config: expRouterConfig
+    };
+
+    const groupRouterProps = {
+        ...switchProps,
+        node: switchNodeGroup,
+        config: groupRouterConfig
     };
 
     const placeholder: string = `${localizations[0].getLanguage().name} Translation`;
@@ -210,9 +250,9 @@ describe('SwitchRouter >', () => {
     });
 
     describe('render >', () => {
-        it('should render wait_for_response form (not translating)', () => {
+        it('should render wait_for_response form', () => {
             // Cases
-            const wrapper: ReactWrapper = mount(<SwitchRouterForm {...switchProps as any} />, {
+            const wrapper: ReactWrapper = mount(<SwitchRouterForm {...switchProps} />, {
                 context: switchRouterContext
             });
 
@@ -245,12 +285,9 @@ describe('SwitchRouter >', () => {
         });
 
         it('should render wait_for_response form (translating)', () => {
-            const wrapper: ReactWrapper = mount(
-                <SwitchRouterForm {...switchPropsTranslating as any} />,
-                {
-                    context: switchRouterContext
-                }
-            );
+            const wrapper: ReactWrapper = mount(<SwitchRouterForm {...switchPropsTranslating} />, {
+                context: switchRouterContext
+            });
 
             expect(getSpecWrapper(wrapper, 'title').exists()).toBeTruthy();
 
@@ -288,14 +325,14 @@ describe('SwitchRouter >', () => {
             });
         });
 
-        it('should render expression form (not translating)', () => {
+        it('should render expression form', () => {
             /** Note: cases and name field tested in wait_for_expression test above */
             const wrapper: ReactWrapper = mount(
                 <SwitchRouterForm
                     {...{
                         ...switchProps,
-                        config: getTypeConfig('expression')
-                    } as any}
+                        config: expRouterConfig
+                    }}
                 />,
                 { context: switchRouterContext }
             );
@@ -324,9 +361,34 @@ describe('SwitchRouter >', () => {
             );
         });
 
+        it('should render group form with groups pulled from existing cases', () => {
+            const wrapper: ReactWrapper = mount(<SwitchRouterForm {...groupRouterProps} />, {
+                context: switchRouterContext
+            });
+
+            const groups: GroupList = extractGroups(switchNodeGroup);
+            const name: string = 'Group';
+            const { onGroupsChanged } = wrapper.instance() as any;
+
+            const groupElementProps: GroupElementProps = {
+                add: false,
+                endpoint: endpoints.groups,
+                groups,
+                localGroups: [],
+                name,
+                placeholder: GROUP_PLACEHOLDER,
+                required: true,
+                searchPromptText: GROUP_NOT_FOUND,
+                onChange: onGroupsChanged
+            };
+
+            expect(wrapper.find('p').text()).toBe(GROUP_LABEL);
+            expect(wrapper.find('GroupElement').props()).toEqual(groupElementProps);
+=        });
+
         it('should render advanced form (translating case args)', () => {
             const wrapper: ReactWrapper = mount(
-                <SwitchRouterForm {...{ ...switchPropsTranslating, showAdvanced: true } as any} />,
+                <SwitchRouterForm {...{ ...switchPropsTranslating, showAdvanced: true }} />,
                 {
                     context: switchRouterContext
                 }
