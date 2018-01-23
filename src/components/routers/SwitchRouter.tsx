@@ -246,12 +246,12 @@ export const extractGroups = ({ exits, router }: Node): GroupList =>
         return { name: resultName, group: kase.arguments[0] };
     });
 
-export const waitLabel: string = 'If the message response...';
-export const expressionLabel: string = 'If the expression...';
-export const groupLabel: string = "Select the group(s) you'd like to split by below";
-export const groupPlaceHolder: string = 'Enter the name of an existing group...';
-export const groupNotFound: string = 'Enter the name of an existing group';
-export const operatorLocalizationLegend: string =
+export const WAIT_LABEL: string = 'If the message response...';
+export const EXPRESSION_LABEL: string = 'If the expression...';
+export const GROUP_LABEL: string = "Select the group(s) you'd like to split by below";
+export const GROUP_PLACEHOLDER: string = 'Enter the name of an existing group...';
+export const GROUP_NOT_FOUND: string = 'Enter the name of an existing group';
+export const OPERATOR_LOCALIZATION_LEGEND: string =
     'Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.';
 
 export default class SwitchRouterForm extends React.Component<
@@ -833,11 +833,11 @@ export default class SwitchRouterForm extends React.Component<
         let leadIn: JSX.Element | string = null;
 
         if (this.props.config.type === 'wait_for_response') {
-            leadIn = waitLabel;
+            leadIn = WAIT_LABEL;
         } else if (this.props.config.type === 'expression') {
             leadIn = leadIn = (
                 <Fragment>
-                    <p>{expressionLabel}</p>
+                    <p>{EXPRESSION_LABEL}</p>
                     <TextInputElement
                         ref={this.props.onBindWidget}
                         key={this.props.node.uuid}
@@ -866,12 +866,12 @@ export default class SwitchRouterForm extends React.Component<
 
             leadIn = (
                 <div>
-                    <p>{groupLabel}</p>
+                    <p>{GROUP_LABEL}</p>
                     <GroupElement
                         ref={this.props.onBindWidget}
                         name="Group"
-                        placeholder={groupPlaceHolder}
-                        searchPromptText={groupNotFound}
+                        placeholder={GROUP_PLACEHOLDER}
+                        searchPromptText={GROUP_NOT_FOUND}
                         endpoint={this.context.endpoints.groups}
                         add={false}
                         required={true}
@@ -944,7 +944,7 @@ export default class SwitchRouterForm extends React.Component<
                 <div
                     data-spec="advanced-instructions"
                     className={styles.translating_operator_instructions}>
-                    {operatorLocalizationLegend}
+                    {OPERATOR_LOCALIZATION_LEGEND}
                 </div>
                 <div>{operators}</div>
             </div>
