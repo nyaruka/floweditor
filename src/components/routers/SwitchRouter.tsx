@@ -293,12 +293,24 @@ export default class SwitchRouterForm extends React.Component<
                 updates.cases = [];
             }
         } else {
-            if (isSwitchRouterNode(this.props.node.wait)) {
-                updates.cases = this.composeCaseProps();
+            // If we have an existing switch router node and it has cases
+            if (
+                isSwitchRouterNode(this.props.node.wait) &&
+                (this.props.node.router as SwitchRouter).cases &&
+                (this.props.node.router as SwitchRouter).cases.length
+            ) {
+                // If the existing node has a group switch router and the user has switched to a different switch router form
+                if (
+                    this.props.node.wait.type === 'group' &&
+                    (nextProps.config.type === 'expression' ||
+                        nextProps.config.type === 'wait_for_response')
+                ) {
+                    updates.cases = [];
+                } else {
+                    updates.cases = this.composeCaseProps();
+                }
             }
         }
-
-        // THIS METHOD SHOULD UPDATE STATE SELECTIVELY, NO?
 
         this.setState(updates as SwitchRouterState);
     }
@@ -540,7 +552,7 @@ export default class SwitchRouterForm extends React.Component<
         const router: SwitchRouter = this.props.node.router as SwitchRouter;
 
         // If a router already exists at this node and it has cases
-        if (isSwitchRouterNode(this.props.node.wait) && router.cases) {
+        if (isSwitchRouterNode(this.props.node.wait) && router.cases && router.cases.length) {
             ({ operand } = router);
 
             if (router.result_name) {
