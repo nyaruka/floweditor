@@ -63,22 +63,24 @@ export interface SwitchRouterFormProps {
     showAdvanced: boolean;
     language: Language;
     node: Node;
-    action?: AnyAction;
-    config: Type;
-    definition: FlowDefinition;
-    updateRouter(node: Node, type: string, previousAction: AnyAction): void;
-    onBindWidget(ref: any): void;
-    onBindAdvancedWidget(ref: any): void;
-    removeWidget(name: string): void;
-    localizations?: LocalizedObject[];
-    updateLocalizations(
-        language: string,
-        changes: Array<{ uuid: string; translations?: any }>
-    ): void;
     ComponentMap: ComponentMap;
     translating: boolean;
-    getLocalizedExits(widgets: { [name: string]: any }): Array<{ uuid: string; translations: any }>;
-    getExitTranslations(): JSX.Element;
+    config: Type;
+    definition: FlowDefinition;
+    updateRouter: (node: Node, type: string, previousAction: AnyAction) => void;
+    onBindWidget: (ref: any) => void;
+    onBindAdvancedWidget: (ref: any) => void;
+    removeWidget: (name: string) => void;
+    updateLocalizations: (
+        language: string,
+        changes: Array<{ uuid: string; translations?: any }>
+    ) => void;
+    getLocalizedExits: (
+        widgets: { [name: string]: any }
+    ) => Array<{ uuid: string; translations: any }>;
+    getExitTranslations: () => JSX.Element;
+    action?: AnyAction;
+    localizations?: LocalizedObject[];
 }
 
 /**
@@ -221,8 +223,9 @@ export const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
     width: isDragging && draggableStyle.width - 5
 });
 
-export const isSwitchRouterNode = (wait: Wait): boolean =>
-    wait && (wait.type === 'exp' || wait.type === 'group' || wait.type === 'msg');
+export const isSwitchRouterNode = (node: Node): boolean =>
+    node.wait &&
+    (node.wait.type === 'exp' || node.wait.type === 'group' || node.wait.type === 'msg');
 
 export const hasGroupCase = (cases: CaseElementProps[]): boolean => {
     for (const { kase: { type } } of cases) {
@@ -295,7 +298,7 @@ export default class SwitchRouterForm extends React.Component<
         } else {
             // If we have an existing switch router node and it has cases
             if (
-                isSwitchRouterNode(this.props.node.wait) &&
+                isSwitchRouterNode(this.props.node) &&
                 (this.props.node.router as SwitchRouter).cases &&
                 (this.props.node.router as SwitchRouter).cases.length
             ) {
@@ -414,7 +417,7 @@ export default class SwitchRouterForm extends React.Component<
     }
 
     private onGroupsChanged(groups: SearchResult[]): void {
-        const cases: CaseElementProps[] = groups.map(({ name, id }) => ({
+        const cases: CaseElementProps[] = groups.map(({ name, id }, idx) => ({
             kase: {
                 uuid: generateUUID(),
                 type: 'has_group',
@@ -552,7 +555,7 @@ export default class SwitchRouterForm extends React.Component<
         const router: SwitchRouter = this.props.node.router as SwitchRouter;
 
         // If a router already exists at this node and it has cases
-        if (isSwitchRouterNode(this.props.node.wait) && router.cases && router.cases.length) {
+        if (isSwitchRouterNode(this.props.node) && router.cases && router.cases.length) {
             ({ operand } = router);
 
             if (router.result_name) {
@@ -577,13 +580,10 @@ export default class SwitchRouterForm extends React.Component<
     }
 
     private saveLocalizations(widgets: { [name: string]: any }): void {
-        const updates = [
-            ...this.props.getLocalizedExits(widgets),
-            ...this.getLocalizedCases(widgets)
-        ] as Array<{
+        const updates: Array<{
             uuid: string;
             translations: any;
-        }>;
+        }> = [...this.props.getLocalizedExits(widgets), ...this.getLocalizedCases(widgets)];
 
         this.props.updateLocalizations(this.props.language.iso, updates);
     }
