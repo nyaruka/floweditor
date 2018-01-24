@@ -13,9 +13,9 @@ export interface GroupOption {
 export type GroupList = GroupOption[];
 
 export interface GroupElementProps extends FormElementProps {
+    endpoint: string;
     groups?: GroupList;
     localGroups?: SearchResult[];
-    endpoint?: string;
     add?: boolean;
     placeholder?: string;
     searchPromptText?: string | JSX.Element;
@@ -30,6 +30,29 @@ interface GroupElementState {
 export const transformGroups = (groups: GroupList): SearchResult[] =>
     groups.map(({ name, group }) => ({ name, id: group, type: 'group' }));
 
+export const isValidNewOption = ({ label }: { label: string } = { label: '' }): boolean => {
+    if (!label) {
+        return false;
+    }
+
+    const lowered: string = label.toLowerCase();
+
+    const isValid: boolean =
+        lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered);
+
+    return isValid;
+};
+
+export const createNewOption = ({ label }: { label: string }): SearchResult => {
+    const newOption = {
+        id: generateUUID(),
+        name: label,
+        extraResult: true
+    } as SearchResult;
+
+    return newOption;
+};
+
 export default class GroupElement extends React.Component<GroupElementProps, GroupElementState> {
     constructor(props: GroupElementProps) {
         super(props);
@@ -42,8 +65,6 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
         };
 
         this.onChange = this.onChange.bind(this);
-        this.isValidNewOption = this.isValidNewOption.bind(this);
-        this.createNewOption = this.createNewOption.bind(this);
     }
 
     private onChange(groups: SearchResult[]): void {
@@ -56,14 +77,12 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
     }
 
     private getGroups(): SearchResult[] {
-        let groups: SearchResult[];
+        let groups: SearchResult[] = [];
 
         if (this.props.groups) {
             groups = transformGroups(this.props.groups);
         } else if (this.props.localGroups) {
             ({ localGroups: groups } = this.props);
-        } else {
-            groups = [];
         }
 
         return groups;
@@ -78,38 +97,17 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
 
         this.setState({ errors });
 
-        return errors.length === 0;
-    }
+        const valid: boolean = errors.length === 0;
 
-    private isValidNewOption({ label }: { label: string }): boolean {
-        if (!label) {
-            return false;
-        }
-
-        const lowered: string = label.toLowerCase();
-
-        const isValid: boolean =
-            lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered);
-
-        return isValid;
-    }
-
-    private createNewOption({ label }: { label: string }): SearchResult {
-        const newOption = {
-            id: generateUUID(),
-            name: label,
-            extraResult: true
-        } as SearchResult;
-
-        return newOption;
+        return valid;
     }
 
     public render(): JSX.Element {
         const createOptions: any = {};
 
         if (this.props.add) {
-            createOptions.isValidNewOption = this.isValidNewOption;
-            createOptions.createNewOption = this.createNewOption;
+            createOptions.isValidNewOption = isValidNewOption;
+            createOptions.createNewOption = createNewOption;
             createOptions.createPrompt = 'New group: ';
         }
 

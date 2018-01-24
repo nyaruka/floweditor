@@ -361,8 +361,8 @@ describe('SwitchRouter >', () => {
 
             const groupElementProps: GroupElementProps = {
                 add: false,
-                endpoint: endpoints.groups,
                 groups,
+                endpoint: endpoints.groups,
                 localGroups: [],
                 name,
                 placeholder: GROUP_PLACEHOLDER,

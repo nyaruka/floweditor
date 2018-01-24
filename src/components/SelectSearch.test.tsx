@@ -25,7 +25,7 @@ describe('SelectSearch >', () => {
 
             const wrapper: ReactWrapper = mount(<SelectSearch {...props} />);
 
-            it('should render <Async />, pass it the right props', () => {
+            it('should render <Async />, pass it expected props', () => {
                 expect(wrapper.find('Async').props()).toEqual(
                     expect.objectContaining({
                         name: props.name,
