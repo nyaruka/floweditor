@@ -248,7 +248,7 @@ export const hasGroupCase = (cases: CaseElementProps[]): boolean => {
     return false;
 };
 
-export const extractGroups = ({ exits, router }: Node): GroupList =>
+export const extractGroups = ({ exits, router }: Node): SearchResult[] =>
     (router as SwitchRouter).cases.map(kase => {
         const resultName = exits.reduce((result, { name, uuid }) => {
             let newName: string = result;
@@ -260,7 +260,7 @@ export const extractGroups = ({ exits, router }: Node): GroupList =>
             return newName;
         }, '');
 
-        return { name: resultName, group: kase.arguments[0] };
+        return { name: resultName, id: kase.arguments[0], type: 'group' };
     });
 
 export const DEFAULT_OPERAND: string = '@input';
