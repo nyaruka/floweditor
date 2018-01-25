@@ -117,21 +117,25 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         this.props.removeWidget(header.props.name);
     }
 
-    onHeaderChanged(ele: HeaderElement) {
+    private onHeaderChanged(ele: HeaderElement): void {
         const { name, value } = ele.state;
 
-        const newHeaders = update(this.state.headers, {
-            [ele.props.index]: {
-                $set: {
-                    name: name,
-                    value: value,
-                    uuid: ele.props.header.uuid
-                } as Header
-            }
-        });
+        if (!name && !value) {
+            this.onHeaderRemoved(ele);
+        } else {
+            const newHeaders = update(this.state.headers, {
+                [ele.props.index]: {
+                    $set: {
+                        name,
+                        value,
+                        uuid: ele.props.header.uuid
+                    } as Header
+                }
+            });
 
-        this.addEmptyHeader(newHeaders);
-        this.setState({ headers: newHeaders });
+            this.addEmptyHeader(newHeaders);
+            this.setState({ headers: newHeaders });
+        }
     }
 
     onMethodChanged(method: { value: string; label: string }) {
@@ -169,7 +173,8 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         }
 
         var headerElements: JSX.Element[] = [];
-        this.state.headers.map((header: Header, index: number) => {
+        this.state.headers.map((header: Header, index: number, arr: Header[]) => {
+            const isEmpty: boolean = index === this.state.headers.length - 1;
             headerElements.push(
                 <div key={header.uuid}>
                     <HeaderElement
@@ -179,6 +184,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                         onRemove={this.onHeaderRemoved}
                         onChange={this.onHeaderChanged}
                         index={index}
+                        empty={isEmpty}
                         ComponentMap={this.props.ComponentMap}
                     />
                 </div>
