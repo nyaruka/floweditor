@@ -3,6 +3,7 @@ import { shallow, mount, ReactWrapper } from 'enzyme';
 import { getSpecWrapper } from '../../helpers/utils';
 import Config from '../../providers/ConfigProvider/configContext';
 import SwitchRouterForm, {
+    DEFAULT_OPERAND,
     GROUP_LABEL,
     GROUP_PLACEHOLDER,
     GROUP_NOT_FOUND,
@@ -354,7 +355,7 @@ describe('SwitchRouter >', () => {
                 expect.objectContaining({
                     name: 'Expression',
                     showLabel: false,
-                    value: '@input',
+                    value: DEFAULT_OPERAND,
                     onChange: wrapper.instance().onExpressionChanged,
                     autocomplete: true,
                     required: true,
