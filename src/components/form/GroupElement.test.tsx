@@ -1,12 +1,6 @@
 import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
-import GroupElement, {
-    GroupElementProps,
-    GroupList,
-    transformGroups,
-    isValidNewOption,
-    createNewOption
-} from './GroupElement';
+import GroupElement, { GroupElementProps, isValidNewOption, createNewOption } from './GroupElement';
 import Config from '../../providers/ConfigProvider/configContext';
 import { GROUP_PLACEHOLDER, GROUP_NOT_FOUND } from '../routers/SwitchRouter';
 import { SearchResult } from '../../services/ComponentMap';
@@ -23,16 +17,14 @@ describe('GroupElement >', () => {
         required: true
     };
 
-    const groupList: GroupList = groupsResp.map(({ name, uuid }) => ({ name, group: uuid }));
+    const groupOptions: SearchResult[] = groupsResp.map(({ name, uuid, type }) => ({
+        name,
+        id: uuid,
+        type
+    }));
 
     describe('helpers >', () => {
         const newGroup: { label: string } = { label: 'new group' };
-
-        describe('transformGroups >', () => {
-            it('should transform group list into search result objects', () => {
-                expect(transformGroups(groupList)).toMatchSnapshot();
-            });
-        });
 
         describe('isValidNewOption >', () => {
             it('should return false if new option is invalid', () => {
@@ -79,8 +71,7 @@ describe('GroupElement >', () => {
     });
 
     describe('instance methods >', () => {
-        const groups: SearchResult[] = transformGroups(groupList).slice(3);
-        const searchResults: SearchResult[] = transformGroups(groupList);
+        const groups: SearchResult[] = groupOptions.slice(3);
 
         describe('onChange >', () => {
             it('should update state when called', () => {
@@ -126,18 +117,18 @@ describe('GroupElement >', () => {
 
             it("should return an array of SearchResult objects if GroupElement is passed a truthy 'groups' prop", () => {
                 const wrapper: ReactWrapper = mount(
-                    <GroupElement {...{ ...props, groups: groupList }} />
+                    <GroupElement {...{ ...props, groups: groupOptions }} />
                 );
 
-                expect(wrapper.instance().getGroups()).toEqual(searchResults);
+                expect(wrapper.instance().getGroups()).toEqual(groupOptions);
             });
 
             it("should return localGroups array if GroupElement passed 'localGroups' prop but not 'groups'", () => {
                 const wrapper: ReactWrapper = mount(
-                    <GroupElement {...{ ...props, localGroups: searchResults }} />
+                    <GroupElement {...{ ...props, localGroups: groupOptions }} />
                 );
 
-                expect(wrapper.instance().getGroups()).toEqual(searchResults);
+                expect(wrapper.instance().getGroups()).toEqual(groupOptions);
             });
         });
     });

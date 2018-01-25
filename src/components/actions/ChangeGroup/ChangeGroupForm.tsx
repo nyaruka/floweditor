@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { ChangeGroup, Endpoints } from '../../../flowTypes';
 import { Type } from '../../../providers/ConfigProvider/typeConfigs';
-import ComponentMap from '../../../services/ComponentMap';
-import GroupElement from '../../form/GroupElement';
+import ComponentMap, { SearchResult } from '../../../services/ComponentMap';
+import GroupElement, { GROUP_TYPE } from '../../form/GroupElement';
 import { endpointsPT } from '../../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../../providers/ConfigProvider/configContext';
 
 export interface ChangeGroupFormProps {
     action: ChangeGroup;
-    getActionUUID(): string;
+    getActionUUID: () => string;
     config: Type;
-    updateAction(action: ChangeGroup): void;
-    onBindWidget(ref: any): void;
+    updateAction: (action: ChangeGroup) => void;
+    onBindWidget: (ref: any) => void;
     ComponentMap: ComponentMap;
 }
 
@@ -47,17 +47,15 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
     }
 
     public render(): JSX.Element {
-        let p: JSX.Element;
+        let p: JSX.Element = null;
 
         if (this.props.config.type === 'add_to_group') {
             p = <p>Select the group(s) to add the contact to.</p>;
         } else if (this.props.config.type === 'remove_from_group') {
             p = <p>Select the group(s) to remove the contact from.</p>;
-        } else {
-            p = null;
         }
 
-        const groups: Array<{ group: string; name: string }> = [];
+        const groups: SearchResult[] = [];
 
         if (
             this.props.action &&
@@ -65,10 +63,15 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
                 this.props.action.type === 'remove_from_group')
         ) {
             if (this.props.action.groups) {
-                const { groups: [{ uuid: group, name }] } = this.props.action;
-                groups.push({ group, name });
+                const { groups: [{ uuid, name }] } = this.props.action;
+
+                groups.push({ name, id: uuid, type: GROUP_TYPE });
             }
         }
+
+        const localGroups: SearchResult[] = this.props.ComponentMap.getGroups();
+
+        const add: boolean = this.props.config.type === 'add_to_group';
 
         return (
             <div>
@@ -77,9 +80,9 @@ export default class ChangeGroupForm extends React.PureComponent<ChangeGroupForm
                     ref={this.props.onBindWidget}
                     name="Group"
                     endpoint={this.context.endpoints.groups}
-                    localGroups={this.props.ComponentMap.getGroups()}
+                    localGroups={localGroups}
                     groups={groups}
-                    add={this.props.config.type === 'add_to_group'}
+                    add={add}
                     required={true}
                 />
             </div>

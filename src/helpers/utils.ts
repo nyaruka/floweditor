@@ -107,3 +107,9 @@ export const reorderList = (list: any[], startIndex: number, endIndex: number): 
  */
 export const jsonEqual = (objA: {}, objB: {}): boolean =>
     JSON.stringify(objA) === JSON.stringify(objB);
+
+export const truthyArr = (arr: any[]): boolean =>
+    arr && arr.constructor === Array && arr.length > 0;
+
+export const truthyStr = (str: string): boolean =>
+    str && str.constructor === String && str.length > 0;

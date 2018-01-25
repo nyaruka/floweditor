@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow, mount, ReactWrapper } from 'enzyme';
-import { getSpecWrapper } from '../../helpers/utils';
+import { getSpecWrapper, truthyArr } from '../../helpers/utils';
 import Config from '../../providers/ConfigProvider/configContext';
 import SwitchRouterForm, {
     DEFAULT_OPERAND,
@@ -11,6 +11,7 @@ import SwitchRouterForm, {
     getItemStyle,
     composeExitMap,
     resolveExits,
+    hasWait,
     isSwitchRouterNode,
     hasCases,
     hasGroupCase,
@@ -18,12 +19,12 @@ import SwitchRouterForm, {
     SwitchRouterFormProps,
     SwitchRouterState
 } from './SwitchRouter';
-import CompMap from '../../services/ComponentMap';
+import CompMap, { SearchResult } from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
 import { Exit, Case, SwitchRouter } from '../../flowTypes';
 import { getLocalizations } from '../Node';
 import NodeEditor from '../NodeEditor/NodeEditor';
-import { GroupList, GroupElementProps } from '../form/GroupElement';
+import { GroupElementProps, GROUP_TYPE } from '../form/GroupElement';
 
 const colorsFlow = require('../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
@@ -231,6 +232,16 @@ describe('SwitchRouter >', () => {
                     ])
                 ).toMatchSnapshot()));
 
+        describe('hasWait >', () => {
+            it('should return true if node has wait', () => {
+                expect(hasWait(switchProps.node)).toBeTruthy();
+            });
+
+            it('should return false if node does not have wait', () => {
+                expect(hasWait(replyNode)).toBeFalsy();
+            });
+        });
+
         describe('isSwitchRouterNode >', () => {
             it('should return true if node has a switch router', () =>
                 expect(isSwitchRouterNode(switchNodeMsg)).toBeTruthy());
@@ -250,11 +261,46 @@ describe('SwitchRouter >', () => {
                 ).toBeFalsy();
             });
         });
+
+        describe('hasGroupCase >', () => {
+            it('should return true if list of CaseElementProps objects contains a has_group case', () => {
+                const wrapper: ReactWrapper = mount(<SwitchRouterForm {...groupRouterProps} />, {
+                    context: switchRouterContext
+                });
+
+                expect(hasGroupCase(wrapper.state('cases'))).toBeTruthy();
+            });
+
+            it('should return false if list of CaseElementProps objects does not contain a has_group case', () => {
+                const wrapper: ReactWrapper = mount(<SwitchRouterForm {...switchProps} />, {
+                    context: switchRouterContext
+                });
+
+                expect(hasGroupCase(wrapper.state('cases'))).toBeFalsy();
+            });
+        });
+
+        describe('extractGroups >', () => {
+            it("should extract a list of group SearchResult objects from a group router node's cases, exits", () => {
+                extractGroups(groupRouterProps.node).forEach(({ name, id, type }) => {
+                    expect(
+                        truthyArr(
+                            groupRouterProps.node.router.cases.filter(
+                                kase => kase.arguments[0] === id
+                            )
+                        )
+                    ).toBeTruthy();
+
+                    expect(
+                        truthyArr(groupRouterProps.node.exits.filter(exit => exit.name === name))
+                    ).toBeTruthy();
+                });
+            });
+        });
     });
 
     describe('render >', () => {
         it('should render wait_for_response form', () => {
-            // Cases
             const wrapper: ReactWrapper = mount(<SwitchRouterForm {...switchProps} />, {
                 context: switchRouterContext
             });
@@ -369,7 +415,7 @@ describe('SwitchRouter >', () => {
                 context: switchRouterContext
             });
 
-            const groups: GroupList = extractGroups(switchNodeGroup);
+            const groups: SearchResult[] = extractGroups(switchNodeGroup);
             const name: string = 'Group';
             const { onGroupsChanged } = wrapper.instance() as any;
 
@@ -387,7 +433,7 @@ describe('SwitchRouter >', () => {
 
             expect(wrapper.find('p').text()).toBe(GROUP_LABEL);
             expect(wrapper.find('GroupElement').props()).toEqual(groupElementProps);
-=        });
+        });
 
         it('should render advanced form (translating case args)', () => {
             const wrapper: ReactWrapper = mount(

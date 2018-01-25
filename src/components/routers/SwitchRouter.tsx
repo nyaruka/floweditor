@@ -19,7 +19,7 @@ import ComponentMap, { SearchResult } from '../../services/ComponentMap';
 import { Language } from '../LanguageSelector';
 import { LocalizedObject } from '../../services/Localization';
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
-import GroupElement, { GroupList, GroupElementProps } from '../form/GroupElement';
+import GroupElement, { GroupElementProps } from '../form/GroupElement';
 import {
     GetOperatorConfig,
     operatorConfigList
@@ -31,7 +31,7 @@ import {
 } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 import CaseElement, { CaseElementProps } from '../form/CaseElement';
-import { reorderList } from '../../helpers/utils';
+import { reorderList, truthyArr, truthyStr } from '../../helpers/utils';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import * as styles from './SwitchRouter.scss';
@@ -50,6 +50,12 @@ export enum DragCursor {
 export enum ChangedCaseInput {
     ARGS = 'ARGS',
     EXIT = 'EXIT'
+}
+
+enum WaitType {
+    exp = 'exp',
+    group = 'group',
+    msg = 'msg'
 }
 
 export interface SwitchRouterState {
@@ -113,7 +119,7 @@ export const resolveExits = (newCases: CaseElementProps[], previous: Node): Comb
         }
 
         // ignore cases with empty names
-        if (!newCase.exitName || newCase.exitName.trim().length === 0) {
+        if (!newCase.exitName || !truthyStr(newCase.exitName.trim())) {
             continue;
         }
 
@@ -179,7 +185,7 @@ export const resolveExits = (newCases: CaseElementProps[], previous: Node): Comb
     }
 
     let defaultName = 'All Responses';
-    if (exits.length > 0) {
+    if (truthyArr(exits)) {
         defaultName = 'Other';
     }
 
@@ -223,19 +229,19 @@ export const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
     width: isDragging && draggableStyle.width - 5
 });
 
-export const isSwitchRouterNode = (node: Node): boolean =>
-    node.wait &&
-    (node.wait.type === 'exp' || node.wait.type === 'group' || node.wait.type === 'msg');
+export const hasWait = (node: Node, type?: WaitType): boolean => {
+    if (!node || !node.wait || !node.wait.type || (type && node.wait.type !== type)) {
+        return false;
+    }
+    return node.wait.type in WaitType;
+};
+
+export const isSwitchRouterNode = (node: Node): boolean => hasWait(node);
 
 export const hasCases = (node: Node): boolean => {
-    if (
-        isSwitchRouterNode(node) &&
-        (node.router as SwitchRouter).cases &&
-        (node.router as SwitchRouter).cases.length
-    ) {
+    if (isSwitchRouterNode(node) && truthyArr((node.router as SwitchRouter).cases)) {
         return true;
     }
-
     return false;
 };
 
@@ -260,7 +266,7 @@ export const extractGroups = ({ exits, router }: Node): SearchResult[] =>
             return newName;
         }, '');
 
-        return { name: resultName, id: kase.arguments[0], type: 'group' };
+        return { name: resultName, id: kase.arguments[0]};
     });
 
 export const DEFAULT_OPERAND: string = '@input';
@@ -314,7 +320,7 @@ export default class SwitchRouterForm extends React.Component<
             if (this.props.node.router as SwitchRouter) {
                 if ((this.props.node.router as SwitchRouter).operand) {
                     if (nextProps.config.type === 'expression') {
-                        if (this.props.node.wait.type === 'exp') {
+                        if (hasWait(this.props.node, WaitType.exp)) {
                             updates.operand = (this.props.node.router as SwitchRouter).operand;
                         }
                     } else if (nextProps.config.type === 'wait_for_response') {
@@ -327,10 +333,11 @@ export default class SwitchRouterForm extends React.Component<
             if (hasCases(this.props.node)) {
                 // If the existing node has a group switch router and the user has switched to a different switch router form
                 if (
-                    this.props.node.wait.type === 'group' &&
+                    hasWait(this.props.node, WaitType.group) &&
                     (nextProps.config.type === 'expression' ||
                         nextProps.config.type === 'wait_for_response')
                 ) {
+                    updates.operand = DEFAULT_OPERAND;
                     updates.cases = [];
                 } else {
                     updates.cases = this.composeCaseProps();
@@ -355,7 +362,7 @@ export default class SwitchRouterForm extends React.Component<
         // bump off the translation for the initial case.
         if (
             this.props.definition.localization &&
-            Object.keys(this.props.definition.localization).length &&
+            truthyArr(Object.keys(this.props.definition.localization)) &&
             this.state.cases.length === 1
         ) {
             const { uuid: nodeUUID, exits: nodeExits } = this.props.node;
@@ -381,9 +388,9 @@ export default class SwitchRouterForm extends React.Component<
 
         // If the user is going from 1 or more cases to 0 and this router has a translation for the 'Other' case, lose it
         if (
-            !this.state.cases.length &&
+            !truthyArr(this.state.cases) &&
             this.props.definition.localization &&
-            Object.keys(this.props.definition.localization).length
+            truthyArr(Object.keys(this.props.definition.localization))
         ) {
             const { uuid: nodeUUID, exits: nodeExits } = this.props.node;
 
@@ -416,11 +423,11 @@ export default class SwitchRouterForm extends React.Component<
 
         const optionalNode: Pick<Node, 'wait'> = {};
         if (this.props.config.type === 'wait_for_response') {
-            optionalNode.wait = { type: 'msg' };
+            optionalNode.wait = { type: WaitType.msg };
         } else if (this.props.config.type === 'expression') {
-            optionalNode.wait = { type: 'exp' };
+            optionalNode.wait = { type: WaitType.exp };
         } else if (this.props.config.type === 'group') {
-            optionalNode.wait = { type: 'group' };
+            optionalNode.wait = { type: WaitType.group };
         }
 
         const router: SwitchRouter = {
@@ -642,7 +649,7 @@ export default class SwitchRouterForm extends React.Component<
     private getLanguage(): Language {
         let language: Language;
 
-        if (this.props.localizations && this.props.localizations.length) {
+        if (truthyArr(this.props.localizations)) {
             language = this.props.localizations[0].getLanguage();
         }
 
@@ -652,7 +659,7 @@ export default class SwitchRouterForm extends React.Component<
     private getOperatorsForLocalization({ name: languageName }: Language): JSX.Element[] {
         const { cases } = this.props.node.router as SwitchRouter;
         return cases.reduce((casesForLocalization: JSX.Element[], kase) => {
-            if (kase.arguments && kase.arguments.length) {
+            if (truthyArr(kase.arguments)) {
                 const [localized] = this.props.localizations.filter(
                     (localizedObject: LocalizedObject) =>
                         localizedObject.getObject().uuid === kase.uuid
@@ -664,7 +671,7 @@ export default class SwitchRouterForm extends React.Component<
                     if ('arguments' in localized.localizedKeys) {
                         const localizedCase = localized.getObject() as Case;
 
-                        if (localizedCase.arguments.length) {
+                        if (truthyArr(localizedCase.arguments)) {
                             [value] = localizedCase.arguments;
                         }
                     }
@@ -746,8 +753,8 @@ export default class SwitchRouterForm extends React.Component<
                     // we don't need an empty case.
                     if (
                         this.context.getOperatorConfig(c.kase.type).operands > 0 &&
-                        !c.kase.arguments.length &&
-                        !c.exitName.length
+                        !truthyArr(c.kase.arguments) &&
+                        !truthyStr(c.exitName)
                     ) {
                         needsEmpty = false;
                         // It also shouldn't be draggable
@@ -884,9 +891,8 @@ export default class SwitchRouterForm extends React.Component<
             };
 
             if (
-                this.props.node.wait &&
-                this.props.node.wait.type === 'group' &&
-                (this.props.node.router as SwitchRouter).cases.length
+                hasWait(this.props.node, WaitType.group) &&
+                truthyArr((this.props.node.router as SwitchRouter).cases)
             ) {
                 groupProps.groups = extractGroups(this.props.node);
             }
@@ -921,7 +927,7 @@ export default class SwitchRouterForm extends React.Component<
             return this.props.getExitTranslations();
         } else {
             const cases: JSX.Element[] = this.getCases();
-            const caseContext: JSX.Element = cases.length ? (
+            const caseContext: JSX.Element = truthyArr(cases) ? (
                 <div className={styles.cases}>
                     <DragDropContext onDragEnd={this.onDragEnd}>
                         <Droppable droppableId="droppable">
@@ -959,7 +965,7 @@ export default class SwitchRouterForm extends React.Component<
 
         const operators: JSX.Element[] = this.getOperatorsForLocalization(language);
 
-        if (!operators.length) {
+        if (!truthyArr(operators)) {
             return null;
         }
 
