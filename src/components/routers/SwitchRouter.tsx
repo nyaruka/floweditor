@@ -227,6 +227,18 @@ export const isSwitchRouterNode = (node: Node): boolean =>
     node.wait &&
     (node.wait.type === 'exp' || node.wait.type === 'group' || node.wait.type === 'msg');
 
+export const hasCases = (node: Node): boolean => {
+    if (
+        isSwitchRouterNode(node) &&
+        (node.router as SwitchRouter).cases &&
+        (node.router as SwitchRouter).cases.length
+    ) {
+        return true;
+    }
+
+    return false;
+};
+
 export const hasGroupCase = (cases: CaseElementProps[]): boolean => {
     for (const { kase: { type } } of cases) {
         if (type === 'has_group') {
@@ -297,11 +309,7 @@ export default class SwitchRouterForm extends React.Component<
             }
         } else {
             // If we have an existing switch router node and it has cases
-            if (
-                isSwitchRouterNode(this.props.node) &&
-                (this.props.node.router as SwitchRouter).cases &&
-                (this.props.node.router as SwitchRouter).cases.length
-            ) {
+            if (hasCases(this.props.node)) {
                 // If the existing node has a group switch router and the user has switched to a different switch router form
                 if (
                     this.props.node.wait.type === 'group' &&
