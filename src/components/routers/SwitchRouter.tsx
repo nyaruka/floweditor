@@ -5,6 +5,7 @@ import * as update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
 import {
     Wait,
+    WaitType,
     Node,
     SwitchRouter,
     Exit,
@@ -50,12 +51,6 @@ export enum DragCursor {
 export enum ChangedCaseInput {
     ARGS = 'ARGS',
     EXIT = 'EXIT'
-}
-
-enum WaitType {
-    exp = 'exp',
-    group = 'group',
-    msg = 'msg'
 }
 
 export interface SwitchRouterState {

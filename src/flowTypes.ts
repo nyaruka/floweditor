@@ -26,8 +26,15 @@ export interface FlowDefinition {
     _ui: UIMetaData;
 }
 
+export enum WaitType {
+    exp = 'exp',
+    group = 'group',
+    msg = 'msg',
+    flow = 'flow'
+}
+
 export interface Wait {
-    type: string;
+    type: WaitType;
     flow_uuid?: string;
 }
 
