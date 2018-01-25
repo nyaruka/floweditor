@@ -251,11 +251,13 @@ export const hasGroupCase = (cases: CaseElementProps[]): boolean => {
 export const extractGroups = ({ exits, router }: Node): GroupList =>
     (router as SwitchRouter).cases.map(kase => {
         const resultName = exits.reduce((result, { name, uuid }) => {
+            let newName: string = result;
+
             if (uuid === kase.exit_uuid) {
-                result += name;
+                newName += name;
             }
 
-            return result;
+            return newName;
         }, '');
 
         return { name: resultName, group: kase.arguments[0] };
