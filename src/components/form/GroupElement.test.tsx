@@ -11,14 +11,13 @@ import Config from '../../providers/ConfigProvider/configContext';
 import { GROUP_PLACEHOLDER, GROUP_NOT_FOUND } from '../routers/SwitchRouter';
 import { SearchResult } from '../../services/ComponentMap';
 import { validUUID } from '../../helpers/utils';
-import { transformGroups } from './GroupElement';
 
 const { results: groupsResp } = require('../../../assets/groups.json');
 
 describe('GroupElement >', () => {
     const props: GroupElementProps = {
         name: 'Group',
-        endpoint: Config.endpoints,
+        endpoint: Config.endpoints.groups,
         placeholder: GROUP_PLACEHOLDER,
         searchPromptText: GROUP_NOT_FOUND,
         required: true
