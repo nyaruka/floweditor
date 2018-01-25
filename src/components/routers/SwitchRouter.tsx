@@ -309,6 +309,18 @@ export default class SwitchRouterForm extends React.Component<
                 updates.cases = [];
             }
         } else {
+            if (this.props.node.router as SwitchRouter) {
+                if ((this.props.node.router as SwitchRouter).operand) {
+                    if (nextProps.config.type === 'expression') {
+                        if (this.props.node.wait.type === 'exp') {
+                            updates.operand = (this.props.node.router as SwitchRouter).operand;
+                        }
+                    } else if (nextProps.config.type === 'wait_for_response') {
+                        updates.operand = DEFAULT_OPERAND;
+                    }
+                }
+            }
+
             // If we have an existing switch router node and it has cases
             if (hasCases(this.props.node)) {
                 // If the existing node has a group switch router and the user has switched to a different switch router form
@@ -322,6 +334,10 @@ export default class SwitchRouterForm extends React.Component<
                     updates.cases = this.composeCaseProps();
                 }
             }
+        }
+
+        if (!updates.operand) {
+            updates.operand = DEFAULT_OPERAND;
         }
 
         this.setState(updates as SwitchRouterState);
