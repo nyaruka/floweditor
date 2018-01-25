@@ -97,10 +97,7 @@ export default class SelectSearch extends React.PureComponent<
         return results;
     }
 
-    private loadOptions(
-        input: string,
-        callback: Function
-    ): void {
+    private loadOptions(input: string, callback: Function): void {
         if (!this.props.url) {
             const options: SelectSearchResult = this.search(input);
 
