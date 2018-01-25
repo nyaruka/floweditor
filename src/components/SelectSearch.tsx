@@ -15,13 +15,13 @@ export interface SelectSearchProps {
     localSearchOptions?: SearchResult[];
     className?: string;
     createPrompt?: string;
-    onChange?: (selection: SearchResult[]) => void;
+    onChange?: (selections: SearchResult[]) => void;
     isValidNewOption?: (option: { label: string }) => boolean;
     createNewOption?: (option: { label: string; labelKey: string; valueKey: string }) => any;
 }
 
 interface SelectSearchState {
-    selection: SearchResult[];
+    selections: SearchResult[];
 }
 
 interface SelectSearchResult {
@@ -39,7 +39,7 @@ export default class SelectSearch extends React.PureComponent<
         super(props);
 
         this.state = {
-            selection: props.initial
+            selections: props.initial
         };
 
         this.selectRef = this.selectRef.bind(this);
@@ -116,12 +116,12 @@ export default class SelectSearch extends React.PureComponent<
         }
     }
 
-    private onChange(selection: SearchResult[]): void {
+    private onChange(selections: SearchResult[]): void {
         if (this.props.onChange) {
-            this.props.onChange(selection);
+            this.props.onChange(selections);
         }
 
-        this.setState({ selection }, () => this.select.focus());
+        this.setState({ selections }, () => this.select.focus());
     }
 
     private filterOption(option: SearchResult, term: string): boolean {
@@ -135,8 +135,8 @@ export default class SelectSearch extends React.PureComponent<
             value = [];
         }
 
-        if (this.state.selection) {
-            for (const selection of this.state.selection) {
+        if (this.state.selections) {
+            for (const selection of this.state.selections) {
                 if (selection) {
                     const selectionValue: string | SearchResult =
                         selection.extraResult || this.props.multi ? selection : selection.id;
