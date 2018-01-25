@@ -580,7 +580,7 @@ export default class SwitchRouterForm extends React.Component<
         const router: SwitchRouter = this.props.node.router as SwitchRouter;
 
         // If a router already exists at this node and it has cases
-        if (isSwitchRouterNode(this.props.node) && router.cases && router.cases.length) {
+        if (hasCases(this.props.node)) {
             ({ operand } = router);
 
             if (router.result_name) {
