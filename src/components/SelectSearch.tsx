@@ -86,6 +86,7 @@ export default class SelectSearch extends React.PureComponent<
                 }
             }
         }
+
         const options: SearchResult[] = combined.sort(this.sortResults);
 
         const results: SelectSearchResult = {
@@ -96,11 +97,14 @@ export default class SelectSearch extends React.PureComponent<
         return results;
     }
 
-    private loadOptions(input: string, callback: (arg1: any, arg2?: any) => void): void {
+    private loadOptions(
+        input: string,
+        callback: Function
+    ): void {
         if (!this.props.url) {
             const options: SelectSearchResult = this.search(input);
 
-            callback(options);
+            callback(null, options);
         } else {
             axios.get(this.props.url).then((response: AxiosResponse) => {
                 const results: SearchResult[] = response.data.results.map((result: any) => ({
