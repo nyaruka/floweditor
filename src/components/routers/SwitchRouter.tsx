@@ -231,16 +231,14 @@ export const hasWait = (node: Node, type?: WaitType): boolean => {
     return node.wait.type in WaitType;
 };
 
-export const isSwitchRouterNode = (node: Node): boolean => hasWait(node);
-
 export const hasCases = (node: Node): boolean => {
-    if (isSwitchRouterNode(node) && truthyArr((node.router as SwitchRouter).cases)) {
+    if (hasWait(node) && truthyArr((node.router as SwitchRouter).cases)) {
         return true;
     }
     return false;
 };
 
-export const hasGroupCase = (cases: CaseElementProps[]): boolean => {
+export const hasGroupCase = (cases: CaseElementProps[] = []): boolean => {
     for (const { kase: { type } } of cases) {
         if (type === 'has_group') {
             return true;

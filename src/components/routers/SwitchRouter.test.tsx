@@ -12,7 +12,6 @@ import SwitchRouterForm, {
     composeExitMap,
     resolveExits,
     hasWait,
-    isSwitchRouterNode,
     hasCases,
     hasGroupCase,
     extractGroups,
@@ -240,14 +239,6 @@ describe('SwitchRouter >', () => {
             it('should return false if node does not have wait', () => {
                 expect(hasWait(replyNode)).toBeFalsy();
             });
-        });
-
-        describe('isSwitchRouterNode >', () => {
-            it('should return true if node has a switch router', () =>
-                expect(isSwitchRouterNode(switchNodeMsg)).toBeTruthy());
-
-            it("should return false if node doesn't have a switch router", () =>
-                expect(isSwitchRouterNode(replyNode)).toBeFalsy());
         });
 
         describe('hasCases >', () => {
