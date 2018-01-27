@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import ComponentMap from '../../../services/ComponentMap';
+import ComponentMap, { SearchResult } from '../../../services/ComponentMap';
 import ChangeGroupForm, { ChangeGroupFormProps } from './ChangeGroupForm';
 import Config from '../../../providers/ConfigProvider/configContext';
+import { GROUP_TYPE } from '../../form/GroupElement';
 
 const {
     results: [{ definition }]
@@ -25,13 +26,12 @@ const testGroupForm = (type: string) => {
         onBindWidget: jest.fn(),
         ComponentMap: CompMap
     };
-    const { groups: [{ uuid, name }] } = action;
-    const groups = [{ group: uuid, name }];
-    const localGroups = [{ id: uuid, name, type: 'group' }];
+    const { groups } = action;
+    const groupOptions: SearchResult[] = groups.map(({name, uuid}) => ({name, id: uuid, type: GROUP_TYPE}));
     const GroupForm = mount(<ChangeGroupForm {...props} />, {
         context
     });
-    const expectedPgrh =
+    const expectedPgrh: string =
         type === 'add_to_group'
             ? 'Select the group(s) to add the contact to.'
             : 'Select the group(s) to remove the contact from.';
@@ -42,8 +42,8 @@ const testGroupForm = (type: string) => {
     expect(GroupForm.find('GroupElement').props()).toEqual({
         name: 'Group',
         endpoint: endpoints.groups,
-        groups,
-        localGroups,
+        groups: groupOptions,
+        localGroups: groupOptions,
         add: type === 'add_to_group',
         required: true
     });

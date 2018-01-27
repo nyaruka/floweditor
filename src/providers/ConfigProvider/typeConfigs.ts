@@ -137,6 +137,15 @@ export const typeConfigList: Type[] = [
         }
     },
     {
+        type: 'group',
+        name: 'Split by Group Membership',
+        description: 'Split by group membership',
+        form: SwitchRouterForm,
+        allows(mode: Mode): boolean {
+            return (this.advanced & mode) === mode;
+        }
+    },
+    {
         type: 'wait_for_response',
         name: 'Wait for Response',
         description: 'Wait for them to respond',
@@ -163,12 +172,12 @@ export interface TypeMap {
 }
 
 export const typeConfigMap: TypeMap = typeConfigList.reduce(
-    (typeConfigMap: TypeMap, typeConfig: Type) => {
-        typeConfigMap[typeConfig.type] = typeConfig;
+    (map: TypeMap, typeConfig: Type) => {
+        map[typeConfig.type] = typeConfig;
         if (typeConfig.aliases) {
-            typeConfig.aliases.forEach((alias: string) => (typeConfigMap[alias] = typeConfig));
+            typeConfig.aliases.forEach((alias: string) => (map[alias] = typeConfig));
         }
-        return typeConfigMap;
+        return map;
     },
     {}
 );

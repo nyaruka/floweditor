@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
-import { Endpoints, Exit, StartFlow, Case, SwitchRouter } from '../../flowTypes';
+import { Endpoints, Exit, StartFlow, Case, SwitchRouter, WaitType } from '../../flowTypes';
 import { Type } from '../../providers/ConfigProvider/typeConfigs';
 import { FormProps } from '../NodeEditor';
 import { Node, AnyAction } from '../../flowTypes';
@@ -97,7 +97,7 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
                 router: newRouter,
                 exits,
                 actions: [newAction],
-                wait: { type: 'flow', flow_uuid: flowUUID }
+                wait: { type: WaitType.flow, flow_uuid: flowUUID }
             },
             'subflow',
             this.props.action

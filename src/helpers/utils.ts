@@ -83,12 +83,12 @@ export const validUUID = (uuid: string): boolean => V4_UUID.test(uuid);
 export const titleCase = (str: string): string =>
     str.replace(/\b\w+/g, s => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase());
 
-export const getSelectClass = (errors: number): string[] => {
+export const getSelectClass = (errors: number): string => {
     if (errors === 0) {
-        return [];
+        return '';
     }
-    /** We use a global selector here for react-select */
-    return ['select-invalid'];
+    // We use a global selector here for react-select
+    return 'select-invalid';
 };
 
 export const reorderList = (list: any[], startIndex: number, endIndex: number): any[] => {
@@ -107,3 +107,9 @@ export const reorderList = (list: any[], startIndex: number, endIndex: number): 
  */
 export const jsonEqual = (objA: {}, objB: {}): boolean =>
     JSON.stringify(objA) === JSON.stringify(objB);
+
+export const truthyArr = (arr: any[]): boolean =>
+    arr && arr.constructor === Array && arr.length > 0;
+
+export const truthyStr = (str: string): boolean =>
+    str && str.constructor === String && str.length > 0;

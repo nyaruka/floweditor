@@ -8,7 +8,9 @@ import {
     titleCase,
     getSelectClass,
     reorderList,
-    jsonEqual
+    jsonEqual,
+    truthyArr,
+    truthyStr
 } from './utils';
 
 describe('utils >', () => {
@@ -89,10 +91,10 @@ describe('utils >', () => {
 
     describe('getSelectClass >', () => {
         it('should return an empty array if passed "errors" arg less than 1', () =>
-            expect(getSelectClass(0)).toEqual([]));
+            expect(getSelectClass(0)).toEqual(''));
 
         it("should return an array containing react-select's invalid class", () =>
-            expect(getSelectClass(1)).toEqual(['select-invalid']));
+            expect(getSelectClass(1)).toEqual('select-invalid'));
     });
 
     describe('titleCase >', () =>
@@ -113,5 +115,25 @@ describe('utils >', () => {
 
         it('should return false if basic objects are not equal in contents and order', () =>
             expect(jsonEqual(anyWordOperator, allWordsOperator)).toBeFalsy());
+    });
+
+    describe('truthyArr >', () => {
+        it('should return true if param holds one or more item(s)', () => {
+            expect(truthyArr([0])).toBeTruthy();
+        });
+
+        it('should return false if param is an empty array', () => {
+            expect(truthyArr([])).toBeFalsy();
+        });
+    });
+
+    describe('truthyStr >', () => {
+        it('should return true if param holds one character', () => {
+            expect(truthyStr('a')).toBeTruthy();
+        });
+
+        it('should return false if param is an empty string', () => {
+            expect(truthyStr('')).toBeFalsy();
+        });
     });
 });
