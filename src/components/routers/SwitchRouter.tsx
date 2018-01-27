@@ -232,7 +232,7 @@ export const hasWait = (node: Node, type?: WaitType): boolean => {
 };
 
 export const hasCases = (node: Node): boolean => {
-    if (hasWait(node) && truthyArr((node.router as SwitchRouter).cases)) {
+    if (node.router && truthyArr((node.router as SwitchRouter).cases)) {
         return true;
     }
     return false;
@@ -259,10 +259,11 @@ export const extractGroups = ({ exits, router }: Node): SearchResult[] =>
             return newName;
         }, '');
 
-        return { name: resultName, id: kase.arguments[0]};
+        return { name: resultName, id: kase.arguments[0] };
     });
 
 export const DEFAULT_OPERAND: string = '@input';
+export const GROUPS_OPERAND: string = '@contact.groups';
 export const WAIT_LABEL: string = 'If the message response...';
 export const EXPRESSION_LABEL: string = 'If the expression...';
 export const GROUP_LABEL: string = "Select the group(s) you'd like to split by below";
@@ -299,47 +300,69 @@ export default class SwitchRouterForm extends React.Component<
     }
 
     public componentWillReceiveProps(nextProps: SwitchRouterFormProps): void {
-        const updates: Partial<SwitchRouterState> = {};
+        const updates: Partial<SwitchRouterState> = {
+            operand: DEFAULT_OPERAND
+        };
 
-        if (nextProps.config.type === 'group') {
-            if (this.state.operand.indexOf('groups') === -1) {
-                updates.operand = '@contact.groups';
-            }
+        const routerExists: boolean =
+            (this.props.node.router as SwitchRouter) &&
+            (this.props.node.router as SwitchRouter).hasOwnProperty('operand');
 
-            if (!hasGroupCase(this.state.cases)) {
-                updates.cases = [];
-            }
-        } else {
-            if (this.props.node.router as SwitchRouter) {
-                if ((this.props.node.router as SwitchRouter).operand) {
-                    if (nextProps.config.type === 'expression') {
-                        if (hasWait(this.props.node, WaitType.exp)) {
-                            updates.operand = (this.props.node.router as SwitchRouter).operand;
-                        }
-                    } else if (nextProps.config.type === 'wait_for_response') {
-                        updates.operand = DEFAULT_OPERAND;
-                    }
-                }
-            }
-
+        // If a router exists on the node
+        if (routerExists) {
             // If we have an existing switch router node and it has cases
             if (hasCases(this.props.node)) {
-                // If the existing node has a group switch router and the user has switched to a different switch router form
+                // If the user is switching from the group router form to another switch router form
                 if (
                     hasWait(this.props.node, WaitType.group) &&
                     (nextProps.config.type === 'expression' ||
                         nextProps.config.type === 'wait_for_response')
                 ) {
-                    updates.operand = DEFAULT_OPERAND;
                     updates.cases = [];
+                    // If the user is switching from another switch router form to the group router form
+                } else if (
+                    (hasWait(this.props.node, WaitType.exp) ||
+                        hasWait(this.props.node, WaitType.msg)) &&
+                    nextProps.config.type === 'group'
+                ) {
+                    updates.operand = GROUPS_OPERAND;
+                    updates.cases = [];
+                    // If the user is switching from the message router form to the expression router form
+                } else if (
+                    hasWait(this.props.node, WaitType.msg) &&
+                    nextProps.config.type === 'expression'
+                ) {
+                    updates.cases = [];
+                    // If the user is switching from the expression router form to the message router form
+                } else if (
+                    hasWait(this.props.node, WaitType.exp) &&
+                    nextProps.config.type === 'wait_for_response'
+                ) {
+                    updates.cases = [];
+                    // Existing router and form types are the same, so we use what we already have
                 } else {
+                    updates.operand = (this.props.node.router as SwitchRouter).operand;
                     updates.cases = this.composeCaseProps();
                 }
             }
-        }
+            // If a router doesn't exist at the node
+        } else {
+            if (nextProps.config.type === 'group') {
+                if (this.state.operand.indexOf('groups') === -1) {
+                    updates.operand = GROUPS_OPERAND;
+                }
 
-        if (!updates.operand) {
-            updates.operand = DEFAULT_OPERAND;
+                if (!hasGroupCase(this.state.cases)) {
+                    updates.cases = [];
+                }
+            } else if (
+                nextProps.config.type === 'wait_for_response' ||
+                nextProps.config.type === 'expression'
+            ) {
+                if (!truthyArr(this.state.cases) || hasGroupCase(this.state.cases)) {
+                    updates.cases = [];
+                }
+            }
         }
 
         this.setState(updates as SwitchRouterState);
