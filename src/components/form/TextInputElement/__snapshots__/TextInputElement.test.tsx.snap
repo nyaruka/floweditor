@@ -868,3 +868,33 @@ Object {
   "value": "GSM, regular 7-bit chars",
 }
 `;
+
+exports[`TextInputElement > render > should display count 1`] = `
+<div
+  className="tooltiprow"
+  data-spec="tooltip-content"
+>
+  <span>
+    <span>
+      The character-counter provides an estimate of the number of messages your response is expected to be split into by carriers. For example, the count 
+      <b>
+        67/2
+      </b>
+       indicates that the current message will be split into 
+      <b>
+        2
+      </b>
+       messages and you have 
+      <b>
+        67
+      </b>
+       characters left until it will be split into 
+      <b>
+        3
+      </b>
+       messages
+    </span>
+    .
+  </span>
+</div>
+`;

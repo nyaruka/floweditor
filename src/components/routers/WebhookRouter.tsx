@@ -27,7 +27,7 @@ export interface WebhookRouterFormProps extends FormProps {
     config: Type;
     node: Node;
     showAdvanced: boolean;
-    action: AnyAction;
+    action: CallWebhook;
     removeWidget: (name: string) => void;
     translating: boolean;
     triggerFormUpdate: () => void;
@@ -114,6 +114,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                 const headerName: string = header.state.name.trim();
                 const headerState: string = header.state.value.trim();
 
+                // Note: we're overwriting headers with the same 'name' value
                 if (headerName.length) {
                     map[headerName] = headerState;
                 }
@@ -215,19 +216,23 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
     private onHeaderChanged(ele: HeaderElement): void {
         const { state: { name, value }, props: { header: { uuid } } } = ele;
 
-        const headers: Header[] = this.addEmptyHeader(
-            update(this.state.headers, {
-                [ele.props.index]: {
-                    $set: {
-                        name,
-                        value,
-                        uuid
-                    } as Header
-                }
-            })
-        );
+        if (!name && !value) {
+            this.onHeaderRemoved(ele);
+        } else {
+            const headers: Header[] = this.addEmptyHeader(
+                update(this.state.headers, {
+                    [ele.props.index]: {
+                        $set: {
+                            name,
+                            value,
+                            uuid
+                        } as Header
+                    }
+                })
+            );
 
-        this.setState({ headers });
+            this.setState({ headers });
+        }
     }
 
     private onMethodChanged(method: MethodMap): void {
@@ -265,7 +270,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
 
     private addEmptyHeader(headers: Header[]): Header[] {
         const newHeaders: Header[] = headers;
-        let hasEmpty: boolean = false;
+        let hasEmpty = false;
 
         for (const header of newHeaders) {
             if (header.name.trim().length === 0 && header.value.trim().length === 0) {
@@ -296,9 +301,8 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
     }
 
     private getSummary(): JSX.Element {
-        const baseText: string = 'configure the headers';
-        const linkText: string =
-            this.state.method === Methods.GET ? baseText : `${baseText} and body`;
+        const baseText = 'configure the headers';
+        const linkText = this.state.method === Methods.GET ? baseText : `${baseText} and body`;
 
         return (
             <span>
@@ -312,12 +316,10 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
     }
 
     private getReqBody(): string {
-        let reqBody: string = defaultBody;
+        let reqBody = defaultBody;
 
-        if (this.props.action && this.props.action.type === 'call_webhook') {
-            if ((this.props.action as CallWebhook).body) {
-                ({ body: reqBody } = this.props.action as CallWebhook);
-            }
+        if (this.props.action.body) {
+            ({ action: { body: reqBody } } = this.props);
         }
 
         return reqBody;
@@ -354,6 +356,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                         required={true}
                         url={true}
                         ComponentMap={this.props.ComponentMap}
+                        config={this.props.config}
                     />
                 </div>
                 <div className={styles.instructions}>
@@ -381,47 +384,54 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         }
 
         const headerElements: JSX.Element[] = this.state.headers.map(
-            (header: Header, index: number) => (
-                <div key={header.uuid}>
-                    <HeaderElement
-                        ref={this.props.onBindAdvancedWidget}
-                        name={`header_${index}`}
-                        header={header}
-                        onRemove={this.onHeaderRemoved}
-                        onChange={this.onHeaderChanged}
-                        index={index}
-                        ComponentMap={this.props.ComponentMap}
-                    />
-                </div>
-            )
+            (header: Header, index: number, arr: Header[]) => {
+                const isEmpty = index === this.state.headers.length - 1;
+                return (
+                    <div key={header.uuid}>
+                        <HeaderElement
+                            ref={this.props.onBindAdvancedWidget}
+                            name={`header_${header.uuid}`}
+                            header={header}
+                            onRemove={this.onHeaderRemoved}
+                            onChange={this.onHeaderChanged}
+                            index={index}
+                            empty={isEmpty}
+                            ComponentMap={this.props.ComponentMap}
+                            config={this.props.config}
+                        />
+                    </div>
+                );
+            }
         );
 
-        const reqBody: string = this.getReqBody();
-        const helpText: string = `Modify the body of the ${
+        const reqBody = this.getReqBody();
+        const helpText = `Modify the body of the ${
             this.state.method
         } request that will be sent to your webhook.`;
-        const reqBodyLabel: string = `${this.state.method} Body`;
-        const reqBodyHelp: string = `Modify the body of your ${this.state.method} request.`;
+        const reqBodyLabel = `${this.state.method} Body`;
+        const reqBodyHelp = `Modify the body of your ${this.state.method} request.`;
 
-        const bodyForm: JSX.Element =
-            this.state.method === Methods.POST || this.state.method === Methods.PUT ? (
-                <div className={styles.bodyForm}>
-                    <h4>{reqBodyLabel}</h4>
-                    <p>{reqBodyHelp}</p>
-                    <TextInputElement
-                        className={styles.reqBody}
-                        ref={this.props.onBindAdvancedWidget}
-                        name="Body"
-                        showLabel={false}
-                        value={reqBody}
-                        helpText={helpText}
-                        autocomplete={true}
-                        textarea={true}
-                        required={true}
-                        ComponentMap={this.props.ComponentMap}
-                    />
-                </div>
-            ) : null;
+        const needsBody = this.state.method === Methods.POST || this.state.method === Methods.PUT;
+
+        const bodyForm: JSX.Element = needsBody ? (
+            <div className={styles.bodyForm}>
+                <h4>{reqBodyLabel}</h4>
+                <p>{reqBodyHelp}</p>
+                <TextInputElement
+                    __className={styles.reqBody}
+                    ref={this.props.onBindAdvancedWidget}
+                    name="Body"
+                    showLabel={false}
+                    value={reqBody}
+                    helpText={helpText}
+                    autocomplete={true}
+                    textarea={true}
+                    required={true}
+                    ComponentMap={this.props.ComponentMap}
+                    config={this.props.config}
+                />
+            </div>
+        ) : null;
 
         return (
             <div>
@@ -441,6 +451,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
             </div>
         );
     }
+
     public render(): JSX.Element {
         return this.props.showAdvanced ? this.renderAdvanced() : this.renderForm();
     }

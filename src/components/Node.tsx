@@ -16,7 +16,7 @@ import {
     Endpoints,
     Languages
 } from '../flowTypes';
-import { titleCase } from '../helpers/utils';
+import { titleCase, truthyArr } from '../helpers/utils';
 import CounterComp from './Counter';
 import ActivityManager from '../services/ActivityManager';
 import ComponentMap from '../services/ComponentMap';
@@ -314,7 +314,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             );
         }
 
-        this.props.openEditor({
+        let nodeEditorProps: NodeEditorProps = {
             // Flow
             node: this.props.node,
             definition: this.props.definition,
@@ -326,7 +326,20 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             onUpdateLocalizations: this.props.onUpdateLocalizations,
             onUpdateAction: this.props.onUpdateAction,
             onUpdateRouter: this.props.onUpdateRouter
-        });
+        };
+
+        // Account for hybrids
+        if (truthyArr(this.props.node.actions)) {
+            const isHybrid =
+                this.props.node.actions[0].type === 'call_webhook' ||
+                this.props.node.actions[0].type === 'start_flow';
+
+            if (isHybrid) {
+                nodeEditorProps = { ...nodeEditorProps, action: this.props.node.actions[0] };
+            }
+        }
+
+        this.props.openEditor(nodeEditorProps);
     }
 
     private onRemoval(event: React.MouseEvent<HTMLDivElement>): void {

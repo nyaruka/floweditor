@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classNames from 'classnames/bind';
 import { Exit } from '../flowTypes';
 import { addCommas } from '../helpers/utils';
 import Counter from './Counter';
@@ -21,6 +22,8 @@ export interface ExitProps {
 export interface ExitState {
     confirmDelete: boolean;
 }
+
+const cx = classNames.bind(styles);
 
 export default class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     private timeout: any;
@@ -141,45 +144,41 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
     }
 
     public render(): JSX.Element {
-        const classes: string[] = [styles.exit, 'plumb-exit'];
+        const exit = this.props.translating
+            ? (this.props.localization.getObject() as Exit)
+            : this.props.exit;
 
-        let confirm: JSX.Element = null;
+        const nameStyle = exit.name ? styles.name : '';
 
-        if (this.state.confirmDelete && this.props.exit.destination_node_uuid) {
-            confirm = <span onClick={this.onDisconnect} className="icon-remove" />;
-
-            classes.push(styles.confirm_delete);
-        }
-
-        // console.log('Rendering exit', this.props.exit.uuid);
         const connected = this.props.exit.destination_node_uuid ? ' jtk-connected' : '';
-        let nameStyle = '';
-        let { exit } = this.props;
+        const dragNodeClasses = cx(styles.endpoint, connected);
 
-        if (this.props.translating) {
-            classes.push(styles.translating);
+        const confirmDelete =
+            this.state.confirmDelete && this.props.exit.hasOwnProperty('destination_node_uuid');
 
-            exit = this.props.localization.getObject() as Exit;
+        const confirm: JSX.Element = confirmDelete ? (
+            <span onClick={this.onDisconnect} className="icon-remove" />
+        ) : null;
 
-            if (!('name' in this.props.localization.localizedKeys)) {
-                classes.push(styles.missing_localization);
-            }
-        }
-
-        if (exit.name) {
-            ({ name: nameStyle } = styles);
-        }
+        const exitClasses: string = cx({
+            [styles.exit]: true,
+            ['plumb-exit']: true,
+            [styles.translating]: this.props.translating,
+            [styles.missing_localization]:
+                this.props.translating && !('name' in this.props.localization.localizedKeys),
+            [styles.confirm_delete]: confirmDelete
+        });
 
         const activity = this.getActivity();
 
         return (
-            <div className={classes.join(' ')}>
+            <div className={exitClasses}>
                 <div className={nameStyle}>{exit.name}</div>
                 <div
                     onMouseUp={this.onMouseUp}
                     onClick={this.onClick}
                     id={this.props.exit.uuid}
-                    className={`${styles.endpoint} ${connected}`}>
+                    className={dragNodeClasses}>
                     {confirm}
                 </div>
                 {activity}

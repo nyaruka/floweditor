@@ -23,7 +23,7 @@ export interface ContactField {
 export interface SearchResult {
     name: string;
     id: string;
-    type: string;
+    type?: string;
     prefix?: string;
     extraResult?: boolean;
 }
@@ -32,7 +32,7 @@ export interface ContactFieldResult extends SearchResult {
     key?: string;
 }
 
-interface ComponentDetails {
+export interface ComponentDetails {
     nodeUUID: string;
     nodeIdx: number;
     actionIdx?: number;

@@ -378,7 +378,8 @@ describe('SwitchRouter >', () => {
                     placeholder,
                     showLabel: false,
                     value,
-                    ComponentMap: switchProps.ComponentMap
+                    ComponentMap: switchProps.ComponentMap,
+                    config
                 });
             });
         });

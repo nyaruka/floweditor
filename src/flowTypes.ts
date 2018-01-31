@@ -63,15 +63,15 @@ export interface Group {
     name: string;
 }
 
-export interface Action {
-    type: string;
-    uuid: string;
-}
-
 export enum Methods {
     GET = 'GET',
     POST = 'POST',
     PUT = 'PUT'
+}
+
+export interface Action {
+    type: string;
+    uuid: string;
 }
 
 export interface ChangeGroup extends Action {
