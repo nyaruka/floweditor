@@ -198,11 +198,12 @@ export const getListStyle = (isDraggingOver: boolean): { cursor: DragCursor } =>
 
 export const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
     userSelect: 'none',
+    outline: 'none',
     background: isDragging && '#f2f9fc',
     borderRadius: isDragging && 4,
     opacity: isDragging && 0.75,
-    /** Overwriting default draggableStyle object from this point down */
     ...draggableStyle,
+    // Overwriting default draggableStyle object from this point down
     top: isDragging && draggableStyle.top - 90,
     left: isDragging && 20,
     height: isDragging && draggableStyle.height + 15,
@@ -370,7 +371,7 @@ export default class SwitchRouterForm extends React.Component<
         this.props.removeWidget(c.props.name);
     }
 
-    private onCaseChanged(c: any, type?: ChangedCaseInput): void {
+    private onCaseChanged(c: any, inputToFocus?: ChangedCaseInput): void {
         const newCase: CaseElementProps = {
             kase: {
                 uuid: c.props.kase.uuid,
@@ -379,12 +380,21 @@ export default class SwitchRouterForm extends React.Component<
                 arguments: c.state.arguments
             },
             onChange: c.props.onChange,
-            exitName: c.state.exitName
+            exitName: c.state.exitName,
+            config: this.props.config
         };
+
+        if (inputToFocus) {
+            if (inputToFocus === ChangedCaseInput.ARGS) {
+                newCase.focusArgsInput = true;
+            } else if (inputToFocus === ChangedCaseInput.EXIT) {
+                newCase.focusExitInput = true;
+            }
+        }
 
         const { cases } = this.state;
 
-        let found = false;
+        let found: boolean = false;
 
         for (const key in cases) {
             if (cases.hasOwnProperty(key)) {
@@ -403,10 +413,10 @@ export default class SwitchRouterForm extends React.Component<
             // Ensure new case has focus
             Object.keys(cases).forEach((key, idx, arr) => {
                 if (idx === arr.length - 1) {
-                    if (type) {
-                        if (type === ChangedCaseInput.ARGS) {
+                    if (inputToFocus) {
+                        if (inputToFocus === ChangedCaseInput.ARGS) {
                             cases[idx].focusArgsInput = true;
-                        } else if (type === ChangedCaseInput.EXIT) {
+                        } else if (inputToFocus === ChangedCaseInput.EXIT) {
                             cases[idx].focusExitInput = true;
                         }
                     }
@@ -477,7 +487,7 @@ export default class SwitchRouterForm extends React.Component<
                         onRemove: this.onCaseRemoved
                     } as any);
                 } catch (error) {
-                    /** Ignore missing cases */
+                    // Ignore missing cases
                 }
             });
         }
@@ -537,6 +547,7 @@ export default class SwitchRouterForm extends React.Component<
 
     private getOperatorsForLocalization({ name: languageName }: Language): JSX.Element[] {
         const { cases } = this.props.node.router as SwitchRouter;
+
         return cases.reduce((casesForLocalization: JSX.Element[], kase) => {
             if (kase.arguments && kase.arguments.length) {
                 const localized = this.props.localizations.find(
@@ -581,34 +592,24 @@ export default class SwitchRouterForm extends React.Component<
                                     showLabel={false}
                                     value={value}
                                     ComponentMap={this.props.ComponentMap}
+                                    config={this.props.config}
                                 />
                             </div>
                         </div>
                     );
                 }
             }
-
             return casesForLocalization;
         }, []);
     }
-
     private getCases(): JSX.Element[] {
+        const cases: JSX.Element[] = [];
         let needsEmpty: boolean = true;
-        let cases: JSX.Element[] = [];
-
         if (this.state.cases) {
+            const lastCase: CaseElementProps = this.state.cases[this.state.cases.length - 1];
             // Cases shouldn't be draggable unless they have fully-formed siblings
-            if (
-                // prettier-ignore
-                this.state.cases.length === 1 ||
-                (
-                    this.state.cases.length === 2 &&
-                    !this.state.cases[this.state.cases.length - 1].kase.arguments.length &&
-                    !this.state.cases[this.state.cases.length - 1].exitName.length
-                )
-            ) {
+            if (this.state.cases.length === 1) {
                 const [{ kase, exitName }] = this.state.cases;
-
                 cases.push(
                     <CaseElement
                         data-spec="case"
@@ -621,70 +622,102 @@ export default class SwitchRouterForm extends React.Component<
                         onChange={this.onCaseChanged}
                         ComponentMap={this.props.ComponentMap}
                         solo={true}
+                        config={this.props.config}
                     />
                 );
-            } else {
-                cases = this.state.cases.map((c: CaseElementProps, idx) => {
-                    // If a case's operator expects 1 or more operands
-                    // and its arguments and exitName are empty,
-                    // we don't need an empty case.
-                    if (
-                        this.context.getOperatorConfig(c.kase.type).operands > 0 &&
-                        !c.kase.arguments.length &&
-                        !c.exitName.length
-                    ) {
-                        needsEmpty = false;
-                        // It also shouldn't be draggable
-                        return (
+            } else if (
+                // If we have 2 cases but the second isn't fully formed (e.g. only the operator has been changed)
+                this.state.cases.length === 2 &&
+                (lastCase.kase.type !== this.context.operatorConfigList[0].type &&
+                    !lastCase.kase.arguments.length &&
+                    !lastCase.exitName.length)
+            ) {
+                needsEmpty = false;
+                this.state.cases.forEach(
+                    ({ kase, exitName, focusArgsInput, focusExitInput }: CaseElementProps) => {
+                        cases.push(
                             <CaseElement
-                                key={c.kase.uuid}
+                                key={kase.uuid}
                                 data-spec="case"
                                 ref={this.props.onBindWidget}
-                                kase={c.kase}
-                                name={`case_${c.kase.uuid}`}
-                                exitName={c.exitName}
+                                kase={kase}
+                                name={`case_${kase.uuid}`}
+                                exitName={exitName}
                                 onRemove={this.onCaseRemoved}
                                 onChange={this.onCaseChanged}
                                 ComponentMap={this.props.ComponentMap}
-                                focusArgsInput={c.focusArgsInput}
-                                focusExitInput={c.focusExitInput}
+                                focusArgsInput={focusArgsInput}
+                                focusExitInput={focusExitInput}
+                                config={this.props.config}
                             />
                         );
                     }
-
-                    return (
-                        <Draggable key={c.kase.uuid} draggableId={c.kase.uuid}>
-                            {(provided, snapshot) => (
-                                <div data-spec="case-draggable">
-                                    <div
-                                        ref={provided.innerRef}
-                                        style={getItemStyle(
-                                            provided.draggableStyle,
-                                            snapshot.isDragging
-                                        )}
-                                        {...provided.dragHandleProps}>
-                                        <CaseElement
-                                            data-spec="case"
-                                            ref={this.props.onBindWidget}
-                                            kase={c.kase}
-                                            name={`case_${c.kase.uuid}`}
-                                            exitName={c.exitName}
-                                            onRemove={this.onCaseRemoved}
-                                            onChange={this.onCaseChanged}
-                                            ComponentMap={this.props.ComponentMap}
-                                            focusArgsInput={c.focusArgsInput}
-                                            focusExitInput={c.focusExitInput}
-                                        />
-                                    </div>
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Draggable>
-                    );
-                });
+                );
+            } else {
+                this.state.cases.forEach(
+                    ({ kase, exitName, focusArgsInput, focusExitInput }: CaseElementProps, idx) => {
+                        // If a case's operator expects 1 or more operands
+                        // and its arguments and exitName are empty,
+                        // we don't need an empty case.
+                        if (
+                            this.context.getOperatorConfig(kase.type).operands > 0 &&
+                            !kase.arguments.length &&
+                            !exitName.length
+                        ) {
+                            needsEmpty = false;
+                            // It also shouldn't be draggable
+                            cases.push(
+                                <CaseElement
+                                    key={kase.uuid}
+                                    data-spec="case"
+                                    ref={this.props.onBindWidget}
+                                    kase={kase}
+                                    name={`case_${kase.uuid}`}
+                                    exitName={exitName}
+                                    onRemove={this.onCaseRemoved}
+                                    onChange={this.onCaseChanged}
+                                    ComponentMap={this.props.ComponentMap}
+                                    focusArgsInput={focusArgsInput}
+                                    focusExitInput={focusExitInput}
+                                    config={this.props.config}
+                                />
+                            );
+                        } else {
+                            cases.push(
+                                <Draggable key={kase.uuid} draggableId={kase.uuid}>
+                                    {(provided, snapshot) => (
+                                        <div data-spec="case-draggable">
+                                            <div
+                                                ref={provided.innerRef}
+                                                style={getItemStyle(
+                                                    provided.draggableStyle,
+                                                    snapshot.isDragging
+                                                )}
+                                                {...provided.dragHandleProps}>
+                                                <CaseElement
+                                                    data-spec="case"
+                                                    ref={this.props.onBindWidget}
+                                                    kase={kase}
+                                                    name={`case_${kase.uuid}`}
+                                                    exitName={exitName}
+                                                    onRemove={this.onCaseRemoved}
+                                                    onChange={this.onCaseChanged}
+                                                    ComponentMap={this.props.ComponentMap}
+                                                    focusArgsInput={focusArgsInput}
+                                                    focusExitInput={focusExitInput}
+                                                    config={this.props.config}
+                                                />
+                                            </div>
+                                            {provided.placeholder}
+                                        </div>
+                                    )}
+                                </Draggable>
+                            );
+                        }
+                    }
+                );
             }
         }
-
         if (needsEmpty) {
             const newCaseUUID = generateUUID();
             cases.push(
@@ -698,21 +731,19 @@ export default class SwitchRouterForm extends React.Component<
                     }}
                     ref={this.props.onBindWidget}
                     name={`case_${newCaseUUID}`}
-                    exitName={null}
+                    exitName={''}
                     empty={true}
                     onRemove={this.onCaseRemoved}
                     onChange={this.onCaseChanged}
                     ComponentMap={this.props.ComponentMap}
+                    config={this.props.config}
                 />
             );
         }
-
         return cases;
     }
-
     private getNameField(): JSX.Element {
         let nameField: JSX.Element = null;
-
         if (this.state.setResultName || this.state.resultName) {
             nameField = (
                 <TextInputElement
@@ -723,6 +754,7 @@ export default class SwitchRouterForm extends React.Component<
                     value={this.state.resultName}
                     helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
                     ComponentMap={this.props.ComponentMap}
+                    config={this.props.config}
                 />
             );
         } else {
@@ -735,13 +767,10 @@ export default class SwitchRouterForm extends React.Component<
                 </span>
             );
         }
-
         return nameField;
     }
-
     private getLeadIn(): JSX.Element {
         let leadIn: JSX.Element = null;
-
         if (this.props.config.type === 'wait_for_response') {
             leadIn = (
                 <div data-spec="lead-in" className={styles.instructions}>
@@ -762,14 +791,13 @@ export default class SwitchRouterForm extends React.Component<
                         autocomplete={true}
                         required={true}
                         ComponentMap={this.props.ComponentMap}
+                        config={this.props.config}
                     />
                 </div>
             );
         }
-
         return leadIn;
     }
-
     private renderForm(): JSX.Element {
         if (this.props.translating) {
             return this.props.getExitTranslations();
@@ -777,43 +805,48 @@ export default class SwitchRouterForm extends React.Component<
             const cases: JSX.Element[] = this.getCases();
             const nameField: JSX.Element = this.getNameField();
             const leadIn: JSX.Element = this.getLeadIn();
-
-            return (
-                <div>
-                    {leadIn}
-                    <div className={styles.cases}>
+            let caseContext: JSX.Element[] | JSX.Element;
+            if (cases.length <= 2) {
+                caseContext = cases;
+            } else {
+                const draggableCases: JSX.Element[] = cases.slice(0, cases.length - 1);
+                const emptyCase: JSX.Element = cases[cases.length - 1];
+                caseContext = (
+                    <div>
                         <DragDropContext onDragEnd={this.onDragEnd}>
                             <Droppable droppableId="droppable">
                                 {(provided, snapshot) => (
                                     <div
                                         ref={provided.innerRef}
                                         style={getListStyle(snapshot.isDraggingOver)}>
-                                        {cases}
+                                        {draggableCases}
                                         {provided.placeholder}
                                     </div>
                                 )}
                             </Droppable>
                         </DragDropContext>
+                        {emptyCase}
                     </div>
+                );
+            }
+            return (
+                <div>
+                    {leadIn}
+                    <div className={styles.cases}>{caseContext}</div>
                     <div className={styles.save_as}>{nameField}</div>
                 </div>
             );
         }
     }
-
     private renderAdvanced(): JSX.Element {
         const language: Language = this.getLanguage();
-
         if (!language) {
             return null;
         }
-
         const operators: JSX.Element[] = this.getOperatorsForLocalization(language);
-
         if (!operators.length) {
             return null;
         }
-
         return (
             <div>
                 <div data-spec="advanced-title" className={styles.translating_operator_title}>
@@ -829,7 +862,6 @@ export default class SwitchRouterForm extends React.Component<
             </div>
         );
     }
-
     public render(): JSX.Element {
         return this.props.showAdvanced && this.props.translating
             ? this.renderAdvanced()

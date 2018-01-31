@@ -262,12 +262,12 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         this.resetState();
     }
 
-    private onUpdateAction(node: Node, action: Action): void {
+    private onUpdateAction({ uuid }: Node, action: Action): void {
         console.log('Flow.onUpdateAction', action);
 
         this.props.Mutator.updateAction(
             action,
-            node.uuid,
+            uuid,
             this.pendingConnection,
             this.createNodePosition,
             this.addToNode

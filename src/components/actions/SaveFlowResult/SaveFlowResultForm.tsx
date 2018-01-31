@@ -9,7 +9,6 @@ import * as styles from './SaveFlowResult.scss';
 
 export interface SaveFlowResultFormProps extends FormProps {
     action: SaveFlowResult;
-    getActionUUID(): string;
     config: Type;
     updateAction(action: SaveFlowResult): void;
     getInitialAction(): SaveFlowResult;
@@ -17,7 +16,7 @@ export interface SaveFlowResultFormProps extends FormProps {
     ComponentMap: ComponentMap;
 }
 
-export default class extends React.PureComponent<SaveFlowResultFormProps> {
+export default class SaveFlowResultForm extends React.PureComponent<SaveFlowResultFormProps> {
     constructor(props: SaveFlowResultFormProps) {
         super(props);
 
@@ -30,7 +29,7 @@ export default class extends React.PureComponent<SaveFlowResultFormProps> {
         const { state: { value: category } } = widgets.Category as TextInputElement;
 
         const newAction: SaveFlowResult = {
-            uuid: this.props.getActionUUID(),
+            uuid: this.props.action.uuid,
             type: this.props.config.type,
             result_name: resultName,
             value,
@@ -41,48 +40,41 @@ export default class extends React.PureComponent<SaveFlowResultFormProps> {
     }
 
     public render(): JSX.Element {
-        let name: string = '';
-        let value: string = '';
-        let category: string = '';
-
-        if (this.props.action && this.props.action.value) {
-            ({ result_name: name } = this.props.action);
-            ({ value } = this.props.action);
-            ({ category } = this.props.action);
-        }
-
         return (
             <div className={styles.form}>
                 <TextInputElement
-                    className={styles.name}
+                    __className={styles.name}
                     ref={this.props.onBindWidget}
                     name="Name"
                     showLabel={true}
-                    value={name}
+                    value={this.props.action.result_name}
                     required={true}
                     helpText="The name of the result, used to reference later, for example: @run.results.my_result_name"
                     ComponentMap={this.props.ComponentMap}
+                    config={this.props.config}
                 />
                 <TextInputElement
-                    className={styles.value}
+                    __className={styles.value}
                     ref={this.props.onBindWidget}
                     name="Value"
                     showLabel={true}
-                    value={value}
+                    value={this.props.action.value}
                     autocomplete={true}
                     helpText="The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))"
                     ComponentMap={this.props.ComponentMap}
+                    config={this.props.config}
                 />
                 <TextInputElement
-                    className={styles.category}
+                    __className={styles.category}
                     ref={this.props.onBindWidget}
                     name="Category"
                     placeholder="Optional"
                     showLabel={true}
-                    value={category}
+                    value={this.props.action.category}
                     autocomplete={true}
                     helpText="An optional category for your result. For age, the value might be 17, but the category might be 'Young Adult'"
                     ComponentMap={this.props.ComponentMap}
+                    config={this.props.config}
                 />
             </div>
         );

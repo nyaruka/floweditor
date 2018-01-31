@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Select from 'react-select';
 import { SearchResult } from '../../services/ComponentMap';
 import FormElement, { FormElementProps } from './FormElement';
 import SelectSearch from '../SelectSearch';
@@ -19,19 +18,19 @@ interface FlowState {
     errors: string[];
 }
 
+export const notFound: string = 'Enter the name of an existing flow';
+
 export default class FlowElement extends React.Component<FlowElementProps, FlowState> {
     constructor(props: any) {
         super(props);
 
-        let flow: SearchResult = null;
-
-        if (this.props.flow_uuid) {
-            flow = {
-                name: this.props.flow_name,
-                id: this.props.flow_uuid,
-                type: 'flow'
-            };
-        }
+        const flow: SearchResult = this.props.flow_uuid
+            ? {
+                  name: this.props.flow_name,
+                  id: this.props.flow_uuid,
+                  type: 'flow'
+              }
+            : null;
 
         this.state = {
             flow,
@@ -41,13 +40,13 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
         this.onChange = this.onChange.bind(this);
     }
 
-    onChange([flow]: any) {
+    private onChange([flow]: any): void {
         this.setState({
             flow
         });
     }
 
-    validate(): boolean {
+    private validate(): boolean {
         const errors: string[] = [];
 
         if (this.props.required) {
@@ -56,28 +55,24 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
             }
         }
 
-        this.setState({ errors: errors });
+        this.setState({ errors });
 
         return errors.length === 0;
     }
 
-    render() {
-        let createOptions = {};
-
-        const classes: string[] = getSelectClass(this.state.errors.length);
-
+    public render(): JSX.Element {
+        const className: string = getSelectClass(this.state.errors.length);
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <SelectSearch
-                    className={classes.join(' ')}
+                    className={className}
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
                     resultType="flow"
                     multi={false}
-                    clearable={false}
                     initial={[this.state.flow]}
-                    {...createOptions}
+                    searchPromptText={notFound}
                 />
             </FormElement>
         );

@@ -12,13 +12,22 @@ export interface ButtonSet {
     tertiary?: ButtonProps;
 }
 
+interface Buttons {
+    leftButtons: JSX.Element[];
+    rightButtons: JSX.Element[];
+}
+
+interface CustomStyles {
+    content: { [cssProperty: string]: string | number };
+}
+
 export interface ModalProps {
     show: boolean;
     buttons: ButtonSet;
     node?: Node;
     advanced?: JSX.Element;
     onModalOpen?: any;
-    className?: string;
+    __className?: string;
     title: JSX.Element[];
     width?: string;
 }
@@ -27,11 +36,8 @@ interface ModalState {
     flipped: boolean;
 }
 
-/** A base modal for displaying messages or performing single button actions */
-class Modal extends React.PureComponent<ModalProps, ModalState> {
-    private children: React.ReactChild[];
-    private hasAdvanced: boolean;
-
+// A base modal for displaying messages or performing single button actions
+export default class Modal extends React.PureComponent<ModalProps, ModalState> {
     constructor(props: ModalProps) {
         super(props);
 
@@ -52,23 +58,20 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
         }
     }
 
-    private getButtons(): { leftButtons: JSX.Element[]; rightButtons: JSX.Element[] } {
+    private getButtons(): Buttons {
         const rightButtons: JSX.Element[] = [
             <Button key={0} {...this.props.buttons.secondary} type="secondary" />
         ];
-        const leftButtons: JSX.Element[] = [];
 
         if (this.props.buttons.secondary) {
-            rightButtons.push(
-                <Button key={1} {...this.props.buttons.primary} type="primary" />
-            );
+            rightButtons.push(<Button key={1} {...this.props.buttons.primary} type="primary" />);
         }
 
-        /** Our left most button if we have one */
+        const leftButtons: JSX.Element[] = [];
+
+        // Our left most button if we have one
         if (this.props.buttons.tertiary) {
-            leftButtons.push(
-                <Button key={0} {...this.props.buttons.tertiary} type="tertiary" />
-            );
+            leftButtons.push(<Button key={0} {...this.props.buttons.tertiary} type="tertiary" />);
         }
 
         return {
@@ -78,7 +81,7 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
     }
 
     private getTopStyle(): string {
-        let topStyle = styles.container;
+        let topStyle: string = styles.container;
 
         if (this.state.flipped) {
             topStyle += ` ${styles.flipped}`;
@@ -107,17 +110,13 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
                 );
                 classes.push(styles.back);
             }
-
             let flip: JSX.Element;
-
             if (hasAdvanced) {
                 /** Don't show advanced settings for SwitchRouter unless we have cases to translate */
                 let cases: Case[];
-
                 if (this.props.node && this.props.node.router) {
                     ({ cases } = this.props.node.router as SwitchRouter);
                 }
-
                 if (childIdx === 0) {
                     if (cases && !cases.length) {
                         flip = null;
@@ -136,12 +135,11 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
                     );
                 }
             }
-
             return (
                 <div key={`modal_side_${childIdx}`} className={classes.join(' ')}>
                     <div className={styles.modal}>
                         <div
-                            className={`${styles.header} ${this.props.className} ${
+                            className={`${styles.header} ${this.props.__className} ${
                                 shared[`modal_side_${childIdx}`]
                             }`}>
                             {flip}
@@ -158,8 +156,15 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
         });
     }
 
+
     public render(): JSX.Element {
-        const customStyles = {
+        const onRequestClose = this.props.buttons.secondary
+            ? this.props.buttons.secondary.onClick
+            : null;
+
+        const width: string = this.props.width ? this.props.width : '700px';
+
+        const customStyles: CustomStyles = {
             content: {
                 marginLeft: 'auto',
                 marginRight: 'auto',
@@ -168,21 +173,21 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
                 padding: 'none',
                 borderRadius: 'none',
                 outline: 'none',
-                width: this.props.width ? this.props.width : '700px',
-                border: 'none',
+                width,
+                border: 'none'
             }
         };
-        const topStyle = this.getTopStyle();
-        const sides = this.mapSides();
+
+        const topStyle: string = this.getTopStyle();
+
+        const sides: JSX.Element[] = this.mapSides();
 
         return (
             <ReactModal
                 ariaHideApp={false}
                 isOpen={this.props.show}
                 onAfterOpen={this.props.onModalOpen}
-                onRequestClose={
-                    this.props.buttons.secondary ? this.props.buttons.secondary.onClick : null
-                }
+                onRequestClose={onRequestClose}
                 style={customStyles}
                 shouldCloseOnOverlayClick={false}
                 contentLabel="Modal">
@@ -191,5 +196,3 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
         );
     }
 }
-
-export default Modal;
