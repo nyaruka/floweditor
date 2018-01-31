@@ -18,7 +18,7 @@ export interface ModalProps {
     node?: Node;
     advanced?: JSX.Element;
     onModalOpen?: any;
-    className?: string;
+    __className?: string;
     title: JSX.Element[];
     width?: string;
 }
@@ -141,7 +141,7 @@ class Modal extends React.PureComponent<ModalProps, ModalState> {
                 <div key={`modal_side_${childIdx}`} className={classes.join(' ')}>
                     <div className={styles.modal}>
                         <div
-                            className={`${styles.header} ${this.props.className} ${
+                            className={`${styles.header} ${this.props.__className} ${
                                 shared[`modal_side_${childIdx}`]
                             }`}>
                             {flip}

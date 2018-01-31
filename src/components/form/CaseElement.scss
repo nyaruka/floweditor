@@ -25,8 +25,8 @@ $spacing: 10px;
     }
     .categorize-as {
         display: inline-block;
-        font-size: 13px;
-        line-height: 13px;
+        font-size: $switch_router_input_font_size;
+        line-height: $switch_router_input_font_size;
         position: relative;
         top: -10px;
         margin: 0px $spacing;
@@ -50,8 +50,8 @@ $spacing: 10px;
     }
     input {
         padding: 6px 7px;
-        height: 28px !important;
-        font-size: 13px !important;
+        height: $switch_router_input_height;
+        font-size: $switch_router_input_font_size;
         border: 1px solid #ccc;
     }
 }

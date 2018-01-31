@@ -1,5 +1,101 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`SwitchRouter > helpers > composeCaseProps > should compose a list of CaseElementProp objects 1`] = `
+Array [
+  Object {
+    "exitName": "Red",
+    "kase": Object {
+      "arguments": Array [
+        "red, r",
+      ],
+      "exit_uuid": "55855afc-f612-4ef9-9288-dcb1dd136052",
+      "type": "has_any_word",
+      "uuid": "fa0a9b24-5f19-4b8e-b287-27af5811de1d",
+    },
+    "onChange": [Function],
+    "onRemove": [Function],
+  },
+  Object {
+    "exitName": "Orange",
+    "kase": Object {
+      "arguments": Array [
+        "orange, o",
+      ],
+      "exit_uuid": "668ca2ab-8d49-47f5-82a1-e3a82a58e5fb",
+      "type": "has_any_word",
+      "uuid": "b5f900b9-ad13-479a-8ad3-1f1ad5ac88f2",
+    },
+    "onChange": [Function],
+    "onRemove": [Function],
+  },
+  Object {
+    "exitName": "Yellow",
+    "kase": Object {
+      "arguments": Array [
+        "yellow, y",
+      ],
+      "exit_uuid": "14806949-d583-49e2-aa55-03aa16ee5a3a",
+      "type": "has_any_word",
+      "uuid": "e9c842e8-f1c5-4f07-97e7-50a4f93b22e5",
+    },
+    "onChange": [Function],
+    "onRemove": [Function],
+  },
+  Object {
+    "exitName": "Green",
+    "kase": Object {
+      "arguments": Array [
+        "green, g",
+      ],
+      "exit_uuid": "77394377-f6b8-4366-9bef-d468621258ef",
+      "type": "has_any_word",
+      "uuid": "cc5894af-5dce-454e-a525-3d7c5c41d21d",
+    },
+    "onChange": [Function],
+    "onRemove": [Function],
+  },
+  Object {
+    "exitName": "Blue",
+    "kase": Object {
+      "arguments": Array [
+        "blue, b",
+      ],
+      "exit_uuid": "92d429d8-c275-4306-9360-93f4b9c7acb1",
+      "type": "has_any_word",
+      "uuid": "590d13e3-7b47-44e3-b8a0-ba9bd41d75d2",
+    },
+    "onChange": [Function],
+    "onRemove": [Function],
+  },
+  Object {
+    "exitName": "Indigo",
+    "kase": Object {
+      "arguments": Array [
+        "indigo, i",
+      ],
+      "exit_uuid": "2de9af80-1bd9-4f37-839f-073edbd14369",
+      "type": "has_any_word",
+      "uuid": "2a7cbed1-6597-4545-b145-14a2e9282e6c",
+    },
+    "onChange": [Function],
+    "onRemove": [Function],
+  },
+  Object {
+    "exitName": "Violet",
+    "kase": Object {
+      "arguments": Array [
+        "violet, v",
+      ],
+      "exit_uuid": "5760ec2f-04d4-492b-817b-9f395633ec79",
+      "type": "has_any_word",
+      "uuid": "ab99e18c-433f-436e-9278-08bcf506f433",
+    },
+    "onChange": [Function],
+    "onRemove": [Function],
+  },
+]
+`;
+
 exports[`SwitchRouter > helpers > composeExitMap > should compose a map of exits 1`] = `
 Object {
   "63e20770-64c1-4bad-bd73-a34cf6d46866": Object {
@@ -7,6 +103,20 @@ Object {
     "name": "All Responses",
     "uuid": "63e20770-64c1-4bad-bd73-a34cf6d46866",
   },
+}
+`;
+
+exports[`SwitchRouter > helpers > resolveExits > should give default exit the name 'Any Value' when router is passive 1`] = `
+Object {
+  "cases": Array [],
+  "defaultExit": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+  "exits": Array [
+    Object {
+      "destination_node_uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+      "name": "Any Value",
+      "uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+    },
+  ],
 }
 `;
 

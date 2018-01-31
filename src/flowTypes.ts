@@ -58,6 +58,12 @@ export interface SwitchRouter extends Router {
     default_exit_uuid: string;
 }
 
+export interface ContactField {
+    uuid: string;
+    name: string;
+    type: string;
+}
+
 export interface Group {
     uuid: string;
     name: string;

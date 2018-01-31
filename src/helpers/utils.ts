@@ -6,7 +6,7 @@ import { CharacterSet } from '../components/form/TextInputElement';
 const SNAKED_CHARS = /\s+(?=\S)/g;
 const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 
-interface BoolMap {
+export interface BoolMap {
     [key: string]: boolean;
 }
 

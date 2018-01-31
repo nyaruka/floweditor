@@ -15,11 +15,6 @@ const RESERVED_FIELDS: ContactFieldResult[] = [
     // { id: "language", name: "Language", type: "update_contact" }
 ];
 
-export interface ContactField {
-    uuid: string;
-    name: string;
-}
-
 export interface SearchResult {
     name: string;
     id: string;

@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { FlowDefinition, Endpoints, StartFlow } from '../../flowTypes';
+import { FlowDefinition, Endpoints, StartFlow, ContactField } from '../../flowTypes';
 import { Activity } from '../../services/ActivityManager';
 import { endpoints } from 'Config';
 
@@ -16,6 +16,8 @@ export type GetActivity = (
     headers?: {}
 ) => Promise<Activity>;
 
+export type GetFields = (fieldsEndpoint: string, headers?: {}) => Promise<ContactField[]>;
+
 export type GetFlows = (
     flowsEndpoint?: string,
     headers?: {},
@@ -31,10 +33,13 @@ export type GetFlow = (
 
 export type SaveFlow = (definition: FlowDefinition, flowsEndpoint?: string, headers?: {}) => void;
 
-const { activity: ACTIVITY_ENDPOINT, flows: FLOWS_ENDPOINT }: Endpoints = endpoints;
+const {
+    activity: ACTIVITY_ENDPOINT,
+    flows: FLOWS_ENDPOINT,
+    fields: FIELDS_ENDPOINT
+}: Endpoints = endpoints;
 
-export { ACTIVITY_ENDPOINT };
-export { FLOWS_ENDPOINT };
+export { FLOWS_ENDPOINT, FIELDS_ENDPOINT };
 
 /** Configure axios to always send JSON requests */
 axios.defaults.headers.post['Content-Type'] = 'application/javascript';
@@ -59,8 +64,25 @@ export const getActivity = (
     );
 
 /**
+ * Gets a list of contact fields
+ * @param {string} fieldsEndpoint - The URL path to the endpoint providing contact field data
+ * @param {string} headers - Optional request headers
+ * @returns {Array.<Object>} - A list of contact fields
+ */
+export const getFields = (
+    fieldsEndpoint: string = FIELDS_ENDPOINT,
+    headers = {}
+): Promise<ContactField[]> =>
+    new Promise<ContactField[]>((resolve, reject) =>
+        axios
+            .get(fieldsEndpoint, { headers })
+            .then((response: AxiosResponse) => resolve(response.data.results))
+            .catch(error => reject(error))
+    );
+
+/**
  * Gets a list of all flows, optionally allowing for filtering by name
- * @param {string} flowsEndpoint - The URL path to the endpoint providing this data
+ * @param {string} flowsEndpoint - The URL path to the endpoint providing flow data
  * @param {string} flowName - The name of the flow to filter against
  * @returns {Array.<Object>} - An array containing object representations of one or more flows
  */

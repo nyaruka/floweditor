@@ -79,14 +79,6 @@ Array [
   },
   Object {
     "advanced": 2,
-    "allows": [Function],
-    "description": "Split by a custom expression",
-    "form": [Function],
-    "name": "Split by Expression",
-    "type": "expression",
-  },
-  Object {
-    "advanced": 2,
     "aliases": Array [
       "switch",
     ],
@@ -95,6 +87,22 @@ Array [
     "form": [Function],
     "name": "Wait for Response",
     "type": "wait_for_response",
+  },
+  Object {
+    "advanced": 2,
+    "allows": [Function],
+    "description": "Split by a custom expression",
+    "form": [Function],
+    "name": "Split by Expression",
+    "type": "expression",
+  },
+  Object {
+    "advanced": 2,
+    "allows": [Function],
+    "description": "Split by a contact field",
+    "form": [Function],
+    "name": "Split by Contact Field",
+    "type": "contact_field",
   },
 ]
 `;
@@ -153,6 +161,14 @@ Array [
     "name": "Save Flow Result",
     "type": "save_flow_result",
   },
+  Object {
+    "advanced": 2,
+    "allows": [Function],
+    "description": "Split by a contact field",
+    "form": [Function],
+    "name": "Split by Contact Field",
+    "type": "contact_field",
+  },
 ]
 `;
 
@@ -177,6 +193,14 @@ Object {
     "form": [Function],
     "name": "Call Webhook",
     "type": "call_webhook",
+  },
+  "contact_field": Object {
+    "advanced": 2,
+    "allows": [Function],
+    "description": "Split by a contact field",
+    "form": [Function],
+    "name": "Split by Contact Field",
+    "type": "contact_field",
   },
   "expression": Object {
     "advanced": 2,

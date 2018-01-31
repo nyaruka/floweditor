@@ -10,6 +10,7 @@ import {
     getTypeConfigPT,
     getOperatorConfigPT,
     getActivityPT,
+    getFieldsPT,
     getFlowsPT,
     getFlowPT,
     saveFlowPT,
@@ -22,7 +23,7 @@ import {
 const flowEditorConfig = require('Config');
 
 describe('Component: ConfigProvider', () => {
-    const createChild = () => {
+    const createChild = (): React.ComponentClass => {
         class Child extends React.Component<{}> {
             public static contextTypes = {
                 typeConfigList: typeConfigListPT,
@@ -33,6 +34,7 @@ describe('Component: ConfigProvider', () => {
                 getTypeConfig: getTypeConfigPT,
                 getOperatorConfig: getOperatorConfigPT,
                 getActivity: getActivityPT,
+                getFields: getFieldsPT,
                 getFlows: getFlowsPT,
                 getFlow: getFlowPT,
                 saveFlow: saveFlowPT,
@@ -67,13 +69,14 @@ describe('Component: ConfigProvider', () => {
     });
 
     it("should provide config to child's context", () => {
-        const Child = createChild();
-        const tree = renderIntoDocument(
+        const Child: React.ComponentClass = createChild();
+        const tree: void | Element | React.Component<any, {}> = renderIntoDocument(
             <ConfigProvider flowEditorConfig={flowEditorConfig}>
                 <Child />
             </ConfigProvider>
         );
         const childComp = findRenderedComponentWithType(tree, Child);
+
         expect(childComp.context).toEqual(configContext);
     });
 });

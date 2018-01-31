@@ -26,6 +26,7 @@ export const configMapPT = objectOf(object);
 export const getTypeConfigPT = func;
 export const getOperatorConfigPT = func;
 export const getActivityPT = func;
+export const getFieldsPT = func;
 export const getFlowsPT = func;
 export const getFlowPT = func;
 export const saveFlowPT = func;
@@ -57,6 +58,7 @@ export const childContextPT = {
     getTypeConfig: getTypeConfigPT,
     getOperatorConfig: getOperatorConfigPT,
     getActivity: getActivityPT,
+    getFields: getFieldsPT,
     getFlows: getFlowsPT,
     getFlow: getFlowPT,
     saveFlow: saveFlowPT,
