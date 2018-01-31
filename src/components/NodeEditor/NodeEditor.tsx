@@ -156,7 +156,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     public onBindAdvancedWidget(widget: any): void {
         if (widget) {
             this.onBindWidget(widget);
-
             this.advancedWidgets[widget.props.name] = true;
         }
     }

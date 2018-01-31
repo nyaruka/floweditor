@@ -130,3 +130,16 @@ export const hasErrorType = (errors: string[], queries: string[]): boolean => {
 
     return false;
 };
+
+/**
+ * Tells us whether the argument is an array with 1 or more items
+ * @param {Array} arg - object to be evaluated
+ * @returns {boolean}
+ */
+export const truthyArr = (arg: any[]): boolean =>
+    // prettier-ignore
+    arg && (
+        Array.isArray
+        ? Array.isArray(arg)
+        : Object.prototype.toString.call(arg) === '[object Array]'
+    ) && arg.length > 0;

@@ -9,7 +9,8 @@ import {
     getSelectClass,
     reorderList,
     jsonEqual,
-    hasErrorType
+    hasErrorType,
+    truthyArr
 } from './utils';
 
 describe('utils >', () => {
@@ -124,5 +125,15 @@ describe('utils >', () => {
 
         it('should return true if query exits in a string in the error list', () =>
             expect(hasErrorType(errors, ['category'])).toBeTruthy());
+    });
+
+    describe('truthyArr >', () => {
+        it('should return true if param holds one or more item(s)', () => {
+            expect(truthyArr([0])).toBeTruthy();
+        });
+
+        it('should return false if param is an empty array', () => {
+            expect(truthyArr([])).toBeFalsy();
+        });
     });
 });
