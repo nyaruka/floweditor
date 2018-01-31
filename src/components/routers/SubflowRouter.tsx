@@ -10,7 +10,7 @@ import { endpointsPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
 export interface SubflowRouterFormProps extends FormProps {
-    action: AnyAction;
+    action: StartFlow;
     node: Node;
     config: Type;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
@@ -115,8 +115,8 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterForm
                     ref={this.props.onBindWidget}
                     name="Flow"
                     endpoint={this.context.endpoints.flows}
-                    flow_name={(this.props.action as StartFlow).flow_name}
-                    flow_uuid={(this.props.action as StartFlow).flow_uuid}
+                    flow_name={this.props.action.flow_name}
+                    flow_uuid={this.props.action.flow_uuid}
                     required={true}
                 />
             </div>

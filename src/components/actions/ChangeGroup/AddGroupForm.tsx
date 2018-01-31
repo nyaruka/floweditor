@@ -13,9 +13,9 @@ export interface AddGroupFormState {
     groups: SearchResult[];
 }
 
-export const LABEL: string = ' Select the group(s) to add the contact to.';
-export const NOT_FOUND: string = 'Invalid group name';
-export const PLACEHOLDER: string =
+export const LABEL = ' Select the group(s) to add the contact to.';
+export const NOT_FOUND = 'Invalid group name';
+export const PLACEHOLDER =
     'Enter the name of an existing group, or create a new group to add the contact to';
 
 export default class AddGroupForm extends React.PureComponent<

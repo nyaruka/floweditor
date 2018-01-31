@@ -85,21 +85,21 @@ type InitialState = Pick<
     | 'query'
 >;
 
-const KEY_AT: number = 50;
-const KEY_SPACE: number = 32;
-const KEY_ENTER: number = 13;
-const KEY_UP: number = 38;
-const KEY_DOWN: number = 40;
-const KEY_TAB: number = 9;
-const KEY_P: number = 80;
-const KEY_N: number = 78;
-const KEY_ESC: number = 27;
-const KEY_BACKSPACE: number = 8;
+const KEY_AT = 50;
+const KEY_SPACE = 32;
+const KEY_ENTER = 13;
+const KEY_UP = 38;
+const KEY_DOWN = 40;
+const KEY_TAB = 9;
+const KEY_P = 80;
+const KEY_N = 78;
+const KEY_ESC = 27;
+const KEY_BACKSPACE = 8;
 
-export const MAX_GSM_SINGLE: number = 160;
-export const MAX_GSM_MULTI: number = 153;
-export const MAX_UNICODE_SINGLE: number = 70;
-export const MAX_UNICODE_MULTI: number = 67;
+export const MAX_GSM_SINGLE = 160;
+export const MAX_GSM_MULTI = 153;
+export const MAX_UNICODE_SINGLE = 70;
+export const MAX_UNICODE_MULTI = 67;
 
 export const CHARACTER_COUNTER_HELP: JSX.Element = (
     <span>
@@ -158,7 +158,7 @@ export const getCharCount = (value: string | string[], replace?: boolean): CharC
         parts
     } = split(newVal);
 
-    let maxLength: number = MAX_GSM_SINGLE;
+    let maxLength = MAX_GSM_SINGLE;
 
     if (toCharSetEnum(characterSet) === CharacterSet.UNICODE) {
         if (characterCount > MAX_UNICODE_SINGLE) {

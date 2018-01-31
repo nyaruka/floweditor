@@ -14,11 +14,11 @@ export interface RemoveGroupFormState extends AddGroupFormState {
     removeFromAll: boolean;
 }
 
-export const LABEL: string = 'Select the group(s) to remove the contact from.';
-export const NOT_FOUND: string = 'Enter the name of an existing group';
-export const PLACEHOLDER: string = 'Enter the name an existing group';
-export const REMOVE_FROM_ALL: string = 'Remove from All';
-export const REMOVE_FROM_ALL_DESC: string =
+export const LABEL = 'Select the group(s) to remove the contact from.';
+export const NOT_FOUND = 'Enter the name of an existing group';
+export const PLACEHOLDER = 'Enter the name an existing group';
+export const REMOVE_FROM_ALL = 'Remove from All';
+export const REMOVE_FROM_ALL_DESC =
     "Remove the active contact from all groups they're a member of.";
 
 export default class RemoveGroupForm extends React.PureComponent<
