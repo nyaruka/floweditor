@@ -10,6 +10,8 @@ module.exports = {
     moduleNameMapper: {
         '^.+\\.scss$': 'identity-obj-proxy'
     },
+    // Exclude test, type files
+    collectCoverageFrom: ['src/**/!(*.test|*.scss.d|*.d).{ts,tsx}', '!<rootDir>/node_modules/'],
     mapCoverage: true,
     setupFiles: ['<rootDir>/rafShim.js', '<rootDir>/enzymeAdapter.js']
 };
