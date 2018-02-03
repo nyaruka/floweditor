@@ -50,7 +50,9 @@ export const snakify = (value: string): string =>
  * @param {ComponentClass | SFC} Component - A React component
  * @returns {string} The component's name
  */
-export const getDisplayName = (WrappedComponent: ComponentClass | SFC): string =>
+export const getDisplayName = (
+    WrappedComponent: ComponentClass | SFC
+): string =>
     WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
 /**
@@ -83,7 +85,10 @@ export const validUUID = (uuid: string): boolean => V4_UUID.test(uuid);
  * @returns {string} Title-cased string
  */
 export const titleCase = (str: string): string =>
-    str.replace(/\b\w+/g, s => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase());
+    str.replace(
+        /\b\w+/g,
+        s => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase()
+    );
 
 /**
  * Helper that determines whether or not `react-select`'s error class should be applied
@@ -113,7 +118,11 @@ export const jsonEqual = (objA: object, objB: object): boolean =>
  * @param {number} startIndex
  * @param {number} endIndex
  */
-export const reorderList = (list: any[], startIndex: number, endIndex: number): any[] => {
+export const reorderList = (
+    list: any[],
+    startIndex: number,
+    endIndex: number
+): any[] => {
     if (!substArr(list)) {
         return [];
     }
@@ -121,4 +130,27 @@ export const reorderList = (list: any[], startIndex: number, endIndex: number): 
     const [removed] = reorderedList.splice(startIndex, 1);
     reorderedList.splice(endIndex, 0, removed);
     return reorderedList;
+};
+
+/**
+ * Checks whether any of a list of error strings contain one or more queries.
+ * Used to determine whether a particular error has been encountered.
+ * @param {Array.<string>} errors - list of error messages
+ * @param {Array.<string>} queries  - list of queries
+ * @returns {boolean}
+ */
+export const hasErrorType = (errors: string[], queries: string[]): boolean => {
+    if (!errors.length) {
+        return false;
+    }
+
+    for (const error of errors) {
+        for (const query of queries) {
+            if (error.indexOf(query) > -1) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 };

@@ -29,9 +29,16 @@ export type GetFlow = (
     headers?: {}
 ) => Promise<FlowDetails>;
 
-export type SaveFlow = (definition: FlowDefinition, flowsEndpoint?: string, headers?: {}) => void;
+export type SaveFlow = (
+    definition: FlowDefinition,
+    flowsEndpoint?: string,
+    headers?: {}
+) => void;
 
-const { activity: ACTIVITY_ENDPOINT, flows: FLOWS_ENDPOINT }: Endpoints = endpoints;
+const {
+    activity: ACTIVITY_ENDPOINT,
+    flows: FLOWS_ENDPOINT
+}: Endpoints = endpoints;
 
 export { ACTIVITY_ENDPOINT };
 export { FLOWS_ENDPOINT };
@@ -54,7 +61,9 @@ export const getActivity = (
     new Promise<Activity>((resolve, reject) =>
         axios
             .get(`${activityEndpoint}?flow=${flowUUID}`, { headers })
-            .then((response: AxiosResponse) => resolve(response.data as Activity))
+            .then((response: AxiosResponse) =>
+                resolve(response.data as Activity)
+            )
             .catch(error => reject(error))
     );
 
@@ -101,7 +110,12 @@ export const getFlow = (
 ): Promise<FlowDetails> =>
     new Promise<FlowDetails>((resolve, reject) =>
         axios
-            .get(`${flowsEndpoint}?uuid=${uuidToGet}&dependencies=${dependencies}`, headers)
+            .get(
+                `${flowsEndpoint}?uuid=${uuidToGet}&dependencies=${
+                    dependencies
+                }`,
+                headers
+            )
             .then((response: AxiosResponse) => {
                 const { data: { results: [flow] } } = response;
 

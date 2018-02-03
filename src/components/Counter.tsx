@@ -16,7 +16,10 @@ export interface CounterState {
     count: number;
 }
 
-export default class Counter extends React.Component<CounterProps, CounterState> {
+export default class Counter extends React.Component<
+    CounterProps,
+    CounterState
+> {
     private key: string;
 
     constructor(props: CounterProps) {
@@ -57,7 +60,9 @@ export default class Counter extends React.Component<CounterProps, CounterState>
                     className={styles.counter + ' ' + this.props.containerStyle}
                     onClick={this.handleClick}
                     data-spec="counter-outter">
-                    <div className={this.props.countStyle} data-spec="counter-inner">
+                    <div
+                        className={this.props.countStyle}
+                        data-spec="counter-inner">
                         {count}
                     </div>
                 </div>

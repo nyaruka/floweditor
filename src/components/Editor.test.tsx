@@ -35,8 +35,12 @@ const languageSelectorExpectedProps = {
 describe('Editor >', () => {
     describe('render >', () => {
         it('should render itself, children', () => {
-            expect(getSpecWrapper(EditorComp, 'editor-container').exists()).toBeTruthy();
-            expect(getSpecWrapper(EditorComp, 'editor').hasClass('editor')).toBeTruthy();
+            expect(
+                getSpecWrapper(EditorComp, 'editor-container').exists()
+            ).toBeTruthy();
+            expect(
+                getSpecWrapper(EditorComp, 'editor').hasClass('editor')
+            ).toBeTruthy();
             expect(EditorComp.find('FlowList').props()).toEqual({
                 onSelectFlow: EditorComp.instance().onSelectFlow,
                 flowOption: null,
@@ -63,13 +67,16 @@ describe('Editor >', () => {
             EditorComp.setState({
                 language,
                 translating:
-                    baseLanguage.iso !== language.iso && baseLanguage.name !== language.name
+                    baseLanguage.iso !== language.iso &&
+                    baseLanguage.name !== language.name
             });
 
             expect(EditorComp.state('language')).toEqual(language);
             expect(EditorComp.state('translating')).toBeTruthy();
             expect(
-                getSpecWrapper(EditorComp, 'editor-container').hasClass('translating')
+                getSpecWrapper(EditorComp, 'editor-container').hasClass(
+                    'translating'
+                )
             ).toBeTruthy();
             expect(EditorComp.find('LanguageSelectorComp').props()).toEqual({
                 ...languageSelectorExpectedProps,

@@ -11,9 +11,13 @@ const { uuid, type, value, result_name } = saveFlowResultAction;
 
 describe('Component: SaveFlowResult', () => {
     it("should render SaveFlowResult with 'save...' div when value prop passed", () => {
-        const SaveFlowResultDiv = shallow(<SaveFlowResult {...saveFlowResultAction} />);
+        const SaveFlowResultDiv = shallow(
+            <SaveFlowResult {...saveFlowResultAction} />
+        );
 
-        expect(SaveFlowResultDiv.text()).toBe(`Save ${value} as ${result_name}`);
+        expect(SaveFlowResultDiv.text()).toBe(
+            `Save ${value} as ${result_name}`
+        );
     });
 
     it("should render SaveFlowResult with 'clear...' div when value prop isn't passed", () => {

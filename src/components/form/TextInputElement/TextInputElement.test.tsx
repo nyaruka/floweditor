@@ -16,6 +16,7 @@ import TextInputElement, {
     getCharCountStats
 } from './TextInputElement';
 import { OPTIONS } from './completionOptions';
+import { getTypeConfig } from '../../../providers/ConfigProvider/typeConfigs';
 
 const {
     results: [{ definition }]
@@ -31,7 +32,8 @@ const props = {
     autocomplete: true,
     required: true,
     textarea: true,
-    ComponentMap: CompMap
+    ComponentMap: CompMap,
+    config: getTypeConfig('reply')
 };
 
 const msgs = [
@@ -127,7 +129,7 @@ describe('TextInputElement >', () => {
 
             expect(getSpecWrapper(TextInput, 'input').props()).toEqual(
                 expect.objectContaining({
-                    className: 'textinput false',
+                    className: 'textinput',
                     placeholder: '',
                     type: undefined,
                     value: msgs[0][0],
@@ -136,6 +138,7 @@ describe('TextInputElement >', () => {
                     onKeyDown
                 })
             );
+
+            expect(getSpecWrapper(TextInput, 'tooltip-content')).toMatchSnapshot();
         });
     });
-});

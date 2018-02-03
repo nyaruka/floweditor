@@ -10,7 +10,11 @@ const {
     results: [{ uuid: flowUUID, definition }]
 } = require('../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
-const { nodes: [, node], localization: locals, _ui: { nodes: uiNodes } } = definition;
+const {
+    nodes: [, node],
+    localization: locals,
+    _ui: { nodes: uiNodes }
+} = definition;
 const Activity = new ActivityManager(flowUUID, jest.fn());
 const ComponentMap = new CompMap(definition);
 const props: NodeProps = {
@@ -53,7 +57,9 @@ const NodeShallow = shallow(<Node {...props} />, { context });
 describe('Node', () => {
     describe('getLocalizations', () => {
         it('should compose a list of localizations', () =>
-            expect(getLocalizations(node, iso, languages, translations)).toMatchSnapshot());
+            expect(
+                getLocalizations(node, iso, languages, translations)
+            ).toMatchSnapshot());
     });
     describe('Component: NodeComp', () => {
         it('should render', () => {

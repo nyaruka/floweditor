@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Select from 'react-select';
 import { SearchResult } from '../../services/ComponentMap';
 import FormElement, { FormElementProps } from './FormElement';
 import SelectSearch from '../SelectSearch';
@@ -19,19 +18,22 @@ interface FlowState {
     errors: string[];
 }
 
-export default class FlowElement extends React.Component<FlowElementProps, FlowState> {
+export const notFound: string = 'Enter the name of an existing flow';
+
+export default class FlowElement extends React.Component<
+    FlowElementProps,
+    FlowState
+> {
     constructor(props: any) {
         super(props);
 
-        let flow: SearchResult = null;
-
-        if (this.props.flow_uuid) {
-            flow = {
-                name: this.props.flow_name,
-                id: this.props.flow_uuid,
-                type: 'flow'
-            };
-        }
+        const flow: SearchResult = this.props.flow_uuid
+            ? {
+                  name: this.props.flow_name,
+                  id: this.props.flow_uuid,
+                  type: 'flow'
+              }
+            : null;
 
         this.state = {
             flow,
@@ -41,7 +43,7 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
         this.onChange = this.onChange.bind(this);
     }
 
-    onChange([flow]: any) {
+    private onChange([flow]: any): void {
         this.setState({
             flow
         });
@@ -71,6 +73,7 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
                     resultType="flow"
                     multi={false}
                     initial={[this.state.flow]}
+                    searchPromptText={notFound}
                 />
             </FormElement>
         );

@@ -86,8 +86,11 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
         }
     }
 
-    private setDefinition(definition: FlowDefinition, dependencies?: FlowDefinition[]): void {
-        console.log(`\nDEFINITION: \n${JSON.stringify(definition, null, 2)}\n`);
+    private setDefinition(
+        definition: FlowDefinition,
+        dependencies?: FlowDefinition[]
+    ): void {
+        // console.log(`\nDEFINITION: \n${JSON.stringify(definition, null, 2)}\n`);
 
         if (dependencies) {
             this.setState({
@@ -190,12 +193,17 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
         const languageSelector: JSX.Element = this.getLanguageSelector();
 
         const flowOption: FlowOption = this.state.definition
-            ? { uuid: this.state.definition.uuid, name: this.state.definition.name }
+            ? {
+                  uuid: this.state.definition.uuid,
+                  name: this.state.definition.name
+              }
             : null;
 
         const flow: JSX.Element = this.getFlow();
 
-        const translatingStyle = this.state.translating ? styles.translating : null;
+        const translatingStyle = this.state.translating
+            ? styles.translating
+            : null;
 
         return (
             <div className={translatingStyle} data-spec="editor-container">

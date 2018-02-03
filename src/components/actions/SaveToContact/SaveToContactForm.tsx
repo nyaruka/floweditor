@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Fragment } from 'react';
 import { v4 as generateUUID } from 'uuid';
 import { Endpoints, SaveToContact, UpdateContact } from '../../../flowTypes';
 import { FormProps } from '../../NodeEditor';
@@ -11,7 +12,20 @@ import TextInputElement from '../../form/TextInputElement';
 import { endpointsPT } from '../../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../../providers/ConfigProvider/configContext';
 
-/** TODO: these should come from an external source */
+export interface SaveToContactFormProps extends FormProps {
+    action: SaveToContact;
+    updateAction(action: SaveToContact): void;
+    onBindWidget(ref: any): void;
+    ComponentMap: ComponentMap;
+}
+
+export const HELP_TEXT_FIELD =
+    'Select an existing field to update, or create a new one.';
+export const HELP_TEXT_VALUE =
+    'The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json.';
+export const FIELD_INVALID = 'Invalid field name';
+
+// TODO: these should come from an external source
 const reserved = toBoolMap([
     'language',
     'facebook',
@@ -31,15 +45,9 @@ const reserved = toBoolMap([
     'tel'
 ]);
 
-export interface SaveToContactFormProps extends FormProps {
-    action: SaveToContact;
-    getActionUUID(): string;
-    updateAction(action: SaveToContact): void;
-    onBindWidget(ref: any): void;
-    ComponentMap: ComponentMap;
-}
-
-export default class SaveToContactForm extends React.PureComponent<SaveToContactFormProps> {
+export default class SaveToContactForm extends React.PureComponent<
+    SaveToContactFormProps
+> {
     public static contextTypes = {
         endpoints: endpointsPT
     };
@@ -52,23 +60,21 @@ export default class SaveToContactForm extends React.PureComponent<SaveToContact
 
     public onValid(widgets: { [name: string]: any }): void {
         const { state: { value } } = widgets.Value as TextInputElement;
-        const {
-            state: { field: { type: fieldType, name: fieldName, id: fieldUUID } }
-        } = widgets.Field as FieldElement;
+        const { state: { field } } = widgets.Field as FieldElement;
 
         const newAction: any = {
-            uuid: this.props.getActionUUID(),
+            uuid: this.props.action.uuid,
             value
         };
 
-        if (fieldType === 'field') {
+        if (field.type === 'field') {
             newAction.type = 'save_contact_field';
-            newAction.field_name = fieldName;
-            newAction.field_uuid = fieldUUID;
-        } else if (fieldType === 'update_contact') {
+            newAction.field_name = field.name;
+            newAction.field_uuid = field.id;
+        } else if (field.type === 'update_contact') {
             // Updating contact properties are different action
             newAction.type = 'update_contact';
-            newAction.field_name = fieldUUID;
+            newAction.field_name = field.id;
         }
 
         this.props.updateAction(newAction);
@@ -90,62 +96,48 @@ export default class SaveToContactForm extends React.PureComponent<SaveToContact
     }
 
     public render(): JSX.Element {
-        let initial: SearchResult;
+        let initial: SearchResult = null;
 
-        if (this.props.action) {
-            const {
-                type: actionType,
-                field_uuid: fieldUUID,
-                field_name: fieldName
-            } = this.props.action;
-
-            if (actionType === 'save_contact_field') {
-                initial = {
-                    id: fieldUUID,
-                    name: fieldName,
-                    type: 'field'
-                };
-            } else if (actionType === 'update_contact') {
-                initial = {
-                    id: fieldName.toLowerCase(),
-                    name: fieldName,
-                    type: 'update_contact'
-                };
-            }
-        }
-
-        let value = '';
-
-        if (this.props.action && this.props.action.value) {
-            ({ action: { value } } = this.props);
+        if (this.props.action.type === 'save_contact_field') {
+            initial = {
+                id: this.props.action.field_uuid,
+                name: this.props.action.field_name,
+                type: 'field'
+            };
+        } else if (this.props.action.type === 'update_contact') {
+            initial = {
+                id: this.props.action.field_name.toLowerCase(),
+                name: this.props.action.field_name,
+                type: 'update_contact'
+            };
         }
 
         return (
-            <div>
+            <Fragment>
                 <FieldElement
                     ref={this.props.onBindWidget}
                     name="Field"
                     showLabel={true}
                     endpoint={this.context.endpoints.fields}
                     localFields={this.props.ComponentMap.getContactFields()}
-                    helpText={
-                        'Select an existing field to update or type any name to create a new one'
-                    }
+                    helpText={HELP_TEXT_FIELD}
                     initial={initial}
                     add={true}
                     required={true}
+                    placeholder={`${HELP_TEXT_FIELD}..`}
+                    searchPromptText={FIELD_INVALID}
                 />
-
                 <TextInputElement
                     ref={this.props.onBindWidget}
                     name="Value"
                     showLabel={true}
-                    value={value}
-                    helpText="The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json."
+                    value={this.props.action.value}
+                    helpText={HELP_TEXT_VALUE}
                     autocomplete={true}
                     ComponentMap={this.props.ComponentMap}
+                    config={this.props.config}
                 />
-            </div>
+            </Fragment>
         );
     }
 }

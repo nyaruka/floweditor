@@ -10,7 +10,9 @@ export default class ConfigProvider extends React.Component<any> {
         super(props);
 
         if (React.Children.count(props.children) > 1) {
-            throw new Error('ConfigProvider expects to receive only one child component.');
+            throw new Error(
+                'ConfigProvider expects to receive only one child component.'
+            );
         }
     }
 

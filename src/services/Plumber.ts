@@ -1,4 +1,4 @@
-const {jsPlumb: { importDefaults }} = require('jsplumb');
+const { jsPlumb: { importDefaults } } = require('jsplumb');
 import { Node, FlowDefinition, Exit, LocalizationMap } from '../flowTypes';
 
 export interface DragEvent {
@@ -26,8 +26,15 @@ class Plumber {
 
     private targetDefaults = {
         anchor: ['Continuous', { faces: ['left', 'top', 'right'] }],
-        endpoint: ['Dot', { width: 10, height: 10, hoverClass: 'plumb-endpoint-hover' }],
-        dropOptions: { tolerance: 'touch', hoverClass: 'plumb-drop-hover', isTarget: false },
+        endpoint: [
+            'Dot',
+            { width: 10, height: 10, hoverClass: 'plumb-endpoint-hover' }
+        ],
+        dropOptions: {
+            tolerance: 'touch',
+            hoverClass: 'plumb-drop-hover',
+            isTarget: false
+        },
         dragAllowedWhenFull: false,
         deleteEndpointsOnEmpty: true,
         isTarget: false
@@ -62,7 +69,10 @@ class Plumber {
                 }
             ],
             ConnectionOverlays: [
-                ['PlainArrow', { location: 0.9999, width: 12, length: 12, foldback: 1 }]
+                [
+                    'PlainArrow',
+                    { location: 0.9999, width: 12, length: 12, foldback: 1 }
+                ]
             ],
             Container: 'flow-editor'
         });
@@ -79,8 +89,12 @@ class Plumber {
         this.remove = this.remove.bind(this);
         this.repaintForDuration = this.repaintForDuration.bind(this);
         this.repaintFor = this.repaintFor.bind(this);
-        this.handlePendingConnections = this.handlePendingConnections.bind(this);
-        this.checkForPendingConnections = this.checkForPendingConnections.bind(this);
+        this.handlePendingConnections = this.handlePendingConnections.bind(
+            this
+        );
+        this.checkForPendingConnections = this.checkForPendingConnections.bind(
+            this
+        );
         this.connect = this.connect.bind(this);
         this.bind = this.bind.bind(this);
         this.repaint = this.repaint.bind(this);
@@ -187,7 +201,9 @@ class Plumber {
 
                 if (source != null) {
                     // any existing connections for our source need to be deleted
-                    this.jsPlumb.select({ source: source }).delete({ fireEvent: false });
+                    this.jsPlumb
+                        .select({ source: source })
+                        .delete({ fireEvent: false });
 
                     // now make our new connection
                     if (target != null) {
