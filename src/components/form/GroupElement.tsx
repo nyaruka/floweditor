@@ -4,7 +4,9 @@ import { v4 as generateUUID } from 'uuid';
 import SelectSearch from '../SelectSearch';
 import { SearchResult } from '../../services/ComponentMap';
 import FormElement, { FormElementProps } from './FormElement';
-import { getSelectClass } from '../../helpers/utils';
+import { getSelectClass, jsonEqual } from '../../helpers/utils';
+import { Type } from '../../providers/ConfigProvider/typeConfigs';
+import { AnyAction } from '../../flowTypes';
 
 export interface GroupOption {
     group: string;
@@ -13,9 +15,9 @@ export interface GroupOption {
 
 export interface GroupElementProps extends FormElementProps {
     endpoint: string;
+    add?: boolean;
     groups?: SearchResult[];
     localGroups?: SearchResult[];
-    add?: boolean;
     placeholder?: string;
     searchPromptText?: string | JSX.Element;
     onChange?: (groups: SearchResult[]) => void;
@@ -26,15 +28,19 @@ interface GroupElementState {
     errors: string[];
 }
 
-export const isValidNewOption = ({ label }: { label: string } = { label: '' }): boolean => {
+export const isValidNewOption = (
+    { label }: { label: string } = { label: '' }
+): boolean => {
     if (!label) {
         return false;
     }
 
-    const lowered: string = label.toLowerCase();
+    const lowered = label.toLowerCase();
 
-    const isValid: boolean =
-        lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered);
+    const isValid =
+        lowered.length > 0 &&
+        lowered.length <= 36 &&
+        /^[a-z0-9-][a-z0-9- ]*$/.test(lowered);
 
     return isValid;
 };
@@ -49,14 +55,31 @@ export const createNewOption = ({ label }: { label: string }): SearchResult => {
     return newOption;
 };
 
-export const NEW_GROUP_PROMPT: string = 'New group: ';
-export const GROUP_TYPE: string = 'group';
+export const getInitialGroups = ({
+    groups,
+    localGroups
+}: GroupElementProps): SearchResult[] => {
+    if (substArr(groups)) {
+        return groups;
+    } else if (substArr(localGroups)) {
+        return localGroups;
+    } else {
+        return [];
+    }
+};
 
-export default class GroupElement extends React.Component<GroupElementProps, GroupElementState> {
+export const GROUP_PROMPT = 'New group: ';
+export const GROUP_PLACEHOLDER = 'Enter the name of an existing group...';
+export const GROUP_NOT_FOUND = 'Enter the name of an existing group';
+
+export default class GroupElement extends React.Component<
+    GroupElementProps,
+    GroupElementState
+> {
     constructor(props: GroupElementProps) {
         super(props);
 
-        const groups: SearchResult[] = this.getGroups();
+        const groups = getInitialGroups(props);
 
         this.state = {
             groups,
@@ -66,37 +89,36 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
         this.onChange = this.onChange.bind(this);
     }
 
-    private onChange(groups: SearchResult[]): void {
-        this.setState(
-            {
-                groups
-            },
-            () => this.props.onChange && this.props.onChange(groups)
-        );
+    public componentWillReceiveProps(nextProps: GroupElementProps): void {
+        if (
+            substArr(nextProps.groups) &&
+            !jsonEqual(nextProps.groups, this.props.groups)
+        ) {
+            this.setState({ groups: nextProps.groups });
+        }
     }
 
-    private getGroups(): SearchResult[] {
-        if (substArr(this.props.groups)) {
-            return this.props.groups;
-        } else if (substArr(this.props.localGroups)) {
-            return this.props.localGroups;
-        } else {
-            return [];
+    private onChange(groups: SearchResult[]): void {
+        if (!jsonEqual(groups, this.state.groups)) {
+            this.setState(
+                {
+                    groups
+                },
+                () => this.props.onChange && this.props.onChange(groups)
+            );
         }
     }
 
     public validate(): boolean {
         const errors: string[] = [];
 
-        if (this.props.required && this.state.groups.length < 1) {
+        if (this.props.required && !substArr(this.state.groups)) {
             errors.push(`${this.props.name} is required`);
         }
 
         this.setState({ errors });
 
-        const valid: boolean = errors.length === 0;
-
-        return valid;
+        return errors.length === 0;
     }
 
     public render(): JSX.Element {
@@ -105,10 +127,12 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
         if (this.props.add) {
             createOptions.isValidNewOption = isValidNewOption;
             createOptions.createNewOption = createNewOption;
-            createOptions.createPrompt = NEW_GROUP_PROMPT;
+            createOptions.createPrompt = GROUP_PROMPT;
         }
 
         const className = getSelectClass(this.state.errors.length);
+        const placeholder = this.props.placeholder || GROUP_PLACEHOLDER;
+        const searchPromptText = this.props.searchPromptText || GROUP_NOT_FOUND;
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
@@ -122,8 +146,8 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
                     multi={true}
                     initial={this.state.groups}
                     closeOnSelect={false}
-                    placeholder={this.props.placeholder}
-                    searchPromptText={this.props.searchPromptText}
+                    placeholder={placeholder}
+                    searchPromptText={searchPromptText}
                     {...createOptions}
                 />
             </FormElement>

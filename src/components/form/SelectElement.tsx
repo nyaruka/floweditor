@@ -17,7 +17,10 @@ interface SelectElementState {
     errors: string[];
 }
 
-export default class SelectElement extends React.Component<SelectElementProps, SelectElementState> {
+export default class SelectElement extends React.Component<
+    SelectElementProps,
+    SelectElementState
+> {
     constructor(props: any) {
         super(props);
 

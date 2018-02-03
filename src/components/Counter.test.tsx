@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { ReactWrapper, mount } from 'enzyme';
-import Counter, { ICounterProps } from './Counter';
+import Counter, { CounterProps } from './Counter';
 import { getSpecWrapper, validUUID, addCommas } from '../helpers/utils';
 
-let props: ICounterProps;
+let props: CounterProps;
 let handleClick;
 let CounterReact: ReactWrapper;
 let counterOutterReact: ReactWrapper;
 let counterInnerReact: ReactWrapper;
 
-/** This is only necessary because Jasmine requires spies to be initialied in a 'before' function */
+// This is only necessary because Jasmine requires spies to be initialied in a 'before'-type function
 beforeAll(() => {
     props = {
         containerStyle: 'style goes here',
@@ -18,12 +18,18 @@ beforeAll(() => {
         onUnmount: jest.fn()
     };
 
-    /** Spies on object properties that contain functions need to be intialized before the component is rendered */
-    handleClick = spyOn(Counter.prototype, 'handleClick');
+    // Spies on object properties that contain functions need to be intialized before the component is rendered
+    handleClick = jest.spyOn(Counter.prototype, 'handleClick');
 
     CounterReact = mount(<Counter {...props} />);
-    counterOutterReact = getSpecWrapper(CounterReact, 'counter-outter') as ReactWrapper;
-    counterInnerReact = getSpecWrapper(CounterReact, `counter-inner`) as ReactWrapper;
+    counterOutterReact = getSpecWrapper(
+        CounterReact,
+        'counter-outter'
+    ) as ReactWrapper;
+    counterInnerReact = getSpecWrapper(
+        CounterReact,
+        'counter-inner'
+    ) as ReactWrapper;
 });
 
 describe('Button Component', () => {
@@ -40,6 +46,8 @@ describe('Button Component', () => {
     it('Handles clicks', () => {
         counterOutterReact.simulate('click');
         expect(handleClick).toBeCalled();
+
+        handleClick.mockRestore();
     });
 
     it('Displays a count', () => {

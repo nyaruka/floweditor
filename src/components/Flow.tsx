@@ -2,7 +2,15 @@ import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import * as update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
-import { FlowDefinition, Action, Position, Reply, Node, UINode, Dimensions } from '../flowTypes';
+import {
+    FlowDefinition,
+    Action,
+    Position,
+    Reply,
+    Node,
+    UINode,
+    Dimensions
+} from '../flowTypes';
 import ComponentMap from '../services/ComponentMap';
 import NodeComp, { DragPoint } from './Node';
 import FlowMutator from '../services/FlowMutator';
@@ -95,7 +103,10 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
 
         this.repaintDuration = REPAINT_DURATION;
 
-        this.Activity = new ActivityManager(this.props.definition.uuid, this.context.getActivity);
+        this.Activity = new ActivityManager(
+            this.props.definition.uuid,
+            this.context.getActivity
+        );
 
         this.Plumber = new Plumber();
 
@@ -127,7 +138,9 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
     }
 
     public componentDidMount(): void {
-        this.Plumber.bind('connection', (event: ConnectionEvent) => this.onConnection(event));
+        this.Plumber.bind('connection', (event: ConnectionEvent) =>
+            this.onConnection(event)
+        );
         this.Plumber.bind('beforeDrag', (event: ConnectionEvent) =>
             this.beforeConnectionDrag(event)
         );
@@ -140,7 +153,9 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         this.Plumber.bind('beforeStartDetach', (event: ConnectionEvent) =>
             this.onBeforeStartDetach(event)
         );
-        this.Plumber.bind('beforeDetach', (event: ConnectionEvent) => this.onBeforeDetach(event));
+        this.Plumber.bind('beforeDetach', (event: ConnectionEvent) =>
+            this.onBeforeDetach(event)
+        );
         this.Plumber.bind('beforeDrop', (event: ConnectionEvent) =>
             this.onBeforeConnectorDrop(event)
         );
@@ -157,7 +172,10 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         window.setTimeout(() => this.Plumber.repaint(), 500);
     }
 
-    public componentDidUpdate(prevProps: FlowProps, prevState: FlowState): void {
+    public componentDidUpdate(
+        prevProps: FlowProps,
+        prevState: FlowState
+    ): void {
         // console.log("Updated", this.props.definition);
         // this.props.Mutator.reflow();
     }
@@ -194,7 +212,9 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             // make sure we re-wire the old connection
             if (canceled) {
                 if (this.pendingConnection) {
-                    const exit = this.props.Mutator.getExit(this.pendingConnection.exitUUID);
+                    const exit = this.props.Mutator.getExit(
+                        this.pendingConnection.exitUUID
+                    );
                     if (exit) {
                         this.Plumber.connectExit(exit);
                     }
@@ -262,12 +282,12 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         this.resetState();
     }
 
-    private onUpdateAction(node: Node, action: Action): void {
+    private onUpdateAction({ uuid }: Node, action: Action): void {
         console.log('Flow.onUpdateAction', action);
 
         this.props.Mutator.updateAction(
             action,
-            node.uuid,
+            uuid,
             this.pendingConnection,
             this.createNodePosition,
             this.addToNode
@@ -278,7 +298,11 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         this.Plumber.repaintForDuration(this.repaintDuration);
     }
 
-    private onUpdateRouter(node: Node, type: string, previousAction?: Action): void {
+    private onUpdateRouter(
+        node: Node,
+        type: string,
+        previousAction?: Action
+    ): void {
         console.log('Flow.onUpdateRouter', node);
 
         const { uuid: nodeUUID } = node;
@@ -305,8 +329,12 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
      */
     private onConnectionDrag(event: ConnectionEvent): void {
         // We finished dragging a ghost node, create the spec for our new ghost component
-        const draggedFromDetails = this.props.ComponentMap.getDetails(event.sourceId);
-        const fromNode = this.props.Mutator.getNode(draggedFromDetails.nodeUUID);
+        const draggedFromDetails = this.props.ComponentMap.getDetails(
+            event.sourceId
+        );
+        const fromNode = this.props.Mutator.getNode(
+            draggedFromDetails.nodeUUID
+        );
         const fromNodeUI = this.props.Mutator.getNodeUI(fromNode.uuid);
         const draggedFrom = {
             nodeUUID: draggedFromDetails.nodeUUID,
@@ -459,7 +487,9 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                     onUpdateDimensions={this.props.Mutator.updateDimensions}
                     onDisconnectExit={this.props.Mutator.disconnectExit}
                     onRemoveNode={this.props.Mutator.removeNode}
-                    onUpdateLocalizations={this.props.Mutator.updateLocalizations}
+                    onUpdateLocalizations={
+                        this.props.Mutator.updateLocalizations
+                    }
                     onRemoveAction={this.props.Mutator.removeAction}
                     onMoveActionUp={this.props.Mutator.moveActionUp}
                     // Flow
@@ -510,7 +540,9 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                     onUpdateDimensions={this.props.Mutator.updateDimensions}
                     onDisconnectExit={this.props.Mutator.disconnectExit}
                     onRemoveNode={this.props.Mutator.removeNode}
-                    onUpdateLocalizations={this.props.Mutator.updateLocalizations}
+                    onUpdateLocalizations={
+                        this.props.Mutator.updateLocalizations
+                    }
                     onRemoveAction={this.props.Mutator.removeAction}
                     onMoveActionUp={this.props.Mutator.moveActionUp}
                     // Flow

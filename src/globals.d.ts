@@ -42,7 +42,10 @@ declare module 'split-sms' {
 declare module 'jsplumb';
 
 declare module 'auto-bind' {
-    export function react(self: React.Component, options?: AutoBindOptions): void;
+    export function react(
+        self: React.Component,
+        options?: AutoBindOptions
+    ): void;
 }
 
 declare module '@ycleptkellan/substantive' {

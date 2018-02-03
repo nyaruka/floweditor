@@ -75,7 +75,6 @@ export default class ActivityManager {
         //             .catch(() => {
         //                 // ignore missing activity
         //             });
-
         //         this.fetchActivity(REFRESH_SECONDS * 1000);
         //     }, wait);
         // }
@@ -120,7 +119,10 @@ export default class ActivityManager {
         var activity = this.getActivity();
         if (activity) {
             if (exit.destination_node_uuid) {
-                var count = activity.segments[exit.uuid + ':' + exit.destination_node_uuid];
+                var count =
+                    activity.segments[
+                        exit.uuid + ':' + exit.destination_node_uuid
+                    ];
                 if (count !== undefined) {
                     return count;
                 }

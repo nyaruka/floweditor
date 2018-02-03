@@ -12,7 +12,9 @@ const { uuid, type, flow_name, flow_uuid } = startFlowAction;
 describe('StartFlow >', () => {
     describe('render >', () => {
         it('should render StartFlow with flow name', () => {
-            const StartFlowDivShallow = shallow(<StartFlow {...startFlowAction} />);
+            const StartFlowDivShallow = shallow(
+                <StartFlow {...startFlowAction} />
+            );
 
             expect(StartFlowDivShallow.text()).toBe(flow_name);
         });

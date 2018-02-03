@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { renderIntoDocument, findRenderedComponentWithType } from 'react-dom/test-utils';
+import {
+    renderIntoDocument,
+    findRenderedComponentWithType
+} from 'react-dom/test-utils';
 import { shallow } from 'enzyme';
 import ConfigProvider from './ConfigProvider';
 import configContext from './configContext';
@@ -63,7 +66,9 @@ describe('Component: ConfigProvider', () => {
                     <div />
                 </ConfigProvider>
             )
-        ).toThrowError('ConfigProvider expects to receive only one child component.');
+        ).toThrowError(
+            'ConfigProvider expects to receive only one child component.'
+        );
     });
 
     it("should provide config to child's context", () => {

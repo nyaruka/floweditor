@@ -1,19 +1,28 @@
 import * as React from 'react';
+import { Fragment } from 'react';
 import { SaveToContact } from '../../../flowTypes';
 
-const SaveToContactComp: React.SFC<SaveToContact> = ({ value, field_name }): JSX.Element => {
+const SaveToContactComp: React.SFC<SaveToContact> = ({
+    value,
+    field_name
+}): JSX.Element => {
+    let content: JSX.Element;
+
     if (value) {
-        return (
-            <div>
-                Update <span className="emph">{field_name}</span> to {value}
-            </div>
+        content = (
+            <Fragment>
+                Update <b>{field_name}</b> to <b>{value}</b>
+            </Fragment>
+        );
+    } else {
+        content = (
+            <Fragment>
+                Clear value for <b>{field_name}</b>
+            </Fragment>
         );
     }
-    return (
-        <div>
-            Clear value for <span className="emph">{field_name}</span>
-        </div>
-    );
+
+    return <div>{content}</div>;
 };
 
 export default SaveToContactComp;

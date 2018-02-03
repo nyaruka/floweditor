@@ -17,7 +17,9 @@ describe('Component: Reply', () => {
     });
 
     it("should render Reply with placeholder when text prop isn't passed", () => {
-        const ReplyDivShallow = shallow(<Reply {...{ ...replyAction, text: '' }} />);
+        const ReplyDivShallow = shallow(
+            <Reply {...{ ...replyAction, text: '' }} />
+        );
 
         expect(ReplyDivShallow.text()).toBe('Send a message to the contact');
     });

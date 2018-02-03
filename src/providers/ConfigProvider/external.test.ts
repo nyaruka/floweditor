@@ -1,6 +1,11 @@
 import * as nock from 'nock';
 import { devServerPort } from '../../../webpack.dev';
-import { ACTIVITY_ENDPOINT, FLOWS_ENDPOINT, getFlow, getFlows } from './external';
+import {
+    ACTIVITY_ENDPOINT,
+    FLOWS_ENDPOINT,
+    getFlow,
+    getFlows
+} from './external';
 
 const {
     results: [{ uuid: flowUUID, name: flowName, definition }]
@@ -29,7 +34,9 @@ afterAll(() => nock.cleanAll());
 describe('Providers: external', () => {
     describe('getFlow', () => {
         it('should get a flow', () => {
-            getFlow(flowUUID, false).then(response => expect(response).toEqual(getFlowResp));
+            getFlow(flowUUID, false).then(response =>
+                expect(response).toEqual(getFlowResp)
+            );
         });
     });
 
