@@ -335,11 +335,11 @@ export default class NodeEditor extends React.PureComponent<
                         <div
                             key={exitUUID}
                             className={formStyles.translating_exit}>
-                            <div
+                            <span
                                 data-spec="exit-name"
                                 className={formStyles.translating_from}>
                                 {exitName}
-                            </div>
+                            </span>
                             <div className={formStyles.translating_to}>
                                 <TextInputElement
                                     data-spec="localization-input"
@@ -363,19 +363,19 @@ export default class NodeEditor extends React.PureComponent<
         );
 
         return (
-            <div>
-                <div data-spec="title" className={formStyles.title}>
+            <>
+                <span data-spec="title" className={formStyles.title}>
                     Categories
-                </div>
-                <div
+                </span>
+                <span
                     data-spec="instructions"
                     className={formStyles.instructions}>
                     When category names are referenced later in the flow, the
                     appropriate language for the category will be used. If no
                     translation is provided, the original text will be used.
-                </div>
+                </span>
                 <div className={formStyles.translating_exits}>{exits}</div>
-            </div>
+            </>
         );
     }
 
@@ -556,16 +556,16 @@ export default class NodeEditor extends React.PureComponent<
 
     private getTitles(): JSX.Element[] {
         const titleText: string = this.getTitleText();
-        const titles: JSX.Element[] = [<div key={'front'}>{titleText}</div>];
+        const titles: JSX.Element[] = [<React.Fragment key='front'>{titleText}</React.Fragment>];
 
         if (this.hasAdvanced()) {
             titles.push(
-                <div key={'advanced'}>
-                    <div>{titleText}</div>
-                    <div className={shared.advanced_title}>
+                <React.Fragment key='advanced'>
+                    <span>{titleText}</span>
+                    <span className={shared.advanced_title}>
                         Advanced Settings
-                    </div>
-                </div>
+                    </span>
+                </React.Fragment>
             );
         }
 

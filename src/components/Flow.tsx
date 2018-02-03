@@ -625,14 +625,14 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         const modal: JSX.Element = this.getModal();
 
         return (
-            <div key={definition.uuid}>
+            <>
                 {simulator}
                 {dragNode}
                 {modal}
                 <div className={styles.node_list} data-spec="nodes">
                     {nodes}
                 </div>
-            </div>
+            </>
         );
     }
 }

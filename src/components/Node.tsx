@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import * as shallowCompare from 'react-addons-shallow-compare';
-import { substArr } from '@ycleptkellan/substantive';
+import { substArr, substObj } from '@ycleptkellan/substantive';
 import { Language } from './LanguageSelector';
 import ActionComp, { ActionProps } from './Action/Action';
 import { DragEvent } from '../services/Plumber';
@@ -441,16 +441,16 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                         action.type
                     );
 
-                    if (
-                        actionConfig.hasOwnProperty('component') &&
-                        actionConfig.component
-                    ) {
+                    if (actionConfig.component) {
                         const localization: LocalizedObject = Localization.translate(
                             action,
                             this.props.language.iso,
                             this.context.languages,
                             this.props.translations
                         );
+
+                        const hasRouter = substObj(this.props.node.router);
+                        const first = idx === 0;
 
                         const actionProps: ActionProps = {
                             // Flow
@@ -466,11 +466,8 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                             /** Node */
                             dragging: this.state.dragging,
                             action,
-                            first: idx === 0,
-                            hasRouter:
-                                this.props.node.hasOwnProperty('router') &&
-                                (this.props.node.router !== undefined ||
-                                    this.props.node.router !== null),
+                            first,
+                            hasRouter,
                             definition: this.props.definition,
                             language: this.props.language,
                             translating: this.props.translating,
@@ -565,8 +562,6 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         }
 
         const exits: JSX.Element[] = this.getExits();
-
-        const modalTitle = <div>Router</div>;
 
         if (this.state.dragging) {
             classes.push(styles.dragging);

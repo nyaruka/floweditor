@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Fragment } from 'react';
 import { SaveToContact } from '../../../flowTypes';
 
 const SaveToContactComp: React.SFC<SaveToContact> = ({
@@ -10,15 +9,15 @@ const SaveToContactComp: React.SFC<SaveToContact> = ({
 
     if (value) {
         content = (
-            <Fragment>
+            <>
                 Update <b>{field_name}</b> to <b>{value}</b>
-            </Fragment>
+            </>
         );
     } else {
         content = (
-            <Fragment>
+            <>
                 Clear value for <b>{field_name}</b>
-            </Fragment>
+            </>
         );
     }
 

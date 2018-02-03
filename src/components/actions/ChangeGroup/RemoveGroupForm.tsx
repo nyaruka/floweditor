@@ -130,6 +130,6 @@ export default class RemoveGroupForm extends React.PureComponent<
 
     public render(): JSX.Element {
         const fields: JSX.Element = this.getFields();
-        return <div>{fields}</div>;
+        return <>{fields}</>;
     }
 }

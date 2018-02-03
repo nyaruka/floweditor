@@ -97,7 +97,7 @@ export default class AddGroupForm extends React.PureComponent<
     public render(): JSX.Element {
         const localGroups = getLocalGroups(this.props, true);
         return (
-            <div>
+            <>
                 <p>{LABEL}</p>
                 <GroupElement
                     ref={this.props.onBindWidget}
@@ -111,7 +111,7 @@ export default class AddGroupForm extends React.PureComponent<
                     required={true}
                     onChange={this.onGroupsChanged}
                 />
-            </div>
+            </>
         );
     }
 }

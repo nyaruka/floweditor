@@ -65,7 +65,7 @@ export const getDisplayName = (
  * @returns {ReactWrapper|ReactWrapper[]|ShallowWrapper|ShallowWrapper[]} Matching DOM components
  */
 export const getSpecWrapper = (
-    componentWrapper: ReactWrapper | ShallowWrapper,
+    componentWrapper: ReactWrapper<{}, {}> | ShallowWrapper<{}, {}>,
     specName: string,
     attributeName: string = 'data-spec'
 ): any => {

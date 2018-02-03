@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Fragment } from 'react';
 import { v4 as generateUUID } from 'uuid';
 import { Endpoints, SaveToContact, UpdateContact } from '../../../flowTypes';
 import { FormProps } from '../../NodeEditor';
@@ -113,7 +112,7 @@ export default class SaveToContactForm extends React.PureComponent<
         }
 
         return (
-            <Fragment>
+            <>
                 <FieldElement
                     ref={this.props.onBindWidget}
                     name="Field"
@@ -137,7 +136,7 @@ export default class SaveToContactForm extends React.PureComponent<
                     ComponentMap={this.props.ComponentMap}
                     config={this.props.config}
                 />
-            </Fragment>
+            </>
         );
     }
 }

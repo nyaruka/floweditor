@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Fragment } from 'react';
 import { react as bindCallbacks } from 'auto-bind';
-import { substArr } from '@ycleptkellan/substantive';
+import { substArr, substObj } from '@ycleptkellan/substantive';
 import * as FlipMove from 'react-flip-move';
 import * as update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
@@ -326,12 +325,13 @@ export default class SwitchRouterForm extends React.Component<
             operand: DEFAULT_OPERAND
         };
 
-        const routerExists: boolean =
-            (this.props.node.router as SwitchRouter) &&
-            (this.props.node.router as SwitchRouter).hasOwnProperty('operand');
+        // prettier-ignore
+        const existingRouter: boolean = substObj(
+            this.props.node.router as SwitchRouter
+        );
 
         // We're guaranteed a node, but does it have a router?
-        if (routerExists) {
+        if (existingRouter) {
             // If a switch router exists at the node and it has cases
             if (hasCases(this.props.node)) {
                 // If the user is switching from the group router form to another switch router form
@@ -1027,7 +1027,7 @@ export default class SwitchRouterForm extends React.Component<
             leadIn = WAIT_LABEL;
         } else if (this.props.config.type === 'expression') {
             leadIn = leadIn = (
-                <Fragment>
+                <>
                     <p>{EXPRESSION_LABEL}</p>
                     <TextInputElement
                         ref={this.props.onBindWidget}
@@ -1041,7 +1041,7 @@ export default class SwitchRouterForm extends React.Component<
                         ComponentMap={this.props.ComponentMap}
                         config={this.props.config}
                     />
-                </Fragment>
+                </>
             );
         } else if (this.props.config.type === 'group') {
             const groupProps: Partial<GroupElementProps> = {
@@ -1056,7 +1056,7 @@ export default class SwitchRouterForm extends React.Component<
             }
 
             leadIn = (
-                <div>
+                <>
                     <p>{GROUP_LABEL}</p>
                     <GroupElement
                         ref={this.props.onBindWidget}
@@ -1066,7 +1066,7 @@ export default class SwitchRouterForm extends React.Component<
                         onChange={this.onGroupsChanged}
                         {...groupProps}
                     />
-                </div>
+                </>
             );
         }
 
@@ -1081,7 +1081,7 @@ export default class SwitchRouterForm extends React.Component<
         const cases: JSX.Element[] = this.getCases();
 
         if (cases.length <= 2) {
-            return <Fragment>{cases}</Fragment>;
+            return <>{cases}</>;
         } else {
             const draggableCases: JSX.Element[] = cases.slice(
                 0,
@@ -1089,7 +1089,7 @@ export default class SwitchRouterForm extends React.Component<
             );
             const emptyCase: JSX.Element = cases[cases.length - 1];
             return (
-                <div>
+                <>
                     <DragDropContext onDragEnd={this.onDragEnd}>
                         <Droppable droppableId="droppable">
                             {(
@@ -1106,7 +1106,7 @@ export default class SwitchRouterForm extends React.Component<
                         </Droppable>
                     </DragDropContext>
                     {emptyCase}
-                </div>
+                </>
             );
         }
     }
@@ -1120,11 +1120,11 @@ export default class SwitchRouterForm extends React.Component<
             const nameField: JSX.Element = this.getNameField();
 
             return (
-                <div>
+                <>
                     {leadIn}
                     {caseContext}
                     <div className={styles.save_as}>{nameField}</div>
-                </div>
+                </>
             );
         }
     }
@@ -1144,7 +1144,7 @@ export default class SwitchRouterForm extends React.Component<
             return null;
         }
         return (
-            <div>
+            <>
                 <div
                     data-spec="advanced-title"
                     className={styles.translating_operator_title}>
@@ -1156,7 +1156,7 @@ export default class SwitchRouterForm extends React.Component<
                     {OPERATOR_LOCALIZATION_LEGEND}
                 </div>
                 <div>{operators}</div>
-            </div>
+            </>
         );
     }
     public render(): JSX.Element {
