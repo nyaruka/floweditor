@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import * as shallowCompare from 'react-addons-shallow-compare';
-import { substArr, substObj } from '@ycleptkellan/substantive';
 import { Language } from './LanguageSelector';
 import ActionComp, { ActionProps } from './Action/Action';
 import { DragEvent } from '../services/Plumber';
@@ -95,17 +94,13 @@ export const getLocalizations = (
         const router = node.router as SwitchRouter;
 
         router.cases.forEach(kase =>
-            localizations.push(
-                Localization.translate(kase, iso, languages, translations)
-            )
+            localizations.push(Localization.translate(kase, iso, languages, translations))
         );
     }
 
     // Account for localized exits
     node.exits.forEach(exit => {
-        localizations.push(
-            Localization.translate(exit, iso, languages, translations)
-        );
+        localizations.push(Localization.translate(exit, iso, languages, translations));
     });
 
     return localizations;
@@ -174,10 +169,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             (event: DragEvent) => this.onDragStop(event),
             () => {
                 if (!this.props.translating) {
-                    this.props.onNodeBeforeDrag(
-                        this.props.node,
-                        this.dragGroup
-                    );
+                    this.props.onNodeBeforeDrag(this.props.node, this.dragGroup);
 
                     return true;
                 } else {
@@ -217,10 +209,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         }
     }
 
-    public shouldComponentUpdate(
-        nextProps: NodeProps,
-        nextState: NodeState
-    ): boolean {
+    public shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState): boolean {
         if (
             nextProps.ui.position.x !== this.props.ui.position.x ||
             nextProps.ui.position.y !== this.props.ui.position.y
@@ -230,10 +219,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         return shallowCompare(this, nextProps, nextState);
     }
 
-    public componentDidUpdate(
-        prevProps: NodeProps,
-        prevState: NodeState
-    ): void {
+    public componentDidUpdate(prevProps: NodeProps, prevState: NodeState): void {
         if (!this.props.ghost) {
             try {
                 this.props.plumberRecalculate(this.props.node.uuid);
@@ -328,7 +314,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             );
         }
 
-        let nodeEditorProps: NodeEditorProps = {
+        this.props.openEditor({
             // Flow
             node: this.props.node,
             definition: this.props.definition,
@@ -340,23 +326,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             onUpdateLocalizations: this.props.onUpdateLocalizations,
             onUpdateAction: this.props.onUpdateAction,
             onUpdateRouter: this.props.onUpdateRouter
-        };
-
-        // Account for hybrids
-        if (substArr(this.props.node.actions)) {
-            const isHybrid =
-                this.props.node.actions[0].type === 'call_webhook' ||
-                this.props.node.actions[0].type === 'start_flow';
-
-            if (isHybrid) {
-                nodeEditorProps = {
-                    ...nodeEditorProps,
-                    action: this.props.node.actions[0]
-                };
-            }
-        }
-
-        this.props.openEditor(nodeEditorProps);
+        });
     }
 
     private onRemoval(event: React.MouseEvent<HTMLDivElement>): void {
@@ -435,62 +405,52 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 ref: (ref: ActionComp): ActionComp => (this.firstAction = ref)
             };
 
-            this.props.node.actions.forEach(
-                (action: AnyAction, idx: number) => {
-                    const actionConfig = this.context.getTypeConfig(
-                        action.type
+            this.props.node.actions.forEach((action: AnyAction, idx: number) => {
+                const actionConfig = this.context.getTypeConfig(action.type);
+
+                if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
+                    const localization: LocalizedObject = Localization.translate(
+                        action,
+                        this.props.language.iso,
+                        this.context.languages,
+                        this.props.translations
                     );
 
-                    if (actionConfig.component) {
-                        const localization: LocalizedObject = Localization.translate(
-                            action,
-                            this.props.language.iso,
-                            this.context.languages,
-                            this.props.translations
-                        );
+                    const actionProps: ActionProps = {
+                        // Flow
+                        node: this.props.node,
+                        ComponentMap: this.props.ComponentMap,
+                        openEditor: this.props.openEditor,
+                        onRemoveAction: this.props.onRemoveAction,
+                        onMoveActionUp: this.props.onMoveActionUp,
+                        onUpdateLocalizations: this.props.onUpdateLocalizations,
+                        onUpdateAction: this.props.onUpdateAction,
+                        onUpdateRouter: this.props.onUpdateRouter,
+                        /** Node */
+                        dragging: this.state.dragging,
+                        action,
+                        first: idx === 0,
+                        hasRouter:
+                            this.props.node.hasOwnProperty('router') &&
+                            (this.props.node.router !== undefined ||
+                                this.props.node.router !== null),
+                        definition: this.props.definition,
+                        language: this.props.language,
+                        translating: this.props.translating,
+                        localization
+                    };
 
-                        const hasRouter = substObj(this.props.node.router);
-                        const first = idx === 0;
+                    const { component: ActionDiv } = actionConfig;
 
-                        const actionProps: ActionProps = {
-                            // Flow
-                            node: this.props.node,
-                            ComponentMap: this.props.ComponentMap,
-                            openEditor: this.props.openEditor,
-                            onRemoveAction: this.props.onRemoveAction,
-                            onMoveActionUp: this.props.onMoveActionUp,
-                            onUpdateLocalizations: this.props
-                                .onUpdateLocalizations,
-                            onUpdateAction: this.props.onUpdateAction,
-                            onUpdateRouter: this.props.onUpdateRouter,
-                            /** Node */
-                            dragging: this.state.dragging,
-                            action,
-                            first,
-                            hasRouter,
-                            definition: this.props.definition,
-                            language: this.props.language,
-                            translating: this.props.translating,
-                            localization
-                        };
-
-                        const { component: ActionDiv } = actionConfig;
-
-                        actions.push(
-                            <ActionComp
-                                {...firstRef}
-                                key={action.uuid}
-                                {...actionProps}>
-                                {(injectedProps: AnyAction) => (
-                                    <ActionDiv {...injectedProps} />
-                                )}
-                            </ActionComp>
-                        );
-                    }
-
-                    firstRef = {};
+                    actions.push(
+                        <ActionComp {...firstRef} key={action.uuid} {...actionProps}>
+                            {(injectedProps: AnyAction) => <ActionDiv {...injectedProps} />}
+                        </ActionComp>
+                    );
                 }
-            );
+
+                firstRef = {};
+            });
 
             actionList = (
                 <FlipMove
@@ -526,13 +486,9 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 const switchRouter = this.props.node.router as SwitchRouter;
                 if (switchRouter.result_name) {
                     if (this.props.ui.type === 'expression') {
-                        title = `Split by ${titleCase(
-                            switchRouter.result_name
-                        )}`;
+                        title = `Split by ${titleCase(switchRouter.result_name)}`;
                     } else if (this.props.ui.type === 'wait_for_response') {
-                        title = `Wait for ${titleCase(
-                            switchRouter.result_name
-                        )}`;
+                        title = `Wait for ${titleCase(switchRouter.result_name)}`;
                     }
                 }
             }
@@ -569,19 +525,13 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             classes.push(styles.dragging);
         }
 
-        if (
-            this.props.ghost ||
-            (this.props.nodeDragging && !this.state.dragging)
-        ) {
+        if (this.props.ghost || (this.props.nodeDragging && !this.state.dragging)) {
             classes.push(styles.ghost);
         }
 
         let exitClass = '';
 
-        if (
-            this.props.node.exits.length === 1 &&
-            !this.props.node.exits[0].name
-        ) {
+        if (this.props.node.exits.length === 1 && !this.props.node.exits[0].name) {
             exitClass = styles.actions;
         }
 

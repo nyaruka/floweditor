@@ -1,9 +1,4 @@
-import {
-    typeConfigList,
-    actionConfigList,
-    typeConfigMap,
-    getTypeConfig
-} from './typeConfigs';
+import { typeConfigList, actionConfigList, typeConfigMap, getTypeConfig } from './typeConfigs';
 
 describe('Providers: ConfigProvider: typeConfigs', () => {
     it('should provide type configs', () => {

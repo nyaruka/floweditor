@@ -89,10 +89,7 @@ export default class Action extends React.Component<ActionProps, ActionState> {
         });
     }
 
-    public componentDidUpdate(
-        prevProps: ActionProps,
-        prevState: ActionState
-    ): void {
+    public componentDidUpdate(prevProps: ActionProps, prevState: ActionState): void {
         if (this.props.dragging) {
             this.clicking = false;
         }
@@ -168,9 +165,7 @@ export default class Action extends React.Component<ActionProps, ActionState> {
         const showMove: boolean = !this.props.first && !this.props.translating;
 
         return (
-            <div
-                id={`action-${this.props.action.uuid}`}
-                className={classes.join(' ')}>
+            <div id={`action-${this.props.action.uuid}`} className={classes.join(' ')}>
                 <div className={styles.overlay} />
                 <div
                     onMouseDown={this.onMouseDown}
@@ -184,9 +179,7 @@ export default class Action extends React.Component<ActionProps, ActionState> {
                         showMove={showMove}
                         onMoveUp={this.onMoveUp}
                     />
-                    <div className={styles.body}>
-                        {this.props.children(propsToInject)}
-                    </div>
+                    <div className={styles.body}>{this.props.children(propsToInject)}</div>
                 </div>
             </div>
         );

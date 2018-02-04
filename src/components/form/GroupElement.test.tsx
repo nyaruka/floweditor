@@ -1,14 +1,8 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import GroupElement, {
-    GroupElementProps,
-    GROUP_PLACEHOLDER,
-    GROUP_NOT_FOUND,
-    isValidNewOption,
-    createNewOption,
-    getInitialGroups
-} from './GroupElement';
+import GroupElement, { GroupElementProps, isValidNewOption, createNewOption } from './GroupElement';
 import Config from '../../providers/ConfigProvider/configContext';
+import { GROUP_PLACEHOLDER, GROUP_NOT_FOUND } from '../routers/SwitchRouter';
 import { SearchResult } from '../../services/ComponentMap';
 import { validUUID } from '../../helpers/utils';
 
@@ -18,16 +12,16 @@ describe('GroupElement >', () => {
     const props: GroupElementProps = {
         name: 'Group',
         endpoint: Config.endpoints.groups,
+        placeholder: GROUP_PLACEHOLDER,
+        searchPromptText: GROUP_NOT_FOUND,
         required: true
     };
 
-    const groupOptions: SearchResult[] = groupsResp.map(
-        ({ name, uuid, type }) => ({
-            name,
-            id: uuid,
-            type
-        })
-    );
+    const groupOptions: SearchResult[] = groupsResp.map(({ name, uuid, type }) => ({
+        name,
+        id: uuid,
+        type
+    }));
 
     describe('helpers >', () => {
         const newGroup: { label: string } = { label: 'new group' };
@@ -51,28 +45,6 @@ describe('GroupElement >', () => {
                 expect(newOption.extraResult).toBeTruthy();
             });
         });
-
-        describe('getInitialGroups >', () => {
-            it("should return an empty array if passed a falsy 'groups' prop", () => {
-                expect(getInitialGroups(props)).toEqual([]);
-            });
-
-            it("should return an array of SearchResult objects if passed a truthy 'groups' prop", () => {
-                expect(
-                    getInitialGroups({
-                        groups: groupOptions
-                    } as GroupElementProps)
-                ).toEqual(groupOptions);
-            });
-
-            it("should return localGroups array if GroupElement passed 'localGroups' prop but not 'groups'", () => {
-                expect(
-                    getInitialGroups({
-                        localGroups: groupOptions
-                    } as GroupElementProps)
-                ).toEqual(groupOptions);
-            });
-        });
     });
 
     describe('render >', () => {
@@ -90,8 +62,8 @@ describe('GroupElement >', () => {
                         multi: true,
                         initial: [],
                         closeOnSelect: false,
-                        placeholder: GROUP_PLACEHOLDER,
-                        searchPromptText: GROUP_NOT_FOUND
+                        placeholder: props.placeholder,
+                        searchPromptText: props.searchPromptText
                     })
                 );
             });
@@ -112,9 +84,7 @@ describe('GroupElement >', () => {
 
             it("should call 'onChange' prop if passed", () => {
                 const onChange = jest.fn();
-                const wrapper = mount(
-                    <GroupElement {...{ ...props, onChange }} />
-                );
+                const wrapper = mount(<GroupElement {...{ ...props, onChange }} />);
 
                 wrapper.instance().onChange(groups);
 
@@ -135,6 +105,30 @@ describe('GroupElement >', () => {
 
                 expect(wrapper.instance().onChange(groups));
                 expect(wrapper.instance().validate()).toBeTruthy();
+            });
+        });
+
+        describe('getGroups >', () => {
+            it("should return an empty array if GroupElement is passed a falsy 'groups' prop", () => {
+                const wrapper = mount(<GroupElement {...props} />);
+
+                expect(wrapper.instance().getGroups()).toEqual([]);
+            });
+
+            it("should return an array of SearchResult objects if GroupElement is passed a truthy 'groups' prop", () => {
+                const wrapper = mount(
+                    <GroupElement {...{ ...props, groups: groupOptions }} />
+                );
+
+                expect(wrapper.instance().getGroups()).toEqual(groupOptions);
+            });
+
+            it("should return localGroups array if GroupElement passed 'localGroups' prop but not 'groups'", () => {
+                const wrapper = mount(
+                    <GroupElement {...{ ...props, localGroups: groupOptions }} />
+                );
+
+                expect(wrapper.instance().getGroups()).toEqual(groupOptions);
             });
         });
     });

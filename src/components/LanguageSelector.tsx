@@ -21,9 +21,7 @@ export const composeLanguageMap = (languages: Languages): Language[] =>
         iso
     }));
 
-const LanguageSelectorComp: React.SFC<LanguageSelectorProps> = (
-    props
-): JSX.Element => {
+const LanguageSelectorComp: React.SFC<LanguageSelectorProps> = (props): JSX.Element => {
     const options = composeLanguageMap(props.languages);
     return (
         <div className={`${languageSelector} select-small`}>

@@ -18,9 +18,7 @@ const props: FlowProps = {
     nodeDragging: false,
     onDrag: jest.fn(),
     language,
-    translating:
-        baseLanguage.iso !== language.iso &&
-        baseLanguage.name === language.name,
+    translating: baseLanguage.iso !== language.iso && baseLanguage.name === language.name,
     definition,
     dependencies: null,
     Mutator,
@@ -32,9 +30,7 @@ describe('Component: Flow', () => {
     it('should render', () => {
         expect(FlowComp.exists()).toBeTruthy();
         expect(getSpecWrapper(FlowComp, 'nodes').exists()).toBeTruthy();
-        expect(
-            getSpecWrapper(FlowComp, 'nodes').hasClass('node_list')
-        ).toBeTruthy();
+        expect(getSpecWrapper(FlowComp, 'nodes').hasClass('node_list')).toBeTruthy();
         expect(FlowComp.find('NodeComp')).toBeTruthy();
     });
 });

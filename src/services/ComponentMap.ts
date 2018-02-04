@@ -32,7 +32,7 @@ export interface ContactFieldResult extends SearchResult {
     key?: string;
 }
 
-export interface ComponentDetails {
+interface ComponentDetails {
     nodeUUID: string;
     nodeIdx: number;
     actionIdx?: number;
@@ -131,11 +131,7 @@ export default class ComponentMap {
 
             // map out our action idexes
             if (node.actions) {
-                for (
-                    let actionIdx = 0;
-                    actionIdx < node.actions.length;
-                    actionIdx++
-                ) {
+                for (let actionIdx = 0; actionIdx < node.actions.length; actionIdx++) {
                     let action = node.actions[actionIdx];
                     components[action.uuid] = {
                         nodeUUID: node.uuid,
@@ -147,14 +143,12 @@ export default class ComponentMap {
 
                     if (action.type == 'save_flow_result') {
                         var resultProps = action as SaveFlowResult;
-                        resultNames[snakify(resultProps.result_name)] =
-                            resultProps.result_name;
+                        resultNames[snakify(resultProps.result_name)] = resultProps.result_name;
                     } else if (action.type == 'save_contact_field') {
                         var saveProps = action as SaveToContact;
                         if (
                             !RESERVED_FIELDS.some(
-                                fieldName =>
-                                    fieldName.name === saveProps.field_name
+                                fieldName => fieldName.name === saveProps.field_name
                             )
                         ) {
                             if (!(saveProps.field_uuid in fields)) {
@@ -184,8 +178,7 @@ export default class ComponentMap {
             }
 
             if (node.router && node.router.result_name) {
-                resultNames[snakify(node.router.result_name)] =
-                    node.router.result_name;
+                resultNames[snakify(node.router.result_name)] = node.router.result_name;
             }
 
             // and the same for exits

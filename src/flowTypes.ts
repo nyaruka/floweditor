@@ -38,12 +38,6 @@ export interface Wait {
     flow_uuid?: string;
 }
 
-export interface ContactField {
-    uuid: string;
-    name: string;
-    type: string;
-}
-
 export interface Node {
     uuid: string;
     exits: Exit[];
@@ -79,12 +73,6 @@ export interface SwitchRouter extends Router {
 export interface Group {
     uuid: string;
     name: string;
-}
-
-export enum Methods {
-    GET = 'GET',
-    POST = 'POST',
-    PUT = 'PUT'
 }
 
 export interface Action {
@@ -134,7 +122,7 @@ export interface Headers {
 
 export interface CallWebhook extends Action {
     url: string;
-    method: Methods;
+    method: string;
     body?: string;
     headers?: Headers;
 }

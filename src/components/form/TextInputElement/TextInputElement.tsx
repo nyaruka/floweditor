@@ -1,12 +1,10 @@
 import * as React from 'react';
-import * as classNames from 'classnames/bind';
 import getCaretCoordinates from 'textarea-caret';
 import setCaretPosition from 'get-input-selection';
 import { split } from 'split-sms';
 import ComponentMap, { CompletionOption } from '../../../services/ComponentMap';
 import FormElement, { FormElementProps } from '../FormElement';
 import { OPTIONS } from './completionOptions';
-import { Type } from '../../../providers/ConfigProvider/typeConfigs';
 
 import * as styles from './TextInputElement.scss';
 import * as shared from '../FormElement.scss';
@@ -44,15 +42,12 @@ interface CharCountStats {
 interface TextInputProps extends FormElementProps {
     value: string;
     ComponentMap: ComponentMap;
-    config: Type;
-    __className?: string;
     count?: Count;
     url?: boolean;
     textarea?: boolean;
     placeholder?: string;
     autocomplete?: boolean;
     focus?: boolean;
-    showInvalid?: boolean;
     onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
     onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
 }
@@ -101,16 +96,6 @@ export const MAX_GSM_MULTI = 153;
 export const MAX_UNICODE_SINGLE = 70;
 export const MAX_UNICODE_MULTI = 67;
 
-export const CHARACTER_COUNTER_HELP: JSX.Element = (
-    <span>
-        The character-counter provides an estimate of the number of messages
-        your response is expected to be split into by carriers. For example, the
-        count <b>67/2</b> indicates that the current message will be split into{' '}
-        <b>2</b> messages and you have <b>67</b> characters left until it will
-        be split into <b>3</b> messages
-    </span>
-);
-
 /**
  * Replaces unicode characters commonly inserted by text editors like MSWord in a given string with their GSM equivalents
  * @param {string} msg - msg to be cleaned
@@ -118,11 +103,11 @@ export const CHARACTER_COUNTER_HELP: JSX.Element = (
  */
 export const cleanMsg = (msg: string): string =>
     msg
-        .replace(/[\u2018\u2019]/g, "'") // Smart single quotes
-        .replace(/[\u201C\u201D]/g, '"') // Smart double quotes
-        .replace(/[\u2013\u2014]/g, '-') // En/em dash
-        .replace(/\u2026/g, '...') // Horizontal ellipsis
-        .replace(/\u2002/g, ' '); // En space
+        .replace(/[\u2018\u2019]/g, "'") /** Smart single quotes */
+        .replace(/[\u201C\u201D]/g, '"') /** Smart double quotes */
+        .replace(/[\u2013\u2014]/g, '-') /** En/em dash */
+        .replace(/\u2026/g, '...') /** Horizontal ellipsis */
+        .replace(/\u2002/g, ' '); /** En space */
 
 /**
  * First pass at providing the user with an accurate character count for their SMS messages.
@@ -131,10 +116,7 @@ export const cleanMsg = (msg: string): string =>
  * @param value
  * @param replace
  */
-export const getCharCount = (
-    value: string | string[],
-    replace?: boolean
-): CharCountStats => {
+export const getCharCount = (value: string | string[], replace?: boolean): CharCountStats => {
     let newVal = value as string;
 
     // Localized values are stored as string arrays
@@ -154,7 +136,7 @@ export const getCharCount = (
         parts
     } = split(newVal);
 
-    let maxLength = MAX_GSM_SINGLE;
+    let maxLength: number = MAX_GSM_SINGLE;
 
     if (characterSet === CharacterSet.UNICODE) {
         if (characterCount > MAX_UNICODE_SINGLE) {
@@ -178,10 +160,7 @@ export const getCharCount = (
     };
 };
 
-export const getCharCountStats = (
-    count: Count,
-    value: string = ''
-): CharCountStats | {} =>
+export const getCharCountStats = (count: Count, value: string = ''): CharCountStats | {} =>
     count && count === Count.SMS ? getCharCount(value) : {};
 
 const isValidURL = (str: string): boolean => {
@@ -228,10 +207,7 @@ const isValidURL = (str: string): boolean => {
     return webURLRegex.test(str);
 };
 
-export const filterOptions = (
-    options: CompletionOption[],
-    query?: string
-): CompletionOption[] => {
+export const filterOptions = (options: CompletionOption[], query?: string): CompletionOption[] => {
     if (query != null) {
         const search = query.toLowerCase();
 
@@ -251,8 +227,7 @@ export const filterOptions = (
 export const getOptionsList = (
     autocomplete: boolean,
     { getResultNames }: ComponentMap
-): CompletionOption[] =>
-    autocomplete ? [...OPTIONS, ...getResultNames()] : OPTIONS;
+): CompletionOption[] => (autocomplete ? [...OPTIONS, ...getResultNames()] : OPTIONS);
 
 const initialState: InitialState = {
     caretOffset: 0,
@@ -264,21 +239,19 @@ const initialState: InitialState = {
     query: ''
 };
 
-const cx = classNames.bind({ ...styles, ...shared });
-
-export default class TextInputElement extends React.Component<
-    TextInputProps,
-    TextInputState
-> {
+export default class TextInputElement extends React.Component<TextInputProps, TextInputState> {
     private selectedEl: HTMLLIElement;
     private textEl: HTMLTextElement;
 
     constructor(props: TextInputProps) {
         super(props);
 
-        const initState = this.getInitialState();
-
-        this.state = initState;
+        this.state = {
+            value: this.props.value,
+            options: getOptionsList(this.props.autocomplete, this.props.ComponentMap),
+            ...initialState,
+            ...getCharCountStats(this.props.count, this.props.value)
+        };
 
         this.selectedElRef = this.selectedElRef.bind(this);
         this.textElRef = this.textElRef.bind(this);
@@ -287,18 +260,6 @@ export default class TextInputElement extends React.Component<
         this.onChange = this.onChange.bind(this);
         this.setSelection = this.setSelection.bind(this);
         this.validate = this.validate.bind(this);
-    }
-
-    private getInitialState(): TextInputState {
-        return {
-            value: this.props.value || '',
-            options: getOptionsList(
-                this.props.autocomplete,
-                this.props.ComponentMap
-            ),
-            ...initialState,
-            ...getCharCountStats(this.props.count, this.props.value)
-        };
     }
 
     private selectedElRef(ref: HTMLLIElement): HTMLLIElement {
@@ -346,10 +307,7 @@ export default class TextInputElement extends React.Component<
             case KEY_AT:
                 this.setState({
                     completionVisible: true,
-                    caretCoordinates: getCaretCoordinates(
-                        this.textEl,
-                        this.textEl.selectionEnd
-                    )
+                    caretCoordinates: getCaretCoordinates(this.textEl, this.textEl.selectionEnd)
                 });
                 break;
             case KEY_ESC:
@@ -363,13 +321,8 @@ export default class TextInputElement extends React.Component<
                 break;
             case KEY_TAB:
             case KEY_ENTER:
-                if (
-                    this.state.completionVisible &&
-                    this.state.matches.length > 0
-                ) {
-                    var option = this.state.matches[
-                        this.state.selectedOptionIndex
-                    ];
+                if (this.state.completionVisible && this.state.matches.length > 0) {
+                    var option = this.state.matches[this.state.selectedOptionIndex];
                     var newValue = this.state.value.substr(
                         0,
                         this.state.caretOffset - this.state.query.length
@@ -425,13 +378,11 @@ export default class TextInputElement extends React.Component<
                         return this.setState({
                             query,
                             matches,
+                            value: this.state.value,
                             caretOffset: caret,
                             completionVisible,
                             selectedOptionIndex: 0,
-                            caretCoordinates: getCaretCoordinates(
-                                this.textEl,
-                                i
-                            )
+                            caretCoordinates: getCaretCoordinates(this.textEl, i)
                         });
                     }
                 }
@@ -441,6 +392,7 @@ export default class TextInputElement extends React.Component<
                     this.setState({
                         query: '',
                         matches: [],
+                        value: this.state.value,
                         caretOffset: caret,
                         completionVisible: false,
                         selectedOptionIndex: 0
@@ -460,6 +412,7 @@ export default class TextInputElement extends React.Component<
             {
                 query: '',
                 matches: [],
+                value: this.state.value,
                 caretOffset: 0,
                 selectedOptionIndex: 0,
                 completionVisible: false
@@ -518,12 +471,12 @@ export default class TextInputElement extends React.Component<
     private setSelection(selectedIdx: number): void {
         let selectedOptionIndex: number = selectedIdx;
 
-        // Can't exceed the last option
+        /** Can't exceed the last option */
         if (selectedIdx >= this.state.matches.length) {
             selectedOptionIndex = this.state.matches.length - 1;
         }
 
-        // Can't go beyond the first option
+        /** Can't go beyond the first option */
         if (selectedIdx < 0) {
             selectedOptionIndex = 0;
         }
@@ -544,7 +497,7 @@ export default class TextInputElement extends React.Component<
 
         this.setState({ errors });
 
-        // See if it should be a valid url
+        /** See if it should be a valid url */
         if (errors.length === 0) {
             if (this.props.url) {
                 if (!isValidURL(this.state.value)) {
@@ -562,17 +515,12 @@ export default class TextInputElement extends React.Component<
         this.textEl.selectionStart = length;
     }
 
-    private getOption(
-        { name, description }: CompletionOption,
-        selected: boolean
-    ): JSX.Element {
+    private getOption({ name, description }: CompletionOption, selected: boolean): JSX.Element {
         if (selected) {
             return (
                 <div>
                     <div data-spec="option-name">{name}</div>
-                    <div
-                        data-spec="option-desc"
-                        className={styles.option_description}>
+                    <div data-spec="option-desc" className={styles.option_description}>
                         {description}
                     </div>
                 </div>
@@ -582,34 +530,32 @@ export default class TextInputElement extends React.Component<
     }
 
     private getOptions(): JSX.Element[] {
-        return this.state.matches.map(
-            (option: CompletionOption, idx: number) => {
-                const optionClasses: string[] = [styles.option];
+        return this.state.matches.map((option: CompletionOption, idx: number) => {
+            const optionClasses: string[] = [styles.option];
 
-                if (idx === this.state.selectedOptionIndex) {
-                    optionClasses.push(styles.selected);
+            if (idx === this.state.selectedOptionIndex) {
+                optionClasses.push(styles.selected);
 
-                    if (idx === 0) {
-                        optionClasses.push(styles.first_option);
-                    }
-
-                    return (
-                        <li
-                            ref={this.selectedElRef}
-                            className={optionClasses.join(' ')}
-                            key={option.name}>
-                            {this.getOption(option, true)}
-                        </li>
-                    );
+                if (idx === 0) {
+                    optionClasses.push(styles.first_option);
                 }
 
                 return (
-                    <li className={optionClasses.join(' ')} key={option.name}>
-                        {this.getOption(option, false)}
+                    <li
+                        ref={this.selectedElRef}
+                        className={optionClasses.join(' ')}
+                        key={option.name}>
+                        {this.getOption(option, true)}
                     </li>
                 );
             }
-        );
+
+            return (
+                <li className={optionClasses.join(' ')} key={option.name}>
+                    {this.getOption(option, false)}
+                </li>
+            );
+        });
     }
 
     private getCharCountEle(): JSX.Element {
@@ -621,10 +567,21 @@ export default class TextInputElement extends React.Component<
                         <span className={`${styles.tooltip}`}>
                             <b>&#63;</b>
                             <span className={styles.tooltiptext}>
-                                <div
-                                    className={styles.tooltiprow}
-                                    data-spec="tooltip-content">
-                                    <span>{CHARACTER_COUNTER_HELP}.</span>
+                                <div className={styles.tooltiprow}>
+                                    <b>Encoding</b>
+                                    <span>{`  ${this.state.characterSet}`}</span>
+                                </div>
+                                <div className={styles.tooltiprow}>
+                                    <b>Parts</b>
+                                    <span>{`  ${this.state.parts.length}`}</span>
+                                </div>
+                                <div className={styles.tooltiprow}>
+                                    <b>Characters</b>
+                                    <span>{`  ${this.state.characterCount}`}</span>
+                                </div>
+                                <div className={styles.tooltiprow}>
+                                    <b>Limit Per Part</b>
+                                    <span>{`  ${this.state.maxLength}`}</span>
                                 </div>
                             </span>
                         </span>
@@ -637,45 +594,35 @@ export default class TextInputElement extends React.Component<
     }
 
     public render(): JSX.Element {
-        const textElClasses: string = cx({
-            [styles.textinput]: true,
-            [shared.invalid]:
-                this.state.errors.length > 0 || this.props.showInvalid === true
-        });
+        const classes: string[] = [styles.textinput, this.state.errors.length > 0 && 'invalid'];
 
-        const completionClasses: string = cx({
-            [styles.completion_container]: true,
-            [styles.hidden]:
-                !this.state.completionVisible || this.state.matches.length === 0
-        });
+        const completionClasses: string[] = [
+            styles.completion_container,
+            (!this.state.completionVisible || this.state.matches.length === 0) && styles.hidden
+        ];
 
         const options: JSX.Element[] = this.getOptions();
 
         const charCount: JSX.Element = this.getCharCountEle();
 
-        const replyError =
-            this.state.errors.length &&
-            this.props.name === 'Message' &&
-            this.props.config.type === 'reply';
-
         // Make sure we're rendering the right text element
         const TextElement: string = this.props.textarea ? 'textarea' : 'input';
+
         const inputType: string = this.props.textarea ? undefined : 'text';
 
         return (
             <FormElement
-                __className={this.props.__className}
+                className={this.props.className}
                 name={this.props.name}
                 helpText={this.props.helpText}
                 showLabel={this.props.showLabel}
-                errors={this.state.errors}
-                replyError={replyError}>
+                errors={this.state.errors}>
                 <div className={styles.wrapper}>
                     <TextElement
                         data-spec="input"
                         ref={this.textElRef}
                         type={inputType}
-                        className={textElClasses}
+                        className={classes.join(' ')}
                         value={this.state.value}
                         onChange={this.onChange}
                         onBlur={this.onBlur}
@@ -683,12 +630,10 @@ export default class TextInputElement extends React.Component<
                         placeholder={this.props.placeholder}
                     />
                     <div
-                        className={completionClasses}
-                        style={this.state.caretCoordinates}>
+                        style={this.state.caretCoordinates}
+                        className={completionClasses.join(' ')}>
                         <ul className={styles.option_list}>{options}</ul>
-                        <div className={styles.help}>
-                            Tab to complete, enter to select
-                        </div>
+                        <div className={styles.help}>Tab to complete, enter to select</div>
                     </div>
                 </div>
                 {charCount}

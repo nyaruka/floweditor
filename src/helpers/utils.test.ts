@@ -8,8 +8,7 @@ import {
     titleCase,
     getSelectClass,
     reorderList,
-    jsonEqual,
-    hasErrorType
+    jsonEqual
 } from './utils';
 
 describe('utils >', () => {
@@ -98,8 +97,8 @@ describe('utils >', () => {
 
     describe('titleCase >', () =>
         it('should apply title case to each word in a given string', () =>
-            ['one', 'one two', 'one two three', 'one,two', 'one, two'].forEach(
-                str => expect(titleCase(str)).toMatchSnapshot()
+            ['one', 'one two', 'one two three', 'one,two', 'one, two'].forEach(str =>
+                expect(titleCase(str)).toMatchSnapshot()
             )));
 
     describe('reorderList >', () =>
@@ -114,15 +113,5 @@ describe('utils >', () => {
 
         it('should return false if basic objects are not equal in contents and order', () =>
             expect(jsonEqual(anyWordOperator, allWordsOperator)).toBeFalsy());
-    });
-
-    describe('hasErrorType >', () => {
-        const errors = ['A category name is required.'];
-
-        it('should return false if passed an empty error list', () =>
-            expect(hasErrorType([], ['argument'])).toBeFalsy());
-
-        it('should return true if query exits in a string in the error list', () =>
-            expect(hasErrorType(errors, ['category'])).toBeTruthy());
     });
 });

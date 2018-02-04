@@ -2,11 +2,9 @@ import * as React from 'react';
 import ComponentMap from '../../services/ComponentMap';
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 import FormElement from './FormElement';
-import { Type } from '../../providers/ConfigProvider/typeConfigs';
 
 import * as forms from './FormElement.scss';
 import * as styles from '../routers/Webhook.scss';
-import { hasErrorType } from '../../helpers/utils';
 
 export interface Header {
     uuid: string;
@@ -18,11 +16,9 @@ export interface HeaderElementProps {
     name: string;
     header: Header;
     index: number;
-    config: Type;
+    onRemove(header: HeaderElement): void;
+    onChange(header: HeaderElement): void;
     ComponentMap: ComponentMap;
-    onRemove: (header: HeaderElement) => void;
-    onChange: (header: HeaderElement) => void;
-    empty?: boolean;
 }
 
 interface HeaderElementState {
@@ -31,90 +27,64 @@ interface HeaderElementState {
     errors: string[];
 }
 
-export default class HeaderElement extends React.Component<
-    HeaderElementProps,
-    HeaderElementState
-> {
+export default class HeaderElement extends React.Component<HeaderElementProps, HeaderElementState> {
+    private category: TextInputElement;
+
     constructor(props: HeaderElementProps) {
         super(props);
 
-        const name: string = this.props.header.name || '';
-        const value: string = this.props.header.value || '';
-
         this.state = {
-            name,
-            value,
+            name: this.props.header.name,
+            value: this.props.header.value,
             errors: []
         };
 
         this.onChangeName = this.onChangeName.bind(this);
         this.onChangeValue = this.onChangeValue.bind(this);
-        this.onRemove = this.onRemove.bind(this);
     }
 
-    private onChangeName({
-        currentTarget: { value }
-    }: React.SyntheticEvent<HTMLTextElement>): void {
+    private onChangeName(event: React.SyntheticEvent<HTMLTextElement>) {
         this.setState(
             {
-                name: value
+                name: event.currentTarget.value
             },
             () => this.props.onChange(this)
         );
     }
 
-    private onChangeValue({
-        currentTarget: { value }
-    }: React.SyntheticEvent<HTMLTextElement>): void {
+    private onChangeValue(event: React.SyntheticEvent<HTMLTextElement>) {
         this.setState(
             {
-                value
+                value: event.currentTarget.value
             },
             () => this.props.onChange(this)
         );
     }
 
-    private onRemove(): void {
+    private onRemove(ele: any) {
         this.props.onRemove(this);
     }
 
-    public validate(): boolean {
+    validate(): boolean {
         const errors: string[] = [];
 
-        const needsHeaderName: boolean =
-            this.state.value.trim().length > 0 &&
-            this.state.name.trim().length === 0;
-
-        if (needsHeaderName) {
-            errors.push('HTTP headers must have a name');
+        if (this.state.value.trim().length > 0) {
+            if (this.state.name.trim().length == 0) {
+                errors.push('HTTP headers must have a name');
+            }
         }
 
-        this.setState({ errors });
+        this.setState({ errors: errors });
 
-        const isValid: boolean = errors.length === 0;
-
-        return isValid;
+        return errors.length === 0;
     }
 
-    private getRemoveIco(): JSX.Element {
-        const showRemove: boolean = this.props.index !== 0 && !this.props.empty;
+    render() {
+        const classes = [styles.header];
 
-        if (showRemove) {
-            return (
-                <div className={styles.removeIco} onClick={this.onRemove}>
-                    <span className="icon-remove" />
-                </div>
-            );
+        if (this.state.errors.length > 0) {
+            classes.push(forms.invalid);
         }
-
-        return null;
-    }
-
-    public render(): JSX.Element {
-        const hasHeaderError: boolean = hasErrorType(this.state.errors, [
-            'headers'
-        ]);
-        const removeIco: JSX.Element = this.getRemoveIco();
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
@@ -126,8 +96,6 @@ export default class HeaderElement extends React.Component<
                             onChange={this.onChangeName}
                             value={this.state.name}
                             ComponentMap={this.props.ComponentMap}
-                            config={this.props.config}
-                            showInvalid={hasHeaderError}
                         />
                     </div>
                     <div className={styles.header_value}>
@@ -136,12 +104,13 @@ export default class HeaderElement extends React.Component<
                             name="value"
                             onChange={this.onChangeValue}
                             value={this.state.value}
-                            autocomplete={true}
+                            autocomplete
                             ComponentMap={this.props.ComponentMap}
-                            config={this.props.config}
                         />
                     </div>
-                    {removeIco}
+                    <div className={styles.remove_button} onClick={this.onRemove.bind(this)}>
+                        <span className="icon-remove" />
+                    </div>
                 </div>
             </FormElement>
         );

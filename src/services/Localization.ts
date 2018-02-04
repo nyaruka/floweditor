@@ -10,11 +10,7 @@ export class LocalizedObject {
     private language: Language;
     private languages: Languages;
 
-    constructor(
-        object: Action | Exit | Case,
-        iso: string,
-        languages: Languages
-    ) {
+    constructor(object: Action | Exit | Case, iso: string, languages: Languages) {
         this.localizedObject = object;
         this.iso = iso;
         this.language = { iso, name: languages[iso] };
@@ -24,10 +20,7 @@ export class LocalizedObject {
     public getLanguage(): Language {
         if (!this.language) {
             if (this.iso) {
-                this.language = {
-                    iso: this.iso,
-                    name: this.languages[this.iso]
-                };
+                this.language = { iso: this.iso, name: this.languages[this.iso] };
             }
         }
 
@@ -69,19 +62,13 @@ export default class Localization {
         languages: Languages,
         translations?: { [uuid: string]: any }
     ): LocalizedObject {
-        const localized: LocalizedObject = new LocalizedObject(
-            object,
-            iso,
-            languages
-        );
+        const localized: LocalizedObject = new LocalizedObject(object, iso, languages);
 
         if (translations) {
             if (object.uuid in translations) {
                 const values = translations[object.uuid];
                 // We don't want to side affect our action
-                Object.keys(values).forEach(key =>
-                    localized.addTranslation(key, values[key])
-                );
+                Object.keys(values).forEach(key => localized.addTranslation(key, values[key]));
             }
         }
 

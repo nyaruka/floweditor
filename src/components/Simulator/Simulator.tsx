@@ -6,10 +6,7 @@ import { FlowDetails } from '../../providers/ConfigProvider/external';
 import { FlowDefinition, Group } from '../../flowTypes';
 import ActivityManager, { Activity } from '../../services/ActivityManager';
 import LogEvent, { EventProps } from './LogEvent';
-import {
-    getFlowPT,
-    endpointsPT
-} from '../../providers/ConfigProvider/propTypes';
+import { getFlowPT, endpointsPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
 import * as styles from './Simulator.scss';
@@ -79,10 +76,7 @@ interface Session {
 /**
  * Our dev console for simulating or testing expressions
  */
-export default class Simulator extends React.Component<
-    SimulatorProps,
-    SimulatorState
-> {
+export default class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     private debug: Session[] = [];
     private flows: FlowDefinition[] = [];
     private currentFlow: string;
@@ -223,9 +217,7 @@ export default class Simulator extends React.Component<
                 this.context
                     .getFlow(this.props.definition.uuid, true)
                     .then((details: FlowDetails) => {
-                        this.flows = [this.props.definition].concat(
-                            details.dependencies
-                        );
+                        this.flows = [this.props.definition].concat(details.dependencies);
                         var body: any = {
                             flows: this.flows,
                             contact: this.state.contact
@@ -237,10 +229,7 @@ export default class Simulator extends React.Component<
                                 JSON.stringify(body, null, 2)
                             )
                             .then((response: axios.AxiosResponse) => {
-                                this.updateRunContext(
-                                    body,
-                                    response.data as RunContext
-                                );
+                                this.updateRunContext(body, response.data as RunContext);
                             });
                     });
             }
@@ -259,49 +248,39 @@ export default class Simulator extends React.Component<
             return;
         }
 
-        this.context
-            .getFlow(this.props.definition.uuid, true)
-            .then((details: FlowDetails) => {
-                this.flows = [this.props.definition].concat(
-                    details.dependencies
-                );
-                var body: any = {
-                    flows: this.flows,
-                    session: this.state.session,
-                    contact: this.state.contact,
-                    event: {
-                        type: 'msg_received',
-                        text: text,
-                        urn: this.state.contact.urns[0],
-                        channel_uuid: this.state.channel,
-                        contact_uuid: this.state.contact.uuid,
-                        created_on: new Date()
-                    }
-                };
+        this.context.getFlow(this.props.definition.uuid, true).then((details: FlowDetails) => {
+            this.flows = [this.props.definition].concat(details.dependencies);
+            var body: any = {
+                flows: this.flows,
+                session: this.state.session,
+                contact: this.state.contact,
+                event: {
+                    type: 'msg_received',
+                    text: text,
+                    urn: this.state.contact.urns[0],
+                    channel_uuid: this.state.channel,
+                    contact_uuid: this.state.contact.uuid,
+                    created_on: new Date()
+                }
+            };
 
-                axios.default
-                    .post(
-                        `${this.context.endpoints.engine}/flow/resume`,
-                        JSON.stringify(body, null, 2)
-                    )
-                    .then((response: axios.AxiosResponse) => {
-                        this.updateRunContext(
-                            body,
-                            response.data as RunContext
-                        );
-                    })
-                    .catch(error => {
-                        var events = update(this.state.events, {
-                            $push: [
-                                {
-                                    type: 'error',
-                                    text: error.response.data.error
-                                }
-                            ]
-                        });
-                        this.setState({ events: events });
+            axios.default
+                .post(`${this.context.endpoints.engine}/flow/resume`, JSON.stringify(body, null, 2))
+                .then((response: axios.AxiosResponse) => {
+                    this.updateRunContext(body, response.data as RunContext);
+                })
+                .catch(error => {
+                    var events = update(this.state.events, {
+                        $push: [
+                            {
+                                type: 'error',
+                                text: error.response.data.error
+                            }
+                        ]
                     });
-            });
+                    this.setState({ events: events });
+                });
+        });
     }
 
     private onReset(event: any) {
@@ -348,9 +327,7 @@ export default class Simulator extends React.Component<
     public render() {
         var messages: JSX.Element[] = [];
         for (let event of this.state.events) {
-            messages.push(
-                <LogEvent {...event} key={String(event.created_on)} />
-            );
+            messages.push(<LogEvent {...event} key={String(event.created_on)} />);
         }
 
         var simHidden = !this.state.visible ? styles.sim_hidden : '';
@@ -359,24 +336,16 @@ export default class Simulator extends React.Component<
         return (
             <div>
                 <div>
-                    <div
-                        className={styles.simulator + ' ' + simHidden}
-                        key={'sim'}>
+                    <div className={styles.simulator + ' ' + simHidden} key={'sim'}>
                         <a
                             className={
                                 styles.reset +
                                 ' ' +
-                                (this.state.active
-                                    ? styles.active
-                                    : styles.inactive)
+                                (this.state.active ? styles.active : styles.inactive)
                             }
                             onClick={this.onReset.bind(this)}
                         />
-                        <div
-                            className={
-                                styles.icon_simulator + ' icon-simulator'
-                            }
-                        />
+                        <div className={styles.icon_simulator + ' icon-simulator'} />
                         <div
                             className={styles.icon_close + ' icon-remove'}
                             onClick={this.toggle.bind(this)}
@@ -409,11 +378,7 @@ export default class Simulator extends React.Component<
                 <div
                     className={styles.simulator_tab + ' ' + tabHidden}
                     onClick={this.toggle.bind(this)}>
-                    <div
-                        className={
-                            styles.simulator_tab_icon + ' icon-simulator'
-                        }
-                    />
+                    <div className={styles.simulator_tab_icon + ' icon-simulator'} />
                     <div className={styles.simulator_tab_text}>
                         Run in<br />Simulator
                     </div>

@@ -168,12 +168,7 @@ export default class FlowMutator {
     }
 
     private collides(a: Bounds, b: Bounds) {
-        if (
-            a.bottom < b.top ||
-            a.top > b.bottom ||
-            a.left > b.right ||
-            a.right < b.left
-        ) {
+        if (a.bottom < b.top || a.top > b.bottom || a.left > b.right || a.right < b.left) {
             return false;
         }
         // console.log("COLLISION!");
@@ -228,10 +223,7 @@ export default class FlowMutator {
                 if (this.collides(current.bounds, other.bounds)) {
                     // console.log("COLLISON:", current, other);
 
-                    var diff =
-                        current.bounds.bottom -
-                        other.bounds.top +
-                        this.nodeSpacing;
+                    var diff = current.bounds.bottom - other.bounds.top + this.nodeSpacing;
                     other.bounds.top += diff;
                     other.bounds.bottom += diff;
 
@@ -267,11 +259,7 @@ export default class FlowMutator {
                 for (let node of updatedNodes) {
                     updated = update(updated, {
                         _ui: {
-                            nodes: {
-                                [node.uuid]: {
-                                    position: { $merge: { y: node.bounds.top } }
-                                }
-                            }
+                            nodes: { [node.uuid]: { position: { $merge: { y: node.bounds.top } } } }
                         }
                     });
                 }
@@ -283,10 +271,7 @@ export default class FlowMutator {
         console.timeEnd('reflow');
     }
 
-    public updateLocalizations(
-        language: string,
-        changes: { uuid: string; translations?: any }[]
-    ) {
+    public updateLocalizations(language: string, changes: { uuid: string; translations?: any }[]) {
         if (!this.definition.localization) {
             this.definition = update(this.definition, {
                 localization: {
@@ -308,9 +293,7 @@ export default class FlowMutator {
         changes.forEach(({ translations, uuid }) => {
             if (translations) {
                 this.definition = update(this.definition, {
-                    localization: {
-                        [language]: { [uuid]: { $set: translations } }
-                    }
+                    localization: { [language]: { [uuid]: { $set: translations } } }
                 });
             } else {
                 this.definition = update(this.definition, {
@@ -329,17 +312,11 @@ export default class FlowMutator {
             ui.dimensions.height != dimensions.height ||
             ui.dimensions.width != dimensions.width
         ) {
-            this.updateNodeUI(node.uuid, {
-                $merge: { dimensions: dimensions }
-            });
+            this.updateNodeUI(node.uuid, { $merge: { dimensions: dimensions } });
         }
     }
 
-    public addNode(
-        node: Node,
-        ui: UINode,
-        pendingConnection?: DragPoint
-    ): Node {
+    public addNode(node: Node, ui: UINode, pendingConnection?: DragPoint): Node {
         console.time('addNode');
 
         // give our node a unique uuid
@@ -373,11 +350,7 @@ export default class FlowMutator {
      * @param type the type of the new router
      * @param previousAction the previous action that is being replaced with our router
      */
-    private spliceInRouter(
-        node: Node,
-        type: string,
-        previousAction: Action
-    ): Node {
+    private spliceInRouter(node: Node, type: string, previousAction: Action): Node {
         var previousNode = this.getNode(node.uuid);
         var details = this.components.getDetails(previousAction.uuid);
 
@@ -398,10 +371,7 @@ export default class FlowMutator {
 
         // add our new router node, do this fist so our top can point to it
         var routerY = topActions.length ? y + this.nodeSpacing : y;
-        var newRouterNode = this.addNode(node, {
-            position: { x: x, y: routerY },
-            type: type
-        });
+        var newRouterNode = this.addNode(node, { position: { x: x, y: routerY }, type: type });
 
         // add our top node if we have one
         if (topActions.length > 0) {
@@ -416,9 +386,7 @@ export default class FlowMutator {
                 ]
             };
 
-            lastNode = this.addNode(topActionNode, {
-                position: { x: x, y: y }
-            });
+            lastNode = this.addNode(topActionNode, { position: { x: x, y: y } });
             y += this.nodeSpacing;
         }
 
@@ -430,19 +398,13 @@ export default class FlowMutator {
                 exits: [
                     {
                         uuid: generateUUID(),
-                        destination_node_uuid:
-                            previousNode.exits[0].destination_node_uuid
+                        destination_node_uuid: previousNode.exits[0].destination_node_uuid
                     }
                 ]
             };
 
-            lastNode = this.addNode(bottomActionNode, {
-                position: { x: x, y: y }
-            });
-            this.updateExitDestination(
-                newRouterNode.exits[0].uuid,
-                lastNode.uuid
-            );
+            lastNode = this.addNode(bottomActionNode, { position: { x: x, y: y } });
+            this.updateExitDestination(newRouterNode.exits[0].uuid, lastNode.uuid);
             y += this.nodeSpacing;
         } else {
             this.updateExitDestination(
@@ -470,16 +432,10 @@ export default class FlowMutator {
 
         // rewire our old connections
         var previousDestination = previousNode.exits[0].destination_node_uuid;
-        this.updateExitDestination(
-            previousNode.exits[0].uuid,
-            newRouterNode.uuid
-        );
+        this.updateExitDestination(previousNode.exits[0].uuid, newRouterNode.uuid);
 
         // and our new node should point where the old one did
-        this.updateExitDestination(
-            newRouterNode.exits[0].uuid,
-            previousDestination
-        );
+        this.updateExitDestination(newRouterNode.exits[0].uuid, previousDestination);
 
         return newRouterNode;
     }
@@ -504,10 +460,7 @@ export default class FlowMutator {
             previousNode.actions.length > 0
         ) {
             // make sure our previous action exists in our map
-            if (
-                previousAction &&
-                this.components.getDetails(previousAction.uuid)
-            ) {
+            if (previousAction && this.components.getDetails(previousAction.uuid)) {
                 return this.spliceInRouter(node, type, previousAction);
             } else {
                 return this.appendNewRouter(node, type);
@@ -565,13 +518,7 @@ export default class FlowMutator {
                 {
                     uuid: newNodeUUID,
                     actions: [action],
-                    exits: [
-                        {
-                            uuid: generateUUID(),
-                            destination_node_uuid: null,
-                            name: null
-                        }
-                    ]
+                    exits: [{ uuid: generateUUID(), destination_node_uuid: null, name: null }]
                 },
                 { position: newPosition },
                 {
@@ -708,9 +655,7 @@ export default class FlowMutator {
      */
     updateNode(uuid: string, changes: any) {
         var index = this.components.getDetails(uuid).nodeIdx;
-        this.definition = update(this.definition, {
-            nodes: { [index]: changes }
-        });
+        this.definition = update(this.definition, { nodes: { [index]: changes } });
         this.components.refresh(this.definition);
         this.markReflow();
         this.markDirty();
@@ -747,9 +692,7 @@ export default class FlowMutator {
     }
 
     updateNodeUI(uuid: string, changes: any) {
-        this.definition = update(this.definition, {
-            _ui: { nodes: { [uuid]: changes } }
-        });
+        this.definition = update(this.definition, { _ui: { nodes: { [uuid]: changes } } });
         this.markReflow();
         this.markDirty();
     }
@@ -775,14 +718,10 @@ export default class FlowMutator {
         }
 
         // now remove ourselves
-        this.definition = update(this.definition, {
-            nodes: { $splice: [[details.nodeIdx, 1]] }
-        });
+        this.definition = update(this.definition, { nodes: { $splice: [[details.nodeIdx, 1]] } });
 
         // remove us from the ui map as well
-        this.definition = update(this.definition, {
-            _ui: { nodes: { $unset: [props.uuid] } }
-        });
+        this.definition = update(this.definition, { _ui: { nodes: { $unset: [props.uuid] } } });
 
         this.ensureStartNode();
 
@@ -797,9 +736,7 @@ export default class FlowMutator {
         if (details.actionIdx > 0) {
             var actionAbove = node.actions[details.actionIdx - 1];
             this.updateNode(node.uuid, {
-                actions: {
-                    $splice: [[details.actionIdx - 1, 2, action, actionAbove]]
-                }
+                actions: { $splice: [[details.actionIdx - 1, 2, action, actionAbove]] }
             });
         }
 
@@ -816,9 +753,7 @@ export default class FlowMutator {
         } else {
             // otherwise, just splice out that action
             let details = this.components.getDetails(action.uuid);
-            this.updateNode(node.uuid, {
-                actions: { $splice: [[details.actionIdx, 1]] }
-            });
+            this.updateNode(node.uuid, { actions: { $splice: [[details.actionIdx, 1]] } });
         }
 
         this.markDirty();
@@ -831,9 +766,7 @@ export default class FlowMutator {
      */
     public resolvePendingConnection(props: Node) {
         // only resolve connection if we have one
-        var pendingConnection = this.components.getPendingConnection(
-            props.uuid
-        );
+        var pendingConnection = this.components.getPendingConnection(props.uuid);
         if (pendingConnection != null) {
             this.updateExitDestination(pendingConnection.exitUUID, props.uuid);
             this.components.refresh(this.definition);
@@ -856,9 +789,7 @@ export default class FlowMutator {
     }
 
     private updateExitDestination(exitUUID: string, destination: string) {
-        this.updateExit(exitUUID, {
-            $merge: { destination_node_uuid: destination }
-        });
+        this.updateExit(exitUUID, { $merge: { destination_node_uuid: destination } });
     }
 
     /**
@@ -870,9 +801,7 @@ export default class FlowMutator {
         var details = this.components.getDetails(exitUUID);
 
         this.definition = update(this.definition, {
-            nodes: {
-                [details.nodeIdx]: { exits: { [details.exitIdx]: changes } }
-            }
+            nodes: { [details.nodeIdx]: { exits: { [details.exitIdx]: changes } } }
         });
 
         // our pointers need to be reevaluated

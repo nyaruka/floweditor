@@ -26,6 +26,7 @@ export interface ReplyFormProps {
         changes: Array<{ uuid: string; translations: any }>
     ): void;
     getLocalizedObject(): LocalizedObject;
+    getActionUUID(): string;
 }
 
 export default class ReplyForm extends React.Component<ReplyFormProps> {
@@ -36,18 +37,16 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
     }
 
     public onValid(widgets: { [name: string]: any }): void {
+        const localizedObject = this.props.getLocalizedObject();
         const textarea = widgets.Message as TextInputElement;
         const sendAll = widgets['All Destinations'] as CheckboxElement;
 
-        if (this.props.translating) {
+        if (localizedObject) {
             const translation = textarea.state.value.trim();
 
             if (translation) {
                 this.props.updateLocalizations(this.props.language.iso, [
-                    {
-                        uuid: this.props.action.uuid,
-                        translations: { text: [textarea.state.value] }
-                    }
+                    { uuid: this.props.action.uuid, translations: { text: [textarea.state.value] } }
                 ]);
             } else {
                 this.props.updateLocalizations(this.props.language.iso, [
@@ -56,7 +55,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
             }
         } else {
             const newAction: Reply = {
-                uuid: this.props.action.uuid,
+                uuid: this.props.getActionUUID(),
                 type: this.props.config.type,
                 text: textarea.state.value
             };
@@ -80,9 +79,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
 
             translation = (
                 <div data-spec="translation-container">
-                    <div
-                        data-spec="text-to-translate"
-                        className={styles.translate_from}>
+                    <div data-spec="text-to-translate" className={styles.translate_from}>
                         {textToTrans}
                     </div>
                 </div>
@@ -94,7 +91,9 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                 ({ text } = localizedObject.getObject() as Reply);
             }
         } else {
-            ({ text } = this.props.action);
+            if (this.props.action) {
+                ({ text } = this.props.action);
+            }
         }
 
         const required: boolean = !this.props.translating;
@@ -114,26 +113,31 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                     required={required}
                     textarea={true}
                     ComponentMap={this.props.ComponentMap}
-                    config={this.props.config}
                 />
             </div>
         );
     }
 
     private renderAdvanced(): JSX.Element {
+        let sendAll: boolean;
+
+        if (this.props.action) {
+            sendAll = this.props.action.all_urns;
+        } else {
+            sendAll = false;
+        }
+
         return (
             <CheckboxElement
                 ref={this.props.onBindAdvancedWidget}
                 name="All Destinations"
-                defaultValue={this.props.action.all_urns}
+                defaultValue={sendAll}
                 description="Send a message to all destinations known for this contact."
             />
         );
     }
 
     public render(): JSX.Element {
-        return this.props.showAdvanced
-            ? this.renderAdvanced()
-            : this.renderForm();
+        return this.props.showAdvanced ? this.renderAdvanced() : this.renderForm();
     }
 }

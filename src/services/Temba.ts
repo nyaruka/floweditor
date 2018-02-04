@@ -32,9 +32,7 @@ export default class Temba {
         return new Promise<FlowDetails[]>((resolve, reject) =>
             axios
                 .get(url, { headers })
-                .then((response: AxiosResponse) =>
-                    resolve(response.data.results as FlowDetails[])
-                )
+                .then((response: AxiosResponse) => resolve(response.data.results as FlowDetails[]))
         );
     }
 

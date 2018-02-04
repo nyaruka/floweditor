@@ -4,9 +4,7 @@ import { Reply } from '../../flowTypes';
 import ActionComp, { ActionProps } from './Action';
 import { getSpecWrapper } from '../../helpers/utils';
 import CompMap from '../../services/ComponentMap';
-import LocalizationService, {
-    LocalizedObject
-} from '../../services/Localization';
+import LocalizationService, { LocalizedObject } from '../../services/Localization';
 import ReplyComp from '../actions/Reply/Reply';
 import context from '../../providers/ConfigProvider/configContext';
 
@@ -95,14 +93,9 @@ const ReplyActionShallow = shallow(
 
 describe('Component: Reply', () => {
     it('should render action div', () => {
-        const ActionContainerShallow = ReplyActionShallow.find(
-            `#action-${replyAction.uuid}`
-        );
+        const ActionContainerShallow = ReplyActionShallow.find(`#action-${replyAction.uuid}`);
         const OverLayContainerShallow = ReplyActionShallow.find('.overlay');
-        const InteractiveContainerShallow = getSpecWrapper(
-            ReplyActionShallow,
-            'interactive-div'
-        );
+        const InteractiveContainerShallow = getSpecWrapper(ReplyActionShallow, 'interactive-div');
 
         expect(ActionContainerShallow.exists()).toBeTruthy();
 

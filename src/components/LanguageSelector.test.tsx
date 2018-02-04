@@ -2,10 +2,7 @@ import * as React from 'react';
 import { shallow } from 'enzyme';
 import { getSpecWrapper } from '../helpers/utils';
 import { Languages } from '../flowTypes';
-import LanguageSelector, {
-    LanguageSelectorProps,
-    composeLanguageMap
-} from './LanguageSelector';
+import LanguageSelector, { LanguageSelectorProps, composeLanguageMap } from './LanguageSelector';
 
 const iso: string = 'spa';
 
@@ -36,12 +33,7 @@ describe('LanguageSelector >', () => {
 
     describe('render >', () =>
         it('should render Select component with expected props', () =>
-            expect(
-                getSpecWrapper(
-                    LanguageSelectorShallow,
-                    'language-selector'
-                ).props()
-            ).toEqual(
+            expect(getSpecWrapper(LanguageSelectorShallow, 'language-selector').props()).toEqual(
                 expect.objectContaining({
                     value: iso,
                     onChange,

@@ -2,8 +2,6 @@ import * as React from 'react';
 import { Async, AsyncCreatable } from 'react-select';
 import axios, { AxiosResponse } from 'axios';
 import { SearchResult } from '../services/ComponentMap';
-import { jsonEqual } from '../helpers/utils';
-import { RESULT_TYPE_FIELD } from './form/FieldElement';
 
 export interface SelectSearchProps {
     url: string;
@@ -19,9 +17,7 @@ export interface SelectSearchProps {
     createPrompt?: string;
     onChange?: (selections: SearchResult[]) => void;
     isValidNewOption?: (option: { label: string }) => boolean;
-    createNewOption?: (
-        option: { label: string; labelKey: string; valueKey: string }
-    ) => any;
+    createNewOption?: (option: { label: string; labelKey: string; valueKey: string }) => any;
 }
 
 interface SelectSearchState {
@@ -55,12 +51,6 @@ export default class SelectSearch extends React.PureComponent<
         return (this.select = ref);
     }
 
-    public componentWillReceiveProps(nextProps: SelectSearchProps): void {
-        if (!jsonEqual(this.props.initial, nextProps.initial)) {
-            this.setState({ selections: nextProps.initial });
-        }
-    }
-
     /**
      * Sorts all search results by name
      */
@@ -68,10 +58,7 @@ export default class SelectSearch extends React.PureComponent<
         return a.name.localeCompare(b.name);
     }
 
-    private addSearchResult(
-        results: SearchResult[],
-        result: SearchResult
-    ): SearchResult[] {
+    private addSearchResult(results: SearchResult[], result: SearchResult): SearchResult[] {
         const newResults: SearchResult[] = [...results];
 
         let found = false;
@@ -89,22 +76,17 @@ export default class SelectSearch extends React.PureComponent<
         return newResults;
     }
 
-    private search(
-        term: string,
-        remoteResults: SearchResult[] = []
-    ): SelectSearchResult {
+    private search(term: string, remoteResults: SearchResult[] = []): SelectSearchResult {
         let combined: SearchResult[] = [...remoteResults];
 
         if (this.props.localSearchOptions) {
             for (const local of this.props.localSearchOptions) {
-                if (
-                    !term ||
-                    local.name.toLowerCase().indexOf(term.toLowerCase()) > -1
-                ) {
+                if (!term || local.name.toLowerCase().indexOf(term.toLowerCase()) > -1) {
                     combined = this.addSearchResult(combined, local);
                 }
             }
         }
+
         const options: SearchResult[] = combined.sort(this.sortResults);
 
         const results: SelectSearchResult = {
@@ -119,16 +101,14 @@ export default class SelectSearch extends React.PureComponent<
         if (!this.props.url) {
             const options: SelectSearchResult = this.search(input);
 
-            callback(options);
+            callback(null, options);
         } else {
             axios.get(this.props.url).then((response: AxiosResponse) => {
-                const results: SearchResult[] = response.data.results.map(
-                    ({ name, uuid, type }: any) => ({
-                        name,
-                        id: uuid,
-                        type
-                    })
-                );
+                const results: SearchResult[] = response.data.results.map((result: any) => ({
+                    name: result.name,
+                    id: result.uuid,
+                    type: this.props.resultType
+                }));
 
                 const options: SelectSearchResult = this.search(input, results);
 
@@ -137,35 +117,12 @@ export default class SelectSearch extends React.PureComponent<
         }
     }
 
-    // If 'multi' prop is truthy, we get an array. If not, we get a single object.
-    private onChange(selections: SearchResult | SearchResult[]): void {
-        // Account for null selections
-        if (!selections) {
-            return;
+    private onChange(selections: SearchResult[]): void {
+        if (this.props.onChange) {
+            this.props.onChange(selections);
         }
 
-        const isArray: boolean = selections.constructor === Array;
-
-        let newSelections: SearchResult[];
-
-        if (isArray) {
-            newSelections = selections as SearchResult[];
-        } else {
-            newSelections = [selections] as SearchResult[];
-        }
-
-        if (!jsonEqual(this.state.selections, newSelections)) {
-            if (this.props.onChange) {
-                this.props.onChange(newSelections);
-            }
-
-            this.setState(
-                {
-                    selections: newSelections
-                },
-                () => this.select.focus()
-            );
-        }
+        this.setState({ selections }, () => this.select.focus());
     }
 
     private filterOption(option: SearchResult, term: string): boolean {
@@ -179,13 +136,11 @@ export default class SelectSearch extends React.PureComponent<
             value = [];
         }
 
-        if (this.state.selections.length) {
-            for (const selections of this.state.selections) {
-                if (selections) {
+        if (this.state.selections) {
+            for (const selection of this.state.selections) {
+                if (selection) {
                     const selectionValue: string | SearchResult =
-                        selections.extraResult || this.props.multi
-                            ? selections
-                            : selections.id;
+                        selection.extraResult || this.props.multi ? selection : selection.id;
 
                     if (this.props.multi) {
                         value.push(selectionValue);
@@ -199,8 +154,7 @@ export default class SelectSearch extends React.PureComponent<
         const options: any = {};
 
         if (this.props.createPrompt) {
-            options.promptTextCreator = (label: string) =>
-                this.props.createPrompt + label;
+            options.promptTextCreator = (label: string) => this.props.createPrompt + label;
         }
 
         if (this.props.createNewOption) {

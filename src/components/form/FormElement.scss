@@ -1,5 +1,4 @@
 @import "../../variables.scss";
-
 .ele {
     position: relative;
     &.border {
@@ -8,9 +7,6 @@
         -moz-border-radius: 5px;
         border-radius: 5px;
         padding: 10px;
-    }
-    &:focus {
-        outline: none;
     }
 }
 
@@ -25,31 +21,17 @@
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    box-shadow: 0 0 0 3px rgba(255, 196, 186, 0.5) !important;
-
-    -webkit-transition: all 0.30s ease-in-out;
-    -moz-transition: all 0.30s ease-in-out;
-    -ms-transition: all 0.30s ease-in-out;
-    -o-transition: all 0.30s ease-in-out;
-    transition: all 0.30s ease-in-out;
-    outline: none;
+    border-color: #e6e6e6;
+    border-style: solid;
+    box-shadow: none;
 }
 
 .error {
     color: $error_color;
     font-size: 11px;
+    padding-bottom: 5px;
     padding-top: 5px;
-    padding-left: 2px;
-    .reply-error {
-        padding-top: 0px;
-        margin-top: -25px;
-    }
-    .kase-error {
-        padding-left: 15px;
-    }
-    .field-error {
-        padding-bottom: 10px;
-    }
+    padding-left: 8px;
 }
 
 .help_text {

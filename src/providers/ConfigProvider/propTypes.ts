@@ -1,14 +1,4 @@
-import {
-    object,
-    arrayOf,
-    shape,
-    string,
-    element,
-    func,
-    oneOf,
-    number,
-    objectOf
-} from 'prop-types';
+import { object, arrayOf, shape, string, element, func, oneOf, number, objectOf } from 'prop-types';
 
 export const typeConfigListPT = arrayOf(
     shape({

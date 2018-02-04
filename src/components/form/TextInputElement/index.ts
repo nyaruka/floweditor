@@ -1,8 +1,4 @@
-import TextInputElement, {
-    Count,
-    CharacterSet,
-    HTMLTextElement
-} from './TextInputElement';
+import TextInputElement, { Count, CharacterSet, HTMLTextElement } from './TextInputElement';
 
 export { Count, CharacterSet, HTMLTextElement };
 

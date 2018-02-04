@@ -1,8 +1,4 @@
-import {
-    operatorConfigList,
-    operatorConfigMap,
-    getOperatorConfig
-} from './operatorConfigs';
+import { operatorConfigList, operatorConfigMap, getOperatorConfig } from './operatorConfigs';
 
 describe('Providers: ConfigProvider: operatorConfigs', () => {
     it('should provide operator config', () => {

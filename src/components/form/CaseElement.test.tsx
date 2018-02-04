@@ -1,15 +1,9 @@
 import * as React from 'react';
 import { shallow, mount } from 'enzyme';
 import CompMap from '../../services/ComponentMap';
-import CaseElement, {
-    prefix,
-    composeExitName,
-    getExitName,
-    hasArgs
-} from './CaseElement';
+import CaseElement, { prefix, composeExitName, getExitName, hasArgs } from './CaseElement';
 import { getSpecWrapper, titleCase } from '../../helpers/utils';
 import { object } from 'prop-types';
-import { getTypeConfig } from '../../providers/ConfigProvider/typeConfigs';
 import {
     operatorConfigList,
     getOperatorConfig
@@ -29,15 +23,11 @@ const context = {
 
 const ComponentMap = new CompMap(definition);
 
-const config = getTypeConfig('wait_for_response');
-
 describe('CaseElement >', () => {
     describe('helpers >', () => {
         describe('prefix >', () =>
             operatorConfigList.forEach(({ verboseName, type }) =>
-                it(`should prefix "${
-                    verboseName
-                }" operator appropriately`, () =>
+                it(`should prefix "${verboseName}" operator appropriately`, () =>
                     expect(prefix(type)).toMatchSnapshot())
             ));
 
@@ -54,9 +44,7 @@ describe('CaseElement >', () => {
                 strArgOperators.forEach(({ type }) =>
                     args.slice(0, 2).forEach(argList => {
                         const [firstArg] = argList[0].split(',');
-                        expect(composeExitName(type, argList)).toBe(
-                            titleCase(firstArg)
-                        );
+                        expect(composeExitName(type, argList)).toBe(titleCase(firstArg));
                     })
                 );
             });
@@ -108,18 +96,14 @@ describe('CaseElement >', () => {
             onChange,
             focusArgsInput: false,
             focusExitInput: false,
-            ComponentMap,
-            config
+            ComponentMap
         };
 
         describe('render >', () => {
             it('should render empty case', () => {
-                const EmptyCase = shallow(
-                    <CaseElement {...{ ...props, exitName: '' }} />,
-                    {
-                        context
-                    }
-                );
+                const EmptyCase = shallow(<CaseElement {...{ ...props, exitName: null }} />, {
+                    context
+                });
 
                 const {
                     onChangeOperator,
@@ -131,14 +115,11 @@ describe('CaseElement >', () => {
                     expect.objectContaining({
                         name: props.name,
                         errors: [],
-                        kaseError: false,
-                        __className: 'group'
+                        case: true
                     })
                 );
 
-                expect(
-                    getSpecWrapper(EmptyCase, 'operator-list').props()
-                ).toEqual(
+                expect(getSpecWrapper(EmptyCase, 'operator-list').props()).toEqual(
                     expect.objectContaining({
                         options: operatorConfigList,
                         clearable: false,
@@ -153,48 +134,44 @@ describe('CaseElement >', () => {
                 );
 
                 expect(getSpecWrapper(EmptyCase, 'args-input').props()).toEqual(
-                    {
+                    expect.objectContaining({
                         'data-spec': 'args-input',
                         name: 'arguments',
                         onChange: onChangeArguments,
                         value: '',
                         focus: props.focusArgsInput,
                         autocomplete: true,
-                        ComponentMap,
-                        showInvalid: false,
-                        config
-                    }
+                        ComponentMap
+                    })
                 );
 
-                expect(getSpecWrapper(EmptyCase, 'exit-input').props()).toEqual(
-                    {
-                        'data-spec': 'exit-input',
-                        name: 'exitName',
-                        onChange: onChangeExitName,
-                        value: '',
-                        focus: props.focusExitInput,
-                        ComponentMap,
-                        showInvalid: false,
-                        config
-                    }
-                );
+                expect(getSpecWrapper(EmptyCase, 'exit-input').props()).toEqual({
+                    'data-spec': 'exit-input',
+                    name: 'exitName',
+                    onChange: onChangeExitName,
+                    value: '',
+                    focus: props.focusExitInput,
+                    ComponentMap
+                });
             });
 
             cases.forEach((kase, idx) => {
                 const caseProps = {
-                    ...props,
                     name: `case_${kase.uuid}`,
                     kase,
-                    exitName: exits[idx].name
+                    exitName: exits[idx].name,
+                    onRemove: jest.fn(),
+                    onChange: jest.fn(),
+                    focusArgsInput: false,
+                    focusExitInput: false,
+                    ComponentMap
                 };
                 const CaseWrapper = shallow(<CaseElement {...caseProps} />, {
                     context
                 });
 
                 it('should render FormElements with expected props', () =>
-                    expect(
-                        getSpecWrapper(CaseWrapper, 'case-form').props()
-                    ).toEqual(
+                    expect(getSpecWrapper(CaseWrapper, 'case-form').props()).toEqual(
                         expect.objectContaining({
                             name: caseProps.name,
                             errors: []
@@ -202,18 +179,14 @@ describe('CaseElement >', () => {
                     ));
 
                 it('should render operator lists w/ expected props', () =>
-                    expect(
-                        getSpecWrapper(CaseWrapper, 'operator-list').props()
-                    ).toEqual(
+                    expect(getSpecWrapper(CaseWrapper, 'operator-list').props()).toEqual(
                         expect.objectContaining({
                             value: kase.type
                         })
                     ));
 
                 it('should render arguments inputs w/ expected props', () =>
-                    expect(
-                        getSpecWrapper(CaseWrapper, 'args-input').props()
-                    ).toEqual(
+                    expect(getSpecWrapper(CaseWrapper, 'args-input').props()).toEqual(
                         expect.objectContaining({
                             value:
                                 kase.arguments.constructor === Array
@@ -223,9 +196,7 @@ describe('CaseElement >', () => {
                     ));
 
                 it('should render exit inputs w/ expected props', () =>
-                    expect(
-                        getSpecWrapper(CaseWrapper, 'exit-input').props()
-                    ).toEqual(
+                    expect(getSpecWrapper(CaseWrapper, 'exit-input').props()).toEqual(
                         expect.objectContaining({
                             value: caseProps.exitName || '',
                             focus: caseProps.focusExitInput
@@ -242,9 +213,7 @@ describe('CaseElement >', () => {
 
                 it("should update state operator config to the value it's passed if value is different than operatorConfig in state", () => {
                     onChangeOperator(allWordsOperator);
-                    expect(Case.state('operatorConfig')).toEqual(
-                        allWordsOperator
-                    );
+                    expect(Case.state('operatorConfig')).toEqual(allWordsOperator);
                 });
 
                 it("should update exitName if value it's passed is different than operatorConfig in state", () => {

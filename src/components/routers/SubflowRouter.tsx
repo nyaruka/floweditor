@@ -1,13 +1,6 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
-import {
-    Endpoints,
-    Exit,
-    StartFlow,
-    Case,
-    SwitchRouter,
-    WaitType
-} from '../../flowTypes';
+import { Endpoints, Exit, StartFlow, Case, SwitchRouter, WaitType } from '../../flowTypes';
 import { Type } from '../../providers/ConfigProvider/typeConfigs';
 import { FormProps } from '../NodeEditor';
 import { Node, AnyAction } from '../../flowTypes';
@@ -17,7 +10,7 @@ import { endpointsPT } from '../../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
 export interface SubflowRouterFormProps extends FormProps {
-    action: StartFlow;
+    action: AnyAction;
     node: Node;
     config: Type;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
@@ -25,12 +18,11 @@ export interface SubflowRouterFormProps extends FormProps {
     translating: boolean;
     getExitTranslations(): JSX.Element;
     saveLocalizedExits(widgets: { [name: string]: any }): void;
+    getActionUUID(): string;
     ComponentMap: ComponentMap;
 }
 
-export default class SubflowRouter extends React.PureComponent<
-    SubflowRouterFormProps
-> {
+export default class SubflowRouter extends React.PureComponent<SubflowRouterFormProps> {
     public static contextTypes = {
         endpoints: endpointsPT
     };
@@ -50,7 +42,7 @@ export default class SubflowRouter extends React.PureComponent<
         const { name: flowName, id: flowUUID } = select.state.flow;
 
         const newAction: StartFlow = {
-            uuid: this.props.action.uuid,
+            uuid: this.props.getActionUUID(),
             type: this.props.config.type,
             flow_name: flowName,
             flow_uuid: flowUUID
@@ -60,9 +52,7 @@ export default class SubflowRouter extends React.PureComponent<
         let exits: Exit[];
         let cases: Case[];
 
-        const details = this.props.ComponentMap.getDetails(
-            this.props.node.uuid
-        );
+        const details = this.props.ComponentMap.getDetails(this.props.node.uuid);
 
         if (details && details.type === 'subflow') {
             ({ exits } = this.props.node);
@@ -97,7 +87,7 @@ export default class SubflowRouter extends React.PureComponent<
         // HACK: this should go away with modal refactor
         let { uuid: nodeUUID } = this.props.node;
 
-        if (this.props.action.uuid === nodeUUID) {
+        if (this.props.action && this.props.action.uuid === nodeUUID) {
             nodeUUID = generateUUID();
         }
 
@@ -119,6 +109,15 @@ export default class SubflowRouter extends React.PureComponent<
             return this.props.getExitTranslations();
         }
 
+        let flowName: string = '';
+        let flowUUID: string = '';
+
+        if (this.props.action) {
+            if (this.props.action.type === 'start_flow') {
+                ({ flow_name: flowName, flow_uuid: flowUUID } = this.props.action as StartFlow);
+            }
+        }
+
         return (
             <div>
                 <p>Select a flow to run</p>
@@ -126,8 +125,8 @@ export default class SubflowRouter extends React.PureComponent<
                     ref={this.props.onBindWidget}
                     name="Flow"
                     endpoint={this.context.endpoints.flows}
-                    flow_name={this.props.action.flow_name}
-                    flow_uuid={this.props.action.flow_uuid}
+                    flow_name={flowName}
+                    flow_uuid={flowUUID}
                     required={true}
                 />
             </div>

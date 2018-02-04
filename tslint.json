@@ -16,7 +16,6 @@
     "ordered-imports": false,
     "object-literal-sort-keys": false,
     "no-var-requires": false,
-    "quotemark": [true, "single", "jsx-double", "avoid-template", "avoid-escape"],
-    "no-bitwise": false
+    "quotemark": [true, "single", "jsx-double", "avoid-template", "avoid-escape"]
   }
 }

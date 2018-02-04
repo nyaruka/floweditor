@@ -1,8 +1,7 @@
 import { AnyAction } from '../../flowTypes';
 import { Language } from '../../components/LanguageSelector';
 import ChangeGroupComp from '../../components/actions/ChangeGroup/ChangeGroup';
-import AddGroupForm from '../../components/actions/ChangeGroup/AddGroupForm';
-import RemoveGroupForm from '../../components/actions/ChangeGroup/RemoveGroupForm';
+import ChangeGroupForm from '../../components/actions/ChangeGroup/ChangeGroupForm';
 import SaveFlowResultComp from '../../components/actions/SaveFlowResult/SaveFlowResult';
 import SaveFlowResultForm from '../../components/actions/SaveFlowResult/SaveFlowResultForm';
 import SaveToContactComp from '../../components/actions/SaveToContact/SaveToContact';
@@ -34,12 +33,6 @@ export interface Type {
     aliases?: string[];
 }
 
-export interface TypeMap {
-    [propName: string]: Type;
-}
-
-export type GetTypeConfig = (type: string) => Type;
-
 export const typeConfigList: Type[] = [
     /** Actions */
     {
@@ -58,7 +51,7 @@ export const typeConfigList: Type[] = [
         type: 'add_to_group',
         name: 'Add to Group',
         description: 'Add them to a group',
-        form: AddGroupForm,
+        form: ChangeGroupForm,
         component: ChangeGroupComp,
         allows(mode: Mode): boolean {
             return (this.advanced & mode) === mode;
@@ -68,7 +61,7 @@ export const typeConfigList: Type[] = [
         type: 'remove_from_group',
         name: 'Remove from Group',
         description: 'Remove them from a group',
-        form: RemoveGroupForm,
+        form: ChangeGroupForm,
         component: ChangeGroupComp,
         allows(mode: Mode): boolean {
             return (this.advanced & mode) === mode;
@@ -174,18 +167,22 @@ export const actionConfigList: Type[] = typeConfigList.filter(
         name !== 'Call Webhook'
 );
 
+export interface TypeMap {
+    [propName: string]: Type;
+}
+
 export const typeConfigMap: TypeMap = typeConfigList.reduce(
     (map: TypeMap, typeConfig: Type) => {
         map[typeConfig.type] = typeConfig;
         if (typeConfig.aliases) {
-            typeConfig.aliases.forEach(
-                (alias: string) => (map[alias] = typeConfig)
-            );
+            typeConfig.aliases.forEach((alias: string) => (map[alias] = typeConfig));
         }
         return map;
     },
     {}
 );
+
+export type GetTypeConfig = (type: string) => Type;
 
 /**
  * Shortcut for constant lookup of type config in type configs map

@@ -29,22 +29,18 @@
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between;
-    height: 220px;
+    height: 75px;
     width: 175px;
-    background-color: white;
-    color: $grey;
+    background-color: rgba(0, 0, 0, .75);
+    color: white;
     text-align: left;
     padding: 12px;
     border-radius: 4px;
-    font-size: 14px;
-    line-height: 20px;
-    -webkit-box-shadow: $shadow_down;
-    box-shadow: $shadow_down;
 
     /* Position tooltip text */
     position: absolute;
     z-index: 1;
-    bottom: 138%;
+    bottom: 180%;
     left: -490%;
     margin-left: -60px;
 
@@ -53,6 +49,18 @@
     -webkit-transition: opacity 0.25s;
     -o-transition: opacity 0.25s;
     transition: opacity 0.25s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, .75) transparent transparent transparent;
 }
 
 /* Show tooltip text when mouse hovers over the tooltip container */

@@ -11,13 +11,9 @@ const { uuid, type, field_name, value } = saveToContactAction;
 
 describe('Component: SaveToContactComp', () => {
     it("should render base SaveToContactComp with 'update...' div when value prop passed", () => {
-        const SaveToContactDivShallow = shallow(
-            <SaveToContact {...saveToContactAction} />
-        );
+        const SaveToContactDivShallow = shallow(<SaveToContact {...saveToContactAction} />);
 
-        expect(SaveToContactDivShallow.text()).toBe(
-            `Update ${field_name} to ${value}`
-        );
+        expect(SaveToContactDivShallow.text()).toBe(`Update ${field_name} to ${value}`);
     });
 
     it("should render base SaveToContactComp with 'clear...' div when value prop isn't passed", () => {
@@ -25,8 +21,6 @@ describe('Component: SaveToContactComp', () => {
             <SaveToContact {...{ ...saveToContactAction, value: '' }} />
         );
 
-        expect(SaveToContactDivShallow.text()).toBe(
-            `Clear value for ${field_name}`
-        );
+        expect(SaveToContactDivShallow.text()).toBe(`Clear value for ${field_name}`);
     });
 });

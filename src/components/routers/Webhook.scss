@@ -1,9 +1,4 @@
 @import '../../variables.scss';
-
-.info {
-    margin-bottom: 0px;
-}
-
 .method {
     width: 15%;
     float: left;
@@ -35,16 +30,20 @@
     margin-top: 0;
 }
 
-.remove-ico {
+.remove_button {
     color: #ccc;
     border: 0px solid green;
-    margin-right: -8px;
-    margin-top: 7px;
+    margin-right: -20px;
+    margin-top: 5px;
     float: right;
     opacity: 0;
     font-size: 15px;
     line-height: 12px;
     width: 20px;
+    &:hover {
+        cursor: pointer;
+        opacity: 1;
+    }
 }
 
 .example {
@@ -68,12 +67,6 @@
         border-color: #ccc;
     }
     padding-top:8px;
-    &:hover {
-        .remove-ico {
-            cursor: pointer;
-            opacity: 1;
-        }
-    }
 }
 
 .header_name {
@@ -87,8 +80,8 @@
     margin-left: 10px;
 }
 
-.body_form {
-    .req-body {
+.post_body_form {
+    .post_body {
         margin-top: 8px;
         textarea {
             unicode-bidi: embed;

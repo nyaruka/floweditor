@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as classNames from 'classnames/bind';
 import { Exit } from '../flowTypes';
 import { addCommas } from '../helpers/utils';
 import Counter from './Counter';
@@ -23,12 +22,7 @@ export interface ExitState {
     confirmDelete: boolean;
 }
 
-const cx = classNames.bind(styles);
-
-export default class ExitComp extends React.PureComponent<
-    ExitProps,
-    ExitState
-> {
+export default class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     private timeout: any;
     private clicking: boolean;
 
@@ -57,10 +51,7 @@ export default class ExitComp extends React.PureComponent<
     public componentDidUpdate(prevProps: ExitProps): void {
         this.connect();
 
-        if (
-            prevProps.exit.destination_node_uuid &&
-            !this.props.exit.destination_node_uuid
-        ) {
+        if (prevProps.exit.destination_node_uuid && !this.props.exit.destination_node_uuid) {
             if (this.state.confirmDelete) {
                 this.setState({ confirmDelete: false });
             }
@@ -134,9 +125,7 @@ export default class ExitComp extends React.PureComponent<
     private getActivity(): JSX.Element {
         // Only exits with a destination have activity
         if (this.props.exit.destination_node_uuid) {
-            const key = `count:${this.props.exit.uuid}:${
-                this.props.exit.destination_node_uuid
-            }`;
+            const key = `count:${this.props.exit.uuid}:${this.props.exit.destination_node_uuid}`;
             return (
                 <Counter
                     key={key}
@@ -152,46 +141,45 @@ export default class ExitComp extends React.PureComponent<
     }
 
     public render(): JSX.Element {
-        const exit = this.props.translating
-            ? (this.props.localization.getObject() as Exit)
-            : this.props.exit;
+        const classes: string[] = [styles.exit, 'plumb-exit'];
 
-        const nameStyle = exit.name ? styles.name : '';
+        let confirm: JSX.Element = null;
 
-        const connected = this.props.exit.destination_node_uuid
-            ? ' jtk-connected'
-            : '';
+        if (this.state.confirmDelete && this.props.exit.destination_node_uuid) {
+            confirm = <span onClick={this.onDisconnect} className="icon-remove" />;
 
-        const dragNodeClasses = cx(styles.endpoint, connected);
+            classes.push(styles.confirm_delete);
+        }
 
-        const confirmDelete =
-            this.state.confirmDelete &&
-            this.props.exit.hasOwnProperty('destination_node_uuid');
+        // console.log('Rendering exit', this.props.exit.uuid);
+        const connected = this.props.exit.destination_node_uuid ? ' jtk-connected' : '';
+        let nameStyle = '';
+        let { exit } = this.props;
 
-        const confirm: JSX.Element = confirmDelete ? (
-            <span onClick={this.onDisconnect} className="icon-remove" />
-        ) : null;
+        if (this.props.translating) {
+            classes.push(styles.translating);
 
-        const exitClasses: string = cx({
-            [styles.exit]: true,
-            ['plumb-exit']: true,
-            [styles.translating]: this.props.translating,
-            [styles.missing_localization]:
-                this.props.translating &&
-                !('name' in this.props.localization.localizedKeys),
-            [styles.confirm_delete]: confirmDelete
-        });
+            exit = this.props.localization.getObject() as Exit;
+
+            if (!('name' in this.props.localization.localizedKeys)) {
+                classes.push(styles.missing_localization);
+            }
+        }
+
+        if (exit.name) {
+            ({ name: nameStyle } = styles);
+        }
 
         const activity = this.getActivity();
 
         return (
-            <div className={exitClasses}>
+            <div className={classes.join(' ')}>
                 <div className={nameStyle}>{exit.name}</div>
                 <div
                     onMouseUp={this.onMouseUp}
                     onClick={this.onClick}
                     id={this.props.exit.uuid}
-                    className={dragNodeClasses}>
+                    className={`${styles.endpoint} ${connected}`}>
                     {confirm}
                 </div>
                 {activity}

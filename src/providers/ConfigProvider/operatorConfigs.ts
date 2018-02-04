@@ -10,17 +10,11 @@ export interface OperatorMap {
     [propName: string]: Operator;
 }
 
-export type GetOperatorConfig = (type: string) => Operator;
-
 export const operatorConfigList: Operator[] = [
     { type: 'has_any_word', verboseName: 'has any of the words', operands: 1 },
     { type: 'has_all_words', verboseName: 'has all of the words', operands: 1 },
     { type: 'has_phrase', verboseName: 'has the phrase', operands: 1 },
-    {
-        type: 'has_only_phrase',
-        verboseName: 'has only the phrase',
-        operands: 1
-    },
+    { type: 'has_only_phrase', verboseName: 'has only the phrase', operands: 1 },
     { type: 'has_beginning', verboseName: 'starts with', operands: 1 },
     {
         type: 'has_text',
@@ -45,23 +39,14 @@ export const operatorConfigList: Operator[] = [
         verboseName: 'has a number at or below',
         operands: 1
     },
-    {
-        type: 'has_number_eq',
-        verboseName: 'has a number equal to',
-        operands: 1
-    },
+    { type: 'has_number_eq', verboseName: 'has a number equal to', operands: 1 },
     {
         type: 'has_number_gte',
         verboseName: 'has a number at or above',
         operands: 1
     },
     { type: 'has_number_gt', verboseName: 'has a number above', operands: 1 },
-    {
-        type: 'has_date',
-        verboseName: 'has a date',
-        operands: 0,
-        categoryName: 'Has Date'
-    },
+    { type: 'has_date', verboseName: 'has a date', operands: 0, categoryName: 'Has Date' },
     { type: 'has_date_lt', verboseName: 'has a date before', operands: 1 },
     { type: 'has_date_eq', verboseName: 'has a date equal to', operands: 1 },
     { type: 'has_date_gt', verboseName: 'has a date after', operands: 1 },
@@ -101,10 +86,11 @@ export const operatorConfigMap: OperatorMap = operatorConfigList.reduce(
     {}
 );
 
+export type GetOperatorConfig = (type: string) => Operator;
+
 /**
  * Shortcut for constant lookup of operator config in operator configs map
  * @param {string} type - The type of the operator config to return, e.g. 'reply'
  * @returns {Object} - The operator config found at operatorConfigs[type] or -1
  */
-export const getOperatorConfig = (type: string): Operator =>
-    operatorConfigMap[type];
+export const getOperatorConfig = (type: string): Operator => operatorConfigMap[type];

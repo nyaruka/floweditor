@@ -8,9 +8,6 @@ export interface EventProps {
     uuid: string;
     created_on?: Date;
     type: string;
-    field_name: string;
-    field_uuid: string;
-    result_name: string;
     text?: string;
     name?: string;
     value?: string;
@@ -23,6 +20,9 @@ export interface EventProps {
     request?: string;
     response?: string;
     groups?: Group[];
+    field_name: string;
+    field_uuid: string;
+    result_name: string;
 }
 
 interface LogEventState {
@@ -32,10 +32,7 @@ interface LogEventState {
 /**
  * Viewer for log events
  */
-export default class LogEvent extends React.Component<
-    EventProps,
-    LogEventState
-> {
+export default class LogEvent extends React.Component<EventProps, LogEventState> {
     constructor(props: EventProps) {
         super(props);
         this.state = {
@@ -84,10 +81,7 @@ export default class LogEvent extends React.Component<
             /** fall-through desired in this case */
             case 'add_to_group':
             case 'remove_from_group':
-                groupText =
-                    this.props.type === 'add_to_group'
-                        ? 'Added to '
-                        : 'Removed from ';
+                groupText = this.props.type === 'add_to_group' ? 'Added to ' : 'Removed from ';
                 delim = ' ';
                 this.props.groups.forEach(group => {
                     groupText += `${delim}"${group.name}"`;
@@ -99,9 +93,7 @@ export default class LogEvent extends React.Component<
             case 'save_contact_field':
                 text = (
                     <span>
-                        Set contact field "{this.props.field_name}" to "{
-                            this.props.value
-                        }"
+                        Set contact field "{this.props.field_name}" to "{this.props.value}"
                     </span>
                 );
                 classes.push(styles.info);
@@ -109,9 +101,7 @@ export default class LogEvent extends React.Component<
             case 'save_flow_result':
                 text = (
                     <span>
-                        Set flow result "{this.props.result_name}" to "{
-                            this.props.value
-                        }"
+                        Set flow result "{this.props.result_name}" to "{this.props.value}"
                     </span>
                 );
                 classes.push(styles.info);
@@ -119,9 +109,7 @@ export default class LogEvent extends React.Component<
             case 'update_contact':
                 text = (
                     <span>
-                        Updated contact {this.props.field_name} to "{
-                            this.props.value
-                        }"
+                        Updated contact {this.props.field_name} to "{this.props.value}"
                     </span>
                 );
                 classes.push(styles.info);
@@ -129,9 +117,8 @@ export default class LogEvent extends React.Component<
             case 'send_email':
                 text = (
                     <span>
-                        Sent email to "{this.props.email}" with subject "{
-                            this.props.subject
-                        }" and body "{this.props.body}"
+                        Sent email to "{this.props.email}" with subject "{this.props.subject}" and
+                        body "{this.props.body}"
                     </span>
                 );
                 classes.push(styles.info);
@@ -143,9 +130,7 @@ export default class LogEvent extends React.Component<
                 details = (
                     <div className={styles.webhook_details}>
                         <div className={''}>{this.props.request}</div>
-                        <div className={styles.response}>
-                            {this.props.response}
-                        </div>
+                        <div className={styles.response}>{this.props.response}</div>
                     </div>
                 );
                 break;
@@ -162,13 +147,11 @@ export default class LogEvent extends React.Component<
 
             return (
                 <div>
-                    <div
-                        className={classes.join(' ')}
-                        onClick={this.showDetails}>
+                    <div className={classes.join(' ')} onClick={this.showDetails}>
                         {text}
                     </div>
                     <Modal
-                        __className={styles[`detail_${this.props.type}`]}
+                        className={styles[`detail_${this.props.type}`]}
                         title={[<div>{detailTitle}</div>]}
                         show={this.state.detailsVisible}
                         buttons={{
