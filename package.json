@@ -34,7 +34,6 @@
     "postversion": "git push && git push --tags && npm publish"
   },
   "devDependencies": {
-    "@types/classnames": "^2.2.3",
     "@types/core-js": "^0.9.43",
     "@types/enzyme": "^2.8.0",
     "@types/enzyme-adapter-react-16": "^1.0.1",
@@ -53,6 +52,8 @@
     "@types/react-select": "^1.0.59",
     "@types/uuid": "^2.0.30",
     "@types/webpack-env": "^1.13.1",
+    "@ycleptkellan/substantive": "^1.0.2",
+    "auto-bind": "^1.2.0",
     "autoprefixer": "^7.2.3",
     "awesome-typescript-loader": "^3.1.2",
     "axios": "^0.17.1",
@@ -60,7 +61,6 @@
     "babel-minify-webpack-plugin": "^0.2.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "classnames": "^2.2.5",
     "compression-webpack-plugin": "^0.4.0",
     "core-js": "^2.5.1",
     "coveralls": "^3.0.0",

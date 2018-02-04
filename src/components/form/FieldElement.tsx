@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
+import Select from 'react-select';
 import { toBoolMap, getSelectClass } from '../../helpers/utils';
 import FormElement, { FormElementProps } from './FormElement';
 import ComponentMap, { SearchResult } from '../../services/ComponentMap';
@@ -23,10 +24,6 @@ interface FieldState {
     errors: string[];
 }
 
-export const placeholder: string =
-    'Enter the name of an existing group, or create a new group to add the contact to';
-export const notFound: string = 'Invalid field name';
-
 export default class FieldElement extends React.Component<FieldElementProps, FieldState> {
     constructor(props: any) {
         super(props);
@@ -41,32 +38,32 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
         this.createNewOption = this.createNewOption.bind(this);
     }
 
-    private onChange([field]: any): void {
+    onChange([field]: any) {
         this.setState({
             field
         });
     }
 
-    public validate(): boolean {
+    validate(): boolean {
         const errors: string[] = [];
 
         if (this.props.required) {
-            if (!this.state.field.name) {
+            if (!this.state.field) {
                 errors.push(`${this.props.name} is required`);
             }
         }
 
         this.setState({ errors });
 
-        return errors.length === 0;
+        return errors.length == 0;
     }
 
-    private isValidNewOption({ label }: { label: string }): boolean {
+    isValidNewOption({ label }: { label: string }): boolean {
         if (!label) {
             return false;
         }
 
-        const lowered: string = label.toLowerCase();
+        const lowered = label.toLowerCase();
 
         return (
             lowered.length > 0 &&
@@ -76,7 +73,7 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
         );
     }
 
-    private createNewOption({ label }: { label: string }): SearchResult {
+    createNewOption({ label }: { label: string }): SearchResult {
         const newOption: SearchResult = {
             id: generateUUID(),
             name: label,
@@ -87,26 +84,31 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
         return newOption;
     }
 
-    public render(): JSX.Element {
-        const createOptions: any = {};
+    render() {
+        let createOptions = {};
 
         if (this.props.add) {
-            createOptions.isValidNewOption = this.isValidNewOption;
-            createOptions.createNewOption = this.createNewOption;
-            createOptions.createPrompt = 'New Field: ';
+            createOptions = {
+                isValidNewOption: this.isValidNewOption,
+                createNewOption: this.createNewOption,
+                createPrompt: 'New Field: '
+            };
         }
 
-        const initial: SearchResult[] = this.state.field ? [this.state.field] : [];
+        const initial: SearchResult[] = [];
+
+        if (this.state.field) {
+            initial.push(this.state.field);
+        }
+
         const className: string = getSelectClass(this.state.errors.length);
-        const fieldError: boolean = this.state.errors.length > 0;
 
         return (
             <FormElement
                 showLabel={this.props.showLabel}
                 name={this.props.name}
                 helpText={this.props.helpText}
-                errors={this.state.errors}
-                fieldError={fieldError}>
+                errors={this.state.errors}>
                 <SelectSearch
                     className={className}
                     onChange={this.onChange}
@@ -115,10 +117,7 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
                     resultType="field"
                     localSearchOptions={this.props.localFields}
                     multi={false}
-                    clearable={false}
                     initial={initial}
-                    searchPromptText={notFound}
-                    placeholder={placeholder}
                     {...createOptions}
                 />
             </FormElement>

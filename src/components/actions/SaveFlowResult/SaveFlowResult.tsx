@@ -9,7 +9,6 @@ const SaveFlowResultComp: React.SFC<SaveFlowResult> = ({ value, result_name }): 
             </div>
         );
     }
-
     return (
         <div>
             Clear value for <span className="emph">{result_name}</span>

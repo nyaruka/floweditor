@@ -8,9 +8,6 @@ export interface EventProps {
     uuid: string;
     created_on?: Date;
     type: string;
-    field_name: string;
-    field_uuid: string;
-    result_name: string;
     text?: string;
     name?: string;
     value?: string;
@@ -23,6 +20,9 @@ export interface EventProps {
     request?: string;
     response?: string;
     groups?: Group[];
+    field_name: string;
+    field_uuid: string;
+    result_name: string;
 }
 
 interface LogEventState {
@@ -151,7 +151,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                         {text}
                     </div>
                     <Modal
-                        __className={styles[`detail_${this.props.type}`]}
+                        className={styles[`detail_${this.props.type}`]}
                         title={[<div>{detailTitle}</div>]}
                         show={this.state.detailsVisible}
                         buttons={{

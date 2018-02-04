@@ -26,12 +26,24 @@ export interface FlowDefinition {
     _ui: UIMetaData;
 }
 
+export enum WaitType {
+    exp = 'exp',
+    group = 'group',
+    msg = 'msg',
+    flow = 'flow'
+}
+
+export interface Wait {
+    type: WaitType;
+    flow_uuid?: string;
+}
+
 export interface Node {
     uuid: string;
     exits: Exit[];
     router?: Router;
     actions?: Action[];
-    wait?: any;
+    wait?: Wait;
 }
 
 export interface Exit {
@@ -40,16 +52,16 @@ export interface Exit {
     destination_node_uuid?: string;
 }
 
-export interface Router {
-    type: string;
-    result_name?: string;
-}
-
 export interface Case {
     uuid: string;
     type: string;
     exit_uuid: string;
     arguments?: string[];
+}
+
+export interface Router {
+    type: string;
+    result_name?: string;
 }
 
 export interface SwitchRouter extends Router {
@@ -61,12 +73,6 @@ export interface SwitchRouter extends Router {
 export interface Group {
     uuid: string;
     name: string;
-}
-
-export enum Methods {
-    GET = 'GET',
-    POST = 'POST',
-    PUT = 'PUT'
 }
 
 export interface Action {
@@ -116,7 +122,7 @@ export interface Headers {
 
 export interface CallWebhook extends Action {
     url: string;
-    method: Methods;
+    method: string;
     body?: string;
     headers?: Headers;
 }

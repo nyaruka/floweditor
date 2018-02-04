@@ -32,7 +32,7 @@ export interface ContactFieldResult extends SearchResult {
     key?: string;
 }
 
-export interface ComponentDetails {
+interface ComponentDetails {
     nodeUUID: string;
     nodeIdx: number;
     actionIdx?: number;

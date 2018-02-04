@@ -9,7 +9,6 @@ import TextInputElement, {
     MAX_GSM_MULTI,
     MAX_UNICODE_SINGLE,
     MAX_UNICODE_MULTI,
-    toCharSetEnum,
     cleanMsg,
     filterOptions,
     getCharCount,
@@ -17,7 +16,6 @@ import TextInputElement, {
     getCharCountStats
 } from './TextInputElement';
 import { OPTIONS } from './completionOptions';
-import { getTypeConfig } from '../../../providers/ConfigProvider/typeConfigs';
 
 const {
     results: [{ definition }]
@@ -33,8 +31,7 @@ const props = {
     autocomplete: true,
     required: true,
     textarea: true,
-    ComponentMap: CompMap,
-    config: getTypeConfig('reply')
+    ComponentMap: CompMap
 };
 
 const msgs = [
@@ -63,12 +60,6 @@ const optionQueryMap = OPTIONS.reduce((argMap, { name }) => {
 
 describe('TextInputElement >', () => {
     describe('helpers >', () => {
-        describe('toCharSetEnum()', () =>
-            it('should return the CharacterSet enum value that matches its argument', () => {
-                expect(toCharSetEnum('GSM')).toBe(CharacterSet.GSM);
-                expect(toCharSetEnum('Unicode')).toBe(CharacterSet.UNICODE);
-            }));
-
         describe('cleanMsg >', () => {
             it('should replace specified unicode characters with their GSM counterparts', () =>
                 expect(cleanMsg('“”‘’— …–')).toBe(`""''- ...-`));
@@ -136,7 +127,7 @@ describe('TextInputElement >', () => {
 
             expect(getSpecWrapper(TextInput, 'input').props()).toEqual(
                 expect.objectContaining({
-                    className: 'textinput',
+                    className: 'textinput false',
                     placeholder: '',
                     type: undefined,
                     value: msgs[0][0],
@@ -145,7 +136,6 @@ describe('TextInputElement >', () => {
                     onKeyDown
                 })
             );
-
-            expect(getSpecWrapper(TextInput, 'tooltip-content')).toMatchSnapshot();
         });
     });
+});

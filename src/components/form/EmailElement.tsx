@@ -5,7 +5,7 @@ import { getSelectClass } from '../../helpers/utils';
 
 import * as styles from './FormElement.scss';
 
-type EmailList = Array<{ label: string; value: string }>;
+type Emails = { label: string; value: string }[];
 
 interface EmailElementProps extends FormElementProps {
     emails: string[];
@@ -13,11 +13,11 @@ interface EmailElementProps extends FormElementProps {
 }
 
 interface EmailState {
-    emails: EmailList;
+    emails: Emails;
     errors: string[];
 }
 
-export const transformEmails = (emails: string[]): EmailList =>
+export const transformEmails = (emails: string[]): { label: string; value: string }[] =>
     emails.map(email => ({ label: email, value: email }));
 
 export default class EmailElement extends React.Component<EmailElementProps, EmailState> {
@@ -26,10 +26,8 @@ export default class EmailElement extends React.Component<EmailElementProps, Ema
     constructor(props: any) {
         super(props);
 
-        const emails = transformEmails(this.props.emails || []);
-
         this.state = {
-            emails,
+            emails: transformEmails(this.props.emails),
             errors: []
         };
 
@@ -38,7 +36,7 @@ export default class EmailElement extends React.Component<EmailElementProps, Ema
         this.validEmailPrompt = this.validEmailPrompt.bind(this);
     }
 
-    public validate(): boolean {
+    validate(): boolean {
         const errors: string[] = [];
 
         if (this.props.required) {
@@ -47,12 +45,12 @@ export default class EmailElement extends React.Component<EmailElementProps, Ema
             }
         }
 
-        this.setState({ errors });
+        this.setState({ errors: errors });
 
         return errors.length === 0;
     }
 
-    private onChangeEmails(emails: EmailList): void {
+    private onChangeEmails(emails: Emails) {
         this.setState({
             emails
         });
@@ -70,9 +68,8 @@ export default class EmailElement extends React.Component<EmailElementProps, Ema
         return <div />;
     }
 
-    public render(): JSX.Element {
+    render() {
         const className: string = getSelectClass(this.state.errors.length);
-
         return (
             <FormElement
                 name={this.props.name}

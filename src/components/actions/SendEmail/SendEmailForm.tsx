@@ -14,6 +14,7 @@ export interface SendEmailFormProps extends FormProps {
     ComponentMap: ComponentMap;
     updateAction(action: SendEmail): void;
     onBindWidget(ref: any): void;
+    getActionUUID(): string;
 }
 
 export default class SendEmailForm extends React.Component<SendEmailFormProps> {
@@ -31,7 +32,7 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
         const emails = emailAddresses.map(({ value }) => value);
 
         const newAction: SendEmail = {
-            uuid: this.props.action.uuid,
+            uuid: this.props.getActionUUID(),
             type: this.props.config.type,
             body,
             subject,
@@ -42,37 +43,43 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
     }
 
     public render(): JSX.Element {
+        let emails: string[] = [];
+        let subject = '';
+        let body = '';
+
+        if (this.props.action && this.props.action.type == 'send_email') {
+            ({ emails, subject, body } = this.props.action);
+        }
+
         return (
             <div className={styles.ele}>
                 <EmailElement
                     ref={this.props.onBindWidget}
                     name="Recipient"
                     placeholder="To"
-                    emails={this.props.action.emails}
+                    emails={emails}
                     required={true}
                 />
                 <TextInputElement
-                    __className={styles.subject}
+                    className={styles.subject}
                     ref={this.props.onBindWidget}
                     name="Subject"
                     placeholder="Subject"
-                    value={this.props.action.subject}
+                    value={subject}
                     autocomplete={true}
                     required={true}
                     ComponentMap={this.props.ComponentMap}
-                    config={this.props.config}
                 />
                 <TextInputElement
-                    __className={styles.message}
+                    className={styles.message}
                     ref={this.props.onBindWidget}
                     name="Message"
                     showLabel={false}
-                    value={this.props.action.body}
+                    value={body}
                     autocomplete={true}
                     required={true}
                     textarea={true}
                     ComponentMap={this.props.ComponentMap}
-                    config={this.props.config}
                 />
             </div>
         );

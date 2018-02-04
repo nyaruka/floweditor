@@ -1,9 +1,6 @@
 import * as React from 'react';
-import * as classNames from 'classnames/bind';
 
 import * as styles from './FormElement.scss';
-
-const cx = classNames.bind(styles);
 
 export interface FormElementProps {
     name: string;
@@ -11,72 +8,71 @@ export interface FormElementProps {
     errors?: string[];
     showLabel?: boolean;
     required?: boolean;
-    __className?: string;
+    className?: string;
     border?: boolean;
-    replyError?: boolean;
-    kaseError?: boolean;
-    fieldError?: boolean;
+    case?: boolean;
 }
 
-export default class FormElement extends React.PureComponent<FormElementProps> {
-    private getName(): JSX.Element {
-        if (this.props.showLabel && this.props.name) {
-            return <div className={styles.label}>{this.props.name}</div>;
-        }
+const FormElement: React.SFC<FormElementProps> = (props): JSX.Element => {
+    let errors: JSX.Element[] = [];
 
-        return null;
-    }
-
-    private getHelpText(): JSX.Element {
-        if (this.props.helpText && !this.props.errors.length) {
-            return <div className={styles.helpText}>{this.props.helpText} </div>;
-        }
-
-        return null;
-    }
-
-    private getErrors(): JSX.Element {
-        if (this.props.errors.length < 1) {
-            return null;
-        }
-
-        const errors: JSX.Element[] = this.props.errors.map((error, idx) => {
-            const className = cx({
-                [styles.error]: true,
-                [styles.replyError]: this.props.replyError === true,
-                [styles.kaseError]: this.props.kaseError === true,
-                [styles.fieldError]: this.props.fieldError === true
-            });
-
-            return (
-                <div key={idx} className={className}>
+    if (props.errors) {
+        props.errors.map((error, idx) => {
+            errors = [
+                ...errors,
+                <div key={idx} className={styles.error}>
                     {error}
                 </div>
-            );
+            ];
         });
-
-        return <div className={styles.error}>{errors}</div>;
     }
-    public render(): JSX.Element {
-        const name: JSX.Element = this.getName();
-        const helpText: JSX.Element = this.getHelpText();
-        const errorsToDisplay: JSX.Element = this.getErrors();
 
-        const className = cx({
-            [styles.ele]: true,
-            [styles.border]: this.props.border,
-            [this.props.__className]: this.props.__className !== undefined
-        });
+    let errorDisplay: JSX.Element = null;
 
-        return (
-            <div className={className}>
-                {name}
-                {this.props.children}
-                <div>
-                    {helpText}
-                    {errorsToDisplay}
-                </div>
+    if (errors.length > 0) {
+        errorDisplay = (
+            <div
+                className={styles.error}
+                style={{ paddingTop: props.case && 5, paddingLeft: props.case && 10 }}>
+                {errors}
             </div>
         );
     }
-}
+
+    let name: JSX.Element = null;
+
+    if (props.showLabel && props.name) {
+        name = <div className={styles.label}>{props.name}</div>;
+    }
+
+    let helpText: JSX.Element | string;
+
+    if (props.helpText && !errorDisplay) {
+        helpText = <div className={styles.help_text}>{props.helpText}</div>;
+    } else {
+        helpText = '';
+    }
+
+    const classes = [styles.ele];
+
+    if (props.className) {
+        classes.push(props.className);
+    }
+
+    if (props.border) {
+        classes.push(styles.border);
+    }
+
+    return (
+        <div className={classes.join(' ')}>
+            {name}
+            {props.children}
+            <div>
+                {helpText}
+                {errorDisplay}
+            </div>
+        </div>
+    );
+};
+
+export default FormElement;

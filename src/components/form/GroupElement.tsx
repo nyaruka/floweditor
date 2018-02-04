@@ -1,16 +1,20 @@
 import * as React from 'react';
+import { substArr } from '@ycleptkellan/substantive';
 import { v4 as generateUUID } from 'uuid';
 import SelectSearch from '../SelectSearch';
 import { SearchResult } from '../../services/ComponentMap';
 import FormElement, { FormElementProps } from './FormElement';
-import { getSelectClass, jsonEqual } from '../../helpers/utils';
+import { getSelectClass } from '../../helpers/utils';
 
-import * as styles from './FormElement.scss';
+export interface GroupOption {
+    group: string;
+    name: string;
+}
 
-interface GroupElementProps extends FormElementProps {
-    groups: SearchResult[];
+export interface GroupElementProps extends FormElementProps {
+    endpoint: string;
+    groups?: SearchResult[];
     localGroups?: SearchResult[];
-    endpoint?: string;
     add?: boolean;
     placeholder?: string;
     searchPromptText?: string | JSX.Element;
@@ -22,11 +26,37 @@ interface GroupElementState {
     errors: string[];
 }
 
+export const isValidNewOption = ({ label }: { label: string } = { label: '' }): boolean => {
+    if (!label) {
+        return false;
+    }
+
+    const lowered: string = label.toLowerCase();
+
+    const isValid: boolean =
+        lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered);
+
+    return isValid;
+};
+
+export const createNewOption = ({ label }: { label: string }): SearchResult => {
+    const newOption = {
+        id: generateUUID(),
+        name: label,
+        extraResult: true
+    } as SearchResult;
+
+    return newOption;
+};
+
+export const NEW_GROUP_PROMPT: string = 'New group: ';
+export const GROUP_TYPE: string = 'group';
+
 export default class GroupElement extends React.Component<GroupElementProps, GroupElementState> {
     constructor(props: GroupElementProps) {
         super(props);
 
-        const { groups } = props;
+        const groups: SearchResult[] = this.getGroups();
 
         this.state = {
             groups,
@@ -34,71 +64,51 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
         };
 
         this.onChange = this.onChange.bind(this);
-        this.isValidNewOption = this.isValidNewOption.bind(this);
-        this.createNewOption = this.createNewOption.bind(this);
-    }
-
-    public componentWillReceiveProps(nextProps: GroupElementProps): void {
-        if (!jsonEqual(nextProps.groups, this.state.groups)) {
-            this.setState({ groups: nextProps.groups });
-        }
     }
 
     private onChange(groups: SearchResult[]): void {
-        if (!jsonEqual(groups, this.state.groups)) {
-            this.setState(
-                {
-                    groups
-                },
-                () => this.props.onChange && this.props.onChange(groups)
-            );
+        this.setState(
+            {
+                groups
+            },
+            () => this.props.onChange && this.props.onChange(groups)
+        );
+    }
+
+    private getGroups(): SearchResult[] {
+        if (substArr(this.props.groups)) {
+            return this.props.groups;
+        } else if (substArr(this.props.localGroups)) {
+            return this.props.localGroups;
+        } else {
+            return [];
         }
     }
 
     public validate(): boolean {
         const errors: string[] = [];
 
-        if (this.props.required) {
-            if (this.state.groups.length < 1) {
-                errors.push(`${this.props.name} is required`);
-            }
+        if (this.props.required && this.state.groups.length < 1) {
+            errors.push(`${this.props.name} is required`);
         }
 
         this.setState({ errors });
 
-        return errors.length === 0;
-    }
+        const valid: boolean = errors.length === 0;
 
-    private isValidNewOption({ label }: { label: string }): boolean {
-        if (!label) {
-            return false;
-        }
-
-        const lowered = label.toLowerCase();
-
-        return lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered);
-    }
-
-    private createNewOption(arg: { label: string }): SearchResult {
-        const newOption = {
-            id: generateUUID(),
-            name: arg.label,
-            extraResult: true
-        } as SearchResult;
-
-        return newOption;
+        return valid;
     }
 
     public render(): JSX.Element {
         const createOptions: any = {};
 
         if (this.props.add) {
-            createOptions.isValidNewOption = this.isValidNewOption;
-            createOptions.createNewOption = this.createNewOption;
-            createOptions.createPrompt = 'New group: ';
+            createOptions.isValidNewOption = isValidNewOption;
+            createOptions.createNewOption = createNewOption;
+            createOptions.createPrompt = NEW_GROUP_PROMPT;
         }
 
-        const className: string = getSelectClass(this.state.errors.length);
+        const className = getSelectClass(this.state.errors.length);
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>

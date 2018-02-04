@@ -44,7 +44,7 @@
     background: $grey;
 }
 
-.expression {
+.expression, .group {
     background: $grey;
 }
 
@@ -64,7 +64,7 @@
 
 .modal_side_1 {
     $color_1: rgba(0, 0, 0, .08);
-    $color_2: rgba(0, 0, 0, .05);
+    $color_2: rgba(0, 0, 0, .05); //
     background-image: repeating-linear-gradient(60deg, $color_1, $color_1 12px, $color_2 12px, $color_2 24px);
 }
 

@@ -7,7 +7,7 @@ import { ConfigProviderContext } from '../../providers/ConfigProvider/configCont
 import * as formStyles from './NodeEditor.scss';
 
 export interface TypeListProps {
-    __className: string;
+    className: string;
     initialType: Type;
     onChange(config: Type): void;
 }
@@ -36,19 +36,21 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
             {
                 config
             },
-            () => this.props.onChange(config)
+            () => {
+                this.props.onChange(config);
+            }
         );
     }
 
-    public render(): JSX.Element {
+    render(): JSX.Element {
         return (
-            <div className={this.props.__className}>
+            <div className={this.props.className}>
                 <div className={formStyles.intro}>
                     When a contact arrives at this point in your flow...
                 </div>
                 <div>
                     <Select
-                        value={this.state.config}
+                        value={this.state.config.type}
                         onChange={this.onChangeType}
                         valueKey="type"
                         searchable={false}

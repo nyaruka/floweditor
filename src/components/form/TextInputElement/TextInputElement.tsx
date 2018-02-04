@@ -1,12 +1,10 @@
 import * as React from 'react';
-import * as classNames from 'classnames/bind';
 import getCaretCoordinates from 'textarea-caret';
 import setCaretPosition from 'get-input-selection';
 import { split } from 'split-sms';
 import ComponentMap, { CompletionOption } from '../../../services/ComponentMap';
 import FormElement, { FormElementProps } from '../FormElement';
 import { OPTIONS } from './completionOptions';
-import { Type } from '../../../providers/ConfigProvider/typeConfigs';
 
 import * as styles from './TextInputElement.scss';
 import * as shared from '../FormElement.scss';
@@ -17,7 +15,7 @@ export enum Count {
 
 export enum CharacterSet {
     GSM = 'GSM',
-    UNICODE = 'UNICODE'
+    UNICODE = 'Unicode'
 }
 
 export interface Coordinates {
@@ -44,25 +42,17 @@ interface CharCountStats {
 interface TextInputProps extends FormElementProps {
     value: string;
     ComponentMap: ComponentMap;
-    config: Type;
-    __className?: string;
     count?: Count;
     url?: boolean;
     textarea?: boolean;
     placeholder?: string;
     autocomplete?: boolean;
     focus?: boolean;
-    showInvalid?: boolean;
     onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
     onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
 }
 
 export interface TextInputState {
-    maxLength?: number;
-    parts?: string[];
-    characterCount?: number;
-    characterSet?: CharacterSet;
-    remainingInPart?: number;
     value: string;
     errors: string[];
     caretOffset: number;
@@ -72,6 +62,11 @@ export interface TextInputState {
     matches: CompletionOption[];
     query: string;
     options: CompletionOption[];
+    maxLength?: number;
+    parts?: string[];
+    characterCount?: number;
+    characterSet?: CharacterSet;
+    remainingInPart?: number;
 }
 
 type InitialState = Pick<
@@ -101,23 +96,6 @@ export const MAX_GSM_MULTI = 153;
 export const MAX_UNICODE_SINGLE = 70;
 export const MAX_UNICODE_MULTI = 67;
 
-export const CHARACTER_COUNTER_HELP: JSX.Element = (
-    <span>
-        The character-counter provides an estimate of the number of messages your response is
-        expected to be split into by carriers. For example, the count <b>67/2</b> indicates that the
-        current message will be split into <b>2</b> messages and you have <b>67</b> characters left
-        until it will be split into <b>3</b> messages
-    </span>
-);
-
-/**
- * Transforms a given characterSet into its CharacterSet equivalent; defaults to CharacterSet.GSM
- * @param {string} characterSet - characterSet, i.e. 'unicode' or 'gsm'
- * @returns {CharacterSet} CharacterSet
- */
-export const toCharSetEnum = (characterSet: string): CharacterSet =>
-    characterSet.toLowerCase() === 'unicode' ? CharacterSet.UNICODE : CharacterSet.GSM;
-
 /**
  * Replaces unicode characters commonly inserted by text editors like MSWord in a given string with their GSM equivalents
  * @param {string} msg - msg to be cleaned
@@ -125,11 +103,11 @@ export const toCharSetEnum = (characterSet: string): CharacterSet =>
  */
 export const cleanMsg = (msg: string): string =>
     msg
-        .replace(/[\u2018\u2019]/g, "'") // Smart single quotes
-        .replace(/[\u201C\u201D]/g, '"') // Smart double quotes
-        .replace(/[\u2013\u2014]/g, '-') // En/em dash
-        .replace(/\u2026/g, '...') // Horizontal ellipsis
-        .replace(/\u2002/g, ' '); // En space
+        .replace(/[\u2018\u2019]/g, "'") /** Smart single quotes */
+        .replace(/[\u201C\u201D]/g, '"') /** Smart double quotes */
+        .replace(/[\u2013\u2014]/g, '-') /** En/em dash */
+        .replace(/\u2026/g, '...') /** Horizontal ellipsis */
+        .replace(/\u2002/g, ' '); /** En space */
 
 /**
  * First pass at providing the user with an accurate character count for their SMS messages.
@@ -158,9 +136,9 @@ export const getCharCount = (value: string | string[], replace?: boolean): CharC
         parts
     } = split(newVal);
 
-    let maxLength = MAX_GSM_SINGLE;
+    let maxLength: number = MAX_GSM_SINGLE;
 
-    if (toCharSetEnum(characterSet) === CharacterSet.UNICODE) {
+    if (characterSet === CharacterSet.UNICODE) {
         if (characterCount > MAX_UNICODE_SINGLE) {
             maxLength = MAX_UNICODE_MULTI;
         } else {
@@ -260,8 +238,6 @@ const initialState: InitialState = {
     matches: [],
     query: ''
 };
-
-const cx = classNames.bind({ ...styles, ...shared });
 
 export default class TextInputElement extends React.Component<TextInputProps, TextInputState> {
     private selectedEl: HTMLLIElement;
@@ -402,6 +378,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                         return this.setState({
                             query,
                             matches,
+                            value: this.state.value,
                             caretOffset: caret,
                             completionVisible,
                             selectedOptionIndex: 0,
@@ -415,6 +392,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                     this.setState({
                         query: '',
                         matches: [],
+                        value: this.state.value,
                         caretOffset: caret,
                         completionVisible: false,
                         selectedOptionIndex: 0
@@ -434,6 +412,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             {
                 query: '',
                 matches: [],
+                value: this.state.value,
                 caretOffset: 0,
                 selectedOptionIndex: 0,
                 completionVisible: false
@@ -492,12 +471,12 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     private setSelection(selectedIdx: number): void {
         let selectedOptionIndex: number = selectedIdx;
 
-        // Can't exceed the last option
+        /** Can't exceed the last option */
         if (selectedIdx >= this.state.matches.length) {
             selectedOptionIndex = this.state.matches.length - 1;
         }
 
-        // Can't go beyond the first option
+        /** Can't go beyond the first option */
         if (selectedIdx < 0) {
             selectedOptionIndex = 0;
         }
@@ -518,7 +497,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
         this.setState({ errors });
 
-        // See if it should be a valid url
+        /** See if it should be a valid url */
         if (errors.length === 0) {
             if (this.props.url) {
                 if (!isValidURL(this.state.value)) {
@@ -588,8 +567,21 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                         <span className={`${styles.tooltip}`}>
                             <b>&#63;</b>
                             <span className={styles.tooltiptext}>
-                                <div className={styles.tooltiprow} data-spec="tooltip-content">
-                                    <span>{CHARACTER_COUNTER_HELP}.</span>
+                                <div className={styles.tooltiprow}>
+                                    <b>Encoding</b>
+                                    <span>{`  ${this.state.characterSet}`}</span>
+                                </div>
+                                <div className={styles.tooltiprow}>
+                                    <b>Parts</b>
+                                    <span>{`  ${this.state.parts.length}`}</span>
+                                </div>
+                                <div className={styles.tooltiprow}>
+                                    <b>Characters</b>
+                                    <span>{`  ${this.state.characterCount}`}</span>
+                                </div>
+                                <div className={styles.tooltiprow}>
+                                    <b>Limit Per Part</b>
+                                    <span>{`  ${this.state.maxLength}`}</span>
                                 </div>
                             </span>
                         </span>
@@ -602,24 +594,16 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
     }
 
     public render(): JSX.Element {
-        const textElClassName: string = cx({
-            [styles.textinput]: true,
-            [shared.invalid]: this.state.errors.length > 0 || this.props.showInvalid === true
-        });
+        const classes: string[] = [styles.textinput, this.state.errors.length > 0 && 'invalid'];
 
-        const completionClassName: string = cx({
-            [styles.completion_container]: true,
-            [styles.hidden]: !this.state.completionVisible || this.state.matches.length === 0
-        });
+        const completionClasses: string[] = [
+            styles.completion_container,
+            (!this.state.completionVisible || this.state.matches.length === 0) && styles.hidden
+        ];
 
         const options: JSX.Element[] = this.getOptions();
 
         const charCount: JSX.Element = this.getCharCountEle();
-
-        const replyError: boolean =
-            this.state.errors.length &&
-            this.props.name === 'Message' &&
-            this.props.config.type === 'reply';
 
         // Make sure we're rendering the right text element
         const TextElement: string = this.props.textarea ? 'textarea' : 'input';
@@ -628,25 +612,26 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
         return (
             <FormElement
-                __className={this.props.__className}
+                className={this.props.className}
                 name={this.props.name}
                 helpText={this.props.helpText}
                 showLabel={this.props.showLabel}
-                errors={this.state.errors}
-                replyError={replyError}>
+                errors={this.state.errors}>
                 <div className={styles.wrapper}>
                     <TextElement
                         data-spec="input"
                         ref={this.textElRef}
                         type={inputType}
-                        className={textElClassName}
+                        className={classes.join(' ')}
                         value={this.state.value}
                         onChange={this.onChange}
                         onBlur={this.onBlur}
                         onKeyDown={this.onKeyDown}
                         placeholder={this.props.placeholder}
                     />
-                    <div className={completionClassName} style={this.state.caretCoordinates}>
+                    <div
+                        style={this.state.caretCoordinates}
+                        className={completionClasses.join(' ')}>
                         <ul className={styles.option_list}>{options}</ul>
                         <div className={styles.help}>Tab to complete, enter to select</div>
                     </div>
