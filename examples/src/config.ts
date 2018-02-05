@@ -4,14 +4,13 @@ enum ENV {
 }
 
 const endpoints: any = {
+    flows: '/assets/flows.json',
+    groups: '/assets/groups.json',
+    contacts: '/assets/contacts.json',
+    fields: '/assets/fields.json',
     activity: '',
     engine: ''
 };
-
-endpoints.flows = '/assets/flows.json';
-endpoints.groups = '/assets/groups.json';
-endpoints.contacts = '/assets/contacts.json';
-endpoints.fields = '/assets/fields.json';
 
 export default {
     flow: 'a4f64f1b-85bc-477e-b706-de313a022979',

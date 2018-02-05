@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { react as bindCallbacks } from 'auto-bind';
 import { jsonEqual } from '../utils';
 import { getFlow, getFlows, FlowDetails } from '../external';
 import { FlowDefinition, Languages } from '../flowTypes';
@@ -74,11 +75,15 @@ export default class Editor extends React.PureComponent<
 
         // this.Temba = new Temba('https://your-site.com', '05594lM5uQsTHLlvrBts5lenb5Iyex6P');
 
-        this.onSelectFlow = this.onSelectFlow.bind(this);
-        this.setLanguage = this.setLanguage.bind(this);
-        this.setDefinition = this.setDefinition.bind(this);
-        this.onDrag = this.onDrag.bind(this);
-        this.save = this.save.bind(this);
+        bindCallbacks(this, {
+            include: [
+                'onSelectFlow',
+                'setLanguage',
+                'setDefinition',
+                'onDrag',
+                'save'
+            ]
+        });
     }
 
     public componentDidMount(): void {
