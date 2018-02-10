@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
+import { react as bindCallbacks } from 'auto-bind';
 import Modal, { ButtonSet } from '../Modal';
 import {
-    Endpoints,
     FlowDefinition,
     Action,
     AnyAction,
@@ -11,6 +11,7 @@ import {
     Exit,
     Node,
     UINode,
+    Case,
     Reply,
     ChangeGroup,
     SaveToContact,
@@ -21,17 +22,29 @@ import {
 } from '../../flowTypes';
 import { Type, Mode } from '../../providers/ConfigProvider/typeConfigs';
 import { Language } from '../LanguageSelector';
-import { ReplyFormProps } from '../actions/Reply/ReplyForm';
-import ComponentMap, { ComponentDetails } from '../../services/ComponentMap';
+import ComponentMap from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
 import TypeList from './TypeList';
-import FormContainer from './FormContainer';
 import TextInputElement from '../form/TextInputElement';
-import { getTypeConfigPT } from '../../providers/ConfigProvider/propTypes';
+import { CaseElementProps } from '../form/CaseElement';
+import { getTypeConfigPT, getOperatorConfigPT } from '../../providers/ConfigProvider/propTypes';
+import { LocalizationUpdates } from '../../services/FlowMutator';
 import { ConfigProviderContext } from '../../providers/ConfigProvider/configContext';
 
 import * as formStyles from './NodeEditor.scss';
 import * as shared from '../shared.scss';
+
+export type GetResultNameField = () => JSX.Element;
+export type SaveLocalizations = (
+    widgets: { [name: string]: any },
+    cases?: CaseElementProps[]
+) => void;
+export type CleanUpLocalizations = (cases: CaseElementProps[]) => void;
+
+interface Sides {
+    front: JSX.Element;
+    back: JSX.Element;
+}
 
 export interface FormProps {
     showAdvanced: boolean;
@@ -46,23 +59,15 @@ export interface FormProps {
     updateAction(action: AnyAction): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
-    updateLocalizations(
-        language: string,
-        changes: Array<{ uuid: string; translations: any }>
-    ): void;
     updateRouter(node: Node, type: string, previousAction: AnyAction): void;
     removeWidget(name: string): void;
     getExitTranslations(): JSX.Element;
     triggerFormUpdate(): void;
     onToggleAdvanced(): void;
     getLocalizedObject: Function;
-    getLocalizedExits(widgets: { [name: string]: any }): Array<{ uuid: string; translations: any }>;
-    saveLocalizedExits(widgets: { [name: string]: any }): void;
-}
-
-interface Sides {
-    front: JSX.Element;
-    back: JSX.Element;
+    cleanUpLocalizations: CleanUpLocalizations;
+    saveLocalizations: SaveLocalizations;
+    getResultNameField: GetResultNameField;
 }
 
 export interface NodeEditorProps {
@@ -78,7 +83,6 @@ export interface NodeEditorProps {
     onUpdateLocalizations: Function;
     onUpdateAction: Function;
     onUpdateRouter: Function;
-    /** Perform when editor is closed */
     onClose?(canceled: boolean): void;
     ComponentMap: ComponentMap;
 }
@@ -86,7 +90,87 @@ export interface NodeEditorProps {
 export interface NodeEditorState {
     config: Type;
     show: boolean;
+    setResultName: boolean;
 }
+
+export const mapExits = (exits: Exit[]): { [uuid: string]: Exit } =>
+    exits.reduce(
+        (map, exit) => {
+            map[exit.uuid] = exit;
+            return map;
+        },
+        {} as { [uuid: string]: Exit }
+    );
+
+export const isSwitchForm = (type: string) =>
+    type === 'wait_for_response' || type === 'expression' || type === 'group';
+
+/**
+ * Returns existing action (if any), or a bare-bones representation of the form's action.
+ */
+export const getAction = ({ action }: NodeEditorProps, config: Type): AnyAction => {
+    let uuid: string;
+
+    if (action) {
+        if (action.type === config.type || (config.aliases && action.type === config.aliases[0])) {
+            return action;
+        } else {
+            ({ uuid } = action);
+        }
+    }
+
+    let defaultAction: Action = {
+        type: config.type,
+        uuid: uuid || generateUUID()
+    };
+
+    switch (config.type) {
+        case 'reply':
+            defaultAction = { ...defaultAction, text: '', all_urns: false } as Reply;
+            break;
+        case 'add_to_group':
+            defaultAction = { ...defaultAction, groups: null } as ChangeGroup;
+            break;
+        case 'save_contact_field':
+            defaultAction = {
+                ...defaultAction,
+                field_uuid: generateUUID(),
+                field_name: '',
+                value: ''
+            } as SaveToContact;
+            break;
+        case 'send_email':
+            defaultAction = { ...defaultAction, subject: '', body: '', emails: null } as SendEmail;
+            break;
+        case 'save_flow_result':
+            defaultAction = {
+                ...defaultAction,
+                result_name: '',
+                value: '',
+                category: ''
+            } as SaveFlowResult;
+            break;
+        case 'call_webhook':
+            defaultAction = { ...defaultAction, url: '', method: 'GET' } as CallWebhook;
+            break;
+        case 'start_flow':
+            defaultAction = { ...defaultAction, flow_name: null, flow_uuid: null } as StartFlow;
+            break;
+    }
+
+    return defaultAction;
+};
+
+export const FormContainer: React.SFC<{
+    onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void;
+    __className?: string;
+}> = ({ children, onKeyPress, __className }) => (
+    <div className={__className ? __className : null}>
+        <div className={formStyles.node_editor}>
+            <form onKeyPress={onKeyPress}>{children}</form>
+        </div>
+    </div>
+);
 
 export default class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorState> {
     private modal: Modal;
@@ -98,41 +182,44 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     private temporaryButtons?: ButtonSet;
 
     public static contextTypes = {
-        getTypeConfig: getTypeConfigPT
+        getTypeConfig: getTypeConfigPT,
+        getOperatorConfig: getOperatorConfigPT
     };
 
     constructor(props: NodeEditorProps, context: ConfigProviderContext) {
         super(props, context);
 
-        const config = this.context.getTypeConfig(this.determineConfigType());
+        this.state = this.getInitialState();
 
-        this.state = {
-            show: this.props.show || false,
-            config
-        };
+        bindCallbacks(this, {
+            include: [
+                'onSave',
+                'onCancel',
+                'onTypeChange',
+                'onKeyPress',
+                'onBindWidget',
+                'onBindAdvancedWidget',
+                'onShowNameField',
+                'formRef',
+                'modalRef',
+                'getLocalizedObject',
+                'getExitTranslations',
+                'getResultNameField',
+                'getLocalizedObject',
+                'updateAction',
+                'updateRouter',
+                'saveLocalizations',
+                'cleanUpLocalizations',
+                'toggleAdvanced',
+                'triggerFormUpdate',
+                'removeWidget'
+            ]
+        });
 
         this.initialButtons = {
-            primary: { name: 'Save', onClick: this.onSave.bind(this) },
-            secondary: { name: 'Cancel', onClick: this.onCancel.bind(this) }
+            primary: { name: 'Save', onClick: this.onSave },
+            secondary: { name: 'Cancel', onClick: this.onCancel }
         };
-
-        this.formRef = this.formRef.bind(this);
-        this.modalRef = this.modalRef.bind(this);
-        this.onOpen = this.onOpen.bind(this);
-        this.onTypeChange = this.onTypeChange.bind(this);
-        this.onKeyPress = this.onKeyPress.bind(this);
-        this.onBindWidget = this.onBindWidget.bind(this);
-        this.onBindAdvancedWidget = this.onBindAdvancedWidget.bind(this);
-        this.updateLocalizations = this.updateLocalizations.bind(this);
-        this.updateAction = this.updateAction.bind(this);
-        this.updateRouter = this.updateRouter.bind(this);
-        this.getLocalizedObject = this.getLocalizedObject.bind(this);
-        this.getExitTranslations = this.getExitTranslations.bind(this);
-        this.getLocalizedExits = this.getLocalizedExits.bind(this);
-        this.saveLocalizedExits = this.saveLocalizedExits.bind(this);
-        this.toggleAdvanced = this.toggleAdvanced.bind(this);
-        this.triggerFormUpdate = this.triggerFormUpdate.bind(this);
-        this.removeWidget = this.removeWidget.bind(this);
     }
 
     private formRef(ref: React.Component<{}>): React.Component<{}> {
@@ -159,8 +246,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             this.advancedWidgets[widget.props.name] = true;
         }
     }
-
-    private onOpen(): void {}
 
     private onSave(): void {
         if (this.submit()) {
@@ -195,6 +280,12 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         });
     }
 
+    private onShowNameField(): void {
+        this.setState({
+            setResultName: true
+        });
+    }
+
     private determineConfigType(): string {
         if (this.props.action) {
             return this.props.action.type;
@@ -217,7 +308,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             }
         }
 
-        const details: ComponentDetails = this.props.ComponentMap.getDetails(this.props.node.uuid);
+        const details = this.props.ComponentMap.getDetails(this.props.node.uuid);
 
         if (details.type) {
             return details.type;
@@ -228,10 +319,98 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         );
     }
 
+    private getInitialState(): NodeEditorState {
+        const type = this.determineConfigType();
+        const config = this.context.getTypeConfig(type);
+        const show = this.props.show || false;
+        const setResultName =
+            this.props.node.router && this.props.node.router.result_name ? true : false;
+
+        return {
+            config,
+            show,
+            setResultName
+        };
+    }
+
     private getLocalizedObject(): LocalizedObject {
         if (this.props.localizations && this.props.localizations.length) {
             return this.props.localizations[0];
         }
+    }
+
+    private getResultNameField(): JSX.Element {
+        let nameField: JSX.Element;
+
+        if (this.state.setResultName) {
+            let resultName = '';
+
+            if (
+                (this.props.node.router as SwitchRouter) &&
+                (this.props.node.router as SwitchRouter).result_name
+            ) {
+                resultName += (this.props.node.router as SwitchRouter).result_name;
+            }
+
+            nameField = (
+                <TextInputElement
+                    data-spec="name-field"
+                    ref={this.onBindWidget}
+                    name="Result Name"
+                    showLabel={true}
+                    value={resultName}
+                    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+                    ComponentMap={this.props.ComponentMap}
+                    config={this.state.config}
+                />
+            );
+        } else {
+            nameField = (
+                <span
+                    data-spec="name-field"
+                    className={formStyles.saveLink}
+                    onClick={this.onShowNameField}>
+                    Save as..
+                </span>
+            );
+        }
+
+        return <div className={formStyles.saveAs}>{nameField}</div>;
+    }
+
+    private updateLocalizations(language: string, changes: LocalizationUpdates): void {
+        this.props.onUpdateLocalizations(language, changes);
+    }
+
+    /***
+     * If the user has a localized 'All Responses' case and they're adding another case,
+     * remove translation for the initial case.
+     * If the user is going from 1 or more cases to 0 and this router has a translation for the 'Other' case, lose it.
+     */
+    private cleanUpLocalizations(cases: CaseElementProps[]): void {
+        const { uuid: nodeUUID, exits: nodeExits } = this.props.node;
+        const exitMap: { [uuid: string]: Exit } = mapExits(nodeExits);
+
+        const updates: LocalizationUpdates = [];
+        let lang: string;
+
+        Object.keys(this.props.definition.localization).forEach(iso => {
+            const language = this.props.definition.localization[iso];
+            Object.keys(language).forEach(localizationUUID => {
+                if (exitMap[localizationUUID]) {
+                    const exitMatch = exitMap[localizationUUID];
+                    if (
+                        exitMatch.name &&
+                        (exitMatch.name === 'All Responses' || exitMatch.name === 'Other')
+                    ) {
+                        lang = iso;
+                        updates.push({ uuid: localizationUUID });
+                    }
+                }
+            });
+        });
+
+        this.updateLocalizations(lang, updates);
     }
 
     private getLocalizedExits(widgets: {
@@ -258,14 +437,41 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         }, []);
     }
 
-    private saveLocalizedExits(widgets: { [name: string]: any }): void {
-        const exits = this.getLocalizedExits(widgets);
-        const { iso } = this.props.language;
+    private saveLocalizations(widgets: { [name: string]: any }, cases?: CaseElementProps[]): void {
+        const updates = [...this.getLocalizedExits(widgets)];
 
-        this.props.onUpdateLocalizations(iso, exits);
+        if (cases && cases.length) {
+            updates.push(...this.getLocalizedCases(widgets));
+        }
+
+        this.updateLocalizations(this.props.language.iso, updates);
     }
 
-    private getExitTranslations(): JSX.Element {
+    private getLocalizedCases(widgets: {
+        [name: string]: any;
+    }): Array<{ uuid: string; translations: any }> {
+        const results: Array<{ uuid: string; translations: any }> = [];
+
+        const { cases } = this.props.node.router as SwitchRouter;
+
+        cases.forEach(({ uuid: caseUUID }) => {
+            const input: TextInputElement = widgets[caseUUID];
+
+            if (input) {
+                const value = input.state.value.trim();
+
+                if (value) {
+                    results.push({ uuid: caseUUID, translations: { arguments: [value] } });
+                } else {
+                    results.push({ uuid: caseUUID, translations: null });
+                }
+            }
+        });
+
+        return results;
+    }
+
+    public getExitTranslations(): JSX.Element {
         let languageName: string = 'Spanish';
 
         if (this.props.translating) {
@@ -278,7 +484,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         const exits: Exit[] = this.props.node.exits.reduce(
             (exitList, { uuid: exitUUID, name: exitName }) => {
-                const localized = this.props.localizations.find(
+                const [localized] = this.props.localizations.filter(
                     (localizedObject: LocalizedObject) =>
                         localizedObject.getObject().uuid === exitUUID
                 );
@@ -351,7 +557,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
             return true;
         } else {
-            let frontError: boolean = false;
+            let frontError = false;
 
             for (const widget of invalid) {
                 if (!this.advancedWidgets[widget.props.name]) {
@@ -411,19 +617,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         delete this.widgets[name];
     }
 
-    private hasAdvanced(): boolean {
-        const mode: Mode = this.getMode();
-
-        return this.state.config.allows(mode);
-    }
-
-    private updateLocalizations(
-        language: string,
-        changes: Array<{ uuid: string; translations: any }>
-    ): void {
-        this.props.onUpdateLocalizations(language, changes);
-    }
-
     private updateAction(act: Action): void {
         this.props.onUpdateAction(this.props.node, act);
     }
@@ -432,63 +625,18 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         this.props.onUpdateRouter(node, type, previousAction);
     }
 
-    /**
-     * Returns existing action (if any), or a bare-bones representation of the form's action.
-     */
-    private getAction(): AnyAction {
-        if (this.props.action) {
-            if (
-                this.props.action.type === this.state.config.type ||
-                (this.state.config.aliases &&
-                    this.props.action.type === this.state.config.aliases[0])
-            ) {
-                return this.props.action;
-            }
-        }
-
-        let action: Action = {
-            type: this.state.config.type,
-            uuid: generateUUID()
-        };
-
-        switch (this.state.config.type) {
-            case 'reply':
-                action = { ...action, text: '', all_urns: false } as Reply;
-                break;
-            case 'add_to_group':
-                action = { ...action, groups: null } as ChangeGroup;
-                break;
-            case 'save_contact_field':
-                action = {
-                    ...action,
-                    field_uuid: generateUUID(),
-                    field_name: '',
-                    value: ''
-                } as SaveToContact;
-                break;
-            case 'send_email':
-                action = { ...action, subject: '', body: '', emails: null } as SendEmail;
-                break;
-            case 'save_flow_result':
-                action = { ...action, result_name: '', value: '', category: '' } as SaveFlowResult;
-                break;
-            case 'call_webhook':
-                action = { ...action, url: '', method: 'GET' } as CallWebhook;
-                break;
-            case 'start_flow':
-                action = { ...action, flow_name: null, flow_uuid: null } as StartFlow;
-                break;
-        }
-
-        return action;
-    }
-
     private getMode(): Mode {
         if (this.props.translating) {
             return Mode.TRANSLATING;
         }
 
         return Mode.EDITING;
+    }
+
+    private hasAdvanced(): boolean {
+        const mode: Mode = this.getMode();
+
+        return this.state.config.allows(mode);
     }
 
     private getButtons(): ButtonSet {
@@ -527,10 +675,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         if (!this.props.translating) {
             let className: string = '';
 
-            if (
-                this.state.config.type === 'wait_for_response' ||
-                this.state.config.type === 'expression'
-            ) {
+            if (isSwitchForm(this.state.config.type)) {
                 ({ type_chooser_switch: className } = formStyles);
             } else {
                 ({ type_chooser: className } = formStyles);
@@ -550,7 +695,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     private getSides(): Sides {
-        const action: AnyAction = this.getAction();
+        const action: AnyAction = getAction(this.props, this.state.config);
 
         const formProps: Partial<FormProps> = {
             // Node
@@ -562,13 +707,13 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             config: this.state.config,
             action,
             localizations: this.props.localizations,
-            updateLocalizations: this.updateLocalizations,
+            saveLocalizations: this.saveLocalizations,
+            cleanUpLocalizations: this.cleanUpLocalizations,
             updateAction: this.updateAction,
             updateRouter: this.updateRouter,
             // NodeEditor
-            getLocalizedExits: this.getLocalizedExits,
             getLocalizedObject: this.getLocalizedObject,
-            saveLocalizedExits: this.saveLocalizedExits,
+            getResultNameField: this.getResultNameField,
             getExitTranslations: this.getExitTranslations,
             onBindWidget: this.onBindWidget,
             onBindAdvancedWidget: this.onBindAdvancedWidget,
@@ -579,9 +724,9 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         const { config: { form: FormComp } }: NodeEditorState = this.state;
 
-        const typeList: JSX.Element = this.getTypeList();
+        const typeList = this.getTypeList();
 
-        const front: JSX.Element = (
+        const front = (
             <FormContainer key={'fc-front'} onKeyPress={this.onKeyPress}>
                 {typeList}
                 <FormComp ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />
@@ -595,7 +740,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 <FormContainer
                     key={'fc-back'}
                     onKeyPress={this.onKeyPress}
-                    styles={formStyles.advanced}>
+                    __className={formStyles.advanced}>
                     <FormComp ref={this.formRef} {...{ ...formProps, showAdvanced: true }} />
                 </FormContainer>
             );
@@ -610,7 +755,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     public render(): JSX.Element {
         if (this.state.show) {
             if (this.state.config.form) {
-                const style: string = shared[this.state.config.type];
+                const style = shared[this.state.config.type];
                 const titles: JSX.Element[] = this.getTitles();
                 const buttons: ButtonSet = this.getButtons();
                 const { front, back }: Sides = this.getSides();
@@ -618,14 +763,11 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 return (
                     <Modal
                         ref={this.modalRef}
-                        // NodeEditor
                         __className={style}
                         width="600px"
                         title={titles}
                         show={this.state.show}
                         buttons={buttons}
-                        onModalOpen={this.onOpen}
-                        // Node
                         node={this.props.node}>
                         {front}
                         {back}

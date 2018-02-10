@@ -41,6 +41,16 @@ $inner_spacing: 15px;
     margin-bottom: $inner_spacing;
 }
 
+.save_link {
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 11px;
+}
+
+.save_as {
+    padding: 15px 15px 0px 15px;
+}
+
 .translating_exits {
     clear: both;
 }

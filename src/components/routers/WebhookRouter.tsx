@@ -241,8 +241,6 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
 
     private getInitialState(): WebhookState {
         const initialState: WebhookState = {
-            resultName: null,
-            setResultName: false,
             cases: [],
             operand: '@webhook',
             headers: [],

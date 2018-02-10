@@ -1,5 +1,12 @@
-import NodeEditor, { NodeEditorProps, FormProps } from './NodeEditor';
+import NodeEditor, {
+    GetResultNameField,
+    NodeEditorProps,
+    FormProps,
+    mapExits,
+    isSwitchForm,
+    getAction
+} from './NodeEditor';
 
-export { NodeEditorProps, FormProps };
+export { GetResultNameField, NodeEditorProps, FormProps, mapExits, isSwitchForm, getAction };
 
 export default NodeEditor;

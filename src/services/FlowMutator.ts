@@ -27,6 +27,8 @@ interface Reflow {
     bounds: Bounds;
 }
 
+export type LocalizationUpdates = Array<{ uuid: string; translations?: any }>;
+
 const FORCE_FETCH = true;
 const QUIET_UI = 10;
 const QUIET_SAVE = 1000;
@@ -39,7 +41,6 @@ export default class FlowMutator {
     private updateMethod: Function;
 
     // private loaderProps: IFlowProps;
-
     private dirty: boolean;
     private uiTimeout: any;
     private saveTimeout: any;
@@ -222,7 +223,6 @@ export default class FlowMutator {
 
                 if (this.collides(current.bounds, other.bounds)) {
                     // console.log("COLLISON:", current, other);
-
                     var diff = current.bounds.bottom - other.bounds.top + this.nodeSpacing;
                     other.bounds.top += diff;
                     other.bounds.bottom += diff;
@@ -271,7 +271,7 @@ export default class FlowMutator {
         console.timeEnd('reflow');
     }
 
-    public updateLocalizations(language: string, changes: { uuid: string; translations?: any }[]) {
+    public updateLocalizations(language: string, changes: LocalizationUpdates) {
         if (!this.definition.localization) {
             this.definition = update(this.definition, {
                 localization: {
