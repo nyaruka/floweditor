@@ -3,6 +3,8 @@ enum ENV {
     dev = 'dev'
 }
 
+const assetServerHost = 'https://jason.now.sh';
+
 const endpoints: any = {
     flows: '/assets/flows.json',
     groups: '/assets/groups.json',
@@ -13,6 +15,7 @@ const endpoints: any = {
 };
 
 export default {
+    assetServerHost,
     flow: 'a4f64f1b-85bc-477e-b706-de313a022979',
     languages: {
         eng: 'English',

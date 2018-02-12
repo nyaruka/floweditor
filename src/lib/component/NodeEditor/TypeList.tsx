@@ -43,7 +43,7 @@ export default class TypeList extends React.PureComponent<
     public render(): JSX.Element {
         return (
             <div className={this.props.__className}>
-                <span className={formStyles.intro}>{TYPE_LIST_LABEL}</span>
+                <div className={formStyles.intro}>{TYPE_LIST_LABEL}</div>
                 <Select
                     value={this.state.config}
                     onChange={this.onChangeType}

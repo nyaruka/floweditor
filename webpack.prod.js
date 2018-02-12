@@ -2,7 +2,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const { smartStrategy } = require('webpack-merge');
-const { DefinePlugin } = require('webpack');
 const commonConfig = require('./webpack.common');
 
 const prodConfig = {
@@ -13,11 +12,6 @@ const prodConfig = {
     plugins: [
         new HtmlWebpackPlugin({
             template: 'examples/index.html'
-        }),
-        new DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify('production')
-            }
         }),
         new UglifyJsPlugin({
             parallel: true,

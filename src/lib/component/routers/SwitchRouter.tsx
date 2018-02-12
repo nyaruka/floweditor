@@ -15,7 +15,7 @@ import {
     FlowDefinition,
     Router
 } from '../../flowTypes';
-import { Type, endpointsPT, getOperatorConfig, operatorConfigList } from '../../config';
+import { ConfigProviderContext, Type, endpointsPT, getOperatorConfig, operatorConfigList } from '../../config';
 import { FormProps } from '../NodeEditor';
 import ComponentMap, { SearchResult } from '../../services/ComponentMap';
 import { Language } from '../LanguageSelector';
@@ -288,7 +288,7 @@ export default class SwitchRouterForm extends React.Component<
         endpoints: endpointsPT
     };
 
-    constructor(props: SwitchRouterFormProps) {
+    constructor(props: SwitchRouterFormProps, context: ConfigProviderContext) {
         super(props);
 
         bindCallbacks(this, {

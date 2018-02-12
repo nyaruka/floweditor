@@ -52,9 +52,9 @@ const notFound = (req, res) => notFoundResp(res);
 
 // HOFs
 const withRouter = router(
-    get('/flows.json', cors(flows)),
-    get('/fields.json', cors(fields)),
-    get('/groups.json', cors(groups)),
+    get('/assets/flows.json', cors(flows)),
+    get('/assets/fields.json', cors(fields)),
+    get('/assets/groups.json', cors(groups)),
     get('/*', notFound)
 );
 const withSentry = sentry(process.env.SENTRY_URL)(withRouter);

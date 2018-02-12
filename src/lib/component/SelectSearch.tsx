@@ -3,7 +3,10 @@ import { Async, AsyncCreatable } from 'react-select';
 import axios, { AxiosResponse } from 'axios';
 import { SearchResult } from '../services/ComponentMap';
 import { jsonEqual } from '../utils';
-import { RESULT_TYPE_FIELD } from './form/FieldElement';
+import {
+    ConfigProviderContext,
+    assetServerHostPT
+} from '../config/ConfigProvider';
 
 export interface SelectSearchProps {
     url: string;
@@ -39,7 +42,11 @@ export default class SelectSearch extends React.PureComponent<
 > {
     private select: HTMLInputElement;
 
-    constructor(props: SelectSearchProps) {
+    public static contextTypes = {
+        assetServerHost: assetServerHostPT
+    };
+
+    constructor(props: SelectSearchProps, context: ConfigProviderContext) {
         super(props);
 
         this.state = {
@@ -121,7 +128,7 @@ export default class SelectSearch extends React.PureComponent<
 
             callback(options);
         } else {
-            axios.get(this.props.url).then((response: AxiosResponse) => {
+            axios.get(this.context.assetServerHost + this.props.url).then((response: AxiosResponse) => {
                 const results: SearchResult[] = response.data.results.map(
                     ({ name, uuid, type }: any) => ({
                         name,

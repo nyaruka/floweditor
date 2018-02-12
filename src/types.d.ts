@@ -9,10 +9,11 @@ interface AutoBindOptions {
 }
 
 declare interface FlowEditorConfig {
-    path?: string;
     languages: { [iso: string]: string };
     endpoints: Endpoints;
     flow: string;
+    assetServerHost?: string;
+    path?: string;
 }
 
 interface SplitStats {

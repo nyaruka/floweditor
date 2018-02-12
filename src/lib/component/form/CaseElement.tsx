@@ -121,6 +121,8 @@ export default class CaseElement extends React.Component<
         const args = this.props.kase.arguments || [];
         const exitName = this.props.exitName || '';
 
+        console.log('operatorConfig:', operatorConfig);
+
         this.state = {
             errors: [],
             operatorConfig,
@@ -353,7 +355,7 @@ export default class CaseElement extends React.Component<
                             name="operator"
                             clearable={false}
                             options={this.context.operatorConfigList}
-                            value={this.state.operatorConfig.type}
+                            value={this.state.operatorConfig}
                             valueKey="type"
                             labelKey="verboseName"
                             optionClassName="operator"

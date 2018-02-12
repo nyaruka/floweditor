@@ -4,11 +4,13 @@ import { Languages, Endpoints } from '../flowTypes';
 import { Language } from '../component/LanguageSelector';
 
 export interface ConfigProviderContext {
+    assetServerHost: string;
     endpoints: Endpoints;
     languages: Languages;
 }
 
 // Prop-type definitions (required by React's context API)
+export const assetServerHostPT = string;
 export const endpointsPT = shape({
     fields: string,
     groups: string,
@@ -17,12 +19,12 @@ export const endpointsPT = shape({
     flows: string,
     activity: string
 });
-
 export const languagesPT = objectOf(string);
 // -------------------------------------------------------
 
 export default class ConfigProvider extends React.Component<any> {
     public static childContextTypes = {
+        assetServerHost: assetServerHostPT,
         endpoints: endpointsPT,
         languages: languagesPT
     };
@@ -37,6 +39,7 @@ export default class ConfigProvider extends React.Component<any> {
 
     public getChildContext(): ConfigProviderContext {
         return {
+            assetServerHost: this.props.assetServerHost,
             languages: this.props.languages,
             endpoints: this.props.endpoints
         };

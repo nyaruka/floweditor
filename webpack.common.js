@@ -1,4 +1,8 @@
-const { ProvidePlugin, LoaderOptionsPlugin } = require('webpack');
+const {
+    ProvidePlugin,
+    LoaderOptionsPlugin,
+    EnvironmentPlugin
+} = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { join } = require('path');
 
@@ -22,6 +26,10 @@ module.exports = {
         new ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery'
+        }),
+        new EnvironmentPlugin({
+            NODE_ENV: 'development',
+            DEBUG: false
         }),
         new ExtractTextPlugin('styles.css'),
         new LoaderOptionsPlugin({

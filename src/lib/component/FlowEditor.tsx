@@ -51,6 +51,9 @@ export default class Editor extends React.PureComponent<
     private Temba: Temba;
     private Mutator: FlowMutator;
     private ComponentMap: ComponentMap;
+    private host: string = process.env.NODE_ENV === 'production'
+        ? this.props.config.assetServerHost
+        : '';
 
     public static contextTypes = {
         languages: languagesPT,
@@ -147,13 +150,13 @@ export default class Editor extends React.PureComponent<
     }
 
     private fetchFlow(uuid: string): void {
-        getFlow(this.props.config.endpoints.flows, uuid, false)
+        getFlow(this.host + this.props.config.endpoints.flows, uuid, false)
             .then(({ definition }: FlowDetails) => this.initialize(definition))
             .catch((error: any) => console.log(`fetchFlow error: ${error}`));
     }
 
     private fetchFlowList(): void {
-        getFlows(this.props.config.endpoints.flows)
+        getFlows(this.host + this.props.config.endpoints.flows)
             .then((flows: FlowDetails[]) =>
                 this.setState({
                     flows: flows.map(({ uuid, name }) => ({
@@ -229,6 +232,7 @@ export default class Editor extends React.PureComponent<
 
         return (
             <ConfigProvider
+                assetServerHost={this.host}
                 languages={this.props.config.languages}
                 endpoints={this.props.config.endpoints}>
                 <div className={translatingStyle} data-spec="editor-container">
