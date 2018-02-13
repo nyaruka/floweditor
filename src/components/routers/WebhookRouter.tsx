@@ -64,7 +64,7 @@ const DEFAULT_BODY: string = `{
     "flow_name": @(to_json(run.flow.name))
 }`;
 
-const WEBHOOK_LEGEND: string =
+const WEBHOOK_DESC =
     'Use this step to trigger actions in external services or fetch data to use in this Flow. Enter a URL to call below.';
 
 export default class WebhookForm extends React.Component<WebhookRouterFormProps, WebhookState> {
@@ -273,7 +273,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         let hasEmpty = false;
 
         for (const header of newHeaders) {
-            if (!header.name.trim().length && !header.value.trim().length) {
+            if (header.name.trim().length === 0 && header.value.trim().length === 0) {
                 hasEmpty = true;
                 break;
             }
@@ -336,7 +336,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
 
         return (
             <React.Fragment>
-                <p>{WEBHOOK_LEGEND}</p>
+                <p>{WEBHOOK_DESC}</p>
                 <div className={styles.method}>
                     <SelectElement
                         ref={this.props.onBindWidget}
