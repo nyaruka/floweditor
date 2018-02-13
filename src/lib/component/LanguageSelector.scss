@@ -1,0 +1,9 @@
+@import "../../variables.scss";
+
+.language_selector {
+    z-index: $z_editor_menu;
+    position: absolute;
+    right: 40px;
+    top: 20px;
+    width: 180px;
+}

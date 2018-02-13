@@ -1,9 +1,8 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const { smartStrategy } = require('webpack-merge');
-const { DefinePlugin } = require('webpack');
 const commonConfig = require('./webpack.common');
-const flowEditorConfig = require('./flowEditor.config.prod');
 
 const prodConfig = {
     output: {
@@ -11,10 +10,8 @@ const prodConfig = {
         sourceMapFilename: '[name].map'
     },
     plugins: [
-        new DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify('production')
-            }
+        new HtmlWebpackPlugin({
+            template: 'examples/index.html'
         }),
         new UglifyJsPlugin({
             parallel: true,
@@ -35,10 +32,7 @@ const prodConfig = {
             threshold: 10240,
             minRatio: 0
         })
-    ],
-    externals: {
-        Config: JSON.stringify(flowEditorConfig)
-    }
+    ]
 };
 
 module.exports = smartStrategy({

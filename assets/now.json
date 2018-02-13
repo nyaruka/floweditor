@@ -1,0 +1,8 @@
+{
+  "env": {
+    "NODE_ENV": "production",
+    "SENTRY_URL": "https://3c7d1e3e55984351909b82e6a34dfe3b:882e994f25444a62aea2c1a1a4c144fc@sentry.io/287189"
+  },
+  "name": "jason",
+  "alias": ["jason"]
+}
