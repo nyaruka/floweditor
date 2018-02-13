@@ -356,7 +356,7 @@ export default class WebhookForm extends React.Component<
         const summary: JSX.Element = this.getSummary();
 
         return (
-            <div>
+            <>
                 <p>{WEBHOOK_LEGEND}</p>
                 <div className={styles.method}>
                     <SelectElement
@@ -402,7 +402,7 @@ export default class WebhookForm extends React.Component<
                         would be available in all future steps.
                     </p>
                 </div>
-            </div>
+            </>
         );
     }
 
