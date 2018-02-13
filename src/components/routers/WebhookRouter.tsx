@@ -12,7 +12,6 @@ import {
     AnyAction,
     Methods
 } from '../../flowTypes';
-import { Type } from '../../providers/ConfigProvider/typeConfigs';
 import { SwitchRouterState } from './SwitchRouter';
 import { FormProps } from '../NodeEditor';
 import SelectElement from '../form/SelectElement';
@@ -20,6 +19,7 @@ import HeaderElement, { Header } from '../form/HeaderElement';
 import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 import FormElement from '../form/FormElement';
 import ComponentMap from '../../services/ComponentMap';
+import { Type } from '../../providers/ConfigProvider/typeConfigs';
 
 import * as styles from './Webhook.scss';
 
@@ -56,7 +56,7 @@ interface HeaderMap {
 
 type MethodOptions = MethodMap[];
 
-const defaultBody: string = `{
+const DEFAULT_BODY: string = `{
     "contact": @(to_json(contact.uuid)),
     "contact_urn": @(to_json(contact.urns)),
     "message": @(to_json(input.text)),
@@ -64,7 +64,7 @@ const defaultBody: string = `{
     "flow_name": @(to_json(run.flow.name))
 }`;
 
-const webhookLegend: string =
+const WEBHOOK_LEGEND: string =
     'Use this step to trigger actions in external services or fetch data to use in this Flow. Enter a URL to call below.';
 
 export default class WebhookForm extends React.Component<WebhookRouterFormProps, WebhookState> {
@@ -101,7 +101,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         }
 
         // Determine body
-        let body: string = defaultBody;
+        let body: string = DEFAULT_BODY;
         if (method === Methods.POST || method === Methods.PUT) {
             const bodyEle = widgets.Body as TextInputElement;
             body = bodyEle.state.value;
@@ -123,7 +123,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
             return map;
         }, {});
 
-        const uuid: string = (this.props.action && this.props.action.uuid) || generateUUID();
+        const { uuid } = this.props.action;
 
         const newAction: CallWebhook = {
             uuid,
@@ -244,24 +244,24 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
             resultName: null,
             setResultName: false,
             cases: [],
+            headers: [{ name: '', value: '', uuid: generateUUID() }],
             operand: '@webhook',
-            headers: [],
             method: Methods.GET
         };
 
-        if (this.props.action && this.props.action.type === 'call_webhook') {
+        if (this.props.action.type === 'call_webhook') {
             const webhookAction = this.props.action as CallWebhook;
 
             initialState.method = webhookAction.method;
 
-            if (webhookAction.headers) {
-                initialState.headers = this.addEmptyHeader(
-                    Object.keys(webhookAction.headers).map(key => ({
-                        name: key,
-                        value: webhookAction.headers[key],
-                        uuid: generateUUID()
-                    }))
-                );
+            if (webhookAction.headers && Object.keys(webhookAction.headers).length) {
+                const existingHeaders = Object.keys(webhookAction.headers).map(key => ({
+                    name: key,
+                    value: webhookAction.headers[key],
+                    uuid: generateUUID()
+                }));
+
+                initialState.headers.unshift(...existingHeaders);
             }
         }
 
@@ -273,7 +273,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         let hasEmpty = false;
 
         for (const header of newHeaders) {
-            if (header.name.trim().length === 0 && header.value.trim().length === 0) {
+            if (!header.name.trim().length && !header.value.trim().length) {
                 hasEmpty = true;
                 break;
             }
@@ -290,7 +290,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         let method = Methods.GET;
         let url = '';
 
-        if (this.props.action && this.props.action.type === 'call_webhook') {
+        if (this.props.action.type === 'call_webhook') {
             ({ method, url } = this.props.action as CallWebhook);
         }
 
@@ -305,18 +305,18 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         const linkText = this.state.method === Methods.GET ? baseText : `${baseText} and body`;
 
         return (
-            <span>
+            <React.Fragment>
                 If you need to, you can also{' '}
                 <a href="#" onClick={this.props.onToggleAdvanced}>
                     {linkText}
                 </a>{' '}
-                for your request.
-            </span>
+                of your request.
+            </React.Fragment>
         );
     }
 
     private getReqBody(): string {
-        let reqBody = defaultBody;
+        let reqBody = DEFAULT_BODY;
 
         if (this.props.action.body) {
             ({ action: { body: reqBody } } = this.props);
@@ -335,8 +335,8 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
         const summary: JSX.Element = this.getSummary();
 
         return (
-            <div>
-                <p>{webhookLegend}</p>
+            <React.Fragment>
+                <p>{WEBHOOK_LEGEND}</p>
                 <div className={styles.method}>
                     <SelectElement
                         ref={this.props.onBindWidget}
@@ -374,7 +374,7 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                         be available in all future steps.
                     </p>
                 </div>
-            </div>
+            </React.Fragment>
         );
     }
 
@@ -403,16 +403,13 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                 );
             }
         );
-
         const reqBody = this.getReqBody();
         const helpText = `Modify the body of the ${
             this.state.method
         } request that will be sent to your webhook.`;
         const reqBodyLabel = `${this.state.method} Body`;
         const reqBodyHelp = `Modify the body of your ${this.state.method} request.`;
-
         const needsBody = this.state.method === Methods.POST || this.state.method === Methods.PUT;
-
         const bodyForm: JSX.Element = needsBody ? (
             <div className={styles.bodyForm}>
                 <h4>{reqBodyLabel}</h4>
@@ -432,9 +429,8 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                 />
             </div>
         ) : null;
-
         return (
-            <div>
+            <React.Fragment>
                 <h4 className={styles.headers_title}>Headers</h4>
                 <p className={styles.info}>
                     Add any additional headers below that you would like to send along with your
@@ -448,10 +444,9 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
                     {headerElements}
                 </FlipMove>
                 {bodyForm}
-            </div>
+            </React.Fragment>
         );
     }
-
     public render(): JSX.Element {
         return this.props.showAdvanced ? this.renderAdvanced() : this.renderForm();
     }
