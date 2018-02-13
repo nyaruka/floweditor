@@ -33,7 +33,7 @@
     "preversion": "npm run test:local",
     "version": "npm run build:prod",
     "postversion": "git push && git push --tags && npm publish",
-    "prepush": "npm run build:prod"
+    "precommit": "npm run build:prod"
   },
   "devDependencies": {
     "@types/classnames": "2.2.3",
