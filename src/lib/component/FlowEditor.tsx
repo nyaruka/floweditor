@@ -52,7 +52,7 @@ export default class Editor extends React.PureComponent<
     private Mutator: FlowMutator;
     private ComponentMap: ComponentMap;
     private host: string = process.env.NODE_ENV === 'production'
-        ? this.props.config.assetServerHost
+        ? this.props.config.assetHost
         : '';
 
     public static contextTypes = {
@@ -232,7 +232,7 @@ export default class Editor extends React.PureComponent<
 
         return (
             <ConfigProvider
-                assetServerHost={this.host}
+                assetHost={this.host}
                 languages={this.props.config.languages}
                 endpoints={this.props.config.endpoints}>
                 <div className={translatingStyle} data-spec="editor-container">

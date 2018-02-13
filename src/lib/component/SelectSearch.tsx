@@ -5,7 +5,7 @@ import { SearchResult } from '../services/ComponentMap';
 import { jsonEqual } from '../utils';
 import {
     ConfigProviderContext,
-    assetServerHostPT
+    assetHostPT
 } from '../config/ConfigProvider';
 
 export interface SelectSearchProps {
@@ -43,7 +43,7 @@ export default class SelectSearch extends React.PureComponent<
     private select: HTMLInputElement;
 
     public static contextTypes = {
-        assetServerHost: assetServerHostPT
+        assetHost: assetHostPT
     };
 
     constructor(props: SelectSearchProps, context: ConfigProviderContext) {
@@ -128,7 +128,7 @@ export default class SelectSearch extends React.PureComponent<
 
             callback(options);
         } else {
-            axios.get(this.context.assetServerHost + this.props.url).then((response: AxiosResponse) => {
+            axios.get(this.context.assetHost + this.props.url).then((response: AxiosResponse) => {
                 const results: SearchResult[] = response.data.results.map(
                     ({ name, uuid, type }: any) => ({
                         name,

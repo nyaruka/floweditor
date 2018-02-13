@@ -12,7 +12,7 @@ declare interface FlowEditorConfig {
     languages: { [iso: string]: string };
     endpoints: Endpoints;
     flow: string;
-    assetServerHost?: string;
+    assetHost?: string;
     path?: string;
 }
 

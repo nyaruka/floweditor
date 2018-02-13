@@ -12,8 +12,9 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import { AppContainer as HotContainer } from 'react-hot-loader';
 import FlowEditor from '../../src/index';
-import config from './config';
 import { inProduction } from '../../src/lib/utils/index';
+
+const config = require('../../assets/config.json');
 
 const root = document.getElementById('flow-editor');
 
