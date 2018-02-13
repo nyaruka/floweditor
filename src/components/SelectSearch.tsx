@@ -17,7 +17,7 @@ export interface SelectSearchProps {
     localSearchOptions?: SearchResult[];
     className?: string;
     createPrompt?: string;
-    onChange?: (selections: SearchResult[]) => void;
+    onChange?: (selections: SearchResult | SearchResult[]) => void;
     isValidNewOption?: (option: { label: string }) => boolean;
     createNewOption?: (option: { label: string; labelKey: string; valueKey: string }) => any;
 }
@@ -45,7 +45,7 @@ export default class SelectSearch extends React.PureComponent<
         };
 
         bindCallbacks(this, {
-            include: ['selectRef', 'loadOptions', 'onChange']
+            include: ['selectRef', 'loadOptions', 'onChange', 'onChangeMulti']
         });
     }
 
@@ -123,31 +123,43 @@ export default class SelectSearch extends React.PureComponent<
         }
     }
 
-    // If 'multi' prop is truthy, we get an array. If not, we get a single object.
-    private onChange(selections: SearchResult | SearchResult[]): void {
+    private onChange(selection: SearchResult): void {
+        // Account for null selections
+        if (!selection) {
+            return;
+        }
+
+        // Convert to array to update state
+        const selections = [selection];
+
+        if (!jsonEqual(this.state.selections, selections)) {
+            if (this.props.onChange) {
+                this.props.onChange(selection);
+            }
+
+            this.setState(
+                {
+                    selections
+                },
+                () => this.select.focus()
+            );
+        }
+    }
+
+    private onChangeMulti(selections: SearchResult[]): void {
         // Account for null selections
         if (!selections) {
             return;
         }
 
-        const isArray: boolean = selections.constructor === Array;
-
-        let newSelections;
-
-        if (isArray) {
-            newSelections = selections as SearchResult[];
-        } else {
-            newSelections = [selections] as SearchResult[];
-        }
-
-        if (!jsonEqual(this.state.selections, newSelections)) {
+        if (!jsonEqual(this.state.selections, selections)) {
             if (this.props.onChange) {
-                this.props.onChange(newSelections);
+                this.props.onChange(selections);
             }
 
             this.setState(
                 {
-                    selections: newSelections
+                    selections
                 },
                 () => this.select.focus()
             );
@@ -180,16 +192,15 @@ export default class SelectSearch extends React.PureComponent<
             }
         }
 
-        const options: any = {};
+        const onChange = this.props.multi ? this.onChangeMulti : this.onChange;
 
+        const options: any = {};
         if (this.props.createPrompt) {
             options.promptTextCreator = (label: string) => this.props.createPrompt + label;
         }
-
         if (this.props.createNewOption) {
             options.newOptionCreator = this.props.createNewOption;
         }
-
         if (this.props.isValidNewOption) {
             options.isValidNewOption = this.props.isValidNewOption;
         }
@@ -216,7 +227,7 @@ export default class SelectSearch extends React.PureComponent<
                     onCloseResetsInput={true}
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
-                    onChange={this.onChange}
+                    onChange={onChange}
                     searchPromptText={this.props.searchPromptText}
                     {...options}
                 />
@@ -243,7 +254,7 @@ export default class SelectSearch extends React.PureComponent<
                     onCloseResetsInput={true}
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
-                    onChange={this.onChange}
+                    onChange={onChange}
                     searchPromptText={this.props.searchPromptText}
                     {...options}
                 />

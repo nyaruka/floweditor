@@ -103,7 +103,7 @@ export const mapExits = (exits: Exit[]): { [uuid: string]: Exit } =>
     );
 
 export const isSwitchForm = (type: string) =>
-    type === 'wait_for_response' || type === 'expression' || type === 'group';
+    type === 'wait_for_response' || type === 'split_by_expression' || type === 'split_by_group';
 
 /**
  * Returns existing action (if any), or a bare-bones representation of the form's action.
@@ -129,6 +129,9 @@ export const getAction = ({ action }: NodeEditorProps, config: Type): AnyAction 
             defaultAction = { ...defaultAction, text: '', all_urns: false } as Reply;
             break;
         case 'add_to_group':
+            defaultAction = { ...defaultAction, groups: null } as ChangeGroup;
+            break;
+        case 'remove_from_group':
             defaultAction = { ...defaultAction, groups: null } as ChangeGroup;
             break;
         case 'save_contact_field':

@@ -83,7 +83,7 @@ export default class GroupRouter extends React.PureComponent<GroupRouterProps> {
                 router.result_name += resultNameEle.state.value;
             }
 
-            this.props.updateRouter({ ...updates, router } as Node, 'group', this.props.action);
+            this.props.updateRouter({ ...updates, router } as Node, 'split_by_group', this.props.action);
         }
     }
 

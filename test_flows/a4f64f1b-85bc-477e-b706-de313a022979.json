@@ -335,7 +335,7 @@
                                 "x": 535,
                                 "y": 502
                             },
-                            "type": "expression",
+                            "type": "split_by_expression",
                             "dimensions": {
                                 "width": 200,
                                 "height": 59
@@ -377,7 +377,7 @@
                                 "x": 586,
                                 "y": 789
                             },
-                            "type": "group",
+                            "type": "split_by_group",
                             "dimensions": {
                                 "width": 247,
                                 "height": 59

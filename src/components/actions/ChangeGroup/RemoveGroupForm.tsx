@@ -53,7 +53,7 @@ export default class RemoveGroupForm extends React.PureComponent<
         }
     }
 
-    private onCheck(): void {
+    public onCheck(): void {
         this.setState({ removeFromAll: !this.state.removeFromAll }, () => console.log('state set'));
     }
 
@@ -93,8 +93,7 @@ export default class RemoveGroupForm extends React.PureComponent<
         let groupEl: JSX.Element = null;
         let checkboxEl: JSX.Element = null;
 
-        const sibling: boolean = !this.state.removeFromAll;
-        const localGroups: SearchResult[] = this.props.ComponentMap.getGroups();
+        const sibling = !this.state.removeFromAll;
 
         if (sibling) {
             groupElLabel = <p>{LABEL}</p>;
@@ -106,7 +105,6 @@ export default class RemoveGroupForm extends React.PureComponent<
                     placeholder={PLACEHOLDER}
                     searchPromptText={NOT_FOUND}
                     endpoint={this.context.endpoints.groups}
-                    localGroups={localGroups}
                     groups={this.state.groups}
                     add={false}
                     required={true}
@@ -139,6 +137,6 @@ export default class RemoveGroupForm extends React.PureComponent<
 
     public render(): JSX.Element {
         const fields: JSX.Element = this.getFields();
-        return <div>{fields}</div>;
+        return <React.Fragment>{fields}</React.Fragment>;
     }
 }

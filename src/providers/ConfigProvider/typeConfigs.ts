@@ -136,7 +136,7 @@ export const typeConfigList: Type[] = [
 
     /** Routers */
     {
-        type: 'expression',
+        type: 'split_by_expression',
         name: 'Split by Expression',
         description: 'Split by a custom expression',
         form: SwitchRouterForm,
@@ -146,7 +146,7 @@ export const typeConfigList: Type[] = [
         }
     },
     {
-        type: 'group',
+        type: 'split_by_group',
         name: 'Split by Group Membership',
         description: 'Split by group membership',
         form: GroupRouter,

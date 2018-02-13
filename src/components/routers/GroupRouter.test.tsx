@@ -6,18 +6,14 @@ import CompMap, { SearchResult } from '../../services/ComponentMap';
 import { getLocalizations } from '../Node';
 import { GroupElementProps } from '../form/GroupElement';
 import { GROUP_LABEL } from './constants';
-import { GROUP_PLACEHOLDER, GROUP_NOT_FOUND } from '../form/constants';
 
 const colorsFlow = require('../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
 const { results: [{ definition }] } = colorsFlow;
 const { nodes: [replyNode, , , , , node], localization: locals } = definition;
 
-const {
-    endpoints,
-    getTypeConfig
-} = configContext;
-const groupRouterConfig = getTypeConfig('group');
+const { endpoints, getTypeConfig } = configContext;
+const groupRouterConfig = getTypeConfig('split_by_group');
 const ComponentMap = new CompMap(definition);
 // Mocking callbacks
 const onUpdateLocalizations = jest.fn();
@@ -61,9 +57,9 @@ describe('GroupRouter >', () => {
         describe('toCases >', () => {
             it('should map a list of group SearchResults to a list of CaseElementProps', () => {
                 const groups = extractGroups(node);
-                toCases(groups).forEach((cäse, idx) => {
-                    expect(cäse.kase.uuid).toBe(groups[idx].id);
-                    expect(cäse.exitName).toBe(groups[idx].name);
+                toCases(groups).forEach((groupCase, idx) => {
+                    expect(groupCase.kase.uuid).toBe(groups[idx].id);
+                    expect(groupCase.exitName).toBe(groups[idx].name);
                 });
             });
         });
@@ -103,7 +99,9 @@ describe('GroupRouter >', () => {
             };
 
             expect(wrapper.find('p').text()).toBe(GROUP_LABEL);
-            expect(wrapper.find('GroupElement').props()).toEqual(groupElementProps);
+            expect(wrapper.find('GroupElement').props()).toEqual(
+                expect.objectContaining(groupElementProps)
+            );
         });
 
         it('should call "getExitTranslations" prop from render if "translating" prop is truthy', () => {

@@ -60,7 +60,7 @@ Object {
       "description": "Split by group membership",
       "form": [Function],
       "name": "Split by Group Membership",
-      "type": "group",
+      "type": "split_by_group",
     },
   ],
   "baseLanguage": Object {
@@ -417,14 +417,14 @@ Object {
       "description": "Split by a custom expression",
       "form": [Function],
       "name": "Split by Expression",
-      "type": "expression",
+      "type": "split_by_expression",
     },
     Object {
       "allows": [Function],
       "description": "Split by group membership",
       "form": [Function],
       "name": "Split by Group Membership",
-      "type": "group",
+      "type": "split_by_group",
     },
     Object {
       "advanced": 2,
@@ -458,21 +458,6 @@ Object {
       "form": [Function],
       "name": "Call Webhook",
       "type": "call_webhook",
-    },
-    "expression": Object {
-      "advanced": 2,
-      "allows": [Function],
-      "description": "Split by a custom expression",
-      "form": [Function],
-      "name": "Split by Expression",
-      "type": "expression",
-    },
-    "group": Object {
-      "allows": [Function],
-      "description": "Split by group membership",
-      "form": [Function],
-      "name": "Split by Group Membership",
-      "type": "group",
     },
     "remove_from_group": Object {
       "allows": [Function],
@@ -517,6 +502,21 @@ Object {
       "form": [Function],
       "name": "Send Email",
       "type": "send_email",
+    },
+    "split_by_expression": Object {
+      "advanced": 2,
+      "allows": [Function],
+      "description": "Split by a custom expression",
+      "form": [Function],
+      "name": "Split by Expression",
+      "type": "split_by_expression",
+    },
+    "split_by_group": Object {
+      "allows": [Function],
+      "description": "Split by group membership",
+      "form": [Function],
+      "name": "Split by Group Membership",
+      "type": "split_by_group",
     },
     "start_flow": Object {
       "aliases": Array [

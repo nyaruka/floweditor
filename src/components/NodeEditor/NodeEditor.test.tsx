@@ -44,7 +44,7 @@ describe('NodeEditor >', () => {
 
         describe('isSwitchForm >', () => {
             it('should return true if argument is a type that maps to a switch router form, false otherwise', () => {
-                ['wait_for_response', 'expression', 'group', 'reply'].forEach((type, idx, arr) => {
+                ['wait_for_response', 'split_by_expression', 'split_by_group', 'reply'].forEach((type, idx, arr) => {
                     if (idx === arr.length - 1) {
                         expect(isSwitchForm(type)).toBeFalsy();
                     } else {

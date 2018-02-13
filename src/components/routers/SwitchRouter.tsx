@@ -279,7 +279,7 @@ export default class SwitchRouterForm extends React.Component<
         const optionalNode: Pick<Node, 'wait'> = {};
         if (this.props.config.type === 'wait_for_response') {
             optionalNode.wait = { type: WaitType.msg };
-        } else if (this.props.config.type === 'expression') {
+        } else if (this.props.config.type === 'split_by_expression') {
             optionalNode.wait = { type: WaitType.exp };
         }
 
@@ -644,7 +644,7 @@ export default class SwitchRouterForm extends React.Component<
         let leadIn: JSX.Element | string = null;
         if (this.props.config.type === 'wait_for_response') {
             leadIn = WAIT_LABEL;
-        } else if (this.props.config.type === 'expression') {
+        } else if (this.props.config.type === 'split_by_expression') {
             leadIn = leadIn = (
                 <React.Fragment>
                     <p>{EXPRESSION_LABEL}</p>

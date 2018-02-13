@@ -31,8 +31,8 @@ const {
 describe('SwitchRouter >', () => {
     const { baseLanguage, operatorConfigList, getOperatorConfig, getTypeConfig } = configContext;
     const msgRouterConfig = getTypeConfig('wait_for_response');
-    const expRouterConfig = getTypeConfig('expression');
-    const groupRouterConfig = getTypeConfig('group');
+    const expRouterConfig = getTypeConfig('split_by_expression');
+    const groupRouterConfig = getTypeConfig('split_by_group');
     const ComponentMap = new CompMap(definition);
     const iso = 'spa';
     const translations = locals[iso];

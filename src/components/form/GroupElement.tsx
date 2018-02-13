@@ -64,9 +64,14 @@ export const getInitialGroups = ({
 
 export const GROUP_PROMPT = 'New group: ';
 export const GROUP_PLACEHOLDER = 'Enter the name of an existing group...';
-export const GROUP_NOT_FOUND = 'Enter the name of an existing group';
+export const GROUP_NOT_FOUND = 'Invalid group name';
 
 export default class GroupElement extends React.Component<GroupElementProps, GroupElementState> {
+    public static defaultProps = {
+        placeholder: GROUP_PLACEHOLDER,
+        searchPromptText: GROUP_NOT_FOUND
+    };
+
     constructor(props: GroupElementProps) {
         super(props);
 
@@ -96,7 +101,11 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
                 {
                     groups
                 },
-                () => this.props.onChange && this.props.onChange(groups)
+                () => {
+                    if (this.props.onChange) {
+                        this.props.onChange(groups);
+                    }
+                }
             );
         }
     }
@@ -123,8 +132,6 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
         }
 
         const className = getSelectClass(this.state.errors.length);
-        const placeholder = this.props.placeholder || GROUP_PLACEHOLDER;
-        const searchPromptText = this.props.searchPromptText || GROUP_NOT_FOUND;
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
@@ -138,8 +145,8 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
                     multi={true}
                     initial={this.state.groups}
                     closeOnSelect={false}
-                    placeholder={placeholder}
-                    searchPromptText={searchPromptText}
+                    placeholder={this.props.placeholder}
+                    searchPromptText={this.props.searchPromptText}
                     {...createOptions}
                 />
             </FormElement>
