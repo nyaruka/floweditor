@@ -17,7 +17,7 @@ const cors = microCors({ allowMethods: ['GET'] });
 const isValidUUID = uuid => validate(uuid, 4);
 const notFoundResp = res => {
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    send(res, 404, signBunny('Resource not found'));
+    send(res, 404, signBunny("Dead End ☠️"));
 };
 
 // Guaranteed Assets
