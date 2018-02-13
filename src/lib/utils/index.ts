@@ -152,3 +152,5 @@ export const hasErrorType = (errors: string[], queries: string[]): boolean => {
 
     return false;
 };
+
+export const inProduction = () => process.env.NODE_ENV === 'production';

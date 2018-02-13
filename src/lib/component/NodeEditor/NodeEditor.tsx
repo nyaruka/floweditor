@@ -467,6 +467,8 @@ export default class NodeEditor extends React.PureComponent<
      * Returns existing action (if any), or a bare-bones representation of the form's action.
      */
     private getAction(): AnyAction {
+        let uuid: string;
+
         if (this.props.action) {
             if (
                 this.props.action.type === this.state.config.type ||
@@ -474,12 +476,14 @@ export default class NodeEditor extends React.PureComponent<
                     this.props.action.type === this.state.config.aliases[0])
             ) {
                 return this.props.action;
+            } else {
+                ({ uuid } = this.props.action)
             }
         }
 
         let action: Action = {
             type: this.state.config.type,
-            uuid: generateUUID()
+            uuid: uuid || generateUUID()
         };
 
         switch (this.state.config.type) {
