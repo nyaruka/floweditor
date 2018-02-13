@@ -62,8 +62,7 @@ const DEFAULT_BODY: string = `{
     "contact_urn": @(to_json(contact.urns)),
     "message": @(to_json(input.text)),
     "flow": @(to_json(run.flow.uuid)),
-    "flow_name": @(to_json(run.flow.name)),
-    <3
+    "flow_name": @(to_json(run.flow.name))
 }`;
 
 const WEBHOOK_LEGEND: string =
