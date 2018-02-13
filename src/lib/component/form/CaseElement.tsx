@@ -5,7 +5,7 @@ import { v4 as generateUUID } from 'uuid';
 import ComponentMap from '../../services/ComponentMap';
 import { Case } from '../../flowTypes';
 import { ChangedCaseInput } from '../routers/SwitchRouter';
-import { Type, Operator, getOperatorConfig } from '../../config';
+import { Type, Operator, getOperatorConfig, operatorConfigList } from '../../config';
 import TextInputElement, { HTMLTextElement } from './TextInputElement';
 import { jsonEqual, titleCase, hasErrorType } from '../../utils';
 import FormElement from './FormElement';
@@ -120,8 +120,6 @@ export default class CaseElement extends React.Component<
         const operatorConfig = getOperatorConfig(this.props.kase.type);
         const args = this.props.kase.arguments || [];
         const exitName = this.props.exitName || '';
-
-        console.log('operatorConfig:', operatorConfig);
 
         this.state = {
             errors: [],
@@ -354,7 +352,7 @@ export default class CaseElement extends React.Component<
                             data-spec="operator-list"
                             name="operator"
                             clearable={false}
-                            options={this.context.operatorConfigList}
+                            options={operatorConfigList}
                             value={this.state.operatorConfig}
                             valueKey="type"
                             labelKey="verboseName"
