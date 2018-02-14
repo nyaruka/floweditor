@@ -1,11 +1,15 @@
-const { ProvidePlugin, LoaderOptionsPlugin } = require('webpack');
+const {
+    ProvidePlugin,
+    LoaderOptionsPlugin,
+    EnvironmentPlugin
+} = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const { resolve, join } = require('path');
+const { join } = require('path');
 
 const paths = {
-    app: './src/app',
-    dist: resolve(__dirname, 'dist'),
-    components: join(__dirname, 'src/components')
+    app: './examples/src/app',
+    dist: join(__dirname, '/examples/dist'),
+    lib: join(__dirname, 'src/lib')
 };
 
 module.exports = {
@@ -22,6 +26,10 @@ module.exports = {
         new ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery'
+        }),
+        new EnvironmentPlugin({
+            NODE_ENV: 'development',
+            DEBUG: false
         }),
         new ExtractTextPlugin('styles.css'),
         new LoaderOptionsPlugin({
@@ -44,7 +52,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                include: paths.components,
+                include: paths.lib,
                 use: ['css-hot-loader'].concat(
                     ExtractTextPlugin.extract({
                         fallback: 'style-loader',
@@ -59,7 +67,8 @@ module.exports = {
                                     camelCase: true,
                                     sourceMap: true,
                                     importLoaders: 2,
-                                    localIdentName: '[name]__[local]___[hash:base64:5]'
+                                    localIdentName:
+                                        '[name]__[local]___[hash:base64:5]'
                                 }
                             },
                             {
@@ -76,7 +85,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                exclude: paths.components,
+                exclude: paths.lib,
                 use: ['style-loader', 'css-loader']
             },
             {
@@ -95,7 +104,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                exclude: paths.components,
+                exclude: paths.lib,
                 use: [
                     { loader: 'style-loader' },
                     { loader: 'css-loader' },

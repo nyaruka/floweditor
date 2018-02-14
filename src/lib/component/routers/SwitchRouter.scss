@@ -1,0 +1,75 @@
+@import '../../../variables.scss';
+
+.instructions {
+    margin: 0 15px;
+}
+
+// $case_height: 28px;
+
+.cases {
+    // overflow-y: auto;
+    // overflow-x: visible;
+    // height: 200px;
+    margin-bottom: 9px;
+}
+
+.save_link {
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 11px;
+}
+
+.save_as {
+    padding: 15px 15px 0px 15px;
+}
+
+.translating_operator_title {
+    font-weight: 400;
+    font-size: 18px;
+    margin: 0 9px 15px;
+}
+
+.translating_operator_instructions {
+    margin: 0 10px 15px;
+}
+
+.translating_operator_container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    margin: 10px 0;
+}
+
+.translating_operator {
+    overflow: hidden;
+    width: 145px;
+    font-style: italic;
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.translating_from {
+    background: $translation_bg;
+    border-radius: 5px;
+    padding: 9px;
+    border: 2px solid $translation_bg - #111;
+    width: 156px;
+    white-space: nowrap;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+       text-overflow: ellipsis;
+}
+
+.translating_to {
+    width: 226px;
+    padding-right: 10px;
+}
+
+.title {
+    font-weight: 400;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
