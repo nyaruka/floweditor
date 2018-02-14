@@ -524,7 +524,7 @@ export default class SwitchRouterForm extends React.Component<
         );
 
         if (idx > -1) {
-            const cases = update(this.state.cases, { $splice: [[idx, 1]] });
+            const cases = update(this.state.cases, { $splice: [[idx, 1]] }) as CaseElementProps[];
 
             this.setState({ cases });
         }

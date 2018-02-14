@@ -5,12 +5,12 @@ import Modal from '../Modal';
 import * as styles from './Simulator.scss';
 
 export interface EventProps {
-    uuid: string;
+    uuid?: string;
     created_on?: Date;
     type: string;
-    field_name: string;
-    field_uuid: string;
-    result_name: string;
+    field_name?: string;
+    field_uuid?: string;
+    result_name?: string;
     text?: string;
     name?: string;
     value?: string;

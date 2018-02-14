@@ -174,10 +174,12 @@ export default class Simulator extends React.Component<
     }
 
     private updateRunContext(body: any, runContext: RunContext) {
-        var events = update(this.state.events, { $push: runContext.events });
+        const events = update(this.state.events, {
+            $push: runContext.events
+        }) as EventProps[];
 
-        var activeRuns = false;
-        for (let run of runContext.session.runs) {
+        let activeRuns = false;
+        for (const run of runContext.session.runs) {
             if (run.status == 'A') {
                 activeRuns = true;
                 break;
@@ -195,7 +197,7 @@ export default class Simulator extends React.Component<
             {
                 session: runContext.session,
                 contact: runContext.contact,
-                events: events,
+                events,
                 active: activeRuns
             },
             () => {

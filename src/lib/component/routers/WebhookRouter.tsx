@@ -215,8 +215,9 @@ export default class WebhookForm extends React.Component<
     }
 
     private onHeaderRemoved(header: HeaderElement): void {
+        const existingHeaders = update(this.state.headers, { $splice: [[header.props.index, 1]] }) as Header[]
         const newHeaders = this.addEmptyHeader(
-            update(this.state.headers, { $splice: [[header.props.index, 1]] })
+            existingHeaders
         );
 
         this.setState({ headers: newHeaders }, () =>
