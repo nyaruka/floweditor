@@ -436,6 +436,8 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
      * Returns existing action (if any), or a bare-bones representation of the form's action.
      */
     private getAction(): AnyAction {
+        let uuid: string;
+
         if (this.props.action) {
             if (
                 this.props.action.type === this.state.config.type ||
@@ -443,44 +445,56 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     this.props.action.type === this.state.config.aliases[0])
             ) {
                 return this.props.action;
+            } else {
+                ({ uuid } = this.props.action);
             }
         }
 
-        let action: Action = {
+        let defaultAction: Action = {
             type: this.state.config.type,
-            uuid: generateUUID()
+            uuid: uuid || generateUUID()
         };
 
         switch (this.state.config.type) {
             case 'reply':
-                action = { ...action, text: '', all_urns: false } as Reply;
+                defaultAction = { ...defaultAction, text: '', all_urns: false } as Reply;
                 break;
             case 'add_to_group':
-                action = { ...action, groups: null } as ChangeGroup;
+                defaultAction = { ...defaultAction, groups: null } as ChangeGroup;
                 break;
             case 'save_contact_field':
-                action = {
-                    ...action,
+                defaultAction = {
+                    ...defaultAction,
                     field_uuid: generateUUID(),
                     field_name: '',
                     value: ''
                 } as SaveToContact;
                 break;
             case 'send_email':
-                action = { ...action, subject: '', body: '', emails: null } as SendEmail;
+                defaultAction = {
+                    ...defaultAction,
+                    subject: '',
+                    body: '',
+                    emails: null
+                } as SendEmail;
                 break;
             case 'save_flow_result':
-                action = { ...action, result_name: '', value: '', category: '' } as SaveFlowResult;
+                defaultAction = {
+                    ...defaultAction,
+                    result_name: '',
+                    value: '',
+                    category: ''
+                } as SaveFlowResult;
                 break;
             case 'call_webhook':
-                action = { ...action, url: '', method: 'GET' } as CallWebhook;
+                defaultAction = { ...defaultAction, url: '', method: 'GET' } as CallWebhook;
                 break;
             case 'start_flow':
-                action = { ...action, flow_name: null, flow_uuid: null } as StartFlow;
+                defaultAction = { ...defaultAction, flow_name: null, flow_uuid: null } as StartFlow;
                 break;
         }
 
-        return action;
+        return defaultAction;
     }
 
     private getMode(): Mode {
