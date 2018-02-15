@@ -15,7 +15,7 @@ import { Exit, Case } from '../../flowTypes';
 import { getLocalizations } from '../Node';
 import NodeEditor from '../NodeEditor/NodeEditor';
 
-const colorsFlow = require('../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
+const colorsFlow = require('../../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 const formStyles = require('../NodeEditor/NodeEditor.scss');
 
 const { baseLanguage, languages, getTypeConfig, getOperatorConfig, operatorConfigList } = Config;

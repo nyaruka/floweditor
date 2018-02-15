@@ -10,7 +10,7 @@ import { transformGroups } from './RemoveGroupForm.test';
 
 const {
     results: [{ definition }]
-} = require('../../../../test_flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
+} = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
 
 const { results: groupsResp } = require('../../../../assets/groups.json');
 

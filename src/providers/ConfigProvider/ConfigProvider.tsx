@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { ConfigProviderContext } from './configContext';
+import configContext, { ConfigProviderContext } from './configContext';
 import { childContextPT } from './propTypes';
-import configContext from './configContext';
 
 export default class ConfigProvider extends React.Component<any> {
     public static childContextTypes = childContextPT;

@@ -4,7 +4,7 @@ import SaveToContact from './SaveToContact';
 
 const {
     results: [{ definition }]
-} = require('../../../../test_flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
+} = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
 const { language: flowLanguage, nodes: [, , node] } = definition;
 const { actions: [saveToContactAction] } = node;
 const { uuid, type, field_name, value } = saveToContactAction;

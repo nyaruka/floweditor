@@ -16,7 +16,8 @@ import {
     flowPT,
     baseLanguagePT,
     endpointsPT,
-    languagesPT
+    languagesPT,
+    assetHostPT
 } from './propTypes';
 
 const flowEditorConfig = require('Config');
@@ -25,6 +26,7 @@ describe('Component: ConfigProvider', () => {
     const createChild = () => {
         class Child extends React.Component<{}> {
             public static contextTypes = {
+                assetHost: assetHostPT,
                 typeConfigList: typeConfigListPT,
                 operatorConfigList: operatorConfigListPT,
                 actionConfigList: typeConfigListPT,
@@ -51,14 +53,14 @@ describe('Component: ConfigProvider', () => {
     it('should throw if more than one child component provided', () => {
         expect(
             shallow(
-                <ConfigProvider flowEditorConfig={flowEditorConfig}>
+                <ConfigProvider>
                     <div />
                 </ConfigProvider>
             ).exists()
         ).toBeTruthy();
         expect(() =>
             shallow(
-                <ConfigProvider flowEditorConfig={flowEditorConfig}>
+                <ConfigProvider>
                     <div />
                     <div />
                 </ConfigProvider>
@@ -69,11 +71,12 @@ describe('Component: ConfigProvider', () => {
     it("should provide config to child's context", () => {
         const Child = createChild();
         const tree = renderIntoDocument(
-            <ConfigProvider flowEditorConfig={flowEditorConfig}>
+            <ConfigProvider>
                 <Child />
             </ConfigProvider>
-        );
+        ) as React.Component;
         const childComp = findRenderedComponentWithType(tree, Child);
+
         expect(childComp.context).toEqual(configContext);
     });
 });

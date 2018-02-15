@@ -1,11 +1,12 @@
 const { ProvidePlugin, LoaderOptionsPlugin } = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const { resolve, join } = require('path');
+const { join } = require('path');
+const flowEditorConfig = require('./flowEditor.config');
 
 const paths = {
-    app: './src/app',
-    dist: resolve(__dirname, 'dist'),
-    components: join(__dirname, 'src/components')
+    app: join(__dirname, '/src/app'),
+    dist: join(__dirname, '/dist'),
+    components: join(__dirname, '/src/components')
 };
 
 module.exports = {
@@ -103,5 +104,8 @@ module.exports = {
                 ]
             }
         ]
+    },
+    externals: {
+        Config: JSON.stringify(flowEditorConfig)
     }
 };

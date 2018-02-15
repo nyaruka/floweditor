@@ -8,7 +8,7 @@ import context from '../providers/ConfigProvider/configContext';
 
 const {
     results: [{ uuid: flowUUID, definition }]
-} = require('../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
+} = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
 const { nodes: [, node], localization: locals, _ui: { nodes: uiNodes } } = definition;
 const Activity = new ActivityManager(flowUUID, jest.fn());

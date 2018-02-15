@@ -56,6 +56,7 @@ Object {
       "type": "save_flow_result",
     },
   ],
+  "assetHost": "https://jason.now.sh",
   "baseLanguage": Object {
     "iso": "eng",
     "name": "English",

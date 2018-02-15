@@ -6,7 +6,7 @@ import { getSpecWrapper } from '../../../helpers/utils';
 
 const {
     results: [{ definition }]
-} = require('../../../../test_flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
+} = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
 const { results: groups } = require('../../../../assets/groups.json');
 const { nodes: [node], language: flowLanguage } = definition;
 const { actions: [, addToGroupAction] } = node;

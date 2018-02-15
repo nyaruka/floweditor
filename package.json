@@ -12,12 +12,12 @@
     "test:watch": "npm run test:local -- --watch",
     "test:coverage": "npm run test:local -- --coverage",
     "test:update": "npm run test:local -- --updateSnapshot",
-    "start": "webpack-dev-server --env.NODE_ENV=dev --progress --colors",
+    "start": "webpack-dev-server --env.NODE_ENV=dev --progress --colors --open",
+    "start:prod": "webpack-dev-server --env.NODE_ENV=prod --progress --colors --open",
     "lint:es": "eslint '*/**/*.js'",
     "lint:ts": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
     "build:dev": "webpack --env.NODE_ENV=dev --progress --profile --colors",
     "build:prod": "webpack --env.NODE_ENV=prod --progress --profile --colors",
-    "build:both": "npm run build:dev && npm run build:prod",
     "bundleStats:dev": "webpack --env.NODE_ENV=dev --profile --json > stats.json",
     "bundleStats:dev:windows": "webpack --env.NODE_ENV=dev --profile --json | Out-file 'stats.json' -Encoding OEM",
     "bundleStats:prod": "webpack --env.NODE_ENV=prod --profile --json > stats.json",
@@ -32,6 +32,10 @@
     "preversion": "npm run test:local",
     "version": "npm run build:prod",
     "postversion": "git push && git push --tags && npm publish"
+  },
+  "peerDependencies": {
+    "react": "^16.0",
+    "react-dom": "^16.0"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.3",
@@ -74,6 +78,7 @@
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
     "get-input-selection": "^1.1.4",
+    "html-webpack-plugin": "2.30.1",
     "identity-obj-proxy": "^3.0.0",
     "immutability-helper": "^2.1.2",
     "jest": "^21.2.1",
@@ -95,6 +100,7 @@
     "react-hot-loader": "^3.1.1",
     "react-modal": "^3.1.7",
     "react-select": "^1.1.0",
+    "rimraf": "2.6.2",
     "sass-loader": "^6.0.3",
     "source-map-loader": "^0.1.6",
     "split-sms": "^0.1.7",

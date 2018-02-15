@@ -8,7 +8,7 @@ import configContext from '../../../providers/ConfigProvider/configContext';
 
 const {
     results: [{ definition }]
-} = require('../../../../test_flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
+} = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
 
 const CompMap = new ComponentMap(definition);
 const { nodes: [{ actions: [action] }] } = definition;

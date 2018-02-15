@@ -1,0 +1,2 @@
+# include secrets when deploying to now
+!.env

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 import { FlowDetails, GetFlow } from '../providers/ConfigProvider/external';
 import { FlowDefinition, Languages } from '../flowTypes';
 import FlowMutator from '../services/FlowMutator';
@@ -13,7 +14,8 @@ import {
     languagesPT,
     getFlowPT,
     getFlowsPT,
-    endpointsPT
+    endpointsPT,
+    assetHostPT
 } from '../providers/ConfigProvider/propTypes';
 import { ConfigProviderContext } from '../providers/ConfigProvider/configContext';
 
@@ -29,6 +31,8 @@ export interface EditorState {
     dependencies: FlowDefinition[];
 }
 
+const IN_PROD = process.env.NODE_ENV === 'production';
+
 /**
  * A navigable list of flows for an account
  */
@@ -38,6 +42,7 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
     private ComponentMap: ComponentMap;
 
     public static contextTypes = {
+        assetHost: assetHostPT,
         flow: flowPT,
         baseLanguage: baseLanguagePT,
         languages: languagesPT,
@@ -47,6 +52,10 @@ export default class Editor extends React.PureComponent<{}, EditorState> {
 
     constructor(props: {}, context: ConfigProviderContext) {
         super(props, context);
+
+        if (IN_PROD) {
+            axios.defaults.baseURL = this.context.assetHost;
+        }
 
         this.state = {
             language: this.context.baseLanguage,

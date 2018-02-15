@@ -4,7 +4,7 @@ import StartFlow from './StartFlow';
 
 const {
     results: [{ definition }]
-} = require('../../../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
+} = require('../../../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 const { nodes: [, , , , , node], language: flowLanguage } = definition;
 const { actions: [startFlowAction] } = node;
 const { uuid, type, flow_name, flow_uuid } = startFlowAction;

@@ -15,25 +15,25 @@ import './global.scss';
 
 const root = document.getElementById('flow-editor');
 
-// if (__flow_editor_config__.hasOwnProperty('path')) {
-//     __webpack_public_path__ = __flow_editor_config__.path;
-// }
+if (process.env.NODE_ENV === 'production') {
+    const renderHot = (App: React.ComponentClass) =>
+        render(
+            <HotContainer>
+                <ConfigProvider>
+                    <App />
+                </ConfigProvider>
+            </HotContainer>,
+            root
+        );
 
-const renderHot = (App: React.ComponentClass) =>
-    render(
-        <HotContainer>
-            <ConfigProvider>
-                <App />
-            </ConfigProvider>
-        </HotContainer>,
-        root
-    );
+    if (module.hot) {
+        module.hot.accept('./components/Editor', () => {
+            const { default: NextEditor } = require('./components/Editor');
+            renderHot(NextEditor);
+        });
+    }
 
-if (module.hot) {
-    module.hot.accept('./components/Editor', () => {
-        const { default: NextEditor } = require('./components/Editor');
-        renderHot(NextEditor);
-    });
+    renderHot(Editor);
+} else {
+    render(<Editor />, root);
 }
-
-renderHot(Editor);

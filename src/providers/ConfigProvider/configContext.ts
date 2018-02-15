@@ -1,7 +1,7 @@
 // Composes context provided by ConfigProvider.
 // Draws from flowEditor.config.*.js in app root.
 
-import { flow, endpoints, languages } from 'Config';
+import { assetHost, flow, endpoints, languages } from 'Config';
 import {
     Type,
     TypeMap,
@@ -43,6 +43,7 @@ export const getBaseLanguage = (): Language => {
 };
 
 export interface ConfigProviderContext {
+    assetHost: string;
     typeConfigList: Type[];
     operatorConfigList: Operator[];
     actionConfigList: Type[];
@@ -63,6 +64,7 @@ export interface ConfigProviderContext {
 const baseLanguage = getBaseLanguage();
 
 export default {
+    assetHost,
     typeConfigList,
     operatorConfigList,
     actionConfigList,

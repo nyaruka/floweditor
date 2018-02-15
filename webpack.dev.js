@@ -1,29 +1,30 @@
+const { join } = require('path');
 const { smartStrategy } = require('webpack-merge');
 const { HotModuleReplacementPlugin, NamedModulesPlugin, WatchIgnorePlugin } = require('webpack');
 const commonConfig = require('./webpack.common');
-const flowEditorConfig = require('./flowEditor.config.dev');
 
-const devServerPort = 9000;
+const DEV_SERVER_PORT = 9000;
 
 const devConfig = {
     entry: [
         'react-hot-loader/patch',
-        'webpack-dev-server/client?http://localhost:9000',
+        `webpack-dev-server/client?http://localhost:${DEV_SERVER_PORT}`,
         'webpack/hot/only-dev-server'
     ],
     devtool: 'source-map',
     devServer: {
+        contentBase: [join(__dirname, 'src'), join(__dirname, 'assets')],
         compress: true,
         hot: true,
-        port: devServerPort,
+        port: DEV_SERVER_PORT,
         proxy: {
             '/assets/flows': {
                 bypass: req => {
-                    const { query: { uuid } } = req;
+                    const { query: { uuid }, originalUrl } = req;
                     if (uuid) {
-                        return `/test_flows/${uuid}.json`;
+                        return `/flows/${uuid}.json`;
                     }
-                    return req.originalUrl;
+                    return originalUrl.replace('/assets', '');
                 },
                 changeOrigin: true,
                 secure: false
@@ -72,14 +73,11 @@ const devConfig = {
                 use: ['react-hot-loader/webpack']
             }
         ]
-    },
-    externals: {
-        Config: JSON.stringify(flowEditorConfig)
     }
 };
 
 module.exports = {
-    devServerPort,
+    DEV_SERVER_PORT,
     config: smartStrategy({
         entry: 'prepend',
         plugins: 'append',

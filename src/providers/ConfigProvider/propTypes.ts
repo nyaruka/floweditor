@@ -1,5 +1,7 @@
 import { object, arrayOf, shape, string, element, func, oneOf, number, objectOf } from 'prop-types';
 
+export const assetHostPT = string;
+
 export const typeConfigListPT = arrayOf(
     shape({
         type: string.isRequired,
@@ -49,6 +51,7 @@ export const endpointsPT = shape({
 export const languagesPT = objectOf(string);
 
 export const childContextPT = {
+    assetHost: assetHostPT,
     typeConfigList: typeConfigListPT,
     operatorConfigList: operatorConfigListPT,
     actionConfigList: typeConfigListPT,

@@ -3,7 +3,7 @@ import context from '../providers/ConfigProvider/configContext';
 
 const {
     results: [{ uuid: flowUUID, definition }]
-} = require('../../test_flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
+} = require('../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
 
 const { nodes: [{ actions: [replyAction] }], localization } = definition;
 

@@ -1,1 +1,1 @@
-module.exports = require('../../flowEditor.config.dev');
+module.exports = require('../../flowEditor.config');

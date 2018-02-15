@@ -9,7 +9,7 @@ const { languages } = require('Config');
 
 const {
     results: [{ definition, uuid: flowUUID }]
-} = require('../../test_flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
+} = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
 const Activity = new ActivityManager(flowUUID, definition);
 
