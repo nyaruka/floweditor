@@ -498,7 +498,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             if (this.props.node.router.type === 'switch') {
                 const switchRouter = this.props.node.router as SwitchRouter;
                 if (switchRouter.result_name) {
-                    if (this.props.ui.type === 'expression') {
+                    if (this.props.ui.type === 'split_by_expression') {
                         title = `Split by ${titleCase(switchRouter.result_name)}`;
                     } else if (this.props.ui.type === 'wait_for_response') {
                         title = `Wait for ${titleCase(switchRouter.result_name)}`;

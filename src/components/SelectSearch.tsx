@@ -1,7 +1,9 @@
 import * as React from 'react';
+import { react as bindCallbacks } from 'auto-bind';
 import { Async, AsyncCreatable } from 'react-select';
 import axios, { AxiosResponse } from 'axios';
 import { SearchResult } from '../services/ComponentMap';
+import { jsonEqual } from '../helpers/utils';
 
 export interface SelectSearchProps {
     url: string;
@@ -10,24 +12,18 @@ export interface SelectSearchProps {
     placeholder?: string;
     searchPromptText?: string | JSX.Element;
     multi?: boolean;
-    closeOnSelect?: string;
+    closeOnSelect?: boolean;
     initial?: SearchResult[];
     localSearchOptions?: SearchResult[];
     className?: string;
     createPrompt?: string;
-    onChange?(selection: SearchResult): void;
-    isValidNewOption?(option: { label: string }): boolean;
-    createNewOption?(option: { label: string; labelKey: string; valueKey: string }): any;
+    onChange?: (selections: SearchResult | SearchResult[]) => void;
+    isValidNewOption?: (option: { label: string }) => boolean;
+    createNewOption?: (option: { label: string; labelKey: string; valueKey: string }) => any;
 }
 
 interface SelectSearchState {
-    selection: SearchResult[];
-}
-
-interface SearchParams {
-    term: string;
-    page: number;
-    _type: string;
+    selections: SearchResult[];
 }
 
 interface SelectSearchResult {
@@ -45,17 +41,22 @@ export default class SelectSearch extends React.PureComponent<
         super(props);
 
         this.state = {
-            selection: props.initial
+            selections: props.initial
         };
 
-        this.selectRef = this.selectRef.bind(this);
-        this.loadOptions = this.loadOptions.bind(this);
-        this.onInputChange = this.onInputChange.bind(this);
-        this.onChange = this.onChange.bind(this);
+        bindCallbacks(this, {
+            include: ['selectRef', 'loadOptions', 'onChange', 'onChangeMulti']
+        });
     }
 
     private selectRef(ref: HTMLInputElement): HTMLInputElement {
         return (this.select = ref);
+    }
+
+    public componentWillReceiveProps(nextProps: SelectSearchProps): void {
+        if (!jsonEqual(this.props.initial, nextProps.initial)) {
+            this.setState({ selections: nextProps.initial });
+        }
     }
 
     /**
@@ -65,10 +66,11 @@ export default class SelectSearch extends React.PureComponent<
         return a.name.localeCompare(b.name);
     }
 
-    private addSearchResult(results: SearchResult[], result: SearchResult): void {
-        let found = false;
+    private addSearchResult(results: SearchResult[], result: SearchResult): SearchResult[] {
+        const newResults = [...results];
 
-        for (const existing of results) {
+        let found = false;
+        for (const existing of newResults) {
             if (result.id === existing.id) {
                 found = true;
                 break;
@@ -76,27 +78,26 @@ export default class SelectSearch extends React.PureComponent<
         }
 
         if (!found) {
-            results.push(result);
+            newResults.push(result);
         }
+
+        return newResults;
     }
 
     private search(term: string, remoteResults: SearchResult[] = []): SelectSearchResult {
-        const combined = [...remoteResults];
-
-        if (term) {
-            term = term.toLowerCase();
-        }
+        let combined: SearchResult[] = [...remoteResults];
 
         if (this.props.localSearchOptions) {
             for (const local of this.props.localSearchOptions) {
-                if (!term || local.name.toLowerCase().indexOf(term) > -1) {
-                    this.addSearchResult(combined, local);
+                if (!term || local.name.toLowerCase().indexOf(term.toLowerCase()) > -1) {
+                    combined = this.addSearchResult(combined, local);
                 }
             }
         }
+        const options: SearchResult[] = combined.sort(this.sortResults);
 
         const results: SelectSearchResult = {
-            options: combined.sort(this.sortResults),
+            options,
             complete: true
         };
 
@@ -105,35 +106,65 @@ export default class SelectSearch extends React.PureComponent<
 
     private loadOptions(input: string, callback: Function): void {
         if (!this.props.url) {
-            callback(this.search(input));
+            const options: SelectSearchResult = this.search(input);
+            callback(options);
         } else {
             axios.get(this.props.url).then((response: AxiosResponse) => {
-                const results: SearchResult[] = [];
-                response.data.results.forEach((result: any) =>
-                    results.push({
-                        name: result.name,
-                        id: result.uuid,
-                        type: this.props.resultType
+                const results: SearchResult[] = response.data.results.map(
+                    ({ name, uuid, type }: any) => ({
+                        name,
+                        id: uuid,
+                        type
                     })
                 );
-                callback(null, this.search(input, results));
+                const options: SelectSearchResult = this.search(input, results);
+                callback(null, options);
             });
         }
     }
 
-    private onChange(selection: any): void {
-        if (!this.props.multi) {
-            selection = [selection];
+    private onChange(selection: SearchResult): void {
+        // Account for null selections
+        if (!selection) {
+            return;
         }
 
-        if (this.props.onChange) {
-            this.props.onChange(selection);
-        }
+        // Convert to array to update state
+        const selections = [selection];
 
-        this.setState({ selection }, () => this.select.focus());
+        if (!jsonEqual(this.state.selections, selections)) {
+            if (this.props.onChange) {
+                this.props.onChange(selection);
+            }
+
+            this.setState(
+                {
+                    selections
+                },
+                () => this.select.focus()
+            );
+        }
     }
 
-    private onInputChange(value: string): void {}
+    private onChangeMulti(selections: SearchResult[]): void {
+        // Account for null selections
+        if (!selections) {
+            return;
+        }
+
+        if (!jsonEqual(this.state.selections, selections)) {
+            if (this.props.onChange) {
+                this.props.onChange(selections);
+            }
+
+            this.setState(
+                {
+                    selections
+                },
+                () => this.select.focus()
+            );
+        }
+    }
 
     private filterOption(option: SearchResult, term: string): boolean {
         return option.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
@@ -146,18 +177,14 @@ export default class SelectSearch extends React.PureComponent<
             value = [];
         }
 
-        if (this.state.selection) {
-            for (const selection of this.state.selection) {
-                if (selection) {
-                    let selectionValue;
-                    if (selection.extraResult || this.props.multi) {
-                        selectionValue = selection;
-                    } else {
-                        selectionValue = selection.id;
-                    }
+        if (this.state.selections.length) {
+            for (const selections of this.state.selections) {
+                if (selections) {
+                    const selectionValue: string | SearchResult =
+                        selections.extraResult || this.props.multi ? selections : selections.id;
 
                     if (this.props.multi) {
-                        value = [...value, selectionValue];
+                        value.push(selectionValue);
                     } else {
                         value = selectionValue;
                     }
@@ -165,16 +192,15 @@ export default class SelectSearch extends React.PureComponent<
             }
         }
 
-        const options: any = {};
+        const onChange = this.props.multi ? this.onChangeMulti : this.onChange;
 
+        const options: any = {};
         if (this.props.createPrompt) {
             options.promptTextCreator = (label: string) => this.props.createPrompt + label;
         }
-
         if (this.props.createNewOption) {
             options.newOptionCreator = this.props.createNewOption;
         }
-
         if (this.props.isValidNewOption) {
             options.isValidNewOption = this.props.isValidNewOption;
         }
@@ -201,8 +227,7 @@ export default class SelectSearch extends React.PureComponent<
                     onCloseResetsInput={true}
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
-                    onInputChange={this.onInputChange}
-                    onChange={this.onChange}
+                    onChange={onChange}
                     searchPromptText={this.props.searchPromptText}
                     {...options}
                 />
@@ -229,8 +254,7 @@ export default class SelectSearch extends React.PureComponent<
                     onCloseResetsInput={true}
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
-                    onInputChange={this.onInputChange}
-                    onChange={this.onChange}
+                    onChange={onChange}
                     searchPromptText={this.props.searchPromptText}
                     {...options}
                 />

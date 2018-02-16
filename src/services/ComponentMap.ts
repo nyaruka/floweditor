@@ -160,8 +160,8 @@ export default class ComponentMap {
                             }
                         }
                     } else if (
-                        action.type == 'add_to_group' ||
-                        action.type == 'remove_from_group'
+                        action.type === 'add_to_group' ||
+                        action.type === 'remove_from_group'
                     ) {
                         var groupProps = action as ChangeGroup;
                         for (let group of groupProps.groups) {

@@ -21,7 +21,7 @@ import * as styles from './CaseElement.scss';
 export interface CaseElementProps {
     kase: Case;
     exitName: string;
-    config: Type
+    config?: Type;
     name?: string; // satisfy form widget props
     onRemove?(c: CaseElement): void;
     ComponentMap?: ComponentMap;
@@ -275,7 +275,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                     autocomplete={true}
                     ComponentMap={this.props.ComponentMap}
                     showInvalid={hasArgError}
-                    config={this.props.config}
+                    config={this.props.config || null}
                 />
             );
         }
@@ -349,7 +349,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                             focus={this.props.focusExitInput}
                             ComponentMap={this.props.ComponentMap}
                             showInvalid={hasExitError}
-                            config={this.props.config}
+                            config={this.props.config || null}
                         />
                     </div>
                     {removeIco}

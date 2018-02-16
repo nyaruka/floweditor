@@ -44,7 +44,7 @@ interface CharCountStats {
 interface TextInputProps extends FormElementProps {
     value: string;
     ComponentMap: ComponentMap;
-    config: Type;
+    config?: Type;
     __className?: string;
     count?: Count;
     url?: boolean;
@@ -619,6 +619,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         const replyError: boolean =
             this.state.errors.length &&
             this.props.name === 'Message' &&
+            this.props.config &&
             this.props.config.type === 'reply';
 
         // Make sure we're rendering the right text element

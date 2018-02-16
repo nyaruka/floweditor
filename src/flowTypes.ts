@@ -58,6 +58,18 @@ export interface SwitchRouter extends Router {
     default_exit_uuid: string;
 }
 
+export enum WaitType {
+    exp = 'exp',
+    group = 'group',
+    msg = 'msg',
+    flow = 'flow'
+}
+
+export interface Wait {
+    type: WaitType;
+    flow_uuid?: string;
+}
+
 export interface Group {
     uuid: string;
     name: string;

@@ -27,7 +27,6 @@ const { groups }: ChangeGroup = action;
 const groupOptions: SearchResult[] = groups.map(({ name, uuid }) => ({ name, id: uuid }));
 const removeGroupsAction: ChangeGroup = { ...action, type: 'remove_from_group', groups };
 const addGroupsAction: ChangeGroup = { ...removeGroupsAction, type: 'add_to_group' };
-const localGroups = CompMap.getGroups();
 const props: Partial<ChangeGroupFormProps> = {
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
@@ -38,31 +37,6 @@ const props: Partial<ChangeGroupFormProps> = {
 
 describe('AddGroupForm >', () => {
     describe('render >', () => {
-        it("should call component map prop's 'getGroups' method", () => {
-            const getGroupsMock: jest.Mock<{}> = jest.fn();
-
-            const ComponentMapMock: {
-                getGroups: jest.Mock<{}>;
-            } = {
-                getGroups: getGroupsMock
-            };
-
-            const wrapper: ReactWrapper = mount(
-                <AddGroupForm
-                    {...{
-                        ...props,
-                        ComponentMap: ComponentMapMock,
-                        action: addGroupsAction
-                    } as any}
-                />,
-                {
-                    context
-                }
-            );
-
-            expect(getGroupsMock).toHaveBeenCalledTimes(1);
-        });
-
         it('should render form label', () => {
             const wrapper: ReactWrapper = mount(
                 <AddGroupForm
@@ -112,17 +86,17 @@ describe('AddGroupForm >', () => {
                 }
             );
 
-            expect(wrapper.find('GroupElement').props()).toEqual({
-                name: 'Group',
-                placeholder: PLACEHOLDER,
-                endpoint: endpoints.groups,
-                groups: groupOptions,
-                localGroups,
-                add: true,
-                required: true,
-                searchPromptText: NOT_FOUND,
-                onChange: wrapper.instance().onGroupsChanged
-            });
+            expect(wrapper.find('GroupElement').props()).toEqual(
+                expect.objectContaining({
+                    name: 'Group',
+                    placeholder: PLACEHOLDER,
+                    endpoint: endpoints.groups,
+                    groups: groupOptions,
+                    add: true,
+                    required: true,
+                    onChange: wrapper.instance().onGroupsChanged
+                })
+            );
         });
 
         it("should pass GroupElement an empty 'groups' prop if action doesn't yet have groups", () => {
@@ -138,17 +112,17 @@ describe('AddGroupForm >', () => {
                 }
             );
 
-            expect(wrapper.find('GroupElement').props()).toEqual({
-                name: 'Group',
-                placeholder: PLACEHOLDER,
-                endpoint: endpoints.groups,
-                groups: [],
-                localGroups,
-                add: true,
-                required: true,
-                searchPromptText: NOT_FOUND,
-                onChange: wrapper.instance().onGroupsChanged
-            });
+            expect(wrapper.find('GroupElement').props()).toEqual(
+                expect.objectContaining({
+                    name: 'Group',
+                    placeholder: PLACEHOLDER,
+                    endpoint: endpoints.groups,
+                    groups: [],
+                    add: true,
+                    required: true,
+                    onChange: wrapper.instance().onGroupsChanged
+                })
+            );
         });
 
         it("should pass GroupElement an empty 'groups' prop if action is of type 'remove_from_group", () => {
@@ -164,17 +138,17 @@ describe('AddGroupForm >', () => {
                 }
             );
 
-            expect(wrapper.find('GroupElement').props()).toEqual({
-                name: 'Group',
-                placeholder: PLACEHOLDER,
-                endpoint: endpoints.groups,
-                groups: [],
-                localGroups,
-                add: true,
-                required: true,
-                searchPromptText: NOT_FOUND,
-                onChange: wrapper.instance().onGroupsChanged
-            });
+            expect(wrapper.find('GroupElement').props()).toEqual(
+                expect.objectContaining({
+                    name: 'Group',
+                    placeholder: PLACEHOLDER,
+                    endpoint: endpoints.groups,
+                    groups: [],
+                    add: true,
+                    required: true,
+                    onChange: wrapper.instance().onGroupsChanged
+                })
+            );
         });
     });
 

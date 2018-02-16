@@ -16,6 +16,7 @@ interface FieldElementProps extends FormElementProps {
     endpoint?: string;
     add?: boolean;
     placeholder?: string;
+    searchPromptText?: string;
 }
 
 interface FieldState {
@@ -23,11 +24,16 @@ interface FieldState {
     errors: string[];
 }
 
-export const placeholder: string =
+export const PLACEHOLDER: string =
     'Enter the name of an existing group, or create a new group to add the contact to';
-export const notFound: string = 'Invalid field name';
+export const NOT_FOUND: string = 'Invalid field name';
 
 export default class FieldElement extends React.Component<FieldElementProps, FieldState> {
+    public static defaultProps = {
+        placeholder: PLACEHOLDER,
+        searchPromptText: NOT_FOUND
+    };
+
     constructor(props: any) {
         super(props);
 
@@ -41,7 +47,7 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
         this.createNewOption = this.createNewOption.bind(this);
     }
 
-    private onChange([field]: any): void {
+    private onChange(field: SearchResult): void {
         this.setState({
             field
         });
@@ -96,9 +102,9 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
             createOptions.createPrompt = 'New Field: ';
         }
 
-        const initial: SearchResult[] = this.state.field ? [this.state.field] : [];
-        const className: string = getSelectClass(this.state.errors.length);
-        const fieldError: boolean = this.state.errors.length > 0;
+        const initial = this.state.field ? [this.state.field] : [];
+        const className = getSelectClass(this.state.errors.length);
+        const fieldError = this.state.errors.length > 0;
 
         return (
             <FormElement
@@ -117,8 +123,8 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
                     multi={false}
                     clearable={false}
                     initial={initial}
-                    searchPromptText={notFound}
-                    placeholder={placeholder}
+                    searchPromptText={this.props.searchPromptText}
+                    placeholder={this.props.placeholder}
                     {...createOptions}
                 />
             </FormElement>

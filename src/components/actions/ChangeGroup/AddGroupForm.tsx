@@ -14,7 +14,6 @@ export interface AddGroupFormState {
 }
 
 export const LABEL = ' Select the group(s) to add the contact to.';
-export const NOT_FOUND = 'Invalid group name';
 export const PLACEHOLDER =
     'Enter the name of an existing group, or create a new group to add the contact to';
 
@@ -76,23 +75,20 @@ export default class AddGroupForm extends React.PureComponent<
     }
 
     public render(): JSX.Element {
-        const localGroups: SearchResult[] = this.props.ComponentMap.getGroups();
         return (
-            <div>
+            <React.Fragment>
                 <p>{LABEL}</p>
                 <GroupElement
                     ref={this.props.onBindWidget}
                     name="Group"
                     placeholder={PLACEHOLDER}
-                    searchPromptText={NOT_FOUND}
                     endpoint={this.context.endpoints.groups}
-                    localGroups={localGroups}
                     groups={this.state.groups}
                     add={true}
                     required={true}
                     onChange={this.onGroupsChanged}
                 />
-            </div>
+            </React.Fragment>
         );
     }
 }

@@ -34,7 +34,6 @@ const groupOptions: SearchResult[] = groups.map(({ name, uuid }) => ({ name, id:
 const removeGroupsAction: ChangeGroup = { ...action, type: 'remove_from_group', groups };
 const removeAllGroupsAction: ChangeGroup = { ...removeGroupsAction, groups: [] };
 const addGroupSAction: ChangeGroup = { ...removeGroupsAction, type: 'add_to_group' };
-const localGroups = CompMap.getGroups();
 const props: Partial<ChangeGroupFormProps> = {
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
@@ -121,7 +120,6 @@ describe('RemoveGroupForm >', () => {
                 placeholder: PLACEHOLDER,
                 endpoint: endpoints.groups,
                 groups: groupOptions,
-                localGroups,
                 add: false,
                 required: true,
                 searchPromptText: NOT_FOUND,
@@ -147,7 +145,6 @@ describe('RemoveGroupForm >', () => {
                 placeholder: PLACEHOLDER,
                 endpoint: endpoints.groups,
                 groups: [],
-                localGroups,
                 add: false,
                 required: true,
                 searchPromptText: NOT_FOUND,
@@ -173,7 +170,6 @@ describe('RemoveGroupForm >', () => {
                 placeholder: PLACEHOLDER,
                 endpoint: endpoints.groups,
                 groups: [],
-                localGroups,
                 add: false,
                 required: true,
                 searchPromptText: NOT_FOUND,
@@ -455,31 +451,6 @@ describe('RemoveGroupForm >', () => {
         });
 
         describe('getFields >', () => {
-            it("should call component map prop's 'getGroups' method", () => {
-                const getGroupsMock: jest.Mock<{}> = jest.fn();
-
-                const ComponentMapMock: {
-                    getGroups: jest.Mock<{}>;
-                } = {
-                    getGroups: getGroupsMock
-                };
-
-                const wrapper: ReactWrapper = mount(
-                    <RemoveGroupForm
-                        {...{
-                            ...props,
-                            ComponentMap: ComponentMapMock,
-                            action: removeGroupsAction
-                        } as any}
-                    />,
-                    {
-                        context
-                    }
-                );
-
-                expect(getGroupsMock).toHaveBeenCalledTimes(1);
-            });
-
             it("it should call 'removeWidget' prop on 'Group' widget if its 'removeFromAll' state is falsy", () => {
                 const removeWidgetMock: jest.Mock<{}> = jest.fn();
 

@@ -1,3 +1,4 @@
+
 import { AnyAction } from '../../flowTypes';
 import { Language } from '../../components/LanguageSelector';
 import ChangeGroupComp from '../../components/actions/ChangeGroup/ChangeGroup';
@@ -16,6 +17,7 @@ import SendEmailForm from '../../components/actions/SendEmail/SendEmailForm';
 import SwitchRouterForm from '../../components/routers/SwitchRouter';
 import SubflowRouterForm from '../../components/routers/SubflowRouter';
 import WebhookRouterForm from '../../components/routers/WebhookRouter';
+import GroupRouter from '../../components/routers/GroupRouter';
 
 export enum Mode {
     EDITING = 0x1,
@@ -134,11 +136,20 @@ export const typeConfigList: Type[] = [
 
     /** Routers */
     {
-        type: 'expression',
+        type: 'split_by_expression',
         name: 'Split by Expression',
         description: 'Split by a custom expression',
         form: SwitchRouterForm,
         advanced: Mode.TRANSLATING,
+        allows(mode: Mode): boolean {
+            return (this.advanced & mode) === mode;
+        }
+    },
+    {
+        type: 'split_by_group',
+        name: 'Split by Group Membership',
+        description: 'Split by group membership',
+        form: GroupRouter,
         allows(mode: Mode): boolean {
             return (this.advanced & mode) === mode;
         }
