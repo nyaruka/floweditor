@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as axios from 'axios';
-import * as update from 'immutability-helper';
+import update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
 import { FlowDetails } from '../../providers/ConfigProvider/external';
 import { FlowDefinition, Group } from '../../flowTypes';
@@ -170,7 +170,7 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
     }
 
     private updateRunContext(body: any, runContext: RunContext) {
-        var events = update(this.state.events, { $push: runContext.events });
+        const events = update(this.state.events, { $push: runContext.events }) as EventProps[];
 
         var activeRuns = false;
         for (let run of runContext.session.runs) {
@@ -184,14 +184,14 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
             events.push({
                 type: 'info',
                 text: 'Exited flow'
-            });
+            } as any);
         }
 
         this.setState(
             {
                 session: runContext.session,
                 contact: runContext.contact,
-                events: events,
+                events,
                 active: activeRuns
             },
             () => {
@@ -270,15 +270,15 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
                     this.updateRunContext(body, response.data as RunContext);
                 })
                 .catch(error => {
-                    var events = update(this.state.events, {
+                    const events = update(this.state.events, {
                         $push: [
                             {
                                 type: 'error',
                                 text: error.response.data.error
                             }
                         ]
-                    });
-                    this.setState({ events: events });
+                    }) as EventProps[];
+                    this.setState({ events });
                 });
         });
     }

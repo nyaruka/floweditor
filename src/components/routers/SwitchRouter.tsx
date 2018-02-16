@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as autoBind from 'auto-bind';
-import * as update from 'immutability-helper';
+import update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
 import {
     Wait,
@@ -315,7 +315,7 @@ export default class SwitchRouterForm extends React.Component<
         );
 
         if (idx > -1) {
-            const cases = update(this.state.cases, { $splice: [[idx, 1]] });
+            const cases = update(this.state.cases, { $splice: [[idx, 1]] }) as CaseElementProps[];
 
             this.setState({ cases });
         }
@@ -453,7 +453,7 @@ export default class SwitchRouterForm extends React.Component<
         if (this.state.cases) {
             // Cases shouldn't be draggable unless they have fully-formed siblings
             if (this.state.cases.length === 1) {
-                const [{ kase, exitName }] = this.state.cases;
+                const [{ kase, exitName, focusArgsInput, focusExitInput }] = this.state.cases;
                 cases.push(
                     <CaseElement
                         data-spec="case"
@@ -466,6 +466,8 @@ export default class SwitchRouterForm extends React.Component<
                         onChange={this.onCaseChanged}
                         ComponentMap={this.props.ComponentMap}
                         solo={true}
+                        focusArgsInput={focusArgsInput}
+                        focusExitInput={focusExitInput}
                         config={this.props.config}
                     />
                 );

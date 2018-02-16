@@ -18,7 +18,8 @@ import {
     SendEmail,
     SaveFlowResult,
     CallWebhook,
-    StartFlow
+    StartFlow,
+    Methods
 } from '../../flowTypes';
 import { Type, Mode } from '../../providers/ConfigProvider/typeConfigs';
 import { Language } from '../LanguageSelector';
@@ -154,7 +155,7 @@ export const getAction = ({ action }: NodeEditorProps, config: Type): AnyAction 
             } as SaveFlowResult;
             break;
         case 'call_webhook':
-            defaultAction = { ...defaultAction, url: '', method: 'GET' } as CallWebhook;
+            defaultAction = { ...defaultAction, url: '', method: Methods.GET } as CallWebhook;
             break;
         case 'start_flow':
             defaultAction = { ...defaultAction, flow_name: null, flow_uuid: null } as StartFlow;

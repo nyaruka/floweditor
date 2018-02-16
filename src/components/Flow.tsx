@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
-import * as update from 'immutability-helper';
+import update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
 import { FlowDefinition, Action, Position, Reply, Node, UINode, Dimensions } from '../flowTypes';
 import ComponentMap from '../services/ComponentMap';

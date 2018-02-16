@@ -1,4 +1,4 @@
-import * as update from 'immutability-helper';
+import update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
 
 import { ContactFieldResult, SearchResult } from './ComponentMap';
