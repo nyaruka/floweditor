@@ -1,3 +1,4 @@
+
 {
     "results": [
         {
@@ -215,10 +216,52 @@
                         "exits": [
                             {
                                 "uuid": "9de30522-db84-4471-bce6-99f6d0a200e0",
-                                "destination_node_uuid": null,
+                                "destination_node_uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
                                 "name": null
                             }
                         ]
+                    },
+                    {
+                        "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+                        "router": {
+                            "type": "switch",
+                            "default_exit_uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+                            "cases": [
+                                {
+                                    "uuid": "a2e446bf-7181-40f9-8996-5d2453486218",
+                                    "type": "has_group",
+                                    "exit_uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+                                    "arguments": ["cdbf9e01-aaa7-4381-8259-ee042447bcac"]
+                                },
+                                {
+                                    "uuid": "fa8d0d3a-067e-4460-9cff-0474ecc4e8ca",
+                                    "type": "has_group",
+                                    "exit_uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+                                    "arguments": ["33b28bac-b588-43e4-90de-fda77aeaf7c0"]
+                                }
+                            ],
+                            "operand": "@contact.groups"
+                        },
+                        "exits": [
+                            {
+                                "name": "Early Adopters",
+                                "uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+                                "destination_node_uuid": null
+                            },
+                            {
+                                "name": "Subscribers",
+                                "uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+                                "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d"
+                            },
+                            {
+                                "uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+                                "name": "Other",
+                                "destination_node_uuid": null
+                            }
+                        ],
+                        "wait": {
+                            "type": "group"
+                        }
                     },
                     {
                         "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
@@ -273,7 +316,7 @@
                             },
                             "dimensions": {
                                 "width": 200,
-                                "height": 94
+                                "height": 95
                             }
                         },
                         "46e8d603-8e5d-4435-97dd-1333291aafca": {
@@ -283,7 +326,7 @@
                             },
                             "type": "wait_for_response",
                             "dimensions": {
-                                "width": 480,
+                                "width": 489,
                                 "height": 59
                             }
                         },
@@ -292,7 +335,7 @@
                                 "x": 535,
                                 "y": 502
                             },
-                            "type": "expression",
+                            "type": "split_by_expression",
                             "dimensions": {
                                 "width": 200,
                                 "height": 59
@@ -300,12 +343,12 @@
                         },
                         "e2ecc8de-9774-4b74-a0dc-ca8aea123227": {
                             "position": {
-                                "x": 81,
-                                "y": 551
+                                "x": 63,
+                                "y": 620
                             },
                             "dimensions": {
                                 "width": 200,
-                                "height": 64
+                                "height": 65
                             }
                         },
                         "533b64e2-5906-4d33-a8e9-64f1cb6c20dd": {
@@ -315,18 +358,29 @@
                             },
                             "dimensions": {
                                 "width": 200,
-                                "height": 64
+                                "height": 65
                             }
                         },
                         "059a8daa-0697-44a6-9486-2386cc417e9d": {
                             "position": {
-                                "x": 517,
-                                "y": 786
+                                "x": 316,
+                                "y": 792
                             },
                             "type": "subflow",
                             "dimensions": {
                                 "width": 200,
-                                "height": 90
+                                "height": 91
+                            }
+                        },
+                        "882f8022-7256-4b1c-abf3-7b180f5e7e24": {
+                            "position": {
+                                "x": 586,
+                                "y": 789
+                            },
+                            "type": "split_by_group",
+                            "dimensions": {
+                                "width": 247,
+                                "height": 59
                             }
                         }
                     }

@@ -1,4 +1,4 @@
-import { DragPoint } from '../components/Node';
+import { DragPoint } from '../component/Node';
 import {
     FlowDefinition,
     Node,
@@ -7,8 +7,7 @@ import {
     Exit,
     SaveFlowResult
 } from '../flowTypes';
-
-import { snakify } from '../helpers/utils';
+import { snakify } from '../utils';
 
 const RESERVED_FIELDS: ContactFieldResult[] = [
     { id: 'name', name: 'Name', type: 'update_contact' }
@@ -160,8 +159,8 @@ export default class ComponentMap {
                             }
                         }
                     } else if (
-                        action.type == 'add_to_group' ||
-                        action.type == 'remove_from_group'
+                        action.type === 'add_to_group' ||
+                        action.type === 'remove_from_group'
                     ) {
                         var groupProps = action as ChangeGroup;
                         for (let group of groupProps.groups) {

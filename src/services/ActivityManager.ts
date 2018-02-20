@@ -1,6 +1,5 @@
 import { Exit } from '../flowTypes';
-import { GetActivity } from '../providers/ConfigProvider/external';
-import Counter from '../components/Counter';
+import Counter from '../component/Counter';
 
 // how often we ask the server for new data
 const REFRESH_SECONDS = 10;
@@ -26,12 +25,12 @@ export default class ActivityManager {
     private simulation: Activity;
 
     private flowUUID: string;
-    private getActivityExternal: GetActivity;
+    private getActivityExternal: Function;
 
     private listeners: { [key: string]: Counter } = {};
     private timer: any;
 
-    constructor(flowUUID: string, getActivity: GetActivity) {
+    constructor(flowUUID: string, getActivity: Function) {
         this.flowUUID = flowUUID;
         this.getActivityExternal = getActivity;
 
@@ -75,7 +74,6 @@ export default class ActivityManager {
         //             .catch(() => {
         //                 // ignore missing activity
         //             });
-
         //         this.fetchActivity(REFRESH_SECONDS * 1000);
         //     }, wait);
         // }

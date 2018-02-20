@@ -18,9 +18,9 @@ const isValidUUID = uuid => validate(uuid, 4);
 const notFoundResp = res => {
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     send(res, 404, signBunny('howdy'));
-}
+};
 
- // Guaranteed Assetss
+// Local Assets
 const flowsResp = require('./flows.json');
 const fieldsResp = require('./fields.json');
 const groupsResp = require('./groups.json');
@@ -47,14 +47,11 @@ const fields = (req, res) => send(res, 200, fieldsResp);
 const groups = (req, res) => send(res, 200, groupsResp);
 const notFound = (req, res) => notFoundResp(res);
 
-// HOFs
-const withRouter = router(
+const service = router(
     get('/assets/flows.json', cors(flows)),
     get('/assets/fields.json', cors(fields)),
     get('/assets/groups.json', cors(groups)),
     get('/*', notFound)
 );
-const withSentry = sentry(process.env.SENTRY_URL)(withRouter);
-const withCompression = compress({ level: Z_BEST_COMPRESSION }, withRouter);
 
-module.exports = withCompression;
+module.exports = compress({ level: Z_BEST_COMPRESSION }, sentry(process.env.SENTRY_DSN)(service));

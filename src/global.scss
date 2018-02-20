@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
 @import "./variables.scss";
+
 body {
+    margin: 0;
+
     .ReactModal__Content {
         overflow: visible !important;
         top: 50px !important;
@@ -155,19 +159,3 @@ input[type=text]:focus, textarea:focus {
     box-shadow: 0 0 0 3px #E7F2FF;
     border: 1px solid #1681FB;
 }
-
-
-
-/*
-::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 7px;
-}
-
-::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, .5);
-    box-shadow: 0 0 1px rgba(255, 255, 255, .5);
-    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
-}
-*/

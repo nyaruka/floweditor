@@ -1,4 +1,6 @@
-const {jsPlumb: { importDefaults }} = require('jsplumb');
+const {
+    jsPlumb: { importDefaults }
+} = require('../../node_modules/jsplumb/dist/js/jsplumb.min');
 import { Node, FlowDefinition, Exit, LocalizationMap } from '../flowTypes';
 
 export interface DragEvent {
@@ -15,7 +17,7 @@ export interface PendingConnections {
     [id: string]: { source: string; target: string; className: string };
 }
 
-class Plumber {
+export default class Plumber {
     public jsPlumb: any;
 
     // we batch up connections to apply them together
@@ -101,11 +103,11 @@ class Plumber {
         drag: Function,
         stop: Function,
         beforeDrag: Function
-    ) {
+    ): void {
         this.jsPlumb.draggable(uuid, {
-            //over: (event: any) => { console.log("Over", event) },
+            // over: (event: any) => { console.log("Over", event) },
             // beforeStart: (event: any) => { console.log("beforeStart"); },
-            start: (event: any) => start(event),
+            start: (event: DragEvent) => start(event),
             drag: (event: DragEvent) => drag(event),
             stop: (event: DragEvent) => stop(event),
             canDrag: () => {
@@ -117,40 +119,40 @@ class Plumber {
         });
     }
 
-    public setSourceEnabled(uuid: string, enabled: boolean) {
+    public setSourceEnabled(uuid: string, enabled: boolean): void {
         this.jsPlumb.setSourceEnabled(uuid, enabled);
     }
 
-    public makeSource(uuid: string) {
+    public makeSource(uuid: string): void {
         this.jsPlumb.makeSource(uuid, this.sourceDefaults);
     }
 
-    public makeTarget(uuid: string) {
+    public makeTarget(uuid: string): void {
         this.jsPlumb.makeTarget(uuid, this.targetDefaults);
     }
 
-    public connectExit(exit: Exit, className: string = null) {
+    public connectExit(exit: Exit, className: string = null): void {
         this.connect(exit.uuid, exit.destination_node_uuid, className);
     }
 
-    public setDragSelection(nodes: Node[]) {
+    public setDragSelection(nodes: Node[]): void {
         this.cancelDurationRepaint();
         this.jsPlumb.clearDragSelection();
         nodes.forEach(({ uuid }) => this.jsPlumb.addToDragSelection(uuid));
     }
 
-    public clearDragSelection() {
+    public clearDragSelection(): void {
         this.jsPlumb.clearDragSelection();
     }
 
-    public cancelDurationRepaint() {
+    public cancelDurationRepaint(): void {
         if (this.animateInterval) {
             window.clearInterval(this.animateInterval);
             this.animateInterval = null;
         }
     }
 
-    public repaintForDuration(duration: number) {
+    public repaintForDuration(duration: number): void {
         this.cancelDurationRepaint();
         var pause = 10;
         duration = duration / pause;
@@ -167,65 +169,69 @@ class Plumber {
         }, pause);
     }
 
-    public repaintFor(millis: number) {
+    public repaintFor(millis: number): void {
         window.setInterval(() => {
             this.jsPlumb.repaintEverything();
         }, 1);
     }
 
-    private handlePendingConnections() {
-        var targets: { [id: string]: boolean } = {};
+    private handlePendingConnections(): void {
+        const targets: { [id: string]: boolean } = {};
         this.jsPlumb.batch(() => {
-            var batch = Object.keys(this.pendingConnections).length;
+            const batch = Object.keys(this.pendingConnections).length;
             if (batch > 1) {
                 console.log('batching ' + batch + ' connections');
             }
 
             for (let key in this.pendingConnections) {
-                var connection = this.pendingConnections[key];
-                const { source, target, className } = connection;
+                if (this.pendingConnections.hasOwnProperty(key)) {
+                    const connection = this.pendingConnections[key];
+                    const { source, target, className } = connection;
 
-                if (source != null) {
-                    // any existing connections for our source need to be deleted
-                    this.jsPlumb.select({ source: source }).delete({ fireEvent: false });
+                    if (source != null) {
+                        // any existing connections for our source need to be deleted
+                        this.jsPlumb.select({ source }).delete({ fireEvent: false });
 
-                    // now make our new connection
-                    if (target != null) {
-                        // don't allow manual detachments if our connection is styled
-                        if (className) {
-                            this.jsPlumb.connect({
-                                source: source,
-                                target: target,
-                                fireEvent: false,
-                                cssClass: className,
-                                detachable: false
-                            });
-                        } else {
-                            this.jsPlumb.connect({
-                                source: source,
-                                target: target,
-                                fireEvent: false,
-                                cssClass: className
-                            });
+                        // now make our new connection
+                        if (target != null) {
+                            // don't allow manual detachments if our connection is styled
+                            if (className) {
+                                this.jsPlumb.connect({
+                                    source,
+                                    target,
+                                    fireEvent: false,
+                                    cssClass: className,
+                                    detachable: false
+                                });
+                            } else {
+                                this.jsPlumb.connect({
+                                    source,
+                                    target,
+                                    fireEvent: false,
+                                    cssClass: className
+                                });
+                            }
                         }
                     }
-                }
 
-                if (target != null) {
-                    targets[target] = true;
-                }
+                    if (target != null) {
+                        targets[target] = true;
+                    }
 
-                delete this.pendingConnections[key];
+                    delete this.pendingConnections[key];
+                }
             }
         });
 
         // revalidate the targets that we updated
-        for (let target in targets) {
-            this.recalculate(target);
+        for (const target in targets) {
+            if (targets.hasOwnProperty('target')) {
+                this.recalculate(target);
+            }
         }
     }
 
-    private checkForPendingConnections() {
+    private checkForPendingConnections(): void {
         if (this.pendingConnectionTimeout) {
             window.clearTimeout(this.pendingConnectionTimeout);
         }
@@ -235,7 +241,7 @@ class Plumber {
         }, 0);
     }
 
-    public connect(source: string, target: string, className: string = null) {
+    public connect(source: string, target: string, className: string = null): void {
         this.pendingConnections[source + ':' + target + ':' + className] = {
             source,
             target,
@@ -244,11 +250,11 @@ class Plumber {
         this.checkForPendingConnections();
     }
 
-    public bind(event: string, onEvent: Function) {
+    public bind(event: string, onEvent: Function): void {
         return this.jsPlumb.bind(event, onEvent);
     }
 
-    public repaint(uuid?: string) {
+    public repaint(uuid?: string): void {
         console.log('repaint');
         if (!uuid) {
             this.jsPlumb.recalculateOffsets();
@@ -259,7 +265,7 @@ class Plumber {
         }
     }
 
-    public remove(uuid: string) {
+    public remove(uuid: string): void {
         if (this.jsPlumb.isSource(uuid)) {
             this.jsPlumb.unmakeSource(uuid);
             this.jsPlumb.remove(uuid);
@@ -268,7 +274,7 @@ class Plumber {
         }
     }
 
-    public recalculate(uuid?: string) {
+    public recalculate(uuid?: string): void {
         window.setTimeout(() => {
             this.jsPlumb.revalidate(uuid);
             if (uuid) {
@@ -280,10 +286,8 @@ class Plumber {
         }, 0);
     }
 
-    public reset() {
+    public reset(): void {
         // console.log("resetting plumbing");
         this.jsPlumb.reset();
     }
 }
-
-export default Plumber;
