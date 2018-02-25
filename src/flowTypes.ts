@@ -11,6 +11,14 @@ export interface Endpoints {
     activity: string;
 }
 
+export interface FlowEditorConfig {
+    languages: { [iso: string]: string };
+    endpoints: Endpoints;
+    flow: string;
+    path?: string;
+    assetHost?: string;
+}
+
 export interface LocalizationMap {
     [lang: string]: {
         [uuid: string]: any;

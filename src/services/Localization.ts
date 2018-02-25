@@ -1,5 +1,5 @@
 import { Action, Languages, Exit, Case } from '../flowTypes';
-import { Language } from '../components/LanguageSelector';
+import { Language } from '../component/LanguageSelector';
 
 export class LocalizedObject {
     public localizedKeys: { [key: string]: boolean } = {};

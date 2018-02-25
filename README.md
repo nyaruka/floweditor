@@ -2,44 +2,58 @@
 [![Coverage Status](https://coveralls.io/repos/github/nyaruka/floweditor/badge.svg?branch=master)](https://coveralls.io/github/nyaruka/floweditor?branch=master)
 
 # Flow Editor
+
 This is a standalone flow editing tool designed for use within the [RapidPro](https://github.com/rapidpro/rapidpro)
  suite of messaging tools but can be adopted for use outside of that ecosystem. The editor is a React component built with TypeScript and bundled with Webpack. It is open-sourced under the AGPL-3.0 license.
 
+## Prerequisites
 
-### Prerequisites
 ```
 NPM
 Node.js >= 6.x
 ```
 
 ## Installation
+
 The flow editor uses npm for all dependencies.
+
 ```
 % npm install
 ```
 
 ## Building
-Webpack is used to transpile TypeScript and SASS. After invoking a build, the compiled results will arrive in the /dist folder.
+
+Webpack is used to transpile TypeScript and SASS. After invoking a build, the compiled results will arrive in `/preview/dist` (development/preview) or `/dist` (production/npm).
+
 ```
-% npm run build:dev
+% npm run build:prev
 ```
+
 or
+
 ```
 % npm run build:prod
 ```
 
 ## Development
-You can run the editor in a development server. To start a development server, compile all necessary bits, and then launch your default browser with the results. The development server watches for changes to any TypeScript or SASS documents and automatically recompiles them.
+
+You can run the editor in a development server whose content base includes the `/preview/src` and `/assets` directories. To start a development server, compile all necessary bits, and then launch your default browser with the results, run the command below. The resulting server will watch for changes to any TypeScript or SASS files and automatically recompile.
+
 ```
-% npm start
+% npm run start:dev
 ```
 
+### API Server
+
+A small server exists in `/assets` to provide sample payloads defined in JSON to a version of the Flow Editor living at the hosting service of your choosing. You can choose to provide your own Sentry DSN and a valid `now.json` file, or remove them in favor of your own config. Use the `dev` NPM script in that directory to run the server in development.
+
 ### Hot Reloading
+
 This project uses [React Hot Loader](https://github.com/gaearon/react-hot-loader) to keep components mounted/preserve their state while in development.
 
 ### Configuration
 
-This project is currently configured via `flowEditor.config.*.js` in the root directory, which is loaded into the bundle as an [external](https://webpack.js.org/configuration/externals/), `Config`, via Webpack. The `ConfigProvider` component composes the app's configuration and provides it to each component via React's [context API](https://reactjs.org/docs/context.html).
+This component is configured with the sample config at `/assets/config.js`. Universal information like `assetHost`, `languages` and `endpoints` is made available throughout the component by `ConfigProvider`, which makes use of React's [context API](https://reactjs.org/docs/context.html).
 
 ### Styling
 
@@ -52,6 +66,7 @@ This project uses [Jest](https://facebook.github.io/jest/) for unit/snapshot tes
 ```
 % npm run test:local
 ```
+
 ### Linting
 
 This project uses both [eslint](https://eslint.org/) (Node) & [tslint](https://github.com/palantir/tslint) (TypeScript) to enforce consistent style.

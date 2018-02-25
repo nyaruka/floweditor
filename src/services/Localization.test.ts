@@ -1,15 +1,13 @@
 import Localization from './Localization';
-import context from '../providers/ConfigProvider/configContext';
 
 const {
     results: [{ uuid: flowUUID, definition }]
-} = require('../../test_flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
+} = require('../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
+const { languages } = require('../../assets/config');
 
 const { nodes: [{ actions: [replyAction] }], localization } = definition;
 
 const translations = localization.spa;
-
-const { languages } = context;
 
 describe('Localization >', () => {
     describe('instance methods >', () =>
@@ -26,19 +24,39 @@ describe('Localization >', () => {
 
             it('should return a translated LocalizedObject if passed translations', () => {
                 expect(
-                    Localization.translate(replyAction, 'eng', languages, translations).isLocalized()
+                    Localization.translate(
+                        replyAction,
+                        'eng',
+                        languages,
+                        translations
+                    ).isLocalized()
                 ).toBeTruthy();
 
                 expect(
-                    Localization.translate(replyAction, 'eng', languages, translations).hasTranslation('text')
+                    Localization.translate(
+                        replyAction,
+                        'eng',
+                        languages,
+                        translations
+                    ).hasTranslation('text')
                 ).toBeTruthy();
 
                 expect(
-                    Localization.translate(replyAction, 'spa', languages, translations).isLocalized()
+                    Localization.translate(
+                        replyAction,
+                        'spa',
+                        languages,
+                        translations
+                    ).isLocalized()
                 ).toBeTruthy();
 
                 expect(
-                    Localization.translate(replyAction, 'spa', languages, translations).hasTranslation('text')
+                    Localization.translate(
+                        replyAction,
+                        'spa',
+                        languages,
+                        translations
+                    ).hasTranslation('text')
                 ).toBeTruthy();
             });
         }));

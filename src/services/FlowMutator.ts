@@ -12,9 +12,9 @@ import {
     Dimensions,
     Reply
 } from '../flowTypes';
-import { DragPoint } from '../components/Node';
+import { DragPoint } from '../component/Node';
 import ComponentMap from './ComponentMap';
-import { FlowProps } from '../components/Flow';
+import { FlowProps } from '../component/Flow';
 
 interface Bounds {
     left: number;

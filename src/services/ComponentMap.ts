@@ -1,4 +1,4 @@
-import { DragPoint } from '../components/Node';
+import { DragPoint } from '../component/Node';
 import {
     FlowDefinition,
     Node,
@@ -7,8 +7,7 @@ import {
     Exit,
     SaveFlowResult
 } from '../flowTypes';
-
-import { snakify } from '../helpers/utils';
+import { snakify } from '../utils';
 
 const RESERVED_FIELDS: ContactFieldResult[] = [
     { id: 'name', name: 'Name', type: 'update_contact' }

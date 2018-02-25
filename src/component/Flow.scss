@@ -1,0 +1,16 @@
+@import '../variables.scss';
+
+.loading {
+    visibility: hidden;
+    height: inherit;
+}
+
+.loaded {
+    height: inherit;
+    position: relative;
+}
+
+.node_list {
+    height: inherit;
+    position: relative;
+}

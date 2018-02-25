@@ -1,0 +1,28 @@
+{
+  "name": "asset-server",
+  "version": "1.0.0",
+  "description": "Static file server for Netlify previews",
+  "main": "index.js",
+  "scripts": {
+    "start": "micro",
+    "dev": "micro-dev",
+    "deploy": "now --public && now alias"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "4.0.0",
+    "micro": "9.0.2",
+    "micro-compress": "1.0.0",
+    "micro-cors": "0.1.0",
+    "micro-sentry": "1.2.0",
+    "microrouter": "3.0.0",
+    "sign-bunny": "1.0.0",
+    "uuid-validate": "0.0.2",
+    "zlib": "1.0.5"
+  },
+  "devDependencies": {
+    "micro-dev": "1.4.0"
+  }
+}
