@@ -12,11 +12,7 @@ import FlowList, { FlowOption } from './FlowList';
 import LanguageSelectorComp, { Language } from './LanguageSelector';
 import ConfigProvider, { languagesPT, endpointsPT } from '../config';
 
-// Global style imports
-import 'react-select/dist/react-select.css';
 import '../global.scss';
-import '../../fonts/flows/style.css';
-
 import * as styles from './index.scss';
 
 export type OnSelectFlow = ({ uuid }: FlowOption) => void;

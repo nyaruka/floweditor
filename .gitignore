@@ -3,6 +3,7 @@ node_modules/
 dist/
 .DS_Store
 *scss\.d\.ts
+*css\.d\.ts
 coverage/
 scratch.tsx
 .awcache
