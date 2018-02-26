@@ -1,7 +1,6 @@
 import { ComponentClass, SFC, ReactElement } from 'react';
 import { ShallowWrapper, ReactWrapper } from 'enzyme';
 import { FlowDefinition } from '../flowTypes';
-import { CharacterSet } from '../component/form/TextInputElement';
 
 const SNAKED_CHARS = /\s+(?=\S)/g;
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
