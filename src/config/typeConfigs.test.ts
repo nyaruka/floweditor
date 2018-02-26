@@ -1,6 +1,6 @@
 import { typeConfigList, actionConfigList, typeConfigMap, getTypeConfig } from './typeConfigs';
 
-describe('Providers: ConfigProvider: typeConfigs', () => {
+describe('typeConfigs >', () => {
     it('should provide type configs', () => {
         expect(typeConfigList).toMatchSnapshot();
         expect(actionConfigList).toMatchSnapshot();
