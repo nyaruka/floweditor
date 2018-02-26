@@ -86,7 +86,6 @@ describe('GroupElement >', () => {
                         resultType: 'group',
                         multi: true,
                         initial: [],
-                        closeOnSelect: false,
                         placeholder: GROUP_PLACEHOLDER,
                         searchPromptText: GROUP_NOT_FOUND
                     })
