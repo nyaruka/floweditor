@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CharCount > render > should display count 1`] = `
+<div
+  className="count"
+>
+  <div
+    className="tooltip"
+  >
+    67
+    <span
+      className="divider"
+    >
+      /
+    </span>
+    2
+    <span
+      className="tooltipText"
+    >
+      This message will be about 
+      <b>
+        67
+      </b>
+       
+      characters
+       long. We estimate it will take 
+      <b>
+        2
+      </b>
+       
+      segments
+       to send over SMS.
+    </span>
+  </div>
+</div>
+`;

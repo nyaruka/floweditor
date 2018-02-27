@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "c" 1`] = `
+exports[`helpers > filterOptions > should filter options for "c" 1`] = `
 Array [
   Object {
     "description": "The name of the contact.",
@@ -13,7 +13,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "ch" 1`] = `
+exports[`helpers > filterOptions > should filter options for "ch" 1`] = `
 Array [
   Object {
     "description": "Run details after running a child flow",
@@ -22,7 +22,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "child" 1`] = `
+exports[`helpers > filterOptions > should filter options for "child" 1`] = `
 Array [
   Object {
     "description": "Run details after running a child flow",
@@ -35,7 +35,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "child." 1`] = `
+exports[`helpers > filterOptions > should filter options for "child." 1`] = `
 Array [
   Object {
     "description": "The results for the child flow",
@@ -44,7 +44,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "child.r" 1`] = `
+exports[`helpers > filterOptions > should filter options for "child.r" 1`] = `
 Array [
   Object {
     "description": "The results for the child flow",
@@ -53,7 +53,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "child.re" 1`] = `
+exports[`helpers > filterOptions > should filter options for "child.re" 1`] = `
 Array [
   Object {
     "description": "The results for the child flow",
@@ -62,7 +62,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "child.results" 1`] = `
+exports[`helpers > filterOptions > should filter options for "child.results" 1`] = `
 Array [
   Object {
     "description": "The results for the child flow",
@@ -71,7 +71,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "co" 1`] = `
+exports[`helpers > filterOptions > should filter options for "co" 1`] = `
 Array [
   Object {
     "description": "The name of the contact.",
@@ -80,7 +80,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact" 1`] = `
 Array [
   Object {
     "description": "The name of the contact.",
@@ -109,7 +109,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact." 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact." 1`] = `
 Array [
   Object {
     "description": "The name of the contact.",
@@ -134,7 +134,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.f" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.f" 1`] = `
 Array [
   Object {
     "description": "Custom fields on the contact.",
@@ -143,7 +143,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.fi" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.fi" 1`] = `
 Array [
   Object {
     "description": "Custom fields on the contact.",
@@ -152,7 +152,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.fields" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.fields" 1`] = `
 Array [
   Object {
     "description": "Custom fields on the contact.",
@@ -161,7 +161,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.g" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.g" 1`] = `
 Array [
   Object {
     "description": "The groups for the contact.",
@@ -170,7 +170,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.gr" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.gr" 1`] = `
 Array [
   Object {
     "description": "The groups for the contact.",
@@ -179,7 +179,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.groups" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.groups" 1`] = `
 Array [
   Object {
     "description": "The groups for the contact.",
@@ -188,7 +188,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.l" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.l" 1`] = `
 Array [
   Object {
     "description": "The language code for the contact.",
@@ -197,7 +197,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.la" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.la" 1`] = `
 Array [
   Object {
     "description": "The language code for the contact.",
@@ -206,7 +206,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.language" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.language" 1`] = `
 Array [
   Object {
     "description": "The language code for the contact.",
@@ -215,7 +215,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.n" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.n" 1`] = `
 Array [
   Object {
     "description": "The name of the contact.",
@@ -224,7 +224,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.na" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.na" 1`] = `
 Array [
   Object {
     "description": "The name of the contact.",
@@ -233,7 +233,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.name" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.name" 1`] = `
 Array [
   Object {
     "description": "The name of the contact.",
@@ -242,7 +242,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.u" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.u" 1`] = `
 Array [
   Object {
     "description": "URNs on the contact.",
@@ -251,7 +251,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.ur" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.ur" 1`] = `
 Array [
   Object {
     "description": "URNs on the contact.",
@@ -260,7 +260,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.urns" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.urns" 1`] = `
 Array [
   Object {
     "description": "URNs on the contact.",
@@ -277,7 +277,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.urns.t" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.urns.t" 1`] = `
 Array [
   Object {
     "description": "The preferred telephone number for the contact.",
@@ -290,7 +290,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.urns.te" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.urns.te" 1`] = `
 Array [
   Object {
     "description": "The preferred telephone number for the contact.",
@@ -303,7 +303,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.urns.tel" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.urns.tel" 1`] = `
 Array [
   Object {
     "description": "The preferred telephone number for the contact.",
@@ -316,7 +316,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "contact.urns.telegram" 1`] = `
+exports[`helpers > filterOptions > should filter options for "contact.urns.telegram" 1`] = `
 Array [
   Object {
     "description": "The preferred telegram id for the contact.",
@@ -325,7 +325,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "i" 1`] = `
+exports[`helpers > filterOptions > should filter options for "i" 1`] = `
 Array [
   Object {
     "description": "The last input from the contact if any.",
@@ -334,7 +334,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "in" 1`] = `
+exports[`helpers > filterOptions > should filter options for "in" 1`] = `
 Array [
   Object {
     "description": "The last input from the contact if any.",
@@ -343,7 +343,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "input" 1`] = `
+exports[`helpers > filterOptions > should filter options for "input" 1`] = `
 Array [
   Object {
     "description": "The last input from the contact if any.",
@@ -352,9 +352,9 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "input." 1`] = `Array []`;
+exports[`helpers > filterOptions > should filter options for "input." 1`] = `Array []`;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "p" 1`] = `
+exports[`helpers > filterOptions > should filter options for "p" 1`] = `
 Array [
   Object {
     "description": "Run details if being called from a parent flow",
@@ -363,7 +363,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "pa" 1`] = `
+exports[`helpers > filterOptions > should filter options for "pa" 1`] = `
 Array [
   Object {
     "description": "Run details if being called from a parent flow",
@@ -372,7 +372,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "parent" 1`] = `
+exports[`helpers > filterOptions > should filter options for "parent" 1`] = `
 Array [
   Object {
     "description": "Run details if being called from a parent flow",
@@ -385,7 +385,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "parent." 1`] = `
+exports[`helpers > filterOptions > should filter options for "parent." 1`] = `
 Array [
   Object {
     "description": "The results for the parent flow",
@@ -394,7 +394,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "parent.r" 1`] = `
+exports[`helpers > filterOptions > should filter options for "parent.r" 1`] = `
 Array [
   Object {
     "description": "The results for the parent flow",
@@ -403,7 +403,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "parent.re" 1`] = `
+exports[`helpers > filterOptions > should filter options for "parent.re" 1`] = `
 Array [
   Object {
     "description": "The results for the parent flow",
@@ -412,7 +412,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "parent.results" 1`] = `
+exports[`helpers > filterOptions > should filter options for "parent.results" 1`] = `
 Array [
   Object {
     "description": "The results for the parent flow",
@@ -421,7 +421,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "r" 1`] = `
+exports[`helpers > filterOptions > should filter options for "r" 1`] = `
 Array [
   Object {
     "description": "Run details",
@@ -430,7 +430,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "ru" 1`] = `
+exports[`helpers > filterOptions > should filter options for "ru" 1`] = `
 Array [
   Object {
     "description": "Run details",
@@ -439,7 +439,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "run" 1`] = `
+exports[`helpers > filterOptions > should filter options for "run" 1`] = `
 Array [
   Object {
     "description": "Run details",
@@ -456,7 +456,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "run." 1`] = `
+exports[`helpers > filterOptions > should filter options for "run." 1`] = `
 Array [
   Object {
     "description": "The contact in this run",
@@ -469,7 +469,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "run.c" 1`] = `
+exports[`helpers > filterOptions > should filter options for "run.c" 1`] = `
 Array [
   Object {
     "description": "The contact in this run",
@@ -478,7 +478,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "run.co" 1`] = `
+exports[`helpers > filterOptions > should filter options for "run.co" 1`] = `
 Array [
   Object {
     "description": "The contact in this run",
@@ -487,7 +487,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "run.contact" 1`] = `
+exports[`helpers > filterOptions > should filter options for "run.contact" 1`] = `
 Array [
   Object {
     "description": "The contact in this run",
@@ -496,7 +496,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "run.r" 1`] = `
+exports[`helpers > filterOptions > should filter options for "run.r" 1`] = `
 Array [
   Object {
     "description": "Results for the run",
@@ -505,7 +505,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "run.re" 1`] = `
+exports[`helpers > filterOptions > should filter options for "run.re" 1`] = `
 Array [
   Object {
     "description": "Results for the run",
@@ -514,7 +514,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "run.results" 1`] = `
+exports[`helpers > filterOptions > should filter options for "run.results" 1`] = `
 Array [
   Object {
     "description": "Results for the run",
@@ -523,7 +523,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "w" 1`] = `
+exports[`helpers > filterOptions > should filter options for "w" 1`] = `
 Array [
   Object {
     "description": "The body of the webhook response",
@@ -532,7 +532,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "we" 1`] = `
+exports[`helpers > filterOptions > should filter options for "we" 1`] = `
 Array [
   Object {
     "description": "The body of the webhook response",
@@ -541,7 +541,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook" 1`] = `
 Array [
   Object {
     "description": "The body of the webhook response",
@@ -578,7 +578,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook." 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook." 1`] = `
 Array [
   Object {
     "description": "The status of the webhook call",
@@ -611,7 +611,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.b" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.b" 1`] = `
 Array [
   Object {
     "description": "The body of the webhook response",
@@ -620,7 +620,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.bo" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.bo" 1`] = `
 Array [
   Object {
     "description": "The body of the webhook response",
@@ -629,7 +629,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.body" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.body" 1`] = `
 Array [
   Object {
     "description": "The body of the webhook response",
@@ -638,7 +638,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.j" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.j" 1`] = `
 Array [
   Object {
     "description": "The JSON parsed body of the response, can access subelements",
@@ -647,7 +647,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.js" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.js" 1`] = `
 Array [
   Object {
     "description": "The JSON parsed body of the response, can access subelements",
@@ -656,7 +656,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.json" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.json" 1`] = `
 Array [
   Object {
     "description": "The JSON parsed body of the response, can access subelements",
@@ -665,7 +665,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.r" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.r" 1`] = `
 Array [
   Object {
     "description": "The raw request of the webhook including headers",
@@ -678,7 +678,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.re" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.re" 1`] = `
 Array [
   Object {
     "description": "The raw request of the webhook including headers",
@@ -691,7 +691,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.request" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.request" 1`] = `
 Array [
   Object {
     "description": "The raw request of the webhook including headers",
@@ -700,7 +700,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.response" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.response" 1`] = `
 Array [
   Object {
     "description": "The raw response of the webhook including headers",
@@ -709,7 +709,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.s" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.s" 1`] = `
 Array [
   Object {
     "description": "The status of the webhook call",
@@ -722,7 +722,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.st" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.st" 1`] = `
 Array [
   Object {
     "description": "The status of the webhook call",
@@ -735,7 +735,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.status" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.status" 1`] = `
 Array [
   Object {
     "description": "The status of the webhook call",
@@ -748,7 +748,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.status_code" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.status_code" 1`] = `
 Array [
   Object {
     "description": "The status code returned from the webhook",
@@ -757,7 +757,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.u" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.u" 1`] = `
 Array [
   Object {
     "description": "The URL which was called",
@@ -766,7 +766,7 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.ur" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.ur" 1`] = `
 Array [
   Object {
     "description": "The URL which was called",
@@ -775,126 +775,11 @@ Array [
 ]
 `;
 
-exports[`TextInputElement > helpers > filterOptions > should filter options for "webhook.url" 1`] = `
+exports[`helpers > filterOptions > should filter options for "webhook.url" 1`] = `
 Array [
   Object {
     "description": "The URL which was called",
     "name": "webhook.url",
   },
 ]
-`;
-
-exports[`TextInputElement > helpers > getCharCount > should generate character count stats for msg of type "GSM: 7-bit" 1`] = `
-Object {
-  "characterCount": 24,
-  "characterSet": "GSM",
-  "maxLength": 160,
-  "parts": Array [
-    Object {
-      "bytes": 24,
-      "content": "GSM, regular 7-bit chars",
-      "length": 24,
-    },
-  ],
-  "remainingInPart": 136,
-  "value": "GSM, regular 7-bit chars",
-}
-`;
-
-exports[`TextInputElement > helpers > getCharCount > should generate character count stats for msg of type "GSM: escape" 1`] = `
-Object {
-  "characterCount": 27,
-  "characterSet": "GSM",
-  "maxLength": 160,
-  "parts": Array [
-    Object {
-      "bytes": 35,
-      "content": "GSM, escape chars: |^€{}[]~",
-      "length": 27,
-    },
-  ],
-  "remainingInPart": 125,
-  "value": "GSM, escape chars: |^€{}[]~",
-}
-`;
-
-exports[`TextInputElement > helpers > getCharCount > should generate character count stats for msg of type "Unicode + GSM escape" 1`] = `
-Object {
-  "characterCount": 38,
-  "characterSet": "Unicode",
-  "maxLength": 70,
-  "parts": Array [
-    Object {
-      "bytes": 78,
-      "content": "Unicode 💩 w/ GSM escape chars |^€{}[]~",
-      "length": 38,
-    },
-  ],
-  "remainingInPart": 31,
-  "value": "Unicode 💩 w/ GSM escape chars |^€{}[]~",
-}
-`;
-
-exports[`TextInputElement > helpers > getCharCount > should generate character count stats for msg of type "Unicode" 1`] = `
-Object {
-  "characterCount": 9,
-  "characterSet": "Unicode",
-  "maxLength": 70,
-  "parts": Array [
-    Object {
-      "bytes": 20,
-      "content": "Unicode 💩",
-      "length": 9,
-    },
-  ],
-  "remainingInPart": 60,
-  "value": "Unicode 💩",
-}
-`;
-
-exports[`TextInputElement > helpers > getCharCountStats > should return an object containing character count stats if passed Count.SMS enum 1`] = `
-Object {
-  "characterCount": 24,
-  "characterSet": "GSM",
-  "maxLength": 160,
-  "parts": Array [
-    Object {
-      "bytes": 24,
-      "content": "GSM, regular 7-bit chars",
-      "length": 24,
-    },
-  ],
-  "remainingInPart": 136,
-  "value": "GSM, regular 7-bit chars",
-}
-`;
-
-exports[`TextInputElement > render > should display count 1`] = `
-<div
-  className="tooltiprow"
-  data-spec="tooltip-content"
->
-  <span>
-    <span>
-      The character-counter provides an estimate of the number of messages your response is expected to be split into by carriers. For example, the count 
-      <b>
-        67/2
-      </b>
-       indicates that the current message will be split into 
-      <b>
-        2
-      </b>
-       messages and you have 
-      <b>
-        67
-      </b>
-       characters left until it will be split into 
-      <b>
-        3
-      </b>
-       messages
-    </span>
-    .
-  </span>
-</div>
 `;

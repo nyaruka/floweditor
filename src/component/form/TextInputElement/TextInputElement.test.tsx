@@ -2,21 +2,9 @@ import * as React from 'react';
 import { shallow } from 'enzyme';
 import { getSpecWrapper } from '../../../utils';
 import ComponentMap, { CompletionOption } from '../../../services/ComponentMap';
-import TextInputElement, {
-    Count,
-    CharacterSet,
-    MAX_GSM_SINGLE,
-    MAX_GSM_MULTI,
-    MAX_UNICODE_SINGLE,
-    MAX_UNICODE_MULTI,
-    cleanMsg,
-    filterOptions,
-    getCharCount,
-    getOptionsList,
-    getCharCountStats
-} from './TextInputElement';
-import { OPTIONS } from './completionOptions';
+import TextInputElement, { Count } from './TextInputElement';
 import { getTypeConfig } from '../../../config';
+import { OPTIONS, COMPLETION_HELP } from './constants';
 
 const {
     results: [{ definition }]
@@ -43,80 +31,10 @@ const msgs = [
     ['Unicode 💩 w/ GSM escape chars |^€{}[]~', 'Unicode + GSM escape']
 ];
 
-const optionQueryMap = OPTIONS.reduce((argMap, { name }) => {
-    const lastIndex = name.lastIndexOf('.');
-
-    if (lastIndex > -1) {
-        argMap[name.slice(0, lastIndex + 2)] = true;
-        argMap[name.slice(0, lastIndex + 3)] = true;
-        argMap[name] = true;
-    } else {
-        argMap[name.slice(0, 1)] = true;
-        argMap[name.slice(0, 2)] = true;
-        argMap[name] = true;
-        argMap[`${name}.`] = true;
-    }
-
-    return argMap;
-}, {});
-
 describe('TextInputElement >', () => {
-    describe('helpers >', () => {
-        describe('cleanMsg >', () => {
-            it('should replace specified unicode characters with their GSM counterparts', () =>
-                expect(cleanMsg('“”‘’— …–')).toBe(`""''- ...-`));
-        });
-
-        describe('getCharCount >', () =>
-            msgs.forEach(msg =>
-                it(`should generate character count stats for msg of type "${msg[1]}"`, () =>
-                    expect(getCharCount(msg[0])).toMatchSnapshot())
-            ));
-
-        describe('filterOptions >', () => {
-            it('should return an empty array if not passed a query', () =>
-                expect(filterOptions(OPTIONS)).toEqual([]));
-
-            Object.keys(optionQueryMap).forEach(query =>
-                it(`should filter options for "${query}"`, () =>
-                    expect(filterOptions(OPTIONS, query)).toMatchSnapshot())
-            );
-        });
-
-        describe('getOptionsList >', () => {
-            const hasResults = (optionsList: CompletionOption[]): boolean => {
-                let results = false;
-                for (const option of optionsList) {
-                    if (
-                        option.description.indexOf('Result for') > -1 ||
-                        option.description.indexOf('Category for') > -1
-                    ) {
-                        results = true;
-                        break;
-                    }
-                }
-                return results;
-            };
-
-            it('should return options list + result names if passed a truthy autocomplete arg', () =>
-                expect(hasResults(getOptionsList(true, CompMap))).toBeTruthy());
-
-            it('should only return an options list if passed a falsy autocomplete arg', () =>
-                expect(hasResults(getOptionsList(false, CompMap))).toBeFalsy());
-        });
-
-        describe('getCharCountStats >', () => {
-            it('should return an object containing character count stats if passed Count.SMS enum', () =>
-                expect(getCharCountStats(Count.SMS, msgs[0][0])).toMatchSnapshot());
-
-            it('should return an empty object if not passed Count.SMS enum', () =>
-                expect(getCharCountStats(undefined, msgs[0][0])).toEqual({}));
-        });
-    });
-
     describe('render >', () => {
-        it('should display count', () => {
-            const TextInput = shallow(
+        it('should render FormElement', () => {
+            const wrapper = shallow(
                 <TextInputElement
                     {...{
                         ...props,
@@ -125,20 +43,65 @@ describe('TextInputElement >', () => {
                 />
             );
 
-            const { onBlur, onChange, onKeyDown } = TextInput.instance() as any;
+            expect(wrapper.find('FormElement').props()).toEqual(
+                expect.objectContaining({
+                    name: props.name,
+                    showLabel: props.showLabel,
+                    errors: [],
+                    replyError: false
+                })
+            );
+        });
 
-            expect(getSpecWrapper(TextInput, 'input').props()).toEqual(
+        it('should render input', () => {
+            const wrapper = shallow(
+                <TextInputElement
+                    {...{
+                        ...props,
+                        value: msgs[0][0]
+                    }}
+                />
+            );
+
+            expect(getSpecWrapper(wrapper, 'input').props()).toEqual(
                 expect.objectContaining({
                     className: 'textinput',
                     placeholder: '',
                     type: undefined,
-                    value: msgs[0][0],
-                    onBlur,
-                    onChange,
-                    onKeyDown
+                    value: msgs[0][0]
                 })
             );
+        });
 
-            expect(getSpecWrapper(TextInput, 'tooltip-content')).toMatchSnapshot();
+        it('should render completion list', () => {
+            const wrapper = shallow(
+                <TextInputElement
+                    {...{
+                        ...props,
+                        value: msgs[0][0]
+                    }}
+                />
+            );
+
+            expect(wrapper.find('ul').exists()).toBeTruthy();
+            expect(getSpecWrapper(wrapper, 'completion-help').text()).toBe(COMPLETION_HELP);
+        });
+
+        it('should render CharCount', () => {
+            const wrapper = shallow(
+                <TextInputElement
+                    {...{
+                        ...props,
+                        value: msgs[0][0]
+                    }}
+                />
+            );
+
+            expect(wrapper.find('CharCount').props()).toEqual({
+                count: wrapper.state('characterCount'),
+                parts: wrapper.state('parts').length,
+                unicodeChars: wrapper.state('unicodeChars')
+            });
         });
     });
+});
