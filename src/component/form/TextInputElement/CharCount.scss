@@ -1,0 +1,55 @@
+@import '../../../variables.scss';
+
+.count {
+    text-align: right;
+    padding: 5px 0;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    font-size: 14px;
+    min-width: 50px;
+}
+
+.divider {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    min-height: 65px;
+    min-width: 185px;
+    background-color: white;
+    color: $grey;
+    text-align: left;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 20px;
+    -webkit-box-shadow: $shadow_down;
+    box-shadow: $shadow_down;
+
+    /* Position tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 138%;
+    left: -130%;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    -webkit-transition: opacity 0.4s;
+    -o-transition: opacity 0.4s;
+    transition: opacity 0.4s;
+}
+
+.tooltip .tooltip-text .unicode {
+    left: -145%;
+}
+
+/* Show tooltip text when mouse hovers over the tooltip container */
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}

@@ -149,12 +149,13 @@ export const typeConfigList: Type[] = [
     // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];
 
-export const actionConfigList: Type[] = typeConfigList.filter(
-    ({ name }) =>
-        name !== 'Wait for Response' &&
-        name !== 'Split by Expression' &&
-        name !== 'Run Flow' &&
-        name !== 'Call Webhook'
+export const actionConfigList = typeConfigList.filter(
+    ({ type }) =>
+        type !== 'wait_for_response' &&
+        type !== 'split_by_expression' &&
+        type !== 'split_by_group' &&
+        type !== 'run_flow' &&
+        type !== 'call_webhook'
 );
 
 export const typeConfigMap: TypeMap = typeConfigList.reduce((map: TypeMap, typeConfig: Type) => {

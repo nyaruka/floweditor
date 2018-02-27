@@ -1,75 +1,5 @@
 @import '../../../variables.scss';
 
-.count {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: end;
-        -ms-flex-pack: end;
-            justify-content: flex-end;
-    margin: 5px 0;
-}
-
-.tooltip {
-    position: relative;
-    display: inline-block;
-    font-size: 15px;
-    margin-left: 5px;
-}
-
-.tooltip .tooltiptext {
-    visibility: hidden;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
-    height: 220px;
-    width: 175px;
-    background-color: white;
-    color: $grey;
-    text-align: left;
-    padding: 12px;
-    border-radius: 4px;
-    font-size: 14px;
-    line-height: 20px;
-    -webkit-box-shadow: $shadow_down;
-    box-shadow: $shadow_down;
-
-    /* Position tooltip text */
-    position: absolute;
-    z-index: 1;
-    bottom: 138%;
-    left: -490%;
-    margin-left: -60px;
-
-    /* Fade in tooltip */
-    opacity: 0;
-    -webkit-transition: opacity 0.25s;
-    -o-transition: opacity 0.25s;
-    transition: opacity 0.25s;
-}
-
-/* Show tooltip text when mouse hovers over the tooltip container */
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-}
-
-.tooltiprow {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
-}
-
 .option_list {
     overflow-y: auto;
     list-style-type: none;
@@ -160,4 +90,5 @@ textarea.textinput {
     height: 120px;
     padding: 10px;
     overflow: auto;
+    resize: none;
 }

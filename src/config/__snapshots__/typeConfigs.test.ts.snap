@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Providers: ConfigProvider: typeConfigs should provide type configs 1`] = `
+exports[`typeConfigs > should provide type configs 1`] = `
 Array [
   Object {
     "advanced": 1,
@@ -106,7 +106,7 @@ Array [
 ]
 `;
 
-exports[`Providers: ConfigProvider: typeConfigs should provide type configs 2`] = `
+exports[`typeConfigs > should provide type configs 2`] = `
 Array [
   Object {
     "advanced": 1,
@@ -161,16 +161,20 @@ Array [
     "type": "save_flow_result",
   },
   Object {
+    "aliases": Array [
+      "subflow",
+    ],
     "allows": [Function],
-    "description": "Split by group membership",
+    "component": [Function],
+    "description": "Run another flow",
     "form": [Function],
-    "name": "Split by Group Membership",
-    "type": "split_by_group",
+    "name": "Run Flow",
+    "type": "start_flow",
   },
 ]
 `;
 
-exports[`Providers: ConfigProvider: typeConfigs should provide type configs 3`] = `
+exports[`typeConfigs > should provide type configs 3`] = `
 Object {
   "add_to_group": Object {
     "allows": [Function],
