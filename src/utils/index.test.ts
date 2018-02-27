@@ -1,4 +1,3 @@
-import { CharacterSet } from '../component/form/TextInputElement';
 import { operatorConfigList } from '../config';
 import {
     addCommas,
