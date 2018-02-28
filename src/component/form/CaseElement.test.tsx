@@ -1,7 +1,16 @@
 import * as React from 'react';
 import { shallow, mount } from 'enzyme';
 import CompMap from '../../services/ComponentMap';
-import CaseElement, { prefix, composeExitName, getExitName, hasArgs } from './CaseElement';
+import CaseElement, {
+    prefix,
+    composeExitName,
+    getExitName,
+    getMinMax,
+    isFloat,
+    isInt,
+    strContainsNum,
+    parseNum
+} from './CaseElement';
 import { getSpecWrapper, titleCase } from '../../utils';
 import { object } from 'prop-types';
 import { getTypeConfig, operatorConfigList, getOperatorConfig } from '../../config';
@@ -31,16 +40,28 @@ describe('CaseElement >', () => {
             let args = [['tomato, t'], ['papayawhip'], []];
 
             it('should handle empty arg lists appropriately', () =>
-                expect(composeExitName(operatorType, args[2])).toBe(''));
+                expect(composeExitName(operatorType, args[2], '')).toBe(''));
 
             it('should return the first arg in list, capitalized', () => {
                 args = args.slice(0, 2);
                 strArgOperators.forEach(({ type }) =>
                     args.slice(0, 2).forEach(argList => {
                         const [firstArg] = argList[0].split(',');
-                        expect(composeExitName(type, argList)).toBe(titleCase(firstArg));
+                        expect(composeExitName(type, argList, '')).toBe(titleCase(firstArg));
                     })
                 );
+            });
+
+            it('should return exit name in the format "min - max" if operator', () => {
+                [['1', '2'], ['', '2'], ['1', ''], []].forEach(argList => {
+                    expect(
+                        composeExitName('has_number_between', argList, '').indexOf('-') > -1
+                    ).toBeTruthy();
+                });
+            });
+
+            it("should return newExitName if it's truthy and operator is 'has_number_between'", () => {
+                expect(composeExitName('has_number_between', ['1', '2'], 'Violet')).toBe('Violet');
             });
         });
 
@@ -54,23 +75,98 @@ describe('CaseElement >', () => {
             const operatorConfig = getOperatorConfig(type);
             const { categoryName: expectedExitName } = operatorConfig;
 
-            it("should return a given operator's default category name if it has one", () =>
+            it("should return a given operator's default category name if it has one and no new args have been passed", () =>
                 // prettier-ignore
                 expect(
                     getExitName(
-                        'somePerhapsPreExistingExitName',
+                        '',
                         operatorConfig,
                         kase
                     )
                 ).toBe(expectedExitName));
         });
 
-        describe('hasArgs >', () =>
-            it(`should reflect the presence of an arguments array in the passed object's "arguments" property`, () => {
-                expect(hasArgs(['tomato, t'])).toBeTruthy();
-                expect(hasArgs([])).toBeFalsy();
-                expect(hasArgs()).toBeFalsy();
-            }));
+        describe('getMinMax >', () => {
+            const emptyStrs = { min: '', max: '' };
+
+            it('should return emtpy strings if arg param is an empty array', () => {
+                expect(getMinMax([])).toEqual(emptyStrs);
+            });
+
+            it("should return empty strings if arg param doesn't contain two number-containing strings", () => {
+                expect(getMinMax(['a', 'b'])).toEqual(emptyStrs);
+            });
+
+            it('should return a number-containing string MIN and empty string MAX if first arg is a number-containing string and second arg is not', () => {
+                expect(getMinMax(['1', 'b'])).toEqual({ min: '1', max: '' });
+            });
+
+            it('should return an empty string MIN and number-containing string MAX if first arg is not a number-containing string and second arg is', () => {
+                expect(getMinMax(['a', '2'])).toEqual({ min: '', max: '2' });
+            });
+        });
+
+        describe('isFloat >', () => {
+            it('should return true if argument is string containing a float', () => {
+                ['0.2', '.2', '+.2', '+0.2', '-.2', '-0.2', '2', '2.'].forEach(arg =>
+                    expect(isFloat(arg as any)).toBeTruthy()
+                );
+            });
+
+            it('should return false if argument is not a string containing a float', () => {
+                ['u.2', '0.2u', 'a'].forEach(arg => expect(isFloat(arg as any)).toBeFalsy());
+            });
+        });
+
+        describe('isInt >', () => {
+            it('should return true if argument is string containing an int', () => {
+                ['1', '+1', '-1'].forEach(arg => expect(isInt(arg)).toBeTruthy());
+            });
+
+            it('should return false if argument is not a string containing an int', () => {
+                ['0.1', 'e24', '-.3', '5+', '5-', 'a'].forEach(arg =>
+                    expect(isInt(arg)).toBeFalsy()
+                );
+            });
+        });
+
+        describe('strContainsNum >', () => {
+            it('should return true if string contains only a float or int', () => {
+                [
+                    '0.2',
+                    '.2',
+                    '+.2',
+                    '+0.2',
+                    '-.2',
+                    '-0.2',
+                    '2',
+                    '2.',
+                    '1',
+                    '+1',
+                    '-1'
+                ].forEach(arg => expect(strContainsNum(arg)).toBeTruthy());
+            });
+
+            it('should return false if string does not contain only a float or int', () => {
+                ['a', 'e24', '2a', '0.2u', 'u.2', 'u0.2'].forEach(arg =>
+                    expect(strContainsNum(arg)).toBeFalsy()
+                );
+            });
+        });
+
+        describe('parseNum >', () => {
+            it('should return a float if passed a string containing only a float', () => {
+                const float = parseNum('0.2');
+
+                expect(typeof float === 'number' && isFinite(float)).toBeTruthy();
+            });
+
+            it('should return an int if passed a string containing only an int', () => {
+                const int = parseNum('1');
+
+                expect(typeof int === 'number' && isFinite(int)).toBeTruthy();
+            });
+        });
     });
 
     describe('Component >', () => {
@@ -127,28 +223,29 @@ describe('CaseElement >', () => {
                     })
                 );
 
-                expect(getSpecWrapper(EmptyCase, 'args-input').props()).toEqual({
-                    'data-spec': 'args-input',
-                    name: 'arguments',
-                    onChange: onChangeArguments,
-                    value: '',
-                    focus: props.focusArgsInput,
-                    autocomplete: true,
-                    ComponentMap,
-                    showInvalid: false,
-                    config
-                });
+                expect(getSpecWrapper(EmptyCase, 'args-input').props()).toEqual(
+                    expect.objectContaining({
+                        'data-spec': 'args-input',
+                        name: 'arguments',
+                        value: '',
+                        autocomplete: true,
+                        ComponentMap,
+                        showInvalid: false,
+                        config
+                    })
+                );
 
-                expect(getSpecWrapper(EmptyCase, 'exit-input').props()).toEqual({
-                    'data-spec': 'exit-input',
-                    name: 'exitName',
-                    onChange: onChangeExitName,
-                    value: '',
-                    focus: props.focusExitInput,
-                    ComponentMap,
-                    showInvalid: false,
-                    config
-                });
+                expect(getSpecWrapper(EmptyCase, 'exit-input').props()).toEqual(
+                    expect.objectContaining({
+                        'data-spec': 'exit-input',
+                        name: 'exitName',
+                        onChange: onChangeExitName,
+                        value: '',
+                        ComponentMap,
+                        showInvalid: false,
+                        config
+                    })
+                );
             });
 
             cases.forEach((kase, idx) => {
@@ -188,8 +285,7 @@ describe('CaseElement >', () => {
                 it('should render exit inputs w/ expected props', () =>
                     expect(getSpecWrapper(CaseWrapper, 'exit-input').props()).toEqual(
                         expect.objectContaining({
-                            value: caseProps.exitName || '',
-                            focus: caseProps.focusExitInput
+                            value: caseProps.exitName || ''
                         })
                     ));
             });

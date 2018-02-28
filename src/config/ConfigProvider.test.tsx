@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { renderIntoDocument, findRenderedComponentWithType } from 'react-dom/test-utils';
 import { shallow } from 'enzyme';

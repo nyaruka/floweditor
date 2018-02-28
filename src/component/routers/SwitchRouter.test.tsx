@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow, mount } from 'enzyme';
 import { getSpecWrapper } from '../../utils';
-import { DEFAULT_OPERAND, OPERATOR_LOCALIZATION_LEGEND } from './constants';
+import { DEFAULT_OPERAND, OPERAND_LOCALIZATION_DESC } from './constants';
 import SwitchRouterForm, {
     getListStyle,
     getItemStyle,
@@ -285,9 +285,9 @@ describe('SwitchRouter >', () => {
         });
 
         it('should render advanced form (translating case args)', () => {
-            const getOperatorsForLocalizationSpy = jest.spyOn(
+            const getOperandsForLocalizationSpy = jest.spyOn(
                 SwitchRouterForm.prototype,
-                'getOperatorsForLocalization'
+                'getOperandsForLocalization'
             );
 
             const wrapper = mount(
@@ -304,16 +304,16 @@ describe('SwitchRouter >', () => {
 
             expect(getSpecWrapper(wrapper, 'advanced-title').text()).toBe('Rules');
             expect(getSpecWrapper(wrapper, 'advanced-instructions').text()).toBe(
-                OPERATOR_LOCALIZATION_LEGEND
+                OPERAND_LOCALIZATION_DESC
             );
-            expect(getOperatorsForLocalizationSpy).toHaveBeenCalled();
+            expect(getOperandsForLocalizationSpy).toHaveBeenCalled();
 
-            getOperatorsForLocalizationSpy.mockRestore();
+            getOperandsForLocalizationSpy.mockRestore();
         });
     });
 
     describe('instance methods >', () => {
-        describe('getOperatorsForLocalization >', () => {
+        describe('getOperandsForLocalization >', () => {
             const wrapper = mount(
                 <SwitchRouterForm
                     {...{
