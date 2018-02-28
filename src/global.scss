@@ -120,7 +120,7 @@ body {
     }
     .plumb-exit .jtk-connected {
         background: $path_color !important;
-        border: 2px solid $path_color - #111 !important;
+        border: 1px solid $path_color - #111 !important;
     }
     .plumb-drop-hover {
         box-shadow: 0 0 2px 1px $hover;

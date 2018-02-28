@@ -77,14 +77,15 @@
     .endpoint {
         position: relative;
         background: $terminal_color;
-        border: 2px solid $terminal_color - #111;
-        width: 10px;
-        height: 10px;
+        border: 1px solid $terminal_color - #111;
+        width: 8px;
+        height: 8px;
         margin: 0 auto;
         top: 6px;
         -webkit-box-sizing: content-box !important;
         box-sizing: content-box !important;
-        margin-top: -14px;
+        margin-top: -12px;
+        border-radius: 4px;
     }
     &.confirm_delete {
         .activity {

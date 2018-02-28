@@ -49,7 +49,7 @@ export default class Plumber {
             DropOptions: { tolerance: 'touch', hoverClass: 'plumb-hover' },
             Endpoint: 'Blank',
             EndpointStyle: { strokeStyle: 'transparent' },
-            PaintStyle: { strokeWidth: 5, stroke: '#98C0D9' },
+            PaintStyle: { strokeWidth: 2, stroke: '#98C0D9' },
             ConnectorHoverStyle: { stroke: '#27ae60' },
             ConnectorHoverClass: 'plumb-connector-hover',
             ConnectionsDetachable: true,
@@ -57,14 +57,14 @@ export default class Plumber {
                 'Flowchart',
                 {
                     stub: 12,
-                    midpoint: 0.85,
-                    alwaysRespectStubs: false,
-                    gap: [0, 7],
-                    cornerRadius: 2
+                    midpoint: 0.55,
+                    alwaysRespectStubs: true,
+                    gap: [0, 10],
+                    cornerRadius: 5
                 }
             ],
             ConnectionOverlays: [
-                ['PlainArrow', { location: 0.9999, width: 12, length: 12, foldback: 1 }]
+                ['PlainArrow', { location: 0.9999, width: 6, length: 6, foldback: 1 }]
             ],
             Container: 'flow-editor'
         });
