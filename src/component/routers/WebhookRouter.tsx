@@ -1,6 +1,7 @@
 import * as React from 'react';
 import update from 'immutability-helper';
 import * as FlipMove from 'react-flip-move';
+import { react as bindCallbacks } from 'auto-bind';
 import { v4 as generateUUID } from 'uuid';
 import {
     Headers,
@@ -105,11 +106,9 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
 
         this.state = getInitialState(this.props.action);
 
-        this.onValid = this.onValid.bind(this);
-        this.onUpdateForm = this.onUpdateForm.bind(this);
-        this.onHeaderRemoved = this.onHeaderRemoved.bind(this);
-        this.onHeaderChanged = this.onHeaderChanged.bind(this);
-        this.onMethodChanged = this.onMethodChanged.bind(this);
+        bindCallbacks(this, {
+            include: [/^on/]
+        });
     }
 
     public onValid(widgets: { [name: string]: React.Component }): void {
