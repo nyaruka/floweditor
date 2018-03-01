@@ -46,7 +46,7 @@ Object {
   "touchAction": "manipulation",
   "transform": "translate(-2px, 17px)",
   "userSelect": "none",
-  "width": 590,
+  "width": 595,
   "zIndex": 5000,
 }
 `;
@@ -67,6 +67,5 @@ Object {
   "transform": null,
   "transition": null,
   "userSelect": "none",
-  "width": false,
 }
 `;

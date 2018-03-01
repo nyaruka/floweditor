@@ -7,9 +7,8 @@ import { FormProps, hasSwitchRouter, hasWait, resolveExits } from '../NodeEditor
 import GroupElement, { GroupElementProps } from '../form/GroupElement';
 import TextInputElement from '../form/TextInputElement';
 import { GROUP_LABEL } from './constants';
-
-import { instructions } from './SwitchRouter.scss';
 import { CaseElementProps } from '../form/CaseElement';
+import { instructions } from './SwitchRouter.scss';
 
 type GroupRouterProps = Partial<FormProps>;
 
