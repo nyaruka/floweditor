@@ -49,7 +49,7 @@ export default class Plumber {
             DropOptions: { tolerance: 'touch', hoverClass: 'plumb-hover' },
             Endpoint: 'Blank',
             EndpointStyle: { strokeStyle: 'transparent' },
-            PaintStyle: { strokeWidth: 2, stroke: '#98C0D9' },
+            PaintStyle: { strokeWidth: 2, stroke: '#c5e9ff' },
             ConnectorHoverStyle: { stroke: '#27ae60' },
             ConnectorHoverClass: 'plumb-connector-hover',
             ConnectionsDetachable: true,

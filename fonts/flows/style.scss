@@ -4,9 +4,9 @@
   font-family: 'flows';
   src:  url('#{$icomoon-font-path}/flows.eot?ygndt6');
   src:  url('#{$icomoon-font-path}/flows.eot?ygndt6#iefix') format('embedded-opentype'),
-    url('#{$icomoon-font-path}/flows.ttf?ygndt6') format('truetype'),
+    url('#{$icomoon-font-path}/flows.svg?ygndt6#flows') format('svg'),
     url('#{$icomoon-font-path}/flows.woff?ygndt6') format('woff'),
-    url('#{$icomoon-font-path}/flows.svg?ygndt6#flows') format('svg');
+    url('#{$icomoon-font-path}/flows.ttf?ygndt6') format('truetype');
   font-weight: normal;
   font-style: normal;
 }

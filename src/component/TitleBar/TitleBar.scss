@@ -1,29 +1,36 @@
+@import "../../variables.scss";
+
 .titlebar {
     padding: 0px;
-    text-shadow: 0px 1px rgba(0, 0, 0, .2);
     width: auto;
     color: #fff;
+    font-weight: normal;
     text-align: center;
-    font-size: 13px;
     border: 0px solid transparent;
+
     .normal {
-        padding: 3px 0;
-        border: 0px solid green;
+        padding: 5px 0;
     }
+
     .remove_confirm {
         position: absolute;
-        margin-top: -21px;
+        margin-top: -25px;
         border: 0px solid #c14c46;
         background: #c14c46;
-        padding: 3px 0px;
+        padding: 5px 0px;
         width: 100%;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
+        
+        border-top-left-radius: $curvature;
+        border-top-right-radius: $curvature;
+        
         .remove_button {
             visibility: visible;
         }
     }
+
     .remove_button {
         position: absolute;
         padding-right: 4px;
@@ -33,6 +40,7 @@
         width: 20px;
         right: 0;
     }
+
     .up_button {
         // float: left;
         position: absolute;
@@ -43,6 +51,7 @@
         width: 20px;
         left: 0px;
     }
+
     &:hover {
         .remove_button {
             visibility: visible;

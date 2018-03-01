@@ -26,4 +26,5 @@ if (module.hot) {
     });
 }
 
-renderHot(FlowEditor);
+// renderHot(FlowEditor);
+render(<FlowEditor config={config}/>, root)

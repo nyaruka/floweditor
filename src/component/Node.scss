@@ -2,6 +2,8 @@
 
 .node {
 
+    box-shadow: 2px 2px 0px -0px rgba(0, 0, 0, .06);
+
     .cropped {
         overflow: hidden;
         min-width: $node_width;
@@ -15,7 +17,8 @@
             visibility: hidden !important;
         }
         transition: none; // transform: scale(1.05);
-        box-shadow: 5px 5px 0px -2px rgba(0, 0, 0, .06);
+        box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, .05);
+
         border-radius: $curvature;
         transform: scale(1.015);
     }

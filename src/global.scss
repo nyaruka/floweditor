@@ -9,7 +9,6 @@ body {
     .ReactModal__Content {
         overflow: visible !important;
         top: 50px !important;
-        box-shadow: 1px 1px 5px 1px #555;
     }
     .ReactModal__Overlay {
         background-color: rgba(0, 0, 0, .6) !important;
@@ -120,7 +119,8 @@ body {
     }
     .plumb-exit .jtk-connected {
         background: $path_color !important;
-        border: 1px solid $path_color - #111 !important;
+        border-bottom: 2px solid $path_color - #333 !important;
+        // border-top: 1px transparent;
     }
     .plumb-drop-hover {
         box-shadow: 0 0 2px 1px $hover;
