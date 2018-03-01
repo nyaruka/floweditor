@@ -82,6 +82,7 @@ describe('GroupRouter >', () => {
 
             getResultNameFieldMock.mockReset();
         });
+
         it('should pass groups pulled from existing cases to GroupElement', () => {
             const wrapper = shallow(<GroupRouter {...groupRouterProps} />, {
                 context: groupRouterContext
@@ -151,35 +152,6 @@ describe('GroupRouter >', () => {
 
                 saveLocalizationsMock.mockReset();
             });
-        });
-
-        it('should call "cleanUpLocalizations" prop if flow definition contains localizations', () => {
-            const cleanUpLocalizationsMock = jest.fn();
-
-            const wrapper = shallow(
-                <GroupRouter
-                    {...{
-                        ...groupRouterProps,
-                        updateRouter: jest.fn(),
-                        cleanUpLocalizations: cleanUpLocalizationsMock
-                    }}
-                />,
-                {
-                    context: groupRouterContext
-                }
-            );
-
-            wrapper.instance().onValid({
-                Group: {
-                    state: {
-                        groups: extractGroups(node)
-                    }
-                }
-            });
-
-            expect(cleanUpLocalizationsMock).toHaveBeenCalled();
-
-            cleanUpLocalizationsMock.mockReset();
         });
     });
 

@@ -79,7 +79,8 @@ export const composeExitName = (
             return newExitName;
         }
         const { min, max } = getMinMax(newArgList);
-        return `${min} - ${max}`;
+
+        return `${min ? min : newArgList[0] || ''} - ${max ? max : newArgList[1] || ''}`;
     }
 
     const pre = prefix(operatorType);
