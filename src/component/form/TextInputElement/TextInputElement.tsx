@@ -111,15 +111,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         };
 
         bindCallbacks(this, {
-            include: [
-                'selectedElRef',
-                'textElRef',
-                'onKeyDown',
-                'onBlur',
-                'onChange',
-                'setSelection',
-                'validate'
-            ]
+            include: [/Ref$/, /^on/, 'setSelection', 'validate']
         });
     }
 
@@ -129,6 +121,14 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
     private textElRef(ref: HTMLTextElement): HTMLTextElement {
         return (this.textEl = ref);
+    }
+
+    public componentWillReceiveProps(nextProps: TextInputProps): void {
+        if (nextProps.value !== this.props.value) {
+            this.setState({
+                value: nextProps.value
+            });
+        }
     }
 
     public componentDidMount(): void {

@@ -40,7 +40,7 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
         this.onChange = this.onChange.bind(this);
     }
 
-    private onChange([flow]: any): void {
+    private onChange(flow: any): void {
         this.setState({
             flow
         });

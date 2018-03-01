@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as autoBind from 'auto-bind';
+import { react as bindCallbacks } from 'auto-bind';
 import update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
 import {
@@ -18,27 +18,16 @@ import { FormProps } from '../NodeEditor';
 import ComponentMap from '../../services/ComponentMap';
 import { Language } from '../LanguageSelector';
 import { LocalizedObject } from '../../services/Localization';
-import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
-import { ConfigProviderContext, endpointsPT } from '../../config';
+import TextInputElement from '../form/TextInputElement';
 import CaseElement, { CaseElementProps } from '../form/CaseElement';
 import { reorderList } from '../../utils';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { GetResultNameField } from '../NodeEditor';
-import {
-    WAIT_LABEL,
-    EXPRESSION_LABEL,
-    DEFAULT_OPERAND,
-    OPERATOR_LOCALIZATION_LEGEND
-} from './constants';
+import { WAIT_LABEL, EXPRESSION_LABEL, OPERATOR_LOCALIZATION_LEGEND } from './constants';
 import { LocalizationUpdates } from '../../services/FlowMutator';
+import { hasCases } from '../NodeEditor/NodeEditor';
 
 import * as styles from './SwitchRouter.scss';
-
-export interface CombinedExits {
-    cases: Case[];
-    exits: Exit[];
-    defaultExit: string;
-}
 
 export enum DragCursor {
     move = 'move',
@@ -52,124 +41,9 @@ export enum ChangedCaseInput {
 
 export interface SwitchRouterState {
     cases: CaseElementProps[];
-    operand: string;
 }
 
 export type SwitchRouterProps = Partial<FormProps>;
-
-/**
- * Given a set of cases and previous exits, determines correct merging of cases
- * and the union of exits
- * @param newCases
- * @param previousExits
- */
-export const resolveExits = (newCases: CaseElementProps[], previous: Node): CombinedExits => {
-    // create mapping of our old exit uuids to old exit settings
-    const previousExitMap: { [uuid: string]: Exit } = {};
-
-    if (previous.exits) {
-        for (const exit of previous.exits) {
-            previousExitMap[exit.uuid] = exit;
-        }
-    }
-
-    const exits: Exit[] = [];
-    const cases: Case[] = [];
-
-    // map our new cases to an appropriate exit
-    for (const newCase of newCases) {
-        // see if we have a suitable exit for our case already
-        let existingExit: Exit = null;
-
-        // use our previous exit name if it isn't set
-        if (!newCase.exitName && newCase.kase.exit_uuid in previousExitMap) {
-            newCase.exitName = previousExitMap[newCase.kase.exit_uuid].name;
-        }
-
-        // ignore cases with empty names
-        if (!newCase.exitName || newCase.exitName.trim().length === 0) {
-            continue;
-        }
-
-        if (newCase.exitName) {
-            // look through our new exits to see if we've already created one
-            for (const exit of exits) {
-                if (newCase.exitName && exit.name) {
-                    if (exit.name.toLowerCase() === newCase.exitName.trim().toLowerCase()) {
-                        existingExit = exit;
-                        break;
-                    }
-                }
-            }
-
-            // couldn't find a new exit, look through our old ones
-            if (!existingExit) {
-                // look through our previous cases for a match
-                if (previous.exits) {
-                    for (const exit of previous.exits) {
-                        if (newCase.exitName && exit.name) {
-                            if (exit.name.toLowerCase() === newCase.exitName.trim().toLowerCase()) {
-                                existingExit = exit;
-                                exits.push(existingExit);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // we found a suitable exit, point our case to it
-        if (existingExit) {
-            newCase.kase.exit_uuid = existingExit.uuid;
-        } else {
-            // no existing exit, create a new one
-            // find our previous destination if we have one
-            let destination = null;
-            if (newCase.kase.exit_uuid in previousExitMap) {
-                destination = previousExitMap[newCase.kase.exit_uuid].destination_node_uuid;
-            }
-
-            newCase.kase.exit_uuid = generateUUID();
-
-            exits.push({
-                name: newCase.exitName,
-                uuid: newCase.kase.exit_uuid,
-                destination_node_uuid: destination
-            });
-        }
-
-        // remove exitName from our case
-        cases.push(newCase.kase);
-    }
-
-    // add in our default exit
-    let defaultUUID = generateUUID();
-    if (previous.router && previous.router.type === 'switch') {
-        const router = previous.router as SwitchRouter;
-        if (router && router.default_exit_uuid) {
-            defaultUUID = router.default_exit_uuid;
-        }
-    }
-
-    let defaultName = 'All Responses';
-    if (exits.length > 0) {
-        defaultName = 'Other';
-    }
-
-    let defaultDestination = null;
-    if (defaultUUID in previousExitMap) {
-        defaultDestination = previousExitMap[defaultUUID].destination_node_uuid;
-    }
-
-    exits.push({
-        uuid: defaultUUID,
-        name: defaultName,
-        destination_node_uuid: defaultDestination
-    });
-
-    return { cases, exits, defaultExit: defaultUUID };
-};
 
 export const getListStyle = (isDraggingOver: boolean, single: boolean): { cursor: DragCursor } => {
     if (single) {
@@ -195,49 +69,15 @@ export const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
     width: isDragging && draggableStyle.width - 5
 });
 
-/**
- * Determine whether Node has a 'wait' property
- */
-export const hasWait = (node: Node, type?: WaitType): boolean => {
-    if (!node || !node.wait || !node.wait.type || (type && node.wait.type !== type)) {
-        return false;
-    }
-    return node.wait.type in WaitType;
-};
-
-export const hasCases = (node: Node): boolean => {
-    if (
-        node.router &&
-        (node.router as SwitchRouter).cases &&
-        (node.router as SwitchRouter).cases.length
-    ) {
-        return true;
-    }
-    return false;
-};
-
-export const hasSwitchRouter = (node: Node): boolean =>
-    (node.router as SwitchRouter) && (node.router as SwitchRouter).hasOwnProperty('operand');
-
 export default class SwitchRouterForm extends React.Component<
     SwitchRouterProps,
     SwitchRouterState
 > {
-    public static contextTypes = {
-        endpoints: endpointsPT
-    };
+    constructor(props: SwitchRouterProps) {
+        super(props);
 
-    constructor(props: SwitchRouterProps, context: ConfigProviderContext) {
-        super(props, context);
-
-        autoBind.react(this, {
-            include: [
-                'onCaseChanged',
-                'onCaseRemoved',
-                'onValid',
-                'onExpressionCHanged',
-                'onDragEnd'
-            ]
+        bindCallbacks(this, {
+            include: [/^on/]
         });
 
         const initialState = this.getInitialState();
@@ -250,52 +90,7 @@ export default class SwitchRouterForm extends React.Component<
             return this.props.saveLocalizations(widgets, this.state.cases);
         }
 
-        if (
-            this.props.definition.localization &&
-            Object.keys(this.props.definition.localization).length
-        ) {
-            this.props.cleanUpLocalizations(this.state.cases);
-        }
-
-        const { cases, exits, defaultExit } = resolveExits(this.state.cases, this.props.node);
-
-        const optionalRouter: Pick<Router, 'result_name'> = {};
-        const resultNameEle = widgets['Result Name'] as TextInputElement;
-        if (resultNameEle) {
-            optionalRouter.result_name = resultNameEle.state.value;
-        }
-
-        const optionalNode: Pick<Node, 'wait'> = {};
-        if (this.props.config.type === 'wait_for_response') {
-            optionalNode.wait = { type: WaitType.msg };
-        } else if (this.props.config.type === 'split_by_expression') {
-            optionalNode.wait = { type: WaitType.exp };
-        }
-
-        const router: SwitchRouter = {
-            type: 'switch',
-            default_exit_uuid: defaultExit,
-            cases,
-            operand: this.state.operand,
-            ...optionalRouter
-        };
-
-        this.props.updateRouter(
-            {
-                uuid: this.props.node.uuid,
-                router,
-                exits,
-                ...optionalNode
-            },
-            this.props.config.type,
-            this.props.action
-        );
-    }
-
-    private onExpressionChanged(event: React.SyntheticEvent<HTMLTextElement>): void {
-        this.setState({
-            operand: event.currentTarget.value
-        });
+        this.props.updateRouter(this.state.cases);
     }
 
     private onCaseRemoved(c: any): void {
@@ -416,21 +211,17 @@ export default class SwitchRouterForm extends React.Component<
 
     private getInitialState(): SwitchRouterState {
         const cases = [];
-        let operand = DEFAULT_OPERAND;
 
         const router = this.props.node.router as SwitchRouter;
 
         if (router && hasCases(this.props.node)) {
-            ({ operand } = router);
-
             const existingCases = this.composeCaseProps();
 
             cases.push(...existingCases);
         }
 
         return {
-            cases,
-            operand
+            cases
         };
     }
 
@@ -553,6 +344,7 @@ export default class SwitchRouterForm extends React.Component<
                 );
             }
         }
+
         if (needsEmpty) {
             const newCaseUUID = generateUUID();
             cases.push(
@@ -636,7 +428,7 @@ export default class SwitchRouterForm extends React.Component<
         if (this.props.config.type === 'wait_for_response') {
             leadIn = WAIT_LABEL;
         } else if (this.props.config.type === 'split_by_expression') {
-            leadIn = leadIn = (
+            leadIn = (
                 <React.Fragment>
                     <p>{EXPRESSION_LABEL}</p>
                     <TextInputElement
@@ -644,8 +436,8 @@ export default class SwitchRouterForm extends React.Component<
                         key={this.props.node.uuid}
                         name="Expression"
                         showLabel={false}
-                        value={this.state.operand}
-                        onChange={this.onExpressionChanged}
+                        value={this.props.operand}
+                        onChange={this.props.onExpressionChanged}
                         autocomplete={true}
                         required={true}
                         ComponentMap={this.props.ComponentMap}
