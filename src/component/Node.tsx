@@ -562,14 +562,17 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                     containerStyle={styles.active}
                     countStyle={''}
                 />
+                <div className={styles.cropped}>
                 {header}
                 {actionList}
+                </div>
                 <div className={`${styles.exit_table} ${exitClass}`}>
                     <div className={styles.exits} {...this.events}>
                         {exits}
                     </div>
-                </div>
+                
                 {addActions}
+                </div>
             </div>
         );
     }

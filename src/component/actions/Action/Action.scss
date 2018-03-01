@@ -3,16 +3,8 @@
 .action {
     position: relative; // border: none;
     margin: 0px;
-    &:last-child {
-        .body {
-            padding-bottom: 20px;
-        }
-    }
     &.has_router {
         &:last-child {
-            .body {
-                padding-bottom: 8px;
-            }
             border-bottom: 1px solid $borders;
         }
     }

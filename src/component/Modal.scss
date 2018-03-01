@@ -1,7 +1,6 @@
 @import "../variables.scss";
 
 .modal {
-    background: #fff;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     color: #777;
@@ -22,9 +21,12 @@
     padding: 16px;
     font-size: 20px;
     color: $light_text;
+    border-top-left-radius: $curvature;
+    border-top-right-radius: $curvature;
 }
 
 .content {
+    background: #fff;
     p {
         line-height: 19px;
     }
@@ -42,6 +44,8 @@
         text-align: right;
         overflow: auto;
     }
+    border-bottom-left-radius: $curvature;
+    border-bottom-right-radius: $curvature;
 }
 
 .show_back {
@@ -69,7 +73,6 @@
     -moz-transform: perspective(800px);
     perspective: 800px;
     .side {
-        background: #fff;
         position: absolute;
         transform-style: preserve-3d;
         -webkit-transform-style: preserve-3d;
