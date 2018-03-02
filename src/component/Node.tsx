@@ -531,8 +531,12 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             classes.push(styles.dragging);
         }
 
-        if (this.props.ghost || (this.props.nodeDragging && !this.state.dragging)) {
+        if (this.props.ghost) {
             classes.push(styles.ghost);
+        }
+
+        if (this.props.nodeDragging && !this.state.dragging) {
+            classes.push(styles.nondragged);
         }
 
         let exitClass = '';

@@ -5,8 +5,8 @@
     font-weight: 300;
     color: #777;
     font-size: 12px;
-    border: 10px solid rgba(0, 0, 0, .1);
-    border-radius: $curvature + 10px;
+    border: 5px solid rgba(0, 0, 0, .05);
+    border-radius: $curvature + 5px;
 }
 
 .title {
@@ -22,7 +22,7 @@
 .header {
     padding: 16px;
     font-size: 20px;
-    color: $light_text;
+    color: #fff;
     border-top-left-radius: $curvature;
     border-top-right-radius: $curvature;
 }
@@ -64,8 +64,8 @@
 .background {
     position: absolute;
     font-size: 80px;
-    left: -30px;
-    top: 26px;
+    left: -35px;
+    top: 20px;
     clip: rect(0px, 100px, 55px, 40px);
 }
 

@@ -119,11 +119,10 @@ body {
     }
     .plumb-exit .jtk-connected {
         background: $path_color !important;
-        border-bottom: 2px solid $path_color - #333 !important;
-        // border-top: 1px transparent;
+        border-bottom: 1px solid $path_color - #333 !important;
     }
     .plumb-drop-hover {
-        box-shadow: 0 0 2px 1px $hover;
+        box-shadow: 1px 2px 0px 2px rgba(0, 0, 0, .1);
     }
     .plumb-endpoint-hover {
         cursor: pointer;

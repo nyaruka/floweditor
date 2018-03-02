@@ -46,10 +46,8 @@
         }
     }
     .name {
-        padding-left: 8px;
-        padding-right: 8px;
-        padding-top: 8px;
-        padding-bottom: 14px;
+        padding: 12px;
+        line-height: 1.4em;
     }
     .activity {
         float: left;
@@ -83,12 +81,14 @@
         width: 12px;
         height: 12px;
         margin: 0 auto;
-        top: 6px;
+        top: 7px;
         -webkit-box-sizing: content-box !important;
         box-sizing: content-box !important;
         margin-top: -14px;
         border-radius: 6px;
+        border-bottom: 1px solid transparent;
     }
+
     &.confirm_delete {
         .activity {
             .count {
