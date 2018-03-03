@@ -110,22 +110,17 @@ export const jsonEqual = (objA: {}, objB: {}): boolean =>
 /**
  * Checks whether any of a list of error strings contain one or more queries.
  * Used to determine whether a particular error has been encountered.
- * @param {Array.<string>} errors - list of error messages
- * @param {Array.<string>} queries  - list of queries
- * @returns {boolean}
  */
-export const hasErrorType = (errors: string[], queries: string[]): boolean => {
+export const hasErrorType = (errors: string[], exps: RegExp[]): boolean => {
     if (!errors.length) {
         return false;
     }
-
     for (const error of errors) {
-        for (const query of queries) {
-            if (error.indexOf(query) > -1) {
+        for (const exp of exps) {
+            if (error.match(exp)) {
                 return true;
             }
         }
     }
-
     return false;
 };
