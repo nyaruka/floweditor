@@ -28,7 +28,7 @@ import * as styles from './Webhook.scss';
 
 export type WebhookRouterProps = Partial<FormProps>;
 
-interface WebhookRouterState extends SwitchRouterState {
+interface WebhookRouterState {
     headers: Header[];
     method: Methods;
 }
@@ -41,7 +41,6 @@ interface MethodMap {
 type MethodOptions = MethodMap[];
 
 export const initialState: WebhookRouterState = {
-    cases: [],
     headers: [{ name: '', value: '', uuid: generateUUID() }],
     method: Methods.GET
 };
@@ -59,10 +58,9 @@ export const getInitialState = (action: CallWebhook): WebhookRouterState => {
         state = { ...state, method: action.method };
         if (action.headers && Object.keys(action.headers).length) {
             const existingHeaders = mapHeaders(action.headers);
-            initialState.headers.unshift(...existingHeaders);
             state = {
                 ...state,
-                headers: [...existingHeaders, state.headers]
+                headers: [...existingHeaders, ...state.headers]
             } as WebhookRouterState;
         }
     }
@@ -149,10 +147,7 @@ export default class WebhookRouter extends React.Component<WebhookRouterProps, W
         let hasEmpty = false;
 
         for (const header of newHeaders) {
-            if (
-                (header.name ? header.name.trim() : '').length === 0 &&
-                (header.value ? header.value.trim() : '').length === 0
-            ) {
+            if (header.name.trim().length === 0 && header.value.trim().length === 0) {
                 hasEmpty = true;
                 break;
             }
@@ -197,8 +192,10 @@ export default class WebhookRouter extends React.Component<WebhookRouterProps, W
     private getReqBody(): string {
         let reqBody = DEFAULT_BODY;
 
-        if ((this.props.action as CallWebhook).body) {
-            ({ body: reqBody } = this.props.action as CallWebhook);
+        const action = this.props.action as CallWebhook;
+
+        if (action.body) {
+            ({ body: reqBody } = action);
         }
 
         return reqBody;

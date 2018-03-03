@@ -105,13 +105,13 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             value: this.props.value,
             options: getOptionsList(this.props.autocomplete, this.props.ComponentMap),
             ...initialState,
-            ...(this.props.count && this.props.count === Count.SMS
+            ...this.props.count && this.props.count === Count.SMS
                 ? getMsgStats(this.props.value)
-                : {})
+                : {}
         };
 
         bindCallbacks(this, {
-            include: [/Ref$/, /^on/, 'setSelection', 'validate']
+            include: [/^on/, /Ref$/, 'setSelection', 'validate']
         });
     }
 
@@ -125,9 +125,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
     public componentWillReceiveProps(nextProps: TextInputProps): void {
         if (nextProps.value !== this.props.value) {
-            this.setState({
-                value: nextProps.value
-            });
+            this.setState({ value: nextProps.value });
         }
     }
 

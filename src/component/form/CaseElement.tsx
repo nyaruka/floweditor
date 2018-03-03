@@ -33,6 +33,7 @@ interface CaseElementState {
     operatorConfig: Operator;
     arguments: string[];
     exitName: string;
+    exitNameEdited: boolean;
 }
 
 /**
@@ -67,63 +68,7 @@ export const prefix = (operatorType: string): string => {
 };
 
 /**
- * Applies prefix, title case to operator
- */
-export const composeExitName = (
-    operatorType: string,
-    newArgList: string[],
-    newExitName: string
-): string => {
-    if (operatorType === 'has_number_between') {
-        if (newExitName && !/-/.test(newExitName)) {
-            return newExitName;
-        }
-        const { min, max } = getMinMax(newArgList);
 
-        return `${min ? min : newArgList[0] || ''} - ${max ? max : newArgList[1] || ''}`;
-    }
-
-    const pre = prefix(operatorType);
-
-    if (newArgList.length) {
-        const [firstArg] = newArgList;
-        const words = firstArg.match(/\w+/g);
-
-        if (words && words.length > 0) {
-            const [firstWord] = words;
-            return pre + titleCase(firstWord);
-        }
-
-        return pre + titleCase(firstArg);
-    } else {
-        return pre;
-    }
-};
-
-/**
- * Returns the right exit name for a given case
- */
-export const getExitName = (
-    exitName: string,
-    operatorConfig: Operator,
-    kase: Case,
-    newArgList: string[] = []
-): string => {
-    // Don't reassign func params
-    let newExitName = exitName;
-
-    if (newArgList.length >= 0 && !operatorConfig.categoryName) {
-        newExitName = composeExitName(operatorConfig.type, newArgList, newExitName);
-    } else if (!newExitName && operatorConfig.categoryName) {
-        // Some operators don't expect args
-        // Use the operator's default category name
-        ({ categoryName: newExitName } = operatorConfig);
-    }
-
-    return newExitName;
-};
-
-/**
  * Returns min, max values for 'has_number_between' case
  */
 export const getMinMax = (args: string[] = []): { min: string; max: string } => {
@@ -169,6 +114,62 @@ export const parseNum = (str: string): number => {
     }
 };
 
+/**
+ * Applies prefix, title case to operator
+ */
+export const composeExitName = (
+    operatorType: string,
+    newArgList: string[],
+    newExitName: string
+): string => {
+    if (operatorType === 'has_number_between') {
+        if (newExitName && !/-/.test(newExitName)) {
+            return newExitName;
+        }
+        const { min, max } = getMinMax(newArgList);
+
+        return `${min ? min : newArgList[0] || ''} - ${max ? max : newArgList[1] || ''}`;
+    }
+
+    const pre = prefix(operatorType);
+
+    if (newArgList.length) {
+        const [firstArg] = newArgList;
+        const words = firstArg.match(/\w+/g);
+
+        if (words && words.length > 0) {
+            const [firstWord] = words;
+            return pre + titleCase(firstWord);
+        }
+
+        return pre + titleCase(firstArg);
+    } else {
+        return pre;
+    }
+};
+
+/**
+ * Returns the right exit name for a given case
+ */
+export const getExitName = (
+    exitName: string,
+    operatorConfig: Operator,
+    newArgList: string[] = []
+): string => {
+    // Don't reassign func params
+    let newExitName = exitName;
+
+    if (newArgList.length >= 0 && !operatorConfig.categoryName) {
+        newExitName = composeExitName(operatorConfig.type, newArgList, newExitName);
+    } else if (!newExitName && operatorConfig.categoryName) {
+        // Some operators don't expect args
+        // Use the operator's default category name
+        ({ categoryName: newExitName } = operatorConfig);
+    }
+
+    return newExitName;
+};
+
 export default class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
     private category: TextInputElement;
     private operatorConfig: Operator;
@@ -182,7 +183,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             errors: [],
             operatorConfig,
             arguments: this.props.kase.arguments || [],
-            exitName: this.props.exitName || ''
+            exitName: this.props.exitName || '',
+            exitNameEdited: false
         };
 
         bindCallbacks(this, {
@@ -208,12 +210,9 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         if (!jsonEqual(operatorConfig, this.state.operatorConfig)) {
             const updates: Partial<CaseElementState> = {
                 operatorConfig,
-                exitName: getExitName(
-                    this.state.exitName,
-                    operatorConfig,
-                    this.props.kase,
-                    this.state.arguments
-                )
+                exitName: this.state.exitNameEdited
+                    ? this.state.exitName
+                    : getExitName(this.state.exitName, operatorConfig, this.state.arguments)
             };
 
             if (operatorConfig.type === 'has_number_between') {
@@ -237,7 +236,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             if (input === InputToFocus.min) {
                 toFocus = InputToFocus.min;
                 updates.arguments = this.state.arguments.length
-                    ? [value, this.state.arguments[1] || null]
+                    ? [value, this.state.arguments[1] || '']
                     : [value];
             } else if (input === InputToFocus.max) {
                 toFocus = InputToFocus.max;
@@ -246,23 +245,17 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                     : [value];
             }
 
-            updates.exitName = getExitName(
-                this.state.exitName,
-                this.state.operatorConfig,
-                this.props.kase,
-                updates.arguments
-            );
+            updates.exitName = this.state.exitNameEdited
+                ? this.state.exitName
+                : getExitName(this.state.exitName, this.state.operatorConfig, updates.arguments);
 
             this.setState(updates as CaseElementState, () => this.handleChange(toFocus));
         } else {
             toFocus = InputToFocus.args;
             updates.arguments = [value];
-            updates.exitName = getExitName(
-                this.state.exitName,
-                this.state.operatorConfig,
-                this.props.kase,
-                updates.arguments
-            );
+            updates.exitName = this.state.exitNameEdited
+                ? this.state.exitName
+                : getExitName(this.state.exitName, this.state.operatorConfig, updates.arguments);
 
             this.setState(updates as CaseElementState, () => {
                 this.category.setState({ value: updates.exitName }, () =>
@@ -277,7 +270,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     }: React.ChangeEvent<HTMLTextElement>): void {
         this.setState(
             {
-                exitName
+                exitName,
+                exitNameEdited: true
             },
             () => this.handleChange(InputToFocus.exit)
         );
@@ -312,7 +306,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     public validate(): boolean {
         const errors: string[] = [];
         // prettier-ignore
-        const INVALID_EXIT_ERR = `A category name is required when using "${
+        const invalidExitErr = `A category name is required when using "${
             this.state.operatorConfig.verboseName
         }."`;
 
@@ -320,7 +314,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             if (
                 !this.state.arguments.length ||
                 this.state.arguments.length !== 2 ||
-                (!this.state.arguments[0] && !this.state.arguments[0])
+                (!this.state.arguments[0].trim() || !this.state.arguments[1].trim())
             ) {
                 errors.push(
                     // prettier-ignore
@@ -394,12 +388,12 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         // Address exit name
         if (this.state.operatorConfig.operands < 1) {
             if (this.state.exitName.trim().length === 0) {
-                errors.push(INVALID_EXIT_ERR);
+                errors.push(invalidExitErr);
             }
         } else {
             if (this.state.arguments.length) {
                 if (!this.category || !this.category.state.value) {
-                    errors.push(INVALID_EXIT_ERR);
+                    errors.push(invalidExitErr);
                 }
             }
         }

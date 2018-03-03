@@ -6,7 +6,8 @@ import { getBaseLanguage } from '../';
 import { V4_UUID } from '../../utils';
 import { getTypeConfig, typeConfigList } from '../../config';
 import { WaitType } from '../../flowTypes';
-import { resolveExits, hasWait, hasCases } from './NodeEditor';
+import { resolveExits, hasWait, hasCases, groupsToCases } from './NodeEditor';
+import { extractGroups } from '../routers/GroupRouter';
 
 const {
     results: [{ definition }]
@@ -113,12 +114,11 @@ describe('NodeEditor >', () => {
             });
 
             it('should return false if node does not have cases', () => {
-                expect(
-                    hasCases({
-                        ...switchNode,
-                        router: { ...switchNode.router, cases: [] }
-                    } as any)
-                ).toBeFalsy();
+                const caselessNode = Object.assign(switchNode, {
+                    router: Object.assign({}, switchNode.router, { cases: [] })
+                });
+
+                expect(hasCases(caselessNode as any)).toBeFalsy();
             });
         });
 
@@ -193,6 +193,16 @@ describe('NodeEditor >', () => {
                             uuid: expect.stringMatching(V4_UUID)
                         })
                     );
+                });
+            });
+        });
+
+        describe('groupsToCases >', () => {
+            it('should map a list of group SearchResults to a list of CaseElementProps', () => {
+                const groups = extractGroups(switchNode);
+                groupsToCases(groups).forEach((groupCase, idx) => {
+                    expect(groupCase.kase.uuid).toBe(groups[idx].id);
+                    expect(groupCase.exitName).toBe(groups[idx].name);
                 });
             });
         });

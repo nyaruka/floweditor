@@ -24,7 +24,7 @@ import {
 } from '../../flowTypes';
 import { Type, Mode, getTypeConfig } from '../../config';
 import { Language } from '../LanguageSelector';
-import ComponentMap from '../../services/ComponentMap';
+import ComponentMap, { SearchResult } from '../../services/ComponentMap';
 import { LocalizedObject } from '../../services/Localization';
 import TypeList from './TypeList';
 import TextInputElement from '../form/TextInputElement';
@@ -314,6 +314,17 @@ export const hasWait = (node: Node, type?: WaitType): boolean => {
     }
     return node.wait.type in WaitType;
 };
+
+export const groupsToCases = (groups: SearchResult[] = []): CaseElementProps[] =>
+    groups.map(({ name, id }: SearchResult) => ({
+        kase: {
+            uuid: id,
+            type: 'has_group',
+            arguments: [id],
+            exit_uuid: ''
+        },
+        exitName: name
+    }));
 
 export const FormContainer: React.SFC<{
     onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void;
@@ -840,6 +851,10 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     private updateGroupRouter(kases: CaseElementProps[]): void {
+        const { state: { groups } } = this.widgets.Group;
+
+        const currentCases = groupsToCases(groups);
+
         const { cases, exits, defaultExit } = resolveExits(kases, this.props.node);
 
         if (
@@ -1122,6 +1137,8 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             updateRouter = this.updateSubflowRouter;
         } else if (this.state.config.type === 'call_webhook') {
             updateRouter = this.updateWebhookRouter;
+        } else if (this.state.config.type === 'split_by_group') {
+            updateRouter = this.updateGroupRouter;
         }
 
         const formProps: Partial<FormProps> = {

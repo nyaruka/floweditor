@@ -26,17 +26,6 @@ export const extractGroups = ({ exits, router }: Node): SearchResult[] =>
 export const groupSplitExistsAtNode = (node: Node) =>
     hasSwitchRouter(node) && hasWait(node, WaitType.group);
 
-export const toCases = (groups: SearchResult[] = []): CaseElementProps[] =>
-    groups.map(({ name, id }: SearchResult) => ({
-        kase: {
-            uuid: id,
-            type: 'has_group',
-            arguments: [id],
-            exit_uuid: ''
-        },
-        exitName: name
-    }));
-
 export default class GroupRouter extends React.PureComponent<GroupRouterProps> {
     public static contextTypes = {
         endpoints: endpointsPT
@@ -46,11 +35,7 @@ export default class GroupRouter extends React.PureComponent<GroupRouterProps> {
         if (this.props.translating) {
             return this.props.saveLocalizations(widgets);
         } else {
-            const { state: { groups } } = widgets.Group;
-
-            const currentCases = toCases(groups);
-
-            this.props.updateRouter(currentCases);
+            this.props.updateRouter();
         }
     }
 

@@ -251,7 +251,12 @@ export default class SwitchRouterForm extends React.Component<
                         ComponentMap={this.props.ComponentMap}
                         solo={true}
                         config={this.props.config}
-                        {...caseProps}
+                        exitName={caseProps.exitName}
+                        kase={caseProps.kase}
+                        focusArgs={caseProps.focusArgs}
+                        focusExit={caseProps.focusExit}
+                        focusMin={caseProps.focusMin}
+                        focusMax={caseProps.focusMax}
                     />
                 );
             } else if (
@@ -273,7 +278,12 @@ export default class SwitchRouterForm extends React.Component<
                             onChange={this.onCaseChanged}
                             ComponentMap={this.props.ComponentMap}
                             config={this.props.config}
-                            {...caseProps}
+                            exitName={caseProps.exitName}
+                            kase={caseProps.kase}
+                            focusArgs={caseProps.focusArgs}
+                            focusExit={caseProps.focusExit}
+                            focusMin={caseProps.focusMin}
+                            focusMax={caseProps.focusMax}
                         />
                     );
                 });
@@ -299,7 +309,12 @@ export default class SwitchRouterForm extends React.Component<
                                 onChange={this.onCaseChanged}
                                 ComponentMap={this.props.ComponentMap}
                                 config={this.props.config}
-                                {...caseProps}
+                                exitName={caseProps.exitName}
+                                kase={caseProps.kase}
+                                focusArgs={caseProps.focusArgs}
+                                focusExit={caseProps.focusExit}
+                                focusMin={caseProps.focusMin}
+                                focusMax={caseProps.focusMax}
                             />
                         );
                     } else {
@@ -322,7 +337,12 @@ export default class SwitchRouterForm extends React.Component<
                                                 onChange={this.onCaseChanged}
                                                 ComponentMap={this.props.ComponentMap}
                                                 config={this.props.config}
-                                                {...caseProps}
+                                                exitName={caseProps.exitName}
+                                                kase={caseProps.kase}
+                                                focusArgs={caseProps.focusArgs}
+                                                focusExit={caseProps.focusExit}
+                                                focusMin={caseProps.focusMin}
+                                                focusMax={caseProps.focusMax}
                                             />
                                         </div>
                                         {provided.placeholder}

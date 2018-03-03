@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow, mount } from 'enzyme';
-import GroupRouter, { extractGroups, groupSplitExistsAtNode, toCases } from './GroupRouter';
+import GroupRouter, { extractGroups, groupSplitExistsAtNode } from './GroupRouter';
 import CompMap, { SearchResult } from '../../services/ComponentMap';
 import { getLocalizations } from '../Node';
 import { GroupElementProps } from '../form/GroupElement';
@@ -51,16 +51,6 @@ describe('GroupRouter >', () => {
             it('should return true if node contains a group split router, false otherwise', () => {
                 expect(groupSplitExistsAtNode(node)).toBeTruthy();
                 expect(groupSplitExistsAtNode(replyNode)).toBeFalsy();
-            });
-        });
-
-        describe('toCases >', () => {
-            it('should map a list of group SearchResults to a list of CaseElementProps', () => {
-                const groups = extractGroups(node);
-                toCases(groups).forEach((groupCase, idx) => {
-                    expect(groupCase.kase.uuid).toBe(groups[idx].id);
-                    expect(groupCase.exitName).toBe(groups[idx].name);
-                });
             });
         });
     });

@@ -33,6 +33,8 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterProp
             return this.props.getExitTranslations();
         }
 
+        const action = this.props.action as StartFlow;
+
         return (
             <div>
                 <p>Select a flow to run</p>
@@ -40,8 +42,8 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterProp
                     ref={this.props.onBindWidget}
                     name="Flow"
                     endpoint={this.context.endpoints.flows}
-                    flow_name={(this.props.action as StartFlow).flow_name}
-                    flow_uuid={(this.props.action as StartFlow).flow_uuid}
+                    flow_name={action.flow_name}
+                    flow_uuid={action.flow_uuid}
                     required={true}
                 />
             </div>
