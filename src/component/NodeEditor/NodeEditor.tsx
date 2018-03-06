@@ -846,22 +846,22 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 ...optionalNode
             },
             this.state.config.type,
-            this.props.action
+            getAction(this.props, this.state.config)
         );
     }
 
-    private updateGroupRouter(kases: CaseElementProps[]): void {
+    private updateGroupRouter(): void {
         const { state: { groups } } = this.widgets.Group;
 
         const currentCases = groupsToCases(groups);
 
-        const { cases, exits, defaultExit } = resolveExits(kases, this.props.node);
+        const { cases, exits, defaultExit } = resolveExits(currentCases, this.props.node);
 
         if (
             this.props.definition.localization &&
             Object.keys(this.props.definition.localization).length
         ) {
-            this.cleanUpLocalizations(kases);
+            this.cleanUpLocalizations(currentCases);
         }
 
         const router: Partial<SwitchRouter> = {
@@ -884,15 +884,20 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             router.result_name += this.state.resultName;
         }
 
-        this.updateRouter({ ...updates, router } as Node, 'split_by_group', this.props.action);
+        this.updateRouter(
+            { ...updates, router } as Node,
+            'split_by_group',
+            getAction(this.props, this.state.config)
+        );
     }
 
     private updateSubflowRouter(): void {
+        const action = getAction(this.props, this.state.config);
         const select = this.widgets.Flow;
         const { name: flowName, id: flowUUID } = select.state.flow;
 
         const newAction: StartFlow = {
-            uuid: this.props.action.uuid,
+            uuid: action.uuid,
             type: this.state.config.type,
             flow_name: flowName,
             flow_uuid: flowUUID
@@ -937,7 +942,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         // HACK: this should go away with modal refactor
         let { uuid: nodeUUID } = this.props.node;
 
-        if (this.props.action.uuid === nodeUUID) {
+        if (action.uuid === nodeUUID) {
             nodeUUID = generateUUID();
         }
 
@@ -950,11 +955,12 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 wait: { type: 'flow', flow_uuid: flowUUID }
             },
             'subflow',
-            this.props.action
+            action
         );
     }
 
     private updateWebhookRouter(): void {
+        const action = getAction(this.props, this.state.config);
         const urlEle = this.widgets.URL;
 
         // Determine method
@@ -987,8 +993,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             return map;
         }, {});
 
-        const { uuid } = this.props.action;
-
+        const { uuid } = action;
         const newAction: CallWebhook = {
             uuid,
             type: this.state.config.type,
@@ -1038,9 +1043,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         // HACK: this should go away with modal <refactor></refactor>
         const nodeUUID: string =
-            this.props.action && this.props.action.uuid === this.props.node.uuid
-                ? generateUUID()
-                : this.props.node.uuid;
+            action.uuid === this.props.node.uuid ? generateUUID() : this.props.node.uuid;
 
         this.updateRouter(
             {
@@ -1050,7 +1053,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 actions: [newAction]
             },
             'webhook',
-            this.props.action
+            action
         );
     }
 
