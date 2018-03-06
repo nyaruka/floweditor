@@ -3,11 +3,10 @@ import { v4 as generateUUID } from 'uuid';
 import { Node, SwitchRouter, WaitType } from '../../flowTypes';
 import { SearchResult } from '../../services/ComponentMap';
 import { endpointsPT } from '../../config';
-import { FormProps } from '../NodeEditor/NodeEditor';
+import { FormProps, hasSwitchRouter, hasWait, resolveExits } from '../NodeEditor/NodeEditor';
 import GroupElement, { GroupElementProps } from '../form/GroupElement';
-import { hasSwitchRouter, hasWait, resolveExits } from './SwitchRouter';
 import TextInputElement from '../form/TextInputElement';
-import { GROUP_LABEL, GROUPS_OPERAND } from './constants';
+import { GROUP_LABEL } from './constants';
 import { CaseElementProps } from '../form/CaseElement';
 import { instructions } from './SwitchRouter.scss';
 
@@ -27,17 +26,6 @@ export const extractGroups = ({ exits, router }: Node): SearchResult[] =>
 export const groupSplitExistsAtNode = (node: Node) =>
     hasSwitchRouter(node) && hasWait(node, WaitType.group);
 
-export const toCases = (groups: SearchResult[] = []): CaseElementProps[] =>
-    groups.map(({ name, id }: SearchResult) => ({
-        kase: {
-            uuid: id,
-            type: 'has_group',
-            arguments: [id],
-            exit_uuid: ''
-        },
-        exitName: name
-    }));
-
 export default class GroupRouter extends React.PureComponent<GroupRouterProps> {
     public static contextTypes = {
         endpoints: endpointsPT
@@ -47,46 +35,7 @@ export default class GroupRouter extends React.PureComponent<GroupRouterProps> {
         if (this.props.translating) {
             return this.props.saveLocalizations(widgets);
         } else {
-            const { state: { groups } } = widgets.Group;
-
-            const currentCases = toCases(groups);
-
-            const { cases, exits, defaultExit } = resolveExits(currentCases, this.props.node);
-
-            if (
-                this.props.definition.localization &&
-                Object.keys(this.props.definition.localization).length
-            ) {
-                this.props.cleanUpLocalizations(currentCases);
-            }
-
-            const router: Partial<SwitchRouter> = {
-                type: 'switch',
-                cases,
-                default_exit_uuid: defaultExit,
-                operand: GROUPS_OPERAND,
-                result_name: ''
-            };
-
-            const updates: Partial<Node> = {
-                uuid: this.props.node.uuid,
-                exits,
-                wait: {
-                    type: WaitType.group
-                }
-            };
-
-            const resultNameEle = widgets['Result Name'];
-
-            if (resultNameEle) {
-                router.result_name += resultNameEle.state.value;
-            }
-
-            this.props.updateRouter(
-                { ...updates, router } as Node,
-                'split_by_group',
-                this.props.action
-            );
+            this.props.updateRouter();
         }
     }
 

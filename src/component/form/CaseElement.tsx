@@ -68,6 +68,7 @@ export const prefix = (operatorType: string): string => {
 };
 
 /**
+
  * Returns min, max values for 'has_number_between' case
  */
 export const getMinMax = (args: string[] = []): { min: string; max: string } => {
@@ -235,7 +236,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             if (input === InputToFocus.min) {
                 toFocus = InputToFocus.min;
                 updates.arguments = this.state.arguments.length
-                    ? [value, this.state.arguments[1] || null]
+                    ? [value, this.state.arguments[1] || '']
                     : [value];
             } else if (input === InputToFocus.max) {
                 toFocus = InputToFocus.max;
@@ -305,7 +306,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     public validate(): boolean {
         const errors: string[] = [];
         // prettier-ignore
-        const INVALID_EXIT_ERR = `A category name is required when using "${
+        const invalidExitErr = `A category name is required when using "${
             this.state.operatorConfig.verboseName
         }."`;
 
@@ -313,7 +314,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             if (
                 !this.state.arguments.length ||
                 this.state.arguments.length !== 2 ||
-                (!this.state.arguments[0] && !this.state.arguments[0])
+                (!this.state.arguments[0].trim() || !this.state.arguments[1].trim())
             ) {
                 errors.push(
                     // prettier-ignore
@@ -387,12 +388,12 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         // Address exit name
         if (this.state.operatorConfig.operands < 1) {
             if (this.state.exitName.trim().length === 0) {
-                errors.push(INVALID_EXIT_ERR);
+                errors.push(invalidExitErr);
             }
         } else {
             if (this.state.arguments.length) {
                 if (!this.category || !this.category.state.value) {
-                    errors.push(INVALID_EXIT_ERR);
+                    errors.push(invalidExitErr);
                 }
             }
         }

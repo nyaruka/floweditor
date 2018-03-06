@@ -22,27 +22,13 @@ import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 import FormElement from '../form/FormElement';
 import ComponentMap from '../../services/ComponentMap';
 import { Type } from '../../config';
-
+import { DEFAULT_BODY } from '../NodeEditor';
+import { jsonEqual } from '../../utils';
 import * as styles from './Webhook.scss';
 
-export interface WebhookRouterFormProps extends FormProps {
-    config: Type;
-    node: Node;
-    showAdvanced: boolean;
-    action: CallWebhook;
-    removeWidget: (name: string) => void;
-    translating: boolean;
-    triggerFormUpdate: () => void;
-    ComponentMap: ComponentMap;
-    getExitTranslations(): JSX.Element;
-    onToggleAdvanced: () => void;
-    saveLocalizedExits: (widgets: { [name: string]: React.Component }) => void;
-    updateRouter: (node: Node, type: string, previousAction: AnyAction) => void;
-    onBindWidget: (ref: any) => void;
-    onBindAdvancedWidget: (ref: any) => void;
-}
+export type WebhookRouterProps = Partial<FormProps>;
 
-interface WebhookState extends SwitchRouterState {
+interface WebhookRouterState {
     headers: Header[];
     method: Methods;
 }
@@ -52,16 +38,10 @@ interface MethodMap {
     label: Methods;
 }
 
-interface HeaderMap {
-    [name: string]: string;
-}
-
 type MethodOptions = MethodMap[];
 
-export const initialState: WebhookState = {
-    cases: [],
+export const initialState: WebhookRouterState = {
     headers: [{ name: '', value: '', uuid: generateUUID() }],
-    operand: '@webhook',
     method: Methods.GET
 };
 
@@ -72,39 +52,35 @@ export const mapHeaders = (headers: Headers): Header[] =>
         uuid: generateUUID()
     }));
 
-export const getInitialState = (action: CallWebhook): WebhookState => {
+export const getInitialState = (action: CallWebhook): WebhookRouterState => {
+    let state = initialState;
     if (action.type === 'call_webhook') {
-        initialState.method = action.method;
+        state = { ...state, method: action.method };
         if (action.headers && Object.keys(action.headers).length) {
             const existingHeaders = mapHeaders(action.headers);
-            initialState.headers.unshift(...existingHeaders);
+            state = {
+                ...state,
+                headers: [...existingHeaders, ...state.headers]
+            } as WebhookRouterState;
         }
     }
-    return initialState;
+    return state;
 };
-
-const DEFAULT_BODY: string = `{
-    "contact": @(to_json(contact.uuid)),
-    "contact_urn": @(to_json(contact.urns)),
-    "message": @(to_json(input.text)),
-    "flow": @(to_json(run.flow.uuid)),
-    "flow_name": @(to_json(run.flow.name))
-}`;
 
 const WEBHOOK_DESC =
     'Use this step to trigger actions in external services or fetch data to use in this Flow. Enter a URL to call below.';
 
-export default class WebhookForm extends React.Component<WebhookRouterFormProps, WebhookState> {
+export default class WebhookRouter extends React.Component<WebhookRouterProps, WebhookRouterState> {
     private methodOptions: MethodOptions = [
         { value: Methods.GET, label: Methods.GET },
         { value: Methods.POST, label: Methods.POST },
         { value: Methods.PUT, label: Methods.PUT }
     ];
 
-    constructor(props: WebhookRouterFormProps) {
+    constructor(props: WebhookRouterProps) {
         super(props);
 
-        this.state = getInitialState(this.props.action);
+        this.state = getInitialState(this.props.action as CallWebhook);
 
         bindCallbacks(this, {
             include: [/^on/]
@@ -113,106 +89,10 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
 
     public onValid(widgets: { [name: string]: React.Component }): void {
         if (this.props.translating) {
-            return this.props.saveLocalizedExits(widgets);
+            return this.props.saveLocalizations(widgets);
         }
 
-        const urlEle = widgets.URL as TextInputElement;
-
-        // Determine method
-        let method: Methods = Methods.GET;
-        const methodEle = widgets.MethodMap as SelectElement;
-        if (methodEle.state.value) {
-            method = methodEle.state.value;
-        }
-
-        // Determine body
-        let body: string = DEFAULT_BODY;
-        if (method === Methods.POST || method === Methods.PUT) {
-            const bodyEle = widgets.Body as TextInputElement;
-            body = bodyEle.state.value;
-        }
-
-        // Go through any headers we have
-        const headers: HeaderMap = Object.keys(widgets).reduce((map, key) => {
-            if (key.startsWith('header_')) {
-                const header: HeaderElement = widgets[key] as HeaderElement;
-                const headerName: string = header.state.name.trim();
-                const headerState: string = header.state.value.trim();
-
-                // Note: we're overwriting headers with the same 'name' value
-                if (headerName.length) {
-                    map[headerName] = headerState;
-                }
-            }
-
-            return map;
-        }, {});
-
-        const { uuid } = this.props.action;
-
-        const newAction: CallWebhook = {
-            uuid,
-            type: this.props.config.type,
-            url: urlEle.state.value,
-            headers,
-            method,
-            body
-        };
-
-        const exits: Exit[] = [];
-        const cases: Case[] = [];
-        const details = this.props.ComponentMap.getDetails(this.props.node.uuid);
-
-        // If we were already a webhook, lean on those exits and cases
-        if (details && details.type === 'webhook') {
-            this.props.node.exits.forEach(exit => exits.push(exit));
-            (this.props.node.router as SwitchRouter).cases.forEach(kase => cases.push(kase));
-        } else {
-            // Otherwise, let's create some new ones
-            exits.push(
-                {
-                    uuid: generateUUID(),
-                    name: 'Success',
-                    destination_node_uuid: null
-                },
-                {
-                    uuid: generateUUID(),
-                    name: 'Failure',
-                    destination_node_uuid: null
-                }
-            );
-
-            cases.push({
-                uuid: generateUUID(),
-                type: 'has_webhook_status',
-                arguments: ['S'],
-                exit_uuid: exits[0].uuid
-            });
-        }
-
-        const router: SwitchRouter = {
-            type: 'switch',
-            operand: '@webhook',
-            cases,
-            default_exit_uuid: exits[1].uuid
-        };
-
-        // HACK: this should go away with modal <refactor></refactor>
-        const nodeUUID: string =
-            this.props.action && this.props.action.uuid === this.props.node.uuid
-                ? generateUUID()
-                : this.props.node.uuid;
-
-        this.props.updateRouter(
-            {
-                uuid: nodeUUID,
-                router,
-                exits,
-                actions: [newAction]
-            },
-            'webhook',
-            this.props.action
-        );
+        this.props.updateRouter();
     }
 
     public onUpdateForm(widgets: { [name: string]: React.Component }): void {
@@ -312,8 +192,10 @@ export default class WebhookForm extends React.Component<WebhookRouterFormProps,
     private getReqBody(): string {
         let reqBody = DEFAULT_BODY;
 
-        if (this.props.action.body) {
-            ({ action: { body: reqBody } } = this.props);
+        const action = this.props.action as CallWebhook;
+
+        if (action.body) {
+            ({ body: reqBody } = action);
         }
 
         return reqBody;

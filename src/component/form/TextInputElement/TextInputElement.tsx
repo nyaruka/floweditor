@@ -105,9 +105,9 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             value: this.props.value,
             options: getOptionsList(this.props.autocomplete, this.props.ComponentMap),
             ...initialState,
-            ...(this.props.count && this.props.count === Count.SMS
+            ...this.props.count && this.props.count === Count.SMS
                 ? getMsgStats(this.props.value)
-                : {})
+                : {}
         };
 
         bindCallbacks(this, {
