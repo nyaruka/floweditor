@@ -2,6 +2,7 @@ const { join } = require('path');
 const { smartStrategy } = require('webpack-merge');
 const { HotModuleReplacementPlugin, NamedModulesPlugin, WatchIgnorePlugin } = require('webpack');
 const paths = require('./paths');
+const { typingsForCssModulesLoader, postCSSLoader } = require('./loaders');
 const commonConfig = require('./webpack.common');
 
 const DEV_SERVER_PORT = 9000;
@@ -74,6 +75,17 @@ const devConfig = {
     module: {
         rules: [
             {
+                test: /\.s?css$/,
+                include: [paths.component],
+                use: ['style-loader', typingsForCssModulesLoader(), postCSSLoader, 'sass-loader']
+            },
+            {
+                test: /\.s?css$/,
+                include: [paths.lib],
+                exclude: [paths.component],
+                use: ['style-loader', 'css-loader', postCSSLoader, 'sass-loader']
+            },
+            {
                 test: /\.tsx?$/,
                 use: ['react-hot-loader/webpack']
             }
@@ -84,7 +96,6 @@ const devConfig = {
 module.exports = {
     DEV_SERVER_PORT,
     config: smartStrategy({
-        entry: 'prepend',
         plugins: 'append',
         'module.rules': 'prepend'
     })(commonConfig, devConfig)

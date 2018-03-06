@@ -107,7 +107,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
     }
 
     public render(): JSX.Element {
-        const hasHeaderError: boolean = hasErrorType(this.state.errors, ['headers']);
+        const hasHeaderError: boolean = hasErrorType(this.state.errors, [/headers/]);
         const removeIco: JSX.Element = this.getRemoveIco();
 
         return (

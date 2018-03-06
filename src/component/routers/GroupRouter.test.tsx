@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow, mount } from 'enzyme';
-import GroupRouter, { extractGroups, groupSplitExistsAtNode, toCases } from './GroupRouter';
+import GroupRouter, { extractGroups, groupSplitExistsAtNode } from './GroupRouter';
 import CompMap, { SearchResult } from '../../services/ComponentMap';
 import { getLocalizations } from '../Node';
 import { GroupElementProps } from '../form/GroupElement';
@@ -53,16 +53,6 @@ describe('GroupRouter >', () => {
                 expect(groupSplitExistsAtNode(replyNode)).toBeFalsy();
             });
         });
-
-        describe('toCases >', () => {
-            it('should map a list of group SearchResults to a list of CaseElementProps', () => {
-                const groups = extractGroups(node);
-                toCases(groups).forEach((groupCase, idx) => {
-                    expect(groupCase.kase.uuid).toBe(groups[idx].id);
-                    expect(groupCase.exitName).toBe(groups[idx].name);
-                });
-            });
-        });
     });
 
     describe('render >', () => {
@@ -82,6 +72,7 @@ describe('GroupRouter >', () => {
 
             getResultNameFieldMock.mockReset();
         });
+
         it('should pass groups pulled from existing cases to GroupElement', () => {
             const wrapper = shallow(<GroupRouter {...groupRouterProps} />, {
                 context: groupRouterContext
@@ -151,35 +142,6 @@ describe('GroupRouter >', () => {
 
                 saveLocalizationsMock.mockReset();
             });
-        });
-
-        it('should call "cleanUpLocalizations" prop if flow definition contains localizations', () => {
-            const cleanUpLocalizationsMock = jest.fn();
-
-            const wrapper = shallow(
-                <GroupRouter
-                    {...{
-                        ...groupRouterProps,
-                        updateRouter: jest.fn(),
-                        cleanUpLocalizations: cleanUpLocalizationsMock
-                    }}
-                />,
-                {
-                    context: groupRouterContext
-                }
-            );
-
-            wrapper.instance().onValid({
-                Group: {
-                    state: {
-                        groups: extractGroups(node)
-                    }
-                }
-            });
-
-            expect(cleanUpLocalizationsMock).toHaveBeenCalled();
-
-            cleanUpLocalizationsMock.mockReset();
         });
     });
 

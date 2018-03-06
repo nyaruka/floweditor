@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
 import ComponentMap from '../../../services/ComponentMap';
-import ChangeGroupFormProps from './groupFormPropTypes';
-=import AddGroupForm, { LABEL, PLACEHOLDER } from './AddGroupForm';
+import ChangeGroupFormProps from './props';
+import AddGroupForm, { LABEL, PLACEHOLDER } from './AddGroupForm';
 import { transformGroups } from './RemoveGroupForm.test';
 import { getTypeConfig } from '../../../config';
 

@@ -1,33 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SwitchRouter > helpers > resolveExits > should resolve exits 1`] = `
-Object {
-  "cases": Array [
-    Object {
-      "arguments": Array [
-        "red, r",
-      ],
-      "exit_uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
-      "type": "has_any_word",
-      "uuid": "87173eee-5270-4233-aede-ca88e14b672a",
-    },
-  ],
-  "defaultExit": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
-  "exits": Array [
-    Object {
-      "destination_node_uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
-      "name": "Red",
-      "uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
-    },
-    Object {
-      "destination_node_uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
-      "name": "Other",
-      "uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
-    },
-  ],
-}
-`;
-
 exports[`SwitchRouter > style utils > getItemStyle > should return dragging style when passed a truthy isDragging arg (snapshot) 1`] = `
 Object {
   "WebkitTapHighlightColor": "rgba(0,0,0,0)",
@@ -46,7 +18,7 @@ Object {
   "touchAction": "manipulation",
   "transform": "translate(-2px, 17px)",
   "userSelect": "none",
-  "width": 590,
+  "width": 595,
   "zIndex": 5000,
 }
 `;
@@ -67,6 +39,5 @@ Object {
   "transform": null,
   "transition": null,
   "userSelect": "none",
-  "width": false,
 }
 `;

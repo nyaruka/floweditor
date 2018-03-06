@@ -156,7 +156,6 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
         });
     }
 
-
     public render(): JSX.Element {
         const onRequestClose = this.props.buttons.secondary
             ? this.props.buttons.secondary.onClick

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow, mount } from 'enzyme';
 import { getSpecWrapper } from '../../utils';
-import { DEFAULT_OPERAND, OPERATOR_LOCALIZATION_LEGEND } from './constants';
+import { DEFAULT_OPERAND, OPERAND_LOCALIZATION_DESC } from './constants';
 import SwitchRouterForm, {
     getListStyle,
     getItemStyle,
@@ -131,83 +131,6 @@ describe('SwitchRouter >', () => {
         });
     });
 
-    describe('helpers >', () => {
-        describe('resolveExits >', () =>
-            it('should resolve exits', () => {
-                const newCases = [
-                    {
-                        kase: {
-                            uuid: '87173eee-5270-4233-aede-ca88e14b672a',
-                            type: 'has_any_word',
-                            exit_uuid: '7b245d49-e9e3-4387-b4ad-48deb03528cd',
-                            arguments: ['red, r']
-                        },
-                        exitName: 'Red',
-                        config: msgRouterConfig
-                    }
-                ];
-
-                const node = {
-                    uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925',
-                    router: {
-                        type: 'switch',
-                        default_exit_uuid: 'a8bdc1c5-0283-4656-b932-4f4094f4cc7e',
-                        cases: [
-                            {
-                                uuid: '87173eee-5270-4233-aede-ca88e14b672a',
-                                type: 'has_any_word',
-                                exit_uuid: '7b245d49-e9e3-4387-b4ad-48deb03528cd',
-                                arguments: ['red, r']
-                            }
-                        ],
-                        operand: '@run.results.color '
-                    },
-                    exits: [
-                        {
-                            name: 'Red',
-                            uuid: '7b245d49-e9e3-4387-b4ad-48deb03528cd',
-                            destination_node_uuid: 'e2ecc8de-9774-4b74-a0dc-ca8aea123227'
-                        },
-                        {
-                            uuid: 'a8bdc1c5-0283-4656-b932-4f4094f4cc7e',
-                            name: 'Other',
-                            destination_node_uuid: '533b64e2-5906-4d33-a8e9-64f1cb6c20dd'
-                        }
-                    ],
-                    wait: {
-                        type: WaitType.exp
-                    }
-                };
-
-                expect(resolveExits(newCases, node)).toMatchSnapshot();
-            }));
-
-        describe('hasWait >', () => {
-            it('should return true if node has wait', () => {
-                expect(hasWait(switchProps.node)).toBeTruthy();
-            });
-
-            it('should return false if node does not have wait', () => {
-                expect(hasWait(replyNode)).toBeFalsy();
-            });
-        });
-
-        describe('hasCases >', () => {
-            it('should return true if node has cases', () => {
-                expect(hasCases(switchNodeExp)).toBeTruthy();
-            });
-
-            it('should return false if node does not have cases', () => {
-                expect(
-                    hasCases({
-                        ...switchNodeExp,
-                        router: { ...switchNodeExp.router, cases: [] }
-                    })
-                ).toBeFalsy();
-            });
-        });
-    });
-
     describe('render >', () => {
         it('should render wait_for_response form', () => {
             const wrapper = mount(<SwitchRouterForm {...switchProps} />, {
@@ -285,9 +208,9 @@ describe('SwitchRouter >', () => {
         });
 
         it('should render advanced form (translating case args)', () => {
-            const getOperatorsForLocalizationSpy = jest.spyOn(
+            const getOperandsForLocalizationSpy = jest.spyOn(
                 SwitchRouterForm.prototype,
-                'getOperatorsForLocalization'
+                'getOperandsForLocalization'
             );
 
             const wrapper = mount(
@@ -304,16 +227,16 @@ describe('SwitchRouter >', () => {
 
             expect(getSpecWrapper(wrapper, 'advanced-title').text()).toBe('Rules');
             expect(getSpecWrapper(wrapper, 'advanced-instructions').text()).toBe(
-                OPERATOR_LOCALIZATION_LEGEND
+                OPERAND_LOCALIZATION_DESC
             );
-            expect(getOperatorsForLocalizationSpy).toHaveBeenCalled();
+            expect(getOperandsForLocalizationSpy).toHaveBeenCalled();
 
-            getOperatorsForLocalizationSpy.mockRestore();
+            getOperandsForLocalizationSpy.mockRestore();
         });
     });
 
     describe('instance methods >', () => {
-        describe('getOperatorsForLocalization >', () => {
+        describe('getOperandsForLocalization >', () => {
             const wrapper = mount(
                 <SwitchRouterForm
                     {...{

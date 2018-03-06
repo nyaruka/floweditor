@@ -1,6 +1,4 @@
-const {
-    jsPlumb: { importDefaults }
-} = require('../../node_modules/jsplumb/dist/js/jsplumb.min');
+const { jsPlumb: { importDefaults } } = require('../../node_modules/jsplumb/dist/js/jsplumb.min');
 import { Node, FlowDefinition, Exit, LocalizationMap } from '../flowTypes';
 
 export interface DragEvent {
