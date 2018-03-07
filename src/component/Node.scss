@@ -2,9 +2,10 @@
 
 .node {
 
-    box-shadow: 1px 2px 0px 2px rgba(0, 0, 0, .05);
+    box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, .05);
 
     .cropped {
+        box-shadow: -1px -1px 0px 0px rgba(0, 0, 0, .05);
         overflow: hidden;
         min-width: $node_width;
         border-top-left-radius: $curvature;
@@ -60,6 +61,7 @@
         width: 100%;
         border-bottom-left-radius: $curvature;
         border-bottom-right-radius: $curvature;
+        box-shadow: -1px -1px 0px 0px rgba(0, 0, 0, .05);
 
         .exits {
             border-collapse: collapse;
