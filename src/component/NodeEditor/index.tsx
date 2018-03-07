@@ -6,12 +6,13 @@ import NodeEditor, {
     isSwitchForm,
     getAction
 } from './NodeEditor';
-import { DEFAULT_BODY } from './constants';
+import { DEFAULT_OPERAND, DEFAULT_BODY } from './constants';
 
 export {
     GetResultNameField,
     NodeEditorProps,
     FormProps,
+    DEFAULT_OPERAND,
     DEFAULT_BODY,
     mapExits,
     isSwitchForm,

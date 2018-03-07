@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
+
 import update from 'immutability-helper';
+import { Redux } from 'redux-render';
 import { v4 as generateUUID } from 'uuid';
 import { FlowDefinition, Action, Position, Reply, Node, UINode, Dimensions } from '../flowTypes';
 import ComponentMap from '../services/ComponentMap';
@@ -13,24 +15,27 @@ import NodeEditor, { NodeEditorProps } from './NodeEditor';
 import LanguageSelectorComp, { Language } from './LanguageSelector';
 import { ConfigProviderContext, endpointsPT } from '../config';
 import { getActivity } from '../external';
-
+import { ReduxState, Dispatch } from '../redux';
 import * as styles from './Flow.scss';
+import { updateNodeDragging } from '../redux/actions';
 
-export interface FlowProps {
+export interface FlowContainerProps {
+    Mutator: FlowMutator;
+    ComponentMap: ComponentMap;
+}
+
+export interface FlowProps extends FlowContainerProps {
     nodeDragging: boolean;
-    onDrag(dragging: boolean): void;
     language: Language;
     translating: boolean;
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
-    Mutator: FlowMutator;
-    ComponentMap: ComponentMap;
+    dispatch: Dispatch;
 }
 
 export interface FlowState {
     ghost?: Node;
     nodeEditor?: NodeEditorProps;
-    loading: boolean;
     viewDefinition?: FlowDefinition;
 }
 
@@ -53,7 +58,40 @@ export interface Translations {
 
 const REPAINT_DURATION = 600;
 
-export default class Flow extends React.Component<FlowProps, FlowState> {
+const FlowContainer: React.SFC<FlowContainerProps> = ({ Mutator, ComponentMap }) => (
+    <Redux
+        selector={({
+            nodeDragging,
+            language,
+            translating,
+            definition,
+            dependencies
+        }: ReduxState): Partial<ReduxState> => ({
+            nodeDragging,
+            language,
+            translating,
+            definition,
+            dependencies
+        })}>
+        {(
+            { nodeDragging, language, translating, definition, dependencies }: ReduxState,
+            dispatch: Dispatch
+        ) => (
+            <Flow
+                nodeDragging={nodeDragging}
+                language={language}
+                translating={translating}
+                definition={definition}
+                dependencies={dependencies}
+                Mutator={Mutator}
+                ComponentMap={ComponentMap}
+                dispatch={dispatch}
+            />
+        )}
+    </Redux>
+);
+
+class Flow extends React.Component<FlowProps, FlowState> {
     private repaintDuration: number;
     private Activity: ActivityManager;
     private Plumber: any;
@@ -74,8 +112,9 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
     constructor(props: FlowProps, context: ConfigProviderContext) {
         super(props, context);
 
+        console.log('FlowProps:', props);
+
         this.state = {
-            loading: true,
             ghost: null,
             nodeEditor: null,
             viewDefinition: null
@@ -138,8 +177,6 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
 
         console.timeEnd('RenderAndPlumb');
 
-        this.setState({ loading: false });
-
         // deals with safari load rendering throwing
         // off the jsplumb offsets
         window.setTimeout(() => this.Plumber.repaint(), 500);
@@ -168,11 +205,15 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
     }
 
     private onNodeDragStart(node: Node): void {
-        this.props.onDrag(true);
+        if (!this.props.nodeDragging) {
+            this.props.dispatch(updateNodeDragging(true));
+        }
     }
 
     private onNodeDragStop(node: Node): void {
-        this.props.onDrag(false);
+        if (this.props.nodeDragging) {
+            this.props.dispatch(updateNodeDragging(false));
+        }
     }
 
     private openEditor(props: NodeEditorProps): void {
@@ -198,7 +239,9 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         };
 
         this.setState({ nodeEditor: props }, () => {
-            this.props.onDrag(false);
+            if (this.props.nodeDragging) {
+                this.props.dispatch(updateNodeDragging(true));
+            }
             this.nodeEditor.open();
         });
     }
@@ -571,13 +614,9 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         const definition: FlowDefinition = this.state.viewDefinition
             ? this.state.viewDefinition
             : this.props.definition;
-
         const nodes: JSX.Element[] = this.getNodes(definition);
-
         const dragNode: JSX.Element = this.getDragNode();
-
         const simulator: JSX.Element = this.getSimulator();
-
         const modal: JSX.Element = this.getModal();
 
         return (
@@ -592,3 +631,5 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         );
     }
 }
+
+export default FlowContainer;
