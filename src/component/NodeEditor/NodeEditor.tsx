@@ -41,6 +41,7 @@ export type SaveLocalizations = (
     cases?: CaseElementProps[]
 ) => void;
 export type CleanUpLocalizations = (cases: CaseElementProps[]) => void;
+export type UpdateLocalizations = (language: string, changes: LocalizationUpdates) => void;
 
 interface Sides {
     front: JSX.Element;
@@ -66,6 +67,7 @@ export interface FormProps {
     onToggleAdvanced(): void;
     getLocalizedObject: Function;
     cleanUpLocalizations: CleanUpLocalizations;
+    updateLocalizations: UpdateLocalizations;
     saveLocalizations: SaveLocalizations;
     getResultNameField: GetResultNameField;
     onExpressionChanged: (e: any) => void;
@@ -1156,6 +1158,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             action,
             localizations: this.props.localizations,
             saveLocalizations: this.saveLocalizations,
+            updateLocalizations: this.updateLocalizations,
             cleanUpLocalizations: this.cleanUpLocalizations,
             updateAction: this.updateAction,
             updateRouter,

@@ -8,8 +8,8 @@ import ComponentMap from '../../../services/ComponentMap';
 import TextInputElement, { Count } from '../../form/TextInputElement';
 import CheckboxElement from '../../form/CheckboxElement';
 import { Type } from '../../../config';
-
 import * as styles from '../../actions/Action/Action.scss';
+import { UpdateLocalizations } from '../../NodeEditor';
 
 export interface ReplyFormProps {
     language: Language;
@@ -21,10 +21,7 @@ export interface ReplyFormProps {
     updateAction(action: Reply): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
-    updateLocalizations(
-        language: string,
-        changes: Array<{ uuid: string; translations: any }>
-    ): void;
+    updateLocalizations: UpdateLocalizations;
     getLocalizedObject(): LocalizedObject;
 }
 
