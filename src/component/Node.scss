@@ -2,7 +2,7 @@
 
 .node {
 
-    box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, .05);
+    box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, .1);
     border-radius: $curvature;
     background: #fff;
     padding: 0;
@@ -22,8 +22,11 @@
             visibility: hidden !important;
         }
         transition: none;
-        box-shadow: 1px 1px 0px 3px rgba(0, 0, 0, .02);
+        box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .05);
         border-radius: $curvature;
+        .cropped {
+            box-shadow: -1px -1px 1px 0px rgba(0, 0, 0, .05);
+        }
     }
 
     &.ghost {
@@ -80,7 +83,7 @@
         width: 100%;
         border-bottom-left-radius: $curvature;
         border-bottom-right-radius: $curvature;
-        box-shadow: -1px -1px 0px 0px rgba(0, 0, 0, .05);
+        //box-shadow: -1px -1px 0px 1px rgba(0, 0, 0, .2);
 
         .exits {
             border-collapse: collapse;
