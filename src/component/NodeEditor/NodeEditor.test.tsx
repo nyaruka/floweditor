@@ -253,7 +253,7 @@ describe('NodeEditor >', () => {
                     }
                 );
 
-                wrapper.instance().submit();
+                (wrapper.instance() as NodeEditor).submit();
 
                 expect(updateSubflowRouterSpy).toHaveBeenCalled();
                 expect(updateRouterSpy).toHaveBeenCalledWith(
@@ -297,6 +297,7 @@ describe('NodeEditor >', () => {
                 }
             );
 
+            const nodeEditor = wrapper.instance() as NodeEditor;
             wrapper.setState({ config: getTypeConfig('start_flow') });
 
             expect(wrapper.state('config')).toEqual(
@@ -305,11 +306,8 @@ describe('NodeEditor >', () => {
                 })
             );
 
-            expect(wrapper.find('SubflowRouter').prop('updateRouter')).toEqual(
-                wrapper.instance().updateSubflowRouter
-            );
-
-            wrapper.instance().submit();
+            expect(wrapper.find('SubflowRouter').prop('updateRouter')).toEqual(nodeEditor.updateSubflowRouter);
+            nodeEditor.submit();
 
             expect(updateSubflowRouterSpy).toHaveBeenCalled();
             expect(updateRouterSpy).toHaveBeenCalledWith(
