@@ -55,6 +55,7 @@ export class LocalizedObject {
         return this.localizedObject;
     }
 }
+
 export default class Localization {
     public static translate(
         object: Action | Exit | Case,

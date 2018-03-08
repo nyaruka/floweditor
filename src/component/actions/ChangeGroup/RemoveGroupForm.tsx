@@ -1,13 +1,12 @@
 import * as React from 'react';
-import { v4 as generateUUID } from 'uuid';
-import ChangeGroupFormProps from './props';
-import { ChangeGroup, Endpoints } from '../../../flowTypes';
-import ComponentMap, { SearchResult } from '../../../services/ComponentMap';
-import GroupElement from '../../form/GroupElement';
-import CheckboxElement from '../../form/CheckboxElement';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
+import { ChangeGroup } from '../../../flowTypes';
+import { SearchResult } from '../../../redux/initialState';
 import { jsonEqual } from '../../../utils';
+import CheckboxElement from '../../form/CheckboxElement';
+import GroupElement from '../../form/GroupElement';
 import { AddGroupFormState } from './AddGroupForm';
+import ChangeGroupFormProps from './props';
 
 export interface RemoveGroupFormState extends AddGroupFormState {
     removeFromAll: boolean;

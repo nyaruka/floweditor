@@ -15,6 +15,8 @@ export interface PendingConnections {
     [id: string]: { source: string; target: string; className: string };
 }
 
+export const REPAINT_DURATION = 600;
+
 export default class Plumber {
     public jsPlumb: any;
 
@@ -25,8 +27,11 @@ export default class Plumber {
     private animateInterval: any = null;
 
     private targetDefaults = {
-        anchor: ['Continuous', { faces: ['left', 'top', 'right'] }],
-        endpoint: ['Dot', { width: 10, height: 10, hoverClass: 'plumb-endpoint-hover' }],
+        anchor: ['Continuous', { shape: 'Rectangle', faces: ['left', 'top', 'right'] }],
+        endpoint: [
+            'Dot',
+            { radius: 13, cssClass: 'plumb-endpoint', hoverClass: 'plumb-endpoint-hover' }
+        ],
         dropOptions: { tolerance: 'touch', hoverClass: 'plumb-drop-hover', isTarget: false },
         dragAllowedWhenFull: false,
         deleteEndpointsOnEmpty: true,
@@ -47,7 +52,12 @@ export default class Plumber {
             DropOptions: { tolerance: 'touch', hoverClass: 'plumb-hover' },
             Endpoint: 'Blank',
             EndpointStyle: { strokeStyle: 'transparent' },
-            PaintStyle: { strokeWidth: 5, stroke: '#98C0D9' },
+            PaintStyle: {
+                strokeWidth: 1,
+                stroke: '#abd1e8',
+                outlineWidth: 1,
+                outlineStroke: '#f3f3f3'
+            },
             ConnectorHoverStyle: { stroke: '#27ae60' },
             ConnectorHoverClass: 'plumb-connector-hover',
             ConnectionsDetachable: true,
@@ -55,14 +65,14 @@ export default class Plumber {
                 'Flowchart',
                 {
                     stub: 12,
-                    midpoint: 0.85,
-                    alwaysRespectStubs: false,
-                    gap: [0, 7],
-                    cornerRadius: 2
+                    midpoint: 0.55,
+                    alwaysRespectStubs: true,
+                    gap: [0, 9],
+                    cornerRadius: 5
                 }
             ],
             ConnectionOverlays: [
-                ['PlainArrow', { location: 0.9999, width: 12, length: 12, foldback: 1 }]
+                ['PlainArrow', { location: 0.9999, width: 8, length: 8, foldback: 1 }]
             ],
             Container: 'flow-editor'
         });
@@ -150,7 +160,7 @@ export default class Plumber {
         }
     }
 
-    public repaintForDuration(duration: number): void {
+    public repaintForDuration(duration: number = REPAINT_DURATION): void {
         this.cancelDurationRepaint();
         var pause = 10;
         duration = duration / pause;
@@ -240,7 +250,7 @@ export default class Plumber {
     }
 
     public connect(source: string, target: string, className: string = null): void {
-        this.pendingConnections[source + ':' + target + ':' + className] = {
+        this.pendingConnections[`${source}:${target}:${className}`] = {
             source,
             target,
             className

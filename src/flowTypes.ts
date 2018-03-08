@@ -164,7 +164,6 @@ export interface Dimensions {
 export interface UINode {
     position: Position;
     dimensions?: Dimensions;
-
     // ui type, used for split by expression, contact field, etc
     type?: string;
 }

@@ -91,6 +91,7 @@ export default class FlowMutator {
     /**
      * Get the node with a uuid
      */
+    // Util ✅
     public getNode(uuid: string): Node {
         var details = this.components.getDetails(uuid);
         if (!details) {
@@ -99,6 +100,7 @@ export default class FlowMutator {
         return this.definition.nodes[details.nodeIdx];
     }
 
+    // Util ✅
     public getExit(uuid: string): Exit {
         var details = this.components.getDetails(uuid);
         if (details) {
@@ -108,16 +110,19 @@ export default class FlowMutator {
         return null;
     }
 
+    // Utils ✅
     public getNodeUI(uuid: string): UINode {
         return this.definition._ui.nodes[uuid];
     }
 
+    // Now updateUI in ActionCreators ✅
     private markDirty() {
         // add quiet period
         this.updateUI();
         this.save();
     }
 
+    // ActionCreators ✅
     private markReflow() {
         if (this.quietUI > 0) {
             if (this.reflowTimeout) {
@@ -132,6 +137,7 @@ export default class FlowMutator {
         }
     }
 
+    // ActionCreators ✅
     public updateUI() {
         if (this.updateMethod) {
             if (this.quietUI > 0) {
@@ -168,6 +174,7 @@ export default class FlowMutator {
         }
     }
 
+    // Utils ✅
     private collides(a: Bounds, b: Bounds) {
         if (a.bottom < b.top || a.top > b.bottom || a.left > b.right || a.right < b.left) {
             return false;
@@ -179,6 +186,7 @@ export default class FlowMutator {
     /**
      * Reflows the entire flow pushing nodes downward until there are no collisions
      */
+    // ActionCreators ✅
     public reflow() {
         console.time('reflow');
 
@@ -271,6 +279,7 @@ export default class FlowMutator {
         console.timeEnd('reflow');
     }
 
+    // ActionCreators ✅
     public updateLocalizations(language: string, changes: LocalizationUpdates) {
         if (!this.definition.localization) {
             this.definition = update(this.definition, {
@@ -305,6 +314,7 @@ export default class FlowMutator {
         this.markDirty();
     }
 
+    // ActionCreators ✅
     public updateDimensions(node: Node, dimensions: Dimensions) {
         var ui = this.getNodeUI(node.uuid);
         if (
@@ -316,6 +326,7 @@ export default class FlowMutator {
         }
     }
 
+    // ActionCreators ✅
     public addNode(node: Node, ui: UINode, pendingConnection?: DragPoint): Node {
         console.time('addNode');
 
@@ -350,6 +361,7 @@ export default class FlowMutator {
      * @param type the type of the new router
      * @param previousAction the previous action that is being replaced with our router
      */
+    // ActionCreators ✅
     private spliceInRouter(node: Node, type: string, previousAction: Action): Node {
         var previousNode = this.getNode(node.uuid);
         var details = this.components.getDetails(previousAction.uuid);
@@ -422,6 +434,7 @@ export default class FlowMutator {
     /**
      * Appends a new node instead of editing the node in place
      */
+    // ActionCreators ✅
     private appendNewRouter(node: Node, type: string) {
         var previousNode = this.getNode(node.uuid);
         var { x, y } = this.getNodeUI(node.uuid).position;
@@ -440,6 +453,7 @@ export default class FlowMutator {
         return newRouterNode;
     }
 
+    // ActionCreators ✅
     public updateRouter(
         node: Node,
         type: string,
@@ -502,6 +516,7 @@ export default class FlowMutator {
      * @param uuid the action to modify
      * @param changes immutability spec to modify at the given action
      */
+    // ActionCreators ✅
     public updateAction(
         action: Action,
         previousNodeUUID: string,
@@ -627,6 +642,7 @@ export default class FlowMutator {
     /**
      * Makes sure there is always at least a node to start with
      */
+    // ActionCreators ✅
     public ensureStartNode() {
         if (this.definition.nodes.length == 0) {
             let initialAction: Reply = {
@@ -653,6 +669,7 @@ export default class FlowMutator {
      * @param uuid
      * @param changes immutability spec to modify the node
      */
+    // ActionCreators ✅
     updateNode(uuid: string, changes: any) {
         var index = this.components.getDetails(uuid).nodeIdx;
         this.definition = update(this.definition, { nodes: { [index]: changes } });
@@ -661,6 +678,7 @@ export default class FlowMutator {
         this.markDirty();
     }
 
+    // actionCreator ✅
     private sortNodes() {
         // find our first node
         var top: Position;
@@ -680,10 +698,12 @@ export default class FlowMutator {
         });
 
         for (let nodeUUID in this.definition._ui.nodes) {
-            let position = this.definition._ui.nodes[nodeUUID].position;
-            if (top == null || top.y < position.y) {
-                top = position;
-                topNode = nodeUUID;
+            if (this.definition._ui.nodes.hasOwnProperty(nodeUUID)) {
+                const position = this.definition._ui.nodes[nodeUUID].position;
+                if (top == null || top.y < position.y) {
+                    top = position;
+                    topNode = nodeUUID;
+                }
             }
         }
 
@@ -691,12 +711,14 @@ export default class FlowMutator {
         this.markDirty();
     }
 
+    // ActionCreators ✅
     updateNodeUI(uuid: string, changes: any) {
         this.definition = update(this.definition, { _ui: { nodes: { [uuid]: changes } } });
         this.markReflow();
         this.markDirty();
     }
 
+    // ActionCreators ✅
     public removeNode(props: Node) {
         let details = this.components.getDetails(props.uuid);
         let node = this.definition.nodes[details.nodeIdx];
@@ -729,6 +751,7 @@ export default class FlowMutator {
         this.markDirty();
     }
 
+    // ActionCreators ✅
     public moveActionUp(action: Action) {
         let details = this.components.getDetails(action.uuid);
         let node = this.definition.nodes[details.nodeIdx];
@@ -743,6 +766,8 @@ export default class FlowMutator {
         this.markDirty();
     }
 
+
+    // ActionCreators ✅
     public removeAction(action: Action) {
         let details = this.components.getDetails(action.uuid);
         let node = this.definition.nodes[details.nodeIdx];
@@ -764,6 +789,7 @@ export default class FlowMutator {
      * it will get wired up.
      * @param props with a pendingConnection set
      */
+    // ActionCreators ✅
     public resolvePendingConnection(props: Node) {
         // only resolve connection if we have one
         var pendingConnection = this.components.getPendingConnection(props.uuid);
@@ -776,6 +802,7 @@ export default class FlowMutator {
         }
     }
 
+    // Utils ✅
     public getConnectionError(source: string, target: string): string {
         var exitDetails = this.components.getDetails(source);
         if (exitDetails.nodeUUID == target) {
@@ -784,10 +811,12 @@ export default class FlowMutator {
         return null;
     }
 
+    // ActionCreators ✅
     public disconnectExit(exitUUID: string) {
         this.updateExitDestination(exitUUID, null);
     }
 
+    // ActionCreators ✅
     private updateExitDestination(exitUUID: string, destination: string) {
         this.updateExit(exitUUID, { $merge: { destination_node_uuid: destination } });
     }
@@ -797,6 +826,7 @@ export default class FlowMutator {
      * @param uuid the exit to modify
      * @param changes immutability spec to modify at the given exit
      */
+    // ActionCreators ✅
     private updateExit(exitUUID: string, changes: any) {
         var details = this.components.getDetails(exitUUID);
 
@@ -808,6 +838,7 @@ export default class FlowMutator {
         this.markDirty();
     }
 
+    // ActionCreators ✅
     public updateConnection(source: string, target: string) {
         let nodeUUID = this.components.getDetails(source).nodeUUID;
         if (nodeUUID != target) {

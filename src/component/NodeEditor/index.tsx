@@ -2,6 +2,7 @@ import NodeEditor, {
     GetResultNameField,
     NodeEditorProps,
     FormProps,
+    UpdateLocalizations,
     mapExits,
     isSwitchForm,
     getAction
@@ -13,6 +14,7 @@ export {
     NodeEditorProps,
     FormProps,
     DEFAULT_OPERAND,
+    UpdateLocalizations,
     DEFAULT_BODY,
     mapExits,
     isSwitchForm,

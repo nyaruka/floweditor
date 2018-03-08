@@ -1,54 +1,93 @@
 @import "../variables.scss";
 
 .node {
+
+    box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, .1);
+    border-radius: $curvature;
+    background: #fff;
     padding: 0;
-    &.dragging {
-        z-index: $z_dragging; // box-shadow: 0 0 0 4px rgba(0, 0, 0, .1), 0 0 0 1px rgba(0, 0, 0, .1) inset; // transform: scale(1.05); // border: 1px solid #ddd;
-        .add {
-            visibility: hidden !important;
-        }
-        transition: none; // transform: scale(1.05);
-        box-shadow: 5px 5px 0px -2px rgba(0, 0, 0, .06);
-        transform: scale(1.015);
-    }
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    transition: top 200ms ease;
-    position: absolute; // box-shadow: 0 0 0 1px rgba(0, 0, 0, .1) inset; // border: 1px solid ;
-    width: $node_width;
+    transition: top 400ms ease-in-out;
+    position: absolute;
     z-index: $z_nodes;
-    cursor: pointer; // box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, .4);
+    cursor: pointer;
     display: table;
+    
+    &.dragging {
+        z-index: $z_dragging;
+        .add {
+            visibility: hidden !important;
+        }
+        transition: none;
+        box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .05);
+        border-radius: $curvature;
+        .cropped {
+            box-shadow: -1px -1px 1px 0px rgba(0, 0, 0, .05);
+        }
+    }
+
     &.ghost {
         opacity: .5;
         transition: none;
     }
+
+    &.nondragged {
+        box-shadow: none;
+        opacity: .6;
+        transition: opacity 400ms ease;
+    }
+
+    .cropped {
+        box-shadow: -1px -1px 0px 0px rgba(0, 0, 0, .05);
+        overflow: hidden;
+        min-width: $node_width;
+        border-top-left-radius: $curvature;
+        border-top-right-radius: $curvature;
+    }
+
     .actions {
-        border-radius: 25px;
-        width: 200px;
-        &.exit_table {
-            border-top: none;
-            .exit {
-                padding: 0 !important;
-                margin: 0;
+        width: $node_width;
+        background: #fff;
+    }
+
+    &.translating {
+
+        .actions {
+            border-bottom-left-radius: 7px;
+            border-bottom-right-radius: 7px;
+            overflow: hidden;
+        }
+
+        .unnamed_exit {
+            &.exit_table {
+                height: inherit;
+                border-top: none;
+                
+                .exits {
+                    height: inherit;
+                }
+                .exit {
+                    padding: 0 !important;
+                    margin: 0;
+                }
             }
         }
-        .action:last-child {
-            padding-bottom: 15px;
-        }
     }
+
     .exit_table {
-        background: #fff;
+
         display: table;
-        width: 198px; //border-top: 1px solid #f6f6f6;
-        border-left: 1px solid $borders;
-        border-right: 1px solid $borders;
-        border-bottom: 1px solid $borders;
+        width: 100%;
+        border-bottom-left-radius: $curvature;
+        border-bottom-right-radius: $curvature;
+
         .exits {
             border-collapse: collapse;
             display: table-row;
+            height: 7px;
             &:after {
                 content: "";
                 display: table;

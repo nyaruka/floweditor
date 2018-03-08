@@ -35,7 +35,7 @@ external.getFlow = getFlowMock;
 external.getFlows = getFlowsMock;
 // ---------------------------------------------------------------
 
-describe('FlowEditor >', () => {
+xdescribe('FlowEditor >', () => {
     describe('render >', () => {
         it('should render itself, children', () => {
             const wrapper = shallow(<FlowEditor config={config} />);

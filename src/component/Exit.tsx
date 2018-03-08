@@ -1,46 +1,45 @@
 import * as React from 'react';
 import * as classNames from 'classnames/bind';
+import { react as bindCallbacks } from 'auto-bind';
+import { connect } from 'react-redux';
 import { Exit } from '../flowTypes';
-import { addCommas } from '../utils';
-import Counter from './Counter';
+import {
+    disconnectExit,
+    DisconnectExitAC,
+    DispatchWithState,
+    ReduxState,
+    setConfirmDelete,
+    SetConfirmDeleteAC
+} from '../redux';
 import ActivityManager from '../services/ActivityManager';
 import { LocalizedObject } from '../services/Localization';
-
+import Counter from './Counter';
 import * as styles from './Exit.scss';
 
 export interface ExitProps {
     exit: Exit;
-    onDisconnect(exitUUID: string): void;
-    localization: LocalizedObject;
     translating: boolean;
+    confirmDelete: boolean;
+    localization: LocalizedObject;
     Activity: ActivityManager;
     plumberMakeSource: Function;
     plumberRemove: Function;
     plumberConnectExit: Function;
-}
-
-export interface ExitState {
-    confirmDelete: boolean;
+    setConfirmDeleteAC: SetConfirmDeleteAC;
+    disconnectExitAC: DisconnectExitAC;
 }
 
 const cx = classNames.bind(styles);
 
-export default class ExitComp extends React.PureComponent<ExitProps, ExitState> {
+export class ExitComp extends React.PureComponent<ExitProps> {
     private timeout: any;
-    private clicking: boolean;
 
     constructor(props: ExitProps) {
         super(props);
 
-        this.state = {
-            confirmDelete: false
-        };
-
-        this.onClick = this.onClick.bind(this);
-        this.onDisconnect = this.onDisconnect.bind(this);
-        this.onMouseUp = this.onMouseUp.bind(this);
-        this.getCount = this.getCount.bind(this);
-        this.onUnmount = this.onUnmount.bind(this);
+        bindCallbacks(this, {
+            include: [/^on/, 'getCount']
+        });
     }
 
     public componentDidMount(): void {
@@ -55,8 +54,8 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
         this.connect();
 
         if (prevProps.exit.destination_node_uuid && !this.props.exit.destination_node_uuid) {
-            if (this.state.confirmDelete) {
-                this.setState({ confirmDelete: false });
+            if (this.props.confirmDelete) {
+                this.props.setConfirmDeleteAC(false);
             }
         }
     }
@@ -72,20 +71,8 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
         event.stopPropagation();
 
         if (this.props.exit.destination_node_uuid && !this.props.translating) {
-            this.setState(
-                {
-                    confirmDelete: true
-                },
-                () => {
-                    this.timeout = window.setTimeout(
-                        () =>
-                            this.setState({
-                                confirmDelete: false
-                            }),
-                        2000
-                    );
-                }
-            );
+            this.props.setConfirmDeleteAC(true);
+            this.timeout = window.setTimeout(() => this.props.setConfirmDeleteAC(false), 2000);
         }
     }
 
@@ -97,7 +84,7 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
             window.clearTimeout(this.timeout);
         }
 
-        this.props.onDisconnect(this.props.exit.uuid);
+        this.props.disconnectExitAC(this.props.exit.uuid);
     }
 
     private onMouseUp(event: any): void {
@@ -110,15 +97,11 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
     }
 
     private connect(): void {
-        const classes: string[] = [];
-
-        if (this.props.translating) {
-            classes.push('translating');
-        } else if (this.state.confirmDelete) {
-            classes.push('confirm_delete');
-        }
-
-        this.props.plumberConnectExit(this.props.exit, classes.join(' '));
+        const classes = cx({
+            translating: this.props.translating,
+            confirm_delete: !this.props.translating && this.props.confirmDelete
+        });
+        this.props.plumberConnectExit(this.props.exit, classes);
     }
 
     private getCount(): number {
@@ -145,32 +128,28 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
 
     public render(): JSX.Element {
         const exit = this.props.translating
-            ? this.props.localization.getObject() as Exit
+            ? (this.props.localization.getObject() as Exit)
             : this.props.exit;
-
         const nameStyle = exit.name ? styles.name : '';
-
         const connected = this.props.exit.destination_node_uuid ? ' jtk-connected' : '';
         const dragNodeClasses = cx(styles.endpoint, connected);
-
         const confirmDelete =
-            this.state.confirmDelete && this.props.exit.hasOwnProperty('destination_node_uuid');
-
+            this.props.confirmDelete && this.props.exit.hasOwnProperty('destination_node_uuid');
         const confirm: JSX.Element = confirmDelete ? (
             <span onClick={this.onDisconnect} className="icon-remove" />
         ) : null;
-
         const exitClasses: string = cx({
             [styles.exit]: true,
             ['plumb-exit']: true,
             [styles.translating]: this.props.translating,
+            [styles.unnamed_exit]: exit.name == null,
             [styles.missing_localization]:
-                this.props.translating && !('name' in this.props.localization.localizedKeys),
+                exit.name &&
+                this.props.translating &&
+                !('name' in this.props.localization.localizedKeys),
             [styles.confirm_delete]: confirmDelete
         });
-
         const activity = this.getActivity();
-
         return (
             <div className={exitClasses}>
                 <div className={nameStyle}>{exit.name}</div>
@@ -186,3 +165,17 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
         );
     }
 }
+
+const mapStateToProps = ({ translating, confirmDelete }: ReduxState) => ({
+    translating,
+    confirmDelete
+});
+
+const mapDispatchToProps = (dispatch: DispatchWithState) => ({
+    setConfirmDeleteAC: (confirmDelete: boolean) => dispatch(setConfirmDelete(confirmDelete)),
+    disconnectExitAC: (exitUUID: string) => dispatch(disconnectExit(exitUUID))
+});
+
+const ConnectedExit = connect(mapStateToProps, mapDispatchToProps)(ExitComp);
+
+export default ConnectedExit;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 import ChangeGroupFormProps from './props';
 import { ChangeGroup, Endpoints } from '../../../flowTypes';
-import ComponentMap, { SearchResult } from '../../../services/ComponentMap';
+import { SearchResult } from '../../../services/ComponentMap';
 import GroupElement from '../../form/GroupElement';
 import CheckboxElement from '../../form/CheckboxElement';
 import { ConfigProviderContext, endpointsPT } from '../../../config';

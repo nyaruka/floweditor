@@ -1,7 +1,45 @@
 import { Language } from '../component/LanguageSelector';
-import { FlowDefinition } from '../flowTypes';
+import { FlowDefinition, Position, Node, AnyAction } from '../flowTypes';
+import { DragPoint } from '../component/Node';
+import { LocalizedObject } from '../services/Localization';
 
-export type Flows = Array<{ uuid: string; name: string }>
+export type Flows = Array<{ uuid: string; name: string }>;
+
+export interface ComponentDetails {
+    nodeUUID: string;
+    nodeIdx: number;
+    actionIdx?: number;
+    actionUUID?: string;
+    exitIdx?: number;
+    exitUUID?: string;
+    pointers?: string[];
+    type?: string;
+}
+
+export interface Components {
+    [uuid: string]: ComponentDetails;
+}
+
+export interface SearchResult {
+    name: string;
+    id: string;
+    type?: string;
+    prefix?: string;
+    extraResult?: boolean;
+}
+
+export interface ContactFieldResult extends SearchResult {
+    key?: string;
+}
+
+export interface CompletionOption {
+    name: string;
+    description: string;
+}
+
+export interface PendingConnections {
+    [uuid: string]: DragPoint;
+}
 
 export interface ReduxState {
     language: Language;
@@ -11,6 +49,25 @@ export interface ReduxState {
     nodeDragging: boolean;
     flows: Flows;
     dependencies: FlowDefinition[];
+    components: Components;
+    contactFields: ContactFieldResult[];
+    resultNames: CompletionOption[];
+    groups: SearchResult[];
+    nodes: Node[];
+    createNodePosition: Position;
+    addToNode: Node;
+    pendingConnection: DragPoint;
+    pendingConnections: PendingConnections;
+    freshestNode: Node;
+    nodeEditorOpen: boolean;
+    ghostNode: Node;
+    nodeToEdit: Node;
+    actionToEdit: AnyAction;
+    localizations: LocalizedObject[];
+    dragGroup: boolean;
+    userClickingNode: boolean;
+    userClickingAction: boolean;
+    confirmDelete: boolean;
 }
 
 const initialState: ReduxState = {
@@ -20,7 +77,26 @@ const initialState: ReduxState = {
     definition: null,
     nodeDragging: false,
     flows: [],
-    dependencies: null
+    dependencies: null,
+    components: {},
+    contactFields: [],
+    resultNames: [],
+    groups: [],
+    nodes: [],
+    createNodePosition: null,
+    addToNode: null,
+    pendingConnection: null,
+    pendingConnections: {},
+    freshestNode: null,
+    nodeEditorOpen: false,
+    ghostNode: null,
+    nodeToEdit: null,
+    actionToEdit: null,
+    localizations: [],
+    dragGroup: false,
+    userClickingNode: false,
+    userClickingAction: false,
+    confirmDelete: false
 };
 
 export default initialState;

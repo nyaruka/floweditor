@@ -1,39 +1,37 @@
 import * as React from 'react';
-import { v4 as generateUUID } from 'uuid';
 import { react as bindCallbacks } from 'auto-bind';
-import Modal, { ButtonSet } from '../Modal';
+import { v4 as generateUUID } from 'uuid';
+import { getTypeConfig, Mode, Type } from '../../config';
 import {
-    FlowDefinition,
     Action,
     AnyAction,
-    Router,
-    SwitchRouter,
-    Exit,
-    Node,
-    UINode,
+    CallWebhook,
     Case,
-    Reply,
     ChangeGroup,
+    Exit,
+    FlowDefinition,
+    Methods,
+    Node,
+    Reply,
+    Router,
+    SaveFlowResult,
     SaveToContact,
     SendEmail,
-    SaveFlowResult,
-    CallWebhook,
     StartFlow,
-    Methods,
+    SwitchRouter,
     WaitType
 } from '../../flowTypes';
-import { Type, Mode, getTypeConfig } from '../../config';
-import { Language } from '../LanguageSelector';
 import ComponentMap, { SearchResult } from '../../services/ComponentMap';
-import { LocalizedObject } from '../../services/Localization';
-import TypeList from './TypeList';
-import TextInputElement from '../form/TextInputElement';
-import { CaseElementProps } from '../form/CaseElement';
 import { LocalizationUpdates } from '../../services/FlowMutator';
-import { DEFAULT_OPERAND, GROUPS_OPERAND, DEFAULT_BODY } from './constants';
-
-import * as formStyles from './NodeEditor.scss';
+import { LocalizedObject } from '../../services/Localization';
+import { CaseElementProps } from '../form/CaseElement';
+import TextInputElement from '../form/TextInputElement';
+import { Language } from '../LanguageSelector';
+import Modal, { ButtonSet } from '../Modal';
 import * as shared from '../shared.scss';
+import { DEFAULT_BODY, DEFAULT_OPERAND, GROUPS_OPERAND } from './constants';
+import * as formStyles from './NodeEditor.scss';
+import TypeList from './TypeList';
 
 export type GetResultNameField = () => JSX.Element;
 export type SaveLocalizations = (
@@ -41,10 +39,28 @@ export type SaveLocalizations = (
     cases?: CaseElementProps[]
 ) => void;
 export type CleanUpLocalizations = (cases: CaseElementProps[]) => void;
+export type UpdateLocalizations = (language: string, changes: LocalizationUpdates) => void;
 
 interface Sides {
     front: JSX.Element;
     back: JSX.Element;
+}
+
+export interface NodeEditorProps {
+    node: Node;
+    language: Language;
+    showModal: boolean;
+    action?: Action;
+    actionsOnly?: boolean;
+    localizations?: LocalizedObject[];
+    definition: FlowDefinition;
+    translating: boolean;
+    show?: boolean;
+    onUpdateLocalizations: Function;
+    onUpdateAction: Function;
+    onUpdateRouter: Function;
+    onClose?(canceled: boolean): void;
+    ComponentMap: ComponentMap;
 }
 
 export interface FormProps {
@@ -66,28 +82,12 @@ export interface FormProps {
     onToggleAdvanced(): void;
     getLocalizedObject: Function;
     cleanUpLocalizations: CleanUpLocalizations;
+    updateLocalizations: UpdateLocalizations;
     saveLocalizations: SaveLocalizations;
     getResultNameField: GetResultNameField;
     onExpressionChanged: (e: any) => void;
     action?: AnyAction;
     localizations?: LocalizedObject[];
-}
-
-export interface NodeEditorProps {
-    node: Node;
-    language: Language;
-    action?: Action;
-    nodeUI?: UINode;
-    actionsOnly?: boolean;
-    localizations?: LocalizedObject[];
-    definition: FlowDefinition;
-    translating: boolean;
-    show?: boolean;
-    onUpdateLocalizations: Function;
-    onUpdateAction: Function;
-    onUpdateRouter: Function;
-    onClose?(canceled: boolean): void;
-    ComponentMap: ComponentMap;
 }
 
 export interface NodeEditorState {
@@ -471,9 +471,11 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         if (props.action) {
             return props.action.type;
         } else {
-            if (props.nodeUI) {
-                if (props.nodeUI.type) {
-                    return props.nodeUI.type;
+            // const nodeUI = this.props.definition._ui.nodes[props.nodeToEdit.uuid];
+            const nodeUI = this.props.definition._ui.nodes[props.node.uuid];
+            if (nodeUI) {
+                if (nodeUI.type) {
+                    return nodeUI.type;
                 }
             }
         }
@@ -759,15 +761,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         }
 
         return false;
-    }
-
-    public open(): void {
-        const config = getTypeConfig(this.determineConfigType(this.props));
-
-        this.setState({
-            show: true,
-            config
-        });
     }
 
     public close(canceled: boolean): void {
@@ -1156,6 +1149,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             action,
             localizations: this.props.localizations,
             saveLocalizations: this.saveLocalizations,
+            updateLocalizations: this.updateLocalizations,
             cleanUpLocalizations: this.cleanUpLocalizations,
             updateAction: this.updateAction,
             updateRouter,
@@ -1215,7 +1209,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                         __className={style}
                         width="600px"
                         title={titles}
-                        show={this.state.show}
+                        show={this.props.showModal}
                         buttons={buttons}
                         node={this.props.node}>
                         {front}

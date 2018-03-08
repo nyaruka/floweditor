@@ -1,12 +1,23 @@
 import { ComponentClass, SFC, ReactElement } from 'react';
 import { ShallowWrapper, ReactWrapper } from 'enzyme';
-import { FlowDefinition } from '../flowTypes';
+import { FlowDefinition, Node, Languages, SwitchRouter } from '../flowTypes';
+import { DragPoint } from '../component/Node';
+import { PendingConnections, Components } from '../redux';
+import { Language } from '../component/LanguageSelector';
+import Localization, { LocalizedObject } from '../services/Localization';
 
 const SNAKED_CHARS = /\s+(?=\S)/g;
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 
 interface BoolMap {
     [key: string]: boolean;
+}
+
+interface Bounds {
+    left: number;
+    top: number;
+    right: number;
+    bottom: number;
 }
 
 /**
@@ -123,4 +134,88 @@ export const hasErrorType = (errors: string[], exps: RegExp[]): boolean => {
         }
     }
     return false;
+};
+
+export const pureSort = (list: any[], fn: (a: any, b: any) => number) => [...list].sort(fn);
+
+export const getNodesBelow = ({ uuid: nodeUUID }: Node, nodes: Node[]) => {
+    const idx = nodes.findIndex(({ uuid }: Node) => uuid === nodeUUID);
+    return nodes.slice(idx, nodes.length);
+};
+
+export const getPendingConnection = (
+    nodeUUID: string,
+    pendingConnections: PendingConnections
+): DragPoint => pendingConnections[nodeUUID];
+
+export const getDetails = (uuid: string, components: Components) => components[uuid];
+
+export const getNode = (uuid: string, components: Components, definition: FlowDefinition) => {
+    const details = components[uuid];
+    if (!details) {
+        return null;
+    }
+    return definition.nodes[details.nodeIdx];
+};
+
+export const getExit = (uuid: string, components: Components, definition: FlowDefinition) => {
+    const details = components[uuid];
+    if (details) {
+        const node = definition.nodes[details.nodeIdx];
+        return node.exits[details.exitIdx];
+    }
+    return null;
+};
+
+export const getNodeUI = (uuid: string, definition: FlowDefinition) => definition._ui.nodes[uuid];
+
+export const collides = (a: Bounds, b: Bounds) => {
+    if (a.bottom < b.top || a.top > b.bottom || a.left > b.right || a.right < b.left) {
+        return false;
+    }
+    // console.log("COLLISION!");
+    return true;
+};
+
+export const getConnectionError = (source: string, targetUUID: string, components: Components) => {
+    const { nodeUUID } = getDetails(source, components);
+    if (nodeUUID === targetUUID) {
+        return 'Connections cannot route back to the same places.';
+    }
+    return null;
+};
+
+/**
+ * Computes translations prop for `Node` components in render()
+ */
+export const getTranslations = (definition: FlowDefinition, language: Language) => {
+    if (definition.localization) {
+        return definition.localization[language.iso];
+    }
+    return null;
+};
+
+export const getLocalizations = (
+    node: Node,
+    iso: string,
+    languages: Languages,
+    translations?: { [uuid: string]: any }
+): LocalizedObject[] => {
+    const localizations: LocalizedObject[] = [];
+
+    // Account for localized cases
+    if (node.router && node.router.type === 'switch') {
+        const router = node.router as SwitchRouter;
+
+        router.cases.forEach(kase =>
+            localizations.push(Localization.translate(kase, iso, languages, translations))
+        );
+    }
+
+    // Account for localized exits
+    node.exits.forEach(exit => {
+        localizations.push(Localization.translate(exit, iso, languages, translations));
+    });
+
+    return localizations;
 };

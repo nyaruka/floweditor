@@ -1,15 +1,25 @@
 import { createStore, applyMiddleware } from 'redux';
-import { devToolsEnhancer } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './reducers';
 import initialState from './initialState';
 
 export default (state = initialState) => {
-    const store = createStore(rootReducer, state, devToolsEnhancer({}));
+    // prettier-ignore
+    const store = createStore(
+        rootReducer,
+        state,
+        composeWithDevTools(
+            applyMiddleware(thunk)
+        )
+    );
+
     if (module.hot) {
         module.hot.accept('./reducers', () => {
             const { default: nextRootReducer } = require('./reducers');
             store.replaceReducer(nextRootReducer);
         });
     }
+
     return store;
 };
