@@ -921,7 +921,12 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     uuid: generateUUID(),
                     name: 'Complete',
                     destination_node_uuid: null
-                }
+                },
+                {
+                    uuid: generateUUID(),
+                    name: 'Expired',
+                    destination_node_uuid: null
+                },
             ];
 
             cases = [
@@ -930,6 +935,12 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     type: 'has_run_status',
                     arguments: ['C'],
                     exit_uuid: exits[0].uuid
+                },
+                {
+                    uuid: generateUUID(),
+                    type: 'has_run_status',
+                    arguments: ['E'],
+                    exit_uuid: exits[1].uuid
                 }
             ];
         }
