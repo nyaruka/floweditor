@@ -7,6 +7,7 @@ import { DragEvent } from '../services/Plumber';
 import ExitComp from './Exit';
 import TitleBar from './TitleBar';
 import {
+    Exit,
     FlowDefinition,
     Node,
     UINode,
@@ -83,7 +84,7 @@ export const getLocalizations = (
     const localizations: LocalizedObject[] = [];
 
     // Account for localized cases
-    if (node.router.type === 'switch') {
+    if (node.router && node.router.type === 'switch') {
         const router = node.router as SwitchRouter;
 
         router.cases.forEach(kase =>
@@ -321,15 +322,9 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             onUpdateRouter: this.props.onUpdateRouter
         };
 
-        // Account for hybrids
+        // account for hybrids or clicking on the empty exit table
         if (this.props.node.actions && this.props.node.actions.length) {
-            const isHybrid =
-                this.props.node.actions[0].type === 'call_webhook' ||
-                this.props.node.actions[0].type === 'start_flow';
-
-            if (isHybrid) {
-                nodeEditorProps = { ...nodeEditorProps, action: this.props.node.actions[0] };
-            }
+            nodeEditorProps = { ...nodeEditorProps, action: this.props.node.actions[this.props.node.actions.length - 1] };
         }
 
         this.props.openEditor(nodeEditorProps);
@@ -535,6 +530,10 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             classes.push(styles.ghost);
         }
 
+        if (this.props.translating) {
+            classes.push(styles.translating);
+        }
+
         if (this.props.nodeDragging && !this.state.dragging) {
             classes.push(styles.nondragged);
         }
@@ -542,7 +541,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         let exitClass = '';
 
         if (this.props.node.exits.length === 1 && !this.props.node.exits[0].name) {
-            exitClass = styles.actions;
+            exitClass = styles.unnamed_exit;
         }
 
         const dragLink = this.getDragLink();

@@ -8,58 +8,67 @@
     min-width: 60px;
     display: table-cell;
     white-space: nowrap;
+    
     &:first-child {
         border-left: none;
     }
+
     &.translating {
+
+        &.unnamed_exit {
+            background: red;
+            height: 0px;
+            border-bottom-left-radius: 0px !important;
+            border-bottom-right-radius: 0px !important;
+        }
+
+        border-left: 1px solid $translation_bg - #111;
+        background: $translation_bg;
+
         .endpoint {
             position: relative;
-            z-index: 1; //visibility: hidden;
-            visibility: hidden; //margin-top: -5px;
-            background: $translation_connector !important;
-            border: 2px solid $translation_connector - #111 !important;
+            z-index: 1;
+            visibility: hidden;
             top: 0px;
-        } // background: $translation_bg;
-        background: #fefefe;
-        box-shadow: 0 0 0 2px $translation_bg - #111 inset;
-        border: none; //box-shadow: 0 0 0 2px $green - #111 inset;
+        }
+
+        &:last-child {
+            border-bottom-right-radius: $curvature;
+        }
+
         &:first-child {
+            border-bottom-left-radius: $curvature;
             border-left: none;
-        } // border-color: $green - #111;
-        color: $translation_text;
-        .name {
-            padding-top: 11px;
-            padding-bottom: 11px;
         }
     }
+
     &.missing_localization {
-        background: $translation_bg;
-        border: none;
-        box-shadow: 0 0 0 2px $translation_bg - #111 inset;
-        &:first-child {
-            border-left: none;
-        } // border-color: $translation_bg - #111;
-        color: $translation_text;
-        .name {
-            padding-top: 11px;
-            padding-bottom: 11px;
+        color: $translation_missing;
+
+        &:last-child {
+            border-bottom-right-radius: $curvature;
+        }
+
+        &::first-child {
+            border-bottom-left-radius: $curvature;
         }
     }
+
     .name {
         padding: 12px;
         line-height: 1.4em;
     }
+
     .activity {
         float: left;
-        border: 0px solid green;
         margin: 0 auto;
         width: 100%;
-        margin-bottom: -30px; // margin-left: 1px;
+        margin-bottom: -30px;
         margin-top: 10px;
         cursor: default;
         .count {
             font-size: 10px;
-            position: relative; // margin: 0 auto;
+            position: relative;
             border: 1px solid $activity_color - #222;
             color: $activity_color - #777;
             background: $activity_color;

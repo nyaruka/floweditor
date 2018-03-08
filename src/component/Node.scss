@@ -3,25 +3,6 @@
 .node {
 
     box-shadow: 2px 2px 0px 1px rgba(0, 0, 0, .05);
-
-    .cropped {
-        box-shadow: -1px -1px 0px 0px rgba(0, 0, 0, .05);
-        overflow: hidden;
-        min-width: $node_width;
-        border-top-left-radius: $curvature;
-        border-top-right-radius: $curvature;
-    }
-    
-    &.dragging {
-        z-index: $z_dragging; // box-shadow: 0 0 0 4px rgba(0, 0, 0, .1), 0 0 0 1px rgba(0, 0, 0, .1) inset; // transform: scale(1.05); // border: 1px solid #ddd;
-        .add {
-            visibility: hidden !important;
-        }
-        transition: none; // transform: scale(1.05);
-        box-shadow: 1px 1px 0px 3px rgba(0, 0, 0, .02);
-        border-radius: $curvature;
-    }
-
     border-radius: $curvature;
     background: #fff;
     padding: 0;
@@ -30,10 +11,21 @@
     -ms-user-select: none;
     user-select: none;
     transition: top 400ms ease-in-out;
-    position: absolute; // box-shadow: 0 0 0 1px rgba(0, 0, 0, .1) inset; // border: 1px solid ;
+    position: absolute;
     z-index: $z_nodes;
-    cursor: pointer; // box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, .4);
+    cursor: pointer;
     display: table;
+    
+    &.dragging {
+        z-index: $z_dragging;
+        .add {
+            visibility: hidden !important;
+        }
+        transition: none;
+        box-shadow: 1px 1px 0px 3px rgba(0, 0, 0, .02);
+        border-radius: $curvature;
+    }
+
     &.ghost {
         opacity: .5;
         transition: none;
@@ -45,18 +37,45 @@
         transition: opacity 400ms ease;
     }
 
+    .cropped {
+        box-shadow: -1px -1px 0px 0px rgba(0, 0, 0, .05);
+        overflow: hidden;
+        min-width: $node_width;
+        border-top-left-radius: $curvature;
+        border-top-right-radius: $curvature;
+    }
+
     .actions {
         width: $node_width;
-        &.exit_table {
-            border-top: none;
-            .exit {
-                padding: 0 !important;
-                margin: 0;
+        background: #fff;
+    }
+
+    &.translating {
+
+        .actions {
+            border-bottom-left-radius: 7px;
+            border-bottom-right-radius: 7px;
+            overflow: hidden;
+        }
+
+        .unnamed_exit {
+            &.exit_table {
+                height: inherit;
+                border-top: none;
+                
+                .exits {
+                    height: inherit;
+                }
+                .exit {
+                    padding: 0 !important;
+                    margin: 0;
+                }
             }
         }
     }
+
     .exit_table {
-        background: #fff;
+
         display: table;
         width: 100%;
         border-bottom-left-radius: $curvature;
