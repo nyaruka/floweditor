@@ -164,8 +164,9 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
             [styles.exit]: true,
             ['plumb-exit']: true,
             [styles.translating]: this.props.translating,
+            [styles.unnamed_exit]: exit.name == null,
             [styles.missing_localization]:
-                this.props.translating && !('name' in this.props.localization.localizedKeys),
+                exit.name && this.props.translating && !('name' in this.props.localization.localizedKeys),
             [styles.confirm_delete]: confirmDelete
         });
 

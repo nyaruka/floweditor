@@ -93,7 +93,7 @@
                             "default_exit_uuid": "28adcb5e-8208-4e35-82c3-f377cbba5a7c",
                             "cases": [],
                             "operand": "@input",
-                            "result_name": "Issue"
+                            "result_name": "This can be something that is really long"
                         },
                         "exits": [
                             {
