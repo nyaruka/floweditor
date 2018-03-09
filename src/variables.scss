@@ -1,8 +1,7 @@
 @import "./palette_ec.scss";
 
 // generic colors
-$blue_select: #f2f9fc;
-$blue_antd: #e6f7ff;
+$blue_selected: #e6f7ff;
 $blue_baby: #80b9fb;
 $blue_bold: #3498db;
 $light_grey: #e6e6e6;
@@ -11,10 +10,9 @@ $med_grey: #ccc;
 
 // specific color styling
 $node_shadow: 4px 4px 0px 0px;
-$node_shadow_color: rgba(99, 184, 226, 0.096);
+$node_shadow_color: rgba(99, 184, 226, 0.1);
 $node_shadow_hover: rgba(145, 218, 255, .25);
 $connector_color: rgb(142, 217, 255);
-
 $path_color: #fff;
 $text_color: #666;
 $borders: rgba(145, 218, 255, .3);
@@ -32,7 +30,7 @@ $shadow_color: rgba(0, 0, 0, .15);
 $shadow_down: 0 2px 8px $shadow_color;
 
 // localization
-$translation_connector: #dfdfdf;
+$translation_connector: #ddd;
 $translation_bg: rgb(255, 254, 221);
 $translation_text: #92928b;
 $translation_missing: #da8d7a;

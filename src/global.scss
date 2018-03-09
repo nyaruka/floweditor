@@ -142,6 +142,13 @@ body {
                 }
             }
         }
+
+        &.translating path {
+            stroke: $translation_connector;
+            &.jtk-arrow {
+                fill: $translation_connector;
+            }
+        }    
     }
     
     .jtk-endpoint {
@@ -160,11 +167,6 @@ body {
     .plumb-endpoint-hover {
         cursor: pointer;
     }
-}
-
-svg.translating path {
-    stroke: $translation_connector;
-    fill: $translation_connector;
 }
 
 .clearfix {
