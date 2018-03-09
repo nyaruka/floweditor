@@ -274,6 +274,12 @@
                                     "type": "has_run_status",
                                     "arguments": ["C"],
                                     "exit_uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69"
+                                },
+                                {
+                                    "uuid": "b46ffd80-1b85-44bf-b3f2-01550d4ff302",
+                                    "type": "has_run_status",
+                                    "arguments": ["E"],
+                                    "exit_uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7"
                                 }
                             ],
                             "default_exit_uuid": null
@@ -282,6 +288,11 @@
                             {
                                 "uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
                                 "name": "Complete",
+                                "destination_node_uuid": null
+                            },
+                            {
+                                "uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+                                "name": "Expired",
                                 "destination_node_uuid": null
                             }
                         ],

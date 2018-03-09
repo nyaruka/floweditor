@@ -806,7 +806,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         this.props.onUpdateAction(this.props.node, act);
     }
 
-    private updateRouter(node: Node, type: string, previousAction?: Action): void {
+    public updateRouter(node: Node, type: string, previousAction?: Action): void {
         this.props.onUpdateRouter(node, type, previousAction);
     }
 
@@ -893,7 +893,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         );
     }
 
-    private updateSubflowRouter(): void {
+    public updateSubflowRouter(): void {
         const action = getAction(this.props, this.state.config);
         const select = this.widgets.Flow;
         const { name: flowName, id: flowUUID } = select.state.flow;
@@ -921,6 +921,11 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     uuid: generateUUID(),
                     name: 'Complete',
                     destination_node_uuid: null
+                },
+                {
+                    uuid: generateUUID(),
+                    name: 'Expired',
+                    destination_node_uuid: null
                 }
             ];
 
@@ -930,6 +935,12 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                     type: 'has_run_status',
                     arguments: ['C'],
                     exit_uuid: exits[0].uuid
+                },
+                {
+                    uuid: generateUUID(),
+                    type: 'has_run_status',
+                    arguments: ['E'],
+                    exit_uuid: exits[1].uuid
                 }
             ];
         }
