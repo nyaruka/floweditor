@@ -4,9 +4,9 @@
 $blue_selected: #e6f7ff;
 $blue_baby: #80b9fb;
 $blue_bold: #3498db;
-$light_grey: #e6e6e6;
-$light_grey_2: $light_grey+#111;
-$med_grey: #ccc;
+$light_gray: #e6e6e6;
+$light_gray_2: $light_gray+#111;
+$med_gray: #ccc;
 
 // specific color styling
 $node_shadow: 4px 4px 0px 0px;
@@ -17,10 +17,10 @@ $path_color: #fff;
 $text_color: #666;
 $borders: rgba(145, 218, 255, .3);
 $active_color: $blue_bold;
-$activity_color: $light_grey_2;
+$activity_color: $light_gray_2;
 $terminal_color: $red;
 $error_color: $red;
-$placeholder_color: $light_grey;
+$placeholder_color: $light_gray;
 
 // properties
 $node_width: 200px;

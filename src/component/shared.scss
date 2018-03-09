@@ -1,7 +1,7 @@
 @import '../variables.scss';
 
 .random {
-    background: $light_grey;
+    background: $light_gray;
 }
 
 .wait_for_response {
@@ -42,7 +42,7 @@
 }
 
 .subflow, .split_by_expression, .split_by_group {
-    background: $grey;
+    background: $gray;
 }
 
 .call_webhook {

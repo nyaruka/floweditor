@@ -93,7 +93,7 @@
             position: relative;
         }
         .controls {
-            background: $light_grey;
+            background: $light_gray;
             position: absolute;
             border: 0px solid yellow;
             bottom: 0px;
@@ -127,7 +127,7 @@
         position: absolute;
         right: 0;
         top: 0;
-        pointer-events: none; // text-shadow: 0px 0px 5px $grey;
+        pointer-events: none;
     }
 }
 
@@ -182,8 +182,8 @@
 
 .msg_received {
     padding: 8px 15px;
-    background: $light_grey;
-    border: 1px solid $light_grey + #111;
+    background: $light_gray;
+    border: 1px solid $light_gray + #111;
     border-radius: 15px;
     margin-right: 24px;
     font-size: 120%;

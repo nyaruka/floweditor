@@ -98,14 +98,14 @@
         bottom: 0px;
         left: 0px;
         padding: 3px;
-        color: $light_grey - #222;
+        color: $light_gray - #222;
         font-size: 8px;
         text-decoration: none;
         cursor: move;
         z-index: $z_group_drag_anchor;
         &:hover {
-            color: $light-grey - #333;
-            border-color: $light_grey - #222;
+            color: $light-gray - #333;
+            border-color: $light_gray - #222;
         }
     }
     .add {
