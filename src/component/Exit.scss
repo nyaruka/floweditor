@@ -10,8 +10,7 @@
     white-space: nowrap;
     
     &:first-child {
-        border-bottom-left-radius: $curvature;
-        border-bottom-right-radius: $curvature;
+        border-left: none;
     }
 
     &.translating {
