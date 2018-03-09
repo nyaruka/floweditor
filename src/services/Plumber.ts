@@ -47,7 +47,7 @@ export default class Plumber {
             DropOptions: { tolerance: 'touch', hoverClass: 'plumb-hover' },
             Endpoint: 'Blank',
             EndpointStyle: { strokeStyle: 'transparent' },
-            PaintStyle: { strokeWidth: 1, stroke: '#abd1e8', outlineWidth: 1, outlineStroke: '#f3f3f3' },
+            PaintStyle: { strokeWidth: 1, outlineWidth: 1, outlineStroke: '#fff' },
             ConnectorHoverStyle: { stroke: '#27ae60' },
             ConnectorHoverClass: 'plumb-connector-hover',
             ConnectionsDetachable: true,
@@ -62,7 +62,7 @@ export default class Plumber {
                 }
             ],
             ConnectionOverlays: [
-                ['PlainArrow', { location: 0.9999, width: 8, length: 8, foldback: 1 }]
+                ['PlainArrow', { location: 0.9999, width: 8, length: 8, foldback: 1, cssClass:'jtk-arrow' }]
             ],
             Container: 'flow-editor'
         });

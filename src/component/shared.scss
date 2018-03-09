@@ -1,11 +1,11 @@
 @import '../variables.scss';
 
 .random {
-    background: #aaa;
+    background: $light_gray;
 }
 
 .wait_for_response {
-    background: #4d7dad;
+    background: $dark_blue;
 }
 
 .add_to_group {
@@ -42,7 +42,7 @@
 }
 
 .subflow, .split_by_expression, .split_by_group {
-    background: $grey;
+    background: $gray;
 }
 
 .call_webhook {

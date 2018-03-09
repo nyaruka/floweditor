@@ -115,7 +115,7 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
         if (this.props.translating) {
             classes.push('translating');
         } else if (this.state.confirmDelete) {
-            classes.push('confirm_delete');
+            classes.push('confirm-delete');
         }
 
         this.props.plumberConnectExit(this.props.exit, classes.join(' '));
@@ -167,7 +167,7 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
             [styles.unnamed_exit]: exit.name == null,
             [styles.missing_localization]:
                 exit.name && this.props.translating && !('name' in this.props.localization.localizedKeys),
-            [styles.confirm_delete]: confirmDelete
+            [styles.confirmDelete]: confirmDelete
         });
 
         const activity = this.getActivity();

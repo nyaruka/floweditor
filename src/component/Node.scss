@@ -2,7 +2,8 @@
 
 .node {
 
-    box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, .1);
+    box-shadow: $node_shadow $node_shadow_color;
+    
     border-radius: $curvature;
     background: #fff;
     padding: 0;
@@ -22,11 +23,7 @@
             visibility: hidden !important;
         }
         transition: none;
-        box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, .05);
         border-radius: $curvature;
-        .cropped {
-            box-shadow: -1px -1px 1px 0px rgba(0, 0, 0, .05);
-        }
     }
 
     &.ghost {
@@ -35,13 +32,13 @@
     }
 
     &.nondragged {
-        box-shadow: none;
+        box-shadow: $node_shadow $node_shadow_color;
         opacity: .6;
         transition: opacity 400ms ease;
     }
 
     .cropped {
-        box-shadow: -1px -1px 0px 0px rgba(0, 0, 0, .05);
+        box-shadow: -1px -1px 0px 0px $node_shadow_color;
         overflow: hidden;
         min-width: $node_width;
         border-top-left-radius: $curvature;
@@ -78,9 +75,9 @@
     }
 
     .exit_table {
-
         display: table;
         width: 100%;
+        box-shadow: -1px -1px 0px 0px $node_shadow_color;   
         border-bottom-left-radius: $curvature;
         border-bottom-right-radius: $curvature;
 
@@ -101,14 +98,14 @@
         bottom: 0px;
         left: 0px;
         padding: 3px;
-        color: $light_grey - #222;
+        color: $light_gray - #222;
         font-size: 8px;
         text-decoration: none;
         cursor: move;
         z-index: $z_group_drag_anchor;
         &:hover {
-            color: $light-grey - #333;
-            border-color: $light_grey - #222;
+            color: $light-gray - #333;
+            border-color: $light_gray - #222;
         }
     }
     .add {

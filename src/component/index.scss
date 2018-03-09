@@ -18,8 +18,8 @@
 
 .translating {
     .editor {
-        $color_1: rgba(0, 0, 0, .08);
-        $color_2: rgba(0, 0, 0, .05);
+        $color_1: rgba(0, 0, 0, .02);
+        $color_2: rgba(0, 0, 0, .01);
         background: repeating-linear-gradient(-60deg, $color_1, $color_1 3px, $color_2 3px, $color_2 6px); // background: rgba(200, 200, 200, .3);
     }
     svg path {
