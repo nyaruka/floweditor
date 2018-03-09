@@ -2,7 +2,7 @@
 
 .node {
 
-    box-shadow: 1px 1px 0px 2px rgba(145, 218, 255, .2);
+    box-shadow: $node_shadow $node_shadow_color;
     
     border-radius: $curvature;
     background: #fff;
@@ -32,13 +32,13 @@
     }
 
     &.nondragged {
-        box-shadow: 1px 1px 0px 2px rgba(145, 218, 255, .2);
+        box-shadow: $node_shadow $node_shadow_color;
         opacity: .6;
         transition: opacity 400ms ease;
     }
 
     .cropped {
-        box-shadow: -1px -1px 0px 0px rgba(145, 218, 255, .15);
+        box-shadow: -1px -1px 0px 0px $node_shadow_color;
         overflow: hidden;
         min-width: $node_width;
         border-top-left-radius: $curvature;
@@ -75,9 +75,9 @@
     }
 
     .exit_table {
-
         display: table;
         width: 100%;
+        box-shadow: -1px -1px 0px 0px $node_shadow_color;   
         border-bottom-left-radius: $curvature;
         border-bottom-right-radius: $curvature;
 
