@@ -32,7 +32,7 @@ export type LocalizationUpdates = Array<{ uuid: string; translations?: any }>;
 const FORCE_FETCH = true;
 const QUIET_UI = 10;
 const QUIET_SAVE = 1000;
-const NODE_SPACING = 60;
+const NODE_SPACING = 40;
 
 export default class FlowMutator {
     private definition: FlowDefinition;
@@ -224,6 +224,8 @@ export default class FlowMutator {
                 if (this.collides(current.bounds, other.bounds)) {
                     // console.log("COLLISON:", current, other);
                     var diff = current.bounds.bottom - other.bounds.top + this.nodeSpacing;
+                    diff += 20 - (diff % 20)
+
                     other.bounds.top += diff;
                     other.bounds.bottom += diff;
 

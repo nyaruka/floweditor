@@ -1,11 +1,13 @@
 @import "../variables.scss";
 
+    
 .editor {
     position: relative;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     color: $text_color; // height: 100vh;
-    height: 20000px;
+    height: 100%;
+    width: 100%;
     font-size: 13px;
     line-height: 1.2;
     margin: 0;
@@ -23,7 +25,7 @@
         background: repeating-linear-gradient(-60deg, $color_1, $color_1 3px, $color_2 3px, $color_2 6px); // background: rgba(200, 200, 200, .3);
     }
     svg path {
-        stroke: $red !important;
-        fill: $red !important;
+        stroke: $translation_connector !important;
+        fill: $translation_connector !important;
     }
 }

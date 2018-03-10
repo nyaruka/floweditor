@@ -74,7 +74,7 @@ export default class FlowEditor extends React.Component<FlowEditorProps, FlowEdi
             nodeDragging: false,
             definition: null,
             flows: [],
-            dependencies: null
+            dependencies: null,
         };
 
         bindCallbacks(this, {
@@ -210,12 +210,11 @@ export default class FlowEditor extends React.Component<FlowEditorProps, FlowEdi
             : null;
 
         const flow: JSX.Element = this.getFlow();
-
-        const translatingStyle = this.state.translating ? styles.translating : null;
+        const style = this.state.translating ? styles.translating : null;
 
         return (
             <ConfigProvider config={this.props.config}>
-                <div className={translatingStyle} data-spec="editor-container">
+                <div id="editor-container" className={style} data-spec="editor-container">
                     <div className={styles.editor} data-spec="editor">
                         <FlowList
                             flowOption={flowOption}

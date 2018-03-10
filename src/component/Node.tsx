@@ -184,9 +184,28 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         if (this.props.ghost) {
             $(document).bind('mousemove', e => {
                 const ele = $(this.ele);
-                const left = e.pageX - ele.width() / 2;
-                const top = e.pageY;
+                let left = e.pageX - ele.width() / 2;
+                let top = e.pageY;
                 const nodeEle = $(this.ele);
+
+                // adjust our ghost into the grid
+                let leftAdjust = left % 20;
+                let topAdjust = top % 20;
+
+                if (leftAdjust > 10) {
+                    leftAdjust = 20 - leftAdjust;
+                } else {
+                    leftAdjust = leftAdjust * -1;
+                }
+
+                if (topAdjust > 10) {
+                    topAdjust = 20 - topAdjust;
+                } else {
+                    topAdjust = topAdjust * -1;
+                }
+
+                left += leftAdjust;
+                top += topAdjust;
 
                 nodeEle.offset({ left, top });
 
