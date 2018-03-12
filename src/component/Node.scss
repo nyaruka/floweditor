@@ -11,7 +11,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    transition: top 400ms ease-in-out;
+    transition: all 100ms ease-in-out;
     position: absolute;
     z-index: $z_nodes;
     cursor: pointer;

@@ -17,7 +17,7 @@ import {
     Endpoints,
     Languages
 } from '../flowTypes';
-import { titleCase } from '../utils';
+import { titleCase, snapToGrid } from '../utils';
 import CounterComp from './Counter';
 import ActivityManager from '../services/ActivityManager';
 import ComponentMap from '../services/ComponentMap';
@@ -184,8 +184,8 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         if (this.props.ghost) {
             $(document).bind('mousemove', e => {
                 const ele = $(this.ele);
-                const left = e.pageX - ele.width() / 2;
-                const top = e.pageY;
+                let left = e.pageX - ele.width() / 2;
+                let top = e.pageY;
                 const nodeEle = $(this.ele);
 
                 nodeEle.offset({ left, top });
@@ -276,11 +276,13 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             window.event.cancelBubble = true;
         }
 
+        const {left, top} = snapToGrid(event.finalPos[0], event.finalPos[1]);
+        this.ele.style.left = left + 'px';
+        this.ele.style.top = top + 'px';
+
         // Update our coordinates
-        this.props.onNodeMoved(this.props.node.uuid, {
-            x: event.finalPos[0],
-            y: event.finalPos[1]
-        });
+        this.props.onNodeMoved(this.props.node.uuid, {x: left, y: top})
+        
     }
 
     private updateDimensions(): void {
@@ -547,7 +549,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         const dragLink = this.getDragLink();
 
         const style = {
-            left: this.props.ui.position.x,
+            left: this.props.ui.position.x, 
             top: this.props.ui.position.y
         };
 

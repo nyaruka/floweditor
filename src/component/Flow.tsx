@@ -13,6 +13,7 @@ import NodeEditor, { NodeEditorProps } from './NodeEditor';
 import LanguageSelectorComp, { Language } from './LanguageSelector';
 import { ConfigProviderContext, endpointsPT } from '../config';
 import { getActivity } from '../external';
+import { snapToGrid } from '../utils';
 
 import * as styles from './Flow.scss';
 
@@ -394,9 +395,8 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                 this.Plumber.connect(dragPoint.exitUUID, this.state.ghost.uuid);
 
                 // save our position for later
-                const { offsetTop, offsetLeft } = this.ghost.ele;
-
-                this.createNodePosition = { x: offsetLeft, y: offsetTop };
+                const { left, top } = snapToGrid(this.ghost.ele.offsetLeft, this.ghost.ele.offsetTop);
+                this.createNodePosition = { x: left, y: top };
 
                 // click on our ghost node to bring up the editor
                 this.ghost.onClick();

@@ -64,7 +64,7 @@ export default class Plumber {
             ConnectionOverlays: [
                 ['PlainArrow', { location: 0.9999, width: 8, length: 8, foldback: 1, cssClass:'jtk-arrow' }]
             ],
-            Container: 'flow-editor'
+            Container: 'editor-container'
         });
 
         this.debug = this.debug.bind(this);
@@ -111,7 +111,7 @@ export default class Plumber {
             canDrag: () => {
                 return beforeDrag();
             },
-            containment: true,
+            containment: false,
             consumeFilteredEvents: false,
             consumeStartEvent: false
         });

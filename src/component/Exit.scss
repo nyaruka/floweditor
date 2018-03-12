@@ -94,6 +94,9 @@
         box-sizing: content-box !important;
         margin-top: -14px;
         border-radius: 6px;
+
+        // this is needed to maintain consistency with disconnected endpoitns
+        border-bottom: 1px solid transparent;
     }
 
     &.confirm-delete {
