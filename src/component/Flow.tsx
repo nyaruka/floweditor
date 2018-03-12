@@ -394,7 +394,26 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                 this.Plumber.connect(dragPoint.exitUUID, this.state.ghost.uuid);
 
                 // save our position for later
-                const { offsetTop, offsetLeft } = this.ghost.ele;
+                let { offsetTop, offsetLeft } = this.ghost.ele;
+
+                // adjust our ghost into the grid
+                let leftAdjust = offsetLeft % 20;
+                let topAdjust = offsetTop % 20;
+
+                if (leftAdjust > 10) {
+                    leftAdjust = 20 - leftAdjust;
+                } else {
+                    leftAdjust = leftAdjust * -1;
+                }
+
+                if (topAdjust > 10) {
+                    topAdjust = 20 - topAdjust;
+                } else {
+                    topAdjust = topAdjust * -1;
+                }
+
+                offsetLeft += leftAdjust;
+                offsetTop += topAdjust;
 
                 this.createNodePosition = { x: offsetLeft, y: offsetTop };
 
