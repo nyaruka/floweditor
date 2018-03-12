@@ -3,11 +3,39 @@ import { ShallowWrapper, ReactWrapper } from 'enzyme';
 import { FlowDefinition } from '../flowTypes';
 
 const SNAKED_CHARS = /\s+(?=\S)/g;
+const GRID_SIZE = 20;
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 
 interface BoolMap {
     [key: string]: boolean;
 }
+
+/**
+ * Adjusts the left and top offsets to a grid
+ * @param left horizontal offset
+ * @param top vertical offset
+ */
+export const snapToGrid = (left: number, top: number): { left: number, top: number } => {
+    
+    // adjust our ghost into the grid
+    let leftAdjust = left % GRID_SIZE;
+    let topAdjust = top % GRID_SIZE;
+
+    if (leftAdjust > GRID_SIZE / 3) {
+        leftAdjust = GRID_SIZE - leftAdjust;
+    } else {
+        leftAdjust = leftAdjust * -1;
+    }
+
+    if (topAdjust > GRID_SIZE / 3) {
+        topAdjust = GRID_SIZE - topAdjust;
+    } else {
+        topAdjust = topAdjust * -1;
+    }
+
+    return {left: left + leftAdjust, top: top + topAdjust }
+}
+
 
 /**
  * Turns a string array into a bool map for constant lookup

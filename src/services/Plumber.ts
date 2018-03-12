@@ -111,7 +111,6 @@ export default class Plumber {
             canDrag: () => {
                 return beforeDrag();
             },
-            grid:[20,20],
             containment: false,
             consumeFilteredEvents: false,
             consumeStartEvent: false
