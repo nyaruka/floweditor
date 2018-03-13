@@ -2,38 +2,16 @@ import * as React from 'react';
 import * as classNames from 'classnames/bind';
 import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
-import {
-    FlowDefinition,
-    Node,
-    Group,
-    AnyAction,
-    Endpoints,
-    Languages,
-    UINode
-} from '../../../flowTypes';
-import ComponentMap from '../../../services/ComponentMap';
+import { getTypeConfig, languagesPT } from '../../../config';
+import { ConfigProviderContext } from '../../../config/ConfigProvider';
+import { AnyAction, FlowDefinition, Languages, Node } from '../../../flowTypes';
+import { moveActionUp, ReduxState, removeAction, setUserClickingAction } from '../../../redux';
+import { DispatchWithState, onOpenNodeEditor } from '../../../redux/actionCreators';
 import { LocalizedObject } from '../../../services/Localization';
-import TitleBar from '../../TitleBar';
-import { getTypeConfig, Config } from '../../../config';
-import { NodeEditorProps } from '../../NodeEditor/NodeEditor';
 import { Language } from '../../LanguageSelector';
 import * as shared from '../../shared.scss';
+import TitleBar from '../../TitleBar';
 import * as styles from './Action.scss';
-import { ConfigProviderContext } from '../../../config/ConfigProvider';
-import {
-    ReduxState,
-    SetUserClickingActionAC,
-    setUserClickingAction,
-    moveActionUp,
-    MoveActionUpAC,
-    removeAction,
-    RemoveActionAC
-} from '../../../redux';
-import {
-    DispatchWithState,
-    OnOpenNodeEditorAC,
-    onOpenNodeEditor
-} from '../../../redux/actionCreators';
 
 export interface ActionWrapperProps {
     node: Node;
@@ -46,7 +24,7 @@ export interface ActionWrapperProps {
     translating: boolean;
     definition: FlowDefinition;
     render: (action: AnyAction) => React.ReactNode;
-    onOpenNodeEditorAC: (node: Node, ui: UINode, languages: Languages) => void;
+    onOpenNodeEditorAC: (node: Node, action: AnyAction, languages: Languages) => void;
     setUserClickingActionAC: (userClickingAction: boolean) => void;
     removeActionAC: (action: AnyAction) => void;
     moveActionUpAC: (action: AnyAction) => void;
@@ -54,8 +32,13 @@ export interface ActionWrapperProps {
 
 const cx = classNames.bind({ ...shared, ...styles });
 
+// Note: this needs to be a ComponentClass in order to work w/ react-flip-move
 export class ActionWrapper extends React.Component<ActionWrapperProps> {
     private localizedKeys: string[] = [];
+
+    public static contextTypes = {
+        languages: languagesPT
+    };
 
     constructor(props: ActionWrapperProps, context: ConfigProviderContext) {
         super(props);
@@ -68,8 +51,9 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     public onClick(event: React.MouseEvent<HTMLDivElement>): void {
         event.preventDefault();
         event.stopPropagation();
+
         const ui = this.props.definition._ui.nodes[this.props.node.uuid];
-        this.props.onOpenNodeEditorAC(this.props.node, ui, this.context.languages);
+        this.props.onOpenNodeEditorAC(this.props.node, this.props.action, this.context.languages);
     }
 
     public componentDidUpdate(prevProps: ActionWrapperProps, prevState: {}): void {
@@ -80,11 +64,13 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 
     private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
+
         this.props.removeActionAC(this.props.action);
     }
 
     private onMoveUp(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
+
         this.props.moveActionUpAC(this.props.action);
     }
 
@@ -134,7 +120,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     public render(): JSX.Element {
         const { name } = getTypeConfig(this.props.action.type);
         const classes = this.getClasses();
-        const propsToInject = this.props.localization
+        const anyAction = this.props.localization
             ? (this.props.localization.getObject() as AnyAction)
             : this.props.action;
         const titleBarClass = shared[this.props.action.type];
@@ -155,7 +141,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
                         showMove={showMove}
                         onMoveUp={this.onMoveUp}
                     />
-                    <div className={styles.body}>{this.props.render(propsToInject)}</div>
+                    <div className={styles.body}>{this.props.render(anyAction)}</div>
                 </div>
             </div>
         );
@@ -175,14 +161,14 @@ const mapStateToProps = ({
 });
 
 const mapDispatchToProps = (dispatch: DispatchWithState) => ({
-    onOpenNodeEditorAC: (node: Node, ui: UINode, languages: Languages) =>
-        dispatch(onOpenNodeEditor(node, ui, languages)),
+    onOpenNodeEditorAC: (node: Node, action: AnyAction, languages: Languages) =>
+        dispatch(onOpenNodeEditor(node, action, languages)),
     setUserClickingActionAC: (userClickingAction: boolean) =>
         dispatch(setUserClickingAction(userClickingAction)),
     removeActionAC: (action: AnyAction) => dispatch(removeAction(action)),
     moveActionUpAC: (action: AnyAction) => dispatch(moveActionUp(action))
 });
 
-const ConnectedAction = connect(mapStateToProps, mapDispatchToProps)(ActionWrapper);
+const ConnectedActionWrapper = connect(mapStateToProps, mapDispatchToProps)(ActionWrapper);
 
-export default ConnectedAction;
+export default ConnectedActionWrapper;

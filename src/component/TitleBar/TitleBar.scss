@@ -22,12 +22,12 @@
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        
+
         :first-child {
             border-top-left-radius: $curvature;
             border-top-right-radius: $curvature;
         }
-        
+
         .remove_button {
             visibility: visible;
         }

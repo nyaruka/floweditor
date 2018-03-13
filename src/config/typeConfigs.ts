@@ -1,22 +1,40 @@
-import { AnyAction } from '../flowTypes';
-import { Language } from '../component/LanguageSelector';
-import ChangeGroupComp from '../component/actions/ChangeGroup/ChangeGroup';
-import AddGroupForm from '../component/actions/ChangeGroup/AddGroupForm';
-import RemoveGroupForm from '../component/actions/ChangeGroup/RemoveGroupForm';
-import SaveFlowResultComp from '../component/actions/SaveFlowResult/SaveFlowResult';
-import SaveFlowResultForm from '../component/actions/SaveFlowResult/SaveFlowResultForm';
-import SaveToContactComp from '../component/actions/SaveToContact/SaveToContact';
-import SaveToContactForm from '../component/actions/SaveToContact/SaveToContactForm';
-import ReplyComp from '../component/actions/Reply/Reply';
-import ReplyForm from '../component/actions/Reply/ReplyForm';
-import WebhookComp from '../component/actions/Webhook/Webhook';
-import StartFlowComp from '../component/actions/StartFlow/StartFlow';
+import AddGroupsForm from '../component/actions/ChangeGroups/AddGroupsForm';
+import ChangeGroupsComp from '../component/actions/ChangeGroups/ChangeGroups';
+import RemoveGroupsForm from '../component/actions/ChangeGroups/RemoveGroupsForm';
+import SendMsgComp from '../component/actions/SendMsg/SendMsg';
+import SendMsgForm from '../component/actions/SendMsg/SendMsgForm';
+import SetRunResultComp from '../component/actions/SetRunResult/SetRunResult';
+import SetRunResultForm from '../component/actions/SetRunResult/SetRunResultForm';
+import SetContactFieldComp from '../component/actions/SetContactField/SetContactField';
+import SetContactFieldForm from '../component/actions/SetContactField/SetContactFieldForm';
 import SendEmailComp from '../component/actions/SendEmail/SendEmail';
 import SendEmailForm from '../component/actions/SendEmail/SendEmailForm';
-import SwitchRouterForm from '../component/routers/SwitchRouter';
-import SubflowRouterForm from '../component/routers/SubflowRouter';
-import WebhookRouterForm from '../component/routers/WebhookRouter';
-import GroupRouter from '../component/routers/GroupRouter';
+import StartFlowComp from '../component/actions/StartFlow/StartFlow';
+import CallWebhookComp from '../component/actions/CallWebhook/CallWebhook';
+import GroupsRouter from '../component/routers/GroupsRouter';
+import SubflowRouter from '../component/routers/SubflowRouter';
+import SwitchRouter from '../component/routers/SwitchRouter';
+import WebhookRouter from '../component/routers/WebhookRouter';
+import { AnyAction } from '../flowTypes';
+
+/*
+Old name	                New name	                Event(s) generated
+
+add_urn	                    add_contact_urn	            contact_urn_added
+add_to_group	            add_contact_groups	        contact_groups_added
+remove_from_group	        remove_contact_groups	    contact_groups_removed
+set_preferred_channel	    set_contact_channel	        contact_channel_changed
+update_contact	            set_contact_property	    contact_property_changed
+save_contact_field      	set_contact_field	        contact_field_changed
+save_flow_result	        set_run_result	            run_result_changed
+call_webhook	            call_webhook	            webhook_called
+add_label	                add_input_labels	        input_labels_added
+reply	                    send_msg	                msg_created
+send_email	                send_email	                email_created / email_sent
+send_msg	                send_broadcast	            broadcast_created
+start_flow	                start_flow	                flow_triggered
+start_session	            start_session	            session_triggered
+*/
 
 export enum Mode {
     EDITING = 0x1,
@@ -48,38 +66,38 @@ export function allows(mode: Mode): boolean {
 export const typeConfigList: Type[] = [
     /** Actions */
     {
-        type: 'reply',
+        type: 'send_msg',
         name: 'Send Message',
         description: 'Send them a message',
-        form: ReplyForm,
-        component: ReplyComp,
+        form: SendMsgForm,
+        component: SendMsgComp,
         advanced: Mode.EDITING,
         allows
     },
     // { type: 'msg', name: 'Send Message', description: 'Send somebody else a message', form: SendMessageForm, component: SendMessage },
     {
-        type: 'add_to_group',
+        type: 'add_contact_groups',
         name: 'Add to Group',
         description: 'Add them to a group',
-        form: AddGroupForm,
-        component: ChangeGroupComp,
+        form: AddGroupsForm,
+        component: ChangeGroupsComp,
         allows
     },
     {
-        type: 'remove_from_group',
+        type: 'remove_contact_groups',
         name: 'Remove from Group',
         description: 'Remove them from a group',
-        form: RemoveGroupForm,
-        component: ChangeGroupComp,
+        form: RemoveGroupsForm,
+        component: ChangeGroupsComp,
         allows
     },
     {
-        type: 'save_contact_field',
+        type: 'set_contact_field',
         name: 'Update Contact',
         description: 'Update the contact',
-        form: SaveToContactForm,
-        component: SaveToContactComp,
-        aliases: ['update_contact'],
+        form: SetContactFieldForm,
+        component: SetContactFieldComp,
+        aliases: ['set_contact_property'],
         allows
     },
     {
@@ -91,11 +109,11 @@ export const typeConfigList: Type[] = [
         allows
     },
     {
-        type: 'save_flow_result',
+        type: 'set_run_result',
         name: 'Save Flow Result',
         description: 'Save a result for this flow',
-        form: SaveFlowResultForm,
-        component: SaveFlowResultComp,
+        form: SetRunResultForm,
+        component: SetRunResultComp,
         allows
     },
     // {type: 'add_label', name: 'Add Label', description: 'Label the message', component: Missing},
@@ -105,8 +123,8 @@ export const typeConfigList: Type[] = [
         type: 'call_webhook',
         name: 'Call Webhook',
         description: 'Call a webook',
-        form: WebhookRouterForm,
-        component: WebhookComp,
+        form: WebhookRouter,
+        component: CallWebhookComp,
         advanced: Mode.EDITING,
         aliases: ['webhook'],
         allows
@@ -115,7 +133,7 @@ export const typeConfigList: Type[] = [
         type: 'start_flow',
         name: 'Run Flow',
         description: 'Run another flow',
-        form: SubflowRouterForm,
+        form: SubflowRouter,
         component: StartFlowComp,
         aliases: ['subflow'],
         allows
@@ -126,7 +144,7 @@ export const typeConfigList: Type[] = [
         type: 'split_by_expression',
         name: 'Split by Expression',
         description: 'Split by a custom expression',
-        form: SwitchRouterForm,
+        form: SwitchRouter,
         advanced: Mode.TRANSLATING,
         allows
     },
@@ -134,14 +152,14 @@ export const typeConfigList: Type[] = [
         type: 'split_by_group',
         name: 'Split by Group Membership',
         description: 'Split by group membership',
-        form: GroupRouter,
+        form: GroupsRouter,
         allows
     },
     {
         type: 'wait_for_response',
         name: 'Wait for Response',
         description: 'Wait for them to respond',
-        form: SwitchRouterForm,
+        form: SwitchRouter,
         advanced: Mode.TRANSLATING,
         aliases: ['switch'],
         allows
@@ -168,7 +186,7 @@ export const typeConfigMap: TypeMap = typeConfigList.reduce((map: TypeMap, typeC
 
 /**
  * Shortcut for constant lookup of type config in type configs map
- * @param {string} type - The type of the type config to return, e.g. 'reply'
+ * @param {string} type - The type of the type config to return, e.g. 'send_msg'
  * @returns {Object} - The type config found at typeConfigs[type] or -1
  */
 export const getTypeConfig = (type: string): Type => typeConfigMap[type];

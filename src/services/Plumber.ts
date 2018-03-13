@@ -16,6 +16,25 @@ export interface PendingConnections {
 }
 
 export const REPAINT_DURATION = 600;
+export const TARGET_DEFAULTS = {
+    anchor: ['Continuous', { shape: 'Rectangle', faces: ['left', 'top', 'right'] }],
+    endpoint: [
+        'Dot',
+        { radius: 13, cssClass: 'plumb-endpoint', hoverClass: 'plumb-endpoint-hover' }
+    ],
+    dropOptions: { tolerance: 'touch', hoverClass: 'plumb-drop-hover', isTarget: false },
+    dragAllowedWhenFull: false,
+    deleteEndpointsOnEmpty: true,
+    isTarget: false
+};
+
+export const SOURCE_DEFAULTS = {
+    anchor: 'BottomCenter',
+    maxConnections: 1,
+    dragAllowedWhenFull: false,
+    deleteEndpointsOnEmpty: true,
+    isSource: true
+};
 
 export default class Plumber {
     public jsPlumb: any;
@@ -26,38 +45,13 @@ export default class Plumber {
 
     private animateInterval: any = null;
 
-    private targetDefaults = {
-        anchor: ['Continuous', { shape: 'Rectangle', faces: ['left', 'top', 'right'] }],
-        endpoint: [
-            'Dot',
-            { radius: 13, cssClass: 'plumb-endpoint', hoverClass: 'plumb-endpoint-hover' }
-        ],
-        dropOptions: { tolerance: 'touch', hoverClass: 'plumb-drop-hover', isTarget: false },
-        dragAllowedWhenFull: false,
-        deleteEndpointsOnEmpty: true,
-        isTarget: false
-    };
-
-    private sourceDefaults = {
-        anchor: 'BottomCenter',
-        maxConnections: 1,
-        dragAllowedWhenFull: false,
-        deleteEndpointsOnEmpty: true,
-        isSource: true
-    };
-
     constructor() {
         this.jsPlumb = importDefaults({
             DragOptions: { cursor: 'pointer', zIndex: 1000 },
             DropOptions: { tolerance: 'touch', hoverClass: 'plumb-hover' },
             Endpoint: 'Blank',
             EndpointStyle: { strokeStyle: 'transparent' },
-            PaintStyle: {
-                strokeWidth: 1,
-                stroke: '#abd1e8',
-                outlineWidth: 1,
-                outlineStroke: '#f3f3f3'
-            },
+            PaintStyle: { strokeWidth: 1, outlineWidth: 1, outlineStroke: '#fff' },
             ConnectorHoverStyle: { stroke: '#27ae60' },
             ConnectorHoverClass: 'plumb-connector-hover',
             ConnectionsDetachable: true,
@@ -72,9 +66,12 @@ export default class Plumber {
                 }
             ],
             ConnectionOverlays: [
-                ['PlainArrow', { location: 0.9999, width: 8, length: 8, foldback: 1 }]
+                [
+                    'PlainArrow',
+                    { location: 0.9999, width: 8, length: 8, foldback: 1, cssClass: 'jtk-arrow' }
+                ]
             ],
-            Container: 'flow-editor'
+            Container: 'editor-container'
         });
 
         this.debug = this.debug.bind(this);
@@ -121,7 +118,7 @@ export default class Plumber {
             canDrag: () => {
                 return beforeDrag();
             },
-            containment: true,
+            containment: false,
             consumeFilteredEvents: false,
             consumeStartEvent: false
         });
@@ -132,11 +129,11 @@ export default class Plumber {
     }
 
     public makeSource(uuid: string): void {
-        this.jsPlumb.makeSource(uuid, this.sourceDefaults);
+        this.jsPlumb.makeSource(uuid, SOURCE_DEFAULTS);
     }
 
     public makeTarget(uuid: string): void {
-        this.jsPlumb.makeTarget(uuid, this.targetDefaults);
+        this.jsPlumb.makeTarget(uuid, TARGET_DEFAULTS);
     }
 
     public connectExit(exit: Exit, className: string = null): void {

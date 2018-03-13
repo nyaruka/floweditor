@@ -18,7 +18,7 @@ interface TitleBarState {
 /**
  * Simple title bar with confirmation removal
  */
-class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
+export default class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
     private timeout: any;
 
     constructor(props: TitleBarProps) {
@@ -37,7 +37,7 @@ class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
         }
     }
 
-    private onConfirmRemoval(event: React.MouseEvent<HTMLDivElement>) {
+    private onConfirmRemoval(event: React.MouseEvent<HTMLDivElement>): void {
         if (event) {
             event.preventDefault();
             event.stopPropagation();
@@ -99,7 +99,7 @@ class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
         return moveArrow;
     }
 
-    private getRemove() {
+    private getRemove(): JSX.Element {
         let remove: JSX.Element = null;
 
         if (this.props.showRemoval) {
@@ -119,11 +119,10 @@ class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
         return remove;
     }
 
-    render() {
+    public render(): JSX.Element {
         const confirmation: JSX.Element = this.getConfirmationEl();
         const moveArrow: JSX.Element = this.getMoveArrow();
         const remove: JSX.Element = this.getRemove();
-
         return (
             <div className={styles.titlebar}>
                 <div className={`${this.props.className} ${styles.normal}`}>
@@ -136,5 +135,3 @@ class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
         );
     }
 }
-
-export default TitleBar;

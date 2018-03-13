@@ -4,14 +4,7 @@ import Select from 'react-select';
 import { getBaseLanguage } from '.';
 import { Config } from '../config';
 import { Languages } from '../flowTypes';
-import {
-    DispatchWithState,
-    ReduxState,
-    setLanguage,
-    SetLanguageAC,
-    setTranslating,
-    SetTranslatingAC
-} from '../redux';
+import { DispatchWithState, ReduxState, setLanguage, setTranslating } from '../redux';
 import { jsonEqual } from '../utils';
 import { languageSelector } from './LanguageSelector.scss';
 
@@ -23,8 +16,8 @@ export interface Language {
 export interface LanguageSelectorProps {
     language: Language;
     languages: Languages;
-    setLanguageAC: SetLanguageAC;
-    setTranslatingAC: SetTranslatingAC;
+    setLanguageAC: (language: Language) => void;
+    setTranslatingAC: (translating: boolean) => void;
 }
 
 export const composeLanguageMap = (languages: Languages): Language[] =>

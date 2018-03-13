@@ -6,23 +6,40 @@
 body {
     margin: 0;
 
+    #flow-editor {
+        height: 10000px;
+        width: 100%;
+        position: relative;
+    }
+
+    #editor-container {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+
     .ReactModal__Content {
         overflow: visible !important;
         top: 50px !important;
     }
+
     .ReactModal__Overlay {
         background-color: rgba(0, 0, 0, .6) !important;
         z-index: $z_modal;
     }
+
     &.ReactModal__Body--open {
         overflow-y: hidden !important;
     }
+
     .ReactModal__Overlay {
         background-color: rgba(0, 0, 0, .6) !important;
         z-index: $z_modal;
     }
+
     .ReactModalPortal .ReactModal__Overlay {
-        // transition: opacity 100ms ease-in-out;
+        transition: opacity 50ms ease-in-out;
         background: rgba(0, 0, 0, 0.15);
         &--after-open {
             opacity: 1;
@@ -31,9 +48,11 @@ body {
             opacity: 0;
         }
     }
+
     .ReactModalPortal>div {
         opacity: 0;
     }
+
     .select-invalid {
         .Select-control {
             border-color: $error_color !important;
@@ -44,6 +63,7 @@ body {
             border-bottom-color: $error_color !important;
         }
     }
+
     .select-medium {
         .Select-menu-outer {
             z-index: 6000;
@@ -69,6 +89,7 @@ body {
             }
         }
     }
+
     .select-small {
         .Select-menu-outer {
             z-index: 6000;
@@ -93,7 +114,9 @@ body {
                 height: 22px;
             }
         }
-    } // jsplumb, no text selection while dragging
+    }
+
+    // jsplumb, no text selection while dragging
     .jtk-drag-select * {
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -102,41 +125,61 @@ body {
         -ms-user-select: none;
         user-select: none;
     }
+
     .jtk-drag-active {
         &.jtk-endpoint {
             visibility: hidden !important;
         }
     }
-    .jtk-connector {
+
+    svg.jtk-connector {
         z-index: $z_connectors;
         &.jtk-dragging {
             z-index: $z_dragging;
         }
-        color: purple;
+
+        path {
+            stroke: $connector_color;
+            stroke-width: 1px;
+
+            &.jtk-arrow {
+                fill: $connector_color;
+            }
+        }
+
+        &.confirm-delete {
+            path {
+                stroke: $red;
+                &.jtk-arrow {
+                    fill: $red;
+                }
+            }
+        }
+
+        &.translating path {
+            stroke: $translation_connector;
+            &.jtk-arrow {
+                fill: $translation_connector;
+            }
+        }
     }
+
     .jtk-endpoint {
         z-index: $z_endpoints;
     }
+
     .plumb-exit .jtk-connected {
         background: $path_color !important;
-        border-bottom: 1px solid $path_color - #333 !important;
+        border-bottom: 1px solid $connector_color;
     }
+
     .plumb-drop-hover {
-        box-shadow: 1px 2px 0px 2px rgba(0, 0, 0, .1);
+        box-shadow: $node_shadow $node_shadow_hover;
     }
+
     .plumb-endpoint-hover {
         cursor: pointer;
     }
-}
-
-svg.confirm_delete path {
-    stroke: $red;
-    fill: $red;
-}
-
-svg.translating path {
-    stroke: $translation_connector;
-    fill: $translation_connector;
 }
 
 .clearfix {

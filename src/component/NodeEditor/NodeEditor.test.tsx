@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import CompMap from '../../services/ComponentMap';
 import NodeEditor, { NodeEditorProps, mapExits, isSwitchForm, getAction } from './index';
 import { getBaseLanguage } from '../';
 import { V4_UUID } from '../../utils';
-import { getTypeConfig, typeConfigList } from '../../config';
+import { getTypeConfig, typeConfigList, endpointsPT } from '../../config';
 import { WaitType } from '../../flowTypes';
 import { resolveExits, hasWait, hasCases, groupsToCases } from './NodeEditor';
 import { extractGroups } from '../routers/GroupRouter';
@@ -12,11 +12,12 @@ import { extractGroups } from '../routers/GroupRouter';
 const {
     results: [{ definition }]
 } = require('../../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
-const { languages } = require('../../../assets/config');
+const { languages, endpoints } = require('../../../assets/config');
 
-const { nodes: [node], language: flowLanguage } = definition;
+const { nodes: [replyNode, , , , , , subflowRouterNode], language: flowLanguage } = definition;
 
-const { actions: [replyAction] } = node;
+const { actions: [replyAction] } = replyNode;
+const { actions: [startFlowAction] } = subflowRouterNode;
 
 const switchNode = {
     uuid: 'bc978e00-2f3d-41f2-87c1-26b3f14e5925',
@@ -57,7 +58,7 @@ const nodeEditorProps: NodeEditorProps = {
     translating: false,
     show: true,
     definition,
-    node,
+    node: replyNode,
     action: replyAction,
     onUpdateAction: jest.fn(),
     onUpdateRouter: jest.fn(),
@@ -104,7 +105,7 @@ describe('NodeEditor >', () => {
             });
 
             it('should return false if node does not have wait', () => {
-                expect(hasWait(node)).toBeFalsy();
+                expect(hasWait(replyNode)).toBeFalsy();
             });
         });
 
@@ -124,18 +125,15 @@ describe('NodeEditor >', () => {
 
         describe('isSwitchForm >', () => {
             it('should return true if argument is a type that maps to a switch router form, false otherwise', () => {
-                [
-                    'wait_for_response',
-                    'split_by_expression',
-                    'split_by_group',
-                    'reply'
-                ].forEach((type, idx, arr) => {
-                    if (idx === arr.length - 1) {
-                        expect(isSwitchForm(type)).toBeFalsy();
-                    } else {
-                        expect(isSwitchForm(type)).toBeTruthy();
+                ['wait_for_response', 'split_by_expression', 'split_by_group', 'reply'].forEach(
+                    (type, idx, arr) => {
+                        if (idx === arr.length - 1) {
+                            expect(isSwitchForm(type)).toBeFalsy();
+                        } else {
+                            expect(isSwitchForm(type)).toBeTruthy();
+                        }
                     }
-                });
+                );
             });
         });
 
@@ -222,6 +220,133 @@ describe('NodeEditor >', () => {
                     <div className="advanced_title">Advanced Settings</div>
                 </div>
             ]);
+        });
+    });
+
+    describe('instance methods >', () => {
+        describe('updateSubflowRouter >', () => {
+            it("it should call 'updateRouter' with the existing exit, cases if node exists and is of type 'subflow'", () => {
+                const updateRouterSpy = jest.spyOn(NodeEditor.prototype, 'updateRouter');
+                const updateSubflowRouterSpy = jest.spyOn(
+                    NodeEditor.prototype,
+                    'updateSubflowRouter'
+                );
+
+                const wrapper = mount(
+                    <NodeEditor
+                        language={getBaseLanguage(languages)}
+                        translating={false}
+                        show={true}
+                        definition={definition}
+                        node={subflowRouterNode}
+                        action={startFlowAction}
+                        onUpdateAction={jest.fn()}
+                        onUpdateRouter={jest.fn()}
+                        onUpdateLocalizations={jest.fn()}
+                        ComponentMap={ComponentMap}
+                    />,
+                    {
+                        context: { endpoints },
+                        childContextTypes: {
+                            endpoints: endpointsPT
+                        }
+                    }
+                );
+
+                (wrapper.instance() as NodeEditor).submit();
+
+                expect(updateSubflowRouterSpy).toHaveBeenCalled();
+                expect(updateRouterSpy).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        router: expect.objectContaining({
+                            cases: subflowRouterNode.router.cases
+                        }),
+                        exits: subflowRouterNode.exits
+                    }),
+                    'subflow',
+                    startFlowAction
+                );
+
+                updateSubflowRouterSpy.mockRestore();
+                updateRouterSpy.mockRestore();
+            });
+        });
+
+        it("it should call 'updateRouter' with the new exit, cases if node exists but is not of type 'subflow'", () => {
+            const updateRouterSpy = jest.spyOn(NodeEditor.prototype, 'updateRouter');
+            const updateSubflowRouterSpy = jest.spyOn(NodeEditor.prototype, 'updateSubflowRouter');
+
+            const wrapper = mount(
+                <NodeEditor
+                    language={getBaseLanguage(languages)}
+                    translating={false}
+                    show={true}
+                    definition={definition}
+                    node={replyNode}
+                    action={startFlowAction}
+                    onUpdateAction={jest.fn()}
+                    onUpdateRouter={jest.fn()}
+                    onUpdateLocalizations={jest.fn()}
+                    ComponentMap={ComponentMap}
+                />,
+                {
+                    context: { endpoints },
+                    childContextTypes: {
+                        endpoints: endpointsPT
+                    }
+                }
+            );
+
+            const nodeEditor = wrapper.instance() as NodeEditor;
+            wrapper.setState({ config: getTypeConfig('start_flow') });
+
+            expect(wrapper.state('config')).toEqual(
+                expect.objectContaining({
+                    type: 'start_flow'
+                })
+            );
+
+            expect(wrapper.find('SubflowRouter').prop('updateRouter')).toEqual(nodeEditor.updateSubflowRouter);
+            nodeEditor.submit();
+
+            expect(updateSubflowRouterSpy).toHaveBeenCalled();
+            expect(updateRouterSpy).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    router: expect.objectContaining({
+                        cases: expect.arrayContaining([
+                            {
+                                uuid: expect.stringMatching(V4_UUID),
+                                type: 'has_run_status',
+                                arguments: ['C'],
+                                exit_uuid: expect.stringMatching(V4_UUID)
+                            },
+                            {
+                                uuid: expect.stringMatching(V4_UUID),
+                                type: 'has_run_status',
+                                arguments: ['E'],
+                                exit_uuid: expect.stringMatching(V4_UUID)
+                            }
+                        ])
+                    }),
+                    exits: expect.arrayContaining([
+                        {
+                            uuid: expect.stringMatching(V4_UUID),
+                            name: 'Complete',
+                            destination_node_uuid: null
+                        },
+                        {
+                            uuid: expect.stringMatching(V4_UUID),
+                            name: 'Expired',
+                            destination_node_uuid: null
+                        }
+                    ])
+                }),
+                'subflow',
+                startFlowAction
+            );
+
+            updateRouterSpy.mockRestore();
+            updateSubflowRouterSpy.mockRestore();
         });
     });
 });

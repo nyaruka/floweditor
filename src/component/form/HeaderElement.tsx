@@ -1,12 +1,8 @@
 import * as React from 'react';
-import ComponentMap from '../../services/ComponentMap';
-import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
-import FormElement from './FormElement';
-import { Type } from '../../config';
 import { hasErrorType } from '../../utils';
-
-import * as forms from './FormElement.scss';
+import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 import * as styles from '../routers/Webhook.scss';
+import FormElement from './FormElement';
 
 export interface Header {
     uuid: string;
@@ -18,8 +14,6 @@ export interface HeaderElementProps {
     name: string;
     header: Header;
     index: number;
-    config: Type;
-    ComponentMap: ComponentMap;
     onRemove: (header: HeaderElement) => void;
     onChange: (header: HeaderElement) => void;
     empty?: boolean;
@@ -119,8 +113,6 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
                             name="name"
                             onChange={this.onChangeName}
                             value={this.state.name}
-                            ComponentMap={this.props.ComponentMap}
-                            config={this.props.config}
                             showInvalid={hasHeaderError}
                         />
                     </div>
@@ -131,8 +123,6 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
                             onChange={this.onChangeValue}
                             value={this.state.value}
                             autocomplete={true}
-                            ComponentMap={this.props.ComponentMap}
-                            config={this.props.config}
                         />
                     </div>
                     {removeIco}

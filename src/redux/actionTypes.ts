@@ -4,6 +4,7 @@ import { FlowDefinition, Position, Node, AnyAction } from '../flowTypes';
 import { DragPoint } from '../component/Node';
 import { Components, ContactFieldResult, SearchResult, CompletionOption } from './initialState';
 import { LocalizedObject } from '../services/Localization';
+import { Type } from '../config';
 
 // Payload types
 interface TranslatingPayload {
@@ -79,10 +80,6 @@ interface UpdateCreateNodePositionPayload {
     createNodePosition: Position;
 }
 
-interface UpdateAddToNodePayload {
-    addToNode: Node;
-}
-
 interface UpdatePendingConnectionPayload {
     pendingConnection: DragPoint;
 }
@@ -111,8 +108,24 @@ interface UpdateUserClickingNodePayload {
     userClickingNode: boolean;
 }
 
-interface UpdateConfirmDeletePayload {
-    confirmDelete: boolean;
+interface UpdateTypeConfigPayload {
+    typeConfig: Type;
+}
+
+interface UpdateResultNamePayload {
+    resultName: string;
+}
+
+interface UpdateShowResultNamePayload {
+    showResultName: boolean;
+}
+
+interface UpdateOperandPayload {
+    operand: string;
+}
+
+interface UpdateUserAddingActionPayload {
+    userAddingAction: boolean;
 }
 
 // Action types
@@ -206,11 +219,6 @@ export interface UpdateCreateNodePosition {
     payload: UpdateCreateNodePositionPayload;
 }
 
-export interface UpdateAddToNode {
-    type: Constants.UPDATE_ADD_TO_NODE;
-    payload: UpdateAddToNodePayload;
-}
-
 export interface UpdatePendingConnection {
     type: Constants.UPDATE_PENDING_CONNECTION;
     payload: UpdatePendingConnectionPayload;
@@ -246,9 +254,29 @@ export interface UpdateUserClickingNode {
     payload: UpdateUserClickingNodePayload;
 }
 
-export interface UpdateConfirmDelete {
-    type: Constants.UPDATE_CONFIRM_DELETE;
-    payload: UpdateConfirmDeletePayload;
+export interface UpdateTypeConfig {
+    type: Constants.UPDATE_TYPE_CONFIG;
+    payload: UpdateTypeConfigPayload;
+}
+
+export interface UpdateResultName {
+    type: Constants.UPDATE_RESULT_NAME;
+    payload: UpdateResultNamePayload;
+}
+
+export interface UpdateShowResultName {
+    type: Constants.UPDATE_SHOW_RESULT_NAME;
+    payload: UpdateShowResultNamePayload;
+}
+
+export interface UpdateOperand {
+    type: Constants.UPDATE_OPERAND;
+    payload: UpdateOperandPayload;
+}
+
+export interface UpdateUserAddingAction {
+    type: Constants.UPDATE_USER_ADDING_ACTION;
+    payload: UpdateUserAddingActionPayload;
 }
 
 type ActionTypes =
@@ -270,7 +298,6 @@ type ActionTypes =
     | UpdateNodeEditorOpen
     | UpdateGhostNode
     | UpdateCreateNodePosition
-    | UpdateAddToNode
     | UpdatePendingConnection
     | UpdateActionToEdit
     | UpdateNodeToEdit
@@ -278,6 +305,10 @@ type ActionTypes =
     | UpdateDragGroup
     | UpdateUserClickingAction
     | UpdateUserClickingNode
-    | UpdateConfirmDelete;
+    | UpdateTypeConfig
+    | UpdateResultName
+    | UpdateShowResultName
+    | UpdateOperand
+    | UpdateUserAddingAction;
 
 export default ActionTypes;

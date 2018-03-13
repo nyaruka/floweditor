@@ -1,28 +1,29 @@
-import * as React from 'react';
 import * as classNames from 'classnames/bind';
+import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
-import getCaretCoordinates from 'textarea-caret';
 import setCaretPosition from 'get-input-selection';
-import ComponentMap, { CompletionOption } from '../../../services/ComponentMap';
-import CharCount from './CharCount';
-import FormElement, { FormElementProps } from '../FormElement';
+import { connect } from 'react-redux';
+import getCaretCoordinates from 'textarea-caret';
 import { Type } from '../../../config';
-import { UnicodeCharMap, getOptionsList, getMsgStats, filterOptions, isValidURL } from './helpers';
-import {
-    KEY_P,
-    KEY_UP,
-    KEY_N,
-    KEY_DOWN,
-    KEY_AT,
-    KEY_ESC,
-    KEY_TAB,
-    KEY_ENTER,
-    KEY_BACKSPACE,
-    KEY_SPACE,
-    COMPLETION_HELP
-} from './constants';
-import * as styles from './TextInputElement.scss';
+import { ReduxState, CompletionOption } from '../../../redux';
+import FormElement, { FormElementProps } from '../FormElement';
 import * as shared from '../FormElement.scss';
+import CharCount from './CharCount';
+import {
+    COMPLETION_HELP,
+    KEY_AT,
+    KEY_BACKSPACE,
+    KEY_DOWN,
+    KEY_ENTER,
+    KEY_ESC,
+    KEY_N,
+    KEY_P,
+    KEY_SPACE,
+    KEY_TAB,
+    KEY_UP
+} from './constants';
+import { filterOptions, getMsgStats, getOptionsList, isValidURL, UnicodeCharMap } from './helpers';
+import * as styles from './TextInputElement.scss';
 
 export enum Count {
     SMS = 'SMS'
@@ -42,8 +43,8 @@ export interface HTMLTextElement {
 
 interface TextInputProps extends FormElementProps {
     value: string;
-    ComponentMap: ComponentMap;
-    config?: Type;
+    typeConfig: Type;
+    resultNames: CompletionOption[];
     __className?: string;
     count?: Count;
     url?: boolean;
@@ -94,7 +95,7 @@ const initialState: InitialState = {
 
 const cx = classNames.bind({ ...styles, ...shared });
 
-export default class TextInputElement extends React.Component<TextInputProps, TextInputState> {
+export class TextInputElement extends React.Component<TextInputProps, TextInputState> {
     private selectedEl: HTMLLIElement;
     private textEl: HTMLTextElement;
 
@@ -103,11 +104,11 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
 
         this.state = {
             value: this.props.value,
-            options: getOptionsList(this.props.autocomplete, this.props.ComponentMap),
+            options: getOptionsList(this.props.autocomplete, this.props.resultNames || []),
             ...initialState,
-            ...this.props.count && this.props.count === Count.SMS
+            ...(this.props.count && this.props.count === Count.SMS
                 ? getMsgStats(this.props.value)
-                : {}
+                : {})
         };
 
         bindCallbacks(this, {
@@ -414,14 +415,11 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             [styles.textinput]: true,
             [shared.invalid]: this.state.errors.length > 0 || this.props.showInvalid === true
         });
-
         const completionClasses = cx({
             [styles.completion_container]: true,
             [styles.hidden]: !this.state.completionVisible || this.state.matches.length === 0
         });
-
         const options: JSX.Element[] = this.getOptions();
-
         const charCount: JSX.Element =
             this.props.count && this.props.count === Count.SMS ? (
                 <CharCount
@@ -430,17 +428,13 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                     unicodeChars={this.state.unicodeChars}
                 />
             ) : null;
-
         const replyError =
             this.state.errors.length > 0 &&
             this.props.name === 'Message' &&
-            this.props.config.type === 'reply';
-
+            this.props.typeConfig.type === 'reply';
         // Make sure we're rendering the right text element
         const TextElement = this.props.textarea ? 'textarea' : ('input' as string);
-
         const inputType = this.props.textarea ? undefined : 'text';
-
         return (
             <FormElement
                 __className={this.props.__className}
@@ -478,3 +472,11 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
         );
     }
 }
+
+const mapStateToProps = ({ typeConfig, resultNames }: ReduxState) => ({ typeConfig, resultNames });
+
+const ConnectedTextInputElement = connect(mapStateToProps, null, null, { withRef: true })(
+    TextInputElement
+);
+
+export default ConnectedTextInputElement;

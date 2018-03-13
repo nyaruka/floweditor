@@ -14,7 +14,6 @@ import nodes from './nodes';
 import pendingConnections from './pendingConnections';
 import freshestNode from './freshestNode';
 import createNodePosition from './createNodePosition';
-import addToNode from './addToNode';
 import pendingConnection from './pendingConnection';
 import ghostNode from './ghostNode';
 import nodeToEdit from './nodeToEdit';
@@ -24,7 +23,11 @@ import dragGroup from './dragGroup';
 import userClickingNode from './userClickingNode';
 import userClickingAction from './userClickingAction';
 import nodeEditorOpen from './nodeEditorOpen';
-import confirmDelete from './confirmDelete';
+import typeConfig from './typeConfig';
+import resultName from './resultName';
+import showResultName from './showResultName';
+import operand from './operand';
+import userAddingAction from './userAddingAction';
 
 const rootReducer = combineReducers({
     translating,
@@ -42,7 +45,6 @@ const rootReducer = combineReducers({
     pendingConnections,
     freshestNode,
     createNodePosition,
-    addToNode,
     pendingConnection,
     ghostNode,
     nodeToEdit,
@@ -52,7 +54,11 @@ const rootReducer = combineReducers({
     userClickingNode,
     userClickingAction,
     nodeEditorOpen,
-    confirmDelete
+    typeConfig,
+    resultName,
+    showResultName,
+    operand,
+    userAddingAction
 });
 
 export default rootReducer;

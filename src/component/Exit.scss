@@ -8,10 +8,9 @@
     min-width: 60px;
     display: table-cell;
     white-space: nowrap;
-    
+
     &:first-child {
-        border-bottom-left-radius: $curvature;
-        border-bottom-right-radius: $curvature;
+        border-left: none;
     }
 
     &.translating {
@@ -87,7 +86,6 @@
     .endpoint {
         position: relative;
         background: $terminal_color;
-        border: none;
         width: 12px;
         height: 12px;
         margin: 0 auto;
@@ -96,10 +94,12 @@
         box-sizing: content-box !important;
         margin-top: -14px;
         border-radius: 6px;
+
+        // this is needed to maintain consistency with disconnected endpoitns
         border-bottom: 1px solid transparent;
     }
 
-    &.confirm_delete {
+    &.confirm-delete {
         .activity {
             .count {
                 border-color: $red !important;
@@ -113,6 +113,7 @@
             color: white;
             font-size: 13px;
             span {
+                // TODO: style this so it's not variable
                 position: absolute;
                 left: -.05rem;
                 top: .03rem;

@@ -88,10 +88,9 @@ export class FlowEditor extends React.Component<FlowEditorProps> {
     }
 
     public render(): JSX.Element {
+        const translatingClass = this.props.translating ? styles.translating : undefined;
         return (
-            <div
-                className={this.props.translating ? styles.translating : undefined}
-                data-spec="editor-container">
+            <div id="editor-container" className={translatingClass} data-spec="editor-container">
                 <div className={styles.editor} data-spec="editor">
                     <FlowList />
                     <LanguageSelector />

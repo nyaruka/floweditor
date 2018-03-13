@@ -1,6 +1,7 @@
 import { Language } from '../component/LanguageSelector';
-import { FlowDefinition, Position, Node, AnyAction } from '../flowTypes';
 import { DragPoint } from '../component/Node';
+import { Type } from '../config';
+import { AnyAction, FlowDefinition, Node, Position } from '../flowTypes';
 import { LocalizedObject } from '../services/Localization';
 
 export type Flows = Array<{ uuid: string; name: string }>;
@@ -55,9 +56,9 @@ export interface ReduxState {
     groups: SearchResult[];
     nodes: Node[];
     createNodePosition: Position;
-    addToNode: Node;
     pendingConnection: DragPoint;
     pendingConnections: PendingConnections;
+    // Node last added or edited, previously 'addToNode'
     freshestNode: Node;
     nodeEditorOpen: boolean;
     ghostNode: Node;
@@ -67,7 +68,11 @@ export interface ReduxState {
     dragGroup: boolean;
     userClickingNode: boolean;
     userClickingAction: boolean;
-    confirmDelete: boolean;
+    typeConfig: Type;
+    resultName: string;
+    showResultName: boolean;
+    operand: string;
+    userAddingAction: boolean;
 }
 
 const initialState: ReduxState = {
@@ -84,7 +89,6 @@ const initialState: ReduxState = {
     groups: [],
     nodes: [],
     createNodePosition: null,
-    addToNode: null,
     pendingConnection: null,
     pendingConnections: {},
     freshestNode: null,
@@ -96,7 +100,11 @@ const initialState: ReduxState = {
     dragGroup: false,
     userClickingNode: false,
     userClickingAction: false,
-    confirmDelete: false
+    typeConfig: null,
+    resultName: '',
+    showResultName: false,
+    operand: '',
+    userAddingAction: false
 };
 
 export default initialState;

@@ -1,12 +1,14 @@
 import { ComponentClass, SFC, ReactElement } from 'react';
 import { ShallowWrapper, ReactWrapper } from 'enzyme';
-import { FlowDefinition, Node, Languages, SwitchRouter } from '../flowTypes';
+import { FlowDefinition, Node, Languages, SwitchRouter, AnyAction } from '../flowTypes';
 import { DragPoint } from '../component/Node';
 import { PendingConnections, Components } from '../redux';
 import { Language } from '../component/LanguageSelector';
 import Localization, { LocalizedObject } from '../services/Localization';
+import { NodeEditorProps } from '../component/NodeEditor';
 
 const SNAKED_CHARS = /\s+(?=\S)/g;
+const GRID_SIZE = 20;
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 
 interface BoolMap {
@@ -19,6 +21,34 @@ interface Bounds {
     right: number;
     bottom: number;
 }
+
+/**
+ * Adjusts the left and top offsets to a grid
+ * @param left horizontal offset
+ * @param top vertical offset
+ */
+export const snapToGrid = (left: number, top: number): { left: number; top: number } => {
+    // Adjust our ghost into the grid
+    let leftAdjust = left % GRID_SIZE;
+    let topAdjust = top % GRID_SIZE;
+
+    if (leftAdjust > GRID_SIZE / 3) {
+        leftAdjust = GRID_SIZE - leftAdjust;
+    } else {
+        leftAdjust = leftAdjust * -1;
+    }
+
+    if (topAdjust > GRID_SIZE / 3) {
+        topAdjust = GRID_SIZE - topAdjust;
+    } else {
+        topAdjust = topAdjust * -1;
+    }
+
+    return {
+        left: Math.max(left + leftAdjust, GRID_SIZE * 2),
+        top: Math.max(top + topAdjust, GRID_SIZE * 4)
+    };
+};
 
 /**
  * Turns a string array into a bool map for constant lookup
@@ -197,6 +227,7 @@ export const getTranslations = (definition: FlowDefinition, language: Language) 
 
 export const getLocalizations = (
     node: Node,
+    action: AnyAction,
     iso: string,
     languages: Languages,
     translations?: { [uuid: string]: any }
@@ -210,12 +241,61 @@ export const getLocalizations = (
         router.cases.forEach(kase =>
             localizations.push(Localization.translate(kase, iso, languages, translations))
         );
+
+        // Account for localized exits
+        if (node.exits) {
+            node.exits.forEach(exit => {
+                console.log('exit:', exit);
+                localizations.push(Localization.translate(exit, iso, languages, translations));
+            });
+        }
     }
 
-    // Account for localized exits
-    node.exits.forEach(exit => {
-        localizations.push(Localization.translate(exit, iso, languages, translations));
-    });
+    if (action) {
+        localizations.push(Localization.translate(action, iso, languages, translations));
+    }
 
     return localizations;
+};
+
+export const determineConfigType = (
+    nodeToEdit: Node,
+    actions: AnyAction[],
+    definition: FlowDefinition,
+    components: Components
+) => {
+    if (actions.length) {
+        return actions[actions.length - 1].type;
+    } else {
+        const nodeUI = definition._ui.nodes[nodeToEdit.uuid];
+        if (nodeUI) {
+            if (nodeUI.type) {
+                return nodeUI.type;
+            }
+        }
+    }
+
+    // Account for ghost nodes
+    if (nodeToEdit) {
+        if (nodeToEdit.router) {
+            return nodeToEdit.router.type;
+        }
+
+        if (nodeToEdit.actions) {
+            return nodeToEdit.actions[0].type;
+        }
+    }
+
+    const details = getDetails(nodeToEdit.uuid, components);
+    if (details.type) {
+        return details.type;
+    }
+
+    throw new Error(`Cannot initialize NodeEditor without a valid type: ${nodeToEdit.uuid}`);
+};
+
+export const getLocalizedObject = (localizations: LocalizedObject[]) => {
+    if (localizations && localizations.length) {
+        return localizations[0];
+    }
 };

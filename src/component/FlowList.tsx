@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import { Config } from '../config';
 import { Endpoints, FlowDefinition } from '../flowTypes';
-import { DispatchWithState, fetchFlow, FetchFlowAC, Flows, ReduxState } from '../redux';
+import { DispatchWithState, fetchFlow, Flows, ReduxState } from '../redux';
 import { flowList } from './FlowList.scss';
 
 export interface FlowOption {

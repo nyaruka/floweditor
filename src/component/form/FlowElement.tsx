@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { SearchResult } from '../../services/ComponentMap';
-import FormElement, { FormElementProps } from './FormElement';
-import SelectSearch from '../SelectSearch';
 import { getSelectClass } from '../../utils';
-
-import * as styles from './FormElement.scss';
+import SelectSearch from '../SelectSearch';
+import FormElement, { FormElementProps } from './FormElement';
+import { SearchResult } from '../../redux';
 
 interface FlowElementProps extends FormElementProps {
     flow_name: string;
@@ -24,13 +22,14 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
     constructor(props: any) {
         super(props);
 
-        const flow: SearchResult = this.props.flow_uuid
-            ? {
-                  name: this.props.flow_name,
-                  id: this.props.flow_uuid,
-                  type: 'flow'
-              }
-            : null;
+        const flow =
+            this.props.flow_uuid && this.props.flow_name
+                ? {
+                      name: this.props.flow_name,
+                      id: this.props.flow_uuid,
+                      type: 'flow'
+                  }
+                : null;
 
         this.state = {
             flow,

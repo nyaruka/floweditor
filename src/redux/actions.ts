@@ -19,6 +19,7 @@ import {
     Flows,
     SearchResult
 } from './initialState';
+import { Type } from '../config';
 
 export const updateTranslating = (translating: boolean): UpdateTranslating => ({
     type: Constants.UPDATE_TRANSLATING,
@@ -147,13 +148,6 @@ export const updateCreateNodePosition = (createNodePosition: Position) => ({
     }
 });
 
-export const updateAddToNode = (addToNode: Node) => ({
-    type: Constants.UPDATE_ADD_TO_NODE,
-    payload: {
-        addToNode
-    }
-});
-
 export const updatePendingConnection = (pendingConnection: DragPoint) => ({
     type: Constants.UPDATE_PENDING_CONNECTION,
     payload: {
@@ -203,9 +197,37 @@ export const updateUserClickingAction = (userClickingAction: boolean) => ({
     }
 });
 
-export const updateConfirmDelete = (confirmDelete: boolean) => ({
-    type: Constants.UPDATE_CONFIRM_DELETE,
+export const updateTypeConfig = (typeConfig: Type) => ({
+    type: Constants.UPDATE_TYPE_CONFIG,
     payload: {
-        confirmDelete
+        typeConfig
+    }
+});
+
+export const updateResultName = (resultName: string) => ({
+    type: Constants.UPDATE_RESULT_NAME,
+    payload: {
+        resultName
+    }
+});
+
+export const updateShowResultName = (showResultName: boolean) => ({
+    type: Constants.UPDATE_SHOW_RESULT_NAME,
+    payload: {
+        showResultName
+    }
+});
+
+export const updateOperand = (operand: string) => ({
+    type: Constants.UPDATE_OPERAND,
+    payload: {
+        operand
+    }
+});
+
+export const updateUserAddingAction = (userAddingAction: boolean) => ({
+    type: Constants.UPDATE_USER_ADDING_ACTION,
+    payload: {
+        userAddingAction
     }
 });

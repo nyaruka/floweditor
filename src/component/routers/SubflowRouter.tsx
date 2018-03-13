@@ -1,15 +1,21 @@
 import * as React from 'react';
-import { v4 as generateUUID } from 'uuid';
-import { Endpoints, Exit, StartFlow, Case, SwitchRouter } from '../../flowTypes';
-import { FormProps } from '../NodeEditor';
-import { Node, AnyAction } from '../../flowTypes';
+import { connect } from 'react-redux';
+import { ConfigProviderContext, endpointsPT } from '../../config';
+import { StartFlow } from '../../flowTypes';
+import { ReduxState } from '../../redux';
 import FlowElement from '../form/FlowElement';
-import ComponentMap from '../../services/ComponentMap';
-import { ConfigProviderContext, Type, endpointsPT } from '../../config';
+import { SaveLocalizations } from '../NodeEditor/NodeEditor';
 
-export type SubflowRouterProps = Partial<FormProps>;
+export interface SubflowRouterProps {
+    translating: boolean;
+    action: StartFlow;
+    saveLocalizations: SaveLocalizations;
+    updateRouter: Function;
+    getExitTranslations(): JSX.Element;
+    onBindWidget(ref: any): void;
+}
 
-export default class SubflowRouter extends React.PureComponent<SubflowRouterProps> {
+export class SubflowRouter extends React.PureComponent<SubflowRouterProps> {
     public static contextTypes = {
         endpoints: endpointsPT
     };
@@ -24,7 +30,6 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterProp
         if (this.props.translating) {
             return this.props.saveLocalizations(widgets);
         }
-
         this.props.updateRouter();
     }
 
@@ -33,8 +38,6 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterProp
             return this.props.getExitTranslations();
         }
 
-        const action = this.props.action as StartFlow;
-
         return (
             <div>
                 <p>Select a flow to run</p>
@@ -42,11 +45,19 @@ export default class SubflowRouter extends React.PureComponent<SubflowRouterProp
                     ref={this.props.onBindWidget}
                     name="Flow"
                     endpoint={this.context.endpoints.flows}
-                    flow_name={action.flow_name}
-                    flow_uuid={action.flow_uuid}
+                    flow_name={this.props.action.flow_name}
+                    flow_uuid={this.props.action.flow_uuid}
                     required={true}
                 />
             </div>
         );
     }
 }
+
+const mapStateToProps = ({ translating }: ReduxState) => ({ translating });
+
+const ConnectedSubflowRouterForm = connect(mapStateToProps, null, null, { withRef: true })(
+    SubflowRouter
+);
+
+export default ConnectedSubflowRouterForm;
