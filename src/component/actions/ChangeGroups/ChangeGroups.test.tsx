@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { ChangeGroup } from '../../../flowTypes';
-import ChangeGroupComp from './ChangeGroup';
+import { ChangeGroups } from '../../../flowTypes';
+import ChangeGroupComp from './ChangeGroups';
 import { getSpecWrapper } from '../../../utils';
 
 const {
@@ -11,9 +11,9 @@ const { results: groups } = require('../../../../assets/groups.json');
 
 const { nodes: [node], language: flowLanguage } = definition;
 const { actions: [, addToGroupAction] } = node;
-const { uuid, type, groups: [{ name: groupName }] } = addToGroupAction as ChangeGroup;
+const { uuid, type, groups: [{ name: groupName }] } = addToGroupAction as ChangeGroups;
 
-describe('ChangeGroup >', () => {
+describe('ChangeGroups >', () => {
     describe('render >', () => {
         it('should render ChangeGroupComp with group name', () =>
             expect(shallow(<ChangeGroupComp {...addToGroupAction} />).text()).toBe(groupName));
@@ -32,7 +32,7 @@ describe('ChangeGroup >', () => {
             const Remove = getSpecWrapper(
                 shallow(
                     <ChangeGroupComp
-                        {...{ ...addToGroupAction, groups: [], type: 'remove_from_group' }}
+                        {...{ ...addToGroupAction, groups: [], type: 'remove_contact_groups' }}
                     />
                 ),
                 'remove-all'

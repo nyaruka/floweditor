@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import Reply from './Reply';
+import SendMsg from './SendMsg';
 
 const {
     results: [{ definition }]
@@ -9,16 +9,16 @@ const { nodes: [node], language: flowLanguage } = definition;
 const { actions: [replyAction] } = node;
 const { uuid, text } = replyAction;
 
-describe('Reply >', () => {
+describe('SendMsg >', () => {
     describe('render >', () => {
-        it('should render Reply with text prop when passed', () => {
-            const wrapper = shallow(<Reply {...replyAction} />);
+        it('should render SendMsg with text prop when passed', () => {
+            const wrapper = shallow(<SendMsg {...replyAction} />);
 
             expect(wrapper.text()).toBe(text);
         });
 
-        it("should render Reply with placeholder when text prop isn't passed", () => {
-            const wrapper = shallow(<Reply {...{ ...replyAction, text: '' }} />);
+        it("should render SendMsg with placeholder when text prop isn't passed", () => {
+            const wrapper = shallow(<SendMsg {...{ ...replyAction, text: '' }} />);
 
             expect(wrapper.text()).toBe('Send a message to the contact');
         });

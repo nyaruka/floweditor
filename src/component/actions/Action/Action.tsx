@@ -108,7 +108,7 @@ export default class Action extends React.Component<ActionProps> {
         if (this.props.translating) {
             classes.push(styles.translating);
 
-            if (this.props.action.type === 'reply') {
+            if (this.props.action.type === 'send_msg') {
                 this.localizedKeys.push('text');
             }
 

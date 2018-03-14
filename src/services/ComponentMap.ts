@@ -2,16 +2,16 @@ import { DragPoint } from '../component/Node';
 import {
     FlowDefinition,
     Node,
-    SaveToContact,
-    ChangeGroup,
+    SetContactField,
+    ChangeGroups,
     Exit,
-    SaveFlowResult
+    SetRunResult
 } from '../flowTypes';
 import { snakify } from '../utils';
 
 const RESERVED_FIELDS: ContactFieldResult[] = [
-    { id: 'name', name: 'Name', type: 'update_contact' }
-    // { id: "language", name: "Language", type: "update_contact" }
+    { id: 'name', name: 'Name', type: 'set_contact_property' }
+    // { id: "language", name: "Language", type: "set_contact_property" }
 ];
 
 export interface ContactField {
@@ -140,11 +140,11 @@ export default class ComponentMap {
                         type: action.type
                     };
 
-                    if (action.type == 'save_flow_result') {
-                        var resultProps = action as SaveFlowResult;
+                    if (action.type == 'set_run_result') {
+                        var resultProps = action as SetRunResult;
                         resultNames[snakify(resultProps.result_name)] = resultProps.result_name;
-                    } else if (action.type == 'save_contact_field') {
-                        var saveProps = action as SaveToContact;
+                    } else if (action.type == 'set_contact_field') {
+                        var saveProps = action as SetContactField;
                         if (
                             !RESERVED_FIELDS.some(
                                 fieldName => fieldName.name === saveProps.field_name
@@ -159,10 +159,10 @@ export default class ComponentMap {
                             }
                         }
                     } else if (
-                        action.type === 'add_to_group' ||
-                        action.type === 'remove_from_group'
+                        action.type === 'add_contact_groups' ||
+                        action.type === 'remove_contact_groups'
                     ) {
-                        var groupProps = action as ChangeGroup;
+                        var groupProps = action as ChangeGroups;
                         for (let group of groupProps.groups) {
                             if (!(group.uuid in groups)) {
                                 groups[group.uuid] = {
