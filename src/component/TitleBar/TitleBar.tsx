@@ -1,11 +1,12 @@
 import * as React from 'react';
-
+import { Node } from '../../flowTypes';
 import * as styles from './TitleBar.scss';
 
 interface TitleBarProps {
     title: string;
+    node: Node;
     onRemoval(event: React.MouseEvent<HTMLDivElement>): any;
-    className?: string;
+    __className?: string;
     showRemoval?: boolean;
     showMove?: boolean;
     onMoveUp?(event: React.MouseEvent<HTMLDivElement>): any;
@@ -37,7 +38,7 @@ class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
         }
     }
 
-    private onConfirmRemoval(event: React.MouseEvent<HTMLDivElement>) {
+    private onConfirmRemoval(event: React.MouseEvent<HTMLDivElement>): void {
         if (event) {
             event.preventDefault();
             event.stopPropagation();
@@ -99,13 +100,17 @@ class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
         return moveArrow;
     }
 
-    private getRemove() {
+    private getRemove(): JSX.Element {
         let remove: JSX.Element = null;
 
         if (this.props.showRemoval) {
+            const classes = [styles.remove_button];
+            if (!this.props.node.actions || this.props.node.actions.length === 1) {
+                classes.push(styles.removeRouter);
+            }
             remove = (
                 <div
-                    className={styles.remove_button}
+                    className={classes.join(' ')}
                     onMouseUp={(event: any) => {
                         event.stopPropagation();
                         event.preventDefault();
@@ -119,14 +124,13 @@ class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
         return remove;
     }
 
-    render() {
+    public render(): JSX.Element {
         const confirmation: JSX.Element = this.getConfirmationEl();
         const moveArrow: JSX.Element = this.getMoveArrow();
         const remove: JSX.Element = this.getRemove();
-
         return (
             <div className={styles.titlebar}>
-                <div className={`${this.props.className} ${styles.normal}`}>
+                <div className={`${this.props.__className} ${styles.normal}`}>
                     {moveArrow}
                     {remove}
                     {this.props.title}

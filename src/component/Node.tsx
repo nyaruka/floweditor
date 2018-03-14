@@ -282,7 +282,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
         // Update our coordinates
         this.props.onNodeMoved(this.props.node.uuid, {x: left, y: top})
-        
+
     }
 
     private updateDimensions(): void {
@@ -501,7 +501,8 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 header = (
                     <div {...this.events}>
                         <TitleBar
-                            className={shared[config.type]}
+                            __className={shared[config.type]}
+                            node={this.props.node}
                             showRemoval={!this.props.translating}
                             onRemoval={this.onRemoval}
                             title={title}
@@ -549,7 +550,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         const dragLink = this.getDragLink();
 
         const style = {
-            left: this.props.ui.position.x, 
+            left: this.props.ui.position.x,
             top: this.props.ui.position.y
         };
 
@@ -575,7 +576,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                     <div className={styles.exits} {...this.events}>
                         {exits}
                     </div>
-                
+
                 {addActions}
                 </div>
             </div>
