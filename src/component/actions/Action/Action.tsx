@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
 import { FlowDefinition, Node, Group, AnyAction, Endpoints } from '../../../flowTypes';
@@ -54,7 +53,7 @@ export default class Action extends React.Component<ActionProps> {
 
         const localizations = this.props.localization
             ? [this.props.localization]
-            : [] as LocalizedObject[];
+            : ([] as LocalizedObject[]);
 
         this.props.openEditor({
             onUpdateLocalizations: this.props.onUpdateLocalizations,
@@ -135,7 +134,7 @@ export default class Action extends React.Component<ActionProps> {
         const { name } = getTypeConfig(this.props.action.type);
         const classes = this.getClasses();
         const propsToInject = this.props.localization
-            ? this.props.localization.getObject() as AnyAction
+            ? (this.props.localization.getObject() as AnyAction)
             : this.props.action;
         const titleBarClass = shared[this.props.action.type];
         const showRemoval = !this.props.translating;

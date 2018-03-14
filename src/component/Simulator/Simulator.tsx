@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import * as axios from 'axios';
 import update from 'immutability-helper';
@@ -213,26 +212,24 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
                 }
             },
             () => {
-                getFlow(
-                    this.context.endpoints.flows,
-                    this.props.definition.uuid,
-                    true
-                ).then((details: FlowDetails) => {
-                    this.flows = [this.props.definition].concat(details.dependencies);
-                    var body: any = {
-                        flows: this.flows,
-                        contact: this.state.contact
-                    };
+                getFlow(this.context.endpoints.flows, this.props.definition.uuid, true).then(
+                    (details: FlowDetails) => {
+                        this.flows = [this.props.definition].concat(details.dependencies);
+                        var body: any = {
+                            flows: this.flows,
+                            contact: this.state.contact
+                        };
 
-                    axios.default
-                        .post(
-                            `${this.context.endpoints.engine}/flow/start`,
-                            JSON.stringify(body, null, 2)
-                        )
-                        .then((response: axios.AxiosResponse) => {
-                            this.updateRunContext(body, response.data as RunContext);
-                        });
-                });
+                        axios.default
+                            .post(
+                                `${this.context.endpoints.engine}/flow/start`,
+                                JSON.stringify(body, null, 2)
+                            )
+                            .then((response: axios.AxiosResponse) => {
+                                this.updateRunContext(body, response.data as RunContext);
+                            });
+                    }
+                );
             }
         );
     }
@@ -249,43 +246,44 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
             return;
         }
 
-        getFlow(
-            this.context.endpoints.flows,
-            this.props.definition.uuid,
-            true
-        ).then((details: FlowDetails) => {
-            this.flows = [this.props.definition].concat(details.dependencies);
-            var body: any = {
-                flows: this.flows,
-                session: this.state.session,
-                contact: this.state.contact,
-                event: {
-                    type: 'msg_received',
-                    text: text,
-                    urn: this.state.contact.urns[0],
-                    channel_uuid: this.state.channel,
-                    contact_uuid: this.state.contact.uuid,
-                    created_on: new Date()
-                }
-            };
+        getFlow(this.context.endpoints.flows, this.props.definition.uuid, true).then(
+            (details: FlowDetails) => {
+                this.flows = [this.props.definition].concat(details.dependencies);
+                var body: any = {
+                    flows: this.flows,
+                    session: this.state.session,
+                    contact: this.state.contact,
+                    event: {
+                        type: 'msg_received',
+                        text: text,
+                        urn: this.state.contact.urns[0],
+                        channel_uuid: this.state.channel,
+                        contact_uuid: this.state.contact.uuid,
+                        created_on: new Date()
+                    }
+                };
 
-            axios.default
-                .post(`${this.context.endpoints.engine}/flow/resume`, JSON.stringify(body, null, 2))
-                .then((response: axios.AxiosResponse) => {
-                    this.updateRunContext(body, response.data as RunContext);
-                })
-                .catch(error => {
-                    const events = update(this.state.events, {
-                        $push: [
-                            {
-                                type: 'error',
-                                text: error.response.data.error
-                            }
-                        ]
-                    }) as EventProps[];
-                    this.setState({ events });
-                });
-        });
+                axios.default
+                    .post(
+                        `${this.context.endpoints.engine}/flow/resume`,
+                        JSON.stringify(body, null, 2)
+                    )
+                    .then((response: axios.AxiosResponse) => {
+                        this.updateRunContext(body, response.data as RunContext);
+                    })
+                    .catch(error => {
+                        const events = update(this.state.events, {
+                            $push: [
+                                {
+                                    type: 'error',
+                                    text: error.response.data.error
+                                }
+                            ]
+                        }) as EventProps[];
+                        this.setState({ events });
+                    });
+            }
+        );
     }
 
     private onReset(event: any) {

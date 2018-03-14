@@ -395,7 +395,10 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                 this.Plumber.connect(dragPoint.exitUUID, this.state.ghost.uuid);
 
                 // save our position for later
-                const { left, top } = snapToGrid(this.ghost.ele.offsetLeft, this.ghost.ele.offsetTop);
+                const { left, top } = snapToGrid(
+                    this.ghost.ele.offsetLeft,
+                    this.ghost.ele.offsetTop
+                );
                 this.createNodePosition = { x: left, y: top };
 
                 // click on our ghost node to bring up the editor

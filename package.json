@@ -33,7 +33,7 @@
     "preversion": "npm run test:local",
     "version": "npm run build:prod",
     "postversion": "git push && git push --tags && npm publish",
-    "prepush": "npm run prettify"
+    "precommit": "npm run prettify"
   },
   "peerDependencies": {
     "react": "^16.0",

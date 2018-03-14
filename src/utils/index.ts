@@ -15,8 +15,7 @@ interface BoolMap {
  * @param left horizontal offset
  * @param top vertical offset
  */
-export const snapToGrid = (left: number, top: number): { left: number, top: number } => {
-    
+export const snapToGrid = (left: number, top: number): { left: number; top: number } => {
     // adjust our ghost into the grid
     let leftAdjust = left % GRID_SIZE;
     let topAdjust = top % GRID_SIZE;
@@ -33,12 +32,11 @@ export const snapToGrid = (left: number, top: number): { left: number, top: numb
         topAdjust = topAdjust * -1;
     }
 
-    return { 
-        left: Math.max(left + leftAdjust, GRID_SIZE * 2), 
+    return {
+        left: Math.max(left + leftAdjust, GRID_SIZE * 2),
         top: Math.max(top + topAdjust, GRID_SIZE * 4)
     };
-}
-
+};
 
 /**
  * Turns a string array into a bool map for constant lookup

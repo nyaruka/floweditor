@@ -276,13 +276,12 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             window.event.cancelBubble = true;
         }
 
-        const {left, top} = snapToGrid(event.finalPos[0], event.finalPos[1]);
+        const { left, top } = snapToGrid(event.finalPos[0], event.finalPos[1]);
         this.ele.style.left = left + 'px';
         this.ele.style.top = top + 'px';
 
         // Update our coordinates
-        this.props.onNodeMoved(this.props.node.uuid, {x: left, y: top})
-        
+        this.props.onNodeMoved(this.props.node.uuid, { x: left, y: top });
     }
 
     private updateDimensions(): void {
@@ -326,7 +325,10 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
         // account for hybrids or clicking on the empty exit table
         if (this.props.node.actions && this.props.node.actions.length) {
-            nodeEditorProps = { ...nodeEditorProps, action: this.props.node.actions[this.props.node.actions.length - 1] };
+            nodeEditorProps = {
+                ...nodeEditorProps,
+                action: this.props.node.actions[this.props.node.actions.length - 1]
+            };
         }
 
         this.props.openEditor(nodeEditorProps);
@@ -549,7 +551,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         const dragLink = this.getDragLink();
 
         const style = {
-            left: this.props.ui.position.x, 
+            left: this.props.ui.position.x,
             top: this.props.ui.position.y
         };
 
@@ -568,15 +570,15 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                     countStyle={''}
                 />
                 <div className={styles.cropped}>
-                {header}
-                {actionList}
+                    {header}
+                    {actionList}
                 </div>
                 <div className={`${styles.exit_table} ${exitClass}`}>
                     <div className={styles.exits} {...this.events}>
                         {exits}
                     </div>
-                
-                {addActions}
+
+                    {addActions}
                 </div>
             </div>
         );

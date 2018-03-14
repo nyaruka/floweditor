@@ -145,7 +145,7 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
 
     public render(): JSX.Element {
         const exit = this.props.translating
-            ? this.props.localization.getObject() as Exit
+            ? (this.props.localization.getObject() as Exit)
             : this.props.exit;
 
         const nameStyle = exit.name ? styles.name : '';
@@ -166,7 +166,9 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
             [styles.translating]: this.props.translating,
             [styles.unnamed_exit]: exit.name == null,
             [styles.missing_localization]:
-                exit.name && this.props.translating && !('name' in this.props.localization.localizedKeys),
+                exit.name &&
+                this.props.translating &&
+                !('name' in this.props.localization.localizedKeys),
             [styles.confirmDelete]: confirmDelete
         });
 

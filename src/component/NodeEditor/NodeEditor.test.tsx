@@ -306,7 +306,9 @@ describe('NodeEditor >', () => {
                 })
             );
 
-            expect(wrapper.find('SubflowRouter').prop('updateRouter')).toEqual(nodeEditor.updateSubflowRouter);
+            expect(wrapper.find('SubflowRouter').prop('updateRouter')).toEqual(
+                nodeEditor.updateSubflowRouter
+            );
             nodeEditor.submit();
 
             expect(updateSubflowRouterSpy).toHaveBeenCalled();

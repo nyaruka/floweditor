@@ -224,7 +224,7 @@ export default class FlowMutator {
                 if (this.collides(current.bounds, other.bounds)) {
                     // console.log("COLLISON:", current, other);
                     var diff = current.bounds.bottom - other.bounds.top + this.nodeSpacing;
-                    diff += 20 - (diff % 20)
+                    diff += 20 - diff % 20;
 
                     other.bounds.top += diff;
                     other.bounds.bottom += diff;
