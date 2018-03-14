@@ -45,7 +45,7 @@
                         "actions": [
                             {
                                 "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
-                                "type": "reply",
+                                "type": "send_msg",
                                 "text":
                                     "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?"
                             }
@@ -192,7 +192,7 @@
                         "actions": [
                             {
                                 "uuid": "cd19e588-3383-4d54-b5df-8dbbc2b0d297",
-                                "type": "reply",
+                                "type": "send_msg",
                                 "text": "Mine too!"
                             }
                         ],
@@ -209,7 +209,7 @@
                         "actions": [
                             {
                                 "uuid": "28b9e295-1102-4f13-bd9d-4a7b11f4fcdc",
-                                "type": "reply",
+                                "type": "send_msg",
                                 "text": "Yuck"
                             }
                         ],
