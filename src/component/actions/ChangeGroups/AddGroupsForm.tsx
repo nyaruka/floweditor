@@ -2,7 +2,7 @@ import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
-import { ChangeGroups } from '../../../flowTypes';
+import { ChangeGroups, Group } from '../../../flowTypes';
 import { ReduxState, SearchResult } from '../../../redux';
 import { jsonEqual } from '../../../utils';
 import GroupsElement from '../../form/GroupsElement';
@@ -13,8 +13,7 @@ export interface AddGroupsFormState {
 }
 
 export const LABEL = ' Select the group(s) to add the contact to.';
-export const PLACEHOLDER =
-    'Enter the name of an existing group, or create a new group to add the contact to';
+export const PLACEHOLDER = 'Enter the name of an existing group or create a new one';
 
 export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, AddGroupsFormState> {
     public static contextTypes = {
@@ -61,8 +60,8 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
             return [];
         }
 
-        if (this.props.action.groups.length && this.props.action.type !== 'remove_from_group') {
-            return this.props.action.groups.map(({ uuid, name }) => ({
+        if (this.props.action.groups.length && this.props.action.type !== 'remove_contact_groups') {
+            return this.props.action.groups.map(({ uuid, name }: Group) => ({
                 name,
                 id: uuid
             }));
@@ -92,6 +91,8 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
 
 const mapStateToProps = ({ typeConfig }: ReduxState) => ({ typeConfig });
 
-const ConnectedAddGroupForm = connect(mapStateToProps, null, null, { withRef: true })(AddGroupsForm);
+const ConnectedAddGroupForm = connect(mapStateToProps, null, null, { withRef: true })(
+    AddGroupsForm
+);
 
 export default ConnectedAddGroupForm;

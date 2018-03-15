@@ -245,7 +245,6 @@ export const getLocalizations = (
         // Account for localized exits
         if (node.exits) {
             node.exits.forEach(exit => {
-                console.log('exit:', exit);
                 localizations.push(Localization.translate(exit, iso, languages, translations));
             });
         }

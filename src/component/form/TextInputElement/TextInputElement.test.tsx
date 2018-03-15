@@ -21,7 +21,7 @@ const props = {
     required: true,
     textarea: true,
     ComponentMap: CompMap,
-    config: getTypeConfig('reply')
+    config: getTypeConfig('send_msg')
 };
 
 const msgs = [
@@ -48,7 +48,7 @@ describe('TextInputElement >', () => {
                     name: props.name,
                     showLabel: props.showLabel,
                     errors: [],
-                    replyError: false
+                    sendMsgError: false
                 })
             );
         });

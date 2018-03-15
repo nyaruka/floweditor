@@ -104,6 +104,7 @@ export interface ConnectionEvent {
     target: Element;
     sourceId: string;
     targetId: string;
+    suspendedElementId: string;
     endpoints: any[];
 }
 
@@ -793,7 +794,7 @@ export const ensureStartNode = () => (dispatch: DispatchWithState, getState: Get
     if (getState().definition.nodes.length === 0) {
         const initialAction: SendMsg = {
             uuid: generateUUID(),
-            type: 'reply',
+            type: 'send_msg',
             text: 'Hi there, this the first message in your flow!'
         };
 
@@ -1256,7 +1257,7 @@ export const onAddAction = (node: Node, languages: Languages) => (
 
     const newAction: SendMsg = {
         uuid: generateUUID(),
-        type: 'reply',
+        type: 'send_msg',
         text: ''
     };
 
@@ -1359,7 +1360,7 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
     if (fromNode.wait || fromNodeUI.type === 'webhook') {
         const replyAction: SendMsg = {
             uuid: generateUUID(),
-            type: 'reply',
+            type: 'send_msg',
             text: ''
         };
 

@@ -89,7 +89,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         let missingLocalization = false;
 
         if (this.props.translating) {
-            if (this.props.action.type === 'reply') {
+            if (this.props.action.type === 'send_msg') {
                 this.localizedKeys.push('text');
             }
 

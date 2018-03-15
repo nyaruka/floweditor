@@ -81,9 +81,10 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 classes.push(styles.info);
                 break;
             /** fall-through desired in this case */
-            case 'add_to_group':
-            case 'remove_from_group':
-                groupText = this.props.type === 'add_to_group' ? 'Added to ' : 'Removed from ';
+            case 'add_contact_groups':
+            case 'remove_contact_groups':
+                groupText =
+                    this.props.type === 'add_contact_groups' ? 'Added to ' : 'Removed from ';
                 delim = ' ';
                 this.props.groups.forEach(group => {
                     groupText += `${delim}"${group.name}"`;
@@ -92,7 +93,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 text = <span>{groupText}</span>;
                 classes.push(styles.info);
                 break;
-            case 'save_contact_field':
+            case 'set_contact_field':
                 text = (
                     <span>
                         Set contact field "{this.props.field_name}" to "{this.props.value}"
@@ -100,7 +101,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 );
                 classes.push(styles.info);
                 break;
-            case 'save_flow_result':
+            case 'set_run_result':
                 text = (
                     <span>
                         Set flow result "{this.props.result_name}" to "{this.props.value}"
@@ -108,7 +109,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 );
                 classes.push(styles.info);
                 break;
-            case 'update_contact':
+            case 'set_contact_property':
                 text = (
                     <span>
                         Updated contact {this.props.field_name} to "{this.props.value}"

@@ -22,14 +22,14 @@ const { results: groupsResp } = require('../../../../assets/groups.json');
 const CompMap = new ComponentMap(definition);
 
 const { nodes: [{ actions: [, action] }] } = definition;
-const addGroupConfig = getTypeConfig('add_to_group');
-const removeGroupConfig = getTypeConfig('remove_from_group');
+const addGroupConfig = getTypeConfig('add_contact_groups');
+const removeGroupConfig = getTypeConfig('remove_contact_groups');
 const context = {
     endpoints
 };
 const { groups } = action;
 const groupOptions = groups.map(({ name, uuid }) => ({ name, id: uuid }));
-const removeGroupsAction = { ...action, type: 'remove_from_group', groups };
+const removeGroupsAction = { ...action, type: 'remove_contact_groups', groups };
 const removeAllGroupsAction = { ...removeGroupsAction, groups: [] };
 const addGroupSAction = { ...removeGroupsAction, type: 'add_to_group' };
 const props: Partial<ChangeGroupsFormProps> = {
@@ -100,7 +100,7 @@ describe('RemoveGroupsForm >', () => {
             expect(onBindWidget).toHaveBeenCalledTimes(1);
         });
 
-        it('should pass GroupElement groups to remove if action has groups', () => {
+        it('should pass GroupsElement groups to remove if action has groups', () => {
             const wrapper = mount(
                 <RemoveGroupsForm
                     {...{
@@ -113,7 +113,7 @@ describe('RemoveGroupsForm >', () => {
                 }
             );
 
-            expect(wrapper.find('GroupElement').props()).toEqual({
+            expect(wrapper.find('GroupsElement').props()).toEqual({
                 name: 'Group',
                 placeholder: PLACEHOLDER,
                 endpoint: endpoints.groups,
@@ -125,7 +125,7 @@ describe('RemoveGroupsForm >', () => {
             });
         });
 
-        it("should pass GroupElement an empty 'groups' prop if action doesn't have groups", () => {
+        it("should pass GroupsElement an empty 'groups' prop if action doesn't have groups", () => {
             const wrapper = mount(
                 <RemoveGroupsForm
                     {...{
@@ -138,7 +138,7 @@ describe('RemoveGroupsForm >', () => {
                 }
             );
 
-            expect(wrapper.find('GroupElement').props()).toEqual({
+            expect(wrapper.find('GroupsElement').props()).toEqual({
                 name: 'Group',
                 placeholder: PLACEHOLDER,
                 endpoint: endpoints.groups,
@@ -150,7 +150,7 @@ describe('RemoveGroupsForm >', () => {
             });
         });
 
-        it("should pass GroupElement an empty 'groups' prop if action is of type 'add_to_group'", () => {
+        it("should pass GroupsElement an empty 'groups' prop if action is of type 'add_contact_groups'", () => {
             const wrapper = mount(
                 <RemoveGroupsForm
                     {...{
@@ -163,7 +163,7 @@ describe('RemoveGroupsForm >', () => {
                 }
             );
 
-            expect(wrapper.find('GroupElement').props()).toEqual({
+            expect(wrapper.find('GroupsElement').props()).toEqual({
                 name: 'Group',
                 placeholder: PLACEHOLDER,
                 endpoint: endpoints.groups,
@@ -188,7 +188,7 @@ describe('RemoveGroupsForm >', () => {
                 }
             );
 
-            expect(wrapper.find('GroupElement').exists()).toBeFalsy();
+            expect(wrapper.find('GroupsElement').exists()).toBeFalsy();
 
             expect(wrapper.find('CheckboxElement').props()).toEqual({
                 name: REMOVE_FROM_ALL,
@@ -222,7 +222,7 @@ describe('RemoveGroupsForm >', () => {
             expect(wrapper.find('CheckboxElement').exists()).toBeTruthy();
         });
 
-        it('should keep groups in state, render GroupElement if CheckBoxElement checked and then unchecked', () => {
+        it('should keep groups in state, render GroupsElement if CheckBoxElement checked and then unchecked', () => {
             const wrapper = mount(
                 <RemoveGroupsForm
                     {...{
@@ -237,7 +237,7 @@ describe('RemoveGroupsForm >', () => {
 
             const searchResults: SearchResult[] = transformGroups(removeGroupsAction.groups);
 
-            expect(wrapper.find('GroupElement').prop('groups')).toEqual(searchResults);
+            expect(wrapper.find('GroupsElement').prop('groups')).toEqual(searchResults);
 
             wrapper
                 .find('CheckboxElement')
@@ -245,7 +245,7 @@ describe('RemoveGroupsForm >', () => {
                 .simulate('change');
 
             expect(wrapper.state('removeFromAll')).toBeTruthy();
-            expect(wrapper.find('GroupElement').exists()).toBeFalsy();
+            expect(wrapper.find('GroupsElement').exists()).toBeFalsy();
             expect(wrapper.find('CheckboxElement').exists()).toBeTruthy();
 
             wrapper
@@ -254,7 +254,7 @@ describe('RemoveGroupsForm >', () => {
                 .simulate('change');
 
             expect(wrapper.state('removeFromAll')).toBeFalsy();
-            expect(wrapper.find('GroupElement').prop('groups')).toEqual(searchResults);
+            expect(wrapper.find('GroupsElement').prop('groups')).toEqual(searchResults);
             expect(wrapper.find('CheckboxElement').exists()).toBeTruthy();
         });
     });
@@ -357,7 +357,7 @@ describe('RemoveGroupsForm >', () => {
                 expect(onValidSpy).toHaveBeenCalledTimes(1);
                 expect(updateActionMock).toHaveBeenCalledWith(
                     expect.objectContaining({
-                        type: 'remove_from_group',
+                        type: 'remove_contact_groups',
                         groups: removeGroupsAction.groups
                     })
                 );
@@ -387,7 +387,7 @@ describe('RemoveGroupsForm >', () => {
                 expect(onValidSpy).toHaveBeenCalledTimes(1);
                 expect(updateActionMock).toHaveBeenCalledWith(
                     expect.objectContaining({
-                        type: 'remove_from_group',
+                        type: 'remove_contact_groups',
                         groups: removeAllGroupsAction.groups
                     })
                 );

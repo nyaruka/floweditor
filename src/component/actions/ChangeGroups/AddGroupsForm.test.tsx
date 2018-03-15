@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { getTypeConfig } from '../../../config';
 import ComponentMap from '../../../services/ComponentMap';
 import AddGroupsForm, { LABEL, PLACEHOLDER } from './AddGroupsForm';
-import ChangeGroupFormProps from './props';
+import ChangeGroupsFormProps from './props';
 import { transformGroups } from './RemoveGroupsForm.test';
 
 const {
@@ -15,16 +15,16 @@ const { results: groupsResp } = require('../../../../assets/groups.json');
 const CompMap = new ComponentMap(definition);
 
 const { nodes: [{ actions: [, action] }] } = definition;
-const addGroupConfig = getTypeConfig('add_to_group');
-const removeGroupConfig = getTypeConfig('remove_from_group');
+const addGroupConfig = getTypeConfig('add_contact_groups');
+const removeGroupConfig = getTypeConfig('remove_contact_groups');
 const context = {
     endpoints
 };
 const { groups } = action;
 const groupOptions = groups.map(({ name, uuid }) => ({ name, id: uuid }));
-const removeGroupsAction = { ...action, type: 'remove_from_group', groups };
-const addGroupsAction = { ...removeGroupsAction, type: 'add_to_group' };
-const props: Partial<ChangeGroupFormProps> = {
+const removeGroupsAction = { ...action, type: 'remove_contact_groups', groups };
+const addGroupsAction = { ...removeGroupsAction, type: 'add_contact_groups' };
+const props: Partial<ChangeGroupsFormProps> = {
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
     removeWidget: jest.fn(),
@@ -40,7 +40,7 @@ describe('AddGroupsForm >', () => {
                     {...{
                         ...props,
                         action: addGroupsAction
-                    } as ChangeGroupFormProps}
+                    } as ChangeGroupsFormProps}
                 />,
                 {
                     context
@@ -60,7 +60,7 @@ describe('AddGroupsForm >', () => {
                         ...props,
                         onBindWidget,
                         action: addGroupsAction
-                    } as ChangeGroupFormProps}
+                    } as ChangeGroupsFormProps}
                 />,
                 {
                     context
@@ -70,20 +70,20 @@ describe('AddGroupsForm >', () => {
             expect(onBindWidget).toHaveBeenCalledTimes(1);
         });
 
-        it('should pass GroupElement groups to add if action has groups', () => {
+        it('should pass GroupsElement groups to add if action has groups', () => {
             const wrapper = mount(
                 <AddGroupsForm
                     {...{
                         ...props,
                         action: addGroupsAction
-                    } as ChangeGroupFormProps}
+                    } as ChangeGroupsFormProps}
                 />,
                 {
                     context
                 }
             );
 
-            expect(wrapper.find('GroupElement').props()).toEqual(
+            expect(wrapper.find('GroupsElement').props()).toEqual(
                 expect.objectContaining({
                     name: 'Group',
                     placeholder: PLACEHOLDER,
@@ -96,20 +96,20 @@ describe('AddGroupsForm >', () => {
             );
         });
 
-        it("should pass GroupElement an empty 'groups' prop if action doesn't yet have groups", () => {
+        it("should pass GroupsElement an empty 'groups' prop if action doesn't yet have groups", () => {
             const wrapper = mount(
                 <AddGroupsForm
                     {...{
                         ...props,
                         action: { ...addGroupsAction, groups: null }
-                    } as ChangeGroupFormProps}
+                    } as ChangeGroupsFormProps}
                 />,
                 {
                     context
                 }
             );
 
-            expect(wrapper.find('GroupElement').props()).toEqual(
+            expect(wrapper.find('GroupsElement').props()).toEqual(
                 expect.objectContaining({
                     name: 'Group',
                     placeholder: PLACEHOLDER,
@@ -122,20 +122,20 @@ describe('AddGroupsForm >', () => {
             );
         });
 
-        it("should pass GroupElement an empty 'groups' prop if action is of type 'remove_from_group", () => {
+        it("should pass GroupsElement an empty 'groups' prop if action is of type 'remove_contact_groups", () => {
             const wrapper = mount(
                 <AddGroupsForm
                     {...{
                         ...props,
                         action: removeGroupsAction
-                    } as ChangeGroupFormProps}
+                    } as ChangeGroupsFormProps}
                 />,
                 {
                     context
                 }
             );
 
-            expect(wrapper.find('GroupElement').props()).toEqual(
+            expect(wrapper.find('GroupsElement').props()).toEqual(
                 expect.objectContaining({
                     name: 'Group',
                     placeholder: PLACEHOLDER,
@@ -160,7 +160,7 @@ describe('AddGroupsForm >', () => {
                         {...{
                             ...props,
                             action: addGroupsAction
-                        } as ChangeGroupFormProps}
+                        } as ChangeGroupsFormProps}
                     />,
                     {
                         context
@@ -199,7 +199,7 @@ describe('AddGroupsForm >', () => {
                             ...props,
                             updateAction: updateActionMock,
                             action: addGroupsAction
-                        } as ChangeGroupFormProps}
+                        } as ChangeGroupsFormProps}
                     />,
                     {
                         context
@@ -211,7 +211,7 @@ describe('AddGroupsForm >', () => {
                 expect(onValidSpy).toHaveBeenCalledTimes(1);
                 expect(updateActionMock).toHaveBeenCalledWith(
                     expect.objectContaining({
-                        type: 'add_to_group',
+                        type: 'add_contact_groups',
                         groups: addGroupsAction.groups
                     })
                 );
@@ -227,7 +227,7 @@ describe('AddGroupsForm >', () => {
                         {...{
                             ...props,
                             action: { ...addGroupsAction, groups: null }
-                        } as ChangeGroupFormProps}
+                        } as ChangeGroupsFormProps}
                     />,
                     {
                         context
@@ -243,7 +243,7 @@ describe('AddGroupsForm >', () => {
                         {...{
                             ...props,
                             action: removeGroupsAction
-                        } as ChangeGroupFormProps}
+                        } as ChangeGroupsFormProps}
                     />,
                     {
                         context
@@ -259,7 +259,7 @@ describe('AddGroupsForm >', () => {
                         {...{
                             ...props,
                             action: addGroupsAction
-                        } as ChangeGroupFormProps}
+                        } as ChangeGroupsFormProps}
                     />,
                     {
                         context

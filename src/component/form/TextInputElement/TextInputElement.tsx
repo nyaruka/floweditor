@@ -428,10 +428,12 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                     unicodeChars={this.state.unicodeChars}
                 />
             ) : null;
-        const replyError =
+
+        const sendMsgError =
             this.state.errors.length > 0 &&
             this.props.name === 'Message' &&
-            this.props.typeConfig.type === 'reply';
+            this.props.typeConfig.type === 'send_msg';
+
         // Make sure we're rendering the right text element
         const TextElement = this.props.textarea ? 'textarea' : ('input' as string);
         const inputType = this.props.textarea ? undefined : 'text';
@@ -442,7 +444,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                 helpText={this.props.helpText}
                 showLabel={this.props.showLabel}
                 errors={this.state.errors}
-                replyError={replyError}>
+                sendMsgError={sendMsgError}>
                 <div className={styles.wrapper}>
                     <TextElement
                         data-spec="input"

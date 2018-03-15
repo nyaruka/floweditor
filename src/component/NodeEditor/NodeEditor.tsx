@@ -13,11 +13,11 @@ import {
     FlowDefinition,
     Methods,
     Node,
-    SendMsg,
     Router,
-    SetRunResult,
-    SetContactField,
     SendEmail,
+    SendMsg,
+    SetContactField,
+    SetRunResult,
     StartFlow,
     SwitchRouter,
     WaitType
@@ -32,13 +32,13 @@ import {
     onUpdateRouter,
     ReduxState,
     resetNewConnectionState,
+    SearchResult,
     setNodeEditorOpen,
     setShowResultName,
+    setTypeConfig,
     setUserAddingAction,
     updateOperand,
-    updateResultName,
-    setTypeConfig,
-    SearchResult
+    updateResultName
 } from '../../redux';
 import { LocalizedObject } from '../../services/Localization';
 import { getDetails, getExit } from '../../utils';
@@ -164,16 +164,16 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
     };
 
     switch (typeConfig.type) {
-        case 'reply':
+        case 'send_msg':
             defaultAction = { ...defaultAction, text: '', all_urns: false } as SendMsg;
             break;
-        case 'add_to_group':
+        case 'add_contact_groups':
             defaultAction = { ...defaultAction, groups: null } as ChangeGroups;
             break;
-        case 'remove_from_group':
+        case 'remove_contact_groups':
             defaultAction = { ...defaultAction, groups: null } as ChangeGroups;
             break;
-        case 'save_contact_field':
+        case 'set_contact_field':
             defaultAction = {
                 ...defaultAction,
                 field_uuid: generateUUID(),
@@ -184,7 +184,7 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
         case 'send_email':
             defaultAction = { ...defaultAction, subject: '', body: '', emails: null } as SendEmail;
             break;
-        case 'save_flow_result':
+        case 'set_run_result':
             defaultAction = {
                 ...defaultAction,
                 result_name: '',
@@ -397,24 +397,6 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
         return (this.modal = ref);
     }
 
-    public componentWillReceiveProps(nextProps: NodeEditorProps): void {
-        if (nextProps.nodeToEdit) {
-            if (nextProps.nodeToEdit.router) {
-                if (nextProps.nodeToEdit.router.result_name) {
-                    if (nextProps.nodeToEdit.router.result_name !== this.props.resultName) {
-                        this.props.updateResultNameA(nextProps.nodeToEdit.router.result_name);
-                        this.props.setShowResultNameAC(true);
-                    }
-                } else {
-                    if (this.props.resultName !== '') {
-                        this.props.updateResultNameA('');
-                    }
-                    this.props.setShowResultNameAC(false);
-                }
-            }
-        }
-    }
-
     // Make NodeEditor aware of base form inputs
     public onBindWidget(widget: any): void {
         if (widget) {
@@ -468,7 +450,6 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
 
     private onResultNameChange({ target: { value: resultName } }: any): void {
         this.props.updateResultNameA(resultName);
-        this.props.setShowResultNameAC(resultName.length > 0);
     }
 
     private onExpressionChanged({ currentTarget: { value: operand } }: any): void {

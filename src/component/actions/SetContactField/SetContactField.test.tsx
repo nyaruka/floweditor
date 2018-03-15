@@ -9,15 +9,15 @@ const { language: flowLanguage, nodes: [, , node] } = definition;
 const { actions: [setContactFieldAction] } = node;
 const { uuid, type, field_name, value } = setContactFieldAction;
 
-describe('SetContactFieldComp >', () => {
+describe('SaveToContactComp >', () => {
     describe('render >', () => {
-        it("should render base SetContactFieldComp with 'update...' div when value prop passed", () => {
+        it("should render base SaveToContactComp with 'update...' div when value prop passed", () => {
             const wrapper = shallow(<SetContactField {...setContactFieldAction} />);
 
             expect(wrapper.text()).toBe(`Update ${field_name} to ${value}`);
         });
 
-        it("should render base SetContactFieldComp with 'clear...' div when value prop isn't passed", () => {
+        it("should render base SaveToContactComp with 'clear...' div when value prop isn't passed", () => {
             const wrapper = shallow(
                 <SetContactField {...{ ...setContactFieldAction, value: '' }} />
             );

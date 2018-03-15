@@ -89,6 +89,7 @@
     "file-loader": "0.11.1",
     "get-input-selection": "1.1.4",
     "html-webpack-plugin": "2.30.1",
+    "husky": "0.14.3",
     "identity-obj-proxy": "3.0.0",
     "immutability-helper": "2.6.5",
     "jest": "21.2.1",

@@ -82,7 +82,7 @@ export class RemoveGroupsForm extends React.PureComponent<
             return [];
         }
 
-        if (this.props.action.groups.length && this.props.action.type !== 'add_to_group') {
+        if (this.props.action.groups.length && this.props.action.type !== 'add_contact_groups') {
             return this.props.action.groups.map(({ uuid, name }) => ({ name, id: uuid }));
         }
 

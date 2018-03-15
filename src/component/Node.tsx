@@ -1,9 +1,9 @@
-import * as React from 'react';
 import * as classNames from 'classnames/bind';
+import * as React from 'react';
 import * as shallowCompare from 'react-addons-shallow-compare';
 import * as FlipMove from 'react-flip-move';
-import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
+import { react as bindCallbacks } from 'auto-bind';
 import { Config, getTypeConfig } from '../config';
 import {
     AnyAction,

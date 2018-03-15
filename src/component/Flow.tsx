@@ -150,7 +150,11 @@ export class Flow extends React.Component<FlowProps> {
         // We put this in a zero timeout so jsplumb
         // doesn't swallow any stack traces.
         window.setTimeout(() => {
-            if (ghostNode) {
+            // Don't show the node editor if we a dragging back to where we were
+            const draggingBack =
+                event.suspendedElementId === event.targetId && event.source !== null;
+
+            if (ghostNode && !draggingBack) {
                 // Wire up the drag from to our ghost node
                 const dragPoint = pendingConnection;
                 this.Plumber.recalculate(ghostNode.uuid);

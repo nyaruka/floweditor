@@ -55,12 +55,12 @@ export class SetContactFieldForm extends React.PureComponent<SetContactFieldForm
         };
 
         if (field.type === 'field') {
-            newAction.type = 'save_contact_field';
+            newAction.type = 'set_contact_field';
             newAction.field_name = field.name;
             newAction.field_uuid = field.id;
-        } else if (field.type === 'update_contact') {
+        } else if (field.type === 'set_contact_property') {
             // Updating contact properties are different action
-            newAction.type = 'update_contact';
+            newAction.type = 'set_contact_property';
             newAction.field_name = field.id;
         }
 
@@ -85,17 +85,17 @@ export class SetContactFieldForm extends React.PureComponent<SetContactFieldForm
     public render(): JSX.Element {
         let initial: SearchResult;
 
-        if (this.props.action.type === 'save_contact_field') {
+        if (this.props.action.type === 'set_contact_field') {
             initial = {
                 id: this.props.action.field_uuid,
                 name: this.props.action.field_name,
                 type: 'field'
             };
-        } else if (this.props.action.type === 'update_contact') {
+        } else if (this.props.action.type === 'set_contact_property') {
             initial = {
                 id: this.props.action.field_name.toLowerCase(),
                 name: this.props.action.field_name,
-                type: 'update_contact'
+                type: 'set_contact_property'
             };
         }
 

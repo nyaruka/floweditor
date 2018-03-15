@@ -13,7 +13,7 @@ export interface FormElementProps {
     required?: boolean;
     __className?: string;
     border?: boolean;
-    replyError?: boolean;
+    sendMsgError?: boolean;
     kaseError?: boolean;
     fieldError?: boolean;
 }
@@ -43,7 +43,7 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
         const errors: JSX.Element[] = this.props.errors.map((error, idx) => {
             const className = cx({
                 [styles.error]: true,
-                [styles.replyError]: this.props.replyError === true,
+                [styles.sendMsgError]: this.props.sendMsgError === true,
                 [styles.kaseError]: this.props.kaseError === true,
                 [styles.fieldError]: this.props.fieldError === true
             });

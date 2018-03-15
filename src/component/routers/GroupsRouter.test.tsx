@@ -1,35 +1,33 @@
 import * as React from 'react';
-import { shallow, mount } from 'enzyme';
-import GroupsRouter, { extractGroups, groupSplitExistsAtNode } from './GroupsRouter';
-import CompMap, { SearchResult } from '../../services/ComponentMap';
-import { getLocalizations } from '../Node';
-import { GroupElementProps } from '../form/GroupElement';
-import { GROUP_LABEL } from './constants';
+import { shallow } from 'enzyme';
 import { getTypeConfig } from '../../config';
+import CompMap, { SearchResult } from '../../services/ComponentMap';
+import { GROUP_LABEL } from './constants';
+import GroupsRouter, { extractGroups, groupSplitExistsAtNode } from './GroupsRouter';
 
 const colorsFlow = require('../../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 const { endpoints } = require('../../../assets/config');
 
 const { results: [{ definition }] } = colorsFlow;
-const { nodes: [replyNode, , , , , node], localization: locals } = definition;
+const { nodes: [sendMsgNode, , , , , node], localization: locals } = definition;
 
-const groupRouterConfig = getTypeConfig('split_by_group');
+const groupsRouterConfig = getTypeConfig('split_by_group');
 const ComponentMap = new CompMap(definition);
 // Mocking callbacks
 const onUpdateLocalizations = jest.fn();
 const onUpdateRouter = jest.fn();
 const updateRouter = jest.fn();
 
-const groupRouterProps = {
+const groupsRouterProps = {
     node,
-    config: groupRouterConfig,
+    config: groupsRouterConfig,
     translating: false,
     definition,
     getResultNameField: jest.fn(),
     ComponentMap
 };
 
-const groupRouterContext = {
+const groupsRouterContext = {
     endpoints
 };
 
@@ -50,7 +48,7 @@ describe('GroupsRouter >', () => {
         describe('groupSplitExistsAtNode >', () => {
             it('should return true if node contains a group split router, false otherwise', () => {
                 expect(groupSplitExistsAtNode(node)).toBeTruthy();
-                expect(groupSplitExistsAtNode(replyNode)).toBeFalsy();
+                expect(groupSplitExistsAtNode(sendMsgNode)).toBeFalsy();
             });
         });
     });
@@ -61,10 +59,10 @@ describe('GroupsRouter >', () => {
 
             const wrapper = shallow(
                 <GroupsRouter
-                    {...{ ...groupRouterProps, getResultNameField: getResultNameFieldMock }}
+                    {...{ ...groupsRouterProps, getResultNameField: getResultNameFieldMock }}
                 />,
                 {
-                    context: groupRouterContext
+                    context: groupsRouterContext
                 }
             );
 
@@ -73,9 +71,9 @@ describe('GroupsRouter >', () => {
             getResultNameFieldMock.mockReset();
         });
 
-        it('should pass groups pulled from existing cases to GroupElement', () => {
-            const wrapper = shallow(<GroupsRouter {...groupRouterProps} />, {
-                context: groupRouterContext
+        it('should pass groups pulled from existing cases to GroupsElement', () => {
+            const wrapper = shallow(<GroupsRouter {...groupsRouterProps} />, {
+                context: groupsRouterContext
             });
 
             const groups: SearchResult[] = extractGroups(node);
@@ -90,7 +88,7 @@ describe('GroupsRouter >', () => {
             };
 
             expect(wrapper.find('p').text()).toBe(GROUP_LABEL);
-            expect(wrapper.find('GroupElement').props()).toEqual(
+            expect(wrapper.find('GroupsElement').props()).toEqual(
                 expect.objectContaining(groupElementProps)
             );
         });
@@ -101,13 +99,13 @@ describe('GroupsRouter >', () => {
             const wrapper = shallow(
                 <GroupsRouter
                     {...{
-                        ...groupRouterProps,
+                        ...groupsRouterProps,
                         getExitTranslations: getExitTranslationsMock,
                         translating: true
                     }}
                 />,
                 {
-                    context: groupRouterContext
+                    context: groupsRouterContext
                 }
             );
 
@@ -125,14 +123,14 @@ describe('GroupsRouter >', () => {
                 const wrapper = shallow(
                     <GroupsRouter
                         {...{
-                            ...groupRouterProps,
+                            ...groupsRouterProps,
                             saveLocalizations: saveLocalizationsMock,
                             getExitTranslations: jest.fn(),
                             translating: true
                         }}
                     />,
                     {
-                        context: groupRouterContext
+                        context: groupsRouterContext
                     }
                 );
 
@@ -151,13 +149,13 @@ describe('GroupsRouter >', () => {
         const wrapper = shallow(
             <GroupsRouter
                 {...{
-                    ...groupRouterProps,
+                    ...groupsRouterProps,
                     cleanUpLocalizations: jest.fn(),
                     updateRouter: updateRouterMock
                 }}
             />,
             {
-                context: groupRouterContext
+                context: groupsRouterContext
             }
         );
 

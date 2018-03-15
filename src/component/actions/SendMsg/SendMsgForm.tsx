@@ -4,7 +4,6 @@ import { Type } from '../../../config';
 import { FlowDefinition, SendMsg } from '../../../flowTypes';
 import { ReduxState } from '../../../redux';
 import Localization, { LocalizedObject } from '../../../services/Localization';
-import { getLocalizedObject, getTranslations } from '../../../utils';
 import * as styles from '../../actions/Action/Action.scss';
 import CheckboxElement from '../../form/CheckboxElement';
 import TextInputElement, { Count } from '../../form/TextInputElement';

@@ -132,19 +132,9 @@ describe('CaseElement >', () => {
 
         describe('strContainsNum >', () => {
             it('should return true if string contains only a float or int', () => {
-                [
-                    '0.2',
-                    '.2',
-                    '+.2',
-                    '+0.2',
-                    '-.2',
-                    '-0.2',
-                    '2',
-                    '2.',
-                    '1',
-                    '+1',
-                    '-1'
-                ].forEach(arg => expect(strContainsNum(arg)).toBeTruthy());
+                ['0.2', '.2', '+.2', '+0.2', '-.2', '-0.2', '2', '2.', '1', '+1', '-1'].forEach(
+                    arg => expect(strContainsNum(arg)).toBeTruthy()
+                );
             });
 
             it('should return false if string does not contain only a float or int', () => {

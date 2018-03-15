@@ -15,7 +15,7 @@ const { languages, endpoints } = require('../../../../assets/config');
 const CompMap = new ComponentMap(definition);
 const { nodes: [{ actions: [action] }] } = definition;
 const baseLanguage = getBaseLanguage(languages);
-const config = getTypeConfig('reply');
+const config = getTypeConfig('send_msg');
 const props: Partial<SendMsgFormProps> = {
     action,
     config,
