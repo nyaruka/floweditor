@@ -258,12 +258,21 @@ describe('NodeEditor >', () => {
                 />
             );
 
+            const wrapperInstance = wrapper.instance();
+
             expect(getSpecWrapper(wrapper, 'name-field').prop('value')).toBe(
                 waitNode.router.result_name
             );
 
-            wrapper.setState({ resultName: '' });
+            wrapperInstance.onResultNameChange({
+                target: {
+                    value: ''
+                }
+            });
 
+            wrapper.update();
+
+            expect(wrapper.state('showResultName')).toBeTruthy();
             expect(getSpecWrapper(wrapper, 'name-field').prop('value')).toBe('');
         });
     });

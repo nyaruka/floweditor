@@ -1,7 +1,16 @@
 import update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
 import { DragPoint } from '../component/Node';
-import { Action, Dimensions, Exit, FlowDefinition, Node, Position, SendMsg, UINode } from '../flowTypes';
+import {
+    Action,
+    Dimensions,
+    Exit,
+    FlowDefinition,
+    Node,
+    Position,
+    SendMsg,
+    UINode
+} from '../flowTypes';
 import ComponentMap, { ContactFieldResult, SearchResult } from './ComponentMap';
 
 interface Bounds {

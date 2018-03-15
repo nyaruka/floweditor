@@ -16,7 +16,6 @@ interface BoolMap {
  * @param top vertical offset
  */
 export const snapToGrid = (left: number, top: number): { left: number; top: number } => {
-
     let leftAdjust = left % GRID_SIZE;
     let topAdjust = top % GRID_SIZE;
 
