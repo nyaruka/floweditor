@@ -503,7 +503,8 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 header = (
                     <div {...this.events}>
                         <TitleBar
-                            className={shared[config.type]}
+                            __className={shared[config.type]}
+                            node={this.props.node}
                             showRemoval={!this.props.translating}
                             onRemoval={this.onRemoval}
                             title={title}
@@ -577,7 +578,6 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                     <div className={styles.exits} {...this.events}>
                         {exits}
                     </div>
-
                     {addActions}
                 </div>
             </div>

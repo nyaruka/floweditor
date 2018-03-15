@@ -66,8 +66,14 @@ const localization: LocalizedObject = LocalizationService.translate(
 );
 
 const actionProps: ActionProps = {
+    language: {
+        name: 'English',
+        iso: 'eng'
+    },
     ComponentMap,
     node,
+    translating: false,
+    definition,
     action: replyAction,
     onUpdateAction: jest.fn(),
     onUpdateRouter: jest.fn(),
@@ -111,7 +117,6 @@ describe('Component: SendMsg', () => {
         const TitleBarShallow = wrapper.find('TitleBar');
 
         expect(TitleBarShallow.exists()).toBeTruthy();
-        expect(TitleBarShallow.hasClass('send_msg')).toBeTruthy();
         expect(TitleBarShallow.prop('title')).toBe('Send Message');
     });
 

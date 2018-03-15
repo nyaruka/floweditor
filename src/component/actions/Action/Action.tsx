@@ -148,7 +148,8 @@ export default class Action extends React.Component<ActionProps> {
                     onMouseUp={this.onMouseUp}
                     data-spec="interactive-div">
                     <TitleBar
-                        className={titleBarClass}
+                        __className={titleBarClass}
+                        node={this.props.node}
                         title={name}
                         onRemoval={this.onRemoval}
                         showRemoval={showRemoval}
