@@ -45,6 +45,7 @@ export interface ConnectionEvent {
     target: Element;
     sourceId: string;
     targetId: string;
+    suspendedElementId: string;
     endpoints: any[];
 }
 
@@ -116,20 +117,31 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
     }
 
     public componentDidMount(): void {
-        this.Plumber.bind('connection', (event: ConnectionEvent) => this.onConnection(event));
+        
+        this.Plumber.bind('connection', (event: ConnectionEvent) => 
+            this.onConnection(event)
+        );
+        
         this.Plumber.bind('beforeDrag', (event: ConnectionEvent) =>
             this.beforeConnectionDrag(event)
         );
+        
         this.Plumber.bind('connectionDrag', (event: ConnectionEvent) =>
             this.onConnectionDrag(event)
         );
+        
         this.Plumber.bind('connectionDragStop', (event: ConnectionEvent) =>
             this.onConnectorDrop(event)
         );
+        
         this.Plumber.bind('beforeStartDetach', (event: ConnectionEvent) =>
             this.onBeforeStartDetach(event)
         );
-        this.Plumber.bind('beforeDetach', (event: ConnectionEvent) => this.onBeforeDetach(event));
+        
+        this.Plumber.bind('beforeDetach', (event: ConnectionEvent) => 
+            this.onBeforeDetach(event)
+        );
+        
         this.Plumber.bind('beforeDrop', (event: ConnectionEvent) =>
             this.onBeforeConnectorDrop(event)
         );
@@ -387,7 +399,11 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
     private onConnectorDrop(event: ConnectionEvent): boolean {
         // we put this in a zero timeout so jsplumb doesn't swallow any stack traces
         window.setTimeout(() => {
-            if (this.state.ghost) {
+
+            // don't show the node editor if we a dragging back to where we were
+            const draggingBack = event.suspendedElementId === event.targetId && event.source !== null;
+            
+            if (this.state.ghost && !draggingBack) {
                 // wire up the drag from to our ghost node
                 const dragPoint = this.pendingConnection;
 

@@ -25,7 +25,7 @@ interface FieldState {
 }
 
 export const PLACEHOLDER: string =
-    'Enter the name of an existing group, or create a new group to add the contact to';
+    'Enter the name of an existing field or create a new one';
 export const NOT_FOUND: string = 'Invalid field name';
 
 export default class FieldElement extends React.Component<FieldElementProps, FieldState> {
