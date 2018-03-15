@@ -4,13 +4,13 @@ import { Node, SwitchRouter, WaitType } from '../../flowTypes';
 import { SearchResult } from '../../services/ComponentMap';
 import { endpointsPT } from '../../config';
 import { FormProps, hasSwitchRouter, hasWait, resolveExits } from '../NodeEditor/NodeEditor';
-import GroupElement, { GroupElementProps } from '../form/GroupElement';
+import GroupsElement, { GroupsElementProps } from '../form/GroupsElement';
 import TextInputElement from '../form/TextInputElement';
 import { GROUP_LABEL } from './constants';
 import { CaseElementProps } from '../form/CaseElement';
 import { instructions } from './SwitchRouter.scss';
 
-type GroupRouterProps = Partial<FormProps>;
+type GroupsRouterProps = Partial<FormProps>;
 
 export const extractGroups = ({ exits, router }: Node): SearchResult[] =>
     (router as SwitchRouter).cases.map(kase => {
@@ -26,7 +26,7 @@ export const extractGroups = ({ exits, router }: Node): SearchResult[] =>
 export const groupSplitExistsAtNode = (node: Node) =>
     hasSwitchRouter(node) && hasWait(node, WaitType.group);
 
-export default class GroupRouter extends React.PureComponent<GroupRouterProps> {
+export default class GroupsRouter extends React.PureComponent<GroupsRouterProps> {
     public static contextTypes = {
         endpoints: endpointsPT
     };
@@ -46,7 +46,7 @@ export default class GroupRouter extends React.PureComponent<GroupRouterProps> {
 
         const localGroups = this.props.ComponentMap.getGroups();
 
-        const groupProps: Partial<GroupElementProps> = {
+        const groupProps: Partial<GroupsElementProps> = {
             localGroups
         };
 
@@ -60,7 +60,7 @@ export default class GroupRouter extends React.PureComponent<GroupRouterProps> {
             <React.Fragment>
                 <div className={instructions}>
                     <p>{GROUP_LABEL}</p>
-                    <GroupElement
+                    <GroupsElement
                         ref={this.props.onBindWidget}
                         name="Group"
                         endpoint={this.context.endpoints.groups}

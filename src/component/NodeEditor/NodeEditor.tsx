@@ -12,11 +12,11 @@ import {
     Node,
     UINode,
     Case,
-    Reply,
-    ChangeGroup,
-    SaveToContact,
+    SendMsg,
+    ChangeGroups,
+    SetContactField,
     SendEmail,
-    SaveFlowResult,
+    SetRunResult,
     CallWebhook,
     StartFlow,
     Methods,
@@ -145,33 +145,33 @@ export const getAction = ({ action }: NodeEditorProps, config: Type): AnyAction 
     };
 
     switch (config.type) {
-        case 'reply':
-            defaultAction = { ...defaultAction, text: '', all_urns: false } as Reply;
+        case 'send_msg':
+            defaultAction = { ...defaultAction, text: '', all_urns: false } as SendMsg;
             break;
-        case 'add_to_group':
-            defaultAction = { ...defaultAction, groups: null } as ChangeGroup;
+        case 'add_contact_groups':
+            defaultAction = { ...defaultAction, groups: null } as ChangeGroups;
             break;
-        case 'remove_from_group':
-            defaultAction = { ...defaultAction, groups: null } as ChangeGroup;
+        case 'remove_contact_groups':
+            defaultAction = { ...defaultAction, groups: null } as ChangeGroups;
             break;
-        case 'save_contact_field':
+        case 'set_contact_field':
             defaultAction = {
                 ...defaultAction,
                 field_uuid: generateUUID(),
                 field_name: '',
                 value: ''
-            } as SaveToContact;
+            } as SetContactField;
             break;
         case 'send_email':
             defaultAction = { ...defaultAction, subject: '', body: '', emails: null } as SendEmail;
             break;
-        case 'save_flow_result':
+        case 'set_run_result':
             defaultAction = {
                 ...defaultAction,
                 result_name: '',
                 value: '',
                 category: ''
-            } as SaveFlowResult;
+            } as SetRunResult;
             break;
         case 'call_webhook':
             defaultAction = { ...defaultAction, url: '', method: Methods.GET } as CallWebhook;

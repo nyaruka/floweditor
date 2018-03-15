@@ -8,11 +8,11 @@
     background: $dark_blue;
 }
 
-.add_to_group {
+.add_contact_groups {
     background: $green;
 }
 
-.remove_from_group {
+.remove_contact_groups {
     background: $red;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .msg,
-.reply {
+.send_msg {
     background: $blue;
 }
 
@@ -33,11 +33,11 @@
     background: $blue_baby;
 }
 
-.update_contact,
-.save_contact_field,
-.save_flow_result,
+.set_contact_property,
+.set_contact_field,
+.set_run_result,
 .set_language,
-.set_preferred_channel {
+.set_contact_channel {
     background: $teal;
 }
 

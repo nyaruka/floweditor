@@ -20,12 +20,12 @@
                         "actions": [
                             {
                                 "uuid": "360a28a1-6741-4f16-9421-f6f313cf753e",
-                                "type": "reply",
+                                "type": "send_msg",
                                 "text": "Hi there, what is your name?"
                             },
                             {
                                 "uuid": "d5293394-c6d4-407c-97da-8149faea24cf",
-                                "type": "add_to_group",
+                                "type": "add_contact_groups",
                                 "groups": [
                                     {
                                         "uuid": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
@@ -67,14 +67,14 @@
                         "actions": [
                             {
                                 "uuid": "505e8da9-0b73-4cf4-84a7-ce2a58d70f3e",
-                                "type": "save_contact_field",
+                                "type": "set_contact_field",
                                 "field_name": "Full Name",
                                 "field_uuid": "9c9c46de-0ddf-4d26-b834-a67ae56ef618",
                                 "value": "@run.results.name"
                             },
                             {
                                 "uuid": "21541123-ab0f-4c2f-9835-5c97e9be133f",
-                                "type": "reply",
+                                "type": "send_msg",
                                 "text": "Thanks @run.results.name, what can we help you with?"
                             }
                         ],
@@ -111,7 +111,7 @@
                         "actions": [
                             {
                                 "uuid": "9c10156e-aec0-45a3-a144-da84e87222c2",
-                                "type": "save_flow_result",
+                                "type": "set_run_result",
                                 "result_name": "Phone",
                                 "value": "@contact.urns.tel",
                                 "category": ""
@@ -126,7 +126,7 @@
                             },
                             {
                                 "uuid": "71c026a5-7c1c-4e79-8421-21b8c3689510",
-                                "type": "reply",
+                                "type": "send_msg",
                                 "text": "Thanks! We'll be in touch shortly 👍"
                             }
                         ],

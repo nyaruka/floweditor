@@ -3,7 +3,7 @@ import { shallow, mount, ShallowWrapper, ReactWrapper } from 'enzyme';
 import { getSpecWrapper } from '../../../utils';
 import ComponentMap from '../../../services/ComponentMap';
 import { Count } from '../../form/TextInputElement';
-import ReplyForm, { ReplyFormProps } from './ReplyForm';
+import SendMsgForm, { SendMsgFormProps } from './SendMsgForm';
 import { getTypeConfig } from '../../../config';
 import { getBaseLanguage } from '../../';
 
@@ -15,8 +15,8 @@ const { languages, endpoints } = require('../../../../assets/config');
 const CompMap = new ComponentMap(definition);
 const { nodes: [{ actions: [action] }] } = definition;
 const baseLanguage = getBaseLanguage(languages);
-const config = getTypeConfig('reply');
-const props: Partial<ReplyFormProps> = {
+const config = getTypeConfig('send_msg');
+const props: Partial<SendMsgFormProps> = {
     action,
     config,
     language: baseLanguage,
@@ -36,7 +36,7 @@ const createReplyForm = (
     mountIt: boolean = false
 ): ShallowWrapper<{}, {}> | ReactWrapper<{}, {}> => {
     const Component = (
-        <ReplyForm
+        <SendMsgForm
             {...{
                 ...props,
                 ...newProps
@@ -46,7 +46,7 @@ const createReplyForm = (
     return mountIt ? mount(Component) : shallow(Component);
 };
 
-describe('ReplyForm', () => {
+describe('SendMsgForm', () => {
     describe('render >', () => {
         it('Renders base form', () => {
             const ReplyFormBase = createReplyForm({ showAdvanced: false }, true);

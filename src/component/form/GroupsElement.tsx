@@ -11,7 +11,7 @@ export interface GroupOption {
     name: string;
 }
 
-export interface GroupElementProps extends FormElementProps {
+export interface GroupsElementProps extends FormElementProps {
     endpoint: string;
     add?: boolean;
     groups?: SearchResult[];
@@ -21,7 +21,7 @@ export interface GroupElementProps extends FormElementProps {
     onChange?: (groups: SearchResult[]) => void;
 }
 
-interface GroupElementState {
+interface GroupsElementState {
     groups: SearchResult[];
     errors: string[];
 }
@@ -52,7 +52,7 @@ export const createNewOption = ({ label }: { label: string }): SearchResult => {
 export const getInitialGroups = ({
     groups = [],
     localGroups = []
-}: GroupElementProps): SearchResult[] => {
+}: GroupsElementProps): SearchResult[] => {
     if (groups.length) {
         return groups;
     } else if (localGroups.length) {
@@ -66,13 +66,13 @@ export const GROUP_PROMPT = 'New group: ';
 export const GROUP_PLACEHOLDER = 'Enter the name of an existing group...';
 export const GROUP_NOT_FOUND = 'Invalid group name';
 
-export default class GroupElement extends React.Component<GroupElementProps, GroupElementState> {
+export default class GroupsElement extends React.Component<GroupsElementProps, GroupsElementState> {
     public static defaultProps = {
         placeholder: GROUP_PLACEHOLDER,
         searchPromptText: GROUP_NOT_FOUND
     };
 
-    constructor(props: GroupElementProps) {
+    constructor(props: GroupsElementProps) {
         super(props);
 
         const groups = getInitialGroups(props);
@@ -85,7 +85,7 @@ export default class GroupElement extends React.Component<GroupElementProps, Gro
         this.onChange = this.onChange.bind(this);
     }
 
-    public componentWillReceiveProps(nextProps: GroupElementProps): void {
+    public componentWillReceiveProps(nextProps: GroupsElementProps): void {
         if (
             nextProps.groups &&
             nextProps.groups.length &&

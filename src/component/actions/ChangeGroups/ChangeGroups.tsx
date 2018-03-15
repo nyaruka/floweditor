@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { ChangeGroup } from '../../../flowTypes';
+import { ChangeGroups } from '../../../flowTypes';
 
-const changeGroupMarkup = ({ type, groups }: ChangeGroup): JSX.Element[] => {
+const changeGroupMarkup = ({ type, groups }: ChangeGroups): JSX.Element[] => {
     const content: JSX.Element[] = [];
 
-    if (type === 'remove_from_group' && !groups.length) {
+    if (type === 'remove_contact_groups' && !groups.length) {
         content.push(
             <div key="remove_from_all" data-spec="remove-all">
                 Remove from all groups
@@ -29,7 +29,7 @@ const changeGroupMarkup = ({ type, groups }: ChangeGroup): JSX.Element[] => {
     return content;
 };
 
-const ChangeGroupComp: React.SFC<ChangeGroup> = (props): JSX.Element => {
+const ChangeGroupComp: React.SFC<ChangeGroups> = (props): JSX.Element => {
     const content: JSX.Element[] = changeGroupMarkup(props);
     return <div data-spec="content">{content}</div>;
 };

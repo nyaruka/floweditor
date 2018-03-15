@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import Webhook from './Webhook';
+import CallWebhook from './CallWebhook';
 
 const {
     results: [{ definition }]
 } = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
 const { language: flowLanguage, nodes: [, , , , , node] } = definition;
-const { actions: [webhookAction] } = node;
-const { uuid, type, url } = webhookAction;
+const { actions: [callWebhookAction] } = node;
+const { uuid, type, url } = callWebhookAction;
 
-describe('Component: Webhook', () => {
-    it('should render Webhook with url prop', () => {
-        const WebhookDivShallow = shallow(<Webhook {...webhookAction} />);
+describe('Component: CallWebhook', () => {
+    it('should render CallWebhook with url prop', () => {
+        const WebhookDivShallow = shallow(<CallWebhook {...callWebhookAction} />);
 
         expect(WebhookDivShallow.text()).toBe(url);
     });

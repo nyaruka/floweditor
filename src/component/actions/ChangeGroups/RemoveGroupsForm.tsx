@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 import ChangeGroupFormProps from './props';
-import { ChangeGroup, Endpoints } from '../../../flowTypes';
+import { ChangeGroups, Endpoints } from '../../../flowTypes';
 import ComponentMap, { SearchResult } from '../../../services/ComponentMap';
-import GroupElement from '../../form/GroupElement';
+import GroupsElement from '../../form/GroupsElement';
 import CheckboxElement from '../../form/CheckboxElement';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
 import { jsonEqual } from '../../../utils';
-import { AddGroupFormState } from './AddGroupForm';
+import { AddGroupFormState } from './AddGroupsForm';
 
 export interface RemoveGroupFormState extends AddGroupFormState {
     removeFromAll: boolean;
@@ -20,7 +20,7 @@ export const REMOVE_FROM_ALL = 'Remove from All';
 export const REMOVE_FROM_ALL_DESC =
     "Remove the active contact from all groups they're a member of.";
 
-export default class RemoveGroupForm extends React.PureComponent<
+export default class RemoveGroupsForm extends React.PureComponent<
     ChangeGroupFormProps,
     RemoveGroupFormState
 > {
@@ -57,7 +57,7 @@ export default class RemoveGroupForm extends React.PureComponent<
     }
 
     public onValid(): void {
-        const newAction: ChangeGroup = {
+        const newAction: ChangeGroups = {
             uuid: this.props.action.uuid,
             type: this.props.config.type,
             groups: []
@@ -80,7 +80,7 @@ export default class RemoveGroupForm extends React.PureComponent<
             return [];
         }
 
-        if (this.props.action.groups.length && this.props.action.type !== 'add_to_group') {
+        if (this.props.action.groups.length && this.props.action.type !== 'add_contact_groups') {
             return this.props.action.groups.map(({ uuid, name }) => ({ name, id: uuid }));
         }
 
@@ -98,7 +98,7 @@ export default class RemoveGroupForm extends React.PureComponent<
             groupElLabel = <p>{LABEL}</p>;
 
             groupEl = (
-                <GroupElement
+                <GroupsElement
                     ref={this.props.onBindWidget}
                     name="Group"
                     placeholder={PLACEHOLDER}

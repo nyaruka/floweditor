@@ -1,24 +1,14 @@
 import * as React from 'react';
-import { shallow, mount } from 'enzyme';
-import { getSpecWrapper } from '../../utils';
-import { DEFAULT_OPERAND, OPERAND_LOCALIZATION_DESC } from './constants';
-import SwitchRouterForm, {
-    getListStyle,
-    getItemStyle,
-    resolveExits,
-    hasWait,
-    hasCases,
-    SwitchRouterProps,
-    SwitchRouterState
-} from './SwitchRouter';
-import CompMap, { SearchResult } from '../../services/ComponentMap';
-import { LocalizedObject } from '../../services/Localization';
-import { Case, WaitType } from '../../flowTypes';
-import { getLocalizations } from '../Node';
-import { GroupElementProps } from '../form/GroupElement';
-import { Language } from '../LanguageSelector';
+import { mount } from 'enzyme';
 import { getBaseLanguage } from '../';
-import { getTypeConfig, getOperatorConfig } from '../../config';
+import { getOperatorConfig, getTypeConfig } from '../../config';
+import { Case } from '../../flowTypes';
+import CompMap from '../../services/ComponentMap';
+import { getSpecWrapper } from '../../utils';
+import { Language } from '../LanguageSelector';
+import { getLocalizations } from '../Node';
+import { DEFAULT_OPERAND, OPERAND_LOCALIZATION_DESC } from './constants';
+import SwitchRouterForm, { getItemStyle, getListStyle } from './SwitchRouter';
 
 const colorsFlow = require('../../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 

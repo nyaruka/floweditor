@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { SaveFlowResult } from '../../../flowTypes';
+import { SetRunResult } from '../../../flowTypes';
 
-const SaveFlowResultComp: React.SFC<SaveFlowResult> = ({ value, result_name }): JSX.Element => {
+const SetRunResult: React.SFC<SetRunResult> = ({ value, result_name }): JSX.Element => {
     if (value) {
         return (
             <div>
@@ -17,4 +17,4 @@ const SaveFlowResultComp: React.SFC<SaveFlowResult> = ({ value, result_name }): 
     );
 };
 
-export default SaveFlowResultComp;
+export default SetRunResult;

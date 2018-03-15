@@ -105,9 +105,9 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
             value: this.props.value,
             options: getOptionsList(this.props.autocomplete, this.props.ComponentMap),
             ...initialState,
-            ...this.props.count && this.props.count === Count.SMS
+            ...(this.props.count && this.props.count === Count.SMS
                 ? getMsgStats(this.props.value)
-                : {}
+                : {})
         };
 
         bindCallbacks(this, {
@@ -431,10 +431,10 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 />
             ) : null;
 
-        const replyError =
+        const sendMsgError =
             this.state.errors.length > 0 &&
             this.props.name === 'Message' &&
-            this.props.config.type === 'reply';
+            this.props.config.type === 'send_msg';
 
         // Make sure we're rendering the right text element
         const TextElement = this.props.textarea ? 'textarea' : ('input' as string);
@@ -448,7 +448,7 @@ export default class TextInputElement extends React.Component<TextInputProps, Te
                 helpText={this.props.helpText}
                 showLabel={this.props.showLabel}
                 errors={this.state.errors}
-                replyError={replyError}>
+                sendMsgError={sendMsgError}>
                 <div className={styles.wrapper}>
                     <TextElement
                         data-spec="input"

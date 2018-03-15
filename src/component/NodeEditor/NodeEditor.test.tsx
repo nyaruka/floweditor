@@ -7,7 +7,7 @@ import { V4_UUID } from '../../utils';
 import { getTypeConfig, typeConfigList, endpointsPT } from '../../config';
 import { WaitType } from '../../flowTypes';
 import { resolveExits, hasWait, hasCases, groupsToCases } from './NodeEditor';
-import { extractGroups } from '../routers/GroupRouter';
+import { extractGroups } from '../routers/GroupsRouter';
 
 const {
     results: [{ definition }]
@@ -92,7 +92,7 @@ describe('NodeEditor >', () => {
                             arguments: ['red, r']
                         },
                         exitName: 'Red',
-                        config: getTypeConfig('reply')
+                        config: getTypeConfig('send_msg')
                     }
                 ];
 
@@ -125,7 +125,7 @@ describe('NodeEditor >', () => {
 
         describe('isSwitchForm >', () => {
             it('should return true if argument is a type that maps to a switch router form, false otherwise', () => {
-                ['wait_for_response', 'split_by_expression', 'split_by_group', 'reply'].forEach(
+                ['wait_for_response', 'split_by_expression', 'split_by_group', 'send_msg'].forEach(
                     (type, idx, arr) => {
                         if (idx === arr.length - 1) {
                             expect(isSwitchForm(type)).toBeFalsy();
@@ -139,7 +139,7 @@ describe('NodeEditor >', () => {
 
         describe('getAction >', () => {
             it('should return action in props if props arg contains an action & that action is of the same type as the config arg', () => {
-                expect(getAction(nodeEditorProps, getTypeConfig('reply'))).toEqual(replyAction);
+                expect(getAction(nodeEditorProps, getTypeConfig('send_msg'))).toEqual(replyAction);
             });
 
             it("should return action in props if props arg contains an action & that action is only of the same type as the config's alias", () => {
@@ -147,7 +147,7 @@ describe('NodeEditor >', () => {
                     ['wait_for_response', 'switch'],
                     ['start_flow', 'subflow'],
                     ['call_webhook', 'webhook'],
-                    ['save_contact_field', 'update_contact']
+                    ['set_contact_field', 'set_contact_property']
                 ];
 
                 typesWithAliases
