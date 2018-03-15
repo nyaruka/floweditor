@@ -18,7 +18,9 @@ describe('SaveToContactComp >', () => {
         });
 
         it("should render base SaveToContactComp with 'clear...' div when value prop isn't passed", () => {
-            const wrapper = shallow(<SetContactField {...{ ...setContactFieldAction, value: '' }} />);
+            const wrapper = shallow(
+                <SetContactField {...{ ...setContactFieldAction, value: '' }} />
+            );
 
             expect(wrapper.text()).toBe(`Clear value for ${field_name}`);
         });
