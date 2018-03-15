@@ -11,8 +11,7 @@ export interface AddGroupFormState {
 }
 
 export const LABEL = ' Select the group(s) to add the contact to.';
-export const PLACEHOLDER =
-    'Enter the name of an existing group or create a new one';
+export const PLACEHOLDER = 'Enter the name of an existing group or create a new one';
 
 export default class AddGroupForm extends React.PureComponent<
     ChangeGroupsFormProps,

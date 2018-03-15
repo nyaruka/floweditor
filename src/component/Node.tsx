@@ -502,7 +502,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                 // Router headers are introduced here while action headers are introduced in ./Action/Action
                 header = (
                     // wrap in a relative parent so it honors node clipping
-                    <div style={{position:'relative'}}>                    
+                    <div style={{ position: 'relative' }}>
                         <div {...this.events}>
                             <TitleBar
                                 className={shared[config.type]}
