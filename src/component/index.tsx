@@ -74,7 +74,7 @@ export default class FlowEditor extends React.Component<FlowEditorProps, FlowEdi
             nodeDragging: false,
             definition: null,
             flows: [],
-            dependencies: null,
+            dependencies: null
         };
 
         bindCallbacks(this, {

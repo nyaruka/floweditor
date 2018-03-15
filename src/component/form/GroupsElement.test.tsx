@@ -1,21 +1,21 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import GroupElement, {
-    GroupElementProps,
+import GroupsElement, {
+    GroupsElementProps,
     GROUP_PLACEHOLDER,
     GROUP_NOT_FOUND,
     isValidNewOption,
     createNewOption,
     getInitialGroups
-} from './GroupElement';
+} from './GroupsElement';
 import { SearchResult } from '../../services/ComponentMap';
 import { validUUID } from '../../utils';
 
 const { results: groupsResp } = require('../../../assets/groups.json');
 const { endpoints } = require('../../../assets/config');
 
-describe('GroupElement >', () => {
-    const props: GroupElementProps = {
+describe('GroupsElement >', () => {
+    const props: GroupsElementProps = {
         name: 'Group',
         endpoint: endpoints.groups,
         required: true
@@ -58,15 +58,15 @@ describe('GroupElement >', () => {
                 expect(
                     getInitialGroups({
                         groups: groupOptions
-                    } as GroupElementProps)
+                    } as GroupsElementProps)
                 ).toEqual(groupOptions);
             });
 
-            it("should return localGroups array if GroupElement passed 'localGroups' prop but not 'groups'", () => {
+            it("should return localGroups array if GroupsElement passed 'localGroups' prop but not 'groups'", () => {
                 expect(
                     getInitialGroups({
                         localGroups: groupOptions
-                    } as GroupElementProps)
+                    } as GroupsElementProps)
                 ).toEqual(groupOptions);
             });
         });
@@ -75,7 +75,7 @@ describe('GroupElement >', () => {
     describe('render >', () => {
         describe('split by group membership', () => {
             it('should render <SelectSearch />, pass it expected props', () => {
-                const wrapper = mount(<GroupElement {...props} />);
+                const wrapper = mount(<GroupsElement {...props} />);
 
                 expect(wrapper.find('SelectSearch').props()).toEqual(
                     expect.objectContaining({
@@ -99,7 +99,7 @@ describe('GroupElement >', () => {
 
         describe('onChange >', () => {
             it('should update state when called', () => {
-                const wrapper = mount(<GroupElement {...props} />);
+                const wrapper = mount(<GroupsElement {...props} />);
 
                 wrapper.instance().onChange(groups);
 
@@ -108,7 +108,7 @@ describe('GroupElement >', () => {
 
             it("should call 'onChange' prop if passed", () => {
                 const onChange = jest.fn();
-                const wrapper = mount(<GroupElement {...{ ...props, onChange }} />);
+                const wrapper = mount(<GroupsElement {...{ ...props, onChange }} />);
 
                 wrapper.instance().onChange(groups);
 
@@ -117,15 +117,15 @@ describe('GroupElement >', () => {
         });
 
         describe('validate >', () => {
-            it("should return false, update state if GroupElement isn't valid", () => {
-                const wrapper = mount(<GroupElement {...props} />);
+            it("should return false, update state if GroupsElement isn't valid", () => {
+                const wrapper = mount(<GroupsElement {...props} />);
 
                 expect(wrapper.instance().validate()).toBeFalsy();
                 expect(wrapper.state('errors')[0]).toBe('Group is required');
             });
 
-            it('should return true if GroupElement is valid', () => {
-                const wrapper = mount(<GroupElement {...props} />);
+            it('should return true if GroupsElement is valid', () => {
+                const wrapper = mount(<GroupsElement {...props} />);
 
                 expect(wrapper.instance().onChange(groups));
                 expect(wrapper.instance().validate()).toBeTruthy();

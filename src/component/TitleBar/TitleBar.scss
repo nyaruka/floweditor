@@ -17,24 +17,21 @@
         margin-top: -27px;
         border: 0px solid #c14c46;
         background: #c14c46;
+        border-top-left-radius: $curvature;
+        border-top-right-radius: $curvature;
         padding: 6px;
         width: 100%;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
 
-        :first-child {
-            border-top-left-radius: $curvature;
-            border-top-right-radius: $curvature;
+        &:not(first-child) {
+            border-top-left-radius: none;
+            border-top-right-radius: none;
         }
 
         .remove_button {
             visibility: visible;
-        }
-
-        .remove-router {
-            border-top-left-radius: 7px;
-            border-top-right-radius: 7px;
         }
     }
 

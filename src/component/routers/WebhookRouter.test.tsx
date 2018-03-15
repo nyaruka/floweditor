@@ -30,7 +30,7 @@ describe('WebhookRouter >', () => {
 
         describe('getInitialState >', () => {
             it("should return initial state if action isn't of type 'call_webhook'", () => {
-                expect(getInitialState({ ...action, type: 'reply' })).toEqual(initialState);
+                expect(getInitialState({ ...action, type: 'send_msg' })).toEqual(initialState);
             });
 
             it("shouldn't add headers if action is of type 'call_webhook' but doesn't have headers", () => {

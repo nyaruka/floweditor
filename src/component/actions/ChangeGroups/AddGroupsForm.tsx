@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { v4 as generateUUID } from 'uuid';
-import ChangeGroupFormProps from './props';
-import { ChangeGroup, Endpoints } from '../../../flowTypes';
-import ComponentMap, { SearchResult } from '../../../services/ComponentMap';
-import GroupElement from '../../form/GroupElement';
-import CheckboxElement from '../../form/CheckboxElement';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
+import { ChangeGroups, Group } from '../../../flowTypes';
+import ComponentMap, { SearchResult } from '../../../services/ComponentMap';
 import { jsonEqual } from '../../../utils';
+import GroupsElement from '../../form/GroupsElement';
+import ChangeGroupsFormProps from './props';
 
 export interface AddGroupFormState {
     groups: SearchResult[];
@@ -17,14 +15,14 @@ export const PLACEHOLDER =
     'Enter the name of an existing group, or create a new group to add the contact to';
 
 export default class AddGroupForm extends React.PureComponent<
-    ChangeGroupFormProps,
+    ChangeGroupsFormProps,
     AddGroupFormState
 > {
     public static contextTypes = {
         endpoints: endpointsPT
     };
 
-    constructor(props: ChangeGroupFormProps, context: ConfigProviderContext) {
+    constructor(props: ChangeGroupsFormProps, context: ConfigProviderContext) {
         super(props);
 
         const groups: SearchResult[] = this.getGroups();
@@ -46,7 +44,7 @@ export default class AddGroupForm extends React.PureComponent<
     }
 
     public onValid(): void {
-        const newAction: ChangeGroup = {
+        const newAction: ChangeGroups = {
             uuid: this.props.action.uuid,
             type: this.props.config.type,
             groups: this.state.groups.map((group: SearchResult) => ({
@@ -63,8 +61,8 @@ export default class AddGroupForm extends React.PureComponent<
             return [];
         }
 
-        if (this.props.action.groups.length && this.props.action.type !== 'remove_from_group') {
-            return this.props.action.groups.map(({ uuid, name }) => ({
+        if (this.props.action.groups.length && this.props.action.type !== 'remove_contact_groups') {
+            return this.props.action.groups.map(({ uuid, name }: Group) => ({
                 name,
                 id: uuid
             }));
@@ -77,7 +75,7 @@ export default class AddGroupForm extends React.PureComponent<
         return (
             <React.Fragment>
                 <p>{LABEL}</p>
-                <GroupElement
+                <GroupsElement
                     ref={this.props.onBindWidget}
                     name="Group"
                     placeholder={PLACEHOLDER}

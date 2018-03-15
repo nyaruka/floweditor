@@ -1,20 +1,8 @@
 import update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
-
-import { ContactFieldResult, SearchResult } from './ComponentMap';
-import {
-    FlowDefinition,
-    Action,
-    Exit,
-    Node,
-    UINode,
-    Position,
-    Dimensions,
-    Reply
-} from '../flowTypes';
 import { DragPoint } from '../component/Node';
-import ComponentMap from './ComponentMap';
-import { FlowProps } from '../component/Flow';
+import { Action, Dimensions, Exit, FlowDefinition, Node, Position, SendMsg, UINode } from '../flowTypes';
+import ComponentMap, { ContactFieldResult, SearchResult } from './ComponentMap';
 
 interface Bounds {
     left: number;
@@ -224,7 +212,7 @@ export default class FlowMutator {
                 if (this.collides(current.bounds, other.bounds)) {
                     // console.log("COLLISON:", current, other);
                     var diff = current.bounds.bottom - other.bounds.top + this.nodeSpacing;
-                    diff += 20 - (diff % 20)
+                    diff += 20 - diff % 20;
 
                     other.bounds.top += diff;
                     other.bounds.bottom += diff;
@@ -631,9 +619,9 @@ export default class FlowMutator {
      */
     public ensureStartNode() {
         if (this.definition.nodes.length == 0) {
-            let initialAction: Reply = {
+            let initialAction: SendMsg = {
                 uuid: generateUUID(),
-                type: 'reply',
+                type: 'send_msg',
                 text: 'Hi there, this the first message in your flow!'
             };
 

@@ -94,27 +94,27 @@ export interface Action {
     uuid: string;
 }
 
-export interface ChangeGroup extends Action {
+export interface ChangeGroups extends Action {
     groups: Group[];
 }
-export interface SaveToContact extends Action {
+export interface SetContactField extends Action {
     field_uuid: string;
     field_name: string;
     value: string;
     created_on?: Date;
 }
 
-export interface UpdateContact extends SaveToContact {
+export interface SetContactProperty extends SetContactField {
     field_name: string;
     value: string;
 }
 
-export interface Reply extends Action {
+export interface SendMsg extends Action {
     text: string;
     all_urns?: boolean;
 }
 
-export interface SetLanguage extends Action {
+export interface SetPreferredChannel extends Action {
     language: string;
 }
 
@@ -124,7 +124,7 @@ export interface SendEmail extends Action {
     emails: string[];
 }
 
-export interface SaveFlowResult extends Action {
+export interface SetRunResult extends Action {
     result_name: string;
     value: string;
     category?: string;
@@ -148,7 +148,7 @@ export interface StartFlow extends Action {
 
 export interface UIMetaData {
     nodes: { [key: string]: UINode };
-    languages: { [iso: string]: string }[];
+    languages: Array<{ [iso: string]: string }>;
 }
 
 export interface Position {
@@ -175,11 +175,11 @@ export interface UIMetaData {
 
 export type AnyAction =
     | Action
-    | ChangeGroup
-    | SaveToContact
-    | SaveFlowResult
-    | Reply
-    | SetLanguage
+    | ChangeGroups
+    | SetContactField
+    | SetRunResult
+    | SendMsg
+    | SetPreferredChannel
     | SendEmail
     | CallWebhook
     | StartFlow;

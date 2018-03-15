@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { SaveToContact } from '../../../flowTypes';
+import { SetContactField } from '../../../flowTypes';
 
-const SaveToContactComp: React.SFC<SaveToContact> = ({ value, field_name }): JSX.Element => {
+const SetContactFieldComp: React.SFC<SetContactField> = ({ value, field_name }): JSX.Element => {
     if (value) {
         return (
             <div>
@@ -16,4 +16,4 @@ const SaveToContactComp: React.SFC<SaveToContact> = ({ value, field_name }): JSX
     );
 };
 
-export default SaveToContactComp;
+export default SetContactFieldComp;

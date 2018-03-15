@@ -1,7 +1,5 @@
-// ReplyForm
-
 import * as React from 'react';
-import { Reply } from '../../../flowTypes';
+import { SendMsg } from '../../../flowTypes';
 import { Language } from '../../LanguageSelector';
 import { LocalizedObject } from '../../../services/Localization';
 import ComponentMap from '../../../services/ComponentMap';
@@ -11,22 +9,22 @@ import { Type } from '../../../config';
 import * as styles from '../../actions/Action/Action.scss';
 import { UpdateLocalizations } from '../../NodeEditor';
 
-export interface ReplyFormProps {
+export interface SendMsgFormProps {
     language: Language;
-    action: Reply;
+    action: SendMsg;
     showAdvanced: boolean;
     config: Type;
     translating: boolean;
     ComponentMap: ComponentMap;
-    updateAction(action: Reply): void;
+    updateAction(action: SendMsg): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
     updateLocalizations: UpdateLocalizations;
     getLocalizedObject(): LocalizedObject;
 }
 
-export default class ReplyForm extends React.Component<ReplyFormProps> {
-    constructor(props: ReplyFormProps) {
+export default class SendMsgForm extends React.Component<SendMsgFormProps> {
+    constructor(props: SendMsgFormProps) {
         super(props);
 
         this.onValid = this.onValid.bind(this);
@@ -49,7 +47,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
                 ]);
             }
         } else {
-            const newAction: Reply = {
+            const newAction: SendMsg = {
                 uuid: this.props.action.uuid,
                 type: this.props.config.type,
                 text: textarea.state.value
@@ -83,7 +81,7 @@ export default class ReplyForm extends React.Component<ReplyFormProps> {
             placeholder = `${this.props.language.name} Translation`;
 
             if (localizedObject.isLocalized()) {
-                ({ text } = localizedObject.getObject() as Reply);
+                ({ text } = localizedObject.getObject() as SendMsg);
             }
         } else {
             ({ text } = this.props.action);

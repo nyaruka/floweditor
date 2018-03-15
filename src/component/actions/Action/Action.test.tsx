@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { Reply } from '../../../flowTypes';
-import ActionComp, { ActionProps } from './Action';
-import { getSpecWrapper } from '../../../utils';
+import { SendMsg } from '../../../flowTypes';
 import CompMap from '../../../services/ComponentMap';
 import LocalizationService, { LocalizedObject } from '../../../services/Localization';
-import ReplyComp from '../../actions/Reply/Reply';
+import { getSpecWrapper } from '../../../utils';
+import SendMsgComp from '../../actions/SendMsg/SendMsg';
+import ActionComp, { ActionProps } from './Action';
 
 const { languages } = require('../../../../assets/config');
 
@@ -25,7 +25,7 @@ const definition = {
             uuid: '24afc61e-e528-4ac0-b887-78cebd39f12b',
             actions: [
                 {
-                    type: 'reply',
+                    type: 'send_msg',
                     uuid: '360a28a1-6741-4f16-9421-f6f313cf753e',
                     text: 'Hi there, what is your name?'
                 }
@@ -66,8 +66,14 @@ const localization: LocalizedObject = LocalizationService.translate(
 );
 
 const actionProps: ActionProps = {
+    language: {
+        name: 'English',
+        iso: 'eng'
+    },
     ComponentMap,
     node,
+    translating: false,
+    definition,
     action: replyAction,
     onUpdateAction: jest.fn(),
     onUpdateRouter: jest.fn(),
@@ -81,9 +87,9 @@ const actionProps: ActionProps = {
     localization
 };
 
-const ReplyActionShallow = shallow(
+const wrapper = shallow(
     <ActionComp {...actionProps}>
-        {(actionDivProps: Reply) => <ReplyComp {...actionDivProps} />}
+        {(actionDivProps: SendMsg) => <SendMsgComp {...actionDivProps} />}
     </ActionComp>,
     {
         context: {
@@ -92,11 +98,11 @@ const ReplyActionShallow = shallow(
     }
 );
 
-describe('Component: Reply', () => {
+describe('Component: SendMsg', () => {
     it('should render action div', () => {
-        const ActionContainerShallow = ReplyActionShallow.find(`#action-${replyAction.uuid}`);
-        const OverLayContainerShallow = ReplyActionShallow.find('.overlay');
-        const InteractiveContainerShallow = getSpecWrapper(ReplyActionShallow, 'interactive-div');
+        const ActionContainerShallow = wrapper.find(`#action-${replyAction.uuid}`);
+        const OverLayContainerShallow = wrapper.find('.overlay');
+        const InteractiveContainerShallow = getSpecWrapper(wrapper, 'interactive-div');
 
         expect(ActionContainerShallow.exists()).toBeTruthy();
 
@@ -108,15 +114,14 @@ describe('Component: Reply', () => {
     });
 
     it('should render TitleBar & pass it appropriate props', () => {
-        const TitleBarShallow = ReplyActionShallow.find('TitleBar');
+        const TitleBarShallow = wrapper.find('TitleBar');
 
         expect(TitleBarShallow.exists()).toBeTruthy();
-        expect(TitleBarShallow.hasClass('reply')).toBeTruthy();
         expect(TitleBarShallow.prop('title')).toBe('Send Message');
     });
 
-    it('should render Reply action and pass it appropriate props', () => {
-        const ReplyDiv = ReplyActionShallow.find({ type });
+    it('should render SendMsg action and pass it appropriate props', () => {
+        const ReplyDiv = wrapper.find({ type });
 
         expect(ReplyDiv.exists()).toBeTruthy();
         expect(ReplyDiv.prop('uuid')).toBe(uuid);

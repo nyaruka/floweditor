@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
-import { FlowDefinition, Action, Position, Reply, Node, UINode, Dimensions } from '../flowTypes';
+import { FlowDefinition, Action, Position, SendMsg, Node, UINode, Dimensions } from '../flowTypes';
 import ComponentMap from '../services/ComponentMap';
 import NodeComp, { DragPoint } from './Node';
 import FlowMutator from '../services/FlowMutator';
@@ -213,9 +213,9 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
             ComponentMap: CompMap
         } = this.props;
 
-        const newAction: Reply = {
+        const newAction: SendMsg = {
             uuid: generateUUID(),
-            type: 'reply',
+            type: 'send_msg',
             text: ''
         };
 
@@ -315,9 +315,9 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
 
         // Add an action if we are coming from a split
         if (fromNode.wait || fromNodeUI.type === 'webhook') {
-            const replyAction: Reply = {
+            const replyAction: SendMsg = {
                 uuid: generateUUID(),
-                type: 'reply',
+                type: 'send_msg',
                 text: ''
             };
 
@@ -395,7 +395,10 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
                 this.Plumber.connect(dragPoint.exitUUID, this.state.ghost.uuid);
 
                 // save our position for later
-                const { left, top } = snapToGrid(this.ghost.ele.offsetLeft, this.ghost.ele.offsetTop);
+                const { left, top } = snapToGrid(
+                    this.ghost.ele.offsetLeft,
+                    this.ghost.ele.offsetTop
+                );
                 this.createNodePosition = { x: left, y: top };
 
                 // click on our ghost node to bring up the editor
