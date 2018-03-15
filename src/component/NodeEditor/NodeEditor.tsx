@@ -505,11 +505,10 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         const config = getTypeConfig(type);
         const show = this.props.show || false;
         let operand = DEFAULT_OPERAND;
-        
+
         let resultName = '';
 
         if (this.props.node.router) {
-            
             if (this.props.node.router.result_name) {
                 ({ result_name: resultName } = this.props.node.router);
             }
@@ -767,7 +766,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
     public open(): void {
         this.setState({
-            ... this.getInitialState(),
+            ...this.getInitialState(),
             show: true
         });
     }

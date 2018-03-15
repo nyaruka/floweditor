@@ -252,7 +252,7 @@ export default class ComponentMap {
         return this.groups;
     }
 
-    public getResultNames(): { [name: string] : boolean } {
+    public getResultNames(): { [name: string]: boolean } {
         return this.resultNames;
     }
 
