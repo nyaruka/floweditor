@@ -18,7 +18,7 @@ import {
     onUpdateRouter,
     removeAction,
     removeNode,
-    resetNewConnectionState,
+    resetNodeEditingState,
     resolvePendingConnection,
     setDragGroup,
     setLanguage,
@@ -53,6 +53,7 @@ import {
 import { UpdateFlows, UpdateLanguage, UpdateTranslating } from './actionTypes';
 import configureStore from './configureStore';
 import Constants from './constants';
+import { getConnectionError, getDetails, getExit, getTranslations } from './helpers';
 import {
     CompletionOption,
     Components,
@@ -111,7 +112,7 @@ export {
     updateNodeUI,
     setNodeEditorOpen,
     setShowResultName,
-    resetNewConnectionState,
+    resetNodeEditingState,
     onConnectionDrag,
     onNodeBeforeDrag,
     onAddAction,
@@ -123,5 +124,9 @@ export {
     moveActionUp,
     removeAction,
     setDragGroup,
-    setUserClickingNode
+    setUserClickingNode,
+    getConnectionError,
+    getTranslations,
+    getDetails,
+    getExit
 };

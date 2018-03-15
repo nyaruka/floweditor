@@ -13,13 +13,14 @@ import {
     onConnectionDrag,
     onOpenNodeEditor,
     ReduxState,
-    resetNewConnectionState,
+    resetNodeEditingState,
     updateConnection,
-    updateCreateNodePosition
+    updateCreateNodePosition,
+    getConnectionError
 } from '../redux';
 import ActivityManager from '../services/ActivityManager';
 import Plumber from '../services/Plumber';
-import { getConnectionError, snapToGrid } from '../utils';
+import { snapToGrid } from '../utils';
 import * as styles from './Flow.scss';
 import NodeContainer, { DragPoint } from './Node';
 import NodeEditor from './NodeEditor';
@@ -84,9 +85,11 @@ export class Flow extends React.Component<FlowProps> {
         this.Plumber.bind('beforeDrag', (event: ConnectionEvent) =>
             this.beforeConnectionDrag(event)
         );
+
         this.Plumber.bind('connectionDrag', (event: ConnectionEvent) =>
             this.props.onConnectionDragAC(event)
         );
+
         this.Plumber.bind('connectionDragStop', (event: ConnectionEvent) =>
             this.onConnectorDrop(event)
         );
@@ -311,7 +314,7 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = (dispatch: DispatchWithState) => ({
     ensureStartNodeAC: () => dispatch(ensureStartNode()),
-    resetNewConnectionStateAC: () => dispatch(resetNewConnectionState()),
+    resetNewConnectionStateAC: () => dispatch(resetNodeEditingState()),
     onConnectionDragAC: (event: ConnectionEvent) => dispatch(onConnectionDrag(event)),
     onOpenNodeEditorAC: (node: Node, action: AnyAction, languages: Languages) =>
         dispatch(onOpenNodeEditor(node, action, languages)),

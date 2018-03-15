@@ -49,12 +49,14 @@ export class SetContactFieldForm extends React.PureComponent<SetContactFieldForm
         const { wrappedInstance: { state: { value } } } = widgets.Value;
         const { state: { field } } = widgets.Field;
 
+        console.log('field:', field);
+
         const newAction: any = {
             uuid: this.props.action.uuid,
             value
         };
 
-        if (field.type === 'field') {
+        if (field.type === 'set_contact_field') {
             newAction.type = 'set_contact_field';
             newAction.field_name = field.name;
             newAction.field_uuid = field.id;

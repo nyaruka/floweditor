@@ -31,17 +31,18 @@ import {
     onUpdateLocalizations,
     onUpdateRouter,
     ReduxState,
-    resetNewConnectionState,
+    resetNodeEditingState,
     SearchResult,
     setNodeEditorOpen,
     setShowResultName,
     setTypeConfig,
     setUserAddingAction,
     updateOperand,
-    updateResultName
+    updateResultName,
+    getDetails,
+    getExit
 } from '../../redux';
 import { LocalizedObject } from '../../services/Localization';
-import { getDetails, getExit } from '../../utils';
 import { CaseElementProps } from '../form/CaseElement';
 import TextInputElement from '../form/TextInputElement';
 import { Language } from '../LanguageSelector';
@@ -297,6 +298,11 @@ export const resolveExits = (newCases: CaseElementProps[], previous: Node): Comb
     }
 
     let defaultName = 'All Responses';
+
+    if (previous.wait && previous.wait.type === 'exp') {
+        defaultName = 'Any Value 😉';
+    }
+
     if (exits.length > 0) {
         defaultName = 'Other';
     }
@@ -1213,7 +1219,7 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: DispatchWithState) => ({
     updateResultNameA: (resultName: string) => dispatch(updateResultName(resultName)),
     setShowResultNameAC: (showResultName: boolean) => dispatch(setShowResultName(showResultName)),
-    resetNewConnectionStateAC: () => dispatch(resetNewConnectionState()),
+    resetNewConnectionStateAC: () => dispatch(resetNodeEditingState()),
     setNodeEditorOpenAC: (nodeEditorOpen: boolean) => dispatch(setNodeEditorOpen(nodeEditorOpen)),
     setTypeConfigAC: (typeConfig: Type) => dispatch(setTypeConfig(typeConfig)),
     updateOperandA: (operand: string) => dispatch(updateOperand(operand)),

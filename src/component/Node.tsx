@@ -2,8 +2,8 @@ import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import * as shallowCompare from 'react-addons-shallow-compare';
 import * as FlipMove from 'react-flip-move';
-import { connect } from 'react-redux';
 import { react as bindCallbacks } from 'auto-bind';
+import { connect } from 'react-redux';
 import { Config, getTypeConfig } from '../config';
 import {
     AnyAction,
@@ -27,12 +27,13 @@ import {
     setDragGroup,
     setNodeDragging,
     setUserClickingNode,
-    updateDimensions
+    updateDimensions,
+    getTranslations
 } from '../redux';
 import ActivityManager from '../services/ActivityManager';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { DragEvent } from '../services/Plumber';
-import { getTranslations, snapToGrid, titleCase } from '../utils';
+import { snapToGrid, titleCase } from '../utils';
 import ActionWrapper from './actions/Action';
 import CounterComp from './Counter';
 import ExitComp from './Exit';
@@ -473,13 +474,15 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             if (!this.props.node.actions || !this.props.node.actions.length) {
                 // Router headers are introduced here while action headers are introduced in ./Action/Action
                 header = (
-                    <div {...this.events}>
-                        <TitleBar
-                            className={shared[config.type]}
-                            showRemoval={!this.props.translating}
-                            onRemoval={this.onRemoval}
-                            title={title}
-                        />
+                    <div style={{ position: 'relative' }}>
+                        <div {...this.events}>
+                            <TitleBar
+                                className={shared[config.type]}
+                                showRemoval={!this.props.translating}
+                                onRemoval={this.onRemoval}
+                                title={title}
+                            />
+                        </div>
                     </div>
                 );
             }
