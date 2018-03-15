@@ -280,8 +280,9 @@ export default class WebhookRouter extends React.Component<WebhookRouterProps, W
             }
         );
         const reqBody = this.getReqBody();
-        const helpText = `Modify the body of the ${this.state
-            .method} request that will be sent to your webhook.`;
+        const helpText = `Modify the body of the ${
+            this.state.method
+        } request that will be sent to your webhook.`;
         const reqBodyLabel = `${this.state.method} Body`;
         const reqBodyHelp = `Modify the body of your ${this.state.method} request.`;
         const needsBody = this.state.method === Methods.POST || this.state.method === Methods.PUT;

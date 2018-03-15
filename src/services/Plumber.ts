@@ -26,7 +26,10 @@ export default class Plumber {
 
     private targetDefaults = {
         anchor: ['Continuous', { shape: 'Rectangle', faces: ['left', 'top', 'right'] }],
-        endpoint: ['Dot', { radius: 13, cssClass:'plumb-endpoint', hoverClass: 'plumb-endpoint-hover' }],
+        endpoint: [
+            'Dot',
+            { radius: 13, cssClass: 'plumb-endpoint', hoverClass: 'plumb-endpoint-hover' }
+        ],
         dropOptions: { tolerance: 'touch', hoverClass: 'plumb-drop-hover', isTarget: false },
         dragAllowedWhenFull: false,
         deleteEndpointsOnEmpty: true,
@@ -62,7 +65,10 @@ export default class Plumber {
                 }
             ],
             ConnectionOverlays: [
-                ['PlainArrow', { location: 0.9999, width: 8, length: 8, foldback: 1, cssClass:'jtk-arrow' }]
+                [
+                    'PlainArrow',
+                    { location: 0.9999, width: 8, length: 8, foldback: 1, cssClass: 'jtk-arrow' }
+                ]
             ],
             Container: 'editor-container'
         });
