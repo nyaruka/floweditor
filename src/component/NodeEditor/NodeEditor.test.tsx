@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme';
 import CompMap from '../../services/ComponentMap';
 import NodeEditor, { NodeEditorProps, mapExits, isSwitchForm, getAction } from './index';
 import { getBaseLanguage } from '../';
-import { V4_UUID } from '../../utils';
+import { V4_UUID, getSpecWrapper } from '../../utils';
 import { getTypeConfig, typeConfigList, endpointsPT } from '../../config';
 import { WaitType } from '../../flowTypes';
 import { resolveExits, hasWait, hasCases, groupsToCases } from './NodeEditor';
@@ -14,7 +14,10 @@ const {
 } = require('../../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 const { languages, endpoints } = require('../../../assets/config');
 
-const { nodes: [replyNode, , , , , , subflowRouterNode], language: flowLanguage } = definition;
+const {
+    nodes: [replyNode, waitNode, , , , , subflowRouterNode],
+    language: flowLanguage
+} = definition;
 
 const { actions: [replyAction] } = replyNode;
 const { actions: [startFlowAction] } = subflowRouterNode;
@@ -220,6 +223,48 @@ describe('NodeEditor >', () => {
                     <div className="advanced_title">Advanced Settings</div>
                 </div>
             ]);
+        });
+
+        it('should display "Save as.." link if node contains a switch router without a result_name', () => {
+            const wrapper = mount(
+                <NodeEditor
+                    language={getBaseLanguage(languages)}
+                    translating={false}
+                    show={true}
+                    definition={definition}
+                    node={switchNode}
+                    onUpdateAction={jest.fn()}
+                    onUpdateRouter={jest.fn()}
+                    onUpdateLocalizations={jest.fn()}
+                    ComponentMap={ComponentMap}
+                />
+            );
+
+            expect(getSpecWrapper(wrapper, 'name-field').text()).toBe('Save as..');
+        });
+
+        it('should display result name field if node contains a switch router with a result_name', () => {
+            const wrapper = mount(
+                <NodeEditor
+                    language={getBaseLanguage(languages)}
+                    translating={false}
+                    show={true}
+                    definition={definition}
+                    node={waitNode}
+                    onUpdateAction={jest.fn()}
+                    onUpdateRouter={jest.fn()}
+                    onUpdateLocalizations={jest.fn()}
+                    ComponentMap={ComponentMap}
+                />
+            );
+
+            expect(getSpecWrapper(wrapper, 'name-field').prop('value')).toBe(
+                waitNode.router.result_name
+            );
+
+            wrapper.setState({ resultName: '' });
+
+            expect(getSpecWrapper(wrapper, 'name-field').prop('value')).toBe('');
         });
     });
 

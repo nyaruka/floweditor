@@ -460,7 +460,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     private onResultNameChange({ target: { value: resultName } }: any): void {
-        this.setState({ resultName, showResultName: resultName.length > 0 });
+        this.setState({ resultName });
     }
 
     private onExpressionChanged({ currentTarget: { value: operand } }: any): void {
