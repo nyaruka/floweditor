@@ -81,7 +81,8 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
             /** fall-through desired in this case */
             case 'add_contact_groups':
             case 'remove_contact_groups':
-                groupText = this.props.type === 'add_contact_groups' ? 'Added to ' : 'Removed from ';
+                groupText =
+                    this.props.type === 'add_contact_groups' ? 'Added to ' : 'Removed from ';
                 delim = ' ';
                 this.props.groups.forEach(group => {
                     groupText += `${delim}"${group.name}"`;
