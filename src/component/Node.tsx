@@ -501,13 +501,16 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             if (!this.props.node.actions || !this.props.node.actions.length) {
                 // Router headers are introduced here while action headers are introduced in ./Action/Action
                 header = (
-                    <div {...this.events}>
-                        <TitleBar
-                            className={shared[config.type]}
-                            showRemoval={!this.props.translating}
-                            onRemoval={this.onRemoval}
-                            title={title}
-                        />
+                    // wrap in a relative parent so it honors node clipping
+                    <div style={{ position: 'relative' }}>
+                        <div {...this.events}>
+                            <TitleBar
+                                className={shared[config.type]}
+                                showRemoval={!this.props.translating}
+                                onRemoval={this.onRemoval}
+                                title={title}
+                            />
+                        </div>
                     </div>
                 );
             }
