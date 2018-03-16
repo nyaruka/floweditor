@@ -8,6 +8,8 @@ declare module 'textarea-caret';
 
 declare module 'get-input-selection';
 
+declare module 'redux-render';
+
 enum CharacterSet {
     Unicode = 'Unicode',
     GSM = 'GSM'

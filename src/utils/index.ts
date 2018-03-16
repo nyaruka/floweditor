@@ -1,6 +1,6 @@
-import { ComponentClass, SFC, ReactElement } from 'react';
-import { ShallowWrapper, ReactWrapper } from 'enzyme';
-import { FlowDefinition } from '../flowTypes';
+import { ReactWrapper, ShallowWrapper } from 'enzyme';
+import { ComponentClass, ReactElement, SFC } from 'react';
+import { LocalizedObject } from '../services/Localization';
 
 const SNAKED_CHARS = /\s+(?=\S)/g;
 const GRID_SIZE = 20;
@@ -8,6 +8,13 @@ export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-
 
 interface BoolMap {
     [key: string]: boolean;
+}
+
+interface Bounds {
+    left: number;
+    top: number;
+    right: number;
+    bottom: number;
 }
 
 /**
@@ -151,4 +158,10 @@ export const hasErrorType = (errors: string[], exps: RegExp[]): boolean => {
         }
     }
     return false;
+};
+
+export const getLocalizedObject = (localizations: LocalizedObject[]) => {
+    if (localizations && localizations.length) {
+        return localizations[0];
+    }
 };

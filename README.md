@@ -1,7 +1,7 @@
+# Flow Editor
+
 [![Build Status](https://travis-ci.org/nyaruka/floweditor.svg?branch=master)](https://travis-ci.org/nyaruka/floweditor)
 [![Coverage Status](https://coveralls.io/repos/github/nyaruka/floweditor/badge.svg?branch=master)](https://coveralls.io/github/nyaruka/floweditor?branch=master)
-
-# Flow Editor
 
 This is a standalone flow editing tool designed for use within the [RapidPro](https://github.com/rapidpro/rapidpro) suite of messaging tools but can be adopted for use outside of that ecosystem. The editor is a React component built with TypeScript and bundled with Webpack. It is open-sourced under the AGPL-3.0 license.
 
@@ -9,7 +9,7 @@ You can view and interact with the component [here](https://hardcore-hypatia-8b3
 
 ## Prerequisites
 
-```
+```bash
 NPM
 Node.js >= 6.x
 ```
@@ -18,7 +18,7 @@ Node.js >= 6.x
 
 The flow editor uses npm for all dependencies.
 
-```
+```bash
 % npm install
 ```
 
@@ -26,13 +26,13 @@ The flow editor uses npm for all dependencies.
 
 Webpack is used to transpile TypeScript and SASS. After invoking a build, the compiled results will arrive in `/preview/dist` (development/preview) or `/dist` (production/npm).
 
-```
+```bash
 % npm run build:prev
 ```
 
 or
 
-```
+```bash
 % npm run build:prod
 ```
 
@@ -40,7 +40,7 @@ or
 
 You can run the editor in a development server whose content base includes the `/preview/src` and `/assets` directories. To start a development server, compile all necessary bits, and then launch your default browser with the results, run the command below. The resulting server will watch for changes to any TypeScript or SASS files and automatically recompile.
 
-```
+```bash
 % npm run start:dev
 ```
 
@@ -64,7 +64,7 @@ This project uses SASS (SCSS) to compose styles and [CSS Modules](https://github
 
 This project uses [Jest](https://facebook.github.io/jest/) for unit/snapshot testing and [Enzyme](https://github.com/airbnb/enzyme) to test React components. Typescript and Jest are integrated via [ts-jest](https://github.com/kulshekhar/ts-jest).
 
-```
+```bash
 % npm run test:local
 ```
 
@@ -72,7 +72,7 @@ This project uses [Jest](https://facebook.github.io/jest/) for unit/snapshot tes
 
 This project uses both [eslint](https://eslint.org/) (Node) & [tslint](https://github.com/palantir/tslint) (TypeScript) to enforce consistent style.
 
-```
+```bash
 % npm run lint:es
 % npm run lint:ts
 ```
@@ -81,7 +81,7 @@ This project uses both [eslint](https://eslint.org/) (Node) & [tslint](https://g
 
 [Prettier](https://github.com/prettier/prettier) is used to keep formatting consistent.
 
-```
+```bash
 % npm run prettify
 ```
 

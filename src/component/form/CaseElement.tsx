@@ -1,24 +1,19 @@
 import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
 import Select from 'react-select';
-import { v4 as generateUUID } from 'uuid';
-import ComponentMap from '../../services/ComponentMap';
-import { InputToFocus } from '../routers/SwitchRouter';
+import { getOperatorConfig, Operator, operatorConfigList } from '../../config';
 import { Case } from '../../flowTypes';
-import TextInputElement, { HTMLTextElement } from './TextInputElement';
-import { Type, Operator, operatorConfigList, getOperatorConfig } from '../../config';
-import { jsonEqual, titleCase, hasErrorType } from '../../utils';
-import FormElement from './FormElement';
-import * as forms from './FormElement.scss';
+import { hasErrorType, jsonEqual, titleCase } from '../../utils';
+import { InputToFocus } from '../routers/SwitchRouter';
 import * as styles from './CaseElement.scss';
+import FormElement from './FormElement';
+import TextInputElement, { HTMLTextElement } from './TextInputElement';
 
 export interface CaseElementProps {
     kase: Case;
     exitName: string;
-    config?: Type;
     name?: string; // satisfy form widget props
     onRemove?(c: CaseElement): void;
-    ComponentMap?: ComponentMap;
     empty?: boolean;
     onChange?(c: any, type?: InputToFocus): void;
     focusArgs?: boolean;
@@ -171,7 +166,7 @@ export const getExitName = (
 };
 
 export default class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
-    private category: TextInputElement;
+    private category: any;
     private operatorConfig: Operator;
 
     constructor(props: CaseElementProps) {
@@ -192,7 +187,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         });
     }
 
-    private categoryRef(ref: TextInputElement): TextInputElement {
+    private categoryRef(ref: any): any {
         return (this.category = ref);
     }
 
@@ -220,7 +215,9 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             }
 
             this.setState(updates as CaseElementState, () =>
-                this.category.setState({ value: updates.exitName }, () => this.props.onChange(this))
+                this.category.wrappedInstance.setState({ value: updates.exitName }, () =>
+                    this.props.onChange(this)
+                )
             );
         }
     }
@@ -258,7 +255,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 : getExitName(this.state.exitName, this.state.operatorConfig, updates.arguments);
 
             this.setState(updates as CaseElementState, () => {
-                this.category.setState({ value: updates.exitName }, () =>
+                this.category.wrappedInstance.setState({ value: updates.exitName }, () =>
                     this.handleChange(toFocus)
                 );
             });
@@ -305,7 +302,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
     public validate(): boolean {
         const errors: string[] = [];
-        // prettier-ignore
+
         const invalidExitErr = `A category name is required when using "${
             this.state.operatorConfig.verboseName
         }."`;
@@ -392,7 +389,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             }
         } else {
             if (this.state.arguments.length) {
-                if (!this.category || !this.category.state.value) {
+                if (!this.category || !this.category.wrappedInstance.state.value) {
                     errors.push(invalidExitErr);
                 }
             }
@@ -419,7 +416,6 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                             onChange={this.onChangeMin}
                             value={minVal}
                             focus={this.props.focusMin}
-                            ComponentMap={this.props.ComponentMap}
                             showInvalid={hasErrorType(this.state.errors, [
                                 /Minimum value must/,
                                 /argument/,
@@ -427,7 +423,6 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                                 /equal/,
                                 /more/
                             ])}
-                            config={this.props.config || null}
                         />
                         <span className={styles.divider}>and</span>
                         <TextInputElement
@@ -435,13 +430,11 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                             onChange={this.onChangeMax}
                             value={maxVal}
                             focus={this.props.focusMax}
-                            ComponentMap={this.props.ComponentMap}
                             showInvalid={hasErrorType(this.state.errors, [
                                 /Maximum value must/,
                                 /argument/,
                                 /rules/
                             ])}
-                            config={this.props.config || null}
                         />
                     </React.Fragment>
                 );
@@ -454,13 +447,11 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                         value={this.state.arguments.length ? this.state.arguments[0] : ''}
                         focus={this.props.focusArgs}
                         autocomplete={true}
-                        ComponentMap={this.props.ComponentMap}
                         showInvalid={hasErrorType(this.state.errors, [
                             /argument/,
                             /rules/,
                             /number/
                         ])}
-                        config={this.props.config || null}
                     />
                 );
             }
@@ -530,9 +521,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                             onChange={this.onChangeExitName}
                             value={this.state.exitName}
                             focus={this.props.focusExit}
-                            ComponentMap={this.props.ComponentMap}
                             showInvalid={hasErrorType(this.state.errors, [/category/])}
-                            config={this.props.config || null}
                         />
                     </div>
                     {this.getRemoveIco()}

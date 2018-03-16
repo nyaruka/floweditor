@@ -1,15 +1,17 @@
 import * as React from 'react';
-import { v4 as generateUUID } from 'uuid';
-import ChangeGroupFormProps from './props';
-import { ChangeGroups, Endpoints } from '../../../flowTypes';
-import ComponentMap, { SearchResult } from '../../../services/ComponentMap';
-import GroupsElement from '../../form/GroupsElement';
-import CheckboxElement from '../../form/CheckboxElement';
+import { react as bindCallbacks } from 'auto-bind';
+import { connect } from 'react-redux';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
+import { ChangeGroups } from '../../../flowTypes';
+import { ReduxState } from '../../../redux';
+import { SearchResult } from '../../../redux/initialState';
 import { jsonEqual } from '../../../utils';
-import { AddGroupFormState } from './AddGroupsForm';
+import CheckboxElement from '../../form/CheckboxElement';
+import GroupsElement from '../../form/GroupsElement';
+import { AddGroupsFormState } from './AddGroupsForm';
+import ChangeGroupsFormProps from './props';
 
-export interface RemoveGroupFormState extends AddGroupFormState {
+export interface RemoveGroupsFormState extends AddGroupsFormState {
     removeFromAll: boolean;
 }
 
@@ -20,15 +22,15 @@ export const REMOVE_FROM_ALL = 'Remove from All';
 export const REMOVE_FROM_ALL_DESC =
     "Remove the active contact from all groups they're a member of.";
 
-export default class RemoveGroupsForm extends React.PureComponent<
-    ChangeGroupFormProps,
-    RemoveGroupFormState
+export class RemoveGroupsForm extends React.PureComponent<
+    ChangeGroupsFormProps,
+    RemoveGroupsFormState
 > {
     public static contextTypes = {
         endpoints: endpointsPT
     };
 
-    constructor(props: ChangeGroupFormProps, context: ConfigProviderContext) {
+    constructor(props: ChangeGroupsFormProps, context: ConfigProviderContext) {
         super(props);
 
         const groups: SearchResult[] = this.getGroups();
@@ -39,9 +41,9 @@ export default class RemoveGroupsForm extends React.PureComponent<
             removeFromAll
         };
 
-        this.onGroupsChanged = this.onGroupsChanged.bind(this);
-        this.onCheck = this.onCheck.bind(this);
-        this.onValid = this.onValid.bind(this);
+        bindCallbacks(this, {
+            include: [/^on/]
+        });
     }
 
     private onGroupsChanged(groups: SearchResult[]): void {
@@ -59,7 +61,7 @@ export default class RemoveGroupsForm extends React.PureComponent<
     public onValid(): void {
         const newAction: ChangeGroups = {
             uuid: this.props.action.uuid,
-            type: this.props.config.type,
+            type: this.props.typeConfig.type,
             groups: []
         };
 
@@ -139,3 +141,11 @@ export default class RemoveGroupsForm extends React.PureComponent<
         return <React.Fragment>{fields}</React.Fragment>;
     }
 }
+
+const mapStateToProps = ({ typeConfig }: ReduxState) => ({ typeConfig });
+
+const ConnectedRemoveGroupForm = connect(mapStateToProps, null, null, { withRef: true })(
+    RemoveGroupsForm
+);
+
+export default ConnectedRemoveGroupForm;

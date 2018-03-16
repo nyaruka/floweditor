@@ -1,16 +1,24 @@
 import * as React from 'react';
-import { v4 as generateUUID } from 'uuid';
-import { Node, SwitchRouter, WaitType } from '../../flowTypes';
-import { SearchResult } from '../../services/ComponentMap';
+import { connect } from 'react-redux';
 import { endpointsPT } from '../../config';
-import { FormProps, hasSwitchRouter, hasWait, resolveExits } from '../NodeEditor/NodeEditor';
+import { Node, SwitchRouter, WaitType } from '../../flowTypes';
+import { ReduxState, SearchResult } from '../../redux';
 import GroupsElement, { GroupsElementProps } from '../form/GroupsElement';
-import TextInputElement from '../form/TextInputElement';
+import { GetResultNameField } from '../NodeEditor';
+import { hasSwitchRouter, hasWait, SaveLocalizations } from '../NodeEditor/NodeEditor';
 import { GROUP_LABEL } from './constants';
-import { CaseElementProps } from '../form/CaseElement';
 import { instructions } from './SwitchRouter.scss';
 
-type GroupsRouterProps = Partial<FormProps>;
+export interface GroupsRouterProps {
+    translating: boolean;
+    groups: SearchResult[];
+    nodeToEdit: Node;
+    saveLocalizations: SaveLocalizations;
+    updateRouter: Function;
+    getExitTranslations(): JSX.Element;
+    getResultNameField: GetResultNameField;
+    onBindWidget(ref: any): void;
+}
 
 export const extractGroups = ({ exits, router }: Node): SearchResult[] =>
     (router as SwitchRouter).cases.map(kase => {
@@ -26,7 +34,7 @@ export const extractGroups = ({ exits, router }: Node): SearchResult[] =>
 export const groupSplitExistsAtNode = (node: Node) =>
     hasSwitchRouter(node) && hasWait(node, WaitType.group);
 
-export default class GroupsRouter extends React.PureComponent<GroupsRouterProps> {
+export class GroupsRouter extends React.PureComponent<GroupsRouterProps> {
     public static contextTypes = {
         endpoints: endpointsPT
     };
@@ -44,14 +52,12 @@ export default class GroupsRouter extends React.PureComponent<GroupsRouterProps>
             return this.props.getExitTranslations();
         }
 
-        const localGroups = this.props.ComponentMap.getGroups();
-
         const groupProps: Partial<GroupsElementProps> = {
-            localGroups
+            localGroups: this.props.groups
         };
 
-        if (groupSplitExistsAtNode(this.props.node)) {
-            groupProps.groups = extractGroups(this.props.node);
+        if (groupSplitExistsAtNode(this.props.nodeToEdit)) {
+            groupProps.groups = extractGroups(this.props.nodeToEdit);
         }
 
         const nameField: JSX.Element = this.props.getResultNameField();
@@ -74,3 +80,15 @@ export default class GroupsRouter extends React.PureComponent<GroupsRouterProps>
         );
     }
 }
+
+const mapStateToProps = ({ translating, groups, nodeToEdit }: ReduxState) => ({
+    translating,
+    groups,
+    nodeToEdit
+});
+
+const ConnectedGroupsRouterForm = connect(mapStateToProps, null, null, { withRef: true })(
+    GroupsRouter
+);
+
+export default ConnectedGroupsRouterForm;

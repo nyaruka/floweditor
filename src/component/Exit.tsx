@@ -1,22 +1,23 @@
 import * as React from 'react';
 import * as classNames from 'classnames/bind';
+import { react as bindCallbacks } from 'auto-bind';
+import { connect } from 'react-redux';
 import { Exit } from '../flowTypes';
-import { addCommas } from '../utils';
-import Counter from './Counter';
+import { disconnectExit, DispatchWithState, ReduxState } from '../redux';
 import ActivityManager from '../services/ActivityManager';
 import { LocalizedObject } from '../services/Localization';
-
+import Counter from './Counter';
 import * as styles from './Exit.scss';
 
 export interface ExitProps {
     exit: Exit;
-    onDisconnect(exitUUID: string): void;
-    localization: LocalizedObject;
     translating: boolean;
+    localization: LocalizedObject;
     Activity: ActivityManager;
     plumberMakeSource: Function;
     plumberRemove: Function;
     plumberConnectExit: Function;
+    disconnectExitAC: (exitUUID: string) => void;
 }
 
 export interface ExitState {
@@ -25,9 +26,8 @@ export interface ExitState {
 
 const cx = classNames.bind(styles);
 
-export default class ExitComp extends React.PureComponent<ExitProps, ExitState> {
+export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     private timeout: any;
-    private clicking: boolean;
 
     constructor(props: ExitProps) {
         super(props);
@@ -36,11 +36,9 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
             confirmDelete: false
         };
 
-        this.onClick = this.onClick.bind(this);
-        this.onDisconnect = this.onDisconnect.bind(this);
-        this.onMouseUp = this.onMouseUp.bind(this);
-        this.getCount = this.getCount.bind(this);
-        this.onUnmount = this.onUnmount.bind(this);
+        bindCallbacks(this, {
+            include: [/^on/, 'getCount']
+        });
     }
 
     public componentDidMount(): void {
@@ -97,7 +95,7 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
             window.clearTimeout(this.timeout);
         }
 
-        this.props.onDisconnect(this.props.exit.uuid);
+        this.props.disconnectExitAC(this.props.exit.uuid);
     }
 
     private onMouseUp(event: any): void {
@@ -189,3 +187,15 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
         );
     }
 }
+
+const mapStateToProps = ({ translating }: ReduxState) => ({
+    translating
+});
+
+const mapDispatchToProps = (dispatch: DispatchWithState) => ({
+    disconnectExitAC: (exitUUID: string) => dispatch(disconnectExit(exitUUID))
+});
+
+const ConnectedExit = connect(mapStateToProps, mapDispatchToProps)(ExitComp);
+
+export default ConnectedExit;

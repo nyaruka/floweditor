@@ -1,39 +1,57 @@
 import * as React from 'react';
-import { v4 as generateUUID } from 'uuid';
 import { react as bindCallbacks } from 'auto-bind';
-import Modal, { ButtonSet } from '../Modal';
+import { connect } from 'react-redux';
+import { v4 as generateUUID } from 'uuid';
+import { Mode, Type } from '../../config';
 import {
-    FlowDefinition,
     Action,
     AnyAction,
-    Router,
-    SwitchRouter,
-    Exit,
-    Node,
-    UINode,
-    Case,
-    SendMsg,
-    ChangeGroups,
-    SetContactField,
-    SendEmail,
-    SetRunResult,
     CallWebhook,
-    StartFlow,
+    Case,
+    ChangeGroups,
+    Exit,
+    FlowDefinition,
     Methods,
+    Node,
+    Router,
+    SendEmail,
+    SendMsg,
+    SetContactField,
+    SetRunResult,
+    StartFlow,
+    SwitchRouter,
     WaitType
 } from '../../flowTypes';
-import { Type, Mode, getTypeConfig } from '../../config';
-import { Language } from '../LanguageSelector';
-import ComponentMap, { SearchResult } from '../../services/ComponentMap';
+import {
+    Components,
+    Constants,
+    DispatchWithState,
+    LocalizationUpdates,
+    onUpdateAction,
+    onUpdateLocalizations,
+    onUpdateRouter,
+    ReduxState,
+    resetNodeEditingState,
+    SearchResult,
+    setNodeEditorOpen,
+    setShowResultName,
+    setTypeConfig,
+    setUserAddingAction,
+    updateOperand,
+    updateResultName,
+    getDetails,
+    getExit
+} from '../../redux';
 import { LocalizedObject } from '../../services/Localization';
-import TypeList from './TypeList';
-import TextInputElement from '../form/TextInputElement';
 import { CaseElementProps } from '../form/CaseElement';
-import { LocalizationUpdates } from '../../services/FlowMutator';
-import { DEFAULT_OPERAND, GROUPS_OPERAND, DEFAULT_BODY } from './constants';
-
-import * as formStyles from './NodeEditor.scss';
+import TextInputElement from '../form/TextInputElement';
+import { Language } from '../LanguageSelector';
+import Modal, { ButtonSet } from '../Modal';
+import { DragPoint } from '../Node';
 import * as shared from '../shared.scss';
+import { DEFAULT_BODY, GROUPS_OPERAND } from './constants';
+import * as formStyles from './NodeEditor.scss';
+import TypeList from './TypeList';
 
 export type GetResultNameField = () => JSX.Element;
 export type SaveLocalizations = (
@@ -48,56 +66,55 @@ interface Sides {
     back: JSX.Element;
 }
 
-export interface FormProps {
-    showAdvanced: boolean;
-    node: Node;
-    operand: string;
-    translating: boolean;
+export interface NodeEditorProps {
+    nodeToEdit: Node;
     language: Language;
+    nodeEditorOpen: boolean;
+    actionToEdit: Action;
+    localizations: LocalizedObject[];
     definition: FlowDefinition;
-    config: Type;
-    ComponentMap: ComponentMap;
-    updateAction(action: AnyAction): void;
-    onBindWidget(ref: any): void;
-    onBindAdvancedWidget(ref: any): void;
+    translating: boolean;
+    typeConfig: Type;
+    resultName: string;
+    showResultName: boolean;
+    operand: string;
+    pendingConnection: DragPoint;
+    components: Components;
+    plumberConnectExit: Function;
+    plumberRepaintForDuration: Function;
+    updateResultNameA: (resultName: string) => { type: Constants; payload: { resultName: string } };
+    updateOperandA: (operand: string) => { type: Constants; payload: { operand: string } };
+    setTypeConfigAC: (typeConfig: Type) => { type: Constants; payload: { typeConfig: Type } };
+    setShowResultNameAC: (showResultName: boolean) => void;
+    resetNewConnectionStateAC: () => void;
+    setNodeEditorOpenAC: (nodeEditorOpen: boolean) => void;
+    onUpdateLocalizationsAC: (language: string, changes: LocalizationUpdates) => void;
+    onUpdateActionAC: (node: Node, action: AnyAction, repaintForDuration: Function) => void;
+    onUpdateRouterAC: (
+        node: Node,
+        type: string,
+        repaintForDuration: Function,
+        previousAction?: Action
+    ) => void;
+    setUserAddingActionAC: (userAddingAction: boolean) => void;
+}
+
+export interface FormProps {
+    action: AnyAction;
+    showAdvanced: boolean;
+    updateAction: (action: AnyAction) => void;
+    onBindWidget: (ref: any) => void;
+    onBindAdvancedWidget: (ref: any) => void;
     updateRouter: Function;
-    removeWidget(name: string): void;
+    removeWidget: (name: string) => void;
     getExitTranslations(): JSX.Element;
-    triggerFormUpdate(): void;
-    onToggleAdvanced(): void;
-    getLocalizedObject: Function;
+    triggerFormUpdate: () => void;
+    onToggleAdvanced: () => void;
     cleanUpLocalizations: CleanUpLocalizations;
     updateLocalizations: UpdateLocalizations;
     saveLocalizations: SaveLocalizations;
     getResultNameField: GetResultNameField;
     onExpressionChanged: (e: any) => void;
-    action?: AnyAction;
-    localizations?: LocalizedObject[];
-}
-
-export interface NodeEditorProps {
-    node: Node;
-    language: Language;
-    action?: Action;
-    nodeUI?: UINode;
-    actionsOnly?: boolean;
-    localizations?: LocalizedObject[];
-    definition: FlowDefinition;
-    translating: boolean;
-    show?: boolean;
-    onUpdateLocalizations: Function;
-    onUpdateAction: Function;
-    onUpdateRouter: Function;
-    onClose?(canceled: boolean): void;
-    ComponentMap: ComponentMap;
-}
-
-export interface NodeEditorState {
-    config: Type;
-    show: boolean;
-    resultName: string;
-    showResultName: boolean;
-    operand: string;
 }
 
 export interface CombinedExits {
@@ -128,23 +145,26 @@ export const hasSwitchRouter = (node: Node): boolean =>
 /**
  * Returns existing action (if any), or a bare-bones representation of the form's action.
  */
-export const getAction = ({ action }: NodeEditorProps, config: Type): AnyAction => {
+export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction => {
     let uuid: string;
 
-    if (action) {
-        if (action.type === config.type || (config.aliases && action.type === config.aliases[0])) {
-            return action;
+    if (actionToEdit) {
+        if (
+            actionToEdit.type === typeConfig.type ||
+            (typeConfig.aliases && actionToEdit.type === typeConfig.aliases[0])
+        ) {
+            return actionToEdit;
         } else {
-            ({ uuid } = action);
+            ({ uuid } = actionToEdit);
         }
     }
 
     let defaultAction: Action = {
-        type: config.type,
+        type: typeConfig.type,
         uuid: uuid || generateUUID()
     };
 
-    switch (config.type) {
+    switch (typeConfig.type) {
         case 'send_msg':
             defaultAction = { ...defaultAction, text: '', all_urns: false } as SendMsg;
             break;
@@ -278,6 +298,11 @@ export const resolveExits = (newCases: CaseElementProps[], previous: Node): Comb
     }
 
     let defaultName = 'All Responses';
+
+    if (previous.wait && previous.wait.type === 'exp') {
+        defaultName = 'Any Value 😉';
+    }
+
     if (exits.length > 0) {
         defaultName = 'Other';
     }
@@ -339,7 +364,7 @@ export const FormContainer: React.SFC<{
     </div>
 );
 
-export default class NodeEditor extends React.PureComponent<NodeEditorProps, NodeEditorState> {
+export class NodeEditor extends React.PureComponent<NodeEditorProps> {
     private modal: Modal;
     private form: any;
     private advanced: any;
@@ -350,8 +375,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
     constructor(props: NodeEditorProps) {
         super(props);
-
-        this.state = this.getInitialState();
 
         bindCallbacks(this, {
             include: [
@@ -378,29 +401,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
     private modalRef(ref: Modal): Modal {
         return (this.modal = ref);
-    }
-
-    public componentWillReceiveProps(nextProps: NodeEditorProps): void {
-        if (nextProps.node.router) {
-            if (nextProps.node.router.result_name) {
-                if (nextProps.node.router.result_name !== this.state.resultName) {
-                    this.setState({
-                        resultName: nextProps.node.router.result_name,
-                        showResultName: true
-                    });
-                }
-            } else {
-                const updates: Partial<NodeEditorState> = {};
-
-                if (this.state.resultName !== '') {
-                    updates.resultName = '';
-                }
-
-                updates.showResultName = false;
-
-                this.setState(updates as NodeEditorState);
-            }
-        }
     }
 
     // Make NodeEditor aware of base form inputs
@@ -447,106 +447,33 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     private onTypeChange(config: Type): void {
         this.widgets = {};
         this.advancedWidgets = {};
-
-        this.setState({
-            config
-        });
+        this.props.setTypeConfigAC(config);
     }
 
     private onShowNameField(): void {
-        this.setState({
-            showResultName: true
-        });
+        this.props.setShowResultNameAC(true);
     }
 
     private onResultNameChange({ target: { value: resultName } }: any): void {
-        this.setState({ resultName });
+        this.props.updateResultNameA(resultName);
     }
 
     private onExpressionChanged({ currentTarget: { value: operand } }: any): void {
-        this.setState({
-            operand
-        });
-    }
-
-    private determineConfigType(props: NodeEditorProps): string {
-        if (props.action) {
-            return props.action.type;
-        } else {
-            if (props.nodeUI) {
-                if (props.nodeUI.type) {
-                    return props.nodeUI.type;
-                }
-            }
-        }
-
-        // Account for ghost nodes
-        if (props.node) {
-            if (props.node.router) {
-                return props.node.router.type;
-            }
-
-            if (props.node.actions) {
-                return props.node.actions[0].type;
-            }
-        }
-
-        const details = props.ComponentMap.getDetails(props.node.uuid);
-
-        if (details.type) {
-            return details.type;
-        }
-
-        throw new Error(`Cannot initialize NodeEditor without a valid type: ${props.node.uuid}`);
-    }
-
-    private getInitialState(): NodeEditorState {
-        const type = this.determineConfigType(this.props);
-        const config = getTypeConfig(type);
-        const show = this.props.show || false;
-        let operand = DEFAULT_OPERAND;
-        let resultName = '';
-
-        if (this.props.node.router) {
-            if (this.props.node.router.result_name) {
-                ({ result_name: resultName } = this.props.node.router);
-            }
-
-            if (hasCases(this.props.node)) {
-                ({ operand } = this.props.node.router as SwitchRouter);
-            }
-        }
-
-        return {
-            config,
-            show,
-            resultName,
-            showResultName: resultName.length > 0,
-            operand
-        };
-    }
-
-    private getLocalizedObject(): LocalizedObject {
-        if (this.props.localizations && this.props.localizations.length) {
-            return this.props.localizations[0];
-        }
+        this.props.updateOperandA(operand);
     }
 
     private getResultNameField(): JSX.Element {
         let resultNameField: JSX.Element;
-
-        if (this.state.showResultName) {
+        if (this.props.showResultName) {
             resultNameField = (
                 <TextInputElement
                     data-spec="name-field"
                     ref={this.onBindWidget}
                     name="Result Name"
                     showLabel={true}
-                    value={this.state.resultName}
+                    value={this.props.resultName}
                     onChange={this.onResultNameChange}
                     helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
-                    ComponentMap={this.props.ComponentMap}
-                    config={this.state.config}
                 />
             );
         } else {
@@ -559,12 +486,11 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 </span>
             );
         }
-
         return <div className={formStyles.saveAs}>{resultNameField}</div>;
     }
 
     private updateLocalizations(language: string, changes: LocalizationUpdates): void {
-        this.props.onUpdateLocalizations(language, changes);
+        this.props.onUpdateLocalizationsAC(language, changes);
     }
 
     /***
@@ -573,9 +499,8 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
      * If the user is going from 1 or more cases to 0 and this router has a translation for the 'Other' case, lose it.
      */
     private cleanUpLocalizations(cases: CaseElementProps[]): void {
-        const { uuid: nodeUUID, exits: nodeExits } = this.props.node;
+        const { uuid: nodeUUID, exits: nodeExits } = this.props.nodeToEdit;
         const exitMap: { [uuid: string]: Exit } = mapExits(nodeExits);
-
         const updates: LocalizationUpdates = [];
         let lang: string;
 
@@ -601,15 +526,15 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     private getLocalizedExits(widgets: {
         [name: string]: any;
     }): Array<{ uuid: string; translations: any }> {
-        return this.props.node.exits.reduce((results, { uuid: exitUUID }: Exit) => {
-            const input = widgets[exitUUID] as TextInputElement;
+        return this.props.nodeToEdit.exits.reduce((results, { uuid: exitUUID }: Exit) => {
+            const input = widgets[exitUUID];
 
             if (input) {
                 // We save localized values as string arrays
                 const value =
-                    input.state.value.constructor === Array
-                        ? input.state.value[0].trim()
-                        : input.state.value.trim();
+                    input.wrappedInstance.state.value.constructor === Array
+                        ? input.wrappedInstance.state.value[0].trim()
+                        : input.wrappedInstance.state.value.trim();
 
                 if (value) {
                     results.push({ uuid: exitUUID, translations: { name: [value] } });
@@ -636,14 +561,16 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         [name: string]: any;
     }): Array<{ uuid: string; translations: any }> {
         const results: Array<{ uuid: string; translations: any }> = [];
-
-        const { cases } = this.props.node.router as SwitchRouter;
+        const { cases } = this.props.nodeToEdit.router as SwitchRouter;
 
         cases.forEach(({ uuid: caseUUID }) => {
-            const input: TextInputElement = widgets[caseUUID];
+            const input = widgets[caseUUID];
 
             if (input) {
-                const value = input.state.value.trim();
+                const wrappedInstance = input.hasOwnProperty('wrappedInstance');
+                const value = wrappedInstance
+                    ? input.wrappedInstance.state.value.trim()
+                    : input.state.value.trim();
 
                 if (value) {
                     results.push({ uuid: caseUUID, translations: { arguments: [value] } });
@@ -667,7 +594,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             return null;
         }
 
-        const exits: Exit[] = this.props.node.exits.reduce(
+        const exits: Exit[] = this.props.nodeToEdit.exits.reduce(
             (exitList, { uuid: exitUUID, name: exitName }) => {
                 const [localized] = this.props.localizations.filter(
                     (localizedObject: LocalizedObject) =>
@@ -696,9 +623,6 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                                     placeholder={placeholder}
                                     showLabel={false}
                                     value={value}
-                                    // Node
-                                    ComponentMap={this.props.ComponentMap}
-                                    config={this.state.config}
                                 />
                             </div>
                         </div>
@@ -729,8 +653,14 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         const invalid: any[] = Object.keys(this.widgets).reduce((invalidList, key) => {
             const widget = this.widgets[key];
 
-            if (!widget.validate()) {
-                invalidList.push(widget);
+            if (widget.wrappedInstance) {
+                if (!widget.wrappedInstance.validate()) {
+                    invalidList.push(widget);
+                }
+            } else {
+                if (!widget.validate()) {
+                    invalidList.push(widget);
+                }
             }
 
             return invalidList;
@@ -738,7 +668,9 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         // If all form inputs are valid, submit it
         if (!invalid.length) {
-            this.form.onValid(this.widgets);
+            this.form.wrappedInstance
+                ? this.form.wrappedInstance.onValid(this.widgets)
+                : this.form.onValid(this.widgets);
 
             return true;
         } else {
@@ -763,32 +695,39 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         return false;
     }
 
-    public open(): void {
-        const config = getTypeConfig(this.determineConfigType(this.props));
-
-        this.setState({
-            show: true,
-            config
-        });
-    }
-
     public close(canceled: boolean): void {
         this.widgets = {};
         this.advancedWidgets = {};
 
-        this.setState(
-            {
-                show: false
-            },
-            () => this.props.onClose(canceled)
-        );
+        // Make sure we re-wire the old connection
+        if (canceled) {
+            if (this.props.pendingConnection) {
+                const exit = getExit(
+                    this.props.pendingConnection.exitUUID,
+                    this.props.components,
+                    this.props.definition
+                );
+
+                if (exit) {
+                    this.props.plumberConnectExit(exit);
+                }
+            }
+        }
+
+        this.props.resetNewConnectionStateAC();
+        this.props.setUserAddingActionAC(false);
+        this.props.setNodeEditorOpenAC(false);
     }
 
     private triggerFormUpdate(): void {
-        this.form.onUpdateForm(this.widgets);
+        this.form.wrappedInstance
+            ? this.form.wrappedInstance.onUpdateForm(this.widgets)
+            : this.form.onUpdateForm(this.widgets);
 
         if (this.advanced) {
-            this.advanced.onUpdateForm(this.widgets);
+            this.advanced.wrappedInstance
+                ? this.advanced.wrappedInstance.onUpdateForm(this.widgets)
+                : this.advanced.onUpdateForm(this.widgets);
         }
     }
 
@@ -802,12 +741,13 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         delete this.widgets[name];
     }
 
-    private updateAction(act: Action): void {
-        this.props.onUpdateAction(this.props.node, act);
-    }
-
-    public updateRouter(node: Node, type: string, previousAction?: Action): void {
-        this.props.onUpdateRouter(node, type, previousAction);
+    private updateAction(action: Action): void {
+        // prettier-ignore
+        this.props.onUpdateActionAC(
+            this.props.nodeToEdit,
+            action,
+            this.props.plumberRepaintForDuration
+        );
     }
 
     private updateSwitchRouter(kases: CaseElementProps[]): void {
@@ -818,17 +758,17 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             this.cleanUpLocalizations(kases);
         }
 
-        const { cases, exits, defaultExit } = resolveExits(kases, this.props.node);
+        const { cases, exits, defaultExit } = resolveExits(kases, this.props.nodeToEdit);
 
         const optionalRouter: Pick<Router, 'result_name'> = {};
-        if (this.state.resultName) {
-            optionalRouter.result_name = this.state.resultName;
+        if (this.props.resultName) {
+            optionalRouter.result_name = this.props.resultName;
         }
 
         const optionalNode: Pick<Node, 'wait'> = {};
-        if (this.state.config.type === 'wait_for_response') {
+        if (this.props.typeConfig.type === 'wait_for_response') {
             optionalNode.wait = { type: WaitType.msg };
-        } else if (this.state.config.type === 'split_by_expression') {
+        } else if (this.props.typeConfig.type === 'split_by_expression') {
             optionalNode.wait = { type: WaitType.exp };
         }
 
@@ -836,19 +776,20 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             type: 'switch',
             default_exit_uuid: defaultExit,
             cases,
-            operand: this.state.operand,
+            operand: this.props.operand,
             ...optionalRouter
         };
 
-        this.updateRouter(
+        this.props.onUpdateRouterAC(
             {
-                uuid: this.props.node.uuid,
+                uuid: this.props.nodeToEdit.uuid,
                 router,
                 exits,
                 ...optionalNode
             },
-            this.state.config.type,
-            getAction(this.props, this.state.config)
+            this.props.typeConfig.type,
+            this.props.plumberRepaintForDuration,
+            getAction(this.props.actionToEdit, this.props.typeConfig)
         );
     }
 
@@ -857,7 +798,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         const currentCases = groupsToCases(groups);
 
-        const { cases, exits, defaultExit } = resolveExits(currentCases, this.props.node);
+        const { cases, exits, defaultExit } = resolveExits(currentCases, this.props.nodeToEdit);
 
         if (
             this.props.definition.localization &&
@@ -875,32 +816,46 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         };
 
         const updates: Partial<Node> = {
-            uuid: this.props.node.uuid,
+            uuid: this.props.nodeToEdit.uuid,
             exits,
             wait: {
                 type: WaitType.group
             }
         };
 
-        if (this.state.resultName) {
-            router.result_name += this.state.resultName;
+        if (this.props.resultName) {
+            router.result_name += this.props.resultName;
         }
 
-        this.updateRouter(
+        this.props.onUpdateRouterAC(
             { ...updates, router } as Node,
             'split_by_group',
-            getAction(this.props, this.state.config)
+            this.props.plumberRepaintForDuration,
+            getAction(this.props.actionToEdit, this.props.typeConfig)
         );
     }
 
     public updateSubflowRouter(): void {
-        const action = getAction(this.props, this.state.config);
-        const select = this.widgets.Flow;
-        const { name: flowName, id: flowUUID } = select.state.flow;
+        // prettier-ignore
+        const action = getAction(
+            this.props.actionToEdit,
+            this.props.typeConfig
+        );
+
+        // prettier-ignore
+        const {
+            state: {
+                flow:
+                {
+                    name: flowName,
+                    id: flowUUID
+                }
+            }
+        } = this.widgets.Flow;
 
         const newAction: StartFlow = {
             uuid: action.uuid,
-            type: this.state.config.type,
+            type: this.props.typeConfig.type,
             flow_name: flowName,
             flow_uuid: flowUUID
         };
@@ -909,11 +864,11 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         let exits: Exit[];
         let cases: Case[];
 
-        const details = this.props.ComponentMap.getDetails(this.props.node.uuid);
+        const details = getDetails(this.props.nodeToEdit.uuid, this.props.components);
 
         if (details && details.type === 'subflow') {
-            ({ exits } = this.props.node);
-            ({ cases } = this.props.node.router as SwitchRouter);
+            ({ exits } = this.props.nodeToEdit);
+            ({ cases } = this.props.nodeToEdit.router as SwitchRouter);
         } else {
             // Otherwise, let's create some new ones
             exits = [
@@ -953,13 +908,13 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         };
 
         // HACK: this should go away with modal refactor
-        let { uuid: nodeUUID } = this.props.node;
+        let { uuid: nodeUUID } = this.props.nodeToEdit;
 
         if (action.uuid === nodeUUID) {
             nodeUUID = generateUUID();
         }
 
-        this.updateRouter(
+        this.props.onUpdateRouterAC(
             {
                 uuid: nodeUUID,
                 router: newRouter,
@@ -968,13 +923,14 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 wait: { type: 'flow', flow_uuid: flowUUID }
             },
             'subflow',
+            this.props.plumberRepaintForDuration,
             action
         );
     }
 
     private updateWebhookRouter(): void {
-        const action = getAction(this.props, this.state.config);
-        const urlEle = this.widgets.URL;
+        const action = getAction(this.props.actionToEdit, this.props.typeConfig);
+        const urlEle = this.widgets.URL.wrappedInstance;
 
         // Determine method
         let method: Methods = Methods.GET;
@@ -986,7 +942,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         // Determine body
         let body = DEFAULT_BODY;
         if (method === Methods.POST || method === Methods.PUT) {
-            const bodyEle = this.widgets.Body;
+            const bodyEle = this.widgets.Body.wrappedInstance;
             body = bodyEle.state.value;
         }
 
@@ -1006,10 +962,9 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             return map;
         }, {});
 
-        const { uuid } = action;
         const newAction: CallWebhook = {
-            uuid,
-            type: this.state.config.type,
+            uuid: action.uuid,
+            type: this.props.typeConfig.type,
             url: urlEle.state.value,
             headers,
             method,
@@ -1018,12 +973,12 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         const exits: Exit[] = [];
         const cases: Case[] = [];
-        const details = this.props.ComponentMap.getDetails(this.props.node.uuid);
+        const details = getDetails(this.props.nodeToEdit.uuid, this.props.components);
 
         // If we were already a webhook, lean on those exits and cases
         if (details && details.type === 'webhook') {
-            this.props.node.exits.forEach(exit => exits.push(exit));
-            (this.props.node.router as SwitchRouter).cases.forEach(kase => cases.push(kase));
+            this.props.nodeToEdit.exits.forEach(exit => exits.push(exit));
+            (this.props.nodeToEdit.router as SwitchRouter).cases.forEach(kase => cases.push(kase));
         } else {
             // Otherwise, let's create some new ones
             exits.push(
@@ -1056,9 +1011,11 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
 
         // HACK: this should go away with modal <refactor></refactor>
         const nodeUUID: string =
-            action.uuid === this.props.node.uuid ? generateUUID() : this.props.node.uuid;
+            action.uuid === this.props.nodeToEdit.uuid
+                ? generateUUID()
+                : this.props.nodeToEdit.uuid;
 
-        this.updateRouter(
+        this.props.onUpdateRouterAC(
             {
                 uuid: nodeUUID,
                 router,
@@ -1066,6 +1023,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 actions: [newAction]
             },
             'webhook',
+            this.props.plumberRepaintForDuration,
             action
         );
     }
@@ -1081,7 +1039,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     private hasAdvanced(): boolean {
         const mode: Mode = this.getMode();
 
-        return this.state.config.allows(mode);
+        return this.props.typeConfig.allows(mode);
     }
 
     private getButtons(): ButtonSet {
@@ -1097,7 +1055,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             return `${this.props.language.name} Translation`;
         }
 
-        return this.state.config.name;
+        return this.props.typeConfig.name;
     }
 
     private getTitles(): JSX.Element[] {
@@ -1120,7 +1078,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
         if (!this.props.translating) {
             let className: string = '';
 
-            if (isSwitchForm(this.state.config.type)) {
+            if (isSwitchForm(this.props.typeConfig.type)) {
                 ({ type_chooser_switch: className } = formStyles);
             } else {
                 ({ type_chooser: className } = formStyles);
@@ -1130,7 +1088,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
                 <TypeList
                     __className={className}
                     // NodeEditor
-                    initialType={this.state.config}
+                    initialType={this.props.typeConfig}
                     onChange={this.onTypeChange}
                 />
             );
@@ -1140,41 +1098,27 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     private getSides(): Sides {
-        const action = getAction(this.props, this.state.config);
-
+        const { actionToEdit, typeConfig } = this.props;
+        const action = getAction(actionToEdit, typeConfig);
         let updateRouter: Function;
 
-        if (
-            this.state.config.type === 'wait_for_response' ||
-            this.state.config.type === 'split_by_expression'
-        ) {
+        if (typeConfig.type === 'wait_for_response' || typeConfig.type === 'split_by_expression') {
             updateRouter = this.updateSwitchRouter;
-        } else if (this.state.config.type === 'start_flow') {
+        } else if (typeConfig.type === 'start_flow') {
             updateRouter = this.updateSubflowRouter;
-        } else if (this.state.config.type === 'call_webhook') {
+        } else if (typeConfig.type === 'call_webhook') {
             updateRouter = this.updateWebhookRouter;
-        } else if (this.state.config.type === 'split_by_group') {
+        } else if (typeConfig.type === 'split_by_group') {
             updateRouter = this.updateGroupRouter;
         }
 
         const formProps: Partial<FormProps> = {
-            // Node
-            node: this.props.node,
-            operand: this.state.operand,
-            language: this.props.language,
-            translating: this.props.translating,
-            definition: this.props.definition,
-            ComponentMap: this.props.ComponentMap,
-            config: this.state.config,
             action,
-            localizations: this.props.localizations,
             saveLocalizations: this.saveLocalizations,
             updateLocalizations: this.updateLocalizations,
             cleanUpLocalizations: this.cleanUpLocalizations,
             updateAction: this.updateAction,
             updateRouter,
-            // NodeEditor
-            getLocalizedObject: this.getLocalizedObject,
             getResultNameField: this.getResultNameField,
             getExitTranslations: this.getExitTranslations,
             onBindWidget: this.onBindWidget,
@@ -1185,7 +1129,7 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
             removeWidget: this.removeWidget
         };
 
-        const { config: { form: FormComp } }: NodeEditorState = this.state;
+        const { form: FormComp } = typeConfig;
 
         const typeList = this.getTypeList();
 
@@ -1216,31 +1160,83 @@ export default class NodeEditor extends React.PureComponent<NodeEditorProps, Nod
     }
 
     public render(): JSX.Element {
-        if (this.state.show) {
-            if (this.state.config.form) {
-                const style = shared[this.state.config.type];
+        if (this.props.nodeEditorOpen) {
+            if (this.props.typeConfig.form) {
+                const style = shared[this.props.typeConfig.type];
                 const titles: JSX.Element[] = this.getTitles();
                 const buttons: ButtonSet = this.getButtons();
                 const { front, back }: Sides = this.getSides();
-
                 return (
                     <Modal
                         ref={this.modalRef}
                         __className={style}
                         width="600px"
                         title={titles}
-                        show={this.state.show}
+                        show={this.props.nodeEditorOpen}
                         buttons={buttons}
-                        node={this.props.node}>
+                        node={this.props.nodeToEdit}>
                         {front}
                         {back}
                     </Modal>
                 );
             }
-
             return null;
         }
-
         return null;
     }
 }
+
+const mapStateToProps = ({
+    nodeToEdit,
+    language,
+    nodeEditorOpen,
+    actionToEdit,
+    localizations,
+    definition,
+    components,
+    translating,
+    typeConfig,
+    resultName,
+    showResultName,
+    operand,
+    pendingConnection
+}: ReduxState) => ({
+    nodeToEdit,
+    language,
+    nodeEditorOpen,
+    actionToEdit,
+    localizations,
+    definition,
+    components,
+    translating,
+    typeConfig,
+    resultName,
+    showResultName,
+    operand,
+    pendingConnection
+});
+
+const mapDispatchToProps = (dispatch: DispatchWithState) => ({
+    updateResultNameA: (resultName: string) => dispatch(updateResultName(resultName)),
+    setShowResultNameAC: (showResultName: boolean) => dispatch(setShowResultName(showResultName)),
+    resetNewConnectionStateAC: () => dispatch(resetNodeEditingState()),
+    setNodeEditorOpenAC: (nodeEditorOpen: boolean) => dispatch(setNodeEditorOpen(nodeEditorOpen)),
+    setTypeConfigAC: (typeConfig: Type) => dispatch(setTypeConfig(typeConfig)),
+    updateOperandA: (operand: string) => dispatch(updateOperand(operand)),
+    onUpdateLocalizationsAC: (language: string, changes: LocalizationUpdates) =>
+        dispatch(onUpdateLocalizations(language, changes)),
+    onUpdateActionAC: (node: Node, action: AnyAction, repaintForDuration: Function) =>
+        dispatch(onUpdateAction(node, action, repaintForDuration)),
+    onUpdateRouterAC: (
+        node: Node,
+        type: string,
+        repaintForDuration: Function,
+        previousAction?: Action
+    ) => dispatch(onUpdateRouter(node, type, repaintForDuration, previousAction)),
+    setUserAddingActionAC: (userAddingAction: boolean) =>
+        dispatch(setUserAddingAction(userAddingAction))
+});
+
+const ConnectedNodeEditor = connect(mapStateToProps, mapDispatchToProps)(NodeEditor);
+
+export default ConnectedNodeEditor;

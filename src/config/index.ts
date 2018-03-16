@@ -4,6 +4,7 @@ import ConfigProvider, {
     endpointsPT,
     languagesPT
 } from './ConfigProvider';
+import Config from './Config';
 import { Type, Mode, typeConfigList, getTypeConfig } from './typeConfigs';
 import { Operator, operatorConfigList, getOperatorConfig } from './operatorConfigs';
 
@@ -18,7 +19,8 @@ export {
     typeConfigList,
     getTypeConfig,
     operatorConfigList,
-    getOperatorConfig
+    getOperatorConfig,
+    Config
 };
 
 export default ConfigProvider;

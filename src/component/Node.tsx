@@ -1,33 +1,46 @@
+import * as classNames from 'classnames/bind';
 import * as React from 'react';
-import * as FlipMove from 'react-flip-move';
 import * as shallowCompare from 'react-addons-shallow-compare';
-import { Language } from './LanguageSelector';
-import ActionComp, { ActionProps } from './actions/Action';
-import { DragEvent } from '../services/Plumber';
-import ExitComp from './Exit';
-import TitleBar from './TitleBar';
+import * as FlipMove from 'react-flip-move';
+import { react as bindCallbacks } from 'auto-bind';
+import { connect } from 'react-redux';
+import { Config, getTypeConfig } from '../config';
 import {
-    Exit,
+    AnyAction,
+    Dimensions,
     FlowDefinition,
+    Languages,
     Node,
-    UINode,
     Position,
     SwitchRouter,
-    AnyAction,
-    Endpoints,
-    Languages
+    UINode
 } from '../flowTypes';
-import { titleCase, snapToGrid } from '../utils';
-import CounterComp from './Counter';
+import {
+    DispatchWithState,
+    onAddAction,
+    onNodeBeforeDrag,
+    onNodeMoved,
+    onOpenNodeEditor,
+    ReduxState,
+    removeNode,
+    resolvePendingConnection,
+    setDragGroup,
+    setNodeDragging,
+    setUserClickingNode,
+    updateDimensions,
+    getTranslations
+} from '../redux';
 import ActivityManager from '../services/ActivityManager';
-import ComponentMap from '../services/ComponentMap';
 import Localization, { LocalizedObject } from '../services/Localization';
-import { ConfigProviderContext, endpointsPT, languagesPT, getTypeConfig } from '../config';
-import { NodeEditorProps } from './NodeEditor/NodeEditor';
-
+import { DragEvent } from '../services/Plumber';
+import { snapToGrid, titleCase } from '../utils';
+import ActionWrapper from './actions/Action';
+import CounterComp from './Counter';
+import ExitComp from './Exit';
+import { Language } from './LanguageSelector';
 import * as styles from './Node.scss';
 import * as shared from './shared.scss';
-import { react as bindCallbacks } from 'auto-bind';
+import TitleBar from './TitleBar';
 
 // A point in the flow from which a drag is initiated
 export interface DragPoint {
@@ -36,112 +49,114 @@ export interface DragPoint {
     onResolved?(canceled: boolean): void;
 }
 
-export interface NodeState {
-    dragging?: boolean;
-    createPosition?: Position;
-}
-
-export interface NodeProps {
-    nodeDragging?: boolean;
+export interface NodeEditorContainerProps {
     node: Node;
     ui: UINode;
     Activity: ActivityManager;
-    translations: { [uuid: string]: any };
-    language: Language;
-    translating: boolean;
-    definition: FlowDefinition;
-    ghost?: boolean;
-    onNodeMounted: Function;
-    onUpdateDimensions: Function;
-    onNodeMoved: Function;
-    onNodeDragStart: Function;
-    onNodeBeforeDrag: Function;
-    onDisconnectExit(exitUUID: string): void;
-    onNodeDragStop: Function;
-    openEditor(props: NodeEditorProps): void;
-    onAddAction: Function;
-    onRemoveNode: Function;
-    onUpdateLocalizations: Function;
-    onUpdateAction: Function;
-    onUpdateRouter: Function;
-    onRemoveAction: Function;
-    onMoveActionUp: Function;
-    ComponentMap: ComponentMap;
+    plumberRepaintForDuration: Function;
     plumberDraggable: Function;
     plumberMakeTarget: Function;
     plumberRemove: Function;
     plumberRecalculate: Function;
     plumberMakeSource: Function;
     plumberConnectExit: Function;
+    plumberSetDragSelection: Function;
+    plumberClearDragSelection: Function;
+    ghostRef?: any;
+    ghost?: boolean;
 }
 
-export const getLocalizations = (
-    node: Node,
-    iso: string,
-    languages: Languages,
-    translations?: { [uuid: string]: any }
-): LocalizedObject[] => {
-    const localizations: LocalizedObject[] = [];
+export interface NodeProps extends NodeEditorContainerProps {
+    languages: Languages;
+    language: Language;
+    translating: boolean;
+    definition: FlowDefinition;
+    nodeDragging: boolean;
+    userClickingNode: boolean;
+    setNodeDraggingAC: (nodeDragging: boolean) => void;
+    onNodeBeforeDragAC: (
+        node: Node,
+        setDragSelection: Function,
+        clearDragSelection: Function
+    ) => void;
+    resolvePendingConnectionAC: (node: Node) => void;
+    onAddActionAC: (node: Node, languages: Languages) => void;
+    onNodeMovedAC: (uuid: string, position: Position, plumberRepaintForDuration: Function) => void;
+    onOpenNodeEditorAC: (node: Node, action: AnyAction, languages: Languages) => void;
+    removeNodeAC: (nodeToRemove: Node) => void;
+    updateDimensionsAC: (node: Node, dimensions: Dimensions) => void;
+    setDragGroupAC: (dragGroup: boolean) => void;
+    setUserClickingNodeAC: (userClickingNode: boolean) => void;
+}
 
-    // Account for localized cases
-    if (node.router && node.router.type === 'switch') {
-        const router = node.router as SwitchRouter;
+export interface NodeState {
+    thisNodeDragging: boolean;
+}
 
-        router.cases.forEach(kase =>
-            localizations.push(Localization.translate(kase, iso, languages, translations))
-        );
-    }
+const cx = classNames.bind({ ...shared, ...styles });
 
-    // Account for localized exits
-    node.exits.forEach(exit => {
-        localizations.push(Localization.translate(exit, iso, languages, translations));
-    });
-
-    return localizations;
-};
+const NodeContainer: React.SFC<NodeEditorContainerProps> = ({
+    node,
+    ui,
+    ghost,
+    ghostRef,
+    Activity,
+    plumberRepaintForDuration,
+    plumberDraggable,
+    plumberMakeTarget,
+    plumberRemove,
+    plumberRecalculate,
+    plumberMakeSource,
+    plumberConnectExit,
+    plumberSetDragSelection,
+    plumberClearDragSelection
+}) => (
+    <Config
+        render={({ languages }) => (
+            <ConnectedNode
+                ref={ghostRef}
+                node={node}
+                ui={ui}
+                ghost={ghost}
+                languages={languages}
+                Activity={Activity}
+                plumberRepaintForDuration={plumberRepaintForDuration}
+                plumberDraggable={plumberDraggable}
+                plumberMakeTarget={plumberMakeTarget}
+                plumberRemove={plumberRemove}
+                plumberRecalculate={plumberRecalculate}
+                plumberMakeSource={plumberMakeSource}
+                plumberConnectExit={plumberConnectExit}
+                plumberSetDragSelection={plumberSetDragSelection}
+                plumberClearDragSelection={plumberClearDragSelection}
+            />
+        )}
+    />
+);
 
 /**
  * A single node in the rendered flow
  */
-export default class NodeComp extends React.Component<NodeProps, NodeState> {
+export class NodeComp extends React.Component<NodeProps, NodeState> {
     public ele: HTMLDivElement;
-    private firstAction: ActionComp;
+    private firstAction: any;
     private clicking: boolean;
-    private dragGroup: boolean;
     private events: { onMouseDown(): void; onMouseUp(event: any): void };
 
-    public static contextTypes = {
-        endpoints: endpointsPT,
-        languages: languagesPT
-    };
-
-    constructor(props: NodeProps, context: ConfigProviderContext) {
+    constructor(props: NodeProps) {
         super(props);
 
-        this.state = { dragging: false };
+        this.state = { thisNodeDragging: false };
 
         bindCallbacks(this, {
-            include: [
-                'eleRef',
-                'onMouseOver',
-                'onMouseOut',
-                'onAddAction',
-                'onClick',
-                'onDragStart',
-                'onDrag',
-                'onDragStop',
-                'onRemoval',
-                'onUnmount',
-                'getCount'
-            ]
+            include: [/Ref$/, /^on/, /^get/]
         });
 
         this.events = {
-            onMouseDown: () => (this.clicking = true),
+            onMouseDown: () => props.setUserClickingNodeAC(true),
             onMouseUp: (event: any) => {
-                if (this.clicking) {
-                    this.clicking = false;
-
+                if (this.props.userClickingNode) {
+                    this.props.setUserClickingNodeAC(false);
                     this.onClick(event);
                 }
             }
@@ -157,14 +172,17 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             this.props.node.uuid,
             (event: DragEvent) => {
                 this.onDragStart(event);
-                this.props.onNodeDragStart(this.props.node);
+                this.props.setNodeDraggingAC(true);
             },
             (event: DragEvent) => this.onDrag(event),
             (event: DragEvent) => this.onDragStop(event),
             () => {
                 if (!this.props.translating) {
-                    this.props.onNodeBeforeDrag(this.props.node, this.dragGroup);
-
+                    this.props.onNodeBeforeDragAC(
+                        this.props.node,
+                        this.props.plumberSetDragSelection,
+                        this.props.plumberClearDragSelection
+                    );
                     return true;
                 } else {
                     return false;
@@ -175,22 +193,20 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         // Make ourselves a target
         this.props.plumberMakeTarget(this.props.node.uuid);
 
-        // Resolve our pending connections, etc
-        if (this.props.onNodeMounted) {
-            this.props.onNodeMounted(this.props.node);
-        }
+        // Resolve pending connection
+        this.props.resolvePendingConnectionAC(this.props.node);
 
-        // move our drag node around as necessary
+        // Move our drag node around as necessary
         if (this.props.ghost) {
             $(document).bind('mousemove', e => {
                 const ele = $(this.ele);
-                let left = e.pageX - ele.width() / 2;
-                let top = e.pageY;
+                const left = e.pageX - ele.width() / 2;
+                const top = e.pageY;
                 const nodeEle = $(this.ele);
 
                 nodeEle.offset({ left, top });
 
-                // hide ourselves there's a drop target
+                // Hide ourselves if there's a drop target
                 // TODO: a less ugly way to accomplish this would be great
                 if ($('.plumb-drop-hover').length > 0) {
                     nodeEle.hide();
@@ -239,31 +255,31 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         this.props.plumberRemove(this.props.node.uuid);
     }
 
-    private onMouseOver(): boolean {
-        return (this.dragGroup = true);
+    private onMouseOver(): void {
+        this.props.setDragGroupAC(true);
     }
 
-    private onMouseOut(): boolean {
-        return (this.dragGroup = false);
+    private onMouseOut(): void {
+        this.props.setDragGroupAC(false);
     }
 
     private onAddAction(): void {
-        this.props.onAddAction(this.props.node);
+        this.props.onAddActionAC(this.props.node, this.props.languages);
     }
 
     private onDragStart(event: any): boolean {
-        this.clicking = false;
-        this.setState({ dragging: true });
-
+        this.props.setUserClickingNodeAC(false);
+        this.setState({ thisNodeDragging: true });
         return false;
     }
 
-    private onDrag(event: DragEvent): void {}
+    private onDrag(event: DragEvent): void {
+        return;
+    }
 
     private onDragStop(event: DragEvent): void {
-        this.setState({ dragging: false });
-
-        this.props.onNodeDragStop(this.props.node);
+        this.setState({ thisNodeDragging: false });
+        this.props.setNodeDraggingAC(false);
 
         const position = $(event.target).position();
 
@@ -277,17 +293,21 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         }
 
         const { left, top } = snapToGrid(event.finalPos[0], event.finalPos[1]);
-        this.ele.style.left = left + 'px';
-        this.ele.style.top = top + 'px';
+        this.ele.style.left = `${left}px`;
+        this.ele.style.top = `${top}px`;
 
         // Update our coordinates
-        this.props.onNodeMoved(this.props.node.uuid, { x: left, y: top });
+        this.props.onNodeMovedAC(
+            this.props.node.uuid,
+            { x: left, y: top },
+            this.props.plumberRepaintForDuration
+        );
     }
 
     private updateDimensions(): void {
         if (this.ele) {
             if (this.ele.clientWidth && this.ele.clientHeight) {
-                this.props.onUpdateDimensions(this.props.node, {
+                this.props.updateDimensionsAC(this.props.node, {
                     width: this.ele.clientWidth,
                     height: this.ele.clientHeight
                 });
@@ -295,43 +315,15 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         }
     }
 
-    // Applies only to router nodes; ./Action/Action handles click logic for Action nodes
-    public onClick(event?: any): void {
-        let localizations: LocalizedObject[] = [];
-
-        // click the last action in the list if we have one
-        if (this.props.translating) {
-            localizations = getLocalizations(
-                this.props.node,
-                this.props.language.iso,
-                this.context.languages,
-                this.props.translations
-            );
-        }
-
-        let nodeEditorProps: NodeEditorProps = {
-            // Flow
-            node: this.props.node,
-            definition: this.props.definition,
-            language: this.props.language,
-            nodeUI: this.props.ui,
-            translating: this.props.translating,
-            localizations,
-            ComponentMap: this.props.ComponentMap,
-            onUpdateLocalizations: this.props.onUpdateLocalizations,
-            onUpdateAction: this.props.onUpdateAction,
-            onUpdateRouter: this.props.onUpdateRouter
-        };
-
-        // account for hybrids or clicking on the empty exit table
-        if (this.props.node.actions && this.props.node.actions.length) {
-            nodeEditorProps = {
-                ...nodeEditorProps,
-                action: this.props.node.actions[this.props.node.actions.length - 1]
-            };
-        }
-
-        this.props.openEditor(nodeEditorProps);
+    // Applies only to router nodes;
+    // ./Action/Action handles click logic for Action nodes.
+    private onClick(event?: any): void {
+        // prettier-ignore
+        this.props.onOpenNodeEditorAC(
+            this.props.node,
+            null,
+            this.props.languages
+        );
     }
 
     private onRemoval(event: React.MouseEvent<HTMLDivElement>): void {
@@ -339,8 +331,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             event.preventDefault();
             event.stopPropagation();
         }
-
-        this.props.onRemoveNode(this.props.node);
+        this.props.removeNodeAC(this.props.node);
     }
 
     private onUnmount(key: string): void {
@@ -354,22 +345,18 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
     private getExits(): JSX.Element[] {
         if (this.props.node.exits) {
             return this.props.node.exits.map(exit => {
+                const translations = getTranslations(this.props.definition, this.props.language);
                 const localization: LocalizedObject = Localization.translate(
                     exit,
                     this.props.language.iso,
-                    this.context.languages,
-                    this.props.translations
+                    this.props.languages,
+                    translations
                 );
-
                 return (
                     <ExitComp
                         key={exit.uuid}
-                        // Node
                         exit={exit}
                         localization={localization}
-                        // Flow
-                        translating={this.props.translating}
-                        onDisconnect={this.props.onDisconnectExit}
                         Activity={this.props.Activity}
                         plumberMakeSource={this.props.plumberMakeSource}
                         plumberRemove={this.props.plumberRemove}
@@ -399,58 +386,44 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     public render(): JSX.Element {
-        const classes = ['plumb-drag', styles.node];
-
         const actions: JSX.Element[] = [];
         let actionList: JSX.Element = null;
 
         if (this.props.node.actions) {
             // Save the first reference off to manage our clicks
-            let firstRef: { ref(ref: ActionComp): ActionComp } | {} = {
-                ref: (ref: ActionComp): ActionComp => (this.firstAction = ref)
+            let firstRef: { ref: (ref: any) => any } | {} = {
+                ref: (ref: any) => (this.firstAction = ref)
             };
 
             this.props.node.actions.forEach((action: AnyAction, idx: number) => {
                 const actionConfig = getTypeConfig(action.type);
 
                 if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
-                    const localization: LocalizedObject = Localization.translate(
-                        action,
-                        this.props.language.iso,
-                        this.context.languages,
-                        this.props.translations
+                    const translations = getTranslations(
+                        this.props.definition,
+                        this.props.language
                     );
 
-                    const actionProps: ActionProps = {
-                        // Flow
-                        node: this.props.node,
-                        ComponentMap: this.props.ComponentMap,
-                        openEditor: this.props.openEditor,
-                        onRemoveAction: this.props.onRemoveAction,
-                        onMoveActionUp: this.props.onMoveActionUp,
-                        onUpdateLocalizations: this.props.onUpdateLocalizations,
-                        onUpdateAction: this.props.onUpdateAction,
-                        onUpdateRouter: this.props.onUpdateRouter,
-                        /** Node */
-                        dragging: this.state.dragging,
+                    const localization = Localization.translate(
                         action,
-                        first: idx === 0,
-                        hasRouter:
-                            this.props.node.hasOwnProperty('router') &&
-                            (this.props.node.router !== undefined ||
-                                this.props.node.router !== null),
-                        definition: this.props.definition,
-                        language: this.props.language,
-                        translating: this.props.translating,
-                        localization
-                    };
+                        this.props.language.iso,
+                        this.props.languages,
+                        translations
+                    );
 
                     const { component: ActionDiv } = actionConfig;
 
                     actions.push(
-                        <ActionComp {...firstRef} key={action.uuid} {...actionProps}>
-                            {(injectedProps: AnyAction) => <ActionDiv {...injectedProps} />}
-                        </ActionComp>
+                        <ActionWrapper
+                            {...firstRef}
+                            key={action.uuid}
+                            node={this.props.node}
+                            thisNodeDragging={this.state.thisNodeDragging}
+                            action={action}
+                            first={idx === 0}
+                            localization={localization}
+                            render={(anyAction: AnyAction) => <ActionDiv {...anyAction} />}
+                        />
                     );
                 }
 
@@ -501,7 +474,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
             if (!this.props.node.actions || !this.props.node.actions.length) {
                 // Router headers are introduced here while action headers are introduced in ./Action/Action
                 header = (
-                    // wrap in a relative parent so it honors node clipping
+                    // Wrap in a relative parent so it honors node clipping
                     <div style={{ position: 'relative' }}>
                         <div {...this.events}>
                             <TitleBar
@@ -527,29 +500,19 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
 
         const exits: JSX.Element[] = this.getExits();
 
-        const modalTitle = <div>Router</div>;
+        const classes = cx({
+            'plumb-drag': true,
+            [styles.node]: true,
+            [styles.dragging]: this.state.thisNodeDragging,
+            [styles.ghost]: this.props.ghost,
+            [styles.translating]: this.props.translating,
+            [styles.nondragged]: this.props.nodeDragging && !this.state.thisNodeDragging.valueOf
+        });
 
-        if (this.state.dragging) {
-            classes.push(styles.dragging);
-        }
-
-        if (this.props.ghost) {
-            classes.push(styles.ghost);
-        }
-
-        if (this.props.translating) {
-            classes.push(styles.translating);
-        }
-
-        if (this.props.nodeDragging && !this.state.dragging) {
-            classes.push(styles.nondragged);
-        }
-
-        let exitClass = '';
-
-        if (this.props.node.exits.length === 1 && !this.props.node.exits[0].name) {
-            exitClass = styles.unnamed_exit;
-        }
+        const exitClass =
+            this.props.node.exits.length === 1 && !this.props.node.exits[0].name
+                ? styles.unnamed_exit
+                : '';
 
         const dragLink = this.getDragLink();
 
@@ -559,11 +522,7 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
         };
 
         return (
-            <div
-                className={classes.join(' ')}
-                ref={this.eleRef}
-                id={this.props.node.uuid}
-                style={style}>
+            <div ref={this.eleRef} id={this.props.node.uuid} className={classes} style={style}>
                 {dragLink}
                 <CounterComp
                     ref={this.props.Activity.registerListener}
@@ -580,10 +539,53 @@ export default class NodeComp extends React.Component<NodeProps, NodeState> {
                     <div className={styles.exits} {...this.events}>
                         {exits}
                     </div>
-
                     {addActions}
                 </div>
             </div>
         );
     }
 }
+
+const mapStateToProps = ({
+    language,
+    translating,
+    definition,
+    nodeDragging,
+    userClickingNode
+}: ReduxState) => ({
+    language,
+    translating,
+    definition,
+    nodeDragging,
+    userClickingNode
+});
+
+const mapDispatchToProps = (dispatch: DispatchWithState) => ({
+    setNodeDraggingAC: (nodeDragging: boolean) => dispatch(setNodeDragging(nodeDragging)),
+    onNodeBeforeDragAC: (node: Node, setDragSelection: Function, clearDragSelection: Function) =>
+        dispatch(onNodeBeforeDrag(node, setDragSelection, clearDragSelection)),
+    resolvePendingConnectionAC: (node: Node) => dispatch(resolvePendingConnection(node)),
+    onAddActionAC: (node: Node, languages: Languages) => dispatch(onAddAction(node, languages)),
+    onNodeMovedAC: (uuid: string, position: Position, plumberRepaintForDuration: Function) =>
+        dispatch(onNodeMoved(uuid, position, plumberRepaintForDuration)),
+    onOpenNodeEditorAC: (node: Node, action: AnyAction, languages: Languages) =>
+        dispatch(onOpenNodeEditor(node, action, languages)),
+    removeNodeAC: (nodeToRemove: Node) => dispatch(removeNode(nodeToRemove)),
+    updateDimensionsAC: (node: Node, dimensions: Dimensions) =>
+        dispatch(updateDimensions(node, dimensions)),
+    setDragGroupAC: (dragGroup: boolean) => dispatch(setDragGroup(dragGroup)),
+    setUserClickingNodeAC: (userClickingNode: boolean) =>
+        dispatch(setUserClickingNode(userClickingNode))
+});
+
+// prettier-ignore
+const ConnectedNode = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    { withRef: true }
+)(
+    NodeComp
+);
+
+export default NodeContainer;

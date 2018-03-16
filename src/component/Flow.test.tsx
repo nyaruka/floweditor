@@ -26,7 +26,7 @@ const props: FlowProps = {
     ComponentMap
 };
 
-describe('Flow >', () => {
+xdescribe('Flow >', () => {
     describe('render >', () => {
         it('should render', () => {
             const wrapper = shallow(<Flow {...props} />, {

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
-import { Async, AsyncCreatable } from 'react-select';
 import axios, { AxiosResponse } from 'axios';
-import { SearchResult } from '../services/ComponentMap';
+import { Async, AsyncCreatable } from 'react-select';
+import { SearchResult } from '../redux';
 import { jsonEqual } from '../utils';
 
 export interface SelectSearchProps {
