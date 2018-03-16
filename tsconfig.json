@@ -14,7 +14,7 @@
     "allowJs": true,
     "watch": true,
     "alwaysStrict": true,
-    "lib": ["es2017", "dom"]
+    "lib": ["es6", "dom"]
   },
   "include": ["./src/**/*.ts*"],
   "exclude": ["node_modules", "__mocks__", "./src/**/*.test.ts*"]

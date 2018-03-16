@@ -236,7 +236,7 @@ export default class ComponentMap {
             }
         }
 
-        this.resultNames = toBoolMap(Object.values(resultNames));
+        this.resultNames = toBoolMap(Object.keys(resultNames).map((resultKey: string) => resultNames[resultKey]));
         this.contactFields = existingFields;
         this.groups = existingGroups;
         this.components = components;
