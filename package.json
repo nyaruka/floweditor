@@ -29,11 +29,14 @@
     "runAnalyzer:prod": "npm run bundleStats:prod && npm run analyze",
     "runAnalyzer:prod:windows": "npm run bundleStats:prod:windows && npm run analyze",
     "preprettify": "prettier --debug-check '{,!(node_modules)/**/}*.@(ts|tsx)'",
-    "prettify": "prettier --write 'src/**/*.{ts,tsx}'",
+    "prettify": "prettier --write 'src/**/*.{ts,tsx,json,js,css,md}'",
     "preversion": "npm run test:local",
     "version": "npm run build:prod",
     "postversion": "git push && git push --tags && npm publish",
-    "precommit": "npm run prettify"
+    "precommit": "lint-staged"
+  },
+  "lint-staged": { 
+    "*.{ts,tsx,js,json,css,md}": [ "prettier --write", "git add" ] 
   },
   "peerDependencies": {
     "react": "^16.0",
@@ -95,6 +98,7 @@
     "jest": "21.2.1",
     "jquery": "3.1.1",
     "jsplumb": "2.6.7",
+    "lint-staged": "7.0.0",
     "local-storage": "1.4.2",
     "nock": "9.0.28",
     "node-sass": "4.7.2",
