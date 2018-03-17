@@ -291,12 +291,6 @@ export const setResultNames = (resultNames: CompletionOption[]) => (
     }
 };
 
-export const setNodes = (nodes: Node[]) => (dispatch: DispatchWithState, getState: GetState) => {
-    if (!isEqual(nodes, getState().nodes)) {
-        dispatch(updateNodes(nodes));
-    }
-};
-
 export const fetchFlow = (endpoint: string, uuid: string) => (
     dispatch: DispatchWithState,
     getState: GetState
@@ -433,7 +427,6 @@ export const refresh = (definition: FlowDefinition) => (dispatch: DispatchWithSt
     dispatch(setGroups(existingGroups));
     dispatch(setComponents(components));
     dispatch(setResultNames(existingResultNames));
-    dispatch(setNodes(definition.nodes));
 };
 
 // export const updateUI = (definition: FlowDefinition) => (dispatch: DispatchWithState) => {
@@ -1137,10 +1130,10 @@ export const onNodeBeforeDrag = (
     plumberSetDragSelection: Function,
     plumberClearDragSelection: Function
 ) => (dispatch: DispatchWithState, getState: GetState) => {
-    const { nodeDragging, dragGroup, nodes } = getState();
+    const { nodeDragging, dragGroup, definition } = getState();
     if (nodeDragging) {
         if (dragGroup) {
-            const nodesBelow = getNodesBelow(node, nodes);
+            const nodesBelow = getNodesBelow(node, definition.nodes);
             plumberSetDragSelection(nodesBelow);
         } else {
             plumberClearDragSelection();

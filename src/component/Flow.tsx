@@ -30,7 +30,6 @@ export interface FlowProps {
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
     languages: Languages;
-    nodes: Node[];
     components: Components;
     ghostNode: Node;
     pendingConnection: DragPoint;
@@ -296,7 +295,6 @@ const mapStateToProps = ({
     translating,
     definition,
     dependencies,
-    nodes,
     components,
     ghostNode,
     pendingConnection,
@@ -305,7 +303,6 @@ const mapStateToProps = ({
     translating,
     definition,
     dependencies,
-    nodes,
     components,
     ghostNode,
     pendingConnection,

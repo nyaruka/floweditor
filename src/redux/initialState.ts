@@ -54,7 +54,7 @@ export interface ReduxState {
     contactFields: ContactFieldResult[];
     resultNames: CompletionOption[];
     groups: SearchResult[];
-    nodes: Node[];
+    // nodes: Node[];
     createNodePosition: Position;
     pendingConnection: DragPoint;
     pendingConnections: PendingConnections;
@@ -87,7 +87,7 @@ const initialState: ReduxState = {
     contactFields: [],
     resultNames: [],
     groups: [],
-    nodes: [],
+    // nodes: [],
     createNodePosition: null,
     pendingConnection: null,
     pendingConnections: {},

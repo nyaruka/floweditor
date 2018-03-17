@@ -10,7 +10,6 @@ import components from './components';
 import contactFields from './contactFields';
 import resultNames from './resultNames';
 import groups from './groups';
-import nodes from './nodes';
 import pendingConnections from './pendingConnections';
 import freshestNode from './freshestNode';
 import createNodePosition from './createNodePosition';
@@ -41,7 +40,6 @@ const rootReducer = combineReducers({
     contactFields,
     resultNames,
     groups,
-    nodes,
     pendingConnections,
     freshestNode,
     createNodePosition,
