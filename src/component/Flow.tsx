@@ -305,6 +305,30 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
     }
 
     /**
+     * Gets a suggested result name based on the current number of waits
+     * in the current definition
+     */
+    public getSuggestedResultName(): string {
+        // coun't up all our msg waits
+        let responseNumber = 1;
+        for (const node of this.props.definition.nodes) {
+            if (node.router && hasWait(node, WaitType.msg)) {
+                responseNumber++;
+            }
+        }
+
+        let resultName = 'Response ' + responseNumber;
+
+        // we want to make sure any recommended result name is unique
+        const resultNames = this.props.ComponentMap.getResultNames();
+        while (resultNames[resultName] != null) {
+            responseNumber++;
+            resultName = 'Response ' + responseNumber;
+        }
+        return resultName;
+    }
+
+    /**
      * Called when a connection begins to be dragged from an endpoint both
      * when a new connection is desired or when an existing one is being moved.
      * @param event
@@ -340,29 +364,12 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
 
             ghost.actions.push(replyAction);
         } else {
-            // coun't up all our msg waits
-            let responseNumber = 1;
-            for (const node of this.props.definition.nodes) {
-                if (node.router && hasWait(node, WaitType.msg)) {
-                    responseNumber++;
-                }
-            }
-
-            let resultName = 'Response ' + responseNumber;
-
-            // we want to make sure any recommended result name is unique
-            const resultNames = this.props.ComponentMap.getResultNames();
-            while (resultNames[resultName] != null) {
-                responseNumber++;
-                resultName = 'Response ' + responseNumber;
-            }
-
             // Otherwise we are going to a switch
             ghost.exits[0].name = 'All Responses';
             ghost.wait = { type: WaitType.msg };
             ghost.router = {
                 type: 'switch',
-                result_name: resultName
+                result_name: this.getSuggestedResultName()
             };
         }
 
