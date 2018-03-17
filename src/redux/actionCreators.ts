@@ -75,7 +75,8 @@ import {
     getUIs,
     nodeSort,
     pureSort,
-    getUpdatedNodes
+    getUpdatedNodes,
+    isActionSet
 } from './helpers';
 import {
     CompletionOption,
@@ -84,6 +85,8 @@ import {
     ReduxState,
     SearchResult
 } from './initialState';
+import { prepAddNode, prepSetNode, uniquifyNode } from './updateSpec';
+import pendingConnection from './reducers/pendingConnection';
 
 export type DispatchWithState = Dispatch<ReduxState>;
 
@@ -171,6 +174,17 @@ export const setNodeEditorOpen = (nodeEditorOpen: boolean) => (
 ) => {
     if (nodeEditorOpen !== getState().nodeEditorOpen) {
         dispatch(updateNodeEditorOpen(nodeEditorOpen));
+    }
+};
+
+export const applyUpdateSpec = (updateSpec: any) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+) => {
+    if (updateSpec != null && Object.keys(updateSpec).length > 0) {
+        console.log(updateSpec);
+        const updatedDefinition = update(getState().definition, updateSpec);
+        dispatch(updateDefinition(updatedDefinition));
     }
 };
 
@@ -1071,56 +1085,30 @@ export const updateRouter = (
     previousAction: Action = null
 ) => (dispatch: DispatchWithState, getState: GetState) => {
     const { definition, components } = getState();
-    let newNode = { ...node };
-    const details = getDetails(newNode.uuid, components);
-    const previousNode = getNode(newNode.uuid, components, definition);
-    let newDef;
 
-    if (
-        details &&
-        !details.type &&
-        previousNode &&
-        previousNode.actions &&
-        previousNode.actions.length > 0
-    ) {
+    if (isActionSet(node.uuid, components, definition)) {
         // Make sure our previous action exists in our map
         if (previousAction && getDetails(previousAction.uuid, components)) {
-            return dispatch(spliceInRouter(newNode, type, previousAction));
+            dispatch(spliceInRouter(node, type, previousAction));
         } else {
-            return dispatch(appendNewRouter(newNode, type));
+            dispatch(appendNewRouter(node, type));
+        }
+    } else {
+        // Dragging from somewhere means we are a new node
+        if (draggedFrom) {
+            const newNode = uniquifyNode(node);
+            const updateSpec = prepAddNode(newNode, { position: newPosition, type });
+            dispatch(applyUpdateSpec(updateSpec));
+
+            // Wire up where we dragged from
+            dispatch(updateExitDestination(draggedFrom.exitUUID, newNode.uuid));
+        } else {
+            // Otherwise we are updating an existing node
+            dispatch(
+                applyUpdateSpec(prepSetNode(getDetails(node.uuid, components).nodeIdx, node, type))
+            );
         }
     }
-
-    if (draggedFrom) {
-        // console.log("adding new router node", props);
-        dispatch(
-            addNode(
-                newNode,
-                { position: newPosition, type },
-                {
-                    exitUUID: draggedFrom.exitUUID,
-                    nodeUUID: draggedFrom.nodeUUID
-                }
-            )
-        );
-        ({ freshestNode: newNode } = getState());
-    } else {
-        // We're updating
-        ({ definition: newDef } = getState());
-        const nodeDetails = getDetails(newNode.uuid, components);
-        newDef = update(newDef, {
-            nodes: { [nodeDetails.nodeIdx]: { $set: newNode } }
-        });
-        newNode = newDef.nodes[nodeDetails.nodeIdx];
-        dispatch(updateNodeUI(newNode.uuid, { $merge: { type } }));
-        dispatch(setDefinition(newDef));
-    }
-
-    ({ definition: newDef } = getState());
-
-    dispatch(refresh(newDef));
-    // dispatch(updateUI(newDef));
-    dispatch(setDefinition(newDef));
 
     console.timeEnd('updateRouter');
 };

@@ -72,6 +72,12 @@ export const getPendingConnection = (
 
 export const getDetails = (uuid: string, components: Components) => components[uuid];
 
+export const isActionSet = (uuid: string, components: Components, definition: FlowDefinition) => {
+    const details = getDetails(uuid, components);
+    const existing = getNode(uuid, components, definition);
+    return details && !details.type && existing && existing.actions && existing.actions.length > 0;
+};
+
 export const getNode = (uuid: string, components: Components, definition: FlowDefinition) => {
     const details = components[uuid];
     if (!details) {
