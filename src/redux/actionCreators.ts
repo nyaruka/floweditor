@@ -77,7 +77,7 @@ import {
     nodeSort,
     pureSort,
     getUpdatedNodes,
-    isActionsNode
+    isActionsNode,
     getSuggestedResultName
 } from './helpers';
 import {
