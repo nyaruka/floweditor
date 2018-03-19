@@ -33,10 +33,8 @@ import {
     ReduxState,
     resetNodeEditingState,
     SearchResult,
-    setNodeEditorOpen,
-    setShowResultName,
-    setTypeConfig,
-    setUserAddingAction,
+    updateNodeEditorOpen,
+    updateTypeConfig,
     updateOperand,
     updateResultName,
     getDetails,
@@ -52,6 +50,12 @@ import * as shared from '../shared.scss';
 import { DEFAULT_BODY, GROUPS_OPERAND } from './constants';
 import * as formStyles from './NodeEditor.scss';
 import TypeList from './TypeList';
+import { updateShowResultName, updateUserAddingAction } from '../../redux/actions';
+import {
+    UpdateNodeEditorOpen,
+    UpdateShowResultName,
+    UpdateUserAddingAction
+} from '../../redux/actionTypes';
 
 export type GetResultNameField = () => JSX.Element;
 export type SaveLocalizations = (
@@ -84,10 +88,10 @@ export interface NodeEditorProps {
     plumberRepaintForDuration: Function;
     updateResultNameA: (resultName: string) => { type: Constants; payload: { resultName: string } };
     updateOperandA: (operand: string) => { type: Constants; payload: { operand: string } };
-    setTypeConfigAC: (typeConfig: Type) => { type: Constants; payload: { typeConfig: Type } };
-    setShowResultNameAC: (showResultName: boolean) => void;
+    updateTypeConfigAC: (typeConfig: Type) => { type: Constants; payload: { typeConfig: Type } };
+    updateShowResultNameAC: (showResultName: boolean) => UpdateShowResultName;
     resetNewConnectionStateAC: () => void;
-    setNodeEditorOpenAC: (nodeEditorOpen: boolean) => void;
+    updateNodeEditorOpenAC: (nodeEditorOpen: boolean) => UpdateNodeEditorOpen;
     onUpdateLocalizationsAC: (language: string, changes: LocalizationUpdates) => void;
     onUpdateActionAC: (node: Node, action: AnyAction, repaintForDuration: Function) => void;
     onUpdateRouterAC: (
@@ -96,7 +100,7 @@ export interface NodeEditorProps {
         repaintForDuration: Function,
         previousAction?: Action
     ) => void;
-    setUserAddingActionAC: (userAddingAction: boolean) => void;
+    updateUserAddingActionAC: (userAddingAction: boolean) => UpdateUserAddingAction;
 }
 
 export interface FormProps {
@@ -447,11 +451,11 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
     private onTypeChange(config: Type): void {
         this.widgets = {};
         this.advancedWidgets = {};
-        this.props.setTypeConfigAC(config);
+        this.props.updateTypeConfigAC(config);
     }
 
     private onShowNameField(): void {
-        this.props.setShowResultNameAC(true);
+        this.props.updateShowResultNameAC(true);
     }
 
     private onResultNameChange({ target: { value: resultName } }: any): void {
@@ -715,8 +719,8 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
         }
 
         this.props.resetNewConnectionStateAC();
-        this.props.setUserAddingActionAC(false);
-        this.props.setNodeEditorOpenAC(false);
+        this.props.updateUserAddingActionAC(false);
+        this.props.updateNodeEditorOpenAC(false);
     }
 
     private triggerFormUpdate(): void {
@@ -1218,10 +1222,12 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = (dispatch: DispatchWithState) => ({
     updateResultNameA: (resultName: string) => dispatch(updateResultName(resultName)),
-    setShowResultNameAC: (showResultName: boolean) => dispatch(setShowResultName(showResultName)),
+    updateShowResultNameAC: (showResultName: boolean) =>
+        dispatch(updateShowResultName(showResultName)),
     resetNewConnectionStateAC: () => dispatch(resetNodeEditingState()),
-    setNodeEditorOpenAC: (nodeEditorOpen: boolean) => dispatch(setNodeEditorOpen(nodeEditorOpen)),
-    setTypeConfigAC: (typeConfig: Type) => dispatch(setTypeConfig(typeConfig)),
+    updateNodeEditorOpenAC: (nodeEditorOpen: boolean) =>
+        dispatch(updateNodeEditorOpen(nodeEditorOpen)),
+    updateTypeConfigAC: (typeConfig: Type) => dispatch(updateTypeConfig(typeConfig)),
     updateOperandA: (operand: string) => dispatch(updateOperand(operand)),
     onUpdateLocalizationsAC: (language: string, changes: LocalizationUpdates) =>
         dispatch(onUpdateLocalizations(language, changes)),
@@ -1233,8 +1239,8 @@ const mapDispatchToProps = (dispatch: DispatchWithState) => ({
         repaintForDuration: Function,
         previousAction?: Action
     ) => dispatch(onUpdateRouter(node, type, repaintForDuration, previousAction)),
-    setUserAddingActionAC: (userAddingAction: boolean) =>
-        dispatch(setUserAddingAction(userAddingAction))
+    updateUserAddingActionAC: (userAddingAction: boolean) =>
+        dispatch(updateUserAddingAction(userAddingAction))
 });
 
 const ConnectedNodeEditor = connect(mapStateToProps, mapDispatchToProps)(NodeEditor);

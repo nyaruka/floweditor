@@ -10,8 +10,9 @@ import {
     fetchFlow,
     fetchFlows,
     ReduxState,
-    setLanguage,
-    UpdateFlows
+    updateLanguage,
+    UpdateFlows,
+    UpdateLanguage
 } from '../redux';
 import Flow from './Flow';
 import FlowList, { FlowOption } from './FlowList';
@@ -34,7 +35,7 @@ export interface FlowEditorProps {
     fetchingFlow: boolean;
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
-    setLanguageAC: (language: Language) => void;
+    updateLanguageAC: (language: Language) => UpdateLanguage;
     fetchFlowAC: (endpoint: string, uuid: string) => Promise<void>;
     fetchFlowsAC: (endpoint: string) => Promise<void | UpdateFlows>;
 }
@@ -79,7 +80,7 @@ const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) =>
  */
 export class FlowEditor extends React.Component<FlowEditorProps> {
     public componentDidMount(): void {
-        this.props.setLanguageAC(this.props.baseLanguage);
+        this.props.updateLanguageAC(this.props.baseLanguage);
         this.props.fetchFlowAC(this.props.endpoints.flows, this.props.flow);
         // prettier-ignore
         this.props.fetchFlowsAC(
@@ -118,7 +119,7 @@ const mapStateToProps = ({
 });
 
 const mapDispatchToProps = (dispatch: DispatchWithState) => ({
-    setLanguageAC: (language: Language) => dispatch(setLanguage(language)),
+    updateLanguageAC: (language: Language) => dispatch(updateLanguage(language)),
     fetchFlowAC: (endpoint: string, uuid: string) => dispatch(fetchFlow(endpoint, uuid)),
     fetchFlowsAC: (endpoint: string) => dispatch(fetchFlows(endpoint))
 });
