@@ -85,6 +85,14 @@ export const getNode = (uuid: string, components: Components, definition: FlowDe
     return definition.nodes[details.nodeIdx];
 };
 
+/**
+ * Gets a suggested result name based on the current number of waits
+ * in the current definition
+ */
+export const getSuggestedResultName = (nodes: Node[]) => {
+    return 'Response ' + nodes.length;
+};
+
 export const getExit = (uuid: string, components: Components, definition: FlowDefinition) => {
     const details = components[uuid];
     if (details) {
