@@ -173,7 +173,7 @@ export const applyUpdateSpec = (updateSpec: any = {}) => (
     getState: GetState
 ) => {
     if (updateSpec != null && Object.keys(updateSpec).length > 0) {
-        console.log(updateSpec);
+        console.log('updateSpec', updateSpec);
         const updatedDefinition = update(getState().definition, updateSpec);
         dispatch(updateDefinition(updatedDefinition));
     }
