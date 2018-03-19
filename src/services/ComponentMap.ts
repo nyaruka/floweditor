@@ -7,7 +7,7 @@ import {
     Exit,
     SetRunResult
 } from '../flowTypes';
-import { snakify } from '../utils';
+import { snakify, toBoolMap } from '../utils';
 
 const RESERVED_FIELDS: ContactFieldResult[] = [
     { id: 'name', name: 'Name', type: 'set_contact_property' }
@@ -51,7 +51,8 @@ export default class ComponentMap {
     private components: { [uuid: string]: ComponentDetails };
     private pendingConnections: { [uuid: string]: DragPoint };
     private contactFields: ContactFieldResult[];
-    private resultNames: CompletionOption[];
+    private resultNameOptions: CompletionOption[];
+    private resultNames: { [name: string]: boolean };
     private groups: SearchResult[];
     private nodes: Node[];
 
@@ -71,6 +72,7 @@ export default class ComponentMap {
         this.getDetails = this.getDetails.bind(this);
         this.getGroups = this.getGroups.bind(this);
         this.getResultNames = this.getResultNames.bind(this);
+        this.getResultNameOptions = this.getResultNameOptions.bind(this);
         this.getContactFields = this.getContactFields.bind(this);
     }
 
@@ -234,10 +236,13 @@ export default class ComponentMap {
             }
         }
 
+        this.resultNames = toBoolMap(
+            Object.keys(resultNames).map((resultKey: string) => resultNames[resultKey])
+        );
         this.contactFields = existingFields;
         this.groups = existingGroups;
         this.components = components;
-        this.resultNames = existingResultNames;
+        this.resultNameOptions = existingResultNames;
         this.nodes = definition.nodes;
     }
 
@@ -249,8 +254,12 @@ export default class ComponentMap {
         return this.groups;
     }
 
-    public getResultNames(): CompletionOption[] {
+    public getResultNames(): { [name: string]: boolean } {
         return this.resultNames;
+    }
+
+    public getResultNameOptions(): CompletionOption[] {
+        return this.resultNameOptions;
     }
 
     public getContactFields(): ContactFieldResult[] {

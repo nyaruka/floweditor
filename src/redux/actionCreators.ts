@@ -22,7 +22,8 @@ import {
     SetContactField,
     SetRunResult,
     SwitchRouter,
-    UINode
+    UINode,
+    WaitType
 } from '../flowTypes';
 import { LocalizedObject } from '../services/Localization';
 import { snakify } from '../utils';
@@ -75,7 +76,8 @@ import {
     getUIs,
     nodeSort,
     pureSort,
-    getUpdatedNodes
+    getUpdatedNodes,
+    getSuggestedResultName
 } from './helpers';
 import {
     CompletionOption,
@@ -1291,9 +1293,13 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
 
         ghostNode.actions.push(replyAction);
     } else {
-        // Otherwise make it a switch router
+        // Otherwise we are going to a switch
         ghostNode.exits[0].name = 'All Responses';
-        ghostNode.router = { type: 'switch' };
+        ghostNode.wait = { type: WaitType.msg };
+        ghostNode.router = {
+            type: 'switch',
+            result_name: getSuggestedResultName(definition.nodes)
+        };
     }
 
     // Set our ghost spec so it gets rendered.
