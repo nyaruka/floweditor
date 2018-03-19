@@ -129,12 +129,12 @@ interface UpdateUserAddingActionPayload {
 }
 
 // Action types
-export interface UpdateTranslating {
+export interface UpdateTranslatingAction {
     type: Constants.UPDATE_TRANSLATING;
     payload: TranslatingPayload;
 }
 
-export interface UpdateLanguage {
+export interface UpdateLanguageAction {
     type: Constants.UPDATE_LANGUAGE;
     payload: LanguagePayload;
 }
@@ -149,7 +149,7 @@ export interface UpdateDefinition {
     payload: DefinitionPayload;
 }
 
-export interface UpdateNodeDragging {
+export interface UpdateNodeDraggingAction {
     type: Constants.UPDATE_NODE_DRAGGING;
     payload: NodeDraggingPayload;
 }
@@ -239,7 +239,7 @@ export interface UpdateLocalizations {
     payload: UpdateLocalizationsPayload;
 }
 
-export interface UpdateDragGroup {
+export interface UpdateDragGroupAction {
     type: Constants.UPDATE_DRAG_GROUP;
     payload: UpdateDragGroupPayload;
 }
@@ -279,12 +279,20 @@ export interface UpdateUserAddingAction {
     payload: UpdateUserAddingActionPayload;
 }
 
+export type UpdateNodeDragging = (nodeDragging: boolean) => UpdateNodeDraggingAction;
+
+export type UpdateDragGroup = (dragGroup: boolean) => UpdateDragGroupAction;
+
+export type UpdateTranslating = (translating: boolean) => UpdateTranslatingAction;
+
+export type UpdateLanguage = (language: Language) => UpdateLanguageAction;
+
 type ActionTypes =
-    | UpdateTranslating
-    | UpdateLanguage
+    | UpdateTranslatingAction
+    | UpdateLanguageAction
     | UpdateFetchingFlow
     | UpdateDefinition
-    | UpdateNodeDragging
+    | UpdateNodeDraggingAction
     | UpdateFlows
     | UpdateDependencies
     | UpdatePendingConnections
@@ -302,7 +310,7 @@ type ActionTypes =
     | UpdateActionToEdit
     | UpdateNodeToEdit
     | UpdateLocalizations
-    | UpdateDragGroup
+    | UpdateDragGroupAction
     | UpdateUserClickingAction
     | UpdateUserClickingNode
     | UpdateTypeConfig

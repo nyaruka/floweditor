@@ -1,16 +1,17 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
+import { bindActionCreators } from 'redux';
 import { getBaseLanguage } from '.';
 import { Config } from '../config';
 import { Languages } from '../flowTypes';
 import {
     DispatchWithState,
     ReduxState,
-    updateLanguage,
-    updateTranslating,
     UpdateLanguage,
-    UpdateTranslating
+    updateLanguage,
+    UpdateTranslating,
+    updateTranslating
 } from '../redux';
 import { jsonEqual } from '../utils';
 import { languageSelector } from './LanguageSelector.scss';
@@ -20,12 +21,17 @@ export interface Language {
     iso: string;
 }
 
-export interface LanguageSelectorProps {
-    language: Language;
+export interface LanguageSelectorPassedProps {
     languages: Languages;
-    updateLanguageAC: (language: Language) => UpdateLanguage;
-    updateTranslatingAC: (translating: boolean) => UpdateTranslating;
 }
+
+export interface LanguageSelectorDuxProps {
+    language: Language;
+    updateLanguage: UpdateLanguage;
+    updateTranslating: UpdateTranslating;
+}
+
+export type LanguageSelectorProps = LanguageSelectorPassedProps & LanguageSelectorDuxProps;
 
 export const composeLanguageMap = (languages: Languages): Language[] =>
     Object.keys(languages).map(iso => ({
@@ -47,15 +53,15 @@ const LanguageSelectorContainer: React.SFC = () => (
 const LanguageSelector: React.SFC<LanguageSelectorProps> = ({
     language,
     languages,
-    updateLanguageAC,
-    updateTranslatingAC
+    updateLanguage,
+    updateTranslating
 }) => {
     if (language) {
         const onChange = (lang: Language) => {
             const baseLanguage = getBaseLanguage(languages);
             const translating = !jsonEqual(baseLanguage, lang);
-            updateLanguageAC(lang);
-            updateTranslatingAC(translating);
+            updateLanguage(lang);
+            updateTranslating(translating);
         };
 
         const options = composeLanguageMap(languages);
@@ -83,10 +89,14 @@ const LanguageSelector: React.SFC<LanguageSelectorProps> = ({
 
 const mapStateToProps = ({ language }: ReduxState) => ({ language });
 
-const mapDispatchToProps = (dispatch: DispatchWithState) => ({
-    updateLanguageAC: (language: Language) => dispatch(updateLanguage(language)),
-    updateTranslatingAC: (translating: boolean) => dispatch(updateTranslating(translating))
-});
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators(
+        {
+            updateLanguage,
+            updateTranslating
+        },
+        dispatch
+    );
 
 const ConnectedLanguageSelector = connect(mapStateToProps, mapDispatchToProps)(LanguageSelector);
 

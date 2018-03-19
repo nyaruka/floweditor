@@ -7,9 +7,9 @@ import {
     UpdateDependencies,
     UpdateFetchingFlow,
     UpdateFlows,
-    UpdateLanguage,
-    UpdateNodeDragging,
-    UpdateTranslating
+    UpdateLanguageAction,
+    UpdateNodeDraggingAction,
+    UpdateTranslatingAction
 } from './actionTypes';
 import Constants from './constants';
 import {
@@ -21,14 +21,14 @@ import {
 } from './initialState';
 import { Type } from '../config';
 
-export const updateTranslating = (translating: boolean): UpdateTranslating => ({
+export const updateTranslating = (translating: boolean): UpdateTranslatingAction => ({
     type: Constants.UPDATE_TRANSLATING,
     payload: {
         translating
     }
 });
 
-export const updateLanguage = (language: Language): UpdateLanguage => ({
+export const updateLanguage = (language: Language): UpdateLanguageAction => ({
     type: Constants.UPDATE_LANGUAGE,
     payload: {
         language
@@ -49,7 +49,7 @@ export const updateDefinition = (definition: FlowDefinition): UpdateDefinition =
     }
 });
 
-export const updateNodeDragging = (nodeDragging: boolean): UpdateNodeDragging => ({
+export const updateNodeDragging = (nodeDragging: boolean): UpdateNodeDraggingAction => ({
     type: Constants.UPDATE_NODE_DRAGGING,
     payload: {
         nodeDragging

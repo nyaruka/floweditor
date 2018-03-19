@@ -88,11 +88,38 @@ import {
     SearchResult
 } from './initialState';
 import { prepAddNode, prepSetNode, uniquifyNode } from './updateSpec';
-import pendingConnection from './reducers/pendingConnection';
 
 export type DispatchWithState = Dispatch<ReduxState>;
 
 export type GetState = () => ReduxState;
+
+export type Thunk = (dispatch: DispatchWithState, getState?: GetState) => void;
+
+export type AsyncThunk = (dispatch: DispatchWithState, getState?: GetState) => Promise<void>;
+
+export type OnNodeBeforeDrag = (
+    node: Node,
+    plumberSetDragSelection: Function,
+    plumberClearDragSelection: Function
+) => Thunk;
+
+export type ResolvePendingConnection = (node: Node) => Thunk;
+
+export type OnAddAction = (node: Node, languages: Languages) => Thunk;
+
+export type OnNodeMoved = (uuid: string, position: Position, repaintForDuration: Function) => Thunk;
+
+export type OnOpenNodeEditor = (node: Node, action: AnyAction, languages: Languages) => Thunk;
+
+export type RemoveNode = (nodeToRemove: Node) => Thunk;
+
+export type UpdateDimensions = (node: Node, dimensions: Dimensions) => Thunk;
+
+// fetchFlow: (endpoint: string, uuid: string) => (dispatch: Dispatch<ReduxState>, getState: GetState) => Promise<void>
+
+export type FetchFlow = (endpoint: string, uuid: string) => AsyncThunk;
+
+export type FetchFlows = (endpoint: string) => AsyncThunk;
 
 export interface Connection {
     previousConnection: Connection;
@@ -129,7 +156,7 @@ export const applyUpdateSpec = (updateSpec: any = {}) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    if (updateSpec != null && Object.keys(updateSpec).length > 0) {
+    if (Object.keys(updateSpec).length > 0) {
         console.log('updateSpec', updateSpec);
         const updatedDefinition = update(getState().definition, updateSpec);
         dispatch(updateDefinition(updatedDefinition));
@@ -151,7 +178,7 @@ export const fetchFlow = (endpoint: string, uuid: string) => (
 
 export const fetchFlows = (endpoint: string) => (dispatch: DispatchWithState) =>
     getFlows(endpoint)
-        .then((flows: FlowDetails[]) =>
+        .then((flows: FlowDetails[]) => {
             dispatch(
                 updateFlows(
                     flows.map(({ uuid, name }) => ({
@@ -159,8 +186,8 @@ export const fetchFlows = (endpoint: string) => (dispatch: DispatchWithState) =>
                         name
                     }))
                 )
-            )
-        )
+            );
+        })
         .catch((error: any) => console.log(`fetchFlowList error: ${error}`));
 
 export const refresh = (definition: FlowDefinition) => (dispatch: DispatchWithState) => {

@@ -4,23 +4,32 @@ import {
     DispatchWithState,
     ensureStartNode,
     fetchFlow,
+    FetchFlow,
     fetchFlows,
+    FetchFlows,
     GetState,
     LocalizationUpdates,
     moveActionUp,
     onAddAction,
+    OnAddAction,
     onConnectionDrag,
     onNodeBeforeDrag,
+    OnNodeBeforeDrag,
     onNodeMoved,
+    OnNodeMoved,
     onOpenNodeEditor,
+    OnOpenNodeEditor,
     onUpdateAction,
     onUpdateLocalizations,
     onUpdateRouter,
     removeAction,
+    RemoveNode,
     removeNode,
     resetNodeEditingState,
+    ResolvePendingConnection,
     resolvePendingConnection,
     updateConnection,
+    UpdateDimensions,
     updateDimensions,
     updateNodeUI
 } from './actionCreators';
@@ -40,7 +49,13 @@ import {
     updateTranslating,
     updateTypeConfig
 } from './actions';
-import { UpdateFlows, UpdateLanguage, UpdateTranslating } from './actionTypes';
+import {
+    UpdateDragGroup,
+    UpdateFlows,
+    UpdateLanguage,
+    UpdateNodeDragging,
+    UpdateTranslating
+} from './actionTypes';
 import configureStore from './configureStore';
 import Constants from './constants';
 import { getConnectionError, getDetails, getExit, getTranslations } from './helpers';
@@ -73,6 +88,7 @@ export {
     Components,
     UpdateLanguage,
     UpdateTranslating,
+    UpdateDragGroup,
     UpdateFlows,
     configureStore,
     updateTranslating,
@@ -90,23 +106,33 @@ export {
     updateCreateNodePosition,
     updateActionToEdit,
     fetchFlow,
+    FetchFlow,
+    FetchFlows,
     fetchFlows,
     ensureStartNode,
     updateConnection,
     resolvePendingConnection,
+    ResolvePendingConnection,
     updateNodeUI,
     resetNodeEditingState,
     onConnectionDrag,
     onNodeBeforeDrag,
+    OnNodeBeforeDrag,
     onAddAction,
+    OnAddAction,
     onNodeMoved,
+    OnNodeMoved,
     onOpenNodeEditor,
+    OnOpenNodeEditor,
     removeNode,
+    RemoveNode,
     updateDimensions,
+    UpdateDimensions,
     moveActionUp,
     removeAction,
     getConnectionError,
     getTranslations,
     getDetails,
-    getExit
+    getExit,
+    UpdateNodeDragging
 };
