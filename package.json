@@ -35,8 +35,11 @@
     "postversion": "git push && git push --tags && npm publish",
     "precommit": "lint-staged"
   },
-  "lint-staged": { 
-    "*.{ts,tsx,js,json,css,md}": [ "prettier --write", "git add" ] 
+  "lint-staged": {
+    "*.{ts,tsx,js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "peerDependencies": {
     "react": "^16.0",

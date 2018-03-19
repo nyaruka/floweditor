@@ -1322,8 +1322,6 @@ export const onUpdateRouter = (
     if (nodeUUID !== newNodeUUID) {
         repaintForDuration();
     }
-
-    dispatch(resetNodeEditingState());
 };
 
 export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Languages) => (
@@ -1381,6 +1379,7 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
         }
     }
 
+    console.log('node:', node);
     dispatch(setNodeDragging(false));
     dispatch(setNodeToEdit(node));
     dispatch(setLocalizations(localizations));
