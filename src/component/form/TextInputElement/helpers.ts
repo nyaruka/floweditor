@@ -138,8 +138,8 @@ export const filterOptions = (options: CompletionOption[], query?: string): Comp
 
 export const getOptionsList = (
     autocomplete: boolean,
-    { getResultNames }: ComponentMap
-): CompletionOption[] => (autocomplete ? [...OPTIONS, ...getResultNames()] : OPTIONS);
+    { getResultNameOptions }: ComponentMap
+): CompletionOption[] => (autocomplete ? [...OPTIONS, ...getResultNameOptions()] : OPTIONS);
 
 export const pluralize = (count: number, noun: string, suffix: string = 's'): string =>
     `${noun}${count !== 1 ? suffix : ''}`;

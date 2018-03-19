@@ -2,7 +2,16 @@ import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
-import { FlowDefinition, Action, Position, SendMsg, Node, UINode, Dimensions } from '../flowTypes';
+import {
+    FlowDefinition,
+    Action,
+    Position,
+    SendMsg,
+    Node,
+    UINode,
+    Dimensions,
+    WaitType
+} from '../flowTypes';
 import ComponentMap from '../services/ComponentMap';
 import NodeComp, { DragPoint } from './Node';
 import FlowMutator from '../services/FlowMutator';
@@ -13,9 +22,10 @@ import NodeEditor, { NodeEditorProps } from './NodeEditor';
 import LanguageSelectorComp, { Language } from './LanguageSelector';
 import { ConfigProviderContext, endpointsPT } from '../config';
 import { getActivity } from '../external';
-import { snapToGrid } from '../utils';
+import { snapToGrid, toBoolMap } from '../utils';
 
 import * as styles from './Flow.scss';
+import { hasWait } from './NodeEditor/NodeEditor';
 
 export interface FlowProps {
     nodeDragging: boolean;
@@ -295,6 +305,30 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
     }
 
     /**
+     * Gets a suggested result name based on the current number of waits
+     * in the current definition
+     */
+    public getSuggestedResultName(): string {
+        // coun't up all our msg waits
+        let responseNumber = 1;
+        for (const node of this.props.definition.nodes) {
+            if (node.router && hasWait(node, WaitType.msg)) {
+                responseNumber++;
+            }
+        }
+
+        let resultName = 'Response ' + responseNumber;
+
+        // we want to make sure any recommended result name is unique
+        const resultNames = this.props.ComponentMap.getResultNames();
+        while (resultNames[resultName] != null) {
+            responseNumber++;
+            resultName = 'Response ' + responseNumber;
+        }
+        return resultName;
+    }
+
+    /**
      * Called when a connection begins to be dragged from an endpoint both
      * when a new connection is desired or when an existing one is being moved.
      * @param event
@@ -332,7 +366,11 @@ export default class Flow extends React.Component<FlowProps, FlowState> {
         } else {
             // Otherwise we are going to a switch
             ghost.exits[0].name = 'All Responses';
-            ghost.router = { type: 'switch' };
+            ghost.wait = { type: WaitType.msg };
+            ghost.router = {
+                type: 'switch',
+                result_name: this.getSuggestedResultName()
+            };
         }
 
         // Set our ghost spec so it gets rendered.
