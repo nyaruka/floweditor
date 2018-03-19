@@ -76,7 +76,7 @@ import {
     nodeSort,
     pureSort,
     getUpdatedNodes,
-    isActionSet
+    isActionsNode
 } from './helpers';
 import {
     CompletionOption,
@@ -150,15 +150,6 @@ export const setFreshestNode = (freshestNode: Node) => (
     }
 };
 
-export const setUserClickingAction = (userClickingAction: boolean) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (userClickingAction !== getState().userClickingAction) {
-        dispatch(updateUserClickingAction(userClickingAction));
-    }
-};
-
 export const setNodeDragging = (nodeDragging: boolean) => (
     dispatch: DispatchWithState,
     getState: GetState
@@ -177,7 +168,7 @@ export const setNodeEditorOpen = (nodeEditorOpen: boolean) => (
     }
 };
 
-export const applyUpdateSpec = (updateSpec: any) => (
+export const applyUpdateSpec = (updateSpec: any = {}) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
@@ -203,15 +194,6 @@ export const setDragGroup = (dragGroup: boolean) => (
 ) => {
     if (dragGroup !== getState().dragGroup) {
         dispatch(updateDragGroup(dragGroup));
-    }
-};
-
-export const setUserClickingNode = (userClickingNode: boolean) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (userClickingNode !== getState().userClickingNode) {
-        dispatch(updateUserClickingNode(userClickingNode));
     }
 };
 
@@ -246,7 +228,9 @@ export const setActionToEdit = (actionToEdit: AnyAction) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
+    console.log('setActionToEdit', actionToEdit);
     if (!isEqual(actionToEdit, getState().actionToEdit)) {
+        console.log('going...');
         dispatch(updateActionToEdit(actionToEdit));
     }
 };
@@ -404,8 +388,11 @@ export const refresh = (definition: FlowDefinition) => (dispatch: DispatchWithSt
             });
         }
 
-        if (node.router && node.router.result_name) {
-            resultNames[snakify(node.router.result_name)] = node.router.result_name;
+        if (node.router) {
+            components[node.uuid].isRouter = true;
+            if (node.router.result_name) {
+                resultNames[snakify(node.router.result_name)] = node.router.result_name;
+            }
         }
 
         // Same for exits
@@ -1086,7 +1073,7 @@ export const updateRouter = (
 ) => (dispatch: DispatchWithState, getState: GetState) => {
     const { definition, components } = getState();
 
-    if (isActionSet(node.uuid, components, definition)) {
+    if (isActionsNode(node.uuid, components)) {
         // Make sure our previous action exists in our map
         if (previousAction && getDetails(previousAction.uuid, components)) {
             dispatch(spliceInRouter(node, type, previousAction));
@@ -1333,8 +1320,8 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
         );
     }
 
-    // Account for hybrids or clicking on the empty exit table
     if (node.actions && node.actions.length) {
+        // Account for hybrids or clicking on the empty exit table
         dispatch(setActionToEdit(node.actions[node.actions.length - 1]));
     }
 

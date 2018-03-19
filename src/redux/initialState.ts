@@ -15,6 +15,7 @@ export interface ComponentDetails {
     exitUUID?: string;
     pointers?: string[];
     type?: string;
+    isRouter?: boolean;
 }
 
 export interface Components {

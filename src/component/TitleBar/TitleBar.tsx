@@ -60,13 +60,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
         if (this.state.confirmingRemoval) {
             confirmation = (
                 <div className={styles.remove_confirm}>
-                    <div
-                        className={styles.remove_button}
-                        onMouseUp={(event: any) => {
-                            event.stopPropagation();
-                            event.preventDefault();
-                        }}
-                        onClick={this.props.onRemoval}>
+                    <div className={styles.remove_button} onClick={this.props.onRemoval}>
                         <span className="icon-remove" />
                     </div>
                     Remove?
@@ -82,13 +76,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
 
         if (this.props.showMove) {
             moveArrow = (
-                <div
-                    className={styles.up_button}
-                    onMouseUp={(event: any) => {
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }}
-                    onClick={this.props.onMoveUp}>
+                <div className={styles.up_button} onClick={this.props.onMoveUp}>
                     <span className="icon-arrow-up" />
                 </div>
             );
@@ -104,13 +92,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
 
         if (this.props.showRemoval) {
             remove = (
-                <div
-                    className={styles.remove_button}
-                    onMouseUp={(event: any) => {
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }}
-                    onClick={this.onConfirmRemoval}>
+                <div className={styles.remove_button} onClick={this.onConfirmRemoval}>
                     <span className="icon-remove" />
                 </div>
             );

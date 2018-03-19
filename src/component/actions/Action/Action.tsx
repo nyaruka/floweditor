@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getTypeConfig, languagesPT } from '../../../config';
 import { ConfigProviderContext } from '../../../config/ConfigProvider';
 import { AnyAction, FlowDefinition, Languages, Node } from '../../../flowTypes';
-import { moveActionUp, ReduxState, removeAction, setUserClickingAction } from '../../../redux';
+import { moveActionUp, ReduxState, removeAction } from '../../../redux';
 import { DispatchWithState, onOpenNodeEditor } from '../../../redux/actionCreators';
 import { LocalizedObject } from '../../../services/Localization';
 import { Language } from '../../LanguageSelector';
@@ -25,7 +25,6 @@ export interface ActionWrapperProps {
     definition: FlowDefinition;
     render: (action: AnyAction) => React.ReactNode;
     onOpenNodeEditorAC: (node: Node, action: AnyAction, languages: Languages) => void;
-    setUserClickingActionAC: (userClickingAction: boolean) => void;
     removeActionAC: (action: AnyAction) => void;
     moveActionUpAC: (action: AnyAction) => void;
 }
@@ -49,16 +48,16 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     }
 
     public onClick(event: React.MouseEvent<HTMLDivElement>): void {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const ui = this.props.definition._ui.nodes[this.props.node.uuid];
-        this.props.onOpenNodeEditorAC(this.props.node, this.props.action, this.context.languages);
-    }
-
-    public componentDidUpdate(prevProps: ActionWrapperProps, prevState: {}): void {
-        if (this.props.thisNodeDragging) {
-            this.props.setUserClickingActionAC(false);
+        if (!this.props.thisNodeDragging) {
+            event.preventDefault();
+            event.stopPropagation();
+            console.log('Click.Action:', this.props.action);
+            const ui = this.props.definition._ui.nodes[this.props.node.uuid];
+            this.props.onOpenNodeEditorAC(
+                this.props.node,
+                this.props.action,
+                this.context.languages
+            );
         }
     }
 
@@ -72,17 +71,6 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         evt.stopPropagation();
 
         this.props.moveActionUpAC(this.props.action);
-    }
-
-    private onMouseUp(evt: React.MouseEvent<HTMLDivElement>): void {
-        if (this.props.userClickingAction) {
-            this.props.setUserClickingActionAC(false);
-            this.onClick(evt);
-        }
-    }
-
-    private onMouseDown(evt: React.MouseEvent<HTMLDivElement>): void {
-        this.props.setUserClickingActionAC(true);
     }
 
     private getClasses(): string {
@@ -126,13 +114,12 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         const titleBarClass = shared[this.props.action.type];
         const showRemoval = !this.props.translating;
         const showMove = !this.props.first && !this.props.translating;
+        // const events = { onClick: !this.props.thisNodeDragging ? this.onClick : null };
+
         return (
             <div id={`action-${this.props.action.uuid}`} className={classes}>
                 <div className={styles.overlay} />
-                <div
-                    onMouseDown={this.onMouseDown}
-                    onMouseUp={this.onMouseUp}
-                    data-spec="interactive-div">
+                <div onMouseUp={this.onClick} data-spec="interactive-div">
                     <TitleBar
                         className={titleBarClass}
                         title={name}
@@ -163,8 +150,6 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: DispatchWithState) => ({
     onOpenNodeEditorAC: (node: Node, action: AnyAction, languages: Languages) =>
         dispatch(onOpenNodeEditor(node, action, languages)),
-    setUserClickingActionAC: (userClickingAction: boolean) =>
-        dispatch(setUserClickingAction(userClickingAction)),
     removeActionAC: (action: AnyAction) => dispatch(removeAction(action)),
     moveActionUpAC: (action: AnyAction) => dispatch(moveActionUp(action))
 });
