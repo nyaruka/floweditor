@@ -98,11 +98,6 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         this.props.disconnectExitAC(this.props.exit.uuid);
     }
 
-    private onMouseUp(event: any): void {
-        event.preventDefault();
-        event.stopPropagation();
-    }
-
     private onUnmount(key: string): void {
         this.props.Activity.deregister(key);
     }
@@ -155,7 +150,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             this.state.confirmDelete && this.props.exit.hasOwnProperty('destination_node_uuid');
 
         const confirm: JSX.Element = confirmDelete ? (
-            <span onClick={this.onDisconnect} className="icon-remove" />
+            <span onMouseUp={this.onDisconnect} className="icon-remove" />
         ) : null;
 
         const exitClasses: string = cx({
@@ -175,11 +170,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         return (
             <div className={exitClasses}>
                 <div className={nameStyle}>{exit.name}</div>
-                <div
-                    onMouseUp={this.onMouseUp}
-                    onClick={this.onClick}
-                    id={this.props.exit.uuid}
-                    className={dragNodeClasses}>
+                <div onMouseUp={this.onClick} id={this.props.exit.uuid} className={dragNodeClasses}>
                     {confirm}
                 </div>
                 {activity}

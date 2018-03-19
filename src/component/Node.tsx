@@ -26,7 +26,6 @@ import {
     resolvePendingConnection,
     setDragGroup,
     setNodeDragging,
-    setUserClickingNode,
     updateDimensions,
     getTranslations
 } from '../redux';
@@ -86,7 +85,6 @@ export interface NodeProps extends NodeEditorContainerProps {
     removeNodeAC: (nodeToRemove: Node) => void;
     updateDimensionsAC: (node: Node, dimensions: Dimensions) => void;
     setDragGroupAC: (dragGroup: boolean) => void;
-    setUserClickingNodeAC: (userClickingNode: boolean) => void;
 }
 
 export interface NodeState {
@@ -141,7 +139,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     public ele: HTMLDivElement;
     private firstAction: any;
     private clicking: boolean;
-    private events: { onMouseDown(): void; onMouseUp(event: any): void };
+    private events: { onMouseUp(): void };
 
     constructor(props: NodeProps) {
         super(props);
@@ -152,15 +150,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             include: [/Ref$/, /^on/, /^get/]
         });
 
-        this.events = {
-            onMouseDown: () => props.setUserClickingNodeAC(true),
-            onMouseUp: (event: any) => {
-                if (this.props.userClickingNode) {
-                    this.props.setUserClickingNodeAC(false);
-                    this.onClick(event);
-                }
-            }
-        };
+        this.events = { onMouseUp: this.onClick };
     }
 
     private eleRef(ref: HTMLDivElement): HTMLDivElement {
@@ -268,7 +258,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     private onDragStart(event: any): boolean {
-        this.props.setUserClickingNodeAC(false);
         this.setState({ thisNodeDragging: true });
         return false;
     }
@@ -318,12 +307,14 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     // Applies only to router nodes;
     // ./Action/Action handles click logic for Action nodes.
     private onClick(event?: any): void {
-        // prettier-ignore
-        this.props.onOpenNodeEditorAC(
+        if (!this.props.nodeDragging) {
+            // prettier-ignore
+            this.props.onOpenNodeEditorAC(
             this.props.node,
             null,
             this.props.languages
         );
+        }
     }
 
     private onRemoval(event: React.MouseEvent<HTMLDivElement>): void {
@@ -573,9 +564,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) => ({
     removeNodeAC: (nodeToRemove: Node) => dispatch(removeNode(nodeToRemove)),
     updateDimensionsAC: (node: Node, dimensions: Dimensions) =>
         dispatch(updateDimensions(node, dimensions)),
-    setDragGroupAC: (dragGroup: boolean) => dispatch(setDragGroup(dragGroup)),
-    setUserClickingNodeAC: (userClickingNode: boolean) =>
-        dispatch(setUserClickingNode(userClickingNode))
+    setDragGroupAC: (dragGroup: boolean) => dispatch(setDragGroup(dragGroup))
 });
 
 // prettier-ignore

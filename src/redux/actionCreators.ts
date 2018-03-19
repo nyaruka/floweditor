@@ -77,6 +77,7 @@ import {
     nodeSort,
     pureSort,
     getUpdatedNodes,
+    isActionsNode
     getSuggestedResultName
 } from './helpers';
 import {
@@ -86,6 +87,8 @@ import {
     ReduxState,
     SearchResult
 } from './initialState';
+import { prepAddNode, prepSetNode, uniquifyNode } from './updateSpec';
+import pendingConnection from './reducers/pendingConnection';
 
 export type DispatchWithState = Dispatch<ReduxState>;
 
@@ -149,15 +152,6 @@ export const setFreshestNode = (freshestNode: Node) => (
     }
 };
 
-export const setUserClickingAction = (userClickingAction: boolean) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (userClickingAction !== getState().userClickingAction) {
-        dispatch(updateUserClickingAction(userClickingAction));
-    }
-};
-
 export const setNodeDragging = (nodeDragging: boolean) => (
     dispatch: DispatchWithState,
     getState: GetState
@@ -176,6 +170,17 @@ export const setNodeEditorOpen = (nodeEditorOpen: boolean) => (
     }
 };
 
+export const applyUpdateSpec = (updateSpec: any = {}) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+) => {
+    if (updateSpec != null && Object.keys(updateSpec).length > 0) {
+        console.log('updateSpec', updateSpec);
+        const updatedDefinition = update(getState().definition, updateSpec);
+        dispatch(updateDefinition(updatedDefinition));
+    }
+};
+
 export const setDefinition = (definition: FlowDefinition) => (
     dispatch: DispatchWithState,
     getState: GetState
@@ -191,15 +196,6 @@ export const setDragGroup = (dragGroup: boolean) => (
 ) => {
     if (dragGroup !== getState().dragGroup) {
         dispatch(updateDragGroup(dragGroup));
-    }
-};
-
-export const setUserClickingNode = (userClickingNode: boolean) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (userClickingNode !== getState().userClickingNode) {
-        dispatch(updateUserClickingNode(userClickingNode));
     }
 };
 
@@ -290,12 +286,6 @@ export const setResultNames = (resultNames: CompletionOption[]) => (
 ) => {
     if (!isEqual(resultNames, getState().resultNames)) {
         dispatch(updateResultNames(resultNames));
-    }
-};
-
-export const setNodes = (nodes: Node[]) => (dispatch: DispatchWithState, getState: GetState) => {
-    if (!isEqual(nodes, getState().nodes)) {
-        dispatch(updateNodes(nodes));
     }
 };
 
@@ -398,8 +388,11 @@ export const refresh = (definition: FlowDefinition) => (dispatch: DispatchWithSt
             });
         }
 
-        if (node.router && node.router.result_name) {
-            resultNames[snakify(node.router.result_name)] = node.router.result_name;
+        if (node.router) {
+            components[node.uuid].isRouter = true;
+            if (node.router.result_name) {
+                resultNames[snakify(node.router.result_name)] = node.router.result_name;
+            }
         }
 
         // Same for exits
@@ -435,7 +428,6 @@ export const refresh = (definition: FlowDefinition) => (dispatch: DispatchWithSt
     dispatch(setGroups(existingGroups));
     dispatch(setComponents(components));
     dispatch(setResultNames(existingResultNames));
-    dispatch(setNodes(definition.nodes));
 };
 
 // export const updateUI = (definition: FlowDefinition) => (dispatch: DispatchWithState) => {
@@ -1080,56 +1072,30 @@ export const updateRouter = (
     previousAction: Action = null
 ) => (dispatch: DispatchWithState, getState: GetState) => {
     const { definition, components } = getState();
-    let newNode = { ...node };
-    const details = getDetails(newNode.uuid, components);
-    const previousNode = getNode(newNode.uuid, components, definition);
-    let newDef;
 
-    if (
-        details &&
-        !details.type &&
-        previousNode &&
-        previousNode.actions &&
-        previousNode.actions.length > 0
-    ) {
+    if (isActionsNode(node.uuid, components)) {
         // Make sure our previous action exists in our map
         if (previousAction && getDetails(previousAction.uuid, components)) {
-            return dispatch(spliceInRouter(newNode, type, previousAction));
+            dispatch(spliceInRouter(node, type, previousAction));
         } else {
-            return dispatch(appendNewRouter(newNode, type));
+            dispatch(appendNewRouter(node, type));
+        }
+    } else {
+        // Dragging from somewhere means we are a new node
+        if (draggedFrom) {
+            const newNode = uniquifyNode(node);
+            const updateSpec = prepAddNode(newNode, { position: newPosition, type });
+            dispatch(applyUpdateSpec(updateSpec));
+
+            // Wire up where we dragged from
+            dispatch(updateExitDestination(draggedFrom.exitUUID, newNode.uuid));
+        } else {
+            // Otherwise we are updating an existing node
+            dispatch(
+                applyUpdateSpec(prepSetNode(getDetails(node.uuid, components).nodeIdx, node, type))
+            );
         }
     }
-
-    if (draggedFrom) {
-        // console.log("adding new router node", props);
-        dispatch(
-            addNode(
-                newNode,
-                { position: newPosition, type },
-                {
-                    exitUUID: draggedFrom.exitUUID,
-                    nodeUUID: draggedFrom.nodeUUID
-                }
-            )
-        );
-        ({ freshestNode: newNode } = getState());
-    } else {
-        // We're updating
-        ({ definition: newDef } = getState());
-        const nodeDetails = getDetails(newNode.uuid, components);
-        newDef = update(newDef, {
-            nodes: { [nodeDetails.nodeIdx]: { $set: newNode } }
-        });
-        newNode = newDef.nodes[nodeDetails.nodeIdx];
-        dispatch(updateNodeUI(newNode.uuid, { $merge: { type } }));
-        dispatch(setDefinition(newDef));
-    }
-
-    ({ definition: newDef } = getState());
-
-    dispatch(refresh(newDef));
-    // dispatch(updateUI(newDef));
-    dispatch(setDefinition(newDef));
 
     console.timeEnd('updateRouter');
 };
@@ -1139,10 +1105,10 @@ export const onNodeBeforeDrag = (
     plumberSetDragSelection: Function,
     plumberClearDragSelection: Function
 ) => (dispatch: DispatchWithState, getState: GetState) => {
-    const { nodeDragging, dragGroup, nodes } = getState();
+    const { nodeDragging, dragGroup, definition } = getState();
     if (nodeDragging) {
         if (dragGroup) {
-            const nodesBelow = getNodesBelow(node, nodes);
+            const nodesBelow = getNodesBelow(node, definition.nodes);
             plumberSetDragSelection(nodesBelow);
         } else {
             plumberClearDragSelection();
@@ -1358,8 +1324,8 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
         );
     }
 
-    // Account for hybrids or clicking on the empty exit table
     if (node.actions && node.actions.length) {
+        // Account for hybrids or clicking on the empty exit table
         dispatch(setActionToEdit(node.actions[node.actions.length - 1]));
     }
 

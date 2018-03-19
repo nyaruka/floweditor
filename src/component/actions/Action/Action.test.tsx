@@ -103,8 +103,6 @@ describe('Component: SendMsg', () => {
         expect(OverLayContainerShallow.exists()).toBeTruthy();
 
         expect(InteractiveContainerShallow.exists()).toBeTruthy();
-        expect(InteractiveContainerShallow.prop('onMouseDown')).toBeTruthy();
-        expect(InteractiveContainerShallow.prop('onMouseUp')).toBeTruthy();
     });
 
     it('should render TitleBar & pass it appropriate props', () => {

@@ -72,6 +72,11 @@ export const getPendingConnection = (
 
 export const getDetails = (uuid: string, components: Components) => components[uuid];
 
+export const isActionsNode = (uuid: string, components: Components) => {
+    const details = getDetails(uuid, components);
+    return details != null && !details.isRouter;
+};
+
 export const getNode = (uuid: string, components: Components, definition: FlowDefinition) => {
     const details = components[uuid];
     if (!details) {
