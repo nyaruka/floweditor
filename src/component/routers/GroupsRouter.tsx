@@ -56,6 +56,8 @@ export class GroupsRouter extends React.PureComponent<GroupsRouterProps> {
             localGroups: this.props.groups
         };
 
+        console.log('nodeToEdit:', this.props.nodeToEdit);
+
         if (groupSplitExistsAtNode(this.props.nodeToEdit)) {
             groupProps.groups = extractGroups(this.props.nodeToEdit);
         }

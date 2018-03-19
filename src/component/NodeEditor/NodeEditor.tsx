@@ -140,7 +140,7 @@ export const isSwitchForm = (type: string) =>
     type === 'wait_for_response' || type === 'split_by_expression' || type === 'split_by_group';
 
 export const hasSwitchRouter = (node: Node): boolean =>
-    (node.router as SwitchRouter) && (node.router as SwitchRouter).hasOwnProperty('operand');
+    node.hasOwnProperty('router') && (node.router as SwitchRouter).hasOwnProperty('operand');
 
 /**
  * Returns existing action (if any), or a bare-bones representation of the form's action.
