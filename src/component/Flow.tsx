@@ -172,11 +172,7 @@ export class Flow extends React.Component<FlowProps> {
 
                 // Bring up the node editor
                 // prettier-ignore
-                this.props.onOpenNodeEditorAC(
-                    this.props.ghostNode,
-                    null,
-                    this.props.languages
-                );
+                this.props.onOpenNodeEditorAC(this.props.ghostNode, null, this.props.languages);
             }
 
             $(document).off('mousemove');

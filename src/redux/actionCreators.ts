@@ -455,7 +455,6 @@ export const sortNodes = () => (dispatch: DispatchWithState, getState: GetState)
 };
 
 export const reflow = () => (dispatch: DispatchWithState, getState: GetState) => {
-    console.time('reflow');
     dispatch(sortNodes());
 
     const { definition: currentDef } = getState();
@@ -466,6 +465,7 @@ export const reflow = () => (dispatch: DispatchWithState, getState: GetState) =>
 
     window.setTimeout(() => {
         if (updatedNodes.length > 0) {
+            console.time('reflow');
             console.log('::REFLOWED::', updatedNodes);
             updatedNodes.forEach(
                 node =>
@@ -1072,6 +1072,8 @@ export const updateRouter = (
     previousAction: Action = null
 ) => (dispatch: DispatchWithState, getState: GetState) => {
     const { definition, components } = getState();
+
+    console.time('updateRouter');
 
     if (isActionsNode(node.uuid, components)) {
         // Make sure our previous action exists in our map
