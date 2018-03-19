@@ -228,9 +228,7 @@ export const setActionToEdit = (actionToEdit: AnyAction) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    console.log('setActionToEdit', actionToEdit);
     if (!isEqual(actionToEdit, getState().actionToEdit)) {
-        console.log('going...');
         dispatch(updateActionToEdit(actionToEdit));
     }
 };

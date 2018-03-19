@@ -51,7 +51,6 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         if (!this.props.thisNodeDragging) {
             event.preventDefault();
             event.stopPropagation();
-            console.log('Click.Action:', this.props.action);
             const ui = this.props.definition._ui.nodes[this.props.node.uuid];
             this.props.onOpenNodeEditorAC(
                 this.props.node,
