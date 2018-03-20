@@ -17,7 +17,7 @@ const headers: Header[] = [
 describe('render >', () => {
     headers.forEach((header, idx, arr) => {
         const isEmpty: boolean = idx === arr.length - 1;
-        const wrapper: ShallowWrapper = shallow(
+        const wrapper = shallow(
             <HeaderElement {...{ header, index: idx, empty: isEmpty } as any} />
         );
 

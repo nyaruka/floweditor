@@ -11,7 +11,7 @@ import FlowEditor from '../../src/';
 
 const root = document.getElementById('flow-editor');
 
-const renderHot = (App: React.ComponentClass<{ config: object }>) =>
+const renderHot = (App: React.SFC<{ config: object }>) =>
     render(
         <HotContainer>
             <App config={config} />

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { ChangeGroups } from '../../../flowTypes';
-import ChangeGroupComp from './ChangeGroups';
+import ChangeGroupsComp from './ChangeGroups';
 import { getSpecWrapper } from '../../../utils';
 
 const {
@@ -10,17 +10,17 @@ const {
 const { results: groups } = require('../../../../assets/groups.json');
 
 const { nodes: [node], language: flowLanguage } = definition;
-const { actions: [, addToGroupAction] } = node;
-const { uuid, type, groups: [{ name: groupName }] } = addToGroupAction as ChangeGroups;
+const { actions: [, addToGroupsAction] } = node;
+const { uuid, type, groups: [{ name: groupName }] } = addToGroupsAction as ChangeGroups;
 
 describe('ChangeGroups >', () => {
     describe('render >', () => {
-        it('should render ChangeGroupComp with group name', () =>
-            expect(shallow(<ChangeGroupComp {...addToGroupAction} />).text()).toBe(groupName));
+        it('should render ChangeGroupsComp with group name', () =>
+            expect(shallow(<ChangeGroupsComp {...addToGroupsAction} />).text()).toBe(groupName));
 
         it('should cut off groups after 3 and include an ellipses', () => {
             const Content = getSpecWrapper(
-                shallow(<ChangeGroupComp {...{ ...addToGroupAction, groups }} />),
+                shallow(<ChangeGroupsComp {...{ ...addToGroupsAction, groups }} />),
                 'content'
             );
 
@@ -28,11 +28,11 @@ describe('ChangeGroups >', () => {
             expect(Content.childAt(3).text()).toBe('...');
         });
 
-        it("should render 'remove from all' div when passed group action of type 'remove_from_groups'", () => {
+        it("should render 'remove from all' div when passed group action of type 'remove_contact_groups'", () => {
             const Remove = getSpecWrapper(
                 shallow(
-                    <ChangeGroupComp
-                        {...{ ...addToGroupAction, groups: [], type: 'remove_contact_groups' }}
+                    <ChangeGroupsComp
+                        {...{ ...addToGroupsAction, groups: [], type: 'remove_contact_groups' }}
                     />
                 ),
                 'remove-all'

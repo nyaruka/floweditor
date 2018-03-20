@@ -1,22 +1,26 @@
 import * as React from 'react';
-import { SendEmail } from '../../../flowTypes';
+import { connect } from 'react-redux';
 import { Type } from '../../../config';
-import { FormProps } from '../../NodeEditor';
-import ComponentMap from '../../../services/ComponentMap';
-import TextInputElement from '../../form/TextInputElement';
+import { SendEmail } from '../../../flowTypes';
+import { AppState } from '../../../store';
 import EmailElement from '../../form/EmailElement';
-
+import TextInputElement from '../../form/TextInputElement';
+import { FormProps } from '../../NodeEditor';
 import * as styles from './SendEmail.scss';
 
-export interface SendEmailFormProps extends FormProps {
+export interface SendEmailFormStoreProps {
+    typeConfig: Type;
+}
+
+export interface SendEmailFormPassedProps {
     action: SendEmail;
-    config: Type;
-    ComponentMap: ComponentMap;
     updateAction(action: SendEmail): void;
     onBindWidget(ref: any): void;
 }
 
-export default class SendEmailForm extends React.Component<SendEmailFormProps> {
+export type SendEmailFormProps = SendEmailFormStoreProps & SendEmailFormPassedProps;
+
+export class SendEmailForm extends React.Component<SendEmailFormProps> {
     constructor(props: SendEmailFormProps) {
         super(props);
 
@@ -24,15 +28,15 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        const { state: { emails: emailAddresses } } = widgets.Recipient as EmailElement;
-        const { state: { value: subject } } = widgets.Subject as TextInputElement;
-        const { state: { value: body } } = widgets.Message as TextInputElement;
+        const { wrappedInstance: { state: { emails: emailAddresses } } } = widgets.Recipient;
+        const { wrappedInstance: { state: { value: subject } } } = widgets.Subject;
+        const { wrappedInstance: { state: { value: body } } } = widgets.Message;
 
-        const emails = emailAddresses.map(({ value }) => value);
+        const emails = emailAddresses.map(({ value }: { label: string; value: string }) => value);
 
         const newAction: SendEmail = {
             uuid: this.props.action.uuid,
-            type: this.props.config.type,
+            type: this.props.typeConfig.type,
             body,
             subject,
             emails
@@ -59,8 +63,6 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
                     value={this.props.action.subject}
                     autocomplete={true}
                     required={true}
-                    ComponentMap={this.props.ComponentMap}
-                    config={this.props.config}
                 />
                 <TextInputElement
                     __className={styles.message}
@@ -71,10 +73,16 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps> {
                     autocomplete={true}
                     required={true}
                     textarea={true}
-                    ComponentMap={this.props.ComponentMap}
-                    config={this.props.config}
                 />
             </div>
         );
     }
 }
+
+const mapStateToProps = ({ nodeEditor: { typeConfig } }: AppState) => ({ typeConfig });
+
+const ConnectedSendEmailForm = connect(mapStateToProps, null, null, { withRef: true })(
+    SendEmailForm
+);
+
+export default ConnectedSendEmailForm;

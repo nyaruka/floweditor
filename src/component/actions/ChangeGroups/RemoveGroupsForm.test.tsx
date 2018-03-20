@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import ComponentMap, { SearchResult } from '../../../services/ComponentMap';
-import ChangeGroupFormProps from './props';
-import RemoveGroupsForm, {
+import ChangeGroupsFormProps from './props';
+import {
     LABEL,
     NOT_FOUND,
     PLACEHOLDER,
     REMOVE_FROM_ALL,
-    REMOVE_FROM_ALL_DESC
+    REMOVE_FROM_ALL_DESC,
+    RemoveGroupsForm
 } from './RemoveGroupsForm';
 import { getSpecWrapper } from '../../../utils';
 import { Group } from '../../../flowTypes';
@@ -19,8 +19,6 @@ const {
 const { endpoints } = require('../../../../assets/config');
 const { results: groupsResp } = require('../../../../assets/groups.json');
 
-const CompMap = new ComponentMap(definition);
-
 const { nodes: [{ actions: [, action] }] } = definition;
 const addGroupConfig = getTypeConfig('add_contact_groups');
 const removeGroupConfig = getTypeConfig('remove_contact_groups');
@@ -31,13 +29,12 @@ const { groups } = action;
 const groupOptions = groups.map(({ name, uuid }) => ({ name, id: uuid }));
 const removeGroupsAction = { ...action, type: 'remove_contact_groups', groups };
 const removeAllGroupsAction = { ...removeGroupsAction, groups: [] };
-const addGroupSAction = { ...removeGroupsAction, type: 'add_contact_groups' };
-const props: Partial<ChangeGroupFormProps> = {
+const addGroupSAction = { ...removeGroupsAction, type: 'add_to_group' };
+const props: Partial<ChangeGroupsFormProps> = {
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
     removeWidget: jest.fn(),
-    ComponentMap: CompMap,
-    config: removeGroupConfig
+    typeConfig: removeGroupConfig
 };
 
 export const transformGroups = (grps: Group[]): SearchResult[] =>
@@ -51,7 +48,7 @@ describe('RemoveGroupsForm >', () => {
                     {...{
                         ...props,
                         action: removeGroupsAction
-                    } as ChangeGroupFormProps}
+                    } as ChangeGroupsFormProps}
                 />,
                 {
                     context
@@ -71,7 +68,7 @@ describe('RemoveGroupsForm >', () => {
                         ...props,
                         onBindWidget,
                         action: removeGroupsAction
-                    } as ChangeGroupFormProps}
+                    } as ChangeGroupsFormProps}
                 />,
                 {
                     context
@@ -90,7 +87,7 @@ describe('RemoveGroupsForm >', () => {
                         ...props,
                         onBindWidget,
                         action: removeAllGroupsAction
-                    } as ChangeGroupFormProps}
+                    } as ChangeGroupsFormProps}
                 />,
                 {
                     context
@@ -106,7 +103,7 @@ describe('RemoveGroupsForm >', () => {
                     {...{
                         ...props,
                         action: removeGroupsAction
-                    } as ChangeGroupFormProps}
+                    } as ChangeGroupsFormProps}
                 />,
                 {
                     context
@@ -131,7 +128,7 @@ describe('RemoveGroupsForm >', () => {
                     {...{
                         ...props,
                         action: { ...removeGroupsAction, groups: null }
-                    } as ChangeGroupFormProps}
+                    } as ChangeGroupsFormProps}
                 />,
                 {
                     context
@@ -155,24 +152,13 @@ describe('RemoveGroupsForm >', () => {
                 <RemoveGroupsForm
                     {...{
                         ...props,
-                        action: { ...removeGroupsAction, type: 'add_contact_groups' }
-                    } as ChangeGroupFormProps}
+                        action: { ...removeGroupsAction, type: 'add_to_group' }
+                    } as ChangeGroupsFormProps}
                 />,
                 {
                     context
                 }
             );
-
-            expect(wrapper.find('GroupsElement').props()).toEqual({
-                name: 'Group',
-                placeholder: PLACEHOLDER,
-                endpoint: endpoints.groups,
-                groups: [],
-                add: false,
-                required: true,
-                searchPromptText: NOT_FOUND,
-                onChange: wrapper.instance().onGroupsChanged
-            });
         });
 
         it("should render only 'Remove from Group' checkbox element if passed a remove from all groups action", () => {
@@ -181,7 +167,7 @@ describe('RemoveGroupsForm >', () => {
                     {...{
                         ...props,
                         action: removeAllGroupsAction
-                    } as ChangeGroupFormProps}
+                    } as ChangeGroupsFormProps}
                 />,
                 {
                     context
@@ -205,7 +191,7 @@ describe('RemoveGroupsForm >', () => {
                     {...{
                         ...props,
                         action: removeGroupsAction
-                    } as ChangeGroupFormProps}
+                    } as ChangeGroupsFormProps}
                 />,
                 {
                     context
@@ -228,7 +214,7 @@ describe('RemoveGroupsForm >', () => {
                     {...{
                         ...props,
                         action: removeGroupsAction
-                    } as ChangeGroupFormProps}
+                    } as ChangeGroupsFormProps}
                 />,
                 {
                     context
@@ -270,7 +256,7 @@ describe('RemoveGroupsForm >', () => {
                         {...{
                             ...props,
                             action: removeGroupsAction
-                        } as ChangeGroupFormProps}
+                        } as ChangeGroupsFormProps}
                     />,
                     {
                         context
@@ -308,7 +294,7 @@ describe('RemoveGroupsForm >', () => {
                         {...{
                             ...props,
                             action: removeAllGroupsAction
-                        } as ChangeGroupFormProps}
+                        } as ChangeGroupsFormProps}
                     />,
                     {
                         context
@@ -345,7 +331,7 @@ describe('RemoveGroupsForm >', () => {
                             ...props,
                             updateAction: updateActionMock,
                             action: removeGroupsAction
-                        } as ChangeGroupFormProps}
+                        } as ChangeGroupsFormProps}
                     />,
                     {
                         context
@@ -375,7 +361,7 @@ describe('RemoveGroupsForm >', () => {
                             ...props,
                             updateAction: updateActionMock,
                             action: removeAllGroupsAction
-                        } as ChangeGroupFormProps}
+                        } as ChangeGroupsFormProps}
                     />,
                     {
                         context
@@ -403,23 +389,7 @@ describe('RemoveGroupsForm >', () => {
                         {...{
                             ...props,
                             action: { ...removeGroupsAction, groups: null }
-                        } as ChangeGroupFormProps}
-                    />,
-                    {
-                        context
-                    }
-                );
-
-                expect(wrapper.instance().getGroups()).toEqual([]);
-            });
-
-            it("should return an empty list if action exists at node but isn't a remove from group action", () => {
-                const wrapper = mount(
-                    <RemoveGroupsForm
-                        {...{
-                            ...props,
-                            action: addGroupSAction
-                        } as ChangeGroupFormProps}
+                        } as ChangeGroupsFormProps}
                     />,
                     {
                         context
@@ -435,7 +405,7 @@ describe('RemoveGroupsForm >', () => {
                         {...{
                             ...props,
                             action: removeGroupsAction
-                        } as ChangeGroupFormProps}
+                        } as ChangeGroupsFormProps}
                     />,
                     {
                         context
@@ -458,7 +428,7 @@ describe('RemoveGroupsForm >', () => {
                             ...props,
                             removeWidget: removeWidgetMock,
                             action: removeAllGroupsAction
-                        } as ChangeGroupFormProps}
+                        } as ChangeGroupsFormProps}
                     />,
                     {
                         context
@@ -478,7 +448,7 @@ describe('RemoveGroupsForm >', () => {
                             ...props,
                             removeWidget: removeWidgetMock,
                             action: removeGroupsAction
-                        } as ChangeGroupFormProps}
+                        } as ChangeGroupsFormProps}
                     />,
                     {
                         context
