@@ -1,25 +1,31 @@
-import * as React from 'react';
 import * as classNames from 'classnames/bind';
+import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Exit } from '../flowTypes';
-import { disconnectExit, DispatchWithState, ReduxState } from '../redux';
+import { DisconnectExit, disconnectExit, DispatchWithState, ReduxState } from '../redux';
 import ActivityManager from '../services/ActivityManager';
 import { LocalizedObject } from '../services/Localization';
 import Counter from './Counter';
 import * as styles from './Exit.scss';
 import { createClickHandler } from '../utils';
 
-export interface ExitProps {
+export interface ExitPassedProps {
     exit: Exit;
-    translating: boolean;
     localization: LocalizedObject;
     Activity: ActivityManager;
     plumberMakeSource: Function;
     plumberRemove: Function;
     plumberConnectExit: Function;
-    disconnectExitAC: (exitUUID: string) => void;
 }
+
+export interface ExitDuxProps {
+    translating: boolean;
+    disconnectExit: DisconnectExit;
+}
+
+export type ExitProps = ExitPassedProps & ExitDuxProps;
 
 export interface ExitState {
     confirmDelete: boolean;
@@ -96,7 +102,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             window.clearTimeout(this.timeout);
         }
 
-        this.props.disconnectExitAC(this.props.exit.uuid);
+        this.props.disconnectExit(this.props.exit.uuid);
     }
 
     private onUnmount(key: string): void {
@@ -187,9 +193,8 @@ const mapStateToProps = ({ translating }: ReduxState) => ({
     translating
 });
 
-const mapDispatchToProps = (dispatch: DispatchWithState) => ({
-    disconnectExitAC: (exitUUID: string) => dispatch(disconnectExit(exitUUID))
-});
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators({ disconnectExit }, dispatch);
 
 const ConnectedExit = connect(mapStateToProps, mapDispatchToProps)(ExitComp);
 

@@ -4,31 +4,32 @@ import * as shallowCompare from 'react-addons-shallow-compare';
 import * as FlipMove from 'react-flip-move';
 import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Config, getTypeConfig } from '../config';
-import {
-    AnyAction,
-    Dimensions,
-    FlowDefinition,
-    Languages,
-    Node,
-    Position,
-    SwitchRouter,
-    UINode
-} from '../flowTypes';
+import { AnyAction, FlowDefinition, Languages, Node, SwitchRouter, UINode } from '../flowTypes';
 import {
     DispatchWithState,
+    getTranslations,
     onAddAction,
+    OnAddAction,
     onNodeBeforeDrag,
+    OnNodeBeforeDrag,
+    OnNodeMoved,
     onNodeMoved,
     onOpenNodeEditor,
+    OnOpenNodeEditor,
     ReduxState,
+    RemoveNode,
     removeNode,
+    ResolvePendingConnection,
     resolvePendingConnection,
-    setDragGroup,
-    setNodeDragging,
+    UpdateDimensions,
     updateDimensions,
-    getTranslations
+    UpdateDragGroup,
+    updateNodeDragging,
+    UpdateNodeDragging
 } from '../redux';
+import { updateDragGroup } from '../redux/actions';
 import ActivityManager from '../services/ActivityManager';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { DragEvent } from '../services/Plumber';
@@ -48,7 +49,7 @@ export interface DragPoint {
     onResolved?(canceled: boolean): void;
 }
 
-export interface NodeEditorContainerProps {
+export interface NodeContainerProps {
     node: Node;
     ui: UINode;
     Activity: ActivityManager;
@@ -65,27 +66,25 @@ export interface NodeEditorContainerProps {
     ghost?: boolean;
 }
 
-export interface NodeProps extends NodeEditorContainerProps {
+export interface NodeDuxProps {
     languages: Languages;
     language: Language;
     translating: boolean;
     definition: FlowDefinition;
     nodeDragging: boolean;
     userClickingNode: boolean;
-    setNodeDraggingAC: (nodeDragging: boolean) => void;
-    onNodeBeforeDragAC: (
-        node: Node,
-        setDragSelection: Function,
-        clearDragSelection: Function
-    ) => void;
-    resolvePendingConnectionAC: (node: Node) => void;
-    onAddActionAC: (node: Node, languages: Languages) => void;
-    onNodeMovedAC: (uuid: string, position: Position, plumberRepaintForDuration: Function) => void;
-    onOpenNodeEditorAC: (node: Node, action: AnyAction, languages: Languages) => void;
-    removeNodeAC: (nodeToRemove: Node) => void;
-    updateDimensionsAC: (node: Node, dimensions: Dimensions) => void;
-    setDragGroupAC: (dragGroup: boolean) => void;
+    updateNodeDragging: UpdateNodeDragging;
+    onNodeBeforeDrag: OnNodeBeforeDrag;
+    resolvePendingConnection: ResolvePendingConnection;
+    onAddAction: OnAddAction;
+    onNodeMoved: OnNodeMoved;
+    onOpenNodeEditor: OnOpenNodeEditor;
+    removeNode: RemoveNode;
+    updateDimensions: UpdateDimensions;
+    updateDragGroup: UpdateDragGroup;
 }
+
+export type NodeProps = NodeContainerProps & NodeDuxProps;
 
 export interface NodeState {
     thisNodeDragging: boolean;
@@ -93,7 +92,7 @@ export interface NodeState {
 
 const cx = classNames.bind({ ...shared, ...styles });
 
-const NodeContainer: React.SFC<NodeEditorContainerProps> = ({
+const NodeContainer: React.SFC<NodeContainerProps> = ({
     node,
     ui,
     ghost,
@@ -162,13 +161,13 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             this.props.node.uuid,
             (event: DragEvent) => {
                 this.onDragStart(event);
-                this.props.setNodeDraggingAC(true);
+                this.props.updateNodeDragging(true);
             },
             (event: DragEvent) => this.onDrag(event),
             (event: DragEvent) => this.onDragStop(event),
             () => {
                 if (!this.props.translating) {
-                    this.props.onNodeBeforeDragAC(
+                    this.props.onNodeBeforeDrag(
                         this.props.node,
                         this.props.plumberSetDragSelection,
                         this.props.plumberClearDragSelection
@@ -184,7 +183,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         this.props.plumberMakeTarget(this.props.node.uuid);
 
         // Resolve pending connection
-        this.props.resolvePendingConnectionAC(this.props.node);
+        this.props.resolvePendingConnection(this.props.node);
 
         // Move our drag node around as necessary
         if (this.props.ghost) {
@@ -246,15 +245,15 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     private onMouseOver(): void {
-        this.props.setDragGroupAC(true);
+        this.props.updateDragGroup(true);
     }
 
     private onMouseOut(): void {
-        this.props.setDragGroupAC(false);
+        this.props.updateDragGroup(false);
     }
 
     private onAddAction(): void {
-        this.props.onAddActionAC(this.props.node, this.props.languages);
+        this.props.onAddAction(this.props.node, this.props.languages);
     }
 
     private onDragStart(event: any): boolean {
@@ -268,7 +267,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     private onDragStop(event: DragEvent): void {
         this.setState({ thisNodeDragging: false });
-        this.props.setNodeDraggingAC(false);
+        this.props.updateNodeDragging(false);
 
         const position = $(event.target).position();
 
@@ -286,7 +285,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         this.ele.style.top = `${top}px`;
 
         // Update our coordinates
-        this.props.onNodeMovedAC(
+        this.props.onNodeMoved(
             this.props.node.uuid,
             { x: left, y: top },
             this.props.plumberRepaintForDuration
@@ -296,7 +295,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     private updateDimensions(): void {
         if (this.ele) {
             if (this.ele.clientWidth && this.ele.clientHeight) {
-                this.props.updateDimensionsAC(this.props.node, {
+                this.props.updateDimensions(this.props.node, {
                     width: this.ele.clientWidth,
                     height: this.ele.clientHeight
                 });
@@ -309,7 +308,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     private onClick(event: React.MouseEvent<HTMLDivElement>): void {
         if (!this.props.nodeDragging) {
             // prettier-ignore
-            this.props.onOpenNodeEditorAC(
+            this.props.onOpenNodeEditor(
             this.props.node,
             null,
             this.props.languages
@@ -322,7 +321,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             event.preventDefault();
             event.stopPropagation();
         }
-        this.props.removeNodeAC(this.props.node);
+        this.props.removeNode(this.props.node);
     }
 
     private onUnmount(key: string): void {
@@ -551,21 +550,21 @@ const mapStateToProps = ({
     userClickingNode
 });
 
-const mapDispatchToProps = (dispatch: DispatchWithState) => ({
-    setNodeDraggingAC: (nodeDragging: boolean) => dispatch(setNodeDragging(nodeDragging)),
-    onNodeBeforeDragAC: (node: Node, setDragSelection: Function, clearDragSelection: Function) =>
-        dispatch(onNodeBeforeDrag(node, setDragSelection, clearDragSelection)),
-    resolvePendingConnectionAC: (node: Node) => dispatch(resolvePendingConnection(node)),
-    onAddActionAC: (node: Node, languages: Languages) => dispatch(onAddAction(node, languages)),
-    onNodeMovedAC: (uuid: string, position: Position, plumberRepaintForDuration: Function) =>
-        dispatch(onNodeMoved(uuid, position, plumberRepaintForDuration)),
-    onOpenNodeEditorAC: (node: Node, action: AnyAction, languages: Languages) =>
-        dispatch(onOpenNodeEditor(node, action, languages)),
-    removeNodeAC: (nodeToRemove: Node) => dispatch(removeNode(nodeToRemove)),
-    updateDimensionsAC: (node: Node, dimensions: Dimensions) =>
-        dispatch(updateDimensions(node, dimensions)),
-    setDragGroupAC: (dragGroup: boolean) => dispatch(setDragGroup(dragGroup))
-});
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators(
+        {
+            updateNodeDragging,
+            onNodeBeforeDrag,
+            resolvePendingConnection,
+            onAddAction,
+            onNodeMoved,
+            onOpenNodeEditor,
+            removeNode,
+            updateDimensions,
+            updateDragGroup
+        },
+        dispatch
+    );
 
 // prettier-ignore
 const ConnectedNode = connect(

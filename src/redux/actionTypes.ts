@@ -56,7 +56,7 @@ interface UpdateGroupsPayload {
     groups: SearchResult[];
 }
 
-interface UpdateResultNamePayload {
+interface UpdateResultNamesPayload {
     resultNames: CompletionOption[];
 }
 
@@ -129,186 +129,210 @@ interface UpdateUserAddingActionPayload {
 }
 
 // Action types
-export interface UpdateTranslating {
+export interface UpdateTranslatingAction {
     type: Constants.UPDATE_TRANSLATING;
     payload: TranslatingPayload;
 }
 
-export interface UpdateLanguage {
+export interface UpdateLanguageAction {
     type: Constants.UPDATE_LANGUAGE;
     payload: LanguagePayload;
 }
 
-export interface UpdateFetchingFlow {
+export interface UpdateFetchingFlowAction {
     type: Constants.UPDATE_FETCHING_FLOW;
     payload: FetchingFlowPayload;
 }
 
-export interface UpdateDefinition {
+export interface UpdateDefinitionAction {
     type: Constants.UPDATE_DEFINITION;
     payload: DefinitionPayload;
 }
 
-export interface UpdateNodeDragging {
+export interface UpdateNodeDraggingAction {
     type: Constants.UPDATE_NODE_DRAGGING;
     payload: NodeDraggingPayload;
 }
 
-export interface UpdateFlows {
+export interface UpdateFlowsAction {
     type: Constants.UPDATE_FLOWS;
     payload: UpdateFlowsPayload;
 }
 
-export interface UpdateDependencies {
+export interface UpdateDependenciesAction {
     type: Constants.UPDATE_DEPENDENCIES;
     payload: UpdateDependenciesPayload;
 }
 
-export interface UpdatePendingConnections {
+export interface UpdatePendingConnectionsAction {
     type: Constants.UPDATE_PENDING_CONNECTIONS;
     payload: UpdatePendingConnectionsPayload;
 }
 
-export interface RemovePendingConnection {
+export interface RemovePendingConnectionAction {
     type: Constants.REMOVE_PENDING_CONNECTION;
     payload: RemovePendingConnectionPayload;
 }
 
-export interface UpdateComponents {
+export interface UpdateComponentsAction {
     type: Constants.UPDATE_COMPONENTS;
     payload: UpdateComponentsPayload;
 }
 
-export interface UpdateContactFields {
+export interface UpdateContactFieldsAction {
     type: Constants.UPDATE_CONTACT_FIELDS;
     payload: UpdateContactFieldsPayload;
 }
 
-export interface UpdateGroups {
+export interface UpdateGroupsAction {
     type: Constants.UPDATE_GROUPS;
     payload: UpdateGroupsPayload;
 }
 
-export interface UpdateResultNames {
+export interface UpdateResultNamesAction {
     type: Constants.UPDATE_RESULT_NAMES;
-    payload: UpdateResultNamePayload;
+    payload: UpdateResultNamesPayload;
 }
 
-export interface UpdateNodes {
+export interface UpdateNodesAction {
     type: Constants.UPDATE_NODES;
     payload: UpdateNodesPayload;
 }
 
-export interface UpdateFreshestNode {
+export interface UpdateFreshestNodeAction {
     type: Constants.UPDATE_FRESHEST_NODE;
     payload: UpdateFreshestNodePayload;
 }
 
-export interface UpdateNodeEditorOpen {
+export interface UpdateNodeEditorOpenAction {
     type: Constants.UPDATE_NODE_EDITOR_OPEN;
     payload: UpdateNodeEditorOpenPayload;
 }
 
-export interface UpdateGhostNode {
+export interface UpdateGhostNodeAction {
     type: Constants.UPDATE_GHOST_NODE;
     payload: UpdateGhostNodePayload;
 }
 
-export interface UpdateCreateNodePosition {
+export interface UpdateCreateNodePositionAction {
     type: Constants.UPDATE_CREATE_NODE_POSITION;
     payload: UpdateCreateNodePositionPayload;
 }
 
-export interface UpdatePendingConnection {
+export interface UpdatePendingConnectionAction {
     type: Constants.UPDATE_PENDING_CONNECTION;
     payload: UpdatePendingConnectionPayload;
 }
 
-export interface UpdateActionToEdit {
+export interface UpdateActionToEditAction {
     type: Constants.UPDATE_ACTION_TO_EDIT;
     payload: UpdateActionToEditPayload;
 }
 
-export interface UpdateNodeToEdit {
+export interface UpdateNodeToEditAction {
     type: Constants.UPDATE_NODE_TO_EDIT;
     payload: UpdateNodeToEditPayload;
 }
 
-export interface UpdateLocalizations {
+export interface UpdateLocalizationsAction {
     type: Constants.UPDATE_LOCALIZATIONS;
     payload: UpdateLocalizationsPayload;
 }
 
-export interface UpdateDragGroup {
+export interface UpdateDragGroupAction {
     type: Constants.UPDATE_DRAG_GROUP;
     payload: UpdateDragGroupPayload;
 }
 
-export interface UpdateUserClickingAction {
+export interface UpdateUserClickingActionAction {
     type: Constants.UPDATE_USER_CLICKING_ACTION;
     payload: UpdateUserClickingActionPayload;
 }
 
-export interface UpdateUserClickingNode {
+export interface UpdateUserClickingNodeAction {
     type: Constants.UPDATE_USER_CLICKING_NODE;
     payload: UpdateUserClickingNodePayload;
 }
 
-export interface UpdateTypeConfig {
+export interface UpdateTypeConfigAction {
     type: Constants.UPDATE_TYPE_CONFIG;
     payload: UpdateTypeConfigPayload;
 }
 
-export interface UpdateResultName {
+export interface UpdateResultNameAction {
     type: Constants.UPDATE_RESULT_NAME;
     payload: UpdateResultNamePayload;
 }
 
-export interface UpdateShowResultName {
+export interface UpdateShowResultNameAction {
     type: Constants.UPDATE_SHOW_RESULT_NAME;
     payload: UpdateShowResultNamePayload;
 }
 
-export interface UpdateOperand {
+export interface UpdateOperandAction {
     type: Constants.UPDATE_OPERAND;
     payload: UpdateOperandPayload;
 }
 
-export interface UpdateUserAddingAction {
+export interface UpdateUserAddingActionAction {
     type: Constants.UPDATE_USER_ADDING_ACTION;
     payload: UpdateUserAddingActionPayload;
 }
 
+export type UpdateNodeDragging = (nodeDragging: boolean) => UpdateNodeDraggingAction;
+
+export type UpdateDragGroup = (dragGroup: boolean) => UpdateDragGroupAction;
+
+export type UpdateTranslating = (translating: boolean) => UpdateTranslatingAction;
+
+export type UpdateLanguage = (language: Language) => UpdateLanguageAction;
+
+export type UpdateShowResultName = (resultName: boolean) => UpdateShowResultNameAction;
+
+export type UpdateCreateNodePosition = (
+    createNodePosition: Position
+) => UpdateCreateNodePositionAction;
+
+export type UpdateResultName = (resultName: string) => UpdateResultNameAction;
+
+export type UpdateOperand = (operand: string) => UpdateOperandAction;
+
+export type UpdateTypeConfig = (typeConfig: Type) => UpdateTypeConfigAction;
+
+export type UpdateUserAddingAction = (userAddingAction: boolean) => UpdateUserAddingActionAction;
+
+export type UpdateNodeEditorOpen = (nodeEditorOpen: boolean) => UpdateNodeEditorOpenAction;
+
 type ActionTypes =
-    | UpdateTranslating
-    | UpdateLanguage
-    | UpdateFetchingFlow
-    | UpdateDefinition
-    | UpdateNodeDragging
-    | UpdateFlows
-    | UpdateDependencies
-    | UpdatePendingConnections
-    | RemovePendingConnection
-    | UpdateComponents
-    | UpdateContactFields
-    | UpdateGroups
-    | UpdateResultNames
-    | UpdateNodes
-    | UpdateFreshestNode
-    | UpdateNodeEditorOpen
-    | UpdateGhostNode
-    | UpdateCreateNodePosition
-    | UpdatePendingConnection
-    | UpdateActionToEdit
-    | UpdateNodeToEdit
-    | UpdateLocalizations
-    | UpdateDragGroup
-    | UpdateUserClickingAction
-    | UpdateUserClickingNode
-    | UpdateTypeConfig
-    | UpdateResultName
-    | UpdateShowResultName
-    | UpdateOperand
-    | UpdateUserAddingAction;
+    | UpdateTranslatingAction
+    | UpdateLanguageAction
+    | UpdateFetchingFlowAction
+    | UpdateDefinitionAction
+    | UpdateNodeDraggingAction
+    | UpdateFlowsAction
+    | UpdateDependenciesAction
+    | UpdatePendingConnectionsAction
+    | RemovePendingConnectionAction
+    | UpdateComponentsAction
+    | UpdateContactFieldsAction
+    | UpdateGroupsAction
+    | UpdateResultNamesAction
+    | UpdateNodesAction
+    | UpdateFreshestNodeAction
+    | UpdateNodeEditorOpenAction
+    | UpdateGhostNodeAction
+    | UpdateCreateNodePositionAction
+    | UpdatePendingConnectionAction
+    | UpdateActionToEditAction
+    | UpdateNodeToEditAction
+    | UpdateLocalizationsAction
+    | UpdateDragGroupAction
+    | UpdateUserClickingActionAction
+    | UpdateUserClickingNodeAction
+    | UpdateTypeConfigAction
+    | UpdateResultNameAction
+    | UpdateShowResultNameAction
+    | UpdateOperandAction
+    | UpdateUserAddingActionAction;
 
 export default ActionTypes;

@@ -3,21 +3,27 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import { Config } from '../config';
 import { Endpoints, FlowDefinition } from '../flowTypes';
-import { DispatchWithState, fetchFlow, Flows, ReduxState } from '../redux';
+import { DispatchWithState, fetchFlow, Flows, ReduxState, FetchFlow } from '../redux';
 import { flowList } from './FlowList.scss';
+import { bindActionCreators } from 'redux';
 
 export interface FlowOption {
     uuid: string;
     name: string;
 }
 
-interface FlowListProps {
+export interface FlowListPassedProps {
     assetHost: string;
     endpoints: Endpoints;
+}
+
+export interface FlowListDuxProps {
     definition: FlowDefinition;
     flows: Flows;
-    fetchFlowAC: (endpoint: string, uuid: string) => Promise<void>;
+    fetchFlow: FetchFlow;
 }
+
+export type FlowListProps = FlowListPassedProps & FlowListDuxProps;
 
 const FlowListContainer: React.SFC = () => (
     <Config
@@ -32,13 +38,7 @@ const FlowListContainer: React.SFC = () => (
 );
 
 // Navigable list of flows for an account
-const FlowList: React.SFC<FlowListProps> = ({
-    assetHost,
-    endpoints,
-    definition,
-    flows,
-    fetchFlowAC
-}) => {
+const FlowList: React.SFC<FlowListProps> = ({ assetHost, endpoints, definition, flows }) => {
     const flowOption: FlowOption = definition
         ? {
               uuid: definition.uuid,
@@ -49,7 +49,7 @@ const FlowList: React.SFC<FlowListProps> = ({
     const onChange = ({ uuid }: { uuid: string; name: string }) => {
         if (flows.length) {
             if (uuid !== definition.uuid) {
-                fetchFlowAC(endpoints.flows, uuid);
+                fetchFlow(endpoints.flows, uuid);
             }
         }
     };
@@ -74,9 +74,8 @@ const FlowList: React.SFC<FlowListProps> = ({
 
 const mapStateToProps = ({ definition, flows }: ReduxState) => ({ definition, flows });
 
-const mapDispatchToProps = (dispatch: DispatchWithState) => ({
-    fetchFlowAC: (endpoint: string, uuid: string) => dispatch(fetchFlow(endpoint, uuid))
-});
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators({ fetchFlow }, dispatch);
 
 const ConnectedFlowList = connect(mapStateToProps, mapDispatchToProps)(FlowList);
 

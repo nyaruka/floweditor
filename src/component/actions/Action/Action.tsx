@@ -5,30 +5,40 @@ import { connect } from 'react-redux';
 import { getTypeConfig, languagesPT } from '../../../config';
 import { ConfigProviderContext } from '../../../config/ConfigProvider';
 import { AnyAction, FlowDefinition, Languages, Node } from '../../../flowTypes';
-import { moveActionUp, ReduxState, removeAction } from '../../../redux';
-import { DispatchWithState, onOpenNodeEditor } from '../../../redux/actionCreators';
+import { moveActionUp, ReduxState, removeAction, ActionAC } from '../../../redux';
+import {
+    DispatchWithState,
+    onOpenNodeEditor,
+    OnOpenNodeEditor
+} from '../../../redux/actionCreators';
 import { LocalizedObject } from '../../../services/Localization';
 import { Language } from '../../LanguageSelector';
 import * as shared from '../../shared.scss';
 import TitleBar from '../../TitleBar';
 import * as styles from './Action.scss';
 import { createClickHandler } from '../../../utils';
+import { bindActionCreators } from 'redux';
 
-export interface ActionWrapperProps {
-    node: Node;
-    action: AnyAction;
+export interface ActionWrapperPassedProps {
     thisNodeDragging: boolean;
     localization: LocalizedObject;
     first: boolean;
+    action: AnyAction;
+    render: (action: AnyAction) => React.ReactNode;
+}
+
+export interface ActionWrapperDuxProps {
+    node: Node;
     userClickingAction: boolean;
     language: Language;
     translating: boolean;
     definition: FlowDefinition;
-    render: (action: AnyAction) => React.ReactNode;
-    onOpenNodeEditorAC: (node: Node, action: AnyAction, languages: Languages) => void;
-    removeActionAC: (action: AnyAction) => void;
-    moveActionUpAC: (action: AnyAction) => void;
+    onOpenNodeEditor: OnOpenNodeEditor;
+    removeAction: ActionAC;
+    moveActionUp: ActionAC;
 }
+
+export type ActionWrapperProps = ActionWrapperPassedProps & ActionWrapperDuxProps;
 
 const cx = classNames.bind({ ...shared, ...styles });
 
@@ -53,24 +63,20 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
             event.preventDefault();
             event.stopPropagation();
             const ui = this.props.definition._ui.nodes[this.props.node.uuid];
-            this.props.onOpenNodeEditorAC(
-                this.props.node,
-                this.props.action,
-                this.context.languages
-            );
+            this.props.onOpenNodeEditor(this.props.node, this.props.action, this.context.languages);
         }
     }
 
     private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
 
-        this.props.removeActionAC(this.props.action);
+        this.props.removeAction(this.props.action);
     }
 
     private onMoveUp(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
 
-        this.props.moveActionUpAC(this.props.action);
+        this.props.moveActionUp(this.props.action);
     }
 
     private getClasses(): string {
@@ -146,12 +152,15 @@ const mapStateToProps = ({
     definition
 });
 
-const mapDispatchToProps = (dispatch: DispatchWithState) => ({
-    onOpenNodeEditorAC: (node: Node, action: AnyAction, languages: Languages) =>
-        dispatch(onOpenNodeEditor(node, action, languages)),
-    removeActionAC: (action: AnyAction) => dispatch(removeAction(action)),
-    moveActionUpAC: (action: AnyAction) => dispatch(moveActionUp(action))
-});
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators(
+        {
+            onOpenNodeEditor,
+            removeAction,
+            moveActionUp
+        },
+        dispatch
+    );
 
 const ConnectedActionWrapper = connect(mapStateToProps, mapDispatchToProps)(ActionWrapper);
 
