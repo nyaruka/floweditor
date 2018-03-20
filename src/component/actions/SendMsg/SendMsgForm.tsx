@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Type } from '../../../config';
 import { FlowDefinition, SendMsg } from '../../../flowTypes';
-import { ReduxState } from '../../../redux';
+import { AppState } from '../../../store';
 import Localization, { LocalizedObject } from '../../../services/Localization';
 import * as styles from '../../actions/Action/Action.scss';
 import CheckboxElement from '../../form/CheckboxElement';
@@ -10,19 +10,24 @@ import TextInputElement, { Count } from '../../form/TextInputElement';
 import { Language } from '../../LanguageSelector';
 import { UpdateLocalizations } from '../../NodeEditor';
 
-export interface SendMsgFormProps {
+export interface SendMsgFormStoreProps {
     language: Language;
     translating: boolean;
     typeConfig: Type;
-    showAdvanced: boolean;
-    action: SendMsg;
     definition: FlowDefinition;
     localizations: LocalizedObject[];
+}
+
+export interface SendMsgFormPassedProps {
+    showAdvanced: boolean;
+    action: SendMsg;
     updateAction(action: SendMsg): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
     updateLocalizations: UpdateLocalizations;
 }
+
+export type SendMsgFormProps = SendMsgFormStoreProps & SendMsgFormPassedProps;
 
 export class SendMsgForm extends React.Component<SendMsgFormProps> {
     constructor(props: SendMsgFormProps) {
@@ -123,12 +128,10 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
 }
 
 const mapStateToProps = ({
-    language,
-    translating,
-    typeConfig,
-    definition,
-    localizations
-}: ReduxState) => ({
+    flowContext: { definition, localizations },
+    flowEditor: { editorUI: { language, translating } },
+    nodeEditor: { typeConfig }
+}: AppState) => ({
     language,
     translating,
     typeConfig,

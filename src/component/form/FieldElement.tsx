@@ -3,7 +3,7 @@ import { v4 as generateUUID } from 'uuid';
 import { getSelectClass, toBoolMap } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
-import { SearchResult } from '../../redux';
+import { SearchResult } from '../../store';
 
 // TODO: these should come from an external source
 const reserved = toBoolMap(['language', 'name', 'timezone']);

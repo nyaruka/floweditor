@@ -2,7 +2,7 @@ import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
 import axios, { AxiosResponse } from 'axios';
 import { Async, AsyncCreatable } from 'react-select';
-import { SearchResult } from '../redux';
+import { SearchResult } from '../store';
 import { jsonEqual } from '../utils';
 
 export interface SelectSearchProps {
@@ -30,6 +30,11 @@ interface SelectSearchResult {
     options: SearchResult[];
     complete: boolean;
 }
+
+// Quick fix for flash of 'Loading...' text when user makes selection.
+// Async and AsyncCreatable make a network request on each selection, perhaps we
+// should discuss a caching strategy.
+export const LOADING_PLACEHOLDER = '';
 
 export default class SelectSearch extends React.PureComponent<
     SelectSearchProps,
@@ -110,15 +115,17 @@ export default class SelectSearch extends React.PureComponent<
             callback(options);
         } else {
             axios.get(this.props.url).then((response: AxiosResponse) => {
-                const results: SearchResult[] = response.data.results.map(
-                    ({ name, uuid, type }: any) => ({
-                        name,
-                        id: uuid,
-                        type
-                    })
-                );
-                const options: SelectSearchResult = this.search(input, results);
-                callback(null, options);
+                setTimeout(() => {
+                    const results: SearchResult[] = response.data.results.map(
+                        ({ name, uuid, type }: any) => ({
+                            name,
+                            id: uuid,
+                            type
+                        })
+                    );
+                    const options: SelectSearchResult = this.search(input, results);
+                    callback(null, options);
+                }, 100);
             });
         }
     }
@@ -213,6 +220,7 @@ export default class SelectSearch extends React.PureComponent<
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     loadOptions={this.loadOptions}
+                    loadingPlaceholder={LOADING_PLACEHOLDER}
                     closeOnSelect={this.props.closeOnSelect}
                     ignoreCase={false}
                     ignoreAccents={false}
@@ -240,6 +248,7 @@ export default class SelectSearch extends React.PureComponent<
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     loadOptions={this.loadOptions}
+                    loadingPlaceholder={LOADING_PLACEHOLDER}
                     closeOnSelect={this.props.closeOnSelect}
                     ignoreCase={false}
                     ignoreAccents={false}

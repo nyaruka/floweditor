@@ -1,4 +1,50 @@
 import {
+    UpdateCreateNodePosition,
+    UpdateDragGroup,
+    UpdateLanguage,
+    UpdateNodeDragging,
+    UpdateNodeEditorOpen,
+    UpdateOperand,
+    UpdateResultName,
+    UpdateShowResultName,
+    UpdateTranslating,
+    UpdateTypeConfig,
+    UpdateUserAddingAction
+} from './actionTypes';
+import configureStore from './configureStore';
+import Constants from './constants';
+import {
+    CompletionOption,
+    Components,
+    ContactFieldResult,
+    SearchResult,
+    updateDefinition,
+    updateDependencies
+} from './flowContext';
+import {
+    Flows,
+    PendingConnections,
+    updateCreateNodePosition,
+    updateDragGroup,
+    updateFetchingFlow,
+    updateFlows,
+    updateGhostNode,
+    updateLanguage,
+    updateNodeDragging,
+    updateNodeEditorOpen,
+    updateTranslating
+} from './flowEditor';
+import { getConnectionError, getDetails, getExit, getTranslations } from './helpers';
+import {
+    updateActionToEdit,
+    updateOperand,
+    updateResultName,
+    updateShowResultName,
+    updateTypeConfig,
+    updateUserAddingAction
+} from './nodeEditor';
+import AppState from './state';
+import {
     ActionAC,
     ConnectionEvent,
     DisconnectExit,
@@ -40,51 +86,10 @@ import {
     UpdateDimensions,
     updateDimensions,
     updateNodeUI
-} from './actionCreators';
-import {
-    updateActionToEdit,
-    updateCreateNodePosition,
-    updateDefinition,
-    updateDependencies,
-    updateFetchingFlow,
-    updateFlows,
-    updateGhostNode,
-    updateLanguage,
-    updateNodeDragging,
-    updateNodeEditorOpen,
-    updateOperand,
-    updateResultName,
-    updateTranslating,
-    updateTypeConfig
-} from './actions';
-import {
-    UpdateCreateNodePosition,
-    UpdateDragGroup,
-    UpdateLanguage,
-    UpdateNodeDragging,
-    UpdateNodeEditorOpen,
-    UpdateOperand,
-    UpdateResultName,
-    UpdateShowResultName,
-    UpdateTranslating,
-    UpdateTypeConfig,
-    UpdateUserAddingAction
-} from './actionTypes';
-import configureStore from './configureStore';
-import Constants from './constants';
-import { getConnectionError, getDetails, getExit, getTranslations } from './helpers';
-import {
-    CompletionOption,
-    Components,
-    ContactFieldResult,
-    Flows,
-    PendingConnections,
-    ReduxState,
-    SearchResult
-} from './initialState';
+} from './thunks';
 
 export {
-    ReduxState,
+    AppState,
     ContactFieldResult,
     CompletionOption,
     SearchResult,
@@ -109,10 +114,11 @@ export {
     UpdateCreateNodePosition,
     configureStore,
     updateTranslating,
+    updateDragGroup,
+    updateUserAddingAction,
     updateTypeConfig,
     UpdateUserAddingAction,
     UpdateTypeConfig,
-    UpdateShowResultName,
     updateOperand,
     updateResultName,
     updateLanguage,
@@ -162,5 +168,7 @@ export {
     getTranslations,
     getDetails,
     getExit,
+    updateShowResultName,
+    UpdateShowResultName,
     UpdateNodeDragging
 };

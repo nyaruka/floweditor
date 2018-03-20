@@ -4,7 +4,7 @@ import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { getSelectClass, jsonEqual } from '../../utils';
 import { AnyAction } from '../../flowTypes';
-import { SearchResult } from '../../redux';
+import { SearchResult } from '../../store';
 
 export interface GroupOption {
     group: string;

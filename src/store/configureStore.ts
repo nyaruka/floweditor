@@ -1,10 +1,10 @@
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import initialState from './initialState';
-import rootReducer from './reducers';
+import AppState, { initialState } from './state';
+import rootReducer from './rootReducer';
 
-export default (state = initialState) => {
+export default (state: AppState = initialState) => {
     // prettier-ignore
     const store = createStore(
         rootReducer,
@@ -15,8 +15,8 @@ export default (state = initialState) => {
     );
 
     if (module.hot) {
-        module.hot.accept('./reducers', () => {
-            const { default: nextRootReducer } = require('./reducers');
+        module.hot.accept('./rootReducer', () => {
+            const { default: nextRootReducer } = require('./rootReducer');
             store.replaceReducer(nextRootReducer);
         });
     }

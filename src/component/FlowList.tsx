@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import { Config } from '../config';
 import { Endpoints, FlowDefinition } from '../flowTypes';
-import { DispatchWithState, fetchFlow, Flows, ReduxState, FetchFlow } from '../redux';
+import { DispatchWithState, fetchFlow, Flows, AppState, FetchFlow } from '../store';
 import { flowList } from './FlowList.scss';
 import { bindActionCreators } from 'redux';
 
@@ -17,13 +17,13 @@ export interface FlowListPassedProps {
     endpoints: Endpoints;
 }
 
-export interface FlowListDuxProps {
+export interface FlowListStoreProps {
     definition: FlowDefinition;
     flows: Flows;
     fetchFlow: FetchFlow;
 }
 
-export type FlowListProps = FlowListPassedProps & FlowListDuxProps;
+export type FlowListProps = FlowListPassedProps & FlowListStoreProps;
 
 const FlowListContainer: React.SFC = () => (
     <Config
@@ -78,7 +78,13 @@ const FlowList: React.SFC<FlowListProps> = ({
     );
 };
 
-const mapStateToProps = ({ definition, flows }: ReduxState) => ({ definition, flows });
+const mapStateToProps = ({
+    flowContext: { definition },
+    flowEditor: { editorUI: { flows } }
+}: AppState) => ({
+    definition,
+    flows
+});
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ fetchFlow }, dispatch);

@@ -1,12 +1,9 @@
-import * as isEqual from 'fast-deep-equal';
 import update from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
-import { Components } from '.';
-import { Language } from '../component/LanguageSelector';
 import { DragPoint } from '../component/Node';
 import { hasCases } from '../component/NodeEditor/NodeEditor';
-import { getTypeConfig, Type } from '../config';
+import { getTypeConfig } from '../config';
 import { FlowDetails, getFlow, getFlows } from '../external';
 import {
     Action,
@@ -25,42 +22,29 @@ import {
     UINode,
     WaitType
 } from '../flowTypes';
-import { LocalizedObject } from '../services/Localization';
 import { snakify } from '../utils';
 import {
-    removePendingConnection,
-    updateActionToEdit,
     updateComponents,
     updateContactFields,
-    updateCreateNodePosition,
     updateDefinition,
-    updateDragGroup,
+    updateGroups,
+    updateLocalizations,
+    updateResultNames,
+    ComponentDetails
+} from './flowContext';
+import {
+    removePendingConnection,
+    updateCreateNodePosition,
     updateFetchingFlow,
     updateFlows,
     updateFreshestNode,
     updateGhostNode,
-    updateGroups,
-    updateLanguage,
-    updateLocalizations,
     updateNodeDragging,
     updateNodeEditorOpen,
-    updateNodes,
-    updateNodeToEdit,
-    updateOperand,
     updatePendingConnection,
-    updatePendingConnections,
-    updateResultName,
-    updateResultNames,
-    updateShowResultName,
-    updateTranslating,
-    updateTypeConfig,
-    updateUserAddingAction,
-    updateUserClickingAction,
-    updateUserClickingNode
-} from './actions';
+    updatePendingConnections
+} from './flowEditor';
 import {
-    Bounds,
-    collides,
     determineConfigType,
     getDetails,
     getExistingFields,
@@ -72,26 +56,30 @@ import {
     getNodesBelow,
     getNodeUI,
     getPendingConnection,
+    getSuggestedResultName,
     getTranslations,
-    getUIs,
-    nodeSort,
-    pureSort,
-    getUpdatedNodes,
+    getNodeBoundaries,
+    getCollisions,
     isActionsNode,
-    getSuggestedResultName
+    nodeSort,
+    pureSort
 } from './helpers';
 import {
-    CompletionOption,
-    ComponentDetails,
-    ContactFieldResult,
-    ReduxState,
-    SearchResult
-} from './initialState';
+    updateActionToEdit,
+    updateNodeToEdit,
+    updateOperand,
+    updateResultName,
+    updateTypeConfig,
+    updateUserAddingAction,
+    updateShowResultName
+} from './nodeEditor';
+import AppState from './state';
 import { prepAddNode, prepSetNode, uniquifyNode } from './updateSpec';
+import { ContactFieldResult, SearchResult } from './flowContext';
 
-export type DispatchWithState = Dispatch<ReduxState>;
+export type DispatchWithState = Dispatch<AppState>;
 
-export type GetState = () => ReduxState;
+export type GetState = () => AppState;
 
 export type Thunk = (dispatch: DispatchWithState, getState?: GetState) => void;
 
@@ -177,7 +165,7 @@ export const applyUpdateSpec = (updateSpec: any = {}) => (
 ) => {
     if (Object.keys(updateSpec).length > 0) {
         console.log('updateSpec', updateSpec);
-        const updatedDefinition = update(getState().definition, updateSpec);
+        const updatedDefinition = update(getState().flowContext.definition, updateSpec);
         dispatch(updateDefinition(updatedDefinition));
     }
 };
@@ -191,6 +179,7 @@ export const fetchFlow = (endpoint: string, uuid: string) => (
         .then(({ definition }: FlowDetails) => {
             dispatch(updateDefinition(definition));
             dispatch(updateFetchingFlow(false));
+            dispatch(refresh(definition));
         })
         .catch((error: any) => console.log(`fetchFlow error: ${error}`));
 };
@@ -210,6 +199,7 @@ export const fetchFlows = (endpoint: string) => (dispatch: DispatchWithState) =>
         .catch((error: any) => console.log(`fetchFlowList error: ${error}`));
 
 export const refresh = (definition: FlowDefinition) => (dispatch: DispatchWithState) => {
+    console.log('refreshing...🥤');
     const components: { [uuid: string]: ComponentDetails } = {};
     const exitsWithDestinations: Exit[] = [];
     const fields: { [id: string]: ContactFieldResult } = {};
@@ -323,19 +313,8 @@ export const refresh = (definition: FlowDefinition) => (dispatch: DispatchWithSt
     dispatch(updateResultNames(existingResultNames));
 };
 
-// export const updateUI = (definition: FlowDefinition) => (dispatch: DispatchWithState) => {
-//     if (QUIET_UI > 0) {
-//         if (uiTimeout) {
-//             window.clearTimeout(uiTimeout);
-//         }
-//         uiTimeout = window.setTimeout(() => dispatch(setDefinition(definition)));
-//     } else {
-//         dispatch(setDefinition(definition));
-//     }
-// };
-
 export const sortNodes = () => (dispatch: DispatchWithState, getState: GetState) => {
-    const { definition: currentDef } = getState();
+    const { flowContext: { definition: currentDef } } = getState();
 
     const newDef = {
         ...currentDef,
@@ -343,24 +322,20 @@ export const sortNodes = () => (dispatch: DispatchWithState, getState: GetState)
     };
 
     dispatch(refresh(newDef));
-    // dispatch(updateUI(newDef))
     dispatch(updateDefinition(newDef));
 };
 
 export const reflow = () => (dispatch: DispatchWithState, getState: GetState) => {
-    dispatch(sortNodes());
-
-    const { definition: currentDef } = getState();
+    const { flowContext: { definition: currentDef } } = getState();
     let newDef = { ...currentDef };
 
-    const uis = getUIs(newDef.nodes, newDef._ui);
-    const updatedNodes = getUpdatedNodes(uis, NODE_SPACING);
+    const collisions = getCollisions(newDef.nodes, newDef._ui, NODE_SPACING);
 
     window.setTimeout(() => {
-        if (updatedNodes.length > 0) {
+        if (collisions.length > 0) {
             console.time('reflow');
-            console.log('::REFLOWED::', updatedNodes);
-            updatedNodes.forEach(
+            console.log('::REFLOWED::', collisions);
+            collisions.forEach(
                 node =>
                     (newDef = update(newDef, {
                         _ui: {
@@ -368,7 +343,6 @@ export const reflow = () => (dispatch: DispatchWithState, getState: GetState) =>
                         }
                     }))
             );
-            // dispatch(updateUI(newDef));
             dispatch(updateDefinition(newDef));
             console.timeEnd('reflow');
         }
@@ -390,7 +364,7 @@ export const onUpdateLocalizations = (language: string, changes: LocalizationUpd
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    let newDef = { ...getState().definition };
+    let newDef = { ...getState().flowContext.definition };
 
     // Initialize localization map if not present on definition
     if (!newDef.localization) {
@@ -425,8 +399,7 @@ export const onUpdateLocalizations = (language: string, changes: LocalizationUpd
         }
     });
 
-    // Update definition
-    // dispatch(updateUI(newDef));
+    // Update definiti
     dispatch(updateDefinition(newDef));
 };
 
@@ -434,13 +407,12 @@ export const updateNodeUI = (uuid: string, changes: any) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { definition: currentDef } = getState();
+    const { flowContext: { definition: currentDef } } = getState();
     // prettier-ignore
     const newDef = update(
         currentDef,
         { _ui: { nodes: { [uuid]: changes } } }
     );
-    // dispatch(updateUI(newDef));
     dispatch(updateDefinition(newDef));
     dispatch(markReflow());
 };
@@ -449,7 +421,7 @@ export const updateDimensions = (node: Node, dimensions: Dimensions) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { definition: currentDef } = getState();
+    const { flowContext: { definition: currentDef } } = getState();
     const ui = getNodeUI(node.uuid, currentDef);
     if (
         !ui.dimensions ||
@@ -465,7 +437,7 @@ export const addNode = (node: Node, ui: UINode, pendingConnection?: DragPoint) =
     getState: GetState
 ) => {
     console.time('addNode');
-    const { definition: currentDef } = getState();
+    const { flowContext: { definition: currentDef } } = getState();
     let newDef = { ...currentDef };
     let newNode = { ...node };
 
@@ -495,7 +467,6 @@ export const addNode = (node: Node, ui: UINode, pendingConnection?: DragPoint) =
 
     dispatch(updateFreshestNode(newNode));
     dispatch(refresh(newDef));
-    // dispatch(updateUI(newDef));
     dispatch(updateDefinition(newDef));
     console.timeEnd('addNode');
 };
@@ -511,8 +482,7 @@ export const updateExit = (exitUUID: string, changes: any) => (
 ) => {
     // prettier-ignore
     const {
-        definition: currentDef,
-        components: currentComponents
+        flowContext: { definition: currentDef, components: currentComponents }
     } = getState();
 
     const details = getDetails(exitUUID, currentComponents);
@@ -530,7 +500,6 @@ export const updateExit = (exitUUID: string, changes: any) => (
     );
 
     dispatch(refresh(newDef));
-    // dispatch(updateUI(newDef));
     dispatch(updateDefinition(newDef));
 };
 
@@ -552,7 +521,7 @@ export const updateConnection = (source: string, target: string) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { components: currentComponents, definition: currentDefinition } = getState();
+    const { flowContext: { definition: currentDef, components: currentComponents } } = getState();
     if (getDetails(source, currentComponents).nodeUUID !== target) {
         dispatch(updateExitDestination(source, target));
     } else {
@@ -564,7 +533,9 @@ export const resolvePendingConnection = (node: Node) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { pendingConnections: currentPendingConnections } = getState();
+    const {
+        flowEditor: { flowUI: { pendingConnections: currentPendingConnections } }
+    } = getState();
     // Only resolve connection if we have one
     const pendingConnection = getPendingConnection(node.uuid, currentPendingConnections);
     if (pendingConnection) {
@@ -578,7 +549,7 @@ export const updateNode = (uuid: string, changes: any) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { definition: currentDef, components: currentComponents } = getState();
+    const { flowContext: { definition: currentDef, components: currentComponents } } = getState();
     const { nodeIdx } = getDetails(uuid, currentComponents);
     const newDef = update(
         { ...currentDef },
@@ -589,13 +560,12 @@ export const updateNode = (uuid: string, changes: any) => (
         }
     );
     dispatch(refresh(newDef));
-    // dispatch(updateUI(newDef));
     dispatch(updateDefinition(newDef));
     dispatch(markReflow());
 };
 
 export const ensureStartNode = () => (dispatch: DispatchWithState, getState: GetState) => {
-    const { definition: currentDefinition } = getState();
+    const { flowContext: { definition: currentDefinition } } = getState();
 
     if (currentDefinition.nodes.length === 0) {
         const initialAction: SendMsg = {
@@ -622,7 +592,9 @@ export const removeNode = (nodeToRemove: Node) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { definition: currentDefinition, components: currentComponents } = getState();
+    const {
+        flowContext: { definition: currentDefinition, components: currentComponents }
+    } = getState();
     const details = getDetails(nodeToRemove.uuid, currentComponents);
     const node = currentDefinition.nodes[details.nodeIdx];
 
@@ -648,13 +620,12 @@ export const removeNode = (nodeToRemove: Node) => (
     // Remove it from the UI map as well
     // Calling getState() here because 'updateExitDestination' above
     // will have updated the definition.
-    const newDef = update(getState().definition, {
+    const newDef = update(getState().flowContext.definition, {
         nodes: { $splice: [[details.nodeIdx, 1]] },
         _ui: { nodes: { $unset: [nodeToRemove.uuid] } }
     });
 
     dispatch(refresh(newDef));
-    // dispatch(updateUI(newDef));
     dispatch(updateDefinition(newDef));
     dispatch(ensureStartNode());
 };
@@ -663,7 +634,9 @@ export const removeAction = (action: AnyAction) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { definition: currentDefinition, components: currentComponents } = getState();
+    const {
+        flowContext: { definition: currentDefinition, components: currentComponents }
+    } = getState();
     const { nodeUUID } = getDetails(action.uuid, currentComponents);
     // prettier-ignore
     const node = getNode(
@@ -690,7 +663,9 @@ export const moveActionUp = (action: AnyAction) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { definition: currentDefinition, components: currentComponents } = getState();
+    const {
+        flowContext: { definition: currentDefinition, components: currentComponents }
+    } = getState();
     const details = getDetails(action.uuid, currentComponents);
     // prettier-ignore
     const node = getNode(
@@ -722,10 +697,8 @@ export const updateAction = (
 ) => (dispatch: DispatchWithState, getState: GetState) => {
     console.time('updateAction');
     const {
-        userAddingAction,
-        nodeToEdit,
-        components: currentComponents,
-        definition: currentDefinition
+        flowContext: { components: currentComponents, definition: currentDefinition },
+        nodeEditor: { userAddingAction, nodeToEdit }
     } = getState();
     let newDef = { ...currentDefinition };
     if (draggedFrom && draggedFrom.nodeUUID !== nodeToEdit.uuid) {
@@ -748,7 +721,7 @@ export const updateAction = (
 
         // Calling 'getState' because 'addNode' above will
         // have updated the definition.
-        ({ definition: newDef } = getState());
+        ({ flowContext: { definition: newDef } } = getState());
     } else if (userAddingAction) {
         const nodeDeets = getDetails(nodeToEdit.uuid, currentComponents);
         newDef = {
@@ -839,7 +812,6 @@ export const updateAction = (
 
     dispatch(updateUserAddingAction(false));
     dispatch(refresh(newDef));
-    // dispatch(updateUI(newDef));
     dispatch(updateDefinition(newDef));
     dispatch(markReflow());
     console.timeEnd('updateAction');
@@ -856,7 +828,7 @@ export const spliceInRouter = (node: Node, type: string, previousAction: Action)
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { definition, components } = getState();
+    const { flowContext: { definition, components } } = getState();
     const previousNode = getNode(node.uuid, components, definition);
     const details = getDetails(previousAction.uuid, components);
 
@@ -884,7 +856,7 @@ export const spliceInRouter = (node: Node, type: string, previousAction: Action)
 
     // Add our top node if we have one
     if (topActions.length > 0) {
-        const { freshestNode } = getState();
+        const { flowEditor: { flowUI: { freshestNode } } } = getState();
 
         const topActionNode: Node = {
             uuid: generateUUID(),
@@ -914,10 +886,10 @@ export const spliceInRouter = (node: Node, type: string, previousAction: Action)
             ]
         };
         dispatch(addNode(bottomActionNode, { position: { x, y } }));
-        const { freshestNode } = getState();
+        const { flowEditor: { flowUI: { freshestNode } } } = getState();
         dispatch(updateExitDestination(freshestNode.exits[0].uuid, freshestNode.uuid));
     } else {
-        const { freshestNode } = getState();
+        const { flowEditor: { flowUI: { freshestNode } } } = getState();
         dispatch(
             updateExitDestination(
                 freshestNode.exits[0].uuid,
@@ -937,7 +909,7 @@ export const appendNewRouter = (node: Node, type: string) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { components, definition } = getState();
+    const { flowContext: { components, definition } } = getState();
     const previousNode = getNode(node.uuid, components, definition);
     const { position: { x, y } } = getNodeUI(node.uuid, definition);
 
@@ -949,11 +921,21 @@ export const appendNewRouter = (node: Node, type: string) => (
     );
 
     // Rewire our old connections
-    dispatch(updateExitDestination(previousNode.exits[0].uuid, getState().freshestNode.uuid));
+    dispatch(
+        updateExitDestination(
+            previousNode.exits[0].uuid,
+            getState().flowEditor.flowUI.freshestNode.uuid
+        )
+    );
 
     // And our new node should point where the old one did
     const { destination_node_uuid: previousDestination } = previousNode.exits[0];
-    dispatch(updateExitDestination(getState().freshestNode.exits[0].uuid, previousDestination));
+    dispatch(
+        updateExitDestination(
+            getState().flowEditor.flowUI.freshestNode.exits[0].uuid,
+            previousDestination
+        )
+    );
 };
 
 export const updateRouter = (
@@ -963,7 +945,7 @@ export const updateRouter = (
     newPosition: Position = null,
     previousAction: Action = null
 ) => (dispatch: DispatchWithState, getState: GetState) => {
-    const { definition, components } = getState();
+    const { flowContext: { definition, components } } = getState();
 
     console.time('updateRouter');
 
@@ -999,7 +981,11 @@ export const onNodeBeforeDrag = (
     plumberSetDragSelection: Function,
     plumberClearDragSelection: Function
 ) => (dispatch: DispatchWithState, getState: GetState) => {
-    const { nodeDragging, dragGroup, definition } = getState();
+    const {
+        flowContext: { definition },
+        flowEditor: { flowUI: { nodeDragging, dragGroup } }
+    } = getState();
+
     if (nodeDragging) {
         if (dragGroup) {
             const nodesBelow = getNodesBelow(node, definition.nodes);
@@ -1011,7 +997,10 @@ export const onNodeBeforeDrag = (
 };
 
 export const resetNodeEditingState = () => (dispatch: DispatchWithState, getState: GetState) => {
-    const { pendingConnection, createNodePosition, actionToEdit, nodeToEdit } = getState();
+    const {
+        flowEditor: { flowUI: { pendingConnection, createNodePosition } },
+        nodeEditor: { actionToEdit, nodeToEdit }
+    } = getState();
 
     dispatch(updateGhostNode(null));
 
@@ -1036,7 +1025,7 @@ export const onUpdateAction = (node: Node, action: AnyAction, repaintForDuration
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { pendingConnection, createNodePosition } = getState();
+    const { flowEditor: { flowUI: { pendingConnection, createNodePosition } } } = getState();
     dispatch(updateAction(action, node.uuid, pendingConnection, createNodePosition));
     repaintForDuration();
 };
@@ -1045,7 +1034,10 @@ export const onAddAction = (node: Node, languages: Languages) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { translating, definition, language } = getState();
+    const {
+        flowContext: { definition },
+        flowEditor: { editorUI: { translating, language } }
+    } = getState();
 
     const newAction: SendMsg = {
         uuid: generateUUID(),
@@ -1084,7 +1076,10 @@ export const onNodeEditorClose = (canceled: boolean, connectExit: Function) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { pendingConnection, components, definition } = getState();
+    const {
+        flowContext: { components, definition },
+        flowEditor: { flowUI: { pendingConnection } }
+    } = getState();
 
     // Make sure we re-wire the old connection
     if (canceled) {
@@ -1121,7 +1116,7 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { components, definition } = getState();
+    const { flowContext: { components, definition } } = getState();
     // We finished dragging a ghost node, create the spec for our new ghost component
     const draggedFromDetails = getDetails(event.sourceId, components);
     const fromNode = getNode(draggedFromDetails.nodeUUID, components, definition);
@@ -1180,7 +1175,10 @@ export const onUpdateRouter = (
     previousAction?: Action
 ) => (dispatch: DispatchWithState, getState: GetState) => {
     const { uuid: nodeUUID } = node;
-    const { nodeToEdit: { uuid: newNodeUUID }, pendingConnection, createNodePosition } = getState();
+    const {
+        flowEditor: { flowUI: { pendingConnection, createNodePosition } },
+        nodeEditor: { nodeToEdit: { uuid: newNodeUUID } }
+    } = getState();
 
     dispatch(updateRouter(node, type, pendingConnection, createNodePosition, previousAction));
 
@@ -1195,7 +1193,10 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { translating, definition, components, language } = getState();
+    const {
+        flowContext: { definition, components },
+        flowEditor: { editorUI: { language, translating } }
+    } = getState();
 
     const localizations = [];
     if (translating) {

@@ -16,13 +16,13 @@ import {
     onConnectionDrag,
     OnOpenNodeEditor,
     onOpenNodeEditor,
-    ReduxState,
+    AppState,
     resetNodeEditingState,
     UpdateConnection,
     updateConnection,
     updateCreateNodePosition,
     UpdateCreateNodePosition
-} from '../redux';
+} from '../store';
 import ActivityManager from '../services/ActivityManager';
 import Plumber from '../services/Plumber';
 import { snapToGrid } from '../utils';
@@ -34,7 +34,7 @@ export interface FlowPassedProps {
     languages: Languages;
 }
 
-export interface FlowDuxProps {
+export interface FlowStoreProps {
     translating: boolean;
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
@@ -50,7 +50,7 @@ export interface FlowDuxProps {
     updateCreateNodePosition: UpdateCreateNodePosition;
 }
 
-export type FlowProps = FlowPassedProps & FlowDuxProps;
+export type FlowProps = FlowPassedProps & FlowStoreProps;
 
 export interface Translations {
     [uuid: string]: any;
@@ -295,14 +295,12 @@ export class Flow extends React.Component<FlowProps> {
 }
 
 const mapStateToProps = ({
-    translating,
-    definition,
-    dependencies,
-    components,
-    ghostNode,
-    pendingConnection,
-    nodeEditorOpen
-}: ReduxState): Partial<ReduxState> => ({
+    flowContext: { definition, dependencies, components },
+    flowEditor: {
+        editorUI: { translating, nodeEditorOpen },
+        flowUI: { ghostNode, pendingConnection }
+    }
+}: AppState) => ({
     translating,
     definition,
     dependencies,

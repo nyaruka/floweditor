@@ -7,12 +7,12 @@ import { Config } from '../config';
 import { Languages } from '../flowTypes';
 import {
     DispatchWithState,
-    ReduxState,
+    AppState,
     UpdateLanguage,
     updateLanguage,
     UpdateTranslating,
     updateTranslating
-} from '../redux';
+} from '../store';
 import { jsonEqual } from '../utils';
 import { languageSelector } from './LanguageSelector.scss';
 
@@ -25,13 +25,13 @@ export interface LanguageSelectorPassedProps {
     languages: Languages;
 }
 
-export interface LanguageSelectorDuxProps {
+export interface LanguageSelectorStoreProps {
     language: Language;
     updateLanguage: UpdateLanguage;
     updateTranslating: UpdateTranslating;
 }
 
-export type LanguageSelectorProps = LanguageSelectorPassedProps & LanguageSelectorDuxProps;
+export type LanguageSelectorProps = LanguageSelectorPassedProps & LanguageSelectorStoreProps;
 
 export const composeLanguageMap = (languages: Languages): Language[] =>
     Object.keys(languages).map(iso => ({
@@ -87,7 +87,7 @@ const LanguageSelector: React.SFC<LanguageSelectorProps> = ({
     return null;
 };
 
-const mapStateToProps = ({ language }: ReduxState) => ({ language });
+const mapStateToProps = ({ flowEditor: { editorUI: { language } } }: AppState) => ({ language });
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(

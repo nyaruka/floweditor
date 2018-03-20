@@ -3,8 +3,8 @@ import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
 import { ChangeGroups } from '../../../flowTypes';
-import { ReduxState } from '../../../redux';
-import { SearchResult } from '../../../redux/initialState';
+import { AppState } from '../../../store';
+import { SearchResult } from '../../../store';
 import { jsonEqual } from '../../../utils';
 import CheckboxElement from '../../form/CheckboxElement';
 import GroupsElement from '../../form/GroupsElement';
@@ -142,7 +142,7 @@ export class RemoveGroupsForm extends React.PureComponent<
     }
 }
 
-const mapStateToProps = ({ typeConfig }: ReduxState) => ({ typeConfig });
+const mapStateToProps = ({ nodeEditor: { typeConfig } }: AppState) => ({ typeConfig });
 
 const ConnectedRemoveGroupForm = connect(mapStateToProps, null, null, { withRef: true })(
     RemoveGroupsForm

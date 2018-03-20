@@ -5,7 +5,7 @@ import setCaretPosition from 'get-input-selection';
 import { connect } from 'react-redux';
 import getCaretCoordinates from 'textarea-caret';
 import { Type } from '../../../config';
-import { ReduxState, CompletionOption } from '../../../redux';
+import { AppState, CompletionOption } from '../../../store';
 import FormElement, { FormElementProps } from '../FormElement';
 import * as shared from '../FormElement.scss';
 import CharCount from './CharCount';
@@ -41,10 +41,13 @@ export interface HTMLTextElement {
     focus(): void;
 }
 
-interface TextInputProps extends FormElementProps {
-    value: string;
+export interface TextInputStoreProps {
     typeConfig: Type;
     resultNames: CompletionOption[];
+}
+
+export interface TextInputPassedProps extends FormElementProps {
+    value: string;
     __className?: string;
     count?: Count;
     url?: boolean;
@@ -56,6 +59,8 @@ interface TextInputProps extends FormElementProps {
     onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
     onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
 }
+
+export type TextInputProps = TextInputStoreProps & TextInputPassedProps;
 
 export interface TextInputState {
     value: string;
@@ -475,7 +480,13 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     }
 }
 
-const mapStateToProps = ({ typeConfig, resultNames }: ReduxState) => ({ typeConfig, resultNames });
+const mapStateToProps = ({
+    flowContext: { resultNames },
+    nodeEditor: { typeConfig }
+}: AppState) => ({
+    typeConfig,
+    resultNames
+});
 
 const ConnectedTextInputElement = connect(mapStateToProps, null, null, { withRef: true })(
     TextInputElement

@@ -4,7 +4,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Exit } from '../flowTypes';
-import { DisconnectExit, disconnectExit, DispatchWithState, ReduxState } from '../redux';
+import { DisconnectExit, disconnectExit, DispatchWithState, AppState } from '../store';
 import ActivityManager from '../services/ActivityManager';
 import { LocalizedObject } from '../services/Localization';
 import Counter from './Counter';
@@ -20,12 +20,12 @@ export interface ExitPassedProps {
     plumberConnectExit: Function;
 }
 
-export interface ExitDuxProps {
+export interface ExitStoreProps {
     translating: boolean;
     disconnectExit: DisconnectExit;
 }
 
-export type ExitProps = ExitPassedProps & ExitDuxProps;
+export type ExitProps = ExitPassedProps & ExitStoreProps;
 
 export interface ExitState {
     confirmDelete: boolean;
@@ -189,7 +189,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     }
 }
 
-const mapStateToProps = ({ translating }: ReduxState) => ({
+const mapStateToProps = ({ flowEditor: { editorUI: { translating } } }: AppState) => ({
     translating
 });
 
