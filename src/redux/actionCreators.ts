@@ -1218,7 +1218,7 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
     }
 
     if (action) {
-        dispatch(setActionToEdit(action));
+        dispatch(updateActionToEdit(action));
     } else if (node.actions && node.actions.length) {
         // Account for hybrids or clicking on the empty exit table
         dispatch(updateActionToEdit(node.actions[node.actions.length - 1]));
@@ -1232,7 +1232,7 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
         components
     );
 
-    dispatch(setTypeConfig(getTypeConfig(type)));
+    dispatch(updateTypeConfig(getTypeConfig(type)));
 
     let operand = DEFAULT_OPERAND;
     let resultName = '';
