@@ -151,12 +151,14 @@ export const getLocalizations = (
 
 export const determineConfigType = (
     nodeToEdit: Node,
-    actions: AnyAction[],
+    action: AnyAction,
     definition: FlowDefinition,
     components: Components
 ) => {
-    if (actions.length) {
-        return actions[actions.length - 1].type;
+    if (action && action.type) {
+        return action.type;
+    } else if (nodeToEdit.actions && nodeToEdit.actions.length) {
+        return nodeToEdit.actions[nodeToEdit.actions.length - 1].type;
     } else {
         const nodeUI = definition._ui.nodes[nodeToEdit.uuid];
         if (nodeUI) {
