@@ -728,8 +728,7 @@ export const updateAction = (
         definition: currentDefinition
     } = getState();
     let newDef = { ...currentDefinition };
-
-    if (draggedFrom) {
+    if (draggedFrom && draggedFrom.nodeUUID !== nodeToEdit.uuid) {
         const newNodeUUID = generateUUID();
 
         dispatch(
@@ -977,7 +976,7 @@ export const updateRouter = (
         }
     } else {
         // Dragging from somewhere means we are a new node
-        if (draggedFrom) {
+        if (draggedFrom && draggedFrom.nodeUUID !== node.uuid) {
             const newNode = uniquifyNode(node);
             const updateSpec = prepAddNode(newNode, { position: newPosition, type });
             dispatch(applyUpdateSpec(updateSpec));
@@ -1171,7 +1170,6 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
     dispatch(updateGhostNode(ghostNode));
 
     // Save off our drag point for later
-    // this.pendingConnection = draggedFrom;
     dispatch(updatePendingConnection(draggedFrom));
 };
 
