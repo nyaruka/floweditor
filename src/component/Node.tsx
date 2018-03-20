@@ -18,7 +18,7 @@ import {
     onNodeMoved,
     onOpenNodeEditor,
     OnOpenNodeEditor,
-    ReduxState,
+    AppState,
     RemoveNode,
     removeNode,
     ResolvePendingConnection,
@@ -28,8 +28,8 @@ import {
     UpdateDragGroup,
     updateNodeDragging,
     UpdateNodeDragging
-} from '../redux';
-import { updateDragGroup } from '../redux/actions';
+} from '../store';
+import { updateDragGroup } from '../store';
 import ActivityManager from '../services/ActivityManager';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { DragEvent } from '../services/Plumber';
@@ -66,13 +66,12 @@ export interface NodeContainerProps {
     ghost?: boolean;
 }
 
-export interface NodeDuxProps {
+export interface NodeStoreProps {
     languages: Languages;
     language: Language;
     translating: boolean;
     definition: FlowDefinition;
     nodeDragging: boolean;
-    userClickingNode: boolean;
     updateNodeDragging: UpdateNodeDragging;
     onNodeBeforeDrag: OnNodeBeforeDrag;
     resolvePendingConnection: ResolvePendingConnection;
@@ -84,7 +83,7 @@ export interface NodeDuxProps {
     updateDragGroup: UpdateDragGroup;
 }
 
-export type NodeProps = NodeContainerProps & NodeDuxProps;
+export type NodeProps = NodeContainerProps & NodeStoreProps;
 
 export interface NodeState {
     thisNodeDragging: boolean;
@@ -156,6 +155,47 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         return (this.ele = ref);
     }
 
+    public shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState): boolean {
+        if (
+            nextProps.ui.position.x !== this.props.ui.position.x ||
+            nextProps.ui.position.y !== this.props.ui.position.y
+        ) {
+            return true;
+        }
+
+        if (nextState.thisNodeDragging !== this.state.thisNodeDragging) {
+            return true;
+        }
+
+        if (this.props.node !== nextProps.node) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public componentDidUpdate(prevProps: NodeProps, prevState: NodeState): void {
+        if (!this.props.ghost) {
+            try {
+                this.props.plumberRecalculate(this.props.node.uuid);
+            } catch (error) {
+                console.log(error);
+            }
+
+            if (
+                !this.props.ui.dimensions ||
+                (this.props.ui.dimensions.width !== this.ele.clientWidth ||
+                    this.props.ui.dimensions.height !== this.ele.clientHeight)
+            ) {
+                if (!this.props.translating) {
+                    this.updateDimensions();
+                }
+            }
+        } else {
+            this.props.plumberRecalculate(this.props.node.uuid);
+        }
+    }
+
     public componentDidMount(): void {
         this.props.plumberDraggable(
             this.props.node.uuid,
@@ -205,38 +245,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             });
         } else {
             this.updateDimensions();
-        }
-    }
-
-    public shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState): boolean {
-        if (
-            nextProps.ui.position.x !== this.props.ui.position.x ||
-            nextProps.ui.position.y !== this.props.ui.position.y
-        ) {
-            return true;
-        }
-        return shallowCompare(this, nextProps, nextState);
-    }
-
-    public componentDidUpdate(prevProps: NodeProps, prevState: NodeState): void {
-        if (!this.props.ghost) {
-            try {
-                this.props.plumberRecalculate(this.props.node.uuid);
-            } catch (error) {
-                console.log(error);
-            }
-
-            if (
-                !this.props.ui.dimensions ||
-                (this.props.ui.dimensions.width !== this.ele.clientWidth ||
-                    this.props.ui.dimensions.height !== this.ele.clientHeight)
-            ) {
-                if (!this.props.translating) {
-                    this.updateDimensions();
-                }
-            }
-        } else {
-            this.props.plumberRecalculate(this.props.node.uuid);
         }
     }
 
@@ -537,17 +545,13 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 }
 
 const mapStateToProps = ({
+    flowContext: { definition },
+    flowEditor: { editorUI: { language, translating }, flowUI: { nodeDragging } }
+}: AppState) => ({
     language,
     translating,
     definition,
-    nodeDragging,
-    userClickingNode
-}: ReduxState) => ({
-    language,
-    translating,
-    definition,
-    nodeDragging,
-    userClickingNode
+    nodeDragging
 });
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>

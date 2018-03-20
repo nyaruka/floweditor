@@ -1,6 +1,6 @@
 import { split } from 'split-sms';
 import { OPTIONS, GSM } from './constants';
-import { CompletionOption } from '../../../redux';
+import { CompletionOption } from '../../../store';
 
 export interface UnicodeCharMap {
     [char: string]: boolean;

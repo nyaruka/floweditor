@@ -1,23 +1,26 @@
-import * as React from 'react';
 import * as classNames from 'classnames/bind';
+import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { getTypeConfig, languagesPT } from '../../../config';
 import { ConfigProviderContext } from '../../../config/ConfigProvider';
-import { AnyAction, FlowDefinition, Languages, Node } from '../../../flowTypes';
-import { moveActionUp, ReduxState, removeAction, ActionAC } from '../../../redux';
-import {
-    DispatchWithState,
-    onOpenNodeEditor,
-    OnOpenNodeEditor
-} from '../../../redux/actionCreators';
+import { AnyAction, FlowDefinition, Node } from '../../../flowTypes';
 import { LocalizedObject } from '../../../services/Localization';
+import {
+    ActionAC,
+    AppState,
+    DispatchWithState,
+    moveActionUp,
+    OnOpenNodeEditor,
+    onOpenNodeEditor,
+    removeAction
+} from '../../../store';
+import { createClickHandler } from '../../../utils';
 import { Language } from '../../LanguageSelector';
 import * as shared from '../../shared.scss';
 import TitleBar from '../../TitleBar';
 import * as styles from './Action.scss';
-import { createClickHandler } from '../../../utils';
-import { bindActionCreators } from 'redux';
 
 export interface ActionWrapperPassedProps {
     thisNodeDragging: boolean;
@@ -27,9 +30,8 @@ export interface ActionWrapperPassedProps {
     render: (action: AnyAction) => React.ReactNode;
 }
 
-export interface ActionWrapperDuxProps {
+export interface ActionWrapperStoreProps {
     node: Node;
-    userClickingAction: boolean;
     language: Language;
     translating: boolean;
     definition: FlowDefinition;
@@ -38,7 +40,7 @@ export interface ActionWrapperDuxProps {
     moveActionUp: ActionAC;
 }
 
-export type ActionWrapperProps = ActionWrapperPassedProps & ActionWrapperDuxProps;
+export type ActionWrapperProps = ActionWrapperPassedProps & ActionWrapperStoreProps;
 
 const cx = classNames.bind({ ...shared, ...styles });
 
@@ -141,12 +143,9 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 }
 
 const mapStateToProps = ({
-    userClickingAction,
-    language,
-    translating,
-    definition
-}: ReduxState) => ({
-    userClickingAction,
+    flowContext: { definition },
+    flowEditor: { editorUI: { language, translating } }
+}: AppState) => ({
     language,
     translating,
     definition

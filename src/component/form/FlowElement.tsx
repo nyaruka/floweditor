@@ -2,7 +2,7 @@ import * as React from 'react';
 import { getSelectClass } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
-import { SearchResult } from '../../redux';
+import { SearchResult } from '../../store';
 
 interface FlowElementProps extends FormElementProps {
     flow_name: string;

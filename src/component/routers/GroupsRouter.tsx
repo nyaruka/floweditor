@@ -2,23 +2,28 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { endpointsPT } from '../../config';
 import { Node, SwitchRouter, WaitType } from '../../flowTypes';
-import { ReduxState, SearchResult } from '../../redux';
+import { AppState, SearchResult } from '../../store';
 import GroupsElement, { GroupsElementProps } from '../form/GroupsElement';
 import { GetResultNameField } from '../NodeEditor';
 import { hasSwitchRouter, hasWait, SaveLocalizations } from '../NodeEditor/NodeEditor';
 import { GROUP_LABEL } from './constants';
 import { instructions } from './SwitchRouter.scss';
 
-export interface GroupsRouterProps {
+export interface GroupsRouterStoreProps {
     translating: boolean;
     groups: SearchResult[];
     nodeToEdit: Node;
+}
+
+export interface GroupsRouterPassedProps {
     saveLocalizations: SaveLocalizations;
     updateRouter: Function;
     getExitTranslations(): JSX.Element;
     getResultNameField: GetResultNameField;
     onBindWidget(ref: any): void;
 }
+
+export type GroupsRouterProps = GroupsRouterStoreProps & GroupsRouterPassedProps;
 
 export const extractGroups = ({ exits, router }: Node): SearchResult[] =>
     (router as SwitchRouter).cases.map(kase => {
@@ -81,7 +86,11 @@ export class GroupsRouter extends React.PureComponent<GroupsRouterProps> {
     }
 }
 
-const mapStateToProps = ({ translating, groups, nodeToEdit }: ReduxState) => ({
+const mapStateToProps = ({
+    flowContext: { groups },
+    flowEditor: { editorUI: { translating } },
+    nodeEditor: { nodeToEdit }
+}: AppState) => ({
     translating,
     groups,
     nodeToEdit

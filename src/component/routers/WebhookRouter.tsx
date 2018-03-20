@@ -5,7 +5,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 import { CallWebhook, Headers, Methods } from '../../flowTypes';
-import { ReduxState } from '../../redux';
+import { AppState } from '../../store';
 import HeaderElement, { Header } from '../form/HeaderElement';
 import SelectElement from '../form/SelectElement';
 import TextInputElement from '../form/TextInputElement';
@@ -13,8 +13,11 @@ import { DEFAULT_BODY } from '../NodeEditor';
 import { SaveLocalizations } from '../NodeEditor/NodeEditor';
 import * as styles from './Webhook.scss';
 
-export interface WebhookRouterProps {
+export interface WebhookRouterStoreProps {
     translating: boolean;
+}
+
+export interface WebhookRouterPassedProps {
     action: CallWebhook;
     showAdvanced: boolean;
     saveLocalizations: SaveLocalizations;
@@ -26,6 +29,8 @@ export interface WebhookRouterProps {
     triggerFormUpdate: () => void;
     onToggleAdvanced: () => void;
 }
+
+export type WebhookRouterProps = WebhookRouterStoreProps & WebhookRouterPassedProps;
 
 interface WebhookRouterState {
     headers: Header[];
@@ -322,7 +327,9 @@ export class WebhookRouter extends React.Component<WebhookRouterProps, WebhookRo
     }
 }
 
-const mapStateToProps = ({ translating }: ReduxState) => ({ translating });
+const mapStateToProps = ({ flowEditor: { editorUI: { translating } } }: AppState) => ({
+    translating
+});
 
 const ConnectedWebhookRouterForm = connect(mapStateToProps, null, null, { withRef: true })(
     WebhookRouter

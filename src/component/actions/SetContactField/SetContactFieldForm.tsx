@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
 import { SetContactField } from '../../../flowTypes';
-import { ContactFieldResult, ReduxState, SearchResult } from '../../../redux';
+import { ContactFieldResult, AppState, SearchResult } from '../../../store';
 import { toBoolMap } from '../../../utils';
 import FieldElement from '../../form/FieldElement';
 import TextInputElement from '../../form/TextInputElement';
@@ -130,7 +130,7 @@ export class SetContactFieldForm extends React.PureComponent<SetContactFieldForm
     }
 }
 
-const maptStateToProps = ({ contactFields }: ReduxState) => ({ contactFields });
+const maptStateToProps = ({ flowContext: { contactFields } }: AppState) => ({ contactFields });
 
 const ConnectedSetContactFieldForm = connect(maptStateToProps, null, null, { withRef: true })(
     SetContactFieldForm

@@ -12,10 +12,10 @@ import {
     fetchFlow,
     FetchFlows,
     fetchFlows,
-    ReduxState,
+    AppState,
     UpdateLanguage,
     updateLanguage
-} from '../redux';
+} from '../store';
 import Flow from './Flow';
 import FlowList, { FlowOption } from './FlowList';
 import * as styles from './index.scss';
@@ -27,7 +27,7 @@ export interface FlowEditorContainerProps {
     config: FlowEditorConfig;
 }
 
-export interface FlowEditorDuxProps {
+export interface FlowEditorStoreProps {
     language: Language;
     translating: boolean;
     fetchingFlow: boolean;
@@ -45,7 +45,7 @@ export interface FlowEditorPassedProps {
     languages: Languages;
 }
 
-export type FlowEditorProps = FlowEditorPassedProps & FlowEditorDuxProps;
+export type FlowEditorProps = FlowEditorPassedProps & FlowEditorStoreProps;
 
 export const getBaseLanguage = (languages: { [iso: string]: string }): Language => {
     const [iso] = Object.keys(languages);
@@ -112,12 +112,9 @@ export class FlowEditor extends React.Component<FlowEditorProps> {
 }
 
 const mapStateToProps = ({
-    translating,
-    language,
-    fetchingFlow,
-    definition,
-    dependencies
-}: ReduxState) => ({
+    flowContext: { definition, dependencies },
+    flowEditor: { editorUI: { translating, language, fetchingFlow } }
+}: AppState) => ({
     translating,
     language,
     fetchingFlow,

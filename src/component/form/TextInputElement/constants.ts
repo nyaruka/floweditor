@@ -1,4 +1,4 @@
-import { CompletionOption } from '../../../redux';
+import { CompletionOption } from '../../../store';
 
 export const KEY_AT = 50;
 export const KEY_SPACE = 32;

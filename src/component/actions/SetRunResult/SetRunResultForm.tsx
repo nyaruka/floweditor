@@ -2,17 +2,22 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Type } from '../../../config';
 import { SetRunResult } from '../../../flowTypes';
-import { ReduxState } from '../../../redux';
+import { AppState } from '../../../store';
 import TextInputElement from '../../form/TextInputElement';
 import * as styles from './SetRunResult.scss';
 
-export interface SetRunResultFormProps {
+export interface SetRunResultFormStoreProps {
     typeConfig: Type;
+}
+
+export interface SetRunResultFormPassedProps {
     action: SetRunResult;
     updateAction(action: SetRunResult): void;
     getInitialAction(): SetRunResult;
     onBindWidget(ref: any): void;
 }
+
+export type SetRunResultFormProps = SetRunResultFormStoreProps & SetRunResultFormPassedProps;
 
 export class SetRunResultForm extends React.PureComponent<SetRunResultFormProps> {
     constructor(props: SetRunResultFormProps) {
@@ -73,7 +78,7 @@ export class SetRunResultForm extends React.PureComponent<SetRunResultFormProps>
     }
 }
 
-const mapStateToProps = ({ typeConfig }: ReduxState) => ({ typeConfig });
+const mapStateToProps = ({ nodeEditor: { typeConfig } }: AppState) => ({ typeConfig });
 
 const ConnectedSetRunResultForm = connect(mapStateToProps, null, null, { withRef: true })(
     SetRunResultForm

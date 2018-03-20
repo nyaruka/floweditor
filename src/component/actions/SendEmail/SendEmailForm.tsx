@@ -2,18 +2,23 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Type } from '../../../config';
 import { SendEmail } from '../../../flowTypes';
-import { ReduxState } from '../../../redux';
+import { AppState } from '../../../store';
 import EmailElement from '../../form/EmailElement';
 import TextInputElement from '../../form/TextInputElement';
 import { FormProps } from '../../NodeEditor';
 import * as styles from './SendEmail.scss';
 
-export interface SendEmailFormProps extends FormProps {
+export interface SendEmailFormStoreProps {
     typeConfig: Type;
+}
+
+export interface SendEmailFormPassedProps {
     action: SendEmail;
     updateAction(action: SendEmail): void;
     onBindWidget(ref: any): void;
 }
+
+export type SendEmailFormProps = SendEmailFormStoreProps & SendEmailFormPassedProps;
 
 export class SendEmailForm extends React.Component<SendEmailFormProps> {
     constructor(props: SendEmailFormProps) {
@@ -74,7 +79,7 @@ export class SendEmailForm extends React.Component<SendEmailFormProps> {
     }
 }
 
-const mapStateToProps = ({ typeConfig }: ReduxState) => ({ typeConfig });
+const mapStateToProps = ({ nodeEditor: { typeConfig } }: AppState) => ({ typeConfig });
 
 const ConnectedSendEmailForm = connect(mapStateToProps, null, null, { withRef: true })(
     SendEmailForm

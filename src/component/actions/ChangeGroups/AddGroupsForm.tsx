@@ -3,7 +3,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
 import { ChangeGroups, Group } from '../../../flowTypes';
-import { ReduxState, SearchResult } from '../../../redux';
+import { AppState, SearchResult } from '../../../store';
 import { jsonEqual } from '../../../utils';
 import GroupsElement from '../../form/GroupsElement';
 import ChangeGroupsFormProps from './props';
@@ -89,7 +89,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
     }
 }
 
-const mapStateToProps = ({ typeConfig }: ReduxState) => ({ typeConfig });
+const mapStateToProps = ({ nodeEditor: { typeConfig } }: AppState) => ({ typeConfig });
 
 const ConnectedAddGroupForm = connect(mapStateToProps, null, null, { withRef: true })(
     AddGroupsForm

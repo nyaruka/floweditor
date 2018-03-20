@@ -10,7 +10,8 @@ import {
     UIMetaData
 } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
-import { Components, ContactFieldResult, PendingConnections, SearchResult } from './initialState';
+import { SearchResult, ContactFieldResult, Components } from './flowContext';
+import { PendingConnections } from './flowEditor';
 
 export interface Bounds {
     left: number;
@@ -203,41 +204,50 @@ export const nodeSort = (definition: FlowDefinition) => (a: Node, b: Node) => {
     return diff;
 };
 
-export const getUIs = (nodes: Node[], ui: UIMetaData) =>
-    nodes.reduce((uiList, node) => {
-        const LocalizationMap = ui.nodes[node.uuid];
+export const getNodeBoundaries = (nodes: Node[], ui: UIMetaData) =>
+    nodes
+        .reduce((uiList, node) => {
+            const uiDetails = ui.nodes[node.uuid];
 
-        // This should only happen with freshly added nodes, since
-        // they don't have dimensions until they are rendered.
-        const dimensions = LocalizationMap.dimensions
-            ? LocalizationMap.dimensions
-            : { width: 250, height: 100 };
+            // This should only happen with freshly added nodes, since
+            // they don't have dimensions until they are rendered.
+            const dimensions = uiDetails.dimensions
+                ? uiDetails.dimensions
+                : { width: 250, height: 100 };
 
-        uiList.push({
-            uuid: node.uuid,
-            bounds: {
-                left: LocalizationMap.position.x,
-                top: LocalizationMap.position.y,
-                right: LocalizationMap.position.x + dimensions.width,
-                bottom: LocalizationMap.position.y + dimensions.height
+            uiList.push({
+                uuid: node.uuid,
+                bounds: {
+                    left: uiDetails.position.x,
+                    top: uiDetails.position.y,
+                    right: uiDetails.position.x + dimensions.width,
+                    bottom: uiDetails.position.y + dimensions.height
+                }
+            });
+
+            return uiList;
+        }, [])
+        .sort((a: any, b: any) => {
+            let diff = a.bounds.top - b.bounds.top;
+            if (diff === 0) {
+                diff = a.bounds.left - b.bounds.left;
             }
+            return diff;
         });
 
-        return uiList;
-    }, []);
-
-export const getUpdatedNodes = (uis: any, nodeSpacing: number) => {
+export const getCollisions = (nodes: Node[], ui: UIMetaData, nodeSpacing: number) => {
+    const boundaries = getNodeBoundaries(nodes, ui);
     const updatedNodes: Reflow[] = [];
 
-    for (let i = 0; i < uis.length; i++) {
-        const current = uis[i];
+    for (let i = 0; i < boundaries.length; i++) {
+        const current = boundaries[i];
 
         if (!current.bounds) {
             throw new Error(`Dimensions missing for ${current.uuid}`);
         }
 
-        for (let j = i + 1; j < uis.length; j++) {
-            const other = uis[j];
+        for (let j = i + 1; j < boundaries.length; j++) {
+            const other = boundaries[j];
 
             if (collides(current.bounds, other.bounds)) {
                 // console.log("COLLISON:", current, other);
@@ -246,15 +256,14 @@ export const getUpdatedNodes = (uis: any, nodeSpacing: number) => {
 
                 other.bounds.top += diff;
                 other.bounds.bottom += diff;
-
                 updatedNodes.push(other);
 
                 // See if our collision cascades
-                if (uis.length > j + 1) {
-                    const next = uis[j + 1];
+                if (boundaries.length > j + 1) {
+                    const next = boundaries[j + 1];
                     // If so, push everybody else down
-                    for (let k = j + 1; k < uis.length; k++) {
-                        const below = uis[k];
+                    for (let k = j + 1; k < boundaries.length; k++) {
+                        const below = boundaries[k];
                         below.bounds.top += diff;
                         below.bounds.bottom += diff;
                         updatedNodes.push(below);
@@ -264,7 +273,7 @@ export const getUpdatedNodes = (uis: any, nodeSpacing: number) => {
                 return updatedNodes;
             } else if (other.bounds.top > current.bounds.bottom) {
                 // If they start below our lowest point, move on
-                return updatedNodes;
+                continue;
             }
         }
     }

@@ -2,18 +2,23 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { ConfigProviderContext, endpointsPT } from '../../config';
 import { StartFlow } from '../../flowTypes';
-import { ReduxState } from '../../redux';
+import { AppState } from '../../store';
 import FlowElement from '../form/FlowElement';
 import { SaveLocalizations } from '../NodeEditor/NodeEditor';
 
-export interface SubflowRouterProps {
+export interface SubflowRouterStoreProps {
     translating: boolean;
+}
+
+export interface SubflowRouterPassedProps {
     action: StartFlow;
     saveLocalizations: SaveLocalizations;
     updateRouter: Function;
     getExitTranslations(): JSX.Element;
     onBindWidget(ref: any): void;
 }
+
+export type SubflowRouterProps = SubflowRouterStoreProps & SubflowRouterPassedProps;
 
 export class SubflowRouter extends React.PureComponent<SubflowRouterProps> {
     public static contextTypes = {
@@ -54,7 +59,9 @@ export class SubflowRouter extends React.PureComponent<SubflowRouterProps> {
     }
 }
 
-const mapStateToProps = ({ translating }: ReduxState) => ({ translating });
+const mapStateToProps = ({ flowEditor: { editorUI: { translating } } }: AppState) => ({
+    translating
+});
 
 const ConnectedSubflowRouterForm = connect(mapStateToProps, null, null, { withRef: true })(
     SubflowRouter

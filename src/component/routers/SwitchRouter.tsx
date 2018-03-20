@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 import { getOperatorConfig, operatorConfigList, Type } from '../../config';
 import { Case, Exit, Node, SwitchRouter } from '../../flowTypes';
-import { ReduxState } from '../../redux';
+import { AppState } from '../../store';
 import { LocalizedObject } from '../../services/Localization';
 import { reorderList } from '../../utils';
 import CaseElement, { CaseElementProps } from '../form/CaseElement';
@@ -29,17 +29,16 @@ export enum InputToFocus {
     exit = 'exit'
 }
 
-export interface SwitchRouterState {
-    cases: CaseElementProps[];
-}
-
-export interface SwitchRouterProps {
+export interface SwitchRouterStoreProps {
     language: Language;
     typeConfig: Type;
     translating: boolean;
     nodeToEdit: Node;
     localizations: LocalizedObject[];
     operand: string;
+}
+
+export interface SwitchRouterPassedProps {
     showAdvanced: boolean;
     saveLocalizations: SaveLocalizations;
     updateRouter: Function;
@@ -50,6 +49,12 @@ export interface SwitchRouterProps {
     onBindAdvancedWidget: (ref: any) => void;
     removeWidget: (name: string) => void;
 }
+
+export interface SwitchRouterState {
+    cases: CaseElementProps[];
+}
+
+export type SwitchRouterProps = SwitchRouterStoreProps & SwitchRouterPassedProps;
 
 export const getListStyle = (isDraggingOver: boolean, single: boolean): { cursor: DragCursor } => {
     if (single) {
@@ -526,13 +531,10 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
 }
 
 const mapStateToProps = ({
-    language,
-    typeConfig,
-    translating,
-    nodeToEdit,
-    localizations,
-    operand
-}: ReduxState) => ({ language, typeConfig, translating, nodeToEdit, localizations, operand });
+    flowContext: { localizations },
+    flowEditor: { editorUI: { language, translating } },
+    nodeEditor: { typeConfig, nodeToEdit, operand }
+}: AppState) => ({ language, typeConfig, translating, nodeToEdit, localizations, operand });
 
 const ConnectedSwitchRouterForm = connect(mapStateToProps, null, null, { withRef: true })(
     SwitchRouterForm

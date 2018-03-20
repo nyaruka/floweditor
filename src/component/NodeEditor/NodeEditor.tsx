@@ -1,8 +1,9 @@
-import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { v4 as generateUUID } from 'uuid';
+
 import { Mode, Type } from '../../config';
 import {
     Action,
@@ -23,35 +24,36 @@ import {
     SwitchRouter,
     WaitType
 } from '../../flowTypes';
+import { LocalizedObject } from '../../services/Localization';
 import {
+    AppState,
     Components,
     DispatchWithState,
     getDetails,
     getExit,
     LocalizationUpdates,
     NoParamsAC,
-    OnUpdateAction,
     onUpdateAction,
+    OnUpdateAction,
     onUpdateLocalizations,
     OnUpdateLocalizations,
-    onUpdateRouter,
     OnUpdateRouter,
-    ReduxState,
+    onUpdateRouter,
     resetNodeEditingState,
     SearchResult,
     updateNodeEditorOpen,
     UpdateNodeEditorOpen,
-    updateOperand,
     UpdateOperand,
-    updateResultName,
+    updateOperand,
     UpdateResultName,
+    updateResultName,
+    updateShowResultName,
     UpdateShowResultName,
     UpdateTypeConfig,
     updateTypeConfig,
-    UpdateUserAddingAction
-} from '../../redux';
-import { updateShowResultName, updateUserAddingAction } from '../../redux/actions';
-import { LocalizedObject } from '../../services/Localization';
+    UpdateUserAddingAction,
+    updateUserAddingAction
+} from '../../store';
 import { CaseElementProps } from '../form/CaseElement';
 import TextInputElement from '../form/TextInputElement';
 import { Language } from '../LanguageSelector';
@@ -80,7 +82,7 @@ export interface NodeEditorPassedProps {
     plumberRepaintForDuration: Function;
 }
 
-export interface NodeEditorDuxProps {
+export interface NodeEditorStoreProps {
     nodeToEdit: Node;
     language: Language;
     nodeEditorOpen: boolean;
@@ -97,17 +99,16 @@ export interface NodeEditorDuxProps {
     updateResultName: UpdateResultName;
     updateOperand: UpdateOperand;
     updateTypeConfig: UpdateTypeConfig;
-    updateShowResultName: UpdateShowResultName;
     resetNodeEditingState: NoParamsAC;
     updateNodeEditorOpen: UpdateNodeEditorOpen;
     onUpdateLocalizations: OnUpdateLocalizations;
     onUpdateAction: OnUpdateAction;
     onUpdateRouter: OnUpdateRouter;
     updateUserAddingAction: UpdateUserAddingAction;
+    updateShowResultName: UpdateShowResultName;
 }
 
-export type NodeEditorProps = NodeEditorPassedProps & NodeEditorDuxProps;
-
+export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
 export interface FormProps {
     action: AnyAction;
     showAdvanced: boolean;
@@ -1196,20 +1197,13 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
 }
 
 const mapStateToProps = ({
-    nodeToEdit,
-    language,
-    nodeEditorOpen,
-    actionToEdit,
-    localizations,
-    definition,
-    components,
-    translating,
-    typeConfig,
-    resultName,
-    showResultName,
-    operand,
-    pendingConnection
-}: ReduxState) => ({
+    flowContext: { localizations, definition, components },
+    flowEditor: {
+        editorUI: { language, translating, nodeEditorOpen },
+        flowUI: { pendingConnection }
+    },
+    nodeEditor: { nodeToEdit, actionToEdit, typeConfig, resultName, showResultName, operand }
+}: AppState) => ({
     nodeToEdit,
     language,
     nodeEditorOpen,
@@ -1229,7 +1223,6 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
             updateResultName,
-            updateShowResultName,
             resetNodeEditingState,
             updateNodeEditorOpen,
             updateTypeConfig,
@@ -1237,7 +1230,8 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
             onUpdateLocalizations,
             onUpdateAction,
             onUpdateRouter,
-            updateUserAddingAction
+            updateUserAddingAction,
+            updateShowResultName
         },
         dispatch
     );

@@ -1,10 +1,10 @@
-import Constants from './constants';
 import { Language } from '../component/LanguageSelector';
-import { FlowDefinition, Position, Node, AnyAction } from '../flowTypes';
 import { DragPoint } from '../component/Node';
-import { Components, ContactFieldResult, SearchResult, CompletionOption } from './initialState';
-import { LocalizedObject } from '../services/Localization';
 import { Type } from '../config';
+import { AnyAction, FlowDefinition, Node, Position } from '../flowTypes';
+import { LocalizedObject } from '../services/Localization';
+import Constants from './constants';
+import { Components, ContactFieldResult, SearchResult, CompletionOption } from './flowContext';
 
 // Payload types
 interface TranslatingPayload {
@@ -100,14 +100,6 @@ interface UpdateDragGroupPayload {
     dragGroup: boolean;
 }
 
-interface UpdateUserClickingActionPayload {
-    userClickingAction: boolean;
-}
-
-interface UpdateUserClickingNodePayload {
-    userClickingNode: boolean;
-}
-
 interface UpdateTypeConfigPayload {
     typeConfig: Type;
 }
@@ -116,16 +108,16 @@ interface UpdateResultNamePayload {
     resultName: string;
 }
 
-interface UpdateShowResultNamePayload {
-    showResultName: boolean;
-}
-
 interface UpdateOperandPayload {
     operand: string;
 }
 
 interface UpdateUserAddingActionPayload {
     userAddingAction: boolean;
+}
+
+interface UpdateShowResultNameActionPayload {
+    showResultName: boolean;
 }
 
 // Action types
@@ -244,16 +236,6 @@ export interface UpdateDragGroupAction {
     payload: UpdateDragGroupPayload;
 }
 
-export interface UpdateUserClickingActionAction {
-    type: Constants.UPDATE_USER_CLICKING_ACTION;
-    payload: UpdateUserClickingActionPayload;
-}
-
-export interface UpdateUserClickingNodeAction {
-    type: Constants.UPDATE_USER_CLICKING_NODE;
-    payload: UpdateUserClickingNodePayload;
-}
-
 export interface UpdateTypeConfigAction {
     type: Constants.UPDATE_TYPE_CONFIG;
     payload: UpdateTypeConfigPayload;
@@ -262,11 +244,6 @@ export interface UpdateTypeConfigAction {
 export interface UpdateResultNameAction {
     type: Constants.UPDATE_RESULT_NAME;
     payload: UpdateResultNamePayload;
-}
-
-export interface UpdateShowResultNameAction {
-    type: Constants.UPDATE_SHOW_RESULT_NAME;
-    payload: UpdateShowResultNamePayload;
 }
 
 export interface UpdateOperandAction {
@@ -279,6 +256,11 @@ export interface UpdateUserAddingActionAction {
     payload: UpdateUserAddingActionPayload;
 }
 
+export interface UpdateShowResultNameAction {
+    type: Constants.UPDATE_SHOW_RESULT_NAME;
+    payload: UpdateShowResultNameActionPayload;
+}
+
 export type UpdateNodeDragging = (nodeDragging: boolean) => UpdateNodeDraggingAction;
 
 export type UpdateDragGroup = (dragGroup: boolean) => UpdateDragGroupAction;
@@ -286,8 +268,6 @@ export type UpdateDragGroup = (dragGroup: boolean) => UpdateDragGroupAction;
 export type UpdateTranslating = (translating: boolean) => UpdateTranslatingAction;
 
 export type UpdateLanguage = (language: Language) => UpdateLanguageAction;
-
-export type UpdateShowResultName = (resultName: boolean) => UpdateShowResultNameAction;
 
 export type UpdateCreateNodePosition = (
     createNodePosition: Position
@@ -302,6 +282,8 @@ export type UpdateTypeConfig = (typeConfig: Type) => UpdateTypeConfigAction;
 export type UpdateUserAddingAction = (userAddingAction: boolean) => UpdateUserAddingActionAction;
 
 export type UpdateNodeEditorOpen = (nodeEditorOpen: boolean) => UpdateNodeEditorOpenAction;
+
+export type UpdateShowResultName = (showResultName: boolean) => UpdateShowResultNameAction;
 
 type ActionTypes =
     | UpdateTranslatingAction
@@ -327,12 +309,10 @@ type ActionTypes =
     | UpdateNodeToEditAction
     | UpdateLocalizationsAction
     | UpdateDragGroupAction
-    | UpdateUserClickingActionAction
-    | UpdateUserClickingNodeAction
     | UpdateTypeConfigAction
     | UpdateResultNameAction
-    | UpdateShowResultNameAction
     | UpdateOperandAction
-    | UpdateUserAddingActionAction;
+    | UpdateUserAddingActionAction
+    | UpdateShowResultNameAction;
 
 export default ActionTypes;
