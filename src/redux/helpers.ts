@@ -241,8 +241,6 @@ export const getCollisions = (nodes: Node[], ui: UIMetaData, nodeSpacing: number
     const boundaries = getNodeBoundaries(nodes, ui);
     const updatedNodes: Reflow[] = [];
 
-    console.log(ui);
-
     for (let i = 0; i < boundaries.length; i++) {
         const current = boundaries[i];
 
@@ -260,7 +258,6 @@ export const getCollisions = (nodes: Node[], ui: UIMetaData, nodeSpacing: number
 
                 other.bounds.top += diff;
                 other.bounds.bottom += diff;
-
                 updatedNodes.push(other);
 
                 // See if our collision cascades
