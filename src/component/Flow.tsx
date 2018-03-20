@@ -1,22 +1,27 @@
 import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Config } from '../config';
 import { getActivity } from '../external';
-import { FlowDefinition, Languages, Node, Position, UINode, AnyAction } from '../flowTypes';
+import { FlowDefinition, Languages, Node, UINode } from '../flowTypes';
 import {
     Components,
     ConnectionEvent,
-    Constants,
     DispatchWithState,
     ensureStartNode,
+    getConnectionError,
+    NoParamsAC,
+    OnConnectionDrag,
     onConnectionDrag,
+    OnOpenNodeEditor,
     onOpenNodeEditor,
     ReduxState,
     resetNodeEditingState,
+    UpdateConnection,
     updateConnection,
     updateCreateNodePosition,
-    getConnectionError
+    UpdateCreateNodePosition
 } from '../redux';
 import ActivityManager from '../services/ActivityManager';
 import Plumber from '../services/Plumber';
@@ -25,23 +30,24 @@ import * as styles from './Flow.scss';
 import NodeContainer, { DragPoint } from './Node';
 import NodeEditor from './NodeEditor';
 
-export interface FlowProps {
+export interface FlowDuxProps {
     translating: boolean;
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
-    languages: Languages;
     components: Components;
     ghostNode: Node;
     pendingConnection: DragPoint;
     nodeEditorOpen: boolean;
-    ensureStartNodeAC: () => void;
-    updateConnectionAC: (source: string, target: string) => void;
-    onOpenNodeEditorAC: (node: Node, action: AnyAction, languages: Languages) => void;
-    resetNewConnectionStateAC: () => void;
-    onConnectionDragAC: (event: ConnectionEvent) => void;
-    updateCreateNodePositionA: (
-        createNodePosition: Position
-    ) => { type: Constants; payload: { createNodePosition: Position } };
+    ensureStartNode: NoParamsAC;
+    updateConnection: UpdateConnection;
+    onOpenNodeEditor: OnOpenNodeEditor;
+    resetNodeEditingState: NoParamsAC;
+    onConnectionDrag: OnConnectionDrag;
+    updateCreateNodePosition: UpdateCreateNodePosition;
+}
+
+export interface FlowProps extends FlowDuxProps {
+    languages: Languages;
 }
 
 export interface Translations {
@@ -79,14 +85,14 @@ export class Flow extends React.Component<FlowProps> {
 
     public componentDidMount(): void {
         this.Plumber.bind('connection', (event: ConnectionEvent) =>
-            this.props.updateConnectionAC(event.sourceId, event.targetId)
+            this.props.updateConnection(event.sourceId, event.targetId)
         );
         this.Plumber.bind('beforeDrag', (event: ConnectionEvent) =>
             this.beforeConnectionDrag(event)
         );
 
         this.Plumber.bind('connectionDrag', (event: ConnectionEvent) =>
-            this.props.onConnectionDragAC(event)
+            this.props.onConnectionDrag(event)
         );
 
         this.Plumber.bind('connectionDragStop', (event: ConnectionEvent) =>
@@ -99,7 +105,7 @@ export class Flow extends React.Component<FlowProps> {
         );
 
         // If we don't have any nodes, create our first one
-        this.props.ensureStartNodeAC();
+        this.props.ensureStartNode();
 
         console.timeEnd('RenderAndPlumb');
 
@@ -122,7 +128,7 @@ export class Flow extends React.Component<FlowProps> {
      * Called right before a connector is dropped onto a new node
      */
     private onBeforeConnectorDrop(event: ConnectionEvent): boolean {
-        this.props.resetNewConnectionStateAC();
+        this.props.resetNodeEditingState();
 
         const connectionError = getConnectionError(
             event.sourceId,
@@ -168,10 +174,10 @@ export class Flow extends React.Component<FlowProps> {
                     this.ghost.wrappedInstance.ele.offsetTop
                 );
 
-                this.props.updateCreateNodePositionA({ x: left, y: top });
+                this.props.updateCreateNodePosition({ x: left, y: top });
 
                 // Bring up the node editor
-                this.props.onOpenNodeEditorAC(this.props.ghostNode, null, this.props.languages);
+                this.props.onOpenNodeEditor(this.props.ghostNode, null, this.props.languages);
             }
 
             $(document).off('mousemove');
@@ -304,17 +310,18 @@ const mapStateToProps = ({
     nodeEditorOpen
 });
 
-const mapDispatchToProps = (dispatch: DispatchWithState) => ({
-    ensureStartNodeAC: () => dispatch(ensureStartNode()),
-    resetNewConnectionStateAC: () => dispatch(resetNodeEditingState()),
-    onConnectionDragAC: (event: ConnectionEvent) => dispatch(onConnectionDrag(event)),
-    onOpenNodeEditorAC: (node: Node, action: AnyAction, languages: Languages) =>
-        dispatch(onOpenNodeEditor(node, action, languages)),
-    updateCreateNodePositionA: (createNodePosition: Position) =>
-        dispatch(updateCreateNodePosition(createNodePosition)),
-    updateConnectionAC: (source: string, target: string) =>
-        dispatch(updateConnection(source, target))
-});
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators(
+        {
+            ensureStartNode,
+            resetNodeEditingState,
+            onConnectionDrag,
+            onOpenNodeEditor,
+            updateCreateNodePosition,
+            updateConnection
+        },
+        dispatch
+    );
 
 const ConnectedFlow = connect(mapStateToProps, mapDispatchToProps)(Flow);
 

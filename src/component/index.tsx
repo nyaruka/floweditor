@@ -2,16 +2,19 @@ import '../global.scss';
 import * as React from 'react';
 import axios from 'axios';
 import { connect, Provider as ReduxProvider } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import ConfigProvider, { Config } from '../config';
 import { Endpoints, FlowDefinition, FlowEditorConfig, Languages } from '../flowTypes';
 import {
     configureStore,
     DispatchWithState,
+    FetchFlow,
     fetchFlow,
+    FetchFlows,
     fetchFlows,
     ReduxState,
-    setLanguage,
-    UpdateFlows
+    UpdateLanguage,
+    updateLanguage
 } from '../redux';
 import Flow from './Flow';
 import FlowList, { FlowOption } from './FlowList';
@@ -24,20 +27,25 @@ export interface FlowEditorContainerProps {
     config: FlowEditorConfig;
 }
 
-export interface FlowEditorProps {
-    endpoints: Endpoints;
-    baseLanguage: Language;
-    flow: string;
-    languages: Languages;
+export interface FlowEditorDuxProps {
     language: Language;
     translating: boolean;
     fetchingFlow: boolean;
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
-    setLanguageAC: (language: Language) => void;
-    fetchFlowAC: (endpoint: string, uuid: string) => Promise<void>;
-    fetchFlowsAC: (endpoint: string) => Promise<void | UpdateFlows>;
+    updateLanguage: UpdateLanguage;
+    fetchFlow: FetchFlow;
+    fetchFlows: FetchFlows;
 }
+
+export interface FlowEditorPassedProps {
+    endpoints: Endpoints;
+    baseLanguage: Language;
+    flow: string;
+    languages: Languages;
+}
+
+export type FlowEditorProps = FlowEditorPassedProps & FlowEditorDuxProps;
 
 export const getBaseLanguage = (languages: { [iso: string]: string }): Language => {
     const [iso] = Object.keys(languages);
@@ -79,10 +87,10 @@ const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) =>
  */
 export class FlowEditor extends React.Component<FlowEditorProps> {
     public componentDidMount(): void {
-        this.props.setLanguageAC(this.props.baseLanguage);
-        this.props.fetchFlowAC(this.props.endpoints.flows, this.props.flow);
+        this.props.updateLanguage(this.props.baseLanguage);
+        this.props.fetchFlow(this.props.endpoints.flows, this.props.flow);
         // prettier-ignore
-        this.props.fetchFlowsAC(
+        this.props.fetchFlows(
             this.props.endpoints.flows
         );
     }
@@ -117,11 +125,15 @@ const mapStateToProps = ({
     dependencies
 });
 
-const mapDispatchToProps = (dispatch: DispatchWithState) => ({
-    setLanguageAC: (language: Language) => dispatch(setLanguage(language)),
-    fetchFlowAC: (endpoint: string, uuid: string) => dispatch(fetchFlow(endpoint, uuid)),
-    fetchFlowsAC: (endpoint: string) => dispatch(fetchFlows(endpoint))
-});
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators(
+        {
+            updateLanguage,
+            fetchFlow,
+            fetchFlows
+        },
+        dispatch
+    );
 
 const ConnectedFlowEditor = connect(mapStateToProps, mapDispatchToProps)(FlowEditor);
 
