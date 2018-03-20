@@ -9,6 +9,7 @@ import ActivityManager from '../services/ActivityManager';
 import { LocalizedObject } from '../services/Localization';
 import Counter from './Counter';
 import * as styles from './Exit.scss';
+import { createClickHandler } from '../utils';
 
 export interface ExitPassedProps {
     exit: Exit;
@@ -156,7 +157,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             this.state.confirmDelete && this.props.exit.hasOwnProperty('destination_node_uuid');
 
         const confirm: JSX.Element = confirmDelete ? (
-            <span onMouseUp={this.onDisconnect} className="icon-remove" />
+            <span {...createClickHandler(this.onDisconnect)} className="icon-remove" />
         ) : null;
 
         const exitClasses: string = cx({
@@ -176,7 +177,10 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         return (
             <div className={exitClasses}>
                 <div className={nameStyle}>{exit.name}</div>
-                <div onMouseUp={this.onClick} id={this.props.exit.uuid} className={dragNodeClasses}>
+                <div
+                    {...createClickHandler(this.onClick)}
+                    id={this.props.exit.uuid}
+                    className={dragNodeClasses}>
                     {confirm}
                 </div>
                 {activity}

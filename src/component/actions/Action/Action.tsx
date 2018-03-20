@@ -16,6 +16,7 @@ import { Language } from '../../LanguageSelector';
 import * as shared from '../../shared.scss';
 import TitleBar from '../../TitleBar';
 import * as styles from './Action.scss';
+import { createClickHandler } from '../../../utils';
 import { bindActionCreators } from 'redux';
 
 export interface ActionWrapperPassedProps {
@@ -119,12 +120,11 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         const titleBarClass = shared[this.props.action.type];
         const showRemoval = !this.props.translating;
         const showMove = !this.props.first && !this.props.translating;
-        // const events = { onClick: !this.props.thisNodeDragging ? this.onClick : null };
 
         return (
             <div id={`action-${this.props.action.uuid}`} className={classes}>
                 <div className={styles.overlay} />
-                <div onMouseUp={this.onClick} data-spec="interactive-div">
+                <div {...createClickHandler(this.onClick)} data-spec="interactive-div">
                     <TitleBar
                         className={titleBarClass}
                         title={name}

@@ -30,6 +30,10 @@ import * as styles from './Flow.scss';
 import NodeContainer, { DragPoint } from './Node';
 import NodeEditor from './NodeEditor';
 
+export interface FlowPassedProps {
+    languages: Languages;
+}
+
 export interface FlowDuxProps {
     translating: boolean;
     definition: FlowDefinition;
@@ -46,9 +50,7 @@ export interface FlowDuxProps {
     updateCreateNodePosition: UpdateCreateNodePosition;
 }
 
-export interface FlowProps extends FlowDuxProps {
-    languages: Languages;
-}
+export type FlowProps = FlowPassedProps & FlowDuxProps;
 
 export interface Translations {
     [uuid: string]: any;
@@ -177,12 +179,7 @@ export class Flow extends React.Component<FlowProps> {
                 this.props.updateCreateNodePosition({ x: left, y: top });
 
                 // Bring up the node editor
-                // prettier-ignore
-                this.props.onOpenNodeEditor(
-                    this.props.ghostNode,
-                    null,
-                    this.props.languages
-                );
+                this.props.onOpenNodeEditor(this.props.ghostNode, null, this.props.languages);
             }
 
             $(document).off('mousemove');

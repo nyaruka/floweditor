@@ -33,7 +33,7 @@ import { updateDragGroup } from '../redux/actions';
 import ActivityManager from '../services/ActivityManager';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { DragEvent } from '../services/Plumber';
-import { snapToGrid, titleCase } from '../utils';
+import { snapToGrid, titleCase, createClickHandler, ClickHandler } from '../utils';
 import ActionWrapper from './actions/Action';
 import CounterComp from './Counter';
 import ExitComp from './Exit';
@@ -138,7 +138,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     public ele: HTMLDivElement;
     private firstAction: any;
     private clicking: boolean;
-    private events: { onMouseUp(): void };
+    private events: ClickHandler;
 
     constructor(props: NodeProps) {
         super(props);
@@ -149,7 +149,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             include: [/Ref$/, /^on/, /^get/]
         });
 
-        this.events = { onMouseUp: this.onClick };
+        this.events = createClickHandler(this.onClick);
     }
 
     private eleRef(ref: HTMLDivElement): HTMLDivElement {
@@ -305,7 +305,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     // Applies only to router nodes;
     // ./Action/Action handles click logic for Action nodes.
-    private onClick(event?: any): void {
+    private onClick(event: React.MouseEvent<HTMLDivElement>): void {
         if (!this.props.nodeDragging) {
             // prettier-ignore
             this.props.onOpenNodeEditor(

@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import * as styles from './TitleBar.scss';
+import { createClickHandler } from '../../utils';
 
 interface TitleBarProps {
     title: string;
@@ -60,7 +61,9 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
         if (this.state.confirmingRemoval) {
             confirmation = (
                 <div className={styles.remove_confirm}>
-                    <div className={styles.remove_button} onMouseUp={this.props.onRemoval}>
+                    <div
+                        className={styles.remove_button}
+                        {...createClickHandler(this.props.onRemoval)}>
                         <span className="icon-remove" />
                     </div>
                     Remove?
@@ -76,7 +79,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
 
         if (this.props.showMove) {
             moveArrow = (
-                <div className={styles.up_button} onMouseUp={this.props.onMoveUp}>
+                <div className={styles.up_button} {...createClickHandler(this.props.onMoveUp)}>
                     <span className="icon-arrow-up" />
                 </div>
             );
@@ -92,7 +95,9 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
 
         if (this.props.showRemoval) {
             remove = (
-                <div className={styles.remove_button} onMouseUp={this.onConfirmRemoval}>
+                <div
+                    className={styles.remove_button}
+                    {...createClickHandler(this.onConfirmRemoval)}>
                     <span className="icon-remove" />
                 </div>
             );
