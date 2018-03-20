@@ -1171,7 +1171,9 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
         );
     }
 
-    if (node.actions && node.actions.length) {
+    if (action) {
+        dispatch(setActionToEdit(action));
+    } else if (node.actions && node.actions.length) {
         // Account for hybrids or clicking on the empty exit table
         dispatch(updateActionToEdit(node.actions[node.actions.length - 1]));
     }
@@ -1179,13 +1181,12 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
     // prettier-ignore
     const type = determineConfigType(
         node,
-        node.actions || [],
+        action,
         definition,
         components
     );
 
-    const config = getTypeConfig(type);
-    dispatch(updateTypeConfig(config));
+    dispatch(updateTypeConfig(getTypeConfig(type)));
 
     let operand = DEFAULT_OPERAND;
     let resultName = '';
