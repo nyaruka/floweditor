@@ -8,7 +8,6 @@ import GroupsElement, {
     createNewOption,
     getInitialGroups
 } from './GroupsElement';
-import { SearchResult } from '../../services/ComponentMap';
 import { validUUID } from '../../utils';
 
 const { results: groupsResp } = require('../../../assets/groups.json');
@@ -21,7 +20,7 @@ describe('GroupsElement >', () => {
         required: true
     };
 
-    const groupOptions: SearchResult[] = groupsResp.map(({ name, uuid }) => ({
+    const groupOptions = groupsResp.map(({ name, uuid }) => ({
         name,
         id: uuid
     }));
@@ -41,7 +40,7 @@ describe('GroupsElement >', () => {
 
         describe('createNewOption >', () => {
             it('should generate a new search result object', () => {
-                const newOption: SearchResult = createNewOption(newGroup);
+                const newOption = createNewOption(newGroup);
 
                 expect(validUUID(newOption.id)).toBeTruthy();
                 expect(newOption.name).toBe(newGroup.label);
@@ -95,7 +94,7 @@ describe('GroupsElement >', () => {
     });
 
     describe('instance methods >', () => {
-        const groups: SearchResult[] = groupOptions.slice(3);
+        const groups = groupOptions.slice(3);
 
         describe('onChange >', () => {
             it('should update state when called', () => {

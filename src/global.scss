@@ -6,6 +6,12 @@
 body {
     margin: 0;
 
+    #flow-editor {
+        height: 10000px;
+        width: 100%;
+        position: relative;
+    }
+
     #editor-container {
         height: 100%;
         width: 100%;
@@ -109,7 +115,7 @@ body {
             }
         }
     }
-    
+
     // jsplumb, no text selection while dragging
     .jtk-drag-select * {
         -webkit-touch-callout: none;
@@ -125,7 +131,7 @@ body {
             visibility: hidden !important;
         }
     }
-    
+
     svg.jtk-connector {
         z-index: $z_connectors;
         &.jtk-dragging {
@@ -155,22 +161,22 @@ body {
             &.jtk-arrow {
                 fill: $translation_connector;
             }
-        }    
+        }
     }
-    
+
     .jtk-endpoint {
         z-index: $z_endpoints;
     }
-    
+
     .plumb-exit .jtk-connected {
         background: $path_color !important;
         border-bottom: 1px solid $connector_color;
     }
-    
+
     .plumb-drop-hover {
         box-shadow: $node_shadow $node_shadow_hover;
     }
-    
+
     .plumb-endpoint-hover {
         cursor: pointer;
     }

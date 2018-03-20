@@ -1,12 +1,17 @@
 import { ChangeGroups } from '../../../flowTypes';
 import { Type } from '../../../config';
-import ComponentMap from '../../../services/ComponentMap';
 
-export default interface ChangeGroupFormProps {
+export interface ChangeGroupFormPassedProps {
     action: ChangeGroups;
-    config: Type;
     updateAction: (action: ChangeGroups) => void;
     onBindWidget: (ref: any) => void;
     removeWidget: (name: string) => void;
-    ComponentMap: ComponentMap;
-};
+}
+
+export interface ChangeGroupFormStoreProps {
+    typeConfig: Type;
+}
+
+type ChangeGroupFormProps = ChangeGroupFormPassedProps & ChangeGroupFormStoreProps;
+
+export default ChangeGroupFormProps;

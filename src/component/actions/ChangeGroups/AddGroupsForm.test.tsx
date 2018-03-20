@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
 import { getTypeConfig } from '../../../config';
-import ComponentMap from '../../../services/ComponentMap';
-import AddGroupsForm, { LABEL, PLACEHOLDER } from './AddGroupsForm';
+import { LABEL, PLACEHOLDER, AddGroupsForm } from './AddGroupsForm';
 import ChangeGroupsFormProps from './props';
 import { transformGroups } from './RemoveGroupsForm.test';
 
@@ -11,8 +10,6 @@ const {
 } = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
 const { endpoints } = require('../../../../assets/config');
 const { results: groupsResp } = require('../../../../assets/groups.json');
-
-const CompMap = new ComponentMap(definition);
 
 const { nodes: [{ actions: [, action] }] } = definition;
 const addGroupConfig = getTypeConfig('add_contact_groups');
@@ -28,8 +25,7 @@ const props: Partial<ChangeGroupsFormProps> = {
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
     removeWidget: jest.fn(),
-    ComponentMap: CompMap,
-    config: addGroupConfig
+    typeConfig: addGroupConfig
 };
 
 describe('AddGroupsForm >', () => {

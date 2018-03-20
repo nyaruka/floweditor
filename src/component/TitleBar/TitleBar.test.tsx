@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import TitleBar from './TitleBar';
 
 const titleBarProps = {
@@ -7,11 +7,10 @@ const titleBarProps = {
     onRemoval: jest.fn()
 };
 
-const TitleBarShallow = shallow(<TitleBar {...titleBarProps} />);
-
-describe('Component: TitleBar', () => {
+describe('TitleBar >', () => {
     it('should render', () => {
-        expect(TitleBarShallow.exists()).toBeTruthy();
-        expect(TitleBarShallow.state('confirmRemoval')).toBeFalsy();
+        const wrapper = mount(<TitleBar {...titleBarProps} />);
+        expect(wrapper.exists()).toBeTruthy();
+        expect(wrapper.state('confirmRemoval')).toBeFalsy();
     });
 });

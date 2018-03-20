@@ -1,29 +1,35 @@
 import * as React from 'react';
-import { SendMsg } from '../../../flowTypes';
-import { Language } from '../../LanguageSelector';
-import { LocalizedObject } from '../../../services/Localization';
-import ComponentMap from '../../../services/ComponentMap';
-import TextInputElement, { Count } from '../../form/TextInputElement';
-import CheckboxElement from '../../form/CheckboxElement';
+import { connect } from 'react-redux';
 import { Type } from '../../../config';
+import { FlowDefinition, SendMsg } from '../../../flowTypes';
+import { AppState } from '../../../store';
+import Localization, { LocalizedObject } from '../../../services/Localization';
 import * as styles from '../../actions/Action/Action.scss';
+import CheckboxElement from '../../form/CheckboxElement';
+import TextInputElement, { Count } from '../../form/TextInputElement';
+import { Language } from '../../LanguageSelector';
 import { UpdateLocalizations } from '../../NodeEditor';
 
-export interface SendMsgFormProps {
+export interface SendMsgFormStoreProps {
     language: Language;
-    action: SendMsg;
-    showAdvanced: boolean;
-    config: Type;
     translating: boolean;
-    ComponentMap: ComponentMap;
+    typeConfig: Type;
+    definition: FlowDefinition;
+    localizations: LocalizedObject[];
+}
+
+export interface SendMsgFormPassedProps {
+    showAdvanced: boolean;
+    action: SendMsg;
     updateAction(action: SendMsg): void;
     onBindWidget(ref: any): void;
     onBindAdvancedWidget(ref: any): void;
     updateLocalizations: UpdateLocalizations;
-    getLocalizedObject(): LocalizedObject;
 }
 
-export default class SendMsgForm extends React.Component<SendMsgFormProps> {
+export type SendMsgFormProps = SendMsgFormStoreProps & SendMsgFormPassedProps;
+
+export class SendMsgForm extends React.Component<SendMsgFormProps> {
     constructor(props: SendMsgFormProps) {
         super(props);
 
@@ -31,15 +37,15 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps> {
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        const textarea = widgets.Message as TextInputElement;
-        const sendAll = widgets['All Destinations'] as CheckboxElement;
+        const { wrappedInstance: { state: { value } } } = widgets.Message;
+        const sendAll = widgets['All Destinations'];
 
         if (this.props.translating) {
-            const translation = textarea.state.value.trim();
+            const translation = value.trim();
 
             if (translation) {
                 this.props.updateLocalizations(this.props.language.iso, [
-                    { uuid: this.props.action.uuid, translations: { text: [textarea.state.value] } }
+                    { uuid: this.props.action.uuid, translations: { text: [value] } }
                 ]);
             } else {
                 this.props.updateLocalizations(this.props.language.iso, [
@@ -49,8 +55,8 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps> {
         } else {
             const newAction: SendMsg = {
                 uuid: this.props.action.uuid,
-                type: this.props.config.type,
-                text: textarea.state.value
+                type: this.props.typeConfig.type,
+                text: value
             };
 
             if (sendAll.state.checked) {
@@ -62,12 +68,11 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps> {
     }
 
     private renderForm(): JSX.Element {
-        let text: string = '';
-        let placeholder: string = '';
-        let translation: JSX.Element = null;
+        let text = '';
+        let placeholder = '';
+        let translation = null;
 
         if (this.props.translating) {
-            const localizedObject = this.props.getLocalizedObject();
             const { text: textToTrans } = this.props.action;
 
             translation = (
@@ -80,14 +85,12 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps> {
 
             placeholder = `${this.props.language.name} Translation`;
 
-            if (localizedObject.isLocalized()) {
-                ({ text } = localizedObject.getObject() as SendMsg);
+            if (this.props.localizations[0].isLocalized()) {
+                ({ text } = this.props.localizations[0].getObject() as SendMsg);
             }
         } else {
             ({ text } = this.props.action);
         }
-
-        const required: boolean = !this.props.translating;
 
         return (
             <div>
@@ -101,10 +104,8 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps> {
                     placeholder={placeholder}
                     autocomplete={true}
                     focus={true}
-                    required={required}
+                    required={!this.props.translating}
                     textarea={true}
-                    ComponentMap={this.props.ComponentMap}
-                    config={this.props.config}
                 />
             </div>
         );
@@ -125,3 +126,19 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps> {
         return this.props.showAdvanced ? this.renderAdvanced() : this.renderForm();
     }
 }
+
+const mapStateToProps = ({
+    flowContext: { definition, localizations },
+    flowEditor: { editorUI: { language, translating } },
+    nodeEditor: { typeConfig }
+}: AppState) => ({
+    language,
+    translating,
+    typeConfig,
+    definition,
+    localizations
+});
+
+const ConnectedSendMsgForm = connect(mapStateToProps, null, null, { withRef: true })(SendMsgForm);
+
+export default ConnectedSendMsgForm;

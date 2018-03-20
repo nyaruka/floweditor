@@ -1,31 +1,20 @@
 import * as React from 'react';
-import { react as bindCallbacks } from 'auto-bind';
 import update from 'immutability-helper';
+import { react as bindCallbacks } from 'auto-bind';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
-import {
-    Wait,
-    WaitType,
-    Node,
-    SwitchRouter,
-    Exit,
-    AnyAction,
-    Case,
-    FlowDefinition,
-    Router
-} from '../../flowTypes';
-import { Type, operatorConfigList, getOperatorConfig } from '../../config';
-import { FormProps } from '../NodeEditor';
-import ComponentMap from '../../services/ComponentMap';
-import { Language } from '../LanguageSelector';
+import { getOperatorConfig, operatorConfigList, Type } from '../../config';
+import { Case, Exit, Node, SwitchRouter } from '../../flowTypes';
+import { AppState } from '../../store';
 import { LocalizedObject } from '../../services/Localization';
-import TextInputElement from '../form/TextInputElement';
-import CaseElement, { CaseElementProps } from '../form/CaseElement';
 import { reorderList } from '../../utils';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import CaseElement, { CaseElementProps } from '../form/CaseElement';
+import TextInputElement from '../form/TextInputElement';
+import { Language } from '../LanguageSelector';
 import { GetResultNameField } from '../NodeEditor';
-import { WAIT_LABEL, EXPRESSION_LABEL, OPERAND_LOCALIZATION_DESC } from './constants';
-import { LocalizationUpdates } from '../../services/FlowMutator';
-import { hasCases } from '../NodeEditor/NodeEditor';
+import { hasCases, SaveLocalizations } from '../NodeEditor/NodeEditor';
+import { EXPRESSION_LABEL, OPERAND_LOCALIZATION_DESC, WAIT_LABEL } from './constants';
 import * as styles from './SwitchRouter.scss';
 
 export enum DragCursor {
@@ -40,11 +29,32 @@ export enum InputToFocus {
     exit = 'exit'
 }
 
+export interface SwitchRouterStoreProps {
+    language: Language;
+    typeConfig: Type;
+    translating: boolean;
+    nodeToEdit: Node;
+    localizations: LocalizedObject[];
+    operand: string;
+}
+
+export interface SwitchRouterPassedProps {
+    showAdvanced: boolean;
+    saveLocalizations: SaveLocalizations;
+    updateRouter: Function;
+    onExpressionChanged: (e: any) => void;
+    getExitTranslations(): JSX.Element;
+    getResultNameField: GetResultNameField;
+    onBindWidget: (ref: any) => void;
+    onBindAdvancedWidget: (ref: any) => void;
+    removeWidget: (name: string) => void;
+}
+
 export interface SwitchRouterState {
     cases: CaseElementProps[];
 }
 
-export type SwitchRouterProps = Partial<FormProps>;
+export type SwitchRouterProps = SwitchRouterStoreProps & SwitchRouterPassedProps;
 
 export const getListStyle = (isDraggingOver: boolean, single: boolean): { cursor: DragCursor } => {
     if (single) {
@@ -69,10 +79,7 @@ export const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
     height: isDragging && draggableStyle.height + 15
 });
 
-export default class SwitchRouterForm extends React.Component<
-    SwitchRouterProps,
-    SwitchRouterState
-> {
+export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchRouterState> {
     constructor(props: SwitchRouterProps) {
         super(props);
 
@@ -80,9 +87,7 @@ export default class SwitchRouterForm extends React.Component<
             include: [/^on/]
         });
 
-        const initialState = this.getInitialState();
-
-        this.state = initialState;
+        this.state = this.getInitialState();
     }
 
     public onValid(widgets: { [name: string]: any }): void {
@@ -185,11 +190,11 @@ export default class SwitchRouterForm extends React.Component<
     }
 
     private composeCaseProps(): CaseElementProps[] {
-        return (this.props.node.router as SwitchRouter).cases.reduce((caseList, kase) => {
+        return (this.props.nodeToEdit.router as SwitchRouter).cases.reduce((caseList, kase) => {
             let exitName: string = null;
 
             if (kase.exit_uuid) {
-                const [exit] = this.props.node.exits.filter(
+                const [exit] = this.props.nodeToEdit.exits.filter(
                     ({ uuid }: Exit) => uuid === kase.exit_uuid
                 );
 
@@ -218,9 +223,9 @@ export default class SwitchRouterForm extends React.Component<
     private getInitialState(): SwitchRouterState {
         const cases = [];
 
-        const router = this.props.node.router as SwitchRouter;
+        const router = this.props.nodeToEdit.router as SwitchRouter;
 
-        if (router && hasCases(this.props.node)) {
+        if (router && hasCases(this.props.nodeToEdit)) {
             const existingCases = this.composeCaseProps();
 
             cases.push(...existingCases);
@@ -248,9 +253,7 @@ export default class SwitchRouterForm extends React.Component<
                         name={`case_${caseProps.kase.uuid}`}
                         onRemove={this.onCaseRemoved}
                         onChange={this.onCaseChanged}
-                        ComponentMap={this.props.ComponentMap}
                         solo={true}
-                        config={this.props.config}
                         exitName={caseProps.exitName}
                         kase={caseProps.kase}
                         focusArgs={caseProps.focusArgs}
@@ -276,8 +279,6 @@ export default class SwitchRouterForm extends React.Component<
                             name={`case_${caseProps.kase.uuid}`}
                             onRemove={this.onCaseRemoved}
                             onChange={this.onCaseChanged}
-                            ComponentMap={this.props.ComponentMap}
-                            config={this.props.config}
                             exitName={caseProps.exitName}
                             kase={caseProps.kase}
                             focusArgs={caseProps.focusArgs}
@@ -307,8 +308,6 @@ export default class SwitchRouterForm extends React.Component<
                                 name={`case_${caseProps.kase.uuid}`}
                                 onRemove={this.onCaseRemoved}
                                 onChange={this.onCaseChanged}
-                                ComponentMap={this.props.ComponentMap}
-                                config={this.props.config}
                                 exitName={caseProps.exitName}
                                 kase={caseProps.kase}
                                 focusArgs={caseProps.focusArgs}
@@ -335,8 +334,6 @@ export default class SwitchRouterForm extends React.Component<
                                                 name={`case_${caseProps.kase.uuid}`}
                                                 onRemove={this.onCaseRemoved}
                                                 onChange={this.onCaseChanged}
-                                                ComponentMap={this.props.ComponentMap}
-                                                config={this.props.config}
                                                 exitName={caseProps.exitName}
                                                 kase={caseProps.kase}
                                                 focusArgs={caseProps.focusArgs}
@@ -372,8 +369,6 @@ export default class SwitchRouterForm extends React.Component<
                     empty={true}
                     onRemove={this.onCaseRemoved}
                     onChange={this.onCaseChanged}
-                    ComponentMap={this.props.ComponentMap}
-                    config={this.props.config}
                 />
             );
         }
@@ -383,7 +378,7 @@ export default class SwitchRouterForm extends React.Component<
 
     public getOperandsForLocalization(): JSX.Element[] {
         // prettier-ignore
-        return (this.props.node.router as SwitchRouter).cases.reduce((casesForLocalization: JSX.Element[], kase) => {
+        return (this.props.nodeToEdit.router as SwitchRouter).cases.reduce((casesForLocalization: JSX.Element[], kase) => {
             if (kase.arguments && kase.arguments.length > 0 && !/number/.test(kase.type)) {
                 const [localized] = this.props.localizations.filter(
                     (localizedObject: LocalizedObject) =>
@@ -423,8 +418,6 @@ export default class SwitchRouterForm extends React.Component<
                                     placeholder={`${this.props.language.name} Translation`}
                                     showLabel={false}
                                     value={value}
-                                    ComponentMap={this.props.ComponentMap}
-                                    config={this.props.config}
                                 />
                             </div>
                         </div>
@@ -438,23 +431,21 @@ export default class SwitchRouterForm extends React.Component<
 
     private getLeadIn(): JSX.Element {
         let leadIn: JSX.Element | string = null;
-        if (this.props.config.type === 'wait_for_response') {
+        if (this.props.typeConfig.type === 'wait_for_response') {
             leadIn = WAIT_LABEL;
-        } else if (this.props.config.type === 'split_by_expression') {
+        } else if (this.props.typeConfig.type === 'split_by_expression') {
             leadIn = (
                 <React.Fragment>
                     <p>{EXPRESSION_LABEL}</p>
                     <TextInputElement
                         ref={this.props.onBindWidget}
-                        key={this.props.node.uuid}
+                        key={this.props.nodeToEdit.uuid}
                         name="Expression"
                         showLabel={false}
                         value={this.props.operand}
                         onChange={this.props.onExpressionChanged}
                         autocomplete={true}
                         required={true}
-                        ComponentMap={this.props.ComponentMap}
-                        config={this.props.config}
                     />
                 </React.Fragment>
             );
@@ -538,3 +529,15 @@ export default class SwitchRouterForm extends React.Component<
             : this.renderForm();
     }
 }
+
+const mapStateToProps = ({
+    flowContext: { localizations },
+    flowEditor: { editorUI: { language, translating } },
+    nodeEditor: { typeConfig, nodeToEdit, operand }
+}: AppState) => ({ language, typeConfig, translating, nodeToEdit, localizations, operand });
+
+const ConnectedSwitchRouterForm = connect(mapStateToProps, null, null, { withRef: true })(
+    SwitchRouterForm
+);
+
+export default ConnectedSwitchRouterForm;

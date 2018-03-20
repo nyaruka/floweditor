@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
-import { Async, AsyncCreatable } from 'react-select';
 import axios, { AxiosResponse } from 'axios';
-import { SearchResult } from '../services/ComponentMap';
+import { Async, AsyncCreatable, AutocompleteResult } from 'react-select';
+import { SearchResult } from '../store';
 import { jsonEqual } from '../utils';
 
 export interface SelectSearchProps {
@@ -24,11 +24,6 @@ export interface SelectSearchProps {
 
 interface SelectSearchState {
     selections: SearchResult[];
-}
-
-interface SelectSearchResult {
-    options: SearchResult[];
-    complete: boolean;
 }
 
 export default class SelectSearch extends React.PureComponent<
@@ -84,8 +79,8 @@ export default class SelectSearch extends React.PureComponent<
         return newResults;
     }
 
-    private search(term: string, remoteResults: SearchResult[] = []): SelectSearchResult {
-        let combined: SearchResult[] = [...remoteResults];
+    private search(term: string, remoteResults: SearchResult[] = []): AutocompleteResult {
+        let combined = [...remoteResults];
 
         if (this.props.localSearchOptions) {
             for (const local of this.props.localSearchOptions) {
@@ -94,9 +89,9 @@ export default class SelectSearch extends React.PureComponent<
                 }
             }
         }
-        const options: SearchResult[] = combined.sort(this.sortResults);
+        const options = combined.sort(this.sortResults);
 
-        const results: SelectSearchResult = {
+        const results = {
             options,
             complete: true
         };
@@ -106,19 +101,15 @@ export default class SelectSearch extends React.PureComponent<
 
     private loadOptions(input: string, callback: Function): void {
         if (!this.props.url) {
-            const options: SelectSearchResult = this.search(input);
-            callback(options);
+            callback(this.search(input));
         } else {
             axios.get(this.props.url).then((response: AxiosResponse) => {
-                const results: SearchResult[] = response.data.results.map(
-                    ({ name, uuid, type }: any) => ({
-                        name,
-                        id: uuid,
-                        type
-                    })
-                );
-                const options: SelectSearchResult = this.search(input, results);
-                callback(null, options);
+                const results = response.data.results.map(({ name, uuid, type }: any) => ({
+                    name,
+                    id: uuid,
+                    type
+                }));
+                callback(null, this.search(input, results));
             });
         }
     }
@@ -218,7 +209,6 @@ export default class SelectSearch extends React.PureComponent<
                     ignoreAccents={false}
                     value={value}
                     openOnFocus={true}
-                    cache={false}
                     valueKey="id"
                     labelKey="name"
                     multi={this.props.multi}
@@ -245,7 +235,6 @@ export default class SelectSearch extends React.PureComponent<
                     ignoreAccents={false}
                     value={value}
                     openOnFocus={true}
-                    cache={false}
                     valueKey="id"
                     labelKey="name"
                     multi={this.props.multi}
