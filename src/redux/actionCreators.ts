@@ -73,10 +73,10 @@ import {
     getNodeUI,
     getPendingConnection,
     getTranslations,
-    getUIs,
+    getNodeBoundaries,
     nodeSort,
     pureSort,
-    getUpdatedNodes,
+    getCollisions,
     isActionsNode,
     getSuggestedResultName
 } from './helpers';
@@ -191,6 +191,7 @@ export const fetchFlow = (endpoint: string, uuid: string) => (
         .then(({ definition }: FlowDetails) => {
             dispatch(updateDefinition(definition));
             dispatch(updateFetchingFlow(false));
+            dispatch(refresh(definition));
         })
         .catch((error: any) => console.log(`fetchFlow error: ${error}`));
 };
@@ -335,7 +336,7 @@ export const refresh = (definition: FlowDefinition) => (dispatch: DispatchWithSt
 // };
 
 export const sortNodes = () => (dispatch: DispatchWithState, getState: GetState) => {
-    const { definition: currentDef } = getState();
+    const { definition: currentDef, components } = getState();
 
     const newDef = {
         ...currentDef,
@@ -343,24 +344,20 @@ export const sortNodes = () => (dispatch: DispatchWithState, getState: GetState)
     };
 
     dispatch(refresh(newDef));
-    // dispatch(updateUI(newDef))
     dispatch(updateDefinition(newDef));
 };
 
 export const reflow = () => (dispatch: DispatchWithState, getState: GetState) => {
-    dispatch(sortNodes());
-
     const { definition: currentDef } = getState();
     let newDef = { ...currentDef };
 
-    const uis = getUIs(newDef.nodes, newDef._ui);
-    const updatedNodes = getUpdatedNodes(uis, NODE_SPACING);
+    const collisions = getCollisions(newDef.nodes, newDef._ui, NODE_SPACING);
 
     window.setTimeout(() => {
-        if (updatedNodes.length > 0) {
+        if (collisions.length > 0) {
             console.time('reflow');
-            console.log('::REFLOWED::', updatedNodes);
-            updatedNodes.forEach(
+            console.log('::REFLOWED::', collisions);
+            collisions.forEach(
                 node =>
                     (newDef = update(newDef, {
                         _ui: {
