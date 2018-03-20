@@ -171,7 +171,6 @@ export class Flow extends React.Component<FlowProps> {
                 this.props.updateCreateNodePositionA({ x: left, y: top });
 
                 // Bring up the node editor
-                // prettier-ignore
                 this.props.onOpenNodeEditorAC(this.props.ghostNode, null, this.props.languages);
             }
 
