@@ -2,26 +2,24 @@ import '../global.scss';
 import * as React from 'react';
 import axios from 'axios';
 import { connect, Provider as ReduxProvider } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import ConfigProvider, { Config } from '../config';
 import { Endpoints, FlowDefinition, FlowEditorConfig, Languages } from '../flowTypes';
 import {
     configureStore,
     DispatchWithState,
+    FetchFlow,
     fetchFlow,
+    FetchFlows,
     fetchFlows,
     ReduxState,
-    updateLanguage,
-    UpdateFlows,
     UpdateLanguage,
-    FetchFlow,
-    FetchFlows,
-    GetState
+    updateLanguage
 } from '../redux';
 import Flow from './Flow';
 import FlowList, { FlowOption } from './FlowList';
 import * as styles from './index.scss';
 import LanguageSelector, { Language } from './LanguageSelector';
-import { bindActionCreators } from 'redux';
 
 export type OnSelectFlow = ({ uuid }: FlowOption) => void;
 

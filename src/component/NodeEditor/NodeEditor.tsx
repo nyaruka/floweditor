@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { v4 as generateUUID } from 'uuid';
 import { Mode, Type } from '../../config';
 import {
@@ -24,22 +25,32 @@ import {
 } from '../../flowTypes';
 import {
     Components,
-    Constants,
     DispatchWithState,
+    getDetails,
+    getExit,
     LocalizationUpdates,
+    NoParamsAC,
+    OnUpdateAction,
     onUpdateAction,
     onUpdateLocalizations,
+    OnUpdateLocalizations,
     onUpdateRouter,
+    OnUpdateRouter,
     ReduxState,
     resetNodeEditingState,
     SearchResult,
     updateNodeEditorOpen,
-    updateTypeConfig,
+    UpdateNodeEditorOpen,
     updateOperand,
+    UpdateOperand,
     updateResultName,
-    getDetails,
-    getExit
+    UpdateResultName,
+    UpdateShowResultName,
+    UpdateTypeConfig,
+    updateTypeConfig,
+    UpdateUserAddingAction
 } from '../../redux';
+import { updateShowResultName, updateUserAddingAction } from '../../redux/actions';
 import { LocalizedObject } from '../../services/Localization';
 import { CaseElementProps } from '../form/CaseElement';
 import TextInputElement from '../form/TextInputElement';
@@ -50,12 +61,6 @@ import * as shared from '../shared.scss';
 import { DEFAULT_BODY, GROUPS_OPERAND } from './constants';
 import * as formStyles from './NodeEditor.scss';
 import TypeList from './TypeList';
-import { updateShowResultName, updateUserAddingAction } from '../../redux/actions';
-import {
-    UpdateNodeEditorOpen,
-    UpdateShowResultName,
-    UpdateUserAddingAction
-} from '../../redux/actionTypes';
 
 export type GetResultNameField = () => JSX.Element;
 export type SaveLocalizations = (
@@ -70,7 +75,12 @@ interface Sides {
     back: JSX.Element;
 }
 
-export interface NodeEditorProps {
+export interface NodeEditorPassedProps {
+    plumberConnectExit: Function;
+    plumberRepaintForDuration: Function;
+}
+
+export interface NodeEditorDuxProps {
     nodeToEdit: Node;
     language: Language;
     nodeEditorOpen: boolean;
@@ -84,24 +94,19 @@ export interface NodeEditorProps {
     operand: string;
     pendingConnection: DragPoint;
     components: Components;
-    plumberConnectExit: Function;
-    plumberRepaintForDuration: Function;
-    updateResultNameA: (resultName: string) => { type: Constants; payload: { resultName: string } };
-    updateOperandA: (operand: string) => { type: Constants; payload: { operand: string } };
-    updateTypeConfigAC: (typeConfig: Type) => { type: Constants; payload: { typeConfig: Type } };
-    updateShowResultNameAC: (showResultName: boolean) => UpdateShowResultName;
-    resetNewConnectionStateAC: () => void;
-    updateNodeEditorOpenAC: (nodeEditorOpen: boolean) => UpdateNodeEditorOpen;
-    onUpdateLocalizationsAC: (language: string, changes: LocalizationUpdates) => void;
-    onUpdateActionAC: (node: Node, action: AnyAction, repaintForDuration: Function) => void;
-    onUpdateRouterAC: (
-        node: Node,
-        type: string,
-        repaintForDuration: Function,
-        previousAction?: Action
-    ) => void;
-    updateUserAddingActionAC: (userAddingAction: boolean) => UpdateUserAddingAction;
+    updateResultName: UpdateResultName;
+    updateOperand: UpdateOperand;
+    updateTypeConfig: UpdateTypeConfig;
+    updateShowResultName: UpdateShowResultName;
+    resetNodeEditingState: NoParamsAC;
+    updateNodeEditorOpen: UpdateNodeEditorOpen;
+    onUpdateLocalizations: OnUpdateLocalizations;
+    onUpdateAction: OnUpdateAction;
+    onUpdateRouter: OnUpdateRouter;
+    updateUserAddingAction: UpdateUserAddingAction;
 }
+
+export type NodeEditorProps = NodeEditorPassedProps & NodeEditorDuxProps;
 
 export interface FormProps {
     action: AnyAction;
@@ -451,19 +456,19 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
     private onTypeChange(config: Type): void {
         this.widgets = {};
         this.advancedWidgets = {};
-        this.props.updateTypeConfigAC(config);
+        this.props.updateTypeConfig(config);
     }
 
     private onShowNameField(): void {
-        this.props.updateShowResultNameAC(true);
+        this.props.updateShowResultName(true);
     }
 
     private onResultNameChange({ target: { value: resultName } }: any): void {
-        this.props.updateResultNameA(resultName);
+        this.props.updateResultName(resultName);
     }
 
     private onExpressionChanged({ currentTarget: { value: operand } }: any): void {
-        this.props.updateOperandA(operand);
+        this.props.updateOperand(operand);
     }
 
     private getResultNameField(): JSX.Element {
@@ -494,7 +499,7 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
     }
 
     private updateLocalizations(language: string, changes: LocalizationUpdates): void {
-        this.props.onUpdateLocalizationsAC(language, changes);
+        this.props.onUpdateLocalizations(language, changes);
     }
 
     /***
@@ -718,9 +723,9 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
             }
         }
 
-        this.props.resetNewConnectionStateAC();
-        this.props.updateUserAddingActionAC(false);
-        this.props.updateNodeEditorOpenAC(false);
+        this.props.resetNodeEditingState();
+        this.props.updateUserAddingAction(false);
+        this.props.updateNodeEditorOpen(false);
     }
 
     private triggerFormUpdate(): void {
@@ -747,7 +752,7 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
 
     private updateAction(action: Action): void {
         // prettier-ignore
-        this.props.onUpdateActionAC(
+        this.props.onUpdateAction(
             this.props.nodeToEdit,
             action,
             this.props.plumberRepaintForDuration
@@ -784,7 +789,7 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
             ...optionalRouter
         };
 
-        this.props.onUpdateRouterAC(
+        this.props.onUpdateRouter(
             {
                 uuid: this.props.nodeToEdit.uuid,
                 router,
@@ -831,7 +836,7 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
             router.result_name += this.props.resultName;
         }
 
-        this.props.onUpdateRouterAC(
+        this.props.onUpdateRouter(
             { ...updates, router } as Node,
             'split_by_group',
             this.props.plumberRepaintForDuration,
@@ -918,7 +923,7 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
             nodeUUID = generateUUID();
         }
 
-        this.props.onUpdateRouterAC(
+        this.props.onUpdateRouter(
             {
                 uuid: nodeUUID,
                 router: newRouter,
@@ -1019,7 +1024,7 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
                 ? generateUUID()
                 : this.props.nodeToEdit.uuid;
 
-        this.props.onUpdateRouterAC(
+        this.props.onUpdateRouter(
             {
                 uuid: nodeUUID,
                 router,
@@ -1220,28 +1225,22 @@ const mapStateToProps = ({
     pendingConnection
 });
 
-const mapDispatchToProps = (dispatch: DispatchWithState) => ({
-    updateResultNameA: (resultName: string) => dispatch(updateResultName(resultName)),
-    updateShowResultNameAC: (showResultName: boolean) =>
-        dispatch(updateShowResultName(showResultName)),
-    resetNewConnectionStateAC: () => dispatch(resetNodeEditingState()),
-    updateNodeEditorOpenAC: (nodeEditorOpen: boolean) =>
-        dispatch(updateNodeEditorOpen(nodeEditorOpen)),
-    updateTypeConfigAC: (typeConfig: Type) => dispatch(updateTypeConfig(typeConfig)),
-    updateOperandA: (operand: string) => dispatch(updateOperand(operand)),
-    onUpdateLocalizationsAC: (language: string, changes: LocalizationUpdates) =>
-        dispatch(onUpdateLocalizations(language, changes)),
-    onUpdateActionAC: (node: Node, action: AnyAction, repaintForDuration: Function) =>
-        dispatch(onUpdateAction(node, action, repaintForDuration)),
-    onUpdateRouterAC: (
-        node: Node,
-        type: string,
-        repaintForDuration: Function,
-        previousAction?: Action
-    ) => dispatch(onUpdateRouter(node, type, repaintForDuration, previousAction)),
-    updateUserAddingActionAC: (userAddingAction: boolean) =>
-        dispatch(updateUserAddingAction(userAddingAction))
-});
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators(
+        {
+            updateResultName,
+            updateShowResultName,
+            resetNodeEditingState,
+            updateNodeEditorOpen,
+            updateTypeConfig,
+            updateOperand,
+            onUpdateLocalizations,
+            onUpdateAction,
+            onUpdateRouter,
+            updateUserAddingAction
+        },
+        dispatch
+    );
 
 const ConnectedNodeEditor = connect(mapStateToProps, mapDispatchToProps)(NodeEditor);
 

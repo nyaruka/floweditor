@@ -115,11 +115,30 @@ export type RemoveNode = (nodeToRemove: Node) => Thunk;
 
 export type UpdateDimensions = (node: Node, dimensions: Dimensions) => Thunk;
 
-// fetchFlow: (endpoint: string, uuid: string) => (dispatch: Dispatch<ReduxState>, getState: GetState) => Promise<void>
-
 export type FetchFlow = (endpoint: string, uuid: string) => AsyncThunk;
 
 export type FetchFlows = (endpoint: string) => AsyncThunk;
+
+export type NoParamsAC = () => Thunk;
+
+export type UpdateConnection = (source: string, target: string) => Thunk;
+
+export type OnConnectionDrag = (event: ConnectionEvent) => Thunk;
+
+export type OnUpdateLocalizations = (language: string, changes: LocalizationUpdates) => Thunk;
+
+export type OnUpdateAction = (node: Node, action: AnyAction, repaintForDuration: Function) => Thunk;
+
+export type ActionAC = (action: AnyAction) => Thunk;
+
+export type DisconnectExit = (exitUUID: string) => Thunk;
+
+export type OnUpdateRouter = (
+    node: Node,
+    type: string,
+    repaintForDuration: Function,
+    previousAction?: Action
+) => Thunk;
 
 export interface Connection {
     previousConnection: Connection;

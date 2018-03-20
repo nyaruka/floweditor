@@ -4,40 +4,32 @@ import * as shallowCompare from 'react-addons-shallow-compare';
 import * as FlipMove from 'react-flip-move';
 import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Config, getTypeConfig } from '../config';
-import {
-    AnyAction,
-    Dimensions,
-    FlowDefinition,
-    Languages,
-    Node,
-    Position,
-    SwitchRouter,
-    UINode
-} from '../flowTypes';
+import { AnyAction, FlowDefinition, Languages, Node, SwitchRouter, UINode } from '../flowTypes';
 import {
     DispatchWithState,
+    getTranslations,
     onAddAction,
+    OnAddAction,
     onNodeBeforeDrag,
+    OnNodeBeforeDrag,
+    OnNodeMoved,
     onNodeMoved,
     onOpenNodeEditor,
-    ReduxState,
-    removeNode,
-    resolvePendingConnection,
-    updateNodeDragging,
-    updateDimensions,
-    getTranslations,
-    GetState,
-    OnNodeBeforeDrag,
-    ResolvePendingConnection,
-    OnAddAction,
-    OnNodeMoved,
     OnOpenNodeEditor,
+    ReduxState,
     RemoveNode,
+    removeNode,
+    ResolvePendingConnection,
+    resolvePendingConnection,
     UpdateDimensions,
-    UpdateNodeDragging,
-    UpdateDragGroup
+    updateDimensions,
+    UpdateDragGroup,
+    updateNodeDragging,
+    UpdateNodeDragging
 } from '../redux';
+import { updateDragGroup } from '../redux/actions';
 import ActivityManager from '../services/ActivityManager';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { DragEvent } from '../services/Plumber';
@@ -49,8 +41,6 @@ import { Language } from './LanguageSelector';
 import * as styles from './Node.scss';
 import * as shared from './shared.scss';
 import TitleBar from './TitleBar';
-import { updateDragGroup } from '../redux/actions';
-import { bindActionCreators } from 'redux';
 
 // A point in the flow from which a drag is initiated
 export interface DragPoint {
@@ -154,8 +144,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         super(props);
 
         this.state = { thisNodeDragging: false };
-
-        console.log('this.props.ui:', this.props.ui);
 
         bindCallbacks(this, {
             include: [/Ref$/, /^on/, /^get/]
