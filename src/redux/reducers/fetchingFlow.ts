@@ -1,7 +1,6 @@
 import initialState, { ReduxState } from '../initialState';
 import ActionTypes from '../actionTypes';
 import Constants from '../constants';
-import { UpdateFetchingFlow } from '../actionTypes';
 
 export default (state: boolean = initialState.fetchingFlow, action: ActionTypes) => {
     switch (action.type) {
