@@ -119,9 +119,9 @@ describe('utils >', () => {
         const errors = ['A category name is required.'];
 
         it('should return false if passed an empty error list', () =>
-            expect(hasErrorType([], ['argument'])).toBeFalsy());
+            expect(hasErrorType([], [/argument/])).toBeFalsy());
 
         it('should return true if query exits in a string in the error list', () =>
-            expect(hasErrorType(errors, ['category'])).toBeTruthy());
+            expect(hasErrorType(errors, [/category/])).toBeTruthy());
     });
 });

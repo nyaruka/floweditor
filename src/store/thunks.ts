@@ -62,7 +62,8 @@ import {
     getCollisions,
     isActionsNode,
     nodeSort,
-    pureSort
+    pureSort,
+    getGhostNode
 } from './helpers';
 import {
     updateActionToEdit,
@@ -153,8 +154,6 @@ const RESERVED_FIELDS: ContactFieldResult[] = [
     { id: 'name', name: 'Name', type: 'set_contact_field' }
     // { id: "language", name: "Language", type: "update_contact" }
 ];
-
-const DEFAULT_OPERAND = '@input';
 
 // let uiTimeout: number;
 let reflowTimeout: number;
@@ -1127,35 +1126,7 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
         exitUUID: draggedFromDetails.exitUUID
     };
 
-    const ghostNode: Node = {
-        uuid: generateUUID(),
-        actions: [],
-        exits: [
-            {
-                uuid: generateUUID(),
-                destination_node_uuid: null
-            }
-        ]
-    };
-
-    // Add an action if we are coming from a split
-    if (fromNode.wait || fromNodeUI.type === 'webhook') {
-        const replyAction: SendMsg = {
-            uuid: generateUUID(),
-            type: 'send_msg',
-            text: ''
-        };
-
-        ghostNode.actions.push(replyAction);
-    } else {
-        // Otherwise we are going to a switch
-        ghostNode.exits[0].name = 'All Responses';
-        ghostNode.wait = { type: WaitType.msg };
-        ghostNode.router = {
-            type: 'switch',
-            result_name: getSuggestedResultName(definition.nodes)
-        };
-    }
+    const ghostNode = getGhostNode(fromNode, fromNodeUI, definition);
 
     // Set our ghost spec so it gets rendered.
     // TODO: this is here to workaround a jsplumb
@@ -1235,7 +1206,6 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
 
     dispatch(updateTypeConfig(getTypeConfig(type)));
 
-    let operand = DEFAULT_OPERAND;
     let resultName = '';
 
     if (node.router) {
@@ -1244,7 +1214,8 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
         }
 
         if (hasCases(node)) {
-            ({ operand } = node.router as SwitchRouter);
+            const { operand } = node.router as SwitchRouter;
+            dispatch(updateOperand(operand));
         }
     }
 
@@ -1253,6 +1224,5 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
     dispatch(updateLocalizations(localizations));
     dispatch(updateResultName(resultName));
     dispatch(updateShowResultName(resultName.length > 0));
-    dispatch(updateOperand(operand));
     dispatch(updateNodeEditorOpen(true));
 };

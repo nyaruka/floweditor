@@ -1,44 +1,41 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
-import { ChangeGroups } from '../../../flowTypes';
+import { ChangeGroups, FlowDefinition } from '../../../flowTypes';
+import { createSetup, getSpecWrapper } from '../../../testUtils';
 import ChangeGroupsComp from './ChangeGroups';
-import { getSpecWrapper } from '../../../utils';
 
 const {
     results: [{ definition }]
 } = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
 const { results: groups } = require('../../../../assets/groups.json');
 
-const { nodes: [node], language: flowLanguage } = definition;
+const { nodes: [node], language: flowLanguage } = definition as FlowDefinition;
 const { actions: [, addToGroupsAction] } = node;
-const { uuid, type, groups: [{ name: groupName }] } = addToGroupsAction as ChangeGroups;
 
-describe('ChangeGroups >', () => {
-    describe('render >', () => {
-        it('should render ChangeGroupsComp with group name', () =>
-            expect(shallow(<ChangeGroupsComp {...addToGroupsAction} />).text()).toBe(groupName));
+const setup = createSetup<ChangeGroups>(addToGroupsAction as ChangeGroups, null, ChangeGroupsComp);
 
-        it('should cut off groups after 3 and include an ellipses', () => {
-            const Content = getSpecWrapper(
-                shallow(<ChangeGroupsComp {...{ ...addToGroupsAction, groups }} />),
-                'content'
-            );
+const COMPONENT_TO_TEST = ChangeGroupsComp.name;
 
-            expect(Content.children().length).toBe(4);
-            expect(Content.childAt(3).text()).toBe('...');
+describe(`${COMPONENT_TO_TEST}`, () => {
+    describe('render', () => {
+        it(`should render ${COMPONENT_TO_TEST} with group name`, () => {
+            const { wrapper, props: { groups: [{ name: groupName }] } } = setup();
+
+            expect(wrapper.text()).toBe(groupName);
+        });
+
+        it('should limit div to 3 groups, include ellipses', () => {
+            const { wrapper } = setup({ groups });
+            const content = getSpecWrapper(wrapper, 'content');
+
+            expect(content.children().length).toBe(4);
+            expect(content.childAt(3).text()).toBe('...');
         });
 
         it("should render 'remove from all' div when passed group action of type 'remove_contact_groups'", () => {
-            const Remove = getSpecWrapper(
-                shallow(
-                    <ChangeGroupsComp
-                        {...{ ...addToGroupsAction, groups: [], type: 'remove_contact_groups' }}
-                    />
-                ),
-                'remove-all'
-            );
+            const { wrapper } = setup({ groups: [], type: 'remove_contact_groups' });
+            const removeAll = getSpecWrapper(wrapper, 'remove-all');
 
-            expect(Remove.text()).toBe('Remove from all groups');
+            expect(removeAll.text()).toBe('Remove from all groups');
         });
     });
 });

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { Async, AsyncCreatable } from 'react-select';
 import { SearchResult } from '../store';
-import { jsonEqual } from '../utils';
+import { jsonEqual, resultsToSearchOpts } from '../utils';
 
 export interface SelectSearchProps {
     url: string;
@@ -15,7 +15,7 @@ export interface SelectSearchProps {
     closeOnSelect?: boolean;
     initial?: SearchResult[];
     localSearchOptions?: SearchResult[];
-    className?: string;
+    _className?: string;
     createPrompt?: string;
     onChange?: (selections: SearchResult | SearchResult[]) => void;
     isValidNewOption?: (option: { label: string }) => boolean;
@@ -36,17 +36,14 @@ interface SelectSearchResult {
 // should discuss a caching strategy.
 export const LOADING_PLACEHOLDER = '';
 
-export default class SelectSearch extends React.PureComponent<
-    SelectSearchProps,
-    SelectSearchState
-> {
+export default class SelectSearch extends React.Component<SelectSearchProps, SelectSearchState> {
     private select: HTMLInputElement;
 
     constructor(props: SelectSearchProps) {
         super(props);
 
         this.state = {
-            selections: props.initial
+            selections: props.initial || []
         };
 
         bindCallbacks(this, {
@@ -54,7 +51,7 @@ export default class SelectSearch extends React.PureComponent<
         });
     }
 
-    private selectRef(ref: HTMLInputElement): HTMLInputElement {
+    public selectRef(ref: HTMLInputElement): HTMLInputElement {
         return (this.select = ref);
     }
 
@@ -89,7 +86,7 @@ export default class SelectSearch extends React.PureComponent<
         return newResults;
     }
 
-    private search(term: string, remoteResults: SearchResult[] = []): SelectSearchResult {
+    public search(term: string, remoteResults: SearchResult[] = []): SelectSearchResult {
         let combined: SearchResult[] = [...remoteResults];
 
         if (this.props.localSearchOptions) {
@@ -109,23 +106,15 @@ export default class SelectSearch extends React.PureComponent<
         return results;
     }
 
-    private loadOptions(input: string, callback: Function): void {
+    public loadOptions(input: string, callback: Function): void {
         if (!this.props.url) {
-            const options: SelectSearchResult = this.search(input);
+            const options = this.search(input);
             callback(options);
         } else {
-            axios.get(this.props.url).then((response: AxiosResponse) => {
-                setTimeout(() => {
-                    const results: SearchResult[] = response.data.results.map(
-                        ({ name, uuid, type }: any) => ({
-                            name,
-                            id: uuid,
-                            type
-                        })
-                    );
-                    const options: SelectSearchResult = this.search(input, results);
-                    callback(null, options);
-                }, 100);
+            axios.get(this.props.url).then(response => {
+                const results = response.data.results.map(resultsToSearchOpts);
+                const options = this.search(input, results);
+                callback(null, options);
             });
         }
     }
@@ -216,7 +205,7 @@ export default class SelectSearch extends React.PureComponent<
             return (
                 <AsyncCreatable
                     ref={this.selectRef}
-                    className={this.props.className}
+                    className={this.props._className}
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     loadOptions={this.loadOptions}
@@ -244,7 +233,7 @@ export default class SelectSearch extends React.PureComponent<
             return (
                 <Async
                     ref={this.selectRef}
-                    className={this.props.className}
+                    className={this.props._className}
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     loadOptions={this.loadOptions}

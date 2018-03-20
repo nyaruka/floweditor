@@ -69,6 +69,7 @@ export const initialState: FlowEditor = {
 };
 
 // Action Creators
+// tslint:disable-next-line:no-shadowed-variable
 export const updateTranslating = (translating: boolean): UpdateTranslatingAction => ({
     type: Constants.UPDATE_TRANSLATING,
     payload: {
@@ -76,6 +77,7 @@ export const updateTranslating = (translating: boolean): UpdateTranslatingAction
     }
 });
 
+// tslint:disable-next-line:no-shadowed-variable
 export const updateLanguage = (language: Language): UpdateLanguageAction => ({
     type: Constants.UPDATE_LANGUAGE,
     payload: {
@@ -83,6 +85,7 @@ export const updateLanguage = (language: Language): UpdateLanguageAction => ({
     }
 });
 
+// tslint:disable-next-line:no-shadowed-variable
 export const updateFetchingFlow = (fetchingFlow: boolean): UpdateFetchingFlowAction => ({
     type: Constants.UPDATE_FETCHING_FLOW,
     payload: {
@@ -90,6 +93,7 @@ export const updateFetchingFlow = (fetchingFlow: boolean): UpdateFetchingFlowAct
     }
 });
 
+// tslint:disable-next-line:no-shadowed-variable
 export const updateNodeEditorOpen = (nodeEditorOpen: boolean): UpdateNodeEditorOpenAction => ({
     type: Constants.UPDATE_NODE_EDITOR_OPEN,
     payload: {
@@ -97,6 +101,7 @@ export const updateNodeEditorOpen = (nodeEditorOpen: boolean): UpdateNodeEditorO
     }
 });
 
+// tslint:disable-next-line:no-shadowed-variable
 export const updateFlows = (flows: Flows): UpdateFlowsAction => ({
     type: Constants.UPDATE_FLOWS,
     payload: {
@@ -105,6 +110,7 @@ export const updateFlows = (flows: Flows): UpdateFlowsAction => ({
 });
 
 export const updateCreateNodePosition = (
+    // tslint:disable-next-line:no-shadowed-variable
     createNodePosition: Position
 ): UpdateCreateNodePositionAction => ({
     type: Constants.UPDATE_CREATE_NODE_POSITION,
@@ -114,6 +120,7 @@ export const updateCreateNodePosition = (
 });
 
 export const updatePendingConnection = (
+    // tslint:disable-next-line:no-shadowed-variable
     pendingConnection: DragPoint
 ): UpdatePendingConnectionAction => ({
     type: Constants.UPDATE_PENDING_CONNECTION,
@@ -140,6 +147,7 @@ export const removePendingConnection = (nodeUUID: string): RemovePendingConnecti
     }
 });
 
+// tslint:disable-next-line:no-shadowed-variable
 export const updateFreshestNode = (freshestNode: Node): UpdateFreshestNodeAction => ({
     type: Constants.UPDATE_FRESHEST_NODE,
     payload: {
@@ -147,6 +155,7 @@ export const updateFreshestNode = (freshestNode: Node): UpdateFreshestNodeAction
     }
 });
 
+// tslint:disable-next-line:no-shadowed-variable
 export const updateGhostNode = (ghostNode: Node): UpdateGhostNodeAction => ({
     type: Constants.UPDATE_GHOST_NODE,
     payload: {
@@ -154,6 +163,7 @@ export const updateGhostNode = (ghostNode: Node): UpdateGhostNodeAction => ({
     }
 });
 
+// tslint:disable-next-line:no-shadowed-variable
 export const updateNodeDragging = (nodeDragging: boolean): UpdateNodeDraggingAction => ({
     type: Constants.UPDATE_NODE_DRAGGING,
     payload: {
@@ -161,6 +171,7 @@ export const updateNodeDragging = (nodeDragging: boolean): UpdateNodeDraggingAct
     }
 });
 
+// tslint:disable-next-line:no-shadowed-variable
 export const updateDragGroup = (dragGroup: boolean): UpdateDragGroupAction => ({
     type: Constants.UPDATE_DRAG_GROUP,
     payload: {
@@ -168,89 +179,165 @@ export const updateDragGroup = (dragGroup: boolean): UpdateDragGroupAction => ({
     }
 });
 
-// Reducers
-export const editorUI = (state: EditorUI = initialState.editorUI, action: ActionTypes) => {
+/* Reducers */
+// EditorUI reducers
+export const language = (state: Language = initialState.editorUI.language, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_LANGUAGE:
-            return {
-                ...state,
-                language: action.payload.language
-            };
-        case Constants.UPDATE_TRANSLATING:
-            return {
-                ...state,
-                translating: action.payload.translating
-            };
-        case Constants.UPDATE_FETCHING_FLOW:
-            return {
-                ...state,
-                fetchingFlow: action.payload.fetchingFlow
-            };
-        case Constants.UPDATE_FLOWS:
-            return {
-                ...state,
-                flows: action.payload.flows
-            };
-        case Constants.UPDATE_NODE_EDITOR_OPEN:
-            return {
-                ...state,
-                nodeEditorOpen: action.payload.nodeEditorOpen
-            };
+            return action.payload.language;
         default:
             return state;
     }
 };
 
-export const flowUI = (state: FlowUI = initialState.flowUI, action: ActionTypes) => {
+export const translating = (
+    state: boolean = initialState.editorUI.translating,
+    action: ActionTypes
+) => {
+    switch (action.type) {
+        case Constants.UPDATE_TRANSLATING:
+            return action.payload.translating;
+        default:
+            return state;
+    }
+};
+
+export const fetchingFlow = (
+    state: boolean = initialState.editorUI.fetchingFlow,
+    action: ActionTypes
+) => {
+    switch (action.type) {
+        case Constants.UPDATE_FETCHING_FLOW:
+            return action.payload.fetchingFlow;
+        default:
+            return state;
+    }
+};
+
+export const flows = (state: Flows = initialState.editorUI.flows, action: ActionTypes) => {
+    switch (action.type) {
+        case Constants.UPDATE_FLOWS:
+            return action.payload.flows;
+        default:
+            return state;
+    }
+};
+
+export const nodeEditorOpen = (
+    state: boolean = initialState.editorUI.nodeEditorOpen,
+    action: ActionTypes
+) => {
+    switch (action.type) {
+        case Constants.UPDATE_NODE_EDITOR_OPEN:
+            return action.payload.nodeEditorOpen;
+        default:
+            return state;
+    }
+};
+
+export const editorUI = combineReducers({
+    language,
+    translating,
+    fetchingFlow,
+    flows,
+    nodeEditorOpen
+});
+
+// FlowUI reducers
+export const createNodePosition = (
+    state: Position = initialState.flowUI.createNodePosition,
+    action: ActionTypes
+) => {
     switch (action.type) {
         case Constants.UPDATE_CREATE_NODE_POSITION:
-            return {
-                ...state,
-                createNodePosition: action.payload.createNodePosition
-            };
+            return action.payload.createNodePosition;
+        default:
+            return state;
+    }
+};
+
+export const pendingConnection = (
+    state: DragPoint = initialState.flowUI.pendingConnection,
+    action: ActionTypes
+) => {
+    switch (action.type) {
         case Constants.UPDATE_PENDING_CONNECTION:
-            return {
-                ...state,
-                pendingConnection: action.payload.pendingConnection
-            };
+            return action.payload.pendingConnection;
+        default:
+            return state;
+    }
+};
+
+export const pendingConnections = (
+    state: PendingConnections = initialState.flowUI.pendingConnections,
+    action: ActionTypes
+) => {
+    switch (action.type) {
         case Constants.UPDATE_PENDING_CONNECTIONS:
             return {
                 ...state,
-                pendingConnections: {
-                    ...state.pendingConnections,
-                    [action.payload.draggedTo]: action.payload.draggedFrom
-                }
+                [action.payload.draggedTo]: action.payload.draggedFrom
             };
         case Constants.REMOVE_PENDING_CONNECTION:
-            const pendingConnections = { ...state.pendingConnections };
-            delete pendingConnections[action.payload.nodeUUID];
-            return {
-                ...state,
-                pendingConnections
-            };
-        case Constants.UPDATE_NODE_DRAGGING:
-            return {
-                ...state,
-                nodeDragging: action.payload.nodeDragging
-            };
-        case Constants.UPDATE_FRESHEST_NODE:
-            return {
-                ...state,
-                freshestNode: action.payload.freshestNode
-            };
-        case Constants.UPDATE_GHOST_NODE:
-            return {
-                ...state,
-                ghostNode: action.payload.ghostNode
-            };
-        case Constants.UPDATE_DRAG_GROUP:
-            return {
-                ...state,
-                dragGroup: action.payload.dragGroup
-            };
+            const newPendingConnections = { ...pendingConnections };
+            delete newPendingConnections[action.payload.nodeUUID];
+            return newPendingConnections;
         default:
             return state;
     }
 };
 
+export const nodeDragging = (
+    state: boolean = initialState.flowUI.nodeDragging,
+    action: ActionTypes
+) => {
+    switch (action.type) {
+        case Constants.UPDATE_NODE_DRAGGING:
+            return action.payload.nodeDragging;
+        default:
+            return state;
+    }
+};
+
+export const freshestNode = (
+    state: Node = initialState.flowUI.freshestNode,
+    action: ActionTypes
+) => {
+    switch (action.type) {
+        case Constants.UPDATE_FRESHEST_NODE:
+            return action.payload.freshestNode;
+        default:
+            return state;
+    }
+};
+
+export const ghostNode = (state: Node = initialState.flowUI.ghostNode, action: ActionTypes) => {
+    switch (action.type) {
+        case Constants.UPDATE_GHOST_NODE:
+            return action.payload.ghostNode;
+        default:
+            return state;
+    }
+};
+
+export const dragGroup = (state: boolean = initialState.flowUI.dragGroup, action: ActionTypes) => {
+    switch (action.type) {
+        case Constants.UPDATE_DRAG_GROUP:
+            return action.payload.dragGroup;
+        default:
+            return state;
+    }
+};
+
+export const flowUI = combineReducers({
+    createNodePosition,
+    pendingConnection,
+    pendingConnections,
+    nodeDragging,
+    freshestNode,
+    ghostNode,
+    dragGroup
+});
+
+// FlowEditor reducer
 export default combineReducers({ editorUI, flowUI });

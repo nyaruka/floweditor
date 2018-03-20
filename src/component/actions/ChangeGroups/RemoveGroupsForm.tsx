@@ -102,7 +102,7 @@ export class RemoveGroupsForm extends React.PureComponent<
             groupEl = (
                 <GroupsElement
                     ref={this.props.onBindWidget}
-                    name="Group"
+                    name="Groups"
                     placeholder={PLACEHOLDER}
                     searchPromptText={NOT_FOUND}
                     endpoint={this.context.endpoints.groups}

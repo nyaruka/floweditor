@@ -114,7 +114,7 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
         const errors: string[] = [];
 
         if (this.props.required && !this.state.groups.length) {
-            errors.push(`${this.props.name} is required`);
+            errors.push(`${this.props.name} is required.`);
         }
 
         this.setState({ errors });
@@ -136,11 +136,11 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <SelectSearch
-                    className={className}
+                    _className={className}
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
-                    resultType="group"
+                    resultType="groups"
                     localSearchOptions={this.props.localGroups}
                     multi={true}
                     initial={this.state.groups}

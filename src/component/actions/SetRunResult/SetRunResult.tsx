@@ -6,13 +6,13 @@ const SetRunResult: React.SFC<SetRunResult> = ({ value, result_name }): JSX.Elem
 
     if (value) {
         return (
-            <>
+            <div>
                 Save {value} as {resultName}
-            </>
+            </div>
         );
     }
 
-    return <>Clear value for {resultName}</>;
+    return <div>Clear value for {resultName}</div>;
 };
 
 export default SetRunResult;

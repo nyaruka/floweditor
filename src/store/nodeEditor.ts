@@ -1,15 +1,16 @@
-import ActionTypes, {
-    UpdateNodeToEditAction,
-    UpdateActionToEditAction,
-    UpdateTypeConfigAction,
-    UpdateResultNameAction,
-    UpdateOperandAction,
-    UpdateUserAddingActionAction,
-    UpdateShowResultNameAction
-} from './actionTypes';
-import Constants from './constants';
+import { combineReducers } from 'redux';
 import { Type } from '../config';
 import { AnyAction, Node } from '../flowTypes';
+import ActionTypes, {
+    UpdateActionToEditAction,
+    UpdateNodeToEditAction,
+    UpdateOperandAction,
+    UpdateResultNameAction,
+    UpdateShowResultNameAction,
+    UpdateTypeConfigAction,
+    UpdateUserAddingActionAction
+} from './actionTypes';
+import Constants from './constants';
 
 export interface NodeEditor {
     typeConfig: Type;
@@ -21,18 +22,21 @@ export interface NodeEditor {
     actionToEdit: AnyAction;
 }
 
+const DEFAULT_OPERAND = '@input';
+
 // Initial state
 export const initialState: NodeEditor = {
     typeConfig: null,
     resultName: '',
     showResultName: false,
-    operand: '',
+    operand: DEFAULT_OPERAND,
     userAddingAction: false,
     nodeToEdit: null,
     actionToEdit: null
 };
 
 // Action Creators
+// tslint:disable-next-line:no-shadowed-variable
 export const updateTypeConfig = (typeConfig: Type): UpdateTypeConfigAction => ({
     type: Constants.UPDATE_TYPE_CONFIG,
     payload: {
@@ -40,6 +44,7 @@ export const updateTypeConfig = (typeConfig: Type): UpdateTypeConfigAction => ({
     }
 });
 
+// tslint:disable-next-line:no-shadowed-variable
 export const updateResultName = (resultName: string): UpdateResultNameAction => ({
     type: Constants.UPDATE_RESULT_NAME,
     payload: {
@@ -47,6 +52,7 @@ export const updateResultName = (resultName: string): UpdateResultNameAction => 
     }
 });
 
+// tslint:disable-next-line:no-shadowed-variable
 export const updateOperand = (operand: string): UpdateOperandAction => ({
     type: Constants.UPDATE_OPERAND,
     payload: {
@@ -55,6 +61,7 @@ export const updateOperand = (operand: string): UpdateOperandAction => ({
 });
 
 export const updateUserAddingAction = (
+    // tslint:disable-next-line:no-shadowed-variable
     userAddingAction: boolean
 ): UpdateUserAddingActionAction => ({
     type: Constants.UPDATE_USER_ADDING_ACTION,
@@ -63,6 +70,7 @@ export const updateUserAddingAction = (
     }
 });
 
+// tslint:disable-next-line:no-shadowed-variable
 export const updateActionToEdit = (actionToEdit: AnyAction): UpdateActionToEditAction => ({
     type: Constants.UPDATE_ACTION_TO_EDIT,
     payload: {
@@ -70,6 +78,7 @@ export const updateActionToEdit = (actionToEdit: AnyAction): UpdateActionToEditA
     }
 });
 
+// tslint:disable-next-line:no-shadowed-variable
 export const updateNodeToEdit = (nodeToEdit: Node): UpdateNodeToEditAction => ({
     type: Constants.UPDATE_NODE_TO_EDIT,
     payload: {
@@ -77,6 +86,7 @@ export const updateNodeToEdit = (nodeToEdit: Node): UpdateNodeToEditAction => ({
     }
 });
 
+// tslint:disable-next-line:no-shadowed-variable
 export const updateShowResultName = (showResultName: boolean): UpdateShowResultNameAction => ({
     type: Constants.UPDATE_SHOW_RESULT_NAME,
     payload: {
@@ -85,44 +95,82 @@ export const updateShowResultName = (showResultName: boolean): UpdateShowResultN
 });
 
 // Reducers
-export default (state: NodeEditor = initialState, action: ActionTypes) => {
+export const typeConfig = (state: Type = initialState.typeConfig, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_TYPE_CONFIG:
-            return {
-                ...state,
-                typeConfig: action.payload.typeConfig
-            };
-        case Constants.UPDATE_RESULT_NAME:
-            return {
-                ...state,
-                resultName: action.payload.resultName
-            };
-        case Constants.UPDATE_SHOW_RESULT_NAME:
-            return {
-                ...state,
-                showResultName: action.payload.showResultName
-            };
-        case Constants.UPDATE_OPERAND:
-            return {
-                ...state,
-                operand: action.payload.operand
-            };
-        case Constants.UPDATE_USER_ADDING_ACTION:
-            return {
-                ...state,
-                userAddingAction: action.payload.userAddingAction
-            };
-        case Constants.UPDATE_NODE_TO_EDIT:
-            return {
-                ...state,
-                nodeToEdit: action.payload.nodeToEdit
-            };
-        case Constants.UPDATE_ACTION_TO_EDIT:
-            return {
-                ...state,
-                actionToEdit: action.payload.actionToEdit
-            };
+            return action.payload.typeConfig;
         default:
             return state;
     }
 };
+
+export const resultName = (state: string = initialState.resultName, action: ActionTypes) => {
+    switch (action.type) {
+        case Constants.UPDATE_RESULT_NAME:
+            return action.payload.resultName;
+        default:
+            return state;
+    }
+};
+
+export const showResultName = (
+    state: boolean = initialState.showResultName,
+    action: ActionTypes
+) => {
+    switch (action.type) {
+        case Constants.UPDATE_SHOW_RESULT_NAME:
+            return action.payload.showResultName;
+        default:
+            return state;
+    }
+};
+
+export const operand = (state: string = initialState.operand, action: ActionTypes) => {
+    switch (action.type) {
+        case Constants.UPDATE_OPERAND:
+            return action.payload.operand;
+        default:
+            return state;
+    }
+};
+
+export const userAddingAction = (
+    state: boolean = initialState.userAddingAction,
+    action: ActionTypes
+) => {
+    switch (action.type) {
+        case Constants.UPDATE_USER_ADDING_ACTION:
+            return action.payload.userAddingAction;
+        default:
+            return state;
+    }
+};
+
+export const nodeToEdit = (state: Node = initialState.nodeToEdit, action: ActionTypes) => {
+    switch (action.type) {
+        case Constants.UPDATE_NODE_TO_EDIT:
+            return action.payload.nodeToEdit;
+        default:
+            return state;
+    }
+};
+
+export const actionToEdit = (state: AnyAction = initialState.actionToEdit, action: ActionTypes) => {
+    switch (action.type) {
+        case Constants.UPDATE_ACTION_TO_EDIT:
+            return action.payload.actionToEdit;
+        default:
+            return state;
+    }
+};
+
+// Root reducer
+export default combineReducers({
+    typeConfig,
+    resultName,
+    showResultName,
+    operand,
+    userAddingAction,
+    nodeToEdit,
+    actionToEdit
+});

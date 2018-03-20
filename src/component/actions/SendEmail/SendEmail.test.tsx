@@ -1,17 +1,24 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
-import SendEmail from './SendEmail';
+import { SendEmail, FlowDefinition } from '../../../flowTypes';
+import { createSetup } from '../../../testUtils';
+import SendEmailComp from './SendEmail';
 
 const {
     results: [{ definition }]
 } = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
-const { language: flowLanguage, nodes: [, , , , node] } = definition;
+const { language: flowLanguage, nodes: [, , , , node] } = definition as FlowDefinition;
 const { actions: [, sendEmailAction] } = node;
-const { uuid, type, subject, body, emails } = sendEmailAction;
 
-describe('SendEmail >', () => {
-    it('should render SendEmail with subject prop', () => {
-        const wrapper = shallow(<SendEmail {...sendEmailAction} />);
-        expect(wrapper.text()).toBe(subject);
+const setup = createSetup<SendEmail>(sendEmailAction as SendEmail, null, SendEmailComp);
+
+const COMPONENT_TO_TEST = SendEmailComp.name;
+
+describe(`${COMPONENT_TO_TEST}`, () => {
+    describe('render', () => {
+        it(`should render ${COMPONENT_TO_TEST}, display subject`, () => {
+            const { wrapper, props: { subject } } = setup();
+
+            expect(wrapper.text()).toBe(subject);
+        });
     });
 });

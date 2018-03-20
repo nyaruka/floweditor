@@ -6,33 +6,39 @@ import { LocalizedObject } from '../services/Localization';
 import Constants from './constants';
 import { Components, ContactFieldResult, SearchResult, CompletionOption } from './flowContext';
 
+// Redux action generic
+interface DuxAction<T, P> {
+    type: T;
+    payload: P;
+}
+
 // Payload types
 interface TranslatingPayload {
-    [translating: string]: boolean;
+    translating: boolean;
 }
 
 interface LanguagePayload {
-    [language: string]: Language;
+    language: Language;
 }
 
 interface FetchingFlowPayload {
-    [fetchingFlow: string]: boolean;
+    fetchingFlow: boolean;
 }
 
 interface DefinitionPayload {
-    [definition: string]: FlowDefinition;
+    definition: FlowDefinition;
 }
 
 interface NodeDraggingPayload {
-    [nodeDragging: string]: boolean;
+    nodeDragging: boolean;
 }
 
 interface UpdateFlowsPayload {
-    [flows: string]: Array<{ uuid: string; name: string }>;
+    flows: Array<{ uuid: string; name: string }>;
 }
 
 interface UpdateDependenciesPayload {
-    [dependencies: string]: FlowDefinition[];
+    dependencies: FlowDefinition[];
 }
 
 interface UpdatePendingConnectionsPayload {
@@ -121,145 +127,118 @@ interface UpdateShowResultNameActionPayload {
 }
 
 // Action types
-export interface UpdateTranslatingAction {
-    type: Constants.UPDATE_TRANSLATING;
-    payload: TranslatingPayload;
-}
+export type UpdateTranslatingAction = DuxAction<Constants.UPDATE_TRANSLATING, TranslatingPayload>;
 
-export interface UpdateLanguageAction {
-    type: Constants.UPDATE_LANGUAGE;
-    payload: LanguagePayload;
-}
+export type UpdateLanguageAction = DuxAction<Constants.UPDATE_LANGUAGE, LanguagePayload>;
 
-export interface UpdateFetchingFlowAction {
-    type: Constants.UPDATE_FETCHING_FLOW;
-    payload: FetchingFlowPayload;
-}
+export type UpdateFetchingFlowAction = DuxAction<
+    Constants.UPDATE_FETCHING_FLOW,
+    FetchingFlowPayload
+>;
 
-export interface UpdateDefinitionAction {
-    type: Constants.UPDATE_DEFINITION;
-    payload: DefinitionPayload;
-}
+export type UpdateDefinitionAction = DuxAction<Constants.UPDATE_DEFINITION, DefinitionPayload>;
 
-export interface UpdateNodeDraggingAction {
-    type: Constants.UPDATE_NODE_DRAGGING;
-    payload: NodeDraggingPayload;
-}
+export type UpdateNodeDraggingAction = DuxAction<
+    Constants.UPDATE_NODE_DRAGGING,
+    NodeDraggingPayload
+>;
 
-export interface UpdateFlowsAction {
-    type: Constants.UPDATE_FLOWS;
-    payload: UpdateFlowsPayload;
-}
+export type UpdateFlowsAction = DuxAction<Constants.UPDATE_FLOWS, UpdateFlowsPayload>;
 
-export interface UpdateDependenciesAction {
-    type: Constants.UPDATE_DEPENDENCIES;
-    payload: UpdateDependenciesPayload;
-}
+export type UpdateDependenciesAction = DuxAction<
+    Constants.UPDATE_DEPENDENCIES,
+    UpdateDependenciesPayload
+>;
 
-export interface UpdatePendingConnectionsAction {
-    type: Constants.UPDATE_PENDING_CONNECTIONS;
-    payload: UpdatePendingConnectionsPayload;
-}
+export type UpdatePendingConnectionsAction = DuxAction<
+    Constants.UPDATE_PENDING_CONNECTIONS,
+    UpdatePendingConnectionsPayload
+>;
 
-export interface RemovePendingConnectionAction {
-    type: Constants.REMOVE_PENDING_CONNECTION;
-    payload: RemovePendingConnectionPayload;
-}
+export type RemovePendingConnectionAction = DuxAction<
+    Constants.REMOVE_PENDING_CONNECTION,
+    RemovePendingConnectionPayload
+>;
 
-export interface UpdateComponentsAction {
-    type: Constants.UPDATE_COMPONENTS;
-    payload: UpdateComponentsPayload;
-}
+export type UpdateComponentsAction = DuxAction<
+    Constants.UPDATE_COMPONENTS,
+    UpdateComponentsPayload
+>;
 
-export interface UpdateContactFieldsAction {
-    type: Constants.UPDATE_CONTACT_FIELDS;
-    payload: UpdateContactFieldsPayload;
-}
+export type UpdateContactFieldsAction = DuxAction<
+    Constants.UPDATE_CONTACT_FIELDS,
+    UpdateContactFieldsPayload
+>;
 
-export interface UpdateGroupsAction {
-    type: Constants.UPDATE_GROUPS;
-    payload: UpdateGroupsPayload;
-}
+export type UpdateGroupsAction = DuxAction<Constants.UPDATE_GROUPS, UpdateGroupsPayload>;
 
-export interface UpdateResultNamesAction {
-    type: Constants.UPDATE_RESULT_NAMES;
-    payload: UpdateResultNamesPayload;
-}
+export type UpdateResultNamesAction = DuxAction<
+    Constants.UPDATE_RESULT_NAMES,
+    UpdateResultNamesPayload
+>;
 
-export interface UpdateNodesAction {
-    type: Constants.UPDATE_NODES;
-    payload: UpdateNodesPayload;
-}
+export type UpdateNodesAction = DuxAction<Constants.UPDATE_NODES, UpdateNodesPayload>;
 
-export interface UpdateFreshestNodeAction {
-    type: Constants.UPDATE_FRESHEST_NODE;
-    payload: UpdateFreshestNodePayload;
-}
+export type UpdateFreshestNodeAction = DuxAction<
+    Constants.UPDATE_FRESHEST_NODE,
+    UpdateFreshestNodePayload
+>;
 
-export interface UpdateNodeEditorOpenAction {
-    type: Constants.UPDATE_NODE_EDITOR_OPEN;
-    payload: UpdateNodeEditorOpenPayload;
-}
+export type UpdateNodeEditorOpenAction = DuxAction<
+    Constants.UPDATE_NODE_EDITOR_OPEN,
+    UpdateNodeEditorOpenPayload
+>;
 
-export interface UpdateGhostNodeAction {
-    type: Constants.UPDATE_GHOST_NODE;
-    payload: UpdateGhostNodePayload;
-}
+export type UpdateGhostNodeAction = DuxAction<Constants.UPDATE_GHOST_NODE, UpdateGhostNodePayload>;
 
-export interface UpdateCreateNodePositionAction {
-    type: Constants.UPDATE_CREATE_NODE_POSITION;
-    payload: UpdateCreateNodePositionPayload;
-}
+export type UpdateCreateNodePositionAction = DuxAction<
+    Constants.UPDATE_CREATE_NODE_POSITION,
+    UpdateCreateNodePositionPayload
+>;
 
-export interface UpdatePendingConnectionAction {
-    type: Constants.UPDATE_PENDING_CONNECTION;
-    payload: UpdatePendingConnectionPayload;
-}
+export type UpdatePendingConnectionAction = DuxAction<
+    Constants.UPDATE_PENDING_CONNECTION,
+    UpdatePendingConnectionPayload
+>;
 
-export interface UpdateActionToEditAction {
-    type: Constants.UPDATE_ACTION_TO_EDIT;
-    payload: UpdateActionToEditPayload;
-}
+export type UpdateActionToEditAction = DuxAction<
+    Constants.UPDATE_ACTION_TO_EDIT,
+    UpdateActionToEditPayload
+>;
 
-export interface UpdateNodeToEditAction {
-    type: Constants.UPDATE_NODE_TO_EDIT;
-    payload: UpdateNodeToEditPayload;
-}
+export type UpdateNodeToEditAction = DuxAction<
+    Constants.UPDATE_NODE_TO_EDIT,
+    UpdateNodeToEditPayload
+>;
 
-export interface UpdateLocalizationsAction {
-    type: Constants.UPDATE_LOCALIZATIONS;
-    payload: UpdateLocalizationsPayload;
-}
+export type UpdateLocalizationsAction = DuxAction<
+    Constants.UPDATE_LOCALIZATIONS,
+    UpdateLocalizationsPayload
+>;
 
-export interface UpdateDragGroupAction {
-    type: Constants.UPDATE_DRAG_GROUP;
-    payload: UpdateDragGroupPayload;
-}
+export type UpdateDragGroupAction = DuxAction<Constants.UPDATE_DRAG_GROUP, UpdateDragGroupPayload>;
 
-export interface UpdateTypeConfigAction {
-    type: Constants.UPDATE_TYPE_CONFIG;
-    payload: UpdateTypeConfigPayload;
-}
+export type UpdateTypeConfigAction = DuxAction<
+    Constants.UPDATE_TYPE_CONFIG,
+    UpdateTypeConfigPayload
+>;
 
-export interface UpdateResultNameAction {
-    type: Constants.UPDATE_RESULT_NAME;
-    payload: UpdateResultNamePayload;
-}
+export type UpdateResultNameAction = DuxAction<
+    Constants.UPDATE_RESULT_NAME,
+    UpdateResultNamePayload
+>;
 
-export interface UpdateOperandAction {
-    type: Constants.UPDATE_OPERAND;
-    payload: UpdateOperandPayload;
-}
+export type UpdateOperandAction = DuxAction<Constants.UPDATE_OPERAND, UpdateOperandPayload>;
 
-export interface UpdateUserAddingActionAction {
-    type: Constants.UPDATE_USER_ADDING_ACTION;
-    payload: UpdateUserAddingActionPayload;
-}
+export type UpdateUserAddingActionAction = DuxAction<
+    Constants.UPDATE_USER_ADDING_ACTION,
+    UpdateUserAddingActionPayload
+>;
 
-export interface UpdateShowResultNameAction {
-    type: Constants.UPDATE_SHOW_RESULT_NAME;
-    payload: UpdateShowResultNameActionPayload;
-}
+export type UpdateShowResultNameAction = DuxAction<
+    Constants.UPDATE_SHOW_RESULT_NAME,
+    UpdateShowResultNameActionPayload
+>;
 
 export type UpdateNodeDragging = (nodeDragging: boolean) => UpdateNodeDraggingAction;
 

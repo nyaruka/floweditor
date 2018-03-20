@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
 import Counter, { CounterProps } from './Counter';
-import { getSpecWrapper, validUUID, addCommas } from '../utils';
+import { validUUID, addCommas } from '../utils';
+import { getSpecWrapper } from '../testUtils';
 
 let props: CounterProps;
 let handleClick;

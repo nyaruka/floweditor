@@ -1,26 +1,28 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
-import SetRunResult from './SetRunResult';
+import { SetRunResult, FlowDefinition } from '../../../flowTypes';
+import { createSetup } from '../../../testUtils';
+import SetRunResultComp from './SetRunResult';
 
 const {
     results: [{ definition }]
 } = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
-const { language: flowLanguage, nodes: [, , , , node] } = definition;
+const { language: flowLanguage, nodes: [, , , , node] } = definition as FlowDefinition;
 const { actions: [setRunResultAction] } = node;
-const { uuid, type, value, result_name } = setRunResultAction;
 
-describe('SetRunResult >', () => {
-    it("should render SetRunResult with 'save...' div when value prop passed", () => {
-        const SaveFlowResultDiv = shallow(<SetRunResult {...setRunResultAction} />);
+const setup = createSetup<SetRunResult>(setRunResultAction as SetRunResult, null, SetRunResultComp);
 
-        expect(SaveFlowResultDiv.text()).toBe(`Save ${value} as ${result_name}`);
+const COMPONENT_TO_TEST = SetRunResultComp.name;
+
+describe(`${COMPONENT_TO_TEST}`, () => {
+    it(`should render ${COMPONENT_TO_TEST} with 'save...' div when value prop passed`, () => {
+        const { wrapper, props: { value, result_name } } = setup();
+
+        expect(wrapper.text()).toBe(`Save ${value} as ${result_name}`);
     });
 
-    it("should render SetRunResult with 'clear...' div when value prop isn't passed", () => {
-        const SaveFlowResultDiv = shallow(
-            <SetRunResult {...{ ...setRunResultAction, value: '' }} />
-        );
+    it(`should render ${COMPONENT_TO_TEST} with 'clear...' div when value prop isn't passed`, () => {
+        const { wrapper, props: { result_name } } = setup({ value: '' });
 
-        expect(SaveFlowResultDiv.text()).toBe(`Clear value for ${result_name}`);
+        expect(wrapper.text()).toBe(`Clear value for ${result_name}`);
     });
 });

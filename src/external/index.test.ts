@@ -1,43 +1,23 @@
-import * as nock from 'nock';
-import { DEV_SERVER_PORT } from '../../webpack/webpack.dev';
 import { getFlow, getFlows } from '.';
+import { FlowEditorConfig } from '../flowTypes';
+import { Resp } from '../testUtils';
 
-const {
-    results: [{ uuid: flowUUID, name: flowName, definition }]
-} = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
-const { results: getFlowsResp } = require('../../assets/flows.json');
-const { endpoints: { flows: flowsEndpoint } } = require('../../assets/config');
+const colorsFlowResp = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json') as Resp;
+const flowsResp = require('../../assets/flows.json') as Resp;
+const { endpoints: { flows: flowsEndpoint } } = require('../../assets/config') as FlowEditorConfig;
 
-const getFlowResp = {
-    uuid: flowUUID,
-    name: flowName,
-    definition,
-    dependencies: []
-};
-
-const getFlowNock = nock(`http://localhost:${DEV_SERVER_PORT}`)
-    .get(flowsEndpoint)
-    .query({ uuid: flowUUID })
-    .reply(200, getFlowResp);
-
-const getFlowsNock = nock(`http://localhost:${DEV_SERVER_PORT}`)
-    .get(flowsEndpoint)
-    .reply(200, getFlowsResp);
-
-afterAll(() => nock.cleanAll());
-
-describe('Providers: external', () => {
+describe('external', () => {
     describe('getFlow', () => {
-        it('should get a flow', () => {
-            getFlow(flowsEndpoint, flowUUID, false).then(response =>
-                expect(response).toEqual(getFlowResp)
+        it('should get a flow', async () => {
+            expect(await getFlow(flowsEndpoint, colorsFlowResp.results[0].uuid, false)).toEqual(
+                colorsFlowResp.results[0]
             );
         });
     });
 
     describe('getFlows', () => {
-        it('should fetch a list of flows', () => {
-            getFlows(flowsEndpoint).then(response => expect(response).toEqual(getFlowsResp));
+        it('should fetch a list of flows', async () => {
+            expect(await getFlows(flowsEndpoint)).toEqual(flowsResp.results);
         });
     });
 });
