@@ -9,7 +9,7 @@ const { language: flowLanguage, nodes: [, , , , node] } = definition;
 const { actions: [setRunResultAction] } = node;
 const { uuid, type, value, result_name } = setRunResultAction;
 
-describe('Component: SetRunResult', () => {
+describe('SetRunResult >', () => {
     it("should render SetRunResult with 'save...' div when value prop passed", () => {
         const SaveFlowResultDiv = shallow(<SetRunResult {...setRunResultAction} />);
 
