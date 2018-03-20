@@ -38,7 +38,13 @@ const FlowListContainer: React.SFC = () => (
 );
 
 // Navigable list of flows for an account
-const FlowList: React.SFC<FlowListProps> = ({ assetHost, endpoints, definition, flows }) => {
+const FlowList: React.SFC<FlowListProps> = ({
+    assetHost,
+    endpoints,
+    definition,
+    flows,
+    fetchFlow
+}) => {
     const flowOption: FlowOption = definition
         ? {
               uuid: definition.uuid,
