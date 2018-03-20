@@ -125,51 +125,6 @@ const DEFAULT_OPERAND = '@input';
 // let uiTimeout: number;
 let reflowTimeout: number;
 
-export const setTranslating = (translating: boolean) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (translating !== getState().translating) {
-        dispatch(updateTranslating(translating));
-    }
-};
-
-export const setLanguage = (language: Language) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (!isEqual(language, getState().language)) {
-        dispatch(updateLanguage(language));
-    }
-};
-
-export const setFreshestNode = (freshestNode: Node) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (!isEqual(freshestNode, getState().freshestNode)) {
-        dispatch(updateFreshestNode(freshestNode));
-    }
-};
-
-export const setNodeDragging = (nodeDragging: boolean) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (nodeDragging !== getState().nodeDragging) {
-        dispatch(updateNodeDragging(nodeDragging));
-    }
-};
-
-export const setNodeEditorOpen = (nodeEditorOpen: boolean) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (nodeEditorOpen !== getState().nodeEditorOpen) {
-        dispatch(updateNodeEditorOpen(nodeEditorOpen));
-    }
-};
-
 export const applyUpdateSpec = (updateSpec: any = {}) => (
     dispatch: DispatchWithState,
     getState: GetState
@@ -181,114 +136,6 @@ export const applyUpdateSpec = (updateSpec: any = {}) => (
     }
 };
 
-export const setDefinition = (definition: FlowDefinition) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (!isEqual(definition, getState().definition)) {
-        dispatch(updateDefinition(definition));
-    }
-};
-
-export const setDragGroup = (dragGroup: boolean) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (dragGroup !== getState().dragGroup) {
-        dispatch(updateDragGroup(dragGroup));
-    }
-};
-
-export const setShowResultName = (showResultName: boolean) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (showResultName !== getState().showResultName) {
-        dispatch(updateShowResultName(showResultName));
-    }
-};
-
-export const setUserAddingAction = (userAddingAction: boolean) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (userAddingAction !== getState().userAddingAction) {
-        dispatch(updateUserAddingAction(userAddingAction));
-    }
-};
-
-export const setNodeToEdit = (nodeToEdit: Node) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (!isEqual(nodeToEdit, getState().nodeToEdit)) {
-        dispatch(updateNodeToEdit(nodeToEdit));
-    }
-};
-
-export const setActionToEdit = (actionToEdit: AnyAction) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (!isEqual(actionToEdit, getState().actionToEdit)) {
-        dispatch(updateActionToEdit(actionToEdit));
-    }
-};
-
-export const setLocalizations = (localizations: LocalizedObject[]) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (!isEqual(localizations, getState().localizations)) {
-        dispatch(updateLocalizations(localizations));
-    }
-};
-
-export const setTypeConfig = (typeConfig: Type) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (!isEqual(typeConfig, getState().typeConfig)) {
-        dispatch(updateTypeConfig(typeConfig));
-    }
-};
-
-export const setContactFields = (contactFields: ContactFieldResult[]) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (!isEqual(contactFields, getState().contactFields)) {
-        dispatch(updateContactFields(contactFields));
-    }
-};
-
-export const setGroups = (groups: SearchResult[]) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (!isEqual(groups, getState().groups)) {
-        dispatch(updateGroups(groups));
-    }
-};
-
-export const setComponents = (components: Components) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (!isEqual(components, getState().components)) {
-        dispatch(updateComponents(components));
-    }
-};
-
-export const setResultNames = (resultNames: CompletionOption[]) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    if (!isEqual(resultNames, getState().resultNames)) {
-        dispatch(updateResultNames(resultNames));
-    }
-};
-
 export const fetchFlow = (endpoint: string, uuid: string) => (
     dispatch: DispatchWithState,
     getState: GetState
@@ -296,7 +143,7 @@ export const fetchFlow = (endpoint: string, uuid: string) => (
     dispatch(updateFetchingFlow(true));
     return getFlow(endpoint, uuid, false)
         .then(({ definition }: FlowDetails) => {
-            dispatch(setDefinition(definition));
+            dispatch(updateDefinition(definition));
             dispatch(updateFetchingFlow(false));
         })
         .catch((error: any) => console.log(`fetchFlow error: ${error}`));
@@ -424,10 +271,10 @@ export const refresh = (definition: FlowDefinition) => (dispatch: DispatchWithSt
     const existingGroups = getExistingGroups(groups);
     const existingResultNames = getExistingResultNames(resultNames);
 
-    dispatch(setContactFields(existingFields));
-    dispatch(setGroups(existingGroups));
-    dispatch(setComponents(components));
-    dispatch(setResultNames(existingResultNames));
+    dispatch(updateContactFields(existingFields));
+    dispatch(updateGroups(existingGroups));
+    dispatch(updateComponents(components));
+    dispatch(updateResultNames(existingResultNames));
 };
 
 // export const updateUI = (definition: FlowDefinition) => (dispatch: DispatchWithState) => {
@@ -451,7 +298,7 @@ export const sortNodes = () => (dispatch: DispatchWithState, getState: GetState)
 
     dispatch(refresh(newDef));
     // dispatch(updateUI(newDef))
-    dispatch(setDefinition(newDef));
+    dispatch(updateDefinition(newDef));
 };
 
 export const reflow = () => (dispatch: DispatchWithState, getState: GetState) => {
@@ -476,7 +323,7 @@ export const reflow = () => (dispatch: DispatchWithState, getState: GetState) =>
                     }))
             );
             // dispatch(updateUI(newDef));
-            dispatch(setDefinition(newDef));
+            dispatch(updateDefinition(newDef));
             console.timeEnd('reflow');
         }
     }, 100);
@@ -534,7 +381,7 @@ export const onUpdateLocalizations = (language: string, changes: LocalizationUpd
 
     // Update definition
     // dispatch(updateUI(newDef));
-    dispatch(setDefinition(newDef));
+    dispatch(updateDefinition(newDef));
 };
 
 export const updateNodeUI = (uuid: string, changes: any) => (
@@ -548,7 +395,7 @@ export const updateNodeUI = (uuid: string, changes: any) => (
         { _ui: { nodes: { [uuid]: changes } } }
     );
     // dispatch(updateUI(newDef));
-    dispatch(setDefinition(newDef));
+    dispatch(updateDefinition(newDef));
     dispatch(markReflow());
 };
 
@@ -600,10 +447,10 @@ export const addNode = (node: Node, ui: UINode, pendingConnection?: DragPoint) =
         );
     }
 
-    dispatch(setFreshestNode(newNode));
+    dispatch(updateFreshestNode(newNode));
     dispatch(refresh(newDef));
     // dispatch(updateUI(newDef));
-    dispatch(setDefinition(newDef));
+    dispatch(updateDefinition(newDef));
     console.timeEnd('addNode');
 };
 
@@ -638,7 +485,7 @@ export const updateExit = (exitUUID: string, changes: any) => (
 
     dispatch(refresh(newDef));
     // dispatch(updateUI(newDef));
-    dispatch(setDefinition(newDef));
+    dispatch(updateDefinition(newDef));
 };
 
 export const updateExitDestination = (exitUUID: string, destination: string) => (
@@ -697,7 +544,7 @@ export const updateNode = (uuid: string, changes: any) => (
     );
     dispatch(refresh(newDef));
     // dispatch(updateUI(newDef));
-    dispatch(setDefinition(newDef));
+    dispatch(updateDefinition(newDef));
     dispatch(markReflow());
 };
 
@@ -762,7 +609,7 @@ export const removeNode = (nodeToRemove: Node) => (
 
     dispatch(refresh(newDef));
     // dispatch(updateUI(newDef));
-    dispatch(setDefinition(newDef));
+    dispatch(updateDefinition(newDef));
     dispatch(ensureStartNode());
 };
 
@@ -937,7 +784,7 @@ export const updateAction = (
             });
 
             dispatch(updateNodeUI(nodeUUID, { $unset: ['type'] }));
-            dispatch(setFreshestNode(newDef.nodes[nodeIdx]));
+            dispatch(updateFreshestNode(newDef.nodes[nodeIdx]));
         } else {
             // otherwise we might be adding a new action
             console.log("Couldn't find node, not updating");
@@ -945,10 +792,10 @@ export const updateAction = (
         }
     }
 
-    dispatch(setUserAddingAction(false));
+    dispatch(updateUserAddingAction(false));
     dispatch(refresh(newDef));
     // dispatch(updateUI(newDef));
-    dispatch(setDefinition(newDef));
+    dispatch(updateDefinition(newDef));
     dispatch(markReflow());
     console.timeEnd('updateAction');
 };
@@ -1159,9 +1006,9 @@ export const onAddAction = (node: Node, languages: Languages) => (
         text: ''
     };
 
-    dispatch(setUserAddingAction(true));
-    dispatch(setActionToEdit(newAction));
-    dispatch(setNodeToEdit(node));
+    dispatch(updateUserAddingAction(true));
+    dispatch(updateActionToEdit(newAction));
+    dispatch(updateNodeToEdit(node));
 
     const localizations = [];
     if (translating) {
@@ -1180,10 +1027,10 @@ export const onAddAction = (node: Node, languages: Languages) => (
 
     const typeConfig = getTypeConfig(newAction.type);
 
-    dispatch(setLocalizations(localizations));
-    dispatch(setTypeConfig(typeConfig));
-    dispatch(setNodeDragging(false));
-    dispatch(setNodeEditorOpen(true));
+    dispatch(updateLocalizations(localizations));
+    dispatch(updateTypeConfig(typeConfig));
+    dispatch(updateNodeDragging(false));
+    dispatch(updateNodeEditorOpen(true));
 };
 
 export const onNodeEditorClose = (canceled: boolean, connectExit: Function) => (
@@ -1325,10 +1172,10 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
     }
 
     if (action) {
-        dispatch(setActionToEdit(action));
+        dispatch(updateActionToEdit(action));
     } else if (node.actions && node.actions.length) {
         // Account for hybrids or clicking on the empty exit table
-        dispatch(setActionToEdit(node.actions[node.actions.length - 1]));
+        dispatch(updateActionToEdit(node.actions[node.actions.length - 1]));
     }
 
     // prettier-ignore
@@ -1339,7 +1186,7 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
         components
     );
 
-    dispatch(setTypeConfig(getTypeConfig(type)));
+    dispatch(updateTypeConfig(getTypeConfig(type)));
 
     let operand = DEFAULT_OPERAND;
     let resultName = '';
@@ -1354,11 +1201,11 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
         }
     }
 
-    dispatch(setNodeDragging(false));
-    dispatch(setNodeToEdit(node));
-    dispatch(setLocalizations(localizations));
+    dispatch(updateNodeDragging(false));
+    dispatch(updateNodeToEdit(node));
+    dispatch(updateLocalizations(localizations));
     dispatch(updateResultName(resultName));
-    dispatch(setShowResultName(resultName.length > 0));
+    dispatch(updateShowResultName(resultName.length > 0));
     dispatch(updateOperand(operand));
-    dispatch(setNodeEditorOpen(true));
+    dispatch(updateNodeEditorOpen(true));
 };

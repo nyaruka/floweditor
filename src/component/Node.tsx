@@ -24,8 +24,7 @@ import {
     ReduxState,
     removeNode,
     resolvePendingConnection,
-    setDragGroup,
-    setNodeDragging,
+    updateNodeDragging,
     updateDimensions,
     getTranslations
 } from '../redux';
@@ -40,6 +39,8 @@ import { Language } from './LanguageSelector';
 import * as styles from './Node.scss';
 import * as shared from './shared.scss';
 import TitleBar from './TitleBar';
+import { updateDragGroup } from '../redux/actions';
+import { UpdateDragGroup, UpdateNodeDragging } from '../redux/actionTypes';
 
 // A point in the flow from which a drag is initiated
 export interface DragPoint {
@@ -72,7 +73,7 @@ export interface NodeProps extends NodeEditorContainerProps {
     definition: FlowDefinition;
     nodeDragging: boolean;
     userClickingNode: boolean;
-    setNodeDraggingAC: (nodeDragging: boolean) => void;
+    updateNodeDraggingAC: (nodeDragging: boolean) => UpdateNodeDragging;
     onNodeBeforeDragAC: (
         node: Node,
         setDragSelection: Function,
@@ -84,7 +85,7 @@ export interface NodeProps extends NodeEditorContainerProps {
     onOpenNodeEditorAC: (node: Node, action: AnyAction, languages: Languages) => void;
     removeNodeAC: (nodeToRemove: Node) => void;
     updateDimensionsAC: (node: Node, dimensions: Dimensions) => void;
-    setDragGroupAC: (dragGroup: boolean) => void;
+    updateDragGroupAC: (dragGroup: boolean) => UpdateDragGroup;
 }
 
 export interface NodeState {
@@ -162,7 +163,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             this.props.node.uuid,
             (event: DragEvent) => {
                 this.onDragStart(event);
-                this.props.setNodeDraggingAC(true);
+                this.props.updateNodeDraggingAC(true);
             },
             (event: DragEvent) => this.onDrag(event),
             (event: DragEvent) => this.onDragStop(event),
@@ -246,11 +247,11 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     private onMouseOver(): void {
-        this.props.setDragGroupAC(true);
+        this.props.updateDragGroupAC(true);
     }
 
     private onMouseOut(): void {
-        this.props.setDragGroupAC(false);
+        this.props.updateDragGroupAC(false);
     }
 
     private onAddAction(): void {
@@ -268,7 +269,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     private onDragStop(event: DragEvent): void {
         this.setState({ thisNodeDragging: false });
-        this.props.setNodeDraggingAC(false);
+        this.props.updateNodeDraggingAC(false);
 
         const position = $(event.target).position();
 
@@ -552,7 +553,7 @@ const mapStateToProps = ({
 });
 
 const mapDispatchToProps = (dispatch: DispatchWithState) => ({
-    setNodeDraggingAC: (nodeDragging: boolean) => dispatch(setNodeDragging(nodeDragging)),
+    updateNodeDraggingAC: (nodeDragging: boolean) => dispatch(updateNodeDragging(nodeDragging)),
     onNodeBeforeDragAC: (node: Node, setDragSelection: Function, clearDragSelection: Function) =>
         dispatch(onNodeBeforeDrag(node, setDragSelection, clearDragSelection)),
     resolvePendingConnectionAC: (node: Node) => dispatch(resolvePendingConnection(node)),
@@ -564,7 +565,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) => ({
     removeNodeAC: (nodeToRemove: Node) => dispatch(removeNode(nodeToRemove)),
     updateDimensionsAC: (node: Node, dimensions: Dimensions) =>
         dispatch(updateDimensions(node, dimensions)),
-    setDragGroupAC: (dragGroup: boolean) => dispatch(setDragGroup(dragGroup))
+    updateDragGroupAC: (dragGroup: boolean) => dispatch(updateDragGroup(dragGroup))
 });
 
 // prettier-ignore
