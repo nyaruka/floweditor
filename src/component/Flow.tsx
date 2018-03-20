@@ -30,6 +30,10 @@ import * as styles from './Flow.scss';
 import NodeContainer, { DragPoint } from './Node';
 import NodeEditor from './NodeEditor';
 
+export interface FlowPassedProps {
+    languages: Languages;
+}
+
 export interface FlowDuxProps {
     translating: boolean;
     definition: FlowDefinition;
@@ -46,9 +50,7 @@ export interface FlowDuxProps {
     updateCreateNodePosition: UpdateCreateNodePosition;
 }
 
-export interface FlowProps extends FlowDuxProps {
-    languages: Languages;
-}
+export type FlowProps = FlowPassedProps & FlowDuxProps;
 
 export interface Translations {
     [uuid: string]: any;
