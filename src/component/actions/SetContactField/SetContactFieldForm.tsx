@@ -1,11 +1,11 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
 import { SetContactField } from '../../../flowTypes';
-import ComponentMap, { SearchResult } from '../../../services/ComponentMap';
+import { ContactFieldResult, ReduxState, SearchResult } from '../../../redux';
 import { toBoolMap } from '../../../utils';
 import FieldElement from '../../form/FieldElement';
 import TextInputElement from '../../form/TextInputElement';
-import { FormProps } from '../../NodeEditor';
 
 /** TODO: these should come from an external source */
 const reserved = toBoolMap([
@@ -27,14 +27,14 @@ const reserved = toBoolMap([
     'tel'
 ]);
 
-export interface SetContactFieldFormProps extends FormProps {
+export interface SetContactFieldFormProps {
+    contactFields: ContactFieldResult[];
     action: SetContactField;
     updateAction(action: SetContactField): void;
     onBindWidget(ref: any): void;
-    ComponentMap: ComponentMap;
 }
 
-export default class SetContactFieldForm extends React.PureComponent<SetContactFieldFormProps> {
+export class SetContactFieldForm extends React.PureComponent<SetContactFieldFormProps> {
     public static contextTypes = {
         endpoints: endpointsPT
     };
@@ -46,15 +46,17 @@ export default class SetContactFieldForm extends React.PureComponent<SetContactF
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        const { state: { value } } = widgets.Value as TextInputElement;
-        const { state: { field } } = widgets.Field as FieldElement;
+        const { wrappedInstance: { state: { value } } } = widgets.Value;
+        const { state: { field } } = widgets.Field;
+
+        console.log('field:', field);
 
         const newAction: any = {
             uuid: this.props.action.uuid,
             value
         };
 
-        if (field.type === 'field') {
+        if (field.type === 'set_contact_field') {
             newAction.type = 'set_contact_field';
             newAction.field_name = field.name;
             newAction.field_uuid = field.id;
@@ -106,7 +108,7 @@ export default class SetContactFieldForm extends React.PureComponent<SetContactF
                     name="Field"
                     showLabel={true}
                     endpoint={this.context.endpoints.fields}
-                    localFields={this.props.ComponentMap.getContactFields()}
+                    localFields={this.props.contactFields}
                     helpText={
                         'Select an existing field to update or type any name to create a new one'
                     }
@@ -122,10 +124,16 @@ export default class SetContactFieldForm extends React.PureComponent<SetContactF
                     value={this.props.action.value}
                     helpText="The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json."
                     autocomplete={true}
-                    ComponentMap={this.props.ComponentMap}
-                    config={this.props.config}
                 />
             </div>
         );
     }
 }
+
+const maptStateToProps = ({ contactFields }: ReduxState) => ({ contactFields });
+
+const ConnectedSetContactFieldForm = connect(maptStateToProps, null, null, { withRef: true })(
+    SetContactFieldForm
+);
+
+export default ConnectedSetContactFieldForm;

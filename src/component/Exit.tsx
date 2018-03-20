@@ -1,23 +1,30 @@
-import * as React from 'react';
 import * as classNames from 'classnames/bind';
+import * as React from 'react';
+import { react as bindCallbacks } from 'auto-bind';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Exit } from '../flowTypes';
-import { addCommas } from '../utils';
-import Counter from './Counter';
+import { DisconnectExit, disconnectExit, DispatchWithState, ReduxState } from '../redux';
 import ActivityManager from '../services/ActivityManager';
 import { LocalizedObject } from '../services/Localization';
-
+import Counter from './Counter';
 import * as styles from './Exit.scss';
 
-export interface ExitProps {
+export interface ExitPassedProps {
     exit: Exit;
-    onDisconnect(exitUUID: string): void;
     localization: LocalizedObject;
-    translating: boolean;
     Activity: ActivityManager;
     plumberMakeSource: Function;
     plumberRemove: Function;
     plumberConnectExit: Function;
 }
+
+export interface ExitDuxProps {
+    translating: boolean;
+    disconnectExit: DisconnectExit;
+}
+
+export type ExitProps = ExitPassedProps & ExitDuxProps;
 
 export interface ExitState {
     confirmDelete: boolean;
@@ -25,9 +32,8 @@ export interface ExitState {
 
 const cx = classNames.bind(styles);
 
-export default class ExitComp extends React.PureComponent<ExitProps, ExitState> {
+export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     private timeout: any;
-    private clicking: boolean;
 
     constructor(props: ExitProps) {
         super(props);
@@ -36,11 +42,9 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
             confirmDelete: false
         };
 
-        this.onClick = this.onClick.bind(this);
-        this.onDisconnect = this.onDisconnect.bind(this);
-        this.onMouseUp = this.onMouseUp.bind(this);
-        this.getCount = this.getCount.bind(this);
-        this.onUnmount = this.onUnmount.bind(this);
+        bindCallbacks(this, {
+            include: [/^on/, 'getCount']
+        });
     }
 
     public componentDidMount(): void {
@@ -97,12 +101,7 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
             window.clearTimeout(this.timeout);
         }
 
-        this.props.onDisconnect(this.props.exit.uuid);
-    }
-
-    private onMouseUp(event: any): void {
-        event.preventDefault();
-        event.stopPropagation();
+        this.props.disconnectExit(this.props.exit.uuid);
     }
 
     private onUnmount(key: string): void {
@@ -157,7 +156,7 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
             this.state.confirmDelete && this.props.exit.hasOwnProperty('destination_node_uuid');
 
         const confirm: JSX.Element = confirmDelete ? (
-            <span onClick={this.onDisconnect} className="icon-remove" />
+            <span onMouseUp={this.onDisconnect} className="icon-remove" />
         ) : null;
 
         const exitClasses: string = cx({
@@ -177,11 +176,7 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
         return (
             <div className={exitClasses}>
                 <div className={nameStyle}>{exit.name}</div>
-                <div
-                    onMouseUp={this.onMouseUp}
-                    onClick={this.onClick}
-                    id={this.props.exit.uuid}
-                    className={dragNodeClasses}>
+                <div onMouseUp={this.onClick} id={this.props.exit.uuid} className={dragNodeClasses}>
                     {confirm}
                 </div>
                 {activity}
@@ -189,3 +184,14 @@ export default class ExitComp extends React.PureComponent<ExitProps, ExitState> 
         );
     }
 }
+
+const mapStateToProps = ({ translating }: ReduxState) => ({
+    translating
+});
+
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators({ disconnectExit }, dispatch);
+
+const ConnectedExit = connect(mapStateToProps, mapDispatchToProps)(ExitComp);
+
+export default ConnectedExit;

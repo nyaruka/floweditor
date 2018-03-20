@@ -20,7 +20,7 @@ const props: FlowListProps = {
     flowOptions
 };
 
-describe('FlowList >', () => {
+xdescribe('FlowList >', () => {
     describe('render >', () =>
         it('should render Select component', () => {
             const Select = shallow(<FlowList {...props} />).find('Select');

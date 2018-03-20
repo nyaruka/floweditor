@@ -1,8 +1,7 @@
 import * as React from 'react';
 import * as ReactModal from 'react-modal';
-import { Node, Case, SwitchRouter } from '../flowTypes';
-import Button, { ButtonProps } from './Button';
-
+import { Case, Node, SwitchRouter } from '../flowTypes';
+import Button, { ButtonProps, ButtonTypes } from './Button';
 import * as styles from './Modal.scss';
 import * as shared from './shared.scss';
 
@@ -60,18 +59,22 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
 
     private getButtons(): Buttons {
         const rightButtons: JSX.Element[] = [
-            <Button key={0} {...this.props.buttons.secondary} type="secondary" />
+            <Button key={0} {...this.props.buttons.secondary} type={ButtonTypes.secondary} />
         ];
 
         if (this.props.buttons.secondary) {
-            rightButtons.push(<Button key={1} {...this.props.buttons.primary} type="primary" />);
+            rightButtons.push(
+                <Button key={1} {...this.props.buttons.primary} type={ButtonTypes.primary} />
+            );
         }
 
         const leftButtons: JSX.Element[] = [];
 
         // Our left most button if we have one
         if (this.props.buttons.tertiary) {
-            leftButtons.push(<Button key={0} {...this.props.buttons.tertiary} type="tertiary" />);
+            leftButtons.push(
+                <Button key={0} {...this.props.buttons.tertiary} type={ButtonTypes.tertiary} />
+            );
         }
 
         return {
@@ -94,7 +97,6 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
         const children = React.Children.toArray(this.props.children);
         const hasAdvanced = children.length > 1;
         const { leftButtons, rightButtons } = this.getButtons();
-
         return children.map((child: React.ReactChild, childIdx: number) => {
             const classes = [styles.side];
             let title = this.props.title[childIdx];
@@ -162,7 +164,6 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
             : null;
 
         const width: string = this.props.width ? this.props.width : '700px';
-
         const customStyles: CustomStyles = {
             content: {
                 marginLeft: 'auto',
@@ -176,11 +177,8 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
                 border: 'none'
             }
         };
-
         const topStyle: string = this.getTopStyle();
-
         const sides: JSX.Element[] = this.mapSides();
-
         return (
             <ReactModal
                 ariaHideApp={false}

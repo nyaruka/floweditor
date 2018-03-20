@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 import SelectSearch from '../SelectSearch';
-import { SearchResult } from '../../services/ComponentMap';
 import FormElement, { FormElementProps } from './FormElement';
 import { getSelectClass, jsonEqual } from '../../utils';
 import { AnyAction } from '../../flowTypes';
+import { SearchResult } from '../../redux';
 
 export interface GroupOption {
     group: string;

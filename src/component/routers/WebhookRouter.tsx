@@ -1,32 +1,31 @@
 import * as React from 'react';
-import update from 'immutability-helper';
 import * as FlipMove from 'react-flip-move';
+import update from 'immutability-helper';
 import { react as bindCallbacks } from 'auto-bind';
+import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
-import {
-    Headers,
-    CallWebhook,
-    Case,
-    Exit,
-    Router,
-    SwitchRouter,
-    Node,
-    AnyAction,
-    Methods
-} from '../../flowTypes';
-import { SwitchRouterState } from './SwitchRouter';
-import { FormProps } from '../NodeEditor';
-import SelectElement from '../form/SelectElement';
+import { CallWebhook, Headers, Methods } from '../../flowTypes';
+import { ReduxState } from '../../redux';
 import HeaderElement, { Header } from '../form/HeaderElement';
-import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
-import FormElement from '../form/FormElement';
-import ComponentMap from '../../services/ComponentMap';
-import { Type } from '../../config';
+import SelectElement from '../form/SelectElement';
+import TextInputElement from '../form/TextInputElement';
 import { DEFAULT_BODY } from '../NodeEditor';
-import { jsonEqual } from '../../utils';
+import { SaveLocalizations } from '../NodeEditor/NodeEditor';
 import * as styles from './Webhook.scss';
 
-export type WebhookRouterProps = Partial<FormProps>;
+export interface WebhookRouterProps {
+    translating: boolean;
+    action: CallWebhook;
+    showAdvanced: boolean;
+    saveLocalizations: SaveLocalizations;
+    updateRouter: Function;
+    getExitTranslations(): JSX.Element;
+    onBindWidget: (ref: any) => void;
+    onBindAdvancedWidget: (ref: any) => void;
+    removeWidget: (name: string) => void;
+    triggerFormUpdate: () => void;
+    onToggleAdvanced: () => void;
+}
 
 interface WebhookRouterState {
     headers: Header[];
@@ -70,7 +69,7 @@ export const getInitialState = (action: CallWebhook): WebhookRouterState => {
 const WEBHOOK_DESC =
     'Use this step to trigger actions in external services or fetch data to use in this Flow. Enter a URL to call below.';
 
-export default class WebhookRouter extends React.Component<WebhookRouterProps, WebhookRouterState> {
+export class WebhookRouter extends React.Component<WebhookRouterProps, WebhookRouterState> {
     private methodOptions: MethodOptions = [
         { value: Methods.GET, label: Methods.GET },
         { value: Methods.POST, label: Methods.POST },
@@ -231,8 +230,6 @@ export default class WebhookRouter extends React.Component<WebhookRouterProps, W
                         autocomplete={true}
                         required={true}
                         url={true}
-                        ComponentMap={this.props.ComponentMap}
-                        config={this.props.config}
                     />
                 </div>
                 <div className={styles.instructions}>
@@ -272,8 +269,6 @@ export default class WebhookRouter extends React.Component<WebhookRouterProps, W
                             onChange={this.onHeaderChanged}
                             index={index}
                             empty={isEmpty}
-                            ComponentMap={this.props.ComponentMap}
-                            config={this.props.config}
                         />
                     </div>
                 );
@@ -300,8 +295,6 @@ export default class WebhookRouter extends React.Component<WebhookRouterProps, W
                     autocomplete={true}
                     textarea={true}
                     required={true}
-                    ComponentMap={this.props.ComponentMap}
-                    config={this.props.config}
                 />
             </div>
         ) : null;
@@ -323,7 +316,16 @@ export default class WebhookRouter extends React.Component<WebhookRouterProps, W
             </React.Fragment>
         );
     }
+
     public render(): JSX.Element {
         return this.props.showAdvanced ? this.renderAdvanced() : this.renderForm();
     }
 }
+
+const mapStateToProps = ({ translating }: ReduxState) => ({ translating });
+
+const ConnectedWebhookRouterForm = connect(mapStateToProps, null, null, { withRef: true })(
+    WebhookRouter
+);
+
+export default ConnectedWebhookRouterForm;

@@ -18,7 +18,7 @@ interface TitleBarState {
 /**
  * Simple title bar with confirmation removal
  */
-class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
+export default class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
     private timeout: any;
 
     constructor(props: TitleBarProps) {
@@ -37,7 +37,7 @@ class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
         }
     }
 
-    private onConfirmRemoval(event: React.MouseEvent<HTMLDivElement>) {
+    private onConfirmRemoval(event: React.MouseEvent<HTMLDivElement>): void {
         if (event) {
             event.preventDefault();
             event.stopPropagation();
@@ -60,13 +60,7 @@ class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
         if (this.state.confirmingRemoval) {
             confirmation = (
                 <div className={styles.remove_confirm}>
-                    <div
-                        className={styles.remove_button}
-                        onMouseUp={(event: any) => {
-                            event.stopPropagation();
-                            event.preventDefault();
-                        }}
-                        onClick={this.props.onRemoval}>
+                    <div className={styles.remove_button} onMouseUp={this.props.onRemoval}>
                         <span className="icon-remove" />
                     </div>
                     Remove?
@@ -82,13 +76,7 @@ class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
 
         if (this.props.showMove) {
             moveArrow = (
-                <div
-                    className={styles.up_button}
-                    onMouseUp={(event: any) => {
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }}
-                    onClick={this.props.onMoveUp}>
+                <div className={styles.up_button} onMouseUp={this.props.onMoveUp}>
                     <span className="icon-arrow-up" />
                 </div>
             );
@@ -99,18 +87,12 @@ class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
         return moveArrow;
     }
 
-    private getRemove() {
+    private getRemove(): JSX.Element {
         let remove: JSX.Element = null;
 
         if (this.props.showRemoval) {
             remove = (
-                <div
-                    className={styles.remove_button}
-                    onMouseUp={(event: any) => {
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }}
-                    onClick={this.onConfirmRemoval}>
+                <div className={styles.remove_button} onMouseUp={this.onConfirmRemoval}>
                     <span className="icon-remove" />
                 </div>
             );
@@ -119,11 +101,10 @@ class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
         return remove;
     }
 
-    render() {
+    public render(): JSX.Element {
         const confirmation: JSX.Element = this.getConfirmationEl();
         const moveArrow: JSX.Element = this.getMoveArrow();
         const remove: JSX.Element = this.getRemove();
-
         return (
             <div className={styles.titlebar}>
                 <div className={`${this.props.className} ${styles.normal}`}>
@@ -136,5 +117,3 @@ class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
         );
     }
 }
-
-export default TitleBar;

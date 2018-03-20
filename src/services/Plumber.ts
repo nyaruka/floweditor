@@ -15,6 +15,27 @@ export interface PendingConnections {
     [id: string]: { source: string; target: string; className: string };
 }
 
+export const REPAINT_DURATION = 600;
+export const TARGET_DEFAULTS = {
+    anchor: ['Continuous', { shape: 'Rectangle', faces: ['left', 'top', 'right'] }],
+    endpoint: [
+        'Dot',
+        { radius: 13, cssClass: 'plumb-endpoint', hoverClass: 'plumb-endpoint-hover' }
+    ],
+    dropOptions: { tolerance: 'touch', hoverClass: 'plumb-drop-hover', isTarget: false },
+    dragAllowedWhenFull: false,
+    deleteEndpointsOnEmpty: true,
+    isTarget: false
+};
+
+export const SOURCE_DEFAULTS = {
+    anchor: 'BottomCenter',
+    maxConnections: 1,
+    dragAllowedWhenFull: false,
+    deleteEndpointsOnEmpty: true,
+    isSource: true
+};
+
 export default class Plumber {
     public jsPlumb: any;
 
@@ -23,26 +44,6 @@ export default class Plumber {
     private pendingConnectionTimeout: any;
 
     private animateInterval: any = null;
-
-    private targetDefaults = {
-        anchor: ['Continuous', { shape: 'Rectangle', faces: ['left', 'top', 'right'] }],
-        endpoint: [
-            'Dot',
-            { radius: 13, cssClass: 'plumb-endpoint', hoverClass: 'plumb-endpoint-hover' }
-        ],
-        dropOptions: { tolerance: 'touch', hoverClass: 'plumb-drop-hover', isTarget: false },
-        dragAllowedWhenFull: false,
-        deleteEndpointsOnEmpty: true,
-        isTarget: false
-    };
-
-    private sourceDefaults = {
-        anchor: 'BottomCenter',
-        maxConnections: 1,
-        dragAllowedWhenFull: false,
-        deleteEndpointsOnEmpty: true,
-        isSource: true
-    };
 
     constructor() {
         this.jsPlumb = importDefaults({
@@ -128,11 +129,11 @@ export default class Plumber {
     }
 
     public makeSource(uuid: string): void {
-        this.jsPlumb.makeSource(uuid, this.sourceDefaults);
+        this.jsPlumb.makeSource(uuid, SOURCE_DEFAULTS);
     }
 
     public makeTarget(uuid: string): void {
-        this.jsPlumb.makeTarget(uuid, this.targetDefaults);
+        this.jsPlumb.makeTarget(uuid, TARGET_DEFAULTS);
     }
 
     public connectExit(exit: Exit, className: string = null): void {
@@ -156,7 +157,7 @@ export default class Plumber {
         }
     }
 
-    public repaintForDuration(duration: number): void {
+    public repaintForDuration(duration: number = REPAINT_DURATION): void {
         this.cancelDurationRepaint();
         var pause = 10;
         duration = duration / pause;
@@ -246,7 +247,7 @@ export default class Plumber {
     }
 
     public connect(source: string, target: string, className: string = null): void {
-        this.pendingConnections[source + ':' + target + ':' + className] = {
+        this.pendingConnections[`${source}:${target}:${className}`] = {
             source,
             target,
             className

@@ -1,22 +1,21 @@
 import * as React from 'react';
+import { react as bindCallbacks } from 'auto-bind';
+import { connect } from 'react-redux';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
 import { ChangeGroups, Group } from '../../../flowTypes';
-import ComponentMap, { SearchResult } from '../../../services/ComponentMap';
+import { ReduxState, SearchResult } from '../../../redux';
 import { jsonEqual } from '../../../utils';
 import GroupsElement from '../../form/GroupsElement';
 import ChangeGroupsFormProps from './props';
 
-export interface AddGroupFormState {
+export interface AddGroupsFormState {
     groups: SearchResult[];
 }
 
 export const LABEL = ' Select the group(s) to add the contact to.';
 export const PLACEHOLDER = 'Enter the name of an existing group or create a new one';
 
-export default class AddGroupForm extends React.PureComponent<
-    ChangeGroupsFormProps,
-    AddGroupFormState
-> {
+export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, AddGroupsFormState> {
     public static contextTypes = {
         endpoints: endpointsPT
     };
@@ -30,8 +29,9 @@ export default class AddGroupForm extends React.PureComponent<
             groups
         };
 
-        this.onGroupsChanged = this.onGroupsChanged.bind(this);
-        this.onValid = this.onValid.bind(this);
+        bindCallbacks(this, {
+            include: [/^on/]
+        });
     }
 
     private onGroupsChanged(groups: SearchResult[]): void {
@@ -45,7 +45,7 @@ export default class AddGroupForm extends React.PureComponent<
     public onValid(): void {
         const newAction: ChangeGroups = {
             uuid: this.props.action.uuid,
-            type: this.props.config.type,
+            type: this.props.typeConfig.type,
             groups: this.state.groups.map((group: SearchResult) => ({
                 uuid: group.id,
                 name: group.name
@@ -88,3 +88,11 @@ export default class AddGroupForm extends React.PureComponent<
         );
     }
 }
+
+const mapStateToProps = ({ typeConfig }: ReduxState) => ({ typeConfig });
+
+const ConnectedAddGroupForm = connect(mapStateToProps, null, null, { withRef: true })(
+    AddGroupsForm
+);
+
+export default ConnectedAddGroupForm;

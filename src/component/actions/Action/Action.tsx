@@ -1,152 +1,130 @@
 import * as React from 'react';
+import * as classNames from 'classnames/bind';
 import { react as bindCallbacks } from 'auto-bind';
-import { FlowDefinition, Node, Group, AnyAction, Endpoints } from '../../../flowTypes';
-import ComponentMap from '../../../services/ComponentMap';
+import { connect } from 'react-redux';
+import { getTypeConfig, languagesPT } from '../../../config';
+import { ConfigProviderContext } from '../../../config/ConfigProvider';
+import { AnyAction, FlowDefinition, Languages, Node } from '../../../flowTypes';
+import { moveActionUp, ReduxState, removeAction, ActionAC } from '../../../redux';
+import {
+    DispatchWithState,
+    onOpenNodeEditor,
+    OnOpenNodeEditor
+} from '../../../redux/actionCreators';
 import { LocalizedObject } from '../../../services/Localization';
-import TitleBar from '../../TitleBar';
-import { ConfigProviderContext, endpointsPT, getTypeConfig } from '../../../config';
-import { NodeEditorProps } from '../../NodeEditor/NodeEditor';
 import { Language } from '../../LanguageSelector';
-
 import * as shared from '../../shared.scss';
+import TitleBar from '../../TitleBar';
 import * as styles from './Action.scss';
+import { bindActionCreators } from 'redux';
 
-export interface ActionProps {
-    node: Node;
+export interface ActionWrapperPassedProps {
+    thisNodeDragging: boolean;
+    localization: LocalizedObject;
+    first: boolean;
     action: AnyAction;
-    dragging: boolean;
-    hasRouter: boolean;
+    render: (action: AnyAction) => React.ReactNode;
+}
+
+export interface ActionWrapperDuxProps {
+    node: Node;
+    userClickingAction: boolean;
     language: Language;
     translating: boolean;
     definition: FlowDefinition;
-    first: boolean;
-    localization: LocalizedObject;
-    ComponentMap: ComponentMap;
-    openEditor(props: NodeEditorProps): void;
-    onRemoveAction: Function;
-    onMoveActionUp: Function;
-    onUpdateLocalizations: Function;
-    onUpdateAction: Function;
-    onUpdateRouter: Function;
-    children?(action: AnyAction): JSX.Element;
+    onOpenNodeEditor: OnOpenNodeEditor;
+    removeAction: ActionAC;
+    moveActionUp: ActionAC;
 }
 
-export default class Action extends React.Component<ActionProps> {
-    protected localizedKeys: string[] = [];
-    private clicking = false;
+export type ActionWrapperProps = ActionWrapperPassedProps & ActionWrapperDuxProps;
+
+const cx = classNames.bind({ ...shared, ...styles });
+
+// Note: this needs to be a ComponentClass in order to work w/ react-flip-move
+export class ActionWrapper extends React.Component<ActionWrapperProps> {
+    private localizedKeys: string[] = [];
 
     public static contextTypes = {
-        endpoints: endpointsPT
+        languages: languagesPT
     };
 
-    constructor(props: ActionProps, context: ConfigProviderContext) {
+    constructor(props: ActionWrapperProps, context: ConfigProviderContext) {
         super(props);
 
         bindCallbacks(this, {
-            include: ['onClick', 'onRemoval', 'onMoveUp', 'onMouseUp', 'onMouseDown']
+            include: [/^on/]
         });
     }
 
     public onClick(event: React.MouseEvent<HTMLDivElement>): void {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const localizations = this.props.localization
-            ? [this.props.localization]
-            : ([] as LocalizedObject[]);
-
-        this.props.openEditor({
-            onUpdateLocalizations: this.props.onUpdateLocalizations,
-            onUpdateAction: this.props.onUpdateAction,
-            onUpdateRouter: this.props.onUpdateRouter,
-            node: this.props.node,
-            action: this.props.action,
-            nodeUI: null,
-            language: this.props.language,
-            localizations,
-            definition: this.props.definition,
-            translating: this.props.translating,
-            ComponentMap: this.props.ComponentMap
-        });
-    }
-
-    public componentDidUpdate(prevProps: ActionProps, prevState: {}): void {
-        if (this.props.dragging) {
-            this.clicking = false;
+        if (!this.props.thisNodeDragging) {
+            event.preventDefault();
+            event.stopPropagation();
+            const ui = this.props.definition._ui.nodes[this.props.node.uuid];
+            this.props.onOpenNodeEditor(this.props.node, this.props.action, this.context.languages);
         }
     }
 
     private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
-        this.props.onRemoveAction(this.props.action);
+
+        this.props.removeAction(this.props.action);
     }
 
     private onMoveUp(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
-        this.props.onMoveActionUp(this.props.action);
+
+        this.props.moveActionUp(this.props.action);
     }
 
-    private onMouseUp(evt: React.MouseEvent<HTMLDivElement>): void {
-        if (this.clicking) {
-            this.clicking = false;
-            this.onClick(evt);
-        }
-    }
-
-    private onMouseDown(evt: React.MouseEvent<HTMLDivElement>): void {
-        this.clicking = true;
-    }
-
-    private getClasses(): string[] {
-        const classes = [styles.action];
-
-        if (this.props.hasRouter) {
-            classes.push(styles.has_router);
-        }
+    private getClasses(): string {
+        let missingLocalization = false;
 
         if (this.props.translating) {
-            classes.push(styles.translating);
-
             if (this.props.action.type === 'send_msg') {
                 this.localizedKeys.push('text');
             }
 
-            if (this.localizedKeys.length === 0) {
-                classes.push(styles.not_localizable);
-            } else {
+            if (this.localizedKeys.length !== 0) {
                 if (this.props.localization.isLocalized()) {
                     for (const key of this.localizedKeys) {
                         if (!(key in this.props.localization.localizedKeys)) {
-                            classes.push(styles.missing_localization);
+                            missingLocalization = true;
                             break;
                         }
                     }
                 } else {
-                    classes.push(styles.missing_localization);
+                    missingLocalization = true;
                 }
             }
         }
 
-        return classes;
+        return cx({
+            [styles.action]: true,
+            [styles.has_router]:
+                this.props.node.hasOwnProperty('router') && this.props.node.router !== null,
+            [styles.translating]: this.props.translating,
+            [styles.not_localizable]: this.props.translating && this.localizedKeys.length === 0,
+            [styles.missing_localization]: missingLocalization
+        });
     }
 
     public render(): JSX.Element {
         const { name } = getTypeConfig(this.props.action.type);
         const classes = this.getClasses();
-        const propsToInject = this.props.localization
+        const anyAction = this.props.localization
             ? (this.props.localization.getObject() as AnyAction)
             : this.props.action;
         const titleBarClass = shared[this.props.action.type];
         const showRemoval = !this.props.translating;
         const showMove = !this.props.first && !this.props.translating;
+        // const events = { onClick: !this.props.thisNodeDragging ? this.onClick : null };
 
         return (
-            <div id={`action-${this.props.action.uuid}`} className={classes.join(' ')}>
+            <div id={`action-${this.props.action.uuid}`} className={classes}>
                 <div className={styles.overlay} />
-                <div
-                    onMouseDown={this.onMouseDown}
-                    onMouseUp={this.onMouseUp}
-                    data-spec="interactive-div">
+                <div onMouseUp={this.onClick} data-spec="interactive-div">
                     <TitleBar
                         className={titleBarClass}
                         title={name}
@@ -155,9 +133,35 @@ export default class Action extends React.Component<ActionProps> {
                         showMove={showMove}
                         onMoveUp={this.onMoveUp}
                     />
-                    <div className={styles.body}>{this.props.children(propsToInject)}</div>
+                    <div className={styles.body}>{this.props.render(anyAction)}</div>
                 </div>
             </div>
         );
     }
 }
+
+const mapStateToProps = ({
+    userClickingAction,
+    language,
+    translating,
+    definition
+}: ReduxState) => ({
+    userClickingAction,
+    language,
+    translating,
+    definition
+});
+
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators(
+        {
+            onOpenNodeEditor,
+            removeAction,
+            moveActionUp
+        },
+        dispatch
+    );
+
+const ConnectedActionWrapper = connect(mapStateToProps, mapDispatchToProps)(ActionWrapper);
+
+export default ConnectedActionWrapper;

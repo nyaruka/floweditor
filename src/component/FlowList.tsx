@@ -1,43 +1,82 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import Select from 'react-select';
-
+import { Config } from '../config';
+import { Endpoints, FlowDefinition } from '../flowTypes';
+import { DispatchWithState, fetchFlow, Flows, ReduxState, FetchFlow } from '../redux';
 import { flowList } from './FlowList.scss';
+import { bindActionCreators } from 'redux';
 
 export interface FlowOption {
     uuid: string;
     name: string;
 }
 
-export interface FlowListProps {
-    onSelectFlow({ uuid }: FlowOption): void;
-    flowOption: FlowOption;
-    flowOptions: FlowOption[];
+export interface FlowListPassedProps {
+    assetHost: string;
+    endpoints: Endpoints;
 }
 
+export interface FlowListDuxProps {
+    definition: FlowDefinition;
+    flows: Flows;
+    fetchFlow: FetchFlow;
+}
+
+export type FlowListProps = FlowListPassedProps & FlowListDuxProps;
+
+const FlowListContainer: React.SFC = () => (
+    <Config
+        render={({ assetHost, endpoints }) =>
+            // prettier-ignore
+            <ConnectedFlowList
+                assetHost={assetHost}
+                endpoints={endpoints}
+            />
+        }
+    />
+);
+
 // Navigable list of flows for an account
-const FlowList: React.SFC<FlowListProps> = ({
-    flowOption,
-    flowOptions,
-    onSelectFlow
-}): JSX.Element => {
-    const isLoading = !flowOption || !flowOptions;
+const FlowList: React.SFC<FlowListProps> = ({ assetHost, endpoints, definition, flows }) => {
+    const flowOption: FlowOption = definition
+        ? {
+              uuid: definition.uuid,
+              name: definition.name
+          }
+        : null;
+
+    const onChange = ({ uuid }: { uuid: string; name: string }) => {
+        if (flows.length) {
+            if (uuid !== definition.uuid) {
+                fetchFlow(endpoints.flows, uuid);
+            }
+        }
+    };
 
     return (
         <div id="flow-list" className={flowList}>
             <Select
                 /** FlowList */
                 placeholder="Select a flow..."
-                onChange={onSelectFlow}
+                onChange={onChange}
                 searchable={false}
                 clearable={false}
                 labelKey="name"
                 valueKey="uuid"
                 value={flowOption}
-                options={flowOptions}
-                isLoading={isLoading}
+                options={flows}
+                isLoading={!flowOption || (!flows || !flows.length)}
             />
         </div>
     );
 };
 
-export default FlowList;
+const mapStateToProps = ({ definition, flows }: ReduxState) => ({ definition, flows });
+
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators({ fetchFlow }, dispatch);
+
+const ConnectedFlowList = connect(mapStateToProps, mapDispatchToProps)(FlowList);
+
+export default FlowListContainer;

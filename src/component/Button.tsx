@@ -1,24 +1,24 @@
 import * as React from 'react';
-
 import * as styles from './Button.scss';
 
+export enum ButtonTypes {
+    primary = 'primary',
+    secondary = 'secondary',
+    tertiary = 'tertiary'
+}
 export interface ButtonProps {
     name: string;
     onClick: any;
-    type?: string;
+    type?: ButtonTypes;
 }
 
-export default class Button extends React.PureComponent<ButtonProps, {}> {
-    render() {
-        const { name, onClick, type } = this.props;
-        const classes = [styles.btn, styles[type]].join(' ');
-        return (
-            <div
-                onClick={onClick}
-                className={classes}
-                data-spec={`button-${type}-${name.toLowerCase()}`}>
-                {name}
-            </div>
-        );
-    }
-}
+const Button: React.SFC<ButtonProps> = ({ name, onClick, type }) => (
+    <div
+        onClick={onClick}
+        className={[styles.btn, styles[type]].join(' ')}
+        data-spec={`button-${type}-${name.toLowerCase()}`}>
+        {name}
+    </div>
+);
+
+export default Button;

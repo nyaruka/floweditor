@@ -1,6 +1,6 @@
 import { split } from 'split-sms';
-import ComponentMap, { CompletionOption } from '../../../services/ComponentMap';
 import { OPTIONS, GSM } from './constants';
+import { CompletionOption } from '../../../redux';
 
 export interface UnicodeCharMap {
     [char: string]: boolean;
@@ -138,8 +138,8 @@ export const filterOptions = (options: CompletionOption[], query?: string): Comp
 
 export const getOptionsList = (
     autocomplete: boolean,
-    { getResultNameOptions }: ComponentMap
-): CompletionOption[] => (autocomplete ? [...OPTIONS, ...getResultNameOptions()] : OPTIONS);
+    resultNames: CompletionOption[]
+): CompletionOption[] => (autocomplete ? [...OPTIONS, ...resultNames] : OPTIONS);
 
 export const pluralize = (count: number, noun: string, suffix: string = 's'): string =>
     `${noun}${count !== 1 ? suffix : ''}`;

@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { SearchResult } from '../../services/ComponentMap';
-import FormElement, { FormElementProps } from './FormElement';
-import SelectSearch from '../SelectSearch';
 import { getSelectClass } from '../../utils';
-
-import * as styles from './FormElement.scss';
+import SelectSearch from '../SelectSearch';
+import FormElement, { FormElementProps } from './FormElement';
+import { SearchResult } from '../../redux';
 
 interface FlowElementProps extends FormElementProps {
     flow_name: string;

@@ -18,7 +18,7 @@ const onUpdateLocalizations = jest.fn();
 const onUpdateRouter = jest.fn();
 const updateRouter = jest.fn();
 
-const groupRouterProps = {
+const groupsRouterProps = {
     node,
     config: groupsRouterConfig,
     translating: false,
@@ -59,7 +59,7 @@ describe('GroupsRouter >', () => {
 
             const wrapper = shallow(
                 <GroupsRouter
-                    {...{ ...groupRouterProps, getResultNameField: getResultNameFieldMock }}
+                    {...{ ...groupsRouterProps, getResultNameField: getResultNameFieldMock }}
                 />,
                 {
                     context: groupsRouterContext
@@ -72,7 +72,7 @@ describe('GroupsRouter >', () => {
         });
 
         it('should pass groups pulled from existing cases to GroupsElement', () => {
-            const wrapper = shallow(<GroupsRouter {...groupRouterProps} />, {
+            const wrapper = shallow(<GroupsRouter {...groupsRouterProps} />, {
                 context: groupsRouterContext
             });
 
@@ -99,7 +99,7 @@ describe('GroupsRouter >', () => {
             const wrapper = shallow(
                 <GroupsRouter
                     {...{
-                        ...groupRouterProps,
+                        ...groupsRouterProps,
                         getExitTranslations: getExitTranslationsMock,
                         translating: true
                     }}
@@ -123,7 +123,7 @@ describe('GroupsRouter >', () => {
                 const wrapper = shallow(
                     <GroupsRouter
                         {...{
-                            ...groupRouterProps,
+                            ...groupsRouterProps,
                             saveLocalizations: saveLocalizationsMock,
                             getExitTranslations: jest.fn(),
                             translating: true
@@ -149,7 +149,7 @@ describe('GroupsRouter >', () => {
         const wrapper = shallow(
             <GroupsRouter
                 {...{
-                    ...groupRouterProps,
+                    ...groupsRouterProps,
                     cleanUpLocalizations: jest.fn(),
                     updateRouter: updateRouterMock
                 }}
