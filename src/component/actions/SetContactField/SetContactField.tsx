@@ -2,18 +2,17 @@ import * as React from 'react';
 import { SetContactField } from '../../../flowTypes';
 
 const SetContactFieldComp: React.SFC<SetContactField> = ({ value, field_name }): JSX.Element => {
+    const fieldName = <span className="emph">{field_name}</span>;
+
     if (value) {
         return (
-            <div>
-                Update <span className="emph">{field_name}</span> to {value}
-            </div>
+            <>
+                Update {fieldName} to {value}
+            </>
         );
     }
-    return (
-        <div>
-            Clear value for <span className="emph">{field_name}</span>
-        </div>
-    );
+
+    return <>Clear value for {fieldName}</>;
 };
 
 export default SetContactFieldComp;

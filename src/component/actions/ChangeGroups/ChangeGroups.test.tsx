@@ -28,11 +28,11 @@ describe('ChangeGroups >', () => {
             expect(Content.childAt(3).text()).toBe('...');
         });
 
-        it("should render 'remove from all' div when passed group action of type 'remove_from_groups'", () => {
+        it("should render 'remove from all' div when passed group action of type 'remove_contact_groups'", () => {
             const Remove = getSpecWrapper(
                 shallow(
                     <ChangeGroupsComp
-                        {...{ ...addToGroupsAction, groups: [], type: 'remove_from_group' }}
+                        {...{ ...addToGroupsAction, groups: [], type: 'remove_contact_groups' }}
                     />
                 ),
                 'remove-all'

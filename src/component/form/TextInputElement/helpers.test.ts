@@ -7,13 +7,10 @@ import {
     getUnicodeChars
 } from './helpers';
 import { OPTIONS, GSM } from './constants';
-import ComponentMap, { CompletionOption } from '../../../services/ComponentMap';
 
 const {
     results: [{ definition }]
 } = require('../../../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
-
-const CompMap = new ComponentMap(definition);
 
 const optionQueryMap = OPTIONS.reduce((argMap, { name }) => {
     const lastIndex = name.lastIndexOf('.');
@@ -61,28 +58,6 @@ describe('helpers >', () => {
             it(`should filter options for "${query}"`, () =>
                 expect(filterOptions(OPTIONS, query)).toMatchSnapshot())
         );
-    });
-
-    describe('getOptionsList >', () => {
-        const hasResults = (optionsList: CompletionOption[]): boolean => {
-            let results = false;
-            for (const option of optionsList) {
-                if (
-                    option.description.indexOf('Result for') > -1 ||
-                    option.description.indexOf('Category for') > -1
-                ) {
-                    results = true;
-                    break;
-                }
-            }
-            return results;
-        };
-
-        it('should return options list + result names if passed a truthy autocomplete arg', () =>
-            expect(hasResults(getOptionsList(true, CompMap))).toBeTruthy());
-
-        it('should only return an options list if passed a falsy autocomplete arg', () =>
-            expect(hasResults(getOptionsList(false, CompMap))).toBeFalsy());
     });
 
     describe('pluralize', () => {
