@@ -13,7 +13,6 @@ describe('StartFlow >', () => {
     describe('render >', () => {
         it('should render StartFlow with flow name', () => {
             const wrapper = shallow(<StartFlow {...startFlowAction} />);
-
             expect(wrapper.text()).toBe(flow_name);
         });
     });

@@ -30,13 +30,18 @@
     "runAnalyzer:prod:windows": "npm run bundleStats:prod:windows && npm run analyze",
     "preprettify": "prettier --debug-check '{,!(node_modules)/**/}*.@(ts|tsx)'",
     "prettify": "prettier --write 'src/**/*.{ts,tsx,json,js,css,md}'",
+    "jason:serve": "netlify-lambda serve assets",
+    "jason:build": "rm -rf jason && netlify-lambda build assets",
     "preversion": "npm run test:local",
     "version": "npm run build:prod",
     "postversion": "git push && git push --tags && npm publish",
     "precommit": "lint-staged"
   },
-  "lint-staged": { 
-    "*.{ts,tsx,js,json,css,md}": [ "prettier --write", "git add" ] 
+  "lint-staged": {
+    "*.{ts,tsx,js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "peerDependencies": {
     "react": "^16.0",
@@ -59,7 +64,11 @@
     "@types/react-flip-move": "2.9.1",
     "@types/react-hot-loader": "3.0.4",
     "@types/react-modal": "3.1.0",
+    "@types/react-redux": "5.0.15",
     "@types/react-select": "1.0.59",
+    "@types/redux": "3.6.0",
+    "@types/redux-devtools-extension": "2.13.2",
+    "@types/redux-thunk": "2.1.0",
     "@types/uniqid": "4.1.2",
     "@types/uuid": "2.0.30",
     "@types/webpack-env": "1.13.1",
@@ -84,6 +93,7 @@
     "eslint": "4.12.1",
     "eslint-config-xo-space": "0.17.0",
     "extract-text-webpack-plugin": "3.0.2",
+    "fast-deep-equal": "1.1.0",
     "file-loader": "0.11.1",
     "get-input-selection": "1.1.4",
     "html-webpack-plugin": "2.30.1",
@@ -95,6 +105,7 @@
     "jsplumb": "2.6.7",
     "lint-staged": "7.0.0",
     "local-storage": "1.4.2",
+    "netlify-lambda": "0.3.0",
     "nock": "9.0.28",
     "node-sass": "4.7.2",
     "npm": "5.6.0",
@@ -110,6 +121,9 @@
     "react-hot-loader": "3.1.1",
     "react-modal": "3.1.7",
     "react-select": "1.1.0",
+    "redux": "3.7.2",
+    "redux-devtools-extension": "2.13.2",
+    "redux-thunk": "2.2.0",
     "sass-loader": "6.0.6",
     "source-map-loader": "0.1.6",
     "split-sms": "0.1.7",

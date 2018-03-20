@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
-import { toBoolMap, getSelectClass } from '../../utils';
-import FormElement, { FormElementProps } from './FormElement';
-import ComponentMap, { SearchResult } from '../../services/ComponentMap';
+import { getSelectClass, toBoolMap } from '../../utils';
 import SelectSearch from '../SelectSearch';
-
-import * as styles from './FormElement.scss';
+import FormElement, { FormElementProps } from './FormElement';
+import { SearchResult } from '../../store';
 
 // TODO: these should come from an external source
 const reserved = toBoolMap(['language', 'name', 'timezone']);

@@ -1,7 +1,0 @@
-{
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "name": "jason",
-  "alias": ["jason"]
-}

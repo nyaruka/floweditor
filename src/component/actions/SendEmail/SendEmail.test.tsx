@@ -9,10 +9,9 @@ const { language: flowLanguage, nodes: [, , , , node] } = definition;
 const { actions: [, sendEmailAction] } = node;
 const { uuid, type, subject, body, emails } = sendEmailAction;
 
-describe('Component: SendEmail', () => {
+describe('SendEmail >', () => {
     it('should render SendEmail with subject prop', () => {
-        const SendEmailDivShallow = shallow(<SendEmail {...sendEmailAction} />);
-
-        expect(SendEmailDivShallow.text()).toBe(subject);
+        const wrapper = shallow(<SendEmail {...sendEmailAction} />);
+        expect(wrapper.text()).toBe(subject);
     });
 });

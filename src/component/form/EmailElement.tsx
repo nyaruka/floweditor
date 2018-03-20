@@ -5,7 +5,7 @@ import { getSelectClass } from '../../utils';
 
 import * as styles from './FormElement.scss';
 
-type EmailList = Array<{ label: string; value: string }>;
+export type EmailList = Array<{ label: string; value: string }>;
 
 interface EmailElementProps extends FormElementProps {
     emails: string[];

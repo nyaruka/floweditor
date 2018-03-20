@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const { promisify } = require('util');
 const { readFile } = require('fs');
 const { send } = require('micro');
@@ -10,6 +8,8 @@ const compress = require('micro-compress');
 const sentry = require('micro-sentry');
 const signBunny = require('sign-bunny');
 const validate = require('uuid-validate');
+
+// SENTRY_DSN=https://3c7d1e3e55984351909b82e6a34dfe3b@sentry.io/287189
 
 // Setup
 const readFileAsync = promisify(readFile);

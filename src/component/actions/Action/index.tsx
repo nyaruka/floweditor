@@ -1,5 +1,5 @@
-import Action, { ActionProps } from './Action';
+import ActionWrapper, { ActionWrapperProps } from './Action';
 
-export { ActionProps };
+export { ActionWrapperProps };
 
-export default Action;
+export default ActionWrapper;

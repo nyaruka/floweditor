@@ -1,7 +1,6 @@
 {
-  "printWidth": 100,
-  "tabWidth": 4,
-  "singleQuote": true,
-  "jsxBracketSameLine": true,
-  "parser": "typescript"
+    "printWidth": 100,
+    "tabWidth": 4,
+    "singleQuote": true,
+    "jsxBracketSameLine": true
 }

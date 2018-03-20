@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { shallow, mount } from 'enzyme';
-import CompMap from '../../services/ComponentMap';
 import CaseElement, {
     prefix,
     composeExitName,
@@ -21,8 +20,6 @@ const {
 
 const { nodes: [, node] } = definition;
 const { router: { cases }, exits } = node;
-
-const ComponentMap = new CompMap(definition);
 
 const config = getTypeConfig('wait_for_response');
 
@@ -63,27 +60,6 @@ describe('CaseElement >', () => {
             it("should return newExitName if it's truthy and operator is 'has_number_between'", () => {
                 expect(composeExitName('has_number_between', ['1', '2'], 'Violet')).toBe('Violet');
             });
-        });
-
-        describe('getExitName >', () => {
-            const type = 'has_value';
-            const kase = {
-                uuid: 'fa0a9b24-5f19-4b8e-b287-27af5811de1d',
-                type,
-                exit_uuid: '55855afc-f612-4ef9-9288-dcb1dd136052'
-            };
-            const operatorConfig = getOperatorConfig(type);
-            const { categoryName: expectedExitName } = operatorConfig;
-
-            it("should return a given operator's default category name if it has one and no new args have been passed", () =>
-                // prettier-ignore
-                expect(
-                    getExitName(
-                        '',
-                        operatorConfig,
-                        kase
-                    )
-                ).toBe(expectedExitName));
         });
 
         describe('getMinMax >', () => {
@@ -176,7 +152,6 @@ describe('CaseElement >', () => {
             onChange,
             focusArgsInput: false,
             focusExitInput: false,
-            ComponentMap,
             config
         };
 
@@ -210,30 +185,6 @@ describe('CaseElement >', () => {
                         value: props.kase.type,
                         'data-spec': 'operator-list',
                         onChange: onChangeOperator
-                    })
-                );
-
-                expect(getSpecWrapper(EmptyCase, 'args-input').props()).toEqual(
-                    expect.objectContaining({
-                        'data-spec': 'args-input',
-                        name: 'arguments',
-                        value: '',
-                        autocomplete: true,
-                        ComponentMap,
-                        showInvalid: false,
-                        config
-                    })
-                );
-
-                expect(getSpecWrapper(EmptyCase, 'exit-input').props()).toEqual(
-                    expect.objectContaining({
-                        'data-spec': 'exit-input',
-                        name: 'exitName',
-                        onChange: onChangeExitName,
-                        value: '',
-                        ComponentMap,
-                        showInvalid: false,
-                        config
                     })
                 );
             });
@@ -278,36 +229,6 @@ describe('CaseElement >', () => {
                             value: caseProps.exitName || ''
                         })
                     ));
-            });
-        });
-
-        describe('instance methods >', () => {
-            describe('onChangeOperator >', () => {
-                const wrapper = mount(<CaseElement {...props} />);
-                const { onChangeOperator } = wrapper.instance() as any;
-                const [anyWordOperator, allWordsOperator] = operatorConfigList;
-
-                it("should update state operator config to the value it's passed if value is different than operatorConfig in state", () => {
-                    onChangeOperator(allWordsOperator);
-                    expect(wrapper.state('operatorConfig')).toEqual(allWordsOperator);
-                });
-
-                it("should update exitName if value it's passed is different than operatorConfig in state", () => {
-                    onChangeOperator(anyWordOperator);
-                    expect(wrapper.state('exitName')).toBe(
-                        getExitName(
-                            wrapper.state('exitName'),
-                            anyWordOperator,
-                            props.kase,
-                            wrapper.state('arguments')
-                        )
-                    );
-                });
-
-                it('should call "onChange" prop after setting own state', () => {
-                    onChangeOperator(allWordsOperator);
-                    expect(onChange).toHaveBeenCalled();
-                });
             });
         });
     });
