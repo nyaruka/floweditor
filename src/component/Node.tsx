@@ -215,7 +215,16 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         ) {
             return true;
         }
-        return shallowCompare(this, nextProps, nextState);
+
+        if (nextState.thisNodeDragging !== this.state.thisNodeDragging) {
+            return true;
+        }
+
+        if (this.props.node !== nextProps.node) {
+            return true;
+        }
+
+        return false;
     }
 
     public componentDidUpdate(prevProps: NodeProps, prevState: NodeState): void {
@@ -378,6 +387,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     public render(): JSX.Element {
         const actions: JSX.Element[] = [];
         let actionList: JSX.Element = null;
+
+        console.log('Rendering node', this.props.node.uuid);
 
         if (this.props.node.actions) {
             // Save the first reference off to manage our clicks
