@@ -39,7 +39,7 @@ export const createSetup = <P extends {}, C extends {} = { [contextType: string]
 /**
  * Wait for promises in queue to resolve
  */
-export const yieldToPromises = () => new Promise(resolve => setImmediate(resolve));
+export const flushPromises = () => new Promise(resolve => setImmediate(resolve));
 
 /**
  * Restore spy mocks (distinct from mocks created w/ jest.fn()).

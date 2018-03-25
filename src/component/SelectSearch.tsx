@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
-import axios from 'axios';
-import { Async, AsyncCreatable } from 'react-select';
+import axios, { AxiosResponse } from 'axios';
+import { Async, AsyncCreatable, AutocompleteResult } from 'react-select';
 import { SearchResult } from '../store';
 import { jsonEqual, resultsToSearchOpts } from '../utils';
 
@@ -26,17 +26,10 @@ interface SelectSearchState {
     selections: SearchResult[];
 }
 
-interface SelectSearchResult {
-    options: SearchResult[];
-    complete: boolean;
-}
-
-// Quick fix for flash of 'Loading...' text when user makes selection.
-// Async and AsyncCreatable make a network request on each selection, perhaps we
-// should discuss a caching strategy.
-export const LOADING_PLACEHOLDER = '';
-
-export default class SelectSearch extends React.Component<SelectSearchProps, SelectSearchState> {
+export default class SelectSearch extends React.PureComponent<
+    SelectSearchProps,
+    SelectSearchState
+> {
     private select: HTMLInputElement;
 
     constructor(props: SelectSearchProps) {
@@ -86,8 +79,8 @@ export default class SelectSearch extends React.Component<SelectSearchProps, Sel
         return newResults;
     }
 
-    public search(term: string, remoteResults: SearchResult[] = []): SelectSearchResult {
-        let combined: SearchResult[] = [...remoteResults];
+    public search(term: string, remoteResults: SearchResult[] = []): AutocompleteResult {
+        let combined = [...remoteResults];
 
         if (this.props.localSearchOptions) {
             for (const local of this.props.localSearchOptions) {
@@ -96,9 +89,9 @@ export default class SelectSearch extends React.Component<SelectSearchProps, Sel
                 }
             }
         }
-        const options: SearchResult[] = combined.sort(this.sortResults);
+        const options = combined.sort(this.sortResults);
 
-        const results: SelectSearchResult = {
+        const results = {
             options,
             complete: true
         };
@@ -108,13 +101,15 @@ export default class SelectSearch extends React.Component<SelectSearchProps, Sel
 
     public loadOptions(input: string, callback: Function): void {
         if (!this.props.url) {
-            const options = this.search(input);
-            callback(options);
+            callback(this.search(input));
         } else {
-            axios.get(this.props.url).then(response => {
-                const results = response.data.results.map(resultsToSearchOpts);
-                const options = this.search(input, results);
-                callback(null, options);
+            axios.get(this.props.url).then((response: AxiosResponse) => {
+                const results = response.data.results.map(({ name, uuid, type }: any) => ({
+                    name,
+                    id: uuid,
+                    type
+                }));
+                callback(null, this.search(input, results));
             });
         }
     }
@@ -209,13 +204,11 @@ export default class SelectSearch extends React.Component<SelectSearchProps, Sel
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     loadOptions={this.loadOptions}
-                    loadingPlaceholder={LOADING_PLACEHOLDER}
                     closeOnSelect={this.props.closeOnSelect}
                     ignoreCase={false}
                     ignoreAccents={false}
                     value={value}
                     openOnFocus={true}
-                    cache={false}
                     valueKey="id"
                     labelKey="name"
                     multi={this.props.multi}
@@ -237,13 +230,11 @@ export default class SelectSearch extends React.Component<SelectSearchProps, Sel
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     loadOptions={this.loadOptions}
-                    loadingPlaceholder={LOADING_PLACEHOLDER}
                     closeOnSelect={this.props.closeOnSelect}
                     ignoreCase={false}
                     ignoreAccents={false}
                     value={value}
                     openOnFocus={true}
-                    cache={false}
                     valueKey="id"
                     labelKey="name"
                     multi={this.props.multi}

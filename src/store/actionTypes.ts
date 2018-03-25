@@ -7,7 +7,7 @@ import Constants from './constants';
 import { Components, ContactFieldResult, SearchResult, CompletionOption } from './flowContext';
 
 // Redux action generic
-interface DuxAction<T, P> {
+interface DuxAction<T extends Constants, P extends { [key: string]: any }> {
     type: T;
     payload: P;
 }

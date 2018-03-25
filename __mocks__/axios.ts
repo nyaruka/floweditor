@@ -9,15 +9,10 @@ const fieldsResp = require('../assets/fields.json');
 
 const getEndpoint = (urlStr: string) => {
     const queryIdx = urlStr.indexOf('?');
-    if (queryIdx > -1) {
-        return {
-            endpoint: urlStr.slice(0, queryIdx),
-            containsQuery: true
-        };
-    }
+    const hasQuery = queryIdx > -1;
     return {
-        endpoint: urlStr,
-        containsQuery: false
+        endpoint: hasQuery ? urlStr.slice(0, queryIdx) : urlStr,
+        containsQuery: hasQuery ? true : false
     };
 };
 const containsUUIDQuery = (urlStr: string) => urlStr.indexOf('uuid=') > -1;

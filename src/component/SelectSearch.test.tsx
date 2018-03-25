@@ -1,10 +1,10 @@
 import axiosMock from 'axios';
 import * as React from 'react';
 import { FlowEditorConfig } from '../flowTypes';
-import { createSetup, Resp, restoreSpies, yieldToPromises } from '../testUtils';
+import { createSetup, Resp, restoreSpies, flushPromises } from '../testUtils';
 import { resultsToSearchOpts } from '../utils';
 import { GROUP_NOT_FOUND, GROUP_PLACEHOLDER } from './form/constants';
-import SelectSearch, { LOADING_PLACEHOLDER, SelectSearchProps } from './SelectSearch';
+import SelectSearch, { SelectSearchProps } from './SelectSearch';
 
 const { endpoints } = require('../../assets/config') as FlowEditorConfig;
 const groupsResp = require('../../assets/groups.json') as Resp;
@@ -33,7 +33,8 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             const SelectSearchInstance = wrapper.instance();
             const asyncSelect = wrapper.find('Async');
 
-            await yieldToPromises();
+            // Yielding here because SelectSearch.search is called when axios.get in SelectSearch.loadOptions resolves
+            await flushPromises();
 
             expect(selectRefSpy).toHaveBeenCalledTimes(1);
             expect(asyncSelect.props()).toEqual({
@@ -41,7 +42,8 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 name,
                 placeholder,
                 loadOptions: SelectSearchInstance.loadOptions,
-                loadingPlaceholder: LOADING_PLACEHOLDER,
+                loadingPlaceholder: 'Loading...',
+                cache: expect.any(Object),
                 closeOnSelect: undefined,
                 ignoreCase: false,
                 ignoreAccents: false,
@@ -49,7 +51,6 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 openOnFocus: true,
                 autoload: true,
                 children: expect.any(Function),
-                cache: false,
                 valueKey: 'id',
                 labelKey: 'name',
                 multi: undefined,
