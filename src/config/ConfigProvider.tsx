@@ -9,7 +9,6 @@ interface ConfigProviderProps {
 }
 
 export interface ConfigProviderContext {
-    assetHost: string;
     endpoints: Endpoints;
     languages: Languages;
 }
@@ -50,7 +49,6 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
 
     public getChildContext(): ConfigProviderContext {
         return {
-            assetHost: this.props.config.assetHost,
             languages: this.props.config.languages,
             endpoints: this.props.config.endpoints
         };

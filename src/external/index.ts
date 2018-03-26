@@ -9,26 +9,11 @@ export interface FlowDetails {
     dependencies: FlowDefinition[];
 }
 
-export type GetActivity = (
-    flowUUID: string,
-    activityEndpoint?: string,
-    headers?: {}
-) => Promise<Activity>;
-
-export type GetFlows = (
-    flowsEndpoint?: string,
-    headers?: {},
-    flowName?: string
-) => Promise<FlowDetails[]>;
-
-export type GetFlow = (
-    uuidToGet: string,
-    dependencies?: boolean,
-    flowsEndpoint?: string,
-    headers?: {}
-) => Promise<FlowDetails>;
-
-export type SaveFlow = (definition: FlowDefinition, flowsEndpoint?: string, headers?: {}) => void;
+// Set base url for Netlify deployments
+if (process.env.NODE_ENV === 'production') {
+    console.log('baseURL:', `${process.env.DEPLOY_PRIME_URL}/.netlify/functions/lambda`);
+    axios.defaults.baseURL = `${process.env.DEPLOY_PRIME_URL}/.netlify/functions/lambda`;
+}
 
 /** Configure axios to always send JSON requests */
 axios.defaults.headers.post['Content-Type'] = 'application/javascript';

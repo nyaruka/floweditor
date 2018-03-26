@@ -6,10 +6,11 @@ import 'raf/polyfill';
 import * as React from 'react';
 import { render } from 'react-dom';
 import { AppContainer as HotContainer } from 'react-hot-loader';
-import * as config from '../../assets/config';
 import FlowEditor from '../../src/';
 
 const root = document.getElementById('flow-editor');
+
+const config = require('../../assets/config.json');
 
 const renderHot = (App: React.SFC<{ config: object }>) =>
     render(
