@@ -1,5 +1,7 @@
 import { LocalizedObject } from '../services/Localization';
 import { SearchResult } from '../store';
+import { Language } from '../component/LanguageSelector';
+import { Languages } from '../flowTypes';
 
 const SNAKED_CHARS = /\s+(?=\S)/g;
 const GRID_SIZE = 20;
@@ -174,4 +176,24 @@ export const resultsToSearchOpts = ({ name, uuid, type }: any): SearchResult => 
     name,
     id: uuid,
     type
+});
+
+/**
+ * Get the first language in a Languages map
+ */
+export const getBaseLanguage = (languages: Languages): Language => {
+    const [iso] = Object.keys(languages);
+    const name = languages[iso];
+    return {
+        name,
+        iso
+    };
+};
+
+/**
+ * Get a language from a Languages map in Language format
+ */
+export const getLanguage = (languages: Languages, iso: string): Language => ({
+    name: languages[iso],
+    iso
 });

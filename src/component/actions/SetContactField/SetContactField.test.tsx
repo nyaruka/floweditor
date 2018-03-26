@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { SetContactField, FlowDefinition } from '../../../flowTypes';
 import { createSetup } from '../../../testUtils';
-import SetContactFieldComp from './SetContactField';
+import SetContactFieldComp, { getFieldNameMarkup, getClearPlaceholder } from './SetContactField';
+import { getUpdatePlaceholder } from './SetContactField';
 
 const {
     results: [{ definition }]
@@ -10,25 +11,29 @@ const { language: flowLanguage, nodes: [, , node] } = definition as FlowDefiniti
 const { actions: [setContactFieldAction] } = node;
 
 const setup = createSetup<SetContactField>(
-    setContactFieldAction as SetContactField,
-    null,
-    SetContactFieldComp
+    SetContactFieldComp,
+    setContactFieldAction as SetContactField
 );
 
 const COMPONENT_TO_TEST = SetContactFieldComp.name;
 
 describe(`${COMPONENT_TO_TEST}`, () => {
     describe('render', () => {
-        it(`should render ${COMPONENT_TO_TEST} with 'update...' div when value prop passed`, () => {
-            const { wrapper, props: { field_name, value } } = setup();
+        it(`should render ${COMPONENT_TO_TEST} with update placeholder when value prop passed`, () => {
+            const { wrapper, props: { field_name, value } } = setup({}, true);
 
-            expect(wrapper.text()).toBe(`Update ${field_name} to ${value}`);
+            expect(wrapper.find('div').length).toBe(1);
+            expect(
+                wrapper.containsMatchingElement(
+                    getUpdatePlaceholder(getFieldNameMarkup(field_name), value)
+                )
+            ).toBeTruthy();
         });
 
-        it(`should render ${COMPONENT_TO_TEST} with 'clear...' div when value prop isn't passed`, () => {
-            const { wrapper, props: { field_name } } = setup({ value: '' });
+        it(`should render ${COMPONENT_TO_TEST} with clear placeholder when value prop isn't passed`, () => {
+            const { wrapper, props: { field_name } } = setup({ value: '' }, true);
 
-            expect(wrapper.text()).toBe(`Clear value for ${field_name}`);
-        });
+            expect(wrapper.find('div').length).toBe(1);
+            expect(wrapper.containsMatchingElement(getClearPlaceholder(getFieldNameMarkup(field_name))).toBeTruthy
     });
 });

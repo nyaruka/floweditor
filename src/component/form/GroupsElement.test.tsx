@@ -23,7 +23,7 @@ const baseProps = {
     searchPromptText: GROUP_NOT_FOUND
 };
 
-const setup = createSetup<GroupsElementProps>(baseProps, null, GroupsElement);
+const setup = createSetup<GroupsElementProps>(GroupsElement, baseProps);
 
 const getGroupOptions = () =>
     groupsResp.map(({ name, uuid }) => ({
@@ -93,7 +93,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
     describe('render', () => {
         it('should render self, children with required props', () => {
-            const { wrapper, props: { name, endpoint } } = setup();
+            const { wrapper, props: { name, endpoint } } = setup({}, true);
             const GroupsElementInstance = wrapper.instance();
             const formElement = wrapper.find('FormElement');
 
@@ -114,7 +114,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         });
 
         it("should pass createOptions object if it's add prop is true", () => {
-            const { wrapper } = setup({ add: true });
+            const { wrapper } = setup({ add: true }, true);
             const selectSearch = wrapper.find('SelectSearch');
 
             expect(selectSearch.prop('isValidNewOption')).toEqual(expect.any(Function));
@@ -130,7 +130,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                     GroupsElement.prototype,
                     'componentWillReceiveProps'
                 );
-                const { wrapper } = setup();
+                const { wrapper } = setup({}, true);
                 const nextProps = { ...baseProps, add: true };
 
                 wrapper.setProps(nextProps);
@@ -144,7 +144,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             it(`should call ${COMPONENT_TO_TEST}.prototype.setState if ${COMPONENT_TO_TEST} receives new groups through props`, () => {
                 const setStateSpy = jest.spyOn(GroupsElement.prototype, 'setState');
                 const groups = getGroups(2);
-                const { wrapper } = setup({ groups });
+                const { wrapper } = setup({ groups }, true);
                 const newGroups = getGroups(3);
                 const nextProps = { ...baseProps, groups: newGroups };
 
@@ -163,7 +163,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             it('should update state when called', () => {
                 const setStateSpy = jest.spyOn(GroupsElement.prototype, 'setState');
                 const groups = getGroups(3);
-                const { wrapper, props: { onChange } } = setup();
+                const { wrapper, props: { onChange } } = setup({}, true);
                 const GroupsElementInstance = wrapper.instance();
 
                 GroupsElementInstance.onChange(groups);
@@ -174,7 +174,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             it("should call 'onChange' prop if passed", () => {
                 const groups = getGroups(3);
                 const onChangeMock = jest.fn();
-                const { wrapper } = setup({ onChange: onChangeMock });
+                const { wrapper } = setup({ onChange: onChangeMock }, true);
                 const GroupsElementInstance = wrapper.instance();
 
                 GroupsElementInstance.onChange(groups);
@@ -186,7 +186,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
         describe('validate', () => {
             it(`should return false, update errors state if ${COMPONENT_TO_TEST} isn't valid`, () => {
-                const { wrapper, props: { name } } = setup({ required: true });
+                const { wrapper, props: { name } } = setup({ required: true }, true);
                 const GroupsElementInstance = wrapper.instance();
 
                 expect(GroupsElementInstance.validate()).toBeFalsy();
@@ -195,7 +195,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
             it(`should return true if ${COMPONENT_TO_TEST} is valid`, () => {
                 const groups = getGroups(2);
-                const { wrapper, props: { name } } = setup({ required: true });
+                const { wrapper, props: { name } } = setup({ required: true }, true);
                 const GroupsElementInstance = wrapper.instance();
 
                 expect(GroupsElementInstance.onChange(groups));

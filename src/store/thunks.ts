@@ -1050,7 +1050,7 @@ export const onAddAction = (node: Node, languages: Languages) => (
 
     const localizations = [];
     if (translating) {
-        const translations = getTranslations(definition, language);
+        const translations = getTranslations(definition, language.iso);
         localizations.push(
             // prettier-ignore
             ...getLocalizations(
@@ -1174,7 +1174,7 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
         // prettier-ignore
         const translations = getTranslations(
             definition,
-            language
+            language.iso
         );
 
         localizations.push(

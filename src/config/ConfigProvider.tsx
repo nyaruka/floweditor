@@ -12,6 +12,7 @@ export interface ConfigProviderContext {
     assetHost: string;
     endpoints: Endpoints;
     languages: Languages;
+    flow: string;
 }
 
 // Prop-type definitions (required by React's context API: https://reactjs.org/docs/context.html)
@@ -25,6 +26,7 @@ export const endpointsPT = shape({
     activity: string
 });
 export const languagesPT = objectOf(string);
+export const flowPT = string;
 // ----------------------------------------------------------------------------------------------
 
 export const SINGLE_CHILD_ERROR = 'ConfigProvider expects only one child component.';
@@ -35,7 +37,8 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
     public static childContextTypes = {
         assetHost: assetHostPT,
         endpoints: endpointsPT,
-        languages: languagesPT
+        languages: languagesPT,
+        flow: flowPT
     };
 
     constructor(props: ConfigProviderProps) {
@@ -52,7 +55,8 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
         return {
             assetHost: this.props.config.assetHost,
             languages: this.props.config.languages,
-            endpoints: this.props.config.endpoints
+            endpoints: this.props.config.endpoints,
+            flow: this.props.config.flow
         };
     }
 

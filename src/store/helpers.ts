@@ -113,9 +113,9 @@ export const collides = (a: Bounds, b: Bounds) =>
 /**
  * Computes translations prop for `Node` components in render()
  */
-export const getTranslations = (definition: FlowDefinition, language: Language) => {
+export const getTranslations = (definition: FlowDefinition, iso: string) => {
     if (definition.localization) {
-        return definition.localization[language.iso];
+        return definition.localization[iso];
     }
     return null;
 };

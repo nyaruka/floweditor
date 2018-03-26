@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`utils > titleCase > should apply title case to each word in a given string 1`] = `"One"`;
+exports[`utils titleCase should apply title case to each word in a given string 1`] = `"One"`;
 
-exports[`utils > titleCase > should apply title case to each word in a given string 2`] = `"One Two"`;
+exports[`utils titleCase should apply title case to each word in a given string 2`] = `"One Two"`;
 
-exports[`utils > titleCase > should apply title case to each word in a given string 3`] = `"One Two Three"`;
+exports[`utils titleCase should apply title case to each word in a given string 3`] = `"One Two Three"`;
 
-exports[`utils > titleCase > should apply title case to each word in a given string 4`] = `"One,Two"`;
+exports[`utils titleCase should apply title case to each word in a given string 4`] = `"One,Two"`;
 
-exports[`utils > titleCase > should apply title case to each word in a given string 5`] = `"One, Two"`;
+exports[`utils titleCase should apply title case to each word in a given string 5`] = `"One, Two"`;

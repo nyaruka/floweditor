@@ -1,25 +1,27 @@
-import * as classNames from 'classnames/bind';
-import * as React from 'react';
-import * as shallowCompare from 'react-addons-shallow-compare';
-import * as FlipMove from 'react-flip-move';
-import * as isEqual from 'fast-deep-equal';
 import { react as bindCallbacks } from 'auto-bind';
+import * as classNames from 'classnames/bind';
+import * as isEqual from 'fast-deep-equal';
+import * as React from 'react';
+import * as FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Config, getTypeConfig } from '../config';
-import { AnyAction, FlowDefinition, Languages, Node, SwitchRouter, UINode } from '../flowTypes';
+import { ConfigProviderContext, getTypeConfig, languagesPT } from '../config';
+import { AnyAction, FlowDefinition, Node, SwitchRouter, UINode } from '../flowTypes';
+import ActivityManager from '../services/ActivityManager';
+import Localization, { LocalizedObject } from '../services/Localization';
+import { DragEvent } from '../services/Plumber';
 import {
+    AppState,
     DispatchWithState,
     getTranslations,
     onAddAction,
     OnAddAction,
-    onNodeBeforeDrag,
     OnNodeBeforeDrag,
+    onNodeBeforeDrag,
     OnNodeMoved,
     onNodeMoved,
-    onOpenNodeEditor,
     OnOpenNodeEditor,
-    AppState,
+    onOpenNodeEditor,
     RemoveNode,
     removeNode,
     ResolvePendingConnection,
@@ -27,14 +29,11 @@ import {
     UpdateDimensions,
     updateDimensions,
     UpdateDragGroup,
+    updateDragGroup,
     updateNodeDragging,
     UpdateNodeDragging
 } from '../store';
-import { updateDragGroup } from '../store';
-import ActivityManager from '../services/ActivityManager';
-import Localization, { LocalizedObject } from '../services/Localization';
-import { DragEvent } from '../services/Plumber';
-import { snapToGrid, titleCase, createClickHandler, ClickHandler } from '../utils';
+import { ClickHandler, createClickHandler, snapToGrid, titleCase } from '../utils';
 import ActionWrapper from './actions/Action';
 import CounterComp from './Counter';
 import ExitComp from './Exit';
@@ -50,7 +49,7 @@ export interface DragPoint {
     onResolved?(canceled: boolean): void;
 }
 
-export interface NodeContainerProps {
+export interface NodePassedProps {
     node: Node;
     ui: UINode;
     Activity: ActivityManager;
@@ -68,7 +67,6 @@ export interface NodeContainerProps {
 }
 
 export interface NodeStoreProps {
-    languages: Languages;
     language: Language;
     translating: boolean;
     definition: FlowDefinition;
@@ -84,52 +82,13 @@ export interface NodeStoreProps {
     updateDragGroup: UpdateDragGroup;
 }
 
-export type NodeProps = NodeContainerProps & NodeStoreProps;
+export type NodeProps = NodePassedProps & NodeStoreProps;
 
 export interface NodeState {
     thisNodeDragging: boolean;
 }
 
 const cx = classNames.bind({ ...shared, ...styles });
-
-const NodeContainer: React.SFC<NodeContainerProps> = ({
-    node,
-    ui,
-    ghost,
-    ghostRef,
-    Activity,
-    plumberRepaintForDuration,
-    plumberDraggable,
-    plumberMakeTarget,
-    plumberRemove,
-    plumberRecalculate,
-    plumberMakeSource,
-    plumberConnectExit,
-    plumberSetDragSelection,
-    plumberClearDragSelection
-}) => (
-    <Config
-        render={({ languages }) => (
-            <ConnectedNode
-                ref={ghostRef}
-                node={node}
-                ui={ui}
-                ghost={ghost}
-                languages={languages}
-                Activity={Activity}
-                plumberRepaintForDuration={plumberRepaintForDuration}
-                plumberDraggable={plumberDraggable}
-                plumberMakeTarget={plumberMakeTarget}
-                plumberRemove={plumberRemove}
-                plumberRecalculate={plumberRecalculate}
-                plumberMakeSource={plumberMakeSource}
-                plumberConnectExit={plumberConnectExit}
-                plumberSetDragSelection={plumberSetDragSelection}
-                plumberClearDragSelection={plumberClearDragSelection}
-            />
-        )}
-    />
-);
 
 /**
  * A single node in the rendered flow
@@ -140,8 +99,12 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     private clicking: boolean;
     private events: ClickHandler;
 
-    constructor(props: NodeProps) {
-        super(props);
+    public static contextTypes = {
+        languages: languagesPT
+    };
+
+    constructor(props: NodeProps, context: ConfigProviderContext) {
+        super(props, context);
 
         this.state = { thisNodeDragging: false };
 
@@ -255,7 +218,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     private onAddAction(): void {
-        this.props.onAddAction(this.props.node, this.props.languages);
+        this.props.onAddAction(this.props.node, this.context.languages);
     }
 
     private onDragStart(event: any): boolean {
@@ -313,7 +276,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             this.props.onOpenNodeEditor(
             this.props.node,
             null,
-            this.props.languages
+            this.context.languages
         );
         }
     }
@@ -337,11 +300,11 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     private getExits(): JSX.Element[] {
         if (this.props.node.exits) {
             return this.props.node.exits.map(exit => {
-                const translations = getTranslations(this.props.definition, this.props.language);
+                const translations = getTranslations(this.props.definition, this.props.language.iso);
                 const localization: LocalizedObject = Localization.translate(
                     exit,
                     this.props.language.iso,
-                    this.props.languages,
+                    this.context.languages,
                     translations
                 );
                 return (
@@ -393,13 +356,13 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
                     const translations = getTranslations(
                         this.props.definition,
-                        this.props.language
+                        this.props.language.iso
                     );
 
                     const localization = Localization.translate(
                         action,
                         this.props.language.iso,
-                        this.props.languages,
+                        this.context.languages,
                         translations
                     );
 
@@ -564,14 +527,4 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
         dispatch
     );
 
-// prettier-ignore
-const ConnectedNode = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-    null,
-    { withRef: true }
-)(
-    NodeComp
-);
-
-export default NodeContainer;
+export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(NodeComp);

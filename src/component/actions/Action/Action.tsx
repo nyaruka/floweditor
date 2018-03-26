@@ -1,11 +1,11 @@
+import { react as bindCallbacks } from 'auto-bind';
 import * as classNames from 'classnames/bind';
 import * as React from 'react';
-import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getTypeConfig, languagesPT } from '../../../config';
 import { ConfigProviderContext } from '../../../config/ConfigProvider';
-import { AnyAction, FlowDefinition, Node } from '../../../flowTypes';
+import { AnyAction, Node } from '../../../flowTypes';
 import { LocalizedObject } from '../../../services/Localization';
 import {
     ActionAC,
@@ -14,7 +14,7 @@ import {
     moveActionUp,
     OnOpenNodeEditor,
     onOpenNodeEditor,
-    removeAction
+    removeAction,
 } from '../../../store';
 import { createClickHandler } from '../../../utils';
 import { Language } from '../../LanguageSelector';
@@ -34,7 +34,6 @@ export interface ActionWrapperStoreProps {
     node: Node;
     language: Language;
     translating: boolean;
-    definition: FlowDefinition;
     onOpenNodeEditor: OnOpenNodeEditor;
     removeAction: ActionAC;
     moveActionUp: ActionAC;
@@ -64,20 +63,17 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         if (!this.props.thisNodeDragging) {
             event.preventDefault();
             event.stopPropagation();
-            const ui = this.props.definition._ui.nodes[this.props.node.uuid];
             this.props.onOpenNodeEditor(this.props.node, this.props.action, this.context.languages);
         }
     }
 
     private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
-
         this.props.removeAction(this.props.action);
     }
 
     private onMoveUp(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
-
         this.props.moveActionUp(this.props.action);
     }
 
@@ -122,7 +118,6 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         const titleBarClass = shared[this.props.action.type];
         const showRemoval = !this.props.translating;
         const showMove = !this.props.first && !this.props.translating;
-
         return (
             <div id={`action-${this.props.action.uuid}`} className={classes}>
                 <div className={styles.overlay} />
@@ -143,12 +138,10 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 }
 
 const mapStateToProps = ({
-    flowContext: { definition },
     flowEditor: { editorUI: { language, translating } }
 }: AppState) => ({
     language,
     translating,
-    definition
 });
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>

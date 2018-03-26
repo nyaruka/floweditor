@@ -1,7 +1,13 @@
 import * as React from 'react';
 import { ChangeGroups, FlowDefinition } from '../../../flowTypes';
 import { createSetup, getSpecWrapper } from '../../../testUtils';
-import ChangeGroupsComp from './ChangeGroups';
+import { removeAllSpecId, getRemoveAllMarkup } from './ChangeGroups';
+import ChangeGroupsComp, {
+    contentSpecId,
+    ellipses,
+    getContentMarkup,
+    removeAllSpecId
+} from './ChangeGroups';
 
 const {
     results: [{ definition }]
@@ -11,31 +17,32 @@ const { results: groups } = require('../../../../assets/groups.json');
 const { nodes: [node], language: flowLanguage } = definition as FlowDefinition;
 const { actions: [, addToGroupsAction] } = node;
 
-const setup = createSetup<ChangeGroups>(addToGroupsAction as ChangeGroups, null, ChangeGroupsComp);
+const setup = createSetup<ChangeGroups>(ChangeGroupsComp, addToGroupsAction as ChangeGroups);
 
 const COMPONENT_TO_TEST = ChangeGroupsComp.name;
 
 describe(`${COMPONENT_TO_TEST}`, () => {
     describe('render', () => {
-        it(`should render ${COMPONENT_TO_TEST} with group name`, () => {
-            const { wrapper, props: { groups: [{ name: groupName }] } } = setup();
+        it('should render group name', () => {
+            const { wrapper, props } = setup({}, true);
 
-            expect(wrapper.text()).toBe(groupName);
+            expect(props.groups.length === 1).toBeTruthy();
+            expect(wrapper.html().indexOf(props.groups[0].name)).toBeTruthy();
         });
 
         it('should limit div to 3 groups, include ellipses', () => {
-            const { wrapper } = setup({ groups });
-            const content = getSpecWrapper(wrapper, 'content');
+            const { wrapper } = setup({ groups }, true);
+            const content = getSpecWrapper(wrapper, contentSpecId);
 
             expect(content.children().length).toBe(4);
-            expect(content.childAt(3).text()).toBe('...');
+            expect(content.childAt(3).text()).toBe(ellipses);
         });
 
-        it("should render 'remove from all' div when passed group action of type 'remove_contact_groups'", () => {
-            const { wrapper } = setup({ groups: [], type: 'remove_contact_groups' });
-            const removeAll = getSpecWrapper(wrapper, 'remove-all');
+        it("should render 'remove from all' markup when passed group action of type 'remove_contact_groups'", () => {
+            const { wrapper, props } = setup({ groups: [], type: 'remove_contact_groups' }, true);
 
-            expect(removeAll.text()).toBe('Remove from all groups');
+            expect(wrapper.children().length).toBe(1);
+            expect(wrapper.containsMatchingElement(getRemoveAllMarkup())).toBeTruthy();
         });
     });
 });

@@ -13,6 +13,10 @@ const groupsResp = require('../../../assets/groups.json') as Resp;
 const definition = colorsFlowResp.results[0].definition as FlowDefinition;
 const { nodes: [sendMsgNode, , , , , groupsRouterNode] } = definition;
 
+const context = {
+    endpoints: config.endpoints
+};
+
 const baseProps = {
     translating: false,
     localGroups: [],
@@ -25,11 +29,9 @@ const baseProps = {
 };
 
 const setup = createSetup<GroupsRouterProps, ConfigProviderContext>(
+    GroupsRouter,
     baseProps,
-    {
-        endpoints: config.endpoints
-    },
-    GroupsRouter
+    context
 );
 
 const COMPONENT_TO_TEST = GroupsRouter.name;
@@ -88,7 +90,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             const { wrapper } = setup({
                 translating: true,
                 getExitTranslations: getExitTranslationsMock
-            });
+            }, true);
 
             expect(getExitTranslationsMock).toHaveBeenCalledTimes(1);
         });
@@ -100,7 +102,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 const updateRouterMock = jest.fn();
                 const { wrapper } = setup({
                     updateRouter: updateRouterMock
-                });
+                }, true);
                 const GroupsRouterInstance = wrapper.instance();
                 const widgets = { Groups: '' };
 
@@ -115,7 +117,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                     translating: true,
                     saveLocalizations: saveLocalizationsMock,
                     getExitTranslations: getExitTranslationsMock
-                });
+                }, true);
                 const GroupsRouterInstance = wrapper.instance();
                 const widgets = { Groups: '' };
 

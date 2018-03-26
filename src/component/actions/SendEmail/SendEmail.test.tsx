@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { SendEmail, FlowDefinition } from '../../../flowTypes';
-import { createSetup } from '../../../testUtils';
+import { FlowDefinition, SendEmail } from '../../../flowTypes';
+import { createSetup, Resp } from '../../../testUtils';
 import SendEmailComp from './SendEmail';
 
 const {
     results: [{ definition }]
-} = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
+} = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json') as Resp;
 const { language: flowLanguage, nodes: [, , , , node] } = definition as FlowDefinition;
 const { actions: [, sendEmailAction] } = node;
 
-const setup = createSetup<SendEmail>(sendEmailAction as SendEmail, null, SendEmailComp);
+const setup = createSetup<SendEmail>(SendEmailComp, sendEmailAction as SendEmail);
 
 const COMPONENT_TO_TEST = SendEmailComp.name;
 
