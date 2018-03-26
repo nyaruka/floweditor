@@ -3,7 +3,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import axios, { AxiosResponse } from 'axios';
 import { Async, AsyncCreatable, AutocompleteResult } from 'react-select';
 import { SearchResult } from '../store';
-import { jsonEqual } from '../utils';
+import { jsonEqual, resultsToSearchOpts } from '../utils';
 
 export interface SelectSearchProps {
     url: string;
@@ -15,7 +15,7 @@ export interface SelectSearchProps {
     closeOnSelect?: boolean;
     initial?: SearchResult[];
     localSearchOptions?: SearchResult[];
-    className?: string;
+    _className?: string;
     createPrompt?: string;
     onChange?: (selections: SearchResult | SearchResult[]) => void;
     isValidNewOption?: (option: { label: string }) => boolean;
@@ -36,7 +36,7 @@ export default class SelectSearch extends React.PureComponent<
         super(props);
 
         this.state = {
-            selections: props.initial
+            selections: props.initial || []
         };
 
         bindCallbacks(this, {
@@ -44,7 +44,7 @@ export default class SelectSearch extends React.PureComponent<
         });
     }
 
-    private selectRef(ref: HTMLInputElement): HTMLInputElement {
+    public selectRef(ref: HTMLInputElement): HTMLInputElement {
         return (this.select = ref);
     }
 
@@ -79,7 +79,7 @@ export default class SelectSearch extends React.PureComponent<
         return newResults;
     }
 
-    private search(term: string, remoteResults: SearchResult[] = []): AutocompleteResult {
+    public search(term: string, remoteResults: SearchResult[] = []): AutocompleteResult {
         let combined = [...remoteResults];
 
         if (this.props.localSearchOptions) {
@@ -99,7 +99,7 @@ export default class SelectSearch extends React.PureComponent<
         return results;
     }
 
-    private loadOptions(input: string, callback: Function): void {
+    public loadOptions(input: string, callback: Function): void {
         if (!this.props.url) {
             callback(this.search(input));
         } else {
@@ -200,7 +200,7 @@ export default class SelectSearch extends React.PureComponent<
             return (
                 <AsyncCreatable
                     ref={this.selectRef}
-                    className={this.props.className}
+                    className={this.props._className}
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     loadOptions={this.loadOptions}
@@ -226,7 +226,7 @@ export default class SelectSearch extends React.PureComponent<
             return (
                 <Async
                     ref={this.selectRef}
-                    className={this.props.className}
+                    className={this.props._className}
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     loadOptions={this.loadOptions}

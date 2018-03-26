@@ -10,7 +10,8 @@ import CaseElement, {
     strContainsNum,
     parseNum
 } from './CaseElement';
-import { getSpecWrapper, titleCase } from '../../utils';
+import { titleCase } from '../../utils';
+import { getSpecWrapper } from '../../testUtils';
 import { object } from 'prop-types';
 import { getTypeConfig, operatorConfigList, getOperatorConfig } from '../../config';
 

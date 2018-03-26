@@ -1,6 +1,5 @@
-import { ReactWrapper, ShallowWrapper } from 'enzyme';
-import { ComponentClass, ReactElement, SFC } from 'react';
 import { LocalizedObject } from '../services/Localization';
+import { SearchResult } from '../store';
 
 const SNAKED_CHARS = /\s+(?=\S)/g;
 const GRID_SIZE = 20;
@@ -76,32 +75,6 @@ export const snakify = (value: string): string =>
         .toLowerCase()
         .trim()
         .replace(SNAKED_CHARS, '_');
-
-/**
- * Returns a React component's name so we can attach it to a HOC's displayName property and view it in RDT
- * @param {ComponentClass | SFC} Component - A React component
- * @returns {string} The component's name
- */
-export const getDisplayName = (WrappedComponent: ComponentClass | SFC): string =>
-    WrappedComponent.displayName || WrappedComponent.name || 'Component';
-
-/**
- * NOTE: borrowed from EventBrite: https://github.com/eventbrite/javascript/blob/master/react/testing.md#finding-nodes
- * Finds all instances of components in the rendered `componentWrapper` that are DOM components
- * with the `data-spec` attribute matching `name`.
- * @param {ReactWrapper|ShallowWrapper} componentWrapper - Rendered componentWrapper (result of mount, shallow, or render)
- * @param  {string} snacName - Name of `data-spec` attribute value to find
- * @param {string|Function} (Optional) typeFilter - (Optional) Expected type of the wrappers (defaults to all HTML tags)
- * @returns {ReactWrapper|ReactWrapper[]|ShallowWrapper|ShallowWrapper[]} Matching DOM components
- */
-export const getSpecWrapper = (
-    componentWrapper: ReactWrapper<{}, {}> | ShallowWrapper<{}, {}>,
-    specName: string,
-    attributeName: string = 'data-spec'
-): any => {
-    return componentWrapper.find(`[${attributeName}="${specName}"]`);
-};
-
 /**
  * Returns true if a given UUID matches v4 format
  * @param {string} uuid - A version 4 UUID (no braces, uppercase OK)
@@ -191,3 +164,14 @@ export const createClickHandler = (
         }
     };
 };
+
+/**
+ * Callback to pass to Array.prototype.map to return SearchResult[].
+ * Use on 'results' property of payload returned from an endpoint returning
+ * groups, fields.
+ */
+export const resultsToSearchOpts = ({ name, uuid, type }: any): SearchResult => ({
+    name,
+    id: uuid,
+    type
+});

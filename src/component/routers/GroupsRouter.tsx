@@ -7,11 +7,11 @@ import GroupsElement, { GroupsElementProps } from '../form/GroupsElement';
 import { GetResultNameField } from '../NodeEditor';
 import { hasSwitchRouter, hasWait, SaveLocalizations } from '../NodeEditor/NodeEditor';
 import { GROUP_LABEL } from './constants';
-import { instructions } from './SwitchRouter.scss';
+import * as styles from './SwitchRouter.scss';
 
 export interface GroupsRouterStoreProps {
     translating: boolean;
-    groups: SearchResult[];
+    localGroups: SearchResult[];
     nodeToEdit: Node;
 }
 
@@ -27,19 +27,20 @@ export type GroupsRouterProps = GroupsRouterStoreProps & GroupsRouterPassedProps
 
 export const extractGroups = ({ exits, router }: Node): SearchResult[] =>
     (router as SwitchRouter).cases.map(kase => {
-        const resultName = exits.reduce((result, { name, uuid }) => {
+        let resultName = '';
+        for (const { name, uuid } of exits) {
             if (uuid === kase.exit_uuid) {
-                result += name;
+                resultName += name;
+                break;
             }
-            return result;
-        }, '');
+        }
         return { name: resultName, id: kase.arguments[0] };
     });
 
-export const groupSplitExistsAtNode = (node: Node) =>
+export const hasGroupsRouter = (node: Node) =>
     hasSwitchRouter(node) && hasWait(node, WaitType.group);
 
-export class GroupsRouter extends React.PureComponent<GroupsRouterProps> {
+export class GroupsRouter extends React.Component<GroupsRouterProps> {
     public static contextTypes = {
         endpoints: endpointsPT
     };
@@ -58,10 +59,10 @@ export class GroupsRouter extends React.PureComponent<GroupsRouterProps> {
         }
 
         const groupProps: Partial<GroupsElementProps> = {
-            localGroups: this.props.groups
+            localGroups: this.props.localGroups
         };
 
-        if (groupSplitExistsAtNode(this.props.nodeToEdit)) {
+        if (hasGroupsRouter(this.props.nodeToEdit)) {
             groupProps.groups = extractGroups(this.props.nodeToEdit);
         }
 
@@ -69,11 +70,11 @@ export class GroupsRouter extends React.PureComponent<GroupsRouterProps> {
 
         return (
             <React.Fragment>
-                <div className={instructions}>
+                <div className={styles.instructions}>
                     <p>{GROUP_LABEL}</p>
                     <GroupsElement
                         ref={this.props.onBindWidget}
-                        name="Group"
+                        name="Groups"
                         endpoint={this.context.endpoints.groups}
                         add={false}
                         required={true}
@@ -87,12 +88,12 @@ export class GroupsRouter extends React.PureComponent<GroupsRouterProps> {
 }
 
 const mapStateToProps = ({
-    flowContext: { groups },
+    flowContext: { groups: localGroups },
     flowEditor: { editorUI: { translating } },
     nodeEditor: { nodeToEdit }
 }: AppState) => ({
     translating,
-    groups,
+    localGroups,
     nodeToEdit
 });
 

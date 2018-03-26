@@ -64,7 +64,7 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <SelectSearch
-                    className={className}
+                    _className={className}
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}

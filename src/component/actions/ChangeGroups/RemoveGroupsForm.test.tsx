@@ -9,7 +9,7 @@ import {
     REMOVE_FROM_ALL_DESC,
     RemoveGroupsForm
 } from './RemoveGroupsForm';
-import { getSpecWrapper } from '../../../utils';
+import { getSpecWrapper } from '../../../testUtils';
 import { Group } from '../../../flowTypes';
 import { getTypeConfig } from '../../../config';
 
@@ -111,7 +111,7 @@ describe('RemoveGroupsForm >', () => {
             );
 
             expect(wrapper.find('GroupsElement').props()).toEqual({
-                name: 'Group',
+                name: 'Groups',
                 placeholder: PLACEHOLDER,
                 endpoint: endpoints.groups,
                 groups: groupOptions,
@@ -136,7 +136,7 @@ describe('RemoveGroupsForm >', () => {
             );
 
             expect(wrapper.find('GroupsElement').props()).toEqual({
-                name: 'Group',
+                name: 'Groups',
                 placeholder: PLACEHOLDER,
                 endpoint: endpoints.groups,
                 groups: [],

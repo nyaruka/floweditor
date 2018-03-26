@@ -76,7 +76,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
                 <p>{LABEL}</p>
                 <GroupsElement
                     ref={this.props.onBindWidget}
-                    name="Group"
+                    name="Groups"
                     placeholder={PLACEHOLDER}
                     endpoint={this.context.endpoints.groups}
                     groups={this.state.groups}

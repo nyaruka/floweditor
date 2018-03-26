@@ -81,7 +81,7 @@ describe('AddGroupsForm >', () => {
 
             expect(wrapper.find('GroupsElement').props()).toEqual(
                 expect.objectContaining({
-                    name: 'Group',
+                    name: 'Groups',
                     placeholder: PLACEHOLDER,
                     endpoint: endpoints.groups,
                     groups: groupOptions,
@@ -107,7 +107,7 @@ describe('AddGroupsForm >', () => {
 
             expect(wrapper.find('GroupsElement').props()).toEqual(
                 expect.objectContaining({
-                    name: 'Group',
+                    name: 'Groups',
                     placeholder: PLACEHOLDER,
                     endpoint: endpoints.groups,
                     groups: [],
@@ -133,7 +133,7 @@ describe('AddGroupsForm >', () => {
 
             expect(wrapper.find('GroupsElement').props()).toEqual(
                 expect.objectContaining({
-                    name: 'Group',
+                    name: 'Groups',
                     placeholder: PLACEHOLDER,
                     endpoint: endpoints.groups,
                     groups: [],

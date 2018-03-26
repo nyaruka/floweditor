@@ -1,3 +1,4 @@
+import { v4 as generateUUID } from 'uuid';
 import { Language } from '../component/LanguageSelector';
 import { DragPoint } from '../component/Node';
 import {
@@ -6,11 +7,12 @@ import {
     Languages,
     Node,
     SwitchRouter,
-    Exit,
-    UIMetaData
+    UIMetaData,
+    UINode,
+    WaitType
 } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
-import { SearchResult, ContactFieldResult, Components } from './flowContext';
+import { Components, ContactFieldResult, SearchResult } from './flowContext';
 import { PendingConnections } from './flowEditor';
 
 export interface Bounds {
@@ -279,4 +281,38 @@ export const getCollisions = (nodes: Node[], ui: UIMetaData, nodeSpacing: number
     }
 
     return updatedNodes;
+};
+
+export const getGhostNode = (fromNode: Node, fromNodeUI: UINode, definition: FlowDefinition) => {
+    const ghostNode: Node = {
+        uuid: generateUUID(),
+        actions: [],
+        exits: [
+            {
+                uuid: generateUUID(),
+                destination_node_uuid: null
+            }
+        ]
+    };
+
+    // Add an action if we are coming from a split
+    if (fromNode.wait || fromNodeUI.type === 'webhook') {
+        const replyAction = {
+            uuid: generateUUID(),
+            type: 'send_msg',
+            text: ''
+        };
+
+        ghostNode.actions.push(replyAction);
+    } else {
+        // Otherwise we are going to a switch
+        ghostNode.exits[0].name = 'All Responses';
+        ghostNode.wait = { type: WaitType.msg };
+        ghostNode.router = {
+            type: 'switch',
+            result_name: getSuggestedResultName(definition.nodes)
+        };
+    }
+
+    return ghostNode;
 };

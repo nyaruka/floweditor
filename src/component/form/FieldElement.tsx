@@ -111,7 +111,7 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
                 errors={this.state.errors}
                 fieldError={fieldError}>
                 <SelectSearch
-                    className={className}
+                    _className={className}
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}

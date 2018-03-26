@@ -9,28 +9,7 @@ export interface FlowDetails {
     dependencies: FlowDefinition[];
 }
 
-export type GetActivity = (
-    flowUUID: string,
-    activityEndpoint?: string,
-    headers?: {}
-) => Promise<Activity>;
-
-export type GetFlows = (
-    flowsEndpoint?: string,
-    headers?: {},
-    flowName?: string
-) => Promise<FlowDetails[]>;
-
-export type GetFlow = (
-    uuidToGet: string,
-    dependencies?: boolean,
-    flowsEndpoint?: string,
-    headers?: {}
-) => Promise<FlowDetails>;
-
-export type SaveFlow = (definition: FlowDefinition, flowsEndpoint?: string, headers?: {}) => void;
-
-/** Configure axios to always send JSON requests */
+// Configure axios to always send JSON requests
 axios.defaults.headers.post['Content-Type'] = 'application/javascript';
 axios.defaults.responseType = 'json';
 

@@ -6,13 +6,13 @@ const SetContactFieldComp: React.SFC<SetContactField> = ({ value, field_name }):
 
     if (value) {
         return (
-            <>
+            <div>
                 Update {fieldName} to {value}
-            </>
+            </div>
         );
     }
 
-    return <>Clear value for {fieldName}</>;
+    return <div>Clear value for {fieldName}</div>;
 };
 
 export default SetContactFieldComp;

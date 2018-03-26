@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { StartFlow } from '../../../flowTypes';
-
-import { startFlow } from './StartFlow.scss';
+import * as styles from './StartFlow.scss';
 
 const StartFlowComp: React.SFC<StartFlow> = ({ flow_name }): JSX.Element => (
-    <div className={startFlow}>{flow_name}</div>
+    <div className={styles.startFlow}>{flow_name}</div>
 );
 
 export default StartFlowComp;

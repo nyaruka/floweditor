@@ -19,10 +19,10 @@
     "build:dev": "webpack --config webpack/webpack.config.js --env.NODE_ENV=dev",
     "build:prev": "webpack --config webpack/webpack.config.js --env.NODE_ENV=prev",
     "build:prod": "webpack --config webpack/webpack.config.js --env.NODE_ENV=prod",
-    "bundleStats:dev": "webpack --env.NODE_ENV=dev --profile --json > stats.json",
-    "bundleStats:dev:windows": "webpack --env.NODE_ENV=dev --profile --json | Out-file 'stats.json' -Encoding OEM",
-    "bundleStats:prod": "webpack --env.NODE_ENV=prod --profile --json > stats.json",
-    "bundleStats:prod:windows": "webpack --env.NODE_ENV=prod --profile --json | Out-file 'stats.json' -Encoding OEM",
+    "bundleStats:dev": "webpack --config webpack/webpack.config.js --env.NODE_ENV=dev --profile --json > stats.json",
+    "bundleStats:dev:windows": "webpack --config webpack/webpack.config.js --env.NODE_ENV=dev --profile --json | Out-file 'stats.json' -Encoding OEM",
+    "bundleStats:prod": "webpack --config webpack/webpack.config.js --env.NODE_ENV=prod --profile --json > stats.json",
+    "bundleStats:prod:windows": "webpack --config webpack/webpack.config.js --env.NODE_ENV=prod --profile --json | Out-file 'stats.json' -Encoding OEM",
     "analyze": "webpack-bundle-analyzer stats.json ./dist -m 'server'",
     "runAnalyzer:dev": "npm run bundleStats:dev && npm run analyze",
     "runAnalyzer:dev:windows": "npm run bundleStats:dev:windows && npm run analyze",
@@ -35,8 +35,11 @@
     "postversion": "git push && git push --tags && npm publish",
     "precommit": "lint-staged"
   },
-  "lint-staged": { 
-    "*.{ts,tsx,js,json,css,md}": [ "prettier --write", "git add" ] 
+  "lint-staged": {
+    "*.{ts,tsx,js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "peerDependencies": {
     "react": "^16.0",
@@ -100,7 +103,6 @@
     "jsplumb": "2.6.7",
     "lint-staged": "7.0.0",
     "local-storage": "1.4.2",
-    "nock": "9.0.28",
     "node-sass": "4.7.2",
     "npm": "5.6.0",
     "postcss-loader": "2.0.9",

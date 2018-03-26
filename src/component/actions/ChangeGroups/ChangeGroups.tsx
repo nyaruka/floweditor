@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ChangeGroups } from '../../../flowTypes';
 
-const changeGroupMarkup = ({ type, groups }: ChangeGroups): JSX.Element[] => {
+const getMarkup = ({ type, groups }: ChangeGroups): JSX.Element[] => {
     const content: JSX.Element[] = [];
 
     if (type === 'remove_contact_groups' && !groups.length) {
@@ -30,7 +30,7 @@ const changeGroupMarkup = ({ type, groups }: ChangeGroups): JSX.Element[] => {
 };
 
 const ChangeGroupComp: React.SFC<ChangeGroups> = (props): JSX.Element => {
-    const content: JSX.Element[] = changeGroupMarkup(props);
+    const content: JSX.Element[] = getMarkup(props);
     return <div data-spec="content">{content}</div>;
 };
 
