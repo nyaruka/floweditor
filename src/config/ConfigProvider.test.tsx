@@ -2,20 +2,18 @@ import * as React from 'react';
 import { renderIntoDocument, findRenderedComponentWithType } from 'react-dom/test-utils';
 import { shallow } from 'enzyme';
 import ConfigProvider, {
-    assetHostPT,
     endpointsPT,
     languagesPT,
     SINGLE_CHILD_ERROR,
     VALID_CHILD_ERROR
 } from './ConfigProvider';
 
-const config = require('../../assets/config.js');
+const config = require('../../assets/config.json');
 
 describe('ConfigProvider >', () => {
     const createChild = () => {
         class Child extends React.Component<{}> {
             public static contextTypes = {
-                assetHost: assetHostPT,
                 endpoints: endpointsPT,
                 languages: languagesPT
             };
@@ -57,10 +55,9 @@ describe('ConfigProvider >', () => {
             </ConfigProvider>
         ) as React.Component<any, {}>;
         const childComp = findRenderedComponentWithType(tree, Child);
-        const { assetHost, endpoints, languages } = config;
+        const { endpoints, languages } = config;
 
         expect(childComp.context).toEqual({
-            assetHost,
             endpoints,
             languages
         });

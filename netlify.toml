@@ -1,2 +1,4 @@
 [build]
-  functions = "/jason"
+  command = "npm run build:prev"
+  publish = "preview/dist"
+  functions = "lambda"

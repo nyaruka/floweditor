@@ -62,10 +62,7 @@ const hotStore = configureStore();
 const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) => (
     <ConfigProvider config={config}>
         <Config
-            render={({ assetHost, endpoints, languages }) => {
-                if (process.env.NODE_ENV === 'production') {
-                    axios.defaults.baseURL = assetHost;
-                }
+            render={({ endpoints, languages }) => {
                 const baseLanguage = getBaseLanguage(languages);
                 return (
                     <ReduxProvider store={hotStore}>

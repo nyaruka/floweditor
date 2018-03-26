@@ -2,6 +2,7 @@ import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import * as shallowCompare from 'react-addons-shallow-compare';
 import * as FlipMove from 'react-flip-move';
+import * as isEqual from 'fast-deep-equal';
 import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -156,18 +157,11 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     public shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState): boolean {
-        if (
-            nextProps.ui.position.x !== this.props.ui.position.x ||
-            nextProps.ui.position.y !== this.props.ui.position.y
-        ) {
-            return true;
-        }
-
         if (nextState.thisNodeDragging !== this.state.thisNodeDragging) {
             return true;
         }
 
-        if (this.props.node !== nextProps.node) {
+        if (!isEqual(nextProps, this.props)) {
             return true;
         }
 

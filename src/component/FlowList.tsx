@@ -13,7 +13,6 @@ export interface FlowOption {
 }
 
 export interface FlowListPassedProps {
-    assetHost: string;
     endpoints: Endpoints;
 }
 
@@ -27,10 +26,9 @@ export type FlowListProps = FlowListPassedProps & FlowListStoreProps;
 
 const FlowListContainer: React.SFC = () => (
     <Config
-        render={({ assetHost, endpoints }) =>
+        render={({ endpoints }) =>
             // prettier-ignore
             <ConnectedFlowList
-                assetHost={assetHost}
                 endpoints={endpoints}
             />
         }
@@ -39,10 +37,10 @@ const FlowListContainer: React.SFC = () => (
 
 // Navigable list of flows for an account
 const FlowList: React.SFC<FlowListProps> = ({
-    assetHost,
     endpoints,
     definition,
     flows,
+    // tslint:disable-next-line:no-shadowed-variable
     fetchFlow
 }) => {
     const flowOption: FlowOption = definition
@@ -63,7 +61,6 @@ const FlowList: React.SFC<FlowListProps> = ({
     return (
         <div id="flow-list" className={flowList}>
             <Select
-                /** FlowList */
                 placeholder="Select a flow..."
                 onChange={onChange}
                 searchable={false}

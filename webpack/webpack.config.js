@@ -1,11 +1,10 @@
 const rimraf = require('rimraf');
-const { EnvironmentPlugin } = require('webpack');
+const devConfig = require('./webpack.dev').config;
+const prevConfig = require('./webpack.prev');
+const prodConfig = require('./webpack.prod');
 
 const DIST_PATH_DEV = './preview/dist';
 const DIST_PATH_PROD = './dist';
-const DEV_CONFIG_PATH = './webpack.dev.js';
-const PREV_CONFIG_PATH = './webpack.prev.js';
-const PROD_CONFIG_PATH = './webpack.prod.js';
 
 const rmDist = distPath => {
     try {
@@ -17,14 +16,11 @@ const rmDist = distPath => {
 
 /**
  * Webpack configuration.
- *
  * @param env arguments passed in on the command line: https://webpack.js.org/guides/environment-variables/
  */
 module.exports = ({ NODE_ENV }) => {
     const DEVELOPMENT = NODE_ENV === 'dev';
     const PREVIEW = NODE_ENV === 'prev';
-
-    let config;
 
     if (!process.argv.some(arg => arg.indexOf('webpack-dev-server') > -1)) {
         if (DEVELOPMENT || PREVIEW) {
@@ -35,24 +31,8 @@ module.exports = ({ NODE_ENV }) => {
     }
 
     if (DEVELOPMENT) {
-        ({ config } = require(DEV_CONFIG_PATH));
-        return Object.assign(config, {
-            plugins: [
-                ...config.plugins,
-                new EnvironmentPlugin({
-                    NODE_ENV: 'development'
-                })
-            ]
-        });
+        return devConfig;
     }
 
-    config = require(PREVIEW ? PREV_CONFIG_PATH : PROD_CONFIG_PATH);
-    return Object.assign(config, {
-        plugins: [
-            ...config.plugins,
-            new EnvironmentPlugin({
-                NODE_ENV: 'production'
-            })
-        ]
-    });
+    return PREVIEW ? prevConfig : prodConfig;
 };

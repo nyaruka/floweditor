@@ -17,7 +17,7 @@
     "lint:es": "eslint '*/**/*.js'",
     "lint:ts": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
     "build:dev": "webpack --config webpack/webpack.config.js --env.NODE_ENV=dev",
-    "build:prev": "webpack --config webpack/webpack.config.js --env.NODE_ENV=prev",
+    "build:prev": "webpack --config webpack/webpack.config.js --env.NODE_ENV=prev && npm run lambda:build",
     "build:prod": "webpack --config webpack/webpack.config.js --env.NODE_ENV=prod",
     "bundleStats:dev": "webpack --env.NODE_ENV=dev --profile --json > stats.json",
     "bundleStats:dev:windows": "webpack --env.NODE_ENV=dev --profile --json | Out-file 'stats.json' -Encoding OEM",
@@ -30,8 +30,8 @@
     "runAnalyzer:prod:windows": "npm run bundleStats:prod:windows && npm run analyze",
     "preprettify": "prettier --debug-check '{,!(node_modules)/**/}*.@(ts|tsx)'",
     "prettify": "prettier --write 'src/**/*.{ts,tsx,json,js,css,md}'",
-    "jason:serve": "netlify-lambda serve assets",
-    "jason:build": "rm -rf jason && netlify-lambda build assets",
+    "lambda:serve": "netlify-lambda serve lambda-src",
+    "lambda:build": "netlify-lambda build lambda-src",
     "preversion": "npm run test:local",
     "version": "npm run build:prod",
     "postversion": "git push && git push --tags && npm publish",
@@ -46,6 +46,10 @@
   "peerDependencies": {
     "react": "^16.0",
     "react-dom": "^16.0"
+  },
+  "dependencies": {
+    "sign-bunny": "1.0.0",
+    "uuid-validate": "0.0.2"
   },
   "devDependencies": {
     "@types/classnames": "2.2.3",
