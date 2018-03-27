@@ -19,6 +19,7 @@
         display: table;
         
         &.dragging {
+            box-shadow: $node_shadow $node_shadow_color;
             z-index: $z_dragging;
             .add {
                 visibility: hidden !important;
@@ -33,7 +34,6 @@
         }
 
         &.nondragged {
-            box-shadow: $node_shadow $node_shadow_color;
             opacity: .6;
             transition: opacity 400ms ease;
         }

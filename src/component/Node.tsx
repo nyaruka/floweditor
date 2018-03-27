@@ -498,7 +498,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             [styles.dragging]: this.state.thisNodeDragging,
             [styles.ghost]: this.props.ghost,
             [styles.translating]: this.props.translating,
-            [styles.nondragged]: this.props.nodeDragging && !this.state.thisNodeDragging.valueOf
+            [styles.nondragged]: this.props.nodeDragging && !this.state.thisNodeDragging
         });
 
         const exitClass =
