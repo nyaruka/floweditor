@@ -1,11 +1,12 @@
-import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
+import * as isEqual from 'fast-deep-equal';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
-import { ChangeGroups, Group } from '../../../flowTypes';
+import { ChangeGroups } from '../../../flowTypes';
 import { AppState, SearchResult } from '../../../store';
-import { jsonEqual } from '../../../utils';
 import GroupsElement from '../../form/GroupsElement';
+import { mapGroupsToSearchResults, mapSearchResultsToGroups } from './helpers';
 import ChangeGroupsFormProps from './props';
 
 export interface AddGroupsFormState {
@@ -14,6 +15,8 @@ export interface AddGroupsFormState {
 
 export const LABEL = ' Select the group(s) to add the contact to.';
 export const PLACEHOLDER = 'Enter the name of an existing group or create a new one';
+
+export const labelSpecId = 'label';
 
 export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, AddGroupsFormState> {
     public static contextTypes = {
@@ -34,8 +37,8 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
         });
     }
 
-    private onGroupsChanged(groups: SearchResult[]): void {
-        if (!jsonEqual(groups, this.state.groups)) {
+    public onGroupsChanged(groups: SearchResult[]): void {
+        if (!isEqual(groups, this.state.groups)) {
             this.setState({
                 groups
             });
@@ -46,10 +49,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
         const newAction: ChangeGroups = {
             uuid: this.props.action.uuid,
             type: this.props.typeConfig.type,
-            groups: this.state.groups.map((group: SearchResult) => ({
-                uuid: group.id,
-                name: group.name
-            }))
+            groups: mapSearchResultsToGroups(this.state.groups)
         };
 
         this.props.updateAction(newAction);
@@ -61,10 +61,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
         }
 
         if (this.props.action.groups.length && this.props.action.type !== 'remove_contact_groups') {
-            return this.props.action.groups.map(({ uuid, name }: Group) => ({
-                name,
-                id: uuid
-            }));
+            return mapGroupsToSearchResults(this.props.action.groups);
         }
 
         return [];
@@ -73,7 +70,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
     public render(): JSX.Element {
         return (
             <React.Fragment>
-                <p>{LABEL}</p>
+                <p data-spec={labelSpecId}>{LABEL}</p>
                 <GroupsElement
                     ref={this.props.onBindWidget}
                     name="Groups"

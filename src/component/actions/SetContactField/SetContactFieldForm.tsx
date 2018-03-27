@@ -2,30 +2,47 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
 import { SetContactField } from '../../../flowTypes';
-import { ContactFieldResult, AppState, SearchResult } from '../../../store';
-import { toBoolMap } from '../../../utils';
-import FieldElement from '../../form/FieldElement';
+import { AppState, ContactFieldResult, SearchResult } from '../../../store';
+import FieldsElement from '../../form/FieldsElement';
 import TextInputElement from '../../form/TextInputElement';
+import { toBoolMap } from '../../../utils';
 
 /** TODO: these should come from an external source */
-const reserved = toBoolMap([
-    'language',
-    'facebook',
-    'telegram',
-    'email',
-    'mailto',
-    'name',
-    'first name',
-    'phone',
-    'groups',
-    'uuid',
-    'created by',
-    'modified by',
-    'org',
-    'is',
-    'has',
-    'tel'
-]);
+const reserved = {
+    language: true,
+    facebook: true,
+    telegram: true,
+    email: true,
+    mailto: true,
+    name: true,
+    'first name': true,
+    phone: true,
+    groups: true,
+    'created by': true,
+    'modified by': true,
+    org: true,
+    is: true,
+    has: true,
+    tel: true
+};
+
+// const reserved = toBoolMap([
+//     'language',
+//     'facebook',
+//     'telegram',
+//     'email',
+//     'mailto',
+//     'name',
+//     'first name',
+//     'phone',
+//     'groups',
+//     'created by',
+//     'modified by',
+//     'org',
+//     'is',
+//     'has',
+//     'tel'
+// ]);
 
 export interface SetContactFieldFormProps {
     contactFields: ContactFieldResult[];
@@ -49,9 +66,7 @@ export class SetContactFieldForm extends React.PureComponent<SetContactFieldForm
         const { wrappedInstance: { state: { value } } } = widgets.Value;
         const { state: { field } } = widgets.Field;
 
-        console.log('field:', field);
-
-        const newAction: any = {
+        const newAction: Partial<SetContactField> = {
             uuid: this.props.action.uuid,
             value
         };
@@ -66,7 +81,7 @@ export class SetContactFieldForm extends React.PureComponent<SetContactFieldForm
             newAction.field_name = field.id;
         }
 
-        this.props.updateAction(newAction);
+        this.props.updateAction(newAction as SetContactField);
     }
 
     public isValidNewOption(option: { label: string }): boolean {
@@ -103,7 +118,7 @@ export class SetContactFieldForm extends React.PureComponent<SetContactFieldForm
 
         return (
             <div>
-                <FieldElement
+                <FieldsElement
                     ref={this.props.onBindWidget}
                     name="Field"
                     showLabel={true}

@@ -9,7 +9,8 @@ import {
     SwitchRouter,
     UIMetaData,
     UINode,
-    WaitType
+    WaitType,
+    LocalizationMap
 } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { Components, ContactFieldResult, SearchResult } from './flowContext';
@@ -113,12 +114,8 @@ export const collides = (a: Bounds, b: Bounds) =>
 /**
  * Computes translations prop for `Node` components in render()
  */
-export const getTranslations = (definition: FlowDefinition, iso: string) => {
-    if (definition.localization) {
-        return definition.localization[iso];
-    }
-    return null;
-};
+export const getTranslations = (localizationMap: LocalizationMap, iso: string) =>
+    localizationMap[iso]
 
 export const getLocalizations = (
     node: Node,

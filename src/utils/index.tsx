@@ -1,7 +1,7 @@
-import { LocalizedObject } from '../services/Localization';
-import { SearchResult } from '../store';
 import { Language } from '../component/LanguageSelector';
-import { Languages } from '../flowTypes';
+import { Action, Case, Exit, Languages, LocalizationMap } from '../flowTypes';
+import Localization, { LocalizedObject } from '../services/Localization';
+import { getTranslations, SearchResult } from '../store';
 
 const SNAKED_CHARS = /\s+(?=\S)/g;
 const GRID_SIZE = 20;
@@ -197,3 +197,10 @@ export const getLanguage = (languages: Languages, iso: string): Language => ({
     name: languages[iso],
     iso
 });
+
+export const getLocalization = (
+    obj: Action | Exit | Case,
+    localization: LocalizationMap,
+    iso: string,
+    languages: Languages
+) => Localization.translate(obj, iso, languages, getTranslations(localization, iso));

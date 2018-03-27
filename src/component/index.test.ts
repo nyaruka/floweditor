@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { editorContainerSpecId, editorSpecId, FlowEditor, FlowEditorStoreProps } from '.';
 import { FlowEditorConfig } from '../flowTypes';
 import { createSetup, getSpecWrapper, Resp } from '../testUtils';

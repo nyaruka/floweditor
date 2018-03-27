@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { FlowEditorConfig } from '../../flowTypes';
 import { createSetup, Resp } from '../../testUtils';
 import { validUUID } from '../../utils';

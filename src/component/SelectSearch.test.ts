@@ -1,5 +1,4 @@
 import axiosMock from 'axios';
-import * as React from 'react';
 import { FlowEditorConfig } from '../flowTypes';
 import { createSetup, Resp, restoreSpies, flushPromises } from '../testUtils';
 import { resultsToSearchOpts } from '../utils';

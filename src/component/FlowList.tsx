@@ -75,13 +75,19 @@ export class FlowList extends React.Component<FlowListStoreProps> {
 }
 
 const mapStateToProps = ({
-    flowContext: { definition: { uuid: flowUUID, name: flowName } },
+    flowContext: { definition },
     flowEditor: { editorUI: { flows } }
-}: AppState) => ({
-    flowUUID,
-    flowName,
-    flows
-});
+}: AppState) => {
+    const props = {} as FlowListStoreProps;
+    if (definition && definition.uuid && definition.name) {
+        props.flowUUID = definition.uuid;
+        props.flowName = definition.name;
+    }
+    if (flows) {
+        props.flows = flows;
+    }
+    return props;
+};
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ fetchFlow }, dispatch);

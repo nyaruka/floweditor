@@ -1,462 +1,113 @@
 import * as React from 'react';
-import { mount } from 'enzyme';
-import ChangeGroupsFormProps from './props';
-import {
-    LABEL,
-    NOT_FOUND,
-    PLACEHOLDER,
-    REMOVE_FROM_ALL,
-    REMOVE_FROM_ALL_DESC,
-    RemoveGroupsForm
-} from './RemoveGroupsForm';
-import { getSpecWrapper } from '../../../testUtils';
-import { Group } from '../../../flowTypes';
 import { getTypeConfig } from '../../../config';
+import { FlowEditorConfig } from '../../../flowTypes';
+import { createSetup, getSpecWrapper } from '../../../testUtils';
+import { Resp } from '../../../testUtils';
+import ChangeGroupFormProps from './props';
+import {
+    RemoveGroupsForm,
+    LABEL,
+    PLACEHOLDER,
+    NOT_FOUND,
+    REMOVE_FROM_ALL,
+    REMOVE_FROM_ALL_DESC
+} from './RemoveGroupsForm';
+import { labelSpecId } from './AddGroupsForm';
 
 const {
     results: [{ definition }]
-} = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
-const { endpoints } = require('../../../../assets/config');
-const { results: groupsResp } = require('../../../../assets/groups.json');
+} = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json') as Resp;
+const { endpoints } = require('../../../../assets/config') as FlowEditorConfig;
+const { results: groupsResp } = require('../../../../assets/groups.json') as Resp;
 
-const { nodes: [{ actions: [, action] }] } = definition;
-const addGroupConfig = getTypeConfig('add_contact_groups');
+const { nodes: [{ actions: [, removeGroupsAction] }] } = definition;
 const removeGroupConfig = getTypeConfig('remove_contact_groups');
+
 const context = {
     endpoints
 };
-const { groups } = action;
-const groupOptions = groups.map(({ name, uuid }) => ({ name, id: uuid }));
-const removeGroupsAction = { ...action, type: 'remove_contact_groups', groups };
-const removeAllGroupsAction = { ...removeGroupsAction, groups: [] };
-const addGroupSAction = { ...removeGroupsAction, type: 'add_to_group' };
-const props: Partial<ChangeGroupsFormProps> = {
+
+const baseProps = {
+    action: removeGroupsAction,
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
     removeWidget: jest.fn(),
     typeConfig: removeGroupConfig
 };
 
-export const transformGroups = (grps: Group[]): SearchResult[] =>
-    grps.map(({ name, uuid }) => ({ name, id: uuid }));
+const setup = createSetup<ChangeGroupFormProps>(RemoveGroupsForm, baseProps, context);
 
-describe('RemoveGroupsForm >', () => {
-    describe('render >', () => {
-        it('should render form label', () => {
-            const wrapper = mount(
-                <RemoveGroupsForm
-                    {...{
-                        ...props,
-                        action: removeGroupsAction
-                    } as ChangeGroupsFormProps}
-                />,
-                {
-                    context
-                }
-            );
+const COMPONENT_TO_TEST = RemoveGroupsForm.name;
 
-            expect(wrapper.find('div').exists()).toBeTruthy();
-            expect(wrapper.find('p').text()).toBe(LABEL);
-        });
+describe(`${COMPONENT_TO_TEST}`, () => {
+    describe('render', () => {
+        it('should render self, children with base props', () => {
+            const {
+                wrapper,
+                props: { onBindWidget: onBindWidgetMock },
+                // tslint:disable-next-line:no-shadowed-variable
+                context: { endpoints }
+            } = setup({
+                onBindWidget: jest.fn()
+            });
+            const RemoveGroupsFormInstance = wrapper.instance();
+            const label = getSpecWrapper(wrapper, labelSpecId);
 
-        it("should call 'onBindWidget' twice if existing action isn't removing all groups", () => {
-            const onBindWidget: jest.Mock<{}> = jest.fn();
-
-            const wrapper = mount(
-                <RemoveGroupsForm
-                    {...{
-                        ...props,
-                        onBindWidget,
-                        action: removeGroupsAction
-                    } as ChangeGroupsFormProps}
-                />,
-                {
-                    context
-                }
-            );
-
-            expect(onBindWidget).toHaveBeenCalledTimes(2);
-        });
-
-        it("should call 'onBindWidget' once if existing action is removing all groups", () => {
-            const onBindWidget: jest.Mock<{}> = jest.fn();
-
-            const wrapper = mount(
-                <RemoveGroupsForm
-                    {...{
-                        ...props,
-                        onBindWidget,
-                        action: removeAllGroupsAction
-                    } as ChangeGroupsFormProps}
-                />,
-                {
-                    context
-                }
-            );
-
-            expect(onBindWidget).toHaveBeenCalledTimes(1);
-        });
-
-        it('should pass GroupsElement groups to remove if action has groups', () => {
-            const wrapper = mount(
-                <RemoveGroupsForm
-                    {...{
-                        ...props,
-                        action: removeGroupsAction
-                    } as ChangeGroupsFormProps}
-                />,
-                {
-                    context
-                }
-            );
-
+            expect(label.is('p')).toBeTruthy();
+            expect(label.text()).toBe(LABEL);
+            expect(onBindWidgetMock).toHaveBeenCalledTimes(2);
             expect(wrapper.find('GroupsElement').props()).toEqual({
                 name: 'Groups',
                 placeholder: PLACEHOLDER,
                 endpoint: endpoints.groups,
-                groups: groupOptions,
+                groups: wrapper.state('groups'),
                 add: false,
                 required: true,
-                searchPromptText: NOT_FOUND,
-                onChange: wrapper.instance().onGroupsChanged
+                onChange: RemoveGroupsFormInstance.onGroupsChanged,
+                searchPromptText: NOT_FOUND
+            });
+            expect(wrapper.find('CheckboxElement').props()).toEqual({
+                name: REMOVE_FROM_ALL,
+                defaultValue: false,
+                description: REMOVE_FROM_ALL_DESC,
+                sibling: true,
+                onCheck: RemoveGroupsFormInstance.onCheck
             });
         });
 
-        it("should pass GroupsElement an empty 'groups' prop if action doesn't have groups", () => {
-            const wrapper = mount(
-                <RemoveGroupsForm
-                    {...{
-                        ...props,
-                        action: { ...removeGroupsAction, groups: null }
-                    } as ChangeGroupsFormProps}
-                />,
-                {
-                    context
-                }
-            );
-
-            expect(wrapper.find('GroupsElement').props()).toEqual({
-                name: 'Groups',
-                placeholder: PLACEHOLDER,
-                endpoint: endpoints.groups,
-                groups: [],
-                add: false,
-                required: true,
-                searchPromptText: NOT_FOUND,
-                onChange: wrapper.instance().onGroupsChanged
+        it('should render only the checkbox', () => {
+            const {
+                wrapper,
+                props: { onBindWidget: onBindWidgetMock, removeWidget: removeWidgetMock },
+                // tslint:disable-next-line:no-shadowed-variable
+                context: { endpoints }
+            } = setup({
+                onBindWidget: jest.fn(),
+                removeWidget: jest.fn()
             });
-        });
+            const RemoveGroupsFormInstance = wrapper.instance();
 
-        it("should pass GroupsElement an empty 'groups' prop if action is of type 'add_contact_groups'", () => {
-            const wrapper = mount(
-                <RemoveGroupsForm
-                    {...{
-                        ...props,
-                        action: { ...removeGroupsAction, type: 'add_to_group' }
-                    } as ChangeGroupsFormProps}
-                />,
-                {
-                    context
-                }
-            );
-        });
+            RemoveGroupsFormInstance.onCheck();
 
-        it("should render only 'Remove from Group' checkbox element if passed a remove from all groups action", () => {
-            const wrapper = mount(
-                <RemoveGroupsForm
-                    {...{
-                        ...props,
-                        action: removeAllGroupsAction
-                    } as ChangeGroupsFormProps}
-                />,
-                {
-                    context
-                }
-            );
+            wrapper.update();
 
+            expect(removeWidgetMock).toHaveBeenCalledTimes(1);
+            expect(removeWidgetMock).toHaveBeenCalledWith('Groups');
+            expect(getSpecWrapper(wrapper, labelSpecId).exists()).toBeFalsy();
             expect(wrapper.find('GroupsElement').exists()).toBeFalsy();
-
             expect(wrapper.find('CheckboxElement').props()).toEqual({
                 name: REMOVE_FROM_ALL,
                 defaultValue: true,
                 description: REMOVE_FROM_ALL_DESC,
                 sibling: false,
-                onCheck: wrapper.instance().onCheck
+                onCheck: RemoveGroupsFormInstance.onCheck
             });
-        });
-
-        it("should render only the 'Remove from Group' checkbox element when it's checked", () => {
-            const wrapper = mount(
-                <RemoveGroupsForm
-                    {...{
-                        ...props,
-                        action: removeGroupsAction
-                    } as ChangeGroupsFormProps}
-                />,
-                {
-                    context
-                }
-            );
-
-            wrapper
-                .find('CheckboxElement')
-                .find('input')
-                .simulate('change');
-
-            expect(wrapper.state('removeFromAll')).toBeTruthy();
-            expect(getSpecWrapper(wrapper, 'field-container').children()).toHaveLength(1);
-            expect(wrapper.find('CheckboxElement').exists()).toBeTruthy();
-        });
-
-        it('should keep groups in state, render GroupsElement if CheckBoxElement checked and then unchecked', () => {
-            const wrapper = mount(
-                <RemoveGroupsForm
-                    {...{
-                        ...props,
-                        action: removeGroupsAction
-                    } as ChangeGroupsFormProps}
-                />,
-                {
-                    context
-                }
-            );
-
-            const searchResults: SearchResult[] = transformGroups(removeGroupsAction.groups);
-
-            expect(wrapper.find('GroupsElement').prop('groups')).toEqual(searchResults);
-
-            wrapper
-                .find('CheckboxElement')
-                .find('input')
-                .simulate('change');
-
-            expect(wrapper.state('removeFromAll')).toBeTruthy();
-            expect(wrapper.find('GroupsElement').exists()).toBeFalsy();
-            expect(wrapper.find('CheckboxElement').exists()).toBeTruthy();
-
-            wrapper
-                .find('CheckboxElement')
-                .find('input')
-                .simulate('change');
-
-            expect(wrapper.state('removeFromAll')).toBeFalsy();
-            expect(wrapper.find('GroupsElement').prop('groups')).toEqual(searchResults);
-            expect(wrapper.find('CheckboxElement').exists()).toBeTruthy();
         });
     });
 
-    describe('instance methods >', () => {
-        describe('onGroupsChanged >', () => {
-            it('should only update state if groups param !== groups in state', () => {
-                const setStateSpy = jest.spyOn(RemoveGroupsForm.prototype, 'setState');
-                const groupsChangedSpy = jest.spyOn(RemoveGroupsForm.prototype, 'onGroupsChanged');
-
-                const wrapper = mount(
-                    <RemoveGroupsForm
-                        {...{
-                            ...props,
-                            action: removeGroupsAction
-                        } as ChangeGroupsFormProps}
-                    />,
-                    {
-                        context
-                    }
-                );
-
-                const oldGroups: SearchResult[] = transformGroups(removeGroupsAction.groups);
-                const newGroups: SearchResult[] = transformGroups(groupsResp.slice(2));
-
-                expect(wrapper.state('groups')).toEqual(oldGroups);
-
-                wrapper.instance().onGroupsChanged(oldGroups);
-
-                expect(groupsChangedSpy).toHaveBeenCalled();
-                expect(setStateSpy).not.toHaveBeenCalled();
-
-                wrapper.instance().onGroupsChanged(newGroups);
-
-                expect(groupsChangedSpy).toHaveBeenCalledTimes(2);
-                expect(setStateSpy).toHaveBeenCalledTimes(1);
-                expect(wrapper.state('groups')).toEqual(newGroups);
-
-                setStateSpy.mockRestore();
-                groupsChangedSpy.mockRestore();
-            });
-        });
-
-        describe('onCheck >', () => {
-            it('should update state when called', () => {
-                const setStateSpy = jest.spyOn(RemoveGroupsForm.prototype, 'setState');
-                const onCheckSpy = jest.spyOn(RemoveGroupsForm.prototype, 'onCheck');
-
-                const wrapper = mount(
-                    <RemoveGroupsForm
-                        {...{
-                            ...props,
-                            action: removeAllGroupsAction
-                        } as ChangeGroupsFormProps}
-                    />,
-                    {
-                        context
-                    }
-                );
-
-                expect(wrapper.state('removeFromAll')).toBeTruthy();
-
-                wrapper.instance().onCheck();
-
-                expect(onCheckSpy).toHaveBeenCalledTimes(1);
-                expect(setStateSpy).toHaveBeenCalledTimes(1);
-                expect(wrapper.state('removeFromAll')).toBeFalsy();
-
-                wrapper.instance().onCheck();
-
-                expect(onCheckSpy).toHaveBeenCalledTimes(2);
-                expect(setStateSpy).toHaveBeenCalledTimes(2);
-                expect(wrapper.state('removeFromAll')).toBeTruthy();
-
-                setStateSpy.mockRestore();
-                onCheckSpy.mockRestore();
-            });
-        });
-
-        describe('onValid >', () => {
-            it("should create a remove from groups action, pass it to 'updateAction' prop", () => {
-                const onValidSpy = jest.spyOn(RemoveGroupsForm.prototype, 'onValid');
-                const updateActionMock: jest.Mock<{}> = jest.fn();
-
-                const wrapper = mount(
-                    <RemoveGroupsForm
-                        {...{
-                            ...props,
-                            updateAction: updateActionMock,
-                            action: removeGroupsAction
-                        } as ChangeGroupsFormProps}
-                    />,
-                    {
-                        context
-                    }
-                );
-
-                wrapper.instance().onValid();
-
-                expect(onValidSpy).toHaveBeenCalledTimes(1);
-                expect(updateActionMock).toHaveBeenCalledWith(
-                    expect.objectContaining({
-                        type: 'remove_contact_groups',
-                        groups: removeGroupsAction.groups
-                    })
-                );
-
-                onValidSpy.mockRestore();
-            });
-
-            it("should create a remove from all groups action, pass it to 'updateAction' prop", () => {
-                const onValidSpy = jest.spyOn(RemoveGroupsForm.prototype, 'onValid');
-                const updateActionMock: jest.Mock<{}> = jest.fn();
-
-                const wrapper = mount(
-                    <RemoveGroupsForm
-                        {...{
-                            ...props,
-                            updateAction: updateActionMock,
-                            action: removeAllGroupsAction
-                        } as ChangeGroupsFormProps}
-                    />,
-                    {
-                        context
-                    }
-                );
-
-                wrapper.instance().onValid();
-
-                expect(onValidSpy).toHaveBeenCalledTimes(1);
-                expect(updateActionMock).toHaveBeenCalledWith(
-                    expect.objectContaining({
-                        type: 'remove_contact_groups',
-                        groups: removeAllGroupsAction.groups
-                    })
-                );
-
-                onValidSpy.mockRestore();
-            });
-        });
-
-        describe('getGroups >', () => {
-            it('should return an empty array if action exists but does not yet have groups', () => {
-                const wrapper = mount(
-                    <RemoveGroupsForm
-                        {...{
-                            ...props,
-                            action: { ...removeGroupsAction, groups: null }
-                        } as ChangeGroupsFormProps}
-                    />,
-                    {
-                        context
-                    }
-                );
-
-                expect(wrapper.instance().getGroups()).toEqual([]);
-            });
-
-            it('should return SearchResults array if remove from groups action exists at node', () => {
-                const wrapper = mount(
-                    <RemoveGroupsForm
-                        {...{
-                            ...props,
-                            action: removeGroupsAction
-                        } as ChangeGroupsFormProps}
-                    />,
-                    {
-                        context
-                    }
-                );
-
-                expect(wrapper.instance().getGroups()).toEqual(
-                    transformGroups(removeGroupsAction.groups)
-                );
-            });
-        });
-
-        describe('getFields >', () => {
-            it("it should call 'removeWidget' prop on 'Group' widget if its 'removeFromAll' state is falsy", () => {
-                const removeWidgetMock: jest.Mock<{}> = jest.fn();
-
-                const wrapper = mount(
-                    <RemoveGroupsForm
-                        {...{
-                            ...props,
-                            removeWidget: removeWidgetMock,
-                            action: removeAllGroupsAction
-                        } as ChangeGroupsFormProps}
-                    />,
-                    {
-                        context
-                    }
-                );
-
-                expect(removeWidgetMock).toHaveBeenCalledTimes(1);
-                expect(removeWidgetMock).toHaveBeenLastCalledWith('Group');
-            });
-
-            it("it should not call 'removeWidget' prop if its 'removeFromAll' state is truthy", () => {
-                const removeWidgetMock: jest.Mock<{}> = jest.fn();
-
-                const wrapper = mount(
-                    <RemoveGroupsForm
-                        {...{
-                            ...props,
-                            removeWidget: removeWidgetMock,
-                            action: removeGroupsAction
-                        } as ChangeGroupsFormProps}
-                    />,
-                    {
-                        context
-                    }
-                );
-
-                expect(removeWidgetMock).not.toHaveBeenCalled();
-            });
+    describe('instance methods', () => {
+        describe('getFields', () => {
+            it('should call removeWidget prop', () => {});
         });
     });
 });

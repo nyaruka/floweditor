@@ -1,19 +1,20 @@
+import { react as bindCallbacks } from 'auto-bind';
 import * as classNames from 'classnames/bind';
 import * as React from 'react';
-import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Exit } from '../flowTypes';
-import { DisconnectExit, disconnectExit, DispatchWithState, AppState } from '../store';
+import { ConfigProviderContext, languagesPT } from '../config';
+import { Exit, LocalizationMap } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
-import { LocalizedObject } from '../services/Localization';
+import { AppState, DisconnectExit, disconnectExit, DispatchWithState } from '../store';
+import { createClickHandler, getLocalization } from '../utils';
 import Counter from './Counter';
 import * as styles from './Exit.scss';
-import { createClickHandler } from '../utils';
+import { Language } from './LanguageSelector';
 
 export interface ExitPassedProps {
     exit: Exit;
-    localization: LocalizedObject;
+    localization: LocalizationMap;
     Activity: ActivityManager;
     plumberMakeSource: Function;
     plumberRemove: Function;
@@ -22,6 +23,7 @@ export interface ExitPassedProps {
 
 export interface ExitStoreProps {
     translating: boolean;
+    language: Language;
     disconnectExit: DisconnectExit;
 }
 
@@ -34,10 +36,14 @@ export interface ExitState {
 const cx = classNames.bind(styles);
 
 export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
-    private timeout: any;
+    private timeout: number;
 
-    constructor(props: ExitProps) {
-        super(props);
+    public static contextTypes = {
+        languages: languagesPT
+    };
+
+    constructor(props: ExitProps, context: ConfigProviderContext) {
+        super(props, context);
 
         this.state = {
             confirmDelete: false
@@ -144,36 +150,31 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     }
 
     public render(): JSX.Element {
-        const exit = this.props.translating
-            ? (this.props.localization.getObject() as Exit)
-            : this.props.exit;
-
+        const localization = getLocalization(
+            this.props.exit,
+            this.props.localization,
+            this.props.language.iso,
+            this.context.languages
+        );
+        const exit = this.props.translating ? (localization.getObject() as Exit) : this.props.exit;
         const nameStyle = exit.name ? styles.name : '';
-
         const connected = this.props.exit.destination_node_uuid ? ' jtk-connected' : '';
         const dragNodeClasses = cx(styles.endpoint, connected);
-
         const confirmDelete =
             this.state.confirmDelete && this.props.exit.hasOwnProperty('destination_node_uuid');
-
         const confirm: JSX.Element = confirmDelete ? (
             <span {...createClickHandler(this.onDisconnect)} className="icon-remove" />
         ) : null;
-
         const exitClasses: string = cx({
             [styles.exit]: true,
             ['plumb-exit']: true,
             [styles.translating]: this.props.translating,
             [styles.unnamed_exit]: exit.name == null,
             [styles.missing_localization]:
-                exit.name &&
-                this.props.translating &&
-                !('name' in this.props.localization.localizedKeys),
+                exit.name && this.props.translating && !('name' in localization.localizedKeys),
             [styles.confirmDelete]: confirmDelete
         });
-
         const activity = this.getActivity();
-
         return (
             <div className={exitClasses}>
                 <div className={nameStyle}>{exit.name}</div>
@@ -189,8 +190,13 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     }
 }
 
-const mapStateToProps = ({ flowEditor: { editorUI: { translating } } }: AppState) => ({
-    translating
+const mapStateToProps = ({
+    flowContext: { definition: { localization } },
+    flowEditor: { editorUI: { translating, language } }
+}: AppState) => ({
+    translating,
+    language,
+    localization
 });
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>

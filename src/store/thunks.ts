@@ -20,17 +20,18 @@ import {
     SetRunResult,
     SwitchRouter,
     UINode,
-    WaitType
 } from '../flowTypes';
 import { snakify } from '../utils';
 import {
+    ComponentDetails,
+    ContactFieldResult,
+    SearchResult,
     updateComponents,
     updateContactFields,
     updateDefinition,
     updateGroups,
     updateLocalizations,
     updateResultNames,
-    ComponentDetails
 } from './flowContext';
 import {
     removePendingConnection,
@@ -42,41 +43,38 @@ import {
     updateNodeDragging,
     updateNodeEditorOpen,
     updatePendingConnection,
-    updatePendingConnections
+    updatePendingConnections,
 } from './flowEditor';
 import {
     determineConfigType,
+    getCollisions,
     getDetails,
     getExistingFields,
     getExistingGroups,
     getExistingResultNames,
     getExit,
+    getGhostNode,
     getLocalizations,
     getNode,
     getNodesBelow,
     getNodeUI,
     getPendingConnection,
-    getSuggestedResultName,
     getTranslations,
-    getNodeBoundaries,
-    getCollisions,
     isActionsNode,
     nodeSort,
     pureSort,
-    getGhostNode
 } from './helpers';
 import {
     updateActionToEdit,
     updateNodeToEdit,
     updateOperand,
     updateResultName,
+    updateShowResultName,
     updateTypeConfig,
     updateUserAddingAction,
-    updateShowResultName
 } from './nodeEditor';
 import AppState from './state';
 import { prepAddNode, prepSetNode, uniquifyNode } from './updateSpec';
-import { ContactFieldResult, SearchResult } from './flowContext';
 
 export type DispatchWithState = Dispatch<AppState>;
 
@@ -1050,7 +1048,7 @@ export const onAddAction = (node: Node, languages: Languages) => (
 
     const localizations = [];
     if (translating) {
-        const translations = getTranslations(definition, language.iso);
+        const translations = getTranslations(definition.localization, language.iso);
         localizations.push(
             // prettier-ignore
             ...getLocalizations(
@@ -1173,7 +1171,7 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
     if (translating) {
         // prettier-ignore
         const translations = getTranslations(
-            definition,
+            definition.localization,
             language.iso
         );
 

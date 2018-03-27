@@ -8,24 +8,22 @@ import { bindActionCreators } from 'redux';
 import { ConfigProviderContext, getTypeConfig, languagesPT } from '../config';
 import { AnyAction, FlowDefinition, Node, SwitchRouter, UINode } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
-import Localization, { LocalizedObject } from '../services/Localization';
 import { DragEvent } from '../services/Plumber';
 import {
     AppState,
     DispatchWithState,
-    getTranslations,
     onAddAction,
     OnAddAction,
-    OnNodeBeforeDrag,
     onNodeBeforeDrag,
-    OnNodeMoved,
+    OnNodeBeforeDrag,
     onNodeMoved,
+    OnNodeMoved,
     OnOpenNodeEditor,
     onOpenNodeEditor,
     RemoveNode,
     removeNode,
-    ResolvePendingConnection,
     resolvePendingConnection,
+    ResolvePendingConnection,
     UpdateDimensions,
     updateDimensions,
     UpdateDragGroup,
@@ -299,28 +297,17 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     private getExits(): JSX.Element[] {
         if (this.props.node.exits) {
-            return this.props.node.exits.map(exit => {
-                const translations = getTranslations(this.props.definition, this.props.language.iso);
-                const localization: LocalizedObject = Localization.translate(
-                    exit,
-                    this.props.language.iso,
-                    this.context.languages,
-                    translations
-                );
-                return (
-                    <ExitComp
-                        key={exit.uuid}
-                        exit={exit}
-                        localization={localization}
-                        Activity={this.props.Activity}
-                        plumberMakeSource={this.props.plumberMakeSource}
-                        plumberRemove={this.props.plumberRemove}
-                        plumberConnectExit={this.props.plumberConnectExit}
-                    />
-                );
-            });
+            return this.props.node.exits.map(exit => (
+                <ExitComp
+                    key={exit.uuid}
+                    exit={exit}
+                    Activity={this.props.Activity}
+                    plumberMakeSource={this.props.plumberMakeSource}
+                    plumberRemove={this.props.plumberRemove}
+                    plumberConnectExit={this.props.plumberConnectExit}
+                />
+            ));
         }
-
         return [];
     }
 
@@ -354,18 +341,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 const actionConfig = getTypeConfig(action.type);
 
                 if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
-                    const translations = getTranslations(
-                        this.props.definition,
-                        this.props.language.iso
-                    );
-
-                    const localization = Localization.translate(
-                        action,
-                        this.props.language.iso,
-                        this.context.languages,
-                        translations
-                    );
-
                     const { component: ActionDiv } = actionConfig;
 
                     actions.push(
@@ -376,7 +351,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                             thisNodeDragging={this.state.thisNodeDragging}
                             action={action}
                             first={idx === 0}
-                            localization={localization}
                             render={(anyAction: AnyAction) => <ActionDiv {...anyAction} />}
                         />
                     );
@@ -433,7 +407,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                     <div style={{ position: 'relative' }}>
                         <div {...this.events}>
                             <TitleBar
-                                className={shared[config.type]}
+                                __className={shared[config.type]}
                                 showRemoval={!this.props.translating}
                                 onRemoval={this.onRemoval}
                                 title={title}
@@ -461,7 +435,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             [styles.dragging]: this.state.thisNodeDragging,
             [styles.ghost]: this.props.ghost,
             [styles.translating]: this.props.translating,
-            [styles.nondragged]: this.props.nodeDragging && !this.state.thisNodeDragging.valueOf
+            [styles.nondragged]: this.props.nodeDragging && !this.state.thisNodeDragging
         });
 
         const exitClass =
@@ -477,24 +451,30 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         };
 
         return (
-            <div ref={this.eleRef} id={this.props.node.uuid} className={classes} style={style}>
-                {dragLink}
-                <CounterComp
-                    ref={this.props.Activity.registerListener}
-                    getCount={this.getCount}
-                    onUnmount={this.onUnmount}
-                    containerStyle={styles.active}
-                    countStyle={''}
-                />
-                <div className={styles.cropped}>
-                    {header}
-                    {actionList}
-                </div>
-                <div className={`${styles.exit_table} ${exitClass}`}>
-                    <div className={styles.exits} {...this.events}>
-                        {exits}
+            <div
+                ref={this.eleRef}
+                style={style}
+                id={this.props.node.uuid}
+                className={styles.node_container}>
+                <div className={classes}>
+                    {dragLink}
+                    <CounterComp
+                        ref={this.props.Activity.registerListener}
+                        getCount={this.getCount}
+                        onUnmount={this.onUnmount}
+                        containerStyle={styles.active}
+                        countStyle={''}
+                    />
+                    <div className={styles.cropped}>
+                        {header}
+                        {actionList}
                     </div>
-                    {addActions}
+                    <div className={`${styles.exit_table} ${exitClass}`}>
+                        <div className={styles.exits} {...this.events}>
+                            {exits}
+                        </div>
+                        {addActions}
+                    </div>
                 </div>
             </div>
         );

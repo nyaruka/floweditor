@@ -1,14 +1,20 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
+import { SearchResult } from '../../store';
 import { getSelectClass, toBoolMap } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
-import { SearchResult } from '../../store';
 
 // TODO: these should come from an external source
-const reserved = toBoolMap(['language', 'name', 'timezone']);
+const reserved = {
+    language: true,
+    name: true,
+    timezone: true
+};
 
-interface FieldElementProps extends FormElementProps {
+// const reserved = toBoolMap(['language', 'name', 'timezone'])
+
+export interface FieldsElementProps extends FormElementProps {
     initial: SearchResult;
     localFields?: SearchResult[];
     endpoint?: string;
@@ -17,7 +23,7 @@ interface FieldElementProps extends FormElementProps {
     searchPromptText?: string;
 }
 
-interface FieldState {
+interface FieldsState {
     field: SearchResult;
     errors: string[];
 }
@@ -25,7 +31,7 @@ interface FieldState {
 export const PLACEHOLDER: string = 'Enter the name of an existing field or create a new one';
 export const NOT_FOUND: string = 'Invalid field name';
 
-export default class FieldElement extends React.Component<FieldElementProps, FieldState> {
+export default class FieldElement extends React.Component<FieldsElementProps, FieldsState> {
     public static defaultProps = {
         placeholder: PLACEHOLDER,
         searchPromptText: NOT_FOUND
@@ -109,7 +115,8 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
                 name={this.props.name}
                 helpText={this.props.helpText}
                 errors={this.state.errors}
-                fieldError={fieldError}>
+                fieldError={fieldError}
+            >
                 <SelectSearch
                     _className={className}
                     onChange={this.onChange}
