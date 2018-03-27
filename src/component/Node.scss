@@ -1,9 +1,7 @@
 @import "../variables.scss";
 
 .node {
-
-    box-shadow: $node_shadow $node_shadow_color;
-    
+    border: 1px solid $borders;
     border-radius: $curvature;
     background: #fff;
     padding: 0;
@@ -11,13 +9,14 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    transition: all 100ms ease-in-out;
+    transition: all 200ms ease-in-out;
     position: absolute;
     z-index: $z_nodes;
     cursor: pointer;
     display: table;
     
     &.dragging {
+        box-shadow: $node_shadow $node_shadow_color;
         z-index: $z_dragging;
         .add {
             visibility: hidden !important;
@@ -32,22 +31,19 @@
     }
 
     &.nondragged {
-        box-shadow: $node_shadow $node_shadow_color;
+        transition: opacity 600ms ease-in-out;
         opacity: .6;
-        transition: opacity 400ms ease;
     }
 
     .cropped {
-        box-shadow: -1px -1px 0px 0px $node_shadow_color;
         overflow: hidden;
         min-width: $node_width;
-        border-top-left-radius: $curvature;
-        border-top-right-radius: $curvature;
+        border-top-right-radius: $curvature - 1;
+        border-top-left-radius: $curvature - 1;
     }
 
     .actions {
         width: $node_width;
-        background: #fff;
     }
 
     &.translating {
@@ -77,7 +73,7 @@
     .exit_table {
         display: table;
         width: 100%;
-        box-shadow: -1px -1px 0px 0px $node_shadow_color;   
+        // box-shadow: -1px -1px 0px 0px $node_shadow_color;   
         border-bottom-left-radius: $curvature;
         border-bottom-right-radius: $curvature;
 
