@@ -514,24 +514,30 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         };
 
         return (
-            <div ref={this.eleRef} id={this.props.node.uuid} className={classes} style={style}>
-                {dragLink}
-                <CounterComp
-                    ref={this.props.Activity.registerListener}
-                    getCount={this.getCount}
-                    onUnmount={this.onUnmount}
-                    containerStyle={styles.active}
-                    countStyle={''}
-                />
-                <div className={styles.cropped}>
-                    {header}
-                    {actionList}
-                </div>
-                <div className={`${styles.exit_table} ${exitClass}`}>
-                    <div className={styles.exits} {...this.events}>
-                        {exits}
+            <div
+                ref={this.eleRef}
+                style={style}
+                id={this.props.node.uuid}
+                className={styles.node_container}>
+                <div className={classes}>
+                    {dragLink}
+                    <CounterComp
+                        ref={this.props.Activity.registerListener}
+                        getCount={this.getCount}
+                        onUnmount={this.onUnmount}
+                        containerStyle={styles.active}
+                        countStyle={''}
+                    />
+                    <div className={styles.cropped}>
+                        {header}
+                        {actionList}
                     </div>
-                    {addActions}
+                    <div className={`${styles.exit_table} ${exitClass}`}>
+                        <div className={styles.exits} {...this.events}>
+                            {exits}
+                        </div>
+                        {addActions}
+                    </div>
                 </div>
             </div>
         );

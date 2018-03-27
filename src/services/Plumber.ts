@@ -61,7 +61,7 @@ export default class Plumber {
                     stub: 12,
                     midpoint: 0.55,
                     alwaysRespectStubs: true,
-                    gap: [0, 9],
+                    gap: [0, 0],
                     cornerRadius: 5
                 }
             ],
