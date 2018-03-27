@@ -1,129 +1,135 @@
 @import "../variables.scss";
 
-.node {
-    border: 1px solid $borders;
-    border-radius: $curvature;
-    background: #fff;
-    padding: 0;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    transition: all 200ms ease-in-out;
+.node_container {
+    padding: $endpoint_buffer;
     position: absolute;
     z-index: $z_nodes;
-    cursor: pointer;
-    display: table;
-    
-    &.dragging {
+
+    .node {
         box-shadow: $node_shadow $node_shadow_color;
-        z-index: $z_dragging;
-        .add {
-            visibility: hidden !important;
-        }
-        transition: none;
         border-radius: $curvature;
-    }
+        background: #fff;
+        padding: 0;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        transition: all 100ms ease-in-out;
+        cursor: pointer;
+        display: table;
+        
+        &.dragging {
+            box-shadow: $node_shadow $node_shadow_color;
+            z-index: $z_dragging;
+            .add {
+                visibility: hidden !important;
+            }
+            transition: none;
+            border-radius: $curvature;
+        }
 
-    &.ghost {
-        opacity: .5;
-        transition: none;
-    }
+        &.ghost {
+            opacity: .5;
+            transition: none;
+        }
 
-    &.nondragged {
-        transition: opacity 600ms ease-in-out;
-        opacity: .6;
-    }
+        &.nondragged {
+            opacity: .6;
+            transition: opacity 400ms ease;
+        }
 
-    .cropped {
-        overflow: hidden;
-        min-width: $node_width;
-        border-top-right-radius: $curvature - 1;
-        border-top-left-radius: $curvature - 1;
-    }
-
-    .actions {
-        width: $node_width;
-    }
-
-    &.translating {
+        .cropped {
+            box-shadow: -1px -1px 0px 0px $node_shadow_color;
+            overflow: hidden;
+            min-width: $node_width;
+            border-top-left-radius: $curvature;
+            border-top-right-radius: $curvature;
+        }
 
         .actions {
-            border-bottom-left-radius: 7px;
-            border-bottom-right-radius: 7px;
-            overflow: hidden;
+            width: $node_width;
+            background: #fff;
         }
 
-        .unnamed_exit {
-            &.exit_table {
-                height: inherit;
-                border-top: none;
-                
-                .exits {
+        &.translating {
+
+            .actions {
+                border-bottom-left-radius: 7px;
+                border-bottom-right-radius: 7px;
+                overflow: hidden;
+            }
+
+            .unnamed_exit {
+                &.exit_table {
                     height: inherit;
-                }
-                .exit {
-                    padding: 0 !important;
-                    margin: 0;
+                    border-top: none;
+                    
+                    .exits {
+                        height: inherit;
+                    }
+                    .exit {
+                        padding: 0 !important;
+                        margin: 0;
+                    }
                 }
             }
         }
-    }
 
-    .exit_table {
-        display: table;
-        width: 100%;
-        // box-shadow: -1px -1px 0px 0px $node_shadow_color;   
-        border-bottom-left-radius: $curvature;
-        border-bottom-right-radius: $curvature;
+        .exit_table {
+            display: table;
+            width: 100%;
+            box-shadow: -1px -1px 0px 0px $node_shadow_color;   
+            border-bottom-left-radius: $curvature;
+            border-bottom-right-radius: $curvature;
 
-        .exits {
-            border-collapse: collapse;
-            display: table-row;
-            height: 7px;
-            &:after {
-                content: "";
-                display: table;
-                clear: both;
+            .exits {
+                border-collapse: collapse;
+                display: table-row;
+                height: 7px;
+                &:after {
+                    content: "";
+                    display: table;
+                    clear: both;
+                }
             }
-        }
-    }
-    .drag_group {
-        position: absolute;
-        visibility: hidden;
-        bottom: 0px;
-        left: 0px;
-        padding: 3px;
-        color: $light_gray - #222;
-        font-size: 8px;
-        text-decoration: none;
-        cursor: move;
-        z-index: $z_group_drag_anchor;
-        &:hover {
-            color: $light-gray - #333;
-            border-color: $light_gray - #222;
-        }
-    }
-    .add {
-        position: absolute;
-        right: -5px;
-        bottom: -5px;
-        visibility: hidden;
-        color: $blue;
-        text-decoration: none;
-        background: #fff;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border-radius: 5px;
-        line-height: 8px;
-        font-size: 14px;
-    }
-    &:hover {
-        .add {
-            visibility: visible;
         }
         .drag_group {
-            visibility: visible;
+            position: absolute;
+            visibility: hidden;
+            bottom: $endpoint_buffer;
+            left: $endpoint_buffer;
+            padding: 3px;
+            color: $light_gray - #222;
+            font-size: 8px;
+            text-decoration: none;
+            cursor: move;
+            z-index: $z_group_drag_anchor;
+            &:hover {
+                color: $light-gray - #333;
+                border-color: $light_gray - #222;
+            }
+        }
+        .add {
+            position: absolute;
+            right: $endpoint_buffer / 2;
+            bottom: $endpoint_buffer / 2;
+            visibility: hidden;
+            color: $blue;
+            text-decoration: none;
+            background: #fff;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            line-height: 8px;
+            font-size: 14px;
+        }
+        &:hover {
+            .add {
+                visibility: visible;
+            }
+            .drag_group {
+                visibility: visible;
+            }
         }
     }
 }
