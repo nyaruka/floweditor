@@ -10,12 +10,12 @@ $med_gray: #ccc;
 
 // specific color styling
 $node_shadow: 4px 4px 0px 0px;
-$node_shadow_color: rgba(99, 184, 226, 0.1);
+$node_shadow_color: rgba(99, 184, 226, 0.15);
 $node_shadow_hover: rgba(145, 218, 255, .25);
 $connector_color: rgb(142, 217, 255);
 $path_color: #fff;
 $text_color: #666;
-$borders: rgba(145, 218, 255, .3);
+$borders: rgb(224, 224, 224);
 $active_color: $blue_bold;
 $activity_color: $light_gray_2;
 $terminal_color: $red;
@@ -23,7 +23,7 @@ $error_color: $red;
 $placeholder_color: $light_gray;
 
 // properties
-$node_width: 200px;
+$node_width: 198px;
 $curvature: 7px;
 
 $shadow_color: rgba(0, 0, 0, .15);
