@@ -10,13 +10,13 @@ $med_gray: #ccc;
 
 // specific color styling
 $node_shadow: 4px 4px 0px 0px;
-$node_shadow_color: rgba(99, 184, 226, 0.15);
+$node_shadow_color: rgba(99, 184, 226, 0.1);
 $node_shadow_hover: rgba(145, 218, 255, .25);
 $connector_color: rgb(142, 217, 255);
 $endpoint_buffer: 10px;
 $path_color: #fff;
 $text_color: #666;
-$borders: rgb(224, 224, 224);
+$borders: rgba(224, 224, 224, .6);
 $active_color: $blue_bold;
 $activity_color: $light_gray_2;
 $terminal_color: $red;

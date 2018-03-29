@@ -1,0 +1,1926 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Remove 059a8daa-0697-44a6-9486-2386cc417e9d 1`] = `
+Object {
+  "059a8daa-0697-44a6-9486-2386cc417e9d": Object {
+    "inboundConnections": Object {
+      "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+      "7571ef74-35b3-4090-ac7a-c4531a500806": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "flow_name": "Customer Service",
+          "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+          "type": "start_flow",
+          "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Complete",
+          "uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Expired",
+          "uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "C",
+            ],
+            "exit_uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+            "type": "has_run_status",
+            "uuid": "2d247ecc-1d5d-4381-914a-3195b1888f04",
+          },
+          Object {
+            "arguments": Array [
+              "E",
+            ],
+            "exit_uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+            "type": "has_run_status",
+            "uuid": "b46ffd80-1b85-44bf-b3f2-01550d4ff302",
+          },
+        ],
+        "default_exit_uuid": null,
+        "operand": "@child",
+        "type": "switch",
+      },
+      "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+      "wait": Object {
+        "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+        "type": "flow",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 91,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 300,
+        "y": 800,
+      },
+      "type": "subflow",
+    },
+  },
+  "4fac7935-d13b-4b36-bf15-98075dca822a": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?",
+          "type": "send_msg",
+          "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "445fc64c-2a18-47cc-89d0-15172826bfcc",
+        },
+      ],
+      "uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 95,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 40,
+        "y": 80,
+      },
+    },
+  },
+  "533b64e2-5906-4d33-a8e9-64f1cb6c20dd": Object {
+    "inboundConnections": Object {
+      "a8bdc1c5-0283-4656-b932-4f4094f4cc7e": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Yuck",
+          "type": "send_msg",
+          "uuid": "28b9e295-1102-4f13-bd9d-4a7b11f4fcdc",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+          "name": null,
+          "uuid": "9de30522-db84-4471-bce6-99f6d0a200e0",
+        },
+      ],
+      "uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 65,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 760,
+        "y": 660,
+      },
+    },
+  },
+  "882f8022-7256-4b1c-abf3-7b180f5e7e24": Object {
+    "inboundConnections": Object {
+      "9de30522-db84-4471-bce6-99f6d0a200e0": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+    },
+    "node": Object {
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Early Adopters",
+          "uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+        },
+        Object {
+          "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+          "name": "Subscribers",
+          "uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Other",
+          "uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+            ],
+            "exit_uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+            "type": "has_group",
+            "uuid": "a2e446bf-7181-40f9-8996-5d2453486218",
+          },
+          Object {
+            "arguments": Array [
+              "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+            ],
+            "exit_uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+            "type": "has_group",
+            "uuid": "fa8d0d3a-067e-4460-9cff-0474ecc4e8ca",
+          },
+        ],
+        "default_exit_uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+        "operand": "@contact.groups",
+        "type": "switch",
+      },
+      "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+      "wait": Object {
+        "type": "group",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 59,
+        "width": 247,
+      },
+      "position": Object {
+        "x": 580,
+        "y": 780,
+      },
+      "type": "split_by_group",
+    },
+  },
+  "bc978e00-2f3d-41f2-87c1-26b3f14e5925": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+          "name": "Red",
+          "uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+        },
+        Object {
+          "destination_node_uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+          "name": "Other",
+          "uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "red, r",
+            ],
+            "exit_uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+            "type": "has_any_word",
+            "uuid": "87173eee-5270-4233-aede-ca88e14b672a",
+          },
+        ],
+        "default_exit_uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+        "operand": "@run.results.color ",
+        "type": "switch",
+      },
+      "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+      "wait": Object {
+        "type": "exp",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 59,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 540,
+        "y": 500,
+      },
+      "type": "split_by_expression",
+    },
+  },
+  "e2ecc8de-9774-4b74-a0dc-ca8aea123227": Object {
+    "inboundConnections": Object {
+      "7b245d49-e9e3-4387-b4ad-48deb03528cd": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Mine too!",
+          "type": "send_msg",
+          "uuid": "cd19e588-3383-4d54-b5df-8dbbc2b0d297",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+          "name": null,
+          "uuid": "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf",
+        },
+      ],
+      "uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 65,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 40,
+        "y": 400,
+      },
+    },
+  },
+}
+`;
+
+exports[`Remove 4fac7935-d13b-4b36-bf15-98075dca822a 1`] = `
+Object {
+  "059a8daa-0697-44a6-9486-2386cc417e9d": Object {
+    "inboundConnections": Object {
+      "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+      "7571ef74-35b3-4090-ac7a-c4531a500806": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "flow_name": "Customer Service",
+          "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+          "type": "start_flow",
+          "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Complete",
+          "uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Expired",
+          "uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "C",
+            ],
+            "exit_uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+            "type": "has_run_status",
+            "uuid": "2d247ecc-1d5d-4381-914a-3195b1888f04",
+          },
+          Object {
+            "arguments": Array [
+              "E",
+            ],
+            "exit_uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+            "type": "has_run_status",
+            "uuid": "b46ffd80-1b85-44bf-b3f2-01550d4ff302",
+          },
+        ],
+        "default_exit_uuid": null,
+        "operand": "@child",
+        "type": "switch",
+      },
+      "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+      "wait": Object {
+        "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+        "type": "flow",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 91,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 300,
+        "y": 800,
+      },
+      "type": "subflow",
+    },
+  },
+  "4fac7935-d13b-4b36-bf15-98075dca822a": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?",
+          "type": "send_msg",
+          "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "445fc64c-2a18-47cc-89d0-15172826bfcc",
+        },
+      ],
+      "uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 95,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 40,
+        "y": 80,
+      },
+    },
+  },
+  "533b64e2-5906-4d33-a8e9-64f1cb6c20dd": Object {
+    "inboundConnections": Object {
+      "a8bdc1c5-0283-4656-b932-4f4094f4cc7e": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Yuck",
+          "type": "send_msg",
+          "uuid": "28b9e295-1102-4f13-bd9d-4a7b11f4fcdc",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+          "name": null,
+          "uuid": "9de30522-db84-4471-bce6-99f6d0a200e0",
+        },
+      ],
+      "uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 65,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 760,
+        "y": 660,
+      },
+    },
+  },
+  "882f8022-7256-4b1c-abf3-7b180f5e7e24": Object {
+    "inboundConnections": Object {
+      "9de30522-db84-4471-bce6-99f6d0a200e0": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+    },
+    "node": Object {
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Early Adopters",
+          "uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+        },
+        Object {
+          "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+          "name": "Subscribers",
+          "uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Other",
+          "uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+            ],
+            "exit_uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+            "type": "has_group",
+            "uuid": "a2e446bf-7181-40f9-8996-5d2453486218",
+          },
+          Object {
+            "arguments": Array [
+              "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+            ],
+            "exit_uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+            "type": "has_group",
+            "uuid": "fa8d0d3a-067e-4460-9cff-0474ecc4e8ca",
+          },
+        ],
+        "default_exit_uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+        "operand": "@contact.groups",
+        "type": "switch",
+      },
+      "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+      "wait": Object {
+        "type": "group",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 59,
+        "width": 247,
+      },
+      "position": Object {
+        "x": 580,
+        "y": 780,
+      },
+      "type": "split_by_group",
+    },
+  },
+  "bc978e00-2f3d-41f2-87c1-26b3f14e5925": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+          "name": "Red",
+          "uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+        },
+        Object {
+          "destination_node_uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+          "name": "Other",
+          "uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "red, r",
+            ],
+            "exit_uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+            "type": "has_any_word",
+            "uuid": "87173eee-5270-4233-aede-ca88e14b672a",
+          },
+        ],
+        "default_exit_uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+        "operand": "@run.results.color ",
+        "type": "switch",
+      },
+      "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+      "wait": Object {
+        "type": "exp",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 59,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 540,
+        "y": 500,
+      },
+      "type": "split_by_expression",
+    },
+  },
+  "e2ecc8de-9774-4b74-a0dc-ca8aea123227": Object {
+    "inboundConnections": Object {
+      "7b245d49-e9e3-4387-b4ad-48deb03528cd": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Mine too!",
+          "type": "send_msg",
+          "uuid": "cd19e588-3383-4d54-b5df-8dbbc2b0d297",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+          "name": null,
+          "uuid": "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf",
+        },
+      ],
+      "uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 65,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 40,
+        "y": 400,
+      },
+    },
+  },
+}
+`;
+
+exports[`Remove 46e8d603-8e5d-4435-97dd-1333291aafca 1`] = `
+Object {
+  "059a8daa-0697-44a6-9486-2386cc417e9d": Object {
+    "inboundConnections": Object {
+      "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+      "7571ef74-35b3-4090-ac7a-c4531a500806": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "flow_name": "Customer Service",
+          "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+          "type": "start_flow",
+          "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Complete",
+          "uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Expired",
+          "uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "C",
+            ],
+            "exit_uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+            "type": "has_run_status",
+            "uuid": "2d247ecc-1d5d-4381-914a-3195b1888f04",
+          },
+          Object {
+            "arguments": Array [
+              "E",
+            ],
+            "exit_uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+            "type": "has_run_status",
+            "uuid": "b46ffd80-1b85-44bf-b3f2-01550d4ff302",
+          },
+        ],
+        "default_exit_uuid": null,
+        "operand": "@child",
+        "type": "switch",
+      },
+      "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+      "wait": Object {
+        "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+        "type": "flow",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 91,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 300,
+        "y": 800,
+      },
+      "type": "subflow",
+    },
+  },
+  "4fac7935-d13b-4b36-bf15-98075dca822a": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?",
+          "type": "send_msg",
+          "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "445fc64c-2a18-47cc-89d0-15172826bfcc",
+        },
+      ],
+      "uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 95,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 40,
+        "y": 80,
+      },
+    },
+  },
+  "533b64e2-5906-4d33-a8e9-64f1cb6c20dd": Object {
+    "inboundConnections": Object {
+      "a8bdc1c5-0283-4656-b932-4f4094f4cc7e": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Yuck",
+          "type": "send_msg",
+          "uuid": "28b9e295-1102-4f13-bd9d-4a7b11f4fcdc",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+          "name": null,
+          "uuid": "9de30522-db84-4471-bce6-99f6d0a200e0",
+        },
+      ],
+      "uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 65,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 760,
+        "y": 660,
+      },
+    },
+  },
+  "882f8022-7256-4b1c-abf3-7b180f5e7e24": Object {
+    "inboundConnections": Object {
+      "9de30522-db84-4471-bce6-99f6d0a200e0": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+    },
+    "node": Object {
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Early Adopters",
+          "uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+        },
+        Object {
+          "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+          "name": "Subscribers",
+          "uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Other",
+          "uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+            ],
+            "exit_uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+            "type": "has_group",
+            "uuid": "a2e446bf-7181-40f9-8996-5d2453486218",
+          },
+          Object {
+            "arguments": Array [
+              "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+            ],
+            "exit_uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+            "type": "has_group",
+            "uuid": "fa8d0d3a-067e-4460-9cff-0474ecc4e8ca",
+          },
+        ],
+        "default_exit_uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+        "operand": "@contact.groups",
+        "type": "switch",
+      },
+      "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+      "wait": Object {
+        "type": "group",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 59,
+        "width": 247,
+      },
+      "position": Object {
+        "x": 580,
+        "y": 780,
+      },
+      "type": "split_by_group",
+    },
+  },
+  "bc978e00-2f3d-41f2-87c1-26b3f14e5925": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+          "name": "Red",
+          "uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+        },
+        Object {
+          "destination_node_uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+          "name": "Other",
+          "uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "red, r",
+            ],
+            "exit_uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+            "type": "has_any_word",
+            "uuid": "87173eee-5270-4233-aede-ca88e14b672a",
+          },
+        ],
+        "default_exit_uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+        "operand": "@run.results.color ",
+        "type": "switch",
+      },
+      "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+      "wait": Object {
+        "type": "exp",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 59,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 540,
+        "y": 500,
+      },
+      "type": "split_by_expression",
+    },
+  },
+  "e2ecc8de-9774-4b74-a0dc-ca8aea123227": Object {
+    "inboundConnections": Object {
+      "7b245d49-e9e3-4387-b4ad-48deb03528cd": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Mine too!",
+          "type": "send_msg",
+          "uuid": "cd19e588-3383-4d54-b5df-8dbbc2b0d297",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+          "name": null,
+          "uuid": "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf",
+        },
+      ],
+      "uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 65,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 40,
+        "y": 400,
+      },
+    },
+  },
+}
+`;
+
+exports[`Remove 533b64e2-5906-4d33-a8e9-64f1cb6c20dd 1`] = `
+Object {
+  "059a8daa-0697-44a6-9486-2386cc417e9d": Object {
+    "inboundConnections": Object {
+      "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+      "7571ef74-35b3-4090-ac7a-c4531a500806": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "flow_name": "Customer Service",
+          "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+          "type": "start_flow",
+          "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Complete",
+          "uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Expired",
+          "uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "C",
+            ],
+            "exit_uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+            "type": "has_run_status",
+            "uuid": "2d247ecc-1d5d-4381-914a-3195b1888f04",
+          },
+          Object {
+            "arguments": Array [
+              "E",
+            ],
+            "exit_uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+            "type": "has_run_status",
+            "uuid": "b46ffd80-1b85-44bf-b3f2-01550d4ff302",
+          },
+        ],
+        "default_exit_uuid": null,
+        "operand": "@child",
+        "type": "switch",
+      },
+      "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+      "wait": Object {
+        "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+        "type": "flow",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 91,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 300,
+        "y": 800,
+      },
+      "type": "subflow",
+    },
+  },
+  "4fac7935-d13b-4b36-bf15-98075dca822a": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?",
+          "type": "send_msg",
+          "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "445fc64c-2a18-47cc-89d0-15172826bfcc",
+        },
+      ],
+      "uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 95,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 40,
+        "y": 80,
+      },
+    },
+  },
+  "533b64e2-5906-4d33-a8e9-64f1cb6c20dd": Object {
+    "inboundConnections": Object {
+      "a8bdc1c5-0283-4656-b932-4f4094f4cc7e": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Yuck",
+          "type": "send_msg",
+          "uuid": "28b9e295-1102-4f13-bd9d-4a7b11f4fcdc",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+          "name": null,
+          "uuid": "9de30522-db84-4471-bce6-99f6d0a200e0",
+        },
+      ],
+      "uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 65,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 760,
+        "y": 660,
+      },
+    },
+  },
+  "882f8022-7256-4b1c-abf3-7b180f5e7e24": Object {
+    "inboundConnections": Object {
+      "9de30522-db84-4471-bce6-99f6d0a200e0": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+    },
+    "node": Object {
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Early Adopters",
+          "uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+        },
+        Object {
+          "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+          "name": "Subscribers",
+          "uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Other",
+          "uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+            ],
+            "exit_uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+            "type": "has_group",
+            "uuid": "a2e446bf-7181-40f9-8996-5d2453486218",
+          },
+          Object {
+            "arguments": Array [
+              "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+            ],
+            "exit_uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+            "type": "has_group",
+            "uuid": "fa8d0d3a-067e-4460-9cff-0474ecc4e8ca",
+          },
+        ],
+        "default_exit_uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+        "operand": "@contact.groups",
+        "type": "switch",
+      },
+      "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+      "wait": Object {
+        "type": "group",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 59,
+        "width": 247,
+      },
+      "position": Object {
+        "x": 580,
+        "y": 780,
+      },
+      "type": "split_by_group",
+    },
+  },
+  "bc978e00-2f3d-41f2-87c1-26b3f14e5925": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+          "name": "Red",
+          "uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+        },
+        Object {
+          "destination_node_uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+          "name": "Other",
+          "uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "red, r",
+            ],
+            "exit_uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+            "type": "has_any_word",
+            "uuid": "87173eee-5270-4233-aede-ca88e14b672a",
+          },
+        ],
+        "default_exit_uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+        "operand": "@run.results.color ",
+        "type": "switch",
+      },
+      "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+      "wait": Object {
+        "type": "exp",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 59,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 540,
+        "y": 500,
+      },
+      "type": "split_by_expression",
+    },
+  },
+  "e2ecc8de-9774-4b74-a0dc-ca8aea123227": Object {
+    "inboundConnections": Object {
+      "7b245d49-e9e3-4387-b4ad-48deb03528cd": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Mine too!",
+          "type": "send_msg",
+          "uuid": "cd19e588-3383-4d54-b5df-8dbbc2b0d297",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+          "name": null,
+          "uuid": "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf",
+        },
+      ],
+      "uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 65,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 40,
+        "y": 400,
+      },
+    },
+  },
+}
+`;
+
+exports[`Remove 882f8022-7256-4b1c-abf3-7b180f5e7e24 1`] = `
+Object {
+  "059a8daa-0697-44a6-9486-2386cc417e9d": Object {
+    "inboundConnections": Object {
+      "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+      "7571ef74-35b3-4090-ac7a-c4531a500806": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "flow_name": "Customer Service",
+          "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+          "type": "start_flow",
+          "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Complete",
+          "uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Expired",
+          "uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "C",
+            ],
+            "exit_uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+            "type": "has_run_status",
+            "uuid": "2d247ecc-1d5d-4381-914a-3195b1888f04",
+          },
+          Object {
+            "arguments": Array [
+              "E",
+            ],
+            "exit_uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+            "type": "has_run_status",
+            "uuid": "b46ffd80-1b85-44bf-b3f2-01550d4ff302",
+          },
+        ],
+        "default_exit_uuid": null,
+        "operand": "@child",
+        "type": "switch",
+      },
+      "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+      "wait": Object {
+        "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+        "type": "flow",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 91,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 300,
+        "y": 800,
+      },
+      "type": "subflow",
+    },
+  },
+  "4fac7935-d13b-4b36-bf15-98075dca822a": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?",
+          "type": "send_msg",
+          "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "445fc64c-2a18-47cc-89d0-15172826bfcc",
+        },
+      ],
+      "uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 95,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 40,
+        "y": 80,
+      },
+    },
+  },
+  "533b64e2-5906-4d33-a8e9-64f1cb6c20dd": Object {
+    "inboundConnections": Object {
+      "a8bdc1c5-0283-4656-b932-4f4094f4cc7e": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Yuck",
+          "type": "send_msg",
+          "uuid": "28b9e295-1102-4f13-bd9d-4a7b11f4fcdc",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+          "name": null,
+          "uuid": "9de30522-db84-4471-bce6-99f6d0a200e0",
+        },
+      ],
+      "uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 65,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 760,
+        "y": 660,
+      },
+    },
+  },
+  "882f8022-7256-4b1c-abf3-7b180f5e7e24": Object {
+    "inboundConnections": Object {
+      "9de30522-db84-4471-bce6-99f6d0a200e0": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+    },
+    "node": Object {
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Early Adopters",
+          "uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+        },
+        Object {
+          "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+          "name": "Subscribers",
+          "uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Other",
+          "uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+            ],
+            "exit_uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+            "type": "has_group",
+            "uuid": "a2e446bf-7181-40f9-8996-5d2453486218",
+          },
+          Object {
+            "arguments": Array [
+              "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+            ],
+            "exit_uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+            "type": "has_group",
+            "uuid": "fa8d0d3a-067e-4460-9cff-0474ecc4e8ca",
+          },
+        ],
+        "default_exit_uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+        "operand": "@contact.groups",
+        "type": "switch",
+      },
+      "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+      "wait": Object {
+        "type": "group",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 59,
+        "width": 247,
+      },
+      "position": Object {
+        "x": 580,
+        "y": 780,
+      },
+      "type": "split_by_group",
+    },
+  },
+  "bc978e00-2f3d-41f2-87c1-26b3f14e5925": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+          "name": "Red",
+          "uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+        },
+        Object {
+          "destination_node_uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+          "name": "Other",
+          "uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "red, r",
+            ],
+            "exit_uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+            "type": "has_any_word",
+            "uuid": "87173eee-5270-4233-aede-ca88e14b672a",
+          },
+        ],
+        "default_exit_uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+        "operand": "@run.results.color ",
+        "type": "switch",
+      },
+      "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+      "wait": Object {
+        "type": "exp",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 59,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 540,
+        "y": 500,
+      },
+      "type": "split_by_expression",
+    },
+  },
+  "e2ecc8de-9774-4b74-a0dc-ca8aea123227": Object {
+    "inboundConnections": Object {
+      "7b245d49-e9e3-4387-b4ad-48deb03528cd": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Mine too!",
+          "type": "send_msg",
+          "uuid": "cd19e588-3383-4d54-b5df-8dbbc2b0d297",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+          "name": null,
+          "uuid": "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf",
+        },
+      ],
+      "uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 65,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 40,
+        "y": 400,
+      },
+    },
+  },
+}
+`;
+
+exports[`Remove bc978e00-2f3d-41f2-87c1-26b3f14e5925 1`] = `
+Object {
+  "059a8daa-0697-44a6-9486-2386cc417e9d": Object {
+    "inboundConnections": Object {
+      "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+      "7571ef74-35b3-4090-ac7a-c4531a500806": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "flow_name": "Customer Service",
+          "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+          "type": "start_flow",
+          "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Complete",
+          "uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Expired",
+          "uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "C",
+            ],
+            "exit_uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+            "type": "has_run_status",
+            "uuid": "2d247ecc-1d5d-4381-914a-3195b1888f04",
+          },
+          Object {
+            "arguments": Array [
+              "E",
+            ],
+            "exit_uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+            "type": "has_run_status",
+            "uuid": "b46ffd80-1b85-44bf-b3f2-01550d4ff302",
+          },
+        ],
+        "default_exit_uuid": null,
+        "operand": "@child",
+        "type": "switch",
+      },
+      "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+      "wait": Object {
+        "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+        "type": "flow",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 91,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 300,
+        "y": 800,
+      },
+      "type": "subflow",
+    },
+  },
+  "4fac7935-d13b-4b36-bf15-98075dca822a": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?",
+          "type": "send_msg",
+          "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "445fc64c-2a18-47cc-89d0-15172826bfcc",
+        },
+      ],
+      "uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 95,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 40,
+        "y": 80,
+      },
+    },
+  },
+  "533b64e2-5906-4d33-a8e9-64f1cb6c20dd": Object {
+    "inboundConnections": Object {
+      "a8bdc1c5-0283-4656-b932-4f4094f4cc7e": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Yuck",
+          "type": "send_msg",
+          "uuid": "28b9e295-1102-4f13-bd9d-4a7b11f4fcdc",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+          "name": null,
+          "uuid": "9de30522-db84-4471-bce6-99f6d0a200e0",
+        },
+      ],
+      "uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 65,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 760,
+        "y": 660,
+      },
+    },
+  },
+  "882f8022-7256-4b1c-abf3-7b180f5e7e24": Object {
+    "inboundConnections": Object {
+      "9de30522-db84-4471-bce6-99f6d0a200e0": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+    },
+    "node": Object {
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Early Adopters",
+          "uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+        },
+        Object {
+          "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+          "name": "Subscribers",
+          "uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Other",
+          "uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+            ],
+            "exit_uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+            "type": "has_group",
+            "uuid": "a2e446bf-7181-40f9-8996-5d2453486218",
+          },
+          Object {
+            "arguments": Array [
+              "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+            ],
+            "exit_uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+            "type": "has_group",
+            "uuid": "fa8d0d3a-067e-4460-9cff-0474ecc4e8ca",
+          },
+        ],
+        "default_exit_uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+        "operand": "@contact.groups",
+        "type": "switch",
+      },
+      "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+      "wait": Object {
+        "type": "group",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 59,
+        "width": 247,
+      },
+      "position": Object {
+        "x": 580,
+        "y": 780,
+      },
+      "type": "split_by_group",
+    },
+  },
+  "bc978e00-2f3d-41f2-87c1-26b3f14e5925": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+          "name": "Red",
+          "uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+        },
+        Object {
+          "destination_node_uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+          "name": "Other",
+          "uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "red, r",
+            ],
+            "exit_uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+            "type": "has_any_word",
+            "uuid": "87173eee-5270-4233-aede-ca88e14b672a",
+          },
+        ],
+        "default_exit_uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+        "operand": "@run.results.color ",
+        "type": "switch",
+      },
+      "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+      "wait": Object {
+        "type": "exp",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 59,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 540,
+        "y": 500,
+      },
+      "type": "split_by_expression",
+    },
+  },
+  "e2ecc8de-9774-4b74-a0dc-ca8aea123227": Object {
+    "inboundConnections": Object {
+      "7b245d49-e9e3-4387-b4ad-48deb03528cd": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Mine too!",
+          "type": "send_msg",
+          "uuid": "cd19e588-3383-4d54-b5df-8dbbc2b0d297",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+          "name": null,
+          "uuid": "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf",
+        },
+      ],
+      "uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 65,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 40,
+        "y": 400,
+      },
+    },
+  },
+}
+`;
+
+exports[`Remove e2ecc8de-9774-4b74-a0dc-ca8aea123227 1`] = `
+Object {
+  "059a8daa-0697-44a6-9486-2386cc417e9d": Object {
+    "inboundConnections": Object {
+      "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+      "7571ef74-35b3-4090-ac7a-c4531a500806": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "flow_name": "Customer Service",
+          "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+          "type": "start_flow",
+          "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Complete",
+          "uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Expired",
+          "uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "C",
+            ],
+            "exit_uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+            "type": "has_run_status",
+            "uuid": "2d247ecc-1d5d-4381-914a-3195b1888f04",
+          },
+          Object {
+            "arguments": Array [
+              "E",
+            ],
+            "exit_uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+            "type": "has_run_status",
+            "uuid": "b46ffd80-1b85-44bf-b3f2-01550d4ff302",
+          },
+        ],
+        "default_exit_uuid": null,
+        "operand": "@child",
+        "type": "switch",
+      },
+      "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+      "wait": Object {
+        "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+        "type": "flow",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 91,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 300,
+        "y": 800,
+      },
+      "type": "subflow",
+    },
+  },
+  "4fac7935-d13b-4b36-bf15-98075dca822a": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?",
+          "type": "send_msg",
+          "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "445fc64c-2a18-47cc-89d0-15172826bfcc",
+        },
+      ],
+      "uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 95,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 40,
+        "y": 80,
+      },
+    },
+  },
+  "533b64e2-5906-4d33-a8e9-64f1cb6c20dd": Object {
+    "inboundConnections": Object {
+      "a8bdc1c5-0283-4656-b932-4f4094f4cc7e": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Yuck",
+          "type": "send_msg",
+          "uuid": "28b9e295-1102-4f13-bd9d-4a7b11f4fcdc",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+          "name": null,
+          "uuid": "9de30522-db84-4471-bce6-99f6d0a200e0",
+        },
+      ],
+      "uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 65,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 760,
+        "y": 660,
+      },
+    },
+  },
+  "882f8022-7256-4b1c-abf3-7b180f5e7e24": Object {
+    "inboundConnections": Object {
+      "9de30522-db84-4471-bce6-99f6d0a200e0": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+    },
+    "node": Object {
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Early Adopters",
+          "uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+        },
+        Object {
+          "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+          "name": "Subscribers",
+          "uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Other",
+          "uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+            ],
+            "exit_uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+            "type": "has_group",
+            "uuid": "a2e446bf-7181-40f9-8996-5d2453486218",
+          },
+          Object {
+            "arguments": Array [
+              "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+            ],
+            "exit_uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+            "type": "has_group",
+            "uuid": "fa8d0d3a-067e-4460-9cff-0474ecc4e8ca",
+          },
+        ],
+        "default_exit_uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+        "operand": "@contact.groups",
+        "type": "switch",
+      },
+      "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+      "wait": Object {
+        "type": "group",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 59,
+        "width": 247,
+      },
+      "position": Object {
+        "x": 580,
+        "y": 780,
+      },
+      "type": "split_by_group",
+    },
+  },
+  "bc978e00-2f3d-41f2-87c1-26b3f14e5925": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+          "name": "Red",
+          "uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+        },
+        Object {
+          "destination_node_uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+          "name": "Other",
+          "uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "red, r",
+            ],
+            "exit_uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+            "type": "has_any_word",
+            "uuid": "87173eee-5270-4233-aede-ca88e14b672a",
+          },
+        ],
+        "default_exit_uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+        "operand": "@run.results.color ",
+        "type": "switch",
+      },
+      "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+      "wait": Object {
+        "type": "exp",
+      },
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 59,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 540,
+        "y": 500,
+      },
+      "type": "split_by_expression",
+    },
+  },
+  "e2ecc8de-9774-4b74-a0dc-ca8aea123227": Object {
+    "inboundConnections": Object {
+      "7b245d49-e9e3-4387-b4ad-48deb03528cd": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Mine too!",
+          "type": "send_msg",
+          "uuid": "cd19e588-3383-4d54-b5df-8dbbc2b0d297",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+          "name": null,
+          "uuid": "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf",
+        },
+      ],
+      "uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+    },
+    "ui": Object {
+      "dimensions": Object {
+        "height": 65,
+        "width": 200,
+      },
+      "position": Object {
+        "x": 40,
+        "y": 400,
+      },
+    },
+  },
+}
+`;

@@ -72,13 +72,13 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
 
-        this.props.removeAction(this.props.action);
+        this.props.removeAction(this.props.node.uuid, this.props.action);
     }
 
     private onMoveUp(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
 
-        this.props.moveActionUp(this.props.action);
+        this.props.moveActionUp(this.props.node.uuid, this.props.action);
     }
 
     private getClasses(): string {
