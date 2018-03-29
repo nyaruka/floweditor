@@ -175,3 +175,5 @@ export const resultsToSearchOpts = ({ name, uuid, type }: any): SearchResult => 
     id: uuid,
     type
 });
+
+export const dump = (thing: any) => console.log(JSON.stringify(thing, null, 1));

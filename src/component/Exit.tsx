@@ -3,7 +3,7 @@ import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Exit } from '../flowTypes';
+import { Exit, Node } from '../flowTypes';
 import { DisconnectExit, disconnectExit, DispatchWithState, AppState } from '../store';
 import ActivityManager from '../services/ActivityManager';
 import { LocalizedObject } from '../services/Localization';
@@ -13,6 +13,7 @@ import { createClickHandler } from '../utils';
 
 export interface ExitPassedProps {
     exit: Exit;
+    node: Node;
     localization: LocalizedObject;
     Activity: ActivityManager;
     plumberMakeSource: Function;
@@ -48,9 +49,12 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         });
     }
 
-    public componentDidMount(): void {
-        this.props.plumberMakeSource(this.props.exit.uuid);
+    public getSourceId(): string {
+        return `${this.props.node.uuid}:${this.props.exit.uuid}`;
+    }
 
+    public componentDidMount(): void {
+        this.props.plumberMakeSource(this.getSourceId());
         if (this.props.exit.destination_node_uuid) {
             this.connect();
         }
@@ -68,7 +72,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 
     public componentWillUnmount(): void {
         if (this.props.exit.destination_node_uuid) {
-            this.props.plumberRemove(this.props.exit.uuid);
+            this.props.plumberRemove(this.getSourceId());
         }
     }
 
@@ -102,7 +106,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             window.clearTimeout(this.timeout);
         }
 
-        this.props.disconnectExit(this.props.exit.uuid);
+        this.props.disconnectExit(this.props.node.uuid, this.props.exit.uuid);
     }
 
     private onUnmount(key: string): void {
@@ -118,7 +122,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             classes.push('confirm-delete');
         }
 
-        this.props.plumberConnectExit(this.props.exit, classes.join(' '));
+        this.props.plumberConnectExit(this.props.node, this.props.exit, classes.join(' '));
     }
 
     private getCount(): number {
@@ -179,7 +183,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
                 <div className={nameStyle}>{exit.name}</div>
                 <div
                     {...createClickHandler(this.onClick)}
-                    id={this.props.exit.uuid}
+                    id={`${this.props.node.uuid}:${this.props.exit.uuid}`}
                     className={dragNodeClasses}>
                     {confirm}
                 </div>
