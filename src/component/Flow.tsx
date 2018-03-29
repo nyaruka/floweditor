@@ -6,7 +6,6 @@ import { Config } from '../config';
 import { getActivity } from '../external';
 import { FlowDefinition, Languages, Node, UINode } from '../flowTypes';
 import {
-    Components,
     ConnectionEvent,
     DispatchWithState,
     ensureStartNode,
@@ -29,6 +28,7 @@ import { snapToGrid } from '../utils';
 import * as styles from './Flow.scss';
 import NodeContainer, { DragPoint } from './Node';
 import NodeEditor from './NodeEditor';
+import { RenderNode } from '../store/flowContext';
 
 export interface FlowPassedProps {
     languages: Languages;
@@ -37,8 +37,8 @@ export interface FlowPassedProps {
 export interface FlowStoreProps {
     translating: boolean;
     definition: FlowDefinition;
+    nodes: { [uuid: string]: RenderNode };
     dependencies: FlowDefinition[];
-    components: Components;
     ghostNode: Node;
     pendingConnection: DragPoint;
     nodeEditorOpen: boolean;
@@ -93,9 +93,9 @@ export class Flow extends React.Component<FlowProps> {
             this.beforeConnectionDrag(event)
         );
 
-        this.Plumber.bind('connectionDrag', (event: ConnectionEvent) =>
-            this.props.onConnectionDrag(event)
-        );
+        this.Plumber.bind('connectionDrag', (event: ConnectionEvent) => {
+            this.props.onConnectionDrag(event);
+        });
 
         this.Plumber.bind('connectionDragStop', (event: ConnectionEvent) =>
             this.onConnectorDrop(event)
@@ -132,16 +132,11 @@ export class Flow extends React.Component<FlowProps> {
     private onBeforeConnectorDrop(event: ConnectionEvent): boolean {
         this.props.resetNodeEditingState();
 
-        const connectionError = getConnectionError(
-            event.sourceId,
-            event.targetId,
-            this.props.components
-        );
+        const connectionError = getConnectionError(event.sourceId, event.targetId);
 
         if (connectionError != null) {
             console.error(connectionError);
         }
-
         return connectionError == null;
     }
 
@@ -180,6 +175,8 @@ export class Flow extends React.Component<FlowProps> {
 
                 // Bring up the node editor
                 this.props.onOpenNodeEditor(this.props.ghostNode, null, this.props.languages);
+            } else {
+                // console.log('update connection', event);
             }
 
             $(document).off('mousemove');
@@ -193,13 +190,13 @@ export class Flow extends React.Component<FlowProps> {
     }
 
     private getNodes(): JSX.Element[] {
-        return this.props.definition.nodes.map(node => {
-            const ui = this.props.definition._ui.nodes[node.uuid];
+        return Object.keys(this.props.nodes).map(uuid => {
+            const renderNode = this.props.nodes[uuid];
             return (
                 <NodeContainer
-                    key={node.uuid}
-                    node={node}
-                    ui={ui}
+                    key={uuid}
+                    node={renderNode.node}
+                    ui={renderNode.ui}
                     Activity={this.Activity}
                     plumberRepaintForDuration={this.Plumber.repaintForDuration}
                     plumberDraggable={this.Plumber.draggable}
@@ -295,7 +292,7 @@ export class Flow extends React.Component<FlowProps> {
 }
 
 const mapStateToProps = ({
-    flowContext: { definition, dependencies, components },
+    flowContext: { definition, dependencies, nodes },
     flowEditor: {
         editorUI: { translating, nodeEditorOpen },
         flowUI: { ghostNode, pendingConnection }
@@ -303,8 +300,8 @@ const mapStateToProps = ({
 }: AppState) => ({
     translating,
     definition,
+    nodes,
     dependencies,
-    components,
     ghostNode,
     pendingConnection,
     nodeEditorOpen

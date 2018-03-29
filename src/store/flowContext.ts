@@ -1,31 +1,21 @@
-import { FlowDefinition } from '../flowTypes';
+import { FlowDefinition, UINode, Node } from '../flowTypes';
 import { LocalizedObject } from '../services/Localization';
 import ActionTypes, {
-    UpdateComponentsAction,
     UpdateResultNamesAction,
     UpdateGroupsAction,
     UpdateContactFieldsAction,
     UpdateLocalizationsAction,
     UpdateDependenciesAction,
-    UpdateDefinitionAction
+    UpdateDefinitionAction,
+    UpdateNodesAction
 } from './actionTypes';
 import Constants from './constants';
 import { combineReducers } from 'redux';
 
-export interface ComponentDetails {
-    nodeUUID: string;
-    nodeIdx: number;
-    actionIdx?: number;
-    actionUUID?: string;
-    exitIdx?: number;
-    exitUUID?: string;
-    pointers?: string[];
-    type?: string;
-    isRouter?: boolean;
-}
-
-export interface Components {
-    [uuid: string]: ComponentDetails;
+export interface RenderNode {
+    ui: UINode;
+    node: Node;
+    inboundConnections?: { [uuid: string]: string };
 }
 
 export interface SearchResult {
@@ -46,13 +36,17 @@ export interface CompletionOption {
 }
 
 export interface FlowContext {
-    definition: FlowDefinition;
     dependencies: FlowDefinition[];
     localizations: LocalizedObject[];
     contactFields: ContactFieldResult[];
     resultNames: CompletionOption[];
     groups: SearchResult[];
-    components: Components;
+
+    // the initial definition
+    definition: FlowDefinition;
+
+    // our map of nodes
+    nodes: { [uuid: string]: RenderNode };
 }
 
 // Initial state
@@ -63,7 +57,7 @@ export const initialState: FlowContext = {
     contactFields: [],
     resultNames: [],
     groups: [],
-    components: {}
+    nodes: {}
 };
 
 // Action Creators
@@ -72,6 +66,14 @@ export const updateDefinition = (definition: FlowDefinition): UpdateDefinitionAc
     type: Constants.UPDATE_DEFINITION,
     payload: {
         definition
+    }
+});
+
+// tslint:disable-next-line:no-shadowed-variable
+export const updateNodes = (nodes: { [uuid: string]: RenderNode }): UpdateNodesAction => ({
+    type: Constants.UPDATE_NODES,
+    payload: {
+        nodes
     }
 });
 
@@ -119,14 +121,6 @@ export const updateResultNames = (resultNames: CompletionOption[]): UpdateResult
     }
 });
 
-// tslint:disable-next-line:no-shadowed-variable
-export const updateComponents = (components: Components): UpdateComponentsAction => ({
-    type: Constants.UPDATE_COMPONENTS,
-    payload: {
-        components
-    }
-});
-
 // Reducers
 export const definition = (
     state: FlowDefinition = initialState.definition,
@@ -135,6 +129,15 @@ export const definition = (
     switch (action.type) {
         case Constants.UPDATE_DEFINITION:
             return action.payload.definition;
+        default:
+            return state;
+    }
+};
+
+export const nodes = (state: {} = initialState.nodes, action: ActionTypes) => {
+    switch (action.type) {
+        case Constants.UPDATE_NODES:
+            return action.payload.nodes;
         default:
             return state;
     }
@@ -197,22 +200,13 @@ export const groups = (state: SearchResult[] = initialState.groups, action: Acti
     }
 };
 
-export const components = (state: Components = initialState.components, action: ActionTypes) => {
-    switch (action.type) {
-        case Constants.UPDATE_COMPONENTS:
-            return action.payload.components;
-        default:
-            return state;
-    }
-};
-
 // Root reducer
 export default combineReducers({
     definition,
+    nodes,
     dependencies,
     localizations,
     contactFields,
     resultNames,
-    groups,
-    components
+    groups
 });
