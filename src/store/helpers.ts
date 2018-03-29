@@ -12,7 +12,7 @@ import {
     WaitType
 } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
-import { Components, ContactFieldResult, SearchResult } from './flowContext';
+import { SearchResult, RenderNode } from './flowContext';
 import { PendingConnections } from './flowEditor';
 
 export interface Bounds {
@@ -53,8 +53,8 @@ export const getExistingResultNames = (resultNames: { [name: string]: string }) 
     }, []);
 
 export const getExistingFields = (
-    reservedFields: ContactFieldResult[],
-    fields: { [id: string]: ContactFieldResult }
+    reservedFields: SearchResult[],
+    fields: { [id: string]: SearchResult }
 ) =>
     Object.keys(fields).reduce((existingFields, fieldKey) => {
         existingFields.push(fields[fieldKey]);
@@ -63,9 +63,25 @@ export const getExistingFields = (
 
 export const pureSort = (list: any[], fn: (a: any, b: any) => number) => [...list].sort(fn);
 
-export const getNodesBelow = ({ uuid: nodeUUID }: Node, nodes: Node[]) => {
-    const idx = nodes.findIndex(({ uuid }: Node) => uuid === nodeUUID);
-    return nodes.slice(idx, nodes.length);
+export const getNodesBelow = (
+    { uuid: nodeUUID }: Node,
+    nodes: { [uuid: string]: RenderNode }
+): Node[] => {
+    const below = nodes[nodeUUID].ui.position.y;
+
+    // TODO: well this isn't great now is it
+    // good news though, I don't think we need this
+    // if we do group drag selection
+    const nodesBelow = [];
+    for (const uuid in Object.keys(nodes)) {
+        if (uuid !== nodeUUID) {
+            const belowNode = nodes[uuid];
+            if (belowNode.ui.position.y > below) {
+                nodesBelow.push(belowNode.node);
+            }
+        }
+    }
+    return nodesBelow;
 };
 
 export const getPendingConnection = (
@@ -73,36 +89,12 @@ export const getPendingConnection = (
     pendingConnections: PendingConnections
 ): DragPoint => pendingConnections[nodeUUID];
 
-export const getDetails = (uuid: string, components: Components) => components[uuid];
-
-export const isActionsNode = (uuid: string, components: Components) => {
-    const details = getDetails(uuid, components);
-    return details != null && !details.isRouter;
-};
-
-export const getNode = (uuid: string, components: Components, definition: FlowDefinition) => {
-    const details = components[uuid];
-    if (!details) {
-        return null;
-    }
-    return definition.nodes[details.nodeIdx];
-};
-
 /**
  * Gets a suggested result name based on the current number of waits
  * in the current definition
  */
-export const getSuggestedResultName = (nodes: Node[]) => {
+export const getSuggestedResultName = (nodes: { [uuid: string]: RenderNode }) => {
     return 'Response ' + nodes.length;
-};
-
-export const getExit = (uuid: string, components: Components, definition: FlowDefinition) => {
-    const details = components[uuid];
-    if (details) {
-        const node = definition.nodes[details.nodeIdx];
-        return node.exits[details.exitIdx];
-    }
-    return null;
 };
 
 export const getNodeUI = (uuid: string, definition: FlowDefinition) => definition._ui.nodes[uuid];
@@ -155,18 +147,17 @@ export const getLocalizations = (
 export const determineConfigType = (
     nodeToEdit: Node,
     action: AnyAction,
-    definition: FlowDefinition,
-    components: Components
+    nodes: { [uuid: string]: RenderNode }
 ) => {
     if (action && action.type) {
         return action.type;
     } else if (nodeToEdit.actions && nodeToEdit.actions.length) {
         return nodeToEdit.actions[nodeToEdit.actions.length - 1].type;
     } else {
-        const nodeUI = definition._ui.nodes[nodeToEdit.uuid];
-        if (nodeUI) {
-            if (nodeUI.type) {
-                return nodeUI.type;
+        const renderNode = nodes[nodeToEdit.uuid];
+        if (renderNode) {
+            if (renderNode.ui.type) {
+                return renderNode.ui.type;
             }
         }
     }
@@ -182,18 +173,23 @@ export const determineConfigType = (
         }
     }
 
-    const details = getDetails(nodeToEdit.uuid, components);
-    if (details.type) {
-        return details.type;
-    }
-
     throw new Error(`Cannot initialize NodeEditor without a valid type: ${nodeToEdit.uuid}`);
 };
 
-export const getConnectionError = (source: string, targetUUID: string, components: Components) =>
-    getDetails(source, components).nodeUUID === targetUUID
-        ? 'Connections cannot route back to the same places.'
-        : null;
+export const getUniqueDestinations = (node: Node): string[] => {
+    const destinations = {};
+    for (const exit of node.exits) {
+        if (exit.destination_node_uuid) {
+            destinations[exit.destination_node_uuid] = true;
+        }
+    }
+    return Object.keys(destinations);
+};
+
+export const getConnectionError = (source: string, targetUUID: string) => {
+    const [nodeUUID, exitUUID] = source.split(':');
+    return nodeUUID === targetUUID ? 'Connections cannot route back to the same places.' : null;
+};
 
 export const nodeSort = (definition: FlowDefinition) => (a: Node, b: Node) => {
     const { position: aPos } = definition._ui.nodes[a.uuid];
@@ -206,10 +202,11 @@ export const nodeSort = (definition: FlowDefinition) => (a: Node, b: Node) => {
     return diff;
 };
 
-export const getNodeBoundaries = (nodes: Node[], ui: UIMetaData) =>
-    nodes
-        .reduce((uiList, node) => {
-            const uiDetails = ui.nodes[node.uuid];
+export const getNodeBoundaries = (nodes: { [uuid: string]: RenderNode }) =>
+    Object.keys(nodes)
+        .reduce((uiList, nodeUUID) => {
+            const renderNode = nodes[nodeUUID];
+            const uiDetails = renderNode.ui;
 
             // This should only happen with freshly added nodes, since
             // they don't have dimensions until they are rendered.
@@ -218,7 +215,7 @@ export const getNodeBoundaries = (nodes: Node[], ui: UIMetaData) =>
                 : { width: 250, height: 100 };
 
             uiList.push({
-                uuid: node.uuid,
+                uuid: renderNode.node.uuid,
                 bounds: {
                     left: uiDetails.position.x,
                     top: uiDetails.position.y,
@@ -237,8 +234,8 @@ export const getNodeBoundaries = (nodes: Node[], ui: UIMetaData) =>
             return diff;
         });
 
-export const getCollisions = (nodes: Node[], ui: UIMetaData, nodeSpacing: number) => {
-    const boundaries = getNodeBoundaries(nodes, ui);
+export const getCollisions = (nodes: { [uuid: string]: RenderNode }, nodeSpacing: number) => {
+    const boundaries = getNodeBoundaries(nodes);
     const updatedNodes: Reflow[] = [];
 
     for (let i = 0; i < boundaries.length; i++) {
@@ -283,7 +280,7 @@ export const getCollisions = (nodes: Node[], ui: UIMetaData, nodeSpacing: number
     return updatedNodes;
 };
 
-export const getGhostNode = (fromNode: Node, fromNodeUI: UINode, definition: FlowDefinition) => {
+export const getGhostNode = (fromNode: RenderNode, nodes: { [uuid: string]: RenderNode }) => {
     const ghostNode: Node = {
         uuid: generateUUID(),
         actions: [],
@@ -296,7 +293,7 @@ export const getGhostNode = (fromNode: Node, fromNodeUI: UINode, definition: Flo
     };
 
     // Add an action if we are coming from a split
-    if (fromNode.wait || fromNodeUI.type === 'webhook') {
+    if (fromNode.node.wait || fromNode.ui.type === 'webhook') {
         const replyAction = {
             uuid: generateUUID(),
             type: 'send_msg',
@@ -310,7 +307,7 @@ export const getGhostNode = (fromNode: Node, fromNodeUI: UINode, definition: Flo
         ghostNode.wait = { type: WaitType.msg };
         ghostNode.router = {
             type: 'switch',
-            result_name: getSuggestedResultName(definition.nodes)
+            result_name: getSuggestedResultName(nodes)
         };
     }
 

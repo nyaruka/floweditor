@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { SetContactField, FlowDefinition } from '../../../flowTypes';
+import { SetContactField, SetContactProperty, FlowDefinition } from '../../../flowTypes';
 import { createSetup } from '../../../testUtils';
-import SetContactFieldComp from './SetContactField';
+import SetContactAttribComp from './SetContactAttrib';
 
 const {
     results: [{ definition }]
@@ -12,10 +12,10 @@ const { actions: [setContactFieldAction] } = node;
 const setup = createSetup<SetContactField>(
     setContactFieldAction as SetContactField,
     null,
-    SetContactFieldComp
+    SetContactAttribComp
 );
 
-const COMPONENT_TO_TEST = SetContactFieldComp.name;
+const COMPONENT_TO_TEST = SetContactAttribComp.name;
 
 describe(`${COMPONENT_TO_TEST}`, () => {
     describe('render', () => {

@@ -346,6 +346,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 );
                 return (
                     <ExitComp
+                        node={this.props.node}
                         key={exit.uuid}
                         exit={exit}
                         localization={localization}

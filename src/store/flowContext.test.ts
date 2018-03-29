@@ -1,16 +1,15 @@
 import Localization from '../services/Localization';
 import Constants from './constants';
+import { v4 as generateUUID } from 'uuid';
 import reducer, {
-    components as componentsReducer,
-    contactFields as contactFieldsReducer,
+    contactAttributes as contactFieldsReducer,
     definition as definitionReducer,
     dependencies as dependenciesReducer,
     groups as groupsReducer,
     initialState,
     localizations as localizationsReducer,
     resultNames as resultNamesReducer,
-    updateComponents,
-    updateContactFields,
+    updateContactAttributes,
     updateDefinition,
     updateDependencies,
     updateGroups,
@@ -74,16 +73,18 @@ describe('flowContext action creators', () => {
         });
     });
 
-    describe('updateContactFields', () => {
-        it('should create an action to update contactFields state', () => {
-            const contactFields = [{ id: 'name', name: 'Name', type: 'set_contact_field' }];
+    describe('updateContactAttributes', () => {
+        it('should create an action to update contactAttributes state', () => {
+            const contactAttributes = [
+                { id: generateUUID(), name: 'Name', type: 'set_contact_field' }
+            ];
             const expectedAction = {
-                type: Constants.UPDATE_CONTACT_FIELDS,
+                type: Constants.UPDATE_CONTACT_ATTRIBUTES,
                 payload: {
-                    contactFields
+                    contactAttributes
                 }
             };
-            expect(updateContactFields(contactFields)).toEqual(expectedAction);
+            expect(updateContactAttributes(contactAttributes)).toEqual(expectedAction);
         });
     });
 
@@ -110,40 +111,6 @@ describe('flowContext action creators', () => {
                 }
             };
             expect(updateResultNames(resultNames)).toEqual(expectedAction);
-        });
-    });
-
-    describe('updateComponents', () => {
-        it('should create an action to update components state', () => {
-            const components = {
-                '4fac7935-d13b-4b36-bf15-98075dca822a': {
-                    nodeUUID: '4fac7935-d13b-4b36-bf15-98075dca822a',
-                    nodeIdx: 0,
-                    actionIdx: -1,
-                    exitIdx: -1,
-                    pointers: ['326a41b7-9bce-453b-8783-1113f649663c']
-                },
-                '64378fc1-19e4-4c8a-be27-aee49ebc728a': {
-                    nodeUUID: '4fac7935-d13b-4b36-bf15-98075dca822a',
-                    nodeIdx: 0,
-                    actionUUID: '64378fc1-19e4-4c8a-be27-aee49ebc728a',
-                    actionIdx: 0,
-                    type: 'send_msg'
-                },
-                '445fc64c-2a18-47cc-89d0-15172826bfcc': {
-                    nodeIdx: 0,
-                    nodeUUID: '4fac7935-d13b-4b36-bf15-98075dca822a',
-                    exitIdx: 0,
-                    exitUUID: '445fc64c-2a18-47cc-89d0-15172826bfcc'
-                }
-            };
-            const expectedAction = {
-                type: Constants.UPDATE_COMPONENTS,
-                payload: {
-                    components
-                }
-            };
-            expect(updateComponents(components)).toEqual(expectedAction);
         });
     });
 });
@@ -203,17 +170,19 @@ describe('flowContext reducers', () => {
         });
     });
 
-    describe('contactFields reducer', () => {
+    describe('contactAttributes reducer', () => {
         const reduce = action => contactFieldsReducer(undefined, action);
 
         it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.contactFields);
+            expect(reduce({})).toEqual(initialState.contactAttributes);
         });
 
         it('should handle UPDATE_CONTACT_FIELDS', () => {
-            const contactFields = [{ id: 'name', name: 'Name', type: 'set_contact_field' }];
-            const action = updateContactFields(contactFields);
-            expect(reduce(action)).toEqual(contactFields);
+            const contactAttributes = [
+                { id: generateUUID(), name: 'Name', type: 'set_contact_field' }
+            ];
+            const action = updateContactAttributes(contactAttributes);
+            expect(reduce(action)).toEqual(contactAttributes);
         });
     });
 
@@ -242,41 +211,6 @@ describe('flowContext reducers', () => {
             const groups = [{ id: 'subscribers', name: 'Subscribers' }];
             const action = updateGroups(groups);
             expect(reduce(action)).toEqual(groups);
-        });
-    });
-
-    describe('components reducer', () => {
-        const reduce = action => componentsReducer(undefined, action);
-
-        it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.components);
-        });
-
-        it('should handle UPDATE_COMPONENTS', () => {
-            const components = {
-                '4fac7935-d13b-4b36-bf15-98075dca822a': {
-                    nodeUUID: '4fac7935-d13b-4b36-bf15-98075dca822a',
-                    nodeIdx: 0,
-                    actionIdx: -1,
-                    exitIdx: -1,
-                    pointers: ['326a41b7-9bce-453b-8783-1113f649663c']
-                },
-                '64378fc1-19e4-4c8a-be27-aee49ebc728a': {
-                    nodeUUID: '4fac7935-d13b-4b36-bf15-98075dca822a',
-                    nodeIdx: 0,
-                    actionUUID: '64378fc1-19e4-4c8a-be27-aee49ebc728a',
-                    actionIdx: 0,
-                    type: 'send_msg'
-                },
-                '445fc64c-2a18-47cc-89d0-15172826bfcc': {
-                    nodeIdx: 0,
-                    nodeUUID: '4fac7935-d13b-4b36-bf15-98075dca822a',
-                    exitIdx: 0,
-                    exitUUID: '445fc64c-2a18-47cc-89d0-15172826bfcc'
-                }
-            };
-            const action = updateComponents(components);
-            expect(reduce(action)).toEqual(components);
         });
     });
 });

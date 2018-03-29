@@ -98,16 +98,19 @@ export interface ChangeGroups extends Action {
     groups: Group[];
 }
 export interface SetContactField extends Action {
-    field_uuid: string;
     field_name: string;
+    field_uuid: string;
     value: string;
     created_on?: Date;
 }
 
-export interface SetContactProperty extends SetContactField {
-    field_name: string;
+export interface SetContactProperty extends Action {
+    property_name: string;
+    property_uuid: string;
     value: string;
 }
+
+export type SetContactAttribute = SetContactField | SetContactProperty;
 
 export interface SendMsg extends Action {
     text: string;
@@ -177,6 +180,7 @@ export type AnyAction =
     | Action
     | ChangeGroups
     | SetContactField
+    | SetContactProperty
     | SetRunResult
     | SendMsg
     | SetPreferredChannel

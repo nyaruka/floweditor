@@ -5,8 +5,8 @@ import SendMsgComp from '../component/actions/SendMsg/SendMsg';
 import SendMsgForm from '../component/actions/SendMsg/SendMsgForm';
 import SetRunResultComp from '../component/actions/SetRunResult/SetRunResult';
 import SetRunResultForm from '../component/actions/SetRunResult/SetRunResultForm';
-import SetContactFieldComp from '../component/actions/SetContactField/SetContactField';
-import SetContactFieldForm from '../component/actions/SetContactField/SetContactFieldForm';
+import SetContactAttrib from '../component/actions/SetContactAttrib/SetContactAttrib';
+import SetContactAttribForm from '../component/actions/SetContactAttrib/SetContactAttribForm';
 import SendEmailComp from '../component/actions/SendEmail/SendEmail';
 import SendEmailForm from '../component/actions/SendEmail/SendEmailForm';
 import StartFlowComp from '../component/actions/StartFlow/StartFlow';
@@ -95,8 +95,8 @@ export const typeConfigList: Type[] = [
         type: 'set_contact_field',
         name: 'Update Contact',
         description: 'Update the contact',
-        form: SetContactFieldForm,
-        component: SetContactFieldComp,
+        form: SetContactAttribForm,
+        component: SetContactAttrib,
         aliases: ['set_contact_property'],
         allows
     },
@@ -149,7 +149,7 @@ export const typeConfigList: Type[] = [
         allows
     },
     {
-        type: 'split_by_group',
+        type: 'split_by_groups',
         name: 'Split by Group Membership',
         description: 'Split by group membership',
         form: GroupsRouter,
@@ -171,7 +171,7 @@ export const actionConfigList = typeConfigList.filter(
     ({ type }) =>
         type !== 'wait_for_response' &&
         type !== 'split_by_expression' &&
-        type !== 'split_by_group' &&
+        type !== 'split_by_groups' &&
         type !== 'run_flow' &&
         type !== 'call_webhook'
 );

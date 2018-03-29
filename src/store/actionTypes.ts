@@ -4,7 +4,7 @@ import { Type } from '../config';
 import { AnyAction, FlowDefinition, Node, Position } from '../flowTypes';
 import { LocalizedObject } from '../services/Localization';
 import Constants from './constants';
-import { Components, ContactFieldResult, SearchResult, CompletionOption } from './flowContext';
+import { CompletionOption, RenderNode, SearchResult } from './flowContext';
 
 // Redux action generic
 interface DuxAction<T extends Constants, P extends { [key: string]: any }> {
@@ -50,12 +50,8 @@ interface RemovePendingConnectionPayload {
     nodeUUID: string;
 }
 
-interface UpdateComponentsPayload {
-    components: Components;
-}
-
-interface UpdateContactFieldsPayload {
-    contactFields: ContactFieldResult[];
+interface UpdateContactAttributesPayload {
+    contactAttributes: SearchResult[];
 }
 
 interface UpdateGroupsPayload {
@@ -67,7 +63,7 @@ interface UpdateResultNamesPayload {
 }
 
 interface UpdateNodesPayload {
-    nodes: Node[];
+    nodes: { [uuid: string]: RenderNode };
 }
 
 interface UpdateFreshestNodePayload {
@@ -160,14 +156,9 @@ export type RemovePendingConnectionAction = DuxAction<
     RemovePendingConnectionPayload
 >;
 
-export type UpdateComponentsAction = DuxAction<
-    Constants.UPDATE_COMPONENTS,
-    UpdateComponentsPayload
->;
-
-export type UpdateContactFieldsAction = DuxAction<
-    Constants.UPDATE_CONTACT_FIELDS,
-    UpdateContactFieldsPayload
+export type UpdateContactAttributesAction = DuxAction<
+    Constants.UPDATE_CONTACT_ATTRIBUTES,
+    UpdateContactAttributesPayload
 >;
 
 export type UpdateGroupsAction = DuxAction<Constants.UPDATE_GROUPS, UpdateGroupsPayload>;
@@ -274,8 +265,7 @@ type ActionTypes =
     | UpdateDependenciesAction
     | UpdatePendingConnectionsAction
     | RemovePendingConnectionAction
-    | UpdateComponentsAction
-    | UpdateContactFieldsAction
+    | UpdateContactAttributesAction
     | UpdateGroupsAction
     | UpdateResultNamesAction
     | UpdateNodesAction

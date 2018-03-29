@@ -3,7 +3,6 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { v4 as generateUUID } from 'uuid';
-
 import { Mode, Type } from '../../config';
 import {
     Action,
@@ -27,22 +26,19 @@ import {
 import { LocalizedObject } from '../../services/Localization';
 import {
     AppState,
-    Components,
     DispatchWithState,
-    getDetails,
-    getExit,
     LocalizationUpdates,
     NoParamsAC,
-    onUpdateAction,
     OnUpdateAction,
-    onUpdateLocalizations,
+    onUpdateAction,
     OnUpdateLocalizations,
+    onUpdateLocalizations,
     OnUpdateRouter,
     onUpdateRouter,
     resetNodeEditingState,
     SearchResult,
-    updateNodeEditorOpen,
     UpdateNodeEditorOpen,
+    updateNodeEditorOpen,
     UpdateOperand,
     updateOperand,
     UpdateResultName,
@@ -54,6 +50,7 @@ import {
     UpdateUserAddingAction,
     updateUserAddingAction
 } from '../../store';
+import { RenderNode } from '../../store/flowContext';
 import { CaseElementProps } from '../form/CaseElement';
 import TextInputElement from '../form/TextInputElement';
 import { Language } from '../LanguageSelector';
@@ -95,7 +92,7 @@ export interface NodeEditorStoreProps {
     showResultName: boolean;
     operand: string;
     pendingConnection: DragPoint;
-    components: Components;
+    nodes: { [uuid: string]: RenderNode };
     updateResultName: UpdateResultName;
     updateOperand: UpdateOperand;
     updateTypeConfig: UpdateTypeConfig;
@@ -147,7 +144,7 @@ export const mapExits = (exits: Exit[]): { [uuid: string]: Exit } =>
     );
 
 export const isSwitchForm = (type: string) =>
-    type === 'wait_for_response' || type === 'split_by_expression' || type === 'split_by_group';
+    type === 'wait_for_response' || type === 'split_by_expression' || type === 'split_by_groups';
 
 export const hasSwitchRouter = (node: Node): boolean =>
     (node.router as SwitchRouter) && (node.router as SwitchRouter).hasOwnProperty('operand');
@@ -187,7 +184,6 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
         case 'set_contact_field':
             defaultAction = {
                 ...defaultAction,
-                field_uuid: generateUUID(),
                 field_name: '',
                 value: ''
             } as SetContactField;
@@ -712,14 +708,13 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
         // Make sure we re-wire the old connection
         if (canceled) {
             if (this.props.pendingConnection) {
-                const exit = getExit(
-                    this.props.pendingConnection.exitUUID,
-                    this.props.components,
-                    this.props.definition
-                );
-
-                if (exit) {
-                    this.props.plumberConnectExit(exit);
+                const renderNode = this.props.nodes[this.props.pendingConnection.nodeUUID];
+                for (const exit of renderNode.node.exits) {
+                    if (exit.uuid === this.props.pendingConnection.exitUUID) {
+                        // TODO: should this just be taking literal uuids instead of objects?
+                        this.props.plumberConnectExit(renderNode.node, exit);
+                        break;
+                    }
                 }
             }
         }
@@ -839,7 +834,7 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
 
         this.props.onUpdateRouter(
             { ...updates, router } as Node,
-            'split_by_group',
+            'split_by_groups',
             this.props.plumberRepaintForDuration,
             getAction(this.props.actionToEdit, this.props.typeConfig)
         );
@@ -874,9 +869,10 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
         let exits: Exit[];
         let cases: Case[];
 
-        const details = getDetails(this.props.nodeToEdit.uuid, this.props.components);
+        // TODO: we should probably just be passing down RenderNode
+        const renderNode = this.props.nodes[this.props.nodeToEdit.uuid];
 
-        if (details && details.type === 'subflow') {
+        if (renderNode.ui.type === 'subflow') {
             ({ exits } = this.props.nodeToEdit);
             ({ cases } = this.props.nodeToEdit.router as SwitchRouter);
         } else {
@@ -983,10 +979,12 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
 
         const exits: Exit[] = [];
         const cases: Case[] = [];
-        const details = getDetails(this.props.nodeToEdit.uuid, this.props.components);
+
+        // TODO: we should probably just be passing down RenderNode
+        const renderNode = this.props.nodes[this.props.nodeToEdit.uuid];
 
         // If we were already a webhook, lean on those exits and cases
-        if (details && details.type === 'webhook') {
+        if (renderNode.ui.type === 'webhook') {
             this.props.nodeToEdit.exits.forEach(exit => exits.push(exit));
             (this.props.nodeToEdit.router as SwitchRouter).cases.forEach(kase => cases.push(kase));
         } else {
@@ -1118,7 +1116,7 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
             updateRouter = this.updateSubflowRouter;
         } else if (typeConfig.type === 'call_webhook') {
             updateRouter = this.updateWebhookRouter;
-        } else if (typeConfig.type === 'split_by_group') {
+        } else if (typeConfig.type === 'split_by_groups') {
             updateRouter = this.updateGroupRouter;
         }
 
@@ -1197,7 +1195,7 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
 }
 
 const mapStateToProps = ({
-    flowContext: { localizations, definition, components },
+    flowContext: { localizations, definition, nodes },
     flowEditor: {
         editorUI: { language, translating, nodeEditorOpen },
         flowUI: { pendingConnection }
@@ -1208,9 +1206,9 @@ const mapStateToProps = ({
     language,
     nodeEditorOpen,
     actionToEdit,
-    localizations,
     definition,
-    components,
+    localizations,
+    nodes,
     translating,
     typeConfig,
     resultName,
