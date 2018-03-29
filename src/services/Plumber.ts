@@ -1,4 +1,4 @@
-const { jsPlumb: { importDefaults } } = require('../../node_modules/jsplumb/dist/js/jsplumb.min');
+const { jsPlumb: { importDefaults } } = require('../../node_modules/jsplumb/dist/js/jsplumb');
 import { Node, FlowDefinition, Exit, LocalizationMap } from '../flowTypes';
 
 export interface DragEvent {
@@ -136,8 +136,8 @@ export default class Plumber {
         this.jsPlumb.makeTarget(uuid, TARGET_DEFAULTS);
     }
 
-    public connectExit(exit: Exit, className: string = null): void {
-        this.connect(exit.uuid, exit.destination_node_uuid, className);
+    public connectExit(node: Node, exit: Exit, className: string = null): void {
+        this.connect(`${node.uuid}:${exit.uuid}`, exit.destination_node_uuid, className);
     }
 
     public setDragSelection(nodes: Node[]): void {
@@ -159,16 +159,16 @@ export default class Plumber {
 
     public repaintForDuration(duration: number = REPAINT_DURATION): void {
         this.cancelDurationRepaint();
-        var pause = 10;
-        duration = duration / pause;
+        const pause = 10;
+        const newDuration = duration / pause;
 
-        var cycles = 0;
+        let cycles = 0;
         this.animateInterval = window.setInterval(() => {
             // TODO: optimize this to paint as little as possible
             // this.revalidate(uuid);
             this.jsPlumb.repaintEverything();
 
-            if (cycles++ > duration) {
+            if (cycles++ > newDuration) {
                 window.clearInterval(this.animateInterval);
             }
         }, pause);

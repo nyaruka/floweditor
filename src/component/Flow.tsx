@@ -8,8 +8,6 @@ import { FlowDefinition, Languages, Node, UINode } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
 import Plumber from '../services/Plumber';
 import {
-    AppState,
-    Components,
     ConnectionEvent,
     DispatchWithState,
     ensureStartNode,
@@ -23,18 +21,20 @@ import {
     UpdateConnection,
     updateConnection,
     updateCreateNodePosition,
-    UpdateCreateNodePosition
+    UpdateCreateNodePosition,
+    AppState
 } from '../store';
 import { snapToGrid } from '../utils';
 import * as styles from './Flow.scss';
 import ConnectedNode, { DragPoint } from './Node';
 import NodeEditor from './NodeEditor';
+import { RenderNode } from '../store/flowContext';
 
 export interface FlowStoreProps {
     translating: boolean;
     definition: FlowDefinition;
+    nodes: { [uuid: string]: RenderNode };
     dependencies: FlowDefinition[];
-    components: Components;
     ghostNode: Node;
     pendingConnection: DragPoint;
     nodeEditorOpen: boolean;
@@ -87,9 +87,9 @@ export class Flow extends React.Component<FlowStoreProps> {
             this.beforeConnectionDrag(event)
         );
 
-        this.Plumber.bind('connectionDrag', (event: ConnectionEvent) =>
-            this.props.onConnectionDrag(event)
-        );
+        this.Plumber.bind('connectionDrag', (event: ConnectionEvent) => {
+            this.props.onConnectionDrag(event);
+        });
 
         this.Plumber.bind('connectionDragStop', (event: ConnectionEvent) =>
             this.onConnectorDrop(event)
@@ -126,16 +126,11 @@ export class Flow extends React.Component<FlowStoreProps> {
     private onBeforeConnectorDrop(event: ConnectionEvent): boolean {
         this.props.resetNodeEditingState();
 
-        const connectionError = getConnectionError(
-            event.sourceId,
-            event.targetId,
-            this.props.components
-        );
+        const connectionError = getConnectionError(event.sourceId, event.targetId);
 
         if (connectionError != null) {
             console.error(connectionError);
         }
-
         return connectionError == null;
     }
 
@@ -187,13 +182,13 @@ export class Flow extends React.Component<FlowStoreProps> {
     }
 
     private getNodes(): JSX.Element[] {
-        return this.props.definition.nodes.map(node => {
-            const ui = this.props.definition._ui.nodes[node.uuid];
+        return Object.keys(this.props.nodes).map(uuid => {
+            const renderNode = this.props.nodes[uuid];
             return (
                 <ConnectedNode
-                    key={node.uuid}
-                    node={node}
-                    ui={ui}
+                    key={uuid}
+                    node={renderNode.node}
+                    ui={renderNode.ui}
                     Activity={this.Activity}
                     plumberRepaintForDuration={this.Plumber.repaintForDuration}
                     plumberDraggable={this.Plumber.draggable}
@@ -289,7 +284,7 @@ export class Flow extends React.Component<FlowStoreProps> {
 }
 
 const mapStateToProps = ({
-    flowContext: { definition, dependencies, components },
+    flowContext: { definition, dependencies, nodes },
     flowEditor: {
         editorUI: { translating, nodeEditorOpen },
         flowUI: { ghostNode, pendingConnection }
@@ -297,8 +292,8 @@ const mapStateToProps = ({
 }: AppState) => ({
     translating,
     definition,
+    nodes,
     dependencies,
-    components,
     ghostNode,
     pendingConnection,
     nodeEditorOpen

@@ -300,6 +300,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             return this.props.node.exits.map(exit => (
                 <ExitComp
                     key={exit.uuid}
+                    node={this.props.node}
                     exit={exit}
                     Activity={this.props.Activity}
                     plumberMakeSource={this.props.plumberMakeSource}
@@ -318,7 +319,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                     title="Drag to move all nodes below here"
                     className={styles.drag_group}
                     onMouseOver={this.onMouseOver}
-                    onMouseOut={this.onMouseOut}>
+                    onMouseOut={this.onMouseOut}
+                >
                     <span className="icon-link" />
                 </a>
             );
@@ -365,7 +367,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                     leaveAnimation="fade"
                     className={styles.actions}
                     duration={300}
-                    easing="ease-out">
+                    easing="ease-out"
+                >
                     {actions}
                 </FlipMove>
             );
@@ -455,7 +458,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 ref={this.eleRef}
                 style={style}
                 id={this.props.node.uuid}
-                className={styles.node_container}>
+                className={styles.node_container}
+            >
                 <div className={classes}>
                     {dragLink}
                     <CounterComp

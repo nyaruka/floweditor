@@ -159,7 +159,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
         describe('onRemoval', () => {
             it('should call removeAction action creator', () => {
-                const { wrapper, props: { removeAction: removeActionMock, action } } = setup(
+                const { wrapper, props: { removeAction: removeActionMock, action, node } } = setup(
                     { removeAction: jest.fn() },
                     true
                 );
@@ -172,13 +172,13 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
                 expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(1);
                 expect(removeActionMock).toHaveBeenCalledTimes(1);
-                expect(removeActionMock).toHaveBeenCalledWith(action);
+                expect(removeActionMock).toHaveBeenCalledWith(node.uuid, action);
             });
         });
 
         describe('onMoveUp', () => {
             it('should call moveActionUp action creator', () => {
-                const { wrapper, props: { moveActionUp: moveActionUpMock, action } } = setup(
+                const { wrapper, props: { moveActionUp: moveActionUpMock, action, node } } = setup(
                     { moveActionUp: jest.fn() },
                     true
                 );
@@ -191,7 +191,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
                 expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(1);
                 expect(moveActionUpMock).toHaveBeenCalledTimes(1);
-                expect(moveActionUpMock).toHaveBeenCalledWith(action);
+                expect(moveActionUpMock).toHaveBeenCalledWith(node.uuid, action);
             });
         });
 

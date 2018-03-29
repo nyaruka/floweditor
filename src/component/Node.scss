@@ -2,11 +2,11 @@
 
 .node_container {
     padding: $endpoint_buffer;
-    position: absolute;
     z-index: $z_nodes;
+    position: absolute;
 
     .node {
-        box-shadow: $node_shadow $node_shadow_color;
+        border: 1px solid $borders;
         border-radius: $curvature;
         background: #fff;
         padding: 0;

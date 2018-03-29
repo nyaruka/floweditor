@@ -1,4 +1,4 @@
-import { Group } from '../../../flowTypes';
+import { Group, ChangeGroups } from '../../../flowTypes';
 import { SearchResult } from '../../../store';
 
 export const mapGroupsToSearchResults = (groups: Group[]) =>
@@ -9,3 +9,15 @@ export const mapSearchResultsToGroups = (searchResults: SearchResult[]) =>
         uuid: result.id,
         name: result.name
     }));
+
+export const getGroups = (action: ChangeGroups): SearchResult[] => {
+    if (action.groups == null) {
+        return [];
+    }
+
+    if (action.groups.length && action.type !== 'add_contact_groups') {
+        return mapGroupsToSearchResults(action.groups);
+    }
+
+    return [];
+};

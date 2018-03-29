@@ -1,27 +1,28 @@
 import * as React from 'react';
 import { getTypeConfig } from '../../../config';
-import { FlowEditorConfig } from '../../../flowTypes';
-import { createSetup, getSpecWrapper } from '../../../testUtils';
-import { Resp } from '../../../testUtils';
+import { FlowEditorConfig, Group } from '../../../flowTypes';
+import { createSetup, getSpecWrapper, Resp } from '../../../testUtils';
+import { labelSpecId } from './AddGroupsForm';
+import { mapGroupsToSearchResults } from './helpers';
 import ChangeGroupFormProps from './props';
 import {
-    RemoveGroupsForm,
     LABEL,
-    PLACEHOLDER,
     NOT_FOUND,
+    PLACEHOLDER,
     REMOVE_FROM_ALL,
-    REMOVE_FROM_ALL_DESC
+    REMOVE_FROM_ALL_DESC,
+    RemoveGroupsForm
 } from './RemoveGroupsForm';
-import { labelSpecId } from './AddGroupsForm';
 
 const {
     results: [{ definition }]
 } = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json') as Resp;
 const { endpoints } = require('../../../../assets/config') as FlowEditorConfig;
-const { results: groupsResp } = require('../../../../assets/groups.json') as Resp;
+const groupsResp = require('../../../../assets/groups.json') as Resp;
 
-const { nodes: [{ actions: [, removeGroupsAction] }] } = definition;
+const { nodes: [{ actions: [, addGroupsAction] }] } = definition;
 const removeGroupConfig = getTypeConfig('remove_contact_groups');
+const removeGroupsAction = { ...addGroupsAction, type: removeGroupConfig };
 
 const context = {
     endpoints
@@ -106,8 +107,68 @@ describe(`${COMPONENT_TO_TEST}`, () => {
     });
 
     describe('instance methods', () => {
-        describe('getFields', () => {
-            it('should call removeWidget prop', () => {});
+        describe('getGroups', () => {
+            it("should return an empty list if action's groups are null", () => {
+                const grouplessAction = { ...removeGroupsAction, groups: null };
+                const { wrapper } = setup({ action: grouplessAction });
+                const RemoveGroupsFormInstance = wrapper.instance();
+
+                expect(RemoveGroupsFormInstance.getGroups()).toEqual([]);
+            });
+
+            it("should return an empty list if action's groups property is an empty list", () => {
+                const grouplessAction = { ...removeGroupsAction, groups: [] };
+                const { wrapper } = setup({ action: grouplessAction });
+                const RemoveGroupsFormInstance = wrapper.instance();
+
+                expect(RemoveGroupsFormInstance.getGroups()).toEqual([]);
+            });
+
+            it('should return empty list if action is add groups action', () => {
+                const { wrapper, props: { action } } = setup({ action: addGroupsAction }, true);
+                const RemoveGroupsFormInstance = wrapper.instance();
+
+                expect(RemoveGroupsFormInstance.getGroups()).toEqual([]);
+            });
+
+            it('should return SearchResult[] if action is remove groups action and it has groups', () => {
+                const { wrapper, props: { action: { groups } } } = setup({}, true);
+                const searchResults = mapGroupsToSearchResults(groups);
+                const RemoveGroupsFormInstance = wrapper.instance();
+
+                expect(RemoveGroupsFormInstance.getGroups()).toEqual(searchResults);
+            });
+        });
+
+        describe('onGroupsChanged', () => {
+            it('should update groups state if passed new groups', () => {
+                const setStateSpy = jest.spyOn(RemoveGroupsForm.prototype, 'setState');
+                const { wrapper } = setup({}, true);
+                const searchResults = mapGroupsToSearchResults(groupsResp.results as Group[]);
+                const RemoveGroupsFormInstance = wrapper.instance();
+
+                RemoveGroupsFormInstance.onGroupsChanged(searchResults);
+
+                expect(setStateSpy).toHaveBeenCalledTimes(1);
+                expect(setStateSpy).toHaveBeenCalledWith({ groups: searchResults });
+
+                setStateSpy.mockRestore();
+            });
+
+            it('should not update groups state if passed same groups', () => {
+                const setStateSpy = jest.spyOn(RemoveGroupsForm.prototype, 'setState');
+                const { wrapper, props: { action: { groups } } } = setup();
+                const searchResults = mapGroupsToSearchResults(groups);
+                const RemoveGroupsFormInstance = wrapper.instance();
+
+                expect(wrapper.state('groups')).toEqual(searchResults);
+
+                RemoveGroupsFormInstance.onGroupsChanged(searchResults);
+
+                expect(setStateSpy).not.toHaveBeenCalled();
+
+                setStateSpy.mockRestore();
+            });
         });
     });
 });

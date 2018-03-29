@@ -1,10 +1,10 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
+import * as isEqual from 'fast-deep-equal';
 import { connect } from 'react-redux';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
 import { ChangeGroups } from '../../../flowTypes';
 import { AppState, SearchResult } from '../../../store';
-import { jsonEqual } from '../../../utils';
 import CheckboxElement from '../../form/CheckboxElement';
 import GroupsElement from '../../form/GroupsElement';
 import { AddGroupsFormState } from './AddGroupsForm';
@@ -50,7 +50,7 @@ export class RemoveGroupsForm extends React.Component<
     }
 
     private onGroupsChanged(groups: SearchResult[]): void {
-        if (!jsonEqual(groups, this.state.groups)) {
+        if (!isEqual(groups, this.state.groups)) {
             this.setState({
                 groups
             });
@@ -78,14 +78,13 @@ export class RemoveGroupsForm extends React.Component<
     }
 
     private getGroups(): SearchResult[] {
-        if (this.props.action.groups == null) {
-            return [];
-        }
-
-        if (this.props.action.groups.length && this.props.action.type !== 'add_contact_groups') {
+        if (
+            this.props.action.groups &&
+            this.props.action.groups.length &&
+            this.props.action.type !== 'add_contact_groups'
+        ) {
             return mapGroupsToSearchResults(this.props.action.groups);
         }
-
         return [];
     }
 
@@ -137,7 +136,7 @@ export class RemoveGroupsForm extends React.Component<
 
     public render(): JSX.Element {
         const fields = this.getFields();
-        return <React.Fragment>{fields}</React.Fragment>;
+        return <>{fields}</>;
     }
 }
 

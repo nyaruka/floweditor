@@ -15,7 +15,6 @@ import createStore from './createStore';
 import Constants from './constants';
 import {
     CompletionOption,
-    Components,
     ContactFieldResult,
     SearchResult,
     updateDefinition,
@@ -34,7 +33,7 @@ import {
     updateNodeEditorOpen,
     updateTranslating
 } from './flowEditor';
-import { getConnectionError, getDetails, getExit, getTranslations } from './helpers';
+import { getConnectionError, getTranslations } from './helpers';
 import {
     updateActionToEdit,
     updateOperand,
@@ -84,8 +83,7 @@ import {
     UpdateConnection,
     updateConnection,
     UpdateDimensions,
-    updateDimensions,
-    updateNodeUI
+    updateDimensions
 } from './thunks';
 
 export {
@@ -105,7 +103,6 @@ export {
     initialState,
     Flows,
     PendingConnections,
-    Components,
     UpdateLanguage,
     UpdateTranslating,
     UpdateNodeEditorOpen,
@@ -141,7 +138,6 @@ export {
     resolvePendingConnection,
     ResolvePendingConnection,
     OnUpdateLocalizations,
-    updateNodeUI,
     DisconnectExit,
     ActionAC,
     UpdateConnection,
@@ -167,8 +163,6 @@ export {
     removeAction,
     getConnectionError,
     getTranslations,
-    getDetails,
-    getExit,
     updateShowResultName,
     UpdateShowResultName,
     UpdateNodeDragging

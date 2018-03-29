@@ -26,10 +26,7 @@ import {
 import { LocalizedObject } from '../../services/Localization';
 import {
     AppState,
-    Components,
     DispatchWithState,
-    getDetails,
-    getExit,
     LocalizationUpdates,
     NoParamsAC,
     onUpdateAction,
@@ -62,6 +59,7 @@ import * as shared from '../shared.scss';
 import { DEFAULT_BODY, GROUPS_OPERAND } from './constants';
 import * as formStyles from './NodeEditor.scss';
 import TypeList from './TypeList';
+import { RenderNode } from '../../store/flowContext';
 
 export type GetResultNameField = () => JSX.Element;
 export type SaveLocalizations = (
@@ -94,7 +92,7 @@ export interface NodeEditorStoreProps {
     showResultName: boolean;
     operand: string;
     pendingConnection: DragPoint;
-    components: Components;
+    nodes: { [uuid: string]: RenderNode };
     updateResultName: UpdateResultName;
     updateOperand: UpdateOperand;
     updateTypeConfig: UpdateTypeConfig;
@@ -711,14 +709,13 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
         // Make sure we re-wire the old connection
         if (canceled) {
             if (this.props.pendingConnection) {
-                const exit = getExit(
-                    this.props.pendingConnection.exitUUID,
-                    this.props.components,
-                    this.props.definition
-                );
-
-                if (exit) {
-                    this.props.plumberConnectExit(exit);
+                const renderNode = this.props.nodes[this.props.pendingConnection.nodeUUID];
+                for (const exit of renderNode.node.exits) {
+                    if (exit.uuid === this.props.pendingConnection.exitUUID) {
+                        // TODO: should this just be taking literal uuids instead of objects?
+                        this.props.plumberConnectExit(renderNode.node, exit);
+                        break;
+                    }
                 }
             }
         }
@@ -873,9 +870,10 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
         let exits: Exit[];
         let cases: Case[];
 
-        const details = getDetails(this.props.nodeToEdit.uuid, this.props.components);
+        // TODO: we should probably just be passing down RenderNode
+        const renderNode = this.props.nodes[this.props.nodeToEdit.uuid];
 
-        if (details && details.type === 'subflow') {
+        if (renderNode.ui.type === 'subflow') {
             ({ exits } = this.props.nodeToEdit);
             ({ cases } = this.props.nodeToEdit.router as SwitchRouter);
         } else {
@@ -982,10 +980,12 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
 
         const exits: Exit[] = [];
         const cases: Case[] = [];
-        const details = getDetails(this.props.nodeToEdit.uuid, this.props.components);
+
+        // TODO: we should probably just be passing down RenderNode
+        const renderNode = this.props.nodes[this.props.nodeToEdit.uuid];
 
         // If we were already a webhook, lean on those exits and cases
-        if (details && details.type === 'webhook') {
+        if (renderNode.ui.type === 'webhook') {
             this.props.nodeToEdit.exits.forEach(exit => exits.push(exit));
             (this.props.nodeToEdit.router as SwitchRouter).cases.forEach(kase => cases.push(kase));
         } else {
@@ -1196,7 +1196,7 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
 }
 
 const mapStateToProps = ({
-    flowContext: { localizations, definition, components },
+    flowContext: { localizations, definition, nodes },
     flowEditor: {
         editorUI: { language, translating, nodeEditorOpen },
         flowUI: { pendingConnection }
@@ -1207,9 +1207,9 @@ const mapStateToProps = ({
     language,
     nodeEditorOpen,
     actionToEdit,
-    localizations,
     definition,
-    components,
+    localizations,
+    nodes,
     translating,
     typeConfig,
     resultName,

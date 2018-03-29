@@ -72,12 +72,14 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 
     private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
-        this.props.removeAction(this.props.action);
+
+        this.props.removeAction(this.props.node.uuid, this.props.action);
     }
 
     private onMoveUp(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
-        this.props.moveActionUp(this.props.action);
+
+        this.props.moveActionUp(this.props.node.uuid, this.props.action);
     }
 
     public getAction(): AnyAction {
@@ -144,7 +146,8 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
             <div
                 id={`action-${this.props.action.uuid}`}
                 className={classes}
-                data-spec={actionContainerSpecId}>
+                data-spec={actionContainerSpecId}
+            >
                 <div className={styles.overlay} data-spec={actionOverlaySpecId} />
                 <div {...createClickHandler(this.onClick)} data-spec={actionInteractiveDivSpecId}>
                     <TitleBar
