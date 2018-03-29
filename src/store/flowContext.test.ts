@@ -110,40 +110,6 @@ describe('flowContext action creators', () => {
             expect(updateResultNames(resultNames)).toEqual(expectedAction);
         });
     });
-
-    describe('updateComponents', () => {
-        it('should create an action to update components state', () => {
-            const components = {
-                '4fac7935-d13b-4b36-bf15-98075dca822a': {
-                    nodeUUID: '4fac7935-d13b-4b36-bf15-98075dca822a',
-                    nodeIdx: 0,
-                    actionIdx: -1,
-                    exitIdx: -1,
-                    pointers: ['326a41b7-9bce-453b-8783-1113f649663c']
-                },
-                '64378fc1-19e4-4c8a-be27-aee49ebc728a': {
-                    nodeUUID: '4fac7935-d13b-4b36-bf15-98075dca822a',
-                    nodeIdx: 0,
-                    actionUUID: '64378fc1-19e4-4c8a-be27-aee49ebc728a',
-                    actionIdx: 0,
-                    type: 'send_msg'
-                },
-                '445fc64c-2a18-47cc-89d0-15172826bfcc': {
-                    nodeIdx: 0,
-                    nodeUUID: '4fac7935-d13b-4b36-bf15-98075dca822a',
-                    exitIdx: 0,
-                    exitUUID: '445fc64c-2a18-47cc-89d0-15172826bfcc'
-                }
-            };
-            const expectedAction = {
-                type: Constants.UPDATE_COMPONENTS,
-                payload: {
-                    components
-                }
-            };
-            // expect(updateComponents(components)).toEqual(expectedAction);
-        });
-    });
 });
 
 describe('flowContext reducers', () => {
@@ -240,41 +206,6 @@ describe('flowContext reducers', () => {
             const groups = [{ id: 'subscribers', name: 'Subscribers' }];
             const action = updateGroups(groups);
             expect(reduce(action)).toEqual(groups);
-        });
-    });
-
-    describe('components reducer', () => {
-        // const reduce = action => componentsReducer(undefined, action);
-
-        it('should return initial state', () => {
-            // expect(reduce({})).toEqual(initialState.components);
-        });
-
-        it('should handle UPDATE_COMPONENTS', () => {
-            const components = {
-                '4fac7935-d13b-4b36-bf15-98075dca822a': {
-                    nodeUUID: '4fac7935-d13b-4b36-bf15-98075dca822a',
-                    nodeIdx: 0,
-                    actionIdx: -1,
-                    exitIdx: -1,
-                    pointers: ['326a41b7-9bce-453b-8783-1113f649663c']
-                },
-                '64378fc1-19e4-4c8a-be27-aee49ebc728a': {
-                    nodeUUID: '4fac7935-d13b-4b36-bf15-98075dca822a',
-                    nodeIdx: 0,
-                    actionUUID: '64378fc1-19e4-4c8a-be27-aee49ebc728a',
-                    actionIdx: 0,
-                    type: 'send_msg'
-                },
-                '445fc64c-2a18-47cc-89d0-15172826bfcc': {
-                    nodeIdx: 0,
-                    nodeUUID: '4fac7935-d13b-4b36-bf15-98075dca822a',
-                    exitIdx: 0,
-                    exitUUID: '445fc64c-2a18-47cc-89d0-15172826bfcc'
-                }
-            };
-            // const action = updateComponents(components);
-            // expect(reduce(action)).toEqual(components);
         });
     });
 });
