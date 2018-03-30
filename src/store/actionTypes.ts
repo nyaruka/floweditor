@@ -50,12 +50,12 @@ interface RemovePendingConnectionPayload {
     nodeUUID: string;
 }
 
-interface UpdateContactAttributesPayload {
-    contactAttributes: SearchResult[];
+interface UpdateContactFieldsPayload {
+    contactField: SearchResult;
 }
 
 interface UpdateGroupsPayload {
-    groups: SearchResult[];
+    group: SearchResult;
 }
 
 interface UpdateResultNamesPayload {
@@ -156,9 +156,9 @@ export type RemovePendingConnectionAction = DuxAction<
     RemovePendingConnectionPayload
 >;
 
-export type UpdateContactAttributesAction = DuxAction<
-    Constants.UPDATE_CONTACT_ATTRIBUTES,
-    UpdateContactAttributesPayload
+export type UpdateContactFieldsAction = DuxAction<
+    Constants.UPDATE_CONTACT_FIELDS,
+    UpdateContactFieldsPayload
 >;
 
 export type UpdateGroupsAction = DuxAction<Constants.UPDATE_GROUPS, UpdateGroupsPayload>;
@@ -255,6 +255,10 @@ export type UpdateNodeEditorOpen = (nodeEditorOpen: boolean) => UpdateNodeEditor
 
 export type UpdateShowResultName = (showResultName: boolean) => UpdateShowResultNameAction;
 
+export type UpdateContactFields = (contactField: SearchResult) => UpdateContactFieldsAction;
+
+export type UpdateGroups = (group: SearchResult) => UpdateGroupsAction;
+
 type ActionTypes =
     | UpdateTranslatingAction
     | UpdateLanguageAction
@@ -265,7 +269,7 @@ type ActionTypes =
     | UpdateDependenciesAction
     | UpdatePendingConnectionsAction
     | RemovePendingConnectionAction
-    | UpdateContactAttributesAction
+    | UpdateContactFieldsAction
     | UpdateGroupsAction
     | UpdateResultNamesAction
     | UpdateNodesAction

@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { SetContactField, SetContactProperty } from '../../../flowTypes';
+import { titleCase } from '../../../utils';
 
 const SetContactAttribComp: React.SFC<SetContactField & SetContactProperty> = ({
-    field_name,
-    property_name,
+    field,
+    property,
     value
 }) => {
-    const fieldNameMarkup = <span className="emph">{field_name || property_name}</span>;
+    const fieldNameMarkup = (
+        <span className="emph">{(property && titleCase(property)) || field.name}</span>
+    );
     const valueMarkup = <span className="emph">{value}</span>;
     if (value) {
         return (

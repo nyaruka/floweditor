@@ -1,4 +1,3 @@
-import update from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 import { DragPoint } from '../component/Node';
@@ -15,7 +14,7 @@ import {
     Position,
     SendMsg,
     SwitchRouter,
-    UINode,
+    UINode
 } from '../flowTypes';
 import { RenderNode, updateDefinition, updateLocalizations, updateNodes } from './flowContext';
 import {
@@ -28,7 +27,7 @@ import {
     updateNodeDragging,
     updateNodeEditorOpen,
     updatePendingConnection,
-    updatePendingConnections,
+    updatePendingConnections
 } from './flowEditor';
 import {
     determineConfigType,
@@ -38,7 +37,7 @@ import {
     getNodesBelow,
     getPendingConnection,
     getTranslations,
-    getUniqueDestinations,
+    getUniqueDestinations
 } from './helpers';
 import {
     updateActionToEdit,
@@ -47,10 +46,12 @@ import {
     updateResultName,
     updateShowResultName,
     updateTypeConfig,
-    updateUserAddingAction,
+    updateUserAddingAction
 } from './nodeEditor';
 import AppState from './state';
 import { prepUpdateDestination, uniquifyNode } from './updateSpec';
+
+const update = require('immutability-helper');
 
 export type DispatchWithState = Dispatch<AppState>;
 

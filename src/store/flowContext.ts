@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import { v4 as generateUUID } from 'uuid';
-import { FlowDefinition, Node, UINode } from '../flowTypes';
+import { FlowDefinition, Node, UINode, AttributeType } from '../flowTypes';
 import { LocalizedObject } from '../services/Localization';
 import ActionTypes, {
-    UpdateContactAttributesAction,
+    UpdateContactFieldsAction,
     UpdateDefinitionAction,
     UpdateDependenciesAction,
     UpdateGroupsAction,
@@ -35,34 +35,19 @@ export interface CompletionOption {
 export interface FlowContext {
     dependencies: FlowDefinition[];
     localizations: LocalizedObject[];
-    contactAttributes: SearchResult[];
+    contactFields: SearchResult[];
     resultNames: CompletionOption[];
     groups: SearchResult[];
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
 }
 
-export enum ContactProperties {
-    Name = 'Name',
-    Language = 'Language',
-    Email = 'Email',
-    Phone = 'Phone',
-    Groups = 'Groups',
-    Facebook = 'Facebook',
-    Telegram = 'Telegram'
-}
-
-const contactProperties: SearchResult[] = [
-    { id: generateUUID(), name: ContactProperties.Name, type: 'property' },
-    // { id: generateUUID(), name: ContactProperties.Language, type: 'property' }
-];
-
 // Initial state
 export const initialState: FlowContext = {
     definition: null,
     dependencies: null,
     localizations: [],
-    contactAttributes: contactProperties,
+    contactFields: [],
     resultNames: [],
     groups: [],
     nodes: {}
@@ -103,21 +88,21 @@ export const updateLocalizations = (
     }
 });
 
-export const updateContactAttributes = (
+export const updateContactFields = (
     // tslint:disable-next-line:no-shadowed-variable
-    contactAttributes: SearchResult[]
-): UpdateContactAttributesAction => ({
-    type: Constants.UPDATE_CONTACT_ATTRIBUTES,
+    contactField: SearchResult
+): UpdateContactFieldsAction => ({
+    type: Constants.UPDATE_CONTACT_FIELDS,
     payload: {
-        contactAttributes
+        contactField
     }
 });
 
 // tslint:disable-next-line:no-shadowed-variable
-export const updateGroups = (groups: SearchResult[]): UpdateGroupsAction => ({
+export const updateGroups = (group: SearchResult): UpdateGroupsAction => ({
     type: Constants.UPDATE_GROUPS,
     payload: {
-        groups
+        group
     }
 });
 
@@ -175,13 +160,13 @@ export const localizations = (
     }
 };
 
-export const contactAttributes = (
-    state: SearchResult[] = initialState.contactAttributes,
+export const contactFields = (
+    state: SearchResult[] = initialState.contactFields,
     action: ActionTypes
 ) => {
     switch (action.type) {
-        case Constants.UPDATE_CONTACT_ATTRIBUTES:
-            return action.payload.contactAttributes;
+        case Constants.UPDATE_CONTACT_FIELDS:
+            return [...state, action.payload.contactField];
         default:
             return state;
     }
@@ -202,7 +187,7 @@ export const resultNames = (
 export const groups = (state: SearchResult[] = initialState.groups, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_GROUPS:
-            return action.payload.groups;
+            return [...state, action.payload.group];
         default:
             return state;
     }
@@ -214,7 +199,7 @@ export default combineReducers({
     nodes,
     dependencies,
     localizations,
-    contactAttributes,
+    contactFields,
     resultNames,
     groups
 });

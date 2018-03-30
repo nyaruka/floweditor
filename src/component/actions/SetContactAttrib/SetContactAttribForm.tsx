@@ -1,12 +1,15 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { v4 as generateUUID } from 'uuid';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
-import { SetContactAttribute, SetContactField, SetContactProperty } from '../../../flowTypes';
-import { AppState, SearchResult } from '../../../store';
-import { toBoolMap } from '../../../utils';
-import AttribElement from '../../form/AttribElement';
+import {
+    AttributeType,
+    SetContactAttribute,
+    SetContactField,
+    SetContactProperty
+} from '../../../flowTypes';
+import { SearchResult } from '../../../store';
+import { snakify, titleCase, toBoolMap } from '../../../utils';
 import TextInputElement from '../../form/TextInputElement';
+import ConnectedAttribElement from '../../form/AttribElement';
 
 /** TODO: these should come from an external source */
 const reserved = toBoolMap([
@@ -29,13 +32,12 @@ const reserved = toBoolMap([
 ]);
 
 export interface SetContactAttribFormProps {
-    contactAttributes: SearchResult[];
     action: SetContactAttribute;
-    updateAction: (action: SetContactAttribute) => void;
     onBindWidget: (ref: any) => void;
+    updateAction: (action: SetContactAttribute) => void;
 }
 
-export class SetContactAttribForm extends React.Component<SetContactAttribFormProps> {
+export default class SetContactAttribForm extends React.Component<SetContactAttribFormProps> {
     public static contextTypes = {
         endpoints: endpointsPT
     };
@@ -48,7 +50,7 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
 
     public onValid(widgets: { [name: string]: any }): void {
         const { wrappedInstance: { state: { value } } } = widgets.Value;
-        const { state: { attribute } } = widgets.Attribute;
+        const { state: { attribute } } = widgets.Attribute.wrappedInstance;
 
         let newAction: Partial<SetContactAttribute> = {
             uuid: this.props.action.uuid,
@@ -56,20 +58,19 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         };
 
         if (attribute.type === 'field') {
-            console.log('attributeId:', attribute.id);
             newAction = {
                 ...newAction,
                 type: 'set_contact_field',
-                field_name: attribute.name,
-                field_uuid: attribute.id
+                field: {
+                    key: snakify(attribute.name),
+                    name: titleCase(attribute.name)
+                }
             } as SetContactField;
         } else if (attribute.type === 'property') {
-            console.log('attributeId:', attribute.id);
             newAction = {
                 ...newAction,
                 type: 'set_contact_property',
-                property_name: attribute.name,
-                property_uuid: attribute.id
+                property: snakify(attribute.name)
             } as SetContactProperty;
         }
 
@@ -95,15 +96,15 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         switch (this.props.action.type) {
             case 'set_contact_field':
                 return {
-                    id: this.props.action.uuid,
-                    name: (this.props.action as SetContactField).field_name,
-                    type: 'field'
+                    id: (this.props.action as SetContactField).field.key,
+                    name: (this.props.action as SetContactField).field.name,
+                    type: AttributeType.field
                 };
             case 'set_contact_property':
                 return {
-                    id: this.props.action.uuid,
-                    name: (this.props.action as SetContactProperty).property_name,
-                    type: 'property'
+                    id: (this.props.action as SetContactProperty).property,
+                    name: titleCase((this.props.action as SetContactProperty).property),
+                    type: AttributeType.property
                 };
             default:
                 return null;
@@ -114,12 +115,11 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         const initial = this.getInitial();
         return (
             <div>
-                <AttribElement
+                <ConnectedAttribElement
                     ref={this.props.onBindWidget}
                     name="Attribute"
                     showLabel={true}
                     endpoint={this.context.endpoints.fields}
-                    localFields={this.props.contactAttributes}
                     helpText="Select an existing attribute to update or type any name to create a new one"
                     initial={initial}
                     add={true}
@@ -137,13 +137,3 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         );
     }
 }
-
-const maptStateToProps = ({ flowContext: { contactAttributes } }: AppState) => ({
-    contactAttributes
-});
-
-const ConnectedSetContactFieldForm = connect(maptStateToProps, null, null, { withRef: true })(
-    SetContactAttribForm
-);
-
-export default ConnectedSetContactFieldForm;

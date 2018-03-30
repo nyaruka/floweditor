@@ -3,6 +3,7 @@ import { getSelectClass } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { SearchResult } from '../../store';
+import { ResultType } from '../../flowTypes';
 
 interface FlowElementProps extends FormElementProps {
     flow_name: string;
@@ -68,7 +69,7 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
-                    resultType="flow"
+                    resultType={ResultType.flow}
                     multi={false}
                     initial={[this.state.flow]}
                     searchPromptText={notFound}

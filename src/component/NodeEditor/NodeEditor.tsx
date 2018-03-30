@@ -184,7 +184,10 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
         case 'set_contact_field':
             defaultAction = {
                 ...defaultAction,
-                field_name: '',
+                field: {
+                    key: '',
+                    name: ''
+                },
                 value: ''
             } as SetContactField;
             break;
@@ -370,7 +373,7 @@ export const FormContainer: React.SFC<{
     </div>
 );
 
-export class NodeEditor extends React.PureComponent<NodeEditorProps> {
+export class NodeEditor extends React.Component<NodeEditorProps> {
     private modal: Modal;
     private form: any;
     private advanced: any;
@@ -1234,6 +1237,4 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
         dispatch
     );
 
-const ConnectedNodeEditor = connect(mapStateToProps, mapDispatchToProps)(NodeEditor);
-
-export default ConnectedNodeEditor;
+export default connect(mapStateToProps, mapDispatchToProps)(NodeEditor);

@@ -97,16 +97,19 @@ export interface Action {
 export interface ChangeGroups extends Action {
     groups: Group[];
 }
+
+export interface Field {
+    key: string;
+    name: string;
+}
+
 export interface SetContactField extends Action {
-    field_name: string;
-    field_uuid: string;
+    field: Field;
     value: string;
-    created_on?: Date;
 }
 
 export interface SetContactProperty extends Action {
-    property_name: string;
-    property_uuid: string;
+    property: string;
     value: string;
 }
 
@@ -187,3 +190,34 @@ export type AnyAction =
     | SendEmail
     | CallWebhook
     | StartFlow;
+
+export enum ContactProperties {
+    Name = 'Name',
+    Language = 'Language',
+    Email = 'Email',
+    Phone = 'Phone',
+    Groups = 'Groups',
+    Facebook = 'Facebook',
+    Telegram = 'Telegram'
+}
+
+export enum ResultType {
+    flow = 'flow',
+    field = 'field',
+    group = 'group',
+    label = 'label'
+}
+
+export enum ValueType {
+    text = 'text',
+    numeric = 'numeric',
+    datetime = 'datetime',
+    state = 'state',
+    district = 'district',
+    ward = 'ward'
+}
+
+export enum AttributeType {
+    property = 'property',
+    field = 'field'
+}

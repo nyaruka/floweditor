@@ -1,31 +1,39 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
+import { AttributeType, ResultType } from '../../flowTypes';
+import { AppState, SearchResult, UpdateContactFields, updateContactFields } from '../../store';
 import { getSelectClass, toBoolMap } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
-import { SearchResult } from '../../store';
 
 // TODO: these should come from an external source
 const reserved = toBoolMap(['language', 'name', 'timezone']);
 
-interface AttribElementProps extends FormElementProps {
+interface AttribElementPassedProps extends FormElementProps {
     initial: SearchResult;
-    localFields?: SearchResult[];
     endpoint?: string;
     add?: boolean;
     placeholder?: string;
     searchPromptText?: string;
 }
 
+interface AttribElementStoreProps {
+    contactFields: SearchResult[];
+    updateContactFields: UpdateContactFields;
+}
+
+export type AttribElementProps = AttribElementPassedProps & AttribElementStoreProps;
+
 interface AttribState {
     attribute: SearchResult;
     errors: string[];
 }
 
-export const PLACEHOLDER: string = 'Enter the name of an existing attribute or create a new one';
-export const NOT_FOUND: string = 'Invalid attribute name';
+export const PLACEHOLDER = 'Enter the name of an existing attribute or create a new one';
+export const NOT_FOUND = 'Invalid attribute name';
 
-export default class AttribElement extends React.Component<AttribElementProps, AttribState> {
+export class AttribElement extends React.Component<AttribElementProps, AttribState> {
     public static defaultProps = {
         placeholder: PLACEHOLDER,
         searchPromptText: NOT_FOUND
@@ -69,7 +77,7 @@ export default class AttribElement extends React.Component<AttribElementProps, A
             return false;
         }
 
-        const lowered: string = label.toLowerCase();
+        const lowered = label.toLowerCase();
 
         return (
             lowered.length > 0 &&
@@ -80,14 +88,12 @@ export default class AttribElement extends React.Component<AttribElementProps, A
     }
 
     private createNewOption({ label }: { label: string }): SearchResult {
-        const newOption: SearchResult = {
+        return {
             id: generateUUID(),
             name: label,
-            type: 'attribute',
+            type: AttributeType.field,
             extraResult: true
-        } as SearchResult;
-
-        return newOption;
+        };
     }
 
     public render(): JSX.Element {
@@ -97,6 +103,7 @@ export default class AttribElement extends React.Component<AttribElementProps, A
             createOptions.isValidNewOption = this.isValidNewOption;
             createOptions.createNewOption = this.createNewOption;
             createOptions.createPrompt = 'New attribute: ';
+            createOptions.updateLocalOptions = updateContactFields;
         }
 
         const initial = this.state.attribute ? [this.state.attribute] : [];
@@ -115,11 +122,12 @@ export default class AttribElement extends React.Component<AttribElementProps, A
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
-                    resultType="attribute"
-                    localSearchOptions={this.props.localFields}
+                    resultType={ResultType.field}
+                    localSearchOptions={this.props.contactFields}
                     multi={false}
                     clearable={false}
                     initial={initial}
+                    closeOnSelect={true}
                     searchPromptText={this.props.searchPromptText}
                     placeholder={this.props.placeholder}
                     {...createOptions}
@@ -128,3 +136,16 @@ export default class AttribElement extends React.Component<AttribElementProps, A
         );
     }
 }
+
+export const mapStateToProps = ({ flowContext: { contactFields } }: AppState) => ({
+    contactFields
+});
+
+export default connect<{ contactFields: SearchResult[] }, {}, AttribElementPassedProps>(
+    mapStateToProps,
+    null,
+    null,
+    {
+        withRef: true
+    }
+)(AttribElement);
