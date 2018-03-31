@@ -224,22 +224,22 @@ export const fetchFlows = (endpoint: string) => (dispatch: DispatchWithState) =>
 export const reflow = () => (dispatch: DispatchWithState, getState: GetState) => {
     const { flowContext: { nodes } } = getState();
 
-    let newNodes = nodes;
+    let updatedNodes = nodes;
     const collisions = getCollisions(nodes, NODE_SPACING);
     if (collisions.length > 0) {
         console.time('reflow');
         console.log('::REFLOWED::', collisions);
         collisions.forEach(
             node =>
-                (newNodes = mutators.updatePosition(
-                    nodes,
+                (updatedNodes = mutators.updatePosition(
+                    updatedNodes,
                     node.uuid,
                     node.bounds.left,
                     node.bounds.top
                 ))
         );
 
-        dispatch(updateNodes(newNodes));
+        dispatch(updateNodes(updatedNodes));
         console.timeEnd('reflow');
     }
 };
