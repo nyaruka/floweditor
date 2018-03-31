@@ -1,4 +1,7 @@
-const update = require('immutability-helper');
+// TODO: Remove use of Function
+// tslint:disable:ban-types
+
+// const mutate = require('immutability-helper');
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 import { DragPoint } from '../component/Node';
@@ -37,7 +40,6 @@ import {
     updateCreateNodePosition,
     updateFetchingFlow,
     updateFlows,
-    updateFreshestNode,
     updateGhostNode,
     updateNodeDragging,
     updateNodeEditorOpen,
@@ -72,7 +74,7 @@ import {
     updateShowResultName
 } from './nodeEditor';
 import AppState from './state';
-import { uniquifyNode, prepUpdateDestination } from './updateSpec';
+import * as mutators from './mutators';
 import { ContactFieldResult, SearchResult } from './flowContext';
 import { render } from 'enzyme';
 
@@ -189,12 +191,7 @@ export const initializeFlow = (definition: FlowDefinition) => (
     }
 
     // store our flow definition without any nodes
-    const updated = update(definition, {
-        $merge: { nodes: [] },
-        _ui: { $merge: { nodes: [] } }
-    });
-
-    dispatch(updateDefinition(updated));
+    dispatch(updateDefinition(mutators.pruneDefinition(definition)));
     dispatch(updateNodes(nodes));
     dispatch(updateFetchingFlow(false));
 };
@@ -228,26 +225,24 @@ export const fetchFlows = (endpoint: string) => (dispatch: DispatchWithState) =>
 export const reflow = () => (dispatch: DispatchWithState, getState: GetState) => {
     const { flowContext: { nodes } } = getState();
 
+    let newNodes = nodes;
     const collisions = getCollisions(nodes, NODE_SPACING);
+    if (collisions.length > 0) {
+        console.time('reflow');
+        console.log('::REFLOWED::', collisions);
+        collisions.forEach(
+            node =>
+                (newNodes = mutators.updatePosition(
+                    nodes,
+                    node.uuid,
+                    node.bounds.left,
+                    node.bounds.top
+                ))
+        );
 
-    let newNodes = { ...nodes };
-    window.setTimeout(() => {
-        if (collisions.length > 0) {
-            console.time('reflow');
-            console.log('::REFLOWED::', collisions);
-            collisions.forEach(
-                node =>
-                    (newNodes = update(newNodes, {
-                        nodes: {
-                            [node.uuid]: { ui: { position: { $merge: { y: node.bounds.top } } } }
-                        }
-                    }))
-            );
-
-            dispatch(updateNodes(newNodes));
-            console.timeEnd('reflow');
-        }
-    }, 100);
+        dispatch(updateNodes(newNodes));
+        console.timeEnd('reflow');
+    }
 };
 
 export const markReflow = () => (dispatch: DispatchWithState) => {
@@ -265,43 +260,8 @@ export const onUpdateLocalizations = (language: string, changes: LocalizationUpd
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    let newDef = { ...getState().flowContext.definition };
-
-    // Initialize localization map if not present on definition
-    if (!newDef.localization) {
-        newDef = update(newDef, {
-            localization: {
-                $set: {}
-            }
-        });
-    }
-
-    // Add language to localization map if not present
-    if (!newDef.localization[language]) {
-        newDef = update(newDef, {
-            localization: {
-                [language]: {
-                    $set: {}
-                }
-            }
-        });
-    }
-
-    // Apply changes
-    changes.forEach(({ translations, uuid }) => {
-        if (translations) {
-            newDef = update(newDef, {
-                localization: { [language]: { [uuid]: { $set: translations } } }
-            });
-        } else {
-            newDef = update(newDef, {
-                localization: { [language]: { $unset: [uuid] } }
-            });
-        }
-    });
-
-    // Update definiti
-    dispatch(updateDefinition(newDef));
+    const { flowContext: { definition } } = getState();
+    dispatch(updateDefinition(mutators.updateLocalization(definition, language, changes)));
 };
 
 export const updateDimensions = (node: Node, dimensions: Dimensions) => (
@@ -310,35 +270,22 @@ export const updateDimensions = (node: Node, dimensions: Dimensions) => (
 ) => {
     const { flowContext: { nodes } } = getState();
     const updateSpec = { [node.uuid]: { ui: { $merge: dimensions } } };
-    dispatch(updateNodes(update(nodes, updateSpec)));
+    // dispatch(updateNodes(mutate(nodes, updateSpec)));
 };
 
-export const addNode = (node: Node, ui: UINode, pendingConnection?: DragPoint) => (
+/**
+ * @param renderNode Adds the given node, uniquifying its uuid
+ */
+export const addNode = (renderNode: RenderNode) => (
     dispatch: DispatchWithState,
     getState: GetState
-) => {
-    console.time('addNode');
+): RenderNode => {
+    console.time('addRenderNode');
     const { flowContext: { nodes } } = getState();
-
-    // Give our node a unique uuid
-    const newNode = update(node, { $merge: { uuid: generateUUID() } });
-    const updatedNodes = update(nodes, { $merge: { [newNode.uuid]: { node: newNode, ui } } });
-
-    dispatch(updateNodes(updatedNodes));
-
-    // Save our pending connection if we have one
-    if (pendingConnection) {
-        // prettier-ignore
-        dispatch(
-            updatePendingConnections(
-                newNode.uuid,
-                pendingConnection
-            )
-        );
-    }
-
-    dispatch(updateFreshestNode(newNode));
-    console.timeEnd('addNode');
+    renderNode.node = mutators.uniquifyNode(renderNode.node);
+    dispatch(updateNodes(mutators.addNode(nodes, renderNode)));
+    console.timeEnd('addRenderNode');
+    return renderNode;
 };
 
 export const updateExitDestination = (nodeUUID: string, exitUUID: string, destination: string) => (
@@ -346,59 +293,7 @@ export const updateExitDestination = (nodeUUID: string, exitUUID: string, destin
     getState: GetState
 ) => {
     const { flowContext: { nodes } } = getState();
-    const exits = nodes[nodeUUID].node.exits;
-
-    console.log('updating exit', nodeUUID, exitUUID, destination);
-
-    for (const exitIdx in exits) {
-        if (exits[exitIdx].uuid === exitUUID) {
-            const exit = exits[exitIdx];
-
-            let updateSpec = {
-                [nodeUUID]: {
-                    node: {
-                        exits: {
-                            [exitIdx]: { $merge: { destination_node_uuid: destination } }
-                        }
-                    }
-                }
-            };
-
-            // remove our old pointer if we have one
-            if (exit.destination_node_uuid) {
-                const nodeWePointTo = nodes[exit.destination_node_uuid];
-                updateSpec = update(updateSpec, {
-                    $merge: {
-                        [exit.destination_node_uuid]: {
-                            inboundConnections: {
-                                $unset: [exit.uuid]
-                            }
-                        }
-                    }
-                });
-            }
-
-            // add our new pointer if we have one
-            if (destination) {
-                updateSpec = update(updateSpec, {
-                    $merge: {
-                        [destination]: {
-                            inboundConnections: {
-                                $merge: {
-                                    [exit.uuid]: nodeUUID
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-
-            console.log(updateSpec);
-
-            dispatch(updateNodes(update(nodes, updateSpec)));
-            return;
-        }
-    }
+    dispatch(updateNodes(mutators.updateConnection(nodes, nodeUUID, exitUUID, destination)));
 };
 
 export const disconnectExit = (nodeUUID: string, exitUUID: string) => (
@@ -425,6 +320,7 @@ export const resolvePendingConnection = (node: Node) => (
     const {
         flowEditor: { flowUI: { pendingConnections: currentPendingConnections } }
     } = getState();
+
     // Only resolve connection if we have one
     const pendingConnection = getPendingConnection(node.uuid, currentPendingConnections);
     if (pendingConnection) {
@@ -434,16 +330,6 @@ export const resolvePendingConnection = (node: Node) => (
             updateExitDestination(pendingConnection.nodeUUID, pendingConnection.exitUUID, node.uuid)
         );
     }
-};
-
-export const updateNode = (uuid: string, changes: any) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    const { flowContext: { nodes } } = getState();
-    console.log('changes', { [uuid]: changes });
-    dispatch(updateNodes(update(nodes, { [uuid]: changes })));
-    dispatch(markReflow());
 };
 
 export const ensureStartNode = () => (dispatch: DispatchWithState, getState: GetState) => {
@@ -466,83 +352,14 @@ export const ensureStartNode = () => (dispatch: DispatchWithState, getState: Get
             ]
         };
 
-        dispatch(addNode(node, { position: { x: 125, y: 125 } }));
+        dispatch(addNode({ node, ui: { position: { x: 125, y: 125 } } }));
     }
 };
 
 export const removeNode = (node: Node) => (dispatch: DispatchWithState, getState: GetState) => {
     const { flowContext: { nodes } } = getState();
-
-    // If we have a single exit, map all our pointers to that destination
-    let updateSpec = {};
-
-    let destination = null;
-    if (node.exits.length === 1) {
-        ({ destination_node_uuid: destination } = node.exits[0]);
-    }
-
-    // Re-map all our pointers to our new destination, null some most cases
-    const renderNode = nodes[node.uuid];
-
-    for (const fromExitUUID of Object.keys(renderNode.inboundConnections)) {
-        // Don't allow it to point to ourselves
-        let newDestination = destination;
-        const fromNodeUUID = renderNode.inboundConnections[fromExitUUID];
-
-        if (fromNodeUUID === destination) {
-            newDestination = null;
-        }
-
-        const pointerExits = nodes[fromNodeUUID].node.exits;
-        for (const exitIdx in pointerExits) {
-            if (pointerExits[exitIdx].uuid === fromExitUUID) {
-                updateSpec = prepUpdateDestination(
-                    fromNodeUUID,
-                    fromExitUUID,
-                    exitIdx,
-                    newDestination,
-                    updateSpec
-                );
-            }
-        }
-    }
-
-    // update remote pointers (the nodes we point to)
-    for (const nodeUUID of getUniqueDestinations(node)) {
-        const nodeWePointTo = nodes[nodeUUID];
-        if (nodeWePointTo) {
-            const toRemove = [];
-            for (const fromExitUUID of Object.keys(nodeWePointTo.inboundConnections)) {
-                const fromNodeUUID = nodeWePointTo.inboundConnections[fromExitUUID];
-                if (fromNodeUUID === node.uuid) {
-                    toRemove.push(fromExitUUID);
-                }
-            }
-
-            if (updateSpec[nodeUUID]) {
-                if (updateSpec[nodeUUID].inboundConnections) {
-                    updateSpec = update(updateSpec, {
-                        [nodeUUID]: { inboundConnections: { $merge: { $unset: toRemove } } }
-                    });
-                } else {
-                    updateSpec = update(updateSpec, {
-                        [nodeUUID]: { $merge: { inboundConnections: { $unset: toRemove } } }
-                    });
-                }
-            } else {
-                updateSpec = update(updateSpec, {
-                    $merge: {
-                        [nodeUUID]: { inboundConnections: { $unset: toRemove } }
-                    }
-                });
-            }
-        }
-    }
-
-    // Remove the node
-    const newNodes = update(nodes, { $unset: [node.uuid] });
-    dispatch(updateNodes(update(newNodes, updateSpec)));
-    dispatch(ensureStartNode());
+    const updatedNodes = mutators.removeNode(nodes, node.uuid);
+    dispatch(updateNodes(updatedNodes));
 };
 
 export const removeAction = (nodeUUID: string, action: AnyAction) => (
@@ -556,17 +373,8 @@ export const removeAction = (nodeUUID: string, action: AnyAction) => (
     if (renderNode.node.actions.length === 1) {
         dispatch(removeNode(renderNode.node));
     } else {
-        // Otherwise, just splice out that action
-        for (const actionIdx in renderNode.node.actions) {
-            if (renderNode.node.actions[actionIdx].uuid === action.uuid) {
-                dispatch(
-                    updateNode(nodeUUID, {
-                        node: { actions: { $splice: [[actionIdx, 1]] } }
-                    })
-                );
-                break;
-            }
-        }
+        // Otherwise, just remove that action
+        dispatch(updateNodes(mutators.removeAction(nodes, renderNode.node, action)));
     }
 };
 
@@ -575,21 +383,7 @@ export const moveActionUp = (nodeUUID: string, action: AnyAction) => (
     getState: GetState
 ) => {
     const { flowContext: { nodes } } = getState();
-
-    const renderNode = nodes[nodeUUID];
-    const actions = renderNode.node.actions;
-    for (const idx in actions) {
-        if (actions[idx].uuid === action.uuid) {
-            const actionIdx = parseInt(idx, 10);
-            const actionAbove = actions[actionIdx - 1];
-            dispatch(
-                updateNode(renderNode.node.uuid, {
-                    node: { actions: { $splice: [[actionIdx - 1, 2, action, actionAbove]] } }
-                })
-            );
-            return;
-        }
-    }
+    dispatch(updateNodes(mutators.moveActionUp(nodes, nodeUUID, action)));
 };
 
 /**
@@ -606,76 +400,26 @@ export const updateAction = (
     console.time('updateAction');
     const { flowContext: { nodes }, nodeEditor: { userAddingAction, nodeToEdit } } = getState();
 
-    if (draggedFrom && draggedFrom.nodeUUID !== nodeToEdit.uuid) {
-        const newNodeUUID = generateUUID();
+    let updatedNodes = nodes;
+    const creatingNewNode = draggedFrom && draggedFrom.nodeUUID !== nodeToEdit.uuid;
 
-        dispatch(
-            addNode(
-                {
-                    uuid: newNodeUUID,
-                    actions: [action],
-                    exits: [{ uuid: generateUUID(), destination_node_uuid: null, name: null }]
-                },
-                { position: newPosition },
-                {
-                    exitUUID: draggedFrom.exitUUID,
-                    nodeUUID: draggedFrom.nodeUUID
-                }
-            )
-        );
+    if (creatingNewNode) {
+        const newNode: RenderNode = {
+            node: {
+                uuid: generateUUID(),
+                actions: [action],
+                exits: [{ uuid: generateUUID(), destination_node_uuid: null, name: null }]
+            },
+            ui: { position: newPosition },
+            inboundConnections: { [draggedFrom.exitUUID]: draggedFrom.nodeUUID }
+        };
+
+        updatedNodes = mutators.addNode(nodes, newNode);
     } else if (userAddingAction) {
-        dispatch(updateNode(nodeToEdit.uuid, { node: { actions: { $push: [action] } } }));
+        updatedNodes = mutators.addAction(nodes, nodeToEdit.uuid, action);
     } else {
         if (nodeToEdit) {
-            if (nodeToEdit.actions && nodeToEdit.actions.length > 0) {
-                for (const actionIdx in nodeToEdit.actions) {
-                    if (nodeToEdit.actions[actionIdx].uuid === action.uuid) {
-                        dispatch(
-                            updateNode(nodeToEdit.uuid, {
-                                node: {
-                                    actions: { [actionIdx]: { $set: action } }
-                                }
-                            })
-                        );
-                        break;
-                    }
-                }
-            } else if (nodeToEdit.actions.length === 0) {
-                dispatch(
-                    updateNode(nodeToEdit.uuid, {
-                        node: { actions: { $set: [action] } }
-                    })
-                );
-            }
-
-            let previousDestination = null;
-            let previousUUID = generateUUID();
-            if (nodeToEdit.exits.length === 1) {
-                previousDestination = nodeToEdit.exits[0].destination_node_uuid;
-                previousUUID = nodeToEdit.exits[0].uuid;
-            }
-
-            // make sure we don't have any routerness left
-            updateNode(nodeToEdit.uuid, {
-                node: {
-                    $unset: ['router', 'wait'],
-                    exits: {
-                        $set: [
-                            {
-                                name: null,
-                                uuid: previousUUID,
-                                destination_node_uuid: previousDestination
-                            }
-                        ]
-                    }
-                },
-                ui: {
-                    $unset: ['type']
-                }
-            });
-
-            // TODO: not sure why we need this
-            dispatch(updateFreshestNode(nodes[nodeToEdit.uuid].node));
+            updatedNodes = mutators.updateAction(nodes, nodeToEdit.uuid, action);
         } else {
             // otherwise we might be adding a new action
             console.log("Couldn't find node, not updating");
@@ -683,104 +427,127 @@ export const updateAction = (
         }
     }
 
+    dispatch(updateNodes(updatedNodes));
     dispatch(updateUserAddingAction(false));
     dispatch(markReflow());
     console.timeEnd('updateAction');
+    // return nodes[nodeToEdit.uuid];
 };
 
 /**
  * Splices a router into a list of actions creating up to three nodes where there
  * was once one node.
+ * @param nodeUUID the node to replace
  * @param node the new node being added (shares the previous node uuid)
  * @param type the type of the new router
  * @param previousAction the previous action that is being replaced with our router
+ * @returns a list of RenderNodes that were created
  */
-export const spliceInRouter = (node: Node, type: string, previousAction: Action) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
+export const spliceInRouter = (
+    nodeUUID: string,
+    newRouterNode: Node,
+    type: string,
+    previousAction: Action
+) => (dispatch: DispatchWithState, getState: GetState): RenderNode[] => {
     const { flowContext: { nodes } } = getState();
-    const renderNode = nodes[node.uuid];
-    const previousNode = renderNode.node;
+    const previousNode = nodes[nodeUUID];
+    const result = [];
+
+    // remove our node, we're going to replace with better ones
+    let updatedNodes = nodes;
 
     let actionIdx = 0;
-    for (const [idx, action] of previousNode.actions.entries()) {
+    for (const [idx, action] of previousNode.node.actions.entries()) {
         if (action.uuid === previousAction.uuid) {
             actionIdx = idx;
             break;
         }
     }
 
-    // We need to splice a wait node where our previousAction was
-    const topActions: Action[] = actionIdx > 0 ? [...previousNode.actions.slice(0, actionIdx)] : [];
-    const bottomActions: Action[] = previousNode.actions.slice(
+    // we need to splice a wait node where our previousAction was
+    const topActions: Action[] =
+        actionIdx > 0 ? [...previousNode.node.actions.slice(0, actionIdx)] : [];
+    const bottomActions: Action[] = previousNode.node.actions.slice(
         actionIdx + 1,
-        previousNode.actions.length
+        previousNode.node.actions.length
     );
 
-    // const previousUI = getNodeUI(node.uuid, definition);
-    const { x } = renderNode.ui.position;
-    let { y } = renderNode.ui.position;
+    // tslint:disable-next-line:prefer-const
+    let { x, y } = previousNode.ui.position;
 
-    // Add our new router node, do this fist so our top can point to it
-    const routerY = topActions.length ? y + NODE_SPACING : y;
+    let topNode: RenderNode;
+    let bottomNode: RenderNode;
 
-    dispatch(
-        addNode(node, {
-            position: { x, y: routerY },
-            type
-        })
-    );
+    const routerNode: RenderNode = {
+        node: newRouterNode,
+        ui: { position: { x, y }, type }
+    };
 
-    // Add our top node if we have one
+    // add our top node if we have one
     if (topActions.length > 0) {
-        const { flowEditor: { flowUI: { freshestNode } } } = getState();
-
-        const topActionNode: Node = {
-            uuid: generateUUID(),
-            actions: topActions,
-            exits: [
-                {
-                    uuid: generateUUID(),
-                    destination_node_uuid: freshestNode.uuid
-                }
-            ]
+        topNode = {
+            node: {
+                uuid: generateUUID(),
+                actions: topActions,
+                exits: [
+                    {
+                        uuid: generateUUID(),
+                        destination_node_uuid: null
+                    }
+                ]
+            },
+            ui: { position: { x, y } }
         };
-
-        dispatch(addNode(topActionNode, { position: { x, y } }));
+        updatedNodes = mutators.addNode(updatedNodes, topNode);
         y += NODE_SPACING;
+
+        // update our routerNode for the presence of a top node
+        routerNode.inboundConnections = { [topNode.node.exits[0].uuid]: topNode.node.uuid };
+        routerNode.ui.position.y += NODE_SPACING;
+
+        result.push(topNode);
     }
 
-    // Add our bottom
+    // now add our routerNode
+    updatedNodes = mutators.addNode(updatedNodes, routerNode);
+    result.push(routerNode);
+
+    // add our bottom
     if (bottomActions.length > 0) {
-        const bottomActionNode: Node = {
-            uuid: generateUUID(),
-            actions: bottomActions,
-            exits: [
-                {
-                    uuid: generateUUID(),
-                    destination_node_uuid: previousNode.exits[0].destination_node_uuid
-                }
-            ]
+        bottomNode = {
+            node: {
+                uuid: generateUUID(),
+                actions: bottomActions,
+                exits: [
+                    {
+                        uuid: generateUUID(),
+                        destination_node_uuid: previousNode.node.exits[0].destination_node_uuid
+                    }
+                ]
+            },
+            ui: {
+                position: { x, y }
+            },
+            inboundConnections: { [routerNode.node.exits[0].uuid]: routerNode.node.uuid }
         };
-        dispatch(addNode(bottomActionNode, { position: { x, y } }));
-        const { flowEditor: { flowUI: { freshestNode } } } = getState();
-        dispatch(
-            updateExitDestination(freshestNode.uuid, freshestNode.exits[0].uuid, freshestNode.uuid)
-        );
+        updatedNodes = mutators.addNode(updatedNodes, bottomNode);
+        result.push(bottomNode);
     } else {
-        const { flowEditor: { flowUI: { freshestNode } } } = getState();
-        dispatch(
-            updateExitDestination(
-                freshestNode.uuid,
-                freshestNode.exits[0].uuid,
-                previousNode.exits[0].destination_node_uuid
-            )
+        // if we don't have a bottom, route our routerNode to the previous destination
+        updatedNodes = mutators.updateConnection(
+            updatedNodes,
+            routerNode.node.uuid,
+            routerNode.node.exits[0].uuid,
+            previousNode.node.exits[0].destination_node_uuid
         );
     }
 
-    // Remove our previous node since we created new nodes to take it's place
-    dispatch(removeNode(previousNode));
+    // remove our old node, we have better ones now
+    updatedNodes = mutators.removeNode(updatedNodes, previousNode.node.uuid);
+
+    dispatch(updateNodes(updatedNodes));
+
+    return result;
 };
 
 /**
@@ -795,26 +562,30 @@ export const appendNewRouter = (node: Node, type: string) => (
     const previousNode = renderNode.node;
     const { position: { x, y } } = renderNode.ui;
 
-    dispatch(
-        addNode(node, {
-            position: { x, y: y + NODE_SPACING },
-            type
+    const addedNode = dispatch(
+        addNode({
+            node,
+            ui: {
+                position: { x, y: y + NODE_SPACING },
+                type
+            }
         })
     );
 
     // Rewire our old connections
     dispatch(
-        updateExitDestination(
-            previousNode.uuid,
-            previousNode.exits[0].uuid,
-            getState().flowEditor.flowUI.freshestNode.uuid
-        )
+        updateExitDestination(previousNode.uuid, previousNode.exits[0].uuid, addedNode.node.uuid)
     );
 
     // And our new node should point where the old one did
     const { destination_node_uuid: previousDestination } = previousNode.exits[0];
-    const freshest = getState().flowEditor.flowUI.freshestNode;
-    dispatch(updateExitDestination(freshest.uuid, freshest.exits[0].uuid, previousDestination));
+    dispatch(
+        updateExitDestination(
+            addedNode.node.uuid,
+            addedNode.node.exits[0].uuid,
+            previousDestination
+        )
+    );
 };
 
 export const updateRouter = (
@@ -829,26 +600,28 @@ export const updateRouter = (
     console.time('updateRouter');
 
     const renderNode = nodes[node.uuid];
-    if (!renderNode.node.router) {
+    if (renderNode && !renderNode.node.router) {
         // Make sure our previous action exists in our map
         if (previousAction) {
-            dispatch(spliceInRouter(node, type, previousAction));
+            dispatch(spliceInRouter(node.uuid, mutators.uniquifyNode(node), type, previousAction));
         } else {
             dispatch(appendNewRouter(node, type));
         }
     } else {
         // Dragging from somewhere means we are a new node
         if (draggedFrom && draggedFrom.nodeUUID !== node.uuid) {
-            const newNode = uniquifyNode(node);
-            dispatch(addNode(newNode, { position: newPosition, type }));
-
-            // Wire up where we dragged from
             dispatch(
-                updateExitDestination(draggedFrom.nodeUUID, draggedFrom.exitUUID, newNode.uuid)
+                addNode({
+                    node,
+                    ui: { position: newPosition, type },
+                    inboundConnections: {
+                        [draggedFrom.exitUUID]: draggedFrom.nodeUUID
+                    }
+                })
             );
         } else {
             // Otherwise we are updating an existing node
-            dispatch(updateNode(node.uuid, { node: { $set: node }, ui: { $merge: { type } } }));
+            dispatch(updateNodes(mutators.updateNode(nodes, node, type)));
         }
     }
 
@@ -974,10 +747,12 @@ export const onNodeEditorClose = (canceled: boolean, connectExit: Function) => (
     dispatch(resetNodeEditingState());
 };
 
-export const onNodeMoved = (uuid: string, position: Position, repaintForDuration: Function) => (
-    dispatch: DispatchWithState
+export const onNodeMoved = (nodeUUID: string, position: Position, repaintForDuration: Function) => (
+    dispatch: DispatchWithState,
+    getState: GetState
 ) => {
-    dispatch(updateNode(uuid, { ui: { position: { $set: position } } }));
+    const { flowContext: { nodes } } = getState();
+    dispatch(updateNodes(mutators.updatePosition(nodes, nodeUUID, position.x, position.y)));
     repaintForDuration();
 };
 
@@ -1009,7 +784,7 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
     dispatch(
         updatePendingConnection({
             nodeUUID: fromNodeUUID,
-            exitUUID: event.sourceId
+            exitUUID: event.sourceId.split(':')[1]
         })
     );
 };

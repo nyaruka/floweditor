@@ -5,7 +5,6 @@ import {
     dragGroup as dragGroupReducer,
     fetchingFlow as fetchingFlowReducer,
     flows as flowsReducer,
-    freshestNode as freshestNodeReducer,
     ghostNode as ghostNodeReducer,
     initialState,
     language as languageReducer,
@@ -19,7 +18,6 @@ import {
     updateDragGroup,
     updateFetchingFlow,
     updateFlows,
-    updateFreshestNode,
     updateGhostNode,
     updateLanguage,
     updateNodeDragging,
@@ -161,19 +159,6 @@ describe('flowEditor action creators', () => {
                 }
             };
             expect(removePendingConnection(nodeUUID)).toEqual(expectedAction);
-        });
-    });
-
-    describe('updateFreshestNode', () => {
-        it('should create an action to update freshestNode state', () => {
-            const [freshestNode] = colorsFlow.results[0].definition.nodes;
-            const expectedAction = {
-                type: Constants.UPDATE_FRESHEST_NODE,
-                payload: {
-                    freshestNode
-                }
-            };
-            expect(updateFreshestNode(freshestNode)).toEqual(expectedAction);
         });
     });
 
@@ -372,20 +357,6 @@ describe('flowEditor reducers', () => {
             const nodeDragging = true;
             const action = updateNodeDragging(nodeDragging);
             expect(reduce(action)).toEqual(nodeDragging);
-        });
-    });
-
-    describe('freshestNode reducer', () => {
-        const reduce = action => freshestNodeReducer(undefined, action);
-
-        it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.flowUI.freshestNode);
-        });
-
-        it('should handle UPDATE_FRESHEST_NODE', () => {
-            const [freshestNode] = colorsFlow.results[0].definition.nodes;
-            const action = updateFreshestNode(freshestNode);
-            expect(reduce(action)).toEqual(freshestNode);
         });
     });
 

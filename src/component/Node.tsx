@@ -1,3 +1,6 @@
+// TODO: Remove use of Function
+// tslint:disable:ban-types
+
 import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import * as shallowCompare from 'react-addons-shallow-compare';
