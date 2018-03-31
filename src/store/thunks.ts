@@ -1,7 +1,6 @@
 // TODO: Remove use of Function
 // tslint:disable:ban-types
 
-// const mutate = require('immutability-helper');
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 import { DragPoint } from '../component/Node';
@@ -269,8 +268,7 @@ export const updateDimensions = (node: Node, dimensions: Dimensions) => (
     getState: GetState
 ) => {
     const { flowContext: { nodes } } = getState();
-    const updateSpec = { [node.uuid]: { ui: { $merge: dimensions } } };
-    // dispatch(updateNodes(mutate(nodes, updateSpec)));
+    dispatch(updateNodes(mutators.updateDimensions(nodes, node.uuid, dimensions)));
 };
 
 /**

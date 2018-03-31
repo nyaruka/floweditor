@@ -1,5 +1,5 @@
 const mutate = require('immutability-helper');
-import { Node, UINode, AnyAction, FlowDefinition } from '../flowTypes';
+import { Node, UINode, AnyAction, FlowDefinition, Dimensions } from '../flowTypes';
 import { v4 as generateUUID } from 'uuid';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { dump } from '../utils';
@@ -303,6 +303,18 @@ export const updatePosition = (
     x: number,
     y: number
 ): RenderNodeMap => mutate(nodes, { [nodeUUID]: { ui: { position: { $set: { x, y } } } } });
+
+/**
+ * Update the dimensions for a specific node
+ * @param nodes
+ * @param nodeUUID
+ * @param dimensions
+ */
+export const updateDimensions = (
+    nodes: RenderNodeMap,
+    nodeUUID: string,
+    dimensions: Dimensions
+): RenderNodeMap => mutate(nodes, { [nodeUUID]: { ui: { $merge: dimensions } } });
 
 /**
  * Prunes the definition for editing, removing node references
