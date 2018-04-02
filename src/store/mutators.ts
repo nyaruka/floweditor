@@ -11,6 +11,32 @@ export const uniquifyNode = (newNode: Node): Node => {
     return mutate(newNode, { $merge: { uuid: generateUUID() } });
 };
 
+export const getNode = (nodes: RenderNodeMap, nodeUUID: string) => {
+    const node = nodes[nodeUUID];
+    if (!node) {
+        throw new Error('Cannot find node ' + nodeUUID);
+    }
+    return node;
+};
+
+export const getExitIndex = (node: Node, exitUUID: string) => {
+    for (const [exitIdx, exit] of node.exits.entries()) {
+        if (exit.uuid === exitUUID) {
+            return exitIdx;
+        }
+    }
+    throw new Error('Cannot find exit ' + exitUUID);
+};
+
+export const getActionIndex = (node: Node, actionUUID: string) => {
+    for (const [actionIdx, action] of node.actions.entries()) {
+        if (action.uuid === actionUUID) {
+            return actionIdx;
+        }
+    }
+    throw new Error('Cannot find action ' + actionUUID);
+};
+
 /**
  * Update the destination for a specific exit. Updates destination_node_uuid and
  * the inboundConnections for the given node
@@ -23,30 +49,41 @@ export const updateConnection = (
     nodes: RenderNodeMap,
     fromNodeUUID: string,
     fromExitUUID: string,
-    destination: string
+    destinationNodeUUID: string
 ): RenderNodeMap => {
     let updatedNodes = nodes;
+    const fromNode = getNode(nodes, fromNodeUUID);
 
-    const fromNode = nodes[fromNodeUUID];
-    let previousDestination: string;
-
-    for (const [exitIdx, exit] of fromNode.node.exits.entries()) {
-        if (exit.uuid === fromExitUUID) {
-            previousDestination = exit.destination_node_uuid;
-            updatedNodes = mutate(updatedNodes, {
-                [fromNodeUUID]: {
-                    node: { exits: { [exitIdx]: { destination_node_uuid: { $set: destination } } } }
-                }
-            });
-        }
+    // make sure our destination exits if they provided one
+    if (destinationNodeUUID) {
+        getNode(nodes, destinationNodeUUID);
     }
 
+    const exitIdx = getExitIndex(fromNode.node, fromExitUUID);
+    const previousDestination = fromNode.node.exits[exitIdx].destination_node_uuid;
+
+    updatedNodes = mutate(updatedNodes, {
+        [fromNodeUUID]: {
+            node: {
+                exits: {
+                    [exitIdx]: {
+                        destination_node_uuid: { $set: destinationNodeUUID }
+                    }
+                }
+            }
+        }
+    });
+
     // update our pointers
-    if (destination) {
+    if (destinationNodeUUID) {
         updatedNodes = mutate(updatedNodes, {
-            [destination]: { inboundConnections: { $merge: { [fromExitUUID]: fromNodeUUID } } }
+            [destinationNodeUUID]: {
+                inboundConnections: { $merge: { [fromExitUUID]: fromNodeUUID } }
+            }
         });
-    } else if (previousDestination) {
+    }
+
+    if (previousDestination != null) {
         updatedNodes = mutate(updatedNodes, {
             [previousDestination]: { inboundConnections: { $unset: [[fromExitUUID]] } }
         });
@@ -82,23 +119,21 @@ export const addNode = (nodes: RenderNodeMap, nodeToAdd: RenderNode): RenderNode
     if (nodeToAdd.inboundConnections) {
         for (const fromExitUUID of Object.keys(nodeToAdd.inboundConnections)) {
             const fromNodeUUID = nodeToAdd.inboundConnections[fromExitUUID];
-            for (const [exitIdx, exit] of nodes[fromNodeUUID].node.exits.entries()) {
-                // this will only record the last exit for each node, of which
-                // there should only ever be one with our drag to add interface
-                if (exit.uuid === fromExitUUID) {
-                    updatedNodes = mutate(updatedNodes, {
-                        [fromNodeUUID]: {
-                            node: {
-                                exits: {
-                                    [exitIdx]: {
-                                        $merge: { destination_node_uuid: nodeToAdd.node.uuid }
-                                    }
-                                }
+
+            const fromNode = getNode(nodes, fromNodeUUID);
+            const exitIdx = getExitIndex(fromNode.node, fromExitUUID);
+
+            updatedNodes = mutate(updatedNodes, {
+                [fromNodeUUID]: {
+                    node: {
+                        exits: {
+                            [exitIdx]: {
+                                $merge: { destination_node_uuid: nodeToAdd.node.uuid }
                             }
                         }
-                    });
+                    }
                 }
-            }
+            });
         }
     }
 
@@ -115,7 +150,11 @@ export const addAction = (
     nodes: RenderNodeMap,
     nodeUUID: string,
     action: AnyAction
-): RenderNodeMap => mutate(nodes, { [nodeUUID]: { node: { actions: { $push: [action] } } } });
+): RenderNodeMap => {
+    // check that our node exists
+    getNode(nodes, nodeUUID);
+    return mutate(nodes, { [nodeUUID]: { node: { actions: { $push: [action] } } } });
+};
 
 /**
  * Updates the given action in place by it's uuid
@@ -124,27 +163,17 @@ export const addAction = (
  * @param action
  */
 export const updateAction = (nodes: RenderNodeMap, nodeUUID: string, action: AnyAction) => {
-    const nodeToEdit = nodes[nodeUUID];
+    const nodeToEdit = getNode(nodes, nodeUUID);
 
     let updatedNodes = nodes;
     // if we have existing actions, find our action and update it
     if (nodeToEdit.node.actions && nodeToEdit.node.actions.length > 0) {
-        for (const [actionIdx, a] of nodeToEdit.node.actions.entries()) {
-            if (a.uuid === action.uuid) {
-                updatedNodes = mutate(updatedNodes, {
-                    [nodeToEdit.node.uuid]: {
-                        node: {
-                            actions: { [actionIdx]: { $set: action } }
-                        }
-                    }
-                });
-            }
-        }
-    } else if (nodeToEdit.node.actions.length === 0) {
-        // we don't have any actions, set our action as the only one
+        const actionIdx = getActionIndex(nodeToEdit.node, action.uuid);
         updatedNodes = mutate(updatedNodes, {
             [nodeToEdit.node.uuid]: {
-                node: { actions: { $set: [action] } }
+                node: {
+                    actions: { [actionIdx]: { $set: action } }
+                }
             }
         });
     }
@@ -182,14 +211,12 @@ export const updateAction = (nodes: RenderNodeMap, nodeUUID: string, action: Any
 };
 
 /** Removes a specific action from a node */
-export const removeAction = (nodes: RenderNodeMap, node: Node, action: AnyAction) => {
-    for (const actionIdx in node.actions) {
-        if (node.actions[actionIdx].uuid === action.uuid) {
-            return mutate(nodes, {
-                [node.uuid]: { node: { actions: { $splcie: [[actionIdx, 1]] } } }
-            });
-        }
-    }
+export const removeAction = (nodes: RenderNodeMap, nodeUUID: string, actionUUID: string) => {
+    const renderNode = getNode(nodes, nodeUUID);
+    const actionIdx = getActionIndex(renderNode.node, actionUUID);
+    return mutate(nodes, {
+        [nodeUUID]: { node: { actions: { $splice: [[actionIdx, 1]] } } }
+    });
 };
 
 /**
@@ -198,21 +225,24 @@ export const removeAction = (nodes: RenderNodeMap, node: Node, action: AnyAction
  * @param nodeUUID
  * @param action
  */
-export const moveActionUp = (nodes: RenderNodeMap, nodeUUID: string, action: AnyAction) => {
-    const renderNode = nodes[nodeUUID];
+export const moveActionUp = (nodes: RenderNodeMap, nodeUUID: string, actionUUID: string) => {
+    const renderNode = getNode(nodes, nodeUUID);
+
     const actions = renderNode.node.actions;
-    for (const idx in actions) {
-        if (actions[idx].uuid === action.uuid) {
-            const actionIdx = parseInt(idx, 10);
-            const actionAbove = actions[actionIdx - 1];
-            return mutate(nodes, {
-                [nodeUUID]: {
-                    node: { actions: { $splice: [[actionIdx - 1, 2, action, actionAbove]] } }
-                }
-            });
-        }
+    const actionIdx = getActionIndex(renderNode.node, actionUUID);
+
+    if (actionIdx === 0) {
+        throw new Error('Cannot move an action at the top upwards');
     }
-    return nodes;
+
+    const action = actions[actionIdx];
+    const actionAbove = actions[actionIdx - 1];
+
+    return mutate(nodes, {
+        [nodeUUID]: {
+            node: { actions: { $splice: [[actionIdx - 1, 2, action, actionAbove]] } }
+        }
+    });
 };
 
 /**
@@ -221,10 +251,13 @@ export const moveActionUp = (nodes: RenderNodeMap, nodeUUID: string, action: Any
  * @param node
  * @param type
  */
-export const updateNode = (nodes: RenderNodeMap, node: Node, type: string) =>
-    mutate(nodes, {
+export const updateNode = (nodes: RenderNodeMap, node: Node, type: string) => {
+    // make sure our node exists
+    getNode(nodes, node.uuid);
+    return mutate(nodes, {
         [node.uuid]: { node: { $set: node }, ui: { $merge: { type } } }
     });
+};
 
 /**
  * Removes a given node from our node map. Updates destinations for any exits that point to us
@@ -234,9 +267,9 @@ export const updateNode = (nodes: RenderNodeMap, node: Node, type: string) =>
  * @param nodeToRemove
  */
 export const removeNode = (nodes: RenderNodeMap, nodeUUID: string): RenderNodeMap => {
-    const nodeToRemove = nodes[nodeUUID];
-
+    const nodeToRemove = getNode(nodes, nodeUUID);
     let updatedNodes = nodes;
+
     // remove us from any inbound connections
     for (const exit of nodeToRemove.node.exits) {
         if (exit.destination_node_uuid) {
@@ -258,30 +291,29 @@ export const removeNode = (nodes: RenderNodeMap, nodeUUID: string): RenderNodeMa
 
         for (const fromExitUUID of Object.keys(nodeToRemove.inboundConnections)) {
             const fromNodeUUID = nodeToRemove.inboundConnections[fromExitUUID];
-            const fromNode = nodes[fromNodeUUID];
+            const fromNode = getNode(nodes, fromNodeUUID);
 
             // TODO: this can be optimized to only go through any node's exits once
-            for (const [exitIdx, exit] of fromNode.node.exits.entries()) {
-                if (exit.uuid === fromExitUUID) {
-                    updatedNodes = mutate(updatedNodes, {
-                        [fromNodeUUID]: {
-                            node: {
-                                exits: {
-                                    [exitIdx]: { destination_node_uuid: { $set: destination } }
-                                }
-                            }
+            const exitIdx = getExitIndex(fromNode.node, fromExitUUID);
+            updatedNodes = mutate(updatedNodes, {
+                [fromNodeUUID]: {
+                    node: {
+                        exits: {
+                            [exitIdx]: { destination_node_uuid: { $set: destination } }
                         }
-                    });
-
-                    // if we are setting a new destination, update the inboundConnections
-                    if (destination) {
-                        updatedNodes = mutate(updatedNodes, {
-                            [destination]: {
-                                inboundConnections: { $merge: { [fromExitUUID]: fromNodeUUID } }
-                            }
-                        });
                     }
                 }
+            });
+
+            // if we are setting a new destination, update the inboundConnections
+            if (destination) {
+                // make sure our destination exists
+                getNode(nodes, destination);
+                updatedNodes = mutate(updatedNodes, {
+                    [destination]: {
+                        inboundConnections: { $merge: { [fromExitUUID]: fromNodeUUID } }
+                    }
+                });
             }
         }
     }
@@ -335,15 +367,6 @@ export const updateLocalization = (
     changes: LocalizationUpdates
 ) => {
     let newDef = definition;
-
-    // Initialize localization map if not present on definition
-    if (!newDef.localization) {
-        newDef = mutate(newDef, {
-            localization: {
-                $set: {}
-            }
-        });
-    }
 
     // Add language to localization map if not present
     if (!newDef.localization[language]) {
