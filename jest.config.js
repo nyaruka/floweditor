@@ -10,7 +10,6 @@ module.exports = {
     moduleNameMapper: {
         '^.+\\.s?css$': 'identity-obj-proxy'
     },
-    mapCoverage: true,
     collectCoverageFrom: ['src/**/*.{ts,tsx}'],
     coveragePathIgnorePatterns: ['/*.d.ts$'],
     setupFiles: ['<rootDir>/rafShim.js', '<rootDir>/enzymeAdapter.js']
