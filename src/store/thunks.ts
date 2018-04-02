@@ -263,12 +263,12 @@ export const onUpdateLocalizations = (language: string, changes: LocalizationUpd
     dispatch(updateDefinition(mutators.updateLocalization(definition, language, changes)));
 };
 
-export const updateDimensions = (node: Node, dimensions: Dimensions) => (
+export const updateDimensions = (nodeUUID: string, dimensions: Dimensions) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
     const { flowContext: { nodes } } = getState();
-    dispatch(updateNodes(mutators.updateDimensions(nodes, node.uuid, dimensions)));
+    dispatch(updateNodes(mutators.updateDimensions(nodes, nodeUUID, dimensions)));
 };
 
 /**
@@ -372,7 +372,7 @@ export const removeAction = (nodeUUID: string, action: AnyAction) => (
         dispatch(removeNode(renderNode.node));
     } else {
         // Otherwise, just remove that action
-        dispatch(updateNodes(mutators.removeAction(nodes, renderNode.node, action)));
+        dispatch(updateNodes(mutators.removeAction(nodes, nodeUUID, action.uuid)));
     }
 };
 
@@ -381,7 +381,7 @@ export const moveActionUp = (nodeUUID: string, action: AnyAction) => (
     getState: GetState
 ) => {
     const { flowContext: { nodes } } = getState();
-    dispatch(updateNodes(mutators.moveActionUp(nodes, nodeUUID, action)));
+    dispatch(updateNodes(mutators.moveActionUp(nodes, nodeUUID, action.uuid)));
 };
 
 /**

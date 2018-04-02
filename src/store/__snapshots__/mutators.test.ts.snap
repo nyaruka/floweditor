@@ -1,0 +1,768 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mutators moveActionUp() should move action up 1`] = `
+Object {
+  "nodeA": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Move me up",
+          "type": "send_msg",
+          "uuid": "actionB",
+        },
+        Object {
+          "text": "The first message",
+          "type": "send_msg",
+          "uuid": "actionA",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeB",
+          "uuid": "exitA",
+        },
+      ],
+      "uuid": "nodeA",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 100,
+        "y": 100,
+      },
+    },
+  },
+  "nodeB": Object {
+    "inboundConnections": Object {
+      "exitA": "nodeA",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitB",
+        },
+      ],
+      "uuid": "nodeB",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 200,
+        "y": 200,
+      },
+    },
+  },
+  "nodeC": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitC",
+        },
+      ],
+      "uuid": "nodeC",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 300,
+        "y": 300,
+      },
+    },
+  },
+}
+`;
+
+exports[`mutators should addAction 1`] = `
+Object {
+  "nodeA": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "The first message",
+          "type": "send_msg",
+          "uuid": "actionA",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeB",
+          "uuid": "exitA",
+        },
+      ],
+      "uuid": "nodeA",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 100,
+        "y": 100,
+      },
+    },
+  },
+  "nodeB": Object {
+    "inboundConnections": Object {
+      "exitA": "nodeA",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Hello World",
+          "type": "send_msg",
+          "uuid": "actionB",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitB",
+        },
+      ],
+      "uuid": "nodeB",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 200,
+        "y": 200,
+      },
+    },
+  },
+  "nodeC": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitC",
+        },
+      ],
+      "uuid": "nodeC",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 300,
+        "y": 300,
+      },
+    },
+  },
+}
+`;
+
+exports[`mutators should addNode 1`] = `
+Object {
+  "nodeA": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "The first message",
+          "type": "send_msg",
+          "uuid": "actionA",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeD",
+          "uuid": "exitA",
+        },
+      ],
+      "uuid": "nodeA",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 100,
+        "y": 100,
+      },
+    },
+  },
+  "nodeB": Object {
+    "inboundConnections": Object {
+      "exitA": "nodeA",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitB",
+        },
+      ],
+      "uuid": "nodeB",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 200,
+        "y": 200,
+      },
+    },
+  },
+  "nodeC": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitC",
+        },
+      ],
+      "uuid": "nodeC",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 300,
+        "y": 300,
+      },
+    },
+  },
+  "nodeD": Object {
+    "inboundConnections": Object {
+      "exitA": "nodeA",
+    },
+    "node": Object {
+      "exits": Array [],
+      "uuid": "nodeD",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 400,
+        "y": 400,
+      },
+    },
+  },
+}
+`;
+
+exports[`mutators should removeAction 1`] = `
+Object {
+  "nodeA": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeB",
+          "uuid": "exitA",
+        },
+      ],
+      "uuid": "nodeA",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 100,
+        "y": 100,
+      },
+    },
+  },
+  "nodeB": Object {
+    "inboundConnections": Object {
+      "exitA": "nodeA",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitB",
+        },
+      ],
+      "uuid": "nodeB",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 200,
+        "y": 200,
+      },
+    },
+  },
+  "nodeC": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitC",
+        },
+      ],
+      "uuid": "nodeC",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 300,
+        "y": 300,
+      },
+    },
+  },
+}
+`;
+
+exports[`mutators should removeConnection 1`] = `
+Object {
+  "nodeA": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "The first message",
+          "type": "send_msg",
+          "uuid": "actionA",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitA",
+        },
+      ],
+      "uuid": "nodeA",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 100,
+        "y": 100,
+      },
+    },
+  },
+  "nodeB": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitB",
+        },
+      ],
+      "uuid": "nodeB",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 200,
+        "y": 200,
+      },
+    },
+  },
+  "nodeC": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitC",
+        },
+      ],
+      "uuid": "nodeC",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 300,
+        "y": 300,
+      },
+    },
+  },
+}
+`;
+
+exports[`mutators should updateLocalizations 1`] = `
+Object {
+  "_ui": Object {
+    "languages": null,
+    "nodes": Object {},
+  },
+  "language": "eng",
+  "localization": Object {
+    "spa": Object {
+      "actionA": Array [
+        Object {
+          "text": "Hola Mundo!",
+        },
+      ],
+    },
+  },
+  "name": "Test Flow",
+  "nodes": Array [
+    Object {
+      "actions": Array [
+        Object {
+          "text": "The first message",
+          "type": "send_msg",
+          "uuid": "actionA",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeB",
+          "uuid": "exitA",
+        },
+      ],
+      "uuid": "nodeA",
+    },
+    Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitB",
+        },
+      ],
+      "uuid": "nodeB",
+    },
+    Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitC",
+        },
+      ],
+      "uuid": "nodeC",
+    },
+  ],
+  "uuid": "flowA",
+}
+`;
+
+exports[`mutators should updateLocalizations 2`] = `
+Object {
+  "_ui": Object {
+    "languages": null,
+    "nodes": Object {},
+  },
+  "language": "eng",
+  "localization": Object {
+    "spa": Object {},
+  },
+  "name": "Test Flow",
+  "nodes": Array [
+    Object {
+      "actions": Array [
+        Object {
+          "text": "The first message",
+          "type": "send_msg",
+          "uuid": "actionA",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeB",
+          "uuid": "exitA",
+        },
+      ],
+      "uuid": "nodeA",
+    },
+    Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitB",
+        },
+      ],
+      "uuid": "nodeB",
+    },
+    Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitC",
+        },
+      ],
+      "uuid": "nodeC",
+    },
+  ],
+  "uuid": "flowA",
+}
+`;
+
+exports[`mutators updateAction() should update an existing action 1`] = `
+Object {
+  "nodeA": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "The first message",
+          "type": "send_msg",
+          "uuid": "actionA",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeB",
+          "uuid": "exitA",
+        },
+      ],
+      "uuid": "nodeA",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 100,
+        "y": 100,
+      },
+    },
+  },
+  "nodeB": Object {
+    "inboundConnections": Object {
+      "exitA": "nodeA",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Goodbye World",
+          "type": "send_msg",
+          "uuid": "actionB",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "exitB",
+        },
+      ],
+      "uuid": "nodeB",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 200,
+        "y": 200,
+      },
+    },
+  },
+  "nodeC": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitC",
+        },
+      ],
+      "uuid": "nodeC",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 300,
+        "y": 300,
+      },
+    },
+  },
+}
+`;
+
+exports[`mutators updateConnection() should allow clearing connection 1`] = `
+Object {
+  "nodeA": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "The first message",
+          "type": "send_msg",
+          "uuid": "actionA",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitA",
+        },
+      ],
+      "uuid": "nodeA",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 100,
+        "y": 100,
+      },
+    },
+  },
+  "nodeB": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitB",
+        },
+      ],
+      "uuid": "nodeB",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 200,
+        "y": 200,
+      },
+    },
+  },
+  "nodeC": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitC",
+        },
+      ],
+      "uuid": "nodeC",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 300,
+        "y": 300,
+      },
+    },
+  },
+}
+`;
+
+exports[`mutators updateConnection() should update connections 1`] = `
+Object {
+  "nodeA": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "The first message",
+          "type": "send_msg",
+          "uuid": "actionA",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeC",
+          "uuid": "exitA",
+        },
+      ],
+      "uuid": "nodeA",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 100,
+        "y": 100,
+      },
+    },
+  },
+  "nodeB": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitB",
+        },
+      ],
+      "uuid": "nodeB",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 200,
+        "y": 200,
+      },
+    },
+  },
+  "nodeC": Object {
+    "inboundConnections": Object {
+      "exitA": "nodeA",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitC",
+        },
+      ],
+      "uuid": "nodeC",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 300,
+        "y": 300,
+      },
+    },
+  },
+}
+`;
+
+exports[`mutators updateConnection() should update without a previous destination 1`] = `
+Object {
+  "nodeA": Object {
+    "inboundConnections": Object {
+      "exitC": "nodeC",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "The first message",
+          "type": "send_msg",
+          "uuid": "actionA",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeB",
+          "uuid": "exitA",
+        },
+      ],
+      "uuid": "nodeA",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 100,
+        "y": 100,
+      },
+    },
+  },
+  "nodeB": Object {
+    "inboundConnections": Object {
+      "exitA": "nodeA",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitB",
+        },
+      ],
+      "uuid": "nodeB",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 200,
+        "y": 200,
+      },
+    },
+  },
+  "nodeC": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeA",
+          "uuid": "exitC",
+        },
+      ],
+      "uuid": "nodeC",
+    },
+    "ui": Object {
+      "position": Object {
+        "x": 300,
+        "y": 300,
+      },
+    },
+  },
+}
+`;
