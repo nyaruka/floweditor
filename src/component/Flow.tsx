@@ -157,7 +157,7 @@ export class Flow extends React.Component<FlowStoreProps> {
                 // Wire up the drag from to our ghost node
                 const dragPoint = pendingConnection;
                 this.Plumber.recalculate(ghostNode.uuid);
-                this.Plumber.connect(dragPoint.exitUUID, ghostNode.uuid);
+                this.Plumber.connect(dragPoint.nodeUUID + ':' + dragPoint.exitUUID, ghostNode.uuid);
 
                 // Save our position for later
                 const { left, top } = snapToGrid(

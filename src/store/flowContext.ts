@@ -12,6 +12,10 @@ import ActionTypes, {
 import Constants from './constants';
 import { combineReducers } from 'redux';
 
+export interface RenderNodeMap {
+    [uuid: string]: RenderNode;
+}
+
 export interface RenderNode {
     ui: UINode;
     node: Node;

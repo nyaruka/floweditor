@@ -1,3 +1,5 @@
+// TODO: Remove use of Function
+// tslint:disable:ban-types
 import { react as bindCallbacks } from 'auto-bind';
 import * as classNames from 'classnames/bind';
 import * as React from 'react';
@@ -92,13 +94,11 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
                     confirmDelete: true
                 },
                 () => {
-                    this.timeout = window.setTimeout(
-                        () =>
-                            this.setState({
-                                confirmDelete: false
-                            }),
-                        2000
-                    );
+                    this.timeout = window.setTimeout(() => {
+                        this.setState({
+                            confirmDelete: false
+                        });
+                    }, 2000);
                 }
             );
         }

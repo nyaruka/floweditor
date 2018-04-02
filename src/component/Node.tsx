@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 import { react as bindCallbacks } from 'auto-bind';
+=======
+// TODO: Remove use of Function
+// tslint:disable:ban-types
+
+>>>>>>> 246eee4063e16c1c78b6f210c01e54baaec53f13
 import * as classNames from 'classnames/bind';
 import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
@@ -434,7 +440,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
         const classes = cx({
             'plumb-drag': true,
-            [styles.node]: true,
             [styles.dragging]: this.state.thisNodeDragging,
             [styles.ghost]: this.props.ghost,
             [styles.translating]: this.props.translating,
@@ -458,9 +463,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 ref={this.eleRef}
                 style={style}
                 id={this.props.node.uuid}
-                className={styles.node_container}
-            >
-                <div className={classes}>
+                className={`${styles.node_container} ${classes}`}>
+                <div className={styles.node}>
                     {dragLink}
                     <CounterComp
                         ref={this.props.Activity.registerListener}

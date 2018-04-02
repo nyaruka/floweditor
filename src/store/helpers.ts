@@ -13,7 +13,7 @@ import {
     LocalizationMap
 } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
-import { ContactFieldResult, SearchResult, RenderNode } from './flowContext';
+import { ContactFieldResult, SearchResult, RenderNode, RenderNodeMap } from './flowContext';
 import { PendingConnections } from './flowEditor';
 
 export interface Bounds {
@@ -94,8 +94,8 @@ export const getPendingConnection = (
  * Gets a suggested result name based on the current number of waits
  * in the current definition
  */
-export const getSuggestedResultName = (nodes: { [uuid: string]: RenderNode }) => {
-    return 'Response ' + nodes.length;
+export const getSuggestedResultName = (nodes: RenderNodeMap) => {
+    return 'Response ' + (Object.keys(nodes).length + 1);
 };
 
 export const getNodeUI = (uuid: string, definition: FlowDefinition) => definition._ui.nodes[uuid];
@@ -277,7 +277,7 @@ export const getCollisions = (nodes: { [uuid: string]: RenderNode }, nodeSpacing
     return updatedNodes;
 };
 
-export const getGhostNode = (fromNode: RenderNode, nodes: { [uuid: string]: RenderNode }) => {
+export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
     const ghostNode: Node = {
         uuid: generateUUID(),
         actions: [],

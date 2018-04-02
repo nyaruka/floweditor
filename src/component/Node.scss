@@ -5,6 +5,29 @@
     z-index: $z_nodes;
     position: absolute;
 
+    &.dragging {
+        z-index: $z_dragging;
+        .node {
+            box-shadow: $node_shadow $node_shadow_color;
+            .add {
+                visibility: hidden !important;
+            }
+            transition: none;
+            border-radius: $curvature;
+        }
+    }
+
+    &.ghost {
+        opacity: .5;
+        transition: none;
+        z-index: $z_dragging;
+    }
+
+    &.nondragged {
+        opacity: .6;
+        transition: opacity 400ms ease;
+    }
+
     .node {
         border: 1px solid $borders;
         border-radius: $curvature;
@@ -17,26 +40,6 @@
         transition: all 100ms ease-in-out;
         cursor: pointer;
         display: table;
-
-        &.dragging {
-            box-shadow: $node_shadow $node_shadow_color;
-            z-index: $z_dragging;
-            .add {
-                visibility: hidden !important;
-            }
-            transition: none;
-            border-radius: $curvature;
-        }
-
-        &.ghost {
-            opacity: .5;
-            transition: none;
-        }
-
-        &.nondragged {
-            opacity: .6;
-            transition: opacity 400ms ease;
-        }
 
         .cropped {
             box-shadow: -1px -1px 0px 0px $node_shadow_color;

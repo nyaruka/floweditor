@@ -8,7 +8,6 @@ import ActionTypes, {
     UpdateDragGroupAction,
     UpdateFetchingFlowAction,
     UpdateFlowsAction,
-    UpdateFreshestNodeAction,
     UpdateGhostNodeAction,
     UpdateLanguageAction,
     UpdateNodeDraggingAction,
@@ -37,7 +36,6 @@ export interface FlowUI {
     createNodePosition: Position;
     pendingConnection: DragPoint;
     pendingConnections: PendingConnections;
-    freshestNode: Node;
     nodeDragging: boolean;
     ghostNode: Node;
     dragGroup: boolean;
@@ -61,7 +59,6 @@ export const initialState: FlowEditor = {
         createNodePosition: null,
         pendingConnection: null,
         pendingConnections: {},
-        freshestNode: null,
         nodeDragging: false,
         ghostNode: null,
         dragGroup: false
@@ -144,14 +141,6 @@ export const removePendingConnection = (nodeUUID: string): RemovePendingConnecti
     type: Constants.REMOVE_PENDING_CONNECTION,
     payload: {
         nodeUUID
-    }
-});
-
-// tslint:disable-next-line:no-shadowed-variable
-export const updateFreshestNode = (freshestNode: Node): UpdateFreshestNodeAction => ({
-    type: Constants.UPDATE_FRESHEST_NODE,
-    payload: {
-        freshestNode
     }
 });
 
@@ -299,18 +288,6 @@ export const nodeDragging = (
     }
 };
 
-export const freshestNode = (
-    state: Node = initialState.flowUI.freshestNode,
-    action: ActionTypes
-) => {
-    switch (action.type) {
-        case Constants.UPDATE_FRESHEST_NODE:
-            return action.payload.freshestNode;
-        default:
-            return state;
-    }
-};
-
 export const ghostNode = (state: Node = initialState.flowUI.ghostNode, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_GHOST_NODE:
@@ -334,7 +311,6 @@ export const flowUI = combineReducers({
     pendingConnection,
     pendingConnections,
     nodeDragging,
-    freshestNode,
     ghostNode,
     dragGroup
 });

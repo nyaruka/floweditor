@@ -205,4 +205,4 @@ export const getLocalization = (
     languages: Languages
 ) => Localization.translate(obj, iso, languages, getTranslations(localization, iso));
 
-export const dump = (thing: any) => console.log(JSON.stringify(thing, null, 1));
+export const dump = (thing: any) => console.log(JSON.stringify(thing, null, 2));
