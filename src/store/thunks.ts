@@ -263,12 +263,12 @@ export const onUpdateLocalizations = (language: string, changes: LocalizationUpd
     dispatch(updateDefinition(mutators.updateLocalization(definition, language, changes)));
 };
 
-export const updateDimensions = (nodeUUID: string, dimensions: Dimensions) => (
+export const updateDimensions = (node: Node, dimensions: Dimensions) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
     const { flowContext: { nodes } } = getState();
-    dispatch(updateNodes(mutators.updateDimensions(nodes, nodeUUID, dimensions)));
+    dispatch(updateNodes(mutators.updateDimensions(nodes, node.uuid, dimensions)));
 };
 
 /**
