@@ -13,6 +13,10 @@ import ActionTypes, {
 } from './actionTypes';
 import Constants from './constants';
 
+export interface RenderNodeMap {
+    [uuid: string]: RenderNode;
+}
+
 export interface RenderNode {
     ui: UINode;
     node: Node;

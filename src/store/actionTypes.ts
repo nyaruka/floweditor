@@ -66,10 +66,6 @@ interface UpdateNodesPayload {
     nodes: { [uuid: string]: RenderNode };
 }
 
-interface UpdateFreshestNodePayload {
-    freshestNode: Node;
-}
-
 interface UpdateNodeEditorOpenPayload {
     nodeEditorOpen: boolean;
 }
@@ -170,11 +166,6 @@ export type UpdateResultNamesAction = DuxAction<
 
 export type UpdateNodesAction = DuxAction<Constants.UPDATE_NODES, UpdateNodesPayload>;
 
-export type UpdateFreshestNodeAction = DuxAction<
-    Constants.UPDATE_FRESHEST_NODE,
-    UpdateFreshestNodePayload
->;
-
 export type UpdateNodeEditorOpenAction = DuxAction<
     Constants.UPDATE_NODE_EDITOR_OPEN,
     UpdateNodeEditorOpenPayload
@@ -273,7 +264,6 @@ type ActionTypes =
     | UpdateGroupsAction
     | UpdateResultNamesAction
     | UpdateNodesAction
-    | UpdateFreshestNodeAction
     | UpdateNodeEditorOpenAction
     | UpdateGhostNodeAction
     | UpdateCreateNodePositionAction
