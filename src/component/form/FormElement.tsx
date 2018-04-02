@@ -1,6 +1,5 @@
-import * as React from 'react';
 import * as classNames from 'classnames/bind';
-
+import * as React from 'react';
 import * as styles from './FormElement.scss';
 
 const cx = classNames.bind(styles);

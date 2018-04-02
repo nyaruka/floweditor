@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-import { react as bindCallbacks } from 'auto-bind';
-=======
 // TODO: Remove use of Function
 // tslint:disable:ban-types
-
->>>>>>> 246eee4063e16c1c78b6f210c01e54baaec53f13
+import { react as bindCallbacks } from 'auto-bind';
 import * as classNames from 'classnames/bind';
 import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
@@ -463,7 +459,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 ref={this.eleRef}
                 style={style}
                 id={this.props.node.uuid}
-                className={`${styles.node_container} ${classes}`}>
+                className={`${styles.node_container} ${classes}`}
+            >
                 <div className={styles.node}>
                     {dragLink}
                     <CounterComp

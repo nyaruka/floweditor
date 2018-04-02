@@ -217,8 +217,8 @@ export class Flow extends React.Component<FlowStoreProps> {
 
             return (
                 <ConnectedNode
+                    ref={this.ghostRef}
                     key={this.props.ghostNode.uuid}
-                    ghostRef={this.ghostRef}
                     ghost={true}
                     node={this.props.ghostNode}
                     ui={ui}
