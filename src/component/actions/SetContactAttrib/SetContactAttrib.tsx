@@ -1,20 +1,22 @@
 import * as React from 'react';
 import { SetContactField, SetContactProperty } from '../../../flowTypes';
-import { titleCase } from '../../../utils';
+import { titleCase, emphasize } from '../../../utils';
 
-const SetContactAttribComp: React.SFC<SetContactField & SetContactProperty> = ({
-    field,
-    property,
-    value
-}) => {
-    const fieldNameMarkup = (
-        <span className="emph">{(property && titleCase(property)) || field.name}</span>
-    );
-    const valueMarkup = <span className="emph">{value}</span>;
-    if (value) {
+type Attribute = SetContactField | SetContactProperty;
+
+export const getFieldNameMarkup = (action: Attribute): JSX.Element => {
+    if ((action as SetContactProperty).property) {
+        return emphasize(titleCase((action as SetContactProperty).property));
+    }
+    return emphasize((action as SetContactField).field.name);
+};
+
+const SetContactAttribComp: React.SFC<Attribute> = action => {
+    const fieldNameMarkup = getFieldNameMarkup(action);
+    if (action.value.length) {
         return (
             <div>
-                Update {fieldNameMarkup} to {valueMarkup}
+                Update {fieldNameMarkup} to {emphasize(action.value)}
             </div>
         );
     }
