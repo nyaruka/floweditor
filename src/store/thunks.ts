@@ -202,24 +202,23 @@ export const reflow = () => (dispatch: DispatchWithState, getState: GetState) =>
 
     const collisions = getCollisions(nodes, NODE_SPACING);
 
-    let newNodes = { ...nodes };
-    window.setTimeout(() => {
-        if (collisions.length > 0) {
-            console.time('reflow');
-            console.log('::REFLOWED::', collisions);
-            collisions.forEach(
-                node =>
-                    (newNodes = update(newNodes, {
-                        nodes: {
-                            [node.uuid]: { ui: { position: { $merge: { y: node.bounds.top } } } }
-                        }
-                    }))
-            );
+    let newNodes = nodes;
 
-            dispatch(updateNodes(newNodes));
-            console.timeEnd('reflow');
-        }
-    }, 100);
+    if (collisions.length > 0) {
+        console.time('reflow');
+        console.log('::REFLOWED::', collisions);
+        collisions.forEach(
+            node =>
+                (newNodes = update(newNodes, {
+                    [node.uuid]: {
+                        ui: { position: { $merge: { y: node.bounds.top } } }
+                    }
+                }))
+        );
+
+        dispatch(updateNodes(newNodes));
+        console.timeEnd('reflow');
+    }
 };
 
 export const markReflow = () => (dispatch: DispatchWithState) => {
