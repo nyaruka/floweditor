@@ -69,7 +69,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
 
     public render(): JSX.Element {
         return (
-            <React.Fragment>
+            <>
                 <p data-spec={labelSpecId}>{LABEL}</p>
                 <GroupsElement
                     ref={this.props.onBindWidget}
@@ -81,7 +81,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
                     required={true}
                     onChange={this.onGroupsChanged}
                 />
-            </React.Fragment>
+            </>
         );
     }
 }

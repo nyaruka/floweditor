@@ -1,5 +1,101 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`utils getBaseLanguage should return Language corresponding to the first property in the Languages object it's passed 1`] = `
+Object {
+  "iso": "eng",
+  "name": "English",
+}
+`;
+
+exports[`utils getLanguage should return language as Language 1`] = `
+Object {
+  "iso": "eng",
+  "name": "English",
+}
+`;
+
+exports[`utils getLanguage should return language as Language 2`] = `
+Object {
+  "iso": "spa",
+  "name": "Spanish",
+}
+`;
+
+exports[`utils getLanguage should return language as Language 3`] = `
+Object {
+  "iso": "fre",
+  "name": "French",
+}
+`;
+
+exports[`utils getLocalizations should return a localized object 1`] = `
+LocalizedObject {
+  "iso": "eng",
+  "language": Object {
+    "iso": "eng",
+    "name": "English",
+  },
+  "languages": Object {
+    "eng": "English",
+    "fre": "French",
+    "spa": "Spanish",
+  },
+  "localized": false,
+  "localizedKeys": Object {},
+  "localizedObject": Object {
+    "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?",
+    "type": "send_msg",
+    "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+  },
+}
+`;
+
+exports[`utils getLocalizations should return a localized object 2`] = `
+LocalizedObject {
+  "iso": "spa",
+  "language": Object {
+    "iso": "spa",
+    "name": "Spanish",
+  },
+  "languages": Object {
+    "eng": "English",
+    "fre": "French",
+    "spa": "Spanish",
+  },
+  "localized": true,
+  "localizedKeys": Object {
+    "text": true,
+  },
+  "localizedObject": Object {
+    "text": "¿Cuál es tu color favorito?",
+    "type": "send_msg",
+    "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+  },
+}
+`;
+
+exports[`utils getLocalizations should return a localized object 3`] = `
+LocalizedObject {
+  "iso": "fre",
+  "language": Object {
+    "iso": "fre",
+    "name": "French",
+  },
+  "languages": Object {
+    "eng": "English",
+    "fre": "French",
+    "spa": "Spanish",
+  },
+  "localized": false,
+  "localizedKeys": Object {},
+  "localizedObject": Object {
+    "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?",
+    "type": "send_msg",
+    "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+  },
+}
+`;
+
 exports[`utils titleCase should apply title case to each word in a given string 1`] = `"One"`;
 
 exports[`utils titleCase should apply title case to each word in a given string 2`] = `"One Two"`;

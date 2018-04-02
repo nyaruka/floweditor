@@ -1,19 +1,24 @@
-import { operatorConfigList } from '../config';
 import {
     addCommas,
-    snakify,
-    toBoolMap,
-    validUUID,
-    titleCase,
-    getSelectClass,
-    reorderList,
-    jsonEqual,
-    hasErrorType,
     getBaseLanguage,
-    getLanguage
+    getLanguage,
+    getLocalization,
+    getSelectClass,
+    hasErrorType,
+    jsonEqual,
+    reorderList,
+    snakify,
+    titleCase,
+    toBoolMap,
+    validUUID
 } from '.';
+import { operatorConfigList } from '../config';
 
 const config = require('../../assets/config');
+const {
+    results: [{ definition: colorsFlow }]
+} = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
+const { nodes: [{ actions: [sendMsgAction] }] } = colorsFlow;
 
 describe('utils', () => {
     describe('toBoolMap', () => {
@@ -148,6 +153,38 @@ describe('utils', () => {
                 name: config.languages[iso],
                 iso
             });
+        });
+    });
+
+    describe('getLocalizations', () => {
+        it('should return a localized object', () => {
+            ['eng', 'spa', 'fre'].forEach(iso => {
+                expect(
+                    getLocalization(sendMsgAction, colorsFlow.localization, iso, config.languages)
+                ).toMatchSnapshot();
+            });
+        });
+    });
+
+    describe('getLanguage', () => {
+        it('should return language as Language', () => {
+            Object.keys(config.languages).forEach(iso => {
+                const language = getLanguage(config.languages, iso);
+
+                expect(language).toEqual({
+                    name: config.languages[iso],
+                    iso
+                });
+                expect(language).toMatchSnapshot();
+            });
+        });
+    });
+
+    describe('getBaseLanguage', () => {
+        it("should return Language corresponding to the first property in the Languages object it's passed", () => {
+            const baseLanguage = getBaseLanguage(config.languages);
+
+            expect(baseLanguage).toMatchSnapshot();
         });
     });
 });

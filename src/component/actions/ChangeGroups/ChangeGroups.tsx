@@ -3,33 +3,36 @@ import { ChangeGroups, Group } from '../../../flowTypes';
 
 export const removeAllSpecId = 'remove_from_all';
 export const contentSpecId = 'content';
+export const removeAllText = 'Remove from all groups';
+export const ellipsesText = '...';
 
-export const removeAll = 'Remove from all groups';
-export const ellipses = '...';
-
-export const getRemoveAllMarkup = () => (
-    <div key={removeAllSpecId} data-spec={removeAllSpecId}>
-        {removeAll}
+export const getRemoveAllMarkup = (
+    key = removeAllSpecId,
+    specId = removeAllSpecId,
+    text = removeAllText
+) => (
+    <div key={key} data-spec={specId}>
+        {text}
     </div>
 );
 
 export const getGroupMarkup = (value: string, idx: number) => <div key={idx}>{value}</div>;
 
-export const getGroupElements = (groups: Group[]) =>
+export const getGroupElements = (groups: Group[] = []) =>
     groups.reduce((groupList, { name }, idx) => {
         if (idx <= 2) {
             groupList.push(getGroupMarkup(name, idx));
         }
 
         if (idx === 3) {
-            groupList.push(getGroupMarkup(ellipses, idx));
+            groupList.push(getGroupMarkup(ellipsesText, idx));
         }
 
         return groupList;
     }, []);
 
 export const getContentMarkup = ({ type, groups }: ChangeGroups): JSX.Element[] => {
-    const content: JSX.Element[] = [];
+    const content = [];
 
     if (type === 'remove_contact_groups' && !groups.length) {
         content.push(getRemoveAllMarkup());
@@ -40,8 +43,8 @@ export const getContentMarkup = ({ type, groups }: ChangeGroups): JSX.Element[] 
     return content;
 };
 
-export const getChangeGroupsMarkup = (action: ChangeGroups) => (
-    <div data-spec={contentSpecId}>{getContentMarkup(action)}</div>
+export const getChangeGroupsMarkup = (action: ChangeGroups, specId = contentSpecId) => (
+    <div data-spec={specId}>{getContentMarkup(action)}</div>
 );
 
 const ChangeGroupComp: React.SFC<ChangeGroups> = (props): JSX.Element =>

@@ -68,16 +68,20 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 const grouplessAction = { ...addGroupsAction, groups: null };
                 const { wrapper } = setup({ action: grouplessAction });
                 const AddGroupsFormInstance = wrapper.instance();
+                const returnedGroups = AddGroupsFormInstance.getGroups();
 
-                expect(AddGroupsFormInstance.getGroups()).toEqual([]);
+                expect(returnedGroups).toEqual([]);
+                expect(returnedGroups).toMatchSnapshot();
             });
 
             it("should return an empty list if action's groups property is an empty list", () => {
                 const grouplessAction = { ...addGroupsAction, groups: [] };
                 const { wrapper } = setup({ action: grouplessAction });
                 const AddGroupsFormInstance = wrapper.instance();
+                const returnedGroups = AddGroupsFormInstance.getGroups();
 
-                expect(AddGroupsFormInstance.getGroups()).toEqual([]);
+                expect(returnedGroups).toEqual([]);
+                expect(returnedGroups).toMatchSnapshot();
             });
 
             it('should return empty list if action is remove groups action', () => {
@@ -87,16 +91,20 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 };
                 const { wrapper } = setup({ action: removeGroupsAction }, true);
                 const AddGroupsFormInstance = wrapper.instance();
+                const returnedGroups = AddGroupsFormInstance.getGroups();
 
-                expect(AddGroupsFormInstance.getGroups()).toEqual([]);
+                expect(returnedGroups).toEqual([]);
+                expect(returnedGroups).toMatchSnapshot();
             });
 
             it('should return SearchResult[] if action is add groups action and it has groups', () => {
                 const { wrapper, props: { action: { groups } } } = setup({}, true);
                 const searchResults = mapGroupsToSearchResults(groups);
                 const AddGroupsFormInstance = wrapper.instance();
+                const returnedGroups = AddGroupsFormInstance.getGroups();
 
-                expect(AddGroupsFormInstance.getGroups()).toEqual(searchResults);
+                expect(returnedGroups).toEqual(searchResults);
+                expect(returnedGroups).toMatchSnapshot();
             });
         });
 

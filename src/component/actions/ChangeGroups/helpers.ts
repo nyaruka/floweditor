@@ -1,23 +1,11 @@
 import { Group, ChangeGroups } from '../../../flowTypes';
 import { SearchResult } from '../../../store';
 
-export const mapGroupsToSearchResults = (groups: Group[]) =>
+export const mapGroupsToSearchResults = (groups: Group[]): SearchResult[] =>
     groups.map(({ name, uuid }) => ({ name, id: uuid }));
 
-export const mapSearchResultsToGroups = (searchResults: SearchResult[]) =>
+export const mapSearchResultsToGroups = (searchResults: SearchResult[]): Group[] =>
     searchResults.map(result => ({
         uuid: result.id,
         name: result.name
     }));
-
-export const getGroups = (action: ChangeGroups): SearchResult[] => {
-    if (action.groups == null) {
-        return [];
-    }
-
-    if (action.groups.length && action.type !== 'add_contact_groups') {
-        return mapGroupsToSearchResults(action.groups);
-    }
-
-    return [];
-};

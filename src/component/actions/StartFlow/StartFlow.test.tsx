@@ -19,6 +19,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             const { wrapper, props: { flow_name } } = setup();
 
             expect(wrapper.containsMatchingElement(getStartFlowMarkup(flow_name))).toBeTruthy();
+            expect(wrapper).toMatchSnapshot();
         });
     });
 });

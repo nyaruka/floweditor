@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { getTypeConfig } from '../../../config';
 import { FlowEditorConfig, Group } from '../../../flowTypes';
 import { createSetup, getSpecWrapper, Resp } from '../../../testUtils';
@@ -112,31 +111,39 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 const grouplessAction = { ...removeGroupsAction, groups: null };
                 const { wrapper } = setup({ action: grouplessAction });
                 const RemoveGroupsFormInstance = wrapper.instance();
+                const returnedGroups = RemoveGroupsFormInstance.getGroups();
 
-                expect(RemoveGroupsFormInstance.getGroups()).toEqual([]);
+                expect(returnedGroups).toEqual([]);
+                expect(returnedGroups).toMatchSnapshot();
             });
 
             it("should return an empty list if action's groups property is an empty list", () => {
                 const grouplessAction = { ...removeGroupsAction, groups: [] };
                 const { wrapper } = setup({ action: grouplessAction });
                 const RemoveGroupsFormInstance = wrapper.instance();
+                const returnedGroups = RemoveGroupsFormInstance.getGroups();
 
-                expect(RemoveGroupsFormInstance.getGroups()).toEqual([]);
+                expect(returnedGroups).toEqual([]);
+                expect(returnedGroups).toMatchSnapshot();
             });
 
             it('should return empty list if action is add groups action', () => {
                 const { wrapper, props: { action } } = setup({ action: addGroupsAction }, true);
                 const RemoveGroupsFormInstance = wrapper.instance();
+                const returnedGroups = RemoveGroupsFormInstance.getGroups();
 
-                expect(RemoveGroupsFormInstance.getGroups()).toEqual([]);
+                expect(returnedGroups).toEqual([]);
+                expect(returnedGroups).toMatchSnapshot();
             });
 
             it('should return SearchResult[] if action is remove groups action and it has groups', () => {
                 const { wrapper, props: { action: { groups } } } = setup({}, true);
                 const searchResults = mapGroupsToSearchResults(groups);
                 const RemoveGroupsFormInstance = wrapper.instance();
+                const returnedGroups = RemoveGroupsFormInstance.getGroups();
 
-                expect(RemoveGroupsFormInstance.getGroups()).toEqual(searchResults);
+                expect(returnedGroups).toEqual(searchResults);
+                expect(returnedGroups).toMatchSnapshot();
             });
         });
 

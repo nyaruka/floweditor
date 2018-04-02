@@ -39,6 +39,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             expect(getSpecWrapper(wrapper, removeIconSpecId).exists()).toBeFalsy();
             expect(titlebar.text()).toBe(title);
             expect(confirmation.exists()).toBeFalsy();
+            expect(wrapper).toMatchSnapshot();
         });
 
         it('should apply _className prop', () => {
@@ -48,6 +49,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             );
 
             expect(getSpecWrapper(wrapper, titlebarSpecId).hasClass(__className));
+            expect(wrapper).toMatchSnapshot();
         });
 
         describe('move icon', () => {
@@ -56,6 +58,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
                 expect(getSpecWrapper(wrapper, moveIconSpecId).hasClass('up_button')).toBeTruthy();
                 expect(wrapper.find('.icon-arrow-up').exists()).toBeTruthy();
+                expect(wrapper).toMatchSnapshot();
             });
 
             it('should call onMoveUp prop', () => {
@@ -64,7 +67,6 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                     true
                 );
                 const moveIcon = getSpecWrapper(wrapper, moveIconSpecId);
-
                 moveIcon.simulate('mouseDown');
                 moveIcon.simulate('mouseUp');
 
@@ -80,6 +82,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                     getSpecWrapper(wrapper, removeIconSpecId).hasClass('remove_button')
                 ).toBeTruthy();
                 expect(wrapper.find('.icon-remove').exists()).toBeTruthy();
+                expect(wrapper).toMatchSnapshot();
             });
 
             it('should call onConfirmRemoval instance method', () => {
@@ -101,6 +104,8 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 const { wrapper } = setup({ showRemoval: true }, true);
                 const removeIcon = getSpecWrapper(wrapper, removeIconSpecId);
 
+                expect(wrapper).toMatchSnapshot();
+
                 removeIcon.simulate('mouseDown');
                 removeIcon.simulate('mouseUp');
 
@@ -111,6 +116,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 expect(confirmation.text()).toBe('Remove?');
                 expect(confirmRemoval.hasClass('remove_button')).toBeTruthy();
                 expect(wrapper.find('.icon-remove').exists()).toBeTruthy();
+                expect(wrapper).toMatchSnapshot();
 
                 jest.runAllTimers();
             });

@@ -28,12 +28,17 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                     getUpdatePlaceholder(getFieldNameMarkup(field_name), value)
                 )
             ).toBeTruthy();
+            expect(wrapper).toMatchSnapshot();
         });
 
         it(`should render ${COMPONENT_TO_TEST} with clear placeholder when value prop isn't passed`, () => {
             const { wrapper, props: { field_name } } = setup({ value: '' }, true);
 
             expect(wrapper.find('div').length).toBe(1);
-            expect(wrapper.containsMatchingElement(getClearPlaceholder(getFieldNameMarkup(field_name))).toBeTruthy
+            expect(
+                wrapper.containsMatchingElement(getClearPlaceholder(getFieldNameMarkup(field_name)))
+            ).toBeTruthy();
+            expect(wrapper).toMatchSnapshot();
+        });
     });
 });

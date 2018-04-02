@@ -19,6 +19,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             const { wrapper, props: { subject } } = setup();
 
             expect(wrapper.text()).toBe(subject);
+            expect(wrapper).toMatchSnapshot();
         });
     });
 });

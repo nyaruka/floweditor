@@ -35,6 +35,8 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             // Yielding here because SelectSearch.search is called when axios.get in SelectSearch.loadOptions resolves
             await flushPromises();
 
+            wrapper.update();
+
             expect(selectRefSpy).toHaveBeenCalledTimes(1);
             expect(asyncSelect.props()).toEqual(
                 expect.objectContaining({
@@ -55,6 +57,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             expect(searchSpy).toHaveBeenCalledWith('', mapRespToSearchOpts(groupsResp));
             expect(axiosMock.get).toHaveBeenCalledTimes(1);
             expect(axiosMock.get).toHaveBeenCalledWith(url);
+            expect(wrapper).toMatchSnapshot();
 
             restoreSpies(selectRefSpy, loadOptionsSpy, searchSpy);
         });

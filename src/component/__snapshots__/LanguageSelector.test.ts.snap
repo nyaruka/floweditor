@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LanguageSelector helpers mapOptions should return a list of Language maps 1`] = `
+Object {
+  "iso": "eng",
+  "name": "English",
+}
+`;
+
+exports[`LanguageSelector helpers mapOptions should return a list of Language maps 2`] = `
+Object {
+  "iso": "spa",
+  "name": "Spanish",
+}
+`;
+
+exports[`LanguageSelector helpers mapOptions should return a list of Language maps 3`] = `
+Object {
+  "iso": "fre",
+  "name": "French",
+}
+`;
+
+exports[`LanguageSelector render should not render if language prop is falsy 1`] = `""`;
+
+exports[`LanguageSelector render should render select control 1`] = `
+<div
+  className="languageSelector select-small"
+  data-spec="language-selector-container"
+>
+  <Select
+    arrowRenderer={[Function]}
+    autosize={true}
+    backspaceRemoves={true}
+    backspaceToRemoveMessage="Press backspace to remove {label}"
+    clearAllText="Clear all"
+    clearRenderer={[Function]}
+    clearValueText="Clear value"
+    clearable={false}
+    closeOnSelect={true}
+    deleteRemoves={true}
+    delimiter=","
+    disabled={false}
+    escapeClearsValue={true}
+    filterOptions={[Function]}
+    ignoreAccents={true}
+    ignoreCase={true}
+    inputProps={Object {}}
+    isLoading={false}
+    joinValues={false}
+    labelKey="name"
+    matchPos="any"
+    matchProp="any"
+    menuBuffer={0}
+    menuRenderer={[Function]}
+    multi={false}
+    noResultsText="No results found"
+    onBlurResetsInput={true}
+    onChange={[Function]}
+    onCloseResetsInput={true}
+    onSelectResetsInput={true}
+    openOnClick={true}
+    optionComponent={[Function]}
+    options={
+      Array [
+        Object {
+          "iso": "eng",
+          "name": "English",
+        },
+        Object {
+          "iso": "spa",
+          "name": "Spanish",
+        },
+        Object {
+          "iso": "fre",
+          "name": "French",
+        },
+      ]
+    }
+    pageSize={5}
+    placeholder="Select..."
+    removeSelected={true}
+    required={false}
+    rtl={false}
+    scrollMenuIntoView={true}
+    searchable={false}
+    simpleValue={false}
+    tabSelectsValue={true}
+    trimFilter={true}
+    value="eng"
+    valueComponent={[Function]}
+    valueKey="iso"
+  />
+</div>
+`;

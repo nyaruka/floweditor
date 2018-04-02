@@ -34,6 +34,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
                     expect(languageMap.name).toBe(config.languages[keys[idx]]);
                     expect(languageMap.iso).toBe(keys[idx]);
+                    expect(languageMap).toMatchSnapshot();
                 });
             });
         });
@@ -58,12 +59,14 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                     options: mapOptions(languages)
                 })
             );
+            expect(wrapper).toMatchSnapshot();
         });
 
         it('should not render if language prop is falsy', () => {
             const { wrapper } = setup({ language: null }, true);
 
             expect(getSpecWrapper(wrapper, languageSelectorContainerSpecId).exists()).toBeFalsy();
+            expect(wrapper).toMatchSnapshot();
         });
     });
 

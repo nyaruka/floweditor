@@ -76,12 +76,14 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             expect(getSpecWrapper(wrapper, actionBodySpecId).hasClass('body')).toBeTruthy();
             expect(renderMock).toHaveBeenCalledTimes(1);
             expect(renderMock).toHaveBeenCalledWith(action);
+            expect(wrapper).toMatchSnapshot();
         });
 
         it('should show move icon', () => {
             const { wrapper } = setup({ first: false }, true);
 
             expect(wrapper.find('TitleBar').prop('showMove')).toBeTruthy();
+            expect(wrapper).toMatchSnapshot();
         });
 
         it('should display translating style', () => {
@@ -90,6 +92,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             expect(
                 getSpecWrapper(wrapper, actionContainerSpecId).hasClass('translating')
             ).toBeTruthy();
+            expect(wrapper).toMatchSnapshot();
         });
 
         it('should display not_localizable style', () => {
@@ -98,6 +101,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             expect(
                 getSpecWrapper(wrapper, actionContainerSpecId).hasClass('not_localizable')
             ).toBeTruthy();
+            expect(wrapper).toMatchSnapshot();
         });
 
         it('should display hybrid style', () => {
@@ -106,6 +110,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             expect(
                 getSpecWrapper(wrapper, actionContainerSpecId).hasClass('has_router')
             ).toBeTruthy();
+            expect(wrapper).toMatchSnapshot();
         });
 
         it('should display missing_localization style', () => {
@@ -114,6 +119,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             expect(
                 getSpecWrapper(wrapper, actionContainerSpecId).hasClass('missing_localization')
             ).toBeTruthy();
+            expect(wrapper).toMatchSnapshot();
         });
     });
 

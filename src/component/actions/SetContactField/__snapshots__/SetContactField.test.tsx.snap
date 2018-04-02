@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SetContactFieldComp render should render SetContactFieldComp with clear placeholder when value prop isn't passed 1`] = `
+<div>
+  Clear value for 
+  <span
+    className="emph"
+  >
+    Full Name
+  </span>
+</div>
+`;
+
+exports[`SetContactFieldComp render should render SetContactFieldComp with update placeholder when value prop passed 1`] = `
+<div>
+  Update 
+  <span
+    className="emph"
+  >
+    Full Name
+  </span>
+   to 
+  @run.results.name
+</div>
+`;

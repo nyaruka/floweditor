@@ -38,15 +38,19 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             it('should return a FlowOption map', () => {
                 const flowUUID = colorsFlowResp.results[0].uuid;
                 const flowName = colorsFlowResp.results[0].name;
+                const truthyOption = getFlowOption(flowUUID, flowName);
+                const falsyOption = getFlowOption(undefined, undefined);
 
-                expect(getFlowOption(flowUUID, flowName)).toEqual({
+                expect(truthyOption).toEqual({
                     uuid: flowUUID,
                     name: flowName
                 });
-                expect(getFlowOption(undefined, undefined)).toEqual({
+                expect(truthyOption).toMatchSnapshot();
+                expect(falsyOption).toEqual({
                     uuid: '',
                     name: ''
                 });
+                expect(falsyOption).toMatchSnapshot();
             });
         });
 
@@ -96,6 +100,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                     isLoading
                 })
             );
+            expect(wrapper).toMatchSnapshot();
         });
     });
 

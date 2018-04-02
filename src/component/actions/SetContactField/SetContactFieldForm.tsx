@@ -26,24 +26,6 @@ const reserved = {
     tel: true
 };
 
-// const reserved = toBoolMap([
-//     'language',
-//     'facebook',
-//     'telegram',
-//     'email',
-//     'mailto',
-//     'name',
-//     'first name',
-//     'phone',
-//     'groups',
-//     'created by',
-//     'modified by',
-//     'org',
-//     'is',
-//     'has',
-//     'tel'
-// ]);
-
 export interface SetContactFieldFormProps {
     contactFields: ContactFieldResult[];
     action: SetContactField;

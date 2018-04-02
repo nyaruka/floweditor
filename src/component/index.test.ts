@@ -37,6 +37,7 @@ describe('Root', () => {
             expect(editor.hasClass('editor')).toBeTruthy();
             expect(wrapper.find('Connect(FlowList)').exists()).toBeTruthy();
             expect(wrapper.find('Connect(LanguageSelector)').exists()).toBeTruthy();
+            expect(wrapper).toMatchSnapshot();
         });
 
         it('should apply translating style if passed a truthy translating prop', () => {
@@ -44,6 +45,7 @@ describe('Root', () => {
             const editorContainer = getSpecWrapper(wrapper, editorContainerSpecId);
 
             expect(editorContainer.hasClass('translating')).toBeTruthy();
+            expect(wrapper).toMatchSnapshot();
         });
 
         it('should render flow if passed a definition, language', () => {
@@ -56,6 +58,7 @@ describe('Root', () => {
             );
 
             expect(wrapper.find('Connect(Flow)').exists()).toBeTruthy();
+            expect(wrapper).toMatchSnapshot();
         });
     });
 

@@ -49,6 +49,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
             it('should return true if new option is valid', () => {
                 const newGroup = { label: 'new group' };
+
                 expect(isValidNewOption(newGroup)).toBeTruthy();
             });
         });
@@ -57,6 +58,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             it('should generate a new search result object', () => {
                 const newGroup = { label: 'new group' };
                 const newOption = createNewOption(newGroup);
+
                 expect(validUUID(newOption.id)).toBeTruthy();
                 expect(newOption.name).toBe(newGroup.label);
                 expect(newOption.extraResult).toBeTruthy();
@@ -64,21 +66,24 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         });
 
         describe('getInitialGroups', () => {
-            it("should return an empty array if passed a falsy 'groups' prop", () => {
-                expect(getInitialGroups({} as GroupsElementProps)).toEqual([]);
+            it("should return an empty list if passed a falsy 'groups' prop", () => {
+                const initialGroups = getInitialGroups({} as GroupsElementProps);
+
+                expect(initialGroups).toEqual([]);
+                expect(initialGroups).toMatchSnapshot();
             });
 
-            it("should return an array of SearchResult objects if passed a truthy 'groups' prop", () => {
-                const groupOptions = getGroupOptions();
+            it("should return a list of SearchResult objects if passed a truthy 'groups' prop", () => {
+                const expectedOptions = getGroupOptions();
+                const initialGroups = getInitialGroups({
+                    groups: expectedOptions
+                } as GroupsElementProps);
 
-                expect(
-                    getInitialGroups({
-                        groups: groupOptions
-                    } as GroupsElementProps)
-                ).toEqual(groupOptions);
+                expect(initialGroups).toEqual(expectedOptions);
+                expect(initialGroups).toMatchSnapshot();
             });
 
-            it(`should return localGroups array if ${COMPONENT_TO_TEST} passed 'localGroups' prop but not 'groups' prop`, () => {
+            it(`should return localGroups list if ${COMPONENT_TO_TEST} passed 'localGroups' prop but not 'groups' prop`, () => {
                 const groupOptions = getGroupOptions();
 
                 expect(
@@ -86,6 +91,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                         localGroups: groupOptions
                     } as GroupsElementProps)
                 ).toEqual(groupOptions);
+                expect(groupOptions).toMatchSnapshot();
             });
         });
     });
@@ -110,6 +116,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 placeholder: GROUP_PLACEHOLDER,
                 searchPromptText: GROUP_NOT_FOUND
             });
+            expect(wrapper).toMatchSnapshot();
         });
 
         it("should pass createOptions object if it's add prop is true", () => {
@@ -119,6 +126,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             expect(selectSearch.prop('isValidNewOption')).toEqual(expect.any(Function));
             expect(selectSearch.prop('createNewOption')).toEqual(expect.any(Function));
             expect(selectSearch.prop('createPrompt')).toBe(GROUP_PROMPT);
+            expect(wrapper).toMatchSnapshot();
         });
     });
 

@@ -19,12 +19,14 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             const { wrapper, props: { text } } = setup();
 
             expect(wrapper.text()).toBe(text);
+            expect(wrapper).toMatchSnapshot();
         });
 
         it(`should render ${COMPONENT_TO_TEST} with placeholder when text prop isn't passed`, () => {
             const { wrapper } = setup({ text: '' });
 
             expect(wrapper.text()).toBe(PLACEHOLDER);
+            expect(wrapper).toMatchSnapshot();
         });
     });
 });

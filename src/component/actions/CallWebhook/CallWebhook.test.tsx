@@ -20,6 +20,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             const { wrapper, props: { url } } = setup();
 
             expect(wrapper.text()).toBe(url);
+            expect(wrapper).toMatchSnapshot();
         });
     });
 });

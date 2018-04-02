@@ -26,6 +26,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 getSavePlaceholder(value, getResultNameMarkup(result_name))
             )
         ).toBeTruthy();
+        expect(wrapper).toMatchSnapshot();
     });
 
     it(`should render ${COMPONENT_TO_TEST} with clear placholder when value prop isn't passed`, () => {
@@ -34,5 +35,6 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         expect(
             wrapper.containsMatchingElement(getClearPlaceholder(getResultNameMarkup(result_name)))
         ).toBeTruthy();
+        expect(wrapper).toMatchSnapshot();
     });
 });

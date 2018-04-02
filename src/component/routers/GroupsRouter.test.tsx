@@ -40,11 +40,12 @@ describe(`${COMPONENT_TO_TEST}`, () => {
     describe('helpers', () => {
         describe('extractGroups', () => {
             it('should extract groups from the exits of a groupsRouter node', () => {
-                extractGroups(groupsRouterNode).forEach(({ name, id }, idx) => {
-                    expect(name).toBe(groupsRouterNode.exits[idx].name);
-                    expect(id).toBe(
+                extractGroups(groupsRouterNode).forEach((group, idx) => {
+                    expect(group.name).toBe(groupsRouterNode.exits[idx].name);
+                    expect(group.id).toBe(
                         (groupsRouterNode.router as SwitchRouter).cases[idx].arguments[0]
                     );
+                    expect(group).toMatchSnapshot();
                 });
             });
         });
@@ -87,12 +88,16 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
         it('should render exit translations when user is translating', () => {
             const getExitTranslationsMock = jest.fn(() => <div />);
-            const { wrapper } = setup({
-                translating: true,
-                getExitTranslations: getExitTranslationsMock
-            }, true);
+            const { wrapper } = setup(
+                {
+                    translating: true,
+                    getExitTranslations: getExitTranslationsMock
+                },
+                true
+            );
 
             expect(getExitTranslationsMock).toHaveBeenCalledTimes(1);
+            expect(wrapper).toMatchSnapshot();
         });
     });
 
@@ -100,28 +105,36 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         describe('onValid', () => {
             it('should call "updateRouter" prop if user is not translating', () => {
                 const updateRouterMock = jest.fn();
-                const { wrapper } = setup({
-                    updateRouter: updateRouterMock
-                }, true);
+                const { wrapper } = setup(
+                    {
+                        updateRouter: updateRouterMock
+                    },
+                    true
+                );
                 const GroupsRouterInstance = wrapper.instance();
                 const widgets = { Groups: '' };
 
                 GroupsRouterInstance.onValid(widgets);
+
                 expect(updateRouterMock).toHaveBeenCalledTimes(1);
             });
 
             it('should call "saveLocalizations" prop if user is translating', () => {
                 const saveLocalizationsMock = jest.fn();
                 const getExitTranslationsMock = jest.fn(() => <div />);
-                const { wrapper } = setup({
-                    translating: true,
-                    saveLocalizations: saveLocalizationsMock,
-                    getExitTranslations: getExitTranslationsMock
-                }, true);
+                const { wrapper } = setup(
+                    {
+                        translating: true,
+                        saveLocalizations: saveLocalizationsMock,
+                        getExitTranslations: getExitTranslationsMock
+                    },
+                    true
+                );
                 const GroupsRouterInstance = wrapper.instance();
                 const widgets = { Groups: '' };
 
                 GroupsRouterInstance.onValid(widgets);
+
                 expect(saveLocalizationsMock).toHaveBeenCalledTimes(1);
                 expect(saveLocalizationsMock).toHaveBeenCalledWith(widgets);
             });

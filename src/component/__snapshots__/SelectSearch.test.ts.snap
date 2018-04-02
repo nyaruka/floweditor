@@ -1,0 +1,226 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SelectSearch render should render self, children with required props 1`] = `
+<SelectSearch
+  name="Groups"
+  placeholder="Enter the name of an existing group..."
+  resultType="groups"
+  searchPromptText="Enter the name of an existing group"
+  url="/assets/groups.json"
+>
+  <Async
+    autoload={true}
+    cache={Object {}}
+    className={undefined}
+    clearable={undefined}
+    closeOnSelect={undefined}
+    filterOption={[Function]}
+    ignoreAccents={false}
+    ignoreCase={false}
+    labelKey="name"
+    loadOptions={[Function]}
+    loadingPlaceholder="Loading..."
+    multi={undefined}
+    name="Groups"
+    onBlurResetsInput={true}
+    onChange={[Function]}
+    onCloseResetsInput={true}
+    openOnFocus={true}
+    options={Array []}
+    placeholder="Enter the name of an existing group..."
+    searchPromptText="Enter the name of an existing group"
+    searchable={true}
+    value={undefined}
+    valueKey="id"
+  >
+    <Select
+      arrowRenderer={[Function]}
+      autoload={true}
+      autosize={true}
+      backspaceRemoves={true}
+      backspaceToRemoveMessage="Press backspace to remove {label}"
+      cache={Object {}}
+      className={undefined}
+      clearAllText="Clear all"
+      clearRenderer={[Function]}
+      clearValueText="Clear value"
+      clearable={true}
+      closeOnSelect={true}
+      deleteRemoves={true}
+      delimiter=","
+      disabled={false}
+      escapeClearsValue={true}
+      filterOption={[Function]}
+      filterOptions={[Function]}
+      ignoreAccents={false}
+      ignoreCase={false}
+      inputProps={Object {}}
+      isLoading={false}
+      joinValues={false}
+      labelKey="name"
+      loadOptions={[Function]}
+      loadingPlaceholder="Loading..."
+      matchPos="any"
+      matchProp="any"
+      menuBuffer={0}
+      menuRenderer={[Function]}
+      multi={false}
+      name="Groups"
+      noResultsText="Enter the name of an existing group"
+      onBlurResetsInput={true}
+      onChange={[Function]}
+      onCloseResetsInput={true}
+      onInputChange={[Function]}
+      onSelectResetsInput={true}
+      openOnClick={true}
+      openOnFocus={true}
+      optionComponent={[Function]}
+      options={
+        Array [
+          Object {
+            "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
+            "name": "Customers",
+            "type": undefined,
+          },
+          Object {
+            "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+            "name": "Early Adopters",
+            "type": undefined,
+          },
+          Object {
+            "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+            "name": "Subscribers",
+            "type": undefined,
+          },
+          Object {
+            "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
+            "name": "Testers",
+            "type": undefined,
+          },
+          Object {
+            "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
+            "name": "Unsatisfied Customers",
+            "type": undefined,
+          },
+        ]
+      }
+      pageSize={5}
+      placeholder="Enter the name of an existing group..."
+      removeSelected={true}
+      required={false}
+      rtl={false}
+      scrollMenuIntoView={true}
+      searchPromptText="Enter the name of an existing group"
+      searchable={true}
+      simpleValue={false}
+      tabSelectsValue={true}
+      trimFilter={true}
+      value={undefined}
+      valueComponent={[Function]}
+      valueKey="id"
+    >
+      <div
+        className="Select Select--single is-clearable is-searchable"
+        style={undefined}
+      >
+        <div
+          className="Select-control"
+          onKeyDown={[Function]}
+          onMouseDown={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          style={undefined}
+        >
+          <span
+            className="Select-multi-value-wrapper"
+            id="react-select-2--value"
+          >
+            <div
+              className="Select-placeholder"
+            >
+              Enter the name of an existing group...
+            </div>
+            <AutosizeInput
+              aria-activedescendant="react-select-2--value"
+              aria-describedby={undefined}
+              aria-expanded="false"
+              aria-haspopup="false"
+              aria-label={undefined}
+              aria-labelledby={undefined}
+              aria-owns=""
+              className="Select-input"
+              id={undefined}
+              injectStyles={true}
+              minWidth="5"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              required={false}
+              role="combobox"
+              tabIndex={undefined}
+              value=""
+            >
+              <div
+                className="Select-input"
+                style={
+                  Object {
+                    "display": "inline-block",
+                  }
+                }
+              >
+                <input
+                  aria-activedescendant="react-select-2--value"
+                  aria-describedby={undefined}
+                  aria-expanded="false"
+                  aria-haspopup="false"
+                  aria-label={undefined}
+                  aria-labelledby={undefined}
+                  aria-owns=""
+                  className={undefined}
+                  id={undefined}
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  required={false}
+                  role="combobox"
+                  style={
+                    Object {
+                      "boxSizing": "content-box",
+                      "width": "5px",
+                    }
+                  }
+                  tabIndex={undefined}
+                  value=""
+                />
+                <div
+                  style={
+                    Object {
+                      "height": 0,
+                      "left": 0,
+                      "overflow": "scroll",
+                      "position": "absolute",
+                      "top": 0,
+                      "visibility": "hidden",
+                      "whiteSpace": "pre",
+                    }
+                  }
+                />
+              </div>
+            </AutosizeInput>
+          </span>
+          <span
+            className="Select-arrow-zone"
+            onMouseDown={[Function]}
+          >
+            <span
+              className="Select-arrow"
+              onMouseDown={[Function]}
+            />
+          </span>
+        </div>
+      </div>
+    </Select>
+  </Async>
+</SelectSearch>
+`;
