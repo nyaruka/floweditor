@@ -340,7 +340,7 @@ export const removeAction = (nodeUUID: string, action: AnyAction) => (
         dispatch(removeNode(renderNode.node));
     } else {
         // Otherwise, just remove that action
-        dispatch(updateNodes(mutators.removeAction(nodes, renderNode.node, action)));
+        dispatch(updateNodes(mutators.removeAction(nodes, nodeUUID, action.uuid)));
     }
 };
 
@@ -349,7 +349,7 @@ export const moveActionUp = (nodeUUID: string, action: AnyAction) => (
     getState: GetState
 ) => {
     const { flowContext: { nodes } } = getState();
-    dispatch(updateNodes(mutators.moveActionUp(nodes, nodeUUID, action)));
+    dispatch(updateNodes(mutators.moveActionUp(nodes, nodeUUID, action.uuid)));
 };
 
 /**
