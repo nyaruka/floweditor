@@ -300,7 +300,7 @@ Object {
         "left": 580,
         "top": 780,
       },
-      "type": "split_by_group",
+      "type": "split_by_groups",
     },
   },
   "bc978e00-2f3d-41f2-87c1-26b3f14e5925": Object {

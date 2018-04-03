@@ -6,7 +6,6 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { v4 as generateUUID } from 'uuid';
-
 import { Mode, Type } from '../../config';
 import {
     Action,
@@ -33,16 +32,16 @@ import {
     DispatchWithState,
     LocalizationUpdates,
     NoParamsAC,
-    onUpdateAction,
     OnUpdateAction,
-    onUpdateLocalizations,
+    onUpdateAction,
     OnUpdateLocalizations,
+    onUpdateLocalizations,
     OnUpdateRouter,
     onUpdateRouter,
     resetNodeEditingState,
     SearchResult,
-    updateNodeEditorOpen,
     UpdateNodeEditorOpen,
+    updateNodeEditorOpen,
     UpdateOperand,
     updateOperand,
     UpdateResultName,
@@ -54,6 +53,7 @@ import {
     UpdateUserAddingAction,
     updateUserAddingAction
 } from '../../store';
+import { RenderNode } from '../../store/flowContext';
 import { CaseElementProps } from '../form/CaseElement';
 import TextInputElement from '../form/TextInputElement';
 import { Language } from '../LanguageSelector';
@@ -63,7 +63,6 @@ import * as shared from '../shared.scss';
 import { DEFAULT_BODY, GROUPS_OPERAND } from './constants';
 import * as formStyles from './NodeEditor.scss';
 import TypeList from './TypeList';
-import { RenderNode } from '../../store/flowContext';
 
 export type GetResultNameField = () => JSX.Element;
 export type SaveLocalizations = (
@@ -148,7 +147,7 @@ export const mapExits = (exits: Exit[]): { [uuid: string]: Exit } =>
     );
 
 export const isSwitchForm = (type: string) =>
-    type === 'wait_for_response' || type === 'split_by_expression' || type === 'split_by_group';
+    type === 'wait_for_response' || type === 'split_by_expression' || type === 'split_by_groups';
 
 export const hasSwitchRouter = (node: Node): boolean =>
     (node.router as SwitchRouter) && (node.router as SwitchRouter).hasOwnProperty('operand');
@@ -188,8 +187,10 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
         case 'set_contact_field':
             defaultAction = {
                 ...defaultAction,
-                field_uuid: generateUUID(),
-                field_name: '',
+                field: {
+                    key: '',
+                    name: ''
+                },
                 value: ''
             } as SetContactField;
             break;
@@ -375,7 +376,7 @@ export const FormContainer: React.SFC<{
     </div>
 );
 
-export class NodeEditor extends React.PureComponent<NodeEditorProps> {
+export class NodeEditor extends React.Component<NodeEditorProps> {
     private modal: Modal;
     private form: any;
     private advanced: any;
@@ -839,7 +840,7 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
 
         this.props.onUpdateRouter(
             { ...updates, router } as Node,
-            'split_by_group',
+            'split_by_groups',
             this.props.plumberRepaintForDuration,
             getAction(this.props.actionToEdit, this.props.typeConfig)
         );
@@ -1121,7 +1122,7 @@ export class NodeEditor extends React.PureComponent<NodeEditorProps> {
             updateRouter = this.updateSubflowRouter;
         } else if (typeConfig.type === 'call_webhook') {
             updateRouter = this.updateWebhookRouter;
-        } else if (typeConfig.type === 'split_by_group') {
+        } else if (typeConfig.type === 'split_by_groups') {
             updateRouter = this.updateGroupRouter;
         }
 
@@ -1239,6 +1240,4 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
         dispatch
     );
 
-const ConnectedNodeEditor = connect(mapStateToProps, mapDispatchToProps)(NodeEditor);
-
-export default ConnectedNodeEditor;
+export default connect(mapStateToProps, mapDispatchToProps)(NodeEditor);

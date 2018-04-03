@@ -1,16 +1,17 @@
-import { FlowDefinition, UINode, Node } from '../flowTypes';
+import { combineReducers } from 'redux';
+import { v4 as generateUUID } from 'uuid';
+import { FlowDefinition, Node, UINode, AttributeType } from '../flowTypes';
 import { LocalizedObject } from '../services/Localization';
 import ActionTypes, {
-    UpdateResultNamesAction,
-    UpdateGroupsAction,
     UpdateContactFieldsAction,
-    UpdateLocalizationsAction,
-    UpdateDependenciesAction,
     UpdateDefinitionAction,
-    UpdateNodesAction
+    UpdateDependenciesAction,
+    UpdateGroupsAction,
+    UpdateLocalizationsAction,
+    UpdateNodesAction,
+    UpdateResultNamesAction
 } from './actionTypes';
 import Constants from './constants';
-import { combineReducers } from 'redux';
 
 export interface RenderNodeMap {
     [uuid: string]: RenderNode;
@@ -30,10 +31,6 @@ export interface SearchResult {
     extraResult?: boolean;
 }
 
-export interface ContactFieldResult extends SearchResult {
-    key?: string;
-}
-
 export interface CompletionOption {
     name: string;
     description: string;
@@ -42,14 +39,10 @@ export interface CompletionOption {
 export interface FlowContext {
     dependencies: FlowDefinition[];
     localizations: LocalizedObject[];
-    contactFields: ContactFieldResult[];
+    contactFields: SearchResult[];
     resultNames: CompletionOption[];
     groups: SearchResult[];
-
-    // the initial definition
     definition: FlowDefinition;
-
-    // our map of nodes
     nodes: { [uuid: string]: RenderNode };
 }
 
@@ -101,19 +94,19 @@ export const updateLocalizations = (
 
 export const updateContactFields = (
     // tslint:disable-next-line:no-shadowed-variable
-    contactFields: ContactFieldResult[]
+    contactField: SearchResult
 ): UpdateContactFieldsAction => ({
     type: Constants.UPDATE_CONTACT_FIELDS,
     payload: {
-        contactFields
+        contactField
     }
 });
 
 // tslint:disable-next-line:no-shadowed-variable
-export const updateGroups = (groups: SearchResult[]): UpdateGroupsAction => ({
+export const updateGroups = (group: SearchResult): UpdateGroupsAction => ({
     type: Constants.UPDATE_GROUPS,
     payload: {
-        groups
+        group
     }
 });
 
@@ -172,12 +165,12 @@ export const localizations = (
 };
 
 export const contactFields = (
-    state: ContactFieldResult[] = initialState.contactFields,
+    state: SearchResult[] = initialState.contactFields,
     action: ActionTypes
 ) => {
     switch (action.type) {
         case Constants.UPDATE_CONTACT_FIELDS:
-            return action.payload.contactFields;
+            return [...state, action.payload.contactField];
         default:
             return state;
     }
@@ -198,7 +191,7 @@ export const resultNames = (
 export const groups = (state: SearchResult[] = initialState.groups, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_GROUPS:
-            return action.payload.groups;
+            return [...state, action.payload.group];
         default:
             return state;
     }

@@ -67,9 +67,8 @@
                         "actions": [
                             {
                                 "uuid": "505e8da9-0b73-4cf4-84a7-ce2a58d70f3e",
-                                "type": "set_contact_field",
-                                "field_name": "Full Name",
-                                "field_uuid": "9c9c46de-0ddf-4d26-b834-a67ae56ef618",
+                                "type": "set_contact_property",
+                                "property": "name",
                                 "value": "@run.results.name"
                             },
                             {

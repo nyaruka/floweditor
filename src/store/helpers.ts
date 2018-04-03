@@ -1,18 +1,9 @@
 import { v4 as generateUUID } from 'uuid';
 import { Language } from '../component/LanguageSelector';
 import { DragPoint } from '../component/Node';
-import {
-    AnyAction,
-    FlowDefinition,
-    Languages,
-    Node,
-    SwitchRouter,
-    UIMetaData,
-    UINode,
-    WaitType
-} from '../flowTypes';
+import { AnyAction, FlowDefinition, Languages, Node, SwitchRouter, WaitType } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
-import { ContactFieldResult, SearchResult, RenderNode, RenderNodeMap } from './flowContext';
+import { RenderNode, RenderNodeMap, SearchResult } from './flowContext';
 import { PendingConnections } from './flowEditor';
 import { NODE_PADDING } from './thunks';
 
@@ -54,8 +45,8 @@ export const getExistingResultNames = (resultNames: { [name: string]: string }) 
     }, []);
 
 export const getExistingFields = (
-    reservedFields: ContactFieldResult[],
-    fields: { [id: string]: ContactFieldResult }
+    reservedFields: SearchResult[],
+    fields: { [id: string]: SearchResult }
 ) =>
     Object.keys(fields).reduce((existingFields, fieldKey) => {
         existingFields.push(fields[fieldKey]);

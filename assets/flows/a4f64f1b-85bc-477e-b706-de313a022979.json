@@ -363,7 +363,7 @@
                                 "left": 580,
                                 "top": 780
                             },
-                            "type": "split_by_group"
+                            "type": "split_by_groups"
                         }
                     }
                 }

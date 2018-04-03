@@ -1,6 +1,5 @@
 // TODO: Remove use of Function
 // tslint:disable:ban-types
-
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 import { DragPoint } from '../component/Node';
@@ -10,28 +9,18 @@ import { FlowDetails, getFlow, getFlows } from '../external';
 import {
     Action,
     AnyAction,
-    ChangeGroups,
     Dimensions,
-    Exit,
     FlowDefinition,
     Languages,
     Node,
     Position,
     SendMsg,
-    SetContactField,
-    SetRunResult,
-    SwitchRouter,
-    UINode,
-    WaitType
+    SwitchRouter
 } from '../flowTypes';
-import { snakify, dump } from '../utils';
 import {
-    updateContactFields,
-    updateDefinition,
-    updateGroups,
-    updateLocalizations,
-    updateResultNames,
     RenderNode,
+    updateDefinition,
+    updateLocalizations,
     updateNodes,
     RenderNodeMap
 } from './flowContext';
@@ -43,40 +32,28 @@ import {
     updateGhostNode,
     updateNodeDragging,
     updateNodeEditorOpen,
-    updatePendingConnection,
-    updatePendingConnections
+    updatePendingConnection
 } from './flowEditor';
 import {
     determineConfigType,
-    getExistingFields,
-    getExistingGroups,
-    getExistingResultNames,
+    getCollision,
+    getGhostNode,
     getLocalizations,
     getNodesBelow,
-    getNodeUI,
     getPendingConnection,
-    getSuggestedResultName,
-    getTranslations,
-    getCollision,
-    nodeSort,
-    pureSort,
-    getGhostNode,
-    getUniqueDestinations,
-    collides
+    getTranslations
 } from './helpers';
+import * as mutators from './mutators';
 import {
     updateActionToEdit,
     updateNodeToEdit,
     updateOperand,
     updateResultName,
+    updateShowResultName,
     updateTypeConfig,
-    updateUserAddingAction,
-    updateShowResultName
+    updateUserAddingAction
 } from './nodeEditor';
 import AppState from './state';
-import * as mutators from './mutators';
-import { ContactFieldResult, SearchResult } from './flowContext';
-import { render } from 'enzyme';
 
 export type DispatchWithState = Dispatch<AppState>;
 
@@ -150,11 +127,6 @@ const QUIET_UI = 10;
 const QUIET_SAVE = 1000;
 export const NODE_SPACING = 10;
 export const NODE_PADDING = 20;
-
-const RESERVED_FIELDS: ContactFieldResult[] = [
-    { id: 'name', name: 'Name', type: 'set_contact_field' }
-    // { id: "language", name: "Language", type: "update_contact" }
-];
 
 // let uiTimeout: number;
 

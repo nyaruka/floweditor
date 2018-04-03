@@ -1,31 +1,39 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
+import { AttributeType, ResultType } from '../../flowTypes';
+import { AppState, SearchResult, UpdateContactFields, updateContactFields } from '../../store';
 import { getSelectClass, toBoolMap } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
-import { SearchResult } from '../../store';
 
 // TODO: these should come from an external source
 const reserved = toBoolMap(['language', 'name', 'timezone']);
 
-interface FieldElementProps extends FormElementProps {
+interface AttribElementPassedProps extends FormElementProps {
     initial: SearchResult;
-    localFields?: SearchResult[];
     endpoint?: string;
     add?: boolean;
     placeholder?: string;
     searchPromptText?: string;
 }
 
-interface FieldState {
-    field: SearchResult;
+interface AttribElementStoreProps {
+    contactFields: SearchResult[];
+    updateContactFields: UpdateContactFields;
+}
+
+export type AttribElementProps = AttribElementPassedProps & AttribElementStoreProps;
+
+interface AttribState {
+    attribute: SearchResult;
     errors: string[];
 }
 
-export const PLACEHOLDER: string = 'Enter the name of an existing field or create a new one';
-export const NOT_FOUND: string = 'Invalid field name';
+export const PLACEHOLDER = 'Enter the name of an existing attribute or create a new one';
+export const NOT_FOUND = 'Invalid attribute name';
 
-export default class FieldElement extends React.Component<FieldElementProps, FieldState> {
+export class AttribElement extends React.Component<AttribElementProps, AttribState> {
     public static defaultProps = {
         placeholder: PLACEHOLDER,
         searchPromptText: NOT_FOUND
@@ -35,7 +43,7 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
         super(props);
 
         this.state = {
-            field: this.props.initial,
+            attribute: this.props.initial,
             errors: []
         };
 
@@ -44,9 +52,9 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
         this.createNewOption = this.createNewOption.bind(this);
     }
 
-    private onChange(field: SearchResult): void {
+    private onChange(attribute: SearchResult): void {
         this.setState({
-            field
+            attribute
         });
     }
 
@@ -54,7 +62,7 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
         const errors: string[] = [];
 
         if (this.props.required) {
-            if (!this.state.field.name) {
+            if (!this.state.attribute.name) {
                 errors.push(`${this.props.name} is required`);
             }
         }
@@ -69,7 +77,7 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
             return false;
         }
 
-        const lowered: string = label.toLowerCase();
+        const lowered = label.toLowerCase();
 
         return (
             lowered.length > 0 &&
@@ -80,14 +88,12 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
     }
 
     private createNewOption({ label }: { label: string }): SearchResult {
-        const newOption: SearchResult = {
+        return {
             id: generateUUID(),
             name: label,
-            type: 'field',
+            type: AttributeType.field,
             extraResult: true
-        } as SearchResult;
-
-        return newOption;
+        };
     }
 
     public render(): JSX.Element {
@@ -96,12 +102,13 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
         if (this.props.add) {
             createOptions.isValidNewOption = this.isValidNewOption;
             createOptions.createNewOption = this.createNewOption;
-            createOptions.createPrompt = 'New Field: ';
+            createOptions.createPrompt = 'New attribute: ';
+            createOptions.updateLocalOptions = updateContactFields;
         }
 
-        const initial = this.state.field ? [this.state.field] : [];
+        const initial = this.state.attribute ? [this.state.attribute] : [];
         const className = getSelectClass(this.state.errors.length);
-        const fieldError = this.state.errors.length > 0;
+        const attribError = this.state.errors.length > 0;
 
         return (
             <FormElement
@@ -109,17 +116,18 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
                 name={this.props.name}
                 helpText={this.props.helpText}
                 errors={this.state.errors}
-                fieldError={fieldError}>
+                attribError={attribError}>
                 <SelectSearch
                     _className={className}
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
-                    resultType="field"
-                    localSearchOptions={this.props.localFields}
+                    resultType={ResultType.field}
+                    localSearchOptions={this.props.contactFields}
                     multi={false}
                     clearable={false}
                     initial={initial}
+                    closeOnSelect={true}
                     searchPromptText={this.props.searchPromptText}
                     placeholder={this.props.placeholder}
                     {...createOptions}
@@ -128,3 +136,16 @@ export default class FieldElement extends React.Component<FieldElementProps, Fie
         );
     }
 }
+
+export const mapStateToProps = ({ flowContext: { contactFields } }: AppState) => ({
+    contactFields
+});
+
+export default connect<{ contactFields: SearchResult[] }, {}, AttribElementPassedProps>(
+    mapStateToProps,
+    null,
+    null,
+    {
+        withRef: true
+    }
+)(AttribElement);
