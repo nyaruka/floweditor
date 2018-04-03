@@ -9,16 +9,19 @@ import {
     UpdateShowResultName,
     UpdateTranslating,
     UpdateTypeConfig,
-    UpdateUserAddingAction
+    UpdateUserAddingAction,
+    UpdateContactFieldsAction,
+    UpdateContactFields,
+    UpdateGroups
 } from './actionTypes';
 import configureStore from './configureStore';
 import Constants from './constants';
 import {
     CompletionOption,
-    ContactFieldResult,
     SearchResult,
     updateDefinition,
-    updateDependencies
+    updateDependencies,
+    updateContactFields
 } from './flowContext';
 import {
     Flows,
@@ -88,7 +91,6 @@ import {
 
 export {
     AppState,
-    ContactFieldResult,
     CompletionOption,
     SearchResult,
     Constants,
@@ -115,6 +117,9 @@ export {
     updateUserAddingAction,
     updateTypeConfig,
     UpdateUserAddingAction,
+    UpdateContactFieldsAction,
+    UpdateContactFields,
+    UpdateGroups,
     UpdateTypeConfig,
     updateOperand,
     updateResultName,
@@ -124,6 +129,7 @@ export {
     updateNodeDragging,
     updateFlows,
     updateDependencies,
+    updateContactFields,
     updateNodeEditorOpen,
     updateGhostNode,
     updateCreateNodePosition,

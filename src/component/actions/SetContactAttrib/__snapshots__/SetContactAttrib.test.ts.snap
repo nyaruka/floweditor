@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SetContactAttribComp render helpers getFieldNameMarkup should return emphasized field name 1`] = `
+<span
+  className="emph"
+>
+  Age
+</span>
+`;
+
+exports[`SetContactAttribComp render helpers getFieldNameMarkup should return emphasized property 1`] = `
+<span
+  className="emph"
+>
+  Name
+</span>
+`;
+
+exports[`SetContactAttribComp render should render SetContactAttribComp with 'clear...' div when value prop isn't passed 1`] = `
+<SetContactAttribComp
+  property="name"
+  type="set_contact_property"
+  uuid="505e8da9-0b73-4cf4-84a7-ce2a58d70f3e"
+  value=""
+>
+  <div>
+    Clear value for 
+    <span
+      className="emph"
+    >
+      Name
+    </span>
+  </div>
+</SetContactAttribComp>
+`;
+
+exports[`SetContactAttribComp render should render SetContactAttribComp with 'update...' div when value prop passed 1`] = `
+<SetContactAttribComp
+  property="name"
+  type="set_contact_property"
+  uuid="505e8da9-0b73-4cf4-84a7-ce2a58d70f3e"
+  value="@run.results.name"
+>
+  <div>
+    Update 
+    <span
+      className="emph"
+    >
+      Name
+    </span>
+     to 
+    <span
+      className="emph"
+    >
+      @run.results.name
+    </span>
+  </div>
+</SetContactAttribComp>
+`;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FlowEditorConfig } from '../../flowTypes';
+import { FlowEditorConfig, ResultType } from '../../flowTypes';
 import { createSetup, Resp } from '../../testUtils';
 import { validUUID } from '../../utils';
 import SelectSearch from '../SelectSearch';
@@ -105,7 +105,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 localSearchOptions: undefined,
                 name,
                 url: endpoint,
-                resultType: 'groups',
+                resultType: ResultType.group,
                 multi: true,
                 initial: [],
                 placeholder: GROUP_PLACEHOLDER,

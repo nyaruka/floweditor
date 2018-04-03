@@ -1,7 +1,7 @@
 import axiosMock from 'axios';
 import * as React from 'react';
-import { FlowEditorConfig } from '../flowTypes';
-import { createSetup, Resp, restoreSpies, flushPromises } from '../testUtils';
+import { FlowEditorConfig, ResultType } from '../flowTypes';
+import { createSetup, flushPromises, Resp, restoreSpies } from '../testUtils';
 import { resultsToSearchOpts } from '../utils';
 import { GROUP_NOT_FOUND, GROUP_PLACEHOLDER } from './form/constants';
 import SelectSearch, { SelectSearchProps } from './SelectSearch';
@@ -12,7 +12,7 @@ const groupsResp = require('../../assets/groups.json') as Resp;
 const baseProps = {
     url: endpoints.groups,
     name: 'Groups',
-    resultType: 'groups',
+    resultType: ResultType.group,
     placeholder: GROUP_PLACEHOLDER,
     searchPromptText: GROUP_NOT_FOUND
 };

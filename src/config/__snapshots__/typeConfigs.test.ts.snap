@@ -90,7 +90,7 @@ Array [
     "description": "Split by group membership",
     "form": [Function],
     "name": "Split by Group Membership",
-    "type": "split_by_group",
+    "type": "split_by_groups",
   },
   Object {
     "advanced": 2,
@@ -259,12 +259,12 @@ Object {
     "name": "Split by Expression",
     "type": "split_by_expression",
   },
-  "split_by_group": Object {
+  "split_by_groups": Object {
     "allows": [Function],
     "description": "Split by group membership",
     "form": [Function],
     "name": "Split by Group Membership",
-    "type": "split_by_group",
+    "type": "split_by_groups",
   },
   "start_flow": Object {
     "aliases": Array [

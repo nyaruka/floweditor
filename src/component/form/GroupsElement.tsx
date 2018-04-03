@@ -3,7 +3,7 @@ import { v4 as generateUUID } from 'uuid';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { getSelectClass, jsonEqual } from '../../utils';
-import { AnyAction } from '../../flowTypes';
+import { AnyAction, ResultType } from '../../flowTypes';
 import { SearchResult } from '../../store';
 
 export interface GroupOption {
@@ -140,7 +140,7 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
-                    resultType="groups"
+                    resultType={ResultType.group}
                     localSearchOptions={this.props.localGroups}
                     multi={true}
                     initial={this.state.groups}

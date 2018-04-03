@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { LocalizedObject } from '../services/Localization';
 import { SearchResult } from '../store';
 
@@ -177,3 +178,8 @@ export const resultsToSearchOpts = ({ name, uuid, type }: any): SearchResult => 
 });
 
 export const dump = (thing: any) => console.log(JSON.stringify(thing, null, 2));
+
+/**
+ * Apply emphasis style
+ */
+export const emphasize = (text: string) => <span className="emph">{text}</span>;
