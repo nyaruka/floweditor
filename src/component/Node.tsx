@@ -140,9 +140,11 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             }
 
             if (
-                !this.props.ui.dimensions ||
-                (this.props.ui.dimensions.width !== this.ele.clientWidth ||
-                    this.props.ui.dimensions.height !== this.ele.clientHeight)
+                !this.props.ui.position ||
+                (this.props.ui.position.right !==
+                    this.props.ui.position.left + this.ele.clientWidth ||
+                    this.props.ui.position.bottom !==
+                        this.props.ui.position.top + this.ele.clientHeight)
             ) {
                 if (!this.props.translating) {
                     this.updateDimensions();
@@ -252,7 +254,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         // Update our coordinates
         this.props.onNodeMoved(
             this.props.node.uuid,
-            { x: left, y: top },
+            { left, top },
             this.props.plumberRepaintForDuration
         );
     }
@@ -448,18 +450,14 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 : '';
 
         const dragLink = this.getDragLink();
-
-        const style = {
-            left: this.props.ui.position.x,
-            top: this.props.ui.position.y
-        };
+        const style = { left: this.props.ui.position.left, top: this.props.ui.position.top };
 
         return (
             <div
-                ref={this.eleRef}
                 style={style}
                 id={this.props.node.uuid}
                 className={`${styles.node_container} ${classes}`}
+                ref={this.eleRef}
             >
                 <div className={styles.node}>
                     {dragLink}

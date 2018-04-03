@@ -27,8 +27,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 100,
-        "y": 100,
+        "bottom": 190,
+        "left": 100,
+        "right": 300,
+        "top": 100,
       },
     },
   },
@@ -40,7 +42,7 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "nodeC",
           "uuid": "exitB",
         },
       ],
@@ -48,8 +50,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 200,
-        "y": 200,
+        "bottom": 290,
+        "left": 200,
+        "right": 500,
+        "top": 150,
       },
     },
   },
@@ -67,8 +71,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 300,
-        "y": 300,
+        "bottom": 390,
+        "left": 300,
+        "right": 600,
+        "top": 210,
       },
     },
   },
@@ -97,8 +103,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 100,
-        "y": 100,
+        "bottom": 190,
+        "left": 100,
+        "right": 300,
+        "top": 100,
       },
     },
   },
@@ -116,7 +124,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "nodeC",
           "uuid": "exitB",
         },
       ],
@@ -124,8 +132,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 200,
-        "y": 200,
+        "bottom": 290,
+        "left": 200,
+        "right": 500,
+        "top": 150,
       },
     },
   },
@@ -143,8 +153,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 300,
-        "y": 300,
+        "bottom": 390,
+        "left": 300,
+        "right": 600,
+        "top": 210,
       },
     },
   },
@@ -173,8 +185,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 100,
-        "y": 100,
+        "bottom": 190,
+        "left": 100,
+        "right": 300,
+        "top": 100,
       },
     },
   },
@@ -186,7 +200,7 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "nodeC",
           "uuid": "exitB",
         },
       ],
@@ -194,8 +208,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 200,
-        "y": 200,
+        "bottom": 290,
+        "left": 200,
+        "right": 500,
+        "top": 150,
       },
     },
   },
@@ -213,8 +229,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 300,
-        "y": 300,
+        "bottom": 390,
+        "left": 300,
+        "right": 600,
+        "top": 210,
       },
     },
   },
@@ -228,8 +246,8 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 400,
-        "y": 400,
+        "left": 400,
+        "top": 400,
       },
     },
   },
@@ -252,8 +270,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 100,
-        "y": 100,
+        "bottom": 190,
+        "left": 100,
+        "right": 300,
+        "top": 100,
       },
     },
   },
@@ -265,7 +285,7 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "nodeC",
           "uuid": "exitB",
         },
       ],
@@ -273,8 +293,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 200,
-        "y": 200,
+        "bottom": 290,
+        "left": 200,
+        "right": 500,
+        "top": 150,
       },
     },
   },
@@ -292,8 +314,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 300,
-        "y": 300,
+        "bottom": 390,
+        "left": 300,
+        "right": 600,
+        "top": 210,
       },
     },
   },
@@ -322,8 +346,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 100,
-        "y": 100,
+        "bottom": 190,
+        "left": 100,
+        "right": 300,
+        "top": 100,
       },
     },
   },
@@ -333,7 +359,7 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "nodeC",
           "uuid": "exitB",
         },
       ],
@@ -341,8 +367,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 200,
-        "y": 200,
+        "bottom": 290,
+        "left": 200,
+        "right": 500,
+        "top": 150,
       },
     },
   },
@@ -360,8 +388,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 300,
-        "y": 300,
+        "bottom": 390,
+        "left": 300,
+        "right": 600,
+        "top": 210,
       },
     },
   },
@@ -406,7 +436,7 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "nodeC",
           "uuid": "exitB",
         },
       ],
@@ -459,7 +489,7 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "nodeC",
           "uuid": "exitB",
         },
       ],
@@ -502,8 +532,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 100,
-        "y": 100,
+        "bottom": 190,
+        "left": 100,
+        "right": 300,
+        "top": 100,
       },
     },
   },
@@ -521,7 +553,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "nodeC",
           "name": null,
           "uuid": "exitB",
         },
@@ -530,8 +562,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 200,
-        "y": 200,
+        "bottom": 290,
+        "left": 200,
+        "right": 500,
+        "top": 150,
       },
     },
   },
@@ -549,8 +583,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 300,
-        "y": 300,
+        "bottom": 390,
+        "left": 300,
+        "right": 600,
+        "top": 210,
       },
     },
   },
@@ -579,8 +615,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 100,
-        "y": 100,
+        "bottom": 190,
+        "left": 100,
+        "right": 300,
+        "top": 100,
       },
     },
   },
@@ -590,7 +628,7 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "nodeC",
           "uuid": "exitB",
         },
       ],
@@ -598,8 +636,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 200,
-        "y": 200,
+        "bottom": 290,
+        "left": 200,
+        "right": 500,
+        "top": 150,
       },
     },
   },
@@ -617,8 +657,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 300,
-        "y": 300,
+        "bottom": 390,
+        "left": 300,
+        "right": 600,
+        "top": 210,
       },
     },
   },
@@ -647,8 +689,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 100,
-        "y": 100,
+        "bottom": 190,
+        "left": 100,
+        "right": 300,
+        "top": 100,
       },
     },
   },
@@ -658,7 +702,7 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "nodeC",
           "uuid": "exitB",
         },
       ],
@@ -666,8 +710,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 200,
-        "y": 200,
+        "bottom": 290,
+        "left": 200,
+        "right": 500,
+        "top": 150,
       },
     },
   },
@@ -687,8 +733,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 300,
-        "y": 300,
+        "bottom": 390,
+        "left": 300,
+        "right": 600,
+        "top": 210,
       },
     },
   },
@@ -719,8 +767,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 100,
-        "y": 100,
+        "bottom": 190,
+        "left": 100,
+        "right": 300,
+        "top": 100,
       },
     },
   },
@@ -732,7 +782,7 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "nodeC",
           "uuid": "exitB",
         },
       ],
@@ -740,8 +790,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 200,
-        "y": 200,
+        "bottom": 290,
+        "left": 200,
+        "right": 500,
+        "top": 150,
       },
     },
   },
@@ -759,8 +811,10 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "x": 300,
-        "y": 300,
+        "bottom": 390,
+        "left": 300,
+        "right": 600,
+        "top": 210,
       },
     },
   },

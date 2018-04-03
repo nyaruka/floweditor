@@ -6,30 +6,24 @@ const createMockStore = require('redux-mock-store');
 import thunk from 'redux-thunk';
 import * as types from './actionTypes';
 import { FlowDefinition, SendMsg, AnyAction, Node, SwitchRouter } from '../flowTypes';
-import { initializeFlow, removeNode, addNode, updateAction, spliceInRouter } from './thunks';
+import {
+    initializeFlow,
+    removeNode,
+    addNode,
+    updateAction,
+    spliceInRouter,
+    reflow
+} from './thunks';
 import { dump } from '../utils';
 import { getUniqueDestinations } from './helpers';
 import { RenderNode } from './flowContext';
 import { v4 as generateUUID } from 'uuid';
 import { Constants } from '.';
-
-const colorsFlow = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json')
-    .results[0].definition as FlowDefinition;
+import { NODES_ABC } from './__test__';
 
 describe('thunks', () => {
     let store;
-
-    beforeEach(() => {
-        store = createMockStore([thunk])({});
-        store.dispatch(initializeFlow(colorsFlow));
-
-        const actions = store.getActions();
-        const { definition } = actions[0].payload;
-        const { nodes } = actions[1].payload;
-
-        // we want an initial store based on a fetched flow
-        store = createMockStore([thunk])({ flowContext: { nodes } });
-    });
+    const testNodes = NODES_ABC;
 
     const getNodes = (): { [uuid: string]: RenderNode } => {
         let nodes;
@@ -43,51 +37,43 @@ describe('thunks', () => {
         return nodes;
     };
 
-    /**
-     * A helper method to add an action to our initial state
-     * @param node the node to add the action to
-     * @param action the new action to add
-     */
-    const addActionToState = (node: Node, action: AnyAction) => {
+    beforeEach(() => {
         // prep our store to show that we are editing
         store = createMockStore([thunk])({
-            ...store.getState(),
-            nodeEditor: { userAddingAction: true, nodeToEdit: node }
+            flowContext: { nodes: testNodes }
         });
+    });
 
-        // add the action to the specified node
-        store.dispatch(updateAction(action, node.uuid));
-
-        // reset our store with our new nodes, an non editing state
-        store = createMockStore([thunk])({
-            ...store.getState(),
-            nodeEditor: { userAddingAction: false, nodeToEdit: null },
-            flowContext: { nodes: getNodes() }
-        });
-    };
+    describe('initializeFlow', () => {
+        store = createMockStore([thunk])({});
+        const colorsFlow = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json')
+            .results[0].definition as FlowDefinition;
+        store.dispatch(initializeFlow(colorsFlow));
+        expect(getNodes()).toMatchSnapshot();
+    });
 
     describe('updateAction', () => {
         it('should add new action', () => {
             // prep our store to show that we are editing
             store = createMockStore([thunk])({
                 ...store.getState(),
-                nodeEditor: { userAddingAction: true, nodeToEdit: colorsFlow.nodes[0] }
+                nodeEditor: { userAddingAction: true, nodeToEdit: testNodes.nodeA.node }
             });
 
             // add a new message to the first node
             store.dispatch(
                 updateAction(
                     {
-                        uuid: '1e79f536-2ca2-477c-80c4-518f31ae8755',
+                        uuid: 'actionA',
                         type: 'send_msg',
                         text: 'A second message for our first node'
                     },
-                    colorsFlow.nodes[0].uuid
+                    'nodeA'
                 )
             );
 
             // we should have a new action
-            const actions = getNodes()[colorsFlow.nodes[0].uuid].node.actions;
+            const actions = getNodes().nodeA.node.actions;
             expect(actions.length).toBe(2);
             expect((actions[1] as SendMsg).text).toBe('A second message for our first node');
         });
@@ -95,23 +81,25 @@ describe('thunks', () => {
 
     describe('spliceInRouter', () => {
         it('should splice in a new node if needed', () => {
-            // initialize our state with a couple more actions in the first node
-            addActionToState(colorsFlow.nodes[0], {
-                uuid: '1e79f536-2ca2-477c-80c4-518f31ae8755',
+            const updatedNodes = { ...testNodes };
+            updatedNodes.nodeA.node.actions.push({
+                uuid: 'actionB',
                 type: 'send_msg',
                 text: 'A second message for our first node'
-            });
+            } as SendMsg);
 
-            addActionToState(colorsFlow.nodes[0], {
-                uuid: '992d96b3-9015-4578-9dd1-0d14450a0449',
+            updatedNodes.nodeA.node.actions.push({
+                uuid: 'actionC',
                 type: 'send_msg',
                 text: 'A third message for our first node'
+            } as SendMsg);
+
+            store = createMockStore([thunk])({
+                flowContext: { nodes: updatedNodes }
             });
 
             // now lets splice in a router in our middle action
-            const renderNode: RenderNode = store.getState().flowContext.nodes[
-                colorsFlow.nodes[0].uuid
-            ];
+            const renderNode: RenderNode = updatedNodes.nodeA;
 
             const newExitUUID = generateUUID();
             const renderNodes = store.dispatch(
@@ -156,25 +144,24 @@ describe('thunks', () => {
 
             // finally, the bottom node should point to the original destination
             expect(bottomNode.node.exits[0].destination_node_uuid).toBe(
-                colorsFlow.nodes[0].exits[0].destination_node_uuid
+                updatedNodes.nodeA.node.exits[0].destination_node_uuid
             );
 
             // original node should be gonezor
-            expect(nodes[colorsFlow.nodes[0].uuid]).toBeUndefined();
+            expect(nodes[updatedNodes.nodeA.node.uuid]).toBeUndefined();
         });
     });
 
     describe('addNode', () => {
         it('should update exit destination and inbound connections', () => {
-            // we are dragging from the group split 'other' case
-            const pointerNode = colorsFlow.nodes[5];
-            const fromNodeUUID = pointerNode.uuid;
-            const fromExitUUID = pointerNode.exits[pointerNode.exits.length - 1].uuid;
+            let fromNode = testNodes.nodeB.node;
+            const fromNodeUUID = fromNode.uuid;
+            const fromExitUUID = fromNode.exits[0].uuid;
 
             const addedNode = store.dispatch(
                 addNode({
                     node: { uuid: null, exits: [] },
-                    ui: { position: { x: 200, y: 200 } },
+                    ui: { position: { left: 200, top: 200 } },
                     inboundConnections: {
                         [fromExitUUID]: fromNodeUUID
                     }
@@ -182,28 +169,35 @@ describe('thunks', () => {
             );
 
             const nodes = getNodes();
-            const fromNode = nodes[fromNodeUUID];
+            fromNode = nodes[fromNodeUUID].node;
 
             // our pointing node should be directed at us
-            expect(fromNode.node.exits[2].destination_node_uuid).toBe(addedNode.node.uuid);
-            expect(Object.keys(addedNode.inboundConnections)).toContain(
-                fromNode.node.exits[2].uuid
-            );
+            expect(fromNode.exits[0].destination_node_uuid).toBe(addedNode.node.uuid);
+            expect(Object.keys(addedNode.inboundConnections)).toContain(fromNode.exits[0].uuid);
         });
+    });
+
+    it('should reflow nodes', () => {
+        // we are starting at 150 which overlaps with nodeA
+        expect(testNodes.nodeB.ui.position.top).toBe(150);
+
+        // forcing a reflow should bump us down where we don't collid
+        store.dispatch(reflow());
+        expect(getNodes().nodeB.ui.position.top).toBe(200);
     });
 
     describe('removeNode', () => {
         it('should remove it from the map', () => {
-            store.dispatch(removeNode(colorsFlow.nodes[1]));
+            store.dispatch(removeNode(testNodes.nodeB.node));
             const nodes = getNodes();
-            expect(nodes[colorsFlow.nodes[1].uuid]).toBeUndefined();
+            expect(nodes.nodeB).toBeUndefined();
         });
 
         it('should remove pointers from its destination', () => {
-            store.dispatch(removeNode(colorsFlow.nodes[1]));
+            store.dispatch(removeNode(testNodes.nodeA.node));
             const nodes = getNodes();
-            const destinations = getUniqueDestinations(colorsFlow.nodes[1]);
-            expect(destinations.length).toBe(2);
+            const destinations = getUniqueDestinations(testNodes.nodeA.node);
+            expect(destinations.length).toBe(1);
 
             // we were the only thing pointing to our friends, so now they
             // should have no inbound connections
@@ -213,28 +207,25 @@ describe('thunks', () => {
         });
 
         it('should reroute pass through connections', () => {
-            store.dispatch(removeNode(colorsFlow.nodes[3]));
-
-            const fromNode = colorsFlow.nodes[2];
-            const toNode = colorsFlow.nodes[6];
+            store.dispatch(removeNode(testNodes.nodeB.node));
 
             const nodes = getNodes();
 
-            // our exit should be pointing to the next node in the tree
-            expect(nodes[fromNode.uuid].node.exits[0].destination_node_uuid).toBe(toNode.uuid);
+            // we reomved B, so now A should point to C
+            expect(nodes.nodeA.node.exits[0].destination_node_uuid).toBe(nodes.nodeC.node.uuid);
 
             // and the next node in the tree should reflect our inbound connection
-            expect(Object.keys(nodes[toNode.uuid].inboundConnections)).toContain(
-                fromNode.exits[0].uuid
+            expect(Object.keys(nodes.nodeC.inboundConnections)).toContain(
+                testNodes.nodeA.node.exits[0].uuid
             );
         });
 
         // test a snapshot after removing each node in the flow
-        for (const node of colorsFlow.nodes) {
-            it('should remove node ' + node.uuid, () => {
-                store.dispatch(removeNode(colorsFlow.nodes[1]));
+        for (const nodeUUID of Object.keys(testNodes)) {
+            it('should remove node ' + nodeUUID, () => {
+                store.dispatch(removeNode(testNodes[nodeUUID].node));
                 const nodes = getNodes();
-                expect(getNodes()).toMatchSnapshot('Remove ' + node.uuid);
+                expect(getNodes()).toMatchSnapshot('Remove ' + nodeUUID);
             });
         }
     });
