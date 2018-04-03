@@ -152,8 +152,10 @@ export interface UIMetaData {
 }
 
 export interface Position {
-    x: number;
-    y: number;
+    left: number;
+    top: number;
+    right?: number;
+    bottom?: number;
 }
 
 export interface Dimensions {
@@ -163,7 +165,6 @@ export interface Dimensions {
 
 export interface UINode {
     position: Position;
-    dimensions?: Dimensions;
 
     // ui type, used for split by expression, contact field, etc
     type?: string;

@@ -18,43 +18,10 @@ import {
 import { RenderNodeMap } from './flowContext';
 import { SendMsg, FlowDefinition, Node } from '../flowTypes';
 import { dump } from '../utils';
+import { NODES_ABC } from './__test__';
 
 describe('mutators', () => {
-    const nodes: RenderNodeMap = {
-        nodeA: {
-            node: {
-                uuid: 'nodeA',
-                actions: [
-                    {
-                        uuid: 'actionA',
-                        type: 'send_msg',
-                        text: 'The first message'
-                    } as SendMsg
-                ],
-                exits: [{ uuid: 'exitA', destination_node_uuid: 'nodeB' }]
-            },
-            ui: { position: { x: 100, y: 100 } },
-            inboundConnections: {}
-        },
-        nodeB: {
-            node: {
-                uuid: 'nodeB',
-                exits: [{ uuid: 'exitB', destination_node_uuid: null }],
-                actions: []
-            },
-            ui: { position: { x: 200, y: 200 } },
-            inboundConnections: { exitA: 'nodeA' }
-        },
-        nodeC: {
-            node: {
-                uuid: 'nodeC',
-                exits: [{ uuid: 'exitC', destination_node_uuid: null }],
-                actions: []
-            },
-            ui: { position: { x: 300, y: 300 } },
-            inboundConnections: {}
-        }
-    };
+    const nodes = NODES_ABC;
 
     it('should throw for missing nodes', () => {
         expect(() => {
@@ -103,7 +70,7 @@ describe('mutators', () => {
     it('should addNode', () => {
         const updated = addNode(nodes, {
             node: { uuid: 'nodeD', exits: [] },
-            ui: { position: { x: 400, y: 400 } },
+            ui: { position: { left: 400, top: 400 } },
             inboundConnections: { exitA: 'nodeA' }
         });
 
@@ -201,12 +168,17 @@ describe('mutators', () => {
 
     it('should updatePosition()', () => {
         const updated = updatePosition(nodes, 'nodeA', 500, 1000);
-        expect(updated.nodeA.ui.position).toEqual({ x: 500, y: 1000 });
+        expect(updated.nodeA.ui.position).toEqual({
+            left: 500,
+            top: 1000,
+            right: 700,
+            bottom: 1090
+        });
     });
 
     it('should updateDimensions()', () => {
         const updated = updateDimensions(nodes, 'nodeA', { width: 250, height: 350 });
-        expect(updated.nodeA.ui).toEqual({ position: { x: 100, y: 100 }, width: 250, height: 350 });
+        expect(updated.nodeA.ui.position).toEqual({ left: 100, top: 100, right: 350, bottom: 450 });
     });
 
     it('should updateLocalizations', () => {

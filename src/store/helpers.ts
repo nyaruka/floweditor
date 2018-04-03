@@ -14,6 +14,7 @@ import {
 import Localization, { LocalizedObject } from '../services/Localization';
 import { ContactFieldResult, SearchResult, RenderNode, RenderNodeMap } from './flowContext';
 import { PendingConnections } from './flowEditor';
+import { NODE_PADDING } from './thunks';
 
 export interface Bounds {
     left: number;
@@ -67,7 +68,7 @@ export const getNodesBelow = (
     { uuid: nodeUUID }: Node,
     nodes: { [uuid: string]: RenderNode }
 ): Node[] => {
-    const below = nodes[nodeUUID].ui.position.y;
+    const below = nodes[nodeUUID].ui.position.top;
 
     // TODO: well this isn't great now is it
     // good news though, I don't think we need this
@@ -76,7 +77,7 @@ export const getNodesBelow = (
     for (const uuid in Object.keys(nodes)) {
         if (uuid !== nodeUUID) {
             const belowNode = nodes[uuid];
-            if (belowNode.ui.position.y > below) {
+            if (belowNode.ui.position.top > below) {
                 nodesBelow.push(belowNode.node);
             }
         }
@@ -98,9 +99,6 @@ export const getSuggestedResultName = (nodes: RenderNodeMap) => {
 };
 
 export const getNodeUI = (uuid: string, definition: FlowDefinition) => definition._ui.nodes[uuid];
-
-export const collides = (a: Bounds, b: Bounds) =>
-    a.bottom < b.top || a.top > b.bottom || a.left > b.right || a.right < b.left ? false : true;
 
 /**
  * Computes translations prop for `Node` components in render()
@@ -194,90 +192,75 @@ export const getConnectionError = (source: string, targetUUID: string) => {
 export const nodeSort = (definition: FlowDefinition) => (a: Node, b: Node) => {
     const { position: aPos } = definition._ui.nodes[a.uuid];
     const { position: bPos } = definition._ui.nodes[b.uuid];
-    const diff = aPos.y - bPos.y;
+    const diff = aPos.top - bPos.top;
     // Secondary sort on X location
     if (diff === 0) {
-        return aPos.x - bPos.x;
+        return aPos.left - bPos.left;
     }
     return diff;
 };
 
-export const getNodeBoundaries = (nodes: { [uuid: string]: RenderNode }) =>
-    Object.keys(nodes)
-        .reduce((uiList, nodeUUID) => {
-            const renderNode = nodes[nodeUUID];
-            const uiDetails = renderNode.ui;
-
-            // This should only happen with freshly added nodes, since
-            // they don't have dimensions until they are rendered.
-            const dimensions = uiDetails.dimensions
-                ? uiDetails.dimensions
-                : { width: 250, height: 100 };
-
-            uiList.push({
-                uuid: renderNode.node.uuid,
-                bounds: {
-                    left: uiDetails.position.x,
-                    top: uiDetails.position.y,
-                    right: uiDetails.position.x + dimensions.width,
-                    bottom: uiDetails.position.y + dimensions.height
-                }
-            });
-
-            return uiList;
-        }, [])
-        .sort((a: any, b: any) => {
-            let diff = a.bounds.top - b.bounds.top;
-            if (diff === 0) {
-                diff = a.bounds.left - b.bounds.left;
-            }
-            return diff;
-        });
-
-export const getCollisions = (nodes: { [uuid: string]: RenderNode }, nodeSpacing: number) => {
-    const boundaries = getNodeBoundaries(nodes);
-    const updatedNodes: Reflow[] = [];
-
-    for (let i = 0; i < boundaries.length; i++) {
-        const current = boundaries[i];
-
-        if (!current.bounds) {
-            throw new Error(`Dimensions missing for ${current.uuid}`);
+const getOrderedNodes = (nodes: RenderNodeMap): RenderNode[] => {
+    const sorted: RenderNode[] = [];
+    Object.keys(nodes).forEach((nodeUUID: string) => {
+        sorted.push(nodes[nodeUUID]);
+    });
+    return sorted.sort((a: RenderNode, b: RenderNode) => {
+        let diff = a.ui.position.top - b.ui.position.top;
+        if (diff === 0) {
+            diff = a.ui.position.left - b.ui.position.left;
         }
+        return diff;
+    });
+};
 
-        for (let j = i + 1; j < boundaries.length; j++) {
-            const other = boundaries[j];
+export const collides = (a: RenderNode, b: RenderNode) => {
+    const aPos = a.ui.position;
+    const bPos = b.ui.position;
 
-            if (collides(current.bounds, other.bounds)) {
-                // console.log("COLLISON:", current, other);
-                let diff = current.bounds.bottom - other.bounds.top + nodeSpacing;
-                diff += 20 - diff % 20;
+    // don't bother with collision if we don't have full dimensions
+    if (!aPos.bottom || !bPos.bottom) {
+        return false;
+    }
 
-                other.bounds.top += diff;
-                other.bounds.bottom += diff;
-                updatedNodes.push(other);
+    return !(
+        bPos.left > aPos.right ||
+        bPos.right < aPos.left ||
+        bPos.top > aPos.bottom ||
+        bPos.bottom < aPos.top
+    );
+};
 
-                // See if our collision cascades
-                if (boundaries.length > j + 1) {
-                    const next = boundaries[j + 1];
-                    // If so, push everybody else down
-                    for (let k = j + 1; k < boundaries.length; k++) {
-                        const below = boundaries[k];
-                        below.bounds.top += diff;
-                        below.bounds.bottom += diff;
-                        updatedNodes.push(below);
+/**
+ * Gets the first collsion in the node map returning the original node,
+ * the node it collides with and optionally an additional node it
+ * collides with if inserting between two nodes
+ * @param nodes
+ */
+export const getCollision = (nodes: RenderNodeMap): RenderNode[] => {
+    const sortedNodes = getOrderedNodes(nodes);
+
+    for (let i = 0; i < sortedNodes.length; i++) {
+        const current = sortedNodes[i];
+        if (i + 1 < sortedNodes.length) {
+            for (let j = i + 1; j < sortedNodes.length; j++) {
+                const other = sortedNodes[j];
+                if (collides(current, other)) {
+                    // if the next node collides too, include it
+                    // to deal with inserting between two closely
+                    // positioned nodes
+                    if (j + 1 < sortedNodes.length) {
+                        const cascaded = sortedNodes[j + 1];
+                        if (collides(other, cascaded)) {
+                            return [current, other, cascaded];
+                        }
                     }
+                    return [current, other];
                 }
-
-                return updatedNodes;
-            } else if (other.bounds.top > current.bounds.bottom) {
-                // If they start below our lowest point, move on
-                continue;
             }
         }
     }
-
-    return updatedNodes;
+    return [];
 };
 
 export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {

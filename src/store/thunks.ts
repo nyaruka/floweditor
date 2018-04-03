@@ -32,7 +32,8 @@ import {
     updateLocalizations,
     updateResultNames,
     RenderNode,
-    updateNodes
+    updateNodes,
+    RenderNodeMap
 } from './flowContext';
 import {
     removePendingConnection,
@@ -56,12 +57,12 @@ import {
     getPendingConnection,
     getSuggestedResultName,
     getTranslations,
-    getNodeBoundaries,
-    getCollisions,
+    getCollision,
     nodeSort,
     pureSort,
     getGhostNode,
-    getUniqueDestinations
+    getUniqueDestinations,
+    collides
 } from './helpers';
 import {
     updateActionToEdit,
@@ -147,7 +148,8 @@ export type LocalizationUpdates = Array<{ uuid: string; translations?: any }>;
 const FORCE_FETCH = true;
 const QUIET_UI = 10;
 const QUIET_SAVE = 1000;
-const NODE_SPACING = 60;
+export const NODE_SPACING = 10;
+export const NODE_PADDING = 20;
 
 const RESERVED_FIELDS: ContactFieldResult[] = [
     { id: 'name', name: 'Name', type: 'set_contact_field' }
@@ -155,7 +157,6 @@ const RESERVED_FIELDS: ContactFieldResult[] = [
 ];
 
 // let uiTimeout: number;
-let reflowTimeout: number;
 
 export const initializeFlow = (definition: FlowDefinition) => (
     dispatch: DispatchWithState,
@@ -221,38 +222,49 @@ export const fetchFlows = (endpoint: string) => (dispatch: DispatchWithState) =>
         })
         .catch((error: any) => console.log(`fetchFlowList error: ${error}`));
 
-export const reflow = () => (dispatch: DispatchWithState, getState: GetState) => {
-    const { flowContext: { nodes } } = getState();
+export const reflow = (current: RenderNodeMap = null) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+): RenderNodeMap => {
+    let nodes = current;
+    if (!nodes) {
+        nodes = getState().flowContext.nodes;
+    }
 
-    let updatedNodes = nodes;
-    const collisions = getCollisions(nodes, NODE_SPACING);
-    if (collisions.length > 0) {
+    const collision = getCollision(nodes);
+    if (collision.length) {
         console.time('reflow');
-        console.log('::REFLOWED::', collisions);
-        collisions.forEach(
-            node =>
-                (updatedNodes = mutators.updatePosition(
-                    updatedNodes,
-                    node.uuid,
-                    node.bounds.left,
-                    node.bounds.top
-                ))
+        const [top, bottom, cascade] = collision;
+        let updated = mutators.updatePosition(
+            nodes,
+            bottom.node.uuid,
+            bottom.ui.position.left,
+            top.ui.position.bottom + NODE_SPACING
         );
 
-        dispatch(updateNodes(updatedNodes));
-        console.timeEnd('reflow');
-    }
-};
+        if (cascade) {
+            // start with the top of the bottom node
+            let cascadeTop = top.ui.position.bottom + NODE_SPACING;
 
-export const markReflow = () => (dispatch: DispatchWithState) => {
-    if (QUIET_UI > 0) {
-        if (reflowTimeout) {
-            window.clearTimeout(reflowTimeout);
+            // and add its height
+            cascadeTop += bottom.ui.position.bottom - bottom.ui.position.top;
+
+            updated = mutators.updatePosition(
+                updated,
+                cascade.node.uuid,
+                cascade.ui.position.left,
+                cascadeTop
+            );
         }
-        reflowTimeout = window.setTimeout(() => dispatch(reflow()), QUIET_UI);
-    } else {
-        dispatch(reflow());
+        console.timeEnd('reflow');
+
+        updated = dispatch(reflow(updated));
+        if (current == null) {
+            dispatch(updateNodes(updated));
+        }
+        return updated;
     }
+    return nodes;
 };
 
 export const onUpdateLocalizations = (language: string, changes: LocalizationUpdates) => (
@@ -269,6 +281,7 @@ export const updateDimensions = (node: Node, dimensions: Dimensions) => (
 ) => {
     const { flowContext: { nodes } } = getState();
     dispatch(updateNodes(mutators.updateDimensions(nodes, node.uuid, dimensions)));
+    dispatch(reflow());
 };
 
 /**
@@ -278,11 +291,11 @@ export const addNode = (renderNode: RenderNode) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNode => {
-    console.time('addRenderNode');
+    console.time('addNode');
     const { flowContext: { nodes } } = getState();
     renderNode.node = mutators.uniquifyNode(renderNode.node);
     dispatch(updateNodes(mutators.addNode(nodes, renderNode)));
-    console.timeEnd('addRenderNode');
+    console.timeEnd('addNode');
     return renderNode;
 };
 
@@ -350,7 +363,7 @@ export const ensureStartNode = () => (dispatch: DispatchWithState, getState: Get
             ]
         };
 
-        dispatch(addNode({ node, ui: { position: { x: 125, y: 125 } } }));
+        dispatch(addNode({ node, ui: { position: { left: 120, top: 120 } } }));
     }
 };
 
@@ -427,9 +440,7 @@ export const updateAction = (
 
     dispatch(updateNodes(updatedNodes));
     dispatch(updateUserAddingAction(false));
-    dispatch(markReflow());
     console.timeEnd('updateAction');
-    // return nodes[nodeToEdit.uuid];
 };
 
 /**
@@ -471,14 +482,14 @@ export const spliceInRouter = (
     );
 
     // tslint:disable-next-line:prefer-const
-    let { x, y } = previousNode.ui.position;
+    let { left, top } = previousNode.ui.position;
 
     let topNode: RenderNode;
     let bottomNode: RenderNode;
 
     const routerNode: RenderNode = {
         node: newRouterNode,
-        ui: { position: { x, y }, type }
+        ui: { position: { left, top }, type }
     };
 
     // add our top node if we have one
@@ -494,14 +505,14 @@ export const spliceInRouter = (
                     }
                 ]
             },
-            ui: { position: { x, y } }
+            ui: { position: { left, top } }
         };
         updatedNodes = mutators.addNode(updatedNodes, topNode);
-        y += NODE_SPACING;
+        top += NODE_SPACING;
 
         // update our routerNode for the presence of a top node
         routerNode.inboundConnections = { [topNode.node.exits[0].uuid]: topNode.node.uuid };
-        routerNode.ui.position.y += NODE_SPACING;
+        routerNode.ui.position.top += NODE_SPACING;
 
         result.push(topNode);
     }
@@ -524,7 +535,7 @@ export const spliceInRouter = (
                 ]
             },
             ui: {
-                position: { x, y }
+                position: { left, top }
             },
             inboundConnections: { [routerNode.node.exits[0].uuid]: routerNode.node.uuid }
         };
@@ -544,6 +555,7 @@ export const spliceInRouter = (
     updatedNodes = mutators.removeNode(updatedNodes, previousNode.node.uuid);
 
     dispatch(updateNodes(updatedNodes));
+    // dispatch(reflow());
 
     return result;
 };
@@ -558,13 +570,13 @@ export const appendNewRouter = (node: Node, type: string) => (
     const { flowContext: { nodes } } = getState();
     const renderNode = nodes[node.uuid];
     const previousNode = renderNode.node;
-    const { position: { x, y } } = renderNode.ui;
+    const { position: { left, top } } = renderNode.ui;
 
     const addedNode = dispatch(
         addNode({
             node,
             ui: {
-                position: { x, y: y + NODE_SPACING },
+                position: { left, top: top + NODE_SPACING },
                 type
             }
         })
@@ -750,7 +762,8 @@ export const onNodeMoved = (nodeUUID: string, position: Position, repaintForDura
     getState: GetState
 ) => {
     const { flowContext: { nodes } } = getState();
-    dispatch(updateNodes(mutators.updatePosition(nodes, nodeUUID, position.x, position.y)));
+    dispatch(updateNodes(mutators.updatePosition(nodes, nodeUUID, position.left, position.top)));
+    dispatch(reflow());
     repaintForDuration();
 };
 

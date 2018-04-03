@@ -1,4 +1,3 @@
-
 {
     "results": [
         {
@@ -322,77 +321,49 @@
                     "nodes": {
                         "4fac7935-d13b-4b36-bf15-98075dca822a": {
                             "position": {
-                                "x": 40,
-                                "y": 80
-                            },
-                            "dimensions": {
-                                "width": 200,
-                                "height": 95
+                                "left": 40,
+                                "top": 80
                             }
                         },
                         "46e8d603-8e5d-4435-97dd-1333291aafca": {
                             "position": {
-                                "x": 420,
-                                "y": 260
+                                "left": 420,
+                                "top": 260
                             },
-                            "type": "wait_for_response",
-                            "dimensions": {
-                                "width": 489,
-                                "height": 59
-                            }
+                            "type": "wait_for_response"
                         },
                         "bc978e00-2f3d-41f2-87c1-26b3f14e5925": {
                             "position": {
-                                "x": 540,
-                                "y": 500
+                                "left": 540,
+                                "top": 500
                             },
-                            "type": "split_by_expression",
-                            "dimensions": {
-                                "width": 200,
-                                "height": 59
-                            }
+                            "type": "split_by_expression"
                         },
                         "e2ecc8de-9774-4b74-a0dc-ca8aea123227": {
                             "position": {
-                                "x": 40,
-                                "y": 400
-                            },
-                            "dimensions": {
-                                "width": 200,
-                                "height": 65
+                                "left": 40,
+                                "top": 400
                             }
                         },
                         "533b64e2-5906-4d33-a8e9-64f1cb6c20dd": {
                             "position": {
-                                "x": 760,
-                                "y": 660
-                            },
-                            "dimensions": {
-                                "width": 200,
-                                "height": 65
+                                "left": 760,
+                                "top": 660
                             }
                         },
                         "059a8daa-0697-44a6-9486-2386cc417e9d": {
                             "position": {
-                                "x": 300,
-                                "y": 800
+                                "left": 300,
+                                "top": 800
                             },
-                            "type": "subflow",
-                            "dimensions": {
-                                "width": 200,
-                                "height": 91
-                            }
+                            "type": "subflow"
                         },
                         "882f8022-7256-4b1c-abf3-7b180f5e7e24": {
                             "position": {
-                                "x": 580,
-                                "y": 780
+                                "left": 580,
+                                "top": 780
                             },
-                            "type": "split_by_group",
-                            "dimensions": {
-                                "width": 247,
-                                "height": 59
-                            }
+                            "type": "split_by_group"
                         }
                     }
                 }
