@@ -171,7 +171,7 @@ export class Flow extends React.Component<FlowProps> {
                     this.ghost.wrappedInstance.ele.offsetTop
                 );
 
-                this.props.updateCreateNodePosition({ x: left, y: top });
+                this.props.updateCreateNodePosition({ left, top });
 
                 // Bring up the node editor
                 this.props.onOpenNodeEditor(this.props.ghostNode, null, this.props.languages);
@@ -216,7 +216,7 @@ export class Flow extends React.Component<FlowProps> {
         if (this.props.ghostNode) {
             // Start off screen
             const ui: UINode = {
-                position: { x: -1000, y: -1000 }
+                position: { left: -1000, top: -1000 }
             };
 
             if (this.props.ghostNode.router) {

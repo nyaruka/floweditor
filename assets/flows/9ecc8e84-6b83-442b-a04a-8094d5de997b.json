@@ -189,40 +189,40 @@
                     "nodes": {
                         "24afc61e-e528-4ac0-b887-78cebd39f12b": {
                             "position": {
-                                "x": 80,
-                                "y": 120
+                                "left": 80,
+                                "top": 120
                             }
                         },
                         "d642b014-3c91-418f-ad5b-0fb4f8c5ee60": {
                             "position": {
-                                "x": 500,
-                                "y": 280
+                                "left": 500,
+                                "top": 280
                             },
                             "type": "wait_for_response"
                         },
                         "7a19060d-6d93-4217-a4e5-9cbd479be051": {
                             "position": {
-                                "x": 80,
-                                "y": 360
+                                "left": 80,
+                                "top": 360
                             }
                         },
                         "fc349688-3589-42ac-b61c-d5ef54cedaa5": {
                             "position": {
-                                "x": 500,
-                                "y": 540
+                                "left": 500,
+                                "top": 540
                             },
                             "type": "wait_for_response"
                         },
                         "a8a09d00-7cab-4375-9d44-58f6783732f6": {
                             "position": {
-                                "x": 80,
-                                "y": 640
+                                "left": 80,
+                                "top": 640
                             }
                         },
                         "471f6f94-c683-48f9-8e27-ece1d7604315": {
                             "position": {
-                                "x": 500,
-                                "y": 800
+                                "left": 500,
+                                "top": 800
                             },
                             "type": "webhook"
                         }

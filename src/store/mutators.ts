@@ -332,9 +332,19 @@ export const removeNode = (nodes: RenderNodeMap, nodeUUID: string): RenderNodeMa
 export const updatePosition = (
     nodes: RenderNodeMap,
     nodeUUID: string,
-    x: number,
-    y: number
-): RenderNodeMap => mutate(nodes, { [nodeUUID]: { ui: { position: { $set: { x, y } } } } });
+    left: number,
+    top: number
+): RenderNodeMap => {
+    const lastPos = getNode(nodes, nodeUUID).ui.position;
+    const width = lastPos.right - lastPos.left;
+    const height = lastPos.bottom - lastPos.top;
+
+    return mutate(nodes, {
+        [nodeUUID]: {
+            ui: { position: { $set: { left, top, right: left + width, bottom: top + height } } }
+        }
+    });
+};
 
 /**
  * Update the dimensions for a specific node
@@ -346,7 +356,21 @@ export const updateDimensions = (
     nodes: RenderNodeMap,
     nodeUUID: string,
     dimensions: Dimensions
-): RenderNodeMap => mutate(nodes, { [nodeUUID]: { ui: { $merge: dimensions } } });
+): RenderNodeMap => {
+    const node = getNode(nodes, nodeUUID);
+    return mutate(nodes, {
+        [nodeUUID]: {
+            ui: {
+                position: {
+                    $merge: {
+                        bottom: node.ui.position.top + dimensions.height,
+                        right: node.ui.position.left + dimensions.width
+                    }
+                }
+            }
+        }
+    });
+};
 
 /**
  * Prunes the definition for editing, removing node references
