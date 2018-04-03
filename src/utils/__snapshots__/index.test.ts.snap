@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`utils emphasize should apply emphasis style 1`] = `
+<span
+  className="emph"
+>
+  emboldened
+</span>
+`;
+
 exports[`utils getBaseLanguage should return Language corresponding to the first property in the Languages object it's passed 1`] = `
 Object {
   "iso": "eng",

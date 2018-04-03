@@ -1,5 +1,6 @@
+import * as React from 'react';
 import { Language } from '../component/LanguageSelector';
-import { Action, Case, Exit, Languages, LocalizationMap } from '../flowTypes';
+import { Action, Case, Exit, Languages, LocalizationMap, ContactProperties } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { getTranslations, SearchResult } from '../store';
 
@@ -206,3 +207,20 @@ export const getLocalization = (
 ) => Localization.translate(obj, iso, languages, getTranslations(localization, iso));
 
 export const dump = (thing: any) => console.log(JSON.stringify(thing, null, 2));
+
+/**
+ * Apply emphasis style
+ */
+export const emphasize = (text: string) => <span className="emph">{text}</span>;
+
+/**
+ * Does @propertyToCheck exist in our ContactProperties enum?
+ */
+export const propertyExists = (propertyToCheck: string) => {
+    for (const property of Object.keys(ContactProperties)) {
+        if (property.toLowerCase() === propertyToCheck.toLowerCase()) {
+            return true;
+        }
+    }
+    return false;
+};

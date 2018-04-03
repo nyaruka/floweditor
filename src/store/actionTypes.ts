@@ -4,7 +4,7 @@ import { Type } from '../config';
 import { AnyAction, FlowDefinition, Node, Position } from '../flowTypes';
 import { LocalizedObject } from '../services/Localization';
 import Constants from './constants';
-import { ContactFieldResult, SearchResult, CompletionOption, RenderNode } from './flowContext';
+import { CompletionOption, RenderNode, SearchResult } from './flowContext';
 
 // Redux action generic
 interface DuxAction<T extends Constants, P extends { [key: string]: any }> {
@@ -51,11 +51,11 @@ interface RemovePendingConnectionPayload {
 }
 
 interface UpdateContactFieldsPayload {
-    contactFields: ContactFieldResult[];
+    contactField: SearchResult;
 }
 
 interface UpdateGroupsPayload {
-    groups: SearchResult[];
+    group: SearchResult;
 }
 
 interface UpdateResultNamesPayload {
@@ -245,6 +245,10 @@ export type UpdateUserAddingAction = (userAddingAction: boolean) => UpdateUserAd
 export type UpdateNodeEditorOpen = (nodeEditorOpen: boolean) => UpdateNodeEditorOpenAction;
 
 export type UpdateShowResultName = (showResultName: boolean) => UpdateShowResultNameAction;
+
+export type UpdateContactFields = (contactField: SearchResult) => UpdateContactFieldsAction;
+
+export type UpdateGroups = (group: SearchResult) => UpdateGroupsAction;
 
 type ActionTypes =
     | UpdateTranslatingAction

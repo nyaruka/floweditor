@@ -14,7 +14,7 @@ export interface FormElementProps {
     border?: boolean;
     sendMsgError?: boolean;
     kaseError?: boolean;
-    fieldError?: boolean;
+    attribError?: boolean;
 }
 
 export default class FormElement extends React.PureComponent<FormElementProps> {
@@ -44,7 +44,7 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
                 [styles.error]: true,
                 [styles.sendMsgError]: this.props.sendMsgError === true,
                 [styles.kaseError]: this.props.kaseError === true,
-                [styles.fieldError]: this.props.fieldError === true
+                [styles.attribError]: this.props.attribError === true
             });
 
             return (

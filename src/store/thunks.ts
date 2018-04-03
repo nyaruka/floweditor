@@ -1,6 +1,5 @@
 // TODO: Remove use of Function
 // tslint:disable:ban-types
-
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 import { DragPoint } from '../component/Node';
@@ -10,29 +9,15 @@ import { FlowDetails, getFlow, getFlows } from '../external';
 import {
     Action,
     AnyAction,
-    ChangeGroups,
     Dimensions,
-    Exit,
     FlowDefinition,
     Languages,
     Node,
     Position,
     SendMsg,
-    SetContactField,
-    SetRunResult,
-    SwitchRouter,
-    UINode
+    SwitchRouter
 } from '../flowTypes';
-import { snakify, dump } from '../utils';
-import {
-    updateContactFields,
-    updateDefinition,
-    updateGroups,
-    updateLocalizations,
-    updateResultNames,
-    RenderNode,
-    updateNodes
-} from './flowContext';
+import { RenderNode, updateDefinition, updateLocalizations, updateNodes } from './flowContext';
 import {
     removePendingConnection,
     updateCreateNodePosition,
@@ -41,26 +26,18 @@ import {
     updateGhostNode,
     updateNodeDragging,
     updateNodeEditorOpen,
-    updatePendingConnection,
-    updatePendingConnections
+    updatePendingConnection
 } from './flowEditor';
 import {
     determineConfigType,
-    getExistingFields,
-    getExistingGroups,
-    getExistingResultNames,
+    getCollisions,
+    getGhostNode,
     getLocalizations,
     getNodesBelow,
-    getNodeUI,
     getPendingConnection,
-    getTranslations,
-    getNodeBoundaries,
-    getCollisions,
-    nodeSort,
-    pureSort,
-    getGhostNode,
-    getUniqueDestinations
+    getTranslations
 } from './helpers';
+import * as mutators from './mutators';
 import {
     updateActionToEdit,
     updateNodeToEdit,
@@ -71,9 +48,6 @@ import {
     updateUserAddingAction
 } from './nodeEditor';
 import AppState from './state';
-import * as mutators from './mutators';
-import { ContactFieldResult, SearchResult } from './flowContext';
-import { render } from 'enzyme';
 
 export type DispatchWithState = Dispatch<AppState>;
 
@@ -146,11 +120,6 @@ const FORCE_FETCH = true;
 const QUIET_UI = 10;
 const QUIET_SAVE = 1000;
 const NODE_SPACING = 60;
-
-const RESERVED_FIELDS: ContactFieldResult[] = [
-    { id: 'name', name: 'Name', type: 'set_contact_field' }
-    // { id: "language", name: "Language", type: "update_contact" }
-];
 
 // let uiTimeout: number;
 let reflowTimeout: number;

@@ -8,7 +8,7 @@ export interface EventProps {
     uuid?: string;
     created_on?: Date;
     type?: string;
-    field_name?: string;
+    field?: string;
     field_uuid?: string;
     result_name?: string;
     text?: string;
@@ -96,7 +96,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
             case 'set_contact_field':
                 text = (
                     <span>
-                        Set contact field "{this.props.field_name}" to "{this.props.value}"
+                        Set contact field "{this.props.field}" to "{this.props.value}"
                     </span>
                 );
                 classes.push(styles.info);
@@ -112,7 +112,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
             case 'set_contact_property':
                 text = (
                     <span>
-                        Updated contact {this.props.field_name} to "{this.props.value}"
+                        Updated contact {this.props.field} to "{this.props.value}"
                     </span>
                 );
                 classes.push(styles.info);

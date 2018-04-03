@@ -1,14 +1,15 @@
-import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
 import axios, { AxiosResponse } from 'axios';
-import { Async, AsyncCreatable, AutocompleteResult } from 'react-select';
-import { SearchResult } from '../store';
-import { jsonEqual, resultsToSearchOpts } from '../utils';
+import * as React from 'react';
+import Select, { Async, AsyncCreatable, AutocompleteResult } from 'react-select';
+import { AttributeType, ContactProperties, ResultType, ValueType } from '../flowTypes';
+import { SearchResult, UpdateContactFields } from '../store';
+import { jsonEqual } from '../utils';
 
 export interface SelectSearchProps {
     url: string;
     name: string;
-    resultType: string;
+    resultType: ResultType;
     placeholder?: string;
     searchPromptText?: string | JSX.Element;
     multi?: boolean;
@@ -26,11 +27,38 @@ interface SelectSearchState {
     selections: SearchResult[];
 }
 
+export interface FieldResult {
+    key: string;
+    label: string;
+    value_type: ValueType;
+}
+
+export const mapFieldsRespToSearchResult = ({ key, label, value_type }: FieldResult) => ({
+    name: label,
+    id: key,
+    type: AttributeType.field
+});
+
+export const mapRespToSearchResult = ({ name, uuid, type }: any) => ({
+    name,
+    id: uuid,
+    type
+});
+
+export const CONTACT_PROPERTIES: SearchResult[] = [
+    {
+        name: ContactProperties.Name,
+        id: ContactProperties.Name.toLowerCase(),
+        type: AttributeType.property
+    }
+    // { id: ContactProperties.Language.toLowerCase(), name: ContactProperties.Language, type: AttributeType.property }
+];
+
 export default class SelectSearch extends React.PureComponent<
     SelectSearchProps,
     SelectSearchState
 > {
-    private select: HTMLInputElement;
+    private select: Select;
 
     constructor(props: SelectSearchProps) {
         super(props);
@@ -40,17 +68,60 @@ export default class SelectSearch extends React.PureComponent<
         };
 
         bindCallbacks(this, {
-            include: ['selectRef', 'loadOptions', 'onChange', 'onChangeMulti']
+            include: ['selectRef', 'loadOptions', /^on/]
         });
     }
 
-    public selectRef(ref: HTMLInputElement): HTMLInputElement {
+    public selectRef(ref: Select): Select {
         return (this.select = ref);
     }
 
     public componentWillReceiveProps(nextProps: SelectSearchProps): void {
         if (!jsonEqual(this.props.initial, nextProps.initial)) {
             this.setState({ selections: nextProps.initial });
+        }
+    }
+
+    private onChange(selection: SearchResult): void {
+        // Account for null selections
+        if (!selection) {
+            return;
+        }
+
+        // Convert to array to update state
+        const selections = [selection];
+
+        if (!jsonEqual(this.state.selections, selections)) {
+            if (this.props.onChange) {
+                this.props.onChange(selection);
+            }
+
+            this.setState(
+                {
+                    selections
+                },
+                () => this.select.focus()
+            );
+        }
+    }
+
+    private onChangeMulti(selections: SearchResult[]): void {
+        // Account for null selections
+        if (!selections) {
+            return;
+        }
+
+        if (!jsonEqual(this.state.selections, selections)) {
+            if (this.props.onChange) {
+                this.props.onChange(selections);
+            }
+
+            this.setState(
+                {
+                    selections
+                },
+                () => this.select.focus()
+            );
         }
     }
 
@@ -99,61 +170,23 @@ export default class SelectSearch extends React.PureComponent<
         return results;
     }
 
+    public getSearchResults(results: Array<{}>): SearchResult[] {
+        switch (this.props.resultType) {
+            case ResultType.field:
+                return [...results.map(mapFieldsRespToSearchResult), ...CONTACT_PROPERTIES];
+            default:
+                return [...results.map(mapRespToSearchResult)];
+        }
+    }
+
     public loadOptions(input: string, callback: Function): void {
         if (!this.props.url) {
             callback(this.search(input));
         } else {
             axios.get(this.props.url).then((response: AxiosResponse) => {
-                const results = response.data.results.map(({ name, uuid, type }: any) => ({
-                    name,
-                    id: uuid,
-                    type
-                }));
+                const results = this.getSearchResults(response.data.results);
                 callback(null, this.search(input, results));
             });
-        }
-    }
-
-    private onChange(selection: SearchResult): void {
-        // Account for null selections
-        if (!selection) {
-            return;
-        }
-
-        // Convert to array to update state
-        const selections = [selection];
-
-        if (!jsonEqual(this.state.selections, selections)) {
-            if (this.props.onChange) {
-                this.props.onChange(selection);
-            }
-
-            this.setState(
-                {
-                    selections
-                },
-                () => this.select.focus()
-            );
-        }
-    }
-
-    private onChangeMulti(selections: SearchResult[]): void {
-        // Account for null selections
-        if (!selections) {
-            return;
-        }
-
-        if (!jsonEqual(this.state.selections, selections)) {
-            if (this.props.onChange) {
-                this.props.onChange(selections);
-            }
-
-            this.setState(
-                {
-                    selections
-                },
-                () => this.select.focus()
-            );
         }
     }
 

@@ -388,7 +388,7 @@
                                 "x": 580,
                                 "y": 780
                             },
-                            "type": "split_by_group",
+                            "type": "split_by_groups",
                             "dimensions": {
                                 "width": 247,
                                 "height": 59

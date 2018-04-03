@@ -1,19 +1,16 @@
 import { v4 as generateUUID } from 'uuid';
-import { Language } from '../component/LanguageSelector';
 import { DragPoint } from '../component/Node';
 import {
     AnyAction,
     FlowDefinition,
     Languages,
+    LocalizationMap,
     Node,
     SwitchRouter,
-    UIMetaData,
-    UINode,
-    WaitType,
-    LocalizationMap
+    WaitType
 } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
-import { ContactFieldResult, SearchResult, RenderNode, RenderNodeMap } from './flowContext';
+import { RenderNode, RenderNodeMap, SearchResult } from './flowContext';
 import { PendingConnections } from './flowEditor';
 
 export interface Bounds {
@@ -54,8 +51,8 @@ export const getExistingResultNames = (resultNames: { [name: string]: string }) 
     }, []);
 
 export const getExistingFields = (
-    reservedFields: ContactFieldResult[],
-    fields: { [id: string]: ContactFieldResult }
+    reservedFields: SearchResult[],
+    fields: { [id: string]: SearchResult }
 ) =>
     Object.keys(fields).reduce((existingFields, fieldKey) => {
         existingFields.push(fields[fieldKey]);
@@ -107,7 +104,7 @@ export const collides = (a: Bounds, b: Bounds) =>
  * Computes translations prop for `Node` components in render()
  */
 export const getTranslations = (localizationMap: LocalizationMap, iso: string) =>
-    localizationMap[iso]
+    localizationMap[iso];
 
 export const getLocalizations = (
     node: Node,

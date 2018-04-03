@@ -1,5 +1,6 @@
 import {
     addCommas,
+    emphasize,
     getBaseLanguage,
     getLanguage,
     getLocalization,
@@ -10,9 +11,11 @@ import {
     snakify,
     titleCase,
     toBoolMap,
-    validUUID
+    validUUID,
+    propertyExists
 } from '.';
 import { operatorConfigList } from '../config';
+import { ContactProperties } from '../flowTypes';
 
 const config = require('../../assets/config');
 const {
@@ -185,6 +188,24 @@ describe('utils', () => {
             const baseLanguage = getBaseLanguage(config.languages);
 
             expect(baseLanguage).toMatchSnapshot();
+        });
+    });
+
+    describe('emphasize', () => {
+        it('should apply emphasis style', () => {
+            expect(emphasize('emboldened')).toMatchSnapshot();
+        });
+    });
+
+    describe('propertyExists', () => {
+        it('should return true if property exists on ContactProperties enum', () => {
+            Object.keys(ContactProperties).forEach(property =>
+                expect(propertyExists(property)).toBeTruthy()
+            );
+        });
+
+        it('should return false if property does not exist on ContactProperties enum', () => {
+            expect(propertyExists('Favorite Song')).toBeFalsy();
         });
     });
 });

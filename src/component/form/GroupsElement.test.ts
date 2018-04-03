@@ -1,15 +1,14 @@
-import { FlowEditorConfig } from '../../flowTypes';
+import { FlowEditorConfig, ResultType } from '../../flowTypes';
 import { createSetup, Resp } from '../../testUtils';
 import { validUUID } from '../../utils';
-import SelectSearch from '../SelectSearch';
 import GroupsElement, {
     createNewOption,
     getInitialGroups,
     GROUP_NOT_FOUND,
     GROUP_PLACEHOLDER,
+    GROUP_PROMPT,
     GroupsElementProps,
-    isValidNewOption,
-    GROUP_PROMPT
+    isValidNewOption
 } from './GroupsElement';
 
 const { results: groupsResp } = require('../../../assets/groups.json') as Resp;
@@ -110,7 +109,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 localSearchOptions: undefined,
                 name,
                 url: endpoint,
-                resultType: 'groups',
+                resultType: ResultType.group,
                 multi: true,
                 initial: [],
                 placeholder: GROUP_PLACEHOLDER,
