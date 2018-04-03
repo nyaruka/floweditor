@@ -13,10 +13,7 @@ export interface ButtonProps {
 }
 
 const Button: React.SFC<ButtonProps> = ({ name, onClick, type }) => (
-    <div
-        onClick={onClick}
-        className={[styles.btn, styles[type]].join(' ')}
-        data-spec={`button-${type}-${name.toLowerCase()}`}>
+    <div onClick={onClick} className={[styles.btn, styles[type]].join(' ')}>
         {name}
     </div>
 );

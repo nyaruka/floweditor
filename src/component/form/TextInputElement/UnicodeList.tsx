@@ -1,9 +1,10 @@
 import * as React from 'react';
-import * as uniqid from 'uniqid';
-import { UnicodeCharMap, pluralize } from './helpers';
+
+import { renderIf } from '../../../utils';
+import { pluralize, UnicodeCharMap } from './helpers';
 import * as styles from './UnicodeList.scss';
 
-interface UnicodeListProps {
+export interface UnicodeListProps {
     unicodeChars: UnicodeCharMap;
 }
 
@@ -13,23 +14,23 @@ export const utfWarning = (num: number) =>
         'character'
     )}:`;
 
+export const unicodeListContainerSpecId = 'unicode-list-container';
+export const unicodeListSpecId = 'unicode-list';
+
 const UnicodeList: React.SFC<UnicodeListProps> = ({ unicodeChars }) => {
     const chars = Object.keys(unicodeChars);
-    if (chars.length) {
-        return (
-            <React.Fragment>
-                {utfWarning(chars.length)}
-                <div className={styles.unicodeList}>
-                    {chars.map((char, idx) => (
-                        <span key={uniqid()} className={styles.unicodeChar}>
-                            {char}
-                        </span>
-                    ))}
-                </div>
-            </React.Fragment>
-        );
-    }
-    return null;
+    return renderIf(chars.length > 0)(
+        <div data-spec={unicodeListContainerSpecId}>
+            {utfWarning(chars.length)}
+            <div className={styles.unicodeList} data-spec={unicodeListSpecId}>
+                {chars.map((char, idx) => (
+                    <span key={char} className={styles.unicodeChar}>
+                        {char}
+                    </span>
+                ))}
+            </div>
+        </div>
+    );
 };
 
 export default UnicodeList;

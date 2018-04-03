@@ -28,8 +28,11 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             const selectRefSpy = jest.spyOn(SelectSearch.prototype, 'selectRef');
             const loadOptionsSpy = jest.spyOn(SelectSearch.prototype, 'loadOptions');
             const searchSpy = jest.spyOn(SelectSearch.prototype, 'search');
-            const { wrapper, props: { name, placeholder, searchPromptText, url } } = setup();
-            const SelectSearchInstance = wrapper.instance();
+            const {
+                wrapper,
+                instance,
+                props: { name, placeholder, searchPromptText, url }
+            } = setup();
             const asyncSelect = wrapper.find('Async');
 
             // Yielding here because SelectSearch.search is called when axios.get in SelectSearch.loadOptions resolves
@@ -43,9 +46,9 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                     className: undefined,
                     name,
                     placeholder,
-                    loadOptions: SelectSearchInstance.loadOptions,
-                    filterOption: SelectSearchInstance.filterOption,
-                    onChange: SelectSearchInstance.onChange,
+                    loadOptions: instance.loadOptions,
+                    filterOption: instance.filterOption,
+                    onChange: instance.onChange,
                     searchPromptText,
                     options: []
                 })

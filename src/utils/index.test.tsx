@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {
     addCommas,
     emphasize,
@@ -12,7 +13,8 @@ import {
     titleCase,
     toBoolMap,
     validUUID,
-    propertyExists
+    propertyExists,
+    renderIf
 } from '.';
 import { operatorConfigList } from '../config';
 import { ContactProperties } from '../flowTypes';
@@ -206,6 +208,16 @@ describe('utils', () => {
 
         it('should return false if property does not exist on ContactProperties enum', () => {
             expect(propertyExists('Favorite Song')).toBeFalsy();
+        });
+    });
+
+    describe('renderIf', () => {
+        it('should return element if condition is truthy', () => {
+            expect(renderIf(true)(<div />)).toEqual(<div />);
+        });
+
+        it('should return null if condition is falsy', () => {
+            expect(renderIf(false)(<div />)).toBeNull();
         });
     });
 });

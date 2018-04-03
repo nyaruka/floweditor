@@ -65,7 +65,12 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         it('should render self, children', () => {
             const getResultNameFieldMock = jest.fn();
             const onBindWidgetMock = jest.fn();
-            const { wrapper, props: { localGroups, nodeToEdit }, context: { endpoints } } = setup({
+            const {
+                wrapper,
+                instance,
+                props: { localGroups, nodeToEdit },
+                context: { endpoints }
+            } = setup({
                 getResultNameField: getResultNameFieldMock,
                 onBindWidget: onBindWidgetMock
             });
@@ -88,7 +93,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
         it('should render exit translations when user is translating', () => {
             const getExitTranslationsMock = jest.fn(() => <div />);
-            const { wrapper } = setup(
+            const { wrapper, instance } = setup(
                 {
                     translating: true,
                     getExitTranslations: getExitTranslationsMock
@@ -105,16 +110,15 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         describe('onValid', () => {
             it('should call "updateRouter" prop if user is not translating', () => {
                 const updateRouterMock = jest.fn();
-                const { wrapper } = setup(
+                const { wrapper, instance } = setup(
                     {
                         updateRouter: updateRouterMock
                     },
                     true
                 );
-                const GroupsRouterInstance = wrapper.instance();
                 const widgets = { Groups: '' };
 
-                GroupsRouterInstance.onValid(widgets);
+                instance.onValid(widgets);
 
                 expect(updateRouterMock).toHaveBeenCalledTimes(1);
             });
@@ -122,7 +126,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             it('should call "saveLocalizations" prop if user is translating', () => {
                 const saveLocalizationsMock = jest.fn();
                 const getExitTranslationsMock = jest.fn(() => <div />);
-                const { wrapper } = setup(
+                const { wrapper, instance } = setup(
                     {
                         translating: true,
                         saveLocalizations: saveLocalizationsMock,
@@ -130,10 +134,9 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                     },
                     true
                 );
-                const GroupsRouterInstance = wrapper.instance();
                 const widgets = { Groups: '' };
 
-                GroupsRouterInstance.onValid(widgets);
+                instance.onValid(widgets);
 
                 expect(saveLocalizationsMock).toHaveBeenCalledTimes(1);
                 expect(saveLocalizationsMock).toHaveBeenCalledWith(widgets);

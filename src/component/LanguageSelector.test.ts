@@ -42,8 +42,10 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
     describe('render', () => {
         it('should render select control', () => {
-            const { wrapper, props: { language }, context: { languages } } = setup({}, true);
-            const LanguageSelectorInstance = wrapper.instance();
+            const { wrapper, instance, props: { language }, context: { languages } } = setup(
+                {},
+                true
+            );
 
             expect(
                 getSpecWrapper(wrapper, languageSelectorContainerSpecId).hasClass(containerClass)
@@ -51,7 +53,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             expect(wrapper.find('Select').props()).toEqual(
                 expect.objectContaining({
                     value: language.iso,
-                    onChange: LanguageSelectorInstance.onChange,
+                    onChange: instance.onChange,
                     valueKey: 'iso',
                     labelKey: 'name',
                     searchable: false,
@@ -75,6 +77,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             it('should call action creators that update language, translating state', () => {
                 const {
                     wrapper,
+                    instance,
                     props: {
                         updateTranslating: updateTranslatingMock,
                         updateLanguage: updateLanguageMock
@@ -86,18 +89,17 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                     },
                     true
                 );
-                const LanguageSelectorInstance = wrapper.instance();
                 const spanish = getLanguage(config.languages, 'spa');
                 const english = getLanguage(config.languages, 'eng');
 
-                LanguageSelectorInstance.onChange(spanish);
+                instance.onChange(spanish);
 
                 expect(updateLanguageMock).toHaveBeenCalledTimes(1);
                 expect(updateLanguageMock).toHaveBeenCalledWith(spanish);
                 expect(updateTranslatingMock).toHaveBeenCalledTimes(1);
                 expect(updateTranslatingMock).toHaveBeenCalledWith(true);
 
-                LanguageSelectorInstance.onChange(english);
+                instance.onChange(english);
 
                 expect(updateLanguageMock).toHaveBeenCalledTimes(2);
                 expect(updateLanguageMock).toHaveBeenCalledWith(english);

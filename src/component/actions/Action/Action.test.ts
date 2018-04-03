@@ -48,11 +48,10 @@ const COMPONENT_TO_TEST = ActionWrapper.name;
 describe(`${COMPONENT_TO_TEST}`, () => {
     describe('render', () => {
         it('should render self, children with base props', () => {
-            const { wrapper, props: { action, render: renderMock } } = setup(
+            const { wrapper, props: { action, render: renderMock }, instance } = setup(
                 { render: jest.fn() },
                 true
             );
-            const ActionWrapperInstance = wrapper.instance();
             const { name } = getTypeConfig(action.type);
             const expectedClasses = 'action';
             const actionToInject = action;
@@ -68,10 +67,10 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             expect(wrapper.find('TitleBar').props()).toEqual({
                 __className: action.type,
                 title: name,
-                onRemoval: ActionWrapperInstance.onRemoval,
+                onRemoval: instance.onRemoval,
                 showRemoval,
                 showMove,
-                onMoveUp: ActionWrapperInstance.onMoveUp
+                onMoveUp: instance.onMoveUp
             });
             expect(getSpecWrapper(wrapper, actionBodySpecId).hasClass('body')).toBeTruthy();
             expect(renderMock).toHaveBeenCalledTimes(1);
@@ -148,15 +147,15 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 const {
                     wrapper,
                     props: { onOpenNodeEditor: onOpenNodeEditorMock, node, action },
-                    context: { languages }
+                    context: { languages },
+                    instance
                 } = setup({ onOpenNodeEditor: jest.fn() }, true);
-                const ActionWrapperInstance = wrapper.instance();
                 const mockEvent = {
                     preventDefault: jest.fn(),
                     stopPropagation: jest.fn()
                 };
 
-                ActionWrapperInstance.onClick(mockEvent);
+                instance.onClick(mockEvent);
 
                 expect(onOpenNodeEditorMock).toHaveBeenCalledTimes(1);
                 expect(onOpenNodeEditorMock).toHaveBeenCalledWith(node, action, languages);
@@ -165,16 +164,16 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
         describe('onRemoval', () => {
             it('should call removeAction action creator', () => {
-                const { wrapper, props: { removeAction: removeActionMock, action, node } } = setup(
-                    { removeAction: jest.fn() },
-                    true
-                );
-                const ActionWrapperInstance = wrapper.instance();
+                const {
+                    wrapper,
+                    props: { removeAction: removeActionMock, action, node },
+                    instance
+                } = setup({ removeAction: jest.fn() }, true);
                 const mockEvent = {
                     stopPropagation: jest.fn()
                 };
 
-                ActionWrapperInstance.onRemoval(mockEvent);
+                instance.onRemoval(mockEvent);
 
                 expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(1);
                 expect(removeActionMock).toHaveBeenCalledTimes(1);
@@ -184,16 +183,16 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
         describe('onMoveUp', () => {
             it('should call moveActionUp action creator', () => {
-                const { wrapper, props: { moveActionUp: moveActionUpMock, action, node } } = setup(
-                    { moveActionUp: jest.fn() },
-                    true
-                );
-                const ActionWrapperInstance = wrapper.instance();
+                const {
+                    wrapper,
+                    props: { moveActionUp: moveActionUpMock, action, node },
+                    instance
+                } = setup({ moveActionUp: jest.fn() }, true);
                 const mockEvent = {
                     stopPropagation: jest.fn()
                 };
 
-                ActionWrapperInstance.onMoveUp(mockEvent);
+                instance.onMoveUp(mockEvent);
 
                 expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(1);
                 expect(moveActionUpMock).toHaveBeenCalledTimes(1);
@@ -203,19 +202,21 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
         describe('getAction', () => {
             it('should return the action passed via props if not localized', () => {
-                const { wrapper, props: { action } } = setup({ node: sendMsgAction1 }, true);
-                const ActionWrapperInstance = wrapper.instance();
+                const { wrapper, props: { action }, instance } = setup(
+                    { node: sendMsgAction1 },
+                    true
+                );
 
-                expect(ActionWrapperInstance.getAction()).toEqual(action);
+                expect(instance.getAction()).toEqual(action);
             });
 
             it('should return localized action if localized', () => {
                 const {
                     wrapper,
                     props: { action, localization, language: { iso } },
-                    context: { languages }
+                    context: { languages },
+                    instance
                 } = setup({}, true);
-                const ActionWrapperInstance = wrapper.instance();
                 const localizedObject = getLocalization(
                     action,
                     localization,
@@ -223,7 +224,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                     languages
                 ).getObject();
 
-                expect(ActionWrapperInstance.getAction()).toEqual(localizedObject);
+                expect(instance.getAction()).toEqual(localizedObject);
             });
         });
     });

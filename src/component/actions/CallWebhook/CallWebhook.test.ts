@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { CallWebhook, FlowDefinition } from '../../../flowTypes';
 import { createSetup, Resp } from '../../../testUtils';
 import CallWebhookComp from './CallWebhook';

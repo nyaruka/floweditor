@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { FlowDefinition, StartFlow } from '../../../flowTypes';
 import { createSetup, Resp } from '../../../testUtils';
 import StartFlowComp, { getStartFlowMarkup } from './StartFlow';

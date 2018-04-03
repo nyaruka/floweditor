@@ -224,3 +224,8 @@ export const propertyExists = (propertyToCheck: string) => {
     }
     return false;
 };
+
+/**
+ * Should x element be rendered?
+ */
+export const renderIf = (condition: boolean) => (elem: JSX.Element) => (condition ? elem : null);

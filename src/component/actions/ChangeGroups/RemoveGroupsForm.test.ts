@@ -44,13 +44,13 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         it('should render self, children with base props', () => {
             const {
                 wrapper,
+                instance,
                 props: { onBindWidget: onBindWidgetMock },
                 // tslint:disable-next-line:no-shadowed-variable
                 context: { endpoints }
             } = setup({
                 onBindWidget: jest.fn()
             });
-            const RemoveGroupsFormInstance = wrapper.instance();
             const label = getSpecWrapper(wrapper, labelSpecId);
 
             expect(label.is('p')).toBeTruthy();
@@ -63,7 +63,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 groups: wrapper.state('groups'),
                 add: false,
                 required: true,
-                onChange: RemoveGroupsFormInstance.onGroupsChanged,
+                onChange: instance.onGroupsChanged,
                 searchPromptText: NOT_FOUND
             });
             expect(wrapper.find('CheckboxElement').props()).toEqual({
@@ -71,13 +71,14 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 defaultValue: false,
                 description: REMOVE_FROM_ALL_DESC,
                 sibling: true,
-                onCheck: RemoveGroupsFormInstance.onCheck
+                onCheck: instance.onCheck
             });
         });
 
         it('should render only the checkbox', () => {
             const {
                 wrapper,
+                instance,
                 props: { onBindWidget: onBindWidgetMock, removeWidget: removeWidgetMock },
                 // tslint:disable-next-line:no-shadowed-variable
                 context: { endpoints }
@@ -85,9 +86,8 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 onBindWidget: jest.fn(),
                 removeWidget: jest.fn()
             });
-            const RemoveGroupsFormInstance = wrapper.instance();
 
-            RemoveGroupsFormInstance.onCheck();
+            instance.onCheck();
 
             wrapper.update();
 
@@ -100,7 +100,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 defaultValue: true,
                 description: REMOVE_FROM_ALL_DESC,
                 sibling: false,
-                onCheck: RemoveGroupsFormInstance.onCheck
+                onCheck: instance.onCheck
             });
         });
     });
@@ -109,9 +109,8 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         describe('getGroups', () => {
             it("should return an empty list if action's groups are null", () => {
                 const grouplessAction = { ...removeGroupsAction, groups: null };
-                const { wrapper } = setup({ action: grouplessAction });
-                const RemoveGroupsFormInstance = wrapper.instance();
-                const returnedGroups = RemoveGroupsFormInstance.getGroups();
+                const { wrapper, instance } = setup({ action: grouplessAction });
+                const returnedGroups = instance.getGroups();
 
                 expect(returnedGroups).toEqual([]);
                 expect(returnedGroups).toMatchSnapshot();
@@ -119,28 +118,28 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
             it("should return an empty list if action's groups property is an empty list", () => {
                 const grouplessAction = { ...removeGroupsAction, groups: [] };
-                const { wrapper } = setup({ action: grouplessAction });
-                const RemoveGroupsFormInstance = wrapper.instance();
-                const returnedGroups = RemoveGroupsFormInstance.getGroups();
+                const { wrapper, instance } = setup({ action: grouplessAction });
+                const returnedGroups = instance.getGroups();
 
                 expect(returnedGroups).toEqual([]);
                 expect(returnedGroups).toMatchSnapshot();
             });
 
             it('should return empty list if action is add groups action', () => {
-                const { wrapper, props: { action } } = setup({ action: addGroupsAction }, true);
-                const RemoveGroupsFormInstance = wrapper.instance();
-                const returnedGroups = RemoveGroupsFormInstance.getGroups();
+                const { wrapper, instance, props: { action } } = setup(
+                    { action: addGroupsAction },
+                    true
+                );
+                const returnedGroups = instance.getGroups();
 
                 expect(returnedGroups).toEqual([]);
                 expect(returnedGroups).toMatchSnapshot();
             });
 
             it('should return SearchResult[] if action is remove groups action and it has groups', () => {
-                const { wrapper, props: { action: { groups } } } = setup({}, true);
+                const { wrapper, instance, props: { action: { groups } } } = setup({}, true);
                 const searchResults = mapGroupsToSearchResults(groups);
-                const RemoveGroupsFormInstance = wrapper.instance();
-                const returnedGroups = RemoveGroupsFormInstance.getGroups();
+                const returnedGroups = instance.getGroups();
 
                 expect(returnedGroups).toEqual(searchResults);
                 expect(returnedGroups).toMatchSnapshot();
@@ -150,11 +149,10 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         describe('onGroupsChanged', () => {
             it('should update groups state if passed new groups', () => {
                 const setStateSpy = jest.spyOn(RemoveGroupsForm.prototype, 'setState');
-                const { wrapper } = setup({}, true);
+                const { wrapper, instance } = setup({}, true);
                 const searchResults = mapGroupsToSearchResults(groupsResp.results as Group[]);
-                const RemoveGroupsFormInstance = wrapper.instance();
 
-                RemoveGroupsFormInstance.onGroupsChanged(searchResults);
+                instance.onGroupsChanged(searchResults);
 
                 expect(setStateSpy).toHaveBeenCalledTimes(1);
                 expect(setStateSpy).toHaveBeenCalledWith({ groups: searchResults });
@@ -164,13 +162,12 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
             it('should not update groups state if passed same groups', () => {
                 const setStateSpy = jest.spyOn(RemoveGroupsForm.prototype, 'setState');
-                const { wrapper, props: { action: { groups } } } = setup();
+                const { wrapper, instance, props: { action: { groups } } } = setup();
                 const searchResults = mapGroupsToSearchResults(groups);
-                const RemoveGroupsFormInstance = wrapper.instance();
 
                 expect(wrapper.state('groups')).toEqual(searchResults);
 
-                RemoveGroupsFormInstance.onGroupsChanged(searchResults);
+                instance.onGroupsChanged(searchResults);
 
                 expect(setStateSpy).not.toHaveBeenCalled();
 

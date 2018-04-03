@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { FlowDefinition, SendEmail } from '../../../flowTypes';
 import { createSetup, Resp } from '../../../testUtils';
 import SendEmailComp from './SendEmail';

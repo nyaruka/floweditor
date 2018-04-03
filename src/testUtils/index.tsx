@@ -35,7 +35,8 @@ export const createSetup = <P extends {}, C extends ConfigProviderContext = Conf
     return {
         wrapper,
         props,
-        context
+        context,
+        instance: wrapper.instance()
     };
 };
 

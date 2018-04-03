@@ -1,35 +1,38 @@
-import * as React from 'react';
-import { mount } from 'enzyme';
-import Button, { ButtonProps } from './Button';
-import { getSpecWrapper } from '../testUtils';
+import { createSetup } from '../testUtils';
+import Button, { ButtonProps, ButtonTypes } from './Button';
 
-const props: ButtonProps = {
+const baseProps: ButtonProps = {
     name: 'Save',
     onClick: jest.fn(),
-    type: 'primary'
+    type: ButtonTypes.primary
 };
 
-describe('Button >', () => {
-    const wrapper = mount(<Button {...props} />);
-    const buttonDiv = getSpecWrapper(wrapper, `button-${props.type}-${props.name.toLowerCase()}`);
+const setup = createSetup<ButtonProps>(Button, baseProps);
 
-    describe('render >', () => {
-        it('should render', () => {
-            expect(wrapper.exists()).toBeTruthy();
-            expect(buttonDiv.exists()).toBeTruthy();
+const COMPONENT_TO_TEST = Button.name;
+
+describe(`${COMPONENT_TO_TEST}`, () => {
+    describe('render', () => {
+        it('should render self, children with base props', () => {
+            const { wrapper } = setup({}, true);
+
+            expect(wrapper.hasClass('btn')).toBeTruthy();
+            expect(wrapper.hasClass('primary')).toBeTruthy();
+            expect(wrapper.text()).toBe('Save');
+            expect(wrapper).toMatchSnapshot();
         });
+    });
 
-        it('should render with the right CSS classes', () => {
-            expect(buttonDiv.hasClass('primary')).toBeTruthy();
-        });
-
-        it('should render with the right name', () => {
-            expect(buttonDiv.text()).toBe('Save');
-        });
-
+    describe('interaction', () => {
         it('should execute onClick callback when clicked', () => {
-            buttonDiv.simulate('click');
-            expect(props.onClick).toHaveBeenCalled();
+            const { wrapper, props: { onClick: onClickMock } } = setup(
+                { onClick: jest.fn() },
+                true
+            );
+
+            wrapper.simulate('click');
+
+            expect(onClickMock).toHaveBeenCalled();
         });
     });
 });
