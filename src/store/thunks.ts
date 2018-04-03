@@ -126,7 +126,7 @@ const FORCE_FETCH = true;
 const QUIET_UI = 10;
 const QUIET_SAVE = 1000;
 export const NODE_SPACING = 10;
-export const NODE_PADDING = 20;
+export const NODE_PADDING = 5;
 
 // let uiTimeout: number;
 
