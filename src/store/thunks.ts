@@ -527,8 +527,6 @@ export const spliceInRouter = (
     updatedNodes = mutators.removeNode(updatedNodes, previousNode.node.uuid);
 
     dispatch(updateNodes(updatedNodes));
-    // dispatch(reflow());
-
     return result;
 };
 
