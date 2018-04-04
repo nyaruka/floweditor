@@ -1,5 +1,18 @@
 @import "./palette_ec.scss";
 
+// how big our blocks are
+$grid_size: 20;
+
+// buffer to bump out connections
+$node_padding: 10;
+
+// how much extra room to add during reflow
+$node_spacing: 20;
+
+:export { grid_size: $grid_size; }
+:export { node_spacing: $node_spacing; }
+:export { node_padding: $node_padding; }
+
 // generic colors
 $blue_selected: #e6f7ff;
 $blue_baby: #80b9fb;
@@ -13,7 +26,6 @@ $node_shadow: 4px 4px 0px 0px;
 $node_shadow_color: rgba(99, 184, 226, 0.1);
 $node_shadow_hover: rgba(145, 218, 255, .25);
 $connector_color: rgb(142, 217, 255);
-$endpoint_buffer: 10px;
 $path_color: #fff;
 $text_color: #666;
 $borders: rgba(224, 224, 224, .6);

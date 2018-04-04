@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { LocalizedObject } from '../services/Localization';
 import { SearchResult } from '../store';
+import * as variables from '../variables.scss';
+
+export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 
 const SNAKED_CHARS = /\s+(?=\S)/g;
-const GRID_SIZE = 10;
-export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+const GRID_SIZE: number = parseInt(variables.grid_size, 10);
 
 interface BoolMap {
     [key: string]: boolean;
@@ -39,8 +41,8 @@ export const snapToGrid = (left: number, top: number): { left: number; top: numb
     }
 
     return {
-        left: Math.max(left + leftAdjust, GRID_SIZE * 2),
-        top: Math.max(top + topAdjust, GRID_SIZE * 4)
+        left: Math.max(left + leftAdjust, GRID_SIZE),
+        top: Math.max(top + topAdjust, GRID_SIZE)
     };
 };
 
