@@ -1,12 +1,11 @@
 import * as React from 'react';
-
 import * as styles from './TitleBar.scss';
 import { createClickHandler } from '../../utils';
 
-interface TitleBarProps {
+export interface TitleBarProps {
     title: string;
     onRemoval(event: React.MouseEvent<HTMLDivElement>): any;
-    className?: string;
+    __className?: string;
     showRemoval?: boolean;
     showMove?: boolean;
     onMoveUp?(event: React.MouseEvent<HTMLDivElement>): any;
@@ -16,11 +15,21 @@ interface TitleBarState {
     confirmingRemoval: boolean;
 }
 
+export const confirmationTime = 2000;
+
+export const titlebarContainerSpecId = 'titlebar-container';
+export const titlebarSpecId = 'titlebar';
+export const moveIconSpecId = 'move-icon';
+export const moveSpecId = 'move';
+export const removeIconSpecId = 'remove-icon';
+export const confirmationSpecId = 'confirmation';
+export const confirmRemovalSpecId = 'confirm-removal';
+
 /**
  * Simple title bar with confirmation removal
  */
 export default class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
-    private timeout: any;
+    private confirmationTimeout: any;
 
     constructor(props: TitleBarProps) {
         super(props);
@@ -33,12 +42,12 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
     }
 
     public componentWillUnmount(): void {
-        if (this.timeout) {
-            window.clearTimeout(this.timeout);
+        if (this.confirmationTimeout) {
+            window.clearTimeout(this.confirmationTimeout);
         }
     }
 
-    private onConfirmRemoval(event: React.MouseEvent<HTMLDivElement>): void {
+    public onConfirmRemoval(event: React.MouseEvent<HTMLDivElement>): void {
         if (event) {
             event.preventDefault();
             event.stopPropagation();
@@ -48,30 +57,13 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
             confirmingRemoval: true
         });
 
-        this.timeout = window.setTimeout(() => {
-            this.setState({
-                confirmingRemoval: false
-            });
-        }, 2000);
-    }
-
-    private getConfirmationEl(): JSX.Element {
-        let confirmation: JSX.Element;
-
-        if (this.state.confirmingRemoval) {
-            confirmation = (
-                <div className={styles.remove_confirm}>
-                    <div
-                        className={styles.remove_button}
-                        {...createClickHandler(this.props.onRemoval)}>
-                        <span className="icon-remove" />
-                    </div>
-                    Remove?
-                </div>
-            );
-        }
-
-        return confirmation;
+        this.confirmationTimeout = window.setTimeout(
+            () =>
+                this.setState({
+                    confirmingRemoval: false
+                }),
+            confirmationTime
+        );
     }
 
     private getMoveArrow(): JSX.Element {
@@ -79,12 +71,16 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
 
         if (this.props.showMove) {
             moveArrow = (
-                <div className={styles.up_button} {...createClickHandler(this.props.onMoveUp)}>
+                <div
+                    className={styles.up_button}
+                    {...createClickHandler(this.props.onMoveUp)}
+                    data-spec={moveIconSpecId}
+                >
                     <span className="icon-arrow-up" />
                 </div>
             );
         } else {
-            moveArrow = <div className={styles.up_button} />;
+            moveArrow = <div className={styles.up_button} data-spec={moveSpecId} />;
         }
 
         return moveArrow;
@@ -97,7 +93,9 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
             remove = (
                 <div
                     className={styles.remove_button}
-                    {...createClickHandler(this.onConfirmRemoval)}>
+                    {...createClickHandler(this.onConfirmRemoval)}
+                    data-spec={removeIconSpecId}
+                >
                     <span className="icon-remove" />
                 </div>
             );
@@ -106,13 +104,37 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
         return remove;
     }
 
+    private getConfirmationEl(): JSX.Element {
+        let confirmation: JSX.Element;
+
+        if (this.state.confirmingRemoval) {
+            confirmation = (
+                <div className={styles.remove_confirm} data-spec={confirmationSpecId}>
+                    <div
+                        className={styles.remove_button}
+                        {...createClickHandler(this.props.onRemoval)}
+                        data-spec={confirmRemovalSpecId}
+                    >
+                        <span className="icon-remove" />
+                    </div>
+                    Remove?
+                </div>
+            );
+        }
+
+        return confirmation;
+    }
+
     public render(): JSX.Element {
         const confirmation: JSX.Element = this.getConfirmationEl();
         const moveArrow: JSX.Element = this.getMoveArrow();
         const remove: JSX.Element = this.getRemove();
         return (
-            <div className={styles.titlebar}>
-                <div className={`${this.props.className} ${styles.normal}`}>
+            <div className={styles.titlebar} data-spec={titlebarContainerSpecId}>
+                <div
+                    className={`${this.props.__className} ${styles.normal}`}
+                    data-spec={titlebarSpecId}
+                >
                     {moveArrow}
                     {remove}
                     {this.props.title}

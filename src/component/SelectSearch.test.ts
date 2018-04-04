@@ -1,5 +1,4 @@
 import axiosMock from 'axios';
-import * as React from 'react';
 import { FlowEditorConfig, ResultType } from '../flowTypes';
 import { createSetup, flushPromises, Resp, restoreSpies } from '../testUtils';
 import { resultsToSearchOpts } from '../utils';
@@ -17,7 +16,7 @@ const baseProps = {
     searchPromptText: GROUP_NOT_FOUND
 };
 
-const setup = createSetup<SelectSearchProps>(baseProps, null, SelectSearch);
+const setup = createSetup<SelectSearchProps>(SelectSearch, baseProps);
 
 const mapRespToSearchOpts = (resp: Resp) => resp.results.map(resultsToSearchOpts);
 
@@ -29,40 +28,31 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             const selectRefSpy = jest.spyOn(SelectSearch.prototype, 'selectRef');
             const loadOptionsSpy = jest.spyOn(SelectSearch.prototype, 'loadOptions');
             const searchSpy = jest.spyOn(SelectSearch.prototype, 'search');
-            const { wrapper, props: { name, placeholder, searchPromptText, url } } = setup();
-            const SelectSearchInstance = wrapper.instance();
+            const {
+                wrapper,
+                instance,
+                props: { name, placeholder, searchPromptText, url }
+            } = setup();
             const asyncSelect = wrapper.find('Async');
 
             // Yielding here because SelectSearch.search is called when axios.get in SelectSearch.loadOptions resolves
             await flushPromises();
 
+            wrapper.update();
+
             expect(selectRefSpy).toHaveBeenCalledTimes(1);
-            expect(asyncSelect.props()).toEqual({
-                className: undefined,
-                name,
-                placeholder,
-                loadOptions: SelectSearchInstance.loadOptions,
-                loadingPlaceholder: 'Loading...',
-                cache: expect.any(Object),
-                closeOnSelect: undefined,
-                ignoreCase: false,
-                ignoreAccents: false,
-                value: undefined,
-                openOnFocus: true,
-                autoload: true,
-                children: expect.any(Function),
-                valueKey: 'id',
-                labelKey: 'name',
-                multi: undefined,
-                clearable: undefined,
-                searchable: true,
-                onCloseResetsInput: true,
-                onBlurResetsInput: true,
-                filterOption: SelectSearchInstance.filterOption,
-                onChange: SelectSearchInstance.onChange,
-                searchPromptText,
-                options: []
-            });
+            expect(asyncSelect.props()).toEqual(
+                expect.objectContaining({
+                    className: undefined,
+                    name,
+                    placeholder,
+                    loadOptions: instance.loadOptions,
+                    filterOption: instance.filterOption,
+                    onChange: instance.onChange,
+                    searchPromptText,
+                    options: []
+                })
+            );
 
             expect(loadOptionsSpy).toHaveBeenCalledTimes(1);
             expect(loadOptionsSpy).toHaveBeenCalledWith('', expect.any(Function));
@@ -70,6 +60,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             expect(searchSpy).toHaveBeenCalledWith('', mapRespToSearchOpts(groupsResp));
             expect(axiosMock.get).toHaveBeenCalledTimes(1);
             expect(axiosMock.get).toHaveBeenCalledWith(url);
+            expect(wrapper).toMatchSnapshot();
 
             restoreSpies(selectRefSpy, loadOptionsSpy, searchSpy);
         });
@@ -82,7 +73,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                     SelectSearch.prototype,
                     'componentWillReceiveProps'
                 );
-                const { wrapper } = setup();
+                const { wrapper } = setup({}, true);
                 const nextProps = { ...baseProps, multi: true };
 
                 wrapper.setProps(nextProps);
@@ -95,7 +86,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
             it(`should call ${COMPONENT_TO_TEST}.prototype.setState if ${COMPONENT_TO_TEST} receives a new initial option through props`, () => {
                 const setStateSpy = jest.spyOn(SelectSearch.prototype, 'setState');
-                const { wrapper } = setup();
+                const { wrapper } = setup({}, true);
                 const initial = mapRespToSearchOpts(groupsResp);
                 const nextProps = { ...baseProps, initial };
 

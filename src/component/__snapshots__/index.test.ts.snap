@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Root render should apply translating style if passed a truthy translating prop 1`] = `
+<div
+  className="translating"
+  data-spec="editor-container"
+  id="editor-container"
+>
+  <div
+    className="editor"
+    data-spec="editor"
+  >
+    <Connect(FlowList) />
+    <Connect(LanguageSelector) />
+  </div>
+</div>
+`;
+
+exports[`Root render should render flow if passed a definition, language 1`] = `
+<div
+  data-spec="editor-container"
+  id="editor-container"
+>
+  <div
+    className="editor"
+    data-spec="editor"
+  >
+    <Connect(FlowList) />
+    <Connect(LanguageSelector) />
+    <Connect(Flow) />
+  </div>
+</div>
+`;
+
+exports[`Root render should render self, children with required props 1`] = `
+<div
+  data-spec="editor-container"
+  id="editor-container"
+>
+  <div
+    className="editor"
+    data-spec="editor"
+  >
+    <Connect(FlowList) />
+    <Connect(LanguageSelector) />
+  </div>
+</div>
+`;

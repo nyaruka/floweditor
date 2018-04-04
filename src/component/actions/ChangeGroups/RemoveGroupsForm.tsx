@@ -1,14 +1,14 @@
-import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
+import * as React from 'react';
+import * as isEqual from 'fast-deep-equal';
 import { connect } from 'react-redux';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
 import { ChangeGroups } from '../../../flowTypes';
-import { AppState } from '../../../store';
-import { SearchResult } from '../../../store';
-import { jsonEqual } from '../../../utils';
+import { AppState, SearchResult } from '../../../store';
 import CheckboxElement from '../../form/CheckboxElement';
 import GroupsElement from '../../form/GroupsElement';
 import { AddGroupsFormState } from './AddGroupsForm';
+import { mapGroupsToSearchResults, mapSearchResultsToGroups } from './helpers';
 import ChangeGroupsFormProps from './props';
 
 export interface RemoveGroupsFormState extends AddGroupsFormState {
@@ -22,7 +22,10 @@ export const REMOVE_FROM_ALL = 'Remove from All';
 export const REMOVE_FROM_ALL_DESC =
     "Remove the active contact from all groups they're a member of.";
 
-export class RemoveGroupsForm extends React.PureComponent<
+export const labelSpecId = 'label';
+export const fieldContainerSpecId = 'field-container';
+
+export class RemoveGroupsForm extends React.Component<
     ChangeGroupsFormProps,
     RemoveGroupsFormState
 > {
@@ -33,8 +36,8 @@ export class RemoveGroupsForm extends React.PureComponent<
     constructor(props: ChangeGroupsFormProps, context: ConfigProviderContext) {
         super(props);
 
-        const groups: SearchResult[] = this.getGroups();
-        const removeFromAll: boolean = this.props.action.groups && !this.props.action.groups.length;
+        const groups = this.getGroups();
+        const removeFromAll = this.props.action.groups && !this.props.action.groups.length;
 
         this.state = {
             groups,
@@ -47,7 +50,7 @@ export class RemoveGroupsForm extends React.PureComponent<
     }
 
     private onGroupsChanged(groups: SearchResult[]): void {
-        if (!jsonEqual(groups, this.state.groups)) {
+        if (!isEqual(groups, this.state.groups)) {
             this.setState({
                 groups
             });
@@ -67,10 +70,7 @@ export class RemoveGroupsForm extends React.PureComponent<
 
         if (!this.state.removeFromAll) {
             if (this.state.groups.length) {
-                newAction.groups = this.state.groups.map((group: SearchResult) => ({
-                    uuid: group.id,
-                    name: group.name
-                }));
+                newAction.groups = mapSearchResultsToGroups(this.state.groups);
             }
         }
 
@@ -78,14 +78,13 @@ export class RemoveGroupsForm extends React.PureComponent<
     }
 
     private getGroups(): SearchResult[] {
-        if (this.props.action.groups == null) {
-            return [];
+        if (
+            this.props.action.groups &&
+            this.props.action.groups.length &&
+            this.props.action.type !== 'add_contact_groups'
+        ) {
+            return mapGroupsToSearchResults(this.props.action.groups);
         }
-
-        if (this.props.action.groups.length && this.props.action.type !== 'add_contact_groups') {
-            return this.props.action.groups.map(({ uuid, name }) => ({ name, id: uuid }));
-        }
-
         return [];
     }
 
@@ -93,11 +92,10 @@ export class RemoveGroupsForm extends React.PureComponent<
         let groupElLabel: JSX.Element = null;
         let groupEl: JSX.Element = null;
         let checkboxEl: JSX.Element = null;
-
         const sibling = !this.state.removeFromAll;
 
         if (sibling) {
-            groupElLabel = <p>{LABEL}</p>;
+            groupElLabel = <p data-spec={labelSpecId}>{LABEL}</p>;
 
             groupEl = (
                 <GroupsElement
@@ -113,7 +111,7 @@ export class RemoveGroupsForm extends React.PureComponent<
                 />
             );
         } else {
-            this.props.removeWidget('Group');
+            this.props.removeWidget('Groups');
         }
 
         checkboxEl = (
@@ -128,17 +126,17 @@ export class RemoveGroupsForm extends React.PureComponent<
         );
 
         return (
-            <div data-spec="field-container">
+            <>
                 {groupElLabel}
                 {groupEl}
                 {checkboxEl}
-            </div>
+            </>
         );
     }
 
     public render(): JSX.Element {
-        const fields: JSX.Element = this.getFields();
-        return <React.Fragment>{fields}</React.Fragment>;
+        const fields = this.getFields();
+        return <>{fields}</>;
     }
 }
 

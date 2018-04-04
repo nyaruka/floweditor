@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mapGroupsToSearchResults should return a list of SearchResult objects 1`] = `
+Array [
+  Object {
+    "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
+    "name": "Customers",
+  },
+  Object {
+    "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
+    "name": "Unsatisfied Customers",
+  },
+  Object {
+    "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+    "name": "Early Adopters",
+  },
+  Object {
+    "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
+    "name": "Testers",
+  },
+  Object {
+    "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+    "name": "Subscribers",
+  },
+]
+`;
+
+exports[`mapSearchResultsToGroups should return a list of Group objects 1`] = `
+Array [
+  Object {
+    "name": "Customers",
+    "uuid": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
+  },
+  Object {
+    "name": "Unsatisfied Customers",
+    "uuid": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
+  },
+  Object {
+    "name": "Early Adopters",
+    "uuid": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+  },
+  Object {
+    "name": "Testers",
+    "uuid": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
+  },
+  Object {
+    "name": "Subscribers",
+    "uuid": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+  },
+]
+`;

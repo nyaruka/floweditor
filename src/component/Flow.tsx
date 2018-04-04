@@ -1,10 +1,12 @@
-import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Config } from '../config';
+import { ConfigProviderContext, languagesPT } from '../config';
 import { getActivity } from '../external';
-import { FlowDefinition, Languages, Node, UINode } from '../flowTypes';
+import { FlowDefinition, Languages, FlowNode, UINode } from '../flowTypes';
+import ActivityManager from '../services/ActivityManager';
+import Plumber from '../services/Plumber';
 import {
     ConnectionEvent,
     DispatchWithState,
@@ -15,31 +17,25 @@ import {
     onConnectionDrag,
     OnOpenNodeEditor,
     onOpenNodeEditor,
-    AppState,
     resetNodeEditingState,
     UpdateConnection,
     updateConnection,
     updateCreateNodePosition,
-    UpdateCreateNodePosition
+    UpdateCreateNodePosition,
+    AppState
 } from '../store';
-import ActivityManager from '../services/ActivityManager';
-import Plumber from '../services/Plumber';
 import { snapToGrid } from '../utils';
 import * as styles from './Flow.scss';
-import NodeContainer, { DragPoint } from './Node';
+import ConnectedNode, { DragPoint } from './Node';
 import NodeEditor from './NodeEditor';
 import { RenderNode } from '../store/flowContext';
-
-export interface FlowPassedProps {
-    languages: Languages;
-}
 
 export interface FlowStoreProps {
     translating: boolean;
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
     dependencies: FlowDefinition[];
-    ghostNode: Node;
+    ghostNode: FlowNode;
     pendingConnection: DragPoint;
     nodeEditorOpen: boolean;
     ensureStartNode: NoParamsAC;
@@ -50,25 +46,23 @@ export interface FlowStoreProps {
     updateCreateNodePosition: UpdateCreateNodePosition;
 }
 
-export type FlowProps = FlowPassedProps & FlowStoreProps;
-
 export interface Translations {
     [uuid: string]: any;
 }
 
-const FlowContainer = () => (
-    <Config render={({ languages }) => <ConnectedFlow languages={languages} />} />
-);
-
-export class Flow extends React.Component<FlowProps> {
+export class Flow extends React.Component<FlowStoreProps> {
     private Activity: ActivityManager;
     private Plumber: Plumber;
 
     // Refs
     private ghost: any;
 
-    constructor(props: FlowProps) {
-        super(props);
+    public static contextTypes = {
+        languages: languagesPT
+    };
+
+    constructor(props: FlowStoreProps, context: ConfigProviderContext) {
+        super(props, context);
 
         this.Activity = new ActivityManager(this.props.definition.uuid, getActivity);
 
@@ -116,7 +110,7 @@ export class Flow extends React.Component<FlowProps> {
         window.setTimeout(() => this.Plumber.repaint(), 500);
     }
 
-    public componentDidUpdate(prevProps: FlowProps): void {
+    public componentDidUpdate(prevProps: FlowStoreProps): void {
         // console.log("Updated", this.props.definition);
         // this.props.Mutator.reflow();
     }
@@ -174,9 +168,7 @@ export class Flow extends React.Component<FlowProps> {
                 this.props.updateCreateNodePosition({ left, top });
 
                 // Bring up the node editor
-                this.props.onOpenNodeEditor(this.props.ghostNode, null, this.props.languages);
-            } else {
-                // console.log('update connection', event);
+                this.props.onOpenNodeEditor(this.props.ghostNode, null, this.context.languages);
             }
 
             $(document).off('mousemove');
@@ -193,7 +185,7 @@ export class Flow extends React.Component<FlowProps> {
         return Object.keys(this.props.nodes).map(uuid => {
             const renderNode = this.props.nodes[uuid];
             return (
-                <NodeContainer
+                <ConnectedNode
                     key={uuid}
                     node={renderNode.node}
                     ui={renderNode.ui}
@@ -224,9 +216,9 @@ export class Flow extends React.Component<FlowProps> {
             }
 
             return (
-                <NodeContainer
+                <ConnectedNode
+                    ref={this.ghostRef}
                     key={this.props.ghostNode.uuid}
-                    ghostRef={this.ghostRef}
                     ghost={true}
                     node={this.props.ghostNode}
                     ui={ui}
@@ -320,6 +312,4 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
         dispatch
     );
 
-const ConnectedFlow = connect(mapStateToProps, mapDispatchToProps)(Flow);
-
-export default FlowContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(Flow);

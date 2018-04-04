@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { Language } from '../component/LanguageSelector';
 import { DragPoint } from '../component/Node';
-import { Node, Position } from '../flowTypes';
+import { FlowNode, Position } from '../flowTypes';
 import ActionTypes, {
     RemovePendingConnectionAction,
     UpdateCreateNodePositionAction,
@@ -37,7 +37,7 @@ export interface FlowUI {
     pendingConnection: DragPoint;
     pendingConnections: PendingConnections;
     nodeDragging: boolean;
-    ghostNode: Node;
+    ghostNode: FlowNode;
     dragGroup: boolean;
 }
 
@@ -145,7 +145,7 @@ export const removePendingConnection = (nodeUUID: string): RemovePendingConnecti
 });
 
 // tslint:disable-next-line:no-shadowed-variable
-export const updateGhostNode = (ghostNode: Node): UpdateGhostNodeAction => ({
+export const updateGhostNode = (ghostNode: FlowNode): UpdateGhostNodeAction => ({
     type: Constants.UPDATE_GHOST_NODE,
     payload: {
         ghostNode
@@ -288,7 +288,7 @@ export const nodeDragging = (
     }
 };
 
-export const ghostNode = (state: Node = initialState.flowUI.ghostNode, action: ActionTypes) => {
+export const ghostNode = (state: FlowNode = initialState.flowUI.ghostNode, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_GHOST_NODE:
             return action.payload.ghostNode;

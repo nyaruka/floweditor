@@ -1,16 +1,29 @@
-import { operatorConfigList } from '../config';
+import * as React from 'react';
 import {
     addCommas,
+    emphasize,
+    getBaseLanguage,
+    getLanguage,
+    getLocalization,
+    getSelectClass,
+    hasErrorType,
+    jsonEqual,
+    reorderList,
     snakify,
+    titleCase,
     toBoolMap,
     validUUID,
-    titleCase,
-    getSelectClass,
-    reorderList,
-    jsonEqual,
-    hasErrorType,
-    emphasize
+    propertyExists,
+    renderIf
 } from '.';
+import { operatorConfigList } from '../config';
+import { ContactProperties } from '../flowTypes';
+
+const config = require('../../assets/config');
+const {
+    results: [{ definition: colorsFlow }]
+} = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
+const { nodes: [{ actions: [sendMsgAction] }] } = colorsFlow;
 
 describe('utils', () => {
     describe('toBoolMap', () => {
@@ -117,18 +130,94 @@ describe('utils', () => {
     });
 
     describe('hasErrorType', () => {
-        const errors = ['A category name is required.'];
-
         it('should return false if passed an empty error list', () =>
             expect(hasErrorType([], [/argument/])).toBeFalsy());
 
-        it('should return true if query exits in a string in the error list', () =>
-            expect(hasErrorType(errors, [/category/])).toBeTruthy());
+        it('should return true if query exits in a string in the error list', () => {
+            const errors = ['A category name is required.'];
+
+            expect(hasErrorType(errors, [/category/])).toBeTruthy();
+        });
+    });
+
+    describe('getBaseLanguage', () => {
+        it('should return the language stored in the first key of a Languages map', () => {
+            const baseLanguage = getBaseLanguage(config.languages);
+            const firstKey = Object.keys(config.languages)[0];
+
+            expect(baseLanguage.iso).toBe(firstKey);
+            expect(baseLanguage.name).toBe(config.languages[firstKey]);
+        });
+    });
+
+    describe('getLanguage', () => {
+        it('should return specified language from Languages map if it exists in map', () => {
+            const iso = Object.keys(config.languages)[0];
+
+            expect(getLanguage(config.languages, iso)).toEqual({
+                name: config.languages[iso],
+                iso
+            });
+        });
+    });
+
+    describe('getLocalizations', () => {
+        it('should return a localized object', () => {
+            ['eng', 'spa', 'fre'].forEach(iso => {
+                expect(
+                    getLocalization(sendMsgAction, colorsFlow.localization, iso, config.languages)
+                ).toMatchSnapshot();
+            });
+        });
+    });
+
+    describe('getLanguage', () => {
+        it('should return language as Language', () => {
+            Object.keys(config.languages).forEach(iso => {
+                const language = getLanguage(config.languages, iso);
+
+                expect(language).toEqual({
+                    name: config.languages[iso],
+                    iso
+                });
+                expect(language).toMatchSnapshot();
+            });
+        });
+    });
+
+    describe('getBaseLanguage', () => {
+        it("should return Language corresponding to the first property in the Languages object it's passed", () => {
+            const baseLanguage = getBaseLanguage(config.languages);
+
+            expect(baseLanguage).toMatchSnapshot();
+        });
     });
 
     describe('emphasize', () => {
         it('should apply emphasis style', () => {
             expect(emphasize('emboldened')).toMatchSnapshot();
+        });
+    });
+
+    describe('propertyExists', () => {
+        it('should return true if property exists on ContactProperties enum', () => {
+            Object.keys(ContactProperties).forEach(property =>
+                expect(propertyExists(property)).toBeTruthy()
+            );
+        });
+
+        it('should return false if property does not exist on ContactProperties enum', () => {
+            expect(propertyExists('Favorite Song')).toBeFalsy();
+        });
+    });
+
+    describe('renderIf', () => {
+        it('should return element if condition is truthy', () => {
+            expect(renderIf(true)(<div />)).toEqual(<div />);
+        });
+
+        it('should return null if condition is falsy', () => {
+            expect(renderIf(false)(<div />)).toBeNull();
         });
     });
 });

@@ -2,6 +2,6 @@
   "printWidth": 100,
   "tabWidth": 4,
   "singleQuote": true,
-  "jsxBracketSameLine": true,
+  "jsxBracketSameLine": false,
   "parser": "typescript"
 }

@@ -1,7 +1,7 @@
 import { Language } from '../component/LanguageSelector';
 import { DragPoint } from '../component/Node';
 import { Type } from '../config';
-import { AnyAction, FlowDefinition, Node, Position } from '../flowTypes';
+import { AnyAction, FlowDefinition, FlowNode, Position } from '../flowTypes';
 import { LocalizedObject } from '../services/Localization';
 import Constants from './constants';
 import { CompletionOption, RenderNode, SearchResult } from './flowContext';
@@ -71,7 +71,7 @@ interface UpdateNodeEditorOpenPayload {
 }
 
 interface UpdateGhostNodePayload {
-    ghostNode: Node;
+    ghostNode: FlowNode;
 }
 
 interface UpdateCreateNodePositionPayload {
@@ -87,7 +87,7 @@ interface UpdateActionToEditPayload {
 }
 
 interface UpdateNodeToEditPayload {
-    nodeToEdit: Node;
+    nodeToEdit: FlowNode;
 }
 
 interface UpdateLocalizationsPayload {
