@@ -39,8 +39,6 @@ import {
     getCollision,
     getGhostNode,
     getLocalizations,
-    getNodesBelow,
-    getPendingConnection,
     getTranslations
 } from './helpers';
 import * as mutators from './mutators';
@@ -62,12 +60,6 @@ export type GetState = () => AppState;
 export type Thunk = (dispatch: DispatchWithState, getState?: GetState) => void;
 
 export type AsyncThunk = (dispatch: DispatchWithState, getState?: GetState) => Promise<void>;
-
-export type OnNodeBeforeDrag = (
-    node: FlowNode,
-    plumberSetDragSelection: Function,
-    plumberClearDragSelection: Function
-) => Thunk;
 
 export type ResolvePendingConnection = (node: FlowNode) => Thunk;
 
@@ -309,7 +301,7 @@ export const resolvePendingConnection = (node: FlowNode) => (
     } = getState();
 
     // Only resolve connection if we have one
-    const pendingConnection = getPendingConnection(node.uuid, currentPendingConnections);
+    const pendingConnection = currentPendingConnections[node.uuid];
     if (pendingConnection) {
         // Remove our pending connection
         dispatch(removePendingConnection(node.uuid));
@@ -610,27 +602,6 @@ export const updateRouter = (
     }
 
     console.timeEnd('updateRouter');
-};
-
-export const onNodeBeforeDrag = (
-    node: FlowNode,
-    plumberSetDragSelection: Function,
-    plumberClearDragSelection: Function
-) => (dispatch: DispatchWithState, getState: GetState) => {
-    const {
-        flowContext: { nodes },
-        flowEditor: { flowUI: { nodeDragging, dragGroup } }
-    } = getState();
-
-    if (nodeDragging) {
-        if (dragGroup) {
-            // TODO: replace this with drag selection
-            const nodesBelow = getNodesBelow(node, nodes);
-            plumberSetDragSelection(nodesBelow);
-        } else {
-            plumberClearDragSelection();
-        }
-    }
 };
 
 export const resetNodeEditingState = () => (dispatch: DispatchWithState, getState: GetState) => {

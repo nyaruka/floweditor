@@ -26,68 +26,6 @@ interface Reflow {
     bounds: Bounds;
 }
 
-export const getExistingGroups = (groups: { [id: string]: SearchResult }) =>
-    Object.keys(groups).reduce((groupsList, groupKey) => {
-        if (groups.hasOwnProperty(groupKey)) {
-            groupsList.push(groups[groupKey]);
-        }
-        return groupsList;
-    }, []);
-
-export const getExistingResultNames = (resultNames: { [name: string]: string }) =>
-    Object.keys(resultNames).reduce((resultNameList, resultNameKey) => {
-        if (resultNameKey && resultNameKey.trim().length > 0) {
-            resultNameList.push(
-                {
-                    name: `run.results.${resultNameKey}`,
-                    description: `Result for "${resultNames[resultNameKey]}"`
-                },
-                {
-                    name: `run.results.${resultNameKey}.category`,
-                    description: `Category for "${resultNames[resultNameKey]}"`
-                }
-            );
-        }
-        return resultNameList;
-    }, []);
-
-export const getExistingFields = (
-    reservedFields: SearchResult[],
-    fields: { [id: string]: SearchResult }
-) =>
-    Object.keys(fields).reduce((existingFields, fieldKey) => {
-        existingFields.push(fields[fieldKey]);
-        return existingFields;
-    }, reservedFields);
-
-export const pureSort = (list: any[], fn: (a: any, b: any) => number) => [...list].sort(fn);
-
-export const getNodesBelow = (
-    { uuid: nodeUUID }: FlowNode,
-    nodes: { [uuid: string]: RenderNode }
-): FlowNode[] => {
-    const below = nodes[nodeUUID].ui.position.top;
-
-    // TODO: well this isn't great now is it
-    // good news though, I don't think we need this
-    // if we do group drag selection
-    const nodesBelow = [];
-    for (const uuid in Object.keys(nodes)) {
-        if (uuid !== nodeUUID) {
-            const belowNode = nodes[uuid];
-            if (belowNode.ui.position.top > below) {
-                nodesBelow.push(belowNode.node);
-            }
-        }
-    }
-    return nodesBelow;
-};
-
-export const getPendingConnection = (
-    nodeUUID: string,
-    pendingConnections: PendingConnections
-): DragPoint => pendingConnections[nodeUUID];
-
 /**
  * Gets a suggested result name based on the current number of waits
  * in the current definition
@@ -95,8 +33,6 @@ export const getPendingConnection = (
 export const getSuggestedResultName = (nodes: RenderNodeMap) => {
     return 'Response ' + (Object.keys(nodes).length + 1);
 };
-
-export const getNodeUI = (uuid: string, definition: FlowDefinition) => definition._ui.nodes[uuid];
 
 /**
  * Computes translations prop for `Node` components in render()
@@ -183,17 +119,6 @@ export const getConnectionError = (source: string, targetUUID: string) => {
     return nodeUUID === targetUUID ? 'Connections cannot route back to the same places.' : null;
 };
 
-export const nodeSort = (definition: FlowDefinition) => (a: FlowNode, b: FlowNode) => {
-    const { position: aPos } = definition._ui.nodes[a.uuid];
-    const { position: bPos } = definition._ui.nodes[b.uuid];
-    const diff = aPos.top - bPos.top;
-    // Secondary sort on X location
-    if (diff === 0) {
-        return aPos.left - bPos.left;
-    }
-    return diff;
-};
-
 const getOrderedNodes = (nodes: RenderNodeMap): RenderNode[] => {
     const sorted: RenderNode[] = [];
     Object.keys(nodes).forEach((nodeUUID: string) => {
@@ -213,6 +138,7 @@ export const collides = (a: RenderNode, b: RenderNode) => {
     const bPos = b.ui.position;
 
     // don't bother with collision if we don't have full dimensions
+    /* istanbul ignore next */
     if (!aPos.bottom || !bPos.bottom) {
         return false;
     }

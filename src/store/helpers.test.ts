@@ -6,7 +6,7 @@ describe('helpers', () => {
         const suggestison = getSuggestedResultName({
             nodeA: {
                 node: { uuid: generateUUID(), exits: [] },
-                ui: { position: { x: 100, y: 100 } }
+                ui: { position: { left: 100, top: 100 } }
             }
         });
 

@@ -16,8 +16,6 @@ import {
     DispatchWithState,
     onAddAction,
     OnAddAction,
-    onNodeBeforeDrag,
-    OnNodeBeforeDrag,
     onNodeMoved,
     OnNodeMoved,
     OnOpenNodeEditor,
@@ -72,7 +70,6 @@ export interface NodeStoreProps {
     definition: FlowDefinition;
     nodeDragging: boolean;
     updateNodeDragging: UpdateNodeDragging;
-    onNodeBeforeDrag: OnNodeBeforeDrag;
     resolvePendingConnection: ResolvePendingConnection;
     onAddAction: OnAddAction;
     onNodeMoved: OnNodeMoved;
@@ -166,11 +163,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             (event: DragEvent) => this.onDragStop(event),
             () => {
                 if (!this.props.translating) {
-                    this.props.onNodeBeforeDrag(
-                        this.props.node,
-                        this.props.plumberSetDragSelection,
-                        this.props.plumberClearDragSelection
-                    );
                     return true;
                 } else {
                     return false;
@@ -498,7 +490,6 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
             updateNodeDragging,
-            onNodeBeforeDrag,
             resolvePendingConnection,
             onAddAction,
             onNodeMoved,
