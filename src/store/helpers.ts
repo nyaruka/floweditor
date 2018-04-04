@@ -5,7 +5,7 @@ import {
     FlowDefinition,
     Languages,
     LocalizationMap,
-    Node,
+    FlowNode,
     SwitchRouter,
     WaitType
 } from '../flowTypes';
@@ -63,9 +63,9 @@ export const getExistingFields = (
 export const pureSort = (list: any[], fn: (a: any, b: any) => number) => [...list].sort(fn);
 
 export const getNodesBelow = (
-    { uuid: nodeUUID }: Node,
+    { uuid: nodeUUID }: FlowNode,
     nodes: { [uuid: string]: RenderNode }
-): Node[] => {
+): FlowNode[] => {
     const below = nodes[nodeUUID].ui.position.top;
 
     // TODO: well this isn't great now is it
@@ -105,7 +105,7 @@ export const getTranslations = (localizationMap: LocalizationMap, iso: string) =
     localizationMap[iso];
 
 export const getLocalizations = (
-    node: Node,
+    node: FlowNode,
     action: AnyAction,
     iso: string,
     languages: Languages,
@@ -137,7 +137,7 @@ export const getLocalizations = (
 };
 
 export const determineConfigType = (
-    nodeToEdit: Node,
+    nodeToEdit: FlowNode,
     action: AnyAction,
     nodes: { [uuid: string]: RenderNode }
 ) => {
@@ -168,7 +168,7 @@ export const determineConfigType = (
     throw new Error(`Cannot initialize NodeEditor without a valid type: ${nodeToEdit.uuid}`);
 };
 
-export const getUniqueDestinations = (node: Node): string[] => {
+export const getUniqueDestinations = (node: FlowNode): string[] => {
     const destinations = {};
     for (const exit of node.exits) {
         if (exit.destination_node_uuid) {
@@ -183,7 +183,7 @@ export const getConnectionError = (source: string, targetUUID: string) => {
     return nodeUUID === targetUUID ? 'Connections cannot route back to the same places.' : null;
 };
 
-export const nodeSort = (definition: FlowDefinition) => (a: Node, b: Node) => {
+export const nodeSort = (definition: FlowDefinition) => (a: FlowNode, b: FlowNode) => {
     const { position: aPos } = definition._ui.nodes[a.uuid];
     const { position: bPos } = definition._ui.nodes[b.uuid];
     const diff = aPos.top - bPos.top;
@@ -258,7 +258,7 @@ export const getCollision = (nodes: RenderNodeMap): RenderNode[] => {
 };
 
 export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
-    const ghostNode: Node = {
+    const ghostNode: FlowNode = {
         uuid: generateUUID(),
         actions: [],
         exits: [

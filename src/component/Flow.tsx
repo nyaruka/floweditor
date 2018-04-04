@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ConfigProviderContext, languagesPT } from '../config';
 import { getActivity } from '../external';
-import { FlowDefinition, Languages, Node, UINode } from '../flowTypes';
+import { FlowDefinition, Languages, FlowNode, UINode } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
 import Plumber from '../services/Plumber';
 import {
@@ -35,7 +35,7 @@ export interface FlowStoreProps {
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
     dependencies: FlowDefinition[];
-    ghostNode: Node;
+    ghostNode: FlowNode;
     pendingConnection: DragPoint;
     nodeEditorOpen: boolean;
     ensureStartNode: NoParamsAC;

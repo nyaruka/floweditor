@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { endpointsPT } from '../../config';
-import { Node, SwitchRouter, WaitType } from '../../flowTypes';
+import { FlowNode, SwitchRouter, WaitType } from '../../flowTypes';
 import { AppState, SearchResult } from '../../store';
 import GroupsElement, { GroupsElementProps } from '../form/GroupsElement';
 import { GetResultNameField } from '../NodeEditor';
@@ -12,7 +12,7 @@ import * as styles from './SwitchRouter.scss';
 export interface GroupsRouterStoreProps {
     translating: boolean;
     localGroups: SearchResult[];
-    nodeToEdit: Node;
+    nodeToEdit: FlowNode;
 }
 
 export interface GroupsRouterPassedProps {
@@ -25,7 +25,7 @@ export interface GroupsRouterPassedProps {
 
 export type GroupsRouterProps = GroupsRouterStoreProps & GroupsRouterPassedProps;
 
-export const extractGroups = ({ exits, router }: Node): SearchResult[] =>
+export const extractGroups = ({ exits, router }: FlowNode): SearchResult[] =>
     (router as SwitchRouter).cases.map(kase => {
         let resultName = '';
         for (const { name, uuid } of exits) {
@@ -37,7 +37,7 @@ export const extractGroups = ({ exits, router }: Node): SearchResult[] =>
         return { name: resultName, id: kase.arguments[0] };
     });
 
-export const hasGroupsRouter = (node: Node) =>
+export const hasGroupsRouter = (node: FlowNode) =>
     hasSwitchRouter(node) && hasWait(node, WaitType.group);
 
 export class GroupsRouter extends React.Component<GroupsRouterProps> {

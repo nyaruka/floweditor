@@ -12,7 +12,7 @@ import {
     Dimensions,
     FlowDefinition,
     Languages,
-    Node,
+    FlowNode,
     Position,
     SendMsg,
     SwitchRouter
@@ -64,22 +64,22 @@ export type Thunk = (dispatch: DispatchWithState, getState?: GetState) => void;
 export type AsyncThunk = (dispatch: DispatchWithState, getState?: GetState) => Promise<void>;
 
 export type OnNodeBeforeDrag = (
-    node: Node,
+    node: FlowNode,
     plumberSetDragSelection: Function,
     plumberClearDragSelection: Function
 ) => Thunk;
 
-export type ResolvePendingConnection = (node: Node) => Thunk;
+export type ResolvePendingConnection = (node: FlowNode) => Thunk;
 
-export type OnAddAction = (node: Node, languages: Languages) => Thunk;
+export type OnAddAction = (node: FlowNode, languages: Languages) => Thunk;
 
 export type OnNodeMoved = (uuid: string, position: Position, repaintForDuration: Function) => Thunk;
 
-export type OnOpenNodeEditor = (node: Node, action: AnyAction, languages: Languages) => Thunk;
+export type OnOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: Languages) => Thunk;
 
-export type RemoveNode = (nodeToRemove: Node) => Thunk;
+export type RemoveNode = (nodeToRemove: FlowNode) => Thunk;
 
-export type UpdateDimensions = (node: Node, dimensions: Dimensions) => Thunk;
+export type UpdateDimensions = (node: FlowNode, dimensions: Dimensions) => Thunk;
 
 export type FetchFlow = (endpoint: string, uuid: string) => AsyncThunk;
 
@@ -93,14 +93,18 @@ export type OnConnectionDrag = (event: ConnectionEvent) => Thunk;
 
 export type OnUpdateLocalizations = (language: string, changes: LocalizationUpdates) => Thunk;
 
-export type OnUpdateAction = (node: Node, action: AnyAction, repaintForDuration: Function) => Thunk;
+export type OnUpdateAction = (
+    node: FlowNode,
+    action: AnyAction,
+    repaintForDuration: Function
+) => Thunk;
 
 export type ActionAC = (nodeUUID: string, action: AnyAction) => Thunk;
 
 export type DisconnectExit = (nodeUUID: string, exitUUID: string) => Thunk;
 
 export type OnUpdateRouter = (
-    node: Node,
+    node: FlowNode,
     type: string,
     repaintForDuration: Function,
     previousAction?: Action
@@ -247,7 +251,7 @@ export const onUpdateLocalizations = (language: string, changes: LocalizationUpd
     dispatch(updateDefinition(mutators.updateLocalization(definition, language, changes)));
 };
 
-export const updateDimensions = (node: Node, dimensions: Dimensions) => (
+export const updateDimensions = (node: FlowNode, dimensions: Dimensions) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
@@ -296,7 +300,7 @@ export const updateConnection = (source: string, target: string) => (
     dispatch(updateExitDestination(nodeUUID, exitUUID, target));
 };
 
-export const resolvePendingConnection = (node: Node) => (
+export const resolvePendingConnection = (node: FlowNode) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
@@ -325,7 +329,7 @@ export const ensureStartNode = () => (dispatch: DispatchWithState, getState: Get
             text: 'Hi there, this the first message in your flow!'
         };
 
-        const node: Node = {
+        const node: FlowNode = {
             uuid: generateUUID(),
             actions: [initialAction],
             exits: [
@@ -339,7 +343,7 @@ export const ensureStartNode = () => (dispatch: DispatchWithState, getState: Get
     }
 };
 
-export const removeNode = (node: Node) => (dispatch: DispatchWithState, getState: GetState) => {
+export const removeNode = (node: FlowNode) => (dispatch: DispatchWithState, getState: GetState) => {
     const { flowContext: { nodes } } = getState();
     const updatedNodes = mutators.removeNode(nodes, node.uuid);
     dispatch(updateNodes(updatedNodes));
@@ -426,7 +430,7 @@ export const updateAction = (
  */
 export const spliceInRouter = (
     nodeUUID: string,
-    newRouterNode: Node,
+    newRouterNode: FlowNode,
     type: string,
     previousAction: Action
 ) => (dispatch: DispatchWithState, getState: GetState): RenderNode[] => {
@@ -533,7 +537,7 @@ export const spliceInRouter = (
 /**
  * Appends a new node instead of editing the node in place
  */
-export const appendNewRouter = (node: Node, type: string) => (
+export const appendNewRouter = (node: FlowNode, type: string) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
@@ -569,7 +573,7 @@ export const appendNewRouter = (node: Node, type: string) => (
 };
 
 export const updateRouter = (
-    node: Node,
+    node: FlowNode,
     type: string,
     draggedFrom: DragPoint = null,
     newPosition: Position = null,
@@ -609,7 +613,7 @@ export const updateRouter = (
 };
 
 export const onNodeBeforeDrag = (
-    node: Node,
+    node: FlowNode,
     plumberSetDragSelection: Function,
     plumberClearDragSelection: Function
 ) => (dispatch: DispatchWithState, getState: GetState) => {
@@ -654,7 +658,7 @@ export const resetNodeEditingState = () => (dispatch: DispatchWithState, getStat
     }
 };
 
-export const onUpdateAction = (node: Node, action: AnyAction, repaintForDuration: Function) => (
+export const onUpdateAction = (node: FlowNode, action: AnyAction, repaintForDuration: Function) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
@@ -663,7 +667,7 @@ export const onUpdateAction = (node: Node, action: AnyAction, repaintForDuration
     repaintForDuration();
 };
 
-export const onAddAction = (node: Node, languages: Languages) => (
+export const onAddAction = (node: FlowNode, languages: Languages) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
@@ -771,7 +775,7 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
 };
 
 export const onUpdateRouter = (
-    node: Node,
+    node: FlowNode,
     type: string,
     repaintForDuration: Function,
     previousAction?: Action
@@ -791,7 +795,7 @@ export const onUpdateRouter = (
     dispatch(resetNodeEditingState());
 };
 
-export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Languages) => (
+export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: Languages) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {

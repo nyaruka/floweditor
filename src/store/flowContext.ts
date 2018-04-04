@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { v4 as generateUUID } from 'uuid';
-import { FlowDefinition, Node, UINode, AttributeType } from '../flowTypes';
+import { FlowDefinition, FlowNode, UINode, AttributeType } from '../flowTypes';
 import { LocalizedObject } from '../services/Localization';
 import ActionTypes, {
     UpdateContactFieldsAction,
@@ -19,7 +19,7 @@ export interface RenderNodeMap {
 
 export interface RenderNode {
     ui: UINode;
-    node: Node;
+    node: FlowNode;
     inboundConnections?: { [uuid: string]: string };
 }
 

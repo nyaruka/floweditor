@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getTypeConfig, languagesPT } from '../../../config';
 import { ConfigProviderContext } from '../../../config/ConfigProvider';
-import { AnyAction, Node, LocalizationMap } from '../../../flowTypes';
+import { AnyAction, FlowNode, LocalizationMap } from '../../../flowTypes';
 import { LocalizedObject } from '../../../services/Localization';
 import {
     ActionAC,
@@ -31,7 +31,7 @@ export interface ActionWrapperPassedProps {
 }
 
 export interface ActionWrapperStoreProps {
-    node: Node;
+    node: FlowNode;
     language: Language;
     translating: boolean;
     onOpenNodeEditor: OnOpenNodeEditor;

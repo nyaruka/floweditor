@@ -16,7 +16,7 @@ import {
     Exit,
     FlowDefinition,
     Methods,
-    Node,
+    FlowNode,
     Router,
     SendEmail,
     SendMsg,
@@ -83,7 +83,7 @@ export interface NodeEditorPassedProps {
 }
 
 export interface NodeEditorStoreProps {
-    nodeToEdit: Node;
+    nodeToEdit: FlowNode;
     language: Language;
     nodeEditorOpen: boolean;
     actionToEdit: Action;
@@ -149,7 +149,7 @@ export const mapExits = (exits: Exit[]): { [uuid: string]: Exit } =>
 export const isSwitchForm = (type: string) =>
     type === 'wait_for_response' || type === 'split_by_expression' || type === 'split_by_groups';
 
-export const hasSwitchRouter = (node: Node): boolean =>
+export const hasSwitchRouter = (node: FlowNode): boolean =>
     (node.router as SwitchRouter) && (node.router as SwitchRouter).hasOwnProperty('operand');
 
 /**
@@ -220,7 +220,7 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
  * Given a set of cases and previous exits, determines correct merging of cases
  * and the union of exits
  */
-export const resolveExits = (newCases: CaseElementProps[], previous: Node): CombinedExits => {
+export const resolveExits = (newCases: CaseElementProps[], previous: FlowNode): CombinedExits => {
     // create mapping of our old exit uuids to old exit settings
     const previousExitMap: { [uuid: string]: Exit } = {};
 
@@ -333,7 +333,7 @@ export const resolveExits = (newCases: CaseElementProps[], previous: Node): Comb
     return { cases, exits, defaultExit: defaultUUID };
 };
 
-export const hasCases = (node: Node): boolean => {
+export const hasCases = (node: FlowNode): boolean => {
     if (
         node.router &&
         (node.router as SwitchRouter).cases &&
@@ -347,7 +347,7 @@ export const hasCases = (node: Node): boolean => {
 /**
  * Determine whether Node has a 'wait' property
  */
-export const hasWait = (node: Node, type?: WaitType): boolean => {
+export const hasWait = (node: FlowNode, type?: WaitType): boolean => {
     if (!node || !node.wait || !node.wait.type || (type && node.wait.type !== type)) {
         return false;
     }
@@ -493,7 +493,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                 <span
                     data-spec="name-field"
                     className={formStyles.saveLink}
-                    onClick={this.onShowNameField}>
+                    onClick={this.onShowNameField}
+                >
                     Save as..
                 </span>
             );
@@ -776,7 +777,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             optionalRouter.result_name = this.props.resultName;
         }
 
-        const optionalNode: Pick<Node, 'wait'> = {};
+        const optionalNode: Pick<FlowNode, 'wait'> = {};
         if (this.props.typeConfig.type === 'wait_for_response') {
             optionalNode.wait = { type: WaitType.msg };
         } else if (this.props.typeConfig.type === 'split_by_expression') {
@@ -826,7 +827,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             result_name: ''
         };
 
-        const updates: Partial<Node> = {
+        const updates: Partial<FlowNode> = {
             uuid: this.props.nodeToEdit.uuid,
             exits,
             wait: {
@@ -839,7 +840,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         }
 
         this.props.onUpdateRouter(
-            { ...updates, router } as Node,
+            { ...updates, router } as FlowNode,
             'split_by_groups',
             this.props.plumberRepaintForDuration,
             getAction(this.props.actionToEdit, this.props.typeConfig)
@@ -1161,7 +1162,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                 <FormContainer
                     key={'fc-back'}
                     onKeyPress={this.onKeyPress}
-                    __className={formStyles.advanced}>
+                    __className={formStyles.advanced}
+                >
                     <FormComp ref={this.formRef} {...{ ...formProps, showAdvanced: true }} />
                 </FormContainer>
             );
@@ -1188,7 +1190,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                         title={titles}
                         show={this.props.nodeEditorOpen}
                         buttons={buttons}
-                        node={this.props.nodeToEdit}>
+                        node={this.props.nodeToEdit}
+                    >
                         {front}
                         {back}
                     </Modal>
