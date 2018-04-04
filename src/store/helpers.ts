@@ -77,11 +77,9 @@ export const getLocalizations = (
         );
 
         // Account for localized exits
-        if (node.exits) {
-            node.exits.forEach(exit => {
-                localizations.push(Localization.translate(exit, iso, languages, translations));
-            });
-        }
+        node.exits.forEach(exit => {
+            localizations.push(Localization.translate(exit, iso, languages, translations));
+        });
     }
 
     if (action) {

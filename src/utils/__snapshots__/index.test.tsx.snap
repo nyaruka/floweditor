@@ -75,7 +75,9 @@ LocalizedObject {
     "text": true,
   },
   "localizedObject": Object {
-    "text": "¿Cuál es tu color favorito?",
+    "text": Array [
+      "¿Cuál es tu color favorito?",
+    ],
     "type": "send_msg",
     "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
   },

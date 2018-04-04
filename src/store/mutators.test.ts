@@ -67,7 +67,7 @@ describe('mutators', () => {
 
     it('should addNode', () => {
         const updated = addNode(nodes, {
-            node: { uuid: 'nodeD', exits: [] },
+            node: { uuid: 'nodeD', actions: [], exits: [] },
             ui: { position: { left: 400, top: 400 } },
             inboundConnections: { exitA: 'nodeA' }
         });
@@ -150,10 +150,22 @@ describe('mutators', () => {
         });
     });
 
-    it('should removeNode()', () => {
-        const updated = removeNode(nodes, 'nodeA');
-        expect(updated.nodeA).toBeUndefined();
-        expect(Object.keys(updated.nodeB.inboundConnections)).not.toContain('exitA');
+    describe('removeNode()', () => {
+        it('should remove action nodes', () => {
+            const updated = removeNode(nodes, 'nodeA');
+            expect(updated.nodeA).toBeUndefined();
+            expect(Object.keys(updated.nodeB.inboundConnections)).not.toContain('exitA');
+        });
+
+        it('should remove multi-exit router nodes', () => {
+            const updated = removeNode(nodes, 'nodeD');
+            expect(updated.nodeD).toBeUndefined();
+        });
+
+        it('should remove single exit router nodes', () => {
+            const updated = removeNode(nodes, 'nodeE');
+            expect(updated.nodeE).toBeUndefined();
+        });
     });
 
     it('should update an action node to a split', () => {
@@ -180,7 +192,7 @@ describe('mutators', () => {
     });
 
     it('should updateLocalizations', () => {
-        const nodeArray: Node[] = [];
+        const nodeArray: FlowNode[] = [];
         Object.keys(nodes).forEach((key: string) => {
             nodeArray.push(nodes[key].node);
         });

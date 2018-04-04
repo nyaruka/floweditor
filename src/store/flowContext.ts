@@ -20,7 +20,7 @@ export interface RenderNodeMap {
 export interface RenderNode {
     ui: UINode;
     node: FlowNode;
-    inboundConnections?: { [uuid: string]: string };
+    inboundConnections: { [uuid: string]: string };
 }
 
 export interface SearchResult {

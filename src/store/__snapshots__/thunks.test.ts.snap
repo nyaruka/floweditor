@@ -409,7 +409,9 @@ Object {
     },
   },
   "nodeC": Object {
-    "inboundConnections": Object {},
+    "inboundConnections": Object {
+      "exitB": "nodeB",
+    },
     "node": Object {
       "actions": Array [],
       "exits": Array [
@@ -430,18 +432,34 @@ Object {
     },
   },
   "nodeD": Object {
-    "inboundConnections": Object {},
+    "inboundConnections": Object {
+      "exitC": "nodeC",
+    },
     "node": Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "nodeE",
+          "name": "Case Test",
           "uuid": "exitD",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "other",
         },
       ],
       "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitD",
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "casetest",
+            ],
+            "exit_uuid": "exitD",
+            "type": "has_any_word",
+            "uuid": "caseD",
+          },
+        ],
+        "default_exit_uuid": "other",
         "type": "switch",
       },
       "uuid": "nodeD",
@@ -450,9 +468,37 @@ Object {
     "ui": Object {
       "position": Object {
         "bottom": 1190,
-        "left": 300,
+        "left": 700,
         "right": 700,
-        "top": 1000,
+        "top": 210,
+      },
+      "type": "wait_for_response",
+    },
+  },
+  "nodeE": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitE",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitE",
+        "type": "switch",
+      },
+      "uuid": "nodeE",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 700,
+        "right": 700,
+        "top": 210,
       },
       "type": "wait_for_response",
     },
@@ -523,18 +569,34 @@ Object {
     },
   },
   "nodeD": Object {
-    "inboundConnections": Object {},
+    "inboundConnections": Object {
+      "exitC": "nodeC",
+    },
     "node": Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "nodeE",
+          "name": "Case Test",
           "uuid": "exitD",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "other",
         },
       ],
       "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitD",
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "casetest",
+            ],
+            "exit_uuid": "exitD",
+            "type": "has_any_word",
+            "uuid": "caseD",
+          },
+        ],
+        "default_exit_uuid": "other",
         "type": "switch",
       },
       "uuid": "nodeD",
@@ -543,9 +605,37 @@ Object {
     "ui": Object {
       "position": Object {
         "bottom": 1190,
-        "left": 300,
+        "left": 700,
         "right": 700,
-        "top": 1000,
+        "top": 210,
+      },
+      "type": "wait_for_response",
+    },
+  },
+  "nodeE": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitE",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitE",
+        "type": "switch",
+      },
+      "uuid": "nodeE",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 700,
+        "right": 700,
+        "top": 210,
       },
       "type": "wait_for_response",
     },
@@ -600,7 +690,7 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "nodeC",
+          "destination_node_uuid": null,
           "uuid": "exitB",
         },
       ],
@@ -616,18 +706,34 @@ Object {
     },
   },
   "nodeD": Object {
-    "inboundConnections": Object {},
+    "inboundConnections": Object {
+      "exitC": "nodeC",
+    },
     "node": Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "nodeE",
+          "name": "Case Test",
           "uuid": "exitD",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "other",
         },
       ],
       "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitD",
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "casetest",
+            ],
+            "exit_uuid": "exitD",
+            "type": "has_any_word",
+            "uuid": "caseD",
+          },
+        ],
+        "default_exit_uuid": "other",
         "type": "switch",
       },
       "uuid": "nodeD",
@@ -636,9 +742,37 @@ Object {
     "ui": Object {
       "position": Object {
         "bottom": 1190,
-        "left": 300,
+        "left": 700,
         "right": 700,
-        "top": 1000,
+        "top": 210,
+      },
+      "type": "wait_for_response",
+    },
+  },
+  "nodeE": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitE",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitE",
+        "type": "switch",
+      },
+      "uuid": "nodeE",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 700,
+        "right": 700,
+        "top": 210,
       },
       "type": "wait_for_response",
     },
@@ -709,7 +843,9 @@ Object {
     },
   },
   "nodeC": Object {
-    "inboundConnections": Object {},
+    "inboundConnections": Object {
+      "exitB": "nodeB",
+    },
     "node": Object {
       "actions": Array [],
       "exits": Array [
@@ -727,6 +863,166 @@ Object {
         "right": 600,
         "top": 210,
       },
+    },
+  },
+  "nodeE": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitE",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitE",
+        "type": "switch",
+      },
+      "uuid": "nodeE",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 700,
+        "right": 700,
+        "top": 210,
+      },
+      "type": "wait_for_response",
+    },
+  },
+}
+`;
+
+exports[`thunks removeNode should remove node nodeE: Remove nodeE 1`] = `
+Object {
+  "nodeA": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "The first message",
+          "type": "send_msg",
+          "uuid": "actionA",
+        },
+        Object {
+          "text": "A second message for our first node",
+          "type": "send_msg",
+          "uuid": "actionB",
+        },
+        Object {
+          "text": "A third message for our first node",
+          "type": "send_msg",
+          "uuid": "actionC",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeB",
+          "uuid": "exitA",
+        },
+      ],
+      "uuid": "nodeA",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 190,
+        "left": 100,
+        "right": 300,
+        "top": 100,
+      },
+    },
+  },
+  "nodeB": Object {
+    "inboundConnections": Object {
+      "exitA": "nodeA",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeC",
+          "uuid": "exitB",
+        },
+      ],
+      "uuid": "nodeB",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 290,
+        "left": 200,
+        "right": 500,
+        "top": 150,
+      },
+    },
+  },
+  "nodeC": Object {
+    "inboundConnections": Object {
+      "exitB": "nodeB",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitC",
+        },
+      ],
+      "uuid": "nodeC",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 390,
+        "left": 300,
+        "right": 600,
+        "top": 210,
+      },
+    },
+  },
+  "nodeD": Object {
+    "inboundConnections": Object {
+      "exitC": "nodeC",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeE",
+          "name": "Case Test",
+          "uuid": "exitD",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "other",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "casetest",
+            ],
+            "exit_uuid": "exitD",
+            "type": "has_any_word",
+            "uuid": "caseD",
+          },
+        ],
+        "default_exit_uuid": "other",
+        "type": "switch",
+      },
+      "uuid": "nodeD",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 700,
+        "right": 700,
+        "top": 210,
+      },
+      "type": "wait_for_response",
     },
   },
 }

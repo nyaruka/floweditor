@@ -129,7 +129,7 @@ export const initializeFlow = (definition: FlowDefinition) => (
     // initialize our nodes
     const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
     for (const node of definition.nodes) {
-        nodes[node.uuid] = { node, ui: definition._ui.nodes[node.uuid] };
+        nodes[node.uuid] = { node, ui: definition._ui.nodes[node.uuid], inboundConnections: {} };
 
         for (const exit of node.exits) {
             if (exit.destination_node_uuid) {
@@ -324,7 +324,9 @@ export const ensureStartNode = () => (dispatch: DispatchWithState, getState: Get
             ]
         };
 
-        dispatch(addNode({ node, ui: { position: { left: 120, top: 120 } } }));
+        dispatch(
+            addNode({ node, ui: { position: { left: 120, top: 120 } }, inboundConnections: {} })
+        );
     }
 };
 
@@ -450,7 +452,8 @@ export const spliceInRouter = (
 
     const routerNode: RenderNode = {
         node: newRouterNode,
-        ui: { position: { left, top }, type }
+        ui: { position: { left, top }, type },
+        inboundConnections: {}
     };
 
     // add our top node if we have one
@@ -466,7 +469,8 @@ export const spliceInRouter = (
                     }
                 ]
             },
-            ui: { position: { left, top } }
+            ui: { position: { left, top } },
+            inboundConnections: {}
         };
         updatedNodes = mutators.addNode(updatedNodes, topNode);
         top += NODE_SPACING;
@@ -537,7 +541,8 @@ export const appendNewRouter = (node: FlowNode, type: string) => (
             ui: {
                 position: { left, top: top + NODE_SPACING },
                 type
-            }
+            },
+            inboundConnections: {}
         })
     );
 
@@ -770,10 +775,21 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
 
     const localizations = [];
     if (translating) {
-        // prettier-ignore
-        const translations = localization[language.iso]
+        let actionToTranslate = action;
+
+        // if they clicked just below the actions, treat it as the last action
+        if (!actionToTranslate && node.actions && node.actions.length > 0) {
+            actionToTranslate = node.actions[node.actions.length - 1];
+
+            // only send_msg actions are localizable
+            if (actionToTranslate.type !== 'send_msg') {
+                return;
+            }
+        }
+
+        const translations = localization[language.iso];
         localizations.push(
-            ...getLocalizations(node, action, language.iso, languages, translations)
+            ...getLocalizations(node, actionToTranslate, language.iso, languages, translations)
         );
     }
 

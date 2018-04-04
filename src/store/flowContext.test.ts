@@ -9,12 +9,15 @@ import reducer, {
     initialState,
     localizations as localizationsReducer,
     resultNames as resultNamesReducer,
+    nodes as nodesReducer,
     updateContactFields,
     updateDefinition,
     updateDependencies,
     updateGroups,
     updateLocalizations,
-    updateResultNames
+    updateResultNames,
+    updateNodes,
+    RenderNodeMap
 } from './flowContext';
 
 const colorsFlow = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
@@ -193,6 +196,26 @@ describe('flowContext reducers', () => {
             const resultNames = [{ name: 'run.results.color', description: 'Result for "color"' }];
             const action = updateResultNames(resultNames);
             expect(reduce(action)).toEqual(resultNames);
+        });
+    });
+
+    describe('nodes reducer', () => {
+        const reduce = action => nodesReducer(undefined, action);
+
+        it('should return initial state', () => {
+            expect(reduce({})).toEqual(initialState.nodes);
+        });
+
+        it('should handle UPDATE_NODES', () => {
+            const nodes: RenderNodeMap = {
+                nodeA: {
+                    node: { uuid: 'nodeA', actions: [], exits: [] },
+                    ui: { position: { left: 100, top: 100 } },
+                    inboundConnections: {}
+                }
+            };
+            const action = updateNodes(nodes);
+            expect(reduce(action)).toEqual(nodes);
         });
     });
 
