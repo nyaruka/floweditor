@@ -2,7 +2,7 @@ const mutate = require('immutability-helper');
 import { FlowNode, UINode, AnyAction, FlowDefinition, Dimensions } from '../flowTypes';
 import { v4 as generateUUID } from 'uuid';
 import { RenderNode, RenderNodeMap } from './flowContext';
-import { dump } from '../utils';
+import { dump, snapToGrid } from '../utils';
 import { getUniqueDestinations } from './helpers';
 import { LocalizationUpdates } from '.';
 
@@ -339,9 +339,21 @@ export const updatePosition = (
     const width = lastPos.right - lastPos.left;
     const height = lastPos.bottom - lastPos.top;
 
+    // make sure we are on the grid
+    const adjusted = snapToGrid(left, top);
+
     return mutate(nodes, {
         [nodeUUID]: {
-            ui: { position: { $set: { left, top, right: left + width, bottom: top + height } } }
+            ui: {
+                position: {
+                    $set: {
+                        left: adjusted.left,
+                        top: adjusted.top,
+                        right: adjusted.left + width,
+                        bottom: adjusted.top + height
+                    }
+                }
+            }
         }
     });
 };

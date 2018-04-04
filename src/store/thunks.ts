@@ -55,6 +55,9 @@ import {
 } from './nodeEditor';
 import AppState from './state';
 
+import * as variables from '../variables.scss';
+import { NODE_SPACING } from '../utils';
+
 export type DispatchWithState = Dispatch<AppState>;
 
 export type GetState = () => AppState;
@@ -129,10 +132,6 @@ export type LocalizationUpdates = Array<{ uuid: string; translations?: any }>;
 const FORCE_FETCH = true;
 const QUIET_UI = 10;
 const QUIET_SAVE = 1000;
-export const NODE_SPACING = 10;
-export const NODE_PADDING = 20;
-
-// let uiTimeout: number;
 
 export const initializeFlow = (definition: FlowDefinition) => (
     dispatch: DispatchWithState,
