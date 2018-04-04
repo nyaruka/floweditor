@@ -11,6 +11,6 @@ module.exports = {
         '^.+\\.s?css$': 'identity-obj-proxy'
     },
     collectCoverageFrom: ['src/**/*.{ts,tsx}'],
-    coveragePathIgnorePatterns: ['/*.d.ts$'],
+    coveragePathIgnorePatterns: ['/*.d.ts$', 'lambda-src', 'webpack'],
     setupFiles: ['<rootDir>/rafShim.js', '<rootDir>/enzymeAdapter.js']
 };

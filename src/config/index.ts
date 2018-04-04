@@ -1,6 +1,5 @@
 import ConfigProvider, {
     ConfigProviderContext,
-    assetHostPT,
     endpointsPT,
     languagesPT,
     flowPT
@@ -13,7 +12,6 @@ export {
     Type,
     Mode,
     Operator,
-    assetHostPT,
     endpointsPT,
     languagesPT,
     flowPT,

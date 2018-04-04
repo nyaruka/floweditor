@@ -2,16 +2,32 @@
 import 'core-js/es6/map';
 import 'core-js/es6/set';
 import 'raf/polyfill';
-
 import * as React from 'react';
 import { render } from 'react-dom';
 import { AppContainer as HotContainer } from 'react-hot-loader';
-import * as config from '../../assets/config';
 import FlowEditor from '../../src/';
+import { FlowEditorConfig } from '../../src/flowTypes';
 
 const root = document.getElementById('flow-editor');
 
-const renderHot = (App: React.SFC<{ config: object }>) =>
+const config = {
+    flow: 'a4f64f1b-85bc-477e-b706-de313a022979',
+    languages: {
+        eng: 'English',
+        spa: 'Spanish',
+        fre: 'French'
+    },
+    endpoints: {
+        flows: 'flows',
+        groups: 'groups',
+        contacts: 'contacts',
+        fields: 'fields',
+        activity: '',
+        engine: ''
+    }
+};
+
+const renderHot = (App: React.SFC<{ config: FlowEditorConfig }>) =>
     render(
         <HotContainer>
             <App config={config} />

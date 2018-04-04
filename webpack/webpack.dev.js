@@ -1,6 +1,11 @@
 const { join } = require('path');
 const { smartStrategy } = require('webpack-merge');
-const { HotModuleReplacementPlugin, NamedModulesPlugin, WatchIgnorePlugin } = require('webpack');
+const {
+    HotModuleReplacementPlugin,
+    NamedModulesPlugin,
+    WatchIgnorePlugin,
+    EnvironmentPlugin
+} = require('webpack');
 const paths = require('./paths');
 const { typingsForCssModulesLoader, postCSSLoader } = require('./loaders');
 const commonConfig = require('./webpack.common');
@@ -69,6 +74,9 @@ const devConfig = {
     },
     plugins: [
         new HotModuleReplacementPlugin(),
+        new EnvironmentPlugin({
+            NODE_ENV: 'development'
+        }),
         new NamedModulesPlugin(),
         new WatchIgnorePlugin([/scss\.d\.ts$/])
     ],
