@@ -10,7 +10,7 @@
                 "localization": {
                     "spa": {
                         "64378fc1-19e4-4c8a-be27-aee49ebc728a": {
-                            "text": "¿Cuál es tu color favorito?"
+                            "text": ["¿Cuál es tu color favorito?"]
                         },
                         "55855afc-f612-4ef9-9288-dcb1dd136052": {
                             "name": ["rojo"]

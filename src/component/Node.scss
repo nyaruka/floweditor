@@ -28,6 +28,34 @@
         transition: opacity 400ms ease;
     }
 
+    &.translating {
+        .node {
+
+            .actions {
+                border-bottom-left-radius: 7px;
+                border-bottom-right-radius: 7px;
+                overflow: hidden;
+            }
+
+            .unnamed_exit {
+                &.exit_table {
+                    border-bottom-left-radius: 0px;
+                    border-bottom-right-radius: 0px;
+                    height: 0 important;
+                    border-top: none;
+
+                    .exits {
+                        height: 0;
+                    }
+                    .exit {
+                        padding: 0 !important;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+
     .node {
         border: 1px solid $borders;
         border-radius: $curvature;
@@ -53,31 +81,6 @@
             width: $node_width;
             background: #fff;
         }
-
-        &.translating {
-
-            .actions {
-                border-bottom-left-radius: 7px;
-                border-bottom-right-radius: 7px;
-                overflow: hidden;
-            }
-
-            .unnamed_exit {
-                &.exit_table {
-                    height: inherit;
-                    border-top: none;
-
-                    .exits {
-                        height: inherit;
-                    }
-                    .exit {
-                        padding: 0 !important;
-                        margin: 0;
-                    }
-                }
-            }
-        }
-
         .exit_table {
             display: table;
             width: 100%;
@@ -96,6 +99,9 @@
                 }
             }
         }
+
+
+
         .drag_group {
             position: absolute;
             visibility: hidden;

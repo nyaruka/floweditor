@@ -27,6 +27,8 @@ import {
     updateTranslating
 } from './flowEditor';
 import { getGhostNode } from './helpers';
+import { FlowNode } from '../flowTypes';
+import { RenderNode } from './flowContext';
 
 const config = require('../../assets/config');
 const flowsResp = require('../../assets/flows.json');
@@ -104,7 +106,7 @@ describe('flowEditor action creators', () => {
 
     describe('updateCreateNodePosition', () => {
         it('should create an action to update createNodePosition state', () => {
-            const createNodePosition = { x: 100, y: 250 };
+            const createNodePosition = { left: 100, top: 250 };
             const expectedAction = {
                 type: Constants.UPDATE_CREATE_NODE_POSITION,
                 payload: {
@@ -165,15 +167,20 @@ describe('flowEditor action creators', () => {
     describe('updateGhostNode', () => {
         it('should create an action to update ghostNode state', () => {
             const { definition } = colorsFlow.results[0];
-            const fromNode = definition.nodes[0];
-            // const ghostNode = getGhostNode(fromNode, fromNodeUI, definition);
-            // const expectedAction = {
-            //    type: Constants.UPDATE_GHOST_NODE,
-            //    payload: {
-            //        ghostNode
-            //    }
-            // };
-            // expect(updateGhostNode(ghostNode)).toEqual(expectedAction);
+            const fromNode: RenderNode = {
+                node: definition.nodes[0],
+                ui: definition._ui.nodes[definition.nodes[0].uuid],
+                inboundConnections: {}
+            };
+
+            const ghostNode = getGhostNode(fromNode, definition);
+            const expectedAction = {
+                type: Constants.UPDATE_GHOST_NODE,
+                payload: {
+                    ghostNode
+                }
+            };
+            expect(updateGhostNode(ghostNode)).toEqual(expectedAction);
         });
     });
 
@@ -287,7 +294,7 @@ describe('flowEditor reducers', () => {
         });
 
         it('should handle UPDATE_CREATE_NODE_POSITION', () => {
-            const createNodePosition = { x: 100, y: 250 };
+            const createNodePosition = { left: 100, top: 250 };
             const action = updateCreateNodePosition(createNodePosition);
             expect(reduce(action)).toEqual(createNodePosition);
         });
@@ -368,10 +375,14 @@ describe('flowEditor reducers', () => {
 
         it('should handle UPDATE_GHOST_NODE', () => {
             const { definition } = colorsFlow.results[0];
-            const fromNode = definition.nodes[0];
-            // const ghostNode = getGhostNode(fromNode, fromNodeUI, nodes);
-            // const action = updateGhostNode(ghostNode);
-            // expect(reduce(action)).toEqual(ghostNode);
+            const fromNode: RenderNode = {
+                node: definition.nodes[0],
+                ui: definition._ui.nodes[definition.nodes[0].uuid],
+                inboundConnections: {}
+            };
+            const ghostNode = getGhostNode(fromNode, { [fromNode.node.uuid]: fromNode });
+            const action = updateGhostNode(ghostNode);
+            expect(reduce(action)).toEqual(ghostNode);
         });
     });
 

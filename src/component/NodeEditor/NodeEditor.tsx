@@ -795,6 +795,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         this.props.onUpdateRouter(
             {
                 uuid: this.props.nodeToEdit.uuid,
+                actions: [],
                 router,
                 exits,
                 ...optionalNode

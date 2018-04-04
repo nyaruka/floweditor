@@ -90,25 +90,23 @@ export const addNode = (nodes: RenderNodeMap, nodeToAdd: RenderNode): RenderNode
     let updatedNodes = mutate(nodes, { $merge: { [nodeToAdd.node.uuid]: nodeToAdd } });
 
     // if we have inbound connections, update our nodes accordingly
-    if (nodeToAdd.inboundConnections) {
-        for (const fromExitUUID of Object.keys(nodeToAdd.inboundConnections)) {
-            const fromNodeUUID = nodeToAdd.inboundConnections[fromExitUUID];
+    for (const fromExitUUID of Object.keys(nodeToAdd.inboundConnections)) {
+        const fromNodeUUID = nodeToAdd.inboundConnections[fromExitUUID];
 
-            const fromNode = getNode(nodes, fromNodeUUID);
-            const exitIdx = getExitIndex(fromNode.node, fromExitUUID);
+        const fromNode = getNode(nodes, fromNodeUUID);
+        const exitIdx = getExitIndex(fromNode.node, fromExitUUID);
 
-            updatedNodes = mutate(updatedNodes, {
-                [fromNodeUUID]: {
-                    node: {
-                        exits: {
-                            [exitIdx]: {
-                                $merge: { destination_node_uuid: nodeToAdd.node.uuid }
-                            }
+        updatedNodes = mutate(updatedNodes, {
+            [fromNodeUUID]: {
+                node: {
+                    exits: {
+                        [exitIdx]: {
+                            $merge: { destination_node_uuid: nodeToAdd.node.uuid }
                         }
                     }
                 }
-            });
-        }
+            }
+        });
     }
 
     return updatedNodes;
@@ -138,50 +136,15 @@ export const addAction = (
  */
 export const updateAction = (nodes: RenderNodeMap, nodeUUID: string, action: AnyAction) => {
     const nodeToEdit = getNode(nodes, nodeUUID);
-
-    let updatedNodes = nodes;
     // if we have existing actions, find our action and update it
-    if (nodeToEdit.node.actions && nodeToEdit.node.actions.length > 0) {
-        const actionIdx = getActionIndex(nodeToEdit.node, action.uuid);
-        updatedNodes = mutate(updatedNodes, {
-            [nodeToEdit.node.uuid]: {
-                node: {
-                    actions: { [actionIdx]: { $set: action } }
-                }
-            }
-        });
-    }
-
-    // TODO: not sure the purpose of this
-    let previousDestination = null;
-    let previousUUID = generateUUID();
-    if (nodeToEdit.node.exits.length === 1) {
-        previousDestination = nodeToEdit.node.exits[0].destination_node_uuid;
-        previousUUID = nodeToEdit.node.exits[0].uuid;
-    }
-
-    // make sure we don't have any routerness left
-    updatedNodes = mutate(updatedNodes, {
-        [nodeToEdit.node.uuid]: {
+    const actionIdx = getActionIndex(nodeToEdit.node, action.uuid);
+    return mutate(nodes, {
+        [nodeUUID]: {
             node: {
-                $unset: ['router', 'wait'],
-                exits: {
-                    $set: [
-                        {
-                            name: null,
-                            uuid: previousUUID,
-                            destination_node_uuid: previousDestination
-                        }
-                    ]
-                }
-            },
-            ui: {
-                $unset: ['type']
+                actions: { [actionIdx]: { $set: action } }
             }
         }
     });
-
-    return updatedNodes;
 };
 
 /** Removes a specific action from a node */
@@ -255,40 +218,40 @@ export const removeNode = (nodes: RenderNodeMap, nodeUUID: string): RenderNodeMa
         }
     }
 
+    // if we have a single destination, reroute those pointing to us
+    let destination = null;
+    if (nodeToRemove.node.exits.length === 1) {
+        ({ destination_node_uuid: destination } = nodeToRemove.node.exits[0]);
+    }
+
+    console.log(nodeToRemove.node.uuid, destination);
+
     // clear any destinations that point to us
-    if (nodeToRemove.inboundConnections) {
-        // if we have a single destination, reroute those pointing to us
-        let destination = null;
-        if (nodeToRemove.node.exits.length === 1) {
-            ({ destination_node_uuid: destination } = nodeToRemove.node.exits[0]);
-        }
+    for (const fromExitUUID of Object.keys(nodeToRemove.inboundConnections)) {
+        const fromNodeUUID = nodeToRemove.inboundConnections[fromExitUUID];
+        const fromNode = getNode(nodes, fromNodeUUID);
 
-        for (const fromExitUUID of Object.keys(nodeToRemove.inboundConnections)) {
-            const fromNodeUUID = nodeToRemove.inboundConnections[fromExitUUID];
-            const fromNode = getNode(nodes, fromNodeUUID);
-
-            // TODO: this can be optimized to only go through any node's exits once
-            const exitIdx = getExitIndex(fromNode.node, fromExitUUID);
-            updatedNodes = mutate(updatedNodes, {
-                [fromNodeUUID]: {
-                    node: {
-                        exits: {
-                            [exitIdx]: { destination_node_uuid: { $set: destination } }
-                        }
+        // TODO: this can be optimized to only go through any node's exits once
+        const exitIdx = getExitIndex(fromNode.node, fromExitUUID);
+        updatedNodes = mutate(updatedNodes, {
+            [fromNodeUUID]: {
+                node: {
+                    exits: {
+                        [exitIdx]: { destination_node_uuid: { $set: destination } }
                     }
                 }
-            });
-
-            // if we are setting a new destination, update the inboundConnections
-            if (destination) {
-                // make sure our destination exists
-                getNode(nodes, destination);
-                updatedNodes = mutate(updatedNodes, {
-                    [destination]: {
-                        inboundConnections: { $merge: { [fromExitUUID]: fromNodeUUID } }
-                    }
-                });
             }
+        });
+
+        // if we are setting a new destination, update the inboundConnections
+        if (destination) {
+            // make sure our destination exists
+            getNode(nodes, destination);
+            updatedNodes = mutate(updatedNodes, {
+                [destination]: {
+                    inboundConnections: { $merge: { [fromExitUUID]: fromNodeUUID } }
+                }
+            });
         }
     }
 
