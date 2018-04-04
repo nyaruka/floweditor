@@ -2,39 +2,13 @@ const mutate = require('immutability-helper');
 import { FlowNode, UINode, AnyAction, FlowDefinition, Dimensions } from '../flowTypes';
 import { v4 as generateUUID } from 'uuid';
 import { RenderNode, RenderNodeMap } from './flowContext';
-import { dump } from '../utils';
-import { getUniqueDestinations } from './helpers';
+import { dump, snapToGrid } from '../utils';
+import { getUniqueDestinations, getNode, getExitIndex, getActionIndex } from './helpers';
 import { LocalizationUpdates } from '.';
 
 export const uniquifyNode = (newNode: FlowNode): FlowNode => {
     // Give our node a unique uuid
     return mutate(newNode, { $merge: { uuid: generateUUID() } });
-};
-
-export const getNode = (nodes: RenderNodeMap, nodeUUID: string) => {
-    const node = nodes[nodeUUID];
-    if (!node) {
-        throw new Error('Cannot find node ' + nodeUUID);
-    }
-    return node;
-};
-
-export const getExitIndex = (node: FlowNode, exitUUID: string) => {
-    for (const [exitIdx, exit] of node.exits.entries()) {
-        if (exit.uuid === exitUUID) {
-            return exitIdx;
-        }
-    }
-    throw new Error('Cannot find exit ' + exitUUID);
-};
-
-export const getActionIndex = (node: FlowNode, actionUUID: string) => {
-    for (const [actionIdx, action] of node.actions.entries()) {
-        if (action.uuid === actionUUID) {
-            return actionIdx;
-        }
-    }
-    throw new Error('Cannot find action ' + actionUUID);
 };
 
 /**
@@ -339,9 +313,21 @@ export const updatePosition = (
     const width = lastPos.right - lastPos.left;
     const height = lastPos.bottom - lastPos.top;
 
+    // make sure we are on the grid
+    const adjusted = snapToGrid(left, top);
+
     return mutate(nodes, {
         [nodeUUID]: {
-            ui: { position: { $set: { left, top, right: left + width, bottom: top + height } } }
+            ui: {
+                position: {
+                    $set: {
+                        left: adjusted.left,
+                        top: adjusted.top,
+                        right: adjusted.left + width,
+                        bottom: adjusted.top + height
+                    }
+                }
+            }
         }
     });
 };

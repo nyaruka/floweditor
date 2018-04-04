@@ -78,6 +78,34 @@ Object {
       },
     },
   },
+  "nodeD": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitD",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitD",
+        "type": "switch",
+      },
+      "uuid": "nodeD",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 300,
+        "right": 700,
+        "top": 1000,
+      },
+      "type": "wait_for_response",
+    },
+  },
 }
 `;
 
@@ -158,6 +186,34 @@ Object {
         "right": 600,
         "top": 210,
       },
+    },
+  },
+  "nodeD": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitD",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitD",
+        "type": "switch",
+      },
+      "uuid": "nodeD",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 300,
+        "right": 700,
+        "top": 1000,
+      },
+      "type": "wait_for_response",
     },
   },
 }
@@ -321,6 +377,34 @@ Object {
       },
     },
   },
+  "nodeD": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitD",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitD",
+        "type": "switch",
+      },
+      "uuid": "nodeD",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 300,
+        "right": 700,
+        "top": 1000,
+      },
+      "type": "wait_for_response",
+    },
+  },
 }
 `;
 
@@ -395,6 +479,34 @@ Object {
       },
     },
   },
+  "nodeD": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitD",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitD",
+        "type": "switch",
+      },
+      "uuid": "nodeD",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 300,
+        "right": 700,
+        "top": 1000,
+      },
+      "type": "wait_for_response",
+    },
+  },
 }
 `;
 
@@ -452,6 +564,22 @@ Object {
       ],
       "uuid": "nodeC",
     },
+    Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitD",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitD",
+        "type": "switch",
+      },
+      "uuid": "nodeD",
+      "wait": "msg",
+    },
   ],
   "uuid": "flowA",
 }
@@ -504,6 +632,22 @@ Object {
         },
       ],
       "uuid": "nodeC",
+    },
+    Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitD",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitD",
+        "type": "switch",
+      },
+      "uuid": "nodeD",
+      "wait": "msg",
     },
   ],
   "uuid": "flowA",
@@ -590,6 +734,34 @@ Object {
       },
     },
   },
+  "nodeD": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitD",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitD",
+        "type": "switch",
+      },
+      "uuid": "nodeD",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 300,
+        "right": 700,
+        "top": 1000,
+      },
+      "type": "wait_for_response",
+    },
+  },
 }
 `;
 
@@ -662,6 +834,34 @@ Object {
         "right": 600,
         "top": 210,
       },
+    },
+  },
+  "nodeD": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitD",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitD",
+        "type": "switch",
+      },
+      "uuid": "nodeD",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 300,
+        "right": 700,
+        "top": 1000,
+      },
+      "type": "wait_for_response",
     },
   },
 }
@@ -740,6 +940,34 @@ Object {
       },
     },
   },
+  "nodeD": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitD",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitD",
+        "type": "switch",
+      },
+      "uuid": "nodeD",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 300,
+        "right": 700,
+        "top": 1000,
+      },
+      "type": "wait_for_response",
+    },
+  },
 }
 `;
 
@@ -816,6 +1044,34 @@ Object {
         "right": 600,
         "top": 210,
       },
+    },
+  },
+  "nodeD": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitD",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitD",
+        "type": "switch",
+      },
+      "uuid": "nodeD",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 300,
+        "right": 700,
+        "top": 1000,
+      },
+      "type": "wait_for_response",
     },
   },
 }

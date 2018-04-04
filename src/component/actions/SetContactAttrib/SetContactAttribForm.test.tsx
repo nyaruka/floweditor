@@ -6,7 +6,12 @@ import { createSetup } from '../../../testUtils';
 import ConnectedAttribElement from '../../form/AttribElement';
 import ConnectedTextInputElement from '../../form/TextInputElement';
 import { setContactField, setContactProperty } from './__test__';
-import { fieldToSearchResult, newPropertyAction, propertyToSearchResult } from './helpers';
+import {
+    fieldToSearchResult,
+    newFieldAction,
+    newPropertyAction,
+    propertyToSearchResult
+} from './helpers';
 import SetContactAttribForm, {
     ATTRIB_HELP_TEXT,
     SetContactAttribFormProps,
@@ -96,7 +101,28 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         });
 
         describe('onValid', () => {
-            it('should call updateAction prop with new action', () => {
+            it('should call updateAction prop with new SetContactField action', () => {
+                const {
+                    wrapper,
+                    instance,
+                    props: { action, updateAction: updateActionMock }
+                } = setup({ updateAction: jest.fn(), action: setContactField }, true);
+                const attribute = fieldToSearchResult(action as SetContactField);
+                const { value } = action;
+                const widgets = {
+                    Attribute: { wrappedInstance: { state: { attribute } } },
+                    Value: { wrappedInstance: { state: { value } } }
+                };
+
+                instance.onValid(widgets);
+
+                expect(updateActionMock).toHaveBeenCalledTimes(1);
+                expect(updateActionMock).toHaveBeenCalledWith(
+                    newFieldAction(action.uuid, value, attribute.name)
+                );
+            });
+
+            it('should call updateAction prop with new SetContactProperty action', () => {
                 const {
                     wrapper,
                     instance,

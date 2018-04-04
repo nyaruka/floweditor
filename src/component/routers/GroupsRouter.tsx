@@ -1,3 +1,5 @@
+// TODO: Remove use of Function
+// tslint:disable:ban-types
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { endpointsPT } from '../../config';

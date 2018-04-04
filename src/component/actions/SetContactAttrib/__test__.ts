@@ -1,4 +1,9 @@
-import { ContactProperties, SetContactField, SetContactProperty } from '../../../flowTypes';
+import {
+    ContactProperties,
+    SetContactField,
+    SetContactProperty,
+    SendMsg
+} from '../../../flowTypes';
 
 export const setContactProperty: SetContactProperty = {
     type: 'set_contact_property',

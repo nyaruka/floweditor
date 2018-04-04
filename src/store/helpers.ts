@@ -12,7 +12,6 @@ import {
 import Localization, { LocalizedObject } from '../services/Localization';
 import { RenderNode, RenderNodeMap, SearchResult } from './flowContext';
 import { PendingConnections } from './flowEditor';
-import { NODE_PADDING } from './thunks';
 
 export interface Bounds {
     left: number;
@@ -26,67 +25,31 @@ interface Reflow {
     bounds: Bounds;
 }
 
-export const getExistingGroups = (groups: { [id: string]: SearchResult }) =>
-    Object.keys(groups).reduce((groupsList, groupKey) => {
-        if (groups.hasOwnProperty(groupKey)) {
-            groupsList.push(groups[groupKey]);
-        }
-        return groupsList;
-    }, []);
-
-export const getExistingResultNames = (resultNames: { [name: string]: string }) =>
-    Object.keys(resultNames).reduce((resultNameList, resultNameKey) => {
-        if (resultNameKey && resultNameKey.trim().length > 0) {
-            resultNameList.push(
-                {
-                    name: `run.results.${resultNameKey}`,
-                    description: `Result for "${resultNames[resultNameKey]}"`
-                },
-                {
-                    name: `run.results.${resultNameKey}.category`,
-                    description: `Category for "${resultNames[resultNameKey]}"`
-                }
-            );
-        }
-        return resultNameList;
-    }, []);
-
-export const getExistingFields = (
-    reservedFields: SearchResult[],
-    fields: { [id: string]: SearchResult }
-) =>
-    Object.keys(fields).reduce((existingFields, fieldKey) => {
-        existingFields.push(fields[fieldKey]);
-        return existingFields;
-    }, reservedFields);
-
-export const pureSort = (list: any[], fn: (a: any, b: any) => number) => [...list].sort(fn);
-
-export const getNodesBelow = (
-    { uuid: nodeUUID }: FlowNode,
-    nodes: { [uuid: string]: RenderNode }
-): FlowNode[] => {
-    const below = nodes[nodeUUID].ui.position.top;
-
-    // TODO: well this isn't great now is it
-    // good news though, I don't think we need this
-    // if we do group drag selection
-    const nodesBelow = [];
-    for (const uuid in Object.keys(nodes)) {
-        if (uuid !== nodeUUID) {
-            const belowNode = nodes[uuid];
-            if (belowNode.ui.position.top > below) {
-                nodesBelow.push(belowNode.node);
-            }
-        }
+export const getNode = (nodes: RenderNodeMap, nodeUUID: string) => {
+    const node = nodes[nodeUUID];
+    if (!node) {
+        throw new Error('Cannot find node ' + nodeUUID);
     }
-    return nodesBelow;
+    return node;
 };
 
-export const getPendingConnection = (
-    nodeUUID: string,
-    pendingConnections: PendingConnections
-): DragPoint => pendingConnections[nodeUUID];
+export const getExitIndex = (node: FlowNode, exitUUID: string) => {
+    for (const [exitIdx, exit] of node.exits.entries()) {
+        if (exit.uuid === exitUUID) {
+            return exitIdx;
+        }
+    }
+    throw new Error('Cannot find exit ' + exitUUID);
+};
+
+export const getActionIndex = (node: FlowNode, actionUUID: string) => {
+    for (const [actionIdx, action] of node.actions.entries()) {
+        if (action.uuid === actionUUID) {
+            return actionIdx;
+        }
+    }
+    throw new Error('Cannot find action ' + actionUUID);
+};
 
 /**
  * Gets a suggested result name based on the current number of waits
@@ -95,14 +58,6 @@ export const getPendingConnection = (
 export const getSuggestedResultName = (nodes: RenderNodeMap) => {
     return 'Response ' + (Object.keys(nodes).length + 1);
 };
-
-export const getNodeUI = (uuid: string, definition: FlowDefinition) => definition._ui.nodes[uuid];
-
-/**
- * Computes translations prop for `Node` components in render()
- */
-export const getTranslations = (localizationMap: LocalizationMap, iso: string) =>
-    localizationMap[iso];
 
 export const getLocalizations = (
     node: FlowNode,
@@ -139,30 +94,26 @@ export const getLocalizations = (
 export const determineConfigType = (
     nodeToEdit: FlowNode,
     action: AnyAction,
-    nodes: { [uuid: string]: RenderNode }
+    nodes: RenderNodeMap
 ) => {
     if (action && action.type) {
         return action.type;
-    } else if (nodeToEdit.actions && nodeToEdit.actions.length) {
+    } else if (nodeToEdit.actions && nodeToEdit.actions.length > 0) {
         return nodeToEdit.actions[nodeToEdit.actions.length - 1].type;
     } else {
-        const renderNode = nodes[nodeToEdit.uuid];
-        if (renderNode) {
+        try {
+            const renderNode = getNode(nodes, nodeToEdit.uuid);
+            /* istanbul ignore else */
             if (renderNode.ui.type) {
                 return renderNode.ui.type;
             }
-        }
+            // tslint:disable-next-line:no-empty
+        } catch (Error) {}
     }
 
     // Account for ghost nodes
-    if (nodeToEdit) {
-        if (nodeToEdit.router) {
-            return nodeToEdit.router.type;
-        }
-
-        if (nodeToEdit.actions) {
-            return nodeToEdit.actions[0].type;
-        }
+    if (nodeToEdit.router) {
+        return nodeToEdit.router.type;
     }
 
     throw new Error(`Cannot initialize NodeEditor without a valid type: ${nodeToEdit.uuid}`);
@@ -176,22 +127,6 @@ export const getUniqueDestinations = (node: FlowNode): string[] => {
         }
     }
     return Object.keys(destinations);
-};
-
-export const getConnectionError = (source: string, targetUUID: string) => {
-    const [nodeUUID, exitUUID] = source.split(':');
-    return nodeUUID === targetUUID ? 'Connections cannot route back to the same places.' : null;
-};
-
-export const nodeSort = (definition: FlowDefinition) => (a: FlowNode, b: FlowNode) => {
-    const { position: aPos } = definition._ui.nodes[a.uuid];
-    const { position: bPos } = definition._ui.nodes[b.uuid];
-    const diff = aPos.top - bPos.top;
-    // Secondary sort on X location
-    if (diff === 0) {
-        return aPos.left - bPos.left;
-    }
-    return diff;
 };
 
 const getOrderedNodes = (nodes: RenderNodeMap): RenderNode[] => {
@@ -213,6 +148,7 @@ export const collides = (a: RenderNode, b: RenderNode) => {
     const bPos = b.ui.position;
 
     // don't bother with collision if we don't have full dimensions
+    /* istanbul ignore next */
     if (!aPos.bottom || !bPos.bottom) {
         return false;
     }

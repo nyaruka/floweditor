@@ -44,7 +44,7 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
 
         if (attribute.type === AttributeType.field) {
             this.props.updateAction(newFieldAction(this.props.action.uuid, value, attribute.name));
-        } else if (attribute.type === AttributeType.property) {
+        } else {
             this.props.updateAction(
                 newPropertyAction(this.props.action.uuid, value, attribute.name)
             );
@@ -52,14 +52,10 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
     }
 
     private getInitial(): SearchResult {
-        switch (this.props.action.type) {
-            case 'set_contact_field':
-                return fieldToSearchResult(this.props.action as SetContactField);
-            case 'set_contact_property':
-                return propertyToSearchResult(this.props.action as SetContactProperty);
-            /* istanbul ignore next */
-            default:
-                return null;
+        if (this.props.action.type === 'set_contact_field') {
+            return fieldToSearchResult(this.props.action as SetContactField);
+        } else {
+            return propertyToSearchResult(this.props.action as SetContactProperty);
         }
     }
 

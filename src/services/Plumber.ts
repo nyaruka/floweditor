@@ -1,3 +1,5 @@
+// TODO: Remove use of Function
+// tslint:disable:ban-types
 const { jsPlumb: { importDefaults } } = require('../../node_modules/jsplumb/dist/js/jsplumb');
 import { FlowNode, FlowDefinition, Exit, LocalizationMap } from '../flowTypes';
 
@@ -188,7 +190,7 @@ export default class Plumber {
                 console.log('batching ' + batch + ' connections');
             }
 
-            for (let key in this.pendingConnections) {
+            for (const key in this.pendingConnections) {
                 if (this.pendingConnections.hasOwnProperty(key)) {
                     const connection = this.pendingConnections[key];
                     const { source, target, className } = connection;

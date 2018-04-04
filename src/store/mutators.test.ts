@@ -7,18 +7,16 @@ import {
     removeAction,
     moveActionUp,
     removeNode,
-    getNode,
-    getExitIndex,
-    getActionIndex,
     updateNode,
     updatePosition,
     updateDimensions,
     updateLocalization
 } from './mutators';
 import { RenderNodeMap } from './flowContext';
-import { SendMsg, FlowDefinition, Node } from '../flowTypes';
+import { SendMsg, FlowDefinition, FlowNode } from '../flowTypes';
 import { dump } from '../utils';
 import { NODES_ABC } from './__test__';
+import { getNode, getExitIndex, getActionIndex } from './helpers';
 
 describe('mutators', () => {
     const nodes = NODES_ABC;

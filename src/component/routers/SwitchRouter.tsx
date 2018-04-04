@@ -1,3 +1,5 @@
+// TODO: Remove use of Function
+// tslint:disable:ban-types
 import * as React from 'react';
 import update from 'immutability-helper';
 import { react as bindCallbacks } from 'auto-bind';
