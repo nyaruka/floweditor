@@ -1,0 +1,161 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TitleBar render confirmation should render confirmation markup 1`] = `
+<div
+  className="titlebar"
+  data-spec="titlebar-container"
+>
+  <div
+    className="undefined normal"
+    data-spec="titlebar"
+  >
+    <div
+      className="up_button"
+      data-spec="move"
+    />
+    <div
+      className="remove_button"
+      data-spec="remove-icon"
+      onMouseDown={[Function]}
+      onMouseUp={[Function]}
+    >
+      <span
+        className="icon-remove"
+      />
+    </div>
+    Send Message
+  </div>
+</div>
+`;
+
+exports[`TitleBar render confirmation should render confirmation markup 2`] = `
+<div
+  className="titlebar"
+  data-spec="titlebar-container"
+>
+  <div
+    className="undefined normal"
+    data-spec="titlebar"
+  >
+    <div
+      className="up_button"
+      data-spec="move"
+    />
+    <div
+      className="remove_button"
+      data-spec="remove-icon"
+      onMouseDown={[Function]}
+      onMouseUp={[Function]}
+    >
+      <span
+        className="icon-remove"
+      />
+    </div>
+    Send Message
+  </div>
+  <div
+    className="remove_confirm"
+    data-spec="confirmation"
+  >
+    <div
+      className="remove_button"
+      data-spec="confirm-removal"
+      onMouseDown={[Function]}
+      onMouseUp={[Function]}
+    >
+      <span
+        className="icon-remove"
+      />
+    </div>
+    Remove?
+  </div>
+</div>
+`;
+
+exports[`TitleBar render move icon should render move icon 1`] = `
+<div
+  className="titlebar"
+  data-spec="titlebar-container"
+>
+  <div
+    className="undefined normal"
+    data-spec="titlebar"
+  >
+    <div
+      className="up_button"
+      data-spec="move-icon"
+      onMouseDown={[Function]}
+      onMouseUp={[Function]}
+    >
+      <span
+        className="icon-arrow-up"
+      />
+    </div>
+    Send Message
+  </div>
+</div>
+`;
+
+exports[`TitleBar render remove icon should render remove icon 1`] = `
+<div
+  className="titlebar"
+  data-spec="titlebar-container"
+>
+  <div
+    className="undefined normal"
+    data-spec="titlebar"
+  >
+    <div
+      className="up_button"
+      data-spec="move"
+    />
+    <div
+      className="remove_button"
+      data-spec="remove-icon"
+      onMouseDown={[Function]}
+      onMouseUp={[Function]}
+    >
+      <span
+        className="icon-remove"
+      />
+    </div>
+    Send Message
+  </div>
+</div>
+`;
+
+exports[`TitleBar render should apply _className prop 1`] = `
+<div
+  className="titlebar"
+  data-spec="titlebar-container"
+>
+  <div
+    className="some-classy-class normal"
+    data-spec="titlebar"
+  >
+    <div
+      className="up_button"
+      data-spec="move"
+    />
+    Send Message
+  </div>
+</div>
+`;
+
+exports[`TitleBar render should render self, children with base props 1`] = `
+<div
+  className="titlebar"
+  data-spec="titlebar-container"
+>
+  <div
+    className="undefined normal"
+    data-spec="titlebar"
+  >
+    <div
+      className="up_button"
+      data-spec="move"
+    />
+    Send Message
+  </div>
+</div>
+`;

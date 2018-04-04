@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SetRunResult should render SetRunResult with clear placholder when value prop isn't passed 1`] = `
+<div>
+  Clear value for 
+  <span
+    className="emph"
+  >
+    Phone
+  </span>
+</div>
+`;
+
+exports[`SetRunResult should render SetRunResult with save placeholder when value prop passed 1`] = `
+<div>
+  Save 
+  @contact.urns.tel
+   as 
+  <span
+    className="emph"
+  >
+    Phone
+  </span>
+</div>
+`;

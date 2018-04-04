@@ -1,37 +1,53 @@
 import * as React from 'react';
-import { ChangeGroups } from '../../../flowTypes';
+import { ChangeGroups, Group } from '../../../flowTypes';
 
-const getMarkup = ({ type, groups }: ChangeGroups): JSX.Element[] => {
-    const content: JSX.Element[] = [];
+export const removeAllSpecId = 'remove_from_all';
+export const contentSpecId = 'content';
+export const removeAllText = 'Remove from all groups';
+export const ellipsesText = '...';
+
+export const getRemoveAllMarkup = (
+    key = removeAllSpecId,
+    specId = removeAllSpecId,
+    text = removeAllText
+) => (
+    <div key={key} data-spec={specId}>
+        {text}
+    </div>
+);
+
+export const getGroupMarkup = (value: string, idx: number) => <div key={idx}>{value}</div>;
+
+export const getGroupElements = (groups: Group[] = []) =>
+    groups.reduce((groupList, { name }, idx) => {
+        if (idx <= 2) {
+            groupList.push(getGroupMarkup(name, idx));
+        }
+
+        if (idx === 3) {
+            groupList.push(getGroupMarkup(ellipsesText, idx));
+        }
+
+        return groupList;
+    }, []);
+
+export const getContentMarkup = ({ type, groups }: ChangeGroups): JSX.Element[] => {
+    const content = [];
 
     if (type === 'remove_contact_groups' && !groups.length) {
-        content.push(
-            <div key="remove_from_all" data-spec="remove-all">
-                Remove from all groups
-            </div>
-        );
+        content.push(getRemoveAllMarkup());
     } else {
-        const groupEls: JSX.Element[] = groups.reduce((groupList, { name }, idx) => {
-            if (idx <= 2) {
-                groupList.push(<div key={idx}>{name}</div>);
-            }
-
-            if (idx === 3) {
-                groupList.push(<div key={idx}>...</div>);
-            }
-
-            return groupList;
-        }, []);
-
-        content.push(...groupEls);
+        const groupEls = content.push(...getGroupElements(groups));
     }
 
     return content;
 };
 
-const ChangeGroupComp: React.SFC<ChangeGroups> = (props): JSX.Element => {
-    const content: JSX.Element[] = getMarkup(props);
-    return <div data-spec="content">{content}</div>;
-};
+export const getChangeGroupsMarkup = (action: ChangeGroups, specId = contentSpecId) => (
+    <div data-spec={specId}>{getContentMarkup(action)}</div>
+);
+
+const ChangeGroupComp: React.SFC<ChangeGroups> = (props): JSX.Element =>
+    getChangeGroupsMarkup(props);
 
 export default ChangeGroupComp;

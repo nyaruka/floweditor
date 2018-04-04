@@ -6,7 +6,8 @@ import ConfigProvider, {
     endpointsPT,
     languagesPT,
     SINGLE_CHILD_ERROR,
-    VALID_CHILD_ERROR
+    VALID_CHILD_ERROR,
+    flowPT
 } from './ConfigProvider';
 
 const config = require('../../assets/config.js');
@@ -17,7 +18,8 @@ describe('ConfigProvider >', () => {
             public static contextTypes = {
                 assetHost: assetHostPT,
                 endpoints: endpointsPT,
-                languages: languagesPT
+                languages: languagesPT,
+                flow: flowPT
             };
             public render(): JSX.Element {
                 return <div />;
@@ -57,12 +59,13 @@ describe('ConfigProvider >', () => {
             </ConfigProvider>
         ) as React.Component<any, {}>;
         const childComp = findRenderedComponentWithType(tree, Child);
-        const { assetHost, endpoints, languages } = config;
+        const { assetHost, endpoints, languages, flow } = config;
 
         expect(childComp.context).toEqual({
             assetHost,
             endpoints,
-            languages
+            languages,
+            flow
         });
     });
 });

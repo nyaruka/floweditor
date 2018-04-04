@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChangeGroupComp helpers getChangeGroupsMarkup should return ChangeGroupComp markup w/ container 1`] = `
+<div
+  data-spec="content"
+>
+  <div>
+    Unsatisfied Customers
+  </div>
+</div>
+`;
+
+exports[`ChangeGroupComp helpers getContentMarkup should return list of elements that contains remove-all markup 1`] = `
+Array [
+  <div
+    data-spec="remove_from_all"
+  >
+    Remove from all groups
+  </div>,
+]
+`;
+
+exports[`ChangeGroupComp helpers getContentMarkup should return list of group elements 1`] = `
+Array [
+  <div>
+    Unsatisfied Customers
+  </div>,
+]
+`;
+
+exports[`ChangeGroupComp helpers getGroupElements should return a list of group elements 1`] = `
+Array [
+  <div>
+    Unsatisfied Customers
+  </div>,
+]
+`;
+
+exports[`ChangeGroupComp helpers getRemoveAllMarkup should return remove-all markup 1`] = `
+<div
+  data-spec="remove_from_all"
+>
+  Remove from all groups
+</div>
+`;
+
+exports[`ChangeGroupComp render should limit div to 3 groups, include ellipsesText 1`] = `
+<div
+  data-spec="content"
+>
+  <div
+    key="0"
+  >
+    Customers
+  </div>
+  <div
+    key="1"
+  >
+    Unsatisfied Customers
+  </div>
+  <div
+    key="2"
+  >
+    Early Adopters
+  </div>
+  <div
+    key="3"
+  >
+    ...
+  </div>
+</div>
+`;
+
+exports[`ChangeGroupComp render should render 'remove from all' markup when passed group action of type 'remove_contact_groups' 1`] = `
+<div
+  data-spec="content"
+>
+  <div
+    data-spec="remove_from_all"
+    key="remove_from_all"
+  >
+    Remove from all groups
+  </div>
+</div>
+`;
+
+exports[`ChangeGroupComp render should render group name 1`] = `
+<div
+  data-spec="content"
+>
+  <div
+    key="0"
+  >
+    Unsatisfied Customers
+  </div>
+</div>
+`;

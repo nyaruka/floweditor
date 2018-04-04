@@ -29,12 +29,12 @@ export interface FlowDefinition {
     localization: LocalizationMap;
     language: string;
     name: string;
-    nodes: Node[];
+    nodes: FlowNode[];
     uuid: string;
     _ui: UIMetaData;
 }
 
-export interface Node {
+export interface FlowNode {
     uuid: string;
     exits: Exit[];
     router?: Router;
@@ -193,9 +193,15 @@ export type AnyAction =
     | StartFlow;
 
 export enum ContactProperties {
+    UUID = 'UUID',
+    'Created By' = 'Created By',
+    'Modified By' = 'Modified By',
+    Org = 'Org',
     Name = 'Name',
     Language = 'Language',
+    Timezone = 'Timezone',
     Email = 'Email',
+    Mailto = 'Mailto',
     Phone = 'Phone',
     Groups = 'Groups',
     Facebook = 'Facebook',

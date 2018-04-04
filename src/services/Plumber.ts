@@ -1,5 +1,5 @@
 const { jsPlumb: { importDefaults } } = require('../../node_modules/jsplumb/dist/js/jsplumb');
-import { Node, FlowDefinition, Exit, LocalizationMap } from '../flowTypes';
+import { FlowNode, FlowDefinition, Exit, LocalizationMap } from '../flowTypes';
 
 export interface DragEvent {
     el: Element;
@@ -136,11 +136,11 @@ export default class Plumber {
         this.jsPlumb.makeTarget(uuid, TARGET_DEFAULTS);
     }
 
-    public connectExit(node: Node, exit: Exit, className: string = null): void {
+    public connectExit(node: FlowNode, exit: Exit, className: string = null): void {
         this.connect(`${node.uuid}:${exit.uuid}`, exit.destination_node_uuid, className);
     }
 
-    public setDragSelection(nodes: Node[]): void {
+    public setDragSelection(nodes: FlowNode[]): void {
         this.cancelDurationRepaint();
         this.jsPlumb.clearDragSelection();
         nodes.forEach(({ uuid }) => this.jsPlumb.addToDragSelection(uuid));

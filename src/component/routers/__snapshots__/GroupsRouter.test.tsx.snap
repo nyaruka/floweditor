@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GroupsRouter helpers extractGroups should extract groups from the exits of a groupsRouter node 1`] = `
+Object {
+  "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+  "name": "Early Adopters",
+}
+`;
+
+exports[`GroupsRouter helpers extractGroups should extract groups from the exits of a groupsRouter node 2`] = `
+Object {
+  "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+  "name": "Subscribers",
+}
+`;
+
+exports[`GroupsRouter render should render exit translations when user is translating 1`] = `<div />`;

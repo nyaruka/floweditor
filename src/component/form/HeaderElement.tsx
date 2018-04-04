@@ -1,6 +1,7 @@
+import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import { hasErrorType } from '../../utils';
-import TextInputElement, { HTMLTextElement } from '../form/TextInputElement';
+import { hasErrorType, renderIf } from '../../utils';
+import ConnectedTextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 import * as styles from '../routers/Webhook.scss';
 import FormElement from './FormElement';
 
@@ -25,12 +26,21 @@ interface HeaderElementState {
     errors: string[];
 }
 
+export const headerContainerSpecId = 'header-container';
+export const nameContainerSpecId = 'name-container';
+export const valueConatainerSpecId = 'value-container';
+export const removeIcoSpecId = 'remove-icon';
+
+export const HEADER_NAME_ERROR = 'HTTP headers must have a name';
+export const NAME_PLACEHOLDER = 'Header Name';
+export const VALUE_PLACEHOLDER = 'Value';
+
 export default class HeaderElement extends React.Component<HeaderElementProps, HeaderElementState> {
     constructor(props: HeaderElementProps) {
         super(props);
 
-        const name: string = this.props.header.name || '';
-        const value: string = this.props.header.value || '';
+        const name = this.props.header.name || '';
+        const value = this.props.header.value || '';
 
         this.state = {
             name,
@@ -38,9 +48,9 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
             errors: []
         };
 
-        this.onChangeName = this.onChangeName.bind(this);
-        this.onChangeValue = this.onChangeValue.bind(this);
-        this.onRemove = this.onRemove.bind(this);
+        bindCallbacks(this, {
+            include: [/^on/]
+        });
     }
 
     private onChangeName({
@@ -70,55 +80,46 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
     }
 
     public validate(): boolean {
-        const errors: string[] = [];
+        const errors = [];
 
-        const needsHeaderName: boolean =
+        const needsHeaderName =
             this.state.value.trim().length > 0 && this.state.name.trim().length === 0;
 
         if (needsHeaderName) {
-            errors.push('HTTP headers must have a name');
+            errors.push(HEADER_NAME_ERROR);
         }
 
         this.setState({ errors });
 
-        const isValid: boolean = errors.length === 0;
-
-        return isValid;
+        return errors.length === 0;
     }
 
     private getRemoveIco(): JSX.Element {
-        const showRemove: boolean = this.props.index !== 0 && !this.props.empty;
-
-        if (showRemove) {
-            return (
-                <div className={styles.removeIco} onClick={this.onRemove}>
-                    <span className="icon-remove" />
-                </div>
-            );
-        }
-
-        return null;
+        return renderIf(this.props.index !== 0 && !this.props.empty)(
+            <div className={styles.removeIco} onClick={this.onRemove} data-spec={removeIcoSpecId}>
+                <span className="icon-remove" />
+            </div>
+        );
     }
 
     public render(): JSX.Element {
-        const hasHeaderError: boolean = hasErrorType(this.state.errors, [/headers/]);
+        const hasHeaderError = hasErrorType(this.state.errors, [/headers/]);
         const removeIco: JSX.Element = this.getRemoveIco();
-
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
-                <div className={styles.header}>
-                    <div className={styles.header_name}>
-                        <TextInputElement
-                            placeholder="Header Name"
+                <div className={styles.header} data-spec={headerContainerSpecId}>
+                    <div className={styles.header_name} data-spec={nameContainerSpecId}>
+                        <ConnectedTextInputElement
+                            placeholder={NAME_PLACEHOLDER}
                             name="name"
                             onChange={this.onChangeName}
                             value={this.state.name}
                             showInvalid={hasHeaderError}
                         />
                     </div>
-                    <div className={styles.header_value}>
-                        <TextInputElement
-                            placeholder="Value"
+                    <div className={styles.header_value} data-spec={valueConatainerSpecId}>
+                        <ConnectedTextInputElement
+                            placeholder={VALUE_PLACEHOLDER}
                             name="value"
                             onChange={this.onChangeValue}
                             value={this.state.value}

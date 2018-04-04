@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StartFlowComp render should render StartFlowComp with flow name 1`] = `
+<StartFlowComp
+  flow_name="Customer Service"
+  flow_uuid="9ecc8e84-6b83-442b-a04a-8094d5de997b"
+  type="start_flow"
+  uuid="dbcccd07-9966-460a-9fcd-4db5a2f921ab"
+>
+  <div
+    className="startFlow"
+  >
+    Customer Service
+  </div>
+</StartFlowComp>
+`;

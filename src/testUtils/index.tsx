@@ -1,5 +1,8 @@
-import { mount, shallow, ReactWrapper, ShallowWrapper } from 'enzyme';
+import { mount, ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
+import { Provider } from 'react-redux';
+import { ConfigProviderContext } from '../config';
+import { AppState, createStore, initialState } from '../store';
 
 export interface Resp {
     results: Array<{ [key: string]: any }>;
@@ -13,14 +16,14 @@ export interface QueryString {
 /**
  * Compose setup method for component tests
  */
-export const createSetup = <P extends {}, C extends {} = { [contextType: string]: any }>(
-    baseProps: P,
-    context: C | Partial<C>,
-    Component: React.ComponentClass | React.SFC
+export const createSetup = <P extends {}, C extends ConfigProviderContext = ConfigProviderContext>(
+    Component: React.ComponentClass | React.SFC,
+    baseProps: P = {} as any,
+    context: C | Partial<C> = {},
+    childContextTypes: { [key: string]: Function } = {}
 ) => (propOverrides: P | Partial<P> = {}, shallowRender: boolean = false) => {
     // Waiting on https://github.com/Microsoft/TypeScript/pull/1328
     const props = Object.assign({}, baseProps, propOverrides);
-
     // prettier-ignore
     const wrapper = (
         // tslint:disable-next-line:ban-types
@@ -32,7 +35,8 @@ export const createSetup = <P extends {}, C extends {} = { [contextType: string]
     return {
         wrapper,
         props,
-        context
+        context,
+        instance: wrapper.instance()
     };
 };
 

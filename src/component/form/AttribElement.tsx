@@ -1,14 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
+
 import { AttributeType, ResultType } from '../../flowTypes';
 import { AppState, SearchResult, UpdateContactFields, updateContactFields } from '../../store';
-import { getSelectClass, toBoolMap } from '../../utils';
+import { getSelectClass, propertyExists } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
-
-// TODO: these should come from an external source
-const reserved = toBoolMap(['language', 'name', 'timezone']);
 
 interface AttribElementPassedProps extends FormElementProps {
     initial: SearchResult;
@@ -83,7 +81,7 @@ export class AttribElement extends React.Component<AttribElementProps, AttribSta
             lowered.length > 0 &&
             lowered.length <= 36 &&
             /^[a-z0-9-][a-z0-9- ]*$/.test(lowered) &&
-            !reserved[lowered]
+            !propertyExists(lowered)
         );
     }
 
@@ -116,7 +114,8 @@ export class AttribElement extends React.Component<AttribElementProps, AttribSta
                 name={this.props.name}
                 helpText={this.props.helpText}
                 errors={this.state.errors}
-                attribError={attribError}>
+                attribError={attribError}
+            >
                 <SelectSearch
                     _className={className}
                     onChange={this.onChange}

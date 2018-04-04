@@ -2,27 +2,22 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import { bindActionCreators } from 'redux';
-import { getBaseLanguage } from '.';
-import { Config } from '../config';
+import { ConfigProviderContext, languagesPT } from '../config';
 import { Languages } from '../flowTypes';
 import {
-    DispatchWithState,
     AppState,
+    DispatchWithState,
     UpdateLanguage,
     updateLanguage,
     UpdateTranslating,
     updateTranslating
 } from '../store';
-import { jsonEqual } from '../utils';
+import { getBaseLanguage, jsonEqual } from '../utils';
 import { languageSelector } from './LanguageSelector.scss';
 
 export interface Language {
     name: string;
     iso: string;
-}
-
-export interface LanguageSelectorPassedProps {
-    languages: Languages;
 }
 
 export interface LanguageSelectorStoreProps {
@@ -31,61 +26,54 @@ export interface LanguageSelectorStoreProps {
     updateTranslating: UpdateTranslating;
 }
 
-export type LanguageSelectorProps = LanguageSelectorPassedProps & LanguageSelectorStoreProps;
-
-export const composeLanguageMap = (languages: Languages): Language[] =>
+export const mapOptions = (languages: Languages): Language[] =>
     Object.keys(languages).map(iso => ({
         name: languages[iso],
         iso
     }));
 
-const LanguageSelectorContainer: React.SFC = () => (
-    <Config
-        render={({ languages }) =>
-            // prettier-ignore
-            <ConnectedLanguageSelector
-                languages={languages}
-            />
-        }
-    />
-);
+export const containerClass = `${languageSelector} select-small`;
 
-const LanguageSelector: React.SFC<LanguageSelectorProps> = ({
-    language,
-    languages,
-    updateLanguage,
-    updateTranslating
-}) => {
-    if (language) {
-        const onChange = (lang: Language) => {
-            const baseLanguage = getBaseLanguage(languages);
-            const translating = !jsonEqual(baseLanguage, lang);
-            updateLanguage(lang);
-            updateTranslating(translating);
-        };
+export const languageSelectorContainerSpecId = 'language-selector-container';
 
-        const options = composeLanguageMap(languages);
+export class LanguageSelector extends React.Component<LanguageSelectorStoreProps> {
+    public static contextTypes = {
+        languages: languagesPT
+    };
 
-        return (
-            <div className={`${languageSelector} select-small`}>
-                <Select
-                    data-spec="language-selector"
-                    // Flow
-                    value={language.iso}
-                    onChange={onChange}
-                    // LanguageSelector
-                    valueKey="iso"
-                    labelKey="name"
-                    searchable={false}
-                    clearable={false}
-                    options={options}
-                />
-            </div>
-        );
+    constructor(props: LanguageSelectorStoreProps, context: ConfigProviderContext) {
+        super(props, context);
+
+        this.onChange = this.onChange.bind(this);
     }
 
-    return null;
-};
+    public onChange(lang: Language): void {
+        const baseLanguage = getBaseLanguage(this.context.languages);
+        const translating = !jsonEqual(baseLanguage, lang);
+        this.props.updateLanguage(lang);
+        this.props.updateTranslating(translating);
+    }
+
+    public render(): JSX.Element {
+        if (this.props.language) {
+            const options = mapOptions(this.context.languages);
+            return (
+                <div className={containerClass} data-spec={languageSelectorContainerSpecId}>
+                    <Select
+                        value={this.props.language.iso}
+                        onChange={this.onChange}
+                        valueKey="iso"
+                        labelKey="name"
+                        searchable={false}
+                        clearable={false}
+                        options={options}
+                    />
+                </div>
+            );
+        }
+        return null;
+    }
+}
 
 const mapStateToProps = ({ flowEditor: { editorUI: { language } } }: AppState) => ({ language });
 
@@ -98,6 +86,4 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
         dispatch
     );
 
-const ConnectedLanguageSelector = connect(mapStateToProps, mapDispatchToProps)(LanguageSelector);
-
-export default LanguageSelectorContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(LanguageSelector);

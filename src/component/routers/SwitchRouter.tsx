@@ -5,7 +5,7 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 import { getOperatorConfig, operatorConfigList, Type } from '../../config';
-import { Case, Exit, Node, SwitchRouter } from '../../flowTypes';
+import { Case, Exit, FlowNode, SwitchRouter } from '../../flowTypes';
 import { AppState } from '../../store';
 import { LocalizedObject } from '../../services/Localization';
 import { reorderList } from '../../utils';
@@ -33,7 +33,7 @@ export interface SwitchRouterStoreProps {
     language: Language;
     typeConfig: Type;
     translating: boolean;
-    nodeToEdit: Node;
+    nodeToEdit: FlowNode;
     localizations: LocalizedObject[];
     operand: string;
 }
@@ -327,7 +327,8 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
                                                 provided.draggableStyle,
                                                 snapshot.isDragging
                                             )}
-                                            {...provided.dragHandleProps}>
+                                            {...provided.dragHandleProps}
+                                        >
                                             <CaseElement
                                                 data-spec="case"
                                                 ref={this.props.onBindWidget}
@@ -473,7 +474,8 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
                                     style={getListStyle(
                                         isDraggingOver,
                                         draggableCases.length === 1
-                                    )}>
+                                    )}
+                                >
                                     {draggableCases}
                                     {placeholder}
                                 </div>
@@ -515,7 +517,8 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
                 </div>
                 <div
                     data-spec="advanced-instructions"
-                    className={styles.translatingOperatorInstructions}>
+                    className={styles.translatingOperatorInstructions}
+                >
                     {OPERAND_LOCALIZATION_DESC}
                 </div>
                 {operands}

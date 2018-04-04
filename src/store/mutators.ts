@@ -1,12 +1,12 @@
 const mutate = require('immutability-helper');
-import { Node, UINode, AnyAction, FlowDefinition, Dimensions } from '../flowTypes';
+import { FlowNode, UINode, AnyAction, FlowDefinition, Dimensions } from '../flowTypes';
 import { v4 as generateUUID } from 'uuid';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { dump, snapToGrid } from '../utils';
 import { getUniqueDestinations } from './helpers';
 import { LocalizationUpdates } from '.';
 
-export const uniquifyNode = (newNode: Node): Node => {
+export const uniquifyNode = (newNode: FlowNode): FlowNode => {
     // Give our node a unique uuid
     return mutate(newNode, { $merge: { uuid: generateUUID() } });
 };
@@ -19,7 +19,7 @@ export const getNode = (nodes: RenderNodeMap, nodeUUID: string) => {
     return node;
 };
 
-export const getExitIndex = (node: Node, exitUUID: string) => {
+export const getExitIndex = (node: FlowNode, exitUUID: string) => {
     for (const [exitIdx, exit] of node.exits.entries()) {
         if (exit.uuid === exitUUID) {
             return exitIdx;
@@ -28,7 +28,7 @@ export const getExitIndex = (node: Node, exitUUID: string) => {
     throw new Error('Cannot find exit ' + exitUUID);
 };
 
-export const getActionIndex = (node: Node, actionUUID: string) => {
+export const getActionIndex = (node: FlowNode, actionUUID: string) => {
     for (const [actionIdx, action] of node.actions.entries()) {
         if (action.uuid === actionUUID) {
             return actionIdx;
@@ -251,7 +251,7 @@ export const moveActionUp = (nodes: RenderNodeMap, nodeUUID: string, actionUUID:
  * @param node
  * @param type
  */
-export const updateNode = (nodes: RenderNodeMap, node: Node, type: string) => {
+export const updateNode = (nodes: RenderNodeMap, node: FlowNode, type: string) => {
     // make sure our node exists
     getNode(nodes, node.uuid);
     return mutate(nodes, {

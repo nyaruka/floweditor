@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CallWebhookComp render should render CallWebhookComp with url prop 1`] = `
+<CallWebhookComp
+  body="{
+    \\"contact\\": @(to_json(contact.uuid)),
+    \\"contact_urn\\": @(to_json(contact.urns)),
+    \\"message\\": @(to_json(input.text)),
+    \\"flow\\": @(to_json(run.flow.uuid)),
+    \\"flow_name\\": @(to_json(run.flow.name))
+}"
+  headers={Object {}}
+  method="POST"
+  type="call_webhook"
+  url="http://example.com"
+  uuid="b29914f6-94f4-44ab-be48-55a51a76afdf"
+>
+  <div>
+    http://example.com
+  </div>
+</CallWebhookComp>
+`;

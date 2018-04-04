@@ -1,16 +1,14 @@
-import * as React from 'react';
 import { FlowEditorConfig, ResultType } from '../../flowTypes';
 import { createSetup, Resp } from '../../testUtils';
 import { validUUID } from '../../utils';
-import SelectSearch from '../SelectSearch';
 import GroupsElement, {
     createNewOption,
     getInitialGroups,
     GROUP_NOT_FOUND,
     GROUP_PLACEHOLDER,
+    GROUP_PROMPT,
     GroupsElementProps,
-    isValidNewOption,
-    GROUP_PROMPT
+    isValidNewOption
 } from './GroupsElement';
 
 const { results: groupsResp } = require('../../../assets/groups.json') as Resp;
@@ -23,7 +21,7 @@ const baseProps = {
     searchPromptText: GROUP_NOT_FOUND
 };
 
-const setup = createSetup<GroupsElementProps>(baseProps, null, GroupsElement);
+const setup = createSetup<GroupsElementProps>(GroupsElement, baseProps);
 
 const getGroupOptions = () =>
     groupsResp.map(({ name, uuid }) => ({
@@ -50,6 +48,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
             it('should return true if new option is valid', () => {
                 const newGroup = { label: 'new group' };
+
                 expect(isValidNewOption(newGroup)).toBeTruthy();
             });
         });
@@ -58,6 +57,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             it('should generate a new search result object', () => {
                 const newGroup = { label: 'new group' };
                 const newOption = createNewOption(newGroup);
+
                 expect(validUUID(newOption.id)).toBeTruthy();
                 expect(newOption.name).toBe(newGroup.label);
                 expect(newOption.extraResult).toBeTruthy();
@@ -65,21 +65,24 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         });
 
         describe('getInitialGroups', () => {
-            it("should return an empty array if passed a falsy 'groups' prop", () => {
-                expect(getInitialGroups({} as GroupsElementProps)).toEqual([]);
+            it("should return an empty list if passed a falsy 'groups' prop", () => {
+                const initialGroups = getInitialGroups({} as GroupsElementProps);
+
+                expect(initialGroups).toEqual([]);
+                expect(initialGroups).toMatchSnapshot();
             });
 
-            it("should return an array of SearchResult objects if passed a truthy 'groups' prop", () => {
-                const groupOptions = getGroupOptions();
+            it("should return a list of SearchResult objects if passed a truthy 'groups' prop", () => {
+                const expectedOptions = getGroupOptions();
+                const initialGroups = getInitialGroups({
+                    groups: expectedOptions
+                } as GroupsElementProps);
 
-                expect(
-                    getInitialGroups({
-                        groups: groupOptions
-                    } as GroupsElementProps)
-                ).toEqual(groupOptions);
+                expect(initialGroups).toEqual(expectedOptions);
+                expect(initialGroups).toMatchSnapshot();
             });
 
-            it(`should return localGroups array if ${COMPONENT_TO_TEST} passed 'localGroups' prop but not 'groups' prop`, () => {
+            it(`should return localGroups list if ${COMPONENT_TO_TEST} passed 'localGroups' prop but not 'groups' prop`, () => {
                 const groupOptions = getGroupOptions();
 
                 expect(
@@ -87,21 +90,21 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                         localGroups: groupOptions
                     } as GroupsElementProps)
                 ).toEqual(groupOptions);
+                expect(groupOptions).toMatchSnapshot();
             });
         });
     });
 
     describe('render', () => {
         it('should render self, children with required props', () => {
-            const { wrapper, props: { name, endpoint } } = setup();
-            const GroupsElementInstance = wrapper.instance();
+            const { wrapper, instance, props: { name, endpoint } } = setup({}, true);
             const formElement = wrapper.find('FormElement');
 
             expect(formElement.prop('name')).toBe(name);
             expect(formElement.prop('errors')).toEqual([]);
             expect(wrapper.find('SelectSearch').props()).toEqual({
                 _className: '',
-                onChange: GroupsElementInstance.onChange,
+                onChange: instance.onChange,
                 localSearchOptions: undefined,
                 name,
                 url: endpoint,
@@ -111,15 +114,17 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 placeholder: GROUP_PLACEHOLDER,
                 searchPromptText: GROUP_NOT_FOUND
             });
+            expect(wrapper).toMatchSnapshot();
         });
 
         it("should pass createOptions object if it's add prop is true", () => {
-            const { wrapper } = setup({ add: true });
+            const { wrapper, instance } = setup({ add: true }, true);
             const selectSearch = wrapper.find('SelectSearch');
 
             expect(selectSearch.prop('isValidNewOption')).toEqual(expect.any(Function));
             expect(selectSearch.prop('createNewOption')).toEqual(expect.any(Function));
             expect(selectSearch.prop('createPrompt')).toBe(GROUP_PROMPT);
+            expect(wrapper).toMatchSnapshot();
         });
     });
 
@@ -130,7 +135,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                     GroupsElement.prototype,
                     'componentWillReceiveProps'
                 );
-                const { wrapper } = setup();
+                const { wrapper, instance } = setup({}, true);
                 const nextProps = { ...baseProps, add: true };
 
                 wrapper.setProps(nextProps);
@@ -144,7 +149,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             it(`should call ${COMPONENT_TO_TEST}.prototype.setState if ${COMPONENT_TO_TEST} receives new groups through props`, () => {
                 const setStateSpy = jest.spyOn(GroupsElement.prototype, 'setState');
                 const groups = getGroups(2);
-                const { wrapper } = setup({ groups });
+                const { wrapper, instance } = setup({ groups }, true);
                 const newGroups = getGroups(3);
                 const nextProps = { ...baseProps, groups: newGroups };
 
@@ -163,10 +168,9 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             it('should update state when called', () => {
                 const setStateSpy = jest.spyOn(GroupsElement.prototype, 'setState');
                 const groups = getGroups(3);
-                const { wrapper, props: { onChange } } = setup();
-                const GroupsElementInstance = wrapper.instance();
+                const { wrapper, instance, props: { onChange } } = setup({}, true);
 
-                GroupsElementInstance.onChange(groups);
+                instance.onChange(groups);
 
                 expect(setStateSpy).toHaveBeenCalledWith({ groups }, expect.any(Function));
             });
@@ -174,10 +178,9 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             it("should call 'onChange' prop if passed", () => {
                 const groups = getGroups(3);
                 const onChangeMock = jest.fn();
-                const { wrapper } = setup({ onChange: onChangeMock });
-                const GroupsElementInstance = wrapper.instance();
+                const { wrapper, instance } = setup({ onChange: onChangeMock }, true);
 
-                GroupsElementInstance.onChange(groups);
+                instance.onChange(groups);
 
                 expect(onChangeMock).toHaveBeenCalledTimes(1);
                 expect(onChangeMock).toHaveBeenCalledWith(groups);
@@ -186,20 +189,18 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
         describe('validate', () => {
             it(`should return false, update errors state if ${COMPONENT_TO_TEST} isn't valid`, () => {
-                const { wrapper, props: { name } } = setup({ required: true });
-                const GroupsElementInstance = wrapper.instance();
+                const { wrapper, instance, props: { name } } = setup({ required: true }, true);
 
-                expect(GroupsElementInstance.validate()).toBeFalsy();
+                expect(instance.validate()).toBeFalsy();
                 expect(wrapper.state('errors')[0]).toBe(`${name} is required.`);
             });
 
             it(`should return true if ${COMPONENT_TO_TEST} is valid`, () => {
                 const groups = getGroups(2);
-                const { wrapper, props: { name } } = setup({ required: true });
-                const GroupsElementInstance = wrapper.instance();
+                const { wrapper, instance, props: { name } } = setup({ required: true }, true);
 
-                expect(GroupsElementInstance.onChange(groups));
-                expect(GroupsElementInstance.validate()).toBeTruthy();
+                expect(instance.onChange(groups));
+                expect(instance.validate()).toBeTruthy();
             });
         });
     });
