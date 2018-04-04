@@ -684,7 +684,7 @@ export const onAddAction = (node: Node, languages: Languages) => (
 
     const localizations = [];
     if (translating) {
-        const translations = getTranslations(definition, language);
+        const translations = getTranslations(definition.localization, language.iso);
         localizations.push(
             // prettier-ignore
             ...getLocalizations(
@@ -796,13 +796,18 @@ export const onOpenNodeEditor = (node: Node, action: AnyAction, languages: Langu
     getState: GetState
 ) => {
     const {
-        flowContext: { nodes, definition },
+        flowContext: { nodes, definition: { localization } },
         flowEditor: { editorUI: { language, translating } }
     } = getState();
 
     const localizations = [];
     if (translating) {
-        const translations = getTranslations(definition, language);
+        // prettier-ignore
+        const translations = getTranslations(
+            localization,
+            language.iso
+        );
+
         localizations.push(
             ...getLocalizations(node, action, language.iso, languages, translations)
         );

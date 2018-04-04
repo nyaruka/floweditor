@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddGroupsForm instance methods getGroups should return SearchResult[] if action is add groups action and it has groups 1`] = `
+Array [
+  Object {
+    "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
+    "name": "Unsatisfied Customers",
+  },
+]
+`;
+
+exports[`AddGroupsForm instance methods getGroups should return an empty list if action's groups are null 1`] = `Array []`;
+
+exports[`AddGroupsForm instance methods getGroups should return an empty list if action's groups property is an empty list 1`] = `Array []`;
+
+exports[`AddGroupsForm instance methods getGroups should return empty list if action is remove groups action 1`] = `Array []`;

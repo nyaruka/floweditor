@@ -1,7 +1,14 @@
 import { v4 as generateUUID } from 'uuid';
-import { Language } from '../component/LanguageSelector';
 import { DragPoint } from '../component/Node';
-import { AnyAction, FlowDefinition, Languages, Node, SwitchRouter, WaitType } from '../flowTypes';
+import {
+    AnyAction,
+    FlowDefinition,
+    Languages,
+    LocalizationMap,
+    Node,
+    SwitchRouter,
+    WaitType
+} from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { RenderNode, RenderNodeMap, SearchResult } from './flowContext';
 import { PendingConnections } from './flowEditor';
@@ -94,12 +101,8 @@ export const getNodeUI = (uuid: string, definition: FlowDefinition) => definitio
 /**
  * Computes translations prop for `Node` components in render()
  */
-export const getTranslations = (definition: FlowDefinition, language: Language) => {
-    if (definition.localization) {
-        return definition.localization[language.iso];
-    }
-    return null;
-};
+export const getTranslations = (localizationMap: LocalizationMap, iso: string) =>
+    localizationMap[iso];
 
 export const getLocalizations = (
     node: Node,

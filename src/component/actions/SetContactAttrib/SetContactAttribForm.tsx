@@ -7,29 +7,9 @@ import {
     SetContactProperty
 } from '../../../flowTypes';
 import { SearchResult } from '../../../store';
-import { snakify, titleCase, toBoolMap } from '../../../utils';
-import TextInputElement from '../../form/TextInputElement';
+import { propertyExists, snakify, titleCase } from '../../../utils';
 import ConnectedAttribElement from '../../form/AttribElement';
-
-/** TODO: these should come from an external source */
-const reserved = toBoolMap([
-    'language',
-    'facebook',
-    'telegram',
-    'email',
-    'mailto',
-    'name',
-    'first name',
-    'phone',
-    'groups',
-    'uuid',
-    'created by',
-    'modified by',
-    'org',
-    'is',
-    'has',
-    'tel'
-]);
+import TextInputElement from '../../form/TextInputElement';
 
 export interface SetContactAttribFormProps {
     action: SetContactAttribute;
@@ -88,7 +68,7 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
             lowered.length > 0 &&
             lowered.length <= 36 &&
             /^[a-z0-9-][a-z0-9- ]*$/.test(lowered) &&
-            !reserved[lowered]
+            !propertyExists(lowered)
         );
     }
 

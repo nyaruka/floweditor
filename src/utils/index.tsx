@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { LocalizedObject } from '../services/Localization';
-import { SearchResult } from '../store';
+import { Language } from '../component/LanguageSelector';
+import { Action, Case, Exit, Languages, LocalizationMap, ContactProperties } from '../flowTypes';
+import Localization, { LocalizedObject } from '../services/Localization';
+import { getTranslations, SearchResult } from '../store';
 
 const SNAKED_CHARS = /\s+(?=\S)/g;
 const GRID_SIZE = 20;
@@ -177,9 +179,53 @@ export const resultsToSearchOpts = ({ name, uuid, type }: any): SearchResult => 
     type
 });
 
+/**
+ * Get the first language in a Languages map
+ */
+export const getBaseLanguage = (languages: Languages): Language => {
+    const [iso] = Object.keys(languages);
+    const name = languages[iso];
+    return {
+        name,
+        iso
+    };
+};
+
+/**
+ * Get a language from a Languages map in Language format
+ */
+export const getLanguage = (languages: Languages, iso: string): Language => ({
+    name: languages[iso],
+    iso
+});
+
+export const getLocalization = (
+    obj: Action | Exit | Case,
+    localization: LocalizationMap,
+    iso: string,
+    languages: Languages
+) => Localization.translate(obj, iso, languages, getTranslations(localization, iso));
+
 export const dump = (thing: any) => console.log(JSON.stringify(thing, null, 2));
 
 /**
  * Apply emphasis style
  */
 export const emphasize = (text: string) => <span className="emph">{text}</span>;
+
+/**
+ * Does @propertyToCheck exist in our ContactProperties enum?
+ */
+export const propertyExists = (propertyToCheck: string) => {
+    for (const property of Object.keys(ContactProperties)) {
+        if (property.toLowerCase() === propertyToCheck.toLowerCase()) {
+            return true;
+        }
+    }
+    return false;
+};
+
+/**
+ * Should x element be rendered?
+ */
+export const renderIf = (condition: boolean) => (elem: JSX.Element) => (condition ? elem : null);

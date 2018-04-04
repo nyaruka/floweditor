@@ -1,0 +1,187 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionWrapper render should display hybrid style 1`] = `
+<div
+  className="action has_router"
+  data-spec="action-container"
+  id="action-64378fc1-19e4-4c8a-be27-aee49ebc728a"
+>
+  <div
+    className="overlay"
+    data-spec="action-overlay"
+  />
+  <div
+    data-spec="interactive-div"
+    onMouseDown={[Function]}
+    onMouseUp={[Function]}
+  >
+    <TitleBar
+      __className="send_msg"
+      onMoveUp={[Function]}
+      onRemoval={[Function]}
+      showMove={false}
+      showRemoval={true}
+      title="Send Message"
+    />
+    <div
+      className="body"
+      data-spec="action-body"
+    />
+  </div>
+</div>
+`;
+
+exports[`ActionWrapper render should display missing_localization style 1`] = `
+<div
+  className="action translating missing_localization"
+  data-spec="action-container"
+  id="action-cd19e588-3383-4d54-b5df-8dbbc2b0d297"
+>
+  <div
+    className="overlay"
+    data-spec="action-overlay"
+  />
+  <div
+    data-spec="interactive-div"
+    onMouseDown={[Function]}
+    onMouseUp={[Function]}
+  >
+    <TitleBar
+      __className="send_msg"
+      onMoveUp={[Function]}
+      onRemoval={[Function]}
+      showMove={false}
+      showRemoval={false}
+      title="Send Message"
+    />
+    <div
+      className="body"
+      data-spec="action-body"
+    />
+  </div>
+</div>
+`;
+
+exports[`ActionWrapper render should display not_localizable style 1`] = `
+<div
+  className="action translating not_localizable"
+  data-spec="action-container"
+  id="action-dbcccd07-9966-460a-9fcd-4db5a2f921ab"
+>
+  <div
+    className="overlay"
+    data-spec="action-overlay"
+  />
+  <div
+    data-spec="interactive-div"
+    onMouseDown={[Function]}
+    onMouseUp={[Function]}
+  >
+    <TitleBar
+      __className="start_flow"
+      onMoveUp={[Function]}
+      onRemoval={[Function]}
+      showMove={false}
+      showRemoval={false}
+      title="Run Flow"
+    />
+    <div
+      className="body"
+      data-spec="action-body"
+    />
+  </div>
+</div>
+`;
+
+exports[`ActionWrapper render should display translating style 1`] = `
+<div
+  className="action translating missing_localization"
+  data-spec="action-container"
+  id="action-64378fc1-19e4-4c8a-be27-aee49ebc728a"
+>
+  <div
+    className="overlay"
+    data-spec="action-overlay"
+  />
+  <div
+    data-spec="interactive-div"
+    onMouseDown={[Function]}
+    onMouseUp={[Function]}
+  >
+    <TitleBar
+      __className="send_msg"
+      onMoveUp={[Function]}
+      onRemoval={[Function]}
+      showMove={false}
+      showRemoval={false}
+      title="Send Message"
+    />
+    <div
+      className="body"
+      data-spec="action-body"
+    />
+  </div>
+</div>
+`;
+
+exports[`ActionWrapper render should render self, children with base props 1`] = `
+<div
+  className="action"
+  data-spec="action-container"
+  id="action-64378fc1-19e4-4c8a-be27-aee49ebc728a"
+>
+  <div
+    className="overlay"
+    data-spec="action-overlay"
+  />
+  <div
+    data-spec="interactive-div"
+    onMouseDown={[Function]}
+    onMouseUp={[Function]}
+  >
+    <TitleBar
+      __className="send_msg"
+      onMoveUp={[Function]}
+      onRemoval={[Function]}
+      showMove={false}
+      showRemoval={true}
+      title="Send Message"
+    />
+    <div
+      className="body"
+      data-spec="action-body"
+    />
+  </div>
+</div>
+`;
+
+exports[`ActionWrapper render should show move icon 1`] = `
+<div
+  className="action"
+  data-spec="action-container"
+  id="action-64378fc1-19e4-4c8a-be27-aee49ebc728a"
+>
+  <div
+    className="overlay"
+    data-spec="action-overlay"
+  />
+  <div
+    data-spec="interactive-div"
+    onMouseDown={[Function]}
+    onMouseUp={[Function]}
+  >
+    <TitleBar
+      __className="send_msg"
+      onMoveUp={[Function]}
+      onRemoval={[Function]}
+      showMove={true}
+      showRemoval={true}
+      title="Send Message"
+    />
+    <div
+      className="body"
+      data-spec="action-body"
+    />
+  </div>
+</div>
+`;

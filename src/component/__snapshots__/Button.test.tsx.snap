@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button render should render self, children with base props 1`] = `
+<div
+  className="btn primary"
+  onClick={[MockFunction]}
+>
+  Save
+</div>
+`;

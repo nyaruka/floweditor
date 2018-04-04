@@ -21,9 +21,8 @@ const setContactField: SetContactField = {
 };
 
 const setup = createSetup<SetContactProperty>(
-    setContactProperty as SetContactProperty,
-    null,
-    SetContactAttribComp
+    SetContactAttribComp,
+    setContactProperty as SetContactProperty
 );
 
 const COMPONENT_TO_TEST = SetContactAttribComp.name;

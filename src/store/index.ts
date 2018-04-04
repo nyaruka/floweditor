@@ -14,7 +14,7 @@ import {
     UpdateContactFields,
     UpdateGroups
 } from './actionTypes';
-import configureStore from './configureStore';
+import createStore from './createStore';
 import Constants from './constants';
 import {
     CompletionOption,
@@ -45,7 +45,7 @@ import {
     updateTypeConfig,
     updateUserAddingAction
 } from './nodeEditor';
-import AppState from './state';
+import AppState, { initialState } from './state';
 import {
     ActionAC,
     ConnectionEvent,
@@ -102,6 +102,7 @@ export {
     disconnectExit,
     onUpdateRouter,
     onUpdateAction,
+    initialState,
     Flows,
     PendingConnections,
     UpdateLanguage,
@@ -111,7 +112,7 @@ export {
     UpdateOperand,
     UpdateDragGroup,
     UpdateCreateNodePosition,
-    configureStore,
+    createStore,
     updateTranslating,
     updateDragGroup,
     updateUserAddingAction,

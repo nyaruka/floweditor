@@ -1,25 +1,32 @@
 import '../global.scss';
-import * as React from 'react';
 import axios from 'axios';
+import * as React from 'react';
 import { connect, Provider as ReduxProvider } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ConfigProvider, { Config } from '../config';
-import { Endpoints, FlowDefinition, FlowEditorConfig, Languages } from '../flowTypes';
+import ConfigProvider, {
+    assetHostPT,
+    ConfigProviderContext,
+    endpointsPT,
+    flowPT,
+    languagesPT
+} from '../config';
+import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
 import {
-    configureStore,
+    AppState,
+    createStore,
     DispatchWithState,
     FetchFlow,
     fetchFlow,
     FetchFlows,
     fetchFlows,
-    AppState,
     UpdateLanguage,
     updateLanguage
 } from '../store';
-import Flow from './Flow';
-import FlowList, { FlowOption } from './FlowList';
+import { getBaseLanguage } from '../utils';
+import ConnectedFlow from './Flow';
+import ConnectedFlowList, { FlowOption } from './FlowList';
 import * as styles from './index.scss';
-import LanguageSelector, { Language } from './LanguageSelector';
+import ConnectedLanguageSelector, { Language } from './LanguageSelector';
 
 export type OnSelectFlow = ({ uuid }: FlowOption) => void;
 
@@ -38,73 +45,60 @@ export interface FlowEditorStoreProps {
     fetchFlows: FetchFlows;
 }
 
-export interface FlowEditorPassedProps {
-    endpoints: Endpoints;
-    baseLanguage: Language;
-    flow: string;
-    languages: Languages;
-}
-
-export type FlowEditorProps = FlowEditorPassedProps & FlowEditorStoreProps;
-
-export const getBaseLanguage = (languages: { [iso: string]: string }): Language => {
-    const [iso] = Object.keys(languages);
-    const name = languages[iso];
-    return {
-        name,
-        iso
-    };
-};
-
-const hotStore = configureStore();
+const hotStore = createStore();
 
 // Root container, wires up context-providers/sets baseURL
 const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) => (
     <ConfigProvider config={config}>
-        <Config
-            render={({ assetHost, endpoints, languages }) => {
-                if (process.env.NODE_ENV === 'production') {
-                    axios.defaults.baseURL = assetHost;
-                }
-                const baseLanguage = getBaseLanguage(languages);
-                return (
-                    <ReduxProvider store={hotStore}>
-                        <ConnectedFlowEditor
-                            endpoints={endpoints}
-                            baseLanguage={baseLanguage}
-                            flow={config.flow}
-                            languages={languages}
-                        />
-                    </ReduxProvider>
-                );
-            }}
-        />
+        <ReduxProvider store={hotStore}>
+            <ConnectedFlowEditor />
+        </ReduxProvider>
     </ConfigProvider>
 );
+
+export const contextTypes = {
+    assetHost: assetHostPT,
+    endpoints: endpointsPT,
+    languages: languagesPT,
+    flow: flowPT
+};
+
+export const editorContainerSpecId = 'editor-container';
+
+export const editorSpecId = 'editor';
 
 /**
  * A navigable list of flows for an account
  */
-export class FlowEditor extends React.Component<FlowEditorProps> {
+export class FlowEditor extends React.Component<FlowEditorStoreProps> {
+    public static contextTypes = contextTypes;
+
+    constructor(props: FlowEditorStoreProps, context: ConfigProviderContext) {
+        super(props, context);
+
+        if (process.env.NODE_ENV === 'production') {
+            axios.defaults.baseURL = context.assetHost;
+        }
+    }
+
     public componentDidMount(): void {
-        this.props.updateLanguage(this.props.baseLanguage);
-        this.props.fetchFlow(this.props.endpoints.flows, this.props.flow);
-        // prettier-ignore
-        this.props.fetchFlows(
-            this.props.endpoints.flows
-        );
+        this.props.updateLanguage(getBaseLanguage(this.context.languages));
+        this.props.fetchFlow(this.context.endpoints.flows, this.context.flow);
+        this.props.fetchFlows(this.context.endpoints.flows);
     }
 
     public render(): JSX.Element {
         const translatingClass = this.props.translating ? styles.translating : undefined;
+        const renderFlow = this.props.definition && this.props.language && !this.props.fetchingFlow;
         return (
-            <div id="editor-container" className={translatingClass} data-spec="editor-container">
-                <div className={styles.editor} data-spec="editor">
-                    <FlowList />
-                    <LanguageSelector />
-                    {this.props.definition &&
-                        this.props.language &&
-                        !this.props.fetchingFlow && <Flow />}
+            <div
+                id={editorContainerSpecId}
+                className={translatingClass}
+                data-spec={editorContainerSpecId}>
+                <div className={styles.editor} data-spec={editorSpecId}>
+                    <ConnectedFlowList />
+                    <ConnectedLanguageSelector />
+                    {renderFlow && <ConnectedFlow />}
                 </div>
             </div>
         );
@@ -132,6 +126,6 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
         dispatch
     );
 
-const ConnectedFlowEditor = connect(mapStateToProps, mapDispatchToProps)(FlowEditor);
+export const ConnectedFlowEditor = connect(mapStateToProps, mapDispatchToProps)(FlowEditor);
 
 export default FlowEditorContainer;

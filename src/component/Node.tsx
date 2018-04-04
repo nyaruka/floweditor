@@ -1,43 +1,39 @@
 // TODO: Remove use of Function
 // tslint:disable:ban-types
-
-import * as classNames from 'classnames/bind';
-import * as React from 'react';
-import * as shallowCompare from 'react-addons-shallow-compare';
-import * as FlipMove from 'react-flip-move';
-import * as isEqual from 'fast-deep-equal';
 import { react as bindCallbacks } from 'auto-bind';
+import * as classNames from 'classnames/bind';
+import * as isEqual from 'fast-deep-equal';
+import * as React from 'react';
+import * as FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Config, getTypeConfig } from '../config';
-import { AnyAction, FlowDefinition, Languages, Node, SwitchRouter, UINode } from '../flowTypes';
+import { ConfigProviderContext, getTypeConfig, languagesPT } from '../config';
+import { AnyAction, FlowDefinition, Node, SwitchRouter, UINode } from '../flowTypes';
+import ActivityManager from '../services/ActivityManager';
+import { DragEvent } from '../services/Plumber';
 import {
+    AppState,
     DispatchWithState,
-    getTranslations,
     onAddAction,
     OnAddAction,
     onNodeBeforeDrag,
     OnNodeBeforeDrag,
-    OnNodeMoved,
     onNodeMoved,
-    onOpenNodeEditor,
+    OnNodeMoved,
     OnOpenNodeEditor,
-    AppState,
+    onOpenNodeEditor,
     RemoveNode,
     removeNode,
-    ResolvePendingConnection,
     resolvePendingConnection,
+    ResolvePendingConnection,
     UpdateDimensions,
     updateDimensions,
     UpdateDragGroup,
+    updateDragGroup,
     updateNodeDragging,
     UpdateNodeDragging
 } from '../store';
-import { updateDragGroup } from '../store';
-import ActivityManager from '../services/ActivityManager';
-import Localization, { LocalizedObject } from '../services/Localization';
-import { DragEvent } from '../services/Plumber';
-import { snapToGrid, titleCase, createClickHandler, ClickHandler } from '../utils';
+import { ClickHandler, createClickHandler, snapToGrid, titleCase } from '../utils';
 import ActionWrapper from './actions/Action';
 import CounterComp from './Counter';
 import ExitComp from './Exit';
@@ -53,7 +49,7 @@ export interface DragPoint {
     onResolved?(canceled: boolean): void;
 }
 
-export interface NodeContainerProps {
+export interface NodePassedProps {
     node: Node;
     ui: UINode;
     Activity: ActivityManager;
@@ -71,7 +67,6 @@ export interface NodeContainerProps {
 }
 
 export interface NodeStoreProps {
-    languages: Languages;
     language: Language;
     translating: boolean;
     definition: FlowDefinition;
@@ -87,52 +82,13 @@ export interface NodeStoreProps {
     updateDragGroup: UpdateDragGroup;
 }
 
-export type NodeProps = NodeContainerProps & NodeStoreProps;
+export type NodeProps = NodePassedProps & NodeStoreProps;
 
 export interface NodeState {
     thisNodeDragging: boolean;
 }
 
 const cx = classNames.bind({ ...shared, ...styles });
-
-const NodeContainer: React.SFC<NodeContainerProps> = ({
-    node,
-    ui,
-    ghost,
-    ghostRef,
-    Activity,
-    plumberRepaintForDuration,
-    plumberDraggable,
-    plumberMakeTarget,
-    plumberRemove,
-    plumberRecalculate,
-    plumberMakeSource,
-    plumberConnectExit,
-    plumberSetDragSelection,
-    plumberClearDragSelection
-}) => (
-    <Config
-        render={({ languages }) => (
-            <ConnectedNode
-                ref={ghostRef}
-                node={node}
-                ui={ui}
-                ghost={ghost}
-                languages={languages}
-                Activity={Activity}
-                plumberRepaintForDuration={plumberRepaintForDuration}
-                plumberDraggable={plumberDraggable}
-                plumberMakeTarget={plumberMakeTarget}
-                plumberRemove={plumberRemove}
-                plumberRecalculate={plumberRecalculate}
-                plumberMakeSource={plumberMakeSource}
-                plumberConnectExit={plumberConnectExit}
-                plumberSetDragSelection={plumberSetDragSelection}
-                plumberClearDragSelection={plumberClearDragSelection}
-            />
-        )}
-    />
-);
 
 /**
  * A single node in the rendered flow
@@ -143,8 +99,12 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     private clicking: boolean;
     private events: ClickHandler;
 
-    constructor(props: NodeProps) {
-        super(props);
+    public static contextTypes = {
+        languages: languagesPT
+    };
+
+    constructor(props: NodeProps, context: ConfigProviderContext) {
+        super(props, context);
 
         this.state = { thisNodeDragging: false };
 
@@ -260,7 +220,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     private onAddAction(): void {
-        this.props.onAddAction(this.props.node, this.props.languages);
+        this.props.onAddAction(this.props.node, this.context.languages);
     }
 
     private onDragStart(event: any): boolean {
@@ -318,7 +278,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             this.props.onOpenNodeEditor(
             this.props.node,
             null,
-            this.props.languages
+            this.context.languages
         );
         }
     }
@@ -341,29 +301,18 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     private getExits(): JSX.Element[] {
         if (this.props.node.exits) {
-            return this.props.node.exits.map(exit => {
-                const translations = getTranslations(this.props.definition, this.props.language);
-                const localization: LocalizedObject = Localization.translate(
-                    exit,
-                    this.props.language.iso,
-                    this.props.languages,
-                    translations
-                );
-                return (
-                    <ExitComp
-                        node={this.props.node}
-                        key={exit.uuid}
-                        exit={exit}
-                        localization={localization}
-                        Activity={this.props.Activity}
-                        plumberMakeSource={this.props.plumberMakeSource}
-                        plumberRemove={this.props.plumberRemove}
-                        plumberConnectExit={this.props.plumberConnectExit}
-                    />
-                );
-            });
+            return this.props.node.exits.map(exit => (
+                <ExitComp
+                    key={exit.uuid}
+                    node={this.props.node}
+                    exit={exit}
+                    Activity={this.props.Activity}
+                    plumberMakeSource={this.props.plumberMakeSource}
+                    plumberRemove={this.props.plumberRemove}
+                    plumberConnectExit={this.props.plumberConnectExit}
+                />
+            ));
         }
-
         return [];
     }
 
@@ -374,7 +323,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                     title="Drag to move all nodes below here"
                     className={styles.drag_group}
                     onMouseOver={this.onMouseOver}
-                    onMouseOut={this.onMouseOut}>
+                    onMouseOut={this.onMouseOut}
+                >
                     <span className="icon-link" />
                 </a>
             );
@@ -397,18 +347,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 const actionConfig = getTypeConfig(action.type);
 
                 if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
-                    const translations = getTranslations(
-                        this.props.definition,
-                        this.props.language
-                    );
-
-                    const localization = Localization.translate(
-                        action,
-                        this.props.language.iso,
-                        this.props.languages,
-                        translations
-                    );
-
                     const { component: ActionDiv } = actionConfig;
 
                     actions.push(
@@ -419,7 +357,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                             thisNodeDragging={this.state.thisNodeDragging}
                             action={action}
                             first={idx === 0}
-                            localization={localization}
                             render={(anyAction: AnyAction) => <ActionDiv {...anyAction} />}
                         />
                     );
@@ -434,7 +371,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                     leaveAnimation="fade"
                     className={styles.actions}
                     duration={300}
-                    easing="ease-out">
+                    easing="ease-out"
+                >
                     {actions}
                 </FlipMove>
             );
@@ -476,7 +414,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                     <div style={{ position: 'relative' }}>
                         <div {...this.events}>
                             <TitleBar
-                                className={shared[config.type]}
+                                __className={shared[config.type]}
                                 showRemoval={!this.props.translating}
                                 onRemoval={this.onRemoval}
                                 title={title}
@@ -519,7 +457,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 style={style}
                 id={this.props.node.uuid}
                 className={`${styles.node_container} ${classes}`}
-                ref={this.eleRef}>
+                ref={this.eleRef}
+            >
                 <div className={styles.node}>
                     {dragLink}
                     <CounterComp
@@ -571,14 +510,4 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
         dispatch
     );
 
-// prettier-ignore
-const ConnectedNode = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-    null,
-    { withRef: true }
-)(
-    NodeComp
-);
-
-export default NodeContainer;
+export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(NodeComp);
