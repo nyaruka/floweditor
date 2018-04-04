@@ -16,7 +16,6 @@ export interface FlowEditorConfig {
     endpoints: Endpoints;
     flow: string;
     path?: string;
-    assetHost?: string;
 }
 
 export interface LocalizationMap {

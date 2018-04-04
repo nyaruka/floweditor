@@ -1,13 +1,12 @@
-import * as React from 'react';
-import { renderIntoDocument, findRenderedComponentWithType } from 'react-dom/test-utils';
 import { shallow } from 'enzyme';
+import * as React from 'react';
+import { findRenderedComponentWithType, renderIntoDocument } from 'react-dom/test-utils';
 import ConfigProvider, {
-    assetHostPT,
     endpointsPT,
+    flowPT,
     languagesPT,
     SINGLE_CHILD_ERROR,
-    VALID_CHILD_ERROR,
-    flowPT
+    VALID_CHILD_ERROR
 } from './ConfigProvider';
 
 const config = require('../../assets/config.js');
@@ -16,7 +15,6 @@ describe('ConfigProvider >', () => {
     const createChild = () => {
         class Child extends React.Component<{}> {
             public static contextTypes = {
-                assetHost: assetHostPT,
                 endpoints: endpointsPT,
                 languages: languagesPT,
                 flow: flowPT
@@ -62,10 +60,10 @@ describe('ConfigProvider >', () => {
         const { assetHost, endpoints, languages, flow } = config;
 
         expect(childComp.context).toEqual({
-            assetHost,
             endpoints,
             languages,
             flow
         });
+        expect(childComp.context).toMatchSnapshot();
     });
 });

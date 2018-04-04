@@ -1,4 +1,4 @@
-const { optimize: { ModuleConcatenationPlugin } } = require('webpack');
+const { optimize: { ModuleConcatenationPlugin }, EnvironmentPlugin } = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { smartStrategy } = require('webpack-merge');
 const paths = require('./paths');
@@ -14,6 +14,10 @@ const prevConfig = {
         sourceMapFilename: '[name].map'
     },
     plugins: [
+        new EnvironmentPlugin({
+            NODE_ENV: 'production',
+            DEPLOY_PRIME_URL: JSON.stringify(process.env.DEPLOY_PRIME_URL)
+        }),
         new ExtractTextPlugin('styles.css'),
         new ModuleConcatenationPlugin(),
         uglifyPlugin,
@@ -26,11 +30,7 @@ const prevConfig = {
                 include: [paths.component],
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: [
-                        typingsForCssModulesLoader(true),
-                        postCSSLoader,
-                        'sass-loader'
-                    ]
+                    use: [typingsForCssModulesLoader(true), postCSSLoader, 'sass-loader']
                 })
             },
             {
@@ -39,11 +39,7 @@ const prevConfig = {
                 exclude: [paths.component],
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: [
-                        'css-loader',
-                        postCSSLoader,
-                        'sass-loader'
-                    ]
+                    use: ['css-loader', postCSSLoader, 'sass-loader']
                 })
             }
         ]

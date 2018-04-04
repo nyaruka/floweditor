@@ -2,8 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import { bindActionCreators } from 'redux';
-import { assetHostPT, ConfigProviderContext, endpointsPT } from '../config';
-import { Endpoints, FlowDefinition } from '../flowTypes';
+import { ConfigProviderContext, endpointsPT } from '../config';
 import { AppState, DispatchWithState, FetchFlow, fetchFlow, Flows } from '../store';
 import { flowList } from './FlowList.scss';
 
@@ -34,7 +33,6 @@ export const valueKey = 'uuid';
 
 export class FlowList extends React.Component<FlowListStoreProps> {
     public static contextTypes = {
-        assetHost: assetHostPT,
         endpoints: endpointsPT
     };
 
@@ -57,7 +55,8 @@ export class FlowList extends React.Component<FlowListStoreProps> {
             <div
                 id={flowListContainerSpecId}
                 className={flowList}
-                data-spec={flowListContainerSpecId}>
+                data-spec={flowListContainerSpecId}
+            >
                 <Select
                     placeholder={PLACEHOLDER}
                     onChange={this.onChange}
