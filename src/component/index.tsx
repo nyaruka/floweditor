@@ -1,15 +1,9 @@
 import '../global.scss';
-import axios from 'axios';
 import * as React from 'react';
 import { connect, Provider as ReduxProvider } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ConfigProvider, {
-    assetHostPT,
-    ConfigProviderContext,
-    endpointsPT,
-    flowPT,
-    languagesPT
-} from '../config';
+
+import ConfigProvider, { endpointsPT, flowPT, languagesPT } from '../config';
 import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
 import {
     AppState,
@@ -57,7 +51,6 @@ const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) =>
 );
 
 export const contextTypes = {
-    assetHost: assetHostPT,
     endpoints: endpointsPT,
     languages: languagesPT,
     flow: flowPT
@@ -73,14 +66,6 @@ export const editorSpecId = 'editor';
 export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     public static contextTypes = contextTypes;
 
-    constructor(props: FlowEditorStoreProps, context: ConfigProviderContext) {
-        super(props, context);
-
-        if (process.env.NODE_ENV === 'production') {
-            axios.defaults.baseURL = context.assetHost;
-        }
-    }
-
     public componentDidMount(): void {
         this.props.updateLanguage(getBaseLanguage(this.context.languages));
         this.props.fetchFlow(this.context.endpoints.flows, this.context.flow);
@@ -94,7 +79,8 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
             <div
                 id={editorContainerSpecId}
                 className={translatingClass}
-                data-spec={editorContainerSpecId}>
+                data-spec={editorContainerSpecId}
+            >
                 <div className={styles.editor} data-spec={editorSpecId}>
                     <ConnectedFlowList />
                     <ConnectedLanguageSelector />

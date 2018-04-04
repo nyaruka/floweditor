@@ -1,4 +1,4 @@
-const { optimize: { ModuleConcatenationPlugin } } = require('webpack');
+const { optimize: { ModuleConcatenationPlugin }, EnvironmentPlugin } = require('webpack');
 const { smartStrategy } = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const paths = require('./paths');
@@ -13,6 +13,9 @@ const prodConfig = {
         publicPath: '/'
     },
     plugins: [
+        new EnvironmentPlugin({
+            NODE_ENV: 'production'
+        }),
         new ExtractTextPlugin('styles.css'),
         new ModuleConcatenationPlugin(),
         uglifyPlugin,
@@ -25,11 +28,7 @@ const prodConfig = {
                 include: [paths.component],
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: [
-                        typingsForCssModulesLoader(true),
-                        postCSSLoader,
-                        'sass-loader'
-                    ]
+                    use: [typingsForCssModulesLoader(true), postCSSLoader, 'sass-loader']
                 })
             },
             {

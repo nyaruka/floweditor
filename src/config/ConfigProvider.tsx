@@ -1,7 +1,6 @@
+import { objectOf, shape, string } from 'prop-types';
 import * as React from 'react';
-import { shape, string, objectOf } from 'prop-types';
-import { Languages, Endpoints, FlowEditorConfig } from '../flowTypes';
-import { Language } from '../component/LanguageSelector';
+import { Endpoints, FlowEditorConfig, Languages } from '../flowTypes';
 
 interface ConfigProviderProps {
     config: FlowEditorConfig;
@@ -9,14 +8,12 @@ interface ConfigProviderProps {
 }
 
 export interface ConfigProviderContext {
-    assetHost: string;
     endpoints: Endpoints;
     languages: Languages;
     flow: string;
 }
 
 // Prop-type definitions (required by React's context API: https://reactjs.org/docs/context.html)
-export const assetHostPT = string;
 export const endpointsPT = shape({
     fields: string,
     groups: string,
@@ -35,7 +32,6 @@ export const VALID_CHILD_ERROR =
 
 export default class ConfigProvider extends React.Component<ConfigProviderProps> {
     public static childContextTypes = {
-        assetHost: assetHostPT,
         endpoints: endpointsPT,
         languages: languagesPT,
         flow: flowPT
@@ -53,7 +49,6 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
 
     public getChildContext(): ConfigProviderContext {
         return {
-            assetHost: this.props.config.assetHost,
             languages: this.props.config.languages,
             endpoints: this.props.config.endpoints,
             flow: this.props.config.flow
