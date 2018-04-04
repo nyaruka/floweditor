@@ -2,24 +2,66 @@ import {
     getSuggestedResultName,
     determineConfigType,
     getGhostNode,
-    getLocalizations
+    getLocalizations,
+    getUniqueDestinations
 } from './helpers';
 import { v4 as generateUUID } from 'uuid';
 
 import { NODES_ABC } from './__test__';
 import { dump, getLocalization } from '../utils';
+import { AnyAction, SendMsg, Exit, Case } from '../flowTypes';
 
 describe('helpers', () => {
     const nodes = NODES_ABC;
     it('should suggest response names', () => {
         const suggestison = getSuggestedResultName({
             nodeA: {
-                node: { uuid: generateUUID(), exits: [] },
-                ui: { position: { left: 100, top: 100 } }
+                node: { uuid: generateUUID(), actions: [], exits: [] },
+                ui: { position: { left: 100, top: 100 } },
+                inboundConnections: {}
             }
         });
 
         expect(suggestison).toBe('Response 2');
+    });
+
+    it('should get unique destinations', () => {
+        expect(getUniqueDestinations(nodes.nodeA.node)).toEqual(['nodeB']);
+        expect(getUniqueDestinations(nodes.nodeD.node)).toEqual(['nodeE']);
+        expect(getUniqueDestinations(nodes.nodeE.node)).toEqual([]);
+    });
+
+    describe('getLocalizations', () => {
+        it('should get localized actions', () => {
+            const node = nodes.nodeA.node;
+            const translations = { [node.actions[0].uuid]: { text: ['this is espanols'] } };
+
+            const localizations = getLocalizations(
+                node,
+                node.actions[0],
+                'spa',
+                { spa: 'Spanish' },
+                translations
+            );
+
+            expect((localizations[0].getObject() as SendMsg).text).toEqual(['this is espanols']);
+        });
+
+        it('should get localized cases', () => {
+            const node = nodes.nodeD.node;
+            const translations = { exitD: { name: ['this is espanols'], caseA: ['espanol case'] } };
+
+            const localizations = getLocalizations(
+                node,
+                node.actions[0],
+                'spa',
+                { spa: 'Spanish' },
+                translations
+            );
+
+            expect((localizations[0].getObject() as Case).arguments).toEqual(['casetest']);
+            expect((localizations[1].getObject() as Exit).name).toEqual(['this is espanols']);
+        });
     });
 
     describe('getGhostNode', () => {
@@ -34,7 +76,7 @@ describe('helpers', () => {
         });
     });
 
-    describe('determinConfigType', () => {
+    describe('determineConfigType', () => {
         it('should determine config type from action', () => {
             const configType = determineConfigType(
                 nodes.nodeA.node,
@@ -58,6 +100,7 @@ describe('helpers', () => {
             const configType = determineConfigType(
                 {
                     uuid: 'new-node',
+                    actions: [],
                     exits: [],
                     router: {
                         type: 'switch'
@@ -76,6 +119,7 @@ describe('helpers', () => {
                 determineConfigType(
                     {
                         uuid: 'new-node',
+                        actions: [],
                         exits: []
                     },
                     null,

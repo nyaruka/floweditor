@@ -32,23 +32,51 @@ export const NODES_ABC: RenderNodeMap = {
             exits: [{ uuid: 'exitC', destination_node_uuid: null }],
             actions: []
         },
-        ui: { position: { left: 300, top: 210, right: 600, bottom: 390 } },
-        inboundConnections: {}
+        ui: { position: { left: 300, top: 300, right: 600, bottom: 390 } },
+        inboundConnections: { exitB: 'nodeB' }
     },
     nodeD: {
         node: {
             uuid: 'nodeD',
             actions: [],
-            exits: [{ uuid: 'exitD', destination_node_uuid: null }],
+            exits: [
+                { uuid: 'exitD', destination_node_uuid: 'nodeE', name: 'Case Test' },
+                { uuid: 'other', destination_node_uuid: null }
+            ],
             router: {
                 type: 'switch',
-                default_exit_uuid: 'exitD',
+                default_exit_uuid: 'other',
+                cases: [
+                    {
+                        uuid: 'caseD',
+                        type: 'has_any_word',
+                        exit_uuid: 'exitD',
+                        arguments: ['casetest']
+                    }
+                ]
+            } as SwitchRouter,
+            wait: 'msg'
+        },
+        ui: {
+            position: { left: 700, top: 210, right: 700, bottom: 1190 },
+            type: 'wait_for_response'
+        },
+        inboundConnections: { exitC: 'nodeC' }
+    },
+    nodeE: {
+        node: {
+            uuid: 'nodeE',
+            actions: [],
+            exits: [{ uuid: 'exitE', destination_node_uuid: null }],
+            router: {
+                type: 'switch',
+                default_exit_uuid: 'exitE',
                 cases: []
             } as SwitchRouter,
             wait: 'msg'
         },
         ui: {
-            position: { left: 300, top: 1000, right: 700, bottom: 1190 },
+            position: { left: 700, top: 210, right: 700, bottom: 1190 },
             type: 'wait_for_response'
         },
         inboundConnections: {}

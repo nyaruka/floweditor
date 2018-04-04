@@ -5,7 +5,7 @@ jest.unmock('immutability-helper');
 const createMockStore = require('redux-mock-store');
 import thunk from 'redux-thunk';
 import * as types from './actionTypes';
-import { FlowDefinition, SendMsg, AnyAction, Node, SwitchRouter } from '../flowTypes';
+import { FlowDefinition, SendMsg, AnyAction, FlowNode, SwitchRouter } from '../flowTypes';
 import {
     initializeFlow,
     removeNode,
@@ -106,6 +106,7 @@ describe('thunks', () => {
                 spliceInRouter(
                     renderNode.node.uuid,
                     {
+                        actions: [],
                         router: {
                             type: 'switch',
                             cases: [],
@@ -160,7 +161,7 @@ describe('thunks', () => {
 
             const addedNode = store.dispatch(
                 addNode({
-                    node: { uuid: null, exits: [] },
+                    node: { uuid: null, actions: [], exits: [] },
                     ui: { position: { left: 200, top: 200 } },
                     inboundConnections: {
                         [fromExitUUID]: fromNodeUUID
@@ -181,9 +182,18 @@ describe('thunks', () => {
         // we are starting at 150 which overlaps with nodeA
         expect(testNodes.nodeB.ui.position.top).toBe(150);
 
-        // forcing a reflow should bump us down where we don't collid
+        // forcing a reflow should bump us down where we don't collide
         store.dispatch(reflow());
-        expect(getNodes().nodeB.ui.position.top).toBe(200);
+        const updated = getNodes();
+        expect(updated.nodeB.ui.position.top).toBe(200);
+        expect(updated.nodeC.ui.position.top).toBe(360);
+        expect(store.getActions().length).toBe(1);
+
+        // cascading should create two update actions
+        testNodes.nodeC.ui.position.top = 210;
+        store.dispatch(reflow());
+        expect(getNodes().nodeC.ui.position.top).toBe(360);
+        expect(store.getActions().length).toBe(2);
     });
 
     describe('removeNode', () => {
