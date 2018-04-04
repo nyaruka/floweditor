@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { Type } from '../config';
-import { AnyAction, Node } from '../flowTypes';
+import { AnyAction, FlowNode } from '../flowTypes';
 import ActionTypes, {
     UpdateActionToEditAction,
     UpdateNodeToEditAction,
@@ -18,7 +18,7 @@ export interface NodeEditor {
     showResultName: boolean;
     operand: string;
     userAddingAction: boolean;
-    nodeToEdit: Node;
+    nodeToEdit: FlowNode;
     actionToEdit: AnyAction;
 }
 
@@ -79,7 +79,7 @@ export const updateActionToEdit = (actionToEdit: AnyAction): UpdateActionToEditA
 });
 
 // tslint:disable-next-line:no-shadowed-variable
-export const updateNodeToEdit = (nodeToEdit: Node): UpdateNodeToEditAction => ({
+export const updateNodeToEdit = (nodeToEdit: FlowNode): UpdateNodeToEditAction => ({
     type: Constants.UPDATE_NODE_TO_EDIT,
     payload: {
         nodeToEdit
@@ -146,7 +146,7 @@ export const userAddingAction = (
     }
 };
 
-export const nodeToEdit = (state: Node = initialState.nodeToEdit, action: ActionTypes) => {
+export const nodeToEdit = (state: FlowNode = initialState.nodeToEdit, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_NODE_TO_EDIT:
             return action.payload.nodeToEdit;

@@ -6,7 +6,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ConfigProviderContext, languagesPT } from '../config';
-import { Exit, LocalizationMap, Node } from '../flowTypes';
+import { Exit, LocalizationMap, FlowNode } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
 import { AppState, DisconnectExit, disconnectExit, DispatchWithState } from '../store';
 import { createClickHandler, getLocalization } from '../utils';
@@ -16,7 +16,7 @@ import { Language } from './LanguageSelector';
 
 export interface ExitPassedProps {
     exit: Exit;
-    node: Node;
+    node: FlowNode;
     Activity: ActivityManager;
     plumberMakeSource: Function;
     plumberRemove: Function;

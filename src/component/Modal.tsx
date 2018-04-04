@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactModal from 'react-modal';
-import { Case, Node, SwitchRouter } from '../flowTypes';
+import { Case, FlowNode, SwitchRouter } from '../flowTypes';
 import Button, { ButtonProps, ButtonTypes } from './Button';
 import * as styles from './Modal.scss';
 import * as shared from './shared.scss';
@@ -23,7 +23,7 @@ interface CustomStyles {
 export interface ModalProps {
     show: boolean;
     buttons: ButtonSet;
-    node?: Node;
+    node?: FlowNode;
     advanced?: JSX.Element;
     onModalOpen?: any;
     __className?: string;
@@ -143,7 +143,8 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
                         <div
                             className={`${styles.header} ${this.props.__className} ${
                                 shared[`modal_side_${childIdx}`]
-                            }`}>
+                            }`}
+                        >
                             {flip}
                             {title}
                         </div>
@@ -187,7 +188,8 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
                 onRequestClose={onRequestClose}
                 style={customStyles}
                 shouldCloseOnOverlayClick={false}
-                contentLabel="Modal">
+                contentLabel="Modal"
+            >
                 <div className={topStyle}>{sides}</div>
             </ReactModal>
         );

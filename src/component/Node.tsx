@@ -8,7 +8,7 @@ import * as FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ConfigProviderContext, getTypeConfig, languagesPT } from '../config';
-import { AnyAction, FlowDefinition, Node, SwitchRouter, UINode } from '../flowTypes';
+import { AnyAction, FlowDefinition, FlowNode, SwitchRouter, UINode } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
 import { DragEvent } from '../services/Plumber';
 import {
@@ -50,7 +50,7 @@ export interface DragPoint {
 }
 
 export interface NodePassedProps {
-    node: Node;
+    node: FlowNode;
     ui: UINode;
     Activity: ActivityManager;
     plumberRepaintForDuration: Function;
