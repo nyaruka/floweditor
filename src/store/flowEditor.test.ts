@@ -26,7 +26,7 @@ import {
     updatePendingConnections,
     updateTranslating
 } from './flowEditor';
-import { getGhostNode, getNodeUI } from './helpers';
+import { getGhostNode } from './helpers';
 
 const config = require('../../assets/config');
 const flowsResp = require('../../assets/flows.json');
@@ -166,7 +166,6 @@ describe('flowEditor action creators', () => {
         it('should create an action to update ghostNode state', () => {
             const { definition } = colorsFlow.results[0];
             const fromNode = definition.nodes[0];
-            const fromNodeUI = getNodeUI(fromNode.uuid, definition);
             // const ghostNode = getGhostNode(fromNode, fromNodeUI, definition);
             // const expectedAction = {
             //    type: Constants.UPDATE_GHOST_NODE,
@@ -370,7 +369,6 @@ describe('flowEditor reducers', () => {
         it('should handle UPDATE_GHOST_NODE', () => {
             const { definition } = colorsFlow.results[0];
             const fromNode = definition.nodes[0];
-            const fromNodeUI = getNodeUI(fromNode.uuid, definition);
             // const ghostNode = getGhostNode(fromNode, fromNodeUI, nodes);
             // const action = updateGhostNode(ghostNode);
             // expect(reduce(action)).toEqual(ghostNode);

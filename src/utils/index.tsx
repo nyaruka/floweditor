@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Language } from '../component/LanguageSelector';
 import { Action, Case, Exit, Languages, LocalizationMap, ContactProperties } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
-import { getTranslations, SearchResult } from '../store';
+import { SearchResult } from '../store';
 import * as variables from '../variables.scss';
 
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
@@ -209,7 +209,7 @@ export const getLocalization = (
     localization: LocalizationMap,
     iso: string,
     languages: Languages
-) => Localization.translate(obj, iso, languages, getTranslations(localization, iso));
+) => Localization.translate(obj, iso, languages, localization[iso]);
 
 export const dump = (thing: any) => console.log(JSON.stringify(thing, null, 2));
 

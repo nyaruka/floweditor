@@ -36,7 +36,6 @@ import {
     updateNodeEditorOpen,
     updateTranslating
 } from './flowEditor';
-import { getConnectionError, getTranslations } from './helpers';
 import {
     updateActionToEdit,
     updateOperand,
@@ -65,8 +64,6 @@ import {
     OnAddAction,
     onConnectionDrag,
     OnConnectionDrag,
-    onNodeBeforeDrag,
-    OnNodeBeforeDrag,
     OnNodeMoved,
     onNodeMoved,
     OnOpenNodeEditor,
@@ -150,8 +147,6 @@ export {
     OnConnectionDrag,
     resetNodeEditingState,
     onConnectionDrag,
-    onNodeBeforeDrag,
-    OnNodeBeforeDrag,
     OnUpdateRouter,
     OnUpdateAction,
     onAddAction,
@@ -167,8 +162,6 @@ export {
     UpdateDimensions,
     moveActionUp,
     removeAction,
-    getConnectionError,
-    getTranslations,
     updateShowResultName,
     UpdateShowResultName,
     UpdateNodeDragging

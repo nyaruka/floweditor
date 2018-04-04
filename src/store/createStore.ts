@@ -5,15 +5,9 @@ import AppState, { initialState } from './state';
 import rootReducer from './rootReducer';
 
 export default (state: AppState = initialState) => {
-    // prettier-ignore
-    const store = createStore(
-        rootReducer,
-        state,
-        composeWithDevTools(
-            applyMiddleware(thunk)
-        )
-    );
+    const store = createStore(rootReducer, state, composeWithDevTools(applyMiddleware(thunk)));
 
+    /* istanbul ignore next */
     if (module.hot) {
         module.hot.accept('./rootReducer', () => {
             const { default: nextRootReducer } = require('./rootReducer');
