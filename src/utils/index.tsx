@@ -6,7 +6,10 @@ import * as variables from '../variables.scss';
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 
 const SNAKED_CHARS = /\s+(?=\S)/g;
-const GRID_SIZE: number = parseInt(variables.grid_size, 10);
+
+export const GRID_SIZE: number = parseInt(variables.grid_size, 10) || 20;
+export const NODE_SPACING: number = parseInt(variables.node_spacing, 10) || 10;
+export const NODE_PADDING: number = parseInt(variables.node_padding, 10) || 10;
 
 interface BoolMap {
     [key: string]: boolean;

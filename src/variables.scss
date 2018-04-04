@@ -12,6 +12,7 @@ $node_spacing: 20;
 :export { grid_size: $grid_size; }
 :export { node_spacing: $node_spacing; }
 :export { node_padding: $node_padding; }
+:export { background-size: $node_spacing; }
 
 // generic colors
 $blue_selected: #e6f7ff;
