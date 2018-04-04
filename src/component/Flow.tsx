@@ -11,7 +11,6 @@ import {
     ConnectionEvent,
     DispatchWithState,
     ensureStartNode,
-    getConnectionError,
     NoParamsAC,
     OnConnectionDrag,
     onConnectionDrag,
@@ -126,12 +125,12 @@ export class Flow extends React.Component<FlowStoreProps> {
     private onBeforeConnectorDrop(event: ConnectionEvent): boolean {
         this.props.resetNodeEditingState();
 
-        const connectionError = getConnectionError(event.sourceId, event.targetId);
-
-        if (connectionError != null) {
-            console.error(connectionError);
+        if (event.sourceId.split(':')[0] === event.targetId) {
+            console.error(event.targetId + ' cannot point to itself');
+            return false;
         }
-        return connectionError == null;
+
+        return true;
     }
 
     private onShowDefinition(definition: FlowDefinition): void {

@@ -3,38 +3,12 @@ import { FlowNode, UINode, AnyAction, FlowDefinition, Dimensions } from '../flow
 import { v4 as generateUUID } from 'uuid';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { dump } from '../utils';
-import { getUniqueDestinations } from './helpers';
+import { getUniqueDestinations, getNode, getExitIndex, getActionIndex } from './helpers';
 import { LocalizationUpdates } from '.';
 
 export const uniquifyNode = (newNode: FlowNode): FlowNode => {
     // Give our node a unique uuid
     return mutate(newNode, { $merge: { uuid: generateUUID() } });
-};
-
-export const getNode = (nodes: RenderNodeMap, nodeUUID: string) => {
-    const node = nodes[nodeUUID];
-    if (!node) {
-        throw new Error('Cannot find node ' + nodeUUID);
-    }
-    return node;
-};
-
-export const getExitIndex = (node: FlowNode, exitUUID: string) => {
-    for (const [exitIdx, exit] of node.exits.entries()) {
-        if (exit.uuid === exitUUID) {
-            return exitIdx;
-        }
-    }
-    throw new Error('Cannot find exit ' + exitUUID);
-};
-
-export const getActionIndex = (node: FlowNode, actionUUID: string) => {
-    for (const [actionIdx, action] of node.actions.entries()) {
-        if (action.uuid === actionUUID) {
-            return actionIdx;
-        }
-    }
-    throw new Error('Cannot find action ' + actionUUID);
 };
 
 /**

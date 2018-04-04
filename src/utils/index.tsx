@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Language } from '../component/LanguageSelector';
 import { Action, Case, Exit, Languages, LocalizationMap, ContactProperties } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
-import { getTranslations, SearchResult } from '../store';
+import { SearchResult } from '../store';
 
 const SNAKED_CHARS = /\s+(?=\S)/g;
 const GRID_SIZE = 20;
@@ -204,7 +204,7 @@ export const getLocalization = (
     localization: LocalizationMap,
     iso: string,
     languages: Languages
-) => Localization.translate(obj, iso, languages, getTranslations(localization, iso));
+) => Localization.translate(obj, iso, languages, localization[iso]);
 
 export const dump = (thing: any) => console.log(JSON.stringify(thing, null, 2));
 

@@ -10,6 +10,7 @@
     "test": "jest --maxWorkers=4 --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test:local": "jest",
     "test:watch": "npm run test:local -- --watch",
+    "test:watch:coverage": "npm run test:local -- --watch --coverage",
     "test:coverage": "npm run test:local -- --coverage",
     "test:update": "npm run test:local -- --updateSnapshot",
     "start:dev": "webpack-dev-server --config webpack/webpack.config.js --env.NODE_ENV=dev --progress --colors",

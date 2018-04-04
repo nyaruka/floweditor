@@ -26,6 +26,32 @@ interface Reflow {
     bounds: Bounds;
 }
 
+export const getNode = (nodes: RenderNodeMap, nodeUUID: string) => {
+    const node = nodes[nodeUUID];
+    if (!node) {
+        throw new Error('Cannot find node ' + nodeUUID);
+    }
+    return node;
+};
+
+export const getExitIndex = (node: FlowNode, exitUUID: string) => {
+    for (const [exitIdx, exit] of node.exits.entries()) {
+        if (exit.uuid === exitUUID) {
+            return exitIdx;
+        }
+    }
+    throw new Error('Cannot find exit ' + exitUUID);
+};
+
+export const getActionIndex = (node: FlowNode, actionUUID: string) => {
+    for (const [actionIdx, action] of node.actions.entries()) {
+        if (action.uuid === actionUUID) {
+            return actionIdx;
+        }
+    }
+    throw new Error('Cannot find action ' + actionUUID);
+};
+
 /**
  * Gets a suggested result name based on the current number of waits
  * in the current definition
@@ -33,12 +59,6 @@ interface Reflow {
 export const getSuggestedResultName = (nodes: RenderNodeMap) => {
     return 'Response ' + (Object.keys(nodes).length + 1);
 };
-
-/**
- * Computes translations prop for `Node` components in render()
- */
-export const getTranslations = (localizationMap: LocalizationMap, iso: string) =>
-    localizationMap[iso];
 
 export const getLocalizations = (
     node: FlowNode,
@@ -75,30 +95,26 @@ export const getLocalizations = (
 export const determineConfigType = (
     nodeToEdit: FlowNode,
     action: AnyAction,
-    nodes: { [uuid: string]: RenderNode }
+    nodes: RenderNodeMap
 ) => {
     if (action && action.type) {
         return action.type;
-    } else if (nodeToEdit.actions && nodeToEdit.actions.length) {
+    } else if (nodeToEdit.actions && nodeToEdit.actions.length > 0) {
         return nodeToEdit.actions[nodeToEdit.actions.length - 1].type;
     } else {
-        const renderNode = nodes[nodeToEdit.uuid];
-        if (renderNode) {
+        try {
+            const renderNode = getNode(nodes, nodeToEdit.uuid);
+            /* istanbul ignore else */
             if (renderNode.ui.type) {
                 return renderNode.ui.type;
             }
-        }
+            // tslint:disable-next-line:no-empty
+        } catch (Error) {}
     }
 
     // Account for ghost nodes
-    if (nodeToEdit) {
-        if (nodeToEdit.router) {
-            return nodeToEdit.router.type;
-        }
-
-        if (nodeToEdit.actions) {
-            return nodeToEdit.actions[0].type;
-        }
+    if (nodeToEdit.router) {
+        return nodeToEdit.router.type;
     }
 
     throw new Error(`Cannot initialize NodeEditor without a valid type: ${nodeToEdit.uuid}`);
@@ -112,11 +128,6 @@ export const getUniqueDestinations = (node: FlowNode): string[] => {
         }
     }
     return Object.keys(destinations);
-};
-
-export const getConnectionError = (source: string, targetUUID: string) => {
-    const [nodeUUID, exitUUID] = source.split(':');
-    return nodeUUID === targetUUID ? 'Connections cannot route back to the same places.' : null;
 };
 
 const getOrderedNodes = (nodes: RenderNodeMap): RenderNode[] => {

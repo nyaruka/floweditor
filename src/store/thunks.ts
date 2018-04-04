@@ -34,13 +34,7 @@ import {
     updateNodeEditorOpen,
     updatePendingConnection
 } from './flowEditor';
-import {
-    determineConfigType,
-    getCollision,
-    getGhostNode,
-    getLocalizations,
-    getTranslations
-} from './helpers';
+import { determineConfigType, getCollision, getGhostNode, getLocalizations } from './helpers';
 import * as mutators from './mutators';
 import {
     updateActionToEdit,
@@ -659,7 +653,7 @@ export const onAddAction = (node: FlowNode, languages: Languages) => (
 
     const localizations = [];
     if (translating) {
-        const translations = getTranslations(definition.localization, language.iso);
+        const translations = definition.localization[language.iso];
         localizations.push(
             // prettier-ignore
             ...getLocalizations(
@@ -778,11 +772,7 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
     const localizations = [];
     if (translating) {
         // prettier-ignore
-        const translations = getTranslations(
-            localization,
-            language.iso
-        );
-
+        const translations = localization[language.iso]
         localizations.push(
             ...getLocalizations(node, action, language.iso, languages, translations)
         );

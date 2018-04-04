@@ -1,5 +1,5 @@
 import { RenderNodeMap } from './flowContext';
-import { SendMsg } from '../flowTypes';
+import { SendMsg, SwitchRouter } from '../flowTypes';
 
 export const NODES_ABC: RenderNodeMap = {
     nodeA: {
@@ -33,6 +33,24 @@ export const NODES_ABC: RenderNodeMap = {
             actions: []
         },
         ui: { position: { left: 300, top: 210, right: 600, bottom: 390 } },
+        inboundConnections: {}
+    },
+    nodeD: {
+        node: {
+            uuid: 'nodeD',
+            actions: [],
+            exits: [{ uuid: 'exitD', destination_node_uuid: null }],
+            router: {
+                type: 'switch',
+                default_exit_uuid: 'exitD',
+                cases: []
+            } as SwitchRouter,
+            wait: 'msg'
+        },
+        ui: {
+            position: { left: 300, top: 1000, right: 700, bottom: 1190 },
+            type: 'wait_for_response'
+        },
         inboundConnections: {}
     }
 };

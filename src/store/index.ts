@@ -36,7 +36,6 @@ import {
     updateNodeEditorOpen,
     updateTranslating
 } from './flowEditor';
-import { getConnectionError, getTranslations } from './helpers';
 import {
     updateActionToEdit,
     updateOperand,
@@ -163,8 +162,6 @@ export {
     UpdateDimensions,
     moveActionUp,
     removeAction,
-    getConnectionError,
-    getTranslations,
     updateShowResultName,
     UpdateShowResultName,
     UpdateNodeDragging
