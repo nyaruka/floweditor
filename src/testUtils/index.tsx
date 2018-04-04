@@ -29,7 +29,7 @@ export const createSetup = <P extends {}, C extends ConfigProviderContext = Conf
         // tslint:disable-next-line:ban-types
         shallowRender ? (shallow as Function) : (mount as Function)
     )(
-        <Component {...props} />, { context }
+        <Component {...props} />, { context, childContextTypes }
     );
 
     return {

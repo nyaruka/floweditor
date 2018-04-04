@@ -7,15 +7,25 @@ import {
     SetContactProperty
 } from '../../../flowTypes';
 import { SearchResult } from '../../../store';
-import { propertyExists, snakify, titleCase } from '../../../utils';
 import ConnectedAttribElement from '../../form/AttribElement';
-import TextInputElement from '../../form/TextInputElement';
+import ConnectedTextInputElement from '../../form/TextInputElement';
+import {
+    fieldToSearchResult,
+    newFieldAction,
+    newPropertyAction,
+    propertyToSearchResult
+} from './helpers';
 
 export interface SetContactAttribFormProps {
     action: SetContactAttribute;
     onBindWidget: (ref: any) => void;
     updateAction: (action: SetContactAttribute) => void;
 }
+
+export const ATTRIB_HELP_TEXT =
+    'Select an existing attribute to update or type any name to create a new one';
+export const TEXT_INPUT_HELP_TEXT =
+    'The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json.';
 
 export default class SetContactAttribForm extends React.Component<SetContactAttribFormProps> {
     public static contextTypes = {
@@ -29,63 +39,25 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
     }
 
     public onValid(widgets: { [name: string]: any }): void {
+        const { wrappedInstance: { state: { attribute } } } = widgets.Attribute;
         const { wrappedInstance: { state: { value } } } = widgets.Value;
-        const { state: { attribute } } = widgets.Attribute.wrappedInstance;
 
-        let newAction: Partial<SetContactAttribute> = {
-            uuid: this.props.action.uuid,
-            value
-        };
-
-        if (attribute.type === 'field') {
-            newAction = {
-                ...newAction,
-                type: 'set_contact_field',
-                field: {
-                    key: snakify(attribute.name),
-                    name: titleCase(attribute.name)
-                }
-            } as SetContactField;
-        } else if (attribute.type === 'property') {
-            newAction = {
-                ...newAction,
-                type: 'set_contact_property',
-                property: snakify(attribute.name)
-            } as SetContactProperty;
+        if (attribute.type === AttributeType.field) {
+            this.props.updateAction(newFieldAction(this.props.action.uuid, value, attribute.name));
+        } else if (attribute.type === AttributeType.property) {
+            this.props.updateAction(
+                newPropertyAction(this.props.action.uuid, value, attribute.name)
+            );
         }
-
-        this.props.updateAction(newAction as SetContactAttribute);
-    }
-
-    public isValidNewOption(option: { label: string }): boolean {
-        if (!option || !option.label) {
-            return false;
-        }
-
-        const lowered = option.label.toLowerCase();
-
-        return (
-            lowered.length > 0 &&
-            lowered.length <= 36 &&
-            /^[a-z0-9-][a-z0-9- ]*$/.test(lowered) &&
-            !propertyExists(lowered)
-        );
     }
 
     private getInitial(): SearchResult {
         switch (this.props.action.type) {
             case 'set_contact_field':
-                return {
-                    id: (this.props.action as SetContactField).field.key,
-                    name: (this.props.action as SetContactField).field.name,
-                    type: AttributeType.field
-                };
+                return fieldToSearchResult(this.props.action as SetContactField);
             case 'set_contact_property':
-                return {
-                    id: (this.props.action as SetContactProperty).property,
-                    name: titleCase((this.props.action as SetContactProperty).property),
-                    type: AttributeType.property
-                };
+                return propertyToSearchResult(this.props.action as SetContactProperty);
+            /* istanbul ignore next */
             default:
                 return null;
         }
@@ -94,26 +66,26 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
     public render(): JSX.Element {
         const initial = this.getInitial();
         return (
-            <div>
+            <>
                 <ConnectedAttribElement
                     ref={this.props.onBindWidget}
                     name="Attribute"
                     showLabel={true}
                     endpoint={this.context.endpoints.fields}
-                    helpText="Select an existing attribute to update or type any name to create a new one"
+                    helpText={ATTRIB_HELP_TEXT}
                     initial={initial}
                     add={true}
                     required={true}
                 />
-                <TextInputElement
+                <ConnectedTextInputElement
                     ref={this.props.onBindWidget}
                     name="Value"
                     showLabel={true}
                     value={this.props.action.value}
-                    helpText="The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json."
+                    helpText={TEXT_INPUT_HELP_TEXT}
                     autocomplete={true}
                 />
-            </div>
+            </>
         );
     }
 }
