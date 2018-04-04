@@ -12,7 +12,6 @@ import {
 import Localization, { LocalizedObject } from '../services/Localization';
 import { RenderNode, RenderNodeMap, SearchResult } from './flowContext';
 import { PendingConnections } from './flowEditor';
-import { NODE_PADDING } from './thunks';
 
 export interface Bounds {
     left: number;

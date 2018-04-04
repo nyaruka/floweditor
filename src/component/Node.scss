@@ -1,7 +1,7 @@
 @import "../variables.scss";
 
 .node_container {
-    padding: $endpoint_buffer;
+    padding: $node_padding + px;
     z-index: $z_nodes;
     position: absolute;
 
@@ -99,8 +99,8 @@
         .drag_group {
             position: absolute;
             visibility: hidden;
-            bottom: $endpoint_buffer;
-            left: $endpoint_buffer;
+            bottom: $node_padding + px;
+            left: $node_padding + px;
             padding: 3px;
             color: $light_gray - #222;
             font-size: 8px;
@@ -114,8 +114,8 @@
         }
         .add {
             position: absolute;
-            right: $endpoint_buffer / 2;
-            bottom: $endpoint_buffer / 2;
+            right: $node_padding / 2 + px;
+            bottom: $node_padding / 2 + px;
             visibility: hidden;
             color: $blue;
             text-decoration: none;
