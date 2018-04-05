@@ -198,6 +198,12 @@ describe('ABC RenderNodeMap', () => {
             expect(updated.nodeA.node.exits[0].destination_node_uuid).toBe('nodeC');
         });
 
+        it('should throw if attempting to connect node to itself', () => {
+            expect(() => {
+                store.dispatch(updateConnection('nodeA:exitA', 'nodeA'));
+            }).toThrowError('Cannot connect nodeA to itself');
+        });
+
         it('should update update connections when adding a node', () => {
             let fromNode = testNodes.nodeB.node;
             const fromNodeUUID = fromNode.uuid;

@@ -10,7 +10,8 @@ import {
     updateNode,
     updatePosition,
     updateDimensions,
-    updateLocalization
+    updateLocalization,
+    removeNodeAndRemap
 } from './mutators';
 import { RenderNodeMap } from './flowContext';
 import { SendMsg, FlowDefinition, FlowNode } from '../flowTypes';
@@ -150,20 +151,20 @@ describe('mutators', () => {
         });
     });
 
-    describe('removeNode()', () => {
+    describe('removeNodeAndRemap()', () => {
         it('should remove action nodes', () => {
-            const updated = removeNode(nodes, 'nodeA');
+            const updated = removeNodeAndRemap(nodes, 'nodeA');
             expect(updated.nodeA).toBeUndefined();
             expect(Object.keys(updated.nodeB.inboundConnections)).not.toContain('exitA');
         });
 
         it('should remove multi-exit router nodes', () => {
-            const updated = removeNode(nodes, 'nodeD');
+            const updated = removeNodeAndRemap(nodes, 'nodeD');
             expect(updated.nodeD).toBeUndefined();
         });
 
         it('should remove single exit router nodes', () => {
-            const updated = removeNode(nodes, 'nodeE');
+            const updated = removeNodeAndRemap(nodes, 'nodeE');
             expect(updated.nodeE).toBeUndefined();
         });
     });

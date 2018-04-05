@@ -317,41 +317,6 @@ describe('flowEditor reducers', () => {
         });
     });
 
-    describe('pendingConnections reducer', () => {
-        const reduce = action => pendingConnectionsReducer(undefined, action);
-
-        it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.flowUI.pendingConnections);
-        });
-
-        it('should handle UPDATE_PENDING_CONNECTIONS', () => {
-            const draggedTo = generateUUID();
-            const draggedFrom = {
-                nodeUUID: generateUUID(),
-                exitUUID: generateUUID()
-            };
-            const action = updatePendingConnections(draggedTo, draggedFrom);
-            expect(reduce(action)).toEqual({
-                ...initialState.flowUI.pendingConnections,
-                [draggedTo]: draggedFrom
-            });
-        });
-
-        it('should handle REMOVE_PENDING_CONNECTION', () => {
-            const draggedTo = generateUUID();
-            const draggedFrom = {
-                nodeUUID: generateUUID(),
-                exitUUID: generateUUID()
-            };
-            const state = {
-                ...initialState.flowUI.pendingConnections,
-                [draggedTo]: draggedFrom
-            };
-            const action = removePendingConnection(draggedTo);
-            expect(pendingConnectionsReducer(state, action)).toEqual({});
-        });
-    });
-
     describe('nodeDragging reducer', () => {
         const reduce = action => nodeDraggingReducer(undefined, action);
 

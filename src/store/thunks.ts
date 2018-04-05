@@ -129,6 +129,7 @@ export type LocalizationUpdates = Array<{ uuid: string; translations?: any }>;
 const FORCE_FETCH = true;
 const QUIET_UI = 10;
 const QUIET_SAVE = 1000;
+const SHOW_TIMING = false;
 
 export const initializeFlow = (definition: FlowDefinition) => (
     dispatch: DispatchWithState,
@@ -206,7 +207,9 @@ export const reflow = (current: RenderNodeMap = null) => (
 
     const collision = getCollision(nodes);
     if (collision.length) {
-        // console.time('reflow');
+        if (SHOW_TIMING) {
+            console.time('reflow');
+        }
         const [top, bottom, cascade] = collision;
         let updated = mutators.updatePosition(
             nodes,
@@ -229,7 +232,9 @@ export const reflow = (current: RenderNodeMap = null) => (
                 cascadeTop
             );
         }
-        // console.timeEnd('reflow');
+        if (SHOW_TIMING) {
+            console.timeEnd('reflow');
+        }
 
         updated = dispatch(reflow(updated));
         if (current == null) {
@@ -255,9 +260,10 @@ export const updateDimensions = (node: FlowNode, dimensions: Dimensions) => (
     getState: GetState
 ): RenderNodeMap => {
     const { flowContext: { nodes } } = getState();
-    const updated = mutators.updateDimensions(nodes, node.uuid, dimensions);
+    let updated = mutators.updateDimensions(nodes, node.uuid, dimensions);
+    updated = dispatch(reflow(updated));
     dispatch(updateNodes(updated));
-    return dispatch(reflow(updated));
+    return updated;
 };
 
 /**
@@ -267,11 +273,15 @@ export const addNode = (renderNode: RenderNode) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNode => {
-    // console.time('addNode');
+    if (SHOW_TIMING) {
+        console.time('addNode');
+    }
     const { flowContext: { nodes } } = getState();
     renderNode.node = mutators.uniquifyNode(renderNode.node);
     dispatch(updateNodes(mutators.addNode(nodes, renderNode)));
-    // console.timeEnd('addNode');
+    if (SHOW_TIMING) {
+        console.timeEnd('addNode');
+    }
     return renderNode;
 };
 
@@ -380,7 +390,9 @@ export const updateAction = (
     draggedFrom: DragPoint = null,
     newPosition: Position = null
 ) => (dispatch: DispatchWithState, getState: GetState): RenderNodeMap => {
-    // console.time('updateAction');
+    if (SHOW_TIMING) {
+        console.time('updateAction');
+    }
     const { flowContext: { nodes }, nodeEditor: { userAddingAction, nodeToEdit } } = getState();
 
     if (nodeToEdit == null) {
@@ -408,7 +420,9 @@ export const updateAction = (
         updatedNodes = mutators.updateAction(nodes, nodeToEdit.uuid, action);
     }
 
-    // console.timeEnd('updateAction');
+    if (SHOW_TIMING) {
+        console.timeEnd('updateAction');
+    }
     dispatch(updateNodes(updatedNodes));
     dispatch(updateUserAddingAction(false));
     return updatedNodes;
@@ -525,7 +539,6 @@ export const spliceInRouter = (
     // remove our old node, we have better ones now
     updatedNodes = mutators.removeNode(updatedNodes, previousNode.node.uuid);
     dispatch(updateNodes(updatedNodes));
-    dispatch(reflow());
     return updatedNodes;
 };
 
@@ -577,7 +590,9 @@ export const updateRouter = (
 ) => (dispatch: DispatchWithState, getState: GetState) => {
     const { flowContext: { nodes } } = getState();
 
-    console.time('updateRouter');
+    if (SHOW_TIMING) {
+        console.time('updateRouter');
+    }
 
     const renderNode = nodes[node.uuid];
 
@@ -608,7 +623,9 @@ export const updateRouter = (
         }
     }
 
-    console.timeEnd('updateRouter');
+    if (SHOW_TIMING) {
+        console.timeEnd('updateRouter');
+    }
 };
 
 export const resetNodeEditingState = () => (dispatch: DispatchWithState, getState: GetState) => {

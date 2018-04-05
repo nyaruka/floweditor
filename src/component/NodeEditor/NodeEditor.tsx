@@ -213,7 +213,7 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
             break;
     }
 
-    return null;
+    return defaultAction;
 };
 
 /**
