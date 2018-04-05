@@ -33,6 +33,10 @@ export const updateConnection = (
         getNode(nodes, destinationNodeUUID);
     }
 
+    if (fromNodeUUID === destinationNodeUUID) {
+        throw new Error('Cannot connect ' + fromNodeUUID + ' to itself');
+    }
+
     const exitIdx = getExitIndex(fromNode.node, fromExitUUID);
     const previousDestination = fromNode.node.exits[exitIdx].destination_node_uuid;
 
@@ -196,6 +200,10 @@ export const updateNode = (nodes: RenderNodeMap, node: FlowNode, type: string) =
     });
 };
 
+export const removeNode = (nodes: RenderNodeMap, nodeUUID: string): RenderNodeMap => {
+    return mutate(nodes, { $unset: [nodeUUID] });
+};
+
 /**
  * Removes a given node from our node map. Updates destinations for any exits that point to us
  * and removes any inboundConnections that reference our exits. Also will reroute connections
@@ -203,7 +211,7 @@ export const updateNode = (nodes: RenderNodeMap, node: FlowNode, type: string) =
  * @param nodes
  * @param nodeToRemove
  */
-export const removeNode = (nodes: RenderNodeMap, nodeUUID: string): RenderNodeMap => {
+export const removeNodeAndRemap = (nodes: RenderNodeMap, nodeUUID: string): RenderNodeMap => {
     const nodeToRemove = getNode(nodes, nodeUUID);
     let updatedNodes = nodes;
 
@@ -223,8 +231,6 @@ export const removeNode = (nodes: RenderNodeMap, nodeUUID: string): RenderNodeMa
     if (nodeToRemove.node.exits.length === 1) {
         ({ destination_node_uuid: destination } = nodeToRemove.node.exits[0]);
     }
-
-    console.log(nodeToRemove.node.uuid, destination);
 
     // clear any destinations that point to us
     for (const fromExitUUID of Object.keys(nodeToRemove.inboundConnections)) {

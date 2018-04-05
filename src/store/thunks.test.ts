@@ -11,150 +11,194 @@ import {
     removeNode,
     addNode,
     updateAction,
+    onUpdateLocalizations,
+    updateDimensions,
+    disconnectExit,
+    updateConnection,
+    ensureStartNode,
+    moveActionUp,
+    removeAction,
     spliceInRouter,
-    reflow
+    reflow,
+    updateExitDestination
 } from './thunks';
 import { dump } from '../utils';
 import { getUniqueDestinations } from './helpers';
-import { RenderNode } from './flowContext';
+import { RenderNode, RenderNodeMap } from './flowContext';
 import { v4 as generateUUID } from 'uuid';
-import { Constants } from '.';
+import { Constants, LocalizationUpdates } from '.';
 import { NODES_ABC } from './__test__';
 
-describe('thunks', () => {
-    let store;
-    const testNodes = NODES_ABC;
+const getUpdatedNodes = (currentStore = null): { [uuid: string]: RenderNode } => {
+    let nodes;
 
-    const getNodes = (): { [uuid: string]: RenderNode } => {
-        let nodes;
-
-        // return the last action for UPDATE_NODES
-        for (const action of store.getActions()) {
-            if (action.type === Constants.UPDATE_NODES) {
-                nodes = action.payload.nodes;
-            }
+    // return the last action for UPDATE_NODES
+    for (const action of currentStore.getActions()) {
+        if (action.type === Constants.UPDATE_NODES) {
+            nodes = action.payload.nodes;
         }
-        return nodes;
+    }
+    return nodes;
+};
+
+describe('Color Flow', () => {
+    let colorsFlow: FlowDefinition;
+    let store;
+
+    beforeEach(() => {
+        store = createMockStore([thunk])({});
+        colorsFlow = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json')
+            .results[0].definition as FlowDefinition;
+    });
+
+    it('should initalize definition', () => {
+        const nodes = store.dispatch(initializeFlow(colorsFlow));
+        expect(nodes).toMatchSnapshot();
+    });
+
+    it('should update localizations', () => {
+        const updatedStore = createMockStore([thunk])({
+            flowContext: { definition: colorsFlow }
+        });
+        const actionUUID = colorsFlow.nodes[0].actions[0].uuid;
+        const localizationUpdates: LocalizationUpdates = [
+            {
+                uuid: actionUUID,
+                translations: { text: ['espanols'] }
+            }
+        ];
+
+        const updated: FlowDefinition = updatedStore.dispatch(
+            onUpdateLocalizations('spa', localizationUpdates)
+        );
+
+        expect(updated.localization.spa[actionUUID]).toEqual({ text: ['espanols'] });
+    });
+});
+
+describe('ABC RenderNodeMap', () => {
+    const testNodes = NODES_ABC;
+    let store;
+
+    const cloneNodes = () => {
+        // quick and dirty deep copy
+        return JSON.parse(JSON.stringify(testNodes));
     };
 
     beforeEach(() => {
         // prep our store to show that we are editing
         store = createMockStore([thunk])({
-            flowContext: { nodes: testNodes }
+            flowContext: { nodes: testNodes },
+            nodeEditor: {}
         });
     });
 
-    describe('initializeFlow', () => {
-        store = createMockStore([thunk])({});
-        const colorsFlow = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json')
-            .results[0].definition as FlowDefinition;
-        store.dispatch(initializeFlow(colorsFlow));
-        expect(getNodes()).toMatchSnapshot();
-    });
+    describe('nodes', () => {
+        // describe('addNode', () => {});
 
-    describe('updateAction', () => {
-        it('should add new action', () => {
-            // prep our store to show that we are editing
-            store = createMockStore([thunk])({
-                ...store.getState(),
-                nodeEditor: { userAddingAction: true, nodeToEdit: testNodes.nodeA.node }
+        it('should reflow nodes', () => {
+            // we are starting at 150 which overlaps with nodeA
+            expect(testNodes.nodeB.ui.position.top).toBe(150);
+
+            // forcing a reflow should bump us down where we don't collide
+            let updated = store.dispatch(reflow());
+            expect(updated.nodeB.ui.position.top).toBe(200);
+            expect(updated.nodeC.ui.position.top).toBe(360);
+            expect(store.getActions().length).toBe(1);
+
+            // cascading should create two update actions
+            testNodes.nodeC.ui.position.top = 210;
+            updated = store.dispatch(reflow());
+            expect(updated.nodeC.ui.position.top).toBe(360);
+            expect(store.getActions().length).toBe(2);
+        });
+
+        it('should update dimensions', () => {
+            const updated = store.dispatch(
+                updateDimensions(testNodes.nodeA.node, { width: 300, height: 600 })
+            );
+
+            expect(updated.nodeA.ui.position).toEqual({
+                left: 100,
+                top: 100,
+                right: 400,
+                bottom: 700
+            });
+        });
+
+        it('should create a start node if needed', () => {
+            // if there are already nodes, we're a noop
+            expect(store.dispatch(ensureStartNode())).toBeUndefined();
+
+            // create a store without nodes
+            const updatedStore = createMockStore([thunk])({
+                flowContext: { nodes: {} }
             });
 
-            // add a new message to the first node
-            store.dispatch(
-                updateAction(
-                    {
-                        uuid: 'actionA',
-                        type: 'send_msg',
-                        text: 'A second message for our first node'
-                    },
-                    'nodeA'
-                )
+            // now we create a new one
+            const newNode = updatedStore.dispatch(ensureStartNode());
+            expect(newNode.node.actions[0].text).toBe(
+                'Hi there, this is the first message in your flow.'
             );
-
-            // we should have a new action
-            const actions = getNodes().nodeA.node.actions;
-            expect(actions.length).toBe(2);
-            expect((actions[1] as SendMsg).text).toBe('A second message for our first node');
         });
-    });
 
-    describe('spliceInRouter', () => {
-        it('should splice in a new node if needed', () => {
-            const updatedNodes = { ...testNodes };
-            updatedNodes.nodeA.node.actions.push({
-                uuid: 'actionB',
-                type: 'send_msg',
-                text: 'A second message for our first node'
-            } as SendMsg);
-
-            updatedNodes.nodeA.node.actions.push({
-                uuid: 'actionC',
-                type: 'send_msg',
-                text: 'A third message for our first node'
-            } as SendMsg);
-
-            store = createMockStore([thunk])({
-                flowContext: { nodes: updatedNodes }
+        describe('removal', () => {
+            it('should remove it from the map', () => {
+                const nodes = store.dispatch(removeNode(testNodes.nodeB.node));
+                expect(nodes.nodeB).toBeUndefined();
             });
 
-            // now lets splice in a router in our middle action
-            const renderNode: RenderNode = updatedNodes.nodeA;
+            it('should remove pointers from its destination', () => {
+                const nodes = store.dispatch(removeNode(testNodes.nodeA.node));
+                const destinations = getUniqueDestinations(testNodes.nodeA.node);
+                expect(destinations.length).toBe(1);
 
-            const newExitUUID = generateUUID();
-            const renderNodes = store.dispatch(
-                spliceInRouter(
-                    renderNode.node.uuid,
-                    {
-                        actions: [],
-                        router: {
-                            type: 'switch',
-                            cases: [],
-                            default_exit_uuid: newExitUUID
-                        } as SwitchRouter,
-                        uuid: generateUUID(),
-                        exits: [
-                            {
-                                uuid: newExitUUID,
-                                name: 'Other',
-                                destination_node_uuid: null
-                            }
-                        ]
-                    },
-                    'wait_for_response',
-                    renderNode.node.actions[1]
-                )
-            );
+                // we were the only thing pointing to our friends, so now they
+                // should have no inbound connections
+                for (const nodeUUID of destinations) {
+                    expect(nodes[nodeUUID].inboundConnections).toEqual({});
+                }
+            });
 
-            const nodes = getNodes();
-            const topNode = nodes[renderNodes[0].node.uuid];
-            const middleNode = nodes[renderNodes[1].node.uuid];
-            const bottomNode = nodes[renderNodes[2].node.uuid];
+            it('should reroute pass through connections', () => {
+                const nodes = store.dispatch(removeNode(testNodes.nodeB.node));
 
-            // top node should point to the middle node, and middle should point back
-            expect(topNode.node.exits[0].destination_node_uuid).toBe(middleNode.node.uuid);
-            expect(Object.keys(middleNode.inboundConnections)).toContain(
-                topNode.node.exits[0].uuid
-            );
+                // we reomved B, so now A should point to C
+                expect(nodes.nodeA.node.exits[0].destination_node_uuid).toBe(nodes.nodeC.node.uuid);
 
-            // middle should point to the bottom, and bottom should point back
-            expect(middleNode.node.exits[0].destination_node_uuid).toBe(bottomNode.node.uuid);
-            expect(Object.keys(bottomNode.inboundConnections)).toContain(
-                middleNode.node.exits[0].uuid
-            );
+                // and the next node in the tree should reflect our inbound connection
+                expect(Object.keys(nodes.nodeC.inboundConnections)).toContain(
+                    testNodes.nodeA.node.exits[0].uuid
+                );
+            });
 
-            // finally, the bottom node should point to the original destination
-            expect(bottomNode.node.exits[0].destination_node_uuid).toBe(
-                updatedNodes.nodeA.node.exits[0].destination_node_uuid
-            );
-
-            // original node should be gonezor
-            expect(nodes[updatedNodes.nodeA.node.uuid]).toBeUndefined();
+            // test a snapshot after removing each node in the flow
+            for (const nodeUUID of Object.keys(testNodes)) {
+                it('should remove node ' + nodeUUID, () => {
+                    const nodes = store.dispatch(removeNode(testNodes[nodeUUID].node));
+                    expect(nodes).toMatchSnapshot('Remove ' + nodeUUID);
+                });
+            }
         });
     });
 
-    describe('addNode', () => {
-        it('should update exit destination and inbound connections', () => {
+    describe('connections', () => {
+        it('should updateExitDestination()', () => {
+            const updated = store.dispatch(updateExitDestination('nodeA', 'exitA', 'nodeC'));
+            expect(updated.nodeA.node.exits[0].destination_node_uuid).toBe('nodeC');
+        });
+
+        it('should disconnectExit()', () => {
+            const updated = store.dispatch(disconnectExit('nodeA', 'exitA'));
+            expect(updated.nodeA.node.exits[0].destination_node_uuid).toBe(null);
+        });
+
+        it('should updateConnection()', () => {
+            const updated = store.dispatch(updateConnection('nodeA:exitA', 'nodeC'));
+            expect(updated.nodeA.node.exits[0].destination_node_uuid).toBe('nodeC');
+        });
+
+        it('should update update connections when adding a node', () => {
             let fromNode = testNodes.nodeB.node;
             const fromNodeUUID = fromNode.uuid;
             const fromExitUUID = fromNode.exits[0].uuid;
@@ -169,7 +213,7 @@ describe('thunks', () => {
                 })
             );
 
-            const nodes = getNodes();
+            const nodes = getUpdatedNodes(store);
             fromNode = nodes[fromNodeUUID].node;
 
             // our pointing node should be directed at us
@@ -178,65 +222,293 @@ describe('thunks', () => {
         });
     });
 
-    it('should reflow nodes', () => {
-        // we are starting at 150 which overlaps with nodeA
-        expect(testNodes.nodeB.ui.position.top).toBe(150);
-
-        // forcing a reflow should bump us down where we don't collide
-        store.dispatch(reflow());
-        const updated = getNodes();
-        expect(updated.nodeB.ui.position.top).toBe(200);
-        expect(updated.nodeC.ui.position.top).toBe(360);
-        expect(store.getActions().length).toBe(1);
-
-        // cascading should create two update actions
-        testNodes.nodeC.ui.position.top = 210;
-        store.dispatch(reflow());
-        expect(getNodes().nodeC.ui.position.top).toBe(360);
-        expect(store.getActions().length).toBe(2);
-    });
-
-    describe('removeNode', () => {
-        it('should remove it from the map', () => {
-            store.dispatch(removeNode(testNodes.nodeB.node));
-            const nodes = getNodes();
-            expect(nodes.nodeB).toBeUndefined();
-        });
-
-        it('should remove pointers from its destination', () => {
-            store.dispatch(removeNode(testNodes.nodeA.node));
-            const nodes = getNodes();
-            const destinations = getUniqueDestinations(testNodes.nodeA.node);
-            expect(destinations.length).toBe(1);
-
-            // we were the only thing pointing to our friends, so now they
-            // should have no inbound connections
-            for (const nodeUUID of destinations) {
-                expect(nodes[nodeUUID].inboundConnections).toEqual({});
-            }
-        });
-
-        it('should reroute pass through connections', () => {
-            store.dispatch(removeNode(testNodes.nodeB.node));
-
-            const nodes = getNodes();
-
-            // we reomved B, so now A should point to C
-            expect(nodes.nodeA.node.exits[0].destination_node_uuid).toBe(nodes.nodeC.node.uuid);
-
-            // and the next node in the tree should reflect our inbound connection
-            expect(Object.keys(nodes.nodeC.inboundConnections)).toContain(
-                testNodes.nodeA.node.exits[0].uuid
-            );
-        });
-
-        // test a snapshot after removing each node in the flow
-        for (const nodeUUID of Object.keys(testNodes)) {
-            it('should remove node ' + nodeUUID, () => {
-                store.dispatch(removeNode(testNodes[nodeUUID].node));
-                const nodes = getNodes();
-                expect(getNodes()).toMatchSnapshot('Remove ' + nodeUUID);
+    describe('actions', () => {
+        it('should add new action', () => {
+            // prep our store to show that we are editing
+            const updatedStore = createMockStore([thunk])({
+                ...store.getState(),
+                nodeEditor: { userAddingAction: true, nodeToEdit: testNodes.nodeA.node }
             });
-        }
+
+            // add a new message to the first node
+            const nodes = updatedStore.dispatch(
+                updateAction(
+                    {
+                        uuid: 'new_action',
+                        type: 'send_msg',
+                        text: 'A second message for our first node'
+                    },
+                    'nodeA'
+                )
+            );
+
+            // we should have a new action
+            const actions = nodes.nodeA.node.actions;
+            expect(actions.length).toBe(2);
+            expect((actions[1] as SendMsg).text).toBe('A second message for our first node');
+        });
+
+        it('should throw if nodeToEdit is null', () => {
+            expect(() => {
+                // add a new message to the first node
+                const nodes = store.dispatch(
+                    updateAction(
+                        {
+                            uuid: 'new_action',
+                            type: 'send_msg',
+                            text: 'A second message for our first node'
+                        },
+                        'nodeA'
+                    )
+                );
+            }).toThrowError('Need nodeToEdit in state to update an action');
+        });
+
+        it('should update an existing action', () => {
+            // prep our store to show that we are editing
+            const updatedStore = createMockStore([thunk])({
+                ...store.getState(),
+                nodeEditor: { userAddingAction: false, nodeToEdit: testNodes.nodeA.node }
+            });
+
+            // add a new message to the first node
+            const nodes = updatedStore.dispatch(
+                updateAction(
+                    {
+                        uuid: 'actionA',
+                        type: 'send_msg',
+                        text: 'An updated message'
+                    },
+                    'nodeA'
+                )
+            );
+
+            expect(nodes.nodeA.node.actions[0].text).toBe('An updated message');
+        });
+
+        it('should remove the node when removing the last action', () => {
+            // remove the first action
+            const updated = store.dispatch(removeAction('nodeA', testNodes.nodeA.node.actions[0]));
+
+            // first one was removed, so now actionB is first
+            expect(updated.nodeA).toBeUndefined();
+        });
+
+        it('should remove an action from a list of actions', () => {
+            // add a second action so we can test single action removal
+            const updatedNodes = cloneNodes();
+            updatedNodes.nodeA.node.actions.push({
+                uuid: 'actionB',
+                type: 'send_msg',
+                text: 'A second message for our first node'
+            } as SendMsg);
+
+            const updatedStore = createMockStore([thunk])({
+                flowContext: { nodes: updatedNodes }
+            });
+
+            // remove the first action
+            const updated = updatedStore.dispatch(
+                removeAction('nodeA', testNodes.nodeA.node.actions[0])
+            );
+
+            // first one was removed, so now actionB is first
+            expect(updated.nodeA.node.actions[0].uuid).toBe('actionB');
+        });
+
+        it('should move an action up', () => {
+            // add a second action so we can test single action removal
+            const updatedNodes = cloneNodes();
+            updatedNodes.nodeA.node.actions.push({
+                uuid: 'actionB',
+                type: 'send_msg',
+                text: 'A second message for our first node'
+            } as SendMsg);
+
+            const updatedStore = createMockStore([thunk])({
+                flowContext: { nodes: updatedNodes }
+            });
+
+            const updated = updatedStore.dispatch(
+                moveActionUp('nodeA', updatedNodes.nodeA.node.actions[1])
+            );
+            expect(updated.nodeA.node.actions[0].uuid).toBe('actionB');
+        });
+
+        it('should create a new node if needed for new action', () => {
+            // prep our store to show that we are editing
+            const updatedStore = createMockStore([thunk])({
+                ...store.getState(),
+                nodeEditor: { userAddingAction: true, nodeToEdit: testNodes.nodeA.node }
+            });
+
+            const newAction = {
+                uuid: 'new_action_for_new_node',
+                type: 'send_msg',
+                text: 'An action for a new node'
+            } as SendMsg;
+
+            const updated = updatedStore.dispatch(
+                updateAction(
+                    newAction,
+                    'new_node',
+                    { exitUUID: 'exitE', nodeUUID: 'nodeE' },
+                    { left: 500, top: 500 }
+                )
+            );
+
+            const newNodeUUID = updated.nodeE.node.exits[0].destination_node_uuid;
+            expect(newNodeUUID).not.toBeUndefined();
+
+            const newNode = updated[newNodeUUID];
+            expect(newNode.ui.position).toEqual({ left: 500, top: 500 });
+            expect(newNode.inboundConnections.exitE).toBe('nodeE');
+            expect(newNode.node.actions[0].uuid).toBe('new_action_for_new_node');
+        });
+
+        describe('splicing', () => {
+            /**
+             *
+             * @param currentStore
+             * @param renderNode
+             */
+            const addRouter = (
+                currentStore: any,
+                renderNode: RenderNode,
+                action: AnyAction
+            ): RenderNodeMap => {
+                const newExitUUID = generateUUID();
+                return currentStore.dispatch(
+                    spliceInRouter(
+                        renderNode.node.uuid,
+                        {
+                            actions: [],
+                            router: {
+                                type: 'switch',
+                                cases: [],
+                                default_exit_uuid: newExitUUID
+                            } as SwitchRouter,
+                            uuid: generateUUID(),
+                            exits: [
+                                {
+                                    uuid: newExitUUID,
+                                    destination_node_uuid: null
+                                }
+                            ]
+                        },
+                        'wait_for_response',
+                        action
+                    )
+                );
+            };
+
+            it('should replace the first action of two', () => {
+                const updatedNodes = cloneNodes();
+                updatedNodes.nodeB.node.actions.push({
+                    uuid: 'action1',
+                    type: 'send_msg',
+                    text: 'second node, message one'
+                } as SendMsg);
+
+                updatedNodes.nodeB.node.actions.push({
+                    uuid: 'action2',
+                    type: 'send_msg',
+                    text: 'second node, message two'
+                } as SendMsg);
+
+                const updatedStore = createMockStore([thunk])({
+                    flowContext: { nodes: updatedNodes }
+                });
+
+                const nodeB = updatedNodes.nodeB;
+                const nodes = addRouter(updatedStore, nodeB, nodeB.node.actions[0]);
+
+                const topNode = nodes[nodes.nodeA.node.exits[0].destination_node_uuid];
+                const bottomNode = nodes[topNode.node.exits[0].destination_node_uuid];
+
+                // top node should point to the middle node, and middle should point back
+                expect(topNode.inboundConnections).toEqual(nodeB.inboundConnections);
+
+                // bottom node should point back to top node
+                expect(Object.keys(bottomNode.inboundConnections)).toContain(
+                    topNode.node.exits[0].uuid
+                );
+
+                // bottom node should point to the same place as original node
+                expect(bottomNode.node.exits[0].destination_node_uuid).toBe(
+                    nodeB.node.exits[0].destination_node_uuid
+                );
+
+                // original node should be gonezor
+                expect(nodes[updatedNodes.nodeB.node.uuid]).toBeUndefined();
+            });
+
+            it('should replace the second action of two', () => {
+                const updatedNodes = cloneNodes();
+                updatedNodes.nodeB.node.actions.push({
+                    uuid: 'action1',
+                    type: 'send_msg',
+                    text: 'second node, message one'
+                } as SendMsg);
+
+                updatedNodes.nodeB.node.actions.push({
+                    uuid: 'action2',
+                    type: 'send_msg',
+                    text: 'second node, message two'
+                } as SendMsg);
+
+                const updatedStore = createMockStore([thunk])({
+                    flowContext: { nodes: updatedNodes }
+                });
+
+                const nodeB = updatedNodes.nodeB;
+                const nodes = addRouter(updatedStore, nodeB, nodeB.node.actions[1]);
+            });
+
+            it('should replace the second action of three', () => {
+                const updatedNodes = cloneNodes();
+                updatedNodes.nodeB.node.actions = [
+                    {
+                        uuid: 'action1',
+                        type: 'send_msg',
+                        text: 'second node, message one'
+                    } as SendMsg,
+                    {
+                        uuid: 'action2',
+                        type: 'send_msg',
+                        text: 'second node, message two'
+                    } as SendMsg,
+                    {
+                        uuid: 'action3',
+                        type: 'send_msg',
+                        text: 'second node, message three'
+                    } as SendMsg
+                ];
+
+                const updatedStore = createMockStore([thunk])({
+                    flowContext: { nodes: updatedNodes }
+                });
+
+                const nodeB = updatedNodes.nodeB;
+                const nodes = addRouter(updatedStore, nodeB, nodeB.node.actions[1]);
+
+                const topNode = nodes[nodes.nodeA.node.exits[0].destination_node_uuid];
+                const middleNode = nodes[topNode.node.exits[0].destination_node_uuid];
+                const bottomNode = nodes[middleNode.node.exits[0].destination_node_uuid];
+
+                // top node should point to the middle node, and middle should point back
+                expect(Object.keys(middleNode.inboundConnections)).toContain(
+                    topNode.node.exits[0].uuid
+                );
+
+                // middle should point to the bottom, and bottom should point back
+                expect(Object.keys(bottomNode.inboundConnections)).toContain(
+                    middleNode.node.exits[0].uuid
+                );
+
+                // original node should be gonezor
+                expect(nodes[updatedNodes.nodeB.node.uuid]).toBeUndefined();
+            });
+        });
     });
 });

@@ -22,8 +22,6 @@ import {
     onOpenNodeEditor,
     RemoveNode,
     removeNode,
-    resolvePendingConnection,
-    ResolvePendingConnection,
     UpdateDimensions,
     updateDimensions,
     UpdateDragGroup,
@@ -70,7 +68,6 @@ export interface NodeStoreProps {
     definition: FlowDefinition;
     nodeDragging: boolean;
     updateNodeDragging: UpdateNodeDragging;
-    resolvePendingConnection: ResolvePendingConnection;
     onAddAction: OnAddAction;
     onNodeMoved: OnNodeMoved;
     onOpenNodeEditor: OnOpenNodeEditor;
@@ -172,9 +169,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
         // Make ourselves a target
         this.props.plumberMakeTarget(this.props.node.uuid);
-
-        // Resolve pending connection
-        this.props.resolvePendingConnection(this.props.node);
 
         // Move our drag node around as necessary
         if (this.props.ghost) {
@@ -490,7 +484,6 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
             updateNodeDragging,
-            resolvePendingConnection,
             onAddAction,
             onNodeMoved,
             onOpenNodeEditor,

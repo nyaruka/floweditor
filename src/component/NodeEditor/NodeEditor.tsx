@@ -213,7 +213,7 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
             break;
     }
 
-    return defaultAction;
+    return null;
 };
 
 /**
@@ -791,6 +791,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             operand: this.props.operand,
             ...optionalRouter
         };
+
+        console.log(this.props.actionToEdit);
 
         this.props.onUpdateRouter(
             {

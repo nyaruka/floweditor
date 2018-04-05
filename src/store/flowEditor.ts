@@ -20,10 +20,6 @@ import Constants from './constants';
 
 export type Flows = Array<{ uuid: string; name: string }>;
 
-export interface PendingConnections {
-    [uuid: string]: DragPoint;
-}
-
 export interface EditorUI {
     language: Language;
     translating: boolean;
@@ -35,7 +31,6 @@ export interface EditorUI {
 export interface FlowUI {
     createNodePosition: Position;
     pendingConnection: DragPoint;
-    pendingConnections: PendingConnections;
     nodeDragging: boolean;
     ghostNode: FlowNode;
     dragGroup: boolean;
@@ -58,7 +53,6 @@ export const initialState: FlowEditor = {
     flowUI: {
         createNodePosition: null,
         pendingConnection: null,
-        pendingConnections: {},
         nodeDragging: false,
         ghostNode: null,
         dragGroup: false
@@ -257,25 +251,6 @@ export const pendingConnection = (
     }
 };
 
-export const pendingConnections = (
-    state: PendingConnections = initialState.flowUI.pendingConnections,
-    action: ActionTypes
-) => {
-    switch (action.type) {
-        case Constants.UPDATE_PENDING_CONNECTIONS:
-            return {
-                ...state,
-                [action.payload.draggedTo]: action.payload.draggedFrom
-            };
-        case Constants.REMOVE_PENDING_CONNECTION:
-            const newPendingConnections = { ...pendingConnections };
-            delete newPendingConnections[action.payload.nodeUUID];
-            return newPendingConnections;
-        default:
-            return state;
-    }
-};
-
 export const nodeDragging = (
     state: boolean = initialState.flowUI.nodeDragging,
     action: ActionTypes
@@ -309,7 +284,6 @@ export const dragGroup = (state: boolean = initialState.flowUI.dragGroup, action
 export const flowUI = combineReducers({
     createNodePosition,
     pendingConnection,
-    pendingConnections,
     nodeDragging,
     ghostNode,
     dragGroup

@@ -11,7 +11,6 @@ import {
 } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { RenderNode, RenderNodeMap, SearchResult } from './flowContext';
-import { PendingConnections } from './flowEditor';
 
 export interface Bounds {
     left: number;
