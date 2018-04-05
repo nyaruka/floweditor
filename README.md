@@ -1,4 +1,4 @@
-# Flow Editor
+# FlowEditor
 
 [![Build Status](https://travis-ci.org/nyaruka/floweditor.svg?branch=master)](https://travis-ci.org/nyaruka/floweditor)
 [![Coverage Status](https://coveralls.io/repos/github/nyaruka/floweditor/badge.svg?branch=master)](https://coveralls.io/github/nyaruka/floweditor?branch=master)
@@ -24,7 +24,7 @@ The flow editor uses npm for all dependencies.
 
 ## Building
 
-Webpack is used to transpile TypeScript and SASS. After invoking a build, the compiled results will arrive in `/preview/dist` (development/preview) or `/dist` (production/npm).
+Webpack is used to transpile TypeScript and SASS. After invoking a build, the compiled results will arrive in `/preview/dist` for development or `/dist` for production.
 
 ```bash
 % npm run build:prev
@@ -54,7 +54,7 @@ This project uses [React Hot Loader](https://github.com/gaearon/react-hot-loader
 
 ### Configuration
 
-This component is configured with the sample config at `/assets/config.js`. Universal information like `assetHost`, `languages` and `endpoints` is made available throughout the component by `ConfigProvider`, which makes use of React's [context API](https://reactjs.org/docs/context.html).
+This component is configured with the sample config at `/assets/config.js`. Universal information like `languages` and `endpoints` is made available throughout the component by `ConfigProvider`, which makes use of React's [context API](https://reactjs.org/docs/context.html).
 
 ### Styling
 

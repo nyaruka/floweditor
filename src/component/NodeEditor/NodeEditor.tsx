@@ -808,8 +808,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         );
     }
 
-    private updateGroupRouter(): void {
-        const { state: { groups } } = this.widgets.Group;
+    private updateGroupsRouter(): void {
+        const { Groups: { state: { groups } } } = this.widgets;
 
         const currentCases = groupsToCases(groups);
 
@@ -1127,7 +1127,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         } else if (typeConfig.type === 'call_webhook') {
             updateRouter = this.updateWebhookRouter;
         } else if (typeConfig.type === 'split_by_groups') {
-            updateRouter = this.updateGroupRouter;
+            updateRouter = this.updateGroupsRouter;
         }
 
         const formProps: Partial<FormProps> = {
