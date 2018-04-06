@@ -33,7 +33,7 @@ export const NOT_FOUND = 'Invalid attribute name';
 export const VALID_FIELD = /^[a-z0-9-][a-z0-9- ]*$/;
 export const CREATE_PROMPT = 'New attribute: ';
 
-export const fieldExists = (newOptName: string, options: SearchResult[]) => {
+export const attribExists = (newOptName: string, options: SearchResult[]) => {
     const loweredNTrimmed = newOptName.toLowerCase().trim();
     if (options.length) {
         for (const { name } of options) {
@@ -108,7 +108,7 @@ export class AttribElement extends React.Component<AttribElementProps, AttribEle
         labelKey: string;
         valueKey: string;
     }): boolean {
-        return !propertyExists(option.name) && !fieldExists(option.name, options);
+        return !propertyExists(option.name) && !attribExists(option.name, options);
     }
 
     private isValidNewOption({ label }: { label: string }): boolean {

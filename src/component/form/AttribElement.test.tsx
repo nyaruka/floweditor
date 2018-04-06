@@ -8,7 +8,7 @@ import {
     AttribElement,
     AttribElementProps,
     CREATE_PROMPT,
-    fieldExists,
+    attribExists,
     fieldNameValid,
     NOT_FOUND,
     PLACEHOLDER
@@ -33,7 +33,7 @@ const spyOn = createSpy(AttribElement);
 
 describe(`${AttribElement.name}`, () => {
     describe('helpers', () => {
-        describe('fieldExists', () => {
+        describe('attribExists', () => {
             const matchingOptions = [
                 {
                     name: 'Expected Delivery Date',
@@ -43,12 +43,12 @@ describe(`${AttribElement.name}`, () => {
             ];
 
             it('should return true if field exists in matching options provided by react-select', () => {
-                expect(fieldExists('expected delivery date', matchingOptions)).toBeTruthy();
+                expect(attribExists('expected delivery date', matchingOptions)).toBeTruthy();
             });
 
             it('should return false if field does not exist in matching options provided by react-select', () => {
-                expect(fieldExists('national id', [])).toBeFalsy();
-                expect(fieldExists('national id', matchingOptions)).toBeFalsy();
+                expect(attribExists('national id', [])).toBeFalsy();
+                expect(attribExists('national id', matchingOptions)).toBeFalsy();
             });
         });
 

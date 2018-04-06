@@ -224,7 +224,7 @@ export const emphasize = (text: string) => <span className="emph">{text}</span>;
  */
 export const propertyExists = (propertyToCheck: string) => {
     for (const property of Object.keys(ContactProperties)) {
-        if (property.toLowerCase().trim() === propertyToCheck.toLowerCase()) {
+        if (property.toLowerCase() === propertyToCheck.toLowerCase().trim()) {
             return true;
         }
     }
