@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
+<FormElement
+  attribError={false}
+  errors={Array []}
+  name="Attribute"
+>
+  <SelectSearch
+    __className=""
+    clearable={false}
+    closeOnSelect={true}
+    createNewOption={[Function]}
+    createPrompt="New attribute: "
+    initial={
+      Array [
+        Object {
+          "id": "name",
+          "name": "Name",
+          "type": "property",
+        },
+      ]
+    }
+    isOptionUnique={[Function]}
+    isValidNewOption={[Function]}
+    localSearchOptions={Array []}
+    multi={false}
+    name="Attribute"
+    onChange={[Function]}
+    placeholder="Enter the name of an existing attribute or create a new one"
+    resultType="field"
+    searchPromptText="Invalid attribute name"
+    url="/assets/fields.json"
+  />
+</FormElement>
+`;
+
+exports[`AttribElement render should render self, children with base props 1`] = `
+<FormElement
+  attribError={false}
+  errors={Array []}
+  name="Attribute"
+>
+  <SelectSearch
+    __className=""
+    clearable={false}
+    closeOnSelect={true}
+    initial={
+      Array [
+        Object {
+          "id": "name",
+          "name": "Name",
+          "type": "property",
+        },
+      ]
+    }
+    localSearchOptions={Array []}
+    multi={false}
+    name="Attribute"
+    onChange={[Function]}
+    placeholder="Enter the name of an existing attribute or create a new one"
+    resultType="field"
+    searchPromptText="Invalid attribute name"
+    url="/assets/fields.json"
+  />
+</FormElement>
+`;

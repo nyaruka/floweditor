@@ -1,41 +1,43 @@
+import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
-
 import { AttributeType, ResultType } from '../../flowTypes';
-import { AppState, SearchResult, UpdateContactFields, updateContactFields } from '../../store';
+import { AppState, SearchResult } from '../../store';
 import { getSelectClass, propertyExists } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
 interface AttribElementPassedProps extends FormElementProps {
     initial: SearchResult;
-    endpoint?: string;
+    endpoint: string;
     add?: boolean;
     placeholder?: string;
     searchPromptText?: string;
+    helpText?: string;
 }
 
 interface AttribElementStoreProps {
     contactFields: SearchResult[];
-    updateContactFields: UpdateContactFields;
 }
 
 export type AttribElementProps = AttribElementPassedProps & AttribElementStoreProps;
 
-interface AttribState {
+interface AttribElementState {
     attribute: SearchResult;
     errors: string[];
 }
 
 export const PLACEHOLDER = 'Enter the name of an existing attribute or create a new one';
 export const NOT_FOUND = 'Invalid attribute name';
+export const VALID_FIELD = /^[a-z0-9-][a-z0-9- ]*$/;
+export const CREATE_PROMPT = 'New attribute: ';
 
 export const fieldExists = (newOptName: string, options: SearchResult[]) => {
-    const normalized = newOptName.toLowerCase().trim();
+    const loweredNTrimmed = newOptName.toLowerCase().trim();
     if (options.length) {
         for (const { name } of options) {
-            if (name.toLowerCase().trim() === normalized) {
+            if (name.toLowerCase().trim() === loweredNTrimmed) {
                 return true;
             }
         }
@@ -43,12 +45,12 @@ export const fieldExists = (newOptName: string, options: SearchResult[]) => {
     return false;
 };
 
-export const fieldNameValid = (name: string) => {
+export const fieldNameValid = (name: string = '') => {
     const lowered = name.toLowerCase();
-    return lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered);
+    return lowered.length > 0 && lowered.length <= 36 && VALID_FIELD.test(lowered);
 };
 
-export class AttribElement extends React.Component<AttribElementProps, AttribState> {
+export class AttribElement extends React.Component<AttribElementProps, AttribElementState> {
     public static defaultProps = {
         placeholder: PLACEHOLDER,
         searchPromptText: NOT_FOUND
@@ -68,22 +70,30 @@ export class AttribElement extends React.Component<AttribElementProps, AttribSta
     }
 
     private onChange(attribute: SearchResult): void {
-        this.setState({
-            attribute
-        });
+        if (!isEqual(this.state.attribute, attribute)) {
+            this.setState({ attribute });
+        }
+    }
+
+    private getErrors(): string[] {
+        const errors = [];
+
+        if (this.props.required && !this.state.attribute.name) {
+            errors.push(`${this.props.name} is required.`);
+        }
+
+        return errors;
+    }
+
+    public updateErrorState(errors: string[]): void {
+        if (!isEqual(this.state.errors, errors)) {
+            this.setState({ errors });
+        }
     }
 
     public validate(): boolean {
-        const errors: string[] = [];
-
-        if (this.props.required) {
-            if (!this.state.attribute.name) {
-                errors.push(`${this.props.name} is required`);
-            }
-        }
-
-        this.setState({ errors });
-
+        const errors = this.getErrors();
+        this.updateErrorState(errors);
         return errors.length === 0;
     }
 
@@ -102,9 +112,6 @@ export class AttribElement extends React.Component<AttribElementProps, AttribSta
     }
 
     private isValidNewOption({ label }: { label: string }): boolean {
-        if (!label) {
-            return false;
-        }
         return fieldNameValid(label);
     }
 
@@ -124,13 +131,8 @@ export class AttribElement extends React.Component<AttribElementProps, AttribSta
             createOptions.isValidNewOption = this.isValidNewOption;
             createOptions.isOptionUnique = this.isOptionUnique;
             createOptions.createNewOption = this.createNewOption;
-            createOptions.createPrompt = 'New attribute: ';
-            createOptions.updateLocalOptions = updateContactFields;
+            createOptions.createPrompt = CREATE_PROMPT;
         }
-
-        const initial = this.state.attribute ? [this.state.attribute] : [];
-        const className = getSelectClass(this.state.errors.length);
-        const attribError = this.state.errors.length > 0;
 
         return (
             <FormElement
@@ -138,10 +140,10 @@ export class AttribElement extends React.Component<AttribElementProps, AttribSta
                 name={this.props.name}
                 helpText={this.props.helpText}
                 errors={this.state.errors}
-                attribError={attribError}
+                attribError={this.state.errors.length > 0}
             >
                 <SelectSearch
-                    _className={className}
+                    __className={getSelectClass(this.state.errors.length)}
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}
@@ -149,7 +151,7 @@ export class AttribElement extends React.Component<AttribElementProps, AttribSta
                     localSearchOptions={this.props.contactFields}
                     multi={false}
                     clearable={false}
-                    initial={initial}
+                    initial={[this.state.attribute]}
                     closeOnSelect={true}
                     searchPromptText={this.props.searchPromptText}
                     placeholder={this.props.placeholder}

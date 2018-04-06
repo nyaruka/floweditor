@@ -16,7 +16,7 @@ export interface SelectSearchProps {
     closeOnSelect?: boolean;
     initial?: SearchResult[];
     localSearchOptions?: SearchResult[];
-    _className?: string;
+    __className?: string;
     createPrompt?: string;
     onChange?: (selections: SearchResult | SearchResult[]) => void;
     isValidNewOption?: (option: { label: string }) => boolean;
@@ -238,7 +238,7 @@ export default class SelectSearch extends React.PureComponent<
             return (
                 <AsyncCreatable
                     ref={this.selectRef}
-                    className={this.props._className}
+                    className={this.props.__className}
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     loadOptions={this.loadOptions}
@@ -264,7 +264,7 @@ export default class SelectSearch extends React.PureComponent<
             return (
                 <Async
                     ref={this.selectRef}
-                    className={this.props._className}
+                    className={this.props.__className}
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     loadOptions={this.loadOptions}
