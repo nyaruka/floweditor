@@ -1,6 +1,609 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[` 1`] = `
+exports[`ABC RenderNodeMap nodes removal should remove node nodeA: Remove nodeA 1`] = `
+Object {
+  "nodeB": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeC",
+          "uuid": "exitB",
+        },
+      ],
+      "uuid": "nodeB",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 290,
+        "left": 200,
+        "right": 500,
+        "top": 150,
+      },
+    },
+  },
+  "nodeC": Object {
+    "inboundConnections": Object {
+      "exitB": "nodeB",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitC",
+        },
+      ],
+      "uuid": "nodeC",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 390,
+        "left": 300,
+        "right": 600,
+        "top": 210,
+      },
+    },
+  },
+  "nodeD": Object {
+    "inboundConnections": Object {
+      "exitC": "nodeC",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeE",
+          "name": "Case Test",
+          "uuid": "exitD",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "other",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "casetest",
+            ],
+            "exit_uuid": "exitD",
+            "type": "has_any_word",
+            "uuid": "caseD",
+          },
+        ],
+        "default_exit_uuid": "other",
+        "type": "switch",
+      },
+      "uuid": "nodeD",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 700,
+        "right": 700,
+        "top": 210,
+      },
+      "type": "wait_for_response",
+    },
+  },
+  "nodeE": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitE",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitE",
+        "type": "switch",
+      },
+      "uuid": "nodeE",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 700,
+        "right": 700,
+        "top": 210,
+      },
+      "type": "wait_for_response",
+    },
+  },
+}
+`;
+
+exports[`ABC RenderNodeMap nodes removal should remove node nodeB: Remove nodeB 1`] = `
+Object {
+  "nodeA": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "The first message",
+          "type": "send_msg",
+          "uuid": "actionA",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeC",
+          "uuid": "exitA",
+        },
+      ],
+      "uuid": "nodeA",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 190,
+        "left": 100,
+        "right": 300,
+        "top": 100,
+      },
+    },
+  },
+  "nodeC": Object {
+    "inboundConnections": Object {
+      "exitA": "nodeA",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitC",
+        },
+      ],
+      "uuid": "nodeC",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 390,
+        "left": 300,
+        "right": 600,
+        "top": 210,
+      },
+    },
+  },
+  "nodeD": Object {
+    "inboundConnections": Object {
+      "exitC": "nodeC",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeE",
+          "name": "Case Test",
+          "uuid": "exitD",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "other",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "casetest",
+            ],
+            "exit_uuid": "exitD",
+            "type": "has_any_word",
+            "uuid": "caseD",
+          },
+        ],
+        "default_exit_uuid": "other",
+        "type": "switch",
+      },
+      "uuid": "nodeD",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 700,
+        "right": 700,
+        "top": 210,
+      },
+      "type": "wait_for_response",
+    },
+  },
+  "nodeE": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitE",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitE",
+        "type": "switch",
+      },
+      "uuid": "nodeE",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 700,
+        "right": 700,
+        "top": 210,
+      },
+      "type": "wait_for_response",
+    },
+  },
+}
+`;
+
+exports[`ABC RenderNodeMap nodes removal should remove node nodeC: Remove nodeC 1`] = `
+Object {
+  "nodeA": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "The first message",
+          "type": "send_msg",
+          "uuid": "actionA",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeB",
+          "uuid": "exitA",
+        },
+      ],
+      "uuid": "nodeA",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 190,
+        "left": 100,
+        "right": 300,
+        "top": 100,
+      },
+    },
+  },
+  "nodeB": Object {
+    "inboundConnections": Object {
+      "exitA": "nodeA",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitB",
+        },
+      ],
+      "uuid": "nodeB",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 290,
+        "left": 200,
+        "right": 500,
+        "top": 150,
+      },
+    },
+  },
+  "nodeD": Object {
+    "inboundConnections": Object {
+      "exitC": "nodeC",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeE",
+          "name": "Case Test",
+          "uuid": "exitD",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "other",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "casetest",
+            ],
+            "exit_uuid": "exitD",
+            "type": "has_any_word",
+            "uuid": "caseD",
+          },
+        ],
+        "default_exit_uuid": "other",
+        "type": "switch",
+      },
+      "uuid": "nodeD",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 700,
+        "right": 700,
+        "top": 210,
+      },
+      "type": "wait_for_response",
+    },
+  },
+  "nodeE": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitE",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitE",
+        "type": "switch",
+      },
+      "uuid": "nodeE",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 700,
+        "right": 700,
+        "top": 210,
+      },
+      "type": "wait_for_response",
+    },
+  },
+}
+`;
+
+exports[`ABC RenderNodeMap nodes removal should remove node nodeD: Remove nodeD 1`] = `
+Object {
+  "nodeA": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "The first message",
+          "type": "send_msg",
+          "uuid": "actionA",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeB",
+          "uuid": "exitA",
+        },
+      ],
+      "uuid": "nodeA",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 190,
+        "left": 100,
+        "right": 300,
+        "top": 100,
+      },
+    },
+  },
+  "nodeB": Object {
+    "inboundConnections": Object {
+      "exitA": "nodeA",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeC",
+          "uuid": "exitB",
+        },
+      ],
+      "uuid": "nodeB",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 290,
+        "left": 200,
+        "right": 500,
+        "top": 150,
+      },
+    },
+  },
+  "nodeC": Object {
+    "inboundConnections": Object {
+      "exitB": "nodeB",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitC",
+        },
+      ],
+      "uuid": "nodeC",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 390,
+        "left": 300,
+        "right": 600,
+        "top": 210,
+      },
+    },
+  },
+  "nodeE": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitE",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "default_exit_uuid": "exitE",
+        "type": "switch",
+      },
+      "uuid": "nodeE",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 700,
+        "right": 700,
+        "top": 210,
+      },
+      "type": "wait_for_response",
+    },
+  },
+}
+`;
+
+exports[`ABC RenderNodeMap nodes removal should remove node nodeE: Remove nodeE 1`] = `
+Object {
+  "nodeA": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "The first message",
+          "type": "send_msg",
+          "uuid": "actionA",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeB",
+          "uuid": "exitA",
+        },
+      ],
+      "uuid": "nodeA",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 190,
+        "left": 100,
+        "right": 300,
+        "top": 100,
+      },
+    },
+  },
+  "nodeB": Object {
+    "inboundConnections": Object {
+      "exitA": "nodeA",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeC",
+          "uuid": "exitB",
+        },
+      ],
+      "uuid": "nodeB",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 290,
+        "left": 200,
+        "right": 500,
+        "top": 150,
+      },
+    },
+  },
+  "nodeC": Object {
+    "inboundConnections": Object {
+      "exitB": "nodeB",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "exitC",
+        },
+      ],
+      "uuid": "nodeC",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 390,
+        "left": 300,
+        "right": 600,
+        "top": 210,
+      },
+    },
+  },
+  "nodeD": Object {
+    "inboundConnections": Object {
+      "exitC": "nodeC",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "nodeE",
+          "name": "Case Test",
+          "uuid": "exitD",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "uuid": "other",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "casetest",
+            ],
+            "exit_uuid": "exitD",
+            "type": "has_any_word",
+            "uuid": "caseD",
+          },
+        ],
+        "default_exit_uuid": "other",
+        "type": "switch",
+      },
+      "uuid": "nodeD",
+      "wait": "msg",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 1190,
+        "left": 700,
+        "right": 700,
+        "top": 210,
+      },
+      "type": "wait_for_response",
+    },
+  },
+}
+`;
+
+exports[`Color Flow should initalize definition 1`] = `
 Object {
   "059a8daa-0697-44a6-9486-2386cc417e9d": Object {
     "inboundConnections": Object {
@@ -380,649 +983,6 @@ Object {
         "left": 40,
         "top": 400,
       },
-    },
-  },
-}
-`;
-
-exports[`thunks removeNode should remove node nodeA: Remove nodeA 1`] = `
-Object {
-  "nodeB": Object {
-    "inboundConnections": Object {},
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeC",
-          "uuid": "exitB",
-        },
-      ],
-      "uuid": "nodeB",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 290,
-        "left": 200,
-        "right": 500,
-        "top": 150,
-      },
-    },
-  },
-  "nodeC": Object {
-    "inboundConnections": Object {
-      "exitB": "nodeB",
-    },
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": null,
-          "uuid": "exitC",
-        },
-      ],
-      "uuid": "nodeC",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 390,
-        "left": 300,
-        "right": 600,
-        "top": 210,
-      },
-    },
-  },
-  "nodeD": Object {
-    "inboundConnections": Object {
-      "exitC": "nodeC",
-    },
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeE",
-          "name": "Case Test",
-          "uuid": "exitD",
-        },
-        Object {
-          "destination_node_uuid": null,
-          "uuid": "other",
-        },
-      ],
-      "router": Object {
-        "cases": Array [
-          Object {
-            "arguments": Array [
-              "casetest",
-            ],
-            "exit_uuid": "exitD",
-            "type": "has_any_word",
-            "uuid": "caseD",
-          },
-        ],
-        "default_exit_uuid": "other",
-        "type": "switch",
-      },
-      "uuid": "nodeD",
-      "wait": "msg",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
-      },
-      "type": "wait_for_response",
-    },
-  },
-  "nodeE": Object {
-    "inboundConnections": Object {},
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": null,
-          "uuid": "exitE",
-        },
-      ],
-      "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitE",
-        "type": "switch",
-      },
-      "uuid": "nodeE",
-      "wait": "msg",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
-      },
-      "type": "wait_for_response",
-    },
-  },
-}
-`;
-
-exports[`thunks removeNode should remove node nodeB: Remove nodeB 1`] = `
-Object {
-  "nodeA": Object {
-    "inboundConnections": Object {},
-    "node": Object {
-      "actions": Array [
-        Object {
-          "text": "The first message",
-          "type": "send_msg",
-          "uuid": "actionA",
-        },
-        Object {
-          "text": "A second message for our first node",
-          "type": "send_msg",
-          "uuid": "actionB",
-        },
-        Object {
-          "text": "A third message for our first node",
-          "type": "send_msg",
-          "uuid": "actionC",
-        },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeC",
-          "uuid": "exitA",
-        },
-      ],
-      "uuid": "nodeA",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 190,
-        "left": 100,
-        "right": 300,
-        "top": 100,
-      },
-    },
-  },
-  "nodeC": Object {
-    "inboundConnections": Object {
-      "exitA": "nodeA",
-    },
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": null,
-          "uuid": "exitC",
-        },
-      ],
-      "uuid": "nodeC",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 390,
-        "left": 300,
-        "right": 600,
-        "top": 210,
-      },
-    },
-  },
-  "nodeD": Object {
-    "inboundConnections": Object {
-      "exitC": "nodeC",
-    },
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeE",
-          "name": "Case Test",
-          "uuid": "exitD",
-        },
-        Object {
-          "destination_node_uuid": null,
-          "uuid": "other",
-        },
-      ],
-      "router": Object {
-        "cases": Array [
-          Object {
-            "arguments": Array [
-              "casetest",
-            ],
-            "exit_uuid": "exitD",
-            "type": "has_any_word",
-            "uuid": "caseD",
-          },
-        ],
-        "default_exit_uuid": "other",
-        "type": "switch",
-      },
-      "uuid": "nodeD",
-      "wait": "msg",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
-      },
-      "type": "wait_for_response",
-    },
-  },
-  "nodeE": Object {
-    "inboundConnections": Object {},
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": null,
-          "uuid": "exitE",
-        },
-      ],
-      "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitE",
-        "type": "switch",
-      },
-      "uuid": "nodeE",
-      "wait": "msg",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
-      },
-      "type": "wait_for_response",
-    },
-  },
-}
-`;
-
-exports[`thunks removeNode should remove node nodeC: Remove nodeC 1`] = `
-Object {
-  "nodeA": Object {
-    "inboundConnections": Object {},
-    "node": Object {
-      "actions": Array [
-        Object {
-          "text": "The first message",
-          "type": "send_msg",
-          "uuid": "actionA",
-        },
-        Object {
-          "text": "A second message for our first node",
-          "type": "send_msg",
-          "uuid": "actionB",
-        },
-        Object {
-          "text": "A third message for our first node",
-          "type": "send_msg",
-          "uuid": "actionC",
-        },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeB",
-          "uuid": "exitA",
-        },
-      ],
-      "uuid": "nodeA",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 190,
-        "left": 100,
-        "right": 300,
-        "top": 100,
-      },
-    },
-  },
-  "nodeB": Object {
-    "inboundConnections": Object {
-      "exitA": "nodeA",
-    },
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": null,
-          "uuid": "exitB",
-        },
-      ],
-      "uuid": "nodeB",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 290,
-        "left": 200,
-        "right": 500,
-        "top": 150,
-      },
-    },
-  },
-  "nodeD": Object {
-    "inboundConnections": Object {
-      "exitC": "nodeC",
-    },
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeE",
-          "name": "Case Test",
-          "uuid": "exitD",
-        },
-        Object {
-          "destination_node_uuid": null,
-          "uuid": "other",
-        },
-      ],
-      "router": Object {
-        "cases": Array [
-          Object {
-            "arguments": Array [
-              "casetest",
-            ],
-            "exit_uuid": "exitD",
-            "type": "has_any_word",
-            "uuid": "caseD",
-          },
-        ],
-        "default_exit_uuid": "other",
-        "type": "switch",
-      },
-      "uuid": "nodeD",
-      "wait": "msg",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
-      },
-      "type": "wait_for_response",
-    },
-  },
-  "nodeE": Object {
-    "inboundConnections": Object {},
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": null,
-          "uuid": "exitE",
-        },
-      ],
-      "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitE",
-        "type": "switch",
-      },
-      "uuid": "nodeE",
-      "wait": "msg",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
-      },
-      "type": "wait_for_response",
-    },
-  },
-}
-`;
-
-exports[`thunks removeNode should remove node nodeD: Remove nodeD 1`] = `
-Object {
-  "nodeA": Object {
-    "inboundConnections": Object {},
-    "node": Object {
-      "actions": Array [
-        Object {
-          "text": "The first message",
-          "type": "send_msg",
-          "uuid": "actionA",
-        },
-        Object {
-          "text": "A second message for our first node",
-          "type": "send_msg",
-          "uuid": "actionB",
-        },
-        Object {
-          "text": "A third message for our first node",
-          "type": "send_msg",
-          "uuid": "actionC",
-        },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeB",
-          "uuid": "exitA",
-        },
-      ],
-      "uuid": "nodeA",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 190,
-        "left": 100,
-        "right": 300,
-        "top": 100,
-      },
-    },
-  },
-  "nodeB": Object {
-    "inboundConnections": Object {
-      "exitA": "nodeA",
-    },
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeC",
-          "uuid": "exitB",
-        },
-      ],
-      "uuid": "nodeB",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 290,
-        "left": 200,
-        "right": 500,
-        "top": 150,
-      },
-    },
-  },
-  "nodeC": Object {
-    "inboundConnections": Object {
-      "exitB": "nodeB",
-    },
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": null,
-          "uuid": "exitC",
-        },
-      ],
-      "uuid": "nodeC",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 390,
-        "left": 300,
-        "right": 600,
-        "top": 210,
-      },
-    },
-  },
-  "nodeE": Object {
-    "inboundConnections": Object {},
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": null,
-          "uuid": "exitE",
-        },
-      ],
-      "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitE",
-        "type": "switch",
-      },
-      "uuid": "nodeE",
-      "wait": "msg",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
-      },
-      "type": "wait_for_response",
-    },
-  },
-}
-`;
-
-exports[`thunks removeNode should remove node nodeE: Remove nodeE 1`] = `
-Object {
-  "nodeA": Object {
-    "inboundConnections": Object {},
-    "node": Object {
-      "actions": Array [
-        Object {
-          "text": "The first message",
-          "type": "send_msg",
-          "uuid": "actionA",
-        },
-        Object {
-          "text": "A second message for our first node",
-          "type": "send_msg",
-          "uuid": "actionB",
-        },
-        Object {
-          "text": "A third message for our first node",
-          "type": "send_msg",
-          "uuid": "actionC",
-        },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeB",
-          "uuid": "exitA",
-        },
-      ],
-      "uuid": "nodeA",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 190,
-        "left": 100,
-        "right": 300,
-        "top": 100,
-      },
-    },
-  },
-  "nodeB": Object {
-    "inboundConnections": Object {
-      "exitA": "nodeA",
-    },
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeC",
-          "uuid": "exitB",
-        },
-      ],
-      "uuid": "nodeB",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 290,
-        "left": 200,
-        "right": 500,
-        "top": 150,
-      },
-    },
-  },
-  "nodeC": Object {
-    "inboundConnections": Object {
-      "exitB": "nodeB",
-    },
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": null,
-          "uuid": "exitC",
-        },
-      ],
-      "uuid": "nodeC",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 390,
-        "left": 300,
-        "right": 600,
-        "top": 210,
-      },
-    },
-  },
-  "nodeD": Object {
-    "inboundConnections": Object {
-      "exitC": "nodeC",
-    },
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeE",
-          "name": "Case Test",
-          "uuid": "exitD",
-        },
-        Object {
-          "destination_node_uuid": null,
-          "uuid": "other",
-        },
-      ],
-      "router": Object {
-        "cases": Array [
-          Object {
-            "arguments": Array [
-              "casetest",
-            ],
-            "exit_uuid": "exitD",
-            "type": "has_any_word",
-            "uuid": "caseD",
-          },
-        ],
-        "default_exit_uuid": "other",
-        "type": "switch",
-      },
-      "uuid": "nodeD",
-      "wait": "msg",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
-      },
-      "type": "wait_for_response",
     },
   },
 }

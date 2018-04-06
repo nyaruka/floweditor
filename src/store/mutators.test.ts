@@ -1,16 +1,16 @@
 import {
     updateConnection,
     removeConnection,
-    addNode,
+    mergeNode,
     addAction,
     updateAction,
     removeAction,
     moveActionUp,
     removeNode,
-    updateNode,
     updatePosition,
     updateDimensions,
-    updateLocalization
+    updateLocalization,
+    removeNodeAndRemap
 } from './mutators';
 import { RenderNodeMap } from './flowContext';
 import { SendMsg, FlowDefinition, FlowNode } from '../flowTypes';
@@ -66,7 +66,7 @@ describe('mutators', () => {
     });
 
     it('should addNode', () => {
-        const updated = addNode(nodes, {
+        const updated = mergeNode(nodes, {
             node: { uuid: 'nodeD', actions: [], exits: [] },
             ui: { position: { left: 400, top: 400 } },
             inboundConnections: { exitA: 'nodeA' }
@@ -150,27 +150,31 @@ describe('mutators', () => {
         });
     });
 
-    describe('removeNode()', () => {
+    describe('removeNodeAndRemap()', () => {
         it('should remove action nodes', () => {
-            const updated = removeNode(nodes, 'nodeA');
+            const updated = removeNodeAndRemap(nodes, 'nodeA');
             expect(updated.nodeA).toBeUndefined();
             expect(Object.keys(updated.nodeB.inboundConnections)).not.toContain('exitA');
         });
 
         it('should remove multi-exit router nodes', () => {
-            const updated = removeNode(nodes, 'nodeD');
+            const updated = removeNodeAndRemap(nodes, 'nodeD');
             expect(updated.nodeD).toBeUndefined();
         });
 
         it('should remove single exit router nodes', () => {
-            const updated = removeNode(nodes, 'nodeE');
+            const updated = removeNodeAndRemap(nodes, 'nodeE');
             expect(updated.nodeE).toBeUndefined();
         });
     });
 
     it('should update an action node to a split', () => {
         const node = { ...nodes.nodeA.node, actions: [], router: { type: 'split' } };
-        const updated = updateNode(nodes, node, 'wait_for_message');
+        const updated = mergeNode(nodes, {
+            node,
+            ui: { type: 'wait_for_message', position: null },
+            inboundConnections: {}
+        });
         expect(updated.nodeA.node.router.type).toBe('split');
         expect(updated.nodeA.node.actions.length).toBe(0);
         expect(updated.nodeA.ui.type).toBe('wait_for_message');

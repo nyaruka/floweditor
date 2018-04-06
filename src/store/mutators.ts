@@ -33,6 +33,10 @@ export const updateConnection = (
         getNode(nodes, destinationNodeUUID);
     }
 
+    if (fromNodeUUID === destinationNodeUUID) {
+        throw new Error('Cannot connect ' + fromNodeUUID + ' to itself');
+    }
+
     const exitIdx = getExitIndex(fromNode.node, fromExitUUID);
     const previousDestination = fromNode.node.exits[exitIdx].destination_node_uuid;
 
@@ -81,17 +85,26 @@ export const removeConnection = (
 };
 
 /**
- * Adds a given RenderNode to our node map. Updates destinations for any inboundConnections provided and
- * updates inboundConnections for any destination_node_uuid our exits point to.
+ * Adds a given RenderNode to our node map or updates an existing one.
+ * Updates destinations for any inboundConnections provided and updates
+ * inboundConnections for any destination_node_uuid our exits point to.
  * @param nodes
- * @param nodeToAdd the node to add, unique uuid is assumed
+ * @param node the node to add, if unique uuid, it will be added
  */
-export const addNode = (nodes: RenderNodeMap, nodeToAdd: RenderNode): RenderNodeMap => {
-    let updatedNodes = mutate(nodes, { $merge: { [nodeToAdd.node.uuid]: nodeToAdd } });
+export const mergeNode = (nodes: RenderNodeMap, node: RenderNode): RenderNodeMap => {
+    let updatedNodes = nodes;
+
+    // if the node is already there, remove it first
+    if (updatedNodes[node.node.uuid]) {
+        updatedNodes = removeNodeAndRemap(nodes, node.node.uuid);
+    }
+
+    // add our node updted node
+    updatedNodes = mutate(nodes, { $merge: { [node.node.uuid]: node } });
 
     // if we have inbound connections, update our nodes accordingly
-    for (const fromExitUUID of Object.keys(nodeToAdd.inboundConnections)) {
-        const fromNodeUUID = nodeToAdd.inboundConnections[fromExitUUID];
+    for (const fromExitUUID of Object.keys(node.inboundConnections)) {
+        const fromNodeUUID = node.inboundConnections[fromExitUUID];
 
         const fromNode = getNode(nodes, fromNodeUUID);
         const exitIdx = getExitIndex(fromNode.node, fromExitUUID);
@@ -101,7 +114,7 @@ export const addNode = (nodes: RenderNodeMap, nodeToAdd: RenderNode): RenderNode
                 node: {
                     exits: {
                         [exitIdx]: {
-                            $merge: { destination_node_uuid: nodeToAdd.node.uuid }
+                            $merge: { destination_node_uuid: node.node.uuid }
                         }
                     }
                 }
@@ -182,18 +195,8 @@ export const moveActionUp = (nodes: RenderNodeMap, nodeUUID: string, actionUUID:
     });
 };
 
-/**
- * Update a given node given a deifinition and type
- * @param nodes
- * @param node
- * @param type
- */
-export const updateNode = (nodes: RenderNodeMap, node: FlowNode, type: string) => {
-    // make sure our node exists
-    getNode(nodes, node.uuid);
-    return mutate(nodes, {
-        [node.uuid]: { node: { $set: node }, ui: { $merge: { type } } }
-    });
+export const removeNode = (nodes: RenderNodeMap, nodeUUID: string): RenderNodeMap => {
+    return mutate(nodes, { $unset: [nodeUUID] });
 };
 
 /**
@@ -203,7 +206,7 @@ export const updateNode = (nodes: RenderNodeMap, node: FlowNode, type: string) =
  * @param nodes
  * @param nodeToRemove
  */
-export const removeNode = (nodes: RenderNodeMap, nodeUUID: string): RenderNodeMap => {
+export const removeNodeAndRemap = (nodes: RenderNodeMap, nodeUUID: string): RenderNodeMap => {
     const nodeToRemove = getNode(nodes, nodeUUID);
     let updatedNodes = nodes;
 
@@ -223,8 +226,6 @@ export const removeNode = (nodes: RenderNodeMap, nodeUUID: string): RenderNodeMa
     if (nodeToRemove.node.exits.length === 1) {
         ({ destination_node_uuid: destination } = nodeToRemove.node.exits[0]);
     }
-
-    console.log(nodeToRemove.node.uuid, destination);
 
     // clear any destinations that point to us
     for (const fromExitUUID of Object.keys(nodeToRemove.inboundConnections)) {

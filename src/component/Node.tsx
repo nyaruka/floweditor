@@ -14,16 +14,14 @@ import { DragEvent } from '../services/Plumber';
 import {
     AppState,
     DispatchWithState,
-    onAddAction,
-    OnAddAction,
+    onAddToNode,
+    OnAddToNode,
     onNodeMoved,
     OnNodeMoved,
     OnOpenNodeEditor,
     onOpenNodeEditor,
     RemoveNode,
     removeNode,
-    resolvePendingConnection,
-    ResolvePendingConnection,
     UpdateDimensions,
     updateDimensions,
     UpdateDragGroup,
@@ -70,8 +68,7 @@ export interface NodeStoreProps {
     definition: FlowDefinition;
     nodeDragging: boolean;
     updateNodeDragging: UpdateNodeDragging;
-    resolvePendingConnection: ResolvePendingConnection;
-    onAddAction: OnAddAction;
+    onAddToNode: OnAddToNode;
     onNodeMoved: OnNodeMoved;
     onOpenNodeEditor: OnOpenNodeEditor;
     removeNode: RemoveNode;
@@ -173,9 +170,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         // Make ourselves a target
         this.props.plumberMakeTarget(this.props.node.uuid);
 
-        // Resolve pending connection
-        this.props.resolvePendingConnection(this.props.node);
-
         // Move our drag node around as necessary
         if (this.props.ghost) {
             $(document).bind('mousemove', e => {
@@ -211,8 +205,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         this.props.updateDragGroup(false);
     }
 
-    private onAddAction(): void {
-        this.props.onAddAction(this.props.node, this.context.languages);
+    private onAddToNode(): void {
+        this.props.onAddToNode(this.props.node);
     }
 
     private onDragStart(event: any): boolean {
@@ -419,7 +413,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             // Don't show add actions option if we are translating
             if (!this.props.translating) {
                 addActions = (
-                    <a className={styles.add} onClick={this.onAddAction}>
+                    <a className={styles.add} onClick={this.onAddToNode}>
                         <span className="icon-add" />
                     </a>
                 );
@@ -490,8 +484,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
             updateNodeDragging,
-            resolvePendingConnection,
-            onAddAction,
+            onAddToNode,
             onNodeMoved,
             onOpenNodeEditor,
             removeNode,
