@@ -1,15 +1,21 @@
 import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import {
+    IsOptionUniqueHandler,
+    IsValidNewOptionHandler,
+    NewOptionCreatorHandler,
+    Option
+} from 'react-select';
 import { v4 as generateUUID } from 'uuid';
-import { AttributeType, ResultType } from '../../flowTypes';
-import { AppState, SearchResult } from '../../store';
+import { AttributeType, ResultType, CreateOptions } from '../../flowTypes';
+import { AppState } from '../../store';
 import { getSelectClass, propertyExists } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
 interface AttribElementPassedProps extends FormElementProps {
-    initial: SearchResult;
+    initial: Option;
     endpoint: string;
     add?: boolean;
     placeholder?: string;
@@ -18,13 +24,13 @@ interface AttribElementPassedProps extends FormElementProps {
 }
 
 interface AttribElementStoreProps {
-    contactFields: SearchResult[];
+    contactFields: Option[];
 }
 
 export type AttribElementProps = AttribElementPassedProps & AttribElementStoreProps;
 
 interface AttribElementState {
-    attribute: SearchResult;
+    attribute: Option;
     errors: string[];
 }
 
@@ -33,7 +39,7 @@ export const NOT_FOUND = 'Invalid attribute name';
 export const VALID_FIELD = /^[a-z0-9-][a-z0-9- ]*$/;
 export const CREATE_PROMPT = 'New attribute: ';
 
-export const attribExists = (newOptName: string, options: SearchResult[]) => {
+export const attribExists = (newOptName: string, options: Option[]) => {
     const loweredNTrimmed = newOptName.toLowerCase().trim();
     if (options.length) {
         for (const { name } of options) {
@@ -50,6 +56,18 @@ export const fieldNameValid = (name: string = '') => {
     return lowered.length > 0 && lowered.length <= 36 && VALID_FIELD.test(lowered);
 };
 
+export const isValidNewOption: IsValidNewOptionHandler = ({ label }) => fieldNameValid(label);
+
+export const isOptionUnique: IsOptionUniqueHandler = ({ option, options, labelKey, valueKey }) =>
+    !propertyExists(option.name) && !attribExists(option.name, options);
+
+export const createNewOption: NewOptionCreatorHandler = ({ label }) => ({
+    id: generateUUID(),
+    name: label,
+    type: AttributeType.field,
+    extraResult: true
+});
+
 export class AttribElement extends React.Component<AttribElementProps, AttribElementState> {
     public static defaultProps = {
         placeholder: PLACEHOLDER,
@@ -65,11 +83,9 @@ export class AttribElement extends React.Component<AttribElementProps, AttribEle
         };
 
         this.onChange = this.onChange.bind(this);
-        this.isValidNewOption = this.isValidNewOption.bind(this);
-        this.createNewOption = this.createNewOption.bind(this);
     }
 
-    private onChange(attribute: SearchResult): void {
+    private onChange(attribute: Option): void {
         if (!isEqual(this.state.attribute, attribute)) {
             this.setState({ attribute });
         }
@@ -97,40 +113,13 @@ export class AttribElement extends React.Component<AttribElementProps, AttribEle
         return errors.length === 0;
     }
 
-    private isOptionUnique({
-        option,
-        options,
-        labelKey,
-        valueKey
-    }: {
-        option: SearchResult;
-        options: SearchResult[];
-        labelKey: string;
-        valueKey: string;
-    }): boolean {
-        return !propertyExists(option.name) && !attribExists(option.name, options);
-    }
-
-    private isValidNewOption({ label }: { label: string }): boolean {
-        return fieldNameValid(label);
-    }
-
-    private createNewOption({ label }: { label: string }): SearchResult {
-        return {
-            id: generateUUID(),
-            name: label,
-            type: AttributeType.field,
-            extraResult: true
-        };
-    }
-
     public render(): JSX.Element {
-        const createOptions: any = {};
+        const createOptions: CreateOptions = {};
 
         if (this.props.add) {
-            createOptions.isValidNewOption = this.isValidNewOption;
-            createOptions.isOptionUnique = this.isOptionUnique;
-            createOptions.createNewOption = this.createNewOption;
+            createOptions.isValidNewOption = isValidNewOption;
+            createOptions.isOptionUnique = isOptionUnique;
+            createOptions.createNewOption = createNewOption;
             createOptions.createPrompt = CREATE_PROMPT;
         }
 
@@ -150,7 +139,6 @@ export class AttribElement extends React.Component<AttribElementProps, AttribEle
                     resultType={ResultType.field}
                     localSearchOptions={this.props.contactFields}
                     multi={false}
-                    clearable={false}
                     initial={[this.state.attribute]}
                     closeOnSelect={true}
                     searchPromptText={this.props.searchPromptText}
@@ -166,7 +154,7 @@ export const mapStateToProps = ({ flowContext: { contactFields } }: AppState) =>
     contactFields
 });
 
-export default connect<{ contactFields: SearchResult[] }, {}, AttribElementPassedProps>(
+export default connect<{ contactFields: Option[] }, {}, AttribElementPassedProps>(
     mapStateToProps,
     null,
     null,
