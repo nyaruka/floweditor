@@ -1,17 +1,30 @@
 import { react as bindCallbacks } from 'auto-bind';
 import axios, { AxiosResponse } from 'axios';
+import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
-import Select, { Async, AsyncCreatable, AutocompleteResult } from 'react-select';
-import { AttributeType, ContactProperties, ResultType, ValueType } from '../flowTypes';
-import { SearchResult, UpdateContactFields } from '../store';
-import { jsonEqual } from '../utils';
+import Select, {
+    Async,
+    AsyncCreatable,
+    AutocompleteResult,
+    IsOptionUniqueHandler,
+    IsValidNewOptionHandler,
+    NewOptionCreatorHandler
+} from 'react-select';
+import {
+    AttributeType,
+    ContactProperties,
+    CreateOptions,
+    ResultType,
+    ValueType
+} from '../flowTypes';
+import { SearchResult } from '../store';
 
 export interface SelectSearchProps {
     url: string;
     name: string;
     resultType: ResultType;
     placeholder?: string;
-    searchPromptText?: string | JSX.Element;
+    searchPromptText?: string;
     multi?: boolean;
     closeOnSelect?: boolean;
     initial?: SearchResult[];
@@ -19,9 +32,9 @@ export interface SelectSearchProps {
     __className?: string;
     createPrompt?: string;
     onChange?: (selections: SearchResult | SearchResult[]) => void;
-    isValidNewOption?: (option: { label: string }) => boolean;
-    isOptionUnique?: Function;
-    createNewOption?: (option: { label: string; labelKey: string; valueKey: string }) => any;
+    isValidNewOption?: IsValidNewOptionHandler;
+    isOptionUnique?: IsOptionUniqueHandler;
+    createNewOption?: NewOptionCreatorHandler;
 }
 
 interface SelectSearchState {
@@ -59,7 +72,7 @@ export default class SelectSearch extends React.PureComponent<
     SelectSearchProps,
     SelectSearchState
 > {
-    private select: Select;
+    private select: any;
 
     constructor(props: SelectSearchProps) {
         super(props);
@@ -73,12 +86,12 @@ export default class SelectSearch extends React.PureComponent<
         });
     }
 
-    public selectRef(ref: Select): Select {
+    public selectRef(ref: any): any {
         return (this.select = ref);
     }
 
     public componentWillReceiveProps(nextProps: SelectSearchProps): void {
-        if (!jsonEqual(this.props.initial, nextProps.initial)) {
+        if (!isEqual(this.props.initial, nextProps.initial)) {
             this.setState({ selections: nextProps.initial });
         }
     }
@@ -92,7 +105,7 @@ export default class SelectSearch extends React.PureComponent<
         // Convert to array to update state
         const selections = [selection];
 
-        if (!jsonEqual(this.state.selections, selections)) {
+        if (!isEqual(this.state.selections, selections)) {
             if (this.props.onChange) {
                 this.props.onChange(selection);
             }
@@ -112,7 +125,7 @@ export default class SelectSearch extends React.PureComponent<
             return;
         }
 
-        if (!jsonEqual(this.state.selections, selections)) {
+        if (!isEqual(this.state.selections, selections)) {
             if (this.props.onChange) {
                 this.props.onChange(selections);
             }
@@ -180,9 +193,12 @@ export default class SelectSearch extends React.PureComponent<
         }
     }
 
-    public loadOptions(input: string, callback: Function): void {
+    public loadOptions(
+        input: string,
+        callback: (err: any, result: AutocompleteResult) => void
+    ): void {
         if (!this.props.url) {
-            callback(this.search(input));
+            callback(null, this.search(input));
         } else {
             axios.get(this.props.url).then((response: AxiosResponse) => {
                 const results = this.getSearchResults(response.data.results);
@@ -219,19 +235,19 @@ export default class SelectSearch extends React.PureComponent<
 
         const onChange = this.props.multi ? this.onChangeMulti : this.onChange;
 
-        const options: any = {};
+        const createOptions: CreateOptions = {};
         if (this.props.createPrompt) {
-            options.promptTextCreator = (label: string) => this.props.createPrompt + label;
+            createOptions.promptTextCreator = (label: string) => this.props.createPrompt + label;
         }
         if (this.props.createNewOption) {
-            options.newOptionCreator = this.props.createNewOption;
+            createOptions.newOptionCreator = this.props.createNewOption;
         }
         if (this.props.isValidNewOption) {
-            options.isValidNewOption = this.props.isValidNewOption;
+            createOptions.isValidNewOption = this.props.isValidNewOption;
         }
 
         if (this.props.isOptionUnique) {
-            options.isOptionUnique = this.props.isOptionUnique;
+            createOptions.isOptionUnique = this.props.isOptionUnique;
         }
 
         if (this.props.createNewOption) {
@@ -252,12 +268,11 @@ export default class SelectSearch extends React.PureComponent<
                     multi={this.props.multi}
                     clearable={this.props.multi}
                     searchable={true}
-                    onCloseResetsInput={true}
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
                     onChange={onChange}
                     searchPromptText={this.props.searchPromptText}
-                    {...options}
+                    {...createOptions}
                 />
             );
         } else {
@@ -278,12 +293,11 @@ export default class SelectSearch extends React.PureComponent<
                     multi={this.props.multi}
                     clearable={this.props.multi}
                     searchable={true}
-                    onCloseResetsInput={true}
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
                     onChange={onChange}
                     searchPromptText={this.props.searchPromptText}
-                    {...options}
+                    {...createOptions}
                 />
             );
         }

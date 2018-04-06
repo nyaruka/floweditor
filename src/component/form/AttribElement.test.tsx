@@ -11,7 +11,10 @@ import {
     attribExists,
     fieldNameValid,
     NOT_FOUND,
-    PLACEHOLDER
+    PLACEHOLDER,
+    isValidNewOption,
+    isOptionUnique,
+    createNewOption
 } from './AttribElement';
 
 const initial: SearchResult = {
@@ -65,6 +68,57 @@ describe(`${AttribElement.name}`, () => {
                 expect(fieldNameValid('Age$')).toBeFalsy();
             });
         });
+
+        describe('isOptionUnique', () => {
+            const isOptionUniqueSignature = {
+                labelKey: 'name',
+                valueKey: 'id',
+                options: []
+            };
+
+            it('should return true if new option is unique', () => {
+                const newOption = {
+                    id: '2e020526-06a7-4acc-8f3f-90b4ceffdd91',
+                    name: 'Age',
+                    type: AttributeType.field
+                };
+
+                expect(
+                    isOptionUnique({
+                        ...isOptionUniqueSignature,
+                        option: newOption
+                    })
+                ).toBeTruthy();
+            });
+
+            it('should return false if new option is not unique', () => {
+                const newOption = {
+                    id: 'name',
+                    name: 'Name',
+                    type: AttributeType.property
+                };
+
+                expect(
+                    isOptionUnique({
+                        ...isOptionUniqueSignature,
+                        option: newOption
+                    })
+                ).toBeFalsy();
+            });
+        });
+
+        describe('createNewOption', () => {
+            it('should return a new SearchResult', () => {
+                const newOption = { label: 'Age', labelKey: 'name', valueKey: 'id' };
+
+                expect(createNewOption(newOption)).toEqual({
+                    id: expect.stringMatching(V4_UUID),
+                    name: newOption.label,
+                    type: AttributeType.field,
+                    extraResult: true
+                });
+            });
+        });
     });
 
     describe('render', () => {
@@ -93,7 +147,6 @@ describe(`${AttribElement.name}`, () => {
                     resultType: ResultType.field,
                     localSearchOptions: contactFields,
                     multi: false,
-                    clearable: false,
                     initial: [initial],
                     closeOnSelect: true,
                     searchPromptText: NOT_FOUND,
@@ -104,13 +157,13 @@ describe(`${AttribElement.name}`, () => {
         });
 
         it('should pass createOptions to SelectSearch', () => {
-            const { wrapper, instance } = setup({ add: true }, true);
+            const { wrapper } = setup({ add: true }, true);
 
             expect(wrapper.find('SelectSearch').props()).toEqual(
                 expect.objectContaining({
-                    isValidNewOption: instance.isValidNewOption,
-                    isOptionUnique: instance.isOptionUnique,
-                    createNewOption: instance.createNewOption,
+                    isValidNewOption,
+                    isOptionUnique,
+                    createNewOption,
                     createPrompt: CREATE_PROMPT
                 })
             );
@@ -123,12 +176,6 @@ describe(`${AttribElement.name}`, () => {
             id: '2003ec76-69e3-455e-a603-938ad90cb53f',
             name: 'National ID',
             type: AttributeType.field
-        };
-
-        const isOptionUniqueSignature = {
-            labelKey: 'name',
-            valueKey: 'id',
-            options: []
         };
 
         describe('onChange', () => {
@@ -217,54 +264,6 @@ describe(`${AttribElement.name}`, () => {
                 expect(updateErrorStateSpy).toHaveBeenCalledWith([`${name} is required.`]);
 
                 updateErrorStateSpy.mockRestore();
-            });
-        });
-
-        describe('isOptionUnique', () => {
-            it('should return true if new option is unique', () => {
-                const { wrapper, instance } = setup({}, true);
-                const newOption = {
-                    id: '2e020526-06a7-4acc-8f3f-90b4ceffdd91',
-                    name: 'Age',
-                    type: AttributeType.field
-                };
-
-                expect(
-                    instance.isOptionUnique({
-                        ...isOptionUniqueSignature,
-                        option: newOption
-                    })
-                ).toBeTruthy();
-            });
-
-            it('should return false if new option is not unique', () => {
-                const { wrapper, instance } = setup({}, true);
-                const newOption = {
-                    id: 'name',
-                    name: 'Name',
-                    type: AttributeType.property
-                };
-
-                expect(
-                    instance.isOptionUnique({
-                        ...isOptionUniqueSignature,
-                        option: newOption
-                    })
-                ).toBeFalsy();
-            });
-        });
-
-        describe('createNewOption', () => {
-            it('should return a new SearchResult', () => {
-                const { wrapper, instance } = setup({}, true);
-                const newOption = { label: 'Age' };
-
-                expect(instance.createNewOption(newOption)).toEqual({
-                    id: expect.stringMatching(V4_UUID),
-                    name: newOption.label,
-                    type: AttributeType.field,
-                    extraResult: true
-                });
             });
         });
     });
