@@ -8,7 +8,6 @@ exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
 >
   <SelectSearch
     __className=""
-    clearable={false}
     closeOnSelect={true}
     createNewOption={[Function]}
     createPrompt="New attribute: "
@@ -43,7 +42,6 @@ exports[`AttribElement render should render self, children with base props 1`] =
 >
   <SelectSearch
     __className=""
-    clearable={false}
     closeOnSelect={true}
     initial={
       Array [
