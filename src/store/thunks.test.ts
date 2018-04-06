@@ -1,5 +1,6 @@
 jest.unmock('redux-mock-store');
 jest.unmock('immutability-helper');
+import '../testUtils/matchers';
 
 // import {createMockStore} from 'redux-mock-store';
 const createMockStore = require('redux-mock-store');
@@ -156,7 +157,7 @@ describe('ABC RenderNodeMap', () => {
                 // we were the only thing pointing to our friends, so now they
                 // should have no inbound connections
                 for (const nodeUUID of destinations) {
-                    expect(nodes[nodeUUID].inboundConnections).toEqual({});
+                    expect(nodes[nodeUUID]).not.toHaveInboundConnections();
                 }
             });
 
@@ -164,12 +165,10 @@ describe('ABC RenderNodeMap', () => {
                 const nodes = store.dispatch(removeNode(testNodes.nodeB.node));
 
                 // we reomved B, so now A should point to C
-                expect(nodes.nodeA.node.exits[0].destination_node_uuid).toBe(nodes.nodeC.node.uuid);
+                expect(nodes.nodeA).toHaveExitThatPointsTo(nodes.nodeC);
 
                 // and the next node in the tree should reflect our inbound connection
-                expect(Object.keys(nodes.nodeC.inboundConnections)).toContain(
-                    testNodes.nodeA.node.exits[0].uuid
-                );
+                expect(nodes.nodeC).toHaveInboundFrom(testNodes.nodeA.node.exits[0]);
             });
 
             // test a snapshot after removing each node in the flow
@@ -185,17 +184,17 @@ describe('ABC RenderNodeMap', () => {
     describe('connections', () => {
         it('should updateExitDestination()', () => {
             const updated = store.dispatch(updateExitDestination('nodeA', 'exitA', 'nodeC'));
-            expect(updated.nodeA.node.exits[0].destination_node_uuid).toBe('nodeC');
+            expect(updated.nodeA).toHaveExitThatPointsTo(updated.nodeC);
         });
 
         it('should disconnectExit()', () => {
             const updated = store.dispatch(disconnectExit('nodeA', 'exitA'));
-            expect(updated.nodeA.node.exits[0].destination_node_uuid).toBe(null);
+            expect(updated.nodeA).not.toHaveExitWithDestination();
         });
 
         it('should updateConnection()', () => {
             const updated = store.dispatch(updateConnection('nodeA:exitA', 'nodeC'));
-            expect(updated.nodeA.node.exits[0].destination_node_uuid).toBe('nodeC');
+            expect(updated.nodeA).toHaveExitThatPointsTo(updated.nodeC);
         });
 
         it('should throw if attempting to connect node to itself', () => {
@@ -205,9 +204,9 @@ describe('ABC RenderNodeMap', () => {
         });
 
         it('should update update connections when adding a node', () => {
-            let fromNode = testNodes.nodeB.node;
-            const fromNodeUUID = fromNode.uuid;
-            const fromExitUUID = fromNode.exits[0].uuid;
+            let fromNode = testNodes.nodeB;
+            const fromNodeUUID = fromNode.node.uuid;
+            const fromExitUUID = fromNode.node.exits[0].uuid;
 
             const addedNode = store.dispatch(
                 addNode({
@@ -220,11 +219,11 @@ describe('ABC RenderNodeMap', () => {
             );
 
             const nodes = getUpdatedNodes(store);
-            fromNode = nodes[fromNodeUUID].node;
+            fromNode = nodes[fromNodeUUID];
 
             // our pointing node should be directed at us
-            expect(fromNode.exits[0].destination_node_uuid).toBe(addedNode.node.uuid);
-            expect(Object.keys(addedNode.inboundConnections)).toContain(fromNode.exits[0].uuid);
+            expect(fromNode).toHaveExitThatPointsTo(addedNode);
+            expect(addedNode).toHaveInboundFrom(fromNode.node.exits[0]);
         });
     });
 
@@ -384,28 +383,32 @@ describe('ABC RenderNodeMap', () => {
                 action: AnyAction
             ): RenderNodeMap => {
                 const newExitUUID = generateUUID();
-                return currentStore.dispatch(
-                    spliceInRouter(
-                        renderNode.node.uuid,
-                        {
-                            actions: [],
-                            router: {
-                                type: 'switch',
-                                cases: [],
-                                default_exit_uuid: newExitUUID
-                            } as SwitchRouter,
-                            uuid: generateUUID(),
-                            exits: [
-                                {
-                                    uuid: newExitUUID,
-                                    destination_node_uuid: null
-                                }
-                            ]
-                        },
-                        'wait_for_response',
-                        action
-                    )
-                );
+
+                const newNode: RenderNode = {
+                    node: {
+                        actions: [],
+                        router: {
+                            type: 'switch',
+                            cases: [],
+                            default_exit_uuid: newExitUUID
+                        } as SwitchRouter,
+                        uuid: generateUUID(),
+                        exits: [
+                            {
+                                uuid: newExitUUID,
+                                destination_node_uuid: null
+                            }
+                        ]
+                    },
+                    ui: {
+                        position: { left: 100, top: 100 },
+                        type: 'wait_for_response'
+                    },
+                    inboundConnections: {}
+                };
+
+                const previousAction = { nodeUUID: renderNode.node.uuid, actionUUID: action.uuid };
+                return currentStore.dispatch(spliceInRouter(newNode, previousAction));
             };
 
             it('should replace the first action of two', () => {
@@ -436,14 +439,10 @@ describe('ABC RenderNodeMap', () => {
                 expect(topNode.inboundConnections).toEqual(nodeB.inboundConnections);
 
                 // bottom node should point back to top node
-                expect(Object.keys(bottomNode.inboundConnections)).toContain(
-                    topNode.node.exits[0].uuid
-                );
+                expect(bottomNode).toHaveInboundFrom(topNode.node.exits[0]);
 
                 // bottom node should point to the same place as original node
-                expect(bottomNode.node.exits[0].destination_node_uuid).toBe(
-                    nodeB.node.exits[0].destination_node_uuid
-                );
+                expect(bottomNode).toHaveExitThatPointsTo(nodes.nodeC);
 
                 // original node should be gonezor
                 expect(nodes[updatedNodes.nodeB.node.uuid]).toBeUndefined();
@@ -503,18 +502,18 @@ describe('ABC RenderNodeMap', () => {
                 const bottomNode = nodes[middleNode.node.exits[0].destination_node_uuid];
 
                 // top node should point to the middle node, and middle should point back
-                expect(Object.keys(middleNode.inboundConnections)).toContain(
-                    topNode.node.exits[0].uuid
-                );
+                expect(middleNode).toHaveInboundFrom(topNode.node.exits[0]);
 
                 // middle should point to the bottom, and bottom should point back
-                expect(Object.keys(bottomNode.inboundConnections)).toContain(
-                    middleNode.node.exits[0].uuid
-                );
+                expect(bottomNode).toHaveInboundFrom(middleNode.node.exits[0]);
 
                 // original node should be gonezor
                 expect(nodes[updatedNodes.nodeB.node.uuid]).toBeUndefined();
             });
         });
+    });
+
+    describe('routers', () => {
+        console.log('routers');
     });
 });

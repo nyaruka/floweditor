@@ -1,13 +1,12 @@
 import {
     updateConnection,
     removeConnection,
-    addNode,
+    mergeNode,
     addAction,
     updateAction,
     removeAction,
     moveActionUp,
     removeNode,
-    updateNode,
     updatePosition,
     updateDimensions,
     updateLocalization,
@@ -67,7 +66,7 @@ describe('mutators', () => {
     });
 
     it('should addNode', () => {
-        const updated = addNode(nodes, {
+        const updated = mergeNode(nodes, {
             node: { uuid: 'nodeD', actions: [], exits: [] },
             ui: { position: { left: 400, top: 400 } },
             inboundConnections: { exitA: 'nodeA' }
@@ -171,7 +170,11 @@ describe('mutators', () => {
 
     it('should update an action node to a split', () => {
         const node = { ...nodes.nodeA.node, actions: [], router: { type: 'split' } };
-        const updated = updateNode(nodes, node, 'wait_for_message');
+        const updated = mergeNode(nodes, {
+            node,
+            ui: { type: 'wait_for_message', position: null },
+            inboundConnections: {}
+        });
         expect(updated.nodeA.node.router.type).toBe('split');
         expect(updated.nodeA.node.actions.length).toBe(0);
         expect(updated.nodeA.ui.type).toBe('wait_for_message');
