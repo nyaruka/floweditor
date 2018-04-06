@@ -24,7 +24,8 @@ import {
     SetRunResult,
     StartFlow,
     SwitchRouter,
-    WaitType
+    WaitType,
+    Wait
 } from '../../flowTypes';
 import { LocalizedObject } from '../../services/Localization';
 import {
@@ -63,6 +64,7 @@ import * as shared from '../shared.scss';
 import { DEFAULT_BODY, GROUPS_OPERAND } from './constants';
 import * as formStyles from './NodeEditor.scss';
 import TypeList from './TypeList';
+import { NODE_SPACING } from '../../utils';
 
 export type GetResultNameField = () => JSX.Element;
 export type SaveLocalizations = (
@@ -754,12 +756,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 
     private updateAction(action: Action): void {
-        // prettier-ignore
-        this.props.onUpdateAction(
-            this.props.nodeToEdit,
-            action,
-            this.props.plumberRepaintForDuration
-        );
+        this.props.onUpdateAction(action);
     }
 
     private updateSwitchRouter(kases: CaseElementProps[]): void {
@@ -777,13 +774,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             optionalRouter.result_name = this.props.resultName;
         }
 
-        const optionalNode: Pick<FlowNode, 'wait'> = {};
-        if (this.props.typeConfig.type === 'wait_for_response') {
-            optionalNode.wait = { type: WaitType.msg };
-        } else if (this.props.typeConfig.type === 'split_by_expression') {
-            optionalNode.wait = { type: WaitType.exp };
-        }
-
         const router: SwitchRouter = {
             type: 'switch',
             default_exit_uuid: defaultExit,
@@ -792,18 +782,37 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             ...optionalRouter
         };
 
-        this.props.onUpdateRouter(
-            {
+        const newNode = this.getUpdatedRouterNode(router, exits, this.props.typeConfig.type);
+
+        if (this.props.typeConfig.type === 'wait_for_response') {
+            newNode.node.wait = { type: WaitType.msg };
+        } else if (this.props.typeConfig.type === 'split_by_expression') {
+            newNode.node.wait = { type: WaitType.exp };
+        }
+        this.props.onUpdateRouter(newNode);
+    }
+
+    private getUpdatedRouterNode(
+        router: Router,
+        exits: Exit[],
+        type: string,
+        actions: Action[] = [],
+        wait: Wait = null
+    ): RenderNode {
+        return {
+            node: {
                 uuid: this.props.nodeToEdit.uuid,
-                actions: [],
+                actions,
                 router,
                 exits,
-                ...optionalNode
+                wait
             },
-            this.props.typeConfig.type,
-            this.props.plumberRepaintForDuration,
-            getAction(this.props.actionToEdit, this.props.typeConfig)
-        );
+            ui: {
+                type,
+                position: null
+            },
+            inboundConnections: {}
+        };
     }
 
     private updateGroupsRouter(): void {
@@ -820,7 +829,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             this.cleanUpLocalizations(currentCases);
         }
 
-        const router: Partial<SwitchRouter> = {
+        const router: SwitchRouter = {
             type: 'switch',
             cases,
             default_exit_uuid: defaultExit,
@@ -828,24 +837,13 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             result_name: ''
         };
 
-        const updates: Partial<FlowNode> = {
-            uuid: this.props.nodeToEdit.uuid,
-            exits,
-            wait: {
-                type: WaitType.group
-            }
-        };
-
         if (this.props.resultName) {
             router.result_name += this.props.resultName;
         }
 
-        this.props.onUpdateRouter(
-            { ...updates, router } as FlowNode,
-            'split_by_groups',
-            this.props.plumberRepaintForDuration,
-            getAction(this.props.actionToEdit, this.props.typeConfig)
-        );
+        const newNode = this.getUpdatedRouterNode(router, exits, this.props.typeConfig.type);
+        newNode.node.wait = { type: WaitType.group };
+        this.props.onUpdateRouter(newNode);
     }
 
     public updateSubflowRouter(): void {
@@ -880,7 +878,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         // TODO: we should probably just be passing down RenderNode
         const renderNode = this.props.nodes[this.props.nodeToEdit.uuid];
 
-        if (renderNode.ui.type === 'subflow') {
+        if (renderNode && renderNode.ui.type === 'subflow') {
             ({ exits } = this.props.nodeToEdit);
             ({ cases } = this.props.nodeToEdit.router as SwitchRouter);
         } else {
@@ -914,32 +912,18 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             ];
         }
 
-        const newRouter: SwitchRouter = {
+        const router: SwitchRouter = {
             type: 'switch',
             operand: '@child',
             cases,
             default_exit_uuid: null
         };
 
-        // HACK: this should go away with modal refactor
-        let { uuid: nodeUUID } = this.props.nodeToEdit;
-
-        if (action.uuid === nodeUUID) {
-            nodeUUID = generateUUID();
-        }
-
-        this.props.onUpdateRouter(
-            {
-                uuid: nodeUUID,
-                router: newRouter,
-                exits,
-                actions: [newAction],
-                wait: { type: 'flow', flow_uuid: flowUUID }
-            },
-            'subflow',
-            this.props.plumberRepaintForDuration,
-            action
-        );
+        const newNode = this.getUpdatedRouterNode(router, exits, 'subflow', [newAction], {
+            type: 'flow',
+            flow_uuid: flowUUID
+        } as Wait);
+        this.props.onUpdateRouter(newNode);
     }
 
     private updateWebhookRouter(): void {
@@ -992,7 +976,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         const renderNode = this.props.nodes[this.props.nodeToEdit.uuid];
 
         // If we were already a webhook, lean on those exits and cases
-        if (renderNode.ui.type === 'webhook') {
+        if (renderNode && renderNode.ui.type === 'webhook') {
             this.props.nodeToEdit.exits.forEach(exit => exits.push(exit));
             (this.props.nodeToEdit.router as SwitchRouter).cases.forEach(kase => cases.push(kase));
         } else {
@@ -1025,23 +1009,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             default_exit_uuid: exits[1].uuid
         };
 
-        // HACK: this should go away with modal <refactor></refactor>
-        const nodeUUID: string =
-            action.uuid === this.props.nodeToEdit.uuid
-                ? generateUUID()
-                : this.props.nodeToEdit.uuid;
-
-        this.props.onUpdateRouter(
-            {
-                uuid: nodeUUID,
-                router,
-                exits,
-                actions: [newAction]
-            },
-            'webhook',
-            this.props.plumberRepaintForDuration,
-            action
-        );
+        const newNode = this.getUpdatedRouterNode(router, exits, 'webhook', [newAction]);
+        this.props.onUpdateRouter(newNode);
     }
 
     private getMode(): Mode {

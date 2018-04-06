@@ -11,6 +11,7 @@ import {
     ConnectionEvent,
     DispatchWithState,
     ensureStartNode,
+    EnsureStartNode,
     NoParamsAC,
     OnConnectionDrag,
     onConnectionDrag,
@@ -37,7 +38,7 @@ export interface FlowStoreProps {
     ghostNode: FlowNode;
     pendingConnection: DragPoint;
     nodeEditorOpen: boolean;
-    ensureStartNode: NoParamsAC;
+    ensureStartNode: EnsureStartNode;
     updateConnection: UpdateConnection;
     onOpenNodeEditor: OnOpenNodeEditor;
     resetNodeEditingState: NoParamsAC;

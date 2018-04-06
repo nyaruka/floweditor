@@ -1,3 +1,5 @@
+// TODO: Remove use of Function
+// tslint:disable:ban-types
 import { mount, ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 import { Provider } from 'react-redux';
@@ -71,4 +73,18 @@ export const getSpecWrapper = (
     attributeName: string = 'data-spec'
 ): any => {
     return componentWrapper.find(`[${attributeName}="${specName}"]`);
+};
+
+const DEBUG = false;
+
+export const timeStart = (name: string) => {
+    if (DEBUG) {
+        console.time(name);
+    }
+};
+
+export const timeEnd = (name: string) => {
+    if (DEBUG) {
+        console.timeEnd(name);
+    }
 };

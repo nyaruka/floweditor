@@ -160,6 +160,7 @@ export default class Plumber {
     }
 
     public repaintForDuration(duration: number = REPAINT_DURATION): void {
+        console.log('repainting..');
         this.cancelDurationRepaint();
         const pause = 10;
         const newDuration = duration / pause;
