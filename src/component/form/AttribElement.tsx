@@ -38,17 +38,10 @@ export const NOT_FOUND = 'Invalid attribute name';
 export const VALID_FIELD = /^[a-z0-9-][a-z0-9- ]*$/;
 export const CREATE_PROMPT = 'New attribute: ';
 
-export const attribExists = (newOptName: string, options: SearchResult[]) => {
-    const loweredNTrimmed = newOptName.toLowerCase().trim();
-    if (options.length) {
-        for (const { name } of options) {
-            if (name.toLowerCase().trim() === loweredNTrimmed) {
-                return true;
-            }
-        }
-    }
-    return false;
-};
+export const attribExists = (newOptName: string, options: SearchResult[]) =>
+    options.find(({ name }) => name.toLowerCase().trim() === newOptName.toLowerCase().trim())
+        ? true
+        : false;
 
 export const fieldNameValid = (name: string = '') => {
     const lowered = name.toLowerCase();
