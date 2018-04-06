@@ -219,11 +219,12 @@ export const dump = (thing: any) => console.log(JSON.stringify(thing, null, 2));
 export const emphasize = (text: string) => <span className="emph">{text}</span>;
 
 /**
- * Does @propertyToCheck exist in our ContactProperties enum?
+ * Does property exist in our ContactProperties enum?
+ * @param {string} propertyToCheck - 'name' key on react-select AutoCompleteOption
  */
 export const propertyExists = (propertyToCheck: string) => {
     for (const property of Object.keys(ContactProperties)) {
-        if (property.toLowerCase() === propertyToCheck.toLowerCase()) {
+        if (property.toLowerCase().trim() === propertyToCheck.toLowerCase()) {
             return true;
         }
     }

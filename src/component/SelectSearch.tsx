@@ -20,6 +20,7 @@ export interface SelectSearchProps {
     createPrompt?: string;
     onChange?: (selections: SearchResult | SearchResult[]) => void;
     isValidNewOption?: (option: { label: string }) => boolean;
+    isOptionUnique?: Function;
     createNewOption?: (option: { label: string; labelKey: string; valueKey: string }) => any;
 }
 
@@ -227,6 +228,10 @@ export default class SelectSearch extends React.PureComponent<
         }
         if (this.props.isValidNewOption) {
             options.isValidNewOption = this.props.isValidNewOption;
+        }
+
+        if (this.props.isOptionUnique) {
+            options.isOptionUnique = this.props.isOptionUnique;
         }
 
         if (this.props.createNewOption) {

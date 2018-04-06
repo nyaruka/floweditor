@@ -31,6 +31,23 @@ interface AttribState {
 export const PLACEHOLDER = 'Enter the name of an existing attribute or create a new one';
 export const NOT_FOUND = 'Invalid attribute name';
 
+export const fieldExists = (newOptName: string, options: SearchResult[]) => {
+    const normalized = newOptName.toLowerCase().trim();
+    if (options.length) {
+        for (const { name } of options) {
+            if (name.toLowerCase().trim() === normalized) {
+                return true;
+            }
+        }
+    }
+    return false;
+};
+
+export const fieldNameValid = (name: string) => {
+    const lowered = name.toLowerCase();
+    return lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered);
+};
+
 export class AttribElement extends React.Component<AttribElementProps, AttribState> {
     public static defaultProps = {
         placeholder: PLACEHOLDER,
@@ -70,19 +87,25 @@ export class AttribElement extends React.Component<AttribElementProps, AttribSta
         return errors.length === 0;
     }
 
+    private isOptionUnique({
+        option,
+        options,
+        labelKey,
+        valueKey
+    }: {
+        option: SearchResult;
+        options: SearchResult[];
+        labelKey: string;
+        valueKey: string;
+    }): boolean {
+        return !propertyExists(option.name) && !fieldExists(option.name, options);
+    }
+
     private isValidNewOption({ label }: { label: string }): boolean {
         if (!label) {
             return false;
         }
-
-        const lowered = label.toLowerCase();
-
-        return (
-            lowered.length > 0 &&
-            lowered.length <= 36 &&
-            /^[a-z0-9-][a-z0-9- ]*$/.test(lowered) &&
-            !propertyExists(lowered)
-        );
+        return fieldNameValid(label);
     }
 
     private createNewOption({ label }: { label: string }): SearchResult {
@@ -99,6 +122,7 @@ export class AttribElement extends React.Component<AttribElementProps, AttribSta
 
         if (this.props.add) {
             createOptions.isValidNewOption = this.isValidNewOption;
+            createOptions.isOptionUnique = this.isOptionUnique;
             createOptions.createNewOption = this.createNewOption;
             createOptions.createPrompt = 'New attribute: ';
             createOptions.updateLocalOptions = updateContactFields;
