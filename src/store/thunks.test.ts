@@ -11,7 +11,7 @@ import {
     initializeFlow,
     removeNode,
     addNode,
-    updateAction,
+    onUpdateAction,
     onUpdateLocalizations,
     updateDimensions,
     disconnectExit,
@@ -21,13 +21,14 @@ import {
     removeAction,
     spliceInRouter,
     reflow,
-    updateExitDestination
+    updateExitDestination,
+    resetNodeEditingState
 } from './thunks';
 import { dump } from '../utils';
 import { getUniqueDestinations } from './helpers';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { v4 as generateUUID } from 'uuid';
-import { Constants, LocalizationUpdates } from '.';
+import { Constants, LocalizationUpdates, onAddToNode } from '.';
 import { NODES_ABC } from './__test__';
 
 const getUpdatedNodes = (currentStore = null): { [uuid: string]: RenderNode } => {
@@ -90,7 +91,8 @@ describe('ABC RenderNodeMap', () => {
         // prep our store to show that we are editing
         store = createMockStore([thunk])({
             flowContext: { nodes: testNodes },
-            nodeEditor: {}
+            flowEditor: { flowUI: {} },
+            nodeEditor: { actionToEdit: null, nodeToEdit: null }
         });
     });
 
@@ -237,14 +239,11 @@ describe('ABC RenderNodeMap', () => {
 
             // add a new message to the first node
             const nodes = updatedStore.dispatch(
-                updateAction(
-                    {
-                        uuid: 'new_action',
-                        type: 'send_msg',
-                        text: 'A second message for our first node'
-                    },
-                    'nodeA'
-                )
+                onUpdateAction({
+                    uuid: 'new_action',
+                    type: 'send_msg',
+                    text: 'A second message for our first node'
+                })
             );
 
             // we should have a new action
@@ -257,14 +256,11 @@ describe('ABC RenderNodeMap', () => {
             expect(() => {
                 // add a new message to the first node
                 const nodes = store.dispatch(
-                    updateAction(
-                        {
-                            uuid: 'new_action',
-                            type: 'send_msg',
-                            text: 'A second message for our first node'
-                        },
-                        'nodeA'
-                    )
+                    onUpdateAction({
+                        uuid: 'new_action',
+                        type: 'send_msg',
+                        text: 'A second message for our first node'
+                    })
                 );
             }).toThrowError('Need nodeToEdit in state to update an action');
         });
@@ -278,14 +274,11 @@ describe('ABC RenderNodeMap', () => {
 
             // add a new message to the first node
             const nodes = updatedStore.dispatch(
-                updateAction(
-                    {
-                        uuid: 'actionA',
-                        type: 'send_msg',
-                        text: 'An updated message'
-                    },
-                    'nodeA'
-                )
+                onUpdateAction({
+                    uuid: 'actionA',
+                    type: 'send_msg',
+                    text: 'An updated message'
+                })
             );
 
             expect(nodes.nodeA.node.actions[0].text).toBe('An updated message');
@@ -344,7 +337,17 @@ describe('ABC RenderNodeMap', () => {
             // prep our store to show that we are editing
             const updatedStore = createMockStore([thunk])({
                 ...store.getState(),
-                nodeEditor: { userAddingAction: true, nodeToEdit: testNodes.nodeA.node }
+
+                flowEditor: {
+                    flowUI: {
+                        pendingConnection: { exitUUID: 'exitE', nodeUUID: 'nodeE' },
+                        createNodePosition: { left: 500, top: 500 }
+                    }
+                },
+                nodeEditor: {
+                    userAddingAction: true,
+                    nodeToEdit: testNodes.nodeA.node
+                }
             });
 
             const newAction = {
@@ -353,15 +356,7 @@ describe('ABC RenderNodeMap', () => {
                 text: 'An action for a new node'
             } as SendMsg;
 
-            const updated = updatedStore.dispatch(
-                updateAction(
-                    newAction,
-                    'new_node',
-                    { exitUUID: 'exitE', nodeUUID: 'nodeE' },
-                    { left: 500, top: 500 }
-                )
-            );
-
+            const updated = updatedStore.dispatch(onUpdateAction(newAction));
             const newNodeUUID = updated.nodeE.node.exits[0].destination_node_uuid;
             expect(newNodeUUID).not.toBeUndefined();
 
@@ -513,7 +508,59 @@ describe('ABC RenderNodeMap', () => {
         });
     });
 
+    describe('node editor', () => {
+        beforeEach(() => {
+            // now try a store with all the things set
+            store = createMockStore([thunk])({
+                flowContext: { nodes: testNodes },
+                flowEditor: { flowUI: {} },
+                nodeEditor: {}
+            });
+        });
+
+        it('should only update things that are set', () => {
+            store.dispatch(resetNodeEditingState());
+
+            expect(store).toHaveReduxActionWithPayload(Constants.UPDATE_GHOST_NODE, {
+                ghostNode: null
+            });
+
+            expect(store.getActions().length).toBe(1);
+        });
+
+        it('should reset the node editor', () => {
+            // now try a store with all the things set
+            store = createMockStore([thunk])({
+                flowContext: { nodes: testNodes },
+                flowEditor: { flowUI: { pendingConnection: {}, createNodePosition: {} } },
+                nodeEditor: { actionToEdit: {}, nodeToEdit: {} }
+            });
+
+            store.dispatch(resetNodeEditingState());
+
+            expect(store).toHaveReduxActionWithPayload(Constants.UPDATE_GHOST_NODE, {
+                ghostNode: null
+            });
+
+            expect(store).toHaveReduxActionWithPayload(Constants.UPDATE_PENDING_CONNECTION, {
+                pendingConnection: null
+            });
+
+            expect(store).toHaveReduxActionWithPayload(Constants.UPDATE_CREATE_NODE_POSITION, {
+                createNodePosition: null
+            });
+
+            expect(store).toHaveReduxActionWithPayload(Constants.UPDATE_NODE_TO_EDIT, {
+                nodeToEdit: null
+            });
+
+            expect(store).toHaveReduxActionWithPayload(Constants.UPDATE_ACTION_TO_EDIT, {
+                actionToEdit: null
+            });
+        });
+    });
+
     describe('routers', () => {
-        console.log('routers');
+        // console.log('routers');
     });
 });

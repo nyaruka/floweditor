@@ -756,12 +756,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 
     private updateAction(action: Action): void {
-        // prettier-ignore
-        this.props.onUpdateAction(
-            this.props.nodeToEdit,
-            action,
-            this.props.plumberRepaintForDuration
-        );
+        this.props.onUpdateAction(action);
     }
 
     private updateSwitchRouter(kases: CaseElementProps[]): void {

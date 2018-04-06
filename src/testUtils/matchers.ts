@@ -1,6 +1,8 @@
 import { RenderNode } from '../store/flowContext';
 import { dump } from '../utils';
 import { Exit } from '../flowTypes';
+import { Store } from 'redux';
+import { AppState } from '../store';
 
 declare global {
     namespace jest {
@@ -10,6 +12,7 @@ declare global {
             toHaveInboundFrom(exit: Exit): R;
             toHaveExitWithDestination(): R;
             toHaveInboundConnections(): R;
+            toHaveReduxActionWithPayload(action, payload): R;
         }
     }
 }
@@ -107,10 +110,36 @@ function toHaveExitThatPointsTo<T>(
     };
 }
 
+function toHaveReduxActionWithPayload<T>(
+    this: jest.MatcherUtils,
+    store: any,
+    actionType: string,
+    expectedPayload: any
+): MatchResult {
+    const payload = JSON.stringify(expectedPayload);
+    for (const actionTaken of store.getActions()) {
+        if (actionTaken.type === actionType) {
+            if (JSON.stringify(actionTaken.payload) === payload) {
+                return {
+                    message: () =>
+                        `Result contained action type ${actionType} with payload ${payload}`,
+                    pass: true
+                };
+            }
+        }
+    }
+
+    return {
+        message: () => `Could not find action type ${actionType} with payload ${payload}`,
+        pass: false
+    };
+}
+
 expect.extend({
     toPointTo,
     toHaveExitThatPointsTo,
     toHaveInboundFrom,
     toHaveExitWithDestination,
-    toHaveInboundConnections
+    toHaveInboundConnections,
+    toHaveReduxActionWithPayload
 });

@@ -14,8 +14,8 @@ import { DragEvent } from '../services/Plumber';
 import {
     AppState,
     DispatchWithState,
-    onAddAction,
-    OnAddAction,
+    onAddToNode,
+    OnAddToNode,
     onNodeMoved,
     OnNodeMoved,
     OnOpenNodeEditor,
@@ -68,7 +68,7 @@ export interface NodeStoreProps {
     definition: FlowDefinition;
     nodeDragging: boolean;
     updateNodeDragging: UpdateNodeDragging;
-    onAddAction: OnAddAction;
+    onAddToNode: OnAddToNode;
     onNodeMoved: OnNodeMoved;
     onOpenNodeEditor: OnOpenNodeEditor;
     removeNode: RemoveNode;
@@ -205,8 +205,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         this.props.updateDragGroup(false);
     }
 
-    private onAddAction(): void {
-        this.props.onAddAction(this.props.node, this.context.languages);
+    private onAddToNode(): void {
+        this.props.onAddToNode(this.props.node);
     }
 
     private onDragStart(event: any): boolean {
@@ -413,7 +413,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             // Don't show add actions option if we are translating
             if (!this.props.translating) {
                 addActions = (
-                    <a className={styles.add} onClick={this.onAddAction}>
+                    <a className={styles.add} onClick={this.onAddToNode}>
                         <span className="icon-add" />
                     </a>
                 );
@@ -484,7 +484,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
             updateNodeDragging,
-            onAddAction,
+            onAddToNode,
             onNodeMoved,
             onOpenNodeEditor,
             removeNode,
