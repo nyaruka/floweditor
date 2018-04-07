@@ -7,9 +7,9 @@ import {
     NewOptionCreatorHandler
 } from 'react-select';
 import { v4 as generateUUID } from 'uuid';
-import { AttributeType, ResultType, CreateOptions } from '../../flowTypes';
+import { AttributeType, CreateOptions, ResultType } from '../../flowTypes';
 import { AppState, SearchResult } from '../../store';
-import { getSelectClass, propertyExists } from '../../utils';
+import { getSelectClass, isValidLabel, propertyExists } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
@@ -35,7 +35,6 @@ interface AttribElementState {
 
 export const PLACEHOLDER = 'Enter the name of an existing attribute or create a new one';
 export const NOT_FOUND = 'Invalid attribute name';
-export const VALID_FIELD = /^[a-z0-9-][a-z0-9- ]*$/;
 export const CREATE_PROMPT = 'New attribute: ';
 
 export const attribExists = (newOptName: string, options: SearchResult[]) =>
@@ -43,12 +42,7 @@ export const attribExists = (newOptName: string, options: SearchResult[]) =>
         ? true
         : false;
 
-export const fieldNameValid = (name: string = '') => {
-    const lowered = name.toLowerCase();
-    return lowered.length > 0 && lowered.length <= 36 && VALID_FIELD.test(lowered);
-};
-
-export const isValidNewOption: IsValidNewOptionHandler = ({ label }) => fieldNameValid(label);
+export const isValidNewOption: IsValidNewOptionHandler = ({ label }) => isValidLabel(label);
 
 export const isOptionUnique: IsOptionUniqueHandler = ({ option, options, labelKey, valueKey }) =>
     !propertyExists(option.name) && !attribExists(option.name, options);

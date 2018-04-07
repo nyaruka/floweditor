@@ -6,7 +6,8 @@ import { SearchResult } from '../store';
 import * as variables from '../variables.scss';
 
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
-
+const LABEL_CHARS = /^[a-zA-Z0-9-][a-zA-Z0-9- ]*$/;
+const MAX_LABEL_LENGTH = 36;
 const SNAKED_CHARS = /\s+(?=\S)/g;
 
 export const GRID_SIZE: number = parseInt(variables.grid_size, 10) || 20;
@@ -235,3 +236,23 @@ export const propertyExists = (propertyToCheck: string) => {
  * Should x element be rendered?
  */
 export const renderIf = (condition: boolean) => (elem: JSX.Element) => (condition ? elem : null);
+
+/**
+ * Does the label meet our length requirements?
+ * @param {string} label - label created by react-select
+ */
+export const properLabelLength = (label: string = '') =>
+    label.length > 0 && label.length <= MAX_LABEL_LENGTH;
+
+/**
+ * Does the label meet our character requirements?
+ * @param {string} label
+ */
+export const containsOnlyLabelChars = (label: string = '') => LABEL_CHARS.test(label);
+
+/**
+ * Does the label meet our length, character requirements?
+ * @param {string} label - label created by react-select
+ */
+export const isValidLabel = (label: string) =>
+    properLabelLength(label) && containsOnlyLabelChars(label);

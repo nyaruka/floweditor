@@ -2,19 +2,17 @@ import * as config from '../../../assets/config';
 import { AttributeType, ResultType } from '../../flowTypes';
 import { SearchResult } from '../../store';
 import { createSetup, createSpy } from '../../testUtils';
-import { getSelectClass } from '../../utils';
-import { V4_UUID } from '../../utils';
+import { getSelectClass, V4_UUID } from '../../utils';
 import {
     AttribElement,
     AttribElementProps,
-    CREATE_PROMPT,
     attribExists,
-    fieldNameValid,
-    NOT_FOUND,
-    PLACEHOLDER,
-    isValidNewOption,
+    CREATE_PROMPT,
+    createNewOption,
     isOptionUnique,
-    createNewOption
+    isValidNewOption,
+    NOT_FOUND,
+    PLACEHOLDER
 } from './AttribElement';
 
 const initial: SearchResult = {
@@ -52,20 +50,6 @@ describe(`${AttribElement.name}`, () => {
             it('should return false if field does not exist in matching options provided by react-select', () => {
                 expect(attribExists('national id', [])).toBeFalsy();
                 expect(attribExists('national id', matchingOptions)).toBeFalsy();
-            });
-        });
-
-        describe('fieldNameValid', () => {
-            it('should return true if field name is valid', () => {
-                expect(fieldNameValid('Age')).toBeTruthy();
-            });
-
-            it('should return false if field name invalid', () => {
-                expect(fieldNameValid('')).toBeFalsy();
-                expect(
-                    fieldNameValid('pneumonoultramicroscopicsilicovolcanoconiosis ')
-                ).toBeFalsy();
-                expect(fieldNameValid('Age$')).toBeFalsy();
             });
         });
 
