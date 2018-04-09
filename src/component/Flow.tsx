@@ -241,19 +241,19 @@ export class Flow extends React.Component<FlowStoreProps> {
     }
 
     private getSimulator(): JSX.Element {
-        // if (this.context.endpoints.engine) {
-        return (
-            <Simulator
-                // Editor
-                definition={this.props.definition}
-                // Flow
-                showDefinition={this.onShowDefinition}
-                Activity={this.Activity}
-            />
-        );
-        // }
+        /*if (this.context.endpoints.engine) {
+            return (
+                <Simulator
+                    // Editor
+                    definition={this.props.definition}
+                    // Flow
+                    showDefinition={this.onShowDefinition}
+                    Activity={this.Activity}
+                />
+            );
+        }*/
 
-        // return null;
+        return null;
     }
 
     private getNodeEditor(): JSX.Element {
