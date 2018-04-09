@@ -28,6 +28,7 @@ import { snapToGrid } from '../utils';
 import * as styles from './Flow.scss';
 import ConnectedNode, { DragPoint } from './Node';
 import NodeEditor from './NodeEditor';
+import Simulator from './Simulator';
 import { RenderNode } from '../store/flowContext';
 
 export interface FlowStoreProps {
@@ -239,22 +240,21 @@ export class Flow extends React.Component<FlowStoreProps> {
         return null;
     }
 
-    // private getSimulator(): JSX.Element {
-    //     if (this.context.endpoints.engine) {
-    //         return (
-    //             <SimulatorComp
-    //                 // Editor
-    //                 definition={this.props.definition}
-    //                 // Flow
-    //                 showDefinition={this.onShowDefinition}
-    //                 plumberRepaint={this.Plumber.repaint}
-    //                 Activity={this.Activity}
-    //             />
-    //         );
-    //     }
+    private getSimulator(): JSX.Element {
+        // if (this.context.endpoints.engine) {
+        return (
+            <Simulator
+                // Editor
+                definition={this.props.definition}
+                // Flow
+                showDefinition={this.onShowDefinition}
+                Activity={this.Activity}
+            />
+        );
+        // }
 
-    //     return null;
-    // }
+        // return null;
+    }
 
     private getNodeEditor(): JSX.Element {
         return this.props.nodeEditorOpen ? (
@@ -269,10 +269,10 @@ export class Flow extends React.Component<FlowStoreProps> {
         const nodeEditor = this.getNodeEditor();
         const dragNode = this.getDragNode();
         const nodes = this.getNodes();
-        // const simulator = this.getSimulator();
+        const simulator = this.getSimulator();
         return (
             <div key={this.props.definition.uuid}>
-                {/* {simulator} */}
+                {simulator}
                 {dragNode}
                 {nodeEditor}
                 <div className={styles.node_list} data-spec="nodes">
