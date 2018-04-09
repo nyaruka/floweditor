@@ -61,11 +61,11 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
     }
 
     public render(): JSX.Element {
-        const className: string = getSelectClass(this.state.errors.length);
+        const className = getSelectClass(this.state.errors.length);
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <SelectSearch
-                    _className={className}
+                    __className={className}
                     onChange={this.onChange}
                     name={this.props.name}
                     url={this.props.endpoint}

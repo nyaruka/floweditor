@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
+import { ResultType } from '../../flowTypes';
+import { SearchResult } from '../../store';
+import { getSelectClass, isValidLabel, jsonEqual } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
-import { getSelectClass, jsonEqual } from '../../utils';
-import { AnyAction, ResultType } from '../../flowTypes';
-import { SearchResult } from '../../store';
+import { NewOptionCreatorHandler, IsValidNewOptionHandler } from 'react-select';
 
 export interface GroupOption {
     group: string;
@@ -26,28 +27,14 @@ interface GroupsElementState {
     errors: string[];
 }
 
-export const isValidNewOption = ({ label }: { label: string } = { label: '' }): boolean => {
-    if (!label) {
-        return false;
-    }
+export const isValidNewOption: IsValidNewOptionHandler = ({ label }) =>
+    !label ? false : isValidLabel(label);
 
-    const lowered = label.toLowerCase();
-
-    const isValid =
-        lowered.length > 0 && lowered.length <= 36 && /^[a-z0-9-][a-z0-9- ]*$/.test(lowered);
-
-    return isValid;
-};
-
-export const createNewOption = ({ label }: { label: string }): SearchResult => {
-    const newOption = {
-        id: generateUUID(),
-        name: label,
-        extraResult: true
-    } as SearchResult;
-
-    return newOption;
-};
+export const createNewOption: NewOptionCreatorHandler = ({ label }) => ({
+    id: generateUUID(),
+    name: label,
+    extraResult: true
+});
 
 export const getInitialGroups = ({
     groups = [],

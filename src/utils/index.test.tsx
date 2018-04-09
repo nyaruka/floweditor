@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
     addCommas,
+    containsOnlyLabelChars,
     emphasize,
     getBaseLanguage,
     getLanguage,
@@ -8,13 +9,14 @@ import {
     getSelectClass,
     hasErrorType,
     jsonEqual,
+    properLabelLength,
+    propertyExists,
+    renderIf,
     reorderList,
     snakify,
     titleCase,
     toBoolMap,
-    validUUID,
-    propertyExists,
-    renderIf
+    validUUID
 } from '.';
 import { operatorConfigList } from '../config';
 import { ContactProperties } from '../flowTypes';
@@ -218,6 +220,26 @@ describe('utils', () => {
 
         it('should return null if condition is falsy', () => {
             expect(renderIf(false)(<div />)).toBeNull();
+        });
+    });
+
+    describe('properLabelLength', () => {
+        it('should return true if label meets our length requirements', () => {
+            expect(properLabelLength('Age')).toBeTruthy();
+        });
+
+        it('should return false if label does not meet our length requirements', () => {
+            expect(properLabelLength('pneumonoultramicroscopicsilicovolcanoconiosis')).toBeFalsy();
+        });
+    });
+
+    describe('containsOnlyLabelChars', () => {
+        it('should return true if string contains only literal characters', () => {
+            expect(containsOnlyLabelChars('Age')).toBeTruthy();
+        });
+
+        it('should return false if string contains special characters', () => {
+            expect(containsOnlyLabelChars('Age$')).toBeFalsy();
         });
     });
 });

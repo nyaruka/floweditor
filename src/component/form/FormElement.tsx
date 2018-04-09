@@ -1,6 +1,7 @@
 import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import * as styles from './FormElement.scss';
+import { renderIf } from '../../utils';
 
 const cx = classNames.bind(styles);
 
@@ -19,19 +20,18 @@ export interface FormElementProps {
 
 export default class FormElement extends React.PureComponent<FormElementProps> {
     private getName(): JSX.Element {
-        if (this.props.showLabel && this.props.name) {
-            return <div className={styles.label}>{this.props.name}</div>;
-        }
-
-        return null;
+        return renderIf(
+            this.props.showLabel &&
+                this.props.name !== undefined &&
+                this.props.name !== null &&
+                this.props.name.length > 0
+        )(<div className={styles.label}>{this.props.name}</div>);
     }
 
     private getHelpText(): JSX.Element {
-        if (this.props.helpText && !this.props.errors.length) {
-            return <div className={styles.helpText}>{this.props.helpText} </div>;
-        }
-
-        return null;
+        return renderIf(this.props.helpText && !this.props.errors.length)(
+            <div className={styles.helpText}>{this.props.helpText} </div>
+        );
     }
 
     private getErrors(): JSX.Element {
