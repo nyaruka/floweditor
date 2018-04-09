@@ -42,6 +42,9 @@ export const createSetup = <P extends {}, C extends ConfigProviderContext = Conf
     };
 };
 
+export const createSpy = (Component: React.ComponentClass) => (instanceMethod: string) =>
+    jest.spyOn(Component.prototype, instanceMethod as any);
+
 /**
  * Wait for promises in queue to resolve
  */

@@ -1,6 +1,6 @@
+import { Option } from 'react-select';
 import { combineReducers } from 'redux';
-import { v4 as generateUUID } from 'uuid';
-import { FlowDefinition, FlowNode, UINode, AttributeType } from '../flowTypes';
+import { FlowDefinition, FlowNode, UINode } from '../flowTypes';
 import { LocalizedObject } from '../services/Localization';
 import ActionTypes, {
     UpdateContactFieldsAction,
@@ -23,9 +23,7 @@ export interface RenderNode {
     inboundConnections: { [uuid: string]: string };
 }
 
-export interface SearchResult {
-    name: string;
-    id: string;
+export interface SearchResult extends Option {
     type?: string;
     prefix?: string;
     extraResult?: boolean;

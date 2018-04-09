@@ -1,3 +1,10 @@
+import {
+    IsOptionUniqueHandler,
+    IsValidNewOptionHandler,
+    NewOptionCreatorHandler,
+    PromptTextCreatorHandler
+} from 'react-select';
+
 export interface Languages {
     [iso: string]: string;
 }
@@ -226,4 +233,13 @@ export enum ValueType {
 export enum AttributeType {
     property = 'property',
     field = 'field'
+}
+
+export interface CreateOptions {
+    promptTextCreator?: PromptTextCreatorHandler;
+    newOptionCreator?: NewOptionCreatorHandler;
+    isValidNewOption?: IsValidNewOptionHandler;
+    isOptionUnique?: IsOptionUniqueHandler;
+    createNewOption?: NewOptionCreatorHandler;
+    createPrompt?: string;
 }
