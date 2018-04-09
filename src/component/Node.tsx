@@ -238,11 +238,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         this.ele.style.top = `${top}px`;
 
         // Update our coordinates
-        this.props.onNodeMoved(
-            this.props.node.uuid,
-            { left, top },
-            this.props.plumberRepaintForDuration
-        );
+        this.props.onNodeMoved(this.props.node.uuid, { left, top });
     }
 
     private updateDimensions(): void {

@@ -15,7 +15,8 @@ import {
     FlowNode,
     Position,
     SendMsg,
-    SwitchRouter
+    SwitchRouter,
+    Exit
 } from '../flowTypes';
 import {
     RenderNode,
@@ -68,11 +69,7 @@ export type AsyncThunk = Thunk<Promise<void>>;
 
 export type OnAddToNode = (node: FlowNode) => Thunk<void>;
 
-export type OnNodeMoved = (
-    uuid: string,
-    position: Position,
-    repaintForDuration: Function
-) => Thunk<void>;
+export type OnNodeMoved = (uuid: string, position: Position) => Thunk<RenderNodeMap>;
 
 export type OnOpenNodeEditor = (
     node: FlowNode,
@@ -144,6 +141,9 @@ export const initializeFlow = (definition: FlowDefinition) => (
     // initialize our nodes
     const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
     for (const node of definition.nodes) {
+        if (!node.actions) {
+            node.actions = [];
+        }
         nodes[node.uuid] = { node, ui: definition._ui.nodes[node.uuid], inboundConnections: {} };
 
         for (const exit of node.exits) {
@@ -178,17 +178,22 @@ export const fetchFlow = (endpoint: string, uuid: string) => (
     getState: GetState
 ) => {
     dispatch(updateFetchingFlow(true));
-    return getFlow(endpoint, uuid, false)
-        .then(({ definition }: FlowDetails) => {
-            dispatch(initializeFlow(definition));
-        })
-        .catch((error: any) => console.log(`fetchFlow error: ${error}`));
+    return (
+        getFlow(endpoint, uuid, false)
+            .then(({ definition }: FlowDetails) => {
+                return dispatch(initializeFlow(definition));
+            })
+            // TODO: think this should probably bubble up
+            .catch(
+                /* istanbul ignore next */ (error: any) => console.log(`fetchFlow error: ${error}`)
+            )
+    );
 };
 
 export const fetchFlows = (endpoint: string) => (dispatch: DispatchWithState) =>
     getFlows(endpoint)
         .then((flows: FlowDetails[]) => {
-            dispatch(
+            return dispatch(
                 updateFlows(
                     flows.map(({ uuid, name }) => ({
                         uuid,
@@ -197,7 +202,10 @@ export const fetchFlows = (endpoint: string) => (dispatch: DispatchWithState) =>
                 )
             );
         })
-        .catch((error: any) => console.log(`fetchFlowList error: ${error}`));
+        // TODO: think this should probably bubble up
+        .catch(
+            /* istanbul ignore next */ (error: any) => console.log(`fetchFlowList error: ${error}`)
+        );
 
 export const reflow = (current: RenderNodeMap = null) => (
     dispatch: DispatchWithState,
@@ -580,6 +588,7 @@ export const onNodeEditorClose = (canceled: boolean, connectExit: Function) => (
         if (pendingConnection) {
             const renderNode = nodes[pendingConnection.nodeUUID];
             for (const exit of renderNode.node.exits) {
+                /* istanbul ignore else */
                 if (exit.uuid === pendingConnection.exitUUID) {
                     connectExit(renderNode.node, exit);
                     break;
@@ -591,14 +600,16 @@ export const onNodeEditorClose = (canceled: boolean, connectExit: Function) => (
     dispatch(resetNodeEditingState());
 };
 
-export const onNodeMoved = (nodeUUID: string, position: Position, repaintForDuration: Function) => (
+export const onNodeMoved = (nodeUUID: string, position: Position) => (
     dispatch: DispatchWithState,
     getState: GetState
-) => {
+): RenderNodeMap => {
     const { flowContext: { nodes } } = getState();
-    dispatch(updateNodes(mutators.updatePosition(nodes, nodeUUID, position.left, position.top)));
+    const updated = mutators.updatePosition(nodes, nodeUUID, position.left, position.top);
+    reflow(updated);
+    dispatch(updateNodes(updated));
     dispatch(reflow());
-    repaintForDuration();
+    return updated;
 };
 
 /**
@@ -663,28 +674,30 @@ export const onUpdateRouter = (node: RenderNode) => (
     }
 
     if (nodeToEdit && actionToEdit) {
-        for (const action of previousNode.node.actions) {
-            if (action.uuid === actionToEdit.uuid) {
-                return dispatch(
-                    spliceInRouter(node, {
-                        nodeUUID: previousNode.node.uuid,
-                        actionUUID: action.uuid
-                    })
-                );
-            }
+        const actionToSplice = previousNode.node.actions.find(
+            (action: Action) => action.uuid === actionToEdit.uuid
+        );
 
-            // don't recognize that action, let's add a new router node
-            const router = node.node.router as SwitchRouter;
-            for (const exit of node.node.exits) {
-                if (exit.uuid === router.default_exit_uuid) {
-                    exit.destination_node_uuid = previousNode.node.exits[0].destination_node_uuid;
-                }
-            }
-
-            node.inboundConnections = { [previousNode.node.exits[0].uuid]: previousNode.node.uuid };
-            node.node = mutators.uniquifyNode(node.node);
-            updated = mutators.mergeNode(nodes, node);
+        if (actionToSplice) {
+            return dispatch(
+                spliceInRouter(node, {
+                    nodeUUID: previousNode.node.uuid,
+                    actionUUID: actionToSplice.uuid
+                })
+            );
         }
+
+        // don't recognize that action, let's add a new router node
+        const router = node.node.router as SwitchRouter;
+        const exitToUpdate = node.node.exits.find(
+            (exit: Exit) => exit.uuid === router.default_exit_uuid
+        );
+
+        exitToUpdate.destination_node_uuid = previousNode.node.exits[0].destination_node_uuid;
+
+        node.inboundConnections = { [previousNode.node.exits[0].uuid]: previousNode.node.uuid };
+        node.node = mutators.uniquifyNode(node.node);
+        updated = mutators.mergeNode(updated, node);
     } else {
         updated = mutators.mergeNode(updated, node);
     }
@@ -704,11 +717,12 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
     } = getState();
 
     const localizations = [];
+
     if (translating) {
         let actionToTranslate = action;
 
         // if they clicked just below the actions, treat it as the last action
-        if (!actionToTranslate && node.actions && node.actions.length > 0) {
+        if (!actionToTranslate && node.actions.length > 0) {
             actionToTranslate = node.actions[node.actions.length - 1];
 
             // only send_msg actions are localizable
@@ -725,7 +739,7 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
 
     if (action) {
         dispatch(updateActionToEdit(action));
-    } else if (node.actions && node.actions.length) {
+    } else if (node.actions.length > 0) {
         // Account for hybrids or clicking on the empty exit table
         dispatch(updateActionToEdit(node.actions[node.actions.length - 1]));
     }
@@ -736,10 +750,12 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
     let resultName = '';
 
     if (node.router) {
+        /* istanbul ignore else */
         if (node.router.result_name) {
             ({ router: { result_name: resultName } } = node);
         }
 
+        /* istanbul ignore else */
         if (hasCases(node)) {
             const { operand } = node.router as SwitchRouter;
             dispatch(updateOperand(operand));
