@@ -160,6 +160,22 @@ describe('ABC RenderNodeMap', () => {
             });
         });
 
+        it('should clear the drag selection when a node is moved', () => {
+            // prep our store to show that we are editing
+            store = createMockStore([thunk])({
+                flowContext: { nodes: testNodes },
+                flowEditor: { flowUI: { dragSelection: { selected: { nodeA: true } } } },
+                nodeEditor: { actionToEdit: null, nodeToEdit: null }
+            });
+
+            store.dispatch(onNodeMoved(testNodes.nodeA.node.uuid, { left: 500, top: 600 }));
+            expect(store).toHavePayload(Constants.UPDATE_DRAG_SELECTION, {
+                dragSelection: {
+                    selected: null
+                }
+            });
+        });
+
         it('should store a pending connection when starting a drag', () => {
             store.dispatch(
                 onConnectionDrag({

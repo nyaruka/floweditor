@@ -14,9 +14,18 @@ import ActionTypes, {
     UpdateNodeEditorOpenAction,
     UpdatePendingConnectionAction,
     UpdatePendingConnectionsAction,
-    UpdateTranslatingAction
+    UpdateTranslatingAction,
+    UpdateDragSelectionAction
 } from './actionTypes';
 import Constants from './constants';
+
+export interface DragSelection {
+    startX?: number;
+    startY?: number;
+    currentX?: number;
+    currentY?: number;
+    selected?: { [uuid: string]: boolean };
+}
 
 export type Flows = Array<{ uuid: string; name: string }>;
 
@@ -34,6 +43,7 @@ export interface FlowUI {
     nodeDragging: boolean;
     ghostNode: FlowNode;
     dragGroup: boolean;
+    dragSelection: DragSelection;
 }
 
 export interface FlowEditor {
@@ -55,6 +65,7 @@ export const initialState: FlowEditor = {
         pendingConnection: null,
         nodeDragging: false,
         ghostNode: null,
+        dragSelection: null,
         dragGroup: false
     }
 };
@@ -119,6 +130,18 @@ export const updatePendingConnection = (
         pendingConnection
     }
 });
+
+export const updateDragSelection = (
+    // tslint:disable-next-line:no-shadowed-variable
+    dragSelection: DragSelection
+): UpdateDragSelectionAction => {
+    return {
+        type: Constants.UPDATE_DRAG_SELECTION,
+        payload: {
+            dragSelection
+        }
+    };
+};
 
 export const updatePendingConnections = (
     draggedTo: string,
@@ -263,6 +286,18 @@ export const nodeDragging = (
     }
 };
 
+export const dragSelection = (
+    state: DragSelection = initialState.flowUI.dragSelection,
+    action: ActionTypes
+) => {
+    switch (action.type) {
+        case Constants.UPDATE_DRAG_SELECTION:
+            return action.payload.dragSelection;
+        default:
+            return state;
+    }
+};
+
 export const ghostNode = (state: FlowNode = initialState.flowUI.ghostNode, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_GHOST_NODE:
@@ -286,6 +321,7 @@ export const flowUI = combineReducers({
     pendingConnection,
     nodeDragging,
     ghostNode,
+    dragSelection,
     dragGroup
 });
 

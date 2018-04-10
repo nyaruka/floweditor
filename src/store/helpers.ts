@@ -7,7 +7,8 @@ import {
     LocalizationMap,
     FlowNode,
     SwitchRouter,
-    WaitType
+    WaitType,
+    Position
 } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { RenderNode, RenderNodeMap, SearchResult } from './flowContext';
@@ -140,22 +141,25 @@ const getOrderedNodes = (nodes: RenderNodeMap): RenderNode[] => {
     });
 };
 
-export const collides = (a: RenderNode, b: RenderNode) => {
-    const aPos = a.ui.position;
-    const bPos = b.ui.position;
+export const getCollisions = (nodes: RenderNodeMap, box: Position): { [uuid: string]: boolean } => {
+    const collisions = {};
+    for (const nodeUUID of Object.keys(nodes)) {
+        const node = nodes[nodeUUID];
+        if (collides(box, node.ui.position)) {
+            collisions[node.node.uuid] = true;
+        }
+    }
+    return collisions;
+};
 
+export const collides = (a: Position, b: Position) => {
     // don't bother with collision if we don't have full dimensions
     /* istanbul ignore next */
-    if (!aPos.bottom || !bPos.bottom) {
+    if (!a.bottom || !b.bottom) {
         return false;
     }
 
-    return !(
-        bPos.left > aPos.right ||
-        bPos.right < aPos.left ||
-        bPos.top > aPos.bottom ||
-        bPos.bottom < aPos.top
-    );
+    return !(b.left > a.right || b.right < a.left || b.top > a.bottom || b.bottom < a.top);
 };
 
 /**
@@ -172,13 +176,13 @@ export const getCollision = (nodes: RenderNodeMap): RenderNode[] => {
         if (i + 1 < sortedNodes.length) {
             for (let j = i + 1; j < sortedNodes.length; j++) {
                 const other = sortedNodes[j];
-                if (collides(current, other)) {
+                if (collides(current.ui.position, other.ui.position)) {
                     // if the next node collides too, include it
                     // to deal with inserting between two closely
                     // positioned nodes
                     if (j + 1 < sortedNodes.length) {
                         const cascaded = sortedNodes[j + 1];
-                        if (collides(other, cascaded)) {
+                        if (collides(other.ui.position, cascaded.ui.position)) {
                             return [current, other, cascaded];
                         }
                     }

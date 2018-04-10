@@ -3,13 +3,14 @@ import {
     determineConfigType,
     getGhostNode,
     getLocalizations,
-    getUniqueDestinations
+    getUniqueDestinations,
+    getCollisions
 } from './helpers';
 import { v4 as generateUUID } from 'uuid';
 
 import { NODES_ABC } from './__test__';
 import { dump, getLocalization } from '../utils';
-import { AnyAction, SendMsg, Exit, Case } from '../flowTypes';
+import { AnyAction, SendMsg, Exit, Case, Position } from '../flowTypes';
 
 describe('helpers', () => {
     const nodes = NODES_ABC;
@@ -29,6 +30,16 @@ describe('helpers', () => {
         expect(getUniqueDestinations(nodes.nodeA.node)).toEqual(['nodeB']);
         expect(getUniqueDestinations(nodes.nodeD.node)).toEqual(['nodeE']);
         expect(getUniqueDestinations(nodes.nodeE.node)).toEqual([]);
+    });
+
+    it('should identify collisions', () => {
+        const collides = (box: Position, collisions: string[]) => {
+            expect(Object.keys(getCollisions(nodes, box))).toEqual(collisions);
+        };
+
+        collides({ left: 100, top: 100, right: 150, bottom: 150 }, ['nodeA']);
+        collides({ left: 100, top: 100, right: 200, bottom: 200 }, ['nodeA', 'nodeB']);
+        collides({ left: 100, top: 100, right: 300, bottom: 300 }, ['nodeA', 'nodeB', 'nodeC']);
     });
 
     describe('getLocalizations', () => {

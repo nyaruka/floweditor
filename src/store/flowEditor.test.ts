@@ -3,6 +3,7 @@ import Constants from './constants';
 import {
     createNodePosition as createNodePositionReducer,
     dragGroup as dragGroupReducer,
+    dragSelection as dragSelectionReducer,
     fetchingFlow as fetchingFlowReducer,
     flows as flowsReducer,
     ghostNode as ghostNodeReducer,
@@ -11,7 +12,6 @@ import {
     nodeDragging as nodeDraggingReducer,
     nodeEditorOpen as nodeEditorOpenReducer,
     pendingConnection as pendingConnectionReducer,
-    pendingConnections as pendingConnectionsReducer,
     removePendingConnection,
     translating as translatingReducer,
     updateCreateNodePosition,
@@ -24,7 +24,9 @@ import {
     updateNodeEditorOpen,
     updatePendingConnection,
     updatePendingConnections,
-    updateTranslating
+    updateTranslating,
+    updateDragSelection,
+    DragSelection
 } from './flowEditor';
 import { getGhostNode } from './helpers';
 import { FlowNode } from '../flowTypes';
@@ -362,6 +364,20 @@ describe('flowEditor reducers', () => {
             const dragGroup = true;
             const action = updateDragGroup(dragGroup);
             expect(reduce(action)).toEqual(dragGroup);
+        });
+    });
+
+    describe('dragSelection reducer', () => {
+        const reduce = action => dragSelectionReducer(undefined, action);
+
+        it('should return initial state', () => {
+            expect(reduce({})).toEqual(initialState.flowUI.dragSelection);
+        });
+
+        it('should handle UPDATE_DRAG_SELECTION', () => {
+            const dragSelection = { selected: { nodeA: true } } as DragSelection;
+            const action = updateDragSelection(dragSelection);
+            expect(reduce(action)).toEqual(dragSelection);
         });
     });
 });

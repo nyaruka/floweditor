@@ -5,6 +5,7 @@ import { AnyAction, FlowDefinition, FlowNode, Position } from '../flowTypes';
 import { LocalizedObject } from '../services/Localization';
 import Constants from './constants';
 import { CompletionOption, RenderNode, SearchResult } from './flowContext';
+import { DragSelection } from './flowEditor';
 
 // Redux action generic
 interface DuxAction<T extends Constants, P extends { [key: string]: any }> {
@@ -118,6 +119,10 @@ interface UpdateShowResultNameActionPayload {
     showResultName: boolean;
 }
 
+interface UpdateDragSelectionActionPayload {
+    dragSelection: DragSelection;
+}
+
 // Action types
 export type UpdateTranslatingAction = DuxAction<Constants.UPDATE_TRANSLATING, TranslatingPayload>;
 
@@ -222,6 +227,11 @@ export type UpdateShowResultNameAction = DuxAction<
     UpdateShowResultNameActionPayload
 >;
 
+export type UpdateDragSelectionAction = DuxAction<
+    Constants.UPDATE_DRAG_SELECTION,
+    UpdateDragSelectionActionPayload
+>;
+
 export type UpdateNodeDragging = (nodeDragging: boolean) => UpdateNodeDraggingAction;
 
 export type UpdateDragGroup = (dragGroup: boolean) => UpdateDragGroupAction;
@@ -233,6 +243,8 @@ export type UpdateLanguage = (language: Language) => UpdateLanguageAction;
 export type UpdateCreateNodePosition = (
     createNodePosition: Position
 ) => UpdateCreateNodePositionAction;
+
+export type UpdateDragSelection = (dragSelection: DragSelection) => UpdateDragSelectionAction;
 
 export type UpdateResultName = (resultName: string) => UpdateResultNameAction;
 
@@ -276,6 +288,7 @@ type ActionTypes =
     | UpdateResultNameAction
     | UpdateOperandAction
     | UpdateUserAddingActionAction
-    | UpdateShowResultNameAction;
+    | UpdateShowResultNameAction
+    | UpdateDragSelectionAction;
 
 export default ActionTypes;

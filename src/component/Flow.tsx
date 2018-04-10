@@ -22,14 +22,18 @@ import {
     updateConnection,
     updateCreateNodePosition,
     UpdateCreateNodePosition,
-    AppState
+    AppState,
+    UpdateDragSelection,
+    updateDragSelection
 } from '../store';
-import { snapToGrid } from '../utils';
+import { snapToGrid, dump } from '../utils';
 import * as styles from './Flow.scss';
 import ConnectedNode, { DragPoint } from './Node';
 import NodeEditor from './NodeEditor';
 import Simulator from './Simulator';
 import { RenderNode } from '../store/flowContext';
+import { DragSelection } from '../store/flowEditor';
+import { getCollisions } from '../store/helpers';
 
 export interface FlowStoreProps {
     translating: boolean;
@@ -38,6 +42,7 @@ export interface FlowStoreProps {
     dependencies: FlowDefinition[];
     ghostNode: FlowNode;
     pendingConnection: DragPoint;
+    dragSelection: DragSelection;
     nodeEditorOpen: boolean;
     ensureStartNode: EnsureStartNode;
     updateConnection: UpdateConnection;
@@ -45,6 +50,7 @@ export interface FlowStoreProps {
     resetNodeEditingState: NoParamsAC;
     onConnectionDrag: OnConnectionDrag;
     updateCreateNodePosition: UpdateCreateNodePosition;
+    updateDragSelection: UpdateDragSelection;
 }
 
 export interface Translations {
@@ -200,6 +206,7 @@ export class Flow extends React.Component<FlowStoreProps> {
                     plumberConnectExit={this.Plumber.connectExit}
                     plumberSetDragSelection={this.Plumber.setDragSelection}
                     plumberClearDragSelection={this.Plumber.clearDragSelection}
+                    plumberRemoveFromDragSelection={this.Plumber.removeFromDragSelection}
                 />
             );
         });
@@ -231,8 +238,9 @@ export class Flow extends React.Component<FlowStoreProps> {
                     plumberRecalculate={this.Plumber.recalculate}
                     plumberMakeSource={this.Plumber.makeSource}
                     plumberConnectExit={this.Plumber.connectExit}
-                    plumberSetDragSelection={this.Plumber.setDragSelection}
                     plumberClearDragSelection={this.Plumber.clearDragSelection}
+                    plumberSetDragSelection={this.Plumber.setDragSelection}
+                    plumberRemoveFromDragSelection={this.Plumber.removeFromDragSelection}
                 />
             );
         }
@@ -265,17 +273,88 @@ export class Flow extends React.Component<FlowStoreProps> {
         ) : null;
     }
 
+    public onMouseDown(event: React.MouseEvent<HTMLDivElement>): void {
+        this.props.updateDragSelection({
+            startX: event.pageX,
+            startY: event.pageY,
+            currentX: event.pageX,
+            currentY: event.pageY
+        });
+    }
+
+    public onMouseMove(event: React.MouseEvent<HTMLDivElement>): void {
+        if (this.props.dragSelection && this.props.dragSelection.startX) {
+            const drag = this.props.dragSelection;
+
+            const left = Math.min(drag.startX, drag.currentX);
+            const top = Math.min(drag.startY, drag.currentY);
+            const right = Math.max(drag.startX, drag.currentX);
+            const bottom = Math.max(drag.startY, drag.currentY);
+
+            this.props.updateDragSelection({
+                startX: drag.startX,
+                startY: drag.startY,
+                currentX: event.pageX,
+                currentY: event.pageY,
+                selected: getCollisions(this.props.nodes, { left, top, right, bottom })
+            });
+        }
+    }
+
+    public onMouseUp(event: React.MouseEvent<HTMLDivElement>): void {
+        if (this.props.dragSelection) {
+            this.props.updateDragSelection({
+                startX: null,
+                startY: null,
+                currentX: null,
+                currentY: null,
+                selected: this.props.dragSelection.selected
+            });
+
+            if (this.props.dragSelection.selected) {
+                this.Plumber.setDragSelection(this.props.dragSelection.selected);
+            }
+        }
+    }
+
+    public getDragSelectionBox(): JSX.Element {
+        if (this.props.dragSelection && this.props.dragSelection.startX) {
+            const drag = this.props.dragSelection;
+            const left = Math.min(drag.startX, drag.currentX);
+            const top = Math.min(drag.startY, drag.currentY);
+            const width = Math.max(drag.startX, drag.currentX) - left;
+            const height = Math.max(drag.startY, drag.currentY) - top;
+
+            return (
+                <div
+                    key="dragSelect"
+                    className={styles.dragSelection}
+                    style={{ left, top, width, height }}
+                />
+            );
+        }
+        return null;
+    }
+
     public render(): JSX.Element {
         const nodeEditor = this.getNodeEditor();
         const dragNode = this.getDragNode();
         const nodes = this.getNodes();
         const simulator = this.getSimulator();
+
         return (
             <div key={this.props.definition.uuid}>
+                {this.getDragSelectionBox()}
                 {simulator}
                 {dragNode}
                 {nodeEditor}
-                <div className={styles.node_list} data-spec="nodes">
+                <div
+                    className={styles.nodeList}
+                    data-spec="nodes"
+                    onMouseDown={this.onMouseDown}
+                    onMouseMove={this.onMouseMove}
+                    onMouseUp={this.onMouseUp}
+                >
                     {nodes}
                 </div>
             </div>
@@ -287,7 +366,7 @@ const mapStateToProps = ({
     flowContext: { definition, dependencies, nodes },
     flowEditor: {
         editorUI: { translating, nodeEditorOpen },
-        flowUI: { ghostNode, pendingConnection }
+        flowUI: { ghostNode, pendingConnection, dragSelection }
     }
 }: AppState) => ({
     translating,
@@ -296,7 +375,8 @@ const mapStateToProps = ({
     dependencies,
     ghostNode,
     pendingConnection,
-    nodeEditorOpen
+    nodeEditorOpen,
+    dragSelection
 });
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
@@ -307,7 +387,8 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
             onConnectionDrag,
             onOpenNodeEditor,
             updateCreateNodePosition,
-            updateConnection
+            updateConnection,
+            updateDragSelection
         },
         dispatch
     );
