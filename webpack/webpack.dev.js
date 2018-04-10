@@ -65,10 +65,10 @@ const devConfig = {
                 secure: false
             },
             '/migrate': {
-                target: 'http://localhost:8080'
+                target: 'http://localhost:8800'
             },
             '/flow/**': {
-                target: 'http://localhost:8080'
+                target: 'http://localhost:8800'
             }
         }
     },

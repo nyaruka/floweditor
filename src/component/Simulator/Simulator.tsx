@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as axios from 'axios';
+import { react as bindCallbacks } from 'auto-bind';
 import update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
 import { FlowDefinition, Group } from '../../flowTypes';
@@ -9,6 +10,7 @@ import LogEvent, { EventProps } from './LogEvent';
 import { endpointsPT, ConfigProviderContext } from '../../config';
 
 import * as styles from './Simulator.scss';
+import { ReactNode } from 'react';
 
 const ACTIVE = 'A';
 
@@ -20,7 +22,6 @@ interface Message {
 export interface SimulatorProps {
     definition: FlowDefinition;
     showDefinition(definition: FlowDefinition): void;
-    plumberRepaint: Function;
     Activity: any;
 }
 
@@ -105,41 +106,45 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
         this.bottomRef = this.bottomRef.bind(this);
         this.inputBoxRef = this.inputBoxRef.bind(this);
         this.currentFlow = this.props.definition.uuid;
+
+        bindCallbacks(this, {
+            include: [/^on/]
+        });
     }
 
-    private bottomRef(ref: any) {
+    private bottomRef(ref: any): void {
         return (this.bottom = ref);
     }
 
-    private inputBoxRef(ref: any) {
+    private inputBoxRef(ref: any): void {
         this.inputBox = ref;
     }
 
-    private updateActivity() {
+    private updateActivity(): void {
         if (this.state.session) {
-            var lastExit: string = null;
-            var paths: { [key: string]: number } = {};
-            var active: { [nodeUUID: string]: number } = {};
-            var activeFlow: string;
+            let lastExit: string = null;
+            const paths: { [key: string]: number } = {};
+            const active: { [nodeUUID: string]: number } = {};
+            let activeFlow: string;
 
-            for (let run of this.state.session.runs) {
-                var finalStep: Step = null;
+            for (const run of this.state.session.runs) {
+                let finalStep: Step = null;
 
-                for (let step of run.path) {
+                for (const step of run.path) {
                     if (lastExit) {
-                        var key = lastExit + ':' + step.node_uuid;
-                        var count = paths[key];
-                        if (!count) {
-                            count = 0;
+                        const key = lastExit + ':' + step.node_uuid;
+                        let pathCount = paths[key];
+                        if (!pathCount) {
+                            pathCount = 0;
                         }
-                        paths[key] = ++count;
+                        paths[key] = ++pathCount;
                     }
                     lastExit = step.exit_uuid;
                     finalStep = step;
                 }
 
-                if (run.status == ACTIVE && finalStep) {
-                    var count = active[finalStep.node_uuid];
+                if (run.status === ACTIVE && finalStep) {
+                    let count = active[finalStep.node_uuid];
                     if (!count) {
                         count = 0;
                     }
@@ -148,14 +153,14 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
                 }
             }
 
-            var activity: Activity = { segments: paths, nodes: active };
+            const activity: Activity = { segments: paths, nodes: active };
 
             // console.log(JSON.stringify(activity, null, 1));
             this.props.Activity.setSimulation(activity);
 
-            if (activeFlow && activeFlow != this.currentFlow) {
-                var flow = this.flows.find((flow: FlowDefinition) => {
-                    return flow.uuid == activeFlow;
+            if (activeFlow && activeFlow !== this.currentFlow) {
+                const flow = this.flows.find((other: FlowDefinition) => {
+                    return other.uuid === activeFlow;
                 });
                 if (flow) {
                     this.props.showDefinition(flow);
@@ -167,12 +172,12 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
         }
     }
 
-    private updateRunContext(body: any, runContext: RunContext) {
+    private updateRunContext(body: any, runContext: RunContext): void {
         const events = update(this.state.events, { $push: runContext.events }) as EventProps[];
 
-        var activeRuns = false;
-        for (let run of runContext.session.runs) {
-            if (run.status == 'A') {
+        let activeRuns = false;
+        for (const run of runContext.session.runs) {
+            if (run.status === 'A') {
                 activeRuns = true;
                 break;
             }
@@ -215,7 +220,7 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
                 getFlow(this.context.endpoints.flows, this.props.definition.uuid, true).then(
                     (details: FlowDetails) => {
                         this.flows = [this.props.definition].concat(details.dependencies);
-                        var body: any = {
+                        const body: any = {
                             flows: this.flows,
                             contact: this.state.contact
                         };
@@ -234,28 +239,28 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
         );
     }
 
-    private resume(text: string) {
-        if (text == '\\debug') {
+    private resume(text: string): void {
+        if (text === '\\debug') {
             console.log(JSON.stringify(this.debug, null, 2));
             return;
         }
 
-        if (text == '\\recalc') {
+        if (text === '\\recalc') {
             console.log('recal..');
-            this.props.plumberRepaint();
+            // this.props.plumberRepaint();
             return;
         }
 
         getFlow(this.context.endpoints.flows, this.props.definition.uuid, true).then(
             (details: FlowDetails) => {
                 this.flows = [this.props.definition].concat(details.dependencies);
-                var body: any = {
+                const body: any = {
                     flows: this.flows,
                     session: this.state.session,
                     contact: this.state.contact,
                     event: {
                         type: 'msg_received',
-                        text: text,
+                        text,
                         urn: this.state.contact.urns[0],
                         channel_uuid: this.state.channel,
                         contact_uuid: this.state.contact.uuid,
@@ -286,27 +291,27 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
         );
     }
 
-    private onReset(event: any) {
+    private onReset(event: any): void {
         this.startFlow();
     }
 
-    componentDidUpdate(prevProps: SimulatorProps) {
+    public componentDidUpdate(prevProps: SimulatorProps): void {
         if (this.bottom) {
             this.bottom.scrollIntoView(false);
         }
     }
 
-    private onKeyUp(event: any) {
+    private onKeyUp(event: any): void {
         if (event.key === 'Enter') {
-            var ele = event.target;
-            var text = ele.value;
+            const ele = event.target;
+            const text = ele.value;
             ele.value = '';
             this.resume(text);
         }
     }
 
-    private toggle(event: any) {
-        var newVisible = !this.state.visible;
+    private onToggle(event: any): void {
+        const newVisible = !this.state.visible;
         this.setState({ visible: newVisible }, () => {
             // clear our viewing definition
             if (!this.state.visible) {
@@ -318,7 +323,7 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
                 this.updateActivity();
 
                 // start our flow if we haven't already
-                if (this.state.events.length == 0) {
+                if (this.state.events.length === 0) {
                     this.startFlow();
                 }
 
@@ -327,14 +332,14 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
         });
     }
 
-    public render() {
-        var messages: JSX.Element[] = [];
-        for (let event of this.state.events) {
+    public render(): ReactNode {
+        const messages: JSX.Element[] = [];
+        for (const event of this.state.events) {
             messages.push(<LogEvent {...event} key={String(event.created_on)} />);
         }
 
-        var simHidden = !this.state.visible ? styles.sim_hidden : '';
-        var tabHidden = this.state.visible ? styles.tab_hidden : '';
+        const simHidden = !this.state.visible ? styles.sim_hidden : '';
+        const tabHidden = this.state.visible ? styles.tab_hidden : '';
 
         return (
             <div>
@@ -346,12 +351,12 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
                                 ' ' +
                                 (this.state.active ? styles.active : styles.inactive)
                             }
-                            onClick={this.onReset.bind(this)}
+                            onClick={this.onReset}
                         />
                         <div className={styles.icon_simulator + ' icon-simulator'} />
                         <div
                             className={styles.icon_close + ' icon-remove'}
-                            onClick={this.toggle.bind(this)}
+                            onClick={this.onToggle}
                         />
                         <div className={styles.screen}>
                             <div className={styles.messages}>
@@ -366,7 +371,7 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
                                 <input
                                     ref={this.inputBoxRef}
                                     type="text"
-                                    onKeyUp={this.onKeyUp.bind(this)}
+                                    onKeyUp={this.onKeyUp}
                                     disabled={!this.state.active}
                                     placeholder={
                                         this.state.active
@@ -378,9 +383,7 @@ export default class Simulator extends React.Component<SimulatorProps, Simulator
                         </div>
                     </div>
                 </div>
-                <div
-                    className={styles.simulator_tab + ' ' + tabHidden}
-                    onClick={this.toggle.bind(this)}>
+                <div className={styles.simulator_tab + ' ' + tabHidden} onClick={this.onToggle}>
                     <div className={styles.simulator_tab_icon + ' icon-simulator'} />
                     <div className={styles.simulator_tab_text}>
                         Run in<br />Simulator

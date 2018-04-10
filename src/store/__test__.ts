@@ -1,5 +1,5 @@
 import { RenderNodeMap } from './flowContext';
-import { SendMsg, SwitchRouter } from '../flowTypes';
+import { SendMsg, SwitchRouter, ChangeGroups } from '../flowTypes';
 
 export const NODES_ABC: RenderNodeMap = {
     nodeA: {
@@ -30,7 +30,18 @@ export const NODES_ABC: RenderNodeMap = {
         node: {
             uuid: 'nodeC',
             exits: [{ uuid: 'exitC', destination_node_uuid: null }],
-            actions: []
+            actions: [
+                {
+                    uuid: 'group_action',
+                    type: 'add_contact_groups',
+                    groups: [
+                        {
+                            uuid: 'unsatisfied_group',
+                            name: 'Unsatisfied Customers'
+                        }
+                    ]
+                } as ChangeGroups
+            ]
         },
         ui: { position: { left: 300, top: 300, right: 600, bottom: 390 } },
         inboundConnections: { exitB: 'nodeB' }
@@ -46,6 +57,7 @@ export const NODES_ABC: RenderNodeMap = {
             router: {
                 type: 'switch',
                 default_exit_uuid: 'other',
+                result_name: 'Response 1',
                 cases: [
                     {
                         uuid: 'caseD',

@@ -62,7 +62,18 @@ Object {
       "exitB": "nodeB",
     },
     "node": Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Unsatisfied Customers",
+              "uuid": "unsatisfied_group",
+            },
+          ],
+          "type": "add_contact_groups",
+          "uuid": "group_action",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
@@ -109,6 +120,7 @@ Object {
           },
         ],
         "default_exit_uuid": "other",
+        "result_name": "Response 1",
         "type": "switch",
       },
       "uuid": "nodeD",
@@ -218,7 +230,18 @@ Object {
       "exitB": "nodeB",
     },
     "node": Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Unsatisfied Customers",
+              "uuid": "unsatisfied_group",
+            },
+          ],
+          "type": "add_contact_groups",
+          "uuid": "group_action",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
@@ -265,6 +288,7 @@ Object {
           },
         ],
         "default_exit_uuid": "other",
+        "result_name": "Response 1",
         "type": "switch",
       },
       "uuid": "nodeD",
@@ -368,7 +392,18 @@ Object {
       "exitB": "nodeB",
     },
     "node": Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Unsatisfied Customers",
+              "uuid": "unsatisfied_group",
+            },
+          ],
+          "type": "add_contact_groups",
+          "uuid": "group_action",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
@@ -484,7 +519,18 @@ Object {
       "exitB": "nodeB",
     },
     "node": Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Unsatisfied Customers",
+              "uuid": "unsatisfied_group",
+            },
+          ],
+          "type": "add_contact_groups",
+          "uuid": "group_action",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
@@ -531,6 +577,7 @@ Object {
           },
         ],
         "default_exit_uuid": "other",
+        "result_name": "Response 1",
         "type": "switch",
       },
       "uuid": "nodeD",
@@ -632,7 +679,18 @@ Object {
       "exitB": "nodeB",
     },
     "node": Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Unsatisfied Customers",
+              "uuid": "unsatisfied_group",
+            },
+          ],
+          "type": "add_contact_groups",
+          "uuid": "group_action",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
@@ -679,6 +737,7 @@ Object {
           },
         ],
         "default_exit_uuid": "other",
+        "result_name": "Response 1",
         "type": "switch",
       },
       "uuid": "nodeD",
@@ -770,7 +829,18 @@ Object {
       "uuid": "nodeB",
     },
     Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Unsatisfied Customers",
+              "uuid": "unsatisfied_group",
+            },
+          ],
+          "type": "add_contact_groups",
+          "uuid": "group_action",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
@@ -804,6 +874,7 @@ Object {
           },
         ],
         "default_exit_uuid": "other",
+        "result_name": "Response 1",
         "type": "switch",
       },
       "uuid": "nodeD",
@@ -869,7 +940,18 @@ Object {
       "uuid": "nodeB",
     },
     Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Unsatisfied Customers",
+              "uuid": "unsatisfied_group",
+            },
+          ],
+          "type": "add_contact_groups",
+          "uuid": "group_action",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
@@ -903,6 +985,7 @@ Object {
           },
         ],
         "default_exit_uuid": "other",
+        "result_name": "Response 1",
         "type": "switch",
       },
       "uuid": "nodeD",
@@ -992,7 +1075,18 @@ Object {
       "exitB": "nodeB",
     },
     "node": Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Unsatisfied Customers",
+              "uuid": "unsatisfied_group",
+            },
+          ],
+          "type": "add_contact_groups",
+          "uuid": "group_action",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
@@ -1039,6 +1133,7 @@ Object {
           },
         ],
         "default_exit_uuid": "other",
+        "result_name": "Response 1",
         "type": "switch",
       },
       "uuid": "nodeD",
@@ -1140,7 +1235,18 @@ Object {
       "exitB": "nodeB",
     },
     "node": Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Unsatisfied Customers",
+              "uuid": "unsatisfied_group",
+            },
+          ],
+          "type": "add_contact_groups",
+          "uuid": "group_action",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
@@ -1187,6 +1293,7 @@ Object {
           },
         ],
         "default_exit_uuid": "other",
+        "result_name": "Response 1",
         "type": "switch",
       },
       "uuid": "nodeD",
@@ -1289,7 +1396,18 @@ Object {
       "exitB": "nodeB",
     },
     "node": Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Unsatisfied Customers",
+              "uuid": "unsatisfied_group",
+            },
+          ],
+          "type": "add_contact_groups",
+          "uuid": "group_action",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
@@ -1336,6 +1454,7 @@ Object {
           },
         ],
         "default_exit_uuid": "other",
+        "result_name": "Response 1",
         "type": "switch",
       },
       "uuid": "nodeD",
@@ -1441,7 +1560,18 @@ Object {
       "exitB": "nodeB",
     },
     "node": Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Unsatisfied Customers",
+              "uuid": "unsatisfied_group",
+            },
+          ],
+          "type": "add_contact_groups",
+          "uuid": "group_action",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": "nodeA",
@@ -1488,6 +1618,7 @@ Object {
           },
         ],
         "default_exit_uuid": "other",
+        "result_name": "Response 1",
         "type": "switch",
       },
       "uuid": "nodeD",

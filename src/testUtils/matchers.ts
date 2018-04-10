@@ -12,7 +12,8 @@ declare global {
             toHaveInboundFrom(exit: Exit): R;
             toHaveExitWithDestination(): R;
             toHaveInboundConnections(): R;
-            toHaveReduxActionWithPayload(action, payload): R;
+            toHavePayload(action, payload): R;
+            toHaveReduxAction(action): R;
         }
     }
 }
@@ -110,7 +111,7 @@ function toHaveExitThatPointsTo<T>(
     };
 }
 
-function toHaveReduxActionWithPayload<T>(
+function toHavePayload<T>(
     this: jest.MatcherUtils,
     store: any,
     actionType: string,
@@ -135,11 +136,32 @@ function toHaveReduxActionWithPayload<T>(
     };
 }
 
+function toHaveReduxAction<T>(
+    this: jest.MatcherUtils,
+    store: any,
+    actionType: string
+): MatchResult {
+    for (const actionTaken of store.getActions()) {
+        if (actionTaken.type === actionType) {
+            return {
+                message: () => `Result contained action type ${actionType}`,
+                pass: true
+            };
+        }
+    }
+
+    return {
+        message: () => `Could not find action type ${actionType}`,
+        pass: false
+    };
+}
+
 expect.extend({
     toPointTo,
     toHaveExitThatPointsTo,
     toHaveInboundFrom,
     toHaveExitWithDestination,
     toHaveInboundConnections,
-    toHaveReduxActionWithPayload
+    toHavePayload,
+    toHaveReduxAction
 });
