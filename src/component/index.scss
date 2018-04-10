@@ -3,7 +3,8 @@
 $background_offset: ($grid_size / 2) + ($node_padding) + px;
 
 .editor {
-
+    padding-top: 20px;
+    padding-left: 20px;
     position: relative;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;

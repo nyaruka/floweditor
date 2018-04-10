@@ -189,40 +189,40 @@
                     "nodes": {
                         "24afc61e-e528-4ac0-b887-78cebd39f12b": {
                             "position": {
-                                "left": 80,
-                                "top": 120
+                                "left": 0,
+                                "top": 0
                             }
                         },
                         "d642b014-3c91-418f-ad5b-0fb4f8c5ee60": {
                             "position": {
-                                "left": 500,
-                                "top": 280
+                                "left": 300,
+                                "top": 180
                             },
                             "type": "wait_for_response"
                         },
                         "7a19060d-6d93-4217-a4e5-9cbd479be051": {
                             "position": {
-                                "left": 80,
-                                "top": 360
+                                "left": 0,
+                                "top": 260
                             }
                         },
                         "fc349688-3589-42ac-b61c-d5ef54cedaa5": {
                             "position": {
-                                "left": 500,
-                                "top": 540
+                                "left": 300,
+                                "top": 440
                             },
                             "type": "wait_for_response"
                         },
                         "a8a09d00-7cab-4375-9d44-58f6783732f6": {
                             "position": {
-                                "left": 80,
-                                "top": 640
+                                "left": 0,
+                                "top": 540
                             }
                         },
                         "471f6f94-c683-48f9-8e27-ece1d7604315": {
                             "position": {
-                                "left": 500,
-                                "top": 800
+                                "left": 300,
+                                "top": 700
                             },
                             "type": "webhook"
                         }

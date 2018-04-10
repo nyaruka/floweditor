@@ -82,8 +82,8 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
                 data-spec={editorContainerSpecId}
             >
                 <div className={styles.editor} data-spec={editorSpecId}>
-                    <ConnectedFlowList />
                     <ConnectedLanguageSelector />
+                    <ConnectedFlowList />
                     {renderFlow && <ConnectedFlow />}
                 </div>
             </div>

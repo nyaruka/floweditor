@@ -243,7 +243,12 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         }
 
         this.setState({ thisNodeDragging: false });
+
+        console.log(event.finalPos[0], event.finalPos[1]);
+
         const { left, top } = snapToGrid(event.finalPos[0], event.finalPos[1]);
+
+        console.log(left, top);
 
         this.ele.style.left = `${left}px`;
         this.ele.style.top = `${top}px`;

@@ -54,7 +54,7 @@ export class FlowList extends React.Component<FlowListStoreProps> {
         return (
             <div
                 id={flowListContainerSpecId}
-                className={flowList}
+                className={flowList + ' select-small'}
                 data-spec={flowListContainerSpecId}
             >
                 <Select
