@@ -84,6 +84,7 @@ export default class Plumber {
         this.connectExit = this.connectExit.bind(this);
         this.setDragSelection = this.setDragSelection.bind(this);
         this.clearDragSelection = this.clearDragSelection.bind(this);
+        this.removeFromDragSelection = this.removeFromDragSelection.bind(this);
         this.cancelDurationRepaint = this.cancelDurationRepaint.bind(this);
         this.remove = this.remove.bind(this);
         this.repaintForDuration = this.repaintForDuration.bind(this);
@@ -142,10 +143,15 @@ export default class Plumber {
         this.connect(`${node.uuid}:${exit.uuid}`, exit.destination_node_uuid, className);
     }
 
-    public setDragSelection(nodes: FlowNode[]): void {
+    public removeFromDragSelection(uuid: string): void {
+        this.jsPlumb.removeFromDragSelection(uuid);
+    }
+
+    public setDragSelection(selected: { [uuid: string]: boolean }): void {
         this.cancelDurationRepaint();
         this.jsPlumb.clearDragSelection();
-        nodes.forEach(({ uuid }) => this.jsPlumb.addToDragSelection(uuid));
+
+        Object.keys(selected).forEach(uuid => this.jsPlumb.addToDragSelection(uuid));
     }
 
     public clearDragSelection(): void {

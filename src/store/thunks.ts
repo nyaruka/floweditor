@@ -33,7 +33,8 @@ import {
     updateGhostNode,
     updateNodeDragging,
     updateNodeEditorOpen,
-    updatePendingConnection
+    updatePendingConnection,
+    updateDragSelection
 } from './flowEditor';
 import {
     determineConfigType,
@@ -58,6 +59,7 @@ import * as variables from '../variables.scss';
 import { NODE_SPACING, dump } from '../utils';
 
 import { timeStart, timeEnd } from '../testUtils';
+import Plumber from '../services/Plumber';
 
 export type DispatchWithState = Dispatch<AppState>;
 
@@ -130,6 +132,9 @@ export type LocalizationUpdates = Array<{ uuid: string; translations?: any }>;
 const FORCE_FETCH = true;
 const QUIET_UI = 10;
 const QUIET_SAVE = 1000;
+const QUIET_REFLOW = 200;
+
+let debounceReflow: any = null;
 
 export const initializeFlow = (definition: FlowDefinition) => (
     dispatch: DispatchWithState,
@@ -269,9 +274,9 @@ export const updateDimensions = (node: FlowNode, dimensions: Dimensions) => (
     getState: GetState
 ): RenderNodeMap => {
     const { flowContext: { nodes } } = getState();
-    let updated = mutators.updateDimensions(nodes, node.uuid, dimensions);
-    updated = dispatch(reflow(updated));
+    const updated = mutators.updateDimensions(nodes, node.uuid, dimensions);
     dispatch(updateNodes(updated));
+    markReflow(dispatch);
     return updated;
 };
 
@@ -604,11 +609,15 @@ export const onNodeMoved = (nodeUUID: string, position: Position) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
-    const { flowContext: { nodes } } = getState();
+    const { flowContext: { nodes }, flowEditor: { flowUI: { dragSelection } } } = getState();
+
+    if (dragSelection && dragSelection.selected) {
+        dispatch(updateDragSelection({ selected: null }));
+    }
+
     const updated = mutators.updatePosition(nodes, nodeUUID, position.left, position.top);
-    reflow(updated);
     dispatch(updateNodes(updated));
-    dispatch(reflow());
+    markReflow(dispatch);
     return updated;
 };
 
@@ -630,10 +639,6 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
     const ghostNode = getGhostNode(fromNode, nodes);
 
     // Set our ghost spec so it gets rendered.
-    // TODO: this is here to workaround a jsplumb
-    // weirdness where offsets go off the handle upon
-    // dragging connections.
-    // window.setTimeout(() => dispatch(updateGhostNode(ghostNode)), 0);
     dispatch(updateGhostNode(ghostNode));
 
     // Save off our drag point for later
@@ -664,7 +669,7 @@ export const onUpdateRouter = (node: RenderNode) => (
         const previousPosition = previousNode.ui.position;
         node.ui.position = {
             left: previousPosition.left,
-            top: previousPosition.top
+            top: previousPosition.bottom
         };
     }
 
@@ -679,6 +684,9 @@ export const onUpdateRouter = (node: RenderNode) => (
         );
 
         if (actionToSplice) {
+            // if we are splicing using the original top
+            node.ui.position.top = previousNode.ui.position.top;
+
             return dispatch(
                 spliceInRouter(node, {
                     nodeUUID: previousNode.node.uuid,
@@ -705,6 +713,22 @@ export const onUpdateRouter = (node: RenderNode) => (
     dispatch(updateNodes(updated));
 
     return updated;
+};
+
+/**
+ * Debounce for triggered reflows
+ */
+const markReflow = (dispatch: DispatchWithState) => {
+    if (debounceReflow) {
+        window.clearTimeout(debounceReflow);
+    }
+
+    debounceReflow = window.setTimeout(
+        /* istanbul ignore next */ () => {
+            dispatch(reflow());
+        },
+        QUIET_REFLOW
+    );
 };
 
 export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: Languages) => (

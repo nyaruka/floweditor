@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux';
 import { ConfigProviderContext, getTypeConfig, languagesPT } from '../config';
 import { AnyAction, FlowDefinition, FlowNode, SwitchRouter, UINode } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
-import { DragEvent } from '../services/Plumber';
+import Plumber, { DragEvent } from '../services/Plumber';
 import {
     AppState,
     DispatchWithState,
@@ -27,7 +27,8 @@ import {
     UpdateDragGroup,
     updateDragGroup,
     updateNodeDragging,
-    UpdateNodeDragging
+    UpdateNodeDragging,
+    UpdateDragSelection
 } from '../store';
 import { ClickHandler, createClickHandler, snapToGrid, titleCase } from '../utils';
 import ActionWrapper from './actions/Action';
@@ -37,6 +38,7 @@ import { Language } from './LanguageSelector';
 import * as styles from './Node.scss';
 import * as shared from './shared.scss';
 import TitleBar from './TitleBar';
+import { DragSelection, updateDragSelection } from '../store/flowEditor';
 
 // A point in the flow from which a drag is initiated
 export interface DragPoint {
@@ -58,6 +60,7 @@ export interface NodePassedProps {
     plumberConnectExit: Function;
     plumberSetDragSelection: Function;
     plumberClearDragSelection: Function;
+    plumberRemoveFromDragSelection: Function;
     ghostRef?: any;
     ghost?: boolean;
 }
@@ -74,6 +77,8 @@ export interface NodeStoreProps {
     removeNode: RemoveNode;
     updateDimensions: UpdateDimensions;
     updateDragGroup: UpdateDragGroup;
+    updateDragSelection: UpdateDragSelection;
+    dragSelection: DragSelection;
 }
 
 export type NodeProps = NodePassedProps & NodeStoreProps;
@@ -127,6 +132,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     public componentDidUpdate(prevProps: NodeProps, prevState: NodeState): void {
         if (!this.props.ghost) {
+            this.props.plumberRepaintForDuration();
+
             try {
                 this.props.plumberRecalculate(this.props.node.uuid);
             } catch (error) {
@@ -210,6 +217,11 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     private onDragStart(event: any): boolean {
+        // are we dragging a node not in our selection
+        if (this.props.dragSelection && this.props.dragSelection.selected && !this.isSelected()) {
+            this.props.updateDragSelection(null);
+            this.props.plumberClearDragSelection();
+        }
         this.setState({ thisNodeDragging: true });
         return false;
     }
@@ -219,10 +231,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     private onDragStop(event: DragEvent): void {
-        this.setState({ thisNodeDragging: false });
         this.props.updateNodeDragging(false);
-
-        const position = $(event.target).position();
 
         event.e.preventDefault();
         event.e.stopPropagation();
@@ -233,12 +242,15 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             window.event.cancelBubble = true;
         }
 
+        this.setState({ thisNodeDragging: false });
         const { left, top } = snapToGrid(event.finalPos[0], event.finalPos[1]);
+
         this.ele.style.left = `${left}px`;
         this.ele.style.top = `${top}px`;
 
         // Update our coordinates
         this.props.onNodeMoved(this.props.node.uuid, { left, top });
+        this.props.plumberRemoveFromDragSelection(this.props.node.uuid);
     }
 
     private updateDimensions(): void {
@@ -298,21 +310,12 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         return [];
     }
 
-    private getDragLink(): JSX.Element {
-        if (!this.props.translating) {
-            return (
-                <a
-                    title="Drag to move all nodes below here"
-                    className={styles.drag_group}
-                    onMouseOver={this.onMouseOver}
-                    onMouseOut={this.onMouseOut}
-                >
-                    <span className="icon-link" />
-                </a>
-            );
-        }
-
-        return null;
+    private isSelected(): boolean {
+        return (
+            this.props.dragSelection &&
+            this.props.dragSelection.selected &&
+            this.props.dragSelection.selected[this.props.node.uuid]
+        );
     }
 
     public render(): JSX.Element {
@@ -423,7 +426,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             [styles.dragging]: this.state.thisNodeDragging,
             [styles.ghost]: this.props.ghost,
             [styles.translating]: this.props.translating,
-            [styles.nondragged]: this.props.nodeDragging && !this.state.thisNodeDragging
+            [styles.nondragged]: this.props.nodeDragging && !this.state.thisNodeDragging,
+            [styles.selected]: this.isSelected()
         });
 
         const exitClass =
@@ -431,18 +435,24 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 ? styles.unnamed_exit
                 : '';
 
-        const dragLink = this.getDragLink();
-        const style = { left: this.props.ui.position.left, top: this.props.ui.position.top };
+        const style = {
+            left: this.props.ui.position.left,
+            top: this.props.ui.position.top
+        };
 
         return (
             <div
+                onMouseDown={event => {
+                    // trap mouse down events
+                    event.preventDefault();
+                    event.stopPropagation();
+                }}
                 style={style}
                 id={this.props.node.uuid}
                 className={`${styles.node_container} ${classes}`}
                 ref={this.eleRef}
             >
                 <div className={styles.node}>
-                    {dragLink}
                     <CounterComp
                         ref={this.props.Activity.registerListener}
                         getCount={this.getCount}
@@ -468,17 +478,19 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
 const mapStateToProps = ({
     flowContext: { definition },
-    flowEditor: { editorUI: { language, translating }, flowUI: { nodeDragging } }
+    flowEditor: { editorUI: { language, translating }, flowUI: { nodeDragging, dragSelection } }
 }: AppState) => ({
     language,
     translating,
     definition,
-    nodeDragging
+    nodeDragging,
+    dragSelection
 });
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
+            updateDragSelection,
             updateNodeDragging,
             onAddToNode,
             onNodeMoved,

@@ -26,37 +26,38 @@ export default class Counter extends React.Component<CounterProps, CounterState>
         this.requestUpdate = this.requestUpdate.bind(this);
     }
 
-    componentDidMount() {
+    public componentDidMount(): void {
         this.requestUpdate();
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount(): void {
         this.props.onUnmount(this.getKey());
     }
 
-    private handleClick(event: React.MouseEvent<HTMLDivElement>) {
+    private handleClick(event: React.MouseEvent<HTMLDivElement>): void {
         // for now, just make sure it doesn't propagate to our parent
         event.preventDefault();
         event.stopPropagation();
     }
 
-    public getKey() {
+    public getKey(): string {
         return this.key;
     }
 
-    public requestUpdate() {
+    public requestUpdate(): void {
         const count = this.props.getCount();
         this.setState({ count });
     }
 
-    render() {
+    public render(): JSX.Element {
         if (this.state && this.state.count > 0) {
             const count = addCommas(this.state.count);
             return (
                 <div
                     className={styles.counter + ' ' + this.props.containerStyle}
                     onClick={this.handleClick}
-                    data-spec="counter-outter">
+                    data-spec="counter-outter"
+                >
                     <div className={this.props.countStyle} data-spec="counter-inner">
                         {count}
                     </div>

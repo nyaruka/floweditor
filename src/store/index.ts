@@ -12,7 +12,8 @@ import {
     UpdateUserAddingAction,
     UpdateContactFieldsAction,
     UpdateContactFields,
-    UpdateGroups
+    UpdateGroups,
+    UpdateDragSelection
 } from './actionTypes';
 import createStore from './createStore';
 import Constants from './constants';
@@ -33,7 +34,8 @@ import {
     updateLanguage,
     updateNodeDragging,
     updateNodeEditorOpen,
-    updateTranslating
+    updateTranslating,
+    updateDragSelection
 } from './flowEditor';
 import {
     updateActionToEdit,
@@ -160,5 +162,7 @@ export {
     removeAction,
     updateShowResultName,
     UpdateShowResultName,
-    UpdateNodeDragging
+    UpdateNodeDragging,
+    UpdateDragSelection,
+    updateDragSelection
 };
