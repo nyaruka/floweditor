@@ -60,6 +60,7 @@ export interface Translations {
 export class Flow extends React.Component<FlowStoreProps> {
     private Activity: ActivityManager;
     private Plumber: Plumber;
+    private containerOffset = { x: 0, y: 0 };
 
     // Refs
     private ghost: any;
@@ -274,11 +275,14 @@ export class Flow extends React.Component<FlowStoreProps> {
     }
 
     public onMouseDown(event: React.MouseEvent<HTMLDivElement>): void {
+        this.containerOffset.x = event.nativeEvent.offsetX - event.pageX;
+        this.containerOffset.y = event.nativeEvent.offsetY - event.pageY;
+
         this.props.updateDragSelection({
-            startX: event.pageX,
-            startY: event.pageY,
-            currentX: event.pageX,
-            currentY: event.pageY
+            startX: event.pageX + this.containerOffset.x,
+            startY: event.pageY + this.containerOffset.y,
+            currentX: event.pageX + this.containerOffset.x,
+            currentY: event.pageY + this.containerOffset.y
         });
     }
 
@@ -294,8 +298,8 @@ export class Flow extends React.Component<FlowStoreProps> {
             this.props.updateDragSelection({
                 startX: drag.startX,
                 startY: drag.startY,
-                currentX: event.pageX,
-                currentY: event.pageY,
+                currentX: event.pageX + this.containerOffset.x,
+                currentY: event.pageY + this.containerOffset.y,
                 selected: getCollisions(this.props.nodes, { left, top, right, bottom })
             });
         }
@@ -344,7 +348,6 @@ export class Flow extends React.Component<FlowStoreProps> {
 
         return (
             <div key={this.props.definition.uuid}>
-                {this.getDragSelectionBox()}
                 {simulator}
                 {dragNode}
                 {nodeEditor}
@@ -355,6 +358,7 @@ export class Flow extends React.Component<FlowStoreProps> {
                     onMouseMove={this.onMouseMove}
                     onMouseUp={this.onMouseUp}
                 >
+                    {this.getDragSelectionBox()}
                     {nodes}
                 </div>
             </div>
