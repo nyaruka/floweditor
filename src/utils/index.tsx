@@ -47,8 +47,8 @@ export const snapToGrid = (left: number, top: number): { left: number; top: numb
     }
 
     return {
-        left: Math.max(left + leftAdjust, GRID_SIZE),
-        top: Math.max(top + topAdjust, GRID_SIZE)
+        left: Math.max(left + leftAdjust, 0),
+        top: Math.max(top + topAdjust, 0)
     };
 };
 

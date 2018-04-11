@@ -10,8 +10,8 @@ exports[`Root render should apply translating style if passed a truthy translati
     className="editor"
     data-spec="editor"
   >
-    <Connect(FlowList) />
     <Connect(LanguageSelector) />
+    <Connect(FlowList) />
   </div>
 </div>
 `;
@@ -25,8 +25,8 @@ exports[`Root render should render flow if passed a definition, language 1`] = `
     className="editor"
     data-spec="editor"
   >
-    <Connect(FlowList) />
     <Connect(LanguageSelector) />
+    <Connect(FlowList) />
     <Connect(Flow) />
   </div>
 </div>
@@ -41,8 +41,8 @@ exports[`Root render should render self, children with required props 1`] = `
     className="editor"
     data-spec="editor"
   >
-    <Connect(FlowList) />
     <Connect(LanguageSelector) />
+    <Connect(FlowList) />
   </div>
 </div>
 `;
