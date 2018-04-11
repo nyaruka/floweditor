@@ -35,13 +35,13 @@ export const snapToGrid = (left: number, top: number): { left: number; top: numb
     let leftAdjust = left % GRID_SIZE;
     let topAdjust = top % GRID_SIZE;
 
-    if (leftAdjust > GRID_SIZE / 2) {
+    if (leftAdjust > GRID_SIZE / 3) {
         leftAdjust = GRID_SIZE - leftAdjust;
     } else {
         leftAdjust = leftAdjust * -1;
     }
 
-    if (topAdjust > GRID_SIZE / 2) {
+    if (topAdjust > GRID_SIZE / 3) {
         topAdjust = GRID_SIZE - topAdjust;
     } else {
         topAdjust = topAdjust * -1;
