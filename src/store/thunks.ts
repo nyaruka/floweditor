@@ -669,7 +669,7 @@ export const onUpdateRouter = (node: RenderNode) => (
         const previousPosition = previousNode.ui.position;
         node.ui.position = {
             left: previousPosition.left,
-            top: previousPosition.bottom
+            top: previousPosition.top
         };
     }
 
@@ -705,6 +705,7 @@ export const onUpdateRouter = (node: RenderNode) => (
 
         node.inboundConnections = { [previousNode.node.exits[0].uuid]: previousNode.node.uuid };
         node.node = mutators.uniquifyNode(node.node);
+        node.ui.position.top = previousNode.ui.position.bottom;
         updated = mutators.mergeNode(updated, node);
     } else {
         updated = mutators.mergeNode(updated, node);
