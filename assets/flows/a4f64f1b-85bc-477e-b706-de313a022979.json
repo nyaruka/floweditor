@@ -310,6 +310,16 @@
                     }
                 ],
                 "_ui": {
+                    "stickies": {
+                        "ba3b4b76-4607-4120-aa65-b0ae46ca79db": {
+                            "position": {
+                                "left": 860,
+                                "top": 80
+                            },
+                            "title": "A quick note on QWERTY",
+                            "body": "This is the body of my note and it just keeps growing just like I want it to. Here it goes and goes and goes and goes.\n\nI'm glad I never gave up qwerty. it is the best keyboard layout ever. Only weirdos try alternate keyboard layouts. I mean seriously. What sense would that make anyways?"
+                        }
+                    },
                     "languages": [
                         {
                             "eng": "English"

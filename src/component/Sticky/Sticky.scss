@@ -1,0 +1,42 @@
+@import "../../variables.scss";
+
+.stickyContainer {
+    position: absolute;
+    padding: $node_padding + px;
+    z-index: $z_sticky;
+
+    .sticky {
+        // margin: $node_padding + px;
+        background: $sticky_color;
+        padding: 16px;
+        font-size: 13px;
+        width: 176px;
+
+        box-shadow: 5px 5px 0px -2px $sticky_shadow;
+        cursor: pointer;
+        
+        textarea.title {
+            font-weight: 500;
+            margin-bottom: 3px;
+            width: 176px;
+            border: 0px;
+            background: none;
+            font-weight: 600;
+            font-size: 13px;
+            line-height: 14px;
+            resize: none;
+            outline: none;
+            box-shadow: none;
+        }
+
+        textarea.body {
+            font-size: 90%;
+            width: 176px;
+            outline: none;
+            box-shadow: none;
+            border: 0px;
+            background: none;
+            resize: none;
+        }
+    }
+}

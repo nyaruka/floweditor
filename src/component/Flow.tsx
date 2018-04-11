@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ConfigProviderContext, languagesPT } from '../config';
 import { getActivity } from '../external';
-import { FlowDefinition, Languages, FlowNode, UINode } from '../flowTypes';
+import { FlowDefinition, Languages, FlowNode, UINode, StickyNote } from '../flowTypes';
+import { v4 as generateUUID } from 'uuid';
 import ActivityManager from '../services/ActivityManager';
 import Plumber from '../services/Plumber';
 import {
@@ -34,6 +35,7 @@ import Simulator from './Simulator';
 import { RenderNode } from '../store/flowContext';
 import { DragSelection } from '../store/flowEditor';
 import { getCollisions } from '../store/helpers';
+import Sticky from './Sticky';
 
 export interface FlowStoreProps {
     translating: boolean;
@@ -60,7 +62,9 @@ export interface Translations {
 export class Flow extends React.Component<FlowStoreProps> {
     private Activity: ActivityManager;
     private Plumber: Plumber;
-    private containerOffset = { x: 0, y: 0 };
+    private containerOffset = { left: 0, top: 0 };
+    private ele: HTMLDivElement;
+    private nodeContainerUUID: string;
 
     // Refs
     private ghost: any;
@@ -72,6 +76,8 @@ export class Flow extends React.Component<FlowStoreProps> {
     constructor(props: FlowStoreProps, context: ConfigProviderContext) {
         super(props, context);
 
+        this.nodeContainerUUID = generateUUID();
+
         this.Activity = new ActivityManager(this.props.definition.uuid, getActivity);
 
         this.Plumber = new Plumber();
@@ -81,6 +87,10 @@ export class Flow extends React.Component<FlowStoreProps> {
         });
 
         console.time('RenderAndPlumb');
+    }
+
+    private onRef(ref: HTMLDivElement): HTMLDivElement {
+        return (this.ele = ref);
     }
 
     private ghostRef(ref: any): any {
@@ -111,11 +121,14 @@ export class Flow extends React.Component<FlowStoreProps> {
         // If we don't have any nodes, create our first one
         this.props.ensureStartNode();
 
+        const offset = this.ele.getBoundingClientRect();
+        this.containerOffset = { left: offset.left, top: offset.top + window.scrollY };
+
         console.timeEnd('RenderAndPlumb');
 
         // deals with safari load rendering throwing
         // off the jsplumb offsets
-        window.setTimeout(() => this.Plumber.repaint(), 500);
+        window.setTimeout(() => this.Plumber.repaint(), 200);
     }
 
     public componentDidUpdate(prevProps: FlowStoreProps): void {
@@ -213,6 +226,27 @@ export class Flow extends React.Component<FlowStoreProps> {
         });
     }
 
+    private getStickies(): JSX.Element[] {
+        let stickyMap = this.props.definition._ui.stickies;
+        if (!stickyMap) {
+            stickyMap = {};
+        }
+
+        return Object.keys(stickyMap).map(uuid => {
+            const sticky: StickyNote = stickyMap[uuid];
+            return (
+                <Sticky
+                    key={uuid}
+                    uuid={uuid}
+                    sticky={sticky}
+                    plumberClearDragSelection={this.Plumber.clearDragSelection}
+                    plumberDraggable={this.Plumber.draggable}
+                    plumberRemove={this.Plumber.remove}
+                />
+            );
+        });
+    }
+
     private getDragNode(): JSX.Element {
         if (this.props.ghostNode) {
             // Start off screen
@@ -275,15 +309,16 @@ export class Flow extends React.Component<FlowStoreProps> {
     }
 
     public onMouseDown(event: React.MouseEvent<HTMLDivElement>): void {
-        this.containerOffset.x = event.nativeEvent.offsetX - event.pageX;
-        this.containerOffset.y = event.nativeEvent.offsetY - event.pageY;
-
-        this.props.updateDragSelection({
-            startX: event.pageX + this.containerOffset.x,
-            startY: event.pageY + this.containerOffset.y,
-            currentX: event.pageX + this.containerOffset.x,
-            currentY: event.pageY + this.containerOffset.y
-        });
+        // TODO: not sure the TS-safe way to access id here
+        if ((event.target as any).id === this.nodeContainerUUID) {
+            this.props.updateDragSelection({
+                startX: event.pageX - this.containerOffset.left,
+                startY: event.pageY - this.containerOffset.top,
+                currentX: event.pageX - this.containerOffset.left,
+                currentY: event.pageY - this.containerOffset.top,
+                selected: null
+            });
+        }
     }
 
     public onMouseMove(event: React.MouseEvent<HTMLDivElement>): void {
@@ -298,8 +333,8 @@ export class Flow extends React.Component<FlowStoreProps> {
             this.props.updateDragSelection({
                 startX: drag.startX,
                 startY: drag.startY,
-                currentX: event.pageX + this.containerOffset.x,
-                currentY: event.pageY + this.containerOffset.y,
+                currentX: event.pageX - this.containerOffset.left,
+                currentY: event.pageY - this.containerOffset.top,
                 selected: getCollisions(this.props.nodes, { left, top, right, bottom })
             });
         }
@@ -344,20 +379,23 @@ export class Flow extends React.Component<FlowStoreProps> {
         const nodeEditor = this.getNodeEditor();
         const dragNode = this.getDragNode();
         const nodes = this.getNodes();
+        const stickies = this.getStickies();
         const simulator = this.getSimulator();
 
         return (
-            <div key={this.props.definition.uuid}>
+            <div key={this.props.definition.uuid} id={this.props.definition.uuid} ref={this.onRef}>
                 {simulator}
                 {dragNode}
                 {nodeEditor}
                 <div
+                    id={this.nodeContainerUUID}
                     className={styles.nodeList}
                     data-spec="nodes"
                     onMouseDown={this.onMouseDown}
                     onMouseMove={this.onMouseMove}
                     onMouseUp={this.onMouseUp}
                 >
+                    {stickies}
                     {this.getDragSelectionBox()}
                     {nodes}
                 </div>

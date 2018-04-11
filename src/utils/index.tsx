@@ -13,6 +13,7 @@ const SNAKED_CHARS = /\s+(?=\S)/g;
 export const GRID_SIZE: number = parseInt(variables.grid_size, 10) || 20;
 export const NODE_SPACING: number = parseInt(variables.node_spacing, 10) || 10;
 export const NODE_PADDING: number = parseInt(variables.node_padding, 10) || 10;
+export const QUIET_NOTE: number = 2000;
 
 interface BoolMap {
     [key: string]: boolean;
@@ -34,13 +35,13 @@ export const snapToGrid = (left: number, top: number): { left: number; top: numb
     let leftAdjust = left % GRID_SIZE;
     let topAdjust = top % GRID_SIZE;
 
-    if (leftAdjust > GRID_SIZE / 3) {
+    if (leftAdjust > GRID_SIZE / 2) {
         leftAdjust = GRID_SIZE - leftAdjust;
     } else {
         leftAdjust = leftAdjust * -1;
     }
 
-    if (topAdjust > GRID_SIZE / 3) {
+    if (topAdjust > GRID_SIZE / 2) {
         topAdjust = GRID_SIZE - topAdjust;
     } else {
         topAdjust = topAdjust * -1;

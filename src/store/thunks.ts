@@ -13,10 +13,11 @@ import {
     FlowDefinition,
     Languages,
     FlowNode,
-    Position,
+    FlowPosition,
     SendMsg,
     SwitchRouter,
-    Exit
+    Exit,
+    StickyNote
 } from '../flowTypes';
 import {
     RenderNode,
@@ -71,7 +72,9 @@ export type AsyncThunk = Thunk<Promise<void>>;
 
 export type OnAddToNode = (node: FlowNode) => Thunk<void>;
 
-export type OnNodeMoved = (uuid: string, position: Position) => Thunk<RenderNodeMap>;
+export type OnResetDragSelection = () => Thunk<void>;
+
+export type OnNodeMoved = (uuid: string, position: FlowPosition) => Thunk<RenderNodeMap>;
 
 export type OnOpenNodeEditor = (
     node: FlowNode,
@@ -99,6 +102,8 @@ export type OnUpdateLocalizations = (
     language: string,
     changes: LocalizationUpdates
 ) => Thunk<FlowDefinition>;
+
+export type UpdateSticky = (stickyUUID: string, sticky: StickyNote) => Thunk<void>;
 
 export type OnUpdateAction = (action: AnyAction) => Thunk<RenderNodeMap>;
 
@@ -605,7 +610,14 @@ export const onNodeEditorClose = (canceled: boolean, connectExit: Function) => (
     dispatch(resetNodeEditingState());
 };
 
-export const onNodeMoved = (nodeUUID: string, position: Position) => (
+export const onResetDragSelection = () => (dispatch: DispatchWithState, getState: GetState) => {
+    const { flowEditor: { flowUI: { dragSelection } } } = getState();
+    if (dragSelection && dragSelection.selected) {
+        dispatch(updateDragSelection({ selected: null }));
+    }
+};
+
+export const onNodeMoved = (nodeUUID: string, position: FlowPosition) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
@@ -648,6 +660,15 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
             exitUUID: event.sourceId.split(':')[1]
         })
     );
+};
+
+export const updateSticky = (uuid: string, sticky: StickyNote) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+): void => {
+    const { flowContext: { definition } } = getState();
+    const updated = mutators.updateStickyNote(definition, uuid, sticky);
+    dispatch(updateDefinition(updated));
 };
 
 export const onUpdateRouter = (node: RenderNode) => (

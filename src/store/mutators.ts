@@ -1,5 +1,5 @@
 const mutate = require('immutability-helper');
-import { FlowNode, UINode, AnyAction, FlowDefinition, Dimensions } from '../flowTypes';
+import { FlowNode, UINode, AnyAction, FlowDefinition, Dimensions, StickyNote } from '../flowTypes';
 import { v4 as generateUUID } from 'uuid';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { dump, snapToGrid } from '../utils';
@@ -321,6 +321,13 @@ export const updateDimensions = (
         }
     });
 };
+
+export const updateStickyNote = (
+    definition: FlowDefinition,
+    stickyUUID: string,
+    sticky: StickyNote
+): FlowDefinition =>
+    mutate(definition, { _ui: { stickies: { $merge: { [stickyUUID]: sticky } } } });
 
 /**
  * Prunes the definition for editing, removing node references

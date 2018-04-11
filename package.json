@@ -148,5 +148,7 @@
     "webpack-dev-server": "2.5.1",
     "webpack-merge": "4.1.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "react-autosize-textarea": "3.0.3"
+  }
 }

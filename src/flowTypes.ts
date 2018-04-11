@@ -163,7 +163,7 @@ export interface UIMetaData {
     languages: Array<{ [iso: string]: string }>;
 }
 
-export interface Position {
+export interface FlowPosition {
     left: number;
     top: number;
     right?: number;
@@ -176,14 +176,21 @@ export interface Dimensions {
 }
 
 export interface UINode {
-    position: Position;
+    position: FlowPosition;
 
     // ui type, used for split by expression, contact field, etc
     type?: string;
 }
 
+export interface StickyNote {
+    position: FlowPosition;
+    title: string;
+    body: string;
+}
+
 export interface UIMetaData {
     nodes: { [key: string]: UINode };
+    stickies: { [key: string]: StickyNote };
 }
 
 export type AnyAction =
