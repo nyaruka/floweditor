@@ -820,9 +820,12 @@ describe('ABC RenderNodeMap', () => {
                 }
             });
 
+            const previousTop = testNodes.nodeD.ui.position.top;
+
             const nodes = store.dispatch(onUpdateRouter(updatedNode));
             const newCase = nodes.nodeD.node.router.cases[1];
             expect(newCase.arguments).toEqual(['anotherrule']);
+            expect(nodes.nodeD.ui.position.top).toBe(previousTop);
         });
 
         it('should create a new router on drag', () => {
@@ -903,11 +906,15 @@ describe('ABC RenderNodeMap', () => {
                 inboundConnections: {}
             };
 
+            const previousBottom = testNodes.nodeA.ui.position.bottom;
+
             // splice in our new router
             const nodes = store.dispatch(onUpdateRouter(newRouter));
-
             const newNodeUUID = nodes.nodeA.node.exits[0].destination_node_uuid;
             expect(nodes[newNodeUUID]).toHaveInboundFrom(nodes.nodeA.node.exits[0]);
+
+            // our top should start at the bottom of the previous node
+            expect(nodes[newNodeUUID].ui.position.top).toBe(previousBottom);
         });
     });
 });
