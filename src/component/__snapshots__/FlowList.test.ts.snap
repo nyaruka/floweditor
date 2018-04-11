@@ -16,7 +16,7 @@ Object {
 
 exports[`FlowList render should render select control 1`] = `
 <div
-  className="flowList"
+  className="flowList select-small"
   data-spec="flow-list"
   id="flow-list"
 >

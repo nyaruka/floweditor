@@ -711,7 +711,7 @@ Object {
     "ui": Object {
       "position": Object {
         "left": 300,
-        "top": 800,
+        "top": 520,
       },
       "type": "subflow",
     },
@@ -835,8 +835,8 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "left": 420,
-        "top": 260,
+        "left": 300,
+        "top": 120,
       },
       "type": "wait_for_response",
     },
@@ -864,8 +864,8 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "left": 40,
-        "top": 80,
+        "left": 0,
+        "top": 0,
       },
     },
   },
@@ -892,8 +892,8 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "left": 760,
-        "top": 660,
+        "left": 680,
+        "top": 340,
       },
     },
   },
@@ -950,8 +950,8 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "left": 580,
-        "top": 780,
+        "left": 640,
+        "top": 460,
       },
       "type": "split_by_groups",
     },
@@ -1002,8 +1002,8 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "left": 540,
-        "top": 500,
+        "left": 440,
+        "top": 240,
       },
       "type": "split_by_expression",
     },
@@ -1031,8 +1031,8 @@ Object {
     },
     "ui": Object {
       "position": Object {
-        "left": 40,
-        "top": 400,
+        "left": 200,
+        "top": 340,
       },
     },
   },
