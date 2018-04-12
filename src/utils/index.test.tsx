@@ -216,11 +216,11 @@ describe('utils', () => {
 
     describe('renderIf', () => {
         it('should return element if predicate is truthy', () => {
-            expect(renderIf(1 + 2 === 3)(<div />)).toEqual(<div />);
+            expect(renderIf(true)(<div />)).toEqual(<div />);
         });
 
         it('should not return element if predicate is falsy', () => {
-            expect(renderIf(1 + 2 === 4)(<div />)).toBeFalsy();
+            expect(renderIf(false)(<div />)).toBeFalsy();
         });
     });
 

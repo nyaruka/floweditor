@@ -8,7 +8,6 @@ import {
     getDragStyle,
     getGhostUI,
     GHOST_POSITION_INITIAL,
-    GHOST_TYPE,
     ghostNodeSpecId,
     isDraggingBack,
     nodesContainerSpecId,
@@ -76,7 +75,6 @@ const baseProps: FlowStoreProps = {
 const setup = createSetup<FlowStoreProps>(Flow, baseProps, context, childContextTypes);
 
 const spyOnFlow = createSpy(Flow);
-const spyOnWindow = createSpy(window);
 
 describe(Flow.name, () => {
     beforeEach(() => {
@@ -148,7 +146,7 @@ describe(Flow.name, () => {
 
                 expect(ghostUI).toEqual({
                     position: GHOST_POSITION_INITIAL,
-                    type: GHOST_TYPE
+                    type: 'wait_for_response'
                 });
                 expect(ghostUI).toMatchSnapshot();
             });
@@ -167,7 +165,6 @@ describe(Flow.name, () => {
             const nodes = getSpecWrapper(wrapper, nodeSpecId);
             const nodeContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
 
-            // Did we render a node list?
             expect(nodeContainer.hasClass('nodeList')).toBeTruthy();
             expect(nodeContainer.props()).toEqual(
                 expect.objectContaining({
@@ -279,7 +276,6 @@ describe(Flow.name, () => {
 
             expect(componentDidMountSpy).toHaveBeenCalledTimes(1);
 
-            // Plumber should be binding our callbacks to jsplumb events
             expect(instance.Plumber.bind).toHaveBeenCalledTimes(7);
             expect(instance.Plumber.bind).toHaveBeenCalledWith('connection', expect.any(Function));
             expect(instance.Plumber.bind).toHaveBeenCalledWith('connection', expect.any(Function));
@@ -301,10 +297,8 @@ describe(Flow.name, () => {
             );
             expect(instance.Plumber.bind).toHaveBeenCalledWith('beforeDrop', expect.any(Function));
 
-            // ensureStartNode should have been called on mount
             expect(props.ensureStartNode).toHaveBeenCalledTimes(1);
 
-            // Should have repainted after a time
             expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), REPAINT_TIMEOUT);
             expect(instance.Plumber.repaint).toHaveBeenCalledTimes(1);
 

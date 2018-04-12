@@ -2,7 +2,6 @@
 // tslint:disable:ban-types
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
-import { DragPoint } from '../component/Node';
 import { hasCases } from '../component/NodeEditor/NodeEditor';
 import { getTypeConfig } from '../config';
 import { FlowDetails, getFlow, getFlows } from '../external';
@@ -10,38 +9,39 @@ import {
     Action,
     AnyAction,
     Dimensions,
+    Exit,
     FlowDefinition,
-    Languages,
     FlowNode,
+    Languages,
     Position,
     SendMsg,
-    SwitchRouter,
-    Exit
+    SwitchRouter
 } from '../flowTypes';
+import { timeEnd, timeStart } from '../testUtils';
+import { NODE_SPACING } from '../utils';
 import {
     RenderNode,
+    RenderNodeMap,
     updateDefinition,
     updateLocalizations,
-    updateNodes,
-    RenderNodeMap
+    updateNodes
 } from './flowContext';
 import {
-    removePendingConnection,
     updateCreateNodePosition,
+    updateDragSelection,
     updateFetchingFlow,
     updateFlows,
     updateGhostNode,
     updateNodeDragging,
     updateNodeEditorOpen,
-    updatePendingConnection,
-    updateDragSelection
+    updatePendingConnection
 } from './flowEditor';
 import {
     determineConfigType,
+    getActionIndex,
     getCollision,
     getGhostNode,
     getLocalizations,
-    getActionIndex,
     getRenderNodeMap
 } from './helpers';
 import * as mutators from './mutators';
@@ -55,12 +55,6 @@ import {
     updateUserAddingAction
 } from './nodeEditor';
 import AppState from './state';
-
-import * as variables from '../variables.scss';
-import { NODE_SPACING, dump } from '../utils';
-
-import { timeStart, timeEnd } from '../testUtils';
-import Plumber from '../services/Plumber';
 
 export type DispatchWithState = Dispatch<AppState>;
 
@@ -640,7 +634,7 @@ export const onUpdateRouter = (node: RenderNode) => (
         const previousPosition = previousNode.ui.position;
         node.ui.position = {
             left: previousPosition.left,
-            top: previousPosition.bottom
+            top: previousPosition.top
         };
     }
 
@@ -676,6 +670,7 @@ export const onUpdateRouter = (node: RenderNode) => (
 
         node.inboundConnections = { [previousNode.node.exits[0].uuid]: previousNode.node.uuid };
         node.node = mutators.uniquifyNode(node.node);
+        node.ui.position.top = previousNode.ui.position.bottom;
         updated = mutators.mergeNode(updated, node);
     } else {
         updated = mutators.mergeNode(updated, node);

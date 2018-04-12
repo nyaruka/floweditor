@@ -230,14 +230,14 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
 
 export const getRenderNodeMap = ({ nodes, _ui }: FlowDefinition) => {
     const renderNodeMap: RenderNodeMap = {};
-    const exits: { [uuid: string]: string } = {};
-
     // initialize our nodes
     const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
+
     for (const node of nodes) {
         if (!node.actions) {
             node.actions = [];
         }
+
         renderNodeMap[node.uuid] = {
             node,
             ui: _ui.nodes[node.uuid],
@@ -255,7 +255,6 @@ export const getRenderNodeMap = ({ nodes, _ui }: FlowDefinition) => {
                 pointers[exit.uuid] = node.uuid;
                 pointerMap[exit.destination_node_uuid] = pointers;
             }
-            exits[exit.uuid] = node.uuid;
         }
     }
 

@@ -59,7 +59,6 @@ export interface Translations {
 
 export const REPAINT_TIMEOUT = 500;
 export const GHOST_POSITION_INITIAL = { left: -1000, top: -1000 };
-export const GHOST_TYPE = 'wait_for_response';
 
 export const nodeSpecId = 'node';
 export const nodesContainerSpecId = 'node-container';
@@ -68,7 +67,7 @@ export const dragSelectSpecId = 'drag-select';
 
 export const getGhostUI = (ghostNode: FlowNode = {} as any) => ({
     position: GHOST_POSITION_INITIAL,
-    ...(ghostNode.router ? { type: GHOST_TYPE } : {})
+    ...(ghostNode.router ? { type: 'wait_for_response' } : {})
 });
 
 export const isDraggingBack = (event: ConnectionEvent) =>
@@ -265,10 +264,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
     private getSimulator(): JSX.Element {
         return renderIf(this.context.endpoints.engine)(
-            <Simulator
-                definition={this.props.definition}
-                Activity={this.Activity}
-            />
+            <Simulator definition={this.props.definition} Activity={this.Activity} />
         );
     }
 
