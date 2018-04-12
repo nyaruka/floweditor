@@ -13,5 +13,5 @@ module.exports = {
     collectCoverageFrom: ['src/**/*.{ts,tsx}'],
     coverageReporters: ['lcov', 'json'],
     coveragePathIgnorePatterns: ['/*.d.ts$', 'lambda-src', 'webpack', 'testUtils', '__test__.ts'],
-    setupFiles: ['<rootDir>/rafShim.js', '<rootDir>/enzymeAdapter.js']
+    setupFiles: ['<rootDir>/setup.js']
 };

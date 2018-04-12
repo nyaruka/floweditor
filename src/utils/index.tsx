@@ -237,7 +237,7 @@ export const propertyExists = (propertyToCheck: string) => {
 /**
  * Should x element be rendered?
  */
-export const renderIf = (condition: boolean) => (elem: JSX.Element) => (condition ? elem : null);
+export const renderIf = (predicate: boolean) => (element: JSX.Element) => predicate && element;
 
 /**
  * Does the label meet our length requirements?
@@ -258,3 +258,5 @@ export const containsOnlyLabelChars = (label: string = '') => LABEL_CHARS.test(l
  */
 export const isValidLabel = (label: string) =>
     properLabelLength(label) && containsOnlyLabelChars(label);
+
+export const isRealValue = (obj: any) => obj !== null && obj !== undefined;

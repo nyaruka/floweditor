@@ -1,14 +1,13 @@
-import { createSetup, getSpecWrapper } from '../../testUtils';
+import { createSetup, createSpy, getSpecWrapper } from '../../testUtils';
 import TitleBar, {
-    TitleBarProps,
-    titlebarContainerSpecId,
-    titlebarSpecId,
-    moveIconSpecId,
-    removeIconSpecId,
     confirmationSpecId,
-    moveSpecId,
     confirmRemovalSpecId,
-    confirmationTime
+    moveIconSpecId,
+    moveSpecId,
+    removeIconSpecId,
+    titlebarContainerSpecId,
+    TitleBarProps,
+    titlebarSpecId
 } from './TitleBar';
 
 const baseProps = {
@@ -17,6 +16,8 @@ const baseProps = {
 };
 
 const setup = createSetup<TitleBarProps>(TitleBar, baseProps);
+
+const spyOnTitleBar = createSpy(TitleBar);
 
 const COMPONENT_TO_TEST = TitleBar.name;
 
@@ -86,7 +87,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             });
 
             it('should call onConfirmRemoval instance method', () => {
-                const onConfirmRemovalSpy = jest.spyOn(TitleBar.prototype, 'onConfirmRemoval');
+                const onConfirmRemovalSpy = spyOnTitleBar('onConfirmRemoval');
                 const { wrapper } = setup({ showRemoval: true }, true);
                 const removeIcon = getSpecWrapper(wrapper, removeIconSpecId);
 
@@ -118,7 +119,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 expect(wrapper.find('.icon-remove').exists()).toBeTruthy();
                 expect(wrapper).toMatchSnapshot();
 
-                jest.runAllTimers();
+                jest.clearAllTimers();
             });
 
             it('should call onRemoval prop', () => {
@@ -140,7 +141,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
                 expect(onRemovalMock).toHaveBeenCalledTimes(1);
 
-                jest.runAllTimers();
+                jest.clearAllTimers();
             });
         });
     });
@@ -148,7 +149,6 @@ describe(`${COMPONENT_TO_TEST}`, () => {
     describe('instance methods', () => {
         describe('componentWillUnMount', () => {
             it('should clear confirmation timeout', () => {
-                const clearTimeoutSpy = jest.spyOn(window, 'clearTimeout');
                 const { wrapper, instance, props: { onRemoval: onRemovalMock } } = setup(
                     { showRemoval: true, onRemoval: jest.fn() },
                     true
@@ -160,16 +160,15 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
                 instance.componentWillUnmount();
 
-                expect(clearTimeoutSpy).toHaveBeenCalledTimes(1);
+                expect(clearTimeout).toHaveBeenCalledTimes(1);
 
                 jest.clearAllTimers();
-                clearTimeoutSpy.mockRestore();
             });
         });
 
         describe('onConfirmRemoval', () => {
             it('should toggle confirmingRemoval state', () => {
-                const setStateSpy = jest.spyOn(TitleBar.prototype, 'setState');
+                const setStateSpy = spyOnTitleBar('setState');
                 const { wrapper, instance } = setup({}, true);
                 const mockEvent = {
                     preventDefault: jest.fn(),
@@ -184,7 +183,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 expect(setStateSpy).toHaveBeenCalledWith({ confirmingRemoval: false });
 
                 setStateSpy.mockRestore();
-                jest.runAllTimers();
+                jest.clearAllTimers();
             });
         });
     });
