@@ -48,9 +48,6 @@
     z-index: $z_sticky;
 
     .sticky {
-        // margin: $node_padding + px;
-        // background: $sticky_color;
-        // padding: 16px;
         font-size: 13px;
         width: 176px;
         cursor: pointer;
@@ -61,7 +58,7 @@
             background: transparent;
 
             .remove-button {
-                color: rgba(255,255,255,.4);
+                color: $removal_confirmation;
             }
             textarea.title {
                 visibility: hidden;
@@ -98,8 +95,7 @@
             .confirmation {
                 margin: -8px;
                 padding: 8px;
-                background: $removal_confirmation;
-                color: #fff;
+                color: $removal_confirmation;
                 width: 160px;
                 text-align: center;
                 font-size: 13px;

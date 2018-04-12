@@ -327,6 +327,9 @@ export const updateStickyNote = (
     stickyUUID: string,
     sticky: StickyNote
 ): FlowDefinition => {
+    if (!definition._ui.stickies) {
+        definition._ui.stickies = {};
+    }
     if (sticky) {
         return mutate(definition, { _ui: { stickies: { $merge: { [stickyUUID]: sticky } } } });
     } else {
