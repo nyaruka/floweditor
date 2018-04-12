@@ -8,7 +8,6 @@
     .sticky {
         background: $color;
         box-shadow: 5px 5px 0px -2px rgba( $color - #222, .3);
-
     }
 }
 
@@ -16,6 +15,7 @@
 .blue { @include color-choice($sticky_blue); }
 .purple { @include color-choice($sticky_purple); }
 .gray { @include color-choice($sticky_gray); }
+.green { @include color-choice($sticky_green); }
 
 .color-chooser {
     color: #fff;

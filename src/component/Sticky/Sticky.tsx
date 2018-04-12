@@ -49,6 +49,7 @@ interface StickyState {
 const COLOR_OPTIONS = {
     yellow: styles.yellow,
     blue: styles.blue,
+    green: styles.green,
     purple: styles.purple,
     gray: styles.gray
 };
