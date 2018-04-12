@@ -1,5 +1,14 @@
 import { RenderNodeMap } from './flowContext';
-import { SendMsg, SwitchRouter, ChangeGroups } from '../flowTypes';
+import { SendMsg, SwitchRouter, ChangeGroups, FlowDefinition } from '../flowTypes';
+
+export const EMPTY_FLOW: FlowDefinition = {
+    localization: {},
+    language: null,
+    name: null,
+    uuid: null,
+    nodes: [],
+    _ui: { nodes: {}, languages: [], stickies: {} }
+};
 
 export const NODES_ABC: RenderNodeMap = {
     nodeA: {

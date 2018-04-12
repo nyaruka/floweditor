@@ -612,6 +612,8 @@ export const onNodeEditorClose = (canceled: boolean, connectExit: Function) => (
 
 export const onResetDragSelection = () => (dispatch: DispatchWithState, getState: GetState) => {
     const { flowEditor: { flowUI: { dragSelection } } } = getState();
+
+    /* istanbul ignore else */
     if (dragSelection && dragSelection.selected) {
         dispatch(updateDragSelection({ selected: null }));
     }
