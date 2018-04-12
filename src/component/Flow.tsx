@@ -25,9 +25,11 @@ import {
     UpdateCreateNodePosition,
     AppState,
     UpdateDragSelection,
-    updateDragSelection
+    updateDragSelection,
+    updateSticky,
+    UpdateSticky
 } from '../store';
-import { snapToGrid, dump } from '../utils';
+import { snapToGrid, dump, NODE_PADDING } from '../utils';
 import * as styles from './Flow.scss';
 import ConnectedNode, { DragPoint } from './Node';
 import NodeEditor from './NodeEditor';
@@ -53,6 +55,7 @@ export interface FlowStoreProps {
     onConnectionDrag: OnConnectionDrag;
     updateCreateNodePosition: UpdateCreateNodePosition;
     updateDragSelection: UpdateDragSelection;
+    updateSticky: UpdateSticky;
 }
 
 export interface Translations {
@@ -83,7 +86,7 @@ export class Flow extends React.Component<FlowStoreProps> {
         this.Plumber = new Plumber();
 
         bindCallbacks(this, {
-            include: [/Ref$/, /^on/]
+            include: [/Ref$/, /^on/, /^is/]
         });
 
         console.time('RenderAndPlumb');
@@ -308,9 +311,28 @@ export class Flow extends React.Component<FlowStoreProps> {
         ) : null;
     }
 
-    public onMouseDown(event: React.MouseEvent<HTMLDivElement>): void {
+    private isClickOnCanvas(event: React.MouseEvent<HTMLDivElement>): boolean {
         // TODO: not sure the TS-safe way to access id here
-        if ((event.target as any).id === this.nodeContainerUUID) {
+        return (event.target as any).id === this.nodeContainerUUID;
+    }
+
+    private onDoubleClick(event: React.MouseEvent<HTMLDivElement>): void {
+        if (this.isClickOnCanvas(event)) {
+            const { left, top } = snapToGrid(
+                event.clientX - this.containerOffset.left - NODE_PADDING * 2,
+                event.clientY - this.containerOffset.top - NODE_PADDING * 2
+            );
+
+            this.props.updateSticky(generateUUID(), {
+                position: { left, top },
+                title: 'New Note',
+                body: '...'
+            });
+        }
+    }
+
+    public onMouseDown(event: React.MouseEvent<HTMLDivElement>): void {
+        if (this.isClickOnCanvas(event)) {
             this.props.updateDragSelection({
                 startX: event.pageX - this.containerOffset.left,
                 startY: event.pageY - this.containerOffset.top,
@@ -394,6 +416,7 @@ export class Flow extends React.Component<FlowStoreProps> {
                     onMouseDown={this.onMouseDown}
                     onMouseMove={this.onMouseMove}
                     onMouseUp={this.onMouseUp}
+                    onDoubleClick={this.onDoubleClick}
                 >
                     {stickies}
                     {this.getDragSelectionBox()}
@@ -430,7 +453,8 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
             onOpenNodeEditor,
             updateCreateNodePosition,
             updateConnection,
-            updateDragSelection
+            updateDragSelection,
+            updateSticky
         },
         dispatch
     );

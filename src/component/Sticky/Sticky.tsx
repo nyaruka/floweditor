@@ -34,12 +34,10 @@ interface StickyStoreProps {
 
 type StickyProps = StickyPassedProps & StickyStoreProps;
 
-interface MouseDragEvents {
-    onMouseDown: (event: React.MouseEvent<HTMLDivElement>) => void;
-    onMouseMove?: (event: React.MouseEvent<HTMLDivElement>) => void;
-    onMouseUp: (event: React.MouseEvent<HTMLDivElement>) => void;
-}
-
+/**
+ * We have internal state to track as the user types so
+ * we can debounce updates to the store.
+ */
 interface StickyState {
     title: string;
     body: string;
@@ -48,7 +46,7 @@ interface StickyState {
 export class Sticky extends React.Component<StickyProps, StickyState> {
     private dragging = false;
     private ele: HTMLDivElement;
-    private mouseOffset: { left: number; top: number };
+    private debounce: number;
 
     constructor(props: StickyProps & StickyStoreProps) {
         super(props);
@@ -101,7 +99,6 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
         this.props.updateSticky(this.props.uuid, this.props.sticky);
     }
 
-    private debounce: any;
     private onUpdateText(): void {
         if (this.debounce) {
             window.clearTimeout(this.debounce);
@@ -160,4 +157,4 @@ const mapDispatchToProps = (dispatch: DispatchWithState) => {
     return bindActionCreators({ updateSticky, onResetDragSelection }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(Sticky);
+export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: false })(Sticky);

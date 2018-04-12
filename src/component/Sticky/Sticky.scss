@@ -27,6 +27,8 @@
             resize: none;
             outline: none;
             box-shadow: none;
+            color: $text_color - #111;
+
         }
 
         textarea.body {
@@ -37,6 +39,8 @@
             border: 0px;
             background: none;
             resize: none;
+            color: $text_color;
+
         }
     }
 }
