@@ -310,6 +310,22 @@
                     }
                 ],
                 "_ui": {
+                    "stickies": {
+                        "ba3b4b76-4607-4120-aa65-b0ae46ca79db": {
+                            "position": {
+                                "left": 0,
+                                "top": 180
+                            },
+                            "title": "Notes with color",
+                            "body": "Great news! Just what we've always wanted... sticky notes with colors.\n\nDon't pretend this isn't pretty much the best feature ever.",
+                            "color": "blue"
+                        },
+                        "aa9029a2-8aac-49b1-aaf9-09d6a6ee47e7": {
+                            "position": {"left": 100, "top": 440},
+                            "title": "Take note!",
+                            "body": "Notes are improved in a few different ways:\n\n· New style\n· Delete confirmations\n· Four color choices"
+                        }
+                    },
                     "languages": [
                         {
                             "eng": "English"

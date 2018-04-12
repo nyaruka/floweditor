@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { Language } from '../component/LanguageSelector';
 import { DragPoint } from '../component/Node';
-import { FlowNode, Position } from '../flowTypes';
+import { FlowNode, FlowPosition } from '../flowTypes';
 import ActionTypes, {
     RemovePendingConnectionAction,
     UpdateCreateNodePositionAction,
@@ -38,7 +38,7 @@ export interface EditorUI {
 }
 
 export interface FlowUI {
-    createNodePosition: Position;
+    createNodePosition: FlowPosition;
     pendingConnection: DragPoint;
     nodeDragging: boolean;
     ghostNode: FlowNode;
@@ -113,7 +113,7 @@ export const updateFlows = (flows: Flows): UpdateFlowsAction => ({
 
 export const updateCreateNodePosition = (
     // tslint:disable-next-line:no-shadowed-variable
-    createNodePosition: Position
+    createNodePosition: FlowPosition
 ): UpdateCreateNodePositionAction => ({
     type: Constants.UPDATE_CREATE_NODE_POSITION,
     payload: {
@@ -251,7 +251,7 @@ export const editorUI = combineReducers({
 
 // FlowUI reducers
 export const createNodePosition = (
-    state: Position = initialState.flowUI.createNodePosition,
+    state: FlowPosition = initialState.flowUI.createNodePosition,
     action: ActionTypes
 ) => {
     switch (action.type) {

@@ -1,7 +1,7 @@
 import { Language } from '../component/LanguageSelector';
 import { DragPoint } from '../component/Node';
 import { Type } from '../config';
-import { AnyAction, FlowDefinition, FlowNode, Position } from '../flowTypes';
+import { AnyAction, FlowDefinition, FlowNode, FlowPosition } from '../flowTypes';
 import { LocalizedObject } from '../services/Localization';
 import Constants from './constants';
 import { CompletionOption, RenderNode, SearchResult } from './flowContext';
@@ -76,7 +76,7 @@ interface UpdateGhostNodePayload {
 }
 
 interface UpdateCreateNodePositionPayload {
-    createNodePosition: Position;
+    createNodePosition: FlowPosition;
 }
 
 interface UpdatePendingConnectionPayload {
@@ -241,7 +241,7 @@ export type UpdateTranslating = (translating: boolean) => UpdateTranslatingActio
 export type UpdateLanguage = (language: Language) => UpdateLanguageAction;
 
 export type UpdateCreateNodePosition = (
-    createNodePosition: Position
+    createNodePosition: FlowPosition
 ) => UpdateCreateNodePositionAction;
 
 export type UpdateDragSelection = (dragSelection: DragSelection) => UpdateDragSelectionAction;

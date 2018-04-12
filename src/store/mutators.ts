@@ -1,5 +1,5 @@
 const mutate = require('immutability-helper');
-import { FlowNode, UINode, AnyAction, FlowDefinition, Dimensions } from '../flowTypes';
+import { FlowNode, UINode, AnyAction, FlowDefinition, Dimensions, StickyNote } from '../flowTypes';
 import { v4 as generateUUID } from 'uuid';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { dump, snapToGrid } from '../utils';
@@ -320,6 +320,18 @@ export const updateDimensions = (
             }
         }
     });
+};
+
+export const updateStickyNote = (
+    definition: FlowDefinition,
+    stickyUUID: string,
+    sticky: StickyNote
+): FlowDefinition => {
+    if (sticky) {
+        return mutate(definition, { _ui: { stickies: { $merge: { [stickyUUID]: sticky } } } });
+    } else {
+        return mutate(definition, { _ui: { stickies: { $unset: [stickyUUID] } } });
+    }
 };
 
 /**
