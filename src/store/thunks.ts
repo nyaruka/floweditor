@@ -41,7 +41,8 @@ import {
     getCollision,
     getGhostNode,
     getLocalizations,
-    getActionIndex
+    getActionIndex,
+    getRenderNodeMap
 } from './helpers';
 import * as mutators from './mutators';
 import {
@@ -140,42 +141,12 @@ export const initializeFlow = (definition: FlowDefinition) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
-    const nodes: { [uuid: string]: RenderNode } = {};
-    const exits: { [uuid: string]: string } = {};
-
-    // initialize our nodes
-    const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
-    for (const node of definition.nodes) {
-        if (!node.actions) {
-            node.actions = [];
-        }
-        nodes[node.uuid] = { node, ui: definition._ui.nodes[node.uuid], inboundConnections: {} };
-
-        for (const exit of node.exits) {
-            if (exit.destination_node_uuid) {
-                let pointers: { [uuid: string]: string } = pointerMap[exit.destination_node_uuid];
-
-                if (!pointers) {
-                    pointers = {};
-                }
-
-                pointers[exit.uuid] = node.uuid;
-                pointerMap[exit.destination_node_uuid] = pointers;
-            }
-            exits[exit.uuid] = node.uuid;
-        }
-    }
-
-    // store our pointers with their associated nodes
-    for (const nodeUUID of Object.keys(pointerMap)) {
-        nodes[nodeUUID].inboundConnections = pointerMap[nodeUUID];
-    }
-
+    const renderNodeMap = getRenderNodeMap(definition);
     // store our flow definition without any nodes
     dispatch(updateDefinition(mutators.pruneDefinition(definition)));
-    dispatch(updateNodes(nodes));
+    dispatch(updateNodes(renderNodeMap));
     dispatch(updateFetchingFlow(false));
-    return nodes;
+    return renderNodeMap;
 };
 
 export const fetchFlow = (endpoint: string, uuid: string) => (

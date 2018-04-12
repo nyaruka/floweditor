@@ -15,6 +15,10 @@ export interface QueryString {
     [key: string]: string;
 }
 
+// To-do: improve this API.
+// shallowRender should default to true,
+// shouldn't have to pass an empty propOverrides object to get a shallow-rendered wrapper with no prop overrides, e.g.:
+// const { wrapper } = setup({}, true);
 /**
  * Compose setup method for component tests
  */
@@ -23,7 +27,11 @@ export const createSetup = <P extends {}, C extends ConfigProviderContext = Conf
     baseProps: P = {} as any,
     context: C | Partial<C> = {},
     childContextTypes: { [key: string]: Function } = {}
-) => (propOverrides: P | Partial<P> = {}, shallowRender: boolean = false) => {
+) => (
+    propOverrides: P | Partial<P> = {},
+    shallowRender: boolean = false,
+    contextOverrides: C | Partial<C> = {}
+) => {
     // Waiting on https://github.com/Microsoft/TypeScript/pull/1328
     const props = Object.assign({}, baseProps, propOverrides);
     // prettier-ignore
@@ -31,7 +39,7 @@ export const createSetup = <P extends {}, C extends ConfigProviderContext = Conf
         // tslint:disable-next-line:ban-types
         shallowRender ? (shallow as Function) : (mount as Function)
     )(
-        <Component {...props} />, { context, childContextTypes }
+        <Component {...props} />, { context: Object.assign({}, context, contextOverrides), childContextTypes }
     );
 
     return {
@@ -42,8 +50,8 @@ export const createSetup = <P extends {}, C extends ConfigProviderContext = Conf
     };
 };
 
-export const createSpy = (Component: React.ComponentClass) => (instanceMethod: string) =>
-    jest.spyOn(Component.prototype, instanceMethod as any);
+export const createSpy = (object: Object | React.ComponentClass) => (instanceMethod: string) =>
+    jest.spyOn((object as React.ComponentClass).prototype || object, instanceMethod as any);
 
 /**
  * Wait for promises in queue to resolve

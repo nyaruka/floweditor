@@ -21,8 +21,8 @@ interface Message {
 
 export interface SimulatorProps {
     definition: FlowDefinition;
-    showDefinition(definition: FlowDefinition): void;
     Activity: any;
+    showDefinition?: (definition: FlowDefinition) => void;
 }
 
 interface SimulatorState {
