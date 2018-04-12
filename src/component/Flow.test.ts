@@ -28,8 +28,7 @@ jest.mock('../services/ActivityManager');
 jest.mock('../services/Plumber');
 jest.useFakeTimers();
 
-const definition = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json')
-    .results[0].definition as FlowDefinition;
+const definition = require('../../__test__/customer_service.json') as FlowDefinition;
 
 const { languages, endpoints } = config;
 
