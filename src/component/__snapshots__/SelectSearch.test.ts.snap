@@ -11,16 +11,12 @@ exports[`SelectSearch render should render self, children with required props 1`
   <Async
     autoload={true}
     cache={Object {}}
-    className={undefined}
-    clearable={undefined}
-    closeOnSelect={undefined}
     filterOption={[Function]}
     ignoreAccents={false}
     ignoreCase={false}
     labelKey="name"
     loadOptions={[Function]}
     loadingPlaceholder="Loading..."
-    multi={undefined}
     name="Groups"
     onBlurResetsInput={true}
     onChange={[Function]}
@@ -29,7 +25,6 @@ exports[`SelectSearch render should render self, children with required props 1`
     placeholder="Enter the name of an existing group..."
     searchPromptText="Enter the name of an existing group"
     searchable={true}
-    value={undefined}
     valueKey="id"
   >
     <Select
@@ -39,7 +34,6 @@ exports[`SelectSearch render should render self, children with required props 1`
       backspaceRemoves={true}
       backspaceToRemoveMessage="Press backspace to remove {label}"
       cache={Object {}}
-      className={undefined}
       clearAllText="Clear all"
       clearRenderer={[Function]}
       clearValueText="Clear value"
@@ -114,13 +108,11 @@ exports[`SelectSearch render should render self, children with required props 1`
       simpleValue={false}
       tabSelectsValue={true}
       trimFilter={true}
-      value={undefined}
       valueComponent={[Function]}
       valueKey="id"
     >
       <div
         className="Select Select--single is-clearable is-searchable"
-        style={undefined}
       >
         <div
           className="Select-control"
@@ -129,7 +121,6 @@ exports[`SelectSearch render should render self, children with required props 1`
           onTouchEnd={[Function]}
           onTouchMove={[Function]}
           onTouchStart={[Function]}
-          style={undefined}
         >
           <span
             className="Select-multi-value-wrapper"
@@ -142,14 +133,10 @@ exports[`SelectSearch render should render self, children with required props 1`
             </div>
             <AutosizeInput
               aria-activedescendant="react-select-2--value"
-              aria-describedby={undefined}
               aria-expanded="false"
               aria-haspopup="false"
-              aria-label={undefined}
-              aria-labelledby={undefined}
               aria-owns=""
               className="Select-input"
-              id={undefined}
               injectStyles={true}
               minWidth="5"
               onBlur={[Function]}
@@ -157,7 +144,6 @@ exports[`SelectSearch render should render self, children with required props 1`
               onFocus={[Function]}
               required={false}
               role="combobox"
-              tabIndex={undefined}
               value=""
             >
               <div
@@ -170,14 +156,9 @@ exports[`SelectSearch render should render self, children with required props 1`
               >
                 <input
                   aria-activedescendant="react-select-2--value"
-                  aria-describedby={undefined}
                   aria-expanded="false"
                   aria-haspopup="false"
-                  aria-label={undefined}
-                  aria-labelledby={undefined}
                   aria-owns=""
-                  className={undefined}
-                  id={undefined}
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
@@ -189,7 +170,6 @@ exports[`SelectSearch render should render self, children with required props 1`
                       "width": "5px",
                     }
                   }
-                  tabIndex={undefined}
                   value=""
                 />
                 <div

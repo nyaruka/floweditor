@@ -2,38 +2,38 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { ConfigProviderContext, languagesPT } from '../config';
+import { ConfigProviderContext, endpointsPT, languagesPT } from '../config';
 import { getActivity } from '../external';
-import { FlowDefinition, Languages, FlowNode, UINode } from '../flowTypes';
+import { FlowDefinition, FlowNode } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
 import Plumber from '../services/Plumber';
 import {
+    AppState,
     ConnectionEvent,
     DispatchWithState,
-    ensureStartNode,
     EnsureStartNode,
+    ensureStartNode,
     NoParamsAC,
     OnConnectionDrag,
     onConnectionDrag,
     OnOpenNodeEditor,
     onOpenNodeEditor,
     resetNodeEditingState,
-    UpdateConnection,
     updateConnection,
+    UpdateConnection,
     updateCreateNodePosition,
     UpdateCreateNodePosition,
-    AppState,
     UpdateDragSelection,
     updateDragSelection
 } from '../store';
-import { snapToGrid, dump } from '../utils';
-import * as styles from './Flow.scss';
-import ConnectedNode, { DragPoint } from './Node';
-import NodeEditor from './NodeEditor';
-import Simulator from './Simulator';
 import { RenderNode } from '../store/flowContext';
 import { DragSelection } from '../store/flowEditor';
 import { getCollisions } from '../store/helpers';
+import { isRealValue, renderIf, snapToGrid } from '../utils';
+import * as styles from './Flow.scss';
+import ConnectedNode, { DragPoint } from './Node';
+import ConnectedNodeEditor from './NodeEditor';
+import Simulator from './Simulator';
 
 export interface FlowStoreProps {
     translating: boolean;
@@ -57,7 +57,36 @@ export interface Translations {
     [uuid: string]: any;
 }
 
-export class Flow extends React.Component<FlowStoreProps> {
+export const REPAINT_TIMEOUT = 500;
+export const GHOST_POSITION_INITIAL = { left: -1000, top: -1000 };
+
+export const nodeSpecId = 'node';
+export const nodesContainerSpecId = 'node-container';
+export const ghostNodeSpecId = 'ghost-node';
+export const dragSelectSpecId = 'drag-select';
+
+export const getGhostUI = (ghostNode: FlowNode = {} as any) => ({
+    position: GHOST_POSITION_INITIAL,
+    ...(ghostNode.router ? { type: 'wait_for_response' } : {})
+});
+
+export const isDraggingBack = (event: ConnectionEvent) =>
+    event.suspendedElementId === event.targetId && event.source !== null;
+
+export const getDragStyle = (drag: DragSelection) => {
+    const left = Math.min(drag.startX, drag.currentX);
+    const top = Math.min(drag.startY, drag.currentY);
+    const width = Math.max(drag.startX, drag.currentX) - left;
+    const height = Math.max(drag.startY, drag.currentY) - top;
+    return {
+        left,
+        top,
+        width,
+        height
+    };
+};
+
+export class Flow extends React.Component<FlowStoreProps, {}> {
     private Activity: ActivityManager;
     private Plumber: Plumber;
     private containerOffset = { x: 0, y: 0 };
@@ -66,7 +95,8 @@ export class Flow extends React.Component<FlowStoreProps> {
     private ghost: any;
 
     public static contextTypes = {
-        languages: languagesPT
+        languages: languagesPT,
+        endpoints: endpointsPT
     };
 
     constructor(props: FlowStoreProps, context: ConfigProviderContext) {
@@ -115,12 +145,7 @@ export class Flow extends React.Component<FlowStoreProps> {
 
         // deals with safari load rendering throwing
         // off the jsplumb offsets
-        window.setTimeout(() => this.Plumber.repaint(), 500);
-    }
-
-    public componentDidUpdate(prevProps: FlowStoreProps): void {
-        // console.log("Updated", this.props.definition);
-        // this.props.Mutator.reflow();
+        window.setTimeout(() => this.Plumber.repaint(), REPAINT_TIMEOUT);
     }
 
     public componentWillUnmount(): void {
@@ -142,11 +167,11 @@ export class Flow extends React.Component<FlowStoreProps> {
         return true;
     }
 
-    private onShowDefinition(definition: FlowDefinition): void {
-        // TODO: make this work, it's cool!
-        // this.Plumber.reset();
-        // this.setState({ viewDefinition: definition }, () => { this.Plumber.repaint() });
-    }
+    // private onShowDefinition(definition: FlowDefinition): void {
+    //     TODO: make this work, it's cool!
+    //     this.Plumber.reset();
+    //     this.setState({ viewDefinition: definition }, () => { this.Plumber.repaint() });
+    // }
 
     /**
      * Called the moment a connector is done dragging, whether it is dropped on an
@@ -158,10 +183,7 @@ export class Flow extends React.Component<FlowStoreProps> {
         // doesn't swallow any stack traces.
         window.setTimeout(() => {
             // Don't show the node editor if we a dragging back to where we were
-            const draggingBack =
-                event.suspendedElementId === event.targetId && event.source !== null;
-
-            if (ghostNode && !draggingBack) {
+            if (isRealValue(ghostNode) && !isDraggingBack(event)) {
                 // Wire up the drag from to our ghost node
                 const dragPoint = pendingConnection;
                 this.Plumber.recalculate(ghostNode.uuid);
@@ -179,6 +201,8 @@ export class Flow extends React.Component<FlowStoreProps> {
                 this.props.onOpenNodeEditor(this.props.ghostNode, null, this.context.languages);
             }
 
+            // To-do: mock this out
+            /* istanbul ignore next */
             $(document).off('mousemove');
         }, 0);
 
@@ -195,6 +219,7 @@ export class Flow extends React.Component<FlowStoreProps> {
             return (
                 <ConnectedNode
                     key={uuid}
+                    data-spec={nodeSpecId}
                     node={renderNode.node}
                     ui={renderNode.ui}
                     Activity={this.Activity}
@@ -214,64 +239,42 @@ export class Flow extends React.Component<FlowStoreProps> {
     }
 
     private getDragNode(): JSX.Element {
-        if (this.props.ghostNode) {
-            // Start off screen
-            const ui: UINode = {
-                position: { left: -1000, top: -1000 }
-            };
-
-            if (this.props.ghostNode.router) {
-                ui.type = 'wait_for_response';
-            }
-
-            return (
-                <ConnectedNode
-                    ref={this.ghostRef}
-                    key={this.props.ghostNode.uuid}
-                    ghost={true}
-                    node={this.props.ghostNode}
-                    ui={ui}
-                    Activity={this.Activity}
-                    plumberRepaintForDuration={this.Plumber.repaintForDuration}
-                    plumberDraggable={this.Plumber.draggable}
-                    plumberMakeTarget={this.Plumber.makeTarget}
-                    plumberRemove={this.Plumber.remove}
-                    plumberRecalculate={this.Plumber.recalculate}
-                    plumberMakeSource={this.Plumber.makeSource}
-                    plumberConnectExit={this.Plumber.connectExit}
-                    plumberClearDragSelection={this.Plumber.clearDragSelection}
-                    plumberSetDragSelection={this.Plumber.setDragSelection}
-                    plumberRemoveFromDragSelection={this.Plumber.removeFromDragSelection}
-                />
-            );
-        }
-
-        return null;
+        return isRealValue(this.props.ghostNode) ? (
+            <ConnectedNode
+                ref={this.ghostRef}
+                key={this.props.ghostNode.uuid}
+                data-spec={ghostNodeSpecId}
+                ghost={true}
+                node={this.props.ghostNode}
+                ui={getGhostUI(this.props.ghostNode)}
+                Activity={this.Activity}
+                plumberRepaintForDuration={this.Plumber.repaintForDuration}
+                plumberDraggable={this.Plumber.draggable}
+                plumberMakeTarget={this.Plumber.makeTarget}
+                plumberRemove={this.Plumber.remove}
+                plumberRecalculate={this.Plumber.recalculate}
+                plumberMakeSource={this.Plumber.makeSource}
+                plumberConnectExit={this.Plumber.connectExit}
+                plumberClearDragSelection={this.Plumber.clearDragSelection}
+                plumberSetDragSelection={this.Plumber.setDragSelection}
+                plumberRemoveFromDragSelection={this.Plumber.removeFromDragSelection}
+            />
+        ) : null;
     }
 
     private getSimulator(): JSX.Element {
-        /*if (this.context.endpoints.engine) {
-            return (
-                <Simulator
-                    // Editor
-                    definition={this.props.definition}
-                    // Flow
-                    showDefinition={this.onShowDefinition}
-                    Activity={this.Activity}
-                />
-            );
-        }*/
-
-        return null;
+        return renderIf(this.context.endpoints.engine)(
+            <Simulator definition={this.props.definition} Activity={this.Activity} />
+        );
     }
 
     private getNodeEditor(): JSX.Element {
-        return this.props.nodeEditorOpen ? (
-            <NodeEditor
+        return renderIf(this.props.nodeEditorOpen)(
+            <ConnectedNodeEditor
                 plumberConnectExit={this.Plumber.connectExit}
                 plumberRepaintForDuration={this.Plumber.repaintForDuration}
             />
-        ) : null;
+        );
     }
 
     public onMouseDown(event: React.MouseEvent<HTMLDivElement>): void {
@@ -289,7 +292,6 @@ export class Flow extends React.Component<FlowStoreProps> {
     public onMouseMove(event: React.MouseEvent<HTMLDivElement>): void {
         if (this.props.dragSelection && this.props.dragSelection.startX) {
             const drag = this.props.dragSelection;
-
             const left = Math.min(drag.startX, drag.currentX);
             const top = Math.min(drag.startY, drag.currentY);
             const right = Math.max(drag.startX, drag.currentX);
@@ -323,17 +325,11 @@ export class Flow extends React.Component<FlowStoreProps> {
 
     public getDragSelectionBox(): JSX.Element {
         if (this.props.dragSelection && this.props.dragSelection.startX) {
-            const drag = this.props.dragSelection;
-            const left = Math.min(drag.startX, drag.currentX);
-            const top = Math.min(drag.startY, drag.currentY);
-            const width = Math.max(drag.startX, drag.currentX) - left;
-            const height = Math.max(drag.startY, drag.currentY) - top;
-
             return (
                 <div
-                    key="dragSelect"
+                    data-spec={dragSelectSpecId}
                     className={styles.dragSelection}
-                    style={{ left, top, width, height }}
+                    style={{ ...getDragStyle(this.props.dragSelection) }}
                 />
             );
         }
@@ -341,31 +337,27 @@ export class Flow extends React.Component<FlowStoreProps> {
     }
 
     public render(): JSX.Element {
-        const nodeEditor = this.getNodeEditor();
-        const dragNode = this.getDragNode();
-        const nodes = this.getNodes();
-        const simulator = this.getSimulator();
-
         return (
-            <div key={this.props.definition.uuid}>
-                {simulator}
-                {dragNode}
-                {nodeEditor}
+            <>
+                {this.getSimulator()}
+                {this.getDragNode()}
+                {this.getNodeEditor()}
                 <div
                     className={styles.nodeList}
-                    data-spec="nodes"
+                    data-spec={nodesContainerSpecId}
                     onMouseDown={this.onMouseDown}
                     onMouseMove={this.onMouseMove}
                     onMouseUp={this.onMouseUp}
                 >
                     {this.getDragSelectionBox()}
-                    {nodes}
+                    {this.getNodes()}
                 </div>
-            </div>
+            </>
         );
     }
 }
 
+/* istanbul ignore next */
 const mapStateToProps = ({
     flowContext: { definition, dependencies, nodes },
     flowEditor: {
@@ -383,6 +375,7 @@ const mapStateToProps = ({
     dragSelection
 });
 
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {

@@ -2,7 +2,6 @@
 // tslint:disable:ban-types
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
-import { DragPoint } from '../component/Node';
 import { hasCases } from '../component/NodeEditor/NodeEditor';
 import { getTypeConfig } from '../config';
 import { FlowDetails, getFlow, getFlows } from '../external';
@@ -10,38 +9,40 @@ import {
     Action,
     AnyAction,
     Dimensions,
+    Exit,
     FlowDefinition,
-    Languages,
     FlowNode,
+    Languages,
     Position,
     SendMsg,
-    SwitchRouter,
-    Exit
+    SwitchRouter
 } from '../flowTypes';
+import { timeEnd, timeStart } from '../testUtils';
+import { NODE_SPACING } from '../utils';
 import {
     RenderNode,
+    RenderNodeMap,
     updateDefinition,
     updateLocalizations,
-    updateNodes,
-    RenderNodeMap
+    updateNodes
 } from './flowContext';
 import {
-    removePendingConnection,
     updateCreateNodePosition,
+    updateDragSelection,
     updateFetchingFlow,
     updateFlows,
     updateGhostNode,
     updateNodeDragging,
     updateNodeEditorOpen,
-    updatePendingConnection,
-    updateDragSelection
+    updatePendingConnection
 } from './flowEditor';
 import {
     determineConfigType,
+    getActionIndex,
     getCollision,
     getGhostNode,
     getLocalizations,
-    getActionIndex
+    getRenderNodeMap
 } from './helpers';
 import * as mutators from './mutators';
 import {
@@ -54,12 +55,6 @@ import {
     updateUserAddingAction
 } from './nodeEditor';
 import AppState from './state';
-
-import * as variables from '../variables.scss';
-import { NODE_SPACING, dump } from '../utils';
-
-import { timeStart, timeEnd } from '../testUtils';
-import Plumber from '../services/Plumber';
 
 export type DispatchWithState = Dispatch<AppState>;
 
@@ -140,42 +135,12 @@ export const initializeFlow = (definition: FlowDefinition) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
-    const nodes: { [uuid: string]: RenderNode } = {};
-    const exits: { [uuid: string]: string } = {};
-
-    // initialize our nodes
-    const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
-    for (const node of definition.nodes) {
-        if (!node.actions) {
-            node.actions = [];
-        }
-        nodes[node.uuid] = { node, ui: definition._ui.nodes[node.uuid], inboundConnections: {} };
-
-        for (const exit of node.exits) {
-            if (exit.destination_node_uuid) {
-                let pointers: { [uuid: string]: string } = pointerMap[exit.destination_node_uuid];
-
-                if (!pointers) {
-                    pointers = {};
-                }
-
-                pointers[exit.uuid] = node.uuid;
-                pointerMap[exit.destination_node_uuid] = pointers;
-            }
-            exits[exit.uuid] = node.uuid;
-        }
-    }
-
-    // store our pointers with their associated nodes
-    for (const nodeUUID of Object.keys(pointerMap)) {
-        nodes[nodeUUID].inboundConnections = pointerMap[nodeUUID];
-    }
-
+    const renderNodeMap = getRenderNodeMap(definition);
     // store our flow definition without any nodes
     dispatch(updateDefinition(mutators.pruneDefinition(definition)));
-    dispatch(updateNodes(nodes));
+    dispatch(updateNodes(renderNodeMap));
     dispatch(updateFetchingFlow(false));
-    return nodes;
+    return renderNodeMap;
 };
 
 export const fetchFlow = (endpoint: string, uuid: string) => (

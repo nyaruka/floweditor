@@ -16,7 +16,8 @@ import {
     snakify,
     titleCase,
     toBoolMap,
-    validUUID
+    validUUID,
+    isRealValue
 } from '.';
 import { operatorConfigList } from '../config';
 import { ContactProperties } from '../flowTypes';
@@ -214,12 +215,12 @@ describe('utils', () => {
     });
 
     describe('renderIf', () => {
-        it('should return element if condition is truthy', () => {
+        it('should return element if predicate is truthy', () => {
             expect(renderIf(true)(<div />)).toEqual(<div />);
         });
 
-        it('should return null if condition is falsy', () => {
-            expect(renderIf(false)(<div />)).toBeNull();
+        it('should not return element if predicate is falsy', () => {
+            expect(renderIf(false)(<div />)).toBeFalsy();
         });
     });
 
@@ -240,6 +241,16 @@ describe('utils', () => {
 
         it('should return false if string contains special characters', () => {
             expect(containsOnlyLabelChars('Age$')).toBeFalsy();
+        });
+    });
+
+    describe('isRealValue', () => {
+        it('should return true if obj is not null or undefined', () => {
+            expect(isRealValue({})).toBeTruthy();
+        });
+
+        it('should return false if obj is null or undefined', () => {
+            [undefined, null].forEach(item => expect(isRealValue(item)).toBeFalsy());
         });
     });
 });
