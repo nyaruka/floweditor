@@ -667,6 +667,7 @@ export const updateSticky = (uuid: string, sticky: StickyNote) => (
     getState: GetState
 ): void => {
     const { flowContext: { definition } } = getState();
+
     const updated = mutators.updateStickyNote(definition, uuid, sticky);
     dispatch(updateDefinition(updated));
 };

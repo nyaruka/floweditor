@@ -1,5 +1,47 @@
 @import "../../variables.scss";
 
+@mixin color-choice($color) {
+    &.color-option {
+        background: $color;
+    }
+    
+    .sticky {
+        background: $color;
+        box-shadow: 5px 5px 0px -2px rgba( $color - #222, .3);
+
+    }
+}
+
+.yellow { @include color-choice($sticky_yellow); }
+.blue { @include color-choice($sticky_blue); }
+.purple { @include color-choice($sticky_purple); }
+.gray { @include color-choice($sticky_gray); }
+
+.color-chooser {
+    color: #fff;
+    visibility: hidden;
+    height: 16px;
+}
+
+.color-option {
+    height: 12px;
+    width: 12px;
+    border: 1px inset rgba(0,0,0,.2);
+    display: inline-block;
+    margin: 2px 3px;
+
+    &:hover {
+        //margin-top: 0px;
+        margin-top: 1px;
+        margin-bottom: 1px;
+        margin-right: 2px;
+        margin-left: 2px;
+        border: 1px inset rgba(0,0,0,.3);
+        height: 14px;
+        width: 14px;
+    }
+}
+
 .stickyContainer {
     position: absolute;
     padding: $node_padding + px;
@@ -7,40 +49,99 @@
 
     .sticky {
         // margin: $node_padding + px;
-        background: $sticky_color;
-        padding: 16px;
+        // background: $sticky_color;
+        // padding: 16px;
         font-size: 13px;
         width: 176px;
-
-        box-shadow: 5px 5px 0px -2px $sticky_shadow;
         cursor: pointer;
-        
-        textarea.title {
-            font-weight: 500;
-            margin-bottom: 3px;
-            width: 176px;
-            border: 0px;
-            background: none;
-            font-weight: 600;
-            font-size: 13px;
-            line-height: 14px;
-            resize: none;
-            outline: none;
-            box-shadow: none;
-            color: $text_color - #111;
+        transition: none;
 
+        .removal.title-wrapper {
+            transition: all 100ms ease-in-out;
+            background: transparent;
+
+            .remove-button {
+                color: rgba(255,255,255,.4);
+            }
+            textarea.title {
+                visibility: hidden;
+            }
+
+            .confirmation {
+                display: inline-block;
+            }
         }
 
-        textarea.body {
-            font-size: 90%;
-            width: 176px;
-            outline: none;
-            box-shadow: none;
-            border: 0px;
-            background: none;
-            resize: none;
-            color: $text_color;
+        .title-wrapper {
+            transition: none;
+            padding: 8px 8px;
+            padding-bottom: 4px;
+            width: 160px;
+            background: rgba(0,0,0,.05);
+            
+            position: relative;
+            &:hover {
+                .remove-button {
+                    visibility: visible;
+                }
+            }
 
+            .remove-button {
+                position: absolute;
+                right: 2px;
+                top: 2px;
+                color: rgba(0,0,0,.2);
+                z-index: 1000;
+                visibility: hidden;
+            }
+
+            .confirmation {
+                margin: -8px;
+                padding: 8px;
+                background: $removal_confirmation;
+                color: #fff;
+                width: 160px;
+                text-align: center;
+                font-size: 13px;
+                font-weight: 400;
+                display: none;
+                position: absolute;
+            }
+
+            textarea.title {
+                transition: none;
+                border: none;
+                background: none;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 14px;
+                width: 154px;
+                resize: none;
+                outline: none;
+                box-shadow: none;
+                color: $text_color - #111;
+            }
+        }
+
+        .body-wrapper {
+            padding: 8px 8px;
+            width: 160px;
+            &:hover {
+                .color-chooser {
+                    visibility: visible;
+                }
+            }
+
+            textarea.body {
+                font-size: 90%;
+                outline: none;
+                box-shadow: none;
+                border: none;
+                background: none;
+                resize: none;
+                color: $text_color;
+                width: 154px;
+            }
         }
     }
 }

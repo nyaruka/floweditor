@@ -13,7 +13,8 @@ const SNAKED_CHARS = /\s+(?=\S)/g;
 export const GRID_SIZE: number = parseInt(variables.grid_size, 10) || 20;
 export const NODE_SPACING: number = parseInt(variables.node_spacing, 10) || 10;
 export const NODE_PADDING: number = parseInt(variables.node_padding, 10) || 10;
-export const QUIET_NOTE: number = 2000;
+export const QUIET_NOTE = 2000;
+export const CONFIRMATION_TIME = 2000;
 
 interface BoolMap {
     [key: string]: boolean;

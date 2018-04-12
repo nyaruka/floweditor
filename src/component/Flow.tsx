@@ -319,7 +319,7 @@ export class Flow extends React.Component<FlowStoreProps> {
     private onDoubleClick(event: React.MouseEvent<HTMLDivElement>): void {
         if (this.isClickOnCanvas(event)) {
             const { left, top } = snapToGrid(
-                event.clientX - this.containerOffset.left - NODE_PADDING * 2,
+                event.clientX - this.containerOffset.left - 100 + NODE_PADDING,
                 event.clientY - this.containerOffset.top - NODE_PADDING * 2
             );
 

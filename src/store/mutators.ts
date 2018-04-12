@@ -326,8 +326,13 @@ export const updateStickyNote = (
     definition: FlowDefinition,
     stickyUUID: string,
     sticky: StickyNote
-): FlowDefinition =>
-    mutate(definition, { _ui: { stickies: { $merge: { [stickyUUID]: sticky } } } });
+): FlowDefinition => {
+    if (sticky) {
+        return mutate(definition, { _ui: { stickies: { $merge: { [stickyUUID]: sticky } } } });
+    } else {
+        return mutate(definition, { _ui: { stickies: { $unset: [stickyUUID] } } });
+    }
+};
 
 /**
  * Prunes the definition for editing, removing node references

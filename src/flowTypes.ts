@@ -186,6 +186,7 @@ export interface StickyNote {
     position: FlowPosition;
     title: string;
     body: string;
+    color?: string;
 }
 
 export interface UIMetaData {
