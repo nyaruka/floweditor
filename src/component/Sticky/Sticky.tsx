@@ -164,18 +164,20 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
     private getColorChooser(): JSX.Element {
         return (
-            <div className={styles.colorChooser}>
-                {Object.keys(COLOR_OPTIONS).map((color: string) => {
-                    return (
-                        <div
-                            key={this.props.uuid + color}
-                            onClick={() => {
-                                this.onChangeColor(color);
-                            }}
-                            className={styles.colorOption + ' ' + COLOR_OPTIONS[color]}
-                        />
-                    );
-                })}
+            <div className={styles.colorChooserContainer}>
+                <div className={styles.colorChooser}>
+                    {Object.keys(COLOR_OPTIONS).map((color: string) => {
+                        return (
+                            <div
+                                key={this.props.uuid + color}
+                                onClick={() => {
+                                    this.onChangeColor(color);
+                                }}
+                                className={styles.colorOption + ' ' + COLOR_OPTIONS[color]}
+                            />
+                        );
+                    })}
+                </div>
             </div>
         );
     }

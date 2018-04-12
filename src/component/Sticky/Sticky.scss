@@ -17,30 +17,47 @@
 .gray { @include color-choice($sticky_gray); }
 .green { @include color-choice($sticky_green); }
 
-.color-chooser {
-    color: #fff;
-    visibility: hidden;
+.color-chooser-container {
     height: 16px;
-}
-
-.color-option {
-    height: 12px;
-    width: 12px;
-    border: 1px inset rgba(0,0,0,.2);
-    display: inline-block;
-    margin: 2px 3px;
-
+    width: 100%;
+    
     &:hover {
-        //margin-top: 0px;
-        margin-top: 1px;
-        margin-bottom: 1px;
-        margin-right: 2px;
-        margin-left: 2px;
-        border: 1px inset rgba(0,0,0,.3);
-        height: 14px;
-        width: 14px;
+        .color-chooser {
+            opacity: 1;
+            left: 0px;
+        }
+    }
+    
+    .color-chooser {
+        color: #fff;
+        opacity: 0;
+        transition: all 150ms ease-in-out;
+        left: 30px;
+        position: relative;
+        display: inline-block;
+        
+        .color-option {
+            height: 12px;
+            width: 12px;
+            border: 1px inset rgba(0,0,0,.2);
+            display: inline-block;
+            margin: 2px 3px;
+        
+            &:hover {
+                //margin-top: 0px;
+                margin-top: 1px;
+                margin-bottom: 1px;
+                margin-right: 2px;
+                margin-left: 2px;
+                border: 1px inset rgba(0,0,0,.3);
+                height: 14px;
+                width: 14px;
+            }
+        }
     }
 }
+
+
 
 .stickyContainer {
     position: absolute;
@@ -122,11 +139,7 @@
         .body-wrapper {
             padding: 8px 8px;
             width: 160px;
-            &:hover {
-                .color-chooser {
-                    visibility: visible;
-                }
-            }
+           
 
             textarea.body {
                 font-size: 90%;

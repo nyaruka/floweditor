@@ -115,6 +115,7 @@
     "raf": "3.4.0",
     "react": "16.2.0",
     "react-addons-shallow-compare": "15.5.1",
+    "react-autosize-textarea": "3.0.3",
     "react-beautiful-dnd": "3.0.0",
     "react-dom": "16.2.0",
     "react-flip-move": "2.10.0",
@@ -147,8 +148,5 @@
     "webpack-bundle-analyzer": "2.9.1",
     "webpack-dev-server": "2.5.1",
     "webpack-merge": "4.1.0"
-  },
-  "dependencies": {
-    "react-autosize-textarea": "3.0.3"
   }
 }
