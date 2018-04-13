@@ -69,7 +69,7 @@
         font-size: 13px;
         width: 176px;
         cursor: pointer;
-        transition: none;
+        transition: all 300ms linear;
 
         .removal.title-wrapper {
             transition: all 100ms ease-in-out;
