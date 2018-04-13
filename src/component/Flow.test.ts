@@ -20,7 +20,7 @@ import { FlowDefinition } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
 import Plumber from '../services/Plumber';
 import { ConnectionEvent, createStore, initialState } from '../store';
-import { getCollisions, getGhostNode, getRenderNodeMap } from '../store/helpers';
+import { getCollisions, getGhostNode, getFlowDetails } from '../store/helpers';
 import { createSetup, createSpy, getSpecWrapper } from '../testUtils';
 import { getBaseLanguage, dump } from '../utils';
 
@@ -34,7 +34,7 @@ jest.mock('uuid', () => {
     };
 });
 
-const definition = require('../../__test__/customer_service.json') as FlowDefinition;
+const definition = require('../../__test__/flows/colors.json') as FlowDefinition;
 
 const { languages, endpoints } = config;
 
@@ -59,10 +59,12 @@ const childContextTypes = {
     languages: languagesPT
 };
 
+const { renderNodeMap } = getFlowDetails(definition);
+
 const baseProps: FlowStoreProps = {
     translating: false,
     definition,
-    nodes: getRenderNodeMap(definition),
+    nodes: renderNodeMap,
     dependencies: [],
     ghostNode: null,
     pendingConnection: null,

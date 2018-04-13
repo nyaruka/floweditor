@@ -30,6 +30,10 @@
                                     {
                                         "uuid": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
                                         "name": "Unsatisfied Customers"
+                                    },
+                                    {
+                                        "uuid": "783a5393-c47d-4dd0-bcfb-9ba8081d2f3f",
+                                        "name": "Unknown Group"
                                     }
                                 ]
                             }
@@ -70,6 +74,15 @@
                                 "type": "set_contact_property",
                                 "property": "name",
                                 "value": "@run.results.name"
+                            },
+                            {
+                                "uuid": "f267fe2d-3100-4a3e-aa41-2dc6b3db3eaa",
+                                "type": "set_contact_field",
+                                "field": {
+                                    "key": "unknown_field",
+                                    "name": "Unknown Field"
+                                },
+                                "value": "Some Value"
                             },
                             {
                                 "uuid": "21541123-ab0f-4c2f-9835-5c97e9be133f",

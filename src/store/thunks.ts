@@ -43,7 +43,7 @@ import {
     getCollision,
     getGhostNode,
     getLocalizations,
-    getRenderNodeMap
+    getFlowDetails
 } from './helpers';
 import * as mutators from './mutators';
 import {
@@ -140,7 +140,7 @@ export const initializeFlow = (definition: FlowDefinition) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
-    const renderNodeMap = getRenderNodeMap(definition);
+    const { renderNodeMap } = getFlowDetails(definition);
     // store our flow definition without any nodes
     dispatch(updateDefinition(mutators.pruneDefinition(definition)));
     dispatch(updateNodes(renderNodeMap));

@@ -12,6 +12,8 @@ import {
 } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { RenderNode, RenderNodeMap, SearchResult } from './flowContext';
+import { GroupOption } from '../component/form/GroupsElement';
+import { FieldResult } from '../component/SelectSearch';
 
 export interface Bounds {
     left: number;
@@ -231,8 +233,22 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
     return ghostNode;
 };
 
-export const getRenderNodeMap = ({ nodes, _ui }: FlowDefinition) => {
+export interface FlowDetails {
+    renderNodeMap: RenderNodeMap;
+    groups: SearchResult[];
+    fields: SearchResult[];
+}
+
+/**
+ * Processes an initial FlowDefinition for details necessary for the editor
+ */
+export const getFlowDetails = ({ nodes, _ui }: FlowDefinition): FlowDetails => {
     const renderNodeMap: RenderNodeMap = {};
+
+    // our groups and fields referenced within
+    const groups: SearchResult[] = [];
+    const fields: SearchResult[] = [];
+
     // initialize our nodes
     const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
 
@@ -266,5 +282,5 @@ export const getRenderNodeMap = ({ nodes, _ui }: FlowDefinition) => {
         renderNodeMap[nodeUUID].inboundConnections = pointerMap[nodeUUID];
     }
 
-    return renderNodeMap;
+    return { renderNodeMap, groups, fields };
 };
