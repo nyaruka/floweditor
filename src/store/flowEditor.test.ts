@@ -31,10 +31,10 @@ import {
 import { getGhostNode } from './helpers';
 import { FlowNode } from '../flowTypes';
 import { RenderNode } from './flowContext';
+import { configProviderContext } from '../testUtils/index';
 
-const config = require('../../assets/config');
 const flowsResp = require('../../assets/flows.json');
-const colorsFlow = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
+const colorsFlow = require('../../__test__/flows/colors.json');
 
 describe('flowEditor action creators', () => {
     describe('updateTranslating', () => {
@@ -52,9 +52,9 @@ describe('flowEditor action creators', () => {
 
     describe('updateLanguage', () => {
         it('should create an action to update language state', () => {
-            const iso = Object.keys(config.languages)[0];
+            const iso = Object.keys(configProviderContext.languages)[0];
             const language = {
-                name: config.languages[iso],
+                name: configProviderContext.languages[iso],
                 iso
             };
             const expectedAction = {
@@ -168,14 +168,13 @@ describe('flowEditor action creators', () => {
 
     describe('updateGhostNode', () => {
         it('should create an action to update ghostNode state', () => {
-            const { definition } = colorsFlow.results[0];
             const fromNode: RenderNode = {
-                node: definition.nodes[0],
-                ui: definition._ui.nodes[definition.nodes[0].uuid],
+                node: colorsFlow.nodes[0],
+                ui: colorsFlow._ui.nodes[colorsFlow.nodes[0].uuid],
                 inboundConnections: {}
             };
 
-            const ghostNode = getGhostNode(fromNode, definition);
+            const ghostNode = getGhostNode(fromNode, colorsFlow);
             const expectedAction = {
                 type: Constants.UPDATE_GHOST_NODE,
                 payload: {
@@ -222,9 +221,9 @@ describe('flowEditor reducers', () => {
         });
 
         it('should handle UPDATE_LANGUAGE', () => {
-            const iso = Object.keys(config.languages)[0];
+            const iso = Object.keys(configProviderContext.languages)[0];
             const language = {
-                name: config.languages[iso],
+                name: configProviderContext.languages[iso],
                 iso
             };
             const action = updateLanguage(language);
@@ -341,10 +340,9 @@ describe('flowEditor reducers', () => {
         });
 
         it('should handle UPDATE_GHOST_NODE', () => {
-            const { definition } = colorsFlow.results[0];
             const fromNode: RenderNode = {
-                node: definition.nodes[0],
-                ui: definition._ui.nodes[definition.nodes[0].uuid],
+                node: colorsFlow.nodes[0],
+                ui: colorsFlow._ui.nodes[colorsFlow.nodes[0].uuid],
                 inboundConnections: {}
             };
             const ghostNode = getGhostNode(fromNode, { [fromNode.node.uuid]: fromNode });

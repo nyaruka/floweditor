@@ -1,16 +1,15 @@
+import { v4 as generateUUID } from 'uuid';
+import { Types } from '../config/typeConfigs';
+import { Case, Exit, Position, SendMsg } from '../flowTypes';
+import { NODES_ABC } from './__test__';
 import {
-    getSuggestedResultName,
     determineConfigType,
+    getCollisions,
     getGhostNode,
     getLocalizations,
-    getUniqueDestinations,
-    getCollisions
+    getSuggestedResultName,
+    getUniqueDestinations
 } from './helpers';
-import { v4 as generateUUID } from 'uuid';
-
-import { NODES_ABC } from './__test__';
-import { dump, getLocalization } from '../utils';
-import { AnyAction, SendMsg, Exit, Case, Position } from '../flowTypes';
 
 describe('helpers', () => {
     const nodes = NODES_ABC;
@@ -83,7 +82,7 @@ describe('helpers', () => {
         it('should create an action node from a switch', () => {
             const ghost = getGhostNode(nodes.nodeD, nodes);
             expect(ghost.router).toBeUndefined();
-            expect(ghost.actions[0].type).toBe('send_msg');
+            expect(ghost.actions[0].type).toBe(Types.send_msg);
         });
     });
 
@@ -94,17 +93,17 @@ describe('helpers', () => {
                 nodes.nodeA.node.actions[0],
                 nodes
             );
-            expect(configType).toBe('send_msg');
+            expect(configType).toBe(Types.send_msg);
         });
 
         it('should return last action type if no action provided', () => {
             const configType = determineConfigType(nodes.nodeA.node, null, nodes);
-            expect(configType).toBe('send_msg');
+            expect(configType).toBe(Types.send_msg);
         });
 
         it('should use the router type if no actions', () => {
             const configType = determineConfigType(nodes.nodeD.node, null, nodes);
-            expect(configType).toBe('wait_for_response');
+            expect(configType).toBe(Types.wait_for_response);
         });
 
         it('should determine type from a brand new router', () => {

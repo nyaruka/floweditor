@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
+import { Types } from '../../../config/typeConfigs';
 import {
     AttributeType,
     SetContactAttribute,
@@ -52,7 +53,7 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
     }
 
     private getInitial(): SearchResult {
-        if (this.props.action.type === 'set_contact_field') {
+        if (this.props.action.type === Types.set_contact_field) {
             return fieldToSearchResult(this.props.action as SetContactField);
         } else {
             return propertyToSearchResult(this.props.action as SetContactProperty);

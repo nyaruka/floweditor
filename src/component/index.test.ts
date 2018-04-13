@@ -1,19 +1,17 @@
 import { editorContainerSpecId, editorSpecId, FlowEditor, FlowEditorStoreProps } from '.';
 import { FlowEditorConfig } from '../flowTypes';
-import { createSetup, getSpecWrapper, Resp } from '../testUtils';
-import { getBaseLanguage, getLanguage } from '../utils';
+import {
+    composeComponentTestUtils,
+    configProviderContext,
+    Resp,
+    getSpecWrapper,
+    setMock
+} from '../testUtils';
+import { getBaseLanguage, getLanguage, setTrue, set } from '../utils';
 
-const config = require('../../assets/config') as FlowEditorConfig;
-const colorsFlowResp = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json') as Resp;
+const colorsFlow = require('../../__test__/flows/colors.json') as Resp;
 
-const context = {
-    assetHost: config.assetHost,
-    endpoints: config.endpoints,
-    languages: config.languages,
-    flow: config.flow
-};
-
-const baseProps = {
+const baseProps: FlowEditorStoreProps = {
     language: null,
     translating: false,
     fetchingFlow: false,
@@ -24,12 +22,12 @@ const baseProps = {
     fetchFlows: jest.fn()
 };
 
-const setup = createSetup<FlowEditorStoreProps>(FlowEditor, baseProps, config);
+const { setup, spyOn } = composeComponentTestUtils(FlowEditor, baseProps);
 
 describe('Root', () => {
     describe('render', () => {
         it('should render self, children with required props', () => {
-            const { wrapper } = setup({}, true);
+            const { wrapper } = setup();
             const editorContainer = getSpecWrapper(wrapper, editorContainerSpecId);
             const editor = getSpecWrapper(wrapper, editorSpecId);
 
@@ -41,7 +39,7 @@ describe('Root', () => {
         });
 
         it('should apply translating style if passed a truthy translating prop', () => {
-            const { wrapper } = setup({ translating: true }, true);
+            const { wrapper } = setup(true, { translating: setTrue() });
             const editorContainer = getSpecWrapper(wrapper, editorContainerSpecId);
 
             expect(editorContainer.hasClass('translating')).toBeTruthy();
@@ -49,13 +47,10 @@ describe('Root', () => {
         });
 
         it('should render flow if passed a definition, language', () => {
-            const { wrapper } = setup(
-                {
-                    language: getLanguage(config.languages, 'eng'),
-                    definition: colorsFlowResp.results[0].definition
-                },
-                true
-            );
+            const { wrapper } = setup(true, {
+                language: set(getLanguage(configProviderContext.languages, 'eng')),
+                definition: set(colorsFlow)
+            });
 
             expect(wrapper.find('Connect(Flow)').exists()).toBeTruthy();
             expect(wrapper).toMatchSnapshot();
@@ -65,8 +60,8 @@ describe('Root', () => {
     describe('instance methods', () => {
         describe('componentDidMount', () => {
             it('should be called after component is mounted', () => {
-                const componentDidMountSpy = jest.spyOn(FlowEditor.prototype, 'componentDidMount');
-                const { wrapper } = setup(null, true);
+                const componentDidMountSpy = spyOn('componentDidMount');
+                const { wrapper } = setup();
 
                 expect(componentDidMountSpy).toHaveBeenCalledTimes(1);
 
@@ -74,28 +69,25 @@ describe('Root', () => {
             });
 
             it('should call action creators', () => {
-                const {
-                    wrapper,
-                    props: {
-                        updateLanguage: updateLanguageMock,
-                        fetchFlow: fetchFlowMock,
-                        fetchFlows: fetchFlowsMock
-                    }
-                } = setup(
-                    {
-                        updateLanguage: jest.fn(),
-                        fetchFlow: jest.fn(),
-                        fetchFlows: jest.fn()
-                    },
-                    true
-                );
+                const { wrapper, props } = setup(true, {
+                    updateLanguage: setMock(),
+                    fetchFlow: setMock(),
+                    fetchFlows: setMock()
+                });
 
-                expect(updateLanguageMock).toHaveBeenCalledTimes(1);
-                expect(updateLanguageMock).toHaveBeenCalledWith(getBaseLanguage(config.languages));
-                expect(fetchFlowMock).toHaveBeenCalledTimes(1);
-                expect(fetchFlowMock).toHaveBeenCalledWith(config.endpoints.flows, config.flow);
-                expect(fetchFlowsMock).toHaveBeenCalledTimes(1);
-                expect(fetchFlowsMock).toHaveBeenCalledWith(config.endpoints.flows);
+                expect(props.updateLanguage).toHaveBeenCalledTimes(1);
+                expect(props.updateLanguage).toHaveBeenCalledWith(
+                    getBaseLanguage(configProviderContext.languages)
+                );
+                expect(props.fetchFlow).toHaveBeenCalledTimes(1);
+                expect(props.fetchFlow).toHaveBeenCalledWith(
+                    configProviderContext.endpoints.flows,
+                    configProviderContext.flow
+                );
+                expect(props.fetchFlows).toHaveBeenCalledTimes(1);
+                expect(props.fetchFlows).toHaveBeenCalledWith(
+                    configProviderContext.endpoints.flows
+                );
             });
         });
     });

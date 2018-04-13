@@ -16,7 +16,7 @@ import {
     UpdateLanguage,
     updateLanguage
 } from '../store';
-import { getBaseLanguage } from '../utils';
+import { getBaseLanguage, renderIf } from '../utils';
 import ConnectedFlow from './Flow';
 import ConnectedFlowList, { FlowOption } from './FlowList';
 import * as styles from './index.scss';
@@ -57,7 +57,6 @@ export const contextTypes = {
 };
 
 export const editorContainerSpecId = 'editor-container';
-
 export const editorSpecId = 'editor';
 
 /**
@@ -73,18 +72,18 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     }
 
     public render(): JSX.Element {
-        const translatingClass = this.props.translating ? styles.translating : undefined;
-        const renderFlow = this.props.definition && this.props.language && !this.props.fetchingFlow;
         return (
             <div
                 id={editorContainerSpecId}
-                className={translatingClass}
+                className={this.props.translating ? styles.translating : undefined}
                 data-spec={editorContainerSpecId}
             >
                 <div className={styles.editor} data-spec={editorSpecId}>
                     <ConnectedLanguageSelector />
                     <ConnectedFlowList />
-                    {renderFlow && <ConnectedFlow />}
+                    {renderIf(
+                        this.props.definition && this.props.language && !this.props.fetchingFlow
+                    )(<ConnectedFlow />)}
                 </div>
             </div>
         );

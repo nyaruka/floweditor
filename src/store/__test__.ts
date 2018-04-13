@@ -1,5 +1,7 @@
+import { Operators } from '../config/operatorConfigs';
+import { Types } from '../config/typeConfigs';
+import { ChangeGroups, FlowDefinition, SendMsg, SwitchRouter, WaitTypes } from '../flowTypes';
 import { RenderNodeMap } from './flowContext';
-import { SendMsg, SwitchRouter, ChangeGroups, FlowDefinition } from '../flowTypes';
 
 export const EMPTY_FLOW: FlowDefinition = {
     localization: {},
@@ -17,7 +19,7 @@ export const NODES_ABC: RenderNodeMap = {
             actions: [
                 {
                     uuid: 'actionA',
-                    type: 'send_msg',
+                    type: Types.send_msg,
                     text: 'The first message'
                 } as SendMsg
             ],
@@ -42,7 +44,7 @@ export const NODES_ABC: RenderNodeMap = {
             actions: [
                 {
                     uuid: 'group_action',
-                    type: 'add_contact_groups',
+                    type: Types.add_contact_groups,
                     groups: [
                         {
                             uuid: 'unsatisfied_group',
@@ -70,17 +72,19 @@ export const NODES_ABC: RenderNodeMap = {
                 cases: [
                     {
                         uuid: 'caseD',
-                        type: 'has_any_word',
+                        type: Operators.has_any_word,
                         exit_uuid: 'exitD',
                         arguments: ['casetest']
                     }
                 ]
             } as SwitchRouter,
-            wait: 'msg'
+            wait: {
+                type: WaitTypes.msg
+            }
         },
         ui: {
             position: { left: 700, top: 210, right: 700, bottom: 1190 },
-            type: 'wait_for_response'
+            type: Types.wait_for_response
         },
         inboundConnections: { exitC: 'nodeC' }
     },
@@ -94,11 +98,13 @@ export const NODES_ABC: RenderNodeMap = {
                 default_exit_uuid: 'exitE',
                 cases: []
             } as SwitchRouter,
-            wait: 'msg'
+            wait: {
+                type: WaitTypes.msg
+            }
         },
         ui: {
             position: { left: 700, top: 210, right: 700, bottom: 1190 },
-            type: 'wait_for_response'
+            type: Types.wait_for_response
         },
         inboundConnections: {}
     }

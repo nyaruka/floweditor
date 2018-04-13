@@ -1,10 +1,11 @@
-import * as classNames from 'classnames/bind';
-import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
+import * as classNames from 'classnames/bind';
 import setCaretPosition from 'get-input-selection';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import getCaretCoordinates from 'textarea-caret';
 import { Type } from '../../../config';
+import { Types } from '../../../config/typeConfigs';
 import { AppState, CompletionOption } from '../../../store';
 import FormElement, { FormElementProps } from '../FormElement';
 import * as shared from '../FormElement.scss';
@@ -401,7 +402,8 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                     <li
                         ref={this.selectedElRef}
                         className={optionClasses.join(' ')}
-                        key={option.name}>
+                        key={option.name}
+                    >
                         {this.getOption(option, true)}
                     </li>
                 );
@@ -437,7 +439,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         const sendMsgError =
             this.state.errors.length > 0 &&
             this.props.name === 'Message' &&
-            this.props.typeConfig.type === 'send_msg';
+            this.props.typeConfig.type === Types.send_msg;
 
         // Make sure we're rendering the right text element
         const TextElement = this.props.textarea ? 'textarea' : ('input' as string);
@@ -449,7 +451,8 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                 helpText={this.props.helpText}
                 showLabel={this.props.showLabel}
                 errors={this.state.errors}
-                sendMsgError={sendMsgError}>
+                sendMsgError={sendMsgError}
+            >
                 <div className={styles.wrapper}>
                     <TextElement
                         data-spec="input"
@@ -465,7 +468,8 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                     <div
                         className={completionClasses}
                         style={this.state.caretCoordinates}
-                        data-spec="completion-options">
+                        data-spec="completion-options"
+                    >
                         <ul className={styles.option_list} data-spec="completion-list">
                             {options}
                         </ul>

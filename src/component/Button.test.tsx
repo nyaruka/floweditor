@@ -1,4 +1,4 @@
-import { createSetup } from '../testUtils';
+import { composeComponentTestUtils, setMock } from '../testUtils';
 import Button, { ButtonProps, ButtonTypes } from './Button';
 
 const baseProps: ButtonProps = {
@@ -7,14 +7,12 @@ const baseProps: ButtonProps = {
     type: ButtonTypes.primary
 };
 
-const setup = createSetup<ButtonProps>(Button, baseProps);
+const { setup } = composeComponentTestUtils(Button, baseProps);
 
-const COMPONENT_TO_TEST = Button.name;
-
-describe(`${COMPONENT_TO_TEST}`, () => {
+describe(Button.name, () => {
     describe('render', () => {
         it('should render self, children with base props', () => {
-            const { wrapper } = setup({}, true);
+            const { wrapper } = setup();
 
             expect(wrapper.hasClass('btn')).toBeTruthy();
             expect(wrapper.hasClass('primary')).toBeTruthy();
@@ -25,14 +23,11 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
     describe('interaction', () => {
         it('should execute onClick callback when clicked', () => {
-            const { wrapper, props: { onClick: onClickMock } } = setup(
-                { onClick: jest.fn() },
-                true
-            );
+            const { wrapper, props } = setup(true, { onClick: setMock() });
 
             wrapper.simulate('click');
 
-            expect(onClickMock).toHaveBeenCalled();
+            expect(props.onClick).toHaveBeenCalled();
         });
     });
 });

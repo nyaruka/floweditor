@@ -1,5 +1,5 @@
 const axios = require.requireActual('axios');
-const { endpoints } = require('../assets/config');
+const { endpoints } = require('../__test__/config');
 const colorsFlowResp = require('../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 const customerServiceFlowResp = require('../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
 const flowsResp = require('../assets/flows.json');

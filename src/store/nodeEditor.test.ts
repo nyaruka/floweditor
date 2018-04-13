@@ -1,7 +1,14 @@
 import { getTypeConfig } from '../config';
+import { Types } from '../config/typeConfigs';
 import Constants from './constants';
 import reducer, {
+    actionToEdit as actionToEditReducer,
     initialState,
+    nodeToEdit as nodeToEditReducer,
+    operand as operandReducer,
+    resultName as resultNameReducer,
+    showResultName as showResultNameReducer,
+    typeConfig as typeConfigReducer,
     updateActionToEdit,
     updateNodeToEdit,
     updateOperand,
@@ -9,13 +16,7 @@ import reducer, {
     updateShowResultName,
     updateTypeConfig,
     updateUserAddingAction,
-    typeConfig as typeConfigReducer,
-    resultName as resultNameReducer,
-    showResultName as showResultNameReducer,
-    operand as operandReducer,
-    userAddingAction as userAddingActionReducer,
-    nodeToEdit as nodeToEditReducer,
-    actionToEdit as actionToEditReducer
+    userAddingAction as userAddingActionReducer
 } from './nodeEditor';
 
 const colorsFlow = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
@@ -23,7 +24,7 @@ const colorsFlow = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022
 describe('nodeEditor action creators', () => {
     describe('updateTypeConfig', () => {
         it('should create an action to update typeConfig state', () => {
-            const typeConfig = getTypeConfig('send_msg');
+            const typeConfig = getTypeConfig(Types.send_msg);
             const expectedAction = {
                 type: Constants.UPDATE_TYPE_CONFIG,
                 payload: {
@@ -122,7 +123,7 @@ describe('nodeEditor reducers', () => {
         });
 
         it('should handle UPDATE_TYPE_CONFIG', () => {
-            const typeConfig = getTypeConfig('send_msg');
+            const typeConfig = getTypeConfig(Types.send_msg);
             const action = updateTypeConfig(typeConfig);
             expect(reduce(action)).toEqual(typeConfig);
         });

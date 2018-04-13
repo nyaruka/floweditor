@@ -1,10 +1,12 @@
 import { getFlow, getFlows } from '.';
 import { FlowEditorConfig } from '../flowTypes';
 import { Resp } from '../testUtils';
+import { configProviderContext } from '../testUtils/index';
 
 const colorsFlowResp = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json') as Resp;
 const flowsResp = require('../../assets/flows.json') as Resp;
-const { endpoints: { flows: flowsEndpoint } } = require('../../assets/config') as FlowEditorConfig;
+
+const { endpoints: { flows: flowsEndpoint } } = configProviderContext;
 
 describe('external', () => {
     describe('getFlow', () => {

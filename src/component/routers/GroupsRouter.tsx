@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { endpointsPT } from '../../config';
-import { FlowNode, SwitchRouter, WaitType } from '../../flowTypes';
+import { FlowNode, SwitchRouter, WaitTypes } from '../../flowTypes';
 import { AppState, SearchResult } from '../../store';
 import GroupsElement, { GroupsElementProps } from '../form/GroupsElement';
 import { GetResultNameField } from '../NodeEditor';
@@ -40,7 +40,7 @@ export const extractGroups = ({ exits, router }: FlowNode): SearchResult[] =>
     });
 
 export const hasGroupsRouter = (node: FlowNode) =>
-    hasSwitchRouter(node) && hasWait(node, WaitType.group);
+    hasSwitchRouter(node) && hasWait(node, WaitTypes.group);
 
 export class GroupsRouter extends React.Component<GroupsRouterProps> {
     public static contextTypes = {

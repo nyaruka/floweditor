@@ -1,4 +1,5 @@
-import { createSetup, createSpy, getSpecWrapper } from '../../testUtils';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../testUtils';
+import { set, setTrue } from '../../utils';
 import TitleBar, {
     confirmationSpecId,
     confirmRemovalSpecId,
@@ -10,23 +11,19 @@ import TitleBar, {
     titlebarSpecId
 } from './TitleBar';
 
-const baseProps = {
+const baseProps: TitleBarProps = {
     title: 'Send Message',
     onRemoval: jest.fn()
 };
 
-const setup = createSetup<TitleBarProps>(TitleBar, baseProps);
-
-const spyOnTitleBar = createSpy(TitleBar);
-
-const COMPONENT_TO_TEST = TitleBar.name;
+const { setup, spyOn } = composeComponentTestUtils(TitleBar, baseProps);
 
 jest.useFakeTimers();
 
-describe(`${COMPONENT_TO_TEST}`, () => {
+describe(TitleBar.name, () => {
     describe('render', () => {
         it('should render self, children with base props', () => {
-            const { wrapper, instance, props: { title } } = setup({}, true);
+            const { wrapper, instance, props: { title } } = setup();
             const titlebar = getSpecWrapper(wrapper, titlebarSpecId);
             const moveIcon = getSpecWrapper(wrapper, moveSpecId);
             const confirmation = getSpecWrapper(wrapper, confirmationSpecId);
@@ -44,10 +41,9 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         });
 
         it('should apply _className prop', () => {
-            const { wrapper, instance, props: { __className } } = setup(
-                { __className: 'some-classy-class' },
-                true
-            );
+            const { wrapper, instance, props: { __className } } = setup(true, {
+                __className: set('some-classy-class')
+            });
 
             expect(getSpecWrapper(wrapper, titlebarSpecId).hasClass(__className));
             expect(wrapper).toMatchSnapshot();
@@ -55,7 +51,9 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
         describe('move icon', () => {
             it('should render move icon', () => {
-                const { wrapper, instance } = setup({ showMove: true }, true);
+                const { wrapper, instance } = setup(true, {
+                    showMove: setTrue()
+                });
 
                 expect(getSpecWrapper(wrapper, moveIconSpecId).hasClass('up_button')).toBeTruthy();
                 expect(wrapper.find('.icon-arrow-up').exists()).toBeTruthy();
@@ -63,21 +61,21 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             });
 
             it('should call onMoveUp prop', () => {
-                const { wrapper, instance, props: { onMoveUp: onMoveUpMock } } = setup(
-                    { showMove: true, onMoveUp: jest.fn() },
-                    true
-                );
+                const { wrapper, instance, props } = setup(true, {
+                    showMove: setTrue(),
+                    onMoveUp: setMock()
+                });
                 const moveIcon = getSpecWrapper(wrapper, moveIconSpecId);
                 moveIcon.simulate('mouseDown');
                 moveIcon.simulate('mouseUp');
 
-                expect(onMoveUpMock).toHaveBeenCalledTimes(1);
+                expect(props.onMoveUp).toHaveBeenCalledTimes(1);
             });
         });
 
         describe('remove icon', () => {
             it('should render remove icon', () => {
-                const { wrapper } = setup({ showRemoval: true }, true);
+                const { wrapper } = setup(true, { showRemoval: setTrue() });
 
                 expect(
                     getSpecWrapper(wrapper, removeIconSpecId).hasClass('remove_button')
@@ -87,8 +85,8 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             });
 
             it('should call onConfirmRemoval instance method', () => {
-                const onConfirmRemovalSpy = spyOnTitleBar('onConfirmRemoval');
-                const { wrapper } = setup({ showRemoval: true }, true);
+                const onConfirmRemovalSpy = spyOn('onConfirmRemoval');
+                const { wrapper } = setup(true, { showRemoval: setTrue() });
                 const removeIcon = getSpecWrapper(wrapper, removeIconSpecId);
 
                 removeIcon.simulate('mouseDown');
@@ -102,7 +100,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
         describe('confirmation', () => {
             it('should render confirmation markup', () => {
-                const { wrapper } = setup({ showRemoval: true }, true);
+                const { wrapper } = setup(true, { showRemoval: setTrue() });
                 const removeIcon = getSpecWrapper(wrapper, removeIconSpecId);
 
                 expect(wrapper).toMatchSnapshot();
@@ -123,10 +121,10 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             });
 
             it('should call onRemoval prop', () => {
-                const { wrapper, props: { onRemoval: onRemovalMock } } = setup(
-                    { showRemoval: true, onRemoval: jest.fn() },
-                    true
-                );
+                const { wrapper, props } = setup(true, {
+                    showRemoval: setTrue(),
+                    onRemoval: setMock()
+                });
                 const removeIcon = getSpecWrapper(wrapper, removeIconSpecId);
 
                 removeIcon.simulate('mouseDown');
@@ -139,7 +137,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 remove.simulate('mouseDown');
                 remove.simulate('mouseUp');
 
-                expect(onRemovalMock).toHaveBeenCalledTimes(1);
+                expect(props.onRemoval).toHaveBeenCalledTimes(1);
 
                 jest.clearAllTimers();
             });
@@ -149,10 +147,10 @@ describe(`${COMPONENT_TO_TEST}`, () => {
     describe('instance methods', () => {
         describe('componentWillUnMount', () => {
             it('should clear confirmation timeout', () => {
-                const { wrapper, instance, props: { onRemoval: onRemovalMock } } = setup(
-                    { showRemoval: true, onRemoval: jest.fn() },
-                    true
-                );
+                const { wrapper, instance, props } = setup(true, {
+                    showRemoval: setTrue(),
+                    onRemoval: setMock()
+                });
                 const removeIcon = getSpecWrapper(wrapper, removeIconSpecId);
 
                 removeIcon.simulate('mouseDown');
@@ -168,8 +166,8 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
         describe('onConfirmRemoval', () => {
             it('should toggle confirmingRemoval state', () => {
-                const setStateSpy = spyOnTitleBar('setState');
-                const { wrapper, instance } = setup({}, true);
+                const setStateSpy = spyOn('setState');
+                const { wrapper, instance } = setup();
                 const mockEvent = {
                     preventDefault: jest.fn(),
                     stopPropagation: jest.fn()

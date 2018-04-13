@@ -1,35 +1,43 @@
 import { getTypeConfig } from '../../../config';
-import { createSetup, getSpecWrapper } from '../../../testUtils';
-import { getLanguage, getLocalization } from '../../../utils';
 import {
+    composeComponentTestUtils,
+    configProviderContext,
+    genExit,
+    genFlowNode,
+    genSendMsgAction,
+    genStartFlowAction,
+    genStartFlowNode,
+    setMock,
+    getSpecWrapper
+} from '../../../testUtils';
+import { getLanguage, getLocalization, setFalse, setTrue, set } from '../../../utils';
+import {
+    actionBodySpecId,
     actionContainerSpecId,
+    actionInteractiveDivSpecId,
     actionOverlaySpecId,
     ActionWrapper,
-    ActionWrapperProps,
-    actionInteractiveDivSpecId,
-    actionBodySpecId
+    ActionWrapperProps
 } from './Action';
 
-const config = require('../../../../assets/config');
-const colorsFlowResp = require('../../../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
-
-const {
-    results: [{ definition: { nodes: [sendMsgNode, , , sendMsgNode1, , , startFlowNode] } }]
-} = colorsFlowResp;
-const { actions: [sendMsgAction] } = sendMsgNode;
-const { actions: [sendMsgAction1] } = sendMsgNode1;
-const { actions: [startFlowAction] } = startFlowNode;
-
-const context = {
-    languages: config.languages
+const sendMsgAction = genSendMsgAction();
+const sendMsgAction1 = genSendMsgAction({ uuid: 'send_msg-1', text: 'Yo!' });
+const sendMsgNode = genFlowNode({ actions: [sendMsgAction], exits: [genExit()] });
+const startFlowAction = genStartFlowAction();
+const startFlowNode = genStartFlowNode(startFlowAction);
+const english = getLanguage(configProviderContext.languages, 'eng');
+const spanish = getLanguage(configProviderContext.languages, 'spa');
+const localization = {
+    spa: {
+        [sendMsgAction.uuid]: {
+            text: ['¡Hola!']
+        }
+    }
 };
-
-const english = getLanguage(config.languages, 'eng');
-const spanish = getLanguage(config.languages, 'spa');
 
 const baseProps = {
     thisNodeDragging: false,
-    localization: colorsFlowResp.results[0].definition.localization,
+    localization,
     first: true,
     action: sendMsgAction,
     render: jest.fn(),
@@ -41,52 +49,44 @@ const baseProps = {
     moveActionUp: jest.fn()
 };
 
-const setup = createSetup<ActionWrapperProps>(ActionWrapper, baseProps, context);
+const { setup, spyOn } = composeComponentTestUtils<ActionWrapperProps>(ActionWrapper, baseProps);
 
-const COMPONENT_TO_TEST = ActionWrapper.name;
-
-describe(`${COMPONENT_TO_TEST}`, () => {
+describe(ActionWrapper.name, () => {
     describe('render', () => {
         it('should render self, children with base props', () => {
-            const { wrapper, props: { action, render: renderMock }, instance } = setup(
-                { render: jest.fn() },
-                true
-            );
-            const { name } = getTypeConfig(action.type);
-            const expectedClasses = 'action';
-            const actionToInject = action;
-            const titleBarClass = action.type;
-            const showRemoval = true;
-            const showMove = false;
+            const { wrapper, props, instance } = setup(true, {
+                render: setMock()
+            });
+            const { name } = getTypeConfig(props.action.type);
             const actionContainer = getSpecWrapper(wrapper, actionContainerSpecId);
 
-            expect(actionContainer.prop('id')).toBe(`action-${action.uuid}`);
-            expect(actionContainer.hasClass(expectedClasses)).toBeTruthy();
+            expect(actionContainer.prop('id')).toBe(`action-${props.action.uuid}`);
+            expect(actionContainer.hasClass('action')).toBeTruthy();
             expect(getSpecWrapper(wrapper, actionOverlaySpecId).hasClass('overlay')).toBeTruthy();
             expect(getSpecWrapper(wrapper, actionInteractiveDivSpecId).exists()).toBeTruthy();
             expect(wrapper.find('TitleBar').props()).toEqual({
-                __className: action.type,
+                __className: props.action.type,
                 title: name,
                 onRemoval: instance.onRemoval,
-                showRemoval,
-                showMove,
+                showRemoval: true,
+                showMove: false,
                 onMoveUp: instance.onMoveUp
             });
             expect(getSpecWrapper(wrapper, actionBodySpecId).hasClass('body')).toBeTruthy();
-            expect(renderMock).toHaveBeenCalledTimes(1);
-            expect(renderMock).toHaveBeenCalledWith(action);
+            expect(props.render).toHaveBeenCalledTimes(1);
+            expect(props.render).toHaveBeenCalledWith(props.action);
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should show move icon', () => {
-            const { wrapper } = setup({ first: false }, true);
+            const { wrapper } = setup(true, { first: setFalse() });
 
             expect(wrapper.find('TitleBar').prop('showMove')).toBeTruthy();
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should display translating style', () => {
-            const { wrapper } = setup({ translating: true }, true);
+            const { wrapper } = setup(true, { translating: setTrue() });
 
             expect(
                 getSpecWrapper(wrapper, actionContainerSpecId).hasClass('translating')
@@ -95,7 +95,10 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         });
 
         it('should display not_localizable style', () => {
-            const { wrapper } = setup({ action: startFlowAction, translating: true }, true);
+            const { wrapper } = setup(true, {
+                action: set(startFlowAction),
+                translating: setTrue()
+            });
 
             expect(
                 getSpecWrapper(wrapper, actionContainerSpecId).hasClass('not_localizable')
@@ -104,7 +107,9 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         });
 
         it('should display hybrid style', () => {
-            const { wrapper } = setup({ node: startFlowNode }, true);
+            const { wrapper, props } = setup(true, {
+                node: set(startFlowNode)
+            });
 
             expect(
                 getSpecWrapper(wrapper, actionContainerSpecId).hasClass('has_router')
@@ -113,7 +118,10 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         });
 
         it('should display missing_localization style', () => {
-            const { wrapper } = setup({ action: sendMsgAction1, translating: true }, true);
+            const { wrapper } = setup(true, {
+                action: set(sendMsgAction1),
+                translating: setTrue()
+            });
 
             expect(
                 getSpecWrapper(wrapper, actionContainerSpecId).hasClass('missing_localization')
@@ -125,8 +133,8 @@ describe(`${COMPONENT_TO_TEST}`, () => {
     describe('instance methods', () => {
         describe('onClick', () => {
             it('should be called when interactive div is clicked', () => {
-                const onClickSpy = jest.spyOn(ActionWrapper.prototype, 'onClick');
-                const { wrapper } = setup({}, true);
+                const onClickSpy = spyOn('onClick');
+                const { wrapper } = setup();
                 const interactiveDiv = getSpecWrapper(wrapper, actionInteractiveDivSpecId);
                 const mockEvent = {
                     preventDefault: jest.fn(),
@@ -144,12 +152,9 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             });
 
             it("should call 'onOpenEditor' action creator if node is not dragging", () => {
-                const {
-                    wrapper,
-                    props: { onOpenNodeEditor: onOpenNodeEditorMock, node, action },
-                    context: { languages },
-                    instance
-                } = setup({ onOpenNodeEditor: jest.fn() }, true);
+                const { wrapper, props, context, instance } = setup(true, {
+                    onOpenNodeEditor: setMock()
+                });
                 const mockEvent = {
                     preventDefault: jest.fn(),
                     stopPropagation: jest.fn()
@@ -157,18 +162,20 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
                 instance.onClick(mockEvent);
 
-                expect(onOpenNodeEditorMock).toHaveBeenCalledTimes(1);
-                expect(onOpenNodeEditorMock).toHaveBeenCalledWith(node, action, languages);
+                expect(props.onOpenNodeEditor).toHaveBeenCalledTimes(1);
+                expect(props.onOpenNodeEditor).toHaveBeenCalledWith(
+                    props.node,
+                    props.action,
+                    context.languages
+                );
             });
         });
 
         describe('onRemoval', () => {
             it('should call removeAction action creator', () => {
-                const {
-                    wrapper,
-                    props: { removeAction: removeActionMock, action, node },
-                    instance
-                } = setup({ removeAction: jest.fn() }, true);
+                const { wrapper, props, instance } = setup(true, {
+                    removeAction: setMock()
+                });
                 const mockEvent = {
                     stopPropagation: jest.fn()
                 };
@@ -176,18 +183,16 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 instance.onRemoval(mockEvent);
 
                 expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(1);
-                expect(removeActionMock).toHaveBeenCalledTimes(1);
-                expect(removeActionMock).toHaveBeenCalledWith(node.uuid, action);
+                expect(props.removeAction).toHaveBeenCalledTimes(1);
+                expect(props.removeAction).toHaveBeenCalledWith(props.node.uuid, props.action);
             });
         });
 
         describe('onMoveUp', () => {
             it('should call moveActionUp action creator', () => {
-                const {
-                    wrapper,
-                    props: { moveActionUp: moveActionUpMock, action, node },
-                    instance
-                } = setup({ moveActionUp: jest.fn() }, true);
+                const { wrapper, props, instance } = setup(true, {
+                    moveActionUp: setMock()
+                });
                 const mockEvent = {
                     stopPropagation: jest.fn()
                 };
@@ -195,33 +200,27 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 instance.onMoveUp(mockEvent);
 
                 expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(1);
-                expect(moveActionUpMock).toHaveBeenCalledTimes(1);
-                expect(moveActionUpMock).toHaveBeenCalledWith(node.uuid, action);
+                expect(props.moveActionUp).toHaveBeenCalledTimes(1);
+                expect(props.moveActionUp).toHaveBeenCalledWith(props.node.uuid, props.action);
             });
         });
 
         describe('getAction', () => {
             it('should return the action passed via props if not localized', () => {
-                const { wrapper, props: { action }, instance } = setup(
-                    { node: sendMsgAction1 },
-                    true
-                );
+                const { wrapper, props, instance } = setup(true, {
+                    node: set(sendMsgAction1)
+                });
 
-                expect(instance.getAction()).toEqual(action);
+                expect(instance.getAction()).toEqual(props.action);
             });
 
             it('should return localized action if localized', () => {
-                const {
-                    wrapper,
-                    props: { action, localization, language: { iso } },
-                    context: { languages },
-                    instance
-                } = setup({}, true);
+                const { wrapper, props, context, instance } = setup();
                 const localizedObject = getLocalization(
-                    action,
-                    localization,
-                    iso,
-                    languages
+                    props.action,
+                    props.localization,
+                    props.language.iso,
+                    context.languages
                 ).getObject();
 
                 expect(instance.getAction()).toEqual(localizedObject);

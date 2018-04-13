@@ -36,10 +36,10 @@ export const createNewOption: NewOptionCreatorHandler = ({ label }) => ({
     extraResult: true
 });
 
-export const getInitialGroups = ({
-    groups = [],
-    localGroups = []
-}: GroupsElementProps): SearchResult[] => {
+export const getInitialGroups = (
+    groups: SearchResult[] = [],
+    localGroups: SearchResult[] = []
+): SearchResult[] => {
     if (groups.length) {
         return groups;
     } else if (localGroups.length) {
@@ -62,7 +62,7 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
     constructor(props: GroupsElementProps) {
         super(props);
 
-        const groups = getInitialGroups(props);
+        const groups = getInitialGroups(this.props.groups, this.props.localGroups);
 
         this.state = {
             groups,

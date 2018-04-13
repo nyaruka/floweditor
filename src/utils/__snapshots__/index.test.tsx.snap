@@ -1,5 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`utils capitalize should capitalized all words in a string 1`] = `"Your String"`;
+
+exports[`utils capitalize should capitalized all words in a string 2`] = `"Ÿöur Striñg"`;
+
 exports[`utils emphasize should apply emphasis style 1`] = `
 <span
   className="emph"
@@ -51,9 +55,9 @@ LocalizedObject {
   "localized": false,
   "localizedKeys": Object {},
   "localizedObject": Object {
-    "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?",
+    "text": "Hi there, what is your name?",
     "type": "send_msg",
-    "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+    "uuid": "360a28a1-6741-4f16-9421-f6f313cf753e",
   },
 }
 `;
@@ -76,10 +80,10 @@ LocalizedObject {
   },
   "localizedObject": Object {
     "text": Array [
-      "¿Cuál es tu color favorito?",
+      "Hola, como te llamas?",
     ],
     "type": "send_msg",
-    "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+    "uuid": "360a28a1-6741-4f16-9421-f6f313cf753e",
   },
 }
 `;
@@ -99,9 +103,9 @@ LocalizedObject {
   "localized": false,
   "localizedKeys": Object {},
   "localizedObject": Object {
-    "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?",
+    "text": "Hi there, what is your name?",
     "type": "send_msg",
-    "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+    "uuid": "360a28a1-6741-4f16-9421-f6f313cf753e",
   },
 }
 `;

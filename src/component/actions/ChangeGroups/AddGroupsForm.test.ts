@@ -1,26 +1,26 @@
 import { getTypeConfig } from '../../../config';
-import { FlowEditorConfig, Group, ChangeGroups } from '../../../flowTypes';
-import { createSetup, getSpecWrapper, Resp } from '../../../testUtils';
+import { ChangeGroups, FlowDefinition, Group } from '../../../flowTypes';
+import {
+    composeComponentTestUtils,
+    getSpecWrapper,
+    Resp,
+    setMock,
+    genAddGroupsAction
+} from '../../../testUtils';
 import { GROUP_NOT_FOUND } from '../../form/GroupsElement';
 import { AddGroupsForm, LABEL, labelSpecId, PLACEHOLDER } from './AddGroupsForm';
-import ChangeGroupFormProps from './props';
 import { mapGroupsToSearchResults, mapSearchResultsToGroups } from './helpers';
+import ChangeGroupsFormProps from './props';
+import { set } from '../../../utils';
+import { Types } from '../../../config/typeConfigs';
 
-const {
-    results: [{ definition }]
-} = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json') as Resp;
-const { endpoints } = require('../../../../assets/config') as FlowEditorConfig;
-const groupsResp = require('../../../../assets/groups.json') as Resp;
+const { results: groups } = require('../../../../assets/groups.json');
 
-const { nodes: [{ actions: [, addGroupsAction] }] } = definition;
-const addGroupConfig = getTypeConfig('add_contact_groups');
-const removeGroupConfig = getTypeConfig('remove_contact_groups');
+const addGroupsAction = genAddGroupsAction();
+const addGroupConfig = getTypeConfig(Types.add_contact_groups);
+const removeGroupConfig = getTypeConfig(Types.remove_contact_groups);
 
-const context = {
-    endpoints
-};
-
-const baseProps = {
+const baseProps: ChangeGroupsFormProps = {
     action: addGroupsAction,
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
@@ -28,31 +28,29 @@ const baseProps = {
     typeConfig: addGroupConfig
 };
 
-const setup = createSetup<ChangeGroupFormProps>(AddGroupsForm, baseProps, context);
+const { setup, spyOn } = composeComponentTestUtils<ChangeGroupsFormProps>(AddGroupsForm, baseProps);
 
-const COMPONENT_TO_TEST = AddGroupsForm.name;
-
-describe(`${COMPONENT_TO_TEST}`, () => {
+describe(AddGroupsForm.name, () => {
     describe('render', () => {
         it('should render self, children with base props', () => {
             const {
                 wrapper,
-                props: { onBindWidget: onBindWidgetMock },
+                props,
                 // tslint:disable-next-line:no-shadowed-variable
-                context: { endpoints },
+                context,
                 instance
-            } = setup({
-                onBindWidget: jest.fn()
+            } = setup(false, {
+                onBindWidget: setMock()
             });
             const label = getSpecWrapper(wrapper, labelSpecId);
 
             expect(label.is('p')).toBeTruthy();
             expect(label.text()).toBe(LABEL);
-            expect(onBindWidgetMock).toHaveBeenCalledTimes(1);
+            expect(props.onBindWidget).toHaveBeenCalledTimes(1);
             expect(wrapper.find('GroupsElement').props()).toEqual({
                 name: 'Groups',
                 placeholder: PLACEHOLDER,
-                endpoint: endpoints.groups,
+                endpoint: context.endpoints.groups,
                 groups: wrapper.state('groups'),
                 add: true,
                 required: true,
@@ -66,7 +64,9 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         describe('getGroups', () => {
             it("should return an empty list if action's groups are null", () => {
                 const grouplessAction = { ...addGroupsAction, groups: null };
-                const { wrapper, instance } = setup({ action: grouplessAction });
+                const { wrapper, instance } = setup(true, {
+                    action: set(grouplessAction)
+                });
 
                 const returnedGroups = instance.getGroups();
 
@@ -76,7 +76,9 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
             it("should return an empty list if action's groups property is an empty list", () => {
                 const grouplessAction = { ...addGroupsAction, groups: [] };
-                const { wrapper, instance } = setup({ action: grouplessAction });
+                const { wrapper, instance } = setup(true, {
+                    action: set(grouplessAction)
+                });
 
                 const returnedGroups = instance.getGroups();
 
@@ -87,32 +89,35 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             it('should return empty list if action is remove groups action', () => {
                 const removeGroupsAction = {
                     ...addGroupsAction,
-                    type: 'remove_contact_groups'
+                    type: Types.remove_contact_groups
                 };
-                const { wrapper, instance } = setup({ action: removeGroupsAction }, true);
+                const { wrapper, instance } = setup(true, {
+                    action: set(removeGroupsAction)
+                });
+                const groupOptions = instance.getGroups();
 
-                const returnedGroups = instance.getGroups();
-
-                expect(returnedGroups).toEqual([]);
-                expect(returnedGroups).toMatchSnapshot();
+                expect(groupOptions).toEqual([]);
+                expect(groupOptions).toMatchSnapshot();
             });
 
             it('should return SearchResult[] if action is add groups action and it has groups', () => {
-                const { wrapper, instance, props: { action: { groups } } } = setup({}, true);
-                const searchResults = mapGroupsToSearchResults(groups);
+                const { wrapper, instance, props } = setup();
+                const searchResults = mapGroupsToSearchResults(props.action.groups);
+                const groupOptions = instance.getGroups();
 
-                const returnedGroups = instance.getGroups();
-
-                expect(returnedGroups).toEqual(searchResults);
-                expect(returnedGroups).toMatchSnapshot();
+                expect(groupOptions).toEqual(searchResults);
+                expect(groupOptions).toMatchSnapshot();
             });
         });
 
         describe('onGroupsChanged', () => {
             it('should update state if called with new groups', () => {
-                const setStateSpy = jest.spyOn(AddGroupsForm.prototype, 'setState');
-                const { wrapper, instance, props: { action: { groups } } } = setup({}, true);
-                const newSearchResults = mapGroupsToSearchResults(groupsResp.results as Group[]);
+                const setStateSpy = spyOn('setState');
+                const { wrapper, instance } = setup();
+                const newSearchResults = mapGroupsToSearchResults([
+                    ...groups,
+                    { name: 'Unsubscibed', uuid: 'unsubscribed-0' }
+                ]);
 
                 instance.onGroupsChanged(newSearchResults);
 
@@ -123,9 +128,9 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             });
 
             it('should not update state if called with same groups', () => {
-                const setStateSpy = jest.spyOn(AddGroupsForm.prototype, 'setState');
-                const { wrapper, instance, props: { action: { groups } } } = setup({}, true);
-                const searchResults = mapGroupsToSearchResults(groups);
+                const setStateSpy = spyOn('setState');
+                const { wrapper, instance, props } = setup();
+                const searchResults = mapGroupsToSearchResults(props.action.groups);
 
                 instance.onGroupsChanged(searchResults);
 
@@ -141,7 +146,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                     wrapper,
                     instance,
                     props: { action, updateAction: updateActionMock }
-                } = setup({ updateAction: jest.fn() }, true);
+                } = setup(true, { updateAction: setMock() });
                 const expectedAction = {
                     uuid: action.uuid,
                     type: action.type,

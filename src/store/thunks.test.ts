@@ -1,8 +1,8 @@
 jest.unmock('redux-mock-store');
 jest.unmock('immutability-helper');
+
 import '../testUtils/matchers';
 
-// import {createMockStore} from 'redux-mock-store';
 const createMockStore = require('redux-mock-store');
 const mutate = require('immutability-helper');
 
@@ -53,6 +53,8 @@ import { DragPoint } from '../component/Node';
 import { NODES_ABC, EMPTY_FLOW } from './__test__';
 import { NOT_FOUND } from '../component/actions/ChangeGroups/RemoveGroupsForm';
 import { empty } from '../component/form/CaseElement.scss';
+import { Types } from '../config/typeConfigs';
+import { Operators } from '../config/operatorConfigs';
 
 const getUpdatedNodes = (currentStore): { [uuid: string]: RenderNode } => {
     let nodes;
@@ -407,7 +409,7 @@ describe('ABC RenderNodeMap', () => {
             const nodes = updatedStore.dispatch(
                 onUpdateAction({
                     uuid: 'new_action',
-                    type: 'send_msg',
+                    type: Types.send_msg,
                     text: 'A second message for our first node'
                 })
             );
@@ -424,7 +426,7 @@ describe('ABC RenderNodeMap', () => {
                 const nodes = store.dispatch(
                     onUpdateAction({
                         uuid: 'new_action',
-                        type: 'send_msg',
+                        type: Types.send_msg,
                         text: 'A second message for our first node'
                     })
                 );
@@ -442,7 +444,7 @@ describe('ABC RenderNodeMap', () => {
             const nodes = updatedStore.dispatch(
                 onUpdateAction({
                     uuid: 'actionA',
-                    type: 'send_msg',
+                    type: Types.send_msg,
                     text: 'An updated message'
                 })
             );
@@ -463,7 +465,7 @@ describe('ABC RenderNodeMap', () => {
             const updatedNodes = cloneNodes();
             updatedNodes.nodeA.node.actions.push({
                 uuid: 'actionB',
-                type: 'send_msg',
+                type: Types.send_msg,
                 text: 'A second message for our first node'
             } as SendMsg);
 
@@ -485,7 +487,7 @@ describe('ABC RenderNodeMap', () => {
             const updatedNodes = cloneNodes();
             updatedNodes.nodeA.node.actions.push({
                 uuid: 'actionB',
-                type: 'send_msg',
+                type: Types.send_msg,
                 text: 'A second message for our first node'
             } as SendMsg);
 
@@ -518,7 +520,7 @@ describe('ABC RenderNodeMap', () => {
 
             const newAction = {
                 uuid: 'new_action_for_new_node',
-                type: 'send_msg',
+                type: Types.send_msg,
                 text: 'An action for a new node'
             } as SendMsg;
 
@@ -563,7 +565,7 @@ describe('ABC RenderNodeMap', () => {
                     },
                     ui: {
                         position: { left: 100, top: 100 },
-                        type: 'wait_for_response'
+                        type: Types.wait_for_response
                     },
                     inboundConnections: {}
                 };
@@ -576,13 +578,13 @@ describe('ABC RenderNodeMap', () => {
                 const updatedNodes = cloneNodes();
                 updatedNodes.nodeB.node.actions.push({
                     uuid: 'action1',
-                    type: 'send_msg',
+                    type: Types.send_msg,
                     text: 'second node, message one'
                 } as SendMsg);
 
                 updatedNodes.nodeB.node.actions.push({
                     uuid: 'action2',
-                    type: 'send_msg',
+                    type: Types.send_msg,
                     text: 'second node, message two'
                 } as SendMsg);
 
@@ -613,13 +615,13 @@ describe('ABC RenderNodeMap', () => {
                 const updatedNodes = cloneNodes();
                 updatedNodes.nodeB.node.actions.push({
                     uuid: 'action1',
-                    type: 'send_msg',
+                    type: Types.send_msg,
                     text: 'second node, message one'
                 } as SendMsg);
 
                 updatedNodes.nodeB.node.actions.push({
                     uuid: 'action2',
-                    type: 'send_msg',
+                    type: Types.send_msg,
                     text: 'second node, message two'
                 } as SendMsg);
 
@@ -636,17 +638,17 @@ describe('ABC RenderNodeMap', () => {
                 updatedNodes.nodeB.node.actions = [
                     {
                         uuid: 'action1',
-                        type: 'send_msg',
+                        type: Types.send_msg,
                         text: 'second node, message one'
                     } as SendMsg,
                     {
                         uuid: 'action2',
-                        type: 'send_msg',
+                        type: Types.send_msg,
                         text: 'second node, message two'
                     } as SendMsg,
                     {
                         uuid: 'action3',
-                        type: 'send_msg',
+                        type: Types.send_msg,
                         text: 'second node, message three'
                     } as SendMsg
                 ];
@@ -726,7 +728,7 @@ describe('ABC RenderNodeMap', () => {
                     expect(store).toHaveReduxAction(Constants.UPDATE_LOCALIZATIONS);
                 });
 
-                it('should only pick send_msg actions for you when translating', () => {
+                it('should only pickTypes.send_msgactions for you when translating', () => {
                     store = createMockStore([thunk])({
                         flowContext: { nodes: testNodes, definition: { localization: {} } },
                         flowEditor: {
@@ -774,7 +776,7 @@ describe('ABC RenderNodeMap', () => {
 
                 expect(store).toHavePayload(Constants.UPDATE_TYPE_CONFIG, {
                     typeConfig: {
-                        type: 'wait_for_response',
+                        type: Types.wait_for_response,
                         name: 'Wait for Response',
                         description: 'Wait for them to respond',
                         advanced: 2,
@@ -895,7 +897,7 @@ describe('ABC RenderNodeMap', () => {
                             $push: [
                                 {
                                     uuid: 'new_case',
-                                    type: 'has_any_word',
+                                    type: Operators.has_any_word,
                                     exit_uuid: 'exitD',
                                     arguments: ['anotherrule']
                                 }

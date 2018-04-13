@@ -1,27 +1,23 @@
-import { ChangeGroups, FlowDefinition } from '../../../flowTypes';
-import { createSetup, getSpecWrapper } from '../../../testUtils';
+import { ChangeGroups, Group } from '../../../flowTypes';
+import { composeComponentTestUtils, getSpecWrapper, genAddGroupsAction } from '../../../testUtils';
 import ChangeGroupsComp, {
     contentSpecId,
     ellipsesText,
-    getRemoveAllMarkup,
-    getGroupElements,
+    getChangeGroupsMarkup,
     getContentMarkup,
-    getChangeGroupsMarkup
+    getGroupElements,
+    getRemoveAllMarkup
 } from './ChangeGroups';
+import { set } from '../../../utils';
+import { Types } from '../../../config/typeConfigs';
 
-const {
-    results: [{ definition }]
-} = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
 const { results: groups } = require('../../../../assets/groups.json');
 
-const { nodes: [node], language: flowLanguage } = definition as FlowDefinition;
-const { actions: [, addToGroupsAction] } = node;
+const addGroupsAction = genAddGroupsAction({ groups: groups.slice(2) });
 
-const setup = createSetup<ChangeGroups>(ChangeGroupsComp, addToGroupsAction as ChangeGroups);
+const { setup } = composeComponentTestUtils<ChangeGroups>(ChangeGroupsComp, addGroupsAction);
 
-const COMPONENT_TO_TEST = ChangeGroupsComp.name;
-
-describe(`${COMPONENT_TO_TEST}`, () => {
+describe(ChangeGroupsComp.name, () => {
     describe('helpers', () => {
         describe('getRemoveAllMarkup', () => {
             it('should return remove-all markup', () => {
@@ -32,16 +28,14 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         describe('getGroupElements', () => {
             it('should return a list of group elements', () => {
                 expect(getGroupElements([])).toEqual([]);
-                expect(
-                    getGroupElements((addToGroupsAction as ChangeGroups).groups)
-                ).toMatchSnapshot();
+                expect(getGroupElements(addGroupsAction.groups)).toMatchSnapshot();
             });
         });
 
         describe('getContentMarkup', () => {
             it('should return list of elements that contains remove-all markup', () => {
                 const markup = getContentMarkup({
-                    type: 'remove_contact_groups',
+                    type: Types.remove_contact_groups,
                     groups: []
                 } as ChangeGroups);
 
@@ -50,7 +44,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             });
 
             it('should return list of group elements', () => {
-                const markup = getContentMarkup(addToGroupsAction as ChangeGroups);
+                const markup = getContentMarkup(addGroupsAction);
 
                 expect(markup.length).toBeGreaterThanOrEqual(1);
                 expect(markup).toMatchSnapshot();
@@ -58,22 +52,21 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         });
 
         describe('getChangeGroupsMarkup', () => {
-            it(`should return ${COMPONENT_TO_TEST} markup w/ container`, () => {
-                expect(getChangeGroupsMarkup(addToGroupsAction as ChangeGroups)).toMatchSnapshot();
+            it(`should return ${ChangeGroupsComp.name} markup w/ container`, () => {
+                expect(getChangeGroupsMarkup(addGroupsAction)).toMatchSnapshot();
             });
         });
     });
     describe('render', () => {
         it('should render group name', () => {
-            const { wrapper, props } = setup({}, true);
+            const { wrapper, props } = setup();
 
-            expect(props.groups.length === 1).toBeTruthy();
             expect(wrapper.html().indexOf(props.groups[0].name)).toBeTruthy();
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should limit div to 3 groups, include ellipsesText', () => {
-            const { wrapper } = setup({ groups }, true);
+            const { wrapper } = setup(true, { groups: set(groups) });
             const content = getSpecWrapper(wrapper, contentSpecId);
 
             expect(content.children().length).toBe(4);
@@ -81,8 +74,11 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             expect(wrapper).toMatchSnapshot();
         });
 
-        it("should render 'remove from all' markup when passed group action of type 'remove_contact_groups'", () => {
-            const { wrapper, props } = setup({ groups: [], type: 'remove_contact_groups' }, true);
+        it("should render 'remove from all' markup when passed group action of type Types.remove_contact_groups", () => {
+            const { wrapper, props } = setup(true, {
+                groups: set([]),
+                type: set(Types.remove_contact_groups)
+            });
 
             expect(wrapper.children().length).toBe(1);
             expect(wrapper.containsMatchingElement(getRemoveAllMarkup())).toBeTruthy();

@@ -36,6 +36,26 @@ start_flow	                start_flow	                flow_triggered
 start_session	            start_session	            session_triggered
 */
 
+export const enum Types {
+    add_contact_urn = 'add_contact_urn',
+    add_contact_groups = 'add_contact_groups',
+    remove_contact_groups = 'remove_contact_groups',
+    set_contact_channel = 'set_contact_channel',
+    set_contact_property = 'set_contact_property',
+    set_contact_field = 'set_contact_field',
+    set_run_result = 'set_run_result',
+    call_webhook = 'call_webhook',
+    add_input_labels = 'add_input_labels',
+    send_msg = 'send_msg',
+    send_email = 'send_email',
+    send_broadcast = 'send_broadcast',
+    start_flow = 'start_flow',
+    start_session = 'start_session',
+    split_by_expression = 'split_by_expression',
+    split_by_groups = 'split_by_groups',
+    wait_for_response = 'wait_for_response'
+}
+
 export enum Mode {
     EDITING = 0x1,
     TRANSLATING = 0x2,
@@ -43,7 +63,7 @@ export enum Mode {
 }
 
 export interface Type {
-    type: string;
+    type: Types;
     name: string;
     description: string;
     allows(mode: Mode): boolean;
@@ -66,7 +86,7 @@ export function allows(mode: Mode): boolean {
 export const typeConfigList: Type[] = [
     /** Actions */
     {
-        type: 'send_msg',
+        type: Types.send_msg,
         name: 'Send Message',
         description: 'Send them a message',
         form: SendMsgForm,
@@ -76,7 +96,7 @@ export const typeConfigList: Type[] = [
     },
     // { type: 'msg', name: 'Send Message', description: 'Send somebody else a message', form: SendMessageForm, component: SendMessage },
     {
-        type: 'add_contact_groups',
+        type: Types.add_contact_groups,
         name: 'Add to Group',
         description: 'Add them to a group',
         form: AddGroupsForm,
@@ -84,7 +104,7 @@ export const typeConfigList: Type[] = [
         allows
     },
     {
-        type: 'remove_contact_groups',
+        type: Types.remove_contact_groups,
         name: 'Remove from Group',
         description: 'Remove them from a group',
         form: RemoveGroupsForm,
@@ -92,16 +112,16 @@ export const typeConfigList: Type[] = [
         allows
     },
     {
-        type: 'set_contact_field',
+        type: Types.set_contact_field,
         name: 'Update Contact',
         description: 'Update the contact',
         form: SetContactAttribForm,
         component: SetContactAttrib,
-        aliases: ['set_contact_property'],
+        aliases: [Types.set_contact_property],
         allows
     },
     {
-        type: 'send_email',
+        type: Types.send_email,
         name: 'Send Email',
         description: 'Send an email',
         form: SendEmailForm,
@@ -109,7 +129,7 @@ export const typeConfigList: Type[] = [
         allows
     },
     {
-        type: 'set_run_result',
+        type: Types.set_run_result,
         name: 'Save Flow Result',
         description: 'Save a result for this flow',
         form: SetRunResultForm,
@@ -120,7 +140,7 @@ export const typeConfigList: Type[] = [
     // {type: 'set_preferred_channel', name: 'Set Preferred Channel', description: 'Set their preferred channel', component: Missing},
     /** Hybrids */
     {
-        type: 'call_webhook',
+        type: Types.call_webhook,
         name: 'Call Webhook',
         description: 'Call a webook',
         form: WebhookRouter,
@@ -130,7 +150,7 @@ export const typeConfigList: Type[] = [
         allows
     },
     {
-        type: 'start_flow',
+        type: Types.start_flow,
         name: 'Run Flow',
         description: 'Run another flow',
         form: SubflowRouter,
@@ -141,7 +161,7 @@ export const typeConfigList: Type[] = [
 
     /** Routers */
     {
-        type: 'split_by_expression',
+        type: Types.split_by_expression,
         name: 'Split by Expression',
         description: 'Split by a custom expression',
         form: SwitchRouter,
@@ -149,14 +169,14 @@ export const typeConfigList: Type[] = [
         allows
     },
     {
-        type: 'split_by_groups',
+        type: Types.split_by_groups,
         name: 'Split by Group Membership',
         description: 'Split by group membership',
         form: GroupsRouter,
         allows
     },
     {
-        type: 'wait_for_response',
+        type: Types.wait_for_response,
         name: 'Wait for Response',
         description: 'Wait for them to respond',
         form: SwitchRouter,
@@ -169,11 +189,11 @@ export const typeConfigList: Type[] = [
 
 export const actionConfigList = typeConfigList.filter(
     ({ type }) =>
-        type !== 'wait_for_response' &&
-        type !== 'split_by_expression' &&
-        type !== 'split_by_groups' &&
-        type !== 'run_flow' &&
-        type !== 'call_webhook'
+        type !== Types.wait_for_response &&
+        type !== Types.split_by_expression &&
+        type !== Types.split_by_groups &&
+        type !== Types.start_flow &&
+        type !== Types.call_webhook
 );
 
 export const typeConfigMap: TypeMap = typeConfigList.reduce((map: TypeMap, typeConfig: Type) => {

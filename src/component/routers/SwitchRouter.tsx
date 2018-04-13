@@ -18,6 +18,7 @@ import { GetResultNameField } from '../NodeEditor';
 import { hasCases, SaveLocalizations } from '../NodeEditor/NodeEditor';
 import { EXPRESSION_LABEL, OPERAND_LOCALIZATION_DESC, WAIT_LABEL } from './constants';
 import * as styles from './SwitchRouter.scss';
+import { Types } from '../../config/typeConfigs';
 
 export enum DragCursor {
     move = 'move',
@@ -436,7 +437,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
         let leadIn: JSX.Element | string = null;
         if (this.props.typeConfig.type === 'wait_for_response') {
             leadIn = WAIT_LABEL;
-        } else if (this.props.typeConfig.type === 'split_by_expression') {
+        } else if (this.props.typeConfig.type === Types.split_by_expression) {
             leadIn = (
                 <React.Fragment>
                     <p>{EXPRESSION_LABEL}</p>

@@ -1,12 +1,15 @@
+import { AttributeType } from '../../../flowTypes';
+import { genSetContactFieldAction, genSetContactPropertyAction } from '../../../testUtils';
+import { titleCase } from '../../../utils';
 import {
+    fieldToSearchResult,
     newFieldAction,
     newPropertyAction,
-    fieldToSearchResult,
     propertyToSearchResult
 } from './helpers';
-import { setContactField, setContactProperty } from './__test__';
-import { AttributeType } from '../../../flowTypes';
-import { titleCase } from '../../../utils';
+
+const setContactProperty = genSetContactPropertyAction();
+const setContactField = genSetContactFieldAction();
 
 describe('newFieldAction', () => {
     it('should return a SetContactField action', () => {
@@ -24,7 +27,7 @@ describe('newPropertyAction', () => {
                 setContactProperty.value,
                 setContactProperty.property
             )
-        ).toEqual(setContactProperty);
+        ).toMatchSnapshot();
     });
 });
 
@@ -40,10 +43,6 @@ describe('fieldToSearchResult', () => {
 
 describe('propertyToSearchResult', () => {
     it('should return a SearchResult object', () => {
-        expect(propertyToSearchResult(setContactProperty)).toEqual({
-            id: setContactProperty.property,
-            name: titleCase(setContactProperty.property),
-            type: AttributeType.property
-        });
+        expect(propertyToSearchResult(setContactProperty)).toMatchSnapshot();
     });
 });

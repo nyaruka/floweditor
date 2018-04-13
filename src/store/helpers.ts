@@ -1,14 +1,13 @@
 import { v4 as generateUUID } from 'uuid';
-import { DragPoint } from '../component/Node';
+import { Types } from '../config/typeConfigs';
 import {
     AnyAction,
     FlowDefinition,
-    Languages,
-    LocalizationMap,
     FlowNode,
+    FlowPosition,
+    Languages,
     SwitchRouter,
-    WaitType,
-    FlowPosition
+    WaitTypes
 } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { RenderNode, RenderNodeMap, SearchResult } from './flowContext';
@@ -213,7 +212,7 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
     if (fromNode.node.wait || fromNode.ui.type === 'webhook') {
         const replyAction = {
             uuid: generateUUID(),
-            type: 'send_msg',
+            type: Types.send_msg,
             text: ''
         };
 
@@ -221,7 +220,7 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
     } else {
         // Otherwise we are going to a switch
         ghostNode.exits[0].name = 'All Responses';
-        ghostNode.wait = { type: WaitType.msg };
+        ghostNode.wait = { type: WaitTypes.msg };
         ghostNode.router = {
             type: 'switch',
             result_name: getSuggestedResultName(nodes)
@@ -231,8 +230,22 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
     return ghostNode;
 };
 
-export const getRenderNodeMap = ({ nodes, _ui }: FlowDefinition) => {
+export interface FlowDetails {
+    renderNodeMap: RenderNodeMap;
+    groups: SearchResult[];
+    fields: SearchResult[];
+}
+
+/**
+ * Processes an initial FlowDefinition for details necessary for the editor
+ */
+export const getFlowDetails = ({ nodes, _ui }: FlowDefinition): FlowDetails => {
     const renderNodeMap: RenderNodeMap = {};
+
+    // our groups and fields referenced within
+    const groups: SearchResult[] = [];
+    const fields: SearchResult[] = [];
+
     // initialize our nodes
     const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
 
@@ -266,5 +279,5 @@ export const getRenderNodeMap = ({ nodes, _ui }: FlowDefinition) => {
         renderNodeMap[nodeUUID].inboundConnections = pointerMap[nodeUUID];
     }
 
-    return renderNodeMap;
+    return { renderNodeMap, groups, fields };
 };

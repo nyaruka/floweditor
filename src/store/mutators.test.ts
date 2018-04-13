@@ -17,6 +17,7 @@ import { SendMsg, FlowDefinition, FlowNode } from '../flowTypes';
 import { dump } from '../utils';
 import { NODES_ABC } from './__test__';
 import { getNode, getExitIndex, getActionIndex } from './helpers';
+import { Types } from '../config/typeConfigs';
 
 describe('mutators', () => {
     const nodes = NODES_ABC;
@@ -80,12 +81,12 @@ describe('mutators', () => {
     it('should addAction', () => {
         const updated = addAction(nodes, 'nodeB', {
             uuid: 'actionB',
-            type: 'send_msg',
+            type: Types.send_msg,
             text: 'Hello World'
         } as SendMsg);
 
         const action = updated.nodeB.node.actions[0] as SendMsg;
-        expect(action.type).toBe('send_msg');
+        expect(action.type).toBe(Types.send_msg);
         expect(action.text).toBe('Hello World');
         expect(updated).toMatchSnapshot();
     });
@@ -95,7 +96,7 @@ describe('mutators', () => {
             expect(() => {
                 updateAction(nodes, 'nodeA', {
                     uuid: 'missing-action',
-                    type: 'send_msg',
+                    type: Types.send_msg,
                     text: 'Hello World'
                 } as SendMsg);
             }).toThrowError('Cannot find action missing-action');
@@ -104,13 +105,13 @@ describe('mutators', () => {
         it('should update an existing action', () => {
             let updated = addAction(nodes, 'nodeB', {
                 uuid: 'actionB',
-                type: 'send_msg',
+                type: Types.send_msg,
                 text: 'Hello World'
             } as SendMsg);
 
             updated = updateAction(updated, 'nodeB', {
                 uuid: 'actionB',
-                type: 'send_msg',
+                type: Types.send_msg,
                 text: 'Goodbye World'
             } as SendMsg);
 
@@ -118,7 +119,7 @@ describe('mutators', () => {
             expect(updated.nodeB.node.actions.length).toBe(1);
 
             const action = updated.nodeB.node.actions[0] as SendMsg;
-            expect(action.type).toBe('send_msg');
+            expect(action.type).toBe(Types.send_msg);
             expect(action.text).toBe('Goodbye World');
             expect(updated).toMatchSnapshot();
         });
@@ -140,7 +141,7 @@ describe('mutators', () => {
         it('should move action up', () => {
             let updated = addAction(nodes, 'nodeA', {
                 uuid: 'actionB',
-                type: 'send_msg',
+                type: Types.send_msg,
                 text: 'Move me up'
             } as SendMsg);
 

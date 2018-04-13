@@ -2,8 +2,8 @@
 
 exports[`FlowList helpers getFlowOption should return a FlowOption map 1`] = `
 Object {
-  "name": "Colors",
-  "uuid": "a4f64f1b-85bc-477e-b706-de313a022979",
+  "name": "Registration",
+  "uuid": "registration",
 }
 `;
 
@@ -84,8 +84,8 @@ exports[`FlowList render should render select control 1`] = `
     trimFilter={true}
     value={
       Object {
-        "name": "Colors",
-        "uuid": "a4f64f1b-85bc-477e-b706-de313a022979",
+        "name": "Registration",
+        "uuid": "registration",
       }
     }
     valueComponent={[Function]}

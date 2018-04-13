@@ -1,9 +1,10 @@
+import { Types } from '../../../config/typeConfigs';
 import { AttributeType, SetContactField, SetContactProperty } from '../../../flowTypes';
 import { SearchResult } from '../../../store';
-import { titleCase, snakify } from '../../../utils';
+import { snakify, titleCase } from '../../../utils';
 
 export const newFieldAction = (uuid: string, value: string, name: string): SetContactField => ({
-    type: 'set_contact_field',
+    type: Types.set_contact_field,
     field: {
         key: snakify(name),
         name: titleCase(name)
@@ -12,8 +13,12 @@ export const newFieldAction = (uuid: string, value: string, name: string): SetCo
     value
 });
 
-export const newPropertyAction = (uuid: string, value: string, name: string): SetContactProperty => ({
-    type: 'set_contact_property',
+export const newPropertyAction = (
+    uuid: string,
+    value: string,
+    name: string
+): SetContactProperty => ({
+    type: Types.set_contact_property,
     property: snakify(name),
     uuid,
     value

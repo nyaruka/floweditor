@@ -1,23 +1,25 @@
 import * as React from 'react';
-import { ConfigProviderContext } from '../../config/ConfigProvider';
-import { FlowDefinition, FlowEditorConfig, SwitchRouter } from '../../flowTypes';
-import { createSetup, Resp } from '../../testUtils';
+import { FlowDefinition, SwitchRouter } from '../../flowTypes';
+import {
+    composeComponentTestUtils,
+    genGroupsRouterNode,
+    genFlowNode,
+    genExit,
+    setMock
+} from '../../testUtils';
 import { GROUP_NOT_FOUND, GROUP_PLACEHOLDER } from '../form/GroupsElement';
 import { GROUP_LABEL } from './constants';
 import { extractGroups, GroupsRouter, GroupsRouterProps, hasGroupsRouter } from './GroupsRouter';
+import { genSendMsgAction } from '../../testUtils/index';
+import { setTrue } from '../../utils';
 
-const config = require('../../../assets/config') as FlowEditorConfig;
-const colorsFlowResp = require('../../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json') as Resp;
-const groupsResp = require('../../../assets/groups.json') as Resp;
+const groupsRouterNode = genGroupsRouterNode();
+const sendMsgNode = genFlowNode({
+    actions: [genSendMsgAction({ text: '😎' })],
+    exits: [genExit()]
+});
 
-const definition = colorsFlowResp.results[0].definition as FlowDefinition;
-const { nodes: [sendMsgNode, , , , , groupsRouterNode] } = definition;
-
-const context = {
-    endpoints: config.endpoints
-};
-
-const baseProps = {
+const baseProps: GroupsRouterProps = {
     translating: false,
     localGroups: [],
     nodeToEdit: groupsRouterNode,
@@ -28,15 +30,9 @@ const baseProps = {
     onBindWidget: jest.fn()
 };
 
-const setup = createSetup<GroupsRouterProps, ConfigProviderContext>(
-    GroupsRouter,
-    baseProps,
-    context
-);
+const { setup } = composeComponentTestUtils(GroupsRouter, baseProps);
 
-const COMPONENT_TO_TEST = GroupsRouter.name;
-
-describe(`${COMPONENT_TO_TEST}`, () => {
+describe(GroupsRouter.name, () => {
     describe('helpers', () => {
         describe('extractGroups', () => {
             it('should extract groups from the exits of a groupsRouter node', () => {
@@ -55,7 +51,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 expect(hasGroupsRouter(groupsRouterNode)).toBeTruthy();
             });
 
-            it('should return false if given NOde does not have a groups router', () => {
+            it('should return false if given Node does not have a groups router', () => {
                 expect(hasGroupsRouter(sendMsgNode)).toBeFalsy();
             });
         });
@@ -63,45 +59,34 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
     describe('render', () => {
         it('should render self, children', () => {
-            const getResultNameFieldMock = jest.fn();
-            const onBindWidgetMock = jest.fn();
-            const {
-                wrapper,
-                instance,
-                props: { localGroups, nodeToEdit },
-                context: { endpoints }
-            } = setup({
-                getResultNameField: getResultNameFieldMock,
-                onBindWidget: onBindWidgetMock
+            const { wrapper, instance, props, context } = setup(false, {
+                getResultNameField: setMock(),
+                onBindWidget: setMock()
             });
 
-            expect(getResultNameFieldMock).toHaveBeenCalledTimes(1);
+            expect(props.getResultNameField).toHaveBeenCalledTimes(1);
             expect(wrapper.find('.instructions').exists()).toBeTruthy();
             expect(wrapper.find('p').text()).toBe(GROUP_LABEL);
             expect(wrapper.find('GroupsElement').props()).toEqual({
                 name: 'Groups',
-                endpoint: endpoints.groups,
+                endpoint: context.endpoints.groups,
                 add: false,
                 required: true,
-                localGroups,
-                groups: extractGroups(nodeToEdit),
+                localGroups: props.localGroups,
+                groups: extractGroups(props.nodeToEdit),
                 placeholder: GROUP_PLACEHOLDER,
                 searchPromptText: GROUP_NOT_FOUND
             });
-            expect(onBindWidgetMock).toHaveBeenCalledTimes(1);
+            expect(props.onBindWidget).toHaveBeenCalledTimes(1);
         });
 
         it('should render exit translations when user is translating', () => {
-            const getExitTranslationsMock = jest.fn(() => <div />);
-            const { wrapper, instance } = setup(
-                {
-                    translating: true,
-                    getExitTranslations: getExitTranslationsMock
-                },
-                true
-            );
+            const { wrapper, props, instance } = setup(true, {
+                translating: setTrue(),
+                getExitTranslations: setMock()
+            });
 
-            expect(getExitTranslationsMock).toHaveBeenCalledTimes(1);
+            expect(props.getExitTranslations).toHaveBeenCalledTimes(1);
             expect(wrapper).toMatchSnapshot();
         });
     });
@@ -109,37 +94,28 @@ describe(`${COMPONENT_TO_TEST}`, () => {
     describe('instance methods', () => {
         describe('onValid', () => {
             it('should call "updateRouter" prop if user is not translating', () => {
-                const updateRouterMock = jest.fn();
-                const { wrapper, instance } = setup(
-                    {
-                        updateRouter: updateRouterMock
-                    },
-                    true
-                );
+                const { wrapper, props, instance } = setup(true, {
+                    updateRouter: setMock()
+                });
                 const widgets = { Groups: '' };
 
                 instance.onValid(widgets);
 
-                expect(updateRouterMock).toHaveBeenCalledTimes(1);
+                expect(props.updateRouter).toHaveBeenCalledTimes(1);
             });
 
             it('should call "saveLocalizations" prop if user is translating', () => {
-                const saveLocalizationsMock = jest.fn();
-                const getExitTranslationsMock = jest.fn(() => <div />);
-                const { wrapper, instance } = setup(
-                    {
-                        translating: true,
-                        saveLocalizations: saveLocalizationsMock,
-                        getExitTranslations: getExitTranslationsMock
-                    },
-                    true
-                );
+                const { wrapper, props, instance } = setup(true, {
+                    translating: setTrue(),
+                    saveLocalizations: setMock(),
+                    getExitTranslations: setMock(() => <div />)
+                });
                 const widgets = { Groups: '' };
 
                 instance.onValid(widgets);
 
-                expect(saveLocalizationsMock).toHaveBeenCalledTimes(1);
-                expect(saveLocalizationsMock).toHaveBeenCalledWith(widgets);
+                expect(props.saveLocalizations).toHaveBeenCalledTimes(1);
+                expect(props.saveLocalizations).toHaveBeenCalledWith(widgets);
             });
         });
     });

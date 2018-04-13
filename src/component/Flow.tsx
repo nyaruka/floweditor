@@ -32,13 +32,13 @@ import {
 import { RenderNode } from '../store/flowContext';
 import { DragSelection } from '../store/flowEditor';
 import { getCollisions } from '../store/helpers';
-import { isRealValue, renderIf, snapToGrid, NODE_PADDING, dump } from '../utils';
+import { isRealValue, renderIf, snapToGrid, NODE_PADDING, timeStart, timeEnd } from '../utils';
 import * as styles from './Flow.scss';
 import ConnectedNode, { DragPoint } from './Node';
 import ConnectedNodeEditor from './NodeEditor';
 import Simulator from './Simulator';
 import Sticky from './Sticky';
-import { timeStart, timeEnd } from '../testUtils';
+import { Types } from '../config/typeConfigs';
 
 export interface FlowStoreProps {
     translating: boolean;
@@ -73,7 +73,7 @@ export const dragSelectSpecId = 'drag-select';
 
 export const getGhostUI = (ghostNode: FlowNode = {} as any) => ({
     position: GHOST_POSITION_INITIAL,
-    ...(ghostNode.router ? { type: 'wait_for_response' } : {})
+    ...(ghostNode.router ? { type: Types.wait_for_response } : {})
 });
 
 export const isDraggingBack = (event: ConnectionEvent) => {
@@ -257,18 +257,13 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     private getStickies(): JSX.Element[] {
-        let stickyMap = this.props.definition._ui.stickies;
-        if (!stickyMap) {
-            stickyMap = {};
-        }
-
+        const stickyMap = this.props.definition._ui.stickies || {};
         return Object.keys(stickyMap).map(uuid => {
-            const sticky: StickyNote = stickyMap[uuid];
             return (
                 <Sticky
                     key={uuid}
                     uuid={uuid}
-                    sticky={sticky}
+                    sticky={stickyMap[uuid]}
                     plumberClearDragSelection={this.Plumber.clearDragSelection}
                     plumberDraggable={this.Plumber.draggable}
                     plumberRemove={this.Plumber.remove}

@@ -5,7 +5,13 @@ exports[`ChangeGroupComp helpers getChangeGroupsMarkup should return ChangeGroup
   data-spec="content"
 >
   <div>
-    Unsatisfied Customers
+    Early Adopters
+  </div>
+  <div>
+    Testers
+  </div>
+  <div>
+    Subscribers
   </div>
 </div>
 `;
@@ -23,7 +29,13 @@ Array [
 exports[`ChangeGroupComp helpers getContentMarkup should return list of group elements 1`] = `
 Array [
   <div>
-    Unsatisfied Customers
+    Early Adopters
+  </div>,
+  <div>
+    Testers
+  </div>,
+  <div>
+    Subscribers
   </div>,
 ]
 `;
@@ -31,7 +43,13 @@ Array [
 exports[`ChangeGroupComp helpers getGroupElements should return a list of group elements 1`] = `
 Array [
   <div>
-    Unsatisfied Customers
+    Early Adopters
+  </div>,
+  <div>
+    Testers
+  </div>,
+  <div>
+    Subscribers
   </div>,
 ]
 `;
@@ -71,7 +89,7 @@ exports[`ChangeGroupComp render should limit div to 3 groups, include ellipsesTe
 </div>
 `;
 
-exports[`ChangeGroupComp render should render 'remove from all' markup when passed group action of type 'remove_contact_groups' 1`] = `
+exports[`ChangeGroupComp render should render 'remove from all' markup when passed group action of type Types.remove_contact_groups 1`] = `
 <div
   data-spec="content"
 >
@@ -91,7 +109,17 @@ exports[`ChangeGroupComp render should render group name 1`] = `
   <div
     key="0"
   >
-    Unsatisfied Customers
+    Early Adopters
+  </div>
+  <div
+    key="1"
+  >
+    Testers
+  </div>
+  <div
+    key="2"
+  >
+    Subscribers
   </div>
 </div>
 `;

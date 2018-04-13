@@ -90,7 +90,9 @@ Object {
         "type": "switch",
       },
       "uuid": "nodeD",
-      "wait": "msg",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {
@@ -118,7 +120,9 @@ Object {
         "type": "switch",
       },
       "uuid": "nodeE",
-      "wait": "msg",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {
@@ -229,7 +233,9 @@ Object {
         "type": "switch",
       },
       "uuid": "nodeD",
-      "wait": "msg",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {
@@ -257,7 +263,9 @@ Object {
         "type": "switch",
       },
       "uuid": "nodeE",
-      "wait": "msg",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {
@@ -357,7 +365,9 @@ Object {
         "type": "switch",
       },
       "uuid": "nodeD",
-      "wait": "msg",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {
@@ -385,7 +395,9 @@ Object {
         "type": "switch",
       },
       "uuid": "nodeE",
-      "wait": "msg",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {
@@ -502,7 +514,9 @@ Object {
         "type": "switch",
       },
       "uuid": "nodeE",
-      "wait": "msg",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {
@@ -636,7 +650,9 @@ Object {
         "type": "switch",
       },
       "uuid": "nodeD",
-      "wait": "msg",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {

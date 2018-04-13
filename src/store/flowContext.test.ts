@@ -19,51 +19,50 @@ import reducer, {
     updateNodes,
     RenderNodeMap
 } from './flowContext';
+import { configProviderContext } from '../testUtils';
+import { FlowDefinition } from '../flowTypes';
+import { Types } from '../config/typeConfigs';
 
-const colorsFlow = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
-const customerServiceFlow = require('../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
-const config = require('../../assets/config');
+const colorsFlow = require('../../__test__/flows/colors.json') as FlowDefinition;
+const customerServiceFlow = require('../../__test__/flows/customer_service.json') as FlowDefinition;
 
 describe('flowContext action creators', () => {
     describe('updateDefinition', () => {
         it('should create an action to update definition state', () => {
-            const { results: [{ definition }] } = colorsFlow;
             const expectedAction = {
                 type: Constants.UPDATE_DEFINITION,
                 payload: {
-                    definition
+                    definition: colorsFlow
                 }
             };
-            expect(updateDefinition(definition)).toEqual(expectedAction);
+
+            expect(updateDefinition(colorsFlow)).toEqual(expectedAction);
         });
     });
 
     describe('updateDependencies', () => {
         it('should create an action to update dependencies state', () => {
-            const dependencies = [
-                colorsFlow.results[0].definition,
-                customerServiceFlow.results[0].definition
-            ];
+            const dependencies = [colorsFlow, customerServiceFlow];
             const expectedAction = {
                 type: Constants.UPDATE_DEPENDENCIES,
                 payload: {
                     dependencies
                 }
             };
+
             expect(updateDependencies(dependencies)).toEqual(expectedAction);
         });
     });
 
     describe('updateLocalizations', () => {
         it('should create an action to update localizations state', () => {
-            const { definition } = colorsFlow.results[0];
             const iso = 'spa';
             const localizations = [
                 Localization.translate(
-                    definition.nodes[0].actions[0],
+                    colorsFlow.nodes[0].actions[0],
                     iso,
-                    config.languages,
-                    definition[iso]
+                    configProviderContext.languages,
+                    colorsFlow[iso]
                 )
             ];
             const expectedAction = {
@@ -72,19 +71,25 @@ describe('flowContext action creators', () => {
                     localizations
                 }
             };
+
             expect(updateLocalizations(localizations)).toEqual(expectedAction);
         });
     });
 
     describe('updateContactFields', () => {
         it('should create an action to update contactFields state', () => {
-            const contactField = { id: generateUUID(), name: 'Name', type: 'set_contact_field' };
+            const contactField = {
+                id: generateUUID(),
+                name: 'Name',
+                type: Types.set_contact_field
+            };
             const expectedAction = {
                 type: Constants.UPDATE_CONTACT_FIELDS,
                 payload: {
                     contactField
                 }
             };
+
             expect(updateContactFields(contactField)).toEqual(expectedAction);
         });
     });
@@ -98,6 +103,7 @@ describe('flowContext action creators', () => {
                     group
                 }
             };
+
             expect(updateGroups(group)).toEqual(expectedAction);
         });
     });
@@ -111,6 +117,7 @@ describe('flowContext action creators', () => {
                     resultNames
                 }
             };
+
             expect(updateResultNames(resultNames)).toEqual(expectedAction);
         });
     });
@@ -125,9 +132,9 @@ describe('flowContext reducers', () => {
         });
 
         it('should handle UPDATE_DEFINITION', () => {
-            const { results: [{ definition }] } = colorsFlow;
-            const action = updateDefinition(definition);
-            expect(reduce(action)).toEqual(definition);
+            const action = updateDefinition(colorsFlow);
+
+            expect(reduce(action)).toEqual(colorsFlow);
         });
     });
 
@@ -139,11 +146,9 @@ describe('flowContext reducers', () => {
         });
 
         it('should handle UPDATE_DEPENDENCIES', () => {
-            const dependencies = [
-                colorsFlow.results[0].definition,
-                customerServiceFlow.results[0].definition
-            ];
+            const dependencies = [colorsFlow, customerServiceFlow];
             const action = updateDependencies(dependencies);
+
             expect(reduce(action)).toEqual(dependencies);
         });
     });
@@ -156,17 +161,17 @@ describe('flowContext reducers', () => {
         });
 
         it('should handle UPDATE_LOCALIZATIONS', () => {
-            const { definition } = colorsFlow.results[0];
             const iso = 'spa';
             const localizations = [
                 Localization.translate(
-                    definition.nodes[0].actions[0],
+                    colorsFlow.nodes[0].actions[0],
                     iso,
-                    config.languages,
-                    definition[iso]
+                    configProviderContext.languages,
+                    colorsFlow[iso]
                 )
             ];
             const action = updateLocalizations(localizations);
+
             expect(reduce(action)).toEqual(localizations);
         });
     });
@@ -179,8 +184,13 @@ describe('flowContext reducers', () => {
         });
 
         it('should handle UPDATE_CONTACT_FIELDS', () => {
-            const contactFields = { id: generateUUID(), name: 'Name', type: 'set_contact_field' };
+            const contactFields = {
+                id: generateUUID(),
+                name: 'Name',
+                type: Types.set_contact_field
+            };
             const action = updateContactFields(contactFields);
+
             expect(reduce(action)).toEqual([contactFields]);
         });
     });
@@ -195,6 +205,7 @@ describe('flowContext reducers', () => {
         it('should handle UPDATE_RESULT_NAMES', () => {
             const resultNames = [{ name: 'run.results.color', description: 'Result for "color"' }];
             const action = updateResultNames(resultNames);
+
             expect(reduce(action)).toEqual(resultNames);
         });
     });
@@ -215,6 +226,7 @@ describe('flowContext reducers', () => {
                 }
             };
             const action = updateNodes(nodes);
+
             expect(reduce(action)).toEqual(nodes);
         });
     });
@@ -229,6 +241,7 @@ describe('flowContext reducers', () => {
         it('should handle UPDATE_GROUPS', () => {
             const groups = { id: 'subscribers', name: 'Subscribers' };
             const action = updateGroups(groups);
+
             expect(reduce(action)).toEqual([groups]);
         });
     });

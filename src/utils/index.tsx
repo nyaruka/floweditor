@@ -4,6 +4,7 @@ import { Action, Case, Exit, Languages, LocalizationMap, ContactProperties } fro
 import Localization, { LocalizedObject } from '../services/Localization';
 import { SearchResult } from '../store';
 import * as variables from '../variables.scss';
+import { Query } from 'immutability-helper';
 
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 const LABEL_CHARS = /^[a-zA-Z0-9-][a-zA-Z0-9- ]*$/;
@@ -260,3 +261,33 @@ export const isValidLabel = (label: string) =>
     properLabelLength(label) && containsOnlyLabelChars(label);
 
 export const isRealValue = (obj: any) => obj !== null && obj !== undefined;
+
+/* istanbul ignore next */
+export const timeStart = (name: string) =>
+    process.env.NODE_ENV === 'development' && console.time(name);
+
+/* istanbul ignore next */
+export const timeEnd = (name: string) =>
+    process.env.NODE_ENV === 'development' && console.timeEnd(name);
+
+export const capitalize = (str: string) =>
+    str.replace(/(?:^|\s)\S/g, captured => captured.toUpperCase());
+
+export const set = (val: any): Query<any> => ({ $set: val });
+
+export const setTrue = (): Query<true> => set(true);
+
+export const setFalse = (): Query<false> => set(false);
+
+export const setNull = (): Query<null> => set(null);
+
+export const setEmpty = (): Query<string> => set('');
+
+export const merge = (val: any): Query<any> => ({ $merge: val });
+
+export const unset = (val: any): Query<any> => ({ $unset: val });
+
+export const push = (arr: any[]): Query<any[]> => ({ $push: arr });
+
+// tslint:disable-next-line:array-type
+export const splice = (arr: Array<Array<any>>): Query<Array<Array<any>>> => ({ $splice: arr });

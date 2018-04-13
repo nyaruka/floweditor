@@ -24,7 +24,7 @@ import {
     SetRunResult,
     StartFlow,
     SwitchRouter,
-    WaitType,
+    WaitTypes,
     Wait
 } from '../../flowTypes';
 import { LocalizedObject } from '../../services/Localization';
@@ -65,6 +65,9 @@ import { DEFAULT_BODY, GROUPS_OPERAND } from './constants';
 import * as formStyles from './NodeEditor.scss';
 import TypeList from './TypeList';
 import { NODE_SPACING } from '../../utils';
+import { Types } from '../../config/typeConfigs';
+import { Operators } from '../../config/operatorConfigs';
+import { StartFlowExitNames } from '../../flowTypes';
 
 export type GetResultNameField = () => JSX.Element;
 export type SaveLocalizations = (
@@ -149,7 +152,9 @@ export const mapExits = (exits: Exit[]): { [uuid: string]: Exit } =>
     );
 
 export const isSwitchForm = (type: string) =>
-    type === 'wait_for_response' || type === 'split_by_expression' || type === 'split_by_groups';
+    type === Types.wait_for_response ||
+    type === Types.split_by_expression ||
+    type === Types.split_by_groups;
 
 export const hasSwitchRouter = (node: FlowNode): boolean =>
     (node.router as SwitchRouter) && (node.router as SwitchRouter).hasOwnProperty('operand');
@@ -177,16 +182,16 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
     };
 
     switch (typeConfig.type) {
-        case 'send_msg':
+        case Types.send_msg:
             defaultAction = { ...defaultAction, text: '', all_urns: false } as SendMsg;
             break;
-        case 'add_contact_groups':
+        case Types.add_contact_groups:
             defaultAction = { ...defaultAction, groups: null } as ChangeGroups;
             break;
-        case 'remove_contact_groups':
+        case Types.remove_contact_groups:
             defaultAction = { ...defaultAction, groups: null } as ChangeGroups;
             break;
-        case 'set_contact_field':
+        case Types.set_contact_field:
             defaultAction = {
                 ...defaultAction,
                 field: {
@@ -196,10 +201,10 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
                 value: ''
             } as SetContactField;
             break;
-        case 'send_email':
+        case Types.send_email:
             defaultAction = { ...defaultAction, subject: '', body: '', emails: null } as SendEmail;
             break;
-        case 'set_run_result':
+        case Types.set_run_result:
             defaultAction = {
                 ...defaultAction,
                 result_name: '',
@@ -207,10 +212,10 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
                 category: ''
             } as SetRunResult;
             break;
-        case 'call_webhook':
+        case Types.call_webhook:
             defaultAction = { ...defaultAction, url: '', method: Methods.GET } as CallWebhook;
             break;
-        case 'start_flow':
+        case Types.start_flow:
             defaultAction = { ...defaultAction, flow_name: null, flow_uuid: null } as StartFlow;
             break;
     }
@@ -349,18 +354,18 @@ export const hasCases = (node: FlowNode): boolean => {
 /**
  * Determine whether Node has a 'wait' property
  */
-export const hasWait = (node: FlowNode, type?: WaitType): boolean => {
+export const hasWait = (node: FlowNode, type?: WaitTypes): boolean => {
     if (!node || !node.wait || !node.wait.type || (type && node.wait.type !== type)) {
         return false;
     }
-    return node.wait.type in WaitType;
+    return node.wait.type in WaitTypes;
 };
 
 export const groupsToCases = (groups: SearchResult[] = []): CaseElementProps[] =>
     groups.map(({ name, id }: SearchResult) => ({
         kase: {
             uuid: id,
-            type: 'has_group',
+            type: Operators.has_group,
             arguments: [id],
             exit_uuid: ''
         },
@@ -784,10 +789,10 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
         const newNode = this.getUpdatedRouterNode(router, exits, this.props.typeConfig.type);
 
-        if (this.props.typeConfig.type === 'wait_for_response') {
-            newNode.node.wait = { type: WaitType.msg };
-        } else if (this.props.typeConfig.type === 'split_by_expression') {
-            newNode.node.wait = { type: WaitType.exp };
+        if (this.props.typeConfig.type === Types.wait_for_response) {
+            newNode.node.wait = { type: WaitTypes.msg };
+        } else if (this.props.typeConfig.type === Types.split_by_expression) {
+            newNode.node.wait = { type: WaitTypes.exp };
         }
         this.props.onUpdateRouter(newNode);
     }
@@ -842,7 +847,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         }
 
         const newNode = this.getUpdatedRouterNode(router, exits, this.props.typeConfig.type);
-        newNode.node.wait = { type: WaitType.group };
+        newNode.node.wait = { type: WaitTypes.group };
         this.props.onUpdateRouter(newNode);
     }
 
@@ -886,12 +891,12 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             exits = [
                 {
                     uuid: generateUUID(),
-                    name: 'Complete',
+                    name: StartFlowExitNames.Complete,
                     destination_node_uuid: null
                 },
                 {
                     uuid: generateUUID(),
-                    name: 'Expired',
+                    name: StartFlowExitNames.Expired,
                     destination_node_uuid: null
                 }
             ];
@@ -899,13 +904,13 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             cases = [
                 {
                     uuid: generateUUID(),
-                    type: 'has_run_status',
+                    type: Operators.has_webhook_status,
                     arguments: ['C'],
                     exit_uuid: exits[0].uuid
                 },
                 {
                     uuid: generateUUID(),
-                    type: 'has_run_status',
+                    type: Operators.has_webhook_status,
                     arguments: ['E'],
                     exit_uuid: exits[1].uuid
                 }
@@ -996,7 +1001,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
             cases.push({
                 uuid: generateUUID(),
-                type: 'has_webhook_status',
+                type: Operators.has_webhook_status,
                 arguments: ['S'],
                 exit_uuid: exits[0].uuid
             });
@@ -1087,13 +1092,16 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         const action = getAction(actionToEdit, typeConfig);
         let updateRouter: Function;
 
-        if (typeConfig.type === 'wait_for_response' || typeConfig.type === 'split_by_expression') {
+        if (
+            typeConfig.type === Types.wait_for_response ||
+            typeConfig.type === Types.split_by_expression
+        ) {
             updateRouter = this.updateSwitchRouter;
-        } else if (typeConfig.type === 'start_flow') {
+        } else if (typeConfig.type === Types.start_flow) {
             updateRouter = this.updateSubflowRouter;
-        } else if (typeConfig.type === 'call_webhook') {
+        } else if (typeConfig.type === Types.call_webhook) {
             updateRouter = this.updateWebhookRouter;
-        } else if (typeConfig.type === 'split_by_groups') {
+        } else if (typeConfig.type === Types.split_by_groups) {
             updateRouter = this.updateGroupsRouter;
         }
 

@@ -95,6 +95,7 @@ const devConfig = {
             },
             {
                 test: /\.tsx?$/,
+                exclude: [paths.testUtils],
                 use: ['react-hot-loader/webpack']
             }
         ]

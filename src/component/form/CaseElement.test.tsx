@@ -14,6 +14,8 @@ import { titleCase } from '../../utils';
 import { getSpecWrapper } from '../../testUtils';
 import { object } from 'prop-types';
 import { getTypeConfig, operatorConfigList, getOperatorConfig } from '../../config';
+import { Types } from '../../config/typeConfigs';
+import { Operators } from '../../config/operatorConfigs';
 
 const {
     results: [{ definition }]
@@ -22,18 +24,18 @@ const {
 const { nodes: [, node] } = definition;
 const { router: { cases }, exits } = node;
 
-const config = getTypeConfig('wait_for_response');
+const config = getTypeConfig(Types.wait_for_response);
 
-describe('CaseElement >', () => {
-    describe('helpers >', () => {
-        describe('prefix >', () =>
+describe(CaseElement.name, () => {
+    describe('helpers', () => {
+        describe('prefix', () =>
             operatorConfigList.forEach(({ verboseName, type }) =>
                 it(`should prefix "${verboseName}" operator appropriately`, () =>
                     expect(prefix(type)).toMatchSnapshot())
             ));
 
-        describe('composeExitName >', () => {
-            const operatorType = 'has_any_word';
+        describe('composeExitName', () => {
+            const operatorType = Operators.has_any_word;
             const strArgOperators = operatorConfigList.slice(0, 6);
             let args = [['tomato, t'], ['papayawhip'], []];
 
@@ -53,17 +55,19 @@ describe('CaseElement >', () => {
             it('should return exit name in the format "min - max" if operator', () => {
                 [['1', '2'], ['', '2'], ['1', ''], []].forEach(argList => {
                     expect(
-                        composeExitName('has_number_between', argList, '').indexOf('-') > -1
+                        composeExitName(Operators.has_number_between, argList, '').indexOf('-') > -1
                     ).toBeTruthy();
                 });
             });
 
             it("should return newExitName if it's truthy and operator is 'has_number_between'", () => {
-                expect(composeExitName('has_number_between', ['1', '2'], 'Violet')).toBe('Violet');
+                expect(composeExitName(Operators.has_number_between, ['1', '2'], 'Violet')).toBe(
+                    'Violet'
+                );
             });
         });
 
-        describe('getMinMax >', () => {
+        describe('getMinMax', () => {
             const emptyStrs = { min: '', max: '' };
 
             it('should return emtpy strings if arg param is an empty array', () => {
@@ -83,7 +87,7 @@ describe('CaseElement >', () => {
             });
         });
 
-        describe('isFloat >', () => {
+        describe('isFloat', () => {
             it('should return true if argument is string containing a float', () => {
                 ['0.2', '.2', '+.2', '+0.2', '-.2', '-0.2', '2', '2.'].forEach(arg =>
                     expect(isFloat(arg as any)).toBeTruthy()
@@ -95,7 +99,7 @@ describe('CaseElement >', () => {
             });
         });
 
-        describe('isInt >', () => {
+        describe('isInt', () => {
             it('should return true if argument is string containing an int', () => {
                 ['1', '+1', '-1'].forEach(arg => expect(isInt(arg)).toBeTruthy());
             });
@@ -107,7 +111,7 @@ describe('CaseElement >', () => {
             });
         });
 
-        describe('strContainsNum >', () => {
+        describe('strContainsNum', () => {
             it('should return true if string contains only a float or int', () => {
                 ['0.2', '.2', '+.2', '+0.2', '-.2', '-0.2', '2', '2.', '1', '+1', '-1'].forEach(
                     arg => expect(strContainsNum(arg)).toBeTruthy()
@@ -121,7 +125,7 @@ describe('CaseElement >', () => {
             });
         });
 
-        describe('parseNum >', () => {
+        describe('parseNum', () => {
             it('should return a float if passed a string containing only a float', () => {
                 const float = parseNum('0.2');
 
@@ -136,7 +140,7 @@ describe('CaseElement >', () => {
         });
     });
 
-    describe('Component >', () => {
+    describe('Component', () => {
         const caseUUID = '29b18c7e-c232-414c-9fc0-2e0b6260d9ca';
         const onChange = jest.fn();
         const onRemove = jest.fn();
@@ -144,7 +148,7 @@ describe('CaseElement >', () => {
             name: `case_${caseUUID}`,
             kase: {
                 uuid: caseUUID,
-                type: 'has_any_word',
+                type: Operators.has_any_word,
                 exit_uuid: '38c1m4g4-b424-585d-8cgi-384d6260ymca'
             },
             exitName: 'Red, ',
@@ -156,7 +160,7 @@ describe('CaseElement >', () => {
             config
         };
 
-        describe('render >', () => {
+        describe('render', () => {
             it('should render empty case', () => {
                 const EmptyCase = shallow(<CaseElement {...{ ...props, exitName: '' }} />);
 
