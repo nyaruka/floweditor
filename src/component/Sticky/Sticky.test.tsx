@@ -11,7 +11,7 @@ import * as config from '../../../assets/config';
 jest.useFakeTimers();
 
 // TODO: this is an awful lot of boilerplate for testing a simple component
-const definition = require('../../../__test__/empty.json') as FlowDefinition;
+const definition = require('../../../__test__/flows/empty.json') as FlowDefinition;
 const { languages, endpoints } = config;
 
 const clearTimeoutMock = clearTimeout as jest.Mock;

@@ -8,13 +8,12 @@ import ChangeGroupsComp, {
     getContentMarkup,
     getChangeGroupsMarkup
 } from './ChangeGroups';
+import { dump } from '../../../utils';
 
-const {
-    results: [{ definition }]
-} = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
+const definition: FlowDefinition = require('../../../../__test__/flows/customer_service.json');
 const { results: groups } = require('../../../../assets/groups.json');
 
-const { nodes: [node], language: flowLanguage } = definition as FlowDefinition;
+const { nodes: [node], language: flowLanguage } = definition;
 const { actions: [, addToGroupsAction] } = node;
 
 const setup = createSetup<ChangeGroups>(ChangeGroupsComp, addToGroupsAction as ChangeGroups);
