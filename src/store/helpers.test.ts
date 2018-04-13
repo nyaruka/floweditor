@@ -9,7 +9,6 @@ import {
 } from './helpers';
 import { v4 as generateUUID } from 'uuid';
 
-import { NODES_ABC } from './__test__';
 import { dump, getLocalization } from '../utils';
 import { AnyAction, SendMsg, Exit, Case, FlowPosition, FlowDefinition } from '../flowTypes';
 
@@ -32,7 +31,8 @@ describe('helpers', () => {
     it('should get unique destinations', () => {
         expect(getUniqueDestinations(nodes.node0.node)).toEqual(['node1']);
         expect(getUniqueDestinations(nodes.node1.node)).toEqual(['node2']);
-        expect(getUniqueDestinations(nodes.node2.node)).toEqual([]);
+        expect(getUniqueDestinations(nodes.node2.node)).toEqual(['node3']);
+        expect(getUniqueDestinations(nodes.node3.node)).toEqual([]);
     });
 
     it('should identify collisions', () => {
@@ -42,7 +42,7 @@ describe('helpers', () => {
 
         collides({ left: 0, top: 0, right: 200, bottom: 150 }, ['node0']);
         collides({ left: 0, top: 100, right: 200, bottom: 300 }, ['node0', 'node1']);
-        collides({ left: 0, top: 100, right: 200, bottom: 600 }, ['node0', 'node1', 'node2']);
+        collides({ left: 0, top: 100, right: 200, bottom: 500 }, ['node0', 'node1', 'node2']);
     });
 
     describe('getLocalizations', () => {

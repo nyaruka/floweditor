@@ -121,14 +121,24 @@ Object {
     "node": Object {
       "actions": Array [
         Object {
-          "text": "Thanks for playing!",
+          "text": "This has been really great.",
           "type": "send_msg",
+          "uuid": "node2_action0",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Participants",
+              "uuid": "group_0",
+            },
+          ],
+          "type": "remove_contact_groups",
           "uuid": "node2_action1",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -141,6 +151,36 @@ Object {
         "left": 0,
         "right": 220,
         "top": 400,
+      },
+    },
+  },
+  "node3": Object {
+    "inboundConnections": Object {
+      "node2_exit0": "node2",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node3_action0",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "node3_exit0",
+        },
+      ],
+      "uuid": "node3",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 598,
+        "left": 0,
+        "right": 220,
+        "top": 520,
       },
     },
   },
@@ -273,14 +313,24 @@ Object {
     "node": Object {
       "actions": Array [
         Object {
-          "text": "Thanks for playing!",
+          "text": "This has been really great.",
           "type": "send_msg",
+          "uuid": "node2_action0",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Participants",
+              "uuid": "group_0",
+            },
+          ],
+          "type": "remove_contact_groups",
           "uuid": "node2_action1",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -293,6 +343,36 @@ Object {
         "left": 0,
         "right": 220,
         "top": 400,
+      },
+    },
+  },
+  "node3": Object {
+    "inboundConnections": Object {
+      "node2_exit0": "node2",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node3_action0",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "node3_exit0",
+        },
+      ],
+      "uuid": "node3",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 598,
+        "left": 0,
+        "right": 220,
+        "top": 520,
       },
     },
   },
@@ -420,14 +500,24 @@ Object {
     "node": Object {
       "actions": Array [
         Object {
-          "text": "Thanks for playing!",
+          "text": "This has been really great.",
           "type": "send_msg",
+          "uuid": "node2_action0",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Participants",
+              "uuid": "group_0",
+            },
+          ],
+          "type": "remove_contact_groups",
           "uuid": "node2_action1",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -578,14 +668,24 @@ Object {
     "node": Object {
       "actions": Array [
         Object {
-          "text": "Thanks for playing!",
+          "text": "This has been really great.",
           "type": "send_msg",
+          "uuid": "node2_action0",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Participants",
+              "uuid": "group_0",
+            },
+          ],
+          "type": "remove_contact_groups",
           "uuid": "node2_action1",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -598,6 +698,36 @@ Object {
         "left": 0,
         "right": 220,
         "top": 400,
+      },
+    },
+  },
+  "node3": Object {
+    "inboundConnections": Object {
+      "node2_exit0": "node2",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node3_action0",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "node3_exit0",
+        },
+      ],
+      "uuid": "node3",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 598,
+        "left": 0,
+        "right": 220,
+        "top": 520,
       },
     },
   },
@@ -723,14 +853,24 @@ Object {
     "node": Object {
       "actions": Array [
         Object {
-          "text": "Thanks for playing!",
+          "text": "This has been really great.",
           "type": "send_msg",
+          "uuid": "node2_action0",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Participants",
+              "uuid": "group_0",
+            },
+          ],
+          "type": "remove_contact_groups",
           "uuid": "node2_action1",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -743,6 +883,36 @@ Object {
         "left": 0,
         "right": 220,
         "top": 400,
+      },
+    },
+  },
+  "node3": Object {
+    "inboundConnections": Object {
+      "node2_exit0": "node2",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node3_action0",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "node3_exit0",
+        },
+      ],
+      "uuid": "node3",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 598,
+        "left": 0,
+        "right": 220,
+        "top": 520,
       },
     },
   },
@@ -777,6 +947,14 @@ Object {
           "left": 0,
           "right": 220,
           "top": 400,
+        },
+      },
+      "node3": Object {
+        "position": Object {
+          "bottom": 598,
+          "left": 0,
+          "right": 220,
+          "top": 520,
         },
       },
     },
@@ -882,22 +1060,49 @@ Object {
     Object {
       "actions": Array [
         Object {
-          "text": "Thanks for playing!",
+          "text": "This has been really great.",
           "type": "send_msg",
+          "uuid": "node2_action0",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Participants",
+              "uuid": "group_0",
+            },
+          ],
+          "type": "remove_contact_groups",
           "uuid": "node2_action1",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
       ],
       "uuid": "node2",
     },
+    Object {
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node3_action0",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "node3_exit0",
+        },
+      ],
+      "uuid": "node3",
+    },
   ],
-  "uuid": "flow",
+  "uuid": "boring",
 }
 `;
 
@@ -929,6 +1134,14 @@ Object {
           "left": 0,
           "right": 220,
           "top": 400,
+        },
+      },
+      "node3": Object {
+        "position": Object {
+          "bottom": 598,
+          "left": 0,
+          "right": 220,
+          "top": 520,
         },
       },
     },
@@ -1028,22 +1241,49 @@ Object {
     Object {
       "actions": Array [
         Object {
-          "text": "Thanks for playing!",
+          "text": "This has been really great.",
           "type": "send_msg",
+          "uuid": "node2_action0",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Participants",
+              "uuid": "group_0",
+            },
+          ],
+          "type": "remove_contact_groups",
           "uuid": "node2_action1",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
       ],
       "uuid": "node2",
     },
+    Object {
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node3_action0",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "node3_exit0",
+        },
+      ],
+      "uuid": "node3",
+    },
   ],
-  "uuid": "flow",
+  "uuid": "boring",
 }
 `;
 
@@ -1173,14 +1413,24 @@ Object {
     "node": Object {
       "actions": Array [
         Object {
-          "text": "Thanks for playing!",
+          "text": "This has been really great.",
           "type": "send_msg",
+          "uuid": "node2_action0",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Participants",
+              "uuid": "group_0",
+            },
+          ],
+          "type": "remove_contact_groups",
           "uuid": "node2_action1",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -1193,6 +1443,36 @@ Object {
         "left": 0,
         "right": 220,
         "top": 400,
+      },
+    },
+  },
+  "node3": Object {
+    "inboundConnections": Object {
+      "node2_exit0": "node2",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node3_action0",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "node3_exit0",
+        },
+      ],
+      "uuid": "node3",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 598,
+        "left": 0,
+        "right": 220,
+        "top": 520,
       },
     },
   },
@@ -1318,14 +1598,24 @@ Object {
     "node": Object {
       "actions": Array [
         Object {
-          "text": "Thanks for playing!",
+          "text": "This has been really great.",
           "type": "send_msg",
+          "uuid": "node2_action0",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Participants",
+              "uuid": "group_0",
+            },
+          ],
+          "type": "remove_contact_groups",
           "uuid": "node2_action1",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -1338,6 +1628,36 @@ Object {
         "left": 0,
         "right": 220,
         "top": 400,
+      },
+    },
+  },
+  "node3": Object {
+    "inboundConnections": Object {
+      "node2_exit0": "node2",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node3_action0",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "node3_exit0",
+        },
+      ],
+      "uuid": "node3",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 598,
+        "left": 0,
+        "right": 220,
+        "top": 520,
       },
     },
   },
@@ -1464,14 +1784,24 @@ Object {
     "node": Object {
       "actions": Array [
         Object {
-          "text": "Thanks for playing!",
+          "text": "This has been really great.",
           "type": "send_msg",
+          "uuid": "node2_action0",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Participants",
+              "uuid": "group_0",
+            },
+          ],
+          "type": "remove_contact_groups",
           "uuid": "node2_action1",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_node_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -1484,6 +1814,36 @@ Object {
         "left": 0,
         "right": 220,
         "top": 400,
+      },
+    },
+  },
+  "node3": Object {
+    "inboundConnections": Object {
+      "node2_exit0": "node2",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node3_action0",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "node3_exit0",
+        },
+      ],
+      "uuid": "node3",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 598,
+        "left": 0,
+        "right": 220,
+        "top": 520,
       },
     },
   },
@@ -1613,8 +1973,18 @@ Object {
     "node": Object {
       "actions": Array [
         Object {
-          "text": "Thanks for playing!",
+          "text": "This has been really great.",
           "type": "send_msg",
+          "uuid": "node2_action0",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Participants",
+              "uuid": "group_0",
+            },
+          ],
+          "type": "remove_contact_groups",
           "uuid": "node2_action1",
         },
       ],
@@ -1633,6 +2003,34 @@ Object {
         "left": 0,
         "right": 220,
         "top": 400,
+      },
+    },
+  },
+  "node3": Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node3_action0",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": null,
+          "uuid": "node3_exit0",
+        },
+      ],
+      "uuid": "node3",
+    },
+    "ui": Object {
+      "position": Object {
+        "bottom": 598,
+        "left": 0,
+        "right": 220,
+        "top": 520,
       },
     },
   },

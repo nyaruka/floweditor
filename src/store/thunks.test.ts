@@ -45,12 +45,11 @@ import {
     onResetDragSelection
 } from './thunks';
 import { dump } from '../utils';
-import { getUniqueDestinations } from './helpers';
+import { getUniqueDestinations, getFlowDetails } from './helpers';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { v4 as generateUUID } from 'uuid';
 import { Constants, LocalizationUpdates } from '.';
 import { DragPoint } from '../component/Node';
-import { NODES_ABC, EMPTY_FLOW } from './__test__';
 import { NOT_FOUND } from '../component/actions/ChangeGroups/RemoveGroupsForm';
 import { empty } from '../component/form/CaseElement.scss';
 
@@ -68,12 +67,11 @@ const getUpdatedNodes = (currentStore): { [uuid: string]: RenderNode } => {
 
 describe('stickies', () => {
     let store;
-
-    const emptyFlow = JSON.parse(JSON.stringify(EMPTY_FLOW));
+    const boring: FlowDefinition = require('../../__test__/flows/boring.json');
 
     beforeEach(() => {
         store = createMockStore([thunk])({
-            flowContext: { definition: emptyFlow }
+            flowContext: { definition: boring }
         });
     });
 
@@ -87,47 +85,48 @@ describe('stickies', () => {
         store.dispatch(updateSticky('stickyA', newSticky));
 
         // should see our new sticky note
-        emptyFlow._ui.stickies = { stickyA: newSticky };
+        boring._ui.stickies = { stickyA: newSticky };
 
-        expect(store).toHavePayload(Constants.UPDATE_DEFINITION, { definition: emptyFlow });
+        expect(store).toHavePayload(Constants.UPDATE_DEFINITION, { definition: boring });
     });
 
     it('should add stickies to definitions with none', () => {
-        delete emptyFlow._ui.stickies;
+        delete boring._ui.stickies;
         store = createMockStore([thunk])({
-            flowContext: { definition: emptyFlow }
+            flowContext: { definition: boring }
         });
 
         const newSticky = {
-            title: 'Sticky A',
-            body: 'The body for sticky A',
+            title: 'sticky0',
+            body: 'The body for sticky0',
             position: { left: 100, top: 100 }
         };
 
-        store.dispatch(updateSticky('stickyA', newSticky));
+        store.dispatch(updateSticky('sticky0', newSticky));
 
         // should see our new sticky note
-        emptyFlow._ui.stickies = { stickyA: newSticky };
-        expect(store).toHavePayload(Constants.UPDATE_DEFINITION, { definition: emptyFlow });
+        boring._ui.stickies = { sticky0: newSticky };
+        expect(store).toHavePayload(Constants.UPDATE_DEFINITION, { definition: boring });
     });
 
     it('should remove stickies if null is passed', () => {
-        emptyFlow._ui.stickies = {
-            stickyA: {
-                title: 'Sticky A',
-                body: 'The body for sticky A',
+        boring._ui.stickies = {
+            sticky0: {
+                title: 'sticky0',
+                body: 'The body for sticky0',
                 position: { left: 100, top: 100 }
             }
         };
 
         store = createMockStore([thunk])({
-            flowContext: { definition: emptyFlow }
+            flowContext: { definition: boring }
         });
 
-        store.dispatch(updateSticky('stickyA', null));
+        store.dispatch(updateSticky('sticky0', null));
 
         // should be back to an empty flow
-        expect(store).toHavePayload(Constants.UPDATE_DEFINITION, { definition: EMPTY_FLOW });
+        boring._ui.stickies = {};
+        expect(store).toHavePayload(Constants.UPDATE_DEFINITION, { definition: boring });
     });
 });
 
@@ -180,8 +179,10 @@ describe('Color Flow', () => {
     });
 });
 
-describe('ABC RenderNodeMap', () => {
-    const testNodes = NODES_ABC;
+describe('Boring Flow', () => {
+    const definition: FlowDefinition = require('../../__test__/flows/boring.json');
+    const testNodes = getFlowDetails(definition).renderNodeMap;
+
     let store;
 
     const cloneNodes = () => {
@@ -200,32 +201,28 @@ describe('ABC RenderNodeMap', () => {
 
     describe('nodes', () => {
         it('should reflow nodes', () => {
-            // we are starting at 150 which overlaps with nodeA
-            expect(testNodes.nodeB.ui.position.top).toBe(150);
+            // make our second node overlap witht he first
+            testNodes.node1.ui.position.top -= 50;
 
             // forcing a reflow should bump us down where we don't collide
-            let updated = store.dispatch(reflow());
-            expect(updated.nodeB.ui.position.top).toBe(200);
-            expect(updated.nodeC.ui.position.top).toBe(360);
-            expect(store.getActions().length).toBe(1);
+            const updated = store.dispatch(reflow());
+            expect(updated.node1.ui.position.top).toBe(260);
 
-            // cascading should create two update actions
-            testNodes.nodeC.ui.position.top = 210;
-            updated = store.dispatch(reflow());
-            expect(updated.nodeC.ui.position.top).toBe(360);
-            expect(store.getActions().length).toBe(2);
+            // and we should have cascaded to the third node
+            expect(updated.node2.ui.position.top).toBe(420);
+            expect(store.getActions().length).toBe(1);
         });
 
         it('should move nodes', () => {
             const nodes = store.dispatch(
-                onNodeMoved(testNodes.nodeA.node.uuid, { left: 500, top: 600 })
+                onNodeMoved(testNodes.node0.node.uuid, { left: 500, top: 600 })
             );
 
-            expect(nodes.nodeA.ui.position).toEqual({
+            expect(nodes.node0.ui.position).toEqual({
                 left: 500,
                 top: 600,
-                right: 700,
-                bottom: 690
+                right: 720,
+                bottom: 854
             });
         });
 
@@ -237,7 +234,7 @@ describe('ABC RenderNodeMap', () => {
                 nodeEditor: { actionToEdit: null, nodeToEdit: null }
             });
 
-            store.dispatch(onNodeMoved(testNodes.nodeA.node.uuid, { left: 500, top: 600 }));
+            store.dispatch(onNodeMoved(testNodes.node0.node.uuid, { left: 500, top: 600 }));
             expect(store).toHavePayload(Constants.UPDATE_DRAG_SELECTION, {
                 dragSelection: {
                     selected: null
@@ -270,28 +267,28 @@ describe('ABC RenderNodeMap', () => {
                     target: null,
                     targetId: null,
                     source: null,
-                    sourceId: `${testNodes.nodeA.node.uuid}:${testNodes.nodeA.node.exits[0].uuid}`
+                    sourceId: 'node0:node0_exit0'
                 })
             );
             expect(store).toHaveReduxAction(Constants.UPDATE_GHOST_NODE);
             expect(store).toHavePayload(Constants.UPDATE_PENDING_CONNECTION, {
                 pendingConnection: {
-                    nodeUUID: 'nodeA',
-                    exitUUID: 'exitA'
+                    nodeUUID: 'node0',
+                    exitUUID: 'node0_exit0'
                 }
             });
         });
 
         it('should update dimensions', () => {
             const updated = store.dispatch(
-                updateDimensions(testNodes.nodeA.node, { width: 300, height: 600 })
+                updateDimensions(testNodes.node0.node, { width: 300, height: 600 })
             );
 
-            expect(updated.nodeA.ui.position).toEqual({
-                left: 100,
-                top: 100,
-                right: 400,
-                bottom: 700
+            expect(updated.node0.ui.position).toEqual({
+                left: 0,
+                top: 0,
+                right: 300,
+                bottom: 600
             });
         });
 
@@ -313,13 +310,13 @@ describe('ABC RenderNodeMap', () => {
 
         describe('removal', () => {
             it('should remove it from the map', () => {
-                const nodes = store.dispatch(removeNode(testNodes.nodeB.node));
-                expect(nodes.nodeB).toBeUndefined();
+                const nodes = store.dispatch(removeNode(testNodes.node1.node));
+                expect(nodes.node1).toBeUndefined();
             });
 
             it('should remove pointers from its destination', () => {
-                const nodes = store.dispatch(removeNode(testNodes.nodeA.node));
-                const destinations = getUniqueDestinations(testNodes.nodeA.node);
+                const nodes = store.dispatch(removeNode(testNodes.node0.node));
+                const destinations = getUniqueDestinations(testNodes.node0.node);
                 expect(destinations.length).toBe(1);
 
                 // we were the only thing pointing to our friends, so now they
@@ -330,13 +327,13 @@ describe('ABC RenderNodeMap', () => {
             });
 
             it('should reroute pass through connections', () => {
-                const nodes = store.dispatch(removeNode(testNodes.nodeB.node));
+                const nodes = store.dispatch(removeNode(testNodes.node2.node));
 
-                // we reomved B, so now A should point to C
-                expect(nodes.nodeA).toHaveExitThatPointsTo(nodes.nodeC);
+                // we reomved 2, so now 1 should point to 3
+                expect(nodes.node1).toHaveExitThatPointsTo(nodes.node3);
 
                 // and the next node in the tree should reflect our inbound connection
-                expect(nodes.nodeC).toHaveInboundFrom(testNodes.nodeA.node.exits[0]);
+                expect(nodes.node3).toHaveInboundFrom(testNodes.node1.node.exits[0]);
             });
 
             // test a snapshot after removing each node in the flow
@@ -351,28 +348,28 @@ describe('ABC RenderNodeMap', () => {
 
     describe('connections', () => {
         it('should updateExitDestination()', () => {
-            const updated = store.dispatch(updateExitDestination('nodeA', 'exitA', 'nodeC'));
-            expect(updated.nodeA).toHaveExitThatPointsTo(updated.nodeC);
+            const updated = store.dispatch(updateExitDestination('node0', 'node0_exit0', 'node2'));
+            expect(updated.node0).toHaveExitThatPointsTo(updated.node2);
         });
 
         it('should disconnectExit()', () => {
-            const updated = store.dispatch(disconnectExit('nodeA', 'exitA'));
-            expect(updated.nodeA).not.toHaveExitWithDestination();
+            const updated = store.dispatch(disconnectExit('node0', 'node0_exit0'));
+            expect(updated.node0).not.toHaveExitWithDestination();
         });
 
         it('should updateConnection()', () => {
-            const updated = store.dispatch(updateConnection('nodeA:exitA', 'nodeC'));
-            expect(updated.nodeA).toHaveExitThatPointsTo(updated.nodeC);
+            const updated = store.dispatch(updateConnection('node0:node0_exit0', 'node2'));
+            expect(updated.node0).toHaveExitThatPointsTo(updated.node2);
         });
 
         it('should throw if attempting to connect node to itself', () => {
             expect(() => {
-                store.dispatch(updateConnection('nodeA:exitA', 'nodeA'));
-            }).toThrowError('Cannot connect nodeA to itself');
+                store.dispatch(updateConnection('node0:node0_exit0', 'node0'));
+            }).toThrowError('Cannot connect node0 to itself');
         });
 
-        it('should update update connections when adding a node', () => {
-            let fromNode = testNodes.nodeB;
+        it('should update connections when adding a node', () => {
+            let fromNode = testNodes.node3;
             const fromNodeUUID = fromNode.node.uuid;
             const fromExitUUID = fromNode.node.exits[0].uuid;
 
@@ -400,7 +397,7 @@ describe('ABC RenderNodeMap', () => {
             // prep our store to show that we are editing
             const updatedStore = createMockStore([thunk])({
                 ...store.getState(),
-                nodeEditor: { userAddingAction: true, nodeToEdit: testNodes.nodeA.node }
+                nodeEditor: { userAddingAction: true, nodeToEdit: testNodes.node0.node }
             });
 
             // add a new message to the first node
@@ -408,14 +405,14 @@ describe('ABC RenderNodeMap', () => {
                 onUpdateAction({
                     uuid: 'new_action',
                     type: 'send_msg',
-                    text: 'A second message for our first node'
+                    text: 'A fourth action for our first node'
                 })
             );
 
             // we should have a new action
-            const actions = nodes.nodeA.node.actions;
-            expect(actions.length).toBe(2);
-            expect((actions[1] as SendMsg).text).toBe('A second message for our first node');
+            const actions = nodes.node0.node.actions;
+            expect(actions.length).toBe(4);
+            expect((actions[3] as SendMsg).text).toBe('A fourth action for our first node');
         });
 
         it('should throw if nodeToEdit is null', () => {
@@ -435,68 +432,44 @@ describe('ABC RenderNodeMap', () => {
             // prep our store to show that we are editing
             const updatedStore = createMockStore([thunk])({
                 ...store.getState(),
-                nodeEditor: { userAddingAction: false, nodeToEdit: testNodes.nodeA.node }
+                nodeEditor: { userAddingAction: false, nodeToEdit: testNodes.node0.node }
             });
 
             // add a new message to the first node
             const nodes = updatedStore.dispatch(
                 onUpdateAction({
-                    uuid: 'actionA',
+                    uuid: 'node0_action0',
                     type: 'send_msg',
                     text: 'An updated message'
                 })
             );
 
-            expect(nodes.nodeA.node.actions[0].text).toBe('An updated message');
+            expect(nodes.node0.node.actions[0].text).toBe('An updated message');
         });
 
         it('should remove the node when removing the last action', () => {
             // remove the first action
-            const updated = store.dispatch(removeAction('nodeA', testNodes.nodeA.node.actions[0]));
+            const updated = store.dispatch(removeAction('node3', testNodes.node3.node.actions[0]));
 
             // first one was removed, so now actionB is first
-            expect(updated.nodeA).toBeUndefined();
+            expect(updated.node3).toBeUndefined();
         });
 
         it('should remove an action from a list of actions', () => {
             // add a second action so we can test single action removal
             const updatedNodes = cloneNodes();
-            updatedNodes.nodeA.node.actions.push({
-                uuid: 'actionB',
-                type: 'send_msg',
-                text: 'A second message for our first node'
-            } as SendMsg);
-
-            const updatedStore = createMockStore([thunk])({
-                flowContext: { nodes: updatedNodes }
-            });
 
             // remove the first action
-            const updated = updatedStore.dispatch(
-                removeAction('nodeA', testNodes.nodeA.node.actions[0])
-            );
+            const updated = store.dispatch(removeAction('node0', testNodes.node0.node.actions[0]));
 
-            // first one was removed, so now actionB is first
-            expect(updated.nodeA.node.actions[0].uuid).toBe('actionB');
+            // first one was removed, so now second action is first
+            expect(updated.node0.node.actions[0].uuid).toBe('node0_action1');
         });
 
         it('should move an action up', () => {
             // add a second action so we can test single action removal
-            const updatedNodes = cloneNodes();
-            updatedNodes.nodeA.node.actions.push({
-                uuid: 'actionB',
-                type: 'send_msg',
-                text: 'A second message for our first node'
-            } as SendMsg);
-
-            const updatedStore = createMockStore([thunk])({
-                flowContext: { nodes: updatedNodes }
-            });
-
-            const updated = updatedStore.dispatch(
-                moveActionUp('nodeA', updatedNodes.nodeA.node.actions[1])
-            );
-            expect(updated.nodeA.node.actions[0].uuid).toBe('actionB');
+            const updated = store.dispatch(moveActionUp('node0', testNodes.node0.node.actions[1]));
+            expect(updated.node0.node.actions[0].uuid).toBe('node0_action1');
         });
 
         it('should create a new node if needed for new action', () => {
@@ -506,13 +479,13 @@ describe('ABC RenderNodeMap', () => {
 
                 flowEditor: {
                     flowUI: {
-                        pendingConnection: { exitUUID: 'exitE', nodeUUID: 'nodeE' },
+                        pendingConnection: { exitUUID: 'node3_exit0', nodeUUID: 'node3' },
                         createNodePosition: { left: 500, top: 500 }
                     }
                 },
                 nodeEditor: {
                     userAddingAction: true,
-                    nodeToEdit: testNodes.nodeA.node
+                    nodeToEdit: {}
                 }
             });
 
@@ -523,28 +496,22 @@ describe('ABC RenderNodeMap', () => {
             } as SendMsg;
 
             const updated = updatedStore.dispatch(onUpdateAction(newAction));
-            const newNodeUUID = updated.nodeE.node.exits[0].destination_node_uuid;
+            const newNodeUUID = updated.node3.node.exits[0].destination_node_uuid;
             expect(newNodeUUID).not.toBeUndefined();
 
             const newNode = updated[newNodeUUID];
             expect(newNode.ui.position).toEqual({ left: 500, top: 500 });
-            expect(newNode.inboundConnections.exitE).toBe('nodeE');
+            expect(newNode.inboundConnections.node3_exit0).toBe('node3');
             expect(newNode.node.actions[0].uuid).toBe('new_action_for_new_node');
         });
 
         describe('splicing', () => {
-            /**
-             *
-             * @param currentStore
-             * @param renderNode
-             */
             const addRouter = (
                 currentStore: any,
                 renderNode: RenderNode,
                 action: AnyAction
             ): RenderNodeMap => {
                 const newExitUUID = generateUUID();
-
                 const newNode: RenderNode = {
                     node: {
                         actions: [],
@@ -573,92 +540,41 @@ describe('ABC RenderNodeMap', () => {
             };
 
             it('should replace the first action of two', () => {
-                const updatedNodes = cloneNodes();
-                updatedNodes.nodeB.node.actions.push({
-                    uuid: 'action1',
-                    type: 'send_msg',
-                    text: 'second node, message one'
-                } as SendMsg);
-
-                updatedNodes.nodeB.node.actions.push({
-                    uuid: 'action2',
-                    type: 'send_msg',
-                    text: 'second node, message two'
-                } as SendMsg);
-
-                const updatedStore = createMockStore([thunk])({
-                    flowContext: { nodes: updatedNodes }
-                });
-
-                const nodeB = updatedNodes.nodeB;
-                const nodes = addRouter(updatedStore, nodeB, nodeB.node.actions[0]);
-
-                const topNode = nodes[nodes.nodeA.node.exits[0].destination_node_uuid];
+                const nodes = addRouter(store, testNodes.node2, testNodes.node2.node.actions[0]);
+                const topNode = nodes[nodes.node1.node.exits[0].destination_node_uuid];
                 const bottomNode = nodes[topNode.node.exits[0].destination_node_uuid];
 
                 // top node should point to the middle node, and middle should point back
-                expect(topNode.inboundConnections).toEqual(nodeB.inboundConnections);
+                expect(topNode.inboundConnections).toEqual(testNodes.node2.inboundConnections);
 
                 // bottom node should point back to top node
                 expect(bottomNode).toHaveInboundFrom(topNode.node.exits[0]);
 
                 // bottom node should point to the same place as original node
-                expect(bottomNode).toHaveExitThatPointsTo(nodes.nodeC);
+                expect(bottomNode).toHaveExitThatPointsTo(nodes.node3);
 
                 // original node should be gonezor
-                expect(nodes[updatedNodes.nodeB.node.uuid]).toBeUndefined();
+                expect(nodes[testNodes.node2.node.uuid]).toBeUndefined();
             });
 
             it('should replace the second action of two', () => {
-                const updatedNodes = cloneNodes();
-                updatedNodes.nodeB.node.actions.push({
-                    uuid: 'action1',
-                    type: 'send_msg',
-                    text: 'second node, message one'
-                } as SendMsg);
+                const nodes = addRouter(store, testNodes.node2, testNodes.node2.node.actions[1]);
+                const topNode = nodes[nodes.node1.node.exits[0].destination_node_uuid];
+                const bottomNode = nodes[topNode.node.exits[0].destination_node_uuid];
 
-                updatedNodes.nodeB.node.actions.push({
-                    uuid: 'action2',
-                    type: 'send_msg',
-                    text: 'second node, message two'
-                } as SendMsg);
-
-                const updatedStore = createMockStore([thunk])({
-                    flowContext: { nodes: updatedNodes }
-                });
-
-                const nodeB = updatedNodes.nodeB;
-                const nodes = addRouter(updatedStore, nodeB, nodeB.node.actions[1]);
+                expect(topNode.node.exits[0]).toPointTo(bottomNode);
+                expect(bottomNode).toHaveInboundFrom(topNode.node.exits[0]);
             });
 
             it('should replace the second action of three', () => {
-                const updatedNodes = cloneNodes();
-                updatedNodes.nodeB.node.actions = [
-                    {
-                        uuid: 'action1',
-                        type: 'send_msg',
-                        text: 'second node, message one'
-                    } as SendMsg,
-                    {
-                        uuid: 'action2',
-                        type: 'send_msg',
-                        text: 'second node, message two'
-                    } as SendMsg,
-                    {
-                        uuid: 'action3',
-                        type: 'send_msg',
-                        text: 'second node, message three'
-                    } as SendMsg
-                ];
+                const nodes = addRouter(store, testNodes.node0, testNodes.node0.node.actions[1]);
 
-                const updatedStore = createMockStore([thunk])({
-                    flowContext: { nodes: updatedNodes }
+                // find our top node by position since it's uuid will be different
+                const topNodeUUID = Object.keys(nodes).find((key: string) => {
+                    return nodes[key].ui.position.top === 0;
                 });
 
-                const nodeB = updatedNodes.nodeB;
-                const nodes = addRouter(updatedStore, nodeB, nodeB.node.actions[1]);
-
-                const topNode = nodes[nodes.nodeA.node.exits[0].destination_node_uuid];
+                const topNode = nodes[topNodeUUID];
                 const middleNode = nodes[topNode.node.exits[0].destination_node_uuid];
                 const bottomNode = nodes[middleNode.node.exits[0].destination_node_uuid];
 
@@ -669,7 +585,7 @@ describe('ABC RenderNodeMap', () => {
                 expect(bottomNode).toHaveInboundFrom(middleNode.node.exits[0]);
 
                 // original node should be gonezor
-                expect(nodes[updatedNodes.nodeB.node.uuid]).toBeUndefined();
+                expect(nodes.node0).toBeUndefined();
             });
         });
     });
@@ -689,88 +605,89 @@ describe('ABC RenderNodeMap', () => {
             });
         });
 
-        describe('edit modes', () => {
-            describe('translation', () => {
-                it('should edit in translation mode', () => {
-                    store = createMockStore([thunk])({
-                        flowContext: { nodes: testNodes, definition: { localization: {} } },
-                        flowEditor: {
-                            editorUI: { language: { iso: 'spa' }, translating: true },
-                            flowUI: {}
-                        },
-                        nodeEditor: {}
-                    });
-
-                    store.dispatch(
-                        onOpenNodeEditor(
-                            testNodes.nodeA.node,
-                            testNodes.nodeA.node.actions[0],
-                            languages
-                        )
-                    );
-
-                    expect(store).toHaveReduxAction(Constants.UPDATE_LOCALIZATIONS);
+        describe('translation', () => {
+            it('should edit in translation mode', () => {
+                store = createMockStore([thunk])({
+                    flowContext: { nodes: testNodes, definition: { localization: {} } },
+                    flowEditor: {
+                        editorUI: { language: { iso: 'spa' }, translating: true },
+                        flowUI: {}
+                    },
+                    nodeEditor: {}
                 });
 
-                it('should pick your action for you if necessary', () => {
-                    store = createMockStore([thunk])({
-                        flowContext: { nodes: testNodes, definition: { localization: {} } },
-                        flowEditor: {
-                            editorUI: { language: { iso: 'spa' }, translating: true },
-                            flowUI: {}
-                        },
-                        nodeEditor: {}
-                    });
+                store.dispatch(
+                    onOpenNodeEditor(
+                        testNodes.node0.node,
+                        testNodes.node0.node.actions[0],
+                        languages
+                    )
+                );
 
-                    store.dispatch(onOpenNodeEditor(testNodes.nodeA.node, null, languages));
-                    expect(store).toHaveReduxAction(Constants.UPDATE_LOCALIZATIONS);
-                });
-
-                it('should only pick send_msg actions for you when translating', () => {
-                    store = createMockStore([thunk])({
-                        flowContext: { nodes: testNodes, definition: { localization: {} } },
-                        flowEditor: {
-                            editorUI: { language: { iso: 'spa' }, translating: true },
-                            flowUI: {}
-                        },
-                        nodeEditor: {}
-                    });
-
-                    store.dispatch(onOpenNodeEditor(testNodes.nodeC.node, null, languages));
-                    expect(store).not.toHaveReduxAction(Constants.UPDATE_LOCALIZATIONS);
-                });
+                expect(store).toHaveReduxAction(Constants.UPDATE_LOCALIZATIONS);
             });
 
+            it('should pick your action for you if necessary', () => {
+                store = createMockStore([thunk])({
+                    flowContext: { nodes: testNodes, definition: { localization: {} } },
+                    flowEditor: {
+                        editorUI: { language: { iso: 'spa' }, translating: true },
+                        flowUI: {}
+                    },
+                    nodeEditor: {}
+                });
+
+                store.dispatch(onOpenNodeEditor(testNodes.node3.node, null, languages));
+                expect(store).toHaveReduxAction(Constants.UPDATE_LOCALIZATIONS);
+            });
+
+            it('should only pick send_msg actions for you when translating', () => {
+                store = createMockStore([thunk])({
+                    flowContext: { nodes: testNodes, definition: { localization: {} } },
+                    flowEditor: {
+                        editorUI: { language: { iso: 'spa' }, translating: true },
+                        flowUI: {}
+                    },
+                    nodeEditor: {}
+                });
+
+                store.dispatch(onOpenNodeEditor(testNodes.node2.node, null, languages));
+                expect(store).not.toHaveReduxAction(Constants.UPDATE_LOCALIZATIONS);
+            });
+        });
+
+        describe('normal editing', () => {
             it('should edit an existing action', () => {
                 store.dispatch(
                     onOpenNodeEditor(
-                        testNodes.nodeA.node,
-                        testNodes.nodeA.node.actions[0],
+                        testNodes.node0.node,
+                        testNodes.node0.node.actions[0],
                         languages
                     )
                 );
 
                 expect(store).toHavePayload(Constants.UPDATE_ACTION_TO_EDIT, {
-                    actionToEdit: testNodes.nodeA.node.actions[0]
+                    actionToEdit: testNodes.node0.node.actions[0]
                 });
             });
 
             it('should pick the last action if none are provided', () => {
-                store.dispatch(onOpenNodeEditor(testNodes.nodeA.node, null, languages));
+                store.dispatch(onOpenNodeEditor(testNodes.node3.node, null, languages));
 
                 expect(store).toHavePayload(Constants.UPDATE_ACTION_TO_EDIT, {
-                    actionToEdit: testNodes.nodeA.node.actions[0]
+                    actionToEdit: testNodes.node3.node.actions[0]
                 });
             });
 
             it('should throw if no action is provided on an actionless node', () => {
+                testNodes.node0.node.actions = [];
                 expect(() => {
-                    store.dispatch(onOpenNodeEditor(testNodes.nodeB.node, null, languages));
-                }).toThrowError('Cannot initialize NodeEditor without a valid type: nodeB');
+                    store.dispatch(onOpenNodeEditor(testNodes.node0.node, null, languages));
+                }).toThrowError('Cannot initialize NodeEditor without a valid type: node0');
             });
 
             it('should edit router nodes', () => {
-                store.dispatch(onOpenNodeEditor(testNodes.nodeD.node, null, languages));
+                store.dispatch(onOpenNodeEditor(testNodes.node1.node, null, languages));
 
                 expect(store).toHavePayload(Constants.UPDATE_TYPE_CONFIG, {
                     typeConfig: {
@@ -783,7 +700,7 @@ describe('ABC RenderNodeMap', () => {
                 });
 
                 expect(store).toHavePayload(Constants.UPDATE_NODE_TO_EDIT, {
-                    nodeToEdit: testNodes.nodeD.node
+                    nodeToEdit: testNodes.node1.node
                 });
 
                 expect(store).toHavePayload(Constants.UPDATE_NODE_EDITOR_OPEN, {
@@ -792,90 +709,92 @@ describe('ABC RenderNodeMap', () => {
             });
         });
 
-        it('should open the editor in add to node mode', () => {
-            store.dispatch(onAddToNode(testNodes.nodeA.node));
+        describe('opening and closing', () => {
+            it('should open the editor in add to node mode', () => {
+                store.dispatch(onAddToNode(testNodes.node0.node));
 
-            expect(store).toHavePayload(Constants.UPDATE_USER_ADDING_ACTION, {
-                userAddingAction: true
+                expect(store).toHavePayload(Constants.UPDATE_USER_ADDING_ACTION, {
+                    userAddingAction: true
+                });
+
+                expect(store).toHavePayload(Constants.UPDATE_NODE_TO_EDIT, {
+                    nodeToEdit: testNodes.node0.node
+                });
             });
 
-            expect(store).toHavePayload(Constants.UPDATE_NODE_TO_EDIT, {
-                nodeToEdit: testNodes.nodeA.node
-            });
-        });
-
-        it('should clear things when the editor is canceled', () => {
-            store.dispatch(onNodeEditorClose(false, null));
-            expect(store).toHavePayload(Constants.UPDATE_GHOST_NODE, {
-                ghostNode: null
-            });
-        });
-
-        it('should clear things when the editor is closed', () => {
-            store.dispatch(onNodeEditorClose(true, null));
-            expect(store).toHavePayload(Constants.UPDATE_GHOST_NODE, {
-                ghostNode: null
-            });
-        });
-
-        it('should rewire the old connection when canceling the editor', () => {
-            store = createMockStore([thunk])({
-                flowContext: { nodes: testNodes },
-                flowEditor: {
-                    flowUI: {
-                        pendingConnection: {
-                            exitUUID: testNodes.nodeA.node.exits[0].uuid,
-                            nodeUUID: testNodes.nodeA.node.uuid
-                        } as DragPoint,
-                        createNodePosition: {}
-                    }
-                },
-                nodeEditor: { actionToEdit: {}, nodeToEdit: {} }
+            it('should clear things when the editor is canceled', () => {
+                store.dispatch(onNodeEditorClose(false, null));
+                expect(store).toHavePayload(Constants.UPDATE_GHOST_NODE, {
+                    ghostNode: null
+                });
             });
 
-            const connectExit = jest.fn();
-            store.dispatch(onNodeEditorClose(true, connectExit));
-            expect(connectExit).toHaveBeenCalled();
-        });
-
-        it('should only update things that are set', () => {
-            store.dispatch(resetNodeEditingState());
-
-            expect(store).toHavePayload(Constants.UPDATE_GHOST_NODE, {
-                ghostNode: null
+            it('should clear things when the editor is closed', () => {
+                store.dispatch(onNodeEditorClose(true, null));
+                expect(store).toHavePayload(Constants.UPDATE_GHOST_NODE, {
+                    ghostNode: null
+                });
             });
 
-            expect(store.getActions().length).toBe(1);
-        });
+            it('should rewire the old connection when canceling the editor', () => {
+                store = createMockStore([thunk])({
+                    flowContext: { nodes: testNodes },
+                    flowEditor: {
+                        flowUI: {
+                            pendingConnection: {
+                                exitUUID: testNodes.node0.node.exits[0].uuid,
+                                nodeUUID: testNodes.node0.node.uuid
+                            } as DragPoint,
+                            createNodePosition: {}
+                        }
+                    },
+                    nodeEditor: { actionToEdit: {}, nodeToEdit: {} }
+                });
 
-        it('should reset the node editor', () => {
-            // now try a store with all the things set
-            store = createMockStore([thunk])({
-                flowContext: { nodes: testNodes },
-                flowEditor: { flowUI: { pendingConnection: {}, createNodePosition: {} } },
-                nodeEditor: { actionToEdit: {}, nodeToEdit: {} }
+                const connectExit = jest.fn();
+                store.dispatch(onNodeEditorClose(true, connectExit));
+                expect(connectExit).toHaveBeenCalled();
             });
 
-            store.dispatch(resetNodeEditingState());
+            it('should only update things that are set', () => {
+                store.dispatch(resetNodeEditingState());
 
-            expect(store).toHavePayload(Constants.UPDATE_GHOST_NODE, {
-                ghostNode: null
+                expect(store).toHavePayload(Constants.UPDATE_GHOST_NODE, {
+                    ghostNode: null
+                });
+
+                expect(store.getActions().length).toBe(1);
             });
 
-            expect(store).toHavePayload(Constants.UPDATE_PENDING_CONNECTION, {
-                pendingConnection: null
-            });
+            it('should reset the node editor', () => {
+                // now try a store with all the things set
+                store = createMockStore([thunk])({
+                    flowContext: { nodes: testNodes },
+                    flowEditor: { flowUI: { pendingConnection: {}, createNodePosition: {} } },
+                    nodeEditor: { actionToEdit: {}, nodeToEdit: {} }
+                });
 
-            expect(store).toHavePayload(Constants.UPDATE_CREATE_NODE_POSITION, {
-                createNodePosition: null
-            });
+                store.dispatch(resetNodeEditingState());
 
-            expect(store).toHavePayload(Constants.UPDATE_NODE_TO_EDIT, {
-                nodeToEdit: null
-            });
+                expect(store).toHavePayload(Constants.UPDATE_GHOST_NODE, {
+                    ghostNode: null
+                });
 
-            expect(store).toHavePayload(Constants.UPDATE_ACTION_TO_EDIT, {
-                actionToEdit: null
+                expect(store).toHavePayload(Constants.UPDATE_PENDING_CONNECTION, {
+                    pendingConnection: null
+                });
+
+                expect(store).toHavePayload(Constants.UPDATE_CREATE_NODE_POSITION, {
+                    createNodePosition: null
+                });
+
+                expect(store).toHavePayload(Constants.UPDATE_NODE_TO_EDIT, {
+                    nodeToEdit: null
+                });
+
+                expect(store).toHavePayload(Constants.UPDATE_ACTION_TO_EDIT, {
+                    actionToEdit: null
+                });
             });
         });
     });
@@ -885,10 +804,10 @@ describe('ABC RenderNodeMap', () => {
             store = createMockStore([thunk])({
                 flowContext: { nodes: testNodes },
                 flowEditor: { flowUI: {} },
-                nodeEditor: { nodeToEdit: testNodes.nodeD.node }
+                nodeEditor: { nodeToEdit: testNodes.node1.node }
             });
 
-            const updatedNode = mutate(testNodes.nodeD, {
+            const updatedNode = mutate(testNodes.node1, {
                 node: {
                     router: {
                         cases: {
@@ -896,7 +815,7 @@ describe('ABC RenderNodeMap', () => {
                                 {
                                     uuid: 'new_case',
                                     type: 'has_any_word',
-                                    exit_uuid: 'exitD',
+                                    exit_uuid: 'node1_exit0',
                                     arguments: ['anotherrule']
                                 }
                             ]
@@ -905,12 +824,12 @@ describe('ABC RenderNodeMap', () => {
                 }
             });
 
-            const previousTop = testNodes.nodeD.ui.position.top;
+            const previousTop = testNodes.node1.ui.position.top;
 
             const nodes = store.dispatch(onUpdateRouter(updatedNode));
-            const newCase = nodes.nodeD.node.router.cases[1];
+            const newCase = nodes.node1.node.router.cases[2];
             expect(newCase.arguments).toEqual(['anotherrule']);
-            expect(nodes.nodeD.ui.position.top).toBe(previousTop);
+            expect(nodes.node1.ui.position.top).toBe(previousTop);
         });
 
         it('should create a new router on drag', () => {
@@ -919,10 +838,10 @@ describe('ABC RenderNodeMap', () => {
                 flowEditor: {
                     flowUI: {
                         createNodePosition: { left: 500, top: 600 },
-                        pendingConnection: { nodeUUID: 'nodeE', exitUUID: 'exitE' }
+                        pendingConnection: { nodeUUID: 'node2', exitUUID: 'node2_exit0' }
                     }
                 },
-                nodeEditor: { nodeToEdit: testNodes.nodeD.node }
+                nodeEditor: { nodeToEdit: testNodes.node3.node }
             });
 
             const newRouter: RenderNode = {
@@ -935,9 +854,9 @@ describe('ABC RenderNodeMap', () => {
             const nodes = store.dispatch(onUpdateRouter(newRouter));
 
             // make sure things are wired up as expected
-            const newNode = nodes[nodes.nodeE.node.exits[0].destination_node_uuid];
-            expect(newNode).toHaveInboundFrom(nodes.nodeE.node.exits[0]);
-            expect(nodes.nodeE.node.exits[0]).toPointTo(newNode);
+            const newNode = nodes[nodes.node2.node.exits[0].destination_node_uuid];
+            expect(newNode).toHaveInboundFrom(nodes.node2.node.exits[0]);
+            expect(nodes.node2.node.exits[0]).toPointTo(newNode);
             expect(newNode.ui.position).toEqual({ left: 500, top: 600 });
         });
 
@@ -946,8 +865,8 @@ describe('ABC RenderNodeMap', () => {
                 flowContext: { nodes: testNodes },
                 flowEditor: { flowUI: {} },
                 nodeEditor: {
-                    actionToEdit: testNodes.nodeA.node.actions[0],
-                    nodeToEdit: testNodes.nodeA.node
+                    actionToEdit: testNodes.node3.node.actions[0],
+                    nodeToEdit: testNodes.node3.node
                 }
             });
 
@@ -965,7 +884,7 @@ describe('ABC RenderNodeMap', () => {
             const nodes = store.dispatch(onUpdateRouter(newRouter));
 
             // old node should be gone
-            expect(nodes.nodeA).toBeUndefined();
+            expect(nodes.node3).toBeUndefined();
         });
 
         it('should append a router after an add action', () => {
@@ -974,7 +893,7 @@ describe('ABC RenderNodeMap', () => {
                 flowEditor: { flowUI: {} },
                 nodeEditor: {
                     actionToEdit: {},
-                    nodeToEdit: testNodes.nodeA.node
+                    nodeToEdit: testNodes.node0.node
                 }
             });
 
@@ -991,12 +910,12 @@ describe('ABC RenderNodeMap', () => {
                 inboundConnections: {}
             };
 
-            const previousBottom = testNodes.nodeA.ui.position.bottom;
+            const previousBottom = testNodes.node0.ui.position.bottom;
 
             // splice in our new router
             const nodes = store.dispatch(onUpdateRouter(newRouter));
-            const newNodeUUID = nodes.nodeA.node.exits[0].destination_node_uuid;
-            expect(nodes[newNodeUUID]).toHaveInboundFrom(nodes.nodeA.node.exits[0]);
+            const newNodeUUID = nodes.node0.node.exits[0].destination_node_uuid;
+            expect(nodes[newNodeUUID]).toHaveInboundFrom(nodes.node0.node.exits[0]);
 
             // our top should start at the bottom of the previous node
             expect(nodes[newNodeUUID].ui.position.top).toBe(previousBottom);
