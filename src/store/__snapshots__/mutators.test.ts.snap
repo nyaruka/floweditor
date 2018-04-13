@@ -2,166 +2,146 @@
 
 exports[`mutators moveActionUp() should move action up 1`] = `
 Object {
-  "nodeA": Object {
+  "node0": Object {
     "inboundConnections": Object {},
-    "node": Object {
-      "actions": Array [
-        Object {
-          "text": "Move me up",
-          "type": "send_msg",
-          "uuid": "actionB",
-        },
-        Object {
-          "text": "The first message",
-          "type": "send_msg",
-          "uuid": "actionA",
-        },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeB",
-          "uuid": "exitA",
-        },
-      ],
-      "uuid": "nodeA",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 190,
-        "left": 100,
-        "right": 300,
-        "top": 100,
-      },
-    },
-  },
-  "nodeB": Object {
-    "inboundConnections": Object {
-      "exitA": "nodeA",
-    },
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeC",
-          "uuid": "exitB",
-        },
-      ],
-      "uuid": "nodeB",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 290,
-        "left": 200,
-        "right": 500,
-        "top": 150,
-      },
-    },
-  },
-  "nodeC": Object {
-    "inboundConnections": Object {
-      "exitB": "nodeB",
-    },
     "node": Object {
       "actions": Array [
         Object {
           "groups": Array [
             Object {
-              "name": "Unsatisfied Customers",
-              "uuid": "unsatisfied_group",
+              "name": "Flow Participants",
+              "uuid": "group_0",
             },
           ],
           "type": "add_contact_groups",
-          "uuid": "group_action",
+          "uuid": "node0_action1",
+        },
+        Object {
+          "text": "Hi there, this is your first action!",
+          "type": "send_msg",
+          "uuid": "node0_action0",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Nonresponsive",
+              "uuid": "group_1",
+            },
+          ],
+          "type": "remove_contact_groups",
+          "uuid": "node0_action2",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
-          "uuid": "exitC",
+          "destination_node_uuid": "node1",
+          "name": null,
+          "uuid": "node0_exit0",
         },
       ],
-      "uuid": "nodeC",
+      "uuid": "node0",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 390,
-        "left": 300,
-        "right": 600,
-        "top": 300,
+        "bottom": 254,
+        "left": 0,
+        "right": 220,
+        "top": 0,
       },
     },
   },
-  "nodeD": Object {
+  "node1": Object {
     "inboundConnections": Object {
-      "exitC": "nodeC",
+      "node0_exit0": "node0",
     },
     "node": Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "nodeE",
-          "name": "Case Test",
-          "uuid": "exitD",
+          "destination_node_uuid": "node2",
+          "name": "Red",
+          "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": null,
-          "uuid": "other",
+          "destination_node_uuid": "node2",
+          "name": "Green",
+          "uuid": "node1_exit1",
+        },
+        Object {
+          "destination_node_uuid": "node2",
+          "name": "Other",
+          "uuid": "node1_exit2",
         },
       ],
       "router": Object {
         "cases": Array [
           Object {
             "arguments": Array [
-              "casetest",
+              "red",
             ],
-            "exit_uuid": "exitD",
+            "exit_uuid": "uuid_node1_exit0",
             "type": "has_any_word",
-            "uuid": "caseD",
+            "uuid": "node1_case0",
+          },
+          Object {
+            "arguments": Array [
+              "green",
+            ],
+            "exit_uuid": "uuid_node1_exit1",
+            "type": "has_any_word",
+            "uuid": "node1_case1",
           },
         ],
-        "default_exit_uuid": "other",
-        "result_name": "Response 1",
+        "default_exit_uuid": "node1_exit2",
+        "operand": "@input",
+        "result_name": "color",
         "type": "switch",
       },
-      "uuid": "nodeD",
-      "wait": "msg",
+      "uuid": "node1",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "bottom": 370,
+        "left": 0,
+        "right": 220,
+        "top": 280,
       },
       "type": "wait_for_response",
     },
   },
-  "nodeE": Object {
-    "inboundConnections": Object {},
+  "node2": Object {
+    "inboundConnections": Object {
+      "node1_exit0": "node1",
+      "node1_exit1": "node1",
+      "node1_exit2": "node1",
+    },
     "node": Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node2_action1",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
-          "uuid": "exitE",
+          "name": null,
+          "uuid": "node2_exit0",
         },
       ],
-      "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitE",
-        "type": "switch",
-      },
-      "uuid": "nodeE",
-      "wait": "msg",
+      "uuid": "node2",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "bottom": 498,
+        "left": 0,
+        "right": 220,
+        "top": 400,
       },
-      "type": "wait_for_response",
     },
   },
 }
@@ -169,167 +149,151 @@ Object {
 
 exports[`mutators should addAction 1`] = `
 Object {
-  "nodeA": Object {
+  "node0": Object {
     "inboundConnections": Object {},
     "node": Object {
       "actions": Array [
         Object {
-          "text": "The first message",
+          "text": "Hi there, this is your first action!",
           "type": "send_msg",
-          "uuid": "actionA",
+          "uuid": "node0_action0",
         },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeB",
-          "uuid": "exitA",
-        },
-      ],
-      "uuid": "nodeA",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 190,
-        "left": 100,
-        "right": 300,
-        "top": 100,
-      },
-    },
-  },
-  "nodeB": Object {
-    "inboundConnections": Object {
-      "exitA": "nodeA",
-    },
-    "node": Object {
-      "actions": Array [
-        Object {
-          "text": "Hello World",
-          "type": "send_msg",
-          "uuid": "actionB",
-        },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeC",
-          "uuid": "exitB",
-        },
-      ],
-      "uuid": "nodeB",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 290,
-        "left": 200,
-        "right": 500,
-        "top": 150,
-      },
-    },
-  },
-  "nodeC": Object {
-    "inboundConnections": Object {
-      "exitB": "nodeB",
-    },
-    "node": Object {
-      "actions": Array [
         Object {
           "groups": Array [
             Object {
-              "name": "Unsatisfied Customers",
-              "uuid": "unsatisfied_group",
+              "name": "Flow Participants",
+              "uuid": "group_0",
             },
           ],
           "type": "add_contact_groups",
-          "uuid": "group_action",
+          "uuid": "node0_action1",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Nonresponsive",
+              "uuid": "group_1",
+            },
+          ],
+          "type": "remove_contact_groups",
+          "uuid": "node0_action2",
+        },
+        Object {
+          "text": "Hello World",
+          "type": "send_msg",
+          "uuid": "node0_action3",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
-          "uuid": "exitC",
+          "destination_node_uuid": "node1",
+          "name": null,
+          "uuid": "node0_exit0",
         },
       ],
-      "uuid": "nodeC",
+      "uuid": "node0",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 390,
-        "left": 300,
-        "right": 600,
-        "top": 300,
+        "bottom": 254,
+        "left": 0,
+        "right": 220,
+        "top": 0,
       },
     },
   },
-  "nodeD": Object {
+  "node1": Object {
     "inboundConnections": Object {
-      "exitC": "nodeC",
+      "node0_exit0": "node0",
     },
     "node": Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "nodeE",
-          "name": "Case Test",
-          "uuid": "exitD",
+          "destination_node_uuid": "node2",
+          "name": "Red",
+          "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": null,
-          "uuid": "other",
+          "destination_node_uuid": "node2",
+          "name": "Green",
+          "uuid": "node1_exit1",
+        },
+        Object {
+          "destination_node_uuid": "node2",
+          "name": "Other",
+          "uuid": "node1_exit2",
         },
       ],
       "router": Object {
         "cases": Array [
           Object {
             "arguments": Array [
-              "casetest",
+              "red",
             ],
-            "exit_uuid": "exitD",
+            "exit_uuid": "uuid_node1_exit0",
             "type": "has_any_word",
-            "uuid": "caseD",
+            "uuid": "node1_case0",
+          },
+          Object {
+            "arguments": Array [
+              "green",
+            ],
+            "exit_uuid": "uuid_node1_exit1",
+            "type": "has_any_word",
+            "uuid": "node1_case1",
           },
         ],
-        "default_exit_uuid": "other",
-        "result_name": "Response 1",
+        "default_exit_uuid": "node1_exit2",
+        "operand": "@input",
+        "result_name": "color",
         "type": "switch",
       },
-      "uuid": "nodeD",
-      "wait": "msg",
+      "uuid": "node1",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "bottom": 370,
+        "left": 0,
+        "right": 220,
+        "top": 280,
       },
       "type": "wait_for_response",
     },
   },
-  "nodeE": Object {
-    "inboundConnections": Object {},
+  "node2": Object {
+    "inboundConnections": Object {
+      "node1_exit0": "node1",
+      "node1_exit1": "node1",
+      "node1_exit2": "node1",
+    },
     "node": Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node2_action1",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
-          "uuid": "exitE",
+          "name": null,
+          "uuid": "node2_exit0",
         },
       ],
-      "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitE",
-        "type": "switch",
-      },
-      "uuid": "nodeE",
-      "wait": "msg",
+      "uuid": "node2",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "bottom": 498,
+        "left": 0,
+        "right": 220,
+        "top": 400,
       },
-      "type": "wait_for_response",
     },
   },
 }
@@ -337,132 +301,162 @@ Object {
 
 exports[`mutators should addNode 1`] = `
 Object {
-  "nodeA": Object {
+  "node0": Object {
     "inboundConnections": Object {},
     "node": Object {
       "actions": Array [
         Object {
-          "text": "The first message",
+          "text": "Hi there, this is your first action!",
           "type": "send_msg",
-          "uuid": "actionA",
+          "uuid": "node0_action0",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Flow Participants",
+              "uuid": "group_0",
+            },
+          ],
+          "type": "add_contact_groups",
+          "uuid": "node0_action1",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Nonresponsive",
+              "uuid": "group_1",
+            },
+          ],
+          "type": "remove_contact_groups",
+          "uuid": "node0_action2",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "nodeD",
-          "uuid": "exitA",
+          "destination_node_uuid": "node3",
+          "name": null,
+          "uuid": "node0_exit0",
         },
       ],
-      "uuid": "nodeA",
+      "uuid": "node0",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 190,
-        "left": 100,
-        "right": 300,
-        "top": 100,
+        "bottom": 254,
+        "left": 0,
+        "right": 220,
+        "top": 0,
       },
     },
   },
-  "nodeB": Object {
+  "node1": Object {
     "inboundConnections": Object {
-      "exitA": "nodeA",
+      "node0_exit0": "node0",
     },
     "node": Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "nodeC",
-          "uuid": "exitB",
+          "destination_node_uuid": "node2",
+          "name": "Red",
+          "uuid": "node1_exit0",
+        },
+        Object {
+          "destination_node_uuid": "node2",
+          "name": "Green",
+          "uuid": "node1_exit1",
+        },
+        Object {
+          "destination_node_uuid": "node2",
+          "name": "Other",
+          "uuid": "node1_exit2",
         },
       ],
-      "uuid": "nodeB",
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "red",
+            ],
+            "exit_uuid": "uuid_node1_exit0",
+            "type": "has_any_word",
+            "uuid": "node1_case0",
+          },
+          Object {
+            "arguments": Array [
+              "green",
+            ],
+            "exit_uuid": "uuid_node1_exit1",
+            "type": "has_any_word",
+            "uuid": "node1_case1",
+          },
+        ],
+        "default_exit_uuid": "node1_exit2",
+        "operand": "@input",
+        "result_name": "color",
+        "type": "switch",
+      },
+      "uuid": "node1",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {
-        "bottom": 290,
-        "left": 200,
-        "right": 500,
-        "top": 150,
+        "bottom": 370,
+        "left": 0,
+        "right": 220,
+        "top": 280,
       },
+      "type": "wait_for_response",
     },
   },
-  "nodeC": Object {
+  "node2": Object {
     "inboundConnections": Object {
-      "exitB": "nodeB",
+      "node1_exit0": "node1",
+      "node1_exit1": "node1",
+      "node1_exit2": "node1",
     },
     "node": Object {
       "actions": Array [
         Object {
-          "groups": Array [
-            Object {
-              "name": "Unsatisfied Customers",
-              "uuid": "unsatisfied_group",
-            },
-          ],
-          "type": "add_contact_groups",
-          "uuid": "group_action",
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node2_action1",
         },
       ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
-          "uuid": "exitC",
+          "name": null,
+          "uuid": "node2_exit0",
         },
       ],
-      "uuid": "nodeC",
+      "uuid": "node2",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 390,
-        "left": 300,
-        "right": 600,
-        "top": 300,
-      },
-    },
-  },
-  "nodeD": Object {
-    "inboundConnections": Object {
-      "exitA": "nodeA",
-    },
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [],
-      "uuid": "nodeD",
-    },
-    "ui": Object {
-      "position": Object {
-        "left": 400,
+        "bottom": 498,
+        "left": 0,
+        "right": 220,
         "top": 400,
       },
     },
   },
-  "nodeE": Object {
-    "inboundConnections": Object {},
+  "node3": Object {
+    "inboundConnections": Object {
+      "node0_exit0": "node0",
+    },
     "node": Object {
       "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": null,
-          "uuid": "exitE",
-        },
-      ],
-      "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitE",
-        "type": "switch",
-      },
-      "uuid": "nodeE",
-      "wait": "msg",
+      "exits": Array [],
+      "uuid": "node3",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "left": 600,
+        "top": 400,
       },
-      "type": "wait_for_response",
     },
   },
 }
@@ -470,155 +464,141 @@ Object {
 
 exports[`mutators should removeAction 1`] = `
 Object {
-  "nodeA": Object {
+  "node0": Object {
     "inboundConnections": Object {},
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeB",
-          "uuid": "exitA",
-        },
-      ],
-      "uuid": "nodeA",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 190,
-        "left": 100,
-        "right": 300,
-        "top": 100,
-      },
-    },
-  },
-  "nodeB": Object {
-    "inboundConnections": Object {
-      "exitA": "nodeA",
-    },
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeC",
-          "uuid": "exitB",
-        },
-      ],
-      "uuid": "nodeB",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 290,
-        "left": 200,
-        "right": 500,
-        "top": 150,
-      },
-    },
-  },
-  "nodeC": Object {
-    "inboundConnections": Object {
-      "exitB": "nodeB",
-    },
     "node": Object {
       "actions": Array [
         Object {
           "groups": Array [
             Object {
-              "name": "Unsatisfied Customers",
-              "uuid": "unsatisfied_group",
+              "name": "Flow Participants",
+              "uuid": "group_0",
             },
           ],
           "type": "add_contact_groups",
-          "uuid": "group_action",
+          "uuid": "node0_action1",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Nonresponsive",
+              "uuid": "group_1",
+            },
+          ],
+          "type": "remove_contact_groups",
+          "uuid": "node0_action2",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
-          "uuid": "exitC",
+          "destination_node_uuid": "node1",
+          "name": null,
+          "uuid": "node0_exit0",
         },
       ],
-      "uuid": "nodeC",
+      "uuid": "node0",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 390,
-        "left": 300,
-        "right": 600,
-        "top": 300,
+        "bottom": 254,
+        "left": 0,
+        "right": 220,
+        "top": 0,
       },
     },
   },
-  "nodeD": Object {
+  "node1": Object {
     "inboundConnections": Object {
-      "exitC": "nodeC",
+      "node0_exit0": "node0",
     },
     "node": Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "nodeE",
-          "name": "Case Test",
-          "uuid": "exitD",
+          "destination_node_uuid": "node2",
+          "name": "Red",
+          "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": null,
-          "uuid": "other",
+          "destination_node_uuid": "node2",
+          "name": "Green",
+          "uuid": "node1_exit1",
+        },
+        Object {
+          "destination_node_uuid": "node2",
+          "name": "Other",
+          "uuid": "node1_exit2",
         },
       ],
       "router": Object {
         "cases": Array [
           Object {
             "arguments": Array [
-              "casetest",
+              "red",
             ],
-            "exit_uuid": "exitD",
+            "exit_uuid": "uuid_node1_exit0",
             "type": "has_any_word",
-            "uuid": "caseD",
+            "uuid": "node1_case0",
+          },
+          Object {
+            "arguments": Array [
+              "green",
+            ],
+            "exit_uuid": "uuid_node1_exit1",
+            "type": "has_any_word",
+            "uuid": "node1_case1",
           },
         ],
-        "default_exit_uuid": "other",
-        "result_name": "Response 1",
+        "default_exit_uuid": "node1_exit2",
+        "operand": "@input",
+        "result_name": "color",
         "type": "switch",
       },
-      "uuid": "nodeD",
-      "wait": "msg",
+      "uuid": "node1",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "bottom": 370,
+        "left": 0,
+        "right": 220,
+        "top": 280,
       },
       "type": "wait_for_response",
     },
   },
-  "nodeE": Object {
-    "inboundConnections": Object {},
+  "node2": Object {
+    "inboundConnections": Object {
+      "node1_exit0": "node1",
+      "node1_exit1": "node1",
+      "node1_exit2": "node1",
+    },
     "node": Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node2_action1",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
-          "uuid": "exitE",
+          "name": null,
+          "uuid": "node2_exit0",
         },
       ],
-      "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitE",
-        "type": "switch",
-      },
-      "uuid": "nodeE",
-      "wait": "msg",
+      "uuid": "node2",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "bottom": 498,
+        "left": 0,
+        "right": 220,
+        "top": 400,
       },
-      "type": "wait_for_response",
     },
   },
 }
@@ -626,159 +606,144 @@ Object {
 
 exports[`mutators should removeConnection 1`] = `
 Object {
-  "nodeA": Object {
+  "node0": Object {
     "inboundConnections": Object {},
     "node": Object {
       "actions": Array [
         Object {
-          "text": "The first message",
+          "text": "Hi there, this is your first action!",
           "type": "send_msg",
-          "uuid": "actionA",
+          "uuid": "node0_action0",
         },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": null,
-          "uuid": "exitA",
-        },
-      ],
-      "uuid": "nodeA",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 190,
-        "left": 100,
-        "right": 300,
-        "top": 100,
-      },
-    },
-  },
-  "nodeB": Object {
-    "inboundConnections": Object {},
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeC",
-          "uuid": "exitB",
-        },
-      ],
-      "uuid": "nodeB",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 290,
-        "left": 200,
-        "right": 500,
-        "top": 150,
-      },
-    },
-  },
-  "nodeC": Object {
-    "inboundConnections": Object {
-      "exitB": "nodeB",
-    },
-    "node": Object {
-      "actions": Array [
         Object {
           "groups": Array [
             Object {
-              "name": "Unsatisfied Customers",
-              "uuid": "unsatisfied_group",
+              "name": "Flow Participants",
+              "uuid": "group_0",
             },
           ],
           "type": "add_contact_groups",
-          "uuid": "group_action",
+          "uuid": "node0_action1",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Nonresponsive",
+              "uuid": "group_1",
+            },
+          ],
+          "type": "remove_contact_groups",
+          "uuid": "node0_action2",
         },
       ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
-          "uuid": "exitC",
+          "name": null,
+          "uuid": "node0_exit0",
         },
       ],
-      "uuid": "nodeC",
+      "uuid": "node0",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 390,
-        "left": 300,
-        "right": 600,
-        "top": 300,
+        "bottom": 254,
+        "left": 0,
+        "right": 220,
+        "top": 0,
       },
     },
   },
-  "nodeD": Object {
-    "inboundConnections": Object {
-      "exitC": "nodeC",
-    },
+  "node1": Object {
+    "inboundConnections": Object {},
     "node": Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "nodeE",
-          "name": "Case Test",
-          "uuid": "exitD",
+          "destination_node_uuid": "node2",
+          "name": "Red",
+          "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": null,
-          "uuid": "other",
+          "destination_node_uuid": "node2",
+          "name": "Green",
+          "uuid": "node1_exit1",
+        },
+        Object {
+          "destination_node_uuid": "node2",
+          "name": "Other",
+          "uuid": "node1_exit2",
         },
       ],
       "router": Object {
         "cases": Array [
           Object {
             "arguments": Array [
-              "casetest",
+              "red",
             ],
-            "exit_uuid": "exitD",
+            "exit_uuid": "uuid_node1_exit0",
             "type": "has_any_word",
-            "uuid": "caseD",
+            "uuid": "node1_case0",
+          },
+          Object {
+            "arguments": Array [
+              "green",
+            ],
+            "exit_uuid": "uuid_node1_exit1",
+            "type": "has_any_word",
+            "uuid": "node1_case1",
           },
         ],
-        "default_exit_uuid": "other",
-        "result_name": "Response 1",
+        "default_exit_uuid": "node1_exit2",
+        "operand": "@input",
+        "result_name": "color",
         "type": "switch",
       },
-      "uuid": "nodeD",
-      "wait": "msg",
+      "uuid": "node1",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "bottom": 370,
+        "left": 0,
+        "right": 220,
+        "top": 280,
       },
       "type": "wait_for_response",
     },
   },
-  "nodeE": Object {
-    "inboundConnections": Object {},
+  "node2": Object {
+    "inboundConnections": Object {
+      "node1_exit0": "node1",
+      "node1_exit1": "node1",
+      "node1_exit2": "node1",
+    },
     "node": Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node2_action1",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
-          "uuid": "exitE",
+          "name": null,
+          "uuid": "node2_exit0",
         },
       ],
-      "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitE",
-        "type": "switch",
-      },
-      "uuid": "nodeE",
-      "wait": "msg",
+      "uuid": "node2",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "bottom": 498,
+        "left": 0,
+        "right": 220,
+        "top": 400,
       },
-      "type": "wait_for_response",
     },
   },
 }
@@ -787,394 +752,448 @@ Object {
 exports[`mutators should updateLocalizations 1`] = `
 Object {
   "_ui": Object {
-    "languages": null,
-    "nodes": Object {},
+    "languages": Array [],
+    "nodes": Object {
+      "node0": Object {
+        "position": Object {
+          "bottom": 254,
+          "left": 0,
+          "right": 220,
+          "top": 0,
+        },
+      },
+      "node1": Object {
+        "position": Object {
+          "bottom": 370,
+          "left": 0,
+          "right": 220,
+          "top": 280,
+        },
+        "type": "wait_for_response",
+      },
+      "node2": Object {
+        "position": Object {
+          "bottom": 498,
+          "left": 0,
+          "right": 220,
+          "top": 400,
+        },
+      },
+    },
+    "stickies": Object {},
   },
   "language": "eng",
   "localization": Object {
     "spa": Object {
-      "actionA": Array [
+      "node0_action0": Array [
         Object {
           "text": "Hola Mundo!",
         },
       ],
     },
   },
-  "name": "Test Flow",
+  "name": "Boring Flow",
   "nodes": Array [
     Object {
       "actions": Array [
         Object {
-          "text": "The first message",
+          "text": "Hi there, this is your first action!",
           "type": "send_msg",
-          "uuid": "actionA",
+          "uuid": "node0_action0",
         },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeB",
-          "uuid": "exitA",
-        },
-      ],
-      "uuid": "nodeA",
-    },
-    Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeC",
-          "uuid": "exitB",
-        },
-      ],
-      "uuid": "nodeB",
-    },
-    Object {
-      "actions": Array [
         Object {
           "groups": Array [
             Object {
-              "name": "Unsatisfied Customers",
-              "uuid": "unsatisfied_group",
+              "name": "Flow Participants",
+              "uuid": "group_0",
             },
           ],
           "type": "add_contact_groups",
-          "uuid": "group_action",
+          "uuid": "node0_action1",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Nonresponsive",
+              "uuid": "group_1",
+            },
+          ],
+          "type": "remove_contact_groups",
+          "uuid": "node0_action2",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
-          "uuid": "exitC",
+          "destination_node_uuid": "node1",
+          "name": null,
+          "uuid": "node0_exit0",
         },
       ],
-      "uuid": "nodeC",
+      "uuid": "node0",
     },
     Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "nodeE",
-          "name": "Case Test",
-          "uuid": "exitD",
+          "destination_node_uuid": "node2",
+          "name": "Red",
+          "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": null,
-          "uuid": "other",
+          "destination_node_uuid": "node2",
+          "name": "Green",
+          "uuid": "node1_exit1",
+        },
+        Object {
+          "destination_node_uuid": "node2",
+          "name": "Other",
+          "uuid": "node1_exit2",
         },
       ],
       "router": Object {
         "cases": Array [
           Object {
             "arguments": Array [
-              "casetest",
+              "red",
             ],
-            "exit_uuid": "exitD",
+            "exit_uuid": "uuid_node1_exit0",
             "type": "has_any_word",
-            "uuid": "caseD",
+            "uuid": "node1_case0",
+          },
+          Object {
+            "arguments": Array [
+              "green",
+            ],
+            "exit_uuid": "uuid_node1_exit1",
+            "type": "has_any_word",
+            "uuid": "node1_case1",
           },
         ],
-        "default_exit_uuid": "other",
-        "result_name": "Response 1",
+        "default_exit_uuid": "node1_exit2",
+        "operand": "@input",
+        "result_name": "color",
         "type": "switch",
       },
-      "uuid": "nodeD",
-      "wait": "msg",
+      "uuid": "node1",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node2_action1",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
-          "uuid": "exitE",
+          "name": null,
+          "uuid": "node2_exit0",
         },
       ],
-      "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitE",
-        "type": "switch",
-      },
-      "uuid": "nodeE",
-      "wait": "msg",
+      "uuid": "node2",
     },
   ],
-  "uuid": "flowA",
+  "uuid": "flow",
 }
 `;
 
 exports[`mutators should updateLocalizations 2`] = `
 Object {
   "_ui": Object {
-    "languages": null,
-    "nodes": Object {},
+    "languages": Array [],
+    "nodes": Object {
+      "node0": Object {
+        "position": Object {
+          "bottom": 254,
+          "left": 0,
+          "right": 220,
+          "top": 0,
+        },
+      },
+      "node1": Object {
+        "position": Object {
+          "bottom": 370,
+          "left": 0,
+          "right": 220,
+          "top": 280,
+        },
+        "type": "wait_for_response",
+      },
+      "node2": Object {
+        "position": Object {
+          "bottom": 498,
+          "left": 0,
+          "right": 220,
+          "top": 400,
+        },
+      },
+    },
+    "stickies": Object {},
   },
   "language": "eng",
   "localization": Object {
     "spa": Object {},
   },
-  "name": "Test Flow",
+  "name": "Boring Flow",
   "nodes": Array [
     Object {
       "actions": Array [
         Object {
-          "text": "The first message",
+          "text": "Hi there, this is your first action!",
           "type": "send_msg",
-          "uuid": "actionA",
+          "uuid": "node0_action0",
         },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeB",
-          "uuid": "exitA",
-        },
-      ],
-      "uuid": "nodeA",
-    },
-    Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeC",
-          "uuid": "exitB",
-        },
-      ],
-      "uuid": "nodeB",
-    },
-    Object {
-      "actions": Array [
         Object {
           "groups": Array [
             Object {
-              "name": "Unsatisfied Customers",
-              "uuid": "unsatisfied_group",
+              "name": "Flow Participants",
+              "uuid": "group_0",
             },
           ],
           "type": "add_contact_groups",
-          "uuid": "group_action",
+          "uuid": "node0_action1",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Nonresponsive",
+              "uuid": "group_1",
+            },
+          ],
+          "type": "remove_contact_groups",
+          "uuid": "node0_action2",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
-          "uuid": "exitC",
+          "destination_node_uuid": "node1",
+          "name": null,
+          "uuid": "node0_exit0",
         },
       ],
-      "uuid": "nodeC",
+      "uuid": "node0",
     },
     Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "nodeE",
-          "name": "Case Test",
-          "uuid": "exitD",
+          "destination_node_uuid": "node2",
+          "name": "Red",
+          "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": null,
-          "uuid": "other",
+          "destination_node_uuid": "node2",
+          "name": "Green",
+          "uuid": "node1_exit1",
+        },
+        Object {
+          "destination_node_uuid": "node2",
+          "name": "Other",
+          "uuid": "node1_exit2",
         },
       ],
       "router": Object {
         "cases": Array [
           Object {
             "arguments": Array [
-              "casetest",
+              "red",
             ],
-            "exit_uuid": "exitD",
+            "exit_uuid": "uuid_node1_exit0",
             "type": "has_any_word",
-            "uuid": "caseD",
+            "uuid": "node1_case0",
+          },
+          Object {
+            "arguments": Array [
+              "green",
+            ],
+            "exit_uuid": "uuid_node1_exit1",
+            "type": "has_any_word",
+            "uuid": "node1_case1",
           },
         ],
-        "default_exit_uuid": "other",
-        "result_name": "Response 1",
+        "default_exit_uuid": "node1_exit2",
+        "operand": "@input",
+        "result_name": "color",
         "type": "switch",
       },
-      "uuid": "nodeD",
-      "wait": "msg",
+      "uuid": "node1",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node2_action1",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
-          "uuid": "exitE",
+          "name": null,
+          "uuid": "node2_exit0",
         },
       ],
-      "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitE",
-        "type": "switch",
-      },
-      "uuid": "nodeE",
-      "wait": "msg",
+      "uuid": "node2",
     },
   ],
-  "uuid": "flowA",
+  "uuid": "flow",
 }
 `;
 
-exports[`mutators updateAction() should update an existing action 1`] = `
+exports[`mutators updateAction() should update an action that was added 1`] = `
 Object {
-  "nodeA": Object {
+  "node0": Object {
     "inboundConnections": Object {},
     "node": Object {
       "actions": Array [
         Object {
-          "text": "The first message",
+          "text": "Hi there, this is your first action!",
           "type": "send_msg",
-          "uuid": "actionA",
+          "uuid": "node0_action0",
         },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeB",
-          "uuid": "exitA",
-        },
-      ],
-      "uuid": "nodeA",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 190,
-        "left": 100,
-        "right": 300,
-        "top": 100,
-      },
-    },
-  },
-  "nodeB": Object {
-    "inboundConnections": Object {
-      "exitA": "nodeA",
-    },
-    "node": Object {
-      "actions": Array [
-        Object {
-          "text": "Goodbye World",
-          "type": "send_msg",
-          "uuid": "actionB",
-        },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeC",
-          "uuid": "exitB",
-        },
-      ],
-      "uuid": "nodeB",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 290,
-        "left": 200,
-        "right": 500,
-        "top": 150,
-      },
-    },
-  },
-  "nodeC": Object {
-    "inboundConnections": Object {
-      "exitB": "nodeB",
-    },
-    "node": Object {
-      "actions": Array [
         Object {
           "groups": Array [
             Object {
-              "name": "Unsatisfied Customers",
-              "uuid": "unsatisfied_group",
+              "name": "Flow Participants",
+              "uuid": "group_0",
             },
           ],
           "type": "add_contact_groups",
-          "uuid": "group_action",
+          "uuid": "node0_action1",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Nonresponsive",
+              "uuid": "group_1",
+            },
+          ],
+          "type": "remove_contact_groups",
+          "uuid": "node0_action2",
+        },
+        Object {
+          "text": "Goodbye World",
+          "type": "send_msg",
+          "uuid": "node0_action3",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
-          "uuid": "exitC",
+          "destination_node_uuid": "node1",
+          "name": null,
+          "uuid": "node0_exit0",
         },
       ],
-      "uuid": "nodeC",
+      "uuid": "node0",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 390,
-        "left": 300,
-        "right": 600,
-        "top": 300,
+        "bottom": 254,
+        "left": 0,
+        "right": 220,
+        "top": 0,
       },
     },
   },
-  "nodeD": Object {
+  "node1": Object {
     "inboundConnections": Object {
-      "exitC": "nodeC",
+      "node0_exit0": "node0",
     },
     "node": Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "nodeE",
-          "name": "Case Test",
-          "uuid": "exitD",
+          "destination_node_uuid": "node2",
+          "name": "Red",
+          "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": null,
-          "uuid": "other",
+          "destination_node_uuid": "node2",
+          "name": "Green",
+          "uuid": "node1_exit1",
+        },
+        Object {
+          "destination_node_uuid": "node2",
+          "name": "Other",
+          "uuid": "node1_exit2",
         },
       ],
       "router": Object {
         "cases": Array [
           Object {
             "arguments": Array [
-              "casetest",
+              "red",
             ],
-            "exit_uuid": "exitD",
+            "exit_uuid": "uuid_node1_exit0",
             "type": "has_any_word",
-            "uuid": "caseD",
+            "uuid": "node1_case0",
+          },
+          Object {
+            "arguments": Array [
+              "green",
+            ],
+            "exit_uuid": "uuid_node1_exit1",
+            "type": "has_any_word",
+            "uuid": "node1_case1",
           },
         ],
-        "default_exit_uuid": "other",
-        "result_name": "Response 1",
+        "default_exit_uuid": "node1_exit2",
+        "operand": "@input",
+        "result_name": "color",
         "type": "switch",
       },
-      "uuid": "nodeD",
-      "wait": "msg",
+      "uuid": "node1",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "bottom": 370,
+        "left": 0,
+        "right": 220,
+        "top": 280,
       },
       "type": "wait_for_response",
     },
   },
-  "nodeE": Object {
-    "inboundConnections": Object {},
+  "node2": Object {
+    "inboundConnections": Object {
+      "node1_exit0": "node1",
+      "node1_exit1": "node1",
+      "node1_exit2": "node1",
+    },
     "node": Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node2_action1",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
-          "uuid": "exitE",
+          "name": null,
+          "uuid": "node2_exit0",
         },
       ],
-      "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitE",
-        "type": "switch",
-      },
-      "uuid": "nodeE",
-      "wait": "msg",
+      "uuid": "node2",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "bottom": 498,
+        "left": 0,
+        "right": 220,
+        "top": 400,
       },
-      "type": "wait_for_response",
     },
   },
 }
@@ -1182,159 +1201,144 @@ Object {
 
 exports[`mutators updateConnection() should allow clearing connection 1`] = `
 Object {
-  "nodeA": Object {
+  "node0": Object {
     "inboundConnections": Object {},
     "node": Object {
       "actions": Array [
         Object {
-          "text": "The first message",
+          "text": "Hi there, this is your first action!",
           "type": "send_msg",
-          "uuid": "actionA",
+          "uuid": "node0_action0",
         },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": null,
-          "uuid": "exitA",
-        },
-      ],
-      "uuid": "nodeA",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 190,
-        "left": 100,
-        "right": 300,
-        "top": 100,
-      },
-    },
-  },
-  "nodeB": Object {
-    "inboundConnections": Object {},
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeC",
-          "uuid": "exitB",
-        },
-      ],
-      "uuid": "nodeB",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 290,
-        "left": 200,
-        "right": 500,
-        "top": 150,
-      },
-    },
-  },
-  "nodeC": Object {
-    "inboundConnections": Object {
-      "exitB": "nodeB",
-    },
-    "node": Object {
-      "actions": Array [
         Object {
           "groups": Array [
             Object {
-              "name": "Unsatisfied Customers",
-              "uuid": "unsatisfied_group",
+              "name": "Flow Participants",
+              "uuid": "group_0",
             },
           ],
           "type": "add_contact_groups",
-          "uuid": "group_action",
+          "uuid": "node0_action1",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Nonresponsive",
+              "uuid": "group_1",
+            },
+          ],
+          "type": "remove_contact_groups",
+          "uuid": "node0_action2",
         },
       ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
-          "uuid": "exitC",
+          "name": null,
+          "uuid": "node0_exit0",
         },
       ],
-      "uuid": "nodeC",
+      "uuid": "node0",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 390,
-        "left": 300,
-        "right": 600,
-        "top": 300,
+        "bottom": 254,
+        "left": 0,
+        "right": 220,
+        "top": 0,
       },
     },
   },
-  "nodeD": Object {
-    "inboundConnections": Object {
-      "exitC": "nodeC",
-    },
+  "node1": Object {
+    "inboundConnections": Object {},
     "node": Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "nodeE",
-          "name": "Case Test",
-          "uuid": "exitD",
+          "destination_node_uuid": "node2",
+          "name": "Red",
+          "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": null,
-          "uuid": "other",
+          "destination_node_uuid": "node2",
+          "name": "Green",
+          "uuid": "node1_exit1",
+        },
+        Object {
+          "destination_node_uuid": "node2",
+          "name": "Other",
+          "uuid": "node1_exit2",
         },
       ],
       "router": Object {
         "cases": Array [
           Object {
             "arguments": Array [
-              "casetest",
+              "red",
             ],
-            "exit_uuid": "exitD",
+            "exit_uuid": "uuid_node1_exit0",
             "type": "has_any_word",
-            "uuid": "caseD",
+            "uuid": "node1_case0",
+          },
+          Object {
+            "arguments": Array [
+              "green",
+            ],
+            "exit_uuid": "uuid_node1_exit1",
+            "type": "has_any_word",
+            "uuid": "node1_case1",
           },
         ],
-        "default_exit_uuid": "other",
-        "result_name": "Response 1",
+        "default_exit_uuid": "node1_exit2",
+        "operand": "@input",
+        "result_name": "color",
         "type": "switch",
       },
-      "uuid": "nodeD",
-      "wait": "msg",
+      "uuid": "node1",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "bottom": 370,
+        "left": 0,
+        "right": 220,
+        "top": 280,
       },
       "type": "wait_for_response",
     },
   },
-  "nodeE": Object {
-    "inboundConnections": Object {},
+  "node2": Object {
+    "inboundConnections": Object {
+      "node1_exit0": "node1",
+      "node1_exit1": "node1",
+      "node1_exit2": "node1",
+    },
     "node": Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node2_action1",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
-          "uuid": "exitE",
+          "name": null,
+          "uuid": "node2_exit0",
         },
       ],
-      "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitE",
-        "type": "switch",
-      },
-      "uuid": "nodeE",
-      "wait": "msg",
+      "uuid": "node2",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "bottom": 498,
+        "left": 0,
+        "right": 220,
+        "top": 400,
       },
-      "type": "wait_for_response",
     },
   },
 }
@@ -1342,160 +1346,145 @@ Object {
 
 exports[`mutators updateConnection() should update connections 1`] = `
 Object {
-  "nodeA": Object {
+  "node0": Object {
     "inboundConnections": Object {},
     "node": Object {
       "actions": Array [
         Object {
-          "text": "The first message",
+          "text": "Hi there, this is your first action!",
           "type": "send_msg",
-          "uuid": "actionA",
+          "uuid": "node0_action0",
         },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeC",
-          "uuid": "exitA",
-        },
-      ],
-      "uuid": "nodeA",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 190,
-        "left": 100,
-        "right": 300,
-        "top": 100,
-      },
-    },
-  },
-  "nodeB": Object {
-    "inboundConnections": Object {},
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeC",
-          "uuid": "exitB",
-        },
-      ],
-      "uuid": "nodeB",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 290,
-        "left": 200,
-        "right": 500,
-        "top": 150,
-      },
-    },
-  },
-  "nodeC": Object {
-    "inboundConnections": Object {
-      "exitA": "nodeA",
-      "exitB": "nodeB",
-    },
-    "node": Object {
-      "actions": Array [
         Object {
           "groups": Array [
             Object {
-              "name": "Unsatisfied Customers",
-              "uuid": "unsatisfied_group",
+              "name": "Flow Participants",
+              "uuid": "group_0",
             },
           ],
           "type": "add_contact_groups",
-          "uuid": "group_action",
+          "uuid": "node0_action1",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Nonresponsive",
+              "uuid": "group_1",
+            },
+          ],
+          "type": "remove_contact_groups",
+          "uuid": "node0_action2",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
-          "uuid": "exitC",
+          "destination_node_uuid": "node2",
+          "name": null,
+          "uuid": "node0_exit0",
         },
       ],
-      "uuid": "nodeC",
+      "uuid": "node0",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 390,
-        "left": 300,
-        "right": 600,
-        "top": 300,
+        "bottom": 254,
+        "left": 0,
+        "right": 220,
+        "top": 0,
       },
     },
   },
-  "nodeD": Object {
-    "inboundConnections": Object {
-      "exitC": "nodeC",
-    },
+  "node1": Object {
+    "inboundConnections": Object {},
     "node": Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "nodeE",
-          "name": "Case Test",
-          "uuid": "exitD",
+          "destination_node_uuid": "node2",
+          "name": "Red",
+          "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": null,
-          "uuid": "other",
+          "destination_node_uuid": "node2",
+          "name": "Green",
+          "uuid": "node1_exit1",
+        },
+        Object {
+          "destination_node_uuid": "node2",
+          "name": "Other",
+          "uuid": "node1_exit2",
         },
       ],
       "router": Object {
         "cases": Array [
           Object {
             "arguments": Array [
-              "casetest",
+              "red",
             ],
-            "exit_uuid": "exitD",
+            "exit_uuid": "uuid_node1_exit0",
             "type": "has_any_word",
-            "uuid": "caseD",
+            "uuid": "node1_case0",
+          },
+          Object {
+            "arguments": Array [
+              "green",
+            ],
+            "exit_uuid": "uuid_node1_exit1",
+            "type": "has_any_word",
+            "uuid": "node1_case1",
           },
         ],
-        "default_exit_uuid": "other",
-        "result_name": "Response 1",
+        "default_exit_uuid": "node1_exit2",
+        "operand": "@input",
+        "result_name": "color",
         "type": "switch",
       },
-      "uuid": "nodeD",
-      "wait": "msg",
+      "uuid": "node1",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "bottom": 370,
+        "left": 0,
+        "right": 220,
+        "top": 280,
       },
       "type": "wait_for_response",
     },
   },
-  "nodeE": Object {
-    "inboundConnections": Object {},
+  "node2": Object {
+    "inboundConnections": Object {
+      "node0_exit0": "node0",
+      "node1_exit0": "node1",
+      "node1_exit1": "node1",
+      "node1_exit2": "node1",
+    },
     "node": Object {
-      "actions": Array [],
+      "actions": Array [
+        Object {
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node2_action1",
+        },
+      ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
-          "uuid": "exitE",
+          "name": null,
+          "uuid": "node2_exit0",
         },
       ],
-      "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitE",
-        "type": "switch",
-      },
-      "uuid": "nodeE",
-      "wait": "msg",
+      "uuid": "node2",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "bottom": 498,
+        "left": 0,
+        "right": 220,
+        "top": 400,
       },
-      "type": "wait_for_response",
     },
   },
 }
@@ -1503,163 +1492,148 @@ Object {
 
 exports[`mutators updateConnection() should update without a previous destination 1`] = `
 Object {
-  "nodeA": Object {
+  "node0": Object {
     "inboundConnections": Object {
-      "exitC": "nodeC",
+      "node2_exit0": "node2",
     },
     "node": Object {
       "actions": Array [
         Object {
-          "text": "The first message",
+          "text": "Hi there, this is your first action!",
           "type": "send_msg",
-          "uuid": "actionA",
+          "uuid": "node0_action0",
         },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeB",
-          "uuid": "exitA",
-        },
-      ],
-      "uuid": "nodeA",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 190,
-        "left": 100,
-        "right": 300,
-        "top": 100,
-      },
-    },
-  },
-  "nodeB": Object {
-    "inboundConnections": Object {
-      "exitA": "nodeA",
-    },
-    "node": Object {
-      "actions": Array [],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "nodeC",
-          "uuid": "exitB",
-        },
-      ],
-      "uuid": "nodeB",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 290,
-        "left": 200,
-        "right": 500,
-        "top": 150,
-      },
-    },
-  },
-  "nodeC": Object {
-    "inboundConnections": Object {
-      "exitB": "nodeB",
-    },
-    "node": Object {
-      "actions": Array [
         Object {
           "groups": Array [
             Object {
-              "name": "Unsatisfied Customers",
-              "uuid": "unsatisfied_group",
+              "name": "Flow Participants",
+              "uuid": "group_0",
             },
           ],
           "type": "add_contact_groups",
-          "uuid": "group_action",
+          "uuid": "node0_action1",
+        },
+        Object {
+          "groups": Array [
+            Object {
+              "name": "Nonresponsive",
+              "uuid": "group_1",
+            },
+          ],
+          "type": "remove_contact_groups",
+          "uuid": "node0_action2",
         },
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "nodeA",
-          "uuid": "exitC",
+          "destination_node_uuid": "node1",
+          "name": null,
+          "uuid": "node0_exit0",
         },
       ],
-      "uuid": "nodeC",
+      "uuid": "node0",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 390,
-        "left": 300,
-        "right": 600,
-        "top": 300,
+        "bottom": 254,
+        "left": 0,
+        "right": 220,
+        "top": 0,
       },
     },
   },
-  "nodeD": Object {
+  "node1": Object {
     "inboundConnections": Object {
-      "exitC": "nodeC",
+      "node0_exit0": "node0",
     },
     "node": Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "nodeE",
-          "name": "Case Test",
-          "uuid": "exitD",
+          "destination_node_uuid": "node2",
+          "name": "Red",
+          "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": null,
-          "uuid": "other",
+          "destination_node_uuid": "node2",
+          "name": "Green",
+          "uuid": "node1_exit1",
+        },
+        Object {
+          "destination_node_uuid": "node2",
+          "name": "Other",
+          "uuid": "node1_exit2",
         },
       ],
       "router": Object {
         "cases": Array [
           Object {
             "arguments": Array [
-              "casetest",
+              "red",
             ],
-            "exit_uuid": "exitD",
+            "exit_uuid": "uuid_node1_exit0",
             "type": "has_any_word",
-            "uuid": "caseD",
+            "uuid": "node1_case0",
+          },
+          Object {
+            "arguments": Array [
+              "green",
+            ],
+            "exit_uuid": "uuid_node1_exit1",
+            "type": "has_any_word",
+            "uuid": "node1_case1",
           },
         ],
-        "default_exit_uuid": "other",
-        "result_name": "Response 1",
+        "default_exit_uuid": "node1_exit2",
+        "operand": "@input",
+        "result_name": "color",
         "type": "switch",
       },
-      "uuid": "nodeD",
-      "wait": "msg",
+      "uuid": "node1",
+      "wait": Object {
+        "type": "msg",
+      },
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "bottom": 370,
+        "left": 0,
+        "right": 220,
+        "top": 280,
       },
       "type": "wait_for_response",
     },
   },
-  "nodeE": Object {
-    "inboundConnections": Object {},
+  "node2": Object {
+    "inboundConnections": Object {
+      "node1_exit0": "node1",
+      "node1_exit1": "node1",
+      "node1_exit2": "node1",
+    },
     "node": Object {
-      "actions": Array [],
-      "exits": Array [
+      "actions": Array [
         Object {
-          "destination_node_uuid": null,
-          "uuid": "exitE",
+          "text": "Thanks for playing!",
+          "type": "send_msg",
+          "uuid": "node2_action1",
         },
       ],
-      "router": Object {
-        "cases": Array [],
-        "default_exit_uuid": "exitE",
-        "type": "switch",
-      },
-      "uuid": "nodeE",
-      "wait": "msg",
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "node0",
+          "name": null,
+          "uuid": "node2_exit0",
+        },
+      ],
+      "uuid": "node2",
     },
     "ui": Object {
       "position": Object {
-        "bottom": 1190,
-        "left": 700,
-        "right": 700,
-        "top": 210,
+        "bottom": 498,
+        "left": 0,
+        "right": 220,
+        "top": 400,
       },
-      "type": "wait_for_response",
     },
   },
 }

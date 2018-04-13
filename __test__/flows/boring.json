@@ -8,12 +8,12 @@
             "uuid": "node0",
             "actions": [
                 {
-                    "uuid": "uuid_node0_action0",
+                    "uuid": "node0_action0",
                     "type": "send_msg",
                     "text": "Hi there, this is your first action!"
                 },
                 {
-                    "uuid": "node1_action1",
+                    "uuid": "node0_action1",
                     "type": "add_contact_groups",
                     "groups": [
                         {
@@ -23,7 +23,7 @@
                     ]
                 },
                 {
-                    "uuid": "node1_action2",
+                    "uuid": "node0_action2",
                     "type": "remove_contact_groups",
                     "groups": [
                         {
