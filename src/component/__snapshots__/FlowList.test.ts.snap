@@ -65,6 +65,11 @@ exports[`FlowList render should render select control 1`] = `
           "type": "flow",
           "uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
         },
+        Object {
+          "name": "JAWS",
+          "type": "flow",
+          "uuid": "c4ad4218-4bca-4261-a41e-51fdef90595d",
+        },
       ]
     }
     pageSize={5}
