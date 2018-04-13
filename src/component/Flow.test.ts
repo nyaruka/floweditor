@@ -1,6 +1,5 @@
 import { object } from 'prop-types';
 import { v4 as generateUUID } from 'uuid';
-import * as config from '../../assets/config';
 import {
     dragSelectSpecId,
     Flow,
@@ -36,29 +35,6 @@ jest.mock('uuid', () => {
 
 const definition = require('../../__test__/customer_service.json') as FlowDefinition;
 
-const { languages, endpoints } = config;
-
-const language = getBaseLanguage(languages);
-
-const context = {
-    languages,
-    endpoints,
-    store: createStore({
-        ...initialState,
-        flowContext: { ...initialState.flowContext, definition },
-        flowEditor: {
-            ...initialState.flowEditor,
-            editorUI: { ...initialState.flowEditor.editorUI, language, translating: false }
-        }
-    })
-};
-
-const childContextTypes = {
-    store: object,
-    endpoints: endpointsPT,
-    languages: languagesPT
-};
-
 const baseProps: FlowStoreProps = {
     translating: false,
     definition,
@@ -78,7 +54,7 @@ const baseProps: FlowStoreProps = {
     updateSticky: jest.fn()
 };
 
-const setup = createSetup<FlowStoreProps>(Flow, baseProps, context, childContextTypes);
+const setup = createSetup<FlowStoreProps>(Flow, baseProps);
 
 const spyOnFlow = createSpy(Flow);
 

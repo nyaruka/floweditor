@@ -1,10 +1,13 @@
 // TODO: Remove use of Function
 // tslint:disable:ban-types
 import { mount, ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
+import { object } from 'prop-types';
 import * as React from 'react';
-import { Provider } from 'react-redux';
-import { ConfigProviderContext } from '../config';
+import * as config from '../../__test__/config';
+import { ConfigProviderContext, endpointsPT, flowPT, languagesPT } from '../config';
+import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
 import { AppState, createStore, initialState } from '../store';
+import { getBaseLanguage } from '../utils';
 
 export interface Resp {
     results: Array<{ [key: string]: any }>;
@@ -15,31 +18,70 @@ export interface QueryString {
     [key: string]: string;
 }
 
-// To-do: improve this API.
-// shallowRender should default to true,
-// shouldn't have to pass an empty propOverrides object to get a shallow-rendered wrapper with no prop overrides, e.g.:
-// const { wrapper } = setup({}, true);
+const initialContext: ConfigProviderContext = {
+    endpoints: (config as FlowEditorConfig).endpoints,
+    languages: (config as FlowEditorConfig).languages,
+    flow: (config as FlowEditorConfig).flow
+};
+
+const initialTestState: AppState = {
+    ...initialState,
+    ...{
+        flowContext: {
+            ...initialState.flowContext,
+            definition: require('../../__test__/flows/colors.json') as FlowDefinition
+        }
+    },
+    ...{
+        flowEditor: {
+            ...initialState.flowEditor,
+            editorUI: {
+                ...initialState.flowEditor.editorUI,
+                language: getBaseLanguage((config as FlowEditorConfig).languages)
+            }
+        }
+    }
+};
+
 /**
  * Compose setup method for component tests
  */
-export const createSetup = <P extends {}, C extends ConfigProviderContext = ConfigProviderContext>(
+export const createSetup = <P extends {}>(
     Component: React.ComponentClass | React.SFC,
     baseProps: P = {} as any,
-    context: C | Partial<C> = {},
-    childContextTypes: { [key: string]: Function } = {}
+    baseDuxState: AppState | Partial<AppState> = initialState,
+    baseContext: ConfigProviderContext = initialContext,
+    connectedChildren: boolean = false
 ) => (
+    shallowRender: boolean = true,
     propOverrides: P | Partial<P> = {},
-    shallowRender: boolean = false,
-    contextOverrides: C | Partial<C> = {}
+    duxStateOverrides = {} as AppState,
+    contextOverrides = {} as ConfigProviderContext | Partial<ConfigProviderContext>,
+    childContextTypeOverrides: { [key: string]: Function } = {}
 ) => {
     // Waiting on https://github.com/Microsoft/TypeScript/pull/1328
     const props = Object.assign({}, baseProps, propOverrides);
-    // prettier-ignore
-    const wrapper = (
-        // tslint:disable-next-line:ban-types
-        shallowRender ? (shallow as Function) : (mount as Function)
-    )(
-        <Component {...props} />, { context: Object.assign({}, context, contextOverrides), childContextTypes }
+    const context = connectedChildren
+        ? Object.assign({}, baseContext, {
+              store: createStore(Object.assign({}, baseDuxState, duxStateOverrides))
+          })
+        : baseContext;
+    // tslint:disable-next-line:ban-types
+    const wrapper = (shallowRender ? (shallow as Function) : (mount as Function))(
+        <Component {...props} />,
+        {
+            context,
+            childContextTypes: Object.assign(
+                {},
+                {
+                    store: object,
+                    endpoints: endpointsPT,
+                    languages: languagesPT,
+                    flow: flowPT
+                },
+                childContextTypeOverrides
+            )
+        }
     );
 
     return {
@@ -49,9 +91,8 @@ export const createSetup = <P extends {}, C extends ConfigProviderContext = Conf
         instance: wrapper.instance()
     };
 };
-
-export const createSpy = (object: Object | React.ComponentClass) => (instanceMethod: string) =>
-    jest.spyOn((object as React.ComponentClass).prototype || object, instanceMethod as any);
+export const createSpy = (obj: Object | React.ComponentClass) => (instanceMethod: string) =>
+    jest.spyOn((obj as React.ComponentClass).prototype || obj, instanceMethod as any);
 
 /**
  * Wait for promises in queue to resolve
