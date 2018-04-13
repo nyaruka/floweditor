@@ -83,7 +83,9 @@ import {
     UpdateConnection,
     updateConnection,
     UpdateDimensions,
-    updateDimensions
+    updateDimensions,
+    updateSticky,
+    UpdateSticky
 } from './thunks';
 
 export {
@@ -164,5 +166,7 @@ export {
     UpdateShowResultName,
     UpdateNodeDragging,
     UpdateDragSelection,
-    updateDragSelection
+    updateDragSelection,
+    updateSticky,
+    UpdateSticky
 };

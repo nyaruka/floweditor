@@ -15,8 +15,8 @@
     .remove_confirm {
         position: absolute;
         margin-top: -27px;
-        border: 0px solid #c14c46;
-        background: #c14c46;
+        border: 0px solid $removal_confirmation;
+        background: $removal_confirmation;
         padding: 6px;
         width: 100%;
         -webkit-box-sizing: border-box;
@@ -36,6 +36,7 @@
         line-height: 12px;
         width: 20px;
         right: 0;
+        color: rgba(255,255,255,.4);
     }
 
     .up_button {

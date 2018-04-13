@@ -29,7 +29,7 @@ export const confirmRemovalSpecId = 'confirm-removal';
  * Simple title bar with confirmation removal
  */
 export default class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
-    private confirmationTimeout: any;
+    private confirmationTimeout: number;
 
     constructor(props: TitleBarProps) {
         super(props);

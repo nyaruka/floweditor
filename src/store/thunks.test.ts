@@ -40,7 +40,9 @@ import {
     onOpenNodeEditor,
     onUpdateRouter,
     fetchFlow,
-    fetchFlows
+    fetchFlows,
+    updateSticky,
+    onResetDragSelection
 } from './thunks';
 import { dump } from '../utils';
 import { getUniqueDestinations } from './helpers';
@@ -48,7 +50,9 @@ import { RenderNode, RenderNodeMap } from './flowContext';
 import { v4 as generateUUID } from 'uuid';
 import { Constants, LocalizationUpdates } from '.';
 import { DragPoint } from '../component/Node';
-import { NODES_ABC } from './__test__';
+import { NODES_ABC, EMPTY_FLOW } from './__test__';
+import { NOT_FOUND } from '../component/actions/ChangeGroups/RemoveGroupsForm';
+import { empty } from '../component/form/CaseElement.scss';
 
 const getUpdatedNodes = (currentStore): { [uuid: string]: RenderNode } => {
     let nodes;
@@ -61,6 +65,71 @@ const getUpdatedNodes = (currentStore): { [uuid: string]: RenderNode } => {
     }
     return nodes;
 };
+
+describe('stickies', () => {
+    let store;
+
+    const emptyFlow = JSON.parse(JSON.stringify(EMPTY_FLOW));
+
+    beforeEach(() => {
+        store = createMockStore([thunk])({
+            flowContext: { definition: emptyFlow }
+        });
+    });
+
+    it('should add new stickies', () => {
+        const newSticky = {
+            title: 'Sticky A',
+            body: 'The body for sticky A',
+            position: { left: 100, top: 100 }
+        };
+
+        store.dispatch(updateSticky('stickyA', newSticky));
+
+        // should see our new sticky note
+        emptyFlow._ui.stickies = { stickyA: newSticky };
+
+        expect(store).toHavePayload(Constants.UPDATE_DEFINITION, { definition: emptyFlow });
+    });
+
+    it('should add stickies to definitions with none', () => {
+        delete emptyFlow._ui.stickies;
+        store = createMockStore([thunk])({
+            flowContext: { definition: emptyFlow }
+        });
+
+        const newSticky = {
+            title: 'Sticky A',
+            body: 'The body for sticky A',
+            position: { left: 100, top: 100 }
+        };
+
+        store.dispatch(updateSticky('stickyA', newSticky));
+
+        // should see our new sticky note
+        emptyFlow._ui.stickies = { stickyA: newSticky };
+        expect(store).toHavePayload(Constants.UPDATE_DEFINITION, { definition: emptyFlow });
+    });
+
+    it('should remove stickies if null is passed', () => {
+        emptyFlow._ui.stickies = {
+            stickyA: {
+                title: 'Sticky A',
+                body: 'The body for sticky A',
+                position: { left: 100, top: 100 }
+            }
+        };
+
+        store = createMockStore([thunk])({
+            flowContext: { definition: emptyFlow }
+        });
+
+        store.dispatch(updateSticky('stickyA', null));
+
+        // should be back to an empty flow
+        expect(store).toHavePayload(Constants.UPDATE_DEFINITION, { definition: EMPTY_FLOW });
+    });
+});
 
 describe('Color Flow', () => {
     let colorsFlow: FlowDefinition;
@@ -169,6 +238,22 @@ describe('ABC RenderNodeMap', () => {
             });
 
             store.dispatch(onNodeMoved(testNodes.nodeA.node.uuid, { left: 500, top: 600 }));
+            expect(store).toHavePayload(Constants.UPDATE_DRAG_SELECTION, {
+                dragSelection: {
+                    selected: null
+                }
+            });
+        });
+
+        it('should clear drag selection', () => {
+            // prep our store to show that we are editing
+            store = createMockStore([thunk])({
+                flowContext: { nodes: testNodes },
+                flowEditor: { flowUI: { dragSelection: { selected: { nodeA: true } } } },
+                nodeEditor: { actionToEdit: null, nodeToEdit: null }
+            });
+
+            store.dispatch(onResetDragSelection());
             expect(store).toHavePayload(Constants.UPDATE_DRAG_SELECTION, {
                 dragSelection: {
                     selected: null

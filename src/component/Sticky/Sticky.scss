@@ -1,0 +1,157 @@
+@import "../../variables.scss";
+
+@mixin color-choice($color) {
+    &.color-option {
+        background: $color;
+    }
+    
+    .sticky {
+        background: $color;
+        box-shadow: 5px 5px 0px -2px rgba( $color - #222, .3);
+    }
+}
+
+.yellow { @include color-choice($sticky_yellow); }
+.blue { @include color-choice($sticky_blue); }
+.purple { @include color-choice($sticky_purple); }
+.gray { @include color-choice($sticky_gray); }
+.green { @include color-choice($sticky_green); }
+
+.color-chooser-container {
+    height: 17px;
+    width: 100%;
+    overflow: hidden;
+    
+    &:hover {
+        .color-chooser {
+            opacity: 1;
+            left: 0px;
+        }
+    }
+    
+    .color-chooser {
+        color: #fff;
+        opacity: 0;
+        transition: all 150ms ease-in-out;
+        left: -30px;
+        position: relative;
+        display: inline-block;
+        
+        .color-option {
+            height: 12px;
+            width: 12px;
+            border: 1px inset rgba(0,0,0,.2);
+            display: inline-block;
+            margin: 2px 3px;
+        
+            &:hover {
+                //margin-top: 0px;
+                margin-top: 1px;
+                margin-bottom: 1px;
+                margin-right: 2px;
+                margin-left: 2px;
+                border: 1px inset rgba(0,0,0,.3);
+                height: 14px;
+                width: 14px;
+            }
+        }
+    }
+}
+
+
+
+.stickyContainer {
+    position: absolute;
+    padding: $node_padding + px;
+    z-index: $z_sticky;
+
+    .sticky {
+        font-size: 13px;
+        width: 176px;
+        cursor: pointer;
+        transition: none;
+
+        .removal.title-wrapper {
+            transition: all 100ms ease-in-out;
+            background: transparent;
+
+            .remove-button {
+                color: $removal_confirmation;
+            }
+            textarea.title {
+                visibility: hidden;
+            }
+
+            .confirmation {
+                display: inline-block;
+            }
+        }
+
+        .title-wrapper {
+            transition: none;
+            padding: 8px 8px;
+            padding-bottom: 4px;
+            width: 160px;
+            background: rgba(0,0,0,.05);
+            
+            position: relative;
+            &:hover {
+                .remove-button {
+                    visibility: visible;
+                }
+            }
+
+            .remove-button {
+                position: absolute;
+                right: 2px;
+                top: 2px;
+                color: rgba(0,0,0,.2);
+                z-index: 1000;
+                visibility: hidden;
+            }
+
+            .confirmation {
+                margin: -8px;
+                padding: 8px;
+                color: $removal_confirmation;
+                width: 160px;
+                text-align: center;
+                font-size: 13px;
+                font-weight: 400;
+                display: none;
+                position: absolute;
+            }
+
+            textarea.title {
+                transition: none;
+                border: none;
+                background: none;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 14px;
+                width: 154px;
+                resize: none;
+                outline: none;
+                box-shadow: none;
+                color: $text_color - #111;
+            }
+        }
+
+        .body-wrapper {
+            padding: 8px 8px;
+            width: 160px;
+           
+
+            textarea.body {
+                font-size: 90%;
+                outline: none;
+                box-shadow: none;
+                border: none;
+                background: none;
+                resize: none;
+                color: $text_color;
+                width: 154px;
+            }
+        }
+    }
+}

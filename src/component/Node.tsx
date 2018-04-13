@@ -442,11 +442,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
         return (
             <div
-                onMouseDown={event => {
-                    // trap mouse down events
-                    event.preventDefault();
-                    event.stopPropagation();
-                }}
                 style={style}
                 id={this.props.node.uuid}
                 className={`${styles.node_container} ${classes}`}

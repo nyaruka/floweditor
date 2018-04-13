@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ConfigProviderContext, endpointsPT, languagesPT } from '../config';
 import { getActivity } from '../external';
-import { FlowDefinition, FlowNode } from '../flowTypes';
+import { FlowDefinition, Languages, FlowNode, UINode, StickyNote } from '../flowTypes';
+import { v4 as generateUUID } from 'uuid';
 import ActivityManager from '../services/ActivityManager';
 import Plumber from '../services/Plumber';
 import {
@@ -24,16 +25,20 @@ import {
     updateCreateNodePosition,
     UpdateCreateNodePosition,
     UpdateDragSelection,
-    updateDragSelection
+    updateDragSelection,
+    updateSticky,
+    UpdateSticky
 } from '../store';
 import { RenderNode } from '../store/flowContext';
 import { DragSelection } from '../store/flowEditor';
 import { getCollisions } from '../store/helpers';
-import { isRealValue, renderIf, snapToGrid } from '../utils';
+import { isRealValue, renderIf, snapToGrid, NODE_PADDING, dump } from '../utils';
 import * as styles from './Flow.scss';
 import ConnectedNode, { DragPoint } from './Node';
 import ConnectedNodeEditor from './NodeEditor';
 import Simulator from './Simulator';
+import Sticky from './Sticky';
+import { timeStart, timeEnd } from '../testUtils';
 
 export interface FlowStoreProps {
     translating: boolean;
@@ -51,6 +56,7 @@ export interface FlowStoreProps {
     onConnectionDrag: OnConnectionDrag;
     updateCreateNodePosition: UpdateCreateNodePosition;
     updateDragSelection: UpdateDragSelection;
+    updateSticky: UpdateSticky;
 }
 
 export interface Translations {
@@ -70,8 +76,9 @@ export const getGhostUI = (ghostNode: FlowNode = {} as any) => ({
     ...(ghostNode.router ? { type: 'wait_for_response' } : {})
 });
 
-export const isDraggingBack = (event: ConnectionEvent) =>
-    event.suspendedElementId === event.targetId && event.source !== null;
+export const isDraggingBack = (event: ConnectionEvent) => {
+    return event.suspendedElementId === event.targetId && event.source !== null;
+};
 
 export const getDragStyle = (drag: DragSelection) => {
     const left = Math.min(drag.startX, drag.currentX);
@@ -89,7 +96,9 @@ export const getDragStyle = (drag: DragSelection) => {
 export class Flow extends React.Component<FlowStoreProps, {}> {
     private Activity: ActivityManager;
     private Plumber: Plumber;
-    private containerOffset = { x: 0, y: 0 };
+    private containerOffset = { left: 0, top: 0 };
+    private ele: HTMLDivElement;
+    private nodeContainerUUID: string;
 
     // Refs
     private ghost: any;
@@ -102,15 +111,21 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     constructor(props: FlowStoreProps, context: ConfigProviderContext) {
         super(props, context);
 
+        this.nodeContainerUUID = generateUUID();
+
         this.Activity = new ActivityManager(this.props.definition.uuid, getActivity);
 
         this.Plumber = new Plumber();
 
         bindCallbacks(this, {
-            include: [/Ref$/, /^on/]
+            include: [/Ref$/, /^on/, /^is/]
         });
 
-        console.time('RenderAndPlumb');
+        timeStart('RenderAndPlumb');
+    }
+
+    private onRef(ref: HTMLDivElement): HTMLDivElement {
+        return (this.ele = ref);
     }
 
     private ghostRef(ref: any): any {
@@ -141,7 +156,15 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         // If we don't have any nodes, create our first one
         this.props.ensureStartNode();
 
-        console.timeEnd('RenderAndPlumb');
+        let offset = { left: 0, top: 0 };
+
+        /* istanbul ignore next */
+        if (this.ele) {
+            offset = this.ele.getBoundingClientRect();
+        }
+        this.containerOffset = { left: offset.left, top: offset.top + window.scrollY };
+
+        timeEnd('RenderAndPlumb');
 
         // deals with safari load rendering throwing
         // off the jsplumb offsets
@@ -149,7 +172,6 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     public componentWillUnmount(): void {
-        console.log('unmounting');
         this.Plumber.reset();
     }
 
@@ -179,32 +201,28 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
      */
     private onConnectorDrop(event: ConnectionEvent): boolean {
         const { ghostNode, pendingConnection } = this.props;
-        // We put this in a zero timeout so jsplumb
-        // doesn't swallow any stack traces.
-        window.setTimeout(() => {
-            // Don't show the node editor if we a dragging back to where we were
-            if (isRealValue(ghostNode) && !isDraggingBack(event)) {
-                // Wire up the drag from to our ghost node
-                const dragPoint = pendingConnection;
-                this.Plumber.recalculate(ghostNode.uuid);
-                this.Plumber.connect(dragPoint.nodeUUID + ':' + dragPoint.exitUUID, ghostNode.uuid);
+        // Don't show the node editor if we a dragging back to where we were
+        if (isRealValue(ghostNode) && !isDraggingBack(event)) {
+            // Wire up the drag from to our ghost node
+            const dragPoint = pendingConnection;
+            this.Plumber.recalculate(ghostNode.uuid);
+            this.Plumber.connect(dragPoint.nodeUUID + ':' + dragPoint.exitUUID, ghostNode.uuid);
 
-                // Save our position for later
-                const { left, top } = snapToGrid(
-                    this.ghost.wrappedInstance.ele.offsetLeft,
-                    this.ghost.wrappedInstance.ele.offsetTop
-                );
+            // Save our position for later
+            const { left, top } = snapToGrid(
+                this.ghost.wrappedInstance.ele.offsetLeft,
+                this.ghost.wrappedInstance.ele.offsetTop
+            );
 
-                this.props.updateCreateNodePosition({ left, top });
+            this.props.updateCreateNodePosition({ left, top });
 
-                // Bring up the node editor
-                this.props.onOpenNodeEditor(this.props.ghostNode, null, this.context.languages);
-            }
+            // Bring up the node editor
+            this.props.onOpenNodeEditor(this.props.ghostNode, null, this.context.languages);
+        }
 
-            // To-do: mock this out
-            /* istanbul ignore next */
-            $(document).off('mousemove');
-        }, 0);
+        // To-do: mock this out
+        /* istanbul ignore next */
+        $(document).off('mousemove');
 
         return true;
     }
@@ -233,6 +251,27 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                     plumberSetDragSelection={this.Plumber.setDragSelection}
                     plumberClearDragSelection={this.Plumber.clearDragSelection}
                     plumberRemoveFromDragSelection={this.Plumber.removeFromDragSelection}
+                />
+            );
+        });
+    }
+
+    private getStickies(): JSX.Element[] {
+        let stickyMap = this.props.definition._ui.stickies;
+        if (!stickyMap) {
+            stickyMap = {};
+        }
+
+        return Object.keys(stickyMap).map(uuid => {
+            const sticky: StickyNote = stickyMap[uuid];
+            return (
+                <Sticky
+                    key={uuid}
+                    uuid={uuid}
+                    sticky={sticky}
+                    plumberClearDragSelection={this.Plumber.clearDragSelection}
+                    plumberDraggable={this.Plumber.draggable}
+                    plumberRemove={this.Plumber.remove}
                 />
             );
         });
@@ -277,16 +316,36 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         );
     }
 
-    public onMouseDown(event: React.MouseEvent<HTMLDivElement>): void {
-        this.containerOffset.x = event.nativeEvent.offsetX - event.pageX;
-        this.containerOffset.y = event.nativeEvent.offsetY - event.pageY;
+    private isClickOnCanvas(event: React.MouseEvent<HTMLDivElement>): boolean {
+        // TODO: not sure the TS-safe way to access id here
+        return (event.target as any).id === this.nodeContainerUUID;
+    }
 
-        this.props.updateDragSelection({
-            startX: event.pageX + this.containerOffset.x,
-            startY: event.pageY + this.containerOffset.y,
-            currentX: event.pageX + this.containerOffset.x,
-            currentY: event.pageY + this.containerOffset.y
-        });
+    private onDoubleClick(event: React.MouseEvent<HTMLDivElement>): void {
+        if (this.isClickOnCanvas(event)) {
+            const { left, top } = snapToGrid(
+                event.clientX - this.containerOffset.left - 100 + NODE_PADDING,
+                event.clientY - this.containerOffset.top - NODE_PADDING * 2
+            );
+
+            this.props.updateSticky(generateUUID(), {
+                position: { left, top },
+                title: 'New Note',
+                body: '...'
+            });
+        }
+    }
+
+    public onMouseDown(event: React.MouseEvent<HTMLDivElement>): void {
+        if (this.isClickOnCanvas(event)) {
+            this.props.updateDragSelection({
+                startX: event.pageX - this.containerOffset.left,
+                startY: event.pageY - this.containerOffset.top,
+                currentX: event.pageX - this.containerOffset.left,
+                currentY: event.pageY - this.containerOffset.top,
+                selected: null
+            });
+        }
     }
 
     public onMouseMove(event: React.MouseEvent<HTMLDivElement>): void {
@@ -300,8 +359,8 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             this.props.updateDragSelection({
                 startX: drag.startX,
                 startY: drag.startY,
-                currentX: event.pageX + this.containerOffset.x,
-                currentY: event.pageY + this.containerOffset.y,
+                currentX: event.pageX - this.containerOffset.left,
+                currentY: event.pageY - this.containerOffset.top,
                 selected: getCollisions(this.props.nodes, { left, top, right, bottom })
             });
         }
@@ -343,12 +402,16 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 {this.getDragNode()}
                 {this.getNodeEditor()}
                 <div
+                    ref={this.onRef}
+                    id={this.nodeContainerUUID}
                     className={styles.nodeList}
                     data-spec={nodesContainerSpecId}
                     onMouseDown={this.onMouseDown}
                     onMouseMove={this.onMouseMove}
                     onMouseUp={this.onMouseUp}
+                    onDoubleClick={this.onDoubleClick}
                 >
+                    {this.getStickies()}
                     {this.getDragSelectionBox()}
                     {this.getNodes()}
                 </div>
@@ -385,7 +448,8 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
             onOpenNodeEditor,
             updateCreateNodePosition,
             updateConnection,
-            updateDragSelection
+            updateDragSelection,
+            updateSticky
         },
         dispatch
     );

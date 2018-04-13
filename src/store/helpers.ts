@@ -8,7 +8,7 @@ import {
     FlowNode,
     SwitchRouter,
     WaitType,
-    Position
+    FlowPosition
 } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { RenderNode, RenderNodeMap, SearchResult } from './flowContext';
@@ -141,7 +141,10 @@ const getOrderedNodes = (nodes: RenderNodeMap): RenderNode[] => {
     });
 };
 
-export const getCollisions = (nodes: RenderNodeMap, box: Position): { [uuid: string]: boolean } => {
+export const getCollisions = (
+    nodes: RenderNodeMap,
+    box: FlowPosition
+): { [uuid: string]: boolean } => {
     const collisions = {};
     for (const nodeUUID of Object.keys(nodes)) {
         const node = nodes[nodeUUID];
@@ -152,7 +155,7 @@ export const getCollisions = (nodes: RenderNodeMap, box: Position): { [uuid: str
     return collisions;
 };
 
-export const collides = (a: Position, b: Position) => {
+export const collides = (a: FlowPosition, b: FlowPosition) => {
     // don't bother with collision if we don't have full dimensions
     /* istanbul ignore next */
     if (!a.bottom || !b.bottom) {

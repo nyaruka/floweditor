@@ -15,7 +15,7 @@ $node_spacing: 20;
 :export { background-size: $node_spacing; }
 
 // generic colors
-$blue_selected: #e6f7ff;
+$blue_selected: rgb(230, 247, 255);
 $blue_baby: #80b9fb;
 $blue_bold: rgb(52, 152, 219);
 $light_gray: #e6e6e6;
@@ -29,6 +29,7 @@ $node_shadow_hover: rgba(145, 218, 255, .25);
 $selection_square: rgb(173, 216, 230);
 $selected: rgba(52, 152, 219, .5);
 $connector_color: rgb(142, 217, 255);
+$removal_confirmation: rgb(193, 76, 70);
 $path_color: #fff;
 $text_color: #666;
 $borders: rgba(224, 224, 224, .6);
@@ -37,6 +38,14 @@ $activity_color: $light_gray_2;
 $terminal_color: $red;
 $error_color: $red;
 $placeholder_color: $light_gray;
+
+// sticky notes
+$sticky_yellow: rgb(255, 249, 194);
+$sticky_blue: rgb(230, 247, 255);
+$sticky_purple:rgb(251, 205, 255);
+$sticky_gray:rgb(243, 243, 243);
+$sticky_green:rgb(219, 255, 173);
+
 
 // properties
 $node_width: 198px;
@@ -61,6 +70,7 @@ $z_connectors: 100;
 $z_nodes: 150;
 $z_endpoints: 200;
 $z_counters: 225;
+$z_sticky: 240;
 $z_selection: 250;
 $z_dragging: 250;
 $z_group_drag_anchor: 300;
