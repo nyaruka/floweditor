@@ -1,19 +1,19 @@
 import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
 import TextareaAutosize from 'react-autosize-textarea';
-
 import { FlowPosition, StickyNote, FlowDefinition } from '../../flowTypes';
-import * as styles from './Sticky.scss';
 import { AppState, DispatchWithState, updateSticky, UpdateSticky } from '../../store';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { snapToGrid, QUIET_NOTE, CONFIRMATION_TIME } from '../../utils';
 import { DragEvent } from '../../services/Plumber';
 import { onResetDragSelection, OnResetDragSelection } from '../../store/thunks';
+import * as styles from './Sticky.scss';
 
 type DragFunction = (event: DragEvent) => void;
+export const STICKY_SPEC_ID: string = 'sticky-container';
 
-interface StickyPassedProps {
+export interface StickyPassedProps {
     uuid: string;
     sticky: StickyNote;
     plumberClearDragSelection: () => void;
@@ -27,13 +27,13 @@ interface StickyPassedProps {
     ) => void;
 }
 
-interface StickyStoreProps {
+export interface StickyStoreProps {
     definition: FlowDefinition;
     updateSticky: UpdateSticky;
     onResetDragSelection: OnResetDragSelection;
 }
 
-type StickyProps = StickyPassedProps & StickyStoreProps;
+export type StickyProps = StickyPassedProps & StickyStoreProps;
 
 /**
  * We have internal state to track as the user types so
@@ -203,6 +203,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
             <div
                 key={this.props.uuid}
                 className={containerClasses.join(' ')}
+                data-spec={STICKY_SPEC_ID}
                 ref={this.onRef}
                 id={this.props.uuid}
                 style={{
