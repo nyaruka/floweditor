@@ -32,12 +32,13 @@ import {
 import { RenderNode } from '../store/flowContext';
 import { DragSelection } from '../store/flowEditor';
 import { getCollisions } from '../store/helpers';
-import { isRealValue, renderIf, snapToGrid, NODE_PADDING } from '../utils';
+import { isRealValue, renderIf, snapToGrid, NODE_PADDING, dump } from '../utils';
 import * as styles from './Flow.scss';
 import ConnectedNode, { DragPoint } from './Node';
 import ConnectedNodeEditor from './NodeEditor';
 import Simulator from './Simulator';
 import Sticky from './Sticky';
+import { timeStart, timeEnd } from '../testUtils';
 
 export interface FlowStoreProps {
     translating: boolean;
@@ -75,8 +76,9 @@ export const getGhostUI = (ghostNode: FlowNode = {} as any) => ({
     ...(ghostNode.router ? { type: 'wait_for_response' } : {})
 });
 
-export const isDraggingBack = (event: ConnectionEvent) =>
-    event.suspendedElementId === event.targetId && event.source !== null;
+export const isDraggingBack = (event: ConnectionEvent) => {
+    return event.suspendedElementId === event.targetId && event.source !== null;
+};
 
 export const getDragStyle = (drag: DragSelection) => {
     const left = Math.min(drag.startX, drag.currentX);
@@ -119,7 +121,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             include: [/Ref$/, /^on/, /^is/]
         });
 
-        console.time('RenderAndPlumb');
+        timeStart('RenderAndPlumb');
     }
 
     private onRef(ref: HTMLDivElement): HTMLDivElement {
@@ -154,10 +156,15 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         // If we don't have any nodes, create our first one
         this.props.ensureStartNode();
 
-        const offset = this.ele.getBoundingClientRect();
+        let offset = { left: 0, top: 0 };
+
+        /* istanbul ignore next */
+        if (this.ele) {
+            offset = this.ele.getBoundingClientRect();
+        }
         this.containerOffset = { left: offset.left, top: offset.top + window.scrollY };
 
-        console.timeEnd('RenderAndPlumb');
+        timeEnd('RenderAndPlumb');
 
         // deals with safari load rendering throwing
         // off the jsplumb offsets
@@ -165,7 +172,6 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     public componentWillUnmount(): void {
-        console.log('unmounting');
         this.Plumber.reset();
     }
 
@@ -195,32 +201,28 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
      */
     private onConnectorDrop(event: ConnectionEvent): boolean {
         const { ghostNode, pendingConnection } = this.props;
-        // We put this in a zero timeout so jsplumb
-        // doesn't swallow any stack traces.
-        window.setTimeout(() => {
-            // Don't show the node editor if we a dragging back to where we were
-            if (isRealValue(ghostNode) && !isDraggingBack(event)) {
-                // Wire up the drag from to our ghost node
-                const dragPoint = pendingConnection;
-                this.Plumber.recalculate(ghostNode.uuid);
-                this.Plumber.connect(dragPoint.nodeUUID + ':' + dragPoint.exitUUID, ghostNode.uuid);
+        // Don't show the node editor if we a dragging back to where we were
+        if (isRealValue(ghostNode) && !isDraggingBack(event)) {
+            // Wire up the drag from to our ghost node
+            const dragPoint = pendingConnection;
+            this.Plumber.recalculate(ghostNode.uuid);
+            this.Plumber.connect(dragPoint.nodeUUID + ':' + dragPoint.exitUUID, ghostNode.uuid);
 
-                // Save our position for later
-                const { left, top } = snapToGrid(
-                    this.ghost.wrappedInstance.ele.offsetLeft,
-                    this.ghost.wrappedInstance.ele.offsetTop
-                );
+            // Save our position for later
+            const { left, top } = snapToGrid(
+                this.ghost.wrappedInstance.ele.offsetLeft,
+                this.ghost.wrappedInstance.ele.offsetTop
+            );
 
-                this.props.updateCreateNodePosition({ left, top });
+            this.props.updateCreateNodePosition({ left, top });
 
-                // Bring up the node editor
-                this.props.onOpenNodeEditor(this.props.ghostNode, null, this.context.languages);
-            }
+            // Bring up the node editor
+            this.props.onOpenNodeEditor(this.props.ghostNode, null, this.context.languages);
+        }
 
-            // To-do: mock this out
-            /* istanbul ignore next */
-            $(document).off('mousemove');
-        }, 0);
+        // To-do: mock this out
+        /* istanbul ignore next */
+        $(document).off('mousemove');
 
         return true;
     }
@@ -400,6 +402,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 {this.getDragNode()}
                 {this.getNodeEditor()}
                 <div
+                    ref={this.onRef}
                     id={this.nodeContainerUUID}
                     className={styles.nodeList}
                     data-spec={nodesContainerSpecId}
@@ -408,7 +411,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                     onMouseUp={this.onMouseUp}
                     onDoubleClick={this.onDoubleClick}
                 >
-                    {this.getStickies()};
+                    {this.getStickies()}
                     {this.getDragSelectionBox()}
                     {this.getNodes()}
                 </div>

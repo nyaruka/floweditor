@@ -37,6 +37,8 @@ exports[`Flow render should render NodeEditor 1`] = `
   <div
     className="nodeList"
     data-spec="node-container"
+    id="generated_uuid_10"
+    onDoubleClick={[Function]}
     onMouseDown={[Function]}
     onMouseMove={[Function]}
     onMouseUp={[Function]}
@@ -1034,6 +1036,8 @@ exports[`Flow render should render Simulator 1`] = `
   <div
     className="nodeList"
     data-spec="node-container"
+    id="generated_uuid_10"
+    onDoubleClick={[Function]}
     onMouseDown={[Function]}
     onMouseMove={[Function]}
     onMouseUp={[Function]}
@@ -1605,6 +1609,8 @@ exports[`Flow render should render drag selection box 1`] = `
   <div
     className="nodeList"
     data-spec="node-container"
+    id="generated_uuid_10"
+    onDoubleClick={[Function]}
     onMouseDown={[Function]}
     onMouseMove={[Function]}
     onMouseUp={[Function]}
@@ -2188,6 +2194,8 @@ exports[`Flow render should render self, children with base props 1`] = `
   <div
     className="nodeList"
     data-spec="node-container"
+    id="generated_uuid_10"
+    onDoubleClick={[Function]}
     onMouseDown={[Function]}
     onMouseMove={[Function]}
     onMouseUp={[Function]}

@@ -22,11 +22,17 @@ import Plumber from '../services/Plumber';
 import { ConnectionEvent, createStore, initialState } from '../store';
 import { getCollisions, getGhostNode, getRenderNodeMap } from '../store/helpers';
 import { createSetup, createSpy, getSpecWrapper } from '../testUtils';
-import { getBaseLanguage } from '../utils';
+import { getBaseLanguage, dump } from '../utils';
 
 jest.mock('../services/ActivityManager');
 jest.mock('../services/Plumber');
 jest.useFakeTimers();
+
+jest.mock('uuid', () => {
+    return {
+        v4: jest.fn()
+    };
+});
 
 const definition = require('../../__test__/customer_service.json') as FlowDefinition;
 
@@ -68,7 +74,8 @@ const baseProps: FlowStoreProps = {
     resetNodeEditingState: jest.fn(),
     onConnectionDrag: jest.fn(),
     updateCreateNodePosition: jest.fn(),
-    updateDragSelection: jest.fn()
+    updateDragSelection: jest.fn(),
+    updateSticky: jest.fn()
 };
 
 const setup = createSetup<FlowStoreProps>(Flow, baseProps, context, childContextTypes);
@@ -76,28 +83,38 @@ const setup = createSetup<FlowStoreProps>(Flow, baseProps, context, childContext
 const spyOnFlow = createSpy(Flow);
 
 describe(Flow.name, () => {
+    let ghostNodeFromWait;
+    let ghostNodeFromAction;
+    let mockConnectionEvent: Partial<ConnectionEvent>;
+
+    const { nodes: renderNodeMap } = baseProps;
+    const renderNodeMapKeys = Object.keys(baseProps.nodes);
+
     beforeEach(() => {
         // Clear instances, calls to constructor, methods:
         ActivityManager.mockClear();
         Plumber.mockClear();
+        let uuidCount = 1;
+        generateUUID.mockImplementation(() => {
+            return 'generated_uuid_' + uuidCount++;
+        });
+
+        ghostNodeFromWait = getGhostNode(
+            renderNodeMap[renderNodeMapKeys[renderNodeMapKeys.length - 1]],
+            renderNodeMap
+        );
+
+        ghostNodeFromAction = getGhostNode(renderNodeMap[renderNodeMapKeys[0]], renderNodeMap);
+
+        mockConnectionEvent = {
+            sourceId: `${generateUUID()}:${generateUUID()}`,
+            targetId: generateUUID(),
+            suspendedElementId: generateUUID(),
+            source: null
+        };
 
         jest.clearAllTimers();
     });
-
-    const { nodes: renderNodeMap } = baseProps;
-    const renderNodeMapKeys = Object.keys(baseProps.nodes);
-    const ghostNodeFromWait = getGhostNode(
-        renderNodeMap[renderNodeMapKeys[renderNodeMapKeys.length - 1]],
-        renderNodeMap
-    );
-    const ghostNodeFromAction = getGhostNode(renderNodeMap[renderNodeMapKeys[0]], renderNodeMap);
-
-    const mockConnectionEvent: Partial<ConnectionEvent> = {
-        sourceId: `${generateUUID()}:${generateUUID()}`,
-        targetId: generateUUID(),
-        suspendedElementId: generateUUID(),
-        source: null
-    };
 
     const dragSelection = {
         startX: 270,
@@ -362,7 +379,6 @@ describe(Flow.name, () => {
 
                 instance.onConnectorDrop(mockConnectionEvent);
 
-                expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 0);
                 expect(instance.Plumber.recalculate).not.toHaveBeenCalled();
                 expect(instance.Plumber.connect).not.toHaveBeenCalled();
                 expect(props.updateCreateNodePosition).not.toHaveBeenCalled();
@@ -376,6 +392,7 @@ describe(Flow.name, () => {
                 };
                 const suspendedElementId = generateUUID();
                 const ghostRefSpy = spyOnFlow('ghostRef');
+
                 // tslint:disable-next-line:no-shadowed-variable
                 const { wrapper, instance, props, context } = setup({
                     updateCreateNodePosition: jest.fn(),
@@ -392,7 +409,6 @@ describe(Flow.name, () => {
                 jest.runAllTimers();
 
                 expect(ghostRefSpy).toHaveBeenCalledTimes(1);
-                expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 0);
                 expect(instance.Plumber.recalculate).toHaveBeenCalledTimes(1);
                 expect(instance.Plumber.recalculate).toHaveBeenCalledWith(props.ghostNode.uuid);
                 expect(instance.Plumber.connect).toHaveBeenCalledTimes(1);
@@ -419,43 +435,35 @@ describe(Flow.name, () => {
         });
 
         describe('onMouseDown', () => {
-            it("should update instance's containerOffset property, call updateDragSelection prop", () => {
-                const mockMouseDownEvent = {
-                    nativeEvent: {
-                        offsetX: 119,
-                        offsetY: 237
-                    },
-                    pageX: 138,
-                    pageY: 307
-                };
+            it('should call updateDragSelection prop', () => {
                 const { wrapper, instance, props } = setup(
                     { updateDragSelection: jest.fn() },
                     true
                 );
+
                 const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
+
+                const mockMouseDownEvent = {
+                    pageX: 138,
+                    pageY: 307,
+                    target: { id: nodesContainer.props().id }
+                };
 
                 nodesContainer.simulate('mouseDown', mockMouseDownEvent);
 
-                expect(instance.containerOffset).toEqual({
-                    x: mockMouseDownEvent.nativeEvent.offsetX - mockMouseDownEvent.pageX,
-                    y: mockMouseDownEvent.nativeEvent.offsetY - mockMouseDownEvent.pageY
-                });
                 expect(props.updateDragSelection).toHaveBeenCalledTimes(1);
                 expect(props.updateDragSelection).toHaveBeenCalledWith({
-                    startX: mockMouseDownEvent.pageX + instance.containerOffset.x,
-                    startY: mockMouseDownEvent.pageY + instance.containerOffset.y,
-                    currentX: mockMouseDownEvent.pageX + instance.containerOffset.x,
-                    currentY: mockMouseDownEvent.pageY + instance.containerOffset.y
+                    startX: mockMouseDownEvent.pageX,
+                    startY: mockMouseDownEvent.pageY,
+                    currentX: mockMouseDownEvent.pageX,
+                    currentY: mockMouseDownEvent.pageY,
+                    selected: null
                 });
             });
         });
 
         describe('onMouseMove', () => {
             it('should call updateDragSelection prop if user is creating a drag selection', () => {
-                const mockMouseMoveEvent = {
-                    pageX: 519,
-                    pageY: 372
-                };
                 const { wrapper, instance, props } = setup(
                     {
                         updateDragSelection: jest.fn(),
@@ -465,9 +473,15 @@ describe(Flow.name, () => {
                 );
                 const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
 
+                const mockMouseMoveEvent = {
+                    pageX: 519,
+                    pageY: 372,
+                    target: { id: nodesContainer.props().id }
+                };
+
                 instance.containerOffset = {
-                    x: -20,
-                    y: -70
+                    left: 20,
+                    top: 70
                 };
 
                 nodesContainer.simulate('mouseMove', mockMouseMoveEvent);
@@ -476,14 +490,9 @@ describe(Flow.name, () => {
                 expect(props.updateDragSelection).toHaveBeenCalledWith({
                     startX: props.dragSelection.startX,
                     startY: props.dragSelection.startY,
-                    currentX: mockMouseMoveEvent.pageX + instance.containerOffset.x,
-                    currentY: mockMouseMoveEvent.pageY + instance.containerOffset.y,
-                    selected: getCollisions(props.nodes, {
-                        left: Math.min(props.dragSelection.startX, props.dragSelection.currentX),
-                        top: Math.min(dragSelection.startY, dragSelection.currentY),
-                        right: Math.min(dragSelection.startX, dragSelection.currentX),
-                        bottom: Math.min(dragSelection.startY, dragSelection.currentY)
-                    })
+                    currentX: mockMouseMoveEvent.pageX - instance.containerOffset.left,
+                    currentY: mockMouseMoveEvent.pageY - instance.containerOffset.top,
+                    selected: {}
                 });
             });
 
