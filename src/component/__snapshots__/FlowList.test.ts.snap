@@ -70,6 +70,11 @@ exports[`FlowList render should render select control 1`] = `
           "type": "flow",
           "uuid": "c4ad4218-4bca-4261-a41e-51fdef90595d",
         },
+        Object {
+          "name": "Boring",
+          "type": "flow",
+          "uuid": "boring",
+        },
       ]
     }
     pageSize={5}

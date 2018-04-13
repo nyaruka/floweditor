@@ -143,7 +143,6 @@
     "uniqid": "4.1.1",
     "url-loader": "0.5.8",
     "uuid": "3.0.1",
-    "uuid-validate": "0.0.2",
     "webpack": "3.11.0",
     "webpack-bundle-analyzer": "2.9.1",
     "webpack-dev-server": "2.5.1",
