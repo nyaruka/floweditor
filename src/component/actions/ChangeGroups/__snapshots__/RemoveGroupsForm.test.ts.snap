@@ -6,6 +6,10 @@ Array [
     "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
     "name": "Unsatisfied Customers",
   },
+  Object {
+    "id": "783a5393-c47d-4dd0-bcfb-9ba8081d2f3f",
+    "name": "Unknown Group",
+  },
 ]
 `;
 
