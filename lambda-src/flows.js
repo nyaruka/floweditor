@@ -1,4 +1,3 @@
-const validate = require('uuid-validate');
 const signBunny = require('sign-bunny');
 const flowsResp = require('../assets/flows.json');
 
@@ -13,21 +12,19 @@ const flows = [
     require('../assets/flows/boring.json')
 ];
 const getOpts = (opts = {}) => Object.assign({}, baseOpts, opts);
-const isValidUUID = uuid => validate(uuid, 4);
 const getFlow = uuid => {
-    let flowResp;
-    flows.forEach(flow => {
-        if (flow.results[0].uuid === uuid) {
-            flowResp = flow;
+    for (const flowResp of flows) {
+        if (flowResp.results[0].uuid === uuid) {
+            return flowResp;
         }
-    });
-    return flowResp ? flowResp : false;
+    }
+    return false;
 };
 
 const notFoundHandler = cb => cb(null, getOpts({ statusCode: 404, body: signBunny('not found') }));
 const flowsHandler = ({ queryStringParameters: query } = {}, cb) => {
     if (Object.keys(query).length > 0) {
-        if (query.uuid && isValidUUID(query.uuid)) {
+        if (query.uuid) {
             const flow = getFlow(query.uuid);
             if (flow) {
                 return cb(null, getOpts({ body: JSON.stringify(flow) }));
