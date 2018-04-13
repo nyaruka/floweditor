@@ -79,6 +79,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     }
 
     public componentDidMount(): void {
+        /* istanbul ignore next */
         this.props.plumberDraggable(
             this.props.uuid,
             (event: DragEvent) => this.onDragStart(event),
@@ -98,20 +99,20 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
         }
 
         if (this.debounceTextChanges) {
-            window.clearTimeout(this.showConfirmation);
+            window.clearTimeout(this.debounceTextChanges);
         }
     }
 
-    private onDragStart(event: DragEvent): void {
+    public onDragStart(event: DragEvent): void {
         this.props.plumberClearDragSelection();
         this.props.onResetDragSelection();
     }
 
-    private onDrag(event: DragEvent): void {
+    public onDrag(event: DragEvent): void {
         // noop
     }
 
-    private onDragStop(event: DragEvent): void {
+    public onDragStop(event: DragEvent): void {
         // snap us to the same grid
         const { left, top } = snapToGrid(event.finalPos[0], event.finalPos[1]);
         this.ele.style.left = `${left}px`;
