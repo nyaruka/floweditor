@@ -145,7 +145,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
         this.onUpdateText();
     }
 
-    private onClickRemove(event: React.MouseEvent<HTMLDivElement>): void {
+    public onClickRemove(event: React.MouseEvent<HTMLDivElement>): void {
         if (this.state.showConfirmation) {
             this.props.updateSticky(this.props.uuid, null);
         } else {
@@ -237,10 +237,12 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     }
 }
 
+/* istanbul ignore next */
 const mapStateToProps = ({ flowContext: { definition } }: AppState) => ({
     definition
 });
 
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) => {
     return bindActionCreators({ updateSticky, onResetDragSelection }, dispatch);
 };
