@@ -1,14 +1,16 @@
 const validate = require('uuid-validate');
 const signBunny = require('sign-bunny');
 const flowsResp = require('../assets/flows.json');
-const colorsFlowResp = require('../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
-const customerServiceFlowResp = require('../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
 
 const baseOpts = {
     statusCode: 200,
     headers: { 'Content-Type': 'application/json' }
 };
-const flows = [colorsFlowResp, customerServiceFlowResp];
+const flows = [
+    require('../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json'),
+    require('../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json'),
+    require('../assets/flows/c4ad4218-4bca-4261-a41e-51fdef90595d.json')
+];
 const getOpts = (opts = {}) => Object.assign({}, baseOpts, opts);
 const isValidUUID = uuid => validate(uuid, 4);
 const getFlow = uuid => {
