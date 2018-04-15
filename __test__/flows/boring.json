@@ -98,13 +98,12 @@
                 },
                 {
                     "uuid": "node2_action1",
-                    "type": "remove_contact_groups",
-                    "groups": [
-                        {
-                            "uuid": "group_0",
-                            "name": "Participants"
-                        }
-                    ]
+                    "type": "set_contact_field",
+                    "field": { 
+                        "key": "unknown_field", 
+                        "name": "Unknown Field"
+                    },
+                    "value": "Some Value"
                 }
             ],
             "exits": [
