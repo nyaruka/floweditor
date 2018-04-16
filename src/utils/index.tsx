@@ -16,7 +16,7 @@ export const NODE_PADDING: number = parseInt(variables.node_padding, 10) || 10;
 export const QUIET_NOTE = 2000;
 export const CONFIRMATION_TIME = 2000;
 
-interface BoolMap {
+export interface BoolMap {
     [key: string]: boolean;
 }
 

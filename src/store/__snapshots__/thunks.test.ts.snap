@@ -76,14 +76,13 @@ Object {
           "uuid": "node2_action0",
         },
         Object {
-          "groups": Array [
-            Object {
-              "name": "Participants",
-              "uuid": "group_0",
-            },
-          ],
-          "type": "remove_contact_groups",
+          "field": Object {
+            "key": "unknown_field",
+            "name": "Unknown Field",
+          },
+          "type": "set_contact_field",
           "uuid": "node2_action1",
+          "value": "Some Value",
         },
       ],
       "exits": Array [
@@ -197,14 +196,13 @@ Object {
           "uuid": "node2_action0",
         },
         Object {
-          "groups": Array [
-            Object {
-              "name": "Participants",
-              "uuid": "group_0",
-            },
-          ],
-          "type": "remove_contact_groups",
+          "field": Object {
+            "key": "unknown_field",
+            "name": "Unknown Field",
+          },
+          "type": "set_contact_field",
           "uuid": "node2_action1",
+          "value": "Some Value",
         },
       ],
       "exits": Array [
@@ -531,14 +529,13 @@ Object {
           "uuid": "node2_action0",
         },
         Object {
-          "groups": Array [
-            Object {
-              "name": "Participants",
-              "uuid": "group_0",
-            },
-          ],
-          "type": "remove_contact_groups",
+          "field": Object {
+            "key": "unknown_field",
+            "name": "Unknown Field",
+          },
+          "type": "set_contact_field",
           "uuid": "node2_action1",
+          "value": "Some Value",
         },
       ],
       "exits": Array [

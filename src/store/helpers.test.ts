@@ -14,135 +14,152 @@ import { AnyAction, SendMsg, Exit, Case, FlowPosition, FlowDefinition } from '..
 
 describe('helpers', () => {
     const definition: FlowDefinition = require('../../__test__/flows/boring.json');
-    const nodes = getFlowDetails(definition).renderNodeMap;
 
-    it('should suggest response names', () => {
-        const suggestison = getSuggestedResultName({
-            node0: {
-                node: { uuid: generateUUID(), actions: [], exits: [] },
-                ui: { position: { left: 100, top: 100 } },
-                inboundConnections: {}
-            }
+    describe('getFlowDetails', () => {
+        it('should find groups in definition', () => {
+            const flowDetails = getFlowDetails(definition);
+            expect(flowDetails.groups.length).toBe(2);
         });
 
-        expect(suggestison).toBe('Response 2');
+        it('should find fields in definition', () => {
+            const flowDetails = getFlowDetails(definition);
+            expect(flowDetails.fields.length).toBe(1);
+        });
     });
 
-    it('should get unique destinations', () => {
-        expect(getUniqueDestinations(nodes.node0.node)).toEqual(['node1']);
-        expect(getUniqueDestinations(nodes.node1.node)).toEqual(['node2']);
-        expect(getUniqueDestinations(nodes.node2.node)).toEqual(['node3']);
-        expect(getUniqueDestinations(nodes.node3.node)).toEqual([]);
-    });
+    describe('RenderNodeMap', () => {
+        const nodes = getFlowDetails(definition).renderNodeMap;
 
-    it('should identify collisions', () => {
-        const collides = (box: FlowPosition, collisions: string[]) => {
-            expect(Object.keys(getCollisions(nodes, box))).toEqual(collisions);
-        };
+        it('should suggest response names', () => {
+            const suggestison = getSuggestedResultName({
+                node0: {
+                    node: { uuid: generateUUID(), actions: [], exits: [] },
+                    ui: { position: { left: 100, top: 100 } },
+                    inboundConnections: {}
+                }
+            });
 
-        collides({ left: 0, top: 0, right: 200, bottom: 150 }, ['node0']);
-        collides({ left: 0, top: 100, right: 200, bottom: 300 }, ['node0', 'node1']);
-        collides({ left: 0, top: 100, right: 200, bottom: 500 }, ['node0', 'node1', 'node2']);
-    });
-
-    describe('getLocalizations', () => {
-        it('should get localized actions', () => {
-            const node = nodes.node0.node;
-            const translations = { [node.actions[0].uuid]: { text: ['this is espanols'] } };
-
-            const localizations = getLocalizations(
-                node,
-                node.actions[0],
-                'spa',
-                { spa: 'Spanish' },
-                translations
-            );
-
-            expect((localizations[0].getObject() as SendMsg).text).toEqual(['this is espanols']);
+            expect(suggestison).toBe('Response 2');
         });
 
-        it('should get localized cases', () => {
-            const node = nodes.node1.node;
-            const translations = {
-                node1_exit0: { name: ['this is espanols'] },
-                node1_case0: { arguments: ['espanol case'] }
+        it('should get unique destinations', () => {
+            expect(getUniqueDestinations(nodes.node0.node)).toEqual(['node1']);
+            expect(getUniqueDestinations(nodes.node1.node)).toEqual(['node2']);
+            expect(getUniqueDestinations(nodes.node2.node)).toEqual(['node3']);
+            expect(getUniqueDestinations(nodes.node3.node)).toEqual([]);
+        });
+
+        it('should identify collisions', () => {
+            const collides = (box: FlowPosition, collisions: string[]) => {
+                expect(Object.keys(getCollisions(nodes, box))).toEqual(collisions);
             };
 
-            const localizations = getLocalizations(
-                node,
-                node.actions[0],
-                'spa',
-                { spa: 'Spanish' },
-                translations
-            );
-
-            expect((localizations[0].getObject() as Case).arguments).toEqual(['espanol case']);
-            expect((localizations[2].getObject() as Exit).name).toEqual(['this is espanols']);
-        });
-    });
-
-    describe('getGhostNode', () => {
-        it('should create a router from an action', () => {
-            const ghost = getGhostNode(nodes.node0, nodes);
-            expect(ghost.router.type).toBe('switch');
-        });
-        it('should create an action node from a switch', () => {
-            const ghost = getGhostNode(nodes.node1, nodes);
-            expect(ghost.router).toBeUndefined();
-            expect(ghost.actions[0].type).toBe('send_msg');
-        });
-    });
-
-    describe('determineConfigType', () => {
-        it('should determine config type from action', () => {
-            const configType = determineConfigType(
-                nodes.node0.node,
-                nodes.node0.node.actions[0],
-                nodes
-            );
-            expect(configType).toBe('send_msg');
+            collides({ left: 0, top: 0, right: 200, bottom: 150 }, ['node0']);
+            collides({ left: 0, top: 100, right: 200, bottom: 300 }, ['node0', 'node1']);
+            collides({ left: 0, top: 100, right: 200, bottom: 500 }, ['node0', 'node1', 'node2']);
         });
 
-        it('should return last action type if no action provided', () => {
-            const configType = determineConfigType(nodes.node0.node, null, nodes);
-            expect(configType).toBe('remove_contact_groups');
+        describe('getLocalizations', () => {
+            it('should get localized actions', () => {
+                const node = nodes.node0.node;
+                const translations = { [node.actions[0].uuid]: { text: ['this is espanols'] } };
+
+                const localizations = getLocalizations(
+                    node,
+                    node.actions[0],
+                    'spa',
+                    { spa: 'Spanish' },
+                    translations
+                );
+
+                expect((localizations[0].getObject() as SendMsg).text).toEqual([
+                    'this is espanols'
+                ]);
+            });
+
+            it('should get localized cases', () => {
+                const node = nodes.node1.node;
+                const translations = {
+                    node1_exit0: { name: ['this is espanols'] },
+                    node1_case0: { arguments: ['espanol case'] }
+                };
+
+                const localizations = getLocalizations(
+                    node,
+                    node.actions[0],
+                    'spa',
+                    { spa: 'Spanish' },
+                    translations
+                );
+
+                expect((localizations[0].getObject() as Case).arguments).toEqual(['espanol case']);
+                expect((localizations[2].getObject() as Exit).name).toEqual(['this is espanols']);
+            });
         });
 
-        it('should use the router type if no actions', () => {
-            const configType = determineConfigType(nodes.node1.node, null, nodes);
-            expect(configType).toBe('wait_for_response');
+        describe('getGhostNode', () => {
+            it('should create a router from an action', () => {
+                const ghost = getGhostNode(nodes.node0, nodes);
+                expect(ghost.router.type).toBe('switch');
+            });
+            it('should create an action node from a switch', () => {
+                const ghost = getGhostNode(nodes.node1, nodes);
+                expect(ghost.router).toBeUndefined();
+                expect(ghost.actions[0].type).toBe('send_msg');
+            });
         });
 
-        it('should determine type from a brand new router', () => {
-            const configType = determineConfigType(
-                {
-                    uuid: 'new-node',
-                    actions: [],
-                    exits: [],
-                    router: {
-                        type: 'switch'
-                    }
-                },
-                null,
-                nodes
-            );
+        describe('determineConfigType', () => {
+            it('should determine config type from action', () => {
+                const configType = determineConfigType(
+                    nodes.node0.node,
+                    nodes.node0.node.actions[0],
+                    nodes
+                );
+                expect(configType).toBe('send_msg');
+            });
 
-            // TODO: is this a valid type config type for the caller?
-            expect(configType).toBe('switch');
-        });
+            it('should return last action type if no action provided', () => {
+                const configType = determineConfigType(nodes.node0.node, null, nodes);
+                expect(configType).toBe('remove_contact_groups');
+            });
 
-        it('should throw if no type is poissible', () => {
-            expect(() => {
-                determineConfigType(
+            it('should use the router type if no actions', () => {
+                const configType = determineConfigType(nodes.node1.node, null, nodes);
+                expect(configType).toBe('wait_for_response');
+            });
+
+            it('should determine type from a brand new router', () => {
+                const configType = determineConfigType(
                     {
                         uuid: 'new-node',
                         actions: [],
-                        exits: []
+                        exits: [],
+                        router: {
+                            type: 'switch'
+                        }
                     },
                     null,
                     nodes
                 );
-            }).toThrowError('Cannot initialize NodeEditor without a valid type: new-node');
+
+                // TODO: is this a valid type config type for the caller?
+                expect(configType).toBe('switch');
+            });
+
+            it('should throw if no type is poissible', () => {
+                expect(() => {
+                    determineConfigType(
+                        {
+                            uuid: 'new-node',
+                            actions: [],
+                            exits: []
+                        },
+                        null,
+                        nodes
+                    );
+                }).toThrowError('Cannot initialize NodeEditor without a valid type: new-node');
+            });
         });
     });
 });
