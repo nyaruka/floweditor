@@ -9,16 +9,48 @@ import {
     actionInteractiveDivSpecId,
     actionBodySpecId
 } from './Action';
+import { FlowNode, SendMsg, StartFlow, SwitchRouter } from '../../../flowTypes';
 
-const config = require('../../../../assets/config');
-const colorsFlowResp = require('../../../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
+const config = require('../../../../__test__/assets/config');
 
-const {
-    results: [{ definition: { nodes: [sendMsgNode, , , sendMsgNode1, , , startFlowNode] } }]
-} = colorsFlowResp;
-const { actions: [sendMsgAction] } = sendMsgNode;
-const { actions: [sendMsgAction1] } = sendMsgNode1;
-const { actions: [startFlowAction] } = startFlowNode;
+const sendMsgAction: SendMsg = {
+    uuid: 'send_msg_action0',
+    type: 'send_msg',
+    text: 'Hello World!'
+};
+
+const sendMsgAction1: SendMsg = {
+    uuid: 'send_msg_action1',
+    type: 'send_msg',
+    text: 'Hello World!'
+};
+
+const sendMsgNode: FlowNode = {
+    uuid: 'send_msg_node',
+    actions: [sendMsgAction],
+    exits: []
+};
+
+const startFlowAction: StartFlow = {
+    uuid: 'start_flow_action',
+    type: 'start_flow',
+    flow_name: 'Flow to Start',
+    flow_uuid: 'flow_to_start'
+};
+
+const startFlowNode: FlowNode = {
+    uuid: 'start_flow_node',
+    actions: [startFlowAction],
+    exits: [],
+    router: {
+        type: 'switch',
+        operand: '@child'
+    } as SwitchRouter,
+    wait: {
+        type: 'flow',
+        flow_uuid: 'flow_to_start'
+    }
+};
 
 const context = {
     languages: config.languages
@@ -29,7 +61,7 @@ const spanish = getLanguage(config.languages, 'spa');
 
 const baseProps = {
     thisNodeDragging: false,
-    localization: colorsFlowResp.results[0].definition.localization,
+    localization: { spa: {} },
     first: true,
     action: sendMsgAction,
     render: jest.fn(),
@@ -202,11 +234,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
         describe('getAction', () => {
             it('should return the action passed via props if not localized', () => {
-                const { wrapper, props: { action }, instance } = setup(
-                    { node: sendMsgAction1 },
-                    true
-                );
-
+                const { wrapper, props: { action }, instance } = setup({ node: sendMsgNode }, true);
                 expect(instance.getAction()).toEqual(action);
             });
 

@@ -20,13 +20,14 @@ import {
     isRealValue
 } from '.';
 import { operatorConfigList } from '../config';
-import { ContactProperties } from '../flowTypes';
+import { ContactProperties, SendMsg } from '../flowTypes';
 
 const config = require('../../assets/config');
-const {
-    results: [{ definition: colorsFlow }]
-} = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
-const { nodes: [{ actions: [sendMsgAction] }] } = colorsFlow;
+const sendMsgAction: SendMsg = {
+    uuid: 'send_msg_action',
+    type: 'send_msg',
+    text: 'Hello World!'
+};
 
 describe('utils', () => {
     describe('toBoolMap', () => {
@@ -168,7 +169,12 @@ describe('utils', () => {
         it('should return a localized object', () => {
             ['eng', 'spa', 'fre'].forEach(iso => {
                 expect(
-                    getLocalization(sendMsgAction, colorsFlow.localization, iso, config.languages)
+                    getLocalization(
+                        sendMsgAction,
+                        { spa: { send_msg_action: { text: ['¿Cuál es tu color favorito?'] } } },
+                        iso,
+                        config.languages
+                    )
                 ).toMatchSnapshot();
             });
         });

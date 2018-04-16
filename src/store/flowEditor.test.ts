@@ -33,8 +33,8 @@ import { FlowNode } from '../flowTypes';
 import { RenderNode } from './flowContext';
 
 const config = require('../../assets/config');
-const flowsResp = require('../../assets/flows.json');
-const colorsFlow = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
+const flowsResp = require('../../__test__/assets/flows.json');
+const definition = require('../../__test__/flows/boring.json');
 
 describe('flowEditor action creators', () => {
     describe('updateTranslating', () => {
@@ -168,7 +168,6 @@ describe('flowEditor action creators', () => {
 
     describe('updateGhostNode', () => {
         it('should create an action to update ghostNode state', () => {
-            const { definition } = colorsFlow.results[0];
             const fromNode: RenderNode = {
                 node: definition.nodes[0],
                 ui: definition._ui.nodes[definition.nodes[0].uuid],
@@ -341,7 +340,6 @@ describe('flowEditor reducers', () => {
         });
 
         it('should handle UPDATE_GHOST_NODE', () => {
-            const { definition } = colorsFlow.results[0];
             const fromNode: RenderNode = {
                 node: definition.nodes[0],
                 ui: definition._ui.nodes[definition.nodes[0].uuid],

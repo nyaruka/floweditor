@@ -20,14 +20,12 @@ import reducer, {
     RenderNodeMap
 } from './flowContext';
 
-const colorsFlow = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
-const customerServiceFlow = require('../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
 const config = require('../../assets/config');
+const definition = require('../../__test__/flows/boring.json');
 
 describe('flowContext action creators', () => {
     describe('updateDefinition', () => {
         it('should create an action to update definition state', () => {
-            const { results: [{ definition }] } = colorsFlow;
             const expectedAction = {
                 type: Constants.UPDATE_DEFINITION,
                 payload: {
@@ -40,10 +38,7 @@ describe('flowContext action creators', () => {
 
     describe('updateDependencies', () => {
         it('should create an action to update dependencies state', () => {
-            const dependencies = [
-                colorsFlow.results[0].definition,
-                customerServiceFlow.results[0].definition
-            ];
+            const dependencies = [definition];
             const expectedAction = {
                 type: Constants.UPDATE_DEPENDENCIES,
                 payload: {
@@ -56,7 +51,6 @@ describe('flowContext action creators', () => {
 
     describe('updateLocalizations', () => {
         it('should create an action to update localizations state', () => {
-            const { definition } = colorsFlow.results[0];
             const iso = 'spa';
             const localizations = [
                 Localization.translate(
@@ -125,7 +119,6 @@ describe('flowContext reducers', () => {
         });
 
         it('should handle UPDATE_DEFINITION', () => {
-            const { results: [{ definition }] } = colorsFlow;
             const action = updateDefinition(definition);
             expect(reduce(action)).toEqual(definition);
         });
@@ -139,10 +132,7 @@ describe('flowContext reducers', () => {
         });
 
         it('should handle UPDATE_DEPENDENCIES', () => {
-            const dependencies = [
-                colorsFlow.results[0].definition,
-                customerServiceFlow.results[0].definition
-            ];
+            const dependencies = [definition];
             const action = updateDependencies(dependencies);
             expect(reduce(action)).toEqual(dependencies);
         });
@@ -156,7 +146,6 @@ describe('flowContext reducers', () => {
         });
 
         it('should handle UPDATE_LOCALIZATIONS', () => {
-            const { definition } = colorsFlow.results[0];
             const iso = 'spa';
             const localizations = [
                 Localization.translate(

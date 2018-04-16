@@ -11,19 +11,16 @@ import {
 } from './FlowList';
 import { FlowEditorConfig } from '../flowTypes';
 
-const config = require('../../assets/config') as FlowEditorConfig;
-const colorsFlowResp = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json') as Resp;
-const customerServiceFlowResp = require('../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
-const flowsResp = require('../../assets/flows.json');
+const config = require('../../__test__/assets/config') as FlowEditorConfig;
+const flowsResp = require('../../__test__/assets/flows.json');
 
 const context = {
-    assetHost: config.assetHost,
     endpoints: config.endpoints
 };
 
 const baseProps = {
-    flowUUID: colorsFlowResp.results[0].uuid,
-    flowName: colorsFlowResp.results[0].name,
+    flowUUID: 'boring',
+    flowName: 'Boring',
     flows: flowsResp.results,
     fetchFlow: jest.fn()
 };
@@ -36,8 +33,8 @@ describe(`${COMPONENT_TO_TEST}`, () => {
     describe('helpers', () => {
         describe('getFlowOption', () => {
             it('should return a FlowOption map', () => {
-                const flowUUID = colorsFlowResp.results[0].uuid;
-                const flowName = colorsFlowResp.results[0].name;
+                const flowUUID = 'boring';
+                const flowName = 'Boring';
                 const truthyOption = getFlowOption(flowUUID, flowName);
                 const falsyOption = getFlowOption(undefined, undefined);
 
@@ -56,8 +53,8 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
         describe('shouldDisplayLoading', () => {
             it('should return true if flow option is not valid or flows prop is falsy', () => {
-                const flowUUID = colorsFlowResp.results[0].uuid;
-                const flowName = colorsFlowResp.results[0].name;
+                const flowUUID = 'boring';
+                const flowName = 'Boring';
                 const validFlowOption = getFlowOption(flowUUID, flowName);
                 const invalidFlowOption = getFlowOption(undefined, undefined);
                 const flows = flowsResp.results;
@@ -67,8 +64,8 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             });
 
             it('should return false if flow option is valid and flows prop is truthy', () => {
-                const flowUUID = colorsFlowResp.results[0].uuid;
-                const flowName = colorsFlowResp.results[0].name;
+                const flowUUID = 'boring';
+                const flowName = 'Boring';
                 const validFlowOption = getFlowOption(flowUUID, flowName);
                 const flows = flowsResp.results;
 
@@ -112,7 +109,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                     props: { fetchFlow: fetchFlowMock },
                     context: { endpoints }
                 } = setup({ fetchFlow: jest.fn() }, true);
-                const otherUUID = customerServiceFlowResp.results[0].uuid;
+                const otherUUID = 'other_uuid';
 
                 instance.onChange({ uuid: otherUUID });
 
@@ -123,21 +120,21 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             it('should not call action creator that fetches flow', () => {
                 let {
                     wrapper,
+                    // tslint:disable-next-line:prefer-const
                     instance,
                     props: { fetchFlow: fetchFlowMock },
                     context: { endpoints }
                 } = setup({ flows: [], fetchFlow: jest.fn() }, true);
-                const otherUUID = customerServiceFlowResp.results[0].uuid;
+                const otherUUID = 'other_uuid';
 
                 instance.onChange({ uuid: otherUUID });
 
                 expect(fetchFlowMock).toHaveBeenCalledTimes(0);
 
-                ({
-                    wrapper,
-                    props: { fetchFlow: fetchFlowMock },
-                    context: { endpoints }
-                } = setup({}, true));
+                ({ wrapper, props: { fetchFlow: fetchFlowMock }, context: { endpoints } } = setup(
+                    {},
+                    true
+                ));
 
                 instance.onChange({ uuid: otherUUID });
                 expect(fetchFlowMock).toHaveBeenCalledTimes(0);

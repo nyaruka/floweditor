@@ -3,11 +3,9 @@ import { FlowEditorConfig } from '../flowTypes';
 import { createSetup, getSpecWrapper, Resp } from '../testUtils';
 import { getBaseLanguage, getLanguage } from '../utils';
 
-const config = require('../../assets/config') as FlowEditorConfig;
-const colorsFlowResp = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json') as Resp;
+const config = require('../../__test__/assets/config') as FlowEditorConfig;
 
 const context = {
-    assetHost: config.assetHost,
     endpoints: config.endpoints,
     languages: config.languages,
     flow: config.flow
@@ -27,6 +25,7 @@ const baseProps = {
 const setup = createSetup<FlowEditorStoreProps>(FlowEditor, baseProps, config);
 
 describe('Root', () => {
+    const definition = require('../../__test__/flows/boring.json');
     describe('render', () => {
         it('should render self, children with required props', () => {
             const { wrapper } = setup({}, true);
@@ -52,7 +51,7 @@ describe('Root', () => {
             const { wrapper } = setup(
                 {
                     language: getLanguage(config.languages, 'eng'),
-                    definition: colorsFlowResp.results[0].definition
+                    definition
                 },
                 true
             );

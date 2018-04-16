@@ -1,0 +1,21 @@
+{
+   "total":3,
+   "results":[
+      {
+          "key": "expected_delivery_date",
+          "label": "Expected Delivery Date",
+          "value_type": "text"
+      },
+      {
+         "key":"national_id",
+         "label": "National ID",
+         "value_type": "numeric"
+      },
+      {
+        "key": "number_of_children",
+        "label":"Number of Children",
+         "value_type": "numeric"
+      }
+   ],
+   "more": null
+}

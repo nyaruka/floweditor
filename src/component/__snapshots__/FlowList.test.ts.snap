@@ -2,8 +2,8 @@
 
 exports[`FlowList helpers getFlowOption should return a FlowOption map 1`] = `
 Object {
-  "name": "Colors",
-  "uuid": "a4f64f1b-85bc-477e-b706-de313a022979",
+  "name": "Boring",
+  "uuid": "boring",
 }
 `;
 
@@ -56,21 +56,6 @@ exports[`FlowList render should render select control 1`] = `
     options={
       Array [
         Object {
-          "name": "Colors",
-          "type": "flow",
-          "uuid": "a4f64f1b-85bc-477e-b706-de313a022979",
-        },
-        Object {
-          "name": "Customer Service",
-          "type": "flow",
-          "uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
-        },
-        Object {
-          "name": "JAWS",
-          "type": "flow",
-          "uuid": "c4ad4218-4bca-4261-a41e-51fdef90595d",
-        },
-        Object {
           "name": "Boring",
           "type": "flow",
           "uuid": "boring",
@@ -89,8 +74,8 @@ exports[`FlowList render should render select control 1`] = `
     trimFilter={true}
     value={
       Object {
-        "name": "Colors",
-        "uuid": "a4f64f1b-85bc-477e-b706-de313a022979",
+        "name": "Boring",
+        "uuid": "boring",
       }
     }
     valueComponent={[Function]}
