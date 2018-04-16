@@ -18,7 +18,7 @@ import reducer, {
     actionToEdit as actionToEditReducer
 } from './nodeEditor';
 
-const colorsFlow = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
+const definition = require('../../__test__/flows/boring.json');
 
 describe('nodeEditor action creators', () => {
     describe('updateTypeConfig', () => {
@@ -75,7 +75,7 @@ describe('nodeEditor action creators', () => {
 
     describe('updateActionToEdit', () => {
         it('should create an action to update actionToEdit state', () => {
-            const { actions: [actionToEdit] } = colorsFlow.results[0].definition.nodes[0];
+            const { actions: [actionToEdit] } = definition.nodes[0];
             const expectedAction = {
                 type: Constants.UPDATE_ACTION_TO_EDIT,
                 payload: {
@@ -88,7 +88,7 @@ describe('nodeEditor action creators', () => {
 
     describe('updateNodeToEdit', () => {
         it('should create an action to update nodeToEdit state', () => {
-            const nodeToEdit = colorsFlow.results[0].definition.nodes[0];
+            const nodeToEdit = definition.nodes[0];
             const expectedAction = {
                 type: Constants.UPDATE_NODE_TO_EDIT,
                 payload: {
@@ -192,7 +192,7 @@ describe('nodeEditor reducers', () => {
         });
 
         it('should handle UPDATE_NODE_TO_EDIT', () => {
-            const nodeToEdit = colorsFlow.results[0].definition.nodes[0];
+            const nodeToEdit = definition.nodes[0];
             const action = updateNodeToEdit(nodeToEdit);
             expect(reduce(action)).toEqual(nodeToEdit);
         });
@@ -206,7 +206,7 @@ describe('nodeEditor reducers', () => {
         });
 
         it('should handle UPDATE_ACTION_TO_EDIT', () => {
-            const { actions: [actionToEdit] } = colorsFlow.results[0].definition.nodes[0];
+            const { actions: [actionToEdit] } = definition.nodes[0];
             const action = updateActionToEdit(actionToEdit);
             expect(reduce(action)).toEqual(actionToEdit);
         });

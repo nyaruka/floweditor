@@ -1,17 +1,62 @@
 import * as React from 'react';
 import { ConfigProviderContext } from '../../config/ConfigProvider';
-import { FlowDefinition, FlowEditorConfig, SwitchRouter } from '../../flowTypes';
+import { FlowDefinition, FlowEditorConfig, SwitchRouter, FlowNode, SendMsg } from '../../flowTypes';
 import { createSetup, Resp } from '../../testUtils';
 import { GROUP_NOT_FOUND, GROUP_PLACEHOLDER } from '../form/GroupsElement';
 import { GROUP_LABEL } from './constants';
 import { extractGroups, GroupsRouter, GroupsRouterProps, hasGroupsRouter } from './GroupsRouter';
 
-const config = require('../../../assets/config') as FlowEditorConfig;
-const colorsFlowResp = require('../../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json') as Resp;
-const groupsResp = require('../../../assets/groups.json') as Resp;
+const config = require('../../../__test__/assets/config') as FlowEditorConfig;
 
-const definition = colorsFlowResp.results[0].definition as FlowDefinition;
-const { nodes: [sendMsgNode, , , , , groupsRouterNode] } = definition;
+const sendMsgNode: FlowNode = {
+    uuid: 'send_msg_node',
+    actions: [{ type: 'send_msg', text: 'Hello World!' } as SendMsg],
+    exits: []
+};
+
+const groupsRouterNode: FlowNode = {
+    uuid: 'group_router_node',
+    actions: [],
+    router: {
+        type: 'switch',
+        default_exit_uuid: 'exit2',
+        cases: [
+            {
+                uuid: 'case0',
+                type: 'has_group',
+                exit_uuid: 'exit0',
+                arguments: ['group0']
+            },
+            {
+                uuid: 'case1',
+                type: 'has_group',
+                exit_uuid: 'exit1',
+                arguments: ['group1']
+            }
+        ],
+        operand: '@contact.groups'
+    } as SwitchRouter,
+    exits: [
+        {
+            name: 'Early Adopters',
+            uuid: 'exit0',
+            destination_node_uuid: null
+        },
+        {
+            name: 'Subscribers',
+            uuid: 'exit1',
+            destination_node_uuid: null
+        },
+        {
+            uuid: 'exit2',
+            name: 'Other',
+            destination_node_uuid: null
+        }
+    ],
+    wait: {
+        type: 'group'
+    }
+};
 
 const context = {
     endpoints: config.endpoints

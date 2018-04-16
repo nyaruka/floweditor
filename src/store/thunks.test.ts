@@ -45,7 +45,7 @@ import {
     onResetDragSelection
 } from './thunks';
 import { dump } from '../utils';
-import { getUniqueDestinations, getFlowDetails } from './helpers';
+import { getUniqueDestinations, getFlowComponents, FlowComponents } from './helpers';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { v4 as generateUUID } from 'uuid';
 import { Constants, LocalizationUpdates } from '.';
@@ -55,7 +55,6 @@ import { empty } from '../component/form/CaseElement.scss';
 
 const getUpdatedNodes = (currentStore): { [uuid: string]: RenderNode } => {
     let nodes;
-
     // return the last action for UPDATE_NODES
     for (const action of currentStore.getActions()) {
         if (action.type === Constants.UPDATE_NODES) {
@@ -65,137 +64,118 @@ const getUpdatedNodes = (currentStore): { [uuid: string]: RenderNode } => {
     return nodes;
 };
 
-describe('stickies', () => {
-    let store;
+describe('fetch flows', () => {
+    const store = createMockStore([thunk])({});
+});
+
+describe('Flow Manipulation', () => {
     const boring: FlowDefinition = require('../../__test__/flows/boring.json');
-
-    beforeEach(() => {
-        store = createMockStore([thunk])({
-            flowContext: { definition: boring }
-        });
-    });
-
-    it('should add new stickies', () => {
-        const newSticky = {
-            title: 'Sticky A',
-            body: 'The body for sticky A',
-            position: { left: 100, top: 100 }
-        };
-
-        store.dispatch(updateSticky('stickyA', newSticky));
-
-        // should see our new sticky note
-        boring._ui.stickies = { stickyA: newSticky };
-
-        expect(store).toHavePayload(Constants.UPDATE_DEFINITION, { definition: boring });
-    });
-
-    it('should add stickies to definitions with none', () => {
-        delete boring._ui.stickies;
-        store = createMockStore([thunk])({
-            flowContext: { definition: boring }
-        });
-
-        const newSticky = {
-            title: 'sticky0',
-            body: 'The body for sticky0',
-            position: { left: 100, top: 100 }
-        };
-
-        store.dispatch(updateSticky('sticky0', newSticky));
-
-        // should see our new sticky note
-        boring._ui.stickies = { sticky0: newSticky };
-        expect(store).toHavePayload(Constants.UPDATE_DEFINITION, { definition: boring });
-    });
-
-    it('should remove stickies if null is passed', () => {
-        boring._ui.stickies = {
-            sticky0: {
-                title: 'sticky0',
-                body: 'The body for sticky0',
-                position: { left: 100, top: 100 }
-            }
-        };
-
-        store = createMockStore([thunk])({
-            flowContext: { definition: boring }
-        });
-
-        store.dispatch(updateSticky('sticky0', null));
-
-        // should be back to an empty flow
-        boring._ui.stickies = {};
-        expect(store).toHavePayload(Constants.UPDATE_DEFINITION, { definition: boring });
-    });
-});
-
-describe('Color Flow', () => {
-    let colorsFlow: FlowDefinition;
+    const testNodes = getFlowComponents(boring).renderNodeMap;
     let store;
-
-    beforeEach(() => {
-        store = createMockStore([thunk])({});
-        colorsFlow = require('../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json')
-            .results[0].definition as FlowDefinition;
-    });
-
-    it('should initalize definition', () => {
-        const nodes = store.dispatch(initializeFlow(colorsFlow));
-        expect(nodes).toMatchSnapshot();
-    });
-
-    it('should update localizations', () => {
-        const updatedStore = createMockStore([thunk])({
-            flowContext: { definition: colorsFlow }
-        });
-        const actionUUID = colorsFlow.nodes[0].actions[0].uuid;
-        const localizationUpdates: LocalizationUpdates = [
-            {
-                uuid: actionUUID,
-                translations: { text: ['espanols'] }
-            }
-        ];
-
-        const updated: FlowDefinition = updatedStore.dispatch(
-            onUpdateLocalizations('spa', localizationUpdates)
-        );
-
-        expect(updated.localization.spa[actionUUID]).toEqual({ text: ['espanols'] });
-    });
-
-    it('should fetch and initalize flow', () => {
-        store
-            .dispatch(fetchFlow('/assets/flows.json', 'a4f64f1b-85bc-477e-b706-de313a022979'))
-            .then((nodes: RenderNodeMap) => {
-                expect(Object.keys(nodes).length).toBe(7);
-            });
-    });
-
-    it('should fetch and update the flow list', () => {
-        store.dispatch(fetchFlows('/assets/flows.json')).then(action => {
-            expect(action.type).toBe(Constants.UPDATE_FLOWS);
-        });
-    });
-});
-
-describe('Boring Flow', () => {
-    const definition: FlowDefinition = require('../../__test__/flows/boring.json');
-    const testNodes = getFlowDetails(definition).renderNodeMap;
-
-    let store;
-
-    const cloneNodes = () => {
-        // quick and dirty deep copy
-        return JSON.parse(JSON.stringify(testNodes));
-    };
 
     beforeEach(() => {
         // prep our store to show that we are editing
         store = createMockStore([thunk])({
-            flowContext: { nodes: testNodes },
+            flowContext: { definition: boring, nodes: testNodes },
             flowEditor: { flowUI: {} },
             nodeEditor: { actionToEdit: null, nodeToEdit: null }
+        });
+    });
+
+    describe('init', () => {
+        it('should fetch and initalize flow', () => {
+            return store
+                .dispatch(fetchFlow('/assets/flows.json', 'boring'))
+                .then((components: FlowComponents) => {
+                    expect(Object.keys(components.renderNodeMap).length).toBe(4);
+                });
+        });
+
+        it('should fetch and update the flow list', () => {
+            store.dispatch(fetchFlows('/assets/flows.json')).then(action => {
+                expect(action.type).toBe(Constants.UPDATE_FLOWS);
+            });
+        });
+
+        it('should initalize definition', () => {
+            const { renderNodeMap, groups, fields } = store.dispatch(initializeFlow(boring));
+            expect(renderNodeMap).toMatchSnapshot('nodes');
+            expect(groups).toMatchSnapshot('groups');
+            expect(fields).toMatchSnapshot('fields');
+        });
+
+        it('should update localizations', () => {
+            const updatedStore = createMockStore([thunk])({
+                flowContext: { definition: boring }
+            });
+            const localizationUpdates: LocalizationUpdates = [
+                {
+                    uuid: 'node0_action0',
+                    translations: { text: ['espanols'] }
+                }
+            ];
+
+            const updated: FlowDefinition = updatedStore.dispatch(
+                onUpdateLocalizations('spa', localizationUpdates)
+            );
+
+            expect(updated.localization.spa.node0_action0).toEqual({ text: ['espanols'] });
+        });
+    });
+
+    describe('stickies', () => {
+        it('should add new stickies', () => {
+            const newSticky = {
+                title: 'Sticky A',
+                body: 'The body for sticky A',
+                position: { left: 100, top: 100 }
+            };
+
+            store.dispatch(updateSticky('stickyA', newSticky));
+
+            // should see our new sticky note
+            boring._ui.stickies = { stickyA: newSticky };
+
+            expect(store).toHavePayload(Constants.UPDATE_DEFINITION, { definition: boring });
+        });
+
+        it('should add stickies to definitions with none', () => {
+            delete boring._ui.stickies;
+            store = createMockStore([thunk])({
+                flowContext: { definition: boring }
+            });
+
+            const newSticky = {
+                title: 'sticky0',
+                body: 'The body for sticky0',
+                position: { left: 100, top: 100 }
+            };
+
+            store.dispatch(updateSticky('sticky0', newSticky));
+
+            // should see our new sticky note
+            boring._ui.stickies = { sticky0: newSticky };
+            expect(store).toHavePayload(Constants.UPDATE_DEFINITION, { definition: boring });
+        });
+
+        it('should remove stickies if null is passed', () => {
+            boring._ui.stickies = {
+                sticky0: {
+                    title: 'sticky0',
+                    body: 'The body for sticky0',
+                    position: { left: 100, top: 100 }
+                }
+            };
+
+            store = createMockStore([thunk])({
+                flowContext: { definition: boring }
+            });
+
+            store.dispatch(updateSticky('sticky0', null));
+
+            // should be back to an empty flow
+            boring._ui.stickies = {};
+            expect(store).toHavePayload(Constants.UPDATE_DEFINITION, { definition: boring });
         });
     });
 
@@ -456,9 +436,6 @@ describe('Boring Flow', () => {
         });
 
         it('should remove an action from a list of actions', () => {
-            // add a second action so we can test single action removal
-            const updatedNodes = cloneNodes();
-
             // remove the first action
             const updated = store.dispatch(removeAction('node0', testNodes.node0.node.actions[0]));
 

@@ -15,11 +15,11 @@ import {
 import { RenderNodeMap } from './flowContext';
 import { SendMsg, FlowDefinition, FlowNode } from '../flowTypes';
 import { dump } from '../utils';
-import { getNode, getExitIndex, getActionIndex, getFlowDetails } from './helpers';
+import { getNode, getExitIndex, getActionIndex, getFlowComponents } from './helpers';
 
 describe('mutators', () => {
     const definition: FlowDefinition = require('../../__test__/flows/boring.json');
-    const nodes = getFlowDetails(definition).renderNodeMap;
+    const { renderNodeMap: nodes } = getFlowComponents(definition);
 
     it('should throw for missing nodes', () => {
         expect(() => {

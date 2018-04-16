@@ -2,14 +2,14 @@
 
 exports[`GroupsRouter helpers extractGroups should extract groups from the exits of a groupsRouter node 1`] = `
 Object {
-  "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+  "id": "group0",
   "name": "Early Adopters",
 }
 `;
 
 exports[`GroupsRouter helpers extractGroups should extract groups from the exits of a groupsRouter node 2`] = `
 Object {
-  "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+  "id": "group1",
   "name": "Subscribers",
 }
 `;

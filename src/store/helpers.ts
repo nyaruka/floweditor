@@ -235,7 +235,7 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
     return ghostNode;
 };
 
-export interface FlowDetails {
+export interface FlowComponents {
     renderNodeMap: RenderNodeMap;
     groups: SearchResult[];
     fields: SearchResult[];
@@ -248,7 +248,7 @@ export const isGroupAction = (actionType: string) => {
 /**
  * Processes an initial FlowDefinition for details necessary for the editor
  */
-export const getFlowDetails = ({ nodes, _ui }: FlowDefinition): FlowDetails => {
+export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponents => {
     const renderNodeMap: RenderNodeMap = {};
 
     // our groups and fields referenced within

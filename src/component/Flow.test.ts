@@ -20,7 +20,7 @@ import { FlowDefinition } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
 import Plumber from '../services/Plumber';
 import { ConnectionEvent, createStore, initialState } from '../store';
-import { getCollisions, getGhostNode, getFlowDetails } from '../store/helpers';
+import { getCollisions, getGhostNode, getFlowComponents } from '../store/helpers';
 import { createSetup, createSpy, getSpecWrapper } from '../testUtils';
 import { getBaseLanguage, dump } from '../utils';
 
@@ -59,12 +59,12 @@ const childContextTypes = {
     languages: languagesPT
 };
 
-const { renderNodeMap } = getFlowDetails(definition);
+const { renderNodeMap: initialNodes } = getFlowComponents(definition);
 
 const baseProps: FlowStoreProps = {
     translating: false,
     definition,
-    nodes: renderNodeMap,
+    nodes: initialNodes,
     dependencies: [],
     ghostNode: null,
     pendingConnection: null,

@@ -5,7 +5,7 @@ import {
     getLocalizations,
     getUniqueDestinations,
     getCollisions,
-    getFlowDetails
+    getFlowComponents
 } from './helpers';
 import { v4 as generateUUID } from 'uuid';
 
@@ -15,20 +15,25 @@ import { AnyAction, SendMsg, Exit, Case, FlowPosition, FlowDefinition } from '..
 describe('helpers', () => {
     const definition: FlowDefinition = require('../../__test__/flows/boring.json');
 
-    describe('getFlowDetails', () => {
+    describe('initializeFlow', () => {
         it('should find groups in definition', () => {
-            const flowDetails = getFlowDetails(definition);
-            expect(flowDetails.groups.length).toBe(2);
+            const flowDetails = getFlowComponents(definition);
+            expect(flowDetails.groups).toEqual([
+                { label: 'Flow Participants', value: 'group_0' },
+                { label: 'Nonresponsive', value: 'group_1' }
+            ]);
         });
 
         it('should find fields in definition', () => {
-            const flowDetails = getFlowDetails(definition);
-            expect(flowDetails.fields.length).toBe(1);
+            const flowDetails = getFlowComponents(definition);
+            expect(flowDetails.fields).toEqual([
+                { label: 'Unknown Field', value: 'unknown_field' }
+            ]);
         });
     });
 
     describe('RenderNodeMap', () => {
-        const nodes = getFlowDetails(definition).renderNodeMap;
+        const nodes = getFlowComponents(definition).renderNodeMap;
 
         it('should suggest response names', () => {
             const suggestison = getSuggestedResultName({

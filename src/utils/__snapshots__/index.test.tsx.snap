@@ -51,9 +51,9 @@ LocalizedObject {
   "localized": false,
   "localizedKeys": Object {},
   "localizedObject": Object {
-    "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?",
+    "text": "Hello World!",
     "type": "send_msg",
-    "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+    "uuid": "send_msg_action",
   },
 }
 `;
@@ -79,7 +79,7 @@ LocalizedObject {
       "¿Cuál es tu color favorito?",
     ],
     "type": "send_msg",
-    "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+    "uuid": "send_msg_action",
   },
 }
 `;
@@ -99,9 +99,9 @@ LocalizedObject {
   "localized": false,
   "localizedKeys": Object {},
   "localizedObject": Object {
-    "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?",
+    "text": "Hello World!",
     "type": "send_msg",
-    "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+    "uuid": "send_msg_action",
   },
 }
 `;

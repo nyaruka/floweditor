@@ -4,7 +4,7 @@ import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 import { hasCases } from '../component/NodeEditor/NodeEditor';
 import { getTypeConfig } from '../config';
-import { FlowDetails, getFlow, getFlows } from '../external';
+import { getFlow, getFlows, FlowDetails } from '../external';
 import {
     Action,
     AnyAction,
@@ -43,7 +43,8 @@ import {
     getCollision,
     getGhostNode,
     getLocalizations,
-    getFlowDetails
+    getFlowComponents,
+    FlowComponents
 } from './helpers';
 import * as mutators from './mutators';
 import {
@@ -139,13 +140,14 @@ let debounceReflow: any = null;
 export const initializeFlow = (definition: FlowDefinition) => (
     dispatch: DispatchWithState,
     getState: GetState
-): RenderNodeMap => {
-    const { renderNodeMap } = getFlowDetails(definition);
+): FlowComponents => {
+    const flowComponents = getFlowComponents(definition);
+
     // store our flow definition without any nodes
     dispatch(updateDefinition(mutators.pruneDefinition(definition)));
-    dispatch(updateNodes(renderNodeMap));
+    dispatch(updateNodes(flowComponents.renderNodeMap));
     dispatch(updateFetchingFlow(false));
-    return renderNodeMap;
+    return flowComponents;
 };
 
 export const fetchFlow = (endpoint: string, uuid: string) => (
