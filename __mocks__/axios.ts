@@ -1,11 +1,10 @@
 const axios = require.requireActual('axios');
 const { endpoints } = require('../__test__/config');
-const colorsFlowResp = require('../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
-const customerServiceFlowResp = require('../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
-const flowsResp = require('../assets/flows.json');
-const groupsResp = require('../assets/groups.json');
-const contactsResp = require('../assets/contacts.json');
-const fieldsResp = require('../assets/fields.json');
+const boringFlowResp = require('../__test__/assets/flows/boring.json');
+const flowsResp = require('../__test__/assets/flows.json');
+const groupsResp = require('../__test__/assets/groups.json');
+const contactsResp = require('../__test__/assets/contacts.json');
+const fieldsResp = require('../__test__/assets/fields.json');
 
 const getEndpoint = (urlStr: string) => {
     const queryIdx = urlStr.indexOf('?');
@@ -17,10 +16,15 @@ const getEndpoint = (urlStr: string) => {
 };
 const containsUUIDQuery = (urlStr: string) => urlStr.indexOf('uuid=') > -1;
 const resolvePromise = (data: { [key: string]: any }) => Promise.resolve({ data });
-const getUUIDQuery = (urlStr: string) => urlStr.slice(urlStr.indexOf('uuid=')).slice(5, 41);
-
-const { results: [{ uuid: colorsFlowUUID }] } = colorsFlowResp;
-const { results: [{ uuid: customerServiceFlowUUID }] } = customerServiceFlowResp;
+const getUUIDQuery = (urlStr: string) => {
+    for (const param of urlStr.split(/\&|\?/)) {
+        const [key, value] = param.split('=');
+        if (key === 'uuid') {
+            return value;
+        }
+    }
+    return null;
+};
 
 axios.get = jest.fn(url => {
     const { endpoint, containsQuery } = getEndpoint(url);
@@ -29,10 +33,8 @@ axios.get = jest.fn(url => {
             if (containsQuery && containsUUIDQuery(url)) {
                 const uuid = getUUIDQuery(url);
                 switch (uuid) {
-                    case colorsFlowUUID:
-                        return resolvePromise(colorsFlowResp);
-                    case customerServiceFlowUUID:
-                        return resolvePromise(customerServiceFlowResp);
+                    case 'boring':
+                        return resolvePromise(boringFlowResp);
                     default:
                         throw new Error(`Axios mock: UUID query "${uuid}" not found`);
                 }

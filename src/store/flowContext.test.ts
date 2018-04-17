@@ -133,7 +133,6 @@ describe('flowContext reducers', () => {
 
         it('should handle UPDATE_DEFINITION', () => {
             const action = updateDefinition(colorsFlow);
-
             expect(reduce(action)).toEqual(colorsFlow);
         });
     });

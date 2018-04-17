@@ -9,7 +9,7 @@ import {
 } from '../testUtils';
 import { getBaseLanguage, getLanguage, setTrue, set } from '../utils';
 
-const colorsFlow = require('../../__test__/flows/colors.json') as Resp;
+const colorsFlow = require('../../__test__/flows/colors.json');
 
 const baseProps: FlowEditorStoreProps = {
     language: null,
@@ -25,6 +25,7 @@ const baseProps: FlowEditorStoreProps = {
 const { setup, spyOn } = composeComponentTestUtils(FlowEditor, baseProps);
 
 describe('Root', () => {
+    const definition = require('../../__test__/flows/boring.json');
     describe('render', () => {
         it('should render self, children with required props', () => {
             const { wrapper } = setup();

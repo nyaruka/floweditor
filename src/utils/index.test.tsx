@@ -34,6 +34,7 @@ const {
     nodes: [{ actions: [sendMsgAction] }]
 } = require('../../__test__/flows/customer_service.json');
 
+
 describe('utils', () => {
     describe('toBoolMap', () => {
         it('should turn a string array into a bool map', () => {
@@ -176,7 +177,7 @@ describe('utils', () => {
                 expect(
                     getLocalization(
                         sendMsgAction,
-                        localization,
+                        { spa: { send_msg_action: { text: ['¿Cuál es tu color favorito?'] } } },
                         iso,
                         configProviderContext.languages
                     )

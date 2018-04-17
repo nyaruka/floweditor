@@ -7,10 +7,14 @@ import {
     FlowPosition,
     Languages,
     SwitchRouter,
-    WaitTypes
+    WaitTypes,
+    ChangeGroups,
+    SetContactField
 } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { RenderNode, RenderNodeMap, SearchResult } from './flowContext';
+import { BoolMap } from '../utils';
+import SetContactAttribForm from '../component/actions/SetContactAttrib/SetContactAttribForm';
 
 export interface Bounds {
     left: number;
@@ -230,16 +234,20 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
     return ghostNode;
 };
 
-export interface FlowDetails {
+export interface FlowComponents {
     renderNodeMap: RenderNodeMap;
     groups: SearchResult[];
     fields: SearchResult[];
 }
 
+export const isGroupAction = (actionType: string) => {
+    return actionType === 'add_contact_groups' || actionType === 'remove_contact_groups';
+};
+
 /**
  * Processes an initial FlowDefinition for details necessary for the editor
  */
-export const getFlowDetails = ({ nodes, _ui }: FlowDefinition): FlowDetails => {
+export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponents => {
     const renderNodeMap: RenderNodeMap = {};
 
     // our groups and fields referenced within
@@ -248,6 +256,9 @@ export const getFlowDetails = ({ nodes, _ui }: FlowDefinition): FlowDetails => {
 
     // initialize our nodes
     const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
+
+    const groupsMap: { [uuid: string]: string } = {};
+    const fieldsMap: { [key: string]: { key: string; name: string } } = {};
 
     for (const node of nodes) {
         if (!node.actions) {
@@ -259,6 +270,17 @@ export const getFlowDetails = ({ nodes, _ui }: FlowDefinition): FlowDetails => {
             ui: _ui.nodes[node.uuid],
             inboundConnections: {}
         };
+
+        for (const action of node.actions) {
+            if (isGroupAction(action.type)) {
+                for (const group of (action as ChangeGroups).groups) {
+                    groupsMap[group.uuid] = group.name;
+                }
+            } else if (action.type === 'set_contact_field') {
+                const fieldAction = action as SetContactField;
+                fieldsMap[fieldAction.field.key] = fieldAction.field;
+            }
+        }
 
         for (const exit of node.exits) {
             if (exit.destination_node_uuid) {
@@ -277,6 +299,14 @@ export const getFlowDetails = ({ nodes, _ui }: FlowDefinition): FlowDetails => {
     // store our pointers with their associated nodes
     for (const nodeUUID of Object.keys(pointerMap)) {
         renderNodeMap[nodeUUID].inboundConnections = pointerMap[nodeUUID];
+    }
+
+    for (const uuid of Object.keys(groupsMap)) {
+        groups.push({ label: groupsMap[uuid], value: uuid });
+    }
+
+    for (const key of Object.keys(fieldsMap)) {
+        fields.push({ label: fieldsMap[key].name, value: key });
     }
 
     return { renderNodeMap, groups, fields };

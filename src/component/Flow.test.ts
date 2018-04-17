@@ -17,7 +17,7 @@ import { getActivity } from '../external';
 import ActivityManager from '../services/ActivityManager';
 import Plumber from '../services/Plumber';
 import { ConnectionEvent } from '../store';
-import { getFlowDetails, getGhostNode } from '../store/helpers';
+import { getFlowComponents, getGhostNode } from '../store/helpers';
 import { composeComponentTestUtils, composeDuxState, getSpecWrapper, setMock } from '../testUtils';
 import { merge, set, setTrue } from '../utils';
 
@@ -33,12 +33,12 @@ jest.mock('uuid', () => {
 
 const { flowContext: { definition } } = composeDuxState();
 
-const { renderNodeMap } = getFlowDetails(definition);
+const { renderNodeMap: initialNodes } = getFlowComponents(definition);
 
 const baseProps: FlowStoreProps = {
     translating: false,
     definition,
-    nodes: renderNodeMap,
+    nodes: initialNodes,
     dependencies: [],
     ghostNode: null,
     pendingConnection: null,

@@ -74,14 +74,10 @@ LocalizedObject {
     "fre": "French",
     "spa": "Spanish",
   },
-  "localized": true,
-  "localizedKeys": Object {
-    "text": true,
-  },
+  "localized": false,
+  "localizedKeys": Object {},
   "localizedObject": Object {
-    "text": Array [
-      "Hola, como te llamas?",
-    ],
+    "text": "Hi there, what is your name?",
     "type": "send_msg",
     "uuid": "360a28a1-6741-4f16-9421-f6f313cf753e",
   },

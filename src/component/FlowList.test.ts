@@ -12,14 +12,11 @@ import { FlowEditorConfig, FlowDefinition } from '../flowTypes';
 import { composeComponentTestUtils, setMock, getSpecWrapper } from '../testUtils';
 import { set } from '../utils';
 
-const { results: flows } = require('../../assets/flows.json');
+const { results: flows } = require('../../__test__/assets/flows.json');
 
-const flowUUID = 'registration';
-const flowName = 'Registration';
-
-const baseProps: FlowListStoreProps = {
-    flowUUID,
-    flowName,
+const baseProps = {
+    flowUUID: 'boring',
+    flowName: 'Boring',
     flows,
     fetchFlow: jest.fn()
 };
@@ -30,6 +27,8 @@ describe(FlowList.name, () => {
     describe('helpers', () => {
         describe('getFlowOption', () => {
             it('should return a FlowOption map', () => {
+                const flowUUID = 'boring';
+                const flowName = 'Boring';
                 const truthyOption = getFlowOption(flowUUID, flowName);
                 const falsyOption = getFlowOption(undefined, undefined);
 
@@ -48,6 +47,8 @@ describe(FlowList.name, () => {
 
         describe('shouldDisplayLoading', () => {
             it('should return true if flow option is not valid or flows prop is falsy', () => {
+                const flowUUID = 'boring';
+                const flowName = 'Boring';
                 const validFlowOption = getFlowOption(flowUUID, flowName);
                 const invalidFlowOption = getFlowOption(undefined, undefined);
 
@@ -56,6 +57,8 @@ describe(FlowList.name, () => {
             });
 
             it('should return false if flow option is valid and flows prop is truthy', () => {
+                const flowUUID = 'boring';
+                const flowName = 'Boring';
                 const validFlowOption = getFlowOption(flowUUID, flowName);
 
                 expect(shouldDisplayLoading(validFlowOption, flows)).toBeFalsy();

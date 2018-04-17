@@ -1,5 +1,5 @@
 {
-    "total": 2,
+    "total": 4,
     "results":[
         {
             "uuid": "a4f64f1b-85bc-477e-b706-de313a022979",
@@ -14,6 +14,11 @@
         {
             "uuid": "c4ad4218-4bca-4261-a41e-51fdef90595d",
             "name": "JAWS",
+            "type": "flow"
+        },
+        {
+            "uuid": "boring",
+            "name": "Boring",
             "type": "flow"
         }
     ],

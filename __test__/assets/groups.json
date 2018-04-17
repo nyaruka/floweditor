@@ -1,0 +1,26 @@
+{
+   "total": 5,
+   "results":[
+      {
+         "name":"Customers",
+         "uuid":"23ff7152-b588-43e4-90de-fda77aeaf7c0"
+      },
+      {
+         "name":"Unsatisfied Customers",
+         "uuid":"2429d573-80d7-47f8-879f-f2ba442a1bfd"
+      },
+      {
+         "name":"Early Adopters",
+         "uuid":"cdbf9e01-aaa7-4381-8259-ee042447bcac"
+      },
+      {
+         "name":"Testers",
+         "uuid":"afaba971-8943-4dd8-860b-3561ed4f1fe1"
+      },
+      {
+        "name":"Subscribers",
+        "uuid":"33b28bac-b588-43e4-90de-fda77aeaf7c0"
+      }
+   ],
+   "more": null
+}

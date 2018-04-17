@@ -1,8 +1,11 @@
 import { v4 as generateUUID } from 'uuid';
+import { configProviderContext } from '../testUtils';
 import Constants from './constants';
+import { RenderNode } from './flowContext';
 import {
     createNodePosition as createNodePositionReducer,
     dragGroup as dragGroupReducer,
+    DragSelection,
     dragSelection as dragSelectionReducer,
     fetchingFlow as fetchingFlowReducer,
     flows as flowsReducer,
@@ -16,6 +19,7 @@ import {
     translating as translatingReducer,
     updateCreateNodePosition,
     updateDragGroup,
+    updateDragSelection,
     updateFetchingFlow,
     updateFlows,
     updateGhostNode,
@@ -24,14 +28,9 @@ import {
     updateNodeEditorOpen,
     updatePendingConnection,
     updatePendingConnections,
-    updateTranslating,
-    updateDragSelection,
-    DragSelection
+    updateTranslating
 } from './flowEditor';
 import { getGhostNode } from './helpers';
-import { FlowNode } from '../flowTypes';
-import { RenderNode } from './flowContext';
-import { configProviderContext } from '../testUtils/index';
 
 const flowsResp = require('../../assets/flows.json');
 const colorsFlow = require('../../__test__/flows/colors.json');

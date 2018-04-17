@@ -1,0 +1,11 @@
+{
+    "total": 1,
+    "results":[
+        {
+            "uuid": "boring",
+            "name": "Boring",
+            "type": "flow"
+        }
+    ],
+    "more": null
+ }

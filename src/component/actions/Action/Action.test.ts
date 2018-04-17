@@ -19,6 +19,7 @@ import {
     ActionWrapper,
     ActionWrapperProps
 } from './Action';
+import { FlowNode, SendMsg, StartFlow, SwitchRouter } from '../../../flowTypes';
 
 const sendMsgAction = genSendMsgAction();
 const sendMsgAction1 = genSendMsgAction({ uuid: 'send_msg-1', text: 'Yo!' });

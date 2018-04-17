@@ -56,7 +56,7 @@ export interface Exit {
 }
 
 export interface Router {
-    type: 'switch';
+    type: 'switch' | 'split';
     result_name?: string;
 }
 
