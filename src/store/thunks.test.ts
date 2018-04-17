@@ -1,8 +1,6 @@
 jest.unmock('redux-mock-store');
 jest.unmock('immutability-helper');
 
-import '../testUtils/matchers';
-
 const createMockStore = require('redux-mock-store');
 const mutate = require('immutability-helper');
 

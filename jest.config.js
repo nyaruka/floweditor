@@ -13,5 +13,6 @@ module.exports = {
     collectCoverageFrom: ['src/**/*.{ts,tsx}'],
     coverageReporters: ['lcov', 'json'],
     coveragePathIgnorePatterns: ['/*.d.ts$', 'lambda-src', 'webpack', 'testUtils', '__test__.ts'],
-    setupFiles: ['<rootDir>/setup.js']
+    setupFiles: ['<rootDir>/src/testUtils/setup.ts'],
+    setupTestFrameworkScriptFile: '<rootDir>/src/testUtils/matchers.ts'
 };
