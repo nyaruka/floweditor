@@ -26,24 +26,14 @@ export const contextTypes: { [key: string]: Function } = {
     flow: flowPT
 };
 
-export const baseState: AppState = {
-    ...initialState,
-    ...{
-        flowContext: {
-            ...initialState.flowContext,
-            definition: require('../../__test__/flows/colors.json') as FlowDefinition
-        }
-    },
-    ...{
-        flowEditor: {
-            ...initialState.flowEditor,
-            editorUI: {
-                ...initialState.flowEditor.editorUI,
-                language: getBaseLanguage((config as FlowEditorConfig).languages)
-            }
-        }
-    }
-};
+export const baseState: AppState = mutate(initialState, {
+    flowContext: merge({
+        definition: require('../../__test__/flows/colors.json') as FlowDefinition
+    }),
+    flowEditor: merge({
+        language: getBaseLanguage((config as FlowEditorConfig).languages)
+    })
+});
 
 export const configProviderContext: ConfigProviderContext = {
     endpoints: (config as FlowEditorConfig).endpoints,
