@@ -23,7 +23,7 @@ import { configProviderContext } from '../testUtils';
 import { FlowDefinition } from '../flowTypes';
 import { Types } from '../config/typeConfigs';
 
-const boringFlow = require('../../__test__/flows/colors.json') as FlowDefinition;
+const boringFlow = require('../../__test__/flows/boring.json') as FlowDefinition;
 const emptyFlow = require('../../__test__/flows/empty.json') as FlowDefinition;
 
 describe('flowContext action creators', () => {
