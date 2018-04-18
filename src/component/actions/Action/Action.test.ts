@@ -2,14 +2,16 @@ import { getTypeConfig } from '../../../config';
 import {
     composeComponentTestUtils,
     configProviderContext,
-    genExit,
-    genFlowNode,
-    genSendMsgAction,
-    genStartFlowAction,
-    genStartFlowNode,
     setMock,
     getSpecWrapper
 } from '../../../testUtils';
+import {
+    createExit,
+    createFlowNode,
+    createSendMsgAction,
+    createStartFlowAction,
+    createStartFlowNode
+} from '../../../testUtils/assetCreators';
 import { getLanguage, getLocalization, setFalse, setTrue, set } from '../../../utils';
 import {
     actionBodySpecId,
@@ -21,11 +23,11 @@ import {
 } from './Action';
 import { FlowNode, SendMsg, StartFlow, SwitchRouter } from '../../../flowTypes';
 
-const sendMsgAction = genSendMsgAction();
-const sendMsgAction1 = genSendMsgAction({ uuid: 'send_msg-1', text: 'Yo!' });
-const sendMsgNode = genFlowNode({ actions: [sendMsgAction], exits: [genExit()] });
-const startFlowAction = genStartFlowAction();
-const startFlowNode = genStartFlowNode(startFlowAction);
+const sendMsgAction = createSendMsgAction();
+const sendMsgAction1 = createSendMsgAction({ uuid: 'send_msg-1', text: 'Yo!' });
+const sendMsgNode = createFlowNode({ actions: [sendMsgAction], exits: [createExit()] });
+const startFlowAction = createStartFlowAction();
+const startFlowNode = createStartFlowNode(startFlowAction);
 const english = getLanguage(configProviderContext.languages, 'eng');
 const spanish = getLanguage(configProviderContext.languages, 'spa');
 const localization = {

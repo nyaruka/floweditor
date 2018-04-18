@@ -1,13 +1,7 @@
 import { ResultType } from '../../flowTypes';
-import {
-    composeComponentTestUtils,
-    configProviderContext,
-    genSelectOption,
-    getGroupOptions,
-    getGroups,
-    setMock
-} from '../../testUtils';
-import { validUUID, setTrue, set } from '../../utils';
+import { composeComponentTestUtils, configProviderContext, setMock } from '../../testUtils';
+import { createSelectOption, getGroupOptions, getGroups } from '../../testUtils/assetCreators';
+import { set, setTrue, validUUID } from '../../utils';
 import GroupsElement, {
     createNewOption,
     getInitialGroups,
@@ -43,7 +37,7 @@ describe(GroupsElement.name, () => {
 
         describe('createNewOption', () => {
             it('should generate a new search result object', () => {
-                const newGroup = genSelectOption({ label: 'Friends' });
+                const newGroup = createSelectOption({ label: 'Friends' });
                 const newOption = createNewOption(newGroup);
 
                 expect(validUUID(newOption.id)).toBeTruthy();

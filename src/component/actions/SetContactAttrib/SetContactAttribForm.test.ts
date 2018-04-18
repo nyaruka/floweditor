@@ -1,10 +1,9 @@
 import { SetContactField, SetContactProperty } from '../../../flowTypes';
+import { composeComponentTestUtils, setMock } from '../../../testUtils';
 import {
-    composeComponentTestUtils,
-    genSetContactFieldAction,
-    genSetContactPropertyAction,
-    setMock
-} from '../../../testUtils';
+    createSetContactFieldAction,
+    createSetContactPropertyAction
+} from '../../../testUtils/assetCreators';
 import { set } from '../../../utils';
 import ConnectedAttribElement from '../../form/AttribElement';
 import ConnectedTextInputElement from '../../form/TextInputElement';
@@ -20,8 +19,8 @@ import SetContactAttribForm, {
     TEXT_INPUT_HELP_TEXT
 } from './SetContactAttribForm';
 
-const setContactProperty = genSetContactPropertyAction();
-const setContactField = genSetContactFieldAction();
+const setContactProperty = createSetContactPropertyAction();
+const setContactField = createSetContactFieldAction();
 
 const baseProps: SetContactAttribFormProps = {
     action: setContactProperty,

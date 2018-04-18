@@ -1,5 +1,8 @@
-import { ChangeGroups, Group } from '../../../flowTypes';
-import { composeComponentTestUtils, getSpecWrapper, genAddGroupsAction } from '../../../testUtils';
+import { Types } from '../../../config/typeConfigs';
+import { ChangeGroups } from '../../../flowTypes';
+import { composeComponentTestUtils, getSpecWrapper } from '../../../testUtils';
+import { createAddGroupsAction } from '../../../testUtils/assetCreators';
+import { set } from '../../../utils';
 import ChangeGroupsComp, {
     contentSpecId,
     ellipsesText,
@@ -8,12 +11,10 @@ import ChangeGroupsComp, {
     getGroupElements,
     getRemoveAllMarkup
 } from './ChangeGroups';
-import { set } from '../../../utils';
-import { Types } from '../../../config/typeConfigs';
 
 const { results: groups } = require('../../../../assets/groups.json');
 
-const addGroupsAction = genAddGroupsAction({ groups: groups.slice(2) });
+const addGroupsAction = createAddGroupsAction({ groups: groups.slice(2) });
 
 const { setup } = composeComponentTestUtils<ChangeGroups>(ChangeGroupsComp, addGroupsAction);
 

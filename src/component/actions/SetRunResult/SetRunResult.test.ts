@@ -1,5 +1,6 @@
-import { FlowDefinition, SetRunResult } from '../../../flowTypes';
-import { composeComponentTestUtils, genSetRunResultAction } from '../../../testUtils';
+import { SetRunResult } from '../../../flowTypes';
+import { composeComponentTestUtils } from '../../../testUtils';
+import { createSetRunResultAction } from '../../../testUtils/assetCreators';
 import { setEmpty } from '../../../utils';
 import SetRunResultComp, {
     getClearPlaceholder,
@@ -7,7 +8,7 @@ import SetRunResultComp, {
     getSavePlaceholder
 } from './SetRunResult';
 
-const setRunResultAction = genSetRunResultAction();
+const setRunResultAction = createSetRunResultAction();
 
 const { setup } = composeComponentTestUtils<SetRunResult>(
     SetRunResultComp,

@@ -1,9 +1,10 @@
 import { SendMsg } from '../../../flowTypes';
-import { composeComponentTestUtils, genSendMsgAction } from '../../../testUtils';
-import SendMsgComp, { PLACEHOLDER } from './SendMsg';
+import { composeComponentTestUtils } from '../../../testUtils';
+import { createSendMsgAction } from '../../../testUtils/assetCreators';
 import { setEmpty } from '../../../utils';
+import SendMsgComp, { PLACEHOLDER } from './SendMsg';
 
-const sendMsgAction = genSendMsgAction();
+const sendMsgAction = createSendMsgAction();
 
 const { setup } = composeComponentTestUtils<SendMsg>(SendMsgComp, sendMsgAction);
 

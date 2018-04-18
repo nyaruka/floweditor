@@ -1,22 +1,21 @@
 import * as React from 'react';
-import { FlowDefinition, SwitchRouter } from '../../flowTypes';
+import { SwitchRouter } from '../../flowTypes';
+import { composeComponentTestUtils, setMock } from '../../testUtils';
 import {
-    composeComponentTestUtils,
-    genGroupsRouterNode,
-    genFlowNode,
-    genExit,
-    setMock
-} from '../../testUtils';
+    createExit,
+    createFlowNode,
+    createGroupsRouterNode,
+    createSendMsgAction
+} from '../../testUtils/assetCreators';
+import { setTrue } from '../../utils';
 import { GROUP_NOT_FOUND, GROUP_PLACEHOLDER } from '../form/GroupsElement';
 import { GROUP_LABEL } from './constants';
 import { extractGroups, GroupsRouter, GroupsRouterProps, hasGroupsRouter } from './GroupsRouter';
-import { genSendMsgAction } from '../../testUtils/index';
-import { setTrue } from '../../utils';
 
-const groupsRouterNode = genGroupsRouterNode();
-const sendMsgNode = genFlowNode({
-    actions: [genSendMsgAction({ text: '😎' })],
-    exits: [genExit()]
+const groupsRouterNode = createGroupsRouterNode();
+const sendMsgNode = createFlowNode({
+    actions: [createSendMsgAction({ text: '😎' })],
+    exits: [createExit()]
 });
 
 const baseProps: GroupsRouterProps = {

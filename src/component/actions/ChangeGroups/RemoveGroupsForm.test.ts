@@ -1,12 +1,9 @@
 import { getTypeConfig } from '../../../config';
-import { FlowEditorConfig, Group, FlowDefinition, ChangeGroups } from '../../../flowTypes';
-import {
-    composeComponentTestUtils,
-    Resp,
-    composeDuxState,
-    setMock,
-    getSpecWrapper
-} from '../../../testUtils';
+import { Types } from '../../../config/typeConfigs';
+import { ChangeGroups } from '../../../flowTypes';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../../testUtils';
+import { createAddGroupsAction } from '../../../testUtils/assetCreators';
+import { set } from '../../../utils';
 import { labelSpecId } from './AddGroupsForm';
 import { mapGroupsToSearchResults } from './helpers';
 import ChangeGroupFormProps from './props';
@@ -18,11 +15,8 @@ import {
     REMOVE_FROM_ALL_DESC,
     RemoveGroupsForm
 } from './RemoveGroupsForm';
-import { Types } from '../../../config/typeConfigs';
-import { set } from '../../../utils';
-import { genAddGroupsAction } from '../../../testUtils/index';
 
-const addGroupsAction = genAddGroupsAction();
+const addGroupsAction = createAddGroupsAction();
 const removeGroupConfig = getTypeConfig(Types.remove_contact_groups);
 const removeGroupsAction = {
     ...(addGroupsAction as ChangeGroups),

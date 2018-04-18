@@ -1,6 +1,8 @@
 import { AttributeType } from '../../../flowTypes';
-import { genSetContactFieldAction, genSetContactPropertyAction } from '../../../testUtils';
-import { titleCase } from '../../../utils';
+import {
+    createSetContactFieldAction,
+    createSetContactPropertyAction
+} from '../../../testUtils/assetCreators';
 import {
     fieldToSearchResult,
     newFieldAction,
@@ -8,8 +10,8 @@ import {
     propertyToSearchResult
 } from './helpers';
 
-const setContactProperty = genSetContactPropertyAction();
-const setContactField = genSetContactFieldAction();
+const setContactProperty = createSetContactPropertyAction();
+const setContactField = createSetContactFieldAction();
 
 describe('newFieldAction', () => {
     it('should return a SetContactField action', () => {

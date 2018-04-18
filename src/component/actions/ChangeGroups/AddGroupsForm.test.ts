@@ -1,22 +1,16 @@
 import { getTypeConfig } from '../../../config';
-import { ChangeGroups, FlowDefinition, Group } from '../../../flowTypes';
-import {
-    composeComponentTestUtils,
-    getSpecWrapper,
-    Resp,
-    setMock,
-    genAddGroupsAction
-} from '../../../testUtils';
+import { Types } from '../../../config/typeConfigs';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../../testUtils';
+import { createAddGroupsAction } from '../../../testUtils/assetCreators';
+import { set } from '../../../utils';
 import { GROUP_NOT_FOUND } from '../../form/GroupsElement';
 import { AddGroupsForm, LABEL, labelSpecId, PLACEHOLDER } from './AddGroupsForm';
 import { mapGroupsToSearchResults, mapSearchResultsToGroups } from './helpers';
 import ChangeGroupsFormProps from './props';
-import { set } from '../../../utils';
-import { Types } from '../../../config/typeConfigs';
 
 const { results: groups } = require('../../../../assets/groups.json');
 
-const addGroupsAction = genAddGroupsAction();
+const addGroupsAction = createAddGroupsAction();
 const addGroupConfig = getTypeConfig(Types.add_contact_groups);
 const removeGroupConfig = getTypeConfig(Types.remove_contact_groups);
 

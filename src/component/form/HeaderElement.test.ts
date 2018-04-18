@@ -1,4 +1,5 @@
-import { composeComponentTestUtils, getSpecWrapper } from '../../testUtils';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../testUtils';
+import { set, setFalse } from '../../utils';
 import HeaderElement, {
     Header,
     HEADER_NAME_ERROR,
@@ -10,9 +11,6 @@ import HeaderElement, {
     VALUE_PLACEHOLDER,
     valueConatainerSpecId
 } from './HeaderElement';
-import { set } from '../../utils';
-import { setFalse } from '../../utils/index';
-import { setMock } from '../../testUtils/index';
 
 const headers: Header[] = [
     {

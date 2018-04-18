@@ -1,14 +1,14 @@
 import { SetContactField, SetContactProperty } from '../../../flowTypes';
+import { composeComponentTestUtils } from '../../../testUtils';
 import {
-    composeComponentTestUtils,
-    genSetContactPropertyAction,
-    genSetContactFieldAction
-} from '../../../testUtils';
-import { titleCase, setEmpty } from '../../../utils';
+    createSetContactFieldAction,
+    createSetContactPropertyAction
+} from '../../../testUtils/assetCreators';
+import { setEmpty, titleCase } from '../../../utils';
 import SetContactAttribComp, { getFieldNameMarkup } from './SetContactAttrib';
 
-const setContactProperty = genSetContactPropertyAction();
-const setContactField = genSetContactFieldAction();
+const setContactProperty = createSetContactPropertyAction();
+const setContactField = createSetContactFieldAction();
 
 const { setup } = composeComponentTestUtils<SetContactProperty | SetContactField>(
     SetContactAttribComp,
