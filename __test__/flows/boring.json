@@ -99,8 +99,8 @@
                 {
                     "uuid": "node2_action1",
                     "type": "set_contact_field",
-                    "field": { 
-                        "key": "unknown_field", 
+                    "field": {
+                        "key": "unknown_field",
                         "name": "Unknown Field"
                     },
                     "value": "Some Value"
