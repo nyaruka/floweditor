@@ -4,7 +4,8 @@ import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 import { hasCases } from '../component/NodeEditor/NodeEditor';
 import { getTypeConfig } from '../config';
-import { getFlow, getFlows, FlowDetails } from '../external';
+import { Types } from '../config/typeConfigs';
+import { FlowDetails, getFlow, getFlows } from '../external';
 import {
     Action,
     AnyAction,
@@ -13,13 +14,12 @@ import {
     FlowDefinition,
     FlowNode,
     FlowPosition,
+    Languages,
     SendMsg,
-    SwitchRouter,
     StickyNote,
-    Languages
+    SwitchRouter
 } from '../flowTypes';
-import { timeEnd, timeStart } from '../testUtils';
-import { NODE_SPACING } from '../utils';
+import { NODE_SPACING, timeEnd, timeStart } from '../utils';
 import {
     RenderNode,
     RenderNodeMap,
@@ -39,12 +39,12 @@ import {
 } from './flowEditor';
 import {
     determineConfigType,
+    FlowComponents,
     getActionIndex,
     getCollision,
-    getGhostNode,
-    getLocalizations,
     getFlowComponents,
-    FlowComponents
+    getGhostNode,
+    getLocalizations
 } from './helpers';
 import * as mutators from './mutators';
 import {
@@ -299,7 +299,7 @@ export const ensureStartNode = () => (
     if (Object.keys(nodes).length === 0) {
         const initialAction: SendMsg = {
             uuid: generateUUID(),
-            type: 'send_msg',
+            type: Types.send_msg,
             text: 'Hi there, this is the first message in your flow.'
         };
 
@@ -541,7 +541,7 @@ export const onAddToNode = (node: FlowNode) => (
 
     const newAction: SendMsg = {
         uuid: generateUUID(),
-        type: 'send_msg',
+        type: Types.send_msg,
         text: ''
     };
 
@@ -740,8 +740,8 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
         if (!actionToTranslate && node.actions.length > 0) {
             actionToTranslate = node.actions[node.actions.length - 1];
 
-            // only send_msg actions are localizable
-            if (actionToTranslate.type !== 'send_msg') {
+            // onlyTypes.send_msgactions are localizable
+            if (actionToTranslate.type !== Types.send_msg) {
                 return;
             }
         }

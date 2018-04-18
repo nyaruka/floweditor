@@ -1,11 +1,11 @@
 import { getFlow, getFlows } from '.';
 import { FlowEditorConfig } from '../flowTypes';
 import { Resp } from '../testUtils';
+import { configProviderContext } from '../testUtils/index';
 
-const flowsResp = require('../../__test__/assets/flows.json') as Resp;
-const {
-    endpoints: { flows: flowsEndpoint }
-} = require('../../__test__/assets/config') as FlowEditorConfig;
+const { results: flowResults } = require('../../__test__/assets/flows.json') as Resp;
+
+const { endpoints: { flows: flowsEndpoint } } = configProviderContext;
 
 describe('external', () => {
     describe('getFlow', () => {
@@ -16,7 +16,7 @@ describe('external', () => {
 
     describe('getFlows', () => {
         it('should fetch a list of flows', async () => {
-            expect(await getFlows('/assets/flows.json')).toEqual(flowsResp.results);
+            expect(await getFlows('/assets/flows.json')).toEqual(flowResults);
         });
     });
 });

@@ -3,6 +3,7 @@ import { Group } from '../../flowTypes';
 import Modal from '../Modal';
 
 import * as styles from './Simulator.scss';
+import { Types } from '../../config/typeConfigs';
 
 export interface EventProps {
     uuid?: string;
@@ -60,7 +61,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 text = <span>{this.props.text}</span>;
                 classes.push(styles.msg_received);
                 break;
-            case 'send_msg':
+            case Types.send_msg:
                 const spans = this.props.text.split('\n').map((item, key) => {
                     return (
                         <span key={key}>
@@ -81,10 +82,10 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 classes.push(styles.info);
                 break;
             /** fall-through desired in this case */
-            case 'add_contact_groups':
-            case 'remove_contact_groups':
+            case Types.add_contact_groups:
+            case Types.remove_contact_groups:
                 groupText =
-                    this.props.type === 'add_contact_groups' ? 'Added to ' : 'Removed from ';
+                    this.props.type === Types.add_contact_groups ? 'Added to ' : 'Removed from ';
                 delim = ' ';
                 this.props.groups.forEach(group => {
                     groupText += `${delim}"${group.name}"`;
@@ -93,7 +94,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 text = <span>{groupText}</span>;
                 classes.push(styles.info);
                 break;
-            case 'set_contact_field':
+            case Types.set_contact_field:
                 text = (
                     <span>
                         Set contact field "{this.props.field}" to "{this.props.value}"
@@ -101,7 +102,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 );
                 classes.push(styles.info);
                 break;
-            case 'set_run_result':
+            case Types.set_run_result:
                 text = (
                     <span>
                         Set flow result "{this.props.result_name}" to "{this.props.value}"
@@ -109,7 +110,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 );
                 classes.push(styles.info);
                 break;
-            case 'set_contact_property':
+            case Types.set_contact_property:
                 text = (
                     <span>
                         Updated contact {this.props.field} to "{this.props.value}"
@@ -117,7 +118,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 );
                 classes.push(styles.info);
                 break;
-            case 'send_email':
+            case Types.send_email:
                 text = (
                     <span>
                         Sent email to "{this.props.email}" with subject "{this.props.subject}" and
@@ -164,7 +165,8 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                                     this.setState({ detailsVisible: false });
                                 }
                             }
-                        }}>
+                        }}
+                    >
                         <div className={styles.event_viewer}>{details}</div>
                     </Modal>
                 </div>

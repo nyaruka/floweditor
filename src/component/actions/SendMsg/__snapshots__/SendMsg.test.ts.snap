@@ -1,27 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SendMsgComp render should render SendMsgComp with placeholder when text prop isn't passed 1`] = `
-<SendMsgComp
-  text=""
-  type="send_msg"
-  uuid="64378fc1-19e4-4c8a-be27-aee49ebc728a"
+exports[`SendMsgComp render should render placeholder when text prop isn't passed 1`] = `
+<div
+  className="placeholder"
 >
-  <div
-    className="placeholder"
-  >
-    Send a message to the contact
-  </div>
-</SendMsgComp>
+  Send a message to the contact
+</div>
 `;
 
-exports[`SendMsgComp render should render SendMsgComp with text prop when passed 1`] = `
-<SendMsgComp
-  text="What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?"
-  type="send_msg"
-  uuid="64378fc1-19e4-4c8a-be27-aee49ebc728a"
->
-  <div>
-    What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?
-  </div>
-</SendMsgComp>
+exports[`SendMsgComp render should render text prop when passed 1`] = `
+<div>
+  Hey!
+</div>
 `;

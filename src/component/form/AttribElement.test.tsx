@@ -1,8 +1,8 @@
-import * as config from '../../../assets/config';
 import { AttributeType, ResultType } from '../../flowTypes';
 import { SearchResult } from '../../store';
-import { createSetup, createSpy } from '../../testUtils';
-import { getSelectClass, V4_UUID } from '../../utils';
+import { composeComponentTestUtils } from '../../testUtils';
+import { configProviderContext } from '../../testUtils';
+import { getSelectClass, V4_UUID, setTrue, set } from '../../utils';
 import {
     AttribElement,
     AttribElementProps,
@@ -25,14 +25,12 @@ const baseProps: AttribElementProps = {
     name: 'Attribute',
     contactFields: [],
     initial,
-    endpoint: config.endpoints.fields
+    endpoint: configProviderContext.endpoints.fields
 };
 
-const setup = createSetup<AttribElementProps>(AttribElement, baseProps);
+const { setup, spyOn } = composeComponentTestUtils<AttribElementProps>(AttribElement, baseProps);
 
-const spyOn = createSpy(AttribElement);
-
-describe(`${AttribElement.name}`, () => {
+describe(AttribElement.name, () => {
     describe('helpers', () => {
         describe('attribExists', () => {
             const matchingOptions = [
@@ -111,7 +109,7 @@ describe(`${AttribElement.name}`, () => {
                 wrapper,
                 instance,
                 props: { showLabel, name, helpText, endpoint, contactFields }
-            } = setup({}, true);
+            } = setup();
 
             expect(wrapper.find('FormElement').props()).toEqual(
                 expect.objectContaining({
@@ -141,7 +139,7 @@ describe(`${AttribElement.name}`, () => {
         });
 
         it('should pass createOptions to SelectSearch', () => {
-            const { wrapper } = setup({ add: true }, true);
+            const { wrapper } = setup(true, { add: setTrue() });
 
             expect(wrapper.find('SelectSearch').props()).toEqual(
                 expect.objectContaining({
@@ -165,7 +163,7 @@ describe(`${AttribElement.name}`, () => {
         describe('onChange', () => {
             it('should set state if attribute is new', () => {
                 const setStateSpy = spyOn('setState');
-                const { wrapper, instance } = setup({}, true);
+                const { wrapper, instance } = setup();
 
                 instance.onChange(existingField);
 
@@ -178,7 +176,7 @@ describe(`${AttribElement.name}`, () => {
             it('should not set state if attribute is not new', () => {
                 const setStateSpy = spyOn('setState');
                 // tslint:disable-next-line:no-shadowed-variable
-                const { wrapper, instance, props: { initial } } = setup({}, true);
+                const { wrapper, instance, props: { initial } } = setup();
 
                 instance.onChange(initial);
 
@@ -190,16 +188,16 @@ describe(`${AttribElement.name}`, () => {
 
         describe('getErrors', () => {
             it('should return list of errors', () => {
-                const { wrapper, instance, props: { name } } = setup(
-                    { required: true, initial: { ...initial, name: '' } },
-                    true
-                );
+                const { wrapper, instance, props: { name } } = setup(true, {
+                    required: setTrue(),
+                    initial: set({ ...initial, name: '' })
+                });
 
                 expect(instance.getErrors()).toEqual([`${name} is required.`]);
             });
 
             it('should return an empty list', () => {
-                const { wrapper, instance } = setup({}, true);
+                const { wrapper, instance } = setup();
 
                 expect(instance.getErrors()).toEqual([]);
             });
@@ -208,7 +206,7 @@ describe(`${AttribElement.name}`, () => {
         describe('updateErrorState', () => {
             it('should set state', () => {
                 const setStateSpy = spyOn('setState');
-                const { wrapper, instance } = setup({}, true);
+                const { wrapper, instance } = setup();
                 const oldErrorState = [];
                 const newErrorState = [`${name} is required.`];
 
@@ -224,7 +222,7 @@ describe(`${AttribElement.name}`, () => {
         describe('validate', () => {
             it('should return true if control does not contain errors', () => {
                 const updateErrorStateSpy = spyOn('updateErrorState');
-                const { wrapper, instance } = setup({}, true);
+                const { wrapper, instance } = setup();
 
                 expect(instance.validate()).toBeTruthy();
                 expect(updateErrorStateSpy).toHaveBeenCalledTimes(1);
@@ -235,13 +233,10 @@ describe(`${AttribElement.name}`, () => {
 
             it('should return false if control contains errors', () => {
                 const updateErrorStateSpy = spyOn('updateErrorState');
-                const { wrapper, instance, props: { name } } = setup(
-                    {
-                        initial: { ...initial, name: '' },
-                        required: true
-                    },
-                    true
-                );
+                const { wrapper, instance, props: { name } } = setup(true, {
+                    initial: set({ ...initial, name: '' }),
+                    required: setTrue()
+                });
 
                 expect(instance.validate()).toBeFalsy();
                 expect(updateErrorStateSpy).toHaveBeenCalledTimes(1);

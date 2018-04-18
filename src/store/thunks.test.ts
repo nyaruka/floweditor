@@ -1,8 +1,6 @@
 jest.unmock('redux-mock-store');
 jest.unmock('immutability-helper');
-import '../testUtils/matchers';
 
-// import {createMockStore} from 'redux-mock-store';
 const createMockStore = require('redux-mock-store');
 const mutate = require('immutability-helper');
 
@@ -52,6 +50,9 @@ import { Constants, LocalizationUpdates } from '.';
 import { DragPoint } from '../component/Node';
 import { NOT_FOUND } from '../component/actions/ChangeGroups/RemoveGroupsForm';
 import { empty } from '../component/form/CaseElement.scss';
+import { Types } from '../config/typeConfigs';
+import { Operators } from '../config/operatorConfigs';
+import { push } from '../utils';
 
 const getUpdatedNodes = (currentStore): { [uuid: string]: RenderNode } => {
     let nodes;
@@ -384,7 +385,7 @@ describe('Flow Manipulation', () => {
             const nodes = updatedStore.dispatch(
                 onUpdateAction({
                     uuid: 'new_action',
-                    type: 'send_msg',
+                    type: Types.send_msg,
                     text: 'A fourth action for our first node'
                 })
             );
@@ -401,7 +402,7 @@ describe('Flow Manipulation', () => {
                 const nodes = store.dispatch(
                     onUpdateAction({
                         uuid: 'new_action',
-                        type: 'send_msg',
+                        type: Types.send_msg,
                         text: 'A second message for our first node'
                     })
                 );
@@ -468,7 +469,7 @@ describe('Flow Manipulation', () => {
 
             const newAction = {
                 uuid: 'new_action_for_new_node',
-                type: 'send_msg',
+                type: Types.send_msg,
                 text: 'An action for a new node'
             } as SendMsg;
 
@@ -507,7 +508,7 @@ describe('Flow Manipulation', () => {
                     },
                     ui: {
                         position: { left: 100, top: 100 },
-                        type: 'wait_for_response'
+                        type: Types.wait_for_response
                     },
                     inboundConnections: {}
                 };
@@ -668,7 +669,7 @@ describe('Flow Manipulation', () => {
 
                 expect(store).toHavePayload(Constants.UPDATE_TYPE_CONFIG, {
                     typeConfig: {
-                        type: 'wait_for_response',
+                        type: Types.wait_for_response,
                         name: 'Wait for Response',
                         description: 'Wait for them to respond',
                         advanced: 2,
@@ -787,16 +788,14 @@ describe('Flow Manipulation', () => {
             const updatedNode = mutate(testNodes.node1, {
                 node: {
                     router: {
-                        cases: {
-                            $push: [
-                                {
-                                    uuid: 'new_case',
-                                    type: 'has_any_word',
-                                    exit_uuid: 'node1_exit0',
-                                    arguments: ['anotherrule']
-                                }
-                            ]
-                        }
+                        cases: push([
+                            {
+                                uuid: 'new_case',
+                                type: Operators.has_any_word,
+                                exit_uuid: 'exitD',
+                                arguments: ['anotherrule']
+                            }
+                        ])
                     }
                 }
             });

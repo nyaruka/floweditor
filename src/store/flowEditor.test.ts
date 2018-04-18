@@ -1,8 +1,11 @@
 import { v4 as generateUUID } from 'uuid';
+import { configProviderContext } from '../testUtils';
 import Constants from './constants';
+import { RenderNode } from './flowContext';
 import {
     createNodePosition as createNodePositionReducer,
     dragGroup as dragGroupReducer,
+    DragSelection,
     dragSelection as dragSelectionReducer,
     fetchingFlow as fetchingFlowReducer,
     flows as flowsReducer,
@@ -16,6 +19,7 @@ import {
     translating as translatingReducer,
     updateCreateNodePosition,
     updateDragGroup,
+    updateDragSelection,
     updateFetchingFlow,
     updateFlows,
     updateGhostNode,
@@ -24,17 +28,12 @@ import {
     updateNodeEditorOpen,
     updatePendingConnection,
     updatePendingConnections,
-    updateTranslating,
-    updateDragSelection,
-    DragSelection
+    updateTranslating
 } from './flowEditor';
 import { getGhostNode } from './helpers';
-import { FlowNode } from '../flowTypes';
-import { RenderNode } from './flowContext';
 
-const config = require('../../assets/config');
 const flowsResp = require('../../__test__/assets/flows.json');
-const definition = require('../../__test__/flows/boring.json');
+const boringFlow = require('../../__test__/flows/boring.json');
 
 describe('flowEditor action creators', () => {
     describe('updateTranslating', () => {
@@ -52,9 +51,9 @@ describe('flowEditor action creators', () => {
 
     describe('updateLanguage', () => {
         it('should create an action to update language state', () => {
-            const iso = Object.keys(config.languages)[0];
+            const iso = Object.keys(configProviderContext.languages)[0];
             const language = {
-                name: config.languages[iso],
+                name: configProviderContext.languages[iso],
                 iso
             };
             const expectedAction = {
@@ -169,12 +168,12 @@ describe('flowEditor action creators', () => {
     describe('updateGhostNode', () => {
         it('should create an action to update ghostNode state', () => {
             const fromNode: RenderNode = {
-                node: definition.nodes[0],
-                ui: definition._ui.nodes[definition.nodes[0].uuid],
+                node: boringFlow.nodes[0],
+                ui: boringFlow._ui.nodes[boringFlow.nodes[0].uuid],
                 inboundConnections: {}
             };
 
-            const ghostNode = getGhostNode(fromNode, definition);
+            const ghostNode = getGhostNode(fromNode, boringFlow);
             const expectedAction = {
                 type: Constants.UPDATE_GHOST_NODE,
                 payload: {
@@ -221,9 +220,9 @@ describe('flowEditor reducers', () => {
         });
 
         it('should handle UPDATE_LANGUAGE', () => {
-            const iso = Object.keys(config.languages)[0];
+            const iso = Object.keys(configProviderContext.languages)[0];
             const language = {
-                name: config.languages[iso],
+                name: configProviderContext.languages[iso],
                 iso
             };
             const action = updateLanguage(language);
@@ -341,8 +340,8 @@ describe('flowEditor reducers', () => {
 
         it('should handle UPDATE_GHOST_NODE', () => {
             const fromNode: RenderNode = {
-                node: definition.nodes[0],
-                ui: definition._ui.nodes[definition.nodes[0].uuid],
+                node: boringFlow.nodes[0],
+                ui: boringFlow._ui.nodes[boringFlow.nodes[0].uuid],
                 inboundConnections: {}
             };
             const ghostNode = getGhostNode(fromNode, { [fromNode.node.uuid]: fromNode });

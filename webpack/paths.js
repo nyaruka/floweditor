@@ -6,5 +6,6 @@ module.exports = {
     distProd: join(__dirname, '../dist'),
     component: join(__dirname, '../src/component'),
     lib: join(__dirname, '../src'),
-    template: join(__dirname, '../preview/src/index.html')
+    template: join(__dirname, '../preview/src/index.html'),
+    testUtils: join(__dirname, '../src/testUtils')
 };

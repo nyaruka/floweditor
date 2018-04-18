@@ -1,4 +1,4 @@
-import { createSetup, getSpecWrapper } from '../../../testUtils';
+import { composeComponentTestUtils, getSpecWrapper } from '../../../testUtils';
 import UnicodeList, {
     unicodeListContainerSpecId,
     UnicodeListProps,
@@ -13,7 +13,7 @@ const baseProps: UnicodeListProps = {
     }
 };
 
-const setup = createSetup<UnicodeListProps>(UnicodeList, baseProps);
+const { setup } = composeComponentTestUtils<UnicodeListProps>(UnicodeList, baseProps);
 
 describe('UnicodeList', () => {
     describe('helpers', () => {
@@ -30,7 +30,7 @@ describe('UnicodeList', () => {
 
     describe('render', () => {
         it('should render self, children with base props', () => {
-            const { wrapper, props: { unicodeChars } } = setup({}, true);
+            const { wrapper, props: { unicodeChars } } = setup();
             const unicodeList = getSpecWrapper(wrapper, unicodeListSpecId);
 
             expect(

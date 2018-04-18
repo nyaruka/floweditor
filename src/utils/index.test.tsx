@@ -17,17 +17,23 @@ import {
     titleCase,
     toBoolMap,
     validUUID,
-    isRealValue
-} from '.';
+    isRealValue,
+    capitalize,
+    set,
+    merge,
+    unset,
+    splice
+} from './index';
 import { operatorConfigList } from '../config';
-import { ContactProperties, SendMsg } from '../flowTypes';
+import { ContactProperties } from '../flowTypes';
+import { configProviderContext } from '../testUtils/index';
+import { push } from './index';
 
-const config = require('../../assets/config');
-const sendMsgAction: SendMsg = {
-    uuid: 'send_msg_action',
-    type: 'send_msg',
-    text: 'Hello World!'
-};
+const {
+    localization,
+    nodes: [{ actions: [sendMsgAction] }]
+} = require('../../__test__/flows/customer_service.json');
+
 
 describe('utils', () => {
     describe('toBoolMap', () => {
@@ -146,20 +152,20 @@ describe('utils', () => {
 
     describe('getBaseLanguage', () => {
         it('should return the language stored in the first key of a Languages map', () => {
-            const baseLanguage = getBaseLanguage(config.languages);
-            const firstKey = Object.keys(config.languages)[0];
+            const baseLanguage = getBaseLanguage(configProviderContext.languages);
+            const firstKey = Object.keys(configProviderContext.languages)[0];
 
             expect(baseLanguage.iso).toBe(firstKey);
-            expect(baseLanguage.name).toBe(config.languages[firstKey]);
+            expect(baseLanguage.name).toBe(configProviderContext.languages[firstKey]);
         });
     });
 
     describe('getLanguage', () => {
         it('should return specified language from Languages map if it exists in map', () => {
-            const iso = Object.keys(config.languages)[0];
+            const iso = Object.keys(configProviderContext.languages)[0];
 
-            expect(getLanguage(config.languages, iso)).toEqual({
-                name: config.languages[iso],
+            expect(getLanguage(configProviderContext.languages, iso)).toEqual({
+                name: configProviderContext.languages[iso],
                 iso
             });
         });
@@ -173,7 +179,7 @@ describe('utils', () => {
                         sendMsgAction,
                         { spa: { send_msg_action: { text: ['¿Cuál es tu color favorito?'] } } },
                         iso,
-                        config.languages
+                        configProviderContext.languages
                     )
                 ).toMatchSnapshot();
             });
@@ -182,11 +188,11 @@ describe('utils', () => {
 
     describe('getLanguage', () => {
         it('should return language as Language', () => {
-            Object.keys(config.languages).forEach(iso => {
-                const language = getLanguage(config.languages, iso);
+            Object.keys(configProviderContext.languages).forEach(iso => {
+                const language = getLanguage(configProviderContext.languages, iso);
 
                 expect(language).toEqual({
-                    name: config.languages[iso],
+                    name: configProviderContext.languages[iso],
                     iso
                 });
                 expect(language).toMatchSnapshot();
@@ -196,7 +202,7 @@ describe('utils', () => {
 
     describe('getBaseLanguage', () => {
         it("should return Language corresponding to the first property in the Languages object it's passed", () => {
-            const baseLanguage = getBaseLanguage(config.languages);
+            const baseLanguage = getBaseLanguage(configProviderContext.languages);
 
             expect(baseLanguage).toMatchSnapshot();
         });
@@ -257,6 +263,45 @@ describe('utils', () => {
 
         it('should return false if obj is null or undefined', () => {
             [undefined, null].forEach(item => expect(isRealValue(item)).toBeFalsy());
+        });
+    });
+
+    describe('capitalize', () => {
+        it('should capitalized all words in a string', () => {
+            expect(capitalize('your string')).toMatchSnapshot();
+            expect(capitalize('ÿöur striñg')).toMatchSnapshot();
+        });
+    });
+
+    const val = 'someVal';
+
+    describe('set', () => {
+        it('should return an immutability-helper "set" query', () => {
+            expect(set(val)).toEqual({ $set: val });
+        });
+    });
+
+    describe('merge', () => {
+        it('should return an immutability-helper "merge" query', () => {
+            expect(merge(val)).toEqual({ $merge: val });
+        });
+    });
+
+    describe('unset', () => {
+        it('should return an immutability-helper "unset" query', () => {
+            expect(unset(val)).toEqual({ $unset: val });
+        });
+    });
+
+    describe('push', () => {
+        it('should return an immutability-helper "push" query', () => {
+            expect(push([val])).toEqual({ $push: [val] });
+        });
+    });
+
+    describe('splice', () => {
+        it('should return an immutability-helper "splice" query', () => {
+            expect(splice([[1]])).toEqual({ $splice: [[1]] });
         });
     });
 });

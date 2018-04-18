@@ -1,11 +1,13 @@
+import { react as bindCallbacks } from 'auto-bind';
+import update from 'immutability-helper';
 import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
-import update from 'immutability-helper';
-import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
+import { Types } from '../../config/typeConfigs';
 import { CallWebhook, Headers, Methods } from '../../flowTypes';
 import { AppState } from '../../store';
+import { set } from '../../utils';
 import HeaderElement, { Header } from '../form/HeaderElement';
 import SelectElement from '../form/SelectElement';
 import TextInputElement from '../form/TextInputElement';
@@ -58,7 +60,7 @@ export const mapHeaders = (headers: Headers): Header[] =>
 
 export const getInitialState = (action: CallWebhook): WebhookRouterState => {
     let state = initialState;
-    if (action.type === 'call_webhook') {
+    if (action.type === Types.call_webhook) {
         state = { ...state, method: action.method };
         if (action.headers && Object.keys(action.headers).length) {
             const existingHeaders = mapHeaders(action.headers);
@@ -129,13 +131,11 @@ export class WebhookRouter extends React.Component<WebhookRouterProps, WebhookRo
             this.onHeaderRemoved(ele);
         } else {
             const headers: Header[] = this.addEmptyHeader(update(this.state.headers, {
-                [ele.props.index]: {
-                    $set: {
-                        name,
-                        value,
-                        uuid
-                    } as Header
-                }
+                [ele.props.index]: set({
+                    name,
+                    value,
+                    uuid
+                } as Header)
             }) as Header[]);
 
             this.setState({ headers });
@@ -168,7 +168,7 @@ export class WebhookRouter extends React.Component<WebhookRouterProps, WebhookRo
         let method = Methods.GET;
         let url = '';
 
-        if (this.props.action.type === 'call_webhook') {
+        if (this.props.action.type === Types.call_webhook) {
             ({ method, url } = this.props.action as CallWebhook);
         }
 
@@ -314,7 +314,8 @@ export class WebhookRouter extends React.Component<WebhookRouterProps, WebhookRo
                     easing="ease-out"
                     enterAnimation="accordionVertical"
                     leaveAnimation="accordionVertical"
-                    duration={300}>
+                    duration={300}
+                >
                     {headerElements}
                 </FlipMove>
                 {bodyForm}

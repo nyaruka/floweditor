@@ -8,6 +8,7 @@ import { InputToFocus } from '../routers/SwitchRouter';
 import * as styles from './CaseElement.scss';
 import FormElement from './FormElement';
 import TextInputElement, { HTMLTextElement } from './TextInputElement';
+import { Operators } from '../../config/operatorConfigs';
 
 export interface CaseElementProps {
     kase: Case;
@@ -64,7 +65,7 @@ export const prefix = (operatorType: string): string => {
 
 /**
 
- * Returns min, max values for 'has_number_between' case
+ * Returns min, max values for Operators.has_number_between case
  */
 export const getMinMax = (args: string[] = []): { min: string; max: string } => {
     let min = '';
@@ -117,7 +118,7 @@ export const composeExitName = (
     newArgList: string[],
     newExitName: string
 ): string => {
-    if (operatorType === 'has_number_between') {
+    if (operatorType === Operators.has_number_between) {
         if (newExitName && !/-/.test(newExitName)) {
             return newExitName;
         }
@@ -210,7 +211,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                     : getExitName(this.state.exitName, operatorConfig, this.state.arguments)
             };
 
-            if (operatorConfig.type === 'has_number_between') {
+            if (operatorConfig.type === Operators.has_number_between) {
                 updates.arguments = ['', ''];
             }
 
@@ -406,7 +407,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
     private getArgs(): JSX.Element {
         if (this.state.operatorConfig.operands > 0) {
-            // First pass at displaying, handling 'has_number_between' inputs
+            // First pass at displaying, handling Operators.has_number_between inputs
             if (this.state.operatorConfig.operands > 1) {
                 const { min: minVal, max: maxVal } = getMinMax(this.props.kase.arguments);
                 return (
@@ -487,7 +488,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 name={this.props.name}
                 errors={this.state.errors}
                 __className={styles.group}
-                kaseError={this.state.errors.length > 0}>
+                kaseError={this.state.errors.length > 0}
+            >
                 <div className={`${styles.kase} select-medium`}>
                     {this.getDndIco()}
                     <div className={styles.choice}>
@@ -506,10 +508,11 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                     </div>
                     <div
                         className={
-                            this.state.operatorConfig.type === 'has_number_between'
+                            this.state.operatorConfig.type === Operators.has_number_between
                                 ? styles.multiOperand
                                 : styles.singleOperand
-                        }>
+                        }
+                    >
                         {this.getArgs()}
                     </div>
                     <div className={styles.categorizeAs}>categorize as</div>

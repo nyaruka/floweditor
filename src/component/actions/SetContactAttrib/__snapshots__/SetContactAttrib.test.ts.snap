@@ -12,48 +12,34 @@ exports[`SetContactAttribComp render helpers getFieldNameMarkup should return em
 <span
   className="emph"
 >
-  Name
+  Email
 </span>
 `;
 
-exports[`SetContactAttribComp render should render SetContactAttribComp with 'clear...' div when value prop isn't passed 1`] = `
-<SetContactAttribComp
-  property="name"
-  type="set_contact_property"
-  uuid="505e8da9-0b73-4cf4-84a7-ce2a58d70f3e"
-  value=""
->
-  <div>
-    Clear value for 
-    <span
-      className="emph"
-    >
-      Name
-    </span>
-  </div>
-</SetContactAttribComp>
+exports[`SetContactAttribComp render should render with 'clear...' div when value prop isn't passed 1`] = `
+<div>
+  Clear value for 
+  <span
+    className="emph"
+  >
+    Email
+  </span>
+</div>
 `;
 
-exports[`SetContactAttribComp render should render SetContactAttribComp with 'update...' div when value prop passed 1`] = `
-<SetContactAttribComp
-  property="name"
-  type="set_contact_property"
-  uuid="505e8da9-0b73-4cf4-84a7-ce2a58d70f3e"
-  value="@run.results.name"
->
-  <div>
-    Update 
-    <span
-      className="emph"
-    >
-      Name
-    </span>
-     to 
-    <span
-      className="emph"
-    >
-      @run.results.name
-    </span>
-  </div>
-</SetContactAttribComp>
+exports[`SetContactAttribComp render should render with 'update...' div when value prop passed 1`] = `
+<div>
+  Update 
+  <span
+    className="emph"
+  >
+    Email
+  </span>
+   to 
+  <span
+    className="emph"
+  >
+    jane@example.com
+  </span>
+</div>
 `;

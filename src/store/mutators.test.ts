@@ -16,6 +16,7 @@ import { RenderNodeMap } from './flowContext';
 import { SendMsg, FlowDefinition, FlowNode } from '../flowTypes';
 import { dump } from '../utils';
 import { getNode, getExitIndex, getActionIndex, getFlowComponents } from './helpers';
+import { Types } from '../config/typeConfigs';
 
 describe('mutators', () => {
     const definition: FlowDefinition = require('../../__test__/flows/boring.json');
@@ -80,12 +81,12 @@ describe('mutators', () => {
     it('should addAction', () => {
         const updated = addAction(nodes, 'node0', {
             uuid: 'node0_action3',
-            type: 'send_msg',
+            type: Types.send_msg,
             text: 'Hello World'
         } as SendMsg);
 
         const action = updated.node0.node.actions[3] as SendMsg;
-        expect(action.type).toBe('send_msg');
+        expect(action.type).toBe(Types.send_msg);
         expect(action.text).toBe('Hello World');
         expect(updated).toMatchSnapshot();
     });
@@ -95,7 +96,7 @@ describe('mutators', () => {
             expect(() => {
                 updateAction(nodes, 'node0', {
                     uuid: 'missing-action',
-                    type: 'send_msg',
+                    type: Types.send_msg,
                     text: 'Hello World'
                 } as SendMsg);
             }).toThrowError('Cannot find action missing-action');
@@ -104,13 +105,13 @@ describe('mutators', () => {
         it('should update an action that was added', () => {
             let updated = addAction(nodes, 'node0', {
                 uuid: 'node0_action3',
-                type: 'send_msg',
+                type: Types.send_msg,
                 text: 'Hello World'
             } as SendMsg);
 
             updated = updateAction(updated, 'node0', {
                 uuid: 'node0_action3',
-                type: 'send_msg',
+                type: Types.send_msg,
                 text: 'Goodbye World'
             } as SendMsg);
 
@@ -118,7 +119,7 @@ describe('mutators', () => {
             expect(updated.node0.node.actions.length).toBe(4);
 
             const action = updated.node0.node.actions[3] as SendMsg;
-            expect(action.type).toBe('send_msg');
+            expect(action.type).toBe(Types.send_msg);
             expect(action.text).toBe('Goodbye World');
             expect(updated).toMatchSnapshot();
         });

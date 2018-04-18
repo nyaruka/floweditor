@@ -1,6 +1,11 @@
 import { FlowEditorConfig } from '../flowTypes';
-import { createSetup, getSpecWrapper } from '../testUtils';
-import { getLanguage } from '../utils';
+import {
+    composeComponentTestUtils,
+    configProviderContext,
+    getSpecWrapper,
+    setMock
+} from '../testUtils';
+import { getLanguage, setNull } from '../utils';
 import {
     containerClass,
     LanguageSelector,
@@ -9,30 +14,22 @@ import {
     mapOptions
 } from './LanguageSelector';
 
-const config = require('../../assets/config') as FlowEditorConfig;
-
-const context = {
-    languages: config.languages
-};
-
-const baseProps = {
-    language: getLanguage(config.languages, 'eng'),
+const baseProps: LanguageSelectorStoreProps = {
+    language: getLanguage(configProviderContext.languages, 'eng'),
     updateLanguage: jest.fn(),
     updateTranslating: jest.fn()
 };
 
-const setup = createSetup<LanguageSelectorStoreProps>(LanguageSelector, baseProps, context);
+const { setup } = composeComponentTestUtils(LanguageSelector, baseProps);
 
-const COMPONENT_TO_TEST = LanguageSelector.name;
-
-describe(`${COMPONENT_TO_TEST}`, () => {
+describe(LanguageSelector.name, () => {
     describe('helpers', () => {
         describe('mapOptions', () => {
             it('should return a list of Language maps', () => {
-                mapOptions(config.languages).forEach((languageMap, idx) => {
-                    const keys = Object.keys(config.languages);
+                mapOptions(configProviderContext.languages).forEach((languageMap, idx) => {
+                    const keys = Object.keys(configProviderContext.languages);
 
-                    expect(languageMap.name).toBe(config.languages[keys[idx]]);
+                    expect(languageMap.name).toBe(configProviderContext.languages[keys[idx]]);
                     expect(languageMap.iso).toBe(keys[idx]);
                     expect(languageMap).toMatchSnapshot();
                 });
@@ -42,30 +39,27 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
     describe('render', () => {
         it('should render select control', () => {
-            const { wrapper, instance, props: { language }, context: { languages } } = setup(
-                {},
-                true
-            );
+            const { wrapper, instance, props, context } = setup();
 
             expect(
                 getSpecWrapper(wrapper, languageSelectorContainerSpecId).hasClass(containerClass)
             ).toBeTruthy();
             expect(wrapper.find('Select').props()).toEqual(
                 expect.objectContaining({
-                    value: language.iso,
+                    value: props.language.iso,
                     onChange: instance.onChange,
                     valueKey: 'iso',
                     labelKey: 'name',
                     searchable: false,
                     clearable: false,
-                    options: mapOptions(languages)
+                    options: mapOptions(context.languages)
                 })
             );
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should not render if language prop is falsy', () => {
-            const { wrapper } = setup({ language: null }, true);
+            const { wrapper } = setup(true, { language: setNull() });
 
             expect(getSpecWrapper(wrapper, languageSelectorContainerSpecId).exists()).toBeFalsy();
             expect(wrapper).toMatchSnapshot();
@@ -75,36 +69,26 @@ describe(`${COMPONENT_TO_TEST}`, () => {
     describe('instance methods', () => {
         describe('onChange', () => {
             it('should call action creators that update language, translating state', () => {
-                const {
-                    wrapper,
-                    instance,
-                    props: {
-                        updateTranslating: updateTranslatingMock,
-                        updateLanguage: updateLanguageMock
-                    }
-                } = setup(
-                    {
-                        updateLanguage: jest.fn(),
-                        updateTranslating: jest.fn()
-                    },
-                    true
-                );
-                const spanish = getLanguage(config.languages, 'spa');
-                const english = getLanguage(config.languages, 'eng');
+                const { wrapper, instance, props } = setup(true, {
+                    updateLanguage: setMock(),
+                    updateTranslating: setMock()
+                });
+                const spanish = getLanguage(configProviderContext.languages, 'spa');
+                const english = getLanguage(configProviderContext.languages, 'eng');
 
                 instance.onChange(spanish);
 
-                expect(updateLanguageMock).toHaveBeenCalledTimes(1);
-                expect(updateLanguageMock).toHaveBeenCalledWith(spanish);
-                expect(updateTranslatingMock).toHaveBeenCalledTimes(1);
-                expect(updateTranslatingMock).toHaveBeenCalledWith(true);
+                expect(props.updateLanguage).toHaveBeenCalledTimes(1);
+                expect(props.updateLanguage).toHaveBeenCalledWith(spanish);
+                expect(props.updateTranslating).toHaveBeenCalledTimes(1);
+                expect(props.updateTranslating).toHaveBeenCalledWith(true);
 
                 instance.onChange(english);
 
-                expect(updateLanguageMock).toHaveBeenCalledTimes(2);
-                expect(updateLanguageMock).toHaveBeenCalledWith(english);
-                expect(updateTranslatingMock).toHaveBeenCalledTimes(2);
-                expect(updateTranslatingMock).toHaveBeenCalledWith(false);
+                expect(props.updateLanguage).toHaveBeenCalledTimes(2);
+                expect(props.updateLanguage).toHaveBeenCalledWith(english);
+                expect(props.updateTranslating).toHaveBeenCalledTimes(2);
+                expect(props.updateTranslating).toHaveBeenCalledWith(false);
             });
         });
     });

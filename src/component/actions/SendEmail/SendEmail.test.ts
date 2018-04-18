@@ -1,23 +1,18 @@
-import { FlowDefinition, SendEmail } from '../../../flowTypes';
-import { createSetup, Resp } from '../../../testUtils';
+import { SendEmail } from '../../../flowTypes';
+import { composeComponentTestUtils } from '../../../testUtils';
+import { createSendEmailAction } from '../../../testUtils/assetCreators';
 import SendEmailComp from './SendEmail';
 
-const {
-    results: [{ definition }]
-} = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json') as Resp;
-const { language: flowLanguage, nodes: [, , , , node] } = definition as FlowDefinition;
-const { actions: [, sendEmailAction] } = node;
+const sendEmailAction = createSendEmailAction();
 
-const setup = createSetup<SendEmail>(SendEmailComp, sendEmailAction as SendEmail);
+const { setup } = composeComponentTestUtils<SendEmail>(SendEmailComp, sendEmailAction);
 
-const COMPONENT_TO_TEST = SendEmailComp.name;
-
-describe(`${COMPONENT_TO_TEST}`, () => {
+describe(SendEmailComp.name, () => {
     describe('render', () => {
-        it(`should render ${COMPONENT_TO_TEST}, display subject`, () => {
-            const { wrapper, props: { subject } } = setup();
+        it('should render self, children', () => {
+            const { wrapper, props } = setup();
 
-            expect(wrapper.text()).toBe(subject);
+            expect(wrapper.text()).toBe(props.subject);
             expect(wrapper).toMatchSnapshot();
         });
     });

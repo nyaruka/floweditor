@@ -8,6 +8,7 @@ import { AppState, SearchResult } from '../../../store';
 import GroupsElement from '../../form/GroupsElement';
 import { mapGroupsToSearchResults, mapSearchResultsToGroups } from './helpers';
 import ChangeGroupsFormProps from './props';
+import { Types } from '../../../config/typeConfigs';
 
 export interface AddGroupsFormState {
     groups: SearchResult[];
@@ -60,7 +61,10 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
             return [];
         }
 
-        if (this.props.action.groups.length && this.props.action.type !== 'remove_contact_groups') {
+        if (
+            this.props.action.groups.length &&
+            this.props.action.type !== Types.remove_contact_groups
+        ) {
             return mapGroupsToSearchResults(this.props.action.groups);
         }
 

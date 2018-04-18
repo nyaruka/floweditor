@@ -19,9 +19,12 @@ import reducer, {
     updateNodes,
     RenderNodeMap
 } from './flowContext';
+import { configProviderContext } from '../testUtils';
+import { FlowDefinition } from '../flowTypes';
+import { Types } from '../config/typeConfigs';
 
-const config = require('../../assets/config');
-const definition = require('../../__test__/flows/boring.json');
+const boringFlow = require('../../__test__/flows/boring.json') as FlowDefinition;
+const emptyFlow = require('../../__test__/flows/empty.json') as FlowDefinition;
 
 describe('flowContext action creators', () => {
     describe('updateDefinition', () => {
@@ -29,22 +32,24 @@ describe('flowContext action creators', () => {
             const expectedAction = {
                 type: Constants.UPDATE_DEFINITION,
                 payload: {
-                    definition
+                    definition: boringFlow
                 }
             };
-            expect(updateDefinition(definition)).toEqual(expectedAction);
+
+            expect(updateDefinition(boringFlow)).toEqual(expectedAction);
         });
     });
 
     describe('updateDependencies', () => {
         it('should create an action to update dependencies state', () => {
-            const dependencies = [definition];
+            const dependencies = [emptyFlow];
             const expectedAction = {
                 type: Constants.UPDATE_DEPENDENCIES,
                 payload: {
                     dependencies
                 }
             };
+
             expect(updateDependencies(dependencies)).toEqual(expectedAction);
         });
     });
@@ -54,10 +59,10 @@ describe('flowContext action creators', () => {
             const iso = 'spa';
             const localizations = [
                 Localization.translate(
-                    definition.nodes[0].actions[0],
+                    boringFlow.nodes[0].actions[0],
                     iso,
-                    config.languages,
-                    definition[iso]
+                    configProviderContext.languages,
+                    boringFlow[iso]
                 )
             ];
             const expectedAction = {
@@ -66,19 +71,25 @@ describe('flowContext action creators', () => {
                     localizations
                 }
             };
+
             expect(updateLocalizations(localizations)).toEqual(expectedAction);
         });
     });
 
     describe('updateContactFields', () => {
         it('should create an action to update contactFields state', () => {
-            const contactField = { id: generateUUID(), name: 'Name', type: 'set_contact_field' };
+            const contactField = {
+                id: generateUUID(),
+                name: 'Name',
+                type: Types.set_contact_field
+            };
             const expectedAction = {
                 type: Constants.UPDATE_CONTACT_FIELDS,
                 payload: {
                     contactField
                 }
             };
+
             expect(updateContactFields(contactField)).toEqual(expectedAction);
         });
     });
@@ -92,6 +103,7 @@ describe('flowContext action creators', () => {
                     group
                 }
             };
+
             expect(updateGroups(group)).toEqual(expectedAction);
         });
     });
@@ -105,6 +117,7 @@ describe('flowContext action creators', () => {
                     resultNames
                 }
             };
+
             expect(updateResultNames(resultNames)).toEqual(expectedAction);
         });
     });
@@ -119,8 +132,8 @@ describe('flowContext reducers', () => {
         });
 
         it('should handle UPDATE_DEFINITION', () => {
-            const action = updateDefinition(definition);
-            expect(reduce(action)).toEqual(definition);
+            const action = updateDefinition(emptyFlow);
+            expect(reduce(action)).toEqual(emptyFlow);
         });
     });
 
@@ -132,8 +145,9 @@ describe('flowContext reducers', () => {
         });
 
         it('should handle UPDATE_DEPENDENCIES', () => {
-            const dependencies = [definition];
+            const dependencies = [emptyFlow];
             const action = updateDependencies(dependencies);
+
             expect(reduce(action)).toEqual(dependencies);
         });
     });
@@ -149,13 +163,14 @@ describe('flowContext reducers', () => {
             const iso = 'spa';
             const localizations = [
                 Localization.translate(
-                    definition.nodes[0].actions[0],
+                    boringFlow.nodes[0].actions[0],
                     iso,
-                    config.languages,
-                    definition[iso]
+                    configProviderContext.languages,
+                    boringFlow[iso]
                 )
             ];
             const action = updateLocalizations(localizations);
+
             expect(reduce(action)).toEqual(localizations);
         });
     });
@@ -168,8 +183,13 @@ describe('flowContext reducers', () => {
         });
 
         it('should handle UPDATE_CONTACT_FIELDS', () => {
-            const contactFields = { id: generateUUID(), name: 'Name', type: 'set_contact_field' };
+            const contactFields = {
+                id: generateUUID(),
+                name: 'Name',
+                type: Types.set_contact_field
+            };
             const action = updateContactFields(contactFields);
+
             expect(reduce(action)).toEqual([contactFields]);
         });
     });
@@ -184,6 +204,7 @@ describe('flowContext reducers', () => {
         it('should handle UPDATE_RESULT_NAMES', () => {
             const resultNames = [{ name: 'run.results.color', description: 'Result for "color"' }];
             const action = updateResultNames(resultNames);
+
             expect(reduce(action)).toEqual(resultNames);
         });
     });
@@ -204,6 +225,7 @@ describe('flowContext reducers', () => {
                 }
             };
             const action = updateNodes(nodes);
+
             expect(reduce(action)).toEqual(nodes);
         });
     });
@@ -218,6 +240,7 @@ describe('flowContext reducers', () => {
         it('should handle UPDATE_GROUPS', () => {
             const groups = { id: 'subscribers', name: 'Subscribers' };
             const action = updateGroups(groups);
+
             expect(reduce(action)).toEqual([groups]);
         });
     });

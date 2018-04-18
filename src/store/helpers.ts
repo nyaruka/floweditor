@@ -1,14 +1,13 @@
 import { v4 as generateUUID } from 'uuid';
-import { DragPoint } from '../component/Node';
+import { Types } from '../config/typeConfigs';
 import {
     AnyAction,
     FlowDefinition,
-    Languages,
-    LocalizationMap,
     FlowNode,
-    SwitchRouter,
-    WaitType,
     FlowPosition,
+    Languages,
+    SwitchRouter,
+    WaitTypes,
     ChangeGroups,
     SetContactField
 } from '../flowTypes';
@@ -217,7 +216,7 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
     if (fromNode.node.wait || fromNode.ui.type === 'webhook') {
         const replyAction = {
             uuid: generateUUID(),
-            type: 'send_msg',
+            type: Types.send_msg,
             text: ''
         };
 
@@ -225,7 +224,7 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
     } else {
         // Otherwise we are going to a switch
         ghostNode.exits[0].name = 'All Responses';
-        ghostNode.wait = { type: WaitType.msg };
+        ghostNode.wait = { type: WaitTypes.msg };
         ghostNode.router = {
             type: 'switch',
             result_name: getSuggestedResultName(nodes)

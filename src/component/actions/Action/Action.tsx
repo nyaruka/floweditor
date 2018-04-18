@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getTypeConfig, languagesPT } from '../../../config';
 import { ConfigProviderContext } from '../../../config/ConfigProvider';
+import { Types } from '../../../config/typeConfigs';
 import { AnyAction, FlowNode, LocalizationMap } from '../../../flowTypes';
-import { LocalizedObject } from '../../../services/Localization';
 import {
     ActionAC,
     AppState,
@@ -100,7 +100,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         let missingLocalization = false;
 
         if (this.props.translating) {
-            if (this.props.action.type === 'send_msg') {
+            if (this.props.action.type === Types.send_msg) {
                 localizedKeys.push('text');
             }
 

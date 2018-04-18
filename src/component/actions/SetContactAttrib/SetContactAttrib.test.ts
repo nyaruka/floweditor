@@ -1,33 +1,21 @@
-import { v4 as generateUUID } from 'uuid';
-import { FlowDefinition, SetContactField, SetContactProperty } from '../../../flowTypes';
-import { createSetup } from '../../../testUtils';
-import { titleCase } from '../../../utils';
+import { SetContactField, SetContactProperty } from '../../../flowTypes';
+import { composeComponentTestUtils } from '../../../testUtils';
+import {
+    createSetContactFieldAction,
+    createSetContactPropertyAction
+} from '../../../testUtils/assetCreators';
+import { setEmpty, titleCase } from '../../../utils';
 import SetContactAttribComp, { getFieldNameMarkup } from './SetContactAttrib';
 
-const {
-    results: [{ definition }]
-} = require('../../../../assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
-const { language: flowLanguage, nodes: [, , node] } = definition as FlowDefinition;
-const { actions: [setContactProperty] } = node;
+const setContactProperty = createSetContactPropertyAction();
+const setContactField = createSetContactFieldAction();
 
-const setContactField: SetContactField = {
-    uuid: generateUUID(),
-    field: {
-        key: 'age',
-        name: 'Age'
-    },
-    value: '32',
-    type: 'set_contact_field'
-};
-
-const setup = createSetup<SetContactProperty>(
+const { setup } = composeComponentTestUtils<SetContactProperty | SetContactField>(
     SetContactAttribComp,
     setContactProperty as SetContactProperty
 );
 
-const COMPONENT_TO_TEST = SetContactAttribComp.name;
-
-describe(`${COMPONENT_TO_TEST}`, () => {
+describe(SetContactAttribComp.name, () => {
     describe('render', () => {
         describe('helpers', () => {
             describe('getFieldNameMarkup', () => {
@@ -45,17 +33,23 @@ describe(`${COMPONENT_TO_TEST}`, () => {
             });
         });
 
-        it(`should render ${COMPONENT_TO_TEST} with 'update...' div when value prop passed`, () => {
-            const { wrapper, props: { property, value } } = setup();
+        it("should render with 'update...' div when value prop passed", () => {
+            const { wrapper, props } = setup();
 
-            expect(wrapper.text()).toBe(`Update ${titleCase(property)} to ${value}`);
+            expect(wrapper.text()).toBe(
+                `Update ${titleCase((props as SetContactProperty).property)} to ${props.value}`
+            );
             expect(wrapper).toMatchSnapshot();
         });
 
-        it(`should render ${COMPONENT_TO_TEST} with 'clear...' div when value prop isn't passed`, () => {
-            const { wrapper, props: { property } } = setup({ value: '' });
+        it("should render with 'clear...' div when value prop isn't passed", () => {
+            const { wrapper, props } = setup(true, {
+                value: setEmpty()
+            });
 
-            expect(wrapper.text()).toBe(`Clear value for ${titleCase(property)}`);
+            expect(wrapper.text()).toBe(
+                `Clear value for ${titleCase((props as SetContactProperty).property)}`
+            );
             expect(wrapper).toMatchSnapshot();
         });
     });

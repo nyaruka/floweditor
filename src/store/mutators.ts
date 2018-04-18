@@ -2,13 +2,14 @@ const mutate = require('immutability-helper');
 import { FlowNode, UINode, AnyAction, FlowDefinition, Dimensions, StickyNote } from '../flowTypes';
 import { v4 as generateUUID } from 'uuid';
 import { RenderNode, RenderNodeMap } from './flowContext';
-import { dump, snapToGrid } from '../utils';
+import { dump, snapToGrid, set, merge, unset, splice } from '../utils';
 import { getUniqueDestinations, getNode, getExitIndex, getActionIndex } from './helpers';
 import { LocalizationUpdates } from '.';
+import { push } from '../utils/index';
 
 export const uniquifyNode = (newNode: FlowNode): FlowNode => {
     // Give our node a unique uuid
-    return mutate(newNode, { $merge: { uuid: generateUUID() } });
+    return mutate(newNode, merge({ uuid: generateUUID() }));
 };
 
 /**
@@ -45,7 +46,7 @@ export const updateConnection = (
             node: {
                 exits: {
                     [exitIdx]: {
-                        destination_node_uuid: { $set: destinationNodeUUID }
+                        destination_node_uuid: set(destinationNodeUUID)
                     }
                 }
             }
@@ -56,14 +57,14 @@ export const updateConnection = (
     if (destinationNodeUUID) {
         updatedNodes = mutate(updatedNodes, {
             [destinationNodeUUID]: {
-                inboundConnections: { $merge: { [fromExitUUID]: fromNodeUUID } }
+                inboundConnections: merge({ [fromExitUUID]: fromNodeUUID })
             }
         });
     }
 
     if (previousDestination != null) {
         updatedNodes = mutate(updatedNodes, {
-            [previousDestination]: { inboundConnections: { $unset: [[fromExitUUID]] } }
+            [previousDestination]: { inboundConnections: unset([[fromExitUUID]]) }
         });
     }
 
@@ -100,7 +101,7 @@ export const mergeNode = (nodes: RenderNodeMap, node: RenderNode): RenderNodeMap
     }
 
     // add our node updted node
-    updatedNodes = mutate(nodes, { $merge: { [node.node.uuid]: node } });
+    updatedNodes = mutate(nodes, merge({ [node.node.uuid]: node }));
 
     // if we have inbound connections, update our nodes accordingly
     for (const fromExitUUID of Object.keys(node.inboundConnections)) {
@@ -113,9 +114,7 @@ export const mergeNode = (nodes: RenderNodeMap, node: RenderNode): RenderNodeMap
             [fromNodeUUID]: {
                 node: {
                     exits: {
-                        [exitIdx]: {
-                            $merge: { destination_node_uuid: node.node.uuid }
-                        }
+                        [exitIdx]: merge({ destination_node_uuid: node.node.uuid })
                     }
                 }
             }
@@ -138,7 +137,7 @@ export const addAction = (
 ): RenderNodeMap => {
     // check that our node exists
     getNode(nodes, nodeUUID);
-    return mutate(nodes, { [nodeUUID]: { node: { actions: { $push: [action] } } } });
+    return mutate(nodes, { [nodeUUID]: { node: { actions: push([action]) } } });
 };
 
 /**
@@ -154,7 +153,7 @@ export const updateAction = (nodes: RenderNodeMap, nodeUUID: string, action: Any
     return mutate(nodes, {
         [nodeUUID]: {
             node: {
-                actions: { [actionIdx]: { $set: action } }
+                actions: { [actionIdx]: set(action) }
             }
         }
     });
@@ -165,7 +164,7 @@ export const removeAction = (nodes: RenderNodeMap, nodeUUID: string, actionUUID:
     const renderNode = getNode(nodes, nodeUUID);
     const actionIdx = getActionIndex(renderNode.node, actionUUID);
     return mutate(nodes, {
-        [nodeUUID]: { node: { actions: { $splice: [[actionIdx, 1]] } } }
+        [nodeUUID]: { node: { actions: splice([[actionIdx, 1]]) } }
     });
 };
 
@@ -190,13 +189,13 @@ export const moveActionUp = (nodes: RenderNodeMap, nodeUUID: string, actionUUID:
 
     return mutate(nodes, {
         [nodeUUID]: {
-            node: { actions: { $splice: [[actionIdx - 1, 2, action, actionAbove]] } }
+            node: { actions: splice([[actionIdx - 1, 2, action, actionAbove]]) }
         }
     });
 };
 
 export const removeNode = (nodes: RenderNodeMap, nodeUUID: string): RenderNodeMap => {
-    return mutate(nodes, { $unset: [nodeUUID] });
+    return mutate(nodes, unset([nodeUUID]));
 };
 
 /**
@@ -215,7 +214,7 @@ export const removeNodeAndRemap = (nodes: RenderNodeMap, nodeUUID: string): Rend
         if (exit.destination_node_uuid) {
             updatedNodes = mutate(updatedNodes, {
                 [exit.destination_node_uuid]: {
-                    inboundConnections: { $unset: [exit.uuid] }
+                    inboundConnections: unset([exit.uuid])
                 }
             });
         }
@@ -238,7 +237,7 @@ export const removeNodeAndRemap = (nodes: RenderNodeMap, nodeUUID: string): Rend
             [fromNodeUUID]: {
                 node: {
                     exits: {
-                        [exitIdx]: { destination_node_uuid: { $set: destination } }
+                        [exitIdx]: { destination_node_uuid: set(destination) }
                     }
                 }
             }
@@ -250,14 +249,14 @@ export const removeNodeAndRemap = (nodes: RenderNodeMap, nodeUUID: string): Rend
             getNode(nodes, destination);
             updatedNodes = mutate(updatedNodes, {
                 [destination]: {
-                    inboundConnections: { $merge: { [fromExitUUID]: fromNodeUUID } }
+                    inboundConnections: merge({ [fromExitUUID]: fromNodeUUID })
                 }
             });
         }
     }
 
     // remove the actual node
-    return mutate(updatedNodes, { $unset: [nodeUUID] });
+    return mutate(updatedNodes, unset([nodeUUID]));
 };
 
 /**
@@ -283,14 +282,12 @@ export const updatePosition = (
     return mutate(nodes, {
         [nodeUUID]: {
             ui: {
-                position: {
-                    $set: {
-                        left: adjusted.left,
-                        top: adjusted.top,
-                        right: adjusted.left + width,
-                        bottom: adjusted.top + height
-                    }
-                }
+                position: set({
+                    left: adjusted.left,
+                    top: adjusted.top,
+                    right: adjusted.left + width,
+                    bottom: adjusted.top + height
+                })
             }
         }
     });
@@ -311,12 +308,10 @@ export const updateDimensions = (
     return mutate(nodes, {
         [nodeUUID]: {
             ui: {
-                position: {
-                    $merge: {
-                        bottom: node.ui.position.top + dimensions.height,
-                        right: node.ui.position.left + dimensions.width
-                    }
-                }
+                position: merge({
+                    bottom: node.ui.position.top + dimensions.height,
+                    right: node.ui.position.left + dimensions.width
+                })
             }
         }
     });
@@ -331,9 +326,9 @@ export const updateStickyNote = (
         definition._ui.stickies = {};
     }
     if (sticky) {
-        return mutate(definition, { _ui: { stickies: { $merge: { [stickyUUID]: sticky } } } });
+        return mutate(definition, { _ui: { stickies: merge({ [stickyUUID]: sticky }) } });
     } else {
-        return mutate(definition, { _ui: { stickies: { $unset: [stickyUUID] } } });
+        return mutate(definition, { _ui: { stickies: unset([stickyUUID]) } });
     }
 };
 
@@ -342,7 +337,7 @@ export const updateStickyNote = (
  * @param definition our full definition
  */
 export const pruneDefinition = (definition: FlowDefinition): FlowDefinition =>
-    mutate(definition, { $merge: { nodes: [] }, _ui: { $merge: { nodes: [] } } });
+    mutate(definition, merge({ nodes: [], _ui: merge({ nodes: [] }) }));
 
 /**
  * Update the localization in the definition with the provided changes for a language
@@ -361,9 +356,7 @@ export const updateLocalization = (
     if (!newDef.localization[language]) {
         newDef = mutate(newDef, {
             localization: {
-                [language]: {
-                    $set: {}
-                }
+                [language]: set({})
             }
         });
     }
@@ -372,11 +365,11 @@ export const updateLocalization = (
     changes.forEach(({ translations, uuid }) => {
         if (translations) {
             newDef = mutate(newDef, {
-                localization: { [language]: { [uuid]: { $set: translations } } }
+                localization: { [language]: { [uuid]: set(translations) } }
             });
         } else {
             newDef = mutate(newDef, {
-                localization: { [language]: { $unset: [uuid] } }
+                localization: { [language]: unset([uuid]) }
             });
         }
     });

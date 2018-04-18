@@ -1,6 +1,4 @@
-import { object } from 'prop-types';
 import { v4 as generateUUID } from 'uuid';
-import * as config from '../../assets/config';
 import {
     dragSelectSpecId,
     Flow,
@@ -14,15 +12,14 @@ import {
     nodeSpecId,
     REPAINT_TIMEOUT
 } from '../component/Flow';
-import { endpointsPT, languagesPT } from '../config';
+import { Types } from '../config/typeConfigs';
 import { getActivity } from '../external';
-import { FlowDefinition } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
 import Plumber from '../services/Plumber';
-import { ConnectionEvent, createStore, initialState } from '../store';
-import { getCollisions, getGhostNode, getFlowComponents } from '../store/helpers';
-import { createSetup, createSpy, getSpecWrapper } from '../testUtils';
-import { getBaseLanguage, dump } from '../utils';
+import { ConnectionEvent } from '../store';
+import { getFlowComponents, getGhostNode } from '../store/helpers';
+import { composeComponentTestUtils, composeDuxState, getSpecWrapper, setMock } from '../testUtils';
+import { merge, set, setTrue } from '../utils';
 
 jest.mock('../services/ActivityManager');
 jest.mock('../services/Plumber');
@@ -34,30 +31,7 @@ jest.mock('uuid', () => {
     };
 });
 
-const definition = require('../../__test__/flows/colors.json') as FlowDefinition;
-
-const { languages, endpoints } = config;
-
-const language = getBaseLanguage(languages);
-
-const context = {
-    languages,
-    endpoints,
-    store: createStore({
-        ...initialState,
-        flowContext: { ...initialState.flowContext, definition },
-        flowEditor: {
-            ...initialState.flowEditor,
-            editorUI: { ...initialState.flowEditor.editorUI, language, translating: false }
-        }
-    })
-};
-
-const childContextTypes = {
-    store: object,
-    endpoints: endpointsPT,
-    languages: languagesPT
-};
+const { flowContext: { definition } } = composeDuxState();
 
 const { renderNodeMap: initialNodes } = getFlowComponents(definition);
 
@@ -80,33 +54,30 @@ const baseProps: FlowStoreProps = {
     updateSticky: jest.fn()
 };
 
-const setup = createSetup<FlowStoreProps>(Flow, baseProps, context, childContextTypes);
-
-const spyOnFlow = createSpy(Flow);
+const { setup, spyOn } = composeComponentTestUtils(Flow, baseProps);
 
 describe(Flow.name, () => {
     let ghostNodeFromWait;
     let ghostNodeFromAction;
     let mockConnectionEvent: Partial<ConnectionEvent>;
 
-    const { nodes: renderNodeMap } = baseProps;
-    const renderNodeMapKeys = Object.keys(baseProps.nodes);
+    const { nodes } = baseProps;
+    const nodeMapKeys = Object.keys(nodes);
 
     beforeEach(() => {
-        // Clear instances, calls to constructor, methods:
+        // Clear instance mocks
         ActivityManager.mockClear();
         Plumber.mockClear();
+
         let uuidCount = 1;
+
         generateUUID.mockImplementation(() => {
-            return 'generated_uuid_' + uuidCount++;
+            return `generated_uuid_${uuidCount++}`;
         });
 
-        ghostNodeFromWait = getGhostNode(
-            renderNodeMap[renderNodeMapKeys[renderNodeMapKeys.length - 1]],
-            renderNodeMap
-        );
+        ghostNodeFromWait = getGhostNode(nodes[nodeMapKeys[nodeMapKeys.length - 1]], nodes);
 
-        ghostNodeFromAction = getGhostNode(renderNodeMap[renderNodeMapKeys[0]], renderNodeMap);
+        ghostNodeFromAction = getGhostNode(nodes[nodeMapKeys[0]], nodes);
 
         mockConnectionEvent = {
             sourceId: `${generateUUID()}:${generateUUID()}`,
@@ -164,7 +135,7 @@ describe(Flow.name, () => {
 
                 expect(ghostUI).toEqual({
                     position: GHOST_POSITION_INITIAL,
-                    type: 'wait_for_response'
+                    type: Types.wait_for_response
                 });
                 expect(ghostUI).toMatchSnapshot();
             });
@@ -179,8 +150,8 @@ describe(Flow.name, () => {
 
     describe('render', () => {
         it('should render self, children with base props', () => {
-            const { wrapper, instance, props } = setup({}, true);
-            const nodes = getSpecWrapper(wrapper, nodeSpecId);
+            const { wrapper, instance, props } = setup();
+            const nodeList = getSpecWrapper(wrapper, nodeSpecId);
             const nodeContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
 
             expect(nodeContainer.hasClass('nodeList')).toBeTruthy();
@@ -191,11 +162,12 @@ describe(Flow.name, () => {
                     onMouseUp: instance.onMouseUp
                 })
             );
-            expect(nodes.length).toBe(props.definition.nodes.length);
-            nodes.forEach((node, idx) => {
+            expect(nodeList.length).toBe(props.definition.nodes.length);
+            nodeList.forEach((node, idx) => {
                 const renderMapKeys = Object.keys(props.nodes);
                 const nodeUUID = renderMapKeys[idx];
                 const renderNode = props.nodes[nodeUUID];
+
                 expect(node.key()).toBe(nodeUUID);
                 expect(node.props()).toEqual(
                     expect.objectContaining({
@@ -219,7 +191,9 @@ describe(Flow.name, () => {
         });
 
         it('should render NodeEditor', () => {
-            const { wrapper, instance } = setup({ nodeEditorOpen: true }, true);
+            const { wrapper, instance } = setup(true, {
+                nodeEditorOpen: setTrue()
+            });
 
             expect(wrapper.find('Connect(NodeEditor)').props()).toEqual({
                 plumberConnectExit: instance.Plumber.connectExit,
@@ -229,9 +203,14 @@ describe(Flow.name, () => {
         });
 
         it('should render Simulator', () => {
-            const { wrapper, instance, props } = setup({}, true, {
-                endpoints: { ...config.endpoints, engine: 'someEngine' }
-            });
+            const { wrapper, instance, props, context } = setup(
+                true,
+                {},
+                {},
+                {
+                    endpoints: merge({ engine: 'someEngine' })
+                }
+            );
 
             expect(wrapper.find('Simulator').props()).toEqual({
                 definition: props.definition,
@@ -242,7 +221,9 @@ describe(Flow.name, () => {
         });
 
         it('should render dragNode', () => {
-            const { wrapper, instance, props } = setup({ ghostNode: ghostNodeFromWait }, true);
+            const { wrapper, instance, props } = setup(true, {
+                ghostNode: set(ghostNodeFromWait)
+            });
             const ghost = getSpecWrapper(wrapper, ghostNodeSpecId);
 
             expect(ghost.key()).toBe(props.ghostNode.uuid);
@@ -267,7 +248,9 @@ describe(Flow.name, () => {
         });
 
         it('should render drag selection box', () => {
-            const { wrapper, props } = setup({ dragSelection }, true);
+            const { wrapper, props } = setup(true, {
+                dragSelection: set(dragSelection)
+            });
             const drag = getSpecWrapper(wrapper, dragSelectSpecId);
 
             expect(drag.hasClass('dragSelection')).toBeTruthy();
@@ -278,7 +261,7 @@ describe(Flow.name, () => {
 
     describe('instance methods', () => {
         describe('constructor', () => {
-            const { wrapper, props } = setup({}, true);
+            const { wrapper, props } = setup();
 
             // Instanstiate ActivityManager, Plumber
             expect(ActivityManager).toHaveBeenCalledTimes(1);
@@ -287,8 +270,10 @@ describe(Flow.name, () => {
         });
 
         describe('componentDidMount', () => {
-            const componentDidMountSpy = spyOnFlow('componentDidMount');
-            const { wrapper, instance, props } = setup({ ensureStartNode: jest.fn() }, true);
+            const componentDidMountSpy = spyOn('componentDidMount');
+            const { wrapper, instance, props } = setup(true, {
+                ensureStartNode: setMock()
+            });
 
             jest.runAllTimers();
 
@@ -324,8 +309,8 @@ describe(Flow.name, () => {
         });
 
         describe('componenWillUnmount', () => {
-            const componentWillUnmountSpy = spyOnFlow('componentWillUnmount');
-            const { wrapper, instance } = setup({}, true);
+            const componentWillUnmountSpy = spyOn('componentWillUnmount');
+            const { wrapper, instance } = setup();
 
             wrapper.unmount();
 
@@ -337,10 +322,9 @@ describe(Flow.name, () => {
 
         describe('onBeforeConnectorDrop', () => {
             it('should call resetNodeEditingState prop', () => {
-                const { wrapper, instance, props } = setup(
-                    { resetNodeEditingState: jest.fn() },
-                    true
-                );
+                const { wrapper, instance, props } = setup(true, {
+                    resetNodeEditingState: setMock()
+                });
 
                 instance.onBeforeConnectorDrop(mockConnectionEvent);
 
@@ -348,7 +332,7 @@ describe(Flow.name, () => {
             });
 
             it('should return false if pointing to itself', () => {
-                const { wrapper, instance } = setup({}, true);
+                const { wrapper, instance } = setup();
                 const sourceId = generateUUID();
 
                 expect(
@@ -361,7 +345,7 @@ describe(Flow.name, () => {
             });
 
             it('should return true if not pointing to itself', () => {
-                const { wrapper, instance } = setup({}, true);
+                const { wrapper, instance } = setup();
 
                 expect(instance.onBeforeConnectorDrop(mockConnectionEvent)).toBeTruthy();
             });
@@ -369,13 +353,10 @@ describe(Flow.name, () => {
 
         describe('onConnectorDrop', () => {
             it('should not do NodeEditor work if the user is dragging back', () => {
-                const { wrapper, instance, props } = setup(
-                    {
-                        updateCreateNodePosition: jest.fn(),
-                        onOpenNodeEditor: jest.fn()
-                    },
-                    true
-                );
+                const { wrapper, instance, props } = setup(true, {
+                    updateCreateNodePosition: setMock(),
+                    onOpenNodeEditor: setMock()
+                });
 
                 jest.runAllTimers();
 
@@ -393,14 +374,14 @@ describe(Flow.name, () => {
                     nodeUUID: generateUUID()
                 };
                 const suspendedElementId = generateUUID();
-                const ghostRefSpy = spyOnFlow('ghostRef');
+                const ghostRefSpy = spyOn('ghostRef');
 
                 // tslint:disable-next-line:no-shadowed-variable
-                const { wrapper, instance, props, context } = setup({
-                    updateCreateNodePosition: jest.fn(),
-                    onOpenNodeEditor: jest.fn(),
-                    ghostNode: ghostNodeFromWait,
-                    pendingConnection
+                const { wrapper, instance, props, context } = setup(false, {
+                    updateCreateNodePosition: setMock(),
+                    onOpenNodeEditor: setMock(),
+                    ghostNode: set(ghostNodeFromWait),
+                    pendingConnection: set(pendingConnection)
                 });
 
                 instance.onConnectorDrop({
@@ -430,7 +411,7 @@ describe(Flow.name, () => {
 
         describe('beforeConnectionDrag', () => {
             it('should return reversse of translating prop', () => {
-                const { wrapper, instance, props } = setup({}, true);
+                const { wrapper, instance, props } = setup();
 
                 expect(instance.beforeConnectionDrag(mockConnectionEvent)).toBe(!props.translating);
             });
@@ -438,10 +419,9 @@ describe(Flow.name, () => {
 
         describe('onMouseDown', () => {
             it('should call updateDragSelection prop', () => {
-                const { wrapper, instance, props } = setup(
-                    { updateDragSelection: jest.fn() },
-                    true
-                );
+                const { wrapper, instance, props } = setup(true, {
+                    updateDragSelection: setMock()
+                });
 
                 const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
 
@@ -466,13 +446,10 @@ describe(Flow.name, () => {
 
         describe('onMouseMove', () => {
             it('should call updateDragSelection prop if user is creating a drag selection', () => {
-                const { wrapper, instance, props } = setup(
-                    {
-                        updateDragSelection: jest.fn(),
-                        dragSelection
-                    },
-                    true
-                );
+                const { wrapper, instance, props } = setup(true, {
+                    updateDragSelection: setMock(),
+                    dragSelection: set(dragSelection)
+                });
                 const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
 
                 const mockMouseMoveEvent = {
@@ -499,7 +476,9 @@ describe(Flow.name, () => {
             });
 
             it('should not call updateDragSelection prop if user is not creating a drag selection', () => {
-                const { wrapper, props } = setup({ updateDragSelection: jest.fn() }, true);
+                const { wrapper, props } = setup(true, {
+                    updateDragSelection: setMock()
+                });
                 const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
 
                 nodesContainer.simulate('mouseMove');
@@ -510,10 +489,10 @@ describe(Flow.name, () => {
 
         describe('onMouseUp', () => {
             it('should call updateDragSelection if user is creating a drag selection', () => {
-                const { wrapper, instance, props } = setup(
-                    { updateDragSelection: jest.fn(), dragSelection },
-                    true
-                );
+                const { wrapper, instance, props } = setup(true, {
+                    updateDragSelection: setMock(),
+                    dragSelection: set(dragSelection)
+                });
                 const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
 
                 nodesContainer.simulate('mouseUp');
@@ -529,10 +508,10 @@ describe(Flow.name, () => {
             });
 
             it('notify jsplumb of the drag selection if nodes selected', () => {
-                const { wrapper, instance, props } = setup(
-                    { updateDragSelection: jest.fn(), dragSelection },
-                    true
-                );
+                const { wrapper, instance, props } = setup(true, {
+                    updateDragSelection: setMock(),
+                    dragSelection: set(dragSelection)
+                });
                 const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
 
                 nodesContainer.simulate('mouseUp');
@@ -544,10 +523,9 @@ describe(Flow.name, () => {
             });
 
             it('should not call updateDragSelection, notify jsplumb of selection if no selection exists', () => {
-                const { wrapper, instance, props } = setup(
-                    { updateDragSelection: jest.fn() },
-                    true
-                );
+                const { wrapper, instance, props } = setup(true, {
+                    updateDragSelection: setMock()
+                });
                 const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
 
                 nodesContainer.simulate('mouseUp');

@@ -1,5 +1,5 @@
 const axios = require.requireActual('axios');
-const { endpoints } = require('../assets/config');
+const { endpoints } = require('../__test__/config');
 const boringFlowResp = require('../__test__/assets/flows/boring.json');
 const flowsResp = require('../__test__/assets/flows.json');
 const groupsResp = require('../__test__/assets/groups.json');

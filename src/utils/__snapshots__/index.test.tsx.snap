@@ -1,5 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`utils capitalize should capitalized all words in a string 1`] = `"Your String"`;
+
+exports[`utils capitalize should capitalized all words in a string 2`] = `"Ÿöur Striñg"`;
+
 exports[`utils emphasize should apply emphasis style 1`] = `
 <span
   className="emph"
@@ -51,9 +55,9 @@ LocalizedObject {
   "localized": false,
   "localizedKeys": Object {},
   "localizedObject": Object {
-    "text": "Hello World!",
+    "text": "Hi there, what is your name?",
     "type": "send_msg",
-    "uuid": "send_msg_action",
+    "uuid": "360a28a1-6741-4f16-9421-f6f313cf753e",
   },
 }
 `;
@@ -70,16 +74,12 @@ LocalizedObject {
     "fre": "French",
     "spa": "Spanish",
   },
-  "localized": true,
-  "localizedKeys": Object {
-    "text": true,
-  },
+  "localized": false,
+  "localizedKeys": Object {},
   "localizedObject": Object {
-    "text": Array [
-      "¿Cuál es tu color favorito?",
-    ],
+    "text": "Hi there, what is your name?",
     "type": "send_msg",
-    "uuid": "send_msg_action",
+    "uuid": "360a28a1-6741-4f16-9421-f6f313cf753e",
   },
 }
 `;
@@ -99,9 +99,9 @@ LocalizedObject {
   "localized": false,
   "localizedKeys": Object {},
   "localizedObject": Object {
-    "text": "Hello World!",
+    "text": "Hi there, what is your name?",
     "type": "send_msg",
-    "uuid": "send_msg_action",
+    "uuid": "360a28a1-6741-4f16-9421-f6f313cf753e",
   },
 }
 `;

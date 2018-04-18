@@ -1,15 +1,15 @@
-import { v4 as generateUUID } from 'uuid';
-import { createSetup, getSpecWrapper } from '../../testUtils';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../testUtils';
+import { set, setFalse } from '../../utils';
 import HeaderElement, {
     Header,
+    HEADER_NAME_ERROR,
     headerContainerSpecId,
     HeaderElementProps,
+    NAME_PLACEHOLDER,
     nameContainerSpecId,
     removeIcoSpecId,
-    valueConatainerSpecId,
-    NAME_PLACEHOLDER,
     VALUE_PLACEHOLDER,
-    HEADER_NAME_ERROR
+    valueConatainerSpecId
 } from './HeaderElement';
 
 const headers: Header[] = [
@@ -35,19 +35,17 @@ const baseProps: HeaderElementProps = {
     onChange: jest.fn()
 };
 
-const setup = createSetup<HeaderElementProps>(HeaderElement, baseProps);
+const { setup, spyOn } = composeComponentTestUtils(HeaderElement, baseProps);
 
-const COMPONENT_TO_TEST = HeaderElement.name;
-
-describe(`${COMPONENT_TO_TEST}`, () => {
+describe(HeaderElement.name, () => {
     describe('render', () => {
         it('should render self, children with base props', () => {
-            const { wrapper, props: { name, header }, instance } = setup({}, true);
+            const { wrapper, props, instance } = setup();
             const inputs = wrapper.find('Connect(TextInputElement)');
 
             expect(wrapper.find('FormElement').props()).toEqual(
                 expect.objectContaining({
-                    name,
+                    name: props.name,
                     errors: []
                 })
             );
@@ -59,7 +57,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 placeholder: NAME_PLACEHOLDER,
                 name: 'name',
                 onChange: instance.onChangeName,
-                value: header.name,
+                value: props.header.name,
                 showInvalid: false
             });
             expect(
@@ -69,7 +67,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                 placeholder: VALUE_PLACEHOLDER,
                 name: 'value',
                 onChange: instance.onChangeValue,
-                value: header.value,
+                value: props.header.value,
                 autocomplete: true
             });
             expect(getSpecWrapper(wrapper, removeIcoSpecId).exists()).toBeFalsy();
@@ -77,7 +75,10 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         });
 
         it('should render remove icon', () => {
-            const { wrapper, instance } = setup({ index: 1, empty: false }, true);
+            const { wrapper, instance } = setup(true, {
+                index: set(1),
+                empty: setFalse()
+            });
             const removeIcon = getSpecWrapper(wrapper, removeIcoSpecId);
 
             expect(removeIcon.hasClass('removeIco')).toBeTruthy();
@@ -91,7 +92,7 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         });
 
         it('should indicate header error to TextInputElement', () => {
-            const { wrapper } = setup({}, true);
+            const { wrapper } = setup();
 
             wrapper.setState({ errors: [HEADER_NAME_ERROR] }, () => wrapper.update());
 
@@ -107,11 +108,10 @@ describe(`${COMPONENT_TO_TEST}`, () => {
     describe('instance methods', () => {
         describe('onChangeName', () => {
             it('should update state, call onChange prop', () => {
-                const setStateSpy = jest.spyOn(HeaderElement.prototype, 'setState');
-                const { wrapper, props: { onChange: onChangeMock }, instance } = setup(
-                    { onChange: jest.fn() },
-                    true
-                );
+                const setStateSpy = spyOn('setState');
+                const { wrapper, props: { onChange: onChangeMock }, instance } = setup(true, {
+                    onChange: setMock()
+                });
                 const mockEvent = {
                     currentTarget: {
                         value: headers[0].name
@@ -142,11 +142,10 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
         describe('onChangeValue', () => {
             it('should update state, call onChange prop', () => {
-                const setStateSpy = jest.spyOn(HeaderElement.prototype, 'setState');
-                const { wrapper, props: { onChange: onChangeMock }, instance } = setup(
-                    { onChange: jest.fn() },
-                    true
-                );
+                const setStateSpy = spyOn('setState');
+                const { wrapper, props, instance } = setup(true, {
+                    onChange: setMock()
+                });
                 const mockEvent = {
                     currentTarget: {
                         value: headers[0].value
@@ -161,8 +160,8 @@ describe(`${COMPONENT_TO_TEST}`, () => {
                     { value: headers[0].value },
                     expect.any(Function)
                 );
-                expect(onChangeMock).toHaveBeenCalledTimes(1);
-                expect(onChangeMock).toHaveBeenCalledWith(expect.any(HeaderElement));
+                expect(props.onChange).toHaveBeenCalledTimes(1);
+                expect(props.onChange).toHaveBeenCalledWith(expect.any(HeaderElement));
                 expect(
                     wrapper
                         .find('Connect(TextInputElement)')
@@ -178,22 +177,23 @@ describe(`${COMPONENT_TO_TEST}`, () => {
 
     describe('onRemove', () => {
         it('should call onRemove prop', () => {
-            const { wrapper, props: { onRemove: onRemoveMock }, instance } = setup(
-                { onRemove: jest.fn() },
-                true
-            );
+            const { wrapper, props, instance } = setup(true, {
+                onRemove: setMock()
+            });
 
             instance.onRemove();
 
-            expect(onRemoveMock).toHaveBeenCalledTimes(1);
+            expect(props.onRemove).toHaveBeenCalledTimes(1);
         });
     });
 
     describe('validate', () => {
         it('should return true, update state if errors', () => {
-            const setStateSpy = jest.spyOn(HeaderElement.prototype, 'setState');
+            const setStateSpy = spyOn('setState');
             const namelessHeader = { ...headers[0], name: '' };
-            const { wrapper, instance } = setup({ header: namelessHeader }, true);
+            const { wrapper, instance } = setup(true, {
+                header: set(namelessHeader)
+            });
 
             expect(instance.validate()).toBeFalsy();
             expect(setStateSpy).toHaveBeenCalledTimes(1);
@@ -203,8 +203,8 @@ describe(`${COMPONENT_TO_TEST}`, () => {
         });
 
         it('should return false, update state if no errors', () => {
-            const setStateSpy = jest.spyOn(HeaderElement.prototype, 'setState');
-            const { wrapper, instance } = setup({}, true);
+            const setStateSpy = spyOn('setState');
+            const { wrapper, instance } = setup();
 
             expect(instance.validate()).toBeTruthy();
             expect(setStateSpy).toHaveBeenCalledTimes(1);

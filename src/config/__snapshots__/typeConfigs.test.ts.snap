@@ -160,17 +160,6 @@ Array [
     "name": "Save Flow Result",
     "type": "set_run_result",
   },
-  Object {
-    "aliases": Array [
-      "subflow",
-    ],
-    "allows": [Function],
-    "component": [Function],
-    "description": "Run another flow",
-    "form": [Function],
-    "name": "Run Flow",
-    "type": "start_flow",
-  },
 ]
 `;
 

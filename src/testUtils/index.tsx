@@ -1,10 +1,14 @@
 // TODO: Remove use of Function
 // tslint:disable:ban-types
 import { mount, ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
+import mutate, { Query } from 'immutability-helper';
+import { object } from 'prop-types';
 import * as React from 'react';
-import { Provider } from 'react-redux';
-import { ConfigProviderContext } from '../config';
+import * as config from '../../__test__/config';
+import { ConfigProviderContext, endpointsPT, flowPT, languagesPT } from '../config';
+import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
 import { AppState, createStore, initialState } from '../store';
+import { getBaseLanguage, merge, set } from '../utils';
 
 export interface Resp {
     results: Array<{ [key: string]: any }>;
@@ -15,31 +19,71 @@ export interface QueryString {
     [key: string]: string;
 }
 
-// To-do: improve this API.
-// shallowRender should default to true,
-// shouldn't have to pass an empty propOverrides object to get a shallow-rendered wrapper with no prop overrides, e.g.:
-// const { wrapper } = setup({}, true);
+export const contextTypes: { [key: string]: Function } = {
+    store: object,
+    endpoints: endpointsPT,
+    languages: languagesPT,
+    flow: flowPT
+};
+
+export const baseState: AppState = mutate(initialState, {
+    flowContext: merge({
+        definition: require('../../__test__/flows/colors.json') as FlowDefinition
+    }),
+    flowEditor: {
+        editorUI: merge({
+            language: getBaseLanguage((config as FlowEditorConfig).languages)
+        })
+    }
+});
+
+export const configProviderContext: ConfigProviderContext = {
+    endpoints: (config as FlowEditorConfig).endpoints,
+    languages: (config as FlowEditorConfig).languages,
+    flow: (config as FlowEditorConfig).flow
+};
+
+export const setMock = (implementation?: (...args: any[]) => any): Query<jest.Mock> =>
+    set(jest.fn(implementation));
+
 /**
  * Compose setup method for component tests
  */
-export const createSetup = <P extends {}, C extends ConfigProviderContext = ConfigProviderContext>(
+export const composeSetup = <P extends {}>(
     Component: React.ComponentClass | React.SFC,
     baseProps: P = {} as any,
-    context: C | Partial<C> = {},
-    childContextTypes: { [key: string]: Function } = {}
+    baseDuxState: AppState | Partial<AppState> = baseState,
+    baseContext: ConfigProviderContext = configProviderContext
 ) => (
-    propOverrides: P | Partial<P> = {},
-    shallowRender: boolean = false,
-    contextOverrides: C | Partial<C> = {}
+    shallowRender: boolean = true,
+    propOverrides: Query<P | Partial<P>> = {},
+    duxStateOverrides: Query<AppState | Partial<AppState>> = {},
+    contextOverrides: Query<ConfigProviderContext | Partial<ConfigProviderContext>> = {},
+    childContextTypeOverrides: { [key: string]: Function } = {}
 ) => {
-    // Waiting on https://github.com/Microsoft/TypeScript/pull/1328
-    const props = Object.assign({}, baseProps, propOverrides);
-    // prettier-ignore
-    const wrapper = (
-        // tslint:disable-next-line:ban-types
-        shallowRender ? (shallow as Function) : (mount as Function)
-    )(
-        <Component {...props} />, { context: Object.assign({}, context, contextOverrides), childContextTypes }
+    const props = mutate(baseProps, propOverrides);
+    const store = createStore(mutate(baseDuxState, duxStateOverrides) as AppState);
+    let context = mutate(baseContext, merge({ store }));
+
+    if (Object.keys(duxStateOverrides).length > 0) {
+        context = mutate(context, duxStateOverrides);
+    }
+
+    if (Object.keys(contextOverrides).length > 0) {
+        context = mutate(context, contextOverrides);
+    }
+
+    const childContextTypes: { [contextProp: string]: Function } = mutate(
+        contextTypes,
+        childContextTypeOverrides
+    );
+    // tslint:disable-next-line:ban-types
+    const wrapper = (shallowRender ? (shallow as Function) : (mount as Function))(
+        <Component {...props} />,
+        {
+            context,
+            childContextTypes
+        }
     );
 
     return {
@@ -50,8 +94,8 @@ export const createSetup = <P extends {}, C extends ConfigProviderContext = Conf
     };
 };
 
-export const createSpy = (object: Object | React.ComponentClass) => (instanceMethod: string) =>
-    jest.spyOn((object as React.ComponentClass).prototype || object, instanceMethod as any);
+export const composeSpy = (obj: Object | React.ComponentClass) => (instanceMethod: string) =>
+    jest.spyOn((obj as React.ComponentClass).prototype || obj, instanceMethod as any);
 
 /**
  * Wait for promises in queue to resolve
@@ -66,6 +110,7 @@ export const flushPromises = () => new Promise(resolve => setImmediate(resolve))
 export const restoreSpies = (...spies: jest.SpyInstance[]) =>
     spies.forEach(spy => spy.mockRestore());
 
+// To-do: type this method's output, can pass it prop generic ingested by getComponentTestUtils
 /**
  * NOTE: borrowed from EventBrite: https://github.com/eventbrite/javascript/blob/master/react/testing.md#finding-nodes
  * Finds all instances of components in the rendered `componentWrapper` that are DOM components
@@ -79,20 +124,19 @@ export const getSpecWrapper = (
     componentWrapper: ReactWrapper<{}, {}> | ShallowWrapper<{}, {}>,
     specName: string,
     attributeName: string = 'data-spec'
-): any => {
-    return componentWrapper.find(`[${attributeName}="${specName}"]`);
-};
+): any => componentWrapper.find(`[${attributeName}="${specName}"]`);
 
-const DEBUG = false;
+export const composeDuxState = (
+    query: Query<AppState | Partial<AppState>> = {},
+    duxState = baseState
+) => mutate(duxState, query);
 
-export const timeStart = (name: string) => {
-    if (DEBUG) {
-        console.time(name);
-    }
-};
-
-export const timeEnd = (name: string) => {
-    if (DEBUG) {
-        console.timeEnd(name);
-    }
-};
+export const composeComponentTestUtils = <P extends {}>(
+    Component: React.ComponentClass | React.SFC,
+    baseProps: P = {} as any,
+    baseDuxState: AppState | Partial<AppState> = baseState,
+    baseContext: ConfigProviderContext = configProviderContext
+) => ({
+    setup: composeSetup<P>(Component, baseProps, baseDuxState, baseContext),
+    spyOn: composeSpy(Component)
+});

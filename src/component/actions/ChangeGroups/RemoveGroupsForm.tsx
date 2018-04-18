@@ -10,6 +10,7 @@ import GroupsElement from '../../form/GroupsElement';
 import { AddGroupsFormState } from './AddGroupsForm';
 import { mapGroupsToSearchResults, mapSearchResultsToGroups } from './helpers';
 import ChangeGroupsFormProps from './props';
+import { Types } from '../../../config/typeConfigs';
 
 export interface RemoveGroupsFormState extends AddGroupsFormState {
     removeFromAll: boolean;
@@ -81,7 +82,7 @@ export class RemoveGroupsForm extends React.Component<
         if (
             this.props.action.groups &&
             this.props.action.groups.length &&
-            this.props.action.type !== 'add_contact_groups'
+            this.props.action.type !== Types.add_contact_groups
         ) {
             return mapGroupsToSearchResults(this.props.action.groups);
         }

@@ -39,6 +39,7 @@ import * as styles from './Node.scss';
 import * as shared from './shared.scss';
 import TitleBar from './TitleBar';
 import { DragSelection, updateDragSelection } from '../store/flowEditor';
+import { Types } from '../config/typeConfigs';
 
 // A point in the flow from which a drag is initiated
 export interface DragPoint {
@@ -375,7 +376,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             let type = this.props.node.router.type;
 
             if (this.props.ui.type) {
-                type = this.props.ui.type;
+                type = this.props.ui.type as any;
             }
 
             const config = getTypeConfig(type);
@@ -384,9 +385,9 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             if (this.props.node.router.type === 'switch') {
                 const switchRouter = this.props.node.router as SwitchRouter;
                 if (switchRouter.result_name) {
-                    if (this.props.ui.type === 'split_by_expression') {
+                    if (this.props.ui.type === Types.split_by_expression) {
                         title = `Split by ${titleCase(switchRouter.result_name)}`;
-                    } else if (this.props.ui.type === 'wait_for_response') {
+                    } else if (this.props.ui.type === Types.wait_for_response) {
                         title = `Wait for ${titleCase(switchRouter.result_name)}`;
                     }
                 }

@@ -1,18 +1,20 @@
 import { Sticky, STICKY_SPEC_ID, StickyProps } from './Sticky';
-import { createSetup, createSpy, getSpecWrapper } from '../../testUtils';
+import {
+    composeComponentTestUtils,
+    configProviderContext,
+    composeDuxState,
+    setMock
+} from '../../testUtils';
 import { FlowDefinition, StickyNote } from '../../flowTypes';
-import { getBaseLanguage, dump } from '../../utils';
+import { getBaseLanguage, dump, set } from '../../utils';
 import { ConnectionEvent, createStore, initialState, updateSticky } from '../../store';
 import { object } from 'prop-types';
 import { endpointsPT, languagesPT } from '../../config/ConfigProvider';
 import * as styles from './Sticky.scss';
-import * as config from '../../../assets/config';
 
 jest.useFakeTimers();
 
-// TODO: this is an awful lot of boilerplate for testing a simple component
 const definition = require('../../../__test__/flows/empty.json') as FlowDefinition;
-const { languages, endpoints } = config;
 
 const clearTimeoutMock = clearTimeout as jest.Mock;
 
@@ -33,39 +35,27 @@ const baseProps: StickyProps = {
     onResetDragSelection: jest.fn()
 };
 
-const context = {
-    languages,
-    endpoints,
-    store: createStore({
-        ...initialState,
-        flowContext: { ...initialState.flowContext, definition }
-    })
-};
-
-const childContextTypes = {
-    store: object,
-    endpoints: endpointsPT,
-    languages: languagesPT
-};
-
-const setup = createSetup<StickyProps>(Sticky, baseProps, context, childContextTypes);
-const spyOnSticky = createSpy(Sticky);
+const { setup } = composeComponentTestUtils(
+    Sticky,
+    baseProps,
+    composeDuxState({ flowContext: { definition: set(definition) } })
+);
 
 describe(Sticky.name, () => {
     describe('colors', () => {
         it('should render yellow as a default', () => {
-            const { wrapper } = setup({}, true);
+            const { wrapper } = setup();
             expect(wrapper.find('.stickyContainer').hasClass('yellow')).toBeTruthy();
         });
 
         it('should render green notes', () => {
             sticky.color = 'green';
-            const { wrapper } = setup({ sticky }, true);
+            const { wrapper } = setup(true, { sticky: set(sticky) });
             expect(wrapper.find('.stickyContainer').hasClass('green')).toBeTruthy();
         });
 
         it('should let you change the color', () => {
-            const { wrapper } = setup({}, true);
+            const { wrapper } = setup();
             wrapper.find('.colorChooser .blue').simulate('click');
             expect(wrapper.find('.stickyContainer').hasClass('blue')).toBeTruthy();
         });
@@ -75,24 +65,25 @@ describe(Sticky.name, () => {
         let wrapper;
 
         const updateText = (name: string, value: string) => {
-            wrapper.find('textarea.' + name).prop('onChange')({
+            const selector = `textarea.${name}`;
+            wrapper.find(selector).prop('onChange')({
                 currentTarget: { value }
             });
-            expect(wrapper.find('textarea.' + name).text()).toBe(value);
+            expect(wrapper.find(selector).text()).toBe(value);
         };
 
         it('should update the title', () => {
-            wrapper = setup({}, false).wrapper;
+            wrapper = setup(false).wrapper;
             updateText('title', 'My new title');
         });
 
         it('should update the body', () => {
-            wrapper = setup({}, false).wrapper;
+            wrapper = setup(false).wrapper;
             updateText('body', 'My new body');
         });
 
         it('should debounce multiple updates', () => {
-            wrapper = setup({}, false).wrapper;
+            wrapper = setup(false).wrapper;
             updateText('title', 'Update one');
             updateText('title', 'Update two');
 
@@ -101,25 +92,27 @@ describe(Sticky.name, () => {
         });
 
         it('should deregister debounce on unmount', () => {
-            wrapper = setup({}, false).wrapper;
+            wrapper = setup(false).wrapper;
             updateText('title', 'Update one');
             updateText('title', 'Update two');
             clearTimeoutMock.mockClear();
 
             wrapper.unmount();
+
             expect(clearTimeout).toHaveBeenCalledTimes(1);
         });
     });
 
     describe('delete', () => {
         it('should show confirmation when clicking remove', () => {
-            const { wrapper } = setup({}, false);
+            const { wrapper } = setup(false);
 
             // starts off without the removal class
             expect(wrapper.find('.titleWrapper').hasClass('removal')).toBeFalsy();
 
             // click on the removal, and removal should be there
             wrapper.find('.removeButton').simulate('click');
+
             expect(wrapper.find('.titleWrapper').hasClass('removal')).toBeTruthy();
 
             // run through the end of the timer period and removal should go away
@@ -134,7 +127,7 @@ describe(Sticky.name, () => {
         });
 
         it('should delete on double click', () => {
-            const { wrapper, props } = setup({ updateSticky: jest.fn() }, true);
+            const { wrapper, props } = setup(true, { updateSticky: setMock() });
 
             // click on the removal, and removal should be there
             wrapper.find('.removeButton').simulate('click');
@@ -149,7 +142,7 @@ describe(Sticky.name, () => {
         });
 
         it('should deregister timeout when unmounting', () => {
-            const { wrapper } = setup({}, true);
+            const { wrapper } = setup();
             clearTimeoutMock.mockClear();
 
             // click to remove will register a timer to switch removal off
@@ -157,25 +150,29 @@ describe(Sticky.name, () => {
 
             // unmounting should deregister our timer
             wrapper.unmount();
+
             expect(clearTimeout).toHaveBeenCalledTimes(1);
         });
     });
 
     describe('mounting', () => {
         it('should deregister from plumber on unmount', () => {
-            const { wrapper, props } = setup({ plumberRemove: jest.fn() }, true);
+            const { wrapper, props } = setup(true, {
+                plumberRemove: setMock()
+            });
 
             wrapper.unmount();
+
             expect(props.plumberRemove).toHaveBeenCalledTimes(1);
         });
     });
 
     describe('dragging', () => {
         it('should reset drag select on drag start', () => {
-            const { props, instance } = setup(
-                { plumberClearDragSelection: jest.fn(), onResetDragSelection: jest.fn() },
-                true
-            );
+            const { props, instance } = setup(true, {
+                plumberClearDragSelection: setMock(),
+                onResetDragSelection: setMock()
+            });
 
             // start dragging
             instance.onDragStart({});
@@ -185,14 +182,18 @@ describe(Sticky.name, () => {
         });
 
         it('should get coverage for a noop', () => {
-            const { instance } = setup({}, true);
+            const { instance } = setup();
+
             instance.onDrag({});
         });
 
         it('should update the position when we are done dragging', () => {
-            const { props, instance } = setup({ updateSticky: jest.fn() }, false);
+            const { props, instance } = setup(false, {
+                updateSticky: setMock()
+            });
 
             instance.onDragStop({ finalPos: [100, 200] });
+
             expect(props.updateSticky).toHaveBeenCalledWith(props.uuid, {
                 body: 'Sticky Body',
                 color: 'blue',

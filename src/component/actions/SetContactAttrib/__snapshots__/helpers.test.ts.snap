@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`newPropertyAction should return a new SetContactProperty action 1`] = `
+Object {
+  "property": "email",
+  "type": "set_contact_property",
+  "uuid": "set_contact_property-0",
+  "value": "jane@example.com",
+}
+`;
+
+exports[`propertyToSearchResult should return a SearchResult object 1`] = `
+Object {
+  "id": "Email",
+  "name": "Email",
+  "type": "property",
+}
+`;

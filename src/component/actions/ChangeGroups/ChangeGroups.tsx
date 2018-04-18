@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ChangeGroups, Group } from '../../../flowTypes';
+import { Types } from '../../../config/typeConfigs';
 
 export const removeAllSpecId = 'remove_from_all';
 export const contentSpecId = 'content';
@@ -34,7 +35,7 @@ export const getGroupElements = (groups: Group[] = []) =>
 export const getContentMarkup = ({ type, groups }: ChangeGroups): JSX.Element[] => {
     const content = [];
 
-    if (type === 'remove_contact_groups' && !groups.length) {
+    if (type === Types.remove_contact_groups && !groups.length) {
         content.push(getRemoveAllMarkup());
     } else {
         const groupEls = content.push(...getGroupElements(groups));
@@ -46,6 +47,7 @@ export const getContentMarkup = ({ type, groups }: ChangeGroups): JSX.Element[] 
 export const getChangeGroupsMarkup = (action: ChangeGroups, specId = contentSpecId) => (
     <div data-spec={specId}>{getContentMarkup(action)}</div>
 );
+
 
 const ChangeGroupComp: React.SFC<ChangeGroups> = (props): JSX.Element =>
     getChangeGroupsMarkup(props);

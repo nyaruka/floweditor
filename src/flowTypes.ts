@@ -4,6 +4,7 @@ import {
     NewOptionCreatorHandler,
     PromptTextCreatorHandler
 } from 'react-select';
+import { Operators } from './config/operatorConfigs';
 
 export interface Languages {
     [iso: string]: string;
@@ -45,7 +46,7 @@ export interface FlowNode {
     actions: Action[];
     exits: Exit[];
     router?: Router;
-    wait?: any;
+    wait?: Wait;
 }
 
 export interface Exit {
@@ -55,13 +56,13 @@ export interface Exit {
 }
 
 export interface Router {
-    type: string;
+    type: 'switch' | 'split';
     result_name?: string;
 }
 
 export interface Case {
     uuid: string;
-    type: string;
+    type: Operators;
     exit_uuid: string;
     arguments?: string[];
 }
@@ -72,7 +73,7 @@ export interface SwitchRouter extends Router {
     default_exit_uuid: string;
 }
 
-export enum WaitType {
+export enum WaitTypes {
     exp = 'exp',
     group = 'group',
     msg = 'msg',
@@ -80,7 +81,7 @@ export enum WaitType {
 }
 
 export interface Wait {
-    type: WaitType;
+    type: WaitTypes;
     flow_uuid?: string;
 }
 
@@ -177,7 +178,6 @@ export interface Dimensions {
 
 export interface UINode {
     position: FlowPosition;
-
     // ui type, used for split by expression, contact field, etc
     type?: string;
 }
@@ -250,4 +250,14 @@ export interface CreateOptions {
     isOptionUnique?: IsOptionUniqueHandler;
     createNewOption?: NewOptionCreatorHandler;
     createPrompt?: string;
+}
+
+export enum StartFlowArgs {
+    Complete = 'C',
+    Expired = 'E'
+}
+
+export enum StartFlowExitNames {
+    Complete = 'Complete',
+    Expired = 'Expired'
 }

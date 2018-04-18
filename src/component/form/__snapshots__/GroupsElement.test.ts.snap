@@ -27,7 +27,7 @@ Array [
 
 exports[`GroupsElement helpers getInitialGroups should return an empty list if passed a falsy 'groups' prop 1`] = `Array []`;
 
-exports[`GroupsElement helpers getInitialGroups should return localGroups list if GroupsElement passed 'localGroups' prop but not 'groups' prop 1`] = `
+exports[`GroupsElement helpers getInitialGroups should return localGroups list if passed 'localGroups' prop but not 'groups' prop 1`] = `
 Array [
   Object {
     "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",

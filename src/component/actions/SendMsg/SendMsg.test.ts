@@ -1,28 +1,24 @@
-import { FlowDefinition, SendMsg } from '../../../flowTypes';
-import { createSetup, Resp } from '../../../testUtils';
+import { SendMsg } from '../../../flowTypes';
+import { composeComponentTestUtils } from '../../../testUtils';
+import { createSendMsgAction } from '../../../testUtils/assetCreators';
+import { setEmpty } from '../../../utils';
 import SendMsgComp, { PLACEHOLDER } from './SendMsg';
 
-const {
-    results: [{ definition }]
-} = require('../../../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json') as Resp;
-const { nodes: [node], language: flowLanguage } = definition as FlowDefinition;
-const { actions: [replyAction] } = node;
+const sendMsgAction = createSendMsgAction();
 
-const setup = createSetup<SendMsg>(SendMsgComp, replyAction as SendMsg);
+const { setup } = composeComponentTestUtils<SendMsg>(SendMsgComp, sendMsgAction);
 
-const COMPONENT_TO_TEST = SendMsgComp.name;
-
-describe(`${COMPONENT_TO_TEST}`, () => {
+describe(SendMsgComp.name, () => {
     describe('render', () => {
-        it(`should render ${COMPONENT_TO_TEST} with text prop when passed`, () => {
-            const { wrapper, props: { text } } = setup();
+        it('should render text prop when passed', () => {
+            const { wrapper, props } = setup();
 
-            expect(wrapper.text()).toBe(text);
+            expect(wrapper.text()).toBe(props.text);
             expect(wrapper).toMatchSnapshot();
         });
 
-        it(`should render ${COMPONENT_TO_TEST} with placeholder when text prop isn't passed`, () => {
-            const { wrapper } = setup({ text: '' });
+        it("should render placeholder when text prop isn't passed", () => {
+            const { wrapper } = setup(true, { text: setEmpty() });
 
             expect(wrapper.text()).toBe(PLACEHOLDER);
             expect(wrapper).toMatchSnapshot();

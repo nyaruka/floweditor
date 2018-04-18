@@ -1,23 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SendEmailComp render should render SendEmailComp, display subject 1`] = `
-<SendEmailComp
-  body="@run.results.name says: 
-
-@run.results.issue 
-
-Please reach out to them at @run.results.phone"
-  emails={
-    Array [
-      "support@acme.co",
-    ]
-  }
-  subject="New Issue"
-  type="send_email"
-  uuid="225a67f4-28b5-4819-a25b-eb9a0ecea11d"
->
-  <div>
-    New Issue
-  </div>
-</SendEmailComp>
+exports[`SendEmailComp render should render self, children 1`] = `
+<div>
+  New Sign Up
+</div>
 `;

@@ -1,16 +1,15 @@
+import { v4 as generateUUID } from 'uuid';
+import { Types } from '../config/typeConfigs';
+import { Case, Exit, FlowDefinition, FlowPosition, SendMsg } from '../flowTypes';
 import {
-    getSuggestedResultName,
     determineConfigType,
+    getCollisions,
+    getFlowComponents,
     getGhostNode,
     getLocalizations,
-    getUniqueDestinations,
-    getCollisions,
-    getFlowComponents
+    getSuggestedResultName,
+    getUniqueDestinations
 } from './helpers';
-import { v4 as generateUUID } from 'uuid';
-
-import { dump, getLocalization } from '../utils';
-import { AnyAction, SendMsg, Exit, Case, FlowPosition, FlowDefinition } from '../flowTypes';
 
 describe('helpers', () => {
     const definition: FlowDefinition = require('../../__test__/flows/boring.json');
@@ -110,7 +109,7 @@ describe('helpers', () => {
             it('should create an action node from a switch', () => {
                 const ghost = getGhostNode(nodes.node1, nodes);
                 expect(ghost.router).toBeUndefined();
-                expect(ghost.actions[0].type).toBe('send_msg');
+                expect(ghost.actions[0].type).toBe(Types.send_msg);
             });
         });
 
@@ -121,17 +120,17 @@ describe('helpers', () => {
                     nodes.node0.node.actions[0],
                     nodes
                 );
-                expect(configType).toBe('send_msg');
+                expect(configType).toBe(Types.send_msg);
             });
 
             it('should return last action type if no action provided', () => {
                 const configType = determineConfigType(nodes.node0.node, null, nodes);
-                expect(configType).toBe('remove_contact_groups');
+                expect(configType).toBe(Types.remove_contact_groups);
             });
 
             it('should use the router type if no actions', () => {
                 const configType = determineConfigType(nodes.node1.node, null, nodes);
-                expect(configType).toBe('wait_for_response');
+                expect(configType).toBe(Types.wait_for_response);
             });
 
             it('should determine type from a brand new router', () => {
