@@ -23,8 +23,8 @@ import { configProviderContext } from '../testUtils';
 import { FlowDefinition } from '../flowTypes';
 import { Types } from '../config/typeConfigs';
 
-const colorsFlow = require('../../__test__/flows/colors.json') as FlowDefinition;
-const customerServiceFlow = require('../../__test__/flows/customer_service.json') as FlowDefinition;
+const boringFlow = require('../../__test__/flows/colors.json') as FlowDefinition;
+const emptyFlow = require('../../__test__/flows/empty.json') as FlowDefinition;
 
 describe('flowContext action creators', () => {
     describe('updateDefinition', () => {
@@ -32,17 +32,17 @@ describe('flowContext action creators', () => {
             const expectedAction = {
                 type: Constants.UPDATE_DEFINITION,
                 payload: {
-                    definition: colorsFlow
+                    definition: boringFlow
                 }
             };
 
-            expect(updateDefinition(colorsFlow)).toEqual(expectedAction);
+            expect(updateDefinition(boringFlow)).toEqual(expectedAction);
         });
     });
 
     describe('updateDependencies', () => {
         it('should create an action to update dependencies state', () => {
-            const dependencies = [colorsFlow, customerServiceFlow];
+            const dependencies = [emptyFlow];
             const expectedAction = {
                 type: Constants.UPDATE_DEPENDENCIES,
                 payload: {
@@ -59,10 +59,10 @@ describe('flowContext action creators', () => {
             const iso = 'spa';
             const localizations = [
                 Localization.translate(
-                    colorsFlow.nodes[0].actions[0],
+                    boringFlow.nodes[0].actions[0],
                     iso,
                     configProviderContext.languages,
-                    colorsFlow[iso]
+                    boringFlow[iso]
                 )
             ];
             const expectedAction = {
@@ -132,8 +132,8 @@ describe('flowContext reducers', () => {
         });
 
         it('should handle UPDATE_DEFINITION', () => {
-            const action = updateDefinition(colorsFlow);
-            expect(reduce(action)).toEqual(colorsFlow);
+            const action = updateDefinition(emptyFlow);
+            expect(reduce(action)).toEqual(emptyFlow);
         });
     });
 
@@ -145,7 +145,7 @@ describe('flowContext reducers', () => {
         });
 
         it('should handle UPDATE_DEPENDENCIES', () => {
-            const dependencies = [colorsFlow, customerServiceFlow];
+            const dependencies = [emptyFlow];
             const action = updateDependencies(dependencies);
 
             expect(reduce(action)).toEqual(dependencies);
@@ -163,10 +163,10 @@ describe('flowContext reducers', () => {
             const iso = 'spa';
             const localizations = [
                 Localization.translate(
-                    colorsFlow.nodes[0].actions[0],
+                    boringFlow.nodes[0].actions[0],
                     iso,
                     configProviderContext.languages,
-                    colorsFlow[iso]
+                    boringFlow[iso]
                 )
             ];
             const action = updateLocalizations(localizations);
