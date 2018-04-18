@@ -32,8 +32,8 @@ import {
 } from './flowEditor';
 import { getGhostNode } from './helpers';
 
-const flowsResp = require('../../assets/flows.json');
-const colorsFlow = require('../../__test__/flows/colors.json');
+const flowsResp = require('../../__test__/assets/flows.json');
+const boringFlow = require('../../__test__/flows/boring.json');
 
 describe('flowEditor action creators', () => {
     describe('updateTranslating', () => {
@@ -168,12 +168,12 @@ describe('flowEditor action creators', () => {
     describe('updateGhostNode', () => {
         it('should create an action to update ghostNode state', () => {
             const fromNode: RenderNode = {
-                node: colorsFlow.nodes[0],
-                ui: colorsFlow._ui.nodes[colorsFlow.nodes[0].uuid],
+                node: boringFlow.nodes[0],
+                ui: boringFlow._ui.nodes[boringFlow.nodes[0].uuid],
                 inboundConnections: {}
             };
 
-            const ghostNode = getGhostNode(fromNode, colorsFlow);
+            const ghostNode = getGhostNode(fromNode, boringFlow);
             const expectedAction = {
                 type: Constants.UPDATE_GHOST_NODE,
                 payload: {
@@ -340,8 +340,8 @@ describe('flowEditor reducers', () => {
 
         it('should handle UPDATE_GHOST_NODE', () => {
             const fromNode: RenderNode = {
-                node: colorsFlow.nodes[0],
-                ui: colorsFlow._ui.nodes[colorsFlow.nodes[0].uuid],
+                node: boringFlow.nodes[0],
+                ui: boringFlow._ui.nodes[boringFlow.nodes[0].uuid],
                 inboundConnections: {}
             };
             const ghostNode = getGhostNode(fromNode, { [fromNode.node.uuid]: fromNode });
