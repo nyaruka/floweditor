@@ -166,7 +166,6 @@ export default class SelectSearch extends React.PureComponent<
 
     public search(term: string, remoteResults: SearchResult[] = []): AutocompleteResult {
         let combined = [...remoteResults];
-
         if (this.props.localSearchOptions) {
             for (const local of this.props.localSearchOptions) {
                 if (

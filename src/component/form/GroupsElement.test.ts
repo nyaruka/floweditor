@@ -4,7 +4,6 @@ import { createSelectOption, getGroupOptions, getGroups } from '../../testUtils/
 import { set, setTrue, validUUID } from '../../utils';
 import GroupsElement, {
     createNewOption,
-    getInitialGroups,
     GROUP_NOT_FOUND,
     GROUP_PLACEHOLDER,
     GROUP_PROMPT,
@@ -43,30 +42,6 @@ describe(GroupsElement.name, () => {
                 expect(validUUID(newOption.id)).toBeTruthy();
                 expect(newOption.name).toBe(newGroup.label);
                 expect(newOption.extraResult).toBeTruthy();
-            });
-        });
-
-        describe('getInitialGroups', () => {
-            it("should return an empty list if passed a falsy 'groups' prop", () => {
-                const initialGroups = getInitialGroups();
-
-                expect(initialGroups).toEqual([]);
-                expect(initialGroups).toMatchSnapshot();
-            });
-
-            it("should return a list of SearchResult objects if passed a truthy 'groups' prop", () => {
-                const expectedOptions = getGroupOptions();
-                const initialGroups = getInitialGroups(expectedOptions);
-
-                expect(initialGroups).toEqual(expectedOptions);
-                expect(initialGroups).toMatchSnapshot();
-            });
-
-            it("should return localGroups list if passed 'localGroups' prop but not 'groups' prop", () => {
-                const groupOptions = getGroupOptions();
-
-                expect(getInitialGroups(undefined, groupOptions)).toEqual(groupOptions);
-                expect(groupOptions).toMatchSnapshot();
             });
         });
     });

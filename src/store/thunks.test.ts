@@ -109,11 +109,13 @@ describe('Flow Manipulation', () => {
                 groups: [
                     {
                         name: 'Flow Participants',
-                        id: 'group_0'
+                        id: 'group_0',
+                        type: 'group'
                     },
                     {
                         name: 'Nonresponsive',
-                        id: 'group_1'
+                        id: 'group_1',
+                        type: 'group'
                     }
                 ]
             });

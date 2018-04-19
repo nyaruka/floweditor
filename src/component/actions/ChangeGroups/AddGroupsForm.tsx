@@ -80,6 +80,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
                     name="Groups"
                     placeholder={PLACEHOLDER}
                     endpoint={this.context.endpoints.groups}
+                    localGroups={this.props.groups}
                     groups={this.state.groups}
                     add={true}
                     required={true}
@@ -90,7 +91,10 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
     }
 }
 
-const mapStateToProps = ({ nodeEditor: { typeConfig } }: AppState) => ({ typeConfig });
+const mapStateToProps = ({ flowContext: { groups }, nodeEditor: { typeConfig } }: AppState) => ({
+    groups,
+    typeConfig
+});
 
 const ConnectedAddGroupForm = connect(mapStateToProps, null, null, { withRef: true })(
     AddGroupsForm
