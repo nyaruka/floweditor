@@ -32,7 +32,7 @@ function toHaveInboundConnections<T>(this: jest.MatcherUtils, received: RenderNo
     }
 
     return {
-        message: () => `Node${received.node.uuid} has no inbound connections`,
+        message: () => `Node ${received.node.uuid} has no inbound connections`,
         pass: false
     };
 }

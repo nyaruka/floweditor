@@ -1,7 +1,7 @@
 const mutate = require('immutability-helper');
 import { FlowNode, UINode, AnyAction, FlowDefinition, Dimensions, StickyNote } from '../flowTypes';
 import { v4 as generateUUID } from 'uuid';
-import { RenderNode, RenderNodeMap } from './flowContext';
+import { RenderNode, RenderNodeMap, SearchResult } from './flowContext';
 import { dump, snapToGrid, set, merge, unset, splice } from '../utils';
 import { getUniqueDestinations, getNode, getExitIndex, getActionIndex } from './helpers';
 import { LocalizationUpdates } from '.';
@@ -157,6 +157,18 @@ export const updateAction = (nodes: RenderNodeMap, nodeUUID: string, action: Any
             }
         }
     });
+};
+
+export const addContactField = (contactFields: SearchResult[], field: SearchResult) => {
+    const exists = contactFields.find((a: SearchResult): boolean => {
+        return a.name === field.name;
+    });
+
+    if (!exists) {
+        return mutate(contactFields, push([field]));
+    }
+
+    return contactFields;
 };
 
 /** Removes a specific action from a node */

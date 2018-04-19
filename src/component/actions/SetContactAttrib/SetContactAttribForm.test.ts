@@ -25,7 +25,8 @@ const setContactField = createSetContactFieldAction();
 const baseProps: SetContactAttribFormProps = {
     action: setContactProperty,
     onBindWidget: jest.fn(),
-    updateAction: jest.fn()
+    updateAction: jest.fn(),
+    addContactField: jest.fn()
 };
 
 const { setup } = composeComponentTestUtils(SetContactAttribForm, baseProps);
@@ -84,8 +85,16 @@ describe(SetContactAttribForm.name, () => {
                 const {
                     wrapper,
                     instance,
-                    props: { action, updateAction: updateActionMock }
-                } = setup(true, { updateAction: setMock(), action: set(setContactField) });
+                    props: {
+                        action,
+                        updateAction: updateActionMock,
+                        addContactField: addContactFieldMock
+                    }
+                } = setup(true, {
+                    addContactField: setMock(),
+                    updateAction: setMock(),
+                    action: set(setContactField)
+                });
                 const attribute = fieldToSearchResult(action as SetContactField);
                 const { value } = action;
                 const widgets = {
@@ -95,6 +104,7 @@ describe(SetContactAttribForm.name, () => {
 
                 instance.onValid(widgets);
 
+                expect(addContactFieldMock).toHaveBeenCalledTimes(1);
                 expect(updateActionMock).toHaveBeenCalledTimes(1);
                 expect(updateActionMock).toHaveBeenCalledWith(
                     newFieldAction(action.uuid, value, attribute.name)

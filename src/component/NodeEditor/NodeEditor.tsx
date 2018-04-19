@@ -52,7 +52,9 @@ import {
     UpdateTypeConfig,
     updateTypeConfig,
     UpdateUserAddingAction,
-    updateUserAddingAction
+    updateUserAddingAction,
+    OnAddContactField,
+    onAddContactField
 } from '../../store';
 import { RenderNode } from '../../store/flowContext';
 import { CaseElementProps } from '../form/CaseElement';
@@ -107,6 +109,7 @@ export interface NodeEditorStoreProps {
     resetNodeEditingState: NoParamsAC;
     updateNodeEditorOpen: UpdateNodeEditorOpen;
     onUpdateLocalizations: OnUpdateLocalizations;
+    onAddContactField: OnAddContactField;
     onUpdateAction: OnUpdateAction;
     onUpdateRouter: OnUpdateRouter;
     updateUserAddingAction: UpdateUserAddingAction;
@@ -117,6 +120,7 @@ export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
 export interface FormProps {
     action: AnyAction;
     showAdvanced: boolean;
+    addContactField: (contactName: string) => void;
     updateAction: (action: AnyAction) => void;
     onBindWidget: (ref: any) => void;
     onBindAdvancedWidget: (ref: any) => void;
@@ -397,9 +401,11 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
         bindCallbacks(this, {
             include: [
+                /^get/,
                 /^on/,
                 /Ref$/,
                 /^get/,
+                /^add/,
                 /^update/,
                 /Localizations$/,
                 'toggleAdvanced',
@@ -764,6 +770,10 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         this.props.onUpdateAction(action);
     }
 
+    private addContactField(contactFieldName: string): void {
+        this.props.onAddContactField(contactFieldName);
+    }
+
     private updateSwitchRouter(kases: CaseElementProps[]): void {
         if (
             this.props.definition.localization &&
@@ -1110,6 +1120,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             saveLocalizations: this.saveLocalizations,
             updateLocalizations: this.updateLocalizations,
             cleanUpLocalizations: this.cleanUpLocalizations,
+            addContactField: this.addContactField,
             updateAction: this.updateAction,
             updateRouter,
             getResultNameField: this.getResultNameField,
@@ -1215,6 +1226,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
             onUpdateLocalizations,
             onUpdateAction,
             onUpdateRouter,
+            onAddContactField,
             updateUserAddingAction,
             updateShowResultName
         },
