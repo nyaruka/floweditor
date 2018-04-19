@@ -54,7 +54,6 @@ import { empty } from '../component/form/CaseElement.scss';
 import { Types } from '../config/typeConfigs';
 import { Operators } from '../config/operatorConfigs';
 import { push } from '../utils';
-import * as matchers from '../testUtils/matchers';
 
 const getUpdatedNodes = (currentStore): { [uuid: string]: RenderNode } => {
     let nodes;

@@ -4,20 +4,6 @@ import { Exit } from '../flowTypes';
 import { Store } from 'redux';
 import { AppState } from '../store';
 
-declare global {
-    namespace jest {
-        interface Matchers<R> {
-            toPointTo(renderNode: RenderNode): R;
-            toHaveExitThatPointsTo(renderNode: RenderNode): R;
-            toHaveInboundFrom(exit: Exit): R;
-            toHaveExitWithDestination(): R;
-            toHaveInboundConnections(): R;
-            toHavePayload(action, payload): R;
-            toHaveReduxAction(action): R;
-        }
-    }
-}
-
 interface MatchResult {
     message: () => string;
     pass: boolean;
