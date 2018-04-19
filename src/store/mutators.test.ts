@@ -10,7 +10,8 @@ import {
     updatePosition,
     updateDimensions,
     updateLocalization,
-    removeNodeAndRemap
+    removeNodeAndRemap,
+    addContactField
 } from './mutators';
 import { RenderNodeMap } from './flowContext';
 import { SendMsg, FlowDefinition, FlowNode } from '../flowTypes';
@@ -89,6 +90,22 @@ describe('mutators', () => {
         expect(action.type).toBe(Types.send_msg);
         expect(action.text).toBe('Hello World');
         expect(updated).toMatchSnapshot();
+    });
+
+    describe('addContactField()', () => {
+        it('should add a new contact field', () => {
+            const newField = { id: 'unknown_field', name: 'Unknown Field', type: 'field' };
+            const fields = addContactField([], newField);
+            expect(fields.length).toBe(1);
+            expect(fields[0]).toBe(newField);
+        });
+
+        it('should only add a field once', () => {
+            const newField = { id: 'unknown_field', name: 'Unknown Field', type: 'field' };
+            let fields = addContactField([], newField);
+            fields = addContactField(fields, newField);
+            expect(fields.length).toBe(1);
+        });
     });
 
     describe('updateAction()', () => {

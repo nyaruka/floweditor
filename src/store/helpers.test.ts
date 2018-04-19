@@ -1,3 +1,4 @@
+const mutate = require('immutability-helper');
 import { v4 as generateUUID } from 'uuid';
 import { Types } from '../config/typeConfigs';
 import { Case, Exit, FlowDefinition, FlowPosition, SendMsg } from '../flowTypes';
@@ -8,8 +9,10 @@ import {
     getGhostNode,
     getLocalizations,
     getSuggestedResultName,
-    getUniqueDestinations
+    getUniqueDestinations,
+    getOrderedNodes
 } from './helpers';
+import { dump } from '../utils';
 
 describe('helpers', () => {
     const definition: FlowDefinition = require('../../__test__/flows/boring.json');
@@ -51,6 +54,19 @@ describe('helpers', () => {
             expect(getUniqueDestinations(nodes.node1.node)).toEqual(['node2']);
             expect(getUniqueDestinations(nodes.node2.node)).toEqual(['node3']);
             expect(getUniqueDestinations(nodes.node3.node)).toEqual([]);
+        });
+
+        it('should get ordered nodes', () => {
+            const nodesToOrder = mutate(nodes, {
+                node1: {
+                    ui: { position: { $merge: { top: 0, left: 500 } } }
+                }
+            });
+
+            const ordered = getOrderedNodes(nodesToOrder);
+            expect(ordered[0].node.uuid).toBe('node0');
+            expect(ordered[1].node.uuid).toBe('node1');
+            expect(ordered).toMatchSnapshot();
         });
 
         it('should identify collisions', () => {

@@ -130,7 +130,7 @@ export const getUniqueDestinations = (node: FlowNode): string[] => {
     return Object.keys(destinations);
 };
 
-const getOrderedNodes = (nodes: RenderNodeMap): RenderNode[] => {
+export const getOrderedNodes = (nodes: RenderNodeMap): RenderNode[] => {
     const sorted: RenderNode[] = [];
     Object.keys(nodes).forEach((nodeUUID: string) => {
         sorted.push(nodes[nodeUUID]);

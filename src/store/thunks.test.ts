@@ -40,7 +40,8 @@ import {
     fetchFlow,
     fetchFlows,
     updateSticky,
-    onResetDragSelection
+    onResetDragSelection,
+    onAddContactField
 } from './thunks';
 import { dump } from '../utils';
 import { getUniqueDestinations, getFlowComponents, FlowComponents } from './helpers';
@@ -53,6 +54,7 @@ import { empty } from '../component/form/CaseElement.scss';
 import { Types } from '../config/typeConfigs';
 import { Operators } from '../config/operatorConfigs';
 import { push } from '../utils';
+import * as matchers from '../testUtils/matchers';
 
 const getUpdatedNodes = (currentStore): { [uuid: string]: RenderNode } => {
     let nodes;
@@ -77,7 +79,7 @@ describe('Flow Manipulation', () => {
     beforeEach(() => {
         // prep our store to show that we are editing
         store = createMockStore([thunk])({
-            flowContext: { definition: boring, nodes: testNodes },
+            flowContext: { definition: boring, nodes: testNodes, groups: [], contactFields: [] },
             flowEditor: { flowUI: {} },
             nodeEditor: { actionToEdit: null, nodeToEdit: null }
         });
@@ -204,16 +206,50 @@ describe('Flow Manipulation', () => {
 
     describe('nodes', () => {
         it('should reflow nodes', () => {
-            // make our second node overlap witht he first
-            testNodes.node1.ui.position.top -= 50;
+            // make our nodes collide
+            const collidingNodes = mutate(testNodes, {
+                node1: {
+                    ui: { position: { $merge: { top: testNodes.node1.ui.position.top - 50 } } }
+                }
+            });
+
+            // prep our store to show that we are editing
+            const updatedStore = createMockStore([thunk])({
+                flowContext: {
+                    nodes: collidingNodes
+                }
+            });
 
             // forcing a reflow should bump us down where we don't collide
-            const updated = store.dispatch(reflow());
+            const updated = updatedStore.dispatch(reflow());
+            expect(updated.node1.ui.position.top).toBe(260);
+        });
+
+        it('should cascade reflow', () => {
+            // make our nodes have a cascading collision
+            const collidingNodes = mutate(testNodes, {
+                node1: {
+                    ui: { position: { $merge: { top: testNodes.node1.ui.position.top - 50 } } }
+                },
+                node2: {
+                    ui: { position: { $merge: { top: testNodes.node2.ui.position.top - 50 } } }
+                }
+            });
+
+            // prep our store to show that we are editing
+            const updatedStore = createMockStore([thunk])({
+                flowContext: {
+                    nodes: collidingNodes
+                }
+            });
+
+            // forcing a reflow should bump us down where we don't collide
+            const updated = updatedStore.dispatch(reflow());
             expect(updated.node1.ui.position.top).toBe(260);
 
             // and we should have cascaded to the third node
             expect(updated.node2.ui.position.top).toBe(420);
-            expect(store.getActions().length).toBe(1);
+            expect(updatedStore.getActions().length).toBe(1);
         });
 
         it('should move nodes', () => {
@@ -392,6 +428,21 @@ describe('Flow Manipulation', () => {
             // our pointing node should be directed at us
             expect(fromNode).toHaveExitThatPointsTo(addedNode);
             expect(addedNode).toHaveInboundFrom(fromNode.node.exits[0]);
+        });
+    });
+
+    it('should add new contact fields', () => {
+        store.dispatch(onAddContactField('A new field'));
+
+        // we should get a snakified and titled field
+        expect(store).toHavePayload(Constants.UPDATE_CONTACT_FIELDS, {
+            contactFields: [
+                {
+                    id: 'a_new_field',
+                    name: 'A New Field',
+                    type: 'field'
+                }
+            ]
         });
     });
 

@@ -215,6 +215,7 @@ export const getLocalization = (
     languages: Languages
 ) => Localization.translate(obj, iso, languages, localization[iso]);
 
+/** istanbul ignore next */
 export const dump = (thing: any) => console.log(JSON.stringify(thing, null, 2));
 
 /**
