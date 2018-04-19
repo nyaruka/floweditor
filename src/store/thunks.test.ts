@@ -98,11 +98,33 @@ describe('Flow Manipulation', () => {
             });
         });
 
-        it('should initalize definition', () => {
+        it('should initialize definition', () => {
             const { renderNodeMap, groups, fields } = store.dispatch(initializeFlow(boring));
             expect(renderNodeMap).toMatchSnapshot('nodes');
-            expect(groups).toMatchSnapshot('groups');
-            expect(fields).toMatchSnapshot('fields');
+            expect(store).toHaveReduxAction(Constants.UPDATE_NODES);
+
+            expect(store).toHavePayload(Constants.UPDATE_GROUPS, {
+                groups: [
+                    {
+                        name: 'Flow Participants',
+                        id: 'group_0'
+                    },
+                    {
+                        name: 'Nonresponsive',
+                        id: 'group_1'
+                    }
+                ]
+            });
+
+            expect(store).toHavePayload(Constants.UPDATE_CONTACT_FIELDS, {
+                contactFields: [
+                    {
+                        name: 'Unknown Field',
+                        id: 'unknown_field',
+                        type: 'field'
+                    }
+                ]
+            });
         });
 
         it('should update localizations', () => {

@@ -92,19 +92,19 @@ export const updateLocalizations = (
 
 export const updateContactFields = (
     // tslint:disable-next-line:no-shadowed-variable
-    contactField: SearchResult
+    contactFields: SearchResult[]
 ): UpdateContactFieldsAction => ({
     type: Constants.UPDATE_CONTACT_FIELDS,
     payload: {
-        contactField
+        contactFields
     }
 });
 
 // tslint:disable-next-line:no-shadowed-variable
-export const updateGroups = (group: SearchResult): UpdateGroupsAction => ({
+export const updateGroups = (groups: SearchResult[]): UpdateGroupsAction => ({
     type: Constants.UPDATE_GROUPS,
     payload: {
-        group
+        groups
     }
 });
 
@@ -168,7 +168,7 @@ export const contactFields = (
 ) => {
     switch (action.type) {
         case Constants.UPDATE_CONTACT_FIELDS:
-            return [...state, action.payload.contactField];
+            return action.payload.contactFields;
         default:
             return state;
     }
@@ -189,7 +189,7 @@ export const resultNames = (
 export const groups = (state: SearchResult[] = initialState.groups, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_GROUPS:
-            return [...state, action.payload.group];
+            return action.payload.groups;
         default:
             return state;
     }

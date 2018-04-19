@@ -1,28 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Flow Manipulation init should initalize definition: fields 1`] = `
-Array [
-  Object {
-    "label": "Unknown Field",
-    "value": "unknown_field",
-  },
-]
-`;
-
-exports[`Flow Manipulation init should initalize definition: groups 1`] = `
-Array [
-  Object {
-    "label": "Flow Participants",
-    "value": "group_0",
-  },
-  Object {
-    "label": "Nonresponsive",
-    "value": "group_1",
-  },
-]
-`;
-
-exports[`Flow Manipulation init should initalize definition: nodes 1`] = `
+exports[`Flow Manipulation init should initialize definition: nodes 1`] = `
 Object {
   "node0": Object {
     "inboundConnections": Object {},

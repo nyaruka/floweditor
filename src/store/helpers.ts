@@ -302,11 +302,11 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
     }
 
     for (const uuid of Object.keys(groupsMap)) {
-        groups.push({ label: groupsMap[uuid], value: uuid });
+        groups.push({ name: groupsMap[uuid], id: uuid });
     }
 
     for (const key of Object.keys(fieldsMap)) {
-        fields.push({ label: fieldsMap[key].name, value: key });
+        fields.push({ name: fieldsMap[key].name, id: key, type: 'field' });
     }
 
     return { renderNodeMap, groups, fields };

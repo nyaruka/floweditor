@@ -18,15 +18,15 @@ describe('helpers', () => {
         it('should find groups in definition', () => {
             const flowDetails = getFlowComponents(definition);
             expect(flowDetails.groups).toEqual([
-                { label: 'Flow Participants', value: 'group_0' },
-                { label: 'Nonresponsive', value: 'group_1' }
+                { name: 'Flow Participants', id: 'group_0' },
+                { name: 'Nonresponsive', id: 'group_1' }
             ]);
         });
 
         it('should find fields in definition', () => {
             const flowDetails = getFlowComponents(definition);
             expect(flowDetails.fields).toEqual([
-                { label: 'Unknown Field', value: 'unknown_field' }
+                { name: 'Unknown Field', id: 'unknown_field', type: 'field' }
             ]);
         });
     });
