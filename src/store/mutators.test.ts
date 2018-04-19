@@ -11,7 +11,8 @@ import {
     updateDimensions,
     updateLocalization,
     removeNodeAndRemap,
-    addContactField
+    addContactField,
+    addGroups
 } from './mutators';
 import { RenderNodeMap } from './flowContext';
 import { SendMsg, FlowDefinition, FlowNode } from '../flowTypes';
@@ -102,9 +103,22 @@ describe('mutators', () => {
 
         it('should only add a field once', () => {
             const newField = { id: 'unknown_field', name: 'Unknown Field', type: 'field' };
-            let fields = addContactField([], newField);
-            fields = addContactField(fields, newField);
+            const fields = addContactField([newField], newField);
             expect(fields.length).toBe(1);
+        });
+    });
+
+    describe('addGroups()', () => {
+        it('should add a new group', () => {
+            const newGroup = { id: 'my_new_group', name: 'My New Group' };
+            const groups = addGroups([], [newGroup]);
+            expect(groups.length).toBe(1);
+        });
+
+        it('should only add a group once', () => {
+            const newGroup = { id: 'my_new_group', name: 'My New Group' };
+            const groups = addGroups([newGroup], [newGroup]);
+            expect(groups.length).toBe(1);
         });
     });
 

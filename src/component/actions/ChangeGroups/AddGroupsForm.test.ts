@@ -19,6 +19,7 @@ const baseProps: ChangeGroupsFormProps = {
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
     removeWidget: jest.fn(),
+    groups: [],
     typeConfig: addGroupConfig
 };
 
@@ -42,6 +43,7 @@ describe(AddGroupsForm.name, () => {
             expect(label.text()).toBe(LABEL);
             expect(props.onBindWidget).toHaveBeenCalledTimes(1);
             expect(wrapper.find('GroupsElement').props()).toEqual({
+                localGroups: [],
                 name: 'Groups',
                 placeholder: PLACEHOLDER,
                 endpoint: context.endpoints.groups,
@@ -139,8 +141,8 @@ describe(AddGroupsForm.name, () => {
                 const {
                     wrapper,
                     instance,
-                    props: { action, updateAction: updateActionMock }
-                } = setup(true, { updateAction: setMock() });
+                    props: { action, updateAction: updateActionMock, addGroups: onAddGroupsMock }
+                } = setup(true, { updateAction: setMock(), addGroups: setMock() });
                 const expectedAction = {
                     uuid: action.uuid,
                     type: action.type,

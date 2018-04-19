@@ -8,6 +8,7 @@ export interface ChangeGroupFormPassedProps {
     onBindWidget: (ref: any) => void;
     removeWidget: (name: string) => void;
     groups: SearchResult[];
+    addGroups?: (groups: SearchResult) => void;
 }
 
 export interface ChangeGroupFormStoreProps {

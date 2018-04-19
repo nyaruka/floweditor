@@ -4,11 +4,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
 import { ChangeGroups } from '../../../flowTypes';
-import { AppState, SearchResult } from '../../../store';
+import { AppState, SearchResult, DispatchWithState } from '../../../store';
 import GroupsElement from '../../form/GroupsElement';
 import { mapGroupsToSearchResults, mapSearchResultsToGroups } from './helpers';
 import ChangeGroupsFormProps from './props';
 import { Types } from '../../../config/typeConfigs';
+import { bindActionCreators } from 'redux';
+import { dump } from '../../../utils';
 
 export interface AddGroupsFormState {
     groups: SearchResult[];
@@ -53,6 +55,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
             groups: mapSearchResultsToGroups(this.state.groups)
         };
 
+        this.props.addGroups(this.state.groups);
         this.props.updateAction(newAction);
     }
 
@@ -91,6 +94,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
     }
 }
 
+/* istanbul ignore next */
 const mapStateToProps = ({ flowContext: { groups }, nodeEditor: { typeConfig } }: AppState) => ({
     groups,
     typeConfig

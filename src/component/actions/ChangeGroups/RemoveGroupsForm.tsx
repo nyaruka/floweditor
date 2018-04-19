@@ -70,9 +70,7 @@ export class RemoveGroupsForm extends React.Component<
         };
 
         if (!this.state.removeFromAll) {
-            if (this.state.groups.length) {
-                newAction.groups = mapSearchResultsToGroups(this.state.groups);
-            }
+            newAction.groups = mapSearchResultsToGroups(this.state.groups);
         }
 
         this.props.updateAction(newAction);
@@ -105,6 +103,7 @@ export class RemoveGroupsForm extends React.Component<
                     placeholder={PLACEHOLDER}
                     searchPromptText={NOT_FOUND}
                     endpoint={this.context.endpoints.groups}
+                    localGroups={this.props.groups}
                     groups={this.state.groups}
                     add={false}
                     required={true}
@@ -141,7 +140,11 @@ export class RemoveGroupsForm extends React.Component<
     }
 }
 
-const mapStateToProps = ({ nodeEditor: { typeConfig } }: AppState) => ({ typeConfig });
+/* istanbul ignore next */
+const mapStateToProps = ({ flowContext: { groups }, nodeEditor: { typeConfig } }: AppState) => ({
+    groups,
+    typeConfig
+});
 
 const ConnectedRemoveGroupForm = connect(mapStateToProps, null, null, { withRef: true })(
     RemoveGroupsForm

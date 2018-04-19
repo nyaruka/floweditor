@@ -41,7 +41,8 @@ import {
     fetchFlows,
     updateSticky,
     onResetDragSelection,
-    onAddContactField
+    onAddContactField,
+    onAddGroups
 } from './thunks';
 import { dump } from '../utils';
 import { getUniqueDestinations, getFlowComponents, FlowComponents } from './helpers';
@@ -443,6 +444,18 @@ describe('Flow Manipulation', () => {
                     id: 'a_new_field',
                     name: 'A New Field',
                     type: 'field'
+                }
+            ]
+        });
+    });
+
+    it('should add new groups', () => {
+        store.dispatch(onAddGroups([{ name: 'My new group', id: 'my_new_group' }]));
+        expect(store).toHavePayload(Constants.UPDATE_GROUPS, {
+            groups: [
+                {
+                    name: 'My new group',
+                    id: 'my_new_group'
                 }
             ]
         });
