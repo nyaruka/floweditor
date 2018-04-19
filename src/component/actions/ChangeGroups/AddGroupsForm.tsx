@@ -4,11 +4,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { ConfigProviderContext, endpointsPT } from '../../../config';
 import { ChangeGroups } from '../../../flowTypes';
-import { AppState, SearchResult } from '../../../store';
+import { AppState, SearchResult, DispatchWithState } from '../../../store';
 import GroupsElement from '../../form/GroupsElement';
 import { mapGroupsToSearchResults, mapSearchResultsToGroups } from './helpers';
 import ChangeGroupsFormProps from './props';
 import { Types } from '../../../config/typeConfigs';
+import { bindActionCreators } from 'redux';
+import { dump } from '../../../utils';
 
 export interface AddGroupsFormState {
     groups: SearchResult[];
@@ -53,6 +55,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
             groups: mapSearchResultsToGroups(this.state.groups)
         };
 
+        this.props.addGroups(this.state.groups);
         this.props.updateAction(newAction);
     }
 
@@ -80,6 +83,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
                     name="Groups"
                     placeholder={PLACEHOLDER}
                     endpoint={this.context.endpoints.groups}
+                    localGroups={this.props.groups}
                     groups={this.state.groups}
                     add={true}
                     required={true}
@@ -90,7 +94,11 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
     }
 }
 
-const mapStateToProps = ({ nodeEditor: { typeConfig } }: AppState) => ({ typeConfig });
+/* istanbul ignore next */
+const mapStateToProps = ({ flowContext: { groups }, nodeEditor: { typeConfig } }: AppState) => ({
+    groups,
+    typeConfig
+});
 
 const ConnectedAddGroupForm = connect(mapStateToProps, null, null, { withRef: true })(
     AddGroupsForm

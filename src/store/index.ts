@@ -87,7 +87,9 @@ import {
     updateSticky,
     UpdateSticky,
     OnAddContactField,
-    onAddContactField
+    onAddContactField,
+    OnAddGroups,
+    onAddGroups
 } from './thunks';
 
 export {
@@ -153,6 +155,8 @@ export {
     OnUpdateAction,
     onAddContactField,
     OnAddContactField,
+    onAddGroups,
+    OnAddGroups,
     onAddToNode,
     OnAddToNode,
     onNodeMoved,

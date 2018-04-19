@@ -36,19 +36,6 @@ export const createNewOption: NewOptionCreatorHandler = ({ label }) => ({
     extraResult: true
 });
 
-export const getInitialGroups = (
-    groups: SearchResult[] = [],
-    localGroups: SearchResult[] = []
-): SearchResult[] => {
-    if (groups.length) {
-        return groups;
-    } else if (localGroups.length) {
-        return localGroups;
-    } else {
-        return [];
-    }
-};
-
 export const GROUP_PROMPT = 'New group: ';
 export const GROUP_PLACEHOLDER = 'Enter the name of an existing group...';
 export const GROUP_NOT_FOUND = 'Invalid group name';
@@ -62,10 +49,8 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
     constructor(props: GroupsElementProps) {
         super(props);
 
-        const groups = getInitialGroups(this.props.groups, this.props.localGroups);
-
         this.state = {
-            groups,
+            groups: this.props.groups || [],
             errors: []
         };
 

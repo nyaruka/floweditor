@@ -27,7 +27,8 @@ import {
     updateLocalizations,
     updateNodes,
     updateGroups,
-    updateContactFields
+    updateContactFields,
+    SearchResult
 } from './flowContext';
 import {
     updateCreateNodePosition,
@@ -106,6 +107,8 @@ export type UpdateSticky = (stickyUUID: string, sticky: StickyNote) => Thunk<voi
 export type OnUpdateAction = (action: AnyAction) => Thunk<RenderNodeMap>;
 
 export type OnAddContactField = (contactFieldName: string) => Thunk<void>;
+
+export type OnAddGroups = (groups: SearchResult[]) => Thunk<void>;
 
 export type ActionAC = (nodeUUID: string, action: AnyAction) => Thunk<RenderNodeMap>;
 
@@ -492,10 +495,18 @@ export const resetNodeEditingState = () => (dispatch: DispatchWithState, getStat
     }
 };
 
+export const onAddGroups = (newGroups: SearchResult[]) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+): void => {
+    const { flowContext: { groups } } = getState();
+    dispatch(updateGroups(mutators.addGroups(groups, newGroups)));
+};
+
 export const onAddContactField = (name: string) => (
     dispatch: DispatchWithState,
     getState: GetState
-) => {
+): void => {
     const { flowContext: { contactFields } } = getState();
 
     const field = {

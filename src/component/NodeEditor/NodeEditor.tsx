@@ -54,7 +54,9 @@ import {
     UpdateUserAddingAction,
     updateUserAddingAction,
     OnAddContactField,
-    onAddContactField
+    onAddContactField,
+    OnAddGroups,
+    onAddGroups
 } from '../../store';
 import { RenderNode } from '../../store/flowContext';
 import { CaseElementProps } from '../form/CaseElement';
@@ -110,6 +112,7 @@ export interface NodeEditorStoreProps {
     updateNodeEditorOpen: UpdateNodeEditorOpen;
     onUpdateLocalizations: OnUpdateLocalizations;
     onAddContactField: OnAddContactField;
+    onAddGroups: OnAddGroups;
     onUpdateAction: OnUpdateAction;
     onUpdateRouter: OnUpdateRouter;
     updateUserAddingAction: UpdateUserAddingAction;
@@ -121,6 +124,7 @@ export interface FormProps {
     action: AnyAction;
     showAdvanced: boolean;
     addContactField: (contactName: string) => void;
+    addGroups: (groups: SearchResult[]) => void;
     updateAction: (action: AnyAction) => void;
     onBindWidget: (ref: any) => void;
     onBindAdvancedWidget: (ref: any) => void;
@@ -774,6 +778,10 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         this.props.onAddContactField(contactFieldName);
     }
 
+    private onAddGroups(groups: SearchResult[]): void {
+        this.props.onAddGroups(groups);
+    }
+
     private updateSwitchRouter(kases: CaseElementProps[]): void {
         if (
             this.props.definition.localization &&
@@ -1121,6 +1129,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             updateLocalizations: this.updateLocalizations,
             cleanUpLocalizations: this.cleanUpLocalizations,
             addContactField: this.addContactField,
+            addGroups: this.onAddGroups,
             updateAction: this.updateAction,
             updateRouter,
             getResultNameField: this.getResultNameField,
@@ -1227,6 +1236,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
             onUpdateAction,
             onUpdateRouter,
             onAddContactField,
+            onAddGroups,
             updateUserAddingAction,
             updateShowResultName
         },

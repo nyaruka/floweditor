@@ -3,9 +3,9 @@ import { Types } from '../../../config/typeConfigs';
 import { ChangeGroups } from '../../../flowTypes';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../../testUtils';
 import { createAddGroupsAction } from '../../../testUtils/assetCreators';
-import { set } from '../../../utils';
+import { set, dump } from '../../../utils';
 import { labelSpecId } from './AddGroupsForm';
-import { mapGroupsToSearchResults } from './helpers';
+import { mapGroupsToSearchResults, mapSearchResultsToGroups } from './helpers';
 import ChangeGroupFormProps from './props';
 import {
     LABEL,
@@ -28,6 +28,7 @@ const baseProps: ChangeGroupFormProps = {
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
     removeWidget: jest.fn(),
+    groups: [],
     typeConfig: removeGroupConfig
 };
 
@@ -51,6 +52,7 @@ describe(RemoveGroupsForm.name, () => {
             expect(label.text()).toBe(LABEL);
             expect(props.onBindWidget).toHaveBeenCalledTimes(2);
             expect(wrapper.find('GroupsElement').props()).toEqual({
+                localGroups: [],
                 name: 'Groups',
                 placeholder: PLACEHOLDER,
                 endpoint: endpoints.groups,
@@ -169,6 +171,44 @@ describe(RemoveGroupsForm.name, () => {
                 expect(setStateSpy).not.toHaveBeenCalled();
 
                 setStateSpy.mockRestore();
+            });
+        });
+
+        describe('onValid', () => {
+            it('should call updateAction action creator with a ChangeGroups action', () => {
+                const {
+                    wrapper,
+                    instance,
+                    props: { action, updateAction: updateActionMock }
+                } = setup(true, { updateAction: setMock() });
+                const expectedAction = {
+                    uuid: action.uuid,
+                    type: action.type,
+                    groups: mapSearchResultsToGroups(wrapper.state('groups'))
+                };
+                instance.onValid();
+                expect(updateActionMock).toHaveBeenCalledWith(expectedAction);
+            });
+
+            it('should honor the remove all flag', () => {
+                const {
+                    wrapper,
+                    instance,
+                    props: { action, updateAction: updateActionMock }
+                } = setup(true, { updateAction: setMock() });
+
+                // set the remove all flag
+                wrapper.setState({ removeFromAll: true });
+
+                // our action shouldn't include any groups
+                const expectedAction = {
+                    uuid: action.uuid,
+                    type: action.type,
+                    groups: []
+                };
+
+                instance.onValid();
+                expect(updateActionMock).toHaveBeenCalledWith(expectedAction);
             });
         });
     });

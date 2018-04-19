@@ -21,8 +21,8 @@ describe('helpers', () => {
         it('should find groups in definition', () => {
             const flowDetails = getFlowComponents(definition);
             expect(flowDetails.groups).toEqual([
-                { name: 'Flow Participants', id: 'group_0' },
-                { name: 'Nonresponsive', id: 'group_1' }
+                { name: 'Flow Participants', id: 'group_0', type: 'group' },
+                { name: 'Nonresponsive', id: 'group_1', type: 'group' }
             ]);
         });
 
