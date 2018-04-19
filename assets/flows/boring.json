@@ -55,7 +55,7 @@
                                 {
                                     "uuid": "node1_case0",
                                     "type": "has_any_word",
-                                    "exit_uuid": "uuid_node1_exit0",
+                                    "exit_uuid": "node1_exit0",
                                     "arguments": [
                                         "red"
                                     ]
@@ -63,7 +63,7 @@
                                 {
                                     "uuid": "node1_case1",
                                     "type": "has_any_word",
-                                    "exit_uuid": "uuid_node1_exit1",
+                                    "exit_uuid": "node1_exit1",
                                     "arguments": [
                                         "green"
                                     ]

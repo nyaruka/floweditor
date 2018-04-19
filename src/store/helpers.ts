@@ -130,7 +130,7 @@ export const getUniqueDestinations = (node: FlowNode): string[] => {
     return Object.keys(destinations);
 };
 
-const getOrderedNodes = (nodes: RenderNodeMap): RenderNode[] => {
+export const getOrderedNodes = (nodes: RenderNodeMap): RenderNode[] => {
     const sorted: RenderNode[] = [];
     Object.keys(nodes).forEach((nodeUUID: string) => {
         sorted.push(nodes[nodeUUID]);
@@ -302,11 +302,11 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
     }
 
     for (const uuid of Object.keys(groupsMap)) {
-        groups.push({ label: groupsMap[uuid], value: uuid });
+        groups.push({ name: groupsMap[uuid], id: uuid });
     }
 
     for (const key of Object.keys(fieldsMap)) {
-        fields.push({ label: fieldsMap[key].name, value: key });
+        fields.push({ name: fieldsMap[key].name, id: key, type: 'field' });
     }
 
     return { renderNodeMap, groups, fields };

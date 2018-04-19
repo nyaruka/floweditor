@@ -85,7 +85,9 @@ import {
     UpdateDimensions,
     updateDimensions,
     updateSticky,
-    UpdateSticky
+    UpdateSticky,
+    OnAddContactField,
+    onAddContactField
 } from './thunks';
 
 export {
@@ -149,6 +151,8 @@ export {
     onConnectionDrag,
     OnUpdateRouter,
     OnUpdateAction,
+    onAddContactField,
+    OnAddContactField,
     onAddToNode,
     OnAddToNode,
     onNodeMoved,

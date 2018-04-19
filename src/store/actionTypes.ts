@@ -52,11 +52,11 @@ interface RemovePendingConnectionPayload {
 }
 
 interface UpdateContactFieldsPayload {
-    contactField: SearchResult;
+    contactFields: SearchResult[];
 }
 
 interface UpdateGroupsPayload {
-    group: SearchResult;
+    groups: SearchResult[];
 }
 
 interface UpdateResultNamesPayload {

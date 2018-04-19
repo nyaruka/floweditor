@@ -8,10 +8,12 @@ import {
 } from 'react-select';
 import { v4 as generateUUID } from 'uuid';
 import { AttributeType, CreateOptions, ResultType } from '../../flowTypes';
-import { AppState, SearchResult } from '../../store';
-import { getSelectClass, isValidLabel, propertyExists } from '../../utils';
+import { AppState, SearchResult, DispatchWithState } from '../../store';
+import { getSelectClass, isValidLabel, propertyExists, dump } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
+import { bindActionCreators } from 'redux';
+import { updateGroups } from '../../store/flowContext';
 
 interface AttribElementPassedProps extends FormElementProps {
     initial: SearchResult;
@@ -140,11 +142,18 @@ export const mapStateToProps = ({ flowContext: { contactFields } }: AppState) =>
     contactFields
 });
 
-export default connect<{ contactFields: SearchResult[] }, {}, AttribElementPassedProps>(
-    mapStateToProps,
-    null,
-    null,
-    {
-        withRef: true
-    }
-)(AttribElement);
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators(
+        {
+            updateGroups
+        },
+        dispatch
+    );
+
+export default connect<
+    { contactFields: SearchResult[] },
+    { updateGroups: any },
+    AttribElementPassedProps
+>(mapStateToProps, mapDispatchToProps, null, {
+    withRef: true
+})(AttribElement);

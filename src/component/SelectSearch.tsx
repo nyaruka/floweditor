@@ -169,7 +169,10 @@ export default class SelectSearch extends React.PureComponent<
 
         if (this.props.localSearchOptions) {
             for (const local of this.props.localSearchOptions) {
-                if (!term || local.name.toLowerCase().indexOf(term.toLowerCase()) > -1) {
+                if (
+                    !term ||
+                    (local.name && local.name.toLowerCase().indexOf(term.toLowerCase()) > -1)
+                ) {
                     combined = this.addSearchResult(combined, local);
                 }
             }
@@ -208,7 +211,7 @@ export default class SelectSearch extends React.PureComponent<
     }
 
     private filterOption(option: SearchResult, term: string): boolean {
-        return option.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
+        return option.name && option.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
     }
 
     public render(): JSX.Element {

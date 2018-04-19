@@ -19,13 +19,15 @@ import {
     StickyNote,
     SwitchRouter
 } from '../flowTypes';
-import { NODE_SPACING, timeEnd, timeStart } from '../utils';
+import { NODE_SPACING, dump, timeStart, timeEnd, snakify, titleCase } from '../utils';
 import {
     RenderNode,
     RenderNodeMap,
     updateDefinition,
     updateLocalizations,
-    updateNodes
+    updateNodes,
+    updateGroups,
+    updateContactFields
 } from './flowContext';
 import {
     updateCreateNodePosition,
@@ -103,6 +105,8 @@ export type UpdateSticky = (stickyUUID: string, sticky: StickyNote) => Thunk<voi
 
 export type OnUpdateAction = (action: AnyAction) => Thunk<RenderNodeMap>;
 
+export type OnAddContactField = (contactFieldName: string) => Thunk<void>;
+
 export type ActionAC = (nodeUUID: string, action: AnyAction) => Thunk<RenderNodeMap>;
 
 export type DisconnectExit = (nodeUUID: string, exitUUID: string) => Thunk<RenderNodeMap>;
@@ -144,6 +148,8 @@ export const initializeFlow = (definition: FlowDefinition) => (
     const flowComponents = getFlowComponents(definition);
 
     // store our flow definition without any nodes
+    dispatch(updateGroups(flowComponents.groups));
+    dispatch(updateContactFields(flowComponents.fields));
     dispatch(updateDefinition(mutators.pruneDefinition(definition)));
     dispatch(updateNodes(flowComponents.renderNodeMap));
     dispatch(updateFetchingFlow(false));
@@ -484,6 +490,22 @@ export const resetNodeEditingState = () => (dispatch: DispatchWithState, getStat
     if (nodeToEdit) {
         dispatch(updateNodeToEdit(null));
     }
+};
+
+export const onAddContactField = (name: string) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+) => {
+    const { flowContext: { contactFields } } = getState();
+
+    const field = {
+        id: snakify(name),
+        name: titleCase(name),
+        type: 'field'
+    };
+
+    const updated = mutators.addContactField(contactFields, field);
+    dispatch(updateContactFields(updated));
 };
 
 export const onUpdateAction = (action: AnyAction) => (

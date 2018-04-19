@@ -21,6 +21,7 @@ export interface SetContactAttribFormProps {
     action: SetContactAttribute;
     onBindWidget: (ref: any) => void;
     updateAction: (action: SetContactAttribute) => void;
+    addContactField: (name: string) => void;
 }
 
 export const ATTRIB_HELP_TEXT =
@@ -35,7 +36,6 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
 
     constructor(props: SetContactAttribFormProps, context: ConfigProviderContext) {
         super(props);
-
         this.onValid = this.onValid.bind(this);
     }
 
@@ -44,6 +44,8 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
         const { wrappedInstance: { state: { value } } } = widgets.Value;
 
         if (attribute.type === AttributeType.field) {
+            // include our contact field in our local storage
+            this.props.addContactField(attribute.name);
             this.props.updateAction(newFieldAction(this.props.action.uuid, value, attribute.name));
         } else {
             this.props.updateAction(
