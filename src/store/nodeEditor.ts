@@ -22,7 +22,7 @@ export interface NodeEditor {
     actionToEdit: AnyAction;
 }
 
-const DEFAULT_OPERAND = '@input';
+const DEFAULT_OPERAND = '@run.input';
 
 // Initial state
 export const initialState: NodeEditor = {

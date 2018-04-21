@@ -52,7 +52,7 @@
                             "type": "switch",
                             "default_exit_uuid": "984fefee-3bf3-4e7b-bf84-e6e650253b2b",
                             "cases": [],
-                            "operand": "@input",
+                            "operand": "@run.input",
                             "result_name": "Name"
                         },
                         "exits": [
@@ -104,7 +104,7 @@
                             "type": "switch",
                             "default_exit_uuid": "28adcb5e-8208-4e35-82c3-f377cbba5a7c",
                             "cases": [],
-                            "operand": "@input",
+                            "operand": "@run.input",
                             "result_name": "This can be something that is really long"
                         },
                         "exits": [
@@ -124,7 +124,7 @@
                             {
                                 "uuid": "9c10156e-aec0-45a3-a144-da84e87222c2",
                                 "type": "set_run_result",
-                                "result_name": "Phone",
+                                "name": "Phone",
                                 "value": "@contact.urns.tel",
                                 "category": ""
                             },
@@ -134,7 +134,7 @@
                                 "body":
                                     "@run.results.name says: \n\n@run.results.issue \n\nPlease reach out to them at @run.results.phone",
                                 "subject": "New Issue",
-                                "emails": ["support@acme.co"]
+                                "addresses": ["support@acme.co"]
                             },
                             {
                                 "uuid": "71c026a5-7c1c-4e79-8421-21b8c3689510",
@@ -154,16 +154,28 @@
                         "uuid": "471f6f94-c683-48f9-8e27-ece1d7604315",
                         "router": {
                             "type": "switch",
-                            "operand": "@webhook",
+                            "operand": "@run.webhook.status",
                             "cases": [
                                 {
                                     "uuid": "379eed12-fe01-44b4-85c5-a1f2816e3557",
-                                    "type": "has_webhook_status",
-                                    "arguments": ["S"],
+                                    "type": "is_text_eq",
+                                    "arguments": ["success"],
                                     "exit_uuid": "f783f0b5-1d08-4981-9547-bae6d35e84c2"
+                                },
+                                {
+                                    "uuid": "65fed15d-c6ad-4e5b-9a2f-80a0a58170e7",
+                                    "type": "is_text_eq",
+                                    "arguments": ["response_error"],
+                                    "exit_uuid": "c1432a6b-0fe4-435f-915a-15d55e269147"
+                                },
+                                {
+                                    "uuid": "bd7fb782-b202-4551-a6da-e85117e1d188",
+                                    "type": "is_text_eq",
+                                    "arguments": ["connection_error"],
+                                    "exit_uuid": "f5142861-4a29-42b0-a7ab-00613b56de32"
                                 }
                             ],
-                            "default_exit_uuid": "c1432a6b-0fe4-435f-915a-15d55e269147"
+                            "default_exit_uuid": "f783f0b5-1d08-4981-9547-bae6d35e84c2"
                         },
                         "exits": [
                             {
@@ -175,17 +187,22 @@
                                 "uuid": "c1432a6b-0fe4-435f-915a-15d55e269147",
                                 "name": "Failure",
                                 "destination_node_uuid": null
+                            },
+                            {
+                                "uuid": "f5142861-4a29-42b0-a7ab-00613b56de32",
+                                "name": "Unreachable",
+                                "destination_node_uuid": null
                             }
+
                         ],
                         "actions": [
                             {
                                 "uuid": "b29914f6-94f4-44ab-be48-55a51a76afdf",
                                 "type": "call_webhook",
-                                "url": "http://example.com",
+                                "url": "http://google.com",
                                 "headers": {},
                                 "method": "POST",
-                                "body":
-                                    "{\n    \"contact\": @(to_json(contact.uuid)),\n    \"contact_urn\": @(to_json(contact.urns)),\n    \"message\": @(to_json(input.text)),\n    \"flow\": @(to_json(run.flow.uuid)),\n    \"flow_name\": @(to_json(run.flow.name))\n}"
+                                "body":"{\n  \"contact\": @(json(contact.uuid)),\n  \"contact_urn\": @(json(contact.urns)),\n  \"message\": @(json(run.input.text)),\n  \"flow\": @(json(run.flow.uuid)),\n  \"flow_name\": @(json(run.flow.name))\n}"
                             }
                         ]
                     }

@@ -58,18 +58,18 @@ export const createSendEmailAction = ({
     uuid = 'send_email-0',
     subject = 'New Sign Up',
     body = '@run.results.name just signed up.',
-    emails = ['jane@example.com']
+    addresses = ['jane@example.com']
 }: {
     uuid?: string;
     subject?: string;
     body?: string;
-    emails?: string[];
+    addresses?: string[];
 } = {}): SendEmail => ({
     uuid,
     type: Types.send_email,
     subject,
     body,
-    emails
+    addresses
 });
 
 export const createCallWebhookAction = ({
@@ -144,17 +144,17 @@ export const createSetContactFieldAction = ({
 
 export const createSetRunResultAction = ({
     uuid = 'set_run_result-0',
-    result_name = 'Name',
+    name = 'Name',
     value = 'Grace',
     category = ''
 }: {
     uuid?: string;
-    result_name?: string;
+    name?: string;
     value?: string;
     category?: string;
 } = {}): SetRunResult => ({
     uuid,
-    result_name,
+    name,
     value,
     category,
     type: Types.set_run_result

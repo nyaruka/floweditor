@@ -34,7 +34,7 @@ export class SetRunResultForm extends React.PureComponent<SetRunResultFormProps>
         const newAction: SetRunResult = {
             uuid: this.props.action.uuid,
             type: this.props.typeConfig.type,
-            result_name: resultName,
+            name: resultName,
             value,
             category
         };
@@ -50,7 +50,7 @@ export class SetRunResultForm extends React.PureComponent<SetRunResultFormProps>
                     ref={this.props.onBindWidget}
                     name="Name"
                     showLabel={true}
-                    value={this.props.action.result_name}
+                    value={this.props.action.name}
                     required={true}
                     helpText="The name of the result, used to reference later, for example: @run.results.my_result_name"
                 />

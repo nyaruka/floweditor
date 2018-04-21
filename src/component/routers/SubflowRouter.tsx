@@ -50,8 +50,7 @@ export class SubflowRouter extends React.PureComponent<SubflowRouterProps> {
                     ref={this.props.onBindWidget}
                     name="Flow"
                     endpoint={this.context.endpoints.flows}
-                    flow_name={this.props.action.flow_name}
-                    flow_uuid={this.props.action.flow_uuid}
+                    flow={this.props.action.flow}
                     required={true}
                 />
             </div>

@@ -218,7 +218,7 @@ exports[`Flow render should render NodeEditor 1`] = `
               },
             ],
             "default_exit_uuid": "326a41b7-9bce-453b-8783-1113f649663c",
-            "operand": "@input",
+            "operand": "@run.input",
             "result_name": "color",
             "type": "switch",
           },
@@ -295,9 +295,6 @@ exports[`Flow render should render NodeEditor 1`] = `
             "type": "switch",
           },
           "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
-          "wait": Object {
-            "type": "exp",
-          },
         }
       }
       plumberClearDragSelection={[MockFunction]}
@@ -484,13 +481,10 @@ exports[`Flow render should render NodeEditor 1`] = `
               },
             ],
             "default_exit_uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
-            "operand": "@contact.groups",
+            "operand": "@contact",
             "type": "switch",
           },
           "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
-          "wait": Object {
-            "type": "group",
-          },
         }
       }
       plumberClearDragSelection={[MockFunction]}
@@ -533,8 +527,10 @@ exports[`Flow render should render NodeEditor 1`] = `
         Object {
           "actions": Array [
             Object {
-              "flow_name": "Customer Service",
-              "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+              "flow": Object {
+                "name": "Customer Service",
+                "uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+              },
               "type": "start_flow",
               "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
             },
@@ -1802,7 +1798,7 @@ exports[`Flow render should render drag selection box 1`] = `
               },
             ],
             "default_exit_uuid": "326a41b7-9bce-453b-8783-1113f649663c",
-            "operand": "@input",
+            "operand": "@run.input",
             "result_name": "color",
             "type": "switch",
           },
@@ -1879,9 +1875,6 @@ exports[`Flow render should render drag selection box 1`] = `
             "type": "switch",
           },
           "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
-          "wait": Object {
-            "type": "exp",
-          },
         }
       }
       plumberClearDragSelection={[MockFunction]}
@@ -2068,13 +2061,10 @@ exports[`Flow render should render drag selection box 1`] = `
               },
             ],
             "default_exit_uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
-            "operand": "@contact.groups",
+            "operand": "@contact",
             "type": "switch",
           },
           "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
-          "wait": Object {
-            "type": "group",
-          },
         }
       }
       plumberClearDragSelection={[MockFunction]}
@@ -2117,8 +2107,10 @@ exports[`Flow render should render drag selection box 1`] = `
         Object {
           "actions": Array [
             Object {
-              "flow_name": "Customer Service",
-              "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+              "flow": Object {
+                "name": "Customer Service",
+                "uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+              },
               "type": "start_flow",
               "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
             },
@@ -2375,7 +2367,7 @@ exports[`Flow render should render self, children with base props 1`] = `
               },
             ],
             "default_exit_uuid": "326a41b7-9bce-453b-8783-1113f649663c",
-            "operand": "@input",
+            "operand": "@run.input",
             "result_name": "color",
             "type": "switch",
           },
@@ -2452,9 +2444,6 @@ exports[`Flow render should render self, children with base props 1`] = `
             "type": "switch",
           },
           "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
-          "wait": Object {
-            "type": "exp",
-          },
         }
       }
       plumberClearDragSelection={[MockFunction]}
@@ -2641,13 +2630,10 @@ exports[`Flow render should render self, children with base props 1`] = `
               },
             ],
             "default_exit_uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
-            "operand": "@contact.groups",
+            "operand": "@contact",
             "type": "switch",
           },
           "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
-          "wait": Object {
-            "type": "group",
-          },
         }
       }
       plumberClearDragSelection={[MockFunction]}
@@ -2690,8 +2676,10 @@ exports[`Flow render should render self, children with base props 1`] = `
         Object {
           "actions": Array [
             Object {
-              "flow_name": "Customer Service",
-              "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+              "flow": Object {
+                "name": "Customer Service",
+                "uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+              },
               "type": "start_flow",
               "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
             },
