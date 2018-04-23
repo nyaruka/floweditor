@@ -4,6 +4,13 @@ import Modal from '../Modal';
 
 import * as styles from './Simulator.scss';
 import { Types } from '../../config/typeConfigs';
+import { dump } from '../../utils';
+
+interface MsgProps {
+    text: string;
+    uuid: string;
+    urn: string;
+}
 
 export interface EventProps {
     uuid?: string;
@@ -24,6 +31,7 @@ export interface EventProps {
     request?: string;
     response?: string;
     groups?: Group[];
+    msg?: MsgProps;
 }
 
 interface LogEventState {
@@ -56,13 +64,14 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         let groupText: string = '';
         let delim: string = '';
 
+        console.log(this.props.type);
         switch (this.props.type) {
             case 'msg_received':
-                text = <span>{this.props.text}</span>;
+                text = <span>{this.props.msg.text}</span>;
                 classes.push(styles.msg_received);
                 break;
-            case Types.send_msg:
-                const spans = this.props.text.split('\n').map((item, key) => {
+            case 'msg_created':
+                const spans = this.props.msg.text.split('\n').map((item, key) => {
                     return (
                         <span key={key}>
                             {item}
@@ -105,7 +114,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
             case Types.set_run_result:
                 text = (
                     <span>
-                        Set flow result "{this.props.result_name}" to "{this.props.value}"
+                        Set flow result "{this.props.name}" to "{this.props.value}"
                     </span>
                 );
                 classes.push(styles.info);
@@ -145,7 +154,6 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         }
 
         classes.push(styles.evt);
-
         if (details) {
             classes.push(styles.has_detail);
 
@@ -156,6 +164,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                     </div>
                     <Modal
                         __className={styles[`detail_${this.props.type}`]}
+                        // tslint:disable-next-line:jsx-key
                         title={[<div>{detailTitle}</div>]}
                         show={this.state.detailsVisible}
                         buttons={{

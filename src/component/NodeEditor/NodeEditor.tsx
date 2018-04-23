@@ -25,7 +25,8 @@ import {
     StartFlow,
     SwitchRouter,
     WaitTypes,
-    Wait
+    Wait,
+    WebhookExitNames
 } from '../../flowTypes';
 import { LocalizedObject } from '../../services/Localization';
 import {
@@ -210,12 +211,17 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
             } as SetContactField;
             break;
         case Types.send_email:
-            defaultAction = { ...defaultAction, subject: '', body: '', emails: null } as SendEmail;
+            defaultAction = {
+                ...defaultAction,
+                subject: '',
+                body: '',
+                addresses: null
+            } as SendEmail;
             break;
         case Types.set_run_result:
             defaultAction = {
                 ...defaultAction,
-                result_name: '',
+                name: '',
                 value: '',
                 category: ''
             } as SetRunResult;
@@ -224,7 +230,7 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
             defaultAction = { ...defaultAction, url: '', method: Methods.GET } as CallWebhook;
             break;
         case Types.start_flow:
-            defaultAction = { ...defaultAction, flow_name: null, flow_uuid: null } as StartFlow;
+            defaultAction = { ...defaultAction, flow: { name: null, uuid: null } } as StartFlow;
             break;
     }
 
@@ -809,9 +815,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
         if (this.props.typeConfig.type === Types.wait_for_response) {
             newNode.node.wait = { type: WaitTypes.msg };
-        } else if (this.props.typeConfig.type === Types.split_by_expression) {
-            newNode.node.wait = { type: WaitTypes.exp };
         }
+
         this.props.onUpdateRouter(newNode);
     }
 
@@ -890,8 +895,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         const newAction: StartFlow = {
             uuid: action.uuid,
             type: this.props.typeConfig.type,
-            flow_name: flowName,
-            flow_uuid: flowUUID
+            flow: { name: flowName, uuid: flowUUID }
         };
 
         // If we're already a subflow, lean on those exits and cases
@@ -922,14 +926,14 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             cases = [
                 {
                     uuid: generateUUID(),
-                    type: Operators.has_webhook_status,
-                    arguments: ['C'],
+                    type: Operators.is_text_eq,
+                    arguments: ['child.run.status', 'completed'],
                     exit_uuid: exits[0].uuid
                 },
                 {
                     uuid: generateUUID(),
-                    type: Operators.has_webhook_status,
-                    arguments: ['E'],
+                    arguments: ['child.run.status', 'expired'],
+                    type: Operators.is_text_eq,
                     exit_uuid: exits[1].uuid
                 }
             ];
@@ -993,7 +997,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         };
 
         const exits: Exit[] = [];
-        const cases: Case[] = [];
+        let cases: Case[] = [];
 
         // TODO: we should probably just be passing down RenderNode
         const renderNode = this.props.nodes[this.props.nodeToEdit.uuid];
@@ -1007,22 +1011,41 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             exits.push(
                 {
                     uuid: generateUUID(),
-                    name: 'Success',
+                    name: WebhookExitNames.Success,
                     destination_node_uuid: null
                 },
                 {
                     uuid: generateUUID(),
-                    name: 'Failure',
+                    name: WebhookExitNames.Failure,
+                    destination_node_uuid: null
+                },
+                {
+                    uuid: generateUUID(),
+                    name: WebhookExitNames.Unreachable,
                     destination_node_uuid: null
                 }
             );
 
-            cases.push({
-                uuid: generateUUID(),
-                type: Operators.has_webhook_status,
-                arguments: ['S'],
-                exit_uuid: exits[0].uuid
-            });
+            cases = [
+                {
+                    uuid: generateUUID(),
+                    type: Operators.is_text_eq,
+                    arguments: ['run.webhook.status', 'success'],
+                    exit_uuid: exits[0].uuid
+                },
+                {
+                    uuid: generateUUID(),
+                    type: Operators.is_text_eq,
+                    arguments: ['run.webhook.status', 'response_error'],
+                    exit_uuid: exits[1].uuid
+                },
+                {
+                    uuid: generateUUID(),
+                    type: Operators.is_text_eq,
+                    arguments: ['run.webhook.status', 'connection_error'],
+                    exit_uuid: exits[2].uuid
+                }
+            ];
         }
 
         const router: SwitchRouter = {

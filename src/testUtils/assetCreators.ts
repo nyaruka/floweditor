@@ -58,18 +58,18 @@ export const createSendEmailAction = ({
     uuid = 'send_email-0',
     subject = 'New Sign Up',
     body = '@run.results.name just signed up.',
-    emails = ['jane@example.com']
+    addresses = ['jane@example.com']
 }: {
     uuid?: string;
     subject?: string;
     body?: string;
-    emails?: string[];
+    addresses?: string[];
 } = {}): SendEmail => ({
     uuid,
     type: Types.send_email,
     subject,
     body,
-    emails
+    addresses
 });
 
 export const createCallWebhookAction = ({
@@ -98,19 +98,23 @@ export const createAddGroupsAction = ({
 
 export const createStartFlowAction = ({
     uuid = 'start_flow-0',
-    flow_name = 'Colors',
-    flow_uuid = 'colors-0'
+    flow = {
+        name: 'Colors',
+        uuid: 'colors-0'
+    }
 }: {
     uuid?: string;
-    // tslint:disable-next-line:variable-name
-    flow_name?: string;
-    // tslint:disable-next-line:variable-name
-    flow_uuid?: string;
+    flow?: {
+        name: string;
+        uuid: string;
+    };
 } = {}): StartFlow => ({
     type: Types.start_flow,
-    uuid: flow_uuid,
-    flow_name: capitalize(flow_name.trim()),
-    flow_uuid
+    uuid: 'start-flow-0',
+    flow: {
+        name: capitalize(flow.name.trim()),
+        uuid
+    }
 });
 
 export const createSetContactPropertyAction = ({
@@ -144,17 +148,17 @@ export const createSetContactFieldAction = ({
 
 export const createSetRunResultAction = ({
     uuid = 'set_run_result-0',
-    result_name = 'Name',
+    name = 'Name',
     value = 'Grace',
     category = ''
 }: {
     uuid?: string;
-    result_name?: string;
+    name?: string;
     value?: string;
     category?: string;
 } = {}): SetRunResult => ({
     uuid,
-    result_name,
+    name,
     value,
     category,
     type: Types.set_run_result

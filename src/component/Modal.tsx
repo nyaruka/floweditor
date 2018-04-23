@@ -62,7 +62,7 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
             <Button key={0} {...this.props.buttons.secondary} type={ButtonTypes.secondary} />
         ];
 
-        if (this.props.buttons.secondary) {
+        if (this.props.buttons.primary) {
             rightButtons.push(
                 <Button key={1} {...this.props.buttons.primary} type={ButtonTypes.primary} />
             );

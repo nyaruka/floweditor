@@ -106,7 +106,7 @@
                                     "arguments": ["violet, v"]
                                 }
                             ],
-                            "operand": "@input",
+                            "operand": "@run.input",
                             "result_name": "color"
                         },
                         "exits": [
@@ -181,10 +181,7 @@
                                 "name": "Other",
                                 "destination_node_uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd"
                             }
-                        ],
-                        "wait": {
-                            "type": "exp"
-                        }
+                        ]
                     },
                     {
                         "uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
@@ -239,7 +236,7 @@
                                     "arguments": ["33b28bac-b588-43e4-90de-fda77aeaf7c0"]
                                 }
                             ],
-                            "operand": "@contact.groups"
+                            "operand": "@contact"
                         },
                         "exits": [
                             {
@@ -257,10 +254,7 @@
                                 "name": "Other",
                                 "destination_node_uuid": null
                             }
-                        ],
-                        "wait": {
-                            "type": "group"
-                        }
+                        ]
                     },
                     {
                         "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
@@ -299,14 +293,12 @@
                             {
                                 "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
                                 "type": "start_flow",
-                                "flow_name": "Customer Service",
-                                "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b"
+                                "flow": {
+                                    "name": "Customer Service",
+                                    "uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b"
+                                }
                             }
-                        ],
-                        "wait": {
-                            "type": "flow",
-                            "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b"
-                        }
+                        ]
                     }
                 ],
                 "_ui": {

@@ -64,7 +64,7 @@
                         ]
                     }
                 ],
-                "operand": "@input",
+                "operand": "@run.input",
                 "result_name": "color"
             },
             "exits": [

@@ -134,11 +134,11 @@ export interface SetPreferredChannel extends Action {
 export interface SendEmail extends Action {
     subject: string;
     body: string;
-    emails: string[];
+    addresses: string[];
 }
 
 export interface SetRunResult extends Action {
-    result_name: string;
+    name: string;
     value: string;
     category?: string;
 }
@@ -155,8 +155,10 @@ export interface CallWebhook extends Action {
 }
 
 export interface StartFlow extends Action {
-    flow_name: string;
-    flow_uuid: string;
+    flow: {
+        name: string;
+        uuid: string;
+    };
 }
 
 export interface UIMetaData {
@@ -260,4 +262,10 @@ export enum StartFlowArgs {
 export enum StartFlowExitNames {
     Complete = 'Complete',
     Expired = 'Expired'
+}
+
+export enum WebhookExitNames {
+    Success = 'Success',
+    Failure = 'Failed',
+    Unreachable = 'Unreachable'
 }

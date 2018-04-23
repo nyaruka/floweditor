@@ -32,14 +32,16 @@ export class SendEmailForm extends React.Component<SendEmailFormProps> {
         const { wrappedInstance: { state: { value: subject } } } = widgets.Subject;
         const { wrappedInstance: { state: { value: body } } } = widgets.Message;
 
-        const emails = emailAddresses.map(({ value }: { label: string; value: string }) => value);
+        const addresses = emailAddresses.map(
+            ({ value }: { label: string; value: string }) => value
+        );
 
         const newAction: SendEmail = {
             uuid: this.props.action.uuid,
             type: this.props.typeConfig.type,
             body,
             subject,
-            emails
+            addresses
         };
 
         this.props.updateAction(newAction);
@@ -52,7 +54,7 @@ export class SendEmailForm extends React.Component<SendEmailFormProps> {
                     ref={this.props.onBindWidget}
                     name="Recipient"
                     placeholder="To"
-                    emails={this.props.action.emails}
+                    emails={this.props.action.addresses}
                     required={true}
                 />
                 <TextInputElement

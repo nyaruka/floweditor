@@ -19,7 +19,7 @@ import Plumber from '../services/Plumber';
 import { ConnectionEvent } from '../store';
 import { getFlowComponents, getGhostNode } from '../store/helpers';
 import { composeComponentTestUtils, composeDuxState, getSpecWrapper, setMock } from '../testUtils';
-import { merge, set, setTrue } from '../utils';
+import { merge, set, setTrue, dump } from '../utils';
 
 jest.mock('../services/ActivityManager');
 jest.mock('../services/Plumber');
@@ -204,7 +204,7 @@ describe(Flow.name, () => {
 
         it('should render Simulator', () => {
             const { wrapper, instance, props, context } = setup(
-                true,
+                false,
                 {},
                 {},
                 {
@@ -214,10 +214,13 @@ describe(Flow.name, () => {
 
             expect(wrapper.find('Simulator').props()).toEqual({
                 definition: props.definition,
-                showDefinition: instance.onShowDefinition,
-                Activity: instance.Activity
+                Activity: instance.Activity,
+                contactFields: [],
+                groups: [],
+                nodes: {}
             });
-            expect(wrapper).toMatchSnapshot();
+
+            expect(wrapper.find('Simulator').html()).toMatchSnapshot();
         });
 
         it('should render dragNode', () => {

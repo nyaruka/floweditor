@@ -3,11 +3,9 @@ import { StartFlow } from '../../../flowTypes';
 import * as styles from './StartFlow.scss';
 
 // tslint:disable-next-line:variable-name
-export const getStartFlowMarkup = (flow_name: string) => (
-    <div className={styles.startFlow}>{flow_name}</div>
-);
+export const getStartFlowMarkup = (name: string) => <div className={styles.startFlow}>{name}</div>;
 
-const StartFlowComp: React.SFC<StartFlow> = ({ flow_name }): JSX.Element =>
-    getStartFlowMarkup(flow_name);
+const StartFlowComp: React.SFC<StartFlow> = ({ flow: { name } }): JSX.Element =>
+    getStartFlowMarkup(name);
 
 export default StartFlowComp;

@@ -11,9 +11,8 @@ describe(StartFlowComp.name, () => {
     describe('render', () => {
         it('should render flow name', () => {
             const { wrapper, props } = setup();
-
             expect(
-                wrapper.containsMatchingElement(getStartFlowMarkup(props.flow_name))
+                wrapper.containsMatchingElement(getStartFlowMarkup(props.flow.name))
             ).toBeTruthy();
             expect(wrapper).toMatchSnapshot();
         });

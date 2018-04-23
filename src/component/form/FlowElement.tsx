@@ -6,8 +6,7 @@ import { SearchResult } from '../../store';
 import { ResultType } from '../../flowTypes';
 
 interface FlowElementProps extends FormElementProps {
-    flow_name: string;
-    flow_uuid: string;
+    flow: { name: string; uuid: string };
     endpoint?: string;
     placeholder?: string;
 }
@@ -24,10 +23,10 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
         super(props);
 
         const flow =
-            this.props.flow_uuid && this.props.flow_name
+            this.props.flow.uuid && this.props.flow.name
                 ? {
-                      name: this.props.flow_name,
-                      id: this.props.flow_uuid,
+                      name: this.props.flow.name,
+                      id: this.props.flow.uuid,
                       type: 'flow'
                   }
                 : null;

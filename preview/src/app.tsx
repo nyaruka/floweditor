@@ -5,7 +5,7 @@ import 'raf/polyfill';
 import * as React from 'react';
 import { render } from 'react-dom';
 import { AppContainer as HotContainer } from 'react-hot-loader';
-import * as config from '../../__test__/config';
+import * as config from '../../assets/config';
 import FlowEditor from '../../src/';
 import { FlowEditorConfig } from '../../src/flowTypes';
 

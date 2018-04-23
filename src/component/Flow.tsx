@@ -297,9 +297,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     private getSimulator(): JSX.Element {
-        return renderIf(this.context.endpoints.engine)(
-            <Simulator definition={this.props.definition} Activity={this.Activity} />
-        );
+        return renderIf(this.context.endpoints.engine)(<Simulator Activity={this.Activity} />);
     }
 
     private getNodeEditor(): JSX.Element {
