@@ -8,7 +8,6 @@ import { AppContainer as HotContainer } from 'react-hot-loader';
 import * as config from '../../assets/config';
 import FlowEditor from '../../src/';
 import { FlowEditorConfig } from '../../src/flowTypes';
-require('react-hot-loader/patch');
 
 const root = document.getElementById('flow-editor');
 
