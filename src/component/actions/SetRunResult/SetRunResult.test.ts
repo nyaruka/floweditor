@@ -21,7 +21,7 @@ describe(SetRunResultComp.name, () => {
 
         expect(
             wrapper.containsMatchingElement(
-                getSavePlaceholder(props.value, getResultNameMarkup(props.result_name))
+                getSavePlaceholder(props.value, getResultNameMarkup(props.name))
             )
         ).toBeTruthy();
         expect(wrapper).toMatchSnapshot();
@@ -31,9 +31,7 @@ describe(SetRunResultComp.name, () => {
         const { wrapper, props } = setup(true, { value: setEmpty() });
 
         expect(
-            wrapper.containsMatchingElement(
-                getClearPlaceholder(getResultNameMarkup(props.result_name))
-            )
+            wrapper.containsMatchingElement(getClearPlaceholder(getResultNameMarkup(props.name)))
         ).toBeTruthy();
         expect(wrapper).toMatchSnapshot();
     });

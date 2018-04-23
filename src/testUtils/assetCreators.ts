@@ -98,19 +98,23 @@ export const createAddGroupsAction = ({
 
 export const createStartFlowAction = ({
     uuid = 'start_flow-0',
-    flow_name = 'Colors',
-    flow_uuid = 'colors-0'
+    flow = {
+        name: 'Colors',
+        uuid: 'colors-0'
+    }
 }: {
     uuid?: string;
-    // tslint:disable-next-line:variable-name
-    flow_name?: string;
-    // tslint:disable-next-line:variable-name
-    flow_uuid?: string;
+    flow?: {
+        name: string;
+        uuid: string;
+    };
 } = {}): StartFlow => ({
     type: Types.start_flow,
-    uuid: flow_uuid,
-    flow_name: capitalize(flow_name.trim()),
-    flow_uuid
+    uuid: 'start-flow-0',
+    flow: {
+        name: capitalize(flow.name.trim()),
+        uuid
+    }
 });
 
 export const createSetContactPropertyAction = ({

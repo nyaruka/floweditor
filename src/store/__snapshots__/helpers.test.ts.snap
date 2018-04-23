@@ -93,7 +93,7 @@ Array [
           },
         ],
         "default_exit_uuid": "node1_exit2",
-        "operand": "@input",
+        "operand": "@run.input",
         "result_name": "color",
         "type": "switch",
       },
