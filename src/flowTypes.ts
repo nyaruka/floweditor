@@ -5,6 +5,7 @@ import {
     PromptTextCreatorHandler
 } from 'react-select';
 import { Operators } from './config/operatorConfigs';
+import AssetService from './services/AssetService';
 
 export interface Languages {
     [iso: string]: string;
@@ -20,6 +21,7 @@ export interface Endpoints {
 }
 
 export interface FlowEditorConfig {
+    assetService?: AssetService;
     languages: { [iso: string]: string };
     endpoints: Endpoints;
     flow: string;

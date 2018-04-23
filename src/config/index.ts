@@ -2,7 +2,8 @@ import ConfigProvider, {
     ConfigProviderContext,
     endpointsPT,
     languagesPT,
-    flowPT
+    flowPT,
+    assetServicePT
 } from './ConfigProvider';
 import { Type, Mode, typeConfigList, getTypeConfig } from './typeConfigs';
 import { Operator, operatorConfigList, getOperatorConfig } from './operatorConfigs';
@@ -12,6 +13,7 @@ export {
     Type,
     Mode,
     Operator,
+    assetServicePT,
     endpointsPT,
     languagesPT,
     flowPT,

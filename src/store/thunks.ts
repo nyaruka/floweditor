@@ -60,6 +60,7 @@ import {
     updateUserAddingAction
 } from './nodeEditor';
 import AppState from './state';
+import AssetService from '../services/AssetService';
 
 export type DispatchWithState = Dispatch<AppState>;
 
@@ -85,7 +86,7 @@ export type RemoveNode = (nodeToRemove: FlowNode) => Thunk<RenderNodeMap>;
 
 export type UpdateDimensions = (node: FlowNode, dimensions: Dimensions) => Thunk<RenderNodeMap>;
 
-export type FetchFlow = (endpoint: string, uuid: string) => AsyncThunk;
+export type FetchFlow = (endpoint: string, uuid: string, assetService: AssetService) => AsyncThunk;
 
 export type FetchFlows = (endpoint: string) => AsyncThunk;
 
@@ -144,11 +145,12 @@ const QUIET_REFLOW = 200;
 
 let debounceReflow: any = null;
 
-export const initializeFlow = (definition: FlowDefinition) => (
+export const initializeFlow = (definition: FlowDefinition, assetService: AssetService) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): FlowComponents => {
     const flowComponents = getFlowComponents(definition);
+    assetService.getGroups().addAll(flowComponents.groups);
 
     // store our flow definition without any nodes
     dispatch(updateGroups(flowComponents.groups));
@@ -159,7 +161,7 @@ export const initializeFlow = (definition: FlowDefinition) => (
     return flowComponents;
 };
 
-export const fetchFlow = (endpoint: string, uuid: string) => (
+export const fetchFlow = (endpoint: string, uuid: string, assetService: AssetService) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
@@ -167,7 +169,7 @@ export const fetchFlow = (endpoint: string, uuid: string) => (
     return (
         getFlow(endpoint, uuid, false)
             .then(({ definition }: FlowDetails) => {
-                return dispatch(initializeFlow(definition));
+                return dispatch(initializeFlow(definition, assetService));
             })
             // TODO: think this should probably bubble up
             .catch(

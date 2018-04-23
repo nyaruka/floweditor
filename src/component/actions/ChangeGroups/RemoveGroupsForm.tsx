@@ -102,6 +102,7 @@ export class RemoveGroupsForm extends React.Component<
                     name="Groups"
                     placeholder={PLACEHOLDER}
                     searchPromptText={NOT_FOUND}
+                    assetService={this.context.assetService}
                     endpoint={this.context.endpoints.groups}
                     localGroups={this.props.groups}
                     groups={this.state.groups}

@@ -77,6 +77,7 @@ export class GroupsRouter extends React.Component<GroupsRouterProps> {
                     <GroupsElement
                         ref={this.props.onBindWidget}
                         name="Groups"
+                        assetService={this.context.assetService}
                         endpoint={this.context.endpoints.groups}
                         add={false}
                         required={true}

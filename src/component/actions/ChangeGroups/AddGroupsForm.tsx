@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { ConfigProviderContext, endpointsPT } from '../../../config';
+import { ConfigProviderContext, endpointsPT, assetServicePT } from '../../../config';
 import { ChangeGroups } from '../../../flowTypes';
 import { AppState, SearchResult, DispatchWithState } from '../../../store';
 import GroupsElement from '../../form/GroupsElement';
@@ -11,6 +11,7 @@ import ChangeGroupsFormProps from './props';
 import { Types } from '../../../config/typeConfigs';
 import { bindActionCreators } from 'redux';
 import { dump } from '../../../utils';
+import AssetService from '../../../services/AssetService';
 
 export interface AddGroupsFormState {
     groups: SearchResult[];
@@ -23,7 +24,8 @@ export const labelSpecId = 'label';
 
 export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, AddGroupsFormState> {
     public static contextTypes = {
-        endpoints: endpointsPT
+        endpoints: endpointsPT,
+        assetService: assetServicePT
     };
 
     constructor(props: ChangeGroupsFormProps, context: ConfigProviderContext) {
@@ -82,6 +84,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
                     ref={this.props.onBindWidget}
                     name="Groups"
                     placeholder={PLACEHOLDER}
+                    assetService={this.context.assetService}
                     endpoint={this.context.endpoints.groups}
                     localGroups={this.props.groups}
                     groups={this.state.groups}

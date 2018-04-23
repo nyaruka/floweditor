@@ -24,6 +24,8 @@ export interface RenderNode {
 }
 
 export interface SearchResult extends Option {
+    match?: string;
+    name?: string;
     type?: string;
     prefix?: string;
     extraResult?: boolean;

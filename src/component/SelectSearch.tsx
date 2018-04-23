@@ -18,6 +18,7 @@ import {
     ValueType
 } from '../flowTypes';
 import { SearchResult } from '../store';
+import { Assets } from '../services/AssetService';
 
 export interface SelectSearchProps {
     url: string;
@@ -29,6 +30,7 @@ export interface SelectSearchProps {
     closeOnSelect?: boolean;
     initial?: SearchResult[];
     localSearchOptions?: SearchResult[];
+    assets?: Assets;
     __className?: string;
     createPrompt?: string;
     onChange?: (selections: SearchResult | SearchResult[]) => void;
@@ -120,6 +122,11 @@ export default class SelectSearch extends React.PureComponent<
     }
 
     private onChangeMulti(selections: SearchResult[]): void {
+        for (const selection of selections) {
+            if (selection.extraResult) {
+                this.props.assets.add(selection);
+            }
+        }
         // Account for null selections
         if (!selections) {
             return;
@@ -176,6 +183,14 @@ export default class SelectSearch extends React.PureComponent<
                 }
             }
         }
+
+        // if we have assets, check there
+        if (this.props.assets) {
+            for (const result of this.props.assets.search(term)) {
+                combined = this.addSearchResult(combined, result);
+            }
+        }
+
         const options = combined.sort(this.sortResults);
 
         const results = {
