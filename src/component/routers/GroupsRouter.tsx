@@ -10,7 +10,7 @@ import { GetResultNameField } from '../NodeEditor';
 import { hasSwitchRouter, hasWait, SaveLocalizations } from '../NodeEditor/NodeEditor';
 import { GROUP_LABEL } from './constants';
 import * as styles from './SwitchRouter.scss';
-import { fakePropType } from '../../config/ConfigProvider';
+import { fakePropType } from '../../config';
 
 export interface GroupsRouterStoreProps {
     translating: boolean;
@@ -45,7 +45,8 @@ export const hasGroupsRouter = (node: FlowNode) =>
 
 export class GroupsRouter extends React.Component<GroupsRouterProps> {
     public static contextTypes = {
-        endpoints: fakePropType
+        endpoints: fakePropType,
+        assetService: fakePropType
     };
 
     public onValid(widgets: { [name: string]: any }): void {

@@ -97,14 +97,21 @@ describe(FlowList.name, () => {
             const otherUUID = 'some-other-uuid';
 
             it('should call action creator that fetches flow', () => {
-                const { wrapper, instance, props, context: { endpoints } } = setup(true, {
-                    fetchFlow: setMock()
-                });
+                const { wrapper, instance, props, context: { endpoints, assetService } } = setup(
+                    true,
+                    {
+                        fetchFlow: setMock()
+                    }
+                );
 
                 instance.onChange({ uuid: otherUUID });
 
                 expect(props.fetchFlow).toHaveBeenCalledTimes(1);
-                expect(props.fetchFlow).toHaveBeenCalledWith(endpoints.flows, otherUUID);
+                expect(props.fetchFlow).toHaveBeenCalledWith(
+                    endpoints.flows,
+                    otherUUID,
+                    assetService
+                );
             });
 
             it('should not call action creator that fetches flow', () => {

@@ -88,7 +88,7 @@ describe('Flow Manipulation', () => {
     describe('init', () => {
         it('should fetch and initalize flow', () => {
             return store
-                .dispatch(fetchFlow('/assets/flows.json', 'boring'))
+                .dispatch(fetchFlow('/assets/flows.json', 'boring', null))
                 .then((components: FlowComponents) => {
                     expect(Object.keys(components.renderNodeMap).length).toBe(4);
                 });
@@ -101,7 +101,7 @@ describe('Flow Manipulation', () => {
         });
 
         it('should initialize definition', () => {
-            const { renderNodeMap, groups, fields } = store.dispatch(initializeFlow(boring));
+            const { renderNodeMap, groups, fields } = store.dispatch(initializeFlow(boring, null));
             expect(renderNodeMap).toMatchSnapshot('nodes');
             expect(store).toHaveReduxAction(Constants.UPDATE_NODES);
 

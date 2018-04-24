@@ -3,8 +3,8 @@ import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getTypeConfig } from '../../../config';
-import { ConfigProviderContext, fakePropType } from '../../../config/ConfigProvider';
+import { getTypeConfig, fakePropType } from '../../../config';
+import { ConfigProviderContext } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
 import { AnyAction, FlowNode, LocalizationMap } from '../../../flowTypes';
 import {
@@ -51,7 +51,7 @@ const cx = classNames.bind({ ...shared, ...styles });
 // Note: this needs to be a ComponentClass in order to work w/ react-flip-move
 export class ActionWrapper extends React.Component<ActionWrapperProps> {
     public static contextTypes = {
-        languages: fakePropType // languagesPT
+        languages: fakePropType
     };
 
     constructor(props: ActionWrapperProps, context: ConfigProviderContext) {

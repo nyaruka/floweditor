@@ -42,17 +42,7 @@ describe(AddGroupsForm.name, () => {
             expect(label.is('p')).toBeTruthy();
             expect(label.text()).toBe(LABEL);
             expect(props.onBindWidget).toHaveBeenCalledTimes(1);
-            expect(wrapper.find('GroupsElement').props()).toEqual({
-                localGroups: [],
-                name: 'Groups',
-                placeholder: PLACEHOLDER,
-                endpoint: context.endpoints.groups,
-                groups: wrapper.state('groups'),
-                add: true,
-                required: true,
-                onChange: instance.onGroupsChanged,
-                searchPromptText: GROUP_NOT_FOUND
-            });
+            expect(wrapper.find('GroupsElement').props()).toMatchSnapshot();
         });
     });
 

@@ -7,6 +7,38 @@ exports[`GroupsElement render should pass createOptions object if it's add prop 
 >
   <SelectSearch
     _className=""
+    assets={
+      Assets {
+        "endpoint": "/assets/groups.json",
+        "items": Array [
+          Object {
+            "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
+            "match": "customers",
+            "name": "Customers",
+          },
+          Object {
+            "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
+            "match": "unsatisfied customers",
+            "name": "Unsatisfied Customers",
+          },
+          Object {
+            "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+            "match": "early adopters",
+            "name": "Early Adopters",
+          },
+          Object {
+            "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
+            "match": "testers",
+            "name": "Testers",
+          },
+          Object {
+            "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+            "match": "subscribers",
+            "name": "Subscribers",
+          },
+        ],
+      }
+    }
     createNewOption={[Function]}
     createPrompt="New group: "
     initial={Array []}
@@ -17,18 +49,92 @@ exports[`GroupsElement render should pass createOptions object if it's add prop 
     placeholder="Enter the name of an existing group..."
     resultType="group"
     searchPromptText="Invalid group name"
-    url="/assets/groups.json"
   />
 </FormElement>
 `;
 
 exports[`GroupsElement render should render self, children with required props 1`] = `
+Object {
+  "_className": "",
+  "assets": Assets {
+    "endpoint": "/assets/groups.json",
+    "items": Array [
+      Object {
+        "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
+        "match": "customers",
+        "name": "Customers",
+      },
+      Object {
+        "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
+        "match": "unsatisfied customers",
+        "name": "Unsatisfied Customers",
+      },
+      Object {
+        "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+        "match": "early adopters",
+        "name": "Early Adopters",
+      },
+      Object {
+        "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
+        "match": "testers",
+        "name": "Testers",
+      },
+      Object {
+        "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+        "match": "subscribers",
+        "name": "Subscribers",
+      },
+    ],
+  },
+  "initial": Array [],
+  "multi": true,
+  "name": "Groups",
+  "onChange": [Function],
+  "placeholder": "Enter the name of an existing group...",
+  "resultType": "group",
+  "searchPromptText": "Invalid group name",
+}
+`;
+
+exports[`GroupsElement render should render self, children with required props 2`] = `
 <FormElement
   errors={Array []}
   name="Groups"
 >
   <SelectSearch
     _className=""
+    assets={
+      Assets {
+        "endpoint": "/assets/groups.json",
+        "items": Array [
+          Object {
+            "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
+            "match": "customers",
+            "name": "Customers",
+          },
+          Object {
+            "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
+            "match": "unsatisfied customers",
+            "name": "Unsatisfied Customers",
+          },
+          Object {
+            "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+            "match": "early adopters",
+            "name": "Early Adopters",
+          },
+          Object {
+            "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
+            "match": "testers",
+            "name": "Testers",
+          },
+          Object {
+            "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+            "match": "subscribers",
+            "name": "Subscribers",
+          },
+        ],
+      }
+    }
     initial={Array []}
     multi={true}
     name="Groups"
@@ -36,7 +142,6 @@ exports[`GroupsElement render should render self, children with required props 1
     placeholder="Enter the name of an existing group..."
     resultType="group"
     searchPromptText="Invalid group name"
-    url="/assets/groups.json"
   />
 </FormElement>
 `;

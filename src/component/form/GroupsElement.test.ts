@@ -10,12 +10,13 @@ import GroupsElement, {
     GroupsElementProps,
     isValidNewOption
 } from './GroupsElement';
+import AssetService from '../../services/AssetService';
 
 const baseProps: GroupsElementProps = {
     name: 'Groups',
-    endpoint: configProviderContext.endpoints.groups,
     placeholder: GROUP_PLACEHOLDER,
-    searchPromptText: GROUP_NOT_FOUND
+    searchPromptText: GROUP_NOT_FOUND,
+    assets: configProviderContext.assetService.getGroupAssets()
 };
 
 const { setup, spyOn } = composeComponentTestUtils(GroupsElement, baseProps);
@@ -53,18 +54,7 @@ describe(GroupsElement.name, () => {
 
             expect(formElement.prop('name')).toBe(props.name);
             expect(formElement.prop('errors')).toEqual([]);
-            expect(wrapper.find('SelectSearch').props()).toEqual({
-                _className: '',
-                onChange: instance.onChange,
-                localSearchOptions: undefined,
-                name: props.name,
-                url: props.endpoint,
-                resultType: ResultType.group,
-                multi: true,
-                initial: [],
-                placeholder: GROUP_PLACEHOLDER,
-                searchPromptText: GROUP_NOT_FOUND
-            });
+            expect(wrapper.find('SelectSearch').props()).toMatchSnapshot();
             expect(wrapper).toMatchSnapshot();
         });
 

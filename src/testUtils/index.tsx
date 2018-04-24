@@ -4,11 +4,11 @@ import { mount, ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
 import mutate, { Query } from 'immutability-helper';
 import * as React from 'react';
 import * as config from '../../__test__/config';
-import { ConfigProviderContext } from '../config';
+import { ConfigProviderContext, fakePropType } from '../config';
 import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
 import { AppState, createStore, initialState } from '../store';
 import { getBaseLanguage, merge, set } from '../utils';
-import { fakePropType } from '../config/ConfigProvider';
+import AssetService from '../services/AssetService';
 
 export interface Resp {
     results: Array<{ [key: string]: any }>;
@@ -44,7 +44,7 @@ export const configProviderContext: ConfigProviderContext = {
     endpoints: flowEditorConfig.endpoints,
     languages: flowEditorConfig.languages,
     flow: flowEditorConfig.flow,
-    assetService: flowEditorConfig.assetService
+    assetService: new AssetService(flowEditorConfig.endpoints)
 };
 
 export const setMock = (implementation?: (...args: any[]) => any): Query<jest.Mock> =>

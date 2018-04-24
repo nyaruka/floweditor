@@ -1,10 +1,4 @@
-import ConfigProvider, {
-    ConfigProviderContext
-    // endpointsPT,
-    // languagesPT,
-    // flowPT,
-    // assetServicePT
-} from './ConfigProvider';
+import ConfigProvider, { ConfigProviderContext, fakePropType } from './ConfigProvider';
 import { Type, Mode, typeConfigList, getTypeConfig } from './typeConfigs';
 import { Operator, operatorConfigList, getOperatorConfig } from './operatorConfigs';
 
@@ -13,10 +7,7 @@ export {
     Type,
     Mode,
     Operator,
-    // assetServicePT,
-    // endpointsPT,
-    // languagesPT,
-    // flowPT,
+    fakePropType,
     typeConfigList,
     getTypeConfig,
     operatorConfigList,

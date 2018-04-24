@@ -1,6 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SelectSearch render should render self, children with required props 1`] = `
+Object {
+  "autoload": true,
+  "cache": Object {},
+  "children": [Function],
+  "className": undefined,
+  "clearable": undefined,
+  "closeOnSelect": undefined,
+  "filterOption": [Function],
+  "ignoreAccents": false,
+  "ignoreCase": false,
+  "labelKey": "name",
+  "loadOptions": [Function],
+  "loadingPlaceholder": "Loading...",
+  "multi": undefined,
+  "name": "Groups",
+  "onBlurResetsInput": true,
+  "onChange": [Function],
+  "openOnFocus": true,
+  "options": Array [],
+  "placeholder": "Enter the name of an existing group...",
+  "searchPromptText": "Enter the name of an existing group",
+  "searchable": true,
+  "value": undefined,
+  "valueKey": "id",
+}
+`;
+
+exports[`SelectSearch render should render self, children with required props 2`] = `
 <SelectSearch
   name="Groups"
   placeholder="Enter the name of an existing group..."

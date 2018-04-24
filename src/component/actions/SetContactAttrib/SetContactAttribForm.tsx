@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ConfigProviderContext } from '../../../config';
+import { ConfigProviderContext, fakePropType } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
 import {
     AttributeType,
@@ -16,7 +16,6 @@ import {
     newPropertyAction,
     propertyToSearchResult
 } from './helpers';
-import { fakePropType } from '../../../config/ConfigProvider';
 
 export interface SetContactAttribFormProps {
     action: SetContactAttribute;
@@ -32,7 +31,7 @@ export const TEXT_INPUT_HELP_TEXT =
 
 export default class SetContactAttribForm extends React.Component<SetContactAttribFormProps> {
     public static contextTypes = {
-        endpoints: fakePropType // endpointsPT
+        endpoints: fakePropType
     };
 
     constructor(props: SetContactAttribFormProps, context: ConfigProviderContext) {
