@@ -40,8 +40,9 @@
     "tag": "git push — tags origin master",
     "preversion": "npm run test:local",
     "version": "npm run build:umd",
-    "postversion": "npm run tag",
-    "precommit": "lint-staged"
+    "postversion": "npm run tag && npm run release",
+    "precommit": "lint-staged",
+    "release": "npm publish --access public"
   },
   "lint-staged": {
     "*.{ts,tsx,js,css,md}": [
