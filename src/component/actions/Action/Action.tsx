@@ -143,6 +143,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         const titleBarClass = shared[this.props.action.type];
         const showRemoval = !this.props.translating;
         const showMove = !this.props.first && !this.props.translating;
+
         return (
             <div
                 id={`action-${this.props.action.uuid}`}
@@ -159,7 +160,10 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
                         showMove={showMove}
                         onMoveUp={this.onMoveUp}
                     />
-                    <div className={styles.body} data-spec={actionBodySpecId}>
+                    <div
+                        className={styles.body + ' ' + styles[this.props.action.type]}
+                        data-spec={actionBodySpecId}
+                    >
                         {this.props.render(actionToInject)}
                     </div>
                 </div>

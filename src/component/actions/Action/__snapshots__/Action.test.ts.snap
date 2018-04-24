@@ -24,7 +24,7 @@ exports[`ActionWrapper render should display hybrid style 1`] = `
       title="Send Message"
     />
     <div
-      className="body"
+      className="body send_msg"
       data-spec="action-body"
     />
   </div>
@@ -55,7 +55,7 @@ exports[`ActionWrapper render should display missing_localization style 1`] = `
       title="Send Message"
     />
     <div
-      className="body"
+      className="body send_msg"
       data-spec="action-body"
     />
   </div>
@@ -86,7 +86,7 @@ exports[`ActionWrapper render should display not_localizable style 1`] = `
       title="Run Flow"
     />
     <div
-      className="body"
+      className="body start_flow"
       data-spec="action-body"
     />
   </div>
@@ -117,7 +117,7 @@ exports[`ActionWrapper render should display translating style 1`] = `
       title="Send Message"
     />
     <div
-      className="body"
+      className="body send_msg"
       data-spec="action-body"
     />
   </div>
@@ -148,7 +148,7 @@ exports[`ActionWrapper render should render self, children with base props 1`] =
       title="Send Message"
     />
     <div
-      className="body"
+      className="body send_msg"
       data-spec="action-body"
     />
   </div>
@@ -179,7 +179,7 @@ exports[`ActionWrapper render should show move icon 1`] = `
       title="Send Message"
     />
     <div
-      className="body"
+      className="body send_msg"
       data-spec="action-body"
     />
   </div>

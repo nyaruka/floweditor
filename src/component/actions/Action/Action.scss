@@ -11,11 +11,19 @@
     clear: both;
 }
 
+
 .body {
-    padding: 12px;
+    $padding: 10px;
+    padding: $padding;
     line-height: 1.4em;
     word-wrap: break-word;
     width: auto;
+
+    &.send_msg, &.set_contact_field, &.set_contact_property, 
+    &.add_contact_groups, &.remove_contact_groups, &.set_run_result, 
+    &.send_email {
+        width: $node_width - $padding * 2;
+    }
 }
 
 .not_localizable {

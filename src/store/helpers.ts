@@ -9,7 +9,8 @@ import {
     SwitchRouter,
     WaitTypes,
     ChangeGroups,
-    SetContactField
+    SetContactField,
+    Exit
 } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { RenderNode, RenderNodeMap, SearchResult } from './flowContext';
@@ -265,11 +266,26 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
             node.actions = [];
         }
 
+        const ui = _ui.nodes[node.uuid];
         renderNodeMap[node.uuid] = {
             node,
-            ui: _ui.nodes[node.uuid],
+            ui,
             inboundConnections: {}
         };
+
+        // if we are split by group, look at our exits for groups
+        if (ui.type === Types.split_by_groups) {
+            const router = node.router as SwitchRouter;
+            for (const kase of router.cases) {
+                const groupUUID = kase.arguments[0];
+                const exit = node.exits.find((groupExit: Exit) => {
+                    return groupExit.uuid === kase.exit_uuid;
+                });
+                if (exit) {
+                    groupsMap[groupUUID] = exit.name;
+                }
+            }
+        }
 
         for (const action of node.actions) {
             if (isGroupAction(action.type)) {

@@ -28,7 +28,7 @@ export class SendEmailForm extends React.Component<SendEmailFormProps> {
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        const { wrappedInstance: { state: { emails: emailAddresses } } } = widgets.Recipient;
+        const { state: { emails: emailAddresses } } = widgets.Recipient;
         const { wrappedInstance: { state: { value: subject } } } = widgets.Subject;
         const { wrappedInstance: { state: { value: body } } } = widgets.Message;
 
