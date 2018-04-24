@@ -150,7 +150,7 @@ export const initializeFlow = (definition: FlowDefinition, assetService: AssetSe
     getState: GetState
 ): FlowComponents => {
     const flowComponents = getFlowComponents(definition);
-    assetService.getGroups().addAll(flowComponents.groups);
+    assetService.addFlowComponents(flowComponents);
 
     // store our flow definition without any nodes
     dispatch(updateGroups(flowComponents.groups));

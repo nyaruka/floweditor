@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect, Provider as ReduxProvider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import ConfigProvider, { endpointsPT, flowPT, languagesPT, assetServicePT } from '../config';
+import ConfigProvider from '../config';
 import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
 import {
     AppState,
@@ -22,6 +22,7 @@ import ConnectedFlowList, { FlowOption } from './FlowList';
 import * as styles from './index.scss';
 import ConnectedLanguageSelector, { Language } from './LanguageSelector';
 import AssetService from '../services/AssetService';
+import { fakePropType } from '../config/ConfigProvider';
 
 export type OnSelectFlow = ({ uuid }: FlowOption) => void;
 
@@ -44,7 +45,7 @@ const hotStore = createStore();
 
 // Root container, wires up context-providers/sets baseURL
 const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) => {
-    config.assetService = new AssetService();
+    config.assetService = new AssetService(config.endpoints);
 
     return (
         <ConfigProvider config={config}>
@@ -56,10 +57,10 @@ const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) =>
 };
 
 export const contextTypes = {
-    endpoints: endpointsPT,
-    languages: languagesPT,
-    flow: flowPT,
-    assetService: assetServicePT
+    endpoints: fakePropType, // endpointsPT,
+    languages: fakePropType, // languagesPT,
+    flow: fakePropType, // flowPT,
+    assetService: fakePropType // assetServicePT
 };
 
 export const editorContainerSpecId = 'editor-container';

@@ -8,8 +8,6 @@ import {
 import { FlowDefinition, StickyNote } from '../../flowTypes';
 import { getBaseLanguage, dump, set } from '../../utils';
 import { ConnectionEvent, createStore, initialState, updateSticky } from '../../store';
-import { object } from 'prop-types';
-import { endpointsPT, languagesPT } from '../../config/ConfigProvider';
 import * as styles from './Sticky.scss';
 
 jest.useFakeTimers();

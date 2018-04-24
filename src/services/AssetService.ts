@@ -1,29 +1,36 @@
 import { SearchResult } from '../store';
+import { Endpoints } from '../flowTypes';
+import axios, { AxiosResponse } from 'axios';
+import { FlowComponents } from '../store/helpers';
 
 export interface GroupAsset {
     uuid: string;
     name: string;
 }
 
-export interface Assets {
-    search(term: string): SearchResult[];
-    add(searchResult: SearchResult): void;
-    addAll(searchResults: SearchResult[]): void;
-}
+export class Assets {
+    private items: SearchResult[] = [];
+    private endpoint: string;
 
-export class GroupAssets {
-    private groups: SearchResult[] = [];
+    constructor(endpoint: string) {
+        this.endpoint = endpoint;
+        axios.get(endpoint).then((response: AxiosResponse) => {
+            for (const result of response.data.results) {
+                this.add({ name: result.name, id: result.uuid });
+            }
+        });
+    }
 
     public search(term: string): SearchResult[] {
         const termLowered = term.toLowerCase().trim();
-        return this.groups.filter((result: SearchResult) => result.match.indexOf(termLowered) > -1);
+        return this.items.filter((result: SearchResult) => result.match.indexOf(termLowered) > -1);
     }
 
     public add(result: SearchResult): void {
         result.match = result.name.toLowerCase().trim();
         if (this.search(result.match).length === 0) {
             delete result.extraResult;
-            this.groups.push(result);
+            this.items.push(result);
         }
     }
 
@@ -37,11 +44,15 @@ export class GroupAssets {
 export default class AssetService {
     private groups: Assets;
 
-    constructor() {
-        this.groups = new GroupAssets();
+    constructor(endpoints: Endpoints) {
+        this.groups = new Assets(endpoints.groups);
     }
 
-    public getGroups(): Assets {
+    public addFlowComponents(flowComponents: FlowComponents): void {
+        this.groups.addAll(flowComponents.groups);
+    }
+
+    public getGroupAssets(): Assets {
         return this.groups;
     }
 }

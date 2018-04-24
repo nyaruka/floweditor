@@ -2,7 +2,7 @@
 // tslint:disable:ban-types
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { endpointsPT } from '../../config';
+// import { endpointsPT } from '../../config';
 import { FlowNode, SwitchRouter, WaitTypes } from '../../flowTypes';
 import { AppState, SearchResult } from '../../store';
 import GroupsElement, { GroupsElementProps } from '../form/GroupsElement';
@@ -10,6 +10,7 @@ import { GetResultNameField } from '../NodeEditor';
 import { hasSwitchRouter, hasWait, SaveLocalizations } from '../NodeEditor/NodeEditor';
 import { GROUP_LABEL } from './constants';
 import * as styles from './SwitchRouter.scss';
+import { fakePropType } from '../../config/ConfigProvider';
 
 export interface GroupsRouterStoreProps {
     translating: boolean;
@@ -44,7 +45,7 @@ export const hasGroupsRouter = (node: FlowNode) =>
 
 export class GroupsRouter extends React.Component<GroupsRouterProps> {
     public static contextTypes = {
-        endpoints: endpointsPT
+        endpoints: fakePropType
     };
 
     public onValid(widgets: { [name: string]: any }): void {
@@ -60,9 +61,7 @@ export class GroupsRouter extends React.Component<GroupsRouterProps> {
             return this.props.getExitTranslations();
         }
 
-        const groupProps: Partial<GroupsElementProps> = {
-            localGroups: this.props.localGroups
-        };
+        const groupProps: Partial<GroupsElementProps> = {};
 
         if (hasGroupsRouter(this.props.nodeToEdit)) {
             groupProps.groups = extractGroups(this.props.nodeToEdit);
@@ -77,8 +76,7 @@ export class GroupsRouter extends React.Component<GroupsRouterProps> {
                     <GroupsElement
                         ref={this.props.onBindWidget}
                         name="Groups"
-                        assetService={this.context.assetService}
-                        endpoint={this.context.endpoints.groups}
+                        assets={this.context.assetService.getGroupAssets()}
                         add={false}
                         required={true}
                         {...groupProps}

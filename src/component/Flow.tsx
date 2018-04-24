@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { ConfigProviderContext, endpointsPT, languagesPT } from '../config';
+import { ConfigProviderContext } from '../config';
 import { getActivity } from '../external';
 import { FlowDefinition, Languages, FlowNode, UINode, StickyNote } from '../flowTypes';
 import { v4 as generateUUID } from 'uuid';
@@ -39,6 +39,7 @@ import ConnectedNodeEditor from './NodeEditor';
 import Simulator from './Simulator';
 import Sticky from './Sticky';
 import { Types } from '../config/typeConfigs';
+import { fakePropType } from '../config/ConfigProvider';
 
 export interface FlowStoreProps {
     translating: boolean;
@@ -104,8 +105,8 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     private ghost: any;
 
     public static contextTypes = {
-        languages: languagesPT,
-        endpoints: endpointsPT
+        languages: fakePropType, // languagesPT,
+        endpoints: fakePropType // endpointsPT
     };
 
     constructor(props: FlowStoreProps, context: ConfigProviderContext) {

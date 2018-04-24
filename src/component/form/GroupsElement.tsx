@@ -6,7 +6,7 @@ import { getSelectClass, isValidLabel, jsonEqual } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { NewOptionCreatorHandler, IsValidNewOptionHandler } from 'react-select';
-import AssetService from '../../services/AssetService';
+import { Assets } from '../../services/AssetService';
 
 export interface GroupOption {
     group: string;
@@ -14,14 +14,12 @@ export interface GroupOption {
 }
 
 export interface GroupsElementProps extends FormElementProps {
-    endpoint: string;
     add?: boolean;
     groups?: SearchResult[];
-    localGroups?: SearchResult[];
     placeholder?: string;
     searchPromptText?: string | JSX.Element;
     onChange?: (groups: SearchResult[]) => void;
-    assetService: AssetService;
+    assets: Assets;
 }
 
 interface GroupsElementState {
@@ -114,7 +112,7 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
                     onChange={this.onChange}
                     name={this.props.name}
                     resultType={ResultType.group}
-                    assets={this.props.assetService.getGroups()}
+                    assets={this.props.assets}
                     multi={true}
                     initial={this.state.groups}
                     placeholder={this.props.placeholder}

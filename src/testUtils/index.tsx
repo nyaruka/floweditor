@@ -2,13 +2,13 @@
 // tslint:disable:ban-types
 import { mount, ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
 import mutate, { Query } from 'immutability-helper';
-import { object } from 'prop-types';
 import * as React from 'react';
 import * as config from '../../__test__/config';
-import { ConfigProviderContext, endpointsPT, flowPT, languagesPT } from '../config';
+import { ConfigProviderContext } from '../config';
 import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
 import { AppState, createStore, initialState } from '../store';
 import { getBaseLanguage, merge, set } from '../utils';
+import { fakePropType } from '../config/ConfigProvider';
 
 export interface Resp {
     results: Array<{ [key: string]: any }>;
@@ -20,10 +20,11 @@ export interface QueryString {
 }
 
 export const contextTypes: { [key: string]: Function } = {
-    store: object,
-    endpoints: endpointsPT,
-    languages: languagesPT,
-    flow: flowPT
+    store: fakePropType,
+    endpoints: fakePropType,
+    languages: fakePropType,
+    flow: fakePropType,
+    assetService: fakePropType
 };
 
 export const baseState: AppState = mutate(initialState, {
@@ -37,10 +38,13 @@ export const baseState: AppState = mutate(initialState, {
     }
 });
 
+const flowEditorConfig: FlowEditorConfig = config;
+
 export const configProviderContext: ConfigProviderContext = {
-    endpoints: (config as FlowEditorConfig).endpoints,
-    languages: (config as FlowEditorConfig).languages,
-    flow: (config as FlowEditorConfig).flow
+    endpoints: flowEditorConfig.endpoints,
+    languages: flowEditorConfig.languages,
+    flow: flowEditorConfig.flow,
+    assetService: flowEditorConfig.assetService
 };
 
 export const setMock = (implementation?: (...args: any[]) => any): Query<jest.Mock> =>

@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { ConfigProviderContext, endpointsPT } from '../../config';
+import { ConfigProviderContext } from '../../config';
 import { StartFlow } from '../../flowTypes';
 import { AppState } from '../../store';
 import FlowElement from '../form/FlowElement';
 import { SaveLocalizations } from '../NodeEditor/NodeEditor';
+import { fakePropType } from '../../config/ConfigProvider';
 
 export interface SubflowRouterStoreProps {
     translating: boolean;
@@ -22,7 +23,7 @@ export type SubflowRouterProps = SubflowRouterStoreProps & SubflowRouterPassedPr
 
 export class SubflowRouter extends React.PureComponent<SubflowRouterProps> {
     public static contextTypes = {
-        endpoints: endpointsPT
+        endpoints: fakePropType // endpointsPT
     };
 
     constructor(props: SubflowRouterProps, context: ConfigProviderContext) {
