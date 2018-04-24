@@ -24,6 +24,10 @@
     &.send_email {
         width: $node_width - $padding * 2;
     }
+
+    &.call_webhook {
+        width: 238px;
+    }
 }
 
 .not_localizable {

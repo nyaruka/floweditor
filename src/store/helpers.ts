@@ -281,6 +281,8 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
                 const exit = node.exits.find((groupExit: Exit) => {
                     return groupExit.uuid === kase.exit_uuid;
                 });
+
+                /* istanbul ignore else */
                 if (exit) {
                     groupsMap[groupUUID] = exit.name;
                 }
