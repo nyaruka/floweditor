@@ -1,4 +1,4 @@
-import ConfigProvider, { ConfigProviderContext, fakePropType } from './ConfigProvider';
+import ConfigProvider, { ConfigProviderContext } from './ConfigProvider';
 import { Type, Mode, typeConfigList, getTypeConfig } from './typeConfigs';
 import { Operator, operatorConfigList, getOperatorConfig } from './operatorConfigs';
 

@@ -32,10 +32,18 @@ import {
 import { RenderNode } from '../store/flowContext';
 import { DragSelection } from '../store/flowEditor';
 import { getCollisions } from '../store/helpers';
-import { isRealValue, renderIf, snapToGrid, NODE_PADDING, timeStart, timeEnd } from '../utils';
+import {
+    isRealValue,
+    renderIf,
+    snapToGrid,
+    NODE_PADDING,
+    timeStart,
+    timeEnd,
+    dump
+} from '../utils';
 import * as styles from './Flow.scss';
 import ConnectedNode, { DragPoint } from './Node';
-import ConnectedNodeEditor from './NodeEditor';
+import ConnectedNodeEditor from './NodeEditor/NodeEditor';
 import Simulator from './Simulator';
 import Sticky from './Sticky';
 import { Types } from '../config/typeConfigs';
@@ -298,7 +306,9 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     private getSimulator(): JSX.Element {
-        return renderIf(this.context.endpoints.engine)(<Simulator Activity={this.Activity} />);
+        return renderIf(this.context.endpoints && this.context.endpoints.engine)(
+            <Simulator Activity={this.Activity} />
+        );
     }
 
     private getNodeEditor(): JSX.Element {
