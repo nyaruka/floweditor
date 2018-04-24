@@ -3,20 +3,29 @@ const { smartStrategy } = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const paths = require('./paths');
 const { uglifyPlugin, compressionPlugin } = require('./plugins');
-const { typingsForCssModulesLoader, postCSSLoader } = require('./loaders');
+const { typingsForCssModulesLoader, postCSSLoader, awesomeTypeScriptLoader } = require('./loaders');
 const commonConfig = require('./webpack.common');
+const pascalCase = str => require('camelcase')(str, { pascalCase: true });
+const pkg = require('../package.json');
 
 const prodConfig = {
-    entry: [paths.lib],
+    entry: {
+        [pkg.name]: paths.lib,
+        [`${pkg.name}.min`]: paths.lib
+    },
     output: {
-        path: paths.distProd,
-        publicPath: '/'
+        path: paths.umd,
+        filename: '[name].js',
+        libraryTarget: 'umd',
+        libraryExport: 'default',
+        library: pascalCase(pkg.name),
+        umdNamedDefine: true
     },
     plugins: [
         new EnvironmentPlugin({
             NODE_ENV: 'production'
         }),
-        new ExtractTextPlugin('styles.css'),
+        new ExtractTextPlugin(`${pkg.name}.min.css`),
         new ModuleConcatenationPlugin(),
         uglifyPlugin,
         compressionPlugin
@@ -39,13 +48,39 @@ const prodConfig = {
                     fallback: 'style-loader',
                     use: ['css-loader', postCSSLoader, 'sass-loader']
                 })
+            },
+            {
+                test: /\.tsx?$/,
+                use: [awesomeTypeScriptLoader(true)],
+                exclude: [/node_modules/, paths.testUtils]
             }
         ]
+    },
+    resolve: {
+        alias: {
+            react: paths.react,
+            'react-dom': paths.reactDom
+        }
+    },
+    externals: {
+        // We don't want to bundle react or react-dom
+        react: {
+            commonjs: 'react',
+            commonjs2: 'react',
+            amd: 'React',
+            root: 'React'
+        },
+        'react-dom': {
+            commonjs: 'react-dom',
+            commonjs2: 'react-dom',
+            amd: 'ReactDOM',
+            root: 'ReactDOM'
+        }
     }
 };
 
 module.exports = smartStrategy({
-    output: 'append',
+    output: 'replace',
     plugins: 'append',
-    'module.rules': 'prepend'
+    'module.rules': 'append'
 })(commonConfig, prodConfig);

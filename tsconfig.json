@@ -1,18 +1,18 @@
 {
   "compilerOptions": {
+    "watch": false,
     "moduleResolution": "node",
     "jsx": "react",
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "outDir": "./dist/",
+    "outDir": "lib",
     "preserveConstEnums": true,
     "removeComments": false,
-    "target": "es6",
-    "module": "es6",
-    "allowJs": true,
-    "watch": true,
+    "target": "es5",
+    "downlevelIteration": true,
+    "module": "commonjs",
     "alwaysStrict": true,
     "lib": ["es6", "dom"]
   },

@@ -1,4 +1,4 @@
-const { join } = require('path');
+const { join, resolve } = require('path');
 
 module.exports = {
     app: join(__dirname, '../preview/src/app'),
@@ -7,5 +7,8 @@ module.exports = {
     component: join(__dirname, '../src/component'),
     lib: join(__dirname, '../src'),
     template: join(__dirname, '../preview/src/index.html'),
-    testUtils: join(__dirname, '../src/testUtils')
+    testUtils: join(__dirname, '../src/testUtils'),
+    react: resolve(__dirname, './node_modules/react'),
+    reactDom: resolve(__dirname, './node_modules/react-dom'),
+    umd: join(__dirname, '../umd')
 };

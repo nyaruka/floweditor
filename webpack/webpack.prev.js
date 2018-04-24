@@ -2,7 +2,7 @@ const { optimize: { ModuleConcatenationPlugin }, EnvironmentPlugin } = require('
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { smartStrategy } = require('webpack-merge');
 const paths = require('./paths');
-const { typingsForCssModulesLoader, postCSSLoader } = require('./loaders');
+const { typingsForCssModulesLoader, postCSSLoader, awesomeTypeScriptLoader } = require('./loaders');
 const { uglifyPlugin, htmlPlugin } = require('./plugins');
 const commonConfig = require('./webpack.common');
 
@@ -41,6 +41,11 @@ const prevConfig = {
                     fallback: 'style-loader',
                     use: ['css-loader', postCSSLoader, 'sass-loader']
                 })
+            },
+            {
+                test: /\.tsx?$/,
+                use: [awesomeTypeScriptLoader()],
+                exclude: [/node_modules/]
             }
         ]
     }

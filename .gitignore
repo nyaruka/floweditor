@@ -1,12 +1,12 @@
+.*
 node_modules/
-.vscode/
+umd/
 dist/
-.DS_Store
+!src/*.d.ts
 *scss\.d\.ts
 *css\.d\.ts
 coverage/
 scratch.tsx
-.awcache
 stats.json
 report.html
 lambda

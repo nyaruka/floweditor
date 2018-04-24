@@ -20,3 +20,13 @@ exports.postCSSLoader = {
         plugins: () => [require('autoprefixer')()]
     }
 };
+
+exports.awesomeTypeScriptLoader = (prod = false) => ({
+    loader: 'awesome-typescript-loader',
+    options: {
+        useBabel: true,
+        useCache: true,
+        silent: process.argv.indexOf('--json') !== -1,
+        watch: !prod
+    }
+});

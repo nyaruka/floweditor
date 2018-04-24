@@ -4,8 +4,9 @@
   "repository": "git://github.com/nyaruka/floweditor.git",
   "version": "1.1.0",
   "description": "'Standalone flow editing tool designed for use within the RapidPro suite of messaging tools but can be adopted for use outside of that ecosystem.'",
-  "main": "app.tsx",
+  "browser": "umd/flow-editor.min.js",
   "author": "Nyaruka <code@nyaruka.com>",
+  "files": ["umd"],
   "scripts": {
     "test": "jest --maxWorkers=4 --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test:local": "jest",
@@ -13,13 +14,13 @@
     "test:watch:coverage": "npm run test:local -- --watch --coverage",
     "test:coverage": "npm run test:local -- --coverage",
     "test:update": "npm run test:local -- --updateSnapshot",
-    "start:dev": "webpack-dev-server --config webpack/webpack.config.js --env.NODE_ENV=dev --progress --colors",
-    "start:prev": "webpack-dev-server --config webpack/webpack.config.js --port=9000 --env.NODE_ENV=prev --progress --colors",
+    "start": "webpack-dev-server --config webpack/webpack.config.js --env.NODE_ENV=dev --progress --colors",
     "lint:es": "eslint '*/**/*.js'",
-    "lint:ts": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
-    "build:dev": "webpack --config webpack/webpack.config.js --env.NODE_ENV=dev",
-    "build:prev": "webpack --config webpack/webpack.config.js --env.NODE_ENV=prev && npm run lambda:build",
-    "build:prod": "webpack --config webpack/webpack.config.js --env.NODE_ENV=prod",
+    "lint:ts": "tslint -c tslint.json 'src/**/*.{ts,tsx}' -e 'src/**/*.d.ts'",
+    "clean:umd": "shx rm -rf umd",
+    "clean:prev": "shx rm -rf preview/dist",
+    "build:prev": "npm run clean:prev && webpack --config webpack/webpack.config.js --env.NODE_ENV=prev && npm run lambda:build",
+    "build:umd": "npm run clean:umd & webpack --config webpack/webpack.config.js --env.NODE_ENV=prod",
     "bundleStats:dev": "webpack --config webpack/webpack.config.js --env.NODE_ENV=dev --profile --json > stats.json",
     "bundleStats:dev:windows": "webpack --config webpack/webpack.config.js --env.NODE_ENV=dev --profile --json | Out-file 'stats.json' -Encoding OEM",
     "bundleStats:prod": "webpack --config webpack/webpack.config.js --env.NODE_ENV=prod --profile --json > stats.json",
@@ -33,9 +34,10 @@
     "prettify": "prettier --write 'src/**/*.{ts,tsx,json,js,css,md}'",
     "lambda:serve": "netlify-lambda serve lambda-src",
     "lambda:build": "netlify-lambda build lambda-src",
-    "preversion": "npm run test:local",
-    "version": "npm run build:prod",
-    "postversion": "git push && git push --tags && npm publish",
+    "tag": "git push — tags origin master",
+    "preversion": "npm run lint:ts && npm run test:local",
+    "version": "npm run build:amd",
+    "postversion": "npm run tag",
     "precommit": "lint-staged"
   },
   "lint-staged": {
@@ -45,8 +47,8 @@
     ]
   },
   "peerDependencies": {
-    "react": "^16.0",
-    "react-dom": "^16.0"
+    "react": ">=16.0",
+    "react-dom": ">=16.0"
   },
   "devDependencies": {
     "@types/classnames": "2.2.3",
@@ -81,6 +83,7 @@
     "babel-minify-webpack-plugin": "0.2.0",
     "babel-preset-env": "1.6.1",
     "babel-preset-react": "6.24.1",
+    "camelcase": "5.0.0",
     "classnames": "2.2.5",
     "compression-webpack-plugin": "0.4.0",
     "core-js": "2.5.1",
@@ -126,6 +129,7 @@
     "redux-mock-store": "1.5.1",
     "redux-thunk": "2.2.0",
     "sass-loader": "6.0.6",
+    "shx": "0.2.2",
     "sign-bunny": "1.0.0",
     "source-map-loader": "0.1.6",
     "split-sms": "0.1.7",
