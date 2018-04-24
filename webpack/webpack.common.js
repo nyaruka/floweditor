@@ -1,8 +1,9 @@
 const { ProvidePlugin, LoaderOptionsPlugin } = require('webpack');
+const pkg = require('../package.json');
 
 module.exports = {
     output: {
-        filename: 'floweditor.js'
+        filename: `${pkg.name}.js`
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js']
@@ -25,20 +26,6 @@ module.exports = {
                 options: {
                     name: 'fonts/[hash].[ext]'
                 }
-            },
-            {
-                test: /\.tsx?$/,
-                use: [
-                    {
-                        loader: 'awesome-typescript-loader',
-                        options: {
-                            useBabel: true,
-                            useCache: true,
-                            silent: process.argv.indexOf('--json') !== -1
-                        }
-                    }
-                ],
-                exclude: /node_modules/
             }
         ]
     }
