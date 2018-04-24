@@ -4,6 +4,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 
 exports.uglifyPlugin = new UglifyJsPlugin({
     parallel: true,
+    include: /\.min\.js$/,
     uglifyOptions: {
         compress: {
             passes: 2

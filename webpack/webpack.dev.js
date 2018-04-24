@@ -7,7 +7,7 @@ const {
     EnvironmentPlugin
 } = require('webpack');
 const paths = require('./paths');
-const { typingsForCssModulesLoader, postCSSLoader } = require('./loaders');
+const { typingsForCssModulesLoader, postCSSLoader, awesomeTypeScriptLoader } = require('./loaders');
 const commonConfig = require('./webpack.common');
 
 const DEV_SERVER_PORT = 9000;
@@ -77,8 +77,8 @@ const devConfig = {
             },
             {
                 test: /\.tsx?$/,
-                exclude: [paths.testUtils],
-                use: ['react-hot-loader/webpack']
+                exclude: [/node_modules/],
+                use: ['react-hot-loader/webpack', awesomeTypeScriptLoader()]
             }
         ]
     }
@@ -88,6 +88,6 @@ module.exports = {
     DEV_SERVER_PORT,
     config: smartStrategy({
         plugins: 'append',
-        'module.rules': 'prepend'
+        'module.rules': 'append'
     })(commonConfig, devConfig)
 };

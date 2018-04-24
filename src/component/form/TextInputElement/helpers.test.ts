@@ -27,10 +27,12 @@ const optionQueryMap = OPTIONS.reduce((argMap, { name }) => {
     return argMap;
 }, {});
 
+const winkEmoji = '😉';
+
 describe('helpers >', () => {
     describe('isUnicode >', () => {
         it('should return true if arg is Unicode, false otherwise', () => {
-            expect(isUnicode('😎')).toBeTruthy();
+            expect(isUnicode(winkEmoji)).toBeTruthy();
             Object.keys(GSM).forEach(key => expect(isUnicode(key)).toBeFalsy());
         });
     });
@@ -41,7 +43,7 @@ describe('helpers >', () => {
         });
 
         it('should return a UnicodeCharMap if passed a string containing Unicode chars', () => {
-            expect(getUnicodeChars('😃')).toEqual({ '😃': true });
+            expect(getUnicodeChars(winkEmoji)).toEqual({ [winkEmoji]: true });
         });
     });
 
