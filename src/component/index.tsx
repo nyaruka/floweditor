@@ -45,7 +45,7 @@ const hotStore = createStore();
 
 // Root container, wires up context-providers/sets baseURL
 const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) => {
-    config.assetService = new AssetService(config.endpoints);
+    config.assetService = new AssetService(config);
 
     return (
         <ConfigProvider config={config}>

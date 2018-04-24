@@ -171,7 +171,7 @@ export default class SelectSearch extends React.PureComponent<
         return newResults;
     }
 
-    public search(term: string, remoteResults: SearchResult[] = []): AutocompleteResult {
+    public search(term: string, remoteResults: SearchResult[] = []): Promise<AutocompleteResult> {
         let combined = [...remoteResults];
         if (this.props.localSearchOptions) {
             for (const local of this.props.localSearchOptions) {
@@ -186,19 +186,26 @@ export default class SelectSearch extends React.PureComponent<
 
         // if we have assets, check there
         if (this.props.assets) {
-            for (const result of this.props.assets.search(term)) {
-                combined = this.addSearchResult(combined, result);
-            }
+            return this.props.assets.search(term).then((assetResults: SearchResult[]) => {
+                for (const result of assetResults) {
+                    combined = this.addSearchResult(combined, result);
+                }
+
+                return new Promise<AutocompleteResult>(resolve => {
+                    resolve({
+                        options: combined.sort(this.sortResults),
+                        complete: true
+                    });
+                });
+            });
         }
 
-        const options = combined.sort(this.sortResults);
-
-        const results = {
-            options,
-            complete: true
-        };
-
-        return results;
+        return new Promise<AutocompleteResult>(resolve => {
+            resolve({
+                options: combined.sort(this.sortResults),
+                complete: true
+            });
+        });
     }
 
     public getSearchResults(results: Array<{}>): SearchResult[] {
@@ -215,12 +222,16 @@ export default class SelectSearch extends React.PureComponent<
         callback: (err: any, result: AutocompleteResult) => void
     ): void {
         if (!this.props.url) {
-            callback(null, this.search(input));
+            this.search(input).then((result: AutocompleteResult) => callback(null, result));
         } else {
-            axios.get(this.props.url).then((response: AxiosResponse) => {
-                const results = this.getSearchResults(response.data.results);
-                callback(null, this.search(input, results));
-            });
+            axios
+                .get(this.props.url + '?query=' + encodeURIComponent(input))
+                .then((response: AxiosResponse) => {
+                    const results = this.getSearchResults(response.data.results);
+                    this.search(input, results).then((finalResults: AutocompleteResult) =>
+                        callback(null, finalResults)
+                    );
+                });
         }
     }
 

@@ -22,6 +22,7 @@ export interface Endpoints {
 
 export interface FlowEditorConfig {
     assetService?: AssetService;
+    localStorage: boolean;
     languages: { [iso: string]: string };
     endpoints: Endpoints;
     flow: string;
