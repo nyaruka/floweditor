@@ -7,7 +7,6 @@ export {
     Type,
     Mode,
     Operator,
-    fakePropType,
     typeConfigList,
     getTypeConfig,
     operatorConfigList,

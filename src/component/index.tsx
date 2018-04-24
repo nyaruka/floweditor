@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect, Provider as ReduxProvider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import ConfigProvider, { fakePropType } from '../config';
+import ConfigProvider from '../config';
 import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
 import {
     AppState,
@@ -22,6 +22,7 @@ import ConnectedFlowList, { FlowOption } from './FlowList';
 import * as styles from './index.scss';
 import ConnectedLanguageSelector, { Language } from './LanguageSelector';
 import AssetService from '../services/AssetService';
+import { fakePropType } from '../config/ConfigProvider';
 
 export type OnSelectFlow = ({ uuid }: FlowOption) => void;
 

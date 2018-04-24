@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { ConfigProviderContext, fakePropType } from '../../../config';
+import { ConfigProviderContext } from '../../../config';
 import { ChangeGroups } from '../../../flowTypes';
 import { AppState, SearchResult, DispatchWithState } from '../../../store';
 import GroupsElement from '../../form/GroupsElement';
@@ -12,6 +12,7 @@ import { Types } from '../../../config/typeConfigs';
 import { bindActionCreators } from 'redux';
 import { dump } from '../../../utils';
 import AssetService from '../../../services/AssetService';
+import { fakePropType } from '../../../config/ConfigProvider';
 
 export interface AddGroupsFormState {
     groups: SearchResult[];
@@ -62,7 +63,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
     }
 
     private getGroups(): SearchResult[] {
-        if (this.props.action.groups == null) {
+        if (this.props.action.groups === null) {
             return [];
         }
 

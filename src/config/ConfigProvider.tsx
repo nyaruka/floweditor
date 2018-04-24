@@ -2,6 +2,9 @@ import * as React from 'react';
 import { Endpoints, FlowEditorConfig, Languages } from '../flowTypes';
 import AssetService, { Assets } from '../services/AssetService';
 
+export const fakePropType: any = (): any => null;
+fakePropType.isRequired = (): any => null;
+
 interface ConfigProviderProps {
     config: FlowEditorConfig;
     children: any;
@@ -13,9 +16,6 @@ export interface ConfigProviderContext {
     languages: Languages;
     flow: string;
 }
-
-export const fakePropType: any = (): any => null;
-fakePropType.isRequired = (): any => null;
 
 // ----------------------------------------------------------------------------------------------
 

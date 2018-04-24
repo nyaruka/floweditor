@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import * as isEqual from 'fast-deep-equal';
 import { connect } from 'react-redux';
-import { ConfigProviderContext, fakePropType } from '../../../config';
+import { ConfigProviderContext } from '../../../config';
 import { ChangeGroups } from '../../../flowTypes';
 import { AppState, SearchResult } from '../../../store';
 import CheckboxElement from '../../form/CheckboxElement';
@@ -11,6 +11,7 @@ import { AddGroupsFormState } from './AddGroupsForm';
 import { mapGroupsToSearchResults, mapSearchResultsToGroups } from './helpers';
 import ChangeGroupsFormProps from './props';
 import { Types } from '../../../config/typeConfigs';
+import { fakePropType } from '../../../config/ConfigProvider';
 
 export interface RemoveGroupsFormState extends AddGroupsFormState {
     removeFromAll: boolean;

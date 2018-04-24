@@ -10,7 +10,7 @@ import { GetResultNameField } from '../NodeEditor';
 import { hasSwitchRouter, hasWait, SaveLocalizations } from '../NodeEditor/NodeEditor';
 import { GROUP_LABEL } from './constants';
 import * as styles from './SwitchRouter.scss';
-import { fakePropType } from '../../config';
+import { fakePropType } from '../../config/ConfigProvider';
 
 export interface GroupsRouterStoreProps {
     translating: boolean;

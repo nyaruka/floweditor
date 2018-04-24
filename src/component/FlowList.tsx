@@ -2,9 +2,10 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import { bindActionCreators } from 'redux';
-import { ConfigProviderContext, fakePropType } from '../config';
+import { ConfigProviderContext } from '../config';
 import { AppState, DispatchWithState, FetchFlow, fetchFlow, Flows } from '../store';
 import { flowList } from './FlowList.scss';
+import { fakePropType } from '../config/ConfigProvider';
 
 export interface FlowOption {
     uuid: string;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ConfigProviderContext, fakePropType } from '../../../config';
+import { ConfigProviderContext } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
 import {
     AttributeType,
@@ -16,6 +16,7 @@ import {
     newPropertyAction,
     propertyToSearchResult
 } from './helpers';
+import { fakePropType } from '../../../config/ConfigProvider';
 
 export interface SetContactAttribFormProps {
     action: SetContactAttribute;

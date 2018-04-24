@@ -7,7 +7,7 @@ import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { ConfigProviderContext, getTypeConfig, fakePropType } from '../config';
+import { ConfigProviderContext, getTypeConfig } from '../config';
 import { AnyAction, FlowDefinition, FlowNode, SwitchRouter, UINode } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
 import Plumber, { DragEvent } from '../services/Plumber';
@@ -40,6 +40,7 @@ import * as shared from './shared.scss';
 import TitleBar from './TitleBar';
 import { DragSelection, updateDragSelection } from '../store/flowEditor';
 import { Types } from '../config/typeConfigs';
+import { fakePropType } from '../config/ConfigProvider';
 
 // A point in the flow from which a drag is initiated
 export interface DragPoint {
