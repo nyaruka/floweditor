@@ -44,7 +44,7 @@ import {
 import * as styles from './Flow.scss';
 import ConnectedNode, { DragPoint } from './Node';
 import ConnectedNodeEditor from './NodeEditor/NodeEditor';
-import Simulator from './Simulator';
+import Simulator from './Simulator/Simulator';
 import Sticky from './Sticky';
 import { Types } from '../config/typeConfigs';
 import { fakePropType } from '../config/ConfigProvider';

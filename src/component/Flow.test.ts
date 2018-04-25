@@ -20,6 +20,7 @@ import { ConnectionEvent } from '../store';
 import { getFlowComponents, getGhostNode } from '../store/helpers';
 import { composeComponentTestUtils, composeDuxState, getSpecWrapper, setMock } from '../testUtils';
 import { merge, set, setTrue, dump } from '../utils';
+import toJson from 'enzyme-to-json';
 
 jest.mock('../services/ActivityManager');
 jest.mock('../services/Plumber');
@@ -209,14 +210,11 @@ describe(Flow.name, () => {
                 }
             );
 
-            expect(wrapper.find('Simulator').props()).toEqual({
-                definition: props.definition,
-                Activity: instance.Activity,
-                contactFields: [],
-                groups: [],
-                nodes: {}
-            });
-
+            // if we let jest string this one for us it fails
+            // presumably it's hitting an OOM due to circular references
+            // and reporting it as a RangeError
+            // https://github.com/nodejs/node-v0.x-archive/issues/14170
+            expect(JSON.stringify(wrapper.find('Simulator').props(), null, 1)).toMatchSnapshot();
             expect(wrapper.find('Simulator').html()).toMatchSnapshot();
         });
 
