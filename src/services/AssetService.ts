@@ -18,14 +18,10 @@ export class Assets {
     }
 
     public search(term: string): Promise<SearchResult[]> {
-        let matches: SearchResult[] = [];
-
-        // if we have local storage, search there
-        if (this.localStorage) {
-            matches = this.items.filter((result: SearchResult) => {
-                return this.matches(term, result.name);
-            });
-        }
+        // search our local items first
+        const matches: SearchResult[] = this.items.filter((result: SearchResult) => {
+            return this.matches(term, result.name);
+        });
 
         // then query against our endpoint to add to that list
         let url = this.endpoint;
