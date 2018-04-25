@@ -1,3 +1,5 @@
+// TODO: Remove use of Function
+// tslint:disable:ban-types
 import * as React from 'react';
 import * as axios from 'axios';
 import { react as bindCallbacks } from 'auto-bind';
@@ -35,6 +37,7 @@ export interface SimulatorStoreProps {
 
 export interface SimulatorPassedProps {
     Activity: any;
+    plumberDraggable: Function;
 }
 
 export type SimulatorProps = SimulatorStoreProps & SimulatorPassedProps;
@@ -398,6 +401,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         this.startFlow();
     }
 
+    public componentDidMount(): void {
+        this.props.plumberDraggable('simulator');
+    }
+
     public componentDidUpdate(prevProps: SimulatorProps): void {
         if (this.bottom) {
             this.bottom.scrollIntoView(false);
@@ -437,7 +444,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     public render(): ReactNode {
         const messages: JSX.Element[] = [];
         for (const event of this.state.events) {
-            console.log('EVENT', event);
+            // console.log('EVENT', event);
             messages.push(<LogEvent {...event} key={String(event.created_on)} />);
         }
 
@@ -445,9 +452,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         const tabHidden = this.state.visible ? styles.tab_hidden : '';
 
         return (
-            <div>
+            <div className={styles.simContainer}>
                 <div>
-                    <div className={styles.simulator + ' ' + simHidden} key={'sim'}>
+                    <div id="simulator" className={styles.simulator + ' ' + simHidden} key={'sim'}>
                         <a
                             className={
                                 styles.reset +

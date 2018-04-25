@@ -1,12 +1,20 @@
 @import "../../variables.scss";
 
+.sim-container {
+    position: fixed;
+    right: 0;
+    z-index: 20000;
+}
+
 .simulator.sim_hidden {
-    right: -300px;
-    transition: right 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
+    left: 0px !important;
+    transition: all 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
     transition-delay: 100ms;
 }
 
 .simulator {
+    box-shadow: $node_shadow $node_shadow_color;
+    border-radius: 35px;
     input {
         &:focus {
             outline-color: transparent;
@@ -42,12 +50,13 @@
             color: $disabled_color;
         }
     }
-    right: -15px;
-    top: 80px;
+    left: -300px;
+    top: 0px;
     transform: scale(.8);
-    position: fixed;
+    position: absolute;
     height: 600px;
     width: 304px;
+    cursor: pointer;
     z-index: $z_simulator;
     transition: right 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
     transition-delay: 100ms;
@@ -84,7 +93,9 @@
         background-color: #fff;
         position: relative;
         margin: 0px 18px;
+        cursor: default;
         .messages {
+            user-select: none;
             max-height: 430px;
             padding: 10px;
             overflow-y: auto;
