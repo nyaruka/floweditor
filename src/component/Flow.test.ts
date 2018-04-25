@@ -20,7 +20,6 @@ import { ConnectionEvent } from '../store';
 import { getFlowComponents, getGhostNode } from '../store/helpers';
 import { composeComponentTestUtils, composeDuxState, getSpecWrapper, setMock } from '../testUtils';
 import { merge, set, setTrue, dump } from '../utils';
-import toJson from 'enzyme-to-json';
 
 jest.mock('../services/ActivityManager');
 jest.mock('../services/Plumber');
