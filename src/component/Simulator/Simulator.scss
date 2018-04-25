@@ -6,7 +6,7 @@
     z-index: $z_simulator;
 }
 
-.simulator.sim_hidden {
+.simulator.sim-hidden {
     left: 0px !important;
     transition: all 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
     transition-delay: 100ms;
@@ -127,7 +127,7 @@
             }
         }
     }
-    .icon_close {
+    .icon-close {
         font-size: 25px;
         width: 25px;
         height: 25px;
@@ -140,7 +140,7 @@
             color: #fff;
         }
     }
-    .icon_simulator {
+    .icon-simulator {
         font-size: 600px;
         color: #333;
         border: 0px solid green;
@@ -151,13 +151,13 @@
     }
 }
 
-.simulator_tab.tab_hidden,
-.simulator_tab:hover.tab_hidden {
+.simulator-tab.tab_hidden,
+.simulator-tab:hover.tab_hidden {
     right: -110px;
     transition: right 100ms;
 }
 
-.simulator_tab {
+.simulator-tab {
     background-color: #2db379;
     width: 110px;
     height: 50px;
@@ -168,13 +168,13 @@
     z-index: $z_simulator;
     transition: right 200ms, opacity 300ms;
     transition-delay: 300ms;
-    .simulator_tab_icon {
+    .simulator-tab-icon {
         position: absolute;
         font-size: 35px;
         color: white;
         padding: 8px 6px;
     }
-    .simulator_tab_text {
+    .simulator-tab-text {
         position: absolute;
         left: 35px;
         top: 12px;
@@ -186,10 +186,10 @@
     }
 }
 
-.simulator_tab:hover {
+.simulator-tab:hover {
     right: -10px;
     transition: right 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    .simulator_tab_text {
+    .simulator-tab-text {
         opacity: .99;
         transition: opacity 500ms;
     }
@@ -200,7 +200,7 @@
     margin-bottom: 8px;
 }
 
-.msg_received {
+.msg-received {
     padding: 8px 15px;
     background: $light_gray;
     border: 1px solid $light_gray + #111;
@@ -210,7 +210,7 @@
     color: #333;
 }
 
-.send_msg {
+.send-msg {
     padding: 8px 15px;
     text-align: right;
     background: #2095FE;
@@ -244,7 +244,7 @@
     }
 }
 
-.webhook_details {
+.webhook-details {
     unicode-bidi: embed;
     font-family: monospace; // white-space: pre-wrap;
     overflow-y: auto;
@@ -265,7 +265,7 @@
     }
 }
 
-.event_viewer {
+.event-viewer {
     pre {
         height: 400px;
         white-space: pre-wrap;
@@ -283,7 +283,7 @@
     }
 }
 
-.has_detail {
+.has-detail {
     cursor: pointer;
 }
 

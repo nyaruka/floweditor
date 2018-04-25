@@ -448,8 +448,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             messages.push(<LogEvent {...event} key={String(event.created_on)} />);
         }
 
-        const simHidden = !this.state.visible ? styles.sim_hidden : '';
-        const tabHidden = this.state.visible ? styles.tab_hidden : '';
+        const simHidden = !this.state.visible ? styles.simHidden : '';
+        const tabHidden = this.state.visible ? styles.tabHidden : '';
 
         return (
             <div className={styles.simContainer}>
@@ -463,9 +463,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                             }
                             onClick={this.onReset}
                         />
-                        <div className={styles.icon_simulator + ' icon-simulator'} />
+                        <div className={styles.iconSimulator + ' icon-simulator'} />
                         <div
-                            className={styles.icon_close + ' icon-remove'}
+                            className={styles.iconClose + ' icon-remove'}
                             onClick={this.onToggle}
                         />
                         <div className={styles.screen}>
@@ -493,9 +493,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                         </div>
                     </div>
                 </div>
-                <div className={styles.simulator_tab + ' ' + tabHidden} onClick={this.onToggle}>
-                    <div className={styles.simulator_tab_icon + ' icon-simulator'} />
-                    <div className={styles.simulator_tab_text}>
+                <div className={styles.simulatorTab + ' ' + tabHidden} onClick={this.onToggle}>
+                    <div className={styles.simulatorTabIcon + ' icon-simulator'} />
+                    <div className={styles.simulatorTabText}>
                         Run in<br />Simulator
                     </div>
                 </div>
