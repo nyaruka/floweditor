@@ -1,12 +1,15 @@
 {
-  "name": "flow-editor",
+  "name": "@nyaruka/flow-editor",
   "license": "AGPL-3.0",
   "repository": "git://github.com/nyaruka/floweditor.git",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "'Standalone flow editing tool designed for use within the RapidPro suite of messaging tools but can be adopted for use outside of that ecosystem.'",
   "browser": "umd/flow-editor.min.js",
+  "unpkg": "umd/flow-editor.min.js",
   "author": "Nyaruka <code@nyaruka.com>",
-  "files": ["umd"],
+  "files": [
+    "umd"
+  ],
   "scripts": {
     "test": "jest --maxWorkers=4 --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test:local": "jest",
@@ -35,10 +38,11 @@
     "lambda:serve": "netlify-lambda serve lambda-src",
     "lambda:build": "netlify-lambda build lambda-src",
     "tag": "git push — tags origin master",
-    "preversion": "npm run lint:ts && npm run test:local",
-    "version": "npm run build:amd",
-    "postversion": "npm run tag",
-    "precommit": "lint-staged"
+    "preversion": "npm run test:local",
+    "version": "npm run build:umd",
+    "postversion": "npm run tag && npm run release",
+    "precommit": "lint-staged",
+    "release": "npm publish --access public"
   },
   "lint-staged": {
     "*.{ts,tsx,js,css,md}": [

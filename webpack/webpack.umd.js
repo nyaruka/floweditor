@@ -5,27 +5,29 @@ const paths = require('./paths');
 const { uglifyPlugin, compressionPlugin } = require('./plugins');
 const { typingsForCssModulesLoader, postCSSLoader, awesomeTypeScriptLoader } = require('./loaders');
 const commonConfig = require('./webpack.common');
+
 const pascalCase = str => require('camelcase')(str, { pascalCase: true });
-const pkg = require('../package.json');
+
+const pkgName = require('../package.json').name.replace('@nyaruka/', '');
 
 const prodConfig = {
     entry: {
-        [pkg.name]: paths.lib,
-        [`${pkg.name}.min`]: paths.lib
+        [pkgName]: paths.lib,
+        [`${pkgName}.min`]: paths.lib
     },
     output: {
         path: paths.umd,
         filename: '[name].js',
         libraryTarget: 'umd',
         libraryExport: 'default',
-        library: pascalCase(pkg.name),
+        library: pascalCase(pkgName),
         umdNamedDefine: true
     },
     plugins: [
         new EnvironmentPlugin({
             NODE_ENV: 'production'
         }),
-        new ExtractTextPlugin(`${pkg.name}.min.css`),
+        new ExtractTextPlugin(`${pkgName}.min.css`),
         new ModuleConcatenationPlugin(),
         uglifyPlugin,
         compressionPlugin
