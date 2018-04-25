@@ -44,7 +44,7 @@ import {
 import * as styles from './Flow.scss';
 import ConnectedNode, { DragPoint } from './Node';
 import ConnectedNodeEditor from './NodeEditor/NodeEditor';
-import Simulator from './Simulator';
+import Simulator from './Simulator/Simulator';
 import Sticky from './Sticky';
 import { Types } from '../config/typeConfigs';
 import { fakePropType } from '../config/ConfigProvider';
@@ -307,7 +307,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
     private getSimulator(): JSX.Element {
         return renderIf(this.context.endpoints && this.context.endpoints.engine)(
-            <Simulator Activity={this.Activity} />
+            <Simulator Activity={this.Activity} plumberDraggable={this.Plumber.draggable} />
         );
     }
 
