@@ -68,7 +68,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         switch (this.props.type) {
             case 'msg_received':
                 text = <span>{this.props.msg.text}</span>;
-                classes.push(styles.msg_received);
+                classes.push(styles.msgReceived);
                 break;
             case 'msg_created':
                 const spans = this.props.msg.text.split('\n').map((item, key) => {
@@ -80,7 +80,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                     );
                 });
                 text = <span> {spans} </span>;
-                classes.push(styles.send_msg);
+                classes.push(styles.sendMsg);
                 break;
             case 'error':
                 text = <span> Error: {this.props.text} </span>;
@@ -141,7 +141,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 classes.push(styles.info, styles.webhook);
                 detailTitle = 'Webhook Details';
                 details = (
-                    <div className={styles.webhook_details}>
+                    <div className={styles.webhookDetails}>
                         <div className={''}>{this.props.request}</div>
                         <div className={styles.response}>{this.props.response}</div>
                     </div>
@@ -155,7 +155,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
 
         classes.push(styles.evt);
         if (details) {
-            classes.push(styles.has_detail);
+            classes.push(styles.hasDetail);
 
             return (
                 <div>
@@ -176,7 +176,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                             }
                         }}
                     >
-                        <div className={styles.event_viewer}>{details}</div>
+                        <div className={styles.eventViewer}>{details}</div>
                     </Modal>
                 </div>
             );

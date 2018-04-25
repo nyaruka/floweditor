@@ -107,23 +107,34 @@ export default class Plumber {
 
     public draggable(
         uuid: string,
-        start: Function,
-        drag: Function,
-        stop: Function,
-        beforeDrag: Function
+        start: Function = null,
+        drag: Function = null,
+        stop: Function = null,
+        beforeDrag: Function = null
     ): void {
+        const handlers: any = {};
+
+        if (start) {
+            handlers.start = start;
+        }
+
+        if (drag) {
+            handlers.drag = drag;
+        }
+
+        if (stop) {
+            handlers.stop = stop;
+        }
+
+        if (beforeDrag) {
+            handlers.canDrag = () => beforeDrag();
+        }
+
         this.jsPlumb.draggable(uuid, {
-            // over: (event: any) => { console.log("Over", event) },
-            // beforeStart: (event: any) => { console.log("beforeStart"); },
-            start: (event: DragEvent) => start(event),
-            drag: (event: DragEvent) => drag(event),
-            stop: (event: DragEvent) => stop(event),
-            canDrag: () => {
-                return beforeDrag();
-            },
             containment: false,
             consumeFilteredEvents: false,
-            consumeStartEvent: false
+            consumeStartEvent: false,
+            ...handlers
         });
     }
 
