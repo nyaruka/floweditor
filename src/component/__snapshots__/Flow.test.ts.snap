@@ -29,6 +29,13 @@ Object {
 `;
 
 exports[`Flow render should render NodeEditor 1`] = `
+Object {
+  "plumberConnectExit": [MockFunction],
+  "plumberRepaintForDuration": [MockFunction],
+}
+`;
+
+exports[`Flow render should render NodeEditor 2`] = `
 <React.Fragment>
   <Connect(NodeEditor)
     plumberConnectExit={[MockFunction]}

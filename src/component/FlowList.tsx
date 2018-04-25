@@ -2,9 +2,10 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import { bindActionCreators } from 'redux';
-import { ConfigProviderContext, endpointsPT } from '../config';
+import { ConfigProviderContext } from '../config';
 import { AppState, DispatchWithState, FetchFlow, fetchFlow, Flows } from '../store';
 import { flowList } from './FlowList.scss';
+import { fakePropType } from '../config/ConfigProvider';
 
 export interface FlowOption {
     uuid: string;
@@ -33,7 +34,8 @@ export const valueKey = 'uuid';
 
 export class FlowList extends React.Component<FlowListStoreProps> {
     public static contextTypes = {
-        endpoints: endpointsPT
+        endpoints: fakePropType,
+        assetService: fakePropType
     };
 
     constructor(props: FlowListStoreProps, context: ConfigProviderContext) {
@@ -44,7 +46,7 @@ export class FlowList extends React.Component<FlowListStoreProps> {
 
     public onChange({ uuid }: { uuid: string; name: string }): void {
         if (this.props.flows.length && uuid !== this.props.flowUUID) {
-            this.props.fetchFlow(this.context.endpoints.flows, uuid);
+            this.props.fetchFlow(this.context.endpoints.flows, uuid, this.context.assetService);
         }
     }
 

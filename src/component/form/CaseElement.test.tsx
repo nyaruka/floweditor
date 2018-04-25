@@ -12,7 +12,6 @@ import CaseElement, {
 } from './CaseElement';
 import { titleCase } from '../../utils';
 import { getSpecWrapper } from '../../testUtils';
-import { object } from 'prop-types';
 import { getTypeConfig, operatorConfigList, getOperatorConfig } from '../../config';
 import { Types } from '../../config/typeConfigs';
 import { Operators } from '../../config/operatorConfigs';

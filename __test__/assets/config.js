@@ -10,6 +10,7 @@ const config = {
 module.exports =
     process.env.NODE_ENV === 'production'
         ? Object.assign({}, config, {
+              localStorage: true,
               endpoints: {
                   flows: 'flows',
                   groups: 'groups',
@@ -20,6 +21,7 @@ module.exports =
               }
           })
         : Object.assign({}, config, {
+              localStorage: true,
               endpoints: {
                   flows: '/assets/flows.json',
                   groups: '/assets/groups.json',

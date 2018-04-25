@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import { bindActionCreators } from 'redux';
-import { ConfigProviderContext, languagesPT } from '../config';
+import { ConfigProviderContext } from '../config';
 import { Languages } from '../flowTypes';
 import {
     AppState,
@@ -14,6 +14,7 @@ import {
 } from '../store';
 import { getBaseLanguage, jsonEqual } from '../utils';
 import { languageSelector } from './LanguageSelector.scss';
+import { fakePropType } from '../config/ConfigProvider';
 
 export interface Language {
     name: string;
@@ -38,12 +39,11 @@ export const languageSelectorContainerSpecId = 'language-selector-container';
 
 export class LanguageSelector extends React.Component<LanguageSelectorStoreProps> {
     public static contextTypes = {
-        languages: languagesPT
+        languages: fakePropType
     };
 
     constructor(props: LanguageSelectorStoreProps, context: ConfigProviderContext) {
         super(props, context);
-
         this.onChange = this.onChange.bind(this);
     }
 

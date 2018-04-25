@@ -3,8 +3,8 @@ import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getTypeConfig, languagesPT } from '../../../config';
-import { ConfigProviderContext } from '../../../config/ConfigProvider';
+import { getTypeConfig } from '../../../config';
+import { ConfigProviderContext } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
 import { AnyAction, FlowNode, LocalizationMap } from '../../../flowTypes';
 import {
@@ -21,6 +21,7 @@ import { Language } from '../../LanguageSelector';
 import * as shared from '../../shared.scss';
 import TitleBar from '../../TitleBar';
 import * as styles from './Action.scss';
+import { fakePropType } from '../../../config/ConfigProvider';
 
 export interface ActionWrapperPassedProps {
     thisNodeDragging: boolean;
@@ -51,7 +52,7 @@ const cx = classNames.bind({ ...shared, ...styles });
 // Note: this needs to be a ComponentClass in order to work w/ react-flip-move
 export class ActionWrapper extends React.Component<ActionWrapperProps> {
     public static contextTypes = {
-        languages: languagesPT
+        languages: fakePropType
     };
 
     constructor(props: ActionWrapperProps, context: ConfigProviderContext) {
@@ -142,6 +143,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         const titleBarClass = shared[this.props.action.type];
         const showRemoval = !this.props.translating;
         const showMove = !this.props.first && !this.props.translating;
+
         return (
             <div
                 id={`action-${this.props.action.uuid}`}
@@ -158,7 +160,10 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
                         showMove={showMove}
                         onMoveUp={this.onMoveUp}
                     />
-                    <div className={styles.body} data-spec={actionBodySpecId}>
+                    <div
+                        className={styles.body + ' ' + styles[this.props.action.type]}
+                        data-spec={actionBodySpecId}
+                    >
                         {this.props.render(actionToInject)}
                     </div>
                 </div>

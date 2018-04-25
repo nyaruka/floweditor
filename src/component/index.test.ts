@@ -83,7 +83,8 @@ describe('Root', () => {
                 expect(props.fetchFlow).toHaveBeenCalledTimes(1);
                 expect(props.fetchFlow).toHaveBeenCalledWith(
                     configProviderContext.endpoints.flows,
-                    configProviderContext.flow
+                    configProviderContext.flow,
+                    configProviderContext.assetService
                 );
                 expect(props.fetchFlows).toHaveBeenCalledTimes(1);
                 expect(props.fetchFlows).toHaveBeenCalledWith(

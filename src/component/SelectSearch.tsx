@@ -18,6 +18,7 @@ import {
     ValueType
 } from '../flowTypes';
 import { SearchResult } from '../store';
+import { Assets } from '../services/AssetService';
 
 export interface SelectSearchProps {
     url: string;
@@ -29,6 +30,7 @@ export interface SelectSearchProps {
     closeOnSelect?: boolean;
     initial?: SearchResult[];
     localSearchOptions?: SearchResult[];
+    assets?: Assets;
     __className?: string;
     createPrompt?: string;
     onChange?: (selections: SearchResult | SearchResult[]) => void;
@@ -120,6 +122,11 @@ export default class SelectSearch extends React.PureComponent<
     }
 
     private onChangeMulti(selections: SearchResult[]): void {
+        for (const selection of selections) {
+            if (selection.extraResult) {
+                this.props.assets.add(selection);
+            }
+        }
         // Account for null selections
         if (!selections) {
             return;
@@ -164,7 +171,7 @@ export default class SelectSearch extends React.PureComponent<
         return newResults;
     }
 
-    public search(term: string, remoteResults: SearchResult[] = []): AutocompleteResult {
+    public search(term: string, remoteResults: SearchResult[] = []): Promise<AutocompleteResult> {
         let combined = [...remoteResults];
         if (this.props.localSearchOptions) {
             for (const local of this.props.localSearchOptions) {
@@ -176,14 +183,29 @@ export default class SelectSearch extends React.PureComponent<
                 }
             }
         }
-        const options = combined.sort(this.sortResults);
 
-        const results = {
-            options,
-            complete: true
-        };
+        // if we have assets, check there
+        if (this.props.assets) {
+            return this.props.assets.search(term).then((assetResults: SearchResult[]) => {
+                for (const result of assetResults) {
+                    combined = this.addSearchResult(combined, result);
+                }
 
-        return results;
+                return new Promise<AutocompleteResult>(resolve => {
+                    resolve({
+                        options: combined.sort(this.sortResults),
+                        complete: true
+                    });
+                });
+            });
+        }
+
+        return new Promise<AutocompleteResult>(resolve => {
+            resolve({
+                options: combined.sort(this.sortResults),
+                complete: true
+            });
+        });
     }
 
     public getSearchResults(results: Array<{}>): SearchResult[] {
@@ -200,12 +222,16 @@ export default class SelectSearch extends React.PureComponent<
         callback: (err: any, result: AutocompleteResult) => void
     ): void {
         if (!this.props.url) {
-            callback(null, this.search(input));
+            this.search(input).then((result: AutocompleteResult) => callback(null, result));
         } else {
-            axios.get(this.props.url).then((response: AxiosResponse) => {
-                const results = this.getSearchResults(response.data.results);
-                callback(null, this.search(input, results));
-            });
+            axios
+                .get(this.props.url + '?query=' + encodeURIComponent(input))
+                .then((response: AxiosResponse) => {
+                    const results = this.getSearchResults(response.data.results);
+                    this.search(input, results).then((finalResults: AutocompleteResult) =>
+                        callback(null, finalResults)
+                    );
+                });
         }
     }
 

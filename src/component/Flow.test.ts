@@ -1,7 +1,7 @@
 import { v4 as generateUUID } from 'uuid';
 import {
-    dragSelectSpecId,
     Flow,
+    dragSelectSpecId,
     FlowStoreProps,
     getDragStyle,
     getGhostUI,
@@ -195,10 +195,7 @@ describe(Flow.name, () => {
                 nodeEditorOpen: setTrue()
             });
 
-            expect(wrapper.find('Connect(NodeEditor)').props()).toEqual({
-                plumberConnectExit: instance.Plumber.connectExit,
-                plumberRepaintForDuration: instance.Plumber.repaintForDuration
-            });
+            expect(wrapper.find('Connect(NodeEditor)').props()).toMatchSnapshot();
             expect(wrapper).toMatchSnapshot();
         });
 

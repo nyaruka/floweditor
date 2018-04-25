@@ -7,7 +7,7 @@ import { FlowDefinition, Group, FlowNode } from '../../flowTypes';
 import ActivityManager, { Activity } from '../../services/ActivityManager';
 import { FlowDetails, getFlow } from '../../external';
 import LogEvent, { EventProps } from './LogEvent';
-import { endpointsPT, ConfigProviderContext } from '../../config';
+import { ConfigProviderContext } from '../../config';
 import { connect } from 'react-redux';
 
 import * as styles from './Simulator.scss';
@@ -17,6 +17,7 @@ import { bindActionCreators } from 'redux';
 import { RenderNodeMap, RenderNode } from '../../store/flowContext';
 import { getOrderedNodes } from '../../store/helpers';
 import { dump } from '../../utils';
+import { fakePropType } from '../../config/ConfigProvider';
 
 const ACTIVE = 'A';
 
@@ -106,7 +107,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     private bottom: any;
 
     public static contextTypes = {
-        endpoints: endpointsPT
+        endpoints: fakePropType
     };
 
     constructor(props: SimulatorProps, context: ConfigProviderContext) {

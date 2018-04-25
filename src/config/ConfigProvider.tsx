@@ -1,6 +1,9 @@
-import { objectOf, shape, string } from 'prop-types';
 import * as React from 'react';
 import { Endpoints, FlowEditorConfig, Languages } from '../flowTypes';
+import AssetService, { Assets } from '../services/AssetService';
+
+export const fakePropType: any = (): any => null;
+fakePropType.isRequired = (): any => null;
 
 interface ConfigProviderProps {
     config: FlowEditorConfig;
@@ -8,22 +11,12 @@ interface ConfigProviderProps {
 }
 
 export interface ConfigProviderContext {
+    assetService: AssetService;
     endpoints: Endpoints;
     languages: Languages;
     flow: string;
 }
 
-// Prop-type definitions (required by React's context API: https://reactjs.org/docs/context.html)
-export const endpointsPT = shape({
-    fields: string,
-    groups: string,
-    engine: string,
-    contacts: string,
-    flows: string,
-    activity: string
-});
-export const languagesPT = objectOf(string);
-export const flowPT = string;
 // ----------------------------------------------------------------------------------------------
 
 export const SINGLE_CHILD_ERROR = 'ConfigProvider expects only one child component.';
@@ -32,9 +25,10 @@ export const VALID_CHILD_ERROR =
 
 export default class ConfigProvider extends React.Component<ConfigProviderProps> {
     public static childContextTypes = {
-        endpoints: endpointsPT,
-        languages: languagesPT,
-        flow: flowPT
+        assetService: fakePropType,
+        endpoints: fakePropType,
+        languages: fakePropType,
+        flow: fakePropType
     };
 
     constructor(props: ConfigProviderProps) {
@@ -49,6 +43,7 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
 
     public getChildContext(): ConfigProviderContext {
         return {
+            assetService: this.props.config.assetService,
             languages: this.props.config.languages,
             endpoints: this.props.config.endpoints,
             flow: this.props.config.flow

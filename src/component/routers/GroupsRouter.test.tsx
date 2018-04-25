@@ -66,16 +66,7 @@ describe(GroupsRouter.name, () => {
             expect(props.getResultNameField).toHaveBeenCalledTimes(1);
             expect(wrapper.find('.instructions').exists()).toBeTruthy();
             expect(wrapper.find('p').text()).toBe(GROUP_LABEL);
-            expect(wrapper.find('GroupsElement').props()).toEqual({
-                name: 'Groups',
-                endpoint: context.endpoints.groups,
-                add: false,
-                required: true,
-                localGroups: props.localGroups,
-                groups: extractGroups(props.nodeToEdit),
-                placeholder: GROUP_PLACEHOLDER,
-                searchPromptText: GROUP_NOT_FOUND
-            });
+            expect(wrapper.find('GroupsElement').props()).toMatchSnapshot();
             expect(props.onBindWidget).toHaveBeenCalledTimes(1);
         });
 

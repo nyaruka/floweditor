@@ -51,24 +51,8 @@ describe(RemoveGroupsForm.name, () => {
             expect(label.is('p')).toBeTruthy();
             expect(label.text()).toBe(LABEL);
             expect(props.onBindWidget).toHaveBeenCalledTimes(2);
-            expect(wrapper.find('GroupsElement').props()).toEqual({
-                localGroups: [],
-                name: 'Groups',
-                placeholder: PLACEHOLDER,
-                endpoint: endpoints.groups,
-                groups: wrapper.state('groups'),
-                add: false,
-                required: true,
-                onChange: instance.onGroupsChanged,
-                searchPromptText: NOT_FOUND
-            });
-            expect(wrapper.find('CheckboxElement').props()).toEqual({
-                name: REMOVE_FROM_ALL,
-                defaultValue: false,
-                description: REMOVE_FROM_ALL_DESC,
-                sibling: true,
-                onCheck: instance.onCheck
-            });
+            expect(wrapper.find('GroupsElement').props()).toMatchSnapshot();
+            expect(wrapper.find('CheckboxElement').props()).toMatchSnapshot();
         });
 
         it('should render only the checkbox', () => {

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect, Provider as ReduxProvider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import ConfigProvider, { endpointsPT, flowPT, languagesPT } from '../config';
+import ConfigProvider from '../config';
 import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
 import {
     AppState,
@@ -21,6 +21,8 @@ import ConnectedFlow from './Flow';
 import ConnectedFlowList, { FlowOption } from './FlowList';
 import * as styles from './index.scss';
 import ConnectedLanguageSelector, { Language } from './LanguageSelector';
+import AssetService from '../services/AssetService';
+import { fakePropType } from '../config/ConfigProvider';
 
 export type OnSelectFlow = ({ uuid }: FlowOption) => void;
 
@@ -42,18 +44,23 @@ export interface FlowEditorStoreProps {
 const hotStore = createStore();
 
 // Root container, wires up context-providers/sets baseURL
-const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) => (
-    <ConfigProvider config={config}>
-        <ReduxProvider store={hotStore}>
-            <ConnectedFlowEditor />
-        </ReduxProvider>
-    </ConfigProvider>
-);
+const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) => {
+    config.assetService = new AssetService(config);
+
+    return (
+        <ConfigProvider config={config}>
+            <ReduxProvider store={hotStore}>
+                <ConnectedFlowEditor />
+            </ReduxProvider>
+        </ConfigProvider>
+    );
+};
 
 export const contextTypes = {
-    endpoints: endpointsPT,
-    languages: languagesPT,
-    flow: flowPT
+    endpoints: fakePropType,
+    languages: fakePropType,
+    flow: fakePropType,
+    assetService: fakePropType
 };
 
 export const editorContainerSpecId = 'editor-container';
@@ -67,7 +74,11 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 
     public componentDidMount(): void {
         this.props.updateLanguage(getBaseLanguage(this.context.languages));
-        this.props.fetchFlow(this.context.endpoints.flows, this.context.flow);
+        this.props.fetchFlow(
+            this.context.endpoints.flows,
+            this.context.flow,
+            this.context.assetService
+        );
         this.props.fetchFlows(this.context.endpoints.flows);
     }
 

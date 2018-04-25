@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import * as isEqual from 'fast-deep-equal';
 import { connect } from 'react-redux';
-import { ConfigProviderContext, endpointsPT } from '../../../config';
+import { ConfigProviderContext } from '../../../config';
 import { ChangeGroups } from '../../../flowTypes';
 import { AppState, SearchResult } from '../../../store';
 import CheckboxElement from '../../form/CheckboxElement';
@@ -11,6 +11,7 @@ import { AddGroupsFormState } from './AddGroupsForm';
 import { mapGroupsToSearchResults, mapSearchResultsToGroups } from './helpers';
 import ChangeGroupsFormProps from './props';
 import { Types } from '../../../config/typeConfigs';
+import { fakePropType } from '../../../config/ConfigProvider';
 
 export interface RemoveGroupsFormState extends AddGroupsFormState {
     removeFromAll: boolean;
@@ -31,7 +32,8 @@ export class RemoveGroupsForm extends React.Component<
     RemoveGroupsFormState
 > {
     public static contextTypes = {
-        endpoints: endpointsPT
+        endpoints: fakePropType,
+        assetService: fakePropType
     };
 
     constructor(props: ChangeGroupsFormProps, context: ConfigProviderContext) {
@@ -102,8 +104,7 @@ export class RemoveGroupsForm extends React.Component<
                     name="Groups"
                     placeholder={PLACEHOLDER}
                     searchPromptText={NOT_FOUND}
-                    endpoint={this.context.endpoints.groups}
-                    localGroups={this.props.groups}
+                    assets={this.context.assetService.getGroupAssets()}
                     groups={this.state.groups}
                     add={false}
                     required={true}
