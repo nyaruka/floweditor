@@ -12,10 +12,14 @@ export class Assets {
     private items: SearchResult[] = [];
     private endpoint: string;
     private localStorage: boolean;
+    private nameProperty: string;
+    private idProperty: string;
 
-    constructor(endpoint: string, localStorage: boolean) {
+    constructor(endpoint: string, localStorage: boolean, nameProperty: string, idProperty: string) {
         this.localStorage = localStorage;
         this.endpoint = endpoint;
+        this.nameProperty = nameProperty;
+        this.idProperty = idProperty;
     }
 
     public search(term: string): Promise<SearchResult[]> {
@@ -27,19 +31,33 @@ export class Assets {
         }
 
         // then query against our endpoint to add to that list
-        return axios
-            .get(this.endpoint + '?query=' + encodeURIComponent(term))
-            .then((response: AxiosResponse) => {
-                for (const result of response.data.results) {
-                    if (this.matches(term, result.name)) {
-                        matches.push({ name: result.name, id: result.uuid });
-                    }
+        let url = this.endpoint;
+        if (term) {
+            url += '?query=' + encodeURIComponent(term);
+        }
+
+        return axios.get(url).then((response: AxiosResponse) => {
+            for (const result of response.data.results) {
+                if (this.matches(term, result[this.nameProperty])) {
+                    matches.push({
+                        name: result[this.nameProperty],
+                        id: result[this.idProperty]
+                    });
                 }
-                return matches;
-            });
+            }
+            return matches;
+        });
     }
 
     public matches(query: string, check: string): boolean {
+        if (!check) {
+            return false;
+        }
+
+        if (query.length === 0) {
+            return true;
+        }
+
         return (
             check
                 .toLocaleLowerCase()
@@ -69,15 +87,23 @@ export class Assets {
 
 export default class AssetService {
     private groups: Assets;
+    private fields: Assets;
+
     constructor(config: FlowEditorConfig) {
-        this.groups = new Assets(config.endpoints.groups, config.localStorage);
+        this.groups = new Assets(config.endpoints.groups, config.localStorage, 'name', 'uuid');
+        this.fields = new Assets(config.endpoints.fields, config.localStorage, 'label', 'key');
     }
 
     public addFlowComponents(flowComponents: FlowComponents): void {
         this.groups.addAll(flowComponents.groups);
+        this.fields.addAll(flowComponents.fields);
     }
 
     public getGroupAssets(): Assets {
         return this.groups;
+    }
+
+    public getFieldAssets(): Assets {
+        return this.fields;
     }
 }

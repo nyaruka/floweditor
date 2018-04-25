@@ -14,14 +14,15 @@ import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { bindActionCreators } from 'redux';
 import { updateGroups } from '../../store/flowContext';
+import AssetService from '../../services/AssetService';
 
 interface AttribElementPassedProps extends FormElementProps {
     initial: SearchResult;
-    endpoint: string;
     add?: boolean;
     placeholder?: string;
     searchPromptText?: string;
     helpText?: string;
+    assetService: AssetService;
 }
 
 interface AttribElementStoreProps {
@@ -123,10 +124,9 @@ export class AttribElement extends React.Component<AttribElementProps, AttribEle
                     __className={getSelectClass(this.state.errors.length)}
                     onChange={this.onChange}
                     name={this.props.name}
-                    url={this.props.endpoint}
                     resultType={ResultType.field}
-                    localSearchOptions={this.props.contactFields}
                     multi={false}
+                    assets={this.props.assetService.getFieldAssets()}
                     initial={[this.state.attribute]}
                     closeOnSelect={true}
                     searchPromptText={this.props.searchPromptText}

@@ -25,7 +25,7 @@ const baseProps: AttribElementProps = {
     name: 'Attribute',
     contactFields: [],
     initial,
-    endpoint: configProviderContext.endpoints.fields
+    assetService: configProviderContext.assetService
 };
 
 const { setup, spyOn } = composeComponentTestUtils<AttribElementProps>(AttribElement, baseProps);
@@ -120,21 +120,7 @@ describe(AttribElement.name, () => {
                     attribError: false
                 })
             );
-            expect(wrapper.find('SelectSearch').props()).toEqual(
-                expect.objectContaining({
-                    __className: getSelectClass(0),
-                    onChange: instance.onChange,
-                    name,
-                    url: endpoint,
-                    resultType: ResultType.field,
-                    localSearchOptions: contactFields,
-                    multi: false,
-                    initial: [initial],
-                    closeOnSelect: true,
-                    searchPromptText: NOT_FOUND,
-                    placeholder: PLACEHOLDER
-                })
-            );
+            expect(wrapper.find('SelectSearch').props()).toMatchSnapshot();
             expect(wrapper).toMatchSnapshot();
         });
 

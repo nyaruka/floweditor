@@ -36,8 +36,10 @@ Object {
   "add": true,
   "assets": Assets {
     "endpoint": "/assets/groups.json",
+    "idProperty": "uuid",
     "items": Array [],
     "localStorage": true,
+    "nameProperty": "name",
   },
   "groups": Array [
     Object {

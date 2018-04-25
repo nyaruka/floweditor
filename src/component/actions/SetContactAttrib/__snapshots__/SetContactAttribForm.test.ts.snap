@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SetContactAttribForm render should render self, children with base props 1`] = `
+Object {
+  "add": true,
+  "assetService": AssetService {
+    "fields": Assets {
+      "endpoint": "/assets/fields.json",
+      "idProperty": "key",
+      "items": Array [],
+      "localStorage": true,
+      "nameProperty": "label",
+    },
+    "groups": Assets {
+      "endpoint": "/assets/groups.json",
+      "idProperty": "uuid",
+      "items": Array [],
+      "localStorage": true,
+      "nameProperty": "name",
+    },
+  },
+  "helpText": "Select an existing attribute to update or type any name to create a new one",
+  "initial": Object {
+    "id": "Email",
+    "name": "Email",
+    "type": "property",
+  },
+  "name": "Attribute",
+  "required": true,
+  "showLabel": true,
+}
+`;

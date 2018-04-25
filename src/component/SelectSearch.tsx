@@ -21,7 +21,7 @@ import { SearchResult } from '../store';
 import { Assets } from '../services/AssetService';
 
 export interface SelectSearchProps {
-    url: string;
+    url?: string;
     name: string;
     resultType: ResultType;
     placeholder?: string;
@@ -104,6 +104,10 @@ export default class SelectSearch extends React.PureComponent<
             return;
         }
 
+        if (selection.extraResult && this.props.assets) {
+            this.props.assets.add(selection);
+        }
+
         // Convert to array to update state
         const selections = [selection];
 
@@ -122,9 +126,11 @@ export default class SelectSearch extends React.PureComponent<
     }
 
     private onChangeMulti(selections: SearchResult[]): void {
-        for (const selection of selections) {
-            if (selection.extraResult) {
-                this.props.assets.add(selection);
+        if (this.props.assets) {
+            for (const selection of selections) {
+                if (selection.extraResult) {
+                    this.props.assets.add(selection);
+                }
             }
         }
         // Account for null selections
