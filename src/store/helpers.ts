@@ -242,7 +242,7 @@ export interface FlowComponents {
 }
 
 export const isGroupAction = (actionType: string) => {
-    return actionType === 'add_contact_groups' || actionType === 'remove_contact_groups';
+    return actionType === Types.add_contact_groups || actionType === Types.remove_contact_groups;
 };
 
 /**
@@ -294,7 +294,7 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
                 for (const group of (action as ChangeGroups).groups) {
                     groupsMap[group.uuid] = group.name;
                 }
-            } else if (action.type === 'set_contact_field') {
+            } else if (action.type === Types.set_contact_field) {
                 const fieldAction = action as SetContactField;
                 fieldsMap[fieldAction.field.key] = fieldAction.field;
             }
