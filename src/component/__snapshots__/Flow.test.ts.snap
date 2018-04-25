@@ -1022,7 +1022,7 @@ exports[`Flow render should render Simulator 1`] = `
 }"
 `;
 
-exports[`Flow render should render Simulator 2`] = `"<div class=\\"simContainer\\"><div><div id=\\"simulator\\" class=\\"simulator sim_hidden\\"><a class=\\"reset inactive\\"></a><div class=\\"icon_simulator icon-simulator\\"></div><div class=\\"icon_close icon-remove\\"></div><div class=\\"screen\\"><div class=\\"messages\\"><div id=\\"bottom\\" style=\\"float: left; clear: both;\\"></div></div><div class=\\"controls\\"><input type=\\"text\\" disabled=\\"\\" placeholder=\\"Press home to start again\\"></div></div></div></div><div class=\\"simulator_tab \\"><div class=\\"simulator_tab_icon icon-simulator\\"></div><div class=\\"simulator_tab_text\\">Run in<br>Simulator</div></div></div>"`;
+exports[`Flow render should render Simulator 2`] = `"<div class=\\"simContainer\\"><div><div id=\\"simulator\\" class=\\"simulator simHidden\\"><a class=\\"reset inactive\\"></a><div class=\\"iconSimulator icon-simulator\\"></div><div class=\\"iconClose icon-remove\\"></div><div class=\\"screen\\"><div class=\\"messages\\"><div id=\\"bottom\\" style=\\"float: left; clear: both;\\"></div></div><div class=\\"controls\\"><input type=\\"text\\" disabled=\\"\\" placeholder=\\"Press home to start again\\"></div></div></div></div><div class=\\"simulatorTab \\"><div class=\\"simulatorTabIcon icon-simulator\\"></div><div class=\\"simulatorTabText\\">Run in<br>Simulator</div></div></div>"`;
 
 exports[`Flow render should render drag selection box 1`] = `
 <React.Fragment>
