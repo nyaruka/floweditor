@@ -1,25 +1,20 @@
 import { SearchResult } from '../store';
-import { Endpoints, FlowEditorConfig } from '../flowTypes';
+import { Endpoints, FlowEditorConfig, ContactProperties, AttributeType } from '../flowTypes';
 import axios, { AxiosResponse } from 'axios';
 import { FlowComponents } from '../store/helpers';
 
-export interface GroupAsset {
-    uuid: string;
-    name: string;
-}
-
 export class Assets {
-    private items: SearchResult[] = [];
     private endpoint: string;
     private localStorage: boolean;
-    private nameProperty: string;
-    private idProperty: string;
+    protected items: SearchResult[] = [];
+    protected nameProperty: string;
+    protected idProperty: string;
 
-    constructor(endpoint: string, localStorage: boolean, nameProperty: string, idProperty: string) {
+    constructor(endpoint: string, localStorage: boolean) {
         this.localStorage = localStorage;
         this.endpoint = endpoint;
-        this.nameProperty = nameProperty;
-        this.idProperty = idProperty;
+        this.nameProperty = 'name';
+        this.idProperty = 'uuid';
     }
 
     public search(term: string): Promise<SearchResult[]> {
@@ -27,7 +22,9 @@ export class Assets {
 
         // if we have local storage, search there
         if (this.localStorage) {
-            matches = this.items.filter((result: SearchResult) => this.matches(term, result.name));
+            matches = this.items.filter((result: SearchResult) => {
+                return this.matches(term, result.name);
+            });
         }
 
         // then query against our endpoint to add to that list
@@ -85,13 +82,47 @@ export class Assets {
     }
 }
 
+class GroupAssets extends Assets {
+    constructor(endpoint: string, localStorage: boolean) {
+        super(endpoint, localStorage);
+        this.nameProperty = 'name';
+        this.idProperty = 'uuid';
+    }
+}
+
+class FieldAssets extends Assets {
+    public static CONTACT_PROPERTIES: SearchResult[] = [
+        {
+            name: ContactProperties.Name,
+            id: ContactProperties.Name.toLowerCase(),
+            type: AttributeType.property
+        }
+        /*{ 
+            name: ContactProperties.Language, 
+            id: ContactProperties.Language.toLowerCase(), 
+            type: AttributeType.property 
+        }*/
+    ];
+
+    constructor(endpoint: string, localStorage: boolean) {
+        super(endpoint, localStorage);
+        this.nameProperty = 'label';
+        this.idProperty = 'key';
+
+        FieldAssets.CONTACT_PROPERTIES.map((result: SearchResult) => {
+            this.items.push(result);
+        });
+    }
+}
+
+// tslint:disable-next-line:max-classes-per-file
 export default class AssetService {
     private groups: Assets;
     private fields: Assets;
 
     constructor(config: FlowEditorConfig) {
-        this.groups = new Assets(config.endpoints.groups, config.localStorage, 'name', 'uuid');
-        this.fields = new Assets(config.endpoints.fields, config.localStorage, 'label', 'key');
+        this.groups = new GroupAssets(config.endpoints.groups, config.localStorage);
+        this.fields = new FieldAssets(config.endpoints.fields, config.localStorage);
     }
 
     public addFlowComponents(flowComponents: FlowComponents): void {

@@ -4,14 +4,20 @@ exports[`SetContactAttribForm render should render self, children with base prop
 Object {
   "add": true,
   "assetService": AssetService {
-    "fields": Assets {
+    "fields": FieldAssets {
       "endpoint": "/assets/fields.json",
       "idProperty": "key",
-      "items": Array [],
+      "items": Array [
+        Object {
+          "id": "name",
+          "name": "Name",
+          "type": "property",
+        },
+      ],
       "localStorage": true,
       "nameProperty": "label",
     },
-    "groups": Assets {
+    "groups": GroupAssets {
       "endpoint": "/assets/groups.json",
       "idProperty": "uuid",
       "items": Array [],

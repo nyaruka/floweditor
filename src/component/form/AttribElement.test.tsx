@@ -91,10 +91,10 @@ describe(AttribElement.name, () => {
 
         describe('createNewOption', () => {
             it('should return a new SearchResult', () => {
-                const newOption = { label: 'Age', labelKey: 'name', valueKey: 'id' };
+                const newOption = { label: 'Home Phone', labelKey: 'name', valueKey: 'id' };
 
                 expect(createNewOption(newOption)).toEqual({
-                    id: expect.stringMatching(V4_UUID),
+                    id: 'home_phone',
                     name: newOption.label,
                     type: AttributeType.field,
                     extraResult: true
@@ -108,7 +108,7 @@ describe(AttribElement.name, () => {
             const {
                 wrapper,
                 instance,
-                props: { showLabel, name, helpText, endpoint, contactFields }
+                props: { showLabel, name, helpText, contactFields, assetService }
             } = setup();
 
             expect(wrapper.find('FormElement').props()).toEqual(

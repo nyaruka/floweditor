@@ -61,15 +61,6 @@ export const mapRespToSearchResult = ({ name, uuid, type }: any) => ({
     type
 });
 
-export const CONTACT_PROPERTIES: SearchResult[] = [
-    {
-        name: ContactProperties.Name,
-        id: ContactProperties.Name.toLowerCase(),
-        type: AttributeType.property
-    }
-    // { id: ContactProperties.Language.toLowerCase(), name: ContactProperties.Language, type: AttributeType.property }
-];
-
 export default class SelectSearch extends React.PureComponent<
     SelectSearchProps,
     SelectSearchState
@@ -177,8 +168,8 @@ export default class SelectSearch extends React.PureComponent<
         return newResults;
     }
 
-    public search(term: string, remoteResults: SearchResult[] = []): Promise<AutocompleteResult> {
-        let combined = [...remoteResults];
+    public search(term: string): Promise<AutocompleteResult> {
+        let combined: SearchResult[] = [];
         if (this.props.localSearchOptions) {
             for (const local of this.props.localSearchOptions) {
                 if (
@@ -214,31 +205,11 @@ export default class SelectSearch extends React.PureComponent<
         });
     }
 
-    public getSearchResults(results: Array<{}>): SearchResult[] {
-        switch (this.props.resultType) {
-            case ResultType.field:
-                return [...results.map(mapFieldsRespToSearchResult), ...CONTACT_PROPERTIES];
-            default:
-                return [...results.map(mapRespToSearchResult)];
-        }
-    }
-
     public loadOptions(
         input: string,
         callback: (err: any, result: AutocompleteResult) => void
     ): void {
-        if (!this.props.url) {
-            this.search(input).then((result: AutocompleteResult) => callback(null, result));
-        } else {
-            axios
-                .get(this.props.url + '?query=' + encodeURIComponent(input))
-                .then((response: AxiosResponse) => {
-                    const results = this.getSearchResults(response.data.results);
-                    this.search(input, results).then((finalResults: AutocompleteResult) =>
-                        callback(null, finalResults)
-                    );
-                });
-        }
+        this.search(input).then((result: AutocompleteResult) => callback(null, result));
     }
 
     private filterOption(option: SearchResult, term: string): boolean {

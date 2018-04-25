@@ -9,7 +9,7 @@ import {
 import { v4 as generateUUID } from 'uuid';
 import { AttributeType, CreateOptions, ResultType } from '../../flowTypes';
 import { AppState, SearchResult, DispatchWithState } from '../../store';
-import { getSelectClass, isValidLabel, propertyExists, dump } from '../../utils';
+import { getSelectClass, isValidLabel, propertyExists, dump, snakify } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { bindActionCreators } from 'redux';
@@ -51,7 +51,7 @@ export const isOptionUnique: IsOptionUniqueHandler = ({ option, options, labelKe
     !propertyExists(option.name) && !attribExists(option.name, options);
 
 export const createNewOption: NewOptionCreatorHandler = ({ label }) => ({
-    id: generateUUID(),
+    id: snakify(label),
     name: label,
     type: AttributeType.field,
     extraResult: true

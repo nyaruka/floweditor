@@ -8,7 +8,7 @@ exports[`GroupsElement render should pass createOptions object if it's add prop 
   <SelectSearch
     _className=""
     assets={
-      Assets {
+      GroupAssets {
         "endpoint": "/assets/groups.json",
         "idProperty": "uuid",
         "items": Array [],
@@ -33,7 +33,7 @@ exports[`GroupsElement render should pass createOptions object if it's add prop 
 exports[`GroupsElement render should render self, children with required props 1`] = `
 Object {
   "_className": "",
-  "assets": Assets {
+  "assets": GroupAssets {
     "endpoint": "/assets/groups.json",
     "idProperty": "uuid",
     "items": Array [],
@@ -58,7 +58,7 @@ exports[`GroupsElement render should render self, children with required props 2
   <SelectSearch
     _className=""
     assets={
-      Assets {
+      GroupAssets {
         "endpoint": "/assets/groups.json",
         "idProperty": "uuid",
         "items": Array [],

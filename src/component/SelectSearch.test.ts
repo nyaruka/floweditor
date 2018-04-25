@@ -49,9 +49,7 @@ describe(SelectSearch.name, () => {
             expect(loadOptionsSpy).toHaveBeenCalledTimes(1);
             expect(loadOptionsSpy).toHaveBeenCalledWith('', expect.any(Function));
             expect(searchSpy).toHaveBeenCalledTimes(1);
-            expect(searchSpy).toHaveBeenCalledWith('', mapRespToSearchOpts(groupsResp));
-            // expect(axiosMock.get).toHaveBeenCalledTimes(1);
-            // expect(axiosMock.get).toHaveBeenCalledWith(url);
+            expect(searchSpy).toHaveBeenCalledWith('');
             expect(wrapper).toMatchSnapshot();
 
             restoreSpies(selectRefSpy, loadOptionsSpy, searchSpy);

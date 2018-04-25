@@ -40,7 +40,7 @@ exports[`GroupsRouter render should render exit translations when user is transl
 exports[`GroupsRouter render should render self, children 1`] = `
 Object {
   "add": false,
-  "assets": Assets {
+  "assets": GroupAssets {
     "endpoint": "/assets/groups.json",
     "idProperty": "uuid",
     "items": Array [],
