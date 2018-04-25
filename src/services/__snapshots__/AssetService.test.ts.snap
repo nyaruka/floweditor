@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AssetService fields should initialize field assets 1`] = `
+GroupAssets {
+  "endpoint": "/assets/groups.json",
+  "idProperty": "uuid",
+  "items": Array [],
+  "localStorage": true,
+  "nameProperty": "name",
+}
+`;
+
+exports[`AssetService groups searching should return everything for empty search: empty 1`] = `
+Array [
+  Object {
+    "id": "monkey_happy",
+    "name": "Monkey Happy",
+  },
+  Object {
+    "id": "monkey_haters",
+    "name": "Monkey Haters",
+  },
+  Object {
+    "id": "monkey_lovers",
+    "name": "Monkey Lovers",
+  },
+  Object {
+    "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
+    "name": "Customers",
+  },
+  Object {
+    "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
+    "name": "Unsatisfied Customers",
+  },
+  Object {
+    "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+    "name": "Early Adopters",
+  },
+  Object {
+    "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
+    "name": "Testers",
+  },
+  Object {
+    "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+    "name": "Subscribers",
+  },
+]
+`;
+
+exports[`AssetService groups searching should search for "monkey ha": monkey ha 1`] = `
+Array [
+  Object {
+    "id": "monkey_happy",
+    "name": "Monkey Happy",
+  },
+  Object {
+    "id": "monkey_haters",
+    "name": "Monkey Haters",
+  },
+]
+`;
+
+exports[`AssetService groups searching should search for "monkey hap": monkey hap 1`] = `
+Array [
+  Object {
+    "id": "monkey_happy",
+    "name": "Monkey Happy",
+  },
+]
+`;
+
+exports[`AssetService groups searching should search for "monkey": monkey 1`] = `
+Array [
+  Object {
+    "id": "monkey_happy",
+    "name": "Monkey Happy",
+  },
+  Object {
+    "id": "monkey_haters",
+    "name": "Monkey Haters",
+  },
+  Object {
+    "id": "monkey_lovers",
+    "name": "Monkey Lovers",
+  },
+]
+`;
+
+exports[`AssetService groups should add groups 1`] = `
+GroupAssets {
+  "endpoint": "/assets/groups.json",
+  "idProperty": "uuid",
+  "items": Array [
+    Object {
+      "id": "groupA",
+      "name": "Group A",
+    },
+  ],
+  "localStorage": true,
+  "nameProperty": "name",
+}
+`;
+
+exports[`AssetService groups should initialize group assets 1`] = `
+GroupAssets {
+  "endpoint": "/assets/groups.json",
+  "idProperty": "uuid",
+  "items": Array [],
+  "localStorage": true,
+  "nameProperty": "name",
+}
+`;
+
+exports[`AssetService groups should not add duplicates 1`] = `
+GroupAssets {
+  "endpoint": "/assets/groups.json",
+  "idProperty": "uuid",
+  "items": Array [
+    Object {
+      "id": "groupA",
+      "name": "Group A",
+    },
+  ],
+  "localStorage": true,
+  "nameProperty": "name",
+}
+`;

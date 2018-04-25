@@ -55,6 +55,8 @@ import { empty } from '../component/form/CaseElement.scss';
 import { Types } from '../config/typeConfigs';
 import { Operators } from '../config/operatorConfigs';
 import { push } from '../utils';
+import AssetService from '../services/AssetService';
+import * as config from '../../__test__/config';
 
 const getUpdatedNodes = (currentStore): { [uuid: string]: RenderNode } => {
     let nodes;
@@ -87,10 +89,12 @@ describe('Flow Manipulation', () => {
 
     describe('init', () => {
         it('should fetch and initalize flow', () => {
+            const assetService = new AssetService(config);
             return store
-                .dispatch(fetchFlow('/assets/flows.json', 'boring', null))
+                .dispatch(fetchFlow('/assets/flows.json', 'boring', assetService))
                 .then((components: FlowComponents) => {
                     expect(Object.keys(components.renderNodeMap).length).toBe(4);
+                    expect(assetService).toMatchSnapshot();
                 });
         });
 
