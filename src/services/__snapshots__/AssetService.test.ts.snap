@@ -7,6 +7,18 @@ GroupAssets {
   "items": Array [],
   "localStorage": true,
   "nameProperty": "name",
+  "objects": Object {},
+}
+`;
+
+exports[`AssetService flows should initialize field assets 1`] = `
+FlowAssets {
+  "endpoint": "/assets/flows.json",
+  "idProperty": "uuid",
+  "items": Array [],
+  "localStorage": true,
+  "nameProperty": "name",
+  "objects": Object {},
 }
 `;
 
@@ -98,6 +110,7 @@ GroupAssets {
   ],
   "localStorage": true,
   "nameProperty": "name",
+  "objects": Object {},
 }
 `;
 
@@ -108,6 +121,7 @@ GroupAssets {
   "items": Array [],
   "localStorage": true,
   "nameProperty": "name",
+  "objects": Object {},
 }
 `;
 
@@ -123,5 +137,6 @@ GroupAssets {
   ],
   "localStorage": true,
   "nameProperty": "name",
+  "objects": Object {},
 }
 `;

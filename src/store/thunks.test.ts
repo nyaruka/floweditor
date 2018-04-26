@@ -90,17 +90,20 @@ describe('Flow Manipulation', () => {
     describe('init', () => {
         it('should fetch and initalize flow', () => {
             const assetService = new AssetService(config);
-            return store
-                .dispatch(fetchFlow('/assets/flows.json', 'boring', assetService))
-                .then((components: FlowComponents) => {
-                    expect(Object.keys(components.renderNodeMap).length).toBe(4);
-                    expect(assetService).toMatchSnapshot();
-                });
+
+            store.dispatch(fetchFlow(assetService, 'boring')).then(() => {
+                expect(assetService).toMatchSnapshot();
+                const nodes = getUpdatedNodes(store);
+                expect(nodes.length).toBe(4);
+                expect(nodes).toMatchSnapshot();
+            });
         });
 
         it('should fetch and update the flow list', () => {
-            store.dispatch(fetchFlows('/assets/flows.json')).then(action => {
-                expect(action.type).toBe(Constants.UPDATE_FLOWS);
+            const assetService = new AssetService(config);
+
+            store.dispatch(fetchFlows(assetService)).then(() => {
+                expect(store).toHaveReduxAction(Constants.UPDATE_FLOWS);
             });
         });
 

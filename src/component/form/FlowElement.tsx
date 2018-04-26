@@ -4,11 +4,13 @@ import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { SearchResult } from '../../store';
 import { ResultType } from '../../flowTypes';
+import { Assets } from '../../services/AssetService';
 
 interface FlowElementProps extends FormElementProps {
     flow: { name: string; uuid: string };
     endpoint?: string;
     placeholder?: string;
+    assets: Assets;
 }
 
 interface FlowState {
@@ -67,7 +69,7 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
                     __className={className}
                     onChange={this.onChange}
                     name={this.props.name}
-                    url={this.props.endpoint}
+                    assets={this.props.assets}
                     resultType={ResultType.flow}
                     multi={false}
                     initial={[this.state.flow]}
