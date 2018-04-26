@@ -103,7 +103,6 @@ describe('Flow Manipulation', () => {
             const assetService = new AssetService(config);
 
             store.dispatch(fetchFlows(assetService)).then(() => {
-                // expect(action.type).toBe(Constants.UPDATE_FLOWS);
                 expect(store).toHaveReduxAction(Constants.UPDATE_FLOWS);
             });
         });
