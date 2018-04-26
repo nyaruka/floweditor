@@ -21,6 +21,7 @@ exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
         ],
         "localStorage": true,
         "nameProperty": "label",
+        "objects": Object {},
       }
     }
     closeOnSelect={true}
@@ -62,6 +63,7 @@ Object {
     ],
     "localStorage": true,
     "nameProperty": "label",
+    "objects": Object {},
   },
   "closeOnSelect": true,
   "initial": Array [
@@ -101,6 +103,7 @@ exports[`AttribElement render should render self, children with base props 2`] =
         ],
         "localStorage": true,
         "nameProperty": "label",
+        "objects": Object {},
       }
     }
     closeOnSelect={true}

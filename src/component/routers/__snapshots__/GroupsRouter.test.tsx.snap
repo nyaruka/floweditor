@@ -46,6 +46,7 @@ Object {
     "items": Array [],
     "localStorage": true,
     "nameProperty": "name",
+    "objects": Object {},
   },
   "groups": Array [
     Object {

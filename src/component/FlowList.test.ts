@@ -107,11 +107,7 @@ describe(FlowList.name, () => {
                 instance.onChange({ uuid: otherUUID });
 
                 expect(props.fetchFlow).toHaveBeenCalledTimes(1);
-                expect(props.fetchFlow).toHaveBeenCalledWith(
-                    endpoints.flows,
-                    otherUUID,
-                    assetService
-                );
+                expect(props.fetchFlow).toHaveBeenCalledWith(assetService, otherUUID);
             });
 
             it('should not call action creator that fetches flow', () => {

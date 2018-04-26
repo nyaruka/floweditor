@@ -25,7 +25,8 @@ export type SubflowRouterProps = SubflowRouterStoreProps & SubflowRouterPassedPr
 
 export class SubflowRouter extends React.PureComponent<SubflowRouterProps> {
     public static contextTypes = {
-        endpoints: fakePropType
+        endpoints: fakePropType,
+        assetService: fakePropType
     };
 
     constructor(props: SubflowRouterProps, context: ConfigProviderContext) {
@@ -52,7 +53,7 @@ export class SubflowRouter extends React.PureComponent<SubflowRouterProps> {
                 <FlowElement
                     ref={this.props.onBindWidget}
                     name="Flow"
-                    endpoint={this.context.endpoints.flows}
+                    assets={this.context.assetService.getFlowAssets()}
                     flow={this.props.action.flow}
                     required={true}
                 />

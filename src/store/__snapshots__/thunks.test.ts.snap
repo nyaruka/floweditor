@@ -19,6 +19,195 @@ AssetService {
     ],
     "localStorage": true,
     "nameProperty": "label",
+    "objects": Object {},
+  },
+  "flows": FlowAssets {
+    "endpoint": "/assets/flows.json",
+    "idProperty": "uuid",
+    "items": Array [],
+    "localStorage": true,
+    "nameProperty": "name",
+    "objects": Object {
+      "boring": Object {
+        "definition": Object {
+          "_ui": Object {
+            "languages": Array [],
+            "nodes": Object {
+              "node0": Object {
+                "position": Object {
+                  "bottom": 254,
+                  "left": 0,
+                  "right": 220,
+                  "top": 0,
+                },
+              },
+              "node1": Object {
+                "position": Object {
+                  "bottom": 370,
+                  "left": 0,
+                  "right": 220,
+                  "top": 280,
+                },
+                "type": "wait_for_response",
+              },
+              "node2": Object {
+                "position": Object {
+                  "bottom": 498,
+                  "left": 0,
+                  "right": 220,
+                  "top": 400,
+                },
+              },
+              "node3": Object {
+                "position": Object {
+                  "bottom": 598,
+                  "left": 0,
+                  "right": 220,
+                  "top": 520,
+                },
+              },
+            },
+            "stickies": Object {},
+          },
+          "language": "eng",
+          "localization": Object {},
+          "name": "Boring Flow",
+          "nodes": Array [
+            Object {
+              "actions": Array [
+                Object {
+                  "text": "Hi there, this is your first action!",
+                  "type": "send_msg",
+                  "uuid": "node0_action0",
+                },
+                Object {
+                  "groups": Array [
+                    Object {
+                      "name": "Flow Participants",
+                      "uuid": "group_0",
+                    },
+                  ],
+                  "type": "add_contact_groups",
+                  "uuid": "node0_action1",
+                },
+                Object {
+                  "groups": Array [
+                    Object {
+                      "name": "Nonresponsive",
+                      "uuid": "group_1",
+                    },
+                  ],
+                  "type": "remove_contact_groups",
+                  "uuid": "node0_action2",
+                },
+              ],
+              "exits": Array [
+                Object {
+                  "destination_node_uuid": "node1",
+                  "name": null,
+                  "uuid": "node0_exit0",
+                },
+              ],
+              "uuid": "node0",
+            },
+            Object {
+              "actions": Array [],
+              "exits": Array [
+                Object {
+                  "destination_node_uuid": "node2",
+                  "name": "Red",
+                  "uuid": "node1_exit0",
+                },
+                Object {
+                  "destination_node_uuid": "node2",
+                  "name": "Green",
+                  "uuid": "node1_exit1",
+                },
+                Object {
+                  "destination_node_uuid": "node2",
+                  "name": "Other",
+                  "uuid": "node1_exit2",
+                },
+              ],
+              "router": Object {
+                "cases": Array [
+                  Object {
+                    "arguments": Array [
+                      "red",
+                    ],
+                    "exit_uuid": "node1_exit0",
+                    "type": "has_any_word",
+                    "uuid": "node1_case0",
+                  },
+                  Object {
+                    "arguments": Array [
+                      "green",
+                    ],
+                    "exit_uuid": "node1_exit1",
+                    "type": "has_any_word",
+                    "uuid": "node1_case1",
+                  },
+                ],
+                "default_exit_uuid": "node1_exit2",
+                "operand": "@run.input",
+                "result_name": "color",
+                "type": "switch",
+              },
+              "uuid": "node1",
+              "wait": Object {
+                "type": "msg",
+              },
+            },
+            Object {
+              "actions": Array [
+                Object {
+                  "text": "This has been really great.",
+                  "type": "send_msg",
+                  "uuid": "node2_action0",
+                },
+                Object {
+                  "field": Object {
+                    "key": "unknown_field",
+                    "name": "Unknown Field",
+                  },
+                  "type": "set_contact_field",
+                  "uuid": "node2_action1",
+                  "value": "Some Value",
+                },
+              ],
+              "exits": Array [
+                Object {
+                  "destination_node_uuid": "node3",
+                  "name": null,
+                  "uuid": "node2_exit0",
+                },
+              ],
+              "uuid": "node2",
+            },
+            Object {
+              "actions": Array [
+                Object {
+                  "text": "Thanks for playing!",
+                  "type": "send_msg",
+                  "uuid": "node3_action0",
+                },
+              ],
+              "exits": Array [
+                Object {
+                  "destination_node_uuid": null,
+                  "name": null,
+                  "uuid": "node3_exit0",
+                },
+              ],
+              "uuid": "node3",
+            },
+          ],
+          "uuid": "boring",
+        },
+        "name": "Boring",
+        "uuid": "boring",
+      },
+    },
   },
   "groups": GroupAssets {
     "endpoint": "/assets/groups.json",
@@ -37,6 +226,7 @@ AssetService {
     ],
     "localStorage": true,
     "nameProperty": "name",
+    "objects": Object {},
   },
 }
 `;

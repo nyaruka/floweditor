@@ -46,7 +46,7 @@ export class FlowList extends React.Component<FlowListStoreProps> {
 
     public onChange({ uuid }: { uuid: string; name: string }): void {
         if (this.props.flows.length && uuid !== this.props.flowUUID) {
-            this.props.fetchFlow(this.context.endpoints.flows, uuid, this.context.assetService);
+            this.props.fetchFlow(this.context.assetService, uuid);
         }
     }
 

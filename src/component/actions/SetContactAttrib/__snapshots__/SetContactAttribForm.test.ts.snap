@@ -16,6 +16,15 @@ Object {
       ],
       "localStorage": true,
       "nameProperty": "label",
+      "objects": Object {},
+    },
+    "flows": FlowAssets {
+      "endpoint": "/assets/flows.json",
+      "idProperty": "uuid",
+      "items": Array [],
+      "localStorage": true,
+      "nameProperty": "name",
+      "objects": Object {},
     },
     "groups": GroupAssets {
       "endpoint": "/assets/groups.json",
@@ -23,6 +32,7 @@ Object {
       "items": Array [],
       "localStorage": true,
       "nameProperty": "name",
+      "objects": Object {},
     },
   },
   "helpText": "Select an existing attribute to update or type any name to create a new one",

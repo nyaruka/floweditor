@@ -74,6 +74,18 @@ describe('AssetService', () => {
         });
     });
 
+    describe('flows', () => {
+        let flows: Assets;
+        beforeEach(() => {
+            flows = assetService.getFlowAssets();
+        });
+
+        it('should initialize field assets', () => {
+            dump(flows);
+            expect(flows).toMatchSnapshot();
+        });
+    });
+
     describe('fields', () => {
         let fields: Assets;
         beforeEach(() => {

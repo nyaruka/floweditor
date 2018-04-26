@@ -21,7 +21,7 @@ import ConnectedFlow from './Flow';
 import ConnectedFlowList, { FlowOption } from './FlowList';
 import * as styles from './index.scss';
 import ConnectedLanguageSelector, { Language } from './LanguageSelector';
-import AssetService from '../services/AssetService';
+import AssetService, { Assets } from '../services/AssetService';
 import { fakePropType } from '../config/ConfigProvider';
 
 export type OnSelectFlow = ({ uuid }: FlowOption) => void;
@@ -73,13 +73,10 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     public static contextTypes = contextTypes;
 
     public componentDidMount(): void {
+        const assetService: AssetService = this.context.assetService;
         this.props.updateLanguage(getBaseLanguage(this.context.languages));
-        this.props.fetchFlow(
-            this.context.endpoints.flows,
-            this.context.flow,
-            this.context.assetService
-        );
-        this.props.fetchFlows(this.context.endpoints.flows);
+        this.props.fetchFlow(assetService, this.context.flow);
+        this.props.fetchFlows(assetService);
     }
 
     public render(): JSX.Element {

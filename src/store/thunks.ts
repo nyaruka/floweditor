@@ -60,7 +60,8 @@ import {
     updateUserAddingAction
 } from './nodeEditor';
 import AppState from './state';
-import AssetService from '../services/AssetService';
+import AssetService, { Assets } from '../services/AssetService';
+import { UpdateFlowsAction } from './actionTypes';
 
 export type DispatchWithState = Dispatch<AppState>;
 
@@ -86,9 +87,12 @@ export type RemoveNode = (nodeToRemove: FlowNode) => Thunk<RenderNodeMap>;
 
 export type UpdateDimensions = (node: FlowNode, dimensions: Dimensions) => Thunk<RenderNodeMap>;
 
-export type FetchFlow = (endpoint: string, uuid: string, assetService: AssetService) => AsyncThunk;
+export type FetchFlow = (
+    assetService: AssetService,
+    uuid: string
+) => Thunk<Promise<FlowComponents>>;
 
-export type FetchFlows = (endpoint: string) => AsyncThunk;
+export type FetchFlows = (assetService: AssetService) => Thunk<Promise<void>>;
 
 export type EnsureStartNode = () => Thunk<RenderNode>;
 
@@ -164,39 +168,29 @@ export const initializeFlow = (definition: FlowDefinition, assetService: AssetSe
     return flowComponents;
 };
 
-export const fetchFlow = (endpoint: string, uuid: string, assetService: AssetService) => (
+export const fetchFlow = (assetService: AssetService, uuid: string) => (
     dispatch: DispatchWithState,
     getState: GetState
-) => {
+): Promise<FlowComponents> => {
     dispatch(updateFetchingFlow(true));
-    return (
-        getFlow(endpoint, uuid, false)
-            .then(({ definition }: FlowDetails) => {
-                return dispatch(initializeFlow(definition, assetService));
-            })
-            // TODO: think this should probably bubble up
-            .catch(
-                /* istanbul ignore next */ (error: any) => console.log(`fetchFlow error: ${error}`)
-            )
-    );
+    const flows: Assets = assetService.getFlowAssets();
+    return flows.get(uuid).then(({ definition }: FlowDetails) => {
+        return dispatch(initializeFlow(definition, assetService));
+    });
 };
 
-export const fetchFlows = (endpoint: string) => (dispatch: DispatchWithState) =>
-    getFlows(endpoint)
-        .then((flows: FlowDetails[]) => {
-            return dispatch(
-                updateFlows(
-                    flows.map(({ uuid, name }) => ({
-                        uuid,
-                        name
-                    }))
-                )
-            );
-        })
-        // TODO: think this should probably bubble up
-        .catch(
-            /* istanbul ignore next */ (error: any) => console.log(`fetchFlowList error: ${error}`)
-        );
+export const fetchFlows = (assetService: AssetService) => (
+    dispatch: DispatchWithState
+): Promise<void> => {
+    const flows: Assets = assetService.getFlowAssets();
+    return flows.search('').then((results: SearchResult[]) => {
+        const flowList = results.map(({ id, name }) => ({
+            uuid: id,
+            name
+        }));
+        dispatch(updateFlows(flowList));
+    });
+};
 
 export const reflow = (current: RenderNodeMap = null) => (
     dispatch: DispatchWithState,

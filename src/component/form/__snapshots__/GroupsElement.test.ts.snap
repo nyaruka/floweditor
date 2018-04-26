@@ -14,6 +14,7 @@ exports[`GroupsElement render should pass createOptions object if it's add prop 
         "items": Array [],
         "localStorage": true,
         "nameProperty": "name",
+        "objects": Object {},
       }
     }
     createNewOption={[Function]}
@@ -39,6 +40,7 @@ Object {
     "items": Array [],
     "localStorage": true,
     "nameProperty": "name",
+    "objects": Object {},
   },
   "initial": Array [],
   "multi": true,
@@ -64,6 +66,7 @@ exports[`GroupsElement render should render self, children with required props 2
         "items": Array [],
         "localStorage": true,
         "nameProperty": "name",
+        "objects": Object {},
       }
     }
     initial={Array []}

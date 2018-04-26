@@ -82,14 +82,11 @@ describe('Root', () => {
                 );
                 expect(props.fetchFlow).toHaveBeenCalledTimes(1);
                 expect(props.fetchFlow).toHaveBeenCalledWith(
-                    configProviderContext.endpoints.flows,
-                    configProviderContext.flow,
-                    configProviderContext.assetService
+                    configProviderContext.assetService,
+                    configProviderContext.flow
                 );
                 expect(props.fetchFlows).toHaveBeenCalledTimes(1);
-                expect(props.fetchFlows).toHaveBeenCalledWith(
-                    configProviderContext.endpoints.flows
-                );
+                expect(props.fetchFlows).toHaveBeenCalledWith(configProviderContext.assetService);
             });
         });
     });
