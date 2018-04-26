@@ -10,7 +10,7 @@ exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
     __className=""
     assets={
       FieldAssets {
-        "assetType": "field",
+        "assetType": "property",
         "assets": Object {
           "name": Object {
             "id": "name",
@@ -52,7 +52,7 @@ exports[`AttribElement render should render self, children with base props 1`] =
 Object {
   "__className": "",
   "assets": FieldAssets {
-    "assetType": "field",
+    "assetType": "property",
     "assets": Object {
       "name": Object {
         "id": "name",
@@ -92,7 +92,7 @@ exports[`AttribElement render should render self, children with base props 2`] =
     __className=""
     assets={
       FieldAssets {
-        "assetType": "field",
+        "assetType": "property",
         "assets": Object {
           "name": Object {
             "id": "name",

@@ -16,7 +16,7 @@ import Localization, { LocalizedObject } from '../services/Localization';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { BoolMap } from '../utils';
 import SetContactAttribForm from '../component/actions/SetContactAttrib/SetContactAttribForm';
-import { Asset } from '../services/AssetService';
+import { Asset, AssetType } from '../services/AssetService';
 
 export interface Bounds {
     left: number;
@@ -321,11 +321,11 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
     }
 
     for (const uuid of Object.keys(groupsMap)) {
-        groups.push({ name: groupsMap[uuid], id: uuid, type: 'group' });
+        groups.push({ name: groupsMap[uuid], id: uuid, type: AssetType.Group });
     }
 
     for (const key of Object.keys(fieldsMap)) {
-        fields.push({ name: fieldsMap[key].name, id: key, type: 'field' });
+        fields.push({ name: fieldsMap[key].name, id: key, type: AssetType.Field });
     }
 
     return { renderNodeMap, groups, fields };

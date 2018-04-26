@@ -5,7 +5,7 @@ import { getSelectClass, isValidLabel, jsonEqual } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { NewOptionCreatorHandler, IsValidNewOptionHandler } from 'react-select';
-import { Assets, Asset } from '../../services/AssetService';
+import { Assets, Asset, AssetType } from '../../services/AssetService';
 
 export interface GroupOption {
     group: string;
@@ -32,7 +32,7 @@ export const isValidNewOption: IsValidNewOptionHandler = ({ label }) =>
 export const createNewOption: NewOptionCreatorHandler = ({ label }): Asset => ({
     id: generateUUID(),
     name: label,
-    type: 'group',
+    type: AssetType.Group,
     isNew: true
 });
 

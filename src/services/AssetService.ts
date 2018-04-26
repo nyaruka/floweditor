@@ -1,5 +1,5 @@
 // tslint:disable:max-classes-per-file
-import { Endpoints, FlowEditorConfig, ContactProperties, AttributeType } from '../flowTypes';
+import { Endpoints, FlowEditorConfig, ContactProperties } from '../flowTypes';
 import axios, { AxiosResponse } from 'axios';
 import { FlowComponents } from '../store/helpers';
 import { dump } from '../utils';
@@ -7,25 +7,43 @@ import { dump } from '../utils';
 export interface Asset {
     id: string;
     name: string;
-    type: string;
+    type: AssetType;
 
     isNew?: boolean;
     content?: any;
 }
 
+enum IdProperty {
+    UUID = 'uuid',
+    Key = 'key',
+    ID = 'id'
+}
+
+enum NameProperty {
+    Label = 'label',
+    Name = 'name'
+}
+
+export enum AssetType {
+    Flow = 'flow',
+    Group = 'group',
+    Property = 'property',
+    Field = 'field'
+}
+
 export class Assets {
     private endpoint: string;
     private localStorage: boolean;
-    protected nameProperty: string;
-    protected idProperty: string;
-    protected assetType: string;
+    protected nameProperty: NameProperty;
+    protected idProperty: IdProperty;
+    protected assetType: AssetType;
     protected assets: { [id: string]: Asset } = {};
 
     constructor(endpoint: string, localStorage: boolean) {
         this.localStorage = localStorage;
         this.endpoint = endpoint;
-        this.nameProperty = 'name';
-        this.idProperty = 'uuid';
+        this.nameProperty = NameProperty.Name;
+        this.idProperty = IdProperty.UUID;
     }
 
     public get(id: string): Promise<Asset> {
@@ -125,9 +143,9 @@ export class Assets {
 class GroupAssets extends Assets {
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
-        this.nameProperty = 'name';
-        this.idProperty = 'uuid';
-        this.assetType = 'group';
+        this.nameProperty = NameProperty.Name;
+        this.idProperty = IdProperty.UUID;
+        this.assetType = AssetType.Group;
     }
 }
 
@@ -136,7 +154,7 @@ class FieldAssets extends Assets {
         {
             name: ContactProperties.Name,
             id: ContactProperties.Name.toLowerCase(),
-            type: AttributeType.property
+            type: AssetType.Property
         }
         /*{ 
             name: ContactProperties.Language, 
@@ -147,9 +165,9 @@ class FieldAssets extends Assets {
 
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
-        this.nameProperty = 'label';
-        this.idProperty = 'key';
-        this.assetType = 'field';
+        this.nameProperty = NameProperty.Label;
+        this.idProperty = IdProperty.Key;
+        this.assetType = AssetType.Property;
 
         FieldAssets.CONTACT_PROPERTIES.map((result: Asset) => {
             this.assets[result.id] = result;
@@ -160,9 +178,9 @@ class FieldAssets extends Assets {
 class FlowAssets extends Assets {
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
-        this.nameProperty = 'name';
-        this.idProperty = 'uuid';
-        this.assetType = 'flow';
+        this.nameProperty = NameProperty.Name;
+        this.idProperty = IdProperty.UUID;
+        this.assetType = AssetType.Flow;
     }
 }
 

@@ -3,7 +3,7 @@ import { getSelectClass } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { ResultType } from '../../flowTypes';
-import { Assets, Asset } from '../../services/AssetService';
+import { Assets, Asset, AssetType } from '../../services/AssetService';
 
 interface FlowElementProps extends FormElementProps {
     flow: { name: string; uuid: string };
@@ -28,7 +28,7 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
                 ? {
                       name: this.props.flow.name,
                       id: this.props.flow.uuid,
-                      type: 'flow'
+                      type: AssetType.Flow
                   }
                 : null;
 

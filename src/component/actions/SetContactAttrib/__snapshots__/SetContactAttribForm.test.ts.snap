@@ -5,7 +5,7 @@ Object {
   "add": true,
   "assetService": AssetService {
     "fields": FieldAssets {
-      "assetType": "field",
+      "assetType": "property",
       "assets": Object {
         "name": Object {
           "id": "name",

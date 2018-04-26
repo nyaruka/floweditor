@@ -7,13 +7,13 @@ import {
     NewOptionCreatorHandler
 } from 'react-select';
 import { v4 as generateUUID } from 'uuid';
-import { AttributeType, CreateOptions, ResultType } from '../../flowTypes';
+import { CreateOptions, ResultType } from '../../flowTypes';
 import { AppState, DispatchWithState } from '../../store';
 import { getSelectClass, isValidLabel, propertyExists, dump, snakify } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { bindActionCreators } from 'redux';
-import AssetService, { Asset } from '../../services/AssetService';
+import AssetService, { Asset, AssetType } from '../../services/AssetService';
 
 interface AttribElementPassedProps extends FormElementProps {
     initial: Asset;
@@ -52,7 +52,7 @@ export const isOptionUnique: IsOptionUniqueHandler = ({ option, options, labelKe
 export const createNewOption: NewOptionCreatorHandler = ({ label }) => ({
     id: snakify(label),
     name: label,
-    type: AttributeType.field,
+    type: AssetType.Field,
     isNew: true
 });
 

@@ -1,9 +1,9 @@
-import { AttributeType } from '../../../flowTypes';
 import {
     createSetContactFieldAction,
     createSetContactPropertyAction
 } from '../../../testUtils/assetCreators';
 import { newFieldAction, newPropertyAction, propertyToAsset, fieldToAsset } from './helpers';
+import { AssetType } from '../../../services/AssetService';
 
 const setContactProperty = createSetContactPropertyAction();
 const setContactField = createSetContactFieldAction();
@@ -28,18 +28,18 @@ describe('newPropertyAction', () => {
     });
 });
 
-describe('fieldToSearchResult', () => {
-    it('should return a SearchResult object', () => {
+describe('fieldToAsset', () => {
+    it('should return a Asset object', () => {
         expect(fieldToAsset(setContactField)).toEqual({
             id: setContactField.field.key,
             name: setContactField.field.name,
-            type: AttributeType.field
+            type: AssetType.Field
         });
     });
 });
 
-describe('propertyToSearchResult', () => {
-    it('should return a SearchResult object', () => {
+describe('propertyToAsset', () => {
+    it('should return an Asset object', () => {
         expect(propertyToAsset(setContactProperty)).toMatchSnapshot();
     });
 });

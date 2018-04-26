@@ -11,7 +11,7 @@ import { hasSwitchRouter, hasWait, SaveLocalizations } from '../NodeEditor/NodeE
 import { GROUP_LABEL } from './constants';
 import * as styles from './SwitchRouter.scss';
 import { fakePropType } from '../../config/ConfigProvider';
-import { Asset } from '../../services/AssetService';
+import { Asset, AssetType } from '../../services/AssetService';
 import { Types } from '../../config/typeConfigs';
 import { Operators } from '../../config/operatorConfigs';
 
@@ -39,7 +39,7 @@ export const extractGroups = ({ exits, router }: FlowNode): Asset[] =>
                 break;
             }
         }
-        return { name: resultName, id: kase.arguments[0], type: 'group' };
+        return { name: resultName, id: kase.arguments[0], type: AssetType.Group };
     });
 
 // TODO: can nodeToEdit be a RenderNode?

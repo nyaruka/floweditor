@@ -10,13 +10,7 @@ import Select, {
     IsValidNewOptionHandler,
     NewOptionCreatorHandler
 } from 'react-select';
-import {
-    AttributeType,
-    ContactProperties,
-    CreateOptions,
-    ResultType,
-    ValueType
-} from '../flowTypes';
+import { ContactProperties, CreateOptions, ResultType, ValueType } from '../flowTypes';
 import { Assets, Asset } from '../services/AssetService';
 
 export interface SelectSearchProps {

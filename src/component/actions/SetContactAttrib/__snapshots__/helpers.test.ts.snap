@@ -9,7 +9,7 @@ Object {
 }
 `;
 
-exports[`propertyToSearchResult should return a SearchResult object 1`] = `
+exports[`propertyToAsset should return an Asset object 1`] = `
 Object {
   "id": "Email",
   "name": "Email",

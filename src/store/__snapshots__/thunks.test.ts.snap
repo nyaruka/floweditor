@@ -3,7 +3,7 @@
 exports[`Flow Manipulation init should fetch and initalize flow 1`] = `
 AssetService {
   "fields": FieldAssets {
-    "assetType": "field",
+    "assetType": "property",
     "assets": Object {
       "name": Object {
         "id": "name",

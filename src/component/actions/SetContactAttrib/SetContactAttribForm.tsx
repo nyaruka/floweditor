@@ -1,17 +1,12 @@
 import * as React from 'react';
 import { ConfigProviderContext } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
-import {
-    AttributeType,
-    SetContactAttribute,
-    SetContactField,
-    SetContactProperty
-} from '../../../flowTypes';
+import { SetContactAttribute, SetContactField, SetContactProperty } from '../../../flowTypes';
 import ConnectedAttribElement from '../../form/AttribElement';
 import ConnectedTextInputElement from '../../form/TextInputElement';
 import { newFieldAction, newPropertyAction, fieldToAsset, propertyToAsset } from './helpers';
 import { fakePropType } from '../../../config/ConfigProvider';
-import { Asset } from '../../../services/AssetService';
+import AssetService, { Asset, AssetType } from '../../../services/AssetService';
 
 export interface SetContactAttribFormProps {
     action: SetContactAttribute;
@@ -39,9 +34,10 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
         const { wrappedInstance: { state: { attribute } } } = widgets.Attribute;
         const { wrappedInstance: { state: { value } } } = widgets.Value;
 
-        if (attribute.type === AttributeType.field) {
+        if (attribute.type === AssetType.Field) {
             // include our contact field in our local storage
-            this.context.assetService.getFieldAssets().add(attribute);
+            const assetService: AssetService = this.context.assetService;
+            assetService.getFieldAssets().add(attribute);
             this.props.updateAction(newFieldAction(this.props.action.uuid, value, attribute.name));
         } else {
             this.props.updateAction(
