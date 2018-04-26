@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Language } from '../component/LanguageSelector';
 import { Action, Case, Exit, Languages, LocalizationMap, ContactProperties } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
-import { SearchResult } from '../store';
 import * as variables from '../variables.scss';
 import { Query } from 'immutability-helper';
 
@@ -176,17 +175,6 @@ export const createClickHandler = (
         }
     };
 };
-
-/**
- * Callback to pass to Array.prototype.map to return SearchResult[].
- * Use on 'results' property of payload returned from an endpoint returning
- * groups, fields.
- */
-export const resultsToSearchOpts = ({ name, uuid, type }: any): SearchResult => ({
-    name,
-    id: uuid,
-    type
-});
 
 /**
  * Get the first language in a Languages map

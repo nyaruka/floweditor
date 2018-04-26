@@ -7,17 +7,16 @@ import {
     NewOptionCreatorHandler
 } from 'react-select';
 import { v4 as generateUUID } from 'uuid';
-import { AttributeType, CreateOptions, ResultType } from '../../flowTypes';
-import { AppState, SearchResult, DispatchWithState } from '../../store';
+import { CreateOptions, ResultType } from '../../flowTypes';
+import { AppState, DispatchWithState } from '../../store';
 import { getSelectClass, isValidLabel, propertyExists, dump, snakify } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { bindActionCreators } from 'redux';
-import { updateGroups } from '../../store/flowContext';
-import AssetService from '../../services/AssetService';
+import AssetService, { Asset, AssetType } from '../../services/AssetService';
 
 interface AttribElementPassedProps extends FormElementProps {
-    initial: SearchResult;
+    initial: Asset;
     add?: boolean;
     placeholder?: string;
     searchPromptText?: string;
@@ -26,13 +25,13 @@ interface AttribElementPassedProps extends FormElementProps {
 }
 
 interface AttribElementStoreProps {
-    contactFields: SearchResult[];
+    contactFields: Asset[];
 }
 
 export type AttribElementProps = AttribElementPassedProps & AttribElementStoreProps;
 
 interface AttribElementState {
-    attribute: SearchResult;
+    attribute: Asset;
     errors: string[];
 }
 
@@ -40,7 +39,7 @@ export const PLACEHOLDER = 'Enter the name of an existing attribute or create a 
 export const NOT_FOUND = 'Invalid attribute name';
 export const CREATE_PROMPT = 'New attribute: ';
 
-export const attribExists = (newOptName: string, options: SearchResult[]) =>
+export const attribExists = (newOptName: string, options: any[]) =>
     options.find(({ name }) => name.toLowerCase().trim() === newOptName.toLowerCase().trim())
         ? true
         : false;
@@ -53,8 +52,8 @@ export const isOptionUnique: IsOptionUniqueHandler = ({ option, options, labelKe
 export const createNewOption: NewOptionCreatorHandler = ({ label }) => ({
     id: snakify(label),
     name: label,
-    type: AttributeType.field,
-    extraResult: true
+    type: AssetType.Field,
+    isNew: true
 });
 
 export class AttribElement extends React.Component<AttribElementProps, AttribElementState> {
@@ -74,7 +73,7 @@ export class AttribElement extends React.Component<AttribElementProps, AttribEle
         this.onChange = this.onChange.bind(this);
     }
 
-    private onChange(attribute: SearchResult): void {
+    private onChange(attribute: Asset): void {
         if (!isEqual(this.state.attribute, attribute)) {
             this.setState({ attribute });
         }
@@ -138,22 +137,6 @@ export class AttribElement extends React.Component<AttribElementProps, AttribEle
     }
 }
 
-export const mapStateToProps = ({ flowContext: { contactFields } }: AppState) => ({
-    contactFields
-});
-
-const mapDispatchToProps = (dispatch: DispatchWithState) =>
-    bindActionCreators(
-        {
-            updateGroups
-        },
-        dispatch
-    );
-
-export default connect<
-    { contactFields: SearchResult[] },
-    { updateGroups: any },
-    AttribElementPassedProps
->(mapStateToProps, mapDispatchToProps, null, {
+export default connect<{}, {}, AttribElementPassedProps>(null, null, null, {
     withRef: true
 })(AttribElement);

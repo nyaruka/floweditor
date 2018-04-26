@@ -22,21 +22,22 @@ describe('AssetService', () => {
 
         it('should add groups', () => {
             // we are local storage, this should be added to our items
-            groups.add({ name: 'Group A', id: 'groupA' });
+            groups.add({ name: 'Group A', id: 'groupA', type: 'group' });
             expect(groups).toMatchSnapshot();
         });
 
         describe('searching', () => {
             beforeEach(() => {
                 groups.addAll([
-                    { name: 'Monkey Happy', id: 'monkey_happy' },
-                    { name: 'Monkey Haters', id: 'monkey_haters' },
-                    { name: 'Monkey Lovers', id: 'monkey_lovers' }
+                    { name: 'Monkey Happy', id: 'monkey_happy', type: 'group' },
+                    { name: 'Monkey Haters', id: 'monkey_haters', type: 'group' },
+                    { name: 'Monkey Lovers', id: 'monkey_lovers', type: 'group' }
                 ]);
             });
 
             it('should return everything for empty search', () => {
                 return groups.search('').then((results: SearchResult[]) => {
+                    dump(results);
                     expect(results.length).toBe(8);
                     expect(results).toMatchSnapshot('empty');
                 });
@@ -65,8 +66,8 @@ describe('AssetService', () => {
         });
 
         it('should not add duplicates', () => {
-            groups.add({ name: 'Group A', id: 'groupA' });
-            groups.add({ name: 'Group A', id: 'groupA' });
+            groups.add({ name: 'Group A', id: 'groupA', type: 'group' });
+            groups.add({ name: 'Group A', id: 'groupA', type: 'group' });
             groups.search('group').then((results: SearchResult[]) => {
                 expect(results.length).toBe(1);
             });

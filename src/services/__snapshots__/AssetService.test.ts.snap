@@ -2,23 +2,23 @@
 
 exports[`AssetService fields should initialize field assets 1`] = `
 GroupAssets {
+  "assetType": "group",
+  "assets": Object {},
   "endpoint": "/assets/groups.json",
   "idProperty": "uuid",
-  "items": Array [],
   "localStorage": true,
   "nameProperty": "name",
-  "objects": Object {},
 }
 `;
 
 exports[`AssetService flows should initialize field assets 1`] = `
 FlowAssets {
+  "assetType": "flow",
+  "assets": Object {},
   "endpoint": "/assets/flows.json",
   "idProperty": "uuid",
-  "items": Array [],
   "localStorage": true,
   "nameProperty": "name",
-  "objects": Object {},
 }
 `;
 
@@ -27,34 +27,42 @@ Array [
   Object {
     "id": "monkey_happy",
     "name": "Monkey Happy",
+    "type": "group",
   },
   Object {
     "id": "monkey_haters",
     "name": "Monkey Haters",
+    "type": "group",
   },
   Object {
     "id": "monkey_lovers",
     "name": "Monkey Lovers",
+    "type": "group",
   },
   Object {
     "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
     "name": "Customers",
+    "type": "group",
   },
   Object {
     "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
     "name": "Unsatisfied Customers",
+    "type": "group",
   },
   Object {
     "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
     "name": "Early Adopters",
+    "type": "group",
   },
   Object {
     "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
     "name": "Testers",
+    "type": "group",
   },
   Object {
     "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
     "name": "Subscribers",
+    "type": "group",
   },
 ]
 `;
@@ -64,10 +72,12 @@ Array [
   Object {
     "id": "monkey_happy",
     "name": "Monkey Happy",
+    "type": "group",
   },
   Object {
     "id": "monkey_haters",
     "name": "Monkey Haters",
+    "type": "group",
   },
 ]
 `;
@@ -77,6 +87,7 @@ Array [
   Object {
     "id": "monkey_happy",
     "name": "Monkey Happy",
+    "type": "group",
   },
 ]
 `;
@@ -86,57 +97,62 @@ Array [
   Object {
     "id": "monkey_happy",
     "name": "Monkey Happy",
+    "type": "group",
   },
   Object {
     "id": "monkey_haters",
     "name": "Monkey Haters",
+    "type": "group",
   },
   Object {
     "id": "monkey_lovers",
     "name": "Monkey Lovers",
+    "type": "group",
   },
 ]
 `;
 
 exports[`AssetService groups should add groups 1`] = `
 GroupAssets {
-  "endpoint": "/assets/groups.json",
-  "idProperty": "uuid",
-  "items": Array [
-    Object {
+  "assetType": "group",
+  "assets": Object {
+    "groupA": Object {
       "id": "groupA",
       "name": "Group A",
+      "type": "group",
     },
-  ],
+  },
+  "endpoint": "/assets/groups.json",
+  "idProperty": "uuid",
   "localStorage": true,
   "nameProperty": "name",
-  "objects": Object {},
 }
 `;
 
 exports[`AssetService groups should initialize group assets 1`] = `
 GroupAssets {
+  "assetType": "group",
+  "assets": Object {},
   "endpoint": "/assets/groups.json",
   "idProperty": "uuid",
-  "items": Array [],
   "localStorage": true,
   "nameProperty": "name",
-  "objects": Object {},
 }
 `;
 
 exports[`AssetService groups should not add duplicates 1`] = `
 GroupAssets {
-  "endpoint": "/assets/groups.json",
-  "idProperty": "uuid",
-  "items": Array [
-    Object {
+  "assetType": "group",
+  "assets": Object {
+    "groupA": Object {
       "id": "groupA",
       "name": "Group A",
+      "type": "group",
     },
-  ],
+  },
+  "endpoint": "/assets/groups.json",
+  "idProperty": "uuid",
   "localStorage": true,
   "nameProperty": "name",
-  "objects": Object {},
 }
 `;

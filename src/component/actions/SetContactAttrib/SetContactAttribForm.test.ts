@@ -7,12 +7,7 @@ import {
 import { set } from '../../../utils';
 import ConnectedAttribElement from '../../form/AttribElement';
 import ConnectedTextInputElement from '../../form/TextInputElement';
-import {
-    fieldToSearchResult,
-    newFieldAction,
-    newPropertyAction,
-    propertyToSearchResult
-} from './helpers';
+import { newFieldAction, newPropertyAction, propertyToAsset, fieldToAsset } from './helpers';
 import SetContactAttribForm, {
     ATTRIB_HELP_TEXT,
     SetContactAttribFormProps,
@@ -25,8 +20,7 @@ const setContactField = createSetContactFieldAction();
 const baseProps: SetContactAttribFormProps = {
     action: setContactProperty,
     onBindWidget: jest.fn(),
-    updateAction: jest.fn(),
-    addContactField: jest.fn()
+    updateAction: jest.fn()
 };
 
 const { setup } = composeComponentTestUtils(SetContactAttribForm, baseProps);
@@ -37,7 +31,7 @@ describe(SetContactAttribForm.name, () => {
             const { wrapper, props, context: { endpoints } } = setup(false, {
                 onBindWidget: setMock()
             });
-            const initial = propertyToSearchResult(props.action as SetContactProperty);
+            const initial = propertyToAsset(props.action as SetContactProperty);
 
             expect(props.onBindWidget).toHaveBeenCalledTimes(2);
             expect(props.onBindWidget).toHaveBeenCalledWith(expect.any(ConnectedAttribElement));
@@ -60,14 +54,14 @@ describe(SetContactAttribForm.name, () => {
                 const { wrapper, props: { action }, instance } = setup(true, {
                     action: set(setContactField)
                 });
-                const expectedInitial = fieldToSearchResult(action as SetContactField);
+                const expectedInitial = fieldToAsset(action as SetContactField);
 
                 expect(instance.getInitial()).toEqual(expectedInitial);
             });
 
             it('should return contact property SearchResult', () => {
                 const { wrapper, props: { action }, instance } = setup();
-                const expectedInitial = propertyToSearchResult(action as SetContactProperty);
+                const expectedInitial = propertyToAsset(action as SetContactProperty);
 
                 expect(instance.getInitial()).toEqual(expectedInitial);
             });
@@ -78,17 +72,13 @@ describe(SetContactAttribForm.name, () => {
                 const {
                     wrapper,
                     instance,
-                    props: {
-                        action,
-                        updateAction: updateActionMock,
-                        addContactField: addContactFieldMock
-                    }
+                    props: { action, updateAction: updateActionMock }
                 } = setup(true, {
                     addContactField: setMock(),
                     updateAction: setMock(),
                     action: set(setContactField)
                 });
-                const attribute = fieldToSearchResult(action as SetContactField);
+                const attribute = fieldToAsset(action as SetContactField);
                 const { value } = action;
                 const widgets = {
                     Attribute: { wrappedInstance: { state: { attribute } } },
@@ -97,7 +87,6 @@ describe(SetContactAttribForm.name, () => {
 
                 instance.onValid(widgets);
 
-                expect(addContactFieldMock).toHaveBeenCalledTimes(1);
                 expect(updateActionMock).toHaveBeenCalledTimes(1);
                 expect(updateActionMock).toHaveBeenCalledWith(
                     newFieldAction(action.uuid, value, attribute.name)
@@ -110,7 +99,7 @@ describe(SetContactAttribForm.name, () => {
                     instance,
                     props: { action, updateAction: updateActionMock }
                 } = setup(true, { updateAction: setMock() });
-                const attribute = propertyToSearchResult(action as SetContactProperty);
+                const attribute = propertyToAsset(action as SetContactProperty);
                 const { value } = action;
                 const widgets = {
                     Attribute: { wrappedInstance: { state: { attribute } } },

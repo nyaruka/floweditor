@@ -10,10 +10,8 @@ import reducer, {
     localizations as localizationsReducer,
     resultNames as resultNamesReducer,
     nodes as nodesReducer,
-    updateContactFields,
     updateDefinition,
     updateDependencies,
-    updateGroups,
     updateLocalizations,
     updateResultNames,
     updateNodes,
@@ -73,40 +71,6 @@ describe('flowContext action creators', () => {
             };
 
             expect(updateLocalizations(localizations)).toEqual(expectedAction);
-        });
-    });
-
-    describe('updateContactFields', () => {
-        it('should create an action to update contactFields state', () => {
-            const contactFields = [
-                {
-                    id: generateUUID(),
-                    name: 'Name',
-                    type: Types.set_contact_field
-                }
-            ];
-            const expectedAction = {
-                type: Constants.UPDATE_CONTACT_FIELDS,
-                payload: {
-                    contactFields
-                }
-            };
-
-            expect(updateContactFields(contactFields)).toEqual(expectedAction);
-        });
-    });
-
-    describe('updateGroups', () => {
-        it('should create an action to update groups state', () => {
-            const groups = [{ id: 'subscribers', name: 'Subscribers' }];
-            const expectedAction = {
-                type: Constants.UPDATE_GROUPS,
-                payload: {
-                    groups
-                }
-            };
-
-            expect(updateGroups(groups)).toEqual(expectedAction);
         });
     });
 
@@ -177,27 +141,6 @@ describe('flowContext reducers', () => {
         });
     });
 
-    describe('contactFields reducer', () => {
-        const reduce = action => contactFieldsReducer(undefined, action);
-
-        it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.contactFields);
-        });
-
-        it('should handle UPDATE_CONTACT_FIELDS', () => {
-            const contactFields = [
-                {
-                    id: generateUUID(),
-                    name: 'Name',
-                    type: Types.set_contact_field
-                }
-            ];
-            const action = updateContactFields(contactFields);
-
-            expect(reduce(action)).toEqual(contactFields);
-        });
-    });
-
     describe('resultNames reducer', () => {
         const reduce = action => resultNamesReducer(undefined, action);
 
@@ -231,21 +174,6 @@ describe('flowContext reducers', () => {
             const action = updateNodes(nodes);
 
             expect(reduce(action)).toEqual(nodes);
-        });
-    });
-
-    describe('groups reducer', () => {
-        const reduce = action => groupsReducer(undefined, action);
-
-        it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.groups);
-        });
-
-        it('should handle UPDATE_GROUPS', () => {
-            const groups = [{ id: 'subscribers', name: 'Subscribers' }];
-            const action = updateGroups(groups);
-
-            expect(reduce(action)).toEqual(groups);
         });
     });
 });

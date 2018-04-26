@@ -5,7 +5,6 @@ import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../../tes
 import { createAddGroupsAction } from '../../../testUtils/assetCreators';
 import { set, dump } from '../../../utils';
 import { labelSpecId } from './AddGroupsForm';
-import { mapGroupsToSearchResults, mapSearchResultsToGroups } from './helpers';
 import ChangeGroupFormProps from './props';
 import {
     LABEL,
@@ -15,6 +14,7 @@ import {
     REMOVE_FROM_ALL_DESC,
     RemoveGroupsForm
 } from './RemoveGroupsForm';
+import { mapGroupsToAssets, mapAssetsToGroups } from './helpers';
 
 const addGroupsAction = createAddGroupsAction();
 const removeGroupConfig = getTypeConfig(Types.remove_contact_groups);
@@ -121,7 +121,7 @@ describe(RemoveGroupsForm.name, () => {
 
             it('should return SearchResult[] if action is remove groups action and it has groups', () => {
                 const { wrapper, instance, props } = setup();
-                const searchResults = mapGroupsToSearchResults(props.action.groups);
+                const searchResults = mapGroupsToAssets(props.action.groups);
                 const returnedGroups = instance.getGroups();
 
                 expect(returnedGroups).toEqual(searchResults);
@@ -133,7 +133,7 @@ describe(RemoveGroupsForm.name, () => {
             it('should update groups state if passed new groups', () => {
                 const setStateSpy = spyOn('setState');
                 const { wrapper, instance, props } = setup();
-                const searchResults = mapGroupsToSearchResults(props.action.groups.slice(2));
+                const searchResults = mapGroupsToAssets(props.action.groups.slice(2));
 
                 instance.onGroupsChanged(searchResults);
 
@@ -146,7 +146,7 @@ describe(RemoveGroupsForm.name, () => {
             it('should not update groups state if passed same groups', () => {
                 const setStateSpy = spyOn('setState');
                 const { wrapper, instance, props } = setup();
-                const searchResults = mapGroupsToSearchResults(props.action.groups);
+                const searchResults = mapGroupsToAssets(props.action.groups);
 
                 expect(wrapper.state('groups')).toEqual(searchResults);
 
@@ -168,7 +168,7 @@ describe(RemoveGroupsForm.name, () => {
                 const expectedAction = {
                     uuid: action.uuid,
                     type: action.type,
-                    groups: mapSearchResultsToGroups(wrapper.state('groups'))
+                    groups: mapAssetsToGroups(wrapper.state('groups'))
                 };
                 instance.onValid();
                 expect(updateActionMock).toHaveBeenCalledWith(expectedAction);

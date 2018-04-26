@@ -3,10 +3,8 @@ import { combineReducers } from 'redux';
 import { FlowDefinition, FlowNode, UINode } from '../flowTypes';
 import { LocalizedObject } from '../services/Localization';
 import ActionTypes, {
-    UpdateContactFieldsAction,
     UpdateDefinitionAction,
     UpdateDependenciesAction,
-    UpdateGroupsAction,
     UpdateLocalizationsAction,
     UpdateNodesAction,
     UpdateResultNamesAction
@@ -23,14 +21,6 @@ export interface RenderNode {
     inboundConnections: { [uuid: string]: string };
 }
 
-export interface SearchResult extends Option {
-    match?: string;
-    name?: string;
-    type?: string;
-    prefix?: string;
-    extraResult?: boolean;
-}
-
 export interface CompletionOption {
     name: string;
     description: string;
@@ -39,9 +29,7 @@ export interface CompletionOption {
 export interface FlowContext {
     dependencies: FlowDefinition[];
     localizations: LocalizedObject[];
-    contactFields: SearchResult[];
     resultNames: CompletionOption[];
-    groups: SearchResult[];
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
 }
@@ -51,9 +39,7 @@ export const initialState: FlowContext = {
     definition: null,
     dependencies: null,
     localizations: [],
-    contactFields: [],
     resultNames: [],
-    groups: [],
     nodes: {}
 };
 
@@ -89,24 +75,6 @@ export const updateLocalizations = (
     type: Constants.UPDATE_LOCALIZATIONS,
     payload: {
         localizations
-    }
-});
-
-export const updateContactFields = (
-    // tslint:disable-next-line:no-shadowed-variable
-    contactFields: SearchResult[]
-): UpdateContactFieldsAction => ({
-    type: Constants.UPDATE_CONTACT_FIELDS,
-    payload: {
-        contactFields
-    }
-});
-
-// tslint:disable-next-line:no-shadowed-variable
-export const updateGroups = (groups: SearchResult[]): UpdateGroupsAction => ({
-    type: Constants.UPDATE_GROUPS,
-    payload: {
-        groups
     }
 });
 
@@ -164,18 +132,6 @@ export const localizations = (
     }
 };
 
-export const contactFields = (
-    state: SearchResult[] = initialState.contactFields,
-    action: ActionTypes
-) => {
-    switch (action.type) {
-        case Constants.UPDATE_CONTACT_FIELDS:
-            return action.payload.contactFields;
-        default:
-            return state;
-    }
-};
-
 export const resultNames = (
     state: CompletionOption[] = initialState.resultNames,
     action: ActionTypes
@@ -188,22 +144,11 @@ export const resultNames = (
     }
 };
 
-export const groups = (state: SearchResult[] = initialState.groups, action: ActionTypes) => {
-    switch (action.type) {
-        case Constants.UPDATE_GROUPS:
-            return action.payload.groups;
-        default:
-            return state;
-    }
-};
-
 // Root reducer
 export default combineReducers({
     definition,
     nodes,
     dependencies,
     localizations,
-    contactFields,
-    resultNames,
-    groups
+    resultNames
 });

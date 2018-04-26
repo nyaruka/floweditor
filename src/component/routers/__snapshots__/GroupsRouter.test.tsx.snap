@@ -4,6 +4,7 @@ exports[`GroupsRouter helpers extractGroups should extract groups from the exits
 Object {
   "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
   "name": "Customers",
+  "type": "group",
 }
 `;
 
@@ -11,6 +12,7 @@ exports[`GroupsRouter helpers extractGroups should extract groups from the exits
 Object {
   "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
   "name": "Unsatisfied Customers",
+  "type": "group",
 }
 `;
 
@@ -18,6 +20,7 @@ exports[`GroupsRouter helpers extractGroups should extract groups from the exits
 Object {
   "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
   "name": "Early Adopters",
+  "type": "group",
 }
 `;
 
@@ -25,6 +28,7 @@ exports[`GroupsRouter helpers extractGroups should extract groups from the exits
 Object {
   "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
   "name": "Testers",
+  "type": "group",
 }
 `;
 
@@ -32,6 +36,7 @@ exports[`GroupsRouter helpers extractGroups should extract groups from the exits
 Object {
   "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
   "name": "Subscribers",
+  "type": "group",
 }
 `;
 
@@ -41,33 +46,38 @@ exports[`GroupsRouter render should render self, children 1`] = `
 Object {
   "add": false,
   "assets": GroupAssets {
+    "assetType": "group",
+    "assets": Object {},
     "endpoint": "/assets/groups.json",
     "idProperty": "uuid",
-    "items": Array [],
     "localStorage": true,
     "nameProperty": "name",
-    "objects": Object {},
   },
   "groups": Array [
     Object {
       "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
       "name": "Customers",
+      "type": "group",
     },
     Object {
       "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
       "name": "Unsatisfied Customers",
+      "type": "group",
     },
     Object {
       "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
       "name": "Early Adopters",
+      "type": "group",
     },
     Object {
       "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
       "name": "Testers",
+      "type": "group",
     },
     Object {
       "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
       "name": "Subscribers",
+      "type": "group",
     },
   ],
   "name": "Groups",

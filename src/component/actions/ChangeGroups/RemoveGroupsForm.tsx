@@ -4,14 +4,15 @@ import * as isEqual from 'fast-deep-equal';
 import { connect } from 'react-redux';
 import { ConfigProviderContext } from '../../../config';
 import { ChangeGroups } from '../../../flowTypes';
-import { AppState, SearchResult } from '../../../store';
+import { AppState } from '../../../store';
 import CheckboxElement from '../../form/CheckboxElement';
 import GroupsElement from '../../form/GroupsElement';
 import { AddGroupsFormState } from './AddGroupsForm';
-import { mapGroupsToSearchResults, mapSearchResultsToGroups } from './helpers';
 import ChangeGroupsFormProps from './props';
 import { Types } from '../../../config/typeConfigs';
 import { fakePropType } from '../../../config/ConfigProvider';
+import { Asset } from '../../../services/AssetService';
+import { mapGroupsToAssets, mapAssetsToGroups } from './helpers';
 
 export interface RemoveGroupsFormState extends AddGroupsFormState {
     removeFromAll: boolean;
@@ -52,7 +53,7 @@ export class RemoveGroupsForm extends React.Component<
         });
     }
 
-    private onGroupsChanged(groups: SearchResult[]): void {
+    private onGroupsChanged(groups: Asset[]): void {
         if (!isEqual(groups, this.state.groups)) {
             this.setState({
                 groups
@@ -72,19 +73,19 @@ export class RemoveGroupsForm extends React.Component<
         };
 
         if (!this.state.removeFromAll) {
-            newAction.groups = mapSearchResultsToGroups(this.state.groups);
+            newAction.groups = mapAssetsToGroups(this.state.groups);
         }
 
         this.props.updateAction(newAction);
     }
 
-    private getGroups(): SearchResult[] {
+    private getGroups(): Asset[] {
         if (
             this.props.action.groups &&
             this.props.action.groups.length &&
             this.props.action.type !== Types.add_contact_groups
         ) {
-            return mapGroupsToSearchResults(this.props.action.groups);
+            return mapGroupsToAssets(this.props.action.groups);
         }
         return [];
     }
@@ -142,8 +143,7 @@ export class RemoveGroupsForm extends React.Component<
 }
 
 /* istanbul ignore next */
-const mapStateToProps = ({ flowContext: { groups }, nodeEditor: { typeConfig } }: AppState) => ({
-    groups,
+const mapStateToProps = ({ nodeEditor: { typeConfig } }: AppState) => ({
     typeConfig
 });
 

@@ -10,9 +10,7 @@ import {
     updatePosition,
     updateDimensions,
     updateLocalization,
-    removeNodeAndRemap,
-    addContactField,
-    addGroups
+    removeNodeAndRemap
 } from './mutators';
 import { RenderNodeMap } from './flowContext';
 import { SendMsg, FlowDefinition, FlowNode } from '../flowTypes';
@@ -91,35 +89,6 @@ describe('mutators', () => {
         expect(action.type).toBe(Types.send_msg);
         expect(action.text).toBe('Hello World');
         expect(updated).toMatchSnapshot();
-    });
-
-    describe('addContactField()', () => {
-        it('should add a new contact field', () => {
-            const newField = { id: 'unknown_field', name: 'Unknown Field', type: 'field' };
-            const fields = addContactField([], newField);
-            expect(fields.length).toBe(1);
-            expect(fields[0]).toBe(newField);
-        });
-
-        it('should only add a field once', () => {
-            const newField = { id: 'unknown_field', name: 'Unknown Field', type: 'field' };
-            const fields = addContactField([newField], newField);
-            expect(fields.length).toBe(1);
-        });
-    });
-
-    describe('addGroups()', () => {
-        it('should add a new group', () => {
-            const newGroup = { id: 'my_new_group', name: 'My New Group' };
-            const groups = addGroups([], [newGroup]);
-            expect(groups.length).toBe(1);
-        });
-
-        it('should only add a group once', () => {
-            const newGroup = { id: 'my_new_group', name: 'My New Group' };
-            const groups = addGroups([newGroup], [newGroup]);
-            expect(groups.length).toBe(1);
-        });
     });
 
     describe('updateAction()', () => {

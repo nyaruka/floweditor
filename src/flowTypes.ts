@@ -243,11 +243,6 @@ export enum ValueType {
     ward = 'ward'
 }
 
-export enum AttributeType {
-    property = 'property',
-    field = 'field'
-}
-
 export interface CreateOptions {
     promptTextCreator?: PromptTextCreatorHandler;
     newOptionCreator?: NewOptionCreatorHandler;

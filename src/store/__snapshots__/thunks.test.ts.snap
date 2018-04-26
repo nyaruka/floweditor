@@ -3,33 +3,29 @@
 exports[`Flow Manipulation init should fetch and initalize flow 1`] = `
 AssetService {
   "fields": FieldAssets {
-    "endpoint": "/assets/fields.json",
-    "idProperty": "key",
-    "items": Array [
-      Object {
+    "assetType": "property",
+    "assets": Object {
+      "name": Object {
         "id": "name",
         "name": "Name",
         "type": "property",
       },
-      Object {
+      "unknown_field": Object {
         "id": "unknown_field",
         "name": "Unknown Field",
         "type": "field",
       },
-    ],
+    },
+    "endpoint": "/assets/fields.json",
+    "idProperty": "key",
     "localStorage": true,
     "nameProperty": "label",
-    "objects": Object {},
   },
   "flows": FlowAssets {
-    "endpoint": "/assets/flows.json",
-    "idProperty": "uuid",
-    "items": Array [],
-    "localStorage": true,
-    "nameProperty": "name",
-    "objects": Object {
+    "assetType": "flow",
+    "assets": Object {
       "boring": Object {
-        "definition": Object {
+        "content": Object {
           "_ui": Object {
             "languages": Array [],
             "nodes": Object {
@@ -204,29 +200,34 @@ AssetService {
           ],
           "uuid": "boring",
         },
+        "id": "boring",
         "name": "Boring",
-        "uuid": "boring",
+        "type": "flow",
       },
     },
+    "endpoint": "/assets/flows.json",
+    "idProperty": "uuid",
+    "localStorage": true,
+    "nameProperty": "name",
   },
   "groups": GroupAssets {
-    "endpoint": "/assets/groups.json",
-    "idProperty": "uuid",
-    "items": Array [
-      Object {
+    "assetType": "group",
+    "assets": Object {
+      "group_0": Object {
         "id": "group_0",
         "name": "Flow Participants",
         "type": "group",
       },
-      Object {
+      "group_1": Object {
         "id": "group_1",
         "name": "Nonresponsive",
         "type": "group",
       },
-    ],
+    },
+    "endpoint": "/assets/groups.json",
+    "idProperty": "uuid",
     "localStorage": true,
     "nameProperty": "name",
-    "objects": Object {},
   },
 }
 `;

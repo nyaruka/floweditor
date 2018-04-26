@@ -25,16 +25,12 @@ import {
     RenderNodeMap,
     updateDefinition,
     updateLocalizations,
-    updateNodes,
-    updateGroups,
-    updateContactFields,
-    SearchResult
+    updateNodes
 } from './flowContext';
 import {
     updateCreateNodePosition,
     updateDragSelection,
     updateFetchingFlow,
-    updateFlows,
     updateGhostNode,
     updateNodeDragging,
     updateNodeEditorOpen,
@@ -60,7 +56,7 @@ import {
     updateUserAddingAction
 } from './nodeEditor';
 import AppState from './state';
-import AssetService, { Assets } from '../services/AssetService';
+import AssetService, { Assets, Asset } from '../services/AssetService';
 import { UpdateFlowsAction } from './actionTypes';
 
 export type DispatchWithState = Dispatch<AppState>;
@@ -92,8 +88,6 @@ export type FetchFlow = (
     uuid: string
 ) => Thunk<Promise<FlowComponents>>;
 
-export type FetchFlows = (assetService: AssetService) => Thunk<Promise<void>>;
-
 export type EnsureStartNode = () => Thunk<RenderNode>;
 
 export type NoParamsAC = () => Thunk<void>;
@@ -110,10 +104,6 @@ export type OnUpdateLocalizations = (
 export type UpdateSticky = (stickyUUID: string, sticky: StickyNote) => Thunk<void>;
 
 export type OnUpdateAction = (action: AnyAction) => Thunk<RenderNodeMap>;
-
-export type OnAddContactField = (contactFieldName: string) => Thunk<void>;
-
-export type OnAddGroups = (groups: SearchResult[]) => Thunk<void>;
 
 export type ActionAC = (nodeUUID: string, action: AnyAction) => Thunk<RenderNodeMap>;
 
@@ -160,8 +150,6 @@ export const initializeFlow = (definition: FlowDefinition, assetService: AssetSe
     }
 
     // store our flow definition without any nodes
-    dispatch(updateGroups(flowComponents.groups));
-    dispatch(updateContactFields(flowComponents.fields));
     dispatch(updateDefinition(mutators.pruneDefinition(definition)));
     dispatch(updateNodes(flowComponents.renderNodeMap));
     dispatch(updateFetchingFlow(false));
@@ -174,21 +162,8 @@ export const fetchFlow = (assetService: AssetService, uuid: string) => (
 ): Promise<FlowComponents> => {
     dispatch(updateFetchingFlow(true));
     const flows: Assets = assetService.getFlowAssets();
-    return flows.get(uuid).then(({ definition }: FlowDetails) => {
+    return flows.get(uuid).then(({ content: definition }: Asset) => {
         return dispatch(initializeFlow(definition, assetService));
-    });
-};
-
-export const fetchFlows = (assetService: AssetService) => (
-    dispatch: DispatchWithState
-): Promise<void> => {
-    const flows: Assets = assetService.getFlowAssets();
-    return flows.search('').then((results: SearchResult[]) => {
-        const flowList = results.map(({ id, name }) => ({
-            uuid: id,
-            name
-        }));
-        dispatch(updateFlows(flowList));
     });
 };
 
@@ -492,30 +467,6 @@ export const resetNodeEditingState = () => (dispatch: DispatchWithState, getStat
     if (nodeToEdit) {
         dispatch(updateNodeToEdit(null));
     }
-};
-
-export const onAddGroups = (newGroups: SearchResult[]) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-): void => {
-    const { flowContext: { groups } } = getState();
-    dispatch(updateGroups(mutators.addGroups(groups, newGroups)));
-};
-
-export const onAddContactField = (name: string) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-): void => {
-    const { flowContext: { contactFields } } = getState();
-
-    const field = {
-        id: snakify(name),
-        name: titleCase(name),
-        type: 'field'
-    };
-
-    const updated = mutators.addContactField(contactFields, field);
-    dispatch(updateContactFields(updated));
 };
 
 export const onUpdateAction = (action: AnyAction) => (

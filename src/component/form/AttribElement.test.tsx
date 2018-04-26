@@ -1,5 +1,4 @@
-import { AttributeType, ResultType } from '../../flowTypes';
-import { SearchResult } from '../../store';
+import { ResultType } from '../../flowTypes';
 import { composeComponentTestUtils } from '../../testUtils';
 import { configProviderContext } from '../../testUtils';
 import { getSelectClass, V4_UUID, setTrue, set } from '../../utils';
@@ -14,11 +13,12 @@ import {
     NOT_FOUND,
     PLACEHOLDER
 } from './AttribElement';
+import { Asset, AssetType } from '../../services/AssetService';
 
-const initial: SearchResult = {
+const initial: Asset = {
     id: 'name',
     name: 'Name',
-    type: AttributeType.property
+    type: AssetType.Property
 };
 
 const baseProps: AttribElementProps = {
@@ -62,7 +62,7 @@ describe(AttribElement.name, () => {
                 const newOption = {
                     id: '2e020526-06a7-4acc-8f3f-90b4ceffdd91',
                     name: 'Age',
-                    type: AttributeType.field
+                    type: AssetType.Field
                 };
 
                 expect(
@@ -77,7 +77,7 @@ describe(AttribElement.name, () => {
                 const newOption = {
                     id: 'name',
                     name: 'Name',
-                    type: AttributeType.property
+                    type: AssetType.Property
                 };
 
                 expect(
@@ -96,8 +96,8 @@ describe(AttribElement.name, () => {
                 expect(createNewOption(newOption)).toEqual({
                     id: 'home_phone',
                     name: newOption.label,
-                    type: AttributeType.field,
-                    extraResult: true
+                    type: AssetType.Field,
+                    isNew: true
                 });
             });
         });
@@ -140,10 +140,10 @@ describe(AttribElement.name, () => {
     });
 
     describe('instance methods', () => {
-        const existingField: SearchResult = {
+        const existingField: Asset = {
             id: '2003ec76-69e3-455e-a603-938ad90cb53f',
             name: 'National ID',
-            type: AttributeType.field
+            type: AssetType.Field
         };
 
         describe('onChange', () => {

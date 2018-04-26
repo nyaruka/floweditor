@@ -10,15 +10,8 @@ import Select, {
     IsValidNewOptionHandler,
     NewOptionCreatorHandler
 } from 'react-select';
-import {
-    AttributeType,
-    ContactProperties,
-    CreateOptions,
-    ResultType,
-    ValueType
-} from '../flowTypes';
-import { SearchResult } from '../store';
-import { Assets } from '../services/AssetService';
+import { ContactProperties, CreateOptions, ResultType, ValueType } from '../flowTypes';
+import { Assets, Asset } from '../services/AssetService';
 
 export interface SelectSearchProps {
     url?: string;
@@ -28,38 +21,20 @@ export interface SelectSearchProps {
     searchPromptText?: string;
     multi?: boolean;
     closeOnSelect?: boolean;
-    initial?: SearchResult[];
-    localSearchOptions?: SearchResult[];
+    initial?: Asset[];
+    localSearchOptions?: Asset[];
     assets?: Assets;
     __className?: string;
     createPrompt?: string;
-    onChange?: (selections: SearchResult | SearchResult[]) => void;
+    onChange?: (selections: Asset | Asset[]) => void;
     isValidNewOption?: IsValidNewOptionHandler;
     isOptionUnique?: IsOptionUniqueHandler;
     createNewOption?: NewOptionCreatorHandler;
 }
 
 interface SelectSearchState {
-    selections: SearchResult[];
+    selections: Asset[];
 }
-
-export interface FieldResult {
-    key: string;
-    label: string;
-    value_type: ValueType;
-}
-
-export const mapFieldsRespToSearchResult = ({ key, label, value_type }: FieldResult) => ({
-    name: label,
-    id: key,
-    type: AttributeType.field
-});
-
-export const mapRespToSearchResult = ({ name, uuid, type }: any) => ({
-    name,
-    id: uuid,
-    type
-});
 
 export default class SelectSearch extends React.PureComponent<
     SelectSearchProps,
@@ -89,13 +64,13 @@ export default class SelectSearch extends React.PureComponent<
         }
     }
 
-    private onChange(selection: SearchResult): void {
+    private onChange(selection: Asset): void {
         // Account for null selections
         if (!selection) {
             return;
         }
 
-        if (selection.extraResult && this.props.assets) {
+        if (selection.isNew && this.props.assets) {
             this.props.assets.add(selection);
         }
 
@@ -116,10 +91,10 @@ export default class SelectSearch extends React.PureComponent<
         }
     }
 
-    private onChangeMulti(selections: SearchResult[]): void {
+    private onChangeMulti(selections: Asset[]): void {
         if (this.props.assets) {
             for (const selection of selections) {
-                if (selection.extraResult) {
+                if (selection.isNew) {
                     this.props.assets.add(selection);
                 }
             }
@@ -146,11 +121,11 @@ export default class SelectSearch extends React.PureComponent<
     /**
      * Sorts all search results by name
      */
-    private sortResults(a: SearchResult, b: SearchResult): number {
+    private sortResults(a: Asset, b: Asset): number {
         return a.name.localeCompare(b.name);
     }
 
-    private addSearchResult(results: SearchResult[], result: SearchResult): SearchResult[] {
+    private addSearchResult(results: Asset[], result: Asset): Asset[] {
         const newResults = [...results];
 
         let found = false;
@@ -169,7 +144,7 @@ export default class SelectSearch extends React.PureComponent<
     }
 
     public search(term: string): Promise<AutocompleteResult> {
-        let combined: SearchResult[] = [];
+        let combined: Asset[] = [];
         if (this.props.localSearchOptions) {
             for (const local of this.props.localSearchOptions) {
                 if (
@@ -183,7 +158,7 @@ export default class SelectSearch extends React.PureComponent<
 
         // if we have assets, check there
         if (this.props.assets) {
-            return this.props.assets.search(term).then((assetResults: SearchResult[]) => {
+            return this.props.assets.search(term).then((assetResults: Asset[]) => {
                 for (const result of assetResults) {
                     combined = this.addSearchResult(combined, result);
                 }
@@ -212,7 +187,7 @@ export default class SelectSearch extends React.PureComponent<
         this.search(input).then((result: AutocompleteResult) => callback(null, result));
     }
 
-    private filterOption(option: SearchResult, term: string): boolean {
+    private filterOption(option: Asset, term: string): boolean {
         return option.name && option.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
     }
 
@@ -226,8 +201,8 @@ export default class SelectSearch extends React.PureComponent<
         if (this.state.selections.length) {
             for (const selections of this.state.selections) {
                 if (selections) {
-                    const selectionValue: string | SearchResult =
-                        selections.extraResult || this.props.multi ? selections : selections.id;
+                    const selectionValue: string | Asset =
+                        selections.isNew || this.props.multi ? selections : selections.id;
 
                     if (this.props.multi) {
                         value.push(selectionValue);

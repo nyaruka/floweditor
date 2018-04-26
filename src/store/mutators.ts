@@ -1,7 +1,7 @@
 const mutate = require('immutability-helper');
 import { FlowNode, UINode, AnyAction, FlowDefinition, Dimensions, StickyNote } from '../flowTypes';
 import { v4 as generateUUID } from 'uuid';
-import { RenderNode, RenderNodeMap, SearchResult } from './flowContext';
+import { RenderNode, RenderNodeMap } from './flowContext';
 import { dump, snapToGrid, set, merge, unset, splice } from '../utils';
 import { getUniqueDestinations, getNode, getExitIndex, getActionIndex } from './helpers';
 import { LocalizationUpdates } from '.';
@@ -157,37 +157,6 @@ export const updateAction = (nodes: RenderNodeMap, nodeUUID: string, action: Any
             }
         }
     });
-};
-
-/**
- * Adds any groups that aren't already in the group list
- */
-export const addGroups = (groups: SearchResult[], newGroups: SearchResult[]): SearchResult[] => {
-    const groupsToAdd: SearchResult[] = [];
-    for (const newGroup of newGroups) {
-        if (!groups.find((group: SearchResult) => group.id === newGroup.id)) {
-            groupsToAdd.push(newGroup);
-        }
-    }
-    return mutate(groups, push(groupsToAdd));
-};
-
-/**
- * Adds the contact field if it isn't already in the list
- */
-export const addContactField = (
-    contactFields: SearchResult[],
-    field: SearchResult
-): SearchResult[] => {
-    const exists = contactFields.find((a: SearchResult): boolean => {
-        return a.name === field.name;
-    });
-
-    if (!exists) {
-        return mutate(contactFields, push([field]));
-    }
-
-    return contactFields;
 };
 
 /** Removes a specific action from a node */

@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 
 import * as styles from './Simulator.scss';
 import { ReactNode } from 'react';
-import { AppState, DispatchWithState, SearchResult } from '../../store';
+import { AppState, DispatchWithState } from '../../store';
 import { bindActionCreators } from 'redux';
 import { RenderNodeMap, RenderNode } from '../../store/flowContext';
 import { getOrderedNodes } from '../../store/helpers';
@@ -29,8 +29,6 @@ interface Message {
 }
 
 export interface SimulatorStoreProps {
-    contactFields: SearchResult[];
-    groups: SearchResult[];
     nodes: RenderNodeMap;
     definition: FlowDefinition;
 }
@@ -248,7 +246,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 url: 'http://localhost:9000/flow/' + this.props.definition.uuid + '/',
                 content: this.props.definition
             },
-            {
+            /*{
                 type: 'field_set',
                 url: 'http://localhost:9000/fields/',
                 content: this.props.contactFields.map((field: SearchResult) => {
@@ -261,7 +259,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 content: this.props.groups.map((group: SearchResult) => {
                     return { uuid: group.id, name: group.name };
                 })
-            },
+            },*/
             {
                 type: 'channel_set',
                 url: 'http://localhost:9000/channels/',
@@ -505,13 +503,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 }
 
 /* istanbul ignore next */
-const mapStateToProps = ({
-    flowContext: { definition, nodes, contactFields, groups }
-}: AppState) => ({
+const mapStateToProps = ({ flowContext: { definition, nodes } }: AppState) => ({
     definition,
-    nodes,
-    contactFields,
-    groups
+    nodes
 });
 
 /* istanbul ignore next */

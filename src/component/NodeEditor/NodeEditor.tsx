@@ -41,7 +41,6 @@ import {
     OnUpdateRouter,
     onUpdateRouter,
     resetNodeEditingState,
-    SearchResult,
     UpdateNodeEditorOpen,
     updateNodeEditorOpen,
     UpdateOperand,
@@ -53,11 +52,7 @@ import {
     UpdateTypeConfig,
     updateTypeConfig,
     UpdateUserAddingAction,
-    updateUserAddingAction,
-    OnAddContactField,
-    onAddContactField,
-    OnAddGroups,
-    onAddGroups
+    updateUserAddingAction
 } from '../../store';
 import { RenderNode } from '../../store/flowContext';
 import { CaseElementProps } from '../form/CaseElement';
@@ -73,6 +68,7 @@ import { NODE_SPACING } from '../../utils';
 import { Types } from '../../config/typeConfigs';
 import { Operators } from '../../config/operatorConfigs';
 import { StartFlowExitNames } from '../../flowTypes';
+import { Asset } from '../../services/AssetService';
 
 export type GetResultNameField = () => JSX.Element;
 export type SaveLocalizations = (
@@ -112,8 +108,6 @@ export interface NodeEditorStoreProps {
     resetNodeEditingState: NoParamsAC;
     updateNodeEditorOpen: UpdateNodeEditorOpen;
     onUpdateLocalizations: OnUpdateLocalizations;
-    onAddContactField: OnAddContactField;
-    onAddGroups: OnAddGroups;
     onUpdateAction: OnUpdateAction;
     onUpdateRouter: OnUpdateRouter;
     updateUserAddingAction: UpdateUserAddingAction;
@@ -124,8 +118,6 @@ export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
 export interface FormProps {
     action: AnyAction;
     showAdvanced: boolean;
-    addContactField: (contactName: string) => void;
-    addGroups: (groups: SearchResult[]) => void;
     updateAction: (action: AnyAction) => void;
     onBindWidget: (ref: any) => void;
     onBindAdvancedWidget: (ref: any) => void;
@@ -375,8 +367,8 @@ export const hasWait = (node: FlowNode, type?: WaitTypes): boolean => {
     return node.wait.type in WaitTypes;
 };
 
-export const groupsToCases = (groups: SearchResult[] = []): CaseElementProps[] =>
-    groups.map(({ name, id }: SearchResult) => ({
+export const groupsToCases = (groups: Asset[] = []): CaseElementProps[] =>
+    groups.map(({ name, id }: Asset) => ({
         kase: {
             uuid: id,
             type: Operators.has_group,
@@ -780,14 +772,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         this.props.onUpdateAction(action);
     }
 
-    private addContactField(contactFieldName: string): void {
-        this.props.onAddContactField(contactFieldName);
-    }
-
-    private onAddGroups(groups: SearchResult[]): void {
-        this.props.onAddGroups(groups);
-    }
-
     private updateSwitchRouter(kases: CaseElementProps[]): void {
         if (
             this.props.definition.localization &&
@@ -1151,8 +1135,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             saveLocalizations: this.saveLocalizations,
             updateLocalizations: this.updateLocalizations,
             cleanUpLocalizations: this.cleanUpLocalizations,
-            addContactField: this.addContactField,
-            addGroups: this.onAddGroups,
             updateAction: this.updateAction,
             updateRouter,
             getResultNameField: this.getResultNameField,
@@ -1258,8 +1240,6 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
             onUpdateLocalizations,
             onUpdateAction,
             onUpdateRouter,
-            onAddContactField,
-            onAddGroups,
             updateUserAddingAction,
             updateShowResultName
         },

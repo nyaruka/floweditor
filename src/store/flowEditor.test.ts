@@ -8,7 +8,6 @@ import {
     DragSelection,
     dragSelection as dragSelectionReducer,
     fetchingFlow as fetchingFlowReducer,
-    flows as flowsReducer,
     ghostNode as ghostNodeReducer,
     initialState,
     language as languageReducer,
@@ -21,7 +20,6 @@ import {
     updateDragGroup,
     updateDragSelection,
     updateFetchingFlow,
-    updateFlows,
     updateGhostNode,
     updateLanguage,
     updateNodeDragging,
@@ -89,19 +87,6 @@ describe('flowEditor action creators', () => {
                 }
             };
             expect(updateNodeEditorOpen(nodeEditorOpen)).toEqual(expectedAction);
-        });
-    });
-
-    describe('updateFlows', () => {
-        it('should create an action to update flows state', () => {
-            const { response: flows } = flowsResp;
-            const expectedAction = {
-                type: Constants.UPDATE_FLOWS,
-                payload: {
-                    flows
-                }
-            };
-            expect(updateFlows(flows)).toEqual(expectedAction);
         });
     });
 
@@ -255,20 +240,6 @@ describe('flowEditor reducers', () => {
             const fetchingFlow = true;
             const action = updateFetchingFlow(fetchingFlow);
             expect(reduce(action)).toEqual(fetchingFlow);
-        });
-    });
-
-    describe('flows reducer', () => {
-        const reduce = action => flowsReducer(undefined, action);
-
-        it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.editorUI.flows);
-        });
-
-        it('should handle UPDATE_FLOWS', () => {
-            const { response: flows } = flowsResp;
-            const action = updateFlows(flows);
-            expect(reduce(action)).toEqual(flows);
         });
     });
 
