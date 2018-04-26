@@ -11,8 +11,6 @@ import {
     DispatchWithState,
     FetchFlow,
     fetchFlow,
-    FetchFlows,
-    fetchFlows,
     UpdateLanguage,
     updateLanguage
 } from '../store';
@@ -38,7 +36,6 @@ export interface FlowEditorStoreProps {
     dependencies: FlowDefinition[];
     updateLanguage: UpdateLanguage;
     fetchFlow: FetchFlow;
-    fetchFlows: FetchFlows;
 }
 
 const hotStore = createStore();
@@ -76,10 +73,10 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
         const assetService: AssetService = this.context.assetService;
         this.props.updateLanguage(getBaseLanguage(this.context.languages));
         this.props.fetchFlow(assetService, this.context.flow);
-        this.props.fetchFlows(assetService);
     }
 
     public render(): JSX.Element {
+        /* <ConnectedFlowList /> */
         return (
             <div
                 id={editorContainerSpecId}
@@ -88,7 +85,6 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
             >
                 <div className={styles.editor} data-spec={editorSpecId}>
                     <ConnectedLanguageSelector />
-                    <ConnectedFlowList />
                     {renderIf(
                         this.props.definition && this.props.language && !this.props.fetchingFlow
                     )(<ConnectedFlow />)}
@@ -113,8 +109,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
             updateLanguage,
-            fetchFlow,
-            fetchFlows
+            fetchFlow
         },
         dispatch
     );

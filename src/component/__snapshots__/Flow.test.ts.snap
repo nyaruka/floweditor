@@ -1016,9 +1016,7 @@ exports[`Flow render should render Simulator 1`] = `
    }
   }
  },
- \\"nodes\\": {},
- \\"contactFields\\": [],
- \\"groups\\": []
+ \\"nodes\\": {}
 }"
 `;
 

@@ -2,9 +2,8 @@ import * as React from 'react';
 import { getSelectClass } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
-import { SearchResult } from '../../store';
 import { ResultType } from '../../flowTypes';
-import { Assets } from '../../services/AssetService';
+import { Assets, Asset } from '../../services/AssetService';
 
 interface FlowElementProps extends FormElementProps {
     flow: { name: string; uuid: string };
@@ -14,7 +13,7 @@ interface FlowElementProps extends FormElementProps {
 }
 
 interface FlowState {
-    flow: SearchResult;
+    flow: Asset;
     errors: string[];
 }
 

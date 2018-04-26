@@ -13,9 +13,10 @@ import {
     Exit
 } from '../flowTypes';
 import Localization, { LocalizedObject } from '../services/Localization';
-import { RenderNode, RenderNodeMap, SearchResult } from './flowContext';
+import { RenderNode, RenderNodeMap } from './flowContext';
 import { BoolMap } from '../utils';
 import SetContactAttribForm from '../component/actions/SetContactAttrib/SetContactAttribForm';
+import { Asset } from '../services/AssetService';
 
 export interface Bounds {
     left: number;
@@ -237,8 +238,8 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
 
 export interface FlowComponents {
     renderNodeMap: RenderNodeMap;
-    groups: SearchResult[];
-    fields: SearchResult[];
+    groups: Asset[];
+    fields: Asset[];
 }
 
 export const isGroupAction = (actionType: string) => {
@@ -252,8 +253,8 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
     const renderNodeMap: RenderNodeMap = {};
 
     // our groups and fields referenced within
-    const groups: SearchResult[] = [];
-    const fields: SearchResult[] = [];
+    const groups: Asset[] = [];
+    const fields: Asset[] = [];
 
     // initialize our nodes
     const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};

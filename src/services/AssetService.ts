@@ -1,18 +1,25 @@
 // tslint:disable:max-classes-per-file
-import { SearchResult } from '../store';
 import { Endpoints, FlowEditorConfig, ContactProperties, AttributeType } from '../flowTypes';
 import axios, { AxiosResponse } from 'axios';
 import { FlowComponents } from '../store/helpers';
+import { dump } from '../utils';
+
+export interface Asset {
+    id: string;
+    name: string;
+    type: string;
+
+    isNew?: boolean;
+    content?: any;
+}
 
 export class Assets {
     private endpoint: string;
     private localStorage: boolean;
     protected nameProperty: string;
     protected idProperty: string;
-
-    // TODO: consider redux backed by local storage for this
-    protected items: SearchResult[] = [];
-    protected objects = {};
+    protected assetType: string;
+    protected assets: { [id: string]: Asset } = {};
 
     constructor(endpoint: string, localStorage: boolean) {
         this.localStorage = localStorage;
@@ -21,34 +28,49 @@ export class Assets {
         this.idProperty = 'uuid';
     }
 
-    public get(uuid: string): Promise<any> {
-        const existing = this.objects[uuid];
+    public get(id: string): Promise<Asset> {
+        const existing = this.assets[id];
         if (existing) {
-            return new Promise<any>(resolve => {
+            return new Promise<Asset>(resolve => {
                 resolve(existing);
             });
         }
 
-        return new Promise<any>((resolve, reject) => {
-            const url = `${this.endpoint}?uuid=${uuid}`;
+        return new Promise<Asset>((resolve, reject) => {
+            const url = `${this.endpoint}?uuid=${id}`;
             axios
                 .get(url)
                 .then((response: AxiosResponse) => {
                     const ob = response.data.results[0];
+                    const asset = {
+                        id: ob.uuid,
+                        name: ob.name,
+                        type: this.assetType,
+                        content: ob.definition
+                    };
                     if (this.localStorage) {
-                        this.objects[uuid] = ob;
+                        this.assets[id] = asset;
                     }
-                    return resolve(ob);
+                    return resolve(asset);
                 })
                 .catch(error => reject(error));
         });
     }
 
-    public search(term: string): Promise<SearchResult[]> {
+    private searchLocalItems(term: string): Asset[] {
         // search our local items first
-        const matches: SearchResult[] = this.items.filter((result: SearchResult) => {
-            return this.matches(term, result.name);
+        const matches: Asset[] = [];
+        Object.keys(this.assets).map((key: string) => {
+            const asset = this.assets[key];
+            if (this.matches(term, asset.name)) {
+                matches.push(asset);
+            }
         });
+        return matches;
+    }
+
+    public search(term: string): Promise<Asset[]> {
+        const matches = this.searchLocalItems(term);
 
         // then query against our endpoint to add to that list
         let url = this.endpoint;
@@ -61,7 +83,8 @@ export class Assets {
                 if (this.matches(term, result[this.nameProperty])) {
                     matches.push({
                         name: result[this.nameProperty],
-                        id: result[this.idProperty]
+                        id: result[this.idProperty],
+                        type: this.assetType
                     });
                 }
             }
@@ -86,20 +109,14 @@ export class Assets {
         );
     }
 
-    public add(result: SearchResult): void {
+    public add(result: Asset): void {
         if (this.localStorage) {
-            const exists = this.items.filter((existing: SearchResult) =>
-                this.matches(existing.name, result.name)
-            );
-
-            if (exists.length === 0) {
-                this.items.push(result);
-            }
+            this.assets[result.id] = result;
         }
     }
 
-    public addAll(results: SearchResult[]): void {
-        results.map((result: SearchResult) => {
+    public addAll(results: Asset[]): void {
+        results.map((result: Asset) => {
             this.add(result);
         });
     }
@@ -110,11 +127,12 @@ class GroupAssets extends Assets {
         super(endpoint, localStorage);
         this.nameProperty = 'name';
         this.idProperty = 'uuid';
+        this.assetType = 'group';
     }
 }
 
 class FieldAssets extends Assets {
-    public static CONTACT_PROPERTIES: SearchResult[] = [
+    public static CONTACT_PROPERTIES: Asset[] = [
         {
             name: ContactProperties.Name,
             id: ContactProperties.Name.toLowerCase(),
@@ -131,9 +149,10 @@ class FieldAssets extends Assets {
         super(endpoint, localStorage);
         this.nameProperty = 'label';
         this.idProperty = 'key';
+        this.assetType = 'field';
 
-        FieldAssets.CONTACT_PROPERTIES.map((result: SearchResult) => {
-            this.items.push(result);
+        FieldAssets.CONTACT_PROPERTIES.map((result: Asset) => {
+            this.assets[result.id] = result;
         });
     }
 }
@@ -143,6 +162,7 @@ class FlowAssets extends Assets {
         super(endpoint, localStorage);
         this.nameProperty = 'name';
         this.idProperty = 'uuid';
+        this.assetType = 'flow';
     }
 }
 

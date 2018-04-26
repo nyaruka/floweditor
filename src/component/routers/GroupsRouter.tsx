@@ -3,18 +3,20 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 // import { endpointsPT } from '../../config';
-import { FlowNode, SwitchRouter, WaitTypes } from '../../flowTypes';
-import { AppState, SearchResult } from '../../store';
+import { FlowNode, SwitchRouter, WaitTypes, Case } from '../../flowTypes';
+import { AppState } from '../../store';
 import GroupsElement, { GroupsElementProps } from '../form/GroupsElement';
 import { GetResultNameField } from '../NodeEditor';
 import { hasSwitchRouter, hasWait, SaveLocalizations } from '../NodeEditor/NodeEditor';
 import { GROUP_LABEL } from './constants';
 import * as styles from './SwitchRouter.scss';
 import { fakePropType } from '../../config/ConfigProvider';
+import { Asset } from '../../services/AssetService';
+import { Types } from '../../config/typeConfigs';
+import { Operators } from '../../config/operatorConfigs';
 
 export interface GroupsRouterStoreProps {
     translating: boolean;
-    localGroups: SearchResult[];
     nodeToEdit: FlowNode;
 }
 
@@ -28,7 +30,7 @@ export interface GroupsRouterPassedProps {
 
 export type GroupsRouterProps = GroupsRouterStoreProps & GroupsRouterPassedProps;
 
-export const extractGroups = ({ exits, router }: FlowNode): SearchResult[] =>
+export const extractGroups = ({ exits, router }: FlowNode): Asset[] =>
     (router as SwitchRouter).cases.map(kase => {
         let resultName = '';
         for (const { name, uuid } of exits) {
@@ -37,11 +39,19 @@ export const extractGroups = ({ exits, router }: FlowNode): SearchResult[] =>
                 break;
             }
         }
-        return { name: resultName, id: kase.arguments[0] };
+        return { name: resultName, id: kase.arguments[0], type: 'group' };
     });
 
-export const hasGroupsRouter = (node: FlowNode) =>
-    hasSwitchRouter(node) && hasWait(node, WaitTypes.group);
+// TODO: can nodeToEdit be a RenderNode?
+export const hasGroupsRouter = (node: FlowNode) => {
+    let groupCase = null;
+    if (node.router) {
+        groupCase = (node.router as SwitchRouter).cases.find(
+            (kase: Case) => kase.type === Operators.has_group
+        );
+    }
+    return hasSwitchRouter(node) && groupCase;
+};
 
 export class GroupsRouter extends React.Component<GroupsRouterProps> {
     public static contextTypes = {
@@ -64,11 +74,14 @@ export class GroupsRouter extends React.Component<GroupsRouterProps> {
 
         const groupProps: Partial<GroupsElementProps> = {};
 
+        console.log(this.props.nodeToEdit, hasGroupsRouter(this.props.nodeToEdit));
         if (hasGroupsRouter(this.props.nodeToEdit)) {
             groupProps.groups = extractGroups(this.props.nodeToEdit);
         }
 
         const nameField: JSX.Element = this.props.getResultNameField();
+
+        console.log('extracted', groupProps.groups);
 
         return (
             <React.Fragment>
@@ -90,12 +103,10 @@ export class GroupsRouter extends React.Component<GroupsRouterProps> {
 }
 
 const mapStateToProps = ({
-    flowContext: { groups: localGroups },
     flowEditor: { editorUI: { translating } },
     nodeEditor: { nodeToEdit }
 }: AppState) => ({
     translating,
-    localGroups,
     nodeToEdit
 });
 

@@ -18,8 +18,7 @@ const baseProps: FlowEditorStoreProps = {
     definition: null,
     dependencies: null,
     updateLanguage: jest.fn(),
-    fetchFlow: jest.fn(),
-    fetchFlows: jest.fn()
+    fetchFlow: jest.fn()
 };
 
 const { setup, spyOn } = composeComponentTestUtils(FlowEditor, baseProps);
@@ -34,7 +33,6 @@ describe('Root', () => {
 
             expect(editorContainer.hasClass('translating')).toBeFalsy();
             expect(editor.hasClass('editor')).toBeTruthy();
-            expect(wrapper.find('Connect(FlowList)').exists()).toBeTruthy();
             expect(wrapper.find('Connect(LanguageSelector)').exists()).toBeTruthy();
             expect(wrapper).toMatchSnapshot();
         });
@@ -85,8 +83,6 @@ describe('Root', () => {
                     configProviderContext.assetService,
                     configProviderContext.flow
                 );
-                expect(props.fetchFlows).toHaveBeenCalledTimes(1);
-                expect(props.fetchFlows).toHaveBeenCalledWith(configProviderContext.assetService);
             });
         });
     });

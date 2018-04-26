@@ -10,26 +10,15 @@ import {
     UpdateTranslating,
     UpdateTypeConfig,
     UpdateUserAddingAction,
-    UpdateContactFieldsAction,
-    UpdateContactFields,
-    UpdateGroups,
     UpdateDragSelection
 } from './actionTypes';
 import createStore from './createStore';
 import Constants from './constants';
+import { CompletionOption, updateDefinition, updateDependencies } from './flowContext';
 import {
-    CompletionOption,
-    SearchResult,
-    updateDefinition,
-    updateDependencies,
-    updateContactFields
-} from './flowContext';
-import {
-    Flows,
     updateCreateNodePosition,
     updateDragGroup,
     updateFetchingFlow,
-    updateFlows,
     updateGhostNode,
     updateLanguage,
     updateNodeDragging,
@@ -56,8 +45,6 @@ import {
     EnsureStartNode,
     fetchFlow,
     FetchFlow,
-    fetchFlows,
-    FetchFlows,
     GetState,
     LocalizationUpdates,
     moveActionUp,
@@ -85,17 +72,12 @@ import {
     UpdateDimensions,
     updateDimensions,
     updateSticky,
-    UpdateSticky,
-    OnAddContactField,
-    onAddContactField,
-    OnAddGroups,
-    onAddGroups
+    UpdateSticky
 } from './thunks';
 
 export {
     AppState,
     CompletionOption,
-    SearchResult,
     Constants,
     DispatchWithState,
     GetState,
@@ -105,7 +87,6 @@ export {
     onUpdateRouter,
     onUpdateAction,
     initialState,
-    Flows,
     UpdateLanguage,
     UpdateTranslating,
     UpdateNodeEditorOpen,
@@ -119,9 +100,6 @@ export {
     updateUserAddingAction,
     updateTypeConfig,
     UpdateUserAddingAction,
-    UpdateContactFieldsAction,
-    UpdateContactFields,
-    UpdateGroups,
     UpdateTypeConfig,
     updateOperand,
     updateResultName,
@@ -129,17 +107,13 @@ export {
     updateFetchingFlow,
     updateDefinition,
     updateNodeDragging,
-    updateFlows,
     updateDependencies,
-    updateContactFields,
     updateNodeEditorOpen,
     updateGhostNode,
     updateCreateNodePosition,
     updateActionToEdit,
     fetchFlow,
     FetchFlow,
-    FetchFlows,
-    fetchFlows,
     ensureStartNode,
     EnsureStartNode,
     updateConnection,
@@ -153,10 +127,6 @@ export {
     onConnectionDrag,
     OnUpdateRouter,
     OnUpdateAction,
-    onAddContactField,
-    OnAddContactField,
-    onAddGroups,
-    OnAddGroups,
     onAddToNode,
     OnAddToNode,
     onNodeMoved,

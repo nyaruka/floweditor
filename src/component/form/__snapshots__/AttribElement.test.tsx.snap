@@ -10,18 +10,18 @@ exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
     __className=""
     assets={
       FieldAssets {
-        "endpoint": "/assets/fields.json",
-        "idProperty": "key",
-        "items": Array [
-          Object {
+        "assetType": "field",
+        "assets": Object {
+          "name": Object {
             "id": "name",
             "name": "Name",
             "type": "property",
           },
-        ],
+        },
+        "endpoint": "/assets/fields.json",
+        "idProperty": "key",
         "localStorage": true,
         "nameProperty": "label",
-        "objects": Object {},
       }
     }
     closeOnSelect={true}
@@ -52,18 +52,18 @@ exports[`AttribElement render should render self, children with base props 1`] =
 Object {
   "__className": "",
   "assets": FieldAssets {
-    "endpoint": "/assets/fields.json",
-    "idProperty": "key",
-    "items": Array [
-      Object {
+    "assetType": "field",
+    "assets": Object {
+      "name": Object {
         "id": "name",
         "name": "Name",
         "type": "property",
       },
-    ],
+    },
+    "endpoint": "/assets/fields.json",
+    "idProperty": "key",
     "localStorage": true,
     "nameProperty": "label",
-    "objects": Object {},
   },
   "closeOnSelect": true,
   "initial": Array [
@@ -92,18 +92,18 @@ exports[`AttribElement render should render self, children with base props 2`] =
     __className=""
     assets={
       FieldAssets {
-        "endpoint": "/assets/fields.json",
-        "idProperty": "key",
-        "items": Array [
-          Object {
+        "assetType": "field",
+        "assets": Object {
+          "name": Object {
             "id": "name",
             "name": "Name",
             "type": "property",
           },
-        ],
+        },
+        "endpoint": "/assets/fields.json",
+        "idProperty": "key",
         "localStorage": true,
         "nameProperty": "label",
-        "objects": Object {},
       }
     }
     closeOnSelect={true}

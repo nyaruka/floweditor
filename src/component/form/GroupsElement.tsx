@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 import { ResultType } from '../../flowTypes';
-import { SearchResult } from '../../store';
 import { getSelectClass, isValidLabel, jsonEqual } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { NewOptionCreatorHandler, IsValidNewOptionHandler } from 'react-select';
-import { Assets } from '../../services/AssetService';
+import { Assets, Asset } from '../../services/AssetService';
 
 export interface GroupOption {
     group: string;
@@ -15,25 +14,26 @@ export interface GroupOption {
 
 export interface GroupsElementProps extends FormElementProps {
     add?: boolean;
-    groups?: SearchResult[];
+    groups?: Asset[];
     placeholder?: string;
     searchPromptText?: string | JSX.Element;
-    onChange?: (groups: SearchResult[]) => void;
+    onChange?: (groups: Asset[]) => void;
     assets: Assets;
 }
 
 interface GroupsElementState {
-    groups: SearchResult[];
+    groups: Asset[];
     errors: string[];
 }
 
 export const isValidNewOption: IsValidNewOptionHandler = ({ label }) =>
     !label ? false : isValidLabel(label);
 
-export const createNewOption: NewOptionCreatorHandler = ({ label }) => ({
+export const createNewOption: NewOptionCreatorHandler = ({ label }): Asset => ({
     id: generateUUID(),
     name: label,
-    extraResult: true
+    type: 'group',
+    isNew: true
 });
 
 export const GROUP_PROMPT = 'New group: ';
@@ -67,7 +67,7 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
         }
     }
 
-    private onChange(groups: SearchResult[]): void {
+    private onChange(groups: Asset[]): void {
         if (!jsonEqual(groups, this.state.groups)) {
             this.setState(
                 {
@@ -104,6 +104,8 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
         }
 
         const className = getSelectClass(this.state.errors.length);
+
+        console.log('initial', this.state.groups);
 
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>

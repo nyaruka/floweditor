@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import { bindActionCreators } from 'redux';
 import { ConfigProviderContext } from '../config';
-import { AppState, DispatchWithState, FetchFlow, fetchFlow, Flows } from '../store';
+import { AppState, DispatchWithState, FetchFlow, fetchFlow } from '../store';
 import { flowList } from './FlowList.scss';
 import { fakePropType } from '../config/ConfigProvider';
 
@@ -15,7 +15,6 @@ export interface FlowOption {
 export interface FlowListStoreProps {
     flowUUID: string;
     flowName: string;
-    flows: Flows;
     fetchFlow: FetchFlow;
 }
 
@@ -24,8 +23,9 @@ export const getFlowOption = (uuid: string, name: string): FlowOption => ({
     name: name ? name : ''
 });
 
-export const shouldDisplayLoading = (flowOption: FlowOption, flows: Flows) =>
+/* export const shouldDisplayLoading = (flowOption: FlowOption, flows: Flows) =>
     !(flowOption.name && flowOption.uuid) || (!flows || !flows.length);
+*/
 
 export const flowListContainerSpecId = 'flow-list';
 export const PLACEHOLDER = 'Select a flow...';
@@ -45,14 +45,14 @@ export class FlowList extends React.Component<FlowListStoreProps> {
     }
 
     public onChange({ uuid }: { uuid: string; name: string }): void {
-        if (this.props.flows.length && uuid !== this.props.flowUUID) {
-            this.props.fetchFlow(this.context.assetService, uuid);
-        }
+        // if (this.props.flows.length && uuid !== this.props.flowUUID) {
+        // this.props.fetchFlow(this.context.assetService, uuid);
+        // }
     }
 
     public render(): JSX.Element {
         const flowOption = getFlowOption(this.props.flowUUID, this.props.flowName);
-        const isLoading = shouldDisplayLoading(flowOption, this.props.flows);
+        // const isLoading = shouldDisplayLoading(flowOption, this.props.flows);
         return (
             <div
                 id={flowListContainerSpecId}
@@ -67,30 +67,15 @@ export class FlowList extends React.Component<FlowListStoreProps> {
                     labelKey={labelKey}
                     valueKey={valueKey}
                     value={flowOption}
-                    options={this.props.flows}
-                    isLoading={isLoading}
+                    // options={this.props.flows}
+                    // isLoading={isLoading}
                 />
             </div>
         );
     }
 }
 
-const mapStateToProps = ({
-    flowContext: { definition },
-    flowEditor: { editorUI: { flows } }
-}: AppState) => {
-    const props = {} as FlowListStoreProps;
-    if (definition && definition.uuid && definition.name) {
-        props.flowUUID = definition.uuid;
-        props.flowName = definition.name;
-    }
-    if (flows) {
-        props.flows = flows;
-    }
-    return props;
-};
-
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ fetchFlow }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(FlowList);
+export default connect(null, mapDispatchToProps)(FlowList);

@@ -3,12 +3,7 @@ import {
     createSetContactFieldAction,
     createSetContactPropertyAction
 } from '../../../testUtils/assetCreators';
-import {
-    fieldToSearchResult,
-    newFieldAction,
-    newPropertyAction,
-    propertyToSearchResult
-} from './helpers';
+import { newFieldAction, newPropertyAction, propertyToAsset, fieldToAsset } from './helpers';
 
 const setContactProperty = createSetContactPropertyAction();
 const setContactField = createSetContactFieldAction();
@@ -35,7 +30,7 @@ describe('newPropertyAction', () => {
 
 describe('fieldToSearchResult', () => {
     it('should return a SearchResult object', () => {
-        expect(fieldToSearchResult(setContactField)).toEqual({
+        expect(fieldToAsset(setContactField)).toEqual({
             id: setContactField.field.key,
             name: setContactField.field.name,
             type: AttributeType.field
@@ -45,6 +40,6 @@ describe('fieldToSearchResult', () => {
 
 describe('propertyToSearchResult', () => {
     it('should return a SearchResult object', () => {
-        expect(propertyToSearchResult(setContactProperty)).toMatchSnapshot();
+        expect(propertyToAsset(setContactProperty)).toMatchSnapshot();
     });
 });

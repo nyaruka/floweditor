@@ -42,7 +42,7 @@ describe(GroupsElement.name, () => {
 
                 expect(validUUID(newOption.id)).toBeTruthy();
                 expect(newOption.name).toBe(newGroup.label);
-                expect(newOption.extraResult).toBeTruthy();
+                expect(newOption.isNew).toBeTruthy();
             });
         });
     });

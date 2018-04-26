@@ -5,8 +5,8 @@ import { createAddGroupsAction } from '../../../testUtils/assetCreators';
 import { set } from '../../../utils';
 import { GROUP_NOT_FOUND } from '../../form/GroupsElement';
 import { AddGroupsForm, LABEL, labelSpecId, PLACEHOLDER } from './AddGroupsForm';
-import { mapGroupsToSearchResults, mapSearchResultsToGroups } from './helpers';
 import ChangeGroupsFormProps from './props';
+import { mapGroupsToAssets, mapAssetsToGroups } from './helpers';
 
 const { results: groups } = require('../../../../assets/groups.json');
 
@@ -88,7 +88,7 @@ describe(AddGroupsForm.name, () => {
 
             it('should return SearchResult[] if action is add groups action and it has groups', () => {
                 const { wrapper, instance, props } = setup();
-                const searchResults = mapGroupsToSearchResults(props.action.groups);
+                const searchResults = mapGroupsToAssets(props.action.groups);
                 const groupOptions = instance.getGroups();
 
                 expect(groupOptions).toEqual(searchResults);
@@ -100,7 +100,7 @@ describe(AddGroupsForm.name, () => {
             it('should update state if called with new groups', () => {
                 const setStateSpy = spyOn('setState');
                 const { wrapper, instance } = setup();
-                const newSearchResults = mapGroupsToSearchResults([
+                const newSearchResults = mapGroupsToAssets([
                     ...groups,
                     { name: 'Unsubscibed', uuid: 'unsubscribed-0' }
                 ]);
@@ -116,7 +116,7 @@ describe(AddGroupsForm.name, () => {
             it('should not update state if called with same groups', () => {
                 const setStateSpy = spyOn('setState');
                 const { wrapper, instance, props } = setup();
-                const searchResults = mapGroupsToSearchResults(props.action.groups);
+                const searchResults = mapGroupsToAssets(props.action.groups);
 
                 instance.onGroupsChanged(searchResults);
 
@@ -131,12 +131,12 @@ describe(AddGroupsForm.name, () => {
                 const {
                     wrapper,
                     instance,
-                    props: { action, updateAction: updateActionMock, addGroups: onAddGroupsMock }
-                } = setup(true, { updateAction: setMock(), addGroups: setMock() });
+                    props: { action, updateAction: updateActionMock }
+                } = setup(true, { updateAction: setMock() });
                 const expectedAction = {
                     uuid: action.uuid,
                     type: action.type,
-                    groups: mapSearchResultsToGroups(wrapper.state('groups'))
+                    groups: mapAssetsToGroups(wrapper.state('groups'))
                 };
 
                 instance.onValid();

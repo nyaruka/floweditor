@@ -4,18 +4,18 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { ConfigProviderContext } from '../../../config';
 import { ChangeGroups } from '../../../flowTypes';
-import { AppState, SearchResult, DispatchWithState } from '../../../store';
+import { AppState, DispatchWithState } from '../../../store';
 import GroupsElement from '../../form/GroupsElement';
-import { mapGroupsToSearchResults, mapSearchResultsToGroups } from './helpers';
+import { mapGroupsToAssets, mapAssetsToGroups } from './helpers';
 import ChangeGroupsFormProps from './props';
 import { Types } from '../../../config/typeConfigs';
 import { bindActionCreators } from 'redux';
 import { dump } from '../../../utils';
-import AssetService from '../../../services/AssetService';
+import AssetService, { Asset } from '../../../services/AssetService';
 import { fakePropType } from '../../../config/ConfigProvider';
 
 export interface AddGroupsFormState {
-    groups: SearchResult[];
+    groups: Asset[];
 }
 
 export const LABEL = ' Select the group(s) to add the contact to.';
@@ -32,7 +32,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
     constructor(props: ChangeGroupsFormProps, context: ConfigProviderContext) {
         super(props);
 
-        const groups: SearchResult[] = this.getGroups();
+        const groups: Asset[] = this.getGroups();
 
         this.state = {
             groups
@@ -43,7 +43,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
         });
     }
 
-    public onGroupsChanged(groups: SearchResult[]): void {
+    public onGroupsChanged(groups: Asset[]): void {
         if (!isEqual(groups, this.state.groups)) {
             this.setState({
                 groups
@@ -55,14 +55,13 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
         const newAction: ChangeGroups = {
             uuid: this.props.action.uuid,
             type: this.props.typeConfig.type,
-            groups: mapSearchResultsToGroups(this.state.groups)
+            groups: mapAssetsToGroups(this.state.groups)
         };
 
-        this.props.addGroups(this.state.groups);
         this.props.updateAction(newAction);
     }
 
-    private getGroups(): SearchResult[] {
+    private getGroups(): Asset[] {
         if (this.props.action.groups === null) {
             return [];
         }
@@ -71,7 +70,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
             this.props.action.groups.length &&
             this.props.action.type !== Types.remove_contact_groups
         ) {
-            return mapGroupsToSearchResults(this.props.action.groups);
+            return mapGroupsToAssets(this.props.action.groups);
         }
 
         return [];
@@ -97,8 +96,7 @@ export class AddGroupsForm extends React.PureComponent<ChangeGroupsFormProps, Ad
 }
 
 /* istanbul ignore next */
-const mapStateToProps = ({ flowContext: { groups }, nodeEditor: { typeConfig } }: AppState) => ({
-    groups,
+const mapStateToProps = ({ nodeEditor: { typeConfig } }: AppState) => ({
     typeConfig
 });
 

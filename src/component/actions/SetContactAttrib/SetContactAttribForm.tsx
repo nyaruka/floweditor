@@ -7,22 +7,16 @@ import {
     SetContactField,
     SetContactProperty
 } from '../../../flowTypes';
-import { SearchResult } from '../../../store';
 import ConnectedAttribElement from '../../form/AttribElement';
 import ConnectedTextInputElement from '../../form/TextInputElement';
-import {
-    fieldToSearchResult,
-    newFieldAction,
-    newPropertyAction,
-    propertyToSearchResult
-} from './helpers';
+import { newFieldAction, newPropertyAction, fieldToAsset, propertyToAsset } from './helpers';
 import { fakePropType } from '../../../config/ConfigProvider';
+import { Asset } from '../../../services/AssetService';
 
 export interface SetContactAttribFormProps {
     action: SetContactAttribute;
     onBindWidget: (ref: any) => void;
     updateAction: (action: SetContactAttribute) => void;
-    addContactField: (name: string) => void;
 }
 
 export const ATTRIB_HELP_TEXT =
@@ -47,7 +41,7 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
 
         if (attribute.type === AttributeType.field) {
             // include our contact field in our local storage
-            this.props.addContactField(attribute.name);
+            this.context.assetService.getFieldAssets().add(attribute);
             this.props.updateAction(newFieldAction(this.props.action.uuid, value, attribute.name));
         } else {
             this.props.updateAction(
@@ -56,11 +50,11 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
         }
     }
 
-    private getInitial(): SearchResult {
+    private getInitial(): Asset {
         if (this.props.action.type === Types.set_contact_field) {
-            return fieldToSearchResult(this.props.action as SetContactField);
+            return fieldToAsset(this.props.action as SetContactField);
         } else {
-            return propertyToSearchResult(this.props.action as SetContactProperty);
+            return propertyToAsset(this.props.action as SetContactProperty);
         }
     }
 

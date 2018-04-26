@@ -97,7 +97,7 @@ describe(AttribElement.name, () => {
                     id: 'home_phone',
                     name: newOption.label,
                     type: AttributeType.field,
-                    extraResult: true
+                    isNew: true
                 });
             });
         });

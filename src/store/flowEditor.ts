@@ -27,14 +27,11 @@ export interface DragSelection {
     selected?: { [uuid: string]: boolean };
 }
 
-export type Flows = Array<{ uuid: string; name: string }>;
-
 export interface EditorUI {
     language: Language;
     translating: boolean;
     fetchingFlow: boolean;
     nodeEditorOpen: boolean;
-    flows: Flows;
 }
 
 export interface FlowUI {
@@ -57,8 +54,7 @@ export const initialState: FlowEditor = {
         translating: false,
         language: null,
         fetchingFlow: false,
-        nodeEditorOpen: false,
-        flows: []
+        nodeEditorOpen: false
     },
     flowUI: {
         createNodePosition: null,
@@ -100,14 +96,6 @@ export const updateNodeEditorOpen = (nodeEditorOpen: boolean): UpdateNodeEditorO
     type: Constants.UPDATE_NODE_EDITOR_OPEN,
     payload: {
         nodeEditorOpen
-    }
-});
-
-// tslint:disable-next-line:no-shadowed-variable
-export const updateFlows = (flows: Flows): UpdateFlowsAction => ({
-    type: Constants.UPDATE_FLOWS,
-    payload: {
-        flows
     }
 });
 
@@ -220,15 +208,6 @@ export const fetchingFlow = (
     }
 };
 
-export const flows = (state: Flows = initialState.editorUI.flows, action: ActionTypes) => {
-    switch (action.type) {
-        case Constants.UPDATE_FLOWS:
-            return action.payload.flows;
-        default:
-            return state;
-    }
-};
-
 export const nodeEditorOpen = (
     state: boolean = initialState.editorUI.nodeEditorOpen,
     action: ActionTypes
@@ -245,7 +224,6 @@ export const editorUI = combineReducers({
     language,
     translating,
     fetchingFlow,
-    flows,
     nodeEditorOpen
 });
 

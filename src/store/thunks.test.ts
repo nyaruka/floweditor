@@ -38,11 +38,8 @@ import {
     onOpenNodeEditor,
     onUpdateRouter,
     fetchFlow,
-    fetchFlows,
     updateSticky,
-    onResetDragSelection,
-    onAddContactField,
-    onAddGroups
+    onResetDragSelection
 } from './thunks';
 import { dump } from '../utils';
 import { getUniqueDestinations, getFlowComponents, FlowComponents } from './helpers';
@@ -99,43 +96,10 @@ describe('Flow Manipulation', () => {
             });
         });
 
-        it('should fetch and update the flow list', () => {
-            const assetService = new AssetService(config);
-
-            store.dispatch(fetchFlows(assetService)).then(() => {
-                expect(store).toHaveReduxAction(Constants.UPDATE_FLOWS);
-            });
-        });
-
         it('should initialize definition', () => {
             const { renderNodeMap, groups, fields } = store.dispatch(initializeFlow(boring, null));
             expect(renderNodeMap).toMatchSnapshot('nodes');
             expect(store).toHaveReduxAction(Constants.UPDATE_NODES);
-
-            expect(store).toHavePayload(Constants.UPDATE_GROUPS, {
-                groups: [
-                    {
-                        name: 'Flow Participants',
-                        id: 'group_0',
-                        type: 'group'
-                    },
-                    {
-                        name: 'Nonresponsive',
-                        id: 'group_1',
-                        type: 'group'
-                    }
-                ]
-            });
-
-            expect(store).toHavePayload(Constants.UPDATE_CONTACT_FIELDS, {
-                contactFields: [
-                    {
-                        name: 'Unknown Field',
-                        id: 'unknown_field',
-                        type: 'field'
-                    }
-                ]
-            });
         });
 
         it('should update localizations', () => {
@@ -437,33 +401,6 @@ describe('Flow Manipulation', () => {
             // our pointing node should be directed at us
             expect(fromNode).toHaveExitThatPointsTo(addedNode);
             expect(addedNode).toHaveInboundFrom(fromNode.node.exits[0]);
-        });
-    });
-
-    it('should add new contact fields', () => {
-        store.dispatch(onAddContactField('A new field'));
-
-        // we should get a snakified and titled field
-        expect(store).toHavePayload(Constants.UPDATE_CONTACT_FIELDS, {
-            contactFields: [
-                {
-                    id: 'a_new_field',
-                    name: 'A New Field',
-                    type: 'field'
-                }
-            ]
-        });
-    });
-
-    it('should add new groups', () => {
-        store.dispatch(onAddGroups([{ name: 'My new group', id: 'my_new_group' }]));
-        expect(store).toHavePayload(Constants.UPDATE_GROUPS, {
-            groups: [
-                {
-                    name: 'My new group',
-                    id: 'my_new_group'
-                }
-            ]
         });
     });
 

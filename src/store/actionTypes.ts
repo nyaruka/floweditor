@@ -4,7 +4,7 @@ import { Type } from '../config';
 import { AnyAction, FlowDefinition, FlowNode, FlowPosition } from '../flowTypes';
 import { LocalizedObject } from '../services/Localization';
 import Constants from './constants';
-import { CompletionOption, RenderNode, SearchResult } from './flowContext';
+import { CompletionOption, RenderNode } from './flowContext';
 import { DragSelection } from './flowEditor';
 
 // Redux action generic
@@ -49,14 +49,6 @@ interface UpdatePendingConnectionsPayload {
 
 interface RemovePendingConnectionPayload {
     nodeUUID: string;
-}
-
-interface UpdateContactFieldsPayload {
-    contactFields: SearchResult[];
-}
-
-interface UpdateGroupsPayload {
-    groups: SearchResult[];
 }
 
 interface UpdateResultNamesPayload {
@@ -157,13 +149,6 @@ export type RemovePendingConnectionAction = DuxAction<
     RemovePendingConnectionPayload
 >;
 
-export type UpdateContactFieldsAction = DuxAction<
-    Constants.UPDATE_CONTACT_FIELDS,
-    UpdateContactFieldsPayload
->;
-
-export type UpdateGroupsAction = DuxAction<Constants.UPDATE_GROUPS, UpdateGroupsPayload>;
-
 export type UpdateResultNamesAction = DuxAction<
     Constants.UPDATE_RESULT_NAMES,
     UpdateResultNamesPayload
@@ -258,10 +243,6 @@ export type UpdateNodeEditorOpen = (nodeEditorOpen: boolean) => UpdateNodeEditor
 
 export type UpdateShowResultName = (showResultName: boolean) => UpdateShowResultNameAction;
 
-export type UpdateContactFields = (contactField: SearchResult) => UpdateContactFieldsAction;
-
-export type UpdateGroups = (group: SearchResult) => UpdateGroupsAction;
-
 type ActionTypes =
     | UpdateTranslatingAction
     | UpdateLanguageAction
@@ -272,8 +253,6 @@ type ActionTypes =
     | UpdateDependenciesAction
     | UpdatePendingConnectionsAction
     | RemovePendingConnectionAction
-    | UpdateContactFieldsAction
-    | UpdateGroupsAction
     | UpdateResultNamesAction
     | UpdateNodesAction
     | UpdateNodeEditorOpenAction

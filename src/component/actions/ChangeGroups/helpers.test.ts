@@ -1,5 +1,5 @@
 import { FlowDefinition, ChangeGroups } from '../../../flowTypes';
-import { mapGroupsToSearchResults, mapSearchResultsToGroups } from './helpers';
+import { mapGroupsToAssets, mapAssetsToGroups } from './helpers';
 
 const {
     results: [{ definition }]
@@ -11,7 +11,7 @@ const { actions: [, addToGroupsAction] } = node;
 
 describe('mapGroupsToSearchResults', () => {
     it('should return a list of SearchResult objects', () => {
-        const searchResults = mapGroupsToSearchResults(groups);
+        const searchResults = mapGroupsToAssets(groups);
 
         searchResults.forEach((searchResult, idx) => {
             expect(searchResult.name).toBe(groups[idx].name);
@@ -23,8 +23,8 @@ describe('mapGroupsToSearchResults', () => {
 
 describe('mapSearchResultsToGroups', () => {
     it('should return a list of Group objects', () => {
-        const searchResults = mapGroupsToSearchResults(groups);
-        const groupList = mapSearchResultsToGroups(searchResults);
+        const searchResults = mapGroupsToAssets(groups);
+        const groupList = mapAssetsToGroups(searchResults);
 
         groupList.forEach((group, idx) => {
             expect(group.uuid).toBe(searchResults[idx].id);
