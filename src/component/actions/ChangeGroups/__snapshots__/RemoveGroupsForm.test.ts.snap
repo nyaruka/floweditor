@@ -34,10 +34,12 @@ exports[`RemoveGroupsForm instance methods getGroups should return empty list if
 exports[`RemoveGroupsForm render should render self, children with base props 1`] = `
 Object {
   "add": false,
-  "assets": Assets {
+  "assets": GroupAssets {
     "endpoint": "/assets/groups.json",
+    "idProperty": "uuid",
     "items": Array [],
     "localStorage": true,
+    "nameProperty": "name",
   },
   "groups": Array [
     Object {

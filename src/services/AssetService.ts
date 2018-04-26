@@ -1,45 +1,56 @@
 import { SearchResult } from '../store';
-import { Endpoints, FlowEditorConfig } from '../flowTypes';
+import { Endpoints, FlowEditorConfig, ContactProperties, AttributeType } from '../flowTypes';
 import axios, { AxiosResponse } from 'axios';
 import { FlowComponents } from '../store/helpers';
 
-export interface GroupAsset {
-    uuid: string;
-    name: string;
-}
-
 export class Assets {
-    private items: SearchResult[] = [];
     private endpoint: string;
     private localStorage: boolean;
+    protected items: SearchResult[] = [];
+    protected nameProperty: string;
+    protected idProperty: string;
 
     constructor(endpoint: string, localStorage: boolean) {
         this.localStorage = localStorage;
         this.endpoint = endpoint;
+        this.nameProperty = 'name';
+        this.idProperty = 'uuid';
     }
 
     public search(term: string): Promise<SearchResult[]> {
-        let matches: SearchResult[] = [];
-
-        // if we have local storage, search there
-        if (this.localStorage) {
-            matches = this.items.filter((result: SearchResult) => this.matches(term, result.name));
-        }
+        // search our local items first
+        const matches: SearchResult[] = this.items.filter((result: SearchResult) => {
+            return this.matches(term, result.name);
+        });
 
         // then query against our endpoint to add to that list
-        return axios
-            .get(this.endpoint + '?query=' + encodeURIComponent(term))
-            .then((response: AxiosResponse) => {
-                for (const result of response.data.results) {
-                    if (this.matches(term, result.name)) {
-                        matches.push({ name: result.name, id: result.uuid });
-                    }
+        let url = this.endpoint;
+        if (term) {
+            url += '?query=' + encodeURIComponent(term);
+        }
+
+        return axios.get(url).then((response: AxiosResponse) => {
+            for (const result of response.data.results) {
+                if (this.matches(term, result[this.nameProperty])) {
+                    matches.push({
+                        name: result[this.nameProperty],
+                        id: result[this.idProperty]
+                    });
                 }
-                return matches;
-            });
+            }
+            return matches;
+        });
     }
 
     public matches(query: string, check: string): boolean {
+        if (!check) {
+            return false;
+        }
+
+        if (query.length === 0) {
+            return true;
+        }
+
         return (
             check
                 .toLocaleLowerCase()
@@ -67,17 +78,59 @@ export class Assets {
     }
 }
 
+class GroupAssets extends Assets {
+    constructor(endpoint: string, localStorage: boolean) {
+        super(endpoint, localStorage);
+        this.nameProperty = 'name';
+        this.idProperty = 'uuid';
+    }
+}
+
+class FieldAssets extends Assets {
+    public static CONTACT_PROPERTIES: SearchResult[] = [
+        {
+            name: ContactProperties.Name,
+            id: ContactProperties.Name.toLowerCase(),
+            type: AttributeType.property
+        }
+        /*{ 
+            name: ContactProperties.Language, 
+            id: ContactProperties.Language.toLowerCase(), 
+            type: AttributeType.property 
+        }*/
+    ];
+
+    constructor(endpoint: string, localStorage: boolean) {
+        super(endpoint, localStorage);
+        this.nameProperty = 'label';
+        this.idProperty = 'key';
+
+        FieldAssets.CONTACT_PROPERTIES.map((result: SearchResult) => {
+            this.items.push(result);
+        });
+    }
+}
+
+// tslint:disable-next-line:max-classes-per-file
 export default class AssetService {
     private groups: Assets;
+    private fields: Assets;
+
     constructor(config: FlowEditorConfig) {
-        this.groups = new Assets(config.endpoints.groups, config.localStorage);
+        this.groups = new GroupAssets(config.endpoints.groups, config.localStorage);
+        this.fields = new FieldAssets(config.endpoints.fields, config.localStorage);
     }
 
     public addFlowComponents(flowComponents: FlowComponents): void {
         this.groups.addAll(flowComponents.groups);
+        this.fields.addAll(flowComponents.fields);
     }
 
     public getGroupAssets(): Assets {
         return this.groups;
+    }
+
+    public getFieldAssets(): Assets {
+        return this.fields;
     }
 }

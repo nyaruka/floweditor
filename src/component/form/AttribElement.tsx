@@ -9,19 +9,20 @@ import {
 import { v4 as generateUUID } from 'uuid';
 import { AttributeType, CreateOptions, ResultType } from '../../flowTypes';
 import { AppState, SearchResult, DispatchWithState } from '../../store';
-import { getSelectClass, isValidLabel, propertyExists, dump } from '../../utils';
+import { getSelectClass, isValidLabel, propertyExists, dump, snakify } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { bindActionCreators } from 'redux';
 import { updateGroups } from '../../store/flowContext';
+import AssetService from '../../services/AssetService';
 
 interface AttribElementPassedProps extends FormElementProps {
     initial: SearchResult;
-    endpoint: string;
     add?: boolean;
     placeholder?: string;
     searchPromptText?: string;
     helpText?: string;
+    assetService: AssetService;
 }
 
 interface AttribElementStoreProps {
@@ -50,7 +51,7 @@ export const isOptionUnique: IsOptionUniqueHandler = ({ option, options, labelKe
     !propertyExists(option.name) && !attribExists(option.name, options);
 
 export const createNewOption: NewOptionCreatorHandler = ({ label }) => ({
-    id: generateUUID(),
+    id: snakify(label),
     name: label,
     type: AttributeType.field,
     extraResult: true
@@ -123,10 +124,9 @@ export class AttribElement extends React.Component<AttribElementProps, AttribEle
                     __className={getSelectClass(this.state.errors.length)}
                     onChange={this.onChange}
                     name={this.props.name}
-                    url={this.props.endpoint}
                     resultType={ResultType.field}
-                    localSearchOptions={this.props.contactFields}
                     multi={false}
+                    assets={this.props.assetService.getFieldAssets()}
                     initial={[this.state.attribute]}
                     closeOnSelect={true}
                     searchPromptText={this.props.searchPromptText}

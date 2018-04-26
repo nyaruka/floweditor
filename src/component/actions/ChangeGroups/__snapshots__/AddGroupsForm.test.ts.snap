@@ -34,10 +34,12 @@ exports[`AddGroupsForm instance methods getGroups should return empty list if ac
 exports[`AddGroupsForm render should render self, children with base props 1`] = `
 Object {
   "add": true,
-  "assets": Assets {
+  "assets": GroupAssets {
     "endpoint": "/assets/groups.json",
+    "idProperty": "uuid",
     "items": Array [],
     "localStorage": true,
+    "nameProperty": "name",
   },
   "groups": Array [
     Object {

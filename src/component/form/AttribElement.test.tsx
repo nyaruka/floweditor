@@ -25,7 +25,7 @@ const baseProps: AttribElementProps = {
     name: 'Attribute',
     contactFields: [],
     initial,
-    endpoint: configProviderContext.endpoints.fields
+    assetService: configProviderContext.assetService
 };
 
 const { setup, spyOn } = composeComponentTestUtils<AttribElementProps>(AttribElement, baseProps);
@@ -91,10 +91,10 @@ describe(AttribElement.name, () => {
 
         describe('createNewOption', () => {
             it('should return a new SearchResult', () => {
-                const newOption = { label: 'Age', labelKey: 'name', valueKey: 'id' };
+                const newOption = { label: 'Home Phone', labelKey: 'name', valueKey: 'id' };
 
                 expect(createNewOption(newOption)).toEqual({
-                    id: expect.stringMatching(V4_UUID),
+                    id: 'home_phone',
                     name: newOption.label,
                     type: AttributeType.field,
                     extraResult: true
@@ -108,7 +108,7 @@ describe(AttribElement.name, () => {
             const {
                 wrapper,
                 instance,
-                props: { showLabel, name, helpText, endpoint, contactFields }
+                props: { showLabel, name, helpText, contactFields, assetService }
             } = setup();
 
             expect(wrapper.find('FormElement').props()).toEqual(
@@ -120,21 +120,7 @@ describe(AttribElement.name, () => {
                     attribError: false
                 })
             );
-            expect(wrapper.find('SelectSearch').props()).toEqual(
-                expect.objectContaining({
-                    __className: getSelectClass(0),
-                    onChange: instance.onChange,
-                    name,
-                    url: endpoint,
-                    resultType: ResultType.field,
-                    localSearchOptions: contactFields,
-                    multi: false,
-                    initial: [initial],
-                    closeOnSelect: true,
-                    searchPromptText: NOT_FOUND,
-                    placeholder: PLACEHOLDER
-                })
-            );
+            expect(wrapper.find('SelectSearch').props()).toMatchSnapshot();
             expect(wrapper).toMatchSnapshot();
         });
 

@@ -32,7 +32,8 @@ export const TEXT_INPUT_HELP_TEXT =
 
 export default class SetContactAttribForm extends React.Component<SetContactAttribFormProps> {
     public static contextTypes = {
-        endpoints: fakePropType
+        endpoints: fakePropType,
+        assetService: fakePropType
     };
 
     constructor(props: SetContactAttribFormProps, context: ConfigProviderContext) {
@@ -71,7 +72,7 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
                     ref={this.props.onBindWidget}
                     name="Attribute"
                     showLabel={true}
-                    endpoint={this.context.endpoints.fields}
+                    assetService={this.context.assetService}
                     helpText={ATTRIB_HELP_TEXT}
                     initial={initial}
                     add={true}

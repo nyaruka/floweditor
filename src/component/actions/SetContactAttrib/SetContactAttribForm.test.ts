@@ -42,15 +42,8 @@ describe(SetContactAttribForm.name, () => {
             expect(props.onBindWidget).toHaveBeenCalledTimes(2);
             expect(props.onBindWidget).toHaveBeenCalledWith(expect.any(ConnectedAttribElement));
             expect(props.onBindWidget).toHaveBeenCalledWith(expect.any(ConnectedTextInputElement));
-            expect(wrapper.find(ConnectedAttribElement).props()).toEqual({
-                name: 'Attribute',
-                showLabel: true,
-                endpoint: endpoints.fields,
-                helpText: ATTRIB_HELP_TEXT,
-                initial,
-                add: true,
-                required: true
-            });
+            expect(wrapper.find(ConnectedAttribElement).props()).toMatchSnapshot();
+
             expect(wrapper.find(ConnectedTextInputElement).props()).toEqual({
                 name: 'Value',
                 showLabel: true,

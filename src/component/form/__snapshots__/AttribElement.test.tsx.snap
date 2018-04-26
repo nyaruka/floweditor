@@ -8,6 +8,21 @@ exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
 >
   <SelectSearch
     __className=""
+    assets={
+      FieldAssets {
+        "endpoint": "/assets/fields.json",
+        "idProperty": "key",
+        "items": Array [
+          Object {
+            "id": "name",
+            "name": "Name",
+            "type": "property",
+          },
+        ],
+        "localStorage": true,
+        "nameProperty": "label",
+      }
+    }
     closeOnSelect={true}
     createNewOption={[Function]}
     createPrompt="New attribute: "
@@ -22,19 +37,50 @@ exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
     }
     isOptionUnique={[Function]}
     isValidNewOption={[Function]}
-    localSearchOptions={Array []}
     multi={false}
     name="Attribute"
     onChange={[Function]}
     placeholder="Enter the name of an existing attribute or create a new one"
     resultType="field"
     searchPromptText="Invalid attribute name"
-    url="/assets/fields.json"
   />
 </FormElement>
 `;
 
 exports[`AttribElement render should render self, children with base props 1`] = `
+Object {
+  "__className": "",
+  "assets": FieldAssets {
+    "endpoint": "/assets/fields.json",
+    "idProperty": "key",
+    "items": Array [
+      Object {
+        "id": "name",
+        "name": "Name",
+        "type": "property",
+      },
+    ],
+    "localStorage": true,
+    "nameProperty": "label",
+  },
+  "closeOnSelect": true,
+  "initial": Array [
+    Object {
+      "id": "name",
+      "name": "Name",
+      "type": "property",
+    },
+  ],
+  "multi": false,
+  "name": "Attribute",
+  "onChange": [Function],
+  "placeholder": "Enter the name of an existing attribute or create a new one",
+  "resultType": "field",
+  "searchPromptText": "Invalid attribute name",
+}
+`;
+
+exports[`AttribElement render should render self, children with base props 2`] = `
 <FormElement
   attribError={false}
   errors={Array []}
@@ -42,6 +88,21 @@ exports[`AttribElement render should render self, children with base props 1`] =
 >
   <SelectSearch
     __className=""
+    assets={
+      FieldAssets {
+        "endpoint": "/assets/fields.json",
+        "idProperty": "key",
+        "items": Array [
+          Object {
+            "id": "name",
+            "name": "Name",
+            "type": "property",
+          },
+        ],
+        "localStorage": true,
+        "nameProperty": "label",
+      }
+    }
     closeOnSelect={true}
     initial={
       Array [
@@ -52,14 +113,12 @@ exports[`AttribElement render should render self, children with base props 1`] =
         },
       ]
     }
-    localSearchOptions={Array []}
     multi={false}
     name="Attribute"
     onChange={[Function]}
     placeholder="Enter the name of an existing attribute or create a new one"
     resultType="field"
     searchPromptText="Invalid attribute name"
-    url="/assets/fields.json"
   />
 </FormElement>
 `;

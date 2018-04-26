@@ -1,9 +1,11 @@
 const { ProvidePlugin, LoaderOptionsPlugin } = require('webpack');
-const pkg = require('../package.json');
+const { pkgName } = require('./utils');
+
+const name = pkgName();
 
 module.exports = {
     output: {
-        filename: `${pkg.name}.js`
+        filename: `${name}.js`
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js']
