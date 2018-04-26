@@ -105,8 +105,6 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
 
         const className = getSelectClass(this.state.errors.length);
 
-        console.log('initial', this.state.groups);
-
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <SelectSearch
