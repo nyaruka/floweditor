@@ -2,6 +2,29 @@
 
 exports[`Flow Manipulation init should fetch and initalize flow 1`] = `
 AssetService {
+  "channels": ChannelAssets {
+    "assetType": "channel",
+    "assets": Object {
+      "6934255e-446b-40d3-b2ca-c5f801bd2278": Object {
+        "content": Object {
+          "address": "+12065550000",
+          "roles": Array [
+            "send",
+            "receive",
+          ],
+          "schemes": Array [
+            "tel",
+          ],
+        },
+        "id": "6934255e-446b-40d3-b2ca-c5f801bd2278",
+        "name": "Simulator",
+        "type": "channel",
+      },
+    },
+    "endpoint": "/channels",
+    "idProperty": "uuid",
+    "localStorage": true,
+  },
   "fields": FieldAssets {
     "assetType": "field",
     "assets": Object {

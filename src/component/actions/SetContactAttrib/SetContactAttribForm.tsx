@@ -62,7 +62,7 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
                     ref={this.props.onBindWidget}
                     name="Attribute"
                     showLabel={true}
-                    assetService={this.context.assetService}
+                    assets={this.context.assetService.getFieldAssets()}
                     helpText={ATTRIB_HELP_TEXT}
                     initial={initial}
                     add={true}

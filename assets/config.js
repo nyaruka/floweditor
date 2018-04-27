@@ -28,6 +28,6 @@ module.exports =
                   contacts: '/assets/contacts.json',
                   fields: '/assets/fields.json',
                   activity: '',
-                  engine: 'http://localhost:9000'
+                  engine: '/flow'
               }
           });

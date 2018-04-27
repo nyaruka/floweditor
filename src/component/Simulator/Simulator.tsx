@@ -20,6 +20,7 @@ import { RenderNodeMap, RenderNode } from '../../store/flowContext';
 import { getOrderedNodes } from '../../store/helpers';
 import { dump } from '../../utils';
 import { fakePropType } from '../../config/ConfigProvider';
+import AssetService, { getBaseURL } from '../../services/AssetService';
 
 const ACTIVE = 'A';
 
@@ -108,7 +109,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     private bottom: any;
 
     public static contextTypes = {
-        endpoints: fakePropType
+        endpoints: fakePropType,
+        assetService: fakePropType
     };
 
     constructor(props: SimulatorProps, context: ConfigProviderContext) {
@@ -130,8 +132,12 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         this.currentFlow = this.props.definition.uuid;
 
         bindCallbacks(this, {
-            include: [/^on/]
+            include: [/^on/, /^get/]
         });
+    }
+
+    private getAssetService(): AssetService {
+        return this.context.assetService;
     }
 
     private bottomRef(ref: any): void {
@@ -220,82 +226,28 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         );
     }
 
-    private getAssetServer(): any {
-        return {
-            type_urls: {
-                flow: 'http://localhost:9000/flow/{uuid}/',
-                field_set: 'http://localhost:9000/fields/',
-                channel_set: 'http://localhost:9000/channels/',
-                group_set: 'http://localhost:9000/groups/'
-            }
-        };
-    }
-
-    private getAssets(): Asset[] {
+    private getCurrentDefinition(): FlowDefinition {
         const renderNodes = getOrderedNodes(this.props.nodes);
         const nodes: FlowNode[] = [];
         renderNodes.map((renderNode: RenderNode) => {
             nodes.push(renderNode.node);
         });
-
         this.props.definition.nodes = nodes;
-
-        return [
-            {
-                type: 'flow',
-                url: 'http://localhost:9000/flow/' + this.props.definition.uuid + '/',
-                content: this.props.definition
-            },
-            /*{
-                type: 'field_set',
-                url: 'http://localhost:9000/fields/',
-                content: this.props.contactFields.map((field: SearchResult) => {
-                    return { key: field.id, name: field.name, value_type: 'text' };
-                })
-            },
-            {
-                type: 'group_set',
-                url: 'http://localhost:9000/groups/',
-                content: this.props.groups.map((group: SearchResult) => {
-                    return { uuid: group.id, name: group.name };
-                })
-            },*/
-            {
-                type: 'channel_set',
-                url: 'http://localhost:9000/channels/',
-                content: [
-                    {
-                        uuid: '57f1078f-88aa-46f4-a59a-948a5739c03d',
-                        name: 'Simulator',
-                        address: '+12345671111',
-                        schemes: ['tel'],
-                        roles: ['send', 'receive']
-                    }
-                ]
-            }
-        ];
+        return this.props.definition;
     }
 
-    private startFlow() {
+    private startFlow(): void {
         // reset our events and contact
-
-        dump(this.getAssets());
         this.setState(
             {
                 events: []
-                /*contact: {
-                    uuid: generateUUID(),
-                    urns: ['tel:+12065551212'],
-                    fields: {},
-                    groups: []
-                }*/
             },
             () => {
-                getFlow(this.context.endpoints.flows, this.props.definition.uuid, true).then(
-                    (details: FlowDetails) => {
-                        this.flows = [this.props.definition].concat(details.dependencies);
+                this.getAssetService()
+                    .getFlowAssets()
+                    .update(this.props.definition.uuid, this.getCurrentDefinition())
+                    .then(() => {
                         const body: any = {
-                            assets: this.getAssets(),
                             contact: this.state.contact,
                             trigger: {
                                 type: 'manual',
@@ -318,19 +270,18 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                                 params: {},
                                 triggered_on: new Date().toISOString()
                             },
-                            asset_server: this.getAssetServer()
+                            ...this.getAssetService().getSimulationAssets()
                         };
 
                         axios.default
                             .post(
-                                `${this.context.endpoints.engine}/flow/start`,
+                                `${getBaseURL()}${this.context.endpoints.engine}/start`,
                                 JSON.stringify(body, null, 2)
                             )
                             .then((response: axios.AxiosResponse) => {
                                 this.updateRunContext(body, response.data as RunContext);
                             });
-                    }
-                );
+                    });
             }
         );
     }
@@ -365,16 +316,15 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         getFlow(this.context.endpoints.flows, this.props.definition.uuid, true).then(
             (details: FlowDetails) => {
                 const body: any = {
-                    assets: this.getAssets(),
-                    asset_server: this.getAssetServer(),
                     session: this.state.session,
                     contact: this.state.session.contact,
-                    events: [newMessage]
+                    events: [newMessage],
+                    ...this.getAssetService().getSimulationAssets()
                 };
 
                 axios.default
                     .post(
-                        `${this.context.endpoints.engine}/flow/resume`,
+                        `${getBaseURL()}${this.context.endpoints.engine}/resume`,
                         JSON.stringify(body, null, 2)
                     )
                     .then((response: axios.AxiosResponse) => {

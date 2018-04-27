@@ -1,8 +1,17 @@
 // tslint:disable:max-classes-per-file
-import { Endpoints, FlowEditorConfig, ContactProperties } from '../flowTypes';
+import { v4 as generateUUID } from 'uuid';
+import { Endpoints, FlowEditorConfig, ContactProperties, Group } from '../flowTypes';
 import axios, { AxiosResponse } from 'axios';
 import { FlowComponents } from '../store/helpers';
 import { dump } from '../utils';
+
+export enum AssetType {
+    Channel = 'channel',
+    Flow = 'flow',
+    Group = 'group',
+    Property = 'property',
+    Field = 'field'
+}
 
 export interface Asset {
     id: string;
@@ -23,15 +32,28 @@ enum NameProperty {
     Name = 'name'
 }
 
-export enum AssetType {
+enum SimAssetType {
     Flow = 'flow',
-    Group = 'group',
-    Property = 'property',
-    Field = 'field'
+    Fields = 'field_set',
+    Groups = 'group_set',
+    Channels = 'channel_set'
 }
 
+interface SimAsset {
+    type: SimAssetType;
+    url: string;
+    content: any;
+}
+
+export const getBaseURL = (): string => {
+    const location = window.location;
+    return (
+        location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '')
+    );
+};
+
 export class Assets {
-    private endpoint: string;
+    public endpoint: string;
     private localStorage: boolean;
     protected idProperty: IdProperty;
     protected assetType: AssetType;
@@ -135,6 +157,65 @@ export class Assets {
             this.add(result);
         });
     }
+
+    public update(uuid: string, content: any): Promise<Asset> {
+        const result = new Promise<Asset>((resolve, reject) => {
+            if (this.localStorage) {
+                const asset = this.assets[uuid];
+                asset.content = content;
+                resolve(asset);
+            } else {
+                const url = `${this.endpoint}?uuid=${uuid}`;
+                axios
+                    .post(url, content)
+                    .then((response: AxiosResponse) => {
+                        const ob = response.data.results[0];
+                        const asset = {
+                            id: ob.uuid,
+                            name: ob.name,
+                            type: this.assetType,
+                            content: ob.definition
+                        };
+                        if (this.localStorage) {
+                            this.assets[uuid] = asset;
+                        }
+                        return resolve(asset);
+                    })
+                    .catch(error => reject(error));
+            }
+        });
+
+        return result;
+    }
+
+    public getAssetSet(): any[] {
+        const assets: any[] = [];
+        Object.keys(this.assets).map((key: string) => {
+            const asset = this.assets[key];
+            if (asset.type !== AssetType.Property) {
+                assets.push({
+                    [this.idProperty]: asset.id,
+                    name: asset.name,
+                    ...asset.content
+                });
+            }
+        });
+        return assets;
+    }
+
+    public getAssetContents(type: SimAssetType): SimAsset[] {
+        const assets: SimAsset[] = [];
+        Object.keys(this.assets).map((key: string) => {
+            const asset = this.assets[key];
+            assets.push({
+                type,
+                url: getBaseURL() + this.endpoint + '/' + asset.id + '/',
+                content: asset.content
+            });
+        });
+
+        return assets;
+    }
 }
 
 class GroupAssets extends Assets {
@@ -170,6 +251,26 @@ class FieldAssets extends Assets {
     }
 }
 
+class ChannelAssets extends Assets {
+    constructor(endpoint: string, localStorage: boolean) {
+        super(endpoint, localStorage);
+        this.idProperty = IdProperty.UUID;
+        this.assetType = AssetType.Channel;
+
+        const uuid = '6934255e-446b-40d3-b2ca-c5f801bd2278';
+        this.assets[uuid] = {
+            id: uuid,
+            name: 'Simulator',
+            type: AssetType.Channel,
+            content: {
+                address: '+12065550000',
+                schemes: ['tel'],
+                roles: ['send', 'receive']
+            }
+        };
+    }
+}
+
 class FlowAssets extends Assets {
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
@@ -179,6 +280,7 @@ class FlowAssets extends Assets {
 }
 
 export default class AssetService {
+    private channels: Assets;
     private groups: Assets;
     private fields: Assets;
     private flows: FlowAssets;
@@ -187,6 +289,9 @@ export default class AssetService {
         this.groups = new GroupAssets(config.endpoints.groups, config.localStorage);
         this.fields = new FieldAssets(config.endpoints.fields, config.localStorage);
         this.flows = new FlowAssets(config.endpoints.flows, config.localStorage);
+
+        // channels are always mocked for local
+        this.channels = new ChannelAssets('/channels', true);
     }
 
     public addFlowComponents(flowComponents: FlowComponents): void {
@@ -205,4 +310,56 @@ export default class AssetService {
     public getFieldAssets(): Assets {
         return this.fields;
     }
+
+    public getSimulationAssets(): any {
+        let simAssets: SimAsset[] = [];
+        const base = getBaseURL();
+        // our group set asset
+        simAssets.push({
+            type: SimAssetType.Groups,
+            url: base + this.groups.endpoint + '/',
+            content: this.groups.getAssetSet()
+        });
+
+        // our fields
+        simAssets.push({
+            type: SimAssetType.Fields,
+            url: base + this.fields.endpoint + '/',
+            content: this.fields.getAssetSet()
+        });
+
+        // our channels
+        simAssets.push({
+            type: SimAssetType.Channels,
+            url: base + this.channels.endpoint + '/',
+            content: this.channels.getAssetSet()
+        });
+
+        // our flows
+        simAssets = simAssets.concat(this.flows.getAssetContents(SimAssetType.Flow));
+
+        const payload = {
+            assets: simAssets,
+            asset_server: {
+                type_urls: {
+                    flow: base + this.flows.endpoint + '/{uuid}/',
+                    field_set: base + this.fields.endpoint + '/',
+                    channel_set: base + this.channels.endpoint + '/',
+                    group_set: base + this.groups.endpoint + '/'
+                }
+            }
+        };
+
+        return payload;
+    }
 }
+
+/*
+{
+    type: 'field_set',
+    url: 'http://localhost:9000/fields/',
+    content: this.props.contactFields.map((field: SearchResult) => {
+        return { key: field.id, name: field.name, value_type: 'text' };
+    })
+},
+*/

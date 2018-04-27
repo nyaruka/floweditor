@@ -13,7 +13,7 @@ import { getSelectClass, isValidLabel, propertyExists, dump, snakify } from '../
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { bindActionCreators } from 'redux';
-import AssetService, { Asset, AssetType } from '../../services/AssetService';
+import { Asset, AssetType, Assets } from '../../services/AssetService';
 
 interface AttribElementPassedProps extends FormElementProps {
     initial: Asset;
@@ -21,7 +21,7 @@ interface AttribElementPassedProps extends FormElementProps {
     placeholder?: string;
     searchPromptText?: string;
     helpText?: string;
-    assetService: AssetService;
+    assets: Assets;
 }
 
 interface AttribElementStoreProps {
@@ -125,7 +125,7 @@ export class AttribElement extends React.Component<AttribElementProps, AttribEle
                     name={this.props.name}
                     resultType={ResultType.field}
                     multi={false}
-                    assets={this.props.assetService.getFieldAssets()}
+                    assets={this.props.assets}
                     initial={[this.state.attribute]}
                     closeOnSelect={true}
                     searchPromptText={this.props.searchPromptText}

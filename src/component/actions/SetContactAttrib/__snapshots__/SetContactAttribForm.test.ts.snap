@@ -3,34 +3,18 @@
 exports[`SetContactAttribForm render should render self, children with base props 1`] = `
 Object {
   "add": true,
-  "assetService": AssetService {
-    "fields": FieldAssets {
-      "assetType": "field",
-      "assets": Object {
-        "name": Object {
-          "id": "name",
-          "name": "Name",
-          "type": "property",
-        },
+  "assets": FieldAssets {
+    "assetType": "field",
+    "assets": Object {
+      "name": Object {
+        "id": "name",
+        "name": "Name",
+        "type": "property",
       },
-      "endpoint": "/assets/fields.json",
-      "idProperty": "key",
-      "localStorage": true,
     },
-    "flows": FlowAssets {
-      "assetType": "flow",
-      "assets": Object {},
-      "endpoint": "/assets/flows.json",
-      "idProperty": "uuid",
-      "localStorage": true,
-    },
-    "groups": GroupAssets {
-      "assetType": "group",
-      "assets": Object {},
-      "endpoint": "/assets/groups.json",
-      "idProperty": "uuid",
-      "localStorage": true,
-    },
+    "endpoint": "/assets/fields.json",
+    "idProperty": "key",
+    "localStorage": true,
   },
   "helpText": "Select an existing attribute to update or type any name to create a new one",
   "initial": Object {
