@@ -5,7 +5,7 @@ Object {
   "add": true,
   "assetService": AssetService {
     "fields": FieldAssets {
-      "assetType": "property",
+      "assetType": "field",
       "assets": Object {
         "name": Object {
           "id": "name",
@@ -16,7 +16,6 @@ Object {
       "endpoint": "/assets/fields.json",
       "idProperty": "key",
       "localStorage": true,
-      "nameProperty": "label",
     },
     "flows": FlowAssets {
       "assetType": "flow",
@@ -24,7 +23,6 @@ Object {
       "endpoint": "/assets/flows.json",
       "idProperty": "uuid",
       "localStorage": true,
-      "nameProperty": "name",
     },
     "groups": GroupAssets {
       "assetType": "group",
@@ -32,7 +30,6 @@ Object {
       "endpoint": "/assets/groups.json",
       "idProperty": "uuid",
       "localStorage": true,
-      "nameProperty": "name",
     },
   },
   "helpText": "Select an existing attribute to update or type any name to create a new one",

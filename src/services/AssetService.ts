@@ -20,7 +20,6 @@ enum IdProperty {
 }
 
 enum NameProperty {
-    Label = 'label',
     Name = 'name'
 }
 
@@ -34,7 +33,6 @@ export enum AssetType {
 export class Assets {
     private endpoint: string;
     private localStorage: boolean;
-    protected nameProperty: NameProperty;
     protected idProperty: IdProperty;
     protected assetType: AssetType;
     protected assets: { [id: string]: Asset } = {};
@@ -42,7 +40,6 @@ export class Assets {
     constructor(endpoint: string, localStorage: boolean) {
         this.localStorage = localStorage;
         this.endpoint = endpoint;
-        this.nameProperty = NameProperty.Name;
         this.idProperty = IdProperty.UUID;
     }
 
@@ -98,9 +95,9 @@ export class Assets {
 
         return axios.get(url).then((response: AxiosResponse) => {
             for (const result of response.data.results) {
-                if (this.matches(term, result[this.nameProperty])) {
+                if (this.matches(term, result.name)) {
                     matches.push({
-                        name: result[this.nameProperty],
+                        name: result.name,
                         id: result[this.idProperty],
                         type: this.assetType
                     });
@@ -143,7 +140,6 @@ export class Assets {
 class GroupAssets extends Assets {
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
-        this.nameProperty = NameProperty.Name;
         this.idProperty = IdProperty.UUID;
         this.assetType = AssetType.Group;
     }
@@ -165,9 +161,8 @@ class FieldAssets extends Assets {
 
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
-        this.nameProperty = NameProperty.Label;
         this.idProperty = IdProperty.Key;
-        this.assetType = AssetType.Property;
+        this.assetType = AssetType.Field;
 
         FieldAssets.CONTACT_PROPERTIES.map((result: Asset) => {
             this.assets[result.id] = result;
@@ -178,7 +173,6 @@ class FieldAssets extends Assets {
 class FlowAssets extends Assets {
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
-        this.nameProperty = NameProperty.Name;
         this.idProperty = IdProperty.UUID;
         this.assetType = AssetType.Flow;
     }

@@ -1,6 +1,5 @@
-import AssetService, { Assets } from './AssetService';
+import AssetService, { Assets, AssetType, Asset } from './AssetService';
 import { dump } from '../utils';
-import { SearchResult } from '../store';
 import * as config from '../../__test__/config';
 
 describe('AssetService', () => {
@@ -22,43 +21,42 @@ describe('AssetService', () => {
 
         it('should add groups', () => {
             // we are local storage, this should be added to our items
-            groups.add({ name: 'Group A', id: 'groupA', type: 'group' });
+            groups.add({ name: 'Group A', id: 'groupA', type: AssetType.Group });
             expect(groups).toMatchSnapshot();
         });
 
         describe('searching', () => {
             beforeEach(() => {
                 groups.addAll([
-                    { name: 'Monkey Happy', id: 'monkey_happy', type: 'group' },
-                    { name: 'Monkey Haters', id: 'monkey_haters', type: 'group' },
-                    { name: 'Monkey Lovers', id: 'monkey_lovers', type: 'group' }
+                    { name: 'Monkey Happy', id: 'monkey_happy', type: AssetType.Group },
+                    { name: 'Monkey Haters', id: 'monkey_haters', type: AssetType.Group },
+                    { name: 'Monkey Lovers', id: 'monkey_lovers', type: AssetType.Group }
                 ]);
             });
 
             it('should return everything for empty search', () => {
-                return groups.search('').then((results: SearchResult[]) => {
-                    dump(results);
+                return groups.search('').then((results: Asset[]) => {
                     expect(results.length).toBe(8);
                     expect(results).toMatchSnapshot('empty');
                 });
             });
 
             it('should search for "monkey"', () => {
-                return groups.search('monkey').then((results: SearchResult[]) => {
+                return groups.search('monkey').then((results: Asset[]) => {
                     expect(results.length).toBe(3);
                     expect(results).toMatchSnapshot('monkey');
                 });
             });
 
             it('should search for "monkey ha"', () => {
-                groups.search('monkey ha').then((results: SearchResult[]) => {
+                groups.search('monkey ha').then((results: Asset[]) => {
                     expect(results.length).toBe(2);
                     expect(results).toMatchSnapshot('monkey ha');
                 });
             });
 
             it('should search for "monkey hap"', () => {
-                groups.search('monkey hap').then((results: SearchResult[]) => {
+                groups.search('monkey hap').then((results: Asset[]) => {
                     expect(results.length).toBe(1);
                     expect(results).toMatchSnapshot('monkey hap');
                 });
@@ -66,9 +64,9 @@ describe('AssetService', () => {
         });
 
         it('should not add duplicates', () => {
-            groups.add({ name: 'Group A', id: 'groupA', type: 'group' });
-            groups.add({ name: 'Group A', id: 'groupA', type: 'group' });
-            groups.search('group').then((results: SearchResult[]) => {
+            groups.add({ name: 'Group A', id: 'groupA', type: AssetType.Group });
+            groups.add({ name: 'Group A', id: 'groupA', type: AssetType.Group });
+            groups.search('group').then((results: Asset[]) => {
                 expect(results.length).toBe(1);
             });
             expect(groups).toMatchSnapshot();

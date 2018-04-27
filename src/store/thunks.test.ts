@@ -87,11 +87,10 @@ describe('Flow Manipulation', () => {
     describe('init', () => {
         it('should fetch and initalize flow', () => {
             const assetService = new AssetService(config);
-
-            store.dispatch(fetchFlow(assetService, 'boring')).then(() => {
+            return store.dispatch(fetchFlow(assetService, 'boring')).then(() => {
                 expect(assetService).toMatchSnapshot();
                 const nodes = getUpdatedNodes(store);
-                expect(nodes.length).toBe(4);
+                expect(Object.keys(nodes).length).toBe(4);
                 expect(nodes).toMatchSnapshot();
             });
         });
