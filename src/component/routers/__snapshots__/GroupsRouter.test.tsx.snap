@@ -51,7 +51,6 @@ Object {
     "endpoint": "/assets/groups.json",
     "idProperty": "uuid",
     "localStorage": true,
-    "nameProperty": "name",
   },
   "groups": Array [
     Object {

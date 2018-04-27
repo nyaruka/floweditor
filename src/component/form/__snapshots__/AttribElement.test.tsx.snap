@@ -10,7 +10,7 @@ exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
     __className=""
     assets={
       FieldAssets {
-        "assetType": "property",
+        "assetType": "field",
         "assets": Object {
           "name": Object {
             "id": "name",
@@ -21,7 +21,6 @@ exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
         "endpoint": "/assets/fields.json",
         "idProperty": "key",
         "localStorage": true,
-        "nameProperty": "label",
       }
     }
     closeOnSelect={true}
@@ -52,7 +51,7 @@ exports[`AttribElement render should render self, children with base props 1`] =
 Object {
   "__className": "",
   "assets": FieldAssets {
-    "assetType": "property",
+    "assetType": "field",
     "assets": Object {
       "name": Object {
         "id": "name",
@@ -63,7 +62,6 @@ Object {
     "endpoint": "/assets/fields.json",
     "idProperty": "key",
     "localStorage": true,
-    "nameProperty": "label",
   },
   "closeOnSelect": true,
   "initial": Array [
@@ -92,7 +90,7 @@ exports[`AttribElement render should render self, children with base props 2`] =
     __className=""
     assets={
       FieldAssets {
-        "assetType": "property",
+        "assetType": "field",
         "assets": Object {
           "name": Object {
             "id": "name",
@@ -103,7 +101,6 @@ exports[`AttribElement render should render self, children with base props 2`] =
         "endpoint": "/assets/fields.json",
         "idProperty": "key",
         "localStorage": true,
-        "nameProperty": "label",
       }
     }
     closeOnSelect={true}

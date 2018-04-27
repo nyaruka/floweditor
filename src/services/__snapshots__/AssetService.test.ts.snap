@@ -7,7 +7,6 @@ GroupAssets {
   "endpoint": "/assets/groups.json",
   "idProperty": "uuid",
   "localStorage": true,
-  "nameProperty": "name",
 }
 `;
 
@@ -18,7 +17,6 @@ FlowAssets {
   "endpoint": "/assets/flows.json",
   "idProperty": "uuid",
   "localStorage": true,
-  "nameProperty": "name",
 }
 `;
 
@@ -125,7 +123,6 @@ GroupAssets {
   "endpoint": "/assets/groups.json",
   "idProperty": "uuid",
   "localStorage": true,
-  "nameProperty": "name",
 }
 `;
 
@@ -136,7 +133,6 @@ GroupAssets {
   "endpoint": "/assets/groups.json",
   "idProperty": "uuid",
   "localStorage": true,
-  "nameProperty": "name",
 }
 `;
 
@@ -153,6 +149,5 @@ GroupAssets {
   "endpoint": "/assets/groups.json",
   "idProperty": "uuid",
   "localStorage": true,
-  "nameProperty": "name",
 }
 `;
