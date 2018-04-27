@@ -90,12 +90,6 @@ interface Session {
     contact: Contact;
 }
 
-interface Asset {
-    type: string;
-    url: string;
-    content: any;
-}
-
 /**
  * Our dev console for simulating or testing expressions
  */
