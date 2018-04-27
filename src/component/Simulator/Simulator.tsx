@@ -226,8 +226,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         renderNodes.map((renderNode: RenderNode) => {
             nodes.push(renderNode.node);
         });
-        this.props.definition.nodes = nodes;
-        return this.props.definition;
+        return {
+            ...this.props.definition,
+            nodes
+        };
     }
 
     private startFlow(): void {
