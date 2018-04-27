@@ -353,13 +353,3 @@ export default class AssetService {
         return payload;
     }
 }
-
-/*
-{
-    type: 'field_set',
-    url: 'http://localhost:9000/fields/',
-    content: this.props.contactFields.map((field: SearchResult) => {
-        return { key: field.id, name: field.name, value_type: 'text' };
-    })
-},
-*/
