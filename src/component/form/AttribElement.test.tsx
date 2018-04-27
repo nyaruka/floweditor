@@ -25,7 +25,7 @@ const baseProps: AttribElementProps = {
     name: 'Attribute',
     contactFields: [],
     initial,
-    assetService: configProviderContext.assetService
+    assets: configProviderContext.assetService.getFieldAssets()
 };
 
 const { setup, spyOn } = composeComponentTestUtils<AttribElementProps>(AttribElement, baseProps);
@@ -108,7 +108,7 @@ describe(AttribElement.name, () => {
             const {
                 wrapper,
                 instance,
-                props: { showLabel, name, helpText, contactFields, assetService }
+                props: { showLabel, name, helpText, contactFields, assets }
             } = setup();
 
             expect(wrapper.find('FormElement').props()).toEqual(
