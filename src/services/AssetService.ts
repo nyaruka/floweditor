@@ -189,32 +189,28 @@ export class Assets {
     }
 
     public getAssetSet(): any[] {
-        const assets: any[] = [];
-        Object.keys(this.assets).map((key: string) => {
+        const assets = Object.keys(this.assets).map((key: string) => {
             const asset = this.assets[key];
             if (asset.type !== AssetType.Property) {
-                assets.push({
+                return {
                     [this.idProperty]: asset.id,
                     name: asset.name,
                     ...asset.content
-                });
+                };
             }
         });
         return assets;
     }
 
     public getAssetContents(type: SimAssetType): SimAsset[] {
-        const assets: SimAsset[] = [];
-        Object.keys(this.assets).map((key: string) => {
+        return Object.keys(this.assets).map((key: string) => {
             const asset = this.assets[key];
-            assets.push({
+            return {
                 type,
                 url: getBaseURL() + this.endpoint + '/' + asset.id + '/',
                 content: asset.content
-            });
+            };
         });
-
-        return assets;
     }
 }
 
