@@ -7,7 +7,7 @@ import update from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
 import { FlowDefinition, Group, FlowNode } from '../../flowTypes';
 import ActivityManager, { Activity } from '../../services/ActivityManager';
-import { FlowDetails, getFlow } from '../../external';
+import { FlowDetails } from '../../external';
 import LogEvent, { EventProps } from './LogEvent';
 import { ConfigProviderContext } from '../../config';
 import { connect } from 'react-redux';
