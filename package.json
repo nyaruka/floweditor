@@ -22,7 +22,6 @@
     "lint:ts": "tslint -c tslint.json 'src/**/*.{ts,tsx}' -e 'src/**/*.d.ts'",
     "clean:umd": "shx rm -rf umd",
     "clean:prev": "shx rm -rf preview/dist",
-    "build:prepre": "webpack --config webpack/webpack.config.js --env.NODE_ENV=prev",
     "build:prev": "npm run clean:prev && webpack --config webpack/webpack.config.js --env.NODE_ENV=prev && npm run lambda:build",
     "build:umd": "npm run clean:umd & webpack --config webpack/webpack.config.js --env.NODE_ENV=prod",
     "bundleStats:dev": "webpack --config webpack/webpack.config.js --env.NODE_ENV=dev --profile --json > stats.json",
