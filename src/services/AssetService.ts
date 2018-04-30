@@ -189,14 +189,15 @@ export class Assets {
     }
 
     public getAssetSet(): any[] {
-        const assets = Object.keys(this.assets).map((key: string) => {
+        const assets: any[] = [];
+        Object.keys(this.assets).forEach((key: string) => {
             const asset = this.assets[key];
             if (asset.type !== AssetType.Property) {
-                return {
+                assets.push({
                     [this.idProperty]: asset.id,
                     name: asset.name,
                     ...asset.content
-                };
+                });
             }
         });
         return assets;
