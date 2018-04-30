@@ -16,6 +16,7 @@ import SubflowRouter from '../component/routers/SubflowRouter';
 import SwitchRouter from '../component/routers/SwitchRouter';
 import WebhookRouter from '../component/routers/WebhookRouter';
 import { AnyAction } from '../flowTypes';
+import MissingComp from '../component/actions/Missing/Missing';
 
 /*
 Old name	                New name	                Event(s) generated
@@ -53,7 +54,9 @@ export const enum Types {
     start_session = 'start_session',
     split_by_expression = 'split_by_expression',
     split_by_groups = 'split_by_groups',
-    wait_for_response = 'wait_for_response'
+    wait_for_response = 'wait_for_response',
+
+    missing = 'missing'
 }
 
 export enum Mode {
@@ -85,6 +88,13 @@ export function allows(mode: Mode): boolean {
 
 export const typeConfigList: Type[] = [
     /** Actions */
+    {
+        type: Types.missing,
+        name: 'Missing',
+        description: ' ** Unsupported ** ',
+        component: MissingComp,
+        allows
+    },
     {
         type: Types.send_msg,
         name: 'Send Message',
@@ -209,4 +219,11 @@ export const typeConfigMap: TypeMap = typeConfigList.reduce((map: TypeMap, typeC
  * @param {string} type - The type of the type config to return, e.g. 'send_msg'
  * @returns {Object} - The type config found at typeConfigs[type] or -1
  */
-export const getTypeConfig = (type: string): Type => typeConfigMap[type];
+export const getTypeConfig = (type: string): Type => {
+    let actionConfig = typeConfigMap[type];
+
+    if (!actionConfig) {
+        actionConfig = typeConfigMap.missing;
+    }
+    return actionConfig;
+};

@@ -39,13 +39,13 @@ axios.get = jest.fn(url => {
                         throw new Error(`Axios mock: UUID query "${uuid}" not found`);
                 }
             }
-            return resolvePromise(flowsResp);
+            return resolvePromise(flowsResp.assets);
         case endpoints.groups:
-            return resolvePromise(groupsResp);
+            return resolvePromise(groupsResp.assets);
         case endpoints.contacts:
-            return resolvePromise(contactsResp);
+            return resolvePromise(contactsResp.assets);
         case endpoints.fields:
-            return resolvePromise(fieldsResp);
+            return resolvePromise(fieldsResp.assets);
         default:
             throw new Error('Axios mock: url not passed. Passed: ' + url);
     }

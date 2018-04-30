@@ -309,36 +309,32 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         let events = update(this.state.events, { $push: [newMessage] }) as EventProps[];
         this.setState({ events });
 
-        getFlow(this.context.endpoints.flows, this.props.definition.uuid, true).then(
-            (details: FlowDetails) => {
-                const body: any = {
-                    session: this.state.session,
-                    contact: this.state.session.contact,
-                    events: [newMessage],
-                    ...this.getAssetService().getSimulationAssets()
-                };
+        const body: any = {
+            session: this.state.session,
+            contact: this.state.session.contact,
+            events: [newMessage],
+            ...this.getAssetService().getSimulationAssets()
+        };
 
-                axios.default
-                    .post(
-                        `${getBaseURL()}${this.context.endpoints.engine}/resume`,
-                        JSON.stringify(body, null, 2)
-                    )
-                    .then((response: axios.AxiosResponse) => {
-                        this.updateRunContext(body, response.data as RunContext);
-                    })
-                    .catch(error => {
-                        events = update(this.state.events, {
-                            $push: [
-                                {
-                                    type: 'error',
-                                    text: error.response.data.error
-                                }
-                            ]
-                        }) as EventProps[];
-                        this.setState({ events });
-                    });
-            }
-        );
+        axios.default
+            .post(
+                `${getBaseURL()}${this.context.endpoints.engine}/resume`,
+                JSON.stringify(body, null, 2)
+            )
+            .then((response: axios.AxiosResponse) => {
+                this.updateRunContext(body, response.data as RunContext);
+            })
+            .catch(error => {
+                events = update(this.state.events, {
+                    $push: [
+                        {
+                            type: 'error',
+                            text: error.response.data.error
+                        }
+                    ]
+                }) as EventProps[];
+                this.setState({ events });
+            });
     }
 
     private onReset(event: any): void {

@@ -10,7 +10,7 @@ import {
 import { GROUP_NOT_FOUND, GROUP_PLACEHOLDER } from './form/constants';
 import SelectSearch, { SelectSearchProps } from './SelectSearch';
 
-const groupsResp = require('../../assets/groups.json') as Resp;
+const groupsResp = require('../../__test__/assets/groups.json') as Resp;
 
 const baseProps: SelectSearchProps = {
     url: configProviderContext.endpoints.groups,

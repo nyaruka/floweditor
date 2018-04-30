@@ -16,10 +16,7 @@ import { getTypeConfig, operatorConfigList, getOperatorConfig } from '../../conf
 import { Types } from '../../config/typeConfigs';
 import { Operators } from '../../config/operatorConfigs';
 
-const {
-    results: [{ definition }]
-} = require('../../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
-
+const definition = require('../../../__test__/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 const { nodes: [, node] } = definition;
 const { router: { cases }, exits } = node;
 

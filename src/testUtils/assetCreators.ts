@@ -25,9 +25,8 @@ import {
 } from '../flowTypes';
 import { Types } from '../config/typeConfigs';
 import { Operators } from '../config/operatorConfigs';
-import { SearchResult } from '../store';
 
-const { results: groupsResults } = require('../../assets/groups.json');
+const { assets: groupsResults } = require('../../__test__/assets/groups.json');
 
 /**
  * Create a select control option

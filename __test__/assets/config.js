@@ -23,10 +23,10 @@ module.exports =
         : Object.assign({}, config, {
               localStorage: true,
               endpoints: {
-                  flows: '/assets/flows.json',
-                  groups: '/assets/groups.json',
-                  contacts: '/assets/contacts.json',
-                  fields: '/assets/fields.json',
+                  flows: '/assets/flows',
+                  groups: '/assets/groups',
+                  contacts: '/assets/contacts',
+                  fields: '/assets/fields',
                   activity: '',
                   engine: ''
               }

@@ -74,16 +74,16 @@ export class Assets {
         }
 
         return new Promise<Asset>((resolve, reject) => {
-            const url = `${this.endpoint}?uuid=${id}`;
+            const url = `${this.endpoint}/${id}/`;
             axios
                 .get(url)
                 .then((response: AxiosResponse) => {
-                    const ob = response.data.results[0];
+                    const ob = response.data;
                     const asset = {
                         id: ob.uuid,
                         name: ob.name,
                         type: this.assetType,
-                        content: ob.definition
+                        content: ob
                     };
                     if (this.localStorage) {
                         this.assets[id] = asset;
@@ -116,7 +116,7 @@ export class Assets {
         }
 
         return axios.get(url).then((response: AxiosResponse) => {
-            for (const result of response.data.results) {
+            for (const result of response.data) {
                 if (this.matches(term, result.name)) {
                     matches.push({
                         name: result.name,
@@ -165,16 +165,16 @@ export class Assets {
                 asset.content = content;
                 resolve(asset);
             } else {
-                const url = `${this.endpoint}?uuid=${uuid}`;
+                const url = `${this.endpoint}/${uuid}/`;
                 axios
                     .post(url, content)
                     .then((response: AxiosResponse) => {
-                        const ob = response.data.results[0];
+                        const ob = response.data;
                         const asset = {
                             id: ob.uuid,
                             name: ob.name,
                             type: this.assetType,
-                            content: ob.definition
+                            content: ob
                         };
                         if (this.localStorage) {
                             this.assets[uuid] = asset;

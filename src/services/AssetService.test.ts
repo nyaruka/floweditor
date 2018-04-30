@@ -49,14 +49,14 @@ describe('AssetService', () => {
             });
 
             it('should search for "monkey ha"', () => {
-                groups.search('monkey ha').then((results: Asset[]) => {
+                return groups.search('monkey ha').then((results: Asset[]) => {
                     expect(results.length).toBe(2);
                     expect(results).toMatchSnapshot('monkey ha');
                 });
             });
 
             it('should search for "monkey hap"', () => {
-                groups.search('monkey hap').then((results: Asset[]) => {
+                return groups.search('monkey hap').then((results: Asset[]) => {
                     expect(results.length).toBe(1);
                     expect(results).toMatchSnapshot('monkey hap');
                 });
@@ -66,10 +66,10 @@ describe('AssetService', () => {
         it('should not add duplicates', () => {
             groups.add({ name: 'Group A', id: 'groupA', type: AssetType.Group });
             groups.add({ name: 'Group A', id: 'groupA', type: AssetType.Group });
-            groups.search('group').then((results: Asset[]) => {
+            return groups.search('group').then((results: Asset[]) => {
                 expect(results.length).toBe(1);
+                expect(groups).toMatchSnapshot();
             });
-            expect(groups).toMatchSnapshot();
         });
     });
 
@@ -80,7 +80,6 @@ describe('AssetService', () => {
         });
 
         it('should initialize field assets', () => {
-            dump(flows);
             expect(flows).toMatchSnapshot();
         });
     });

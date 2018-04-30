@@ -48,7 +48,7 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
                         searchable={false}
                         clearable={false}
                         labelKey="description"
-                        options={typeConfigList}
+                        options={typeConfigList.filter(type => type.type !== 'missing')}
                     />
                 </div>
             </div>

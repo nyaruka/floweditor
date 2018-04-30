@@ -12,7 +12,7 @@ import ChangeGroupsComp, {
     getRemoveAllMarkup
 } from './ChangeGroups';
 
-const { results: groups } = require('../../../../assets/groups.json');
+const { assets: groups } = require('../../../../__test__/assets/groups.json');
 
 const addGroupsAction = createAddGroupsAction({ groups: groups.slice(2) });
 

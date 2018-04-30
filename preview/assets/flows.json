@@ -1,6 +1,5 @@
 {
-    "total": 2,
-    "results":[
+    "assets": [
         {
             "uuid": "a4f64f1b-85bc-477e-b706-de313a022979",
             "name": "Colors",
@@ -11,6 +10,5 @@
             "name": "Customer Service",
             "type": "flow"
         }
-    ],
-    "more": null
- }
+    ]
+}

@@ -21,8 +21,13 @@
 
     &.send_msg, &.set_contact_field, &.set_contact_property, 
     &.add_contact_groups, &.remove_contact_groups, &.set_run_result, 
-    &.send_email {
+    &.send_email, &.missing {
         width: $node_width - $padding * 2;
+    }
+
+    &.missing {
+        color: tomato;
+        cursor: default;
     }
 
     &.call_webhook {

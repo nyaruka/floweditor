@@ -13,7 +13,7 @@ const root = document.getElementById('flow-editor');
 const renderHot = (App: React.SFC<{ config: FlowEditorConfig }>) =>
     render(
         <HotContainer>
-            <App config={require('../../assets/config')} />
+            <App config={require('../config')} />
         </HotContainer>,
         root
     );
