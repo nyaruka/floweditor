@@ -1,4 +1,4 @@
-const groupsResp = require('../assets/groups.json');
+const groupsResp = require('../preview/assets/groups.json');
 
 const baseOpts = {
     statusCode: 200,
@@ -6,4 +6,4 @@ const baseOpts = {
 };
 const getOpts = (opts = {}) => Object.assign({}, baseOpts, opts);
 
-exports.handler = (evt, ctx, cb) => cb(null, getOpts({ body: JSON.stringify(groupsResp) }));
+exports.handler = (evt, ctx, cb) => cb(null, getOpts({ body: JSON.stringify(groupsResp.assets) }));

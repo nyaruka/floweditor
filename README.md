@@ -1,5 +1,4 @@
 # FlowEditor
-
 [![Build Status](https://travis-ci.org/nyaruka/floweditor.svg?branch=master)](https://travis-ci.org/nyaruka/floweditor)
 [![Coverage Status](https://coveralls.io/repos/github/nyaruka/floweditor/badge.svg?branch=master)](https://coveralls.io/github/nyaruka/floweditor?branch=master)
 

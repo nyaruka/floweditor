@@ -3,6 +3,13 @@
 exports[`typeConfigs > should provide type configs 1`] = `
 Array [
   Object {
+    "allows": [Function],
+    "component": [Function],
+    "description": " ** Unsupported ** ",
+    "name": "Missing",
+    "type": "missing",
+  },
+  Object {
     "advanced": 1,
     "allows": [Function],
     "component": [Function],
@@ -109,6 +116,13 @@ Array [
 exports[`typeConfigs > should provide type configs 2`] = `
 Array [
   Object {
+    "allows": [Function],
+    "component": [Function],
+    "description": " ** Unsupported ** ",
+    "name": "Missing",
+    "type": "missing",
+  },
+  Object {
     "advanced": 1,
     "allows": [Function],
     "component": [Function],
@@ -184,6 +198,13 @@ Object {
     "form": [Function],
     "name": "Call Webhook",
     "type": "call_webhook",
+  },
+  "missing": Object {
+    "allows": [Function],
+    "component": [Function],
+    "description": " ** Unsupported ** ",
+    "name": "Missing",
+    "type": "missing",
   },
   "remove_contact_groups": Object {
     "allows": [Function],

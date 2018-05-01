@@ -7,10 +7,9 @@ import {
     getUnicodeChars
 } from './helpers';
 import { OPTIONS, GSM } from './constants';
+import { FlowDefinition } from '../../../flowTypes';
 
-const {
-    results: [{ definition }]
-} = require('../../../../assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
+const definition: FlowDefinition = require('../../../../__test__/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
 const optionQueryMap = OPTIONS.reduce((argMap, { name }) => {
     const lastIndex = name.lastIndexOf('.');

@@ -8,7 +8,7 @@ import { AddGroupsForm, LABEL, labelSpecId, PLACEHOLDER } from './AddGroupsForm'
 import ChangeGroupsFormProps from './props';
 import { mapGroupsToAssets, mapAssetsToGroups } from './helpers';
 
-const { results: groups } = require('../../../../assets/groups.json');
+const { assets: groups } = require('../../../../__test__/assets/groups.json');
 
 const addGroupsAction = createAddGroupsAction();
 const addGroupConfig = getTypeConfig(Types.add_contact_groups);

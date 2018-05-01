@@ -12,8 +12,7 @@ import AssetService from '../services/AssetService';
 import { fakePropType } from '../config/ConfigProvider';
 
 export interface Resp {
-    results: Array<{ [key: string]: any }>;
-    total?: number;
+    assets: Array<{ [key: string]: any }>;
 }
 
 export interface QueryString {

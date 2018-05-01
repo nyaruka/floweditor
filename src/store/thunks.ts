@@ -5,7 +5,7 @@ import { v4 as generateUUID } from 'uuid';
 import { hasCases } from '../component/NodeEditor/NodeEditor';
 import { getTypeConfig } from '../config';
 import { Types } from '../config/typeConfigs';
-import { FlowDetails, getFlow, getFlows } from '../external';
+import { FlowDetails } from '../external';
 import {
     Action,
     AnyAction,

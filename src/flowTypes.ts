@@ -125,6 +125,9 @@ export interface SetContactProperty extends Action {
 
 export type SetContactAttribute = SetContactField | SetContactProperty;
 
+// tslint:disable-next-line:no-empty-interface
+export interface Missing extends Action {}
+
 export interface SendMsg extends Action {
     text: string;
     all_urns?: boolean;

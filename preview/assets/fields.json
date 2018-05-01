@@ -1,6 +1,5 @@
 {
-   "total":3,
-   "results":[
+    "assets": [
       {
         "key": "expected_delivery_date",
         "name": "Expected Delivery Date",
@@ -16,6 +15,5 @@
         "name":"Number of Children",
         "value_type": "numeric"
       }
-   ],
-   "more": null
+    ]
 }

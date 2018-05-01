@@ -9,8 +9,35 @@ const {
 const paths = require('./paths');
 const { typingsForCssModulesLoader, postCSSLoader, awesomeTypeScriptLoader } = require('./loaders');
 const commonConfig = require('./webpack.common');
+const fs = require('fs');
 
 const DEV_SERVER_PORT = 9000;
+
+const env = {
+    NODE_ENV: 'development'
+};
+
+const proxy = {
+    '/migrate': {
+        target: 'http://localhost:8800'
+    },
+    '/flow/start': {
+        target: 'http://localhost:8800'
+    },
+    '/flow/resume': {
+        target: 'http://localhost:8800'
+    }
+};
+
+/** Configure our RAPID proxy */
+if (process.env.RAPID_FLOW && process.env.RAPID_ORG) {
+    env.RAPID_FLOW = process.env.RAPID_FLOW;
+    env.RAPID_ORG = process.env.RAPID_ORG;
+
+    proxy['/flow/assets'] = {
+        target: 'http://localhost:8000'
+    };
+}
 
 const devConfig = {
     entry: [
@@ -24,41 +51,35 @@ const devConfig = {
     },
     devtool: 'source-map',
     devServer: {
-        contentBase: [join(__dirname, '../preview/src'), join(__dirname, '../assets')],
+        contentBase: [join(__dirname, '../preview/src')],
         compress: true,
         hot: true,
         port: DEV_SERVER_PORT,
-        proxy: {
-            '/assets/flows': {
-                bypass: req => {
-                    const { query: { uuid }, originalUrl } = req;
-                    if (uuid) {
-                        return `/flows/${uuid}.json`;
-                    }
-                    return originalUrl.replace('/assets', '');
-                },
-                changeOrigin: true,
-                secure: false
-            },
-            '/local': {
-                target: 'http://localhost.textit.in:8000/api/v2/',
-                pathRewrite: { '^/local': '' },
-                changeOrigin: true,
-                secure: false
-            },
-            '/migrate': {
-                target: 'http://localhost:8800'
-            },
-            '/flow/**': {
-                target: 'http://localhost:8800'
-            }
-        }
+        setup: function(app) {
+            app.get('/assets/**', function(req, res) {
+                const url = req._parsedUrl.pathname.replace(/(^\/assets\/)|(\/$)/g, '');
+                const [type, uuid] = url.split('/');
+
+                // fetch the content
+                if (uuid) {
+                    res.send(
+                        fs.readFileSync(
+                            'preview/assets/' + type + '_content/' + uuid + '.json',
+                            'utf8'
+                        )
+                    );
+                } else {
+                    // otherwise return the list
+                    const content = require('../preview/assets/' + type + 's.json');
+                    res.send(content.assets);
+                }
+            });
+        },
+        proxy
     },
     plugins: [
         new HotModuleReplacementPlugin(),
-        new EnvironmentPlugin({
-            NODE_ENV: 'development'
-        }),
+        new EnvironmentPlugin(env),
         new NamedModulesPlugin(),
         new WatchIgnorePlugin([/scss\.d\.ts$/])
     ],
