@@ -1,15 +1,15 @@
 @font-face {
   font-family: 'flows';
-  src:  url('./fonts/flows.eot?ygndt6');
-  src:  url('./fonts/flows.eot?ygndt6#iefix') format('embedded-opentype'),
-    url('./fonts/flows.ttf?ygndt6') format('truetype'),
-    url('./fonts/flows.woff?ygndt6') format('woff'),
-    url('./fonts/flows.svg?ygndt6#flows') format('svg');
+  src:  url('fonts/flows.eot?f9ihiy');
+  src:  url('fonts/flows.eot?f9ihiy#iefix') format('embedded-opentype'),
+    url('fonts/flows.ttf?f9ihiy') format('truetype'),
+    url('fonts/flows.woff?f9ihiy') format('woff'),
+    url('fonts/flows.svg?f9ihiy#flows') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^="icn-"], [class*=" icn-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'flows' !important;
   speak: none;
@@ -18,7 +18,7 @@
   font-variant: normal;
   text-transform: none;
   line-height: 1;
-
+  
   /* Enable Ligatures ================ */
   letter-spacing: 0;
   -webkit-font-feature-settings: "liga";
@@ -34,96 +34,96 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-design:before {
+.icn-simulator:before {
+  content: "\e900";
+}
+.icn-design:before {
   content: "\e90d";
 }
-.icon-image:before {
+.icn-image:before {
   content: "\e942";
 }
-.icon-video:before {
+.icn-video:before {
   content: "\e963";
 }
-.icon-folder-closed:before {
+.icn-folder-closed:before {
   content: "\e9db";
 }
-.icon-folder-open:before {
+.icn-folder-open:before {
   content: "\e9dc";
 }
-.icon-label:before {
+.icn-label:before {
   content: "\e9ee";
 }
-.icon-phone:before {
+.icn-phone:before {
   content: "\ea1d";
 }
-.icon-envelop:before {
+.icn-envelop:before {
   content: "\ea34";
 }
-.icon-back:before {
+.icn-back:before {
   content: "\eabf";
 }
-.icon-msg:before {
+.icn-msg:before {
   content: "\ead8";
 }
-.icon-contact:before {
+.icn-contact:before {
   content: "\eaf7";
 }
-.icon-group:before {
+.icn-group:before {
   content: "\eaf8";
 }
-.icon-settings:before {
+.icn-settings:before {
   content: "\eb61";
 }
-.icon-flow:before {
+.icn-flow:before {
   content: "\ec65";
 }
-.icon-flow-open:before {
+.icn-flow-open:before {
   content: "\ec66";
 }
-.icon-webhook:before {
+.icn-webhook:before {
   content: "\ec7b";
 }
-.icon-language:before {
+.icn-language:before {
   content: "\ec97";
 }
-.icon-link:before {
+.icn-link:before {
   content: "\ec99";
 }
-.icon-add:before {
+.icn-add:before {
   content: "\ed61";
 }
-.icon-info:before {
+.icn-info:before {
   content: "\ed63";
 }
-.icon-info2:before {
+.icn-info2:before {
   content: "\ed64";
 }
-.icon-remove:before {
+.icn-remove:before {
   content: "\ed6e";
 }
-.icon-check:before {
+.icn-check:before {
   content: "\ed72";
 }
-.icon-play:before {
+.icn-play:before {
   content: "\ed85";
 }
-.icon-pause:before {
+.icn-pause:before {
   content: "\ed86";
 }
-.icon-stop:before {
+.icn-stop:before {
   content: "\ed87";
 }
-.icon-arrow-up:before {
+.icn-arrow-up:before {
   content: "\edb7";
 }
-.icon-arrow-right:before {
+.icn-arrow-right:before {
   content: "\edbb";
 }
-.icon-arrow-down:before {
+.icn-arrow-down:before {
   content: "\edbf";
 }
-.icon-arrow-left:before {
+.icn-arrow-left:before {
   content: "\edc3";
-}
-.icon-simulator:before {
-  content: "\e900";
 }

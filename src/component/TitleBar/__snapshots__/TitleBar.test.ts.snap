@@ -20,7 +20,7 @@ exports[`TitleBar render confirmation should render confirmation markup 1`] = `
       onMouseUp={[Function]}
     >
       <span
-        className="icon-remove"
+        className="icn-remove"
       />
     </div>
     Send Message
@@ -48,7 +48,7 @@ exports[`TitleBar render confirmation should render confirmation markup 2`] = `
       onMouseUp={[Function]}
     >
       <span
-        className="icon-remove"
+        className="icn-remove"
       />
     </div>
     Send Message
@@ -64,7 +64,7 @@ exports[`TitleBar render confirmation should render confirmation markup 2`] = `
       onMouseUp={[Function]}
     >
       <span
-        className="icon-remove"
+        className="icn-remove"
       />
     </div>
     Remove?
@@ -88,7 +88,7 @@ exports[`TitleBar render move icon should render move icon 1`] = `
       onMouseUp={[Function]}
     >
       <span
-        className="icon-arrow-up"
+        className="icn-arrow-up"
       />
     </div>
     Send Message
@@ -116,7 +116,7 @@ exports[`TitleBar render remove icon should render remove icon 1`] = `
       onMouseUp={[Function]}
     >
       <span
-        className="icon-remove"
+        className="icn-remove"
       />
     </div>
     Send Message

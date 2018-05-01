@@ -106,7 +106,7 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
             } else {
                 title = (
                     <div>
-                        <div className={`${styles.background} icon-settings`} />
+                        <div className={`${styles.background} icn-settings`} />
                         <div style={{ marginLeft: '50px' }}>{title}</div>
                     </div>
                 );
@@ -125,14 +125,14 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
                     } else {
                         flip = (
                             <div className={styles.show_back} onClick={this.toggleFlip}>
-                                <div className="icon-settings" />
+                                <div className="icn-settings" />
                             </div>
                         );
                     }
                 } else {
                     flip = (
                         <div className={styles.show_front} onClick={this.toggleFlip}>
-                            <div className="icon-back" />
+                            <div className="icn-back" />
                         </div>
                     );
                 }

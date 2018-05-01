@@ -64,7 +64,6 @@ export const prefix = (operatorType: string): string => {
 };
 
 /**
-
  * Returns min, max values for Operators.has_number_between case
  */
 export const getMinMax = (args: string[] = []): { min: string; max: string } => {
@@ -475,7 +474,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
     private getRemoveIco(): JSX.Element {
         if (!this.props.empty) {
-            return <span className={`icon-remove ${styles.removeIcon}`} onClick={this.onRemove} />;
+            return <span className={`icn-remove ${styles.removeIcon}`} onClick={this.onRemove} />;
         }
 
         return null;

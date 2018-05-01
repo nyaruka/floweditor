@@ -4,7 +4,7 @@
 /* To provide support for elements dynamically added, this script adds
    method 'icomoonLiga' to the window object. You can pass element references to this method.
 */
-(function () {
+(function() {
     'use strict';
     function supportsProperty(p) {
         var prefixes = ['Webkit', 'Moz', 'O', 'ms'],
@@ -25,77 +25,73 @@
     var icons;
     if (!supportsProperty('fontFeatureSettings')) {
         icons = {
-            'design': '&#xe90d;',
+            simulator: '&#xe900;',
+            design: '&#xe90d;',
             'pencil-ruler': '&#xe90d;',
-            'image5': '&#xe942;',
-            'picture5': '&#xe942;',
+            image5: '&#xe942;',
+            picture5: '&#xe942;',
             'video-camera2': '&#xe963;',
-            'video11': '&#xe963;',
-            'folder2': '&#xe9db;',
-            'directory11': '&#xe9db;',
+            video11: '&#xe963;',
+            folder2: '&#xe9db;',
+            directory11: '&#xe9db;',
             'folder-open': '&#xe9dc;',
-            'directory12': '&#xe9dc;',
+            directory12: '&#xe9dc;',
             'price-tag2': '&#xe9ee;',
-            'phone2': '&#xea1d;',
-            'telephone2': '&#xea1d;',
-            'envelop5': '&#xea34;',
-            'mail5': '&#xea34;',
-            'undo2': '&#xeabf;',
-            'left': '&#xeabf;',
-            'back': '&#xeabf;',
-            'bubble13': '&#xead8;',
-            'comment8': '&#xead8;',
-            'user': '&#xeaf7;',
-            'profile2': '&#xeaf7;',
-            'users': '&#xeaf8;',
-            'group': '&#xeaf8;',
-            'cog2': '&#xeb61;',
-            'gear2': '&#xeb61;',
-            'settings': '&#xeb61;',
-            'tree6': '&#xec65;',
-            'branches2': '&#xec65;',
-            'tree7': '&#xec66;',
-            'branches3': '&#xec66;',
+            phone2: '&#xea1d;',
+            telephone2: '&#xea1d;',
+            envelop5: '&#xea34;',
+            mail5: '&#xea34;',
+            undo2: '&#xeabf;',
+            left: '&#xeabf;',
+            back: '&#xeabf;',
+            bubble13: '&#xead8;',
+            comment8: '&#xead8;',
+            user: '&#xeaf7;',
+            profile2: '&#xeaf7;',
+            users: '&#xeaf8;',
+            group: '&#xeaf8;',
+            cog2: '&#xeb61;',
+            gear2: '&#xeb61;',
+            settings: '&#xeb61;',
+            tree6: '&#xec65;',
+            branches2: '&#xec65;',
+            tree7: '&#xec66;',
+            branches3: '&#xec66;',
             'cloud-upload2': '&#xec7b;',
-            'cloud7': '&#xec7b;',
-            'earth2': '&#xec97;',
-            'globe7': '&#xec97;',
-            'link': '&#xec99;',
-            'chain': '&#xec99;',
+            cloud7: '&#xec7b;',
+            earth2: '&#xec97;',
+            globe7: '&#xec97;',
+            link: '&#xec99;',
+            chain: '&#xec99;',
             'plus-circle2': '&#xed61;',
-            'add5': '&#xed61;',
-            'info': '&#xed63;',
-            'information': '&#xed63;',
-            'info2': '&#xed64;',
-            'information2': '&#xed64;',
-            'cross3': '&#xed6e;',
-            'cancel4': '&#xed6e;',
-            'checkmark4': '&#xed72;',
-            'tick4': '&#xed72;',
-            'play4': '&#xed85;',
-            'player8': '&#xed85;',
-            'pause2': '&#xed86;',
-            'player9': '&#xed86;',
-            'stop2': '&#xed87;',
-            'player10': '&#xed87;',
+            add5: '&#xed61;',
+            info: '&#xed63;',
+            information: '&#xed63;',
+            info2: '&#xed64;',
+            information2: '&#xed64;',
+            cross3: '&#xed6e;',
+            cancel4: '&#xed6e;',
+            checkmark4: '&#xed72;',
+            tick4: '&#xed72;',
+            play4: '&#xed85;',
+            player8: '&#xed85;',
+            pause2: '&#xed86;',
+            player9: '&#xed86;',
+            stop2: '&#xed87;',
+            player10: '&#xed87;',
             'arrow-up': '&#xedb7;',
-            'up': '&#xedb7;',
+            up: '&#xedb7;',
             'arrow-right': '&#xedbb;',
-            'right3': '&#xedbb;',
+            right3: '&#xedbb;',
             'arrow-down': '&#xedbf;',
-            'down': '&#xedbf;',
+            down: '&#xedbf;',
             'arrow-left': '&#xedc3;',
-            'left4': '&#xedc3;',
-            'simulator': '&#xe900;',
-          '0': 0
+            left4: '&#xedc3;',
+            '0': 0
         };
         delete icons['0'];
-        window.icomoonLiga = function (els) {
-            var classes,
-                el,
-                i,
-                innerHTML,
-                key;
+        window.icomoonLiga = function(els) {
+            var classes, el, i, innerHTML, key;
             els = els || document.getElementsByTagName('*');
             if (!els.length) {
                 els = [els];
@@ -106,7 +102,7 @@
                     break;
                 }
                 classes = el.className;
-                if (/icon-/.test(classes)) {
+                if (/icn-/.test(classes)) {
                     innerHTML = el.innerHTML;
                     if (innerHTML && innerHTML.length > 1) {
                         for (key in icons) {
@@ -121,4 +117,4 @@
         };
         window.icomoonLiga();
     }
-}());
+})();
