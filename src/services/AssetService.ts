@@ -166,6 +166,7 @@ export class Assets {
                 resolve(asset);
             } else {
                 const url = `${this.endpoint}/${uuid}/`;
+                /*
                 axios
                     .post(url, content)
                     .then((response: AxiosResponse) => {
@@ -182,6 +183,8 @@ export class Assets {
                         return resolve(asset);
                     })
                     .catch(error => reject(error));
+                */
+                resolve(this.assets[uuid]);
             }
         });
 
