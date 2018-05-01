@@ -1,26 +1,23 @@
 // TODO: Remove use of Function
 // tslint:disable:ban-types
-import * as React from 'react';
-import * as axios from 'axios';
 import { react as bindCallbacks } from 'auto-bind';
+import * as axios from 'axios';
 import update from 'immutability-helper';
-import { v4 as generateUUID } from 'uuid';
-import { FlowDefinition, Group, FlowNode } from '../../flowTypes';
-import ActivityManager, { Activity } from '../../services/ActivityManager';
-import { FlowDetails } from '../../external';
-import LogEvent, { EventProps } from './LogEvent';
-import { ConfigProviderContext } from '../../config';
-import { connect } from 'react-redux';
-
-import * as styles from './Simulator.scss';
 import { ReactNode } from 'react';
-import { AppState, DispatchWithState } from '../../store';
+import * as React from 'react';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { RenderNodeMap, RenderNode } from '../../store/flowContext';
-import { getOrderedNodes } from '../../store/helpers';
-import { dump } from '../../utils';
+import { v4 as generateUUID } from 'uuid';
+import { ConfigProviderContext } from '../../config';
 import { fakePropType } from '../../config/ConfigProvider';
+import { FlowDefinition, FlowNode, Group } from '../../flowTypes';
+import ActivityManager, { Activity } from '../../services/ActivityManager';
 import AssetService, { getBaseURL } from '../../services/AssetService';
+import { AppState, DispatchWithState } from '../../store';
+import { RenderNode, RenderNodeMap } from '../../store/flowContext';
+import { getOrderedNodes } from '../../store/helpers';
+import LogEvent, { EventProps } from './LogEvent';
+import * as styles from './Simulator.scss';
 
 const ACTIVE = 'A';
 

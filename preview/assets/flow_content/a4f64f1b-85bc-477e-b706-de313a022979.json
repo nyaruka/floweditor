@@ -190,7 +190,7 @@
             "exits": [
                 {
                     "uuid": "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf",
-                    "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+                    "destination_node_uuid": null,
                     "name": null
                 }
             ]
@@ -242,56 +242,12 @@
                 {
                     "name": "Subscribers",
                     "uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
-                    "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d"
+                    "destination_node_uuid": null
                 },
                 {
                     "uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
                     "name": "Other",
                     "destination_node_uuid": null
-                }
-            ]
-        },
-        {
-            "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
-            "router": {
-                "type": "switch",
-                "operand": "@child",
-                "cases": [
-                    {
-                        "uuid": "2d247ecc-1d5d-4381-914a-3195b1888f04",
-                        "type": "has_run_status",
-                        "arguments": ["C"],
-                        "exit_uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69"
-                    },
-                    {
-                        "uuid": "b46ffd80-1b85-44bf-b3f2-01550d4ff302",
-                        "type": "has_run_status",
-                        "arguments": ["E"],
-                        "exit_uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7"
-                    }
-                ],
-                "default_exit_uuid": null
-            },
-            "exits": [
-                {
-                    "uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
-                    "name": "Complete",
-                    "destination_node_uuid": null
-                },
-                {
-                    "uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
-                    "name": "Expired",
-                    "destination_node_uuid": null
-                }
-            ],
-            "actions": [
-                {
-                    "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
-                    "type": "start_flow",
-                    "flow": {
-                        "name": "Customer Service",
-                        "uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b"
-                    }
                 }
             ]
         }
@@ -353,13 +309,6 @@
                     "left": 680,
                     "top": 340
                 }
-            },
-            "059a8daa-0697-44a6-9486-2386cc417e9d": {
-                "position": {
-                    "left": 300,
-                    "top": 520
-                },
-                "type": "subflow"
             },
             "882f8022-7256-4b1c-abf3-7b180f5e7e24": {
                 "position": {
