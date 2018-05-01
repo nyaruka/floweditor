@@ -21,7 +21,8 @@ const getFlow = uuid => {
 
 const notFoundHandler = cb => cb(null, getOpts({ statusCode: 404, body: signBunny('not found') }));
 const flowsHandler = (req = {}, cb) => {
-    const uuid = req.path.replace(/\/flows\/|(\/$)/g, '');
+    const uuid = req.path.replace(/(.*\/flows\/)|(\/$)/g, '');
+
     if (uuid) {
         const flow = getFlow(uuid);
         if (flow) {
