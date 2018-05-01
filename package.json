@@ -37,7 +37,7 @@
     "prettify": "prettier --write 'src/**/*.{ts,tsx,json,js,css,md}'",
     "lambda:serve": "netlify-lambda serve lambda-src",
     "lambda:build": "netlify-lambda build lambda-src",
-    "tag": "git push — tags origin master",
+    "tag": "git push --tags origin master",
     "preversion": "npm run test:local",
     "version": "npm run build:umd",
     "postversion": "npm run tag && npm run release",
