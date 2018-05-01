@@ -10,7 +10,7 @@ export interface FlowDetails {
 }
 
 // Set url for Netlify deployments
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'preview') {
     axios.defaults.baseURL = `${process.env.DEPLOY_PRIME_URL}/.netlify/functions/`;
 }
 
