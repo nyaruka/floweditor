@@ -403,11 +403,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                             }
                             onClick={this.onReset}
                         />
-                        <div className={styles.iconSimulator + ' icon-simulator'} />
-                        <div
-                            className={styles.iconClose + ' icon-remove'}
-                            onClick={this.onToggle}
-                        />
+                        <div className={styles.icnSimulator + ' icn-simulator'} />
+                        <div className={styles.icnClose + ' icn-remove'} onClick={this.onToggle} />
                         <div className={styles.screen}>
                             <div className={styles.messages}>
                                 {messages}
@@ -434,7 +431,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                     </div>
                 </div>
                 <div className={styles.simulatorTab + ' ' + tabHidden} onClick={this.onToggle}>
-                    <div className={styles.simulatorTabIcon + ' icon-simulator'} />
+                    <div className={styles.simulatorTabIcon + ' icn-simulator'} />
                     <div className={styles.simulatorTabText}>
                         Run in<br />Simulator
                     </div>

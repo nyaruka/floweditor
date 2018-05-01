@@ -2,16 +2,16 @@
 
 @font-face {
   font-family: 'flows';
-  src:  url('#{$icomoon-font-path}/flows.eot?ygndt6');
-  src:  url('#{$icomoon-font-path}/flows.eot?ygndt6#iefix') format('embedded-opentype'),
-    url('#{$icomoon-font-path}/flows.svg?ygndt6#flows') format('svg'),
-    url('#{$icomoon-font-path}/flows.woff?ygndt6') format('woff'),
-    url('#{$icomoon-font-path}/flows.ttf?ygndt6') format('truetype');
+  src:  url('#{$icomoon-font-path}/flows.eot?f9ihiy');
+  src:  url('#{$icomoon-font-path}/flows.eot?f9ihiy#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/flows.ttf?f9ihiy') format('truetype'),
+    url('#{$icomoon-font-path}/flows.woff?f9ihiy') format('woff'),
+    url('#{$icomoon-font-path}/flows.svg?f9ihiy#flows') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^="icn-"], [class*=" icn-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'flows' !important;
   speak: none;
@@ -36,159 +36,163 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-design {
+@function unicode($str) {
+  @return unquote("\"") + $str + unquote("\"");
+}
+
+.icn-simulator {
   &:before {
-    content: $icon-design;
+    content: unicode($icn-simulator); 
   }
 }
-.icon-image {
+.icn-design {
   &:before {
-    content: $icon-image;
+    content: unicode($icn-design); 
   }
 }
-.icon-video {
+.icn-image {
   &:before {
-    content: $icon-video;
+    content: unicode($icn-image); 
   }
 }
-.icon-folder-closed {
+.icn-video {
   &:before {
-    content: $icon-folder-closed;
+    content: unicode($icn-video); 
   }
 }
-.icon-folder-open {
+.icn-folder-closed {
   &:before {
-    content: $icon-folder-open;
+    content: unicode($icn-folder-closed); 
   }
 }
-.icon-label {
+.icn-folder-open {
   &:before {
-    content: $icon-label;
+    content: unicode($icn-folder-open); 
   }
 }
-.icon-phone {
+.icn-label {
   &:before {
-    content: $icon-phone;
+    content: unicode($icn-label); 
   }
 }
-.icon-envelop {
+.icn-phone {
   &:before {
-    content: $icon-envelop;
+    content: unicode($icn-phone); 
   }
 }
-.icon-back {
+.icn-envelop {
   &:before {
-    content: $icon-back;
+    content: unicode($icn-envelop); 
   }
 }
-.icon-msg {
+.icn-back {
   &:before {
-    content: $icon-msg;
+    content: unicode($icn-back); 
   }
 }
-.icon-contact {
+.icn-msg {
   &:before {
-    content: $icon-contact;
+    content: unicode($icn-msg); 
   }
 }
-.icon-group {
+.icn-contact {
   &:before {
-    content: $icon-group;
+    content: unicode($icn-contact); 
   }
 }
-.icon-settings {
+.icn-group {
   &:before {
-    content: $icon-settings;
+    content: unicode($icn-group); 
   }
 }
-.icon-flow {
+.icn-settings {
   &:before {
-    content: $icon-flow;
+    content: unicode($icn-settings); 
   }
 }
-.icon-flow-open {
+.icn-flow {
   &:before {
-    content: $icon-flow-open;
+    content: unicode($icn-flow); 
   }
 }
-.icon-webhook {
+.icn-flow-open {
   &:before {
-    content: $icon-webhook;
+    content: unicode($icn-flow-open); 
   }
 }
-.icon-language {
+.icn-webhook {
   &:before {
-    content: $icon-language;
+    content: unicode($icn-webhook); 
   }
 }
-.icon-link {
+.icn-language {
   &:before {
-    content: $icon-link;
+    content: unicode($icn-language); 
   }
 }
-.icon-add {
+.icn-link {
   &:before {
-    content: $icon-add;
+    content: unicode($icn-link); 
   }
 }
-.icon-info {
+.icn-add {
   &:before {
-    content: $icon-info;
+    content: unicode($icn-add); 
   }
 }
-.icon-info2 {
+.icn-info {
   &:before {
-    content: $icon-info2;
+    content: unicode($icn-info); 
   }
 }
-.icon-remove {
+.icn-info2 {
   &:before {
-    content: $icon-remove;
+    content: unicode($icn-info2); 
   }
 }
-.icon-check {
+.icn-remove {
   &:before {
-    content: $icon-check;
+    content: unicode($icn-remove); 
   }
 }
-.icon-play {
+.icn-check {
   &:before {
-    content: $icon-play;
+    content: unicode($icn-check); 
   }
 }
-.icon-pause {
+.icn-play {
   &:before {
-    content: $icon-pause;
+    content: unicode($icn-play); 
   }
 }
-.icon-stop {
+.icn-pause {
   &:before {
-    content: $icon-stop;
+    content: unicode($icn-pause); 
   }
 }
-.icon-arrow-up {
+.icn-stop {
   &:before {
-    content: $icon-arrow-up;
+    content: unicode($icn-stop); 
   }
 }
-.icon-arrow-right {
+.icn-arrow-up {
   &:before {
-    content: $icon-arrow-right;
+    content: unicode($icn-arrow-up); 
   }
 }
-.icon-arrow-down {
+.icn-arrow-right {
   &:before {
-    content: $icon-arrow-down;
+    content: unicode($icn-arrow-right); 
   }
 }
-.icon-arrow-left {
+.icn-arrow-down {
   &:before {
-    content: $icon-arrow-left;
+    content: unicode($icn-arrow-down); 
   }
 }
-.icon-simulator {
+.icn-arrow-left {
   &:before {
-    content: $icon-simulator;
+    content: unicode($icn-arrow-left); 
   }
 }
 

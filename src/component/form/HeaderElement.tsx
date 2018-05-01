@@ -97,7 +97,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
     private getRemoveIco(): JSX.Element {
         return renderIf(this.props.index !== 0 && !this.props.empty)(
             <div className={styles.removeIco} onClick={this.onRemove} data-spec={removeIcoSpecId}>
-                <span className="icon-remove" />
+                <span className="icn-remove" />
             </div>
         );
     }
