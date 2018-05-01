@@ -14,10 +14,11 @@ export interface Languages {
 export interface Endpoints {
     fields: string;
     groups: string;
-    engine: string;
     contacts: string;
     flows: string;
     activity: string;
+    simulateStart: string;
+    simulateResume: string;
 }
 
 export interface FlowEditorConfig {

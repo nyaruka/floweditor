@@ -205,7 +205,7 @@ describe(Flow.name, () => {
                 {},
                 {},
                 {
-                    endpoints: merge({ engine: 'someEngine' })
+                    endpoints: merge({ simulateStart: 'startMeUp' })
                 }
             );
 
