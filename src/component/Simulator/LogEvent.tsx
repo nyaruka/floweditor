@@ -1,10 +1,8 @@
 import * as React from 'react';
+import { Types } from '../../config/typeConfigs';
 import { Group } from '../../flowTypes';
 import Modal from '../Modal';
-
 import * as styles from './Simulator.scss';
-import { Types } from '../../config/typeConfigs';
-import { dump } from '../../utils';
 
 interface MsgProps {
     text: string;
@@ -64,7 +62,6 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         let groupText: string = '';
         let delim: string = '';
 
-        console.log(this.props.type);
         switch (this.props.type) {
             case 'msg_received':
                 text = <span>{this.props.msg.text}</span>;

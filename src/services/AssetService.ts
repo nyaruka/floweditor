@@ -1,9 +1,7 @@
 // tslint:disable:max-classes-per-file
-import { v4 as generateUUID } from 'uuid';
-import { Endpoints, FlowEditorConfig, ContactProperties, Group } from '../flowTypes';
 import axios, { AxiosResponse } from 'axios';
+import { ContactProperties, FlowEditorConfig, Group } from '../flowTypes';
 import { FlowComponents } from '../store/helpers';
-import { dump } from '../utils';
 
 export enum AssetType {
     Channel = 'channel',
@@ -233,10 +231,10 @@ class FieldAssets extends Assets {
             id: ContactProperties.Name.toLowerCase(),
             type: AssetType.Property
         }
-        /*{ 
-            name: ContactProperties.Language, 
-            id: ContactProperties.Language.toLowerCase(), 
-            type: AttributeType.property 
+        /*{
+            name: ContactProperties.Language,
+            id: ContactProperties.Language.toLowerCase(),
+            type: AttributeType.property
         }*/
     ];
 
