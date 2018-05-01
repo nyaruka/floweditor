@@ -271,7 +271,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
                         axios.default
                             .post(
-                                `${getBaseURL()}${this.context.endpoints.engine}/start`,
+                                `${getBaseURL()}${this.context.endpoints.simulateStart}`,
                                 JSON.stringify(body, null, 2)
                             )
                             .then((response: axios.AxiosResponse) => {
@@ -318,7 +318,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
         axios.default
             .post(
-                `${getBaseURL()}${this.context.endpoints.engine}/resume`,
+                `${getBaseURL()}${this.context.endpoints.simulateResume}`,
                 JSON.stringify(body, null, 2)
             )
             .then((response: axios.AxiosResponse) => {

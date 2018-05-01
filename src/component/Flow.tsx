@@ -306,7 +306,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     private getSimulator(): JSX.Element {
-        return renderIf(this.context.endpoints && this.context.endpoints.engine)(
+        return renderIf(this.context.endpoints && this.context.endpoints.simulateStart)(
             <Simulator Activity={this.Activity} plumberDraggable={this.Plumber.draggable} />
         );
     }

@@ -16,7 +16,8 @@ if (process.env.RAPID_FLOW) {
             contacts: base + 'contact',
             fields: base + 'field',
             activity: '',
-            engine: '/flow'
+            simulateStart: base + 'flow',
+            simulateResume: base + 'flow'
         }
     });
 } else {
@@ -30,7 +31,8 @@ if (process.env.RAPID_FLOW) {
                       contacts: 'contacts',
                       fields: 'fields',
                       activity: '',
-                      engine: ''
+                      simulateStart: '',
+                      simulateResume: ''
                   }
               })
             : Object.assign({}, config, {
@@ -41,7 +43,8 @@ if (process.env.RAPID_FLOW) {
                       contacts: '/assets/contact',
                       fields: '/assets/field',
                       activity: '',
-                      engine: '/flow'
+                      simulateStart: '/flow/start',
+                      simulateResume: '/flow/resume'
                   }
               });
 }
