@@ -57,19 +57,22 @@ export class LanguageSelector extends React.Component<LanguageSelectorStoreProps
     public render(): JSX.Element {
         if (this.props.language) {
             const options = mapOptions(this.context.languages);
-            return (
-                <div className={containerClass} data-spec={languageSelectorContainerSpecId}>
-                    <Select
-                        value={this.props.language.iso}
-                        onChange={this.onChange}
-                        valueKey="iso"
-                        labelKey="name"
-                        searchable={false}
-                        clearable={false}
-                        options={options}
-                    />
-                </div>
-            );
+            if (options.length) {
+                return (
+                    <div className={containerClass} data-spec={languageSelectorContainerSpecId}>
+                        <Select
+                            value={this.props.language.iso}
+                            onChange={this.onChange}
+                            valueKey="iso"
+                            labelKey="name"
+                            searchable={false}
+                            clearable={false}
+                            options={options}
+                        />
+                    </div>
+                );
+            }
+            return null;
         }
         return null;
     }

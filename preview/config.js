@@ -1,10 +1,5 @@
 const config = {
-    flow: 'a4f64f1b-85bc-477e-b706-de313a022979',
-    languages: {
-        eng: 'English',
-        spa: 'Spanish',
-        fre: 'French'
-    }
+    languages: {}
 };
 
 if (process.env.RAPID_FLOW) {

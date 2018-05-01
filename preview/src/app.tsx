@@ -9,11 +9,13 @@ import FlowEditor from '../../src/';
 import { FlowEditorConfig } from '../../src/flowTypes';
 
 const root = document.getElementById('flow-editor');
+const config = require('../config');
+config.flow = root.getAttribute('uuid');
 
 const renderHot = (App: React.SFC<{ config: FlowEditorConfig }>) =>
     render(
         <HotContainer>
-            <App config={require('../config')} />
+            <App config={config} />
         </HotContainer>,
         root
     );
