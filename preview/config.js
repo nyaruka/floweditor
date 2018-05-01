@@ -30,10 +30,10 @@ if (process.env.RAPID_FLOW) {
             ? Object.assign({}, config, {
                   localStorage: false,
                   endpoints: {
-                      flows: 'flows/',
-                      groups: 'groups/',
-                      contacts: 'contacts/',
-                      fields: 'fields/',
+                      flows: 'flows',
+                      groups: 'groups',
+                      contacts: 'contacts',
+                      fields: 'fields',
                       activity: '',
                       engine: ''
                   }
