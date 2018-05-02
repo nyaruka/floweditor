@@ -22,7 +22,13 @@ export enum Operators {
     has_phone = 'has_phone',
     has_email = 'has_email',
     has_error = 'has_error',
-    has_value = 'has_value'
+    has_value = 'has_value',
+    has_wait_timed_out = 'has_wait_timed_out',
+    has_district = 'has_district',
+    has_state = 'has_state',
+    has_ward = 'has_ward',
+    has_pattern = 'has_pattern',
+    is_error = 'is_error'
 }
 
 export interface Operator {
