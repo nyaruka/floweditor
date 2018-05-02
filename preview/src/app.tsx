@@ -10,7 +10,7 @@ import { FlowEditorConfig } from '../../src/flowTypes';
 
 const root = document.getElementById('flow-editor');
 const config = require('../config');
-config.flow = root.getAttribute('uuid');
+config.flow = root.getAttribute('uuid') || config.flow;
 
 const renderHot = (App: React.SFC<{ config: FlowEditorConfig }>) =>
     render(

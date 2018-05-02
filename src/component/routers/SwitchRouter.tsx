@@ -248,23 +248,26 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
             // Cases shouldn't be draggable unless they have fully-formed siblings
             if (this.state.cases.length === 1) {
                 const [caseProps] = this.state.cases;
-                cases.push(
-                    <CaseElement
-                        data-spec="case"
-                        key={caseProps.kase.uuid}
-                        ref={this.props.onBindWidget}
-                        name={`case_${caseProps.kase.uuid}`}
-                        onRemove={this.onCaseRemoved}
-                        onChange={this.onCaseChanged}
-                        solo={true}
-                        exitName={caseProps.exitName}
-                        kase={caseProps.kase}
-                        focusArgs={caseProps.focusArgs}
-                        focusExit={caseProps.focusExit}
-                        focusMin={caseProps.focusMin}
-                        focusMax={caseProps.focusMax}
-                    />
-                );
+
+                if (getOperatorConfig(caseProps.kase.type)) {
+                    cases.push(
+                        <CaseElement
+                            data-spec="case"
+                            key={caseProps.kase.uuid}
+                            ref={this.props.onBindWidget}
+                            name={`case_${caseProps.kase.uuid}`}
+                            onRemove={this.onCaseRemoved}
+                            onChange={this.onCaseChanged}
+                            solo={true}
+                            exitName={caseProps.exitName}
+                            kase={caseProps.kase}
+                            focusArgs={caseProps.focusArgs}
+                            focusExit={caseProps.focusExit}
+                            focusMin={caseProps.focusMin}
+                            focusMax={caseProps.focusMax}
+                        />
+                    );
+                }
             } else if (
                 // If we have 2 cases but the second isn't fully formed (e.g. only the operator has been changed)
                 this.state.cases.length === 2 &&
@@ -274,35 +277,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
             ) {
                 needsEmpty = false;
                 this.state.cases.forEach((caseProps: CaseElementProps) => {
-                    cases.push(
-                        <CaseElement
-                            key={caseProps.kase.uuid}
-                            data-spec="case"
-                            ref={this.props.onBindWidget}
-                            name={`case_${caseProps.kase.uuid}`}
-                            onRemove={this.onCaseRemoved}
-                            onChange={this.onCaseChanged}
-                            exitName={caseProps.exitName}
-                            kase={caseProps.kase}
-                            focusArgs={caseProps.focusArgs}
-                            focusExit={caseProps.focusExit}
-                            focusMin={caseProps.focusMin}
-                            focusMax={caseProps.focusMax}
-                        />
-                    );
-                });
-            } else {
-                this.state.cases.forEach((caseProps: CaseElementProps, idx) => {
-                    // If a case's operator expects 1 or more operands
-                    // and its arguments and exitName are empty,
-                    // we don't need an empty case.
-                    if (
-                        getOperatorConfig(caseProps.kase.type).operands > 0 &&
-                        !caseProps.kase.arguments.length &&
-                        !caseProps.exitName.length
-                    ) {
-                        needsEmpty = false;
-                        // It also shouldn't be draggable
+                    if (getOperatorConfig(caseProps.kase.type)) {
                         cases.push(
                             <CaseElement
                                 key={caseProps.kase.uuid}
@@ -319,38 +294,76 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
                                 focusMax={caseProps.focusMax}
                             />
                         );
-                    } else {
-                        cases.push(
-                            <Draggable key={caseProps.kase.uuid} draggableId={caseProps.kase.uuid}>
-                                {(provided, snapshot) => (
-                                    <div data-spec="case-draggable">
-                                        <div
-                                            ref={provided.innerRef}
-                                            style={getItemStyle(
-                                                provided.draggableStyle,
-                                                snapshot.isDragging
-                                            )}
-                                            {...provided.dragHandleProps}
-                                        >
-                                            <CaseElement
-                                                data-spec="case"
-                                                ref={this.props.onBindWidget}
-                                                name={`case_${caseProps.kase.uuid}`}
-                                                onRemove={this.onCaseRemoved}
-                                                onChange={this.onCaseChanged}
-                                                exitName={caseProps.exitName}
-                                                kase={caseProps.kase}
-                                                focusArgs={caseProps.focusArgs}
-                                                focusExit={caseProps.focusExit}
-                                                focusMin={caseProps.focusMin}
-                                                focusMax={caseProps.focusMax}
-                                            />
+                    }
+                });
+            } else {
+                this.state.cases.forEach((caseProps: CaseElementProps, idx) => {
+                    // If a case's operator expects 1 or more operands
+                    // and its arguments and exitName are empty,
+                    // we don't need an empty case.
+                    const op = getOperatorConfig(caseProps.kase.type);
+                    if (op) {
+                        if (
+                            op.operands > 0 &&
+                            !caseProps.kase.arguments.length &&
+                            !caseProps.exitName.length
+                        ) {
+                            needsEmpty = false;
+                            // It also shouldn't be draggable
+                            cases.push(
+                                <CaseElement
+                                    key={caseProps.kase.uuid}
+                                    data-spec="case"
+                                    ref={this.props.onBindWidget}
+                                    name={`case_${caseProps.kase.uuid}`}
+                                    onRemove={this.onCaseRemoved}
+                                    onChange={this.onCaseChanged}
+                                    exitName={caseProps.exitName}
+                                    kase={caseProps.kase}
+                                    focusArgs={caseProps.focusArgs}
+                                    focusExit={caseProps.focusExit}
+                                    focusMin={caseProps.focusMin}
+                                    focusMax={caseProps.focusMax}
+                                />
+                            );
+                        } else {
+                            cases.push(
+                                <Draggable
+                                    key={caseProps.kase.uuid}
+                                    draggableId={caseProps.kase.uuid}
+                                >
+                                    {(provided, snapshot) => (
+                                        <div data-spec="case-draggable">
+                                            <div
+                                                ref={provided.innerRef}
+                                                style={getItemStyle(
+                                                    provided.draggableStyle,
+                                                    snapshot.isDragging
+                                                )}
+                                                {...provided.dragHandleProps}
+                                            >
+                                                <CaseElement
+                                                    data-spec="case"
+                                                    ref={this.props.onBindWidget}
+                                                    name={`case_${caseProps.kase.uuid}`}
+                                                    onRemove={this.onCaseRemoved}
+                                                    onChange={this.onCaseChanged}
+                                                    exitName={caseProps.exitName}
+                                                    kase={caseProps.kase}
+                                                    focusArgs={caseProps.focusArgs}
+                                                    focusExit={caseProps.focusExit}
+                                                    focusMin={caseProps.focusMin}
+                                                    focusMax={caseProps.focusMax}
+                                                />
+                                            </div>
+                                            {provided.placeholder}
                                         </div>
-                                        {provided.placeholder}
-                                    </div>
-                                )}
-                            </Draggable>
-                        );
+                                    )}
+                                </Draggable>
+                            );
+                        }
+                    } else {
+                        console.error('Missing ' + caseProps.kase.type);
                     }
                 });
             }

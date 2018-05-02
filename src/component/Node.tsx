@@ -7,8 +7,8 @@ import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { ConfigProviderContext, getTypeConfig } from '../config';
-import { AnyAction, FlowDefinition, FlowNode, SwitchRouter, UINode } from '../flowTypes';
+import { ConfigProviderContext, getTypeConfig, getOperatorConfig } from '../config';
+import { AnyAction, FlowDefinition, FlowNode, SwitchRouter, UINode, Case } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
 import Plumber, { DragEvent } from '../services/Plumber';
 import {
@@ -320,10 +320,22 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         );
     }
 
+    private hasMissing(): boolean {
+        if (this.props.node.router) {
+            const kases = (this.props.node.router as SwitchRouter).cases || [];
+            for (const kase of kases) {
+                if (!getOperatorConfig(kase.type)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public render(): JSX.Element {
         const actions: JSX.Element[] = [];
-        let actionList: JSX.Element = null;
 
+        let actionList: JSX.Element = null;
         if (this.props.node.actions) {
             // Save the first reference off to manage our clicks
             let firstRef: { ref: (ref: any) => any } | {} = {
@@ -396,12 +408,13 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
             if (!this.props.node.actions || !this.props.node.actions.length) {
                 // Router headers are introduced here while action headers are introduced in ./Action/Action
+
                 header = (
                     // Wrap in a relative parent so it honors node clipping
                     <div style={{ position: 'relative' }}>
                         <div {...this.events}>
                             <TitleBar
-                                __className={shared[config.type]}
+                                __className={shared[this.hasMissing() ? 'missing' : config.type]}
                                 showRemoval={!this.props.translating}
                                 onRemoval={this.onRemoval}
                                 title={title}
