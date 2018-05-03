@@ -2,7 +2,7 @@ import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
 import { connect } from 'react-redux';
 import { Type } from '../../../config';
-import { FlowDefinition, SendMsg, BroadcastMsg, Group, Contact } from '../../../flowTypes';
+import { FlowDefinition, BroadcastMsg, Group, Contact } from '../../../flowTypes';
 import { AppState } from '../../../store';
 import Localization, { LocalizedObject } from '../../../services/Localization';
 
@@ -120,6 +120,7 @@ export class SendBroadcastForm extends React.Component<
         let text = '';
         let placeholder = '';
         let translation = null;
+        let recipients = null;
 
         if (this.props.translating) {
             const { text: textToTrans } = this.props.action;
@@ -135,15 +136,12 @@ export class SendBroadcastForm extends React.Component<
             placeholder = `${this.props.language.name} Translation`;
 
             if (this.props.localizations[0].isLocalized()) {
-                ({ text } = this.props.localizations[0].getObject() as SendMsg);
+                ({ text } = this.props.localizations[0].getObject() as BroadcastMsg);
             }
         } else {
             ({ text } = this.props.action);
-        }
 
-        return (
-            <div>
-                {translation}
+            recipients = (
                 <OmniboxElement
                     ref={this.props.onBindWidget}
                     className={broadcastStyles.recipients}
@@ -154,6 +152,13 @@ export class SendBroadcastForm extends React.Component<
                     required={true}
                     onChange={this.onRecipientsChanged}
                 />
+            );
+        }
+
+        return (
+            <div>
+                {translation}
+                {recipients}
                 <TextInputElement
                     ref={this.props.onBindWidget}
                     name="Message"

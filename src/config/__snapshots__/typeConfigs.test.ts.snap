@@ -21,6 +21,14 @@ Array [
   Object {
     "allows": [Function],
     "component": [Function],
+    "description": "Send somebody else a message",
+    "form": [Function],
+    "name": "Send Broadcast",
+    "type": "send_broadcast",
+  },
+  Object {
+    "allows": [Function],
+    "component": [Function],
     "description": "Add them to a group",
     "form": [Function],
     "name": "Add to Group",
@@ -134,6 +142,14 @@ Array [
   Object {
     "allows": [Function],
     "component": [Function],
+    "description": "Send somebody else a message",
+    "form": [Function],
+    "name": "Send Broadcast",
+    "type": "send_broadcast",
+  },
+  Object {
+    "allows": [Function],
+    "component": [Function],
     "description": "Add them to a group",
     "form": [Function],
     "name": "Add to Group",
@@ -213,6 +229,14 @@ Object {
     "form": [Function],
     "name": "Remove from Group",
     "type": "remove_contact_groups",
+  },
+  "send_broadcast": Object {
+    "allows": [Function],
+    "component": [Function],
+    "description": "Send somebody else a message",
+    "form": [Function],
+    "name": "Send Broadcast",
+    "type": "send_broadcast",
   },
   "send_email": Object {
     "allows": [Function],
