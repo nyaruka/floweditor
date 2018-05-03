@@ -53,7 +53,8 @@ import {
     updateResultName,
     updateShowResultName,
     updateTypeConfig,
-    updateUserAddingAction
+    updateUserAddingAction,
+    updateTimeout
 } from './nodeEditor';
 import AppState from './state';
 import AssetService, { Assets, Asset } from '../services/AssetService';
@@ -467,6 +468,8 @@ export const resetNodeEditingState = () => (dispatch: DispatchWithState, getStat
     if (nodeToEdit) {
         dispatch(updateNodeToEdit(null));
     }
+
+    dispatch(updateTimeout(null));
 };
 
 export const onUpdateAction = (action: AnyAction) => (
@@ -751,6 +754,11 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
         /* istanbul ignore else */
         if (node.router.result_name) {
             ({ router: { result_name: resultName } } = node);
+        }
+
+        /* istanbul ignore else */
+        if (node.wait.timeout) {
+            dispatch(updateTimeout(node.wait.timeout));
         }
 
         /* istanbul ignore else */

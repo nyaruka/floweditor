@@ -3,14 +3,14 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as axios from 'axios';
 import update from 'immutability-helper';
-import { ReactNode } from 'react';
 import * as React from 'react';
+import { ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { v4 as generateUUID } from 'uuid';
 import { ConfigProviderContext } from '../../config';
 import { fakePropType } from '../../config/ConfigProvider';
-import { FlowDefinition, FlowNode, Group } from '../../flowTypes';
+import { FlowDefinition, FlowNode, Group, Wait } from '../../flowTypes';
 import ActivityManager, { Activity } from '../../services/ActivityManager';
 import AssetService, { getBaseURL } from '../../services/AssetService';
 import { AppState, DispatchWithState } from '../../store';
@@ -60,11 +60,6 @@ interface Step {
     node: string;
     exit_uuid: string;
     node_uuid: string;
-}
-
-interface Wait {
-    timeout: number;
-    type: string;
 }
 
 interface Run {

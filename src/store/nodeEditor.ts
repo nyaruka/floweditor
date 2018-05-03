@@ -8,7 +8,8 @@ import ActionTypes, {
     UpdateResultNameAction,
     UpdateShowResultNameAction,
     UpdateTypeConfigAction,
-    UpdateUserAddingActionAction
+    UpdateUserAddingActionAction,
+    UpdateTimeoutAction
 } from './actionTypes';
 import Constants from './constants';
 
@@ -20,6 +21,7 @@ export interface NodeEditor {
     userAddingAction: boolean;
     nodeToEdit: FlowNode;
     actionToEdit: AnyAction;
+    timeout: number;
 }
 
 const DEFAULT_OPERAND = '@run.input';
@@ -32,7 +34,8 @@ export const initialState: NodeEditor = {
     operand: DEFAULT_OPERAND,
     userAddingAction: false,
     nodeToEdit: null,
-    actionToEdit: null
+    actionToEdit: null,
+    timeout: null
 };
 
 // Action Creators
@@ -91,6 +94,14 @@ export const updateShowResultName = (showResultName: boolean): UpdateShowResultN
     type: Constants.UPDATE_SHOW_RESULT_NAME,
     payload: {
         showResultName
+    }
+});
+
+// tslint:disable-next-line:no-shadowed-variable
+export const updateTimeout = (timeout: number): UpdateTimeoutAction => ({
+    type: Constants.UPDATE_TIMEOUT,
+    payload: {
+        timeout
     }
 });
 
@@ -164,6 +175,15 @@ export const actionToEdit = (state: AnyAction = initialState.actionToEdit, actio
     }
 };
 
+export const timeout = (state: number = initialState.timeout, action: ActionTypes) => {
+    switch (action.type) {
+        case Constants.UPDATE_TIMEOUT:
+            return action.payload.timeout;
+        default:
+            return state;
+    }
+};
+
 // Root reducer
 export default combineReducers({
     typeConfig,
@@ -172,5 +192,6 @@ export default combineReducers({
     operand,
     userAddingAction,
     nodeToEdit,
-    actionToEdit
+    actionToEdit,
+    timeout
 });

@@ -8,12 +8,14 @@ import reducer, {
     operand as operandReducer,
     resultName as resultNameReducer,
     showResultName as showResultNameReducer,
+    timeout as timeoutReducer,
     typeConfig as typeConfigReducer,
     updateActionToEdit,
     updateNodeToEdit,
     updateOperand,
     updateResultName,
     updateShowResultName,
+    updateTimeout,
     updateTypeConfig,
     updateUserAddingAction,
     userAddingAction as userAddingActionReducer
@@ -110,6 +112,19 @@ describe('nodeEditor action creators', () => {
                 }
             };
             expect(updateShowResultName(showResultName)).toEqual(expectedAction);
+        });
+    });
+
+    describe('updateTimeout', () => {
+        it('should create an action to update timeout state', () => {
+            const timeout = 60;
+            const expectedAction = {
+                type: Constants.UPDATE_TIMEOUT,
+                payload: {
+                    timeout
+                }
+            };
+            expect(updateTimeout(timeout)).toEqual(expectedAction);
         });
     });
 });
@@ -210,6 +225,20 @@ describe('nodeEditor reducers', () => {
             const { actions: [actionToEdit] } = definition.nodes[0];
             const action = updateActionToEdit(actionToEdit);
             expect(reduce(action)).toEqual(actionToEdit);
+        });
+    });
+
+    describe('timeout reducer', () => {
+        const reduce = action => timeoutReducer(undefined, action);
+
+        it('should return initial state', () => {
+            expect(reduce({})).toEqual(initialState.timeout);
+        });
+
+        it('should handle UPDATE_ACTION_TO_EDIT', () => {
+            const timeout = 60;
+            const action = updateTimeout(timeout);
+            expect(reduce(action)).toEqual(timeout);
         });
     });
 });

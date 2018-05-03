@@ -363,10 +363,12 @@ export const updateLocalization = (
 
     // Apply changes
     changes.forEach(({ translations, uuid }) => {
+        // adding localization
         if (translations) {
             newDef = mutate(newDef, {
                 localization: { [language]: { [uuid]: set(translations) } }
             });
+            // removing localization
         } else {
             newDef = mutate(newDef, {
                 localization: { [language]: unset([uuid]) }

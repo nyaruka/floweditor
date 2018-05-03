@@ -115,6 +115,10 @@ interface UpdateDragSelectionActionPayload {
     dragSelection: DragSelection;
 }
 
+interface UpdateTimeoutPayload {
+    timeout: number;
+}
+
 // Action types
 export type UpdateTranslatingAction = DuxAction<Constants.UPDATE_TRANSLATING, TranslatingPayload>;
 
@@ -217,6 +221,8 @@ export type UpdateDragSelectionAction = DuxAction<
     UpdateDragSelectionActionPayload
 >;
 
+export type UpdateTimeoutAction = DuxAction<Constants.UPDATE_TIMEOUT, UpdateTimeoutPayload>;
+
 export type UpdateNodeDragging = (nodeDragging: boolean) => UpdateNodeDraggingAction;
 
 export type UpdateDragGroup = (dragGroup: boolean) => UpdateDragGroupAction;
@@ -243,6 +249,8 @@ export type UpdateNodeEditorOpen = (nodeEditorOpen: boolean) => UpdateNodeEditor
 
 export type UpdateShowResultName = (showResultName: boolean) => UpdateShowResultNameAction;
 
+export type UpdateTimeout = (timeout: number) => UpdateTimeoutAction;
+
 type ActionTypes =
     | UpdateTranslatingAction
     | UpdateLanguageAction
@@ -268,6 +276,7 @@ type ActionTypes =
     | UpdateOperandAction
     | UpdateUserAddingActionAction
     | UpdateShowResultNameAction
-    | UpdateDragSelectionAction;
+    | UpdateDragSelectionAction
+    | UpdateTimeoutAction;
 
 export default ActionTypes;

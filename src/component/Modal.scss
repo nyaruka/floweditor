@@ -1,4 +1,5 @@
 @import "../variables.scss";
+@import "../mixins.scss";
 
 .modal {
     font-family: 'Roboto', sans-serif;
@@ -35,18 +36,39 @@
 }
 
 .footer {
+    display: flex;
     background: #f1f1f1;
     padding: 12px;
-    .left {
-        float: left;
-    }
-    .right {
-        border: 0px solid red;
-        text-align: right;
-        overflow: auto;
-    }
+    height: 45px;
     border-bottom-left-radius: $curvature;
     border-bottom-right-radius: $curvature;
+}
+
+.section-left {
+    box-sizing: border-box;
+    width: 70%;
+    display: inline-block;
+}
+
+.section-right {
+    box-sizing: border-box;
+    width: 30%;
+    display: inline-block;
+}
+
+.buttons {
+    @include centerVertically;
+    padding-right: 5px;
+}
+
+.left-buttons {
+    float: left;
+}
+
+.right-buttons {
+    border: 0px solid red;
+    text-align: right;
+    overflow: auto;
 }
 
 .show_back {

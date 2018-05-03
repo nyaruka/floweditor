@@ -86,7 +86,7 @@ export enum WaitTypes {
 
 export interface Wait {
     type: WaitTypes;
-    flow_uuid?: string;
+    timeout?: number;
 }
 
 export interface Group {

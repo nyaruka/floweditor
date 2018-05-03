@@ -1,12 +1,13 @@
 // TODO: Remove use of Function
 // tslint:disable:ban-types
-
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { v4 as generateUUID } from 'uuid';
 import { Mode, Type } from '../../config';
+import { Operators } from '../../config/operatorConfigs';
+import { Types } from '../../config/typeConfigs';
 import {
     Action,
     AnyAction,
@@ -15,29 +16,31 @@ import {
     ChangeGroups,
     Exit,
     FlowDefinition,
-    Methods,
     FlowNode,
+    Methods,
     Router,
     SendEmail,
     SendMsg,
     SetContactField,
     SetRunResult,
     StartFlow,
+    StartFlowExitNames,
     SwitchRouter,
-    WaitTypes,
     Wait,
+    WaitTypes,
     WebhookExitNames
 } from '../../flowTypes';
+import { Asset } from '../../services/AssetService';
 import { LocalizedObject } from '../../services/Localization';
 import {
     AppState,
     DispatchWithState,
     LocalizationUpdates,
     NoParamsAC,
-    OnUpdateAction,
     onUpdateAction,
-    OnUpdateLocalizations,
+    OnUpdateAction,
     onUpdateLocalizations,
+    OnUpdateLocalizations,
     OnUpdateRouter,
     onUpdateRouter,
     resetNodeEditingState,
@@ -58,17 +61,12 @@ import { RenderNode } from '../../store/flowContext';
 import { CaseElementProps } from '../form/CaseElement';
 import TextInputElement from '../form/TextInputElement';
 import { Language } from '../LanguageSelector';
-import Modal, { ButtonSet } from '../Modal';
+import ConnectedModal, { ButtonSet } from '../Modal';
 import { DragPoint } from '../Node';
 import * as shared from '../shared.scss';
 import { DEFAULT_BODY, GROUPS_OPERAND } from './constants';
 import * as formStyles from './NodeEditor.scss';
 import TypeList from './TypeList';
-import { NODE_SPACING } from '../../utils';
-import { Types } from '../../config/typeConfigs';
-import { Operators } from '../../config/operatorConfigs';
-import { StartFlowExitNames } from '../../flowTypes';
-import { Asset } from '../../services/AssetService';
 
 export type GetResultNameField = () => JSX.Element;
 export type SaveLocalizations = (
@@ -81,6 +79,13 @@ export type UpdateLocalizations = (language: string, changes: LocalizationUpdate
 interface Sides {
     front: JSX.Element;
     back: JSX.Element;
+}
+
+export enum DefaultExitNames {
+    'All Responses' = 'All Responses',
+    'No Response' = 'No Response',
+    'Any Value' = 'Any Value',
+    'Other' = 'Other'
 }
 
 export interface NodeEditorPassedProps {
@@ -100,6 +105,7 @@ export interface NodeEditorStoreProps {
     resultName: string;
     showResultName: boolean;
     operand: string;
+    timeout: number;
     pendingConnection: DragPoint;
     nodes: { [uuid: string]: RenderNode };
     updateResultName: UpdateResultName;
@@ -229,123 +235,6 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
     return defaultAction;
 };
 
-/**
- * Given a set of cases and previous exits, determines correct merging of cases
- * and the union of exits
- */
-export const resolveExits = (newCases: CaseElementProps[], previous: FlowNode): CombinedExits => {
-    // create mapping of our old exit uuids to old exit settings
-    const previousExitMap: { [uuid: string]: Exit } = {};
-
-    if (previous.exits) {
-        for (const exit of previous.exits) {
-            previousExitMap[exit.uuid] = exit;
-        }
-    }
-
-    const exits: Exit[] = [];
-    const cases: Case[] = [];
-
-    // map our new cases to an appropriate exit
-    for (const newCase of newCases) {
-        // see if we have a suitable exit for our case already
-        let existingExit: Exit = null;
-
-        // use our previous exit name if it isn't set
-        if (!newCase.exitName && newCase.kase.exit_uuid in previousExitMap) {
-            newCase.exitName = previousExitMap[newCase.kase.exit_uuid].name;
-        }
-
-        // ignore cases with empty names
-        if (!newCase.exitName || newCase.exitName.trim().length === 0) {
-            continue;
-        }
-
-        if (newCase.exitName) {
-            // look through our new exits to see if we've already created one
-            for (const exit of exits) {
-                if (newCase.exitName && exit.name) {
-                    if (exit.name.toLowerCase() === newCase.exitName.trim().toLowerCase()) {
-                        existingExit = exit;
-                        break;
-                    }
-                }
-            }
-
-            // couldn't find a new exit, look through our old ones
-            if (!existingExit) {
-                // look through our previous cases for a match
-                if (previous.exits) {
-                    for (const exit of previous.exits) {
-                        if (newCase.exitName && exit.name) {
-                            if (exit.name.toLowerCase() === newCase.exitName.trim().toLowerCase()) {
-                                existingExit = exit;
-                                exits.push(existingExit);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // we found a suitable exit, point our case to it
-        if (existingExit) {
-            newCase.kase.exit_uuid = existingExit.uuid;
-        } else {
-            // no existing exit, create a new one
-            // find our previous destination if we have one
-            let destination = null;
-            if (newCase.kase.exit_uuid in previousExitMap) {
-                destination = previousExitMap[newCase.kase.exit_uuid].destination_node_uuid;
-            }
-
-            newCase.kase.exit_uuid = generateUUID();
-
-            exits.push({
-                name: newCase.exitName,
-                uuid: newCase.kase.exit_uuid,
-                destination_node_uuid: destination
-            });
-        }
-
-        // remove exitName from our case
-        cases.push(newCase.kase);
-    }
-
-    // add in our default exit
-    let defaultUUID = generateUUID();
-    if (previous.router && previous.router.type === 'switch') {
-        const router = previous.router as SwitchRouter;
-        if (router && router.default_exit_uuid) {
-            defaultUUID = router.default_exit_uuid;
-        }
-    }
-
-    let defaultName = 'All Responses';
-
-    if (previous.wait && previous.wait.type === 'exp') {
-        defaultName = 'Any Value 😉';
-    }
-
-    if (exits.length > 0) {
-        defaultName = 'Other';
-    }
-
-    let defaultDestination = null;
-    if (defaultUUID in previousExitMap) {
-        defaultDestination = previousExitMap[defaultUUID].destination_node_uuid;
-    }
-
-    exits.push({
-        uuid: defaultUUID,
-        name: defaultName,
-        destination_node_uuid: defaultDestination
-    });
-
-    return { cases, exits, defaultExit: defaultUUID };
-};
-
 export const hasCases = (node: FlowNode): boolean => {
     if (
         node.router &&
@@ -390,7 +279,7 @@ export const FormContainer: React.SFC<{
 );
 
 export class NodeEditor extends React.Component<NodeEditorProps> {
-    private modal: Modal;
+    private modal: any;
     private form: any;
     private advanced: any;
     private widgets: { [name: string]: any } = {};
@@ -426,7 +315,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         return (this.form = ref);
     }
 
-    private modalRef(ref: Modal): Modal {
+    private modalRef(ref: any): any {
         return (this.modal = ref);
     }
 
@@ -489,6 +378,154 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         this.props.updateOperand(operand);
     }
 
+    /**
+     * Given a set of cases and previous exits, determines correct merging of cases
+     * and the union of exits
+     */
+    private resolveExits(newCases: CaseElementProps[]): CombinedExits {
+        // create mapping of our old exit uuids to old exit settings
+        const previousExitMap: { [uuid: string]: Exit } = {};
+
+        if (this.props.nodeToEdit.exits) {
+            for (const exit of this.props.nodeToEdit.exits) {
+                previousExitMap[exit.uuid] = exit;
+            }
+        }
+
+        const exits: Exit[] = [];
+        const cases: Case[] = [];
+
+        // map our new cases to an appropriate exit
+        for (const newCase of newCases) {
+            // see if we have a suitable exit for our case already
+            let existingExit: Exit = null;
+
+            // use our previous exit name if it isn't set
+            if (!newCase.exitName && newCase.kase.exit_uuid in previousExitMap) {
+                newCase.exitName = previousExitMap[newCase.kase.exit_uuid].name;
+            }
+
+            // ignore cases with empty names
+            if (!newCase.exitName || newCase.exitName.trim().length === 0) {
+                continue;
+            }
+
+            if (newCase.exitName) {
+                // look through our new exits to see if we've already created one
+                for (const exit of exits) {
+                    if (newCase.exitName && exit.name) {
+                        if (exit.name.toLowerCase() === newCase.exitName.trim().toLowerCase()) {
+                            existingExit = exit;
+                            break;
+                        }
+                    }
+                }
+
+                // couldn't find a new exit, look through our old ones
+                if (!existingExit) {
+                    // look through our previous cases for a match
+                    if (this.props.nodeToEdit.exits) {
+                        for (const exit of this.props.nodeToEdit.exits) {
+                            if (newCase.exitName && exit.name) {
+                                if (
+                                    exit.name.toLowerCase() ===
+                                    newCase.exitName.trim().toLowerCase()
+                                ) {
+                                    existingExit = exit;
+                                    exits.push(existingExit);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // we found a suitable exit, point our case to it
+            if (existingExit) {
+                newCase.kase.exit_uuid = existingExit.uuid;
+            } else {
+                // no existing exit, create a new one
+                // find our previous destination if we have one
+                let destination = null;
+                if (newCase.kase.exit_uuid in previousExitMap) {
+                    destination = previousExitMap[newCase.kase.exit_uuid].destination_node_uuid;
+                }
+
+                newCase.kase.exit_uuid = generateUUID();
+
+                exits.push({
+                    name: newCase.exitName,
+                    uuid: newCase.kase.exit_uuid,
+                    destination_node_uuid: destination
+                });
+            }
+
+            // remove exitName from our case
+            cases.push(newCase.kase);
+        }
+
+        // add in our default exit
+        let defaultUUID = generateUUID();
+        if (this.props.nodeToEdit.router && this.props.nodeToEdit.router.type === 'switch') {
+            const router = this.props.nodeToEdit.router as SwitchRouter;
+            if (router && router.default_exit_uuid) {
+                defaultUUID = router.default_exit_uuid;
+            }
+        }
+
+        let defaultName = DefaultExitNames['All Responses'];
+
+        if (this.props.nodeToEdit.wait && this.props.nodeToEdit.wait.type === 'exp') {
+            defaultName = DefaultExitNames['Any Value'];
+        }
+
+        if (exits.length > 0) {
+            defaultName = DefaultExitNames.Other;
+        }
+
+        let defaultDestination = null;
+        if (defaultUUID in previousExitMap) {
+            defaultDestination = previousExitMap[defaultUUID].destination_node_uuid;
+        }
+
+        exits.push({
+            uuid: defaultUUID,
+            name: defaultName,
+            destination_node_uuid: defaultDestination
+        });
+
+        // is a timeout set?
+        if (this.props.timeout) {
+            // do we have an existing timeout exit?
+            const existingExit = this.props.nodeToEdit.exits.find(
+                ({ name }) => name === DefaultExitNames['No Response']
+            );
+            const timeoutExit: Exit = {
+                uuid: (existingExit && existingExit.uuid) || generateUUID(),
+                name: DefaultExitNames['No Response'],
+                destination_node_uuid: null
+            };
+            // add our timeout exit accordingly
+            if (exits[exits.length - 1].name === DefaultExitNames.Other) {
+                exits.splice(exits.length - 1, 0, timeoutExit);
+            } else {
+                exits.push(timeoutExit);
+            }
+
+            // Add a case for the timeout.
+            // We strip passive cases (like timeouts) when SwitchRouter mounts.
+            cases.push({
+                uuid: generateUUID(),
+                type: Operators.has_wait_timed_out,
+                arguments: ['@run'],
+                exit_uuid: timeoutExit.uuid
+            });
+        }
+
+        return { cases, exits, defaultExit: defaultUUID };
+    }
+
     private getResultNameField(): JSX.Element {
         let resultNameField: JSX.Element;
         if (this.props.showResultName) {
@@ -522,9 +559,11 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 
     /***
-     * If the user has a localized 'All Responses' case and they're adding another case,
-     * remove translation for the initial case.
-     * If the user is going from 1 or more cases to 0 and this router has a translation for the 'Other' case, lose it.
+     * If the user has a localized 'All Responses' case and no timeout set on the node
+     * and they're adding another case, remove translation for the initial case.
+     *
+     * If the user is going from 1 or more cases to 0 and no timeout is set on the node
+     * and this router has a translation for the 'Other' case, lose it.
      */
     private cleanUpLocalizations(cases: CaseElementProps[]): void {
         const { uuid: nodeUUID, exits: nodeExits } = this.props.nodeToEdit;
@@ -537,12 +576,18 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             Object.keys(language).forEach(localizationUUID => {
                 if (exitMap[localizationUUID]) {
                     const exitMatch = exitMap[localizationUUID];
-                    if (
-                        exitMatch.name &&
-                        (exitMatch.name === 'All Responses' || exitMatch.name === 'Other')
-                    ) {
-                        lang = iso;
-                        updates.push({ uuid: localizationUUID });
+                    if (exitMatch.name) {
+                        // don't prune if we have a timeout
+                        if (
+                            (exitMatch.name === DefaultExitNames['All Responses'] &&
+                                (this.props.nodeToEdit.wait &&
+                                    !this.props.nodeToEdit.wait.timeout)) ||
+                            (exitMatch.name === DefaultExitNames.Other &&
+                                (this.props.nodeToEdit.wait && !this.props.nodeToEdit.wait.timeout))
+                        ) {
+                            lang = iso;
+                            updates.push({ uuid: localizationUUID });
+                        }
                     }
                 }
             });
@@ -700,6 +745,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                 ? this.form.wrappedInstance.onValid(this.widgets)
                 : this.form.onValid(this.widgets);
 
+            this.props.resetNodeEditingState();
+
             return true;
         } else {
             let frontError = false;
@@ -772,6 +819,20 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         this.props.onUpdateAction(action);
     }
 
+    private getWait(): Wait {
+        const wait: Wait = {} as any;
+
+        if (this.props.typeConfig.type === Types.wait_for_response) {
+            wait.type = WaitTypes.msg;
+        }
+
+        if (this.props.timeout) {
+            wait.timeout = this.props.timeout;
+        }
+
+        return wait;
+    }
+
     private updateSwitchRouter(kases: CaseElementProps[]): void {
         if (
             this.props.definition.localization &&
@@ -780,7 +841,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             this.cleanUpLocalizations(kases);
         }
 
-        const { cases, exits, defaultExit } = resolveExits(kases, this.props.nodeToEdit);
+        const { cases, exits, defaultExit } = this.resolveExits(kases);
 
         const optionalRouter: Pick<Router, 'result_name'> = {};
         if (this.props.resultName) {
@@ -795,13 +856,10 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             ...optionalRouter
         };
 
-        const newNode = this.getUpdatedRouterNode(router, exits, this.props.typeConfig.type);
+        const newRenderNode = this.getUpdatedRouterNode(router, exits, this.props.typeConfig.type);
+        newRenderNode.node.wait = this.getWait();
 
-        if (this.props.typeConfig.type === Types.wait_for_response) {
-            newNode.node.wait = { type: WaitTypes.msg };
-        }
-
-        this.props.onUpdateRouter(newNode);
+        this.props.onUpdateRouter(newRenderNode);
     }
 
     private getUpdatedRouterNode(
@@ -832,7 +890,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
         const currentCases = groupsToCases(groups);
 
-        const { cases, exits, defaultExit } = resolveExits(currentCases, this.props.nodeToEdit);
+        const { cases, exits, defaultExit } = this.resolveExits(currentCases);
 
         if (
             this.props.definition.localization &&
@@ -1186,18 +1244,17 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                 const buttons: ButtonSet = this.getButtons();
                 const { front, back }: Sides = this.getSides();
                 return (
-                    <Modal
+                    <ConnectedModal
                         ref={this.modalRef}
                         __className={style}
                         width="600px"
                         title={titles}
                         show={this.props.nodeEditorOpen}
                         buttons={buttons}
-                        node={this.props.nodeToEdit}
                     >
                         {front}
                         {back}
-                    </Modal>
+                    </ConnectedModal>
                 );
             }
             return null;
@@ -1212,7 +1269,15 @@ const mapStateToProps = ({
         editorUI: { language, translating, nodeEditorOpen },
         flowUI: { pendingConnection }
     },
-    nodeEditor: { nodeToEdit, actionToEdit, typeConfig, resultName, showResultName, operand }
+    nodeEditor: {
+        nodeToEdit,
+        actionToEdit,
+        typeConfig,
+        resultName,
+        showResultName,
+        operand,
+        timeout
+    }
 }: AppState) => ({
     nodeToEdit,
     language,
@@ -1226,6 +1291,7 @@ const mapStateToProps = ({
     resultName,
     showResultName,
     operand,
+    timeout,
     pendingConnection
 });
 
