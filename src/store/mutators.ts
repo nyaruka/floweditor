@@ -1,12 +1,13 @@
-const mutate = require('immutability-helper');
-import { FlowNode, UINode, AnyAction, FlowDefinition, Dimensions, StickyNote } from '../flowTypes';
 import { v4 as generateUUID } from 'uuid';
-import { RenderNode, RenderNodeMap } from './flowContext';
-import { dump, snapToGrid, set, merge, unset, splice } from '../utils';
-import { getUniqueDestinations, getNode, getExitIndex, getActionIndex } from './helpers';
-import { LocalizationUpdates } from '.';
-import { push } from '../utils/index';
 
+import { LocalizationUpdates } from '.';
+import { AnyAction, Dimensions, FlowDefinition, FlowNode, StickyNote } from '../flowTypes';
+import { merge, set, snapToGrid, splice, unset } from '../utils';
+import { push } from '../utils';
+import { RenderNode, RenderNodeMap } from './flowContext';
+import { getActionIndex, getExitIndex, getNode } from './helpers';
+
+const mutate = require('immutability-helper');
 export const uniquifyNode = (newNode: FlowNode): FlowNode => {
     // Give our node a unique uuid
     return mutate(newNode, merge({ uuid: generateUUID() }));
@@ -337,7 +338,7 @@ export const updateStickyNote = (
  * @param definition our full definition
  */
 export const pruneDefinition = (definition: FlowDefinition): FlowDefinition =>
-    mutate(definition, merge({ nodes: [], _ui: merge({ nodes: [] }) }));
+    mutate(definition, { nodes: [], _ui: { $merge: { nodes: [] } } });
 
 /**
  * Update the localization in the definition with the provided changes for a language
