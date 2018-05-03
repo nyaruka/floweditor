@@ -30,7 +30,7 @@ if (process.env.RAPID_FLOW) {
                   endpoints: {
                       flows: 'flows',
                       groups: 'groups',
-                      recipient: 'recipient',
+                      recipients: 'recipients',
                       fields: 'fields',
                       activity: '',
                       simulateStart: '',
@@ -42,7 +42,7 @@ if (process.env.RAPID_FLOW) {
                   endpoints: {
                       flows: '/assets/flow',
                       groups: '/assets/group',
-                      recipient: '/assets/recipient',
+                      recipients: '/assets/recipient',
                       fields: '/assets/field',
                       activity: '',
                       simulateStart: '/flow/start',

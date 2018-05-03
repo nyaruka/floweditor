@@ -112,7 +112,6 @@ export class SendBroadcastForm extends React.Component<
     }
 
     private onRecipientsChanged(selected: Asset[]): void {
-        console.log('new', selected);
         this.setState({ selected });
     }
 
