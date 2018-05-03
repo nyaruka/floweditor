@@ -4,7 +4,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import { Asset, AssetType } from '../../services/AssetService';
 import * as styles from './SelectSearch.scss';
 
-interface SelectOptionProps {
+export interface SelectOptionProps {
     className: string;
     isFocused: boolean;
     option: Asset;
@@ -26,11 +26,11 @@ export default class SelectOption extends React.PureComponent<SelectOptionProps,
         event.stopPropagation();
         this.props.onSelect(this.props.option, event);
     }
-    private handleMouseEnter(): void {
+    private handleMouseEnter(event: any): void {
         this.props.onFocus(this.props.option, event);
     }
 
-    private handleMouseMove(): void {
+    private handleMouseMove(event: any): void {
         if (this.props.isFocused) {
             return;
         }

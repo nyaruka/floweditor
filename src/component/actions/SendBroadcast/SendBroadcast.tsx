@@ -1,7 +1,8 @@
 import * as React from 'react';
+
 import { BroadcastMsg } from '../../../flowTypes';
 import * as styles from './SendBroadcast.scss';
-import { AssetType } from '../../../services/AssetService';
+
 export const PLACEHOLDER = 'Send a message to the contact';
 
 const addRecipients = (
@@ -22,7 +23,11 @@ const addRecipients = (
                     </div>
                 );
             } else {
-                recipients.push(<div className={styles.more}>...</div>);
+                recipients.push(
+                    <div key={key + '...'} className={styles.more}>
+                        ...
+                    </div>
+                );
             }
         }
     }

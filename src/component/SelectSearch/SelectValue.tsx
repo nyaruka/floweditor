@@ -1,10 +1,10 @@
 // tslint:disable:ban-types
-import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
-import { Asset, AssetType } from '../../services/AssetService';
-import * as styles from './SelectSearch.scss';
+import * as React from 'react';
 
-interface SelectValueProps {
+import { Asset, AssetType } from '../../services/AssetService';
+
+export interface SelectValueProps {
     value: Asset;
     onRemove: any;
 }
@@ -32,7 +32,11 @@ export default class SelectValue extends React.PureComponent<SelectValueProps, {
     public render(): JSX.Element {
         return (
             <div className="Select-value">
-                <span onClick={this.handleRemove} className="Select-value-icon">
+                <span
+                    data-spec="remove-button"
+                    onClick={this.handleRemove}
+                    className="Select-value-icon"
+                >
                     x
                 </span>
                 <span className="Select-value-label">
