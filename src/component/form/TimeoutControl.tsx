@@ -19,7 +19,7 @@ export interface TimeoutControlState {
     selected: Option;
 }
 
-const TIMEOUT_OPTIONS = [
+export const TIMEOUT_OPTIONS = [
     { value: 60, label: '1 minutes' },
     { value: 120, label: '2 minutes' },
     { value: 180, label: '3 minutes' },
@@ -40,9 +40,9 @@ const TIMEOUT_OPTIONS = [
     { value: 604800, label: '1 week' }
 ];
 
-const DEFAULT_TIMEOUT = TIMEOUT_OPTIONS[4];
+export const DEFAULT_TIMEOUT = TIMEOUT_OPTIONS[4];
 
-class TimeoutControl extends React.Component<TimeoutControlStoreProps, TimeoutControlState> {
+export class TimeoutControl extends React.Component<TimeoutControlStoreProps, TimeoutControlState> {
     constructor(props: TimeoutControlStoreProps) {
         super(props);
 
@@ -117,11 +117,13 @@ class TimeoutControl extends React.Component<TimeoutControlStoreProps, TimeoutCo
     }
 }
 
+/* istanbul ignore next */
 const mapStateToProps = ({ nodeEditor: { timeout } }: AppState) => ({
     checked: isRealValue(timeout),
     timeout
 });
 
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {

@@ -15,7 +15,7 @@ import FormElement, { FormElementProps } from './FormElement';
 import { bindActionCreators } from 'redux';
 import { Asset, AssetType, Assets } from '../../services/AssetService';
 
-interface AttribElementProps extends FormElementProps {
+export interface AttribElementProps extends FormElementProps {
     initial: Asset;
     add?: boolean;
     placeholder?: string;
