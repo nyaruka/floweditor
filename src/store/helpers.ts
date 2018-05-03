@@ -243,7 +243,11 @@ export interface FlowComponents {
 }
 
 export const isGroupAction = (actionType: string) => {
-    return actionType === Types.add_contact_groups || actionType === Types.remove_contact_groups;
+    return (
+        actionType === Types.add_contact_groups ||
+        actionType === Types.remove_contact_groups ||
+        actionType === Types.send_broadcast
+    );
 };
 
 /**

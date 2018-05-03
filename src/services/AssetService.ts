@@ -8,7 +8,9 @@ export enum AssetType {
     Flow = 'flow',
     Group = 'group',
     Property = 'property',
-    Field = 'field'
+    Field = 'field',
+    Contact = 'contact',
+    URN = 'urn'
 }
 
 export interface Asset {
@@ -18,6 +20,12 @@ export interface Asset {
 
     isNew?: boolean;
     content?: any;
+}
+
+export interface AssetSearchResult {
+    assets: Asset[];
+    complete: boolean;
+    sorted: boolean;
 }
 
 enum IdProperty {
@@ -104,7 +112,7 @@ export class Assets {
         return matches;
     }
 
-    public search(term: string): Promise<Asset[]> {
+    public search(term: string): Promise<AssetSearchResult> {
         const matches = this.searchLocalItems(term);
 
         // then query against our endpoint to add to that list
@@ -123,7 +131,7 @@ export class Assets {
                     });
                 }
             }
-            return matches;
+            return { assets: matches, complete: true, sorted: false };
         });
     }
 
@@ -182,6 +190,7 @@ export class Assets {
                     })
                     .catch(error => reject(error));
                 */
+                this.assets[uuid].content = content;
                 resolve(this.assets[uuid]);
             }
         });
@@ -277,16 +286,70 @@ class FlowAssets extends Assets {
     }
 }
 
+class RecipientAssets extends Assets {
+    constructor(endpoint: string, localStorage: boolean) {
+        super(endpoint, localStorage);
+        this.idProperty = IdProperty.UUID;
+    }
+
+    private getAssetType(code: string): AssetType {
+        switch (code) {
+            case 'c':
+                return AssetType.Contact;
+            case 'u':
+                return AssetType.URN;
+            case 'g':
+                return AssetType.Group;
+        }
+        return null;
+    }
+    public search(term: string): Promise<AssetSearchResult> {
+        const matches: Asset[] = [];
+
+        // then query against our endpoint to add to that list
+        let url = this.endpoint + '?types=cg';
+        if (term) {
+            url += '&search=' + encodeURIComponent(term);
+        }
+
+        return axios.get(url).then((response: AxiosResponse) => {
+            for (const result of response.data.results) {
+                if (this.matches(term, result.text)) {
+                    const [typeCode, id] = result.id.split(/-(.*)/);
+                    const type = this.getAssetType(typeCode);
+                    if (type) {
+                        let content: any = null;
+                        if (type === AssetType.URN) {
+                            content = {
+                                scheme: result.scheme,
+                                display: result.extra
+                            };
+                        } else if (type === AssetType.Group) {
+                            content = {
+                                size: result.extra
+                            };
+                        }
+                        matches.push({ name: result.text, id, type, content });
+                    }
+                }
+            }
+            return { assets: matches, complete: response.data.more, sorted: true };
+        });
+    }
+}
+
 export default class AssetService {
     private channels: Assets;
     private groups: Assets;
     private fields: Assets;
     private flows: FlowAssets;
+    private recipients: RecipientAssets;
 
     constructor(config: FlowEditorConfig) {
         this.groups = new GroupAssets(config.endpoints.groups, config.localStorage);
         this.fields = new FieldAssets(config.endpoints.fields, config.localStorage);
         this.flows = new FlowAssets(config.endpoints.flows, config.localStorage);
+        this.recipients = new RecipientAssets(config.endpoints.recipients, config.localStorage);
 
         // channels are always mocked for local
         this.channels = new ChannelAssets('/channels', true);
@@ -307,6 +370,10 @@ export default class AssetService {
 
     public getFieldAssets(): Assets {
         return this.fields;
+    }
+
+    public getRecipients(): Assets {
+        return this.recipients;
     }
 
     public getSimulationAssets(): any {

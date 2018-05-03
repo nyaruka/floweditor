@@ -17,6 +17,8 @@ import SwitchRouter from '../component/routers/SwitchRouter';
 import WebhookRouter from '../component/routers/WebhookRouter';
 import { AnyAction } from '../flowTypes';
 import MissingComp from '../component/actions/Missing/Missing';
+import SendBroadcastForm from '../component/actions/SendBroadcast/SendBroadcastForm';
+import SendBroadcastComp from '../component/actions/SendBroadcast/SendBroadcast';
 
 /*
 Old name	                New name	                Event(s) generated
@@ -104,7 +106,14 @@ export const typeConfigList: Type[] = [
         advanced: Mode.EDITING,
         allows
     },
-    // { type: 'msg', name: 'Send Message', description: 'Send somebody else a message', form: SendMessageForm, component: SendMessage },
+    {
+        type: Types.send_broadcast,
+        name: 'Send Broadcast',
+        description: 'Send somebody else a message',
+        form: SendBroadcastForm,
+        component: SendBroadcastComp,
+        allows
+    },
     {
         type: Types.add_contact_groups,
         name: 'Add to Group',

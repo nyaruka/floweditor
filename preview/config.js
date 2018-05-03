@@ -10,13 +10,13 @@ if (process.env.RAPID_FLOW) {
         flow: process.env.RAPID_FLOW,
         localStorage: true,
         endpoints: {
-            flows: base + 'flow',
-            groups: base + 'group',
-            contacts: base + 'contact',
-            fields: base + 'field',
+            flows: base + 'flow/',
+            groups: base + 'group/',
+            recipients: '/contact/omnibox/',
+            fields: base + 'field/',
             activity: '',
-            simulateStart: base + 'flow',
-            simulateResume: base + 'flow'
+            simulateStart: '/flow/start',
+            simulateResume: '/flow/resume'
         }
     });
 } else {
@@ -27,7 +27,7 @@ if (process.env.RAPID_FLOW) {
                   endpoints: {
                       flows: 'flows',
                       groups: 'groups',
-                      contacts: 'contacts',
+                      recipient: 'recipient',
                       fields: 'fields',
                       activity: '',
                       simulateStart: '',
@@ -39,7 +39,7 @@ if (process.env.RAPID_FLOW) {
                   endpoints: {
                       flows: '/assets/flow',
                       groups: '/assets/group',
-                      contacts: '/assets/contact',
+                      recipient: '/assets/recipient',
                       fields: '/assets/field',
                       activity: '',
                       simulateStart: '/flow/start',

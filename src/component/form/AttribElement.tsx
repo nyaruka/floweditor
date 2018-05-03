@@ -10,7 +10,7 @@ import { v4 as generateUUID } from 'uuid';
 import { CreateOptions, ResultType } from '../../flowTypes';
 import { AppState, DispatchWithState } from '../../store';
 import { getSelectClass, isValidLabel, propertyExists, dump, snakify } from '../../utils';
-import SelectSearch from '../SelectSearch';
+import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { bindActionCreators } from 'redux';
 import { Asset, AssetType, Assets } from '../../services/AssetService';

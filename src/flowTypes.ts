@@ -14,7 +14,7 @@ export interface Languages {
 export interface Endpoints {
     fields: string;
     groups: string;
-    contacts: string;
+    recipients: string;
     flows: string;
     activity: string;
     simulateStart: string;
@@ -94,6 +94,11 @@ export interface Group {
     name: string;
 }
 
+export interface Contact {
+    uuid: string;
+    name: string;
+}
+
 export enum Methods {
     GET = 'GET',
     POST = 'POST',
@@ -132,6 +137,12 @@ export interface Missing extends Action {}
 export interface SendMsg extends Action {
     text: string;
     all_urns?: boolean;
+}
+
+export interface BroadcastMsg extends Action {
+    contacts: Contact[];
+    groups: Group[];
+    text: string;
 }
 
 export interface SetPreferredChannel extends Action {

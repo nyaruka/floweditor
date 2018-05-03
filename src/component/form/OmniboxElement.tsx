@@ -5,77 +5,70 @@ import { getSelectClass, isValidLabel, jsonEqual } from '../../utils';
 import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { NewOptionCreatorHandler, IsValidNewOptionHandler } from 'react-select';
-import { Assets, Asset, AssetType } from '../../services/AssetService';
+import AssetService, { Assets, Asset, AssetType } from '../../services/AssetService';
 
 export interface GroupOption {
     group: string;
     name: string;
 }
 
-export interface GroupsElementProps extends FormElementProps {
+export interface OmniboxElementProps extends FormElementProps {
     add?: boolean;
-    groups?: Asset[];
+    selected?: Asset[];
     placeholder?: string;
     searchPromptText?: string | JSX.Element;
     onChange?: (groups: Asset[]) => void;
     assets: Assets;
+    className: string;
 }
 
-interface GroupsElementState {
-    groups: Asset[];
+interface OmniboxElementState {
+    selected: Asset[];
     errors: string[];
 }
 
-export const isValidNewOption: IsValidNewOptionHandler = ({ label }) =>
-    !label ? false : isValidLabel(label);
+export const PLACEHOLDER = 'Enter a group or contact...';
+export const NOT_FOUND = 'No matches';
 
-export const createNewOption: NewOptionCreatorHandler = ({ label }): Asset => ({
-    id: generateUUID(),
-    name: label,
-    type: AssetType.Group,
-    isNew: true
-});
-
-export const GROUP_PROMPT = 'New group: ';
-export const GROUP_PLACEHOLDER = 'Enter the name of an existing group...';
-export const GROUP_NOT_FOUND = 'Invalid group name';
-
-export default class GroupsElement extends React.Component<GroupsElementProps, GroupsElementState> {
+export default class OmniboxElement extends React.Component<
+    OmniboxElementProps,
+    OmniboxElementState
+> {
     public static defaultProps = {
-        placeholder: GROUP_PLACEHOLDER,
-        searchPromptText: GROUP_NOT_FOUND
+        placeholder: PLACEHOLDER,
+        searchPromptText: NOT_FOUND
     };
 
-    constructor(props: GroupsElementProps) {
+    constructor(props: OmniboxElementProps) {
         super(props);
 
         this.state = {
-            groups: this.props.groups || [],
+            selected: this.props.selected,
             errors: []
         };
 
         this.onChange = this.onChange.bind(this);
     }
 
-    public componentWillReceiveProps(nextProps: GroupsElementProps): void {
+    public componentWillReceiveProps(nextProps: OmniboxElementProps): void {
         if (
-            nextProps.groups &&
-            nextProps.groups.length &&
-            !jsonEqual(nextProps.groups, this.props.groups)
+            nextProps.selected &&
+            nextProps.selected.length &&
+            !jsonEqual(nextProps.selected, this.props.selected)
         ) {
-            this.setState({ groups: nextProps.groups });
+            this.setState({ selected: nextProps.selected });
         }
     }
 
-    private onChange(groups: Asset[]): void {
-        if (!jsonEqual(groups, this.state.groups)) {
+    private onChange(selected: Asset[]): void {
+        if (!jsonEqual(selected, this.state.selected)) {
             this.setState(
                 {
-                    groups
+                    selected
                 },
                 () => {
                     if (this.props.onChange) {
-                        this.props.onChange(groups);
+                        this.props.onChange(selected);
                     }
                 }
             );
@@ -85,7 +78,7 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
     public validate(): boolean {
         const errors: string[] = [];
 
-        if (this.props.required && !this.state.groups.length) {
+        if (this.props.required && !this.state.selected.length) {
             errors.push(`${this.props.name} is required.`);
         }
 
@@ -96,17 +89,11 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
 
     public render(): JSX.Element {
         const createOptions: any = {};
-
-        if (this.props.add) {
-            createOptions.isValidNewOption = isValidNewOption;
-            createOptions.createNewOption = createNewOption;
-            createOptions.createPrompt = GROUP_PROMPT;
-        }
-
         const className = getSelectClass(this.state.errors.length);
+        const eleClass = this.props.className || '';
 
         return (
-            <FormElement name={this.props.name} errors={this.state.errors}>
+            <FormElement name={this.props.name} errors={this.state.errors} __className={eleClass}>
                 <SelectSearch
                     _className={className}
                     onChange={this.onChange}
@@ -114,7 +101,7 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
                     resultType={ResultType.group}
                     assets={this.props.assets}
                     multi={true}
-                    initial={this.state.groups}
+                    initial={this.state.selected}
                     placeholder={this.props.placeholder}
                     searchPromptText={this.props.searchPromptText}
                     {...createOptions}

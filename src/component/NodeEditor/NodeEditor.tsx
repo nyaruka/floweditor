@@ -26,7 +26,8 @@ import {
     SwitchRouter,
     WaitTypes,
     Wait,
-    WebhookExitNames
+    WebhookExitNames,
+    BroadcastMsg
 } from '../../flowTypes';
 import { LocalizedObject } from '../../services/Localization';
 import {
@@ -192,6 +193,13 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
         case Types.remove_contact_groups:
             defaultAction = { ...defaultAction, groups: null } as ChangeGroups;
             break;
+        case Types.send_broadcast:
+            defaultAction = {
+                ...defaultAction,
+                groups: [],
+                contacts: [],
+                text: ''
+            } as BroadcastMsg;
         case Types.set_contact_field:
             defaultAction = {
                 ...defaultAction,
