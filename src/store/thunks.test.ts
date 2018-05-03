@@ -772,7 +772,7 @@ describe('Flow Manipulation', () => {
                     ghostNode: null
                 });
 
-                expect(store.getActions().length).toBe(1);
+                expect(store.getActions().length).toBe(2);
             });
 
             it('should reset the node editor', () => {
