@@ -124,6 +124,11 @@ Array [
     "type": "has_value",
     "verboseName": "is not empty",
   },
+  Object {
+    "operands": 0,
+    "type": "has_wait_timed_out",
+    "verboseName": null,
+  },
 ]
 `;
 
@@ -250,6 +255,11 @@ Object {
     "operands": 0,
     "type": "has_value",
     "verboseName": "is not empty",
+  },
+  "has_wait_timed_out": Object {
+    "operands": 0,
+    "type": "has_wait_timed_out",
+    "verboseName": null,
   },
 }
 `;
