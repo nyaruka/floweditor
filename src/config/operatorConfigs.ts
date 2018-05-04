@@ -156,11 +156,9 @@ export const operatorConfigMap: OperatorMap = operatorConfigList.reduce(
     {}
 );
 
-export type GetOperatorConfig = (type: string) => Operator;
-
 /**
  * Shortcut for constant lookup of operator config in operator configs map
  * @param {string} type - The type of the operator config to return, e.g. 'send_msg'
  * @returns {Object} - The operator config found at operatorConfigs[type] or -1
  */
-export const getOperatorConfig = (type: string): Operator => operatorConfigMap[type];
+export const getOperatorConfig = (type: Operators): Operator => operatorConfigMap[type];

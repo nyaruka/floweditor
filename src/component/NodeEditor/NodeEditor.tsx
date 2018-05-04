@@ -278,6 +278,8 @@ export const FormContainer: React.SFC<{
     </div>
 );
 
+FormContainer.displayName = 'FormContainer'
+
 export class NodeEditor extends React.Component<NodeEditorProps> {
     private modal: any;
     private form: any;
@@ -849,7 +851,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         }
 
         const router: SwitchRouter = {
-            type: 'switch',
+            type: Types.switch,
             default_exit_uuid: defaultExit,
             cases,
             operand: this.props.operand,
@@ -865,7 +867,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     private getUpdatedRouterNode(
         router: Router,
         exits: Exit[],
-        type: string,
+        type: Types,
         actions: Action[] = [],
         wait: Wait = null
     ): RenderNode {
@@ -900,7 +902,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         }
 
         const router: SwitchRouter = {
-            type: 'switch',
+            type: Types.switch,
             cases,
             default_exit_uuid: defaultExit,
             operand: GROUPS_OPERAND,
@@ -982,14 +984,14 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         }
 
         const router: SwitchRouter = {
-            type: 'switch',
+            type: Types.switch,
             operand: '@child',
             cases,
             default_exit_uuid: null
         };
 
-        const newNode = this.getUpdatedRouterNode(router, exits, 'subflow', [newAction], {
-            type: 'flow',
+        const newNode = this.getUpdatedRouterNode(router, exits, Types.subflow, [newAction], {
+            type: WaitTypes.flow,
             flow_uuid: flowUUID
         } as Wait);
         this.props.onUpdateRouter(newNode);
@@ -1091,13 +1093,13 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         }
 
         const router: SwitchRouter = {
-            type: 'switch',
+            type: Types.switch,
             operand: '@webhook',
             cases,
             default_exit_uuid: exits[1].uuid
         };
 
-        const newNode = this.getUpdatedRouterNode(router, exits, 'webhook', [newAction]);
+        const newNode = this.getUpdatedRouterNode(router, exits, Types.webhook, [newAction]);
         this.props.onUpdateRouter(newNode);
     }
 

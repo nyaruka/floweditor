@@ -1,5 +1,5 @@
-const mutate = require('immutability-helper');
 import { v4 as generateUUID } from 'uuid';
+
 import { Types } from '../config/typeConfigs';
 import { Case, Exit, FlowDefinition, FlowPosition, SendMsg } from '../flowTypes';
 import {
@@ -8,12 +8,12 @@ import {
     getFlowComponents,
     getGhostNode,
     getLocalizations,
+    getOrderedNodes,
     getSuggestedResultName,
     getUniqueDestinations,
-    getOrderedNodes
 } from './helpers';
-import { dump } from '../utils';
 
+const mutate = require('immutability-helper');
 describe('helpers', () => {
     const definition: FlowDefinition = require('../../__test__/flows/boring.json');
 

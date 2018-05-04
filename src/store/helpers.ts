@@ -17,6 +17,7 @@ import { RenderNode, RenderNodeMap } from './flowContext';
 import { BoolMap } from '../utils';
 import SetContactAttribForm from '../component/actions/SetContactAttrib/SetContactAttribForm';
 import { Asset, AssetType } from '../services/AssetService';
+import { DefaultExitNames } from '../component/NodeEditor/NodeEditor';
 
 export interface Bounds {
     left: number;
@@ -74,7 +75,7 @@ export const getLocalizations = (
     const localizations: LocalizedObject[] = [];
 
     // Account for localized cases
-    if (node.router && node.router.type === 'switch') {
+    if (node.router && node.router.type === Types.switch) {
         const router = node.router as SwitchRouter;
 
         router.cases.forEach(kase =>
@@ -215,7 +216,7 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
     };
 
     // Add an action if we are coming from a split
-    if (fromNode.node.wait || fromNode.ui.type === 'webhook') {
+    if (fromNode.node.wait || fromNode.ui.type === Types.webhook) {
         const replyAction = {
             uuid: generateUUID(),
             type: Types.send_msg,
@@ -225,10 +226,10 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
         ghostNode.actions.push(replyAction);
     } else {
         // Otherwise we are going to a switch
-        ghostNode.exits[0].name = 'All Responses';
+        ghostNode.exits[0].name = DefaultExitNames['All Responses'];
         ghostNode.wait = { type: WaitTypes.msg };
         ghostNode.router = {
-            type: 'switch',
+            type: Types.switch,
             result_name: getSuggestedResultName(nodes)
         };
     }

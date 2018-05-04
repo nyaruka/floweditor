@@ -69,6 +69,8 @@ describe(TimeoutControl.name, () => {
                 wrapper.find('Select').simulate('change', mockChange);
 
                 expect(setStateSpy).toHaveBeenCalledTimes(1);
+
+                setStateSpy.mockRestore();
             });
         });
     });

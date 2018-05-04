@@ -2,10 +2,10 @@
 // tslint:disable:ban-types
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
+
 import { hasCases } from '../component/NodeEditor/NodeEditor';
 import { getTypeConfig } from '../config';
 import { Types } from '../config/typeConfigs';
-import { FlowDetails } from '../external';
 import {
     Action,
     AnyAction,
@@ -19,7 +19,8 @@ import {
     StickyNote,
     SwitchRouter
 } from '../flowTypes';
-import { NODE_SPACING, dump, timeStart, timeEnd, snakify, titleCase } from '../utils';
+import AssetService, { Asset, Assets } from '../services/AssetService';
+import { NODE_SPACING, timeEnd, timeStart } from '../utils';
 import {
     RenderNode,
     RenderNodeMap,
@@ -52,13 +53,11 @@ import {
     updateOperand,
     updateResultName,
     updateShowResultName,
+    updateTimeout,
     updateTypeConfig,
-    updateUserAddingAction,
-    updateTimeout
+    updateUserAddingAction
 } from './nodeEditor';
 import AppState from './state';
-import AssetService, { Assets, Asset } from '../services/AssetService';
-import { UpdateFlowsAction } from './actionTypes';
 
 export type DispatchWithState = Dispatch<AppState>;
 
@@ -746,7 +745,7 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
     }
 
     const type = determineConfigType(node, action, nodes);
-    dispatch(updateTypeConfig(getTypeConfig(type)));
+    dispatch(updateTypeConfig(getTypeConfig(type as Types)));
 
     let resultName = '';
 

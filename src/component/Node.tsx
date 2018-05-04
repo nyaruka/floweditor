@@ -392,7 +392,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 type = this.props.ui.type as any;
             }
 
-            const config = getTypeConfig(type);
+            const config = getTypeConfig(type as Types);
             let { name: title } = config;
 
             if (this.props.node.router.type === 'switch') {

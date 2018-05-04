@@ -3,10 +3,18 @@
 import { react as bindCallbacks } from 'auto-bind';
 import update from 'immutability-helper';
 import * as React from 'react';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import {
+    DragDropContext,
+    Draggable,
+    DraggableStyle,
+    Droppable,
+    DropResult
+} from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
+
 import { getOperatorConfig, operatorConfigList, Type } from '../../config';
+import { Operators } from '../../config/operatorConfigs';
 import { Types } from '../../config/typeConfigs';
 import { Case, Exit, FlowNode, SwitchRouter } from '../../flowTypes';
 import { LocalizedObject } from '../../services/Localization';
@@ -57,7 +65,7 @@ export interface SwitchRouterState {
     displayableCases: CaseElementProps[];
 }
 
-export type SwitchRouterProps = SwitchRouterStoreProps & SwitchRouterPassedProps;
+export type SwitchRouterFormProps = SwitchRouterStoreProps & SwitchRouterPassedProps;
 
 export const getListStyle = (isDraggingOver: boolean, single: boolean): { cursor: DragCursor } => {
     if (single) {
@@ -69,25 +77,68 @@ export const getListStyle = (isDraggingOver: boolean, single: boolean): { cursor
     };
 };
 
-export const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
+export const getItemStyle = (
+    draggableStyle: DraggableStyle,
+    isDragging: boolean
+): DraggableStyle => ({
     userSelect: 'none',
     outline: 'none',
-    background: isDragging && '#f2f9fc',
-    borderRadius: isDragging && 4,
-    opacity: isDragging && 0.75,
     ...draggableStyle,
     // Overwriting default draggableStyle object from this point down
-    top: isDragging && draggableStyle.top - 90,
-    left: isDragging && 20,
-    height: isDragging && draggableStyle.height + 15
+    ...(isDragging
+        ? {
+              background: '#f2f9fc',
+              borderRadius: 4,
+              opacity: 0.75,
+              top: draggableStyle.top - 90,
+              left: 20,
+              height: draggableStyle.height + 15
+          }
+        : {})
 });
 
-export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchRouterState> {
-    constructor(props: SwitchRouterProps) {
+export const addFocus = (kase: CaseElementProps, inputToFocus: InputToFocus) => {
+    switch (inputToFocus) {
+        case InputToFocus.args:
+            return { ...kase, focusArgs: true };
+        case InputToFocus.min:
+            return { ...kase, focusMin: true };
+        case InputToFocus.max:
+            return { ...kase, focusMax: true };
+        case InputToFocus.exit:
+            return { ...kase, focusExit: true };
+    }
+};
+
+export const constructCaseProps = (
+    c: CaseElement,
+    inputToFocus?: InputToFocus
+): CaseElementProps => {
+    let caseProps: CaseElementProps = {
+        kase: {
+            uuid: c.props.kase.uuid,
+            type: c.state.operatorConfig.type,
+            exit_uuid: c.props.kase.exit_uuid,
+            arguments: c.state.arguments
+        },
+        exitName: c.state.exitName
+    };
+
+    if (inputToFocus) {
+        caseProps = addFocus(caseProps, inputToFocus);
+    }
+
+    return caseProps;
+};
+
+export const leadInSpecId = 'lead-in';
+
+export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, SwitchRouterState> {
+    constructor(props: SwitchRouterFormProps) {
         super(props);
 
         bindCallbacks(this, {
-            include: [/^on/]
+            include: [/^on/, /^handle/]
         });
 
         this.state = this.getInitialState();
@@ -101,58 +152,24 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
         this.props.updateRouter(this.state.displayableCases);
     }
 
-    private onCaseRemoved(c: any): void {
+    private handleCaseRemoved(c: any): void {
         const idx = this.state.displayableCases.findIndex(
             (props: CaseElementProps) => props.kase.uuid === c.props.kase.uuid
         );
 
-        if (idx > -1) {
-            const displayableCases = update(this.state.displayableCases, {
-                $splice: [[idx, 1]]
-            }) as CaseElementProps[];
+        const displayableCases = update(this.state.displayableCases, {
+            $splice: [[idx, 1]]
+        }) as CaseElementProps[];
 
-            this.setState({ displayableCases });
-        }
-
-        this.props.removeWidget(c.props.name);
+        this.setState({ displayableCases }, () => this.props.removeWidget(c.props.name));
     }
 
-    private onCaseChanged(c: CaseElement, inputToFocus?: InputToFocus): void {
-        const newCase: CaseElementProps = {
-            kase: {
-                uuid: c.props.kase.uuid,
-                type: c.state.operatorConfig.type,
-                exit_uuid: c.props.kase.exit_uuid,
-                arguments: c.state.arguments
-            },
-            exitName: c.state.exitName
-        };
-
-        const addFocus = (kase: CaseElementProps): void => {
-            switch (inputToFocus) {
-                case InputToFocus.args:
-                    kase.focusArgs = true;
-                    break;
-                case InputToFocus.min:
-                    kase.focusMin = true;
-                    break;
-                case InputToFocus.max:
-                    kase.focusMax = true;
-                    break;
-                case InputToFocus.exit:
-                    kase.focusExit = true;
-                    break;
-            }
-        };
-
-        if (inputToFocus) {
-            addFocus(newCase);
-        }
+    private handleCaseChanged(c: CaseElement, inputToFocus?: InputToFocus): void {
+        const newCase = constructCaseProps(c, inputToFocus);
 
         const { displayableCases } = this.state;
 
         let found = false;
-
         for (const key in displayableCases) {
             if (displayableCases.hasOwnProperty(key)) {
                 const props = displayableCases[key];
@@ -167,14 +184,6 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
         if (!found) {
             // Add new case
             displayableCases[displayableCases.length] = newCase as CaseElementProps;
-            // Ensure new case has focus
-            Object.keys(displayableCases).forEach((key, idx, arr) => {
-                if (idx === arr.length - 1) {
-                    if (inputToFocus) {
-                        addFocus(displayableCases[idx]);
-                    }
-                }
-            });
         }
 
         this.setState({
@@ -182,7 +191,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
         });
     }
 
-    private onDragEnd(result: any): void {
+    private onDragEnd(result: DropResult): void {
         if (!result.destination) {
             return;
         }
@@ -218,8 +227,8 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
                         displayableCases.push({
                             kase,
                             exitName,
-                            onChange: this.onCaseChanged,
-                            onRemove: this.onCaseRemoved
+                            onChange: this.handleCaseChanged,
+                            onRemove: this.handleCaseRemoved
                         } as any);
                     }
                 } catch (error) {
@@ -265,8 +274,8 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
                             key={caseProps.kase.uuid}
                             ref={this.props.onBindWidget}
                             name={`case_${caseProps.kase.uuid}`}
-                            onRemove={this.onCaseRemoved}
-                            onChange={this.onCaseChanged}
+                            onRemove={this.handleCaseRemoved}
+                            onChange={this.handleCaseChanged}
                             solo={true}
                             exitName={caseProps.exitName}
                             kase={caseProps.kase}
@@ -278,9 +287,9 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
                     );
                 }
             } else if (
-                // If we have 2 cases but the second isn't fully formed (e.g. only the operator has been changed)
+                // If we have 2 displayable cases but the second isn't fully formed (e.g. only the operator has been changed)
                 this.state.displayableCases.length === 2 &&
-                (lastCase.kase.type !== operatorConfigList[0].type &&
+                (lastCase.kase.type !== Operators.has_any_word &&
                     !lastCase.kase.arguments.length &&
                     !lastCase.exitName.length)
             ) {
@@ -294,8 +303,8 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
                                 data-spec="case"
                                 ref={this.props.onBindWidget}
                                 name={`case_${caseProps.kase.uuid}`}
-                                onRemove={this.onCaseRemoved}
-                                onChange={this.onCaseChanged}
+                                onRemove={this.handleCaseRemoved}
+                                onChange={this.handleCaseChanged}
                                 exitName={caseProps.exitName}
                                 kase={caseProps.kase}
                                 focusArgs={caseProps.focusArgs}
@@ -308,7 +317,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
                 });
             } else {
                 this.state.displayableCases.forEach((caseProps: CaseElementProps, idx) => {
-                    // If a case's operator expects 1 or more operands
+                    // If a displayable case's operator expects 1 or more operands
                     // and its arguments and exitName are empty,
                     // we don't need an empty case.
                     const operator = getOperatorConfig(caseProps.kase.type);
@@ -325,8 +334,8 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
                                 data-spec="case"
                                 ref={this.props.onBindWidget}
                                 name={`case_${caseProps.kase.uuid}`}
-                                onRemove={this.onCaseRemoved}
-                                onChange={this.onCaseChanged}
+                                onRemove={this.handleCaseRemoved}
+                                onChange={this.handleCaseChanged}
                                 exitName={caseProps.exitName}
                                 kase={caseProps.kase}
                                 focusArgs={caseProps.focusArgs}
@@ -352,8 +361,8 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
                                                 data-spec="case"
                                                 ref={this.props.onBindWidget}
                                                 name={`case_${caseProps.kase.uuid}`}
-                                                onRemove={this.onCaseRemoved}
-                                                onChange={this.onCaseChanged}
+                                                onRemove={this.handleCaseRemoved}
+                                                onChange={this.handleCaseChanged}
                                                 exitName={caseProps.exitName}
                                                 kase={caseProps.kase}
                                                 focusArgs={caseProps.focusArgs}
@@ -387,8 +396,8 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
                     name={`case_${newCaseUUID}`}
                     exitName={''}
                     empty={true}
-                    onRemove={this.onCaseRemoved}
-                    onChange={this.onCaseChanged}
+                    onRemove={this.handleCaseRemoved}
+                    onChange={this.handleCaseChanged}
                 />
             );
         }
@@ -396,7 +405,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
         return casesToRender;
     }
 
-    public getOperandsForLocalization(): JSX.Element[] {
+    public getCasesForLocalization(): JSX.Element[] {
         return (this.props.nodeToEdit.router as SwitchRouter).cases.reduce(
             (casesForLocalization: JSX.Element[], kase) => {
                 // only allow translations for cases with arguments that aren't numeric
@@ -410,7 +419,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
                         let value = '';
                         if ('arguments' in localized.localizedKeys) {
                             const localizedCase = localized.getObject() as Case;
-                            if (localizedCase.arguments && localizedCase.arguments) {
+                            if (localizedCase.arguments && localizedCase.arguments.length) {
                                 [value] = localizedCase.arguments;
                             }
                         }
@@ -459,7 +468,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
 
     private getLeadIn(): JSX.Element {
         let leadIn: JSX.Element | string = null;
-        if (this.props.typeConfig.type === 'wait_for_response') {
+        if (this.props.typeConfig.type === Types.wait_for_response) {
             leadIn = WAIT_LABEL;
         } else if (this.props.typeConfig.type === Types.split_by_expression) {
             leadIn = (
@@ -479,7 +488,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
             );
         }
         return (
-            <div data-spec="lead-in" className={styles.instructions}>
+            <div data-spec={leadInSpecId} className={styles.instructions}>
                 {leadIn}
             </div>
         );
@@ -531,7 +540,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
     }
 
     private renderAdvanced(): JSX.Element {
-        const operands = this.getOperandsForLocalization();
+        const operands = this.getCasesForLocalization();
         return (
             <>
                 <div data-spec="advanced-title" className={styles.translatingOperatorTitle}>
@@ -555,6 +564,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterProps, SwitchR
     }
 }
 
+/* istanbul ignore next */
 const mapStateToProps = ({
     flowContext: { localizations },
     flowEditor: { editorUI: { language, translating } },

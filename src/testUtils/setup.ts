@@ -3,17 +3,8 @@ import * as Adapter from 'enzyme-adapter-react-16';
 import * as $ from 'jquery';
 import { RenderNode } from '../store/flowContext';
 import { Exit } from '../flowTypes';
-
-// Configure Enzyme adapter
-configure({ adapter: new Adapter() });
-
-// RAF shim
-(global as any).requestAnimationFrame = callback => {
-    setTimeout(callback, 0);
-};
-
-// Make jest aware of our jQuery dep
-(window as any).$ = $;
+import { Console } from 'console';
+import { dump } from '../utils';
 
 // Declare custom matcher types
 declare global {
@@ -29,3 +20,17 @@ declare global {
         }
     }
 }
+
+// Modify console to account for Jest limitations https://github.com/facebook/jest/issues/3853
+global.console = new Console(process.stderr, process.stderr);;
+
+// Configure Enzyme adapter
+configure({ adapter: new Adapter() });
+
+// RAF shim
+(global as any).requestAnimationFrame = callback => {
+    setTimeout(callback, 0);
+};
+
+// Make jest aware of our jQuery dep
+(window as any).$ = $;

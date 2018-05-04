@@ -6,6 +6,7 @@ import {
 } from 'react-select';
 import { Operators } from './config/operatorConfigs';
 import AssetService from './services/AssetService';
+import { Types } from './config/typeConfigs';
 
 export interface Languages {
     [iso: string]: string;
@@ -60,7 +61,7 @@ export interface Exit {
 }
 
 export interface Router {
-    type: 'switch' | 'split';
+    type: Types;
     result_name?: string;
 }
 
@@ -101,7 +102,7 @@ export enum Methods {
 }
 
 export interface Action {
-    type: string;
+    type: Types;
     uuid: string;
 }
 
@@ -188,7 +189,7 @@ export interface Dimensions {
 export interface UINode {
     position: FlowPosition;
     // ui type, used for split by expression, contact field, etc
-    type?: string;
+    type?: Types;
 }
 
 export interface StickyNote {

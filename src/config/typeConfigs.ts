@@ -55,6 +55,10 @@ export const enum Types {
     split_by_expression = 'split_by_expression',
     split_by_groups = 'split_by_groups',
     wait_for_response = 'wait_for_response',
+    switch = 'switch',
+    split = 'split',
+    subflow = 'subflow',
+    webhook = 'webhook',
 
     missing = 'missing'
 }
@@ -219,7 +223,7 @@ export const typeConfigMap: TypeMap = typeConfigList.reduce((map: TypeMap, typeC
  * @param {string} type - The type of the type config to return, e.g. 'send_msg'
  * @returns {Object} - The type config found at typeConfigs[type] or -1
  */
-export const getTypeConfig = (type: string): Type => {
+export const getTypeConfig = (type: Types): Type => {
     let actionConfig = typeConfigMap[type];
 
     if (!actionConfig) {
