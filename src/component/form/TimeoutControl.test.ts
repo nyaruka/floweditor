@@ -19,12 +19,14 @@ describe(TimeoutControl.name, () => {
         it('should render only checkbox, instructions if not passed a timeout', () => {
             const { wrapper } = setup();
 
+            expect(wrapper.find('Select').exists()).toBeFalsy();
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should render select control if passed a timeout', () => {
             const { wrapper } = setup(true, { checked: { $set: true }, timeout: { $set: 300 } });
 
+            expect(wrapper.find('Select').exists()).toBeTruthy();
             expect(wrapper).toMatchSnapshot();
         });
     });
@@ -53,7 +55,7 @@ describe(TimeoutControl.name, () => {
             });
         });
 
-        describe('onChangeTimeout', () => {
+        describe('handleChangeTimeout', () => {
             it('should update local state if passed a new selection', () => {
                 const setStateSpy = spyOn('setState');
                 // setting 'checked' prop to true gives a default selection of 5 minutes

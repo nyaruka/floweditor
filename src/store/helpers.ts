@@ -14,7 +14,7 @@ import {
     SetContactField,
     SwitchRouter,
     UINodeTypes,
-    WaitTypes,
+    WaitTypes
 } from '../flowTypes';
 import { Asset, AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
@@ -227,7 +227,7 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
         ghostNode.actions.push(replyAction);
     } else {
         // Otherwise we are going to a switch
-        ghostNode.exits[0].name = DefaultExitNames['All Responses'];
+        ghostNode.exits[0].name = DefaultExitNames.All_Responses;
         ghostNode.wait = { type: WaitTypes.msg };
         ghostNode.router = {
             type: RouterTypes.switch,

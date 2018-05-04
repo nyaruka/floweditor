@@ -51,7 +51,7 @@ export class TimeoutControl extends React.Component<TimeoutControlStoreProps, Ti
         };
 
         bindCallbacks(this, {
-            include: [/^on/, /^handle/]
+            include: [/^handle/]
         });
     }
 
@@ -77,7 +77,7 @@ export class TimeoutControl extends React.Component<TimeoutControlStoreProps, Ti
         }
     }
 
-    private onChangeTimeout(selected: Option): void {
+    private handleChangeTimeout(selected: Option): void {
         if (!isEqual(this.state.selected, selected)) {
             this.setState({ selected }, () => this.props.updateTimeout(selected.value as number));
         }
@@ -108,7 +108,7 @@ export class TimeoutControl extends React.Component<TimeoutControlStoreProps, Ti
                         clearable={false}
                         searchable={false}
                         value={this.state.selected}
-                        onChange={this.onChangeTimeout}
+                        onChange={this.handleChangeTimeout}
                         options={TIMEOUT_OPTIONS}
                     />
                 )}

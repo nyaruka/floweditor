@@ -86,10 +86,10 @@ interface Sides {
 }
 
 export enum DefaultExitNames {
-    'All Responses' = 'All Responses',
-    'No Response' = 'No Response',
-    'Any Value' = 'Any Value',
-    'Other' = 'Other'
+    All_Responses = 'All Responses',
+    No_Response = 'No Response',
+    Any_Value = 'Any Value',
+    Other = 'Other'
 }
 
 export interface NodeEditorPassedProps {
@@ -460,17 +460,17 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
         // add in our default exit
         let defaultUUID = generateUUID();
-        if (this.props.nodeToEdit.router && this.props.nodeToEdit.router.type === 'switch') {
+        if (this.props.nodeToEdit.router && this.props.nodeToEdit.router.type === RouterTypes.switch) {
             const router = this.props.nodeToEdit.router as SwitchRouter;
             if (router && router.default_exit_uuid) {
                 defaultUUID = router.default_exit_uuid;
             }
         }
 
-        let defaultName = DefaultExitNames['All Responses'];
+        let defaultName = DefaultExitNames.All_Responses;
 
         if (this.props.nodeToEdit.wait && this.props.nodeToEdit.wait.type === 'exp') {
-            defaultName = DefaultExitNames['Any Value'];
+            defaultName = DefaultExitNames.Any_Value;
         }
 
         if (exits.length > 0) {
@@ -492,11 +492,11 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         if (this.props.timeout) {
             // do we have an existing timeout exit?
             const existingExit = this.props.nodeToEdit.exits.find(
-                ({ name }) => name === DefaultExitNames['No Response']
+                ({ name }) => name === DefaultExitNames.No_Response
             );
             const timeoutExit: Exit = {
                 uuid: (existingExit && existingExit.uuid) || generateUUID(),
-                name: DefaultExitNames['No Response'],
+                name: DefaultExitNames.No_Response,
                 destination_node_uuid: null
             };
             // add our timeout exit accordingly
@@ -572,7 +572,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                     if (exitMatch.name) {
                         // don't prune if we have a timeout
                         if (
-                            (exitMatch.name === DefaultExitNames['All Responses'] &&
+                            (exitMatch.name === DefaultExitNames.All_Responses &&
                                 (this.props.nodeToEdit.wait &&
                                     !this.props.nodeToEdit.wait.timeout)) ||
                             (exitMatch.name === DefaultExitNames.Other &&
