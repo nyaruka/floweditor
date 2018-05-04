@@ -756,7 +756,7 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
         }
 
         /* istanbul ignore else */
-        if (node.wait.timeout) {
+        if (node.wait && node.wait.timeout) {
             dispatch(updateTimeout(node.wait.timeout));
         }
 
