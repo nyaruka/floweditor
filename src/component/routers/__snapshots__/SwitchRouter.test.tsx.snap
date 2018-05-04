@@ -1,5 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`SwitchRouterForm helpers casePropsFromElement should convert CaseElement properties into a CaseElementProps object 1`] = `
+Object {
+  "exitName": "No",
+  "kase": Object {
+    "arguments": Array [
+      "no",
+    ],
+    "exit_uuid": null,
+    "type": "has_any_word",
+    "uuid": "75541df6-f5f7-4f7b-944b-9604cd6cf338",
+  },
+}
+`;
+
+exports[`SwitchRouterForm helpers casePropsFromElement should convert CaseElement properties into a CaseElementProps object with input focus 1`] = `
+Object {
+  "exitName": "No",
+  "focusArgs": true,
+  "kase": Object {
+    "arguments": Array [
+      "no",
+    ],
+    "exit_uuid": null,
+    "type": "has_any_word",
+    "uuid": "75541df6-f5f7-4f7b-944b-9604cd6cf338",
+  },
+}
+`;
+
 exports[`SwitchRouterForm helpers constructCaseProps should convert CaseElement properties into a CaseElementProps object 1`] = `
 Object {
   "exitName": "No",

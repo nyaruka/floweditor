@@ -110,18 +110,21 @@ export const addFocus = (kase: CaseElementProps, inputToFocus: InputToFocus) => 
     }
 };
 
-export const constructCaseProps = (
-    c: CaseElement,
-    inputToFocus?: InputToFocus
-): CaseElementProps => {
+export const casePropsFromElement = ({
+    caseElement,
+    inputToFocus
+}: {
+    caseElement: CaseElement;
+    inputToFocus?: InputToFocus;
+}): CaseElementProps => {
     let caseProps: CaseElementProps = {
         kase: {
-            uuid: c.props.kase.uuid,
-            type: c.state.operatorConfig.type,
-            exit_uuid: c.props.kase.exit_uuid,
-            arguments: c.state.arguments
+            uuid: caseElement.props.kase.uuid,
+            type: caseElement.state.operatorConfig.type,
+            exit_uuid: caseElement.props.kase.exit_uuid,
+            arguments: caseElement.state.arguments
         },
-        exitName: c.state.exitName
+        exitName: caseElement.state.exitName
     };
 
     if (inputToFocus) {
@@ -130,6 +133,42 @@ export const constructCaseProps = (
 
     return caseProps;
 };
+
+export const casePropsFromNode = ({
+    nodeToEdit,
+    handleCaseChanged,
+    handleCaseRemoved
+}: {
+    nodeToEdit: FlowNode;
+    handleCaseChanged: (c: CaseElement, inputToFocus?: InputToFocus) => void;
+    handleCaseRemoved: (c: CaseElement) => void;
+}): CaseElementProps[] =>
+    (nodeToEdit.router as SwitchRouter).cases.reduce((displayableCases, kase) => {
+        let exitName: string = null;
+
+        if (kase.exit_uuid) {
+            const [exit] = nodeToEdit.exits.filter(({ uuid }: Exit) => uuid === kase.exit_uuid);
+
+            if (exit) {
+                ({ name: exitName } = exit);
+            }
+        }
+
+        try {
+            if (getOperatorConfig(kase.type).verboseName) {
+                displayableCases.push({
+                    kase,
+                    exitName,
+                    onChange: this.handleCaseChanged,
+                    onRemove: this.handleCaseRemoved
+                } as any);
+            }
+        } catch (error) {
+            // Ignore missing cases
+        }
+
+        return displayableCases;
+    }, []);
 
 export const leadInSpecId = 'lead-in';
 
@@ -152,7 +191,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
         this.props.updateRouter(this.state.displayableCases);
     }
 
-    private handleCaseRemoved(c: any): void {
+    private handleCaseRemoved(c: CaseElement): void {
         const idx = this.state.displayableCases.findIndex(
             (props: CaseElementProps) => props.kase.uuid === c.props.kase.uuid
         );
@@ -165,7 +204,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
     }
 
     private handleCaseChanged(c: CaseElement, inputToFocus?: InputToFocus): void {
-        const newCase = constructCaseProps(c, inputToFocus);
+        const newCase = casePropsFromElement({ caseElement: c, inputToFocus });
 
         const { displayableCases } = this.state;
 
@@ -207,47 +246,17 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
         });
     }
 
-    private composeCaseProps(): CaseElementProps[] {
-        return (this.props.nodeToEdit.router as SwitchRouter).cases.reduce(
-            (displayableCases, kase) => {
-                let exitName: string = null;
-
-                if (kase.exit_uuid) {
-                    const [exit] = this.props.nodeToEdit.exits.filter(
-                        ({ uuid }: Exit) => uuid === kase.exit_uuid
-                    );
-
-                    if (exit) {
-                        ({ name: exitName } = exit);
-                    }
-                }
-
-                try {
-                    if (getOperatorConfig(kase.type).verboseName) {
-                        displayableCases.push({
-                            kase,
-                            exitName,
-                            onChange: this.handleCaseChanged,
-                            onRemove: this.handleCaseRemoved
-                        } as any);
-                    }
-                } catch (error) {
-                    // Ignore missing cases
-                }
-
-                return displayableCases;
-            },
-            []
-        );
-    }
-
     private getInitialState(): SwitchRouterState {
         const displayableCases = [];
 
         const router = this.props.nodeToEdit.router as SwitchRouter;
 
         if (router && hasCases(this.props.nodeToEdit)) {
-            const existingCases = this.composeCaseProps();
+            const existingCases = casePropsFromNode({
+                nodeToEdit: this.props.nodeToEdit,
+                handleCaseChanged: this.handleCaseChanged,
+                handleCaseRemoved: this.handleCaseRemoved
+            });
 
             displayableCases.push(...existingCases);
         }

@@ -17,7 +17,7 @@ import {
     SwitchRouterForm,
     SwitchRouterFormProps,
     addFocus,
-    constructCaseProps
+    casePropsFromElement
 } from './SwitchRouter';
 import { reorderList } from '../../utils';
 import update from 'immutability-helper';
@@ -152,22 +152,24 @@ describe(SwitchRouterForm.name, () => {
             });
         });
 
-        describe('constructCaseProps', () => {
+        describe('casePropsFromElement', () => {
             it('should convert CaseElement properties into a CaseElementProps object', () => {
                 expect(
-                    constructCaseProps({
-                        props: {
-                            kase: {
-                                uuid: '75541df6-f5f7-4f7b-944b-9604cd6cf338',
-                                exit_uuid: null
+                    casePropsFromElement({
+                        caseElement: {
+                            props: {
+                                kase: {
+                                    uuid: '75541df6-f5f7-4f7b-944b-9604cd6cf338',
+                                    exit_uuid: null
+                                }
+                            },
+                            state: {
+                                operatorConfig: getOperatorConfig(Operators.has_any_word),
+                                arguments: ['no'],
+                                exitName: 'No'
                             }
-                        },
-                        state: {
-                            operatorConfig: getOperatorConfig(Operators.has_any_word),
-                            arguments: ['no'],
-                            exitName: 'No'
-                        }
-                    } as any)
+                        } as any
+                    })
                 ).toMatchSnapshot();
             });
         });
@@ -432,7 +434,10 @@ describe(SwitchRouterForm.name, () => {
                         exitName
                     }
                 };
-                const updatedCaseProps = constructCaseProps(updatedCase as any, InputToFocus.args);
+                const updatedCaseProps = casePropsFromElement({
+                    caseElement: updatedCase as any,
+                    inputToFocus: InputToFocus.args
+                });
 
                 instance.handleCaseChanged(updatedCase, InputToFocus.args);
 
@@ -463,7 +468,10 @@ describe(SwitchRouterForm.name, () => {
                         exitName: 'Maybe'
                     }
                 };
-                const newCaseProps = constructCaseProps(newCase as any, InputToFocus.args);
+                const newCaseProps = casePropsFromElement({
+                    caseElement: newCase as any,
+                    inputToFocus: InputToFocus.args
+                });
                 const currentState = wrapper.state('displayableCases');
 
                 instance.handleCaseChanged(newCase, InputToFocus.args);

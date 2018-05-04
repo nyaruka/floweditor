@@ -5,6 +5,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { v4 as generateUUID } from 'uuid';
+
 import { Mode, Type } from '../../config';
 import { Operators } from '../../config/operatorConfigs';
 import { Types } from '../../config/typeConfigs';
@@ -19,6 +20,7 @@ import {
     FlowNode,
     Methods,
     Router,
+    RouterTypes,
     SendEmail,
     SendMsg,
     SetContactField,
@@ -26,11 +28,10 @@ import {
     StartFlow,
     StartFlowExitNames,
     SwitchRouter,
+    UINodeTypes,
     Wait,
     WaitTypes,
-    WebhookExitNames,
-    RouterTypes,
-    UINodeTypes
+    WebhookExitNames
 } from '../../flowTypes';
 import { Asset } from '../../services/AssetService';
 import { LocalizedObject } from '../../services/Localization';
@@ -67,6 +68,7 @@ import ConnectedModal, { ButtonSet } from '../Modal';
 import { DragPoint } from '../Node';
 import * as shared from '../shared.scss';
 import { DEFAULT_BODY, GROUPS_OPERAND } from './constants';
+import FormContainer from './FormContainer';
 import * as formStyles from './NodeEditor.scss';
 import TypeList from './TypeList';
 
@@ -268,19 +270,6 @@ export const groupsToCases = (groups: Asset[] = []): CaseElementProps[] =>
         },
         exitName: name
     }));
-
-export const FormContainer: React.SFC<{
-    onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void;
-    __className?: string;
-}> = ({ children, onKeyPress, __className }) => (
-    <div className={__className ? __className : null}>
-        <div className={formStyles.node_editor}>
-            <form onKeyPress={onKeyPress}>{children}</form>
-        </div>
-    </div>
-);
-
-FormContainer.displayName = 'FormContainer';
 
 export class NodeEditor extends React.Component<NodeEditorProps> {
     private modal: any;
