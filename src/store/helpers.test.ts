@@ -1,7 +1,7 @@
 import { v4 as generateUUID } from 'uuid';
 
 import { Types } from '../config/typeConfigs';
-import { Case, Exit, FlowDefinition, FlowPosition, SendMsg } from '../flowTypes';
+import { Case, Exit, FlowDefinition, FlowPosition, SendMsg, RouterTypes } from '../flowTypes';
 import {
     determineConfigType,
     getCollisions,
@@ -10,7 +10,7 @@ import {
     getLocalizations,
     getOrderedNodes,
     getSuggestedResultName,
-    getUniqueDestinations,
+    getUniqueDestinations
 } from './helpers';
 
 const mutate = require('immutability-helper');
@@ -120,7 +120,7 @@ describe('helpers', () => {
         describe('getGhostNode', () => {
             it('should create a router from an action', () => {
                 const ghost = getGhostNode(nodes.node0, nodes);
-                expect(ghost.router.type).toBe('switch');
+                expect(ghost.router.type).toBe(RouterTypes.switch);
             });
             it('should create an action node from a switch', () => {
                 const ghost = getGhostNode(nodes.node1, nodes);
@@ -156,7 +156,7 @@ describe('helpers', () => {
                         actions: [],
                         exits: [],
                         router: {
-                            type: 'switch'
+                            type: RouterTypes.switch
                         }
                     },
                     null,
@@ -164,7 +164,7 @@ describe('helpers', () => {
                 );
 
                 // TODO: is this a valid type config type for the caller?
-                expect(configType).toBe('switch');
+                expect(configType).toBe(RouterTypes.switch);
             });
 
             it('should throw if no type is poissible', () => {

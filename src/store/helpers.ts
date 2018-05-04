@@ -1,23 +1,24 @@
 import { v4 as generateUUID } from 'uuid';
+
+import { DefaultExitNames } from '../component/NodeEditor/NodeEditor';
 import { Types } from '../config/typeConfigs';
 import {
     AnyAction,
+    ChangeGroups,
+    Exit,
     FlowDefinition,
     FlowNode,
     FlowPosition,
     Languages,
-    SwitchRouter,
-    WaitTypes,
-    ChangeGroups,
+    RouterTypes,
     SetContactField,
-    Exit
+    SwitchRouter,
+    UINodeTypes,
+    WaitTypes,
 } from '../flowTypes';
+import { Asset, AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { RenderNode, RenderNodeMap } from './flowContext';
-import { BoolMap } from '../utils';
-import SetContactAttribForm from '../component/actions/SetContactAttrib/SetContactAttribForm';
-import { Asset, AssetType } from '../services/AssetService';
-import { DefaultExitNames } from '../component/NodeEditor/NodeEditor';
 
 export interface Bounds {
     left: number;
@@ -75,7 +76,7 @@ export const getLocalizations = (
     const localizations: LocalizedObject[] = [];
 
     // Account for localized cases
-    if (node.router && node.router.type === Types.switch) {
+    if (node.router && node.router.type === RouterTypes.switch) {
         const router = node.router as SwitchRouter;
 
         router.cases.forEach(kase =>
@@ -216,7 +217,7 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
     };
 
     // Add an action if we are coming from a split
-    if (fromNode.node.wait || fromNode.ui.type === Types.webhook) {
+    if (fromNode.node.wait || fromNode.ui.type === UINodeTypes.webhook) {
         const replyAction = {
             uuid: generateUUID(),
             type: Types.send_msg,
@@ -229,7 +230,7 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
         ghostNode.exits[0].name = DefaultExitNames['All Responses'];
         ghostNode.wait = { type: WaitTypes.msg };
         ghostNode.router = {
-            type: Types.switch,
+            type: RouterTypes.switch,
             result_name: getSuggestedResultName(nodes)
         };
     }

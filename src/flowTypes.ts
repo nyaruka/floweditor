@@ -60,8 +60,12 @@ export interface Exit {
     destination_node_uuid?: string;
 }
 
+export enum RouterTypes {
+    switch = 'switch'
+}
+
 export interface Router {
-    type: Types;
+    type: RouterTypes;
     result_name?: string;
 }
 
@@ -186,10 +190,16 @@ export interface Dimensions {
     height: number;
 }
 
+export enum UINodeTypes {
+    split = 'split',
+    subflow = 'subflow',
+    webhook = 'webhook'
+}
+
 export interface UINode {
     position: FlowPosition;
     // ui type, used for split by expression, contact field, etc
-    type?: Types;
+    type?: UINodeTypes | Types;
 }
 
 export interface StickyNote {

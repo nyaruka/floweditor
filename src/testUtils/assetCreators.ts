@@ -22,7 +22,8 @@ import {
     StartFlowExitNames,
     SwitchRouter,
     Wait,
-    WaitTypes
+    WaitTypes,
+    RouterTypes
 } from '../flowTypes';
 import { capitalize } from '../utils';
 
@@ -204,7 +205,7 @@ export const createWait = ({ type, timeout }: { type: WaitTypes; timeout?: numbe
 
 // tslint:disable-next-line:variable-name
 export const createRouter = (result_name?: string): Router => ({
-    type: 'switch',
+    type: RouterTypes.switch,
     ...(result_name ? { result_name } : {})
 });
 

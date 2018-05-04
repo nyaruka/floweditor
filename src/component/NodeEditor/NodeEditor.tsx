@@ -28,7 +28,9 @@ import {
     SwitchRouter,
     Wait,
     WaitTypes,
-    WebhookExitNames
+    WebhookExitNames,
+    RouterTypes,
+    UINodeTypes
 } from '../../flowTypes';
 import { Asset } from '../../services/AssetService';
 import { LocalizedObject } from '../../services/Localization';
@@ -278,7 +280,7 @@ export const FormContainer: React.SFC<{
     </div>
 );
 
-FormContainer.displayName = 'FormContainer'
+FormContainer.displayName = 'FormContainer';
 
 export class NodeEditor extends React.Component<NodeEditorProps> {
     private modal: any;
@@ -851,7 +853,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         }
 
         const router: SwitchRouter = {
-            type: Types.switch,
+            type: RouterTypes.switch,
             default_exit_uuid: defaultExit,
             cases,
             operand: this.props.operand,
@@ -867,7 +869,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     private getUpdatedRouterNode(
         router: Router,
         exits: Exit[],
-        type: Types,
+        type: UINodeTypes | Types,
         actions: Action[] = [],
         wait: Wait = null
     ): RenderNode {
@@ -902,7 +904,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         }
 
         const router: SwitchRouter = {
-            type: Types.switch,
+            type: RouterTypes.switch,
             cases,
             default_exit_uuid: defaultExit,
             operand: GROUPS_OPERAND,
@@ -984,13 +986,13 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         }
 
         const router: SwitchRouter = {
-            type: Types.switch,
+            type: RouterTypes.switch,
             operand: '@child',
             cases,
             default_exit_uuid: null
         };
 
-        const newNode = this.getUpdatedRouterNode(router, exits, Types.subflow, [newAction], {
+        const newNode = this.getUpdatedRouterNode(router, exits, UINodeTypes.subflow, [newAction], {
             type: WaitTypes.flow,
             flow_uuid: flowUUID
         } as Wait);
@@ -1093,13 +1095,13 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         }
 
         const router: SwitchRouter = {
-            type: Types.switch,
+            type: RouterTypes.switch,
             operand: '@webhook',
             cases,
             default_exit_uuid: exits[1].uuid
         };
 
-        const newNode = this.getUpdatedRouterNode(router, exits, Types.webhook, [newAction]);
+        const newNode = this.getUpdatedRouterNode(router, exits, UINodeTypes.webhook, [newAction]);
         this.props.onUpdateRouter(newNode);
     }
 
