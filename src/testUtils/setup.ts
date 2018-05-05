@@ -21,8 +21,8 @@ declare global {
     }
 }
 
-// Modify console to account for Jest limitations https://github.com/facebook/jest/issues/3853
-global.console = new Console(process.stderr, process.stderr);;
+// Ensure console logs are visible while running tests https://github.com/facebook/jest/issues/3853
+global.console = new Console(process.stderr, process.stderr);
 
 // Configure Enzyme adapter
 configure({ adapter: new Adapter() });

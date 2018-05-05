@@ -66,108 +66,6 @@ exports[`SwitchRouterForm instance methods getCaseContext should return unwrappe
 </React.Fragment>
 `;
 
-exports[`SwitchRouterForm instance methods getCasesForLocalization should return cases for localization 1`] = `
-<React.Fragment>
-  <div
-    className="translatingOperatorTitle"
-    data-spec="advanced-title"
-  >
-    Rules
-  </div>
-  <div
-    className="translatingOperatorInstructions"
-    data-spec="advanced-instructions"
-  >
-    Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.
-  </div>
-  <div
-    className="translating_operator_container"
-    data-spec="operator-field"
-    key="translate_case-0"
-  >
-    <div
-      className="translating_operator"
-      data-spec="verbose-name"
-    >
-      has any of the words
-    </div>
-    <div
-      className="translating_from"
-      data-spec="argument-to-translate"
-    >
-      y, yes
-    </div>
-    <div
-      className="translating_to"
-    >
-      <Connect(TextInputElement)
-        data-spec="translation-input"
-        name="case-0"
-        placeholder="English Translation"
-        showLabel={false}
-        value="si, simón"
-      />
-    </div>
-  </div>
-  <div
-    className="translating_operator_container"
-    data-spec="operator-field"
-    key="translate_case-1"
-  >
-    <div
-      className="translating_operator"
-      data-spec="verbose-name"
-    >
-      has any of the words
-    </div>
-    <div
-      className="translating_from"
-      data-spec="argument-to-translate"
-    >
-      n, no
-    </div>
-    <div
-      className="translating_to"
-    >
-      <Connect(TextInputElement)
-        data-spec="translation-input"
-        name="case-1"
-        placeholder="English Translation"
-        showLabel={false}
-        value=""
-      />
-    </div>
-  </div>
-  <div
-    className="translating_operator_container"
-    data-spec="operator-field"
-    key="translate_case-2"
-  >
-    <div
-      className="translating_operator"
-      data-spec="verbose-name"
-    />
-    <div
-      className="translating_from"
-      data-spec="argument-to-translate"
-    >
-      @run
-    </div>
-    <div
-      className="translating_to"
-    >
-      <Connect(TextInputElement)
-        data-spec="translation-input"
-        name="case-2"
-        placeholder="English Translation"
-        showLabel={false}
-        value=""
-      />
-    </div>
-  </div>
-</React.Fragment>
-`;
-
 exports[`SwitchRouterForm instance methods getCasesToRender should add an undraggable, displayable case 1`] = `
 <React.Fragment>
   <div
@@ -279,6 +177,91 @@ exports[`SwitchRouterForm render should render advanced form 1`] = `
     data-spec="advanced-instructions"
   >
     Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.
+  </div>
+  <div
+    className="translating_operator_container"
+    data-spec="operator-field"
+    key="translate_case-0"
+  >
+    <div
+      className="translating_operator"
+      data-spec="verbose-name"
+    >
+      has any of the words
+    </div>
+    <div
+      className="translating_from"
+      data-spec="argument-to-translate"
+    >
+      y, yes
+    </div>
+    <div
+      className="translating_to"
+    >
+      <Connect(TextInputElement)
+        data-spec="translation-input"
+        name="case-0"
+        placeholder="English Translation"
+        showLabel={false}
+        value="si, simón"
+      />
+    </div>
+  </div>
+  <div
+    className="translating_operator_container"
+    data-spec="operator-field"
+    key="translate_case-1"
+  >
+    <div
+      className="translating_operator"
+      data-spec="verbose-name"
+    >
+      has any of the words
+    </div>
+    <div
+      className="translating_from"
+      data-spec="argument-to-translate"
+    >
+      n, no
+    </div>
+    <div
+      className="translating_to"
+    >
+      <Connect(TextInputElement)
+        data-spec="translation-input"
+        name="case-1"
+        placeholder="English Translation"
+        showLabel={false}
+        value=""
+      />
+    </div>
+  </div>
+  <div
+    className="translating_operator_container"
+    data-spec="operator-field"
+    key="translate_case-2"
+  >
+    <div
+      className="translating_operator"
+      data-spec="verbose-name"
+    />
+    <div
+      className="translating_from"
+      data-spec="argument-to-translate"
+    >
+      @run
+    </div>
+    <div
+      className="translating_to"
+    >
+      <Connect(TextInputElement)
+        data-spec="translation-input"
+        name="case-2"
+        placeholder="English Translation"
+        showLabel={false}
+        value=""
+      />
+    </div>
   </div>
 </React.Fragment>
 `;

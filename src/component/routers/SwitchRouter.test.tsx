@@ -1,27 +1,29 @@
+import update from 'immutability-helper';
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 
 import * as config from '../../../__test__/config';
 import { getOperatorConfig, Operators } from '../../config/operatorConfigs';
 import { getTypeConfig, Types } from '../../config/typeConfigs';
-import { Case, Exit, SwitchRouter } from '../../flowTypes';
+import { SwitchRouter } from '../../flowTypes';
 import { getLocalizations } from '../../store/helpers';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../testUtils';
 import { createCase, createExit, createWaitRouterNode } from '../../testUtils/assetCreators';
+import { reorderList } from '../../utils';
+import TextInputElement from '../form/TextInputElement';
 import { DEFAULT_OPERAND } from '../NodeEditor';
+import { EXPRESSION_LABEL } from './constants';
 import {
+    addFocus,
+    casePropsFromElement,
     DragCursor,
     getItemStyle,
     getListStyle,
+    InputToFocus,
     leadInSpecId,
     SwitchRouterForm,
     SwitchRouterFormProps,
-    addFocus,
-    casePropsFromElement
 } from './SwitchRouter';
-import { reorderList } from '../../utils';
-import update from 'immutability-helper';
-import { InputToFocus } from './SwitchRouter';
 
 jest.mock('uuid', () => ({
     v4: jest.fn()
@@ -194,12 +196,30 @@ describe(SwitchRouterForm.name, () => {
         });
 
         it('should render advanced form', () => {
+            const renderAdvancedSpy = spyOn('renderAdvanced');
+            const translations = {
+                [(nodeToEdit.router as SwitchRouter).cases[0].uuid]: {
+                    name: ['Si'],
+                    arguments: ['si, simón']
+                }
+            };
+            const localizations = getLocalizations(
+                nodeToEdit,
+                null,
+                'spa',
+                config.languages,
+                translations
+            );
             const { wrapper, props } = setup(true, {
                 translating: { $set: true },
-                showAdvanced: { $set: true }
+                showAdvanced: { $set: true },
+                localizations: { $set: localizations }
             });
 
+            expect(renderAdvancedSpy).toHaveBeenCalledTimes(1);
             expect(wrapper).toMatchSnapshot();
+
+            renderAdvancedSpy.mockRestore();
         });
     });
 
@@ -210,6 +230,8 @@ describe(SwitchRouterForm.name, () => {
                     nodeToEdit: { router: { $merge: { cases: [] } } }
                 });
 
+                expect(getSpecWrapper(wrapper, leadInSpecId).exists()).toBeTruthy();
+                expect(wrapper.find('CaseElement').length).toBe(1);
                 expect(wrapper).toMatchSnapshot();
             });
         });
@@ -220,32 +242,9 @@ describe(SwitchRouterForm.name, () => {
                     typeConfig: { $set: getTypeConfig(Types.split_by_expression) }
                 });
 
+                expect(wrapper.find('p').text()).toBe(EXPRESSION_LABEL);
+                expect(wrapper.find(TextInputElement).exists()).toBeTruthy();
                 expect(getSpecWrapper(wrapper, leadInSpecId)).toMatchSnapshot();
-            });
-        });
-
-        describe('getCasesForLocalization', () => {
-            it('should return cases for localization', () => {
-                const translations = {
-                    [(nodeToEdit.router as SwitchRouter).cases[0].uuid]: {
-                        name: ['Si'],
-                        arguments: ['si, simón']
-                    }
-                };
-                const localizations = getLocalizations(
-                    nodeToEdit,
-                    null,
-                    'spa',
-                    config.languages,
-                    translations
-                );
-                const { wrapper } = setup(true, {
-                    translating: { $set: true },
-                    showAdvanced: { $set: true },
-                    localizations: { $set: localizations }
-                });
-
-                expect(wrapper).toMatchSnapshot();
             });
         });
 

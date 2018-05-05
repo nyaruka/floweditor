@@ -19,6 +19,7 @@ describe(TimeoutControl.name, () => {
         it('should render only checkbox, instructions if not passed a timeout', () => {
             const { wrapper } = setup();
 
+            expect(wrapper.find('.leftSection').exists()).toBeTruthy();
             expect(wrapper.find('Select').exists()).toBeFalsy();
             expect(wrapper).toMatchSnapshot();
         });
