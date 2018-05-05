@@ -1,9 +1,13 @@
 import * as React from 'react';
 import * as ReactModal from 'react-modal';
-import { Case, FlowNode, SwitchRouter } from '../flowTypes';
+import { Case, FlowNode, SwitchRouter, WaitTypes } from '../flowTypes';
+import ConnectedTimeoutControl from './form/TimeoutControl';
 import Button, { ButtonProps, ButtonTypes } from './Button';
 import * as styles from './Modal.scss';
 import * as shared from './shared.scss';
+import { renderIf, isRealValue } from '../utils';
+import { connect } from 'react-redux';
+import { AppState } from '../store';
 
 export interface ButtonSet {
     primary: ButtonProps;
@@ -20,10 +24,9 @@ interface CustomStyles {
     content: { [cssProperty: string]: string | number };
 }
 
-export interface ModalProps {
+export interface ModalPassedProps {
     show: boolean;
     buttons: ButtonSet;
-    node?: FlowNode;
     advanced?: JSX.Element;
     onModalOpen?: any;
     __className?: string;
@@ -31,12 +34,19 @@ export interface ModalProps {
     width?: string;
 }
 
+export interface ModalStoreProps {
+    translating: boolean;
+    nodeToEdit: FlowNode;
+}
+
+export type ModalProps = ModalPassedProps & ModalStoreProps;
+
 interface ModalState {
     flipped: boolean;
 }
 
 // A base modal for displaying messages or performing single button actions
-export default class Modal extends React.PureComponent<ModalProps, ModalState> {
+export class Modal extends React.Component<ModalProps, ModalState> {
     constructor(props: ModalProps) {
         super(props);
 
@@ -99,9 +109,10 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
         const { leftButtons, rightButtons } = this.getButtons();
         return children.map((child: React.ReactChild, childIdx: number) => {
             const classes = [styles.side];
+            const isFrontForm = childIdx === 0;
             let title = this.props.title[childIdx];
 
-            if (childIdx === 0) {
+            if (isFrontForm) {
                 classes.push(styles.front);
             } else {
                 title = (
@@ -116,10 +127,10 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
             if (hasAdvanced) {
                 /** Don't show advanced settings for SwitchRouter unless we have cases to translate */
                 let cases: Case[];
-                if (this.props.node && this.props.node.router) {
-                    ({ cases } = this.props.node.router as SwitchRouter);
+                if (this.props.nodeToEdit && this.props.nodeToEdit.router) {
+                    ({ cases } = this.props.nodeToEdit.router as SwitchRouter);
                 }
-                if (childIdx === 0) {
+                if (isFrontForm) {
                     if (cases && !cases.length) {
                         flip = null;
                     } else {
@@ -150,8 +161,21 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
                         </div>
                         <div className={styles.content}>{child}</div>
                         <div className={styles.footer}>
-                            <div className={styles.left}>{leftButtons}</div>
-                            <div className={styles.right}>{rightButtons}</div>
+                            <div className={styles.sectionLeft}>
+                                {renderIf(
+                                    // prettier-ignore
+                                    isFrontForm &&
+                                    !this.props.translating &&
+                                    this.props.nodeToEdit.wait &&
+                                    this.props.nodeToEdit.wait.type === WaitTypes.msg
+                                )(<ConnectedTimeoutControl />)}
+                            </div>
+                            <div className={styles.sectionRight}>
+                                <div className={styles.buttons}>
+                                    <div className={styles.leftButtons}>{leftButtons}</div>
+                                    <div className={styles.rightButtons}>{rightButtons}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -195,3 +219,16 @@ export default class Modal extends React.PureComponent<ModalProps, ModalState> {
         );
     }
 }
+
+const mapStateToProps = ({
+    flowEditor: { editorUI: { translating } },
+    nodeEditor: { nodeToEdit }
+}: AppState) => ({
+    translating,
+    nodeToEdit
+});
+
+// To-do: type properly
+const ConnectedModal = connect(mapStateToProps)(Modal);
+
+export default ConnectedModal;

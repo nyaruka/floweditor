@@ -2,8 +2,7 @@ import { ResultType } from '../../flowTypes';
 import { composeComponentTestUtils } from '../../testUtils';
 import { configProviderContext } from '../../testUtils';
 import { getSelectClass, V4_UUID, setTrue, set } from '../../utils';
-import {
-    AttribElement,
+import AttribElement, {
     AttribElementProps,
     attribExists,
     CREATE_PROMPT,
@@ -23,12 +22,11 @@ const initial: Asset = {
 
 const baseProps: AttribElementProps = {
     name: 'Attribute',
-    contactFields: [],
     initial,
     assets: configProviderContext.assetService.getFieldAssets()
 };
 
-const { setup, spyOn } = composeComponentTestUtils<AttribElementProps>(AttribElement, baseProps);
+const { setup, spyOn } = composeComponentTestUtils(AttribElement, baseProps);
 
 describe(AttribElement.name, () => {
     describe('helpers', () => {
@@ -105,11 +103,7 @@ describe(AttribElement.name, () => {
 
     describe('render', () => {
         it('should render self, children with base props', () => {
-            const {
-                wrapper,
-                instance,
-                props: { showLabel, name, helpText, contactFields, assets }
-            } = setup();
+            const { wrapper, instance, props: { showLabel, name, helpText, assets } } = setup();
 
             expect(wrapper.find('FormElement').props()).toEqual(
                 expect.objectContaining({

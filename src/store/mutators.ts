@@ -2,7 +2,7 @@ import { v4 as generateUUID } from 'uuid';
 
 import { LocalizationUpdates } from '.';
 import { AnyAction, Dimensions, FlowDefinition, FlowNode, StickyNote } from '../flowTypes';
-import { merge, set, snapToGrid, splice, unset } from '../utils';
+import { merge, set, snapToGrid, splice, unset, dump } from '../utils';
 import { push } from '../utils';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { getActionIndex, getExitIndex, getNode } from './helpers';
@@ -365,10 +365,12 @@ export const updateLocalization = (
     // Apply changes
     changes.forEach(({ translations, uuid }) => {
         if (translations) {
+            // adding localization
             newDef = mutate(newDef, {
                 localization: { [language]: { [uuid]: set(translations) } }
             });
         } else {
+            // removing localization
             newDef = mutate(newDef, {
                 localization: { [language]: unset([uuid]) }
             });

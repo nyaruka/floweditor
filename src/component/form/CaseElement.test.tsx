@@ -26,8 +26,11 @@ describe(CaseElement.name, () => {
     describe('helpers', () => {
         describe('prefix', () =>
             operatorConfigList.forEach(({ verboseName, type }) =>
-                it(`should prefix "${verboseName}" operator appropriately`, () =>
-                    expect(prefix(type)).toMatchSnapshot())
+                it(`should prefix "${verboseName}" operator appropriately`, () => {
+                    if (verboseName) {
+                        expect(prefix(type)).toMatchSnapshot();
+                    }
+                })
             ));
 
         describe('composeExitName', () => {

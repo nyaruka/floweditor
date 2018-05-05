@@ -1,22 +1,22 @@
+import CallWebhookComp from '../component/actions/CallWebhook/CallWebhook';
 import AddGroupsForm from '../component/actions/ChangeGroups/AddGroupsForm';
 import ChangeGroupsComp from '../component/actions/ChangeGroups/ChangeGroups';
 import RemoveGroupsForm from '../component/actions/ChangeGroups/RemoveGroupsForm';
-import SendMsgComp from '../component/actions/SendMsg/SendMsg';
-import SendMsgForm from '../component/actions/SendMsg/SendMsgForm';
-import SetRunResultComp from '../component/actions/SetRunResult/SetRunResult';
-import SetRunResultForm from '../component/actions/SetRunResult/SetRunResultForm';
-import SetContactAttrib from '../component/actions/SetContactAttrib/SetContactAttrib';
-import SetContactAttribForm from '../component/actions/SetContactAttrib/SetContactAttribForm';
+import MissingComp from '../component/actions/Missing/Missing';
 import SendEmailComp from '../component/actions/SendEmail/SendEmail';
 import SendEmailForm from '../component/actions/SendEmail/SendEmailForm';
+import SendMsgComp from '../component/actions/SendMsg/SendMsg';
+import SendMsgForm from '../component/actions/SendMsg/SendMsgForm';
+import SetContactAttrib from '../component/actions/SetContactAttrib/SetContactAttrib';
+import SetContactAttribForm from '../component/actions/SetContactAttrib/SetContactAttribForm';
+import SetRunResultComp from '../component/actions/SetRunResult/SetRunResult';
+import SetRunResultForm from '../component/actions/SetRunResult/SetRunResultForm';
 import StartFlowComp from '../component/actions/StartFlow/StartFlow';
-import CallWebhookComp from '../component/actions/CallWebhook/CallWebhook';
 import GroupsRouter from '../component/routers/GroupsRouter';
 import SubflowRouter from '../component/routers/SubflowRouter';
 import SwitchRouter from '../component/routers/SwitchRouter';
 import WebhookRouter from '../component/routers/WebhookRouter';
-import { AnyAction } from '../flowTypes';
-import MissingComp from '../component/actions/Missing/Missing';
+import { AnyAction, RouterTypes, UINodeTypes } from '../flowTypes';
 
 /*
 Old name	                New name	                Event(s) generated
@@ -156,7 +156,7 @@ export const typeConfigList: Type[] = [
         form: WebhookRouter,
         component: CallWebhookComp,
         advanced: Mode.EDITING,
-        aliases: ['webhook'],
+        aliases: [UINodeTypes.webhook],
         allows
     },
     {
@@ -165,7 +165,7 @@ export const typeConfigList: Type[] = [
         description: 'Run another flow',
         form: SubflowRouter,
         component: StartFlowComp,
-        aliases: ['subflow'],
+        aliases: [UINodeTypes.subflow],
         allows
     },
 
@@ -191,7 +191,7 @@ export const typeConfigList: Type[] = [
         description: 'Wait for them to respond',
         form: SwitchRouter,
         advanced: Mode.TRANSLATING,
-        aliases: ['switch'],
+        aliases: [RouterTypes.switch],
         allows
     }
     // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
@@ -219,7 +219,7 @@ export const typeConfigMap: TypeMap = typeConfigList.reduce((map: TypeMap, typeC
  * @param {string} type - The type of the type config to return, e.g. 'send_msg'
  * @returns {Object} - The type config found at typeConfigs[type] or -1
  */
-export const getTypeConfig = (type: string): Type => {
+export const getTypeConfig = (type: Types | RouterTypes | UINodeTypes): Type => {
     let actionConfig = typeConfigMap[type];
 
     if (!actionConfig) {

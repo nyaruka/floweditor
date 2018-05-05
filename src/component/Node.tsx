@@ -8,7 +8,15 @@ import * as FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ConfigProviderContext, getTypeConfig, getOperatorConfig } from '../config';
-import { AnyAction, FlowDefinition, FlowNode, SwitchRouter, UINode, Case } from '../flowTypes';
+import {
+    AnyAction,
+    FlowDefinition,
+    FlowNode,
+    SwitchRouter,
+    UINode,
+    Case,
+    RouterTypes
+} from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
 import Plumber, { DragEvent } from '../services/Plumber';
 import {
@@ -395,7 +403,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             const config = getTypeConfig(type);
             let { name: title } = config;
 
-            if (this.props.node.router.type === 'switch') {
+            if (this.props.node.router.type === RouterTypes.switch) {
                 const switchRouter = this.props.node.router as SwitchRouter;
                 if (switchRouter.result_name) {
                     if (this.props.ui.type === Types.split_by_expression) {

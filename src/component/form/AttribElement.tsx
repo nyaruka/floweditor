@@ -15,7 +15,7 @@ import FormElement, { FormElementProps } from './FormElement';
 import { bindActionCreators } from 'redux';
 import { Asset, AssetType, Assets } from '../../services/AssetService';
 
-interface AttribElementPassedProps extends FormElementProps {
+export interface AttribElementProps extends FormElementProps {
     initial: Asset;
     add?: boolean;
     placeholder?: string;
@@ -23,12 +23,6 @@ interface AttribElementPassedProps extends FormElementProps {
     helpText?: string;
     assets: Assets;
 }
-
-interface AttribElementStoreProps {
-    contactFields: Asset[];
-}
-
-export type AttribElementProps = AttribElementPassedProps & AttribElementStoreProps;
 
 interface AttribElementState {
     attribute: Asset;
@@ -56,7 +50,7 @@ export const createNewOption: NewOptionCreatorHandler = ({ label }) => ({
     isNew: true
 });
 
-export class AttribElement extends React.Component<AttribElementProps, AttribElementState> {
+export default class AttribElement extends React.Component<AttribElementProps, AttribElementState> {
     public static defaultProps = {
         placeholder: PLACEHOLDER,
         searchPromptText: NOT_FOUND
@@ -136,7 +130,3 @@ export class AttribElement extends React.Component<AttribElementProps, AttribEle
         );
     }
 }
-
-export default connect<{}, {}, AttribElementPassedProps>(null, null, null, {
-    withRef: true
-})(AttribElement);

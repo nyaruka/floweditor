@@ -6,6 +6,7 @@ import {
 } from 'react-select';
 import { Operators } from './config/operatorConfigs';
 import AssetService from './services/AssetService';
+import { Types } from './config/typeConfigs';
 
 export interface Languages {
     [iso: string]: string;
@@ -59,8 +60,12 @@ export interface Exit {
     destination_node_uuid?: string;
 }
 
+export enum RouterTypes {
+    switch = 'switch'
+}
+
 export interface Router {
-    type: 'switch' | 'split';
+    type: RouterTypes;
     result_name?: string;
 }
 
@@ -86,7 +91,7 @@ export enum WaitTypes {
 
 export interface Wait {
     type: WaitTypes;
-    flow_uuid?: string;
+    timeout?: number;
 }
 
 export interface Group {
@@ -101,7 +106,7 @@ export enum Methods {
 }
 
 export interface Action {
-    type: string;
+    type: Types;
     uuid: string;
 }
 
@@ -185,10 +190,16 @@ export interface Dimensions {
     height: number;
 }
 
+export enum UINodeTypes {
+    split = 'split',
+    subflow = 'subflow',
+    webhook = 'webhook'
+}
+
 export interface UINode {
     position: FlowPosition;
     // ui type, used for split by expression, contact field, etc
-    type?: string;
+    type?: UINodeTypes | Types;
 }
 
 export interface StickyNote {
