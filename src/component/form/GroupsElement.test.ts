@@ -1,16 +1,13 @@
-import { ResultType } from '../../flowTypes';
 import { composeComponentTestUtils, configProviderContext, setMock } from '../../testUtils';
-import { createSelectOption, getGroupOptions, getGroups } from '../../testUtils/assetCreators';
+import { createSelectOption, getGroups } from '../../testUtils/assetCreators';
 import { set, setTrue, validUUID } from '../../utils';
 import GroupsElement, {
     createNewOption,
     GROUP_NOT_FOUND,
     GROUP_PLACEHOLDER,
     GROUP_PROMPT,
-    GroupsElementProps,
-    isValidNewOption
+    GroupsElementProps
 } from './GroupsElement';
-import AssetService from '../../services/AssetService';
 
 const baseProps: GroupsElementProps = {
     name: 'Groups',
@@ -23,18 +20,6 @@ const { setup, spyOn } = composeComponentTestUtils(GroupsElement, baseProps);
 
 describe(GroupsElement.name, () => {
     describe('helpers', () => {
-        describe('isValidNewOption', () => {
-            it('should return false if new option is invalid', () => {
-                expect(isValidNewOption({ label: '$$$' })).toBeFalsy();
-            });
-
-            it('should return true if new option is valid', () => {
-                const newGroup = { label: 'new group' };
-
-                expect(isValidNewOption(newGroup)).toBeTruthy();
-            });
-        });
-
         describe('createNewOption', () => {
             it('should generate a new search result object', () => {
                 const newGroup = createSelectOption({ label: 'Friends' });

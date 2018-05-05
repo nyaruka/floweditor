@@ -8,7 +8,8 @@ export enum AssetType {
     Flow = 'flow',
     Group = 'group',
     Property = 'property',
-    Field = 'field'
+    Field = 'field',
+    Label = 'label'
 }
 
 export interface Asset {
@@ -277,16 +278,26 @@ class FlowAssets extends Assets {
     }
 }
 
+class LabelAssets extends Assets {
+    constructor(endpoint: string, localStorage: boolean) {
+        super(endpoint, localStorage);
+        this.idProperty = IdProperty.UUID;
+        this.assetType = AssetType.Label;
+    }
+}
+
 export default class AssetService {
-    private channels: Assets;
-    private groups: Assets;
-    private fields: Assets;
+    private channels: ChannelAssets;
+    private groups: GroupAssets;
+    private fields: FieldAssets;
     private flows: FlowAssets;
+    private labels: FieldAssets;
 
     constructor(config: FlowEditorConfig) {
         this.groups = new GroupAssets(config.endpoints.groups, config.localStorage);
         this.fields = new FieldAssets(config.endpoints.fields, config.localStorage);
         this.flows = new FlowAssets(config.endpoints.flows, config.localStorage);
+        this.labels = new LabelAssets(config.endpoints.labels, config.localStorage);
 
         // channels are always mocked for local
         this.channels = new ChannelAssets('/channels', true);
@@ -297,21 +308,26 @@ export default class AssetService {
         this.fields.addAll(flowComponents.fields);
     }
 
-    public getFlowAssets(): Assets {
+    public getFlowAssets(): FlowAssets {
         return this.flows;
     }
 
-    public getGroupAssets(): Assets {
+    public getGroupAssets(): GroupAssets {
         return this.groups;
     }
 
-    public getFieldAssets(): Assets {
+    public getFieldAssets(): FieldAssets {
         return this.fields;
     }
 
+    public getLabelAssets(): FieldAssets {
+        return this.labels;
+    }
+
     public getSimulationAssets(): any {
-        let simAssets: SimAsset[] = [];
+        const simAssets: SimAsset[] = [];
         const base = getBaseURL();
+
         // our group set asset
         simAssets.push({
             type: SimAssetType.Groups,
@@ -334,7 +350,7 @@ export default class AssetService {
         });
 
         // our flows
-        simAssets = simAssets.concat(this.flows.getAssetContents(SimAssetType.Flow));
+        simAssets.push(...this.flows.getAssetContents(SimAssetType.Flow));
 
         const payload = {
             assets: simAssets,

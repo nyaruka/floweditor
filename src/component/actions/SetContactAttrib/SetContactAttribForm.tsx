@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ConfigProviderContext } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
 import { SetContactAttribute, SetContactField, SetContactProperty } from '../../../flowTypes';
-import ConnectedAttribElement from '../../form/AttribElement';
+import ConnectedAttribsElement from '../../form/AttribElement';
 import ConnectedTextInputElement from '../../form/TextInputElement';
 import { newFieldAction, newPropertyAction, fieldToAsset, propertyToAsset } from './helpers';
 import { fakePropType } from '../../../config/ConfigProvider';
@@ -21,17 +21,17 @@ export const TEXT_INPUT_HELP_TEXT =
 
 export default class SetContactAttribForm extends React.Component<SetContactAttribFormProps> {
     public static contextTypes = {
-        endpoints: fakePropType,
         assetService: fakePropType
     };
 
     constructor(props: SetContactAttribFormProps, context: ConfigProviderContext) {
         super(props);
+
         this.onValid = this.onValid.bind(this);
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        const { wrappedInstance: { state: { attribute } } } = widgets.Attribute;
+        const { state: { attribute } } = widgets.Attribute;
         const { wrappedInstance: { state: { value } } } = widgets.Value;
 
         if (attribute.type === AssetType.Field) {
@@ -58,7 +58,7 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
         const initial = this.getInitial();
         return (
             <>
-                <ConnectedAttribElement
+                <ConnectedAttribsElement
                     ref={this.props.onBindWidget}
                     name="Attribute"
                     showLabel={true}

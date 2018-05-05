@@ -18,6 +18,7 @@ export interface Endpoints {
     contacts: string;
     flows: string;
     activity: string;
+    labels: string;
     simulateStart: string;
     simulateResume: string;
 }
@@ -119,6 +120,11 @@ export interface Field {
     name: string;
 }
 
+export interface Label {
+    uuid: string;
+    name: string;
+}
+
 export interface SetContactField extends Action {
     field: Field;
     value: string;
@@ -137,6 +143,10 @@ export interface Missing extends Action {}
 export interface SendMsg extends Action {
     text: string;
     all_urns?: boolean;
+}
+
+export interface AddLabels extends Action {
+    labels: Label[];
 }
 
 export interface SetPreferredChannel extends Action {

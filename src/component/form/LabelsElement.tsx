@@ -1,4 +1,3 @@
-import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
 
 import { CreateOptions, ResultType } from '../../flowTypes';
@@ -8,35 +7,36 @@ import {
     getSelectClass,
     isOptionUnique,
     isValidNewOption,
+    jsonEqual,
     snakify
 } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
-export interface AttribElementProps extends FormElementProps {
-    initial: Asset;
+export interface LabelsElementProps extends FormElementProps {
     add?: boolean;
+    labels?: Asset[];
     placeholder?: string;
     searchPromptText?: string;
     helpText?: string;
     assets: Assets;
 }
 
-interface AttribElementState {
-    attribute: Asset;
+interface LabelsElementState {
+    labels: Asset[];
     errors: string[];
 }
 
-export const PLACEHOLDER = 'Enter the name of an existing attribute or create a new one';
-export const NOT_FOUND = 'Invalid attribute';
-export const CREATE_PROMPT = 'New attribute: ';
+export const PLACEHOLDER = 'Enter the name of an existing label or create a new one';
+export const NOT_FOUND = 'Invalid label';
+export const CREATE_PROMPT = 'New label: ';
 
-export const createNewOption = composeCreateNewOption({
+const createNewOption = composeCreateNewOption({
     idCb: label => snakify(label),
-    type: AssetType.Field
+    type: AssetType.Label
 });
 
-export default class AttribElement extends React.Component<AttribElementProps, AttribElementState> {
+export default class LabelsElement extends React.Component<LabelsElementProps, LabelsElementState> {
     public static defaultProps = {
         placeholder: PLACEHOLDER,
         searchPromptText: NOT_FOUND
@@ -46,38 +46,30 @@ export default class AttribElement extends React.Component<AttribElementProps, A
         super(props);
 
         this.state = {
-            attribute: this.props.initial,
+            labels: this.props.labels || [],
             errors: []
         };
 
         this.onChange = this.onChange.bind(this);
     }
 
-    private onChange(attribute: Asset): void {
-        if (!isEqual(this.state.attribute, attribute)) {
-            this.setState({ attribute });
-        }
-    }
-
-    private getErrors(): string[] {
-        const errors = [];
-
-        if (this.props.required && !this.state.attribute.name) {
-            errors.push(`${this.props.name} is required.`);
-        }
-
-        return errors;
-    }
-
-    public updateErrorState(errors: string[]): void {
-        if (!isEqual(this.state.errors, errors)) {
-            this.setState({ errors });
+    private onChange(labels: Asset[]): void {
+        if (!jsonEqual(this.state.labels, labels)) {
+            this.setState({
+                labels
+            });
         }
     }
 
     public validate(): boolean {
-        const errors = this.getErrors();
-        this.updateErrorState(errors);
+        const errors: string[] = [];
+
+        if (this.props.required && !this.state.labels.length) {
+            errors.push(`${this.props.name} is required.`);
+        }
+
+        this.setState({ errors });
+
         return errors.length === 0;
     }
 
@@ -103,13 +95,12 @@ export default class AttribElement extends React.Component<AttribElementProps, A
                     __className={getSelectClass(this.state.errors.length)}
                     onChange={this.onChange}
                     name={this.props.name}
-                    resultType={ResultType.field}
-                    multi={false}
+                    resultType={ResultType.group}
                     assets={this.props.assets}
-                    initial={[this.state.attribute]}
-                    closeOnSelect={true}
-                    searchPromptText={this.props.searchPromptText}
+                    multi={true}
+                    initial={this.state.labels}
                     placeholder={this.props.placeholder}
+                    searchPromptText={this.props.searchPromptText}
                     {...createOptions}
                 />
             </FormElement>

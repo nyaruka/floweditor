@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
+
 import { ResultType } from '../../flowTypes';
-import { getSelectClass, isValidLabel, jsonEqual } from '../../utils';
+import { Asset, Assets, AssetType } from '../../services/AssetService';
+import { composeCreateNewOption, getSelectClass, isValidNewOption, jsonEqual } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
-import { NewOptionCreatorHandler, IsValidNewOptionHandler } from 'react-select';
-import { Assets, Asset, AssetType } from '../../services/AssetService';
 
 export interface GroupOption {
     group: string;
@@ -18,6 +18,7 @@ export interface GroupsElementProps extends FormElementProps {
     placeholder?: string;
     searchPromptText?: string | JSX.Element;
     onChange?: (groups: Asset[]) => void;
+    helpText?: string;
     assets: Assets;
 }
 
@@ -26,19 +27,14 @@ interface GroupsElementState {
     errors: string[];
 }
 
-export const isValidNewOption: IsValidNewOptionHandler = ({ label }) =>
-    !label ? false : isValidLabel(label);
-
-export const createNewOption: NewOptionCreatorHandler = ({ label }): Asset => ({
-    id: generateUUID(),
-    name: label,
-    type: AssetType.Group,
-    isNew: true
+export const createNewOption = composeCreateNewOption({
+    idCb: () => generateUUID(),
+    type: AssetType.Group
 });
 
 export const GROUP_PROMPT = 'New group: ';
 export const GROUP_PLACEHOLDER = 'Enter the name of an existing group...';
-export const GROUP_NOT_FOUND = 'Invalid group name';
+export const GROUP_NOT_FOUND = 'Invalid group';
 
 export default class GroupsElement extends React.Component<GroupsElementProps, GroupsElementState> {
     public static defaultProps = {
@@ -103,12 +99,10 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
             createOptions.createPrompt = GROUP_PROMPT;
         }
 
-        const className = getSelectClass(this.state.errors.length);
-
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <SelectSearch
-                    _className={className}
+                    __className={getSelectClass(this.state.errors.length)}
                     onChange={this.onChange}
                     name={this.props.name}
                     resultType={ResultType.group}
