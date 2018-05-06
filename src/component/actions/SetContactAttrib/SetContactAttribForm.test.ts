@@ -81,7 +81,7 @@ describe(SetContactAttribForm.name, () => {
                 const attribute = fieldToAsset(action as SetContactField);
                 const { value } = action;
                 const widgets = {
-                    Attribute: { wrappedInstance: { state: { attribute } } },
+                    Attribute: { state: { attribute } },
                     Value: { wrappedInstance: { state: { value } } }
                 };
 
@@ -102,7 +102,7 @@ describe(SetContactAttribForm.name, () => {
                 const attribute = propertyToAsset(action as SetContactProperty);
                 const { value } = action;
                 const widgets = {
-                    Attribute: { wrappedInstance: { state: { attribute } } },
+                    Attribute: { state: { attribute } },
                     Value: { wrappedInstance: { state: { value } } }
                 };
 
