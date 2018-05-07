@@ -1,6 +1,8 @@
 import * as React from 'react';
+
 import {
     addCommas,
+    capitalize,
     containsOnlyLabelChars,
     emphasize,
     getBaseLanguage,
@@ -8,32 +10,34 @@ import {
     getLocalization,
     getSelectClass,
     hasErrorType,
+    isOptionUnique,
+    isRealValue,
     jsonEqual,
+    merge,
+    optionExists,
     properLabelLength,
     propertyExists,
+    push,
     renderIf,
     reorderList,
+    set,
     snakify,
+    splice,
     titleCase,
     toBoolMap,
-    validUUID,
-    isRealValue,
-    capitalize,
-    set,
-    merge,
     unset,
-    splice
-} from './index';
+    validUUID,
+    isValidNewOption
+} from '.';
 import { operatorConfigList } from '../config';
 import { ContactProperties } from '../flowTypes';
-import { configProviderContext } from '../testUtils/index';
-import { push } from './index';
+import { AssetType } from '../services/AssetService';
+import { configProviderContext } from '../testUtils';
 
 const {
     localization,
     nodes: [{ actions: [sendMsgAction] }]
 } = require('../../__test__/flows/customer_service.json');
-
 
 describe('utils', () => {
     describe('toBoolMap', () => {
@@ -302,6 +306,75 @@ describe('utils', () => {
     describe('splice', () => {
         it('should return an immutability-helper "splice" query', () => {
             expect(splice([[1]])).toEqual({ $splice: [[1]] });
+        });
+    });
+
+    describe('optionExists', () => {
+        const matchingOptions = [
+            {
+                name: 'Expected Delivery Date',
+                id: 'expected_delivery_date',
+                type: 'field'
+            }
+        ];
+
+        it('should return true if options exists', () => {
+            expect(optionExists('expected delivery date', matchingOptions)).toBeTruthy();
+        });
+
+        it('should return false if options does not exist', () => {
+            expect(optionExists('national id', [])).toBeFalsy();
+            expect(optionExists('national id', matchingOptions)).toBeFalsy();
+        });
+    });
+
+    describe('isOptionUnique', () => {
+        const isOptionUniqueSignature = {
+            labelKey: 'name',
+            valueKey: 'id',
+            options: []
+        };
+
+        it('should return true if new option is unique', () => {
+            const newOption = {
+                id: '2e020526-06a7-4acc-8f3f-90b4ceffdd91',
+                name: 'Age',
+                type: AssetType.Field
+            };
+
+            expect(
+                isOptionUnique({
+                    ...isOptionUniqueSignature,
+                    option: newOption
+                })
+            ).toBeTruthy();
+        });
+
+        it('should return false if new option is not unique', () => {
+            const newOption = {
+                id: 'name',
+                name: 'Name',
+                type: AssetType.Property
+            };
+
+            expect(
+                isOptionUnique({
+                    ...isOptionUniqueSignature,
+                    option: newOption
+                })
+            ).toBeFalsy();
+        });
+    });
+
+    describe('isValidNewOption', () => {
+        it('should return false if new option is invalid', () => {
+            expect(isValidNewOption({ label: '$$$' })).toBeFalsy();
+        });
+
+        it('should return true if new option is valid', () => {
+            const newGroup = { label: 'new group' };
+
+            expect(isValidNewOption(newGroup)).toBeTruthy();
         });
     });
 });

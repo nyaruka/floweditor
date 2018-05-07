@@ -1,18 +1,7 @@
-import { ResultType } from '../../flowTypes';
-import { composeComponentTestUtils } from '../../testUtils';
-import { configProviderContext } from '../../testUtils';
-import { getSelectClass, V4_UUID, setTrue, set } from '../../utils';
-import AttribElement, {
-    AttribElementProps,
-    attribExists,
-    CREATE_PROMPT,
-    createNewOption,
-    isOptionUnique,
-    isValidNewOption,
-    NOT_FOUND,
-    PLACEHOLDER
-} from './AttribElement';
 import { Asset, AssetType } from '../../services/AssetService';
+import { composeComponentTestUtils, configProviderContext } from '../../testUtils';
+import { isOptionUnique, isValidNewOption, set, setTrue } from '../../utils';
+import AttribElement, { AttribElementProps, CREATE_PROMPT, createNewOption } from './AttribElement';
 
 const initial: Asset = {
     id: 'name',
@@ -30,63 +19,6 @@ const { setup, spyOn } = composeComponentTestUtils(AttribElement, baseProps);
 
 describe(AttribElement.name, () => {
     describe('helpers', () => {
-        describe('attribExists', () => {
-            const matchingOptions = [
-                {
-                    name: 'Expected Delivery Date',
-                    id: 'expected_delivery_date',
-                    type: 'field'
-                }
-            ];
-
-            it('should return true if field exists in matching options provided by react-select', () => {
-                expect(attribExists('expected delivery date', matchingOptions)).toBeTruthy();
-            });
-
-            it('should return false if field does not exist in matching options provided by react-select', () => {
-                expect(attribExists('national id', [])).toBeFalsy();
-                expect(attribExists('national id', matchingOptions)).toBeFalsy();
-            });
-        });
-
-        describe('isOptionUnique', () => {
-            const isOptionUniqueSignature = {
-                labelKey: 'name',
-                valueKey: 'id',
-                options: []
-            };
-
-            it('should return true if new option is unique', () => {
-                const newOption = {
-                    id: '2e020526-06a7-4acc-8f3f-90b4ceffdd91',
-                    name: 'Age',
-                    type: AssetType.Field
-                };
-
-                expect(
-                    isOptionUnique({
-                        ...isOptionUniqueSignature,
-                        option: newOption
-                    })
-                ).toBeTruthy();
-            });
-
-            it('should return false if new option is not unique', () => {
-                const newOption = {
-                    id: 'name',
-                    name: 'Name',
-                    type: AssetType.Property
-                };
-
-                expect(
-                    isOptionUnique({
-                        ...isOptionUniqueSignature,
-                        option: newOption
-                    })
-                ).toBeFalsy();
-            });
-        });
-
         describe('createNewOption', () => {
             it('should return a new SearchResult', () => {
                 const newOption = { label: 'Home Phone', labelKey: 'name', valueKey: 'id' };
