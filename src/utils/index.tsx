@@ -4,6 +4,7 @@ import { Action, Case, Exit, Languages, LocalizationMap, ContactProperties } fro
 import Localization, { LocalizedObject } from '../services/Localization';
 import * as variables from '../variables.scss';
 import { Query } from 'immutability-helper';
+import { IsValidNewOptionHandler, IsOptionUniqueHandler } from 'react-select';
 
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 const LABEL_CHARS = /^[a-zA-Z0-9-][a-zA-Z0-9- ]*$/;
@@ -280,3 +281,13 @@ export const push = (arr: any[]): Query<any[]> => ({ $push: arr });
 
 // tslint:disable-next-line:array-type
 export const splice = (arr: Array<Array<any>>): Query<Array<Array<any>>> => ({ $splice: arr });
+
+export const optionExists = (newOptName: string, options: any[]) =>
+    options.find(({ name }) => name.toLowerCase().trim() === newOptName.toLowerCase().trim())
+        ? true
+        : false;
+
+export const isValidNewOption: IsValidNewOptionHandler = ({ label }) => isValidLabel(label);
+
+export const isOptionUnique: IsOptionUniqueHandler = ({ option, options, labelKey, valueKey }) =>
+    !propertyExists(option.name) && !optionExists(option.name, options);

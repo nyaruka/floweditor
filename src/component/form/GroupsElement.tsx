@@ -1,11 +1,12 @@
 import * as React from 'react';
+import { NewOptionCreatorHandler } from 'react-select';
 import { v4 as generateUUID } from 'uuid';
+
 import { ResultType } from '../../flowTypes';
-import { getSelectClass, isValidLabel, jsonEqual } from '../../utils';
+import { Asset, Assets, AssetType } from '../../services/AssetService';
+import { getSelectClass, isValidNewOption, jsonEqual, isOptionUnique } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
-import { NewOptionCreatorHandler, IsValidNewOptionHandler } from 'react-select';
-import { Assets, Asset, AssetType } from '../../services/AssetService';
 
 export interface GroupOption {
     group: string;
@@ -25,9 +26,6 @@ interface GroupsElementState {
     groups: Asset[];
     errors: string[];
 }
-
-export const isValidNewOption: IsValidNewOptionHandler = ({ label }) =>
-    !label ? false : isValidLabel(label);
 
 export const createNewOption: NewOptionCreatorHandler = ({ label }): Asset => ({
     id: generateUUID(),
@@ -99,6 +97,7 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
 
         if (this.props.add) {
             createOptions.isValidNewOption = isValidNewOption;
+            createOptions.isOptionUnique = isOptionUnique;
             createOptions.createNewOption = createNewOption;
             createOptions.createPrompt = GROUP_PROMPT;
         }

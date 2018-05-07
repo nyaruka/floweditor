@@ -1,19 +1,12 @@
 import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import {
-    IsOptionUniqueHandler,
-    IsValidNewOptionHandler,
-    NewOptionCreatorHandler
-} from 'react-select';
-import { v4 as generateUUID } from 'uuid';
+import { NewOptionCreatorHandler } from 'react-select';
+
 import { CreateOptions, ResultType } from '../../flowTypes';
-import { AppState, DispatchWithState } from '../../store';
-import { getSelectClass, isValidLabel, propertyExists, dump, snakify } from '../../utils';
+import { Asset, Assets, AssetType } from '../../services/AssetService';
+import { getSelectClass, isOptionUnique, isValidNewOption, snakify } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
-import { bindActionCreators } from 'redux';
-import { Asset, AssetType, Assets } from '../../services/AssetService';
 
 export interface AttribElementProps extends FormElementProps {
     initial: Asset;
@@ -32,16 +25,6 @@ interface AttribElementState {
 export const PLACEHOLDER = 'Enter the name of an existing attribute or create a new one';
 export const NOT_FOUND = 'Invalid attribute name';
 export const CREATE_PROMPT = 'New attribute: ';
-
-export const attribExists = (newOptName: string, options: any[]) =>
-    options.find(({ name }) => name.toLowerCase().trim() === newOptName.toLowerCase().trim())
-        ? true
-        : false;
-
-export const isValidNewOption: IsValidNewOptionHandler = ({ label }) => isValidLabel(label);
-
-export const isOptionUnique: IsOptionUniqueHandler = ({ option, options, labelKey, valueKey }) =>
-    !propertyExists(option.name) && !attribExists(option.name, options);
 
 export const createNewOption: NewOptionCreatorHandler = ({ label }) => ({
     id: snakify(label),

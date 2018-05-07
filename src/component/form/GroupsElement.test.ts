@@ -8,7 +8,6 @@ import GroupsElement, {
     GROUP_PLACEHOLDER,
     GROUP_PROMPT,
     GroupsElementProps,
-    isValidNewOption
 } from './GroupsElement';
 import AssetService from '../../services/AssetService';
 
@@ -23,18 +22,6 @@ const { setup, spyOn } = composeComponentTestUtils(GroupsElement, baseProps);
 
 describe(GroupsElement.name, () => {
     describe('helpers', () => {
-        describe('isValidNewOption', () => {
-            it('should return false if new option is invalid', () => {
-                expect(isValidNewOption({ label: '$$$' })).toBeFalsy();
-            });
-
-            it('should return true if new option is valid', () => {
-                const newGroup = { label: 'new group' };
-
-                expect(isValidNewOption(newGroup)).toBeTruthy();
-            });
-        });
-
         describe('createNewOption', () => {
             it('should generate a new search result object', () => {
                 const newGroup = createSelectOption({ label: 'Friends' });
