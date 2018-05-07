@@ -13,13 +13,13 @@ export interface GroupOption {
 }
 
 export interface GroupsElementProps extends FormElementProps {
+    assets: Assets;
     add?: boolean;
     groups?: Asset[];
     placeholder?: string;
     searchPromptText?: string | JSX.Element;
     onChange?: (groups: Asset[]) => void;
     helpText?: string;
-    assets: Assets;
 }
 
 interface GroupsElementState {

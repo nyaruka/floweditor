@@ -281,6 +281,7 @@ class FlowAssets extends Assets {
 class LabelAssets extends Assets {
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
+
         this.idProperty = IdProperty.UUID;
         this.assetType = AssetType.Label;
     }

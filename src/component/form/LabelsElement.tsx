@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { v4 as generateUUID } from 'uuid';
 
 import { CreateOptions, ResultType } from '../../flowTypes';
 import { Asset, Assets, AssetType } from '../../services/AssetService';
@@ -8,18 +9,17 @@ import {
     isOptionUnique,
     isValidNewOption,
     jsonEqual,
-    snakify
+    LabelIdCb
 } from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
 export interface LabelsElementProps extends FormElementProps {
-    add?: boolean;
+    assets: Assets;
     labels?: Asset[];
     placeholder?: string;
     searchPromptText?: string;
     helpText?: string;
-    assets: Assets;
 }
 
 interface LabelsElementState {
@@ -27,19 +27,24 @@ interface LabelsElementState {
     errors: string[];
 }
 
+export const NAME = 'Labels';
 export const PLACEHOLDER = 'Enter the name of an existing label or create a new one';
 export const NOT_FOUND = 'Invalid label';
 export const CREATE_PROMPT = 'New label: ';
 
-const createNewOption = composeCreateNewOption({
-    idCb: label => snakify(label),
+export const labelIdCb: LabelIdCb = () => generateUUID();
+
+export const createNewOption = composeCreateNewOption({
+    idCb: labelIdCb,
     type: AssetType.Label
 });
 
 export default class LabelsElement extends React.Component<LabelsElementProps, LabelsElementState> {
     public static defaultProps = {
+        name: NAME,
         placeholder: PLACEHOLDER,
-        searchPromptText: NOT_FOUND
+        searchPromptText: NOT_FOUND,
+        required: true
     };
 
     constructor(props: any) {
@@ -54,11 +59,9 @@ export default class LabelsElement extends React.Component<LabelsElementProps, L
     }
 
     private onChange(labels: Asset[]): void {
-        if (!jsonEqual(this.state.labels, labels)) {
-            this.setState({
-                labels
-            });
-        }
+        this.setState({
+            labels
+        });
     }
 
     public validate(): boolean {
@@ -74,14 +77,12 @@ export default class LabelsElement extends React.Component<LabelsElementProps, L
     }
 
     public render(): JSX.Element {
-        const createOptions: CreateOptions = {};
-
-        if (this.props.add) {
-            createOptions.isValidNewOption = isValidNewOption;
-            createOptions.isOptionUnique = isOptionUnique;
-            createOptions.createNewOption = createNewOption;
-            createOptions.createPrompt = CREATE_PROMPT;
-        }
+        const createOptions: CreateOptions = {
+            isValidNewOption,
+            isOptionUnique,
+            createNewOption,
+            createPrompt: CREATE_PROMPT
+        };
 
         return (
             <FormElement

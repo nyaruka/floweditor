@@ -106,11 +106,6 @@ export enum Methods {
     PUT = 'PUT'
 }
 
-export interface Action {
-    type: Types;
-    uuid: string;
-}
-
 export interface ChangeGroups extends Action {
     groups: Group[];
 }
@@ -123,6 +118,11 @@ export interface Field {
 export interface Label {
     uuid: string;
     name: string;
+}
+
+export interface Action {
+    type: Types;
+    uuid: string;
 }
 
 export interface SetContactField extends Action {

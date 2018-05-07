@@ -34,6 +34,8 @@ interface Bounds {
     bottom: number;
 }
 
+export type LabelIdCb = (label?: string, labelKey?: string, valueKey?: string) => string;
+
 /**
  * Adjusts the left and top offsets to a grid
  * @param left horizontal offset
@@ -302,10 +304,10 @@ export const composeCreateNewOption = ({
     idCb,
     type
 }: {
-    idCb: (label: string) => string;
+    idCb: LabelIdCb;
     type: AssetType;
-}): NewOptionCreatorHandler => ({ label }) => ({
-    id: idCb(label),
+}): NewOptionCreatorHandler => ({ label, labelKey, valueKey }) => ({
+    id: idCb(label, labelKey, valueKey),
     name: label,
     type,
     isNew: true
