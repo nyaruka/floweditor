@@ -31,7 +31,7 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        const { wrappedInstance: { state: { attribute } } } = widgets.Attribute;
+        const { state: { attribute } } = widgets.Attribute;
         const { wrappedInstance: { state: { value } } } = widgets.Value;
 
         if (attribute.type === AssetType.Field) {
