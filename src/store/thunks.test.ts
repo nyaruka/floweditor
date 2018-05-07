@@ -418,14 +418,14 @@ describe('Flow Manipulation', () => {
                 onUpdateAction({
                     uuid: 'new_action',
                     type: Types.send_msg,
-                    text: 'A fourth action for our first node'
+                    text: 'A fifth action for our first node'
                 })
             );
 
             // we should have a new action
             const actions = nodes.node0.node.actions;
-            expect(actions.length).toBe(4);
-            expect((actions[3] as SendMsg).text).toBe('A fourth action for our first node');
+            expect(actions.length).toBe(5);
+            expect((actions[4] as SendMsg).text).toBe('A fifth action for our first node');
         });
 
         it('should throw if nodeToEdit is null', () => {

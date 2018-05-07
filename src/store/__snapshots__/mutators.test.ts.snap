@@ -31,6 +31,20 @@ Object {
           "type": "remove_contact_groups",
           "uuid": "node0_action2",
         },
+        Object {
+          "labels": Array [
+            Object {
+              "name": "Help",
+              "uuid": "label_0",
+            },
+            Object {
+              "name": "Feedback",
+              "uuid": "label_1",
+            },
+          ],
+          "type": "add_input_labels",
+          "uuid": "node0_action3",
+        },
       ],
       "exits": Array [
         Object {
@@ -218,9 +232,23 @@ Object {
           "uuid": "node0_action2",
         },
         Object {
+          "labels": Array [
+            Object {
+              "name": "Help",
+              "uuid": "label_0",
+            },
+            Object {
+              "name": "Feedback",
+              "uuid": "label_1",
+            },
+          ],
+          "type": "add_input_labels",
+          "uuid": "node0_action3",
+        },
+        Object {
           "text": "Hello World",
           "type": "send_msg",
-          "uuid": "node0_action3",
+          "uuid": "node0_action4",
         },
       ],
       "exits": Array [
@@ -408,6 +436,20 @@ Object {
           "type": "remove_contact_groups",
           "uuid": "node0_action2",
         },
+        Object {
+          "labels": Array [
+            Object {
+              "name": "Help",
+              "uuid": "label_0",
+            },
+            Object {
+              "name": "Feedback",
+              "uuid": "label_1",
+            },
+          ],
+          "type": "add_input_labels",
+          "uuid": "node0_action3",
+        },
       ],
       "exits": Array [
         Object {
@@ -574,6 +616,20 @@ Object {
           ],
           "type": "remove_contact_groups",
           "uuid": "node0_action2",
+        },
+        Object {
+          "labels": Array [
+            Object {
+              "name": "Help",
+              "uuid": "label_0",
+            },
+            Object {
+              "name": "Feedback",
+              "uuid": "label_1",
+            },
+          ],
+          "type": "add_input_labels",
+          "uuid": "node0_action3",
         },
       ],
       "exits": Array [
@@ -760,6 +816,20 @@ Object {
           ],
           "type": "remove_contact_groups",
           "uuid": "node0_action2",
+        },
+        Object {
+          "labels": Array [
+            Object {
+              "name": "Help",
+              "uuid": "label_0",
+            },
+            Object {
+              "name": "Feedback",
+              "uuid": "label_1",
+            },
+          ],
+          "type": "add_input_labels",
+          "uuid": "node0_action3",
         },
       ],
       "exits": Array [
@@ -994,6 +1064,20 @@ Object {
           "type": "remove_contact_groups",
           "uuid": "node0_action2",
         },
+        Object {
+          "labels": Array [
+            Object {
+              "name": "Help",
+              "uuid": "label_0",
+            },
+            Object {
+              "name": "Feedback",
+              "uuid": "label_1",
+            },
+          ],
+          "type": "add_input_labels",
+          "uuid": "node0_action3",
+        },
       ],
       "exits": Array [
         Object {
@@ -1174,6 +1258,20 @@ Object {
           "type": "remove_contact_groups",
           "uuid": "node0_action2",
         },
+        Object {
+          "labels": Array [
+            Object {
+              "name": "Help",
+              "uuid": "label_0",
+            },
+            Object {
+              "name": "Feedback",
+              "uuid": "label_1",
+            },
+          ],
+          "type": "add_input_labels",
+          "uuid": "node0_action3",
+        },
       ],
       "exits": Array [
         Object {
@@ -1313,6 +1411,11 @@ Object {
         },
         Object {
           "text": "Goodbye World",
+          "type": "send_msg",
+          "uuid": "node0_action3",
+        },
+        Object {
+          "text": "Hello World",
           "type": "send_msg",
           "uuid": "node0_action3",
         },
@@ -1502,6 +1605,20 @@ Object {
           "type": "remove_contact_groups",
           "uuid": "node0_action2",
         },
+        Object {
+          "labels": Array [
+            Object {
+              "name": "Help",
+              "uuid": "label_0",
+            },
+            Object {
+              "name": "Feedback",
+              "uuid": "label_1",
+            },
+          ],
+          "type": "add_input_labels",
+          "uuid": "node0_action3",
+        },
       ],
       "exits": Array [
         Object {
@@ -1685,6 +1802,20 @@ Object {
           ],
           "type": "remove_contact_groups",
           "uuid": "node0_action2",
+        },
+        Object {
+          "labels": Array [
+            Object {
+              "name": "Help",
+              "uuid": "label_0",
+            },
+            Object {
+              "name": "Feedback",
+              "uuid": "label_1",
+            },
+          ],
+          "type": "add_input_labels",
+          "uuid": "node0_action3",
         },
       ],
       "exits": Array [
@@ -1872,6 +2003,20 @@ Object {
           ],
           "type": "remove_contact_groups",
           "uuid": "node0_action2",
+        },
+        Object {
+          "labels": Array [
+            Object {
+              "name": "Help",
+              "uuid": "label_0",
+            },
+            Object {
+              "name": "Feedback",
+              "uuid": "label_1",
+            },
+          ],
+          "type": "add_input_labels",
+          "uuid": "node0_action3",
         },
       ],
       "exits": Array [

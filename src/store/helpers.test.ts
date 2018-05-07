@@ -1,7 +1,7 @@
 import { v4 as generateUUID } from 'uuid';
 
 import { Types } from '../config/typeConfigs';
-import { Case, Exit, FlowDefinition, FlowPosition, SendMsg, RouterTypes } from '../flowTypes';
+import { Case, Exit, FlowDefinition, FlowPosition, RouterTypes, SendMsg } from '../flowTypes';
 import {
     determineConfigType,
     getCollisions,
@@ -10,7 +10,7 @@ import {
     getLocalizations,
     getOrderedNodes,
     getSuggestedResultName,
-    getUniqueDestinations
+    getUniqueDestinations,
 } from './helpers';
 
 const mutate = require('immutability-helper');
@@ -30,6 +30,14 @@ describe('helpers', () => {
             const flowDetails = getFlowComponents(definition);
             expect(flowDetails.fields).toEqual([
                 { name: 'Unknown Field', id: 'unknown_field', type: 'field' }
+            ]);
+        });
+
+        it('should find labels in definition', () => {
+            const flowDetails = getFlowComponents(definition);
+            expect(flowDetails.labels).toEqual([
+                { name: 'Help', id: 'label_0', type: 'label' },
+                { name: 'Feedback', id: 'label_1', type: 'label' }
             ]);
         });
     });
@@ -141,7 +149,7 @@ describe('helpers', () => {
 
             it('should return last action type if no action provided', () => {
                 const configType = determineConfigType(nodes.node0.node, null, nodes);
-                expect(configType).toBe(Types.remove_contact_groups);
+                expect(configType).toBe(Types.add_input_labels);
             });
 
             it('should use the router type if no actions', () => {

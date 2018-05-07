@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ConfigProviderContext } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
 import { SetContactAttribute, SetContactField, SetContactProperty } from '../../../flowTypes';
-import ConnectedAttribsElement from '../../form/AttribElement';
+import ConnectedAttribElement from '../../form/AttribElement';
 import ConnectedTextInputElement from '../../form/TextInputElement';
 import { newFieldAction, newPropertyAction, fieldToAsset, propertyToAsset } from './helpers';
 import { fakePropType } from '../../../config/ConfigProvider';
@@ -58,7 +58,7 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
         const initial = this.getInitial();
         return (
             <>
-                <ConnectedAttribsElement
+                <ConnectedAttribElement
                     ref={this.props.onBindWidget}
                     name="Attribute"
                     showLabel={true}
