@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LabelsElement render should render form element, pass it create options 1`] = `
+<FormElement
+  attribError={false}
+  errors={Array []}
+  name="Labels"
+>
+  <SelectSearch
+    __className=""
+    assets={
+      LabelAssets {
+        "assetType": "label",
+        "assets": Object {},
+        "endpoint": "/assets/labels.json",
+        "idProperty": "uuid",
+        "localStorage": true,
+      }
+    }
+    createNewOption={[Function]}
+    createPrompt="New label: "
+    initial={Array []}
+    isOptionUnique={[Function]}
+    isValidNewOption={[Function]}
+    multi={true}
+    name="Labels"
+    onChange={[Function]}
+    placeholder="Enter the name of an existing label or create a new one"
+    resultType="group"
+    searchPromptText="Invalid label"
+  />
+</FormElement>
+`;

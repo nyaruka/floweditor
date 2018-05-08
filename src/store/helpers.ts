@@ -14,7 +14,8 @@ import {
     SetContactField,
     SwitchRouter,
     UINodeTypes,
-    WaitTypes
+    WaitTypes,
+    AddLabels
 } from '../flowTypes';
 import { Asset, AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
@@ -242,6 +243,7 @@ export interface FlowComponents {
     renderNodeMap: RenderNodeMap;
     groups: Asset[];
     fields: Asset[];
+    labels: Asset[];
 }
 
 export const isGroupAction = (actionType: string) => {
@@ -257,12 +259,14 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
     // our groups and fields referenced within
     const groups: Asset[] = [];
     const fields: Asset[] = [];
+    const labels: Asset[] = [];
 
     // initialize our nodes
     const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
 
     const groupsMap: { [uuid: string]: string } = {};
     const fieldsMap: { [key: string]: { key: string; name: string } } = {};
+    const labelsMap: { [uuid: string]: string } = {};
 
     for (const node of nodes) {
         if (!node.actions) {
@@ -300,6 +304,10 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
             } else if (action.type === Types.set_contact_field) {
                 const fieldAction = action as SetContactField;
                 fieldsMap[fieldAction.field.key] = fieldAction.field;
+            } else if (action.type === Types.add_input_labels) {
+                for (const label of (action as AddLabels).labels) {
+                    labelsMap[label.uuid] = label.name;
+                }
             }
         }
 
@@ -330,5 +338,9 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
         fields.push({ name: fieldsMap[key].name, id: key, type: AssetType.Field });
     }
 
-    return { renderNodeMap, groups, fields };
+    for (const uuid of Object.keys(labelsMap)) {
+        labels.push({ name: labelsMap[uuid], id: uuid, type: AssetType.Label });
+    }
+
+    return { renderNodeMap, groups, fields, labels };
 };

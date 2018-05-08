@@ -1,4 +1,4 @@
-import AssetService, { Assets, AssetType, Asset } from './AssetService';
+import AssetService, { Assets, AssetType, Asset, LabelAssets } from './AssetService';
 import { dump } from '../utils';
 import * as config from '../../__test__/config';
 
@@ -92,6 +92,17 @@ describe('AssetService', () => {
 
         it('should initialize field assets', () => {
             expect(fields).toMatchSnapshot();
+        });
+    });
+
+    describe('labels', () => {
+        let labels: LabelAssets;
+        beforeEach(() => {
+            labels = assetService.getLabelAssets();
+        });
+
+        it('should initialize label assets', () => {
+            expect(labels).toMatchSnapshot();
         });
     });
 });

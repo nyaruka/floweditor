@@ -1,20 +1,19 @@
 import { react as bindCallbacks } from 'auto-bind';
-import * as React from 'react';
 import * as isEqual from 'fast-deep-equal';
-import { connect } from 'react-redux';
+import * as React from 'react';
+
 import { ConfigProviderContext } from '../../../config';
+import { fakePropType } from '../../../config/ConfigProvider';
+import { Types } from '../../../config/typeConfigs';
 import { ChangeGroups } from '../../../flowTypes';
-import { AppState } from '../../../store';
+import { Asset } from '../../../services/AssetService';
 import CheckboxElement from '../../form/CheckboxElement';
 import GroupsElement from '../../form/GroupsElement';
-import { AddGroupsFormState } from './AddGroupsForm';
+import { mapAssetsToGroups, mapGroupsToAssets } from './helpers';
 import ChangeGroupsFormProps from './props';
-import { Types } from '../../../config/typeConfigs';
-import { fakePropType } from '../../../config/ConfigProvider';
-import { Asset } from '../../../services/AssetService';
-import { mapGroupsToAssets, mapAssetsToGroups } from './helpers';
 
-export interface RemoveGroupsFormState extends AddGroupsFormState {
+export interface RemoveGroupsFormState {
+    groups: Asset[];
     removeFromAll: boolean;
 }
 
@@ -28,12 +27,13 @@ export const REMOVE_FROM_ALL_DESC =
 export const labelSpecId = 'label';
 export const fieldContainerSpecId = 'field-container';
 
-export class RemoveGroupsForm extends React.Component<
+// NOTE: unlike its sibling, this component has to keep group state
+// because we lose track of our Groups ref if the 'Remove from all' setting is checked.
+export default class RemoveGroupsForm extends React.Component<
     ChangeGroupsFormProps,
     RemoveGroupsFormState
 > {
     public static contextTypes = {
-        endpoints: fakePropType,
         assetService: fakePropType
     };
 
@@ -68,7 +68,7 @@ export class RemoveGroupsForm extends React.Component<
     public onValid(): void {
         const newAction: ChangeGroups = {
             uuid: this.props.action.uuid,
-            type: this.props.typeConfig.type,
+            type: Types.remove_contact_groups,
             groups: []
         };
 
@@ -141,14 +141,3 @@ export class RemoveGroupsForm extends React.Component<
         return <>{fields}</>;
     }
 }
-
-/* istanbul ignore next */
-const mapStateToProps = ({ nodeEditor: { typeConfig } }: AppState) => ({
-    typeConfig
-});
-
-const ConnectedRemoveGroupForm = connect(mapStateToProps, null, null, { withRef: true })(
-    RemoveGroupsForm
-);
-
-export default ConnectedRemoveGroupForm;

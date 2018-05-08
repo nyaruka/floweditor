@@ -16,6 +16,7 @@ module.exports =
                   groups: 'groups',
                   contacts: 'contacts',
                   fields: 'fields',
+                  labels: 'labels',
                   activity: '',
                   engine: ''
               }
@@ -27,6 +28,7 @@ module.exports =
                   groups: '/assets/groups.json',
                   contacts: '/assets/contacts.json',
                   fields: '/assets/fields.json',
+                  labels: '/assets/labels.json',
                   activity: '',
                   engine: ''
               }

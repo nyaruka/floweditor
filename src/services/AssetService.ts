@@ -8,7 +8,8 @@ export enum AssetType {
     Flow = 'flow',
     Group = 'group',
     Property = 'property',
-    Field = 'field'
+    Field = 'field',
+    Label = 'label'
 }
 
 export interface Asset {
@@ -34,7 +35,8 @@ enum SimAssetType {
     Flow = 'flow',
     Fields = 'field_set',
     Groups = 'group_set',
-    Channels = 'channel_set'
+    Channels = 'channel_set',
+    Labels = 'label_set'
 }
 
 interface SimAsset {
@@ -277,73 +279,110 @@ class FlowAssets extends Assets {
     }
 }
 
+export class LabelAssets extends Assets {
+    constructor(endpoint: string, localStorage: boolean) {
+        super(endpoint, localStorage);
+
+        this.idProperty = IdProperty.UUID;
+        this.assetType = AssetType.Label;
+    }
+}
+
 export default class AssetService {
-    private channels: Assets;
-    private groups: Assets;
-    private fields: Assets;
+    private channels: ChannelAssets;
+    private channelsURL: string;
+    private groups: GroupAssets;
+    private groupsURL: string;
+    private fields: FieldAssets;
+    private fieldsURL: string;
     private flows: FlowAssets;
+    private flowsURL: string;
+    private labels: FieldAssets;
+    private labelsURL: string;
 
     constructor(config: FlowEditorConfig) {
+        // initialize asset deps
         this.groups = new GroupAssets(config.endpoints.groups, config.localStorage);
         this.fields = new FieldAssets(config.endpoints.fields, config.localStorage);
         this.flows = new FlowAssets(config.endpoints.flows, config.localStorage);
-
+        this.labels = new LabelAssets(config.endpoints.labels, config.localStorage);
         // channels are always mocked for local
         this.channels = new ChannelAssets('/channels', true);
+
+        // initialize asset urls
+        const base = getBaseURL();
+        this.groupsURL = `${base + this.groups.endpoint}/`;
+        this.fieldsURL = `${base + this.fields.endpoint}/`;
+        this.labelsURL = `${base + this.labels.endpoint}/`;
+        this.flowsURL = `${base + this.flows.endpoint}/{uuid}/`;
+        this.channelsURL = `${base + this.channels.endpoint}/`;
     }
 
     public addFlowComponents(flowComponents: FlowComponents): void {
         this.groups.addAll(flowComponents.groups);
         this.fields.addAll(flowComponents.fields);
+        this.labels.addAll(flowComponents.labels);
     }
 
-    public getFlowAssets(): Assets {
+    public getFlowAssets(): FlowAssets {
         return this.flows;
     }
 
-    public getGroupAssets(): Assets {
+    public getGroupAssets(): GroupAssets {
         return this.groups;
     }
 
-    public getFieldAssets(): Assets {
+    public getFieldAssets(): FieldAssets {
         return this.fields;
     }
 
+    public getLabelAssets(): LabelAssets {
+        return this.labels;
+    }
+
     public getSimulationAssets(): any {
-        let simAssets: SimAsset[] = [];
-        const base = getBaseURL();
+        const simAssets: SimAsset[] = [];
+
         // our group set asset
         simAssets.push({
             type: SimAssetType.Groups,
-            url: base + this.groups.endpoint + '/',
+            url: this.groupsURL,
             content: this.groups.getAssetSet()
         });
 
         // our fields
         simAssets.push({
             type: SimAssetType.Fields,
-            url: base + this.fields.endpoint + '/',
+            url: this.fieldsURL,
             content: this.fields.getAssetSet()
+        });
+
+        // our labels
+        simAssets.push({
+            type: SimAssetType.Labels,
+            url: this.labelsURL,
+            content: this.labels.getAssetSet()
         });
 
         // our channels
         simAssets.push({
             type: SimAssetType.Channels,
-            url: base + this.channels.endpoint + '/',
+            url: this.channelsURL,
             content: this.channels.getAssetSet()
         });
 
         // our flows
-        simAssets = simAssets.concat(this.flows.getAssetContents(SimAssetType.Flow));
+        simAssets.push(...this.flows.getAssetContents(SimAssetType.Flow));
 
         const payload = {
             assets: simAssets,
             asset_server: {
                 type_urls: {
-                    flow: base + this.flows.endpoint + '/{uuid}/',
-                    field_set: base + this.fields.endpoint + '/',
-                    channel_set: base + this.channels.endpoint + '/',
-                    group_set: base + this.groups.endpoint + '/'
+                    [SimAssetType.Flow]: this.flowsURL,
+                    [SimAssetType.Fields]: this.fieldsURL,
+                    [SimAssetType.Channels]: this.channelsURL,
+                    [SimAssetType.Groups]: this.groupsURL,
+                    [SimAssetType.Labels]: this.labelsURL
                 }
             }
         };
