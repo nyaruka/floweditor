@@ -7,11 +7,13 @@ import Select, {
     AutocompleteResult,
     IsOptionUniqueHandler,
     IsValidNewOptionHandler,
-    NewOptionCreatorHandler,
+    NewOptionCreatorHandler
 } from 'react-select';
 
-import { CreateOptions, ResultType } from '../flowTypes';
-import { Asset, Assets } from '../services/AssetService';
+import { CreateOptions, ResultType } from '../../flowTypes';
+import { Asset, Assets, AssetSearchResult } from '../../services/AssetService';
+import SelectOption from './SelectOption';
+import SelectValue from './SelectValue';
 
 export interface SelectSearchProps {
     url?: string;
@@ -158,15 +160,16 @@ export default class SelectSearch extends React.PureComponent<
 
         // if we have assets, check there
         if (this.props.assets) {
-            return this.props.assets.search(term).then((assetResults: Asset[]) => {
-                for (const result of assetResults) {
+            return this.props.assets.search(term).then((assetResults: AssetSearchResult) => {
+                for (const result of assetResults.assets) {
                     combined = this.addSearchResult(combined, result);
                 }
 
+                const options = assetResults.sorted ? combined : combined.sort(this.sortResults);
                 return new Promise<AutocompleteResult>(resolve => {
                     resolve({
-                        options: combined.sort(this.sortResults),
-                        complete: true
+                        complete: assetResults.complete,
+                        options
                     });
                 });
             });
@@ -276,6 +279,8 @@ export default class SelectSearch extends React.PureComponent<
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
                     onChange={onChange}
+                    optionComponent={SelectOption}
+                    valueComponent={SelectValue}
                     searchPromptText={this.props.searchPromptText}
                     {...createOptions}
                 />

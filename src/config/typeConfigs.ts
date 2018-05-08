@@ -5,6 +5,9 @@ import AddGroupsForm from '../component/actions/ChangeGroups/AddGroupsForm';
 import ChangeGroupsComp from '../component/actions/ChangeGroups/ChangeGroups';
 import RemoveGroupsForm from '../component/actions/ChangeGroups/RemoveGroupsForm';
 import MissingComp from '../component/actions/Missing/Missing';
+import SendBroadcastComp from '../component/actions/SendBroadcast/SendBroadcast';
+import SendBroadcastForm from '../component/actions/SendBroadcast/SendBroadcastForm';
+import { SendBroadcastFormHelper } from '../component/actions/SendBroadcast/SendBroadcastFormHelper';
 import SendEmailComp from '../component/actions/SendEmail/SendEmail';
 import SendEmailForm from '../component/actions/SendEmail/SendEmailForm';
 import SendMsgComp from '../component/actions/SendMsg/SendMsg';
@@ -19,6 +22,7 @@ import SubflowRouter from '../component/routers/SubflowRouter';
 import SwitchRouter from '../component/routers/SwitchRouter';
 import WebhookRouter from '../component/routers/WebhookRouter';
 import { AnyAction, RouterTypes, UINodeTypes } from '../flowTypes';
+import { NodeEditorForm } from '../store/nodeEditor';
 
 /*
 Old name	                New name	                Event(s) generated
@@ -67,6 +71,11 @@ export enum Mode {
     ALL = EDITING | TRANSLATING
 }
 
+export interface FormHelper {
+    actionToState: (action: AnyAction) => NodeEditorForm;
+    stateToAction: (formState: NodeEditorForm) => AnyAction;
+}
+
 export interface Type {
     type: Types;
     name: string;
@@ -74,6 +83,7 @@ export interface Type {
     allows(mode: Mode): boolean;
     component?: React.SFC<AnyAction>;
     form?: React.ComponentClass<any>;
+    formHelper?: FormHelper;
     advanced?: Mode;
     aliases?: string[];
 }
@@ -106,7 +116,15 @@ export const typeConfigList: Type[] = [
         advanced: Mode.EDITING,
         allows
     },
-    // { type: 'msg', name: 'Send Message', description: 'Send somebody else a message', form: SendMessageForm, component: SendMessage },
+    {
+        type: Types.send_broadcast,
+        name: 'Send Broadcast',
+        description: 'Send somebody else a message',
+        form: SendBroadcastForm,
+        formHelper: new SendBroadcastFormHelper(),
+        component: SendBroadcastComp,
+        allows
+    },
     {
         type: Types.add_input_labels,
         name: 'Add Labels',

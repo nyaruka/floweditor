@@ -1,5 +1,6 @@
 // tslint:disable:max-classes-per-file
 import axios, { AxiosResponse } from 'axios';
+
 import { ContactProperties, FlowEditorConfig, Group } from '../flowTypes';
 import { FlowComponents } from '../store/helpers';
 
@@ -9,6 +10,8 @@ export enum AssetType {
     Group = 'group',
     Property = 'property',
     Field = 'field',
+    Contact = 'contact',
+    URN = 'urn',
     Label = 'label'
 }
 
@@ -19,6 +22,12 @@ export interface Asset {
 
     isNew?: boolean;
     content?: any;
+}
+
+export interface AssetSearchResult {
+    assets: Asset[];
+    complete: boolean;
+    sorted: boolean;
 }
 
 enum IdProperty {
@@ -106,7 +115,7 @@ export class Assets {
         return matches;
     }
 
-    public search(term: string): Promise<Asset[]> {
+    public search(term: string): Promise<AssetSearchResult> {
         const matches = this.searchLocalItems(term);
 
         // then query against our endpoint to add to that list
@@ -125,7 +134,7 @@ export class Assets {
                     });
                 }
             }
-            return matches;
+            return { assets: matches, complete: true, sorted: false };
         });
     }
 
@@ -184,6 +193,7 @@ export class Assets {
                     })
                     .catch(error => reject(error));
                 */
+                this.assets[uuid].content = content;
                 resolve(this.assets[uuid]);
             }
         });
@@ -279,6 +289,58 @@ class FlowAssets extends Assets {
     }
 }
 
+class RecipientAssets extends Assets {
+    constructor(endpoint: string, localStorage: boolean) {
+        super(endpoint, localStorage);
+        this.idProperty = IdProperty.UUID;
+    }
+
+    private getAssetType(code: string): AssetType {
+        switch (code) {
+            case 'c':
+                return AssetType.Contact;
+            case 'u':
+                return AssetType.URN;
+            case 'g':
+                return AssetType.Group;
+        }
+        return null;
+    }
+    public search(term: string): Promise<AssetSearchResult> {
+        const matches: Asset[] = [];
+
+        // then query against our endpoint to add to that list
+        let url = this.endpoint + '?types=cg';
+        if (term) {
+            url += '&search=' + encodeURIComponent(term);
+        }
+
+        return axios.get(url).then((response: AxiosResponse) => {
+            for (const result of response.data.results) {
+                if (this.matches(term, result.text)) {
+                    const [typeCode, id] = result.id.split(/-(.*)/);
+                    const type = this.getAssetType(typeCode);
+                    if (type) {
+                        let content: any = null;
+                        if (type === AssetType.URN) {
+                            content = {
+                                scheme: result.scheme,
+                                display: result.extra
+                            };
+                        } else if (type === AssetType.Group) {
+                            content = {
+                                size: result.extra
+                            };
+                        }
+                        matches.push({ name: result.text, id, type, content });
+                    }
+                }
+            }
+            return { assets: matches, complete: response.data.more, sorted: true };
+        });
+    }
+}
+
 export class LabelAssets extends Assets {
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
@@ -296,6 +358,7 @@ export default class AssetService {
     private fields: FieldAssets;
     private fieldsURL: string;
     private flows: FlowAssets;
+    private recipients: RecipientAssets;
     private flowsURL: string;
     private labels: FieldAssets;
     private labelsURL: string;
@@ -305,6 +368,8 @@ export default class AssetService {
         this.groups = new GroupAssets(config.endpoints.groups, config.localStorage);
         this.fields = new FieldAssets(config.endpoints.fields, config.localStorage);
         this.flows = new FlowAssets(config.endpoints.flows, config.localStorage);
+        this.recipients = new RecipientAssets(config.endpoints.recipients, config.localStorage);
+
         this.labels = new LabelAssets(config.endpoints.labels, config.localStorage);
         // channels are always mocked for local
         this.channels = new ChannelAssets('/channels', true);
@@ -334,6 +399,10 @@ export default class AssetService {
 
     public getFieldAssets(): FieldAssets {
         return this.fields;
+    }
+
+    public getRecipients(): Assets {
+        return this.recipients;
     }
 
     public getLabelAssets(): LabelAssets {

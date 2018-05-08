@@ -8,10 +8,9 @@ import {
     getSelectClass,
     isOptionUnique,
     isValidNewOption,
-    jsonEqual,
     LabelIdCb
 } from '../../utils';
-import SelectSearch from '../SelectSearch';
+import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
 export interface LabelsElementProps extends FormElementProps {

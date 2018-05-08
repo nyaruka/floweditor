@@ -19,11 +19,13 @@ Object {
   "onBlurResetsInput": true,
   "onChange": [Function],
   "openOnFocus": true,
+  "optionComponent": [Function],
   "options": Array [],
   "placeholder": "Enter the name of an existing group...",
   "searchPromptText": "Enter the name of an existing group",
   "searchable": true,
   "value": undefined,
+  "valueComponent": [Function],
   "valueKey": "id",
 }
 `;
@@ -49,10 +51,12 @@ exports[`SelectSearch render should render self, children with required props 2`
     onBlurResetsInput={true}
     onChange={[Function]}
     openOnFocus={true}
+    optionComponent={[Function]}
     options={Array []}
     placeholder="Enter the name of an existing group..."
     searchPromptText="Enter the name of an existing group"
     searchable={true}
+    valueComponent={[Function]}
     valueKey="id"
   >
     <Select

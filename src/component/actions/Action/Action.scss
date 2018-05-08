@@ -13,16 +13,21 @@
 
 
 .body {
-    $padding: 10px;
-    padding: $padding;
+
     line-height: 1.4em;
     word-wrap: break-word;
     width: auto;
 
-    &.send_msg, &.add_input_labels, &.set_contact_field, &.set_contact_property,
-    &.add_contact_groups, &.remove_contact_groups, &.set_run_result,
-    &.send_email, &.missing {
-        width: $node_width - $padding * 2;
+    &.add_input_labels, &.send_msg, &.set_contact_field, &.set_contact_property, 
+    &.add_contact_groups, &.remove_contact_groups, &.set_run_result, 
+    &.send_email, &.send_broadcast, &.missing {
+        width: $node_width - $action_padding * 2;
+        padding: $action_padding;
+    }
+
+    &.send_broadcast {
+        padding: 0px;
+        width: $node_width;
     }
 
     &.missing {

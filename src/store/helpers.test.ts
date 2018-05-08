@@ -10,7 +10,7 @@ import {
     getLocalizations,
     getOrderedNodes,
     getSuggestedResultName,
-    getUniqueDestinations,
+    getUniqueDestinations
 } from './helpers';
 
 const mutate = require('immutability-helper');
