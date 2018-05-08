@@ -2,6 +2,7 @@
 import { combineReducers } from 'redux';
 
 import { Type } from '../config';
+import { Types } from '../config/typeConfigs';
 import { AnyAction, FlowNode } from '../flowTypes';
 import { Asset } from '../services/AssetService';
 import ActionTypes, {
@@ -18,7 +19,7 @@ import ActionTypes, {
 import Constants from './constants';
 
 export interface ActionState {
-    type: string;
+    type: Types;
     uuid: string;
 }
 export interface SendBroadcastFormState extends ActionState {

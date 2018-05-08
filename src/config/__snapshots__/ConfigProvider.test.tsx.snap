@@ -7,13 +7,10 @@ Object {
     "fields": "/assets/fields.json",
     "flows": "/assets/flows.json",
     "groups": "/assets/groups.json",
-<<<<<<< HEAD
+    "labels": "/assets/labels.json",
     "recipients": "/assets/recipients.json",
     "simulateResume": "",
     "simulateStart": "",
-=======
-    "labels": "/assets/labels.json",
->>>>>>> master
   },
   "flow": "a4f64f1b-85bc-477e-b706-de313a022979",
   "languages": Object {

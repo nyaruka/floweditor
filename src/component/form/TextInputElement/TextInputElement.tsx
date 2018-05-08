@@ -440,7 +440,8 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         const sendMsgError =
             this.state.errors.length > 0 &&
             this.props.name === 'Message' &&
-            this.props.typeConfig.type === Types.send_msg;
+            (this.props.typeConfig.type === Types.send_msg ||
+                this.props.typeConfig.type === Types.send_broadcast);
 
         // Make sure we're rendering the right text element
         const TextElement = this.props.textarea ? 'textarea' : ('input' as string);

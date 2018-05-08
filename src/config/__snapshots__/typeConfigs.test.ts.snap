@@ -21,27 +21,24 @@ Array [
   Object {
     "allows": [Function],
     "component": [Function],
-<<<<<<< HEAD
     "description": "Send somebody else a message",
     "form": [Function],
     "formHelper": SendBroadcastFormHelper {},
     "name": "Send Broadcast",
     "type": "send_broadcast",
-=======
-    "description": "Label the incoming message",
-    "form": [Function],
-    "name": "Add Labels",
-    "type": "add_input_labels",
->>>>>>> master
   },
   Object {
     "allows": [Function],
     "component": [Function],
-<<<<<<< HEAD
-    "description": "Add them to a group",
-=======
+    "description": "Label the incoming message",
+    "form": [Function],
+    "name": "Add Labels",
+    "type": "add_input_labels",
+  },
+  Object {
+    "allows": [Function],
+    "component": [Function],
     "description": "Add the contact to a group",
->>>>>>> master
     "form": [Function],
     "name": "Add to Group",
     "type": "add_contact_groups",
@@ -154,27 +151,24 @@ Array [
   Object {
     "allows": [Function],
     "component": [Function],
-<<<<<<< HEAD
     "description": "Send somebody else a message",
     "form": [Function],
     "formHelper": SendBroadcastFormHelper {},
     "name": "Send Broadcast",
     "type": "send_broadcast",
-=======
-    "description": "Label the incoming message",
-    "form": [Function],
-    "name": "Add Labels",
-    "type": "add_input_labels",
->>>>>>> master
   },
   Object {
     "allows": [Function],
     "component": [Function],
-<<<<<<< HEAD
-    "description": "Add them to a group",
-=======
+    "description": "Label the incoming message",
+    "form": [Function],
+    "name": "Add Labels",
+    "type": "add_input_labels",
+  },
+  Object {
+    "allows": [Function],
+    "component": [Function],
     "description": "Add the contact to a group",
->>>>>>> master
     "form": [Function],
     "name": "Add to Group",
     "type": "add_contact_groups",
