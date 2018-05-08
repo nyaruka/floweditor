@@ -1,5 +1,4 @@
 import { react as bindCallbacks } from 'auto-bind';
-import axios, { AxiosResponse } from 'axios';
 import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
 import Select, {
@@ -8,10 +7,11 @@ import Select, {
     AutocompleteResult,
     IsOptionUniqueHandler,
     IsValidNewOptionHandler,
-    NewOptionCreatorHandler
+    NewOptionCreatorHandler,
 } from 'react-select';
-import { ContactProperties, CreateOptions, ResultType, ValueType } from '../flowTypes';
-import { Assets, Asset } from '../services/AssetService';
+
+import { CreateOptions, ResultType } from '../flowTypes';
+import { Asset, Assets } from '../services/AssetService';
 
 export interface SelectSearchProps {
     url?: string;

@@ -18,6 +18,7 @@ export interface Endpoints {
     contacts: string;
     flows: string;
     activity: string;
+    labels: string;
     simulateStart: string;
     simulateResume: string;
 }
@@ -105,11 +106,6 @@ export enum Methods {
     PUT = 'PUT'
 }
 
-export interface Action {
-    type: Types;
-    uuid: string;
-}
-
 export interface ChangeGroups extends Action {
     groups: Group[];
 }
@@ -117,6 +113,16 @@ export interface ChangeGroups extends Action {
 export interface Field {
     key: string;
     name: string;
+}
+
+export interface Label {
+    uuid: string;
+    name: string;
+}
+
+export interface Action {
+    type: Types;
+    uuid: string;
 }
 
 export interface SetContactField extends Action {
@@ -137,6 +143,10 @@ export interface Missing extends Action {}
 export interface SendMsg extends Action {
     text: string;
     all_urns?: boolean;
+}
+
+export interface AddLabels extends Action {
+    labels: Label[];
 }
 
 export interface SetPreferredChannel extends Action {

@@ -1,3 +1,5 @@
+import AddLabelsComp from '../component/actions/AddLabels/AddLabels';
+import AddLabelsForm from '../component/actions/AddLabels/AddLabelsForm';
 import CallWebhookComp from '../component/actions/CallWebhook/CallWebhook';
 import AddGroupsForm from '../component/actions/ChangeGroups/AddGroupsForm';
 import ChangeGroupsComp from '../component/actions/ChangeGroups/ChangeGroups';
@@ -40,13 +42,13 @@ start_session	            start_session	            session_triggered
 export const enum Types {
     add_contact_urn = 'add_contact_urn',
     add_contact_groups = 'add_contact_groups',
+    add_input_labels = 'add_input_labels',
     remove_contact_groups = 'remove_contact_groups',
     set_contact_channel = 'set_contact_channel',
     set_contact_property = 'set_contact_property',
     set_contact_field = 'set_contact_field',
     set_run_result = 'set_run_result',
     call_webhook = 'call_webhook',
-    add_input_labels = 'add_input_labels',
     send_msg = 'send_msg',
     send_email = 'send_email',
     send_broadcast = 'send_broadcast',
@@ -98,7 +100,7 @@ export const typeConfigList: Type[] = [
     {
         type: Types.send_msg,
         name: 'Send Message',
-        description: 'Send them a message',
+        description: 'Send the contact a message',
         form: SendMsgForm,
         component: SendMsgComp,
         advanced: Mode.EDITING,
@@ -106,9 +108,17 @@ export const typeConfigList: Type[] = [
     },
     // { type: 'msg', name: 'Send Message', description: 'Send somebody else a message', form: SendMessageForm, component: SendMessage },
     {
+        type: Types.add_input_labels,
+        name: 'Add Labels',
+        description: 'Label the incoming message',
+        form: AddLabelsForm,
+        component: AddLabelsComp,
+        allows
+    },
+    {
         type: Types.add_contact_groups,
         name: 'Add to Group',
-        description: 'Add them to a group',
+        description: 'Add the contact to a group',
         form: AddGroupsForm,
         component: ChangeGroupsComp,
         allows
@@ -116,7 +126,7 @@ export const typeConfigList: Type[] = [
     {
         type: Types.remove_contact_groups,
         name: 'Remove from Group',
-        description: 'Remove them from a group',
+        description: 'Remove the contact from a group',
         form: RemoveGroupsForm,
         component: ChangeGroupsComp,
         allows
@@ -146,7 +156,6 @@ export const typeConfigList: Type[] = [
         component: SetRunResultComp,
         allows
     },
-    // {type: 'add_label', name: 'Add Label', description: 'Label the message', component: Missing},
     // {type: 'set_preferred_channel', name: 'Set Preferred Channel', description: 'Set their preferred channel', component: Missing},
     /** Hybrids */
     {
@@ -188,7 +197,7 @@ export const typeConfigList: Type[] = [
     {
         type: Types.wait_for_response,
         name: 'Wait for Response',
-        description: 'Wait for them to respond',
+        description: 'Wait for the contact to respond',
         form: SwitchRouter,
         advanced: Mode.TRANSLATING,
         aliases: [RouterTypes.switch],

@@ -11,6 +11,7 @@ import { Operators } from '../../config/operatorConfigs';
 import { Types } from '../../config/typeConfigs';
 import {
     Action,
+    AddLabels,
     AnyAction,
     CallWebhook,
     Case,
@@ -233,6 +234,9 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
             break;
         case Types.start_flow:
             defaultAction = { ...defaultAction, flow: { name: null, uuid: null } } as StartFlow;
+            break;
+        case Types.add_input_labels:
+            defaultAction = { ...defaultAction, labels: [] } as AddLabels;
             break;
     }
 
@@ -460,7 +464,10 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
         // add in our default exit
         let defaultUUID = generateUUID();
-        if (this.props.nodeToEdit.router && this.props.nodeToEdit.router.type === RouterTypes.switch) {
+        if (
+            this.props.nodeToEdit.router &&
+            this.props.nodeToEdit.router.type === RouterTypes.switch
+        ) {
             const router = this.props.nodeToEdit.router as SwitchRouter;
             if (router && router.default_exit_uuid) {
                 defaultUUID = router.default_exit_uuid;

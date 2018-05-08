@@ -1,6 +1,6 @@
 import { Asset, AssetType } from '../../services/AssetService';
 import { composeComponentTestUtils, configProviderContext } from '../../testUtils';
-import { isOptionUnique, isValidNewOption, set, setTrue } from '../../utils';
+import { isOptionUnique, isValidNewOption } from '../../utils';
 import AttribElement, { AttribElementProps, CREATE_PROMPT, createNewOption } from './AttribElement';
 
 const initial: Asset = {
@@ -51,7 +51,7 @@ describe(AttribElement.name, () => {
         });
 
         it('should pass createOptions to SelectSearch', () => {
-            const { wrapper } = setup(true, { add: setTrue() });
+            const { wrapper } = setup(true, { add: { $set: true } });
 
             expect(wrapper.find('SelectSearch').props()).toEqual(
                 expect.objectContaining({
@@ -101,8 +101,8 @@ describe(AttribElement.name, () => {
         describe('getErrors', () => {
             it('should return list of errors', () => {
                 const { wrapper, instance, props: { name } } = setup(true, {
-                    required: setTrue(),
-                    initial: set({ ...initial, name: '' })
+                    required: { $set: true },
+                    initial: { $set: { ...initial, name: '' } }
                 });
 
                 expect(instance.getErrors()).toEqual([`${name} is required.`]);
@@ -146,8 +146,8 @@ describe(AttribElement.name, () => {
             it('should return false if control contains errors', () => {
                 const updateErrorStateSpy = spyOn('updateErrorState');
                 const { wrapper, instance, props: { name } } = setup(true, {
-                    initial: set({ ...initial, name: '' }),
-                    required: setTrue()
+                    initial: { $set: { ...initial, name: '' } },
+                    required: { $set: true }
                 });
 
                 expect(instance.validate()).toBeFalsy();

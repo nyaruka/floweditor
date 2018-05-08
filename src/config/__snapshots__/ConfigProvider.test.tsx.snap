@@ -9,6 +9,7 @@ Object {
     "fields": "/assets/fields.json",
     "flows": "/assets/flows.json",
     "groups": "/assets/groups.json",
+    "labels": "/assets/labels.json",
   },
   "flow": "a4f64f1b-85bc-477e-b706-de313a022979",
   "languages": Object {

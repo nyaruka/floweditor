@@ -17,6 +17,7 @@ if (process.env.RAPID_FLOW) {
             groups: base + 'group',
             contacts: base + 'contact',
             fields: base + 'field',
+            labels: base + 'labels',
             activity: '',
             simulateStart: base + 'flow',
             simulateResume: base + 'flow'
@@ -32,6 +33,7 @@ if (process.env.RAPID_FLOW) {
                       groups: 'groups',
                       contacts: 'contacts',
                       fields: 'fields',
+                      labels: 'labels',
                       activity: '',
                       simulateStart: '',
                       simulateResume: ''
@@ -44,6 +46,7 @@ if (process.env.RAPID_FLOW) {
                       groups: '/assets/group',
                       contacts: '/assets/contact',
                       fields: '/assets/field',
+                      labels: '/assets/label',
                       activity: '',
                       simulateStart: '/flow/start',
                       simulateResume: '/flow/resume'

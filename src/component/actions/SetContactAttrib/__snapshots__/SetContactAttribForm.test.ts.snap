@@ -25,7 +25,7 @@ Object {
   "name": "Attribute",
   "placeholder": "Enter the name of an existing attribute or create a new one",
   "required": true,
-  "searchPromptText": "Invalid attribute name",
+  "searchPromptText": "Invalid attribute",
   "showLabel": true,
 }
 `;

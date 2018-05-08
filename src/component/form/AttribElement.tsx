@@ -1,10 +1,15 @@
 import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
-import { NewOptionCreatorHandler } from 'react-select';
 
 import { CreateOptions, ResultType } from '../../flowTypes';
 import { Asset, Assets, AssetType } from '../../services/AssetService';
-import { getSelectClass, isOptionUnique, isValidNewOption, snakify } from '../../utils';
+import {
+    composeCreateNewOption,
+    getSelectClass,
+    isOptionUnique,
+    isValidNewOption,
+    snakify
+} from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
@@ -23,14 +28,12 @@ interface AttribElementState {
 }
 
 export const PLACEHOLDER = 'Enter the name of an existing attribute or create a new one';
-export const NOT_FOUND = 'Invalid attribute name';
+export const NOT_FOUND = 'Invalid attribute';
 export const CREATE_PROMPT = 'New attribute: ';
 
-export const createNewOption: NewOptionCreatorHandler = ({ label }) => ({
-    id: snakify(label),
-    name: label,
-    type: AssetType.Field,
-    isNew: true
+export const createNewOption = composeCreateNewOption({
+    idCb: label => snakify(label),
+    type: AssetType.Field
 });
 
 export default class AttribElement extends React.Component<AttribElementProps, AttribElementState> {

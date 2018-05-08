@@ -12,6 +12,7 @@ import {
     Group,
     Methods,
     Router,
+    RouterTypes,
     SendEmail,
     SendMsg,
     SetContactField,
@@ -23,7 +24,7 @@ import {
     SwitchRouter,
     Wait,
     WaitTypes,
-    RouterTypes
+    Label
 } from '../flowTypes';
 import { capitalize } from '../utils';
 
@@ -347,3 +348,9 @@ export const getGroups = (sliceAt: number, groups: Group[] = groupsResults) =>
             id: uuid
         }))
         .slice(sliceAt);
+
+export const createAddLabelsAction = (labels: Label[]) => ({
+    type: Types.add_input_labels,
+    uuid: `labels-action-uuid-${labels.length}`,
+    labels
+});

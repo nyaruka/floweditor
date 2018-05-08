@@ -80,12 +80,12 @@ describe('mutators', () => {
 
     it('should addAction', () => {
         const updated = addAction(nodes, 'node0', {
-            uuid: 'node0_action3',
+            uuid: 'node0_action4',
             type: Types.send_msg,
             text: 'Hello World'
         } as SendMsg);
 
-        const action = updated.node0.node.actions[3] as SendMsg;
+        const action = updated.node0.node.actions[4] as SendMsg;
         expect(action.type).toBe(Types.send_msg);
         expect(action.text).toBe('Hello World');
         expect(updated).toMatchSnapshot();
@@ -116,7 +116,7 @@ describe('mutators', () => {
             } as SendMsg);
 
             // we added one to get to four and then edited it
-            expect(updated.node0.node.actions.length).toBe(4);
+            expect(updated.node0.node.actions.length).toBe(5);
 
             const action = updated.node0.node.actions[3] as SendMsg;
             expect(action.type).toBe(Types.send_msg);
@@ -127,7 +127,7 @@ describe('mutators', () => {
 
     it('should removeAction', () => {
         const updated = removeAction(nodes, 'node0', 'node0_action0');
-        expect(updated.node0.node.actions.length).toBe(2);
+        expect(updated.node0.node.actions.length).toBe(3);
         expect(updated).toMatchSnapshot();
     });
 

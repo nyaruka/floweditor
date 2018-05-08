@@ -151,3 +151,13 @@ GroupAssets {
   "localStorage": true,
 }
 `;
+
+exports[`AssetService labels should initialize label assets 1`] = `
+LabelAssets {
+  "assetType": "label",
+  "assets": Object {},
+  "endpoint": "/assets/labels.json",
+  "idProperty": "uuid",
+  "localStorage": true,
+}
+`;
