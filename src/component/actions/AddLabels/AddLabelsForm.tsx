@@ -27,7 +27,7 @@ export const createNewAddLabelAction = ({ uuid }: AddLabels, labels: Asset[]) =>
     labels: mapAssetsToLabels(labels)
 });
 
-export const LABEL = ' Select the label(s) to apply to the incoming message.';
+export const LABEL = 'Select the label(s) to apply to the incoming message.';
 export const PLACEHOLDER = 'Enter the name of an existing label or create a new one';
 
 export const controlLabelSpecId = 'label';

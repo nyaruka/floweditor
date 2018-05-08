@@ -21,7 +21,7 @@ Array [
   Object {
     "allows": [Function],
     "component": [Function],
-    "description": "Add a label to an incoming message",
+    "description": "Label the incoming message",
     "form": [Function],
     "name": "Add Labels",
     "type": "add_input_labels",
@@ -142,7 +142,7 @@ Array [
   Object {
     "allows": [Function],
     "component": [Function],
-    "description": "Add a label to an incoming message",
+    "description": "Label the incoming message",
     "form": [Function],
     "name": "Add Labels",
     "type": "add_input_labels",
@@ -206,7 +206,7 @@ Object {
   "add_input_labels": Object {
     "allows": [Function],
     "component": [Function],
-    "description": "Add a label to an incoming message",
+    "description": "Label the incoming message",
     "form": [Function],
     "name": "Add Labels",
     "type": "add_input_labels",

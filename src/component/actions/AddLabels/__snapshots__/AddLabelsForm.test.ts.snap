@@ -5,7 +5,7 @@ exports[`AddLabelsForm render should pass LabelsElement an empty labels array if
   <p
     data-spec="label"
   >
-     Select the label(s) to apply to the incoming message.
+    Select the label(s) to apply to the incoming message.
   </p>
   <LabelsElement
     assets={
@@ -31,7 +31,7 @@ exports[`AddLabelsForm render should pass LabelsElement labels if they exist on 
   <p
     data-spec="label"
   >
-     Select the label(s) to apply to the incoming message.
+    Select the label(s) to apply to the incoming message.
   </p>
   <LabelsElement
     assets={

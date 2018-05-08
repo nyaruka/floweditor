@@ -36,7 +36,6 @@ export const TIMEOUT_OPTIONS = [
     { value: 86400, label: '1 days' },
     { value: 172800, label: '2 days' },
     { value: 259200, label: '3 days' },
-    // 1 * 7 * 24 * 60 * 60
     { value: 604800, label: '1 week' }
 ];
 

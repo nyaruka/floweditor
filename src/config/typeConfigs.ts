@@ -110,7 +110,7 @@ export const typeConfigList: Type[] = [
     {
         type: Types.add_input_labels,
         name: 'Add Labels',
-        description: 'Add a label to an incoming message',
+        description: 'Label the incoming message',
         form: AddLabelsForm,
         component: AddLabelsComp,
         allows
