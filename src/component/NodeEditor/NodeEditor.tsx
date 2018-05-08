@@ -360,9 +360,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     private onTypeChange(config: Type): void {
         this.widgets = {};
         this.advancedWidgets = {};
-        const action =
-            this.props.actionToEdit.type === config.type ? this.props.actionToEdit : null;
-        this.props.handleTypeConfigChange(config, action);
+        this.props.handleTypeConfigChange(config, this.props.actionToEdit);
     }
 
     private onShowNameField(): void {

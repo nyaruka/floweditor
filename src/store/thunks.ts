@@ -447,12 +447,13 @@ export const spliceInRouter = (
     return updatedNodes;
 };
 
-export const handleTypeConfigChange = (typeConfig: Type, action: AnyAction) => (
+export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
     dispatch(updateTypeConfig(typeConfig));
     if (typeConfig.formHelper) {
+        const action = actionToEdit.type === typeConfig.type ? actionToEdit : null;
         dispatch(updateForm(typeConfig.formHelper.actionToState(action)));
     }
 };
