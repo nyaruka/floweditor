@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Select from 'react-select';
-import { Type, typeConfigList } from '../../config';
 
+import { Type, typeConfigList } from '../../config';
 import * as formStyles from './NodeEditor.scss';
 
 export interface TypeListProps {
@@ -22,10 +22,10 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
             config: this.props.initialType
         };
 
-        this.onChangeType = this.onChangeType.bind(this);
+        this.handleChangeType = this.handleChangeType.bind(this);
     }
 
-    private onChangeType(config: Type): void {
+    private handleChangeType(config: Type): void {
         this.setState(
             {
                 config
@@ -43,7 +43,7 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
                 <div>
                     <Select
                         value={this.state.config}
-                        onChange={this.onChangeType}
+                        onChange={this.handleChangeType}
                         valueKey="type"
                         searchable={false}
                         clearable={false}

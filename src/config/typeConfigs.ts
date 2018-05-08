@@ -1,24 +1,26 @@
+import CallWebhookComp from '../component/actions/CallWebhook/CallWebhook';
 import AddGroupsForm from '../component/actions/ChangeGroups/AddGroupsForm';
 import ChangeGroupsComp from '../component/actions/ChangeGroups/ChangeGroups';
 import RemoveGroupsForm from '../component/actions/ChangeGroups/RemoveGroupsForm';
-import SendMsgComp from '../component/actions/SendMsg/SendMsg';
-import SendMsgForm from '../component/actions/SendMsg/SendMsgForm';
-import SetRunResultComp from '../component/actions/SetRunResult/SetRunResult';
-import SetRunResultForm from '../component/actions/SetRunResult/SetRunResultForm';
-import SetContactAttrib from '../component/actions/SetContactAttrib/SetContactAttrib';
-import SetContactAttribForm from '../component/actions/SetContactAttrib/SetContactAttribForm';
+import MissingComp from '../component/actions/Missing/Missing';
+import SendBroadcastComp from '../component/actions/SendBroadcast/SendBroadcast';
+import SendBroadcastForm from '../component/actions/SendBroadcast/SendBroadcastForm';
+import { SendBroadcastFormHelper } from '../component/actions/SendBroadcast/SendBroadcastFormHelper';
 import SendEmailComp from '../component/actions/SendEmail/SendEmail';
 import SendEmailForm from '../component/actions/SendEmail/SendEmailForm';
+import SendMsgComp from '../component/actions/SendMsg/SendMsg';
+import SendMsgForm from '../component/actions/SendMsg/SendMsgForm';
+import SetContactAttrib from '../component/actions/SetContactAttrib/SetContactAttrib';
+import SetContactAttribForm from '../component/actions/SetContactAttrib/SetContactAttribForm';
+import SetRunResultComp from '../component/actions/SetRunResult/SetRunResult';
+import SetRunResultForm from '../component/actions/SetRunResult/SetRunResultForm';
 import StartFlowComp from '../component/actions/StartFlow/StartFlow';
-import CallWebhookComp from '../component/actions/CallWebhook/CallWebhook';
 import GroupsRouter from '../component/routers/GroupsRouter';
 import SubflowRouter from '../component/routers/SubflowRouter';
 import SwitchRouter from '../component/routers/SwitchRouter';
 import WebhookRouter from '../component/routers/WebhookRouter';
 import { AnyAction } from '../flowTypes';
-import MissingComp from '../component/actions/Missing/Missing';
-import SendBroadcastForm from '../component/actions/SendBroadcast/SendBroadcastForm';
-import SendBroadcastComp from '../component/actions/SendBroadcast/SendBroadcast';
+import { NodeEditorForm } from '../store/nodeEditor';
 
 /*
 Old name	                New name	                Event(s) generated
@@ -67,6 +69,11 @@ export enum Mode {
     ALL = EDITING | TRANSLATING
 }
 
+export interface FormHelper {
+    actionToState: (action: AnyAction) => NodeEditorForm;
+    stateToAction: (formState: NodeEditorForm) => AnyAction;
+}
+
 export interface Type {
     type: Types;
     name: string;
@@ -74,6 +81,7 @@ export interface Type {
     allows(mode: Mode): boolean;
     component?: React.SFC<AnyAction>;
     form?: React.ComponentClass<any>;
+    formHelper?: FormHelper;
     advanced?: Mode;
     aliases?: string[];
 }
@@ -111,6 +119,7 @@ export const typeConfigList: Type[] = [
         name: 'Send Broadcast',
         description: 'Send somebody else a message',
         form: SendBroadcastForm,
+        formHelper: new SendBroadcastFormHelper(),
         component: SendBroadcastComp,
         allows
     },

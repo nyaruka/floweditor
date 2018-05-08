@@ -1,8 +1,12 @@
+// tslint:disable:no-shadowed-variable
 import { combineReducers } from 'redux';
+
 import { Type } from '../config';
 import { AnyAction, FlowNode } from '../flowTypes';
+import { Asset } from '../services/AssetService';
 import ActionTypes, {
     UpdateActionToEditAction,
+    UpdateForm,
     UpdateNodeToEditAction,
     UpdateOperandAction,
     UpdateResultNameAction,
@@ -12,6 +16,17 @@ import ActionTypes, {
 } from './actionTypes';
 import Constants from './constants';
 
+export interface ActionState {
+    type: string;
+    uuid: string;
+}
+export interface SendBroadcastFormState extends ActionState {
+    text: string;
+    recipients: Asset[];
+    translatedText: string;
+}
+export type NodeEditorForm = SendBroadcastFormState;
+
 export interface NodeEditor {
     typeConfig: Type;
     resultName: string;
@@ -20,6 +35,7 @@ export interface NodeEditor {
     userAddingAction: boolean;
     nodeToEdit: FlowNode;
     actionToEdit: AnyAction;
+    form: NodeEditorForm;
 }
 
 const DEFAULT_OPERAND = '@run.input';
@@ -32,11 +48,11 @@ export const initialState: NodeEditor = {
     operand: DEFAULT_OPERAND,
     userAddingAction: false,
     nodeToEdit: null,
-    actionToEdit: null
+    actionToEdit: null,
+    form: null
 };
 
 // Action Creators
-// tslint:disable-next-line:no-shadowed-variable
 export const updateTypeConfig = (typeConfig: Type): UpdateTypeConfigAction => ({
     type: Constants.UPDATE_TYPE_CONFIG,
     payload: {
@@ -44,7 +60,13 @@ export const updateTypeConfig = (typeConfig: Type): UpdateTypeConfigAction => ({
     }
 });
 
-// tslint:disable-next-line:no-shadowed-variable
+export const updateForm = (form: NodeEditorForm): UpdateForm => ({
+    type: Constants.UPDATE_FORM,
+    payload: {
+        form
+    }
+});
+
 export const updateResultName = (resultName: string): UpdateResultNameAction => ({
     type: Constants.UPDATE_RESULT_NAME,
     payload: {
@@ -52,7 +74,6 @@ export const updateResultName = (resultName: string): UpdateResultNameAction => 
     }
 });
 
-// tslint:disable-next-line:no-shadowed-variable
 export const updateOperand = (operand: string): UpdateOperandAction => ({
     type: Constants.UPDATE_OPERAND,
     payload: {
@@ -61,7 +82,6 @@ export const updateOperand = (operand: string): UpdateOperandAction => ({
 });
 
 export const updateUserAddingAction = (
-    // tslint:disable-next-line:no-shadowed-variable
     userAddingAction: boolean
 ): UpdateUserAddingActionAction => ({
     type: Constants.UPDATE_USER_ADDING_ACTION,
@@ -70,7 +90,6 @@ export const updateUserAddingAction = (
     }
 });
 
-// tslint:disable-next-line:no-shadowed-variable
 export const updateActionToEdit = (actionToEdit: AnyAction): UpdateActionToEditAction => ({
     type: Constants.UPDATE_ACTION_TO_EDIT,
     payload: {
@@ -78,7 +97,6 @@ export const updateActionToEdit = (actionToEdit: AnyAction): UpdateActionToEditA
     }
 });
 
-// tslint:disable-next-line:no-shadowed-variable
 export const updateNodeToEdit = (nodeToEdit: FlowNode): UpdateNodeToEditAction => ({
     type: Constants.UPDATE_NODE_TO_EDIT,
     payload: {
@@ -86,7 +104,6 @@ export const updateNodeToEdit = (nodeToEdit: FlowNode): UpdateNodeToEditAction =
     }
 });
 
-// tslint:disable-next-line:no-shadowed-variable
 export const updateShowResultName = (showResultName: boolean): UpdateShowResultNameAction => ({
     type: Constants.UPDATE_SHOW_RESULT_NAME,
     payload: {
@@ -95,6 +112,15 @@ export const updateShowResultName = (showResultName: boolean): UpdateShowResultN
 });
 
 // Reducers
+export const form = (state: NodeEditorForm = initialState.form, action: ActionTypes) => {
+    switch (action.type) {
+        case Constants.UPDATE_FORM:
+            return action.payload.form;
+        default:
+            return state;
+    }
+};
+
 export const typeConfig = (state: Type = initialState.typeConfig, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_TYPE_CONFIG:
@@ -172,5 +198,6 @@ export default combineReducers({
     operand,
     userAddingAction,
     nodeToEdit,
-    actionToEdit
+    actionToEdit,
+    form
 });

@@ -6,6 +6,7 @@ import { LocalizedObject } from '../services/Localization';
 import Constants from './constants';
 import { CompletionOption, RenderNode } from './flowContext';
 import { DragSelection } from './flowEditor';
+import { NodeEditorForm } from './nodeEditor';
 
 // Redux action generic
 interface DuxAction<T extends Constants, P extends { [key: string]: any }> {
@@ -115,7 +116,13 @@ interface UpdateDragSelectionActionPayload {
     dragSelection: DragSelection;
 }
 
+interface UpdateFormPayload {
+    form: NodeEditorForm;
+}
+
 // Action types
+export type UpdateForm = DuxAction<Constants.UPDATE_FORM, UpdateFormPayload>;
+
 export type UpdateTranslatingAction = DuxAction<Constants.UPDATE_TRANSLATING, TranslatingPayload>;
 
 export type UpdateLanguageAction = DuxAction<Constants.UPDATE_LANGUAGE, LanguagePayload>;
@@ -244,6 +251,7 @@ export type UpdateNodeEditorOpen = (nodeEditorOpen: boolean) => UpdateNodeEditor
 export type UpdateShowResultName = (showResultName: boolean) => UpdateShowResultNameAction;
 
 type ActionTypes =
+    | UpdateForm
     | UpdateTranslatingAction
     | UpdateLanguageAction
     | UpdateFetchingFlowAction

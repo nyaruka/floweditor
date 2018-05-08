@@ -2,10 +2,10 @@
 // tslint:disable:ban-types
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
+
 import { hasCases } from '../component/NodeEditor/NodeEditor';
-import { getTypeConfig } from '../config';
+import { getTypeConfig, Type } from '../config';
 import { Types } from '../config/typeConfigs';
-import { FlowDetails } from '../external';
 import {
     Action,
     AnyAction,
@@ -19,7 +19,8 @@ import {
     StickyNote,
     SwitchRouter
 } from '../flowTypes';
-import { NODE_SPACING, dump, timeStart, timeEnd, snakify, titleCase } from '../utils';
+import AssetService, { Asset, Assets } from '../services/AssetService';
+import { NODE_SPACING, timeEnd, timeStart } from '../utils';
 import {
     RenderNode,
     RenderNodeMap,
@@ -48,6 +49,7 @@ import {
 import * as mutators from './mutators';
 import {
     updateActionToEdit,
+    updateForm,
     updateNodeToEdit,
     updateOperand,
     updateResultName,
@@ -56,8 +58,6 @@ import {
     updateUserAddingAction
 } from './nodeEditor';
 import AppState from './state';
-import AssetService, { Assets, Asset } from '../services/AssetService';
-import { UpdateFlowsAction } from './actionTypes';
 
 export type DispatchWithState = Dispatch<AppState>;
 
@@ -68,6 +68,8 @@ export type Thunk<T> = (dispatch: DispatchWithState, getState?: GetState) => T;
 export type AsyncThunk = Thunk<Promise<void>>;
 
 export type OnAddToNode = (node: FlowNode) => Thunk<void>;
+
+export type HandleTypeConfigChange = (typeConfig: Type, action: AnyAction) => Thunk<void>;
 
 export type OnResetDragSelection = () => Thunk<void>;
 
@@ -444,6 +446,16 @@ export const spliceInRouter = (
     return updatedNodes;
 };
 
+export const handleTypeConfigChange = (typeConfig: Type, action: AnyAction) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+) => {
+    dispatch(updateTypeConfig(typeConfig));
+    if (typeConfig.formHelper) {
+        dispatch(updateForm(typeConfig.formHelper.actionToState(action)));
+    }
+};
+
 export const resetNodeEditingState = () => (dispatch: DispatchWithState, getState: GetState) => {
     const {
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
@@ -743,7 +755,12 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
     }
 
     const type = determineConfigType(node, action, nodes);
-    dispatch(updateTypeConfig(getTypeConfig(type)));
+    const typeConfig = getTypeConfig(type);
+    dispatch(updateTypeConfig(typeConfig));
+
+    if (typeConfig.formHelper) {
+        dispatch(updateForm(typeConfig.formHelper.actionToState(action)));
+    }
 
     let resultName = '';
 

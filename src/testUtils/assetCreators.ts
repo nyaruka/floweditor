@@ -1,30 +1,32 @@
-import { capitalize } from '../utils';
+import { Operators } from '../config/operatorConfigs';
+import { Types } from '../config/typeConfigs';
 import {
-    SendMsg,
-    SendEmail,
-    Methods,
+    AnyAction,
+    BroadcastMsg,
     CallWebhook,
-    Group,
-    ChangeGroups,
-    StartFlow,
-    ContactProperties,
-    SetContactProperty,
-    Field,
-    SetContactField,
-    SetRunResult,
-    WaitTypes,
-    Router,
     Case,
+    ChangeGroups,
+    Contact,
+    ContactProperties,
+    Exit,
+    Field,
     FlowNode,
+    Group,
+    Methods,
+    Router,
+    SendEmail,
+    SendMsg,
+    SetContactField,
+    SetContactProperty,
+    SetRunResult,
+    StartFlow,
     StartFlowArgs,
     StartFlowExitNames,
     SwitchRouter,
     Wait,
-    AnyAction,
-    Exit
+    WaitTypes
 } from '../flowTypes';
-import { Types } from '../config/typeConfigs';
-import { Operators } from '../config/operatorConfigs';
+import { capitalize } from '../utils';
 
 const { assets: groupsResults } = require('../../__test__/assets/groups.json');
 
@@ -84,6 +86,28 @@ export const createCallWebhookAction = ({
     type: Types.call_webhook,
     url,
     method
+});
+
+export const createBroadcastMsgAction = ({
+    uuid = 'send_broadcast-0',
+    groups = [{ uuid: 'group-0', name: 'Cat Fanciers' }, { uuid: 'group-1', name: 'Cat Facts' }],
+    contacts = [
+        { uuid: 'contact-0', name: 'Kellan Alexander' },
+        { uuid: 'contact-1', name: 'Norbert Kwizera' },
+        { uuid: 'contact-2', name: 'Rowan Seymour' }
+    ],
+    text = 'Hello World'
+}: {
+    uuid?: string;
+    groups?: Group[];
+    contacts?: Contact[];
+    text?: string;
+} = {}): BroadcastMsg => ({
+    uuid,
+    groups,
+    contacts,
+    text,
+    type: Types.send_broadcast
 });
 
 export const createAddGroupsAction = ({

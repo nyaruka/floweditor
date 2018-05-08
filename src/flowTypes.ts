@@ -4,6 +4,7 @@ import {
     NewOptionCreatorHandler,
     PromptTextCreatorHandler
 } from 'react-select';
+
 import { Operators } from './config/operatorConfigs';
 import AssetService from './services/AssetService';
 

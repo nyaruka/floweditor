@@ -1,5 +1,6 @@
 // tslint:disable:max-classes-per-file
 import axios, { AxiosResponse } from 'axios';
+
 import { ContactProperties, FlowEditorConfig, Group } from '../flowTypes';
 import { FlowComponents } from '../store/helpers';
 

@@ -1,21 +1,23 @@
-import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
+import * as React from 'react';
 import { connect } from 'react-redux';
-import { Type } from '../../../config';
-import { FlowDefinition, BroadcastMsg, Group, Contact } from '../../../flowTypes';
-import { AppState } from '../../../store';
-import Localization, { LocalizedObject } from '../../../services/Localization';
+import { bindActionCreators } from 'redux';
 
-import CheckboxElement from '../../form/CheckboxElement';
-import TextInputElement, { Count } from '../../form/TextInputElement';
+import { Type } from '../../../config';
+import { fakePropType } from '../../../config/ConfigProvider';
+import { BroadcastMsg, FlowDefinition } from '../../../flowTypes';
+import { Asset } from '../../../services/AssetService';
+import Localization, { LocalizedObject } from '../../../services/Localization';
+import { AppState, DispatchWithState } from '../../../store';
+import { SendBroadcastFunc, updateSendBroadcastForm } from '../../../store/forms';
+import { SendBroadcastFormState } from '../../../store/nodeEditor';
+import * as styles from '../../actions/Action/Action.scss';
+import OmniboxElement from '../../form/OmniboxElement';
+import TextInputElement, { Count, HTMLTextElement } from '../../form/TextInputElement';
 import { Language } from '../../LanguageSelector';
 import { UpdateLocalizations } from '../../NodeEditor';
-import OmniboxElement from '../../form/OmniboxElement';
-import { fakePropType } from '../../../config/ConfigProvider';
-
-import * as styles from '../../actions/Action/Action.scss';
 import * as broadcastStyles from './SendBroadcast.scss';
-import { Asset, AssetType } from '../../../services/AssetService';
+import { SendBroadcastFormHelper } from './SendBroadcastFormHelper';
 
 export interface SendBroadcastFormStoreProps {
     language: Language;
@@ -23,19 +25,16 @@ export interface SendBroadcastFormStoreProps {
     typeConfig: Type;
     definition: FlowDefinition;
     localizations: LocalizedObject[];
+    form: SendBroadcastFormState;
+    updateSendBroadcastForm: SendBroadcastFunc;
 }
 
 export interface SendBroadcastFormPassedProps {
-    showAdvanced: boolean;
     action: BroadcastMsg;
+    formHelper: SendBroadcastFormHelper;
     updateAction(action: BroadcastMsg): void;
-    onBindWidget(ref: any): void;
-    onBindAdvancedWidget(ref: any): void;
     updateLocalizations: UpdateLocalizations;
-}
-
-interface SendBroadcastFormState {
-    selected: Asset[];
+    onBindWidget(ref: any): void;
 }
 
 export type SendBroadcastFormProps = SendBroadcastFormStoreProps & SendBroadcastFormPassedProps;
@@ -52,45 +51,19 @@ export class SendBroadcastForm extends React.Component<
     constructor(props: SendBroadcastFormProps) {
         super(props);
 
-        this.state = {
-            selected: this.getSelected()
-        };
-
         bindCallbacks(this, {
-            include: [/^on/]
+            include: [/^on/, /^handle/]
         });
     }
 
-    private getSelected(): Asset[] {
-        const selected = (this.props.action.groups || []).map((group: Group) => {
-            return { id: group.uuid, name: group.name, type: AssetType.Group };
-        });
-
-        return selected.concat(
-            (this.props.action.contacts || []).map((contact: Contact) => {
-                return { id: contact.uuid, name: contact.name, type: AssetType.Contact };
-            })
-        );
-    }
-
-    private getAssetType(assets: Asset[], type: AssetType): any[] {
-        return this.state.selected
-            .filter((asset: Asset) => asset.type === type)
-            .map((asset: Asset) => {
-                return { uuid: asset.id, name: asset.name };
-            });
-    }
-
-    public onValid(widgets: { [name: string]: any }): void {
-        const { wrappedInstance: { state: { value } } } = widgets.Message;
-        const sendAll = widgets['All Destinations'];
-
+    public onValid(): void {
+        // TODO: might be nice to generalize translatable forms into helpers?
         if (this.props.translating) {
-            const translation = value.trim();
+            const translation = this.props.form.translatedText;
 
             if (translation) {
                 this.props.updateLocalizations(this.props.language.iso, [
-                    { uuid: this.props.action.uuid, translations: { text: [value] } }
+                    { uuid: this.props.action.uuid, translations: { text: [translation] } }
                 ]);
             } else {
                 this.props.updateLocalizations(this.props.language.iso, [
@@ -98,24 +71,24 @@ export class SendBroadcastForm extends React.Component<
                 ]);
             }
         } else {
-            const groups: Group[] = this.getAssetType(this.state.selected, AssetType.Group);
-            const contacts: Contact[] = this.getAssetType(this.state.selected, AssetType.Contact);
-            const newAction: BroadcastMsg = {
-                uuid: this.props.action.uuid,
-                type: this.props.typeConfig.type,
-                text: value,
-                groups,
-                contacts
-            };
-            this.props.updateAction(newAction);
+            const action = this.props.formHelper.stateToAction(this.props.form);
+            this.props.updateAction(action);
         }
     }
 
-    private onRecipientsChanged(selected: Asset[]): void {
-        this.setState({ selected });
+    private handleRecipientsChanged(selected: Asset[]): void {
+        this.props.updateSendBroadcastForm({ recipients: selected });
     }
 
-    private renderForm(): JSX.Element {
+    private handleMessageUpdate(event: React.ChangeEvent<HTMLTextElement>): void {
+        if (this.props.translating) {
+            this.props.updateSendBroadcastForm({ translatedText: event.currentTarget.value });
+        } else {
+            this.props.updateSendBroadcastForm({ text: event.currentTarget.value });
+        }
+    }
+
+    public render(): JSX.Element {
         let text = '';
         let placeholder = '';
         let translation = null;
@@ -138,18 +111,19 @@ export class SendBroadcastForm extends React.Component<
                 ({ text } = this.props.localizations[0].getObject() as BroadcastMsg);
             }
         } else {
-            ({ text } = this.props.action);
+            ({ text } = this.props.form);
 
             recipients = (
                 <OmniboxElement
+                    data-spec="recipients"
                     ref={this.props.onBindWidget}
                     className={broadcastStyles.recipients}
                     name="Groups"
                     assets={this.context.assetService.getRecipients()}
-                    selected={this.state.selected}
+                    selected={this.props.form.recipients}
                     add={true}
                     required={true}
-                    onChange={this.onRecipientsChanged}
+                    onChange={this.handleRecipientsChanged}
                 />
             );
         }
@@ -166,6 +140,7 @@ export class SendBroadcastForm extends React.Component<
                     value={text}
                     placeholder={placeholder}
                     autocomplete={true}
+                    onChange={this.handleMessageUpdate}
                     focus={true}
                     required={!this.props.translating}
                     textarea={true}
@@ -173,29 +148,25 @@ export class SendBroadcastForm extends React.Component<
             </div>
         );
     }
-
-    private renderAdvanced(): JSX.Element {
-        return null;
-    }
-
-    public render(): JSX.Element {
-        return this.props.showAdvanced ? this.renderAdvanced() : this.renderForm();
-    }
 }
 
 const mapStateToProps = ({
     flowContext: { definition, localizations },
     flowEditor: { editorUI: { language, translating } },
-    nodeEditor: { typeConfig }
+    nodeEditor: { typeConfig, form }
 }: AppState) => ({
     language,
     translating,
     typeConfig,
     definition,
-    localizations
+    localizations,
+    form
 });
 
-const ConnectedSendMsgForm = connect(mapStateToProps, null, null, { withRef: true })(
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators({ updateSendBroadcastForm }, dispatch);
+
+const ConnectedSendMsgForm = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(
     SendBroadcastForm
 );
 

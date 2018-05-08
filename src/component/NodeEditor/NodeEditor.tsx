@@ -1,12 +1,14 @@
 // TODO: Remove use of Function
 // tslint:disable:ban-types
-
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { v4 as generateUUID } from 'uuid';
+
 import { Mode, Type } from '../../config';
+import { Operators } from '../../config/operatorConfigs';
+import { FormHelper, Types } from '../../config/typeConfigs';
 import {
     Action,
     AnyAction,
@@ -15,28 +17,29 @@ import {
     ChangeGroups,
     Exit,
     FlowDefinition,
-    Methods,
     FlowNode,
+    Methods,
     Router,
     SendEmail,
     SendMsg,
     SetContactField,
     SetRunResult,
     StartFlow,
+    StartFlowExitNames,
     SwitchRouter,
-    WaitTypes,
     Wait,
-    WebhookExitNames,
-    BroadcastMsg
+    WaitTypes,
+    WebhookExitNames
 } from '../../flowTypes';
+import { Asset } from '../../services/AssetService';
 import { LocalizedObject } from '../../services/Localization';
 import {
     AppState,
     DispatchWithState,
     LocalizationUpdates,
     NoParamsAC,
-    OnUpdateAction,
     onUpdateAction,
+    OnUpdateAction,
     OnUpdateLocalizations,
     onUpdateLocalizations,
     OnUpdateRouter,
@@ -46,16 +49,15 @@ import {
     updateNodeEditorOpen,
     UpdateOperand,
     updateOperand,
-    UpdateResultName,
     updateResultName,
+    UpdateResultName,
     updateShowResultName,
     UpdateShowResultName,
-    UpdateTypeConfig,
-    updateTypeConfig,
     UpdateUserAddingAction,
     updateUserAddingAction
 } from '../../store';
 import { RenderNode } from '../../store/flowContext';
+import { HandleTypeConfigChange, handleTypeConfigChange } from '../../store/thunks';
 import { CaseElementProps } from '../form/CaseElement';
 import TextInputElement from '../form/TextInputElement';
 import { Language } from '../LanguageSelector';
@@ -65,11 +67,6 @@ import * as shared from '../shared.scss';
 import { DEFAULT_BODY, GROUPS_OPERAND } from './constants';
 import * as formStyles from './NodeEditor.scss';
 import TypeList from './TypeList';
-import { NODE_SPACING } from '../../utils';
-import { Types } from '../../config/typeConfigs';
-import { Operators } from '../../config/operatorConfigs';
-import { StartFlowExitNames } from '../../flowTypes';
-import { Asset } from '../../services/AssetService';
 
 export type GetResultNameField = () => JSX.Element;
 export type SaveLocalizations = (
@@ -105,7 +102,7 @@ export interface NodeEditorStoreProps {
     nodes: { [uuid: string]: RenderNode };
     updateResultName: UpdateResultName;
     updateOperand: UpdateOperand;
-    updateTypeConfig: UpdateTypeConfig;
+    handleTypeConfigChange: HandleTypeConfigChange;
     resetNodeEditingState: NoParamsAC;
     updateNodeEditorOpen: UpdateNodeEditorOpen;
     onUpdateLocalizations: OnUpdateLocalizations;
@@ -118,6 +115,7 @@ export interface NodeEditorStoreProps {
 export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
 export interface FormProps {
     action: AnyAction;
+    formHelper: FormHelper;
     showAdvanced: boolean;
     updateAction: (action: AnyAction) => void;
     onBindWidget: (ref: any) => void;
@@ -193,13 +191,6 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
         case Types.remove_contact_groups:
             defaultAction = { ...defaultAction, groups: null } as ChangeGroups;
             break;
-        case Types.send_broadcast:
-            defaultAction = {
-                ...defaultAction,
-                groups: [],
-                contacts: [],
-                text: ''
-            } as BroadcastMsg;
         case Types.set_contact_field:
             defaultAction = {
                 ...defaultAction,
@@ -482,7 +473,9 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     private onTypeChange(config: Type): void {
         this.widgets = {};
         this.advancedWidgets = {};
-        this.props.updateTypeConfig(config);
+        const action =
+            this.props.actionToEdit.type === config.type ? this.props.actionToEdit : null;
+        this.props.handleTypeConfigChange(config, action);
     }
 
     private onShowNameField(): void {
@@ -1140,6 +1133,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
         const formProps: Partial<FormProps> = {
             action,
+            formHelper: typeConfig.formHelper,
             saveLocalizations: this.saveLocalizations,
             updateLocalizations: this.updateLocalizations,
             cleanUpLocalizations: this.cleanUpLocalizations,
@@ -1243,7 +1237,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
             updateResultName,
             resetNodeEditingState,
             updateNodeEditorOpen,
-            updateTypeConfig,
+            handleTypeConfigChange,
             updateOperand,
             onUpdateLocalizations,
             onUpdateAction,

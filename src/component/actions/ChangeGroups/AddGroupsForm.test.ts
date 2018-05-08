@@ -3,10 +3,9 @@ import { Types } from '../../../config/typeConfigs';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../../testUtils';
 import { createAddGroupsAction } from '../../../testUtils/assetCreators';
 import { set } from '../../../utils';
-import { GROUP_NOT_FOUND } from '../../form/GroupsElement';
-import { AddGroupsForm, LABEL, labelSpecId, PLACEHOLDER } from './AddGroupsForm';
+import { AddGroupsForm, LABEL, labelSpecId } from './AddGroupsForm';
+import { mapAssetsToGroups, mapGroupsToAssets } from './helpers';
 import ChangeGroupsFormProps from './props';
-import { mapGroupsToAssets, mapAssetsToGroups } from './helpers';
 
 const { assets: groups } = require('../../../../__test__/assets/groups.json');
 
