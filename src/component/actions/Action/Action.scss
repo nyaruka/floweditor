@@ -18,7 +18,7 @@
     word-wrap: break-word;
     width: auto;
 
-    &.send_msg, &.set_contact_field, &.set_contact_property, 
+    &.add_input_labels, &.send_msg, &.set_contact_field, &.set_contact_property, 
     &.add_contact_groups, &.remove_contact_groups, &.set_run_result, 
     &.send_email, &.send_broadcast, &.missing {
         width: $node_width - $action_padding * 2;
@@ -66,7 +66,7 @@
 
 .translating {
     .body {
-        background: $translation_bg;        
+        background: $translation_bg;
     }
 }
 

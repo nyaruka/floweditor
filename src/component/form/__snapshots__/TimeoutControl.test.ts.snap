@@ -1,0 +1,165 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TimeoutControl render should render only checkbox, instructions if not passed a timeout 1`] = `
+<div
+  className="timeoutControlContainer"
+>
+  <div
+    className="leftSection"
+  >
+    <input
+      checked={false}
+      className="checkBox"
+      name="timeout-enabled"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    Continue when there is no response
+  </div>
+</div>
+`;
+
+exports[`TimeoutControl render should render select control if passed a timeout 1`] = `
+<div
+  className="timeoutControlContainer"
+>
+  <div
+    className="leftSection"
+  >
+    <input
+      checked={true}
+      className="checkBox"
+      name="timeout-enabled"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    Continue when there is no response for
+  </div>
+  <Select
+    arrowRenderer={[Function]}
+    autosize={true}
+    backspaceRemoves={true}
+    backspaceToRemoveMessage="Press backspace to remove {label}"
+    className="select-small-timeout"
+    clearAllText="Clear all"
+    clearRenderer={[Function]}
+    clearValueText="Clear value"
+    clearable={false}
+    closeOnSelect={true}
+    deleteRemoves={true}
+    delimiter=","
+    disabled={false}
+    escapeClearsValue={true}
+    filterOptions={[Function]}
+    ignoreAccents={true}
+    ignoreCase={true}
+    inputProps={Object {}}
+    isLoading={false}
+    joinValues={false}
+    labelKey="label"
+    matchPos="any"
+    matchProp="any"
+    menuBuffer={0}
+    menuRenderer={[Function]}
+    multi={false}
+    name="timeout"
+    noResultsText="No results found"
+    onBlurResetsInput={true}
+    onChange={[Function]}
+    onCloseResetsInput={true}
+    onSelectResetsInput={true}
+    openOnClick={true}
+    optionComponent={[Function]}
+    options={
+      Array [
+        Object {
+          "label": "1 minutes",
+          "value": 60,
+        },
+        Object {
+          "label": "2 minutes",
+          "value": 120,
+        },
+        Object {
+          "label": "3 minutes",
+          "value": 180,
+        },
+        Object {
+          "label": "4 minutes",
+          "value": 240,
+        },
+        Object {
+          "label": "5 minutes",
+          "value": 300,
+        },
+        Object {
+          "label": "10 minutes",
+          "value": 600,
+        },
+        Object {
+          "label": "15 minutes",
+          "value": 900,
+        },
+        Object {
+          "label": "1 hours",
+          "value": 3600,
+        },
+        Object {
+          "label": "2 hours",
+          "value": 7200,
+        },
+        Object {
+          "label": "3 hours",
+          "value": 10800,
+        },
+        Object {
+          "label": "6 hours",
+          "value": 21600,
+        },
+        Object {
+          "label": "12 hours",
+          "value": 43200,
+        },
+        Object {
+          "label": "18 hours",
+          "value": 64800,
+        },
+        Object {
+          "label": "1 days",
+          "value": 86400,
+        },
+        Object {
+          "label": "2 days",
+          "value": 172800,
+        },
+        Object {
+          "label": "3 days",
+          "value": 259200,
+        },
+        Object {
+          "label": "1 week",
+          "value": 604800,
+        },
+      ]
+    }
+    pageSize={5}
+    placeholder="Select..."
+    removeSelected={true}
+    required={false}
+    rtl={false}
+    scrollMenuIntoView={true}
+    searchable={false}
+    simpleValue={false}
+    tabSelectsValue={true}
+    trimFilter={true}
+    value={
+      Object {
+        "label": "5 minutes",
+        "value": 300,
+      }
+    }
+    valueComponent={[Function]}
+    valueKey="value"
+  />
+</div>
+`;

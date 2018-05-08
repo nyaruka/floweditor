@@ -13,10 +13,11 @@ if (process.env.RAPID_FLOW) {
         flow: process.env.RAPID_FLOW,
         localStorage: true,
         endpoints: {
-            flows: base + 'flow/',
-            groups: base + 'group/',
+            flows: base + 'flow',
+            groups: base + 'group',
             recipients: '/contact/omnibox/',
-            fields: base + 'field/',
+            fields: base + 'field',
+            labels: base + 'labels',
             activity: '',
             simulateStart: '/flow/start',
             simulateResume: '/flow/resume'
@@ -32,6 +33,7 @@ if (process.env.RAPID_FLOW) {
                       groups: 'groups',
                       recipients: 'recipients',
                       fields: 'fields',
+                      labels: 'labels',
                       activity: '',
                       simulateStart: '',
                       simulateResume: ''
@@ -44,6 +46,7 @@ if (process.env.RAPID_FLOW) {
                       groups: '/assets/group',
                       recipients: '/assets/recipient',
                       fields: '/assets/field',
+                      labels: '/assets/label',
                       activity: '',
                       simulateStart: '/flow/start',
                       simulateResume: '/flow/resume'

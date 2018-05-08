@@ -1,25 +1,21 @@
-import { getTypeConfig } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../../testUtils';
 import { createAddGroupsAction } from '../../../testUtils/assetCreators';
 import { set } from '../../../utils';
-import { AddGroupsForm, LABEL, labelSpecId } from './AddGroupsForm';
+import AddGroupsForm, { LABEL, labelSpecId } from './AddGroupsForm';
 import { mapAssetsToGroups, mapGroupsToAssets } from './helpers';
 import ChangeGroupsFormProps from './props';
 
 const { assets: groups } = require('../../../../__test__/assets/groups.json');
 
 const addGroupsAction = createAddGroupsAction();
-const addGroupConfig = getTypeConfig(Types.add_contact_groups);
-const removeGroupConfig = getTypeConfig(Types.remove_contact_groups);
 
 const baseProps: ChangeGroupsFormProps = {
     action: addGroupsAction,
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
     removeWidget: jest.fn(),
-    groups: [],
-    typeConfig: addGroupConfig
+    groups: []
 };
 
 const { setup, spyOn } = composeComponentTestUtils<ChangeGroupsFormProps>(AddGroupsForm, baseProps);
@@ -95,52 +91,25 @@ describe(AddGroupsForm.name, () => {
             });
         });
 
-        describe('onGroupsChanged', () => {
-            it('should update state if called with new groups', () => {
-                const setStateSpy = spyOn('setState');
-                const { wrapper, instance } = setup();
-                const newSearchResults = mapGroupsToAssets([
-                    ...groups,
-                    { name: 'Unsubscibed', uuid: 'unsubscribed-0' }
-                ]);
-
-                instance.onGroupsChanged(newSearchResults);
-
-                expect(setStateSpy).toHaveBeenCalledTimes(1);
-                expect(setStateSpy).toHaveBeenCalledWith({ groups: newSearchResults });
-
-                setStateSpy.mockRestore();
-            });
-
-            it('should not update state if called with same groups', () => {
-                const setStateSpy = spyOn('setState');
-                const { wrapper, instance, props } = setup();
-                const searchResults = mapGroupsToAssets(props.action.groups);
-
-                instance.onGroupsChanged(searchResults);
-
-                expect(setStateSpy).not.toHaveBeenCalled();
-
-                setStateSpy.mockRestore();
-            });
-        });
-
         describe('onValid', () => {
             it('should call updateAction action creator with a ChangeGroups action', () => {
-                const {
-                    wrapper,
-                    instance,
-                    props: { action, updateAction: updateActionMock }
-                } = setup(true, { updateAction: setMock() });
+                const { wrapper, instance, props } = setup(false, { updateAction: setMock() });
+                const widgets = {
+                    Groups: {
+                        state: {
+                            groups: props.groups
+                        }
+                    }
+                };
                 const expectedAction = {
-                    uuid: action.uuid,
-                    type: action.type,
-                    groups: mapAssetsToGroups(wrapper.state('groups'))
+                    uuid: props.action.uuid,
+                    type: props.action.type,
+                    groups: mapAssetsToGroups(widgets.Groups.state.groups)
                 };
 
-                instance.onValid();
+                instance.onValid(widgets);
 
-                expect(updateActionMock).toHaveBeenCalledWith(expectedAction);
+                expect(props.updateAction).toHaveBeenCalledWith(expectedAction);
             });
         });
     });

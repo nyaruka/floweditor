@@ -1,6 +1,5 @@
-import AssetService, { Assets, AssetType, Asset, AssetSearchResult } from './AssetService';
-import { dump } from '../utils';
 import * as config from '../../__test__/config';
+import AssetService, { Assets, AssetSearchResult, AssetType } from './AssetService';
 
 describe('AssetService', () => {
     let assetService: AssetService;
@@ -92,6 +91,17 @@ describe('AssetService', () => {
 
         it('should initialize field assets', () => {
             expect(fields).toMatchSnapshot();
+        });
+    });
+
+    describe('labels', () => {
+        let labels: LabelAssets;
+        beforeEach(() => {
+            labels = assetService.getLabelAssets();
+        });
+
+        it('should initialize label assets', () => {
+            expect(labels).toMatchSnapshot();
         });
     });
 });

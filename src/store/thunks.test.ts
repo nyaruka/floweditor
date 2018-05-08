@@ -13,7 +13,8 @@ import {
     FlowNode,
     SwitchRouter,
     Languages,
-    FlowEditorConfig
+    FlowEditorConfig,
+    RouterTypes
 } from '../flowTypes';
 import {
     initializeFlow,
@@ -417,14 +418,14 @@ describe('Flow Manipulation', () => {
                 onUpdateAction({
                     uuid: 'new_action',
                     type: Types.send_msg,
-                    text: 'A fourth action for our first node'
+                    text: 'A fifth action for our first node'
                 })
             );
 
             // we should have a new action
             const actions = nodes.node0.node.actions;
-            expect(actions.length).toBe(4);
-            expect((actions[3] as SendMsg).text).toBe('A fourth action for our first node');
+            expect(actions.length).toBe(5);
+            expect((actions[4] as SendMsg).text).toBe('A fifth action for our first node');
         });
 
         it('should throw if nodeToEdit is null', () => {
@@ -453,7 +454,7 @@ describe('Flow Manipulation', () => {
                     uuid: 'node0_action0',
                     type: 'send_msg',
                     text: 'An updated message'
-                })
+                } as AnyAction)
             );
 
             expect(nodes.node0.node.actions[0].text).toBe('An updated message');
@@ -525,7 +526,7 @@ describe('Flow Manipulation', () => {
                     node: {
                         actions: [],
                         router: {
-                            type: 'switch',
+                            type: RouterTypes.switch,
                             cases: [],
                             default_exit_uuid: newExitUUID
                         } as SwitchRouter,
@@ -702,9 +703,9 @@ describe('Flow Manipulation', () => {
                     typeConfig: {
                         type: Types.wait_for_response,
                         name: 'Wait for Response',
-                        description: 'Wait for them to respond',
+                        description: 'Wait for the contact to respond',
                         advanced: 2,
-                        aliases: ['switch']
+                        aliases: [RouterTypes.switch]
                     }
                 });
 
@@ -772,7 +773,7 @@ describe('Flow Manipulation', () => {
                     ghostNode: null
                 });
 
-                expect(store.getActions().length).toBe(1);
+                expect(store.getActions().length).toBe(2);
             });
 
             it('should reset the node editor', () => {

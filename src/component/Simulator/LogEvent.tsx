@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Types } from '../../config/typeConfigs';
 import { Group } from '../../flowTypes';
-import Modal from '../Modal';
+import ConnectedModal from '../Modal';
 import * as styles from './Simulator.scss';
 
 interface MsgProps {
@@ -167,7 +167,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                     <div className={classes.join(' ')} onClick={this.showDetails}>
                         {text}
                     </div>
-                    <Modal
+                    <ConnectedModal
                         __className={styles[`detail_${this.props.type}`]}
                         // tslint:disable-next-line:jsx-key
                         title={[<div>{detailTitle}</div>]}
@@ -182,7 +182,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                         }}
                     >
                         <div className={styles.eventViewer}>{details}</div>
-                    </Modal>
+                    </ConnectedModal>
                 </div>
             );
         } else {

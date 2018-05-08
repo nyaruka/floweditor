@@ -1,21 +1,19 @@
 import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import {
-    IsOptionUniqueHandler,
-    IsValidNewOptionHandler,
-    NewOptionCreatorHandler
-} from 'react-select';
-import { v4 as generateUUID } from 'uuid';
+
 import { CreateOptions, ResultType } from '../../flowTypes';
-import { AppState, DispatchWithState } from '../../store';
-import { getSelectClass, isValidLabel, propertyExists, dump, snakify } from '../../utils';
+import { Asset, Assets, AssetType } from '../../services/AssetService';
+import {
+    composeCreateNewOption,
+    getSelectClass,
+    isOptionUnique,
+    isValidNewOption,
+    snakify
+} from '../../utils';
 import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
-import { bindActionCreators } from 'redux';
-import { Asset, AssetType, Assets } from '../../services/AssetService';
 
-interface AttribElementPassedProps extends FormElementProps {
+export interface AttribElementProps extends FormElementProps {
     initial: Asset;
     add?: boolean;
     placeholder?: string;
@@ -24,39 +22,21 @@ interface AttribElementPassedProps extends FormElementProps {
     assets: Assets;
 }
 
-interface AttribElementStoreProps {
-    contactFields: Asset[];
-}
-
-export type AttribElementProps = AttribElementPassedProps & AttribElementStoreProps;
-
 interface AttribElementState {
     attribute: Asset;
     errors: string[];
 }
 
 export const PLACEHOLDER = 'Enter the name of an existing attribute or create a new one';
-export const NOT_FOUND = 'Invalid attribute name';
+export const NOT_FOUND = 'Invalid attribute';
 export const CREATE_PROMPT = 'New attribute: ';
 
-export const attribExists = (newOptName: string, options: any[]) =>
-    options.find(({ name }) => name.toLowerCase().trim() === newOptName.toLowerCase().trim())
-        ? true
-        : false;
-
-export const isValidNewOption: IsValidNewOptionHandler = ({ label }) => isValidLabel(label);
-
-export const isOptionUnique: IsOptionUniqueHandler = ({ option, options, labelKey, valueKey }) =>
-    !propertyExists(option.name) && !attribExists(option.name, options);
-
-export const createNewOption: NewOptionCreatorHandler = ({ label }) => ({
-    id: snakify(label),
-    name: label,
-    type: AssetType.Field,
-    isNew: true
+export const createNewOption = composeCreateNewOption({
+    idCb: label => snakify(label),
+    type: AssetType.Field
 });
 
-export class AttribElement extends React.Component<AttribElementProps, AttribElementState> {
+export default class AttribElement extends React.Component<AttribElementProps, AttribElementState> {
     public static defaultProps = {
         placeholder: PLACEHOLDER,
         searchPromptText: NOT_FOUND
@@ -136,7 +116,3 @@ export class AttribElement extends React.Component<AttribElementProps, AttribEle
         );
     }
 }
-
-export default connect<{}, {}, AttribElementPassedProps>(null, null, null, {
-    withRef: true
-})(AttribElement);

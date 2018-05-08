@@ -1,16 +1,13 @@
-import { ResultType } from '../../flowTypes';
 import { composeComponentTestUtils, configProviderContext, setMock } from '../../testUtils';
-import { createSelectOption, getGroupOptions, getGroups } from '../../testUtils/assetCreators';
-import { set, setTrue, validUUID } from '../../utils';
+import { createSelectOption, getGroups } from '../../testUtils/assetCreators';
+import { validUUID } from '../../utils';
 import GroupsElement, {
     createNewOption,
     GROUP_NOT_FOUND,
     GROUP_PLACEHOLDER,
     GROUP_PROMPT,
-    GroupsElementProps,
-    isValidNewOption
+    GroupsElementProps
 } from './GroupsElement';
-import AssetService from '../../services/AssetService';
 
 const baseProps: GroupsElementProps = {
     name: 'Groups',
@@ -23,18 +20,6 @@ const { setup, spyOn } = composeComponentTestUtils(GroupsElement, baseProps);
 
 describe(GroupsElement.name, () => {
     describe('helpers', () => {
-        describe('isValidNewOption', () => {
-            it('should return false if new option is invalid', () => {
-                expect(isValidNewOption({ label: '$$$' })).toBeFalsy();
-            });
-
-            it('should return true if new option is valid', () => {
-                const newGroup = { label: 'new group' };
-
-                expect(isValidNewOption(newGroup)).toBeTruthy();
-            });
-        });
-
         describe('createNewOption', () => {
             it('should generate a new search result object', () => {
                 const newGroup = createSelectOption({ label: 'Friends' });
@@ -59,7 +44,7 @@ describe(GroupsElement.name, () => {
         });
 
         it("should pass createOptions object if it's add prop is true", () => {
-            const { wrapper, instance } = setup(true, { add: setTrue() });
+            const { wrapper, instance } = setup(true, { add: { $set: true } });
             const selectSearch = wrapper.find('SelectSearch');
 
             expect(selectSearch.prop('isValidNewOption')).toEqual(expect.any(Function));
@@ -91,7 +76,7 @@ describe(GroupsElement.name, () => {
                 const setStateSpy = spyOn('setState');
                 const groups = getGroups(2);
                 const { wrapper, instance } = setup(true, {
-                    groups: set(groups)
+                    groups: { $set: groups }
                 });
                 const newGroups = getGroups(3);
                 const nextProps = { ...baseProps, groups: newGroups };
@@ -134,7 +119,7 @@ describe(GroupsElement.name, () => {
         describe('validate', () => {
             it('should return false, update errors state not valid', () => {
                 const { wrapper, instance, props: { name } } = setup(true, {
-                    required: setTrue()
+                    required: { $set: true }
                 });
 
                 expect(instance.validate()).toBeFalsy();
@@ -144,7 +129,7 @@ describe(GroupsElement.name, () => {
             it('should return true if valid', () => {
                 const groups = getGroups(2);
                 const { wrapper, instance, props: { name } } = setup(true, {
-                    required: setTrue()
+                    required: { $set: true }
                 });
 
                 expect(instance.onChange(groups));

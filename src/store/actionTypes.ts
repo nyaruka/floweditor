@@ -120,6 +120,10 @@ interface UpdateFormPayload {
     form: NodeEditorForm;
 }
 
+interface UpdateTimeoutPayload {
+    timeout: number;
+}
+
 // Action types
 export type UpdateForm = DuxAction<Constants.UPDATE_FORM, UpdateFormPayload>;
 
@@ -224,6 +228,8 @@ export type UpdateDragSelectionAction = DuxAction<
     UpdateDragSelectionActionPayload
 >;
 
+export type UpdateTimeoutAction = DuxAction<Constants.UPDATE_TIMEOUT, UpdateTimeoutPayload>;
+
 export type UpdateNodeDragging = (nodeDragging: boolean) => UpdateNodeDraggingAction;
 
 export type UpdateDragGroup = (dragGroup: boolean) => UpdateDragGroupAction;
@@ -249,6 +255,8 @@ export type UpdateUserAddingAction = (userAddingAction: boolean) => UpdateUserAd
 export type UpdateNodeEditorOpen = (nodeEditorOpen: boolean) => UpdateNodeEditorOpenAction;
 
 export type UpdateShowResultName = (showResultName: boolean) => UpdateShowResultNameAction;
+
+export type UpdateTimeout = (timeout: number) => UpdateTimeoutAction;
 
 type ActionTypes =
     | UpdateForm
@@ -276,6 +284,7 @@ type ActionTypes =
     | UpdateOperandAction
     | UpdateUserAddingActionAction
     | UpdateShowResultNameAction
-    | UpdateDragSelectionAction;
+    | UpdateDragSelectionAction
+    | UpdateTimeoutAction;
 
 export default ActionTypes;

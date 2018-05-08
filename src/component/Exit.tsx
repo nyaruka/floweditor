@@ -6,14 +6,14 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ConfigProviderContext } from '../config';
-import { Exit, LocalizationMap, FlowNode } from '../flowTypes';
+import { fakePropType } from '../config/ConfigProvider';
+import { Exit, FlowNode, LocalizationMap } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
 import { AppState, DisconnectExit, disconnectExit, DispatchWithState } from '../store';
 import { createClickHandler, getLocalization } from '../utils';
 import Counter from './Counter';
 import * as styles from './Exit.scss';
 import { Language } from './LanguageSelector';
-import { fakePropType } from '../config/ConfigProvider';
 
 export interface ExitPassedProps {
     exit: Exit;

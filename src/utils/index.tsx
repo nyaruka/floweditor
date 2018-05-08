@@ -1,9 +1,16 @@
+import { Query } from 'immutability-helper';
 import * as React from 'react';
+import {
+    IsOptionUniqueHandler,
+    IsValidNewOptionHandler,
+    NewOptionCreatorHandler
+} from 'react-select';
+
 import { Language } from '../component/LanguageSelector';
-import { Action, Case, Exit, Languages, LocalizationMap, ContactProperties } from '../flowTypes';
+import { Action, Case, ContactProperties, Exit, Languages, LocalizationMap } from '../flowTypes';
+import { AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
 import * as variables from '../variables.scss';
-import { Query } from 'immutability-helper';
 
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 const LABEL_CHARS = /^[a-zA-Z0-9-][a-zA-Z0-9- ]*$/;
@@ -26,6 +33,8 @@ interface Bounds {
     right: number;
     bottom: number;
 }
+
+export type LabelIdCb = (label?: string, labelKey?: string, valueKey?: string) => string;
 
 /**
  * Adjusts the left and top offsets to a grid
@@ -280,3 +289,26 @@ export const push = (arr: any[]): Query<any[]> => ({ $push: arr });
 
 // tslint:disable-next-line:array-type
 export const splice = (arr: Array<Array<any>>): Query<Array<Array<any>>> => ({ $splice: arr });
+
+export const optionExists = (newOptName: string, options: any[]) =>
+    options.find(({ name }) => name.toLowerCase().trim() === newOptName.toLowerCase().trim())
+        ? true
+        : false;
+
+export const isOptionUnique: IsOptionUniqueHandler = ({ option, options, labelKey, valueKey }) =>
+    !propertyExists(option.name) && !optionExists(option.name, options);
+
+export const isValidNewOption: IsValidNewOptionHandler = ({ label }) => isValidLabel(label);
+
+export const composeCreateNewOption = ({
+    idCb,
+    type
+}: {
+    idCb: LabelIdCb;
+    type: AssetType;
+}): NewOptionCreatorHandler => ({ label, labelKey, valueKey }) => ({
+    id: idCb(label, labelKey, valueKey),
+    name: label,
+    type,
+    isNew: true
+});

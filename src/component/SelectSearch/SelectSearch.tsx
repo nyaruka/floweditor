@@ -1,5 +1,4 @@
 import { react as bindCallbacks } from 'auto-bind';
-import axios, { AxiosResponse } from 'axios';
 import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
 import Select, {
@@ -10,8 +9,9 @@ import Select, {
     IsValidNewOptionHandler,
     NewOptionCreatorHandler
 } from 'react-select';
-import { ContactProperties, CreateOptions, ResultType, ValueType } from '../../flowTypes';
-import { Assets, Asset, AssetSearchResult } from '../../services/AssetService';
+
+import { CreateOptions, ResultType } from '../../flowTypes';
+import { Asset, Assets, AssetSearchResult } from '../../services/AssetService';
 import SelectOption from './SelectOption';
 import SelectValue from './SelectValue';
 

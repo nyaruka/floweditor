@@ -1,11 +1,17 @@
+import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
+
 import { ResultType } from '../../flowTypes';
-import { getSelectClass, isValidLabel, jsonEqual } from '../../utils';
+import { Asset, Assets, AssetType } from '../../services/AssetService';
+import {
+    composeCreateNewOption,
+    getSelectClass,
+    isOptionUnique,
+    isValidNewOption
+} from '../../utils';
 import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
-import { NewOptionCreatorHandler, IsValidNewOptionHandler } from 'react-select';
-import { Assets, Asset, AssetType } from '../../services/AssetService';
 
 export interface GroupOption {
     group: string;
@@ -13,12 +19,13 @@ export interface GroupOption {
 }
 
 export interface GroupsElementProps extends FormElementProps {
+    assets: Assets;
     add?: boolean;
     groups?: Asset[];
     placeholder?: string;
     searchPromptText?: string | JSX.Element;
     onChange?: (groups: Asset[]) => void;
-    assets: Assets;
+    helpText?: string;
 }
 
 interface GroupsElementState {
@@ -26,19 +33,14 @@ interface GroupsElementState {
     errors: string[];
 }
 
-export const isValidNewOption: IsValidNewOptionHandler = ({ label }) =>
-    !label ? false : isValidLabel(label);
-
-export const createNewOption: NewOptionCreatorHandler = ({ label }): Asset => ({
-    id: generateUUID(),
-    name: label,
-    type: AssetType.Group,
-    isNew: true
+export const createNewOption = composeCreateNewOption({
+    idCb: () => generateUUID(),
+    type: AssetType.Group
 });
 
 export const GROUP_PROMPT = 'New group: ';
 export const GROUP_PLACEHOLDER = 'Enter the name of an existing group...';
-export const GROUP_NOT_FOUND = 'Invalid group name';
+export const GROUP_NOT_FOUND = 'Invalid group';
 
 export default class GroupsElement extends React.Component<GroupsElementProps, GroupsElementState> {
     public static defaultProps = {
@@ -61,14 +63,14 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
         if (
             nextProps.groups &&
             nextProps.groups.length &&
-            !jsonEqual(nextProps.groups, this.props.groups)
+            !isEqual(nextProps.groups, this.props.groups)
         ) {
             this.setState({ groups: nextProps.groups });
         }
     }
 
     private onChange(groups: Asset[]): void {
-        if (!jsonEqual(groups, this.state.groups)) {
+        if (!isEqual(groups, this.state.groups)) {
             this.setState(
                 {
                     groups
@@ -99,16 +101,15 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
 
         if (this.props.add) {
             createOptions.isValidNewOption = isValidNewOption;
+            createOptions.isOptionUnique = isOptionUnique;
             createOptions.createNewOption = createNewOption;
             createOptions.createPrompt = GROUP_PROMPT;
         }
 
-        const className = getSelectClass(this.state.errors.length);
-
         return (
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <SelectSearch
-                    _className={className}
+                    __className={getSelectClass(this.state.errors.length)}
                     onChange={this.onChange}
                     name={this.props.name}
                     resultType={ResultType.group}

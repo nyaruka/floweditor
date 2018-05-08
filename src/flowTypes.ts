@@ -6,6 +6,7 @@ import {
 } from 'react-select';
 
 import { Operators } from './config/operatorConfigs';
+import { Types } from './config/typeConfigs';
 import AssetService from './services/AssetService';
 
 export interface Languages {
@@ -18,6 +19,7 @@ export interface Endpoints {
     recipients: string;
     flows: string;
     activity: string;
+    labels: string;
     simulateStart: string;
     simulateResume: string;
 }
@@ -60,8 +62,12 @@ export interface Exit {
     destination_node_uuid?: string;
 }
 
+export enum RouterTypes {
+    switch = 'switch'
+}
+
 export interface Router {
-    type: 'switch' | 'split';
+    type: RouterTypes;
     result_name?: string;
 }
 
@@ -87,7 +93,7 @@ export enum WaitTypes {
 
 export interface Wait {
     type: WaitTypes;
-    flow_uuid?: string;
+    timeout?: number;
 }
 
 export interface Group {
@@ -106,11 +112,6 @@ export enum Methods {
     PUT = 'PUT'
 }
 
-export interface Action {
-    type: string;
-    uuid: string;
-}
-
 export interface ChangeGroups extends Action {
     groups: Group[];
 }
@@ -118,6 +119,16 @@ export interface ChangeGroups extends Action {
 export interface Field {
     key: string;
     name: string;
+}
+
+export interface Label {
+    uuid: string;
+    name: string;
+}
+
+export interface Action {
+    type: Types;
+    uuid: string;
 }
 
 export interface SetContactField extends Action {
@@ -144,6 +155,10 @@ export interface BroadcastMsg extends Action {
     contacts: Contact[];
     groups: Group[];
     text: string;
+}
+
+export interface AddLabels extends Action {
+    labels: Label[];
 }
 
 export interface SetPreferredChannel extends Action {
@@ -197,10 +212,16 @@ export interface Dimensions {
     height: number;
 }
 
+export enum UINodeTypes {
+    split = 'split',
+    subflow = 'subflow',
+    webhook = 'webhook'
+}
+
 export interface UINode {
     position: FlowPosition;
     // ui type, used for split by expression, contact field, etc
-    type?: string;
+    type?: UINodeTypes | Types;
 }
 
 export interface StickyNote {

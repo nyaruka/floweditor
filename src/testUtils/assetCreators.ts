@@ -12,8 +12,10 @@ import {
     Field,
     FlowNode,
     Group,
+    Label,
     Methods,
     Router,
+    RouterTypes,
     SendEmail,
     SendMsg,
     SetContactField,
@@ -221,23 +223,27 @@ export const createExit = ({
 });
 
 // tslint:disable-next-line:variable-name
-export const createWait = (type: WaitTypes, flow_uuid?: string) => ({
+export const createWait = ({ type, timeout }: { type: WaitTypes; timeout?: number }) => ({
     type,
-    ...(flow_uuid ? { flow_uuid } : {})
+    ...(timeout ? { timeout } : {})
 });
 
 // tslint:disable-next-line:variable-name
 export const createRouter = (result_name?: string): Router => ({
-    type: 'switch',
+    type: RouterTypes.switch,
     ...(result_name ? { result_name } : {})
 });
 
-export const createSwitchRouter = (
-    cases: Case[],
-    operand: string,
+export const createSwitchRouter = ({
+    cases,
+    operand = '@input',
+    default_exit_uuid = null
+}: {
+    cases: Case[];
+    operand?: string;
     // tslint:disable-next-line:variable-name
-    default_exit_uuid: string
-) => ({
+    default_exit_uuid?: string;
+}) => ({
     ...createRouter(),
     cases,
     operand,
@@ -264,6 +270,27 @@ export const createFlowNode = ({
     ...(wait ? { wait } : ({} as any))
 });
 
+export const createWaitRouterNode = ({
+    exits,
+    cases,
+    uuid = 'wait-router',
+    timeout
+}: {
+    exits: Exit[];
+    cases: Case[];
+    timeout?: number;
+    uuid?: string;
+}): FlowNode =>
+    createFlowNode({
+        actions: [],
+        exits,
+        uuid,
+        router: createSwitchRouter({
+            cases
+        }),
+        wait: createWait({ type: WaitTypes.msg, timeout })
+    });
+
 export const createStartFlowNode = (
     startFlowAction: StartFlow,
     uuid: string = 'start_flow_node-0',
@@ -286,8 +313,8 @@ export const createStartFlowNode = (
             })
         ],
         uuid,
-        router: createSwitchRouter(
-            [
+        router: createSwitchRouter({
+            cases: [
                 createCase({
                     uuid: 'start_flow_case-0',
                     type: Operators.has_run_status,
@@ -301,10 +328,10 @@ export const createStartFlowNode = (
                     args: [StartFlowArgs.Expired]
                 })
             ],
-            '@child',
-            null
-        ),
-        wait: createWait(WaitTypes.flow, flow_uuid)
+            operand: '@child',
+            default_exit_uuid: null
+        }),
+        wait: createWait({ type: WaitTypes.flow })
     });
 
 export const createGroupsRouterNode = (
@@ -317,8 +344,8 @@ export const createGroupsRouterNode = (
             createExit({ uuid: group.uuid, name: group.name, destination_node_uuid: `node-${idx}` })
         ),
         uuid,
-        router: createSwitchRouter(
-            groups.map((group, idx) =>
+        router: createSwitchRouter({
+            cases: groups.map((group, idx) =>
                 createCase({
                     uuid: `split_by_group-${idx}`,
                     type: Operators.has_group,
@@ -326,13 +353,13 @@ export const createGroupsRouterNode = (
                     args: [group.uuid]
                 })
             ),
-            '@contact.groups',
-            null
-        ),
-        wait: createWait(WaitTypes.group)
+            operand: '@contact.groups',
+            default_exit_uuid: null
+        }),
+        wait: createWait({ type: WaitTypes.group })
     });
 
-export const getGroupOptions = (groups: Group[] = groupsResults): SearchResult[] =>
+export const getGroupOptions = (groups: Group[] = groupsResults) =>
     groups.map(({ name, uuid }) => ({
         name,
         id: uuid
@@ -345,3 +372,9 @@ export const getGroups = (sliceAt: number, groups: Group[] = groupsResults) =>
             id: uuid
         }))
         .slice(sliceAt);
+
+export const createAddLabelsAction = (labels: Label[]) => ({
+    type: Types.add_input_labels,
+    uuid: `labels-action-uuid-${labels.length}`,
+    labels
+});

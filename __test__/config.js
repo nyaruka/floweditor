@@ -16,6 +16,7 @@ module.exports =
                   groups: 'groups',
                   recipients: 'recipients',
                   fields: 'fields',
+                  labels: 'labels',
                   activity: '',
                   simulateStart: '',
                   simulateResume: ''
@@ -28,6 +29,7 @@ module.exports =
                   groups: '/assets/groups.json',
                   fields: '/assets/fields.json',
                   recipients: '/assets/recipients.json',
+                  labels: '/assets/labels.json',
                   activity: '',
                   simulateStart: '',
                   simulateResume: ''

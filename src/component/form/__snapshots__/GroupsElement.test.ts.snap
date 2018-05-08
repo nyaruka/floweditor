@@ -6,7 +6,7 @@ exports[`GroupsElement render should pass createOptions object if it's add prop 
   name="Groups"
 >
   <SelectSearch
-    _className=""
+    __className=""
     assets={
       GroupAssets {
         "assetType": "group",
@@ -19,20 +19,21 @@ exports[`GroupsElement render should pass createOptions object if it's add prop 
     createNewOption={[Function]}
     createPrompt="New group: "
     initial={Array []}
+    isOptionUnique={[Function]}
     isValidNewOption={[Function]}
     multi={true}
     name="Groups"
     onChange={[Function]}
     placeholder="Enter the name of an existing group..."
     resultType="group"
-    searchPromptText="Invalid group name"
+    searchPromptText="Invalid group"
   />
 </FormElement>
 `;
 
 exports[`GroupsElement render should render self, children with required props 1`] = `
 Object {
-  "_className": "",
+  "__className": "",
   "assets": GroupAssets {
     "assetType": "group",
     "assets": Object {},
@@ -46,7 +47,7 @@ Object {
   "onChange": [Function],
   "placeholder": "Enter the name of an existing group...",
   "resultType": "group",
-  "searchPromptText": "Invalid group name",
+  "searchPromptText": "Invalid group",
 }
 `;
 
@@ -56,7 +57,7 @@ exports[`GroupsElement render should render self, children with required props 2
   name="Groups"
 >
   <SelectSearch
-    _className=""
+    __className=""
     assets={
       GroupAssets {
         "assetType": "group",
@@ -72,7 +73,7 @@ exports[`GroupsElement render should render self, children with required props 2
     onChange={[Function]}
     placeholder="Enter the name of an existing group..."
     resultType="group"
-    searchPromptText="Invalid group name"
+    searchPromptText="Invalid group"
   />
 </FormElement>
 `;

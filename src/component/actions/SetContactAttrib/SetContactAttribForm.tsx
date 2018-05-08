@@ -21,17 +21,17 @@ export const TEXT_INPUT_HELP_TEXT =
 
 export default class SetContactAttribForm extends React.Component<SetContactAttribFormProps> {
     public static contextTypes = {
-        endpoints: fakePropType,
         assetService: fakePropType
     };
 
     constructor(props: SetContactAttribFormProps, context: ConfigProviderContext) {
         super(props);
+
         this.onValid = this.onValid.bind(this);
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        const { wrappedInstance: { state: { attribute } } } = widgets.Attribute;
+        const { state: { attribute } } = widgets.Attribute;
         const { wrappedInstance: { state: { value } } } = widgets.Value;
 
         if (attribute.type === AssetType.Field) {

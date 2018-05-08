@@ -110,6 +110,35 @@ body {
         }
     }
 
+    .select-small-timeout {
+        display: inline-block;
+        margin: 0;
+        margin-left: 8px;
+        top: 8px;
+        line-height: 22px;
+        .Select-menu-outer {
+            width: 125px;
+            .Select-option {
+                font-size: 12px;
+                padding: 3px 10px;
+            }
+        }
+        .Select-control {
+            font-size: 12px;
+            height: 22px;
+            width: 125px;
+            .Select-value {
+                line-height: 22px !important;
+                .Select-value-label {
+                    line-height: 22px;
+                }
+            }
+            .Select-input {
+                height: 22px;
+            }
+        }
+    }
+
     // jsplumb, no text selection while dragging
     .jtk-drag-select * {
         -webkit-touch-callout: none;
@@ -168,7 +197,7 @@ body {
     }
 
     .plumb-drop-hover {
-        
+
     }
 
     .plumb-endpoint-hover {

@@ -1,22 +1,25 @@
 import { v4 as generateUUID } from 'uuid';
+
+import { DefaultExitNames } from '../component/NodeEditor/NodeEditor';
 import { Types } from '../config/typeConfigs';
 import {
     AnyAction,
+    ChangeGroups,
+    Exit,
     FlowDefinition,
     FlowNode,
     FlowPosition,
     Languages,
-    SwitchRouter,
-    WaitTypes,
-    ChangeGroups,
+    RouterTypes,
     SetContactField,
-    Exit
+    SwitchRouter,
+    UINodeTypes,
+    WaitTypes,
+    AddLabels
 } from '../flowTypes';
+import { Asset, AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { RenderNode, RenderNodeMap } from './flowContext';
-import { BoolMap } from '../utils';
-import SetContactAttribForm from '../component/actions/SetContactAttrib/SetContactAttribForm';
-import { Asset, AssetType } from '../services/AssetService';
 
 export interface Bounds {
     left: number;
@@ -74,7 +77,7 @@ export const getLocalizations = (
     const localizations: LocalizedObject[] = [];
 
     // Account for localized cases
-    if (node.router && node.router.type === 'switch') {
+    if (node.router && node.router.type === RouterTypes.switch) {
         const router = node.router as SwitchRouter;
 
         router.cases.forEach(kase =>
@@ -215,7 +218,7 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
     };
 
     // Add an action if we are coming from a split
-    if (fromNode.node.wait || fromNode.ui.type === 'webhook') {
+    if (fromNode.node.wait || fromNode.ui.type === UINodeTypes.webhook) {
         const replyAction = {
             uuid: generateUUID(),
             type: Types.send_msg,
@@ -225,10 +228,10 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
         ghostNode.actions.push(replyAction);
     } else {
         // Otherwise we are going to a switch
-        ghostNode.exits[0].name = 'All Responses';
+        ghostNode.exits[0].name = DefaultExitNames.All_Responses;
         ghostNode.wait = { type: WaitTypes.msg };
         ghostNode.router = {
-            type: 'switch',
+            type: RouterTypes.switch,
             result_name: getSuggestedResultName(nodes)
         };
     }
@@ -240,6 +243,7 @@ export interface FlowComponents {
     renderNodeMap: RenderNodeMap;
     groups: Asset[];
     fields: Asset[];
+    labels: Asset[];
 }
 
 export const isGroupAction = (actionType: string) => {
@@ -259,12 +263,14 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
     // our groups and fields referenced within
     const groups: Asset[] = [];
     const fields: Asset[] = [];
+    const labels: Asset[] = [];
 
     // initialize our nodes
     const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
 
     const groupsMap: { [uuid: string]: string } = {};
     const fieldsMap: { [key: string]: { key: string; name: string } } = {};
+    const labelsMap: { [uuid: string]: string } = {};
 
     for (const node of nodes) {
         if (!node.actions) {
@@ -302,6 +308,10 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
             } else if (action.type === Types.set_contact_field) {
                 const fieldAction = action as SetContactField;
                 fieldsMap[fieldAction.field.key] = fieldAction.field;
+            } else if (action.type === Types.add_input_labels) {
+                for (const label of (action as AddLabels).labels) {
+                    labelsMap[label.uuid] = label.name;
+                }
             }
         }
 
@@ -332,5 +342,9 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
         fields.push({ name: fieldsMap[key].name, id: key, type: AssetType.Field });
     }
 
-    return { renderNodeMap, groups, fields };
+    for (const uuid of Object.keys(labelsMap)) {
+        labels.push({ name: labelsMap[uuid], id: uuid, type: AssetType.Label });
+    }
+
+    return { renderNodeMap, groups, fields, labels };
 };

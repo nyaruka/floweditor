@@ -1,23 +1,14 @@
-import { getTypeConfig } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
 import { ChangeGroups } from '../../../flowTypes';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../../testUtils';
 import { createAddGroupsAction } from '../../../testUtils/assetCreators';
-import { set, dump } from '../../../utils';
+import { set } from '../../../utils';
 import { labelSpecId } from './AddGroupsForm';
+import { mapAssetsToGroups, mapGroupsToAssets } from './helpers';
 import ChangeGroupFormProps from './props';
-import {
-    LABEL,
-    NOT_FOUND,
-    PLACEHOLDER,
-    REMOVE_FROM_ALL,
-    REMOVE_FROM_ALL_DESC,
-    RemoveGroupsForm
-} from './RemoveGroupsForm';
-import { mapGroupsToAssets, mapAssetsToGroups } from './helpers';
+import RemoveGroupsForm, { LABEL, REMOVE_FROM_ALL, REMOVE_FROM_ALL_DESC } from './RemoveGroupsForm';
 
 const addGroupsAction = createAddGroupsAction();
-const removeGroupConfig = getTypeConfig(Types.remove_contact_groups);
 const removeGroupsAction = {
     ...(addGroupsAction as ChangeGroups),
     type: Types.remove_contact_groups
@@ -28,8 +19,7 @@ const baseProps: ChangeGroupFormProps = {
     updateAction: jest.fn(),
     onBindWidget: jest.fn(),
     removeWidget: jest.fn(),
-    groups: [],
-    typeConfig: removeGroupConfig
+    groups: []
 };
 
 const { setup, spyOn } = composeComponentTestUtils(RemoveGroupsForm, baseProps);

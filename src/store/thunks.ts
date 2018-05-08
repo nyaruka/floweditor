@@ -54,6 +54,7 @@ import {
     updateOperand,
     updateResultName,
     updateShowResultName,
+    updateTimeout,
     updateTypeConfig,
     updateUserAddingAction
 } from './nodeEditor';
@@ -479,6 +480,8 @@ export const resetNodeEditingState = () => (dispatch: DispatchWithState, getStat
     if (nodeToEdit) {
         dispatch(updateNodeToEdit(null));
     }
+
+    dispatch(updateTimeout(null));
 };
 
 export const onUpdateAction = (action: AnyAction) => (
@@ -756,11 +759,11 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
 
     const type = determineConfigType(node, action, nodes);
     const typeConfig = getTypeConfig(type);
-    dispatch(updateTypeConfig(typeConfig));
 
     if (typeConfig.formHelper) {
         dispatch(updateForm(typeConfig.formHelper.actionToState(action)));
     }
+    dispatch(updateTypeConfig(getTypeConfig(type as Types)));
 
     let resultName = '';
 
@@ -768,6 +771,11 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
         /* istanbul ignore else */
         if (node.router.result_name) {
             ({ router: { result_name: resultName } } = node);
+        }
+
+        /* istanbul ignore else */
+        if (node.wait && node.wait.timeout) {
+            dispatch(updateTimeout(node.wait.timeout));
         }
 
         /* istanbul ignore else */

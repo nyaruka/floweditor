@@ -1,19 +1,19 @@
-const mutate = require('immutability-helper');
 import { v4 as generateUUID } from 'uuid';
+
 import { Types } from '../config/typeConfigs';
-import { Case, Exit, FlowDefinition, FlowPosition, SendMsg } from '../flowTypes';
+import { Case, Exit, FlowDefinition, FlowPosition, RouterTypes, SendMsg } from '../flowTypes';
 import {
     determineConfigType,
     getCollisions,
     getFlowComponents,
     getGhostNode,
     getLocalizations,
+    getOrderedNodes,
     getSuggestedResultName,
-    getUniqueDestinations,
-    getOrderedNodes
+    getUniqueDestinations
 } from './helpers';
-import { dump } from '../utils';
 
+const mutate = require('immutability-helper');
 describe('helpers', () => {
     const definition: FlowDefinition = require('../../__test__/flows/boring.json');
 
@@ -30,6 +30,14 @@ describe('helpers', () => {
             const flowDetails = getFlowComponents(definition);
             expect(flowDetails.fields).toEqual([
                 { name: 'Unknown Field', id: 'unknown_field', type: 'field' }
+            ]);
+        });
+
+        it('should find labels in definition', () => {
+            const flowDetails = getFlowComponents(definition);
+            expect(flowDetails.labels).toEqual([
+                { name: 'Help', id: 'label_0', type: 'label' },
+                { name: 'Feedback', id: 'label_1', type: 'label' }
             ]);
         });
     });
@@ -120,7 +128,7 @@ describe('helpers', () => {
         describe('getGhostNode', () => {
             it('should create a router from an action', () => {
                 const ghost = getGhostNode(nodes.node0, nodes);
-                expect(ghost.router.type).toBe('switch');
+                expect(ghost.router.type).toBe(RouterTypes.switch);
             });
             it('should create an action node from a switch', () => {
                 const ghost = getGhostNode(nodes.node1, nodes);
@@ -141,7 +149,7 @@ describe('helpers', () => {
 
             it('should return last action type if no action provided', () => {
                 const configType = determineConfigType(nodes.node0.node, null, nodes);
-                expect(configType).toBe(Types.remove_contact_groups);
+                expect(configType).toBe(Types.add_input_labels);
             });
 
             it('should use the router type if no actions', () => {
@@ -156,7 +164,7 @@ describe('helpers', () => {
                         actions: [],
                         exits: [],
                         router: {
-                            type: 'switch'
+                            type: RouterTypes.switch
                         }
                     },
                     null,
@@ -164,7 +172,7 @@ describe('helpers', () => {
                 );
 
                 // TODO: is this a valid type config type for the caller?
-                expect(configType).toBe('switch');
+                expect(configType).toBe(RouterTypes.switch);
             });
 
             it('should throw if no type is poissible', () => {

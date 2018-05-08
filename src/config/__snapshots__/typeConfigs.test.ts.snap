@@ -13,7 +13,7 @@ Array [
     "advanced": 1,
     "allows": [Function],
     "component": [Function],
-    "description": "Send them a message",
+    "description": "Send the contact a message",
     "form": [Function],
     "name": "Send Message",
     "type": "send_msg",
@@ -21,16 +21,27 @@ Array [
   Object {
     "allows": [Function],
     "component": [Function],
+<<<<<<< HEAD
     "description": "Send somebody else a message",
     "form": [Function],
     "formHelper": SendBroadcastFormHelper {},
     "name": "Send Broadcast",
     "type": "send_broadcast",
+=======
+    "description": "Label the incoming message",
+    "form": [Function],
+    "name": "Add Labels",
+    "type": "add_input_labels",
+>>>>>>> master
   },
   Object {
     "allows": [Function],
     "component": [Function],
+<<<<<<< HEAD
     "description": "Add them to a group",
+=======
+    "description": "Add the contact to a group",
+>>>>>>> master
     "form": [Function],
     "name": "Add to Group",
     "type": "add_contact_groups",
@@ -38,7 +49,7 @@ Array [
   Object {
     "allows": [Function],
     "component": [Function],
-    "description": "Remove them from a group",
+    "description": "Remove the contact from a group",
     "form": [Function],
     "name": "Remove from Group",
     "type": "remove_contact_groups",
@@ -114,7 +125,7 @@ Array [
       "switch",
     ],
     "allows": [Function],
-    "description": "Wait for them to respond",
+    "description": "Wait for the contact to respond",
     "form": [Function],
     "name": "Wait for Response",
     "type": "wait_for_response",
@@ -135,7 +146,7 @@ Array [
     "advanced": 1,
     "allows": [Function],
     "component": [Function],
-    "description": "Send them a message",
+    "description": "Send the contact a message",
     "form": [Function],
     "name": "Send Message",
     "type": "send_msg",
@@ -143,16 +154,27 @@ Array [
   Object {
     "allows": [Function],
     "component": [Function],
+<<<<<<< HEAD
     "description": "Send somebody else a message",
     "form": [Function],
     "formHelper": SendBroadcastFormHelper {},
     "name": "Send Broadcast",
     "type": "send_broadcast",
+=======
+    "description": "Label the incoming message",
+    "form": [Function],
+    "name": "Add Labels",
+    "type": "add_input_labels",
+>>>>>>> master
   },
   Object {
     "allows": [Function],
     "component": [Function],
+<<<<<<< HEAD
     "description": "Add them to a group",
+=======
+    "description": "Add the contact to a group",
+>>>>>>> master
     "form": [Function],
     "name": "Add to Group",
     "type": "add_contact_groups",
@@ -160,7 +182,7 @@ Array [
   Object {
     "allows": [Function],
     "component": [Function],
-    "description": "Remove them from a group",
+    "description": "Remove the contact from a group",
     "form": [Function],
     "name": "Remove from Group",
     "type": "remove_contact_groups",
@@ -200,10 +222,18 @@ Object {
   "add_contact_groups": Object {
     "allows": [Function],
     "component": [Function],
-    "description": "Add them to a group",
+    "description": "Add the contact to a group",
     "form": [Function],
     "name": "Add to Group",
     "type": "add_contact_groups",
+  },
+  "add_input_labels": Object {
+    "allows": [Function],
+    "component": [Function],
+    "description": "Label the incoming message",
+    "form": [Function],
+    "name": "Add Labels",
+    "type": "add_input_labels",
   },
   "call_webhook": Object {
     "advanced": 1,
@@ -227,7 +257,7 @@ Object {
   "remove_contact_groups": Object {
     "allows": [Function],
     "component": [Function],
-    "description": "Remove them from a group",
+    "description": "Remove the contact from a group",
     "form": [Function],
     "name": "Remove from Group",
     "type": "remove_contact_groups",
@@ -253,7 +283,7 @@ Object {
     "advanced": 1,
     "allows": [Function],
     "component": [Function],
-    "description": "Send them a message",
+    "description": "Send the contact a message",
     "form": [Function],
     "name": "Send Message",
     "type": "send_msg",
@@ -331,7 +361,7 @@ Object {
       "switch",
     ],
     "allows": [Function],
-    "description": "Wait for them to respond",
+    "description": "Wait for the contact to respond",
     "form": [Function],
     "name": "Wait for Response",
     "type": "wait_for_response",
@@ -342,7 +372,7 @@ Object {
       "switch",
     ],
     "allows": [Function],
-    "description": "Wait for them to respond",
+    "description": "Wait for the contact to respond",
     "form": [Function],
     "name": "Wait for Response",
     "type": "wait_for_response",

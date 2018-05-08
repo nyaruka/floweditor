@@ -1,0 +1,269 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SwitchRouterForm helpers casePropsFromElement should convert CaseElement properties into a CaseElementProps object 1`] = `
+Object {
+  "exitName": "No",
+  "kase": Object {
+    "arguments": Array [
+      "no",
+    ],
+    "exit_uuid": null,
+    "type": "has_any_word",
+    "uuid": "75541df6-f5f7-4f7b-944b-9604cd6cf338",
+  },
+}
+`;
+
+exports[`SwitchRouterForm helpers getItemStyle should return modified draggable style 1`] = `
+Object {
+  "WebkitTapHighlightColor": "rgba(0,0,0,0)",
+  "WebkitTouchCallout": "none",
+  "background": "#f2f9fc",
+  "borderRadius": 4,
+  "boxSizing": "border-box",
+  "height": 55,
+  "left": 20,
+  "margin": 0,
+  "opacity": 0.75,
+  "outline": "none",
+  "pointerEvents": "none",
+  "position": "fixed",
+  "top": 172,
+  "touchAction": "manipulation",
+  "transform": "translate(0px, 0.036933467580315696px)",
+  "userSelect": "none",
+  "width": 605,
+  "zIndex": 4500,
+}
+`;
+
+exports[`SwitchRouterForm instance methods getCaseContext should return unwrapped, empty case 1`] = `
+<React.Fragment>
+  <div
+    className="instructions"
+    data-spec="lead-in"
+  >
+    If the message response...
+  </div>
+  <React.Fragment>
+    <CaseElement
+      data-spec="case"
+      empty={true}
+      exitName=""
+      kase={
+        Object {
+          "exit_uuid": null,
+          "type": "has_any_word",
+          "uuid": "generated_uuid_1",
+        }
+      }
+      key="generated_uuid_1"
+      name="case_generated_uuid_1"
+      onChange={[Function]}
+      onRemove={[Function]}
+    />
+  </React.Fragment>
+</React.Fragment>
+`;
+
+exports[`SwitchRouterForm instance methods getCasesToRender should add an undraggable, displayable case 1`] = `
+<React.Fragment>
+  <div
+    className="instructions"
+    data-spec="lead-in"
+  >
+    If the message response...
+  </div>
+  <React.Fragment>
+    <DragDropContext
+      onDragEnd={[Function]}
+    >
+      <Connect(Droppable)
+        droppableId="droppable"
+      />
+    </DragDropContext>
+    <CaseElement
+      data-spec="case"
+      empty={true}
+      exitName=""
+      kase={
+        Object {
+          "exit_uuid": null,
+          "type": "has_any_word",
+          "uuid": "generated_uuid_1",
+        }
+      }
+      key="generated_uuid_1"
+      name="case_generated_uuid_1"
+      onChange={[Function]}
+      onRemove={[Function]}
+    />
+  </React.Fragment>
+</React.Fragment>
+`;
+
+exports[`SwitchRouterForm instance methods getCasesToRender should add partially-formed case 1`] = `
+Object {
+  "data-spec": "case",
+  "exitName": "",
+  "focusArgs": undefined,
+  "focusExit": undefined,
+  "focusMax": undefined,
+  "focusMin": undefined,
+  "kase": Object {
+    "arguments": Array [],
+    "exit_uuid": null,
+    "type": "has_all_words",
+    "uuid": "partial-case",
+  },
+  "name": "case_partial-case",
+  "onChange": [Function],
+  "onRemove": [Function],
+}
+`;
+
+exports[`SwitchRouterForm instance methods getCasesToRender should hold off on adding an empty case if displayable case's operator expects 1 or more operand and its arguments and exitName are empty 1`] = `
+Object {
+  "data-spec": "case",
+  "exitName": "",
+  "focusArgs": undefined,
+  "focusExit": undefined,
+  "focusMax": undefined,
+  "focusMin": undefined,
+  "kase": Object {
+    "arguments": Array [],
+    "exit_uuid": null,
+    "type": "has_all_words",
+    "uuid": "partial-case",
+  },
+  "name": "case_partial-case",
+  "onChange": [Function],
+  "onRemove": [Function],
+}
+`;
+
+exports[`SwitchRouterForm instance methods getLeadIn should return expression input 1`] = `
+<div
+  className="instructions"
+  data-spec="lead-in"
+>
+  <React.Fragment>
+    <p>
+      If the expression...
+    </p>
+    <Connect(TextInputElement)
+      autocomplete={true}
+      key="wait-router"
+      name="Expression"
+      onChange={[MockFunction]}
+      required={true}
+      showLabel={false}
+      value="@run.input"
+    />
+  </React.Fragment>
+</div>
+`;
+
+exports[`SwitchRouterForm render should render advanced form 1`] = `
+<React.Fragment>
+  <div
+    className="translatingOperatorTitle"
+    data-spec="advanced-title"
+  >
+    Rules
+  </div>
+  <div
+    className="translatingOperatorInstructions"
+    data-spec="advanced-instructions"
+  >
+    Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.
+  </div>
+  <div
+    className="translating_operator_container"
+    data-spec="operator-field"
+    key="translate_case-0"
+  >
+    <div
+      className="translating_operator"
+      data-spec="verbose-name"
+    >
+      has any of the words
+    </div>
+    <div
+      className="translating_from"
+      data-spec="argument-to-translate"
+    >
+      y, yes
+    </div>
+    <div
+      className="translating_to"
+    >
+      <Connect(TextInputElement)
+        data-spec="translation-input"
+        name="case-0"
+        placeholder="English Translation"
+        showLabel={false}
+        value="si, simón"
+      />
+    </div>
+  </div>
+  <div
+    className="translating_operator_container"
+    data-spec="operator-field"
+    key="translate_case-1"
+  >
+    <div
+      className="translating_operator"
+      data-spec="verbose-name"
+    >
+      has any of the words
+    </div>
+    <div
+      className="translating_from"
+      data-spec="argument-to-translate"
+    >
+      n, no
+    </div>
+    <div
+      className="translating_to"
+    >
+      <Connect(TextInputElement)
+        data-spec="translation-input"
+        name="case-1"
+        placeholder="English Translation"
+        showLabel={false}
+        value=""
+      />
+    </div>
+  </div>
+  <div
+    className="translating_operator_container"
+    data-spec="operator-field"
+    key="translate_case-2"
+  >
+    <div
+      className="translating_operator"
+      data-spec="verbose-name"
+    />
+    <div
+      className="translating_from"
+      data-spec="argument-to-translate"
+    >
+      @run
+    </div>
+    <div
+      className="translating_to"
+    >
+      <Connect(TextInputElement)
+        data-spec="translation-input"
+        name="case-2"
+        placeholder="English Translation"
+        showLabel={false}
+        value=""
+      />
+    </div>
+  </div>
+</React.Fragment>
+`;
+
+exports[`SwitchRouterForm render should render exit translation form 1`] = `<div />`;
