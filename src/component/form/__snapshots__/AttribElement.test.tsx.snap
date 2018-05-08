@@ -12,6 +12,11 @@ exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
       FieldAssets {
         "assetType": "field",
         "assets": Object {
+          "language": Object {
+            "id": "language",
+            "name": "Language",
+            "type": "property",
+          },
           "name": Object {
             "id": "name",
             "name": "Name",
@@ -53,6 +58,11 @@ Object {
   "assets": FieldAssets {
     "assetType": "field",
     "assets": Object {
+      "language": Object {
+        "id": "language",
+        "name": "Language",
+        "type": "property",
+      },
       "name": Object {
         "id": "name",
         "name": "Name",
@@ -92,6 +102,11 @@ exports[`AttribElement render should render self, children with base props 2`] =
       FieldAssets {
         "assetType": "field",
         "assets": Object {
+          "language": Object {
+            "id": "language",
+            "name": "Language",
+            "type": "property",
+          },
           "name": Object {
             "id": "name",
             "name": "Name",

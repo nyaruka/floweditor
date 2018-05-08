@@ -11,7 +11,7 @@ Object {
 
 exports[`propertyToAsset should return an Asset object 1`] = `
 Object {
-  "id": "Email",
+  "id": "email",
   "name": "Email",
   "type": "property",
 }

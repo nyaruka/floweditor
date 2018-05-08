@@ -6,6 +6,11 @@ Object {
   "assets": FieldAssets {
     "assetType": "field",
     "assets": Object {
+      "language": Object {
+        "id": "language",
+        "name": "Language",
+        "type": "property",
+      },
       "name": Object {
         "id": "name",
         "name": "Name",
@@ -18,7 +23,7 @@ Object {
   },
   "helpText": "Select an existing attribute to update or type any name to create a new one",
   "initial": Object {
-    "id": "Email",
+    "id": "email",
     "name": "Email",
     "type": "property",
   },

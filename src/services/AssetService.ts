@@ -1,7 +1,9 @@
 // tslint:disable:max-classes-per-file
 import axios, { AxiosResponse } from 'axios';
+
 import { ContactProperties, FlowEditorConfig, Group } from '../flowTypes';
 import { FlowComponents } from '../store/helpers';
+import { titleCase } from '../utils';
 
 export enum AssetType {
     Channel = 'channel',
@@ -227,15 +229,15 @@ class GroupAssets extends Assets {
 class FieldAssets extends Assets {
     public static CONTACT_PROPERTIES: Asset[] = [
         {
-            name: ContactProperties.Name,
-            id: ContactProperties.Name.toLowerCase(),
+            name: titleCase(ContactProperties.Name),
+            id: ContactProperties.Name,
+            type: AssetType.Property
+        },
+        {
+            name: titleCase(ContactProperties.Language),
+            id: ContactProperties.Language,
             type: AssetType.Property
         }
-        /*{
-            name: ContactProperties.Language,
-            id: ContactProperties.Language.toLowerCase(),
-            type: AttributeType.property
-        }*/
     ];
 
     constructor(endpoint: string, localStorage: boolean) {

@@ -227,19 +227,19 @@ export type AnyAction =
     | StartFlow;
 
 export enum ContactProperties {
-    UUID = 'UUID',
-    'Created By' = 'Created By',
-    'Modified By' = 'Modified By',
-    Org = 'Org',
-    Name = 'Name',
-    Language = 'Language',
-    Timezone = 'Timezone',
-    Email = 'Email',
-    Mailto = 'Mailto',
-    Phone = 'Phone',
-    Groups = 'Groups',
-    Facebook = 'Facebook',
-    Telegram = 'Telegram'
+    UUID = 'uuid',
+    'Created By' = 'created_by',
+    'Modified By' = 'modified_by',
+    Org = '0rg',
+    Name = 'name',
+    Language = 'language',
+    Timezone = 'timezone',
+    Email = 'email',
+    Mailto = 'mailto',
+    Phone = 'phone',
+    Groups = 'groups',
+    Facebook = 'facebook',
+    Telegram = 'telegram'
 }
 
 export enum ResultType {
