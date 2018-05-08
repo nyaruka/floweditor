@@ -1,9 +1,15 @@
+import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 
 import { ResultType } from '../../flowTypes';
 import { Asset, Assets, AssetType } from '../../services/AssetService';
-import { composeCreateNewOption, getSelectClass, isValidNewOption, jsonEqual } from '../../utils';
+import {
+    composeCreateNewOption,
+    getSelectClass,
+    isOptionUnique,
+    isValidNewOption
+} from '../../utils';
 import SelectSearch from '../SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
@@ -57,14 +63,14 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
         if (
             nextProps.groups &&
             nextProps.groups.length &&
-            !jsonEqual(nextProps.groups, this.props.groups)
+            !isEqual(nextProps.groups, this.props.groups)
         ) {
             this.setState({ groups: nextProps.groups });
         }
     }
 
     private onChange(groups: Asset[]): void {
-        if (!jsonEqual(groups, this.state.groups)) {
+        if (!isEqual(groups, this.state.groups)) {
             this.setState(
                 {
                     groups
@@ -95,6 +101,7 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
 
         if (this.props.add) {
             createOptions.isValidNewOption = isValidNewOption;
+            createOptions.isOptionUnique = isOptionUnique;
             createOptions.createNewOption = createNewOption;
             createOptions.createPrompt = GROUP_PROMPT;
         }

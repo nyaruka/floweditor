@@ -12,6 +12,7 @@ import {
     hasErrorType,
     isOptionUnique,
     isRealValue,
+    isValidNewOption,
     jsonEqual,
     merge,
     optionExists,
@@ -26,8 +27,7 @@ import {
     titleCase,
     toBoolMap,
     unset,
-    validUUID,
-    isValidNewOption
+    validUUID
 } from '.';
 import { operatorConfigList } from '../config';
 import { ContactProperties } from '../flowTypes';

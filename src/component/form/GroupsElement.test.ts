@@ -1,6 +1,6 @@
 import { composeComponentTestUtils, configProviderContext, setMock } from '../../testUtils';
 import { createSelectOption, getGroups } from '../../testUtils/assetCreators';
-import { set, setTrue, validUUID } from '../../utils';
+import { validUUID } from '../../utils';
 import GroupsElement, {
     createNewOption,
     GROUP_NOT_FOUND,
@@ -44,7 +44,7 @@ describe(GroupsElement.name, () => {
         });
 
         it("should pass createOptions object if it's add prop is true", () => {
-            const { wrapper, instance } = setup(true, { add: setTrue() });
+            const { wrapper, instance } = setup(true, { add: { $set: true } });
             const selectSearch = wrapper.find('SelectSearch');
 
             expect(selectSearch.prop('isValidNewOption')).toEqual(expect.any(Function));
@@ -76,7 +76,7 @@ describe(GroupsElement.name, () => {
                 const setStateSpy = spyOn('setState');
                 const groups = getGroups(2);
                 const { wrapper, instance } = setup(true, {
-                    groups: set(groups)
+                    groups: { $set: groups }
                 });
                 const newGroups = getGroups(3);
                 const nextProps = { ...baseProps, groups: newGroups };
@@ -119,7 +119,7 @@ describe(GroupsElement.name, () => {
         describe('validate', () => {
             it('should return false, update errors state not valid', () => {
                 const { wrapper, instance, props: { name } } = setup(true, {
-                    required: setTrue()
+                    required: { $set: true }
                 });
 
                 expect(instance.validate()).toBeFalsy();
@@ -129,7 +129,7 @@ describe(GroupsElement.name, () => {
             it('should return true if valid', () => {
                 const groups = getGroups(2);
                 const { wrapper, instance, props: { name } } = setup(true, {
-                    required: setTrue()
+                    required: { $set: true }
                 });
 
                 expect(instance.onChange(groups));
