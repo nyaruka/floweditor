@@ -1,33 +1,34 @@
-import { SetContactField, SetContactProperty } from '../../../flowTypes';
+import { SetContactField, SetContactProperty, SetContactName } from '../../../flowTypes';
 import { composeComponentTestUtils } from '../../../testUtils';
 import {
     createSetContactFieldAction,
-    createSetContactPropertyAction
+    createSetContactNameAction
 } from '../../../testUtils/assetCreators';
 import { setEmpty, titleCase } from '../../../utils';
-import SetContactAttribComp, { getFieldNameMarkup } from './SetContactAttrib';
+import SetContactAttribComp, { getAttribNameMarkup } from './SetContactAttrib';
+import { name } from '../SendBroadcast/SendBroadcast.scss';
 
-const setContactProperty = createSetContactPropertyAction();
+const setContactName = createSetContactNameAction();
 const setContactField = createSetContactFieldAction();
 
 const { setup } = composeComponentTestUtils<SetContactProperty | SetContactField>(
     SetContactAttribComp,
-    setContactProperty as SetContactProperty
+    setContactName as SetContactProperty
 );
 
 describe(SetContactAttribComp.name, () => {
     describe('render', () => {
         describe('helpers', () => {
-            describe('getFieldNameMarkup', () => {
+            describe('getAttribNameMarkup', () => {
                 it('should return emphasized property', () => {
                     expect(
-                        getFieldNameMarkup(setContactProperty as SetContactProperty)
+                        getAttribNameMarkup(setContactName as SetContactProperty)
                     ).toMatchSnapshot();
                 });
 
                 it('should return emphasized field name', () => {
                     expect(
-                        getFieldNameMarkup(setContactField as SetContactField)
+                        getAttribNameMarkup(setContactField as SetContactField)
                     ).toMatchSnapshot();
                 });
             });
@@ -36,20 +37,16 @@ describe(SetContactAttribComp.name, () => {
         it("should render with 'update...' div when value prop passed", () => {
             const { wrapper, props } = setup();
 
-            expect(wrapper.text()).toBe(
-                `Update ${titleCase((props as SetContactProperty).property)} to ${props.value}`
-            );
+            expect(wrapper.text()).toBe(`Update Name to ${(props as SetContactName).name}`);
             expect(wrapper).toMatchSnapshot();
         });
 
         it("should render with 'clear...' div when value prop isn't passed", () => {
             const { wrapper, props } = setup(true, {
-                value: setEmpty()
+                name: { $set: '' }
             });
 
-            expect(wrapper.text()).toBe(
-                `Clear value for ${titleCase((props as SetContactProperty).property)}`
-            );
+            expect(wrapper.text()).toBe('Clear value for Name');
             expect(wrapper).toMatchSnapshot();
         });
     });

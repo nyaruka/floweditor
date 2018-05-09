@@ -1,24 +1,24 @@
-import { SetContactField, SetContactProperty } from '../../../flowTypes';
+import { SetContactField, SetContactName, SetContactProperty } from '../../../flowTypes';
+import { AssetType } from '../../../services/AssetService';
 import { composeComponentTestUtils, setMock } from '../../../testUtils';
 import {
     createSetContactFieldAction,
-    createSetContactPropertyAction
+    createSetContactNameAction
 } from '../../../testUtils/assetCreators';
 import { set } from '../../../utils';
 import ConnectedAttribElement from '../../form/AttribElement';
 import ConnectedTextInputElement from '../../form/TextInputElement';
-import { newFieldAction, newPropertyAction, propertyToAsset, fieldToAsset } from './helpers';
+import { fieldToAsset, newFieldAction, newPropertyAction, propertyToAsset } from './helpers';
 import SetContactAttribForm, {
-    ATTRIB_HELP_TEXT,
     SetContactAttribFormProps,
     TEXT_INPUT_HELP_TEXT
 } from './SetContactAttribForm';
 
-const setContactProperty = createSetContactPropertyAction();
+const setContactName = createSetContactNameAction();
 const setContactField = createSetContactFieldAction();
 
 const baseProps: SetContactAttribFormProps = {
-    action: setContactProperty,
+    action: setContactName,
     onBindWidget: jest.fn(),
     updateAction: jest.fn()
 };
@@ -41,7 +41,7 @@ describe(SetContactAttribForm.name, () => {
             expect(wrapper.find(ConnectedTextInputElement).props()).toEqual({
                 name: 'Value',
                 showLabel: true,
-                value: props.action.value,
+                value: (props.action as SetContactName).name,
                 helpText: TEXT_INPUT_HELP_TEXT,
                 autocomplete: true
             });
@@ -68,7 +68,7 @@ describe(SetContactAttribForm.name, () => {
         });
 
         describe('onValid', () => {
-            it('should call updateAction prop with new SetContactField action', () => {
+            it('should call updateAction prop with new set_contact_field action', () => {
                 const {
                     wrapper,
                     instance,
@@ -76,12 +76,12 @@ describe(SetContactAttribForm.name, () => {
                 } = setup(true, {
                     addContactField: setMock(),
                     updateAction: setMock(),
-                    action: set(setContactField)
+                    action: { $set: setContactField }
                 });
                 const attribute = fieldToAsset(action as SetContactField);
-                const { value } = action;
+                const { value } = action as SetContactField;
                 const widgets = {
-                    Attribute: { state: { attribute } },
+                    Attribute: { wrappedInstance: { state: { attribute } } },
                     Value: { wrappedInstance: { state: { value } } }
                 };
 
@@ -89,28 +89,28 @@ describe(SetContactAttribForm.name, () => {
 
                 expect(updateActionMock).toHaveBeenCalledTimes(1);
                 expect(updateActionMock).toHaveBeenCalledWith(
-                    newFieldAction(action.uuid, value, attribute.name)
+                    newFieldAction({ uuid: action.uuid, value, name: attribute.name })
                 );
             });
 
-            it('should call updateAction prop with new SetContactProperty action', () => {
+            it('should call updateAction prop with new set_contact_name action', () => {
                 const {
                     wrapper,
                     instance,
                     props: { action, updateAction: updateActionMock }
                 } = setup(true, { updateAction: setMock() });
-                const attribute = propertyToAsset(action as SetContactProperty);
-                const { value } = action;
+                const attribute = propertyToAsset(action as SetContactName);
+                const { name } = action as SetContactName;
                 const widgets = {
-                    Attribute: { state: { attribute } },
-                    Value: { wrappedInstance: { state: { value } } }
+                    Attribute: { wrappedInstance: { state: { attribute } } },
+                    Value: { wrappedInstance: { state: { value: name } } }
                 };
 
                 instance.onValid(widgets);
 
                 expect(updateActionMock).toHaveBeenCalledTimes(1);
                 expect(updateActionMock).toHaveBeenCalledWith(
-                    newPropertyAction(action.uuid, value, attribute.name)
+                    newPropertyAction({ uuid: action.uuid, value: name, type: AssetType.Name })
                 );
             });
         });

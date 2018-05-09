@@ -11,7 +11,7 @@ import {
     UpdateTimeout,
     UpdateTranslating,
     UpdateTypeConfig,
-    UpdateUserAddingAction,
+    UpdateUserAddingAction
 } from './actionTypes';
 import Constants from './constants';
 import createStore from './createStore';
@@ -25,7 +25,7 @@ import {
     updateLanguage,
     updateNodeDragging,
     updateNodeEditorOpen,
-    updateTranslating,
+    updateTranslating
 } from './flowEditor';
 import {
     updateActionToEdit,
@@ -34,7 +34,7 @@ import {
     updateShowResultName,
     updateTimeout,
     updateTypeConfig,
-    updateUserAddingAction,
+    updateUserAddingAction
 } from './nodeEditor';
 import AppState, { initialState } from './state';
 import {
@@ -74,7 +74,7 @@ import {
     updateDimensions,
     UpdateDimensions,
     UpdateSticky,
-    updateSticky,
+    updateSticky
 } from './thunks';
 
 export {

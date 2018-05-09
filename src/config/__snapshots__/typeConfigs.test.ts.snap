@@ -21,6 +21,15 @@ Array [
   Object {
     "allows": [Function],
     "component": [Function],
+    "description": "Send somebody else a message",
+    "form": [Function],
+    "formHelper": SendBroadcastFormHelper {},
+    "name": "Send Broadcast",
+    "type": "send_broadcast",
+  },
+  Object {
+    "allows": [Function],
+    "component": [Function],
     "description": "Label the incoming message",
     "form": [Function],
     "name": "Add Labels",
@@ -44,7 +53,7 @@ Array [
   },
   Object {
     "aliases": Array [
-      "set_contact_property",
+      "set_contact_name",
     ],
     "allows": [Function],
     "component": [Function],
@@ -142,6 +151,15 @@ Array [
   Object {
     "allows": [Function],
     "component": [Function],
+    "description": "Send somebody else a message",
+    "form": [Function],
+    "formHelper": SendBroadcastFormHelper {},
+    "name": "Send Broadcast",
+    "type": "send_broadcast",
+  },
+  Object {
+    "allows": [Function],
+    "component": [Function],
     "description": "Label the incoming message",
     "form": [Function],
     "name": "Add Labels",
@@ -165,7 +183,7 @@ Array [
   },
   Object {
     "aliases": Array [
-      "set_contact_property",
+      "set_contact_name",
     ],
     "allows": [Function],
     "component": [Function],
@@ -238,6 +256,15 @@ Object {
     "name": "Remove from Group",
     "type": "remove_contact_groups",
   },
+  "send_broadcast": Object {
+    "allows": [Function],
+    "component": [Function],
+    "description": "Send somebody else a message",
+    "form": [Function],
+    "formHelper": SendBroadcastFormHelper {},
+    "name": "Send Broadcast",
+    "type": "send_broadcast",
+  },
   "send_email": Object {
     "allows": [Function],
     "component": [Function],
@@ -257,7 +284,7 @@ Object {
   },
   "set_contact_field": Object {
     "aliases": Array [
-      "set_contact_property",
+      "set_contact_name",
     ],
     "allows": [Function],
     "component": [Function],
@@ -266,9 +293,9 @@ Object {
     "name": "Update Contact",
     "type": "set_contact_field",
   },
-  "set_contact_property": Object {
+  "set_contact_name": Object {
     "aliases": Array [
-      "set_contact_property",
+      "set_contact_name",
     ],
     "allows": [Function],
     "component": [Function],

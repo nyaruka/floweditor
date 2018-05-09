@@ -1,18 +1,26 @@
+import { getTypeConfig } from '../../config';
+import { Types } from '../../config/typeConfigs';
 import { Asset, AssetType } from '../../services/AssetService';
-import { composeComponentTestUtils, configProviderContext } from '../../testUtils';
+import { composeComponentTestUtils, configProviderContext, setMock } from '../../testUtils';
+import {
+    createSetContactFieldAction,
+    createSetContactNameAction
+} from '../../testUtils/assetCreators';
 import { isOptionUnique, isValidNewOption } from '../../utils';
-import AttribElement, { AttribElementProps, CREATE_PROMPT, createNewOption } from './AttribElement';
+import { fieldToAsset, propertyToAsset } from '../actions/SetContactAttrib/helpers';
+import { AttribElement, AttribElementProps, CREATE_PROMPT, createNewOption } from './AttribElement';
 
 const initial: Asset = {
     id: 'name',
     name: 'Name',
-    type: AssetType.Property
+    type: AssetType.Name
 };
 
 const baseProps: AttribElementProps = {
     name: 'Attribute',
     initial,
-    assets: configProviderContext.assetService.getFieldAssets()
+    assets: configProviderContext.assetService.getFieldAssets(),
+    updateTypeConfig: jest.fn()
 };
 
 const { setup, spyOn } = composeComponentTestUtils(AttribElement, baseProps);
@@ -34,22 +42,6 @@ describe(AttribElement.name, () => {
     });
 
     describe('render', () => {
-        it('should render self, children with base props', () => {
-            const { wrapper, instance, props: { showLabel, name, helpText, assets } } = setup();
-
-            expect(wrapper.find('FormElement').props()).toEqual(
-                expect.objectContaining({
-                    showLabel,
-                    name,
-                    helpText,
-                    errors: [],
-                    attribError: false
-                })
-            );
-            expect(wrapper.find('SelectSearch').props()).toMatchSnapshot();
-            expect(wrapper).toMatchSnapshot();
-        });
-
         it('should pass createOptions to SelectSearch', () => {
             const { wrapper } = setup(true, { add: { $set: true } });
 
@@ -67,7 +59,7 @@ describe(AttribElement.name, () => {
 
     describe('instance methods', () => {
         const existingField: Asset = {
-            id: '2003ec76-69e3-455e-a603-938ad90cb53f',
+            id: 'field-0',
             name: 'National ID',
             type: AssetType.Field
         };
@@ -80,7 +72,10 @@ describe(AttribElement.name, () => {
                 instance.onChange(existingField);
 
                 expect(setStateSpy).toHaveBeenCalledTimes(1);
-                expect(setStateSpy).toHaveBeenCalledWith({ attribute: existingField });
+                expect(setStateSpy).toHaveBeenCalledWith(
+                    { attribute: existingField },
+                    expect.any(Function)
+                );
 
                 setStateSpy.mockRestore();
             });
@@ -95,6 +90,22 @@ describe(AttribElement.name, () => {
                 expect(setStateSpy).toHaveBeenCalledTimes(0);
 
                 setStateSpy.mockRestore();
+            });
+
+            it('should update typeConfig', () => {
+                const setContactFieldAsset = fieldToAsset(createSetContactFieldAction());
+                const { wrapper, instance, props } = setup(false, {
+                    initial: { $set: setContactFieldAsset },
+                    updateTypeConfig: setMock()
+                });
+                const setContactPropertyAsset = propertyToAsset(createSetContactNameAction());
+
+                instance.onChange(setContactPropertyAsset);
+
+                expect(props.updateTypeConfig).toHaveBeenCalledTimes(1);
+                expect(props.updateTypeConfig).toHaveBeenCalledWith(
+                    getTypeConfig(Types.set_contact_name)
+                );
             });
         });
 

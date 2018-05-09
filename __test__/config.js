@@ -14,11 +14,12 @@ module.exports =
               endpoints: {
                   flows: 'flows',
                   groups: 'groups',
-                  contacts: 'contacts',
+                  recipients: 'recipients',
                   fields: 'fields',
                   labels: 'labels',
                   activity: '',
-                  engine: ''
+                  simulateStart: '',
+                  simulateResume: ''
               }
           })
         : Object.assign({}, config, {
@@ -26,10 +27,11 @@ module.exports =
               endpoints: {
                   flows: '/assets/flows.json',
                   groups: '/assets/groups.json',
-                  contacts: '/assets/contacts.json',
                   fields: '/assets/fields.json',
+                  recipients: '/assets/recipients.json',
                   labels: '/assets/labels.json',
                   activity: '',
-                  engine: ''
+                  simulateStart: '',
+                  simulateResume: ''
               }
           });

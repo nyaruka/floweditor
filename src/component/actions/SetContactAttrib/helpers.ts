@@ -5,7 +5,15 @@ import { snakify, titleCase } from '../../../utils';
 
 export type ContactProperty = Types.set_contact_name;
 
-export const newFieldAction = (uuid: string, value: string, name: string): SetContactField => ({
+export const newFieldAction = ({
+    uuid,
+    value,
+    name
+}: {
+    uuid: string;
+    value: string;
+    name: string;
+}): SetContactField => ({
     type: Types.set_contact_field,
     field: {
         key: snakify(name),
@@ -15,19 +23,23 @@ export const newFieldAction = (uuid: string, value: string, name: string): SetCo
     value
 });
 
-export const newPropertyAction = (
-    uuid: string,
-    value: string,
-    type: ContactProperty
-): SetContactProperty => {
-    const action: Action = {
-        uuid,
-        type
+export const newPropertyAction = ({
+    uuid,
+    value,
+    type
+}: {
+    uuid: string;
+    value: string;
+    type: AssetType;
+}): SetContactProperty => {
+    const action: Partial<Action> = {
+        uuid
     };
     switch (type) {
-        case Types.set_contact_name:
+        case AssetType.Name:
             return {
                 ...action,
+                type: Types.set_contact_name,
                 name: value
             } as SetContactName;
     }
@@ -40,15 +52,12 @@ export const fieldToAsset = ({ field: { key, name } }: SetContactField): Asset =
 });
 
 export const propertyToAsset = (property: SetContactProperty): Asset => {
-    const asset = {
-        type: AssetType.Property
-    };
     switch (property.type) {
         case Types.set_contact_name:
             return {
-                ...asset,
-                name: titleCase(property.name),
-                id: property.name
+                type: AssetType.Name,
+                name: titleCase(AssetType.Name),
+                id: AssetType.Name
             };
     }
 };

@@ -37,17 +37,19 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        const { state: { attribute } } = widgets.Attribute;
+        const { wrappedInstance: { state: { attribute } } } = widgets.Attribute;
         const { wrappedInstance: { state: { value } } } = widgets.Value;
 
         if (attribute.type === AssetType.Field) {
             // include our contact field in our local storage
             const assetService: AssetService = this.context.assetService;
             assetService.getFieldAssets().add(attribute);
-            this.props.updateAction(newFieldAction(this.props.action.uuid, value, attribute.name));
+            this.props.updateAction(
+                newFieldAction({ uuid: this.props.action.uuid, value, name: attribute.name })
+            );
         } else {
             this.props.updateAction(
-                newPropertyAction(this.props.action.uuid, value, attribute.name)
+                newPropertyAction({ uuid: this.props.action.uuid, value, type: attribute.type })
             );
         }
     }
@@ -66,8 +68,6 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
                 return this.props.action.value;
             case Types.set_contact_name:
                 return (this.props.action as SetContactName).name;
-            default:
-                return '';
         }
     }
 

@@ -1,6 +1,5 @@
-import AssetService, { Assets, AssetType, Asset, LabelAssets } from './AssetService';
-import { dump } from '../utils';
 import * as config from '../../__test__/config';
+import AssetService, { Assets, AssetSearchResult, AssetType } from './AssetService';
 
 describe('AssetService', () => {
     let assetService: AssetService;
@@ -35,29 +34,29 @@ describe('AssetService', () => {
             });
 
             it('should return everything for empty search', () => {
-                return groups.search('').then((results: Asset[]) => {
-                    expect(results.length).toBe(8);
+                return groups.search('').then((results: AssetSearchResult) => {
+                    expect(results.assets.length).toBe(8);
                     expect(results).toMatchSnapshot('empty');
                 });
             });
 
             it('should search for "monkey"', () => {
-                return groups.search('monkey').then((results: Asset[]) => {
-                    expect(results.length).toBe(3);
+                return groups.search('monkey').then((results: AssetSearchResult) => {
+                    expect(results.assets.length).toBe(3);
                     expect(results).toMatchSnapshot('monkey');
                 });
             });
 
             it('should search for "monkey ha"', () => {
-                return groups.search('monkey ha').then((results: Asset[]) => {
-                    expect(results.length).toBe(2);
+                return groups.search('monkey ha').then((results: AssetSearchResult) => {
+                    expect(results.assets.length).toBe(2);
                     expect(results).toMatchSnapshot('monkey ha');
                 });
             });
 
             it('should search for "monkey hap"', () => {
-                return groups.search('monkey hap').then((results: Asset[]) => {
-                    expect(results.length).toBe(1);
+                return groups.search('monkey hap').then((results: AssetSearchResult) => {
+                    expect(results.assets.length).toBe(1);
                     expect(results).toMatchSnapshot('monkey hap');
                 });
             });
@@ -66,8 +65,8 @@ describe('AssetService', () => {
         it('should not add duplicates', () => {
             groups.add({ name: 'Group A', id: 'groupA', type: AssetType.Group });
             groups.add({ name: 'Group A', id: 'groupA', type: AssetType.Group });
-            return groups.search('group').then((results: Asset[]) => {
-                expect(results.length).toBe(1);
+            return groups.search('group').then((results: AssetSearchResult) => {
+                expect(results.assets.length).toBe(1);
                 expect(groups).toMatchSnapshot();
             });
         });

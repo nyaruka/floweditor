@@ -1,6 +1,6 @@
 import { FlowContext, initialState as flowContext } from './flowContext';
 import { FlowEditor, initialState as flowEditor } from './flowEditor';
-import { NodeEditor, initialState as nodeEditor } from './nodeEditor';
+import { initialState as nodeEditor, NodeEditor } from './nodeEditor';
 
 interface AppState {
     flowContext: FlowContext;

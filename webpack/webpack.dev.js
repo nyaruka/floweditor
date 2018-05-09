@@ -37,6 +37,10 @@ if (process.env.RAPID_FLOW && process.env.RAPID_ORG) {
     proxy['/flow/assets'] = {
         target: 'http://localhost:8000'
     };
+
+    proxy['/contact/omnibox'] = {
+        target: 'http://localhost:8000'
+    };
 }
 
 const devConfig = {
@@ -71,7 +75,11 @@ const devConfig = {
                 } else {
                     // otherwise return the list
                     const content = require('../preview/assets/' + type + 's.json');
-                    res.send(content.assets);
+                    if (content.assets) {
+                        res.send(content.assets);
+                    } else {
+                        res.send(content);
+                    }
                 }
             });
         },

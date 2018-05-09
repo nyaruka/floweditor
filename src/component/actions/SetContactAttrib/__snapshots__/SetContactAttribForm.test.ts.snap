@@ -9,7 +9,7 @@ Object {
       "name": Object {
         "id": "name",
         "name": "Name",
-        "type": "property",
+        "type": "name",
       },
     },
     "endpoint": "/assets/fields.json",
@@ -18,14 +18,12 @@ Object {
   },
   "helpText": "Select an existing attribute to update or type any name to create a new one",
   "initial": Object {
-    "id": "Email",
-    "name": "Email",
-    "type": "property",
+    "id": "name",
+    "name": "Name",
+    "type": "name",
   },
   "name": "Attribute",
-  "placeholder": "Enter the name of an existing attribute or create a new one",
   "required": true,
-  "searchPromptText": "Invalid attribute",
   "showLabel": true,
 }
 `;

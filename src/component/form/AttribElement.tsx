@@ -1,8 +1,12 @@
 import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import { getTypeConfig, Types } from '../../config/typeConfigs';
 import { CreateOptions, ResultType } from '../../flowTypes';
 import { Asset, Assets, AssetType } from '../../services/AssetService';
+import { DispatchWithState, UpdateTypeConfig, updateTypeConfig } from '../../store';
 import {
     composeCreateNewOption,
     getSelectClass,
@@ -10,17 +14,24 @@ import {
     isValidNewOption,
     snakify
 } from '../../utils';
-import SelectSearch from '../SelectSearch';
+import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
-export interface AttribElementProps extends FormElementProps {
+export interface AttribElementPassedProps extends FormElementProps {
     initial: Asset;
+    assets: Assets;
+
     add?: boolean;
     placeholder?: string;
     searchPromptText?: string;
     helpText?: string;
-    assets: Assets;
 }
+
+export interface AttribElementStoreProps {
+    updateTypeConfig: UpdateTypeConfig;
+}
+
+export type AttribElementProps = AttribElementPassedProps & AttribElementStoreProps;
 
 interface AttribElementState {
     attribute: Asset;
@@ -36,7 +47,7 @@ export const createNewOption = composeCreateNewOption({
     type: AssetType.Field
 });
 
-export default class AttribElement extends React.Component<AttribElementProps, AttribElementState> {
+export class AttribElement extends React.Component<AttribElementProps, AttribElementState> {
     public static defaultProps = {
         placeholder: PLACEHOLDER,
         searchPromptText: NOT_FOUND
@@ -55,7 +66,13 @@ export default class AttribElement extends React.Component<AttribElementProps, A
 
     private onChange(attribute: Asset): void {
         if (!isEqual(this.state.attribute, attribute)) {
-            this.setState({ attribute });
+            this.setState({ attribute }, () => {
+                if (attribute.type === AssetType.Name) {
+                    this.props.updateTypeConfig(getTypeConfig(Types.set_contact_name));
+                } else {
+                    this.props.updateTypeConfig(getTypeConfig(Types.set_contact_field));
+                }
+            });
         }
     }
 
@@ -116,3 +133,22 @@ export default class AttribElement extends React.Component<AttribElementProps, A
         );
     }
 }
+
+/* istanbul ignore next */
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators(
+        {
+            updateTypeConfig
+        },
+        dispatch
+    );
+
+const ConnectedAttribElement = connect<
+    null,
+    { updateTypeConfig: UpdateTypeConfig },
+    AttribElementPassedProps
+>(null, mapDispatchToProps, null, {
+    withRef: true
+})(AttribElement);
+
+export default ConnectedAttribElement;

@@ -10,7 +10,7 @@ import {
     isOptionUnique,
     isValidNewOption
 } from '../../utils';
-import SelectSearch from '../SelectSearch';
+import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
 export interface GroupOption {

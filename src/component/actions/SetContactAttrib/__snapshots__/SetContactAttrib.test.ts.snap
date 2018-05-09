@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SetContactAttribComp render helpers getFieldNameMarkup should return emphasized field name 1`] = `
+exports[`SetContactAttribComp render helpers getAttribNameMarkup should return emphasized field name 1`] = `
 <span
   className="emph"
 >
@@ -8,38 +8,38 @@ exports[`SetContactAttribComp render helpers getFieldNameMarkup should return em
 </span>
 `;
 
-exports[`SetContactAttribComp render helpers getFieldNameMarkup should return emphasized property 1`] = `
+exports[`SetContactAttribComp render helpers getAttribNameMarkup should return emphasized property 1`] = `
 <span
   className="emph"
 >
-  Email
+  Name
 </span>
 `;
 
 exports[`SetContactAttribComp render should render with 'clear...' div when value prop isn't passed 1`] = `
-<div>
+<React.Fragment>
   Clear value for 
   <span
     className="emph"
   >
-    Email
+    Name
   </span>
-</div>
+</React.Fragment>
 `;
 
 exports[`SetContactAttribComp render should render with 'update...' div when value prop passed 1`] = `
-<div>
+<React.Fragment>
   Update 
   <span
     className="emph"
   >
-    Email
+    Name
   </span>
    to 
   <span
     className="emph"
   >
-    jane@example.com
+    Jane Goodall
   </span>
-</div>
+</React.Fragment>
 `;

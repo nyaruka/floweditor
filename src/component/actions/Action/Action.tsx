@@ -101,7 +101,10 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         let missingLocalization = false;
 
         if (this.props.translating) {
-            if (this.props.action.type === Types.send_msg) {
+            if (
+                this.props.action.type === Types.send_msg ||
+                this.props.action.type === Types.send_broadcast
+            ) {
                 localizedKeys.push('text');
             }
 

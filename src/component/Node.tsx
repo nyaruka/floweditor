@@ -7,37 +7,40 @@ import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { ConfigProviderContext, getTypeConfig, getOperatorConfig } from '../config';
+
+import { ConfigProviderContext, fakePropType } from '../config/ConfigProvider';
+import { getOperatorConfig } from '../config/operatorConfigs';
+import { getTypeConfig, Types } from '../config/typeConfigs';
 import {
     AnyAction,
     FlowDefinition,
     FlowNode,
+    RouterTypes,
     SwitchRouter,
-    UINode,
-    Case,
-    RouterTypes
+    UINode
 } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
 import Plumber, { DragEvent } from '../services/Plumber';
 import {
     AppState,
     DispatchWithState,
-    onAddToNode,
     OnAddToNode,
-    onNodeMoved,
+    onAddToNode,
     OnNodeMoved,
+    onNodeMoved,
     OnOpenNodeEditor,
     onOpenNodeEditor,
     RemoveNode,
     removeNode,
-    UpdateDimensions,
     updateDimensions,
+    UpdateDimensions,
     UpdateDragGroup,
     updateDragGroup,
-    updateNodeDragging,
+    UpdateDragSelection,
     UpdateNodeDragging,
-    UpdateDragSelection
+    updateNodeDragging
 } from '../store';
+import { DragSelection, updateDragSelection } from '../store/flowEditor';
 import { ClickHandler, createClickHandler, snapToGrid, titleCase } from '../utils';
 import ActionWrapper from './actions/Action';
 import CounterComp from './Counter';
@@ -46,9 +49,6 @@ import { Language } from './LanguageSelector';
 import * as styles from './Node.scss';
 import * as shared from './shared.scss';
 import TitleBar from './TitleBar';
-import { DragSelection, updateDragSelection } from '../store/flowEditor';
-import { Types } from '../config/typeConfigs';
-import { fakePropType } from '../config/ConfigProvider';
 
 // A point in the flow from which a drag is initiated
 export interface DragPoint {
