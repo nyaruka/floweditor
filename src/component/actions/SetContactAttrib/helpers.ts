@@ -1,7 +1,9 @@
 import { Types } from '../../../config/typeConfigs';
-import { SetContactField, SetContactProperty } from '../../../flowTypes';
-import { snakify, titleCase } from '../../../utils';
+import { Action, SetContactField, SetContactName, SetContactProperty } from '../../../flowTypes';
 import { Asset, AssetType } from '../../../services/AssetService';
+import { snakify, titleCase } from '../../../utils';
+
+export type ContactProperty = Types.set_contact_name;
 
 export const newFieldAction = (uuid: string, value: string, name: string): SetContactField => ({
     type: Types.set_contact_field,
@@ -16,13 +18,20 @@ export const newFieldAction = (uuid: string, value: string, name: string): SetCo
 export const newPropertyAction = (
     uuid: string,
     value: string,
-    name: string
-): SetContactProperty => ({
-    type: Types.set_contact_property,
-    property: snakify(name),
-    uuid,
-    value
-});
+    type: ContactProperty
+): SetContactProperty => {
+    const action: Action = {
+        uuid,
+        type
+    };
+    switch (type) {
+        case Types.set_contact_name:
+            return {
+                ...action,
+                name: value
+            } as SetContactName;
+    }
+};
 
 export const fieldToAsset = ({ field: { key, name } }: SetContactField): Asset => ({
     id: key,
@@ -30,8 +39,16 @@ export const fieldToAsset = ({ field: { key, name } }: SetContactField): Asset =
     type: AssetType.Field
 });
 
-export const propertyToAsset = ({ property }: SetContactProperty): Asset => ({
-    id: property,
-    name: titleCase(property),
-    type: AssetType.Property
-});
+export const propertyToAsset = (property: SetContactProperty): Asset => {
+    const asset = {
+        type: AssetType.Property
+    };
+    switch (property.type) {
+        case Types.set_contact_name:
+            return {
+                ...asset,
+                name: titleCase(property.name),
+                id: property.name
+            };
+    }
+};

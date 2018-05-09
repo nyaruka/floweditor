@@ -1,12 +1,18 @@
 import * as React from 'react';
+
 import { ConfigProviderContext } from '../../../config';
+import { fakePropType } from '../../../config/ConfigProvider';
 import { Types } from '../../../config/typeConfigs';
-import { SetContactAttribute, SetContactField, SetContactProperty } from '../../../flowTypes';
+import {
+    SetContactAttribute,
+    SetContactField,
+    SetContactName,
+    SetContactProperty
+} from '../../../flowTypes';
+import AssetService, { Asset, AssetType } from '../../../services/AssetService';
 import ConnectedAttribElement from '../../form/AttribElement';
 import ConnectedTextInputElement from '../../form/TextInputElement';
-import { newFieldAction, newPropertyAction, fieldToAsset, propertyToAsset } from './helpers';
-import { fakePropType } from '../../../config/ConfigProvider';
-import AssetService, { Asset, AssetType } from '../../../services/AssetService';
+import { fieldToAsset, newFieldAction, newPropertyAction, propertyToAsset } from './helpers';
 
 export interface SetContactAttribFormProps {
     action: SetContactAttribute;
@@ -54,8 +60,18 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
         }
     }
 
+    private getValue(): string {
+        switch (this.props.action.type) {
+            case Types.set_contact_field:
+                return this.props.action.value;
+            case Types.set_contact_name:
+                return (this.props.action as SetContactName).name;
+            default:
+                return '';
+        }
+    }
+
     public render(): JSX.Element {
-        const initial = this.getInitial();
         return (
             <>
                 <ConnectedAttribElement
@@ -64,7 +80,7 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
                     showLabel={true}
                     assets={this.context.assetService.getFieldAssets()}
                     helpText={ATTRIB_HELP_TEXT}
-                    initial={initial}
+                    initial={this.getInitial()}
                     add={true}
                     required={true}
                 />
@@ -72,7 +88,7 @@ export default class SetContactAttribForm extends React.Component<SetContactAttr
                     ref={this.props.onBindWidget}
                     name="Value"
                     showLabel={true}
-                    value={this.props.action.value}
+                    value={this.getValue()}
                     helpText={TEXT_INPUT_HELP_TEXT}
                     autocomplete={true}
                 />

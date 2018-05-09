@@ -27,7 +27,9 @@ add_urn	                    add_contact_urn	            contact_urn_added
 add_to_group	            add_contact_groups	        contact_groups_added
 remove_from_group	        remove_contact_groups	    contact_groups_removed
 set_preferred_channel	    set_contact_channel	        contact_channel_changed
-update_contact	            set_contact_property	    contact_property_changed
+update_contact	            set_contact_name	        contact_name_changed
+update_contact	            set_contact_language	    contact_language_changed
+update_contact	            set_contact_timezone	    contact_timezone_changed
 save_contact_field      	set_contact_field	        contact_field_changed
 save_flow_result	        set_run_result	            run_result_changed
 call_webhook	            call_webhook	            webhook_called
@@ -45,7 +47,7 @@ export const enum Types {
     add_input_labels = 'add_input_labels',
     remove_contact_groups = 'remove_contact_groups',
     set_contact_channel = 'set_contact_channel',
-    set_contact_property = 'set_contact_property',
+    set_contact_name = 'set_contact_name',
     set_contact_field = 'set_contact_field',
     set_run_result = 'set_run_result',
     call_webhook = 'call_webhook',
@@ -137,7 +139,7 @@ export const typeConfigList: Type[] = [
         description: 'Update the contact',
         form: SetContactAttribForm,
         component: SetContactAttrib,
-        aliases: [Types.set_contact_property],
+        aliases: [Types.set_contact_name],
         allows
     },
     {

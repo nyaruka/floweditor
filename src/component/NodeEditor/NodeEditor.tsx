@@ -25,6 +25,7 @@ import {
     SendEmail,
     SendMsg,
     SetContactField,
+    SetContactName,
     SetRunResult,
     StartFlow,
     StartFlowExitNames,
@@ -213,6 +214,11 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
                 value: ''
             } as SetContactField;
             break;
+        case Types.set_contact_name:
+            defaultAction = {
+                ...defaultAction,
+                name: ''
+            } as SetContactName;
         case Types.send_email:
             defaultAction = {
                 ...defaultAction,
@@ -816,6 +822,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 
     private updateAction(action: Action): void {
+        console.log('action:', action);
         this.props.onUpdateAction(action);
     }
 

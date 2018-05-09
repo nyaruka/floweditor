@@ -1,26 +1,40 @@
 import * as React from 'react';
-import { SetContactField, SetContactProperty } from '../../../flowTypes';
-import { titleCase, emphasize } from '../../../utils';
+
+import { Types } from '../../../config/typeConfigs';
+import { SetContactField, SetContactName, SetContactProperty } from '../../../flowTypes';
+import { emphasize, titleCase } from '../../../utils';
 
 type Attribute = SetContactField | SetContactProperty;
 
-export const getFieldNameMarkup = (action: Attribute): JSX.Element => {
-    if ((action as SetContactProperty).property) {
-        return emphasize(titleCase((action as SetContactProperty).property));
+export const getAttribNameMarkup = (action: Attribute): JSX.Element => {
+    switch (action.type) {
+        case Types.set_contact_field:
+            return emphasize((action as SetContactField).field.name);
+        case Types.set_contact_name:
+            return emphasize(titleCase((action as SetContactName).name));
     }
-    return emphasize((action as SetContactField).field.name);
 };
 
 const SetContactAttribComp: React.SFC<Attribute> = action => {
-    const fieldNameMarkup = getFieldNameMarkup(action);
-    if (action.value.length) {
-        return (
-            <div>
-                Update {fieldNameMarkup} to {emphasize(action.value)}
-            </div>
-        );
+    const attribNameMarkup = getAttribNameMarkup(action);
+    switch (action.type) {
+        case Types.set_contact_field:
+            return (action as SetContactField).value ? (
+                <div>
+                    Update {attribNameMarkup} to {emphasize(action.value)}
+                </div>
+            ) : (
+                <div>Clear value for {attribNameMarkup}</div>
+            );
+        case Types.set_contact_name:
+            return (action as SetContactName) ? (
+                <div>
+                    Update {attribNameMarkup} to {emphasize((action as SetContactName).name)}
+                </div>
+            ) : (
+                <div>Clear value for {attribNameMarkup}</div>
+            );
     }
-    return <div>Clear value for {fieldNameMarkup}</div>;
 };
 
 export default SetContactAttribComp;

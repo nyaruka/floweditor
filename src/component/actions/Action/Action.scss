@@ -19,7 +19,7 @@
     word-wrap: break-word;
     width: auto;
 
-    &.send_msg, &.add_input_labels, &.set_contact_field, &.set_contact_property,
+    &.send_msg, &.add_input_labels, &.set_contact_field, &.set_contact_name,
     &.add_contact_groups, &.remove_contact_groups, &.set_run_result,
     &.send_email, &.missing {
         width: $node_width - $padding * 2;
