@@ -1,3 +1,5 @@
+import { v4 as generateUUID } from 'uuid';
+
 import { Types } from '../../../config/typeConfigs';
 import { Action, SetContactField, SetContactName, SetContactProperty } from '../../../flowTypes';
 import { Asset, AssetType } from '../../../services/AssetService';
@@ -45,9 +47,9 @@ export const newPropertyAction = ({
     }
 };
 
-export const fieldToAsset = ({ field: { key, name } }: SetContactField): Asset => ({
-    id: key,
-    name,
+export const fieldToAsset = ({ field = { key: '', name: '' } }: SetContactField): Asset => ({
+    id: field.key,
+    name: field.name,
     type: AssetType.Field
 });
 

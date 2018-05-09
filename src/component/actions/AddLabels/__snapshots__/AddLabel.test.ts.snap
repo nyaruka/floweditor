@@ -3,18 +3,30 @@
 exports[`AddLabelsComp should display labels on action 1`] = `
 <React.Fragment>
   <div
-    key="0"
+    className="nodeAsset"
+    key="label-0"
   >
+    <span
+      className="nodeLabel icn-label"
+    />
     Help
   </div>
   <div
-    key="1"
+    className="nodeAsset"
+    key="label-1"
   >
+    <span
+      className="nodeLabel icn-label"
+    />
     New
   </div>
   <div
-    key="2"
+    className="nodeAsset"
+    key="label-2"
   >
+    <span
+      className="nodeLabel icn-label"
+    />
     Feedback
   </div>
   <div

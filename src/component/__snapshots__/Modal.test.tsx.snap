@@ -233,7 +233,7 @@ exports[`Modal render should render timeout control 1`] = `
                     onClick={[Function]}
                   >
                     <div
-                      className="icn-settings"
+                      className="icn-cog"
                     />
                   </div>
                   <div
@@ -348,7 +348,7 @@ exports[`Modal render should render timeout control 1`] = `
                   </div>
                   <div>
                     <div
-                      className="background icn-settings"
+                      className="background icn-cog"
                     />
                     <div
                       style={

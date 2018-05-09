@@ -120,7 +120,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
             } else {
                 title = (
                     <div>
-                        <div className={`${styles.background} icn-settings`} />
+                        <div className={`${styles.background} icn-cog`} />
                         <div style={{ marginLeft: '50px' }}>{title}</div>
                     </div>
                 );
@@ -139,7 +139,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                     } else {
                         flip = (
                             <div className={styles.show_back} onClick={this.toggleFlip}>
-                                <div className="icn-settings" />
+                                <div className="icn-cog" />
                             </div>
                         );
                     }

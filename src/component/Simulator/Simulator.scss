@@ -12,9 +12,13 @@
     transition-delay: 100ms;
 }
 
+
+
 .simulator {
-    box-shadow: $node_shadow $node_shadow_color;
+    background: $black;
     border-radius: 35px;
+    box-shadow: $node_shadow $node_shadow_color;
+
     input {
         &:focus {
             outline-color: transparent;
@@ -127,7 +131,7 @@
             }
         }
     }
-    .icn-close {
+    .close {
         font-size: 25px;
         width: 25px;
         height: 25px;
@@ -139,15 +143,6 @@
         &:hover {
             color: #fff;
         }
-    }
-    .icn-simulator {
-        font-size: 600px;
-        color: #333;
-        border: 0px solid green;
-        position: absolute;
-        right: 0;
-        top: 0;
-        pointer-events: none;
     }
 }
 
@@ -170,14 +165,15 @@
     transition-delay: 300ms;
     .simulator-tab-icon {
         position: absolute;
-        font-size: 35px;
+        font-size: 30px;
         color: white;
-        padding: 8px 6px;
+        padding: 10px 0px;
+        
     }
     .simulator-tab-text {
         position: absolute;
         left: 35px;
-        top: 12px;
+        top: 10px;
         color: white;
         opacity: .01;
         font-weight: 400;

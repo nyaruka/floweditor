@@ -27,7 +27,18 @@ export interface SendBroadcastFormState extends ActionState {
     recipients: Asset[];
     translatedText: string;
 }
-export type NodeEditorForm = SendBroadcastFormState;
+
+export interface SetContactFieldFormState extends ActionState {
+    field: Asset;
+}
+
+export interface SetContactNameFormState extends ActionState {
+    name: Asset;
+}
+
+export type SetContactAttribFormState = SetContactFieldFormState | SetContactNameFormState;
+
+export type NodeEditorForm = SendBroadcastFormState | SetContactAttribFormState;
 
 export interface NodeEditor {
     typeConfig: Type;

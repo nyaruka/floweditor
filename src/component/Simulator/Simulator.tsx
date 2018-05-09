@@ -3,11 +3,12 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as axios from 'axios';
 import update from 'immutability-helper';
-import * as React from 'react';
 import { ReactNode } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { v4 as generateUUID } from 'uuid';
+
 import { ConfigProviderContext } from '../../config';
 import { fakePropType } from '../../config/ConfigProvider';
 import { FlowDefinition, FlowNode, Group, Wait } from '../../flowTypes';
@@ -395,8 +396,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                             }
                             onClick={this.onReset}
                         />
-                        <div className={styles.icnSimulator + ' icn-simulator'} />
-                        <div className={styles.icnClose + ' icn-remove'} onClick={this.onToggle} />
+                        <div className={styles.close + ' icn-cross'} onClick={this.onToggle} />
                         <div className={styles.screen}>
                             <div className={styles.messages}>
                                 {messages}
@@ -423,7 +423,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                     </div>
                 </div>
                 <div className={styles.simulatorTab + ' ' + tabHidden} onClick={this.onToggle}>
-                    <div className={styles.simulatorTabIcon + ' icn-simulator'} />
+                    <div className={styles.simulatorTabIcon + ' icn-smartphone'} />
                     <div className={styles.simulatorTabText}>
                         Run in<br />Simulator
                     </div>

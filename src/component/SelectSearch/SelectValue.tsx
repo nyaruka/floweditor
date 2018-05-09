@@ -2,7 +2,8 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 
-import { Asset, AssetType } from '../../services/AssetService';
+import { Asset } from '../../services/AssetService';
+import { getIconForAssetType } from './helper';
 
 export interface SelectValueProps {
     value: Asset;
@@ -16,13 +17,6 @@ export default class SelectValue extends React.PureComponent<SelectValueProps, {
         bindCallbacks(this, {
             include: [/^handle/]
         });
-    }
-
-    private getIcon(): JSX.Element {
-        if (this.props.value.type === AssetType.Group) {
-            return <span className="icn-group" />;
-        }
-        return null;
     }
 
     private handleRemove(): void {
@@ -40,7 +34,7 @@ export default class SelectValue extends React.PureComponent<SelectValueProps, {
                     x
                 </span>
                 <span className="Select-value-label">
-                    {this.getIcon()} {this.props.value.name}
+                    {getIconForAssetType(this.props.value.type)} {this.props.value.name}
                 </span>
             </div>
         );

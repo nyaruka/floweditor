@@ -1,8 +1,9 @@
 // tslint:disable:ban-types
-import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
-import { Asset, AssetType } from '../../services/AssetService';
-import * as styles from './SelectSearch.scss';
+import * as React from 'react';
+
+import { Asset } from '../../services/AssetService';
+import { getIconForAssetType } from './helper';
 
 export interface SelectOptionProps {
     className: string;
@@ -37,13 +38,6 @@ export default class SelectOption extends React.PureComponent<SelectOptionProps,
         this.props.onFocus(this.props.option, event);
     }
 
-    private getIcon(): JSX.Element {
-        if (this.props.option.type === AssetType.Group) {
-            return <span className="icn-group" />;
-        }
-        return null;
-    }
-
     public render(): JSX.Element {
         return (
             <div
@@ -53,7 +47,7 @@ export default class SelectOption extends React.PureComponent<SelectOptionProps,
                 onMouseMove={this.handleMouseMove}
             >
                 <div>
-                    {this.getIcon()} {this.props.option.name}
+                    {getIconForAssetType(this.props.option.type)} {this.props.option.name}
                 </div>
             </div>
         );

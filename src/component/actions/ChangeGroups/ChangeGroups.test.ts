@@ -8,7 +8,6 @@ import ChangeGroupsComp, {
     ellipsesText,
     getChangeGroupsMarkup,
     getContentMarkup,
-    getGroupElements,
     getRemoveAllMarkup
 } from './ChangeGroups';
 
@@ -23,13 +22,6 @@ describe(ChangeGroupsComp.name, () => {
         describe('getRemoveAllMarkup', () => {
             it('should return remove-all markup', () => {
                 expect(getRemoveAllMarkup()).toMatchSnapshot();
-            });
-        });
-
-        describe('getGroupElements', () => {
-            it('should return a list of group elements', () => {
-                expect(getGroupElements([])).toEqual([]);
-                expect(getGroupElements(addGroupsAction.groups)).toMatchSnapshot();
             });
         });
 

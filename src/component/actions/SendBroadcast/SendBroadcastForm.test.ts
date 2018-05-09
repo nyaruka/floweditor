@@ -1,5 +1,6 @@
 import { getTypeConfig } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
+import { LocalizedObject } from '../../../services/Localization';
 import { composeComponentTestUtils, getSpecWrapper } from '../../../testUtils';
 import { createBroadcastMsgAction } from '../../../testUtils/assetCreators';
 import { SendBroadcastForm, SendBroadcastFormProps } from './SendBroadcastForm';
@@ -39,11 +40,118 @@ describe(SendBroadcastForm.name, () => {
             expect(getSpecWrapper(wrapper, 'recipients').html()).toContain('Rowan Seymour');
             expect(wrapper).toMatchSnapshot();
         });
+
+        it('should render an empty form with no action', () => {
+            const { wrapper, props } = setup(true, {
+                $merge: {
+                    form: formHelper.actionToState(null)
+                }
+            });
+
+            expect(props.form).toEqual({
+                recipients: [],
+                text: '',
+                translatedText: '',
+                type: 'send_broadcast',
+                uuid: expect.anything()
+            });
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it('should render the localized text', () => {
+            const localized = new LocalizedObject(broadcastMsgAction, 'spa', {});
+            localized.addTranslation('text', 'espanols!');
+            const { wrapper, props } = setup(true, {
+                $merge: {
+                    translating: true,
+                    language: { name: 'Spanish', iso: 'spa' },
+                    localizations: [localized]
+                }
+            });
+
+            expect(getSpecWrapper(wrapper, 'text-to-translate').text()).toEqual('Hello World');
+            expect(wrapper).toMatchSnapshot();
+        });
     });
 
     describe('onValid', () => {
-        const { wrapper, instance, props } = setup(true);
-        instance.onValid();
-        expect(props.updateAction).toBeCalledWith(broadcastMsgAction);
+        it('processes the form for normal edits', () => {
+            const { wrapper, instance, props } = setup(true, {
+                $merge: { updateAction: jest.fn() }
+            });
+            instance.onValid();
+            expect(props.updateAction).toBeCalledWith(broadcastMsgAction);
+        });
+
+        it('clears translations', () => {
+            const { instance, props } = setup(true, {
+                $merge: {
+                    translating: true,
+                    language: { name: 'Spanish', iso: 'spa' },
+                    localizations: [new LocalizedObject(broadcastMsgAction, 'spa', {})],
+                    form: { ...formHelper.actionToState(broadcastMsgAction), translatedText: '' },
+                    updateLocalizations: jest.fn()
+                }
+            });
+
+            instance.onValid();
+            expect(props.updateLocalizations).toBeCalledWith('spa', [
+                { translations: null, uuid: 'send_broadcast-0' }
+            ]);
+        });
+
+        it('updates translations', () => {
+            const { instance, props } = setup(true, {
+                $merge: {
+                    translating: true,
+                    language: { name: 'Spanish', iso: 'spa' },
+                    localizations: [new LocalizedObject(broadcastMsgAction, 'spa', {})],
+                    updateLocalizations: jest.fn()
+                }
+            });
+
+            instance.onValid();
+            expect(props.updateLocalizations).toBeCalledWith('spa', [
+                { translations: { text: ['Hello World'] }, uuid: 'send_broadcast-0' }
+            ]);
+        });
+    });
+
+    describe('event', () => {
+        it('handles recipent change', () => {
+            const { instance, props } = setup(true, {
+                $merge: { updateSendBroadcastForm: jest.fn() }
+            });
+            instance.handleRecipientsChanged([{ id: 'group-0', name: 'My Group' }]);
+            expect(props.updateSendBroadcastForm).toBeCalledWith({
+                recipients: [{ id: 'group-0', name: 'My Group' }]
+            });
+        });
+
+        it('handles text change', () => {
+            const { instance, props } = setup(true, {
+                $merge: { updateSendBroadcastForm: jest.fn() }
+            });
+            instance.handleMessageUpdate({ currentTarget: { value: 'Message to Group' } });
+
+            expect(props.updateSendBroadcastForm).toBeCalledWith({
+                text: 'Message to Group'
+            });
+        });
+
+        it('handles translation change', () => {
+            const { instance, props } = setup(true, {
+                $merge: {
+                    translating: true,
+                    language: { name: 'Spanish', iso: 'spa' },
+                    localizations: [new LocalizedObject(broadcastMsgAction, 'spa', {})],
+                    updateSendBroadcastForm: jest.fn()
+                }
+            });
+
+            instance.handleMessageUpdate({ currentTarget: { value: 'espanols!' } });
+            expect(props.updateSendBroadcastForm).toBeCalledWith({ translatedText: 'espanols!' });
+        });
     });
 });
