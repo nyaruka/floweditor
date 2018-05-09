@@ -4,13 +4,28 @@ exports[`ChangeGroupComp helpers getChangeGroupsMarkup should return ChangeGroup
 <div
   data-spec="content"
 >
-  <div>
+  <div
+    className="nodeAsset"
+  >
+    <span
+      className="nodeGroup icn-group"
+    />
     Early Adopters
   </div>
-  <div>
+  <div
+    className="nodeAsset"
+  >
+    <span
+      className="nodeGroup icn-group"
+    />
     Testers
   </div>
-  <div>
+  <div
+    className="nodeAsset"
+  >
+    <span
+      className="nodeGroup icn-group"
+    />
     Subscribers
   </div>
 </div>
@@ -28,27 +43,28 @@ Array [
 
 exports[`ChangeGroupComp helpers getContentMarkup should return list of group elements 1`] = `
 Array [
-  <div>
+  <div
+    className="nodeAsset"
+  >
+    <span
+      className="nodeGroup icn-group"
+    />
     Early Adopters
   </div>,
-  <div>
+  <div
+    className="nodeAsset"
+  >
+    <span
+      className="nodeGroup icn-group"
+    />
     Testers
   </div>,
-  <div>
-    Subscribers
-  </div>,
-]
-`;
-
-exports[`ChangeGroupComp helpers getGroupElements should return a list of group elements 1`] = `
-Array [
-  <div>
-    Early Adopters
-  </div>,
-  <div>
-    Testers
-  </div>,
-  <div>
+  <div
+    className="nodeAsset"
+  >
+    <span
+      className="nodeGroup icn-group"
+    />
     Subscribers
   </div>,
 ]
@@ -67,22 +83,34 @@ exports[`ChangeGroupComp render should limit div to 3 groups, include ellipsesTe
   data-spec="content"
 >
   <div
-    key="0"
+    className="nodeAsset"
+    key="23ff7152-b588-43e4-90de-fda77aeaf7c0"
   >
+    <span
+      className="nodeGroup icn-group"
+    />
     Customers
   </div>
   <div
-    key="1"
+    className="nodeAsset"
+    key="2429d573-80d7-47f8-879f-f2ba442a1bfd"
   >
+    <span
+      className="nodeGroup icn-group"
+    />
     Unsatisfied Customers
   </div>
   <div
-    key="2"
+    className="nodeAsset"
+    key="cdbf9e01-aaa7-4381-8259-ee042447bcac"
   >
+    <span
+      className="nodeGroup icn-group"
+    />
     Early Adopters
   </div>
   <div
-    key="3"
+    key="ellipses"
   >
     ...
   </div>
@@ -107,18 +135,30 @@ exports[`ChangeGroupComp render should render group name 1`] = `
   data-spec="content"
 >
   <div
-    key="0"
+    className="nodeAsset"
+    key="cdbf9e01-aaa7-4381-8259-ee042447bcac"
   >
+    <span
+      className="nodeGroup icn-group"
+    />
     Early Adopters
   </div>
   <div
-    key="1"
+    className="nodeAsset"
+    key="afaba971-8943-4dd8-860b-3561ed4f1fe1"
   >
+    <span
+      className="nodeGroup icn-group"
+    />
     Testers
   </div>
   <div
-    key="2"
+    className="nodeAsset"
+    key="33b28bac-b588-43e4-90de-fda77aeaf7c0"
   >
+    <span
+      className="nodeGroup icn-group"
+    />
     Subscribers
   </div>
 </div>

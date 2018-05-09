@@ -76,11 +76,11 @@ export class SendBroadcastForm extends React.Component<
         }
     }
 
-    private handleRecipientsChanged(selected: Asset[]): void {
+    public handleRecipientsChanged(selected: Asset[]): void {
         this.props.updateSendBroadcastForm({ recipients: selected });
     }
 
-    private handleMessageUpdate(event: React.ChangeEvent<HTMLTextElement>): void {
+    public handleMessageUpdate(event: React.ChangeEvent<HTMLTextElement>): void {
         if (this.props.translating) {
             this.props.updateSendBroadcastForm({ translatedText: event.currentTarget.value });
         } else {
@@ -150,6 +150,7 @@ export class SendBroadcastForm extends React.Component<
     }
 }
 
+/* istanbul ignore next */
 const mapStateToProps = ({
     flowContext: { definition, localizations },
     flowEditor: { editorUI: { language, translating } },
@@ -163,6 +164,7 @@ const mapStateToProps = ({
     form
 });
 
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ updateSendBroadcastForm }, dispatch);
 

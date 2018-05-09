@@ -4,6 +4,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import Select, { Option } from 'react-select';
 import { bindActionCreators } from 'redux';
+
 import { AppState, UpdateTimeout, updateTimeout } from '../../store';
 import { DispatchWithState } from '../../store/thunks';
 import { isRealValue, renderIf } from '../../utils';

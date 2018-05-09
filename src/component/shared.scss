@@ -63,6 +63,21 @@
     width: $node_width
 }
 
+.node_asset {
+    font-size: 11px;
+    
+    .node_group {
+        padding-right: 4px;
+    }
+
+    .node_label {
+        padding-right: 4px
+    }
+    
+}
+
+
+
 
 .modal_side_0 {}
 

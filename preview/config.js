@@ -17,7 +17,7 @@ if (process.env.RAPID_FLOW) {
             groups: base + 'group',
             recipients: '/contact/omnibox/',
             fields: base + 'field',
-            labels: base + 'labels',
+            labels: base + 'label',
             activity: '',
             simulateStart: '/flow/start',
             simulateResume: '/flow/resume'

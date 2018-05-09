@@ -1,6 +1,7 @@
 import * as React from 'react';
-import * as styles from './TitleBar.scss';
+
 import { createClickHandler } from '../../utils';
+import * as styles from './TitleBar.scss';
 
 export interface TitleBarProps {
     title: string;
@@ -72,7 +73,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
         if (this.props.showMove) {
             moveArrow = (
                 <div
-                    className={styles.up_button}
+                    className={styles.upButton}
                     {...createClickHandler(this.props.onMoveUp)}
                     data-spec={moveIconSpecId}
                 >
@@ -80,7 +81,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
                 </div>
             );
         } else {
-            moveArrow = <div className={styles.up_button} data-spec={moveSpecId} />;
+            moveArrow = <div className={styles.upButton} data-spec={moveSpecId} />;
         }
 
         return moveArrow;
@@ -92,11 +93,11 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
         if (this.props.showRemoval) {
             remove = (
                 <div
-                    className={styles.remove_button}
+                    className={styles.removeButton}
                     {...createClickHandler(this.onConfirmRemoval)}
                     data-spec={removeIconSpecId}
                 >
-                    <span className="icn-remove" />
+                    <span className="icn-delete" />
                 </div>
             );
         }
@@ -109,13 +110,13 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
 
         if (this.state.confirmingRemoval) {
             confirmation = (
-                <div className={styles.remove_confirm} data-spec={confirmationSpecId}>
+                <div className={styles.removeConfirm} data-spec={confirmationSpecId}>
                     <div
-                        className={styles.remove_button}
+                        className={styles.removeButton}
                         {...createClickHandler(this.props.onRemoval)}
                         data-spec={confirmRemovalSpecId}
                     >
-                        <span className="icn-remove" />
+                        <span className="icn-delete" />
                     </div>
                     Remove?
                 </div>

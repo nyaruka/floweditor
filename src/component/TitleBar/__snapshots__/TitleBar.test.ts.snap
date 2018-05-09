@@ -10,17 +10,17 @@ exports[`TitleBar render confirmation should render confirmation markup 1`] = `
     data-spec="titlebar"
   >
     <div
-      className="up_button"
+      className="upButton"
       data-spec="move"
     />
     <div
-      className="remove_button"
+      className="removeButton"
       data-spec="remove-icon"
       onMouseDown={[Function]}
       onMouseUp={[Function]}
     >
       <span
-        className="icn-remove"
+        className="icn-delete"
       />
     </div>
     Send Message
@@ -38,33 +38,33 @@ exports[`TitleBar render confirmation should render confirmation markup 2`] = `
     data-spec="titlebar"
   >
     <div
-      className="up_button"
+      className="upButton"
       data-spec="move"
     />
     <div
-      className="remove_button"
+      className="removeButton"
       data-spec="remove-icon"
       onMouseDown={[Function]}
       onMouseUp={[Function]}
     >
       <span
-        className="icn-remove"
+        className="icn-delete"
       />
     </div>
     Send Message
   </div>
   <div
-    className="remove_confirm"
+    className="removeConfirm"
     data-spec="confirmation"
   >
     <div
-      className="remove_button"
+      className="removeButton"
       data-spec="confirm-removal"
       onMouseDown={[Function]}
       onMouseUp={[Function]}
     >
       <span
-        className="icn-remove"
+        className="icn-delete"
       />
     </div>
     Remove?
@@ -82,7 +82,7 @@ exports[`TitleBar render move icon should render move icon 1`] = `
     data-spec="titlebar"
   >
     <div
-      className="up_button"
+      className="upButton"
       data-spec="move-icon"
       onMouseDown={[Function]}
       onMouseUp={[Function]}
@@ -106,17 +106,17 @@ exports[`TitleBar render remove icon should render remove icon 1`] = `
     data-spec="titlebar"
   >
     <div
-      className="up_button"
+      className="upButton"
       data-spec="move"
     />
     <div
-      className="remove_button"
+      className="removeButton"
       data-spec="remove-icon"
       onMouseDown={[Function]}
       onMouseUp={[Function]}
     >
       <span
-        className="icn-remove"
+        className="icn-delete"
       />
     </div>
     Send Message
@@ -134,7 +134,7 @@ exports[`TitleBar render should apply _className prop 1`] = `
     data-spec="titlebar"
   >
     <div
-      className="up_button"
+      className="upButton"
       data-spec="move"
     />
     Send Message
@@ -152,7 +152,7 @@ exports[`TitleBar render should render self, children with base props 1`] = `
     data-spec="titlebar"
   >
     <div
-      className="up_button"
+      className="upButton"
       data-spec="move"
     />
     Send Message
