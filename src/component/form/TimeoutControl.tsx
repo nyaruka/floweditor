@@ -91,14 +91,16 @@ export class TimeoutControl extends React.Component<TimeoutControlStoreProps, Ti
         return (
             <div className={styles.timeoutControlContainer}>
                 <div className={styles.leftSection}>
-                    <input
-                        className={styles.checkBox}
-                        name="timeout-enabled"
-                        type="checkbox"
-                        checked={this.props.checked}
-                        onChange={this.handleCheck}
-                    />
-                    {this.getInstructions()}
+                    <label className={styles.label}>
+                        <input
+                            className={styles.checkBox}
+                            name="timeout-enabled"
+                            type="checkbox"
+                            checked={this.props.checked}
+                            onChange={this.handleCheck}
+                        />
+                        {this.getInstructions()}
+                    </label>
                 </div>
                 {renderIf(this.props.checked)(
                     <Select
