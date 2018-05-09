@@ -22,7 +22,7 @@ import {
     InputToFocus,
     leadInSpecId,
     SwitchRouterForm,
-    SwitchRouterFormProps,
+    SwitchRouterFormProps
 } from './SwitchRouter';
 
 jest.mock('uuid', () => ({

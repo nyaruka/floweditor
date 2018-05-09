@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { getSelectClass } from '../../utils';
-import SelectSearch from '../SelectSearch';
+import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 import { ResultType } from '../../flowTypes';
 import { Assets, Asset, AssetType } from '../../services/AssetService';

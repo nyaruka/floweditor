@@ -8,7 +8,7 @@ import { v4 as generateUUID } from 'uuid';
 
 import { Mode, Type } from '../../config';
 import { Operators } from '../../config/operatorConfigs';
-import { Types } from '../../config/typeConfigs';
+import { FormHelper, Types } from '../../config/typeConfigs';
 import {
     Action,
     AddLabels,
@@ -25,7 +25,6 @@ import {
     SendEmail,
     SendMsg,
     SetContactField,
-    SetContactName,
     SetRunResult,
     StartFlow,
     StartFlowExitNames,
@@ -44,8 +43,8 @@ import {
     NoParamsAC,
     onUpdateAction,
     OnUpdateAction,
-    onUpdateLocalizations,
     OnUpdateLocalizations,
+    onUpdateLocalizations,
     OnUpdateRouter,
     onUpdateRouter,
     resetNodeEditingState,
@@ -53,16 +52,15 @@ import {
     updateNodeEditorOpen,
     UpdateOperand,
     updateOperand,
-    UpdateResultName,
     updateResultName,
+    UpdateResultName,
     updateShowResultName,
     UpdateShowResultName,
-    UpdateTypeConfig,
-    updateTypeConfig,
     UpdateUserAddingAction,
     updateUserAddingAction
 } from '../../store';
 import { RenderNode } from '../../store/flowContext';
+import { HandleTypeConfigChange, handleTypeConfigChange } from '../../store/thunks';
 import { CaseElementProps } from '../form/CaseElement';
 import TextInputElement from '../form/TextInputElement';
 import { Language } from '../LanguageSelector';
@@ -116,7 +114,7 @@ export interface NodeEditorStoreProps {
     nodes: { [uuid: string]: RenderNode };
     updateResultName: UpdateResultName;
     updateOperand: UpdateOperand;
-    updateTypeConfig: UpdateTypeConfig;
+    handleTypeConfigChange: HandleTypeConfigChange;
     resetNodeEditingState: NoParamsAC;
     updateNodeEditorOpen: UpdateNodeEditorOpen;
     onUpdateLocalizations: OnUpdateLocalizations;
@@ -129,6 +127,7 @@ export interface NodeEditorStoreProps {
 export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
 export interface FormProps {
     action: AnyAction;
+    formHelper: FormHelper;
     showAdvanced: boolean;
     updateAction: (action: AnyAction) => void;
     onBindWidget: (ref: any) => void;
@@ -204,6 +203,7 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
         case Types.remove_contact_groups:
             defaultAction = { ...defaultAction, groups: null } as ChangeGroups;
             break;
+        // Note: we change the type config in AttribElement if other than Types.set_contact_field
         case Types.set_contact_field:
             defaultAction = {
                 ...defaultAction,
@@ -214,11 +214,6 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
                 value: ''
             } as SetContactField;
             break;
-        case Types.set_contact_name:
-            defaultAction = {
-                ...defaultAction,
-                name: ''
-            } as SetContactName;
         case Types.send_email:
             defaultAction = {
                 ...defaultAction,
@@ -366,7 +361,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     private onTypeChange(config: Type): void {
         this.widgets = {};
         this.advancedWidgets = {};
-        this.props.updateTypeConfig(config);
+        this.props.handleTypeConfigChange(config, this.props.actionToEdit);
     }
 
     private onShowNameField(): void {
@@ -822,7 +817,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 
     private updateAction(action: Action): void {
-        console.log('action:', action);
         this.props.onUpdateAction(action);
     }
 
@@ -1197,6 +1191,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
         const formProps: Partial<FormProps> = {
             action,
+            formHelper: typeConfig.formHelper,
             saveLocalizations: this.saveLocalizations,
             updateLocalizations: this.updateLocalizations,
             cleanUpLocalizations: this.cleanUpLocalizations,
@@ -1308,7 +1303,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
             updateResultName,
             resetNodeEditingState,
             updateNodeEditorOpen,
-            updateTypeConfig,
+            handleTypeConfigChange,
             updateOperand,
             onUpdateLocalizations,
             onUpdateAction,

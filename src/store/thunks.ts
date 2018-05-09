@@ -4,7 +4,7 @@ import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 
 import { hasCases } from '../component/NodeEditor/NodeEditor';
-import { getTypeConfig } from '../config';
+import { getTypeConfig, Type } from '../config';
 import { Types } from '../config/typeConfigs';
 import {
     Action,
@@ -49,6 +49,7 @@ import {
 import * as mutators from './mutators';
 import {
     updateActionToEdit,
+    updateForm,
     updateNodeToEdit,
     updateOperand,
     updateResultName,
@@ -68,6 +69,8 @@ export type Thunk<T> = (dispatch: DispatchWithState, getState?: GetState) => T;
 export type AsyncThunk = Thunk<Promise<void>>;
 
 export type OnAddToNode = (node: FlowNode) => Thunk<void>;
+
+export type HandleTypeConfigChange = (typeConfig: Type, action: AnyAction) => Thunk<void>;
 
 export type OnResetDragSelection = () => Thunk<void>;
 
@@ -444,6 +447,17 @@ export const spliceInRouter = (
     return updatedNodes;
 };
 
+export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+) => {
+    dispatch(updateTypeConfig(typeConfig));
+    if (typeConfig.formHelper) {
+        const action = actionToEdit.type === typeConfig.type ? actionToEdit : null;
+        dispatch(updateForm(typeConfig.formHelper.actionToState(action)));
+    }
+};
+
 export const resetNodeEditingState = () => (dispatch: DispatchWithState, getState: GetState) => {
     const {
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
@@ -745,6 +759,11 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
     }
 
     const type = determineConfigType(node, action, nodes);
+    const typeConfig = getTypeConfig(type);
+
+    if (typeConfig.formHelper) {
+        dispatch(updateForm(typeConfig.formHelper.actionToState(action)));
+    }
     dispatch(updateTypeConfig(getTypeConfig(type as Types)));
 
     let resultName = '';

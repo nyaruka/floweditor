@@ -1,13 +1,14 @@
 import * as React from 'react';
 import * as ReactModal from 'react-modal';
+import { connect } from 'react-redux';
+
 import { Case, FlowNode, SwitchRouter, WaitTypes } from '../flowTypes';
-import ConnectedTimeoutControl from './form/TimeoutControl';
+import { AppState } from '../store';
+import { renderIf } from '../utils';
 import Button, { ButtonProps, ButtonTypes } from './Button';
+import ConnectedTimeoutControl from './form/TimeoutControl';
 import * as styles from './Modal.scss';
 import * as shared from './shared.scss';
-import { renderIf, isRealValue } from '../utils';
-import { connect } from 'react-redux';
-import { AppState } from '../store';
 
 export interface ButtonSet {
     primary: ButtonProps;
