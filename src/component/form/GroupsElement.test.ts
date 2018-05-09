@@ -65,7 +65,7 @@ describe(GroupsElement.name, () => {
 
                 expect(componentWillReceivePropsSpy).toHaveBeenCalledTimes(1);
                 expect(componentWillReceivePropsSpy).toHaveBeenCalledWith(
-                    nextProps,
+                    expect.objectContaining(nextProps),
                     expect.any(Object)
                 );
 

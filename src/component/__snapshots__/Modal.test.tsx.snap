@@ -1,0 +1,425 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal render should render timeout control 1`] = `
+<Modal
+  __className="waitForResponse"
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Save",
+        "onClick": [MockFunction],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [MockFunction],
+      },
+    }
+  }
+  nodeToEdit={
+    Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "node-0",
+          "name": "Yes",
+          "uuid": "exit-1",
+        },
+        Object {
+          "destination_node_uuid": "node-1",
+          "name": "No",
+          "uuid": "exit-2",
+        },
+        Object {
+          "destination_node_uuid": "node-2",
+          "name": "No Response",
+          "uuid": "exit-3",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "y, yes",
+            ],
+            "exit_uuid": "exit-1",
+            "type": "has_any_word",
+            "uuid": "case-0",
+          },
+          Object {
+            "arguments": Array [
+              "n, no",
+            ],
+            "exit_uuid": "exit-2",
+            "type": "has_any_word",
+            "uuid": "case-1",
+          },
+          Object {
+            "arguments": Array [
+              "@run",
+            ],
+            "exit_uuid": "exit-3",
+            "type": "has_wait_timed_out",
+            "uuid": "case-2",
+          },
+        ],
+        "default_exit_uuid": null,
+        "operand": "@input",
+        "type": "switch",
+      },
+      "uuid": "wait-router",
+      "wait": Object {
+        "timeout": 300,
+        "type": "msg",
+      },
+    }
+  }
+  show={true}
+  title={
+    Array [
+      <div>
+        Wait for Response
+      </div>,
+    ]
+  }
+  translating={false}
+  type="wait_for_response"
+  width="600px"
+>
+  <Modal
+    ariaHideApp={false}
+    bodyOpenClassName="ReactModal__Body--open"
+    closeTimeoutMS={0}
+    contentLabel="Modal"
+    isOpen={true}
+    onRequestClose={[MockFunction]}
+    parentSelector={[Function]}
+    portalClassName="ReactModalPortal"
+    shouldCloseOnEsc={true}
+    shouldCloseOnOverlayClick={false}
+    shouldFocusAfterRender={true}
+    shouldReturnFocusAfterClose={true}
+    style={
+      Object {
+        "content": Object {
+          "border": "none",
+          "borderRadius": "none",
+          "bottom": "initial",
+          "marginLeft": "auto",
+          "marginRight": "auto",
+          "marginTop": "40px",
+          "outline": "none",
+          "padding": "none",
+          "width": "600px",
+        },
+      }
+    }
+  >
+    <ModalPortal
+      ariaHideApp={false}
+      bodyOpenClassName="ReactModal__Body--open"
+      closeTimeoutMS={0}
+      contentLabel="Modal"
+      defaultStyles={
+        Object {
+          "content": Object {
+            "WebkitOverflowScrolling": "touch",
+            "background": "#fff",
+            "border": "1px solid #ccc",
+            "borderRadius": "4px",
+            "bottom": "40px",
+            "left": "40px",
+            "outline": "none",
+            "overflow": "auto",
+            "padding": "20px",
+            "position": "absolute",
+            "right": "40px",
+            "top": "40px",
+          },
+          "overlay": Object {
+            "backgroundColor": "rgba(255, 255, 255, 0.75)",
+            "bottom": 0,
+            "left": 0,
+            "position": "fixed",
+            "right": 0,
+            "top": 0,
+          },
+        }
+      }
+      isOpen={true}
+      onRequestClose={[MockFunction]}
+      parentSelector={[Function]}
+      portalClassName="ReactModalPortal"
+      shouldCloseOnEsc={true}
+      shouldCloseOnOverlayClick={false}
+      shouldFocusAfterRender={true}
+      shouldReturnFocusAfterClose={true}
+      style={
+        Object {
+          "content": Object {
+            "border": "none",
+            "borderRadius": "none",
+            "bottom": "initial",
+            "marginLeft": "auto",
+            "marginRight": "auto",
+            "marginTop": "40px",
+            "outline": "none",
+            "padding": "none",
+            "width": "600px",
+          },
+        }
+      }
+    >
+      <div
+        aria-modal="true"
+        className="ReactModal__Overlay ReactModal__Overlay--after-open"
+        onClick={[Function]}
+        onMouseDown={[Function]}
+        onMouseUp={[Function]}
+        style={
+          Object {
+            "backgroundColor": "rgba(255, 255, 255, 0.75)",
+            "bottom": 0,
+            "left": 0,
+            "position": "fixed",
+            "right": 0,
+            "top": 0,
+          }
+        }
+      >
+        <div
+          aria-label="Modal"
+          className="ReactModal__Content ReactModal__Content--after-open"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          onMouseDown={[Function]}
+          onMouseUp={[Function]}
+          style={
+            Object {
+              "WebkitOverflowScrolling": "touch",
+              "background": "#fff",
+              "border": "none",
+              "borderRadius": "none",
+              "bottom": "initial",
+              "left": "40px",
+              "marginLeft": "auto",
+              "marginRight": "auto",
+              "marginTop": "40px",
+              "outline": "none",
+              "overflow": "auto",
+              "padding": "none",
+              "position": "absolute",
+              "right": "40px",
+              "top": "40px",
+              "width": "600px",
+            }
+          }
+          tabIndex="-1"
+        >
+          <div
+            className="container"
+          >
+            <div
+              className="side front"
+              key="modal_side_0"
+            >
+              <div
+                className="modal"
+              >
+                <div
+                  className="header waitForResponse modal_side_0"
+                >
+                  <div
+                    className="show_back"
+                    onClick={[Function]}
+                  >
+                    <div
+                      className="icn-settings"
+                    />
+                  </div>
+                  <div
+                    key="front"
+                  >
+                    Wait for Response
+                  </div>
+                </div>
+                <div
+                  className="content"
+                >
+                  <div
+                    key=".$1"
+                  />
+                </div>
+                <div
+                  className="footer"
+                >
+                  <div
+                    className="sectionLeft"
+                  >
+                    <Connect(TimeoutControl)>
+                      <TimeoutControl
+                        checked={false}
+                        timeout={null}
+                        updateTimeout={[Function]}
+                      >
+                        <div
+                          className="timeoutControlContainer"
+                        >
+                          <div
+                            className="leftSection"
+                          >
+                            <label
+                              className="label"
+                            >
+                              <input
+                                checked={false}
+                                className="checkBox"
+                                name="timeout-enabled"
+                                onChange={[Function]}
+                                type="checkbox"
+                              />
+                              Continue when there is no response
+                            </label>
+                          </div>
+                        </div>
+                      </TimeoutControl>
+                    </Connect(TimeoutControl)>
+                  </div>
+                  <div
+                    className="sectionRight"
+                  >
+                    <div
+                      className="buttons"
+                    >
+                      <div
+                        className="leftButtons"
+                      />
+                      <div
+                        className="rightButtons"
+                      >
+                        <Button
+                          key="0"
+                          name="Cancel"
+                          onClick={[MockFunction]}
+                          type="secondary"
+                        >
+                          <div
+                            className="btn secondary"
+                            onClick={[MockFunction]}
+                          >
+                            Cancel
+                          </div>
+                        </Button>
+                        <Button
+                          key="1"
+                          name="Save"
+                          onClick={[MockFunction]}
+                          type="primary"
+                        >
+                          <div
+                            className="btn primary"
+                            onClick={[MockFunction]}
+                          >
+                            Save
+                          </div>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="side back"
+              key="modal_side_1"
+            >
+              <div
+                className="modal"
+              >
+                <div
+                  className="header waitForResponse modal_side_1"
+                >
+                  <div
+                    className="show_front"
+                    onClick={[Function]}
+                  >
+                    <div
+                      className="icn-back"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      className="background icn-settings"
+                    />
+                    <div
+                      style={
+                        Object {
+                          "marginLeft": "50px",
+                        }
+                      }
+                    />
+                  </div>
+                </div>
+                <div
+                  className="content"
+                >
+                  <div
+                    key=".$2"
+                  />
+                </div>
+                <div
+                  className="footer"
+                >
+                  <div
+                    className="sectionLeft"
+                  />
+                  <div
+                    className="sectionRight"
+                  >
+                    <div
+                      className="buttons"
+                    >
+                      <div
+                        className="leftButtons"
+                      />
+                      <div
+                        className="rightButtons"
+                      >
+                        <Button
+                          key="0"
+                          name="Cancel"
+                          onClick={[MockFunction]}
+                          type="secondary"
+                        >
+                          <div
+                            className="btn secondary"
+                            onClick={[MockFunction]}
+                          >
+                            Cancel
+                          </div>
+                        </Button>
+                        <Button
+                          key="1"
+                          name="Save"
+                          onClick={[MockFunction]}
+                          type="primary"
+                        >
+                          <div
+                            className="btn primary"
+                            onClick={[MockFunction]}
+                          >
+                            Save
+                          </div>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ModalPortal>
+  </Modal>
+</Modal>
+`;
