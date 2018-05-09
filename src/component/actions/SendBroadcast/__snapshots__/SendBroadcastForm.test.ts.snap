@@ -1,5 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`SendBroadcastForm render should render an empty form with no action 1`] = `
+<div>
+  <OmniboxElement
+    add={true}
+    assets={
+      RecipientAssets {
+        "assets": Object {},
+        "endpoint": "/assets/recipients.json",
+        "idProperty": "uuid",
+        "localStorage": true,
+      }
+    }
+    className="recipients"
+    data-spec="recipients"
+    name="Groups"
+    onChange={[Function]}
+    placeholder="Enter a group or contact..."
+    required={true}
+    searchPromptText="No matches"
+    selected={Array []}
+  />
+  <Connect(TextInputElement)
+    autocomplete={true}
+    count="SMS"
+    focus={true}
+    name="Message"
+    onChange={[Function]}
+    placeholder=""
+    required={true}
+    showLabel={false}
+    textarea={true}
+    value=""
+  />
+</div>
+`;
+
 exports[`SendBroadcastForm render should render self, children with base props 1`] = `
 <div>
   <OmniboxElement
@@ -60,6 +96,33 @@ exports[`SendBroadcastForm render should render self, children with base props 1
     showLabel={false}
     textarea={true}
     value="Hello World"
+  />
+</div>
+`;
+
+exports[`SendBroadcastForm render should render the localized text 1`] = `
+<div>
+  <div
+    data-spec="translation-container"
+  >
+    <div
+      className="translate_from"
+      data-spec="text-to-translate"
+    >
+      Hello World
+    </div>
+  </div>
+  <Connect(TextInputElement)
+    autocomplete={true}
+    count="SMS"
+    focus={true}
+    name="Message"
+    onChange={[Function]}
+    placeholder="Spanish Translation"
+    required={false}
+    showLabel={false}
+    textarea={true}
+    value="espanols!"
   />
 </div>
 `;

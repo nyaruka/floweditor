@@ -18,6 +18,7 @@ describe('SendBroadcastComp', () => {
                     ]
                 }
             });
+            expect(wrapper.html()).toContain('Kellan Alexander');
             expect(wrapper.html()).toMatchSnapshot('contacts');
         });
 
@@ -31,6 +32,7 @@ describe('SendBroadcastComp', () => {
                     ]
                 }
             });
+            expect(wrapper.html()).toContain('Cat Fanciers');
             expect(wrapper.html()).toMatchSnapshot('groups');
         });
 
@@ -48,6 +50,7 @@ describe('SendBroadcastComp', () => {
                     ]
                 }
             });
+            expect(wrapper.html()).toContain('...');
             expect(wrapper.html()).toMatchSnapshot('ellipsized');
         });
 

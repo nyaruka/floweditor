@@ -1,9 +1,10 @@
 import { v4 as generateUUID } from 'uuid';
 
 import { FormHelper, Types } from '../../../config/typeConfigs';
-import { BroadcastMsg, Contact, Group } from '../../../flowTypes';
+import { BroadcastMsg } from '../../../flowTypes';
 import { Asset, AssetType } from '../../../services/AssetService';
 import { SendBroadcastFormState } from '../../../store/nodeEditor';
+import { getRecipients } from './helpers';
 
 export class SendBroadcastFormHelper implements FormHelper {
     public actionToState(action: BroadcastMsg): SendBroadcastFormState {
@@ -12,7 +13,7 @@ export class SendBroadcastFormHelper implements FormHelper {
                 uuid: action.uuid,
                 type: action.type,
                 text: action.text,
-                recipients: this.getRecipients(action),
+                recipients: getRecipients(action),
                 translatedText: action.text
             };
         }
@@ -34,18 +35,6 @@ export class SendBroadcastFormHelper implements FormHelper {
             type: state.type,
             uuid: state.uuid
         };
-    }
-
-    private getRecipients(action: BroadcastMsg): Asset[] {
-        const selected = action.groups.map((group: Group) => {
-            return { id: group.uuid, name: group.name, type: AssetType.Group };
-        });
-
-        return selected.concat(
-            action.contacts.map((contact: Contact) => {
-                return { id: contact.uuid, name: contact.name, type: AssetType.Contact };
-            })
-        );
     }
 
     private getAsset(assets: Asset[], type: AssetType): any[] {

@@ -1,13 +1,14 @@
-import * as React from 'react';
 import { react as bindCallbacks } from 'auto-bind';
+import * as React from 'react';
 import TextareaAutosize from 'react-autosize-textarea';
-import { FlowPosition, StickyNote, FlowDefinition } from '../../flowTypes';
-import { AppState, DispatchWithState, updateSticky, UpdateSticky } from '../../store';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { snapToGrid, QUIET_NOTE, CONFIRMATION_TIME } from '../../utils';
+import { bindActionCreators } from 'redux';
+
+import { FlowDefinition, StickyNote } from '../../flowTypes';
 import { DragEvent } from '../../services/Plumber';
-import { onResetDragSelection, OnResetDragSelection } from '../../store/thunks';
+import { AppState, DispatchWithState, UpdateSticky, updateSticky } from '../../store';
+import { OnResetDragSelection, onResetDragSelection } from '../../store/thunks';
+import { CONFIRMATION_TIME, QUIET_NOTE, snapToGrid } from '../../utils';
 import * as styles from './Sticky.scss';
 
 type DragFunction = (event: DragEvent) => void;
@@ -215,7 +216,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
                 <div className={styles.sticky}>
                     <div className={titleClasses.join(' ')}>
                         <div className={styles.removeButton} onClick={this.onClickRemove}>
-                            <span className="icn-remove" />
+                            <span className="icn-cross" />
                         </div>
                         <div className={styles.confirmation}>Remove?</div>
                         <TextareaAutosize
