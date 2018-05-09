@@ -80,7 +80,7 @@ describe(TitleBar.name, () => {
                 expect(
                     getSpecWrapper(wrapper, removeIconSpecId).hasClass('removeButton')
                 ).toBeTruthy();
-                expect(wrapper.find('.icn-delete').exists()).toBeTruthy();
+                expect(wrapper.find('.icn-cross').exists()).toBeTruthy();
                 expect(wrapper).toMatchSnapshot();
             });
 
@@ -114,7 +114,7 @@ describe(TitleBar.name, () => {
                 expect(confirmation.hasClass('removeConfirm')).toBeTruthy();
                 expect(confirmation.text()).toBe('Remove?');
                 expect(confirmRemoval.hasClass('removeButton')).toBeTruthy();
-                expect(wrapper.find('.icn-delete').exists()).toBeTruthy();
+                expect(wrapper.find('.icn-cross').exists()).toBeTruthy();
                 expect(wrapper).toMatchSnapshot();
 
                 jest.clearAllTimers();

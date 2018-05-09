@@ -90,8 +90,9 @@
         .title-wrapper {
             transition: none;
             padding: 8px 8px;
+            padding-right: 12px;
             padding-bottom: 4px;
-            width: 160px;
+            width: 156px;
             background: rgba(0,0,0,.05);
             
             position: relative;
@@ -103,11 +104,12 @@
 
             .remove-button {
                 position: absolute;
-                right: 2px;
-                top: 2px;
+                right: 8px;
+                top: 10px;
                 color: rgba(0,0,0,.2);
                 z-index: 1000;
                 visibility: hidden;
+                font-size: 14px;
             }
 
             .confirmation {
@@ -129,7 +131,7 @@
                 font-weight: 600;
                 font-size: 12px;
                 line-height: 14px;
-                width: 154px;
+                width: 140px;
                 resize: none;
                 outline: none;
                 box-shadow: none;

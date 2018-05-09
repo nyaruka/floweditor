@@ -97,7 +97,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
                     {...createClickHandler(this.onConfirmRemoval)}
                     data-spec={removeIconSpecId}
                 >
-                    <span className="icn-delete" />
+                    <span className="icn-cross" />
                 </div>
             );
         }
@@ -116,7 +116,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
                         {...createClickHandler(this.props.onRemoval)}
                         data-spec={confirmRemovalSpecId}
                     >
-                        <span className="icn-delete" />
+                        <span className="icn-cross" />
                     </div>
                     Remove?
                 </div>
