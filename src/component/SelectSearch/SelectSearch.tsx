@@ -254,6 +254,8 @@ export default class SelectSearch extends React.PureComponent<
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
                     onChange={onChange}
+                    optionComponent={SelectOption}
+                    valueComponent={SelectValue}
                     searchPromptText={this.props.searchPromptText}
                     {...createOptions}
                 />
