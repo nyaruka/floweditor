@@ -63,7 +63,8 @@ export const composeSetup = <P extends {}>(
     propOverrides: Query<P | Partial<P>> = {},
     duxStateOverrides: Query<AppState | Partial<AppState>> = {},
     contextOverrides: Query<ConfigProviderContext | Partial<ConfigProviderContext>> = {},
-    childContextTypeOverrides: { [key: string]: Function } = {}
+    childContextTypeOverrides: { [key: string]: Function } = {},
+    children: Array<JSX.Element | React.ComponentClass | React.SFC> = []
 ) => {
     const props = mutate(baseProps, propOverrides);
     const store = createStore(mutate(baseDuxState, duxStateOverrides) as AppState);
@@ -83,7 +84,7 @@ export const composeSetup = <P extends {}>(
     );
     // tslint:disable-next-line:ban-types
     const wrapper = (shallowRender ? (shallow as Function) : (mount as Function))(
-        <Component {...props} />,
+        <Component {...props}>{children}</Component>,
         {
             context,
             childContextTypes

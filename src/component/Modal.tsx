@@ -2,7 +2,8 @@ import * as React from 'react';
 import * as ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 
-import { Case, FlowNode, SwitchRouter, WaitTypes } from '../flowTypes';
+import { Types } from '../config/typeConfigs';
+import { Case, FlowNode, SwitchRouter } from '../flowTypes';
 import { AppState } from '../store';
 import { renderIf } from '../utils';
 import Button, { ButtonProps, ButtonTypes } from './Button';
@@ -38,6 +39,7 @@ export interface ModalPassedProps {
 export interface ModalStoreProps {
     translating: boolean;
     nodeToEdit: FlowNode;
+    type: Types;
 }
 
 export type ModalProps = ModalPassedProps & ModalStoreProps;
@@ -149,6 +151,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                     );
                 }
             }
+
             return (
                 <div key={`modal_side_${childIdx}`} className={classes.join(' ')}>
                     <div className={styles.modal}>
@@ -167,8 +170,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                                     // prettier-ignore
                                     isFrontForm &&
                                     !this.props.translating &&
-                                    this.props.nodeToEdit.wait &&
-                                    this.props.nodeToEdit.wait.type === WaitTypes.msg
+                                    this.props.type === Types.wait_for_response
                                 )(<ConnectedTimeoutControl />)}
                             </div>
                             <div className={styles.sectionRight}>
@@ -185,11 +187,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     }
 
     public render(): JSX.Element {
-        const onRequestClose = this.props.buttons.secondary
-            ? this.props.buttons.secondary.onClick
-            : null;
-
-        const width: string = this.props.width ? this.props.width : '700px';
         const customStyles: CustomStyles = {
             content: {
                 marginLeft: 'auto',
@@ -199,34 +196,36 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 padding: 'none',
                 borderRadius: 'none',
                 outline: 'none',
-                width,
+                width: this.props.width ? this.props.width : '700px',
                 border: 'none'
             }
         };
-        const topStyle: string = this.getTopStyle();
-        const sides: JSX.Element[] = this.mapSides();
         return (
             <ReactModal
                 ariaHideApp={false}
                 isOpen={this.props.show}
                 onAfterOpen={this.props.onModalOpen}
-                onRequestClose={onRequestClose}
+                onRequestClose={
+                    this.props.buttons.secondary ? this.props.buttons.secondary.onClick : null
+                }
                 style={customStyles}
                 shouldCloseOnOverlayClick={false}
                 contentLabel="Modal"
             >
-                <div className={topStyle}>{sides}</div>
+                <div className={this.getTopStyle()}>{this.mapSides()}</div>
             </ReactModal>
         );
     }
 }
 
+/* istanbul ignore next */
 const mapStateToProps = ({
     flowEditor: { editorUI: { translating } },
-    nodeEditor: { nodeToEdit }
+    nodeEditor: { nodeToEdit, typeConfig }
 }: AppState) => ({
     translating,
-    nodeToEdit
+    nodeToEdit,
+    type: typeConfig.type
 });
 
 // To-do: type properly

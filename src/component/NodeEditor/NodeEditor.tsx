@@ -1265,6 +1265,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 }
 
+/* istanbul ignore next */
 const mapStateToProps = ({
     flowContext: { localizations, definition, nodes },
     flowEditor: {
@@ -1297,6 +1298,7 @@ const mapStateToProps = ({
     pendingConnection
 });
 
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {

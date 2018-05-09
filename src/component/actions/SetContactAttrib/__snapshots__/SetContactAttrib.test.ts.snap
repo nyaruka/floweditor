@@ -8,7 +8,7 @@ exports[`SetContactAttribComp render helpers getAttribNameMarkup should return e
 </span>
 `;
 
-exports[`SetContactAttribComp render helpers getAttribNameMarkup should return emphasized property 1`] = `
+exports[`SetContactAttribComp render helpers getAttribNameMarkup should return emphasized name property 1`] = `
 <span
   className="emph"
 >
@@ -16,7 +16,7 @@ exports[`SetContactAttribComp render helpers getAttribNameMarkup should return e
 </span>
 `;
 
-exports[`SetContactAttribComp render should render with 'clear...' div when value prop isn't passed 1`] = `
+exports[`SetContactAttribComp render should render with 'clear...' div when name prop isn't passed 1`] = `
 <React.Fragment>
   Clear value for 
   <span
@@ -27,7 +27,35 @@ exports[`SetContactAttribComp render should render with 'clear...' div when valu
 </React.Fragment>
 `;
 
-exports[`SetContactAttribComp render should render with 'update...' div when value prop passed 1`] = `
+exports[`SetContactAttribComp render should render with 'clear...' div when value prop isn't passed 1`] = `
+<React.Fragment>
+  Clear value for 
+  <span
+    className="emph"
+  >
+    Age
+  </span>
+</React.Fragment>
+`;
+
+exports[`SetContactAttribComp render should render with 'update...' div when passed set_contact_field action 1`] = `
+<React.Fragment>
+  Update 
+  <span
+    className="emph"
+  >
+    Age
+  </span>
+   to 
+  <span
+    className="emph"
+  >
+    25
+  </span>
+</React.Fragment>
+`;
+
+exports[`SetContactAttribComp render should render with 'update...' div when passed set_contact_name action 1`] = `
 <React.Fragment>
   Update 
   <span
