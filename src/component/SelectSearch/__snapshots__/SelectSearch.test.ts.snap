@@ -6,7 +6,7 @@ Object {
   "cache": Object {},
   "children": [Function],
   "className": undefined,
-  "clearable": undefined,
+  "clearable": false,
   "closeOnSelect": undefined,
   "filterOption": [Function],
   "ignoreAccents": false,
@@ -41,6 +41,7 @@ exports[`SelectSearch render should render self, children with required props 2`
   <Async
     autoload={true}
     cache={Object {}}
+    clearable={false}
     filterOption={[Function]}
     ignoreAccents={false}
     ignoreCase={false}
@@ -69,7 +70,7 @@ exports[`SelectSearch render should render self, children with required props 2`
       clearAllText="Clear all"
       clearRenderer={[Function]}
       clearValueText="Clear value"
-      clearable={true}
+      clearable={false}
       closeOnSelect={true}
       deleteRemoves={true}
       delimiter=","
@@ -116,7 +117,7 @@ exports[`SelectSearch render should render self, children with required props 2`
       valueKey="id"
     >
       <div
-        className="Select Select--single is-clearable is-searchable"
+        className="Select Select--single is-searchable"
       >
         <div
           className="Select-control"

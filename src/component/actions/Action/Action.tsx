@@ -149,7 +149,6 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         const showRemoval = !this.props.translating;
         const showMove = !this.props.first && !this.props.translating;
 
-        console.log(actionClass);
         return (
             <div
                 id={`action-${this.props.action.uuid}`}
