@@ -21,7 +21,7 @@ import GroupsRouter from '../component/routers/GroupsRouter';
 import SubflowRouter from '../component/routers/SubflowRouter';
 import SwitchRouter from '../component/routers/SwitchRouter';
 import WebhookRouter from '../component/routers/WebhookRouter';
-import { AnyAction, RouterTypes, UINodeTypes } from '../flowTypes';
+import { AnyAction, RouterTypes, UINodeTypes, SetContactAttribute } from '../flowTypes';
 import { NodeEditorForm } from '../store/nodeEditor';
 
 /*
@@ -74,7 +74,7 @@ export enum Mode {
 }
 
 export interface FormHelper {
-    actionToState: (action: AnyAction) => NodeEditorForm;
+    actionToState: (action: AnyAction, type?: Types) => NodeEditorForm;
     stateToAction: (formState: NodeEditorForm) => AnyAction;
 }
 

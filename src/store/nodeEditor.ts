@@ -30,10 +30,12 @@ export interface SendBroadcastFormState extends ActionState {
 
 export interface SetContactFieldFormState extends ActionState {
     field: Asset;
+    value: string;
 }
 
 export interface SetContactNameFormState extends ActionState {
     name: Asset;
+    value: string;
 }
 
 export type SetContactAttribFormState = SetContactFieldFormState | SetContactNameFormState;

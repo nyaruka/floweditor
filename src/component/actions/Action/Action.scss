@@ -20,7 +20,7 @@
 
     &.add_input_labels, &.send_msg, &.set_contact_field, &.set_contact_name,
     &.add_contact_groups, &.remove_contact_groups, &.set_run_result,
-    &.send_email, &.send_broadcast, &.missing {
+    &.send_email, &.send_broadcast, &.missing, &.start_flow {
         width: $node_width - $action_padding * 2;
         padding: $action_padding;
     }

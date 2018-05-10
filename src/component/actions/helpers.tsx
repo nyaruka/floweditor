@@ -4,7 +4,7 @@ import { Asset, AssetType } from '../../services/AssetService';
 
 const styles = require('../shared.scss');
 
-export const renderAssetList = (assets: Asset[], max: number): JSX.Element[] => {
+export const renderAssetList = (assets: Asset[], max: number = 10): JSX.Element[] => {
     return assets.reduce((elements, asset, idx) => {
         if (idx <= max - 1) {
             elements.push(renderAsset(asset));
@@ -28,6 +28,13 @@ export const renderAsset = (asset: Asset) => {
             return (
                 <div className={styles.nodeAsset} key={asset.id}>
                     <span className={`${styles.nodeLabel} icn-label`} />
+                    {asset.name}
+                </div>
+            );
+        case AssetType.Flow:
+            return (
+                <div className={styles.nodeAsset} key={asset.id}>
+                    <span className={`${styles.nodeLabel} icn-split`} />
                     {asset.name}
                 </div>
             );

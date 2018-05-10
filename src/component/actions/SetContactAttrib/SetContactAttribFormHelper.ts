@@ -1,10 +1,13 @@
 import { v4 as generateUUID } from 'uuid';
 
 import { FormHelper, Types } from '../../../config/typeConfigs';
-import { SetContactAttribute, SetContactName } from '../../../flowTypes';
-import { Asset, AssetType } from '../../../services/AssetService';
-import { SetContactAttribFormState } from '../../../store/nodeEditor';
-import { fieldToAsset, propertyToAsset } from './helpers';
+import { Action, SetContactAttribute, SetContactField, SetContactName } from '../../../flowTypes';
+import {
+    SetContactAttribFormState,
+    SetContactFieldFormState,
+    SetContactNameFormState
+} from '../../../store/nodeEditor';
+import { assetToField, fieldToAsset, propertyToAsset } from './helpers';
 
 export class SetContactAttribFormHelper implements FormHelper {
     // passed an existing action or null
@@ -12,24 +15,26 @@ export class SetContactAttribFormHelper implements FormHelper {
         action: SetContactAttribute,
         type: Types.set_contact_field | Types.set_contact_name
     ): SetContactAttribFormState {
-        const state = {
+        const state: Action = {
             uuid: action.uuid,
             type: action.type
         };
 
-        // if we have an existing action, use it
+        // if we have an existing contact attribute action, use it
         switch (action.type) {
             case Types.set_contact_field:
                 return {
                     ...state,
-                    field: fieldToAsset(action)
-                };
+                    field: fieldToAsset(action),
+                    value: action.value
+                } as SetContactFieldFormState;
             case Types.set_contact_name:
                 return {
                     ...state,
-                    name: propertyToAsset(action as SetContactName)
-                };
-            // otherwise, create a new action
+                    name: propertyToAsset(action as SetContactName),
+                    value: (action as SetContactName).name
+                } as SetContactNameFormState;
+            // otherwise, create a new contact attribute action
             default:
                 const uuid = generateUUID();
                 switch (type) {
@@ -37,38 +42,35 @@ export class SetContactAttribFormHelper implements FormHelper {
                         return {
                             uuid,
                             type: Types.set_contact_field,
-                            field: fieldToAsset()
-                        };
+                            field: fieldToAsset({} as SetContactField)
+                        } as SetContactFieldFormState;
                     case Types.set_contact_name:
                         return {
                             uuid,
                             type: Types.set_contact_name,
-                            name: ''
-                        } as SetContactName;
+                            name: propertyToAsset({} as SetContactName)
+                        } as SetContactNameFormState;
                 }
-                return {
-                    uuid: generateUUID(),
-                    type: Types.send_broadcast,
-                    text: '',
-                    recipients: [],
-                    translatedText: ''
-                };
         }
     }
 
     public stateToAction(state: SetContactAttribFormState): SetContactAttribute {
-        return {
-            contacts: this.getAsset(state.recipients, AssetType.Contact),
-            groups: this.getAsset(state.recipients, AssetType.Group),
-            text: state.text,
+        const action: Action = {
             type: state.type,
             uuid: state.uuid
         };
-    }
 
-    private getAsset(assets: Asset[], type: AssetType): any[] {
-        return assets.filter((asset: Asset) => asset.type === type).map((asset: Asset) => {
-            return { uuid: asset.id, name: asset.name };
-        });
+        switch (state.type) {
+            case Types.set_contact_field:
+                return {
+                    ...action,
+                    field: assetToField((state as SetContactFieldFormState).field)
+                } as SetContactField;
+            case Types.set_contact_name:
+                return {
+                    ...action,
+                    name: state.value
+                } as SetContactName;
+        }
     }
 }

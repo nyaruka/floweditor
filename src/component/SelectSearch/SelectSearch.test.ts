@@ -1,10 +1,11 @@
-import axiosMock from 'axios';
-import { FlowEditorConfig, ResultType } from '../../flowTypes';
+import * as config from '../../../__test__/config';
+import { ResultType } from '../../flowTypes';
+import AssetService from '../../services/AssetService';
 import {
     composeComponentTestUtils,
     configProviderContext,
-    Resp,
     flushPromises,
+    Resp,
     restoreSpies
 } from '../../testUtils';
 import { GROUP_NOT_FOUND, GROUP_PLACEHOLDER } from '../form/constants';
@@ -17,7 +18,8 @@ const baseProps: SelectSearchProps = {
     name: 'Groups',
     resultType: ResultType.group,
     placeholder: GROUP_PLACEHOLDER,
-    searchPromptText: GROUP_NOT_FOUND
+    searchPromptText: GROUP_NOT_FOUND,
+    assets: new AssetService(config).getGroupAssets()
 };
 
 const { setup, spyOn } = composeComponentTestUtils(SelectSearch, baseProps);
@@ -71,22 +73,39 @@ describe(SelectSearch.name, () => {
                 componentWillReceivePropsSpy.mockRestore();
             });
 
-            xit('should set state if it receives a new initial option through props', () => {
-                const setStateSpy = spyOn('setState');
-                const { wrapper } = setup();
-                /*
-                const initial = mapRespToSearchOpts(groupsResp);
-                const nextProps = { ...baseProps, initial };
-
-                wrapper.setProps(nextProps);
-
-                expect(setStateSpy).toHaveBeenCalledTimes(1);
-                expect(setStateSpy).toHaveBeenCalledWith({
-                    selections: initial
+            it('should change single selection', () => {
+                const { wrapper, instance, props } = setup(false, {
+                    $merge: { multi: false, onChange: jest.fn() }
                 });
 
-                setStateSpy.mockRestore();
-                */
+                instance.onChange({
+                    name: 'Subscribers',
+                    uuid: '33b28bac-b588-43e4-90de-fda77aeaf7c0'
+                });
+
+                expect(props.onChange).toHaveBeenCalledWith([
+                    { name: 'Subscribers', uuid: '33b28bac-b588-43e4-90de-fda77aeaf7c0' }
+                ]);
+            });
+
+            it('should add a new item', () => {
+                const { wrapper, instance, props } = setup(false, {
+                    $merge: { multi: false, onChange: jest.fn() }
+                });
+
+                instance.onChange({
+                    name: 'My New Group Name',
+                    uuid: '2a5e3a2d-326e-4aca-b91e-4aff20c9b4c5',
+                    isNew: true
+                });
+
+                expect(props.onChange).toHaveBeenCalledWith([
+                    {
+                        isNew: true,
+                        name: 'My New Group Name',
+                        uuid: '2a5e3a2d-326e-4aca-b91e-4aff20c9b4c5'
+                    }
+                ]);
             });
         });
     });

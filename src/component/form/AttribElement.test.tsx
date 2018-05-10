@@ -69,7 +69,7 @@ describe(AttribElement.name, () => {
                 const setStateSpy = spyOn('setState');
                 const { wrapper, instance } = setup();
 
-                instance.onChange(existingField);
+                instance.onChange([existingField]);
 
                 expect(setStateSpy).toHaveBeenCalledTimes(1);
                 expect(setStateSpy).toHaveBeenCalledWith(
@@ -85,7 +85,7 @@ describe(AttribElement.name, () => {
                 // tslint:disable-next-line:no-shadowed-variable
                 const { wrapper, instance, props: { initial } } = setup();
 
-                instance.onChange(initial);
+                instance.onChange([initial]);
 
                 expect(setStateSpy).toHaveBeenCalledTimes(0);
 

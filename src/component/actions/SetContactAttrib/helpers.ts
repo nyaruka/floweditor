@@ -1,9 +1,16 @@
 import { v4 as generateUUID } from 'uuid';
 
 import { Types } from '../../../config/typeConfigs';
-import { Action, SetContactField, SetContactName, SetContactProperty } from '../../../flowTypes';
+import {
+    Action,
+    Field,
+    SetContactField,
+    SetContactName,
+    SetContactProperty
+} from '../../../flowTypes';
 import { Asset, AssetType } from '../../../services/AssetService';
 import { snakify, titleCase } from '../../../utils';
+import { set_contact_name } from '../Action/Action.scss';
 
 export type ContactProperty = Types.set_contact_name;
 
@@ -47,14 +54,27 @@ export const newPropertyAction = ({
     }
 };
 
-export const fieldToAsset = ({ field = { key: '', name: '' } }: SetContactField): Asset => ({
+export const fieldToAsset = ({
+    uuid = generateUUID(),
+    field = { key: '', name: '' },
+    type = Types.set_contact_field
+}: SetContactField): Asset => ({
     id: field.key,
     name: field.name,
     type: AssetType.Field
 });
 
-export const propertyToAsset = (property: SetContactProperty): Asset => {
-    switch (property.type) {
+export const assetToField = (asset: Asset): Field => ({
+    key: asset.id,
+    name: asset.name
+});
+
+export const propertyToAsset = ({
+    uuid = generateUUID(),
+    name = '',
+    type = Types.set_contact_name
+}: SetContactProperty): Asset => {
+    switch (type) {
         case Types.set_contact_name:
             return {
                 type: AssetType.Name,

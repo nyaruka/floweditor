@@ -6,7 +6,7 @@ Object {
   "cache": Object {},
   "children": [Function],
   "className": undefined,
-  "clearable": undefined,
+  "clearable": false,
   "closeOnSelect": undefined,
   "filterOption": [Function],
   "ignoreAccents": false,
@@ -32,6 +32,15 @@ Object {
 
 exports[`SelectSearch render should render self, children with required props 2`] = `
 <SelectSearch
+  assets={
+    GroupAssets {
+      "assetType": "group",
+      "assets": Object {},
+      "endpoint": "/assets/groups.json",
+      "idProperty": "uuid",
+      "localStorage": true,
+    }
+  }
   name="Groups"
   placeholder="Enter the name of an existing group..."
   resultType="group"
@@ -41,6 +50,7 @@ exports[`SelectSearch render should render self, children with required props 2`
   <Async
     autoload={true}
     cache={Object {}}
+    clearable={false}
     filterOption={[Function]}
     ignoreAccents={false}
     ignoreCase={false}
@@ -69,7 +79,7 @@ exports[`SelectSearch render should render self, children with required props 2`
       clearAllText="Clear all"
       clearRenderer={[Function]}
       clearValueText="Clear value"
-      clearable={true}
+      clearable={false}
       closeOnSelect={true}
       deleteRemoves={true}
       delimiter=","
@@ -100,7 +110,35 @@ exports[`SelectSearch render should render self, children with required props 2`
       openOnClick={true}
       openOnFocus={true}
       optionComponent={[Function]}
-      options={Array []}
+      options={
+        Array [
+          Object {
+            "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
+            "name": "Customers",
+            "type": "group",
+          },
+          Object {
+            "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+            "name": "Early Adopters",
+            "type": "group",
+          },
+          Object {
+            "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+            "name": "Subscribers",
+            "type": "group",
+          },
+          Object {
+            "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
+            "name": "Testers",
+            "type": "group",
+          },
+          Object {
+            "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
+            "name": "Unsatisfied Customers",
+            "type": "group",
+          },
+        ]
+      }
       pageSize={5}
       placeholder="Enter the name of an existing group..."
       removeSelected={true}
@@ -116,7 +154,7 @@ exports[`SelectSearch render should render self, children with required props 2`
       valueKey="id"
     >
       <div
-        className="Select Select--single is-clearable is-searchable"
+        className="Select Select--single is-searchable"
       >
         <div
           className="Select-control"

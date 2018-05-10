@@ -28,7 +28,7 @@ export interface SelectSearchProps {
     assets?: Assets;
     __className?: string;
     createPrompt?: string;
-    onChange?: (selections: Asset | Asset[]) => void;
+    onChange?: (selections: Asset[]) => void;
     isValidNewOption?: IsValidNewOptionHandler;
     isOptionUnique?: IsOptionUniqueHandler;
     createNewOption?: NewOptionCreatorHandler;
@@ -66,44 +66,17 @@ export default class SelectSearch extends React.PureComponent<
         }
     }
 
-    private onChange(selection: Asset): void {
-        // Account for null selections
-        if (!selection) {
-            return;
-        }
-
-        if (selection.isNew && this.props.assets) {
-            this.props.assets.add(selection);
-        }
-
-        // Convert to array to update state
-        const selections = [selection];
-
-        if (!isEqual(this.state.selections, selections)) {
-            if (this.props.onChange) {
-                this.props.onChange(selection);
-            }
-
-            this.setState(
-                {
-                    selections
-                },
-                () => this.select.focus()
-            );
-        }
+    public onChange(selection: Asset): void {
+        this.onChangeMulti([selection]);
     }
 
-    private onChangeMulti(selections: Asset[]): void {
+    public onChangeMulti(selections: Asset[]): void {
         if (this.props.assets) {
             for (const selection of selections) {
                 if (selection.isNew) {
                     this.props.assets.add(selection);
                 }
             }
-        }
-        // Account for null selections
-        if (!selections) {
-            return;
         }
 
         if (!isEqual(this.state.selections, selections)) {
@@ -249,7 +222,7 @@ export default class SelectSearch extends React.PureComponent<
                     valueKey="id"
                     labelKey="name"
                     multi={this.props.multi}
-                    clearable={this.props.multi}
+                    clearable={false}
                     searchable={true}
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
@@ -276,7 +249,7 @@ export default class SelectSearch extends React.PureComponent<
                     valueKey="id"
                     labelKey="name"
                     multi={this.props.multi}
-                    clearable={this.props.multi}
+                    clearable={false}
                     searchable={true}
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
