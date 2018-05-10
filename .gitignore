@@ -1,4 +1,5 @@
 .*
+!.storybook/
 node_modules/
 umd/
 dist/
