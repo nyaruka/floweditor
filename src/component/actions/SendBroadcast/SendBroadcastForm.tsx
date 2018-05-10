@@ -171,8 +171,8 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ updateSendBroadcastForm }, dispatch);
 
-const ConnectedSendMsgForm = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(
-    SendBroadcastForm
-);
+const ConnectedSendBroadcastForm = connect(mapStateToProps, mapDispatchToProps, null, {
+    withRef: true
+})(SendBroadcastForm);
 
-export default ConnectedSendMsgForm;
+export default ConnectedSendBroadcastForm;

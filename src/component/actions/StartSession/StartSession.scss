@@ -1,7 +1,7 @@
 @import "../../../variables.scss";
 
 .recipients {
-    margin-bottom: 15px;
+
 }
 
 .node {
@@ -31,4 +31,8 @@
         padding: $action_padding;
         width: 100%;
     }
+}
+
+.flow {
+    padding: $node_padding + px;
 }

@@ -17,6 +17,9 @@ import SetContactAttribForm from '../component/actions/SetContactAttrib/SetConta
 import SetRunResultComp from '../component/actions/SetRunResult/SetRunResult';
 import SetRunResultForm from '../component/actions/SetRunResult/SetRunResultForm';
 import StartFlowComp from '../component/actions/StartFlow/StartFlow';
+import StartSessionComp from '../component/actions/StartSession/StartSession';
+import StartSessionForm from '../component/actions/StartSession/StartSessionForm';
+import { StartSessionFormHelper } from '../component/actions/StartSession/StartSessionFormHelper';
 import GroupsRouter from '../component/routers/GroupsRouter';
 import SubflowRouter from '../component/routers/SubflowRouter';
 import SwitchRouter from '../component/routers/SwitchRouter';
@@ -188,11 +191,20 @@ export const typeConfigList: Type[] = [
     },
     {
         type: Types.start_flow,
-        name: 'Run Flow',
-        description: 'Run another flow',
+        name: 'Start a Flow',
+        description: 'Enter another flow',
         form: SubflowRouter,
         component: StartFlowComp,
         aliases: [UINodeTypes.subflow],
+        allows
+    },
+    {
+        type: Types.start_session,
+        name: 'Start Somebody Else',
+        description: 'Start somebody else in a flow',
+        form: StartSessionForm,
+        formHelper: new StartSessionFormHelper(),
+        component: StartSessionComp,
         allows
     },
 

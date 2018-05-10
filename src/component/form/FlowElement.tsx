@@ -11,6 +11,7 @@ interface FlowElementProps extends FormElementProps {
     endpoint?: string;
     placeholder?: string;
     assets: Assets;
+    onChange?: (selected: Asset[]) => void;
 }
 
 interface FlowState {
@@ -38,13 +39,17 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
             errors: []
         };
 
-        this.onChange = this.onChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    private onChange(selected: Asset[]): void {
+    private handleChange(selected: Asset[]): void {
         this.setState({
             flow: selected[0]
         });
+
+        if (this.props.onChange) {
+            this.props.onChange(selected);
+        }
     }
 
     private validate(): boolean {
@@ -67,7 +72,7 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <SelectSearch
                     __className={className}
-                    onChange={this.onChange}
+                    onChange={this.handleChange}
                     name={this.props.name}
                     assets={this.props.assets}
                     resultType={ResultType.flow}
