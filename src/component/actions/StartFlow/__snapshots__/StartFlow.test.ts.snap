@@ -1,9 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`StartFlowComp render should render flow name 1`] = `
-<div
-  className="startFlow"
->
-  Colors
-</div>
+<React.Fragment>
+  <div
+    className="nodeAsset"
+    key="start_flow-0"
+  >
+    <span
+      className="nodeLabel icn-split"
+    />
+    Colors
+  </div>
+</React.Fragment>
 `;

@@ -1,9 +1,10 @@
 import * as React from 'react';
+
+import { ResultType } from '../../flowTypes';
+import { Asset, Assets, AssetType } from '../../services/AssetService';
 import { getSelectClass } from '../../utils';
 import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
-import { ResultType } from '../../flowTypes';
-import { Assets, Asset, AssetType } from '../../services/AssetService';
 
 interface FlowElementProps extends FormElementProps {
     flow: { name: string; uuid: string };
@@ -40,9 +41,9 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
         this.onChange = this.onChange.bind(this);
     }
 
-    private onChange(flow: any): void {
+    private onChange(selected: Asset[]): void {
         this.setState({
-            flow
+            flow: selected[0]
         });
     }
 

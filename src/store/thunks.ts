@@ -667,7 +667,7 @@ export const onUpdateRouter = (node: RenderNode) => (
         node.node = mutators.uniquifyNode(node.node);
     }
 
-    if (nodeToEdit && actionToEdit) {
+    if (nodeToEdit && actionToEdit && previousNode) {
         const actionToSplice = previousNode.node.actions.find(
             (action: Action) => action.uuid === actionToEdit.uuid
         );
