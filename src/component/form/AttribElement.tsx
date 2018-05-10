@@ -53,7 +53,8 @@ export default class AttribElement extends React.Component<AttribElementProps, A
         this.onChange = this.onChange.bind(this);
     }
 
-    private onChange(attribute: Asset): void {
+    private onChange(selected: Asset[]): void {
+        const attribute = selected[0];
         if (!isEqual(this.state.attribute, attribute)) {
             this.setState({ attribute });
         }
