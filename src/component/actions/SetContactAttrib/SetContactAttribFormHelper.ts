@@ -42,34 +42,36 @@ export class SetContactAttribFormHelper implements FormHelper {
                         return {
                             uuid,
                             type: Types.set_contact_field,
-                            field: fieldToAsset({} as SetContactField)
+                            field: fieldToAsset({} as SetContactField),
+                            value: action.value
                         } as SetContactFieldFormState;
                     case Types.set_contact_name:
                         return {
                             uuid,
                             type: Types.set_contact_name,
-                            name: propertyToAsset({} as SetContactName)
+                            name: propertyToAsset({} as SetContactName),
+                            value: action.value
                         } as SetContactNameFormState;
                 }
         }
     }
 
-    public stateToAction(state: SetContactAttribFormState): SetContactAttribute {
+    public stateToAction(uuid: string, formState: SetContactAttribFormState): SetContactAttribute {
         const action: Action = {
-            type: state.type,
-            uuid: state.uuid
+            type: formState.type,
+            uuid
         };
 
-        switch (state.type) {
+        switch (formState.type) {
             case Types.set_contact_field:
                 return {
                     ...action,
-                    field: assetToField((state as SetContactFieldFormState).field)
+                    field: assetToField((formState as SetContactFieldFormState).field)
                 } as SetContactField;
             case Types.set_contact_name:
                 return {
                     ...action,
-                    name: state.value
+                    name: formState.value
                 } as SetContactName;
         }
     }

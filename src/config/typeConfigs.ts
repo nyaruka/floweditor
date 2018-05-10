@@ -14,6 +14,7 @@ import SendMsgComp from '../component/actions/SendMsg/SendMsg';
 import SendMsgForm from '../component/actions/SendMsg/SendMsgForm';
 import SetContactAttrib from '../component/actions/SetContactAttrib/SetContactAttrib';
 import SetContactAttribForm from '../component/actions/SetContactAttrib/SetContactAttribForm';
+import { SetContactAttribFormHelper } from '../component/actions/SetContactAttrib/SetContactAttribFormHelper';
 import SetRunResultComp from '../component/actions/SetRunResult/SetRunResult';
 import SetRunResultForm from '../component/actions/SetRunResult/SetRunResultForm';
 import StartFlowComp from '../component/actions/StartFlow/StartFlow';
@@ -21,7 +22,7 @@ import GroupsRouter from '../component/routers/GroupsRouter';
 import SubflowRouter from '../component/routers/SubflowRouter';
 import SwitchRouter from '../component/routers/SwitchRouter';
 import WebhookRouter from '../component/routers/WebhookRouter';
-import { AnyAction, RouterTypes, UINodeTypes, SetContactAttribute } from '../flowTypes';
+import { AnyAction, RouterTypes, UINodeTypes } from '../flowTypes';
 import { NodeEditorForm } from '../store/nodeEditor';
 
 /*
@@ -75,7 +76,7 @@ export enum Mode {
 
 export interface FormHelper {
     actionToState: (action: AnyAction, type?: Types) => NodeEditorForm;
-    stateToAction: (formState: NodeEditorForm) => AnyAction;
+    stateToAction: (uuid: string, formState: NodeEditorForm) => AnyAction;
 }
 
 export interface Type {
@@ -156,6 +157,7 @@ export const typeConfigList: Type[] = [
         name: 'Update Contact',
         description: 'Update the contact',
         form: SetContactAttribForm,
+        formHelper: new SetContactAttribFormHelper(),
         component: SetContactAttrib,
         aliases: [Types.set_contact_name],
         allows
