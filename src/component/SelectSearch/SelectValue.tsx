@@ -25,7 +25,6 @@ export default class SelectValue extends React.PureComponent<SelectValueProps, {
     }
 
     public render(): JSX.Element {
-        console.log(this.props);
         return (
             <div className="Select-value">
                 {renderIf(this.props.onRemove)(
