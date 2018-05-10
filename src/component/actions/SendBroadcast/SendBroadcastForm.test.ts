@@ -52,8 +52,7 @@ describe(SendBroadcastForm.name, () => {
                 recipients: [],
                 text: '',
                 translatedText: '',
-                type: 'send_broadcast',
-                uuid: expect.anything()
+                type: 'send_broadcast'
             });
 
             expect(wrapper).toMatchSnapshot();

@@ -71,7 +71,10 @@ export class SendBroadcastForm extends React.Component<
                 ]);
             }
         } else {
-            const action = this.props.formHelper.stateToAction(this.props.form);
+            const action = this.props.formHelper.stateToAction(
+                this.props.action.uuid,
+                this.props.form
+            );
             this.props.updateAction(action);
         }
     }

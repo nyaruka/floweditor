@@ -20,7 +20,6 @@ import Constants from './constants';
 
 export interface ActionState {
     type: Types;
-    uuid: string;
 }
 export interface SendBroadcastFormState extends ActionState {
     text: string;

@@ -73,7 +73,7 @@ export enum Mode {
 
 export interface FormHelper {
     actionToState: (action: AnyAction) => NodeEditorForm;
-    stateToAction: (formState: NodeEditorForm) => AnyAction;
+    stateToAction: (uuid: string, formState: NodeEditorForm) => AnyAction;
 }
 
 export interface Type {
