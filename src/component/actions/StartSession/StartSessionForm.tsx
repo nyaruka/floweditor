@@ -48,7 +48,8 @@ export class StartSessionForm extends React.Component<
     }
 
     public onValid(): void {
-        console.log('valid!');
+        const action = this.props.formHelper.stateToAction(this.props.action.uuid, this.props.form);
+        this.props.updateAction(action);
     }
 
     public handleRecipientsChanged(selected: Asset[]): void {

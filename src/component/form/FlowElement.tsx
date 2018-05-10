@@ -22,11 +22,11 @@ interface FlowState {
 export const notFound: string = 'Enter the name of an existing flow';
 
 export default class FlowElement extends React.Component<FlowElementProps, FlowState> {
-    constructor(props: any) {
+    constructor(props: FlowElementProps) {
         super(props);
 
         const flow =
-            this.props.flow.uuid && this.props.flow.name
+            this.props.flow && this.props.flow.uuid && this.props.flow.name
                 ? {
                       name: this.props.flow.name,
                       id: this.props.flow.uuid,
