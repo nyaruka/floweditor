@@ -8,6 +8,8 @@ export const getIconForAssetType = (assetType: AssetType): JSX.Element => {
             return <span className="icn-group" />;
         case AssetType.Label:
             return <span className="icn-label" />;
+        case AssetType.Flow:
+            return <span className="icn-split" />;
     }
     return null;
 };

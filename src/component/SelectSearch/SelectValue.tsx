@@ -3,6 +3,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 
 import { Asset } from '../../services/AssetService';
+import { renderIf } from '../../utils';
 import { getIconForAssetType } from './helper';
 
 export interface SelectValueProps {
@@ -24,15 +25,19 @@ export default class SelectValue extends React.PureComponent<SelectValueProps, {
     }
 
     public render(): JSX.Element {
+        console.log(this.props);
         return (
             <div className="Select-value">
-                <span
-                    data-spec="remove-button"
-                    onClick={this.handleRemove}
-                    className="Select-value-icon"
-                >
-                    x
-                </span>
+                {renderIf(this.props.onRemove)(
+                    <span
+                        data-spec="remove-button"
+                        onClick={this.handleRemove}
+                        className="Select-value-icon"
+                    >
+                        x
+                    </span>
+                )}
+
                 <span className="Select-value-label">
                     {getIconForAssetType(this.props.value.type)} {this.props.value.name}
                 </span>

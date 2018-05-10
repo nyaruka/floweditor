@@ -3,8 +3,9 @@ import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getTypeConfig } from '../../../config';
-import { ConfigProviderContext } from '../../../config';
+
+import { ConfigProviderContext, getTypeConfig } from '../../../config';
+import { fakePropType } from '../../../config/ConfigProvider';
 import { Types } from '../../../config/typeConfigs';
 import { AnyAction, FlowNode, LocalizationMap } from '../../../flowTypes';
 import {
@@ -21,7 +22,6 @@ import { Language } from '../../LanguageSelector';
 import * as shared from '../../shared.scss';
 import TitleBar from '../../TitleBar';
 import * as styles from './Action.scss';
-import { fakePropType } from '../../../config/ConfigProvider';
 
 export interface ActionWrapperPassedProps {
     thisNodeDragging: boolean;
@@ -149,6 +149,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         const showRemoval = !this.props.translating;
         const showMove = !this.props.first && !this.props.translating;
 
+        console.log(actionClass);
         return (
             <div
                 id={`action-${this.props.action.uuid}`}

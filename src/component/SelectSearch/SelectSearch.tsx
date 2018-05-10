@@ -249,7 +249,7 @@ export default class SelectSearch extends React.PureComponent<
                     valueKey="id"
                     labelKey="name"
                     multi={this.props.multi}
-                    clearable={this.props.multi}
+                    clearable={false}
                     searchable={true}
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
@@ -276,7 +276,7 @@ export default class SelectSearch extends React.PureComponent<
                     valueKey="id"
                     labelKey="name"
                     multi={this.props.multi}
-                    clearable={this.props.multi}
+                    clearable={false}
                     searchable={true}
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
