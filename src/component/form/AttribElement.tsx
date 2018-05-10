@@ -65,10 +65,10 @@ export class AttribElement extends React.Component<AttribElementProps, AttribEle
     }
 
     private onChange(selected: Asset[]): void {
-        const attribute = selected[0];
+        const [attribute] = selected;
         if (!isEqual(this.state.attribute, attribute)) {
             this.setState({ attribute }, () => {
-                if (this.state.attribute.type === AssetType.Name) {
+                if (attribute.type === AssetType.Name) {
                     this.props.updateTypeConfig(getTypeConfig(Types.set_contact_name));
                 } else {
                     this.props.updateTypeConfig(getTypeConfig(Types.set_contact_field));

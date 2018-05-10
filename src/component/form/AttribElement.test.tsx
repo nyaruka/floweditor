@@ -100,7 +100,7 @@ describe(AttribElement.name, () => {
                 });
                 const setContactPropertyAsset = propertyToAsset(createSetContactNameAction());
 
-                instance.onChange(setContactPropertyAsset);
+                instance.onChange([setContactPropertyAsset]);
 
                 expect(props.updateTypeConfig).toHaveBeenCalledTimes(1);
                 expect(props.updateTypeConfig).toHaveBeenCalledWith(
