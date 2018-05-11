@@ -33,21 +33,21 @@ export const renderAsset = (asset: Asset) => {
         case AssetType.Group:
             return (
                 <div className={styles.nodeAsset} key={asset.id}>
-                    <span className={`${styles.nodeGroup} icn-group`} />
+                    <span className={`${styles.nodeGroup} fe-group`} />
                     {asset.name}
                 </div>
             );
         case AssetType.Label:
             return (
                 <div className={styles.nodeAsset} key={asset.id}>
-                    <span className={`${styles.nodeLabel} icn-label`} />
+                    <span className={`${styles.nodeLabel} fe-label`} />
                     {asset.name}
                 </div>
             );
         case AssetType.Flow:
             return (
                 <div className={styles.nodeAsset} key={asset.id}>
-                    <span className={`${styles.nodeLabel} icn-split`} />
+                    <span className={`${styles.nodeLabel} fe-split`} />
                     {asset.name}
                 </div>
             );

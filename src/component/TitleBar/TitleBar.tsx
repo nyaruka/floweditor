@@ -77,7 +77,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
                     {...createClickHandler(this.props.onMoveUp)}
                     data-spec={moveIconSpecId}
                 >
-                    <span className="icn-arrow-up" />
+                    <span className="fe-arrow-up" />
                 </div>
             );
         } else {
@@ -97,7 +97,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
                     {...createClickHandler(this.onConfirmRemoval)}
                     data-spec={removeIconSpecId}
                 >
-                    <span className="icn-cross" />
+                    <span className="fe-x" />
                 </div>
             );
         }
@@ -116,7 +116,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
                         {...createClickHandler(this.props.onRemoval)}
                         data-spec={confirmRemovalSpecId}
                     >
-                        <span className="icn-cross" />
+                        <span className="fe-x" />
                     </div>
                     Remove?
                 </div>

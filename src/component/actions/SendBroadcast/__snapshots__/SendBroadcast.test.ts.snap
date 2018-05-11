@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SendBroadcastComp render should render a long list of both: ellipsized 1`] = `"<div class=\\"node\\"><div class=\\"to\\"><div class=\\"nodeAsset\\"><span class=\\"nodeGroup icn-group\\"></span>Cat Facts</div><div class=\\"nodeAsset\\"><span class=\\"nodeGroup icn-group\\"></span>Cat Fanciers</div><div class=\\"nodeAsset\\">Norbert Kwizera</div><div>...</div></div><div class=\\"message\\">Hello World</div></div>"`;
+exports[`SendBroadcastComp render should render a long list of both: ellipsized 1`] = `"<div class=\\"node\\"><div class=\\"to\\"><div class=\\"nodeAsset\\"><span class=\\"nodeGroup fe-group\\"></span>Cat Facts</div><div class=\\"nodeAsset\\"><span class=\\"nodeGroup fe-group\\"></span>Cat Fanciers</div><div class=\\"nodeAsset\\">Norbert Kwizera</div><div>...</div></div><div class=\\"message\\">Hello World</div></div>"`;
 
 exports[`SendBroadcastComp render should render placeholder if missing text: placeholder text 1`] = `"<div class=\\"placeholder\\">Send a message to the contact</div>"`;
 
 exports[`SendBroadcastComp render should render with contacts: contacts 1`] = `"<div class=\\"node\\"><div class=\\"to\\"><div class=\\"nodeAsset\\">Norbert Kwizera</div><div class=\\"nodeAsset\\">Kellan Alexander</div></div><div class=\\"message\\">Hello World</div></div>"`;
 
-exports[`SendBroadcastComp render should render with groups: groups 1`] = `"<div class=\\"node\\"><div class=\\"to\\"><div class=\\"nodeAsset\\"><span class=\\"nodeGroup icn-group\\"></span>Cat Facts</div><div class=\\"nodeAsset\\"><span class=\\"nodeGroup icn-group\\"></span>Cat Fanciers</div></div><div class=\\"message\\">Hello World</div></div>"`;
+exports[`SendBroadcastComp render should render with groups: groups 1`] = `"<div class=\\"node\\"><div class=\\"to\\"><div class=\\"nodeAsset\\"><span class=\\"nodeGroup fe-group\\"></span>Cat Facts</div><div class=\\"nodeAsset\\"><span class=\\"nodeGroup fe-group\\"></span>Cat Fanciers</div></div><div class=\\"message\\">Hello World</div></div>"`;
