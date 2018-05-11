@@ -169,7 +169,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         const confirmDelete =
             this.state.confirmDelete && this.props.exit.hasOwnProperty('destination_node_uuid');
         const confirm: JSX.Element = confirmDelete ? (
-            <span {...createClickHandler(this.onDisconnect)} className="icn-cross" />
+            <span {...createClickHandler(this.onDisconnect)} className="fe-x" />
         ) : null;
         const exitClasses: string = cx({
             [styles.exit]: true,

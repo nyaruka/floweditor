@@ -7,7 +7,7 @@ exports[`AddLabelsComp should display labels on action 1`] = `
     key="label-0"
   >
     <span
-      className="nodeLabel icn-label"
+      className="nodeLabel fe-label"
     />
     Help
   </div>
@@ -16,7 +16,7 @@ exports[`AddLabelsComp should display labels on action 1`] = `
     key="label-1"
   >
     <span
-      className="nodeLabel icn-label"
+      className="nodeLabel fe-label"
     />
     New
   </div>
@@ -25,7 +25,7 @@ exports[`AddLabelsComp should display labels on action 1`] = `
     key="label-2"
   >
     <span
-      className="nodeLabel icn-label"
+      className="nodeLabel fe-label"
     />
     Feedback
   </div>
