@@ -175,10 +175,10 @@ export default class SelectSearch extends React.PureComponent<
         }
 
         if (this.state.selections.length) {
-            for (const selections of this.state.selections) {
-                if (selections) {
+            for (const selection of this.state.selections) {
+                if (selection) {
                     const selectionValue: string | Asset =
-                        selections.isNew || this.props.multi ? selections : selections.id;
+                        selection.isNew || this.props.multi ? selection : selection.id;
 
                     if (this.props.multi) {
                         value.push(selectionValue);

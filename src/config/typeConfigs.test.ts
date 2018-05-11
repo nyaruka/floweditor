@@ -1,12 +1,11 @@
-import { typeConfigList, actionConfigList, typeConfigMap, getTypeConfig } from './typeConfigs';
+import { getTypeConfig, typeConfigList, typeConfigMap, Types } from './typeConfigs';
 
-describe('typeConfigs >', () => {
+describe('typeConfigs', () => {
     it('should provide type configs', () => {
         expect(typeConfigList).toMatchSnapshot();
-        expect(actionConfigList).toMatchSnapshot();
         expect(typeConfigMap).toMatchSnapshot();
 
-        Object.keys(typeConfigMap).forEach(key =>
+        Object.keys(typeConfigMap).forEach((key: Types) =>
             expect(getTypeConfig(key)).toEqual(typeConfigMap[key])
         );
     });

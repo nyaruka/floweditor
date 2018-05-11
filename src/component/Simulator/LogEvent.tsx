@@ -118,7 +118,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 );
                 classes.push(styles.info);
                 break;
-            case Types.set_contact_property:
+            case Types.set_contact_name:
                 text = (
                     <span>
                         Updated contact {this.props.field} to "{this.props.value}"

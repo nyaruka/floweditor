@@ -14,6 +14,7 @@ import SendMsgComp from '../component/actions/SendMsg/SendMsg';
 import SendMsgForm from '../component/actions/SendMsg/SendMsgForm';
 import SetContactAttrib from '../component/actions/SetContactAttrib/SetContactAttrib';
 import SetContactAttribForm from '../component/actions/SetContactAttrib/SetContactAttribForm';
+import { SetContactAttribFormHelper } from '../component/actions/SetContactAttrib/SetContactAttribFormHelper';
 import SetRunResultComp from '../component/actions/SetRunResult/SetRunResult';
 import SetRunResultForm from '../component/actions/SetRunResult/SetRunResultForm';
 import StartFlowComp from '../component/actions/StartFlow/StartFlow';
@@ -34,7 +35,9 @@ add_urn	                    add_contact_urn	            contact_urn_added
 add_to_group	            add_contact_groups	        contact_groups_added
 remove_from_group	        remove_contact_groups	    contact_groups_removed
 set_preferred_channel	    set_contact_channel	        contact_channel_changed
-update_contact	            set_contact_property	    contact_property_changed
+update_contact	            set_contact_name	        contact_name_changed
+update_contact	            set_contact_language	    contact_language_changed
+update_contact	            set_contact_timezone	    contact_timezone_changed
 save_contact_field      	set_contact_field	        contact_field_changed
 save_flow_result	        set_run_result	            run_result_changed
 call_webhook	            call_webhook	            webhook_called
@@ -52,7 +55,7 @@ export const enum Types {
     add_input_labels = 'add_input_labels',
     remove_contact_groups = 'remove_contact_groups',
     set_contact_channel = 'set_contact_channel',
-    set_contact_property = 'set_contact_property',
+    set_contact_name = 'set_contact_name',
     set_contact_field = 'set_contact_field',
     set_run_result = 'set_run_result',
     call_webhook = 'call_webhook',
@@ -75,8 +78,8 @@ export enum Mode {
 }
 
 export interface FormHelper {
-    actionToState: (action: AnyAction) => NodeEditorForm;
-    stateToAction: (uuid: string, formState: NodeEditorForm) => AnyAction;
+    actionToState: (action: AnyAction, actionType?: Types) => NodeEditorForm;
+    stateToAction: (actionUUID: string, formState: NodeEditorForm, formType?: Types) => AnyAction;
 }
 
 export interface Type {
@@ -100,6 +103,8 @@ export type GetTypeConfig = (type: string) => Type;
 export function allows(mode: Mode): boolean {
     return (this.advanced & mode) === mode;
 }
+
+const ContactAttribHelper = new SetContactAttribFormHelper();
 
 export const typeConfigList: Type[] = [
     /** Actions */
@@ -157,8 +162,17 @@ export const typeConfigList: Type[] = [
         name: 'Update Contact',
         description: 'Update the contact',
         form: SetContactAttribForm,
+        formHelper: ContactAttribHelper,
         component: SetContactAttrib,
-        aliases: [Types.set_contact_property],
+        allows
+    },
+    {
+        type: Types.set_contact_name,
+        name: 'Update Contact',
+        description: 'Update the contact',
+        form: SetContactAttribForm,
+        formHelper: ContactAttribHelper,
+        component: SetContactAttrib,
         allows
     },
     {
@@ -235,15 +249,6 @@ export const typeConfigList: Type[] = [
     }
     // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];
-
-export const actionConfigList = typeConfigList.filter(
-    ({ type }) =>
-        type !== Types.wait_for_response &&
-        type !== Types.split_by_expression &&
-        type !== Types.split_by_groups &&
-        type !== Types.start_flow &&
-        type !== Types.call_webhook
-);
 
 export const typeConfigMap: TypeMap = typeConfigList.reduce((map: TypeMap, typeConfig: Type) => {
     map[typeConfig.type] = typeConfig;

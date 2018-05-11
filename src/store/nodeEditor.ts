@@ -28,12 +28,27 @@ export interface SendBroadcastFormState extends ActionState {
     translatedText: string;
 }
 
+export interface SetContactFieldFormState extends ActionState {
+    field: Asset;
+    value: string;
+}
+
+export interface SetContactNameFormState extends ActionState {
+    name: Asset;
+    value: string;
+}
+
+export type SetContactAttribFormState = SetContactFieldFormState | SetContactNameFormState;
+
 export interface StartSessionFormState extends ActionState {
     recipients: Asset[];
     flow: Asset;
 }
 
-export type NodeEditorForm = SendBroadcastFormState | StartSessionFormState;
+export type NodeEditorForm =
+    | SendBroadcastFormState
+    | SetContactAttribFormState
+    | StartSessionFormState;
 
 export interface NodeEditor {
     typeConfig: Type;

@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`form thunks updateSendBroadcastForm should dispatch form update action 1`] = `
+Object {
+  "text": "Look, a distraction!",
+}
+`;
+
+exports[`form thunks updateSetContactAttribForm should dispatch form update action with new contact field attribute 1`] = `
+Object {
+  "field": Object {
+    "id": "age",
+    "name": "Age",
+    "type": "field",
+  },
+}
+`;
+
+exports[`form thunks updateSetContactAttribForm should dispatch form update action with new contact name attribute 1`] = `
+Object {
+  "name": Object {
+    "id": "name",
+    "name": "Name",
+    "type": "name",
+  },
+}
+`;
+
+exports[`form thunks updateSetContactAttribForm should dispatch form update action with new value 1`] = `
+Object {
+  "value": "26",
+}
+`;
+
+exports[`form thunks updateStartSessionForm should dispatch form update action 1`] = `Object {}`;

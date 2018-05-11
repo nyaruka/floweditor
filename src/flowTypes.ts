@@ -141,10 +141,12 @@ export interface SetContactField extends Action {
     value: string;
 }
 
-export interface SetContactProperty extends Action {
-    property: string;
-    value: string;
+export interface SetContactName extends Action {
+    type: Types.set_contact_name;
+    name: string;
 }
+
+export type SetContactProperty = SetContactName;
 
 export type SetContactAttribute = SetContactField | SetContactProperty;
 
@@ -249,7 +251,7 @@ export type AnyAction =
     | Action
     | ChangeGroups
     | SetContactField
-    | SetContactProperty
+    | SetContactName
     | SetRunResult
     | SendMsg
     | SetPreferredChannel

@@ -1,8 +1,7 @@
-import { RenderNode } from '../store/flowContext';
-import { dump } from '../utils';
+import { commaListsOr } from 'common-tags';
+
 import { Exit } from '../flowTypes';
-import { Store } from 'redux';
-import { AppState } from '../store';
+import { RenderNode } from '../store/flowContext';
 
 interface MatchResult {
     message: () => string;
@@ -122,22 +121,27 @@ function toHavePayload<T>(
     };
 }
 
-function toHaveReduxAction<T>(
+function toHaveReduxActions<T>(
     this: jest.MatcherUtils,
     store: any,
-    actionType: string
+    actionTypes: string[]
 ): MatchResult {
+    const missedTypes = [];
     for (const actionTaken of store.getActions()) {
-        if (actionTaken.type === actionType) {
-            return {
-                message: () => `Result contained action type ${actionType}`,
-                pass: true
-            };
+        for (const actionType of actionTypes) {
+            if (actionTaken.type === actionType) {
+                return {
+                    message: () => `Result contained action type ${actionType}`,
+                    pass: true
+                };
+            } else {
+                missedTypes.push(actionType);
+            }
         }
     }
 
     return {
-        message: () => `Could not find action type ${actionType}`,
+        message: () => commaListsOr`Could not find action type(s): ${[...missedTypes]}`,
         pass: false
     };
 }
@@ -149,5 +153,5 @@ expect.extend({
     toHaveExitWithDestination,
     toHaveInboundConnections,
     toHavePayload,
-    toHaveReduxAction
+    toHaveReduxActions
 });

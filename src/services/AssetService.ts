@@ -8,7 +8,8 @@ export enum AssetType {
     Channel = 'channel',
     Flow = 'flow',
     Group = 'group',
-    Property = 'property',
+    Name = 'name',
+    Language = 'language',
     Field = 'field',
     Contact = 'contact',
     URN = 'urn',
@@ -205,7 +206,7 @@ export class Assets {
         const assets: any[] = [];
         Object.keys(this.assets).forEach((key: string) => {
             const asset = this.assets[key];
-            if (asset.type !== AssetType.Property) {
+            if (asset.type !== AssetType.Name) {
                 assets.push({
                     [this.idProperty]: asset.id,
                     name: asset.name,
@@ -241,7 +242,7 @@ class FieldAssets extends Assets {
         {
             name: ContactProperties.Name,
             id: ContactProperties.Name.toLowerCase(),
-            type: AssetType.Property
+            type: AssetType.Name
         }
         /*{
             name: ContactProperties.Language,
