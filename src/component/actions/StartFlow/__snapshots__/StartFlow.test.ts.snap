@@ -7,7 +7,7 @@ exports[`StartFlowComp render should render flow name 1`] = `
     key="start_flow-0"
   >
     <span
-      className="nodeLabel icn-split"
+      className="nodeLabel fe-split"
     />
     Colors
   </div>
