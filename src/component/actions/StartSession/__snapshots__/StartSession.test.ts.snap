@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StartSessionComp render should render a long list of both: ellipsized 1`] = `"<div class=\\"node\\"><div class=\\"to\\"><div class=\\"nodeAsset\\"><span class=\\"nodeGroup icn-group\\"></span>Cat Facts</div><div class=\\"nodeAsset\\"><span class=\\"nodeGroup icn-group\\"></span>Cat Fanciers</div><div class=\\"nodeAsset\\">Norbert Kwizera</div><div>...</div></div><div class=\\"flow\\"><div class=\\"nodeAsset\\"><span class=\\"nodeLabel icn-split\\"></span>Flow to Start</div></div></div>"`;
+
+exports[`StartSessionComp render should render with contacts: contacts 1`] = `"<div class=\\"node\\"><div class=\\"to\\"><div class=\\"nodeAsset\\">Norbert Kwizera</div><div class=\\"nodeAsset\\">Kellan Alexander</div></div><div class=\\"flow\\"><div class=\\"nodeAsset\\"><span class=\\"nodeLabel icn-split\\"></span>Flow to Start</div></div></div>"`;
+
+exports[`StartSessionComp render should render with groups: groups 1`] = `"<div class=\\"node\\"><div class=\\"to\\"><div class=\\"nodeAsset\\"><span class=\\"nodeGroup icn-group\\"></span>Cat Facts</div><div class=\\"nodeAsset\\"><span class=\\"nodeGroup icn-group\\"></span>Cat Fanciers</div></div><div class=\\"flow\\"><div class=\\"nodeAsset\\"><span class=\\"nodeLabel icn-split\\"></span>Flow to Start</div></div></div>"`;

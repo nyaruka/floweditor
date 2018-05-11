@@ -21,12 +21,19 @@ import Constants from './constants';
 export interface ActionState {
     type: Types;
 }
+
 export interface SendBroadcastFormState extends ActionState {
     text: string;
     recipients: Asset[];
     translatedText: string;
 }
-export type NodeEditorForm = SendBroadcastFormState;
+
+export interface StartSessionFormState extends ActionState {
+    recipients: Asset[];
+    flow: Asset;
+}
+
+export type NodeEditorForm = SendBroadcastFormState | StartSessionFormState;
 
 export interface NodeEditor {
     typeConfig: Type;

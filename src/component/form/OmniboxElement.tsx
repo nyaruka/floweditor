@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { v4 as generateUUID } from 'uuid';
+
 import { ResultType } from '../../flowTypes';
-import { getSelectClass, isValidLabel, jsonEqual } from '../../utils';
+import AssetService, { Asset, Assets } from '../../services/AssetService';
+import { getSelectClass, jsonEqual } from '../../utils';
 import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
-import { NewOptionCreatorHandler, IsValidNewOptionHandler } from 'react-select';
-import AssetService, { Assets, Asset, AssetType } from '../../services/AssetService';
 
 export interface GroupOption {
     group: string;
@@ -19,7 +18,7 @@ export interface OmniboxElementProps extends FormElementProps {
     searchPromptText?: string | JSX.Element;
     onChange?: (groups: Asset[]) => void;
     assets: Assets;
-    className: string;
+    className?: string;
 }
 
 interface OmniboxElementState {

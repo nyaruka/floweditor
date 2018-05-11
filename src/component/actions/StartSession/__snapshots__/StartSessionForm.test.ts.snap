@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SendBroadcastForm render should render an empty form with no action 1`] = `
+exports[`StartSessionForm render should render an empty form with no action 1`] = `
 <div>
   <OmniboxElement
     add={true}
@@ -12,7 +12,6 @@ exports[`SendBroadcastForm render should render an empty form with no action 1`]
         "localStorage": true,
       }
     }
-    className="recipients"
     data-spec="recipients"
     name="Recipients"
     onChange={[Function]}
@@ -21,22 +20,33 @@ exports[`SendBroadcastForm render should render an empty form with no action 1`]
     searchPromptText="No matches"
     selected={Array []}
   />
-  <Connect(TextInputElement)
-    autocomplete={true}
-    count="SMS"
-    focus={true}
-    name="Message"
+  <p>
+    Select a flow to run
+  </p>
+  <FlowElement
+    assets={
+      FlowAssets {
+        "assetType": "flow",
+        "assets": Object {},
+        "endpoint": "/assets/flows.json",
+        "idProperty": "uuid",
+        "localStorage": true,
+      }
+    }
+    flow={
+      Object {
+        "name": "Flow to Start",
+        "uuid": "flow_uuid",
+      }
+    }
+    name="Flow"
     onChange={[Function]}
-    placeholder=""
     required={true}
-    showLabel={false}
-    textarea={true}
-    value=""
   />
 </div>
 `;
 
-exports[`SendBroadcastForm render should render self, children with base props 1`] = `
+exports[`StartSessionForm render should render self, children with base props 1`] = `
 <div>
   <OmniboxElement
     add={true}
@@ -48,7 +58,6 @@ exports[`SendBroadcastForm render should render self, children with base props 1
         "localStorage": true,
       }
     }
-    className="recipients"
     data-spec="recipients"
     name="Recipients"
     onChange={[Function]}
@@ -85,44 +94,28 @@ exports[`SendBroadcastForm render should render self, children with base props 1
       ]
     }
   />
-  <Connect(TextInputElement)
-    autocomplete={true}
-    count="SMS"
-    focus={true}
-    name="Message"
+  <p>
+    Select a flow to run
+  </p>
+  <FlowElement
+    assets={
+      FlowAssets {
+        "assetType": "flow",
+        "assets": Object {},
+        "endpoint": "/assets/flows.json",
+        "idProperty": "uuid",
+        "localStorage": true,
+      }
+    }
+    flow={
+      Object {
+        "name": "Flow to Start",
+        "uuid": "flow_uuid",
+      }
+    }
+    name="Flow"
     onChange={[Function]}
-    placeholder=""
     required={true}
-    showLabel={false}
-    textarea={true}
-    value="Hello World"
-  />
-</div>
-`;
-
-exports[`SendBroadcastForm render should render the localized text 1`] = `
-<div>
-  <div
-    data-spec="translation-container"
-  >
-    <div
-      className="translate_from"
-      data-spec="text-to-translate"
-    >
-      Hello World
-    </div>
-  </div>
-  <Connect(TextInputElement)
-    autocomplete={true}
-    count="SMS"
-    focus={true}
-    name="Message"
-    onChange={[Function]}
-    placeholder="Spanish Translation"
-    required={false}
-    showLabel={false}
-    textarea={true}
-    value="espanols!"
   />
 </div>
 `;

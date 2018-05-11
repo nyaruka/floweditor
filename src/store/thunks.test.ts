@@ -1,60 +1,55 @@
+import thunk from 'redux-thunk';
+import { v4 as generateUUID } from 'uuid';
+
+import { Constants, LocalizationUpdates } from '.';
+import * as config from '../../__test__/config';
+import { DragPoint } from '../component/Node';
+import { Operators } from '../config/operatorConfigs';
+import { Types } from '../config/typeConfigs';
+import {
+    AnyAction,
+    FlowDefinition,
+    Languages,
+    RouterTypes,
+    SendMsg,
+    SwitchRouter
+} from '../flowTypes';
+import AssetService from '../services/AssetService';
+import { push } from '../utils';
+import { RenderNode, RenderNodeMap } from './flowContext';
+import { getFlowComponents, getUniqueDestinations } from './helpers';
+import {
+    addNode,
+    disconnectExit,
+    ensureStartNode,
+    fetchFlow,
+    initializeFlow,
+    moveActionUp,
+    onAddToNode,
+    onConnectionDrag,
+    onNodeEditorClose,
+    onNodeMoved,
+    onOpenNodeEditor,
+    onResetDragSelection,
+    onUpdateAction,
+    onUpdateLocalizations,
+    onUpdateRouter,
+    reflow,
+    removeAction,
+    removeNode,
+    resetNodeEditingState,
+    spliceInRouter,
+    updateConnection,
+    updateDimensions,
+    updateExitDestination,
+    updateSticky
+} from './thunks';
+
 jest.unmock('redux-mock-store');
 jest.unmock('immutability-helper');
 
 const createMockStore = require('redux-mock-store');
 const mutate = require('immutability-helper');
-
-import thunk from 'redux-thunk';
-import * as types from './actionTypes';
-import {
-    FlowDefinition,
-    SendMsg,
-    AnyAction,
-    FlowNode,
-    SwitchRouter,
-    Languages,
-    FlowEditorConfig,
-    RouterTypes
-} from '../flowTypes';
-import {
-    initializeFlow,
-    removeNode,
-    addNode,
-    onUpdateAction,
-    onUpdateLocalizations,
-    updateDimensions,
-    disconnectExit,
-    updateConnection,
-    ensureStartNode,
-    moveActionUp,
-    removeAction,
-    spliceInRouter,
-    reflow,
-    updateExitDestination,
-    resetNodeEditingState,
-    onAddToNode,
-    onNodeEditorClose,
-    onNodeMoved,
-    onConnectionDrag,
-    onOpenNodeEditor,
-    onUpdateRouter,
-    fetchFlow,
-    updateSticky,
-    onResetDragSelection
-} from './thunks';
-import { dump } from '../utils';
-import { getUniqueDestinations, getFlowComponents, FlowComponents } from './helpers';
-import { RenderNode, RenderNodeMap } from './flowContext';
-import { v4 as generateUUID } from 'uuid';
-import { Constants, LocalizationUpdates } from '.';
-import { DragPoint } from '../component/Node';
-import { NOT_FOUND } from '../component/actions/ChangeGroups/RemoveGroupsForm';
-import { empty } from '../component/form/CaseElement.scss';
-import { Types } from '../config/typeConfigs';
-import { Operators } from '../config/operatorConfigs';
-import { push } from '../utils';
-import AssetService from '../services/AssetService';
-import * as config from '../../__test__/config';
 
 const getUpdatedNodes = (currentStore): { [uuid: string]: RenderNode } => {
     let nodes;
@@ -773,7 +768,7 @@ describe('Flow Manipulation', () => {
                     ghostNode: null
                 });
 
-                expect(store.getActions().length).toBe(2);
+                expect(store.getActions().length).toBe(3);
             });
 
             it('should reset the node editor', () => {
