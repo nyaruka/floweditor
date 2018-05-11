@@ -456,8 +456,9 @@ export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction
 ) => {
     dispatch(updateTypeConfig(typeConfig));
     if (typeConfig.formHelper) {
-        const action = actionToEdit && actionToEdit.type === typeConfig.type ? actionToEdit : null;
-        dispatch(updateForm(typeConfig.formHelper.actionToState(action)));
+        // tslint:disable-next-line:no-shadowed-variable
+        const action = actionToEdit.type === typeConfig.type ? actionToEdit : null;
+        dispatch(updateForm(typeConfig.formHelper.actionToState(action, typeConfig.type)));
     }
 };
 
@@ -494,13 +495,13 @@ export const onUpdateAction = (action: AnyAction) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
+    timeStart('onUpdateAction');
+
     const {
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
         nodeEditor: { userAddingAction, nodeToEdit },
         flowContext: { nodes }
     } = getState();
-
-    timeStart('onUpdateAction');
 
     if (nodeToEdit == null) {
         throw new Error('Need nodeToEdit in state to update an action');
@@ -769,7 +770,11 @@ export const onOpenNodeEditor = (
 
     const type = determineConfigType(node, action, nodes);
     const typeConfig = getTypeConfig(type);
-    dispatch(handleTypeConfigChange(typeConfig, action));
+
+    if (typeConfig.formHelper) {
+        dispatch(updateForm(typeConfig.formHelper.actionToState(action, typeConfig.type)));
+    }
+    dispatch(updateTypeConfig(getTypeConfig(type as Types)));
 
     let resultName = '';
 

@@ -1,8 +1,13 @@
 import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import { getTypeConfig, Types } from '../../config/typeConfigs';
 import { CreateOptions, ResultType } from '../../flowTypes';
 import { Asset, Assets, AssetType } from '../../services/AssetService';
+import { AppState, DispatchWithState, UpdateTypeConfig, updateTypeConfig } from '../../store';
+import { SetContactFieldFormState, SetContactNameFormState } from '../../store/nodeEditor';
 import {
     composeCreateNewOption,
     getSelectClass,
@@ -13,17 +18,24 @@ import {
 import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
-export interface AttribElementProps extends FormElementProps {
-    initial: Asset;
+export interface AttribElementPassedProps extends FormElementProps {
+    assets: Assets;
+
     add?: boolean;
     placeholder?: string;
     searchPromptText?: string;
     helpText?: string;
-    assets: Assets;
+    onChange?(selected: Asset): void;
 }
 
-interface AttribElementState {
+export interface AttribElementStoreProps {
     attribute: Asset;
+    updateTypeConfig: UpdateTypeConfig;
+}
+
+export type AttribElementProps = AttribElementPassedProps & AttribElementStoreProps;
+
+interface AttribElementState {
     errors: string[];
 }
 
@@ -36,7 +48,7 @@ export const createNewOption = composeCreateNewOption({
     type: AssetType.Field
 });
 
-export default class AttribElement extends React.Component<AttribElementProps, AttribElementState> {
+export class AttribElement extends React.Component<AttribElementProps, AttribElementState> {
     public static defaultProps = {
         placeholder: PLACEHOLDER,
         searchPromptText: NOT_FOUND
@@ -46,7 +58,6 @@ export default class AttribElement extends React.Component<AttribElementProps, A
         super(props);
 
         this.state = {
-            attribute: this.props.initial,
             errors: []
         };
 
@@ -54,16 +65,22 @@ export default class AttribElement extends React.Component<AttribElementProps, A
     }
 
     private onChange(selected: Asset[]): void {
-        const attribute = selected[0];
-        if (!isEqual(this.state.attribute, attribute)) {
-            this.setState({ attribute });
+        const [attribute] = selected;
+        if (attribute.type === AssetType.Name) {
+            this.props.updateTypeConfig(getTypeConfig(Types.set_contact_name));
+        } else if (attribute.type === AssetType.Field) {
+            this.props.updateTypeConfig(getTypeConfig(Types.set_contact_field));
+        }
+
+        if (this.props.onChange) {
+            this.props.onChange(attribute);
         }
     }
 
     private getErrors(): string[] {
         const errors = [];
 
-        if (this.props.required && !this.state.attribute.name) {
+        if (this.props.required && !this.props.attribute) {
             errors.push(`${this.props.name} is required.`);
         }
 
@@ -107,7 +124,7 @@ export default class AttribElement extends React.Component<AttribElementProps, A
                     resultType={ResultType.field}
                     multi={false}
                     assets={this.props.assets}
-                    initial={[this.state.attribute]}
+                    initial={[this.props.attribute]}
                     closeOnSelect={true}
                     searchPromptText={this.props.searchPromptText}
                     placeholder={this.props.placeholder}
@@ -117,3 +134,27 @@ export default class AttribElement extends React.Component<AttribElementProps, A
         );
     }
 }
+
+/* istanbul ignore next */
+const mapStateToProps = ({ nodeEditor: { form } }: AppState) => ({
+    attribute: (form as SetContactFieldFormState).field || (form as SetContactNameFormState).name
+});
+
+/* istanbul ignore next */
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators(
+        {
+            updateTypeConfig
+        },
+        dispatch
+    );
+
+const ConnectedAttribElement = connect<
+    { attribute: Asset },
+    { updateTypeConfig: UpdateTypeConfig },
+    AttribElementPassedProps
+>(mapStateToProps, mapDispatchToProps, null, {
+    withRef: true
+})(AttribElement);
+
+export default ConnectedAttribElement;

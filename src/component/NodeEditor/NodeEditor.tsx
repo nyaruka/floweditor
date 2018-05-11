@@ -201,6 +201,7 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
         case Types.remove_contact_groups:
             defaultAction = { ...defaultAction, groups: null } as ChangeGroups;
             break;
+        // Note: we change the type config in AttribElement if other than Types.set_contact_field
         case Types.set_contact_field:
             defaultAction = {
                 ...defaultAction,

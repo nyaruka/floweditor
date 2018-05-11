@@ -36,12 +36,28 @@ export interface SendMsgFormState extends ActionState {
     quickReplies: string[];
 }
 
+export interface SetContactFieldFormState extends ActionState {
+    field: Asset;
+    value: string;
+}
+
+export interface SetContactNameFormState extends ActionState {
+    name: Asset;
+    value: string;
+}
+
+export type SetContactAttribFormState = SetContactFieldFormState | SetContactNameFormState;
+
 export interface StartSessionFormState extends ActionState {
     recipients: Asset[];
     flow: Asset;
 }
 
-export type NodeEditorForm = SendBroadcastFormState | StartSessionFormState | SendMsgFormState;
+export type NodeEditorForm =
+    | SendBroadcastFormState
+    | StartSessionFormState
+    | SendMsgFormState
+    | SetContactAttribFormState;
 
 export interface NodeEditorSettings {
     showAdvanced: boolean;

@@ -376,12 +376,12 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
         if (selected) {
             return (
-                <React.Fragment>
+                <>
                     {optionName}
                     <div data-spec="option-desc" className={styles.option_description}>
                         {description}
                     </div>
-                </React.Fragment>
+                </>
             );
         }
 

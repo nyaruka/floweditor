@@ -3,13 +3,19 @@
 import { mount, ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
 import mutate, { Query } from 'immutability-helper';
 import * as React from 'react';
+import * as configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+
 import * as config from '../../__test__/config';
 import { ConfigProviderContext } from '../config';
-import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
-import { AppState, createStore, initialState } from '../store';
-import { getBaseLanguage, merge, set } from '../utils';
-import AssetService from '../services/AssetService';
 import { fakePropType } from '../config/ConfigProvider';
+import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
+import AssetService from '../services/AssetService';
+import { AppState, createStore, initialState } from '../store';
+import { getFlowComponents } from '../store/helpers';
+import { getBaseLanguage, merge, set } from '../utils';
+
+const boring: FlowDefinition = require('../../__test__/flows/boring.json');
 
 export interface Resp {
     assets: Array<{ [key: string]: any }>;
@@ -145,3 +151,22 @@ export const composeComponentTestUtils = <P extends {}>(
     setup: composeSetup<P>(Component, baseProps, baseDuxState, baseContext),
     spyOn: composeSpy(Component)
 });
+
+export const prepMockDuxState = () => {
+    const testNodes = getFlowComponents(boring).renderNodeMap;
+    return {
+        testNodes,
+        mockDuxState: {
+            flowContext: {
+                definition: boring,
+                nodes: testNodes,
+                groups: [],
+                contactFields: []
+            },
+            flowEditor: { flowUI: {} },
+            nodeEditor: { actionToEdit: null, nodeToEdit: null }
+        }
+    };
+};
+
+export const createMockStore: Function = configureStore([thunk]);

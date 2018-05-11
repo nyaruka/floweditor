@@ -169,19 +169,16 @@ export const createStartFlowAction = ({
     }
 });
 
-export const createSetContactPropertyAction = ({
-    uuid = 'set_contact_property-0',
-    property = ContactProperties.Email,
-    value = 'jane@example.com'
+export const createSetContactNameAction = ({
+    uuid = 'set_contact_name-0',
+    name = 'Jane Goodall'
 }: {
     uuid?: string;
-    property?: string;
-    value?: string;
+    name?: string;
 } = {}): SetContactProperty => ({
     uuid,
-    property,
-    value,
-    type: Types.set_contact_property
+    name,
+    type: Types.set_contact_name
 });
 
 export const createSetContactFieldAction = ({
