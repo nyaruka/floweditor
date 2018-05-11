@@ -121,7 +121,7 @@ export class SendBroadcastForm extends React.Component<
                     data-spec="recipients"
                     ref={this.props.onBindWidget}
                     className={broadcastStyles.recipients}
-                    name="Groups"
+                    name="Recipients"
                     assets={this.context.assetService.getRecipients()}
                     selected={this.props.form.recipients}
                     add={true}
@@ -170,8 +170,8 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ updateSendBroadcastForm }, dispatch);
 
-const ConnectedSendMsgForm = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(
-    SendBroadcastForm
-);
+const ConnectedSendBroadcastForm = connect(mapStateToProps, mapDispatchToProps, null, {
+    withRef: true
+})(SendBroadcastForm);
 
-export default ConnectedSendMsgForm;
+export default ConnectedSendBroadcastForm;

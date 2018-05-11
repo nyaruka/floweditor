@@ -126,6 +126,11 @@ export interface Label {
     name: string;
 }
 
+export interface Flow {
+    uuid: string;
+    name: string;
+}
+
 export interface Action {
     type: Types;
     uuid: string;
@@ -148,14 +153,17 @@ export type SetContactAttribute = SetContactField | SetContactProperty;
 // tslint:disable-next-line:no-empty-interface
 export interface Missing extends Action {}
 
+export interface RecipientsAction extends Action {
+    contacts: Contact[];
+    groups: Group[];
+}
+
 export interface SendMsg extends Action {
     text: string;
     all_urns?: boolean;
 }
 
-export interface BroadcastMsg extends Action {
-    contacts: Contact[];
-    groups: Group[];
+export interface BroadcastMsg extends RecipientsAction {
     text: string;
 }
 
@@ -191,10 +199,11 @@ export interface CallWebhook extends Action {
 }
 
 export interface StartFlow extends Action {
-    flow: {
-        name: string;
-        uuid: string;
-    };
+    flow: Flow;
+}
+
+export interface StartSession extends RecipientsAction {
+    flow: Flow;
 }
 
 export interface UIMetaData {
@@ -248,7 +257,8 @@ export type AnyAction =
     | SetPreferredChannel
     | SendEmail
     | CallWebhook
-    | StartFlow;
+    | StartFlow
+    | StartSession;
 
 export enum ContactProperties {
     UUID = 'UUID',

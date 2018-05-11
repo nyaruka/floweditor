@@ -21,6 +21,7 @@ import Constants from './constants';
 export interface ActionState {
     type: Types;
 }
+
 export interface SendBroadcastFormState extends ActionState {
     text: string;
     recipients: Asset[];
@@ -39,7 +40,15 @@ export interface SetContactNameFormState extends ActionState {
 
 export type SetContactAttribFormState = SetContactFieldFormState | SetContactNameFormState;
 
-export type NodeEditorForm = SendBroadcastFormState | SetContactAttribFormState;
+export interface StartSessionFormState extends ActionState {
+    recipients: Asset[];
+    flow: Asset;
+}
+
+export type NodeEditorForm =
+    | SendBroadcastFormState
+    | SetContactAttribFormState
+    | StartSessionFormState;
 
 export interface NodeEditor {
     typeConfig: Type;

@@ -5,6 +5,7 @@ import {
     NodeEditorForm,
     SendBroadcastFormState,
     SetContactAttribFormState,
+    StartSessionFormState,
     updateForm
 } from './nodeEditor';
 import { Thunk } from './thunks';
@@ -18,7 +19,11 @@ export type SetContactAttribFunc = (
     value?: string
 ) => Thunk<SetContactAttribFormState>;
 
-const mutateForm = (
+export type StartSessionFunc = (
+    updated: Partial<StartSessionFormState>
+) => Thunk<StartSessionFormState>;
+
+export const mutateForm = (
     form: NodeEditorForm,
     toMerge: Partial<NodeEditorForm>,
     toRemove: string[] = []
@@ -46,11 +51,11 @@ export const updateSetContactAttribForm: SetContactAttribFunc = (attribute, valu
         let remove: string;
         switch (attribute.type) {
             case AssetType.Field:
-                update = AssetType.Field;
+                update = attribute.type;
                 remove = AssetType.Name;
                 break;
             case AssetType.Name:
-                update = AssetType.Name;
+                update = attribute.type;
                 remove = AssetType.Field;
                 break;
         }
@@ -62,4 +67,14 @@ export const updateSetContactAttribForm: SetContactAttribFunc = (attribute, valu
         dispatch(updateForm(updatedForm));
         return updatedForm as SetContactAttribFormState;
     }
+};
+
+export const updateStartSessionForm: StartSessionFunc = updated => (
+    dispatch,
+    getState
+): StartSessionFormState => {
+    const { nodeEditor: { form } } = getState();
+    const updatedForm = mutateForm(form, updated);
+    dispatch(updateForm(updatedForm));
+    return updatedForm as StartSessionFormState;
 };

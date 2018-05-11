@@ -1,8 +1,21 @@
 import * as React from 'react';
 
+import { Contact, Group, RecipientsAction } from '../../flowTypes';
 import { Asset, AssetType } from '../../services/AssetService';
 
 const styles = require('../shared.scss');
+
+export const getRecipients = (action: RecipientsAction): Asset[] => {
+    const selected = (action.groups || []).map((group: Group) => {
+        return { id: group.uuid, name: group.name, type: AssetType.Group };
+    });
+
+    return selected.concat(
+        (action.contacts || []).map((contact: Contact) => {
+            return { id: contact.uuid, name: contact.name, type: AssetType.Contact };
+        })
+    );
+};
 
 export const renderAssetList = (assets: Asset[], max: number = 10): JSX.Element[] => {
     return assets.reduce((elements, asset, idx) => {

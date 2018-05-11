@@ -25,7 +25,7 @@
         padding: $action_padding;
     }
 
-    &.send_broadcast {
+    &.send_broadcast, &.start_session {
         padding: 0px;
         width: $node_width;
     }

@@ -1,60 +1,52 @@
-jest.unmock('redux-mock-store');
-jest.unmock('immutability-helper');
+import mutate from 'immutability-helper';
+import { v4 as generateUUID } from 'uuid';
 
-const createMockStore = require('redux-mock-store');
-const mutate = require('immutability-helper');
-
-import thunk from 'redux-thunk';
-import * as types from './actionTypes';
+import { Constants, LocalizationUpdates } from '.';
+import * as config from '../../__test__/config';
+import { DragPoint } from '../component/Node';
+import { Operators } from '../config/operatorConfigs';
+import { Types } from '../config/typeConfigs';
 import {
-    FlowDefinition,
-    SendMsg,
     AnyAction,
-    FlowNode,
-    SwitchRouter,
+    FlowDefinition,
     Languages,
-    FlowEditorConfig,
-    RouterTypes
+    RouterTypes,
+    SendMsg,
+    SwitchRouter
 } from '../flowTypes';
+import AssetService from '../services/AssetService';
+import { createMockStore, prepMockDuxState } from '../testUtils';
+import { push } from '../utils';
+import { RenderNode, RenderNodeMap } from './flowContext';
+import { getUniqueDestinations } from './helpers';
 import {
-    initializeFlow,
-    removeNode,
     addNode,
-    onUpdateAction,
-    onUpdateLocalizations,
-    updateDimensions,
     disconnectExit,
-    updateConnection,
     ensureStartNode,
+    fetchFlow,
+    initializeFlow,
     moveActionUp,
-    removeAction,
-    spliceInRouter,
-    reflow,
-    updateExitDestination,
-    resetNodeEditingState,
     onAddToNode,
+    onConnectionDrag,
     onNodeEditorClose,
     onNodeMoved,
-    onConnectionDrag,
     onOpenNodeEditor,
+    onResetDragSelection,
+    onUpdateAction,
+    onUpdateLocalizations,
     onUpdateRouter,
-    fetchFlow,
-    updateSticky,
-    onResetDragSelection
+    reflow,
+    removeAction,
+    removeNode,
+    resetNodeEditingState,
+    spliceInRouter,
+    updateConnection,
+    updateDimensions,
+    updateExitDestination,
+    updateSticky
 } from './thunks';
-import { dump } from '../utils';
-import { getUniqueDestinations, getFlowComponents, FlowComponents } from './helpers';
-import { RenderNode, RenderNodeMap } from './flowContext';
-import { v4 as generateUUID } from 'uuid';
-import { Constants, LocalizationUpdates } from '.';
-import { DragPoint } from '../component/Node';
-import { NOT_FOUND } from '../component/actions/ChangeGroups/RemoveGroupsForm';
-import { empty } from '../component/form/CaseElement.scss';
-import { Types } from '../config/typeConfigs';
-import { Operators } from '../config/operatorConfigs';
-import { push } from '../utils';
-import AssetService from '../services/AssetService';
-import * as config from '../../__test__/config';
+
+const boring: FlowDefinition = require('../../__test__/flows/boring.json');
 
 const getUpdatedNodes = (currentStore): { [uuid: string]: RenderNode } => {
     let nodes;
@@ -68,21 +60,16 @@ const getUpdatedNodes = (currentStore): { [uuid: string]: RenderNode } => {
 };
 
 describe('fetch flows', () => {
-    const store = createMockStore([thunk])({});
+    const store = createMockStore({});
 });
 
 describe('Flow Manipulation', () => {
-    const boring: FlowDefinition = require('../../__test__/flows/boring.json');
-    const testNodes = getFlowComponents(boring).renderNodeMap;
     let store;
+    const { mockDuxState, testNodes } = prepMockDuxState();
 
     beforeEach(() => {
         // prep our store to show that we are editing
-        store = createMockStore([thunk])({
-            flowContext: { definition: boring, nodes: testNodes, groups: [], contactFields: [] },
-            flowEditor: { flowUI: {} },
-            nodeEditor: { actionToEdit: null, nodeToEdit: null }
-        });
+        store = createMockStore(mockDuxState);
     });
 
     describe('init', () => {
@@ -100,11 +87,11 @@ describe('Flow Manipulation', () => {
         it('should initialize definition', () => {
             const { renderNodeMap, groups, fields } = store.dispatch(initializeFlow(boring, null));
             expect(renderNodeMap).toMatchSnapshot('nodes');
-            expect(store).toHaveReduxAction(Constants.UPDATE_NODES);
+            expect(store).toHaveReduxActions([Constants.UPDATE_NODES]);
         });
 
         it('should update localizations', () => {
-            const updatedStore = createMockStore([thunk])({
+            const updatedStore = createMockStore({
                 flowContext: { definition: boring }
             });
             const localizationUpdates: LocalizationUpdates = [
@@ -140,7 +127,7 @@ describe('Flow Manipulation', () => {
 
         it('should add stickies to definitions with none', () => {
             delete boring._ui.stickies;
-            store = createMockStore([thunk])({
+            store = createMockStore({
                 flowContext: { definition: boring }
             });
 
@@ -166,7 +153,7 @@ describe('Flow Manipulation', () => {
                 }
             };
 
-            store = createMockStore([thunk])({
+            store = createMockStore({
                 flowContext: { definition: boring }
             });
 
@@ -188,7 +175,7 @@ describe('Flow Manipulation', () => {
             });
 
             // prep our store to show that we are editing
-            const updatedStore = createMockStore([thunk])({
+            const updatedStore = createMockStore({
                 flowContext: {
                     nodes: collidingNodes
                 }
@@ -211,7 +198,7 @@ describe('Flow Manipulation', () => {
             });
 
             // prep our store to show that we are editing
-            const updatedStore = createMockStore([thunk])({
+            const updatedStore = createMockStore({
                 flowContext: {
                     nodes: collidingNodes
                 }
@@ -241,7 +228,7 @@ describe('Flow Manipulation', () => {
 
         it('should clear the drag selection when a node is moved', () => {
             // prep our store to show that we are editing
-            store = createMockStore([thunk])({
+            store = createMockStore({
                 flowContext: { nodes: testNodes },
                 flowEditor: { flowUI: { dragSelection: { selected: { nodeA: true } } } },
                 nodeEditor: { actionToEdit: null, nodeToEdit: null }
@@ -257,7 +244,7 @@ describe('Flow Manipulation', () => {
 
         it('should clear drag selection', () => {
             // prep our store to show that we are editing
-            store = createMockStore([thunk])({
+            store = createMockStore({
                 flowContext: { nodes: testNodes },
                 flowEditor: { flowUI: { dragSelection: { selected: { nodeA: true } } } },
                 nodeEditor: { actionToEdit: null, nodeToEdit: null }
@@ -283,7 +270,7 @@ describe('Flow Manipulation', () => {
                     sourceId: 'node0:node0_exit0'
                 })
             );
-            expect(store).toHaveReduxAction(Constants.UPDATE_GHOST_NODE);
+            expect(store).toHaveReduxActions([Constants.UPDATE_GHOST_NODE]);
             expect(store).toHavePayload(Constants.UPDATE_PENDING_CONNECTION, {
                 pendingConnection: {
                     nodeUUID: 'node0',
@@ -310,7 +297,7 @@ describe('Flow Manipulation', () => {
             expect(store.dispatch(ensureStartNode())).toBeUndefined();
 
             // create a store without nodes
-            const updatedStore = createMockStore([thunk])({
+            const updatedStore = createMockStore({
                 flowContext: { nodes: {} }
             });
 
@@ -408,7 +395,7 @@ describe('Flow Manipulation', () => {
     describe('actions', () => {
         it('should add new action', () => {
             // prep our store to show that we are editing
-            const updatedStore = createMockStore([thunk])({
+            const updatedStore = createMockStore({
                 ...store.getState(),
                 nodeEditor: { userAddingAction: true, nodeToEdit: testNodes.node0.node }
             });
@@ -443,7 +430,7 @@ describe('Flow Manipulation', () => {
 
         it('should update an existing action', () => {
             // prep our store to show that we are editing
-            const updatedStore = createMockStore([thunk])({
+            const updatedStore = createMockStore({
                 ...store.getState(),
                 nodeEditor: { userAddingAction: false, nodeToEdit: testNodes.node0.node }
             });
@@ -484,7 +471,7 @@ describe('Flow Manipulation', () => {
 
         it('should create a new node if needed for new action', () => {
             // prep our store to show that we are editing
-            const updatedStore = createMockStore([thunk])({
+            const updatedStore = createMockStore({
                 ...store.getState(),
 
                 flowEditor: {
@@ -608,7 +595,7 @@ describe('Flow Manipulation', () => {
 
         beforeEach(() => {
             // now try a store with all the things set
-            store = createMockStore([thunk])({
+            store = createMockStore({
                 flowContext: { nodes: testNodes, definition: { localization: {} } },
                 flowEditor: { editorUI: {}, flowUI: {} },
                 nodeEditor: {}
@@ -617,7 +604,7 @@ describe('Flow Manipulation', () => {
 
         describe('translation', () => {
             it('should edit in translation mode', () => {
-                store = createMockStore([thunk])({
+                store = createMockStore({
                     flowContext: { nodes: testNodes, definition: { localization: {} } },
                     flowEditor: {
                         editorUI: { language: { iso: 'spa' }, translating: true },
@@ -634,11 +621,11 @@ describe('Flow Manipulation', () => {
                     )
                 );
 
-                expect(store).toHaveReduxAction(Constants.UPDATE_LOCALIZATIONS);
+                expect(store).toHaveReduxActions([Constants.UPDATE_LOCALIZATIONS]);
             });
 
             it('should pick your action for you if necessary', () => {
-                store = createMockStore([thunk])({
+                store = createMockStore({
                     flowContext: { nodes: testNodes, definition: { localization: {} } },
                     flowEditor: {
                         editorUI: { language: { iso: 'spa' }, translating: true },
@@ -648,11 +635,11 @@ describe('Flow Manipulation', () => {
                 });
 
                 store.dispatch(onOpenNodeEditor(testNodes.node3.node, null, languages));
-                expect(store).toHaveReduxAction(Constants.UPDATE_LOCALIZATIONS);
+                expect(store).toHaveReduxActions([Constants.UPDATE_LOCALIZATIONS]);
             });
 
             it('should only pick send_msg actions for you when translating', () => {
-                store = createMockStore([thunk])({
+                store = createMockStore({
                     flowContext: { nodes: testNodes, definition: { localization: {} } },
                     flowEditor: {
                         editorUI: { language: { iso: 'spa' }, translating: true },
@@ -662,7 +649,7 @@ describe('Flow Manipulation', () => {
                 });
 
                 store.dispatch(onOpenNodeEditor(testNodes.node2.node, null, languages));
-                expect(store).not.toHaveReduxAction(Constants.UPDATE_LOCALIZATIONS);
+                expect(store).not.toHaveReduxActions([Constants.UPDATE_LOCALIZATIONS]);
             });
         });
 
@@ -747,7 +734,7 @@ describe('Flow Manipulation', () => {
             });
 
             it('should rewire the old connection when canceling the editor', () => {
-                store = createMockStore([thunk])({
+                store = createMockStore({
                     flowContext: { nodes: testNodes },
                     flowEditor: {
                         flowUI: {
@@ -773,12 +760,12 @@ describe('Flow Manipulation', () => {
                     ghostNode: null
                 });
 
-                expect(store.getActions().length).toBe(2);
+                expect(store.getActions().length).toBe(3);
             });
 
             it('should reset the node editor', () => {
                 // now try a store with all the things set
-                store = createMockStore([thunk])({
+                store = createMockStore({
                     flowContext: { nodes: testNodes },
                     flowEditor: { flowUI: { pendingConnection: {}, createNodePosition: {} } },
                     nodeEditor: { actionToEdit: {}, nodeToEdit: {} }
@@ -811,7 +798,7 @@ describe('Flow Manipulation', () => {
 
     describe('routers', () => {
         it('should edit an existing router', () => {
-            store = createMockStore([thunk])({
+            store = createMockStore({
                 flowContext: { nodes: testNodes },
                 flowEditor: { flowUI: {} },
                 nodeEditor: { nodeToEdit: testNodes.node1.node }
@@ -841,7 +828,7 @@ describe('Flow Manipulation', () => {
         });
 
         it('should create a new router on drag', () => {
-            store = createMockStore([thunk])({
+            store = createMockStore({
                 flowContext: { nodes: testNodes },
                 flowEditor: {
                     flowUI: {
@@ -869,7 +856,7 @@ describe('Flow Manipulation', () => {
         });
 
         it('should update an action into a router', () => {
-            store = createMockStore([thunk])({
+            store = createMockStore({
                 flowContext: { nodes: testNodes },
                 flowEditor: { flowUI: {} },
                 nodeEditor: {
@@ -896,7 +883,7 @@ describe('Flow Manipulation', () => {
         });
 
         it('should append a router after an add action', () => {
-            store = createMockStore([thunk])({
+            store = createMockStore({
                 flowContext: { nodes: testNodes },
                 flowEditor: { flowUI: {} },
                 nodeEditor: {
