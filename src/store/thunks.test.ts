@@ -3,9 +3,10 @@ import { v4 as generateUUID } from 'uuid';
 
 import { Constants, LocalizationUpdates } from '.';
 import * as config from '../../__test__/config';
+import { SetContactAttribFormHelper } from '../component/actions/SetContactAttrib/SetContactAttribFormHelper';
 import { DragPoint } from '../component/Node';
 import { Operators } from '../config/operatorConfigs';
-import { Types } from '../config/typeConfigs';
+import { getTypeConfig, Types } from '../config/typeConfigs';
 import {
     AnyAction,
     FlowDefinition,
@@ -16,6 +17,7 @@ import {
 } from '../flowTypes';
 import AssetService from '../services/AssetService';
 import { createMockStore, prepMockDuxState } from '../testUtils';
+import { createSetContactFieldAction } from '../testUtils/assetCreators';
 import { push } from '../utils';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { getUniqueDestinations } from './helpers';
@@ -24,6 +26,7 @@ import {
     disconnectExit,
     ensureStartNode,
     fetchFlow,
+    handleTypeConfigChange,
     initializeFlow,
     moveActionUp,
     onAddToNode,
@@ -85,7 +88,10 @@ describe('Flow Manipulation', () => {
         });
 
         it('should initialize definition', () => {
-            const { renderNodeMap, groups, fields } = store.dispatch(initializeFlow(boring, null));
+            const assetService = new AssetService(config);
+            const { renderNodeMap, groups, fields } = store.dispatch(
+                initializeFlow(boring, assetService)
+            );
             expect(renderNodeMap).toMatchSnapshot('nodes');
             expect(store).toHaveReduxActions([Constants.UPDATE_NODES]);
         });
@@ -654,6 +660,29 @@ describe('Flow Manipulation', () => {
         });
 
         describe('normal editing', () => {
+            it('should update type config', () => {
+                const newTypeConfig = getTypeConfig(Types.set_contact_field);
+                const newActionToEdit = createSetContactFieldAction();
+                const formHelper = new SetContactAttribFormHelper();
+                const newFormState = formHelper.actionToState(
+                    newActionToEdit,
+                    newTypeConfig.type as Types.set_contact_field
+                );
+
+                store.dispatch(handleTypeConfigChange(newTypeConfig, newActionToEdit));
+
+                expect(store).toHaveReduxActions([
+                    Constants.UPDATE_TYPE_CONFIG,
+                    Constants.UPDATE_FORM
+                ]);
+                expect(store).toHavePayload(Constants.UPDATE_TYPE_CONFIG, {
+                    typeConfig: newTypeConfig
+                });
+                expect(store).toHavePayload(Constants.UPDATE_FORM, {
+                    form: newFormState
+                });
+            });
+
             it('should edit an existing action', () => {
                 store.dispatch(
                     onOpenNodeEditor(
