@@ -14,7 +14,7 @@ exports[`SendBroadcastForm render should render an empty form with no action 1`]
     }
     className="recipients"
     data-spec="recipients"
-    name="Groups"
+    name="Recipients"
     onChange={[Function]}
     placeholder="Enter a group or contact..."
     required={true}
@@ -50,7 +50,7 @@ exports[`SendBroadcastForm render should render self, children with base props 1
     }
     className="recipients"
     data-spec="recipients"
-    name="Groups"
+    name="Recipients"
     onChange={[Function]}
     placeholder="Enter a group or contact..."
     required={true}
