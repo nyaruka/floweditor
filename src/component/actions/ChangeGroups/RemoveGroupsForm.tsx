@@ -62,7 +62,7 @@ export default class RemoveGroupsForm extends React.Component<
     }
 
     public handleUpdateRemoveAll(checked: boolean): void {
-        this.setState({ removeFromAll: checked });
+        this.setState({ removeFromAll: !checked });
     }
 
     public onValid(): void {

@@ -86,7 +86,7 @@ Object {
   "defaultValue": false,
   "description": "Remove the active contact from all groups they're a member of.",
   "name": "Remove from All",
-  "onCheck": [Function],
+  "onChange": [Function],
   "sibling": true,
 }
 `;
