@@ -5,11 +5,11 @@ import { AssetType } from '../../services/AssetService';
 export const getIconForAssetType = (assetType: AssetType): JSX.Element => {
     switch (assetType) {
         case AssetType.Group:
-            return <span className="icn-group" />;
+            return <span className="fe-group" />;
         case AssetType.Label:
-            return <span className="icn-label" />;
+            return <span className="fe-label" />;
         case AssetType.Flow:
-            return <span className="icn-split" />;
+            return <span className="fe-split" />;
     }
     return null;
 };

@@ -216,7 +216,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
                 <div className={styles.sticky}>
                     <div className={titleClasses.join(' ')}>
                         <div className={styles.removeButton} onClick={this.onClickRemove}>
-                            <span className="icn-cross" />
+                            <span className="fe-x" />
                         </div>
                         <div className={styles.confirmation}>Remove?</div>
                         <TextareaAutosize

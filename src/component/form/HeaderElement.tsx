@@ -1,5 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
+
 import { hasErrorType, renderIf } from '../../utils';
 import ConnectedTextInputElement, { HTMLTextElement } from '../form/TextInputElement';
 import * as styles from '../routers/Webhook.scss';
@@ -97,7 +98,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
     private getRemoveIco(): JSX.Element {
         return renderIf(this.props.index !== 0 && !this.props.empty)(
             <div className={styles.removeIco} onClick={this.onRemove} data-spec={removeIcoSpecId}>
-                <span className="icn-remove" />
+                <span className="fe-remove" />
             </div>
         );
     }
