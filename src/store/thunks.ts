@@ -1,10 +1,11 @@
 // TODO: Remove use of Function
 // tslint:disable:ban-types
+import * as isEqual from 'fast-deep-equal';
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 
 import { hasCases } from '../component/NodeEditor/NodeEditor';
-import { getTypeConfig } from '../config';
+import { getTypeConfig, Type } from '../config';
 import { Types } from '../config/typeConfigs';
 import {
     Action,
@@ -17,25 +18,28 @@ import {
     Languages,
     SendMsg,
     StickyNote,
-    SwitchRouter
+    SwitchRouter,
 } from '../flowTypes';
 import AssetService, { Asset, Assets } from '../services/AssetService';
 import { NODE_SPACING, timeEnd, timeStart } from '../utils';
 import {
     RenderNode,
     RenderNodeMap,
+    updateBaseLanguage,
     updateDefinition,
     updateLocalizations,
-    updateNodes
+    updateNodes,
 } from './flowContext';
 import {
     updateCreateNodePosition,
     updateDragSelection,
     updateFetchingFlow,
     updateGhostNode,
+    updateLanguage,
     updateNodeDragging,
     updateNodeEditorOpen,
-    updatePendingConnection
+    updatePendingConnection,
+    updateTranslating,
 } from './flowEditor';
 import {
     determineConfigType,
@@ -44,18 +48,19 @@ import {
     getCollision,
     getFlowComponents,
     getGhostNode,
-    getLocalizations
+    getLocalizations,
 } from './helpers';
 import * as mutators from './mutators';
 import {
     updateActionToEdit,
+    updateForm,
     updateNodeToEdit,
     updateOperand,
     updateResultName,
     updateShowResultName,
     updateTimeout,
     updateTypeConfig,
-    updateUserAddingAction
+    updateUserAddingAction,
 } from './nodeEditor';
 import AppState from './state';
 
@@ -68,6 +73,8 @@ export type Thunk<T> = (dispatch: DispatchWithState, getState?: GetState) => T;
 export type AsyncThunk = Thunk<Promise<void>>;
 
 export type OnAddToNode = (node: FlowNode) => Thunk<void>;
+
+export type HandleTypeConfigChange = (typeConfig: Type, action: AnyAction) => Thunk<void>;
 
 export type OnResetDragSelection = () => Thunk<void>;
 
@@ -109,6 +116,8 @@ export type ActionAC = (nodeUUID: string, action: AnyAction) => Thunk<RenderNode
 
 export type DisconnectExit = (nodeUUID: string, exitUUID: string) => Thunk<RenderNodeMap>;
 
+export type HandleLanguageChange = (language: Asset) => Thunk<void>;
+
 export interface ReplaceAction {
     nodeUUID: string;
     actionUUID: string;
@@ -149,6 +158,8 @@ export const initializeFlow = (definition: FlowDefinition, assetService: AssetSe
         assetService.addFlowComponents(flowComponents);
     }
 
+    dispatch(updateBaseLanguage(flowComponents.baseLanguage));
+    dispatch(updateLanguage(flowComponents.baseLanguage));
     // store our flow definition without any nodes
     dispatch(updateDefinition(mutators.pruneDefinition(definition)));
     dispatch(updateNodes(flowComponents.renderNodeMap));
@@ -165,6 +176,25 @@ export const fetchFlow = (assetService: AssetService, uuid: string) => (
     return flows.get(uuid).then(({ content: definition }: Asset) => {
         return dispatch(initializeFlow(definition, assetService));
     });
+};
+
+export const handleLanguageChange: HandleLanguageChange = language => (dispatch, getState) => {
+    const {
+        flowContext: { baseLanguage },
+        flowEditor: { editorUI: { translating, language: currentLanguage } }
+    } = getState();
+
+    // determine translating state
+    if (!isEqual(language, baseLanguage) && !translating) {
+        dispatch(updateTranslating(true));
+    } else {
+        dispatch(updateTranslating(false));
+    }
+
+    // update language
+    if (!isEqual(language, currentLanguage)) {
+        dispatch(updateLanguage(language));
+    }
 };
 
 export const reflow = (current: RenderNodeMap = null) => (
@@ -444,6 +474,18 @@ export const spliceInRouter = (
     return updatedNodes;
 };
 
+export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+) => {
+    dispatch(updateTypeConfig(typeConfig));
+    if (typeConfig.formHelper) {
+        // tslint:disable-next-line:no-shadowed-variable
+        const action = actionToEdit.type === typeConfig.type ? actionToEdit : null;
+        dispatch(updateForm(typeConfig.formHelper.actionToState(action, typeConfig.type)));
+    }
+};
+
 export const resetNodeEditingState = () => (dispatch: DispatchWithState, getState: GetState) => {
     const {
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
@@ -468,6 +510,8 @@ export const resetNodeEditingState = () => (dispatch: DispatchWithState, getStat
         dispatch(updateNodeToEdit(null));
     }
 
+    dispatch(updateForm(null));
+
     dispatch(updateTimeout(null));
 };
 
@@ -475,13 +519,13 @@ export const onUpdateAction = (action: AnyAction) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
+    timeStart('onUpdateAction');
+
     const {
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
         nodeEditor: { userAddingAction, nodeToEdit },
         flowContext: { nodes }
     } = getState();
-
-    timeStart('onUpdateAction');
 
     if (nodeToEdit == null) {
         throw new Error('Need nodeToEdit in state to update an action');
@@ -653,7 +697,7 @@ export const onUpdateRouter = (node: RenderNode) => (
         node.node = mutators.uniquifyNode(node.node);
     }
 
-    if (nodeToEdit && actionToEdit) {
+    if (nodeToEdit && actionToEdit && previousNode) {
         const actionToSplice = previousNode.node.actions.find(
             (action: Action) => action.uuid === actionToEdit.uuid
         );
@@ -731,9 +775,9 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
             }
         }
 
-        const translations = localization[language.iso];
+        const translations = localization[language.id];
         localizations.push(
-            ...getLocalizations(node, actionToTranslate, language.iso, languages, translations)
+            ...getLocalizations(node, actionToTranslate, language.id, languages, translations)
         );
     }
 
@@ -745,6 +789,11 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
     }
 
     const type = determineConfigType(node, action, nodes);
+    const typeConfig = getTypeConfig(type);
+
+    if (typeConfig.formHelper) {
+        dispatch(updateForm(typeConfig.formHelper.actionToState(action, typeConfig.type)));
+    }
     dispatch(updateTypeConfig(getTypeConfig(type as Types)));
 
     let resultName = '';

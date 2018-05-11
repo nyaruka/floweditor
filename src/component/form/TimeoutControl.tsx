@@ -4,6 +4,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import Select, { Option } from 'react-select';
 import { bindActionCreators } from 'redux';
+
 import { AppState, UpdateTimeout, updateTimeout } from '../../store';
 import { DispatchWithState } from '../../store/thunks';
 import { isRealValue, renderIf } from '../../utils';
@@ -36,7 +37,6 @@ export const TIMEOUT_OPTIONS = [
     { value: 86400, label: '1 days' },
     { value: 172800, label: '2 days' },
     { value: 259200, label: '3 days' },
-    // 1 * 7 * 24 * 60 * 60
     { value: 604800, label: '1 week' }
 ];
 
@@ -92,14 +92,16 @@ export class TimeoutControl extends React.Component<TimeoutControlStoreProps, Ti
         return (
             <div className={styles.timeoutControlContainer}>
                 <div className={styles.leftSection}>
-                    <input
-                        className={styles.checkBox}
-                        name="timeout-enabled"
-                        type="checkbox"
-                        checked={this.props.checked}
-                        onChange={this.handleCheck}
-                    />
-                    {this.getInstructions()}
+                    <label className={styles.label}>
+                        <input
+                            className={styles.checkBox}
+                            name="timeout-enabled"
+                            type="checkbox"
+                            checked={this.props.checked}
+                            onChange={this.handleCheck}
+                        />
+                        {this.getInstructions()}
+                    </label>
                 </div>
                 {renderIf(this.props.checked)(
                     <Select

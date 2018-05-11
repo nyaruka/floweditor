@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddLabelsComp should display labels on action 1`] = `
+<React.Fragment>
+  <div
+    className="nodeAsset"
+    key="label-0"
+  >
+    <span
+      className="nodeLabel fe-label"
+    />
+    Help
+  </div>
+  <div
+    className="nodeAsset"
+    key="label-1"
+  >
+    <span
+      className="nodeLabel fe-label"
+    />
+    New
+  </div>
+  <div
+    className="nodeAsset"
+    key="label-2"
+  >
+    <span
+      className="nodeLabel fe-label"
+    />
+    Feedback
+  </div>
+  <div
+    key="ellipses"
+  >
+    ...
+  </div>
+</React.Fragment>
+`;

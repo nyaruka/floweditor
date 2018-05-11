@@ -1,17 +1,18 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+
 import { Type } from '../../../config';
 import { FlowDefinition, SendMsg } from '../../../flowTypes';
-import { AppState } from '../../../store';
+import { Asset } from '../../../services/AssetService';
 import Localization, { LocalizedObject } from '../../../services/Localization';
+import { AppState } from '../../../store';
 import * as styles from '../../actions/Action/Action.scss';
 import CheckboxElement from '../../form/CheckboxElement';
 import TextInputElement, { Count } from '../../form/TextInputElement';
-import { Language } from '../../LanguageSelector';
 import { UpdateLocalizations } from '../../NodeEditor';
 
 export interface SendMsgFormStoreProps {
-    language: Language;
+    language: Asset;
     translating: boolean;
     typeConfig: Type;
     definition: FlowDefinition;
@@ -44,11 +45,11 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
             const translation = value.trim();
 
             if (translation) {
-                this.props.updateLocalizations(this.props.language.iso, [
+                this.props.updateLocalizations(this.props.language.id, [
                     { uuid: this.props.action.uuid, translations: { text: [value] } }
                 ]);
             } else {
-                this.props.updateLocalizations(this.props.language.iso, [
+                this.props.updateLocalizations(this.props.language.id, [
                     { uuid: this.props.action.uuid, translations: null }
                 ]);
             }

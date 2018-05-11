@@ -4,9 +4,10 @@ import {
     NewOptionCreatorHandler,
     PromptTextCreatorHandler
 } from 'react-select';
+
 import { Operators } from './config/operatorConfigs';
-import AssetService from './services/AssetService';
 import { Types } from './config/typeConfigs';
+import AssetService from './services/AssetService';
 
 export interface Languages {
     [iso: string]: string;
@@ -15,19 +16,20 @@ export interface Languages {
 export interface Endpoints {
     fields: string;
     groups: string;
-    contacts: string;
+    recipients: string;
     flows: string;
     activity: string;
+    labels: string;
+    languages: string;
     simulateStart: string;
     simulateResume: string;
 }
 
 export interface FlowEditorConfig {
-    assetService?: AssetService;
     localStorage: boolean;
-    languages: { [iso: string]: string };
     endpoints: Endpoints;
     flow: string;
+
     path?: string;
 }
 
@@ -99,15 +101,15 @@ export interface Group {
     name: string;
 }
 
+export interface Contact {
+    uuid: string;
+    name: string;
+}
+
 export enum Methods {
     GET = 'GET',
     POST = 'POST',
     PUT = 'PUT'
-}
-
-export interface Action {
-    type: Types;
-    uuid: string;
 }
 
 export interface ChangeGroups extends Action {
@@ -119,24 +121,59 @@ export interface Field {
     name: string;
 }
 
+export interface Label {
+    uuid: string;
+    name: string;
+}
+
+export interface Flow {
+    uuid: string;
+    name: string;
+}
+
+export interface Action {
+    type: Types;
+    uuid: string;
+}
+
 export interface SetContactField extends Action {
     field: Field;
     value: string;
 }
 
-export interface SetContactProperty extends Action {
-    property: string;
-    value: string;
+export interface SetContactName extends Action {
+    type: Types.set_contact_name;
+    name: string;
 }
+
+export interface SetContactLanguage extends Action {
+    type: Types.set_contact_language;
+    language: string;
+}
+
+export type SetContactProperty = SetContactName | SetContactLanguage;
 
 export type SetContactAttribute = SetContactField | SetContactProperty;
 
 // tslint:disable-next-line:no-empty-interface
 export interface Missing extends Action {}
 
+export interface RecipientsAction extends Action {
+    contacts: Contact[];
+    groups: Group[];
+}
+
 export interface SendMsg extends Action {
     text: string;
     all_urns?: boolean;
+}
+
+export interface BroadcastMsg extends RecipientsAction {
+    text: string;
+}
+
+export interface AddLabels extends Action {
+    labels: Label[];
 }
 
 export interface SetPreferredChannel extends Action {
@@ -167,10 +204,11 @@ export interface CallWebhook extends Action {
 }
 
 export interface StartFlow extends Action {
-    flow: {
-        name: string;
-        uuid: string;
-    };
+    flow: Flow;
+}
+
+export interface StartSession extends RecipientsAction {
+    flow: Flow;
 }
 
 export interface UIMetaData {
@@ -218,13 +256,14 @@ export type AnyAction =
     | Action
     | ChangeGroups
     | SetContactField
-    | SetContactProperty
+    | SetContactName
     | SetRunResult
     | SendMsg
     | SetPreferredChannel
     | SendEmail
     | CallWebhook
-    | StartFlow;
+    | StartFlow
+    | StartSession;
 
 export enum ContactProperties {
     UUID = 'uuid',
@@ -246,7 +285,8 @@ export enum ResultType {
     flow = 'flow',
     field = 'field',
     group = 'group',
-    label = 'label'
+    label = 'label',
+    language = 'language'
 }
 
 export enum ValueType {

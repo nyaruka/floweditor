@@ -16,7 +16,7 @@
     background: $red;
 }
 
-.send_email {
+.send_email, .send_broadcast {
     background: $purple;
 }
 
@@ -25,15 +25,15 @@
     background: $blue;
 }
 
-.start_flow {
+.start_flow, .start_session {
     background: $pink;
 }
 
-.add_label {
+.add_input_labels {
     background: $blue_baby;
 }
 
-.set_contact_property,
+.set_contact_name,
 .set_contact_field,
 .set_run_result,
 .set_language,
@@ -62,6 +62,20 @@
 .url {
     width: $node_width
 }
+
+.node_asset {
+    
+    .node_group {
+        padding-right: 5px;
+    }
+
+    .node_label {
+        padding-right: 5px
+    }
+    
+}
+
+
 
 
 .modal_side_0 {}

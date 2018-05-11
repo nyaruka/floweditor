@@ -1,20 +1,23 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import Select from 'react-select';
 import { bindActionCreators } from 'redux';
+
 import { ConfigProviderContext } from '../config';
-import { Languages } from '../flowTypes';
+import { fakePropType } from '../config/ConfigProvider';
+import { ResultType } from '../flowTypes';
+import { Asset } from '../services/AssetService';
 import {
     AppState,
     DispatchWithState,
+    HandleLanguageChange,
+    handleLanguageChange,
     UpdateLanguage,
     updateLanguage,
     UpdateTranslating,
     updateTranslating
 } from '../store';
-import { getBaseLanguage, jsonEqual } from '../utils';
 import { languageSelector } from './LanguageSelector.scss';
-import { fakePropType } from '../config/ConfigProvider';
+import SelectSearch from './SelectSearch/SelectSearch';
 
 export interface Language {
     name: string;
@@ -22,16 +25,11 @@ export interface Language {
 }
 
 export interface LanguageSelectorStoreProps {
-    language: Language;
+    language: Asset;
     updateLanguage: UpdateLanguage;
     updateTranslating: UpdateTranslating;
+    handleLanguageChange: HandleLanguageChange;
 }
-
-export const mapOptions = (languages: Languages): Language[] =>
-    Object.keys(languages).map(iso => ({
-        name: languages[iso],
-        iso
-    }));
 
 export const containerClass = `${languageSelector} select-small`;
 
@@ -39,42 +37,39 @@ export const languageSelectorContainerSpecId = 'language-selector-container';
 
 export class LanguageSelector extends React.Component<LanguageSelectorStoreProps> {
     public static contextTypes = {
-        languages: fakePropType
+        assetService: fakePropType
     };
 
     constructor(props: LanguageSelectorStoreProps, context: ConfigProviderContext) {
         super(props, context);
-        this.onChange = this.onChange.bind(this);
+
+        this.handleLanguageChange = this.handleLanguageChange.bind(this);
     }
 
-    public onChange(lang: Language): void {
-        const baseLanguage = getBaseLanguage(this.context.languages);
-        const translating = !jsonEqual(baseLanguage, lang);
-        this.props.updateLanguage(lang);
-        this.props.updateTranslating(translating);
+    private handleLanguageChange(selections: Asset[]): void {
+        const [language] = selections;
+        this.props.handleLanguageChange(language);
+    }
+
+    private getInitial(): Asset {
+        return;
     }
 
     public render(): JSX.Element {
-        if (this.props.language) {
-            const options = mapOptions(this.context.languages);
-            if (options.length) {
-                return (
-                    <div className={containerClass} data-spec={languageSelectorContainerSpecId}>
-                        <Select
-                            value={this.props.language.iso}
-                            onChange={this.onChange}
-                            valueKey="iso"
-                            labelKey="name"
-                            searchable={false}
-                            clearable={false}
-                            options={options}
-                        />
-                    </div>
-                );
-            }
-            return null;
-        }
-        return null;
+        return (
+            <div className={containerClass} data-spec={languageSelectorContainerSpecId}>
+                <SelectSearch
+                    resultType={ResultType.language}
+                    assets={this.context.assetService.getLanguageAssets()}
+                    searchable={false}
+                    multi={false}
+                    initial={[this.props.language]}
+                    name="Languages"
+                    closeOnSelect={true}
+                    onChange={this.handleLanguageChange}
+                />
+            </div>
+        );
     }
 }
 
@@ -84,7 +79,8 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
             updateLanguage,
-            updateTranslating
+            updateTranslating,
+            handleLanguageChange
         },
         dispatch
     );

@@ -83,7 +83,7 @@ exports[`ActionWrapper render should display not_localizable style 1`] = `
       onRemoval={[Function]}
       showMove={false}
       showRemoval={false}
-      title="Run Flow"
+      title="Start a Flow"
     />
     <div
       className="body start_flow"

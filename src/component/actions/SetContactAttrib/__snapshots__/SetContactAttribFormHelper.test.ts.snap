@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_field 1`] = `
+Object {
+  "field": Object {
+    "id": "",
+    "name": "",
+    "type": "field",
+  },
+  "value": "",
+}
+`;
+
+exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_name 1`] = `
+Object {
+  "name": Object {
+    "id": "name",
+    "name": "Name",
+    "type": "name",
+  },
+  "value": "",
+}
+`;

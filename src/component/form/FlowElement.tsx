@@ -1,15 +1,17 @@
 import * as React from 'react';
-import { getSelectClass } from '../../utils';
-import SelectSearch from '../SelectSearch';
-import FormElement, { FormElementProps } from './FormElement';
+
 import { ResultType } from '../../flowTypes';
-import { Assets, Asset, AssetType } from '../../services/AssetService';
+import { Asset, Assets, AssetType } from '../../services/AssetService';
+import { getSelectClass } from '../../utils';
+import SelectSearch from '../SelectSearch/SelectSearch';
+import FormElement, { FormElementProps } from './FormElement';
 
 interface FlowElementProps extends FormElementProps {
     flow: { name: string; uuid: string };
     endpoint?: string;
     placeholder?: string;
     assets: Assets;
+    onChange?: (selected: Asset[]) => void;
 }
 
 interface FlowState {
@@ -20,11 +22,11 @@ interface FlowState {
 export const notFound: string = 'Enter the name of an existing flow';
 
 export default class FlowElement extends React.Component<FlowElementProps, FlowState> {
-    constructor(props: any) {
+    constructor(props: FlowElementProps) {
         super(props);
 
         const flow =
-            this.props.flow.uuid && this.props.flow.name
+            this.props.flow && this.props.flow.uuid && this.props.flow.name
                 ? {
                       name: this.props.flow.name,
                       id: this.props.flow.uuid,
@@ -37,13 +39,17 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
             errors: []
         };
 
-        this.onChange = this.onChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    private onChange(flow: any): void {
+    private handleChange(selected: Asset[]): void {
         this.setState({
-            flow
+            flow: selected[0]
         });
+
+        if (this.props.onChange) {
+            this.props.onChange(selected);
+        }
     }
 
     private validate(): boolean {
@@ -66,7 +72,7 @@ export default class FlowElement extends React.Component<FlowElementProps, FlowS
             <FormElement name={this.props.name} errors={this.state.errors}>
                 <SelectSearch
                     __className={className}
-                    onChange={this.onChange}
+                    onChange={this.handleChange}
                     name={this.props.name}
                     assets={this.props.assets}
                     resultType={ResultType.flow}

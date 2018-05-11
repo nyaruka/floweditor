@@ -1,0 +1,17 @@
+{
+    "assets": [
+        {
+            "name": "English",
+            "iso": "eng"
+        },
+        {
+            "name": "Spanish",
+            "iso": "spa"
+
+        },
+        {
+            "name": "French",
+            "iso": "fra"
+        }
+    ]
+}

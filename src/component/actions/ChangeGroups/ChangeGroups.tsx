@@ -1,12 +1,16 @@
 import * as React from 'react';
-import { ChangeGroups, Group } from '../../../flowTypes';
+
 import { Types } from '../../../config/typeConfigs';
+import { ChangeGroups } from '../../../flowTypes';
+import { AssetType } from '../../../services/AssetService';
+import { renderAssetList } from '../helpers';
 
 export const removeAllSpecId = 'remove_from_all';
 export const contentSpecId = 'content';
 export const removeAllText = 'Remove from all groups';
 export const ellipsesText = '...';
 
+export const MAX_TO_SHOW = 3;
 export const getRemoveAllMarkup = (
     key = removeAllSpecId,
     specId = removeAllSpecId,
@@ -17,28 +21,18 @@ export const getRemoveAllMarkup = (
     </div>
 );
 
-export const getGroupMarkup = (value: string, idx: number) => <div key={idx}>{value}</div>;
-
-export const getGroupElements = (groups: Group[] = []) =>
-    groups.reduce((groupList, { name }, idx) => {
-        if (idx <= 2) {
-            groupList.push(getGroupMarkup(name, idx));
-        }
-
-        if (idx === 3) {
-            groupList.push(getGroupMarkup(ellipsesText, idx));
-        }
-
-        return groupList;
-    }, []);
-
 export const getContentMarkup = ({ type, groups }: ChangeGroups): JSX.Element[] => {
     const content = [];
 
     if (type === Types.remove_contact_groups && !groups.length) {
         content.push(getRemoveAllMarkup());
     } else {
-        const groupEls = content.push(...getGroupElements(groups));
+        return renderAssetList(
+            groups.map(group => {
+                return { id: group.uuid, name: group.name, type: AssetType.Group };
+            }),
+            MAX_TO_SHOW
+        );
     }
 
     return content;
@@ -47,7 +41,6 @@ export const getContentMarkup = ({ type, groups }: ChangeGroups): JSX.Element[] 
 export const getChangeGroupsMarkup = (action: ChangeGroups, specId = contentSpecId) => (
     <div data-spec={specId}>{getContentMarkup(action)}</div>
 );
-
 
 const ChangeGroupComp: React.SFC<ChangeGroups> = (props): JSX.Element =>
     getChangeGroupsMarkup(props);

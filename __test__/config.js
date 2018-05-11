@@ -1,10 +1,5 @@
 const config = {
-    flow: 'a4f64f1b-85bc-477e-b706-de313a022979',
-    languages: {
-        eng: 'English',
-        spa: 'Spanish',
-        fre: 'French'
-    }
+    flow: 'a4f64f1b-85bc-477e-b706-de313a022979'
 };
 
 module.exports =
@@ -14,10 +9,13 @@ module.exports =
               endpoints: {
                   flows: 'flows',
                   groups: 'groups',
-                  contacts: 'contacts',
+                  recipients: 'recipients',
                   fields: 'fields',
+                  labels: 'labels',
+                  languages: 'languages',
                   activity: '',
-                  engine: ''
+                  simulateStart: '',
+                  simulateResume: ''
               }
           })
         : Object.assign({}, config, {
@@ -25,9 +23,12 @@ module.exports =
               endpoints: {
                   flows: '/assets/flows.json',
                   groups: '/assets/groups.json',
-                  contacts: '/assets/contacts.json',
                   fields: '/assets/fields.json',
+                  recipients: '/assets/recipients.json',
+                  labels: '/assets/labels.json',
+                  languages: '/assets/languages.json',
                   activity: '',
-                  engine: ''
+                  simulateStart: '',
+                  simulateResume: ''
               }
           });

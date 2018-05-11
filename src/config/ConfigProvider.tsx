@@ -1,19 +1,20 @@
 import * as React from 'react';
-import { Endpoints, FlowEditorConfig, Languages } from '../flowTypes';
-import AssetService, { Assets } from '../services/AssetService';
+
+import { Endpoints, FlowEditorConfig } from '../flowTypes';
+import AssetService from '../services/AssetService';
 
 export const fakePropType: any = (): any => null;
 fakePropType.isRequired = (): any => null;
 
 interface ConfigProviderProps {
     config: FlowEditorConfig;
+    assetService: AssetService;
     children: any;
 }
 
 export interface ConfigProviderContext {
     assetService: AssetService;
     endpoints: Endpoints;
-    languages: Languages;
     flow: string;
 }
 
@@ -27,7 +28,6 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
     public static childContextTypes = {
         assetService: fakePropType,
         endpoints: fakePropType,
-        languages: fakePropType,
         flow: fakePropType
     };
 
@@ -44,7 +44,6 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
     public getChildContext(): ConfigProviderContext {
         return {
             assetService: this.props.config.assetService,
-            languages: this.props.config.languages,
             endpoints: this.props.config.endpoints,
             flow: this.props.config.flow
         };

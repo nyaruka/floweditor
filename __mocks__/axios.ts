@@ -5,6 +5,8 @@ const flowsResp = require('../__test__/assets/flows.json');
 const groupsResp = require('../__test__/assets/groups.json');
 const contactsResp = require('../__test__/assets/contacts.json');
 const fieldsResp = require('../__test__/assets/fields.json');
+const recipientsResp = require('../__test__/assets/recipients.json');
+const labelsResp = require('../__test__/assets/labels.json');
 
 const getEndpoint = (urlStr: string) => {
     const queryIdx = urlStr.indexOf('?');
@@ -46,6 +48,10 @@ axios.get = jest.fn(url => {
             return resolvePromise(contactsResp.assets);
         case endpoints.fields:
             return resolvePromise(fieldsResp.assets);
+        case endpoints.recipients:
+            return resolvePromise(recipientsResp);
+        case endpoints.labels:
+            return resolvePromise(labelsResp.assets);
         default:
             throw new Error('Axios mock: url not passed. Passed: ' + url);
     }

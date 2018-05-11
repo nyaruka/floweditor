@@ -14,13 +14,13 @@ exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
         "assets": Object {
           "language": Object {
             "id": "language",
-            "name": "Language",
-            "type": "property",
+            "name": "language",
+            "type": "language",
           },
           "name": Object {
             "id": "name",
-            "name": "Name",
-            "type": "property",
+            "name": "name",
+            "type": "name",
           },
         },
         "endpoint": "/assets/fields.json",
@@ -36,7 +36,7 @@ exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
         Object {
           "id": "name",
           "name": "Name",
-          "type": "property",
+          "type": "name",
         },
       ]
     }
@@ -47,93 +47,8 @@ exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
     onChange={[Function]}
     placeholder="Enter the name of an existing attribute or create a new one"
     resultType="field"
-    searchPromptText="Invalid attribute name"
-  />
-</FormElement>
-`;
-
-exports[`AttribElement render should render self, children with base props 1`] = `
-Object {
-  "__className": "",
-  "assets": FieldAssets {
-    "assetType": "field",
-    "assets": Object {
-      "language": Object {
-        "id": "language",
-        "name": "Language",
-        "type": "property",
-      },
-      "name": Object {
-        "id": "name",
-        "name": "Name",
-        "type": "property",
-      },
-    },
-    "endpoint": "/assets/fields.json",
-    "idProperty": "key",
-    "localStorage": true,
-  },
-  "closeOnSelect": true,
-  "initial": Array [
-    Object {
-      "id": "name",
-      "name": "Name",
-      "type": "property",
-    },
-  ],
-  "multi": false,
-  "name": "Attribute",
-  "onChange": [Function],
-  "placeholder": "Enter the name of an existing attribute or create a new one",
-  "resultType": "field",
-  "searchPromptText": "Invalid attribute name",
-}
-`;
-
-exports[`AttribElement render should render self, children with base props 2`] = `
-<FormElement
-  attribError={false}
-  errors={Array []}
-  name="Attribute"
->
-  <SelectSearch
-    __className=""
-    assets={
-      FieldAssets {
-        "assetType": "field",
-        "assets": Object {
-          "language": Object {
-            "id": "language",
-            "name": "Language",
-            "type": "property",
-          },
-          "name": Object {
-            "id": "name",
-            "name": "Name",
-            "type": "property",
-          },
-        },
-        "endpoint": "/assets/fields.json",
-        "idProperty": "key",
-        "localStorage": true,
-      }
-    }
-    closeOnSelect={true}
-    initial={
-      Array [
-        Object {
-          "id": "name",
-          "name": "Name",
-          "type": "property",
-        },
-      ]
-    }
-    multi={false}
-    name="Attribute"
-    onChange={[Function]}
-    placeholder="Enter the name of an existing attribute or create a new one"
-    resultType="field"
-    searchPromptText="Invalid attribute name"
+    searchPromptText="Invalid attribute"
+    searchable={true}
   />
 </FormElement>
 `;

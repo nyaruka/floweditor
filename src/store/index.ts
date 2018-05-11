@@ -11,7 +11,7 @@ import {
     UpdateTimeout,
     UpdateTranslating,
     UpdateTypeConfig,
-    UpdateUserAddingAction,
+    UpdateUserAddingAction
 } from './actionTypes';
 import Constants from './constants';
 import createStore from './createStore';
@@ -25,7 +25,7 @@ import {
     updateLanguage,
     updateNodeDragging,
     updateNodeEditorOpen,
-    updateTranslating,
+    updateTranslating
 } from './flowEditor';
 import {
     updateActionToEdit,
@@ -34,7 +34,7 @@ import {
     updateShowResultName,
     updateTimeout,
     updateTypeConfig,
-    updateUserAddingAction,
+    updateUserAddingAction
 } from './nodeEditor';
 import AppState, { initialState } from './state';
 import {
@@ -48,19 +48,21 @@ import {
     fetchFlow,
     FetchFlow,
     GetState,
+    handleLanguageChange,
+    HandleLanguageChange,
     LocalizationUpdates,
     moveActionUp,
     NoParamsAC,
-    OnAddToNode,
     onAddToNode,
+    OnAddToNode,
     onConnectionDrag,
     OnConnectionDrag,
-    onNodeMoved,
     OnNodeMoved,
+    onNodeMoved,
     OnOpenNodeEditor,
     onOpenNodeEditor,
-    OnUpdateAction,
     onUpdateAction,
+    OnUpdateAction,
     OnUpdateLocalizations,
     onUpdateLocalizations,
     OnUpdateRouter,
@@ -71,10 +73,10 @@ import {
     resetNodeEditingState,
     updateConnection,
     UpdateConnection,
-    updateDimensions,
     UpdateDimensions,
+    updateDimensions,
     UpdateSticky,
-    updateSticky,
+    updateSticky
 } from './thunks';
 
 export {
@@ -150,5 +152,7 @@ export {
     updateSticky,
     UpdateSticky,
     UpdateTimeout,
-    updateTimeout
+    updateTimeout,
+    handleLanguageChange,
+    HandleLanguageChange
 };

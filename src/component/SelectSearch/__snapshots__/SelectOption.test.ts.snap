@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SelectOption render should render group option with icon: group 1`] = `"<div class=\\"myOption\\"><div><span class=\\"fe-group\\"></span> My Group</div></div>"`;
+
+exports[`SelectOption render should render group option with icon: urn 1`] = `"<div class=\\"myOption\\"><div> My URN</div></div>"`;
+
+exports[`SelectOption render should render user option: contact 1`] = `"<div class=\\"myOption\\"><div> My Contact</div></div>"`;

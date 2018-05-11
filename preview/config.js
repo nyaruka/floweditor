@@ -1,9 +1,5 @@
 const config = {
-    flow: 'a4f64f1b-85bc-477e-b706-de313a022979',
-    languages: {
-        eng: 'English',
-        spa: 'Spanish'
-    }
+    flow: 'a4f64f1b-85bc-477e-b706-de313a022979'
 };
 
 if (process.env.RAPID_FLOW) {
@@ -15,11 +11,13 @@ if (process.env.RAPID_FLOW) {
         endpoints: {
             flows: base + 'flow',
             groups: base + 'group',
-            contacts: base + 'contact',
+            recipients: '/contact/omnibox/',
             fields: base + 'field',
+            labels: base + 'label',
+            languages: base + 'language',
             activity: '',
-            simulateStart: base + 'flow',
-            simulateResume: base + 'flow'
+            simulateStart: '/flow/start',
+            simulateResume: '/flow/resume'
         }
     });
 } else {
@@ -30,8 +28,10 @@ if (process.env.RAPID_FLOW) {
                   endpoints: {
                       flows: 'flows',
                       groups: 'groups',
-                      contacts: 'contacts',
+                      recipients: 'recipients',
                       fields: 'fields',
+                      labels: 'labels',
+                      languages: 'languages',
                       activity: '',
                       simulateStart: '',
                       simulateResume: ''
@@ -42,8 +42,10 @@ if (process.env.RAPID_FLOW) {
                   endpoints: {
                       flows: '/assets/flow',
                       groups: '/assets/group',
-                      contacts: '/assets/contact',
+                      recipients: '/assets/recipient',
                       fields: '/assets/field',
+                      labels: '/assets/label',
+                      languages: '/assets/language',
                       activity: '',
                       simulateStart: '/flow/start',
                       simulateResume: '/flow/resume'

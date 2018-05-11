@@ -113,7 +113,7 @@ exports[`HeaderElement render should render remove icon 1`] = `
       onClick={[Function]}
     >
       <span
-        className="icn-remove"
+        className="fe-remove"
       />
     </div>
   </div>

@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SendBroadcastForm render should render an empty form with no action 1`] = `
+<div>
+  <OmniboxElement
+    add={true}
+    assets={
+      RecipientAssets {
+        "assets": Object {},
+        "endpoint": "/assets/recipients.json",
+        "idProperty": "uuid",
+        "localStorage": true,
+      }
+    }
+    className="recipients"
+    data-spec="recipients"
+    name="Recipients"
+    onChange={[Function]}
+    placeholder="Enter a group or contact..."
+    required={true}
+    searchPromptText="No matches"
+    selected={Array []}
+  />
+  <Connect(TextInputElement)
+    autocomplete={true}
+    count="SMS"
+    focus={true}
+    name="Message"
+    onChange={[Function]}
+    placeholder=""
+    required={true}
+    showLabel={false}
+    textarea={true}
+    value=""
+  />
+</div>
+`;
+
+exports[`SendBroadcastForm render should render self, children with base props 1`] = `
+<div>
+  <OmniboxElement
+    add={true}
+    assets={
+      RecipientAssets {
+        "assets": Object {},
+        "endpoint": "/assets/recipients.json",
+        "idProperty": "uuid",
+        "localStorage": true,
+      }
+    }
+    className="recipients"
+    data-spec="recipients"
+    name="Recipients"
+    onChange={[Function]}
+    placeholder="Enter a group or contact..."
+    required={true}
+    searchPromptText="No matches"
+    selected={
+      Array [
+        Object {
+          "id": "group-0",
+          "name": "Cat Fanciers",
+          "type": "group",
+        },
+        Object {
+          "id": "group-1",
+          "name": "Cat Facts",
+          "type": "group",
+        },
+        Object {
+          "id": "contact-0",
+          "name": "Kellan Alexander",
+          "type": "contact",
+        },
+        Object {
+          "id": "contact-1",
+          "name": "Norbert Kwizera",
+          "type": "contact",
+        },
+        Object {
+          "id": "contact-2",
+          "name": "Rowan Seymour",
+          "type": "contact",
+        },
+      ]
+    }
+  />
+  <Connect(TextInputElement)
+    autocomplete={true}
+    count="SMS"
+    focus={true}
+    name="Message"
+    onChange={[Function]}
+    placeholder=""
+    required={true}
+    showLabel={false}
+    textarea={true}
+    value="Hello World"
+  />
+</div>
+`;
+
+exports[`SendBroadcastForm render should render the localized text 1`] = `
+<div>
+  <div
+    data-spec="translation-container"
+  >
+    <div
+      className="translate_from"
+      data-spec="text-to-translate"
+    >
+      Hello World
+    </div>
+  </div>
+  <Connect(TextInputElement)
+    autocomplete={true}
+    count="SMS"
+    focus={true}
+    name="Message"
+    onChange={[Function]}
+    placeholder="Spanish Translation"
+    required={false}
+    showLabel={false}
+    textarea={true}
+    value="espanols!"
+  />
+</div>
+`;

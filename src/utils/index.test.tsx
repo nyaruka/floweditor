@@ -12,6 +12,7 @@ import {
     hasErrorType,
     isOptionUnique,
     isRealValue,
+    isValidNewOption,
     jsonEqual,
     merge,
     optionExists,
@@ -26,8 +27,7 @@ import {
     titleCase,
     toBoolMap,
     unset,
-    validUUID,
-    isValidNewOption
+    validUUID
 } from '.';
 import { operatorConfigList } from '../config';
 import { ContactProperties } from '../flowTypes';
@@ -318,11 +318,11 @@ describe('utils', () => {
             }
         ];
 
-        it('should return true if options exists', () => {
+        it('should return true if option exists', () => {
             expect(optionExists('expected delivery date', matchingOptions)).toBeTruthy();
         });
 
-        it('should return false if options does not exist', () => {
+        it('should return false if option does not exist', () => {
             expect(optionExists('national id', [])).toBeFalsy();
             expect(optionExists('national id', matchingOptions)).toBeFalsy();
         });
@@ -372,9 +372,9 @@ describe('utils', () => {
         });
 
         it('should return true if new option is valid', () => {
-            const newGroup = { label: 'new group' };
+            const newOption = { label: 'valid label' };
 
-            expect(isValidNewOption(newGroup)).toBeTruthy();
+            expect(isValidNewOption(newOption)).toBeTruthy();
         });
     });
 });

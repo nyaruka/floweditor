@@ -1,8 +1,11 @@
-import { Option } from 'react-select';
+// tslint:disable:no-shadowed-variable
 import { combineReducers } from 'redux';
+
 import { FlowDefinition, FlowNode, UINode } from '../flowTypes';
+import { Asset } from '../services/AssetService';
 import { LocalizedObject } from '../services/Localization';
 import ActionTypes, {
+    UpdateBaseLanguageAction,
     UpdateDefinitionAction,
     UpdateDependenciesAction,
     UpdateLocalizationsAction,
@@ -29,6 +32,7 @@ export interface CompletionOption {
 export interface FlowContext {
     dependencies: FlowDefinition[];
     localizations: LocalizedObject[];
+    baseLanguage: Asset;
     resultNames: CompletionOption[];
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
@@ -38,13 +42,13 @@ export interface FlowContext {
 export const initialState: FlowContext = {
     definition: null,
     dependencies: null,
+    baseLanguage: null,
     localizations: [],
     resultNames: [],
     nodes: {}
 };
 
 // Action Creators
-// tslint:disable-next-line:no-shadowed-variable
 export const updateDefinition = (definition: FlowDefinition): UpdateDefinitionAction => ({
     type: Constants.UPDATE_DEFINITION,
     payload: {
@@ -52,7 +56,6 @@ export const updateDefinition = (definition: FlowDefinition): UpdateDefinitionAc
     }
 });
 
-// tslint:disable-next-line:no-shadowed-variable
 export const updateNodes = (nodes: { [uuid: string]: RenderNode }): UpdateNodesAction => ({
     type: Constants.UPDATE_NODES,
     payload: {
@@ -60,7 +63,6 @@ export const updateNodes = (nodes: { [uuid: string]: RenderNode }): UpdateNodesA
     }
 });
 
-// tslint:disable-next-line:no-shadowed-variable
 export const updateDependencies = (dependencies: FlowDefinition[]): UpdateDependenciesAction => ({
     type: Constants.UPDATE_DEPENDENCIES,
     payload: {
@@ -68,8 +70,14 @@ export const updateDependencies = (dependencies: FlowDefinition[]): UpdateDepend
     }
 });
 
+export const updateBaseLanguage = (baseLanguage: Asset): UpdateBaseLanguageAction => ({
+    type: Constants.UPDATE_BASE_LANGUAGE,
+    payload: {
+        baseLanguage
+    }
+});
+
 export const updateLocalizations = (
-    // tslint:disable-next-line:no-shadowed-variable
     localizations: LocalizedObject[]
 ): UpdateLocalizationsAction => ({
     type: Constants.UPDATE_LOCALIZATIONS,
@@ -78,7 +86,6 @@ export const updateLocalizations = (
     }
 });
 
-// tslint:disable-next-line:no-shadowed-variable
 export const updateResultNames = (resultNames: CompletionOption[]): UpdateResultNamesAction => ({
     type: Constants.UPDATE_RESULT_NAMES,
     payload: {
@@ -144,11 +151,21 @@ export const resultNames = (
     }
 };
 
+export const baseLanguage = (state: Asset = initialState.baseLanguage, action: ActionTypes) => {
+    switch (action.type) {
+        case Constants.UPDATE_BASE_LANGUAGE:
+            return action.payload.baseLanguage;
+        default:
+            return state;
+    }
+};
+
 // Root reducer
 export default combineReducers({
     definition,
     nodes,
     dependencies,
     localizations,
-    resultNames
+    resultNames,
+    baseLanguage
 });

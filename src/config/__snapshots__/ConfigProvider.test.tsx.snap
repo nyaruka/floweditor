@@ -4,11 +4,14 @@ exports[`ConfigProvider > should provide config to child's context 1`] = `
 Object {
   "endpoints": Object {
     "activity": "",
-    "contacts": "/assets/contacts.json",
-    "engine": "",
     "fields": "/assets/fields.json",
     "flows": "/assets/flows.json",
     "groups": "/assets/groups.json",
+    "labels": "/assets/labels.json",
+    "languages": "/assets/languages.json",
+    "recipients": "/assets/recipients.json",
+    "simulateResume": "",
+    "simulateStart": "",
   },
   "flow": "a4f64f1b-85bc-477e-b706-de313a022979",
   "languages": Object {

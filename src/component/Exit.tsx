@@ -5,15 +5,16 @@ import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import { ConfigProviderContext } from '../config';
 import { fakePropType } from '../config/ConfigProvider';
 import { Exit, FlowNode, LocalizationMap } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
+import { Asset } from '../services/AssetService';
 import { AppState, DisconnectExit, disconnectExit, DispatchWithState } from '../store';
 import { createClickHandler, getLocalization } from '../utils';
 import Counter from './Counter';
 import * as styles from './Exit.scss';
-import { Language } from './LanguageSelector';
 
 export interface ExitPassedProps {
     exit: Exit;
@@ -26,7 +27,7 @@ export interface ExitPassedProps {
 
 export interface ExitStoreProps {
     translating: boolean;
-    language: Language;
+    language: Asset;
     localization: LocalizationMap;
     disconnectExit: DisconnectExit;
 }
@@ -158,7 +159,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         const localization = getLocalization(
             this.props.exit,
             this.props.localization,
-            this.props.language.iso,
+            this.props.language.id,
             this.context.languages
         );
         const exit = this.props.translating ? (localization.getObject() as Exit) : this.props.exit;
@@ -168,7 +169,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         const confirmDelete =
             this.state.confirmDelete && this.props.exit.hasOwnProperty('destination_node_uuid');
         const confirm: JSX.Element = confirmDelete ? (
-            <span {...createClickHandler(this.onDisconnect)} className="icn-remove" />
+            <span {...createClickHandler(this.onDisconnect)} className="fe-x" />
         ) : null;
         const exitClasses: string = cx({
             [styles.exit]: true,

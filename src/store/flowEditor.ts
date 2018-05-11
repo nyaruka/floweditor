@@ -1,21 +1,23 @@
+// tslint:disable:no-shadowed-variable
 import { combineReducers } from 'redux';
+
 import { Language } from '../component/LanguageSelector';
 import { DragPoint } from '../component/Node';
 import { FlowNode, FlowPosition } from '../flowTypes';
+import { Asset } from '../services/AssetService';
 import ActionTypes, {
     RemovePendingConnectionAction,
     UpdateCreateNodePositionAction,
     UpdateDragGroupAction,
+    UpdateDragSelectionAction,
     UpdateFetchingFlowAction,
-    UpdateFlowsAction,
     UpdateGhostNodeAction,
     UpdateLanguageAction,
     UpdateNodeDraggingAction,
     UpdateNodeEditorOpenAction,
     UpdatePendingConnectionAction,
     UpdatePendingConnectionsAction,
-    UpdateTranslatingAction,
-    UpdateDragSelectionAction
+    UpdateTranslatingAction
 } from './actionTypes';
 import Constants from './constants';
 
@@ -28,7 +30,7 @@ export interface DragSelection {
 }
 
 export interface EditorUI {
-    language: Language;
+    language: Asset;
     translating: boolean;
     fetchingFlow: boolean;
     nodeEditorOpen: boolean;
@@ -67,7 +69,6 @@ export const initialState: FlowEditor = {
 };
 
 // Action Creators
-// tslint:disable-next-line:no-shadowed-variable
 export const updateTranslating = (translating: boolean): UpdateTranslatingAction => ({
     type: Constants.UPDATE_TRANSLATING,
     payload: {
@@ -75,15 +76,13 @@ export const updateTranslating = (translating: boolean): UpdateTranslatingAction
     }
 });
 
-// tslint:disable-next-line:no-shadowed-variable
-export const updateLanguage = (language: Language): UpdateLanguageAction => ({
+export const updateLanguage = (language: Asset): UpdateLanguageAction => ({
     type: Constants.UPDATE_LANGUAGE,
     payload: {
         language
     }
 });
 
-// tslint:disable-next-line:no-shadowed-variable
 export const updateFetchingFlow = (fetchingFlow: boolean): UpdateFetchingFlowAction => ({
     type: Constants.UPDATE_FETCHING_FLOW,
     payload: {
@@ -91,7 +90,6 @@ export const updateFetchingFlow = (fetchingFlow: boolean): UpdateFetchingFlowAct
     }
 });
 
-// tslint:disable-next-line:no-shadowed-variable
 export const updateNodeEditorOpen = (nodeEditorOpen: boolean): UpdateNodeEditorOpenAction => ({
     type: Constants.UPDATE_NODE_EDITOR_OPEN,
     payload: {
@@ -100,7 +98,6 @@ export const updateNodeEditorOpen = (nodeEditorOpen: boolean): UpdateNodeEditorO
 });
 
 export const updateCreateNodePosition = (
-    // tslint:disable-next-line:no-shadowed-variable
     createNodePosition: FlowPosition
 ): UpdateCreateNodePositionAction => ({
     type: Constants.UPDATE_CREATE_NODE_POSITION,
@@ -110,7 +107,6 @@ export const updateCreateNodePosition = (
 });
 
 export const updatePendingConnection = (
-    // tslint:disable-next-line:no-shadowed-variable
     pendingConnection: DragPoint
 ): UpdatePendingConnectionAction => ({
     type: Constants.UPDATE_PENDING_CONNECTION,
@@ -120,7 +116,6 @@ export const updatePendingConnection = (
 });
 
 export const updateDragSelection = (
-    // tslint:disable-next-line:no-shadowed-variable
     dragSelection: DragSelection
 ): UpdateDragSelectionAction => {
     return {
@@ -149,7 +144,6 @@ export const removePendingConnection = (nodeUUID: string): RemovePendingConnecti
     }
 });
 
-// tslint:disable-next-line:no-shadowed-variable
 export const updateGhostNode = (ghostNode: FlowNode): UpdateGhostNodeAction => ({
     type: Constants.UPDATE_GHOST_NODE,
     payload: {
@@ -157,7 +151,6 @@ export const updateGhostNode = (ghostNode: FlowNode): UpdateGhostNodeAction => (
     }
 });
 
-// tslint:disable-next-line:no-shadowed-variable
 export const updateNodeDragging = (nodeDragging: boolean): UpdateNodeDraggingAction => ({
     type: Constants.UPDATE_NODE_DRAGGING,
     payload: {
@@ -165,7 +158,6 @@ export const updateNodeDragging = (nodeDragging: boolean): UpdateNodeDraggingAct
     }
 });
 
-// tslint:disable-next-line:no-shadowed-variable
 export const updateDragGroup = (dragGroup: boolean): UpdateDragGroupAction => ({
     type: Constants.UPDATE_DRAG_GROUP,
     payload: {
@@ -175,7 +167,7 @@ export const updateDragGroup = (dragGroup: boolean): UpdateDragGroupAction => ({
 
 /* Reducers */
 // EditorUI reducers
-export const language = (state: Language = initialState.editorUI.language, action: ActionTypes) => {
+export const language = (state: Asset = initialState.editorUI.language, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_LANGUAGE:
             return action.payload.language;

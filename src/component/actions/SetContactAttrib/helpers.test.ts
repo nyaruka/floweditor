@@ -1,36 +1,41 @@
+import { Types } from '../../../config/typeConfigs';
+import { AssetType } from '../../../services/AssetService';
 import {
     createSetContactFieldAction,
-    createSetContactPropertyAction
+    createSetContactNameAction
 } from '../../../testUtils/assetCreators';
-import { newFieldAction, newPropertyAction, propertyToAsset, fieldToAsset } from './helpers';
-import { AssetType } from '../../../services/AssetService';
+import { fieldToAsset, newFieldAction, newPropertyAction, propertyToAsset } from './helpers';
 
-const setContactProperty = createSetContactPropertyAction();
+const setContactName = createSetContactNameAction();
 const setContactField = createSetContactFieldAction();
 
 describe('newFieldAction', () => {
     it('should return a SetContactField action', () => {
         expect(
-            newFieldAction(setContactField.uuid, setContactField.value, setContactField.field.key)
+            newFieldAction({
+                uuid: setContactField.uuid,
+                value: setContactField.value,
+                name: setContactField.field.key
+            })
         ).toEqual(setContactField);
     });
 });
 
 describe('newPropertyAction', () => {
-    it('should return a new SetContactProperty action', () => {
+    it('should return a new SetContactName action', () => {
         expect(
-            newPropertyAction(
-                setContactProperty.uuid,
-                setContactProperty.value,
-                setContactProperty.property
-            )
+            newPropertyAction({
+                uuid: setContactName.uuid,
+                value: setContactName.name,
+                type: AssetType.Name
+            })
         ).toMatchSnapshot();
     });
 });
 
 describe('fieldToAsset', () => {
     it('should return a Asset object', () => {
-        expect(fieldToAsset(setContactField)).toEqual({
+        expect(fieldToAsset(setContactField.field)).toEqual({
             id: setContactField.field.key,
             name: setContactField.field.name,
             type: AssetType.Field
@@ -40,6 +45,6 @@ describe('fieldToAsset', () => {
 
 describe('propertyToAsset', () => {
     it('should return an Asset object', () => {
-        expect(propertyToAsset(setContactProperty)).toMatchSnapshot();
+        expect(propertyToAsset(Types.set_contact_name)).toMatchSnapshot();
     });
 });

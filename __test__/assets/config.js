@@ -1,10 +1,5 @@
 const config = {
-    flow: 'boring',
-    languages: {
-        eng: 'English',
-        spa: 'Spanish',
-        fre: 'French'
-    }
+    flow: 'boring'
 };
 
 module.exports =
@@ -16,6 +11,7 @@ module.exports =
                   groups: 'groups',
                   contacts: 'contacts',
                   fields: 'fields',
+                  labels: 'labels',
                   activity: '',
                   engine: ''
               }
@@ -27,6 +23,7 @@ module.exports =
                   groups: '/assets/groups',
                   contacts: '/assets/contacts',
                   fields: '/assets/fields',
+                  labels: '/assets/labels',
                   activity: '',
                   engine: ''
               }

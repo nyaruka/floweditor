@@ -1,22 +1,32 @@
+import AddLabelsComp from '../component/actions/AddLabels/AddLabels';
+import AddLabelsForm from '../component/actions/AddLabels/AddLabelsForm';
 import CallWebhookComp from '../component/actions/CallWebhook/CallWebhook';
 import AddGroupsForm from '../component/actions/ChangeGroups/AddGroupsForm';
 import ChangeGroupsComp from '../component/actions/ChangeGroups/ChangeGroups';
 import RemoveGroupsForm from '../component/actions/ChangeGroups/RemoveGroupsForm';
 import MissingComp from '../component/actions/Missing/Missing';
+import SendBroadcastComp from '../component/actions/SendBroadcast/SendBroadcast';
+import SendBroadcastForm from '../component/actions/SendBroadcast/SendBroadcastForm';
+import { SendBroadcastFormHelper } from '../component/actions/SendBroadcast/SendBroadcastFormHelper';
 import SendEmailComp from '../component/actions/SendEmail/SendEmail';
 import SendEmailForm from '../component/actions/SendEmail/SendEmailForm';
 import SendMsgComp from '../component/actions/SendMsg/SendMsg';
 import SendMsgForm from '../component/actions/SendMsg/SendMsgForm';
 import SetContactAttrib from '../component/actions/SetContactAttrib/SetContactAttrib';
 import SetContactAttribForm from '../component/actions/SetContactAttrib/SetContactAttribForm';
+import { SetContactAttribFormHelper } from '../component/actions/SetContactAttrib/SetContactAttribFormHelper';
 import SetRunResultComp from '../component/actions/SetRunResult/SetRunResult';
 import SetRunResultForm from '../component/actions/SetRunResult/SetRunResultForm';
 import StartFlowComp from '../component/actions/StartFlow/StartFlow';
+import StartSessionComp from '../component/actions/StartSession/StartSession';
+import StartSessionForm from '../component/actions/StartSession/StartSessionForm';
+import { StartSessionFormHelper } from '../component/actions/StartSession/StartSessionFormHelper';
 import GroupsRouter from '../component/routers/GroupsRouter';
 import SubflowRouter from '../component/routers/SubflowRouter';
 import SwitchRouter from '../component/routers/SwitchRouter';
 import WebhookRouter from '../component/routers/WebhookRouter';
 import { AnyAction, RouterTypes, UINodeTypes } from '../flowTypes';
+import { NodeEditorForm } from '../store/nodeEditor';
 
 /*
 Old name	                New name	                Event(s) generated
@@ -25,7 +35,9 @@ add_urn	                    add_contact_urn	            contact_urn_added
 add_to_group	            add_contact_groups	        contact_groups_added
 remove_from_group	        remove_contact_groups	    contact_groups_removed
 set_preferred_channel	    set_contact_channel	        contact_channel_changed
-update_contact	            set_contact_property	    contact_property_changed
+update_contact	            set_contact_name	        contact_name_changed
+update_contact	            set_contact_language	    contact_language_changed
+update_contact	            set_contact_timezone	    contact_timezone_changed
 save_contact_field      	set_contact_field	        contact_field_changed
 save_flow_result	        set_run_result	            run_result_changed
 call_webhook	            call_webhook	            webhook_called
@@ -40,13 +52,14 @@ start_session	            start_session	            session_triggered
 export const enum Types {
     add_contact_urn = 'add_contact_urn',
     add_contact_groups = 'add_contact_groups',
+    add_input_labels = 'add_input_labels',
     remove_contact_groups = 'remove_contact_groups',
     set_contact_channel = 'set_contact_channel',
-    set_contact_property = 'set_contact_property',
     set_contact_field = 'set_contact_field',
+    set_contact_name = 'set_contact_name',
+    set_contact_language = 'set_contact_language',
     set_run_result = 'set_run_result',
     call_webhook = 'call_webhook',
-    add_input_labels = 'add_input_labels',
     send_msg = 'send_msg',
     send_email = 'send_email',
     send_broadcast = 'send_broadcast',
@@ -65,6 +78,11 @@ export enum Mode {
     ALL = EDITING | TRANSLATING
 }
 
+export interface FormHelper {
+    actionToState: (action: AnyAction, actionType?: Types) => NodeEditorForm;
+    stateToAction: (actionUUID: string, formState: NodeEditorForm, formType?: Types) => AnyAction;
+}
+
 export interface Type {
     type: Types;
     name: string;
@@ -72,6 +90,7 @@ export interface Type {
     allows(mode: Mode): boolean;
     component?: React.SFC<AnyAction>;
     form?: React.ComponentClass<any>;
+    formHelper?: FormHelper;
     advanced?: Mode;
     aliases?: string[];
 }
@@ -86,6 +105,8 @@ export function allows(mode: Mode): boolean {
     return (this.advanced & mode) === mode;
 }
 
+const ContactAttribHelper = new SetContactAttribFormHelper();
+
 export const typeConfigList: Type[] = [
     /** Actions */
     {
@@ -98,17 +119,33 @@ export const typeConfigList: Type[] = [
     {
         type: Types.send_msg,
         name: 'Send Message',
-        description: 'Send them a message',
+        description: 'Send the contact a message',
         form: SendMsgForm,
         component: SendMsgComp,
         advanced: Mode.EDITING,
         allows
     },
-    // { type: 'msg', name: 'Send Message', description: 'Send somebody else a message', form: SendMessageForm, component: SendMessage },
+    {
+        type: Types.send_broadcast,
+        name: 'Send Broadcast',
+        description: 'Send somebody else a message',
+        form: SendBroadcastForm,
+        formHelper: new SendBroadcastFormHelper(),
+        component: SendBroadcastComp,
+        allows
+    },
+    {
+        type: Types.add_input_labels,
+        name: 'Add Labels',
+        description: 'Label the incoming message',
+        form: AddLabelsForm,
+        component: AddLabelsComp,
+        allows
+    },
     {
         type: Types.add_contact_groups,
         name: 'Add to Group',
-        description: 'Add them to a group',
+        description: 'Add the contact to a group',
         form: AddGroupsForm,
         component: ChangeGroupsComp,
         allows
@@ -116,7 +153,7 @@ export const typeConfigList: Type[] = [
     {
         type: Types.remove_contact_groups,
         name: 'Remove from Group',
-        description: 'Remove them from a group',
+        description: 'Remove the contact from a group',
         form: RemoveGroupsForm,
         component: ChangeGroupsComp,
         allows
@@ -126,8 +163,26 @@ export const typeConfigList: Type[] = [
         name: 'Update Contact',
         description: 'Update the contact',
         form: SetContactAttribForm,
+        formHelper: ContactAttribHelper,
         component: SetContactAttrib,
-        aliases: [Types.set_contact_property],
+        allows
+    },
+    {
+        type: Types.set_contact_name,
+        name: 'Update Contact',
+        description: 'Update the contact',
+        form: SetContactAttribForm,
+        formHelper: ContactAttribHelper,
+        component: SetContactAttrib,
+        allows
+    },
+    {
+        type: Types.set_contact_language,
+        name: 'Update Contact',
+        description: 'Update the contact',
+        form: SetContactAttribForm,
+        formHelper: ContactAttribHelper,
+        component: SetContactAttrib,
         allows
     },
     {
@@ -146,7 +201,6 @@ export const typeConfigList: Type[] = [
         component: SetRunResultComp,
         allows
     },
-    // {type: 'add_label', name: 'Add Label', description: 'Label the message', component: Missing},
     // {type: 'set_preferred_channel', name: 'Set Preferred Channel', description: 'Set their preferred channel', component: Missing},
     /** Hybrids */
     {
@@ -161,11 +215,20 @@ export const typeConfigList: Type[] = [
     },
     {
         type: Types.start_flow,
-        name: 'Run Flow',
-        description: 'Run another flow',
+        name: 'Start a Flow',
+        description: 'Enter another flow',
         form: SubflowRouter,
         component: StartFlowComp,
         aliases: [UINodeTypes.subflow],
+        allows
+    },
+    {
+        type: Types.start_session,
+        name: 'Start Somebody Else',
+        description: 'Start somebody else in a flow',
+        form: StartSessionForm,
+        formHelper: new StartSessionFormHelper(),
+        component: StartSessionComp,
         allows
     },
 
@@ -188,7 +251,7 @@ export const typeConfigList: Type[] = [
     {
         type: Types.wait_for_response,
         name: 'Wait for Response',
-        description: 'Wait for them to respond',
+        description: 'Wait for the contact to respond',
         form: SwitchRouter,
         advanced: Mode.TRANSLATING,
         aliases: [RouterTypes.switch],
@@ -196,15 +259,6 @@ export const typeConfigList: Type[] = [
     }
     // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];
-
-export const actionConfigList = typeConfigList.filter(
-    ({ type }) =>
-        type !== Types.wait_for_response &&
-        type !== Types.split_by_expression &&
-        type !== Types.split_by_groups &&
-        type !== Types.start_flow &&
-        type !== Types.call_webhook
-);
 
 export const typeConfigMap: TypeMap = typeConfigList.reduce((map: TypeMap, typeConfig: Type) => {
     map[typeConfig.type] = typeConfig;

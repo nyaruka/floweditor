@@ -1,13 +1,15 @@
 import * as React from 'react';
 import * as ReactModal from 'react-modal';
-import { Case, FlowNode, SwitchRouter, WaitTypes } from '../flowTypes';
-import ConnectedTimeoutControl from './form/TimeoutControl';
+import { connect } from 'react-redux';
+
+import { Types } from '../config/typeConfigs';
+import { Case, FlowNode, SwitchRouter } from '../flowTypes';
+import { AppState } from '../store';
+import { renderIf } from '../utils';
 import Button, { ButtonProps, ButtonTypes } from './Button';
+import ConnectedTimeoutControl from './form/TimeoutControl';
 import * as styles from './Modal.scss';
 import * as shared from './shared.scss';
-import { renderIf, isRealValue } from '../utils';
-import { connect } from 'react-redux';
-import { AppState } from '../store';
 
 export interface ButtonSet {
     primary: ButtonProps;
@@ -37,6 +39,7 @@ export interface ModalPassedProps {
 export interface ModalStoreProps {
     translating: boolean;
     nodeToEdit: FlowNode;
+    type: Types;
 }
 
 export type ModalProps = ModalPassedProps & ModalStoreProps;
@@ -117,7 +120,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
             } else {
                 title = (
                     <div>
-                        <div className={`${styles.background} icn-settings`} />
+                        <div className={`${styles.background} fe-cog`} />
                         <div style={{ marginLeft: '50px' }}>{title}</div>
                     </div>
                 );
@@ -136,18 +139,19 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                     } else {
                         flip = (
                             <div className={styles.show_back} onClick={this.toggleFlip}>
-                                <div className="icn-settings" />
+                                <div className="fe-cog" />
                             </div>
                         );
                     }
                 } else {
                     flip = (
                         <div className={styles.show_front} onClick={this.toggleFlip}>
-                            <div className="icn-back" />
+                            <div className="fe-back" />
                         </div>
                     );
                 }
             }
+
             return (
                 <div key={`modal_side_${childIdx}`} className={classes.join(' ')}>
                     <div className={styles.modal}>
@@ -166,8 +170,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                                     // prettier-ignore
                                     isFrontForm &&
                                     !this.props.translating &&
-                                    this.props.nodeToEdit.wait &&
-                                    this.props.nodeToEdit.wait.type === WaitTypes.msg
+                                    this.props.type === Types.wait_for_response
                                 )(<ConnectedTimeoutControl />)}
                             </div>
                             <div className={styles.sectionRight}>
@@ -184,11 +187,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     }
 
     public render(): JSX.Element {
-        const onRequestClose = this.props.buttons.secondary
-            ? this.props.buttons.secondary.onClick
-            : null;
-
-        const width: string = this.props.width ? this.props.width : '700px';
         const customStyles: CustomStyles = {
             content: {
                 marginLeft: 'auto',
@@ -198,34 +196,36 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 padding: 'none',
                 borderRadius: 'none',
                 outline: 'none',
-                width,
+                width: this.props.width ? this.props.width : '700px',
                 border: 'none'
             }
         };
-        const topStyle: string = this.getTopStyle();
-        const sides: JSX.Element[] = this.mapSides();
         return (
             <ReactModal
                 ariaHideApp={false}
                 isOpen={this.props.show}
                 onAfterOpen={this.props.onModalOpen}
-                onRequestClose={onRequestClose}
+                onRequestClose={
+                    this.props.buttons.secondary ? this.props.buttons.secondary.onClick : null
+                }
                 style={customStyles}
                 shouldCloseOnOverlayClick={false}
                 contentLabel="Modal"
             >
-                <div className={topStyle}>{sides}</div>
+                <div className={this.getTopStyle()}>{this.mapSides()}</div>
             </ReactModal>
         );
     }
 }
 
+/* istanbul ignore next */
 const mapStateToProps = ({
     flowEditor: { editorUI: { translating } },
-    nodeEditor: { nodeToEdit }
+    nodeEditor: { nodeToEdit, typeConfig }
 }: AppState) => ({
     translating,
-    nodeToEdit
+    nodeToEdit,
+    type: typeConfig.type
 });
 
 // To-do: type properly

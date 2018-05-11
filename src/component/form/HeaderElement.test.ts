@@ -87,7 +87,7 @@ describe(HeaderElement.name, () => {
                     onClick: instance.onRemove
                 })
             );
-            expect(wrapper.find('.icn-remove').exists()).toBeTruthy();
+            expect(wrapper.find('.fe-remove').exists()).toBeTruthy();
             expect(wrapper).toMatchSnapshot();
         });
 

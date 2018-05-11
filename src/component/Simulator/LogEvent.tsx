@@ -28,6 +28,8 @@ export interface EventProps {
     status_code?: number;
     request?: string;
     response?: string;
+    base_language?: string;
+    translations?: { [lang: string]: { [text: string]: string } };
     groups?: Group[];
     msg?: MsgProps;
 }
@@ -116,7 +118,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 );
                 classes.push(styles.info);
                 break;
-            case Types.set_contact_property:
+            case Types.set_contact_name:
                 text = (
                     <span>
                         Updated contact {this.props.field} to "{this.props.value}"
@@ -132,6 +134,12 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                     </span>
                 );
                 classes.push(styles.info);
+                break;
+            case 'broadcast_created':
+                const msg = this.props.translations[this.props.base_language].text;
+                text = <span>{msg}</span>;
+                classes.push(styles.sendMsg);
+
                 break;
             case 'webhook_called':
                 text = <span>Called webhook {this.props.url}</span>;

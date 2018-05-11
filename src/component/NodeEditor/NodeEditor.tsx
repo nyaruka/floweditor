@@ -8,9 +8,10 @@ import { v4 as generateUUID } from 'uuid';
 
 import { Mode, Type } from '../../config';
 import { Operators } from '../../config/operatorConfigs';
-import { Types } from '../../config/typeConfigs';
+import { FormHelper, Types } from '../../config/typeConfigs';
 import {
     Action,
+    AddLabels,
     AnyAction,
     CallWebhook,
     Case,
@@ -31,7 +32,7 @@ import {
     UINodeTypes,
     Wait,
     WaitTypes,
-    WebhookExitNames
+    WebhookExitNames,
 } from '../../flowTypes';
 import { Asset } from '../../services/AssetService';
 import { LocalizedObject } from '../../services/Localization';
@@ -42,8 +43,8 @@ import {
     NoParamsAC,
     onUpdateAction,
     OnUpdateAction,
-    onUpdateLocalizations,
     OnUpdateLocalizations,
+    onUpdateLocalizations,
     OnUpdateRouter,
     onUpdateRouter,
     resetNodeEditingState,
@@ -51,19 +52,17 @@ import {
     updateNodeEditorOpen,
     UpdateOperand,
     updateOperand,
-    UpdateResultName,
     updateResultName,
+    UpdateResultName,
     updateShowResultName,
     UpdateShowResultName,
-    UpdateTypeConfig,
-    updateTypeConfig,
     UpdateUserAddingAction,
-    updateUserAddingAction
+    updateUserAddingAction,
 } from '../../store';
 import { RenderNode } from '../../store/flowContext';
+import { HandleTypeConfigChange, handleTypeConfigChange } from '../../store/thunks';
 import { CaseElementProps } from '../form/CaseElement';
 import TextInputElement from '../form/TextInputElement';
-import { Language } from '../LanguageSelector';
 import ConnectedModal, { ButtonSet } from '../Modal';
 import { DragPoint } from '../Node';
 import * as shared from '../shared.scss';
@@ -99,7 +98,7 @@ export interface NodeEditorPassedProps {
 
 export interface NodeEditorStoreProps {
     nodeToEdit: FlowNode;
-    language: Language;
+    language: Asset;
     nodeEditorOpen: boolean;
     actionToEdit: Action;
     localizations: LocalizedObject[];
@@ -114,7 +113,7 @@ export interface NodeEditorStoreProps {
     nodes: { [uuid: string]: RenderNode };
     updateResultName: UpdateResultName;
     updateOperand: UpdateOperand;
-    updateTypeConfig: UpdateTypeConfig;
+    handleTypeConfigChange: HandleTypeConfigChange;
     resetNodeEditingState: NoParamsAC;
     updateNodeEditorOpen: UpdateNodeEditorOpen;
     onUpdateLocalizations: OnUpdateLocalizations;
@@ -127,6 +126,7 @@ export interface NodeEditorStoreProps {
 export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
 export interface FormProps {
     action: AnyAction;
+    formHelper: FormHelper;
     showAdvanced: boolean;
     updateAction: (action: AnyAction) => void;
     onBindWidget: (ref: any) => void;
@@ -202,6 +202,7 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
         case Types.remove_contact_groups:
             defaultAction = { ...defaultAction, groups: null } as ChangeGroups;
             break;
+        // Note: we change the type config in AttribElement if other than Types.set_contact_field
         case Types.set_contact_field:
             defaultAction = {
                 ...defaultAction,
@@ -233,6 +234,9 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
             break;
         case Types.start_flow:
             defaultAction = { ...defaultAction, flow: { name: null, uuid: null } } as StartFlow;
+            break;
+        case Types.add_input_labels:
+            defaultAction = { ...defaultAction, labels: [] } as AddLabels;
             break;
     }
 
@@ -356,7 +360,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     private onTypeChange(config: Type): void {
         this.widgets = {};
         this.advancedWidgets = {};
-        this.props.updateTypeConfig(config);
+        this.props.handleTypeConfigChange(config, this.props.actionToEdit);
     }
 
     private onShowNameField(): void {
@@ -460,7 +464,10 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
         // add in our default exit
         let defaultUUID = generateUUID();
-        if (this.props.nodeToEdit.router && this.props.nodeToEdit.router.type === RouterTypes.switch) {
+        if (
+            this.props.nodeToEdit.router &&
+            this.props.nodeToEdit.router.type === RouterTypes.switch
+        ) {
             const router = this.props.nodeToEdit.router as SwitchRouter;
             if (router && router.default_exit_uuid) {
                 defaultUUID = router.default_exit_uuid;
@@ -620,7 +627,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             updates.push(...this.getLocalizedCases(widgets));
         }
 
-        this.updateLocalizations(this.props.language.iso, updates);
+        this.updateLocalizations(this.props.language.id, updates);
     }
 
     private getLocalizedCases(widgets: {
@@ -1183,6 +1190,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
         const formProps: Partial<FormProps> = {
             action,
+            formHelper: typeConfig.formHelper,
             saveLocalizations: this.saveLocalizations,
             updateLocalizations: this.updateLocalizations,
             cleanUpLocalizations: this.cleanUpLocalizations,
@@ -1256,6 +1264,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 }
 
+/* istanbul ignore next */
 const mapStateToProps = ({
     flowContext: { localizations, definition, nodes },
     flowEditor: {
@@ -1288,13 +1297,14 @@ const mapStateToProps = ({
     pendingConnection
 });
 
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
             updateResultName,
             resetNodeEditingState,
             updateNodeEditorOpen,
-            updateTypeConfig,
+            handleTypeConfigChange,
             updateOperand,
             onUpdateLocalizations,
             onUpdateAction,

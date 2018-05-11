@@ -1,10 +1,13 @@
 import '../global.scss';
+
 import * as React from 'react';
 import { connect, Provider as ReduxProvider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import ConfigProvider from '../config';
+import { fakePropType } from '../config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
+import AssetService, { Asset } from '../services/AssetService';
 import {
     AppState,
     createStore,
@@ -14,13 +17,11 @@ import {
     UpdateLanguage,
     updateLanguage
 } from '../store';
-import { getBaseLanguage, renderIf } from '../utils';
+import { renderIf } from '../utils';
 import ConnectedFlow from './Flow';
 import ConnectedFlowList, { FlowOption } from './FlowList';
 import * as styles from './index.scss';
-import ConnectedLanguageSelector, { Language } from './LanguageSelector';
-import AssetService, { Assets } from '../services/AssetService';
-import { fakePropType } from '../config/ConfigProvider';
+import ConnectedLanguageSelector from './LanguageSelector';
 
 export type OnSelectFlow = ({ uuid }: FlowOption) => void;
 
@@ -29,7 +30,7 @@ export interface FlowEditorContainerProps {
 }
 
 export interface FlowEditorStoreProps {
-    language: Language;
+    language: Asset;
     translating: boolean;
     fetchingFlow: boolean;
     definition: FlowDefinition;
@@ -40,12 +41,11 @@ export interface FlowEditorStoreProps {
 
 const hotStore = createStore();
 
-// Root container, wires up context-providers/sets baseURL
+// Root container, wires up context-providers
 const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) => {
-    config.assetService = new AssetService(config);
-
+    const assetService = new AssetService(config);
     return (
-        <ConfigProvider config={config}>
+        <ConfigProvider config={config} assetService={assetService}>
             <ReduxProvider store={hotStore}>
                 <ConnectedFlowEditor />
             </ReduxProvider>
@@ -71,7 +71,6 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 
     public componentDidMount(): void {
         const assetService: AssetService = this.context.assetService;
-        this.props.updateLanguage(getBaseLanguage(this.context.languages));
         this.props.fetchFlow(assetService, this.context.flow);
     }
 

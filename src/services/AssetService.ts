@@ -3,14 +3,17 @@ import axios, { AxiosResponse } from 'axios';
 
 import { ContactProperties, FlowEditorConfig, Group } from '../flowTypes';
 import { FlowComponents } from '../store/helpers';
-import { titleCase } from '../utils';
 
 export enum AssetType {
     Channel = 'channel',
     Flow = 'flow',
     Group = 'group',
-    Property = 'property',
-    Field = 'field'
+    Name = 'name',
+    Language = 'language',
+    Field = 'field',
+    Contact = 'contact',
+    URN = 'urn',
+    Label = 'label'
 }
 
 export interface Asset {
@@ -22,10 +25,17 @@ export interface Asset {
     content?: any;
 }
 
+export interface AssetSearchResult {
+    assets: Asset[];
+    complete: boolean;
+    sorted: boolean;
+}
+
 enum IdProperty {
     UUID = 'uuid',
     Key = 'key',
-    ID = 'id'
+    ID = 'id',
+    ISO = 'iso'
 }
 
 enum NameProperty {
@@ -36,7 +46,9 @@ enum SimAssetType {
     Flow = 'flow',
     Fields = 'field_set',
     Groups = 'group_set',
-    Channels = 'channel_set'
+    Channels = 'channel_set',
+    Labels = 'label_set',
+    Languages = 'language_set'
 }
 
 interface SimAsset {
@@ -106,7 +118,7 @@ export class Assets {
         return matches;
     }
 
-    public search(term: string): Promise<Asset[]> {
+    public search(term: string): Promise<AssetSearchResult> {
         const matches = this.searchLocalItems(term);
 
         // then query against our endpoint to add to that list
@@ -125,7 +137,7 @@ export class Assets {
                     });
                 }
             }
-            return matches;
+            return { assets: matches, complete: true, sorted: false };
         });
     }
 
@@ -184,6 +196,7 @@ export class Assets {
                     })
                     .catch(error => reject(error));
                 */
+                this.assets[uuid].content = content;
                 resolve(this.assets[uuid]);
             }
         });
@@ -195,7 +208,7 @@ export class Assets {
         const assets: any[] = [];
         Object.keys(this.assets).forEach((key: string) => {
             const asset = this.assets[key];
-            if (asset.type !== AssetType.Property) {
+            if (asset.type !== AssetType.Name) {
                 assets.push({
                     [this.idProperty]: asset.id,
                     name: asset.name,
@@ -229,14 +242,14 @@ class GroupAssets extends Assets {
 class FieldAssets extends Assets {
     public static CONTACT_PROPERTIES: Asset[] = [
         {
-            name: titleCase(ContactProperties.Name),
+            name: ContactProperties.Name,
             id: ContactProperties.Name,
-            type: AssetType.Property
+            type: AssetType.Name
         },
         {
-            name: titleCase(ContactProperties.Language),
+            name: ContactProperties.Language,
             id: ContactProperties.Language,
-            type: AssetType.Property
+            type: AssetType.Language
         }
     ];
 
@@ -279,73 +292,194 @@ class FlowAssets extends Assets {
     }
 }
 
+class RecipientAssets extends Assets {
+    constructor(endpoint: string, localStorage: boolean) {
+        super(endpoint, localStorage);
+        this.idProperty = IdProperty.UUID;
+    }
+
+    private getAssetType(code: string): AssetType {
+        switch (code) {
+            case 'c':
+                return AssetType.Contact;
+            case 'u':
+                return AssetType.URN;
+            case 'g':
+                return AssetType.Group;
+        }
+        return null;
+    }
+    public search(term: string): Promise<AssetSearchResult> {
+        const matches: Asset[] = [];
+
+        // then query against our endpoint to add to that list
+        let url = this.endpoint + '?types=cg';
+        if (term) {
+            url += '&search=' + encodeURIComponent(term);
+        }
+
+        return axios.get(url).then((response: AxiosResponse) => {
+            for (const result of response.data.results) {
+                if (this.matches(term, result.text)) {
+                    const [typeCode, id] = result.id.split(/-(.*)/);
+                    const type = this.getAssetType(typeCode);
+                    if (type) {
+                        let content: any = null;
+                        if (type === AssetType.URN) {
+                            content = {
+                                scheme: result.scheme,
+                                display: result.extra
+                            };
+                        } else if (type === AssetType.Group) {
+                            content = {
+                                size: result.extra
+                            };
+                        }
+                        matches.push({ name: result.text, id, type, content });
+                    }
+                }
+            }
+            return { assets: matches, complete: response.data.more, sorted: true };
+        });
+    }
+}
+
+export class LabelAssets extends Assets {
+    constructor(endpoint: string, localStorage: boolean) {
+        super(endpoint, localStorage);
+
+        this.idProperty = IdProperty.UUID;
+        this.assetType = AssetType.Label;
+    }
+}
+
+export class LanguageAssets extends Assets {
+    constructor(endpoint: string, localStorage: boolean) {
+        super(endpoint, localStorage);
+
+        this.idProperty = IdProperty.ISO;
+        this.assetType = AssetType.Language;
+    }
+}
+
 export default class AssetService {
-    private channels: Assets;
-    private groups: Assets;
-    private fields: Assets;
+    private channels: ChannelAssets;
+    private channelsURL: string;
+    private groups: GroupAssets;
+    private groupsURL: string;
+    private fields: FieldAssets;
+    private fieldsURL: string;
     private flows: FlowAssets;
+    private recipients: RecipientAssets;
+    private flowsURL: string;
+    private labels: FieldAssets;
+    private labelsURL: string;
+    private languages: LanguageAssets;
+    private languagesURL: string;
 
     constructor(config: FlowEditorConfig) {
+        // initialize asset deps
         this.groups = new GroupAssets(config.endpoints.groups, config.localStorage);
         this.fields = new FieldAssets(config.endpoints.fields, config.localStorage);
         this.flows = new FlowAssets(config.endpoints.flows, config.localStorage);
-
+        this.recipients = new RecipientAssets(config.endpoints.recipients, config.localStorage);
+        this.labels = new LabelAssets(config.endpoints.labels, config.localStorage);
         // channels are always mocked for local
         this.channels = new ChannelAssets('/channels', true);
+        this.languages = new LanguageAssets(config.endpoints.languages, config.localStorage);
+
+        // initialize asset urls
+        const base = getBaseURL();
+        this.groupsURL = `${base + this.groups.endpoint}/`;
+        this.fieldsURL = `${base + this.fields.endpoint}/`;
+        this.labelsURL = `${base + this.labels.endpoint}/`;
+        this.flowsURL = `${base + this.flows.endpoint}/{uuid}/`;
+        this.channelsURL = `${base + this.channels.endpoint}/`;
+        this.languagesURL = `${base + this.languages.endpoint}/`;
     }
 
     public addFlowComponents(flowComponents: FlowComponents): void {
         this.groups.addAll(flowComponents.groups);
         this.fields.addAll(flowComponents.fields);
+        this.labels.addAll(flowComponents.labels);
+        this.languages.addAll([flowComponents.baseLanguage]);
     }
 
-    public getFlowAssets(): Assets {
+    public getFlowAssets(): FlowAssets {
         return this.flows;
     }
 
-    public getGroupAssets(): Assets {
+    public getGroupAssets(): GroupAssets {
         return this.groups;
     }
 
-    public getFieldAssets(): Assets {
+    public getFieldAssets(): FieldAssets {
         return this.fields;
     }
 
+    public getRecipients(): RecipientAssets {
+        return this.recipients;
+    }
+
+    public getLabelAssets(): LabelAssets {
+        return this.labels;
+    }
+
+    public getLanguageAssets(): LanguageAssets {
+        return this.languages;
+    }
+
     public getSimulationAssets(): any {
-        let simAssets: SimAsset[] = [];
-        const base = getBaseURL();
+        const simAssets: SimAsset[] = [];
+
         // our group set asset
         simAssets.push({
             type: SimAssetType.Groups,
-            url: base + this.groups.endpoint + '/',
+            url: this.groupsURL,
             content: this.groups.getAssetSet()
         });
 
         // our fields
         simAssets.push({
             type: SimAssetType.Fields,
-            url: base + this.fields.endpoint + '/',
+            url: this.fieldsURL,
             content: this.fields.getAssetSet()
+        });
+
+        // our labels
+        simAssets.push({
+            type: SimAssetType.Labels,
+            url: this.labelsURL,
+            content: this.labels.getAssetSet()
+        });
+
+        // our languages
+        simAssets.push({
+            type: SimAssetType.Languages,
+            url: this.languagesURL,
+            content: this.languages.getAssetSet()
         });
 
         // our channels
         simAssets.push({
             type: SimAssetType.Channels,
-            url: base + this.channels.endpoint + '/',
+            url: this.channelsURL,
             content: this.channels.getAssetSet()
         });
 
         // our flows
-        simAssets = simAssets.concat(this.flows.getAssetContents(SimAssetType.Flow));
+        simAssets.push(...this.flows.getAssetContents(SimAssetType.Flow));
 
         const payload = {
             assets: simAssets,
             asset_server: {
                 type_urls: {
-                    flow: base + this.flows.endpoint + '/{uuid}/',
-                    field_set: base + this.fields.endpoint + '/',
-                    channel_set: base + this.channels.endpoint + '/',
-                    group_set: base + this.groups.endpoint + '/'
+                    [SimAssetType.Flow]: this.flowsURL,
+                    [SimAssetType.Fields]: this.fieldsURL,
+                    [SimAssetType.Channels]: this.channelsURL,
+                    [SimAssetType.Groups]: this.groupsURL,
+                    [SimAssetType.Labels]: this.labelsURL,
+                    [SimAssetType.Languages]: this.languagesURL
                 }
             }
         };

@@ -1,11 +1,12 @@
-import { Language } from '../component/LanguageSelector';
 import { DragPoint } from '../component/Node';
 import { Type } from '../config';
 import { AnyAction, FlowDefinition, FlowNode, FlowPosition } from '../flowTypes';
+import { Asset } from '../services/AssetService';
 import { LocalizedObject } from '../services/Localization';
 import Constants from './constants';
 import { CompletionOption, RenderNode } from './flowContext';
 import { DragSelection } from './flowEditor';
+import { NodeEditorForm } from './nodeEditor';
 
 // Redux action generic
 interface DuxAction<T extends Constants, P extends { [key: string]: any }> {
@@ -19,7 +20,7 @@ interface TranslatingPayload {
 }
 
 interface LanguagePayload {
-    language: Language;
+    language: Asset;
 }
 
 interface FetchingFlowPayload {
@@ -28,6 +29,10 @@ interface FetchingFlowPayload {
 
 interface DefinitionPayload {
     definition: FlowDefinition;
+}
+
+interface BaseLanguagePayload {
+    baseLanguage: Asset;
 }
 
 interface NodeDraggingPayload {
@@ -115,11 +120,17 @@ interface UpdateDragSelectionActionPayload {
     dragSelection: DragSelection;
 }
 
+interface UpdateFormPayload {
+    form: NodeEditorForm;
+}
+
 interface UpdateTimeoutPayload {
     timeout: number;
 }
 
 // Action types
+export type UpdateForm = DuxAction<Constants.UPDATE_FORM, UpdateFormPayload>;
+
 export type UpdateTranslatingAction = DuxAction<Constants.UPDATE_TRANSLATING, TranslatingPayload>;
 
 export type UpdateLanguageAction = DuxAction<Constants.UPDATE_LANGUAGE, LanguagePayload>;
@@ -127,6 +138,11 @@ export type UpdateLanguageAction = DuxAction<Constants.UPDATE_LANGUAGE, Language
 export type UpdateFetchingFlowAction = DuxAction<
     Constants.UPDATE_FETCHING_FLOW,
     FetchingFlowPayload
+>;
+
+export type UpdateBaseLanguageAction = DuxAction<
+    Constants.UPDATE_BASE_LANGUAGE,
+    BaseLanguagePayload
 >;
 
 export type UpdateDefinitionAction = DuxAction<Constants.UPDATE_DEFINITION, DefinitionPayload>;
@@ -229,7 +245,7 @@ export type UpdateDragGroup = (dragGroup: boolean) => UpdateDragGroupAction;
 
 export type UpdateTranslating = (translating: boolean) => UpdateTranslatingAction;
 
-export type UpdateLanguage = (language: Language) => UpdateLanguageAction;
+export type UpdateLanguage = (language: Asset) => UpdateLanguageAction;
 
 export type UpdateCreateNodePosition = (
     createNodePosition: FlowPosition
@@ -251,7 +267,10 @@ export type UpdateShowResultName = (showResultName: boolean) => UpdateShowResult
 
 export type UpdateTimeout = (timeout: number) => UpdateTimeoutAction;
 
+export type UpdateBaseLanguage = (baseLanguage: Asset) => UpdateBaseLanguageAction;
+
 type ActionTypes =
+    | UpdateForm
     | UpdateTranslatingAction
     | UpdateLanguageAction
     | UpdateFetchingFlowAction
@@ -277,6 +296,7 @@ type ActionTypes =
     | UpdateUserAddingActionAction
     | UpdateShowResultNameAction
     | UpdateDragSelectionAction
-    | UpdateTimeoutAction;
+    | UpdateTimeoutAction
+    | UpdateBaseLanguageAction;
 
 export default ActionTypes;

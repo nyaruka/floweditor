@@ -32,7 +32,7 @@ describe(TitleBar.name, () => {
                 getSpecWrapper(wrapper, titlebarContainerSpecId).hasClass('titlebar')
             ).toBeTruthy();
             expect(titlebar.hasClass('normal')).toBeTruthy();
-            expect(moveIcon.hasClass('up_button')).toBeTruthy();
+            expect(moveIcon.hasClass('upButton')).toBeTruthy();
             expect(moveIcon.children().length).toBe(0);
             expect(getSpecWrapper(wrapper, removeIconSpecId).exists()).toBeFalsy();
             expect(titlebar.text()).toBe(title);
@@ -55,8 +55,8 @@ describe(TitleBar.name, () => {
                     showMove: setTrue()
                 });
 
-                expect(getSpecWrapper(wrapper, moveIconSpecId).hasClass('up_button')).toBeTruthy();
-                expect(wrapper.find('.icn-arrow-up').exists()).toBeTruthy();
+                expect(getSpecWrapper(wrapper, moveIconSpecId).hasClass('upButton')).toBeTruthy();
+                expect(wrapper.find('.fe-arrow-up').exists()).toBeTruthy();
                 expect(wrapper).toMatchSnapshot();
             });
 
@@ -78,9 +78,9 @@ describe(TitleBar.name, () => {
                 const { wrapper } = setup(true, { showRemoval: setTrue() });
 
                 expect(
-                    getSpecWrapper(wrapper, removeIconSpecId).hasClass('remove_button')
+                    getSpecWrapper(wrapper, removeIconSpecId).hasClass('removeButton')
                 ).toBeTruthy();
-                expect(wrapper.find('.icn-remove').exists()).toBeTruthy();
+                expect(wrapper.find('.fe-x').exists()).toBeTruthy();
                 expect(wrapper).toMatchSnapshot();
             });
 
@@ -111,10 +111,10 @@ describe(TitleBar.name, () => {
                 const confirmation = getSpecWrapper(wrapper, confirmationSpecId);
                 const confirmRemoval = getSpecWrapper(wrapper, confirmRemovalSpecId);
 
-                expect(confirmation.hasClass('remove_confirm')).toBeTruthy();
+                expect(confirmation.hasClass('removeConfirm')).toBeTruthy();
                 expect(confirmation.text()).toBe('Remove?');
-                expect(confirmRemoval.hasClass('remove_button')).toBeTruthy();
-                expect(wrapper.find('.icn-remove').exists()).toBeTruthy();
+                expect(confirmRemoval.hasClass('removeButton')).toBeTruthy();
+                expect(wrapper.find('.fe-x').exists()).toBeTruthy();
                 expect(wrapper).toMatchSnapshot();
 
                 jest.clearAllTimers();

@@ -1,0 +1,53 @@
+{
+	"total": 12,
+	"results": [{
+		"text": "Adolescent",
+		"id": "g-e899b840-f5f8-42ff-b930-63d02415ab8f",
+		"extra": 0
+	}, {
+		"text": "Adolescents",
+		"id": "g-852cbe1b-ef82-493b-b830-17610ec5850e",
+		"extra": 0
+	}, {
+		"text": "Cat Facts",
+		"id": "g-eae05fb1-3021-4df2-a443-db8356b953fa",
+		"extra": 0
+	}, {
+		"text": "Customers",
+		"id": "g-e9382d83-3ecc-4e09-872b-caea76c21ea5",
+		"extra": 0
+	}, {
+		"text": "Districts (Dynamic)",
+		"id": "g-5ab735e9-7032-41a2-9b59-bfaf2789d161",
+		"extra": 43
+	}, {
+		"text": "Females",
+		"id": "g-ec5c906d-6225-4106-b03f-60a0c1571dc7",
+		"extra": 0
+	}, {
+		"text": "Jeunes",
+		"id": "g-2c4a3ec5-e9a3-4f4c-b7c6-b2ee6252df8d",
+		"extra": 0
+	}, {
+		"text": "Males",
+		"id": "g-4ceeb8d5-d435-455f-b2b7-27822f8e9472",
+		"extra": 0
+	}, {
+		"text": "Missing",
+		"id": "g-6eb3ee70-33da-4942-b43a-0a9af7ee49c9",
+		"extra": 0
+	}, {
+		"text": "Unregistered (Dynamic)",
+		"id": "g-d739252d-46b6-4629-8c26-71ac61ec253a",
+		"extra": 1032
+	}, {
+		"text": "Youth (Dynamic)",
+		"id": "g-8c6cbe60-1a27-4d01-be9c-6080c85bdb37",
+		"extra": 160
+	}, {
+		"text": "Anne",
+		"id": "c-673fa0f6-dffd-4e7d-bcc1-e5709374354f"
+	}],
+	"err": "nil",
+	"more": false
+}

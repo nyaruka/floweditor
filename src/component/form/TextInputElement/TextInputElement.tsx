@@ -4,6 +4,7 @@ import setCaretPosition from 'get-input-selection';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import getCaretCoordinates from 'textarea-caret';
+
 import { Type } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
 import { AppState, CompletionOption } from '../../../store';
@@ -188,14 +189,14 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             case KEY_TAB:
             case KEY_ENTER:
                 if (this.state.completionVisible && this.state.matches.length > 0) {
-                    var option = this.state.matches[this.state.selectedOptionIndex];
-                    var newValue = this.state.value.substr(
+                    const option = this.state.matches[this.state.selectedOptionIndex];
+                    let newValue = this.state.value.substr(
                         0,
                         this.state.caretOffset - this.state.query.length
                     );
                     newValue += option.name;
 
-                    var newCaret = newValue.length;
+                    const newCaret = newValue.length;
                     newValue += this.state.value.substr(this.state.caretOffset);
 
                     var query = '';
@@ -228,7 +229,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                 break;
             case KEY_BACKSPACE:
                 // Iterate backwards on our value until we reach either a space or @
-                var caret = event.currentTarget.selectionStart - 1;
+                const caret = event.currentTarget.selectionStart - 1;
                 for (let i = caret - 1; i >= 0; i--) {
                     const curr = this.state.value[i];
                     /** Space, don't do anything but break out */
@@ -375,12 +376,12 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
         if (selected) {
             return (
-                <React.Fragment>
+                <>
                     {optionName}
                     <div data-spec="option-desc" className={styles.option_description}>
                         {description}
                     </div>
-                </React.Fragment>
+                </>
             );
         }
 
@@ -439,7 +440,8 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         const sendMsgError =
             this.state.errors.length > 0 &&
             this.props.name === 'Message' &&
-            this.props.typeConfig.type === Types.send_msg;
+            (this.props.typeConfig.type === Types.send_msg ||
+                this.props.typeConfig.type === Types.send_broadcast);
 
         // Make sure we're rendering the right text element
         const TextElement = this.props.textarea ? 'textarea' : ('input' as string);

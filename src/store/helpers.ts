@@ -1,8 +1,10 @@
 import { v4 as generateUUID } from 'uuid';
 
+import { languageToAsset } from '../component/actions/SetContactAttrib/helpers';
 import { DefaultExitNames } from '../component/NodeEditor/NodeEditor';
 import { Types } from '../config/typeConfigs';
 import {
+    AddLabels,
     AnyAction,
     ChangeGroups,
     Exit,
@@ -18,7 +20,9 @@ import {
 } from '../flowTypes';
 import { Asset, AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
+import { languageMap } from '../utils/languageMap';
 import { RenderNode, RenderNodeMap } from './flowContext';
+import { dump } from '../utils';
 
 export interface Bounds {
     left: number;
@@ -242,27 +246,35 @@ export interface FlowComponents {
     renderNodeMap: RenderNodeMap;
     groups: Asset[];
     fields: Asset[];
+    labels: Asset[];
+    baseLanguage: Asset;
 }
 
 export const isGroupAction = (actionType: string) => {
-    return actionType === Types.add_contact_groups || actionType === Types.remove_contact_groups;
+    return (
+        actionType === Types.add_contact_groups ||
+        actionType === Types.remove_contact_groups ||
+        actionType === Types.send_broadcast
+    );
 };
 
 /**
  * Processes an initial FlowDefinition for details necessary for the editor
  */
-export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponents => {
+export const getFlowComponents = ({ language, nodes, _ui }: FlowDefinition): FlowComponents => {
     const renderNodeMap: RenderNodeMap = {};
 
     // our groups and fields referenced within
     const groups: Asset[] = [];
     const fields: Asset[] = [];
+    const labels: Asset[] = [];
 
     // initialize our nodes
     const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
 
     const groupsMap: { [uuid: string]: string } = {};
     const fieldsMap: { [key: string]: { key: string; name: string } } = {};
+    const labelsMap: { [uuid: string]: string } = {};
 
     for (const node of nodes) {
         if (!node.actions) {
@@ -300,6 +312,10 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
             } else if (action.type === Types.set_contact_field) {
                 const fieldAction = action as SetContactField;
                 fieldsMap[fieldAction.field.key] = fieldAction.field;
+            } else if (action.type === Types.add_input_labels) {
+                for (const label of (action as AddLabels).labels) {
+                    labelsMap[label.uuid] = label.name;
+                }
             }
         }
 
@@ -330,5 +346,12 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
         fields.push({ name: fieldsMap[key].name, id: key, type: AssetType.Field });
     }
 
-    return { renderNodeMap, groups, fields };
+    for (const uuid of Object.keys(labelsMap)) {
+        labels.push({ name: labelsMap[uuid], id: uuid, type: AssetType.Label });
+    }
+
+    // determine flow language
+    const baseLanguage = languageToAsset(languageMap[language]);
+
+    return { renderNodeMap, groups, fields, labels, baseLanguage };
 };

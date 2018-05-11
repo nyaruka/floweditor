@@ -3,10 +3,12 @@ import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getTypeConfig } from '../../../config';
-import { ConfigProviderContext } from '../../../config';
+
+import { ConfigProviderContext, getTypeConfig } from '../../../config';
+import { fakePropType } from '../../../config/ConfigProvider';
 import { Types } from '../../../config/typeConfigs';
-import { AnyAction, FlowNode, LocalizationMap } from '../../../flowTypes';
+import { AnyAction, FlowNode, LocalizationMap, Action } from '../../../flowTypes';
+import { Asset } from '../../../services/AssetService';
 import {
     ActionAC,
     AppState,
@@ -17,11 +19,9 @@ import {
     removeAction
 } from '../../../store';
 import { createClickHandler, getLocalization } from '../../../utils';
-import { Language } from '../../LanguageSelector';
 import * as shared from '../../shared.scss';
 import TitleBar from '../../TitleBar';
 import * as styles from './Action.scss';
-import { fakePropType } from '../../../config/ConfigProvider';
 
 export interface ActionWrapperPassedProps {
     thisNodeDragging: boolean;
@@ -33,7 +33,7 @@ export interface ActionWrapperPassedProps {
 
 export interface ActionWrapperStoreProps {
     node: FlowNode;
-    language: Language;
+    language: Asset;
     translating: boolean;
     onOpenNodeEditor: OnOpenNodeEditor;
     removeAction: ActionAC;
@@ -52,7 +52,7 @@ const cx = classNames.bind({ ...shared, ...styles });
 // Note: this needs to be a ComponentClass in order to work w/ react-flip-move
 export class ActionWrapper extends React.Component<ActionWrapperProps> {
     public static contextTypes = {
-        languages: fakePropType
+        assetService: fakePropType
     };
 
     constructor(props: ActionWrapperProps, context: ConfigProviderContext) {
@@ -83,12 +83,13 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         this.props.moveActionUp(this.props.node.uuid, this.props.action);
     }
 
-    public getAction(): AnyAction {
+    public async getAction(): Promise<Action> {
+        // const languages = await this.context.assetService.languages.
         const localization = getLocalization(
             this.props.action,
             this.props.localization,
-            this.props.language.iso,
-            this.context.languages
+            this.props.language.id,
+            languages
         );
 
         return localization && this.props.translating
@@ -101,7 +102,10 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         let missingLocalization = false;
 
         if (this.props.translating) {
-            if (this.props.action.type === Types.send_msg) {
+            if (
+                this.props.action.type === Types.send_msg ||
+                this.props.action.type === Types.send_broadcast
+            ) {
                 localizedKeys.push('text');
             }
 
@@ -109,7 +113,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
                 const localization = getLocalization(
                     this.props.action,
                     this.props.localization,
-                    this.props.language.iso,
+                    this.props.language.id,
                     this.context.languages
                 );
 
