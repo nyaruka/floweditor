@@ -2,15 +2,12 @@ import { getTypeConfig } from '../../config';
 import { Types } from '../../config/typeConfigs';
 import { Asset, AssetType } from '../../services/AssetService';
 import { composeComponentTestUtils, configProviderContext, setMock } from '../../testUtils';
-import {
-    createSetContactFieldAction,
-    createSetContactNameAction
-} from '../../testUtils/assetCreators';
+import { createSetContactFieldAction, createSetContactNameAction } from '../../testUtils/assetCreators';
 import { isOptionUnique, isValidNewOption } from '../../utils';
 import { fieldToAsset, propertyToAsset } from '../actions/SetContactAttrib/helpers';
 import { AttribElement, AttribElementProps, CREATE_PROMPT, createNewOption } from './AttribElement';
 
-const initial: Asset = {
+const attribute: Asset = {
     id: 'name',
     name: 'Name',
     type: AssetType.Name
@@ -18,7 +15,7 @@ const initial: Asset = {
 
 const baseProps: AttribElementProps = {
     name: 'Attribute',
-    initial,
+    attribute,
     assets: configProviderContext.assetService.getFieldAssets(),
     updateTypeConfig: jest.fn()
 };
@@ -58,38 +55,41 @@ describe(AttribElement.name, () => {
     });
 
     describe('instance methods', () => {
-        const existingField: Asset = {
-            id: 'field-0',
-            name: 'National ID',
-            type: AssetType.Field
-        };
-
         describe('onChange', () => {
-            it('should set state if attribute is new', () => {
-                const setStateSpy = spyOn('setState');
-                const { wrapper, instance } = setup();
+            it('should update type config if passed an contact name asset', () => {
+                const { wrapper, instance, props } = setup(true, { updateTypeConfig: setMock() });
+
+                instance.onChange([props.attribute]);
+
+                expect(props.updateTypeConfig).toHaveBeenCalledTimes(1);
+                expect(props.updateTypeConfig).toHaveBeenCalledWith(
+                    getTypeConfig(Types.set_contact_name)
+                );
+            });
+
+            it('should update type config if passed an contact field asset', () => {
+                const { wrapper, instance, props } = setup(true, { updateTypeConfig: setMock() });
+                const existingField: Asset = {
+                    id: 'field-0',
+                    name: 'National ID',
+                    type: AssetType.Field
+                };
 
                 instance.onChange([existingField]);
 
-                expect(setStateSpy).toHaveBeenCalledTimes(1);
-                expect(setStateSpy).toHaveBeenCalledWith(
-                    { attribute: existingField },
-                    expect.any(Function)
+                expect(props.updateTypeConfig).toHaveBeenCalledTimes(1);
+                expect(props.updateTypeConfig).toHaveBeenCalledWith(
+                    getTypeConfig(Types.set_contact_field)
                 );
-
-                setStateSpy.mockRestore();
             });
 
-            it('should not set state if attribute is not new', () => {
-                const setStateSpy = spyOn('setState');
-                // tslint:disable-next-line:no-shadowed-variable
-                const { wrapper, instance, props: { initial } } = setup();
+            it('should call onChange handler if passed', () => {
+                const { wrapper, instance, props } = setup(true, { onChange: setMock() });
 
-                instance.onChange([initial]);
+                instance.onChange([props.attribute]);
 
-                expect(setStateSpy).toHaveBeenCalledTimes(0);
-
-                setStateSpy.mockRestore();
+                expect(props.onChange).toHaveBeenCalledTimes(1);
+                expect(props.onChange).toHaveBeenCalledWith(props.attribute);
             });
 
             it('should update typeConfig', () => {
@@ -113,7 +113,7 @@ describe(AttribElement.name, () => {
             it('should return list of errors', () => {
                 const { wrapper, instance, props: { name } } = setup(true, {
                     required: { $set: true },
-                    initial: { $set: { ...initial, name: '' } }
+                    attribute: { $set: null }
                 });
 
                 expect(instance.getErrors()).toEqual([`${name} is required.`]);
@@ -156,14 +156,14 @@ describe(AttribElement.name, () => {
 
             it('should return false if control contains errors', () => {
                 const updateErrorStateSpy = spyOn('updateErrorState');
-                const { wrapper, instance, props: { name } } = setup(true, {
-                    initial: { $set: { ...initial, name: '' } },
+                const { wrapper, instance, props } = setup(true, {
+                    attribute: { $set: null },
                     required: { $set: true }
                 });
 
                 expect(instance.validate()).toBeFalsy();
                 expect(updateErrorStateSpy).toHaveBeenCalledTimes(1);
-                expect(updateErrorStateSpy).toHaveBeenCalledWith([`${name} is required.`]);
+                expect(updateErrorStateSpy).toHaveBeenCalledWith([`${props.name} is required.`]);
 
                 updateErrorStateSpy.mockRestore();
             });

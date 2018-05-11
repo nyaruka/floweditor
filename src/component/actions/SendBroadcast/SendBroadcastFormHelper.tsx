@@ -23,13 +23,13 @@ export class SendBroadcastFormHelper implements FormHelper {
         };
     }
 
-    public stateToAction(uuid: string, state: SendBroadcastFormState): BroadcastMsg {
+    public stateToAction(actionUUID: string, formState: SendBroadcastFormState): BroadcastMsg {
         return {
-            contacts: this.getAsset(state.recipients, AssetType.Contact),
-            groups: this.getAsset(state.recipients, AssetType.Group),
-            text: state.text,
-            type: state.type,
-            uuid
+            contacts: this.getAsset(formState.recipients, AssetType.Contact),
+            groups: this.getAsset(formState.recipients, AssetType.Group),
+            text: formState.text,
+            type: formState.type,
+            uuid: actionUUID
         };
     }
 

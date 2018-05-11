@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`typeConfigs > should provide type configs 1`] = `
+exports[`typeConfigs should provide type configs 1`] = `
 Array [
   Object {
     "allows": [Function],
@@ -52,15 +52,22 @@ Array [
     "type": "remove_contact_groups",
   },
   Object {
-    "aliases": Array [
-      "set_contact_name",
-    ],
     "allows": [Function],
     "component": [Function],
     "description": "Update the contact",
     "form": [Function],
+    "formHelper": SetContactAttribFormHelper {},
     "name": "Update Contact",
     "type": "set_contact_field",
+  },
+  Object {
+    "allows": [Function],
+    "component": [Function],
+    "description": "Update the contact",
+    "form": [Function],
+    "formHelper": SetContactAttribFormHelper {},
+    "name": "Update Contact",
+    "type": "set_contact_name",
   },
   Object {
     "allows": [Function],
@@ -130,88 +137,7 @@ Array [
 ]
 `;
 
-exports[`typeConfigs > should provide type configs 2`] = `
-Array [
-  Object {
-    "allows": [Function],
-    "component": [Function],
-    "description": " ** Unsupported ** ",
-    "name": "Missing",
-    "type": "missing",
-  },
-  Object {
-    "advanced": 1,
-    "allows": [Function],
-    "component": [Function],
-    "description": "Send the contact a message",
-    "form": [Function],
-    "name": "Send Message",
-    "type": "send_msg",
-  },
-  Object {
-    "allows": [Function],
-    "component": [Function],
-    "description": "Send somebody else a message",
-    "form": [Function],
-    "formHelper": SendBroadcastFormHelper {},
-    "name": "Send Broadcast",
-    "type": "send_broadcast",
-  },
-  Object {
-    "allows": [Function],
-    "component": [Function],
-    "description": "Label the incoming message",
-    "form": [Function],
-    "name": "Add Labels",
-    "type": "add_input_labels",
-  },
-  Object {
-    "allows": [Function],
-    "component": [Function],
-    "description": "Add the contact to a group",
-    "form": [Function],
-    "name": "Add to Group",
-    "type": "add_contact_groups",
-  },
-  Object {
-    "allows": [Function],
-    "component": [Function],
-    "description": "Remove the contact from a group",
-    "form": [Function],
-    "name": "Remove from Group",
-    "type": "remove_contact_groups",
-  },
-  Object {
-    "aliases": Array [
-      "set_contact_name",
-    ],
-    "allows": [Function],
-    "component": [Function],
-    "description": "Update the contact",
-    "form": [Function],
-    "name": "Update Contact",
-    "type": "set_contact_field",
-  },
-  Object {
-    "allows": [Function],
-    "component": [Function],
-    "description": "Send an email",
-    "form": [Function],
-    "name": "Send Email",
-    "type": "send_email",
-  },
-  Object {
-    "allows": [Function],
-    "component": [Function],
-    "description": "Save a result for this flow",
-    "form": [Function],
-    "name": "Save Flow Result",
-    "type": "set_run_result",
-  },
-]
-`;
-
-exports[`typeConfigs > should provide type configs 3`] = `
+exports[`typeConfigs should provide type configs 2`] = `
 Object {
   "add_contact_groups": Object {
     "allows": [Function],
@@ -283,26 +209,22 @@ Object {
     "type": "send_msg",
   },
   "set_contact_field": Object {
-    "aliases": Array [
-      "set_contact_name",
-    ],
     "allows": [Function],
     "component": [Function],
     "description": "Update the contact",
     "form": [Function],
+    "formHelper": SetContactAttribFormHelper {},
     "name": "Update Contact",
     "type": "set_contact_field",
   },
   "set_contact_name": Object {
-    "aliases": Array [
-      "set_contact_name",
-    ],
     "allows": [Function],
     "component": [Function],
     "description": "Update the contact",
     "form": [Function],
+    "formHelper": SetContactAttribFormHelper {},
     "name": "Update Contact",
-    "type": "set_contact_field",
+    "type": "set_contact_name",
   },
   "set_run_result": Object {
     "allows": [Function],

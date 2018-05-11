@@ -6,7 +6,8 @@ import { bindActionCreators } from 'redux';
 import { getTypeConfig, Types } from '../../config/typeConfigs';
 import { CreateOptions, ResultType } from '../../flowTypes';
 import { Asset, Assets, AssetType } from '../../services/AssetService';
-import { DispatchWithState, UpdateTypeConfig, updateTypeConfig } from '../../store';
+import { AppState, DispatchWithState, UpdateTypeConfig, updateTypeConfig } from '../../store';
+import { SetContactFieldFormState, SetContactNameFormState } from '../../store/nodeEditor';
 import {
     composeCreateNewOption,
     getSelectClass,
@@ -18,23 +19,23 @@ import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
 export interface AttribElementPassedProps extends FormElementProps {
-    initial: Asset;
     assets: Assets;
 
     add?: boolean;
     placeholder?: string;
     searchPromptText?: string;
     helpText?: string;
+    onChange?(selected: Asset): void;
 }
 
 export interface AttribElementStoreProps {
+    attribute: Asset;
     updateTypeConfig: UpdateTypeConfig;
 }
 
 export type AttribElementProps = AttribElementPassedProps & AttribElementStoreProps;
 
 interface AttribElementState {
-    attribute: Asset;
     errors: string[];
 }
 
@@ -57,7 +58,6 @@ export class AttribElement extends React.Component<AttribElementProps, AttribEle
         super(props);
 
         this.state = {
-            attribute: this.props.initial,
             errors: []
         };
 
@@ -66,21 +66,21 @@ export class AttribElement extends React.Component<AttribElementProps, AttribEle
 
     private onChange(selected: Asset[]): void {
         const [attribute] = selected;
-        if (!isEqual(this.state.attribute, attribute)) {
-            this.setState({ attribute }, () => {
-                if (attribute.type === AssetType.Name) {
-                    this.props.updateTypeConfig(getTypeConfig(Types.set_contact_name));
-                } else {
-                    this.props.updateTypeConfig(getTypeConfig(Types.set_contact_field));
-                }
-            });
+        if (attribute.type === AssetType.Name) {
+            this.props.updateTypeConfig(getTypeConfig(Types.set_contact_name));
+        } else if (attribute.type === AssetType.Field) {
+            this.props.updateTypeConfig(getTypeConfig(Types.set_contact_field));
+        }
+
+        if (this.props.onChange) {
+            this.props.onChange(attribute);
         }
     }
 
     private getErrors(): string[] {
         const errors = [];
 
-        if (this.props.required && !this.state.attribute.name) {
+        if (this.props.required && !this.props.attribute) {
             errors.push(`${this.props.name} is required.`);
         }
 
@@ -124,7 +124,7 @@ export class AttribElement extends React.Component<AttribElementProps, AttribEle
                     resultType={ResultType.field}
                     multi={false}
                     assets={this.props.assets}
-                    initial={[this.state.attribute]}
+                    initial={[this.props.attribute]}
                     closeOnSelect={true}
                     searchPromptText={this.props.searchPromptText}
                     placeholder={this.props.placeholder}
@@ -136,6 +136,11 @@ export class AttribElement extends React.Component<AttribElementProps, AttribEle
 }
 
 /* istanbul ignore next */
+const mapStateToProps = ({ nodeEditor: { form } }: AppState) => ({
+    attribute: (form as SetContactFieldFormState).field || (form as SetContactNameFormState).name
+});
+
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
@@ -145,10 +150,10 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     );
 
 const ConnectedAttribElement = connect<
-    null,
+    { attribute: Asset },
     { updateTypeConfig: UpdateTypeConfig },
     AttribElementPassedProps
->(null, mapDispatchToProps, null, {
+>(mapStateToProps, mapDispatchToProps, null, {
     withRef: true
 })(AttribElement);
 

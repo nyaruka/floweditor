@@ -75,8 +75,8 @@ export enum Mode {
 }
 
 export interface FormHelper {
-    actionToState: (action: AnyAction, type?: Types) => NodeEditorForm;
-    stateToAction: (uuid: string, formState: NodeEditorForm) => AnyAction;
+    actionToState: (action: AnyAction, actionType?: Types) => NodeEditorForm;
+    stateToAction: (actionUUID: string, formState: NodeEditorForm, formType?: Types) => AnyAction;
 }
 
 export interface Type {
@@ -100,6 +100,8 @@ export type GetTypeConfig = (type: string) => Type;
 export function allows(mode: Mode): boolean {
     return (this.advanced & mode) === mode;
 }
+
+const ContactAttribHelper = new SetContactAttribFormHelper();
 
 export const typeConfigList: Type[] = [
     /** Actions */
@@ -157,9 +159,17 @@ export const typeConfigList: Type[] = [
         name: 'Update Contact',
         description: 'Update the contact',
         form: SetContactAttribForm,
-        formHelper: new SetContactAttribFormHelper(),
+        formHelper: ContactAttribHelper,
         component: SetContactAttrib,
-        aliases: [Types.set_contact_name],
+        allows
+    },
+    {
+        type: Types.set_contact_name,
+        name: 'Update Contact',
+        description: 'Update the contact',
+        form: SetContactAttribForm,
+        formHelper: ContactAttribHelper,
+        component: SetContactAttrib,
         allows
     },
     {
@@ -227,15 +237,6 @@ export const typeConfigList: Type[] = [
     }
     // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];
-
-export const actionConfigList = typeConfigList.filter(
-    ({ type }) =>
-        type !== Types.wait_for_response &&
-        type !== Types.split_by_expression &&
-        type !== Types.split_by_groups &&
-        type !== Types.start_flow &&
-        type !== Types.call_webhook
-);
 
 export const typeConfigMap: TypeMap = typeConfigList.reduce((map: TypeMap, typeConfig: Type) => {
     map[typeConfig.type] = typeConfig;

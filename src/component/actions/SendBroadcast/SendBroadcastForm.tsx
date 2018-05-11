@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import { Type } from '../../../config';
 import { fakePropType } from '../../../config/ConfigProvider';
-import { BroadcastMsg, FlowDefinition } from '../../../flowTypes';
+import { BroadcastMsg } from '../../../flowTypes';
 import { Asset } from '../../../services/AssetService';
 import Localization, { LocalizedObject } from '../../../services/Localization';
 import { AppState, DispatchWithState } from '../../../store';
@@ -23,7 +23,6 @@ export interface SendBroadcastFormStoreProps {
     language: Language;
     translating: boolean;
     typeConfig: Type;
-    definition: FlowDefinition;
     localizations: LocalizedObject[];
     form: SendBroadcastFormState;
     updateSendBroadcastForm: SendBroadcastFunc;
@@ -39,6 +38,7 @@ export interface SendBroadcastFormPassedProps {
 
 export type SendBroadcastFormProps = SendBroadcastFormStoreProps & SendBroadcastFormPassedProps;
 
+// Note: action prop is only used for its uuid (see onValid)
 export class SendBroadcastForm extends React.Component<
     SendBroadcastFormProps,
     SendBroadcastFormState
@@ -98,7 +98,7 @@ export class SendBroadcastForm extends React.Component<
         let recipients = null;
 
         if (this.props.translating) {
-            const { text: textToTrans } = this.props.action;
+            const { text: textToTrans } = this.props.form;
 
             translation = (
                 <div data-spec="translation-container">
@@ -155,14 +155,13 @@ export class SendBroadcastForm extends React.Component<
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowContext: { definition, localizations },
+    flowContext: { localizations },
     flowEditor: { editorUI: { language, translating } },
     nodeEditor: { typeConfig, form }
 }: AppState) => ({
     language,
     translating,
     typeConfig,
-    definition,
     localizations,
     form
 });
