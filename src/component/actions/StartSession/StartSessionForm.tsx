@@ -18,7 +18,6 @@ export interface StartSessionFormStoreProps {
     typeConfig: Type;
     form: StartSessionFormState;
     updateStartSessionForm: StartSessionFunc;
-    // updateSendBroadcastForm: SendBroadcastFunc;
 }
 
 export interface StartSessionFormPassedProps {
@@ -61,33 +60,27 @@ export class StartSessionForm extends React.Component<
     }
 
     public render(): JSX.Element {
-        const recipients = (
-            <OmniboxElement
-                data-spec="recipients"
-                ref={this.props.onBindWidget}
-                name="Groups"
-                assets={this.context.assetService.getRecipients()}
-                selected={this.props.form.recipients}
-                add={true}
-                required={true}
-                onChange={this.handleRecipientsChanged}
-            />
-        );
-
         return (
             <div>
-                {recipients}
-                <div>
-                    <p>Select a flow to run</p>
-                    <FlowElement
-                        ref={this.props.onBindWidget}
-                        name="Flow"
-                        onChange={this.handleFlowChanged}
-                        assets={this.context.assetService.getFlowAssets()}
-                        flow={this.props.action.flow}
-                        required={true}
-                    />
-                </div>
+                <OmniboxElement
+                    data-spec="recipients"
+                    ref={this.props.onBindWidget}
+                    name="Recipients"
+                    assets={this.context.assetService.getRecipients()}
+                    selected={this.props.form.recipients}
+                    add={true}
+                    required={true}
+                    onChange={this.handleRecipientsChanged}
+                />
+                <p>Select a flow to run</p>
+                <FlowElement
+                    ref={this.props.onBindWidget}
+                    name="Flow"
+                    onChange={this.handleFlowChanged}
+                    assets={this.context.assetService.getFlowAssets()}
+                    flow={this.props.action.flow}
+                    required={true}
+                />
             </div>
         );
     }

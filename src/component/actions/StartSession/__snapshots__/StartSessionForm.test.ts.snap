@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StartSessionForm render should render an empty form with no action 1`] = `
+<div>
+  <OmniboxElement
+    add={true}
+    assets={
+      RecipientAssets {
+        "assets": Object {},
+        "endpoint": "/assets/recipients.json",
+        "idProperty": "uuid",
+        "localStorage": true,
+      }
+    }
+    data-spec="recipients"
+    name="Recipients"
+    onChange={[Function]}
+    placeholder="Enter a group or contact..."
+    required={true}
+    searchPromptText="No matches"
+    selected={Array []}
+  />
+  <p>
+    Select a flow to run
+  </p>
+  <FlowElement
+    assets={
+      FlowAssets {
+        "assetType": "flow",
+        "assets": Object {},
+        "endpoint": "/assets/flows.json",
+        "idProperty": "uuid",
+        "localStorage": true,
+      }
+    }
+    flow={
+      Object {
+        "name": "Flow to Start",
+        "uuid": "flow_uuid",
+      }
+    }
+    name="Flow"
+    onChange={[Function]}
+    required={true}
+  />
+</div>
+`;
+
+exports[`StartSessionForm render should render self, children with base props 1`] = `
+<div>
+  <OmniboxElement
+    add={true}
+    assets={
+      RecipientAssets {
+        "assets": Object {},
+        "endpoint": "/assets/recipients.json",
+        "idProperty": "uuid",
+        "localStorage": true,
+      }
+    }
+    data-spec="recipients"
+    name="Recipients"
+    onChange={[Function]}
+    placeholder="Enter a group or contact..."
+    required={true}
+    searchPromptText="No matches"
+    selected={
+      Array [
+        Object {
+          "id": "group-0",
+          "name": "Cat Fanciers",
+          "type": "group",
+        },
+        Object {
+          "id": "group-1",
+          "name": "Cat Facts",
+          "type": "group",
+        },
+        Object {
+          "id": "contact-0",
+          "name": "Kellan Alexander",
+          "type": "contact",
+        },
+        Object {
+          "id": "contact-1",
+          "name": "Norbert Kwizera",
+          "type": "contact",
+        },
+        Object {
+          "id": "contact-2",
+          "name": "Rowan Seymour",
+          "type": "contact",
+        },
+      ]
+    }
+  />
+  <p>
+    Select a flow to run
+  </p>
+  <FlowElement
+    assets={
+      FlowAssets {
+        "assetType": "flow",
+        "assets": Object {},
+        "endpoint": "/assets/flows.json",
+        "idProperty": "uuid",
+        "localStorage": true,
+      }
+    }
+    flow={
+      Object {
+        "name": "Flow to Start",
+        "uuid": "flow_uuid",
+      }
+    }
+    name="Flow"
+    onChange={[Function]}
+    required={true}
+  />
+</div>
+`;

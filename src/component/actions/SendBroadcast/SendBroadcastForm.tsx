@@ -121,7 +121,7 @@ export class SendBroadcastForm extends React.Component<
                     data-spec="recipients"
                     ref={this.props.onBindWidget}
                     className={broadcastStyles.recipients}
-                    name="Groups"
+                    name="Recipients"
                     assets={this.context.assetService.getRecipients()}
                     selected={this.props.form.recipients}
                     add={true}
