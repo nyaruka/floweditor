@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+
 import { Type } from '../../../config';
 import { SendEmail } from '../../../flowTypes';
 import { AppState } from '../../../store';
-import EmailElement from '../../form/EmailElement';
+import TaggingElement from '../../form/TaggingElement/TaggingElement';
 import TextInputElement from '../../form/TextInputElement';
-import { FormProps } from '../../NodeEditor';
 import * as styles from './SendEmail.scss';
+
+const EMAIL_PATTERN = /\S+@\S+\.\S+/;
 
 export interface SendEmailFormStoreProps {
     typeConfig: Type;
@@ -28,7 +30,7 @@ export class SendEmailForm extends React.Component<SendEmailFormProps> {
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        const { state: { emails: emailAddresses } } = widgets.Recipient;
+        const { state: { tags: emailAddresses } } = widgets.Recipient;
         const { wrappedInstance: { state: { value: subject } } } = widgets.Subject;
         const { wrappedInstance: { state: { value: body } } } = widgets.Message;
 
@@ -47,14 +49,25 @@ export class SendEmailForm extends React.Component<SendEmailFormProps> {
         this.props.updateAction(newAction);
     }
 
+    private handleValidPrompt(value: string): string {
+        return `Send email to ${value}`;
+    }
+
+    private handleCheckValid(value: string): boolean {
+        return EMAIL_PATTERN.test(value);
+    }
+
     public render(): JSX.Element {
         return (
             <div className={styles.ele}>
-                <EmailElement
+                <TaggingElement
                     ref={this.props.onBindWidget}
                     name="Recipient"
                     placeholder="To"
-                    emails={this.props.action.addresses}
+                    prompt="Enter e-mail address"
+                    onCheckValid={this.handleCheckValid}
+                    onValidPrompt={this.handleValidPrompt}
+                    tags={this.props.action.addresses || []}
                     required={true}
                 />
                 <TextInputElement
