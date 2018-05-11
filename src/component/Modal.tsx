@@ -229,6 +229,8 @@ const mapStateToProps = ({
 });
 
 // To-do: type properly
-const ConnectedModal = connect(mapStateToProps)(Modal);
+const ConnectedModal = connect(mapStateToProps, {}, null, {
+    withRef: true
+})(Modal);
 
 export default ConnectedModal;

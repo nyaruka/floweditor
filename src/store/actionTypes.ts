@@ -6,7 +6,7 @@ import { LocalizedObject } from '../services/Localization';
 import Constants from './constants';
 import { CompletionOption, RenderNode } from './flowContext';
 import { DragSelection } from './flowEditor';
-import { NodeEditorForm } from './nodeEditor';
+import { NodeEditorForm, NodeEditorSettings } from './nodeEditor';
 
 // Redux action generic
 interface DuxAction<T extends Constants, P extends { [key: string]: any }> {
@@ -120,12 +120,20 @@ interface UpdateFormPayload {
     form: NodeEditorForm;
 }
 
+interface UpdateNodeEditorSettingsPayload {
+    settings: NodeEditorSettings;
+}
 interface UpdateTimeoutPayload {
     timeout: number;
 }
 
 // Action types
 export type UpdateForm = DuxAction<Constants.UPDATE_FORM, UpdateFormPayload>;
+
+export type UpdateNodeEditorSettings = DuxAction<
+    Constants.UPDATE_NODE_EDITOR_SETTINGS,
+    UpdateNodeEditorSettingsPayload
+>;
 
 export type UpdateTranslatingAction = DuxAction<Constants.UPDATE_TRANSLATING, TranslatingPayload>;
 
@@ -260,6 +268,7 @@ export type UpdateTimeout = (timeout: number) => UpdateTimeoutAction;
 
 type ActionTypes =
     | UpdateForm
+    | UpdateNodeEditorSettings
     | UpdateTranslatingAction
     | UpdateLanguageAction
     | UpdateFetchingFlowAction

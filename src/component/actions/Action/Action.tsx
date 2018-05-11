@@ -64,10 +64,18 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     }
 
     public onClick(event: React.MouseEvent<HTMLDivElement>): void {
+        const target = event.target as any;
+        const showAdvanced = target.attributes && target.attributes['data-advanced'];
+
         if (!this.props.thisNodeDragging) {
             event.preventDefault();
             event.stopPropagation();
-            this.props.onOpenNodeEditor(this.props.node, this.props.action, this.context.languages);
+            this.props.onOpenNodeEditor(
+                this.props.node,
+                this.props.action,
+                this.context.languages,
+                { showAdvanced }
+            );
         }
     }
 

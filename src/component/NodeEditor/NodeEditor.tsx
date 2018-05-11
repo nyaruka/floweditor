@@ -23,7 +23,6 @@ import {
     Router,
     RouterTypes,
     SendEmail,
-    SendMsg,
     SetContactField,
     SetRunResult,
     StartFlow,
@@ -60,6 +59,7 @@ import {
     updateUserAddingAction
 } from '../../store';
 import { RenderNode } from '../../store/flowContext';
+import { NodeEditorSettings } from '../../store/nodeEditor';
 import { HandleTypeConfigChange, handleTypeConfigChange } from '../../store/thunks';
 import { CaseElementProps } from '../form/CaseElement';
 import TextInputElement from '../form/TextInputElement';
@@ -110,6 +110,7 @@ export interface NodeEditorStoreProps {
     showResultName: boolean;
     operand: string;
     timeout: number;
+    settings: NodeEditorSettings;
     pendingConnection: DragPoint;
     nodes: { [uuid: string]: RenderNode };
     updateResultName: UpdateResultName;
@@ -194,9 +195,6 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
     };
 
     switch (typeConfig.type) {
-        case Types.send_msg:
-            defaultAction = { ...defaultAction, text: '', all_urns: false } as SendMsg;
-            break;
         case Types.add_contact_groups:
             defaultAction = { ...defaultAction, groups: null } as ChangeGroups;
             break;
@@ -526,6 +524,12 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         return { cases, exits, defaultExit: defaultUUID };
     }
 
+    public componentDidMount(): void {
+        if (this.props.settings.showAdvanced) {
+            this.toggleAdvanced();
+        }
+    }
+
     private getResultNameField(): JSX.Element {
         let resultNameField: JSX.Element;
         if (this.props.showResultName) {
@@ -807,7 +811,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
     private toggleAdvanced(): void {
         if (this.modal) {
-            this.modal.toggleFlip();
+            this.modal.getWrappedInstance().toggleFlip();
         }
     }
 
@@ -1277,6 +1281,7 @@ const mapStateToProps = ({
         typeConfig,
         resultName,
         showResultName,
+        settings,
         operand,
         timeout
     }
@@ -1294,7 +1299,8 @@ const mapStateToProps = ({
     showResultName,
     operand,
     timeout,
-    pendingConnection
+    pendingConnection,
+    settings
 });
 
 /* istanbul ignore next */

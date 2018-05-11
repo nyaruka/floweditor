@@ -7,7 +7,7 @@ interface CheckboxElementProps extends FormElementProps {
     defaultValue?: boolean;
     description?: string;
     border?: boolean;
-    onCheck?(): void;
+    onChange?(checked: boolean): void;
     sibling?: boolean;
 }
 
@@ -31,7 +31,7 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
     private onChange(event: any): void {
         this.setState(
             { checked: !this.state.checked },
-            () => this.props.onCheck && this.props.onCheck()
+            () => this.props.onChange && this.props.onChange(this.state.checked)
         );
     }
 

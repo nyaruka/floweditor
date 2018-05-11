@@ -49,7 +49,7 @@ export default class RemoveGroupsForm extends React.Component<
         };
 
         bindCallbacks(this, {
-            include: [/^on/]
+            include: [/^on/, /^handle/]
         });
     }
 
@@ -61,8 +61,8 @@ export default class RemoveGroupsForm extends React.Component<
         }
     }
 
-    public onCheck(): void {
-        this.setState({ removeFromAll: !this.state.removeFromAll });
+    public handleUpdateRemoveAll(checked: boolean): void {
+        this.setState({ removeFromAll: checked });
     }
 
     public onValid(): void {
@@ -123,7 +123,7 @@ export default class RemoveGroupsForm extends React.Component<
                 defaultValue={this.state.removeFromAll}
                 description={REMOVE_FROM_ALL_DESC}
                 sibling={sibling}
-                onCheck={this.onCheck}
+                onChange={this.handleUpdateRemoveAll}
             />
         );
 

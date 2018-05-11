@@ -2,10 +2,10 @@ import { v4 as generateUUID } from 'uuid';
 
 import { LocalizationUpdates } from '.';
 import { AnyAction, Dimensions, FlowDefinition, FlowNode, StickyNote } from '../flowTypes';
-import { merge, set, snapToGrid, splice, unset, dump } from '../utils';
-import { push } from '../utils';
+import { merge, push, set, snapToGrid, splice, unset } from '../utils';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { getActionIndex, getExitIndex, getNode } from './helpers';
+import { NodeEditorSettings } from './nodeEditor';
 
 const mutate = require('immutability-helper');
 export const uniquifyNode = (newNode: FlowNode): FlowNode => {
@@ -331,6 +331,16 @@ export const updateStickyNote = (
     } else {
         return mutate(definition, { _ui: { stickies: unset([stickyUUID]) } });
     }
+};
+
+export const mergeNodeEditorSettings = (
+    current: NodeEditorSettings,
+    newSettings: NodeEditorSettings
+) => {
+    if (!newSettings) {
+        return current;
+    }
+    return mutate(current, { $merge: newSettings });
 };
 
 /**

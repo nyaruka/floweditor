@@ -48,8 +48,10 @@ import {
 } from './helpers';
 import * as mutators from './mutators';
 import {
+    NodeEditorSettings,
     updateActionToEdit,
     updateForm,
+    updateNodeEditorSettings,
     updateNodeToEdit,
     updateOperand,
     updateResultName,
@@ -79,7 +81,8 @@ export type OnNodeMoved = (uuid: string, position: FlowPosition) => Thunk<Render
 export type OnOpenNodeEditor = (
     node: FlowNode,
     action: AnyAction,
-    languages: Languages
+    languages: Languages,
+    settings?: NodeEditorSettings
 ) => Thunk<void>;
 
 export type RemoveNode = (nodeToRemove: FlowNode) => Thunk<RenderNodeMap>;
@@ -447,7 +450,7 @@ export const spliceInRouter = (
     return updatedNodes;
 };
 
-export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction) => (
+export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction = null) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
@@ -540,6 +543,7 @@ export const onAddToNode = (node: FlowNode) => (
 ) => {
     const { flowContext: { definition }, flowEditor: { editorUI: { language } } } = getState();
 
+    // TODO: remove the need for this once we all have formHelpers
     const newAction: SendMsg = {
         uuid: generateUUID(),
         type: Types.send_msg,
@@ -550,7 +554,7 @@ export const onAddToNode = (node: FlowNode) => (
     dispatch(updateActionToEdit(newAction));
     dispatch(updateNodeToEdit(node));
     dispatch(updateLocalizations([]));
-    dispatch(updateTypeConfig(getTypeConfig(newAction.type)));
+    dispatch(handleTypeConfigChange(getTypeConfig(Types.send_msg)));
     dispatch(updateNodeDragging(false));
     dispatch(updateNodeEditorOpen(true));
 };
@@ -723,13 +727,16 @@ const markReflow = (dispatch: DispatchWithState) => {
     );
 };
 
-export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: Languages) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
+export const onOpenNodeEditor = (
+    node: FlowNode,
+    action: AnyAction,
+    languages: Languages,
+    settings: NodeEditorSettings
+) => (dispatch: DispatchWithState, getState: GetState) => {
     const {
         flowContext: { nodes, definition: { localization } },
-        flowEditor: { editorUI: { language, translating } }
+        flowEditor: { editorUI: { language, translating } },
+        nodeEditor: { settings: currentSettings }
     } = getState();
 
     const localizations = [];
@@ -762,11 +769,7 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
 
     const type = determineConfigType(node, action, nodes);
     const typeConfig = getTypeConfig(type);
-
-    if (typeConfig.formHelper) {
-        dispatch(updateForm(typeConfig.formHelper.actionToState(action)));
-    }
-    dispatch(updateTypeConfig(getTypeConfig(type as Types)));
+    dispatch(handleTypeConfigChange(typeConfig, action));
 
     let resultName = '';
 
@@ -786,6 +789,12 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
             const { operand } = node.router as SwitchRouter;
             dispatch(updateOperand(operand));
         }
+    }
+
+    if (settings) {
+        dispatch(
+            updateNodeEditorSettings(mutators.mergeNodeEditorSettings(currentSettings, settings))
+        );
     }
 
     dispatch(updateNodeDragging(false));

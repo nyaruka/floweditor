@@ -12,6 +12,7 @@ import SendEmailComp from '../component/actions/SendEmail/SendEmail';
 import SendEmailForm from '../component/actions/SendEmail/SendEmailForm';
 import SendMsgComp from '../component/actions/SendMsg/SendMsg';
 import SendMsgForm from '../component/actions/SendMsg/SendMsgForm';
+import { SendMsgFormHelper } from '../component/actions/SendMsg/SendMsgFormHelper';
 import SetContactAttrib from '../component/actions/SetContactAttrib/SetContactAttrib';
 import SetContactAttribForm from '../component/actions/SetContactAttrib/SetContactAttribForm';
 import SetRunResultComp from '../component/actions/SetRunResult/SetRunResult';
@@ -115,6 +116,7 @@ export const typeConfigList: Type[] = [
         name: 'Send Message',
         description: 'Send the contact a message',
         form: SendMsgForm,
+        formHelper: new SendMsgFormHelper(),
         component: SendMsgComp,
         advanced: Mode.EDITING,
         allows

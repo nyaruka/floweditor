@@ -8,6 +8,7 @@ import { Asset } from '../services/AssetService';
 import ActionTypes, {
     UpdateActionToEditAction,
     UpdateForm,
+    UpdateNodeEditorSettings,
     UpdateNodeToEditAction,
     UpdateOperandAction,
     UpdateResultNameAction,
@@ -28,12 +29,23 @@ export interface SendBroadcastFormState extends ActionState {
     translatedText: string;
 }
 
+export interface SendMsgFormState extends ActionState {
+    text: string;
+    translatedText: string;
+    sendAll: boolean;
+    quickReplies: string[];
+}
+
 export interface StartSessionFormState extends ActionState {
     recipients: Asset[];
     flow: Asset;
 }
 
-export type NodeEditorForm = SendBroadcastFormState | StartSessionFormState;
+export type NodeEditorForm = SendBroadcastFormState | StartSessionFormState | SendMsgFormState;
+
+export interface NodeEditorSettings {
+    showAdvanced: boolean;
+}
 
 export interface NodeEditor {
     typeConfig: Type;
@@ -43,6 +55,7 @@ export interface NodeEditor {
     userAddingAction: boolean;
     nodeToEdit: FlowNode;
     actionToEdit: AnyAction;
+    settings: NodeEditorSettings;
     form: NodeEditorForm;
     timeout: number;
 }
@@ -59,7 +72,8 @@ export const initialState: NodeEditor = {
     nodeToEdit: null,
     actionToEdit: null,
     form: null,
-    timeout: null
+    timeout: null,
+    settings: { showAdvanced: false }
 };
 
 // Action Creators
@@ -74,6 +88,15 @@ export const updateForm = (form: NodeEditorForm): UpdateForm => ({
     type: Constants.UPDATE_FORM,
     payload: {
         form
+    }
+});
+
+export const updateNodeEditorSettings = (
+    settings: NodeEditorSettings
+): UpdateNodeEditorSettings => ({
+    type: Constants.UPDATE_NODE_EDITOR_SETTINGS,
+    payload: {
+        settings
     }
 });
 
@@ -217,6 +240,18 @@ export const timeout = (state: number = initialState.timeout, action: ActionType
     }
 };
 
+export const settings = (
+    state: NodeEditorSettings = initialState.settings,
+    action: ActionTypes
+) => {
+    switch (action.type) {
+        case Constants.UPDATE_NODE_EDITOR_SETTINGS:
+            return action.payload.settings;
+        default:
+            return state;
+    }
+};
+
 // Root reducer
 export default combineReducers({
     typeConfig,
@@ -226,6 +261,7 @@ export default combineReducers({
     userAddingAction,
     nodeToEdit,
     actionToEdit,
+    settings,
     form,
     timeout
 });
