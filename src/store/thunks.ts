@@ -492,6 +492,8 @@ export const onUpdateAction = (action: AnyAction) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
+    timeStart('onUpdateAction');
+
     const {
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
         nodeEditor: { userAddingAction, nodeToEdit },
