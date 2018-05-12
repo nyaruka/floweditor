@@ -36,6 +36,14 @@ export interface StringArrayEntry extends FormEntry {
     value: string[];
 }
 
+export interface AssetEntry extends FormEntry {
+    value: Asset;
+}
+
+export interface AssetArrayEntry extends FormEntry {
+    value: Asset[];
+}
+
 export interface FormState {
     type: Types;
     validationFailures?: ValidationFailure[];
@@ -67,8 +75,8 @@ export interface SetContactNameFormState extends FormState {
 export type SetContactAttribFormState = SetContactFieldFormState | SetContactNameFormState;
 
 export interface StartSessionFormState extends FormState {
-    recipients: Asset[];
-    flow: Asset;
+    recipients: AssetArrayEntry;
+    flow: AssetEntry;
 }
 
 export type NodeEditorForm =

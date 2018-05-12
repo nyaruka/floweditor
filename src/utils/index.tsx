@@ -10,6 +10,7 @@ import { Language } from '../component/LanguageSelector';
 import { Action, Case, ContactProperties, Exit, Languages, LocalizationMap } from '../flowTypes';
 import { AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
+import { FormEntry } from '../store/nodeEditor';
 import * as variables from '../variables.scss';
 
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
@@ -109,6 +110,13 @@ export const validUUID = (uuid: string): boolean => V4_UUID.test(uuid);
  */
 export const titleCase = (str: string): string =>
     str.replace(/\b\w+/g, s => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase());
+
+export const getSelectClassForEntry = (entry: FormEntry): string => {
+    if (entry && entry.validationFailures && entry.validationFailures.length > 0) {
+        return 'select-invalid';
+    }
+    return '';
+};
 
 export const getSelectClass = (errors: number): string => {
     if (errors === 0) {

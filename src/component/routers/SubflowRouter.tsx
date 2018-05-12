@@ -55,7 +55,7 @@ export class SubflowRouter extends React.PureComponent<SubflowRouterProps> {
                     ref={this.props.onBindWidget}
                     name="Flow"
                     assets={this.context.assetService.getFlowAssets()}
-                    flow={this.props.action.flow}
+                    //  flow={this.props.action.flow}
                     // required={true}
                 />
             </div>

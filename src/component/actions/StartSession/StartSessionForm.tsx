@@ -10,6 +10,7 @@ import { Asset } from '../../../services/AssetService';
 import { AppState, DispatchWithState } from '../../../store';
 import { StartSessionFunc, updateStartSessionForm } from '../../../store/forms';
 import { StartSessionFormState } from '../../../store/nodeEditor';
+import { validate, validateRequired } from '../../../store/validators';
 import FlowElement from '../../form/FlowElement';
 import OmniboxElement from '../../form/OmniboxElement';
 import { StartSessionFormHelper } from './StartSessionFormHelper';
@@ -24,7 +25,6 @@ export interface StartSessionFormPassedProps {
     action: StartSession;
     formHelper: StartSessionFormHelper;
     updateAction(action: StartSession): void;
-    onBindWidget(ref: any): void;
 }
 
 export type StartSessionFormProps = StartSessionFormStoreProps & StartSessionFormPassedProps;
@@ -52,11 +52,15 @@ export class StartSessionForm extends React.Component<
     }
 
     public handleRecipientsChanged(selected: Asset[]): void {
-        this.props.updateStartSessionForm({ recipients: selected });
+        this.props.updateStartSessionForm({
+            recipients: validate('Recipients', selected, [validateRequired])
+        });
     }
 
     public handleFlowChanged(selected: Asset[]): void {
-        this.props.updateStartSessionForm({ flow: selected[0] });
+        this.props.updateStartSessionForm({
+            flow: validate('Flow', selected[0], [validateRequired])
+        });
     }
 
     public render(): JSX.Element {
@@ -64,22 +68,18 @@ export class StartSessionForm extends React.Component<
             <div>
                 <OmniboxElement
                     data-spec="recipients"
-                    ref={this.props.onBindWidget}
                     name="Recipients"
                     assets={this.context.assetService.getRecipients()}
-                    selected={this.props.form.recipients}
-                    add={true}
-                    // required={true}
                     onChange={this.handleRecipientsChanged}
+                    entry={this.props.form.recipients}
+                    add={true}
                 />
                 <p>Select a flow to run</p>
                 <FlowElement
-                    ref={this.props.onBindWidget}
                     name="Flow"
                     onChange={this.handleFlowChanged}
                     assets={this.context.assetService.getFlowAssets()}
-                    flow={this.props.action.flow}
-                    // required={true}
+                    entry={this.props.form.flow}
                 />
             </div>
         );

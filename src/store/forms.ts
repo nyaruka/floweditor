@@ -34,7 +34,7 @@ export const mutateForm = (
     let valid = true;
     for (const key of Object.keys(updated)) {
         const entry: any = updated[key];
-        if (typeof entry === 'object') {
+        if (entry && typeof entry === 'object') {
             if (entry.validationFailures && entry.validationFailures.length > 0) {
                 valid = false;
                 break;

@@ -1,7 +1,8 @@
 import { isValidURL } from '../component/form/TextInputElement/helpers';
+import { Asset } from '../services/AssetService';
 import { FormEntry, ValidationFailure } from './nodeEditor';
 
-type FormInput = string | string[] | number;
+type FormInput = string | string[] | number | Asset | Asset[];
 type ValidatorFunc = (name: string, input: FormInput) => ValidationFailure[];
 
 export const validate = (
@@ -23,9 +24,17 @@ export const validate = (
 };
 
 export const validateRequired: ValidatorFunc = (name: string, input: FormInput) => {
+    if (!input) {
+        return [{ message: `${name} is required` }];
+    }
+
     if (typeof input === 'string') {
         if ((input as string).trim().length === 0) {
             return [{ message: `${name} is required` }];
+        }
+    } else if (Array.isArray(input)) {
+        if (input.length === 0) {
+            return [{ message: `${name} are required` }];
         }
     }
     return [];

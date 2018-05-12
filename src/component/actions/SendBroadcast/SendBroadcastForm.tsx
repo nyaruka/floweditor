@@ -123,7 +123,7 @@ export class SendBroadcastForm extends React.Component<
                     className={broadcastStyles.recipients}
                     name="Recipients"
                     assets={this.context.assetService.getRecipients()}
-                    selected={this.props.form.recipients}
+                    // selected={this.props.form.recipients}
                     add={true}
                     // required={true}
                     onChange={this.handleRecipientsChanged}
