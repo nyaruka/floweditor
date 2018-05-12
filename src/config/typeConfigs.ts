@@ -11,6 +11,7 @@ import SendBroadcastForm from '../component/actions/SendBroadcast/SendBroadcastF
 import { SendBroadcastFormHelper } from '../component/actions/SendBroadcast/SendBroadcastFormHelper';
 import SendEmailComp from '../component/actions/SendEmail/SendEmail';
 import SendEmailForm from '../component/actions/SendEmail/SendEmailForm';
+import { SendEmailFormHelper } from '../component/actions/SendEmail/SendEmailFormHelper';
 import SendMsgComp from '../component/actions/SendMsg/SendMsg';
 import SendMsgForm from '../component/actions/SendMsg/SendMsgForm';
 import { SendMsgFormHelper } from '../component/actions/SendMsg/SendMsgFormHelper';
@@ -184,6 +185,7 @@ export const typeConfigList: Type[] = [
         name: 'Send Email',
         description: 'Send an email',
         form: SendEmailForm,
+        formHelper: new SendEmailFormHelper(),
         component: SendEmailComp,
         allows
     },

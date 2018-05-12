@@ -65,6 +65,12 @@ export interface AddLabelsFormState extends FormState {
     labels: AssetArrayEntry;
 }
 
+export interface SendEmailFormState extends FormState {
+    recipients: StringArrayEntry;
+    subject: StringEntry;
+    body: StringEntry;
+}
+
 export interface SetContactFieldFormState extends FormState {
     field: Asset;
     value: string;
@@ -87,7 +93,8 @@ export type NodeEditorForm =
     | StartSessionFormState
     | SendMsgFormState
     | SetContactAttribFormState
-    | AddLabelsFormState;
+    | AddLabelsFormState
+    | SendEmailFormState;
 
 export interface NodeEditorSettings {
     showAdvanced: boolean;

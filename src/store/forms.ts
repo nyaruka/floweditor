@@ -6,6 +6,7 @@ import {
     AddLabelsFormState,
     NodeEditorForm,
     SendBroadcastFormState,
+    SendEmailFormState,
     SendMsgFormState,
     SetContactAttribFormState,
     StartSessionFormState,
@@ -121,4 +122,16 @@ export const updateAddLabelsForm: AddLabelsFunc = (updated: Partial<AddLabelsFor
     const updatedForm = mutateForm(form, updated);
     dispatch(updateForm(updatedForm));
     return updatedForm as AddLabelsFormState;
+};
+
+export type SendEmailFunc = (updated: Partial<SendEmailFormState>) => Thunk<SendEmailFormState>;
+
+export const updateSendEmailForm: SendEmailFunc = (updated: Partial<SendEmailFormState>) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+): SendEmailFormState => {
+    const { nodeEditor: { form } } = getState();
+    const updatedForm = mutateForm(form, updated);
+    dispatch(updateForm(updatedForm));
+    return updatedForm as SendEmailFormState;
 };
