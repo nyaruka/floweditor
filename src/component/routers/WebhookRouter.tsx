@@ -1,9 +1,11 @@
+// tslint:disable:ban-types
 import { react as bindCallbacks } from 'auto-bind';
 import update from 'immutability-helper';
 import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
+
 import { Types } from '../../config/typeConfigs';
 import { CallWebhook, Headers, Methods } from '../../flowTypes';
 import { AppState } from '../../store';
@@ -23,6 +25,7 @@ export interface WebhookRouterPassedProps {
     action: CallWebhook;
     showAdvanced: boolean;
     saveLocalizations: SaveLocalizations;
+
     updateRouter: Function;
     getExitTranslations(): JSX.Element;
     onBindWidget: (ref: any) => void;
@@ -231,10 +234,10 @@ export class WebhookRouter extends React.Component<WebhookRouterProps, WebhookRo
                         ref={this.props.onBindWidget}
                         name="URL"
                         placeholder="Enter a URL"
-                        value={url}
+                        entry={{ value: url }}
                         autocomplete={true}
-                        required={true}
-                        url={true}
+                        // required={true}
+                        // url={true}
                     />
                 </div>
                 <div className={styles.instructions}>
@@ -295,11 +298,11 @@ export class WebhookRouter extends React.Component<WebhookRouterProps, WebhookRo
                     ref={this.props.onBindAdvancedWidget}
                     name="Body"
                     showLabel={false}
-                    value={reqBody}
+                    entry={{ value: reqBody }}
                     helpText={helpText}
                     autocomplete={true}
                     textarea={true}
-                    required={true}
+                    // required={true}
                 />
             </div>
         ) : null;

@@ -72,17 +72,16 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
     }
 
     private renderForm(): JSX.Element {
-        let text = '';
         let placeholder = '';
         let translation = null;
 
-        if (this.props.translating) {
-            const textToTrans = this.props.form.text;
+        let entry = this.props.form.text;
 
+        if (this.props.translating) {
             translation = (
                 <div data-spec="translation-container">
                     <div data-spec="text-to-translate" className={styles.translate_from}>
-                        {textToTrans}
+                        {this.props.action.text}
                     </div>
                 </div>
             );
@@ -90,10 +89,8 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
             placeholder = `${this.props.language.name} Translation`;
 
             if (this.props.localizations[0].isLocalized()) {
-                ({ text } = this.props.localizations[0].getObject() as SendMsg);
+                entry = { value: (this.props.localizations[0].getObject() as SendMsg).text };
             }
-        } else {
-            ({ text: { value: text } } = this.props.form);
         }
 
         return (
@@ -104,12 +101,11 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
                     showLabel={false}
                     count={Count.SMS}
                     onChange={this.handleUpdateMessage}
-                    value={text}
                     entry={this.props.form.text}
                     placeholder={placeholder}
                     autocomplete={true}
                     focus={true}
-                    required={!this.props.translating}
+                    // required={!this.props.translating}
                     textarea={true}
                 />
             </div>
@@ -157,7 +153,7 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
                         onCheckValid={this.handleCheckValidReply}
                         onValidPrompt={this.handleValidReplyPrompt}
                         entry={{ value: translatedQR }}
-                        required={false}
+                        // required={false}
                     />
                 </>
             );
@@ -174,7 +170,7 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
                     onCheckValid={this.handleCheckValidReply}
                     onValidPrompt={this.handleValidReplyPrompt}
                     entry={this.props.form.quickReplies}
-                    required={false}
+                    // required={false}
                 />
                 <CheckboxElement
                     name="All Destinations"

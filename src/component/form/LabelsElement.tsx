@@ -23,7 +23,6 @@ export interface LabelsElementProps extends FormElementProps {
 
 interface LabelsElementState {
     labels: Asset[];
-    errors: string[];
 }
 
 export const NAME = 'Labels';
@@ -50,8 +49,7 @@ export default class LabelsElement extends React.Component<LabelsElementProps, L
         super(props);
 
         this.state = {
-            labels: this.props.labels || [],
-            errors: []
+            labels: this.props.labels || []
         };
 
         this.onChange = this.onChange.bind(this);
@@ -61,18 +59,6 @@ export default class LabelsElement extends React.Component<LabelsElementProps, L
         this.setState({
             labels
         });
-    }
-
-    public validate(): boolean {
-        const errors: string[] = [];
-
-        if (this.props.required && !this.state.labels.length) {
-            errors.push(`${this.props.name} is required.`);
-        }
-
-        this.setState({ errors });
-
-        return errors.length === 0;
     }
 
     public render(): JSX.Element {
@@ -88,11 +74,10 @@ export default class LabelsElement extends React.Component<LabelsElementProps, L
                 showLabel={this.props.showLabel}
                 name={this.props.name}
                 helpText={this.props.helpText}
-                errors={this.state.errors}
-                attribError={this.state.errors.length > 0}
+                // attribError={this.state.errors.length > 0}
             >
                 <SelectSearch
-                    __className={getSelectClass(this.state.errors.length)}
+                    __className={getSelectClass(0)}
                     onChange={this.onChange}
                     name={this.props.name}
                     resultType={ResultType.group}

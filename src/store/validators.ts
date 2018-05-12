@@ -1,3 +1,4 @@
+import { isValidURL } from '../component/form/TextInputElement/helpers';
 import { FormEntry, ValidationFailure } from './nodeEditor';
 
 type FormInput = string | string[] | number;
@@ -25,6 +26,15 @@ export const validateRequired: ValidatorFunc = (name: string, input: FormInput) 
     if (typeof input === 'string') {
         if ((input as string).trim().length === 0) {
             return [{ message: `${name} is required` }];
+        }
+    }
+    return [];
+};
+
+export const validateURL: ValidatorFunc = (name: string, input: FormInput) => {
+    if (typeof input === 'string') {
+        if (isValidURL(input as string)) {
+            return [{ message: `${name} is not a valid URL` }];
         }
     }
     return [];

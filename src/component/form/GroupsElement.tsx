@@ -30,7 +30,6 @@ export interface GroupsElementProps extends FormElementProps {
 
 interface GroupsElementState {
     groups: Asset[];
-    errors: string[];
 }
 
 export const createNewOption = composeCreateNewOption({
@@ -52,8 +51,7 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
         super(props);
 
         this.state = {
-            groups: this.props.groups || [],
-            errors: []
+            groups: this.props.groups || []
         };
 
         this.onChange = this.onChange.bind(this);
@@ -84,18 +82,6 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
         }
     }
 
-    public validate(): boolean {
-        const errors: string[] = [];
-
-        if (this.props.required && !this.state.groups.length) {
-            errors.push(`${this.props.name} is required.`);
-        }
-
-        this.setState({ errors });
-
-        return errors.length === 0;
-    }
-
     public render(): JSX.Element {
         const createOptions: any = {};
 
@@ -107,9 +93,9 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
         }
 
         return (
-            <FormElement name={this.props.name} errors={this.state.errors}>
+            <FormElement name={this.props.name}>
                 <SelectSearch
-                    __className={getSelectClass(this.state.errors.length)}
+                    __className={getSelectClass(0)}
                     onChange={this.onChange}
                     name={this.props.name}
                     resultType={ResultType.group}

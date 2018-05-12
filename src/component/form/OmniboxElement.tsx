@@ -74,25 +74,13 @@ export default class OmniboxElement extends React.Component<
         }
     }
 
-    public validate(): boolean {
-        const errors: string[] = [];
-
-        if (this.props.required && !this.state.selected.length) {
-            errors.push(`${this.props.name} is required.`);
-        }
-
-        this.setState({ errors });
-
-        return errors.length === 0;
-    }
-
     public render(): JSX.Element {
         const createOptions: any = {};
         const className = getSelectClass(this.state.errors.length);
         const eleClass = this.props.className || '';
 
         return (
-            <FormElement name={this.props.name} errors={this.state.errors} __className={eleClass}>
+            <FormElement name={this.props.name} __className={eleClass}>
                 <SelectSearch
                     _className={className}
                     onChange={this.onChange}

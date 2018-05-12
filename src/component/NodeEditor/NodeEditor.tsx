@@ -541,7 +541,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                     ref={this.onBindWidget}
                     name="Result Name"
                     showLabel={true}
-                    value={this.props.resultName}
+                    entry={{ value: this.props.resultName }}
                     onChange={this.onResultNameChange}
                     helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
                 />
@@ -701,7 +701,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                                     name={exitUUID}
                                     placeholder={placeholder}
                                     showLabel={false}
-                                    value={value}
+                                    entry={{ value }}
                                 />
                             </div>
                         </div>
@@ -729,55 +729,17 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 
     public submit(): boolean {
-        if (!this.props.form.valid) {
+        if (this.props.form && !this.props.form.valid) {
             return false;
         }
 
-        const invalid: any[] = Object.keys(this.widgets).reduce((invalidList, key) => {
-            const widget = this.widgets[key];
+        this.form.wrappedInstance
+            ? this.form.wrappedInstance.onValid(this.widgets)
+            : this.form.onValid(this.widgets);
 
-            if (widget.wrappedInstance) {
-                if (!widget.wrappedInstance.validate()) {
-                    invalidList.push(widget);
-                }
-            } else {
-                if (!widget.validate()) {
-                    invalidList.push(widget);
-                }
-            }
+        this.props.resetNodeEditingState();
 
-            return invalidList;
-        }, []);
-
-        // If all form inputs are valid, submit it
-        if (!invalid.length) {
-            this.form.wrappedInstance
-                ? this.form.wrappedInstance.onValid(this.widgets)
-                : this.form.onValid(this.widgets);
-
-            this.props.resetNodeEditingState();
-
-            return true;
-        } else {
-            let frontError = false;
-
-            for (const widget of invalid) {
-                if (!this.advancedWidgets[widget.props.name]) {
-                    frontError = true;
-                    break;
-                }
-            }
-
-            // Show the right pane for the error
-            if (
-                (frontError && this.modal.state.flipped) ||
-                (!frontError && !this.modal.state.flipped)
-            ) {
-                this.toggleAdvanced();
-            }
-        }
-
-        return false;
+        return true;
     }
 
     public close(canceled: boolean): void {

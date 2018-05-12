@@ -1,9 +1,7 @@
 import * as React from 'react';
 import Select from 'react-select';
-import FormElement, { FormElementProps } from './FormElement';
-import { getSelectClass } from '../../utils';
 
-import * as styles from './FormElement.scss';
+import FormElement, { FormElementProps } from './FormElement';
 
 interface SelectElementProps extends FormElementProps {
     onChange(value: any): void;
@@ -14,7 +12,6 @@ interface SelectElementProps extends FormElementProps {
 
 interface SelectElementState {
     value: any;
-    errors: string[];
 }
 
 export default class SelectElement extends React.Component<SelectElementProps, SelectElementState> {
@@ -22,8 +19,7 @@ export default class SelectElement extends React.Component<SelectElementProps, S
         super(props);
 
         this.state = {
-            value: this.props.defaultValue,
-            errors: []
+            value: this.props.defaultValue
         };
 
         this.onChange = this.onChange.bind(this);
@@ -42,26 +38,9 @@ export default class SelectElement extends React.Component<SelectElementProps, S
         );
     }
 
-    validate(): boolean {
-        const errors: string[] = [];
-
-        if (this.props.required) {
-            if (!this.state.value || this.state.value.length === 0) {
-                errors.push(`${this.props.name} is required`);
-            }
-        }
-
-        this.setState({ errors });
-
-        return errors.length === 0;
-    }
-
-    render() {
+    public render() {
         return (
-            <FormElement
-                name={this.props.name}
-                required={this.props.required}
-                errors={this.state.errors}>
+            <FormElement name={this.props.name}>
                 <Select
                     name={this.props.name}
                     value={this.state.value}

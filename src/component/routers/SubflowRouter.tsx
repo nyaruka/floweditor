@@ -2,12 +2,13 @@
 // tslint:disable:ban-types
 import * as React from 'react';
 import { connect } from 'react-redux';
+
 import { ConfigProviderContext } from '../../config';
+import { fakePropType } from '../../config/ConfigProvider';
 import { StartFlow } from '../../flowTypes';
 import { AppState } from '../../store';
 import FlowElement from '../form/FlowElement';
 import { SaveLocalizations } from '../NodeEditor/NodeEditor';
-import { fakePropType } from '../../config/ConfigProvider';
 
 export interface SubflowRouterStoreProps {
     translating: boolean;
@@ -55,7 +56,7 @@ export class SubflowRouter extends React.PureComponent<SubflowRouterProps> {
                     name="Flow"
                     assets={this.context.assetService.getFlowAssets()}
                     flow={this.props.action.flow}
-                    required={true}
+                    // required={true}
                 />
             </div>
         );

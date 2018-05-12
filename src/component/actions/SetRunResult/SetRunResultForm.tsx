@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+
 import { Type } from '../../../config';
 import { SetRunResult } from '../../../flowTypes';
 import { AppState } from '../../../store';
@@ -50,8 +51,8 @@ export class SetRunResultForm extends React.PureComponent<SetRunResultFormProps>
                     ref={this.props.onBindWidget}
                     name="Name"
                     showLabel={true}
-                    value={this.props.action.name}
-                    required={true}
+                    entry={{ value: this.props.action.name }}
+                    // required={true}
                     helpText="The name of the result, used to reference later, for example: @run.results.my_result_name"
                 />
                 <TextInputElement
@@ -59,7 +60,7 @@ export class SetRunResultForm extends React.PureComponent<SetRunResultFormProps>
                     ref={this.props.onBindWidget}
                     name="Value"
                     showLabel={true}
-                    value={this.props.action.value}
+                    entry={{ value: this.props.action.value }}
                     autocomplete={true}
                     helpText="The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))"
                 />
@@ -69,7 +70,7 @@ export class SetRunResultForm extends React.PureComponent<SetRunResultFormProps>
                     name="Category"
                     placeholder="Optional"
                     showLabel={true}
-                    value={this.props.action.category}
+                    entry={{ value: this.props.action.category }}
                     autocomplete={true}
                     helpText="An optional category for your result. For age, the value might be 17, but the category might be 'Young Adult'"
                 />

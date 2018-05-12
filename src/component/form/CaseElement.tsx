@@ -415,7 +415,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                         <TextInputElement
                             name="arguments"
                             onChange={this.onChangeMin}
-                            value={minVal}
+                            entry={{ value: minVal }}
                             focus={this.props.focusMin}
                             showInvalid={hasErrorType(this.state.errors, [
                                 /Minimum value must/,
@@ -429,7 +429,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                         <TextInputElement
                             name="arguments"
                             onChange={this.onChangeMax}
-                            value={maxVal}
+                            entry={{ value: maxVal }}
                             focus={this.props.focusMax}
                             showInvalid={hasErrorType(this.state.errors, [
                                 /Maximum value must/,
@@ -445,7 +445,9 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                         data-spec="args-input"
                         name="arguments"
                         onChange={this.onChangeArgument}
-                        value={this.state.arguments.length ? this.state.arguments[0] : ''}
+                        entry={{
+                            value: this.state.arguments.length ? this.state.arguments[0] : ''
+                        }}
                         focus={this.props.focusArgs}
                         autocomplete={true}
                         showInvalid={hasErrorType(this.state.errors, [
@@ -486,7 +488,6 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             <FormElement
                 data-spec="case-form"
                 name={this.props.name}
-                errors={this.state.errors}
                 __className={styles.group}
                 kaseError={this.state.errors.length > 0}
             >
@@ -522,7 +523,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                             data-spec="exit-input"
                             name="exitName"
                             onChange={this.onChangeExitName}
-                            value={this.state.exitName}
+                            entry={{ value: this.state.exitName }}
                             focus={this.props.focusExit}
                             showInvalid={hasErrorType(this.state.errors, [/category/])}
                         />

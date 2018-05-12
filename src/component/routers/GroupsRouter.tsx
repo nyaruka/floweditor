@@ -2,19 +2,19 @@
 // tslint:disable:ban-types
 import * as React from 'react';
 import { connect } from 'react-redux';
-// import { endpointsPT } from '../../config';
-import { FlowNode, SwitchRouter, WaitTypes, Case } from '../../flowTypes';
+
+import { fakePropType } from '../../config/ConfigProvider';
+import { Operators } from '../../config/operatorConfigs';
+import { Case, FlowNode, SwitchRouter } from '../../flowTypes';
+import { Asset, AssetType } from '../../services/AssetService';
 import { AppState } from '../../store';
 import GroupsElement, { GroupsElementProps } from '../form/GroupsElement';
 import { GetResultNameField } from '../NodeEditor';
-import { hasSwitchRouter, hasWait, SaveLocalizations } from '../NodeEditor/NodeEditor';
+import { hasSwitchRouter, SaveLocalizations } from '../NodeEditor/NodeEditor';
 import { GROUP_LABEL } from './constants';
 import * as styles from './SwitchRouter.scss';
-import { fakePropType } from '../../config/ConfigProvider';
-import { Asset, AssetType } from '../../services/AssetService';
-import { Types } from '../../config/typeConfigs';
-import { Operators } from '../../config/operatorConfigs';
 
+// import { endpointsPT } from '../../config';
 export interface GroupsRouterStoreProps {
     translating: boolean;
     nodeToEdit: FlowNode;
@@ -88,7 +88,7 @@ export class GroupsRouter extends React.Component<GroupsRouterProps> {
                         name="Groups"
                         assets={this.context.assetService.getGroupAssets()}
                         add={false}
-                        required={true}
+                        // required={true}
                         {...groupProps}
                     />
                 </div>

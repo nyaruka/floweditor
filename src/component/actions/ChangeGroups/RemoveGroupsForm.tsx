@@ -108,7 +108,6 @@ export default class RemoveGroupsForm extends React.Component<
                     assets={this.context.assetService.getGroupAssets()}
                     groups={this.state.groups}
                     add={false}
-                    required={true}
                     onChange={this.onGroupsChanged}
                 />
             );

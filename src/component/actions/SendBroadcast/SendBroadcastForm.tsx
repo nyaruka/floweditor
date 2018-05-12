@@ -125,7 +125,7 @@ export class SendBroadcastForm extends React.Component<
                     assets={this.context.assetService.getRecipients()}
                     selected={this.props.form.recipients}
                     add={true}
-                    required={true}
+                    // required={true}
                     onChange={this.handleRecipientsChanged}
                 />
             );
@@ -140,12 +140,12 @@ export class SendBroadcastForm extends React.Component<
                     name="Message"
                     showLabel={false}
                     count={Count.SMS}
-                    value={text}
+                    entry={{ value: text }}
                     placeholder={placeholder}
                     autocomplete={true}
                     onChange={this.handleMessageUpdate}
                     focus={true}
-                    required={!this.props.translating}
+                    // required={!this.props.translating}
                     textarea={true}
                 />
             </div>

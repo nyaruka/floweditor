@@ -61,7 +61,6 @@ export default class AddGroupsForm extends React.Component<ChangeGroupsFormProps
                     assets={this.context.assetService.getGroupAssets()}
                     groups={this.getGroups()}
                     add={true}
-                    required={true}
                 />
             </>
         );

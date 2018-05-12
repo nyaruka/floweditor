@@ -68,25 +68,25 @@ export class SendEmailForm extends React.Component<SendEmailFormProps> {
                     onCheckValid={this.handleCheckValid}
                     onValidPrompt={this.handleValidPrompt}
                     entry={{ value: this.props.action.addresses || [] }}
-                    required={true}
+                    // required={true}
                 />
                 <TextInputElement
                     __className={styles.subject}
                     ref={this.props.onBindWidget}
                     name="Subject"
                     placeholder="Subject"
-                    value={this.props.action.subject}
+                    entry={{ value: this.props.action.subject }}
                     autocomplete={true}
-                    required={true}
+                    // required={true}
                 />
                 <TextInputElement
                     __className={styles.message}
                     ref={this.props.onBindWidget}
                     name="Message"
                     showLabel={false}
-                    value={this.props.action.body}
+                    entry={{ value: this.props.action.body }}
                     autocomplete={true}
-                    required={true}
+                    // required={true}
                     textarea={true}
                 />
             </div>

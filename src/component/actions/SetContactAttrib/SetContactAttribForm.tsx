@@ -101,14 +101,14 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
                     assets={this.context.assetService.getFieldAssets()}
                     helpText={ATTRIB_HELP_TEXT}
                     add={true}
-                    required={true}
+                    // required={true}
                     onChange={this.handleAttribChange}
                 />
                 <ConnectedTextInputElement
                     ref={this.props.onBindWidget}
                     name="Value"
                     showLabel={true}
-                    value={this.getValue()}
+                    entry={{ value: this.getValue() }}
                     helpText={TEXT_INPUT_HELP_TEXT}
                     autocomplete={true}
                     onChange={this.handleValueChange}

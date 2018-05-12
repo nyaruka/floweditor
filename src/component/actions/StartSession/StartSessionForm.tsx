@@ -69,7 +69,7 @@ export class StartSessionForm extends React.Component<
                     assets={this.context.assetService.getRecipients()}
                     selected={this.props.form.recipients}
                     add={true}
-                    required={true}
+                    // required={true}
                     onChange={this.handleRecipientsChanged}
                 />
                 <p>Select a flow to run</p>
@@ -79,7 +79,7 @@ export class StartSessionForm extends React.Component<
                     onChange={this.handleFlowChanged}
                     assets={this.context.assetService.getFlowAssets()}
                     flow={this.props.action.flow}
-                    required={true}
+                    // required={true}
                 />
             </div>
         );

@@ -25,7 +25,7 @@ import {
     KEY_TAB,
     KEY_UP
 } from './constants';
-import { filterOptions, getMsgStats, getOptionsList, isValidURL, UnicodeCharMap } from './helpers';
+import { filterOptions, getMsgStats, getOptionsList, UnicodeCharMap } from './helpers';
 import * as styles from './TextInputElement.scss';
 
 export enum Count {
@@ -50,11 +50,9 @@ export interface TextInputStoreProps {
 }
 
 export interface TextInputPassedProps extends FormElementProps {
-    value?: string;
     entry?: StringEntry;
     __className?: string;
     count?: Count;
-    url?: boolean;
     textarea?: boolean;
     placeholder?: string;
     autocomplete?: boolean;
@@ -68,7 +66,6 @@ export type TextInputProps = TextInputStoreProps & TextInputPassedProps;
 
 export interface TextInputState {
     value: string;
-    errors: string[];
     caretOffset: number;
     caretCoordinates: Coordinates;
     completionVisible: boolean;
@@ -85,7 +82,6 @@ type InitialState = Pick<
     TextInputState,
     | 'caretOffset'
     | 'caretCoordinates'
-    | 'errors'
     | 'completionVisible'
     | 'selectedOptionIndex'
     | 'matches'
@@ -95,7 +91,6 @@ type InitialState = Pick<
 const initialState: InitialState = {
     caretOffset: 0,
     caretCoordinates: { left: 0, top: 0 },
-    errors: [],
     completionVisible: false,
     selectedOptionIndex: 0,
     matches: [],
@@ -112,11 +107,11 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         super(props);
 
         this.state = {
-            value: this.props.value,
+            value: this.props.entry.value,
             options: getOptionsList(this.props.autocomplete, this.props.resultNames || []),
             ...initialState,
             ...(this.props.count && this.props.count === Count.SMS
-                ? getMsgStats(this.props.value)
+                ? getMsgStats(this.props.entry.value)
                 : {})
         };
 
@@ -134,8 +129,8 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     }
 
     public componentWillReceiveProps(nextProps: TextInputProps): void {
-        if (nextProps.value !== this.props.value) {
-            this.setState({ value: nextProps.value });
+        if (nextProps.entry.value !== this.props.entry.value) {
+            this.setState({ value: nextProps.entry.value });
         }
     }
 
@@ -344,29 +339,6 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         }
     }
 
-    public validate(): boolean {
-        const errors: string[] = [];
-
-        if (this.props.required) {
-            if (!this.state.value) {
-                errors.push(`${this.props.name} is required`);
-            }
-        }
-
-        this.setState({ errors });
-
-        // See if it should be a valid url
-        if (errors.length === 0) {
-            if (this.props.url) {
-                if (!isValidURL(this.state.value)) {
-                    errors.push('Enter a valid URL');
-                }
-            }
-        }
-
-        return errors.length === 0;
-    }
-
     private focusInput(): void {
         const { value: { length } } = this.textEl;
         this.textEl.focus();
@@ -422,10 +394,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
     private hasErrors(): boolean {
         return (
-            (this.state.errors && this.state.errors.length > 0) ||
-            (this.props.entry &&
-                this.props.entry.validationFailures &&
-                this.props.entry.validationFailures.length > 0)
+            this.props.entry.validationFailures && this.props.entry.validationFailures.length > 0
         );
     }
 
@@ -469,7 +438,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                 name={this.props.name}
                 helpText={this.props.helpText}
                 showLabel={this.props.showLabel}
-                errors={this.state.errors}
+                // errors={this.state.errors}
                 entry={this.props.entry}
                 sendMsgError={sendMsgError}
             >

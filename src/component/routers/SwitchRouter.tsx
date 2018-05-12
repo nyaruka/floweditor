@@ -461,7 +461,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
                                         name={kase.uuid}
                                         placeholder={`${this.props.language.name} Translation`}
                                         showLabel={false}
-                                        value={value}
+                                        entry={{ value }}
                                     />
                                 </div>
                             </div>
@@ -488,10 +488,10 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
                         key={this.props.nodeToEdit.uuid}
                         name="Expression"
                         showLabel={false}
-                        value={this.props.operand}
+                        entry={{ value: this.props.operand }}
                         onChange={this.props.onExpressionChanged}
                         autocomplete={true}
-                        required={true}
+                        // required={true}
                     />
                 </>
             );

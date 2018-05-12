@@ -5,7 +5,7 @@ const taggingElementProps: TaggingElementProps = {
     entry: { value: ['Red', 'Green', 'Blue'] },
     prompt: 'Enter a Color',
     name: 'Color',
-    required: true,
+    // required: true,
     onValidPrompt: jest.fn(),
     onCheckValid: jest.fn()
 };
