@@ -30,7 +30,7 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
     }
 
     private getHelpText(): JSX.Element {
-        return renderIf(this.props.helpText && !this.props.entry.validationFailures.length)(
+        return renderIf(this.props.helpText && !this.hasErrors())(
             <div className={styles.helpText}>{this.props.helpText} </div>
         );
     }
@@ -44,7 +44,7 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
     }
 
     private getErrors(): JSX.Element {
-        if (this.props.entry && this.props.entry.validationFailures) {
+        if (this.hasErrors()) {
             const errors = this.props.entry.validationFailures.map((failure, idx) => {
                 const className = cx({
                     [styles.error]: true,

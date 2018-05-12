@@ -23,7 +23,6 @@ export interface OmniboxElementProps extends FormElementProps {
 
 interface OmniboxElementState {
     selected: Asset[];
-    errors: string[];
 }
 
 export const PLACEHOLDER = 'Enter a group or contact...';
@@ -42,8 +41,7 @@ export default class OmniboxElement extends React.Component<
         super(props);
 
         this.state = {
-            selected: this.props.selected,
-            errors: []
+            selected: this.props.selected
         };
 
         this.onChange = this.onChange.bind(this);
@@ -76,7 +74,7 @@ export default class OmniboxElement extends React.Component<
 
     public render(): JSX.Element {
         const createOptions: any = {};
-        const className = getSelectClass(this.state.errors.length);
+        const className = getSelectClass(0);
         const eleClass = this.props.className || '';
 
         return (

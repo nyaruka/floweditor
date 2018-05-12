@@ -16,7 +16,7 @@ import {
     SetContactNameFormState
 } from '../../../store/nodeEditor';
 import ConnectedAttribElement from '../../form/AttribElement';
-import ConnectedTextInputElement, { HTMLTextElement } from '../../form/TextInputElement';
+import ConnectedTextInputElement from '../../form/TextInputElement';
 import { SetContactAttribFormHelper } from './SetContactAttribFormHelper';
 
 export interface SetContactAttribFormPassedProps {
@@ -76,9 +76,7 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         this.props.updateSetContactAttribForm(attribute);
     }
 
-    public handleValueChange({
-        currentTarget: { value }
-    }: React.ChangeEvent<HTMLTextElement>): void {
+    public handleValueChange(value: string): void {
         this.props.updateSetContactAttribForm(null, value);
     }
 

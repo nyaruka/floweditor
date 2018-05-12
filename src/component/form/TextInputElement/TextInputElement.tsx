@@ -58,7 +58,7 @@ export interface TextInputPassedProps extends FormElementProps {
     autocomplete?: boolean;
     focus?: boolean;
     showInvalid?: boolean;
-    onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
+    onChange?(value: string): void;
     onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
 }
 
@@ -116,7 +116,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         };
 
         bindCallbacks(this, {
-            include: [/^on/, /Ref$/, 'setSelection', 'validate', /^has/]
+            include: [/^on/, /Ref$/, 'setSelection', 'validate', /^has/, /^handle/]
         });
     }
 
@@ -282,7 +282,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         );
     }
 
-    private onChange(event: React.ChangeEvent<HTMLTextElement>): void {
+    private handleChange(event: React.ChangeEvent<HTMLTextElement>): void {
         const { currentTarget: { value, selectionStart } } = event;
 
         const updates: Partial<TextInputState> = {
@@ -317,7 +317,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         this.setState(updates as TextInputState);
 
         if (this.props.onChange) {
-            this.props.onChange(event);
+            this.props.onChange(event.currentTarget.value);
         }
     }
 
@@ -449,7 +449,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                         type={inputType}
                         className={textElClasses}
                         value={text}
-                        onChange={this.onChange}
+                        onChange={this.handleChange}
                         onBlur={this.onBlur}
                         onKeyDown={this.onKeyDown}
                         placeholder={this.props.placeholder}

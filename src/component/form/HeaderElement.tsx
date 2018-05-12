@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 
 import { renderIf } from '../../utils';
-import ConnectedTextInputElement, { HTMLTextElement } from '../form/TextInputElement';
+import ConnectedTextInputElement from '../form/TextInputElement';
 import * as styles from '../routers/Webhook.scss';
 import FormElement from './FormElement';
 
@@ -48,30 +48,16 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
         };
 
         bindCallbacks(this, {
-            include: [/^on/]
+            include: [/^on/, /^handle/]
         });
     }
 
-    private onChangeName({
-        currentTarget: { value }
-    }: React.SyntheticEvent<HTMLTextElement>): void {
-        this.setState(
-            {
-                name: value
-            },
-            () => this.props.onChange(this)
-        );
+    private handleChangeName(name: string): void {
+        this.setState({ name }, () => this.props.onChange(this));
     }
 
-    private onChangeValue({
-        currentTarget: { value }
-    }: React.SyntheticEvent<HTMLTextElement>): void {
-        this.setState(
-            {
-                value
-            },
-            () => this.props.onChange(this)
-        );
+    private handleChangeValue(value: string): void {
+        this.setState({ value }, () => this.props.onChange(this));
     }
 
     private onRemove(): void {
@@ -114,7 +100,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
                         <ConnectedTextInputElement
                             placeholder={NAME_PLACEHOLDER}
                             name="name"
-                            onChange={this.onChangeName}
+                            onChange={this.handleChangeName}
                             entry={{ value: this.state.name }}
                             showInvalid={hasHeaderError}
                         />
@@ -123,7 +109,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
                         <ConnectedTextInputElement
                             placeholder={VALUE_PLACEHOLDER}
                             name="value"
-                            onChange={this.onChangeValue}
+                            onChange={this.handleChangeValue}
                             entry={{ value: this.state.value }}
                             autocomplete={true}
                         />

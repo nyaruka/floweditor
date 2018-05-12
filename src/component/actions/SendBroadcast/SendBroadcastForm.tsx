@@ -13,7 +13,7 @@ import { SendBroadcastFunc, updateSendBroadcastForm } from '../../../store/forms
 import { SendBroadcastFormState } from '../../../store/nodeEditor';
 import * as styles from '../../actions/Action/Action.scss';
 import OmniboxElement from '../../form/OmniboxElement';
-import TextInputElement, { Count, HTMLTextElement } from '../../form/TextInputElement';
+import TextInputElement, { Count } from '../../form/TextInputElement';
 import { Language } from '../../LanguageSelector';
 import { UpdateLocalizations } from '../../NodeEditor';
 import * as broadcastStyles from './SendBroadcast.scss';
@@ -83,11 +83,11 @@ export class SendBroadcastForm extends React.Component<
         this.props.updateSendBroadcastForm({ recipients: selected });
     }
 
-    public handleMessageUpdate(event: React.ChangeEvent<HTMLTextElement>): void {
+    public handleMessageUpdate(value: string): void {
         if (this.props.translating) {
-            this.props.updateSendBroadcastForm({ translatedText: event.currentTarget.value });
+            this.props.updateSendBroadcastForm({ translatedText: value });
         } else {
-            this.props.updateSendBroadcastForm({ text: event.currentTarget.value });
+            this.props.updateSendBroadcastForm({ text: value });
         }
     }
 

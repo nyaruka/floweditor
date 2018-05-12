@@ -13,7 +13,7 @@ import { validate, validateMaxOfTen, validateRequired } from '../../../store/val
 import * as styles from '../../actions/Action/Action.scss';
 import CheckboxElement from '../../form/CheckboxElement';
 import TaggingElement from '../../form/TaggingElement/TaggingElement';
-import TextInputElement, { Count, HTMLTextElement } from '../../form/TextInputElement';
+import TextInputElement, { Count } from '../../form/TextInputElement';
 import { Language } from '../../LanguageSelector';
 import { UpdateLocalizations } from '../../NodeEditor';
 import { SendMsgFormHelper } from './SendMsgFormHelper';
@@ -105,15 +105,13 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
                     placeholder={placeholder}
                     autocomplete={true}
                     focus={true}
-                    // required={!this.props.translating}
                     textarea={true}
                 />
             </div>
         );
     }
 
-    public handleUpdateMessage(event: React.ChangeEvent<HTMLTextElement>): void {
-        const value = event.currentTarget.value;
+    public handleUpdateMessage(value: string): void {
         this.props.updateSendMsgForm({
             text: validate('Message', value, [validateRequired])
         });
@@ -153,7 +151,6 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
                         onCheckValid={this.handleCheckValidReply}
                         onValidPrompt={this.handleValidReplyPrompt}
                         entry={{ value: translatedQR }}
-                        // required={false}
                     />
                 </>
             );
@@ -170,7 +167,6 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
                     onCheckValid={this.handleCheckValidReply}
                     onValidPrompt={this.handleValidReplyPrompt}
                     entry={this.props.form.quickReplies}
-                    // required={false}
                 />
                 <CheckboxElement
                     name="All Destinations"
