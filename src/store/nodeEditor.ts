@@ -51,9 +51,8 @@ export interface FormState {
 }
 
 export interface SendBroadcastFormState extends FormState {
-    text: string;
-    recipients: Asset[];
-    translatedText: string;
+    text: StringEntry;
+    recipients: AssetArrayEntry;
 }
 
 export interface SendMsgFormState extends FormState {

@@ -10,7 +10,8 @@ import { Asset } from '../../../services/AssetService';
 import Localization, { LocalizedObject } from '../../../services/Localization';
 import { AppState, DispatchWithState } from '../../../store';
 import { SendBroadcastFunc, updateSendBroadcastForm } from '../../../store/forms';
-import { SendBroadcastFormState } from '../../../store/nodeEditor';
+import { FormEntry, SendBroadcastFormState } from '../../../store/nodeEditor';
+import { validate, validateRequired } from '../../../store/validators';
 import * as styles from '../../actions/Action/Action.scss';
 import OmniboxElement from '../../form/OmniboxElement';
 import TextInputElement, { Count } from '../../form/TextInputElement';
@@ -59,7 +60,7 @@ export class SendBroadcastForm extends React.Component<
     public onValid(): void {
         // TODO: might be nice to generalize translatable forms into helpers?
         if (this.props.translating) {
-            const translation = this.props.form.translatedText;
+            const translation = this.props.form.text.value;
 
             if (translation) {
                 this.props.updateLocalizations(this.props.language.iso, [
@@ -80,22 +81,26 @@ export class SendBroadcastForm extends React.Component<
     }
 
     public handleRecipientsChanged(selected: Asset[]): void {
-        this.props.updateSendBroadcastForm({ recipients: selected });
+        this.props.updateSendBroadcastForm({
+            recipients: validate('Recipients', selected, [validateRequired])
+        });
     }
 
     public handleMessageUpdate(value: string): void {
-        if (this.props.translating) {
-            this.props.updateSendBroadcastForm({ translatedText: value });
-        } else {
-            this.props.updateSendBroadcastForm({ text: value });
+        const validators = [];
+        if (!this.props.translating) {
+            validators.push(validateRequired);
         }
+
+        this.props.updateSendBroadcastForm({ text: validate('Message', value, validators) });
     }
 
     public render(): JSX.Element {
-        let text = '';
         let placeholder = '';
         let translation = null;
         let recipients = null;
+
+        const message: FormEntry = this.props.form.text;
 
         if (this.props.translating) {
             const { text: textToTrans } = this.props.form;
@@ -111,11 +116,9 @@ export class SendBroadcastForm extends React.Component<
             placeholder = `${this.props.language.name} Translation`;
 
             if (this.props.localizations[0].isLocalized()) {
-                ({ text } = this.props.localizations[0].getObject() as BroadcastMsg);
+                message.value = (this.props.localizations[0].getObject() as BroadcastMsg).text;
             }
         } else {
-            ({ text } = this.props.form);
-
             recipients = (
                 <OmniboxElement
                     data-spec="recipients"
@@ -123,9 +126,8 @@ export class SendBroadcastForm extends React.Component<
                     className={broadcastStyles.recipients}
                     name="Recipients"
                     assets={this.context.assetService.getRecipients()}
-                    // selected={this.props.form.recipients}
+                    entry={this.props.form.recipients}
                     add={true}
-                    // required={true}
                     onChange={this.handleRecipientsChanged}
                 />
             );
@@ -140,12 +142,11 @@ export class SendBroadcastForm extends React.Component<
                     name="Message"
                     showLabel={false}
                     count={Count.SMS}
-                    entry={{ value: text }}
+                    entry={message}
                     placeholder={placeholder}
                     autocomplete={true}
                     onChange={this.handleMessageUpdate}
                     focus={true}
-                    // required={!this.props.translating}
                     textarea={true}
                 />
             </div>
