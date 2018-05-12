@@ -87,7 +87,6 @@ describe('form thunks', () => {
             expect(store).toHavePayload(Constants.UPDATE_FORM, {
                 form: newFormState
             });
-
         });
     });
 });

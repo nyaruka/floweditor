@@ -6,8 +6,8 @@ import { Types } from '../../config/typeConfigs';
 import { FlowDefinition, FlowNode, SwitchRouter } from '../../flowTypes';
 import { getFlowComponents } from '../../store/helpers';
 import { composeComponentTestUtils, setMock } from '../../testUtils';
-import { NodeEditor, NodeEditorProps } from './NodeEditor';
 import { casePropsFromNode } from '../routers/SwitchRouter';
+import { NodeEditor, NodeEditorProps } from './NodeEditor';
 
 jest.mock('uuid', () => ({
     v4: jest.fn()
@@ -36,7 +36,7 @@ const baseProps: NodeEditorProps = {
     nodes: getFlowComponents(colorsFlow).renderNodeMap,
     updateResultName: jest.fn(),
     updateOperand: jest.fn(),
-    updateTypeConfig: jest.fn(),
+    handleTypeConfigChange: jest.fn(),
     resetNodeEditingState: jest.fn(),
     updateNodeEditorOpen: jest.fn(),
     onUpdateLocalizations: jest.fn(),
@@ -45,7 +45,8 @@ const baseProps: NodeEditorProps = {
     updateUserAddingAction: jest.fn(),
     updateShowResultName: jest.fn(),
     plumberConnectExit: jest.fn(),
-    plumberRepaintForDuration: jest.fn()
+    plumberRepaintForDuration: jest.fn(),
+    settings: { showAdvanced: false }
 };
 
 const { setup, spyOn } = composeComponentTestUtils(NodeEditor, baseProps);

@@ -2,7 +2,10 @@ import { getTypeConfig } from '../../config';
 import { Types } from '../../config/typeConfigs';
 import { Asset, AssetType } from '../../services/AssetService';
 import { composeComponentTestUtils, configProviderContext, setMock } from '../../testUtils';
-import { createSetContactFieldAction, createSetContactNameAction } from '../../testUtils/assetCreators';
+import {
+    createSetContactFieldAction,
+    createSetContactNameAction
+} from '../../testUtils/assetCreators';
 import { isOptionUnique, isValidNewOption } from '../../utils';
 import { fieldToAsset, propertyToAsset } from '../actions/SetContactAttrib/helpers';
 import { AttribElement, AttribElementProps, CREATE_PROMPT, createNewOption } from './AttribElement';

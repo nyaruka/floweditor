@@ -11,6 +11,7 @@ export interface TaggingElementProps extends FormElementProps {
     tags: string[];
     placeholder?: string;
     prompt: string;
+    onChange?: (values: string[]) => void;
     onValidPrompt: (value: string) => string;
     onCheckValid: (value: string) => boolean;
 }
@@ -22,6 +23,11 @@ interface TagState {
 
 export const tagsToOptions = (tags: string[]): TagList =>
     tags.map(tag => ({ label: tag, value: tag }));
+
+export const optionsToTags = (tags: TagList): string[] =>
+    tags.map(tag => {
+        return tag.label;
+    });
 
 export default class TaggingElement extends React.Component<TaggingElementProps, TagState> {
     constructor(props: any) {
@@ -57,6 +63,10 @@ export default class TaggingElement extends React.Component<TaggingElementProps,
         this.setState({
             tags
         });
+
+        if (this.props.onChange) {
+            this.props.onChange(optionsToTags(tags));
+        }
     }
 
     public handleValidPrompt(value: string): string {

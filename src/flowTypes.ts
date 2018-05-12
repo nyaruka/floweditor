@@ -161,6 +161,7 @@ export interface RecipientsAction extends Action {
 export interface SendMsg extends Action {
     text: string;
     all_urns?: boolean;
+    quick_replies?: string[];
 }
 
 export interface BroadcastMsg extends RecipientsAction {

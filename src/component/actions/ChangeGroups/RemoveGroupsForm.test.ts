@@ -57,7 +57,7 @@ describe(RemoveGroupsForm.name, () => {
                 removeWidget: setMock()
             });
 
-            instance.onCheck();
+            instance.handleUpdateRemoveAll(true);
 
             wrapper.update();
 
@@ -70,7 +70,7 @@ describe(RemoveGroupsForm.name, () => {
                 defaultValue: true,
                 description: REMOVE_FROM_ALL_DESC,
                 sibling: false,
-                onCheck: instance.onCheck
+                onChange: instance.handleUpdateRemoveAll
             });
         });
     });

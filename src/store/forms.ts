@@ -1,9 +1,11 @@
 import mutate from 'immutability-helper';
 
+import { DispatchWithState, GetState } from '.';
 import { Asset, AssetType } from '../services/AssetService';
 import {
     NodeEditorForm,
     SendBroadcastFormState,
+    SendMsgFormState,
     SetContactAttribFormState,
     StartSessionFormState,
     updateForm
@@ -77,4 +79,16 @@ export const updateStartSessionForm: StartSessionFunc = updated => (
     const updatedForm = mutateForm(form, updated);
     dispatch(updateForm(updatedForm));
     return updatedForm as StartSessionFormState;
+};
+
+export type SendMsgFunc = (updated: Partial<SendMsgFormState>) => Thunk<SendMsgFormState>;
+
+export const updateSendMsgForm: SendMsgFunc = (updated: Partial<SendMsgFormState>) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+): SendMsgFormState => {
+    const { nodeEditor: { form } } = getState();
+    const updatedForm = mutateForm(form, updated);
+    dispatch(updateForm(updatedForm));
+    return updatedForm as SendMsgFormState;
 };
