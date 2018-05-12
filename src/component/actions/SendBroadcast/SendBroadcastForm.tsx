@@ -34,7 +34,6 @@ export interface SendBroadcastFormPassedProps {
     formHelper: SendBroadcastFormHelper;
     updateAction(action: BroadcastMsg): void;
     updateLocalizations: UpdateLocalizations;
-    onBindWidget(ref: any): void;
 }
 
 export type SendBroadcastFormProps = SendBroadcastFormStoreProps & SendBroadcastFormPassedProps;
@@ -122,7 +121,6 @@ export class SendBroadcastForm extends React.Component<
             recipients = (
                 <OmniboxElement
                     data-spec="recipients"
-                    ref={this.props.onBindWidget}
                     className={broadcastStyles.recipients}
                     name="Recipients"
                     assets={this.context.assetService.getRecipients()}
@@ -138,7 +136,6 @@ export class SendBroadcastForm extends React.Component<
                 {translation}
                 {recipients}
                 <TextInputElement
-                    ref={this.props.onBindWidget}
                     name="Message"
                     showLabel={false}
                     count={Count.SMS}

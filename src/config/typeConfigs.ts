@@ -1,5 +1,6 @@
 import AddLabelsComp from '../component/actions/AddLabels/AddLabels';
 import AddLabelsForm from '../component/actions/AddLabels/AddLabelsForm';
+import { AddLabelsFormHelper } from '../component/actions/AddLabels/AddLabelsFormHelper';
 import CallWebhookComp from '../component/actions/CallWebhook/CallWebhook';
 import AddGroupsForm from '../component/actions/ChangeGroups/AddGroupsForm';
 import ChangeGroupsComp from '../component/actions/ChangeGroups/ChangeGroups';
@@ -140,6 +141,7 @@ export const typeConfigList: Type[] = [
         name: 'Add Labels',
         description: 'Label the incoming message',
         form: AddLabelsForm,
+        formHelper: new AddLabelsFormHelper(),
         component: AddLabelsComp,
         allows
     },

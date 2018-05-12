@@ -5,7 +5,7 @@ import { CreateOptions, ResultType } from '../../flowTypes';
 import { Asset, Assets, AssetType } from '../../services/AssetService';
 import {
     composeCreateNewOption,
-    getSelectClass,
+    getSelectClassForEntry,
     isOptionUnique,
     isValidNewOption,
     LabelIdCb
@@ -15,10 +15,10 @@ import FormElement, { FormElementProps } from './FormElement';
 
 export interface LabelsElementProps extends FormElementProps {
     assets: Assets;
-    labels?: Asset[];
     placeholder?: string;
     searchPromptText?: string;
     helpText?: string;
+    onChange: (groups: Asset[]) => void;
 }
 
 interface LabelsElementState {
@@ -47,18 +47,6 @@ export default class LabelsElement extends React.Component<LabelsElementProps, L
 
     constructor(props: any) {
         super(props);
-
-        this.state = {
-            labels: this.props.labels || []
-        };
-
-        this.onChange = this.onChange.bind(this);
-    }
-
-    private onChange(labels: Asset[]): void {
-        this.setState({
-            labels
-        });
     }
 
     public render(): JSX.Element {
@@ -74,16 +62,17 @@ export default class LabelsElement extends React.Component<LabelsElementProps, L
                 showLabel={this.props.showLabel}
                 name={this.props.name}
                 helpText={this.props.helpText}
+                entry={this.props.entry}
                 // attribError={this.state.errors.length > 0}
             >
                 <SelectSearch
-                    __className={getSelectClass(0)}
-                    onChange={this.onChange}
+                    __className={getSelectClassForEntry(this.props.entry)}
+                    onChange={this.props.onChange}
                     name={this.props.name}
                     resultType={ResultType.group}
                     assets={this.props.assets}
                     multi={true}
-                    initial={this.state.labels}
+                    initial={this.props.entry.value}
                     placeholder={this.props.placeholder}
                     searchPromptText={this.props.searchPromptText}
                     {...createOptions}

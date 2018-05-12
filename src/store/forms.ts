@@ -3,6 +3,7 @@ import mutate from 'immutability-helper';
 import { DispatchWithState, GetState } from '.';
 import { Asset, AssetType } from '../services/AssetService';
 import {
+    AddLabelsFormState,
     NodeEditorForm,
     SendBroadcastFormState,
     SendMsgFormState,
@@ -108,4 +109,16 @@ export const updateSendMsgForm: SendMsgFunc = (updated: Partial<SendMsgFormState
     const updatedForm = mutateForm(form, updated);
     dispatch(updateForm(updatedForm));
     return updatedForm as SendMsgFormState;
+};
+
+export type AddLabelsFunc = (updated: Partial<AddLabelsFormState>) => Thunk<AddLabelsFormState>;
+
+export const updateAddLabelsForm: AddLabelsFunc = (updated: Partial<AddLabelsFormState>) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+): AddLabelsFormState => {
+    const { nodeEditor: { form } } = getState();
+    const updatedForm = mutateForm(form, updated);
+    dispatch(updateForm(updatedForm));
+    return updatedForm as AddLabelsFormState;
 };
