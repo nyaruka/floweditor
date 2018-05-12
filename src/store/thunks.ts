@@ -457,7 +457,7 @@ export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction
     dispatch(updateTypeConfig(typeConfig));
     if (typeConfig.formHelper) {
         // tslint:disable-next-line:no-shadowed-variable
-        const action = actionToEdit.type === typeConfig.type ? actionToEdit : null;
+        const action = actionToEdit && actionToEdit.type === typeConfig.type ? actionToEdit : null;
         dispatch(updateForm(typeConfig.formHelper.actionToState(action, typeConfig.type)));
     }
 };

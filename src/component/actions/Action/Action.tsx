@@ -65,7 +65,8 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 
     public onClick(event: React.MouseEvent<HTMLDivElement>): void {
         const target = event.target as any;
-        const showAdvanced = target.attributes && target.attributes['data-advanced'];
+        const showAdvanced =
+            (target && target.attributes && target.attributes['data-advanced']) || false;
 
         if (!this.props.thisNodeDragging) {
             event.preventDefault();
@@ -81,7 +82,6 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 
     private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
-
         this.props.removeAction(this.props.node.uuid, this.props.action);
     }
 
