@@ -8,7 +8,6 @@ import FormElement, { FormElementProps } from '../FormElement';
 export type TagList = Array<{ label: string; value: string }>;
 
 export interface TaggingElementProps extends FormElementProps {
-    tags: string[];
     placeholder?: string;
     prompt: string;
     onChange?: (values: string[]) => void;
@@ -18,7 +17,6 @@ export interface TaggingElementProps extends FormElementProps {
 
 interface TagState {
     tags: TagList;
-    errors: string[];
 }
 
 export const tagsToOptions = (tags: string[]): TagList =>
@@ -33,30 +31,15 @@ export default class TaggingElement extends React.Component<TaggingElementProps,
     constructor(props: any) {
         super(props);
 
-        const tags = tagsToOptions(this.props.tags);
+        const tags = tagsToOptions(this.props.entry.value);
 
         this.state = {
-            tags,
-            errors: []
+            tags
         };
 
         bindCallbacks(this, {
             include: [/^handle/]
         });
-    }
-
-    public validate(): boolean {
-        const errors: string[] = [];
-
-        if (this.props.required) {
-            if (this.state.tags.length === 0) {
-                errors.push(`${this.props.name} is required`);
-            }
-        }
-
-        this.setState({ errors });
-
-        return errors.length === 0;
     }
 
     public handleUpdateTags(tags: TagList): void {
@@ -74,6 +57,9 @@ export default class TaggingElement extends React.Component<TaggingElementProps,
     }
 
     public handleCheckValid({ label }: { label: string }): boolean {
+        if (!label || label.trim().length === 0) {
+            return false;
+        }
         return this.props.onCheckValid(label);
     }
 
@@ -82,13 +68,15 @@ export default class TaggingElement extends React.Component<TaggingElementProps,
     }
 
     public render(): JSX.Element {
-        const className: string = getSelectClass(this.state.errors.length);
+        const className: string = getSelectClass(
+            (this.props.entry.validationFailures || []).length
+        );
 
         return (
             <FormElement
                 name={this.props.name}
                 required={this.props.required}
-                errors={this.state.errors}
+                entry={this.props.entry}
             >
                 <SelectCreatable
                     className={className}

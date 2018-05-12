@@ -44,7 +44,8 @@ describe(StartSessionForm.name, () => {
             expect(props.form).toEqual({
                 recipients: [],
                 flow: null,
-                type: Types.start_session
+                type: Types.start_session,
+                valid: false
             });
 
             expect(wrapper).toMatchSnapshot();

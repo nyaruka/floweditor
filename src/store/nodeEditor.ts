@@ -19,36 +19,54 @@ import ActionTypes, {
 } from './actionTypes';
 import Constants from './constants';
 
-export interface ActionState {
-    type: Types;
+export interface ValidationFailure {
+    message: string;
 }
 
-export interface SendBroadcastFormState extends ActionState {
+export interface FormEntry {
+    value: any;
+    validationFailures?: ValidationFailure[];
+}
+
+export interface StringEntry extends FormEntry {
+    value: string;
+}
+
+export interface StringArrayEntry extends FormEntry {
+    value: string[];
+}
+
+export interface FormState {
+    type: Types;
+    validationFailures?: ValidationFailure[];
+    valid: boolean;
+}
+
+export interface SendBroadcastFormState extends FormState {
     text: string;
     recipients: Asset[];
     translatedText: string;
 }
 
-export interface SendMsgFormState extends ActionState {
-    text: string;
-    translatedText: string;
+export interface SendMsgFormState extends FormState {
+    text: StringEntry;
+    quickReplies: StringArrayEntry;
     sendAll: boolean;
-    quickReplies: string[];
 }
 
-export interface SetContactFieldFormState extends ActionState {
+export interface SetContactFieldFormState extends FormState {
     field: Asset;
     value: string;
 }
 
-export interface SetContactNameFormState extends ActionState {
+export interface SetContactNameFormState extends FormState {
     name: Asset;
     value: string;
 }
 
 export type SetContactAttribFormState = SetContactFieldFormState | SetContactNameFormState;
 
-export interface StartSessionFormState extends ActionState {
+export interface StartSessionFormState extends FormState {
     recipients: Asset[];
     flow: Asset;
 }

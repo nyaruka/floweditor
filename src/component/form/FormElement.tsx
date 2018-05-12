@@ -1,7 +1,9 @@
 import * as classNames from 'classnames/bind';
 import * as React from 'react';
-import * as styles from './FormElement.scss';
+
+import { FormEntry } from '../../store/nodeEditor';
 import { renderIf } from '../../utils';
+import * as styles from './FormElement.scss';
 
 const cx = classNames.bind(styles);
 
@@ -9,6 +11,7 @@ export interface FormElementProps {
     name: string;
     helpText?: string;
     errors?: string[];
+    entry?: FormEntry;
     showLabel?: boolean;
     required?: boolean;
     __className?: string;
@@ -35,11 +38,7 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
     }
 
     private getErrors(): JSX.Element {
-        if (this.props.errors.length < 1) {
-            return null;
-        }
-
-        const errors: JSX.Element[] = this.props.errors.map((error, idx) => {
+        let errors: JSX.Element[] = (this.props.errors || []).map((error, idx) => {
             const className = cx({
                 [styles.error]: true,
                 [styles.sendMsgError]: this.props.sendMsgError === true,
@@ -53,6 +52,24 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
                 </div>
             );
         });
+
+        if (this.props.entry && this.props.entry.validationFailures) {
+            errors = errors.concat(
+                this.props.entry.validationFailures.map((failure, idx) => {
+                    const className = cx({
+                        [styles.error]: true,
+                        [styles.sendMsgError]: this.props.sendMsgError === true,
+                        [styles.kaseError]: this.props.kaseError === true,
+                        [styles.attribError]: this.props.attribError === true
+                    });
+                    return (
+                        <div key={idx} className={className}>
+                            {failure.message}
+                        </div>
+                    );
+                })
+            );
+        }
 
         return <div className={styles.error}>{errors}</div>;
     }

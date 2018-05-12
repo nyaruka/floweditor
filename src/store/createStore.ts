@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === 'development') {
     const logger = createLogger({
         duration: true
     });
-    middlewares.push(logger);
+    // middlewares.push(logger);
 }
 
 export default (state: AppState = initialState) => {

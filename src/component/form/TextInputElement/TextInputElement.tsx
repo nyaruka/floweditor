@@ -8,6 +8,7 @@ import getCaretCoordinates from 'textarea-caret';
 import { Type } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
 import { AppState, CompletionOption } from '../../../store';
+import { StringEntry } from '../../../store/nodeEditor';
 import FormElement, { FormElementProps } from '../FormElement';
 import * as shared from '../FormElement.scss';
 import CharCount from './CharCount';
@@ -49,7 +50,8 @@ export interface TextInputStoreProps {
 }
 
 export interface TextInputPassedProps extends FormElementProps {
-    value: string;
+    value?: string;
+    entry?: StringEntry;
     __className?: string;
     count?: Count;
     url?: boolean;
@@ -119,7 +121,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         };
 
         bindCallbacks(this, {
-            include: [/^on/, /Ref$/, 'setSelection', 'validate']
+            include: [/^on/, /Ref$/, 'setSelection', 'validate', /^has/]
         });
     }
 
@@ -418,10 +420,19 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         });
     }
 
+    private hasErrors(): boolean {
+        return (
+            (this.state.errors && this.state.errors.length > 0) ||
+            (this.props.entry &&
+                this.props.entry.validationFailures &&
+                this.props.entry.validationFailures.length > 0)
+        );
+    }
+
     public render(): JSX.Element {
         const textElClasses = cx({
             [styles.textinput]: true,
-            [shared.invalid]: this.state.errors.length > 0 || this.props.showInvalid === true
+            [shared.invalid]: this.hasErrors() || this.props.showInvalid === true
         });
         const completionClasses = cx({
             [styles.completion_container]: true,
@@ -438,7 +449,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             ) : null;
 
         const sendMsgError =
-            this.state.errors.length > 0 &&
+            this.hasErrors() &&
             this.props.name === 'Message' &&
             (this.props.typeConfig.type === Types.send_msg ||
                 this.props.typeConfig.type === Types.send_broadcast);
@@ -446,6 +457,12 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         // Make sure we're rendering the right text element
         const TextElement = this.props.textarea ? 'textarea' : ('input' as string);
         const inputType = this.props.textarea ? undefined : 'text';
+
+        let text = this.state.value;
+        if (this.props.entry) {
+            text = this.props.entry.value;
+        }
+
         return (
             <FormElement
                 __className={this.props.__className}
@@ -453,6 +470,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                 helpText={this.props.helpText}
                 showLabel={this.props.showLabel}
                 errors={this.state.errors}
+                entry={this.props.entry}
                 sendMsgError={sendMsgError}
             >
                 <div className={styles.wrapper}>
@@ -461,7 +479,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                         ref={this.textElRef}
                         type={inputType}
                         className={textElClasses}
-                        value={this.state.value}
+                        value={text}
                         onChange={this.onChange}
                         onBlur={this.onBlur}
                         onKeyDown={this.onKeyDown}

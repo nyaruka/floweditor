@@ -59,7 +59,7 @@ import {
     updateUserAddingAction
 } from '../../store';
 import { RenderNode } from '../../store/flowContext';
-import { NodeEditorSettings } from '../../store/nodeEditor';
+import { NodeEditorForm, NodeEditorSettings } from '../../store/nodeEditor';
 import { HandleTypeConfigChange, handleTypeConfigChange } from '../../store/thunks';
 import { CaseElementProps } from '../form/CaseElement';
 import TextInputElement from '../form/TextInputElement';
@@ -123,6 +123,7 @@ export interface NodeEditorStoreProps {
     onUpdateRouter: OnUpdateRouter;
     updateUserAddingAction: UpdateUserAddingAction;
     updateShowResultName: UpdateShowResultName;
+    form: NodeEditorForm;
 }
 
 export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
@@ -728,6 +729,10 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 
     public submit(): boolean {
+        if (!this.props.form.valid) {
+            return false;
+        }
+
         const invalid: any[] = Object.keys(this.widgets).reduce((invalidList, key) => {
             const widget = this.widgets[key];
 
@@ -1284,7 +1289,8 @@ const mapStateToProps = ({
         showResultName,
         settings,
         operand,
-        timeout
+        timeout,
+        form
     }
 }: AppState) => ({
     nodeToEdit,
@@ -1301,7 +1307,8 @@ const mapStateToProps = ({
     operand,
     timeout,
     pendingConnection,
-    settings
+    settings,
+    form
 });
 
 /* istanbul ignore next */
