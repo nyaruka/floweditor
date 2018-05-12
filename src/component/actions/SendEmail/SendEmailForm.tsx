@@ -67,7 +67,7 @@ export class SendEmailForm extends React.Component<SendEmailFormProps> {
                     prompt="Enter e-mail address"
                     onCheckValid={this.handleCheckValid}
                     onValidPrompt={this.handleValidPrompt}
-                    tags={this.props.action.addresses || []}
+                    entry={{ value: this.props.action.addresses || [] }}
                     required={true}
                 />
                 <TextInputElement

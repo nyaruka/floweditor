@@ -20,7 +20,6 @@ const baseProps: SendBroadcastFormProps = {
     typeConfig: sendConfig,
     language: null,
     translating: false,
-    definition: null,
     localizations: [],
     updateLocalizations: jest.fn(),
     updateSendBroadcastForm: jest.fn(),
@@ -52,7 +51,8 @@ describe(SendBroadcastForm.name, () => {
                 recipients: [],
                 text: '',
                 translatedText: '',
-                type: 'send_broadcast'
+                type: Types.send_broadcast,
+                valid: false
             });
 
             expect(wrapper).toMatchSnapshot();

@@ -11,7 +11,8 @@ export class SendBroadcastFormHelper implements FormHelper {
                 type: action.type,
                 text: action.text,
                 recipients: getRecipients(action),
-                translatedText: action.text
+                translatedText: action.text,
+                valid: true
             };
         }
 
@@ -19,7 +20,8 @@ export class SendBroadcastFormHelper implements FormHelper {
             type: Types.send_broadcast,
             text: '',
             recipients: [],
-            translatedText: ''
+            translatedText: '',
+            valid: false
         };
     }
 

@@ -7,28 +7,28 @@ export class SendMsgFormHelper implements FormHelper {
         if (action) {
             return {
                 type: action.type,
-                text: action.text,
-                translatedText: action.text,
-                quickReplies: action.quick_replies || [],
-                sendAll: action.all_urns
+                text: { value: action.text },
+                quickReplies: { value: action.quick_replies || [] },
+                sendAll: action.all_urns,
+                valid: true
             };
         }
 
         return {
             type: Types.send_msg,
-            text: '',
-            translatedText: '',
-            quickReplies: [],
-            sendAll: false
+            text: { value: '' },
+            quickReplies: { value: [] },
+            sendAll: false,
+            valid: false
         };
     }
 
     public stateToAction(uuid: string, state: SendMsgFormState): SendMsg {
         return {
-            text: state.text,
+            text: state.text.value,
             type: state.type,
             all_urns: state.sendAll,
-            quick_replies: state.quickReplies,
+            quick_replies: state.quickReplies.value,
             uuid
         };
     }

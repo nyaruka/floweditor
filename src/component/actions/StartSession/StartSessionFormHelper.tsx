@@ -10,14 +10,16 @@ export class StartSessionFormHelper implements FormHelper {
             return {
                 type: action.type,
                 recipients: getRecipients(action),
-                flow: { id: action.flow.uuid, name: action.flow.name, type: AssetType.Flow }
+                flow: { id: action.flow.uuid, name: action.flow.name, type: AssetType.Flow },
+                valid: true
             };
         }
 
         return {
             type: Types.start_session,
             recipients: [],
-            flow: null
+            flow: null,
+            valid: false
         };
     }
 

@@ -2,7 +2,7 @@ import { composeComponentTestUtils } from '../../../testUtils';
 import TaggingElement, { TaggingElementProps } from './TaggingElement';
 
 const taggingElementProps: TaggingElementProps = {
-    tags: ['Red', 'Green', 'Blue'],
+    entry: { value: ['Red', 'Green', 'Blue'] },
     prompt: 'Enter a Color',
     name: 'Color',
     required: true,
@@ -40,18 +40,6 @@ describe(TaggingElement.name, () => {
             });
             instance.handleValidPrompt('My New Tag');
             expect(props.onValidPrompt).toBeCalledWith('My New Tag');
-        });
-
-        it('should validate', () => {
-            const { instance } = setup();
-            instance.validate();
-            expect(instance.state.errors.length).toEqual(0);
-        });
-
-        it('should check required', () => {
-            const { instance } = setup(true, { $merge: { tags: [] } });
-            instance.validate();
-            expect(instance.state.errors).toEqual(['Color is required']);
         });
     });
 });
