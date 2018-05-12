@@ -123,7 +123,7 @@ export const typeConfigList: Type[] = [
         form: SendMsgForm,
         formHelper: new SendMsgFormHelper(),
         component: SendMsgComp,
-        advanced: Mode.EDITING,
+        advanced: Mode.ALL,
         allows
     },
     {

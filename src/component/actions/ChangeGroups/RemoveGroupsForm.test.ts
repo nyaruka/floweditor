@@ -57,7 +57,7 @@ describe(RemoveGroupsForm.name, () => {
                 removeWidget: setMock()
             });
 
-            instance.handleUpdateRemoveAll();
+            instance.handleUpdateRemoveAll(true);
 
             wrapper.update();
 

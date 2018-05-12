@@ -146,6 +146,26 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
     }
 
     private renderAdvanced(): JSX.Element {
+        if (this.props.translating) {
+            const spanishQR = (this.props.localizations[0].getObject() as SendMsg).quick_replies;
+            return (
+                <>
+                    <p>Enter any {this.props.language.name} Quick Replies</p>
+                    <TaggingElement
+                        ref={this.props.onBindWidget}
+                        name="Replies"
+                        placeholder="Quick Replies"
+                        prompt="Enter a Quick Reply"
+                        onChange={this.handleUpdateQuickReplies}
+                        onCheckValid={this.handleCheckValidReply}
+                        onValidPrompt={this.handleValidReplyPrompt}
+                        tags={spanishQR || []}
+                        required={false}
+                    />
+                </>
+            );
+        }
+
         return (
             <div>
                 <p>Quick Replies are made into buttons for supported channels</p>

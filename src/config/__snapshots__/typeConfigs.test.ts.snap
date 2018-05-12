@@ -10,7 +10,7 @@ Array [
     "type": "missing",
   },
   Object {
-    "advanced": 1,
+    "advanced": 3,
     "allows": [Function],
     "component": [Function],
     "description": "Send the contact a message",
@@ -210,7 +210,7 @@ Object {
     "type": "send_email",
   },
   "send_msg": Object {
-    "advanced": 1,
+    "advanced": 3,
     "allows": [Function],
     "component": [Function],
     "description": "Send the contact a message",
