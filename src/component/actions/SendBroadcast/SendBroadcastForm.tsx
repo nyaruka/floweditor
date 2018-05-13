@@ -10,7 +10,7 @@ import { Asset } from '../../../services/AssetService';
 import Localization, { LocalizedObject } from '../../../services/Localization';
 import { AppState, DispatchWithState } from '../../../store';
 import { SendBroadcastFunc, updateSendBroadcastForm } from '../../../store/forms';
-import { FormEntry, SendBroadcastFormState } from '../../../store/nodeEditor';
+import { SendBroadcastFormState } from '../../../store/nodeEditor';
 import { validate, validateRequired } from '../../../store/validators';
 import * as styles from '../../actions/Action/Action.scss';
 import OmniboxElement from '../../form/OmniboxElement';
@@ -63,7 +63,7 @@ export class SendBroadcastForm extends React.Component<
 
             if (translation) {
                 this.props.updateLocalizations(this.props.language.iso, [
-                    { uuid: this.props.action.uuid, translations: { text: [translation] } }
+                    { uuid: this.props.action.uuid, translations: { text: translation } }
                 ]);
             } else {
                 this.props.updateLocalizations(this.props.language.iso, [
@@ -99,10 +99,8 @@ export class SendBroadcastForm extends React.Component<
         let translation = null;
         let recipients = null;
 
-        const message: FormEntry = this.props.form.text;
-
         if (this.props.translating) {
-            const { text: textToTrans } = this.props.form;
+            const textToTrans = this.props.action.text;
 
             translation = (
                 <div data-spec="translation-container">
@@ -113,10 +111,6 @@ export class SendBroadcastForm extends React.Component<
             );
 
             placeholder = `${this.props.language.name} Translation`;
-
-            if (this.props.localizations[0].isLocalized()) {
-                message.value = (this.props.localizations[0].getObject() as BroadcastMsg).text;
-            }
         } else {
             recipients = (
                 <OmniboxElement
@@ -139,7 +133,7 @@ export class SendBroadcastForm extends React.Component<
                     name="Message"
                     showLabel={false}
                     count={Count.SMS}
-                    entry={message}
+                    entry={this.props.form.text}
                     placeholder={placeholder}
                     autocomplete={true}
                     onChange={this.handleMessageUpdate}

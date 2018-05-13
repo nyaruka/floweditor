@@ -107,6 +107,7 @@ export class SendEmailForm extends React.Component<SendEmailFormProps> {
     }
 }
 
+/* istanbul ignore next */
 const mapStateToProps = ({ nodeEditor: { form, typeConfig } }: AppState) => ({ form, typeConfig });
 
 /* istanbul ignore next */

@@ -106,13 +106,15 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     constructor(props: TextInputProps) {
         super(props);
 
+        let initial = '';
+        if (this.props.entry && this.props.entry.value) {
+            initial = this.props.entry.value;
+        }
         this.state = {
-            value: this.props.entry.value,
+            value: initial,
             options: getOptionsList(this.props.autocomplete, this.props.resultNames || []),
             ...initialState,
-            ...(this.props.count && this.props.count === Count.SMS
-                ? getMsgStats(this.props.entry.value)
-                : {})
+            ...(this.props.count && this.props.count === Count.SMS ? getMsgStats(initial) : {})
         };
 
         bindCallbacks(this, {

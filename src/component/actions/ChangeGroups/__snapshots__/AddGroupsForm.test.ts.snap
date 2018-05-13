@@ -75,7 +75,6 @@ Object {
   ],
   "name": "Groups",
   "placeholder": "Enter the name of an existing group or create a new one",
-  "required": true,
   "searchPromptText": "Invalid group",
 }
 `;

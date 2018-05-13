@@ -76,7 +76,6 @@ Object {
   "name": "Groups",
   "onChange": [Function],
   "placeholder": "Enter the name an existing group",
-  "required": true,
   "searchPromptText": "Enter the name of an existing group",
 }
 `;

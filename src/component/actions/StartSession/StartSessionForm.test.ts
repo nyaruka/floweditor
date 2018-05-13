@@ -17,7 +17,6 @@ const baseProps: StartSessionFormProps = {
     typeConfig,
     updateAction: jest.fn(),
     updateStartSessionForm: jest.fn(),
-    onBindWidget: jest.fn(),
     form: formHelper.actionToState(startSessionAction)
 };
 
@@ -42,8 +41,8 @@ describe(StartSessionForm.name, () => {
             });
 
             expect(props.form).toEqual({
-                recipients: [],
-                flow: null,
+                recipients: { value: [] },
+                flow: { value: null },
                 type: Types.start_session,
                 valid: false
             });
@@ -69,7 +68,7 @@ describe(StartSessionForm.name, () => {
             });
             instance.handleRecipientsChanged([{ id: 'group-0', name: 'My Group' }]);
             expect(props.updateStartSessionForm).toBeCalledWith({
-                recipients: [{ id: 'group-0', name: 'My Group' }]
+                recipients: { value: [{ id: 'group-0', name: 'My Group' }] }
             });
         });
 
@@ -79,7 +78,7 @@ describe(StartSessionForm.name, () => {
             });
             const flow = { id: 'flow-1', name: 'My Other Flow' };
             instance.handleFlowChanged([flow]);
-            expect(props.updateStartSessionForm).toBeCalledWith({ flow });
+            expect(props.updateStartSessionForm).toBeCalledWith({ flow: { value: flow } });
         });
     });
 });

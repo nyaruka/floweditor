@@ -2,8 +2,6 @@
 
 exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
 <FormElement
-  attribError={false}
-  errors={Array []}
   name="Attribute"
 >
   <SelectSearch

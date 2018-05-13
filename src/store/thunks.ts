@@ -772,7 +772,17 @@ export const onOpenNodeEditor = (
     const typeConfig = getTypeConfig(type);
 
     if (typeConfig.formHelper) {
-        dispatch(updateForm(typeConfig.formHelper.actionToState(action, typeConfig.type)));
+        let toEdit = action;
+        if (translating) {
+            console.log(translating, localizations);
+            if (localizations && localizations.length === 1 && localizations[0].isLocalized()) {
+                toEdit = localizations[0].getObject() as AnyAction;
+            } else {
+                console.log('nulled out');
+                toEdit = null;
+            }
+        }
+        dispatch(updateForm(typeConfig.formHelper.actionToState(toEdit, typeConfig.type)));
     }
     dispatch(updateTypeConfig(getTypeConfig(type as Types)));
 

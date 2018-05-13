@@ -34,7 +34,9 @@ describe(SetContactAttribForm.name, () => {
             const { wrapper, props } = setup();
 
             expect(wrapper).toMatchSnapshot();
-            expect(wrapper.find(ConnectedTextInputElement).prop('value')).toBe(props.form.value);
+            expect(wrapper.find(ConnectedTextInputElement).prop('entry')).toEqual({
+                value: props.form.value
+            });
 
             const setContactNameForm = formHelper.actionToState(
                 setContactNameAction,
@@ -48,9 +50,9 @@ describe(SetContactAttribForm.name, () => {
                 typeConfig: getTypeConfig(Types.set_contact_name)
             });
 
-            expect(wrapper.find(ConnectedTextInputElement).prop('value')).toBe(
-                setContactNameForm.value
-            );
+            expect(wrapper.find(ConnectedTextInputElement).prop('entry')).toEqual({
+                value: setContactNameForm.value
+            });
         });
     });
 
@@ -92,19 +94,9 @@ describe(SetContactAttribForm.name, () => {
                 const { wrapper, instance, props } = setup(true, {
                     updateSetContactAttribForm: setMock()
                 });
-                const mockEvent = {
-                    currentTarget: {
-                        value: 26
-                    }
-                };
-
-                instance.handleValueChange(mockEvent);
-
+                instance.handleValueChange('26');
                 expect(props.updateSetContactAttribForm).toHaveBeenCalledTimes(1);
-                expect(props.updateSetContactAttribForm).toHaveBeenCalledWith(
-                    null,
-                    mockEvent.currentTarget.value
-                );
+                expect(props.updateSetContactAttribForm).toHaveBeenCalledWith(null, '26');
             });
         });
     });

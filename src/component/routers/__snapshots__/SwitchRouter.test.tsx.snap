@@ -153,12 +153,15 @@ exports[`SwitchRouterForm instance methods getLeadIn should return expression in
     </p>
     <Connect(TextInputElement)
       autocomplete={true}
+      entry={
+        Object {
+          "value": "@run.input",
+        }
+      }
       key="wait-router"
       name="Expression"
       onChange={[MockFunction]}
-      required={true}
       showLabel={false}
-      value="@run.input"
     />
   </React.Fragment>
 </div>
@@ -200,10 +203,14 @@ exports[`SwitchRouterForm render should render advanced form 1`] = `
     >
       <Connect(TextInputElement)
         data-spec="translation-input"
+        entry={
+          Object {
+            "value": "si, simón",
+          }
+        }
         name="case-0"
         placeholder="English Translation"
         showLabel={false}
-        value="si, simón"
       />
     </div>
   </div>
@@ -229,10 +236,14 @@ exports[`SwitchRouterForm render should render advanced form 1`] = `
     >
       <Connect(TextInputElement)
         data-spec="translation-input"
+        entry={
+          Object {
+            "value": "",
+          }
+        }
         name="case-1"
         placeholder="English Translation"
         showLabel={false}
-        value=""
       />
     </div>
   </div>
@@ -256,10 +267,14 @@ exports[`SwitchRouterForm render should render advanced form 1`] = `
     >
       <Connect(TextInputElement)
         data-spec="translation-input"
+        entry={
+          Object {
+            "value": "",
+          }
+        }
         name="case-2"
         placeholder="English Translation"
         showLabel={false}
-        value=""
       />
     </div>
   </div>

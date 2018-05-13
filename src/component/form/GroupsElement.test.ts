@@ -38,7 +38,6 @@ describe(GroupsElement.name, () => {
             const formElement = wrapper.find('FormElement');
 
             expect(formElement.prop('name')).toBe(props.name);
-            expect(formElement.prop('errors')).toEqual([]);
             expect(wrapper.find('SelectSearch').props()).toMatchSnapshot();
             expect(wrapper).toMatchSnapshot();
         });
@@ -113,27 +112,6 @@ describe(GroupsElement.name, () => {
 
                 expect(props.onChange).toHaveBeenCalledTimes(1);
                 expect(props.onChange).toHaveBeenCalledWith(groups);
-            });
-        });
-
-        describe('validate', () => {
-            it('should return false, update errors state not valid', () => {
-                const { wrapper, instance, props: { name } } = setup(true, {
-                    required: { $set: true }
-                });
-
-                expect(instance.validate()).toBeFalsy();
-                expect(wrapper.state('errors')[0]).toBe(`${name} is required.`);
-            });
-
-            it('should return true if valid', () => {
-                const groups = getGroups(2);
-                const { wrapper, instance, props: { name } } = setup(true, {
-                    required: { $set: true }
-                });
-
-                expect(instance.onChange(groups));
-                expect(instance.validate()).toBeTruthy();
             });
         });
     });

@@ -48,9 +48,8 @@ describe(SendBroadcastForm.name, () => {
             });
 
             expect(props.form).toEqual({
-                recipients: [],
-                text: '',
-                translatedText: '',
+                recipients: { value: [] },
+                text: { value: '' },
                 type: Types.send_broadcast,
                 valid: false
             });
@@ -89,7 +88,7 @@ describe(SendBroadcastForm.name, () => {
                     translating: true,
                     language: { name: 'Spanish', iso: 'spa' },
                     localizations: [new LocalizedObject(broadcastMsgAction, 'spa', {})],
-                    form: { ...formHelper.actionToState(broadcastMsgAction), translatedText: '' },
+                    form: { ...formHelper.actionToState(broadcastMsgAction), text: '' },
                     updateLocalizations: jest.fn()
                 }
             });
@@ -112,7 +111,7 @@ describe(SendBroadcastForm.name, () => {
 
             instance.onValid();
             expect(props.updateLocalizations).toBeCalledWith('spa', [
-                { translations: { text: ['Hello World'] }, uuid: 'send_broadcast-0' }
+                { translations: { text: 'Hello World' }, uuid: 'send_broadcast-0' }
             ]);
         });
     });
@@ -124,7 +123,7 @@ describe(SendBroadcastForm.name, () => {
             });
             instance.handleRecipientsChanged([{ id: 'group-0', name: 'My Group' }]);
             expect(props.updateSendBroadcastForm).toBeCalledWith({
-                recipients: [{ id: 'group-0', name: 'My Group' }]
+                recipients: { value: [{ id: 'group-0', name: 'My Group' }] }
             });
         });
 
@@ -132,10 +131,10 @@ describe(SendBroadcastForm.name, () => {
             const { instance, props } = setup(true, {
                 $merge: { updateSendBroadcastForm: jest.fn() }
             });
-            instance.handleMessageUpdate({ currentTarget: { value: 'Message to Group' } });
+            instance.handleMessageUpdate('Message to Group');
 
             expect(props.updateSendBroadcastForm).toBeCalledWith({
-                text: 'Message to Group'
+                text: { value: 'Message to Group' }
             });
         });
 
@@ -149,8 +148,8 @@ describe(SendBroadcastForm.name, () => {
                 }
             });
 
-            instance.handleMessageUpdate({ currentTarget: { value: 'espanols!' } });
-            expect(props.updateSendBroadcastForm).toBeCalledWith({ translatedText: 'espanols!' });
+            instance.handleMessageUpdate('espanols!');
+            expect(props.updateSendBroadcastForm).toBeCalledWith({ text: { value: 'espanols!' } });
         });
     });
 });
