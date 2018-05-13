@@ -72,13 +72,13 @@ export interface SendEmailFormState extends FormState {
 }
 
 export interface SetContactFieldFormState extends FormState {
-    field: Asset;
-    value: string;
+    field: AssetEntry;
+    value: StringEntry;
 }
 
 export interface SetContactNameFormState extends FormState {
-    name: Asset;
-    value: string;
+    name: AssetEntry;
+    value: StringEntry;
 }
 
 export interface SetRunResultFormState extends FormState {

@@ -1,9 +1,10 @@
 import mutate from 'immutability-helper';
 
 import { DispatchWithState, GetState } from '.';
-import { Asset, AssetType } from '../services/AssetService';
+import { AssetType } from '../services/AssetService';
 import {
     AddLabelsFormState,
+    AssetEntry,
     NodeEditorForm,
     SendBroadcastFormState,
     SendEmailFormState,
@@ -11,6 +12,7 @@ import {
     SetContactAttribFormState,
     SetRunResultFormState,
     StartSessionFormState,
+    StringEntry,
     updateForm
 } from './nodeEditor';
 import { Thunk } from './thunks';
@@ -18,11 +20,6 @@ import { Thunk } from './thunks';
 export type SendBroadcastFunc = (
     updated: Partial<SendBroadcastFormState>
 ) => Thunk<SendBroadcastFormState>;
-
-export type SetContactAttribFunc = (
-    attribute?: Asset,
-    value?: string
-) => Thunk<SetContactAttribFormState>;
 
 export type StartSessionFunc = (
     updated: Partial<StartSessionFormState>
@@ -62,22 +59,27 @@ export const updateSendBroadcastForm: SendBroadcastFunc = updated => (
     return updatedForm as SendBroadcastFormState;
 };
 
+export type SetContactAttribFunc = (
+    attribute?: AssetEntry,
+    value?: StringEntry
+) => Thunk<SetContactAttribFormState>;
+
 // Todo: make this less awful
-export const updateSetContactAttribForm: SetContactAttribFunc = (attribute, value = null) => (
-    dispatch,
-    getState
-): SetContactAttribFormState => {
+export const updateSetContactAttribForm: SetContactAttribFunc = (
+    attribute: AssetEntry,
+    value = null
+) => (dispatch, getState): SetContactAttribFormState => {
     const { nodeEditor: { form } } = getState();
     if (attribute) {
         let update: string;
         let remove: string;
-        switch (attribute.type) {
+        switch (attribute.value.type) {
             case AssetType.Field:
-                update = attribute.type;
+                update = attribute.value.type;
                 remove = AssetType.Name;
                 break;
             case AssetType.Name:
-                update = attribute.type;
+                update = attribute.value.type;
                 remove = AssetType.Field;
                 break;
         }

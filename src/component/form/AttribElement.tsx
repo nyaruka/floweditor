@@ -6,10 +6,14 @@ import { getTypeConfig, Types } from '../../config/typeConfigs';
 import { CreateOptions, ResultType } from '../../flowTypes';
 import { Asset, Assets, AssetType } from '../../services/AssetService';
 import { AppState, DispatchWithState, UpdateTypeConfig, updateTypeConfig } from '../../store';
-import { SetContactFieldFormState, SetContactNameFormState } from '../../store/nodeEditor';
+import {
+    AssetEntry,
+    SetContactFieldFormState,
+    SetContactNameFormState
+} from '../../store/nodeEditor';
 import {
     composeCreateNewOption,
-    getSelectClass,
+    getSelectClassForEntry,
     isOptionUnique,
     isValidNewOption,
     snakify
@@ -23,11 +27,11 @@ export interface AttribElementPassedProps extends FormElementProps {
     placeholder?: string;
     searchPromptText?: string;
     helpText?: string;
-    onChange?(selected: Asset): void;
+    onChange(selected: Asset): void;
 }
 
 export interface AttribElementStoreProps {
-    attribute: Asset;
+    attribute: AssetEntry;
     updateTypeConfig: UpdateTypeConfig;
 }
 
@@ -81,16 +85,17 @@ export class AttribElement extends React.Component<AttribElementProps> {
                 showLabel={this.props.showLabel}
                 name={this.props.name}
                 helpText={this.props.helpText}
+                entry={this.props.attribute}
                 // attribError={this.state.errors.length > 0 }
             >
                 <SelectSearch
-                    __className={getSelectClass(0)}
+                    __className={getSelectClassForEntry(this.props.entry)}
                     onChange={this.onChange}
                     name={this.props.name}
                     resultType={ResultType.field}
                     multi={false}
                     assets={this.props.assets}
-                    initial={[this.props.attribute]}
+                    initial={[this.props.attribute.value]}
                     closeOnSelect={true}
                     searchPromptText={this.props.searchPromptText}
                     placeholder={this.props.placeholder}
@@ -116,7 +121,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     );
 
 const ConnectedAttribElement = connect<
-    { attribute: Asset },
+    { attribute: AssetEntry },
     { updateTypeConfig: UpdateTypeConfig },
     AttribElementPassedProps
 >(mapStateToProps, mapDispatchToProps, null, {

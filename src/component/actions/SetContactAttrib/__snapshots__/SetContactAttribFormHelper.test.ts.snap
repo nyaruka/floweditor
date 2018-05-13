@@ -3,21 +3,31 @@
 exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_field 1`] = `
 Object {
   "field": Object {
-    "id": "",
-    "name": "",
-    "type": "field",
+    "value": Object {
+      "id": "",
+      "name": "",
+      "type": "field",
+    },
   },
-  "value": "",
+  "valid": false,
+  "value": Object {
+    "value": "",
+  },
 }
 `;
 
 exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_name 1`] = `
 Object {
   "name": Object {
-    "id": "name",
-    "name": "Name",
-    "type": "name",
+    "value": Object {
+      "id": "name",
+      "name": "Name",
+      "type": "name",
+    },
   },
-  "value": "",
+  "valid": false,
+  "value": Object {
+    "value": "",
+  },
 }
 `;

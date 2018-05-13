@@ -2,7 +2,9 @@
 
 exports[`form thunks updateSendBroadcastForm should dispatch form update action 1`] = `
 Object {
-  "text": "Look, a distraction!",
+  "text": Object {
+    "value": "Look, a distraction!",
+  },
   "valid": true,
 }
 `;
@@ -10,9 +12,11 @@ Object {
 exports[`form thunks updateSetContactAttribForm should dispatch form update action with new contact field attribute 1`] = `
 Object {
   "field": Object {
-    "id": "age",
-    "name": "Age",
-    "type": "field",
+    "value": Object {
+      "id": "age",
+      "name": "Age",
+      "type": "field",
+    },
   },
   "valid": true,
 }
@@ -21,9 +25,11 @@ Object {
 exports[`form thunks updateSetContactAttribForm should dispatch form update action with new contact name attribute 1`] = `
 Object {
   "name": Object {
-    "id": "name",
-    "name": "Name",
-    "type": "name",
+    "value": Object {
+      "id": "name",
+      "name": "Name",
+      "type": "name",
+    },
   },
   "valid": true,
 }

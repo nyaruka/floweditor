@@ -29,12 +29,12 @@ describe('SetContactAttribFormHelper', () => {
                 Types.set_contact_field
             );
 
-            expect(newContactFieldFormState.value).toBe('');
+            expect(newContactFieldFormState.value).toEqual({ value: '' });
             expect(newContactFieldFormState).toMatchSnapshot(Types.set_contact_field);
 
             const newContactNameFormState = formHelper.actionToState(null, Types.set_contact_name);
 
-            expect(newContactNameFormState.value).toBe('');
+            expect(newContactNameFormState.value).toEqual({ value: '' });
             expect(newContactNameFormState).toMatchSnapshot(Types.set_contact_name);
         });
     });

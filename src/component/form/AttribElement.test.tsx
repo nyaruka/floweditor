@@ -18,9 +18,10 @@ const attribute: Asset = {
 
 const baseProps: AttribElementProps = {
     name: 'Attribute',
-    attribute,
+    attribute: { value: attribute },
     assets: configProviderContext.assetService.getFieldAssets(),
-    updateTypeConfig: jest.fn()
+    updateTypeConfig: jest.fn(),
+    onChange: jest.fn()
 };
 
 const { setup, spyOn } = composeComponentTestUtils(AttribElement, baseProps);
@@ -62,7 +63,7 @@ describe(AttribElement.name, () => {
             it('should update type config if passed an contact name asset', () => {
                 const { wrapper, instance, props } = setup(true, { updateTypeConfig: setMock() });
 
-                instance.onChange([props.attribute]);
+                instance.onChange([props.attribute.value]);
 
                 expect(props.updateTypeConfig).toHaveBeenCalledTimes(1);
                 expect(props.updateTypeConfig).toHaveBeenCalledWith(
