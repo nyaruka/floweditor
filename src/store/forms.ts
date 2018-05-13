@@ -9,6 +9,7 @@ import {
     SendEmailFormState,
     SendMsgFormState,
     SetContactAttribFormState,
+    SetRunResultFormState,
     StartSessionFormState,
     updateForm
 } from './nodeEditor';
@@ -134,4 +135,17 @@ export const updateSendEmailForm: SendEmailFunc = (updated: Partial<SendEmailFor
     const updatedForm = mutateForm(form, updated);
     dispatch(updateForm(updatedForm));
     return updatedForm as SendEmailFormState;
+};
+
+export type SetRunResultFunc = (
+    updated: Partial<SetRunResultFormState>
+) => Thunk<SetRunResultFormState>;
+
+export const updateSetRunResultForm: SetRunResultFunc = (
+    updated: Partial<SetRunResultFormState>
+) => (dispatch: DispatchWithState, getState: GetState): SetRunResultFormState => {
+    const { nodeEditor: { form } } = getState();
+    const updatedForm = mutateForm(form, updated);
+    dispatch(updateForm(updatedForm));
+    return updatedForm as SetRunResultFormState;
 };

@@ -1,21 +1,29 @@
+import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { Type } from '../../../config';
 import { SetRunResult } from '../../../flowTypes';
-import { AppState } from '../../../store';
+import { AppState, DispatchWithState } from '../../../store';
+import { SetRunResultFunc, updateSetRunResultForm } from '../../../store/forms';
+import { SetRunResultFormState } from '../../../store/nodeEditor';
+import { validate, validateRequired } from '../../../store/validators';
 import TextInputElement from '../../form/TextInputElement';
 import * as styles from './SetRunResult.scss';
+import { SetRunResultFormHelper } from './SetRunResultFormHelper';
 
 export interface SetRunResultFormStoreProps {
     typeConfig: Type;
+    form: SetRunResultFormState;
+    updateSetRunResultForm: SetRunResultFunc;
 }
 
 export interface SetRunResultFormPassedProps {
     action: SetRunResult;
     updateAction(action: SetRunResult): void;
     getInitialAction(): SetRunResult;
-    onBindWidget(ref: any): void;
+    formHelper: SetRunResultFormHelper;
 }
 
 export type SetRunResultFormProps = SetRunResultFormStoreProps & SetRunResultFormPassedProps;
@@ -24,23 +32,34 @@ export class SetRunResultForm extends React.PureComponent<SetRunResultFormProps>
     constructor(props: SetRunResultFormProps) {
         super(props);
 
-        this.onValid = this.onValid.bind(this);
+        bindCallbacks(this, {
+            include: [/^handle/, /^on/]
+        });
     }
 
-    public onValid(widgets: { [name: string]: any }): void {
-        const { wrappedInstance: { state: { value: resultName } } } = widgets.Name;
-        const { wrappedInstance: { state: { value } } } = widgets.Value;
-        const { wrappedInstance: { state: { value: category } } } = widgets.Category;
+    public validate(): boolean {
+        return this.handleUpdateName(this.props.form.name.value);
+    }
+    public onValid(): void {
+        this.props.updateAction(
+            this.props.formHelper.stateToAction(this.props.action.uuid, this.props.form)
+        );
+    }
 
-        const newAction: SetRunResult = {
-            uuid: this.props.action.uuid,
-            type: this.props.typeConfig.type,
-            name: resultName,
-            value,
-            category
-        };
+    public handleFormUpdate(updates: Partial<SetRunResultFormState>): boolean {
+        return (this.props.updateSetRunResultForm(updates) as any).valid;
+    }
 
-        this.props.updateAction(newAction);
+    public handleUpdateName(name: string): boolean {
+        return this.handleFormUpdate({ name: validate('Name', name, [validateRequired]) });
+    }
+
+    public handleUpdateValue(value: string): boolean {
+        return this.handleFormUpdate({ value: validate('Value', value, []) });
+    }
+
+    public handleUpdateCategory(category: string): boolean {
+        return this.handleFormUpdate({ category: validate('Category', category, []) });
     }
 
     public render(): JSX.Element {
@@ -48,29 +67,28 @@ export class SetRunResultForm extends React.PureComponent<SetRunResultFormProps>
             <div className={styles.form}>
                 <TextInputElement
                     __className={styles.name}
-                    ref={this.props.onBindWidget}
                     name="Name"
                     showLabel={true}
-                    entry={{ value: this.props.action.name }}
-                    // required={true}
+                    onChange={this.handleUpdateName}
+                    entry={this.props.form.name}
                     helpText="The name of the result, used to reference later, for example: @run.results.my_result_name"
                 />
                 <TextInputElement
                     __className={styles.value}
-                    ref={this.props.onBindWidget}
                     name="Value"
                     showLabel={true}
-                    entry={{ value: this.props.action.value }}
+                    onChange={this.handleUpdateValue}
+                    entry={this.props.form.value}
                     autocomplete={true}
                     helpText="The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))"
                 />
                 <TextInputElement
                     __className={styles.category}
-                    ref={this.props.onBindWidget}
                     name="Category"
                     placeholder="Optional"
                     showLabel={true}
-                    entry={{ value: this.props.action.category }}
+                    onChange={this.handleUpdateCategory}
+                    entry={this.props.form.category}
                     autocomplete={true}
                     helpText="An optional category for your result. For age, the value might be 17, but the category might be 'Young Adult'"
                 />
@@ -79,10 +97,14 @@ export class SetRunResultForm extends React.PureComponent<SetRunResultFormProps>
     }
 }
 
-const mapStateToProps = ({ nodeEditor: { typeConfig } }: AppState) => ({ typeConfig });
+const mapStateToProps = ({ nodeEditor: { form, typeConfig } }: AppState) => ({ form, typeConfig });
 
-const ConnectedSetRunResultForm = connect(mapStateToProps, null, null, { withRef: true })(
-    SetRunResultForm
-);
+/* istanbul ignore next */
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators({ updateSetRunResultForm }, dispatch);
+
+const ConnectedSetRunResultForm = connect(mapStateToProps, mapDispatchToProps, null, {
+    withRef: true
+})(SetRunResultForm);
 
 export default ConnectedSetRunResultForm;

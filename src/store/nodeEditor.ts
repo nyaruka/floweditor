@@ -81,6 +81,12 @@ export interface SetContactNameFormState extends FormState {
     value: string;
 }
 
+export interface SetRunResultFormState extends FormState {
+    name: StringEntry;
+    value: StringEntry;
+    category: StringEntry;
+}
+
 export type SetContactAttribFormState = SetContactFieldFormState | SetContactNameFormState;
 
 export interface StartSessionFormState extends FormState {
@@ -89,6 +95,7 @@ export interface StartSessionFormState extends FormState {
 }
 
 export type NodeEditorForm =
+    | SetRunResultFormState
     | SendBroadcastFormState
     | StartSessionFormState
     | SendMsgFormState

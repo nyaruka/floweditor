@@ -20,6 +20,7 @@ import SetContactAttribForm from '../component/actions/SetContactAttrib/SetConta
 import { SetContactAttribFormHelper } from '../component/actions/SetContactAttrib/SetContactAttribFormHelper';
 import SetRunResultComp from '../component/actions/SetRunResult/SetRunResult';
 import SetRunResultForm from '../component/actions/SetRunResult/SetRunResultForm';
+import { SetRunResultFormHelper } from '../component/actions/SetRunResult/SetRunResultFormHelper';
 import StartFlowComp from '../component/actions/StartFlow/StartFlow';
 import StartSessionComp from '../component/actions/StartSession/StartSession';
 import StartSessionForm from '../component/actions/StartSession/StartSessionForm';
@@ -194,6 +195,7 @@ export const typeConfigList: Type[] = [
         name: 'Save Flow Result',
         description: 'Save a result for this flow',
         form: SetRunResultForm,
+        formHelper: new SetRunResultFormHelper(),
         component: SetRunResultComp,
         allows
     },
