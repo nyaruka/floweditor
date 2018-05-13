@@ -23,7 +23,6 @@ const baseProps: SendBroadcastFormProps = {
     localizations: [],
     updateLocalizations: jest.fn(),
     updateSendBroadcastForm: jest.fn(),
-    onBindWidget: jest.fn(),
     form: formHelper.actionToState(broadcastMsgAction)
 };
 
@@ -119,7 +118,7 @@ describe(SendBroadcastForm.name, () => {
     describe('event', () => {
         it('handles recipent change', () => {
             const { instance, props } = setup(true, {
-                $merge: { updateSendBroadcastForm: jest.fn() }
+                $merge: { updateSendBroadcastForm: jest.fn().mockReturnValue(true) }
             });
             instance.handleRecipientsChanged([{ id: 'group-0', name: 'My Group' }]);
             expect(props.updateSendBroadcastForm).toBeCalledWith({
@@ -129,7 +128,7 @@ describe(SendBroadcastForm.name, () => {
 
         it('handles text change', () => {
             const { instance, props } = setup(true, {
-                $merge: { updateSendBroadcastForm: jest.fn() }
+                $merge: { updateSendBroadcastForm: jest.fn().mockReturnValue(true) }
             });
             instance.handleMessageUpdate('Message to Group');
 
@@ -144,7 +143,7 @@ describe(SendBroadcastForm.name, () => {
                     translating: true,
                     language: { name: 'Spanish', iso: 'spa' },
                     localizations: [new LocalizedObject(broadcastMsgAction, 'spa', {})],
-                    updateSendBroadcastForm: jest.fn()
+                    updateSendBroadcastForm: jest.fn().mockReturnValue(true)
                 }
             });
 

@@ -2,6 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { Creatable as SelectCreatable } from 'react-select';
 
+import { StringArrayEntry } from '../../../store/nodeEditor';
 import { getSelectClass } from '../../../utils';
 import FormElement, { FormElementProps } from '../FormElement';
 
@@ -15,38 +16,24 @@ export interface TaggingElementProps extends FormElementProps {
     onCheckValid: (value: string) => boolean;
 }
 
-interface TagState {
-    tags: TagList;
-}
-
-export const tagsToOptions = (tags: string[]): TagList =>
-    tags.map(tag => ({ label: tag, value: tag }));
+export const tagsToOptions = (tags: StringArrayEntry): TagList => {
+    return tags.value.map(tag => ({ label: tag, value: tag }));
+};
 
 export const optionsToTags = (tags: TagList): string[] =>
     tags.map(tag => {
         return tag.label;
     });
 
-export default class TaggingElement extends React.Component<TaggingElementProps, TagState> {
+export default class TaggingElement extends React.Component<TaggingElementProps> {
     constructor(props: any) {
         super(props);
-
-        const tags = tagsToOptions(this.props.entry.value);
-
-        this.state = {
-            tags
-        };
-
         bindCallbacks(this, {
             include: [/^handle/]
         });
     }
 
     public handleUpdateTags(tags: TagList): void {
-        this.setState({
-            tags
-        });
-
         if (this.props.onChange) {
             this.props.onChange(optionsToTags(tags));
         }
@@ -72,13 +59,14 @@ export default class TaggingElement extends React.Component<TaggingElementProps,
             (this.props.entry.validationFailures || []).length
         );
 
+        const tags = tagsToOptions(this.props.entry);
         return (
             <FormElement name={this.props.name} entry={this.props.entry}>
                 <SelectCreatable
                     className={className}
                     name={this.props.name}
                     placeholder={this.props.placeholder}
-                    value={this.state.tags}
+                    value={tags}
                     onChange={this.handleUpdateTags}
                     multi={true}
                     searchable={true}

@@ -39,6 +39,10 @@ export default class AddGroupsForm extends React.Component<ChangeGroupsFormProps
         this.props.updateAction(newAction);
     }
 
+    public validate(): boolean {
+        return true;
+    }
+
     private getGroups(): Asset[] {
         if (
             this.props.action.groups &&

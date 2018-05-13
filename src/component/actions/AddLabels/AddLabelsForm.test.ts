@@ -1,7 +1,8 @@
 import { Label } from '../../../flowTypes';
 import { AssetType } from '../../../services/AssetService';
-import { composeComponentTestUtils, setMock } from '../../../testUtils';
+import { composeComponentTestUtils } from '../../../testUtils';
 import { createAddLabelsAction } from '../../../testUtils/assetCreators';
+import { setTrue } from '../../../utils';
 import { AddLabelsForm, AddLabelsFormProps } from './AddLabelsForm';
 import { AddLabelsFormHelper } from './AddLabelsFormHelper';
 
@@ -35,7 +36,8 @@ describe(AddLabelsForm.name, () => {
             const { wrapper, instance, props } = setup(true, {
                 action: { $set: emptyAction },
                 form: { $set: formHelper.actionToState(emptyAction) },
-                updateAction: setMock()
+                updateAction: { $set: jest.fn() },
+                updateAddLabelsForm: { $set: jest.fn().mockReturnValue(setTrue) }
             });
 
             instance.handleLabelChange([

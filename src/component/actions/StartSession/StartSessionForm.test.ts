@@ -64,7 +64,7 @@ describe(StartSessionForm.name, () => {
     describe('event', () => {
         it('handles recipent change', () => {
             const { instance, props } = setup(true, {
-                $merge: { updateStartSessionForm: jest.fn() }
+                $merge: { updateStartSessionForm: jest.fn().mockReturnValue(true) }
             });
             instance.handleRecipientsChanged([{ id: 'group-0', name: 'My Group' }]);
             expect(props.updateStartSessionForm).toBeCalledWith({
@@ -74,7 +74,7 @@ describe(StartSessionForm.name, () => {
 
         it('handles flow change', () => {
             const { instance, props } = setup(true, {
-                $merge: { updateStartSessionForm: jest.fn() }
+                $merge: { updateStartSessionForm: jest.fn().mockReturnValue(true) }
             });
             const flow = { id: 'flow-1', name: 'My Other Flow' };
             instance.handleFlowChanged([flow]);

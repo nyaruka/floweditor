@@ -2,8 +2,8 @@ import { isValidURL } from '../component/form/TextInputElement/helpers';
 import { Asset } from '../services/AssetService';
 import { FormEntry, ValidationFailure } from './nodeEditor';
 
-type FormInput = string | string[] | number | Asset | Asset[];
-type ValidatorFunc = (name: string, input: FormInput) => ValidationFailure[];
+export type FormInput = string | string[] | number | Asset | Asset[];
+export type ValidatorFunc = (name: string, input: FormInput) => ValidationFailure[];
 
 export const validate = (
     name: string,

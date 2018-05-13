@@ -8,7 +8,7 @@ import { FlowDefinition, SendMsg } from '../../../flowTypes';
 import Localization, { LocalizedObject } from '../../../services/Localization';
 import { AppState, DispatchWithState } from '../../../store';
 import { SendMsgFunc, updateSendMsgForm } from '../../../store/forms';
-import { FormEntry, SendMsgFormState } from '../../../store/nodeEditor';
+import { SendMsgFormState } from '../../../store/nodeEditor';
 import { validate, validateMaxOfTen, validateRequired } from '../../../store/validators';
 import * as styles from '../../actions/Action/Action.scss';
 import CheckboxElement from '../../form/CheckboxElement';
@@ -53,11 +53,11 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
 
     public onValid(): void {
         if (this.props.translating) {
-            const translation = this.props.form.text;
+            const translation = this.props.form.text ? this.props.form.text.value : null;
 
             if (translation) {
                 this.props.updateLocalizations(this.props.language.iso, [
-                    { uuid: this.props.action.uuid, translations: { text: [translation] } }
+                    { uuid: this.props.action.uuid, translations: { text: translation } }
                 ]);
             } else {
                 this.props.updateLocalizations(this.props.language.iso, [
@@ -75,8 +75,6 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
         let placeholder = '';
         let translation = null;
 
-        let entry = this.props.form.text;
-
         if (this.props.translating) {
             translation = (
                 <div data-spec="translation-container">
@@ -85,12 +83,7 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
                     </div>
                 </div>
             );
-
             placeholder = `${this.props.language.name} Translation`;
-
-            if (this.props.localizations[0].isLocalized()) {
-                entry = { value: (this.props.localizations[0].getObject() as SendMsg).text };
-            }
         }
 
         return (
@@ -111,14 +104,27 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
         );
     }
 
-    public handleUpdateMessage(value: string): void {
-        this.props.updateSendMsgForm({
-            text: validate('Message', value, [validateRequired])
+    public validate(): boolean {
+        return this.handleUpdateMessage(this.props.form.text.value);
+    }
+
+    private handleUpdateForm(updates: Partial<SendMsgFormState>): boolean {
+        return (this.props.updateSendMsgForm(updates) as any).valid;
+    }
+
+    public handleUpdateMessage(value: string): boolean {
+        const validators = [];
+        if (!this.props.translating) {
+            validators.push(validateRequired);
+        }
+
+        return this.handleUpdateForm({
+            text: validate('Message', value, validators)
         });
     }
 
-    public handleUpdateQuickReplies(value: string[]): void {
-        this.props.updateSendMsgForm({
+    public handleUpdateQuickReplies(value: string[]): boolean {
+        return this.handleUpdateForm({
             quickReplies: validate('Quick Replies', value, [validateMaxOfTen])
         });
     }
@@ -137,9 +143,6 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
 
     private renderAdvanced(): JSX.Element {
         if (this.props.translating) {
-            const translatedQR: FormEntry = {
-                value: (this.props.localizations[0].getObject() as SendMsg).quick_replies
-            };
             return (
                 <>
                     <p>Enter any {this.props.language.name} Quick Replies</p>
@@ -150,7 +153,7 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
                         onChange={this.handleUpdateQuickReplies}
                         onCheckValid={this.handleCheckValidReply}
                         onValidPrompt={this.handleValidReplyPrompt}
-                        entry={{ value: translatedQR }}
+                        entry={this.props.form.quickReplies}
                     />
                 </>
             );

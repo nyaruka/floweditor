@@ -367,11 +367,11 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         this.props.updateShowResultName(true);
     }
 
-    private onResultNameChange({ target: { value: resultName } }: any): void {
+    private onResultNameChange(resultName: string): void {
         this.props.updateResultName(resultName);
     }
 
-    private onExpressionChanged({ currentTarget: { value: operand } }: any): void {
+    private onExpressionChanged(operand: string): void {
         this.props.updateOperand(operand);
     }
 
@@ -729,6 +729,14 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 
     public submit(): boolean {
+        if (
+            !(this.form.wrappedInstance
+                ? this.form.wrappedInstance.validate()
+                : this.form.validate())
+        ) {
+            return false;
+        }
+
         if (this.props.form && !this.props.form.valid) {
             return false;
         }

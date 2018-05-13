@@ -47,20 +47,30 @@ export class SendEmailForm extends React.Component<SendEmailFormProps> {
         this.props.updateAction(updated);
     }
 
-    private handleRecipientsChanged(recipients: string[]): void {
-        this.props.updateSendEmailForm({
+    public validate(): boolean {
+        let valid = this.handleRecipientsChanged(this.props.form.recipients.value);
+        valid = this.handleSubjectChanged(this.props.form.subject.value) && valid;
+        return this.handleBodyChanged(this.props.form.body.value) && valid;
+    }
+
+    private handleUpdateForm(updates: Partial<SendEmailFormState>): boolean {
+        return (this.props.updateSendEmailForm(updates) as any).valid;
+    }
+
+    private handleRecipientsChanged(recipients: string[]): boolean {
+        return this.handleUpdateForm({
             recipients: validate('Recipients', recipients, [validateRequired])
         });
     }
 
-    private handleSubjectChanged(subject: string): void {
-        this.props.updateSendEmailForm({
+    private handleSubjectChanged(subject: string): boolean {
+        return this.handleUpdateForm({
             subject: validate('Subject', subject, [validateRequired])
         });
     }
 
-    private handleBodyChanged(body: string): void {
-        this.props.updateSendEmailForm({
+    private handleBodyChanged(body: string): boolean {
+        return this.handleUpdateForm({
             body: validate('Body', body, [validateRequired])
         });
     }

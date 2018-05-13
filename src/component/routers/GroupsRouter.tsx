@@ -67,6 +67,10 @@ export class GroupsRouter extends React.Component<GroupsRouterProps> {
         }
     }
 
+    public validate(): boolean {
+        return true;
+    }
+
     public render(): JSX.Element {
         if (this.props.translating) {
             return this.props.getExitTranslations();

@@ -51,16 +51,27 @@ export class StartSessionForm extends React.Component<
         this.props.updateAction(action);
     }
 
-    public handleRecipientsChanged(selected: Asset[]): void {
-        this.props.updateStartSessionForm({
-            recipients: validate('Recipients', selected, [validateRequired])
-        });
+    public validate(): boolean {
+        const valid = this.handleRecipientsChanged(this.props.form.recipients.value);
+        const flow = this.props.form.flow.value ? [this.props.form.flow.value] : [];
+        return this.handleFlowChanged(flow) && valid;
     }
 
-    public handleFlowChanged(selected: Asset[]): void {
-        this.props.updateStartSessionForm({
-            flow: validate('Flow', selected[0], [validateRequired])
-        });
+    public handleRecipientsChanged(selected: Asset[]): boolean {
+        return (this.props.updateStartSessionForm({
+            recipients: validate('Recipients', selected, [validateRequired])
+        }) as any).valid;
+    }
+
+    public handleFlowChanged(selected: Asset[]): boolean {
+        let flow = null;
+        if (selected && selected.length > 0) {
+            flow = selected[0];
+        }
+
+        return (this.props.updateStartSessionForm({
+            flow: validate('Flow', flow, [validateRequired])
+        }) as any).valid;
     }
 
     public render(): JSX.Element {

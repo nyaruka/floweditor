@@ -79,19 +79,28 @@ export class SendBroadcastForm extends React.Component<
         }
     }
 
-    public handleRecipientsChanged(selected: Asset[]): void {
-        this.props.updateSendBroadcastForm({
+    public validate(): boolean {
+        const valid = this.handleRecipientsChanged(this.props.form.recipients.value);
+        return this.handleMessageUpdate(this.props.form.text.value) && valid;
+    }
+
+    private handleUpdateForm(updates: Partial<SendBroadcastFormState>): boolean {
+        return (this.props.updateSendBroadcastForm(updates) as any).valid;
+    }
+
+    public handleRecipientsChanged(selected: Asset[]): boolean {
+        return this.handleUpdateForm({
             recipients: validate('Recipients', selected, [validateRequired])
         });
     }
 
-    public handleMessageUpdate(value: string): void {
+    public handleMessageUpdate(value: string): boolean {
         const validators = [];
         if (!this.props.translating) {
             validators.push(validateRequired);
         }
 
-        this.props.updateSendBroadcastForm({ text: validate('Message', value, validators) });
+        return this.handleUpdateForm({ text: validate('Message', value, validators) });
     }
 
     public render(): JSX.Element {

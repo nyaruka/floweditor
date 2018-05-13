@@ -7,7 +7,8 @@ const taggingElementProps: TaggingElementProps = {
     name: 'Color',
     // required: true,
     onValidPrompt: jest.fn(),
-    onCheckValid: jest.fn()
+    onCheckValid: jest.fn(),
+    onChange: jest.fn()
 };
 const { setup } = composeComponentTestUtils<TaggingElementProps>(
     TaggingElement,
@@ -29,9 +30,9 @@ describe(TaggingElement.name, () => {
 
     describe('instance methods', () => {
         it('should handle updating tags', () => {
-            const { wrapper, instance } = setup();
-            instance.handleUpdateTags({ tags: [{ label: 'Purple', value: 'Purple' }] });
-            expect(instance.state.tags).toEqual({ tags: [{ label: 'Purple', value: 'Purple' }] });
+            const { wrapper, instance, props } = setup(true, { $merge: { onChange: jest.fn() } });
+            instance.handleUpdateTags([{ label: 'Purple', value: 'Purple' }]);
+            expect(props.onChange).toHaveBeenCalledWith(['Purple']);
         });
 
         it('should call prop for valid prompt', () => {

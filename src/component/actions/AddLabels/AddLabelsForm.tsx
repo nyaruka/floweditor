@@ -67,10 +67,14 @@ export class AddLabelsForm extends React.PureComponent<AddLabelsFormProps> {
         this.props.updateAction(newAction);
     }
 
-    public handleLabelChange(selected: Asset[]): void {
-        this.props.updateAddLabelsForm({
+    public validate(): boolean {
+        return this.handleLabelChange(this.props.form.labels.value);
+    }
+
+    public handleLabelChange(selected: Asset[]): boolean {
+        return (this.props.updateAddLabelsForm({
             labels: validate('Labels', selected, [validateRequired])
-        });
+        }) as any).valid;
     }
 
     private getLabels(): Asset[] {

@@ -191,6 +191,10 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
         this.props.updateRouter(this.state.displayableCases);
     }
 
+    public validate(): boolean {
+        return true;
+    }
+
     private handleCaseRemoved(c: CaseElement): void {
         const idx = this.state.displayableCases.findIndex(
             (props: CaseElementProps) => props.kase.uuid === c.props.kase.uuid

@@ -72,6 +72,10 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         );
     }
 
+    public validate(): boolean {
+        return true;
+    }
+
     public handleAttribChange(attribute: Asset): void {
         this.props.updateSetContactAttribForm(attribute);
     }

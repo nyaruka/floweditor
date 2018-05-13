@@ -19,7 +19,7 @@ export class SendEmailFormHelper implements FormHelper {
             body: { value: '' },
             subject: { value: '' },
             recipients: { value: [] },
-            valid: false
+            valid: true
         };
     }
 
