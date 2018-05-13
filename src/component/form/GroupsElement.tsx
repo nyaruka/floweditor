@@ -1,4 +1,3 @@
-import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 
@@ -21,7 +20,6 @@ export interface GroupOption {
 export interface GroupsElementProps extends FormElementProps {
     assets: Assets;
     add?: boolean;
-    groups?: Asset[];
     placeholder?: string;
     searchPromptText?: string | JSX.Element;
     onChange: (groups: Asset[]) => void;
@@ -45,22 +43,7 @@ export default class GroupsElement extends React.Component<GroupsElementProps> {
 
     constructor(props: GroupsElementProps) {
         super(props);
-
-        this.state = {
-            groups: this.props.groups || []
-        };
-
         this.handleChange = this.handleChange.bind(this);
-    }
-
-    public componentWillReceiveProps(nextProps: GroupsElementProps): void {
-        if (
-            nextProps.groups &&
-            nextProps.groups.length &&
-            !isEqual(nextProps.groups, this.props.groups)
-        ) {
-            this.setState({ groups: nextProps.groups });
-        }
     }
 
     private handleChange(groups: Asset[]): void {

@@ -1,21 +1,19 @@
 import { react as bindCallbacks } from 'auto-bind';
-import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { ConfigProviderContext } from '../../../config';
 import { fakePropType } from '../../../config/ConfigProvider';
-import { Types } from '../../../config/typeConfigs';
 import { ChangeGroups } from '../../../flowTypes';
 import { Asset } from '../../../services/AssetService';
+import { updateChangeGroupsForm } from '../../../store/forms';
+import AppState from '../../../store/state';
+import { DispatchWithState } from '../../../store/thunks';
+import { validate, validateRequired } from '../../../store/validators';
 import CheckboxElement from '../../form/CheckboxElement';
 import GroupsElement from '../../form/GroupsElement';
-import { mapAssetsToGroups, mapGroupsToAssets } from './helpers';
 import ChangeGroupsFormProps from './props';
-
-export interface RemoveGroupsFormState {
-    groups: Asset[];
-    removeFromAll: boolean;
-}
 
 export const LABEL = 'Select the group(s) to remove the contact from.';
 export const NOT_FOUND = 'Enter the name of an existing group';
@@ -29,76 +27,54 @@ export const fieldContainerSpecId = 'field-container';
 
 // NOTE: unlike its sibling, this component has to keep group state
 // because we lose track of our Groups ref if the 'Remove from all' setting is checked.
-export default class RemoveGroupsForm extends React.Component<
-    ChangeGroupsFormProps,
-    RemoveGroupsFormState
-> {
+export class RemoveGroupsForm extends React.Component<ChangeGroupsFormProps> {
     public static contextTypes = {
         assetService: fakePropType
     };
 
     constructor(props: ChangeGroupsFormProps, context: ConfigProviderContext) {
         super(props);
-
-        const groups = this.getGroups();
-        const removeFromAll = this.props.action.groups && !this.props.action.groups.length;
-
-        this.state = {
-            groups,
-            removeFromAll
-        };
-
         bindCallbacks(this, {
             include: [/^on/, /^handle/]
         });
     }
 
-    private onGroupsChanged(groups: Asset[]): void {
-        if (!isEqual(groups, this.state.groups)) {
-            this.setState({
-                groups
-            });
-        }
+    public validate(): boolean {
+        return this.handleUpdateGroups(this.props.form.groups.value);
     }
 
-    public validate(): boolean {
-        return true;
+    private handleUpdateGroups(groups: Asset[]): boolean {
+        const validators = [];
+        if (!this.props.form.removeAll) {
+            validators.push(validateRequired);
+        }
+
+        return (this.props.updateChangeGroupsForm({
+            groups: validate('Groups', groups, validators)
+        }) as any).valid;
     }
 
     public handleUpdateRemoveAll(checked: boolean): void {
-        this.setState({ removeFromAll: checked });
+        this.props.updateChangeGroupsForm({
+            removeAll: checked,
+            groups: { value: null }
+        });
     }
 
     public onValid(): void {
-        const newAction: ChangeGroups = {
-            uuid: this.props.action.uuid,
-            type: Types.remove_contact_groups,
-            groups: []
-        };
-
-        if (!this.state.removeFromAll) {
-            newAction.groups = mapAssetsToGroups(this.state.groups);
-        }
-
-        this.props.updateAction(newAction);
-    }
-
-    private getGroups(): Asset[] {
-        if (
-            this.props.action.groups &&
-            this.props.action.groups.length &&
-            this.props.action.type !== Types.add_contact_groups
-        ) {
-            return mapGroupsToAssets(this.props.action.groups);
-        }
-        return [];
+        // we need a cast here since we are sharing our state with add groups
+        const updated = this.props.formHelper.stateToAction(
+            this.props.action.uuid,
+            this.props.form
+        ) as ChangeGroups;
+        this.props.updateAction(updated);
     }
 
     private getFields(): JSX.Element {
         let groupElLabel: JSX.Element = null;
         let groupEl: JSX.Element = null;
         let checkboxEl: JSX.Element = null;
-        const sibling = !this.state.removeFromAll;
+        const sibling = !this.props.form.removeAll;
 
         if (sibling) {
             groupElLabel = <p data-spec={labelSpecId}>{LABEL}</p>;
@@ -109,9 +85,9 @@ export default class RemoveGroupsForm extends React.Component<
                     placeholder={PLACEHOLDER}
                     searchPromptText={NOT_FOUND}
                     assets={this.context.assetService.getGroupAssets()}
-                    groups={this.state.groups}
+                    entry={this.props.form.groups}
                     add={false}
-                    onChange={this.onGroupsChanged}
+                    onChange={this.handleUpdateGroups}
                 />
             );
         }
@@ -119,7 +95,7 @@ export default class RemoveGroupsForm extends React.Component<
         checkboxEl = (
             <CheckboxElement
                 name={REMOVE_FROM_ALL}
-                defaultValue={this.state.removeFromAll}
+                defaultValue={this.props.form.removeAll}
                 description={REMOVE_FROM_ALL_DESC}
                 sibling={sibling}
                 onChange={this.handleUpdateRemoveAll}
@@ -140,3 +116,17 @@ export default class RemoveGroupsForm extends React.Component<
         return <>{fields}</>;
     }
 }
+
+const mapStateToProps = ({ nodeEditor: { form } }: AppState) => ({
+    form
+});
+
+/* istanbul ignore next */
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators({ updateChangeGroupsForm }, dispatch);
+
+const ConnectedRemoveGroupsFrom = connect(mapStateToProps, mapDispatchToProps, null, {
+    withRef: true
+})(RemoveGroupsForm);
+
+export default ConnectedRemoveGroupsFrom;

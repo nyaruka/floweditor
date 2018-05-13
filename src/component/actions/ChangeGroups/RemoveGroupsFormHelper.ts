@@ -9,6 +9,7 @@ export class RemoveGroupsFormHelper implements FormHelper {
             return {
                 type: action.type,
                 groups: { value: mapGroupsToAssets(action.groups) },
+                removeAll: action.groups.length === 0,
                 valid: true
             };
         }
@@ -23,7 +24,7 @@ export class RemoveGroupsFormHelper implements FormHelper {
     public stateToAction(uuid: string, state: ChangeGroupsFormState): ChangeGroups {
         return {
             type: state.type,
-            groups: mapAssetsToGroups(state.groups.value),
+            groups: state.removeAll ? [] : mapAssetsToGroups(state.groups.value),
             uuid
         };
     }

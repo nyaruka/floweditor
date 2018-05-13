@@ -1,41 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RemoveGroupsForm instance methods getGroups should return SearchResult[] if action is remove groups action and it has groups 1`] = `
-Array [
-  Object {
-    "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
-    "name": "Customers",
-    "type": "group",
-  },
-  Object {
-    "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
-    "name": "Unsatisfied Customers",
-    "type": "group",
-  },
-  Object {
-    "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
-    "name": "Early Adopters",
-    "type": "group",
-  },
-  Object {
-    "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
-    "name": "Testers",
-    "type": "group",
-  },
-  Object {
-    "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
-    "name": "Subscribers",
-    "type": "group",
-  },
-]
-`;
-
-exports[`RemoveGroupsForm instance methods getGroups should return an empty list if action's groups are null 1`] = `Array []`;
-
-exports[`RemoveGroupsForm instance methods getGroups should return an empty list if action's groups property is an empty list 1`] = `Array []`;
-
-exports[`RemoveGroupsForm instance methods getGroups should return empty list if action is add groups action 1`] = `Array []`;
-
 exports[`RemoveGroupsForm render should render self, children with base props 1`] = `
 Object {
   "add": false,
@@ -46,33 +10,35 @@ Object {
     "idProperty": "uuid",
     "localStorage": true,
   },
-  "groups": Array [
-    Object {
-      "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
-      "name": "Customers",
-      "type": "group",
-    },
-    Object {
-      "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
-      "name": "Unsatisfied Customers",
-      "type": "group",
-    },
-    Object {
-      "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
-      "name": "Early Adopters",
-      "type": "group",
-    },
-    Object {
-      "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
-      "name": "Testers",
-      "type": "group",
-    },
-    Object {
-      "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
-      "name": "Subscribers",
-      "type": "group",
-    },
-  ],
+  "entry": Object {
+    "value": Array [
+      Object {
+        "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
+        "name": "Customers",
+        "type": "group",
+      },
+      Object {
+        "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
+        "name": "Unsatisfied Customers",
+        "type": "group",
+      },
+      Object {
+        "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+        "name": "Early Adopters",
+        "type": "group",
+      },
+      Object {
+        "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
+        "name": "Testers",
+        "type": "group",
+      },
+      Object {
+        "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+        "name": "Subscribers",
+        "type": "group",
+      },
+    ],
+  },
   "name": "Groups",
   "onChange": [Function],
   "placeholder": "Enter the name an existing group",

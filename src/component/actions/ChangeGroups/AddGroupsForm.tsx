@@ -33,7 +33,7 @@ export class AddGroupsForm extends React.Component<ChangeGroupsFormProps> {
     }
 
     public onValid(): void {
-        // we need a cast here since we are sharing our form helper with remove groups
+        // we need a cast here since we are sharing our state with remove groups
         const updated = this.props.formHelper.stateToAction(
             this.props.action.uuid,
             this.props.form

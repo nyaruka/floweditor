@@ -82,7 +82,7 @@ export class GroupsRouter extends React.Component<GroupsRouterProps> {
 
         const groupProps: Partial<GroupsElementProps> = {};
         if (hasGroupsRouter(this.props.nodeToEdit)) {
-            groupProps.groups = extractGroups(this.props.nodeToEdit);
+            groupProps.entry = { value: extractGroups(this.props.nodeToEdit) };
         }
 
         const nameField: JSX.Element = this.props.getResultNameField();

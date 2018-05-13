@@ -55,43 +55,6 @@ describe(GroupsElement.name, () => {
     });
 
     describe('instance methods', () => {
-        describe('componentWillReceiveProps', () => {
-            it('should be called when new props are passed', () => {
-                const componentWillReceivePropsSpy = spyOn('componentWillReceiveProps');
-                const { wrapper, instance } = setup();
-                const nextProps = { ...baseProps, add: true };
-
-                wrapper.setProps(nextProps);
-
-                expect(componentWillReceivePropsSpy).toHaveBeenCalledTimes(1);
-                expect(componentWillReceivePropsSpy).toHaveBeenCalledWith(
-                    expect.objectContaining(nextProps),
-                    expect.any(Object)
-                );
-
-                componentWillReceivePropsSpy.mockRestore();
-            });
-
-            it('should update state if new groups are passed through props', () => {
-                const setStateSpy = spyOn('setState');
-                const groups = getGroups(2);
-                const { wrapper, instance } = setup(true, {
-                    groups: { $set: groups }
-                });
-                const newGroups = getGroups(3);
-                const nextProps = { ...baseProps, groups: newGroups };
-
-                wrapper.setProps(nextProps);
-
-                expect(setStateSpy).toHaveBeenCalledTimes(1);
-                expect(setStateSpy).toHaveBeenCalledWith({
-                    groups: newGroups
-                });
-
-                setStateSpy.mockRestore();
-            });
-        });
-
         describe('handleChange', () => {
             it('should update onChange when called', () => {
                 const groups = getGroups(3);
