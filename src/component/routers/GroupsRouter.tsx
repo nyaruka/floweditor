@@ -25,7 +25,6 @@ export interface GroupsRouterPassedProps {
     updateRouter: Function;
     getExitTranslations(): JSX.Element;
     getResultNameField: GetResultNameField;
-    onBindWidget(ref: any): void;
 }
 
 export type GroupsRouterProps = GroupsRouterStoreProps & GroupsRouterPassedProps;
@@ -71,6 +70,11 @@ export class GroupsRouter extends React.Component<GroupsRouterProps> {
         return true;
     }
 
+    public handleUpdateGroups(assets: Asset[]): boolean {
+        console.log('implement update groups!');
+        return true;
+    }
+
     public render(): JSX.Element {
         if (this.props.translating) {
             return this.props.getExitTranslations();
@@ -88,11 +92,10 @@ export class GroupsRouter extends React.Component<GroupsRouterProps> {
                 <div className={styles.instructions}>
                     <p>{GROUP_LABEL}</p>
                     <GroupsElement
-                        ref={this.props.onBindWidget}
                         name="Groups"
                         assets={this.context.assetService.getGroupAssets()}
                         add={false}
-                        // required={true}
+                        onChange={this.handleUpdateGroups}
                         {...groupProps}
                     />
                 </div>

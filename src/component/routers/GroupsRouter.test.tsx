@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { SwitchRouter } from '../../flowTypes';
 import { composeComponentTestUtils, setMock } from '../../testUtils';
 import {
@@ -8,7 +9,6 @@ import {
     createSendMsgAction
 } from '../../testUtils/assetCreators';
 import { setTrue } from '../../utils';
-import { GROUP_NOT_FOUND, GROUP_PLACEHOLDER } from '../form/GroupsElement';
 import { GROUP_LABEL } from './constants';
 import { extractGroups, GroupsRouter, GroupsRouterProps, hasGroupsRouter } from './GroupsRouter';
 
@@ -59,15 +59,13 @@ describe(GroupsRouter.name, () => {
     describe('render', () => {
         it('should render self, children', () => {
             const { wrapper, instance, props, context } = setup(false, {
-                getResultNameField: setMock(),
-                onBindWidget: setMock()
+                getResultNameField: setMock()
             });
 
             expect(props.getResultNameField).toHaveBeenCalledTimes(1);
             expect(wrapper.find('.instructions').exists()).toBeTruthy();
             expect(wrapper.find('p').text()).toBe(GROUP_LABEL);
             expect(wrapper.find('GroupsElement').props()).toMatchSnapshot();
-            expect(props.onBindWidget).toHaveBeenCalledTimes(1);
         });
 
         it('should render exit translations when user is translating', () => {

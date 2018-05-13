@@ -80,6 +80,7 @@ Object {
     },
   ],
   "name": "Groups",
+  "onChange": [Function],
   "placeholder": "Enter the name of an existing group...",
   "searchPromptText": "Invalid group",
 }

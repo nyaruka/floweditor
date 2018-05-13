@@ -87,6 +87,11 @@ export interface SetRunResultFormState extends FormState {
     category: StringEntry;
 }
 
+export interface ChangeGroupsFormState extends FormState {
+    groups: AssetArrayEntry;
+    removeAll?: boolean;
+}
+
 export type SetContactAttribFormState = SetContactFieldFormState | SetContactNameFormState;
 
 export interface StartSessionFormState extends FormState {
@@ -101,6 +106,7 @@ export type NodeEditorForm =
     | SendMsgFormState
     | SetContactAttribFormState
     | AddLabelsFormState
+    | ChangeGroupsFormState
     | SendEmailFormState;
 
 export interface NodeEditorSettings {

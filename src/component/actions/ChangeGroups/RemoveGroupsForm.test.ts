@@ -40,7 +40,6 @@ describe(RemoveGroupsForm.name, () => {
 
             expect(label.is('p')).toBeTruthy();
             expect(label.text()).toBe(LABEL);
-            expect(props.onBindWidget).toHaveBeenCalledTimes(2);
             expect(wrapper.find('GroupsElement').props()).toMatchSnapshot();
             expect(wrapper.find('CheckboxElement').props()).toMatchSnapshot();
         });
@@ -61,8 +60,6 @@ describe(RemoveGroupsForm.name, () => {
 
             wrapper.update();
 
-            expect(props.removeWidget).toHaveBeenCalledTimes(1);
-            expect(props.removeWidget).toHaveBeenCalledWith('Groups');
             expect(getSpecWrapper(wrapper, labelSpecId).exists()).toBeFalsy();
             expect(wrapper.find('GroupsElement').exists()).toBeFalsy();
             expect(wrapper.find('CheckboxElement').props()).toEqual({

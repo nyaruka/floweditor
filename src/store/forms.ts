@@ -5,6 +5,7 @@ import { AssetType } from '../services/AssetService';
 import {
     AddLabelsFormState,
     AssetEntry,
+    ChangeGroupsFormState,
     NodeEditorForm,
     SendBroadcastFormState,
     SendEmailFormState,
@@ -150,4 +151,17 @@ export const updateSetRunResultForm: SetRunResultFunc = (
     const updatedForm = mutateForm(form, updated);
     dispatch(updateForm(updatedForm));
     return updatedForm as SetRunResultFormState;
+};
+
+export type ChangeGroupsFunc = (
+    updated: Partial<ChangeGroupsFormState>
+) => Thunk<ChangeGroupsFormState>;
+
+export const updateChangeGroupsForm: ChangeGroupsFunc = (
+    updated: Partial<ChangeGroupsFormState>
+) => (dispatch: DispatchWithState, getState: GetState): ChangeGroupsFormState => {
+    const { nodeEditor: { form } } = getState();
+    const updatedForm = mutateForm(form, updated);
+    dispatch(updateForm(updatedForm));
+    return updatedForm as ChangeGroupsFormState;
 };

@@ -1,4 +1,4 @@
-import { composeComponentTestUtils, configProviderContext, setMock } from '../../testUtils';
+import { composeComponentTestUtils, configProviderContext } from '../../testUtils';
 import { createSelectOption, getGroups } from '../../testUtils/assetCreators';
 import { validUUID } from '../../utils';
 import GroupsElement, {
@@ -13,7 +13,8 @@ const baseProps: GroupsElementProps = {
     name: 'Groups',
     placeholder: GROUP_PLACEHOLDER,
     searchPromptText: GROUP_NOT_FOUND,
-    assets: configProviderContext.assetService.getGroupAssets()
+    assets: configProviderContext.assetService.getGroupAssets(),
+    onChange: jest.fn()
 };
 
 const { setup, spyOn } = composeComponentTestUtils(GroupsElement, baseProps);
@@ -91,27 +92,15 @@ describe(GroupsElement.name, () => {
             });
         });
 
-        describe('onChange', () => {
-            it('should update state when called', () => {
-                const setStateSpy = spyOn('setState');
+        describe('handleChange', () => {
+            it('should update onChange when called', () => {
                 const groups = getGroups(3);
-                const { wrapper, instance, props: { onChange } } = setup();
-
-                instance.onChange(groups);
-
-                expect(setStateSpy).toHaveBeenCalledWith({ groups }, expect.any(Function));
-            });
-
-            it("should call 'onChange' prop if passed", () => {
-                const groups = getGroups(3);
-                const { wrapper, props, instance } = setup(true, {
-                    onChange: setMock()
-                });
-
-                instance.onChange(groups);
-
-                expect(props.onChange).toHaveBeenCalledTimes(1);
-                expect(props.onChange).toHaveBeenCalledWith(groups);
+                const { instance, props } = setup(true, { $merge: { onChange: jest.fn() } });
+                instance.handleChange(groups);
+                expect(props.onChange).toHaveBeenCalledWith([
+                    { id: 'afaba971-8943-4dd8-860b-3561ed4f1fe1', name: 'Testers' },
+                    { id: '33b28bac-b588-43e4-90de-fda77aeaf7c0', name: 'Subscribers' }
+                ]);
             });
         });
     });

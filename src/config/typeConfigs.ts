@@ -3,8 +3,10 @@ import AddLabelsForm from '../component/actions/AddLabels/AddLabelsForm';
 import { AddLabelsFormHelper } from '../component/actions/AddLabels/AddLabelsFormHelper';
 import CallWebhookComp from '../component/actions/CallWebhook/CallWebhook';
 import AddGroupsForm from '../component/actions/ChangeGroups/AddGroupsForm';
+import { AddGroupsFormHelper } from '../component/actions/ChangeGroups/AddGroupsFormHelper';
 import ChangeGroupsComp from '../component/actions/ChangeGroups/ChangeGroups';
 import RemoveGroupsForm from '../component/actions/ChangeGroups/RemoveGroupsForm';
+import { RemoveGroupsFormHelper } from '../component/actions/ChangeGroups/RemoveGroupsFormHelper';
 import MissingComp from '../component/actions/Missing/Missing';
 import SendBroadcastComp from '../component/actions/SendBroadcast/SendBroadcast';
 import SendBroadcastForm from '../component/actions/SendBroadcast/SendBroadcastForm';
@@ -152,6 +154,7 @@ export const typeConfigList: Type[] = [
         name: 'Add to Group',
         description: 'Add the contact to a group',
         form: AddGroupsForm,
+        formHelper: new AddGroupsFormHelper(),
         component: ChangeGroupsComp,
         allows
     },
@@ -160,6 +163,7 @@ export const typeConfigList: Type[] = [
         name: 'Remove from Group',
         description: 'Remove the contact from a group',
         form: RemoveGroupsForm,
+        formHelper: new RemoveGroupsFormHelper(),
         component: ChangeGroupsComp,
         allows
     },

@@ -105,7 +105,6 @@ export default class RemoveGroupsForm extends React.Component<
 
             groupEl = (
                 <GroupsElement
-                    ref={this.props.onBindWidget}
                     name="Groups"
                     placeholder={PLACEHOLDER}
                     searchPromptText={NOT_FOUND}
@@ -115,13 +114,10 @@ export default class RemoveGroupsForm extends React.Component<
                     onChange={this.onGroupsChanged}
                 />
             );
-        } else {
-            this.props.removeWidget('Groups');
         }
 
         checkboxEl = (
             <CheckboxElement
-                ref={this.props.onBindWidget}
                 name={REMOVE_FROM_ALL}
                 defaultValue={this.state.removeFromAll}
                 description={REMOVE_FROM_ALL_DESC}
