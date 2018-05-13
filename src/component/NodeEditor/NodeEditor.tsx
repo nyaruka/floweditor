@@ -865,11 +865,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         };
     }
 
-    private updateGroupsRouter(): void {
-        const { Groups: { state: { groups } } } = this.widgets;
-
+    private updateGroupsRouter(groups: Asset[]): void {
         const currentCases = groupsToCases(groups);
-
         const { cases, exits, defaultExit } = this.resolveExits(currentCases);
 
         if (

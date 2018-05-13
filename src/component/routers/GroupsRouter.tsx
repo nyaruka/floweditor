@@ -1,5 +1,6 @@
 // TODO: Remove use of Function
 // tslint:disable:ban-types
+import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
@@ -22,7 +23,7 @@ export interface GroupsRouterStoreProps {
 
 export interface GroupsRouterPassedProps {
     saveLocalizations: SaveLocalizations;
-    updateRouter: Function;
+    updateRouter(groups: Asset[]): void;
     getExitTranslations(): JSX.Element;
     getResultNameField: GetResultNameField;
 }
@@ -45,34 +46,51 @@ export const extractGroups = ({ exits, router }: FlowNode): Asset[] =>
 export const hasGroupsRouter = (node: FlowNode) => {
     let groupCase = null;
     if (node.router) {
-        groupCase = (node.router as SwitchRouter).cases.find(
-            (kase: Case) => kase.type === Operators.has_group
-        );
+        const switchRouter = node.router as SwitchRouter;
+        if (switchRouter.cases) {
+            groupCase = switchRouter.cases.find((kase: Case) => kase.type === Operators.has_group);
+        }
     }
     return hasSwitchRouter(node) && groupCase;
 };
 
-export class GroupsRouter extends React.Component<GroupsRouterProps> {
+// TODO: Temporary, need for based routers
+export interface TempGroupState {
+    groups: Asset[];
+}
+
+export class GroupsRouter extends React.Component<GroupsRouterProps, TempGroupState> {
     public static contextTypes = {
         endpoints: fakePropType,
         assetService: fakePropType
     };
 
+    constructor(props: GroupsRouterProps) {
+        super(props);
+        this.state = {
+            groups: []
+        };
+
+        bindCallbacks(this, {
+            include: [/^handle/, /^on/]
+        });
+    }
+
     public onValid(widgets: { [name: string]: any }): void {
         if (this.props.translating) {
             return this.props.saveLocalizations(widgets);
         } else {
-            this.props.updateRouter();
+            this.props.updateRouter(this.state.groups);
         }
     }
 
     public validate(): boolean {
-        return true;
+        return this.state.groups.length > 0;
     }
 
-    public handleUpdateGroups(assets: Asset[]): boolean {
-        console.log('implement update groups!');
-        return true;
+    public handleUpdateGroups(groups: Asset[]): boolean {
+        this.setState({ groups });
+        return groups.length > 0;
     }
 
     public render(): JSX.Element {
