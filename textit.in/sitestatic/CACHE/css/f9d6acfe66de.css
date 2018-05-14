@@ -1,0 +1,226 @@
+.other-plans {
+  text-align: center;
+  color: #999;
+  font-size: 16px;
+  display: none;
+}
+.show-jumbo {
+  text-align: center;
+  color: #999;
+  font-size: 16px;
+}
+.bx-pager-item {
+  display: none;
+}
+.faq-header {
+  margin-top: 50px;
+}
+.slider-wrapper .testimonials .testimonial {
+  width: 100%;
+  position: relative;
+}
+.slider-wrapper .testimonials .testimonial hr {
+  position: absolute;
+  margin-top: 90px;
+  width: 100%;
+  z-index: 0;
+}
+.slider-wrapper .testimonials .testimonial .body {
+  background: #fff;
+  position: relative;
+  z-index: 1;
+  padding-top: 30px;
+  width: 650px;
+  height: 180px;
+  margin-left: auto;
+  margin-right: auto;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+}
+.slider-wrapper .testimonials .testimonial .body img {
+  margin-left: 30px;
+  width: 100px;
+  display: inline-block;
+  border: 5px solid #3498db;
+  vertical-align: top;
+}
+.slider-wrapper .testimonials .testimonial .body .details {
+  display: inline-block;
+  width: 450px;
+  margin-left: 30px;
+}
+.slider-wrapper .testimonials .testimonial .body .details .quote {
+  font-size: 23px;
+  line-height: 28px;
+  color: #666;
+}
+.slider-wrapper .testimonials .testimonial .body .details .name {
+  margin-top: 8px;
+  font-weight: 100;
+  font-size: 20px;
+}
+.slider-wrapper .testimonials .testimonial .body .details .company {
+  color: #3498db;
+}
+#call-to-action {
+  margin-bottom: 50px;
+  margin-left: -20px;
+}
+#call-to-action #jumbotron {
+  background: none;
+  min-height: 100px;
+  margin-top: 0px;
+  padding-top: 10px;
+}
+#call-to-action #jumbotron h2 {
+  margin-bottom: 5px;
+  font-size: 28px;
+  margin-top: 0;
+}
+#call-to-action #jumbotron .text-error {
+  margin: 0 auto;
+  padding-top: 10px;
+}
+#call-to-action #jumbotron .text-success span {
+  padding: 5px;
+}
+.faq {
+  font-size: 16px;
+  line-height: 140%;
+  margin-bottom: 20px;
+}
+.faq .question {
+  font-size: 16px;
+  color: #677c91;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+.faq .answer {
+  line-height: 24px;
+  padding-right: 60px;
+}
+.pricing-wrapper {
+  width: 100%;
+}
+.pricing-wrapper .pricing-section {
+  width: 882px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .pricing-wrapper .pricing-section {
+    width: 750px;
+  }
+}
+@media (max-width: 767px) {
+  .pricing-wrapper .pricing-section {
+    width: 480px;
+  }
+  .pricing-wrapper .pricing-section .corporate {
+    -webkit-border-radius: 0px 0px 0px 0px;
+    -moz-border-radius: 0px 0px 0px 0px;
+    -ms-border-radius: 0px 0px 0px 0px;
+    -o-border-radius: 0px 0px 0px 0px;
+    border-radius: 0px 0px 0px 0px;
+  }
+}
+.bundle-size {
+  text-align: center;
+  background: #eee;
+}
+.bundle-size h3 {
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+.bundle-size h6 {
+  text-align: center;
+  margin-top: -10px;
+  font-weight: 200;
+}
+.bundle-features {
+  font-size: 13px;
+  font-weight: 370;
+  text-align: center;
+  margin-top: 10px;
+  background: #eee;
+}
+.bundle {
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  margin-top: 30px;
+  margin-right: 15px;
+  margin-left: 15px;
+  margin-bottom: 10px;
+}
+.bundle-footer {
+  height: 20px;
+  background: #eee;
+  margin-top: 10px;
+  text-align: center;
+}
+.bundle-price {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 20px;
+}
+.bundle-per-credit {
+  text-align: center;
+  margin-top: 5px;
+}
+.bundle-buy {
+  text-align: center;
+  padding-top: 10px;
+}
+.bundle-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.bundle-id {
+  display: none;
+}
+.bundle-credits {
+  display: none;
+}
+.error {
+  width: 100%;
+  padding: 10px;
+}
+.content {
+  padding: 30px 10px;
+}
+.price {
+  font-size: 24px;
+  font-weight: 700;
+}
+.inpagelink {
+  margin-bottom: 50px;
+}
+.inpagelink a {
+  text-decoration: none;
+  padding: 5px 0px;
+  border-bottom: 1px #2980b9 solid;
+}
+.features {
+  text-align: center;
+}
+.bundle-jumbo {
+  display: none;
+}
+.teaser {
+  font-size: 24px;
+  text-align: center;
+  color: #666;
+  font-weight: 100;
+}
+#saving-overlay {
+  float: right;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  margin-top: 125px;
+  font-size: 24px;
+  image-rendering: pixelated;
+  display: none;
+}

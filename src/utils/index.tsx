@@ -6,10 +6,10 @@ import {
     NewOptionCreatorHandler
 } from 'react-select';
 
-import { Language } from '../component/LanguageSelector';
-import { Action, Case, ContactProperties, Exit, Languages, LocalizationMap } from '../flowTypes';
+import { Action, Case, ContactProperties, Exit, LocalizationMap } from '../flowTypes';
 import { AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
+import { FormEntry } from '../store/nodeEditor';
 import * as variables from '../variables.scss';
 
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
@@ -110,6 +110,13 @@ export const validUUID = (uuid: string): boolean => V4_UUID.test(uuid);
 export const titleCase = (str: string): string =>
     str.replace(/\b\w+/g, s => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase());
 
+export const getSelectClassForEntry = (entry: FormEntry): string => {
+    if (entry && entry.validationFailures && entry.validationFailures.length > 0) {
+        return 'select-invalid';
+    }
+    return '';
+};
+
 export const getSelectClass = (errors: number): string => {
     if (errors === 0) {
         return '';
@@ -185,32 +192,12 @@ export const createClickHandler = (
     };
 };
 
-/**
- * Get the first language in a Languages map
- */
-export const getBaseLanguage = (languages: Languages): Language => {
-    const [iso] = Object.keys(languages);
-    const name = languages[iso];
-    return {
-        name,
-        iso
-    };
-};
-
-/**
- * Get a language from a Languages map in Language format
- */
-export const getLanguage = (languages: Languages, iso: string): Language => ({
-    name: languages[iso],
-    iso
-});
-
 export const getLocalization = (
     obj: Action | Exit | Case,
     localization: LocalizationMap,
     iso: string,
-    languages: Languages
-) => Localization.translate(obj, iso, languages, localization[iso]);
+    name: string
+) => Localization.translate(obj, iso, name, localization[iso]);
 
 /** istanbul ignore next */
 export const dump = (thing: any) => console.log(JSON.stringify(thing, null, 2));
@@ -236,7 +223,8 @@ export const propertyExists = (propertyToCheck: string) => {
 /**
  * Should x element be rendered?
  */
-export const renderIf = (predicate: boolean) => (element: JSX.Element) => predicate && element;
+export const renderIf = (predicate: boolean) => (then: JSX.Element, otherwise?: JSX.Element) =>
+    predicate ? then : otherwise ? otherwise : null;
 
 /**
  * Does the label meet our length requirements?

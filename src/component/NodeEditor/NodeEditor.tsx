@@ -23,7 +23,6 @@ import {
     Router,
     RouterTypes,
     SendEmail,
-    SendMsg,
     SetContactField,
     SetRunResult,
     StartFlow,
@@ -60,6 +59,7 @@ import {
     updateUserAddingAction,
 } from '../../store';
 import { RenderNode } from '../../store/flowContext';
+import { NodeEditorForm, NodeEditorSettings } from '../../store/nodeEditor';
 import { HandleTypeConfigChange, handleTypeConfigChange } from '../../store/thunks';
 import { CaseElementProps } from '../form/CaseElement';
 import TextInputElement from '../form/TextInputElement';
@@ -109,6 +109,7 @@ export interface NodeEditorStoreProps {
     showResultName: boolean;
     operand: string;
     timeout: number;
+    settings: NodeEditorSettings;
     pendingConnection: DragPoint;
     nodes: { [uuid: string]: RenderNode };
     updateResultName: UpdateResultName;
@@ -121,6 +122,7 @@ export interface NodeEditorStoreProps {
     onUpdateRouter: OnUpdateRouter;
     updateUserAddingAction: UpdateUserAddingAction;
     updateShowResultName: UpdateShowResultName;
+    form: NodeEditorForm;
 }
 
 export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
@@ -193,9 +195,6 @@ export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction 
     };
 
     switch (typeConfig.type) {
-        case Types.send_msg:
-            defaultAction = { ...defaultAction, text: '', all_urns: false } as SendMsg;
-            break;
         case Types.add_contact_groups:
             defaultAction = { ...defaultAction, groups: null } as ChangeGroups;
             break;
@@ -367,11 +366,11 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         this.props.updateShowResultName(true);
     }
 
-    private onResultNameChange({ target: { value: resultName } }: any): void {
+    private onResultNameChange(resultName: string): void {
         this.props.updateResultName(resultName);
     }
 
-    private onExpressionChanged({ currentTarget: { value: operand } }: any): void {
+    private onExpressionChanged(operand: string): void {
         this.props.updateOperand(operand);
     }
 
@@ -526,6 +525,12 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         return { cases, exits, defaultExit: defaultUUID };
     }
 
+    public componentDidMount(): void {
+        if (this.props.settings.showAdvanced) {
+            this.toggleAdvanced();
+        }
+    }
+
     private getResultNameField(): JSX.Element {
         let resultNameField: JSX.Element;
         if (this.props.showResultName) {
@@ -535,7 +540,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                     ref={this.onBindWidget}
                     name="Result Name"
                     showLabel={true}
-                    value={this.props.resultName}
+                    entry={{ value: this.props.resultName }}
                     onChange={this.onResultNameChange}
                     helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
                 />
@@ -695,7 +700,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                                     name={exitUUID}
                                     placeholder={placeholder}
                                     showLabel={false}
-                                    value={value}
+                                    entry={{ value }}
                                 />
                             </div>
                         </div>
@@ -723,51 +728,25 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 
     public submit(): boolean {
-        const invalid: any[] = Object.keys(this.widgets).reduce((invalidList, key) => {
-            const widget = this.widgets[key];
-
-            if (widget.wrappedInstance) {
-                if (!widget.wrappedInstance.validate()) {
-                    invalidList.push(widget);
-                }
-            } else {
-                if (!widget.validate()) {
-                    invalidList.push(widget);
-                }
-            }
-
-            return invalidList;
-        }, []);
-
-        // If all form inputs are valid, submit it
-        if (!invalid.length) {
-            this.form.wrappedInstance
-                ? this.form.wrappedInstance.onValid(this.widgets)
-                : this.form.onValid(this.widgets);
-
-            this.props.resetNodeEditingState();
-
-            return true;
-        } else {
-            let frontError = false;
-
-            for (const widget of invalid) {
-                if (!this.advancedWidgets[widget.props.name]) {
-                    frontError = true;
-                    break;
-                }
-            }
-
-            // Show the right pane for the error
-            if (
-                (frontError && this.modal.state.flipped) ||
-                (!frontError && !this.modal.state.flipped)
-            ) {
-                this.toggleAdvanced();
-            }
+        if (
+            !(this.form.wrappedInstance
+                ? this.form.wrappedInstance.validate()
+                : this.form.validate())
+        ) {
+            return false;
         }
 
-        return false;
+        if (this.props.form && !this.props.form.valid) {
+            return false;
+        }
+
+        this.form.wrappedInstance
+            ? this.form.wrappedInstance.onValid(this.widgets)
+            : this.form.onValid(this.widgets);
+
+        this.props.resetNodeEditingState();
+
+        return true;
     }
 
     public close(canceled: boolean): void {
@@ -807,7 +786,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
     private toggleAdvanced(): void {
         if (this.modal) {
-            this.modal.toggleFlip();
+            this.modal.getWrappedInstance().toggleFlip();
         }
     }
 
@@ -885,11 +864,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         };
     }
 
-    private updateGroupsRouter(): void {
-        const { Groups: { state: { groups } } } = this.widgets;
-
+    private updateGroupsRouter(groups: Asset[]): void {
         const currentCases = groupsToCases(groups);
-
         const { cases, exits, defaultExit } = this.resolveExits(currentCases);
 
         if (
@@ -1277,8 +1253,10 @@ const mapStateToProps = ({
         typeConfig,
         resultName,
         showResultName,
+        settings,
         operand,
-        timeout
+        timeout,
+        form
     }
 }: AppState) => ({
     nodeToEdit,
@@ -1294,7 +1272,9 @@ const mapStateToProps = ({
     showResultName,
     operand,
     timeout,
-    pendingConnection
+    pendingConnection,
+    settings,
+    form
 });
 
 /* istanbul ignore next */

@@ -13,6 +13,18 @@ export interface Languages {
     [iso: string]: string;
 }
 
+export interface Language {
+    name: string;
+    iso: string;
+}
+
+export interface Environment {
+    date_format: string;
+    time_format: string;
+    timezone: string;
+    languages: string[];
+}
+
 export interface Endpoints {
     fields: string;
     groups: string;
@@ -20,7 +32,7 @@ export interface Endpoints {
     flows: string;
     activity: string;
     labels: string;
-    languages: string;
+    environment: string;
     simulateStart: string;
     simulateResume: string;
 }
@@ -29,7 +41,7 @@ export interface FlowEditorConfig {
     localStorage: boolean;
     endpoints: Endpoints;
     flow: string;
-
+    assetService?: AssetService;
     path?: string;
 }
 
@@ -151,6 +163,11 @@ export interface SetContactLanguage extends Action {
     language: string;
 }
 
+export interface SetContactLanguage extends Action {
+    type: Types.set_contact_language;
+    language: string;
+}
+
 export type SetContactProperty = SetContactName | SetContactLanguage;
 
 export type SetContactAttribute = SetContactField | SetContactProperty;
@@ -166,6 +183,7 @@ export interface RecipientsAction extends Action {
 export interface SendMsg extends Action {
     text: string;
     all_urns?: boolean;
+    quick_replies?: string[];
 }
 
 export interface BroadcastMsg extends RecipientsAction {

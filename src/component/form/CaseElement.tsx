@@ -9,7 +9,7 @@ import { hasErrorType, jsonEqual, titleCase } from '../../utils';
 import { InputToFocus } from '../routers/SwitchRouter';
 import * as styles from './CaseElement.scss';
 import FormElement from './FormElement';
-import TextInputElement, { HTMLTextElement } from './TextInputElement';
+import TextInputElement from './TextInputElement';
 
 export interface CaseElementProps {
     kase: Case;
@@ -184,7 +184,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         };
 
         bindCallbacks(this, {
-            include: [/Ref$/, /^on/, 'validate']
+            include: [/Ref$/, /^on/, 'validate', /^handle/]
         });
     }
 
@@ -223,10 +223,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         }
     }
 
-    private onChangeArgument(
-        { target: { value } }: React.ChangeEvent<HTMLTextElement>,
-        input?: InputToFocus
-    ): void {
+    private handleChangeArgument(value: string, input?: InputToFocus): void {
         let toFocus: InputToFocus;
         const updates: Partial<CaseElementState> = {};
 
@@ -263,9 +260,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         }
     }
 
-    private onChangeExitName({
-        target: { value: exitName }
-    }: React.ChangeEvent<HTMLTextElement>): void {
+    private handleChangeExitName(exitName: string): void {
         this.setState(
             {
                 exitName,
@@ -279,12 +274,12 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         this.props.onRemove(this);
     }
 
-    private onChangeMin(e: any): void {
-        this.onChangeArgument(e, InputToFocus.min);
+    private handleChangeMin(value: string): void {
+        this.handleChangeArgument(value, InputToFocus.min);
     }
 
-    private onChangeMax(e: any): void {
-        this.onChangeArgument(e, InputToFocus.max);
+    private handleChangeMax(value: string): void {
+        this.handleChangeArgument(value, InputToFocus.max);
     }
 
     private handleChange(focus: InputToFocus): void {
@@ -414,8 +409,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                     <React.Fragment>
                         <TextInputElement
                             name="arguments"
-                            onChange={this.onChangeMin}
-                            value={minVal}
+                            onChange={this.handleChangeMin}
+                            entry={{ value: minVal }}
                             focus={this.props.focusMin}
                             showInvalid={hasErrorType(this.state.errors, [
                                 /Minimum value must/,
@@ -428,8 +423,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                         <span className={styles.divider}>and</span>
                         <TextInputElement
                             name="arguments"
-                            onChange={this.onChangeMax}
-                            value={maxVal}
+                            onChange={this.handleChangeMax}
+                            entry={{ value: maxVal }}
                             focus={this.props.focusMax}
                             showInvalid={hasErrorType(this.state.errors, [
                                 /Maximum value must/,
@@ -444,8 +439,10 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                     <TextInputElement
                         data-spec="args-input"
                         name="arguments"
-                        onChange={this.onChangeArgument}
-                        value={this.state.arguments.length ? this.state.arguments[0] : ''}
+                        onChange={this.handleChangeArgument}
+                        entry={{
+                            value: this.state.arguments.length ? this.state.arguments[0] : ''
+                        }}
                         focus={this.props.focusArgs}
                         autocomplete={true}
                         showInvalid={hasErrorType(this.state.errors, [
@@ -486,7 +483,6 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             <FormElement
                 data-spec="case-form"
                 name={this.props.name}
-                errors={this.state.errors}
                 __className={styles.group}
                 kaseError={this.state.errors.length > 0}
             >
@@ -521,8 +517,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                             ref={this.categoryRef}
                             data-spec="exit-input"
                             name="exitName"
-                            onChange={this.onChangeExitName}
-                            value={this.state.exitName}
+                            onChange={this.handleChangeExitName}
+                            entry={{ value: this.state.exitName }}
                             focus={this.props.focusExit}
                             showInvalid={hasErrorType(this.state.errors, [/category/])}
                         />

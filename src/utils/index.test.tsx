@@ -5,8 +5,6 @@ import {
     capitalize,
     containsOnlyLabelChars,
     emphasize,
-    getBaseLanguage,
-    getLanguage,
     getLocalization,
     getSelectClass,
     hasErrorType,
@@ -154,27 +152,6 @@ describe('utils', () => {
         });
     });
 
-    describe('getBaseLanguage', () => {
-        it('should return the language stored in the first key of a Languages map', () => {
-            const baseLanguage = getBaseLanguage(configProviderContext.languages);
-            const firstKey = Object.keys(configProviderContext.languages)[0];
-
-            expect(baseLanguage.iso).toBe(firstKey);
-            expect(baseLanguage.name).toBe(configProviderContext.languages[firstKey]);
-        });
-    });
-
-    describe('getLanguage', () => {
-        it('should return specified language from Languages map if it exists in map', () => {
-            const iso = Object.keys(configProviderContext.languages)[0];
-
-            expect(getLanguage(configProviderContext.languages, iso)).toEqual({
-                name: configProviderContext.languages[iso],
-                iso
-            });
-        });
-    });
-
     describe('getLocalizations', () => {
         it('should return a localized object', () => {
             ['eng', 'spa', 'fre'].forEach(iso => {
@@ -187,28 +164,6 @@ describe('utils', () => {
                     )
                 ).toMatchSnapshot();
             });
-        });
-    });
-
-    describe('getLanguage', () => {
-        it('should return language as Language', () => {
-            Object.keys(configProviderContext.languages).forEach(iso => {
-                const language = getLanguage(configProviderContext.languages, iso);
-
-                expect(language).toEqual({
-                    name: configProviderContext.languages[iso],
-                    iso
-                });
-                expect(language).toMatchSnapshot();
-            });
-        });
-    });
-
-    describe('getBaseLanguage', () => {
-        it("should return Language corresponding to the first property in the Languages object it's passed", () => {
-            const baseLanguage = getBaseLanguage(configProviderContext.languages);
-
-            expect(baseLanguage).toMatchSnapshot();
         });
     });
 
@@ -354,7 +309,7 @@ describe('utils', () => {
             const newOption = {
                 id: 'name',
                 name: 'Name',
-                type: AssetType.Property
+                type: AssetType.Name
             };
 
             expect(

@@ -8,6 +8,7 @@ import ActionTypes, {
     UpdateBaseLanguageAction,
     UpdateDefinitionAction,
     UpdateDependenciesAction,
+    UpdateLanguagesAction,
     UpdateLocalizationsAction,
     UpdateNodesAction,
     UpdateResultNamesAction
@@ -33,6 +34,7 @@ export interface FlowContext {
     dependencies: FlowDefinition[];
     localizations: LocalizedObject[];
     baseLanguage: Asset;
+    languages: Asset[];
     resultNames: CompletionOption[];
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
@@ -43,6 +45,7 @@ export const initialState: FlowContext = {
     definition: null,
     dependencies: null,
     baseLanguage: null,
+    languages: [],
     localizations: [],
     resultNames: [],
     nodes: {}
@@ -74,6 +77,13 @@ export const updateBaseLanguage = (baseLanguage: Asset): UpdateBaseLanguageActio
     type: Constants.UPDATE_BASE_LANGUAGE,
     payload: {
         baseLanguage
+    }
+});
+
+export const updateLanguages = (languages: Asset[]): UpdateLanguagesAction => ({
+    type: Constants.UPDATE_LANGUAGES,
+    payload: {
+        languages
     }
 });
 
@@ -160,6 +170,15 @@ export const baseLanguage = (state: Asset = initialState.baseLanguage, action: A
     }
 };
 
+export const languages = (state: Asset[] = initialState.languages, action: ActionTypes) => {
+    switch (action.type) {
+        case Constants.UPDATE_LANGUAGES:
+            return action.payload.languages;
+        default:
+            return state;
+    }
+};
+
 // Root reducer
 export default combineReducers({
     definition,
@@ -167,5 +186,6 @@ export default combineReducers({
     dependencies,
     localizations,
     resultNames,
-    baseLanguage
+    baseLanguage,
+    languages
 });

@@ -2,13 +2,13 @@ import { Types } from '../../../config/typeConfigs';
 import {
     Action,
     Field,
+    Language,
     SetContactField,
     SetContactName,
     SetContactProperty
 } from '../../../flowTypes';
 import { Asset, AssetType } from '../../../services/AssetService';
 import { snakify, titleCase } from '../../../utils';
-import { Language } from '../../LanguageSelector';
 import { set_contact_name } from '../Action/Action.scss';
 
 export type ContactProperty = Types.set_contact_name;

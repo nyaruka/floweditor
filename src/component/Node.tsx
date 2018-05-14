@@ -8,7 +8,6 @@ import * as FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { ConfigProviderContext, fakePropType } from '../config/ConfigProvider';
 import { getOperatorConfig } from '../config/operatorConfigs';
 import { getTypeConfig, Types } from '../config/typeConfigs';
 import {
@@ -106,12 +105,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     private clicking: boolean;
     private events: ClickHandler;
 
-    public static contextTypes = {
-        languages: fakePropType
-    };
-
-    constructor(props: NodeProps, context: ConfigProviderContext) {
-        super(props, context);
+    constructor(props: NodeProps) {
+        super(props);
 
         this.state = { thisNodeDragging: false };
 
@@ -278,10 +273,9 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         if (!this.props.nodeDragging) {
             // prettier-ignore
             this.props.onOpenNodeEditor(
-            this.props.node,
-            null,
-            this.context.languages
-        );
+                this.props.node,
+                null,
+            );
         }
     }
 

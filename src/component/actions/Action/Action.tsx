@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { ConfigProviderContext, getTypeConfig } from '../../../config';
 import { fakePropType } from '../../../config/ConfigProvider';
 import { Types } from '../../../config/typeConfigs';
-import { AnyAction, FlowNode, LocalizationMap, Action } from '../../../flowTypes';
+import { Action, AnyAction, FlowNode, LocalizationMap } from '../../../flowTypes';
 import { Asset } from '../../../services/AssetService';
 import {
     ActionAC,
@@ -64,16 +64,23 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     }
 
     public onClick(event: React.MouseEvent<HTMLDivElement>): void {
+        const target = event.target as any;
+        const showAdvanced =
+            (target && target.attributes && target.attributes['data-advanced']) || false;
+
         if (!this.props.thisNodeDragging) {
             event.preventDefault();
             event.stopPropagation();
-            this.props.onOpenNodeEditor(this.props.node, this.props.action, this.context.languages);
+            this.props.onOpenNodeEditor(
+                this.props.node,
+                this.props.action,
+                { showAdvanced }
+            );
         }
     }
 
     private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
-
         this.props.removeAction(this.props.node.uuid, this.props.action);
     }
 
@@ -83,13 +90,12 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         this.props.moveActionUp(this.props.node.uuid, this.props.action);
     }
 
-    public async getAction(): Promise<Action> {
-        // const languages = await this.context.assetService.languages.
+    public getAction(): Action {
         const localization = getLocalization(
             this.props.action,
             this.props.localization,
             this.props.language.id,
-            languages
+            this.props.language.name
         );
 
         return localization && this.props.translating
@@ -114,7 +120,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
                     this.props.action,
                     this.props.localization,
                     this.props.language.id,
-                    this.context.languages
+                    this.props.language.name
                 );
 
                 if (localization.isLocalized()) {

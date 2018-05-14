@@ -19,19 +19,13 @@ import {
 import { languageSelector } from './LanguageSelector.scss';
 import SelectSearch from './SelectSearch/SelectSearch';
 
-export interface Language {
-    name: string;
-    iso: string;
-}
-
 export interface LanguageSelectorStoreProps {
     language: Asset;
+    languages: Asset[];
     updateLanguage: UpdateLanguage;
     updateTranslating: UpdateTranslating;
     handleLanguageChange: HandleLanguageChange;
 }
-
-export const containerClass = `${languageSelector} select-small`;
 
 export const languageSelectorContainerSpecId = 'language-selector-container';
 
@@ -51,16 +45,15 @@ export class LanguageSelector extends React.Component<LanguageSelectorStoreProps
         this.props.handleLanguageChange(language);
     }
 
-    private getInitial(): Asset {
-        return;
-    }
-
     public render(): JSX.Element {
         return (
-            <div className={containerClass} data-spec={languageSelectorContainerSpecId}>
+            <div
+                className={`${languageSelector} select-small`}
+                data-spec={languageSelectorContainerSpecId}
+            >
                 <SelectSearch
                     resultType={ResultType.language}
-                    assets={this.context.assetService.getLanguageAssets()}
+                    localSearchOptions={this.props.languages}
                     searchable={false}
                     multi={false}
                     initial={[this.props.language]}
@@ -73,7 +66,10 @@ export class LanguageSelector extends React.Component<LanguageSelectorStoreProps
     }
 }
 
-const mapStateToProps = ({ flowEditor: { editorUI: { language } } }: AppState) => ({ language });
+const mapStateToProps = ({
+    flowContext: { languages },
+    flowEditor: { editorUI: { language } }
+}: AppState) => ({ language, languages });
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(

@@ -20,7 +20,14 @@ export default class SelectValue extends React.PureComponent<SelectValueProps, {
         });
     }
 
-    private handleRemove(): void {
+    private handleMouseDown(event: React.MouseEvent<HTMLSpanElement>): void {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
+    private handleMouseUp(event: React.MouseEvent<HTMLSpanElement>): void {
+        event.stopPropagation();
+        event.preventDefault();
         this.props.onRemove(this.props.value);
     }
 
@@ -30,7 +37,8 @@ export default class SelectValue extends React.PureComponent<SelectValueProps, {
                 {renderIf(this.props.onRemove)(
                     <span
                         data-spec="remove-button"
-                        onClick={this.handleRemove}
+                        onMouseDown={this.handleMouseDown}
+                        onMouseUp={this.handleMouseUp}
                         className="Select-value-icon"
                     >
                         x

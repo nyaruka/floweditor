@@ -10,6 +10,7 @@ import { Asset } from '../../../services/AssetService';
 import { AppState, DispatchWithState } from '../../../store';
 import { StartSessionFunc, updateStartSessionForm } from '../../../store/forms';
 import { StartSessionFormState } from '../../../store/nodeEditor';
+import { validate, validateRequired } from '../../../store/validators';
 import FlowElement from '../../form/FlowElement';
 import OmniboxElement from '../../form/OmniboxElement';
 import { StartSessionFormHelper } from './StartSessionFormHelper';
@@ -24,7 +25,6 @@ export interface StartSessionFormPassedProps {
     action: StartSession;
     formHelper: StartSessionFormHelper;
     updateAction(action: StartSession): void;
-    onBindWidget(ref: any): void;
 }
 
 export type StartSessionFormProps = StartSessionFormStoreProps & StartSessionFormPassedProps;
@@ -51,12 +51,27 @@ export class StartSessionForm extends React.Component<
         this.props.updateAction(action);
     }
 
-    public handleRecipientsChanged(selected: Asset[]): void {
-        this.props.updateStartSessionForm({ recipients: selected });
+    public validate(): boolean {
+        const valid = this.handleRecipientsChanged(this.props.form.recipients.value);
+        const flow = this.props.form.flow.value ? [this.props.form.flow.value] : [];
+        return this.handleFlowChanged(flow) && valid;
     }
 
-    public handleFlowChanged(selected: Asset[]): void {
-        this.props.updateStartSessionForm({ flow: selected[0] });
+    public handleRecipientsChanged(selected: Asset[]): boolean {
+        return (this.props.updateStartSessionForm({
+            recipients: validate('Recipients', selected, [validateRequired])
+        }) as any).valid;
+    }
+
+    public handleFlowChanged(selected: Asset[]): boolean {
+        let flow = null;
+        if (selected && selected.length > 0) {
+            flow = selected[0];
+        }
+
+        return (this.props.updateStartSessionForm({
+            flow: validate('Flow', flow, [validateRequired])
+        }) as any).valid;
     }
 
     public render(): JSX.Element {
@@ -64,22 +79,18 @@ export class StartSessionForm extends React.Component<
             <div>
                 <OmniboxElement
                     data-spec="recipients"
-                    ref={this.props.onBindWidget}
                     name="Recipients"
                     assets={this.context.assetService.getRecipients()}
-                    selected={this.props.form.recipients}
-                    add={true}
-                    required={true}
                     onChange={this.handleRecipientsChanged}
+                    entry={this.props.form.recipients}
+                    add={true}
                 />
                 <p>Select a flow to run</p>
                 <FlowElement
-                    ref={this.props.onBindWidget}
                     name="Flow"
                     onChange={this.handleFlowChanged}
                     assets={this.context.assetService.getFlowAssets()}
-                    flow={this.props.action.flow}
-                    required={true}
+                    entry={this.props.form.flow}
                 />
             </div>
         );

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { ResultType } from '../../flowTypes';
 import AssetService, { Asset, Assets } from '../../services/AssetService';
-import { getSelectClass, jsonEqual } from '../../utils';
+import { getSelectClassForEntry } from '../../utils';
 import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
@@ -13,7 +13,6 @@ export interface GroupOption {
 
 export interface OmniboxElementProps extends FormElementProps {
     add?: boolean;
-    selected?: Asset[];
     placeholder?: string;
     searchPromptText?: string | JSX.Element;
     onChange?: (groups: Asset[]) => void;
@@ -21,18 +20,10 @@ export interface OmniboxElementProps extends FormElementProps {
     className?: string;
 }
 
-interface OmniboxElementState {
-    selected: Asset[];
-    errors: string[];
-}
-
 export const PLACEHOLDER = 'Enter a group or contact...';
 export const NOT_FOUND = 'No matches';
 
-export default class OmniboxElement extends React.Component<
-    OmniboxElementProps,
-    OmniboxElementState
-> {
+export default class OmniboxElement extends React.Component<OmniboxElementProps> {
     public static defaultProps = {
         placeholder: PLACEHOLDER,
         searchPromptText: NOT_FOUND
@@ -40,67 +31,29 @@ export default class OmniboxElement extends React.Component<
 
     constructor(props: OmniboxElementProps) {
         super(props);
-
-        this.state = {
-            selected: this.props.selected,
-            errors: []
-        };
-
-        this.onChange = this.onChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    public componentWillReceiveProps(nextProps: OmniboxElementProps): void {
-        if (
-            nextProps.selected &&
-            nextProps.selected.length &&
-            !jsonEqual(nextProps.selected, this.props.selected)
-        ) {
-            this.setState({ selected: nextProps.selected });
+    private handleChange(selected: Asset[]): void {
+        if (this.props.onChange) {
+            this.props.onChange(selected);
         }
-    }
-
-    private onChange(selected: Asset[]): void {
-        if (!jsonEqual(selected, this.state.selected)) {
-            this.setState(
-                {
-                    selected
-                },
-                () => {
-                    if (this.props.onChange) {
-                        this.props.onChange(selected);
-                    }
-                }
-            );
-        }
-    }
-
-    public validate(): boolean {
-        const errors: string[] = [];
-
-        if (this.props.required && !this.state.selected.length) {
-            errors.push(`${this.props.name} is required.`);
-        }
-
-        this.setState({ errors });
-
-        return errors.length === 0;
     }
 
     public render(): JSX.Element {
         const createOptions: any = {};
-        const className = getSelectClass(this.state.errors.length);
         const eleClass = this.props.className || '';
 
         return (
-            <FormElement name={this.props.name} errors={this.state.errors} __className={eleClass}>
+            <FormElement name={this.props.name} __className={eleClass} entry={this.props.entry}>
                 <SelectSearch
-                    _className={className}
-                    onChange={this.onChange}
+                    __className={getSelectClassForEntry(this.props.entry)}
+                    onChange={this.handleChange}
                     name={this.props.name}
                     resultType={ResultType.group}
                     assets={this.props.assets}
                     multi={true}
-                    initial={this.state.selected}
+                    initial={this.props.entry.value}
                     placeholder={this.props.placeholder}
                     searchPromptText={this.props.searchPromptText}
                     {...createOptions}

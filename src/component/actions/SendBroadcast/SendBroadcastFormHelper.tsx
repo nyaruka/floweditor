@@ -9,25 +9,25 @@ export class SendBroadcastFormHelper implements FormHelper {
         if (action) {
             return {
                 type: action.type,
-                text: action.text,
-                recipients: getRecipients(action),
-                translatedText: action.text
+                text: { value: action.text },
+                recipients: { value: getRecipients(action) },
+                valid: true
             };
         }
 
         return {
             type: Types.send_broadcast,
-            text: '',
-            recipients: [],
-            translatedText: ''
+            text: { value: '' },
+            recipients: { value: [] },
+            valid: false
         };
     }
 
     public stateToAction(actionUUID: string, formState: SendBroadcastFormState): BroadcastMsg {
         return {
-            contacts: this.getAsset(formState.recipients, AssetType.Contact),
-            groups: this.getAsset(formState.recipients, AssetType.Group),
-            text: formState.text,
+            contacts: this.getAsset(formState.recipients.value, AssetType.Contact),
+            groups: this.getAsset(formState.recipients.value, AssetType.Group),
+            text: formState.text.value,
             type: formState.type,
             uuid: actionUUID
         };

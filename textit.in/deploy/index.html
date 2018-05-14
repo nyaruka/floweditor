@@ -1,0 +1,899 @@
+<!DOCTYPE HTML>
+
+
+<!--[if lte IE 8]><html class="ie" lang="en">    <![endif]-->
+<!--[if !IE]><!--><html lang="en">              <!--<![endif]-->
+
+  <head>
+    <title>
+      
+        TextIt - Visually build interactive SMS Applications
+      
+
+    </title>
+    <link href='/sitestatic/fonts/roboto/stylesheet.css' rel='stylesheet' type='text/css'>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name='description' content='TextIt lets you visually build interactive SMS applications and launch them anywhere in the world.'>
+    <meta name='author' content='Nyaruka Ltd'>
+    <meta http-equiv='X-UA-Compatible' content='IE=10'>
+
+    
+    <script type='text/javascript'>
+      
+      function conditionalLoad(local, remote) {
+        if (local != null && (window.location.hostname == "localhost" || remote == null)) {
+          loadResource("/sitestatic/" + local);
+        } else if (remote != null) {
+          loadResource(remote);
+        }
+      }
+      
+      function loadResource(src) {
+        (function() { document.write(unescape('%3Cscript src="' + src + '"%3E%3C/script%3E')); })();
+      }
+    </script>
+<!-- ==== JQUERY ==== -->
+    <script type='text/javascript'>
+      conditionalLoad('bower/jquery/jquery.js', '//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js');
+      conditionalLoad('bower/jquery-migrate/jquery-migrate.min.js', null);
+    </script>
+<!-- ==== ANGULAR ==== -->
+    <script type='text/javascript'>
+      
+      // this has to be loaded before angular
+      conditionalLoad('lib/angular-file-upload-1.6.12/angular-file-upload-shim.js', null);
+      
+      // our angular scripts
+      conditionalLoad('bower/angular/angular.js', null);
+      conditionalLoad('bower/angular-animate/angular-animate.js', null);
+      
+      // this must be loaded after angular
+      conditionalLoad('lib/angular-file-upload-1.6.12/angular-file-upload.js', null)
+    </script>
+    <script src="/jsi18n/"></script>
+
+    <script type="text/javascript" src="/sitestatic/CACHE/js/b91160ed13cd.js"></script>
+    <script type="text/javascript" src="/sitestatic/CACHE/js/405aed2f5468.js"></script>
+    <script type='text/javascript'>
+  <!-- UserVoice JavaScript SDK (only needed once on a page) -->
+  if (window.location.hostname != "localhost" && "True" == "True") {
+    conditionalLoad(null, '//widget.uservoice.com/lYDl4etqM2WtGg6BKkxWg.js');
+    UserVoice = window.UserVoice || []
+  }
+</script>
+
+  <script type='text/javascript'>
+    if (window.location.hostname != "localhost"){
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+       ga('create', 'UA-42094200-3', 'auto');
+       ga('send', 'pageview');
+    }
+  </script>
+  
+
+<script type='text/javascript'>
+  var sso = undefined;
+  var uv_label = 'Contact Us';
+  var uv_mode = 'support';
+  
+  
+    var anon_org = false;
+  
+</script>
+<script type='text/javascript'>
+  if (window.location.hostname != "localhost") {
+    $(document).ready(function() {
+      UserVoice = window.UserVoice || [];
+      
+  
+      // Pin the (?) icon for the contact form w/Instant Answers on your page
+      UserVoice.push(['pin', 'contact']);
+  
+      // Autoprompt users for Satisfaction and SmartVote
+      UserVoice.push(['autoprompt']);
+  
+    });
+  }
+</script>
+
+  <script>
+  window.intercomSettings = {
+    app_id: "l6e7tr01",
+    name: " ",
+    email: "",
+    user_id: "",
+    brand: "textit",
+    created_at: "",
+  };
+  </script>
+
+  <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/l6e7tr01';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+
+
+
+  <script type='text/javascript'>
+     var options = {
+        ignoreErrors: [ 'fb_xd_fragment', '/inspectlet/' ],
+        ignoreUrls: [ /inspectlet/ ]
+    };
+    Raven.config('https://b7e7673049a842d080ca4d0dfa7a9fda@app.getsentry.com/20737', options).install();
+  </script>
+
+
+  <script type="text/javascript" id="inspectletjs">
+    var __insp = __insp || [];
+    __insp.push(['wid', 1150340038]);
+    (function() {
+      function __ldinsp(){var insp = document.createElement('script'); insp.type = 'text/javascript'; insp.async = true; insp.id = "inspsync"; insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://www.inspectlet.com/inspectlet.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(insp, x); }
+      if (window.attachEvent){
+        window.attachEvent('onload', __ldinsp);
+      }else{
+        window.addEventListener('load', __ldinsp, false);
+      }
+    })();
+  </script>
+
+
+
+    
+      <link type='image/ico' rel='shortcut icon' href='/sitestatic//brands/textit/favicon.ico'>
+    
+    
+    
+
+    
+      <link rel="stylesheet" href="/sitestatic/CACHE/css/bd7704e5886a.css" type="text/css" media="all" />
+      <link rel="stylesheet" href="/sitestatic/CACHE/css/ec2f9683d4d4.css" type="text/css" media="all and (min-width: 1200px), all and (max-width: 767px), all and (max-width: 480px), all and (min-width: 980px)" />
+      <link rel="stylesheet" href="/sitestatic/CACHE/css/967fe7d58cf3.css" type="text/css" media="all" />
+      <link rel="stylesheet" href="/sitestatic/CACHE/css/3e2cc4e3ebcb.css" type="text/css" media="all" /><link rel="stylesheet" href="/sitestatic/CACHE/css/1000b606a3ea.css" type="text/css" media="print" />
+      <link rel="stylesheet" href="/sitestatic/CACHE/css/5e76c97a8db3.css" type="text/css" media="all" />
+
+      
+  <link rel="stylesheet" href="/sitestatic/CACHE/css/c95518451948.css" type="text/css" media="all" />
+
+      
+
+      
+
+    
+  </head>
+  
+  <!--[if lt IE 9]>
+    <script src='//html5shim.googlecode.com/svn/trunk/html5.js'></script>
+  <![endif]-->
+
+
+
+<body id='pageBody'>
+  <div class='page-wrap'>
+
+    <!-- Header -->
+    <div id='print-header'>
+      <span class='logo icon-logo'></span>
+    </div>
+    <div id='header'>
+      &nbsp;
+
+    </div>
+    <a href='/' title='TextIt' class='logo icon-logo' id='big-logo'>
+      <div class='name'>
+        TextIt
+
+      </div>
+    </a>
+    
+
+<ul id='top-menu'>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      <li class='nav-learn'>
+        <a href='http://textit.in/video/' class=' icon-nav-learn'>
+          <div class='title'>
+            learn
+
+          </div>
+        </a>
+      </li>
+      <li class='nav-docs'>
+        <a href='http://feedback.textit.in/' target='docs' class='icon-nav-docs'>
+          <div class='title'>
+            docs
+
+          </div>
+        </a>
+      </li>
+      <li class='nav-pricing'>
+        <a href='http://textit.in/pricing/' class=' icon-nav-pricing'>
+          <div class='title'>
+            pricing
+
+          </div>
+        </a>
+      </li>
+      <li class='nav-blog'>
+        <a href='http://blog.textit.in' class='icon-nav-blog'>
+          <div class='title'>
+            blog
+
+          </div>
+        </a>
+      </li>
+      <li class='nav-login'>
+        <a href='https://textit.in/login/' class='icon-nav-login'>
+          <div class='title'>
+            sign in
+
+          </div>
+        </a>
+      </li>
+    
+  
+</ul>
+
+
+
+    
+    
+    
+    <!-- Content -->
+    
+      <div class='container-fluid' id='page-container'>
+        <div class='page-content'>
+          
+
+
+          
+          
+  <h1>
+    Deploy Anywhere 🌍
+
+  </h1>
+  <div class='callout'></div>
+  <p>
+    
+      Deliver messages anywhere in the world through SMS & voice channels, IP messaging apps and social media platforms.
+
+    
+  </p>
+  <div class='channel'>
+    SMS & Voice
+
+  </div>
+  <div class='deploy'>
+    <div class='kind'>
+      <div class='title'>
+        Sending with SMS Gateways
+
+      </div>
+    </div>
+    <div class='body'>
+      <p>
+        
+          Gateway services like <a href='http://www.twilio.com' target='_blank'>Twilio</a> and <a href='http://www.nexmo.com' target='_blank'>Nexmo</a> are the
+          cheapest and most reliable way to deploy TextIt in most countries. They provide SMS, voice and MMS-enabled virtual phone numbers and short codes
+          that send and receive messages on behalf of your TextIt account. Additionally, they generally work across all carriers in the country which means
+          less for you to worry about. The process is simple and quick: create an account
+          with a gateway service, rent one or more numbers for just dollars per month, then plug your API token into TextIt.
+          You’ll be sending messages in minutes.
+
+        
+      </p>
+      <h5>
+        Choosing a Gateway
+
+      </h5>
+      <div class='subbox'>
+        <h4>
+          Toll-Free Numbers
+        </h4>
+        
+          Some gateway services provide toll-free virtual numbers that can be SMS and/or voice-enabled, and will list these numbers as products on their pricing pages.
+          Toll-free numbers prevent your contacts from being charged when they send an SMS or make a call to your number. They’re especially useful for programs
+          working with low-income populations.
+
+        
+      </div>
+      <p>
+        
+          Once you’ve opened a TextIt account, navigate to the channels page. There we’ll recommend your local
+          gateway and list the global gateway services we support. For example, if you’re located in the UK, USA or Canada we recommend <a href='http://www.twilio.com' target='_blank'>Twilio</a>.
+          If you’re located in Kenya we recommend <a href='http://www.africastalking.com' target='_blank'>Africa's Talking</a>. If we don't already recommend a local gateway service for
+          your country, let us know and we'll see if we can't locate one for you.
+
+        
+      </p>
+      <p>
+        
+          You might also want to visit each global gateway service’s pricing page where you can view pricing information as well as its product offerings for your country. We recommend starting with
+          <a href='https://www.twilio.com/sms/pricing' target='_blank'>Twilio</a>, <a href='https://www.nexmo.com/pricing/' target='_blank'>Nexmo</a>
+          and <a href='https://www.clickatell.com/detailed-pricing-and-coverage/' target='_blank'>Clickatell</a> in that order. If you aren’t able to find virtual numbers for your country, let us know.
+          We’d be happy to help you identify the best channel for your use case.
+
+        
+      </p>
+      <h5>
+        Adding more Gateways
+
+      </h5>
+      <p>
+        
+          We're always extending our network of local gateways. If you don't see an option for your country,
+          let us know. We'd be happy to help source a local gateway that we can integrate with TextIt for your country.
+
+        
+      </p>
+      <h5>
+        Gateways and Short Codes
+
+      </h5>
+      <p>
+        
+          If you need to send more than a few thousand messages per hour, we recommend acquiring a short code. If a local gateway service
+          provides them, it's best to go that route. Short codes can take a few months to acquire due to the application process but gateway services
+          will facilitate the process.
+
+        
+      </p>
+      <h5>
+        SMS Gateway Best Practices
+
+      </h5>
+      <p>
+        
+          TextIt encourages users to review proposed use cases with qualified legal counsel to make sure they comply with applicable laws.
+          The following are general best practices:
+
+        
+      </p>
+      <ul>
+        <li>Your SMS campaigns should support HELP/STOP messages in your contacts' local languages.</li>
+        <li>Only send messages or make calls during your contacts' daytime hours unless you have their approval.</li>
+        <li>Get opt-in consent from your contacts before sending them marketing or other non-essential messages.</li>
+        <li>Don't send messages to contacts on do-not-call or do-not-disturb registries.</li>
+
+      </ul>
+     <p>
+      
+        SMS works differently in every country, so Twilio and Nexmo provide guidelines that include information on everything from
+        message routing to best practices. Twilio's country-specific guidelines can be found <a href='https://www.twilio.com/sms/guidelines/' target='blank'>here</a>,
+        while Nexmo's can be found <a href='https://help.nexmo.com/hc/en-us/sections/200622473-Country-Specific-Features-and-Restrictions' target='blank'>here</a>.
+
+      
+     </p>
+     <h5>
+        Non-Profit Discount
+
+     </h5>
+     <p>
+        
+          Twilio provides a 25% discount on messaging and voice
+          fees for qualified non-profits through its counterpart <a href='http://twilio.org' target='_blank'>twilio.org</a>.
+          They'll even grant you a $500 credit to get started. These non-profit Twilio accounts
+          are easy to connect to TextIt, and we'd be happy to help you get started with this great program.
+
+        
+     </p>
+    </div>
+  </div>
+  <div class='deploy'>
+    <div class='kind'>
+      <div class='title'>
+        <p>
+          
+            Using TextIt with an Android Phone
+
+          
+        </p>
+      </div>
+    </div>
+    <div class='body'>
+      <p>
+        
+          TextIt's Android channel enables you to send and receive messages anywhere you can acquire a local SIM card. Simply download
+          the <a href='https://play.google.com/store/apps/details?id=&hl=en' target='_blank'>TextIt Android application</a> on
+          your phone and follow the instructions to connect it to your account. When the app is active,
+          anytime your TextIt account sends a message it will notify your Android phone. The phone will then
+          send the message from your local number on your behalf. If somebody responds to that message, the phone will
+          relay it back to your TextIt account. You can add as many Android channels as you like, and
+          even <a href='http://feedback.textit.in/knowledgebase/articles/645718-adding-ivr-to-your-android-channel' target='_blank'>
+          enable IVR (voice) functionalilty.</a>
+
+        
+      </p>
+      <h5>
+        Buy an Android Phone
+
+      </h5>
+      <div class='sidebox'>
+        <div class='caption'>
+          We recommend using
+          <a href='http://www.samsung.com/uk/consumer/mobile-devices/smartphones/productcompare?prda=GT-S5570EGAXEU&prdb=GT-S6500ZYABTU&prdc=GT-S5300ZKABTU&prdd=GT-S6310ZWNBTU'>
+            inexpensive Samsung phones
+          </a>
+          which are available in many local markets around the world. In East Africa these devices can be had locally for around $90.
+        </div>
+        <img src='/sitestatic/images/galaxy-mini.png'>
+
+      </div>
+      <p>
+        
+          We recommend that the phone you use for TextIt be dedicated to that purpose only. The good news
+          is that Android phones are among the most inexpensive and capable phones available today.
+
+        
+      </p>
+      <h5>
+        Get a Local SIM Card
+
+      </h5>
+      <p>
+        
+          If you already have a local SIM just pop it in your android phone.
+          Otherwise, you'll want to aquire a SIM card from your local carrier of choice. Not sure which to pick? <a href='http://www.opensignal.com' target='_blank'>OpenSignal</a> provides
+          detailed coverage maps for each carrier in your country. We recommend acquiring a data-enabled SIM, though you're welcome to rely on
+          Wi-Fi instead. You can set up a post-paid plan–so you don't have to top it up-or a prepaid plan
+          which you can top up on a custom schedule using our airtime-transfer functionality.
+
+        
+      </p>
+      <h5>
+        
+          Install the TextIt App
+
+        
+      </h5>
+      <div class='subbox'>
+        <h4>
+          Reverse Billing
+        </h4>
+        <p>
+          
+            In some countries it's possible acquire <i>reverse billed</i> SIM cards, which make it free
+            for anyone to send messages to that number while you pay for both incoming and outgoing messages. This
+            configuration is especially useful for programs working with low income populations.
+
+          
+        </p>
+      </div>
+      <p>
+        You can download the free Android app from
+        <a href='https://play.google.com/store/apps/details?id=&hl=en' target='_blank'>Google Play</a>.
+        Once the app is installed it will give you a 6 digit claim code that you then
+        <a href='/channels/channel/' target='_blank'>enter on the website</a>.
+        
+          And that's all there is to it. From then on, that phone will handle sending all the messages for your TextIt account.
+
+        
+      </p>
+      <h5>
+        Give the phone a good home
+
+      </h5>
+      <p>
+        
+          Android phones are great because they can be used in even the most challenging environments. Simply store it
+          in a place in the country where it will have a reliable power source and a strong signal. You will
+          need either a Wi-Fi or GSM data connection, but if you can get both, even better. The phone will be smart
+          about which network to use if one connection isn't working well.
+
+
+        
+      </p>
+    </div>
+    <div class='faq'>
+      <h4>
+        
+          TextIt with Android FAQ
+
+        
+      </h4>
+      <div class='question'>
+        What if I need to send a lot of messages?
+      </div>
+      <div class='answer'>
+        
+          We encourage people to validate their ideas and experiment before focusing on scaling. Starting with Android
+          phones is a logical starting point for when virtual numbers aren't available and you'll have no problem sending up to around 1,000 messages per hour.
+          If you do outgrow that, we can help you connect your TextIt account
+          with a local gateway or even a direct connection with the carriers themselves.
+
+        
+      </div>
+      <div class='question'>
+        What happens if the battery dies?
+      </div>
+      <div class='answer'>
+        
+          Android phones are great because they have redundant network connections and a backup battery. So, if the office
+          where it is located loses power or the network goes down, the TextIt app will continue to relay messages. In most
+          cases, using an Android phone with TextIt means you can just <i>set it and forget it</i>.
+          We'll notify you automatically if the phone is running low on battery, out of credit, or doesn't have
+          network connectivity so someone can check up on it.
+
+        
+      </div>
+      <div class='question'>
+        Can I use a short code? What about reverse billing?
+      </div>
+      <div class='answer'>
+        
+          While these features are generally viewed as unique to SMPP accounts, in some countries the carriers will allow short codes
+          to point to SIM accounts. This means texting or calling that short code would route to your Android phone. In
+          some cases these SIM-based accounts can also be reverse-billed.
+
+        
+      </div>
+      <div class='question'>
+        
+          Does the fee I pay to TextIt include messaging fees?
+        
+      </div>
+      <div class='answer'>
+        
+          No, the fee covers the use of the TextIt platform. Any messaging rates imposed by your carrier apply.
+
+        
+      </div>
+      <div class='question'>
+        
+          Will TextIt work for my remote ICT4D project?
+        
+      </div>
+      <div class='answer'>
+        
+          We understand that deploying SMS applications has traditionally been one of the trickiest parts when launching ICT4D projects.
+          In fact, it's the primary thing that drove us to build TextIt in the first place. We try hard to make it as easy as possible
+          but we realize that you probably have questions on what this all means for your
+          specific project. Please <a href='javascript:void(0);' class='uv-send-message'>contact us</a> with <i>any questions</i> and we'll help you work through your options.
+
+        
+      </div>
+    </div>
+  </div>
+  <div class='deploy'>
+    <div class='kind'>
+      <div class='title'>
+        Connecting to Carriers
+
+      </div>
+    </div>
+    <div class='body'>
+      <p>
+        
+          For projects that need to send more than a few thousand messages an hour and are deploying in a country where
+          a gateway service provide short codes or even exist, it may be worth looking into a direct connection with the local carriers. When your project is ready for it, your TextIt account can be
+          coverted over to an SMPP connection. This is the most expensive option, but certainly worth the money and effort for high volume
+          projects.
+
+        
+      </p>
+    </div>
+    <div class='channel'>
+      IP Messaging Apps & Social Media Channels
+
+    </div>
+    <div class='deploy'>
+      <div class='kind'>
+        <div class='title'>
+          Sending with IP Messaging Apps
+
+        </div>
+      </div>
+      <div class='body'>
+        <p>
+          
+            Our goal is to enable you to reach your contacts where they live: their mobile phones. Sometimes this doesn't mean
+            SMS & voice, as IP messaging apps have gained a tremendous amount of traction around the world. We offer <a href='https://messengerplatform.fb.com/' target='_blank'>Facebook Messenger</a>, <a href='https://www.viber.com' target='_blank'>
+            Viber</a> and <a href='https://telegram.org/' target='_blank'>Telegram</a> channels so that you can reach those contacts who prefer them to SMS.
+
+          
+        </p>
+      </div>
+      <h5>
+        Adding more IP Messaging Apps
+
+      </h5>
+      <p>
+        
+          We're always looking to support more channels. If there's an app you'd like us to support but you don't see it listed,
+          let us know. If it provides a bot API we'd be happy to look into adding it for you.
+
+        
+      </p>
+      <div class='faq'>
+        <h4>
+          
+            TextIt with IP Messaging Apps FAQ
+
+          
+        </h4>
+        <div class='question'>
+          How do messaging apps differ from SMS & voice channels?
+        </div>
+        <div class='answer'>
+          
+            Messaging apps enable you to send and receive messages through select applications on your contacts’ phones. These
+            messages are routed through the internet rather than cellular networks, making them completely free for you and your contacts.
+            They also provide broader multimedia support, allowing you to collect images, videos and more.
+
+          
+        </div>
+      </div>
+      <div class='kind'>
+        <div class='title'>
+          Sending with Twitter
+
+        </div>
+      </div>
+      <div class='body'>
+        <p>
+          
+            TextIt's Twitter channel enables you to send and receive direct messages–commonly referred to as DM's–through any Twitter
+            account with direct messages enabled. What's more, you can tell TextIt to trigger flows when you gain a new follower, allowing you
+            to send them a welcome message, add them to a group, or kick off an automated conversation.
+          
+        </p>
+      </div>
+    </div>
+  </div>
+
+          
+
+          
+
+        </div>
+      </div>
+    
+    <div id='footerInnerSeperator'></div>
+    <div id='footerOuterSeparator'></div>
+  </div>
+  
+
+<!-- Footer -->
+<div class='footerArea' id='footer'>
+  <div class='container'>
+    <div class='divPanel'>
+      
+        <div class='row-fluid'>
+          <div class='span4' id='footerArea1'>
+
+            
+              <h3>
+                Made in Africa
+              </h3>
+              <p>
+                
+                  TextIt was proudly built in Kigali, Rwanda by a dedicated team that <i>really loves</i> mobile messaging.
+                
+              </p>
+              <p>
+                Visit
+                <a href='http://nyaruka.com' title='Nyaruka'>
+                  Nyaruka's website
+                </a>
+                to learn more.
+
+              </p>
+            
+          </div>
+          <div class='span2' id='footerArea2'></div>
+          <div class='span3' id='footerArea3'></div>
+          <div class='span3' id='footerArea4'>
+            <ul id='contact-info'>
+              <h3>
+                Get in Touch
+
+              </h3>
+              <li class='clearfix'>
+                <div style='margin-top: 0px;' class='glyph icon-envelop'></div>
+                <a href='mailto:support@textit.in'>support@textit.in</a>
+              </li>
+              <li class='clearfix'>
+                <div style='margin-top: 0px;' class='glyph icon-twitter'></div>
+                <a href='https://twitter.com/textitin'>@textitin</a>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+      
+    </div>
+    <br>
+    <div class='row-fluid'>
+      <div class='span12'>
+        <center>
+          <p id='copyright'>Copyright &copy; 2012-2017 Nyaruka, Ltd &amp; UNICEF. All Rights Reserved.</p>
+        </center>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- media associated with any form we are displaying -->
+  
+  
+
+    
+
+    <script type='text/javascript'>
+      
+      
+      function removalConfirmation(removal, buttonName) {
+        modal = new ConfirmationModal($('.' + removal + ' > .title').html(), $('.' + removal + ' > .body').html());
+        modal.addClass('alert');
+        modal.setListeners({onPrimary: function(){
+          $('#' + removal + '-form').click();
+        }}, false);
+        modal.setPrimaryButton(buttonName);
+        modal.show();
+      }
+      
+      function formatContact(item) {
+        if (item.text.indexOf(" (") > -1) {
+         var name = item.text.split("(")[0];
+         if (name.indexOf(")") == name.length - 1) {
+           name = name.substring(0, name.length - 1);
+         }
+         return name;
+       }
+       return item.text;
+      }
+      
+      function createContactChoice(term, data) {
+        if ($(data).filter(function() { return this.text.localeCompare(term)===0; }).length===0) {
+          if (!isNaN(parseFloat(term)) && isFinite(term)) {
+            return {id:"number-" + term, text:term};
+          }
+        }
+      }
+      
+      function initSelect2Fields() {
+        $('.select2tag').select2({
+          containerCssClass: 'select2-container',
+          tags:[], tokenSeparators: [","], formatNoMatches:function(term){return '';}
+        });
+      
+        $('.select2tag').find("ul.select2-choices").sortable({
+          start: function() { $(".select2tag").select2("onSortStart"); },
+          update: function() { $(".select2tag").select2("onSortEnd"); }
+        });
+      }
+    </script>
+    
+      <div data-dismiss='modal' class='modal hide' id='modal-template'>
+
+  <div class='hide' id='onConfirm'></div>
+  <div class='modal-header'>
+    <button type='button' aria-hidden='true' class='pull-right close'>
+      &times;
+    </button>
+    <h3>
+      <div class='icon'></div>
+      <span id='modal-title'>
+        Uh oh!
+
+      </span>
+    </h3>
+  </div>
+  <div class='modal-body'>
+    <div class='fetched-content'>
+      <div id='modal-message'></div>
+      <div class='form'></div>
+    </div>
+    <div class='loader'>
+      <img src='/sitestatic/images/loader-circles.gif'>
+
+    </div>
+  </div>
+  <div class='modal-footer'>
+    <button class='btn tertiary pull-left hide'>
+      Tertiary
+    </button>
+    <button class='btn btn-primary primary'>
+      Ok
+    </button>
+    <button class='btn secondary hide'>
+      Cancel
+    </button>
+  </div>
+</div>
+
+
+    
+    
+  
+
+    
+  <script type='text/javascript'>
+    
+  </script>
+
+    <script type="text/javascript" src="/sitestatic/js/libs/jquery.url.js"></script>
+
+    <form id="posterizer" method="post">
+      <input type='hidden' name='csrfmiddlewaretoken' value='cG0zOWPaCy2W1UNGBwGZbuRHa1ixW5rLPCaZOHwp6B9a9zbMdbpeUjudwsZ8goiE' />
+    </form>
+
+    <script type='text/javascript'>
+      $(document).ready(function() {
+        if (navigator.appVersion.indexOf("Win")!=-1) {
+          $("html").addClass("windows");
+        }
+      
+        initSelect2Fields();
+      
+        $(".btn").tooltip();
+      
+        $('.org-header > .toggle').live('click', function(evt) {
+          evt.stopPropagation();
+          var header = $('.org-header');
+          if (header.hasClass('expanded')) {
+            header.removeClass('expanded');
+          } else {
+            header.addClass('expanded');
+          }
+        });
+      
+        $('.org-header').live('click', function(evt) {
+          url = '/org/home/';
+          evt.stopPropagation();
+          if (evt.ctrlKey || evt.metaKey){
+            window.open(url,'_blank')
+          } else {
+            window.location = url;
+          }
+      
+        });
+      
+        $('#top-menu li').hoverIntent({
+          over:function() {
+            // $('.submenu').hide();
+            $(this).find('.submenu-container').slideDown(250);
+            // $(this).find('.submenu').show();
+          },
+          out:function() {
+          $(this).find('.submenu-container').slideUp(200);
+            //$(this).find('.submenu').hide();
+          },
+          timeout:300
+        });
+      
+      
+        $("a.posterize").click(function(event){
+          event.preventDefault();
+          event.stopPropagation();
+      
+          var href = $(this).attr("href");
+          var url = $.url(href);
+      
+          $("#posterizer").attr("action", url.attr("path"));
+      
+          for (var key in url.param()){
+            $("#posterizer").append("<input type='hidden' name='" + key + "' value='" + url.param(key) + "'></input>");
+          }
+      
+          $("#posterizer").submit();
+        });
+      });
+    </script>
+  
+
+</body>
+
+
+</html>

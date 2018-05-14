@@ -31,6 +31,7 @@ export interface FlowEditorContainerProps {
 
 export interface FlowEditorStoreProps {
     language: Asset;
+    languages: Asset[];
     translating: boolean;
     fetchingFlow: boolean;
     definition: FlowDefinition;
@@ -45,7 +46,7 @@ const hotStore = createStore();
 const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) => {
     const assetService = new AssetService(config);
     return (
-        <ConfigProvider config={config} assetService={assetService}>
+        <ConfigProvider config={{ ...config, assetService }}>
             <ReduxProvider store={hotStore}>
                 <ConnectedFlowEditor />
             </ReduxProvider>
@@ -54,8 +55,6 @@ const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) =>
 };
 
 export const contextTypes = {
-    endpoints: fakePropType,
-    languages: fakePropType,
     flow: fakePropType,
     assetService: fakePropType
 };
@@ -70,8 +69,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     public static contextTypes = contextTypes;
 
     public componentDidMount(): void {
-        const assetService: AssetService = this.context.assetService;
-        this.props.fetchFlow(assetService, this.context.flow);
+        this.props.fetchFlow(this.context.assetService, this.context.flow);
     }
 
     public render(): JSX.Element {
@@ -83,7 +81,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
                 data-spec={editorContainerSpecId}
             >
                 <div className={styles.editor} data-spec={editorSpecId}>
-                    <ConnectedLanguageSelector />
+                    {renderIf(this.props.languages.length > 0)(<ConnectedLanguageSelector />)}
                     {renderIf(
                         this.props.definition && this.props.language && !this.props.fetchingFlow
                     )(<ConnectedFlow />)}
@@ -94,14 +92,15 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 }
 
 const mapStateToProps = ({
-    flowContext: { definition, dependencies },
+    flowContext: { definition, dependencies, languages },
     flowEditor: { editorUI: { translating, language, fetchingFlow } }
 }: AppState) => ({
     translating,
     language,
     fetchingFlow,
     definition,
-    dependencies
+    dependencies,
+    languages
 });
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>

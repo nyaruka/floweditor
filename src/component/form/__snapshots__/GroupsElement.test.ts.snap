@@ -2,7 +2,6 @@
 
 exports[`GroupsElement render should pass createOptions object if it's add prop is true 1`] = `
 <FormElement
-  errors={Array []}
   name="Groups"
 >
   <SelectSearch
@@ -55,7 +54,6 @@ Object {
 
 exports[`GroupsElement render should render self, children with required props 2`] = `
 <FormElement
-  errors={Array []}
   name="Groups"
 >
   <SelectSearch

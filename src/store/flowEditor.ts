@@ -1,7 +1,6 @@
 // tslint:disable:no-shadowed-variable
 import { combineReducers } from 'redux';
 
-import { Language } from '../component/LanguageSelector';
 import { DragPoint } from '../component/Node';
 import { FlowNode, FlowPosition } from '../flowTypes';
 import { Asset } from '../services/AssetService';

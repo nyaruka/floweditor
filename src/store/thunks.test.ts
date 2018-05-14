@@ -623,7 +623,8 @@ describe('Flow Manipulation', () => {
                     onOpenNodeEditor(
                         testNodes.node0.node,
                         testNodes.node0.node.actions[0],
-                        languages
+                        languages,
+                        { showAdvanced: false }
                     )
                 );
 
@@ -640,7 +641,9 @@ describe('Flow Manipulation', () => {
                     nodeEditor: {}
                 });
 
-                store.dispatch(onOpenNodeEditor(testNodes.node3.node, null, languages));
+                store.dispatch(
+                    onOpenNodeEditor(testNodes.node3.node, null, languages, { showAdvanced: false })
+                );
                 expect(store).toHaveReduxActions([Constants.UPDATE_LOCALIZATIONS]);
             });
 
@@ -654,7 +657,9 @@ describe('Flow Manipulation', () => {
                     nodeEditor: {}
                 });
 
-                store.dispatch(onOpenNodeEditor(testNodes.node2.node, null, languages));
+                store.dispatch(
+                    onOpenNodeEditor(testNodes.node2.node, null, languages, { showAdvanced: false })
+                );
                 expect(store).not.toHaveReduxActions([Constants.UPDATE_LOCALIZATIONS]);
             });
         });
@@ -688,7 +693,8 @@ describe('Flow Manipulation', () => {
                     onOpenNodeEditor(
                         testNodes.node0.node,
                         testNodes.node0.node.actions[0],
-                        languages
+                        languages,
+                        { showAdvanced: false }
                     )
                 );
 
@@ -698,7 +704,9 @@ describe('Flow Manipulation', () => {
             });
 
             it('should pick the last action if none are provided', () => {
-                store.dispatch(onOpenNodeEditor(testNodes.node3.node, null, languages));
+                store.dispatch(
+                    onOpenNodeEditor(testNodes.node3.node, null, languages, { showAdvanced: false })
+                );
 
                 expect(store).toHavePayload(Constants.UPDATE_ACTION_TO_EDIT, {
                     actionToEdit: testNodes.node3.node.actions[0]
@@ -708,12 +716,18 @@ describe('Flow Manipulation', () => {
             it('should throw if no action is provided on an actionless node', () => {
                 testNodes.node0.node.actions = [];
                 expect(() => {
-                    store.dispatch(onOpenNodeEditor(testNodes.node0.node, null, languages));
+                    store.dispatch(
+                        onOpenNodeEditor(testNodes.node0.node, null, languages, {
+                            showAdvanced: false
+                        })
+                    );
                 }).toThrowError('Cannot initialize NodeEditor without a valid type: node0');
             });
 
             it('should edit router nodes', () => {
-                store.dispatch(onOpenNodeEditor(testNodes.node1.node, null, languages));
+                store.dispatch(
+                    onOpenNodeEditor(testNodes.node1.node, null, languages, { showAdvanced: false })
+                );
 
                 expect(store).toHavePayload(Constants.UPDATE_TYPE_CONFIG, {
                     typeConfig: {
@@ -789,7 +803,7 @@ describe('Flow Manipulation', () => {
                     ghostNode: null
                 });
 
-                expect(store.getActions().length).toBe(3);
+                expect(store.getActions().length).toBe(4);
             });
 
             it('should reset the node editor', () => {

@@ -9,9 +9,9 @@ import AppState, { initialState } from './state';
 const middlewares: Middleware[] = [thunk];
 
 /* istanbul ignore next */
-if (process.env.NODE_ENV === 'development') {
+if (process.env.DEBU === 'development') {
     const logger = createLogger({
-        duration: true,
+        duration: true
     });
     middlewares.push(logger);
 }

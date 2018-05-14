@@ -39,10 +39,7 @@ interface SelectSearchState {
     selections: Asset[];
 }
 
-export default class SelectSearch extends React.PureComponent<
-    SelectSearchProps,
-    SelectSearchState
-> {
+export default class SelectSearch extends React.Component<SelectSearchProps, SelectSearchState> {
     private select: any;
 
     public static defaultProps = {

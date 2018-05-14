@@ -74,7 +74,10 @@ const devConfig = {
                     );
                 } else {
                     // otherwise return the list
-                    const content = require('../preview/assets/' + type + 's.json');
+                    const content = require('../preview/assets/' +
+                        type +
+                        (type.includes('environment') ? '.json' : 's.json'));
+
                     if (content.assets) {
                         res.send(content.assets);
                     } else {

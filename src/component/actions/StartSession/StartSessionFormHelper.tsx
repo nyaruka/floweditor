@@ -9,24 +9,30 @@ export class StartSessionFormHelper implements FormHelper {
         if (action) {
             return {
                 type: action.type,
-                recipients: getRecipients(action),
-                flow: { id: action.flow.uuid, name: action.flow.name, type: AssetType.Flow }
+                recipients: { value: getRecipients(action) },
+                flow: {
+                    value: { id: action.flow.uuid, name: action.flow.name, type: AssetType.Flow }
+                },
+                valid: true
             };
         }
 
         return {
             type: Types.start_session,
-            recipients: [],
-            flow: null
+            recipients: { value: [] },
+            flow: { value: null },
+            valid: false
         };
     }
 
-    public stateToAction(uuid: string, state: StartSessionFormState): StartSession {
+    public stateToAction(uuid: string, form: StartSessionFormState): StartSession {
+        const flow: Asset = form.flow.value;
+
         return {
-            contacts: this.getRecipients(state.recipients, AssetType.Contact),
-            groups: this.getRecipients(state.recipients, AssetType.Group),
-            flow: { name: state.flow.name, uuid: state.flow.id },
-            type: state.type,
+            contacts: this.getRecipients(form.recipients.value, AssetType.Contact),
+            groups: this.getRecipients(form.recipients.value, AssetType.Group),
+            flow: { name: flow.name, uuid: flow.id },
+            type: form.type,
             uuid
         };
     }

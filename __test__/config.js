@@ -12,7 +12,7 @@ module.exports =
                   recipients: 'recipients',
                   fields: 'fields',
                   labels: 'labels',
-                  languages: 'languages',
+                  environment: 'environment',
                   activity: '',
                   simulateStart: '',
                   simulateResume: ''
@@ -26,7 +26,7 @@ module.exports =
                   fields: '/assets/fields.json',
                   recipients: '/assets/recipients.json',
                   labels: '/assets/labels.json',
-                  languages: '/assets/languages.json',
+                  environment: '/assets/environment.json',
                   activity: '',
                   simulateStart: '',
                   simulateResume: ''

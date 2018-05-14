@@ -1,20 +1,20 @@
+import { shallow } from 'enzyme';
 import * as React from 'react';
-import { shallow, mount } from 'enzyme';
+
+import { getTypeConfig, operatorConfigList } from '../../config';
+import { Operators } from '../../config/operatorConfigs';
+import { Types } from '../../config/typeConfigs';
+import { getSpecWrapper } from '../../testUtils';
+import { titleCase } from '../../utils';
 import CaseElement, {
-    prefix,
     composeExitName,
-    getExitName,
     getMinMax,
     isFloat,
     isInt,
-    strContainsNum,
-    parseNum
+    parseNum,
+    prefix,
+    strContainsNum
 } from './CaseElement';
-import { titleCase } from '../../utils';
-import { getSpecWrapper } from '../../testUtils';
-import { getTypeConfig, operatorConfigList, getOperatorConfig } from '../../config';
-import { Types } from '../../config/typeConfigs';
-import { Operators } from '../../config/operatorConfigs';
 
 const definition = require('../../../__test__/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 const { nodes: [, node] } = definition;
@@ -172,7 +172,6 @@ describe(CaseElement.name, () => {
                 expect(getSpecWrapper(EmptyCase, 'case-form').props()).toEqual(
                     expect.objectContaining({
                         name: props.name,
-                        errors: [],
                         kaseError: false,
                         __className: 'group'
                     })
@@ -205,8 +204,7 @@ describe(CaseElement.name, () => {
                 it('should render FormElements with expected props', () =>
                     expect(getSpecWrapper(CaseWrapper, 'case-form').props()).toEqual(
                         expect.objectContaining({
-                            name: caseProps.name,
-                            errors: []
+                            name: caseProps.name
                         })
                     ));
 
@@ -220,17 +218,19 @@ describe(CaseElement.name, () => {
                 it('should render arguments inputs w/ expected props', () =>
                     expect(getSpecWrapper(CaseWrapper, 'args-input').props()).toEqual(
                         expect.objectContaining({
-                            value:
-                                kase.arguments.constructor === Array
-                                    ? kase.arguments[0]
-                                    : kase.arguments
+                            entry: {
+                                value:
+                                    kase.arguments.constructor === Array
+                                        ? kase.arguments[0]
+                                        : kase.arguments
+                            }
                         })
                     ));
 
                 it('should render exit inputs w/ expected props', () =>
                     expect(getSpecWrapper(CaseWrapper, 'exit-input').props()).toEqual(
                         expect.objectContaining({
-                            value: caseProps.exitName || ''
+                            entry: { value: caseProps.exitName || '' }
                         })
                     ));
             });

@@ -7,13 +7,12 @@ interface CheckboxElementProps extends FormElementProps {
     defaultValue?: boolean;
     description?: string;
     border?: boolean;
-    onCheck?(): void;
+    onChange?(checked: boolean): void;
     sibling?: boolean;
 }
 
 interface CheckboxState {
     checked: boolean;
-    errors: string[];
 }
 
 export default class CheckboxElement extends React.Component<CheckboxElementProps, CheckboxState> {
@@ -21,8 +20,7 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
         super(props);
 
         this.state = {
-            checked: this.props.defaultValue,
-            errors: []
+            checked: this.props.defaultValue
         };
 
         this.onChange = this.onChange.bind(this);
@@ -31,7 +29,7 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
     private onChange(event: any): void {
         this.setState(
             { checked: !this.state.checked },
-            () => this.props.onCheck && this.props.onCheck()
+            () => this.props.onChange && this.props.onChange(this.state.checked)
         );
     }
 
@@ -48,8 +46,6 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
                 __className={styles.sibling}
                 border={this.props.border}
                 name={this.props.name}
-                required={this.props.required}
-                errors={this.state.errors}
             >
                 <div className={styles.label} onClick={this.onChange}>
                     <span className={checkboxIcon} />

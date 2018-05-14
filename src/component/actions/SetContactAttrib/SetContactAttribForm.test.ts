@@ -21,7 +21,6 @@ const baseProps: SetContactAttribFormProps = {
     formHelper,
     typeConfig: getTypeConfig(Types.set_contact_field),
     form: formHelper.actionToState(setContactFieldAction, Types.set_contact_field),
-    onBindWidget: jest.fn(),
     updateAction: jest.fn(),
     updateSetContactAttribForm: jest.fn()
 };
@@ -34,7 +33,9 @@ describe(SetContactAttribForm.name, () => {
             const { wrapper, props } = setup();
 
             expect(wrapper).toMatchSnapshot();
-            expect(wrapper.find(ConnectedTextInputElement).prop('value')).toBe(props.form.value);
+            expect(wrapper.find(ConnectedTextInputElement).prop('entry')).toEqual({
+                value: props.form.value.value
+            });
 
             const setContactNameForm = formHelper.actionToState(
                 setContactNameAction,
@@ -48,7 +49,7 @@ describe(SetContactAttribForm.name, () => {
                 typeConfig: getTypeConfig(Types.set_contact_name)
             });
 
-            expect(wrapper.find(ConnectedTextInputElement).prop('value')).toBe(
+            expect(wrapper.find(ConnectedTextInputElement).prop('entry')).toEqual(
                 setContactNameForm.value
             );
         });
@@ -77,7 +78,7 @@ describe(SetContactAttribForm.name, () => {
         describe('handleAttribChange', () => {
             it('should call form-state-updater-thunk', () => {
                 const { wrapper, instance, props } = setup(true, {
-                    updateSetContactAttribForm: setMock()
+                    updateSetContactAttribForm: { $set: jest.fn().mockReturnValue(true) }
                 });
                 const attribute = propertyToAsset(setContactNameAction.type);
 
@@ -90,21 +91,13 @@ describe(SetContactAttribForm.name, () => {
         describe('handleValueChange', () => {
             it('should call form-state-updater-thunk', () => {
                 const { wrapper, instance, props } = setup(true, {
-                    updateSetContactAttribForm: setMock()
+                    updateSetContactAttribForm: { $set: jest.fn().mockReturnValue(true) }
                 });
-                const mockEvent = {
-                    currentTarget: {
-                        value: 26
-                    }
-                };
-
-                instance.handleValueChange(mockEvent);
-
+                instance.handleValueChange('26');
                 expect(props.updateSetContactAttribForm).toHaveBeenCalledTimes(1);
-                expect(props.updateSetContactAttribForm).toHaveBeenCalledWith(
-                    null,
-                    mockEvent.currentTarget.value
-                );
+                expect(props.updateSetContactAttribForm).toHaveBeenCalledWith(null, {
+                    value: '26'
+                });
             });
         });
     });

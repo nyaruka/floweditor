@@ -1,4 +1,3 @@
-import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 
@@ -6,7 +5,7 @@ import { ResultType } from '../../flowTypes';
 import { Asset, Assets, AssetType } from '../../services/AssetService';
 import {
     composeCreateNewOption,
-    getSelectClass,
+    getSelectClassForEntry,
     isOptionUnique,
     isValidNewOption
 } from '../../utils';
@@ -21,16 +20,10 @@ export interface GroupOption {
 export interface GroupsElementProps extends FormElementProps {
     assets: Assets;
     add?: boolean;
-    groups?: Asset[];
     placeholder?: string;
     searchPromptText?: string | JSX.Element;
-    onChange?: (groups: Asset[]) => void;
+    onChange: (groups: Asset[]) => void;
     helpText?: string;
-}
-
-interface GroupsElementState {
-    groups: Asset[];
-    errors: string[];
 }
 
 export const createNewOption = composeCreateNewOption({
@@ -42,7 +35,7 @@ export const GROUP_PROMPT = 'New group: ';
 export const GROUP_PLACEHOLDER = 'Enter the name of an existing group...';
 export const GROUP_NOT_FOUND = 'Invalid group';
 
-export default class GroupsElement extends React.Component<GroupsElementProps, GroupsElementState> {
+export default class GroupsElement extends React.Component<GroupsElementProps> {
     public static defaultProps = {
         placeholder: GROUP_PLACEHOLDER,
         searchPromptText: GROUP_NOT_FOUND
@@ -50,50 +43,11 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
 
     constructor(props: GroupsElementProps) {
         super(props);
-
-        this.state = {
-            groups: this.props.groups || [],
-            errors: []
-        };
-
-        this.onChange = this.onChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    public componentWillReceiveProps(nextProps: GroupsElementProps): void {
-        if (
-            nextProps.groups &&
-            nextProps.groups.length &&
-            !isEqual(nextProps.groups, this.props.groups)
-        ) {
-            this.setState({ groups: nextProps.groups });
-        }
-    }
-
-    private onChange(groups: Asset[]): void {
-        if (!isEqual(groups, this.state.groups)) {
-            this.setState(
-                {
-                    groups
-                },
-                () => {
-                    if (this.props.onChange) {
-                        this.props.onChange(groups);
-                    }
-                }
-            );
-        }
-    }
-
-    public validate(): boolean {
-        const errors: string[] = [];
-
-        if (this.props.required && !this.state.groups.length) {
-            errors.push(`${this.props.name} is required.`);
-        }
-
-        this.setState({ errors });
-
-        return errors.length === 0;
+    private handleChange(groups: Asset[]): void {
+        this.props.onChange(groups);
     }
 
     public render(): JSX.Element {
@@ -107,15 +61,15 @@ export default class GroupsElement extends React.Component<GroupsElementProps, G
         }
 
         return (
-            <FormElement name={this.props.name} errors={this.state.errors}>
+            <FormElement name={this.props.name} entry={this.props.entry}>
                 <SelectSearch
-                    __className={getSelectClass(this.state.errors.length)}
-                    onChange={this.onChange}
+                    __className={getSelectClassForEntry(this.props.entry)}
+                    onChange={this.handleChange}
                     name={this.props.name}
                     resultType={ResultType.group}
                     assets={this.props.assets}
                     multi={true}
-                    initial={this.state.groups}
+                    initial={this.props.entry ? this.props.entry.value : []}
                     placeholder={this.props.placeholder}
                     searchPromptText={this.props.searchPromptText}
                     {...createOptions}

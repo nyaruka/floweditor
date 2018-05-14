@@ -2,6 +2,7 @@ import {
     UpdateCreateNodePosition,
     UpdateDragGroup,
     UpdateDragSelection,
+    UpdateForm,
     UpdateLanguage,
     UpdateNodeDragging,
     UpdateNodeEditorOpen,
@@ -29,6 +30,7 @@ import {
 } from './flowEditor';
 import {
     updateActionToEdit,
+    updateForm,
     updateOperand,
     updateResultName,
     updateShowResultName,
@@ -50,19 +52,21 @@ import {
     GetState,
     handleLanguageChange,
     HandleLanguageChange,
+    handleTypeConfigChange,
+    HandleTypeConfigChange,
     LocalizationUpdates,
     moveActionUp,
     NoParamsAC,
     onAddToNode,
     OnAddToNode,
-    onConnectionDrag,
     OnConnectionDrag,
-    OnNodeMoved,
+    onConnectionDrag,
     onNodeMoved,
-    OnOpenNodeEditor,
+    OnNodeMoved,
     onOpenNodeEditor,
-    onUpdateAction,
+    OnOpenNodeEditor,
     OnUpdateAction,
+    onUpdateAction,
     OnUpdateLocalizations,
     onUpdateLocalizations,
     OnUpdateRouter,
@@ -73,8 +77,8 @@ import {
     resetNodeEditingState,
     updateConnection,
     UpdateConnection,
-    UpdateDimensions,
     updateDimensions,
+    UpdateDimensions,
     UpdateSticky,
     updateSticky
 } from './thunks';
@@ -154,5 +158,9 @@ export {
     UpdateTimeout,
     updateTimeout,
     handleLanguageChange,
-    HandleLanguageChange
+    HandleLanguageChange,
+    updateForm,
+    UpdateForm,
+    handleTypeConfigChange,
+    HandleTypeConfigChange
 };

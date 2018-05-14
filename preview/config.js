@@ -14,7 +14,7 @@ if (process.env.RAPID_FLOW) {
             recipients: '/contact/omnibox/',
             fields: base + 'field',
             labels: base + 'label',
-            languages: base + 'language',
+            environment: base + 'environment',
             activity: '',
             simulateStart: '/flow/start',
             simulateResume: '/flow/resume'
@@ -31,7 +31,7 @@ if (process.env.RAPID_FLOW) {
                       recipients: 'recipients',
                       fields: 'fields',
                       labels: 'labels',
-                      languages: 'languages',
+                      environment: 'environment',
                       activity: '',
                       simulateStart: '',
                       simulateResume: ''
@@ -45,7 +45,7 @@ if (process.env.RAPID_FLOW) {
                       recipients: '/assets/recipient',
                       fields: '/assets/field',
                       labels: '/assets/label',
-                      languages: '/assets/language',
+                      environment: '/assets/environment',
                       activity: '',
                       simulateStart: '/flow/start',
                       simulateResume: '/flow/resume'

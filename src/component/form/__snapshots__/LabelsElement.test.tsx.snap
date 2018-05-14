@@ -2,8 +2,11 @@
 
 exports[`LabelsElement render should render form element, pass it create options 1`] = `
 <FormElement
-  attribError={false}
-  errors={Array []}
+  entry={
+    Object {
+      "value": Array [],
+    }
+  }
   name="Labels"
 >
   <SelectSearch
@@ -24,7 +27,7 @@ exports[`LabelsElement render should render form element, pass it create options
     isValidNewOption={[Function]}
     multi={true}
     name="Labels"
-    onChange={[Function]}
+    onChange={[MockFunction]}
     placeholder="Enter the name of an existing label or create a new one"
     resultType="group"
     searchPromptText="Invalid label"

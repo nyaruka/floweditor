@@ -3,17 +3,19 @@ import axios, { AxiosResponse } from 'axios';
 
 import { ContactProperties, FlowEditorConfig, Group } from '../flowTypes';
 import { FlowComponents } from '../store/helpers';
+import { titleCase } from '../utils';
 
 export enum AssetType {
     Channel = 'channel',
     Flow = 'flow',
     Group = 'group',
     Name = 'name',
-    Language = 'language',
     Field = 'field',
     Contact = 'contact',
     URN = 'urn',
-    Label = 'label'
+    Label = 'label',
+    Language = 'language',
+    Environment = 'environment'
 }
 
 export interface Asset {
@@ -34,8 +36,7 @@ export interface AssetSearchResult {
 enum IdProperty {
     UUID = 'uuid',
     Key = 'key',
-    ID = 'id',
-    ISO = 'iso'
+    ID = 'id'
 }
 
 enum NameProperty {
@@ -47,8 +48,7 @@ enum SimAssetType {
     Fields = 'field_set',
     Groups = 'group_set',
     Channels = 'channel_set',
-    Labels = 'label_set',
-    Languages = 'language_set'
+    Labels = 'label_set'
 }
 
 interface SimAsset {
@@ -77,7 +77,7 @@ export class Assets {
         this.idProperty = IdProperty.UUID;
     }
 
-    public get(id: string): Promise<Asset> {
+    public get(id: string = ''): Promise<Asset> {
         const existing = this.assets[id];
         if (existing) {
             return new Promise<Asset>(resolve => {
@@ -242,12 +242,12 @@ class GroupAssets extends Assets {
 class FieldAssets extends Assets {
     public static CONTACT_PROPERTIES: Asset[] = [
         {
-            name: ContactProperties.Name,
+            name: titleCase(ContactProperties.Name),
             id: ContactProperties.Name,
             type: AssetType.Name
         },
         {
-            name: ContactProperties.Language,
+            name: titleCase(ContactProperties.Language),
             id: ContactProperties.Language,
             type: AssetType.Language
         }
@@ -284,7 +284,7 @@ class ChannelAssets extends Assets {
     }
 }
 
-class FlowAssets extends Assets {
+export class FlowAssets extends Assets {
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
         this.idProperty = IdProperty.UUID;
@@ -309,6 +309,7 @@ class RecipientAssets extends Assets {
         }
         return null;
     }
+
     public search(term: string): Promise<AssetSearchResult> {
         const matches: Asset[] = [];
 
@@ -353,12 +354,12 @@ export class LabelAssets extends Assets {
     }
 }
 
-export class LanguageAssets extends Assets {
+export class EnvironmentAssets extends Assets {
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
 
-        this.idProperty = IdProperty.ISO;
-        this.assetType = AssetType.Language;
+        this.idProperty = IdProperty.ID;
+        this.assetType = AssetType.Environment;
     }
 }
 
@@ -374,8 +375,8 @@ export default class AssetService {
     private flowsURL: string;
     private labels: FieldAssets;
     private labelsURL: string;
-    private languages: LanguageAssets;
-    private languagesURL: string;
+    private environment: EnvironmentAssets;
+    private environmentURL: string;
 
     constructor(config: FlowEditorConfig) {
         // initialize asset deps
@@ -386,7 +387,7 @@ export default class AssetService {
         this.labels = new LabelAssets(config.endpoints.labels, config.localStorage);
         // channels are always mocked for local
         this.channels = new ChannelAssets('/channels', true);
-        this.languages = new LanguageAssets(config.endpoints.languages, config.localStorage);
+        this.environment = new EnvironmentAssets(config.endpoints.environment, config.localStorage);
 
         // initialize asset urls
         const base = getBaseURL();
@@ -395,14 +396,13 @@ export default class AssetService {
         this.labelsURL = `${base + this.labels.endpoint}/`;
         this.flowsURL = `${base + this.flows.endpoint}/{uuid}/`;
         this.channelsURL = `${base + this.channels.endpoint}/`;
-        this.languagesURL = `${base + this.languages.endpoint}/`;
+        this.environmentURL = `${base + this.environment.endpoint}/`;
     }
 
     public addFlowComponents(flowComponents: FlowComponents): void {
         this.groups.addAll(flowComponents.groups);
         this.fields.addAll(flowComponents.fields);
         this.labels.addAll(flowComponents.labels);
-        this.languages.addAll([flowComponents.baseLanguage]);
     }
 
     public getFlowAssets(): FlowAssets {
@@ -425,8 +425,8 @@ export default class AssetService {
         return this.labels;
     }
 
-    public getLanguageAssets(): LanguageAssets {
-        return this.languages;
+    public getEnvironmentAssets(): EnvironmentAssets {
+        return this.environment;
     }
 
     public getSimulationAssets(): any {
@@ -453,13 +453,6 @@ export default class AssetService {
             content: this.labels.getAssetSet()
         });
 
-        // our languages
-        simAssets.push({
-            type: SimAssetType.Languages,
-            url: this.languagesURL,
-            content: this.languages.getAssetSet()
-        });
-
         // our channels
         simAssets.push({
             type: SimAssetType.Channels,
@@ -478,8 +471,7 @@ export default class AssetService {
                     [SimAssetType.Fields]: this.fieldsURL,
                     [SimAssetType.Channels]: this.channelsURL,
                     [SimAssetType.Groups]: this.groupsURL,
-                    [SimAssetType.Labels]: this.labelsURL,
-                    [SimAssetType.Languages]: this.languagesURL
+                    [SimAssetType.Labels]: this.labelsURL
                 }
             }
         };

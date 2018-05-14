@@ -1,4 +1,4 @@
-import { Language } from '../component/LanguageSelector';
+import { Language } from '../flowTypes';
 
 export const languageMap: { [key: string]: Language } = {
     abk: {
@@ -738,3 +738,5 @@ export const languageMap: { [key: string]: Language } = {
         iso: 'zul'
     }
 };
+
+export const getLanguage = (iso: string): Language => languageMap[iso];

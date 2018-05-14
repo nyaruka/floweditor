@@ -1,0 +1,796 @@
+<!DOCTYPE HTML>
+
+
+<!--[if lte IE 8]><html class="ie" lang="en">    <![endif]-->
+<!--[if !IE]><!--><html lang="en">              <!--<![endif]-->
+
+  <head>
+    <title>
+      
+  
+    Learn - Supporting Additional Responses
+
+  
+
+
+    </title>
+    <link href='/sitestatic/fonts/roboto/stylesheet.css' rel='stylesheet' type='text/css'>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name='description' content='
+  In this video, we show you how you can easily accept many different answers when asking questions in your flow.
+
+Even if you tell your users to reply ...
+
+'>
+    <meta name='author' content='Nyaruka Ltd'>
+    <meta http-equiv='X-UA-Compatible' content='IE=10'>
+
+    
+    <script type='text/javascript'>
+      
+      function conditionalLoad(local, remote) {
+        if (local != null && (window.location.hostname == "localhost" || remote == null)) {
+          loadResource("/sitestatic/" + local);
+        } else if (remote != null) {
+          loadResource(remote);
+        }
+      }
+      
+      function loadResource(src) {
+        (function() { document.write(unescape('%3Cscript src="' + src + '"%3E%3C/script%3E')); })();
+      }
+    </script>
+<!-- ==== JQUERY ==== -->
+    <script type='text/javascript'>
+      conditionalLoad('bower/jquery/jquery.js', '//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js');
+      conditionalLoad('bower/jquery-migrate/jquery-migrate.min.js', null);
+    </script>
+<!-- ==== ANGULAR ==== -->
+    <script type='text/javascript'>
+      
+      // this has to be loaded before angular
+      conditionalLoad('lib/angular-file-upload-1.6.12/angular-file-upload-shim.js', null);
+      
+      // our angular scripts
+      conditionalLoad('bower/angular/angular.js', null);
+      conditionalLoad('bower/angular-animate/angular-animate.js', null);
+      
+      // this must be loaded after angular
+      conditionalLoad('lib/angular-file-upload-1.6.12/angular-file-upload.js', null)
+    </script>
+    <script src="/jsi18n/"></script>
+
+    <script type="text/javascript" src="/sitestatic/CACHE/js/b91160ed13cd.js"></script>
+    <script type="text/javascript" src="/sitestatic/CACHE/js/405aed2f5468.js"></script>
+    <script type='text/javascript'>
+  <!-- UserVoice JavaScript SDK (only needed once on a page) -->
+  if (window.location.hostname != "localhost" && "True" == "True") {
+    conditionalLoad(null, '//widget.uservoice.com/lYDl4etqM2WtGg6BKkxWg.js');
+    UserVoice = window.UserVoice || []
+  }
+</script>
+
+  <script type='text/javascript'>
+    if (window.location.hostname != "localhost"){
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+       ga('create', 'UA-42094200-3', 'auto');
+       ga('send', 'pageview');
+    }
+  </script>
+  
+
+<script type='text/javascript'>
+  var sso = undefined;
+  var uv_label = 'Contact Us';
+  var uv_mode = 'support';
+  
+  
+    var anon_org = false;
+  
+</script>
+<script type='text/javascript'>
+  if (window.location.hostname != "localhost") {
+    $(document).ready(function() {
+      UserVoice = window.UserVoice || [];
+      
+  
+      // Pin the (?) icon for the contact form w/Instant Answers on your page
+      UserVoice.push(['pin', 'contact']);
+  
+      // Autoprompt users for Satisfaction and SmartVote
+      UserVoice.push(['autoprompt']);
+  
+    });
+  }
+</script>
+
+  <script>
+  window.intercomSettings = {
+    app_id: "l6e7tr01",
+    name: " ",
+    email: "",
+    user_id: "",
+    brand: "textit",
+    created_at: "",
+  };
+  </script>
+
+  <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/l6e7tr01';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+
+
+
+  <script type='text/javascript'>
+     var options = {
+        ignoreErrors: [ 'fb_xd_fragment', '/inspectlet/' ],
+        ignoreUrls: [ /inspectlet/ ]
+    };
+    Raven.config('https://b7e7673049a842d080ca4d0dfa7a9fda@app.getsentry.com/20737', options).install();
+  </script>
+
+
+  <script type="text/javascript" id="inspectletjs">
+    var __insp = __insp || [];
+    __insp.push(['wid', 1150340038]);
+    (function() {
+      function __ldinsp(){var insp = document.createElement('script'); insp.type = 'text/javascript'; insp.async = true; insp.id = "inspsync"; insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://www.inspectlet.com/inspectlet.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(insp, x); }
+      if (window.attachEvent){
+        window.attachEvent('onload', __ldinsp);
+      }else{
+        window.addEventListener('load', __ldinsp, false);
+      }
+    })();
+  </script>
+
+
+
+    
+      <link type='image/ico' rel='shortcut icon' href='/sitestatic//brands/textit/favicon.ico'>
+    
+    
+    
+
+    
+      <link rel="stylesheet" href="/sitestatic/CACHE/css/bd7704e5886a.css" type="text/css" media="all" />
+      <link rel="stylesheet" href="/sitestatic/CACHE/css/ec2f9683d4d4.css" type="text/css" media="all and (min-width: 1200px), all and (max-width: 767px), all and (max-width: 480px), all and (min-width: 980px)" />
+      <link rel="stylesheet" href="/sitestatic/CACHE/css/967fe7d58cf3.css" type="text/css" media="all" />
+      <link rel="stylesheet" href="/sitestatic/CACHE/css/3e2cc4e3ebcb.css" type="text/css" media="all" /><link rel="stylesheet" href="/sitestatic/CACHE/css/1000b606a3ea.css" type="text/css" media="print" />
+      <link rel="stylesheet" href="/sitestatic/CACHE/css/5e76c97a8db3.css" type="text/css" media="all" />
+
+      
+      
+      
+  
+
+
+  <style type='text/css'>
+    .fb-comments {
+      border: 0px solid green;
+    }
+    
+    .vimeo {
+      border: 1px solid #ddd;
+    }
+    
+    .description {
+      margin-top:30px;
+      font-size:19px;
+      line-height:25px;
+      color: #666;
+      white-space:pre-line;
+      margin-bottom:30px;
+    }
+    
+    .manage {
+      position: absolute;
+      right:10px;
+      margin-top:20px;
+    }
+    
+    .other-vids {
+      width: 300px;
+      float:right;
+      padding-left:20px;
+      min-height:200px;
+    
+      .link {
+        display:block;
+        margin-top:8px;
+      }
+    
+    }
+    
+    .fb {
+      border-right: 1px solid #f3f3f3;
+    
+      padding-right:20px;
+    
+      width:600px;
+      min-height:200px;
+    
+      .fb-comments {
+        background: #ffffff;
+      }
+    }
+  </style>
+
+
+    
+  </head>
+  
+  <!--[if lt IE 9]>
+    <script src='//html5shim.googlecode.com/svn/trunk/html5.js'></script>
+  <![endif]-->
+
+
+
+<body id='pageBody'>
+  <div class='page-wrap'>
+
+    <!-- Header -->
+    <div id='print-header'>
+      <span class='logo icon-logo'></span>
+    </div>
+    <div id='header'>
+      &nbsp;
+
+    </div>
+    <a href='/' title='TextIt' class='logo icon-logo' id='big-logo'>
+      <div class='name'>
+        TextIt
+
+      </div>
+    </a>
+    
+
+<ul id='top-menu'>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      <li class='nav-learn'>
+        <a href='http://textit.in/video/' class='active icon-nav-learn'>
+          <div class='title'>
+            learn
+
+          </div>
+        </a>
+      </li>
+      <li class='nav-docs'>
+        <a href='http://feedback.textit.in/' target='docs' class='icon-nav-docs'>
+          <div class='title'>
+            docs
+
+          </div>
+        </a>
+      </li>
+      <li class='nav-pricing'>
+        <a href='http://textit.in/pricing/' class=' icon-nav-pricing'>
+          <div class='title'>
+            pricing
+
+          </div>
+        </a>
+      </li>
+      <li class='nav-blog'>
+        <a href='http://blog.textit.in' class='icon-nav-blog'>
+          <div class='title'>
+            blog
+
+          </div>
+        </a>
+      </li>
+      <li class='nav-login'>
+        <a href='https://textit.in/login/' class='icon-nav-login'>
+          <div class='title'>
+            sign in
+
+          </div>
+        </a>
+      </li>
+    
+  
+</ul>
+
+
+
+    
+    
+    
+    <!-- Content -->
+    
+      <div class='container-fluid' id='page-container'>
+        <div class='page-content'>
+          
+            <div class='row-fluid'>
+              <div class='span9'>
+                
+  
+  <h1>
+    Supporting Additional Responses
+
+  </h1>
+
+              </div>
+              <div class='span3 top-form'>
+                <div class='pull-right'>
+
+                  
+                    
+                      
+
+
+  
+
+
+
+                    
+                    
+
+                    
+
+                  
+                </div>
+              </div>
+            </div>
+            
+              <hr class='top-bar'>
+
+            
+          
+          
+          
+
+  <iframe class='vimeo' src="//player.vimeo.com/video/72960929" width=950 height=535 frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+  <div class='description'>In this video, we show you how you can easily accept many different answers when asking questions in your flow.
+
+Even if you tell your users to reply with &quot;yes&quot; or &quot;no&quot;, sometimes they might still respond with &quot;okay&quot;. To make things easier on them, you can anticipate their responses and configure your flow to be more flexible. </div>
+  
+
+  <div class='other-vids'>
+    <h4>
+      More Videos
+    </h4>
+    
+      <div class='link'>
+        <a href='/video/read/1/'>
+          Handling Unexpected Responses
+
+        </a>
+      </div>
+    
+      <div class='link'>
+        <a href='/video/read/2/'>
+          Testing Flows in the Simulator
+
+        </a>
+      </div>
+    
+      <div class='link'>
+        <a href='/video/read/4/'>
+          Managing Users with Groups
+
+        </a>
+      </div>
+    
+      <div class='link'>
+        <a href='/video/read/5/'>
+          Collecting Numeric Data
+
+        </a>
+      </div>
+    
+      <div class='link'>
+        <a href='/video/read/6/'>
+          Using Variable Substitution
+
+        </a>
+      </div>
+    
+      <div class='link'>
+        <a href='/video/read/7/'>
+          Updating Contacts Inside Flows
+
+        </a>
+      </div>
+    
+      <div class='link'>
+        <a href='/video/read/8/'>
+          Sending Email Inside Flows
+
+        </a>
+      </div>
+    
+  </div>
+  <div class='fb'>
+    <div class="fb-comments" data-width="600px" data-href="http://textit.in/video/read/3/"></div>
+  </div>
+
+          
+
+          
+
+        </div>
+      </div>
+    
+    <div id='footerInnerSeperator'></div>
+    <div id='footerOuterSeparator'></div>
+  </div>
+  
+
+<!-- Footer -->
+<div class='footerArea' id='footer'>
+  <div class='container'>
+    <div class='divPanel'>
+      
+        <div class='row-fluid'>
+          <div class='span4' id='footerArea1'>
+
+            
+              <h3>
+                Made in Africa
+              </h3>
+              <p>
+                
+                  TextIt was proudly built in Kigali, Rwanda by a dedicated team that <i>really loves</i> mobile messaging.
+                
+              </p>
+              <p>
+                Visit
+                <a href='http://nyaruka.com' title='Nyaruka'>
+                  Nyaruka's website
+                </a>
+                to learn more.
+
+              </p>
+            
+          </div>
+          <div class='span2' id='footerArea2'></div>
+          <div class='span3' id='footerArea3'></div>
+          <div class='span3' id='footerArea4'>
+            <ul id='contact-info'>
+              <h3>
+                Get in Touch
+
+              </h3>
+              <li class='clearfix'>
+                <div style='margin-top: 0px;' class='glyph icon-envelop'></div>
+                <a href='mailto:support@textit.in'>support@textit.in</a>
+              </li>
+              <li class='clearfix'>
+                <div style='margin-top: 0px;' class='glyph icon-twitter'></div>
+                <a href='https://twitter.com/textitin'>@textitin</a>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+      
+    </div>
+    <br>
+    <div class='row-fluid'>
+      <div class='span12'>
+        <center>
+          <p id='copyright'>Copyright &copy; 2012-2017 Nyaruka, Ltd &amp; UNICEF. All Rights Reserved.</p>
+        </center>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- media associated with any form we are displaying -->
+  
+  
+
+    
+
+    <script type='text/javascript'>
+      
+      
+      function removalConfirmation(removal, buttonName) {
+        modal = new ConfirmationModal($('.' + removal + ' > .title').html(), $('.' + removal + ' > .body').html());
+        modal.addClass('alert');
+        modal.setListeners({onPrimary: function(){
+          $('#' + removal + '-form').click();
+        }}, false);
+        modal.setPrimaryButton(buttonName);
+        modal.show();
+      }
+      
+      function formatContact(item) {
+        if (item.text.indexOf(" (") > -1) {
+         var name = item.text.split("(")[0];
+         if (name.indexOf(")") == name.length - 1) {
+           name = name.substring(0, name.length - 1);
+         }
+         return name;
+       }
+       return item.text;
+      }
+      
+      function createContactChoice(term, data) {
+        if ($(data).filter(function() { return this.text.localeCompare(term)===0; }).length===0) {
+          if (!isNaN(parseFloat(term)) && isFinite(term)) {
+            return {id:"number-" + term, text:term};
+          }
+        }
+      }
+      
+      function initSelect2Fields() {
+        $('.select2tag').select2({
+          containerCssClass: 'select2-container',
+          tags:[], tokenSeparators: [","], formatNoMatches:function(term){return '';}
+        });
+      
+        $('.select2tag').find("ul.select2-choices").sortable({
+          start: function() { $(".select2tag").select2("onSortStart"); },
+          update: function() { $(".select2tag").select2("onSortEnd"); }
+        });
+      }
+    </script>
+    
+      <div data-dismiss='modal' class='modal hide' id='modal-template'>
+
+  <div class='hide' id='onConfirm'></div>
+  <div class='modal-header'>
+    <button type='button' aria-hidden='true' class='pull-right close'>
+      &times;
+    </button>
+    <h3>
+      <div class='icon'></div>
+      <span id='modal-title'>
+        Uh oh!
+
+      </span>
+    </h3>
+  </div>
+  <div class='modal-body'>
+    <div class='fetched-content'>
+      <div id='modal-message'></div>
+      <div class='form'></div>
+    </div>
+    <div class='loader'>
+      <img src='/sitestatic/images/loader-circles.gif'>
+
+    </div>
+  </div>
+  <div class='modal-footer'>
+    <button class='btn tertiary pull-left hide'>
+      Tertiary
+    </button>
+    <button class='btn btn-primary primary'>
+      Ok
+    </button>
+    <button class='btn secondary hide'>
+      Cancel
+    </button>
+  </div>
+</div>
+
+
+    
+    
+  
+
+
+<form id="posterizer" method="post">
+  <input type='hidden' name='csrfmiddlewaretoken' value='QxgMfPHLMUhiRgXLIdJhdsLUm1irQw6lttqcfAo0gXowZVlRkSswWhoqIsZ2aPXe' />
+</form>
+
+<script type="text/javascript" src="/sitestatic/js/libs/jquery.url.js"></script>
+
+<script>
+  $("td.clickable").hover(function(){
+    this.style.cursor='pointer'
+  },
+  function(){});
+
+
+
+  $("td.clickable").click(function(){
+    document.location = $(this).children("a").attr("href");
+  });
+
+  $("a.posterize").click(function(event){
+    event.preventDefault();
+    event.stopPropagation();
+
+    var href = $(this).attr("href");
+    var url = $.url(href);
+
+    $("#posterizer").attr("action", url.attr("path"));
+
+    for (var key in url.param()){
+      $("#posterizer").append("<input type='hidden' name='" + key + "' value='" + url.param(key) + "'></input>");
+    }
+
+    $("#posterizer").submit();
+  });
+
+  function fetchPJAXContent(url, container, options) {
+
+      var type = 'GET';
+      var data = undefined;
+      if (options) {
+          if ('postData' in options) {
+              type = 'POST';
+              data = options['postData'];
+          }
+      }
+
+      var headers = { 'X-PJAX': true };
+      if (options && 'headers' in options) {
+          for (key in options['headers']) {
+              headers[key] = options['headers'][key];
+          }
+      }
+
+      $.ajax({
+          headers: headers,
+          type: type,
+          url: url,
+          data: data,
+          success: function(data, status, jqXHR) {
+
+            var toast = jqXHR.getResponseHeader('Temba-Toast');
+            if (toast) {
+              toastr.info(toast, '', {"positionClass": "toast-bottom-full-width"});
+            }
+
+            if ('followRedirects' in options && options['followRedirects'] == true) {
+                var redirect = jqXHR.getResponseHeader('REDIRECT');
+                if (redirect) {
+                    window.document.location.href = redirect;
+                    return;
+                }
+            }
+
+            var noPJAX = $(container).data('no-pjax');
+            if (options) {
+                if(!('forceReload' in options) || ('forceReload' in options && !options['forceReload'])) {
+
+                    if (noPJAX || ('shouldIgnore' in options && options['shouldIgnore'](data))) {
+                        if ('onIgnore' in options) {
+                           options['onIgnore'](jqXHR);
+                        }
+                        return;
+                    }
+                }
+            }
+            $(container).html(data);
+
+            if (options) {
+                if ('onSuccess' in options && options['onSuccess']) {
+                    options['onSuccess']();
+                }
+            }
+          }
+      });
+  }
+
+
+</script>
+
+<script>
+var refreshTimeout = 10000;
+function refresh(onSuccess, forceReload){
+
+  var url = "?"
+  
+
+  if (url == '') {
+      url = '?';
+  }
+
+  url += '&ts=' + new Date().getTime() + "&refresh=" + refreshTimeout;
+
+  fetchPJAXContent(url, '#pjax', {
+      forceReload: forceReload,
+      onSuccess: onSuccess,
+      onIgnore: function() {
+          scheduleRefresh();
+      }
+  });
+}
+
+
+</script>
+
+
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=299270970216232";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+    <script type="text/javascript" src="/sitestatic/js/libs/jquery.url.js"></script>
+
+    <form id="posterizer" method="post">
+      <input type='hidden' name='csrfmiddlewaretoken' value='QxgMfPHLMUhiRgXLIdJhdsLUm1irQw6lttqcfAo0gXowZVlRkSswWhoqIsZ2aPXe' />
+    </form>
+
+    <script type='text/javascript'>
+      $(document).ready(function() {
+        if (navigator.appVersion.indexOf("Win")!=-1) {
+          $("html").addClass("windows");
+        }
+      
+        initSelect2Fields();
+      
+        $(".btn").tooltip();
+      
+        $('.org-header > .toggle').live('click', function(evt) {
+          evt.stopPropagation();
+          var header = $('.org-header');
+          if (header.hasClass('expanded')) {
+            header.removeClass('expanded');
+          } else {
+            header.addClass('expanded');
+          }
+        });
+      
+        $('.org-header').live('click', function(evt) {
+          url = '/org/home/';
+          evt.stopPropagation();
+          if (evt.ctrlKey || evt.metaKey){
+            window.open(url,'_blank')
+          } else {
+            window.location = url;
+          }
+      
+        });
+      
+        $('#top-menu li').hoverIntent({
+          over:function() {
+            // $('.submenu').hide();
+            $(this).find('.submenu-container').slideDown(250);
+            // $(this).find('.submenu').show();
+          },
+          out:function() {
+          $(this).find('.submenu-container').slideUp(200);
+            //$(this).find('.submenu').hide();
+          },
+          timeout:300
+        });
+      
+      
+        $("a.posterize").click(function(event){
+          event.preventDefault();
+          event.stopPropagation();
+      
+          var href = $(this).attr("href");
+          var url = $.url(href);
+      
+          $("#posterizer").attr("action", url.attr("path"));
+      
+          for (var key in url.param()){
+            $("#posterizer").append("<input type='hidden' name='" + key + "' value='" + url.param(key) + "'></input>");
+          }
+      
+          $("#posterizer").submit();
+        });
+      });
+    </script>
+  
+
+</body>
+
+
+</html>

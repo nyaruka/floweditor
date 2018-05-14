@@ -1,0 +1,12 @@
+{
+    "assets": {
+        "date_format": "YYYY-MM-DD",
+        "time_format": "hh:mm",
+        "timezone": "Africa/Kigali",
+        "languages": [
+            "eng",
+            "spa",
+            "fra"
+        ]
+    }
+}

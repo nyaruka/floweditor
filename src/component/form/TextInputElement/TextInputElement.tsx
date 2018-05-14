@@ -8,6 +8,7 @@ import getCaretCoordinates from 'textarea-caret';
 import { Type } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
 import { AppState, CompletionOption } from '../../../store';
+import { StringEntry } from '../../../store/nodeEditor';
 import FormElement, { FormElementProps } from '../FormElement';
 import * as shared from '../FormElement.scss';
 import CharCount from './CharCount';
@@ -24,7 +25,7 @@ import {
     KEY_TAB,
     KEY_UP
 } from './constants';
-import { filterOptions, getMsgStats, getOptionsList, isValidURL, UnicodeCharMap } from './helpers';
+import { filterOptions, getMsgStats, getOptionsList, UnicodeCharMap } from './helpers';
 import * as styles from './TextInputElement.scss';
 
 export enum Count {
@@ -49,16 +50,15 @@ export interface TextInputStoreProps {
 }
 
 export interface TextInputPassedProps extends FormElementProps {
-    value: string;
+    entry?: StringEntry;
     __className?: string;
     count?: Count;
-    url?: boolean;
     textarea?: boolean;
     placeholder?: string;
     autocomplete?: boolean;
     focus?: boolean;
     showInvalid?: boolean;
-    onChange?(event: React.ChangeEvent<HTMLTextElement>): void;
+    onChange?(value: string): void;
     onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
 }
 
@@ -66,7 +66,6 @@ export type TextInputProps = TextInputStoreProps & TextInputPassedProps;
 
 export interface TextInputState {
     value: string;
-    errors: string[];
     caretOffset: number;
     caretCoordinates: Coordinates;
     completionVisible: boolean;
@@ -83,7 +82,6 @@ type InitialState = Pick<
     TextInputState,
     | 'caretOffset'
     | 'caretCoordinates'
-    | 'errors'
     | 'completionVisible'
     | 'selectedOptionIndex'
     | 'matches'
@@ -93,7 +91,6 @@ type InitialState = Pick<
 const initialState: InitialState = {
     caretOffset: 0,
     caretCoordinates: { left: 0, top: 0 },
-    errors: [],
     completionVisible: false,
     selectedOptionIndex: 0,
     matches: [],
@@ -109,17 +106,19 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     constructor(props: TextInputProps) {
         super(props);
 
+        let initial = '';
+        if (this.props.entry && this.props.entry.value) {
+            initial = this.props.entry.value;
+        }
         this.state = {
-            value: this.props.value,
+            value: initial,
             options: getOptionsList(this.props.autocomplete, this.props.resultNames || []),
             ...initialState,
-            ...(this.props.count && this.props.count === Count.SMS
-                ? getMsgStats(this.props.value)
-                : {})
+            ...(this.props.count && this.props.count === Count.SMS ? getMsgStats(initial) : {})
         };
 
         bindCallbacks(this, {
-            include: [/^on/, /Ref$/, 'setSelection', 'validate']
+            include: [/^on/, /Ref$/, 'setSelection', 'validate', /^has/, /^handle/]
         });
     }
 
@@ -132,8 +131,8 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     }
 
     public componentWillReceiveProps(nextProps: TextInputProps): void {
-        if (nextProps.value !== this.props.value) {
-            this.setState({ value: nextProps.value });
+        if (nextProps.entry.value !== this.props.entry.value) {
+            this.setState({ value: nextProps.entry.value });
         }
     }
 
@@ -285,7 +284,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         );
     }
 
-    private onChange(event: React.ChangeEvent<HTMLTextElement>): void {
+    private handleChange(event: React.ChangeEvent<HTMLTextElement>): void {
         const { currentTarget: { value, selectionStart } } = event;
 
         const updates: Partial<TextInputState> = {
@@ -320,7 +319,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         this.setState(updates as TextInputState);
 
         if (this.props.onChange) {
-            this.props.onChange(event);
+            this.props.onChange(event.currentTarget.value);
         }
     }
 
@@ -340,29 +339,6 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         if (selectedOptionIndex !== this.state.selectedOptionIndex) {
             this.setState({ selectedOptionIndex });
         }
-    }
-
-    public validate(): boolean {
-        const errors: string[] = [];
-
-        if (this.props.required) {
-            if (!this.state.value) {
-                errors.push(`${this.props.name} is required`);
-            }
-        }
-
-        this.setState({ errors });
-
-        // See if it should be a valid url
-        if (errors.length === 0) {
-            if (this.props.url) {
-                if (!isValidURL(this.state.value)) {
-                    errors.push('Enter a valid URL');
-                }
-            }
-        }
-
-        return errors.length === 0;
     }
 
     private focusInput(): void {
@@ -418,10 +394,16 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         });
     }
 
+    private hasErrors(): boolean {
+        return (
+            this.props.entry.validationFailures && this.props.entry.validationFailures.length > 0
+        );
+    }
+
     public render(): JSX.Element {
         const textElClasses = cx({
             [styles.textinput]: true,
-            [shared.invalid]: this.state.errors.length > 0 || this.props.showInvalid === true
+            [shared.invalid]: this.hasErrors() || this.props.showInvalid === true
         });
         const completionClasses = cx({
             [styles.completion_container]: true,
@@ -438,7 +420,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             ) : null;
 
         const sendMsgError =
-            this.state.errors.length > 0 &&
+            this.hasErrors() &&
             this.props.name === 'Message' &&
             (this.props.typeConfig.type === Types.send_msg ||
                 this.props.typeConfig.type === Types.send_broadcast);
@@ -446,13 +428,20 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         // Make sure we're rendering the right text element
         const TextElement = this.props.textarea ? 'textarea' : ('input' as string);
         const inputType = this.props.textarea ? undefined : 'text';
+
+        let text = this.state.value;
+        if (this.props.entry) {
+            text = this.props.entry.value;
+        }
+
         return (
             <FormElement
                 __className={this.props.__className}
                 name={this.props.name}
                 helpText={this.props.helpText}
                 showLabel={this.props.showLabel}
-                errors={this.state.errors}
+                // errors={this.state.errors}
+                entry={this.props.entry}
                 sendMsgError={sendMsgError}
             >
                 <div className={styles.wrapper}>
@@ -461,8 +450,8 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                         ref={this.textElRef}
                         type={inputType}
                         className={textElClasses}
-                        value={this.state.value}
-                        onChange={this.onChange}
+                        value={text}
+                        onChange={this.handleChange}
                         onBlur={this.onBlur}
                         onKeyDown={this.onKeyDown}
                         placeholder={this.props.placeholder}

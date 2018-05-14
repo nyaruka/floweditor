@@ -35,6 +35,7 @@
 
 .set_contact_name,
 .set_contact_field,
+.set_contact_language,
 .set_run_result,
 .set_language,
 .set_contact_channel {
@@ -64,7 +65,7 @@
 }
 
 .node_asset {
-    
+
     .node_group {
         padding-right: 5px;
     }
@@ -72,7 +73,7 @@
     .node_label {
         padding-right: 5px
     }
-    
+
 }
 
 

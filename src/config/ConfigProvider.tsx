@@ -8,7 +8,6 @@ fakePropType.isRequired = (): any => null;
 
 interface ConfigProviderProps {
     config: FlowEditorConfig;
-    assetService: AssetService;
     children: any;
 }
 

@@ -1,21 +1,31 @@
+import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import { Type } from '../../../config';
 import { SendEmail } from '../../../flowTypes';
-import { AppState } from '../../../store';
-import EmailElement from '../../form/EmailElement';
+import { AppState, DispatchWithState } from '../../../store';
+import { SendEmailFunc, updateSendEmailForm } from '../../../store/forms';
+import { SendEmailFormState } from '../../../store/nodeEditor';
+import { validate, validateRequired } from '../../../store/validators';
+import TaggingElement from '../../form/TaggingElement/TaggingElement';
 import TextInputElement from '../../form/TextInputElement';
-import { FormProps } from '../../NodeEditor';
 import * as styles from './SendEmail.scss';
+import { SendEmailFormHelper } from './SendEmailFormHelper';
+
+const EMAIL_PATTERN = /\S+@\S+\.\S+/;
 
 export interface SendEmailFormStoreProps {
     typeConfig: Type;
+    form: SendEmailFormState;
+    updateSendEmailForm: SendEmailFunc;
 }
 
 export interface SendEmailFormPassedProps {
     action: SendEmail;
     updateAction(action: SendEmail): void;
-    onBindWidget(ref: any): void;
+    formHelper: SendEmailFormHelper;
 }
 
 export type SendEmailFormProps = SendEmailFormStoreProps & SendEmailFormPassedProps;
@@ -24,56 +34,82 @@ export class SendEmailForm extends React.Component<SendEmailFormProps> {
     constructor(props: SendEmailFormProps) {
         super(props);
 
-        this.onValid = this.onValid.bind(this);
+        bindCallbacks(this, {
+            include: [/^on/, /^handle/]
+        });
     }
 
-    public onValid(widgets: { [name: string]: any }): void {
-        const { state: { emails: emailAddresses } } = widgets.Recipient;
-        const { wrappedInstance: { state: { value: subject } } } = widgets.Subject;
-        const { wrappedInstance: { state: { value: body } } } = widgets.Message;
-
-        const addresses = emailAddresses.map(
-            ({ value }: { label: string; value: string }) => value
+    public onValid(): void {
+        const updated = this.props.formHelper.stateToAction(
+            this.props.action.uuid,
+            this.props.form
         );
+        this.props.updateAction(updated);
+    }
 
-        const newAction: SendEmail = {
-            uuid: this.props.action.uuid,
-            type: this.props.typeConfig.type,
-            body,
-            subject,
-            addresses
-        };
+    public validate(): boolean {
+        let valid = this.handleRecipientsChanged(this.props.form.recipients.value);
+        valid = this.handleSubjectChanged(this.props.form.subject.value) && valid;
+        return this.handleBodyChanged(this.props.form.body.value) && valid;
+    }
 
-        this.props.updateAction(newAction);
+    private handleUpdateForm(updates: Partial<SendEmailFormState>): boolean {
+        return (this.props.updateSendEmailForm(updates) as any).valid;
+    }
+
+    private handleRecipientsChanged(recipients: string[]): boolean {
+        return this.handleUpdateForm({
+            recipients: validate('Recipients', recipients, [validateRequired])
+        });
+    }
+
+    private handleSubjectChanged(subject: string): boolean {
+        return this.handleUpdateForm({
+            subject: validate('Subject', subject, [validateRequired])
+        });
+    }
+
+    private handleBodyChanged(body: string): boolean {
+        return this.handleUpdateForm({
+            body: validate('Body', body, [validateRequired])
+        });
+    }
+
+    private handleValidPrompt(value: string): string {
+        return `Send email to ${value}`;
+    }
+
+    private handleCheckValid(value: string): boolean {
+        return EMAIL_PATTERN.test(value);
     }
 
     public render(): JSX.Element {
         return (
             <div className={styles.ele}>
-                <EmailElement
-                    ref={this.props.onBindWidget}
+                <TaggingElement
                     name="Recipient"
                     placeholder="To"
-                    emails={this.props.action.addresses}
-                    required={true}
+                    prompt="Enter e-mail address"
+                    onCheckValid={this.handleCheckValid}
+                    onValidPrompt={this.handleValidPrompt}
+                    entry={this.props.form.recipients}
+                    onChange={this.handleRecipientsChanged}
                 />
                 <TextInputElement
                     __className={styles.subject}
-                    ref={this.props.onBindWidget}
                     name="Subject"
                     placeholder="Subject"
-                    value={this.props.action.subject}
+                    onChange={this.handleSubjectChanged}
+                    entry={this.props.form.subject}
                     autocomplete={true}
-                    required={true}
                 />
                 <TextInputElement
                     __className={styles.message}
-                    ref={this.props.onBindWidget}
                     name="Message"
                     showLabel={false}
-                    value={this.props.action.body}
+                    onChange={this.handleBodyChanged}
+                    entry={this.props.form.body}
                     autocomplete={true}
-                    required={true}
                     textarea={true}
                 />
             </div>
@@ -81,10 +117,15 @@ export class SendEmailForm extends React.Component<SendEmailFormProps> {
     }
 }
 
-const mapStateToProps = ({ nodeEditor: { typeConfig } }: AppState) => ({ typeConfig });
+/* istanbul ignore next */
+const mapStateToProps = ({ nodeEditor: { form, typeConfig } }: AppState) => ({ form, typeConfig });
 
-const ConnectedSendEmailForm = connect(mapStateToProps, null, null, { withRef: true })(
-    SendEmailForm
-);
+/* istanbul ignore next */
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators({ updateSendEmailForm }, dispatch);
+
+const ConnectedSendEmailForm = connect(mapStateToProps, mapDispatchToProps, null, {
+    withRef: true
+})(SendEmailForm);
 
 export default ConnectedSendEmailForm;

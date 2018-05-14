@@ -1,4 +1,4 @@
-import { composeComponentTestUtils, configProviderContext, setMock } from '../../testUtils';
+import { composeComponentTestUtils, configProviderContext } from '../../testUtils';
 import { createSelectOption, getGroups } from '../../testUtils/assetCreators';
 import { validUUID } from '../../utils';
 import GroupsElement, {
@@ -13,7 +13,8 @@ const baseProps: GroupsElementProps = {
     name: 'Groups',
     placeholder: GROUP_PLACEHOLDER,
     searchPromptText: GROUP_NOT_FOUND,
-    assets: configProviderContext.assetService.getGroupAssets()
+    assets: configProviderContext.assetService.getGroupAssets(),
+    onChange: jest.fn()
 };
 
 const { setup, spyOn } = composeComponentTestUtils(GroupsElement, baseProps);
@@ -38,7 +39,6 @@ describe(GroupsElement.name, () => {
             const formElement = wrapper.find('FormElement');
 
             expect(formElement.prop('name')).toBe(props.name);
-            expect(formElement.prop('errors')).toEqual([]);
             expect(wrapper.find('SelectSearch').props()).toMatchSnapshot();
             expect(wrapper).toMatchSnapshot();
         });
@@ -55,85 +55,15 @@ describe(GroupsElement.name, () => {
     });
 
     describe('instance methods', () => {
-        describe('componentWillReceiveProps', () => {
-            it('should be called when new props are passed', () => {
-                const componentWillReceivePropsSpy = spyOn('componentWillReceiveProps');
-                const { wrapper, instance } = setup();
-                const nextProps = { ...baseProps, add: true };
-
-                wrapper.setProps(nextProps);
-
-                expect(componentWillReceivePropsSpy).toHaveBeenCalledTimes(1);
-                expect(componentWillReceivePropsSpy).toHaveBeenCalledWith(
-                    expect.objectContaining(nextProps),
-                    expect.any(Object)
-                );
-
-                componentWillReceivePropsSpy.mockRestore();
-            });
-
-            it('should update state if new groups are passed through props', () => {
-                const setStateSpy = spyOn('setState');
-                const groups = getGroups(2);
-                const { wrapper, instance } = setup(true, {
-                    groups: { $set: groups }
-                });
-                const newGroups = getGroups(3);
-                const nextProps = { ...baseProps, groups: newGroups };
-
-                wrapper.setProps(nextProps);
-
-                expect(setStateSpy).toHaveBeenCalledTimes(1);
-                expect(setStateSpy).toHaveBeenCalledWith({
-                    groups: newGroups
-                });
-
-                setStateSpy.mockRestore();
-            });
-        });
-
-        describe('onChange', () => {
-            it('should update state when called', () => {
-                const setStateSpy = spyOn('setState');
+        describe('handleChange', () => {
+            it('should update onChange when called', () => {
                 const groups = getGroups(3);
-                const { wrapper, instance, props: { onChange } } = setup();
-
-                instance.onChange(groups);
-
-                expect(setStateSpy).toHaveBeenCalledWith({ groups }, expect.any(Function));
-            });
-
-            it("should call 'onChange' prop if passed", () => {
-                const groups = getGroups(3);
-                const { wrapper, props, instance } = setup(true, {
-                    onChange: setMock()
-                });
-
-                instance.onChange(groups);
-
-                expect(props.onChange).toHaveBeenCalledTimes(1);
-                expect(props.onChange).toHaveBeenCalledWith(groups);
-            });
-        });
-
-        describe('validate', () => {
-            it('should return false, update errors state not valid', () => {
-                const { wrapper, instance, props: { name } } = setup(true, {
-                    required: { $set: true }
-                });
-
-                expect(instance.validate()).toBeFalsy();
-                expect(wrapper.state('errors')[0]).toBe(`${name} is required.`);
-            });
-
-            it('should return true if valid', () => {
-                const groups = getGroups(2);
-                const { wrapper, instance, props: { name } } = setup(true, {
-                    required: { $set: true }
-                });
-
-                expect(instance.onChange(groups));
-                expect(instance.validate()).toBeTruthy();
+                const { instance, props } = setup(true, { $merge: { onChange: jest.fn() } });
+                instance.handleChange(groups);
+                expect(props.onChange).toHaveBeenCalledWith([
+                    { id: 'afaba971-8943-4dd8-860b-3561ed4f1fe1', name: 'Testers' },
+                    { id: '33b28bac-b588-43e4-90de-fda77aeaf7c0', name: 'Subscribers' }
+                ]);
             });
         });
     });

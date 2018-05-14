@@ -185,6 +185,10 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
         this.props.updateRouter(this.state.displayableCases);
     }
 
+    public validate(): boolean {
+        return true;
+    }
+
     private handleCaseRemoved(c: CaseElement): void {
         const idx = this.state.displayableCases.findIndex(
             (props: CaseElementProps) => props.kase.uuid === c.props.kase.uuid
@@ -455,7 +459,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
                                         name={kase.uuid}
                                         placeholder={`${this.props.language.name} Translation`}
                                         showLabel={false}
-                                        value={value}
+                                        entry={{ value }}
                                     />
                                 </div>
                             </div>
@@ -482,10 +486,10 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
                         key={this.props.nodeToEdit.uuid}
                         name="Expression"
                         showLabel={false}
-                        value={this.props.operand}
+                        entry={{ value: this.props.operand }}
                         onChange={this.props.onExpressionChanged}
                         autocomplete={true}
-                        required={true}
+                        // required={true}
                     />
                 </>
             );

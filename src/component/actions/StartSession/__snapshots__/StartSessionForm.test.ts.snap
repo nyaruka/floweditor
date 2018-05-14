@@ -13,12 +13,15 @@ exports[`StartSessionForm render should render an empty form with no action 1`] 
       }
     }
     data-spec="recipients"
+    entry={
+      Object {
+        "value": Array [],
+      }
+    }
     name="Recipients"
     onChange={[Function]}
     placeholder="Enter a group or contact..."
-    required={true}
     searchPromptText="No matches"
-    selected={Array []}
   />
   <p>
     Select a flow to run
@@ -33,15 +36,13 @@ exports[`StartSessionForm render should render an empty form with no action 1`] 
         "localStorage": true,
       }
     }
-    flow={
+    entry={
       Object {
-        "name": "Flow to Start",
-        "uuid": "flow_uuid",
+        "value": null,
       }
     }
     name="Flow"
     onChange={[Function]}
-    required={true}
   />
 </div>
 `;
@@ -59,40 +60,41 @@ exports[`StartSessionForm render should render self, children with base props 1`
       }
     }
     data-spec="recipients"
+    entry={
+      Object {
+        "value": Array [
+          Object {
+            "id": "group-0",
+            "name": "Cat Fanciers",
+            "type": "group",
+          },
+          Object {
+            "id": "group-1",
+            "name": "Cat Facts",
+            "type": "group",
+          },
+          Object {
+            "id": "contact-0",
+            "name": "Kellan Alexander",
+            "type": "contact",
+          },
+          Object {
+            "id": "contact-1",
+            "name": "Norbert Kwizera",
+            "type": "contact",
+          },
+          Object {
+            "id": "contact-2",
+            "name": "Rowan Seymour",
+            "type": "contact",
+          },
+        ],
+      }
+    }
     name="Recipients"
     onChange={[Function]}
     placeholder="Enter a group or contact..."
-    required={true}
     searchPromptText="No matches"
-    selected={
-      Array [
-        Object {
-          "id": "group-0",
-          "name": "Cat Fanciers",
-          "type": "group",
-        },
-        Object {
-          "id": "group-1",
-          "name": "Cat Facts",
-          "type": "group",
-        },
-        Object {
-          "id": "contact-0",
-          "name": "Kellan Alexander",
-          "type": "contact",
-        },
-        Object {
-          "id": "contact-1",
-          "name": "Norbert Kwizera",
-          "type": "contact",
-        },
-        Object {
-          "id": "contact-2",
-          "name": "Rowan Seymour",
-          "type": "contact",
-        },
-      ]
-    }
   />
   <p>
     Select a flow to run
@@ -107,15 +109,17 @@ exports[`StartSessionForm render should render self, children with base props 1`
         "localStorage": true,
       }
     }
-    flow={
+    entry={
       Object {
-        "name": "Flow to Start",
-        "uuid": "flow_uuid",
+        "value": Object {
+          "id": "flow_uuid",
+          "name": "Flow to Start",
+          "type": "flow",
+        },
       }
     }
     name="Flow"
     onChange={[Function]}
-    required={true}
   />
 </div>
 `;

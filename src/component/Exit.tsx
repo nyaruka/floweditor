@@ -6,8 +6,6 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { ConfigProviderContext } from '../config';
-import { fakePropType } from '../config/ConfigProvider';
 import { Exit, FlowNode, LocalizationMap } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
 import { Asset } from '../services/AssetService';
@@ -43,12 +41,8 @@ const cx = classNames.bind(styles);
 export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     private timeout: number;
 
-    public static contextTypes = {
-        languages: fakePropType
-    };
-
-    constructor(props: ExitProps, context: ConfigProviderContext) {
-        super(props, context);
+    constructor(props: ExitProps) {
+        super(props);
 
         this.state = {
             confirmDelete: false
@@ -160,7 +154,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             this.props.exit,
             this.props.localization,
             this.props.language.id,
-            this.context.languages
+            this.props.language.name
         );
         const exit = this.props.translating ? (localization.getObject() as Exit) : this.props.exit;
         const nameStyle = exit.name ? styles.name : '';

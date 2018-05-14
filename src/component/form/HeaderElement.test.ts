@@ -2,7 +2,6 @@ import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../testUt
 import { set, setFalse } from '../../utils';
 import HeaderElement, {
     Header,
-    HEADER_NAME_ERROR,
     headerContainerSpecId,
     HeaderElementProps,
     NAME_PLACEHOLDER,
@@ -45,32 +44,38 @@ describe(HeaderElement.name, () => {
 
             expect(wrapper.find('FormElement').props()).toEqual(
                 expect.objectContaining({
-                    name: props.name,
-                    errors: []
+                    name: props.name
                 })
             );
+
             expect(getSpecWrapper(wrapper, headerContainerSpecId).hasClass('header')).toBeTruthy();
+
             expect(
                 getSpecWrapper(wrapper, nameContainerSpecId).hasClass('header_name')
             ).toBeTruthy();
+
             expect(inputs.at(0).props()).toEqual({
                 placeholder: NAME_PLACEHOLDER,
                 name: 'name',
-                onChange: instance.onChangeName,
-                value: props.header.name,
+                onChange: instance.handleChangeName,
+                entry: { value: props.header.name },
                 showInvalid: false
             });
+
             expect(
                 getSpecWrapper(wrapper, valueConatainerSpecId).hasClass('header_value')
             ).toBeTruthy();
+
             expect(inputs.at(1).props()).toEqual({
                 placeholder: VALUE_PLACEHOLDER,
                 name: 'value',
-                onChange: instance.onChangeValue,
-                value: props.header.value,
+                onChange: instance.handleChangeValue,
+                entry: { value: props.header.value },
                 autocomplete: true
             });
+
             expect(getSpecWrapper(wrapper, removeIcoSpecId).exists()).toBeFalsy();
+
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -90,35 +95,17 @@ describe(HeaderElement.name, () => {
             expect(wrapper.find('.fe-remove').exists()).toBeTruthy();
             expect(wrapper).toMatchSnapshot();
         });
-
-        it('should indicate header error to TextInputElement', () => {
-            const { wrapper } = setup();
-
-            wrapper.setState({ errors: [HEADER_NAME_ERROR] }, () => wrapper.update());
-
-            expect(
-                wrapper
-                    .find('Connect(TextInputElement)')
-                    .at(0)
-                    .prop('showInvalid')
-            ).toBeTruthy();
-        });
     });
 
     describe('instance methods', () => {
-        describe('onChangeName', () => {
+        describe('handleChangeName', () => {
             it('should update state, call onChange prop', () => {
                 const setStateSpy = spyOn('setState');
                 const { wrapper, props: { onChange: onChangeMock }, instance } = setup(true, {
                     onChange: setMock()
                 });
-                const mockEvent = {
-                    currentTarget: {
-                        value: headers[0].name
-                    }
-                };
 
-                instance.onChangeName(mockEvent);
+                instance.handleChangeName(headers[0].name);
                 wrapper.update();
 
                 expect(setStateSpy).toHaveBeenCalledTimes(1);
@@ -128,12 +115,13 @@ describe(HeaderElement.name, () => {
                 );
                 expect(onChangeMock).toHaveBeenCalledTimes(1);
                 expect(onChangeMock).toHaveBeenCalledWith(expect.any(HeaderElement));
+
                 expect(
                     wrapper
                         .find('Connect(TextInputElement)')
                         .at(0)
-                        .prop('value')
-                ).toBe(headers[0].name);
+                        .prop('entry')
+                ).toEqual({ value: headers[0].name });
                 expect(wrapper).toMatchSnapshot();
 
                 setStateSpy.mockRestore();
@@ -146,13 +134,8 @@ describe(HeaderElement.name, () => {
                 const { wrapper, props, instance } = setup(true, {
                     onChange: setMock()
                 });
-                const mockEvent = {
-                    currentTarget: {
-                        value: headers[0].value
-                    }
-                };
 
-                instance.onChangeValue(mockEvent);
+                instance.handleChangeValue(headers[0].value);
                 wrapper.update();
 
                 expect(setStateSpy).toHaveBeenCalledTimes(1);
@@ -166,8 +149,8 @@ describe(HeaderElement.name, () => {
                     wrapper
                         .find('Connect(TextInputElement)')
                         .at(1)
-                        .prop('value')
-                ).toBe(headers[0].value);
+                        .prop('entry')
+                ).toEqual({ value: headers[0].value });
                 expect(wrapper).toMatchSnapshot();
 
                 setStateSpy.mockRestore();
@@ -184,33 +167,6 @@ describe(HeaderElement.name, () => {
             instance.onRemove();
 
             expect(props.onRemove).toHaveBeenCalledTimes(1);
-        });
-    });
-
-    describe('validate', () => {
-        it('should return true, update state if errors', () => {
-            const setStateSpy = spyOn('setState');
-            const namelessHeader = { ...headers[0], name: '' };
-            const { wrapper, instance } = setup(true, {
-                header: set(namelessHeader)
-            });
-
-            expect(instance.validate()).toBeFalsy();
-            expect(setStateSpy).toHaveBeenCalledTimes(1);
-            expect(setStateSpy).toHaveBeenCalledWith({ errors: [HEADER_NAME_ERROR] });
-
-            setStateSpy.mockRestore();
-        });
-
-        it('should return false, update state if no errors', () => {
-            const setStateSpy = spyOn('setState');
-            const { wrapper, instance } = setup();
-
-            expect(instance.validate()).toBeTruthy();
-            expect(setStateSpy).toHaveBeenCalledTimes(1);
-            expect(setStateSpy).toHaveBeenCalledWith({ errors: [] });
-
-            setStateSpy.mockRestore();
         });
     });
 });
