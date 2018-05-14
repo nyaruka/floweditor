@@ -340,6 +340,11 @@ export const mergeNodeEditorSettings = (
     if (!newSettings) {
         return current;
     }
+
+    if (!current) {
+        return newSettings;
+    }
+
     return mutate(current, { $merge: newSettings });
 };
 

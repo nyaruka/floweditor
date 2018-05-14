@@ -9,10 +9,11 @@ import Localization, { LocalizedObject } from '../../../services/Localization';
 import { AppState, DispatchWithState } from '../../../store';
 import { SendMsgFunc, updateSendMsgForm } from '../../../store/forms';
 import { SendMsgFormState } from '../../../store/nodeEditor';
+import { validate, validateMaxOfTen, validateRequired } from '../../../store/validators';
 import * as styles from '../../actions/Action/Action.scss';
 import CheckboxElement from '../../form/CheckboxElement';
 import TaggingElement from '../../form/TaggingElement/TaggingElement';
-import TextInputElement, { Count, HTMLTextElement } from '../../form/TextInputElement';
+import TextInputElement, { Count } from '../../form/TextInputElement';
 import { Language } from '../../LanguageSelector';
 import { UpdateLocalizations } from '../../NodeEditor';
 import { SendMsgFormHelper } from './SendMsgFormHelper';
@@ -52,11 +53,11 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
 
     public onValid(): void {
         if (this.props.translating) {
-            const translation = this.props.form.translatedText;
+            const translation = this.props.form.text ? this.props.form.text.value : null;
 
             if (translation) {
                 this.props.updateLocalizations(this.props.language.iso, [
-                    { uuid: this.props.action.uuid, translations: { text: [translation] } }
+                    { uuid: this.props.action.uuid, translations: { text: translation } }
                 ]);
             } else {
                 this.props.updateLocalizations(this.props.language.iso, [
@@ -64,69 +65,68 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
                 ]);
             }
         } else {
-            const newAction: SendMsg = {
-                uuid: this.props.action.uuid,
-                type: this.props.typeConfig.type,
-                text: this.props.form.text,
-                all_urns: this.props.form.sendAll,
-                quick_replies: this.props.form.quickReplies
-            };
-
-            this.props.updateAction(newAction);
+            this.props.updateAction(
+                this.props.formHelper.stateToAction(this.props.action.uuid, this.props.form)
+            );
         }
     }
 
     private renderForm(): JSX.Element {
-        let text = '';
         let placeholder = '';
         let translation = null;
 
         if (this.props.translating) {
-            const textToTrans = this.props.form.translatedText;
-
             translation = (
                 <div data-spec="translation-container">
                     <div data-spec="text-to-translate" className={styles.translate_from}>
-                        {textToTrans}
+                        {this.props.action.text}
                     </div>
                 </div>
             );
-
             placeholder = `${this.props.language.name} Translation`;
-
-            if (this.props.localizations[0].isLocalized()) {
-                ({ text } = this.props.localizations[0].getObject() as SendMsg);
-            }
-        } else {
-            ({ text } = this.props.form);
         }
 
         return (
             <div>
                 {translation}
                 <TextInputElement
-                    ref={this.props.onBindWidget}
                     name="Message"
                     showLabel={false}
                     count={Count.SMS}
                     onChange={this.handleUpdateMessage}
-                    value={text}
+                    entry={this.props.form.text}
                     placeholder={placeholder}
                     autocomplete={true}
                     focus={true}
-                    required={!this.props.translating}
                     textarea={true}
                 />
             </div>
         );
     }
 
-    public handleUpdateMessage(event: React.ChangeEvent<HTMLTextElement>): void {
-        this.props.updateSendMsgForm({ text: event.currentTarget.value });
+    public validate(): boolean {
+        return this.handleUpdateMessage(this.props.form.text.value);
     }
 
-    public handleUpdateQuickReplies(quickReplies: string[]): void {
-        this.props.updateSendMsgForm({ quickReplies });
+    private handleUpdateForm(updates: Partial<SendMsgFormState>): boolean {
+        return (this.props.updateSendMsgForm(updates) as any).valid;
+    }
+
+    public handleUpdateMessage(value: string): boolean {
+        const validators = [];
+        if (!this.props.translating) {
+            validators.push(validateRequired);
+        }
+
+        return this.handleUpdateForm({
+            text: validate('Message', value, validators)
+        });
+    }
+
+    public handleUpdateQuickReplies(value: string[]): boolean {
+        return this.handleUpdateForm({
+            quickReplies: validate('Quick Replies', value, [validateMaxOfTen])
+        });
     }
 
     public handleUpdateSendAll(sendAll: boolean): void {
@@ -134,11 +134,7 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
     }
 
     public handleCheckValidReply(value: string): boolean {
-        if (this.props.form.quickReplies.length >= MAX_REPLIES) {
-            return false;
-        }
-
-        return value && value.trim().length > 0;
+        return true;
     }
 
     public handleValidReplyPrompt(value: string): string {
@@ -147,20 +143,17 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
 
     private renderAdvanced(): JSX.Element {
         if (this.props.translating) {
-            const spanishQR = (this.props.localizations[0].getObject() as SendMsg).quick_replies;
             return (
                 <>
                     <p>Enter any {this.props.language.name} Quick Replies</p>
                     <TaggingElement
-                        ref={this.props.onBindWidget}
                         name="Replies"
                         placeholder="Quick Replies"
                         prompt="Enter a Quick Reply"
                         onChange={this.handleUpdateQuickReplies}
                         onCheckValid={this.handleCheckValidReply}
                         onValidPrompt={this.handleValidReplyPrompt}
-                        tags={spanishQR || []}
-                        required={false}
+                        entry={this.props.form.quickReplies}
                     />
                 </>
             );
@@ -170,18 +163,15 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
             <div>
                 <p>Quick Replies are made into buttons for supported channels</p>
                 <TaggingElement
-                    ref={this.props.onBindWidget}
                     name="Replies"
                     placeholder="Quick Replies"
                     prompt="Enter a Quick Reply"
                     onChange={this.handleUpdateQuickReplies}
                     onCheckValid={this.handleCheckValidReply}
                     onValidPrompt={this.handleValidReplyPrompt}
-                    tags={this.props.form.quickReplies || []}
-                    required={false}
+                    entry={this.props.form.quickReplies}
                 />
                 <CheckboxElement
-                    ref={this.props.onBindAdvancedWidget}
                     name="All Destinations"
                     defaultValue={this.props.form.sendAll}
                     description="Send a message to all destinations known for this contact."

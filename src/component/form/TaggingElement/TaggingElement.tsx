@@ -2,13 +2,13 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { Creatable as SelectCreatable } from 'react-select';
 
+import { StringArrayEntry } from '../../../store/nodeEditor';
 import { getSelectClass } from '../../../utils';
 import FormElement, { FormElementProps } from '../FormElement';
 
 export type TagList = Array<{ label: string; value: string }>;
 
 export interface TaggingElementProps extends FormElementProps {
-    tags: string[];
     placeholder?: string;
     prompt: string;
     onChange?: (values: string[]) => void;
@@ -16,54 +16,24 @@ export interface TaggingElementProps extends FormElementProps {
     onCheckValid: (value: string) => boolean;
 }
 
-interface TagState {
-    tags: TagList;
-    errors: string[];
-}
-
-export const tagsToOptions = (tags: string[]): TagList =>
-    tags.map(tag => ({ label: tag, value: tag }));
+export const tagsToOptions = (tags: StringArrayEntry): TagList => {
+    return tags.value.map(tag => ({ label: tag, value: tag }));
+};
 
 export const optionsToTags = (tags: TagList): string[] =>
     tags.map(tag => {
         return tag.label;
     });
 
-export default class TaggingElement extends React.Component<TaggingElementProps, TagState> {
+export default class TaggingElement extends React.Component<TaggingElementProps> {
     constructor(props: any) {
         super(props);
-
-        const tags = tagsToOptions(this.props.tags);
-
-        this.state = {
-            tags,
-            errors: []
-        };
-
         bindCallbacks(this, {
             include: [/^handle/]
         });
     }
 
-    public validate(): boolean {
-        const errors: string[] = [];
-
-        if (this.props.required) {
-            if (this.state.tags.length === 0) {
-                errors.push(`${this.props.name} is required`);
-            }
-        }
-
-        this.setState({ errors });
-
-        return errors.length === 0;
-    }
-
     public handleUpdateTags(tags: TagList): void {
-        this.setState({
-            tags
-        });
-
         if (this.props.onChange) {
             this.props.onChange(optionsToTags(tags));
         }
@@ -74,6 +44,9 @@ export default class TaggingElement extends React.Component<TaggingElementProps,
     }
 
     public handleCheckValid({ label }: { label: string }): boolean {
+        if (!label || label.trim().length === 0) {
+            return false;
+        }
         return this.props.onCheckValid(label);
     }
 
@@ -82,19 +55,18 @@ export default class TaggingElement extends React.Component<TaggingElementProps,
     }
 
     public render(): JSX.Element {
-        const className: string = getSelectClass(this.state.errors.length);
+        const className: string = getSelectClass(
+            (this.props.entry.validationFailures || []).length
+        );
 
+        const tags = tagsToOptions(this.props.entry);
         return (
-            <FormElement
-                name={this.props.name}
-                required={this.props.required}
-                errors={this.state.errors}
-            >
+            <FormElement name={this.props.name} entry={this.props.entry}>
                 <SelectCreatable
                     className={className}
                     name={this.props.name}
                     placeholder={this.props.placeholder}
-                    value={this.state.tags}
+                    value={tags}
                     onChange={this.handleUpdateTags}
                     multi={true}
                     searchable={true}

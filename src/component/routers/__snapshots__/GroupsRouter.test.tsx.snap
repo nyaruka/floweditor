@@ -52,36 +52,38 @@ Object {
     "idProperty": "uuid",
     "localStorage": true,
   },
-  "groups": Array [
-    Object {
-      "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
-      "name": "Customers",
-      "type": "group",
-    },
-    Object {
-      "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
-      "name": "Unsatisfied Customers",
-      "type": "group",
-    },
-    Object {
-      "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
-      "name": "Early Adopters",
-      "type": "group",
-    },
-    Object {
-      "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
-      "name": "Testers",
-      "type": "group",
-    },
-    Object {
-      "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
-      "name": "Subscribers",
-      "type": "group",
-    },
-  ],
+  "entry": Object {
+    "value": Array [
+      Object {
+        "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
+        "name": "Customers",
+        "type": "group",
+      },
+      Object {
+        "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
+        "name": "Unsatisfied Customers",
+        "type": "group",
+      },
+      Object {
+        "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+        "name": "Early Adopters",
+        "type": "group",
+      },
+      Object {
+        "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
+        "name": "Testers",
+        "type": "group",
+      },
+      Object {
+        "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+        "name": "Subscribers",
+        "type": "group",
+      },
+    ],
+  },
   "name": "Groups",
+  "onChange": [Function],
   "placeholder": "Enter the name of an existing group...",
-  "required": true,
   "searchPromptText": "Invalid group",
 }
 `;

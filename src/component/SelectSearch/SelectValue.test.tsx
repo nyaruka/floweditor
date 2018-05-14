@@ -60,7 +60,7 @@ describe(SelectValue.name, () => {
         it('handles on click', () => {
             const { wrapper, instance, props } = setup(false);
             const button = getSpecWrapper(wrapper, 'remove-button');
-            button.simulate('click', {});
+            button.simulate('mouseup', {});
             expect(props.onRemove).toHaveBeenCalled();
         });
     });

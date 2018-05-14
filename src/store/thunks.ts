@@ -459,6 +459,8 @@ export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction
         // tslint:disable-next-line:no-shadowed-variable
         const action = actionToEdit && actionToEdit.type === typeConfig.type ? actionToEdit : null;
         dispatch(updateForm(typeConfig.formHelper.actionToState(action, typeConfig.type)));
+    } else {
+        dispatch(updateForm(null));
     }
 };
 
@@ -487,7 +489,7 @@ export const resetNodeEditingState = () => (dispatch: DispatchWithState, getStat
     }
 
     dispatch(updateForm(null));
-
+    dispatch(updateNodeEditorSettings({ showAdvanced: false }));
     dispatch(updateTimeout(null));
 };
 
@@ -772,7 +774,15 @@ export const onOpenNodeEditor = (
     const typeConfig = getTypeConfig(type);
 
     if (typeConfig.formHelper) {
-        dispatch(updateForm(typeConfig.formHelper.actionToState(action, typeConfig.type)));
+        let toEdit = action;
+        if (translating) {
+            if (localizations && localizations.length === 1 && localizations[0].isLocalized()) {
+                toEdit = localizations[0].getObject() as AnyAction;
+            } else {
+                toEdit = null;
+            }
+        }
+        dispatch(updateForm(typeConfig.formHelper.actionToState(toEdit, typeConfig.type)));
     }
     dispatch(updateTypeConfig(getTypeConfig(type as Types)));
 

@@ -1,14 +1,16 @@
 import { Types } from '../../../config/typeConfigs';
 import { ChangeGroups } from '../../../flowTypes';
+import { updateChangeGroupsForm } from '../../../store/forms';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../../testUtils';
 import { createAddGroupsAction } from '../../../testUtils/assetCreators';
-import { set } from '../../../utils';
 import { labelSpecId } from './AddGroupsForm';
-import { mapAssetsToGroups, mapGroupsToAssets } from './helpers';
+import { mapGroupsToAssets } from './helpers';
 import ChangeGroupFormProps from './props';
-import RemoveGroupsForm, { LABEL, REMOVE_FROM_ALL, REMOVE_FROM_ALL_DESC } from './RemoveGroupsForm';
+import { LABEL, REMOVE_FROM_ALL, REMOVE_FROM_ALL_DESC, RemoveGroupsForm } from './RemoveGroupsForm';
+import { RemoveGroupsFormHelper } from './RemoveGroupsFormHelper';
 
 const addGroupsAction = createAddGroupsAction();
+const formHelper = new RemoveGroupsFormHelper();
 const removeGroupsAction = {
     ...(addGroupsAction as ChangeGroups),
     type: Types.remove_contact_groups
@@ -17,8 +19,9 @@ const removeGroupsAction = {
 const baseProps: ChangeGroupFormProps = {
     action: removeGroupsAction,
     updateAction: jest.fn(),
-    onBindWidget: jest.fn(),
-    removeWidget: jest.fn(),
+    updateChangeGroupsForm: jest.fn(),
+    form: formHelper.actionToState(removeGroupsAction),
+    formHelper,
     groups: []
 };
 
@@ -27,42 +30,17 @@ const { setup, spyOn } = composeComponentTestUtils(RemoveGroupsForm, baseProps);
 describe(RemoveGroupsForm.name, () => {
     describe('render', () => {
         it('should render self, children with base props', () => {
-            const {
-                wrapper,
-                instance,
-                props,
-                // tslint:disable-next-line:no-shadowed-variable
-                context: { endpoints }
-            } = setup(false, {
-                onBindWidget: setMock()
-            });
+            const { wrapper } = setup(false, {});
             const label = getSpecWrapper(wrapper, labelSpecId);
 
             expect(label.is('p')).toBeTruthy();
             expect(label.text()).toBe(LABEL);
-            expect(props.onBindWidget).toHaveBeenCalledTimes(2);
             expect(wrapper.find('GroupsElement').props()).toMatchSnapshot();
             expect(wrapper.find('CheckboxElement').props()).toMatchSnapshot();
         });
 
         it('should render only the checkbox', () => {
-            const {
-                wrapper,
-                instance,
-                props,
-                // tslint:disable-next-line:no-shadowed-variable
-                context: { endpoints }
-            } = setup(false, {
-                onBindWidget: setMock(),
-                removeWidget: setMock()
-            });
-
-            instance.handleUpdateRemoveAll(true);
-
-            wrapper.update();
-
-            expect(props.removeWidget).toHaveBeenCalledTimes(1);
-            expect(props.removeWidget).toHaveBeenCalledWith('Groups');
+            const { wrapper, instance } = setup(false, { form: { removeAll: { $set: true } } });
             expect(getSpecWrapper(wrapper, labelSpecId).exists()).toBeFalsy();
             expect(wrapper.find('GroupsElement').exists()).toBeFalsy();
             expect(wrapper.find('CheckboxElement').props()).toEqual({
@@ -76,113 +54,68 @@ describe(RemoveGroupsForm.name, () => {
     });
 
     describe('instance methods', () => {
-        describe('getGroups', () => {
-            it("should return an empty list if action's groups are null", () => {
-                const grouplessAction = { ...removeGroupsAction, groups: null };
-                const { wrapper, instance } = setup(true, {
-                    action: set(grouplessAction)
-                });
-                const returnedGroups = instance.getGroups();
-
-                expect(returnedGroups).toEqual([]);
-                expect(returnedGroups).toMatchSnapshot();
+        it('should handle removeAll', () => {
+            const { wrapper, instance, props } = setup(true, {
+                $merge: { updateChangeGroupsForm: jest.fn().mockReturnValue(true) }
             });
-
-            it("should return an empty list if action's groups property is an empty list", () => {
-                const grouplessAction = { ...removeGroupsAction, groups: [] };
-                const { wrapper, instance } = setup(true, {
-                    action: set(grouplessAction)
-                });
-                const returnedGroups = instance.getGroups();
-
-                expect(returnedGroups).toEqual([]);
-                expect(returnedGroups).toMatchSnapshot();
-            });
-
-            it('should return empty list if action is add groups action', () => {
-                const { wrapper, instance, props: { action } } = setup(true, {
-                    action: set(addGroupsAction)
-                });
-                const returnedGroups = instance.getGroups();
-
-                expect(returnedGroups).toEqual([]);
-                expect(returnedGroups).toMatchSnapshot();
-            });
-
-            it('should return SearchResult[] if action is remove groups action and it has groups', () => {
-                const { wrapper, instance, props } = setup();
-                const searchResults = mapGroupsToAssets(props.action.groups);
-                const returnedGroups = instance.getGroups();
-
-                expect(returnedGroups).toEqual(searchResults);
-                expect(returnedGroups).toMatchSnapshot();
+            instance.handleUpdateRemoveAll(true);
+            expect(props.updateChangeGroupsForm).toHaveBeenCalledWith({
+                groups: { value: null },
+                removeAll: true
             });
         });
 
-        describe('onGroupsChanged', () => {
+        describe('handleUpdateGroups', () => {
             it('should update groups state if passed new groups', () => {
-                const setStateSpy = spyOn('setState');
-                const { wrapper, instance, props } = setup();
+                const { wrapper, instance, props } = setup(true, {
+                    $merge: { updateChangeGroupsForm: jest.fn().mockReturnValue(true) }
+                });
                 const searchResults = mapGroupsToAssets(props.action.groups.slice(2));
 
-                instance.onGroupsChanged(searchResults);
+                instance.handleUpdateGroups(searchResults);
 
-                expect(setStateSpy).toHaveBeenCalledTimes(1);
-                expect(setStateSpy).toHaveBeenCalledWith({ groups: searchResults });
-
-                setStateSpy.mockRestore();
-            });
-
-            it('should not update groups state if passed same groups', () => {
-                const setStateSpy = spyOn('setState');
-                const { wrapper, instance, props } = setup();
-                const searchResults = mapGroupsToAssets(props.action.groups);
-
-                expect(wrapper.state('groups')).toEqual(searchResults);
-
-                instance.onGroupsChanged(searchResults);
-
-                expect(setStateSpy).not.toHaveBeenCalled();
-
-                setStateSpy.mockRestore();
+                expect(props.updateChangeGroupsForm).toHaveBeenCalledWith({
+                    groups: {
+                        value: [
+                            {
+                                id: 'cdbf9e01-aaa7-4381-8259-ee042447bcac',
+                                name: 'Early Adopters',
+                                type: 'group'
+                            },
+                            {
+                                id: 'afaba971-8943-4dd8-860b-3561ed4f1fe1',
+                                name: 'Testers',
+                                type: 'group'
+                            },
+                            {
+                                id: '33b28bac-b588-43e4-90de-fda77aeaf7c0',
+                                name: 'Subscribers',
+                                type: 'group'
+                            }
+                        ]
+                    }
+                });
             });
         });
 
         describe('onValid', () => {
             it('should call updateAction action creator with a ChangeGroups action', () => {
-                const {
-                    wrapper,
-                    instance,
-                    props: { action, updateAction: updateActionMock }
-                } = setup(true, { updateAction: setMock() });
-                const expectedAction = {
-                    uuid: action.uuid,
-                    type: action.type,
-                    groups: mapAssetsToGroups(wrapper.state('groups'))
-                };
+                const { instance, props } = setup(true, { updateAction: setMock() });
                 instance.onValid();
-                expect(updateActionMock).toHaveBeenCalledWith(expectedAction);
-            });
-
-            it('should honor the remove all flag', () => {
-                const {
-                    wrapper,
-                    instance,
-                    props: { action, updateAction: updateActionMock }
-                } = setup(true, { updateAction: setMock() });
-
-                // set the remove all flag
-                wrapper.setState({ removeFromAll: true });
-
-                // our action shouldn't include any groups
-                const expectedAction = {
-                    uuid: action.uuid,
-                    type: action.type,
-                    groups: []
-                };
-
-                instance.onValid();
-                expect(updateActionMock).toHaveBeenCalledWith(expectedAction);
+                expect(props.updateAction).toHaveBeenCalledWith({
+                    groups: [
+                        { name: 'Customers', uuid: '23ff7152-b588-43e4-90de-fda77aeaf7c0' },
+                        {
+                            name: 'Unsatisfied Customers',
+                            uuid: '2429d573-80d7-47f8-879f-f2ba442a1bfd'
+                        },
+                        { name: 'Early Adopters', uuid: 'cdbf9e01-aaa7-4381-8259-ee042447bcac' },
+                        { name: 'Testers', uuid: 'afaba971-8943-4dd8-860b-3561ed4f1fe1' },
+                        { name: 'Subscribers', uuid: '33b28bac-b588-43e4-90de-fda77aeaf7c0' }
+                    ],
+                    type: 'remove_contact_groups',
+                    uuid: 'add_contact_groups-0'
+                });
             });
         });
     });

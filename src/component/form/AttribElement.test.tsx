@@ -18,9 +18,10 @@ const attribute: Asset = {
 
 const baseProps: AttribElementProps = {
     name: 'Attribute',
-    attribute,
+    attribute: { value: attribute },
     assets: configProviderContext.assetService.getFieldAssets(),
-    updateTypeConfig: jest.fn()
+    updateTypeConfig: jest.fn(),
+    onChange: jest.fn()
 };
 
 const { setup, spyOn } = composeComponentTestUtils(AttribElement, baseProps);
@@ -62,7 +63,7 @@ describe(AttribElement.name, () => {
             it('should update type config if passed an contact name asset', () => {
                 const { wrapper, instance, props } = setup(true, { updateTypeConfig: setMock() });
 
-                instance.onChange([props.attribute]);
+                instance.onChange([props.attribute.value]);
 
                 expect(props.updateTypeConfig).toHaveBeenCalledTimes(1);
                 expect(props.updateTypeConfig).toHaveBeenCalledWith(
@@ -109,66 +110,6 @@ describe(AttribElement.name, () => {
                 expect(props.updateTypeConfig).toHaveBeenCalledWith(
                     getTypeConfig(Types.set_contact_name)
                 );
-            });
-        });
-
-        describe('getErrors', () => {
-            it('should return list of errors', () => {
-                const { wrapper, instance, props: { name } } = setup(true, {
-                    required: { $set: true },
-                    attribute: { $set: null }
-                });
-
-                expect(instance.getErrors()).toEqual([`${name} is required.`]);
-            });
-
-            it('should return an empty list', () => {
-                const { wrapper, instance } = setup();
-
-                expect(instance.getErrors()).toEqual([]);
-            });
-        });
-
-        describe('updateErrorState', () => {
-            it('should set state', () => {
-                const setStateSpy = spyOn('setState');
-                const { wrapper, instance } = setup();
-                const oldErrorState = [];
-                const newErrorState = [`${name} is required.`];
-
-                instance.updateErrorState(newErrorState);
-
-                expect(setStateSpy).toHaveBeenCalledTimes(1);
-                expect(setStateSpy).toHaveBeenCalledWith({ errors: newErrorState });
-
-                setStateSpy.mockRestore();
-            });
-        });
-
-        describe('validate', () => {
-            it('should return true if control does not contain errors', () => {
-                const updateErrorStateSpy = spyOn('updateErrorState');
-                const { wrapper, instance } = setup();
-
-                expect(instance.validate()).toBeTruthy();
-                expect(updateErrorStateSpy).toHaveBeenCalledTimes(1);
-                expect(updateErrorStateSpy).toHaveBeenCalledWith([]);
-
-                updateErrorStateSpy.mockRestore();
-            });
-
-            it('should return false if control contains errors', () => {
-                const updateErrorStateSpy = spyOn('updateErrorState');
-                const { wrapper, instance, props } = setup(true, {
-                    attribute: { $set: null },
-                    required: { $set: true }
-                });
-
-                expect(instance.validate()).toBeFalsy();
-                expect(updateErrorStateSpy).toHaveBeenCalledTimes(1);
-                expect(updateErrorStateSpy).toHaveBeenCalledWith([`${props.name} is required.`]);
-
-                updateErrorStateSpy.mockRestore();
             });
         });
     });

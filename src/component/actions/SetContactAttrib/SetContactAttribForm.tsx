@@ -11,18 +11,34 @@ import AssetService, { Asset } from '../../../services/AssetService';
 import { AppState, DispatchWithState } from '../../../store';
 import { SetContactAttribFunc, updateSetContactAttribForm } from '../../../store/forms';
 import {
+    AssetEntry,
     SetContactAttribFormState,
     SetContactFieldFormState,
-    SetContactNameFormState
+    SetContactNameFormState,
+    ValidationFailure
 } from '../../../store/nodeEditor';
+import { validate, ValidatorFunc } from '../../../store/validators';
 import ConnectedAttribElement from '../../form/AttribElement';
-import ConnectedTextInputElement, { HTMLTextElement } from '../../form/TextInputElement';
+import ConnectedTextInputElement from '../../form/TextInputElement';
 import { SetContactAttribFormHelper } from './SetContactAttribFormHelper';
+
+/*
+    In our case, we have an asset object with just the type defined to deal with
+    switching. This means we need a special required validator that looks at asset
+    id and name instead of the entire object.
+    TODO: allow for switching without a faux-asset and remove this
+*/
+const validateAssetRequired: ValidatorFunc = (name: string, input: Asset): ValidationFailure[] => {
+    const asset = input as Asset;
+    if (!asset.id || !asset.name) {
+        return [{ message: `${name} is required` }];
+    }
+    return [];
+};
 
 export interface SetContactAttribFormPassedProps {
     action: SetContactAttribute;
     formHelper: SetContactAttribFormHelper;
-    onBindWidget: (ref: any) => void;
     updateAction: (action: SetContactAttribute) => void;
 }
 
@@ -50,7 +66,7 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         super(props);
 
         bindCallbacks(this, {
-            include: [/^on/, /^handle/]
+            include: [/^on/, /^handle/, /^get/]
         });
     }
 
@@ -72,22 +88,35 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         );
     }
 
-    public handleAttribChange(attribute: Asset): void {
-        this.props.updateSetContactAttribForm(attribute);
+    public validate(): boolean {
+        return this.handleAttribChange(this.getAttributeEntry().value);
     }
 
-    public handleValueChange({
-        currentTarget: { value }
-    }: React.ChangeEvent<HTMLTextElement>): void {
-        this.props.updateSetContactAttribForm(null, value);
+    public handleAttribChange(attribute: Asset): boolean {
+        return (this.props.updateSetContactAttribForm(
+            validate('Attribute', attribute, [validateAssetRequired])
+        ) as any).valid;
+    }
+
+    public handleValueChange(value: string): void {
+        this.props.updateSetContactAttribForm(null, validate('Value', value, []));
     }
 
     private getValue(): string {
         switch (this.props.typeConfig.type) {
             case Types.set_contact_field:
-                return (this.props.form as SetContactFieldFormState).value;
+                return (this.props.form as SetContactFieldFormState).value.value;
             case Types.set_contact_name:
-                return (this.props.form as SetContactNameFormState).value;
+                return (this.props.form as SetContactNameFormState).value.value;
+        }
+    }
+
+    private getAttributeEntry(): AssetEntry {
+        switch (this.props.typeConfig.type) {
+            case Types.set_contact_field:
+                return (this.props.form as SetContactFieldFormState).field;
+            case Types.set_contact_name:
+                return (this.props.form as SetContactNameFormState).name;
         }
     }
 
@@ -95,20 +124,18 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         return (
             <>
                 <ConnectedAttribElement
-                    ref={this.props.onBindWidget}
                     name="Attribute"
                     showLabel={true}
                     assets={this.context.assetService.getFieldAssets()}
                     helpText={ATTRIB_HELP_TEXT}
                     add={true}
-                    required={true}
+                    entry={this.getAttributeEntry()}
                     onChange={this.handleAttribChange}
                 />
                 <ConnectedTextInputElement
-                    ref={this.props.onBindWidget}
                     name="Value"
                     showLabel={true}
-                    value={this.getValue()}
+                    entry={{ value: this.getValue() }}
                     helpText={TEXT_INPUT_HELP_TEXT}
                     autocomplete={true}
                     onChange={this.handleValueChange}

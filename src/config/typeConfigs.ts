@@ -1,15 +1,19 @@
 import AddLabelsComp from '../component/actions/AddLabels/AddLabels';
 import AddLabelsForm from '../component/actions/AddLabels/AddLabelsForm';
+import { AddLabelsFormHelper } from '../component/actions/AddLabels/AddLabelsFormHelper';
 import CallWebhookComp from '../component/actions/CallWebhook/CallWebhook';
 import AddGroupsForm from '../component/actions/ChangeGroups/AddGroupsForm';
+import { AddGroupsFormHelper } from '../component/actions/ChangeGroups/AddGroupsFormHelper';
 import ChangeGroupsComp from '../component/actions/ChangeGroups/ChangeGroups';
 import RemoveGroupsForm from '../component/actions/ChangeGroups/RemoveGroupsForm';
+import { RemoveGroupsFormHelper } from '../component/actions/ChangeGroups/RemoveGroupsFormHelper';
 import MissingComp from '../component/actions/Missing/Missing';
 import SendBroadcastComp from '../component/actions/SendBroadcast/SendBroadcast';
 import SendBroadcastForm from '../component/actions/SendBroadcast/SendBroadcastForm';
 import { SendBroadcastFormHelper } from '../component/actions/SendBroadcast/SendBroadcastFormHelper';
 import SendEmailComp from '../component/actions/SendEmail/SendEmail';
 import SendEmailForm from '../component/actions/SendEmail/SendEmailForm';
+import { SendEmailFormHelper } from '../component/actions/SendEmail/SendEmailFormHelper';
 import SendMsgComp from '../component/actions/SendMsg/SendMsg';
 import SendMsgForm from '../component/actions/SendMsg/SendMsgForm';
 import { SendMsgFormHelper } from '../component/actions/SendMsg/SendMsgFormHelper';
@@ -18,6 +22,7 @@ import SetContactAttribForm from '../component/actions/SetContactAttrib/SetConta
 import { SetContactAttribFormHelper } from '../component/actions/SetContactAttrib/SetContactAttribFormHelper';
 import SetRunResultComp from '../component/actions/SetRunResult/SetRunResult';
 import SetRunResultForm from '../component/actions/SetRunResult/SetRunResultForm';
+import { SetRunResultFormHelper } from '../component/actions/SetRunResult/SetRunResultFormHelper';
 import StartFlowComp from '../component/actions/StartFlow/StartFlow';
 import StartSessionComp from '../component/actions/StartSession/StartSession';
 import StartSessionForm from '../component/actions/StartSession/StartSessionForm';
@@ -140,6 +145,7 @@ export const typeConfigList: Type[] = [
         name: 'Add Labels',
         description: 'Label the incoming message',
         form: AddLabelsForm,
+        formHelper: new AddLabelsFormHelper(),
         component: AddLabelsComp,
         allows
     },
@@ -148,6 +154,7 @@ export const typeConfigList: Type[] = [
         name: 'Add to Group',
         description: 'Add the contact to a group',
         form: AddGroupsForm,
+        formHelper: new AddGroupsFormHelper(),
         component: ChangeGroupsComp,
         allows
     },
@@ -156,6 +163,7 @@ export const typeConfigList: Type[] = [
         name: 'Remove from Group',
         description: 'Remove the contact from a group',
         form: RemoveGroupsForm,
+        formHelper: new RemoveGroupsFormHelper(),
         component: ChangeGroupsComp,
         allows
     },
@@ -182,6 +190,7 @@ export const typeConfigList: Type[] = [
         name: 'Send Email',
         description: 'Send an email',
         form: SendEmailForm,
+        formHelper: new SendEmailFormHelper(),
         component: SendEmailComp,
         allows
     },
@@ -190,6 +199,7 @@ export const typeConfigList: Type[] = [
         name: 'Save Flow Result',
         description: 'Save a result for this flow',
         form: SetRunResultForm,
+        formHelper: new SetRunResultFormHelper(),
         component: SetRunResultComp,
         allows
     },

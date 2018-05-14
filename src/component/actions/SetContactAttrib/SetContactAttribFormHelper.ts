@@ -18,13 +18,15 @@ export class SetContactAttribFormHelper implements FormHelper {
             switch (action.type) {
                 case Types.set_contact_field:
                     return {
-                        field: fieldToAsset(action),
-                        value: action.value
+                        field: { value: fieldToAsset(action) },
+                        value: { value: action.value },
+                        valid: true
                     } as SetContactFieldFormState;
                 case Types.set_contact_name:
                     return {
-                        name: propertyToAsset(action as SetContactName),
-                        value: (action as SetContactName).name
+                        name: { value: propertyToAsset(action as SetContactName) },
+                        value: { value: (action as SetContactName).name },
+                        valid: true
                     } as SetContactNameFormState;
             }
         }
@@ -33,13 +35,15 @@ export class SetContactAttribFormHelper implements FormHelper {
         switch (actionType) {
             case Types.set_contact_field:
                 return {
-                    field: fieldToAsset({} as SetContactField),
-                    value: ''
+                    field: { value: fieldToAsset({} as SetContactField) },
+                    value: { value: '' },
+                    valid: false
                 } as SetContactFieldFormState;
             case Types.set_contact_name:
                 return {
-                    name: propertyToAsset({} as SetContactName),
-                    value: ''
+                    name: { value: propertyToAsset({} as SetContactName) },
+                    value: { value: '' },
+                    valid: false
                 } as SetContactNameFormState;
         }
     }
@@ -58,13 +62,13 @@ export class SetContactAttribFormHelper implements FormHelper {
             case Types.set_contact_field:
                 return {
                     ...action,
-                    field: assetToField((formState as SetContactFieldFormState).field),
-                    value: (formState as SetContactFieldFormState).value
+                    field: assetToField((formState as SetContactFieldFormState).field.value),
+                    value: (formState as SetContactFieldFormState).value.value
                 } as SetContactField;
             case Types.set_contact_name:
                 return {
                     ...action,
-                    name: formState.value
+                    name: formState.value.value
                 } as SetContactName;
         }
     }

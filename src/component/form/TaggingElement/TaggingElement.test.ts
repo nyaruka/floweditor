@@ -2,12 +2,13 @@ import { composeComponentTestUtils } from '../../../testUtils';
 import TaggingElement, { TaggingElementProps } from './TaggingElement';
 
 const taggingElementProps: TaggingElementProps = {
-    tags: ['Red', 'Green', 'Blue'],
+    entry: { value: ['Red', 'Green', 'Blue'] },
     prompt: 'Enter a Color',
     name: 'Color',
-    required: true,
+    // required: true,
     onValidPrompt: jest.fn(),
-    onCheckValid: jest.fn()
+    onCheckValid: jest.fn(),
+    onChange: jest.fn()
 };
 const { setup } = composeComponentTestUtils<TaggingElementProps>(
     TaggingElement,
@@ -29,9 +30,9 @@ describe(TaggingElement.name, () => {
 
     describe('instance methods', () => {
         it('should handle updating tags', () => {
-            const { wrapper, instance } = setup();
-            instance.handleUpdateTags({ tags: [{ label: 'Purple', value: 'Purple' }] });
-            expect(instance.state.tags).toEqual({ tags: [{ label: 'Purple', value: 'Purple' }] });
+            const { wrapper, instance, props } = setup(true, { $merge: { onChange: jest.fn() } });
+            instance.handleUpdateTags([{ label: 'Purple', value: 'Purple' }]);
+            expect(props.onChange).toHaveBeenCalledWith(['Purple']);
         });
 
         it('should call prop for valid prompt', () => {
@@ -40,18 +41,6 @@ describe(TaggingElement.name, () => {
             });
             instance.handleValidPrompt('My New Tag');
             expect(props.onValidPrompt).toBeCalledWith('My New Tag');
-        });
-
-        it('should validate', () => {
-            const { instance } = setup();
-            instance.validate();
-            expect(instance.state.errors.length).toEqual(0);
-        });
-
-        it('should check required', () => {
-            const { instance } = setup(true, { $merge: { tags: [] } });
-            instance.validate();
-            expect(instance.state.errors).toEqual(['Color is required']);
         });
     });
 });

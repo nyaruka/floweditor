@@ -20,11 +20,9 @@ const baseProps: SendBroadcastFormProps = {
     typeConfig: sendConfig,
     language: null,
     translating: false,
-    definition: null,
     localizations: [],
     updateLocalizations: jest.fn(),
     updateSendBroadcastForm: jest.fn(),
-    onBindWidget: jest.fn(),
     form: formHelper.actionToState(broadcastMsgAction)
 };
 
@@ -49,10 +47,10 @@ describe(SendBroadcastForm.name, () => {
             });
 
             expect(props.form).toEqual({
-                recipients: [],
-                text: '',
-                translatedText: '',
-                type: 'send_broadcast'
+                recipients: { value: [] },
+                text: { value: '' },
+                type: Types.send_broadcast,
+                valid: false
             });
 
             expect(wrapper).toMatchSnapshot();
@@ -89,7 +87,7 @@ describe(SendBroadcastForm.name, () => {
                     translating: true,
                     language: { name: 'Spanish', iso: 'spa' },
                     localizations: [new LocalizedObject(broadcastMsgAction, 'spa', {})],
-                    form: { ...formHelper.actionToState(broadcastMsgAction), translatedText: '' },
+                    form: { ...formHelper.actionToState(broadcastMsgAction), text: '' },
                     updateLocalizations: jest.fn()
                 }
             });
@@ -112,7 +110,7 @@ describe(SendBroadcastForm.name, () => {
 
             instance.onValid();
             expect(props.updateLocalizations).toBeCalledWith('spa', [
-                { translations: { text: ['Hello World'] }, uuid: 'send_broadcast-0' }
+                { translations: { text: 'Hello World' }, uuid: 'send_broadcast-0' }
             ]);
         });
     });
@@ -120,22 +118,22 @@ describe(SendBroadcastForm.name, () => {
     describe('event', () => {
         it('handles recipent change', () => {
             const { instance, props } = setup(true, {
-                $merge: { updateSendBroadcastForm: jest.fn() }
+                $merge: { updateSendBroadcastForm: jest.fn().mockReturnValue(true) }
             });
             instance.handleRecipientsChanged([{ id: 'group-0', name: 'My Group' }]);
             expect(props.updateSendBroadcastForm).toBeCalledWith({
-                recipients: [{ id: 'group-0', name: 'My Group' }]
+                recipients: { value: [{ id: 'group-0', name: 'My Group' }] }
             });
         });
 
         it('handles text change', () => {
             const { instance, props } = setup(true, {
-                $merge: { updateSendBroadcastForm: jest.fn() }
+                $merge: { updateSendBroadcastForm: jest.fn().mockReturnValue(true) }
             });
-            instance.handleMessageUpdate({ currentTarget: { value: 'Message to Group' } });
+            instance.handleMessageUpdate('Message to Group');
 
             expect(props.updateSendBroadcastForm).toBeCalledWith({
-                text: 'Message to Group'
+                text: { value: 'Message to Group' }
             });
         });
 
@@ -145,12 +143,12 @@ describe(SendBroadcastForm.name, () => {
                     translating: true,
                     language: { name: 'Spanish', iso: 'spa' },
                     localizations: [new LocalizedObject(broadcastMsgAction, 'spa', {})],
-                    updateSendBroadcastForm: jest.fn()
+                    updateSendBroadcastForm: jest.fn().mockReturnValue(true)
                 }
             });
 
-            instance.handleMessageUpdate({ currentTarget: { value: 'espanols!' } });
-            expect(props.updateSendBroadcastForm).toBeCalledWith({ translatedText: 'espanols!' });
+            instance.handleMessageUpdate('espanols!');
+            expect(props.updateSendBroadcastForm).toBeCalledWith({ text: { value: 'espanols!' } });
         });
     });
 });

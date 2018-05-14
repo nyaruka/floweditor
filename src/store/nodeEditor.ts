@@ -19,45 +19,95 @@ import ActionTypes, {
 } from './actionTypes';
 import Constants from './constants';
 
-export interface ActionState {
+export interface ValidationFailure {
+    message: string;
+}
+
+export interface FormEntry {
+    value: any;
+    validationFailures?: ValidationFailure[];
+}
+
+export interface StringEntry extends FormEntry {
+    value: string;
+}
+
+export interface StringArrayEntry extends FormEntry {
+    value: string[];
+}
+
+export interface AssetEntry extends FormEntry {
+    value: Asset;
+}
+
+export interface AssetArrayEntry extends FormEntry {
+    value: Asset[];
+}
+
+export interface FormState {
     type: Types;
+    validationFailures?: ValidationFailure[];
+    valid: boolean;
 }
 
-export interface SendBroadcastFormState extends ActionState {
-    text: string;
-    recipients: Asset[];
-    translatedText: string;
+export interface SendBroadcastFormState extends FormState {
+    text: StringEntry;
+    recipients: AssetArrayEntry;
 }
 
-export interface SendMsgFormState extends ActionState {
-    text: string;
-    translatedText: string;
+export interface SendMsgFormState extends FormState {
+    text: StringEntry;
+    quickReplies: StringArrayEntry;
     sendAll: boolean;
-    quickReplies: string[];
 }
 
-export interface SetContactFieldFormState extends ActionState {
-    field: Asset;
-    value: string;
+export interface AddLabelsFormState extends FormState {
+    labels: AssetArrayEntry;
 }
 
-export interface SetContactNameFormState extends ActionState {
-    name: Asset;
-    value: string;
+export interface SendEmailFormState extends FormState {
+    recipients: StringArrayEntry;
+    subject: StringEntry;
+    body: StringEntry;
+}
+
+export interface SetContactFieldFormState extends FormState {
+    field: AssetEntry;
+    value: StringEntry;
+}
+
+export interface SetContactNameFormState extends FormState {
+    name: AssetEntry;
+    value: StringEntry;
+}
+
+export interface SetRunResultFormState extends FormState {
+    name: StringEntry;
+    value: StringEntry;
+    category: StringEntry;
+}
+
+export interface ChangeGroupsFormState extends FormState {
+    groups: AssetArrayEntry;
+    removeAll?: boolean;
 }
 
 export type SetContactAttribFormState = SetContactFieldFormState | SetContactNameFormState;
 
-export interface StartSessionFormState extends ActionState {
-    recipients: Asset[];
-    flow: Asset;
+export interface StartSessionFormState extends FormState {
+    recipients: AssetArrayEntry;
+    flow: AssetEntry;
 }
 
 export type NodeEditorForm =
+    | SetRunResultFormState
     | SendBroadcastFormState
     | StartSessionFormState
     | SendMsgFormState
-    | SetContactAttribFormState;
+    | SetContactAttribFormState
+    | AddLabelsFormState
+    | ChangeGroupsFormState
+    | SendEmailFormState;
 
 export interface NodeEditorSettings {
     showAdvanced: boolean;
