@@ -9,13 +9,10 @@ exports[`TimeoutControl render should render only checkbox, instructions if not 
   >
     <label
       className="label"
+      onClick={[Function]}
     >
-      <input
-        checked={false}
-        className="checkBox"
-        name="timeout-enabled"
-        onChange={[Function]}
-        type="checkbox"
+      <span
+        className="fe-square checkBox"
       />
       Continue when there is no response
     </label>
@@ -32,13 +29,10 @@ exports[`TimeoutControl render should render select control if passed a timeout 
   >
     <label
       className="label"
+      onClick={[Function]}
     >
-      <input
-        checked={true}
-        className="checkBox"
-        name="timeout-enabled"
-        onChange={[Function]}
-        type="checkbox"
+      <span
+        className="fe-check-square checkBox"
       />
       Continue when there is no response for
     </label>

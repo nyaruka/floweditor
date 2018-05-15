@@ -13,7 +13,7 @@ export interface ButtonProps {
 }
 
 const Button: React.SFC<ButtonProps> = ({ name, onClick, type }) => (
-    <div onClick={onClick} className={[styles.btn, styles[type]].join(' ')}>
+    <div onClick={onClick} className={`${styles.btn} ${styles[type]}`}>
         {name}
     </div>
 );

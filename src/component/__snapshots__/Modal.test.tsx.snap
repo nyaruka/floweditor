@@ -269,13 +269,10 @@ exports[`Modal render should render timeout control 1`] = `
                           >
                             <label
                               className="label"
+                              onClick={[Function]}
                             >
-                              <input
-                                checked={false}
-                                className="checkBox"
-                                name="timeout-enabled"
-                                onChange={[Function]}
-                                type="checkbox"
+                              <span
+                                className="fe-square checkBox"
                               />
                               Continue when there is no response
                             </label>
