@@ -6,8 +6,7 @@ import { v4 as generateUUID } from 'uuid';
 
 import { languageToAsset } from '../component/actions/SetContactAttrib/helpers';
 import { hasCases } from '../component/NodeEditor/NodeEditor';
-import { getTypeConfig, Type } from '../config';
-import { Types } from '../config/typeConfigs';
+import { Types, Type, getTypeConfig } from '../config/typeConfigs';
 import {
     Action,
     AnyAction,
@@ -792,9 +791,7 @@ export const onOpenNodeEditor = (
         }
 
         const translations = localization[language.id];
-        localizations.push(
-            ...getLocalizations(node, actionToTranslate, language.id, language.name, translations)
-        );
+        localizations.push(...getLocalizations(node, actionToTranslate, language, translations));
     }
 
     if (action) {

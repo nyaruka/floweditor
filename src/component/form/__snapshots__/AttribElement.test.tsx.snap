@@ -21,12 +21,12 @@ exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
         "assets": Object {
           "language": Object {
             "id": "language",
-            "name": "language",
+            "name": "Language",
             "type": "language",
           },
           "name": Object {
             "id": "name",
-            "name": "name",
+            "name": "Name",
             "type": "name",
           },
         },

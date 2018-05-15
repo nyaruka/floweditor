@@ -6,27 +6,17 @@ import { ConfigProviderContext } from '../config';
 import { fakePropType } from '../config/ConfigProvider';
 import { ResultType } from '../flowTypes';
 import { Asset } from '../services/AssetService';
-import {
-    AppState,
-    DispatchWithState,
-    HandleLanguageChange,
-    handleLanguageChange,
-    UpdateLanguage,
-    updateLanguage,
-    UpdateTranslating,
-    updateTranslating
-} from '../store';
+import { AppState, DispatchWithState, HandleLanguageChange, handleLanguageChange } from '../store';
 import { languageSelector } from './LanguageSelector.scss';
 import SelectSearch from './SelectSearch/SelectSearch';
 
 export interface LanguageSelectorStoreProps {
     language: Asset;
     languages: Asset[];
-    updateLanguage: UpdateLanguage;
-    updateTranslating: UpdateTranslating;
     handleLanguageChange: HandleLanguageChange;
 }
 
+export const containerClasses = `${languageSelector} select-small`;
 export const languageSelectorContainerSpecId = 'language-selector-container';
 
 export class LanguageSelector extends React.Component<LanguageSelectorStoreProps> {
@@ -47,10 +37,7 @@ export class LanguageSelector extends React.Component<LanguageSelectorStoreProps
 
     public render(): JSX.Element {
         return (
-            <div
-                className={`${languageSelector} select-small`}
-                data-spec={languageSelectorContainerSpecId}
-            >
+            <div className={containerClasses} data-spec={languageSelectorContainerSpecId}>
                 <SelectSearch
                     resultType={ResultType.language}
                     localSearchOptions={this.props.languages}
@@ -66,16 +53,16 @@ export class LanguageSelector extends React.Component<LanguageSelectorStoreProps
     }
 }
 
+/* istanbul ignore next */
 const mapStateToProps = ({
     flowContext: { languages },
     flowEditor: { editorUI: { language } }
 }: AppState) => ({ language, languages });
 
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
-            updateLanguage,
-            updateTranslating,
             handleLanguageChange
         },
         dispatch

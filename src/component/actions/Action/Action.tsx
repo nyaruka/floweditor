@@ -4,9 +4,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { ConfigProviderContext, getTypeConfig } from '../../../config';
-import { fakePropType } from '../../../config/ConfigProvider';
-import { Types } from '../../../config/typeConfigs';
+import { ConfigProviderContext, fakePropType } from '../../../config/ConfigProvider';
+import { getTypeConfig, Types } from '../../../config/typeConfigs';
 import { Action, AnyAction, FlowNode, LocalizationMap } from '../../../flowTypes';
 import { Asset } from '../../../services/AssetService';
 import {
@@ -71,11 +70,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         if (!this.props.thisNodeDragging) {
             event.preventDefault();
             event.stopPropagation();
-            this.props.onOpenNodeEditor(
-                this.props.node,
-                this.props.action,
-                { showAdvanced }
-            );
+            this.props.onOpenNodeEditor(this.props.node, this.props.action, { showAdvanced });
         }
     }
 
@@ -94,8 +89,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         const localization = getLocalization(
             this.props.action,
             this.props.localization,
-            this.props.language.id,
-            this.props.language.name
+            this.props.language
         );
 
         return localization && this.props.translating
@@ -119,8 +113,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
                 const localization = getLocalization(
                     this.props.action,
                     this.props.localization,
-                    this.props.language.id,
-                    this.props.language.name
+                    this.props.language
                 );
 
                 if (localization.isLocalized()) {
@@ -181,6 +174,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     }
 }
 
+/* istanbul ignore next */
 const mapStateToProps = ({
     flowContext: { definition: { localization } },
     flowEditor: { editorUI: { language, translating } }
@@ -190,6 +184,7 @@ const mapStateToProps = ({
     localization
 });
 
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {

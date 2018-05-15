@@ -71,8 +71,7 @@ export const getSuggestedResultName = (nodes: RenderNodeMap) => {
 export const getLocalizations = (
     node: FlowNode,
     action: AnyAction,
-    iso: string,
-    name: string,
+    language: Asset,
     translations?: { [uuid: string]: any }
 ): LocalizedObject[] => {
     const localizations: LocalizedObject[] = [];
@@ -82,17 +81,17 @@ export const getLocalizations = (
         const router = node.router as SwitchRouter;
 
         router.cases.forEach(kase =>
-            localizations.push(Localization.translate(kase, iso, name, translations))
+            localizations.push(Localization.translate(kase, language, translations))
         );
 
         // Account for localized exits
         node.exits.forEach(exit => {
-            localizations.push(Localization.translate(exit, iso, name, translations));
+            localizations.push(Localization.translate(exit, language, translations));
         });
     }
 
     if (action) {
-        localizations.push(Localization.translate(action, iso, name, translations));
+        localizations.push(Localization.translate(action, language, translations));
     }
 
     return localizations;

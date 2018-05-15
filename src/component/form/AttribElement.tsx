@@ -9,11 +9,7 @@ import {
     AppState,
     DispatchWithState,
     HandleTypeConfigChange,
-    handleTypeConfigChange,
-    UpdateForm,
-    updateForm,
-    UpdateTypeConfig,
-    updateTypeConfig
+    handleTypeConfigChange
 } from '../../store';
 import {
     AssetEntry,
@@ -33,18 +29,17 @@ import FormElement, { FormElementProps } from './FormElement';
 
 export interface AttribElementPassedProps extends FormElementProps {
     assets: Assets;
+    onChange(selected: Asset): void;
+
     add?: boolean;
     placeholder?: string;
     searchPromptText?: string;
     helpText?: string;
-    onChange(selected: Asset): void;
 }
 
 export interface AttribElementStoreProps {
     attribute: AssetEntry;
     typeConfig: Type;
-    updateTypeConfig: UpdateTypeConfig;
-    updateForm: UpdateForm;
     handleTypeConfigChange: HandleTypeConfigChange;
 }
 

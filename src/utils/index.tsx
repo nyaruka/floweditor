@@ -7,7 +7,7 @@ import {
 } from 'react-select';
 
 import { Action, Case, ContactProperties, Exit, LocalizationMap } from '../flowTypes';
-import { AssetType } from '../services/AssetService';
+import { Asset, AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { FormEntry } from '../store/nodeEditor';
 import * as variables from '../variables.scss';
@@ -195,9 +195,8 @@ export const createClickHandler = (
 export const getLocalization = (
     obj: Action | Exit | Case,
     localization: LocalizationMap,
-    iso: string,
-    name: string
-) => Localization.translate(obj, iso, name, localization[iso]);
+    language: Asset
+) => Localization.translate(obj, language, localization[language.id]);
 
 /** istanbul ignore next */
 export const dump = (thing: any) => console.log(JSON.stringify(thing, null, 2));

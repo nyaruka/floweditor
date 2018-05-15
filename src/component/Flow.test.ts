@@ -401,7 +401,6 @@ describe(Flow.name, () => {
                 expect(props.onOpenNodeEditor).toHaveBeenCalledWith(
                     props.ghostNode,
                     null,
-                    context.languages
                 );
             });
         });

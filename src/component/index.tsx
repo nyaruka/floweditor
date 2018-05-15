@@ -8,15 +8,7 @@ import ConfigProvider from '../config';
 import { fakePropType } from '../config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
 import AssetService, { Asset } from '../services/AssetService';
-import {
-    AppState,
-    createStore,
-    DispatchWithState,
-    FetchFlow,
-    fetchFlow,
-    UpdateLanguage,
-    updateLanguage
-} from '../store';
+import { AppState, createStore, DispatchWithState, FetchFlow, fetchFlow } from '../store';
 import { renderIf } from '../utils';
 import ConnectedFlow from './Flow';
 import ConnectedFlowList, { FlowOption } from './FlowList';
@@ -36,7 +28,6 @@ export interface FlowEditorStoreProps {
     fetchingFlow: boolean;
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
-    updateLanguage: UpdateLanguage;
     fetchFlow: FetchFlow;
 }
 
@@ -106,7 +97,6 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
-            updateLanguage,
             fetchFlow
         },
         dispatch

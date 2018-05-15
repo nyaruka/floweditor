@@ -1,4 +1,5 @@
 import { Action, Case, Exit, Language } from '../flowTypes';
+import { Asset } from './AssetService';
 
 export class LocalizedObject {
     public localizedKeys: { [key: string]: boolean } = {};
@@ -9,10 +10,10 @@ export class LocalizedObject {
     private name: string;
     private language: Language;
 
-    constructor(object: Action | Exit | Case, iso: string, name: string) {
+    constructor(object: Action | Exit | Case, { id, name }: Asset) {
         this.localizedObject = object;
-        this.iso = iso;
-        this.language = { iso, name };
+        this.iso = id;
+        this.language = { iso: this.iso, name };
     }
 
     public getLanguage(): Language {
@@ -57,11 +58,10 @@ export class LocalizedObject {
 export default class Localization {
     public static translate(
         object: Action | Exit | Case,
-        iso: string,
-        name: string,
+        language: Asset,
         translations?: { [uuid: string]: any }
     ): LocalizedObject {
-        const localized: LocalizedObject = new LocalizedObject(object, iso, name);
+        const localized: LocalizedObject = new LocalizedObject(object, language);
 
         if (translations) {
             if (object.uuid in translations) {

@@ -30,7 +30,7 @@ import {
 import { operatorConfigList } from '../config';
 import { ContactProperties } from '../flowTypes';
 import { AssetType } from '../services/AssetService';
-import { configProviderContext } from '../testUtils';
+import { languages } from '../testUtils/assetCreators';
 
 const {
     localization,
@@ -154,13 +154,14 @@ describe('utils', () => {
 
     describe('getLocalizations', () => {
         it('should return a localized object', () => {
-            ['eng', 'spa', 'fre'].forEach(iso => {
+            languages.forEach(languageAsset => {
                 expect(
                     getLocalization(
                         sendMsgAction,
-                        { spa: { send_msg_action: { text: ['¿Cuál es tu color favorito?'] } } },
-                        iso,
-                        configProviderContext.languages
+                        {
+                            spa: { send_msg_action: { text: ['¿Cuál es tu color favorito?'] } }
+                        },
+                        languageAsset
                     )
                 ).toMatchSnapshot();
             });

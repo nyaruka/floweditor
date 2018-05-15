@@ -623,7 +623,6 @@ describe('Flow Manipulation', () => {
                     onOpenNodeEditor(
                         testNodes.node0.node,
                         testNodes.node0.node.actions[0],
-                        languages,
                         { showAdvanced: false }
                     )
                 );
@@ -642,7 +641,7 @@ describe('Flow Manipulation', () => {
                 });
 
                 store.dispatch(
-                    onOpenNodeEditor(testNodes.node3.node, null, languages, { showAdvanced: false })
+                    onOpenNodeEditor(testNodes.node3.node, null, { showAdvanced: false })
                 );
                 expect(store).toHaveReduxActions([Constants.UPDATE_LOCALIZATIONS]);
             });
@@ -658,7 +657,7 @@ describe('Flow Manipulation', () => {
                 });
 
                 store.dispatch(
-                    onOpenNodeEditor(testNodes.node2.node, null, languages, { showAdvanced: false })
+                    onOpenNodeEditor(testNodes.node2.node, null, { showAdvanced: false })
                 );
                 expect(store).not.toHaveReduxActions([Constants.UPDATE_LOCALIZATIONS]);
             });
@@ -693,7 +692,6 @@ describe('Flow Manipulation', () => {
                     onOpenNodeEditor(
                         testNodes.node0.node,
                         testNodes.node0.node.actions[0],
-                        languages,
                         { showAdvanced: false }
                     )
                 );
@@ -705,7 +703,7 @@ describe('Flow Manipulation', () => {
 
             it('should pick the last action if none are provided', () => {
                 store.dispatch(
-                    onOpenNodeEditor(testNodes.node3.node, null, languages, { showAdvanced: false })
+                    onOpenNodeEditor(testNodes.node3.node, null, { showAdvanced: false })
                 );
 
                 expect(store).toHavePayload(Constants.UPDATE_ACTION_TO_EDIT, {
@@ -717,7 +715,7 @@ describe('Flow Manipulation', () => {
                 testNodes.node0.node.actions = [];
                 expect(() => {
                     store.dispatch(
-                        onOpenNodeEditor(testNodes.node0.node, null, languages, {
+                        onOpenNodeEditor(testNodes.node0.node, null, {
                             showAdvanced: false
                         })
                     );
@@ -726,7 +724,7 @@ describe('Flow Manipulation', () => {
 
             it('should edit router nodes', () => {
                 store.dispatch(
-                    onOpenNodeEditor(testNodes.node1.node, null, languages, { showAdvanced: false })
+                    onOpenNodeEditor(testNodes.node1.node, null, { showAdvanced: false })
                 );
 
                 expect(store).toHavePayload(Constants.UPDATE_TYPE_CONFIG, {

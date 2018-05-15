@@ -153,8 +153,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         const localization = getLocalization(
             this.props.exit,
             this.props.localization,
-            this.props.language.id,
-            this.props.language.name
+            this.props.language
         );
         const exit = this.props.translating ? (localization.getObject() as Exit) : this.props.exit;
         const nameStyle = exit.name ? styles.name : '';

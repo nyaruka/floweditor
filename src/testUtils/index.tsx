@@ -118,7 +118,7 @@ export const flushPromises = () => new Promise(resolve => setImmediate(resolve))
  * Use to declaratively restore multiple spy mocks,
  * otherwise just call .mockRestore() on lone spy.
  */
-export const restoreSpies = (...spies: jest.SpyInstance[]) =>
+export const restoreSpies = (...spies: Array<jest.SpyInstance<any>>) =>
     spies.forEach(spy => spy.mockRestore());
 
 // To-do: type this method's output, can pass it prop generic ingested by getComponentTestUtils

@@ -86,7 +86,7 @@ export class Assets {
         }
 
         return new Promise<Asset>((resolve, reject) => {
-            const url = `${this.endpoint}/${id}/`;
+            const url = `${this.endpoint}${id ? `/${id}/` : ''}`;
             axios
                 .get(url)
                 .then((response: AxiosResponse) => {

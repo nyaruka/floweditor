@@ -55,7 +55,7 @@ describe('form thunks', () => {
 
     describe('updateSetContactAttribForm', () => {
         it('should dispatch form update action with new contact name attribute', () => {
-            const attribute = { value: propertyToAsset(setContactNameAction) };
+            const attribute = { value: propertyToAsset(Types.set_contact_name) };
             const newFormState = store.dispatch(updateSetContactAttribForm(attribute));
 
             expect(newFormState[attribute.value.type]).toEqual(attribute);
@@ -67,7 +67,7 @@ describe('form thunks', () => {
         });
 
         it('should dispatch form update action with new contact field attribute', () => {
-            const attribute = { value: fieldToAsset(setContactFieldAction) };
+            const attribute = { value: fieldToAsset(setContactFieldAction.field) };
             const newFormState = store.dispatch(updateSetContactAttribForm(attribute));
 
             expect(newFormState[attribute.value.type]).toEqual(attribute);
@@ -85,7 +85,7 @@ describe('form thunks', () => {
             };
             const newFormState = store.dispatch(updateSetContactAttribForm(null, entry));
 
-            expect(newFormState.value).toBe(value);
+            expect(newFormState.value).toEqual({ value });
             expect(newFormState).toMatchSnapshot();
             expect(store).toHaveReduxActions([Constants.UPDATE_FORM]);
             expect(store).toHavePayload(Constants.UPDATE_FORM, {

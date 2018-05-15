@@ -1,5 +1,89 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`SetContactAttribForm render should render language dropdown 1`] = `
+<React.Fragment>
+  <Connect(AttribElement)
+    add={true}
+    assets={
+      FieldAssets {
+        "assetType": "field",
+        "assets": Object {
+          "language": Object {
+            "id": "language",
+            "name": "Language",
+            "type": "language",
+          },
+          "name": Object {
+            "id": "name",
+            "name": "Name",
+            "type": "name",
+          },
+        },
+        "endpoint": "/assets/fields.json",
+        "idProperty": "key",
+        "localStorage": true,
+      }
+    }
+    entry={
+      Object {
+        "value": Object {
+          "id": "language",
+          "name": "Language",
+          "type": "language",
+        },
+      }
+    }
+    helpText="Select an existing attribute to update or type any name to create a new one"
+    name="Attribute"
+    onChange={[Function]}
+    showLabel={true}
+  />
+  <FormElement
+    helpText="Select the contact's preferred language."
+    name="Language"
+    showLabel={true}
+  >
+    <SelectSearch
+      closeOnSelect={true}
+      initial={
+        Array [
+          Object {
+            "id": "eng",
+            "name": "English",
+            "type": "language",
+          },
+        ]
+      }
+      localSearchOptions={
+        Array [
+          Object {
+            "id": "eng",
+            "name": "English",
+            "type": "language",
+          },
+          Object {
+            "id": "spa",
+            "name": "Spanish",
+            "type": "language",
+          },
+          Object {
+            "id": "fra",
+            "name": "French",
+            "type": "language",
+          },
+        ]
+      }
+      multi={false}
+      name="Languages"
+      onChange={[Function]}
+      placeholder="Select a language..."
+      resultType="language"
+      searchable={false}
+    />
+  </FormElement>
+</React.Fragment>
+`;
+
 exports[`SetContactAttribForm render should render self, children with base props 1`] = `
 <React.Fragment>
   <Connect(AttribElement)
@@ -10,12 +94,12 @@ exports[`SetContactAttribForm render should render self, children with base prop
         "assets": Object {
           "language": Object {
             "id": "language",
-            "name": "language",
+            "name": "Language",
             "type": "language",
           },
           "name": Object {
             "id": "name",
-            "name": "name",
+            "name": "Name",
             "type": "name",
           },
         },

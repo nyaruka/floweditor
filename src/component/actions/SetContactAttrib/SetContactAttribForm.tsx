@@ -121,8 +121,6 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
                 return (this.props.form as SetContactFieldFormState).value.value;
             case Types.set_contact_name:
                 return (this.props.form as SetContactNameFormState).value.value;
-            default:
-                return null;
         }
     }
 
