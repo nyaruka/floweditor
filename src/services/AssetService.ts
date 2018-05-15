@@ -15,7 +15,8 @@ export enum AssetType {
     URN = 'urn',
     Label = 'label',
     Language = 'language',
-    Environment = 'environment'
+    Environment = 'environment',
+    Remove = 'remove'
 }
 
 export interface Asset {
@@ -56,6 +57,8 @@ interface SimAsset {
     url: string;
     content: any;
 }
+
+export const removeAsset = { id: AssetType.Remove, name: 'Remove Value', type: AssetType.Remove };
 
 export const getBaseURL = (): string => {
     const location = window.location;

@@ -7,11 +7,11 @@ import Select, {
     AutocompleteResult,
     IsOptionUniqueHandler,
     IsValidNewOptionHandler,
-    NewOptionCreatorHandler
+    NewOptionCreatorHandler,
 } from 'react-select';
 
 import { CreateOptions, ResultType } from '../../flowTypes';
-import { Asset, Assets, AssetSearchResult } from '../../services/AssetService';
+import { Asset, Assets, AssetSearchResult, removeAsset } from '../../services/AssetService';
 import SelectOption from './SelectOption';
 import SelectValue from './SelectValue';
 
@@ -19,6 +19,7 @@ export interface SelectSearchProps {
     name: string;
     resultType: ResultType;
 
+    actionClearable?: boolean;
     searchable?: boolean;
     placeholder?: string;
     searchPromptText?: string;
@@ -41,10 +42,6 @@ interface SelectSearchState {
 
 export default class SelectSearch extends React.Component<SelectSearchProps, SelectSearchState> {
     private select: any;
-
-    public static defaultProps = {
-        searchable: true
-    };
 
     constructor(props: SelectSearchProps) {
         super(props);
@@ -144,15 +141,16 @@ export default class SelectSearch extends React.Component<SelectSearchProps, Sel
                 return new Promise<AutocompleteResult>(resolve => {
                     resolve({
                         complete: assetResults.complete,
-                        options
+                        options: this.props.actionClearable ? [removeAsset, ...options] : options
                     });
                 });
             });
         }
 
         return new Promise<AutocompleteResult>(resolve => {
+            const sorted = combined.sort(this.sortResults);
             resolve({
-                options: combined.sort(this.sortResults),
+                options: this.props.actionClearable ? [removeAsset, ...sorted] : sorted,
                 complete: true
             });
         });
@@ -189,6 +187,12 @@ export default class SelectSearch extends React.Component<SelectSearchProps, Sel
                     }
                 }
             }
+        }
+
+        // Value will be removeAsset if an initial value hasn't
+        // been passed and the actionClearable prop is truthy.
+        if (this.props.actionClearable && (!value || !value.length)) {
+            value = Array.isArray(value) ? [removeAsset] : removeAsset;
         }
 
         const onChange = this.props.multi ? this.onChangeMulti : this.onChange;

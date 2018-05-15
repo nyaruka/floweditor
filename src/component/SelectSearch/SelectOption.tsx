@@ -46,9 +46,9 @@ export default class SelectOption extends React.PureComponent<SelectOptionProps,
                 onMouseEnter={this.handleMouseEnter}
                 onMouseMove={this.handleMouseMove}
             >
-                <div>
+                <>
                     {getIconForAssetType(this.props.option.type)} {this.props.option.name}
-                </div>
+                </>
             </div>
         );
     }

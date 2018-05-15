@@ -31,7 +31,6 @@ exports[`LabelsElement render should render form element, pass it create options
     placeholder="Enter the name of an existing label or create a new one"
     resultType="group"
     searchPromptText="Invalid label"
-    searchable={true}
   />
 </FormElement>
 `;

@@ -16,7 +16,7 @@ import {
     SetContactFieldFormState,
     SetContactLanguageFormState,
     SetContactNameFormState,
-    ValidationFailure
+    ValidationFailure,
 } from '../../../store/nodeEditor';
 import { validate, ValidatorFunc } from '../../../store/validators';
 import { renderIf } from '../../../utils';
@@ -109,10 +109,7 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
     }
 
     public handleLanguageChange([language]: Asset[]): void {
-        this.props.updateSetContactAttribForm(
-            null,
-            validate('Language', language, [validateAssetRequired])
-        );
+        this.props.updateSetContactAttribForm(null, validate('Language', language, []));
     }
 
     private getValue(): string {
@@ -136,11 +133,11 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
     }
 
     private getLanguage(): Asset[] {
-        const language: Asset[] = [];
-        if ((this.props.form as SetContactLanguageFormState).value.value) {
-            return [...language, (this.props.form as SetContactLanguageFormState).value.value];
+        const { value: { value: language } } = this.props.form as SetContactLanguageFormState;
+        if (language) {
+            return [language];
         }
-        return [...language];
+        return [];
     }
 
     private getLanguageDropDown(): JSX.Element {
@@ -151,6 +148,7 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
                 helpText="Select the contact's preferred language."
             >
                 <SelectSearch
+                    actionClearable={true}
                     resultType={ResultType.language}
                     localSearchOptions={this.props.languages}
                     searchable={false}

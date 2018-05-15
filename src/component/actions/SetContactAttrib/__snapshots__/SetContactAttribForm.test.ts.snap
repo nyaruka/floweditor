@@ -44,6 +44,7 @@ exports[`SetContactAttribForm render should render language dropdown 1`] = `
     showLabel={true}
   >
     <SelectSearch
+      actionClearable={true}
       closeOnSelect={true}
       initial={
         Array [

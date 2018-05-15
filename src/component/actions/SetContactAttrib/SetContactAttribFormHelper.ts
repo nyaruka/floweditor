@@ -1,16 +1,11 @@
 import { FormHelper, Types } from '../../../config/typeConfigs';
-import {
-    Action,
-    SetContactAttribute,
-    SetContactField,
-    SetContactLanguage,
-    SetContactName
-} from '../../../flowTypes';
+import { Action, SetContactAttribute, SetContactField, SetContactLanguage, SetContactName } from '../../../flowTypes';
+import { removeAsset } from '../../../services/AssetService';
 import {
     SetContactAttribFormState,
     SetContactFieldFormState,
     SetContactLanguageFormState,
-    SetContactNameFormState
+    SetContactNameFormState,
 } from '../../../store/nodeEditor';
 import { getLanguage } from '../../../utils/languageMap';
 import { assetToField, fieldToAsset, languageToAsset, propertyToAsset } from './helpers';
@@ -67,7 +62,7 @@ export class SetContactAttribFormHelper implements FormHelper {
             case Types.set_contact_language:
                 return {
                     language: { value: propertyToAsset(Types.set_contact_language) },
-                    value: { value: {} },
+                    value: { value: null },
                     valid: false
                 } as SetContactLanguageFormState;
         }
@@ -99,9 +94,10 @@ export class SetContactAttribFormHelper implements FormHelper {
                 return {
                     ...action,
                     // we return an empty string to indicate the value is being cleared
-                    language: (formState as SetContactLanguageFormState).value.value
-                        ? (formState as SetContactLanguageFormState).value.value.id
-                        : ''
+                    language:
+                        (formState as SetContactLanguageFormState).value.value.id === removeAsset.id
+                            ? ''
+                            : (formState as SetContactLanguageFormState).value.value.id
                 } as SetContactLanguage;
         }
     }

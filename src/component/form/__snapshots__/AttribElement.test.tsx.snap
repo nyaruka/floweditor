@@ -55,7 +55,6 @@ exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
     placeholder="Enter the name of an existing attribute or create a new one"
     resultType="field"
     searchPromptText="Invalid attribute"
-    searchable={true}
   />
 </FormElement>
 `;
