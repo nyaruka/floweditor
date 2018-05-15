@@ -2,8 +2,8 @@ import { getTypeConfig } from '../../../config';
 import {
     composeComponentTestUtils,
     configProviderContext,
-    setMock,
-    getSpecWrapper
+    getSpecWrapper,
+    setMock
 } from '../../../testUtils';
 import {
     createExit,
@@ -12,7 +12,7 @@ import {
     createStartFlowAction,
     createStartFlowNode
 } from '../../../testUtils/assetCreators';
-import { getLanguage, getLocalization, setFalse, setTrue, set } from '../../../utils';
+import { getLanguage, getLocalization, set, setFalse, setTrue } from '../../../utils';
 import {
     actionBodySpecId,
     actionContainerSpecId,
@@ -21,7 +21,6 @@ import {
     ActionWrapper,
     ActionWrapperProps
 } from './Action';
-import { FlowNode, SendMsg, StartFlow, SwitchRouter } from '../../../flowTypes';
 
 const sendMsgAction = createSendMsgAction();
 const sendMsgAction1 = createSendMsgAction({ uuid: 'send_msg-1', text: 'Yo!' });
@@ -169,7 +168,8 @@ describe(ActionWrapper.name, () => {
                 expect(props.onOpenNodeEditor).toHaveBeenCalledWith(
                     props.node,
                     props.action,
-                    context.languages
+                    context.languages,
+                    { showAdvanced: false }
                 );
             });
         });

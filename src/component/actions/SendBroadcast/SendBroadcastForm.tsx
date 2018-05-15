@@ -5,15 +5,16 @@ import { bindActionCreators } from 'redux';
 
 import { Type } from '../../../config';
 import { fakePropType } from '../../../config/ConfigProvider';
-import { BroadcastMsg, FlowDefinition } from '../../../flowTypes';
+import { BroadcastMsg } from '../../../flowTypes';
 import { Asset } from '../../../services/AssetService';
 import Localization, { LocalizedObject } from '../../../services/Localization';
 import { AppState, DispatchWithState } from '../../../store';
 import { SendBroadcastFunc, updateSendBroadcastForm } from '../../../store/forms';
 import { SendBroadcastFormState } from '../../../store/nodeEditor';
+import { validate, validateRequired } from '../../../store/validators';
 import * as styles from '../../actions/Action/Action.scss';
 import OmniboxElement from '../../form/OmniboxElement';
-import TextInputElement, { Count, HTMLTextElement } from '../../form/TextInputElement';
+import TextInputElement, { Count } from '../../form/TextInputElement';
 import { Language } from '../../LanguageSelector';
 import { UpdateLocalizations } from '../../NodeEditor';
 import * as broadcastStyles from './SendBroadcast.scss';
@@ -23,7 +24,6 @@ export interface SendBroadcastFormStoreProps {
     language: Language;
     translating: boolean;
     typeConfig: Type;
-    definition: FlowDefinition;
     localizations: LocalizedObject[];
     form: SendBroadcastFormState;
     updateSendBroadcastForm: SendBroadcastFunc;
@@ -34,11 +34,11 @@ export interface SendBroadcastFormPassedProps {
     formHelper: SendBroadcastFormHelper;
     updateAction(action: BroadcastMsg): void;
     updateLocalizations: UpdateLocalizations;
-    onBindWidget(ref: any): void;
 }
 
 export type SendBroadcastFormProps = SendBroadcastFormStoreProps & SendBroadcastFormPassedProps;
 
+// Note: action prop is only used for its uuid (see onValid)
 export class SendBroadcastForm extends React.Component<
     SendBroadcastFormProps,
     SendBroadcastFormState
@@ -59,11 +59,11 @@ export class SendBroadcastForm extends React.Component<
     public onValid(): void {
         // TODO: might be nice to generalize translatable forms into helpers?
         if (this.props.translating) {
-            const translation = this.props.form.translatedText;
+            const translation = this.props.form.text.value;
 
             if (translation) {
                 this.props.updateLocalizations(this.props.language.iso, [
-                    { uuid: this.props.action.uuid, translations: { text: [translation] } }
+                    { uuid: this.props.action.uuid, translations: { text: translation } }
                 ]);
             } else {
                 this.props.updateLocalizations(this.props.language.iso, [
@@ -71,31 +71,45 @@ export class SendBroadcastForm extends React.Component<
                 ]);
             }
         } else {
-            const action = this.props.formHelper.stateToAction(this.props.form);
+            const action = this.props.formHelper.stateToAction(
+                this.props.action.uuid,
+                this.props.form
+            );
             this.props.updateAction(action);
         }
     }
 
-    public handleRecipientsChanged(selected: Asset[]): void {
-        this.props.updateSendBroadcastForm({ recipients: selected });
+    public validate(): boolean {
+        const valid = this.handleRecipientsChanged(this.props.form.recipients.value);
+        return this.handleMessageUpdate(this.props.form.text.value) && valid;
     }
 
-    public handleMessageUpdate(event: React.ChangeEvent<HTMLTextElement>): void {
-        if (this.props.translating) {
-            this.props.updateSendBroadcastForm({ translatedText: event.currentTarget.value });
-        } else {
-            this.props.updateSendBroadcastForm({ text: event.currentTarget.value });
+    private handleUpdateForm(updates: Partial<SendBroadcastFormState>): boolean {
+        return (this.props.updateSendBroadcastForm(updates) as any).valid;
+    }
+
+    public handleRecipientsChanged(selected: Asset[]): boolean {
+        return this.handleUpdateForm({
+            recipients: validate('Recipients', selected, [validateRequired])
+        });
+    }
+
+    public handleMessageUpdate(value: string): boolean {
+        const validators = [];
+        if (!this.props.translating) {
+            validators.push(validateRequired);
         }
+
+        return this.handleUpdateForm({ text: validate('Message', value, validators) });
     }
 
     public render(): JSX.Element {
-        let text = '';
         let placeholder = '';
         let translation = null;
         let recipients = null;
 
         if (this.props.translating) {
-            const { text: textToTrans } = this.props.action;
+            const textToTrans = this.props.action.text;
 
             translation = (
                 <div data-spec="translation-container">
@@ -106,23 +120,15 @@ export class SendBroadcastForm extends React.Component<
             );
 
             placeholder = `${this.props.language.name} Translation`;
-
-            if (this.props.localizations[0].isLocalized()) {
-                ({ text } = this.props.localizations[0].getObject() as BroadcastMsg);
-            }
         } else {
-            ({ text } = this.props.form);
-
             recipients = (
                 <OmniboxElement
                     data-spec="recipients"
-                    ref={this.props.onBindWidget}
                     className={broadcastStyles.recipients}
-                    name="Groups"
+                    name="Recipients"
                     assets={this.context.assetService.getRecipients()}
-                    selected={this.props.form.recipients}
+                    entry={this.props.form.recipients}
                     add={true}
-                    required={true}
                     onChange={this.handleRecipientsChanged}
                 />
             );
@@ -133,16 +139,14 @@ export class SendBroadcastForm extends React.Component<
                 {translation}
                 {recipients}
                 <TextInputElement
-                    ref={this.props.onBindWidget}
                     name="Message"
                     showLabel={false}
                     count={Count.SMS}
-                    value={text}
+                    entry={this.props.form.text}
                     placeholder={placeholder}
                     autocomplete={true}
                     onChange={this.handleMessageUpdate}
                     focus={true}
-                    required={!this.props.translating}
                     textarea={true}
                 />
             </div>
@@ -152,14 +156,13 @@ export class SendBroadcastForm extends React.Component<
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowContext: { definition, localizations },
+    flowContext: { localizations },
     flowEditor: { editorUI: { language, translating } },
     nodeEditor: { typeConfig, form }
 }: AppState) => ({
     language,
     translating,
     typeConfig,
-    definition,
     localizations,
     form
 });
@@ -168,8 +171,8 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ updateSendBroadcastForm }, dispatch);
 
-const ConnectedSendMsgForm = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(
-    SendBroadcastForm
-);
+const ConnectedSendBroadcastForm = connect(mapStateToProps, mapDispatchToProps, null, {
+    withRef: true
+})(SendBroadcastForm);
 
-export default ConnectedSendMsgForm;
+export default ConnectedSendBroadcastForm;

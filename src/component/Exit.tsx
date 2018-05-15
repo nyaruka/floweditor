@@ -5,6 +5,7 @@ import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import { ConfigProviderContext } from '../config';
 import { fakePropType } from '../config/ConfigProvider';
 import { Exit, FlowNode, LocalizationMap } from '../flowTypes';
@@ -168,7 +169,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         const confirmDelete =
             this.state.confirmDelete && this.props.exit.hasOwnProperty('destination_node_uuid');
         const confirm: JSX.Element = confirmDelete ? (
-            <span {...createClickHandler(this.onDisconnect)} className="icn-remove" />
+            <span {...createClickHandler(this.onDisconnect)} className="fe-x" />
         ) : null;
         const exitClasses: string = cx({
             [styles.exit]: true,

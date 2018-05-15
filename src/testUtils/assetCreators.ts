@@ -10,6 +10,7 @@ import {
     ContactProperties,
     Exit,
     Field,
+    Flow,
     FlowNode,
     Group,
     Label,
@@ -24,6 +25,7 @@ import {
     StartFlow,
     StartFlowArgs,
     StartFlowExitNames,
+    StartSession,
     SwitchRouter,
     Wait,
     WaitTypes
@@ -90,6 +92,31 @@ export const createCallWebhookAction = ({
     method
 });
 
+export const createStartSessionAction = ({
+    uuid = 'start-session-0',
+    groups = [{ uuid: 'group-0', name: 'Cat Fanciers' }, { uuid: 'group-1', name: 'Cat Facts' }],
+    contacts = [
+        { uuid: 'contact-0', name: 'Kellan Alexander' },
+        { uuid: 'contact-1', name: 'Norbert Kwizera' },
+        { uuid: 'contact-2', name: 'Rowan Seymour' }
+    ],
+    flow = {
+        uuid: 'flow_uuid',
+        name: 'Flow to Start'
+    }
+}: {
+    uuid?: string;
+    groups?: Group[];
+    contacts?: Contact[];
+    flow?: Flow;
+} = {}): StartSession => ({
+    uuid,
+    groups,
+    contacts,
+    flow,
+    type: Types.start_session
+});
+
 export const createBroadcastMsgAction = ({
     uuid = 'send_broadcast-0',
     groups = [{ uuid: 'group-0', name: 'Cat Fanciers' }, { uuid: 'group-1', name: 'Cat Facts' }],
@@ -142,19 +169,16 @@ export const createStartFlowAction = ({
     }
 });
 
-export const createSetContactPropertyAction = ({
-    uuid = 'set_contact_property-0',
-    property = ContactProperties.Email,
-    value = 'jane@example.com'
+export const createSetContactNameAction = ({
+    uuid = 'set_contact_name-0',
+    name = 'Jane Goodall'
 }: {
     uuid?: string;
-    property?: string;
-    value?: string;
+    name?: string;
 } = {}): SetContactProperty => ({
     uuid,
-    property,
-    value,
-    type: Types.set_contact_property
+    name,
+    type: Types.set_contact_name
 });
 
 export const createSetContactFieldAction = ({

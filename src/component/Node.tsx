@@ -436,7 +436,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             if (!this.props.translating) {
                 addActions = (
                     <a className={styles.add} onClick={this.onAddToNode}>
-                        <span className="icn-add" />
+                        <span className="fe-add" />
                     </a>
                 );
             }

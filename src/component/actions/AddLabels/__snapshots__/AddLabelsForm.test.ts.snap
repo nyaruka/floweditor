@@ -1,31 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AddLabelsForm render should pass LabelsElement an empty labels array if they do not exist on the action 1`] = `
-<React.Fragment>
-  <p
-    data-spec="label"
-  >
-    Select the label(s) to apply to the incoming message.
-  </p>
-  <LabelsElement
-    assets={
-      LabelAssets {
-        "assetType": "label",
-        "assets": Object {},
-        "endpoint": "/assets/labels.json",
-        "idProperty": "uuid",
-        "localStorage": true,
-      }
-    }
-    labels={Array []}
-    name="Labels"
-    placeholder="Enter the name of an existing label or create a new one"
-    required={true}
-    searchPromptText="Invalid label"
-  />
-</React.Fragment>
-`;
-
 exports[`AddLabelsForm render should pass LabelsElement labels if they exist on the action 1`] = `
 <React.Fragment>
   <p
@@ -43,21 +17,24 @@ exports[`AddLabelsForm render should pass LabelsElement labels if they exist on 
         "localStorage": true,
       }
     }
-    labels={
-      Array [
-        Object {
-          "id": "232b99d1-579f-4d7f-b750-4b034927e9f8",
-          "name": "Help",
-          "type": "label",
-        },
-        Object {
-          "id": "ab58dffa-98da-40ba-bebc-489ec6ff7170",
-          "name": "Feedback",
-          "type": "label",
-        },
-      ]
+    entry={
+      Object {
+        "value": Array [
+          Object {
+            "id": "232b99d1-579f-4d7f-b750-4b034927e9f8",
+            "name": "Help",
+            "type": "label",
+          },
+          Object {
+            "id": "ab58dffa-98da-40ba-bebc-489ec6ff7170",
+            "name": "Feedback",
+            "type": "label",
+          },
+        ],
+      }
     }
     name="Labels"
+    onChange={[Function]}
     placeholder="Enter the name of an existing label or create a new one"
     required={true}
     searchPromptText="Invalid label"

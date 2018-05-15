@@ -1,21 +1,23 @@
 import { Label } from '../../../flowTypes';
-import { composeComponentTestUtils, setMock } from '../../../testUtils';
+import { AssetType } from '../../../services/AssetService';
+import { composeComponentTestUtils } from '../../../testUtils';
 import { createAddLabelsAction } from '../../../testUtils/assetCreators';
-import { NAME } from '../../form/LabelsElement';
-import AddLabelsForm, {
-    AddLabelsFormProps,
-    createNewAddLabelAction,
-    mapLabelsToAssets
-} from './AddLabelsForm';
+import { setTrue } from '../../../utils';
+import { AddLabelsForm, AddLabelsFormProps } from './AddLabelsForm';
+import { AddLabelsFormHelper } from './AddLabelsFormHelper';
 
 const { assets: labels } = require('../../../../__test__/assets/labels.json') as {
     assets: Label[];
 };
 
+const formHelper = new AddLabelsFormHelper();
+const action = createAddLabelsAction(labels);
 const baseProps: AddLabelsFormProps = {
-    action: createAddLabelsAction(labels),
-    onBindWidget: jest.fn(),
-    updateAction: jest.fn()
+    action,
+    updateAction: jest.fn(),
+    updateAddLabelsForm: jest.fn(),
+    form: formHelper.actionToState(action),
+    formHelper
 };
 
 const { setup, spyOn } = composeComponentTestUtils(AddLabelsForm, baseProps);
@@ -23,47 +25,32 @@ const { setup, spyOn } = composeComponentTestUtils(AddLabelsForm, baseProps);
 describe(AddLabelsForm.name, () => {
     describe('render', () => {
         it('should pass LabelsElement labels if they exist on the action', () => {
-            const { wrapper, props } = setup();
-
-            expect(wrapper.find('LabelsElement').props()).toEqual(
-                expect.objectContaining({
-                    labels: mapLabelsToAssets(props.action.labels)
-                })
-            );
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        it('should pass LabelsElement an empty labels array if they do not exist on the action', () => {
-            const { wrapper, props } = setup(true, { action: { $set: createAddLabelsAction([]) } });
-
-            expect(wrapper.find('LabelsElement').props()).toEqual(
-                expect.objectContaining({
-                    labels: []
-                })
-            );
+            const { wrapper } = setup();
             expect(wrapper).toMatchSnapshot();
         });
     });
 
     describe('onValid', () => {
         it('should update action', () => {
+            const emptyAction = createAddLabelsAction([]);
             const { wrapper, instance, props } = setup(true, {
-                action: { $set: createAddLabelsAction([]) },
-                updateAction: setMock()
+                action: { $set: emptyAction },
+                form: { $set: formHelper.actionToState(emptyAction) },
+                updateAction: { $set: jest.fn() },
+                updateAddLabelsForm: { $set: jest.fn().mockReturnValue(setTrue) }
             });
-            const widgets = {
-                [NAME]: {
-                    state: {
-                        labels: mapLabelsToAssets(labels)
-                    }
-                }
-            };
-            const newAction = createNewAddLabelAction(props.action, widgets[NAME].state.labels);
 
-            instance.onValid(widgets);
+            instance.handleLabelChange([
+                { id: 'label0', name: 'Updated Label', type: AssetType.Label }
+            ]);
 
+            instance.onValid();
             expect(props.updateAction).toHaveBeenCalledTimes(1);
-            expect(props.updateAction).toHaveBeenCalledWith(newAction);
+            expect(props.updateAction).toHaveBeenCalledWith({
+                labels: [],
+                type: 'add_input_labels',
+                uuid: 'labels-action-uuid-0'
+            });
         });
     });
 });

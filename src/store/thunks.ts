@@ -48,8 +48,10 @@ import {
 } from './helpers';
 import * as mutators from './mutators';
 import {
+    NodeEditorSettings,
     updateActionToEdit,
     updateForm,
+    updateNodeEditorSettings,
     updateNodeToEdit,
     updateOperand,
     updateResultName,
@@ -79,7 +81,8 @@ export type OnNodeMoved = (uuid: string, position: FlowPosition) => Thunk<Render
 export type OnOpenNodeEditor = (
     node: FlowNode,
     action: AnyAction,
-    languages: Languages
+    languages: Languages,
+    settings?: NodeEditorSettings
 ) => Thunk<void>;
 
 export type RemoveNode = (nodeToRemove: FlowNode) => Thunk<RenderNodeMap>;
@@ -447,14 +450,17 @@ export const spliceInRouter = (
     return updatedNodes;
 };
 
-export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction) => (
+export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction = null) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
     dispatch(updateTypeConfig(typeConfig));
     if (typeConfig.formHelper) {
-        const action = actionToEdit.type === typeConfig.type ? actionToEdit : null;
-        dispatch(updateForm(typeConfig.formHelper.actionToState(action)));
+        // tslint:disable-next-line:no-shadowed-variable
+        const action = actionToEdit && actionToEdit.type === typeConfig.type ? actionToEdit : null;
+        dispatch(updateForm(typeConfig.formHelper.actionToState(action, typeConfig.type)));
+    } else {
+        dispatch(updateForm(null));
     }
 };
 
@@ -482,6 +488,8 @@ export const resetNodeEditingState = () => (dispatch: DispatchWithState, getStat
         dispatch(updateNodeToEdit(null));
     }
 
+    dispatch(updateForm(null));
+    dispatch(updateNodeEditorSettings({ showAdvanced: false }));
     dispatch(updateTimeout(null));
 };
 
@@ -489,13 +497,13 @@ export const onUpdateAction = (action: AnyAction) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
+    timeStart('onUpdateAction');
+
     const {
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
         nodeEditor: { userAddingAction, nodeToEdit },
         flowContext: { nodes }
     } = getState();
-
-    timeStart('onUpdateAction');
 
     if (nodeToEdit == null) {
         throw new Error('Need nodeToEdit in state to update an action');
@@ -538,6 +546,7 @@ export const onAddToNode = (node: FlowNode) => (
 ) => {
     const { flowContext: { definition }, flowEditor: { editorUI: { language } } } = getState();
 
+    // TODO: remove the need for this once we all have formHelpers
     const newAction: SendMsg = {
         uuid: generateUUID(),
         type: Types.send_msg,
@@ -548,7 +557,7 @@ export const onAddToNode = (node: FlowNode) => (
     dispatch(updateActionToEdit(newAction));
     dispatch(updateNodeToEdit(node));
     dispatch(updateLocalizations([]));
-    dispatch(updateTypeConfig(getTypeConfig(newAction.type)));
+    dispatch(handleTypeConfigChange(getTypeConfig(Types.send_msg)));
     dispatch(updateNodeDragging(false));
     dispatch(updateNodeEditorOpen(true));
 };
@@ -667,7 +676,7 @@ export const onUpdateRouter = (node: RenderNode) => (
         node.node = mutators.uniquifyNode(node.node);
     }
 
-    if (nodeToEdit && actionToEdit) {
+    if (nodeToEdit && actionToEdit && previousNode) {
         const actionToSplice = previousNode.node.actions.find(
             (action: Action) => action.uuid === actionToEdit.uuid
         );
@@ -721,13 +730,16 @@ const markReflow = (dispatch: DispatchWithState) => {
     );
 };
 
-export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: Languages) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
+export const onOpenNodeEditor = (
+    node: FlowNode,
+    action: AnyAction,
+    languages: Languages,
+    settings: NodeEditorSettings
+) => (dispatch: DispatchWithState, getState: GetState) => {
     const {
         flowContext: { nodes, definition: { localization } },
-        flowEditor: { editorUI: { language, translating } }
+        flowEditor: { editorUI: { language, translating } },
+        nodeEditor: { settings: currentSettings }
     } = getState();
 
     const localizations = [];
@@ -762,7 +774,15 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
     const typeConfig = getTypeConfig(type);
 
     if (typeConfig.formHelper) {
-        dispatch(updateForm(typeConfig.formHelper.actionToState(action)));
+        let toEdit = action;
+        if (translating) {
+            if (localizations && localizations.length === 1 && localizations[0].isLocalized()) {
+                toEdit = localizations[0].getObject() as AnyAction;
+            } else {
+                toEdit = null;
+            }
+        }
+        dispatch(updateForm(typeConfig.formHelper.actionToState(toEdit, typeConfig.type)));
     }
     dispatch(updateTypeConfig(getTypeConfig(type as Types)));
 
@@ -784,6 +804,12 @@ export const onOpenNodeEditor = (node: FlowNode, action: AnyAction, languages: L
             const { operand } = node.router as SwitchRouter;
             dispatch(updateOperand(operand));
         }
+    }
+
+    if (settings) {
+        dispatch(
+            updateNodeEditorSettings(mutators.mergeNodeEditorSettings(currentSettings, settings))
+        );
     }
 
     dispatch(updateNodeDragging(false));

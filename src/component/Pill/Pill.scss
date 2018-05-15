@@ -1,0 +1,15 @@
+@import '../../variables.scss';
+
+.pill {
+    font-size: 10px;
+    padding: 0px 5px;
+    background: $light_gray_2;
+    display: inline-block;
+    border-radius: 8px;
+    margin-right: 3px;
+    margin-bottom: 3px;
+
+    &:hover {
+        background: $blue_selected;
+    }
+}

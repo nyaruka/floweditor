@@ -1,16 +1,17 @@
 import * as classNames from 'classnames/bind';
 import * as React from 'react';
-import * as styles from './FormElement.scss';
+
+import { FormEntry } from '../../store/nodeEditor';
 import { renderIf } from '../../utils';
+import * as styles from './FormElement.scss';
 
 const cx = classNames.bind(styles);
 
 export interface FormElementProps {
     name: string;
     helpText?: string;
-    errors?: string[];
+    entry?: FormEntry;
     showLabel?: boolean;
-    required?: boolean;
     __className?: string;
     border?: boolean;
     sendMsgError?: boolean;
@@ -29,32 +30,37 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
     }
 
     private getHelpText(): JSX.Element {
-        return renderIf(this.props.helpText && !this.props.errors.length)(
+        return renderIf(this.props.helpText && !this.hasErrors())(
             <div className={styles.helpText}>{this.props.helpText} </div>
         );
     }
 
+    private hasErrors(): boolean {
+        return (
+            this.props.entry &&
+            this.props.entry.validationFailures &&
+            this.props.entry.validationFailures.length > 0
+        );
+    }
+
     private getErrors(): JSX.Element {
-        if (this.props.errors.length < 1) {
-            return null;
-        }
-
-        const errors: JSX.Element[] = this.props.errors.map((error, idx) => {
-            const className = cx({
-                [styles.error]: true,
-                [styles.sendMsgError]: this.props.sendMsgError === true,
-                [styles.kaseError]: this.props.kaseError === true,
-                [styles.attribError]: this.props.attribError === true
+        if (this.hasErrors()) {
+            const errors = this.props.entry.validationFailures.map((failure, idx) => {
+                const className = cx({
+                    [styles.error]: true,
+                    [styles.sendMsgError]: this.props.sendMsgError === true,
+                    [styles.kaseError]: this.props.kaseError === true,
+                    [styles.attribError]: this.props.attribError === true
+                });
+                return (
+                    <div key={idx} className={className}>
+                        {failure.message}
+                    </div>
+                );
             });
-
-            return (
-                <div key={idx} className={className}>
-                    {error}
-                </div>
-            );
-        });
-
-        return <div className={styles.error}>{errors}</div>;
+            return <div className={styles.error}>{errors}</div>;
+        }
+        return null;
     }
 
     public render(): JSX.Element {

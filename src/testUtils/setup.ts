@@ -1,10 +1,10 @@
+import { Console } from 'console';
 import { configure } from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
 import * as $ from 'jquery';
-import { RenderNode } from '../store/flowContext';
+
 import { Exit } from '../flowTypes';
-import { Console } from 'console';
-import { dump } from '../utils';
+import { RenderNode } from '../store/flowContext';
 
 // Declare custom matcher types
 declare global {
@@ -16,7 +16,7 @@ declare global {
             toHaveExitWithDestination(): R;
             toHaveInboundConnections(): R;
             toHavePayload(action, payload): R;
-            toHaveReduxAction(action): R;
+            toHaveReduxActions(actions): R;
         }
     }
 }

@@ -3,8 +3,9 @@ import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getTypeConfig } from '../../../config';
-import { ConfigProviderContext } from '../../../config';
+
+import { ConfigProviderContext, getTypeConfig } from '../../../config';
+import { fakePropType } from '../../../config/ConfigProvider';
 import { Types } from '../../../config/typeConfigs';
 import { AnyAction, FlowNode, LocalizationMap } from '../../../flowTypes';
 import {
@@ -21,7 +22,6 @@ import { Language } from '../../LanguageSelector';
 import * as shared from '../../shared.scss';
 import TitleBar from '../../TitleBar';
 import * as styles from './Action.scss';
-import { fakePropType } from '../../../config/ConfigProvider';
 
 export interface ActionWrapperPassedProps {
     thisNodeDragging: boolean;
@@ -64,16 +64,24 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     }
 
     public onClick(event: React.MouseEvent<HTMLDivElement>): void {
+        const target = event.target as any;
+        const showAdvanced =
+            (target && target.attributes && target.attributes['data-advanced']) || false;
+
         if (!this.props.thisNodeDragging) {
             event.preventDefault();
             event.stopPropagation();
-            this.props.onOpenNodeEditor(this.props.node, this.props.action, this.context.languages);
+            this.props.onOpenNodeEditor(
+                this.props.node,
+                this.props.action,
+                this.context.languages,
+                { showAdvanced }
+            );
         }
     }
 
     private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
-
         this.props.removeAction(this.props.node.uuid, this.props.action);
     }
 

@@ -8,6 +8,7 @@ import { Asset } from '../services/AssetService';
 import ActionTypes, {
     UpdateActionToEditAction,
     UpdateForm,
+    UpdateNodeEditorSettings,
     UpdateNodeToEditAction,
     UpdateOperandAction,
     UpdateResultNameAction,
@@ -18,16 +19,99 @@ import ActionTypes, {
 } from './actionTypes';
 import Constants from './constants';
 
-export interface ActionState {
+export interface ValidationFailure {
+    message: string;
+}
+
+export interface FormEntry {
+    value: any;
+    validationFailures?: ValidationFailure[];
+}
+
+export interface StringEntry extends FormEntry {
+    value: string;
+}
+
+export interface StringArrayEntry extends FormEntry {
+    value: string[];
+}
+
+export interface AssetEntry extends FormEntry {
+    value: Asset;
+}
+
+export interface AssetArrayEntry extends FormEntry {
+    value: Asset[];
+}
+
+export interface FormState {
     type: Types;
-    uuid: string;
+    validationFailures?: ValidationFailure[];
+    valid: boolean;
 }
-export interface SendBroadcastFormState extends ActionState {
-    text: string;
-    recipients: Asset[];
-    translatedText: string;
+
+export interface SendBroadcastFormState extends FormState {
+    text: StringEntry;
+    recipients: AssetArrayEntry;
 }
-export type NodeEditorForm = SendBroadcastFormState;
+
+export interface SendMsgFormState extends FormState {
+    text: StringEntry;
+    quickReplies: StringArrayEntry;
+    sendAll: boolean;
+}
+
+export interface AddLabelsFormState extends FormState {
+    labels: AssetArrayEntry;
+}
+
+export interface SendEmailFormState extends FormState {
+    recipients: StringArrayEntry;
+    subject: StringEntry;
+    body: StringEntry;
+}
+
+export interface SetContactFieldFormState extends FormState {
+    field: AssetEntry;
+    value: StringEntry;
+}
+
+export interface SetContactNameFormState extends FormState {
+    name: AssetEntry;
+    value: StringEntry;
+}
+
+export interface SetRunResultFormState extends FormState {
+    name: StringEntry;
+    value: StringEntry;
+    category: StringEntry;
+}
+
+export interface ChangeGroupsFormState extends FormState {
+    groups: AssetArrayEntry;
+    removeAll?: boolean;
+}
+
+export type SetContactAttribFormState = SetContactFieldFormState | SetContactNameFormState;
+
+export interface StartSessionFormState extends FormState {
+    recipients: AssetArrayEntry;
+    flow: AssetEntry;
+}
+
+export type NodeEditorForm =
+    | SetRunResultFormState
+    | SendBroadcastFormState
+    | StartSessionFormState
+    | SendMsgFormState
+    | SetContactAttribFormState
+    | AddLabelsFormState
+    | ChangeGroupsFormState
+    | SendEmailFormState;
+
+export interface NodeEditorSettings {
+    showAdvanced: boolean;
+}
 
 export interface NodeEditor {
     typeConfig: Type;
@@ -37,6 +121,7 @@ export interface NodeEditor {
     userAddingAction: boolean;
     nodeToEdit: FlowNode;
     actionToEdit: AnyAction;
+    settings: NodeEditorSettings;
     form: NodeEditorForm;
     timeout: number;
 }
@@ -53,7 +138,8 @@ export const initialState: NodeEditor = {
     nodeToEdit: null,
     actionToEdit: null,
     form: null,
-    timeout: null
+    timeout: null,
+    settings: { showAdvanced: false }
 };
 
 // Action Creators
@@ -68,6 +154,15 @@ export const updateForm = (form: NodeEditorForm): UpdateForm => ({
     type: Constants.UPDATE_FORM,
     payload: {
         form
+    }
+});
+
+export const updateNodeEditorSettings = (
+    settings: NodeEditorSettings
+): UpdateNodeEditorSettings => ({
+    type: Constants.UPDATE_NODE_EDITOR_SETTINGS,
+    payload: {
+        settings
     }
 });
 
@@ -211,6 +306,18 @@ export const timeout = (state: number = initialState.timeout, action: ActionType
     }
 };
 
+export const settings = (
+    state: NodeEditorSettings = initialState.settings,
+    action: ActionTypes
+) => {
+    switch (action.type) {
+        case Constants.UPDATE_NODE_EDITOR_SETTINGS:
+            return action.payload.settings;
+        default:
+            return state;
+    }
+};
+
 // Root reducer
 export default combineReducers({
     typeConfig,
@@ -220,6 +327,7 @@ export default combineReducers({
     userAddingAction,
     nodeToEdit,
     actionToEdit,
+    settings,
     form,
     timeout
 });

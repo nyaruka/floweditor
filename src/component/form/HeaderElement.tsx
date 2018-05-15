@@ -1,7 +1,8 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import { hasErrorType, renderIf } from '../../utils';
-import ConnectedTextInputElement, { HTMLTextElement } from '../form/TextInputElement';
+
+import { renderIf } from '../../utils';
+import ConnectedTextInputElement from '../form/TextInputElement';
 import * as styles from '../routers/Webhook.scss';
 import FormElement from './FormElement';
 
@@ -23,7 +24,6 @@ export interface HeaderElementProps {
 interface HeaderElementState {
     name: string;
     value: string;
-    errors: string[];
 }
 
 export const headerContainerSpecId = 'header-container';
@@ -44,41 +44,28 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
 
         this.state = {
             name,
-            value,
-            errors: []
+            value
         };
 
         bindCallbacks(this, {
-            include: [/^on/]
+            include: [/^on/, /^handle/]
         });
     }
 
-    private onChangeName({
-        currentTarget: { value }
-    }: React.SyntheticEvent<HTMLTextElement>): void {
-        this.setState(
-            {
-                name: value
-            },
-            () => this.props.onChange(this)
-        );
+    private handleChangeName(name: string): void {
+        this.setState({ name }, () => this.props.onChange(this));
     }
 
-    private onChangeValue({
-        currentTarget: { value }
-    }: React.SyntheticEvent<HTMLTextElement>): void {
-        this.setState(
-            {
-                value
-            },
-            () => this.props.onChange(this)
-        );
+    private handleChangeValue(value: string): void {
+        this.setState({ value }, () => this.props.onChange(this));
     }
 
     private onRemove(): void {
         this.props.onRemove(this);
     }
 
+    /* 
+    // TOOO: this one needs cross field validation
     public validate(): boolean {
         const errors = [];
 
@@ -93,27 +80,28 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
 
         return errors.length === 0;
     }
+    */
 
     private getRemoveIco(): JSX.Element {
         return renderIf(this.props.index !== 0 && !this.props.empty)(
             <div className={styles.removeIco} onClick={this.onRemove} data-spec={removeIcoSpecId}>
-                <span className="icn-remove" />
+                <span className="fe-remove" />
             </div>
         );
     }
 
     public render(): JSX.Element {
-        const hasHeaderError = hasErrorType(this.state.errors, [/headers/]);
+        const hasHeaderError = false; // hasErrorType(this.state.errors, [/headers/]);
         const removeIco: JSX.Element = this.getRemoveIco();
         return (
-            <FormElement name={this.props.name} errors={this.state.errors}>
+            <FormElement name={this.props.name}>
                 <div className={styles.header} data-spec={headerContainerSpecId}>
                     <div className={styles.header_name} data-spec={nameContainerSpecId}>
                         <ConnectedTextInputElement
                             placeholder={NAME_PLACEHOLDER}
                             name="name"
-                            onChange={this.onChangeName}
-                            value={this.state.name}
+                            onChange={this.handleChangeName}
+                            entry={{ value: this.state.name }}
                             showInvalid={hasHeaderError}
                         />
                     </div>
@@ -121,8 +109,8 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
                         <ConnectedTextInputElement
                             placeholder={VALUE_PLACEHOLDER}
                             name="value"
-                            onChange={this.onChangeValue}
-                            value={this.state.value}
+                            onChange={this.handleChangeValue}
+                            entry={{ value: this.state.value }}
                             autocomplete={true}
                         />
                     </div>

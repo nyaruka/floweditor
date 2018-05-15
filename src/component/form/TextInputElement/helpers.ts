@@ -1,6 +1,7 @@
 import { split } from 'split-sms';
-import { OPTIONS, GSM } from './constants';
+
 import { CompletionOption } from '../../../store';
+import { GSM, OPTIONS } from './constants';
 
 export interface UnicodeCharMap {
     [char: string]: boolean;

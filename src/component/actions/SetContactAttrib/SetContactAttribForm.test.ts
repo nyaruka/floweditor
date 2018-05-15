@@ -1,26 +1,28 @@
-import { SetContactField, SetContactProperty } from '../../../flowTypes';
+import { getTypeConfig } from '../../../config';
+import { Types } from '../../../config/typeConfigs';
 import { composeComponentTestUtils, setMock } from '../../../testUtils';
 import {
     createSetContactFieldAction,
-    createSetContactPropertyAction
+    createSetContactNameAction
 } from '../../../testUtils/assetCreators';
-import { set } from '../../../utils';
-import ConnectedAttribElement from '../../form/AttribElement';
 import ConnectedTextInputElement from '../../form/TextInputElement';
-import { newFieldAction, newPropertyAction, propertyToAsset, fieldToAsset } from './helpers';
-import SetContactAttribForm, {
-    ATTRIB_HELP_TEXT,
-    SetContactAttribFormProps,
-    TEXT_INPUT_HELP_TEXT
-} from './SetContactAttribForm';
+import { propertyToAsset } from './helpers';
+import { SetContactAttribForm, SetContactAttribFormProps } from './SetContactAttribForm';
+import { SetContactAttribFormHelper } from './SetContactAttribFormHelper';
 
-const setContactProperty = createSetContactPropertyAction();
-const setContactField = createSetContactFieldAction();
+const setContactNameAction = createSetContactNameAction();
+const setContactFieldAction = createSetContactFieldAction();
 
+const formHelper = new SetContactAttribFormHelper();
+
+// starting w/ Types.set_contact_field props
 const baseProps: SetContactAttribFormProps = {
-    action: setContactProperty,
-    onBindWidget: jest.fn(),
-    updateAction: jest.fn()
+    action: setContactFieldAction,
+    formHelper,
+    typeConfig: getTypeConfig(Types.set_contact_field),
+    form: formHelper.actionToState(setContactFieldAction, Types.set_contact_field),
+    updateAction: jest.fn(),
+    updateSetContactAttribForm: jest.fn()
 };
 
 const { setup } = composeComponentTestUtils(SetContactAttribForm, baseProps);
@@ -28,90 +30,74 @@ const { setup } = composeComponentTestUtils(SetContactAttribForm, baseProps);
 describe(SetContactAttribForm.name, () => {
     describe('render', () => {
         it('should render self, children with base props', () => {
-            const { wrapper, props, context: { endpoints } } = setup(false, {
-                onBindWidget: setMock()
-            });
-            const initial = propertyToAsset(props.action as SetContactProperty);
+            const { wrapper, props } = setup();
 
-            expect(props.onBindWidget).toHaveBeenCalledTimes(2);
-            expect(props.onBindWidget).toHaveBeenCalledWith(expect.any(ConnectedAttribElement));
-            expect(props.onBindWidget).toHaveBeenCalledWith(expect.any(ConnectedTextInputElement));
-            expect(wrapper.find(ConnectedAttribElement).props()).toMatchSnapshot();
-
-            expect(wrapper.find(ConnectedTextInputElement).props()).toEqual({
-                name: 'Value',
-                showLabel: true,
-                value: props.action.value,
-                helpText: TEXT_INPUT_HELP_TEXT,
-                autocomplete: true
+            expect(wrapper).toMatchSnapshot();
+            expect(wrapper.find(ConnectedTextInputElement).prop('entry')).toEqual({
+                value: props.form.value.value
             });
+
+            const setContactNameForm = formHelper.actionToState(
+                setContactNameAction,
+                Types.set_contact_name
+            );
+
+            // User changes attribute to Name
+            wrapper.setProps({
+                action: setContactNameAction,
+                form: setContactNameForm,
+                typeConfig: getTypeConfig(Types.set_contact_name)
+            });
+
+            expect(wrapper.find(ConnectedTextInputElement).prop('entry')).toEqual(
+                setContactNameForm.value
+            );
         });
     });
 
     describe('instance methods', () => {
-        describe('getInitial', () => {
-            it('should return contact field SearchResult', () => {
-                const { wrapper, props: { action }, instance } = setup(true, {
-                    action: set(setContactField)
+        describe('onValid', () => {
+            it('should call updateAction prop with new set_contact_field action', () => {
+                const { wrapper, instance, props } = setup(true, {
+                    updateAction: setMock()
                 });
-                const expectedInitial = fieldToAsset(action as SetContactField);
 
-                expect(instance.getInitial()).toEqual(expectedInitial);
-            });
+                instance.onValid();
 
-            it('should return contact property SearchResult', () => {
-                const { wrapper, props: { action }, instance } = setup();
-                const expectedInitial = propertyToAsset(action as SetContactProperty);
-
-                expect(instance.getInitial()).toEqual(expectedInitial);
+                expect(props.updateAction).toHaveBeenCalledTimes(1);
+                expect(props.updateAction).toHaveBeenCalledWith(
+                    props.formHelper.stateToAction(
+                        props.action.uuid,
+                        props.form,
+                        props.typeConfig.type
+                    )
+                );
             });
         });
 
-        describe('onValid', () => {
-            it('should call updateAction prop with new SetContactField action', () => {
-                const {
-                    wrapper,
-                    instance,
-                    props: { action, updateAction: updateActionMock }
-                } = setup(true, {
-                    addContactField: setMock(),
-                    updateAction: setMock(),
-                    action: set(setContactField)
+        describe('handleAttribChange', () => {
+            it('should call form-state-updater-thunk', () => {
+                const { wrapper, instance, props } = setup(true, {
+                    updateSetContactAttribForm: { $set: jest.fn().mockReturnValue(true) }
                 });
-                const attribute = fieldToAsset(action as SetContactField);
-                const { value } = action;
-                const widgets = {
-                    Attribute: { state: { attribute } },
-                    Value: { wrappedInstance: { state: { value } } }
-                };
+                const attribute = propertyToAsset(setContactNameAction);
 
-                instance.onValid(widgets);
+                instance.handleAttribChange(attribute);
 
-                expect(updateActionMock).toHaveBeenCalledTimes(1);
-                expect(updateActionMock).toHaveBeenCalledWith(
-                    newFieldAction(action.uuid, value, attribute.name)
-                );
+                expect(props.updateSetContactAttribForm).toHaveBeenCalledTimes(1);
             });
+        });
 
-            it('should call updateAction prop with new SetContactProperty action', () => {
-                const {
-                    wrapper,
-                    instance,
-                    props: { action, updateAction: updateActionMock }
-                } = setup(true, { updateAction: setMock() });
-                const attribute = propertyToAsset(action as SetContactProperty);
-                const { value } = action;
-                const widgets = {
-                    Attribute: { state: { attribute } },
-                    Value: { wrappedInstance: { state: { value } } }
-                };
-
-                instance.onValid(widgets);
-
-                expect(updateActionMock).toHaveBeenCalledTimes(1);
-                expect(updateActionMock).toHaveBeenCalledWith(
-                    newPropertyAction(action.uuid, value, attribute.name)
-                );
+        describe('handleValueChange', () => {
+            it('should call form-state-updater-thunk', () => {
+                const { wrapper, instance, props } = setup(true, {
+                    updateSetContactAttribForm: { $set: jest.fn().mockReturnValue(true) }
+                });
+                instance.handleValueChange('26');
+                expect(props.updateSetContactAttribForm).toHaveBeenCalledTimes(1);
+                expect(props.updateSetContactAttribForm).toHaveBeenCalledWith(null, {
+                    value: '26'
+                });
             });
         });
     });

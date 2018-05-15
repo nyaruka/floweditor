@@ -1,13 +1,17 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { ConfigProviderContext } from '../../../config';
 import { fakePropType } from '../../../config/ConfigProvider';
-import { Types } from '../../../config/typeConfigs';
 import { ChangeGroups } from '../../../flowTypes';
 import AssetService, { Asset } from '../../../services/AssetService';
+import { updateChangeGroupsForm } from '../../../store/forms';
+import AppState from '../../../store/state';
+import { DispatchWithState } from '../../../store/thunks';
+import { validate, validateRequired } from '../../../store/validators';
 import GroupsElement from '../../form/GroupsElement';
-import { mapAssetsToGroups, mapGroupsToAssets } from './helpers';
 import ChangeGroupsFormProps from './props';
 
 export const LABEL = ' Select the group(s) to add the contact to.';
@@ -15,7 +19,7 @@ export const PLACEHOLDER = 'Enter the name of an existing group or create a new 
 
 export const labelSpecId = 'label';
 
-export default class AddGroupsForm extends React.Component<ChangeGroupsFormProps> {
+export class AddGroupsForm extends React.Component<ChangeGroupsFormProps> {
     public static contextTypes = {
         assetService: fakePropType
     };
@@ -24,30 +28,27 @@ export default class AddGroupsForm extends React.Component<ChangeGroupsFormProps
         super(props);
 
         bindCallbacks(this, {
-            include: [/^on/]
+            include: [/^on/, /^handle/]
         });
     }
 
-    public onValid(widgets: { [name: string]: any }): void {
-        const { state: { groups } } = widgets.Groups;
-        const newAction: ChangeGroups = {
-            uuid: this.props.action.uuid,
-            type: Types.add_contact_groups,
-            groups: mapAssetsToGroups(groups)
-        };
-
-        this.props.updateAction(newAction);
+    public onValid(): void {
+        // we need a cast here since we are sharing our state with remove groups
+        const updated = this.props.formHelper.stateToAction(
+            this.props.action.uuid,
+            this.props.form
+        ) as ChangeGroups;
+        this.props.updateAction(updated);
     }
 
-    private getGroups(): Asset[] {
-        if (
-            this.props.action.groups &&
-            this.props.action.groups.length &&
-            this.props.action.type !== Types.remove_contact_groups
-        ) {
-            return mapGroupsToAssets(this.props.action.groups);
-        }
-        return [];
+    public validate(): boolean {
+        return this.handleUpdateGroups(this.props.form.groups.value);
+    }
+
+    public handleUpdateGroups(assets: Asset[]): boolean {
+        return (this.props.updateChangeGroupsForm({
+            groups: validate('Groups', assets, [validateRequired])
+        }) as any).valid;
     }
 
     public render(): JSX.Element {
@@ -55,15 +56,28 @@ export default class AddGroupsForm extends React.Component<ChangeGroupsFormProps
             <>
                 <p data-spec={labelSpecId}>{LABEL}</p>
                 <GroupsElement
-                    ref={this.props.onBindWidget}
                     name="Groups"
                     placeholder={PLACEHOLDER}
                     assets={this.context.assetService.getGroupAssets()}
-                    groups={this.getGroups()}
+                    onChange={this.handleUpdateGroups}
+                    entry={this.props.form.groups}
                     add={true}
-                    required={true}
                 />
             </>
         );
     }
 }
+
+const mapStateToProps = ({ nodeEditor: { form } }: AppState) => ({
+    form
+});
+
+/* istanbul ignore next */
+const mapDispatchToProps = (dispatch: DispatchWithState) =>
+    bindActionCreators({ updateChangeGroupsForm }, dispatch);
+
+const ConnectedAddGroupsFrom = connect(mapStateToProps, mapDispatchToProps, null, {
+    withRef: true
+})(AddGroupsForm);
+
+export default ConnectedAddGroupsFrom;

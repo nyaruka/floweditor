@@ -1,7 +1,7 @@
 import { StartFlow } from '../../../flowTypes';
 import { composeComponentTestUtils } from '../../../testUtils';
 import { createStartFlowAction } from '../../../testUtils/assetCreators';
-import StartFlowComp, { getStartFlowMarkup } from './StartFlow';
+import StartFlowComp from './StartFlow';
 
 const startFlowAction = createStartFlowAction();
 
@@ -11,9 +11,7 @@ describe(StartFlowComp.name, () => {
     describe('render', () => {
         it('should render flow name', () => {
             const { wrapper, props } = setup();
-            expect(
-                wrapper.containsMatchingElement(getStartFlowMarkup(props.flow.name))
-            ).toBeTruthy();
+            expect(wrapper.text()).toEqual(startFlowAction.flow.name);
             expect(wrapper).toMatchSnapshot();
         });
     });

@@ -8,7 +8,7 @@ exports[`ChangeGroupComp helpers getChangeGroupsMarkup should return ChangeGroup
     className="nodeAsset"
   >
     <span
-      className="nodeGroup icn-group"
+      className="nodeGroup fe-group"
     />
     Early Adopters
   </div>
@@ -16,7 +16,7 @@ exports[`ChangeGroupComp helpers getChangeGroupsMarkup should return ChangeGroup
     className="nodeAsset"
   >
     <span
-      className="nodeGroup icn-group"
+      className="nodeGroup fe-group"
     />
     Testers
   </div>
@@ -24,7 +24,7 @@ exports[`ChangeGroupComp helpers getChangeGroupsMarkup should return ChangeGroup
     className="nodeAsset"
   >
     <span
-      className="nodeGroup icn-group"
+      className="nodeGroup fe-group"
     />
     Subscribers
   </div>
@@ -47,7 +47,7 @@ Array [
     className="nodeAsset"
   >
     <span
-      className="nodeGroup icn-group"
+      className="nodeGroup fe-group"
     />
     Early Adopters
   </div>,
@@ -55,7 +55,7 @@ Array [
     className="nodeAsset"
   >
     <span
-      className="nodeGroup icn-group"
+      className="nodeGroup fe-group"
     />
     Testers
   </div>,
@@ -63,7 +63,7 @@ Array [
     className="nodeAsset"
   >
     <span
-      className="nodeGroup icn-group"
+      className="nodeGroup fe-group"
     />
     Subscribers
   </div>,
@@ -87,7 +87,7 @@ exports[`ChangeGroupComp render should limit div to 3 groups, include ellipsesTe
     key="23ff7152-b588-43e4-90de-fda77aeaf7c0"
   >
     <span
-      className="nodeGroup icn-group"
+      className="nodeGroup fe-group"
     />
     Customers
   </div>
@@ -96,7 +96,7 @@ exports[`ChangeGroupComp render should limit div to 3 groups, include ellipsesTe
     key="2429d573-80d7-47f8-879f-f2ba442a1bfd"
   >
     <span
-      className="nodeGroup icn-group"
+      className="nodeGroup fe-group"
     />
     Unsatisfied Customers
   </div>
@@ -105,7 +105,7 @@ exports[`ChangeGroupComp render should limit div to 3 groups, include ellipsesTe
     key="cdbf9e01-aaa7-4381-8259-ee042447bcac"
   >
     <span
-      className="nodeGroup icn-group"
+      className="nodeGroup fe-group"
     />
     Early Adopters
   </div>
@@ -139,7 +139,7 @@ exports[`ChangeGroupComp render should render group name 1`] = `
     key="cdbf9e01-aaa7-4381-8259-ee042447bcac"
   >
     <span
-      className="nodeGroup icn-group"
+      className="nodeGroup fe-group"
     />
     Early Adopters
   </div>
@@ -148,7 +148,7 @@ exports[`ChangeGroupComp render should render group name 1`] = `
     key="afaba971-8943-4dd8-860b-3561ed4f1fe1"
   >
     <span
-      className="nodeGroup icn-group"
+      className="nodeGroup fe-group"
     />
     Testers
   </div>
@@ -157,7 +157,7 @@ exports[`ChangeGroupComp render should render group name 1`] = `
     key="33b28bac-b588-43e4-90de-fda77aeaf7c0"
   >
     <span
-      className="nodeGroup icn-group"
+      className="nodeGroup fe-group"
     />
     Subscribers
   </div>
