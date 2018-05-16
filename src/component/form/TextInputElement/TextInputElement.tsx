@@ -3,7 +3,7 @@ import * as classNames from 'classnames/bind';
 import setCaretPosition from 'get-input-selection';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import getCaretCoordinates from 'textarea-caret';
+import * as getCaretCoordinates from 'textarea-caret';
 
 import { Type } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
@@ -23,7 +23,7 @@ import {
     KEY_P,
     KEY_SPACE,
     KEY_TAB,
-    KEY_UP
+    KEY_UP,
 } from './constants';
 import { filterOptions, getMsgStats, getOptionsList, UnicodeCharMap } from './helpers';
 import * as styles from './TextInputElement.scss';
