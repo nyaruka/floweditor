@@ -32,13 +32,14 @@ export class SetContactAttribFormHelper implements FormHelper {
                         valid: true
                     } as SetContactNameFormState;
                 case Types.set_contact_language:
-                    const language = (action as SetContactLanguage).language
+                    const { language } = action as SetContactLanguage;
+                    const value = language
                         ? languageToAsset(getLanguage((action as SetContactLanguage).language))
-                        : null;
+                        : removeAsset;
                     return {
                         language: { value: propertyToAsset(Types.set_contact_language) },
                         value: {
-                            value: language
+                            value
                         },
                         valid: true
                     } as SetContactLanguageFormState;
@@ -62,7 +63,7 @@ export class SetContactAttribFormHelper implements FormHelper {
             case Types.set_contact_language:
                 return {
                     language: { value: propertyToAsset(Types.set_contact_language) },
-                    value: { value: null },
+                    value: { value: removeAsset },
                     valid: false
                 } as SetContactLanguageFormState;
         }
