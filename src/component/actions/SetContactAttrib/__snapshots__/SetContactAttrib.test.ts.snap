@@ -16,7 +16,7 @@ exports[`SetContactAttribComp render helpers getAttribNameMarkup should return e
 </span>
 `;
 
-exports[`SetContactAttribComp render should render with 'clear...' div when name prop isn't passed 1`] = `
+exports[`SetContactAttribComp render should render with 'clear...' div when name prop isn't passed: set_contact_name 1`] = `
 <React.Fragment>
   Clear value for 
   <span
@@ -27,13 +27,24 @@ exports[`SetContactAttribComp render should render with 'clear...' div when name
 </React.Fragment>
 `;
 
-exports[`SetContactAttribComp render should render with 'clear...' div when value prop isn't passed 1`] = `
+exports[`SetContactAttribComp render should render with 'clear...' div when value prop isn't passed: set_contact_field 1`] = `
 <React.Fragment>
   Clear value for 
   <span
     className="emph"
   >
     Age
+  </span>
+</React.Fragment>
+`;
+
+exports[`SetContactAttribComp render should render with 'clear...' div when value prop isn't passed: set_contact_language 1`] = `
+<React.Fragment>
+  Clear value for 
+  <span
+    className="emph"
+  >
+    Language
   </span>
 </React.Fragment>
 `;
@@ -51,6 +62,24 @@ exports[`SetContactAttribComp render should render with 'update...' div when pas
     className="emph"
   >
     25
+  </span>
+</React.Fragment>
+`;
+
+exports[`SetContactAttribComp render should render with 'update...' div when passed set_contact_language action 1`] = `
+<React.Fragment>
+  Update 
+  <span
+    className="emph"
+  >
+    Language
+  </span>
+   to
+   
+  <span
+    className="emph"
+  >
+    English
   </span>
 </React.Fragment>
 `;
