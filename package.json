@@ -18,6 +18,7 @@
     "test:coverage": "npm run test:local -- --coverage",
     "test:update": "npm run test:local -- --updateSnapshot",
     "start": "webpack-dev-server --config webpack/webpack.config.js --env.NODE_ENV=dev --progress --colors",
+    "storybook": "start-storybook -p 9001 -c .storybook",
     "lint:es": "eslint '*/**/*.js'",
     "lint:ts": "tslint -c tslint.json 'src/**/*.{ts,tsx}' -e 'src/**/*.d.ts'",
     "clean:umd": "shx rm -rf umd",
@@ -55,6 +56,8 @@
     "react-dom": ">=16.0"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "3.4.3",
+    "@storybook/react": "3.4.3",
     "@types/classnames": "2.2.3",
     "@types/common-tags": "1.4.0",
     "@types/core-js": "0.9.43",
@@ -75,6 +78,8 @@
     "@types/redux": "3.6.0",
     "@types/redux-devtools-extension": "2.13.2",
     "@types/redux-thunk": "2.1.0",
+    "@types/storybook__addon-actions": "3.0.3",
+    "@types/storybook__react": "3.0.7",
     "@types/uniqid": "4.1.2",
     "@types/uuid": "2.0.30",
     "@types/webpack-env": "1.13.1",

@@ -29,13 +29,13 @@ import {
     StartSession,
     SwitchRouter,
     Wait,
-    WaitTypes
+    WaitTypes,
 } from '../flowTypes';
 import { capitalize } from '../utils';
 import { getLanguage } from '../utils/languageMap';
 
 const { assets: groupsResults } = require('../../__test__/assets/groups.json');
-const { assets: environment } = require('../../__test__/assets/environment.json');
+const environment = require('../../__test__/assets/environment.json');
 
 /**
  * Create a select control option
