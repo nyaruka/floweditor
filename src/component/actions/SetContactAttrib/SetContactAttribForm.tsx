@@ -148,6 +148,7 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
                 helpText="Select the contact's preferred language."
             >
                 <SelectSearch
+                    assets={this.context.assetService.getEnvironmentAssets()}
                     actionClearable={true}
                     resultType={ResultType.language}
                     localSearchOptions={this.props.languages}

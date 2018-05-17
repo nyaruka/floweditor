@@ -45,6 +45,15 @@ exports[`SetContactAttribForm render should render language dropdown 1`] = `
   >
     <SelectSearch
       actionClearable={true}
+      assets={
+        EnvironmentAssets {
+          "assetType": "environment",
+          "assets": Object {},
+          "endpoint": "/assets/environment.json",
+          "idProperty": "id",
+          "localStorage": true,
+        }
+      }
       closeOnSelect={true}
       initial={
         Array [
