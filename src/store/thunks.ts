@@ -6,7 +6,7 @@ import { v4 as generateUUID } from 'uuid';
 
 import { languageToAsset } from '../component/actions/SetContactAttrib/helpers';
 import { hasCases } from '../component/NodeEditor/NodeEditor';
-import { Types, Type, getTypeConfig } from '../config/typeConfigs';
+import { getTypeConfig, Type, Types } from '../config/typeConfigs';
 import {
     Action,
     AnyAction,
@@ -17,7 +17,7 @@ import {
     FlowPosition,
     SendMsg,
     StickyNote,
-    SwitchRouter
+    SwitchRouter,
 } from '../flowTypes';
 import AssetService, { Asset } from '../services/AssetService';
 import { NODE_SPACING, timeEnd, timeStart } from '../utils';
@@ -29,7 +29,7 @@ import {
     updateDefinition,
     updateLanguages,
     updateLocalizations,
-    updateNodes
+    updateNodes,
 } from './flowContext';
 import {
     updateCreateNodePosition,
@@ -40,7 +40,7 @@ import {
     updateNodeDragging,
     updateNodeEditorOpen,
     updatePendingConnection,
-    updateTranslating
+    updateTranslating,
 } from './flowEditor';
 import {
     determineConfigType,
@@ -49,7 +49,7 @@ import {
     getCollision,
     getFlowComponents,
     getGhostNode,
-    getLocalizations
+    getLocalizations,
 } from './helpers';
 import * as mutators from './mutators';
 import {
@@ -63,7 +63,7 @@ import {
     updateShowResultName,
     updateTimeout,
     updateTypeConfig,
-    updateUserAddingAction
+    updateUserAddingAction,
 } from './nodeEditor';
 import AppState from './state';
 
@@ -175,7 +175,7 @@ export const fetchFlow = (assetService: AssetService, uuid: string) => async (
 
     const [flows, environment] = await Promise.all([
         assetService.getFlowAssets().get(uuid),
-        assetService.getEnvironmentAssets().get()
+        assetService.getEnvironmentAssets().get('')
     ]);
 
     dispatch(initializeFlow(flows.content, assetService));

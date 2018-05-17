@@ -80,7 +80,7 @@ export class Assets {
         this.idProperty = IdProperty.UUID;
     }
 
-    public get(id: string = ''): Promise<Asset> {
+    public get(id: string): Promise<Asset> {
         const existing = this.assets[id];
         if (existing) {
             return new Promise<Asset>(resolve => {
