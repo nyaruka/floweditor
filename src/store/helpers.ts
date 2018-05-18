@@ -59,12 +59,8 @@ export const getActionIndex = (node: FlowNode, actionUUID: string) => {
     throw new Error('Cannot find action ' + actionUUID);
 };
 
-/**
- * Gets a suggested result name based on the current number of waits
- * in the current definition
- */
-export const getSuggestedResultName = (nodes: RenderNodeMap) => {
-    let count = 0;
+export const getResultCount = (nodes: RenderNodeMap) => {
+    let count = 1;
     // tslint:disable-next-line:forin
     for (const key in nodes) {
         const { node } = nodes[key];
@@ -72,8 +68,14 @@ export const getSuggestedResultName = (nodes: RenderNodeMap) => {
             count += 1;
         }
     }
-    return `Result ${count + 1}`;
+    return count;
 };
+
+/**
+ * Gets a suggested result name based on the current number of waits
+ * in the current definition
+ */
+export const getSuggestedResultName = (nodes: RenderNodeMap) => `Result ${getResultCount(nodes)}`;
 
 export const getLocalizations = (
     node: FlowNode,
