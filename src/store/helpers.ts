@@ -3,6 +3,7 @@ import { v4 as generateUUID } from 'uuid';
 import { DefaultExitNames } from '../component/NodeEditor/NodeEditor';
 import { Types } from '../config/typeConfigs';
 import {
+    AddLabels,
     AnyAction,
     ChangeGroups,
     Exit,
@@ -15,7 +16,6 @@ import {
     SwitchRouter,
     UINodeTypes,
     WaitTypes,
-    AddLabels
 } from '../flowTypes';
 import { Asset, AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
@@ -59,13 +59,23 @@ export const getActionIndex = (node: FlowNode, actionUUID: string) => {
     throw new Error('Cannot find action ' + actionUUID);
 };
 
+export const getResultCount = (nodes: RenderNodeMap) => {
+    let count = 1;
+    // tslint:disable-next-line:forin
+    for (const key in nodes) {
+        const { node } = nodes[key];
+        if (node.router) {
+            count += 1;
+        }
+    }
+    return count;
+};
+
 /**
  * Gets a suggested result name based on the current number of waits
  * in the current definition
  */
-export const getSuggestedResultName = (nodes: RenderNodeMap) => {
-    return 'Response ' + (Object.keys(nodes).length + 1);
-};
+export const getSuggestedResultName = (nodes: RenderNodeMap) => `Result ${getResultCount(nodes)}`;
 
 export const getLocalizations = (
     node: FlowNode,

@@ -11,14 +11,7 @@ import { bindActionCreators } from 'redux';
 import { ConfigProviderContext, fakePropType } from '../config/ConfigProvider';
 import { getOperatorConfig } from '../config/operatorConfigs';
 import { getTypeConfig, Types } from '../config/typeConfigs';
-import {
-    AnyAction,
-    FlowDefinition,
-    FlowNode,
-    RouterTypes,
-    SwitchRouter,
-    UINode
-} from '../flowTypes';
+import { AnyAction, FlowNode, RouterTypes, SwitchRouter, UINode } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
 import Plumber, { DragEvent } from '../services/Plumber';
 import {
@@ -38,9 +31,11 @@ import {
     updateDragGroup,
     UpdateDragSelection,
     UpdateNodeDragging,
-    updateNodeDragging
+    updateNodeDragging,
 } from '../store';
+import { RenderNodeMap } from '../store/flowContext';
 import { DragSelection, updateDragSelection } from '../store/flowEditor';
+import { getResultCount } from '../store/helpers';
 import { ClickHandler, createClickHandler, snapToGrid, titleCase } from '../utils';
 import ActionWrapper from './actions/Action';
 import CounterComp from './Counter';
@@ -78,8 +73,8 @@ export interface NodePassedProps {
 export interface NodeStoreProps {
     language: Language;
     translating: boolean;
-    definition: FlowDefinition;
     nodeDragging: boolean;
+    nodes: RenderNodeMap;
     updateNodeDragging: UpdateNodeDragging;
     onAddToNode: OnAddToNode;
     onNodeMoved: OnNodeMoved;
@@ -394,35 +389,37 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             !this.props.node.actions.length ||
             this.props.ui.type != null
         ) {
-            let type = this.props.node.router.type;
-
-            if (this.props.ui.type) {
-                type = this.props.ui.type as any;
-            }
-
-            const config = getTypeConfig(type);
-            let { name: title } = config;
+            const { type } = this.props.ui.type ? this.props.ui : this.props.node.router;
+            let { name: title } = getTypeConfig(type);
 
             if (this.props.node.router.type === RouterTypes.switch) {
                 const switchRouter = this.props.node.router as SwitchRouter;
                 if (switchRouter.result_name) {
-                    if (this.props.ui.type === Types.split_by_expression) {
+                    if (type === Types.split_by_expression) {
                         title = `Split by ${titleCase(switchRouter.result_name)}`;
-                    } else if (this.props.ui.type === Types.wait_for_response) {
+                    } else if (type === Types.wait_for_response) {
                         title = `Wait for ${titleCase(switchRouter.result_name)}`;
+                    }
+                } else {
+                    if (type === Types.wait_for_response) {
+                        // Subtracting 1 to account for the fact that this
+                        // node will already have been updated to a router node when
+                        // the 'getResultCount' method below is called, thus upping
+                        // the count 1 too many.
+                        const resultCount = getResultCount(this.props.nodes) - 1;
+                        title = `Wait for Result ${resultCount}`;
                     }
                 }
             }
 
+            // Router headers are introduced here while action headers are introduced in ./Action/Action
             if (!this.props.node.actions || !this.props.node.actions.length) {
-                // Router headers are introduced here while action headers are introduced in ./Action/Action
-
                 header = (
                     // Wrap in a relative parent so it honors node clipping
                     <div style={{ position: 'relative' }}>
                         <div {...this.events}>
                             <TitleBar
-                                __className={shared[this.hasMissing() ? 'missing' : config.type]}
+                                __className={shared[this.hasMissing() ? 'missing' : type]}
                                 showRemoval={!this.props.translating}
                                 onRemoval={this.onRemoval}
                                 title={title}
@@ -495,12 +492,12 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 }
 
 const mapStateToProps = ({
-    flowContext: { definition },
+    flowContext: { nodes },
     flowEditor: { editorUI: { language, translating }, flowUI: { nodeDragging, dragSelection } }
 }: AppState) => ({
     language,
+    nodes,
     translating,
-    definition,
     nodeDragging,
     dragSelection
 });

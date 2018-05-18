@@ -10,7 +10,7 @@ import {
     getLocalizations,
     getOrderedNodes,
     getSuggestedResultName,
-    getUniqueDestinations
+    getUniqueDestinations,
 } from './helpers';
 
 const mutate = require('immutability-helper');
@@ -46,7 +46,7 @@ describe('helpers', () => {
         const nodes = getFlowComponents(definition).renderNodeMap;
 
         it('should suggest response names', () => {
-            const suggestison = getSuggestedResultName({
+            const suggestion = getSuggestedResultName({
                 node0: {
                     node: { uuid: generateUUID(), actions: [], exits: [] },
                     ui: { position: { left: 100, top: 100 } },
@@ -54,7 +54,7 @@ describe('helpers', () => {
                 }
             });
 
-            expect(suggestison).toBe('Response 2');
+            expect(suggestion).toBe('Result 1');
         });
 
         it('should get unique destinations', () => {

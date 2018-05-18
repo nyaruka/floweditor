@@ -17,17 +17,11 @@ import {
     Languages,
     SendMsg,
     StickyNote,
-    SwitchRouter
+    SwitchRouter,
 } from '../flowTypes';
 import AssetService, { Asset, Assets } from '../services/AssetService';
 import { NODE_SPACING, timeEnd, timeStart } from '../utils';
-import {
-    RenderNode,
-    RenderNodeMap,
-    updateDefinition,
-    updateLocalizations,
-    updateNodes
-} from './flowContext';
+import { RenderNode, RenderNodeMap, updateDefinition, updateLocalizations, updateNodes } from './flowContext';
 import {
     updateCreateNodePosition,
     updateDragSelection,
@@ -35,7 +29,7 @@ import {
     updateGhostNode,
     updateNodeDragging,
     updateNodeEditorOpen,
-    updatePendingConnection
+    updatePendingConnection,
 } from './flowEditor';
 import {
     determineConfigType,
@@ -44,7 +38,7 @@ import {
     getCollision,
     getFlowComponents,
     getGhostNode,
-    getLocalizations
+    getLocalizations,
 } from './helpers';
 import * as mutators from './mutators';
 import {
@@ -58,7 +52,7 @@ import {
     updateShowResultName,
     updateTimeout,
     updateTypeConfig,
-    updateUserAddingAction
+    updateUserAddingAction,
 } from './nodeEditor';
 import AppState from './state';
 
@@ -455,10 +449,11 @@ export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction
     getState: GetState
 ) => {
     dispatch(updateTypeConfig(typeConfig));
+    const { type } = typeConfig;
     if (typeConfig.formHelper) {
         // tslint:disable-next-line:no-shadowed-variable
-        const action = actionToEdit && actionToEdit.type === typeConfig.type ? actionToEdit : null;
-        dispatch(updateForm(typeConfig.formHelper.actionToState(action, typeConfig.type)));
+        const action = actionToEdit && actionToEdit.type === type ? actionToEdit : null;
+        dispatch(updateForm(typeConfig.formHelper.actionToState(action, type)));
     } else {
         dispatch(updateForm(null));
     }

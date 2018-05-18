@@ -31,7 +31,7 @@ import {
     UINodeTypes,
     Wait,
     WaitTypes,
-    WebhookExitNames
+    WebhookExitNames,
 } from '../../flowTypes';
 import { Asset } from '../../services/AssetService';
 import { LocalizedObject } from '../../services/Localization';
@@ -56,7 +56,7 @@ import {
     updateShowResultName,
     UpdateShowResultName,
     UpdateUserAddingAction,
-    updateUserAddingAction
+    updateUserAddingAction,
 } from '../../store';
 import { RenderNode } from '../../store/flowContext';
 import { NodeEditorForm, NodeEditorSettings } from '../../store/nodeEditor';
@@ -291,6 +291,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             include: [
                 /^get/,
                 /^on/,
+                /^handle/,
                 /Ref$/,
                 /^get/,
                 /^add/,
@@ -367,7 +368,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         this.props.updateShowResultName(true);
     }
 
-    private onResultNameChange(resultName: string): void {
+    private handleResultNameChange(resultName: string): void {
         this.props.updateResultName(resultName);
     }
 
@@ -542,7 +543,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                     name="Result Name"
                     showLabel={true}
                     entry={{ value: this.props.resultName }}
-                    onChange={this.onResultNameChange}
+                    onChange={this.handleResultNameChange}
                     helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
                 />
             );
