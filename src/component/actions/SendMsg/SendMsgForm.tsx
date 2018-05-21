@@ -71,39 +71,6 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
         }
     }
 
-    private renderForm(): JSX.Element {
-        let placeholder = '';
-        let translation = null;
-
-        if (this.props.translating) {
-            translation = (
-                <div data-spec="translation-container">
-                    <div data-spec="text-to-translate" className={styles.translate_from}>
-                        {this.props.action.text}
-                    </div>
-                </div>
-            );
-            placeholder = `${this.props.language.name} Translation`;
-        }
-
-        return (
-            <div>
-                {translation}
-                <TextInputElement
-                    name="Message"
-                    showLabel={false}
-                    count={Count.SMS}
-                    onChange={this.handleUpdateMessage}
-                    entry={this.props.form.text}
-                    placeholder={placeholder}
-                    autocomplete={true}
-                    focus={true}
-                    textarea={true}
-                />
-            </div>
-        );
-    }
-
     public validate(): boolean {
         return this.handleUpdateMessage(this.props.form.text.value);
     }
@@ -141,6 +108,39 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
         return `New Reply "${value}"`;
     }
 
+    private renderForm(): JSX.Element {
+        let placeholder = '';
+        let translation = null;
+
+        if (this.props.translating) {
+            translation = (
+                <div data-spec="translation-container">
+                    <div data-spec="text-to-translate" className={styles.translate_from}>
+                        {this.props.action.text}
+                    </div>
+                </div>
+            );
+            placeholder = `${this.props.language.name} Translation`;
+        }
+
+        return (
+            <div>
+                {translation}
+                <TextInputElement
+                    name="Message"
+                    showLabel={false}
+                    count={Count.SMS}
+                    onChange={this.handleUpdateMessage}
+                    entry={this.props.form.text}
+                    placeholder={placeholder}
+                    autocomplete={true}
+                    focus={true}
+                    textarea={true}
+                />
+            </div>
+        );
+    }
+
     private renderAdvanced(): JSX.Element {
         if (this.props.translating) {
             return (
@@ -160,7 +160,7 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
         }
 
         return (
-            <div>
+            <>
                 <p>Quick Replies are made into buttons for supported channels</p>
                 <TaggingElement
                     name="Replies"
@@ -177,7 +177,7 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
                     description="Send a message to all destinations known for this contact."
                     onChange={this.handleUpdateSendAll}
                 />
-            </div>
+            </>
         );
     }
 

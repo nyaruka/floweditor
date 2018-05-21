@@ -3,13 +3,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import update from 'immutability-helper';
 import * as React from 'react';
-import {
-    DragDropContext,
-    Draggable,
-    DraggableStyle,
-    Droppable,
-    DropResult
-} from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, DraggableStyle, Droppable, DropResult } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 
