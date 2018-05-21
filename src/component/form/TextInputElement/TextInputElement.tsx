@@ -127,9 +127,13 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         return this.props.focus && this.focusInput();
     }
 
-    // public componentDidUpdate(previous: TextInputProps): void {
-    //     return this.selectedEl && this.selectedEl.scrollIntoView(false);
-    // }
+    public componentDidUpdate(previous: TextInputProps): void {
+        if (this.selectedEl) {
+            if (this.selectedEl.scrollIntoView) {
+                this.selectedEl.scrollIntoView(false);
+            }
+        }
+    }
 
     private onKeyDown(event: React.KeyboardEvent<HTMLTextElement>): void {
         if (!this.props.autocomplete) {
@@ -284,14 +288,14 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
                 updates.query = query;
                 updates.matches = filterOptions(this.state.options, query);
-            } else {
-                if (this.props.count === Count.SMS) {
-                    const stats = getMsgStats(value, true);
+            }
 
-                    updates.parts = stats.parts;
-                    updates.characterCount = stats.characterCount;
-                    updates.unicodeChars = stats.unicodeChars;
-                }
+            if (this.props.count === Count.SMS) {
+                const stats = getMsgStats(value, true);
+
+                updates.parts = stats.parts;
+                updates.characterCount = stats.characterCount;
+                updates.unicodeChars = stats.unicodeChars;
             }
 
             updates.caretOffset = selectionStart;
