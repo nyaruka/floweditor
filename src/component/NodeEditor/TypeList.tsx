@@ -1,7 +1,8 @@
 import * as React from 'react';
 import Select from 'react-select';
 
-import { Type, typeConfigList } from '../../config';
+import { Type } from '../../config';
+import { configsToDisplay } from '../../config/typeConfigs';
 import * as formStyles from './NodeEditor.scss';
 
 export interface TypeListProps {
@@ -48,7 +49,7 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
                         searchable={false}
                         clearable={false}
                         labelKey="description"
-                        options={typeConfigList.filter(type => type.type !== 'missing')}
+                        options={configsToDisplay}
                     />
                 </div>
             </div>

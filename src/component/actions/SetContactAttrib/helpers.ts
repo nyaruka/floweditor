@@ -1,9 +1,8 @@
-import { v4 as generateUUID } from 'uuid';
-
 import { Types } from '../../../config/typeConfigs';
 import {
     Action,
     Field,
+    Language,
     SetContactField,
     SetContactName,
     SetContactProperty
@@ -54,11 +53,7 @@ export const newPropertyAction = ({
     }
 };
 
-export const fieldToAsset = ({
-    uuid = generateUUID(),
-    field = { key: '', name: '' },
-    type = Types.set_contact_field
-}: SetContactField): Asset => ({
+export const fieldToAsset = (field: Field = { key: '', name: '' }): Asset => ({
     id: field.key,
     name: field.name,
     type: AssetType.Field
@@ -69,11 +64,9 @@ export const assetToField = (asset: Asset): Field => ({
     name: asset.name
 });
 
-export const propertyToAsset = ({
-    uuid = generateUUID(),
-    name = '',
-    type = Types.set_contact_name
-}: SetContactProperty): Asset => {
+export const propertyToAsset = (
+    type: Types.set_contact_name | Types.set_contact_language | Types.set_contact_language
+): Asset => {
     switch (type) {
         case Types.set_contact_name:
             return {
@@ -81,5 +74,17 @@ export const propertyToAsset = ({
                 name: titleCase(AssetType.Name),
                 id: AssetType.Name
             };
+        case Types.set_contact_language:
+            return {
+                type: AssetType.Language,
+                name: titleCase(AssetType.Language),
+                id: AssetType.Language
+            };
     }
 };
+
+export const languageToAsset = ({ iso, name }: Language) => ({
+    id: iso,
+    name,
+    type: AssetType.Language
+});

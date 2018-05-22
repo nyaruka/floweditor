@@ -1,9 +1,5 @@
 const config = {
-    flow: 'a4f64f1b-85bc-477e-b706-de313a022979',
-    languages: {
-        eng: 'English',
-        spa: 'Spanish'
-    }
+    flow: 'a4f64f1b-85bc-477e-b706-de313a022979'
 };
 
 if (process.env.RAPID_FLOW) {
@@ -18,6 +14,7 @@ if (process.env.RAPID_FLOW) {
             recipients: '/contact/omnibox/',
             fields: base + 'field',
             labels: base + 'label',
+            environment: base + 'environment',
             activity: '',
             simulateStart: '/flow/start',
             simulateResume: '/flow/resume'
@@ -34,6 +31,7 @@ if (process.env.RAPID_FLOW) {
                       recipients: 'recipients',
                       fields: 'fields',
                       labels: 'labels',
+                      environment: 'environment',
                       activity: '',
                       simulateStart: '',
                       simulateResume: ''
@@ -47,6 +45,7 @@ if (process.env.RAPID_FLOW) {
                       recipients: '/assets/recipient',
                       fields: '/assets/field',
                       labels: '/assets/label',
+                      environment: '/assets/environment',
                       activity: '',
                       simulateStart: '/flow/start',
                       simulateResume: '/flow/resume'

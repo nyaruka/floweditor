@@ -6,9 +6,8 @@ import {
     NewOptionCreatorHandler
 } from 'react-select';
 
-import { Language } from '../component/LanguageSelector';
-import { Action, Case, ContactProperties, Exit, Languages, LocalizationMap } from '../flowTypes';
-import { AssetType } from '../services/AssetService';
+import { Action, Case, ContactProperties, Exit, LocalizationMap } from '../flowTypes';
+import { Asset, AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { FormEntry } from '../store/nodeEditor';
 import * as variables from '../variables.scss';
@@ -193,32 +192,11 @@ export const createClickHandler = (
     };
 };
 
-/**
- * Get the first language in a Languages map
- */
-export const getBaseLanguage = (languages: Languages): Language => {
-    const [iso] = Object.keys(languages);
-    const name = languages[iso];
-    return {
-        name,
-        iso
-    };
-};
-
-/**
- * Get a language from a Languages map in Language format
- */
-export const getLanguage = (languages: Languages, iso: string): Language => ({
-    name: languages[iso],
-    iso
-});
-
 export const getLocalization = (
     obj: Action | Exit | Case,
     localization: LocalizationMap,
-    iso: string,
-    languages: Languages
-) => Localization.translate(obj, iso, languages, localization[iso]);
+    language: Asset
+) => Localization.translate(obj, language, localization[language.id]);
 
 /** istanbul ignore next */
 export const dump = (thing: any) => console.log(JSON.stringify(thing, null, 2));
@@ -244,7 +222,8 @@ export const propertyExists = (propertyToCheck: string) => {
 /**
  * Should x element be rendered?
  */
-export const renderIf = (predicate: boolean) => (element: JSX.Element) => predicate && element;
+export const renderIf = (predicate: boolean) => (then: JSX.Element, otherwise?: JSX.Element) =>
+    predicate ? then : otherwise ? otherwise : null;
 
 /**
  * Does the label meet our length requirements?

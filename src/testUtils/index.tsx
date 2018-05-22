@@ -7,13 +7,15 @@ import * as configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import * as config from '../../__test__/config';
+import { languageToAsset } from '../component/actions/SetContactAttrib/helpers';
 import { ConfigProviderContext } from '../config';
 import { fakePropType } from '../config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
 import AssetService from '../services/AssetService';
 import { AppState, createStore, initialState } from '../store';
 import { getFlowComponents } from '../store/helpers';
-import { getBaseLanguage, merge, set } from '../utils';
+import { merge, set } from '../utils';
+import { getLanguage } from '../utils/languageMap';
 
 const boring: FlowDefinition = require('../../__test__/flows/boring.json');
 
@@ -28,7 +30,6 @@ export interface QueryString {
 export const contextTypes: { [key: string]: Function } = {
     store: fakePropType,
     endpoints: fakePropType,
-    languages: fakePropType,
     flow: fakePropType,
     assetService: fakePropType
 };
@@ -39,7 +40,7 @@ export const baseState: AppState = mutate(initialState, {
     }),
     flowEditor: {
         editorUI: merge({
-            language: getBaseLanguage((config as FlowEditorConfig).languages)
+            language: languageToAsset(getLanguage('eng'))
         })
     }
 });
@@ -48,7 +49,6 @@ const flowEditorConfig: FlowEditorConfig = config;
 
 export const configProviderContext: ConfigProviderContext = {
     endpoints: flowEditorConfig.endpoints,
-    languages: flowEditorConfig.languages,
     flow: flowEditorConfig.flow,
     assetService: new AssetService(flowEditorConfig)
 };
@@ -118,7 +118,7 @@ export const flushPromises = () => new Promise(resolve => setImmediate(resolve))
  * Use to declaratively restore multiple spy mocks,
  * otherwise just call .mockRestore() on lone spy.
  */
-export const restoreSpies = (...spies: jest.SpyInstance[]) =>
+export const restoreSpies = (...spies: Array<jest.SpyInstance<any>>) =>
     spies.forEach(spy => spy.mockRestore());
 
 // To-do: type this method's output, can pass it prop generic ingested by getComponentTestUtils

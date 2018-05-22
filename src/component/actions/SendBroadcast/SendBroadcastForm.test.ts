@@ -2,7 +2,7 @@ import { getTypeConfig } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
 import { LocalizedObject } from '../../../services/Localization';
 import { composeComponentTestUtils, getSpecWrapper } from '../../../testUtils';
-import { createBroadcastMsgAction } from '../../../testUtils/assetCreators';
+import { createBroadcastMsgAction, Spanish } from '../../../testUtils/assetCreators';
 import { SendBroadcastForm, SendBroadcastFormProps } from './SendBroadcastForm';
 import { SendBroadcastFormHelper } from './SendBroadcastFormHelper';
 
@@ -85,8 +85,8 @@ describe(SendBroadcastForm.name, () => {
             const { instance, props } = setup(true, {
                 $merge: {
                     translating: true,
-                    language: { name: 'Spanish', iso: 'spa' },
-                    localizations: [new LocalizedObject(broadcastMsgAction, 'spa', {})],
+                    language: Spanish,
+                    localizations: [new LocalizedObject(broadcastMsgAction, Spanish)],
                     form: { ...formHelper.actionToState(broadcastMsgAction), text: '' },
                     updateLocalizations: jest.fn()
                 }
@@ -102,15 +102,15 @@ describe(SendBroadcastForm.name, () => {
             const { instance, props } = setup(true, {
                 $merge: {
                     translating: true,
-                    language: { name: 'Spanish', iso: 'spa' },
-                    localizations: [new LocalizedObject(broadcastMsgAction, 'spa', {})],
+                    language: Spanish,
+                    localizations: [new LocalizedObject(broadcastMsgAction, Spanish)],
                     updateLocalizations: jest.fn()
                 }
             });
 
             instance.onValid();
             expect(props.updateLocalizations).toBeCalledWith('spa', [
-                { translations: { text: 'Hello World' }, uuid: 'send_broadcast-0' }
+                { translations: { text: ['Hello World'] }, uuid: 'send_broadcast-0' }
             ]);
         });
     });
@@ -142,7 +142,7 @@ describe(SendBroadcastForm.name, () => {
                 $merge: {
                     translating: true,
                     language: { name: 'Spanish', iso: 'spa' },
-                    localizations: [new LocalizedObject(broadcastMsgAction, 'spa', {})],
+                    localizations: [new LocalizedObject(broadcastMsgAction, Spanish)],
                     updateSendBroadcastForm: jest.fn().mockReturnValue(true)
                 }
             });

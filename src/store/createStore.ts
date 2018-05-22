@@ -1,20 +1,11 @@
 import { applyMiddleware, createStore, Middleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 
 import rootReducer from './rootReducer';
 import AppState, { initialState } from './state';
 
 const middlewares: Middleware[] = [thunk];
-
-/* istanbul ignore next */
-if (process.env.NODE_ENV === 'development') {
-    const logger = createLogger({
-        duration: true
-    });
-    // middlewares.push(logger);
-}
 
 export default (state: AppState = initialState) => {
     const store = createStore(

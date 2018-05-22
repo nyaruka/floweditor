@@ -8,7 +8,6 @@ import * as FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { ConfigProviderContext, fakePropType } from '../config/ConfigProvider';
 import { getOperatorConfig } from '../config/operatorConfigs';
 import { getTypeConfig, Types } from '../config/typeConfigs';
 import {
@@ -45,7 +44,6 @@ import { ClickHandler, createClickHandler, snapToGrid, titleCase } from '../util
 import ActionWrapper from './actions/Action';
 import CounterComp from './Counter';
 import ExitComp from './Exit';
-import { Language } from './LanguageSelector';
 import * as styles from './Node.scss';
 import * as shared from './shared.scss';
 import TitleBar from './TitleBar';
@@ -76,7 +74,6 @@ export interface NodePassedProps {
 }
 
 export interface NodeStoreProps {
-    language: Language;
     translating: boolean;
     definition: FlowDefinition;
     nodeDragging: boolean;
@@ -108,12 +105,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     private clicking: boolean;
     private events: ClickHandler;
 
-    public static contextTypes = {
-        languages: fakePropType
-    };
-
-    constructor(props: NodeProps, context: ConfigProviderContext) {
-        super(props, context);
+    constructor(props: NodeProps) {
+        super(props);
 
         this.state = { thisNodeDragging: false };
 
@@ -280,10 +273,9 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         if (!this.props.nodeDragging) {
             // prettier-ignore
             this.props.onOpenNodeEditor(
-            this.props.node,
-            null,
-            this.context.languages
-        );
+                this.props.node,
+                null,
+            );
         }
     }
 
@@ -496,9 +488,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
 const mapStateToProps = ({
     flowContext: { definition },
-    flowEditor: { editorUI: { language, translating }, flowUI: { nodeDragging, dragSelection } }
+    flowEditor: { editorUI: { translating }, flowUI: { nodeDragging, dragSelection } }
 }: AppState) => ({
-    language,
     translating,
     definition,
     nodeDragging,

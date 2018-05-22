@@ -2,10 +2,13 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { ConfigProviderContext } from '../config';
-import { getActivity } from '../external';
-import { FlowDefinition, Languages, FlowNode, UINode, StickyNote } from '../flowTypes';
 import { v4 as generateUUID } from 'uuid';
+
+import { ConfigProviderContext } from '../config';
+import { fakePropType } from '../config/ConfigProvider';
+import { Types } from '../config/typeConfigs';
+import { getActivity } from '../external';
+import { FlowDefinition, FlowNode } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
 import Plumber from '../services/Plumber';
 import {
@@ -20,34 +23,24 @@ import {
     OnOpenNodeEditor,
     onOpenNodeEditor,
     resetNodeEditingState,
-    updateConnection,
     UpdateConnection,
+    updateConnection,
     updateCreateNodePosition,
     UpdateCreateNodePosition,
     UpdateDragSelection,
     updateDragSelection,
-    updateSticky,
-    UpdateSticky
+    UpdateSticky,
+    updateSticky
 } from '../store';
 import { RenderNode } from '../store/flowContext';
 import { DragSelection } from '../store/flowEditor';
 import { getCollisions } from '../store/helpers';
-import {
-    isRealValue,
-    renderIf,
-    snapToGrid,
-    NODE_PADDING,
-    timeStart,
-    timeEnd,
-    dump
-} from '../utils';
+import { isRealValue, NODE_PADDING, renderIf, snapToGrid, timeEnd, timeStart } from '../utils';
 import * as styles from './Flow.scss';
 import ConnectedNode, { DragPoint } from './Node';
 import ConnectedNodeEditor from './NodeEditor/NodeEditor';
 import Simulator from './Simulator/Simulator';
 import Sticky from './Sticky';
-import { Types } from '../config/typeConfigs';
-import { fakePropType } from '../config/ConfigProvider';
 
 export interface FlowStoreProps {
     translating: boolean;
@@ -113,7 +106,6 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     private ghost: any;
 
     public static contextTypes = {
-        languages: fakePropType,
         endpoints: fakePropType
     };
 
@@ -226,7 +218,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             this.props.updateCreateNodePosition({ left, top });
 
             // Bring up the node editor
-            this.props.onOpenNodeEditor(this.props.ghostNode, null, this.context.languages);
+            this.props.onOpenNodeEditor(this.props.ghostNode, null);
         }
 
         // To-do: mock this out

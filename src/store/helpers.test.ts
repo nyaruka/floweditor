@@ -2,6 +2,7 @@ import { v4 as generateUUID } from 'uuid';
 
 import { Types } from '../config/typeConfigs';
 import { Case, Exit, FlowDefinition, FlowPosition, RouterTypes, SendMsg } from '../flowTypes';
+import { Spanish } from '../testUtils/assetCreators';
 import {
     determineConfigType,
     getCollisions,
@@ -95,8 +96,7 @@ describe('helpers', () => {
                 const localizations = getLocalizations(
                     node,
                     node.actions[0],
-                    'spa',
-                    { spa: 'Spanish' },
+                    Spanish,
                     translations
                 );
 
@@ -115,8 +115,7 @@ describe('helpers', () => {
                 const localizations = getLocalizations(
                     node,
                     node.actions[0],
-                    'spa',
-                    { spa: 'Spanish' },
+                    Spanish,
                     translations
                 );
 

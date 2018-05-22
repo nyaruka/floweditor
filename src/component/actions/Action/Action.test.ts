@@ -1,18 +1,14 @@
 import { getTypeConfig } from '../../../config';
-import {
-    composeComponentTestUtils,
-    configProviderContext,
-    getSpecWrapper,
-    setMock
-} from '../../../testUtils';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../../testUtils';
 import {
     createExit,
     createFlowNode,
     createSendMsgAction,
     createStartFlowAction,
-    createStartFlowNode
+    createStartFlowNode,
+    English
 } from '../../../testUtils/assetCreators';
-import { getLanguage, getLocalization, set, setFalse, setTrue } from '../../../utils';
+import { getLocalization, set, setFalse, setTrue } from '../../../utils';
 import {
     actionBodySpecId,
     actionContainerSpecId,
@@ -27,8 +23,6 @@ const sendMsgAction1 = createSendMsgAction({ uuid: 'send_msg-1', text: 'Yo!' });
 const sendMsgNode = createFlowNode({ actions: [sendMsgAction], exits: [createExit()] });
 const startFlowAction = createStartFlowAction();
 const startFlowNode = createStartFlowNode(startFlowAction);
-const english = getLanguage(configProviderContext.languages, 'eng');
-const spanish = getLanguage(configProviderContext.languages, 'spa');
 const localization = {
     spa: {
         [sendMsgAction.uuid]: {
@@ -37,21 +31,21 @@ const localization = {
     }
 };
 
-const baseProps = {
+const baseProps: ActionWrapperProps = {
     thisNodeDragging: false,
     localization,
     first: true,
     action: sendMsgAction,
     render: jest.fn(),
     node: sendMsgNode,
-    language: english,
+    language: English,
     translating: false,
     onOpenNodeEditor: jest.fn(),
     removeAction: jest.fn(),
     moveActionUp: jest.fn()
 };
 
-const { setup, spyOn } = composeComponentTestUtils<ActionWrapperProps>(ActionWrapper, baseProps);
+const { setup, spyOn } = composeComponentTestUtils(ActionWrapper, baseProps);
 
 describe(ActionWrapper.name, () => {
     describe('render', () => {
@@ -165,12 +159,9 @@ describe(ActionWrapper.name, () => {
                 instance.onClick(mockEvent);
 
                 expect(props.onOpenNodeEditor).toHaveBeenCalledTimes(1);
-                expect(props.onOpenNodeEditor).toHaveBeenCalledWith(
-                    props.node,
-                    props.action,
-                    context.languages,
-                    { showAdvanced: false }
-                );
+                expect(props.onOpenNodeEditor).toHaveBeenCalledWith(props.node, props.action, {
+                    showAdvanced: false
+                });
             });
         });
 
@@ -222,8 +213,7 @@ describe(ActionWrapper.name, () => {
                 const localizedObject = getLocalization(
                     props.action,
                     props.localization,
-                    props.language.iso,
-                    context.languages
+                    props.language
                 ).getObject();
 
                 expect(instance.getAction()).toEqual(localizedObject);

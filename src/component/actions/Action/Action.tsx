@@ -4,10 +4,10 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { ConfigProviderContext, getTypeConfig } from '../../../config';
-import { fakePropType } from '../../../config/ConfigProvider';
-import { Types } from '../../../config/typeConfigs';
-import { AnyAction, FlowNode, LocalizationMap } from '../../../flowTypes';
+import { ConfigProviderContext, fakePropType } from '../../../config/ConfigProvider';
+import { getTypeConfig, Types } from '../../../config/typeConfigs';
+import { Action, AnyAction, FlowNode, LocalizationMap } from '../../../flowTypes';
+import { Asset } from '../../../services/AssetService';
 import {
     ActionAC,
     AppState,
@@ -18,7 +18,6 @@ import {
     removeAction
 } from '../../../store';
 import { createClickHandler, getLocalization } from '../../../utils';
-import { Language } from '../../LanguageSelector';
 import * as shared from '../../shared.scss';
 import TitleBar from '../../TitleBar';
 import * as styles from './Action.scss';
@@ -33,7 +32,7 @@ export interface ActionWrapperPassedProps {
 
 export interface ActionWrapperStoreProps {
     node: FlowNode;
-    language: Language;
+    language: Asset;
     translating: boolean;
     onOpenNodeEditor: OnOpenNodeEditor;
     removeAction: ActionAC;
@@ -52,7 +51,7 @@ const cx = classNames.bind({ ...shared, ...styles });
 // Note: this needs to be a ComponentClass in order to work w/ react-flip-move
 export class ActionWrapper extends React.Component<ActionWrapperProps> {
     public static contextTypes = {
-        languages: fakePropType
+        assetService: fakePropType
     };
 
     constructor(props: ActionWrapperProps, context: ConfigProviderContext) {
@@ -71,12 +70,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         if (!this.props.thisNodeDragging) {
             event.preventDefault();
             event.stopPropagation();
-            this.props.onOpenNodeEditor(
-                this.props.node,
-                this.props.action,
-                this.context.languages,
-                { showAdvanced }
-            );
+            this.props.onOpenNodeEditor(this.props.node, this.props.action, { showAdvanced });
         }
     }
 
@@ -91,12 +85,11 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         this.props.moveActionUp(this.props.node.uuid, this.props.action);
     }
 
-    public getAction(): AnyAction {
+    public getAction(): Action {
         const localization = getLocalization(
             this.props.action,
             this.props.localization,
-            this.props.language.iso,
-            this.context.languages
+            this.props.language
         );
 
         return localization && this.props.translating
@@ -120,8 +113,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
                 const localization = getLocalization(
                     this.props.action,
                     this.props.localization,
-                    this.props.language.iso,
-                    this.context.languages
+                    this.props.language
                 );
 
                 if (localization.isLocalized()) {
@@ -182,6 +174,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     }
 }
 
+/* istanbul ignore next */
 const mapStateToProps = ({
     flowContext: { definition: { localization } },
     flowEditor: { editorUI: { language, translating } }
@@ -191,6 +184,7 @@ const mapStateToProps = ({
     localization
 });
 
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {

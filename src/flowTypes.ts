@@ -13,6 +13,18 @@ export interface Languages {
     [iso: string]: string;
 }
 
+export interface Language {
+    name: string;
+    iso: string;
+}
+
+export interface Environment {
+    date_format: string;
+    time_format: string;
+    timezone: string;
+    languages: string[];
+}
+
 export interface Endpoints {
     fields: string;
     groups: string;
@@ -20,16 +32,16 @@ export interface Endpoints {
     flows: string;
     activity: string;
     labels: string;
+    environment: string;
     simulateStart: string;
     simulateResume: string;
 }
 
 export interface FlowEditorConfig {
-    assetService?: AssetService;
     localStorage: boolean;
-    languages: { [iso: string]: string };
     endpoints: Endpoints;
     flow: string;
+    assetService?: AssetService;
     path?: string;
 }
 
@@ -146,7 +158,17 @@ export interface SetContactName extends Action {
     name: string;
 }
 
-export type SetContactProperty = SetContactName;
+export interface SetContactLanguage extends Action {
+    type: Types.set_contact_language;
+    language: string;
+}
+
+export interface SetContactLanguage extends Action {
+    type: Types.set_contact_language;
+    language: string;
+}
+
+export type SetContactProperty = SetContactName | SetContactLanguage;
 
 export type SetContactAttribute = SetContactField | SetContactProperty;
 
@@ -262,26 +284,27 @@ export type AnyAction =
     | StartSession;
 
 export enum ContactProperties {
-    UUID = 'UUID',
-    'Created By' = 'Created By',
-    'Modified By' = 'Modified By',
-    Org = 'Org',
-    Name = 'Name',
-    Language = 'Language',
-    Timezone = 'Timezone',
-    Email = 'Email',
-    Mailto = 'Mailto',
-    Phone = 'Phone',
-    Groups = 'Groups',
-    Facebook = 'Facebook',
-    Telegram = 'Telegram'
+    UUID = 'uuid',
+    'Created By' = 'created_by',
+    'Modified By' = 'modified_by',
+    Org = '0rg',
+    Name = 'name',
+    Language = 'language',
+    Timezone = 'timezone',
+    Email = 'email',
+    Mailto = 'mailto',
+    Phone = 'phone',
+    Groups = 'groups',
+    Facebook = 'facebook',
+    Telegram = 'telegram'
 }
 
 export enum ResultType {
     flow = 'flow',
     field = 'field',
     group = 'group',
-    label = 'label'
+    label = 'label',
+    language = 'language'
 }
 
 export enum ValueType {

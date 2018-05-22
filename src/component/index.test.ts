@@ -1,23 +1,22 @@
 import { editorContainerSpecId, editorSpecId, FlowEditor, FlowEditorStoreProps } from '.';
-import { FlowEditorConfig } from '../flowTypes';
 import {
     composeComponentTestUtils,
     configProviderContext,
-    Resp,
     getSpecWrapper,
     setMock
 } from '../testUtils';
-import { getBaseLanguage, getLanguage, setTrue, set } from '../utils';
+import { English, languages } from '../testUtils/assetCreators';
+import { set, setTrue } from '../utils';
 
 const colorsFlow = require('../../__test__/flows/colors.json');
 
 const baseProps: FlowEditorStoreProps = {
-    language: null,
+    language: English,
+    languages,
     translating: false,
     fetchingFlow: false,
     definition: null,
     dependencies: null,
-    updateLanguage: jest.fn(),
     fetchFlow: jest.fn()
 };
 
@@ -25,6 +24,7 @@ const { setup, spyOn } = composeComponentTestUtils(FlowEditor, baseProps);
 
 describe('Root', () => {
     const definition = require('../../__test__/flows/boring.json');
+
     describe('render', () => {
         it('should render self, children with required props', () => {
             const { wrapper } = setup();
@@ -47,7 +47,7 @@ describe('Root', () => {
 
         it('should render flow if passed a definition, language', () => {
             const { wrapper } = setup(true, {
-                language: set(getLanguage(configProviderContext.languages, 'eng')),
+                language: set(English),
                 definition: set(colorsFlow)
             });
 
@@ -74,10 +74,6 @@ describe('Root', () => {
                     fetchFlows: setMock()
                 });
 
-                expect(props.updateLanguage).toHaveBeenCalledTimes(1);
-                expect(props.updateLanguage).toHaveBeenCalledWith(
-                    getBaseLanguage(configProviderContext.languages)
-                );
                 expect(props.fetchFlow).toHaveBeenCalledTimes(1);
                 expect(props.fetchFlow).toHaveBeenCalledWith(
                     configProviderContext.assetService,

@@ -1,9 +1,10 @@
+import { Types } from '../../../config/typeConfigs';
+import { AssetType } from '../../../services/AssetService';
 import {
     createSetContactFieldAction,
     createSetContactNameAction
 } from '../../../testUtils/assetCreators';
-import { newFieldAction, newPropertyAction, propertyToAsset, fieldToAsset } from './helpers';
-import { AssetType } from '../../../services/AssetService';
+import { fieldToAsset, newFieldAction, newPropertyAction, propertyToAsset } from './helpers';
 
 const setContactName = createSetContactNameAction();
 const setContactField = createSetContactFieldAction();
@@ -34,7 +35,7 @@ describe('newPropertyAction', () => {
 
 describe('fieldToAsset', () => {
     it('should return a Asset object', () => {
-        expect(fieldToAsset(setContactField)).toEqual({
+        expect(fieldToAsset(setContactField.field)).toEqual({
             id: setContactField.field.key,
             name: setContactField.field.name,
             type: AssetType.Field
@@ -44,6 +45,6 @@ describe('fieldToAsset', () => {
 
 describe('propertyToAsset', () => {
     it('should return an Asset object', () => {
-        expect(propertyToAsset(setContactName)).toMatchSnapshot();
+        expect(propertyToAsset(Types.set_contact_name)).toMatchSnapshot();
     });
 });

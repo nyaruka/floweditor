@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import { Type } from '../../../config';
 import { FlowDefinition, SendMsg } from '../../../flowTypes';
+import { Asset } from '../../../services/AssetService';
 import Localization, { LocalizedObject } from '../../../services/Localization';
 import { AppState, DispatchWithState } from '../../../store';
 import { SendMsgFunc, updateSendMsgForm } from '../../../store/forms';
@@ -14,7 +15,6 @@ import * as styles from '../../actions/Action/Action.scss';
 import CheckboxElement from '../../form/CheckboxElement';
 import TaggingElement from '../../form/TaggingElement/TaggingElement';
 import TextInputElement, { Count } from '../../form/TextInputElement';
-import { Language } from '../../LanguageSelector';
 import { UpdateLocalizations } from '../../NodeEditor';
 import * as localStyles from './SendMsgForm.scss';
 import { SendMsgFormHelper } from './SendMsgFormHelper';
@@ -22,7 +22,7 @@ import { SendMsgFormHelper } from './SendMsgFormHelper';
 const MAX_REPLIES = 10;
 
 export interface SendMsgFormStoreProps {
-    language: Language;
+    language: Asset;
     translating: boolean;
     typeConfig: Type;
     definition: FlowDefinition;
@@ -57,11 +57,11 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
             const translation = this.props.form.text ? this.props.form.text.value : null;
 
             if (translation) {
-                this.props.updateLocalizations(this.props.language.iso, [
+                this.props.updateLocalizations(this.props.language.id, [
                     { uuid: this.props.action.uuid, translations: { text: translation } }
                 ]);
             } else {
-                this.props.updateLocalizations(this.props.language.iso, [
+                this.props.updateLocalizations(this.props.language.id, [
                     { uuid: this.props.action.uuid, translations: null }
                 ]);
             }
