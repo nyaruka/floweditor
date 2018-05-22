@@ -96,7 +96,7 @@ export class Assets {
                 .then((response: AxiosResponse) => {
                     const ob = response.data;
                     const uuid = ob.uuid || generateUUID();
-                    const name = ob.name || uuid;
+                    const name = ob.name || '';
                     const asset = {
                         id: uuid,
                         name,
