@@ -10,5 +10,6 @@ module.exports = {
     testUtils: join(__dirname, '../src/testUtils'),
     react: resolve(__dirname, './node_modules/react'),
     reactDom: resolve(__dirname, './node_modules/react-dom'),
-    umd: join(__dirname, '../umd')
+    umd: join(__dirname, '../umd'),
+    stories: join(__dirname, '../stories')
 };
