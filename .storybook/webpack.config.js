@@ -9,7 +9,7 @@ module.exports = (baseConfig, env, config) => {
     config.module.rules.push(
         {
             test: /\.s?css$/,
-            include: [paths.component],
+            include: [paths.component, paths.stories],
             use: ['style-loader', typingsForCssModulesLoader(), postCSSLoader, 'sass-loader']
         },
         {

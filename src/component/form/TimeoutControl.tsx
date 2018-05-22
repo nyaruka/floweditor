@@ -43,6 +43,8 @@ export const TIMEOUT_OPTIONS = [
 
 export const DEFAULT_TIMEOUT = TIMEOUT_OPTIONS[4];
 
+export const ellipsize = (str: string) => `${str}...`;
+
 export class TimeoutControl extends React.Component<TimeoutControlStoreProps, TimeoutControlState> {
     constructor(props: TimeoutControlStoreProps) {
         super(props);
@@ -86,7 +88,7 @@ export class TimeoutControl extends React.Component<TimeoutControlStoreProps, Ti
 
     private getInstructions(): string {
         const base = 'Continue when there is no response';
-        return this.props.checked ? `${base} for` : base;
+        return this.props.checked ? `${base} for` : ellipsize(base);
     }
 
     public render(): JSX.Element {

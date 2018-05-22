@@ -270,7 +270,7 @@ exports[`Modal render should render timeout control 1`] = `
                             <CheckboxElement
                               checkboxClassName="checkbox"
                               checked={false}
-                              description="Continue when there is no response"
+                              description="Continue when there is no response..."
                               name="Timeout"
                               onChange={[Function]}
                             >
@@ -280,11 +280,13 @@ exports[`Modal render should render timeout control 1`] = `
                               >
                                 <span
                                   className="fe-square checkbox"
+                                  data-spec="checkbox"
                                 />
                                 <div
                                   className="descriptionSolo"
+                                  data-spec="description"
                                 >
-                                  Continue when there is no response
+                                  Continue when there is no response...
                                 </div>
                               </label>
                             </CheckboxElement>

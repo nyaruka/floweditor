@@ -119,6 +119,7 @@ export class RemoveGroupsForm extends React.Component<ChangeGroupsFormProps> {
     }
 }
 
+/* istanbul ignore next */
 const mapStateToProps = ({ nodeEditor: { form } }: AppState) => ({
     form
 });

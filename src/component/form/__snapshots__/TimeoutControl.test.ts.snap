@@ -10,7 +10,7 @@ exports[`TimeoutControl render should render only checkbox, instructions if not 
     <CheckboxElement
       checkboxClassName="checkbox"
       checked={false}
-      description="Continue when there is no response"
+      description="Continue when there is no response..."
       name="Timeout"
       onChange={[Function]}
     />

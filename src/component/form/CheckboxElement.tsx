@@ -5,7 +5,7 @@ import { isRealValue, renderIf } from '../../utils';
 import * as styles from './CheckboxElement.scss';
 import { FormElementProps } from './FormElement';
 
-interface CheckboxElementProps extends FormElementProps {
+export interface CheckboxElementProps extends FormElementProps {
     checked: boolean;
     title?: string;
     description?: string;
@@ -17,6 +17,13 @@ interface CheckboxElementProps extends FormElementProps {
 interface CheckboxState {
     checked: boolean;
 }
+
+export const boxIco = 'fe-square';
+export const checkedBoxIco = 'fe-check-square';
+
+export const checkboxSpecId = 'checkbox';
+export const titleSpecId = 'title';
+export const descSpecId = 'description';
 
 const cx = classNames.bind(styles);
 
@@ -31,7 +38,7 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
         this.onChange = this.onChange.bind(this);
     }
 
-    private onChange(event: any): void {
+    private onChange(): void {
         this.setState({ checked: !this.state.checked }, () => {
             if (this.props.onChange) {
                 this.props.onChange(this.state.checked);
@@ -39,20 +46,29 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
         });
     }
 
+    /* istanbul ignore next */
     public validate(): boolean {
         return true;
     }
 
     public render(): JSX.Element {
-        const checkboxIcon = this.state.checked ? 'fe-check-square' : 'fe-square';
+        const checkboxIcon = this.state.checked ? checkedBoxIco : boxIco;
         return (
             <label className={cx(styles.label, this.props.labelClassName)} onClick={this.onChange}>
-                <span className={cx(checkboxIcon, this.props.checkboxClassName)} />
+                <span
+                    data-spec={checkboxSpecId}
+                    className={cx(checkboxIcon, this.props.checkboxClassName)}
+                />
                 {renderIf(isRealValue(this.props.title))(
-                    <div className={styles.title}>{this.props.title}</div>
+                    <div data-spec={titleSpecId} className={styles.title}>
+                        {this.props.title}
+                    </div>
                 )}
                 {renderIf(isRealValue(this.props.description))(
-                    <div className={this.props.title ? styles.description : styles.descriptionSolo}>
+                    <div
+                        data-spec={descSpecId}
+                        className={this.props.title ? styles.description : styles.descriptionSolo}
+                    >
                         {this.props.description}
                     </div>
                 )}
