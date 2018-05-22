@@ -1,11 +1,12 @@
 // TODO: Remove use of Function
 // tslint:disable:ban-types
+import * as isEqual from 'fast-deep-equal';
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 
+import { languageToAsset } from '../component/actions/SetContactAttrib/helpers';
 import { hasCases } from '../component/NodeEditor/NodeEditor';
-import { getTypeConfig, Type } from '../config';
-import { Types } from '../config/typeConfigs';
+import { getTypeConfig, Type, Types } from '../config/typeConfigs';
 import {
     Action,
     AnyAction,
@@ -14,28 +15,32 @@ import {
     FlowDefinition,
     FlowNode,
     FlowPosition,
-    Languages,
     SendMsg,
     StickyNote,
-    SwitchRouter
+    SwitchRouter,
 } from '../flowTypes';
-import AssetService, { Asset, Assets } from '../services/AssetService';
+import AssetService, { Asset } from '../services/AssetService';
 import { NODE_SPACING, timeEnd, timeStart } from '../utils';
+import { getLanguage } from '../utils/languageMap';
 import {
     RenderNode,
     RenderNodeMap,
+    updateBaseLanguage,
     updateDefinition,
+    updateLanguages,
     updateLocalizations,
-    updateNodes
+    updateNodes,
 } from './flowContext';
 import {
     updateCreateNodePosition,
     updateDragSelection,
     updateFetchingFlow,
     updateGhostNode,
+    updateLanguage,
     updateNodeDragging,
     updateNodeEditorOpen,
-    updatePendingConnection
+    updatePendingConnection,
+    updateTranslating,
 } from './flowEditor';
 import {
     determineConfigType,
@@ -44,7 +49,7 @@ import {
     getCollision,
     getFlowComponents,
     getGhostNode,
-    getLocalizations
+    getLocalizations,
 } from './helpers';
 import * as mutators from './mutators';
 import {
@@ -58,7 +63,7 @@ import {
     updateShowResultName,
     updateTimeout,
     updateTypeConfig,
-    updateUserAddingAction
+    updateUserAddingAction,
 } from './nodeEditor';
 import AppState from './state';
 
@@ -81,7 +86,6 @@ export type OnNodeMoved = (uuid: string, position: FlowPosition) => Thunk<Render
 export type OnOpenNodeEditor = (
     node: FlowNode,
     action: AnyAction,
-    languages: Languages,
     settings?: NodeEditorSettings
 ) => Thunk<void>;
 
@@ -89,10 +93,7 @@ export type RemoveNode = (nodeToRemove: FlowNode) => Thunk<RenderNodeMap>;
 
 export type UpdateDimensions = (node: FlowNode, dimensions: Dimensions) => Thunk<RenderNodeMap>;
 
-export type FetchFlow = (
-    assetService: AssetService,
-    uuid: string
-) => Thunk<Promise<FlowComponents>>;
+export type FetchFlow = (assetService: AssetService, uuid: string) => Thunk<Promise<void>>;
 
 export type EnsureStartNode = () => Thunk<RenderNode>;
 
@@ -114,6 +115,8 @@ export type OnUpdateAction = (action: AnyAction) => Thunk<RenderNodeMap>;
 export type ActionAC = (nodeUUID: string, action: AnyAction) => Thunk<RenderNodeMap>;
 
 export type DisconnectExit = (nodeUUID: string, exitUUID: string) => Thunk<RenderNodeMap>;
+
+export type HandleLanguageChange = (language: Asset) => Thunk<void>;
 
 export interface ReplaceAction {
     nodeUUID: string;
@@ -155,6 +158,8 @@ export const initializeFlow = (definition: FlowDefinition, assetService: AssetSe
         assetService.addFlowComponents(flowComponents);
     }
 
+    dispatch(updateBaseLanguage(flowComponents.baseLanguage));
+    dispatch(updateLanguage(flowComponents.baseLanguage));
     // store our flow definition without any nodes
     dispatch(updateDefinition(mutators.pruneDefinition(definition)));
     dispatch(updateNodes(flowComponents.renderNodeMap));
@@ -162,15 +167,44 @@ export const initializeFlow = (definition: FlowDefinition, assetService: AssetSe
     return flowComponents;
 };
 
-export const fetchFlow = (assetService: AssetService, uuid: string) => (
+export const fetchFlow = (assetService: AssetService, uuid: string) => async (
     dispatch: DispatchWithState,
     getState: GetState
-): Promise<FlowComponents> => {
+) => {
     dispatch(updateFetchingFlow(true));
-    const flows: Assets = assetService.getFlowAssets();
-    return flows.get(uuid).then(({ content: definition }: Asset) => {
-        return dispatch(initializeFlow(definition, assetService));
-    });
+
+    const [flows, environment] = await Promise.all([
+        assetService.getFlowAssets().get(uuid),
+        assetService.getEnvironmentAssets().get('')
+    ]);
+
+    dispatch(initializeFlow(flows.content, assetService));
+    dispatch(
+        updateLanguages(
+            environment.content.languages.map((iso: string) => languageToAsset(getLanguage(iso)))
+        )
+    );
+};
+
+export const handleLanguageChange: HandleLanguageChange = language => (dispatch, getState) => {
+    const {
+        flowContext: { baseLanguage },
+        flowEditor: { editorUI: { translating, language: currentLanguage } }
+    } = getState();
+
+    // determine translating state
+    if (!isEqual(language, baseLanguage)) {
+        if (!translating) {
+            dispatch(updateTranslating(true));
+        }
+    } else {
+        dispatch(updateTranslating(false));
+    }
+
+    // update language
+    if (!isEqual(language, currentLanguage)) {
+        dispatch(updateLanguage(language));
+    }
 };
 
 export const reflow = (current: RenderNodeMap = null) => (
@@ -733,11 +767,10 @@ const markReflow = (dispatch: DispatchWithState) => {
 export const onOpenNodeEditor = (
     node: FlowNode,
     action: AnyAction,
-    languages: Languages,
     settings: NodeEditorSettings
 ) => (dispatch: DispatchWithState, getState: GetState) => {
     const {
-        flowContext: { nodes, definition: { localization } },
+        flowContext: { baseLanguage, nodes, definition: { localization } },
         flowEditor: { editorUI: { language, translating } },
         nodeEditor: { settings: currentSettings }
     } = getState();
@@ -757,10 +790,8 @@ export const onOpenNodeEditor = (
             }
         }
 
-        const translations = localization[language.iso];
-        localizations.push(
-            ...getLocalizations(node, actionToTranslate, language.iso, languages, translations)
-        );
+        const translations = localization[language.id];
+        localizations.push(...getLocalizations(node, actionToTranslate, language, translations));
     }
 
     if (action) {

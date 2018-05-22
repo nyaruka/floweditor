@@ -7,18 +7,20 @@ import Select, {
     AutocompleteResult,
     IsOptionUniqueHandler,
     IsValidNewOptionHandler,
-    NewOptionCreatorHandler
+    NewOptionCreatorHandler,
 } from 'react-select';
 
 import { CreateOptions, ResultType } from '../../flowTypes';
-import { Asset, Assets, AssetSearchResult } from '../../services/AssetService';
+import { Asset, Assets, AssetSearchResult, removeAsset } from '../../services/AssetService';
 import SelectOption from './SelectOption';
 import SelectValue from './SelectValue';
 
 export interface SelectSearchProps {
-    url?: string;
     name: string;
     resultType: ResultType;
+
+    actionClearable?: boolean;
+    searchable?: boolean;
     placeholder?: string;
     searchPromptText?: string;
     multi?: boolean;
@@ -28,7 +30,7 @@ export interface SelectSearchProps {
     assets?: Assets;
     __className?: string;
     createPrompt?: string;
-    onChange?: (selections: Asset[]) => void;
+    onChange?(selections: Asset[]): void;
     isValidNewOption?: IsValidNewOptionHandler;
     isOptionUnique?: IsOptionUniqueHandler;
     createNewOption?: NewOptionCreatorHandler;
@@ -38,10 +40,7 @@ interface SelectSearchState {
     selections: Asset[];
 }
 
-export default class SelectSearch extends React.PureComponent<
-    SelectSearchProps,
-    SelectSearchState
-> {
+export default class SelectSearch extends React.Component<SelectSearchProps, SelectSearchState> {
     private select: any;
 
     constructor(props: SelectSearchProps) {
@@ -142,15 +141,16 @@ export default class SelectSearch extends React.PureComponent<
                 return new Promise<AutocompleteResult>(resolve => {
                     resolve({
                         complete: assetResults.complete,
-                        options
+                        options: this.props.actionClearable ? [removeAsset, ...options] : options
                     });
                 });
             });
         }
 
         return new Promise<AutocompleteResult>(resolve => {
+            const sorted = combined.sort(this.sortResults);
             resolve({
-                options: combined.sort(this.sortResults),
+                options: this.props.actionClearable ? [removeAsset, ...sorted] : sorted,
                 complete: true
             });
         });
@@ -189,6 +189,12 @@ export default class SelectSearch extends React.PureComponent<
             }
         }
 
+        // Value will be removeAsset if an initial value hasn't
+        // been passed and the actionClearable prop is truthy.
+        if (this.props.actionClearable && (!value || !value.length)) {
+            value = Array.isArray(value) ? [removeAsset] : removeAsset;
+        }
+
         const onChange = this.props.multi ? this.onChangeMulti : this.onChange;
 
         const createOptions: CreateOptions = {};
@@ -223,7 +229,7 @@ export default class SelectSearch extends React.PureComponent<
                     labelKey="name"
                     multi={this.props.multi}
                     clearable={false}
-                    searchable={true}
+                    searchable={this.props.searchable}
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
                     onChange={onChange}
@@ -250,7 +256,7 @@ export default class SelectSearch extends React.PureComponent<
                     labelKey="name"
                     multi={this.props.multi}
                     clearable={false}
-                    searchable={true}
+                    searchable={this.props.searchable}
                     onBlurResetsInput={true}
                     filterOption={this.filterOption}
                     onChange={onChange}

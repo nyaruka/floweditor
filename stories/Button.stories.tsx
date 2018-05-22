@@ -1,13 +1,15 @@
+import '../src/global.scss';
+
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
 
-import '../src/global.scss';
-import Button, { ButtonTypes, ButtonProps } from '../src/component/Button';
+import Button, { ButtonProps, ButtonTypes } from '../src/component/Button';
 
 const buttonDecorator = (storyFn: Function): JSX.Element => (
     <div
         style={{
+            borderRadius: '5px',
             fontFamily: 'Roboto, sans-serif',
             background: '#f1f1f1',
             display: 'flex',

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_field 1`] = `
+exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_field: set_contact_field 1`] = `
 Object {
   "field": Object {
     "value": Object {
@@ -16,7 +16,67 @@ Object {
 }
 `;
 
-exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_name 1`] = `
+exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_language: set_contact_language 1`] = `
+Object {
+  "language": Object {
+    "value": Object {
+      "id": "language",
+      "name": "Language",
+      "type": "language",
+    },
+  },
+  "valid": false,
+  "value": Object {
+    "value": Object {
+      "id": "remove",
+      "name": "Remove Value",
+      "type": "remove",
+    },
+  },
+}
+`;
+
+exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_language: set_contact_name - action doesn't have language 1`] = `
+Object {
+  "language": Object {
+    "value": Object {
+      "id": "language",
+      "name": "Language",
+      "type": "language",
+    },
+  },
+  "valid": true,
+  "value": Object {
+    "value": Object {
+      "id": "remove",
+      "name": "Remove Value",
+      "type": "remove",
+    },
+  },
+}
+`;
+
+exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_language: set_contact_name - action has language 1`] = `
+Object {
+  "language": Object {
+    "value": Object {
+      "id": "language",
+      "name": "Language",
+      "type": "language",
+    },
+  },
+  "valid": true,
+  "value": Object {
+    "value": Object {
+      "id": "eng",
+      "name": "English",
+      "type": "language",
+    },
+  },
+}
+`;
+
+exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_name: set_contact_name 1`] = `
 Object {
   "name": Object {
     "value": Object {

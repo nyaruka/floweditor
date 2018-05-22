@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import { AppState, UpdateTimeout, updateTimeout } from '../../store';
 import { DispatchWithState } from '../../store/thunks';
 import { isRealValue, renderIf } from '../../utils';
+import CheckboxElement from './CheckboxElement';
 import * as styles from './TimeoutControl.scss';
 
 export interface TimeoutControlStoreProps {
@@ -41,6 +42,8 @@ export const TIMEOUT_OPTIONS = [
 ];
 
 export const DEFAULT_TIMEOUT = TIMEOUT_OPTIONS[4];
+
+export const ellipsize = (str: string) => `${str}...`;
 
 export class TimeoutControl extends React.Component<TimeoutControlStoreProps, TimeoutControlState> {
     constructor(props: TimeoutControlStoreProps) {
@@ -85,23 +88,20 @@ export class TimeoutControl extends React.Component<TimeoutControlStoreProps, Ti
 
     private getInstructions(): string {
         const base = 'Continue when there is no response';
-        return this.props.checked ? `${base} for` : base;
+        return this.props.checked ? `${base} for` : ellipsize(base);
     }
 
     public render(): JSX.Element {
         return (
             <div className={styles.timeoutControlContainer}>
                 <div className={styles.leftSection}>
-                    <label className={styles.label}>
-                        <input
-                            className={styles.checkBox}
-                            name="timeout-enabled"
-                            type="checkbox"
-                            checked={this.props.checked}
-                            onChange={this.handleCheck}
-                        />
-                        {this.getInstructions()}
-                    </label>
+                    <CheckboxElement
+                        name="Timeout"
+                        checked={this.props.checked}
+                        description={this.getInstructions()}
+                        checkboxClassName={styles.checkbox}
+                        onChange={this.handleCheck}
+                    />
                 </div>
                 {renderIf(this.props.checked)(
                     <Select

@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { ConfigProviderContext, Type } from '../../../config';
 import { fakePropType } from '../../../config/ConfigProvider';
 import { Types } from '../../../config/typeConfigs';
-import { SetContactAttribute } from '../../../flowTypes';
+import { ResultType, SetContactAttribute } from '../../../flowTypes';
 import AssetService, { Asset } from '../../../services/AssetService';
 import { AppState, DispatchWithState } from '../../../store';
 import { SetContactAttribFunc, updateSetContactAttribForm } from '../../../store/forms';
@@ -14,12 +14,16 @@ import {
     AssetEntry,
     SetContactAttribFormState,
     SetContactFieldFormState,
+    SetContactLanguageFormState,
     SetContactNameFormState,
-    ValidationFailure
+    ValidationFailure,
 } from '../../../store/nodeEditor';
 import { validate, ValidatorFunc } from '../../../store/validators';
+import { renderIf } from '../../../utils';
 import ConnectedAttribElement from '../../form/AttribElement';
+import FormElement from '../../form/FormElement';
 import ConnectedTextInputElement from '../../form/TextInputElement';
+import SelectSearch from '../../SelectSearch/SelectSearch';
 import { SetContactAttribFormHelper } from './SetContactAttribFormHelper';
 
 /*
@@ -43,6 +47,8 @@ export interface SetContactAttribFormPassedProps {
 }
 
 export interface SetContactAttribFormStoreProps {
+    languages: Asset[];
+    baseLanguage: Asset;
     typeConfig: Type;
     form: SetContactAttribFormState;
     updateSetContactAttribForm: SetContactAttribFunc;
@@ -102,6 +108,10 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         this.props.updateSetContactAttribForm(null, validate('Value', value, []));
     }
 
+    public handleLanguageChange([language]: Asset[]): void {
+        this.props.updateSetContactAttribForm(null, validate('Language', language, []));
+    }
+
     private getValue(): string {
         switch (this.props.typeConfig.type) {
             case Types.set_contact_field:
@@ -117,7 +127,41 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
                 return (this.props.form as SetContactFieldFormState).field;
             case Types.set_contact_name:
                 return (this.props.form as SetContactNameFormState).name;
+            case Types.set_contact_language:
+                return (this.props.form as SetContactLanguageFormState).language;
         }
+    }
+
+    private getLanguage(): Asset[] {
+        const { value: { value: language } } = this.props.form as SetContactLanguageFormState;
+        if (language) {
+            return [language];
+        }
+        return [];
+    }
+
+    private getLanguageDropDown(): JSX.Element {
+        return (
+            <FormElement
+                showLabel={true}
+                name="Language"
+                helpText="Select the contact's preferred language."
+            >
+                <SelectSearch
+                    assets={this.context.assetService.getEnvironmentAssets()}
+                    actionClearable={true}
+                    resultType={ResultType.language}
+                    localSearchOptions={this.props.languages}
+                    searchable={false}
+                    multi={false}
+                    initial={this.getLanguage()}
+                    name="Languages"
+                    closeOnSelect={true}
+                    onChange={this.handleLanguageChange}
+                    placeholder="Select a language..."
+                />
+            </FormElement>
+        );
     }
 
     public render(): JSX.Element {
@@ -132,21 +176,31 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
                     entry={this.getAttributeEntry()}
                     onChange={this.handleAttribChange}
                 />
-                <ConnectedTextInputElement
-                    name="Value"
-                    showLabel={true}
-                    entry={{ value: this.getValue() }}
-                    helpText={TEXT_INPUT_HELP_TEXT}
-                    autocomplete={true}
-                    onChange={this.handleValueChange}
-                />
+                {renderIf(
+                    (this.props.form as SetContactLanguageFormState).hasOwnProperty('language')
+                )(
+                    this.getLanguageDropDown(),
+                    <ConnectedTextInputElement
+                        name="Value"
+                        showLabel={true}
+                        entry={{ value: this.getValue() }}
+                        helpText={TEXT_INPUT_HELP_TEXT}
+                        autocomplete={true}
+                        onChange={this.handleValueChange}
+                    />
+                )}
             </>
         );
     }
 }
 
 /* istanbul ignore next */
-const mapStateToProps = ({ nodeEditor: { typeConfig, form } }: AppState) => ({
+const mapStateToProps = ({
+    flowContext: { languages, baseLanguage },
+    nodeEditor: { typeConfig, form }
+}: AppState) => ({
+    languages,
+    baseLanguage,
     typeConfig,
     form
 });

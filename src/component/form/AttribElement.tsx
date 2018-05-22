@@ -2,13 +2,19 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { getTypeConfig, Types } from '../../config/typeConfigs';
+import { getTypeConfig, Type, Types } from '../../config/typeConfigs';
 import { CreateOptions, ResultType } from '../../flowTypes';
 import { Asset, Assets, AssetType } from '../../services/AssetService';
-import { AppState, DispatchWithState, UpdateTypeConfig, updateTypeConfig } from '../../store';
+import {
+    AppState,
+    DispatchWithState,
+    HandleTypeConfigChange,
+    handleTypeConfigChange
+} from '../../store';
 import {
     AssetEntry,
     SetContactFieldFormState,
+    SetContactLanguageFormState,
     SetContactNameFormState
 } from '../../store/nodeEditor';
 import {
@@ -23,16 +29,18 @@ import FormElement, { FormElementProps } from './FormElement';
 
 export interface AttribElementPassedProps extends FormElementProps {
     assets: Assets;
+    onChange(selected: Asset): void;
+
     add?: boolean;
     placeholder?: string;
     searchPromptText?: string;
     helpText?: string;
-    onChange(selected: Asset): void;
 }
 
 export interface AttribElementStoreProps {
     attribute: AssetEntry;
-    updateTypeConfig: UpdateTypeConfig;
+    typeConfig: Type;
+    handleTypeConfigChange: HandleTypeConfigChange;
 }
 
 export type AttribElementProps = AttribElementPassedProps & AttribElementStoreProps;
@@ -54,16 +62,27 @@ export class AttribElement extends React.Component<AttribElementProps> {
 
     constructor(props: any) {
         super(props);
+
         this.onChange = this.onChange.bind(this);
     }
 
     private onChange(selected: Asset[]): void {
         const [attribute] = selected;
-        if (attribute.type === AssetType.Name) {
-            this.props.updateTypeConfig(getTypeConfig(Types.set_contact_name));
-        } else if (attribute.type === AssetType.Field) {
-            this.props.updateTypeConfig(getTypeConfig(Types.set_contact_field));
+        let nextConfig;
+
+        switch (attribute.type) {
+            case AssetType.Name:
+                nextConfig = getTypeConfig(Types.set_contact_name);
+                break;
+            case AssetType.Field:
+                nextConfig = getTypeConfig(Types.set_contact_field);
+                break;
+            case AssetType.Language:
+                nextConfig = getTypeConfig(Types.set_contact_language);
+                break;
         }
+
+        this.props.handleTypeConfigChange(nextConfig, null);
 
         if (this.props.onChange) {
             this.props.onChange(attribute);
@@ -108,21 +127,26 @@ export class AttribElement extends React.Component<AttribElementProps> {
 
 /* istanbul ignore next */
 const mapStateToProps = ({ nodeEditor: { form } }: AppState) => ({
-    attribute: (form as SetContactFieldFormState).field || (form as SetContactNameFormState).name
+    attribute:
+        (form as SetContactFieldFormState).field ||
+        (form as SetContactNameFormState).name ||
+        (form as SetContactLanguageFormState).language
 });
 
 /* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
-            updateTypeConfig
+            handleTypeConfigChange
         },
         dispatch
     );
 
 const ConnectedAttribElement = connect<
-    { attribute: AssetEntry },
-    { updateTypeConfig: UpdateTypeConfig },
+    {},
+    {
+        handleTypeConfigChange: HandleTypeConfigChange;
+    },
     AttribElementPassedProps
 >(mapStateToProps, mapDispatchToProps, null, {
     withRef: true

@@ -23,7 +23,7 @@ Object {
   "options": Array [],
   "placeholder": "Enter the name of an existing group...",
   "searchPromptText": "Enter the name of an existing group",
-  "searchable": true,
+  "searchable": undefined,
   "value": undefined,
   "valueComponent": [Function],
   "valueKey": "id",
@@ -65,7 +65,6 @@ exports[`SelectSearch render should render self, children with required props 2`
     options={Array []}
     placeholder="Enter the name of an existing group..."
     searchPromptText="Enter the name of an existing group"
-    searchable={true}
     valueComponent={[Function]}
     valueKey="id"
   >

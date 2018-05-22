@@ -1,9 +1,15 @@
 import * as React from 'react';
 
 import { Types } from '../../../config/typeConfigs';
-import { SetContactField, SetContactName, SetContactProperty } from '../../../flowTypes';
+import {
+    SetContactField,
+    SetContactLanguage,
+    SetContactName,
+    SetContactProperty
+} from '../../../flowTypes';
 import { AssetType } from '../../../services/AssetService';
 import { emphasize, titleCase } from '../../../utils';
+import { getLanguage } from '../../../utils/languageMap';
 
 type Attribute = SetContactField | SetContactProperty;
 
@@ -13,6 +19,8 @@ export const getAttribNameMarkup = (action: Attribute): JSX.Element => {
             return emphasize((action as SetContactField).field.name);
         case Types.set_contact_name:
             return emphasize(titleCase(AssetType.Name));
+        case Types.set_contact_language:
+            return emphasize(titleCase(AssetType.Language));
     }
 };
 
@@ -32,6 +40,15 @@ const SetContactAttribComp: React.SFC<Attribute> = action => {
             return (action as SetContactName).name ? (
                 <>
                     Update {attribNameMarkup} to {emphasize((action as SetContactName).name)}
+                </>
+            ) : (
+                clearValueMarkup
+            );
+        case Types.set_contact_language:
+            return (action as SetContactLanguage).language ? (
+                <>
+                    Update {attribNameMarkup} to{' '}
+                    {emphasize(getLanguage((action as SetContactLanguage).language).name)}
                 </>
             ) : (
                 clearValueMarkup

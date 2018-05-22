@@ -1,24 +1,25 @@
 import { v4 as generateUUID } from 'uuid';
 
+import { languageToAsset } from '../component/actions/SetContactAttrib/helpers';
 import { DefaultExitNames } from '../component/NodeEditor/NodeEditor';
 import { Types } from '../config/typeConfigs';
 import {
+    AddLabels,
     AnyAction,
     ChangeGroups,
     Exit,
     FlowDefinition,
     FlowNode,
     FlowPosition,
-    Languages,
     RouterTypes,
     SetContactField,
     SwitchRouter,
     UINodeTypes,
-    WaitTypes,
-    AddLabels
+    WaitTypes
 } from '../flowTypes';
 import { Asset, AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
+import { languageMap } from '../utils/languageMap';
 import { RenderNode, RenderNodeMap } from './flowContext';
 
 export interface Bounds {
@@ -70,8 +71,7 @@ export const getSuggestedResultName = (nodes: RenderNodeMap) => {
 export const getLocalizations = (
     node: FlowNode,
     action: AnyAction,
-    iso: string,
-    languages: Languages,
+    language: Asset,
     translations?: { [uuid: string]: any }
 ): LocalizedObject[] => {
     const localizations: LocalizedObject[] = [];
@@ -81,17 +81,17 @@ export const getLocalizations = (
         const router = node.router as SwitchRouter;
 
         router.cases.forEach(kase =>
-            localizations.push(Localization.translate(kase, iso, languages, translations))
+            localizations.push(Localization.translate(kase, language, translations))
         );
 
         // Account for localized exits
         node.exits.forEach(exit => {
-            localizations.push(Localization.translate(exit, iso, languages, translations));
+            localizations.push(Localization.translate(exit, language, translations));
         });
     }
 
     if (action) {
-        localizations.push(Localization.translate(action, iso, languages, translations));
+        localizations.push(Localization.translate(action, language, translations));
     }
 
     return localizations;
@@ -244,6 +244,7 @@ export interface FlowComponents {
     groups: Asset[];
     fields: Asset[];
     labels: Asset[];
+    baseLanguage: Asset;
 }
 
 export const isGroupAction = (actionType: string) => {
@@ -257,7 +258,7 @@ export const isGroupAction = (actionType: string) => {
 /**
  * Processes an initial FlowDefinition for details necessary for the editor
  */
-export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponents => {
+export const getFlowComponents = ({ language, nodes, _ui }: FlowDefinition): FlowComponents => {
     const renderNodeMap: RenderNodeMap = {};
 
     // our groups and fields referenced within
@@ -346,5 +347,8 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
         labels.push({ name: labelsMap[uuid], id: uuid, type: AssetType.Label });
     }
 
-    return { renderNodeMap, groups, fields, labels };
+    // determine flow language
+    const baseLanguage = languageToAsset(languageMap[language]);
+
+    return { renderNodeMap, groups, fields, labels, baseLanguage };
 };

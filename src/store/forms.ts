@@ -72,19 +72,22 @@ export const updateSetContactAttribForm: SetContactAttribFunc = (
 ) => (dispatch, getState): SetContactAttribFormState => {
     const { nodeEditor: { form } } = getState();
     if (attribute) {
-        let update: string;
-        let remove: string;
+        let keyToUpdate: string;
+        const keysToRemove = [];
         switch (attribute.value.type) {
             case AssetType.Field:
-                update = attribute.value.type;
-                remove = AssetType.Name;
+                keyToUpdate = attribute.value.type;
+                keysToRemove.push(AssetType.Name);
                 break;
             case AssetType.Name:
-                update = attribute.value.type;
-                remove = AssetType.Field;
+                keyToUpdate = attribute.value.type;
+                keysToRemove.push(AssetType.Field);
                 break;
+            case AssetType.Language:
+                keyToUpdate = attribute.value.type;
+                keysToRemove.push(AssetType.Name, AssetType.Field);
         }
-        const updatedForm = mutateForm(form, { [update]: attribute }, [remove]);
+        const updatedForm = mutateForm(form, { [keyToUpdate]: attribute }, keysToRemove);
         dispatch(updateForm(updatedForm));
         return updatedForm as SetContactAttribFormState;
     } else if (value !== null) {

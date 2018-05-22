@@ -1,19 +1,23 @@
 // tslint:disable:max-classes-per-file
 import axios, { AxiosResponse } from 'axios';
+import { v4 as generateUUID } from 'uuid';
 
 import { ContactProperties, FlowEditorConfig, Group } from '../flowTypes';
 import { FlowComponents } from '../store/helpers';
+import { titleCase } from '../utils';
 
 export enum AssetType {
     Channel = 'channel',
     Flow = 'flow',
     Group = 'group',
     Name = 'name',
-    Language = 'language',
     Field = 'field',
     Contact = 'contact',
     URN = 'urn',
-    Label = 'label'
+    Label = 'label',
+    Language = 'language',
+    Environment = 'environment',
+    Remove = 'remove'
 }
 
 export interface Asset {
@@ -55,6 +59,8 @@ interface SimAsset {
     content: any;
 }
 
+export const removeAsset = { id: AssetType.Remove, name: 'Remove Value', type: AssetType.Remove };
+
 export const getBaseURL = (): string => {
     const location = window.location;
     return (
@@ -84,14 +90,16 @@ export class Assets {
         }
 
         return new Promise<Asset>((resolve, reject) => {
-            const url = `${this.endpoint}/${id}/`;
+            const url = `${this.endpoint}${id ? `/${id}/` : ''}`;
             axios
                 .get(url)
                 .then((response: AxiosResponse) => {
                     const ob = response.data;
+                    const uuid = ob.uuid || generateUUID();
+                    const name = ob.name || '';
                     const asset = {
-                        id: ob.uuid,
-                        name: ob.name,
+                        id: uuid,
+                        name,
                         type: this.assetType,
                         content: ob
                     };
@@ -126,15 +134,28 @@ export class Assets {
         }
 
         return axios.get(url).then((response: AxiosResponse) => {
-            for (const result of response.data) {
-                if (this.matches(term, result.name)) {
-                    matches.push({
-                        name: result.name,
-                        id: result[this.idProperty],
-                        type: this.assetType
-                    });
+            // Only attempt to match if response contains a list of externally-fetched assets
+            if (Array.isArray(response.data) && response.data.length) {
+                for (const result of response.data) {
+                    if (this.matches(term, result.name)) {
+                        matches.push({
+                            name: result.name,
+                            id: result[this.idProperty],
+                            type: this.assetType
+                        });
+                    }
                 }
+            } else {
+                // Right now this just covers the mocked 'environment' response
+                // in 'environment.json'.
+                const { data: result } = response;
+                matches.push({
+                    name: result.name,
+                    id: result[this.idProperty],
+                    type: this.assetType
+                });
             }
+
             return { assets: matches, complete: true, sorted: false };
         });
     }
@@ -240,15 +261,15 @@ class GroupAssets extends Assets {
 class FieldAssets extends Assets {
     public static CONTACT_PROPERTIES: Asset[] = [
         {
-            name: ContactProperties.Name,
-            id: ContactProperties.Name.toLowerCase(),
+            name: titleCase(ContactProperties.Name),
+            id: ContactProperties.Name,
             type: AssetType.Name
+        },
+        {
+            name: titleCase(ContactProperties.Language),
+            id: ContactProperties.Language,
+            type: AssetType.Language
         }
-        /*{
-            name: ContactProperties.Language,
-            id: ContactProperties.Language.toLowerCase(),
-            type: AttributeType.property
-        }*/
     ];
 
     constructor(endpoint: string, localStorage: boolean) {
@@ -282,7 +303,7 @@ class ChannelAssets extends Assets {
     }
 }
 
-class FlowAssets extends Assets {
+export class FlowAssets extends Assets {
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
         this.idProperty = IdProperty.UUID;
@@ -307,6 +328,7 @@ class RecipientAssets extends Assets {
         }
         return null;
     }
+
     public search(term: string): Promise<AssetSearchResult> {
         const matches: Asset[] = [];
 
@@ -351,6 +373,15 @@ export class LabelAssets extends Assets {
     }
 }
 
+export class EnvironmentAssets extends Assets {
+    constructor(endpoint: string, localStorage: boolean) {
+        super(endpoint, localStorage);
+
+        this.idProperty = IdProperty.ID;
+        this.assetType = AssetType.Environment;
+    }
+}
+
 export default class AssetService {
     private channels: ChannelAssets;
     private channelsURL: string;
@@ -363,6 +394,8 @@ export default class AssetService {
     private flowsURL: string;
     private labels: FieldAssets;
     private labelsURL: string;
+    private environment: EnvironmentAssets;
+    private environmentURL: string;
 
     constructor(config: FlowEditorConfig) {
         // initialize asset deps
@@ -370,10 +403,10 @@ export default class AssetService {
         this.fields = new FieldAssets(config.endpoints.fields, config.localStorage);
         this.flows = new FlowAssets(config.endpoints.flows, config.localStorage);
         this.recipients = new RecipientAssets(config.endpoints.recipients, config.localStorage);
-
         this.labels = new LabelAssets(config.endpoints.labels, config.localStorage);
         // channels are always mocked for local
         this.channels = new ChannelAssets('/channels', true);
+        this.environment = new EnvironmentAssets(config.endpoints.environment, config.localStorage);
 
         // initialize asset urls
         const base = getBaseURL();
@@ -382,6 +415,7 @@ export default class AssetService {
         this.labelsURL = `${base + this.labels.endpoint}/`;
         this.flowsURL = `${base + this.flows.endpoint}/{uuid}/`;
         this.channelsURL = `${base + this.channels.endpoint}/`;
+        this.environmentURL = `${base + this.environment.endpoint}/`;
     }
 
     public addFlowComponents(flowComponents: FlowComponents): void {
@@ -402,12 +436,16 @@ export default class AssetService {
         return this.fields;
     }
 
-    public getRecipients(): Assets {
+    public getRecipients(): RecipientAssets {
         return this.recipients;
     }
 
     public getLabelAssets(): LabelAssets {
         return this.labels;
+    }
+
+    public getEnvironmentAssets(): EnvironmentAssets {
+        return this.environment;
     }
 
     public getSimulationAssets(): any {
