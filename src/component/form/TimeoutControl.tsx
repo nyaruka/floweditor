@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import { AppState, UpdateTimeout, updateTimeout } from '../../store';
 import { DispatchWithState } from '../../store/thunks';
 import { isRealValue, renderIf } from '../../utils';
+import CheckboxElement from './CheckboxElement';
 import * as styles from './TimeoutControl.scss';
 
 export interface TimeoutControlStoreProps {
@@ -92,14 +93,13 @@ export class TimeoutControl extends React.Component<TimeoutControlStoreProps, Ti
         return (
             <div className={styles.timeoutControlContainer}>
                 <div className={styles.leftSection}>
-                    <label className={styles.label} onClick={this.handleCheck}>
-                        <span
-                            className={`${this.props.checked ? 'fe-check-square' : 'fe-square'} ${
-                                styles.checkBox
-                            }`}
-                        />
-                        {this.getInstructions()}
-                    </label>
+                    <CheckboxElement
+                        name="Timeout"
+                        checked={this.props.checked}
+                        description={this.getInstructions()}
+                        checkboxClassName={styles.checkbox}
+                        onChange={this.handleCheck}
+                    />
                 </div>
                 {renderIf(this.props.checked)(
                     <Select

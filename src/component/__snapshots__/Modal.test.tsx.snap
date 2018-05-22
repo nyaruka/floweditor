@@ -267,15 +267,27 @@ exports[`Modal render should render timeout control 1`] = `
                           <div
                             className="leftSection"
                           >
-                            <label
-                              className="label"
-                              onClick={[Function]}
+                            <CheckboxElement
+                              checkboxClassName="checkbox"
+                              checked={false}
+                              description="Continue when there is no response"
+                              name="Timeout"
+                              onChange={[Function]}
                             >
-                              <span
-                                className="fe-square checkBox"
-                              />
-                              Continue when there is no response
-                            </label>
+                              <label
+                                className="label"
+                                onClick={[Function]}
+                              >
+                                <span
+                                  className="fe-square checkbox"
+                                />
+                                <div
+                                  className="descriptionSolo"
+                                >
+                                  Continue when there is no response
+                                </div>
+                              </label>
+                            </CheckboxElement>
                           </div>
                         </div>
                       </TimeoutControl>

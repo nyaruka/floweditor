@@ -14,6 +14,7 @@ import { validate, validateRequired } from '../../../store/validators';
 import CheckboxElement from '../../form/CheckboxElement';
 import GroupsElement from '../../form/GroupsElement';
 import ChangeGroupsFormProps from './props';
+import * as styles from './RemoveGroupsForm.scss';
 
 export const LABEL = 'Select the group(s) to remove the contact from.';
 export const NOT_FOUND = 'Enter the name of an existing group';
@@ -95,9 +96,10 @@ export class RemoveGroupsForm extends React.Component<ChangeGroupsFormProps> {
         checkboxEl = (
             <CheckboxElement
                 name={REMOVE_FROM_ALL}
-                defaultValue={this.props.form.removeAll}
+                title={REMOVE_FROM_ALL}
+                labelClassName={this.props.form.removeAll ? '' : styles.checkbox}
+                checked={this.props.form.removeAll}
                 description={REMOVE_FROM_ALL_DESC}
-                sibling={sibling}
                 onChange={this.handleUpdateRemoveAll}
             />
         );

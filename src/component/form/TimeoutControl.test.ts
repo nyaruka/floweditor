@@ -35,7 +35,7 @@ describe(TimeoutControl.name, () => {
                     updateTimeout: setMock()
                 });
 
-                wrapper.find('label').simulate('click');
+                wrapper.find('CheckboxElement').prop('onChange')();
 
                 expect(props.updateTimeout).toHaveBeenCalledTimes(1);
                 expect(props.updateTimeout).toHaveBeenCalledWith(null);
@@ -44,7 +44,7 @@ describe(TimeoutControl.name, () => {
             it('should update local, redux state w/ default timeout', () => {
                 const { wrapper, props } = setup(true, { updateTimeout: setMock() });
 
-                wrapper.find('label').simulate('click');
+                wrapper.find('CheckboxElement').prop('onChange')();
 
                 expect(props.updateTimeout).toHaveBeenCalledTimes(1);
                 expect(props.updateTimeout).toHaveBeenCalledWith(DEFAULT_TIMEOUT.value);

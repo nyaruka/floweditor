@@ -1,36 +1,42 @@
+import * as classNames from 'classnames/bind';
 import * as React from 'react';
 
+import { isRealValue, renderIf } from '../../utils';
 import * as styles from './CheckboxElement.scss';
-import FormElement, { FormElementProps } from './FormElement';
+import { FormElementProps } from './FormElement';
 
 interface CheckboxElementProps extends FormElementProps {
-    defaultValue?: boolean;
+    checked: boolean;
+    title?: string;
     description?: string;
-    border?: boolean;
+    labelClassName?: string;
+    checkboxClassName?: string;
     onChange?(checked: boolean): void;
-    sibling?: boolean;
 }
 
 interface CheckboxState {
     checked: boolean;
 }
 
+const cx = classNames.bind(styles);
+
 export default class CheckboxElement extends React.Component<CheckboxElementProps, CheckboxState> {
     constructor(props: any) {
         super(props);
 
         this.state = {
-            checked: this.props.defaultValue
+            checked: this.props.checked
         };
 
         this.onChange = this.onChange.bind(this);
     }
 
     private onChange(event: any): void {
-        this.setState(
-            { checked: !this.state.checked },
-            () => this.props.onChange && this.props.onChange(this.state.checked)
-        );
+        this.setState({ checked: !this.state.checked }, () => {
+            if (this.props.onChange) {
+                this.props.onChange(this.state.checked);
+            }
+        });
     }
 
     public validate(): boolean {
@@ -38,21 +44,19 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
     }
 
     public render(): JSX.Element {
-        const className: string = this.props.sibling === true ? styles.sibling : null;
         const checkboxIcon = this.state.checked ? 'fe-check-square' : 'fe-square';
-
         return (
-            <FormElement
-                __className={styles.sibling}
-                border={this.props.border}
-                name={this.props.name}
-            >
-                <div className={styles.label} onClick={this.onChange}>
-                    <span className={checkboxIcon} />
-                    <div className={styles.title}>{this.props.name}</div>
-                    <div className={styles.description}>{this.props.description}</div>
-                </div>
-            </FormElement>
+            <label className={cx(styles.label, this.props.labelClassName)} onClick={this.onChange}>
+                <span className={cx(checkboxIcon, this.props.checkboxClassName)} />
+                {renderIf(isRealValue(this.props.title))(
+                    <div className={styles.title}>{this.props.title}</div>
+                )}
+                {renderIf(isRealValue(this.props.description))(
+                    <div className={this.props.title ? styles.description : styles.descriptionSolo}>
+                        {this.props.description}
+                    </div>
+                )}
+            </label>
         );
     }
 }
