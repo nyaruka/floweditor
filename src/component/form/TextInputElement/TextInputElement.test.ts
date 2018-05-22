@@ -98,7 +98,7 @@ describe(TextInputElement.name, () => {
         });
 
         // Trigger filter for contact options
-        // Issue related to approach: https://github.com/airbnb/enzyme/issues/364
+        // Consider: https://github.com/airbnb/enzyme/issues/364
         input.prop('onChange')({
             currentTarget: { value: contactAttribQuery, selectionStart: contactAttribQuery.length }
         });

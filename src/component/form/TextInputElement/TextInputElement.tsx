@@ -141,6 +141,11 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         }
 
         switch (event.key) {
+            case KeyValues.KEY_N:
+            case KeyValues.KEY_P:
+                if (!event.ctrlKey) {
+                    break;
+                }
             case KeyValues.KEY_UP:
                 if (this.state.completionVisible) {
                     this.setSelection(this.state.selectedOptionIndex - 1);

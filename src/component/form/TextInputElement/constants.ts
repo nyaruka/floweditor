@@ -9,7 +9,9 @@ export enum KeyValues {
     KEY_DOWN = 'ArrowDown',
     KEY_TAB = 'Tab',
     KEY_ESC = 'Escape',
-    KEY_BACKSPACE = 'Backspace'
+    KEY_BACKSPACE = 'Backspace',
+    KEY_N = 'n',
+    KEY_P = 'p'
 }
 
 export const MAX_GSM_SINGLE = 160;
