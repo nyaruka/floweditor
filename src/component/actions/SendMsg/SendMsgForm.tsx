@@ -16,6 +16,7 @@ import CheckboxElement from '../../form/CheckboxElement';
 import TaggingElement from '../../form/TaggingElement/TaggingElement';
 import TextInputElement, { Count } from '../../form/TextInputElement';
 import { UpdateLocalizations } from '../../NodeEditor';
+import * as localStyles from './SendMsgForm.scss';
 import { SendMsgFormHelper } from './SendMsgFormHelper';
 
 const MAX_REPLIES = 10;
@@ -173,7 +174,9 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
                 />
                 <CheckboxElement
                     name="All Destinations"
-                    defaultValue={this.props.form.sendAll}
+                    title="All Destinations"
+                    labelClassName={localStyles.checkbox}
+                    checked={this.props.form.sendAll}
                     description="Send a message to all destinations known for this contact."
                     onChange={this.handleUpdateSendAll}
                 />

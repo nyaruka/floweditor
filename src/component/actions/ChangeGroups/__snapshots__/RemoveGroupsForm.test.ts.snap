@@ -48,10 +48,11 @@ Object {
 
 exports[`RemoveGroupsForm render should render self, children with base props 2`] = `
 Object {
-  "defaultValue": false,
+  "checked": false,
   "description": "Remove the active contact from all groups they're a member of.",
+  "labelClassName": "checkbox",
   "name": "Remove from All",
   "onChange": [Function],
-  "sibling": true,
+  "title": "Remove from All",
 }
 `;
