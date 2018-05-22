@@ -35,10 +35,10 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
             checked: this.props.checked
         };
 
-        this.onChange = this.onChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    private onChange(): void {
+    private handleChange(): void {
         this.setState({ checked: !this.state.checked }, () => {
             if (this.props.onChange) {
                 this.props.onChange(this.state.checked);
@@ -54,7 +54,10 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
     public render(): JSX.Element {
         const checkboxIcon = this.state.checked ? checkedBoxIco : boxIco;
         return (
-            <label className={cx(styles.label, this.props.labelClassName)} onClick={this.onChange}>
+            <label
+                className={cx(styles.label, this.props.labelClassName)}
+                onClick={this.handleChange}
+            >
                 <span
                     data-spec={checkboxSpecId}
                     className={cx(checkboxIcon, this.props.checkboxClassName)}
