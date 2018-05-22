@@ -7,18 +7,13 @@ exports[`TimeoutControl render should render only checkbox, instructions if not 
   <div
     className="leftSection"
   >
-    <label
-      className="label"
-    >
-      <input
-        checked={false}
-        className="checkBox"
-        name="timeout-enabled"
-        onChange={[Function]}
-        type="checkbox"
-      />
-      Continue when there is no response
-    </label>
+    <CheckboxElement
+      checkboxClassName="checkbox"
+      checked={false}
+      description="Continue when there is no response..."
+      name="Timeout"
+      onChange={[Function]}
+    />
   </div>
 </div>
 `;
@@ -30,18 +25,13 @@ exports[`TimeoutControl render should render select control if passed a timeout 
   <div
     className="leftSection"
   >
-    <label
-      className="label"
-    >
-      <input
-        checked={true}
-        className="checkBox"
-        name="timeout-enabled"
-        onChange={[Function]}
-        type="checkbox"
-      />
-      Continue when there is no response for
-    </label>
+    <CheckboxElement
+      checkboxClassName="checkbox"
+      checked={true}
+      description="Continue when there is no response for"
+      name="Timeout"
+      onChange={[Function]}
+    />
   </div>
   <Select
     arrowRenderer={[Function]}
