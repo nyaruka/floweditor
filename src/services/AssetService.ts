@@ -1,5 +1,6 @@
 // tslint:disable:max-classes-per-file
 import axios, { AxiosResponse } from 'axios';
+import { v4 as generateUUID } from 'uuid';
 
 import { ContactProperties, FlowEditorConfig, Group } from '../flowTypes';
 import { FlowComponents } from '../store/helpers';
@@ -94,9 +95,11 @@ export class Assets {
                 .get(url)
                 .then((response: AxiosResponse) => {
                     const ob = response.data;
+                    const uuid = ob.uuid || generateUUID();
+                    const name = ob.name || uuid;
                     const asset = {
-                        id: ob.uuid,
-                        name: ob.name,
+                        id: uuid,
+                        name,
                         type: this.assetType,
                         content: ob
                     };
