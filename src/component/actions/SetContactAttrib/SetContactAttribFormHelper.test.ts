@@ -1,6 +1,8 @@
 import { Types } from '../../../config/typeConfigs';
-import { removeAsset } from '../../../services/AssetService';
+import { Channel, SetContactChannel } from '../../../flowTypes';
+import { AssetType, removeAsset } from '../../../services/AssetService';
 import {
+    createSetContactChannelAction,
     createSetContactFieldAction,
     createSetContactLanguageAction,
     createSetContactNameAction,
@@ -14,6 +16,7 @@ const formHelper = new SetContactAttribFormHelper();
 const setContactFieldAction = createSetContactFieldAction();
 const setContactNameAction = createSetContactNameAction();
 const setContactLanguageAction = createSetContactLanguageAction();
+const setContactChannelAction = createSetContactChannelAction();
 
 const setContactFieldFormState = formHelper.actionToState(
     setContactFieldAction,
@@ -23,6 +26,16 @@ const setContactFieldFormState = formHelper.actionToState(
 const setContactNameFormState = formHelper.actionToState(
     setContactNameAction,
     Types.set_contact_name
+);
+
+const setContactLanguageFormState = formHelper.actionToState(
+    setContactLanguageAction,
+    Types.set_contact_language
+);
+
+const setContactChannelFormState = formHelper.actionToState(
+    setContactChannelAction,
+    Types.set_contact_channel
 );
 
 describe('SetContactAttribFormHelper', () => {
@@ -50,46 +63,147 @@ describe('SetContactAttribFormHelper', () => {
             // action has language
             const formStateWithAction = formHelper.actionToState(
                 setContactLanguageAction,
-                Types.set_contact_name
+                Types.set_contact_language
             );
             expect(formStateWithAction.value).toEqual({
                 value: languageToAsset(getLanguage(setContactLanguageAction.language))
             });
             expect(formStateWithAction).toMatchSnapshot(
-                `${Types.set_contact_name} - action has language`
+                `${Types.set_contact_language} - action has language`
             );
 
             // action doesn't have language
             const formStateWithClearedAction = formHelper.actionToState(
                 { ...setContactLanguageAction, language: '' },
-                Types.set_contact_name
+                Types.set_contact_language
             );
             expect(formStateWithClearedAction.value).toEqual({
                 value: removeAsset
             });
             expect(formStateWithClearedAction).toMatchSnapshot(
-                `${Types.set_contact_name} - action doesn't have language`
+                `${Types.set_contact_language} - action doesn't have language`
+            );
+        });
+
+        it('should provide initial form state from scratch: set_contact_channel', () => {
+            const formState = formHelper.actionToState(null, Types.set_contact_channel);
+
+            expect(formState.value).toEqual({ value: removeAsset });
+            expect(formState).toMatchSnapshot(Types.set_contact_channel);
+
+            // action has channel
+            const formStateWithAction = formHelper.actionToState(
+                setContactChannelAction,
+                Types.set_contact_channel
+            );
+            expect(formStateWithAction.value).toEqual({
+                value: {
+                    id: setContactChannelAction.uuid,
+                    name: setContactChannelAction.channel.name,
+                    type: AssetType.Language
+                }
+            });
+            expect(formStateWithAction).toMatchSnapshot(
+                `${Types.set_contact_channel} - action has channel`
+            );
+
+            // action doesn't have channel
+            const formStateWithClearedAction = formHelper.actionToState(
+                { ...setContactChannelAction, channel: {} as Channel },
+                Types.set_contact_channel
+            );
+            expect(formStateWithClearedAction.value).toEqual({
+                value: removeAsset
+            });
+            expect(formStateWithClearedAction).toMatchSnapshot(
+                `${Types.set_contact_channel} - action doesn't have channel`
             );
         });
     });
 
     describe('stateToAction', () => {
-        it('should convert form state to an action', () => {
-            expect(
-                formHelper.stateToAction(
-                    setContactFieldAction.uuid,
-                    setContactFieldFormState,
-                    Types.set_contact_field
-                )
-            ).toEqual(setContactFieldAction);
+        describe(Types.set_contact_field, () => {
+            it('should convert form state to an action', () => {
+                expect(
+                    formHelper.stateToAction(
+                        setContactFieldAction.uuid,
+                        setContactFieldFormState,
+                        Types.set_contact_field
+                    )
+                ).toEqual(setContactFieldAction);
+            });
+        });
 
-            expect(
-                formHelper.stateToAction(
-                    setContactNameAction.uuid,
-                    setContactNameFormState,
-                    Types.set_contact_name
-                )
-            ).toEqual(setContactNameAction);
+        describe(Types.set_contact_name, () => {
+            it('should convert form state to an action', () => {
+                expect(
+                    formHelper.stateToAction(
+                        setContactNameAction.uuid,
+                        setContactNameFormState,
+                        Types.set_contact_name
+                    )
+                ).toEqual(setContactNameAction);
+            });
+        });
+
+        describe(Types.set_contact_language, () => {
+            it('should convert form state to an action', () => {
+                expect(
+                    formHelper.stateToAction(
+                        setContactLanguageAction.uuid,
+                        setContactLanguageFormState,
+                        Types.set_contact_language
+                    )
+                ).toEqual(setContactLanguageAction);
+            });
+
+            it('should convert form state with cleared language to an action', () => {
+                const clearedAction = {
+                    ...setContactLanguageAction,
+                    language: ''
+                };
+                const formStateWithClearedAction = formHelper.actionToState(
+                    clearedAction,
+                    Types.set_contact_language
+                );
+                expect(
+                    formHelper.stateToAction(
+                        setContactLanguageAction.uuid,
+                        formStateWithClearedAction,
+                        Types.set_contact_language
+                    )
+                ).toEqual(clearedAction);
+            });
+        });
+
+        describe(Types.set_contact_channel, () => {
+            it('should convert form state to an action', () => {
+                expect(
+                    formHelper.stateToAction(
+                        setContactChannelAction.uuid,
+                        setContactChannelFormState,
+                        Types.set_contact_channel
+                    )
+                ).toEqual(setContactChannelAction);
+            });
+
+            it('should convert form state with cleared channel to an action', () => {
+                const clearedAction = {
+                    ...setContactChannelAction,
+                    channel: {}
+                };
+                const formStateWithClearedAction = formHelper.actionToState(
+                    clearedAction as SetContactChannel,
+                    Types.set_contact_channel
+                );
+                expect(
+                    formHelper.stateToAction(
+                        setContactChannelAction.uuid,
+                        formStateWithClearedAction,
+                        Types.set_contact_channel
+                    )
+                ).toEqual(clearedAction);
+            });
         });
     });
 });

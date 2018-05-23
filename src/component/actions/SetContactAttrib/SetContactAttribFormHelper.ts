@@ -68,7 +68,7 @@ export class SetContactAttribFormHelper implements FormHelper {
                     formState = {
                         channel: { value: propertyToAsset(Types.set_contact_channel) },
                         value: {
-                            value: channel
+                            value: Object.keys(channel).length
                                 ? channelToAsset((action as SetContactChannel).channel)
                                 : removeAsset
                         },
@@ -153,7 +153,7 @@ export class SetContactAttribFormHelper implements FormHelper {
                     // we return an empty string to indicate the value is being cleared
                     channel:
                         (formState as SetContactChannelFormState).value.value.id === removeAsset.id
-                            ? ''
+                            ? {}
                             : ({
                                   uuid: (formState as SetContactChannelFormState).value.value.id,
                                   name: (formState as SetContactChannelFormState).value.value.name
