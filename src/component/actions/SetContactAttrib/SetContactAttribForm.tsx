@@ -27,20 +27,6 @@ import ConnectedTextInputElement from '../../form/TextInputElement';
 import SelectSearch from '../../SelectSearch/SelectSearch';
 import { SetContactAttribFormHelper } from './SetContactAttribFormHelper';
 
-/*
-    In our case, we have an asset object with just the type defined to deal with
-    switching. This means we need a special required validator that looks at asset
-    id and name instead of the entire object.
-    TODO: allow for switching without a faux-asset and remove this
-*/
-const validateAssetRequired: ValidatorFunc = (name: string, input: Asset): ValidationFailure[] => {
-    const asset = input as Asset;
-    if (!asset.id || !asset.name) {
-        return [{ message: `${name} is required` }];
-    }
-    return [];
-};
-
 export interface SetContactAttribFormPassedProps {
     action: SetContactAttribute;
     formHelper: SetContactAttribFormHelper;
@@ -55,6 +41,13 @@ export interface SetContactAttribFormStoreProps {
     updateSetContactAttribForm: SetContactAttribFunc;
 }
 
+export enum SetContactAttribFormElementNames {
+    Attribute = 'Attribute',
+    Value = 'Value',
+    Language = 'Language',
+    Channel = 'Channel'
+}
+
 export type SetContactAttribFormProps = SetContactAttribFormPassedProps &
     SetContactAttribFormStoreProps;
 
@@ -62,6 +55,20 @@ export const ATTRIB_HELP_TEXT =
     'Select an existing attribute to update or type any name to create a new one';
 export const TEXT_INPUT_HELP_TEXT =
     'The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json.';
+
+/*
+    In our case, we have an asset object with just the type defined to deal with
+    switching. This means we need a special required validator that looks at asset
+    id and name instead of the entire object.
+    TODO: allow for switching without a faux-asset and remove this
+*/
+const validateAssetRequired: ValidatorFunc = (name: string, input: Asset): ValidationFailure[] => {
+    const asset = input as Asset;
+    if (!asset.id || !asset.name) {
+        return [{ message: `${name} is required` }];
+    }
+    return [];
+};
 
 // Note: action prop is only used for its uuid (see onValid)
 export class SetContactAttribForm extends React.Component<SetContactAttribFormProps> {
@@ -106,17 +113,28 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
     }
 
     public handleValueChange(value: string): void {
-        this.props.updateSetContactAttribForm(null, validate('Value', value, []));
+        this.props.updateSetContactAttribForm(
+            null,
+            validate(SetContactAttribFormElementNames.Value, value, [])
+        );
     }
 
     public handleLanguageChange([language]: Asset[]): void {
-        this.props.updateSetContactAttribForm(null, validate('Language', language, []));
+        this.props.updateSetContactAttribForm(
+            null,
+            validate(SetContactAttribFormElementNames.Language, language, [])
+        );
     }
 
     public handleChannelChange([channel]: Asset[]): void {
-        this.props.updateSetContactAttribForm(null, validate('Channel', channel, []));
+        this.props.updateSetContactAttribForm(
+            null,
+            validate(SetContactAttribFormElementNames.Channel, channel, [])
+        );
     }
 
+    // Only used for `set_contact_field`, `set_contact_name` actions,
+    // as they're currently the only contact attribute actions whose forms require a text input.
     private getValue(): string {
         switch (this.props.typeConfig.type) {
             case Types.set_contact_field:
@@ -139,7 +157,8 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         }
     }
 
-    private getLanguage(): Asset[] {
+    // Get initial language for language dropdown
+    private getInitialLanguage(): Asset[] {
         const { value: { value: language } } = this.props.form as SetContactLanguageFormState;
         if (language) {
             return [language];
@@ -147,7 +166,8 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         return [];
     }
 
-    private getChannel(): Asset[] {
+    // Get initial channel for channel dropdown
+    private getInitialChannel(): Asset[] {
         const { value: { value: channel } } = this.props.form as SetContactChannelFormState;
         if (channel) {
             return [channel];
@@ -159,7 +179,7 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         return (
             <FormElement
                 showLabel={true}
-                name="Language"
+                name={SetContactAttribFormElementNames.Language}
                 helpText="Select the contact's preferred language."
             >
                 <SelectSearch
@@ -168,7 +188,7 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
                     localSearchOptions={this.props.languages}
                     searchable={false}
                     multi={false}
-                    initial={this.getLanguage()}
+                    initial={this.getInitialLanguage()}
                     name="Languages"
                     closeOnSelect={true}
                     onChange={this.handleLanguageChange}
@@ -182,7 +202,7 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         return (
             <FormElement
                 showLabel={true}
-                name="Channel"
+                name={SetContactAttribFormElementNames.Channel}
                 helpText="Select the contact's primary channel."
             >
                 <SelectSearch
@@ -190,7 +210,7 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
                     actionClearable={true}
                     searchable={false}
                     multi={false}
-                    initial={this.getChannel()}
+                    initial={this.getInitialChannel()}
                     name="Channels"
                     closeOnSelect={true}
                     onChange={this.handleChannelChange}
@@ -214,7 +234,7 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         return (
             <>
                 <ConnectedAttribElement
-                    name="Attribute"
+                    name={SetContactAttribFormElementNames.Attribute}
                     showLabel={true}
                     assets={this.context.assetService.getFieldAssets()}
                     helpText={ATTRIB_HELP_TEXT}
@@ -225,7 +245,7 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
                 {renderIf(requiresDropDown)(
                     this.getDropDown(),
                     <ConnectedTextInputElement
-                        name="Value"
+                        name={SetContactAttribFormElementNames.Value}
                         showLabel={true}
                         entry={{ value: this.getValue() }}
                         helpText={TEXT_INPUT_HELP_TEXT}

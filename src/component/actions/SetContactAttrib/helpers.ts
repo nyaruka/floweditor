@@ -57,9 +57,12 @@ export const assetToField = (asset: Asset): Field => ({
     name: asset.name
 });
 
-export const propertyToAsset = (
-    type: Types.set_contact_name | Types.set_contact_language | Types.set_contact_channel
-): Asset => {
+export type PropertyTypes =
+    | Types.set_contact_name
+    | Types.set_contact_language
+    | Types.set_contact_channel;
+
+export const propertyToAsset = (type: PropertyTypes): Asset => {
     switch (type) {
         case Types.set_contact_name:
             return {

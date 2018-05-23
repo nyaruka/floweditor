@@ -2,12 +2,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { getTypeConfig, Type, Types } from '../../config/typeConfigs';
+import { getTypeConfig, Types } from '../../config/typeConfigs';
 import { CreateOptions } from '../../flowTypes';
 import { Asset, Assets, AssetType } from '../../services/AssetService';
 import { AppState, DispatchWithState, HandleTypeConfigChange, handleTypeConfigChange } from '../../store';
 import {
     AssetEntry,
+    SetContactAttribFormState,
     SetContactChannelFormState,
     SetContactFieldFormState,
     SetContactLanguageFormState,
@@ -29,7 +30,6 @@ export interface AttribElementPassedProps extends FormElementProps {
 
 export interface AttribElementStoreProps {
     attribute: AssetEntry;
-    typeConfig: Type;
     handleTypeConfigChange: HandleTypeConfigChange;
 }
 
@@ -43,6 +43,27 @@ export const createNewOption = composeCreateNewOption({
     idCb: label => snakify(label),
     type: AssetType.Field
 });
+
+export const getNextConfig = (assetType: AssetType) => {
+    let nextConfig;
+
+    switch (assetType) {
+        case AssetType.Name:
+            nextConfig = getTypeConfig(Types.set_contact_name);
+            break;
+        case AssetType.Field:
+            nextConfig = getTypeConfig(Types.set_contact_field);
+            break;
+        case AssetType.Language:
+            nextConfig = getTypeConfig(Types.set_contact_language);
+            break;
+        case AssetType.Channel:
+            nextConfig = getTypeConfig(Types.set_contact_channel);
+            break;
+    }
+
+    return nextConfig;
+};
 
 export class AttribElement extends React.Component<AttribElementProps> {
     public static defaultProps = {
@@ -58,21 +79,7 @@ export class AttribElement extends React.Component<AttribElementProps> {
 
     private onChange(selected: Asset[]): void {
         const [attribute] = selected;
-        let nextConfig;
-
-        switch (attribute.type) {
-            case AssetType.Name:
-                nextConfig = getTypeConfig(Types.set_contact_name);
-                break;
-            case AssetType.Field:
-                nextConfig = getTypeConfig(Types.set_contact_field);
-                break;
-            case AssetType.Language:
-                nextConfig = getTypeConfig(Types.set_contact_language);
-                break;
-            case AssetType.Channel:
-                nextConfig = getTypeConfig(Types.set_contact_channel);
-        }
+        const nextConfig = getNextConfig(attribute.type);
 
         this.props.handleTypeConfigChange(nextConfig, null);
 
@@ -117,12 +124,15 @@ export class AttribElement extends React.Component<AttribElementProps> {
 }
 
 /* istanbul ignore next */
+const selectAttribute = (form: SetContactAttribFormState) =>
+    (form as SetContactFieldFormState).field ||
+    (form as SetContactNameFormState).name ||
+    (form as SetContactLanguageFormState).language ||
+    (form as SetContactChannelFormState).channel;
+
+/* istanbul ignore next */
 const mapStateToProps = ({ nodeEditor: { form } }: AppState) => ({
-    attribute:
-        (form as SetContactFieldFormState).field ||
-        (form as SetContactNameFormState).name ||
-        (form as SetContactLanguageFormState).language ||
-        (form as SetContactChannelFormState).channel
+    attribute: selectAttribute(form as SetContactAttribFormState)
 });
 
 /* istanbul ignore next */
