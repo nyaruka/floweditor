@@ -6,13 +6,14 @@ import { bindActionCreators } from 'redux';
 import { ConfigProviderContext, Type } from '../../../config';
 import { fakePropType } from '../../../config/ConfigProvider';
 import { Types } from '../../../config/typeConfigs';
-import { ResultType, SetContactAttribute } from '../../../flowTypes';
+import { SetContactAttribute } from '../../../flowTypes';
 import AssetService, { Asset } from '../../../services/AssetService';
 import { AppState, DispatchWithState } from '../../../store';
 import { SetContactAttribFunc, updateSetContactAttribForm } from '../../../store/forms';
 import {
     AssetEntry,
     SetContactAttribFormState,
+    SetContactChannelFormState,
     SetContactFieldFormState,
     SetContactLanguageFormState,
     SetContactNameFormState,
@@ -112,6 +113,10 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         this.props.updateSetContactAttribForm(null, validate('Language', language, []));
     }
 
+    public handleChannelChange([channel]: Asset[]): void {
+        this.props.updateSetContactAttribForm(null, validate('Channel', channel, []));
+    }
+
     private getValue(): string {
         switch (this.props.typeConfig.type) {
             case Types.set_contact_field:
@@ -129,6 +134,8 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
                 return (this.props.form as SetContactNameFormState).name;
             case Types.set_contact_language:
                 return (this.props.form as SetContactLanguageFormState).language;
+            case Types.set_contact_channel:
+                return (this.props.form as SetContactChannelFormState).channel;
         }
     }
 
@@ -136,6 +143,14 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         const { value: { value: language } } = this.props.form as SetContactLanguageFormState;
         if (language) {
             return [language];
+        }
+        return [];
+    }
+
+    private getChannel(): Asset[] {
+        const { value: { value: channel } } = this.props.form as SetContactChannelFormState;
+        if (channel) {
+            return [channel];
         }
         return [];
     }
@@ -150,7 +165,6 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
                 <SelectSearch
                     assets={this.context.assetService.getEnvironmentAssets()}
                     actionClearable={true}
-                    resultType={ResultType.language}
                     localSearchOptions={this.props.languages}
                     searchable={false}
                     multi={false}
@@ -164,7 +178,39 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         );
     }
 
+    private getChannelDropDown(): JSX.Element {
+        return (
+            <FormElement
+                showLabel={true}
+                name="Channel"
+                helpText="Select the contact's primary channel."
+            >
+                <SelectSearch
+                    assets={this.context.assetService.getChannelAssets()}
+                    actionClearable={true}
+                    searchable={false}
+                    multi={false}
+                    initial={this.getChannel()}
+                    name="Channels"
+                    closeOnSelect={true}
+                    onChange={this.handleChannelChange}
+                    placeholder="Select a channel..."
+                />
+            </FormElement>
+        );
+    }
+
+    private getDropDown(): JSX.Element {
+        if (this.props.form.hasOwnProperty('language')) {
+            return this.getLanguageDropDown();
+        } else if (this.props.form.hasOwnProperty('channel')) {
+            return this.getChannelDropDown();
+        }
+    }
+
     public render(): JSX.Element {
+        const requiresDropDown =
+            this.props.form.hasOwnProperty('language') || this.props.form.hasOwnProperty('channel');
         return (
             <>
                 <ConnectedAttribElement
@@ -176,10 +222,8 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
                     entry={this.getAttributeEntry()}
                     onChange={this.handleAttribChange}
                 />
-                {renderIf(
-                    (this.props.form as SetContactLanguageFormState).hasOwnProperty('language')
-                )(
-                    this.getLanguageDropDown(),
+                {renderIf(requiresDropDown)(
+                    this.getDropDown(),
                     <ConnectedTextInputElement
                         name="Value"
                         showLabel={true}

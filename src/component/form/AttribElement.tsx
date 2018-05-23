@@ -3,27 +3,17 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { getTypeConfig, Type, Types } from '../../config/typeConfigs';
-import { CreateOptions, ResultType } from '../../flowTypes';
+import { CreateOptions } from '../../flowTypes';
 import { Asset, Assets, AssetType } from '../../services/AssetService';
-import {
-    AppState,
-    DispatchWithState,
-    HandleTypeConfigChange,
-    handleTypeConfigChange
-} from '../../store';
+import { AppState, DispatchWithState, HandleTypeConfigChange, handleTypeConfigChange } from '../../store';
 import {
     AssetEntry,
+    SetContactChannelFormState,
     SetContactFieldFormState,
     SetContactLanguageFormState,
-    SetContactNameFormState
+    SetContactNameFormState,
 } from '../../store/nodeEditor';
-import {
-    composeCreateNewOption,
-    getSelectClassForEntry,
-    isOptionUnique,
-    isValidNewOption,
-    snakify
-} from '../../utils';
+import { composeCreateNewOption, getSelectClassForEntry, isOptionUnique, isValidNewOption, snakify } from '../../utils';
 import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
@@ -80,6 +70,8 @@ export class AttribElement extends React.Component<AttribElementProps> {
             case AssetType.Language:
                 nextConfig = getTypeConfig(Types.set_contact_language);
                 break;
+            case AssetType.Channel:
+                nextConfig = getTypeConfig(Types.set_contact_channel);
         }
 
         this.props.handleTypeConfigChange(nextConfig, null);
@@ -111,7 +103,6 @@ export class AttribElement extends React.Component<AttribElementProps> {
                     __className={getSelectClassForEntry(this.props.entry)}
                     onChange={this.onChange}
                     name={this.props.name}
-                    resultType={ResultType.field}
                     multi={false}
                     assets={this.props.assets}
                     initial={[this.props.attribute.value]}
@@ -130,7 +121,8 @@ const mapStateToProps = ({ nodeEditor: { form } }: AppState) => ({
     attribute:
         (form as SetContactFieldFormState).field ||
         (form as SetContactNameFormState).name ||
-        (form as SetContactLanguageFormState).language
+        (form as SetContactLanguageFormState).language ||
+        (form as SetContactChannelFormState).channel
 });
 
 /* istanbul ignore next */

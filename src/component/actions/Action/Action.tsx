@@ -15,7 +15,7 @@ import {
     moveActionUp,
     OnOpenNodeEditor,
     onOpenNodeEditor,
-    removeAction
+    removeAction,
 } from '../../../store';
 import { createClickHandler, getLocalization } from '../../../utils';
 import * as shared from '../../shared.scss';
@@ -143,12 +143,10 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         const { name } = getTypeConfig(this.props.action.type);
         const classes = this.getClasses();
         const actionToInject = this.getAction();
-
         const titleBarClass = shared[this.props.action.type] || shared.missing;
         const actionClass = styles[this.props.action.type] || styles.missing;
         const showRemoval = !this.props.translating;
         const showMove = !this.props.first && !this.props.translating;
-
         return (
             <div
                 id={`action-${this.props.action.uuid}`}

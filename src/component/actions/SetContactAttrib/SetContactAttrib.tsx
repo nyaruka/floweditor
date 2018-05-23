@@ -2,10 +2,11 @@ import * as React from 'react';
 
 import { Types } from '../../../config/typeConfigs';
 import {
+    SetContactChannel,
     SetContactField,
     SetContactLanguage,
     SetContactName,
-    SetContactProperty
+    SetContactProperty,
 } from '../../../flowTypes';
 import { AssetType } from '../../../services/AssetService';
 import { emphasize, titleCase } from '../../../utils';
@@ -21,6 +22,8 @@ export const getAttribNameMarkup = (action: Attribute): JSX.Element => {
             return emphasize(titleCase(AssetType.Name));
         case Types.set_contact_language:
             return emphasize(titleCase(AssetType.Language));
+        case Types.set_contact_channel:
+            return emphasize(titleCase(AssetType.Channel));
     }
 };
 
@@ -49,6 +52,15 @@ const SetContactAttribComp: React.SFC<Attribute> = action => {
                 <>
                     Update {attribNameMarkup} to{' '}
                     {emphasize(getLanguage((action as SetContactLanguage).language).name)}
+                </>
+            ) : (
+                clearValueMarkup
+            );
+        case Types.set_contact_channel:
+            return (action as SetContactChannel).channel ? (
+                <>
+                    Update {attribNameMarkup} to
+                    {emphasize((action as SetContactChannel).channel.name)}
                 </>
             ) : (
                 clearValueMarkup

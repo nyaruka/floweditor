@@ -207,6 +207,15 @@ export const typeConfigList: Type[] = [
         allows
     },
     {
+        type: Types.set_contact_channel,
+        name: 'Update Contact',
+        description: 'Update the contact',
+        form: SetContactAttribForm,
+        formHelper: ContactAttribHelper,
+        component: SetContactAttrib,
+        allows
+    },
+    {
         type: Types.send_email,
         name: 'Send Email',
         description: 'Send an email',

@@ -1,20 +1,35 @@
 import { FormHelper, Types } from '../../../config/typeConfigs';
-import { Action, SetContactAttribute, SetContactField, SetContactLanguage, SetContactName } from '../../../flowTypes';
+import {
+    Action,
+    Channel,
+    SetContactAttribute,
+    SetContactChannel,
+    SetContactField,
+    SetContactLanguage,
+    SetContactName,
+} from '../../../flowTypes';
 import { removeAsset } from '../../../services/AssetService';
 import {
     SetContactAttribFormState,
+    SetContactChannelFormState,
     SetContactFieldFormState,
     SetContactLanguageFormState,
     SetContactNameFormState,
 } from '../../../store/nodeEditor';
 import { getLanguage } from '../../../utils/languageMap';
-import { assetToField, fieldToAsset, languageToAsset, propertyToAsset } from './helpers';
+import { assetToField, channelToAsset, fieldToAsset, languageToAsset, propertyToAsset } from './helpers';
+
+export type AttribType =
+    | Types.set_contact_field
+    | Types.set_contact_name
+    | Types.set_contact_language
+    | Types.set_contact_channel;
 
 export class SetContactAttribFormHelper implements FormHelper {
     // passed an existing action or null
     public actionToState(
         action: SetContactAttribute,
-        actionType: Types.set_contact_field | Types.set_contact_name | Types.set_contact_language
+        actionType: AttribType
     ): SetContactAttribFormState {
         // if we have an existing contact attribute action, use it
         if (action) {
@@ -33,16 +48,28 @@ export class SetContactAttribFormHelper implements FormHelper {
                     } as SetContactNameFormState;
                 case Types.set_contact_language:
                     const { language } = action as SetContactLanguage;
-                    const value = language
-                        ? languageToAsset(getLanguage((action as SetContactLanguage).language))
-                        : removeAsset;
                     return {
                         language: { value: propertyToAsset(Types.set_contact_language) },
                         value: {
-                            value
+                            value: language
+                                ? languageToAsset(
+                                      getLanguage((action as SetContactLanguage).language)
+                                  )
+                                : removeAsset
                         },
                         valid: true
                     } as SetContactLanguageFormState;
+                case Types.set_contact_channel:
+                    const { channel } = action as SetContactChannel;
+                    return {
+                        channel: { value: propertyToAsset(Types.set_contact_channel) },
+                        value: {
+                            value: channel
+                                ? channelToAsset((action as SetContactChannel).channel)
+                                : removeAsset
+                        },
+                        valid: true
+                    } as SetContactChannelFormState;
             }
         }
 
@@ -66,6 +93,12 @@ export class SetContactAttribFormHelper implements FormHelper {
                     value: { value: removeAsset },
                     valid: false
                 } as SetContactLanguageFormState;
+            case Types.set_contact_channel:
+                return {
+                    channel: { value: propertyToAsset(Types.set_contact_channel) },
+                    value: { value: removeAsset },
+                    valid: false
+                } as SetContactChannelFormState;
         }
     }
 
@@ -100,6 +133,18 @@ export class SetContactAttribFormHelper implements FormHelper {
                             ? ''
                             : (formState as SetContactLanguageFormState).value.value.id
                 } as SetContactLanguage;
+            case Types.set_contact_channel:
+                return {
+                    ...action,
+                    // we return an empty string to indicate the value is being cleared
+                    channel:
+                        (formState as SetContactChannelFormState).value.value.id === removeAsset.id
+                            ? ''
+                            : ({
+                                  uuid: (formState as SetContactChannelFormState).value.value.id,
+                                  name: (formState as SetContactChannelFormState).value.value.name
+                              } as Channel)
+                } as SetContactChannel;
         }
     }
 }
