@@ -1,7 +1,8 @@
 import { v4 as generateUUID } from 'uuid';
+
 import {
-    Flow,
     dragSelectSpecId,
+    Flow,
     FlowStoreProps,
     getDragStyle,
     getGhostUI,
@@ -10,7 +11,7 @@ import {
     isDraggingBack,
     nodesContainerSpecId,
     nodeSpecId,
-    REPAINT_TIMEOUT
+    REPAINT_TIMEOUT,
 } from '../component/Flow';
 import { Types } from '../config/typeConfigs';
 import { getActivity } from '../external';
@@ -19,7 +20,7 @@ import Plumber from '../services/Plumber';
 import { ConnectionEvent } from '../store';
 import { getFlowComponents, getGhostNode } from '../store/helpers';
 import { composeComponentTestUtils, composeDuxState, getSpecWrapper, setMock } from '../testUtils';
-import { merge, set, setTrue, dump } from '../utils';
+import { merge, set, setTrue } from '../utils';
 
 jest.mock('../services/ActivityManager');
 jest.mock('../services/Plumber');
