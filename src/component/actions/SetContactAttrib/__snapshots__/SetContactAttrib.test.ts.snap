@@ -49,6 +49,23 @@ exports[`SetContactAttribComp render should render with 'clear...' div when valu
 </React.Fragment>
 `;
 
+exports[`SetContactAttribComp render should render with 'update...' div when passed set_contact_channel action 1`] = `
+<React.Fragment>
+  Update 
+  <span
+    className="emph"
+  >
+    Channel
+  </span>
+   to 
+  <span
+    className="emph"
+  >
+    Twilio Channel
+  </span>
+</React.Fragment>
+`;
+
 exports[`SetContactAttribComp render should render with 'update...' div when passed set_contact_field action 1`] = `
 <React.Fragment>
   Update 
@@ -74,8 +91,7 @@ exports[`SetContactAttribComp render should render with 'update...' div when pas
   >
     Language
   </span>
-   to
-   
+   to 
   <span
     className="emph"
   >
