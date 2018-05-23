@@ -56,11 +56,13 @@ const SetContactAttribComp: React.SFC<Attribute> = action => {
     switch (action.type) {
         case Types.set_contact_field:
             ({ value } = action as SetContactField);
+            break;
         case Types.set_contact_name:
             ({ name: value } = action as SetContactName);
             break;
         case Types.set_contact_language:
-            ({ name: value } = getLanguage((action as SetContactLanguage).language));
+            const language = getLanguage((action as SetContactLanguage).language);
+            value = language ? language.name : '';
             break;
         case Types.set_contact_channel:
             ({ channel: { name: value } } = action as SetContactChannel);
