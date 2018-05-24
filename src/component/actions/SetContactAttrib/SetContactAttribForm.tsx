@@ -6,8 +6,8 @@ import { bindActionCreators } from 'redux';
 import { ConfigProviderContext, Type } from '../../../config';
 import { fakePropType } from '../../../config/ConfigProvider';
 import { Types } from '../../../config/typeConfigs';
-import { SetContactAttribute } from '../../../flowTypes';
-import AssetService, { Asset } from '../../../services/AssetService';
+import { Channel, SetContactAttribute } from '../../../flowTypes';
+import AssetService, { Asset, ChannelAssets } from '../../../services/AssetService';
 import { AppState, DispatchWithState } from '../../../store';
 import { SetContactAttribFunc, updateSetContactAttribForm } from '../../../store/forms';
 import {
@@ -70,6 +70,64 @@ const validateAssetRequired: ValidatorFunc = (name: string, input: Asset): Valid
     return [];
 };
 
+interface DropDownProps {
+    initial: Asset[];
+    assetService: ChannelAssets;
+    onChange: ([selection]: Asset[]) => void;
+    localSearchOptions?: Asset[];
+}
+
+// Note: LanguageDropDown & ChannelDropDown
+// are here to ensure `Async` in unmounts/mounts when
+// the attribute to update is changed.
+// `Async` will only call its `loadOptions` callback
+// when it mounts.
+const LanguageDropDown: React.SFC<DropDownProps> = ({
+    initial,
+    assetService,
+    localSearchOptions,
+    onChange
+}) => (
+    <FormElement
+        showLabel={true}
+        name={SetContactAttribFormElementNames.Channel}
+        helpText="Select the contact's preferred language."
+    >
+        <SelectSearch
+            assets={assetService}
+            actionClearable={true}
+            searchable={false}
+            multi={false}
+            initial={initial}
+            name={name}
+            localSearchOptions={localSearchOptions}
+            closeOnSelect={true}
+            onChange={onChange}
+            placeholder="Select a language..."
+        />
+    </FormElement>
+);
+
+const ChannelDropDown: React.SFC<DropDownProps> = ({ initial, assetService, onChange }) => (
+    <FormElement
+        showLabel={true}
+        name={SetContactAttribFormElementNames.Channel}
+        helpText="Select the contact's primary channel."
+    >
+        <SelectSearch
+            assets={assetService}
+            actionClearable={true}
+            searchable={false}
+            multi={false}
+            initial={initial}
+            name={name}
+            closeOnSelect={true}
+            onChange={onChange}
+            placeholder="Select a channel..."
+        />
+    </FormElement>
+);
+
 // Note: action prop is only used for its uuid (see onValid)
 export class SetContactAttribForm extends React.Component<SetContactAttribFormProps> {
     public static contextTypes = {
@@ -119,112 +177,84 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         );
     }
 
-    public handleLanguageChange([language]: Asset[]): void {
-        this.props.updateSetContactAttribForm(
-            null,
-            validate(SetContactAttribFormElementNames.Language, language, [])
-        );
-    }
+    // For `set_contact_language`, `set_contact_channel` forms
+    public handleDropDownChange([selection]: Asset[]): void {
+        let name;
 
-    public handleChannelChange([channel]: Asset[]): void {
-        this.props.updateSetContactAttribForm(
-            null,
-            validate(SetContactAttribFormElementNames.Channel, channel, [])
-        );
+        switch (this.props.typeConfig.type) {
+            case Types.set_contact_language:
+                name = SetContactAttribFormElementNames.Language;
+                break;
+            case Types.set_contact_channel:
+                name = SetContactAttribFormElementNames.Channel;
+                break;
+        }
+
+        this.props.updateSetContactAttribForm(null, validate(name, selection, []));
     }
 
     // Only used for `set_contact_field`, `set_contact_name` actions,
     // as they're currently the only contact attribute actions whose forms require a text input.
     private getValue(): string {
+        let value;
+
         switch (this.props.typeConfig.type) {
             case Types.set_contact_field:
-                return (this.props.form as SetContactFieldFormState).value.value;
             case Types.set_contact_name:
-                return (this.props.form as SetContactNameFormState).value.value;
+                ({ value: { value } } = this.props.form);
+                break;
+            default:
+                value = '';
+                break;
         }
+
+        return value as string;
     }
 
     private getAttributeEntry(): AssetEntry {
+        let entry;
+
         switch (this.props.typeConfig.type) {
             case Types.set_contact_field:
-                return (this.props.form as SetContactFieldFormState).field;
+                ({ field: entry } = this.props.form as SetContactFieldFormState);
+                break;
             case Types.set_contact_name:
-                return (this.props.form as SetContactNameFormState).name;
+                ({ name: entry } = this.props.form as SetContactNameFormState);
+                break;
             case Types.set_contact_language:
-                return (this.props.form as SetContactLanguageFormState).language;
+                ({ language: entry } = this.props.form as SetContactLanguageFormState);
+                break;
             case Types.set_contact_channel:
-                return (this.props.form as SetContactChannelFormState).channel;
+                ({ channel: entry } = this.props.form as SetContactChannelFormState);
+                break;
         }
+
+        return entry;
     }
 
-    // Get initial language for language dropdown
-    private getInitialLanguage(): Asset[] {
-        const { value: { value: language } } = this.props.form as SetContactLanguageFormState;
-        if (language) {
-            return [language];
-        }
-        return [];
-    }
-
-    // Get initial channel for channel dropdown
-    private getInitialChannel(): Asset[] {
-        const { value: { value: channel } } = this.props.form as SetContactChannelFormState;
-        if (channel) {
-            return [channel];
-        }
-        return [];
-    }
-
-    private getLanguageDropDown(): JSX.Element {
-        return (
-            <FormElement
-                showLabel={true}
-                name={SetContactAttribFormElementNames.Language}
-                helpText="Select the contact's preferred language."
-            >
-                <SelectSearch
-                    assets={this.context.assetService.getEnvironmentAssets()}
-                    actionClearable={true}
-                    localSearchOptions={this.props.languages}
-                    searchable={false}
-                    multi={false}
-                    initial={this.getInitialLanguage()}
-                    name="Languages"
-                    closeOnSelect={true}
-                    onChange={this.handleLanguageChange}
-                    placeholder="Select a language..."
-                />
-            </FormElement>
-        );
-    }
-
-    private getChannelDropDown(): JSX.Element {
-        return (
-            <FormElement
-                showLabel={true}
-                name={SetContactAttribFormElementNames.Channel}
-                helpText="Select the contact's primary channel."
-            >
-                <SelectSearch
-                    assets={this.context.assetService.getChannelAssets()}
-                    actionClearable={true}
-                    searchable={false}
-                    multi={false}
-                    initial={this.getInitialChannel()}
-                    name="Channels"
-                    closeOnSelect={true}
-                    onChange={this.handleChannelChange}
-                    placeholder="Select a channel..."
-                />
-            </FormElement>
-        );
+    // Get initial selection for dropdown
+    private getInitialDropDownValue(): Asset[] {
+        return [(this.props.form as SetContactAttribFormState).value.value] as Asset[];
     }
 
     private getDropDown(): JSX.Element {
         if (this.props.form.hasOwnProperty('language')) {
-            return this.getLanguageDropDown();
+            return (
+                <LanguageDropDown
+                    initial={this.getInitialDropDownValue()}
+                    localSearchOptions={this.props.languages}
+                    assetService={this.context.assetService.getEnvironmentAssets()}
+                    onChange={this.handleDropDownChange}
+                />
+            );
         } else if (this.props.form.hasOwnProperty('channel')) {
-            return this.getChannelDropDown();
+            return (
+                <ChannelDropDown
+                    initial={this.getInitialDropDownValue()}
+                    assetService={this.context.assetService.getChannelAssets()}
+                    onChange={this.handleDropDownChange}
+                />
+            );
         }
     }
 

@@ -16,8 +16,7 @@ import SelectOption from './SelectOption';
 import SelectValue from './SelectValue';
 
 export interface SelectSearchProps {
-    name: string;
-
+    name?: string;
     actionClearable?: boolean;
     searchable?: boolean;
     placeholder?: string;

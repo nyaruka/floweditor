@@ -289,7 +289,7 @@ class FieldAssets extends Assets {
     }
 }
 
-class ChannelAssets extends Assets {
+export class ChannelAssets extends Assets {
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
 
