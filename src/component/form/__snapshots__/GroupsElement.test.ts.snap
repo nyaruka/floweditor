@@ -24,7 +24,6 @@ exports[`GroupsElement render should pass createOptions object if it's add prop 
     name="Groups"
     onChange={[Function]}
     placeholder="Enter the name of an existing group..."
-    resultType="group"
     searchPromptText="Invalid group"
   />
 </FormElement>
@@ -45,7 +44,6 @@ Object {
   "name": "Groups",
   "onChange": [Function],
   "placeholder": "Enter the name of an existing group...",
-  "resultType": "group",
   "searchPromptText": "Invalid group",
 }
 `;
@@ -70,7 +68,6 @@ exports[`GroupsElement render should render self, children with required props 2
     name="Groups"
     onChange={[Function]}
     placeholder="Enter the name of an existing group..."
-    resultType="group"
     searchPromptText="Invalid group"
   />
 </FormElement>

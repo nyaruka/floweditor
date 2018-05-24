@@ -65,6 +65,7 @@ describe('SetContactAttribFormHelper', () => {
                 setContactLanguageAction,
                 Types.set_contact_language
             );
+
             expect(formStateWithAction.value).toEqual({
                 value: languageToAsset(getLanguage(setContactLanguageAction.language))
             });
@@ -77,6 +78,7 @@ describe('SetContactAttribFormHelper', () => {
                 { ...setContactLanguageAction, language: '' },
                 Types.set_contact_language
             );
+
             expect(formStateWithClearedAction.value).toEqual({
                 value: removeAsset
             });
@@ -96,6 +98,7 @@ describe('SetContactAttribFormHelper', () => {
                 setContactChannelAction,
                 Types.set_contact_channel
             );
+
             expect(formStateWithAction.value).toEqual({
                 value: {
                     id: setContactChannelAction.uuid,
@@ -112,6 +115,7 @@ describe('SetContactAttribFormHelper', () => {
                 { ...setContactChannelAction, channel: {} as Channel },
                 Types.set_contact_channel
             );
+
             expect(formStateWithClearedAction.value).toEqual({
                 value: removeAsset
             });
@@ -166,6 +170,7 @@ describe('SetContactAttribFormHelper', () => {
                     clearedAction,
                     Types.set_contact_language
                 );
+
                 expect(
                     formHelper.stateToAction(
                         setContactLanguageAction.uuid,
@@ -196,6 +201,7 @@ describe('SetContactAttribFormHelper', () => {
                     clearedAction as SetContactChannel,
                     Types.set_contact_channel
                 );
+
                 expect(
                     formHelper.stateToAction(
                         setContactChannelAction.uuid,

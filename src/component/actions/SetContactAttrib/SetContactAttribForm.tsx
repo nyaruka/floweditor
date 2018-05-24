@@ -41,15 +41,22 @@ export interface SetContactAttribFormStoreProps {
     updateSetContactAttribForm: SetContactAttribFunc;
 }
 
+export type SetContactAttribFormProps = SetContactAttribFormPassedProps &
+    SetContactAttribFormStoreProps;
+
+interface DropDownProps {
+    initial: Asset[];
+    assetService: ChannelAssets;
+    onChange: ([selection]: Asset[]) => void;
+    localSearchOptions?: Asset[];
+}
+
 export enum SetContactAttribFormElementNames {
     Attribute = 'Attribute',
     Value = 'Value',
     Language = 'Language',
     Channel = 'Channel'
 }
-
-export type SetContactAttribFormProps = SetContactAttribFormPassedProps &
-    SetContactAttribFormStoreProps;
 
 export const ATTRIB_HELP_TEXT =
     'Select an existing attribute to update or type any name to create a new one';
@@ -70,18 +77,10 @@ const validateAssetRequired: ValidatorFunc = (name: string, input: Asset): Valid
     return [];
 };
 
-interface DropDownProps {
-    initial: Asset[];
-    assetService: ChannelAssets;
-    onChange: ([selection]: Asset[]) => void;
-    localSearchOptions?: Asset[];
-}
-
-// Note: LanguageDropDown & ChannelDropDown
-// are here to ensure `Async` in unmounts/mounts when
-// the attribute to update is changed.
-// `Async` will only call its `loadOptions` callback
-// when it mounts.
+// Note: `LanguageDropDown` & `ChannelDropDown`
+// are here to ensure `Async` in `SelectSearch` unmounts/mounts when
+// the attribute to update is changed. `Async` calls its `loadOptions`
+// callback in `componentDidMount`.
 const LanguageDropDown: React.SFC<DropDownProps> = ({
     initial,
     assetService,

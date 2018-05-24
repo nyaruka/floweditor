@@ -85,6 +85,15 @@ Array [
   Object {
     "allows": [Function],
     "component": [Function],
+    "description": "Update the contact",
+    "form": [Function],
+    "formHelper": SetContactAttribFormHelper {},
+    "name": "Update Contact",
+    "type": "set_contact_channel",
+  },
+  Object {
+    "allows": [Function],
+    "component": [Function],
     "description": "Send an email",
     "form": [Function],
     "formHelper": SendEmailFormHelper {},
@@ -236,6 +245,15 @@ Object {
     "formHelper": SendMsgFormHelper {},
     "name": "Send Message",
     "type": "send_msg",
+  },
+  "set_contact_channel": Object {
+    "allows": [Function],
+    "component": [Function],
+    "description": "Update the contact",
+    "form": [Function],
+    "formHelper": SetContactAttribFormHelper {},
+    "name": "Update Contact",
+    "type": "set_contact_channel",
   },
   "set_contact_field": Object {
     "allows": [Function],

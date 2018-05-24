@@ -4,6 +4,7 @@ exports[`ConfigProvider > should provide config to child's context 1`] = `
 Object {
   "endpoints": Object {
     "activity": "",
+    "channels": "/assets/channels.json",
     "environment": "/assets/environment.json",
     "fields": "/assets/fields.json",
     "flows": "/assets/flows.json",
