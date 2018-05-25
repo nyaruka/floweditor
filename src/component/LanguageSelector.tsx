@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 
 import { ConfigProviderContext } from '../config';
 import { fakePropType } from '../config/ConfigProvider';
-import { ResultType } from '../flowTypes';
 import { Asset } from '../services/AssetService';
 import { AppState, DispatchWithState, HandleLanguageChange, handleLanguageChange } from '../store';
 import { languageSelector } from './LanguageSelector.scss';
@@ -39,7 +38,6 @@ export class LanguageSelector extends React.Component<LanguageSelectorStoreProps
         return (
             <div className={containerClasses} data-spec={languageSelectorContainerSpecId}>
                 <SelectSearch
-                    resultType={ResultType.language}
                     localSearchOptions={this.props.languages}
                     searchable={false}
                     multi={false}

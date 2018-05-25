@@ -14,7 +14,7 @@ import {
     SetRunResultFormState,
     StartSessionFormState,
     StringEntry,
-    updateForm
+    updateForm,
 } from './nodeEditor';
 import { Thunk } from './thunks';
 
@@ -25,6 +25,29 @@ export type SendBroadcastFunc = (
 export type StartSessionFunc = (
     updated: Partial<StartSessionFormState>
 ) => Thunk<StartSessionFormState>;
+
+export type SetContactAttribFunc = (
+    attribute?: AssetEntry,
+    value?: StringEntry
+) => Thunk<SetContactAttribFormState>;
+
+export type SendMsgFunc = (updated: Partial<SendMsgFormState>) => Thunk<SendMsgFormState>;
+
+export type SendEmailFunc = (updated: Partial<SendEmailFormState>) => Thunk<SendEmailFormState>;
+
+export type ChangeGroupsFunc = (
+    updated: Partial<ChangeGroupsFormState>
+) => Thunk<ChangeGroupsFormState>;
+
+export type SetRunResultFunc = (
+    updated: Partial<SetRunResultFormState>
+) => Thunk<SetRunResultFormState>;
+
+export type AddLabelsFunc = (updated: Partial<AddLabelsFormState>) => Thunk<AddLabelsFormState>;
+
+const assetTypes = Object.keys(AssetType).map(type => type);
+
+const getKeysToRemove = (type: AssetType) => assetTypes.filter(assetType => assetType === type);
 
 export const mutateForm = (
     form: NodeEditorForm,
@@ -60,11 +83,6 @@ export const updateSendBroadcastForm: SendBroadcastFunc = updated => (
     return updatedForm as SendBroadcastFormState;
 };
 
-export type SetContactAttribFunc = (
-    attribute?: AssetEntry,
-    value?: StringEntry
-) => Thunk<SetContactAttribFormState>;
-
 // Todo: make this less awful
 export const updateSetContactAttribForm: SetContactAttribFunc = (
     attribute: AssetEntry,
@@ -73,19 +91,22 @@ export const updateSetContactAttribForm: SetContactAttribFunc = (
     const { nodeEditor: { form } } = getState();
     if (attribute) {
         let keyToUpdate: string;
-        const keysToRemove = [];
+        let keysToRemove;
         switch (attribute.value.type) {
             case AssetType.Field:
                 keyToUpdate = attribute.value.type;
-                keysToRemove.push(AssetType.Name);
+                keysToRemove = getKeysToRemove(AssetType.Name);
                 break;
             case AssetType.Name:
                 keyToUpdate = attribute.value.type;
-                keysToRemove.push(AssetType.Field);
+                keysToRemove = getKeysToRemove(AssetType.Field);
                 break;
             case AssetType.Language:
                 keyToUpdate = attribute.value.type;
-                keysToRemove.push(AssetType.Name, AssetType.Field);
+                keysToRemove = getKeysToRemove(AssetType.Language);
+            case AssetType.Channel:
+                keyToUpdate = attribute.value.type;
+                keysToRemove = getKeysToRemove(AssetType.Channel);
         }
         const updatedForm = mutateForm(form, { [keyToUpdate]: attribute }, keysToRemove);
         dispatch(updateForm(updatedForm));
@@ -107,8 +128,6 @@ export const updateStartSessionForm: StartSessionFunc = updated => (
     return updatedForm as StartSessionFormState;
 };
 
-export type SendMsgFunc = (updated: Partial<SendMsgFormState>) => Thunk<SendMsgFormState>;
-
 export const updateSendMsgForm: SendMsgFunc = (updated: Partial<SendMsgFormState>) => (
     dispatch: DispatchWithState,
     getState: GetState
@@ -118,8 +137,6 @@ export const updateSendMsgForm: SendMsgFunc = (updated: Partial<SendMsgFormState
     dispatch(updateForm(updatedForm));
     return updatedForm as SendMsgFormState;
 };
-
-export type AddLabelsFunc = (updated: Partial<AddLabelsFormState>) => Thunk<AddLabelsFormState>;
 
 export const updateAddLabelsForm: AddLabelsFunc = (updated: Partial<AddLabelsFormState>) => (
     dispatch: DispatchWithState,
@@ -131,8 +148,6 @@ export const updateAddLabelsForm: AddLabelsFunc = (updated: Partial<AddLabelsFor
     return updatedForm as AddLabelsFormState;
 };
 
-export type SendEmailFunc = (updated: Partial<SendEmailFormState>) => Thunk<SendEmailFormState>;
-
 export const updateSendEmailForm: SendEmailFunc = (updated: Partial<SendEmailFormState>) => (
     dispatch: DispatchWithState,
     getState: GetState
@@ -143,10 +158,6 @@ export const updateSendEmailForm: SendEmailFunc = (updated: Partial<SendEmailFor
     return updatedForm as SendEmailFormState;
 };
 
-export type SetRunResultFunc = (
-    updated: Partial<SetRunResultFormState>
-) => Thunk<SetRunResultFormState>;
-
 export const updateSetRunResultForm: SetRunResultFunc = (
     updated: Partial<SetRunResultFormState>
 ) => (dispatch: DispatchWithState, getState: GetState): SetRunResultFormState => {
@@ -155,10 +166,6 @@ export const updateSetRunResultForm: SetRunResultFunc = (
     dispatch(updateForm(updatedForm));
     return updatedForm as SetRunResultFormState;
 };
-
-export type ChangeGroupsFunc = (
-    updated: Partial<ChangeGroupsFormState>
-) => Thunk<ChangeGroupsFormState>;
 
 export const updateChangeGroupsForm: ChangeGroupsFunc = (
     updated: Partial<ChangeGroupsFormState>

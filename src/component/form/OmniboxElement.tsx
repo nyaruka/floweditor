@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { ResultType } from '../../flowTypes';
 import AssetService, { Asset, Assets } from '../../services/AssetService';
 import { getSelectClassForEntry } from '../../utils';
 import SelectSearch from '../SelectSearch/SelectSearch';
@@ -50,7 +49,6 @@ export default class OmniboxElement extends React.Component<OmniboxElementProps>
                     __className={getSelectClassForEntry(this.props.entry)}
                     onChange={this.handleChange}
                     name={this.props.name}
-                    resultType={ResultType.group}
                     assets={this.props.assets}
                     multi={true}
                     initial={this.props.entry.value}

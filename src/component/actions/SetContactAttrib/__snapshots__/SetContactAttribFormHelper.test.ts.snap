@@ -1,5 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_channel: set_contact_channel - action doesn't have channel 1`] = `
+Object {
+  "channel": Object {
+    "value": Object {
+      "id": "channel",
+      "name": "Channel",
+      "type": "channel",
+    },
+  },
+  "valid": true,
+  "value": Object {
+    "value": Object {
+      "id": "remove",
+      "name": "Remove Value",
+      "type": "remove",
+    },
+  },
+}
+`;
+
+exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_channel: set_contact_channel - action has channel 1`] = `
+Object {
+  "channel": Object {
+    "value": Object {
+      "id": "channel",
+      "name": "Channel",
+      "type": "channel",
+    },
+  },
+  "valid": true,
+  "value": Object {
+    "value": Object {
+      "id": "set_contact_channel-0",
+      "name": "Twilio Channel",
+      "type": "language",
+    },
+  },
+}
+`;
+
+exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_channel: set_contact_channel 1`] = `
+Object {
+  "channel": Object {
+    "value": Object {
+      "id": "channel",
+      "name": "Channel",
+      "type": "channel",
+    },
+  },
+  "valid": false,
+  "value": Object {
+    "value": Object {
+      "id": "remove",
+      "name": "Remove Value",
+      "type": "remove",
+    },
+  },
+}
+`;
+
 exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_field: set_contact_field 1`] = `
 Object {
   "field": Object {
@@ -12,6 +72,46 @@ Object {
   "valid": false,
   "value": Object {
     "value": "",
+  },
+}
+`;
+
+exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_language: set_contact_language - action doesn't have language 1`] = `
+Object {
+  "language": Object {
+    "value": Object {
+      "id": "language",
+      "name": "Language",
+      "type": "language",
+    },
+  },
+  "valid": true,
+  "value": Object {
+    "value": Object {
+      "id": "remove",
+      "name": "Remove Value",
+      "type": "remove",
+    },
+  },
+}
+`;
+
+exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_language: set_contact_language - action has language 1`] = `
+Object {
+  "language": Object {
+    "value": Object {
+      "id": "language",
+      "name": "Language",
+      "type": "language",
+    },
+  },
+  "valid": true,
+  "value": Object {
+    "value": Object {
+      "id": "eng",
+      "name": "English",
+      "type": "language",
+    },
   },
 }
 `;
@@ -31,46 +131,6 @@ Object {
       "id": "remove",
       "name": "Remove Value",
       "type": "remove",
-    },
-  },
-}
-`;
-
-exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_language: set_contact_name - action doesn't have language 1`] = `
-Object {
-  "language": Object {
-    "value": Object {
-      "id": "language",
-      "name": "Language",
-      "type": "language",
-    },
-  },
-  "valid": true,
-  "value": Object {
-    "value": Object {
-      "id": "remove",
-      "name": "Remove Value",
-      "type": "remove",
-    },
-  },
-}
-`;
-
-exports[`SetContactAttribFormHelper actionToState should provide initial form state from scratch: set_contact_language: set_contact_name - action has language 1`] = `
-Object {
-  "language": Object {
-    "value": Object {
-      "id": "language",
-      "name": "Language",
-      "type": "language",
-    },
-  },
-  "valid": true,
-  "value": Object {
-    "value": Object {
-      "id": "eng",
-      "name": "English",
-      "type": "language",
     },
   },
 }

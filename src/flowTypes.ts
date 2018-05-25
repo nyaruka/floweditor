@@ -2,7 +2,7 @@ import {
     IsOptionUniqueHandler,
     IsValidNewOptionHandler,
     NewOptionCreatorHandler,
-    PromptTextCreatorHandler
+    PromptTextCreatorHandler,
 } from 'react-select';
 
 import { Operators } from './config/operatorConfigs';
@@ -32,6 +32,7 @@ export interface Endpoints {
     flows: string;
     activity: string;
     labels: string;
+    channels: string;
     environment: string;
     simulateStart: string;
     simulateResume: string;
@@ -81,6 +82,11 @@ export enum RouterTypes {
 export interface Router {
     type: RouterTypes;
     result_name?: string;
+}
+
+export interface Channel {
+    uuid: string;
+    name: string;
 }
 
 export interface Case {
@@ -163,12 +169,12 @@ export interface SetContactLanguage extends Action {
     language: string;
 }
 
-export interface SetContactLanguage extends Action {
-    type: Types.set_contact_language;
-    language: string;
+export interface SetContactChannel extends Action {
+    type: Types.set_contact_channel;
+    channel: Channel;
 }
 
-export type SetContactProperty = SetContactName | SetContactLanguage;
+export type SetContactProperty = SetContactName | SetContactLanguage | SetContactChannel;
 
 export type SetContactAttribute = SetContactField | SetContactProperty;
 
@@ -291,20 +297,13 @@ export enum ContactProperties {
     Name = 'name',
     Language = 'language',
     Timezone = 'timezone',
+    Channel = 'channel',
     Email = 'email',
     Mailto = 'mailto',
     Phone = 'phone',
     Groups = 'groups',
     Facebook = 'facebook',
     Telegram = 'telegram'
-}
-
-export enum ResultType {
-    flow = 'flow',
-    field = 'field',
-    group = 'group',
-    label = 'label',
-    language = 'language'
 }
 
 export enum ValueType {

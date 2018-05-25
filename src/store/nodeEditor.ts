@@ -15,7 +15,7 @@ import ActionTypes, {
     UpdateShowResultNameAction,
     UpdateTimeoutAction,
     UpdateTypeConfigAction,
-    UpdateUserAddingActionAction
+    UpdateUserAddingActionAction,
 } from './actionTypes';
 import Constants from './constants';
 
@@ -86,6 +86,11 @@ export interface SetContactLanguageFormState extends FormState {
     value: AssetEntry;
 }
 
+export interface SetContactChannelFormState extends FormState {
+    channel: AssetEntry;
+    value: AssetEntry;
+}
+
 export interface SetRunResultFormState extends FormState {
     name: StringEntry;
     value: StringEntry;
@@ -100,7 +105,8 @@ export interface ChangeGroupsFormState extends FormState {
 export type SetContactAttribFormState =
     | SetContactFieldFormState
     | SetContactNameFormState
-    | SetContactLanguageFormState;
+    | SetContactLanguageFormState
+    | SetContactChannelFormState;
 
 export interface StartSessionFormState extends FormState {
     recipients: AssetArrayEntry;

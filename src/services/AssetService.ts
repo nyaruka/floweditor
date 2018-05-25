@@ -2,7 +2,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { v4 as generateUUID } from 'uuid';
 
-import { ContactProperties, FlowEditorConfig, Group } from '../flowTypes';
+import { Contact, ContactProperties, FlowEditorConfig, Group } from '../flowTypes';
 import { FlowComponents } from '../store/helpers';
 import { titleCase } from '../utils';
 
@@ -112,7 +112,7 @@ export class Assets {
         });
     }
 
-    private searchLocalItems(term: string): Asset[] {
+    protected searchLocalItems(term: string): Asset[] {
         // search our local items first
         const matches: Asset[] = [];
         Object.keys(this.assets).map((key: string) => {
@@ -269,11 +269,17 @@ class FieldAssets extends Assets {
             name: titleCase(ContactProperties.Language),
             id: ContactProperties.Language,
             type: AssetType.Language
+        },
+        {
+            name: titleCase(ContactProperties.Channel),
+            id: ContactProperties.Channel,
+            type: AssetType.Channel
         }
     ];
 
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
+
         this.idProperty = IdProperty.Key;
         this.assetType = AssetType.Field;
 
@@ -283,9 +289,10 @@ class FieldAssets extends Assets {
     }
 }
 
-class ChannelAssets extends Assets {
+export class ChannelAssets extends Assets {
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
+
         this.idProperty = IdProperty.UUID;
         this.assetType = AssetType.Channel;
 
@@ -300,6 +307,30 @@ class ChannelAssets extends Assets {
                 roles: ['send', 'receive']
             }
         };
+    }
+
+    public search(term: string): Promise<AssetSearchResult> {
+        // make sure the simulator channel isn't included
+        const matches: Asset[] = [];
+
+        // then query against our endpoint to add to that list
+        let url = this.endpoint;
+        if (term) {
+            url += '?query=' + encodeURIComponent(term);
+        }
+
+        return axios.get(url).then((response: AxiosResponse) => {
+            for (const result of response.data) {
+                if (this.matches(term, result.name)) {
+                    matches.push({
+                        name: result.name,
+                        id: result[this.idProperty],
+                        type: this.assetType
+                    });
+                }
+            }
+            return { assets: matches, complete: true, sorted: false };
+        });
     }
 }
 
@@ -404,8 +435,7 @@ export default class AssetService {
         this.flows = new FlowAssets(config.endpoints.flows, config.localStorage);
         this.recipients = new RecipientAssets(config.endpoints.recipients, config.localStorage);
         this.labels = new LabelAssets(config.endpoints.labels, config.localStorage);
-        // channels are always mocked for local
-        this.channels = new ChannelAssets('/channels', true);
+        this.channels = new ChannelAssets(config.endpoints.channels, config.localStorage);
         this.environment = new EnvironmentAssets(config.endpoints.environment, config.localStorage);
 
         // initialize asset urls
@@ -442,6 +472,10 @@ export default class AssetService {
 
     public getLabelAssets(): LabelAssets {
         return this.labels;
+    }
+
+    public getChannelAssets(): ChannelAssets {
+        return this.channels;
     }
 
     public getEnvironmentAssets(): EnvironmentAssets {

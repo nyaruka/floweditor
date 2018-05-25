@@ -2,12 +2,13 @@ import { getTypeConfig } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
 import { composeComponentTestUtils, restoreSpies, setMock } from '../../../testUtils';
 import {
+    createSetContactChannelAction,
     createSetContactFieldAction,
+    createSetContactLanguageAction,
     createSetContactNameAction,
     English,
     languages,
-    createSetContactLanguageAction,
-    Spanish
+    Spanish,
 } from '../../../testUtils/assetCreators';
 import ConnectedTextInputElement from '../../form/TextInputElement';
 import { propertyToAsset } from './helpers';
@@ -17,6 +18,7 @@ import { SetContactAttribFormHelper } from './SetContactAttribFormHelper';
 const setContactNameAction = createSetContactNameAction();
 const setContactFieldAction = createSetContactFieldAction();
 const setContactLanguageAction = createSetContactLanguageAction();
+const setContactChannelAction = createSetContactChannelAction();
 
 const formHelper = new SetContactAttribFormHelper();
 
@@ -36,7 +38,7 @@ const { setup, spyOn } = composeComponentTestUtils(SetContactAttribForm, basePro
 
 describe(SetContactAttribForm.name, () => {
     describe('render', () => {
-        it('should render self, children with base props', () => {
+        it('should render text input', () => {
             const { wrapper, props } = setup();
 
             expect(wrapper).toMatchSnapshot();
@@ -63,17 +65,33 @@ describe(SetContactAttribForm.name, () => {
 
         it('should render language dropdown', () => {
             const { wrapper } = setup(true, {
-                action: { $set: setContactLanguageAction },
-                typeConfig: { $set: getTypeConfig(Types.set_contact_language) },
-                form: {
-                    $set: formHelper.actionToState(
+                $merge: {
+                    action: setContactLanguageAction,
+                    typeConfig: getTypeConfig(Types.set_contact_language),
+                    form: formHelper.actionToState(
                         setContactLanguageAction,
                         Types.set_contact_language
                     )
                 }
             });
 
-            expect(wrapper.find('FormElement').exists()).toBeTruthy();
+            expect(wrapper.find('LanguageDropDown').exists()).toBeTruthy();
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it('should render channel dropdown', () => {
+            const { wrapper } = setup(true, {
+                $merge: {
+                    action: setContactChannelAction,
+                    typeConfig: getTypeConfig(Types.set_contact_channel),
+                    form: formHelper.actionToState(
+                        setContactChannelAction,
+                        Types.set_contact_channel
+                    )
+                }
+            });
+
+            expect(wrapper.find('ChannelDropDown').exists()).toBeTruthy();
             expect(wrapper).toMatchSnapshot();
         });
     });
@@ -124,21 +142,39 @@ describe(SetContactAttribForm.name, () => {
             });
         });
 
-        describe('handleLanguageChange', () => {
-            it('should update form', () => {
+        describe('handleDropDownChange', () => {
+            it(`should update form: ${Types.set_contact_language}`, () => {
                 const { wrapper, instance, props } = setup(true, {
-                    action: { $set: setContactLanguageAction },
-                    typeConfig: { $set: getTypeConfig(Types.set_contact_language) },
-                    form: {
-                        $set: formHelper.actionToState(
+                    $merge: {
+                        action: setContactLanguageAction,
+                        typeConfig: getTypeConfig(Types.set_contact_language),
+                        form: formHelper.actionToState(
                             setContactLanguageAction,
                             Types.set_contact_language
-                        )
-                    },
-                    updateSetContactAttribForm: setMock()
+                        ),
+                        updateSetContactAttribForm: jest.fn()
+                    }
                 });
 
-                instance.handleLanguageChange([Spanish]);
+                instance.handleDropDownChange([Spanish]);
+
+                expect(props.updateSetContactAttribForm).toHaveBeenCalledTimes(1);
+            });
+
+            it(`should update form: ${Types.set_contact_channel}`, () => {
+                const { wrapper, instance, props } = setup(true, {
+                    $merge: {
+                        action: setContactChannelAction,
+                        typeConfig: getTypeConfig(Types.set_contact_channel),
+                        form: formHelper.actionToState(
+                            setContactChannelAction,
+                            Types.set_contact_channel
+                        ),
+                        updateSetContactAttribForm: jest.fn()
+                    }
+                });
+
+                instance.handleDropDownChange([Spanish]);
 
                 expect(props.updateSetContactAttribForm).toHaveBeenCalledTimes(1);
             });
@@ -153,7 +189,6 @@ describe(SetContactAttribForm.name, () => {
                         valid: true
                     }))
                 });
-
                 const valid = instance.validate();
 
                 expect(valid).toBeTruthy();

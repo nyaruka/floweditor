@@ -10,15 +10,13 @@ import Select, {
     NewOptionCreatorHandler,
 } from 'react-select';
 
-import { CreateOptions, ResultType } from '../../flowTypes';
+import { CreateOptions } from '../../flowTypes';
 import { Asset, Assets, AssetSearchResult, removeAsset } from '../../services/AssetService';
 import SelectOption from './SelectOption';
 import SelectValue from './SelectValue';
 
 export interface SelectSearchProps {
-    name: string;
-    resultType: ResultType;
-
+    name?: string;
     actionClearable?: boolean;
     searchable?: boolean;
     placeholder?: string;

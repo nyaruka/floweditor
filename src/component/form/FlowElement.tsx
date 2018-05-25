@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { ResultType } from '../../flowTypes';
 import { Asset, Assets } from '../../services/AssetService';
 import { getSelectClassForEntry } from '../../utils';
 import SelectSearch from '../SelectSearch/SelectSearch';
@@ -35,7 +34,6 @@ export default class FlowElement extends React.Component<FlowElementProps> {
                     onChange={this.handleChange}
                     name={this.props.name}
                     assets={this.props.assets}
-                    resultType={ResultType.flow}
                     multi={false}
                     initial={[this.props.entry.value]}
                     searchPromptText={notFound}

@@ -1,4 +1,3 @@
-import { ResultType } from '../flowTypes';
 import { handleLanguageChange } from '../store/thunks';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '../testUtils';
 import { English, languages, Spanish } from '../testUtils/assetCreators';
@@ -6,7 +5,7 @@ import {
     containerClasses,
     LanguageSelector,
     languageSelectorContainerSpecId,
-    LanguageSelectorStoreProps
+    LanguageSelectorStoreProps,
 } from './LanguageSelector';
 
 const baseProps: LanguageSelectorStoreProps = {
@@ -27,7 +26,6 @@ describe(LanguageSelector.name, () => {
             ).toBeTruthy();
             expect(wrapper.find('SelectSearch').props()).toEqual(
                 expect.objectContaining({
-                    resultType: ResultType.language,
                     initial: [props.language],
                     localSearchOptions: props.languages,
                     onChange: instance.handleLanguageChange,

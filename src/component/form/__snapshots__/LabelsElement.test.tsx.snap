@@ -29,7 +29,6 @@ exports[`LabelsElement render should render form element, pass it create options
     name="Labels"
     onChange={[MockFunction]}
     placeholder="Enter the name of an existing label or create a new one"
-    resultType="group"
     searchPromptText="Invalid label"
   />
 </FormElement>

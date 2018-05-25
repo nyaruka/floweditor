@@ -19,6 +19,7 @@ import {
     RouterTypes,
     SendEmail,
     SendMsg,
+    SetContactChannel,
     SetContactField,
     SetContactLanguage,
     SetContactProperty,
@@ -212,6 +213,21 @@ export const createSetContactLanguageAction = ({
     uuid,
     language,
     type: Types.set_contact_language
+});
+
+export const createSetContactChannelAction = ({
+    uuid = 'set_contact_channel-0',
+    channelName = 'Twilio Channel'
+}: {
+    uuid?: string;
+    channelName?: string;
+} = {}): SetContactChannel => ({
+    uuid,
+    channel: {
+        uuid,
+        name: channelName
+    },
+    type: Types.set_contact_channel
 });
 
 export const createSetRunResultAction = ({

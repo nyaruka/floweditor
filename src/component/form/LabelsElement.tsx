@@ -1,15 +1,9 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 
-import { CreateOptions, ResultType } from '../../flowTypes';
+import { CreateOptions } from '../../flowTypes';
 import { Asset, Assets, AssetType } from '../../services/AssetService';
-import {
-    composeCreateNewOption,
-    getSelectClassForEntry,
-    isOptionUnique,
-    isValidNewOption,
-    LabelIdCb
-} from '../../utils';
+import { composeCreateNewOption, getSelectClassForEntry, isOptionUnique, isValidNewOption, LabelIdCb } from '../../utils';
 import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
@@ -69,7 +63,6 @@ export default class LabelsElement extends React.Component<LabelsElementProps, L
                     __className={getSelectClassForEntry(this.props.entry)}
                     onChange={this.props.onChange}
                     name={this.props.name}
-                    resultType={ResultType.group}
                     assets={this.props.assets}
                     multi={true}
                     initial={this.props.entry.value}

@@ -1,14 +1,8 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 
-import { ResultType } from '../../flowTypes';
 import { Asset, Assets, AssetType } from '../../services/AssetService';
-import {
-    composeCreateNewOption,
-    getSelectClassForEntry,
-    isOptionUnique,
-    isValidNewOption
-} from '../../utils';
+import { composeCreateNewOption, getSelectClassForEntry, isOptionUnique, isValidNewOption } from '../../utils';
 import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
@@ -66,7 +60,6 @@ export default class GroupsElement extends React.Component<GroupsElementProps> {
                     __className={getSelectClassForEntry(this.props.entry)}
                     onChange={this.handleChange}
                     name={this.props.name}
-                    resultType={ResultType.group}
                     assets={this.props.assets}
                     multi={true}
                     initial={this.props.entry ? this.props.entry.value : []}

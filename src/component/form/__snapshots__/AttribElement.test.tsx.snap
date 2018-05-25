@@ -19,6 +19,11 @@ exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
       FieldAssets {
         "assetType": "field",
         "assets": Object {
+          "channel": Object {
+            "id": "channel",
+            "name": "Channel",
+            "type": "channel",
+          },
           "language": Object {
             "id": "language",
             "name": "Language",
@@ -53,7 +58,6 @@ exports[`AttribElement render should pass createOptions to SelectSearch 1`] = `
     name="Attribute"
     onChange={[Function]}
     placeholder="Enter the name of an existing attribute or create a new one"
-    resultType="field"
     searchPromptText="Invalid attribute"
   />
 </FormElement>
