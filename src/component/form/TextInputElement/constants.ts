@@ -1,15 +1,18 @@
 import { CompletionOption } from '../../../store';
 
-export const KEY_AT = 50;
-export const KEY_SPACE = 32;
-export const KEY_ENTER = 13;
-export const KEY_UP = 38;
-export const KEY_DOWN = 40;
-export const KEY_TAB = 9;
-export const KEY_P = 80;
-export const KEY_N = 78;
-export const KEY_ESC = 27;
-export const KEY_BACKSPACE = 8;
+// https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+export enum KeyValues {
+    KEY_AT = '@',
+    KEY_SPACE = ' ',
+    KEY_ENTER = 'Enter',
+    KEY_UP = 'ArrowUp',
+    KEY_DOWN = 'ArrowDown',
+    KEY_TAB = 'Tab',
+    KEY_ESC = 'Escape',
+    KEY_BACKSPACE = 'Backspace',
+    KEY_N = 'n',
+    KEY_P = 'p'
+}
 
 export const MAX_GSM_SINGLE = 160;
 export const MAX_GSM_MULTI = 153;

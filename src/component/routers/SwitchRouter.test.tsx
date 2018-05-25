@@ -14,6 +14,7 @@ import {
     Spanish
 } from '../../testUtils/assetCreators';
 import { reorderList } from '../../utils';
+import { CaseElementProps } from '../form/CaseElement';
 import TextInputElement from '../form/TextInputElement';
 import { DEFAULT_OPERAND } from '../NodeEditor';
 import { EXPRESSION_LABEL } from './constants';
@@ -26,7 +27,7 @@ import {
     InputToFocus,
     leadInSpecId,
     SwitchRouterForm,
-    SwitchRouterFormProps
+    SwitchRouterFormProps,
 } from './SwitchRouter';
 
 jest.mock('uuid', () => ({
@@ -247,7 +248,7 @@ describe(SwitchRouterForm.name, () => {
         });
 
         describe('getCasesToRender', () => {
-            const partialCase = {
+            const partialCase: CaseElementProps = {
                 exitName: '',
                 kase: {
                     arguments: [],
