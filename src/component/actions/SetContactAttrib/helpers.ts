@@ -1,13 +1,5 @@
-import { v4 as generateUUID } from 'uuid';
-
 import { Types } from '../../../config/typeConfigs';
-import {
-    Action,
-    Field,
-    SetContactField,
-    SetContactName,
-    SetContactProperty
-} from '../../../flowTypes';
+import { Action, Channel, Field, Language, SetContactField, SetContactName, SetContactProperty } from '../../../flowTypes';
 import { Asset, AssetType } from '../../../services/AssetService';
 import { snakify, titleCase } from '../../../utils';
 import { set_contact_name } from '../Action/Action.scss';
@@ -54,11 +46,7 @@ export const newPropertyAction = ({
     }
 };
 
-export const fieldToAsset = ({
-    uuid = generateUUID(),
-    field = { key: '', name: '' },
-    type = Types.set_contact_field
-}: SetContactField): Asset => ({
+export const fieldToAsset = (field: Field = { key: '', name: '' }): Asset => ({
     id: field.key,
     name: field.name,
     type: AssetType.Field
@@ -69,11 +57,12 @@ export const assetToField = (asset: Asset): Field => ({
     name: asset.name
 });
 
-export const propertyToAsset = ({
-    uuid = generateUUID(),
-    name = '',
-    type = Types.set_contact_name
-}: SetContactProperty): Asset => {
+export type PropertyTypes =
+    | Types.set_contact_name
+    | Types.set_contact_language
+    | Types.set_contact_channel;
+
+export const propertyToAsset = (type: PropertyTypes): Asset => {
     switch (type) {
         case Types.set_contact_name:
             return {
@@ -81,5 +70,29 @@ export const propertyToAsset = ({
                 name: titleCase(AssetType.Name),
                 id: AssetType.Name
             };
+        case Types.set_contact_language:
+            return {
+                type: AssetType.Language,
+                name: titleCase(AssetType.Language),
+                id: AssetType.Language
+            };
+        case Types.set_contact_channel:
+            return {
+                type: AssetType.Channel,
+                name: titleCase(AssetType.Channel),
+                id: AssetType.Channel
+            };
     }
 };
+
+export const languageToAsset = ({ iso, name }: Language) => ({
+    id: iso,
+    name,
+    type: AssetType.Language
+});
+
+export const channelToAsset = ({ uuid, name }: Channel) => ({
+    id: uuid,
+    name,
+    type: AssetType.Language
+});

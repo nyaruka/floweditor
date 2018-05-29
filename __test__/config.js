@@ -1,10 +1,5 @@
 const config = {
-    flow: 'a4f64f1b-85bc-477e-b706-de313a022979',
-    languages: {
-        eng: 'English',
-        spa: 'Spanish',
-        fre: 'French'
-    }
+    flow: 'a4f64f1b-85bc-477e-b706-de313a022979'
 };
 
 module.exports =
@@ -17,6 +12,8 @@ module.exports =
                   recipients: 'recipients',
                   fields: 'fields',
                   labels: 'labels',
+                  channels: 'channels',
+                  environment: 'environment',
                   activity: '',
                   simulateStart: '',
                   simulateResume: ''
@@ -30,6 +27,8 @@ module.exports =
                   fields: '/assets/fields.json',
                   recipients: '/assets/recipients.json',
                   labels: '/assets/labels.json',
+                  channels: '/assets/channels.json',
+                  environment: '/assets/environment.json',
                   activity: '',
                   simulateStart: '',
                   simulateResume: ''

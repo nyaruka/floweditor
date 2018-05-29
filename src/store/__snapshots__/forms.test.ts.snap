@@ -38,7 +38,9 @@ Object {
 exports[`form thunks updateSetContactAttribForm should dispatch form update action with new value 1`] = `
 Object {
   "valid": true,
-  "value": "26",
+  "value": Object {
+    "value": "26",
+  },
 }
 `;
 

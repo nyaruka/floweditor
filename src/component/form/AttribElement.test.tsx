@@ -2,10 +2,7 @@ import { getTypeConfig } from '../../config';
 import { Types } from '../../config/typeConfigs';
 import { Asset, AssetType } from '../../services/AssetService';
 import { composeComponentTestUtils, configProviderContext, setMock } from '../../testUtils';
-import {
-    createSetContactFieldAction,
-    createSetContactNameAction
-} from '../../testUtils/assetCreators';
+import { createSetContactFieldAction } from '../../testUtils/assetCreators';
 import { isOptionUnique, isValidNewOption } from '../../utils';
 import { fieldToAsset, propertyToAsset } from '../actions/SetContactAttrib/helpers';
 import { AttribElement, AttribElementProps, CREATE_PROMPT, createNewOption } from './AttribElement';
@@ -19,8 +16,9 @@ const attribute: Asset = {
 const baseProps: AttribElementProps = {
     name: 'Attribute',
     attribute: { value: attribute },
+    typeConfig: getTypeConfig(Types.set_contact_name),
     assets: configProviderContext.assetService.getFieldAssets(),
-    updateTypeConfig: jest.fn(),
+    handleTypeConfigChange: jest.fn(),
     onChange: jest.fn()
 };
 
@@ -61,18 +59,23 @@ describe(AttribElement.name, () => {
     describe('instance methods', () => {
         describe('onChange', () => {
             it('should update type config if passed an contact name asset', () => {
-                const { wrapper, instance, props } = setup(true, { updateTypeConfig: setMock() });
+                const { wrapper, instance, props } = setup(true, {
+                    handleTypeConfigChange: setMock()
+                });
 
                 instance.onChange([props.attribute.value]);
 
-                expect(props.updateTypeConfig).toHaveBeenCalledTimes(1);
-                expect(props.updateTypeConfig).toHaveBeenCalledWith(
-                    getTypeConfig(Types.set_contact_name)
+                expect(props.handleTypeConfigChange).toHaveBeenCalledTimes(1);
+                expect(props.handleTypeConfigChange).toHaveBeenCalledWith(
+                    getTypeConfig(Types.set_contact_name),
+                    null
                 );
             });
 
             it('should update type config if passed an contact field asset', () => {
-                const { wrapper, instance, props } = setup(true, { updateTypeConfig: setMock() });
+                const { wrapper, instance, props } = setup(true, {
+                    handleTypeConfigChange: setMock()
+                });
                 const existingField: Asset = {
                     id: 'field-0',
                     name: 'National ID',
@@ -81,9 +84,10 @@ describe(AttribElement.name, () => {
 
                 instance.onChange([existingField]);
 
-                expect(props.updateTypeConfig).toHaveBeenCalledTimes(1);
-                expect(props.updateTypeConfig).toHaveBeenCalledWith(
-                    getTypeConfig(Types.set_contact_field)
+                expect(props.handleTypeConfigChange).toHaveBeenCalledTimes(1);
+                expect(props.handleTypeConfigChange).toHaveBeenCalledWith(
+                    getTypeConfig(Types.set_contact_field),
+                    null
                 );
             });
 
@@ -97,18 +101,19 @@ describe(AttribElement.name, () => {
             });
 
             it('should update typeConfig', () => {
-                const setContactFieldAsset = fieldToAsset(createSetContactFieldAction());
+                const setContactFieldAsset = fieldToAsset(createSetContactFieldAction().field);
                 const { wrapper, instance, props } = setup(false, {
                     initial: { $set: setContactFieldAsset },
-                    updateTypeConfig: setMock()
+                    handleTypeConfigChange: setMock()
                 });
-                const setContactPropertyAsset = propertyToAsset(createSetContactNameAction());
+                const setContactPropertyAsset = propertyToAsset(Types.set_contact_name);
 
                 instance.onChange([setContactPropertyAsset]);
 
-                expect(props.updateTypeConfig).toHaveBeenCalledTimes(1);
-                expect(props.updateTypeConfig).toHaveBeenCalledWith(
-                    getTypeConfig(Types.set_contact_name)
+                expect(props.handleTypeConfigChange).toHaveBeenCalledTimes(1);
+                expect(props.handleTypeConfigChange).toHaveBeenCalledWith(
+                    getTypeConfig(Types.set_contact_name),
+                    null
                 );
             });
         });

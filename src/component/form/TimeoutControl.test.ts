@@ -1,10 +1,5 @@
 import { composeComponentTestUtils, setMock } from '../../testUtils';
-import {
-    TimeoutControl,
-    TimeoutControlStoreProps,
-    DEFAULT_TIMEOUT,
-    TIMEOUT_OPTIONS
-} from './TimeoutControl';
+import { DEFAULT_TIMEOUT, TIMEOUT_OPTIONS, TimeoutControl, TimeoutControlStoreProps } from './TimeoutControl';
 
 const baseProps: TimeoutControlStoreProps = {
     checked: false,
@@ -40,7 +35,7 @@ describe(TimeoutControl.name, () => {
                     updateTimeout: setMock()
                 });
 
-                wrapper.find('input').simulate('change');
+                wrapper.find('CheckboxElement').prop('onChange')();
 
                 expect(props.updateTimeout).toHaveBeenCalledTimes(1);
                 expect(props.updateTimeout).toHaveBeenCalledWith(null);
@@ -49,7 +44,7 @@ describe(TimeoutControl.name, () => {
             it('should update local, redux state w/ default timeout', () => {
                 const { wrapper, props } = setup(true, { updateTimeout: setMock() });
 
-                wrapper.find('input').simulate('change');
+                wrapper.find('CheckboxElement').prop('onChange')();
 
                 expect(props.updateTimeout).toHaveBeenCalledTimes(1);
                 expect(props.updateTimeout).toHaveBeenCalledWith(DEFAULT_TIMEOUT.value);

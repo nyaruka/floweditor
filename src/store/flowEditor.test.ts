@@ -1,6 +1,6 @@
 import { v4 as generateUUID } from 'uuid';
 
-import { configProviderContext } from '../testUtils';
+import { Spanish } from '../testUtils/assetCreators';
 import Constants from './constants';
 import { RenderNode } from './flowContext';
 import {
@@ -50,11 +50,7 @@ describe('flowEditor action creators', () => {
 
     describe('updateLanguage', () => {
         it('should create an action to update language state', () => {
-            const iso = Object.keys(configProviderContext.languages)[0];
-            const language = {
-                name: configProviderContext.languages[iso],
-                iso
-            };
+            const language = Spanish;
             const expectedAction = {
                 type: Constants.UPDATE_LANGUAGE,
                 payload: {
@@ -206,13 +202,8 @@ describe('flowEditor reducers', () => {
         });
 
         it('should handle UPDATE_LANGUAGE', () => {
-            const iso = Object.keys(configProviderContext.languages)[0];
-            const language = {
-                name: configProviderContext.languages[iso],
-                iso
-            };
-            const action = updateLanguage(language);
-            expect(reduce(action)).toEqual(language);
+            const action = updateLanguage(Spanish);
+            expect(reduce(action)).toEqual(Spanish);
         });
     });
 

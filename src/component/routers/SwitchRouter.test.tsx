@@ -2,14 +2,19 @@ import update from 'immutability-helper';
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 
-import * as config from '../../../__test__/config';
 import { getOperatorConfig, Operators } from '../../config/operatorConfigs';
 import { getTypeConfig, Types } from '../../config/typeConfigs';
 import { SwitchRouter } from '../../flowTypes';
 import { getLocalizations } from '../../store/helpers';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../testUtils';
-import { createCase, createExit, createWaitRouterNode } from '../../testUtils/assetCreators';
+import {
+    createCase,
+    createExit,
+    createWaitRouterNode,
+    Spanish
+} from '../../testUtils/assetCreators';
 import { reorderList } from '../../utils';
+import { CaseElementProps } from '../form/CaseElement';
 import TextInputElement from '../form/TextInputElement';
 import { DEFAULT_OPERAND } from '../NodeEditor';
 import { EXPRESSION_LABEL } from './constants';
@@ -22,7 +27,7 @@ import {
     InputToFocus,
     leadInSpecId,
     SwitchRouterForm,
-    SwitchRouterFormProps
+    SwitchRouterFormProps,
 } from './SwitchRouter';
 
 jest.mock('uuid', () => ({
@@ -203,13 +208,7 @@ describe(SwitchRouterForm.name, () => {
                     arguments: ['si, simón']
                 }
             };
-            const localizations = getLocalizations(
-                nodeToEdit,
-                null,
-                'spa',
-                config.languages,
-                translations
-            );
+            const localizations = getLocalizations(nodeToEdit, null, Spanish, translations);
             const { wrapper, props } = setup(true, {
                 translating: { $set: true },
                 showAdvanced: { $set: true },
@@ -249,7 +248,7 @@ describe(SwitchRouterForm.name, () => {
         });
 
         describe('getCasesToRender', () => {
-            const partialCase = {
+            const partialCase: CaseElementProps = {
                 exitName: '',
                 kase: {
                     arguments: [],

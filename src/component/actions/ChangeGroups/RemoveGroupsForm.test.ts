@@ -44,10 +44,11 @@ describe(RemoveGroupsForm.name, () => {
             expect(getSpecWrapper(wrapper, labelSpecId).exists()).toBeFalsy();
             expect(wrapper.find('GroupsElement').exists()).toBeFalsy();
             expect(wrapper.find('CheckboxElement').props()).toEqual({
+                labelClassName: '',
                 name: REMOVE_FROM_ALL,
-                defaultValue: true,
+                title: REMOVE_FROM_ALL,
+                checked: true,
                 description: REMOVE_FROM_ALL_DESC,
-                sibling: false,
                 onChange: instance.handleUpdateRemoveAll
             });
         });

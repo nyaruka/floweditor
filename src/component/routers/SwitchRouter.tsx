@@ -3,13 +3,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import update from 'immutability-helper';
 import * as React from 'react';
-import {
-    DragDropContext,
-    Draggable,
-    DraggableStyle,
-    Droppable,
-    DropResult
-} from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, DraggableStyle, Droppable, DropResult } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 
@@ -17,12 +11,12 @@ import { getOperatorConfig, operatorConfigList, Type } from '../../config';
 import { Operators } from '../../config/operatorConfigs';
 import { Types } from '../../config/typeConfigs';
 import { Case, Exit, FlowNode, SwitchRouter } from '../../flowTypes';
+import { Asset } from '../../services/AssetService';
 import { LocalizedObject } from '../../services/Localization';
 import { AppState } from '../../store';
 import { reorderList } from '../../utils';
 import CaseElement, { CaseElementProps } from '../form/CaseElement';
 import TextInputElement from '../form/TextInputElement';
-import { Language } from '../LanguageSelector';
 import { GetResultNameField } from '../NodeEditor';
 import { hasCases, SaveLocalizations } from '../NodeEditor/NodeEditor';
 import { EXPRESSION_LABEL, OPERAND_LOCALIZATION_DESC, WAIT_LABEL } from './constants';
@@ -41,7 +35,7 @@ export enum InputToFocus {
 }
 
 export interface SwitchRouterStoreProps {
-    language: Language;
+    language: Asset;
     typeConfig: Type;
     translating: boolean;
     nodeToEdit: FlowNode;

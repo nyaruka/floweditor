@@ -6,21 +6,62 @@ import { bindActionCreators } from 'redux';
 import { ConfigProviderContext, Type } from '../../../config';
 import { fakePropType } from '../../../config/ConfigProvider';
 import { Types } from '../../../config/typeConfigs';
-import { SetContactAttribute } from '../../../flowTypes';
-import AssetService, { Asset } from '../../../services/AssetService';
+import { Channel, SetContactAttribute } from '../../../flowTypes';
+import AssetService, { Asset, ChannelAssets } from '../../../services/AssetService';
 import { AppState, DispatchWithState } from '../../../store';
 import { SetContactAttribFunc, updateSetContactAttribForm } from '../../../store/forms';
 import {
     AssetEntry,
     SetContactAttribFormState,
+    SetContactChannelFormState,
     SetContactFieldFormState,
+    SetContactLanguageFormState,
     SetContactNameFormState,
-    ValidationFailure
+    ValidationFailure,
 } from '../../../store/nodeEditor';
 import { validate, ValidatorFunc } from '../../../store/validators';
+import { renderIf } from '../../../utils';
 import ConnectedAttribElement from '../../form/AttribElement';
+import FormElement from '../../form/FormElement';
 import ConnectedTextInputElement from '../../form/TextInputElement';
+import SelectSearch from '../../SelectSearch/SelectSearch';
 import { SetContactAttribFormHelper } from './SetContactAttribFormHelper';
+
+export interface SetContactAttribFormPassedProps {
+    action: SetContactAttribute;
+    formHelper: SetContactAttribFormHelper;
+    updateAction: (action: SetContactAttribute) => void;
+}
+
+export interface SetContactAttribFormStoreProps {
+    languages: Asset[];
+    baseLanguage: Asset;
+    typeConfig: Type;
+    form: SetContactAttribFormState;
+    updateSetContactAttribForm: SetContactAttribFunc;
+}
+
+export type SetContactAttribFormProps = SetContactAttribFormPassedProps &
+    SetContactAttribFormStoreProps;
+
+interface DropDownProps {
+    initial: Asset[];
+    assetService: ChannelAssets;
+    onChange: ([selection]: Asset[]) => void;
+    localSearchOptions?: Asset[];
+}
+
+export enum SetContactAttribFormElementNames {
+    Attribute = 'Attribute',
+    Value = 'Value',
+    Language = 'Language',
+    Channel = 'Channel'
+}
+
+export const ATTRIB_HELP_TEXT =
+    'Select an existing attribute to update or type any name to create a new one';
+export const TEXT_INPUT_HELP_TEXT =
+    'The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json.';
 
 /*
     In our case, we have an asset object with just the type defined to deal with
@@ -36,25 +77,55 @@ const validateAssetRequired: ValidatorFunc = (name: string, input: Asset): Valid
     return [];
 };
 
-export interface SetContactAttribFormPassedProps {
-    action: SetContactAttribute;
-    formHelper: SetContactAttribFormHelper;
-    updateAction: (action: SetContactAttribute) => void;
-}
+// Note: `LanguageDropDown` & `ChannelDropDown`
+// are here to ensure `Async` in `SelectSearch` unmounts/mounts when
+// the attribute to update is changed. `Async` calls its `loadOptions`
+// callback in `componentDidMount`.
+const LanguageDropDown: React.SFC<DropDownProps> = ({
+    initial,
+    assetService,
+    localSearchOptions,
+    onChange
+}) => (
+    <FormElement
+        showLabel={true}
+        name={SetContactAttribFormElementNames.Channel}
+        helpText="Select the contact's preferred language."
+    >
+        <SelectSearch
+            assets={assetService}
+            actionClearable={true}
+            searchable={false}
+            multi={false}
+            initial={initial}
+            name={name}
+            localSearchOptions={localSearchOptions}
+            closeOnSelect={true}
+            onChange={onChange}
+            placeholder="Select a language..."
+        />
+    </FormElement>
+);
 
-export interface SetContactAttribFormStoreProps {
-    typeConfig: Type;
-    form: SetContactAttribFormState;
-    updateSetContactAttribForm: SetContactAttribFunc;
-}
-
-export type SetContactAttribFormProps = SetContactAttribFormPassedProps &
-    SetContactAttribFormStoreProps;
-
-export const ATTRIB_HELP_TEXT =
-    'Select an existing attribute to update or type any name to create a new one';
-export const TEXT_INPUT_HELP_TEXT =
-    'The value to store can be any text you like. You can also reference other values that have been collected up to this point by typing @run.results or @webhook.json.';
+const ChannelDropDown: React.SFC<DropDownProps> = ({ initial, assetService, onChange }) => (
+    <FormElement
+        showLabel={true}
+        name={SetContactAttribFormElementNames.Channel}
+        helpText="Select the contact's primary channel."
+    >
+        <SelectSearch
+            assets={assetService}
+            actionClearable={true}
+            searchable={false}
+            multi={false}
+            initial={initial}
+            name={name}
+            closeOnSelect={true}
+            onChange={onChange}
+            placeholder="Select a channel..."
+        />
+    </FormElement>
+);
 
 // Note: action prop is only used for its uuid (see onValid)
 export class SetContactAttribForm extends React.Component<SetContactAttribFormProps> {
@@ -99,32 +170,100 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
     }
 
     public handleValueChange(value: string): void {
-        this.props.updateSetContactAttribForm(null, validate('Value', value, []));
+        this.props.updateSetContactAttribForm(
+            null,
+            validate(SetContactAttribFormElementNames.Value, value, [])
+        );
     }
 
+    // For `set_contact_language`, `set_contact_channel` forms
+    public handleDropDownChange([selection]: Asset[]): void {
+        let name;
+
+        switch (this.props.typeConfig.type) {
+            case Types.set_contact_language:
+                name = SetContactAttribFormElementNames.Language;
+                break;
+            case Types.set_contact_channel:
+                name = SetContactAttribFormElementNames.Channel;
+                break;
+        }
+
+        this.props.updateSetContactAttribForm(null, validate(name, selection, []));
+    }
+
+    // Only used for `set_contact_field`, `set_contact_name` actions,
+    // as they're currently the only contact attribute actions whose forms require a text input.
     private getValue(): string {
+        let value;
+
         switch (this.props.typeConfig.type) {
             case Types.set_contact_field:
-                return (this.props.form as SetContactFieldFormState).value.value;
             case Types.set_contact_name:
-                return (this.props.form as SetContactNameFormState).value.value;
+                ({ value: { value } } = this.props.form);
+                break;
+            default:
+                value = '';
+                break;
         }
+
+        return value as string;
     }
 
     private getAttributeEntry(): AssetEntry {
+        let entry;
+
         switch (this.props.typeConfig.type) {
             case Types.set_contact_field:
-                return (this.props.form as SetContactFieldFormState).field;
+                ({ field: entry } = this.props.form as SetContactFieldFormState);
+                break;
             case Types.set_contact_name:
-                return (this.props.form as SetContactNameFormState).name;
+                ({ name: entry } = this.props.form as SetContactNameFormState);
+                break;
+            case Types.set_contact_language:
+                ({ language: entry } = this.props.form as SetContactLanguageFormState);
+                break;
+            case Types.set_contact_channel:
+                ({ channel: entry } = this.props.form as SetContactChannelFormState);
+                break;
+        }
+
+        return entry;
+    }
+
+    // Get initial selection for dropdown
+    private getInitialDropDownValue(): Asset[] {
+        return [(this.props.form as SetContactAttribFormState).value.value] as Asset[];
+    }
+
+    private getDropDown(): JSX.Element {
+        if (this.props.form.hasOwnProperty('language')) {
+            return (
+                <LanguageDropDown
+                    initial={this.getInitialDropDownValue()}
+                    localSearchOptions={this.props.languages}
+                    assetService={this.context.assetService.getEnvironmentAssets()}
+                    onChange={this.handleDropDownChange}
+                />
+            );
+        } else if (this.props.form.hasOwnProperty('channel')) {
+            return (
+                <ChannelDropDown
+                    initial={this.getInitialDropDownValue()}
+                    assetService={this.context.assetService.getChannelAssets()}
+                    onChange={this.handleDropDownChange}
+                />
+            );
         }
     }
 
     public render(): JSX.Element {
+        const requiresDropDown =
+            this.props.form.hasOwnProperty('language') || this.props.form.hasOwnProperty('channel');
         return (
             <>
                 <ConnectedAttribElement
-                    name="Attribute"
+                    name={SetContactAttribFormElementNames.Attribute}
                     showLabel={true}
                     assets={this.context.assetService.getFieldAssets()}
                     helpText={ATTRIB_HELP_TEXT}
@@ -132,21 +271,29 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
                     entry={this.getAttributeEntry()}
                     onChange={this.handleAttribChange}
                 />
-                <ConnectedTextInputElement
-                    name="Value"
-                    showLabel={true}
-                    entry={{ value: this.getValue() }}
-                    helpText={TEXT_INPUT_HELP_TEXT}
-                    autocomplete={true}
-                    onChange={this.handleValueChange}
-                />
+                {renderIf(requiresDropDown)(
+                    this.getDropDown(),
+                    <ConnectedTextInputElement
+                        name={SetContactAttribFormElementNames.Value}
+                        showLabel={true}
+                        entry={{ value: this.getValue() }}
+                        helpText={TEXT_INPUT_HELP_TEXT}
+                        autocomplete={true}
+                        onChange={this.handleValueChange}
+                    />
+                )}
             </>
         );
     }
 }
 
 /* istanbul ignore next */
-const mapStateToProps = ({ nodeEditor: { typeConfig, form } }: AppState) => ({
+const mapStateToProps = ({
+    flowContext: { languages, baseLanguage },
+    nodeEditor: { typeConfig, form }
+}: AppState) => ({
+    languages,
+    baseLanguage,
     typeConfig,
     form
 });

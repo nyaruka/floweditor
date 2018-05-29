@@ -12,45 +12,12 @@ exports[`utils emphasize should apply emphasis style 1`] = `
 </span>
 `;
 
-exports[`utils getBaseLanguage should return Language corresponding to the first property in the Languages object it's passed 1`] = `
-Object {
-  "iso": "eng",
-  "name": "English",
-}
-`;
-
-exports[`utils getLanguage should return language as Language 1`] = `
-Object {
-  "iso": "eng",
-  "name": "English",
-}
-`;
-
-exports[`utils getLanguage should return language as Language 2`] = `
-Object {
-  "iso": "spa",
-  "name": "Spanish",
-}
-`;
-
-exports[`utils getLanguage should return language as Language 3`] = `
-Object {
-  "iso": "fre",
-  "name": "French",
-}
-`;
-
 exports[`utils getLocalizations should return a localized object 1`] = `
 LocalizedObject {
   "iso": "eng",
   "language": Object {
     "iso": "eng",
     "name": "English",
-  },
-  "languages": Object {
-    "eng": "English",
-    "fre": "French",
-    "spa": "Spanish",
   },
   "localized": false,
   "localizedKeys": Object {},
@@ -69,11 +36,6 @@ LocalizedObject {
     "iso": "spa",
     "name": "Spanish",
   },
-  "languages": Object {
-    "eng": "English",
-    "fre": "French",
-    "spa": "Spanish",
-  },
   "localized": false,
   "localizedKeys": Object {},
   "localizedObject": Object {
@@ -86,15 +48,10 @@ LocalizedObject {
 
 exports[`utils getLocalizations should return a localized object 3`] = `
 LocalizedObject {
-  "iso": "fre",
+  "iso": "fra",
   "language": Object {
-    "iso": "fre",
+    "iso": "fra",
     "name": "French",
-  },
-  "languages": Object {
-    "eng": "English",
-    "fre": "French",
-    "spa": "Spanish",
   },
   "localized": false,
   "localizedKeys": Object {},

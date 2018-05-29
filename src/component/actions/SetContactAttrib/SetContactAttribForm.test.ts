@@ -1,9 +1,14 @@
 import { getTypeConfig } from '../../../config';
 import { Types } from '../../../config/typeConfigs';
-import { composeComponentTestUtils, setMock } from '../../../testUtils';
+import { composeComponentTestUtils, restoreSpies, setMock } from '../../../testUtils';
 import {
+    createSetContactChannelAction,
     createSetContactFieldAction,
-    createSetContactNameAction
+    createSetContactLanguageAction,
+    createSetContactNameAction,
+    English,
+    languages,
+    Spanish,
 } from '../../../testUtils/assetCreators';
 import ConnectedTextInputElement from '../../form/TextInputElement';
 import { propertyToAsset } from './helpers';
@@ -12,6 +17,8 @@ import { SetContactAttribFormHelper } from './SetContactAttribFormHelper';
 
 const setContactNameAction = createSetContactNameAction();
 const setContactFieldAction = createSetContactFieldAction();
+const setContactLanguageAction = createSetContactLanguageAction();
+const setContactChannelAction = createSetContactChannelAction();
 
 const formHelper = new SetContactAttribFormHelper();
 
@@ -21,15 +28,17 @@ const baseProps: SetContactAttribFormProps = {
     formHelper,
     typeConfig: getTypeConfig(Types.set_contact_field),
     form: formHelper.actionToState(setContactFieldAction, Types.set_contact_field),
+    languages,
+    baseLanguage: English,
     updateAction: jest.fn(),
     updateSetContactAttribForm: jest.fn()
 };
 
-const { setup } = composeComponentTestUtils(SetContactAttribForm, baseProps);
+const { setup, spyOn } = composeComponentTestUtils(SetContactAttribForm, baseProps);
 
 describe(SetContactAttribForm.name, () => {
     describe('render', () => {
-        it('should render self, children with base props', () => {
+        it('should render text input', () => {
             const { wrapper, props } = setup();
 
             expect(wrapper).toMatchSnapshot();
@@ -52,6 +61,38 @@ describe(SetContactAttribForm.name, () => {
             expect(wrapper.find(ConnectedTextInputElement).prop('entry')).toEqual(
                 setContactNameForm.value
             );
+        });
+
+        it('should render language dropdown', () => {
+            const { wrapper } = setup(true, {
+                $merge: {
+                    action: setContactLanguageAction,
+                    typeConfig: getTypeConfig(Types.set_contact_language),
+                    form: formHelper.actionToState(
+                        setContactLanguageAction,
+                        Types.set_contact_language
+                    )
+                }
+            });
+
+            expect(wrapper.find('LanguageDropDown').exists()).toBeTruthy();
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it('should render channel dropdown', () => {
+            const { wrapper } = setup(true, {
+                $merge: {
+                    action: setContactChannelAction,
+                    typeConfig: getTypeConfig(Types.set_contact_channel),
+                    form: formHelper.actionToState(
+                        setContactChannelAction,
+                        Types.set_contact_channel
+                    )
+                }
+            });
+
+            expect(wrapper.find('ChannelDropDown').exists()).toBeTruthy();
+            expect(wrapper).toMatchSnapshot();
         });
     });
 
@@ -80,7 +121,7 @@ describe(SetContactAttribForm.name, () => {
                 const { wrapper, instance, props } = setup(true, {
                     updateSetContactAttribForm: { $set: jest.fn().mockReturnValue(true) }
                 });
-                const attribute = propertyToAsset(setContactNameAction);
+                const attribute = propertyToAsset(setContactNameAction.type);
 
                 instance.handleAttribChange(attribute);
 
@@ -98,6 +139,63 @@ describe(SetContactAttribForm.name, () => {
                 expect(props.updateSetContactAttribForm).toHaveBeenCalledWith(null, {
                     value: '26'
                 });
+            });
+        });
+
+        describe('handleDropDownChange', () => {
+            it(`should update form: ${Types.set_contact_language}`, () => {
+                const { wrapper, instance, props } = setup(true, {
+                    $merge: {
+                        action: setContactLanguageAction,
+                        typeConfig: getTypeConfig(Types.set_contact_language),
+                        form: formHelper.actionToState(
+                            setContactLanguageAction,
+                            Types.set_contact_language
+                        ),
+                        updateSetContactAttribForm: jest.fn()
+                    }
+                });
+
+                instance.handleDropDownChange([Spanish]);
+
+                expect(props.updateSetContactAttribForm).toHaveBeenCalledTimes(1);
+            });
+
+            it(`should update form: ${Types.set_contact_channel}`, () => {
+                const { wrapper, instance, props } = setup(true, {
+                    $merge: {
+                        action: setContactChannelAction,
+                        typeConfig: getTypeConfig(Types.set_contact_channel),
+                        form: formHelper.actionToState(
+                            setContactChannelAction,
+                            Types.set_contact_channel
+                        ),
+                        updateSetContactAttribForm: jest.fn()
+                    }
+                });
+
+                instance.handleDropDownChange([Spanish]);
+
+                expect(props.updateSetContactAttribForm).toHaveBeenCalledTimes(1);
+            });
+        });
+
+        describe('validate', () => {
+            it('should validate Attribute input', () => {
+                const handleAttribChangeSpy = spyOn('handleAttribChange');
+                const getAttributeEntrySpy = spyOn('getAttributeEntry');
+                const { wrapper, instance, props } = setup(true, {
+                    updateSetContactAttribForm: setMock(() => ({
+                        valid: true
+                    }))
+                });
+                const valid = instance.validate();
+
+                expect(valid).toBeTruthy();
+                expect(getAttributeEntrySpy).toHaveBeenCalled();
+                expect(handleAttribChangeSpy).toHaveBeenCalledTimes(1);
+
+                restoreSpies(handleAttribChangeSpy, getAttributeEntrySpy);
             });
         });
     });

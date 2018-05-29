@@ -1,22 +1,13 @@
 import * as config from '../../../__test__/config';
-import { ResultType } from '../../flowTypes';
 import AssetService from '../../services/AssetService';
-import {
-    composeComponentTestUtils,
-    configProviderContext,
-    flushPromises,
-    Resp,
-    restoreSpies
-} from '../../testUtils';
+import { composeComponentTestUtils, flushPromises, Resp, restoreSpies } from '../../testUtils';
 import { GROUP_NOT_FOUND, GROUP_PLACEHOLDER } from '../form/constants';
 import SelectSearch, { SelectSearchProps } from './SelectSearch';
 
 const groupsResp = require('../../../__test__/assets/groups.json') as Resp;
 
 const baseProps: SelectSearchProps = {
-    url: configProviderContext.endpoints.groups,
     name: 'Groups',
-    resultType: ResultType.group,
     placeholder: GROUP_PLACEHOLDER,
     searchPromptText: GROUP_NOT_FOUND,
     assets: new AssetService(config).getGroupAssets()
@@ -30,11 +21,9 @@ describe(SelectSearch.name, () => {
             const selectRefSpy = spyOn('selectRef');
             const loadOptionsSpy = spyOn('loadOptions');
             const searchSpy = spyOn('search');
-            const {
-                wrapper,
-                instance,
-                props: { name, placeholder, searchPromptText, url }
-            } = setup(false);
+            const { wrapper, instance, props: { name, placeholder, searchPromptText } } = setup(
+                false
+            );
             const asyncSelect = wrapper.find('Async');
 
             // Yielding here because SelectSearch.search is called when axios.get in SelectSearch.loadOptions resolves

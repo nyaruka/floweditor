@@ -7,7 +7,7 @@ import { AnyAction, FlowNode } from '../flowTypes';
 import { Asset } from '../services/AssetService';
 import ActionTypes, {
     UpdateActionToEditAction,
-    UpdateForm,
+    UpdateFormAction,
     UpdateNodeEditorSettings,
     UpdateNodeToEditAction,
     UpdateOperandAction,
@@ -15,7 +15,7 @@ import ActionTypes, {
     UpdateShowResultNameAction,
     UpdateTimeoutAction,
     UpdateTypeConfigAction,
-    UpdateUserAddingActionAction
+    UpdateUserAddingActionAction,
 } from './actionTypes';
 import Constants from './constants';
 
@@ -81,6 +81,16 @@ export interface SetContactNameFormState extends FormState {
     value: StringEntry;
 }
 
+export interface SetContactLanguageFormState extends FormState {
+    language: AssetEntry;
+    value: AssetEntry;
+}
+
+export interface SetContactChannelFormState extends FormState {
+    channel: AssetEntry;
+    value: AssetEntry;
+}
+
 export interface SetRunResultFormState extends FormState {
     name: StringEntry;
     value: StringEntry;
@@ -92,7 +102,11 @@ export interface ChangeGroupsFormState extends FormState {
     removeAll?: boolean;
 }
 
-export type SetContactAttribFormState = SetContactFieldFormState | SetContactNameFormState;
+export type SetContactAttribFormState =
+    | SetContactFieldFormState
+    | SetContactNameFormState
+    | SetContactLanguageFormState
+    | SetContactChannelFormState;
 
 export interface StartSessionFormState extends FormState {
     recipients: AssetArrayEntry;
@@ -150,7 +164,7 @@ export const updateTypeConfig = (typeConfig: Type): UpdateTypeConfigAction => ({
     }
 });
 
-export const updateForm = (form: NodeEditorForm): UpdateForm => ({
+export const updateForm = (form: NodeEditorForm): UpdateFormAction => ({
     type: Constants.UPDATE_FORM,
     payload: {
         form

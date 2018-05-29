@@ -61,8 +61,9 @@ export const enum Types {
     add_input_labels = 'add_input_labels',
     remove_contact_groups = 'remove_contact_groups',
     set_contact_channel = 'set_contact_channel',
-    set_contact_name = 'set_contact_name',
     set_contact_field = 'set_contact_field',
+    set_contact_name = 'set_contact_name',
+    set_contact_language = 'set_contact_language',
     set_run_result = 'set_run_result',
     call_webhook = 'call_webhook',
     send_msg = 'send_msg',
@@ -105,6 +106,17 @@ export interface TypeMap {
 }
 
 export type GetTypeConfig = (type: string) => Type;
+
+const dedupeTypeConfigs = (typeConfigs: Type[]) => {
+    const map = {};
+    return typeConfigs.filter(config => {
+        if (config.type === 'missing') {
+            return false;
+        }
+        const { name: key } = config;
+        return map[key] ? false : (map[key] = true);
+    });
+};
 
 export function allows(mode: Mode): boolean {
     return (this.advanced & mode) === mode;
@@ -178,6 +190,24 @@ export const typeConfigList: Type[] = [
     },
     {
         type: Types.set_contact_name,
+        name: 'Update Contact',
+        description: 'Update the contact',
+        form: SetContactAttribForm,
+        formHelper: ContactAttribHelper,
+        component: SetContactAttrib,
+        allows
+    },
+    {
+        type: Types.set_contact_language,
+        name: 'Update Contact',
+        description: 'Update the contact',
+        form: SetContactAttribForm,
+        formHelper: ContactAttribHelper,
+        component: SetContactAttrib,
+        allows
+    },
+    {
+        type: Types.set_contact_channel,
         name: 'Update Contact',
         description: 'Update the contact',
         form: SetContactAttribForm,
@@ -261,6 +291,8 @@ export const typeConfigList: Type[] = [
     }
     // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];
+
+export const configsToDisplay = dedupeTypeConfigs(typeConfigList);
 
 export const typeConfigMap: TypeMap = typeConfigList.reduce((map: TypeMap, typeConfig: Type) => {
     map[typeConfig.type] = typeConfig;

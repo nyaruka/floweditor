@@ -15,13 +15,12 @@ import { validate, validateRequired } from '../../../store/validators';
 import * as styles from '../../actions/Action/Action.scss';
 import OmniboxElement from '../../form/OmniboxElement';
 import TextInputElement, { Count } from '../../form/TextInputElement';
-import { Language } from '../../LanguageSelector';
 import { UpdateLocalizations } from '../../NodeEditor';
 import * as broadcastStyles from './SendBroadcast.scss';
 import { SendBroadcastFormHelper } from './SendBroadcastFormHelper';
 
 export interface SendBroadcastFormStoreProps {
-    language: Language;
+    language: Asset;
     translating: boolean;
     typeConfig: Type;
     localizations: LocalizedObject[];
@@ -62,11 +61,11 @@ export class SendBroadcastForm extends React.Component<
             const translation = this.props.form.text.value;
 
             if (translation) {
-                this.props.updateLocalizations(this.props.language.iso, [
-                    { uuid: this.props.action.uuid, translations: { text: translation } }
+                this.props.updateLocalizations(this.props.language.id, [
+                    { uuid: this.props.action.uuid, translations: { text: [translation] } }
                 ]);
             } else {
-                this.props.updateLocalizations(this.props.language.iso, [
+                this.props.updateLocalizations(this.props.language.id, [
                     { uuid: this.props.action.uuid, translations: null }
                 ]);
             }

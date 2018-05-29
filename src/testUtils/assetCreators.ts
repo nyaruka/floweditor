@@ -1,3 +1,4 @@
+import { languageToAsset } from '../component/actions/SetContactAttrib/helpers';
 import { Operators } from '../config/operatorConfigs';
 import { Types } from '../config/typeConfigs';
 import {
@@ -7,7 +8,6 @@ import {
     Case,
     ChangeGroups,
     Contact,
-    ContactProperties,
     Exit,
     Field,
     Flow,
@@ -19,7 +19,9 @@ import {
     RouterTypes,
     SendEmail,
     SendMsg,
+    SetContactChannel,
     SetContactField,
+    SetContactLanguage,
     SetContactProperty,
     SetRunResult,
     StartFlow,
@@ -28,11 +30,13 @@ import {
     StartSession,
     SwitchRouter,
     Wait,
-    WaitTypes
+    WaitTypes,
 } from '../flowTypes';
 import { capitalize } from '../utils';
+import { getLanguage } from '../utils/languageMap';
 
 const { assets: groupsResults } = require('../../__test__/assets/groups.json');
+const environment = require('../../__test__/assets/environment.json');
 
 /**
  * Create a select control option
@@ -188,11 +192,42 @@ export const createSetContactFieldAction = ({
         name: 'Age'
     },
     value = '25'
-}: { uuid?: string; field?: Field; value?: string } = {}): SetContactField => ({
+}: {
+    uuid?: string;
+    field?: Field;
+    value?: string;
+} = {}): SetContactField => ({
     uuid,
     field,
     value,
     type: Types.set_contact_field
+});
+
+export const createSetContactLanguageAction = ({
+    uuid = 'set_contact_language-0',
+    language = 'eng'
+}: {
+    uuid?: string;
+    language?: string;
+} = {}): SetContactLanguage => ({
+    uuid,
+    language,
+    type: Types.set_contact_language
+});
+
+export const createSetContactChannelAction = ({
+    uuid = 'set_contact_channel-0',
+    channelName = 'Twilio Channel'
+}: {
+    uuid?: string;
+    channelName?: string;
+} = {}): SetContactChannel => ({
+    uuid,
+    channel: {
+        uuid,
+        name: channelName
+    },
+    type: Types.set_contact_channel
 });
 
 export const createSetRunResultAction = ({
@@ -402,3 +437,9 @@ export const createAddLabelsAction = (labels: Label[]) => ({
     uuid: `labels-action-uuid-${labels.length}`,
     labels
 });
+
+export const English = languageToAsset(getLanguage('eng'));
+
+export const Spanish = languageToAsset(getLanguage('spa'));
+
+export const languages = environment.languages.map(iso => languageToAsset(getLanguage(iso)));

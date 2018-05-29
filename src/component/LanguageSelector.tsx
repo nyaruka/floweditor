@@ -1,90 +1,67 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import Select from 'react-select';
 import { bindActionCreators } from 'redux';
-import { ConfigProviderContext } from '../config';
-import { Languages } from '../flowTypes';
-import {
-    AppState,
-    DispatchWithState,
-    UpdateLanguage,
-    updateLanguage,
-    UpdateTranslating,
-    updateTranslating
-} from '../store';
-import { getBaseLanguage, jsonEqual } from '../utils';
-import { languageSelector } from './LanguageSelector.scss';
-import { fakePropType } from '../config/ConfigProvider';
 
-export interface Language {
-    name: string;
-    iso: string;
-}
+import { ConfigProviderContext } from '../config';
+import { fakePropType } from '../config/ConfigProvider';
+import { Asset } from '../services/AssetService';
+import { AppState, DispatchWithState, HandleLanguageChange, handleLanguageChange } from '../store';
+import { languageSelector } from './LanguageSelector.scss';
+import SelectSearch from './SelectSearch/SelectSearch';
 
 export interface LanguageSelectorStoreProps {
-    language: Language;
-    updateLanguage: UpdateLanguage;
-    updateTranslating: UpdateTranslating;
+    language: Asset;
+    languages: Asset[];
+    handleLanguageChange: HandleLanguageChange;
 }
 
-export const mapOptions = (languages: Languages): Language[] =>
-    Object.keys(languages).map(iso => ({
-        name: languages[iso],
-        iso
-    }));
-
-export const containerClass = `${languageSelector} select-small`;
-
+export const containerClasses = `${languageSelector} select-small`;
 export const languageSelectorContainerSpecId = 'language-selector-container';
 
 export class LanguageSelector extends React.Component<LanguageSelectorStoreProps> {
     public static contextTypes = {
-        languages: fakePropType
+        assetService: fakePropType
     };
 
     constructor(props: LanguageSelectorStoreProps, context: ConfigProviderContext) {
         super(props, context);
-        this.onChange = this.onChange.bind(this);
+
+        this.handleLanguageChange = this.handleLanguageChange.bind(this);
     }
 
-    public onChange(lang: Language): void {
-        const baseLanguage = getBaseLanguage(this.context.languages);
-        const translating = !jsonEqual(baseLanguage, lang);
-        this.props.updateLanguage(lang);
-        this.props.updateTranslating(translating);
+    private handleLanguageChange(selections: Asset[]): void {
+        const [language] = selections;
+        this.props.handleLanguageChange(language);
     }
 
     public render(): JSX.Element {
-        if (this.props.language) {
-            const options = mapOptions(this.context.languages);
-            if (options.length) {
-                return (
-                    <div className={containerClass} data-spec={languageSelectorContainerSpecId}>
-                        <Select
-                            value={this.props.language.iso}
-                            onChange={this.onChange}
-                            valueKey="iso"
-                            labelKey="name"
-                            searchable={false}
-                            clearable={false}
-                            options={options}
-                        />
-                    </div>
-                );
-            }
-            return null;
-        }
-        return null;
+        return (
+            <div className={containerClasses} data-spec={languageSelectorContainerSpecId}>
+                <SelectSearch
+                    localSearchOptions={this.props.languages}
+                    searchable={false}
+                    multi={false}
+                    initial={[this.props.language]}
+                    name="Languages"
+                    closeOnSelect={true}
+                    onChange={this.handleLanguageChange}
+                />
+            </div>
+        );
     }
 }
 
-const mapStateToProps = ({ flowEditor: { editorUI: { language } } }: AppState) => ({ language });
+/* istanbul ignore next */
+const mapStateToProps = ({
+    flowContext: { languages },
+    flowEditor: { editorUI: { language } }
+}: AppState) => ({ language, languages });
 
+/* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
-            updateLanguage,
-            updateTranslating
+            handleLanguageChange
         },
         dispatch
     );

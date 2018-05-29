@@ -1,18 +1,29 @@
-import { SetContactField, SetContactName, SetContactProperty } from '../../../flowTypes';
+import {
+    SetContactChannel,
+    SetContactField,
+    SetContactLanguage,
+    SetContactName,
+    SetContactProperty,
+} from '../../../flowTypes';
 import { composeComponentTestUtils } from '../../../testUtils';
 import {
+    createSetContactChannelAction,
     createSetContactFieldAction,
-    createSetContactNameAction
+    createSetContactLanguageAction,
+    createSetContactNameAction,
 } from '../../../testUtils/assetCreators';
+import { getLanguage } from '../../../utils/languageMap';
 import { name } from '../SendBroadcast/SendBroadcast.scss';
 import SetContactAttribComp, { getAttribNameMarkup } from './SetContactAttrib';
 
-const setContactName = createSetContactNameAction();
-const setContactField = createSetContactFieldAction();
+const setContactNameAction = createSetContactNameAction();
+const setContactFieldAction = createSetContactFieldAction();
+const setContactLanguageAction = createSetContactLanguageAction();
+const setContactChannelAction = createSetContactChannelAction();
 
 const { setup } = composeComponentTestUtils<SetContactProperty | SetContactField>(
     SetContactAttribComp,
-    setContactName as SetContactProperty
+    setContactNameAction as SetContactProperty
 );
 
 describe(SetContactAttribComp.name, () => {
@@ -20,12 +31,14 @@ describe(SetContactAttribComp.name, () => {
         describe('helpers', () => {
             describe('getAttribNameMarkup', () => {
                 it('should return emphasized name property', () => {
-                    expect(getAttribNameMarkup(setContactName as SetContactName)).toMatchSnapshot();
+                    expect(
+                        getAttribNameMarkup(setContactNameAction as SetContactName)
+                    ).toMatchSnapshot();
                 });
 
                 it('should return emphasized field name', () => {
                     expect(
-                        getAttribNameMarkup(setContactField as SetContactField)
+                        getAttribNameMarkup(setContactFieldAction as SetContactField)
                     ).toMatchSnapshot();
                 });
             });
@@ -40,7 +53,7 @@ describe(SetContactAttribComp.name, () => {
 
         it("should render with 'update...' div when passed set_contact_field action", () => {
             const { wrapper, props } = setup(true, {
-                $set: setContactField
+                $set: setContactFieldAction
             });
 
             expect(wrapper.text()).toBe(
@@ -51,7 +64,25 @@ describe(SetContactAttribComp.name, () => {
             expect(wrapper).toMatchSnapshot();
         });
 
-        it("should render with 'clear...' div when name prop isn't passed", () => {
+        it("should render with 'update...' div when passed set_contact_language action", () => {
+            const { wrapper, props } = setup(true, {
+                $set: setContactLanguageAction
+            });
+
+            const { name: language } = getLanguage((props as SetContactLanguage).language);
+
+            expect(wrapper.text()).toBe(`Update Language to ${language}`);
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it("should render with 'update...' div when passed set_contact_channel action", () => {
+            const { wrapper, props } = setup(true, {$set: setContactChannelAction});
+
+            expect(wrapper.text()).toBe(`Update Channel to ${(props as SetContactChannel).channel.name}`);
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it("should render with 'clear...' div when name prop isn't passed: set_contact_name", () => {
             const { wrapper, props } = setup(true, {
                 name: { $set: '' }
             });
@@ -60,13 +91,23 @@ describe(SetContactAttribComp.name, () => {
             expect(wrapper).toMatchSnapshot();
         });
 
-        it("should render with 'clear...' div when value prop isn't passed", () => {
+        it("should render with 'clear...' div when value prop isn't passed: set_contact_field", () => {
             const { wrapper, props } = setup(true, {
-                $set: { ...setContactField, value: '' }
+                $set: { ...setContactFieldAction, value: '' }
             });
 
             expect(wrapper.text()).toBe(`Clear value for ${(props as SetContactField).field.name}`);
             expect(wrapper).toMatchSnapshot();
         });
+
+        it("should render with 'clear...' div when value prop isn't passed: set_contact_language", () => {
+            const { wrapper, props } = setup(true, {
+                $set: { ...setContactLanguageAction, language: '' }
+            });
+
+            expect(wrapper.text()).toBe(`Clear value for Language`);
+            expect(wrapper).toMatchSnapshot();
+        });
+    });
     });
 });

@@ -31,7 +31,7 @@ import {
     UINodeTypes,
     Wait,
     WaitTypes,
-    WebhookExitNames
+    WebhookExitNames,
 } from '../../flowTypes';
 import { Asset } from '../../services/AssetService';
 import { LocalizedObject } from '../../services/Localization';
@@ -56,14 +56,13 @@ import {
     updateShowResultName,
     UpdateShowResultName,
     UpdateUserAddingAction,
-    updateUserAddingAction
+    updateUserAddingAction,
 } from '../../store';
 import { RenderNode } from '../../store/flowContext';
 import { NodeEditorForm, NodeEditorSettings } from '../../store/nodeEditor';
 import { HandleTypeConfigChange, handleTypeConfigChange } from '../../store/thunks';
 import { CaseElementProps } from '../form/CaseElement';
 import TextInputElement from '../form/TextInputElement';
-import { Language } from '../LanguageSelector';
 import ConnectedModal, { ButtonSet } from '../Modal';
 import { DragPoint } from '../Node';
 import * as shared from '../shared.scss';
@@ -99,7 +98,7 @@ export interface NodeEditorPassedProps {
 
 export interface NodeEditorStoreProps {
     nodeToEdit: FlowNode;
-    language: Language;
+    language: Asset;
     nodeEditorOpen: boolean;
     actionToEdit: Action;
     localizations: LocalizedObject[];
@@ -633,7 +632,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             updates.push(...this.getLocalizedCases(widgets));
         }
 
-        this.updateLocalizations(this.props.language.iso, updates);
+        this.updateLocalizations(this.props.language.id, updates);
     }
 
     private getLocalizedCases(widgets: {

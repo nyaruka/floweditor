@@ -1,51 +1,116 @@
 import { FormHelper, Types } from '../../../config/typeConfigs';
-import { Action, SetContactAttribute, SetContactField, SetContactName } from '../../../flowTypes';
+import {
+    Channel,
+    SetContactAttribute,
+    SetContactChannel,
+    SetContactField,
+    SetContactLanguage,
+    SetContactName,
+} from '../../../flowTypes';
+import { removeAsset } from '../../../services/AssetService';
 import {
     SetContactAttribFormState,
+    SetContactChannelFormState,
     SetContactFieldFormState,
-    SetContactNameFormState
+    SetContactLanguageFormState,
+    SetContactNameFormState,
 } from '../../../store/nodeEditor';
-import { assetToField, fieldToAsset, propertyToAsset } from './helpers';
+import { getLanguage } from '../../../utils/languageMap';
+import { assetToField, channelToAsset, fieldToAsset, languageToAsset, propertyToAsset } from './helpers';
+
+export type SetContactAttribFormHelperActionTypes =
+    | Types.set_contact_field
+    | Types.set_contact_name
+    | Types.set_contact_language
+    | Types.set_contact_channel;
 
 export class SetContactAttribFormHelper implements FormHelper {
     // passed an existing action or null
     public actionToState(
         action: SetContactAttribute,
-        actionType: Types.set_contact_field | Types.set_contact_name
+        actionType: SetContactAttribFormHelperActionTypes
     ): SetContactAttribFormState {
+        let formState: SetContactAttribFormState;
+
         // if we have an existing contact attribute action, use it
         if (action) {
             switch (action.type) {
                 case Types.set_contact_field:
-                    return {
-                        field: { value: fieldToAsset(action) },
+                    formState = {
+                        field: { value: fieldToAsset(action.field) },
                         value: { value: action.value },
                         valid: true
                     } as SetContactFieldFormState;
+                    break;
                 case Types.set_contact_name:
-                    return {
-                        name: { value: propertyToAsset(action as SetContactName) },
+                    formState = {
+                        name: { value: propertyToAsset(Types.set_contact_name) },
                         value: { value: (action as SetContactName).name },
                         valid: true
                     } as SetContactNameFormState;
+                    break;
+                case Types.set_contact_language:
+                    const { language } = action as SetContactLanguage;
+                    formState = {
+                        language: { value: propertyToAsset(Types.set_contact_language) },
+                        value: {
+                            value: language
+                                ? languageToAsset(
+                                      getLanguage((action as SetContactLanguage).language)
+                                  )
+                                : removeAsset
+                        },
+                        valid: true
+                    } as SetContactLanguageFormState;
+                    break;
+                case Types.set_contact_channel:
+                    const { channel } = action as SetContactChannel;
+                    formState = {
+                        channel: { value: propertyToAsset(Types.set_contact_channel) },
+                        value: {
+                            value: Object.keys(channel).length
+                                ? channelToAsset((action as SetContactChannel).channel)
+                                : removeAsset
+                        },
+                        valid: true
+                    } as SetContactChannelFormState;
+                    break;
+            }
+        } else {
+            // otherwise, provide initial form state from scratch
+            switch (actionType) {
+                case Types.set_contact_field:
+                    formState = {
+                        field: { value: fieldToAsset() },
+                        value: { value: '' },
+                        valid: false
+                    } as SetContactFieldFormState;
+                    break;
+                case Types.set_contact_name:
+                    formState = {
+                        name: { value: propertyToAsset(Types.set_contact_name) },
+                        value: { value: '' },
+                        valid: false
+                    } as SetContactNameFormState;
+                    break;
+                case Types.set_contact_language:
+                    formState = {
+                        language: { value: propertyToAsset(Types.set_contact_language) },
+                        value: { value: removeAsset },
+                        valid: false
+                    } as SetContactLanguageFormState;
+                    break;
+                case Types.set_contact_channel:
+                    formState = {
+                        channel: { value: propertyToAsset(Types.set_contact_channel) },
+                        value: { value: removeAsset },
+                        valid: false
+                    } as SetContactChannelFormState;
+                    break;
             }
         }
 
-        // otherwise, provide initial form state from scratch
-        switch (actionType) {
-            case Types.set_contact_field:
-                return {
-                    field: { value: fieldToAsset({} as SetContactField) },
-                    value: { value: '' },
-                    valid: false
-                } as SetContactFieldFormState;
-            case Types.set_contact_name:
-                return {
-                    name: { value: propertyToAsset({} as SetContactName) },
-                    value: { value: '' },
-                    valid: false
-                } as SetContactNameFormState;
-        }
+        return formState;
     }
 
     public stateToAction(
@@ -53,23 +118,50 @@ export class SetContactAttribFormHelper implements FormHelper {
         formState: SetContactAttribFormState,
         formType: Types
     ): SetContactAttribute {
-        const action: Partial<Action> = {
+        let action: Partial<SetContactAttribute> = {
             uuid: actionUUID,
             type: formType
         };
 
         switch (formType) {
             case Types.set_contact_field:
-                return {
+                action = {
                     ...action,
                     field: assetToField((formState as SetContactFieldFormState).field.value),
                     value: (formState as SetContactFieldFormState).value.value
                 } as SetContactField;
+                break;
             case Types.set_contact_name:
-                return {
+                action = {
                     ...action,
                     name: formState.value.value
                 } as SetContactName;
+                break;
+            case Types.set_contact_language:
+                action = {
+                    ...action,
+                    // we return an empty string to indicate the value is being cleared
+                    language:
+                        (formState as SetContactLanguageFormState).value.value.id === removeAsset.id
+                            ? ''
+                            : (formState as SetContactLanguageFormState).value.value.id
+                } as SetContactLanguage;
+                break;
+            case Types.set_contact_channel:
+                action = {
+                    ...action,
+                    // we return an empty string to indicate the value is being cleared
+                    channel:
+                        (formState as SetContactChannelFormState).value.value.id === removeAsset.id
+                            ? {}
+                            : ({
+                                  uuid: (formState as SetContactChannelFormState).value.value.id,
+                                  name: (formState as SetContactChannelFormState).value.value.name
+                              } as Channel)
+                } as SetContactChannel;
+                break;
         }
+
+        return action as SetContactAttribute;
     }
 }
