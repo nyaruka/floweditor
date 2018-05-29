@@ -13,7 +13,7 @@ import { createMockStore, prepMockDuxState } from '../testUtils';
 import { createSetContactFieldAction } from '../testUtils/assetCreators';
 import { push } from '../utils';
 import { RenderNode, RenderNodeMap } from './flowContext';
-import { getUniqueDestinations } from './helpers';
+import { getFlowComponents, getSuggestedResultName, getUniqueDestinations } from './helpers';
 import {
     addNode,
     disconnectExit,
@@ -676,6 +676,38 @@ describe('Flow Manipulation', () => {
                 expect(store).toHavePayload(Constants.UPDATE_FORM, {
                     form: newFormState
                 });
+            });
+
+            it('should generate a suggested result name', () => {
+                const { renderNodeMap } = getFlowComponents(boring);
+                const newTypeConfig = getTypeConfig(Types.wait_for_response);
+                const { nodes: [nodeToEdit] } = boring;
+                const { actions: [actionToEdit] } = nodeToEdit;
+                const suggestedResultName = getSuggestedResultName(renderNodeMap);
+                const expectedActions = [
+                    Constants.UPDATE_TYPE_CONFIG,
+                    Constants.UPDATE_RESULT_NAME,
+                    Constants.UPDATE_SHOW_RESULT_NAME
+                ];
+                const expectedResultNamePayload = [
+                    Constants.UPDATE_RESULT_NAME,
+                    { resultName: suggestedResultName }
+                ];
+
+                store = createMockStore({
+                    flowContext: {
+                        nodes: renderNodeMap
+                    },
+                    nodeEditor: {
+                        nodeToEdit
+                    }
+                });
+
+                store.dispatch(handleTypeConfigChange(newTypeConfig, actionToEdit));
+
+                expect(store).toHaveReduxActions(expectedActions);
+                expect(store).toHavePayload(...expectedResultNamePayload);
+                expect(expectedResultNamePayload).toMatchSnapshot();
             });
 
             it('should edit an existing action', () => {

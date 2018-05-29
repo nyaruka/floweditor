@@ -66,15 +66,17 @@ export const getActionIndex = (node: FlowNode, actionUUID: string) => {
  * in the current definition
  */
 export const getSuggestedResultName = (nodes: RenderNodeMap) => {
-    let count = 0;
+    let count = 1;
+
     // tslint:disable-next-line:forin
     for (const key in nodes) {
         const { node } = nodes[key];
-        if (node.router) {
+        if (node.wait && node.wait.type === WaitTypes.msg) {
             count += 1;
         }
     }
-    return `Result ${count + 1}`;
+
+    return `Result ${count}`;
 };
 
 export const getLocalizations = (

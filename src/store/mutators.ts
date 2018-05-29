@@ -8,6 +8,7 @@ import { getActionIndex, getExitIndex, getNode } from './helpers';
 import { NodeEditorSettings } from './nodeEditor';
 
 const mutate = require('immutability-helper');
+
 export const uniquifyNode = (newNode: FlowNode): FlowNode => {
     // Give our node a unique uuid
     return mutate(newNode, merge({ uuid: generateUUID() }));
