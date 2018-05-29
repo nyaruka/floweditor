@@ -199,3 +199,12 @@ Array [
   },
 ]
 `;
+
+exports[`helpers initializeFlow should find result names in definition 1`] = `
+Object {
+  "node1": Object {
+    "description": "Result for \\"color\\"",
+    "name": "@run.results.color",
+  },
+}
+`;

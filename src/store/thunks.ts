@@ -30,6 +30,7 @@ import {
     updateLanguages,
     updateLocalizations,
     updateNodes,
+    updateResultNames,
 } from './flowContext';
 import {
     updateCreateNodePosition,
@@ -163,6 +164,7 @@ export const initializeFlow = (definition: FlowDefinition, assetService: AssetSe
     // store our flow definition without any nodes
     dispatch(updateDefinition(mutators.pruneDefinition(definition)));
     dispatch(updateNodes(flowComponents.renderNodeMap));
+    dispatch(updateResultNames(flowComponents.resultNamesMap));
     dispatch(updateFetchingFlow(false));
     return flowComponents;
 };

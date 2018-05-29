@@ -4,7 +4,7 @@ import { AnyAction, FlowDefinition, FlowNode, FlowPosition } from '../flowTypes'
 import { Asset } from '../services/AssetService';
 import { LocalizedObject } from '../services/Localization';
 import Constants from './constants';
-import { CompletionOption, RenderNode } from './flowContext';
+import { RenderNode, ResultNames } from './flowContext';
 import { DragSelection } from './flowEditor';
 import { NodeEditorForm, NodeEditorSettings } from './nodeEditor';
 
@@ -61,7 +61,7 @@ interface RemovePendingConnectionPayload {
 }
 
 interface UpdateResultNamesPayload {
-    resultNames: CompletionOption[];
+    resultNames: ResultNames;
 }
 
 interface UpdateNodesPayload {

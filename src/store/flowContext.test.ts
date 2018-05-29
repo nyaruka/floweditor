@@ -1,28 +1,31 @@
+import { FlowDefinition } from '../flowTypes';
 import Localization from '../services/Localization';
+import { configProviderContext } from '../testUtils';
 import Constants from './constants';
-import { v4 as generateUUID } from 'uuid';
 import reducer, {
-    contactFields as contactFieldsReducer,
     definition as definitionReducer,
     dependencies as dependenciesReducer,
-    groups as groupsReducer,
     initialState,
     localizations as localizationsReducer,
-    resultNames as resultNamesReducer,
     nodes as nodesReducer,
+    RenderNodeMap,
+    resultNames as resultNamesReducer,
     updateDefinition,
     updateDependencies,
     updateLocalizations,
-    updateResultNames,
     updateNodes,
-    RenderNodeMap
+    updateResultNames,
 } from './flowContext';
-import { configProviderContext } from '../testUtils';
-import { FlowDefinition } from '../flowTypes';
-import { Types } from '../config/typeConfigs';
 
 const boringFlow = require('../../__test__/flows/boring.json') as FlowDefinition;
 const emptyFlow = require('../../__test__/flows/empty.json') as FlowDefinition;
+
+const resultNames = {
+    'ecc70717-dd25-4795-8dc2-0361265a1e29': {
+        name: 'run.results.color',
+        description: 'Result for "color"'
+    }
+};
 
 describe('flowContext action creators', () => {
     describe('updateDefinition', () => {
@@ -76,7 +79,6 @@ describe('flowContext action creators', () => {
 
     describe('updateResultNames', () => {
         it('should create an action to update resultNames state', () => {
-            const resultNames = [{ name: 'run.results.color', description: 'Result for "color"' }];
             const expectedAction = {
                 type: Constants.UPDATE_RESULT_NAMES,
                 payload: {
@@ -149,7 +151,6 @@ describe('flowContext reducers', () => {
         });
 
         it('should handle UPDATE_RESULT_NAMES', () => {
-            const resultNames = [{ name: 'run.results.color', description: 'Result for "color"' }];
             const action = updateResultNames(resultNames);
 
             expect(reduce(action)).toEqual(resultNames);

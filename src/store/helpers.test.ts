@@ -5,6 +5,7 @@ import { Case, Exit, FlowDefinition, FlowPosition, RouterTypes, SendMsg } from '
 import { Spanish } from '../testUtils/assetCreators';
 import {
     determineConfigType,
+    generateCompletionOption,
     getCollisions,
     getFlowComponents,
     getGhostNode,
@@ -15,6 +16,7 @@ import {
 } from './helpers';
 
 const mutate = require('immutability-helper');
+
 describe('helpers', () => {
     const definition: FlowDefinition = require('../../__test__/flows/boring.json');
 
@@ -40,6 +42,15 @@ describe('helpers', () => {
                 { name: 'Help', id: 'label_0', type: 'label' },
                 { name: 'Feedback', id: 'label_1', type: 'label' }
             ]);
+        });
+
+        it('should find result names in definition', () => {
+            const { resultNamesMap } = getFlowComponents(definition);
+            const expectedOutput = {
+                node1: generateCompletionOption(definition.nodes[1].router.result_name)
+            };
+            expect(resultNamesMap).toEqual(expectedOutput);
+            expect(resultNamesMap).toMatchSnapshot();
         });
     });
 

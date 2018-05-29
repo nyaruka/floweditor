@@ -783,3 +783,209 @@ Array [
   },
 ]
 `;
+
+exports[`helpers > getOptionsList should include only our predefined options if autocomplete arg is falsy 1`] = `
+Array [
+  Object {
+    "description": "The name of the contact.",
+    "name": "contact",
+  },
+  Object {
+    "description": "The name of the contact.",
+    "name": "contact.name",
+  },
+  Object {
+    "description": "The language code for the contact.",
+    "name": "contact.language",
+  },
+  Object {
+    "description": "Custom fields on the contact.",
+    "name": "contact.fields",
+  },
+  Object {
+    "description": "The groups for the contact.",
+    "name": "contact.groups",
+  },
+  Object {
+    "description": "URNs on the contact.",
+    "name": "contact.urns",
+  },
+  Object {
+    "description": "The preferred telephone number for the contact.",
+    "name": "contact.urns.tel",
+  },
+  Object {
+    "description": "The preferred telegram id for the contact.",
+    "name": "contact.urns.telegram",
+  },
+  Object {
+    "description": "The last input from the contact if any.",
+    "name": "input",
+  },
+  Object {
+    "description": "Run details",
+    "name": "run",
+  },
+  Object {
+    "description": "The contact in this run",
+    "name": "run.contact",
+  },
+  Object {
+    "description": "Results for the run",
+    "name": "run.results",
+  },
+  Object {
+    "description": "Run details after running a child flow",
+    "name": "child",
+  },
+  Object {
+    "description": "The results for the child flow",
+    "name": "child.results",
+  },
+  Object {
+    "description": "Run details if being called from a parent flow",
+    "name": "parent",
+  },
+  Object {
+    "description": "The results for the parent flow",
+    "name": "parent.results",
+  },
+  Object {
+    "description": "The body of the webhook response",
+    "name": "webhook",
+  },
+  Object {
+    "description": "The status of the webhook call",
+    "name": "webhook.status",
+  },
+  Object {
+    "description": "The status code returned from the webhook",
+    "name": "webhook.status_code",
+  },
+  Object {
+    "description": "The URL which was called",
+    "name": "webhook.url",
+  },
+  Object {
+    "description": "The body of the webhook response",
+    "name": "webhook.body",
+  },
+  Object {
+    "description": "The JSON parsed body of the response, can access subelements",
+    "name": "webhook.json",
+  },
+  Object {
+    "description": "The raw request of the webhook including headers",
+    "name": "webhook.request",
+  },
+  Object {
+    "description": "The raw response of the webhook including headers",
+    "name": "webhook.response",
+  },
+]
+`;
+
+exports[`helpers > getOptionsList should include result names if autocomplete arg is truthy 1`] = `
+Array [
+  Object {
+    "description": "The name of the contact.",
+    "name": "contact",
+  },
+  Object {
+    "description": "The name of the contact.",
+    "name": "contact.name",
+  },
+  Object {
+    "description": "The language code for the contact.",
+    "name": "contact.language",
+  },
+  Object {
+    "description": "Custom fields on the contact.",
+    "name": "contact.fields",
+  },
+  Object {
+    "description": "The groups for the contact.",
+    "name": "contact.groups",
+  },
+  Object {
+    "description": "URNs on the contact.",
+    "name": "contact.urns",
+  },
+  Object {
+    "description": "The preferred telephone number for the contact.",
+    "name": "contact.urns.tel",
+  },
+  Object {
+    "description": "The preferred telegram id for the contact.",
+    "name": "contact.urns.telegram",
+  },
+  Object {
+    "description": "The last input from the contact if any.",
+    "name": "input",
+  },
+  Object {
+    "description": "Run details",
+    "name": "run",
+  },
+  Object {
+    "description": "The contact in this run",
+    "name": "run.contact",
+  },
+  Object {
+    "description": "Results for the run",
+    "name": "run.results",
+  },
+  Object {
+    "description": "Run details after running a child flow",
+    "name": "child",
+  },
+  Object {
+    "description": "The results for the child flow",
+    "name": "child.results",
+  },
+  Object {
+    "description": "Run details if being called from a parent flow",
+    "name": "parent",
+  },
+  Object {
+    "description": "The results for the parent flow",
+    "name": "parent.results",
+  },
+  Object {
+    "description": "The body of the webhook response",
+    "name": "webhook",
+  },
+  Object {
+    "description": "The status of the webhook call",
+    "name": "webhook.status",
+  },
+  Object {
+    "description": "The status code returned from the webhook",
+    "name": "webhook.status_code",
+  },
+  Object {
+    "description": "The URL which was called",
+    "name": "webhook.url",
+  },
+  Object {
+    "description": "The body of the webhook response",
+    "name": "webhook.body",
+  },
+  Object {
+    "description": "The JSON parsed body of the response, can access subelements",
+    "name": "webhook.json",
+  },
+  Object {
+    "description": "The raw request of the webhook including headers",
+    "name": "webhook.request",
+  },
+  Object {
+    "description": "The raw response of the webhook including headers",
+    "name": "webhook.response",
+  },
+  Object {
+    "description": "Result for \\"color\\"",
+    "name": "run.results.color",
+  },
+]
+`;

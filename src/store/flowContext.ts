@@ -11,7 +11,7 @@ import ActionTypes, {
     UpdateLanguagesAction,
     UpdateLocalizationsAction,
     UpdateNodesAction,
-    UpdateResultNamesAction
+    UpdateResultNamesAction,
 } from './actionTypes';
 import Constants from './constants';
 
@@ -30,12 +30,16 @@ export interface CompletionOption {
     description: string;
 }
 
+export interface ResultNames {
+    [nodeUUID: string]: CompletionOption;
+}
+
 export interface FlowContext {
     dependencies: FlowDefinition[];
     localizations: LocalizedObject[];
     baseLanguage: Asset;
     languages: Asset[];
-    resultNames: CompletionOption[];
+    resultNames: ResultNames;
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
 }
@@ -47,7 +51,7 @@ export const initialState: FlowContext = {
     baseLanguage: null,
     languages: [],
     localizations: [],
-    resultNames: [],
+    resultNames: {},
     nodes: {}
 };
 
@@ -96,7 +100,7 @@ export const updateLocalizations = (
     }
 });
 
-export const updateResultNames = (resultNames: CompletionOption[]): UpdateResultNamesAction => ({
+export const updateResultNames = (resultNames: ResultNames): UpdateResultNamesAction => ({
     type: Constants.UPDATE_RESULT_NAMES,
     payload: {
         resultNames
@@ -149,10 +153,7 @@ export const localizations = (
     }
 };
 
-export const resultNames = (
-    state: CompletionOption[] = initialState.resultNames,
-    action: ActionTypes
-) => {
+export const resultNames = (state: ResultNames = initialState.resultNames, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_RESULT_NAMES:
             return action.payload.resultNames;

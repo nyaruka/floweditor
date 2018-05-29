@@ -7,6 +7,7 @@ import * as getCaretCoordinates from 'textarea-caret';
 
 import { Type, Types } from '../../../config/typeConfigs';
 import { AppState, CompletionOption } from '../../../store';
+import { ResultNames } from '../../../store/flowContext';
 import { StringEntry } from '../../../store/nodeEditor';
 import FormElement, { FormElementProps } from '../FormElement';
 import * as shared from '../FormElement.scss';
@@ -33,7 +34,7 @@ export interface HTMLTextElement {
 
 export interface TextInputStoreProps {
     typeConfig: Type;
-    resultNames: CompletionOption[];
+    resultNames: ResultNames;
 }
 
 export interface TextInputPassedProps extends FormElementProps {
@@ -99,7 +100,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         }
         this.state = {
             value: initial,
-            options: getOptionsList(this.props.autocomplete, this.props.resultNames || []),
+            options: getOptionsList(this.props.autocomplete, this.props.resultNames || {}),
             ...initialState,
             ...(this.props.count && this.props.count === Count.SMS ? getMsgStats(initial) : {})
         };
