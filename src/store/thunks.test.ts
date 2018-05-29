@@ -7,14 +7,7 @@ import { SetContactAttribFormHelper } from '../component/actions/SetContactAttri
 import { DragPoint } from '../component/Node';
 import { Operators } from '../config/operatorConfigs';
 import { getTypeConfig, Types } from '../config/typeConfigs';
-import {
-    AnyAction,
-    FlowDefinition,
-    Languages,
-    RouterTypes,
-    SendMsg,
-    SwitchRouter
-} from '../flowTypes';
+import { AnyAction, FlowDefinition, Languages, RouterTypes, SendMsg, SwitchRouter } from '../flowTypes';
 import AssetService from '../services/AssetService';
 import { createMockStore, prepMockDuxState } from '../testUtils';
 import { createSetContactFieldAction } from '../testUtils/assetCreators';
@@ -46,7 +39,7 @@ import {
     updateConnection,
     updateDimensions,
     updateExitDestination,
-    updateSticky
+    updateSticky,
 } from './thunks';
 
 const boring: FlowDefinition = require('../../__test__/flows/boring.json');
@@ -620,11 +613,9 @@ describe('Flow Manipulation', () => {
                 });
 
                 store.dispatch(
-                    onOpenNodeEditor(
-                        testNodes.node0.node,
-                        testNodes.node0.node.actions[0],
-                        { showAdvanced: false }
-                    )
+                    onOpenNodeEditor(testNodes.node0.node, testNodes.node0.node.actions[0], {
+                        showAdvanced: false
+                    })
                 );
 
                 expect(store).toHaveReduxActions([Constants.UPDATE_LOCALIZATIONS]);
@@ -689,11 +680,9 @@ describe('Flow Manipulation', () => {
 
             it('should edit an existing action', () => {
                 store.dispatch(
-                    onOpenNodeEditor(
-                        testNodes.node0.node,
-                        testNodes.node0.node.actions[0],
-                        { showAdvanced: false }
-                    )
+                    onOpenNodeEditor(testNodes.node0.node, testNodes.node0.node.actions[0], {
+                        showAdvanced: false
+                    })
                 );
 
                 expect(store).toHavePayload(Constants.UPDATE_ACTION_TO_EDIT, {
@@ -859,11 +848,10 @@ describe('Flow Manipulation', () => {
                     }
                 }
             });
-
             const previousTop = testNodes.node1.ui.position.top;
-
             const nodes = store.dispatch(onUpdateRouter(updatedNode));
             const newCase = nodes.node1.node.router.cases[2];
+
             expect(newCase.arguments).toEqual(['anotherrule']);
             expect(nodes.node1.ui.position.top).toBe(previousTop);
         });

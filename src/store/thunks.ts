@@ -46,6 +46,7 @@ import {
 import {
     determineConfigType,
     FlowComponents,
+    generateCompletionOption,
     getActionIndex,
     getCollision,
     getFlowComponents,
@@ -689,7 +690,7 @@ export const onUpdateRouter = (node: RenderNode) => (
     getState: GetState
 ): RenderNodeMap => {
     const {
-        flowContext: { nodes },
+        flowContext: { nodes, resultNames },
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
         nodeEditor: { nodeToEdit, actionToEdit }
     } = getState();
@@ -711,6 +712,17 @@ export const onUpdateRouter = (node: RenderNode) => (
         node.inboundConnections = { [pendingConnection.exitUUID]: pendingConnection.nodeUUID };
         node.node = mutators.uniquifyNode(node.node);
     }
+
+    // update our result names map
+    const updatedResultNames = {
+        ...resultNames
+    };
+    if (node.node.router && node.node.router.result_name) {
+        updatedResultNames[node.node.uuid] = generateCompletionOption(node.node.router.result_name);
+    } else {
+        delete updatedResultNames[node.node.uuid];
+    }
+    dispatch(updateResultNames(updatedResultNames));
 
     if (nodeToEdit && actionToEdit && previousNode) {
         const actionToSplice = previousNode.node.actions.find(
