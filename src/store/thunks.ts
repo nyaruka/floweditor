@@ -18,6 +18,7 @@ import {
     SendMsg,
     StickyNote,
     SwitchRouter,
+    WaitTypes,
 } from '../flowTypes';
 import AssetService, { Asset } from '../services/AssetService';
 import { NODE_SPACING, timeEnd, timeStart } from '../utils';
@@ -52,6 +53,7 @@ import {
     getFlowComponents,
     getGhostNode,
     getLocalizations,
+    getSuggestedResultName,
 } from './helpers';
 import * as mutators from './mutators';
 import {
@@ -492,6 +494,18 @@ export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction
     getState: GetState
 ) => {
     dispatch(updateTypeConfig(typeConfig));
+
+    // Generate suggested result name if user is changing
+    // an existing node to a `wait_for_response` router.
+    const { flowContext: { nodes }, nodeEditor: { nodeToEdit } } = getState();
+    if (!nodeToEdit.wait || nodeToEdit.wait.type !== WaitTypes.msg) {
+        if (typeConfig.type === Types.wait_for_response) {
+            const suggestedResultName = getSuggestedResultName(nodes);
+            dispatch(updateResultName(suggestedResultName));
+            dispatch(updateShowResultName(true));
+        }
+    }
+
     if (typeConfig.formHelper) {
         // tslint:disable-next-line:no-shadowed-variable
         const action = actionToEdit && actionToEdit.type === typeConfig.type ? actionToEdit : null;
@@ -714,15 +728,17 @@ export const onUpdateRouter = (node: RenderNode) => (
     }
 
     // update our result names map
-    const updatedResultNames = {
+    const resultNamesToUpdate = {
         ...resultNames
     };
     if (node.node.router && node.node.router.result_name) {
-        updatedResultNames[node.node.uuid] = generateCompletionOption(node.node.router.result_name);
+        resultNamesToUpdate[node.node.uuid] = generateCompletionOption(
+            node.node.router.result_name
+        );
     } else {
-        delete updatedResultNames[node.node.uuid];
+        delete resultNamesToUpdate[node.node.uuid];
     }
-    dispatch(updateResultNames(updatedResultNames));
+    dispatch(updateResultNames(resultNamesToUpdate));
 
     if (nodeToEdit && actionToEdit && previousNode) {
         const actionToSplice = previousNode.node.actions.find(
