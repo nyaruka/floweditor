@@ -24,7 +24,7 @@ const emptyFlow = require('../../__test__/flows/empty.json') as FlowDefinition;
 
 const resultNames = {
     'ecc70717-dd25-4795-8dc2-0361265a1e29': {
-        name: 'run.results.color',
+        name: '@run.results.color',
         description: 'Result for "color"'
     }
 };

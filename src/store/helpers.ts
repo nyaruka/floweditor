@@ -202,7 +202,6 @@ export const getCollision = (nodes: RenderNodeMap): RenderNode[] => {
 
 export const getGhostNode = (
     fromNode: RenderNode,
-    nodes: RenderNodeMap,
     suggestedResultNameCount: number
 ) => {
     const ghostNode: FlowNode = {

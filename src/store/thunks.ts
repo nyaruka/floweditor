@@ -686,7 +686,7 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
     const [fromNodeUUID, fromExitUUID] = event.sourceId.split(':');
 
     const fromNode = nodes[fromNodeUUID];
-    const ghostNode = getGhostNode(fromNode, nodes, suggestedResultNameCount);
+    const ghostNode = getGhostNode(fromNode, suggestedResultNameCount);
 
     // Set our ghost spec so it gets rendered.
     dispatch(updateGhostNode(ghostNode));
