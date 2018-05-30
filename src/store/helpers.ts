@@ -15,12 +15,13 @@ import {
     SetContactField,
     SwitchRouter,
     UINodeTypes,
-    WaitTypes
+    WaitTypes,
 } from '../flowTypes';
 import { Asset, AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
+import { snakify } from '../utils';
 import { languageMap } from '../utils/languageMap';
-import { RenderNode, RenderNodeMap } from './flowContext';
+import { RenderNode, RenderNodeMap, ResultNames } from './flowContext';
 
 export interface Bounds {
     left: number;
@@ -60,13 +61,7 @@ export const getActionIndex = (node: FlowNode, actionUUID: string) => {
     throw new Error('Cannot find action ' + actionUUID);
 };
 
-/**
- * Gets a suggested result name based on the current number of waits
- * in the current definition
- */
-export const getSuggestedResultName = (nodes: RenderNodeMap) => {
-    return 'Response ' + (Object.keys(nodes).length + 1);
-};
+export const getSuggestedResultName = (count: number) => `Result ${count}`;
 
 export const getLocalizations = (
     node: FlowNode,
@@ -205,7 +200,10 @@ export const getCollision = (nodes: RenderNodeMap): RenderNode[] => {
     return [];
 };
 
-export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
+export const getGhostNode = (
+    fromNode: RenderNode,
+    suggestedResultNameCount: number
+) => {
     const ghostNode: FlowNode = {
         uuid: generateUUID(),
         actions: [],
@@ -232,7 +230,7 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
         ghostNode.wait = { type: WaitTypes.msg };
         ghostNode.router = {
             type: RouterTypes.switch,
-            result_name: getSuggestedResultName(nodes)
+            result_name: getSuggestedResultName(suggestedResultNameCount)
         };
     }
 
@@ -241,6 +239,7 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
 
 export interface FlowComponents {
     renderNodeMap: RenderNodeMap;
+    resultNamesMap: ResultNames;
     groups: Asset[];
     fields: Asset[];
     labels: Asset[];
@@ -255,6 +254,11 @@ export const isGroupAction = (actionType: string) => {
     );
 };
 
+export const generateCompletionOption = (resultName: string) => ({
+    name: `@run.results.${snakify(resultName)}`,
+    description: `Result for "${resultName}"`
+});
+
 /**
  * Processes an initial FlowDefinition for details necessary for the editor
  */
@@ -268,6 +272,8 @@ export const getFlowComponents = ({ language, nodes, _ui }: FlowDefinition): Flo
 
     // initialize our nodes
     const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
+
+    const resultNamesMap: ResultNames = {};
 
     const groupsMap: { [uuid: string]: string } = {};
     const fieldsMap: { [key: string]: { key: string; name: string } } = {};
@@ -284,6 +290,13 @@ export const getFlowComponents = ({ language, nodes, _ui }: FlowDefinition): Flo
             ui,
             inboundConnections: {}
         };
+
+        // get existing result names
+        if (node.router) {
+            if (node.router.result_name) {
+                resultNamesMap[node.uuid] = generateCompletionOption(node.router.result_name);
+            }
+        }
 
         // if we are split by group, look at our exits for groups
         if (ui.type === Types.split_by_groups) {
@@ -350,5 +363,5 @@ export const getFlowComponents = ({ language, nodes, _ui }: FlowDefinition): Flo
     // determine flow language
     const baseLanguage = languageToAsset(languageMap[language]);
 
-    return { renderNodeMap, groups, fields, labels, baseLanguage };
+    return { renderNodeMap, resultNamesMap, groups, fields, labels, baseLanguage };
 };

@@ -58,7 +58,9 @@ import {
     UpdateUserAddingAction,
     updateUserAddingAction
 } from '../../store';
-import { RenderNode } from '../../store/flowContext';
+import { IncrementSuggestedResultNameCount } from '../../store/actionTypes';
+import { incrementSuggestedResultNameCount, RenderNode } from '../../store/flowContext';
+import { getSuggestedResultName } from '../../store/helpers';
 import { NodeEditorForm, NodeEditorSettings } from '../../store/nodeEditor';
 import { HandleTypeConfigChange, handleTypeConfigChange } from '../../store/thunks';
 import { CaseElementProps } from '../form/CaseElement';
@@ -105,6 +107,7 @@ export interface NodeEditorStoreProps {
     typeConfig: Type;
     resultName: string;
     showResultName: boolean;
+    suggestedResultNameCount: number;
     operand: string;
     timeout: number;
     settings: NodeEditorSettings;
@@ -120,6 +123,7 @@ export interface NodeEditorStoreProps {
     onUpdateRouter: OnUpdateRouter;
     updateUserAddingAction: UpdateUserAddingAction;
     updateShowResultName: UpdateShowResultName;
+    incrementSuggestedResultNameCount: IncrementSuggestedResultNameCount;
     form: NodeEditorForm;
 }
 
@@ -817,6 +821,16 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         return wait;
     }
 
+    private updateSuggestedResultNameState(resultName: string = ''): void {
+        // Update suggestResultName state
+        if (
+            resultName &&
+            resultName.trim() === getSuggestedResultName(this.props.suggestedResultNameCount)
+        ) {
+            this.props.incrementSuggestedResultNameCount();
+        }
+    }
+
     private updateSwitchRouter(kases: CaseElementProps[]): void {
         if (
             this.props.definition.localization &&
@@ -842,6 +856,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
         const newRenderNode = this.getUpdatedRouterNode(router, exits, this.props.typeConfig.type);
         newRenderNode.node.wait = this.getWait();
+
+        this.updateSuggestedResultNameState(router.result_name);
 
         this.props.onUpdateRouter(newRenderNode);
     }
@@ -891,6 +907,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         if (this.props.resultName) {
             router.result_name += this.props.resultName;
         }
+
+        this.updateSuggestedResultNameState(router.result_name);
 
         const newNode = this.getUpdatedRouterNode(router, exits, this.props.typeConfig.type);
         newNode.node.wait = { type: WaitTypes.group };
@@ -1249,7 +1267,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowContext: { localizations, definition, nodes },
+    flowContext: { localizations, definition, nodes, suggestedResultNameCount },
     flowEditor: {
         editorUI: { language, translating, nodeEditorOpen },
         flowUI: { pendingConnection }
@@ -1265,6 +1283,7 @@ const mapStateToProps = ({
     typeConfig,
     resultName,
     showResultName,
+    suggestedResultNameCount,
     operand,
     timeout,
     pendingConnection,
@@ -1285,7 +1304,8 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
             onUpdateAction,
             onUpdateRouter,
             updateUserAddingAction,
-            updateShowResultName
+            updateShowResultName,
+            incrementSuggestedResultNameCount
         },
         dispatch
     );

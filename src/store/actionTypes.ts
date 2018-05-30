@@ -4,14 +4,14 @@ import { AnyAction, FlowDefinition, FlowNode, FlowPosition } from '../flowTypes'
 import { Asset } from '../services/AssetService';
 import { LocalizedObject } from '../services/Localization';
 import Constants from './constants';
-import { CompletionOption, RenderNode } from './flowContext';
+import { RenderNode, ResultNames } from './flowContext';
 import { DragSelection } from './flowEditor';
 import { NodeEditorForm, NodeEditorSettings } from './nodeEditor';
 
 // Redux action generic
-interface DuxAction<T extends Constants, P extends { [key: string]: any }> {
+interface DuxAction<T extends Constants, P extends { [key: string]: any } = {}> {
     type: T;
-    payload: P;
+    payload?: P;
 }
 
 // Payload types
@@ -61,7 +61,7 @@ interface RemovePendingConnectionPayload {
 }
 
 interface UpdateResultNamesPayload {
-    resultNames: CompletionOption[];
+    resultNames: ResultNames;
 }
 
 interface UpdateNodesPayload {
@@ -188,6 +188,10 @@ export type UpdateResultNamesAction = DuxAction<
     UpdateResultNamesPayload
 >;
 
+export type IncrementSuggestedResultNameCountAction = DuxAction<
+    Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT
+>;
+
 export type UpdateNodesAction = DuxAction<Constants.UPDATE_NODES, UpdateNodesPayload>;
 
 export type UpdateNodeEditorOpenAction = DuxAction<
@@ -275,6 +279,8 @@ export type UpdateBaseLanguage = (baseLanguage: Asset) => UpdateBaseLanguageActi
 
 export type UpdateForm = (form: NodeEditorForm) => UpdateFormAction;
 
+export type IncrementSuggestedResultNameCount = () => IncrementSuggestedResultNameCountAction;
+
 type ActionTypes =
     | UpdateFormAction
     | UpdateNodeEditorSettings
@@ -288,6 +294,7 @@ type ActionTypes =
     | UpdatePendingConnectionsAction
     | RemovePendingConnectionAction
     | UpdateResultNamesAction
+    | IncrementSuggestedResultNameCountAction
     | UpdateNodesAction
     | UpdateNodeEditorOpenAction
     | UpdateGhostNodeAction

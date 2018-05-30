@@ -1,5 +1,3 @@
-// TODO: Remove use of Function
-// tslint:disable:ban-types
 import * as isEqual from 'fast-deep-equal';
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
@@ -17,19 +15,22 @@ import {
     FlowPosition,
     SendMsg,
     StickyNote,
-    SwitchRouter
+    SwitchRouter,
+    WaitTypes,
 } from '../flowTypes';
 import AssetService, { Asset } from '../services/AssetService';
 import { NODE_SPACING, timeEnd, timeStart } from '../utils';
 import { getLanguage } from '../utils/languageMap';
 import {
+    incrementSuggestedResultNameCount,
     RenderNode,
     RenderNodeMap,
     updateBaseLanguage,
     updateDefinition,
     updateLanguages,
     updateLocalizations,
-    updateNodes
+    updateNodes,
+    updateResultNames,
 } from './flowContext';
 import {
     updateCreateNodePosition,
@@ -40,16 +41,18 @@ import {
     updateNodeDragging,
     updateNodeEditorOpen,
     updatePendingConnection,
-    updateTranslating
+    updateTranslating,
 } from './flowEditor';
 import {
     determineConfigType,
     FlowComponents,
+    generateCompletionOption,
     getActionIndex,
     getCollision,
     getFlowComponents,
     getGhostNode,
-    getLocalizations
+    getLocalizations,
+    getSuggestedResultName,
 } from './helpers';
 import * as mutators from './mutators';
 import {
@@ -61,10 +64,12 @@ import {
     updateShowResultName,
     updateTimeout,
     updateTypeConfig,
-    updateUserAddingAction
+    updateUserAddingAction,
 } from './nodeEditor';
 import AppState from './state';
 
+// TODO: Remove use of Function
+// tslint:disable:ban-types
 export type DispatchWithState = Dispatch<AppState>;
 
 export type GetState = () => AppState;
@@ -152,11 +157,21 @@ export const initializeFlow = (definition: FlowDefinition, assetService: AssetSe
         assetService.addFlowComponents(flowComponents);
     }
 
+    // Take stock of the flow's language settings
     dispatch(updateBaseLanguage(flowComponents.baseLanguage));
     dispatch(updateLanguage(flowComponents.baseLanguage));
+
     // store our flow definition without any nodes
     dispatch(updateDefinition(mutators.pruneDefinition(definition)));
     dispatch(updateNodes(flowComponents.renderNodeMap));
+
+    // Take stock of existing results
+    dispatch(updateResultNames(flowComponents.resultNamesMap));
+    // tslint:disable-next-line:forin
+    for (const key in flowComponents.resultNamesMap) {
+        dispatch(incrementSuggestedResultNameCount());
+    }
+
     dispatch(updateFetchingFlow(false));
     return flowComponents;
 };
@@ -344,7 +359,13 @@ export const removeNode = (node: FlowNode) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
-    const { flowContext: { nodes } } = getState();
+    // Remove result name if node has one
+    const { flowContext: { nodes, resultNames } } = getState();
+    if (resultNames.hasOwnProperty(node.uuid)) {
+        const toKeep = mutators.removeProperties(resultNames, node.uuid);
+        dispatch(updateResultNames(toKeep));
+    }
+
     const updated = mutators.removeNodeAndRemap(nodes, node.uuid);
     dispatch(updateNodes(updated));
     return updated;
@@ -478,14 +499,31 @@ export const spliceInRouter = (
     return updatedNodes;
 };
 
-export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction = null) => (
+export const handleTypeConfigChange = (typeConfig: Type, originalAction: AnyAction = null) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
     dispatch(updateTypeConfig(typeConfig));
+
+    // Generate suggested result name if user is changing
+    // an existing node to a `wait_for_response` router.
+    const { flowContext: { suggestedResultNameCount }, nodeEditor } = getState();
+    if (
+        nodeEditor.settings &&
+        nodeEditor.settings.originalNode &&
+        (!nodeEditor.settings.originalNode.wait ||
+            nodeEditor.settings.originalNode.wait.type !== WaitTypes.msg)
+    ) {
+        if (typeConfig.type === Types.wait_for_response) {
+            dispatch(updateResultName(getSuggestedResultName(suggestedResultNameCount)));
+            dispatch(updateShowResultName(true));
+        }
+    }
+
     if (typeConfig.formHelper) {
         // tslint:disable-next-line:no-shadowed-variable
-        const action = actionToEdit && actionToEdit.type === typeConfig.type ? actionToEdit : null;
+        const action =
+            originalAction && originalAction.type === typeConfig.type ? originalAction : null;
         dispatch(updateForm(typeConfig.formHelper.actionToState(action, typeConfig.type)));
     } else {
         dispatch(updateForm(null));
@@ -642,13 +680,13 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { flowContext: { nodes } } = getState();
+    const { flowContext: { nodes, suggestedResultNameCount } } = getState();
 
     // We finished dragging a ghost node, create the spec for our new ghost component
     const [fromNodeUUID, fromExitUUID] = event.sourceId.split(':');
 
     const fromNode = nodes[fromNodeUUID];
-    const ghostNode = getGhostNode(fromNode, nodes);
+    const ghostNode = getGhostNode(fromNode, suggestedResultNameCount);
 
     // Set our ghost spec so it gets rendered.
     dispatch(updateGhostNode(ghostNode));
@@ -676,7 +714,7 @@ export const onUpdateRouter = (node: RenderNode) => (
     getState: GetState
 ): RenderNodeMap => {
     const {
-        flowContext: { nodes },
+        flowContext: { nodes, resultNames },
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
         nodeEditor: { settings: { originalNode, originalAction } }
     } = getState();
@@ -695,6 +733,19 @@ export const onUpdateRouter = (node: RenderNode) => (
         node.inboundConnections = { [pendingConnection.exitUUID]: pendingConnection.nodeUUID };
         node.node = mutators.uniquifyNode(node.node);
     }
+
+    // update our result names map
+    const resultNamesToUpdate = {
+        ...resultNames
+    };
+    if (node.node.router && node.node.router.result_name) {
+        resultNamesToUpdate[node.node.uuid] = generateCompletionOption(
+            node.node.router.result_name
+        );
+    } else {
+        delete resultNamesToUpdate[node.node.uuid];
+    }
+    dispatch(updateResultNames(resultNamesToUpdate));
 
     console.log('-------------------------------------------');
     console.log(originalNode);
@@ -764,8 +815,8 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
         nodeEditor: { settings: currentSettings }
     } = getState();
 
-    const node = settings.originalNode;
-    let action = settings.originalAction;
+    const { originalNode: node } = settings;
+    let { originalAction: action } = settings;
 
     const localizations = [];
     if (translating) {
