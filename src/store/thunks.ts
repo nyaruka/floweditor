@@ -696,10 +696,6 @@ export const onUpdateRouter = (node: RenderNode) => (
         node.node = mutators.uniquifyNode(node.node);
     }
 
-    console.log('-------------------------------------------');
-    console.log(originalNode);
-    console.log(originalAction);
-
     if (originalNode && originalAction && previousNode) {
         const actionToSplice = previousNode.node.actions.find(
             (action: Action) => action.uuid === originalAction.uuid
@@ -803,20 +799,6 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     }
 
     dispatch(handleTypeConfigChange(typeConfig, toEdit));
-
-    /* if (typeConfig.formHelper) {
-        let toEdit = action;
-        if (translating) {
-            if (localizations && localizations.length === 1 && localizations[0].isLocalized()) {
-                toEdit = localizations[0].getObject() as AnyAction;
-            } else {
-                toEdit = null;
-            }
-        }
-        dispatch(updateForm(typeConfig.formHelper.actionToState(toEdit, typeConfig.type)));
-    }
-    dispatch(updateTypeConfig(getTypeConfig(type as Types)));
-    */
 
     let resultName = '';
 
