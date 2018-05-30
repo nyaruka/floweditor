@@ -1,5 +1,3 @@
-// TODO: Remove use of Function
-// tslint:disable:ban-types
 import * as isEqual from 'fast-deep-equal';
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
@@ -70,6 +68,8 @@ import {
 } from './nodeEditor';
 import AppState from './state';
 
+// TODO: Remove use of Function
+// tslint:disable:ban-types
 export type DispatchWithState = Dispatch<AppState>;
 
 export type GetState = () => AppState;
@@ -499,7 +499,7 @@ export const spliceInRouter = (
     return updatedNodes;
 };
 
-export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction = null) => (
+export const handleTypeConfigChange = (typeConfig: Type, originalAction: AnyAction = null) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
@@ -507,11 +507,13 @@ export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction
 
     // Generate suggested result name if user is changing
     // an existing node to a `wait_for_response` router.
-    const {
-        flowContext: { suggestedResultNameCount },
-        nodeEditor: { settings: { originalNode } }
-    } = getState();
-    if (originalNode && (!originalNode.wait || originalNode.wait.type !== WaitTypes.msg)) {
+    const { flowContext: { suggestedResultNameCount }, nodeEditor } = getState();
+    if (
+        nodeEditor.settings &&
+        nodeEditor.settings.originalNode &&
+        (!nodeEditor.settings.originalNode.wait ||
+            nodeEditor.settings.originalNode.wait.type !== WaitTypes.msg)
+    ) {
         if (typeConfig.type === Types.wait_for_response) {
             dispatch(updateResultName(getSuggestedResultName(suggestedResultNameCount)));
             dispatch(updateShowResultName(true));
@@ -520,7 +522,8 @@ export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction
 
     if (typeConfig.formHelper) {
         // tslint:disable-next-line:no-shadowed-variable
-        const action = actionToEdit && actionToEdit.type === typeConfig.type ? actionToEdit : null;
+        const action =
+            originalAction && originalAction.type === typeConfig.type ? originalAction : null;
         dispatch(updateForm(typeConfig.formHelper.actionToState(action, typeConfig.type)));
     } else {
         dispatch(updateForm(null));
@@ -812,8 +815,8 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
         nodeEditor: { settings: currentSettings }
     } = getState();
 
-    const node = settings.originalNode;
-    let action = settings.originalAction;
+    const { originalNode: node } = settings;
+    let { originalAction: action } = settings;
 
     const localizations = [];
     if (translating) {
