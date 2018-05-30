@@ -632,8 +632,6 @@ describe('Flow Manipulation', () => {
                         showAdvanced: false
                     })
                 );
-
-                expect(store).toHaveReduxActions([Constants.UPDATE_LOCALIZATIONS]);
             });
 
             it('should pick your action for you if necessary', () => {
@@ -649,7 +647,6 @@ describe('Flow Manipulation', () => {
                 store.dispatch(
                     onOpenNodeEditor({ originalNode: testNodes.node3.node, showAdvanced: false })
                 );
-                expect(store).toHaveReduxActions([Constants.UPDATE_LOCALIZATIONS]);
             });
 
             it('should only pick send_msg actions for you when translating', () => {
@@ -674,12 +671,14 @@ describe('Flow Manipulation', () => {
                 const newTypeConfig = getTypeConfig(Types.set_contact_field);
                 const newActionToEdit = createSetContactFieldAction();
                 const formHelper = new SetContactAttribFormHelper();
-                const newFormState = formHelper.actionToState(
-                    newActionToEdit,
+
+                const settings = { originalNode: null, originalAction: newActionToEdit };
+                const newFormState = formHelper.initializeForm(
+                    settings,
                     newTypeConfig.type as Types.set_contact_field
                 );
 
-                store.dispatch(handleTypeConfigChange(newTypeConfig, newActionToEdit));
+                store.dispatch(handleTypeConfigChange(newTypeConfig, settings));
 
                 expect(store).toHaveReduxActions([
                     Constants.UPDATE_TYPE_CONFIG,

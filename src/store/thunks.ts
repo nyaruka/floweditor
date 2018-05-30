@@ -28,7 +28,6 @@ import {
     updateBaseLanguage,
     updateDefinition,
     updateLanguages,
-    updateLocalizations,
     updateNodes
 } from './flowContext';
 import {
@@ -75,7 +74,10 @@ export type AsyncThunk = Thunk<Promise<void>>;
 
 export type OnAddToNode = (node: FlowNode) => Thunk<void>;
 
-export type HandleTypeConfigChange = (typeConfig: Type, action: AnyAction) => Thunk<void>;
+export type HandleTypeConfigChange = (
+    typeConfig: Type,
+    settings: NodeEditorSettings
+) => Thunk<void>;
 
 export type OnResetDragSelection = () => Thunk<void>;
 
@@ -478,17 +480,22 @@ export const spliceInRouter = (
     return updatedNodes;
 };
 
-export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction = null) => (
+export const handleTypeConfigChange = (typeConfig: Type, settings: NodeEditorSettings) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
     dispatch(updateTypeConfig(typeConfig));
+
+    // now update our form accordingly
     if (typeConfig.formHelper) {
-        // tslint:disable-next-line:no-shadowed-variable
-        const action = actionToEdit && actionToEdit.type === typeConfig.type ? actionToEdit : null;
-        dispatch(updateForm(typeConfig.formHelper.actionToState(action, typeConfig.type)));
-    } else {
-        dispatch(updateForm(null));
+        // only use the original action if it is the same type
+        if (settings) {
+            settings.originalAction =
+                settings.originalAction && settings.originalAction.type === typeConfig.type
+                    ? settings.originalAction
+                    : null;
+        }
+        dispatch(updateForm(typeConfig.formHelper.initializeForm(settings, typeConfig.type)));
     }
 };
 
@@ -571,16 +578,15 @@ export const onAddToNode = (node: FlowNode) => (
         text: ''
     };
 
+    const settings: NodeEditorSettings = {
+        originalNode: node,
+        originalAction: newAction,
+        showAdvanced: false
+    };
+
     dispatch(updateUserAddingAction(true));
-    dispatch(
-        updateNodeEditorSettings({
-            originalNode: node,
-            originalAction: newAction,
-            showAdvanced: false
-        })
-    );
-    dispatch(updateLocalizations([]));
-    dispatch(handleTypeConfigChange(getTypeConfig(Types.send_msg)));
+    dispatch(updateNodeEditorSettings(settings));
+    dispatch(handleTypeConfigChange(getTypeConfig(Types.send_msg), settings));
     dispatch(updateNodeDragging(false));
     dispatch(updateNodeEditorOpen(true));
 };
@@ -763,22 +769,23 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     const node = settings.originalNode;
     let action = settings.originalAction;
 
-    const localizations = [];
+    // stuff our localization objects in our settings
+    settings.localizations = [];
     if (translating) {
         let actionToTranslate = action;
-
         // if they clicked just below the actions, treat it as the last action
         if (!actionToTranslate && node.actions.length > 0) {
             actionToTranslate = node.actions[node.actions.length - 1];
 
-            // onlyTypes.send_msgactions are localizable
+            // onlyTypes.send_msg actions are localizable
             if (actionToTranslate.type !== Types.send_msg) {
                 return;
             }
         }
-
         const translations = localization[language.id];
-        localizations.push(...getLocalizations(node, actionToTranslate, language, translations));
+        settings.localizations.push(
+            ...getLocalizations(node, actionToTranslate, language, translations)
+        );
     }
 
     // Account for hybrids or clicking on the empty exit table
@@ -788,17 +795,6 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
 
     const type = determineConfigType(node, action, nodes);
     const typeConfig = getTypeConfig(type);
-
-    let toEdit = action;
-    if (translating) {
-        if (localizations && localizations.length === 1 && localizations[0].isLocalized()) {
-            toEdit = localizations[0].getObject() as AnyAction;
-        } else {
-            toEdit = null;
-        }
-    }
-
-    dispatch(handleTypeConfigChange(typeConfig, toEdit));
 
     let resultName = '';
 
@@ -820,14 +816,9 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
         }
     }
 
-    if (settings) {
-        dispatch(
-            updateNodeEditorSettings(mutators.mergeNodeEditorSettings(currentSettings, settings))
-        );
-    }
-
+    dispatch(updateNodeEditorSettings(settings));
+    dispatch(handleTypeConfigChange(typeConfig, settings));
     dispatch(updateNodeDragging(false));
-    dispatch(updateLocalizations(localizations));
     dispatch(updateResultName(resultName));
     dispatch(updateShowResultName(resultName.length > 0));
     dispatch(updateNodeEditorOpen(true));

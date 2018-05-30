@@ -99,7 +99,6 @@ export interface NodeEditorPassedProps {
 export interface NodeEditorStoreProps {
     language: Asset;
     nodeEditorOpen: boolean;
-    localizations: LocalizedObject[];
     definition: FlowDefinition;
     translating: boolean;
     typeConfig: Type;
@@ -357,7 +356,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     private onTypeChange(config: Type): void {
         this.widgets = {};
         this.advancedWidgets = {};
-        this.props.handleTypeConfigChange(config, this.props.settings.originalAction);
+        this.props.handleTypeConfigChange(config, this.props.settings);
     }
 
     private onShowNameField(): void {
@@ -679,7 +678,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
         const exits: Exit[] = this.props.settings.originalNode.exits.reduce(
             (exitList, { uuid: exitUUID, name: exitName }) => {
-                const [localized] = this.props.localizations.filter(
+                const [localized] = this.props.settings.localizations.filter(
                     (localizedObject: LocalizedObject) =>
                         localizedObject.getObject().uuid === exitUUID
                 );
@@ -1249,7 +1248,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowContext: { localizations, definition, nodes },
+    flowContext: { definition, nodes },
     flowEditor: {
         editorUI: { language, translating, nodeEditorOpen },
         flowUI: { pendingConnection }
@@ -1259,7 +1258,6 @@ const mapStateToProps = ({
     language,
     nodeEditorOpen,
     definition,
-    localizations,
     nodes,
     translating,
     typeConfig,

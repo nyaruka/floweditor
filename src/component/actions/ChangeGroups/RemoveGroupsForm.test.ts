@@ -20,7 +20,7 @@ const baseProps: ChangeGroupFormProps = {
     action: removeGroupsAction,
     updateAction: jest.fn(),
     updateChangeGroupsForm: jest.fn(),
-    form: formHelper.actionToState(removeGroupsAction),
+    form: formHelper.initializeForm({ originalNode: null, originalAction: removeGroupsAction }),
     formHelper,
     groups: []
 };

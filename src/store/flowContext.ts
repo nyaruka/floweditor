@@ -9,7 +9,6 @@ import ActionTypes, {
     UpdateDefinitionAction,
     UpdateDependenciesAction,
     UpdateLanguagesAction,
-    UpdateLocalizationsAction,
     UpdateNodesAction,
     UpdateResultNamesAction
 } from './actionTypes';
@@ -32,7 +31,6 @@ export interface CompletionOption {
 
 export interface FlowContext {
     dependencies: FlowDefinition[];
-    localizations: LocalizedObject[];
     baseLanguage: Asset;
     languages: Asset[];
     resultNames: CompletionOption[];
@@ -46,7 +44,6 @@ export const initialState: FlowContext = {
     dependencies: null,
     baseLanguage: null,
     languages: [],
-    localizations: [],
     resultNames: [],
     nodes: {}
 };
@@ -84,15 +81,6 @@ export const updateLanguages = (languages: Asset[]): UpdateLanguagesAction => ({
     type: Constants.UPDATE_LANGUAGES,
     payload: {
         languages
-    }
-});
-
-export const updateLocalizations = (
-    localizations: LocalizedObject[]
-): UpdateLocalizationsAction => ({
-    type: Constants.UPDATE_LOCALIZATIONS,
-    payload: {
-        localizations
     }
 });
 
@@ -137,18 +125,6 @@ export const dependencies = (
     }
 };
 
-export const localizations = (
-    state: LocalizedObject[] = initialState.localizations,
-    action: ActionTypes
-) => {
-    switch (action.type) {
-        case Constants.UPDATE_LOCALIZATIONS:
-            return action.payload.localizations;
-        default:
-            return state;
-    }
-};
-
 export const resultNames = (
     state: CompletionOption[] = initialState.resultNames,
     action: ActionTypes
@@ -184,7 +160,6 @@ export default combineReducers({
     definition,
     nodes,
     dependencies,
-    localizations,
     resultNames,
     baseLanguage,
     languages

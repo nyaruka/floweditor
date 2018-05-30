@@ -8,7 +8,7 @@ import {
     createSetContactNameAction,
     English,
     languages,
-    Spanish,
+    Spanish
 } from '../../../testUtils/assetCreators';
 import ConnectedTextInputElement from '../../form/TextInputElement';
 import { propertyToAsset } from './helpers';
@@ -27,7 +27,13 @@ const baseProps: SetContactAttribFormProps = {
     action: setContactFieldAction,
     formHelper,
     typeConfig: getTypeConfig(Types.set_contact_field),
-    form: formHelper.actionToState(setContactFieldAction, Types.set_contact_field),
+    form: formHelper.initializeForm(
+        {
+            originalNode: null,
+            originalAction: setContactFieldAction
+        },
+        Types.set_contact_field
+    ),
     languages,
     baseLanguage: English,
     updateAction: jest.fn(),
@@ -46,8 +52,8 @@ describe(SetContactAttribForm.name, () => {
                 value: props.form.value.value
             });
 
-            const setContactNameForm = formHelper.actionToState(
-                setContactNameAction,
+            const setContactNameForm = formHelper.initializeForm(
+                { originalNode: null, originalAction: setContactNameAction },
                 Types.set_contact_name
             );
 
@@ -68,8 +74,11 @@ describe(SetContactAttribForm.name, () => {
                 $merge: {
                     action: setContactLanguageAction,
                     typeConfig: getTypeConfig(Types.set_contact_language),
-                    form: formHelper.actionToState(
-                        setContactLanguageAction,
+                    form: formHelper.initializeForm(
+                        {
+                            originalNode: null,
+                            originalAction: setContactLanguageAction
+                        },
                         Types.set_contact_language
                     )
                 }
@@ -84,8 +93,11 @@ describe(SetContactAttribForm.name, () => {
                 $merge: {
                     action: setContactChannelAction,
                     typeConfig: getTypeConfig(Types.set_contact_channel),
-                    form: formHelper.actionToState(
-                        setContactChannelAction,
+                    form: formHelper.initializeForm(
+                        {
+                            originalNode: null,
+                            originalAction: setContactChannelAction
+                        },
                         Types.set_contact_channel
                     )
                 }
@@ -148,8 +160,11 @@ describe(SetContactAttribForm.name, () => {
                     $merge: {
                         action: setContactLanguageAction,
                         typeConfig: getTypeConfig(Types.set_contact_language),
-                        form: formHelper.actionToState(
-                            setContactLanguageAction,
+                        form: formHelper.initializeForm(
+                            {
+                                originalNode: null,
+                                originalAction: setContactLanguageAction
+                            },
                             Types.set_contact_language
                         ),
                         updateSetContactAttribForm: jest.fn()
@@ -166,8 +181,11 @@ describe(SetContactAttribForm.name, () => {
                     $merge: {
                         action: setContactChannelAction,
                         typeConfig: getTypeConfig(Types.set_contact_channel),
-                        form: formHelper.actionToState(
-                            setContactChannelAction,
+                        form: formHelper.initializeForm(
+                            {
+                                originalNode: null,
+                                originalAction: setContactChannelAction
+                            },
                             Types.set_contact_channel
                         ),
                         updateSetContactAttribForm: jest.fn()

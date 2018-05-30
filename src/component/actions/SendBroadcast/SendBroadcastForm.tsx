@@ -23,7 +23,6 @@ export interface SendBroadcastFormStoreProps {
     language: Asset;
     translating: boolean;
     typeConfig: Type;
-    localizations: LocalizedObject[];
     form: SendBroadcastFormState;
     updateSendBroadcastForm: SendBroadcastFunc;
 }
@@ -155,14 +154,12 @@ export class SendBroadcastForm extends React.Component<
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowContext: { localizations },
     flowEditor: { editorUI: { language, translating } },
     nodeEditor: { typeConfig, form }
 }: AppState) => ({
     language,
     translating,
     typeConfig,
-    localizations,
     form
 });
 

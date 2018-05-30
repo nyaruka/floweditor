@@ -26,7 +26,6 @@ export interface SendMsgFormStoreProps {
     translating: boolean;
     typeConfig: Type;
     definition: FlowDefinition;
-    localizations: LocalizedObject[];
     updateSendMsgForm: SendMsgFunc;
     form: SendMsgFormState;
 }
@@ -190,7 +189,7 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
 }
 
 const mapStateToProps = ({
-    flowContext: { definition, localizations },
+    flowContext: { definition },
     flowEditor: { editorUI: { language, translating } },
     nodeEditor: { typeConfig, form }
 }: AppState) => ({
@@ -198,7 +197,6 @@ const mapStateToProps = ({
     translating,
     typeConfig,
     definition,
-    localizations,
     form
 });
 
