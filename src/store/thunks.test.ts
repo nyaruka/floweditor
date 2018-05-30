@@ -18,7 +18,7 @@ import {
 import AssetService from '../services/AssetService';
 import { createMockStore, prepMockDuxState } from '../testUtils';
 import { createSetContactFieldAction } from '../testUtils/assetCreators';
-import { push } from '../utils';
+import { push, NODE_SPACING } from '../utils';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { getUniqueDestinations } from './helpers';
 import {
@@ -237,7 +237,7 @@ describe('Flow Manipulation', () => {
             store = createMockStore({
                 flowContext: { nodes: testNodes },
                 flowEditor: { flowUI: { dragSelection: { selected: { nodeA: true } } } },
-                nodeEditor: { actionToEdit: null, nodeToEdit: null }
+                nodeEditor: { settings: null }
             });
 
             store.dispatch(onNodeMoved(testNodes.node0.node.uuid, { left: 500, top: 600 }));
@@ -253,7 +253,7 @@ describe('Flow Manipulation', () => {
             store = createMockStore({
                 flowContext: { nodes: testNodes },
                 flowEditor: { flowUI: { dragSelection: { selected: { nodeA: true } } } },
-                nodeEditor: { actionToEdit: null, nodeToEdit: null }
+                nodeEditor: { settings: null }
             });
 
             store.dispatch(onResetDragSelection());
@@ -403,7 +403,10 @@ describe('Flow Manipulation', () => {
             // prep our store to show that we are editing
             const updatedStore = createMockStore({
                 ...store.getState(),
-                nodeEditor: { userAddingAction: true, nodeToEdit: testNodes.node0.node }
+                nodeEditor: {
+                    userAddingAction: true,
+                    settings: { originalNode: testNodes.node0.node }
+                }
             });
 
             // add a new message to the first node
@@ -421,7 +424,7 @@ describe('Flow Manipulation', () => {
             expect((actions[4] as SendMsg).text).toBe('A fifth action for our first node');
         });
 
-        it('should throw if nodeToEdit is null', () => {
+        it('should throw if originalNode is null', () => {
             expect(() => {
                 // add a new message to the first node
                 const nodes = store.dispatch(
@@ -431,14 +434,17 @@ describe('Flow Manipulation', () => {
                         text: 'A second message for our first node'
                     })
                 );
-            }).toThrowError('Need nodeToEdit in state to update an action');
+            }).toThrowError('Need originalNode in settings to update an action');
         });
 
         it('should update an existing action', () => {
             // prep our store to show that we are editing
             const updatedStore = createMockStore({
                 ...store.getState(),
-                nodeEditor: { userAddingAction: false, nodeToEdit: testNodes.node0.node }
+                nodeEditor: {
+                    userAddingAction: false,
+                    settings: { originalNode: testNodes.node0.node }
+                }
             });
 
             // add a new message to the first node
@@ -488,7 +494,7 @@ describe('Flow Manipulation', () => {
                 },
                 nodeEditor: {
                     userAddingAction: true,
-                    nodeToEdit: {}
+                    settings: { originalNode: {} }
                 }
             });
 
@@ -620,11 +626,11 @@ describe('Flow Manipulation', () => {
                 });
 
                 store.dispatch(
-                    onOpenNodeEditor(
-                        testNodes.node0.node,
-                        testNodes.node0.node.actions[0],
-                        { showAdvanced: false }
-                    )
+                    onOpenNodeEditor({
+                        originalNode: testNodes.node0.node,
+                        originalAction: testNodes.node0.node.actions[0],
+                        showAdvanced: false
+                    })
                 );
 
                 expect(store).toHaveReduxActions([Constants.UPDATE_LOCALIZATIONS]);
@@ -641,7 +647,7 @@ describe('Flow Manipulation', () => {
                 });
 
                 store.dispatch(
-                    onOpenNodeEditor(testNodes.node3.node, null, { showAdvanced: false })
+                    onOpenNodeEditor({ originalNode: testNodes.node3.node, showAdvanced: false })
                 );
                 expect(store).toHaveReduxActions([Constants.UPDATE_LOCALIZATIONS]);
             });
@@ -657,7 +663,7 @@ describe('Flow Manipulation', () => {
                 });
 
                 store.dispatch(
-                    onOpenNodeEditor(testNodes.node2.node, null, { showAdvanced: false })
+                    onOpenNodeEditor({ originalNode: testNodes.node2.node, showAdvanced: false })
                 );
                 expect(store).not.toHaveReduxActions([Constants.UPDATE_LOCALIZATIONS]);
             });
@@ -689,33 +695,26 @@ describe('Flow Manipulation', () => {
 
             it('should edit an existing action', () => {
                 store.dispatch(
-                    onOpenNodeEditor(
-                        testNodes.node0.node,
-                        testNodes.node0.node.actions[0],
-                        { showAdvanced: false }
-                    )
+                    onOpenNodeEditor({
+                        originalNode: testNodes.node0.node,
+                        originalAction: testNodes.node0.node.actions[0],
+                        showAdvanced: false
+                    })
                 );
-
-                expect(store).toHavePayload(Constants.UPDATE_ACTION_TO_EDIT, {
-                    actionToEdit: testNodes.node0.node.actions[0]
-                });
             });
 
             it('should pick the last action if none are provided', () => {
                 store.dispatch(
-                    onOpenNodeEditor(testNodes.node3.node, null, { showAdvanced: false })
+                    onOpenNodeEditor({ originalNode: testNodes.node3.node, showAdvanced: false })
                 );
-
-                expect(store).toHavePayload(Constants.UPDATE_ACTION_TO_EDIT, {
-                    actionToEdit: testNodes.node3.node.actions[0]
-                });
             });
 
             it('should throw if no action is provided on an actionless node', () => {
                 testNodes.node0.node.actions = [];
                 expect(() => {
                     store.dispatch(
-                        onOpenNodeEditor(testNodes.node0.node, null, {
+                        onOpenNodeEditor({
+                            originalNode: testNodes.node0.node,
                             showAdvanced: false
                         })
                     );
@@ -724,7 +723,7 @@ describe('Flow Manipulation', () => {
 
             it('should edit router nodes', () => {
                 store.dispatch(
-                    onOpenNodeEditor(testNodes.node1.node, null, { showAdvanced: false })
+                    onOpenNodeEditor({ originalNode: testNodes.node1.node, showAdvanced: false })
                 );
 
                 expect(store).toHavePayload(Constants.UPDATE_TYPE_CONFIG, {
@@ -735,10 +734,6 @@ describe('Flow Manipulation', () => {
                         advanced: 2,
                         aliases: [RouterTypes.switch]
                     }
-                });
-
-                expect(store).toHavePayload(Constants.UPDATE_NODE_TO_EDIT, {
-                    nodeToEdit: testNodes.node1.node
                 });
 
                 expect(store).toHavePayload(Constants.UPDATE_NODE_EDITOR_OPEN, {
@@ -753,10 +748,6 @@ describe('Flow Manipulation', () => {
 
                 expect(store).toHavePayload(Constants.UPDATE_USER_ADDING_ACTION, {
                     userAddingAction: true
-                });
-
-                expect(store).toHavePayload(Constants.UPDATE_NODE_TO_EDIT, {
-                    nodeToEdit: testNodes.node0.node
                 });
             });
 
@@ -786,7 +777,7 @@ describe('Flow Manipulation', () => {
                             createNodePosition: {}
                         }
                     },
-                    nodeEditor: { actionToEdit: {}, nodeToEdit: {} }
+                    nodeEditor: { actionToEdit: {}, settings: null }
                 });
 
                 const connectExit = jest.fn();
@@ -809,7 +800,7 @@ describe('Flow Manipulation', () => {
                 store = createMockStore({
                     flowContext: { nodes: testNodes },
                     flowEditor: { flowUI: { pendingConnection: {}, createNodePosition: {} } },
-                    nodeEditor: { actionToEdit: {}, nodeToEdit: {} }
+                    nodeEditor: { actionToEdit: {}, settings: null }
                 });
 
                 store.dispatch(resetNodeEditingState());
@@ -825,14 +816,6 @@ describe('Flow Manipulation', () => {
                 expect(store).toHavePayload(Constants.UPDATE_CREATE_NODE_POSITION, {
                     createNodePosition: null
                 });
-
-                expect(store).toHavePayload(Constants.UPDATE_NODE_TO_EDIT, {
-                    nodeToEdit: null
-                });
-
-                expect(store).toHavePayload(Constants.UPDATE_ACTION_TO_EDIT, {
-                    actionToEdit: null
-                });
             });
         });
     });
@@ -842,7 +825,7 @@ describe('Flow Manipulation', () => {
             store = createMockStore({
                 flowContext: { nodes: testNodes },
                 flowEditor: { flowUI: {} },
-                nodeEditor: { nodeToEdit: testNodes.node1.node }
+                nodeEditor: { settings: { originalNode: testNodes.node1.node } }
             });
 
             const updatedNode = mutate(testNodes.node1, {
@@ -877,7 +860,7 @@ describe('Flow Manipulation', () => {
                         pendingConnection: { nodeUUID: 'node2', exitUUID: 'node2_exit0' }
                     }
                 },
-                nodeEditor: { nodeToEdit: testNodes.node3.node }
+                nodeEditor: { settings: { originalNode: testNodes.node3.node } }
             });
 
             const newRouter: RenderNode = {
@@ -901,8 +884,10 @@ describe('Flow Manipulation', () => {
                 flowContext: { nodes: testNodes },
                 flowEditor: { flowUI: {} },
                 nodeEditor: {
-                    actionToEdit: testNodes.node3.node.actions[0],
-                    nodeToEdit: testNodes.node3.node
+                    settings: {
+                        originalAction: testNodes.node3.node.actions[0],
+                        originalNode: testNodes.node3.node
+                    }
                 }
             });
 
@@ -928,8 +913,7 @@ describe('Flow Manipulation', () => {
                 flowContext: { nodes: testNodes },
                 flowEditor: { flowUI: {} },
                 nodeEditor: {
-                    actionToEdit: {},
-                    nodeToEdit: testNodes.node0.node
+                    settings: { originalNode: testNodes.node0.node }
                 }
             });
 
@@ -952,9 +936,6 @@ describe('Flow Manipulation', () => {
             const nodes = store.dispatch(onUpdateRouter(newRouter));
             const newNodeUUID = nodes.node0.node.exits[0].destination_node_uuid;
             expect(nodes[newNodeUUID]).toHaveInboundFrom(nodes.node0.node.exits[0]);
-
-            // our top should start at the bottom of the previous node
-            expect(nodes[newNodeUUID].ui.position.top).toBe(previousBottom);
         });
     });
 });

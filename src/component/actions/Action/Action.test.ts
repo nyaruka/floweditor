@@ -159,7 +159,9 @@ describe(ActionWrapper.name, () => {
                 instance.onClick(mockEvent);
 
                 expect(props.onOpenNodeEditor).toHaveBeenCalledTimes(1);
-                expect(props.onOpenNodeEditor).toHaveBeenCalledWith(props.node, props.action, {
+                expect(props.onOpenNodeEditor).toHaveBeenCalledWith({
+                    originalNode: props.node,
+                    originalAction: props.action,
                     showAdvanced: false
                 });
             });

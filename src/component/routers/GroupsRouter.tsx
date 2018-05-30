@@ -14,11 +14,12 @@ import { GetResultNameField } from '../NodeEditor';
 import { hasSwitchRouter, SaveLocalizations } from '../NodeEditor/NodeEditor';
 import { GROUP_LABEL } from './constants';
 import * as styles from './SwitchRouter.scss';
+import { NodeEditorSettings } from '../../store/nodeEditor';
 
 // import { endpointsPT } from '../../config';
 export interface GroupsRouterStoreProps {
     translating: boolean;
-    nodeToEdit: FlowNode;
+    settings: NodeEditorSettings;
 }
 
 export interface GroupsRouterPassedProps {
@@ -99,8 +100,8 @@ export class GroupsRouter extends React.Component<GroupsRouterProps, TempGroupSt
         }
 
         const groupProps: Partial<GroupsElementProps> = {};
-        if (hasGroupsRouter(this.props.nodeToEdit)) {
-            groupProps.entry = { value: extractGroups(this.props.nodeToEdit) };
+        if (hasGroupsRouter(this.props.settings.originalNode)) {
+            groupProps.entry = { value: extractGroups(this.props.settings.originalNode) };
         }
 
         const nameField: JSX.Element = this.props.getResultNameField();
@@ -125,10 +126,10 @@ export class GroupsRouter extends React.Component<GroupsRouterProps, TempGroupSt
 
 const mapStateToProps = ({
     flowEditor: { editorUI: { translating } },
-    nodeEditor: { nodeToEdit }
+    nodeEditor: { settings }
 }: AppState) => ({
     translating,
-    nodeToEdit
+    settings
 });
 
 const ConnectedGroupsRouterForm = connect(mapStateToProps, null, null, { withRef: true })(

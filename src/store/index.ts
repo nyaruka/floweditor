@@ -29,7 +29,6 @@ import {
     updateTranslating
 } from './flowEditor';
 import {
-    updateActionToEdit,
     updateForm,
     updateOperand,
     updateResultName,
@@ -119,7 +118,6 @@ export {
     updateNodeEditorOpen,
     updateGhostNode,
     updateCreateNodePosition,
-    updateActionToEdit,
     fetchFlow,
     FetchFlow,
     ensureStartNode,

@@ -2,16 +2,12 @@ import { getTypeConfig } from '../config';
 import { Types } from '../config/typeConfigs';
 import Constants from './constants';
 import reducer, {
-    actionToEdit as actionToEditReducer,
     initialState,
-    nodeToEdit as nodeToEditReducer,
     operand as operandReducer,
     resultName as resultNameReducer,
     showResultName as showResultNameReducer,
     timeout as timeoutReducer,
     typeConfig as typeConfigReducer,
-    updateActionToEdit,
-    updateNodeToEdit,
     updateOperand,
     updateResultName,
     updateShowResultName,
@@ -73,32 +69,6 @@ describe('nodeEditor action creators', () => {
                 }
             };
             expect(updateUserAddingAction(userAddingAction)).toEqual(expectedAction);
-        });
-    });
-
-    describe('updateActionToEdit', () => {
-        it('should create an action to update actionToEdit state', () => {
-            const { actions: [actionToEdit] } = definition.nodes[0];
-            const expectedAction = {
-                type: Constants.UPDATE_ACTION_TO_EDIT,
-                payload: {
-                    actionToEdit
-                }
-            };
-            expect(updateActionToEdit(actionToEdit)).toEqual(expectedAction);
-        });
-    });
-
-    describe('updateNodeToEdit', () => {
-        it('should create an action to update nodeToEdit state', () => {
-            const nodeToEdit = definition.nodes[0];
-            const expectedAction = {
-                type: Constants.UPDATE_NODE_TO_EDIT,
-                payload: {
-                    nodeToEdit
-                }
-            };
-            expect(updateNodeToEdit(nodeToEdit)).toEqual(expectedAction);
         });
     });
 
@@ -197,34 +167,6 @@ describe('nodeEditor reducers', () => {
             const userAddingAction = true;
             const action = updateUserAddingAction(userAddingAction);
             expect(reduce(action)).toEqual(userAddingAction);
-        });
-    });
-
-    describe('nodeToEdit reducer', () => {
-        const reduce = action => nodeToEditReducer(undefined, action);
-
-        it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.nodeToEdit);
-        });
-
-        it('should handle UPDATE_NODE_TO_EDIT', () => {
-            const nodeToEdit = definition.nodes[0];
-            const action = updateNodeToEdit(nodeToEdit);
-            expect(reduce(action)).toEqual(nodeToEdit);
-        });
-    });
-
-    describe('actionToEdit reducer', () => {
-        const reduce = action => actionToEditReducer(undefined, action);
-
-        it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.actionToEdit);
-        });
-
-        it('should handle UPDATE_ACTION_TO_EDIT', () => {
-            const { actions: [actionToEdit] } = definition.nodes[0];
-            const action = updateActionToEdit(actionToEdit);
-            expect(reduce(action)).toEqual(actionToEdit);
         });
     });
 

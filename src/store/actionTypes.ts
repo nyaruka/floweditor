@@ -207,16 +207,6 @@ export type UpdatePendingConnectionAction = DuxAction<
     UpdatePendingConnectionPayload
 >;
 
-export type UpdateActionToEditAction = DuxAction<
-    Constants.UPDATE_ACTION_TO_EDIT,
-    UpdateActionToEditPayload
->;
-
-export type UpdateNodeToEditAction = DuxAction<
-    Constants.UPDATE_NODE_TO_EDIT,
-    UpdateNodeToEditPayload
->;
-
 export type UpdateLocalizationsAction = DuxAction<
     Constants.UPDATE_LOCALIZATIONS,
     UpdateLocalizationsPayload
@@ -303,8 +293,6 @@ type ActionTypes =
     | UpdateGhostNodeAction
     | UpdateCreateNodePositionAction
     | UpdatePendingConnectionAction
-    | UpdateActionToEditAction
-    | UpdateNodeToEditAction
     | UpdateLocalizationsAction
     | UpdateDragGroupAction
     | UpdateTypeConfigAction

@@ -20,13 +20,11 @@ const sendMsgNode = createFlowNode({
 
 const baseProps: GroupsRouterProps = {
     translating: false,
-    localGroups: [],
-    nodeToEdit: groupsRouterNode,
+    settings: { originalNode: groupsRouterNode },
     saveLocalizations: jest.fn(),
     updateRouter: jest.fn(),
     getExitTranslations: jest.fn(),
-    getResultNameField: jest.fn(),
-    onBindWidget: jest.fn()
+    getResultNameField: jest.fn()
 };
 
 const { setup } = composeComponentTestUtils(GroupsRouter, baseProps);

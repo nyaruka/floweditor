@@ -15,7 +15,7 @@ import {
     moveActionUp,
     OnOpenNodeEditor,
     onOpenNodeEditor,
-    removeAction,
+    removeAction
 } from '../../../store';
 import { createClickHandler, getLocalization } from '../../../utils';
 import * as shared from '../../shared.scss';
@@ -70,7 +70,11 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         if (!this.props.thisNodeDragging) {
             event.preventDefault();
             event.stopPropagation();
-            this.props.onOpenNodeEditor(this.props.node, this.props.action, { showAdvanced });
+            this.props.onOpenNodeEditor({
+                originalNode: this.props.node,
+                originalAction: this.props.action,
+                showAdvanced
+            });
         }
     }
 

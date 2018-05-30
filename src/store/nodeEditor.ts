@@ -6,16 +6,14 @@ import { Types } from '../config/typeConfigs';
 import { AnyAction, FlowNode } from '../flowTypes';
 import { Asset } from '../services/AssetService';
 import ActionTypes, {
-    UpdateActionToEditAction,
     UpdateFormAction,
     UpdateNodeEditorSettings,
-    UpdateNodeToEditAction,
     UpdateOperandAction,
     UpdateResultNameAction,
     UpdateShowResultNameAction,
     UpdateTimeoutAction,
     UpdateTypeConfigAction,
-    UpdateUserAddingActionAction,
+    UpdateUserAddingActionAction
 } from './actionTypes';
 import Constants from './constants';
 
@@ -124,7 +122,9 @@ export type NodeEditorForm =
     | SendEmailFormState;
 
 export interface NodeEditorSettings {
-    showAdvanced: boolean;
+    originalNode: FlowNode;
+    showAdvanced?: boolean;
+    originalAction?: AnyAction;
 }
 
 export interface NodeEditor {
@@ -133,8 +133,6 @@ export interface NodeEditor {
     showResultName: boolean;
     operand: string;
     userAddingAction: boolean;
-    nodeToEdit: FlowNode;
-    actionToEdit: AnyAction;
     settings: NodeEditorSettings;
     form: NodeEditorForm;
     timeout: number;
@@ -149,11 +147,9 @@ export const initialState: NodeEditor = {
     showResultName: false,
     operand: DEFAULT_OPERAND,
     userAddingAction: false,
-    nodeToEdit: null,
-    actionToEdit: null,
     form: null,
     timeout: null,
-    settings: { showAdvanced: false }
+    settings: null
 };
 
 // Action Creators
@@ -200,20 +196,6 @@ export const updateUserAddingAction = (
     type: Constants.UPDATE_USER_ADDING_ACTION,
     payload: {
         userAddingAction
-    }
-});
-
-export const updateActionToEdit = (actionToEdit: AnyAction): UpdateActionToEditAction => ({
-    type: Constants.UPDATE_ACTION_TO_EDIT,
-    payload: {
-        actionToEdit
-    }
-});
-
-export const updateNodeToEdit = (nodeToEdit: FlowNode): UpdateNodeToEditAction => ({
-    type: Constants.UPDATE_NODE_TO_EDIT,
-    payload: {
-        nodeToEdit
     }
 });
 
@@ -293,24 +275,6 @@ export const userAddingAction = (
     }
 };
 
-export const nodeToEdit = (state: FlowNode = initialState.nodeToEdit, action: ActionTypes) => {
-    switch (action.type) {
-        case Constants.UPDATE_NODE_TO_EDIT:
-            return action.payload.nodeToEdit;
-        default:
-            return state;
-    }
-};
-
-export const actionToEdit = (state: AnyAction = initialState.actionToEdit, action: ActionTypes) => {
-    switch (action.type) {
-        case Constants.UPDATE_ACTION_TO_EDIT:
-            return action.payload.actionToEdit;
-        default:
-            return state;
-    }
-};
-
 export const timeout = (state: number = initialState.timeout, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_TIMEOUT:
@@ -339,8 +303,6 @@ export default combineReducers({
     showResultName,
     operand,
     userAddingAction,
-    nodeToEdit,
-    actionToEdit,
     settings,
     form,
     timeout
