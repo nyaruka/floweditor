@@ -507,8 +507,11 @@ export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction
 
     // Generate suggested result name if user is changing
     // an existing node to a `wait_for_response` router.
-    const { flowContext: { suggestedResultNameCount }, nodeEditor: { nodeToEdit } } = getState();
-    if (nodeToEdit && (!nodeToEdit.wait || nodeToEdit.wait.type !== WaitTypes.msg)) {
+    const {
+        flowContext: { suggestedResultNameCount },
+        nodeEditor: { settings: { originalNode } }
+    } = getState();
+    if (originalNode && (!originalNode.wait || originalNode.wait.type !== WaitTypes.msg)) {
         if (typeConfig.type === Types.wait_for_response) {
             dispatch(updateResultName(getSuggestedResultName(suggestedResultNameCount)));
             dispatch(updateShowResultName(true));

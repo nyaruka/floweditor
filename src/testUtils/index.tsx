@@ -166,7 +166,7 @@ export const prepMockDuxState = () => {
                 suggestedResultNameCount: 1
             },
             flowEditor: { flowUI: {} },
-            nodeEditor: { actionToEdit: null, nodeToEdit: null }
+            nodeEditor: { settings: { originalNode: null } }
         }
     };
 };

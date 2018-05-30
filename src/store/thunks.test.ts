@@ -603,7 +603,7 @@ describe('Flow Manipulation', () => {
             store = createMockStore({
                 flowContext: { nodes: testNodes, definition: { localization: {} } },
                 flowEditor: { editorUI: {}, flowUI: {} },
-                nodeEditor: {}
+                nodeEditor: { settings: { originalNode: null } }
             });
         });
 
@@ -615,7 +615,11 @@ describe('Flow Manipulation', () => {
                         editorUI: { language: { iso: 'spa' }, translating: true },
                         flowUI: {}
                     },
-                    nodeEditor: {}
+                    nodeEditor: {
+                        settings: {
+                            originalNode: null
+                        }
+                    }
                 });
 
                 store.dispatch(
@@ -636,7 +640,7 @@ describe('Flow Manipulation', () => {
                         editorUI: { language: { iso: 'spa' }, translating: true },
                         flowUI: {}
                     },
-                    nodeEditor: {}
+                    nodeEditor: { settings: { originalNode: null } }
                 });
 
                 store.dispatch(
@@ -689,8 +693,8 @@ describe('Flow Manipulation', () => {
             it('should generate a suggested result name', () => {
                 const { renderNodeMap, resultNamesMap } = getFlowComponents(boring);
                 const newTypeConfig = getTypeConfig(Types.wait_for_response);
-                const { nodes: [nodeToEdit] } = boring;
-                const { actions: [actionToEdit] } = nodeToEdit;
+                const { nodes: [originalNode] } = boring;
+                const { actions: [originalAction] } = originalNode;
                 const suggestedResultNameCount = Object.keys(resultNamesMap).length;
                 const suggestedResultName = getSuggestedResultName(suggestedResultNameCount);
                 const expectedActions = [
@@ -709,11 +713,13 @@ describe('Flow Manipulation', () => {
                         suggestedResultNameCount
                     },
                     nodeEditor: {
-                        nodeToEdit
+                        settings: {
+                            originalNode
+                        }
                     }
                 });
 
-                store.dispatch(handleTypeConfigChange(newTypeConfig, actionToEdit));
+                store.dispatch(handleTypeConfigChange(newTypeConfig, originalAction));
 
                 expect(store).toHaveReduxActions(expectedActions);
                 expect(store).toHavePayload(...expectedResultNamePayload);
