@@ -1,20 +1,19 @@
-import { v4 as generateUUID } from 'uuid';
-
 import { Types } from '../config/typeConfigs';
 import { Case, Exit, FlowDefinition, FlowPosition, RouterTypes, SendMsg } from '../flowTypes';
 import { Spanish } from '../testUtils/assetCreators';
 import {
     determineConfigType,
+    generateCompletionOption,
     getCollisions,
     getFlowComponents,
     getGhostNode,
     getLocalizations,
     getOrderedNodes,
-    getSuggestedResultName,
     getUniqueDestinations
 } from './helpers';
 
 const mutate = require('immutability-helper');
+
 describe('helpers', () => {
     const definition: FlowDefinition = require('../../__test__/flows/boring.json');
 
@@ -41,22 +40,19 @@ describe('helpers', () => {
                 { name: 'Feedback', id: 'label_1', type: 'label' }
             ]);
         });
+
+        it('should find result names in definition', () => {
+            const { resultNamesMap } = getFlowComponents(definition);
+            const expectedOutput = {
+                node1: generateCompletionOption(definition.nodes[1].router.result_name)
+            };
+            expect(resultNamesMap).toEqual(expectedOutput);
+            expect(resultNamesMap).toMatchSnapshot();
+        });
     });
 
     describe('RenderNodeMap', () => {
         const nodes = getFlowComponents(definition).renderNodeMap;
-
-        it('should suggest response names', () => {
-            const suggestison = getSuggestedResultName({
-                node0: {
-                    node: { uuid: generateUUID(), actions: [], exits: [] },
-                    ui: { position: { left: 100, top: 100 } },
-                    inboundConnections: {}
-                }
-            });
-
-            expect(suggestison).toBe('Response 2');
-        });
 
         it('should get unique destinations', () => {
             expect(getUniqueDestinations(nodes.node0.node)).toEqual(['node1']);

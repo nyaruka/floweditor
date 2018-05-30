@@ -5,6 +5,7 @@ import { FlowDefinition, FlowNode, UINode } from '../flowTypes';
 import { Asset } from '../services/AssetService';
 import { LocalizedObject } from '../services/Localization';
 import ActionTypes, {
+    IncrementSuggestedResultNameCountAction,
     UpdateBaseLanguageAction,
     UpdateDefinitionAction,
     UpdateDependenciesAction,
@@ -29,11 +30,16 @@ export interface CompletionOption {
     description: string;
 }
 
+export interface ResultNames {
+    [nodeUUID: string]: CompletionOption;
+}
+
 export interface FlowContext {
     dependencies: FlowDefinition[];
     baseLanguage: Asset;
     languages: Asset[];
-    resultNames: CompletionOption[];
+    resultNames: ResultNames;
+    suggestedResultNameCount: number;
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
 }
@@ -44,7 +50,8 @@ export const initialState: FlowContext = {
     dependencies: null,
     baseLanguage: null,
     languages: [],
-    resultNames: [],
+    resultNames: {},
+    suggestedResultNameCount: 1,
     nodes: {}
 };
 
@@ -84,11 +91,15 @@ export const updateLanguages = (languages: Asset[]): UpdateLanguagesAction => ({
     }
 });
 
-export const updateResultNames = (resultNames: CompletionOption[]): UpdateResultNamesAction => ({
+export const updateResultNames = (resultNames: ResultNames): UpdateResultNamesAction => ({
     type: Constants.UPDATE_RESULT_NAMES,
     payload: {
         resultNames
     }
+});
+
+export const incrementSuggestedResultNameCount = (): IncrementSuggestedResultNameCountAction => ({
+    type: Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT
 });
 
 // Reducers
@@ -125,13 +136,22 @@ export const dependencies = (
     }
 };
 
-export const resultNames = (
-    state: CompletionOption[] = initialState.resultNames,
-    action: ActionTypes
-) => {
+export const resultNames = (state: ResultNames = initialState.resultNames, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_RESULT_NAMES:
             return action.payload.resultNames;
+        default:
+            return state;
+    }
+};
+
+export const suggestedResultNameCount = (
+    state: number = initialState.suggestedResultNameCount,
+    action: ActionTypes
+) => {
+    switch (action.type) {
+        case Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT:
+            return state + 1;
         default:
             return state;
     }
@@ -161,6 +181,7 @@ export default combineReducers({
     nodes,
     dependencies,
     resultNames,
+    suggestedResultNameCount,
     baseLanguage,
     languages
 });

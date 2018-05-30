@@ -1,13 +1,13 @@
+import { FlowDefinition } from '../../../flowTypes';
+import { GSM, OPTIONS } from './constants';
 import {
     cleanMsg,
     filterOptions,
     getOptionsList,
-    pluralize,
+    getUnicodeChars,
     isUnicode,
-    getUnicodeChars
+    pluralize
 } from './helpers';
-import { OPTIONS, GSM } from './constants';
-import { FlowDefinition } from '../../../flowTypes';
 
 const definition: FlowDefinition = require('../../../../__test__/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
@@ -68,6 +68,27 @@ describe('helpers >', () => {
 
         it("shouldn't apply suffix to noun if count is 1", () => {
             expect(pluralize(1, 'character')).toBe('character');
+        });
+    });
+
+    describe('getOptionsList', () => {
+        it('should include only our predefined options if autocomplete arg is falsy', () => {
+            expect(getOptionsList(false, {}).length).toBe(OPTIONS.length);
+            expect(getOptionsList(false, {})).toMatchSnapshot();
+        });
+
+        it('should include result names if autocomplete arg is truthy', () => {
+            const resultNames = {
+                'ecc70717-dd25-4795-8dc2-0361265a1e29': {
+                    name: '@run.results.color',
+                    description: 'Result for "color"'
+                }
+            };
+            const optionsList = getOptionsList(true, resultNames);
+            const expectedLength = OPTIONS.length + Object.keys(resultNames).length;
+
+            expect(optionsList.length).toBe(expectedLength);
+            expect(optionsList).toMatchSnapshot();
         });
     });
 });

@@ -29,7 +29,7 @@ import {
     updatePendingConnections,
     updateTranslating
 } from './flowEditor';
-import { getGhostNode } from './helpers';
+import { getFlowComponents, getGhostNode } from './helpers';
 
 const flowsResp = require('../../__test__/assets/flows.json');
 const boringFlow = require('../../__test__/flows/boring.json');
@@ -154,8 +154,8 @@ describe('flowEditor action creators', () => {
                 ui: boringFlow._ui.nodes[boringFlow.nodes[0].uuid],
                 inboundConnections: {}
             };
-
-            const ghostNode = getGhostNode(fromNode, boringFlow);
+            const { renderNodeMap } = getFlowComponents(boringFlow);
+            const ghostNode = getGhostNode(fromNode, renderNodeMap);
             const expectedAction = {
                 type: Constants.UPDATE_GHOST_NODE,
                 payload: {

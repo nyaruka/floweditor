@@ -18,9 +18,9 @@ import {
 import AssetService from '../services/AssetService';
 import { createMockStore, prepMockDuxState } from '../testUtils';
 import { createSetContactFieldAction } from '../testUtils/assetCreators';
-import { push, NODE_SPACING } from '../utils';
+import { push } from '../utils';
 import { RenderNode, RenderNodeMap } from './flowContext';
-import { getUniqueDestinations } from './helpers';
+import { getFlowComponents, getSuggestedResultName, getUniqueDestinations } from './helpers';
 import {
     addNode,
     disconnectExit,
@@ -610,7 +610,7 @@ describe('Flow Manipulation', () => {
             store = createMockStore({
                 flowContext: { nodes: testNodes, definition: { localization: {} } },
                 flowEditor: { editorUI: {}, flowUI: {} },
-                nodeEditor: {}
+                nodeEditor: { settings: { originalNode: null } }
             });
         });
 
@@ -622,7 +622,11 @@ describe('Flow Manipulation', () => {
                         editorUI: { language: { iso: 'spa' }, translating: true },
                         flowUI: {}
                     },
-                    nodeEditor: {}
+                    nodeEditor: {
+                        settings: {
+                            originalNode: null
+                        }
+                    }
                 });
 
                 store.dispatch(
@@ -641,7 +645,7 @@ describe('Flow Manipulation', () => {
                         editorUI: { language: { iso: 'spa' }, translating: true },
                         flowUI: {}
                     },
-                    nodeEditor: {}
+                    nodeEditor: { settings: { originalNode: null } }
                 });
 
                 store.dispatch(
@@ -690,6 +694,42 @@ describe('Flow Manipulation', () => {
                 expect(store).toHavePayload(Constants.UPDATE_FORM, {
                     form: newFormState
                 });
+            });
+
+            it('should generate a suggested result name', () => {
+                const { renderNodeMap, resultNamesMap } = getFlowComponents(boring);
+                const newTypeConfig = getTypeConfig(Types.wait_for_response);
+                const { nodes: [originalNode] } = boring;
+                const { actions: [originalAction] } = originalNode;
+                const suggestedResultNameCount = Object.keys(resultNamesMap).length;
+                const suggestedResultName = getSuggestedResultName(suggestedResultNameCount);
+                const expectedActions = [
+                    Constants.UPDATE_TYPE_CONFIG,
+                    Constants.UPDATE_RESULT_NAME,
+                    Constants.UPDATE_SHOW_RESULT_NAME
+                ];
+                const expectedResultNamePayload = [
+                    Constants.UPDATE_RESULT_NAME,
+                    { resultName: suggestedResultName }
+                ];
+
+                store = createMockStore({
+                    flowContext: {
+                        nodes: renderNodeMap,
+                        suggestedResultNameCount
+                    },
+                    nodeEditor: {
+                        settings: {
+                            originalNode
+                        }
+                    }
+                });
+
+                store.dispatch(handleTypeConfigChange(newTypeConfig, originalAction));
+
+                expect(store).toHaveReduxActions(expectedActions);
+                expect(store).toHavePayload(...expectedResultNamePayload);
+                expect(expectedResultNamePayload).toMatchSnapshot();
             });
 
             it('should edit an existing action', () => {
@@ -841,11 +881,10 @@ describe('Flow Manipulation', () => {
                     }
                 }
             });
-
             const previousTop = testNodes.node1.ui.position.top;
-
             const nodes = store.dispatch(onUpdateRouter(updatedNode));
             const newCase = nodes.node1.node.router.cases[2];
+
             expect(newCase.arguments).toEqual(['anotherrule']);
             expect(nodes.node1.ui.position.top).toBe(previousTop);
         });
