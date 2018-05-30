@@ -20,10 +20,8 @@ const switchWithTimeout: FlowNode = update(colorsFlow.nodes[1], {
 });
 
 const baseProps: NodeEditorProps = {
-    nodeToEdit: switchWithTimeout,
     language: { iso: 'eng', name: 'English' },
     nodeEditorOpen: true,
-    actionToEdit: null,
     localizations: [],
     definition: colorsFlow,
     translating: false,
@@ -46,7 +44,7 @@ const baseProps: NodeEditorProps = {
     updateShowResultName: jest.fn(),
     plumberConnectExit: jest.fn(),
     plumberRepaintForDuration: jest.fn(),
-    settings: { showAdvanced: false }
+    settings: { showAdvanced: false, originalNode: switchWithTimeout }
 };
 
 const { setup, spyOn } = composeComponentTestUtils(NodeEditor, baseProps);
@@ -66,7 +64,7 @@ describe(NodeEditor.name, () => {
                     onUpdateRouter: setMock()
                 });
                 const kases = casePropsFromNode({
-                    nodeToEdit: props.nodeToEdit,
+                    nodeToEdit: props.settings.originalNode,
                     handleCaseChanged: jest.fn(),
                     handleCaseRemoved: jest.fn()
                 });

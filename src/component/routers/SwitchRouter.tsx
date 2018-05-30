@@ -3,7 +3,13 @@
 import { react as bindCallbacks } from 'auto-bind';
 import update from 'immutability-helper';
 import * as React from 'react';
-import { DragDropContext, Draggable, DraggableStyle, Droppable, DropResult } from 'react-beautiful-dnd';
+import {
+    DragDropContext,
+    Draggable,
+    DraggableStyle,
+    Droppable,
+    DropResult
+} from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 
@@ -21,6 +27,7 @@ import { GetResultNameField } from '../NodeEditor';
 import { hasCases, SaveLocalizations } from '../NodeEditor/NodeEditor';
 import { EXPRESSION_LABEL, OPERAND_LOCALIZATION_DESC, WAIT_LABEL } from './constants';
 import * as styles from './SwitchRouter.scss';
+import { NodeEditorSettings } from '../../store/nodeEditor';
 
 export enum DragCursor {
     move = 'move',
@@ -38,7 +45,7 @@ export interface SwitchRouterStoreProps {
     language: Asset;
     typeConfig: Type;
     translating: boolean;
-    nodeToEdit: FlowNode;
+    settings: NodeEditorSettings;
     localizations: LocalizedObject[];
     operand: string;
 }
@@ -247,11 +254,11 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
     private getInitialState(): SwitchRouterState {
         const displayableCases = [];
 
-        const router = this.props.nodeToEdit.router as SwitchRouter;
+        const router = this.props.settings.originalNode.router as SwitchRouter;
 
-        if (router && hasCases(this.props.nodeToEdit)) {
+        if (router && hasCases(this.props.settings.originalNode)) {
             const existingCases = casePropsFromNode({
-                nodeToEdit: this.props.nodeToEdit,
+                nodeToEdit: this.props.settings.originalNode,
                 handleCaseChanged: this.handleCaseChanged,
                 handleCaseRemoved: this.handleCaseRemoved
             });
@@ -413,7 +420,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
     }
 
     public getCasesForLocalization(): JSX.Element[] {
-        return (this.props.nodeToEdit.router as SwitchRouter).cases.reduce(
+        return (this.props.settings.originalNode.router as SwitchRouter).cases.reduce(
             (casesForLocalization: JSX.Element[], kase) => {
                 // only allow translations for cases with arguments that aren't numeric
                 if (kase.arguments && kase.arguments.length > 0 && !/number/.test(kase.type)) {
@@ -483,7 +490,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
                     <p>{EXPRESSION_LABEL}</p>
                     <TextInputElement
                         ref={this.props.onBindWidget}
-                        key={this.props.nodeToEdit.uuid}
+                        key={this.props.settings.originalNode.uuid}
                         name="Expression"
                         showLabel={false}
                         entry={{ value: this.props.operand }}
@@ -575,8 +582,8 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
 const mapStateToProps = ({
     flowContext: { localizations },
     flowEditor: { editorUI: { language, translating } },
-    nodeEditor: { typeConfig, nodeToEdit, operand }
-}: AppState) => ({ language, typeConfig, translating, nodeToEdit, localizations, operand });
+    nodeEditor: { typeConfig, settings, operand }
+}: AppState) => ({ language, typeConfig, translating, settings, localizations, operand });
 
 const ConnectedSwitchRouterForm = connect(mapStateToProps, null, null, { withRef: true })(
     SwitchRouterForm

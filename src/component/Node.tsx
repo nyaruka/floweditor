@@ -271,11 +271,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     // ./Action/Action handles click logic for Action nodes.
     private onClick(event: React.MouseEvent<HTMLDivElement>): void {
         if (!this.props.nodeDragging) {
-            // prettier-ignore
-            this.props.onOpenNodeEditor(
-                this.props.node,
-                null,
-            );
+            this.props.onOpenNodeEditor({ originalNode: this.props.node });
         }
     }
 
