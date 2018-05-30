@@ -78,8 +78,12 @@ export class SendBroadcastForm extends React.Component<
     }
 
     public validate(): boolean {
-        const valid = this.handleRecipientsChanged(this.props.form.recipients.value);
-        return this.handleMessageUpdate(this.props.form.text.value) && valid;
+        if (!this.props.translating) {
+            const valid = this.handleRecipientsChanged(this.props.form.recipients.value);
+            return this.handleMessageUpdate(this.props.form.text.value) && valid;
+        }
+
+        return true;
     }
 
     private handleUpdateForm(updates: Partial<SendBroadcastFormState>): boolean {
