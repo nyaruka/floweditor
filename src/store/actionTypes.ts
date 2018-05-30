@@ -9,9 +9,9 @@ import { DragSelection } from './flowEditor';
 import { NodeEditorForm, NodeEditorSettings } from './nodeEditor';
 
 // Redux action generic
-interface DuxAction<T extends Constants, P extends { [key: string]: any }> {
+interface DuxAction<T extends Constants, P extends { [key: string]: any } = {}> {
     type: T;
-    payload: P;
+    payload?: P;
 }
 
 // Payload types
@@ -188,6 +188,10 @@ export type UpdateResultNamesAction = DuxAction<
     UpdateResultNamesPayload
 >;
 
+export type IncrementSuggestedResultNameCountAction = DuxAction<
+    Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT
+>;
+
 export type UpdateNodesAction = DuxAction<Constants.UPDATE_NODES, UpdateNodesPayload>;
 
 export type UpdateNodeEditorOpenAction = DuxAction<
@@ -285,6 +289,8 @@ export type UpdateBaseLanguage = (baseLanguage: Asset) => UpdateBaseLanguageActi
 
 export type UpdateForm = (form: NodeEditorForm) => UpdateFormAction;
 
+export type IncrementSuggestedResultNameCount = () => IncrementSuggestedResultNameCountAction;
+
 type ActionTypes =
     | UpdateFormAction
     | UpdateNodeEditorSettings
@@ -298,6 +304,7 @@ type ActionTypes =
     | UpdatePendingConnectionsAction
     | RemovePendingConnectionAction
     | UpdateResultNamesAction
+    | IncrementSuggestedResultNameCountAction
     | UpdateNodesAction
     | UpdateNodeEditorOpenAction
     | UpdateGhostNodeAction

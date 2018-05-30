@@ -395,3 +395,6 @@ export const updateLocalization = (
 
     return newDef;
 };
+
+export const removeProperties = (obj: object, ...props: string[]) =>
+    mutate(obj, { $unset: [...props] });

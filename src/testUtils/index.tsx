@@ -161,7 +161,9 @@ export const prepMockDuxState = () => {
                 definition: boring,
                 nodes: testNodes,
                 groups: [],
-                contactFields: []
+                contactFields: [],
+                resultNames: {},
+                suggestedResultNameCount: 1
             },
             flowEditor: { flowUI: {} },
             nodeEditor: { actionToEdit: null, nodeToEdit: null }

@@ -5,6 +5,7 @@ import { FlowDefinition, FlowNode, UINode } from '../flowTypes';
 import { Asset } from '../services/AssetService';
 import { LocalizedObject } from '../services/Localization';
 import ActionTypes, {
+    IncrementSuggestedResultNameCountAction,
     UpdateBaseLanguageAction,
     UpdateDefinitionAction,
     UpdateDependenciesAction,
@@ -40,6 +41,7 @@ export interface FlowContext {
     baseLanguage: Asset;
     languages: Asset[];
     resultNames: ResultNames;
+    suggestedResultNameCount: number;
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
 }
@@ -52,6 +54,7 @@ export const initialState: FlowContext = {
     languages: [],
     localizations: [],
     resultNames: {},
+    suggestedResultNameCount: 1,
     nodes: {}
 };
 
@@ -105,6 +108,10 @@ export const updateResultNames = (resultNames: ResultNames): UpdateResultNamesAc
     payload: {
         resultNames
     }
+});
+
+export const incrementSuggestedResultNameCount = (): IncrementSuggestedResultNameCountAction => ({
+    type: Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT
 });
 
 // Reducers
@@ -162,6 +169,18 @@ export const resultNames = (state: ResultNames = initialState.resultNames, actio
     }
 };
 
+export const suggestedResultNameCount = (
+    state: number = initialState.suggestedResultNameCount,
+    action: ActionTypes
+) => {
+    switch (action.type) {
+        case Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT:
+            return state + 1;
+        default:
+            return state;
+    }
+};
+
 export const baseLanguage = (state: Asset = initialState.baseLanguage, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_BASE_LANGUAGE:
@@ -187,6 +206,7 @@ export default combineReducers({
     dependencies,
     localizations,
     resultNames,
+    suggestedResultNameCount,
     baseLanguage,
     languages
 });

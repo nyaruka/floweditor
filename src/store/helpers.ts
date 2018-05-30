@@ -61,23 +61,7 @@ export const getActionIndex = (node: FlowNode, actionUUID: string) => {
     throw new Error('Cannot find action ' + actionUUID);
 };
 
-/**
- * Gets a suggested result name based on the current number of waits
- * in the current definition
- */
-export const getSuggestedResultName = (nodes: RenderNodeMap) => {
-    let count = 1;
-
-    // tslint:disable-next-line:forin
-    for (const key in nodes) {
-        const { node } = nodes[key];
-        if (node.wait && node.wait.type === WaitTypes.msg) {
-            count += 1;
-        }
-    }
-
-    return `Result ${count}`;
-};
+export const getSuggestedResultName = (count: number) => `Result ${count}`;
 
 export const getLocalizations = (
     node: FlowNode,
@@ -216,7 +200,11 @@ export const getCollision = (nodes: RenderNodeMap): RenderNode[] => {
     return [];
 };
 
-export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
+export const getGhostNode = (
+    fromNode: RenderNode,
+    nodes: RenderNodeMap,
+    suggestedResultNameCount: number
+) => {
     const ghostNode: FlowNode = {
         uuid: generateUUID(),
         actions: [],
@@ -243,7 +231,7 @@ export const getGhostNode = (fromNode: RenderNode, nodes: RenderNodeMap) => {
         ghostNode.wait = { type: WaitTypes.msg };
         ghostNode.router = {
             type: RouterTypes.switch,
-            result_name: getSuggestedResultName(nodes)
+            result_name: getSuggestedResultName(suggestedResultNameCount)
         };
     }
 

@@ -679,11 +679,12 @@ describe('Flow Manipulation', () => {
             });
 
             it('should generate a suggested result name', () => {
-                const { renderNodeMap } = getFlowComponents(boring);
+                const { renderNodeMap, resultNamesMap } = getFlowComponents(boring);
                 const newTypeConfig = getTypeConfig(Types.wait_for_response);
                 const { nodes: [nodeToEdit] } = boring;
                 const { actions: [actionToEdit] } = nodeToEdit;
-                const suggestedResultName = getSuggestedResultName(renderNodeMap);
+                const suggestedResultNameCount = Object.keys(resultNamesMap).length;
+                const suggestedResultName = getSuggestedResultName(suggestedResultNameCount);
                 const expectedActions = [
                     Constants.UPDATE_TYPE_CONFIG,
                     Constants.UPDATE_RESULT_NAME,
@@ -696,7 +697,8 @@ describe('Flow Manipulation', () => {
 
                 store = createMockStore({
                     flowContext: {
-                        nodes: renderNodeMap
+                        nodes: renderNodeMap,
+                        suggestedResultNameCount
                     },
                     nodeEditor: {
                         nodeToEdit

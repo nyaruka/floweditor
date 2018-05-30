@@ -1,5 +1,3 @@
-import { v4 as generateUUID } from 'uuid';
-
 import { Types } from '../config/typeConfigs';
 import { Case, Exit, FlowDefinition, FlowPosition, RouterTypes, SendMsg } from '../flowTypes';
 import { Spanish } from '../testUtils/assetCreators';
@@ -11,7 +9,6 @@ import {
     getGhostNode,
     getLocalizations,
     getOrderedNodes,
-    getSuggestedResultName,
     getUniqueDestinations,
 } from './helpers';
 
@@ -56,18 +53,6 @@ describe('helpers', () => {
 
     describe('RenderNodeMap', () => {
         const nodes = getFlowComponents(definition).renderNodeMap;
-
-        it('should suggest response names', () => {
-            const suggestion = getSuggestedResultName({
-                node0: {
-                    node: { uuid: generateUUID(), actions: [], exits: [] },
-                    ui: { position: { left: 100, top: 100 } },
-                    inboundConnections: {}
-                }
-            });
-
-            expect(suggestion).toBe('Result 1');
-        });
 
         it('should get unique destinations', () => {
             expect(getUniqueDestinations(nodes.node0.node)).toEqual(['node1']);

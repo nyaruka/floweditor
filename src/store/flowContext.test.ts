@@ -5,11 +5,13 @@ import Constants from './constants';
 import reducer, {
     definition as definitionReducer,
     dependencies as dependenciesReducer,
+    incrementSuggestedResultNameCount,
     initialState,
     localizations as localizationsReducer,
     nodes as nodesReducer,
     RenderNodeMap,
     resultNames as resultNamesReducer,
+    suggestedResultNameCount as suggestedResultNameCountReducer,
     updateDefinition,
     updateDependencies,
     updateLocalizations,
@@ -89,6 +91,16 @@ describe('flowContext action creators', () => {
             expect(updateResultNames(resultNames)).toEqual(expectedAction);
         });
     });
+
+    describe('incrementSuggestedResultNameCount', () => {
+        it('should create an action to increment suggestedResultNameCount state', () => {
+            const expectedAction = {
+                type: Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT
+            };
+
+            expect(incrementSuggestedResultNameCount()).toEqual(expectedAction);
+        });
+    });
 });
 
 describe('flowContext reducers', () => {
@@ -154,6 +166,20 @@ describe('flowContext reducers', () => {
             const action = updateResultNames(resultNames);
 
             expect(reduce(action)).toEqual(resultNames);
+        });
+    });
+
+    describe('suggestedResultNameCount reducer', () => {
+        const reduce = action => suggestedResultNameCountReducer(undefined, action);
+
+        it('should return initial state', () => {
+            expect(reduce({})).toEqual(initialState.suggestedResultNameCount);
+        });
+
+        it('should handle UPDATE_RESULT_NAMES', () => {
+            const action = incrementSuggestedResultNameCount();
+
+            expect(reduce(action)).toBe(2);
         });
     });
 

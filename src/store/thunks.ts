@@ -24,6 +24,7 @@ import AssetService, { Asset } from '../services/AssetService';
 import { NODE_SPACING, timeEnd, timeStart } from '../utils';
 import { getLanguage } from '../utils/languageMap';
 import {
+    incrementSuggestedResultNameCount,
     RenderNode,
     RenderNodeMap,
     updateBaseLanguage,
@@ -162,12 +163,21 @@ export const initializeFlow = (definition: FlowDefinition, assetService: AssetSe
         assetService.addFlowComponents(flowComponents);
     }
 
+    // Take stock of the flow's language settings
     dispatch(updateBaseLanguage(flowComponents.baseLanguage));
     dispatch(updateLanguage(flowComponents.baseLanguage));
+
     // store our flow definition without any nodes
     dispatch(updateDefinition(mutators.pruneDefinition(definition)));
     dispatch(updateNodes(flowComponents.renderNodeMap));
+
+    // Take stock of existing results
     dispatch(updateResultNames(flowComponents.resultNamesMap));
+    // tslint:disable-next-line:forin
+    for (const key in flowComponents.resultNamesMap) {
+        dispatch(incrementSuggestedResultNameCount());
+    }
+
     dispatch(updateFetchingFlow(false));
     return flowComponents;
 };
@@ -355,7 +365,13 @@ export const removeNode = (node: FlowNode) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
-    const { flowContext: { nodes } } = getState();
+    // Remove result name if node has one
+    const { flowContext: { nodes, resultNames } } = getState();
+    if (resultNames.hasOwnProperty(node.uuid)) {
+        const toKeep = mutators.removeProperties(resultNames, node.uuid);
+        dispatch(updateResultNames(toKeep));
+    }
+
     const updated = mutators.removeNodeAndRemap(nodes, node.uuid);
     dispatch(updateNodes(updated));
     return updated;
@@ -497,11 +513,10 @@ export const handleTypeConfigChange = (typeConfig: Type, actionToEdit: AnyAction
 
     // Generate suggested result name if user is changing
     // an existing node to a `wait_for_response` router.
-    const { flowContext: { nodes }, nodeEditor: { nodeToEdit } } = getState();
+    const { flowContext: { suggestedResultNameCount }, nodeEditor: { nodeToEdit } } = getState();
     if (nodeToEdit && (!nodeToEdit.wait || nodeToEdit.wait.type !== WaitTypes.msg)) {
         if (typeConfig.type === Types.wait_for_response) {
-            const suggestedResultName = getSuggestedResultName(nodes);
-            dispatch(updateResultName(suggestedResultName));
+            dispatch(updateResultName(getSuggestedResultName(suggestedResultNameCount)));
             dispatch(updateShowResultName(true));
         }
     }
@@ -670,13 +685,13 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { flowContext: { nodes } } = getState();
+    const { flowContext: { nodes, suggestedResultNameCount } } = getState();
 
     // We finished dragging a ghost node, create the spec for our new ghost component
     const [fromNodeUUID, fromExitUUID] = event.sourceId.split(':');
 
     const fromNode = nodes[fromNodeUUID];
-    const ghostNode = getGhostNode(fromNode, nodes);
+    const ghostNode = getGhostNode(fromNode, nodes, suggestedResultNameCount);
 
     // Set our ghost spec so it gets rendered.
     dispatch(updateGhostNode(ghostNode));
