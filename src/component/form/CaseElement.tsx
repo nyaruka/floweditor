@@ -460,11 +460,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
     private getDndIco(): JSX.Element {
         if (!this.props.empty && !this.props.solo) {
-            return (
-                <div className={styles.dndIcon}>
-                    <span>&#8597;</span>
-                </div>
-            );
+            return <span className={`fe-chevrons-expand ${styles.dndIcon}`} />;
         }
 
         return <div className={styles.empty} />;
@@ -472,7 +468,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
     private getRemoveIco(): JSX.Element {
         if (!this.props.empty) {
-            return <span className={`fe-remove ${styles.removeIcon}`} onClick={this.onRemove} />;
+            return <span className={`fe-x ${styles.removeIcon}`} onClick={this.onRemove} />;
         }
 
         return null;

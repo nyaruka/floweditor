@@ -218,7 +218,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             this.props.updateCreateNodePosition({ left, top });
 
             // Bring up the node editor
-            this.props.onOpenNodeEditor(this.props.ghostNode, null);
+            this.props.onOpenNodeEditor({ originalNode: this.props.ghostNode });
         }
 
         // To-do: mock this out

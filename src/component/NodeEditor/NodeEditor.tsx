@@ -31,7 +31,7 @@ import {
     UINodeTypes,
     Wait,
     WaitTypes,
-    WebhookExitNames,
+    WebhookExitNames
 } from '../../flowTypes';
 import { Asset } from '../../services/AssetService';
 import { LocalizedObject } from '../../services/Localization';
@@ -56,7 +56,7 @@ import {
     updateShowResultName,
     UpdateShowResultName,
     UpdateUserAddingAction,
-    updateUserAddingAction,
+    updateUserAddingAction
 } from '../../store';
 import { IncrementSuggestedResultNameCount } from '../../store/actionTypes';
 import { incrementSuggestedResultNameCount, RenderNode } from '../../store/flowContext';
@@ -99,10 +99,8 @@ export interface NodeEditorPassedProps {
 }
 
 export interface NodeEditorStoreProps {
-    nodeToEdit: FlowNode;
     language: Asset;
     nodeEditorOpen: boolean;
-    actionToEdit: Action;
     localizations: LocalizedObject[];
     definition: FlowDefinition;
     translating: boolean;
@@ -363,7 +361,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     private onTypeChange(config: Type): void {
         this.widgets = {};
         this.advancedWidgets = {};
-        this.props.handleTypeConfigChange(config, this.props.actionToEdit);
+        this.props.handleTypeConfigChange(config, this.props.settings.originalAction);
     }
 
     private onShowNameField(): void {
@@ -386,8 +384,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         // create mapping of our old exit uuids to old exit settings
         const previousExitMap: { [uuid: string]: Exit } = {};
 
-        if (this.props.nodeToEdit.exits) {
-            for (const exit of this.props.nodeToEdit.exits) {
+        if (this.props.settings.originalNode.exits) {
+            for (const exit of this.props.settings.originalNode.exits) {
                 previousExitMap[exit.uuid] = exit;
             }
         }
@@ -424,8 +422,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                 // couldn't find a new exit, look through our old ones
                 if (!existingExit) {
                     // look through our previous cases for a match
-                    if (this.props.nodeToEdit.exits) {
-                        for (const exit of this.props.nodeToEdit.exits) {
+                    if (this.props.settings.originalNode.exits) {
+                        for (const exit of this.props.settings.originalNode.exits) {
                             if (newCase.exitName && exit.name) {
                                 if (
                                     exit.name.toLowerCase() ===
@@ -468,10 +466,10 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         // add in our default exit
         let defaultUUID = generateUUID();
         if (
-            this.props.nodeToEdit.router &&
-            this.props.nodeToEdit.router.type === RouterTypes.switch
+            this.props.settings.originalNode.router &&
+            this.props.settings.originalNode.router.type === RouterTypes.switch
         ) {
-            const router = this.props.nodeToEdit.router as SwitchRouter;
+            const router = this.props.settings.originalNode.router as SwitchRouter;
             if (router && router.default_exit_uuid) {
                 defaultUUID = router.default_exit_uuid;
             }
@@ -479,7 +477,10 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
         let defaultName = DefaultExitNames.All_Responses;
 
-        if (this.props.nodeToEdit.wait && this.props.nodeToEdit.wait.type === 'exp') {
+        if (
+            this.props.settings.originalNode.wait &&
+            this.props.settings.originalNode.wait.type === 'exp'
+        ) {
             defaultName = DefaultExitNames.Any_Value;
         }
 
@@ -501,7 +502,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         // is a timeout set?
         if (this.props.timeout) {
             // do we have an existing timeout exit?
-            const existingExit = this.props.nodeToEdit.exits.find(
+            const existingExit = this.props.settings.originalNode.exits.find(
                 ({ name }) => name === DefaultExitNames.No_Response
             );
             const timeoutExit: Exit = {
@@ -575,7 +576,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
      * and this router has a translation for the 'Other' case, lose it.
      */
     private cleanUpLocalizations(cases: CaseElementProps[]): void {
-        const { uuid: nodeUUID, exits: nodeExits } = this.props.nodeToEdit;
+        const { uuid: nodeUUID, exits: nodeExits } = this.props.settings.originalNode;
         const exitMap: { [uuid: string]: Exit } = mapExits(nodeExits);
         const updates: LocalizationUpdates = [];
         let lang: string;
@@ -589,10 +590,11 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                         // don't prune if we have a timeout
                         if (
                             (exitMatch.name === DefaultExitNames.All_Responses &&
-                                (this.props.nodeToEdit.wait &&
-                                    !this.props.nodeToEdit.wait.timeout)) ||
+                                (this.props.settings.originalNode.wait &&
+                                    !this.props.settings.originalNode.wait.timeout)) ||
                             (exitMatch.name === DefaultExitNames.Other &&
-                                (this.props.nodeToEdit.wait && !this.props.nodeToEdit.wait.timeout))
+                                (this.props.settings.originalNode.wait &&
+                                    !this.props.settings.originalNode.wait.timeout))
                         ) {
                             lang = iso;
                             updates.push({ uuid: localizationUUID });
@@ -608,25 +610,28 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     private getLocalizedExits(widgets: {
         [name: string]: any;
     }): Array<{ uuid: string; translations: any }> {
-        return this.props.nodeToEdit.exits.reduce((results, { uuid: exitUUID }: Exit) => {
-            const input = widgets[exitUUID];
+        return this.props.settings.originalNode.exits.reduce(
+            (results, { uuid: exitUUID }: Exit) => {
+                const input = widgets[exitUUID];
 
-            if (input) {
-                // We save localized values as string arrays
-                const value =
-                    input.wrappedInstance.state.value.constructor === Array
-                        ? input.wrappedInstance.state.value[0].trim()
-                        : input.wrappedInstance.state.value.trim();
+                if (input) {
+                    // We save localized values as string arrays
+                    const value =
+                        input.wrappedInstance.state.value.constructor === Array
+                            ? input.wrappedInstance.state.value[0].trim()
+                            : input.wrappedInstance.state.value.trim();
 
-                if (value) {
-                    results.push({ uuid: exitUUID, translations: { name: [value] } });
-                } else {
-                    results.push({ uuid: exitUUID, translations: null });
+                    if (value) {
+                        results.push({ uuid: exitUUID, translations: { name: [value] } });
+                    } else {
+                        results.push({ uuid: exitUUID, translations: null });
+                    }
                 }
-            }
 
-            return results;
-        }, []);
+                return results;
+            },
+            []
+        );
     }
 
     private saveLocalizations(widgets: { [name: string]: any }, cases?: CaseElementProps[]): void {
@@ -643,7 +648,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         [name: string]: any;
     }): Array<{ uuid: string; translations: any }> {
         const results: Array<{ uuid: string; translations: any }> = [];
-        const { cases } = this.props.nodeToEdit.router as SwitchRouter;
+        const { cases } = this.props.settings.originalNode.router as SwitchRouter;
 
         cases.forEach(({ uuid: caseUUID }) => {
             const input = widgets[caseUUID];
@@ -676,7 +681,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             return null;
         }
 
-        const exits: Exit[] = this.props.nodeToEdit.exits.reduce(
+        const exits: Exit[] = this.props.settings.originalNode.exits.reduce(
             (exitList, { uuid: exitUUID, name: exitName }) => {
                 const [localized] = this.props.localizations.filter(
                     (localizedObject: LocalizedObject) =>
@@ -866,7 +871,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     ): RenderNode {
         return {
             node: {
-                uuid: this.props.nodeToEdit.uuid,
+                uuid: this.props.settings.originalNode.uuid,
                 actions,
                 router,
                 exits,
@@ -913,7 +918,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     public updateSubflowRouter(): void {
         // prettier-ignore
         const action = getAction(
-            this.props.actionToEdit,
+            this.props.settings.originalAction,
             this.props.typeConfig
         );
 
@@ -939,11 +944,11 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         let cases: Case[];
 
         // TODO: we should probably just be passing down RenderNode
-        const renderNode = this.props.nodes[this.props.nodeToEdit.uuid];
+        const renderNode = this.props.nodes[this.props.settings.originalNode.uuid];
 
         if (renderNode && renderNode.ui.type === 'subflow') {
-            ({ exits } = this.props.nodeToEdit);
-            ({ cases } = this.props.nodeToEdit.router as SwitchRouter);
+            ({ exits } = this.props.settings.originalNode);
+            ({ cases } = this.props.settings.originalNode.router as SwitchRouter);
         } else {
             // Otherwise, let's create some new ones
             exits = [
@@ -990,7 +995,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 
     private updateWebhookRouter(): void {
-        const action = getAction(this.props.actionToEdit, this.props.typeConfig);
+        const action = getAction(this.props.settings.originalAction, this.props.typeConfig);
         const urlEle = this.widgets.URL.wrappedInstance;
 
         // Determine method
@@ -1036,12 +1041,14 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         let cases: Case[] = [];
 
         // TODO: we should probably just be passing down RenderNode
-        const renderNode = this.props.nodes[this.props.nodeToEdit.uuid];
+        const renderNode = this.props.nodes[this.props.settings.originalNode.uuid];
 
         // If we were already a webhook, lean on those exits and cases
         if (renderNode && renderNode.ui.type === 'webhook') {
-            this.props.nodeToEdit.exits.forEach(exit => exits.push(exit));
-            (this.props.nodeToEdit.router as SwitchRouter).cases.forEach(kase => cases.push(kase));
+            this.props.settings.originalNode.exits.forEach(exit => exits.push(exit));
+            (this.props.settings.originalNode.router as SwitchRouter).cases.forEach(kase =>
+                cases.push(kase)
+            );
         } else {
             // Otherwise, let's create some new ones
             exits.push(
@@ -1165,7 +1172,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 
     private getSides(): Sides {
-        const { actionToEdit, typeConfig } = this.props;
+        const { settings: { originalAction: actionToEdit }, typeConfig } = this.props;
         const action = getAction(actionToEdit, typeConfig);
         let updateRouter: Function;
 
@@ -1265,22 +1272,10 @@ const mapStateToProps = ({
         editorUI: { language, translating, nodeEditorOpen },
         flowUI: { pendingConnection }
     },
-    nodeEditor: {
-        nodeToEdit,
-        actionToEdit,
-        typeConfig,
-        resultName,
-        showResultName,
-        settings,
-        operand,
-        timeout,
-        form
-    }
+    nodeEditor: { typeConfig, resultName, showResultName, settings, operand, timeout, form }
 }: AppState) => ({
-    nodeToEdit,
     language,
     nodeEditorOpen,
-    actionToEdit,
     definition,
     localizations,
     nodes,

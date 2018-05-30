@@ -27,7 +27,7 @@ import {
     InputToFocus,
     leadInSpecId,
     SwitchRouterForm,
-    SwitchRouterFormProps,
+    SwitchRouterFormProps
 } from './SwitchRouter';
 
 jest.mock('uuid', () => ({
@@ -72,7 +72,7 @@ const baseProps: SwitchRouterFormProps = {
     language: { iso: 'eng', name: 'English' },
     typeConfig: getTypeConfig(Types.wait_for_response),
     translating: false,
-    nodeToEdit,
+    settings: { originalNode: nodeToEdit },
     localizations: [],
     operand: DEFAULT_OPERAND,
     showAdvanced: false,
@@ -226,7 +226,9 @@ describe(SwitchRouterForm.name, () => {
         describe('getCaseContext', () => {
             it('should return unwrapped, empty case', () => {
                 const { wrapper, props } = setup(true, {
-                    nodeToEdit: { router: { $merge: { cases: [] } } }
+                    settings: {
+                        originalNode: { router: { $merge: { cases: [] } } }
+                    }
                 });
 
                 expect(getSpecWrapper(wrapper, leadInSpecId).exists()).toBeTruthy();
@@ -260,10 +262,12 @@ describe(SwitchRouterForm.name, () => {
 
             it('should add an undraggable, displayable case', () => {
                 const { wrapper } = setup(true, {
-                    nodeToEdit: {
-                        router: {
-                            $merge: {
-                                cases: [cases[0]]
+                    settings: {
+                        originalNode: {
+                            router: {
+                                $merge: {
+                                    cases: [cases[0]]
+                                }
                             }
                         }
                     }
@@ -384,7 +388,8 @@ describe(SwitchRouterForm.name, () => {
                 const { wrapper, instance, props } = setup(true, {
                     removeWidget: setMock()
                 });
-                const { uuid: caseUUID } = (props.nodeToEdit.router as SwitchRouter).cases[0];
+                const { uuid: caseUUID } = (props.settings.originalNode
+                    .router as SwitchRouter).cases[0];
                 const caseToRemove = {
                     props: {
                         name: `case_${caseUUID}`,

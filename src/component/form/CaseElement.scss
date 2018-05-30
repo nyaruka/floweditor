@@ -76,24 +76,26 @@ textarea:focus, input:focus{
 }
 
 .dnd-icon {
-    color: #ccc;
+    color: #aaa;
     font-weight: bold;
     padding-top: 9px;
     padding-right: 5px;
     float: left;
     opacity: 0;
-    font-size: 18px;
+    font-size: 12px;
     line-height: 12px;
 }
 
 .remove-icon {
-    color: #ccc;
+    color: #aaa;
     padding-top: 8px;
     float: right;
     opacity: 0;
-    font-size: 16px;
     line-height: 12px;
     cursor: pointer;
+    
+    margin-left: 5px;
+    font-size: 12px;
 }
 
 .empty {

@@ -11,7 +11,7 @@ import {
     isDraggingBack,
     nodesContainerSpecId,
     nodeSpecId,
-    REPAINT_TIMEOUT,
+    REPAINT_TIMEOUT
 } from '../component/Flow';
 import { Types } from '../config/typeConfigs';
 import { getActivity } from '../external';
@@ -399,10 +399,9 @@ describe(Flow.name, () => {
                 );
                 expect(props.updateCreateNodePosition).toHaveBeenCalledTimes(1);
                 expect(props.onOpenNodeEditor).toHaveBeenCalledTimes(1);
-                expect(props.onOpenNodeEditor).toHaveBeenCalledWith(
-                    props.ghostNode,
-                    null,
-                );
+                expect(props.onOpenNodeEditor).toHaveBeenCalledWith({
+                    originalNode: props.ghostNode
+                });
             });
         });
 

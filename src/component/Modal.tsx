@@ -38,7 +38,7 @@ export interface ModalPassedProps {
 
 export interface ModalStoreProps {
     translating: boolean;
-    nodeToEdit: FlowNode;
+    originalNode: FlowNode;
     type: Types;
 }
 
@@ -130,8 +130,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
             if (hasAdvanced) {
                 /** Don't show advanced settings for SwitchRouter unless we have cases to translate */
                 let cases: Case[];
-                if (this.props.nodeToEdit && this.props.nodeToEdit.router) {
-                    ({ cases } = this.props.nodeToEdit.router as SwitchRouter);
+                if (this.props.originalNode && this.props.originalNode.router) {
+                    ({ cases } = this.props.originalNode.router as SwitchRouter);
                 }
                 if (isFrontForm) {
                     if (cases && !cases.length) {
@@ -221,10 +221,11 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 /* istanbul ignore next */
 const mapStateToProps = ({
     flowEditor: { editorUI: { translating } },
-    nodeEditor: { nodeToEdit, typeConfig }
+    nodeEditor: { settings: { originalNode }, typeConfig }
 }: AppState) => ({
+    // TODO: Modal should not care about flow stuff
     translating,
-    nodeToEdit,
+    originalNode,
     type: typeConfig.type
 });
 
