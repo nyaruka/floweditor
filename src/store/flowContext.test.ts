@@ -1,4 +1,5 @@
 import { FlowDefinition } from '../flowTypes';
+import { English, Spanish } from '../testUtils/assetCreators';
 import Constants from './constants';
 import reducer, {
     completionOptions as resultNamesReducer,
@@ -9,8 +10,10 @@ import reducer, {
     nodes as nodesReducer,
     RenderNodeMap,
     suggestedNameCount as suggestedResultNameCountReducer,
+    updateBaseLanguage,
     updateDefinition,
     updateDependencies,
+    updateLanguages,
     updateNodes,
     updateResultCompletionOptions,
 } from './flowContext';
@@ -73,6 +76,33 @@ describe('flowContext action creators', () => {
             };
 
             expect(incrementSuggestedResultNameCount()).toEqual(expectedAction);
+        });
+    });
+
+    describe('updateBaseLanguage', () => {
+        it('should create an action to update base language', () => {
+            const expectedAction = {
+                type: Constants.UPDATE_BASE_LANGUAGE,
+                payload: {
+                    baseLanguage: English
+                }
+            };
+
+            expect(updateBaseLanguage(English)).toEqual(expectedAction);
+        });
+    });
+
+    describe('updateLanguages', () => {
+        it('should create an action to update base language', () => {
+            const languages = [English, Spanish];
+            const expectedAction = {
+                type: Constants.UPDATE_LANGUAGES,
+                payload: {
+                    languages
+                }
+            };
+
+            expect(updateLanguages(languages)).toEqual(expectedAction);
         });
     });
 });

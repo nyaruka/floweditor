@@ -1,22 +1,20 @@
+import { Types } from '../config/typeConfigs';
+import { FlowDefinition, SendMsg } from '../flowTypes';
+import { getActionIndex, getExitIndex, getFlowComponents, getNode } from './helpers';
 import {
-    updateConnection,
-    removeConnection,
-    mergeNode,
     addAction,
-    updateAction,
-    removeAction,
+    mergeNode,
     moveActionUp,
-    removeNode,
-    updatePosition,
+    removeAction,
+    removeConnection,
+    removeNodeAndRemap,
+    removeProperties,
+    updateAction,
+    updateConnection,
     updateDimensions,
     updateLocalization,
-    removeNodeAndRemap
+    updatePosition,
 } from './mutators';
-import { RenderNodeMap } from './flowContext';
-import { SendMsg, FlowDefinition, FlowNode } from '../flowTypes';
-import { dump } from '../utils';
-import { getNode, getExitIndex, getActionIndex, getFlowComponents } from './helpers';
-import { Types } from '../config/typeConfigs';
 
 describe('mutators', () => {
     const definition: FlowDefinition = require('../../__test__/flows/boring.json');
@@ -200,5 +198,16 @@ describe('mutators', () => {
         ]);
         expect(updated.localization.spa).toEqual({});
         expect(updated).toMatchSnapshot();
+    });
+
+    describe('removeProperties', () => {
+        it('should remove properties from obj', () => {
+            const obj = {
+                a: 1,
+                b: 2,
+                c: 3
+            };
+            expect(removeProperties(obj, ...Object.keys(obj).slice(0, 2))).toEqual({ c: 3 });
+        });
     });
 });
