@@ -31,7 +31,7 @@ import {
     UINodeTypes,
     Wait,
     WaitTypes,
-    WebhookExitNames
+    WebhookExitNames,
 } from '../../flowTypes';
 import { Asset } from '../../services/AssetService';
 import { LocalizedObject } from '../../services/Localization';
@@ -56,7 +56,7 @@ import {
     updateShowResultName,
     UpdateShowResultName,
     UpdateUserAddingAction,
-    updateUserAddingAction
+    updateUserAddingAction,
 } from '../../store';
 import { IncrementSuggestedResultNameCount } from '../../store/actionTypes';
 import { incrementSuggestedResultNameCount, RenderNode } from '../../store/flowContext';
@@ -1267,7 +1267,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowContext: { localizations, definition, nodes, suggestedResultNameCount },
+    flowContext: { localizations, definition, nodes, results: { suggestedNameCount } },
     flowEditor: {
         editorUI: { language, translating, nodeEditorOpen },
         flowUI: { pendingConnection }
@@ -1283,7 +1283,7 @@ const mapStateToProps = ({
     typeConfig,
     resultName,
     showResultName,
-    suggestedResultNameCount,
+    suggestedResultNameCount: suggestedNameCount,
     operand,
     timeout,
     pendingConnection,

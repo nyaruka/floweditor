@@ -3,6 +3,7 @@ import Localization from '../services/Localization';
 import { configProviderContext } from '../testUtils';
 import Constants from './constants';
 import reducer, {
+    completionOptions as resultNamesReducer,
     definition as definitionReducer,
     dependencies as dependenciesReducer,
     incrementSuggestedResultNameCount,
@@ -10,19 +11,18 @@ import reducer, {
     localizations as localizationsReducer,
     nodes as nodesReducer,
     RenderNodeMap,
-    resultNames as resultNamesReducer,
-    suggestedResultNameCount as suggestedResultNameCountReducer,
+    suggestedNameCount as suggestedResultNameCountReducer,
     updateDefinition,
     updateDependencies,
     updateLocalizations,
     updateNodes,
-    updateResultNames,
+    updateResultCompletionOptions,
 } from './flowContext';
 
 const boringFlow = require('../../__test__/flows/boring.json') as FlowDefinition;
 const emptyFlow = require('../../__test__/flows/empty.json') as FlowDefinition;
 
-const resultNames = {
+const resultsCompletionMap = {
     'ecc70717-dd25-4795-8dc2-0361265a1e29': {
         name: '@run.results.color',
         description: 'Result for "color"'
@@ -79,21 +79,21 @@ describe('flowContext action creators', () => {
         });
     });
 
-    describe('updateResultNames', () => {
+    describe('updateResultCompletionOptions', () => {
         it('should create an action to update resultNames state', () => {
             const expectedAction = {
-                type: Constants.UPDATE_RESULT_NAMES,
+                type: Constants.UPDATE_RESULT_COMPLETION_OPTIONS,
                 payload: {
-                    resultNames
+                    completionOptions: resultsCompletionMap
                 }
             };
 
-            expect(updateResultNames(resultNames)).toEqual(expectedAction);
+            expect(updateResultCompletionOptions(resultsCompletionMap)).toEqual(expectedAction);
         });
     });
 
     describe('incrementSuggestedResultNameCount', () => {
-        it('should create an action to increment suggestedResultNameCount state', () => {
+        it('should create an action to increment suggestedNameCount state', () => {
             const expectedAction = {
                 type: Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT
             };
@@ -155,25 +155,25 @@ describe('flowContext reducers', () => {
         });
     });
 
-    describe('resultNames reducer', () => {
+    describe('completionOptions reducer', () => {
         const reduce = action => resultNamesReducer(undefined, action);
 
         it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.resultNames);
+            expect(reduce({})).toEqual(initialState.results.completionOptions);
         });
 
-        it('should handle UPDATE_RESULT_NAMES', () => {
-            const action = updateResultNames(resultNames);
+        it('should handle UPDATE_RESULT_COMPLETION_OPTIONS', () => {
+            const action = updateResultCompletionOptions(resultsCompletionMap);
 
-            expect(reduce(action)).toEqual(resultNames);
+            expect(reduce(action)).toEqual(resultsCompletionMap);
         });
     });
 
-    describe('suggestedResultNameCount reducer', () => {
+    describe('suggestedNameCount reducer', () => {
         const reduce = action => suggestedResultNameCountReducer(undefined, action);
 
         it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.suggestedResultNameCount);
+            expect(reduce({})).toEqual(initialState.results.suggestedNameCount);
         });
 
         it('should handle UPDATE_RESULT_NAMES', () => {

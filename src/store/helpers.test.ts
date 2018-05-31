@@ -41,13 +41,13 @@ describe('helpers', () => {
             ]);
         });
 
-        it('should find result names in definition', () => {
-            const { resultNamesMap } = getFlowComponents(definition);
+        it('should find results in definition', () => {
+            const { resultsCompletionMap } = getFlowComponents(definition);
             const expectedOutput = {
                 node1: generateCompletionOption(definition.nodes[1].router.result_name)
             };
-            expect(resultNamesMap).toEqual(expectedOutput);
-            expect(resultNamesMap).toMatchSnapshot();
+            expect(resultsCompletionMap).toEqual(expectedOutput);
+            expect(resultsCompletionMap).toMatchSnapshot();
         });
     });
 
