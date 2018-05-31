@@ -150,7 +150,7 @@ export const addAction = (
  */
 export const updateAction = (nodes: RenderNodeMap, nodeUUID: string, action: AnyAction) => {
     const nodeToEdit = getNode(nodes, nodeUUID);
-    // if we have existing actions, find our action and update it
+    // If we have existing actions, find our action and update it
     const actionIdx = getActionIndex(nodeToEdit.node, action.uuid);
     return mutate(nodes, {
         [nodeUUID]: {
@@ -159,6 +159,25 @@ export const updateAction = (nodes: RenderNodeMap, nodeUUID: string, action: Any
             }
         }
     });
+};
+
+export const spliceInAction = (
+    nodes: RenderNodeMap,
+    nodeUUID: string,
+    action: AnyAction
+): RenderNodeMap => {
+    const originalRenderNode = nodes[nodeUUID];
+    const newRenderNode = mutate(originalRenderNode, {
+        node: {
+            actions: { $set: [action] },
+            exits: { $set: [{ ...originalRenderNode.node.exits[0], name: null }] },
+            $unset: ['router']
+        },
+        ui: {
+            $unset: ['type']
+        }
+    });
+    return mergeNode(nodes, newRenderNode);
 };
 
 /** Removes a specific action from a node */
@@ -395,6 +414,3 @@ export const updateLocalization = (
 
     return newDef;
 };
-
-export const removeProperties = (obj: object, ...props: string[]) =>
-    mutate(obj, { $unset: [...props] });
