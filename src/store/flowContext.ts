@@ -196,7 +196,6 @@ export default combineReducers({
     nodes,
     dependencies,
     results,
-    suggestedNameCount,
     baseLanguage,
     languages
 });
