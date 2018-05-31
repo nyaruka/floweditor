@@ -17,7 +17,7 @@ const baseProps: StartSessionFormProps = {
     typeConfig,
     updateAction: jest.fn(),
     updateStartSessionForm: jest.fn(),
-    form: formHelper.actionToState(startSessionAction)
+    form: formHelper.initializeForm({ originalNode: null, originalAction: startSessionAction })
 };
 
 const { setup, spyOn } = composeComponentTestUtils<StartSessionFormProps>(
@@ -36,7 +36,7 @@ describe(StartSessionForm.name, () => {
         it('should render an empty form with no action', () => {
             const { wrapper, props } = setup(true, {
                 $merge: {
-                    form: formHelper.actionToState(null)
+                    form: formHelper.initializeForm({ originalNode: null, originalAction: null })
                 }
             });
 

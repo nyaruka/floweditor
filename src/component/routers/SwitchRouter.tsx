@@ -46,7 +46,6 @@ export interface SwitchRouterStoreProps {
     typeConfig: Type;
     translating: boolean;
     settings: NodeEditorSettings;
-    localizations: LocalizedObject[];
     operand: string;
 }
 
@@ -424,7 +423,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
             (casesForLocalization: JSX.Element[], kase) => {
                 // only allow translations for cases with arguments that aren't numeric
                 if (kase.arguments && kase.arguments.length > 0 && !/number/.test(kase.type)) {
-                    const [localized] = this.props.localizations.filter(
+                    const [localized] = this.props.settings.localizations.filter(
                         (localizedObject: LocalizedObject) =>
                             localizedObject.getObject().uuid === kase.uuid
                     );
@@ -580,10 +579,9 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowContext: { localizations },
     flowEditor: { editorUI: { language, translating } },
     nodeEditor: { typeConfig, settings, operand }
-}: AppState) => ({ language, typeConfig, translating, settings, localizations, operand });
+}: AppState) => ({ language, typeConfig, translating, settings, operand });
 
 const ConnectedSwitchRouterForm = connect(mapStateToProps, null, null, { withRef: true })(
     SwitchRouterForm

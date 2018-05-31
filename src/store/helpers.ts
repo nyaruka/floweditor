@@ -15,7 +15,7 @@ import {
     SetContactField,
     SwitchRouter,
     UINodeTypes,
-    WaitTypes,
+    WaitTypes
 } from '../flowTypes';
 import { Asset, AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';

@@ -212,7 +212,12 @@ describe(SwitchRouterForm.name, () => {
             const { wrapper, props } = setup(true, {
                 translating: { $set: true },
                 showAdvanced: { $set: true },
-                localizations: { $set: localizations }
+                $merge: {
+                    settings: {
+                        originalNode: nodeToEdit,
+                        localizations
+                    }
+                }
             });
 
             expect(renderAdvancedSpy).toHaveBeenCalledTimes(1);

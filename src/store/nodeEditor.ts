@@ -16,6 +16,7 @@ import ActionTypes, {
     UpdateUserAddingActionAction
 } from './actionTypes';
 import Constants from './constants';
+import { LocalizedObject } from '../services/Localization';
 
 export interface ValidationFailure {
     message: string;
@@ -125,6 +126,7 @@ export interface NodeEditorSettings {
     originalNode: FlowNode;
     showAdvanced?: boolean;
     originalAction?: AnyAction;
+    localizations?: LocalizedObject[];
 }
 
 export interface NodeEditor {

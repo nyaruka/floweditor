@@ -22,7 +22,6 @@ const switchWithTimeout: FlowNode = update(colorsFlow.nodes[1], {
 const baseProps: NodeEditorProps = {
     language: { iso: 'eng', name: 'English' },
     nodeEditorOpen: true,
-    localizations: [],
     definition: colorsFlow,
     translating: false,
     typeConfig: getTypeConfig(Types.wait_for_response),

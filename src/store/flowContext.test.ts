@@ -1,6 +1,4 @@
 import { FlowDefinition } from '../flowTypes';
-import Localization from '../services/Localization';
-import { configProviderContext } from '../testUtils';
 import Constants from './constants';
 import reducer, {
     completionOptions as resultNamesReducer,
@@ -8,13 +6,11 @@ import reducer, {
     dependencies as dependenciesReducer,
     incrementSuggestedResultNameCount,
     initialState,
-    localizations as localizationsReducer,
     nodes as nodesReducer,
     RenderNodeMap,
     suggestedNameCount as suggestedResultNameCountReducer,
     updateDefinition,
     updateDependencies,
-    updateLocalizations,
     updateNodes,
     updateResultCompletionOptions,
 } from './flowContext';
@@ -54,28 +50,6 @@ describe('flowContext action creators', () => {
             };
 
             expect(updateDependencies(dependencies)).toEqual(expectedAction);
-        });
-    });
-
-    describe('updateLocalizations', () => {
-        it('should create an action to update localizations state', () => {
-            const iso = 'spa';
-            const localizations = [
-                Localization.translate(
-                    boringFlow.nodes[0].actions[0],
-                    iso,
-                    configProviderContext.languages,
-                    boringFlow[iso]
-                )
-            ];
-            const expectedAction = {
-                type: Constants.UPDATE_LOCALIZATIONS,
-                payload: {
-                    localizations
-                }
-            };
-
-            expect(updateLocalizations(localizations)).toEqual(expectedAction);
         });
     });
 
@@ -129,29 +103,6 @@ describe('flowContext reducers', () => {
             const action = updateDependencies(dependencies);
 
             expect(reduce(action)).toEqual(dependencies);
-        });
-    });
-
-    describe('localizations reducer', () => {
-        const reduce = action => localizationsReducer(undefined, action);
-
-        it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.localizations);
-        });
-
-        it('should handle UPDATE_LOCALIZATIONS', () => {
-            const iso = 'spa';
-            const localizations = [
-                Localization.translate(
-                    boringFlow.nodes[0].actions[0],
-                    iso,
-                    configProviderContext.languages,
-                    boringFlow[iso]
-                )
-            ];
-            const action = updateLocalizations(localizations);
-
-            expect(reduce(action)).toEqual(localizations);
         });
     });
 

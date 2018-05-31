@@ -1,12 +1,13 @@
 import { FormHelper, Types } from '../../../config/typeConfigs';
 import { StartSession } from '../../../flowTypes';
 import { Asset, AssetType } from '../../../services/AssetService';
-import { StartSessionFormState } from '../../../store/nodeEditor';
+import { StartSessionFormState, NodeEditorSettings } from '../../../store/nodeEditor';
 import { getRecipients } from '../helpers';
 
 export class StartSessionFormHelper implements FormHelper {
-    public actionToState(action: StartSession): StartSessionFormState {
-        if (action) {
+    public initializeForm(settings: NodeEditorSettings): StartSessionFormState {
+        if (settings.originalAction) {
+            const action = settings.originalAction as StartSession;
             return {
                 type: action.type,
                 recipients: { value: getRecipients(action) },

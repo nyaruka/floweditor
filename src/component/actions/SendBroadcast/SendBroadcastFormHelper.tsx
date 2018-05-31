@@ -1,12 +1,29 @@
 import { FormHelper, Types } from '../../../config/typeConfigs';
 import { BroadcastMsg } from '../../../flowTypes';
 import { Asset, AssetType } from '../../../services/AssetService';
-import { SendBroadcastFormState } from '../../../store/nodeEditor';
+import { SendBroadcastFormState, NodeEditorSettings } from '../../../store/nodeEditor';
 import { getRecipients } from '../helpers';
 
 export class SendBroadcastFormHelper implements FormHelper {
-    public actionToState(action: BroadcastMsg): SendBroadcastFormState {
-        if (action) {
+    public initializeForm(settings: NodeEditorSettings): SendBroadcastFormState {
+        if (settings.originalAction) {
+            let action = settings.originalAction as BroadcastMsg;
+
+            // check if our form should use a localized action
+            if (settings.localizations && settings.localizations.length > 0) {
+                const localized = settings.localizations[0];
+                if (localized.isLocalized()) {
+                    action = settings.localizations[0].getObject() as BroadcastMsg;
+                } else {
+                    return {
+                        type: Types.send_broadcast,
+                        text: { value: '' },
+                        recipients: { value: [] },
+                        valid: true
+                    };
+                }
+            }
+
             return {
                 type: action.type,
                 text: { value: action.text },

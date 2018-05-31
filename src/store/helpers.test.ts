@@ -9,7 +9,7 @@ import {
     getGhostNode,
     getLocalizations,
     getOrderedNodes,
-    getUniqueDestinations,
+    getUniqueDestinations
 } from './helpers';
 
 const mutate = require('immutability-helper');

@@ -30,7 +30,7 @@ import {
     UpdateDragSelection,
     updateDragSelection,
     UpdateSticky,
-    updateSticky,
+    updateSticky
 } from '../store';
 import { RenderNode } from '../store/flowContext';
 import { DragSelection } from '../store/flowEditor';

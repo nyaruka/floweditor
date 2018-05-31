@@ -5,6 +5,7 @@ import { composeComponentTestUtils, getSpecWrapper } from '../../../testUtils';
 import { createBroadcastMsgAction, Spanish } from '../../../testUtils/assetCreators';
 import { SendBroadcastForm, SendBroadcastFormProps } from './SendBroadcastForm';
 import { SendBroadcastFormHelper } from './SendBroadcastFormHelper';
+import { AssetType } from '../../../services/AssetService';
 
 const { assets: groups } = require('../../../../__test__/assets/groups.json');
 
@@ -20,10 +21,12 @@ const baseProps: SendBroadcastFormProps = {
     typeConfig: sendConfig,
     language: null,
     translating: false,
-    localizations: [],
     updateLocalizations: jest.fn(),
     updateSendBroadcastForm: jest.fn(),
-    form: formHelper.actionToState(broadcastMsgAction)
+    form: formHelper.initializeForm({
+        originalNode: null,
+        originalAction: broadcastMsgAction
+    })
 };
 
 const { setup, spyOn } = composeComponentTestUtils<SendBroadcastFormProps>(
@@ -42,7 +45,7 @@ describe(SendBroadcastForm.name, () => {
         it('should render an empty form with no action', () => {
             const { wrapper, props } = setup(true, {
                 $merge: {
-                    form: formHelper.actionToState(null)
+                    form: formHelper.initializeForm({ originalNode: null })
                 }
             });
 
@@ -57,13 +60,21 @@ describe(SendBroadcastForm.name, () => {
         });
 
         it('should render the localized text', () => {
-            const localized = new LocalizedObject(broadcastMsgAction, 'spa', {});
+            const localized = new LocalizedObject(broadcastMsgAction, {
+                id: 'spa',
+                name: 'Spanish',
+                type: AssetType.Language
+            });
             localized.addTranslation('text', 'espanols!');
+
             const { wrapper, props } = setup(true, {
                 $merge: {
                     translating: true,
                     language: { name: 'Spanish', iso: 'spa' },
-                    localizations: [localized]
+                    settings: {
+                        originalAction: broadcastMsgAction,
+                        localizations: [localized]
+                    }
                 }
             });
 
@@ -86,8 +97,13 @@ describe(SendBroadcastForm.name, () => {
                 $merge: {
                     translating: true,
                     language: Spanish,
-                    localizations: [new LocalizedObject(broadcastMsgAction, Spanish)],
-                    form: { ...formHelper.actionToState(broadcastMsgAction), text: '' },
+                    form: {
+                        ...formHelper.initializeForm({
+                            originalNode: null,
+                            originalAction: broadcastMsgAction,
+                            localizations: [new LocalizedObject(broadcastMsgAction, Spanish)]
+                        })
+                    },
                     updateLocalizations: jest.fn()
                 }
             });

@@ -3,14 +3,12 @@ import { combineReducers } from 'redux';
 
 import { FlowDefinition, FlowNode, UINode } from '../flowTypes';
 import { Asset } from '../services/AssetService';
-import { LocalizedObject } from '../services/Localization';
 import ActionTypes, {
     IncrementSuggestedResultNameCountAction,
     UpdateBaseLanguageAction,
     UpdateDefinitionAction,
     UpdateDependenciesAction,
     UpdateLanguagesAction,
-    UpdateLocalizationsAction,
     UpdateNodesAction,
     UpdateResultCompletionOptionsAction,
 } from './actionTypes';
@@ -42,7 +40,6 @@ export interface Results {
 
 export interface FlowContext {
     dependencies: FlowDefinition[];
-    localizations: LocalizedObject[];
     baseLanguage: Asset;
     languages: Asset[];
     results: Results;
@@ -56,7 +53,6 @@ export const initialState: FlowContext = {
     dependencies: null,
     baseLanguage: null,
     languages: [],
-    localizations: [],
     results: {
         completionOptions: {},
         suggestedNameCount: 1
@@ -97,15 +93,6 @@ export const updateLanguages = (languages: Asset[]): UpdateLanguagesAction => ({
     type: Constants.UPDATE_LANGUAGES,
     payload: {
         languages
-    }
-});
-
-export const updateLocalizations = (
-    localizations: LocalizedObject[]
-): UpdateLocalizationsAction => ({
-    type: Constants.UPDATE_LOCALIZATIONS,
-    payload: {
-        localizations
     }
 });
 
@@ -151,18 +138,6 @@ export const dependencies = (
     switch (action.type) {
         case Constants.UPDATE_DEPENDENCIES:
             return action.payload.dependencies;
-        default:
-            return state;
-    }
-};
-
-export const localizations = (
-    state: LocalizedObject[] = initialState.localizations,
-    action: ActionTypes
-) => {
-    switch (action.type) {
-        case Constants.UPDATE_LOCALIZATIONS:
-            return action.payload.localizations;
         default:
             return state;
     }
@@ -220,7 +195,6 @@ export default combineReducers({
     definition,
     nodes,
     dependencies,
-    localizations,
     results,
     suggestedNameCount,
     baseLanguage,
