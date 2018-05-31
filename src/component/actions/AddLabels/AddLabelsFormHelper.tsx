@@ -1,11 +1,12 @@
 import { FormHelper, Types } from '../../../config/typeConfigs';
 import { AddLabels } from '../../../flowTypes';
 import { Asset, AssetType } from '../../../services/AssetService';
-import { AddLabelsFormState } from '../../../store/nodeEditor';
+import { AddLabelsFormState, NodeEditorSettings } from '../../../store/nodeEditor';
 
 export class AddLabelsFormHelper implements FormHelper {
-    public actionToState(action: AddLabels): AddLabelsFormState {
-        if (action) {
+    public initializeForm(settings: NodeEditorSettings): AddLabelsFormState {
+        if (settings.originalAction) {
+            const action = settings.originalAction as AddLabels;
             return {
                 type: action.type,
                 labels: {

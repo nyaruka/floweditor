@@ -10,9 +10,8 @@ import ActionTypes, {
     UpdateDefinitionAction,
     UpdateDependenciesAction,
     UpdateLanguagesAction,
-    UpdateLocalizationsAction,
     UpdateNodesAction,
-    UpdateResultNamesAction,
+    UpdateResultNamesAction
 } from './actionTypes';
 import Constants from './constants';
 
@@ -37,7 +36,6 @@ export interface ResultNames {
 
 export interface FlowContext {
     dependencies: FlowDefinition[];
-    localizations: LocalizedObject[];
     baseLanguage: Asset;
     languages: Asset[];
     resultNames: ResultNames;
@@ -52,7 +50,6 @@ export const initialState: FlowContext = {
     dependencies: null,
     baseLanguage: null,
     languages: [],
-    localizations: [],
     resultNames: {},
     suggestedResultNameCount: 1,
     nodes: {}
@@ -91,15 +88,6 @@ export const updateLanguages = (languages: Asset[]): UpdateLanguagesAction => ({
     type: Constants.UPDATE_LANGUAGES,
     payload: {
         languages
-    }
-});
-
-export const updateLocalizations = (
-    localizations: LocalizedObject[]
-): UpdateLocalizationsAction => ({
-    type: Constants.UPDATE_LOCALIZATIONS,
-    payload: {
-        localizations
     }
 });
 
@@ -143,18 +131,6 @@ export const dependencies = (
     switch (action.type) {
         case Constants.UPDATE_DEPENDENCIES:
             return action.payload.dependencies;
-        default:
-            return state;
-    }
-};
-
-export const localizations = (
-    state: LocalizedObject[] = initialState.localizations,
-    action: ActionTypes
-) => {
-    switch (action.type) {
-        case Constants.UPDATE_LOCALIZATIONS:
-            return action.payload.localizations;
         default:
             return state;
     }
@@ -204,7 +180,6 @@ export default combineReducers({
     definition,
     nodes,
     dependencies,
-    localizations,
     resultNames,
     suggestedResultNameCount,
     baseLanguage,

@@ -15,7 +15,7 @@ import {
     SetContactField,
     SwitchRouter,
     UINodeTypes,
-    WaitTypes,
+    WaitTypes
 } from '../flowTypes';
 import { Asset, AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
@@ -200,10 +200,7 @@ export const getCollision = (nodes: RenderNodeMap): RenderNode[] => {
     return [];
 };
 
-export const getGhostNode = (
-    fromNode: RenderNode,
-    suggestedResultNameCount: number
-) => {
+export const getGhostNode = (fromNode: RenderNode, suggestedResultNameCount: number) => {
     const ghostNode: FlowNode = {
         uuid: generateUUID(),
         actions: [],

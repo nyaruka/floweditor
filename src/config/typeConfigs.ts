@@ -32,7 +32,7 @@ import SubflowRouter from '../component/routers/SubflowRouter';
 import SwitchRouter from '../component/routers/SwitchRouter';
 import WebhookRouter from '../component/routers/WebhookRouter';
 import { AnyAction, RouterTypes, UINodeTypes } from '../flowTypes';
-import { NodeEditorForm } from '../store/nodeEditor';
+import { NodeEditorForm, NodeEditorSettings } from '../store/nodeEditor';
 
 /*
 Old name	                New name	                Event(s) generated
@@ -85,7 +85,7 @@ export enum Mode {
 }
 
 export interface FormHelper {
-    actionToState: (action: AnyAction, actionType?: Types) => NodeEditorForm;
+    initializeForm: (settings: NodeEditorSettings, actionType?: Types) => NodeEditorForm;
     stateToAction: (actionUUID: string, formState: NodeEditorForm, formType?: Types) => AnyAction;
 }
 

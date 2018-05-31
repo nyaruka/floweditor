@@ -5,11 +5,14 @@ import {
     createSetContactChannelAction,
     createSetContactFieldAction,
     createSetContactLanguageAction,
-    createSetContactNameAction,
+    createSetContactNameAction
 } from '../../../testUtils/assetCreators';
 import { getLanguage } from '../../../utils/languageMap';
 import { languageToAsset } from './helpers';
-import { SetContactAttribFormHelper } from './SetContactAttribFormHelper';
+import {
+    SetContactAttribFormHelper,
+    SetContactAttribFormHelperActionTypes
+} from './SetContactAttribFormHelper';
 
 const formHelper = new SetContactAttribFormHelper();
 
@@ -18,51 +21,70 @@ const setContactNameAction = createSetContactNameAction();
 const setContactLanguageAction = createSetContactLanguageAction();
 const setContactChannelAction = createSetContactChannelAction();
 
-const setContactFieldFormState = formHelper.actionToState(
-    setContactFieldAction,
+const setContactFieldFormState = formHelper.initializeForm(
+    {
+        originalNode: null,
+        originalAction: setContactFieldAction
+    },
     Types.set_contact_field
 );
 
-const setContactNameFormState = formHelper.actionToState(
-    setContactNameAction,
+const setContactNameFormState = formHelper.initializeForm(
+    {
+        originalNode: null,
+        originalAction: setContactNameAction
+    },
     Types.set_contact_name
 );
 
-const setContactLanguageFormState = formHelper.actionToState(
-    setContactLanguageAction,
+const setContactLanguageFormState = formHelper.initializeForm(
+    {
+        originalNode: null,
+        originalAction: setContactLanguageAction
+    },
     Types.set_contact_language
 );
 
-const setContactChannelFormState = formHelper.actionToState(
-    setContactChannelAction,
+const setContactChannelFormState = formHelper.initializeForm(
+    {
+        originalNode: null,
+        originalAction: setContactChannelAction
+    },
     Types.set_contact_channel
 );
 
 describe('SetContactAttribFormHelper', () => {
+    const init = (type: SetContactAttribFormHelperActionTypes) => {
+        return formHelper.initializeForm({ originalNode: null }, type);
+    };
+
     describe('actionToState', () => {
         it('should provide initial form state from scratch: set_contact_field', () => {
-            const formState = formHelper.actionToState(null, Types.set_contact_field);
+            const formState = init(Types.set_contact_field);
 
             expect(formState.value).toEqual({ value: '' });
             expect(formState).toMatchSnapshot(Types.set_contact_field);
         });
 
         it('should provide initial form state from scratch: set_contact_name', () => {
-            const formState = formHelper.actionToState(null, Types.set_contact_name);
+            const formState = init(Types.set_contact_name);
 
             expect(formState.value).toEqual({ value: '' });
             expect(formState).toMatchSnapshot(Types.set_contact_name);
         });
 
         it('should provide initial form state from scratch: set_contact_language', () => {
-            const formState = formHelper.actionToState(null, Types.set_contact_language);
+            const formState = init(Types.set_contact_language);
 
             expect(formState.value).toEqual({ value: removeAsset });
             expect(formState).toMatchSnapshot(Types.set_contact_language);
 
             // action has language
-            const formStateWithAction = formHelper.actionToState(
-                setContactLanguageAction,
+            const formStateWithAction = formHelper.initializeForm(
+                {
+                    originalNode: null,
+                    originalAction: setContactLanguageAction
+                },
                 Types.set_contact_language
             );
 
@@ -74,8 +96,11 @@ describe('SetContactAttribFormHelper', () => {
             );
 
             // action doesn't have language
-            const formStateWithClearedAction = formHelper.actionToState(
-                { ...setContactLanguageAction, language: '' },
+            const formStateWithClearedAction = formHelper.initializeForm(
+                {
+                    originalNode: null,
+                    originalAction: { ...setContactLanguageAction, language: '' }
+                },
                 Types.set_contact_language
             );
 
@@ -88,14 +113,17 @@ describe('SetContactAttribFormHelper', () => {
         });
 
         it('should provide initial form state from scratch: set_contact_channel', () => {
-            const formState = formHelper.actionToState(null, Types.set_contact_channel);
+            const formState = init(Types.set_contact_channel);
 
             expect(formState.value).toEqual({ value: removeAsset });
             expect(formState).toMatchSnapshot(Types.set_contact_channel);
 
             // action has channel
-            const formStateWithAction = formHelper.actionToState(
-                setContactChannelAction,
+            const formStateWithAction = formHelper.initializeForm(
+                {
+                    originalNode: null,
+                    originalAction: setContactChannelAction
+                },
                 Types.set_contact_channel
             );
 
@@ -111,8 +139,14 @@ describe('SetContactAttribFormHelper', () => {
             );
 
             // action doesn't have channel
-            const formStateWithClearedAction = formHelper.actionToState(
-                { ...setContactChannelAction, channel: {} as Channel },
+            const formStateWithClearedAction = formHelper.initializeForm(
+                {
+                    originalNode: null,
+                    originalAction: {
+                        ...setContactChannelAction,
+                        channel: {} as Channel
+                    } as SetContactChannel
+                },
                 Types.set_contact_channel
             );
 
@@ -166,8 +200,11 @@ describe('SetContactAttribFormHelper', () => {
                     ...setContactLanguageAction,
                     language: ''
                 };
-                const formStateWithClearedAction = formHelper.actionToState(
-                    clearedAction,
+                const formStateWithClearedAction = formHelper.initializeForm(
+                    {
+                        originalNode: null,
+                        originalAction: clearedAction
+                    },
                     Types.set_contact_language
                 );
 
@@ -197,8 +234,11 @@ describe('SetContactAttribFormHelper', () => {
                     ...setContactChannelAction,
                     channel: {}
                 };
-                const formStateWithClearedAction = formHelper.actionToState(
-                    clearedAction as SetContactChannel,
+                const formStateWithClearedAction = formHelper.initializeForm(
+                    {
+                        originalNode: null,
+                        originalAction: clearedAction
+                    },
                     Types.set_contact_channel
                 );
 

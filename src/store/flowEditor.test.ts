@@ -27,7 +27,7 @@ import {
     updateNodeEditorOpen,
     updatePendingConnection,
     updatePendingConnections,
-    updateTranslating,
+    updateTranslating
 } from './flowEditor';
 import { getFlowComponents, getGhostNode } from './helpers';
 

@@ -16,7 +16,7 @@ const baseProps: AddLabelsFormProps = {
     action,
     updateAction: jest.fn(),
     updateAddLabelsForm: jest.fn(),
-    form: formHelper.actionToState(action),
+    form: formHelper.initializeForm({ originalNode: null, originalAction: action }),
     formHelper
 };
 
@@ -35,7 +35,12 @@ describe(AddLabelsForm.name, () => {
             const emptyAction = createAddLabelsAction([]);
             const { wrapper, instance, props } = setup(true, {
                 action: { $set: emptyAction },
-                form: { $set: formHelper.actionToState(emptyAction) },
+                form: {
+                    $set: formHelper.initializeForm({
+                        originalNode: null,
+                        originalAction: emptyAction
+                    })
+                },
                 updateAction: { $set: jest.fn() },
                 updateAddLabelsForm: { $set: jest.fn().mockReturnValue(setTrue) }
             });

@@ -7,7 +7,14 @@ import { SetContactAttribFormHelper } from '../component/actions/SetContactAttri
 import { DragPoint } from '../component/Node';
 import { Operators } from '../config/operatorConfigs';
 import { getTypeConfig, Types } from '../config/typeConfigs';
-import { AnyAction, FlowDefinition, Languages, RouterTypes, SendMsg, SwitchRouter } from '../flowTypes';
+import {
+    AnyAction,
+    FlowDefinition,
+    Languages,
+    RouterTypes,
+    SendMsg,
+    SwitchRouter
+} from '../flowTypes';
 import AssetService from '../services/AssetService';
 import { createMockStore, prepMockDuxState } from '../testUtils';
 import { createSetContactFieldAction } from '../testUtils/assetCreators';
@@ -39,7 +46,7 @@ import {
     updateConnection,
     updateDimensions,
     updateExitDestination,
-    updateSticky,
+    updateSticky
 } from './thunks';
 
 const boring: FlowDefinition = require('../../__test__/flows/boring.json');
@@ -629,8 +636,6 @@ describe('Flow Manipulation', () => {
                         showAdvanced: false
                     })
                 );
-
-                expect(store).toHaveReduxActions([Constants.UPDATE_LOCALIZATIONS]);
             });
 
             it('should pick your action for you if necessary', () => {
@@ -646,7 +651,6 @@ describe('Flow Manipulation', () => {
                 store.dispatch(
                     onOpenNodeEditor({ originalNode: testNodes.node3.node, showAdvanced: false })
                 );
-                expect(store).toHaveReduxActions([Constants.UPDATE_LOCALIZATIONS]);
             });
 
             it('should only pick send_msg actions for you when translating', () => {
@@ -671,12 +675,14 @@ describe('Flow Manipulation', () => {
                 const newTypeConfig = getTypeConfig(Types.set_contact_field);
                 const newActionToEdit = createSetContactFieldAction();
                 const formHelper = new SetContactAttribFormHelper();
-                const newFormState = formHelper.actionToState(
-                    newActionToEdit,
+
+                const settings = { originalNode: null, originalAction: newActionToEdit };
+                const newFormState = formHelper.initializeForm(
+                    settings,
                     newTypeConfig.type as Types.set_contact_field
                 );
 
-                store.dispatch(handleTypeConfigChange(newTypeConfig, newActionToEdit));
+                store.dispatch(handleTypeConfigChange(newTypeConfig, settings));
 
                 expect(store).toHaveReduxActions([
                     Constants.UPDATE_TYPE_CONFIG,
