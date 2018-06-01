@@ -31,7 +31,7 @@ import {
     UINodeTypes,
     Wait,
     WaitTypes,
-    WebhookExitNames
+    WebhookExitNames,
 } from '../../flowTypes';
 import { Asset } from '../../services/AssetService';
 import { LocalizedObject } from '../../services/Localization';
@@ -56,7 +56,7 @@ import {
     updateShowResultName,
     UpdateShowResultName,
     UpdateUserAddingAction,
-    updateUserAddingAction
+    updateUserAddingAction,
 } from '../../store';
 import { IncrementSuggestedResultNameCount } from '../../store/actionTypes';
 import { incrementSuggestedResultNameCount, RenderNode } from '../../store/flowContext';

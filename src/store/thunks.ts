@@ -1,4 +1,5 @@
 import * as isEqual from 'fast-deep-equal';
+import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 
@@ -16,7 +17,7 @@ import {
     SendMsg,
     StickyNote,
     SwitchRouter,
-    WaitTypes
+    WaitTypes,
 } from '../flowTypes';
 import AssetService, { Asset } from '../services/AssetService';
 import { NODE_SPACING, timeEnd, timeStart } from '../utils';
@@ -29,7 +30,7 @@ import {
     updateDefinition,
     updateLanguages,
     updateNodes,
-    updateResultNames
+    updateResultNames,
 } from './flowContext';
 import {
     updateCreateNodePosition,
@@ -40,7 +41,7 @@ import {
     updateNodeDragging,
     updateNodeEditorOpen,
     updatePendingConnection,
-    updateTranslating
+    updateTranslating,
 } from './flowEditor';
 import {
     determineConfigType,
@@ -51,7 +52,7 @@ import {
     getFlowComponents,
     getGhostNode,
     getLocalizations,
-    getSuggestedResultName
+    getSuggestedResultName,
 } from './helpers';
 import * as mutators from './mutators';
 import {
@@ -63,7 +64,7 @@ import {
     updateShowResultName,
     updateTimeout,
     updateTypeConfig,
-    updateUserAddingAction
+    updateUserAddingAction,
 } from './nodeEditor';
 import AppState from './state';
 
@@ -364,7 +365,7 @@ export const removeNode = (node: FlowNode) => (
     // Remove result name if node has one
     const { flowContext: { nodes, resultNames } } = getState();
     if (resultNames.hasOwnProperty(node.uuid)) {
-        const toKeep = mutators.removeProperties(resultNames, node.uuid);
+        const toKeep = mutate(resultNames, { $unset: [node.uuid] });
         dispatch(updateResultNames(toKeep));
     }
 
@@ -583,10 +584,11 @@ export const onUpdateAction = (action: AnyAction) => (
             ui: { position: createNodePosition },
             inboundConnections: { [pendingConnection.exitUUID]: pendingConnection.nodeUUID }
         };
-
         updatedNodes = mutators.mergeNode(nodes, newNode);
     } else if (userAddingAction) {
         updatedNodes = mutators.addAction(nodes, originalNode.uuid, action);
+    } else if (originalNode.hasOwnProperty('router')) {
+        updatedNodes = mutators.spliceInAction(nodes, originalNode.uuid, action);
     } else {
         updatedNodes = mutators.updateAction(nodes, originalNode.uuid, action);
     }
