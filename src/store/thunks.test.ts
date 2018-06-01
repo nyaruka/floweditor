@@ -1,25 +1,18 @@
 import mutate from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
 
-import { Constants, LocalizationUpdates } from '.';
+import { Constants, initialState, LocalizationUpdates } from '.';
 import * as config from '../../__test__/config';
 import { SetContactAttribFormHelper } from '../component/actions/SetContactAttrib/SetContactAttribFormHelper';
 import { DragPoint } from '../component/Node';
 import { Operators } from '../config/operatorConfigs';
 import { getTypeConfig, Types } from '../config/typeConfigs';
-import {
-    AnyAction,
-    FlowDefinition,
-    Languages,
-    RouterTypes,
-    SendMsg,
-    SwitchRouter
-} from '../flowTypes';
+import { AnyAction, FlowDefinition, Languages, RouterTypes, SendMsg, SwitchRouter } from '../flowTypes';
 import AssetService from '../services/AssetService';
 import { createMockStore, prepMockDuxState } from '../testUtils';
-import { createSetContactFieldAction } from '../testUtils/assetCreators';
+import { createSendMsgAction, createSetContactFieldAction } from '../testUtils/assetCreators';
 import { push } from '../utils';
-import { RenderNode, RenderNodeMap } from './flowContext';
+import { RenderNode, RenderNodeMap, resultNames } from './flowContext';
 import { getFlowComponents, getSuggestedResultName, getUniqueDestinations } from './helpers';
 import {
     addNode,
@@ -46,7 +39,7 @@ import {
     updateConnection,
     updateDimensions,
     updateExitDestination,
-    updateSticky
+    updateSticky,
 } from './thunks';
 
 const boring: FlowDefinition = require('../../__test__/flows/boring.json');
@@ -349,6 +342,29 @@ describe('Flow Manipulation', () => {
                     expect(nodes).toMatchSnapshot('Remove ' + nodeUUID);
                 });
             }
+
+            it("should remove nodes's result name from our results completion option map", () => {
+                const { resultNamesMap, renderNodeMap } = getFlowComponents(boring);
+                const expectedResultNames = mutate(resultNamesMap, {
+                    $unset: [testNodes.node1.node.uuid]
+                });
+
+                // Store should have result completion option map
+                store = createMockStore(
+                    mutate(initialState, {
+                        flowContext: {
+                            nodes: { $set: renderNodeMap },
+                            resultNames: { $set: resultNamesMap }
+                        }
+                    })
+                );
+
+                store.dispatch(removeNode(testNodes.node1.node));
+
+                expect(store).toHavePayload(Constants.UPDATE_RESULT_NAMES, {
+                    resultNames: expectedResultNames
+                });
+            });
         });
     });
 
@@ -422,6 +438,37 @@ describe('Flow Manipulation', () => {
             const actions = nodes.node0.node.actions;
             expect(actions.length).toBe(5);
             expect((actions[4] as SendMsg).text).toBe('A fifth action for our first node');
+        });
+
+        it('should replace router node with an action', () => {
+            const { node1: originalRenderNode } = testNodes;
+            const incomingAction = createSendMsgAction();
+            const { renderNodeMap } = getFlowComponents(boring);
+
+            store = createMockStore(
+                mutate(initialState, {
+                    flowContext: {
+                        nodes: { $set: renderNodeMap }
+                    },
+                    nodeEditor: {
+                        settings: { $set: { originalNode: originalRenderNode.node } }
+                    }
+                })
+            );
+
+            const updatedNodes = store.dispatch(onUpdateAction(incomingAction));
+            const updatedRenderNode = updatedNodes[originalRenderNode.node.uuid];
+
+            // Was the action inserted?
+            expect(updatedRenderNode.node.actions[0]).toEqual(incomingAction);
+            // Were the node's exits updated?
+            expect(updatedRenderNode.node.exits).toEqual([
+                { ...originalRenderNode.node.exits[0], name: null }
+            ]);
+            // Was the router offed?
+            expect(updatedRenderNode.node.hasOwnProperty('router')).toBeFalsy();
+            // Was the ui type offed?
+            expect(updatedRenderNode.ui.hasOwnProperty('type')).toBeFalsy();
         });
 
         it('should throw if originalNode is null', () => {
@@ -675,7 +722,6 @@ describe('Flow Manipulation', () => {
                 const newTypeConfig = getTypeConfig(Types.set_contact_field);
                 const newActionToEdit = createSetContactFieldAction();
                 const formHelper = new SetContactAttribFormHelper();
-
                 const settings = { originalNode: null, originalAction: newActionToEdit };
                 const newFormState = formHelper.initializeForm(
                     settings,
@@ -696,7 +742,7 @@ describe('Flow Manipulation', () => {
                 });
             });
 
-            it('should generate a suggested result name', () => {
+            it('should generate a suggested result name when originalNode is an action', () => {
                 const { renderNodeMap, resultNamesMap } = getFlowComponents(boring);
                 const newTypeConfig = getTypeConfig(Types.wait_for_response);
                 const { nodes: [originalNode] } = boring;

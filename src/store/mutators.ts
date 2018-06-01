@@ -166,18 +166,24 @@ export const spliceInAction = (
     nodeUUID: string,
     action: AnyAction
 ): RenderNodeMap => {
-    const originalRenderNode = nodes[nodeUUID];
-    const newRenderNode = mutate(originalRenderNode, {
-        node: {
-            actions: { $set: [action] },
-            exits: { $set: [{ ...originalRenderNode.node.exits[0], name: null }] },
-            $unset: ['router']
-        },
-        ui: {
-            $unset: ['type']
-        }
-    });
-    return mergeNode(nodes, newRenderNode);
+    const { [nodeUUID]: originalRenderNode } = nodes;
+    return mergeNode(
+        nodes,
+        mutate(originalRenderNode, {
+            node: {
+                // Append action to node
+                actions: { $set: [action] },
+                // Off any exit but the first, remove the first's name
+                exits: { $set: [{ ...originalRenderNode.node.exits[0], name: null }] },
+                // Off the node's router
+                $unset: ['router']
+            },
+            ui: {
+                // Off the ui type
+                $unset: ['type']
+            }
+        })
+    );
 };
 
 /** Removes a specific action from a node */
