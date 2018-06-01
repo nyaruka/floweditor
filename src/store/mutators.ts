@@ -1,7 +1,8 @@
 import { v4 as generateUUID } from 'uuid';
 
 import { LocalizationUpdates } from '.';
-import { AnyAction, Dimensions, FlowDefinition, FlowNode, StickyNote } from '../flowTypes';
+import { DefaultExitNames } from '../component/NodeEditor/NodeEditor';
+import { AnyAction, Dimensions, Exit, FlowDefinition, FlowNode, StickyNote } from '../flowTypes';
 import { merge, push, set, snapToGrid, splice, unset } from '../utils';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { getActionIndex, getExitIndex, getNode } from './helpers';
@@ -13,6 +14,9 @@ export const uniquifyNode = (newNode: FlowNode): FlowNode => {
     // Give our node a unique uuid
     return mutate(newNode, merge({ uuid: generateUUID() }));
 };
+
+export const getOtherExit = (exits: Exit[]) =>
+    exits.find(({ name }) => name === DefaultExitNames.Other);
 
 /**
  * Update the destination for a specific exit. Updates destination_node_uuid and
@@ -167,14 +171,16 @@ export const spliceInAction = (
     action: AnyAction
 ): RenderNodeMap => {
     const { [nodeUUID]: originalRenderNode } = nodes;
+    const otherExit = getOtherExit(originalRenderNode.node.exits);
+    const newExits: Exit[] = otherExit ? [{ ...otherExit, name: null }] : [];
     return mergeNode(
         nodes,
         mutate(originalRenderNode, {
             node: {
                 // Append action to node
                 actions: { $set: [action] },
-                // Off any exit but the first, remove the first's name
-                exits: { $set: [{ ...originalRenderNode.node.exits[0], name: null }] },
+                // Off any exit but the 'other', remove name to ensure it isn't rendered
+                exits: { $set: newExits },
                 // Off the node's router
                 $unset: ['router']
             },

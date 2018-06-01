@@ -14,6 +14,7 @@ import { createSendMsgAction, createSetContactFieldAction } from '../testUtils/a
 import { push } from '../utils';
 import { RenderNode, RenderNodeMap, resultNames } from './flowContext';
 import { getFlowComponents, getSuggestedResultName, getUniqueDestinations } from './helpers';
+import { getOtherExit } from './mutators';
 import {
     addNode,
     disconnectExit,
@@ -440,7 +441,7 @@ describe('Flow Manipulation', () => {
             expect((actions[4] as SendMsg).text).toBe('A fifth action for our first node');
         });
 
-        it('should replace router node with an action', () => {
+        it('should replace router node with a single-action node', () => {
             const { node1: originalRenderNode } = testNodes;
             const incomingAction = createSendMsgAction();
             const { renderNodeMap } = getFlowComponents(boring);
@@ -463,7 +464,10 @@ describe('Flow Manipulation', () => {
             expect(updatedRenderNode.node.actions[0]).toEqual(incomingAction);
             // Were the node's exits updated?
             expect(updatedRenderNode.node.exits).toEqual([
-                { ...originalRenderNode.node.exits[0], name: null }
+                {
+                    ...getOtherExit(originalRenderNode.node.exits),
+                    name: null
+                }
             ]);
             // Was the router offed?
             expect(updatedRenderNode.node.hasOwnProperty('router')).toBeFalsy();
