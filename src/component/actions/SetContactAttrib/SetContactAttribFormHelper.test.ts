@@ -2,20 +2,19 @@ import { Types } from '../../../config/typeConfigs';
 import { Channel, SetContactChannel } from '../../../flowTypes';
 import { AssetType, removeAsset } from '../../../services/AssetService';
 import {
+    createSendMsgAction,
     createSetContactChannelAction,
     createSetContactFieldAction,
     createSetContactLanguageAction,
-    createSetContactNameAction
+    createSetContactNameAction,
 } from '../../../testUtils/assetCreators';
 import { getLanguage } from '../../../utils/languageMap';
 import { languageToAsset } from './helpers';
-import {
-    SetContactAttribFormHelper,
-    SetContactAttribFormHelperActionTypes
-} from './SetContactAttribFormHelper';
+import { SetContactAttribFormHelper, SetContactAttribFormHelperActionTypes } from './SetContactAttribFormHelper';
 
 const formHelper = new SetContactAttribFormHelper();
 
+const sendMsgAction = createSendMsgAction();
 const setContactFieldAction = createSetContactFieldAction();
 const setContactNameAction = createSetContactNameAction();
 const setContactLanguageAction = createSetContactLanguageAction();

@@ -34,7 +34,7 @@ export class SetContactAttribFormHelper implements FormHelper {
         let formState: SetContactAttribFormState;
 
         // if we have an existing contact attribute action, use it
-        if (settings && settings.originalAction) {
+        if (settings.originalAction) {
             const action = settings.originalAction as SetContactAttribute;
             switch (action.type) {
                 case Types.set_contact_field:

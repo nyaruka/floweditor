@@ -8,6 +8,7 @@ import { Asset, Assets, AssetType } from '../../services/AssetService';
 import { AppState, DispatchWithState, HandleTypeConfigChange, handleTypeConfigChange } from '../../store';
 import {
     AssetEntry,
+    NodeEditorSettings,
     SetContactAttribFormState,
     SetContactChannelFormState,
     SetContactFieldFormState,
@@ -30,6 +31,7 @@ export interface AttribElementPassedProps extends FormElementProps {
 
 export interface AttribElementStoreProps {
     attribute: AssetEntry;
+    settings: NodeEditorSettings;
     handleTypeConfigChange: HandleTypeConfigChange;
 }
 
@@ -81,7 +83,7 @@ export class AttribElement extends React.Component<AttribElementProps> {
         const [attribute] = selected;
         const nextConfig = getNextConfig(attribute.type);
 
-        this.props.handleTypeConfigChange(nextConfig, null);
+        this.props.handleTypeConfigChange(nextConfig, this.props.settings);
 
         if (this.props.onChange) {
             this.props.onChange(attribute);
@@ -131,8 +133,9 @@ const selectAttribute = (form: SetContactAttribFormState) =>
     (form as SetContactChannelFormState).channel;
 
 /* istanbul ignore next */
-const mapStateToProps = ({ nodeEditor: { form } }: AppState) => ({
-    attribute: selectAttribute(form as SetContactAttribFormState)
+const mapStateToProps = ({ nodeEditor: { form, settings } }: AppState) => ({
+    attribute: selectAttribute(form as SetContactAttribFormState),
+    settings
 });
 
 /* istanbul ignore next */

@@ -526,13 +526,11 @@ export const handleTypeConfigChange = (typeConfig: Type, settings: NodeEditorSet
     // now update our form accordingly
     if (typeConfig.formHelper) {
         // only use the original action if it is the same type
-        if (settings) {
-            settings.originalAction =
-                settings.originalAction && settings.originalAction.type === typeConfig.type
-                    ? settings.originalAction
-                    : null;
-        }
-        dispatch(updateForm(typeConfig.formHelper.initializeForm(settings, typeConfig.type)));
+        const customSettings =
+            settings.originalAction && settings.originalAction.type === typeConfig.type
+                ? settings
+                : { ...settings, originalAction: null };
+        dispatch(updateForm(typeConfig.formHelper.initializeForm(customSettings, typeConfig.type)));
     }
 };
 
