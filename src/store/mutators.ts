@@ -152,14 +152,19 @@ export const addAction = (
  * @param nodeUUID
  * @param action
  */
-export const updateAction = (nodes: RenderNodeMap, nodeUUID: string, action: AnyAction) => {
+export const updateAction = (
+    nodes: RenderNodeMap,
+    nodeUUID: string,
+    newAction: AnyAction,
+    originalAction?: AnyAction
+) => {
     const nodeToEdit = getNode(nodes, nodeUUID);
     // If we have existing actions, find our action and update it
-    const actionIdx = getActionIndex(nodeToEdit.node, action.uuid);
+    const actionIdx = originalAction ? getActionIndex(nodeToEdit.node, originalAction.uuid) : 0;
     return mutate(nodes, {
         [nodeUUID]: {
             node: {
-                actions: { [actionIdx]: set(action) }
+                actions: { [actionIdx]: set(newAction) }
             }
         }
     });

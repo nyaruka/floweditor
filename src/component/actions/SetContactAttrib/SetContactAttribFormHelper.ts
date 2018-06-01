@@ -5,25 +5,19 @@ import {
     SetContactChannel,
     SetContactField,
     SetContactLanguage,
-    SetContactName
+    SetContactName,
 } from '../../../flowTypes';
 import { removeAsset } from '../../../services/AssetService';
 import {
+    NodeEditorSettings,
     SetContactAttribFormState,
     SetContactChannelFormState,
     SetContactFieldFormState,
     SetContactLanguageFormState,
     SetContactNameFormState,
-    NodeEditorSettings
 } from '../../../store/nodeEditor';
 import { getLanguage } from '../../../utils/languageMap';
-import {
-    assetToField,
-    channelToAsset,
-    fieldToAsset,
-    languageToAsset,
-    propertyToAsset
-} from './helpers';
+import { assetToField, channelToAsset, fieldToAsset, languageToAsset, propertyToAsset } from './helpers';
 
 export type SetContactAttribFormHelperActionTypes =
     | Types.set_contact_field
@@ -40,7 +34,7 @@ export class SetContactAttribFormHelper implements FormHelper {
         let formState: SetContactAttribFormState;
 
         // if we have an existing contact attribute action, use it
-        if (settings.originalAction) {
+        if (settings && settings.originalAction) {
             const action = settings.originalAction as SetContactAttribute;
             switch (action.type) {
                 case Types.set_contact_field:
