@@ -2,7 +2,7 @@ import { getTypeConfig } from '../../config';
 import { Types } from '../../config/typeConfigs';
 import { Asset, AssetType } from '../../services/AssetService';
 import { composeComponentTestUtils, configProviderContext, setMock } from '../../testUtils';
-import { createSetContactFieldAction } from '../../testUtils/assetCreators';
+import { createExit, createSendMsgAction, createSetContactFieldAction } from '../../testUtils/assetCreators';
 import { isOptionUnique, isValidNewOption } from '../../utils';
 import { fieldToAsset, propertyToAsset } from '../actions/SetContactAttrib/helpers';
 import { AttribElement, AttribElementProps, CREATE_PROMPT, createNewOption } from './AttribElement';
@@ -13,11 +13,20 @@ const attribute: Asset = {
     type: AssetType.Name
 };
 
+const originalAction = createSendMsgAction();
+
+const originalNode = {
+    uuid: 'original-node-0',
+    actions: [originalAction],
+    exits: [createExit()]
+};
+
 const baseProps: AttribElementProps = {
     name: 'Attribute',
     attribute: { value: attribute },
     typeConfig: getTypeConfig(Types.set_contact_name),
     assets: configProviderContext.assetService.getFieldAssets(),
+    settings: { originalAction, originalNode },
     handleTypeConfigChange: jest.fn(),
     onChange: jest.fn()
 };
@@ -68,7 +77,7 @@ describe(AttribElement.name, () => {
                 expect(props.handleTypeConfigChange).toHaveBeenCalledTimes(1);
                 expect(props.handleTypeConfigChange).toHaveBeenCalledWith(
                     getTypeConfig(Types.set_contact_name),
-                    null
+                    props.settings
                 );
             });
 
@@ -87,7 +96,7 @@ describe(AttribElement.name, () => {
                 expect(props.handleTypeConfigChange).toHaveBeenCalledTimes(1);
                 expect(props.handleTypeConfigChange).toHaveBeenCalledWith(
                     getTypeConfig(Types.set_contact_field),
-                    null
+                    props.settings
                 );
             });
 
@@ -113,7 +122,7 @@ describe(AttribElement.name, () => {
                 expect(props.handleTypeConfigChange).toHaveBeenCalledTimes(1);
                 expect(props.handleTypeConfigChange).toHaveBeenCalledWith(
                     getTypeConfig(Types.set_contact_name),
-                    null
+                    props.settings
                 );
             });
         });

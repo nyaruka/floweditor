@@ -1,5 +1,6 @@
 import { Types } from '../config/typeConfigs';
 import { FlowDefinition, SendMsg } from '../flowTypes';
+import { createSendMsgAction } from '../testUtils/assetCreators';
 import { getActionIndex, getExitIndex, getFlowComponents, getNode } from './helpers';
 import {
     addAction,
@@ -89,28 +90,22 @@ describe('mutators', () => {
     });
 
     describe('updateAction()', () => {
-        it("should throw if trying to update an action that doesn't exist", () => {
-            expect(() => {
-                updateAction(nodes, 'node0', {
-                    uuid: 'missing-action',
-                    type: Types.send_msg,
-                    text: 'Hello World'
-                } as SendMsg);
-            }).toThrowError('Cannot find action missing-action');
-        });
-
         it('should update an action that was added', () => {
-            let updated = addAction(nodes, 'node0', {
+            const originalAction = {
                 uuid: 'node0_action3',
                 type: Types.send_msg,
                 text: 'Hello World'
-            } as SendMsg);
+            } as SendMsg;
 
-            updated = updateAction(updated, 'node0', {
+            const newAction = {
                 uuid: 'node0_action3',
                 type: Types.send_msg,
                 text: 'Goodbye World'
-            } as SendMsg);
+            } as SendMsg;
+
+            let updated = addAction(nodes, 'node0', originalAction);
+
+            updated = updateAction(updated, 'node0', newAction, originalAction);
 
             // we added one to get to four and then edited it
             expect(updated.node0.node.actions.length).toBe(5);
@@ -119,6 +114,19 @@ describe('mutators', () => {
             expect(action.type).toBe(Types.send_msg);
             expect(action.text).toBe('Goodbye World');
             expect(updated).toMatchSnapshot();
+        });
+
+        it('should add the updated action at the index of the original action', () => {
+            const indexToUpdate = 1;
+            const newAction = createSendMsgAction();
+            const updated = updateAction(
+                nodes,
+                'node0',
+                newAction,
+                nodes.node0.node.actions[indexToUpdate]
+            );
+
+            expect(updated.node0.node.actions[indexToUpdate]).toEqual(newAction);
         });
     });
 

@@ -526,13 +526,11 @@ export const handleTypeConfigChange = (typeConfig: Type, settings: NodeEditorSet
     // now update our form accordingly
     if (typeConfig.formHelper) {
         // only use the original action if it is the same type
-        if (settings) {
-            settings.originalAction =
-                settings.originalAction && settings.originalAction.type === typeConfig.type
-                    ? settings.originalAction
-                    : null;
-        }
-        dispatch(updateForm(typeConfig.formHelper.initializeForm(settings, typeConfig.type)));
+        const customSettings =
+            settings.originalAction && settings.originalAction.type === typeConfig.type
+                ? settings
+                : { ...settings, originalAction: null };
+        dispatch(updateForm(typeConfig.formHelper.initializeForm(customSettings, typeConfig.type)));
     }
 };
 
@@ -569,7 +567,7 @@ export const onUpdateAction = (action: AnyAction) => (
     if (settings == null || settings.originalNode == null) {
         throw new Error('Need originalNode in settings to update an action');
     }
-    const { originalNode } = settings;
+    const { originalNode, originalAction } = settings;
 
     let updatedNodes = nodes;
     const creatingNewNode = pendingConnection && pendingConnection.nodeUUID !== originalNode.uuid;
@@ -590,7 +588,7 @@ export const onUpdateAction = (action: AnyAction) => (
     } else if (originalNode.hasOwnProperty('router')) {
         updatedNodes = mutators.spliceInAction(nodes, originalNode.uuid, action);
     } else {
-        updatedNodes = mutators.updateAction(nodes, originalNode.uuid, action);
+        updatedNodes = mutators.updateAction(nodes, originalNode.uuid, action, originalAction);
     }
 
     timeEnd('onUpdateAction');
