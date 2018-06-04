@@ -158,9 +158,9 @@ export const updateAction = (
     newAction: AnyAction,
     originalAction?: AnyAction
 ) => {
-    const nodeToEdit = getNode(nodes, nodeUUID);
+    const originalNode = getNode(nodes, nodeUUID);
     // If we have existing actions, find our action and update it
-    const actionIdx = originalAction ? getActionIndex(nodeToEdit.node, originalAction.uuid) : 0;
+    const actionIdx = originalAction ? getActionIndex(originalNode.node, originalAction.uuid) : 0;
     return mutate(nodes, {
         [nodeUUID]: {
             node: {
