@@ -10,7 +10,7 @@ import ActionTypes, {
     UpdateDependenciesAction,
     UpdateLanguagesAction,
     UpdateNodesAction,
-    UpdateResultsAction,
+    UpdateResultMapAction,
 } from './actionTypes';
 import Constants from './constants';
 
@@ -29,8 +29,13 @@ export interface CompletionOption {
     description: string;
 }
 
-export interface Results {
+export interface ResultMap {
     [nodeUUID: string]: string;
+}
+
+export interface Results {
+    resultMap: ResultMap;
+    suggestedNameCount: number;
 }
 
 export interface FlowContext {
@@ -38,7 +43,6 @@ export interface FlowContext {
     baseLanguage: Asset;
     languages: Asset[];
     results: Results;
-    suggestedResultNameCount: number;
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
 }
@@ -49,8 +53,10 @@ export const initialState: FlowContext = {
     dependencies: null,
     baseLanguage: null,
     languages: [],
-    results: {},
-    suggestedResultNameCount: 1,
+    results: {
+        resultMap: {},
+        suggestedNameCount: 1
+    },
     nodes: {}
 };
 
@@ -90,10 +96,10 @@ export const updateLanguages = (languages: Asset[]): UpdateLanguagesAction => ({
     }
 });
 
-export const updateResults = (results: Results): UpdateResultsAction => ({
-    type: Constants.UPDATE_RESULTS,
+export const updateResultMap = (resultMap: ResultMap): UpdateResultMapAction => ({
+    type: Constants.UPDATE_RESULT_MAP,
     payload: {
-        results
+        resultMap
     }
 });
 
@@ -135,17 +141,20 @@ export const dependencies = (
     }
 };
 
-export const results = (state: Results = initialState.results, action: ActionTypes) => {
+export const resultMap = (
+    state: ResultMap = initialState.results.resultMap,
+    action: ActionTypes
+) => {
     switch (action.type) {
-        case Constants.UPDATE_RESULTS:
-            return action.payload.results;
+        case Constants.UPDATE_RESULT_MAP:
+            return action.payload.resultMap;
         default:
             return state;
     }
 };
 
-export const suggestedResultNameCount = (
-    state: number = initialState.suggestedResultNameCount,
+export const suggestedNameCount = (
+    state: number = initialState.results.suggestedNameCount,
     action: ActionTypes
 ) => {
     switch (action.type) {
@@ -174,13 +183,17 @@ export const languages = (state: Asset[] = initialState.languages, action: Actio
     }
 };
 
+export const results = combineReducers({
+    resultMap,
+    suggestedNameCount
+});
+
 // Root reducer
 export default combineReducers({
     definition,
     nodes,
     dependencies,
     results,
-    suggestedResultNameCount,
     baseLanguage,
     languages
 });

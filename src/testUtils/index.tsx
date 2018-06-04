@@ -13,6 +13,7 @@ import { fakePropType } from '../config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
 import AssetService from '../services/AssetService';
 import { AppState, createStore, initialState } from '../store';
+import { RenderNodeMap } from '../store/flowContext';
 import { getFlowComponents } from '../store/helpers';
 import { merge, set } from '../utils';
 import { getLanguage } from '../utils/languageMap';
@@ -152,21 +153,17 @@ export const composeComponentTestUtils = <P extends {}>(
     spyOn: composeSpy(Component)
 });
 
-export const prepMockDuxState = () => {
+export const prepMockDuxState = (): { testNodes: RenderNodeMap; mockDuxState: AppState } => {
     const testNodes = getFlowComponents(boring).renderNodeMap;
     return {
         testNodes,
         mockDuxState: {
+            ...initialState,
             flowContext: {
+                ...initialState.flowContext,
                 definition: boring,
-                nodes: testNodes,
-                groups: [],
-                contactFields: [],
-                results: {},
-                suggestedResultNameCount: 1
-            },
-            flowEditor: { flowUI: {} },
-            nodeEditor: { settings: { originalNode: null } }
+                nodes: testNodes
+            }
         }
     };
 };

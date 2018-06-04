@@ -4,7 +4,7 @@ import { AnyAction, FlowDefinition, FlowNode, FlowPosition } from '../flowTypes'
 import { Asset } from '../services/AssetService';
 import { LocalizedObject } from '../services/Localization';
 import Constants from './constants';
-import { RenderNode, Results } from './flowContext';
+import { RenderNode, ResultMap } from './flowContext';
 import { DragSelection } from './flowEditor';
 import { NodeEditorForm, NodeEditorSettings } from './nodeEditor';
 
@@ -60,8 +60,8 @@ interface RemovePendingConnectionPayload {
     nodeUUID: string;
 }
 
-interface UpdateResultsPayload {
-    results: Results;
+interface UpdateResultMapPayload {
+    resultMap: ResultMap;
 }
 
 interface UpdateNodesPayload {
@@ -183,7 +183,7 @@ export type RemovePendingConnectionAction = DuxAction<
     RemovePendingConnectionPayload
 >;
 
-export type UpdateResultsAction = DuxAction<Constants.UPDATE_RESULTS, UpdateResultsPayload>;
+export type UpdateResultMapAction = DuxAction<Constants.UPDATE_RESULT_MAP, UpdateResultMapPayload>;
 
 export type IncrementSuggestedResultNameCountAction = DuxAction<
     Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT
@@ -285,7 +285,7 @@ type ActionTypes =
     | UpdateDependenciesAction
     | UpdatePendingConnectionsAction
     | RemovePendingConnectionAction
-    | UpdateResultsAction
+    | UpdateResultMapAction
     | IncrementSuggestedResultNameCountAction
     | UpdateNodesAction
     | UpdateNodeEditorOpenAction

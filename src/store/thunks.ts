@@ -30,7 +30,7 @@ import {
     updateDefinition,
     updateLanguages,
     updateNodes,
-    updateResults,
+    updateResultMap,
 } from './flowContext';
 import {
     updateCreateNodePosition,
@@ -169,7 +169,7 @@ export const initializeFlow = (definition: FlowDefinition, assetService: AssetSe
     dispatch(updateNodes(flowComponents.renderNodeMap));
 
     // Take stock of existing results
-    dispatch(updateResults(flowComponents.resultMap));
+    dispatch(updateResultMap(flowComponents.resultMap));
     // tslint:disable-next-line:forin
     for (const key in flowComponents.resultMap) {
         dispatch(incrementSuggestedResultNameCount());
@@ -363,10 +363,10 @@ export const removeNode = (node: FlowNode) => (
     getState: GetState
 ): RenderNodeMap => {
     // Remove result name if node has one
-    const { flowContext: { nodes, results } } = getState();
-    if (results.hasOwnProperty(node.uuid)) {
-        const toKeep = mutate(results, { $unset: [node.uuid] });
-        dispatch(updateResults(toKeep));
+    const { flowContext: { nodes, results: { resultMap } } } = getState();
+    if (resultMap.hasOwnProperty(node.uuid)) {
+        const toKeep = mutate(resultMap, { $unset: [node.uuid] });
+        dispatch(updateResultMap(toKeep));
     }
 
     const updated = mutators.removeNodeAndRemap(nodes, node.uuid);
@@ -508,7 +508,7 @@ export const handleTypeConfigChange = (typeConfig: Type, settings: NodeEditorSet
 ) => {
     // Generate suggested result name if user is changing
     // an existing node to a `wait_for_response` router.
-    const { flowContext: { suggestedResultNameCount }, nodeEditor } = getState();
+    const { flowContext: { results: { suggestedNameCount } }, nodeEditor } = getState();
     if (
         nodeEditor.settings &&
         nodeEditor.settings.originalNode &&
@@ -516,7 +516,7 @@ export const handleTypeConfigChange = (typeConfig: Type, settings: NodeEditorSet
             nodeEditor.settings.originalNode.wait.type !== WaitTypes.msg)
     ) {
         if (typeConfig.type === Types.wait_for_response) {
-            dispatch(updateResultName(getSuggestedResultName(suggestedResultNameCount)));
+            dispatch(updateResultName(getSuggestedResultName(suggestedNameCount)));
             dispatch(updateShowResultName(true));
         }
     }
@@ -526,13 +526,11 @@ export const handleTypeConfigChange = (typeConfig: Type, settings: NodeEditorSet
     // now update our form accordingly
     if (typeConfig.formHelper) {
         // only use the original action if it is the same type
-        if (settings) {
-            settings.originalAction =
-                settings.originalAction && settings.originalAction.type === typeConfig.type
-                    ? settings.originalAction
-                    : null;
-        }
-        dispatch(updateForm(typeConfig.formHelper.initializeForm(settings, typeConfig.type)));
+        const customSettings =
+            settings.originalAction && settings.originalAction.type === typeConfig.type
+                ? settings
+                : { ...settings, originalAction: null };
+        dispatch(updateForm(typeConfig.formHelper.initializeForm(customSettings, typeConfig.type)));
     }
 };
 
@@ -569,7 +567,7 @@ export const onUpdateAction = (action: AnyAction) => (
     if (settings == null || settings.originalNode == null) {
         throw new Error('Need originalNode in settings to update an action');
     }
-    const { originalNode } = settings;
+    const { originalNode, originalAction } = settings;
 
     let updatedNodes = nodes;
     const creatingNewNode = pendingConnection && pendingConnection.nodeUUID !== originalNode.uuid;
@@ -590,7 +588,7 @@ export const onUpdateAction = (action: AnyAction) => (
     } else if (originalNode.hasOwnProperty('router')) {
         updatedNodes = mutators.spliceInAction(nodes, originalNode.uuid, action);
     } else {
-        updatedNodes = mutators.updateAction(nodes, originalNode.uuid, action);
+        updatedNodes = mutators.updateAction(nodes, originalNode.uuid, action, originalAction);
     }
 
     timeEnd('onUpdateAction');
@@ -686,13 +684,13 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { flowContext: { nodes, suggestedResultNameCount } } = getState();
+    const { flowContext: { nodes, results: { suggestedNameCount } } } = getState();
 
     // We finished dragging a ghost node, create the spec for our new ghost component
     const [fromNodeUUID, fromExitUUID] = event.sourceId.split(':');
 
     const fromNode = nodes[fromNodeUUID];
-    const ghostNode = getGhostNode(fromNode, suggestedResultNameCount);
+    const ghostNode = getGhostNode(fromNode, suggestedNameCount);
 
     // Set our ghost spec so it gets rendered.
     dispatch(updateGhostNode(ghostNode));
@@ -720,7 +718,7 @@ export const onUpdateRouter = (node: RenderNode) => (
     getState: GetState
 ): RenderNodeMap => {
     const {
-        flowContext: { nodes, results },
+        flowContext: { nodes, results: { resultMap } },
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
         nodeEditor: { settings: { originalNode, originalAction } }
     } = getState();
@@ -741,15 +739,15 @@ export const onUpdateRouter = (node: RenderNode) => (
     }
 
     // update our result names map
-    const resultNamesToUpdate = {
-        ...results
+    const resultsToUpdate = {
+        ...resultMap
     };
     if (node.node.router && node.node.router.result_name) {
-        resultNamesToUpdate[node.node.uuid] = generateResultQuery(node.node.router.result_name);
+        resultsToUpdate[node.node.uuid] = generateResultQuery(node.node.router.result_name);
     } else {
-        delete resultNamesToUpdate[node.node.uuid];
+        delete resultsToUpdate[node.node.uuid];
     }
-    dispatch(updateResults(resultNamesToUpdate));
+    dispatch(updateResultMap(resultsToUpdate));
 
     if (originalNode && originalAction && previousNode) {
         const actionToSplice = previousNode.node.actions.find(

@@ -75,7 +75,7 @@ describe('helpers', () => {
                 'ecc70717-dd25-4795-8dc2-0361265a1e29': '@run.results.color'
             };
             const optionsList = getOptionsList(true, results);
-            const expectedLength = OPTIONS.length + 7; // accounting for result and its properties, e.g. @run.result.value
+            const expectedLength = OPTIONS.length + 7; // accounting for result (@run.results.result_1) and its properties (@run.results.result_1.value)
 
             expect(optionsList.length).toBe(expectedLength);
             expect(optionsList).toMatchSnapshot();

@@ -200,7 +200,7 @@ Object {
 }
 `;
 
-exports[`Flow Manipulation node editor normal editing should generate a suggested result name when originalNode is an action 1`] = `
+exports[`Flow Manipulation node editor normal editing should generate a suggested result name 1`] = `
 Array [
   "UPDATE_RESULT_NAME",
   Object {

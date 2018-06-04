@@ -4,7 +4,6 @@ import { Spanish } from '../testUtils/assetCreators';
 import {
     determineConfigType,
     generateResultQuery,
-    generateResultQuery,
     getCollisions,
     getFlowComponents,
     getGhostNode,
@@ -42,7 +41,7 @@ describe('helpers', () => {
             ]);
         });
 
-        it('should find result names in definition', () => {
+        it('should find results in definition', () => {
             const { resultMap } = getFlowComponents(definition);
             const expectedOutput = {
                 node1: generateResultQuery(definition.nodes[1].router.result_name)

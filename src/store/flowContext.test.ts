@@ -1,4 +1,5 @@
 import { FlowDefinition } from '../flowTypes';
+import { English, Spanish } from '../testUtils/assetCreators';
 import Constants from './constants';
 import reducer, {
     definition as definitionReducer,
@@ -7,12 +8,14 @@ import reducer, {
     initialState,
     nodes as nodesReducer,
     RenderNodeMap,
-    results as resultNamesReducer,
-    suggestedResultNameCount as suggestedResultNameCountReducer,
+    resultMap as resultMapReducer,
+    suggestedNameCount as suggestedNameCountReducer,
+    updateBaseLanguage,
     updateDefinition,
     updateDependencies,
+    updateLanguages,
     updateNodes,
-    updateResults,
+    updateResultMap,
 } from './flowContext';
 
 const boringFlow = require('../../__test__/flows/boring.json') as FlowDefinition;
@@ -50,26 +53,53 @@ describe('flowContext action creators', () => {
         });
     });
 
-    describe('updateResults', () => {
-        it('should create an action to update resultNames state', () => {
+    describe('updateResultMap', () => {
+        it('should create an action to update resultMap state', () => {
             const expectedAction = {
-                type: Constants.UPDATE_RESULTS,
+                type: Constants.UPDATE_RESULT_MAP,
                 payload: {
-                    results
+                    resultMap: results
                 }
             };
 
-            expect(updateResults(results)).toEqual(expectedAction);
+            expect(updateResultMap(results)).toEqual(expectedAction);
         });
     });
 
     describe('incrementSuggestedResultNameCount', () => {
-        it('should create an action to increment suggestedResultNameCount state', () => {
+        it('should create an action to increment suggestedNameCount state', () => {
             const expectedAction = {
                 type: Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT
             };
 
             expect(incrementSuggestedResultNameCount()).toEqual(expectedAction);
+        });
+    });
+
+    describe('updateBaseLanguage', () => {
+        it('should create an action to update base language', () => {
+            const expectedAction = {
+                type: Constants.UPDATE_BASE_LANGUAGE,
+                payload: {
+                    baseLanguage: English
+                }
+            };
+
+            expect(updateBaseLanguage(English)).toEqual(expectedAction);
+        });
+    });
+
+    describe('updateLanguages', () => {
+        it('should create an action to update base language', () => {
+            const languages = [English, Spanish];
+            const expectedAction = {
+                type: Constants.UPDATE_LANGUAGES,
+                payload: {
+                    languages
+                }
+            };
+
+            expect(updateLanguages(languages)).toEqual(expectedAction);
         });
     });
 });
@@ -103,25 +133,25 @@ describe('flowContext reducers', () => {
         });
     });
 
-    describe('results reducer', () => {
-        const reduce = action => resultNamesReducer(undefined, action);
+    describe('resultMap reducer', () => {
+        const reduce = action => resultMapReducer(undefined, action);
 
         it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.results);
+            expect(reduce({})).toEqual(initialState.results.resultMap);
         });
 
         it('should handle UPDATE_RESULTS', () => {
-            const action = updateResults(results);
+            const action = updateResultMap(results);
 
             expect(reduce(action)).toEqual(results);
         });
     });
 
-    describe('suggestedResultNameCount reducer', () => {
-        const reduce = action => suggestedResultNameCountReducer(undefined, action);
+    describe('suggestedNameCount reducer', () => {
+        const reduce = action => suggestedNameCountReducer(undefined, action);
 
         it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.suggestedResultNameCount);
+            expect(reduce({})).toEqual(initialState.results.suggestedNameCount);
         });
 
         it('should handle UPDATE_RESULTS', () => {

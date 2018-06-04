@@ -7,7 +7,7 @@ import { SetContactAttribFormHelper } from '../component/actions/SetContactAttri
 import { DragPoint } from '../component/Node';
 import { Operators } from '../config/operatorConfigs';
 import { getTypeConfig, Types } from '../config/typeConfigs';
-import { AnyAction, FlowDefinition, Languages, RouterTypes, SendMsg, SwitchRouter } from '../flowTypes';
+import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from '../flowTypes';
 import AssetService from '../services/AssetService';
 import { createMockStore, prepMockDuxState } from '../testUtils';
 import { createSendMsgAction, createSetContactFieldAction } from '../testUtils/assetCreators';
@@ -346,7 +346,7 @@ describe('Flow Manipulation', () => {
 
             it("should remove node's result name from our results completion option map", () => {
                 const { resultMap, renderNodeMap } = getFlowComponents(boring);
-                const expectedResults = mutate(resultMap, {
+                const expectedResultNames = mutate(resultMap, {
                     $unset: [testNodes.node1.node.uuid]
                 });
 
@@ -355,15 +355,17 @@ describe('Flow Manipulation', () => {
                     mutate(initialState, {
                         flowContext: {
                             nodes: { $set: renderNodeMap },
-                            results: { $set: resultMap }
+                            results: {
+                                resultMap: { $set: resultMap }
+                            }
                         }
                     })
                 );
 
                 store.dispatch(removeNode(testNodes.node1.node));
 
-                expect(store).toHavePayload(Constants.UPDATE_RESULTS, {
-                    results: expectedResults
+                expect(store).toHavePayload(Constants.UPDATE_RESULT_MAP, {
+                    resultMap: expectedResultNames
                 });
             });
         });
@@ -651,34 +653,40 @@ describe('Flow Manipulation', () => {
     });
 
     describe('node editor', () => {
-        const languages: Languages = {
-            eng: 'English',
-            spa: 'Spanish'
-        };
-
         beforeEach(() => {
             // now try a store with all the things set
-            store = createMockStore({
-                flowContext: { nodes: testNodes, definition: { localization: {} } },
-                flowEditor: { editorUI: {}, flowUI: {} },
-                nodeEditor: { settings: { originalNode: null } }
-            });
+            store = createMockStore(
+                mutate(initialState, {
+                    flowContext: { nodes: { $set: testNodes }, definition: { $set: boring } },
+                    nodeEditor: { settings: { $set: { originalNode: null } } }
+                })
+            );
         });
 
         describe('translation', () => {
             it('should edit in translation mode', () => {
-                store = createMockStore({
-                    flowContext: { nodes: testNodes, definition: { localization: {} } },
-                    flowEditor: {
-                        editorUI: { language: { iso: 'spa' }, translating: true },
-                        flowUI: {}
-                    },
-                    nodeEditor: {
-                        settings: {
-                            originalNode: null
+                store = createMockStore(
+                    mutate(initialState, {
+                        flowContext: {
+                            definition: { $set: boring },
+                            nodes: { $set: testNodes }
+                        },
+                        flowEditor: {
+                            editorUI: {
+                                language: { $set: { iso: 'spa' } },
+                                translating: { $set: false }
+                            },
+                            flowUI: { $set: {} }
+                        },
+                        nodeEditor: {
+                            settings: {
+                                $set: {
+                                    originalNode: null
+                                }
+                            }
                         }
-                    }
-                });
+                    })
+                );
 
                 store.dispatch(
                     onOpenNodeEditor({
@@ -690,14 +698,19 @@ describe('Flow Manipulation', () => {
             });
 
             it('should pick your action for you if necessary', () => {
-                store = createMockStore({
-                    flowContext: { nodes: testNodes, definition: { localization: {} } },
-                    flowEditor: {
-                        editorUI: { language: { iso: 'spa' }, translating: true },
-                        flowUI: {}
-                    },
-                    nodeEditor: { settings: { originalNode: null } }
-                });
+                store = createMockStore(
+                    mutate(initialState, {
+                        flowContext: { nodes: { $set: testNodes }, definition: { $set: boring } },
+                        flowEditor: {
+                            editorUI: {
+                                language: { $set: { iso: 'spa' } },
+                                translating: { $set: true }
+                            },
+                            flowUI: {}
+                        },
+                        nodeEditor: { settings: { $set: { originalNode: null } } }
+                    })
+                );
 
                 store.dispatch(
                     onOpenNodeEditor({ originalNode: testNodes.node3.node, showAdvanced: false })
@@ -705,14 +718,19 @@ describe('Flow Manipulation', () => {
             });
 
             it('should only pick send_msg actions for you when translating', () => {
-                store = createMockStore({
-                    flowContext: { nodes: testNodes, definition: { localization: {} } },
-                    flowEditor: {
-                        editorUI: { language: { iso: 'spa' }, translating: true },
-                        flowUI: {}
-                    },
-                    nodeEditor: {}
-                });
+                store = createMockStore(
+                    mutate(initialState, {
+                        flowContext: { nodes: { $set: testNodes }, definition: { $set: boring } },
+                        flowEditor: {
+                            editorUI: {
+                                language: { $set: { iso: 'spa' } },
+                                translating: { $set: true }
+                            },
+                            flowUI: {}
+                        },
+                        nodeEditor: { settings: { $set: { originalNode: null } } }
+                    })
+                );
 
                 store.dispatch(
                     onOpenNodeEditor({ originalNode: testNodes.node2.node, showAdvanced: false })
@@ -746,13 +764,13 @@ describe('Flow Manipulation', () => {
                 });
             });
 
-            it('should generate a suggested result name when originalNode is an action', () => {
+            it('should generate a suggested result name', () => {
                 const { renderNodeMap, resultMap } = getFlowComponents(boring);
                 const newTypeConfig = getTypeConfig(Types.wait_for_response);
                 const { nodes: [originalNode] } = boring;
                 const { actions: [originalAction] } = originalNode;
-                const suggestedResultNameCount = Object.keys(resultMap).length;
-                const suggestedResultName = getSuggestedResultName(suggestedResultNameCount);
+                const suggestedNameCount = Object.keys(resultMap).length;
+                const suggestedResultName = getSuggestedResultName(suggestedNameCount);
                 const expectedActions = [
                     Constants.UPDATE_TYPE_CONFIG,
                     Constants.UPDATE_RESULT_NAME,
@@ -763,17 +781,23 @@ describe('Flow Manipulation', () => {
                     { resultName: suggestedResultName }
                 ];
 
-                store = createMockStore({
-                    flowContext: {
-                        nodes: renderNodeMap,
-                        suggestedResultNameCount
-                    },
-                    nodeEditor: {
-                        settings: {
-                            originalNode
+                store = createMockStore(
+                    mutate(initialState, {
+                        flowContext: {
+                            nodes: { $set: renderNodeMap },
+                            results: {
+                                suggestedNameCount: { $set: suggestedNameCount }
+                            }
+                        },
+                        nodeEditor: {
+                            settings: {
+                                $set: {
+                                    originalNode
+                                }
+                            }
                         }
-                    }
-                });
+                    })
+                );
 
                 store.dispatch(handleTypeConfigChange(newTypeConfig, originalAction));
 
@@ -911,11 +935,12 @@ describe('Flow Manipulation', () => {
 
     describe('routers', () => {
         it('should edit an existing router', () => {
-            store = createMockStore({
-                flowContext: { nodes: testNodes },
-                flowEditor: { flowUI: {} },
-                nodeEditor: { settings: { originalNode: testNodes.node1.node } }
-            });
+            store = createMockStore(
+                mutate(initialState, {
+                    flowContext: { nodes: { $set: testNodes } },
+                    nodeEditor: { settings: { $set: { originalNode: testNodes.node1.node } } }
+                })
+            );
 
             const updatedNode = mutate(testNodes.node1, {
                 node: {
@@ -940,16 +965,20 @@ describe('Flow Manipulation', () => {
         });
 
         it('should create a new router on drag', () => {
-            store = createMockStore({
-                flowContext: { nodes: testNodes },
-                flowEditor: {
-                    flowUI: {
-                        createNodePosition: { left: 500, top: 600 },
-                        pendingConnection: { nodeUUID: 'node2', exitUUID: 'node2_exit0' }
-                    }
-                },
-                nodeEditor: { settings: { originalNode: testNodes.node3.node } }
-            });
+            store = createMockStore(
+                mutate(initialState, {
+                    flowContext: { nodes: { $set: testNodes } },
+                    flowEditor: {
+                        flowUI: {
+                            createNodePosition: { $set: { left: 500, top: 600 } },
+                            pendingConnection: {
+                                $set: { nodeUUID: 'node2', exitUUID: 'node2_exit0' }
+                            }
+                        }
+                    },
+                    nodeEditor: { settings: { $set: { originalNode: testNodes.node3.node } } }
+                })
+            );
 
             const newRouter: RenderNode = {
                 node: { uuid: 'new_router', actions: [], exits: [] },
@@ -968,16 +997,19 @@ describe('Flow Manipulation', () => {
         });
 
         it('should update an action into a router', () => {
-            store = createMockStore({
-                flowContext: { nodes: testNodes },
-                flowEditor: { flowUI: {} },
-                nodeEditor: {
-                    settings: {
-                        originalAction: testNodes.node3.node.actions[0],
-                        originalNode: testNodes.node3.node
+            store = createMockStore(
+                mutate(initialState, {
+                    flowContext: { nodes: { $set: testNodes } },
+                    nodeEditor: {
+                        settings: {
+                            $set: {
+                                originalAction: testNodes.node3.node.actions[0],
+                                originalNode: testNodes.node3.node
+                            }
+                        }
                     }
-                }
-            });
+                })
+            );
 
             const newRouter: RenderNode = {
                 node: {
@@ -997,13 +1029,14 @@ describe('Flow Manipulation', () => {
         });
 
         it('should append a router after an add action', () => {
-            store = createMockStore({
-                flowContext: { nodes: testNodes },
-                flowEditor: { flowUI: {} },
-                nodeEditor: {
-                    settings: { originalNode: testNodes.node0.node }
-                }
-            });
+            store = createMockStore(
+                mutate(initialState, {
+                    flowContext: { nodes: { $set: testNodes } },
+                    nodeEditor: {
+                        settings: { $set: { originalNode: testNodes.node0.node } }
+                    }
+                })
+            );
 
             const newRouter: RenderNode = {
                 node: {

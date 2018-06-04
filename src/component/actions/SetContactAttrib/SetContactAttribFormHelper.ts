@@ -5,25 +5,19 @@ import {
     SetContactChannel,
     SetContactField,
     SetContactLanguage,
-    SetContactName
+    SetContactName,
 } from '../../../flowTypes';
 import { removeAsset } from '../../../services/AssetService';
 import {
+    NodeEditorSettings,
     SetContactAttribFormState,
     SetContactChannelFormState,
     SetContactFieldFormState,
     SetContactLanguageFormState,
     SetContactNameFormState,
-    NodeEditorSettings
 } from '../../../store/nodeEditor';
 import { getLanguage } from '../../../utils/languageMap';
-import {
-    assetToField,
-    channelToAsset,
-    fieldToAsset,
-    languageToAsset,
-    propertyToAsset
-} from './helpers';
+import { assetToField, channelToAsset, fieldToAsset, languageToAsset, propertyToAsset } from './helpers';
 
 export type SetContactAttribFormHelperActionTypes =
     | Types.set_contact_field

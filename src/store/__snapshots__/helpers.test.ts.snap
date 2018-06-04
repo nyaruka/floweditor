@@ -200,7 +200,7 @@ Array [
 ]
 `;
 
-exports[`helpers initializeFlow should find result names in definition 1`] = `
+exports[`helpers initializeFlow should find results in definition 1`] = `
 Object {
   "node1": "@run.results.color",
 }

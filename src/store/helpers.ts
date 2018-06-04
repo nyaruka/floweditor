@@ -21,7 +21,7 @@ import { Asset, AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { snakify } from '../utils';
 import { languageMap } from '../utils/languageMap';
-import { RenderNode, RenderNodeMap, Results } from './flowContext';
+import { RenderNode, RenderNodeMap, ResultMap } from './flowContext';
 
 export interface Bounds {
     left: number;
@@ -236,7 +236,7 @@ export const getGhostNode = (fromNode: RenderNode, suggestedResultNameCount: num
 
 export interface FlowComponents {
     renderNodeMap: RenderNodeMap;
-    resultMap: Results;
+    resultMap: ResultMap;
     groups: Asset[];
     fields: Asset[];
     labels: Asset[];
@@ -267,7 +267,7 @@ export const getFlowComponents = ({ language, nodes, _ui }: FlowDefinition): Flo
     // initialize our nodes
     const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
 
-    const resultMap: Results = {};
+    const resultMap: ResultMap = {};
 
     const groupsMap: { [uuid: string]: string } = {};
     const fieldsMap: { [key: string]: { key: string; name: string } } = {};
