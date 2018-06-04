@@ -15,13 +15,13 @@ import {
     SetContactField,
     SwitchRouter,
     UINodeTypes,
-    WaitTypes
+    WaitTypes,
 } from '../flowTypes';
 import { Asset, AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { snakify } from '../utils';
 import { languageMap } from '../utils/languageMap';
-import { RenderNode, RenderNodeMap, ResultNames } from './flowContext';
+import { RenderNode, RenderNodeMap, Results } from './flowContext';
 
 export interface Bounds {
     left: number;
@@ -236,7 +236,7 @@ export const getGhostNode = (fromNode: RenderNode, suggestedResultNameCount: num
 
 export interface FlowComponents {
     renderNodeMap: RenderNodeMap;
-    resultNamesMap: ResultNames;
+    resultMap: Results;
     groups: Asset[];
     fields: Asset[];
     labels: Asset[];
@@ -251,10 +251,7 @@ export const isGroupAction = (actionType: string) => {
     );
 };
 
-export const generateCompletionOption = (resultName: string) => ({
-    name: `@run.results.${snakify(resultName)}`,
-    description: `Result for "${resultName}"`
-});
+export const generateResultQuery = (resultName: string) => `@run.results.${snakify(resultName)}`;
 
 /**
  * Processes an initial FlowDefinition for details necessary for the editor
@@ -270,7 +267,7 @@ export const getFlowComponents = ({ language, nodes, _ui }: FlowDefinition): Flo
     // initialize our nodes
     const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
 
-    const resultNamesMap: ResultNames = {};
+    const resultMap: Results = {};
 
     const groupsMap: { [uuid: string]: string } = {};
     const fieldsMap: { [key: string]: { key: string; name: string } } = {};
@@ -291,7 +288,7 @@ export const getFlowComponents = ({ language, nodes, _ui }: FlowDefinition): Flo
         // get existing result names
         if (node.router) {
             if (node.router.result_name) {
-                resultNamesMap[node.uuid] = generateCompletionOption(node.router.result_name);
+                resultMap[node.uuid] = generateResultQuery(node.router.result_name);
             }
         }
 
@@ -360,5 +357,5 @@ export const getFlowComponents = ({ language, nodes, _ui }: FlowDefinition): Flo
     // determine flow language
     const baseLanguage = languageToAsset(languageMap[language]);
 
-    return { renderNodeMap, resultNamesMap, groups, fields, labels, baseLanguage };
+    return { renderNodeMap, resultMap, groups, fields, labels, baseLanguage };
 };

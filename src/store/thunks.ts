@@ -30,7 +30,7 @@ import {
     updateDefinition,
     updateLanguages,
     updateNodes,
-    updateResultNames,
+    updateResults,
 } from './flowContext';
 import {
     updateCreateNodePosition,
@@ -46,7 +46,7 @@ import {
 import {
     determineConfigType,
     FlowComponents,
-    generateCompletionOption,
+    generateResultQuery,
     getActionIndex,
     getCollision,
     getFlowComponents,
@@ -169,9 +169,9 @@ export const initializeFlow = (definition: FlowDefinition, assetService: AssetSe
     dispatch(updateNodes(flowComponents.renderNodeMap));
 
     // Take stock of existing results
-    dispatch(updateResultNames(flowComponents.resultNamesMap));
+    dispatch(updateResults(flowComponents.resultMap));
     // tslint:disable-next-line:forin
-    for (const key in flowComponents.resultNamesMap) {
+    for (const key in flowComponents.resultMap) {
         dispatch(incrementSuggestedResultNameCount());
     }
 
@@ -363,10 +363,10 @@ export const removeNode = (node: FlowNode) => (
     getState: GetState
 ): RenderNodeMap => {
     // Remove result name if node has one
-    const { flowContext: { nodes, resultNames } } = getState();
-    if (resultNames.hasOwnProperty(node.uuid)) {
-        const toKeep = mutate(resultNames, { $unset: [node.uuid] });
-        dispatch(updateResultNames(toKeep));
+    const { flowContext: { nodes, results } } = getState();
+    if (results.hasOwnProperty(node.uuid)) {
+        const toKeep = mutate(results, { $unset: [node.uuid] });
+        dispatch(updateResults(toKeep));
     }
 
     const updated = mutators.removeNodeAndRemap(nodes, node.uuid);
@@ -720,7 +720,7 @@ export const onUpdateRouter = (node: RenderNode) => (
     getState: GetState
 ): RenderNodeMap => {
     const {
-        flowContext: { nodes, resultNames },
+        flowContext: { nodes, results },
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
         nodeEditor: { settings: { originalNode, originalAction } }
     } = getState();
@@ -742,16 +742,14 @@ export const onUpdateRouter = (node: RenderNode) => (
 
     // update our result names map
     const resultNamesToUpdate = {
-        ...resultNames
+        ...results
     };
     if (node.node.router && node.node.router.result_name) {
-        resultNamesToUpdate[node.node.uuid] = generateCompletionOption(
-            node.node.router.result_name
-        );
+        resultNamesToUpdate[node.node.uuid] = generateResultQuery(node.node.router.result_name);
     } else {
         delete resultNamesToUpdate[node.node.uuid];
     }
-    dispatch(updateResultNames(resultNamesToUpdate));
+    dispatch(updateResults(resultNamesToUpdate));
 
     if (originalNode && originalAction && previousNode) {
         const actionToSplice = previousNode.node.actions.find(

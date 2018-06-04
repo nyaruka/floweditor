@@ -1,30 +1,25 @@
 import { FlowDefinition } from '../flowTypes';
-import Localization from '../services/Localization';
-import { configProviderContext } from '../testUtils';
 import Constants from './constants';
 import reducer, {
     definition as definitionReducer,
     dependencies as dependenciesReducer,
-    initialState,
     incrementSuggestedResultNameCount,
+    initialState,
     nodes as nodesReducer,
     RenderNodeMap,
-    resultNames as resultNamesReducer,
+    results as resultNamesReducer,
     suggestedResultNameCount as suggestedResultNameCountReducer,
     updateDefinition,
     updateDependencies,
-    updateResultNames,
-    updateNodes
+    updateNodes,
+    updateResults,
 } from './flowContext';
 
 const boringFlow = require('../../__test__/flows/boring.json') as FlowDefinition;
 const emptyFlow = require('../../__test__/flows/empty.json') as FlowDefinition;
 
-const resultNames = {
-    'ecc70717-dd25-4795-8dc2-0361265a1e29': {
-        name: '@run.results.color',
-        description: 'Result for "color"'
-    }
+const results = {
+    'ecc70717-dd25-4795-8dc2-0361265a1e29': '@run.results.color'
 };
 
 describe('flowContext action creators', () => {
@@ -55,16 +50,16 @@ describe('flowContext action creators', () => {
         });
     });
 
-    describe('updateResultNames', () => {
+    describe('updateResults', () => {
         it('should create an action to update resultNames state', () => {
             const expectedAction = {
-                type: Constants.UPDATE_RESULT_NAMES,
+                type: Constants.UPDATE_RESULTS,
                 payload: {
-                    resultNames
+                    results
                 }
             };
 
-            expect(updateResultNames(resultNames)).toEqual(expectedAction);
+            expect(updateResults(results)).toEqual(expectedAction);
         });
     });
 
@@ -108,17 +103,17 @@ describe('flowContext reducers', () => {
         });
     });
 
-    describe('resultNames reducer', () => {
+    describe('results reducer', () => {
         const reduce = action => resultNamesReducer(undefined, action);
 
         it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.resultNames);
+            expect(reduce({})).toEqual(initialState.results);
         });
 
-        it('should handle UPDATE_RESULT_NAMES', () => {
-            const action = updateResultNames(resultNames);
+        it('should handle UPDATE_RESULTS', () => {
+            const action = updateResults(results);
 
-            expect(reduce(action)).toEqual(resultNames);
+            expect(reduce(action)).toEqual(results);
         });
     });
 
@@ -129,7 +124,7 @@ describe('flowContext reducers', () => {
             expect(reduce({})).toEqual(initialState.suggestedResultNameCount);
         });
 
-        it('should handle UPDATE_RESULT_NAMES', () => {
+        it('should handle UPDATE_RESULTS', () => {
             const action = incrementSuggestedResultNameCount();
 
             expect(reduce(action)).toBe(2);

@@ -51,6 +51,15 @@ export const OPTIONS: CompletionOption[] = [
     { name: 'webhook.response', description: 'The raw response of the webhook including headers' }
 ];
 
+export const TOP_LEVEL_OPTIONS = [
+    OPTIONS[0], // contact
+    OPTIONS[8], // input
+    OPTIONS[9], // run
+    OPTIONS[12], // child
+    OPTIONS[14], // parent
+    OPTIONS[16] // webhook
+];
+
 export const GSM: { [key: string]: number } = {
     // char: charCode
     0: 48,

@@ -162,7 +162,7 @@ export const prepMockDuxState = () => {
                 nodes: testNodes,
                 groups: [],
                 contactFields: [],
-                resultNames: {},
+                results: {},
                 suggestedResultNameCount: 1
             },
             flowEditor: { flowUI: {} },

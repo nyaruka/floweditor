@@ -3,7 +3,6 @@ import { combineReducers } from 'redux';
 
 import { FlowDefinition, FlowNode, UINode } from '../flowTypes';
 import { Asset } from '../services/AssetService';
-import { LocalizedObject } from '../services/Localization';
 import ActionTypes, {
     IncrementSuggestedResultNameCountAction,
     UpdateBaseLanguageAction,
@@ -11,7 +10,7 @@ import ActionTypes, {
     UpdateDependenciesAction,
     UpdateLanguagesAction,
     UpdateNodesAction,
-    UpdateResultNamesAction
+    UpdateResultsAction,
 } from './actionTypes';
 import Constants from './constants';
 
@@ -30,15 +29,15 @@ export interface CompletionOption {
     description: string;
 }
 
-export interface ResultNames {
-    [nodeUUID: string]: CompletionOption;
+export interface Results {
+    [nodeUUID: string]: string;
 }
 
 export interface FlowContext {
     dependencies: FlowDefinition[];
     baseLanguage: Asset;
     languages: Asset[];
-    resultNames: ResultNames;
+    results: Results;
     suggestedResultNameCount: number;
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
@@ -50,7 +49,7 @@ export const initialState: FlowContext = {
     dependencies: null,
     baseLanguage: null,
     languages: [],
-    resultNames: {},
+    results: {},
     suggestedResultNameCount: 1,
     nodes: {}
 };
@@ -91,10 +90,10 @@ export const updateLanguages = (languages: Asset[]): UpdateLanguagesAction => ({
     }
 });
 
-export const updateResultNames = (resultNames: ResultNames): UpdateResultNamesAction => ({
-    type: Constants.UPDATE_RESULT_NAMES,
+export const updateResults = (results: Results): UpdateResultsAction => ({
+    type: Constants.UPDATE_RESULTS,
     payload: {
-        resultNames
+        results
     }
 });
 
@@ -136,10 +135,10 @@ export const dependencies = (
     }
 };
 
-export const resultNames = (state: ResultNames = initialState.resultNames, action: ActionTypes) => {
+export const results = (state: Results = initialState.results, action: ActionTypes) => {
     switch (action.type) {
-        case Constants.UPDATE_RESULT_NAMES:
-            return action.payload.resultNames;
+        case Constants.UPDATE_RESULTS:
+            return action.payload.results;
         default:
             return state;
     }
@@ -180,7 +179,7 @@ export default combineReducers({
     definition,
     nodes,
     dependencies,
-    resultNames,
+    results,
     suggestedResultNameCount,
     baseLanguage,
     languages

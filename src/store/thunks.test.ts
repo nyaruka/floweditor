@@ -12,7 +12,7 @@ import AssetService from '../services/AssetService';
 import { createMockStore, prepMockDuxState } from '../testUtils';
 import { createSendMsgAction, createSetContactFieldAction } from '../testUtils/assetCreators';
 import { push } from '../utils';
-import { RenderNode, RenderNodeMap, resultNames } from './flowContext';
+import { RenderNode, RenderNodeMap } from './flowContext';
 import { getFlowComponents, getSuggestedResultName, getUniqueDestinations } from './helpers';
 import { getOtherExit } from './mutators';
 import {
@@ -344,9 +344,9 @@ describe('Flow Manipulation', () => {
                 });
             }
 
-            it("should remove nodes's result name from our results completion option map", () => {
-                const { resultNamesMap, renderNodeMap } = getFlowComponents(boring);
-                const expectedResultNames = mutate(resultNamesMap, {
+            it("should remove node's result name from our results completion option map", () => {
+                const { resultMap, renderNodeMap } = getFlowComponents(boring);
+                const expectedResults = mutate(resultMap, {
                     $unset: [testNodes.node1.node.uuid]
                 });
 
@@ -355,15 +355,15 @@ describe('Flow Manipulation', () => {
                     mutate(initialState, {
                         flowContext: {
                             nodes: { $set: renderNodeMap },
-                            resultNames: { $set: resultNamesMap }
+                            results: { $set: resultMap }
                         }
                     })
                 );
 
                 store.dispatch(removeNode(testNodes.node1.node));
 
-                expect(store).toHavePayload(Constants.UPDATE_RESULT_NAMES, {
-                    resultNames: expectedResultNames
+                expect(store).toHavePayload(Constants.UPDATE_RESULTS, {
+                    results: expectedResults
                 });
             });
         });
@@ -747,11 +747,11 @@ describe('Flow Manipulation', () => {
             });
 
             it('should generate a suggested result name when originalNode is an action', () => {
-                const { renderNodeMap, resultNamesMap } = getFlowComponents(boring);
+                const { renderNodeMap, resultMap } = getFlowComponents(boring);
                 const newTypeConfig = getTypeConfig(Types.wait_for_response);
                 const { nodes: [originalNode] } = boring;
                 const { actions: [originalAction] } = originalNode;
-                const suggestedResultNameCount = Object.keys(resultNamesMap).length;
+                const suggestedResultNameCount = Object.keys(resultMap).length;
                 const suggestedResultName = getSuggestedResultName(suggestedResultNameCount);
                 const expectedActions = [
                     Constants.UPDATE_TYPE_CONFIG,
