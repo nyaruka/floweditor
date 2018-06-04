@@ -57,7 +57,7 @@ describe('flowContext action creators', () => {
     });
 
     describe('updateResultCompletionOptions', () => {
-        it('should create an action to update resultNames state', () => {
+        it('should create an action to update result completion options state', () => {
             const expectedAction = {
                 type: Constants.UPDATE_RESULT_COMPLETION_OPTIONS,
                 payload: {

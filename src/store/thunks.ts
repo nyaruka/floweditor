@@ -1,4 +1,5 @@
 import * as isEqual from 'fast-deep-equal';
+import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 
@@ -364,7 +365,7 @@ export const removeNode = (node: FlowNode) => (
     // Remove result name if node has one
     const { flowContext: { nodes, results: { completionOptions } } } = getState();
     if (completionOptions.hasOwnProperty(node.uuid)) {
-        const toKeep = mutators.removeProperties(completionOptions, node.uuid);
+        const toKeep = mutate(completionOptions, { $unset: [node.uuid] });
         dispatch(updateResultCompletionOptions(toKeep));
     }
 
@@ -583,10 +584,11 @@ export const onUpdateAction = (action: AnyAction) => (
             ui: { position: createNodePosition },
             inboundConnections: { [pendingConnection.exitUUID]: pendingConnection.nodeUUID }
         };
-
         updatedNodes = mutators.mergeNode(nodes, newNode);
     } else if (userAddingAction) {
         updatedNodes = mutators.addAction(nodes, originalNode.uuid, action);
+    } else if (originalNode.hasOwnProperty('router')) {
+        updatedNodes = mutators.spliceInAction(nodes, originalNode.uuid, action);
     } else {
         updatedNodes = mutators.updateAction(nodes, originalNode.uuid, action);
     }

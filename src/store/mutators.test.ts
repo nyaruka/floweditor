@@ -8,7 +8,6 @@ import {
     removeAction,
     removeConnection,
     removeNodeAndRemap,
-    removeProperties,
     updateAction,
     updateConnection,
     updateDimensions,
@@ -198,16 +197,5 @@ describe('mutators', () => {
         ]);
         expect(updated.localization.spa).toEqual({});
         expect(updated).toMatchSnapshot();
-    });
-
-    describe('removeProperties', () => {
-        it('should remove properties from obj', () => {
-            const obj = {
-                a: 1,
-                b: 2,
-                c: 3
-            };
-            expect(removeProperties(obj, ...Object.keys(obj).slice(0, 2))).toEqual({ c: 3 });
-        });
     });
 });

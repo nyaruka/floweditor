@@ -10,10 +10,11 @@ import { getTypeConfig, Types } from '../config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from '../flowTypes';
 import AssetService from '../services/AssetService';
 import { createMockStore, prepMockDuxState } from '../testUtils';
-import { createSetContactFieldAction } from '../testUtils/assetCreators';
+import { createSendMsgAction, createSetContactFieldAction } from '../testUtils/assetCreators';
 import { push } from '../utils';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { getFlowComponents, getSuggestedResultName, getUniqueDestinations } from './helpers';
+import { getOtherExit } from './mutators';
 import {
     addNode,
     disconnectExit,
@@ -342,6 +343,31 @@ describe('Flow Manipulation', () => {
                     expect(nodes).toMatchSnapshot('Remove ' + nodeUUID);
                 });
             }
+
+            it("should remove node's result name from our results completion option map", () => {
+                const { resultsCompletionMap, renderNodeMap } = getFlowComponents(boring);
+                const expectedResultNames = mutate(resultsCompletionMap, {
+                    $unset: [testNodes.node1.node.uuid]
+                });
+
+                // Store should have result completion option map
+                store = createMockStore(
+                    mutate(initialState, {
+                        flowContext: {
+                            nodes: { $set: renderNodeMap },
+                            results: {
+                                completionOptions: { $set: resultsCompletionMap }
+                            }
+                        }
+                    })
+                );
+
+                store.dispatch(removeNode(testNodes.node1.node));
+
+                expect(store).toHavePayload(Constants.UPDATE_RESULT_COMPLETION_OPTIONS, {
+                    completionOptions: expectedResultNames
+                });
+            });
         });
     });
 
@@ -415,6 +441,40 @@ describe('Flow Manipulation', () => {
             const actions = nodes.node0.node.actions;
             expect(actions.length).toBe(5);
             expect((actions[4] as SendMsg).text).toBe('A fifth action for our first node');
+        });
+
+        it('should replace router node with a single-action node', () => {
+            const { node1: originalRenderNode } = testNodes;
+            const incomingAction = createSendMsgAction();
+            const { renderNodeMap } = getFlowComponents(boring);
+
+            store = createMockStore(
+                mutate(initialState, {
+                    flowContext: {
+                        nodes: { $set: renderNodeMap }
+                    },
+                    nodeEditor: {
+                        settings: { $set: { originalNode: originalRenderNode.node } }
+                    }
+                })
+            );
+
+            const updatedNodes = store.dispatch(onUpdateAction(incomingAction));
+            const updatedRenderNode = updatedNodes[originalRenderNode.node.uuid];
+
+            // Was the action inserted?
+            expect(updatedRenderNode.node.actions[0]).toEqual(incomingAction);
+            // Were the node's exits updated?
+            expect(updatedRenderNode.node.exits).toEqual([
+                {
+                    ...getOtherExit(originalRenderNode.node.exits),
+                    name: null
+                }
+            ]);
+            // Was the router offed?
+            expect(updatedRenderNode.node.hasOwnProperty('router')).toBeFalsy();
+            // Was the ui type offed?
+            expect(updatedRenderNode.ui.hasOwnProperty('type')).toBeFalsy();
         });
 
         it('should throw if originalNode is null', () => {
@@ -684,7 +744,6 @@ describe('Flow Manipulation', () => {
                 const newTypeConfig = getTypeConfig(Types.set_contact_field);
                 const newActionToEdit = createSetContactFieldAction();
                 const formHelper = new SetContactAttribFormHelper();
-
                 const settings = { originalNode: null, originalAction: newActionToEdit };
                 const newFormState = formHelper.initializeForm(
                     settings,
