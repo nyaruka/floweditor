@@ -91,6 +91,10 @@ Array [
     "name": "contact.name",
   },
   Object {
+    "description": "The first name of the contact.",
+    "name": "contact.first_name",
+  },
+  Object {
     "description": "The language code for the contact.",
     "name": "contact.language",
   },
@@ -105,6 +109,10 @@ Array [
   Object {
     "description": "URNs on the contact.",
     "name": "contact.urns",
+  },
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
   },
 ]
 `;
@@ -116,6 +124,10 @@ Array [
     "name": "contact.name",
   },
   Object {
+    "description": "The first name of the contact.",
+    "name": "contact.first_name",
+  },
+  Object {
     "description": "The language code for the contact.",
     "name": "contact.language",
   },
@@ -131,11 +143,46 @@ Array [
     "description": "URNs on the contact.",
     "name": "contact.urns",
   },
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
+  },
+]
+`;
+
+exports[`helpers > filterOptions > should filter options for "contact.c" 1`] = `
+Array [
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
+  },
+]
+`;
+
+exports[`helpers > filterOptions > should filter options for "contact.ch" 1`] = `
+Array [
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
+  },
+]
+`;
+
+exports[`helpers > filterOptions > should filter options for "contact.channel" 1`] = `
+Array [
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
+  },
 ]
 `;
 
 exports[`helpers > filterOptions > should filter options for "contact.f" 1`] = `
 Array [
+  Object {
+    "description": "The first name of the contact.",
+    "name": "contact.first_name",
+  },
   Object {
     "description": "Custom fields on the contact.",
     "name": "contact.fields",
@@ -145,6 +192,10 @@ Array [
 
 exports[`helpers > filterOptions > should filter options for "contact.fi" 1`] = `
 Array [
+  Object {
+    "description": "The first name of the contact.",
+    "name": "contact.first_name",
+  },
   Object {
     "description": "Custom fields on the contact.",
     "name": "contact.fields",
@@ -157,6 +208,15 @@ Array [
   Object {
     "description": "Custom fields on the contact.",
     "name": "contact.fields",
+  },
+]
+`;
+
+exports[`helpers > filterOptions > should filter options for "contact.first_name" 1`] = `
+Array [
+  Object {
+    "description": "The first name of the contact.",
+    "name": "contact.first_name",
   },
 ]
 `;
@@ -795,6 +855,10 @@ Array [
     "name": "contact.name",
   },
   Object {
+    "description": "The first name of the contact.",
+    "name": "contact.first_name",
+  },
+  Object {
     "description": "The language code for the contact.",
     "name": "contact.language",
   },
@@ -817,6 +881,10 @@ Array [
   Object {
     "description": "The preferred telegram id for the contact.",
     "name": "contact.urns.telegram",
+  },
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
   },
   Object {
     "description": "The last input from the contact if any.",
@@ -896,6 +964,10 @@ Array [
     "name": "contact.name",
   },
   Object {
+    "description": "The first name of the contact.",
+    "name": "contact.first_name",
+  },
+  Object {
     "description": "The language code for the contact.",
     "name": "contact.language",
   },
@@ -918,6 +990,10 @@ Array [
   Object {
     "description": "The preferred telegram id for the contact.",
     "name": "contact.urns.telegram",
+  },
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
   },
   Object {
     "description": "The last input from the contact if any.",
