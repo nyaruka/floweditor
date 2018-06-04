@@ -984,7 +984,7 @@ Array [
     "name": "webhook.response",
   },
   Object {
-    "description": "Result for \\"color\\"",
+    "description": "Result for \\"Color\\"",
     "name": "run.results.color",
   },
 ]

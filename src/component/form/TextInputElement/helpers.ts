@@ -2,6 +2,7 @@ import { split } from 'split-sms';
 
 import { CompletionOption } from '../../../store';
 import { ResultCompletionMap } from '../../../store/flowContext';
+import { titleCase } from '../../../utils';
 import { GSM, OPTIONS } from './constants';
 
 export interface UnicodeCharMap {
@@ -139,12 +140,16 @@ export const filterOptions = (options: CompletionOption[], query?: string): Comp
 };
 
 export const extractCompletionOptions = (resultsCompletionMap: ResultCompletionMap) =>
-    Object.keys(resultsCompletionMap).map(nodeUUID => {
-        const { name, description } = resultsCompletionMap[nodeUUID] as CompletionOption;
-        const strippedName = name.replace(/^@/, '');
+    [
+        ...new Set(Object.keys(resultsCompletionMap).map(uuid => resultsCompletionMap[uuid].name))
+    ].map(query => {
+        const strippedName = query.replace(/^@/, '');
+        const displayName = titleCase(
+            strippedName.slice(strippedName.lastIndexOf('.') + 1).replace(/_/g, ' ')
+        );
         return {
             name: strippedName,
-            description
+            description: `Result for "${displayName}"`
         };
     });
 

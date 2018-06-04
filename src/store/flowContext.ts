@@ -30,7 +30,7 @@ export interface CompletionOption {
 }
 
 export interface ResultCompletionMap {
-    [nodeUUID: string]: CompletionOption;
+    [nodeOrActionUUID: string]: CompletionOption;
 }
 
 export interface Results {

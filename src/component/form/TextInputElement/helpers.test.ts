@@ -1,13 +1,6 @@
 import { FlowDefinition } from '../../../flowTypes';
 import { GSM, OPTIONS } from './constants';
-import {
-    cleanMsg,
-    filterOptions,
-    getOptionsList,
-    getUnicodeChars,
-    isUnicode,
-    pluralize
-} from './helpers';
+import { cleanMsg, filterOptions, getOptionsList, getUnicodeChars, isUnicode, pluralize } from './helpers';
 
 const definition: FlowDefinition = require('../../../../__test__/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
@@ -82,10 +75,15 @@ describe('helpers >', () => {
                 'ecc70717-dd25-4795-8dc2-0361265a1e29': {
                     name: '@run.results.color',
                     description: 'Result for "color"'
+                },
+                'aa1bdfea-d319-45a3-b08a-55a0485e4306': {
+                    name: '@run.results.color',
+                    description: 'Result for "color"'
                 }
             };
             const optionsList = getOptionsList(true, resultsCompletionMap);
-            const expectedLength = OPTIONS.length + Object.keys(resultsCompletionMap).length;
+            // Expect duplicate results to be removed.
+            const expectedLength = OPTIONS.length + 1;
 
             expect(optionsList.length).toBe(expectedLength);
             expect(optionsList).toMatchSnapshot();

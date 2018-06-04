@@ -51,7 +51,9 @@ export class SetRunResultForm extends React.PureComponent<SetRunResultFormProps>
     }
 
     public handleUpdateName(name: string): boolean {
-        return this.handleFormUpdate({ name: validate('Name', name, [validateRequired]) });
+        return this.handleFormUpdate({
+            name: validate('Name', name, [validateRequired])
+        });
     }
 
     public handleUpdateValue(value: string): boolean {

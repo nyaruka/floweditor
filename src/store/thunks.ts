@@ -15,12 +15,13 @@ import {
     FlowNode,
     FlowPosition,
     SendMsg,
+    SetRunResult,
     StickyNote,
     SwitchRouter,
     WaitTypes,
 } from '../flowTypes';
 import AssetService, { Asset } from '../services/AssetService';
-import { NODE_SPACING, timeEnd, timeStart } from '../utils';
+import { NODE_SPACING, snakify, timeEnd, timeStart } from '../utils';
 import { getLanguage } from '../utils/languageMap';
 import {
     incrementSuggestedResultNameCount,
@@ -378,8 +379,14 @@ export const removeAction = (nodeUUID: string, action: AnyAction) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
-    const { flowContext: { nodes } } = getState();
+    const { flowContext: { nodes, results: { completionOptions } } } = getState();
     const renderNode = nodes[nodeUUID];
+
+    // Remove result from store
+    if (action.type === Types.set_run_result) {
+        const toKeep = mutate(completionOptions, { $unset: [action.uuid] });
+        dispatch(updateResultCompletionOptions(toKeep));
+    }
 
     // If it's our last action, then nuke the node
     if (renderNode.node.actions.length === 1) {
@@ -561,7 +568,7 @@ export const onUpdateAction = (action: AnyAction) => (
     const {
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
         nodeEditor: { userAddingAction, settings },
-        flowContext: { nodes }
+        flowContext: { nodes, results: { completionOptions } }
     } = getState();
 
     if (settings == null || settings.originalNode == null) {
@@ -591,9 +598,27 @@ export const onUpdateAction = (action: AnyAction) => (
         updatedNodes = mutators.updateAction(nodes, originalNode.uuid, action, originalAction);
     }
 
-    timeEnd('onUpdateAction');
     dispatch(updateNodes(updatedNodes));
     dispatch(updateUserAddingAction(false));
+
+    // Add result to store.
+    if (action.type === Types.set_run_result) {
+        const { name: resultNameOnAction } = action as SetRunResult;
+        const newCompletionOptions = {
+            ...completionOptions,
+            // We store results created by a `set_run_result` action
+            // with a reference to the action's uuid. A single node may
+            // contain one or more `set_run_result` actions, and they
+            // may be identical.
+            [action.uuid]: {
+                name: `@run.results.${snakify(resultNameOnAction)}`,
+                description: `Result for "${resultNameOnAction}"`
+            }
+        };
+        dispatch(updateResultCompletionOptions(newCompletionOptions));
+    }
+
+    timeEnd('onUpdateAction');
     return updatedNodes;
 };
 
