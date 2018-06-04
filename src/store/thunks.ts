@@ -30,7 +30,7 @@ import {
     updateDefinition,
     updateLanguages,
     updateNodes,
-    updateResultNames,
+    updateResultCompletionOptions,
 } from './flowContext';
 import {
     updateCreateNodePosition,
@@ -169,9 +169,9 @@ export const initializeFlow = (definition: FlowDefinition, assetService: AssetSe
     dispatch(updateNodes(flowComponents.renderNodeMap));
 
     // Take stock of existing results
-    dispatch(updateResultNames(flowComponents.resultNamesMap));
+    dispatch(updateResultCompletionOptions(flowComponents.resultsCompletionMap));
     // tslint:disable-next-line:forin
-    for (const key in flowComponents.resultNamesMap) {
+    for (const key in flowComponents.resultsCompletionMap) {
         dispatch(incrementSuggestedResultNameCount());
     }
 
@@ -363,10 +363,10 @@ export const removeNode = (node: FlowNode) => (
     getState: GetState
 ): RenderNodeMap => {
     // Remove result name if node has one
-    const { flowContext: { nodes, resultNames } } = getState();
-    if (resultNames.hasOwnProperty(node.uuid)) {
-        const toKeep = mutate(resultNames, { $unset: [node.uuid] });
-        dispatch(updateResultNames(toKeep));
+    const { flowContext: { nodes, results: { completionOptions } } } = getState();
+    if (completionOptions.hasOwnProperty(node.uuid)) {
+        const toKeep = mutate(completionOptions, { $unset: [node.uuid] });
+        dispatch(updateResultCompletionOptions(toKeep));
     }
 
     const updated = mutators.removeNodeAndRemap(nodes, node.uuid);
@@ -508,7 +508,7 @@ export const handleTypeConfigChange = (typeConfig: Type, settings: NodeEditorSet
 ) => {
     // Generate suggested result name if user is changing
     // an existing node to a `wait_for_response` router.
-    const { flowContext: { suggestedResultNameCount }, nodeEditor } = getState();
+    const { flowContext: { results: { suggestedNameCount } }, nodeEditor } = getState();
     if (
         nodeEditor.settings &&
         nodeEditor.settings.originalNode &&
@@ -516,7 +516,7 @@ export const handleTypeConfigChange = (typeConfig: Type, settings: NodeEditorSet
             nodeEditor.settings.originalNode.wait.type !== WaitTypes.msg)
     ) {
         if (typeConfig.type === Types.wait_for_response) {
-            dispatch(updateResultName(getSuggestedResultName(suggestedResultNameCount)));
+            dispatch(updateResultName(getSuggestedResultName(suggestedNameCount)));
             dispatch(updateShowResultName(true));
         }
     }
@@ -684,13 +684,13 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { flowContext: { nodes, suggestedResultNameCount } } = getState();
+    const { flowContext: { nodes, results: { suggestedNameCount } } } = getState();
 
     // We finished dragging a ghost node, create the spec for our new ghost component
     const [fromNodeUUID, fromExitUUID] = event.sourceId.split(':');
 
     const fromNode = nodes[fromNodeUUID];
-    const ghostNode = getGhostNode(fromNode, suggestedResultNameCount);
+    const ghostNode = getGhostNode(fromNode, suggestedNameCount);
 
     // Set our ghost spec so it gets rendered.
     dispatch(updateGhostNode(ghostNode));
@@ -718,7 +718,7 @@ export const onUpdateRouter = (node: RenderNode) => (
     getState: GetState
 ): RenderNodeMap => {
     const {
-        flowContext: { nodes, resultNames },
+        flowContext: { nodes, results: { completionOptions } },
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
         nodeEditor: { settings: { originalNode, originalAction } }
     } = getState();
@@ -739,17 +739,17 @@ export const onUpdateRouter = (node: RenderNode) => (
     }
 
     // update our result names map
-    const resultNamesToUpdate = {
-        ...resultNames
+    const completionOptionsToUpdate = {
+        ...completionOptions
     };
     if (node.node.router && node.node.router.result_name) {
-        resultNamesToUpdate[node.node.uuid] = generateCompletionOption(
+        completionOptionsToUpdate[node.node.uuid] = generateCompletionOption(
             node.node.router.result_name
         );
     } else {
-        delete resultNamesToUpdate[node.node.uuid];
+        delete completionOptionsToUpdate[node.node.uuid];
     }
-    dispatch(updateResultNames(resultNamesToUpdate));
+    dispatch(updateResultCompletionOptions(completionOptionsToUpdate));
 
     if (originalNode && originalAction && previousNode) {
         const actionToSplice = previousNode.node.actions.find(

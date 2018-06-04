@@ -106,7 +106,7 @@ export interface NodeEditorStoreProps {
     typeConfig: Type;
     resultName: string;
     showResultName: boolean;
-    suggestedResultNameCount: number;
+    suggestedNameCount: number;
     operand: string;
     timeout: number;
     settings: NodeEditorSettings;
@@ -824,7 +824,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         // Update suggestResultName state
         if (
             resultName &&
-            resultName.trim() === getSuggestedResultName(this.props.suggestedResultNameCount)
+            resultName.trim() === getSuggestedResultName(this.props.suggestedNameCount)
         ) {
             this.props.incrementSuggestedResultNameCount();
         }
@@ -1266,7 +1266,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowContext: { definition, nodes, suggestedResultNameCount },
+    flowContext: { definition, nodes, results: { suggestedNameCount } },
     flowEditor: {
         editorUI: { language, translating, nodeEditorOpen },
         flowUI: { pendingConnection }
@@ -1281,7 +1281,7 @@ const mapStateToProps = ({
     typeConfig,
     resultName,
     showResultName,
-    suggestedResultNameCount,
+    suggestedNameCount,
     operand,
     timeout,
     pendingConnection,

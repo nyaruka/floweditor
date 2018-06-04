@@ -78,14 +78,14 @@ describe('helpers >', () => {
         });
 
         it('should include result names if autocomplete arg is truthy', () => {
-            const resultNames = {
+            const resultsCompletionMap = {
                 'ecc70717-dd25-4795-8dc2-0361265a1e29': {
                     name: '@run.results.color',
                     description: 'Result for "color"'
                 }
             };
-            const optionsList = getOptionsList(true, resultNames);
-            const expectedLength = OPTIONS.length + Object.keys(resultNames).length;
+            const optionsList = getOptionsList(true, resultsCompletionMap);
+            const expectedLength = OPTIONS.length + Object.keys(resultsCompletionMap).length;
 
             expect(optionsList.length).toBe(expectedLength);
             expect(optionsList).toMatchSnapshot();

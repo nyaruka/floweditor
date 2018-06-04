@@ -1,7 +1,7 @@
 import { split } from 'split-sms';
 
 import { CompletionOption } from '../../../store';
-import { ResultNames } from '../../../store/flowContext';
+import { ResultCompletionMap } from '../../../store/flowContext';
 import { GSM, OPTIONS } from './constants';
 
 export interface UnicodeCharMap {
@@ -138,9 +138,9 @@ export const filterOptions = (options: CompletionOption[], query?: string): Comp
     return [];
 };
 
-export const extractCompletionOptions = (resultNames: ResultNames) =>
-    Object.keys(resultNames).map(nodeUUID => {
-        const { name, description } = resultNames[nodeUUID] as CompletionOption;
+export const extractCompletionOptions = (resultsCompletionMap: ResultCompletionMap) =>
+    Object.keys(resultsCompletionMap).map(nodeUUID => {
+        const { name, description } = resultsCompletionMap[nodeUUID] as CompletionOption;
         const strippedName = name.replace(/^@/, '');
         return {
             name: strippedName,
@@ -150,9 +150,9 @@ export const extractCompletionOptions = (resultNames: ResultNames) =>
 
 export const getOptionsList = (
     autocomplete: boolean,
-    resultNames: ResultNames
+    resultsCompletionMap: ResultCompletionMap
 ): CompletionOption[] =>
-    autocomplete ? [...OPTIONS, ...extractCompletionOptions(resultNames)] : OPTIONS;
+    autocomplete ? [...OPTIONS, ...extractCompletionOptions(resultsCompletionMap)] : OPTIONS;
 
 export const pluralize = (count: number, noun: string, suffix: string = 's'): string =>
     `${noun}${count !== 1 ? suffix : ''}`;

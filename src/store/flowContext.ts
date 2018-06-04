@@ -3,7 +3,6 @@ import { combineReducers } from 'redux';
 
 import { FlowDefinition, FlowNode, UINode } from '../flowTypes';
 import { Asset } from '../services/AssetService';
-import { LocalizedObject } from '../services/Localization';
 import ActionTypes, {
     IncrementSuggestedResultNameCountAction,
     UpdateBaseLanguageAction,
@@ -11,7 +10,7 @@ import ActionTypes, {
     UpdateDependenciesAction,
     UpdateLanguagesAction,
     UpdateNodesAction,
-    UpdateResultNamesAction
+    UpdateResultCompletionOptionsAction,
 } from './actionTypes';
 import Constants from './constants';
 
@@ -30,16 +29,20 @@ export interface CompletionOption {
     description: string;
 }
 
-export interface ResultNames {
+export interface ResultCompletionMap {
     [nodeUUID: string]: CompletionOption;
+}
+
+export interface Results {
+    completionOptions: ResultCompletionMap;
+    suggestedNameCount: number;
 }
 
 export interface FlowContext {
     dependencies: FlowDefinition[];
     baseLanguage: Asset;
     languages: Asset[];
-    resultNames: ResultNames;
-    suggestedResultNameCount: number;
+    results: Results;
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
 }
@@ -50,8 +53,10 @@ export const initialState: FlowContext = {
     dependencies: null,
     baseLanguage: null,
     languages: [],
-    resultNames: {},
-    suggestedResultNameCount: 1,
+    results: {
+        completionOptions: {},
+        suggestedNameCount: 1
+    },
     nodes: {}
 };
 
@@ -91,10 +96,12 @@ export const updateLanguages = (languages: Asset[]): UpdateLanguagesAction => ({
     }
 });
 
-export const updateResultNames = (resultNames: ResultNames): UpdateResultNamesAction => ({
-    type: Constants.UPDATE_RESULT_NAMES,
+export const updateResultCompletionOptions = (
+    completionOptions: ResultCompletionMap
+): UpdateResultCompletionOptionsAction => ({
+    type: Constants.UPDATE_RESULT_COMPLETION_OPTIONS,
     payload: {
-        resultNames
+        completionOptions
     }
 });
 
@@ -136,17 +143,20 @@ export const dependencies = (
     }
 };
 
-export const resultNames = (state: ResultNames = initialState.resultNames, action: ActionTypes) => {
+export const completionOptions = (
+    state: ResultCompletionMap = initialState.results.completionOptions,
+    action: ActionTypes
+) => {
     switch (action.type) {
-        case Constants.UPDATE_RESULT_NAMES:
-            return action.payload.resultNames;
+        case Constants.UPDATE_RESULT_COMPLETION_OPTIONS:
+            return action.payload.completionOptions;
         default:
             return state;
     }
 };
 
-export const suggestedResultNameCount = (
-    state: number = initialState.suggestedResultNameCount,
+export const suggestedNameCount = (
+    state: number = initialState.results.suggestedNameCount,
     action: ActionTypes
 ) => {
     switch (action.type) {
@@ -175,13 +185,17 @@ export const languages = (state: Asset[] = initialState.languages, action: Actio
     }
 };
 
+export const results = combineReducers({
+    completionOptions,
+    suggestedNameCount
+});
+
 // Root reducer
 export default combineReducers({
     definition,
     nodes,
     dependencies,
-    resultNames,
-    suggestedResultNameCount,
+    results,
     baseLanguage,
     languages
 });

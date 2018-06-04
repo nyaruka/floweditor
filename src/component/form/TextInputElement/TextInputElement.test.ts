@@ -5,7 +5,7 @@ import { composeComponentTestUtils } from '../../../testUtils';
 import { KeyValues, OPTIONS } from './constants';
 import { TextInputElement, TextInputProps } from './TextInputElement';
 
-const resultNames = {
+const resultsCompletionMap = {
     'ecc70717-dd25-4795-8dc2-0361265a1e29': {
         name: 'run.results.color',
         description: 'Result for "color"'
@@ -15,7 +15,7 @@ const resultNames = {
 const baseProps: TextInputProps = {
     name: 'Message',
     typeConfig: getTypeConfig(Types.send_msg),
-    resultNames
+    resultsCompletionMap
 };
 
 const { setup, spyOn } = composeComponentTestUtils(TextInputElement, baseProps);

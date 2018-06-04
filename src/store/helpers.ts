@@ -21,7 +21,7 @@ import { Asset, AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { snakify } from '../utils';
 import { languageMap } from '../utils/languageMap';
-import { RenderNode, RenderNodeMap, ResultNames } from './flowContext';
+import { RenderNode, RenderNodeMap, ResultCompletionMap } from './flowContext';
 
 export interface Bounds {
     left: number;
@@ -236,7 +236,7 @@ export const getGhostNode = (fromNode: RenderNode, suggestedResultNameCount: num
 
 export interface FlowComponents {
     renderNodeMap: RenderNodeMap;
-    resultNamesMap: ResultNames;
+    resultsCompletionMap: ResultCompletionMap;
     groups: Asset[];
     fields: Asset[];
     labels: Asset[];
@@ -270,7 +270,7 @@ export const getFlowComponents = ({ language, nodes, _ui }: FlowDefinition): Flo
     // initialize our nodes
     const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
 
-    const resultNamesMap: ResultNames = {};
+    const resultsCompletionMap: ResultCompletionMap = {};
 
     const groupsMap: { [uuid: string]: string } = {};
     const fieldsMap: { [key: string]: { key: string; name: string } } = {};
@@ -291,7 +291,7 @@ export const getFlowComponents = ({ language, nodes, _ui }: FlowDefinition): Flo
         // get existing result names
         if (node.router) {
             if (node.router.result_name) {
-                resultNamesMap[node.uuid] = generateCompletionOption(node.router.result_name);
+                resultsCompletionMap[node.uuid] = generateCompletionOption(node.router.result_name);
             }
         }
 
@@ -360,5 +360,5 @@ export const getFlowComponents = ({ language, nodes, _ui }: FlowDefinition): Flo
     // determine flow language
     const baseLanguage = languageToAsset(languageMap[language]);
 
-    return { renderNodeMap, resultNamesMap, groups, fields, labels, baseLanguage };
+    return { renderNodeMap, resultsCompletionMap, groups, fields, labels, baseLanguage };
 };
