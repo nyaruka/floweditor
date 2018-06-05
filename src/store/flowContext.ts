@@ -10,7 +10,7 @@ import ActionTypes, {
     UpdateDependenciesAction,
     UpdateLanguagesAction,
     UpdateNodesAction,
-    UpdateResultCompletionOptionsAction,
+    UpdateResultMapAction,
 } from './actionTypes';
 import Constants from './constants';
 
@@ -29,12 +29,12 @@ export interface CompletionOption {
     description: string;
 }
 
-export interface ResultCompletionMap {
-    [nodeUUID: string]: CompletionOption;
+export interface ResultMap {
+    [nodeUUID: string]: string;
 }
 
 export interface Results {
-    completionOptions: ResultCompletionMap;
+    resultMap: ResultMap;
     suggestedNameCount: number;
 }
 
@@ -54,7 +54,7 @@ export const initialState: FlowContext = {
     baseLanguage: null,
     languages: [],
     results: {
-        completionOptions: {},
+        resultMap: {},
         suggestedNameCount: 1
     },
     nodes: {}
@@ -96,12 +96,10 @@ export const updateLanguages = (languages: Asset[]): UpdateLanguagesAction => ({
     }
 });
 
-export const updateResultCompletionOptions = (
-    completionOptions: ResultCompletionMap
-): UpdateResultCompletionOptionsAction => ({
-    type: Constants.UPDATE_RESULT_COMPLETION_OPTIONS,
+export const updateResultMap = (resultMap: ResultMap): UpdateResultMapAction => ({
+    type: Constants.UPDATE_RESULT_MAP,
     payload: {
-        completionOptions
+        resultMap
     }
 });
 
@@ -143,13 +141,13 @@ export const dependencies = (
     }
 };
 
-export const completionOptions = (
-    state: ResultCompletionMap = initialState.results.completionOptions,
+export const resultMap = (
+    state: ResultMap = initialState.results.resultMap,
     action: ActionTypes
 ) => {
     switch (action.type) {
-        case Constants.UPDATE_RESULT_COMPLETION_OPTIONS:
-            return action.payload.completionOptions;
+        case Constants.UPDATE_RESULT_MAP:
+            return action.payload.resultMap;
         default:
             return state;
     }
@@ -186,7 +184,7 @@ export const languages = (state: Asset[] = initialState.languages, action: Actio
 };
 
 export const results = combineReducers({
-    completionOptions,
+    resultMap,
     suggestedNameCount
 });
 

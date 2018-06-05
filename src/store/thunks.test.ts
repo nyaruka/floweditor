@@ -345,8 +345,8 @@ describe('Flow Manipulation', () => {
             }
 
             it("should remove node's result name from our results completion option map", () => {
-                const { resultsCompletionMap, renderNodeMap } = getFlowComponents(boring);
-                const expectedResultNames = mutate(resultsCompletionMap, {
+                const { resultMap, renderNodeMap } = getFlowComponents(boring);
+                const expectedResultNames = mutate(resultMap, {
                     $unset: [testNodes.node1.node.uuid]
                 });
 
@@ -356,7 +356,7 @@ describe('Flow Manipulation', () => {
                         flowContext: {
                             nodes: { $set: renderNodeMap },
                             results: {
-                                completionOptions: { $set: resultsCompletionMap }
+                                resultMap: { $set: resultMap }
                             }
                         }
                     })
@@ -364,8 +364,8 @@ describe('Flow Manipulation', () => {
 
                 store.dispatch(removeNode(testNodes.node1.node));
 
-                expect(store).toHavePayload(Constants.UPDATE_RESULT_COMPLETION_OPTIONS, {
-                    completionOptions: expectedResultNames
+                expect(store).toHavePayload(Constants.UPDATE_RESULT_MAP, {
+                    resultMap: expectedResultNames
                 });
             });
         });
@@ -765,11 +765,11 @@ describe('Flow Manipulation', () => {
             });
 
             it('should generate a suggested result name', () => {
-                const { renderNodeMap, resultsCompletionMap } = getFlowComponents(boring);
+                const { renderNodeMap, resultMap } = getFlowComponents(boring);
                 const newTypeConfig = getTypeConfig(Types.wait_for_response);
                 const { nodes: [originalNode] } = boring;
                 const { actions: [originalAction] } = originalNode;
-                const suggestedNameCount = Object.keys(resultsCompletionMap).length;
+                const suggestedNameCount = Object.keys(resultMap).length;
                 const suggestedResultName = getSuggestedResultName(suggestedNameCount);
                 const expectedActions = [
                     Constants.UPDATE_TYPE_CONFIG,

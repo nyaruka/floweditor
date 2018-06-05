@@ -1,13 +1,6 @@
 import { FlowDefinition } from '../../../flowTypes';
-import { GSM, OPTIONS } from './constants';
-import {
-    cleanMsg,
-    filterOptions,
-    getOptionsList,
-    getUnicodeChars,
-    isUnicode,
-    pluralize
-} from './helpers';
+import { GSM, OPTIONS, TOP_LEVEL_OPTIONS } from './constants';
+import { cleanMsg, filterOptions, getOptionsList, getUnicodeChars, isUnicode, pluralize } from './helpers';
 
 const definition: FlowDefinition = require('../../../../__test__/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
@@ -28,15 +21,15 @@ const optionQueryMap = OPTIONS.reduce((argMap, { name }) => {
 
 const winkEmoji = '😉';
 
-describe('helpers >', () => {
-    describe('isUnicode >', () => {
+describe('helpers', () => {
+    describe('isUnicode', () => {
         it('should return true if arg is Unicode, false otherwise', () => {
             expect(isUnicode(winkEmoji)).toBeTruthy();
             Object.keys(GSM).forEach(key => expect(isUnicode(key)).toBeFalsy());
         });
     });
 
-    describe('getUnicodeChars >', () => {
+    describe('getUnicodeChars', () => {
         it('should return an "empty" object if not passed a string containing Unicode chars', () => {
             expect(getUnicodeChars('abcd')).toEqual({});
         });
@@ -46,14 +39,14 @@ describe('helpers >', () => {
         });
     });
 
-    describe('cleanMsg >', () => {
+    describe('cleanMsg', () => {
         it('should replace specified unicode characters with their GSM counterparts', () =>
             expect(cleanMsg('“”‘’— …–')).toBe(`""''- ...-`));
     });
 
-    describe('filterOptions >', () => {
-        it('should return an empty array if not passed a query', () =>
-            expect(filterOptions(OPTIONS)).toEqual([]));
+    describe('filterOptions', () => {
+        it('should return top-level options if not passed a query', () =>
+            expect(filterOptions(OPTIONS)).toEqual(TOP_LEVEL_OPTIONS));
 
         Object.keys(optionQueryMap).forEach(query =>
             it(`should filter options for "${query}"`, () =>
@@ -78,14 +71,11 @@ describe('helpers >', () => {
         });
 
         it('should include result names if autocomplete arg is truthy', () => {
-            const resultsCompletionMap = {
-                'ecc70717-dd25-4795-8dc2-0361265a1e29': {
-                    name: '@run.results.color',
-                    description: 'Result for "color"'
-                }
+            const results = {
+                'ecc70717-dd25-4795-8dc2-0361265a1e29': '@run.results.color'
             };
-            const optionsList = getOptionsList(true, resultsCompletionMap);
-            const expectedLength = OPTIONS.length + Object.keys(resultsCompletionMap).length;
+            const optionsList = getOptionsList(true, results);
+            const expectedLength = OPTIONS.length + 7; // accounting for result (@run.results.result_1) and its properties (@run.results.result_1.value)
 
             expect(optionsList.length).toBe(expectedLength);
             expect(optionsList).toMatchSnapshot();

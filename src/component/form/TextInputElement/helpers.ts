@@ -1,7 +1,8 @@
 import { split } from 'split-sms';
 
 import { CompletionOption } from '../../../store';
-import { ResultCompletionMap } from '../../../store/flowContext';
+import { ResultMap } from '../../../store/flowContext';
+import { titleCase } from '../../../utils';
 import { GSM, OPTIONS } from './constants';
 
 export interface UnicodeCharMap {
@@ -121,38 +122,67 @@ export const isValidURL = (str: string): boolean => {
     return webURLRegex.test(str);
 };
 
-export const filterOptions = (options: CompletionOption[], query?: string): CompletionOption[] => {
-    if (query != null) {
-        const search = query.toLowerCase();
-
-        return options.filter(({ name: optionName }: CompletionOption) => {
-            const rest = optionName.substr(search.length);
-
-            return (
-                optionName.indexOf(search) === 0 &&
-                (rest.length === 0 || rest.substr(1).indexOf('.') === -1)
-            );
-        });
-    }
-
-    return [];
+export const filterOptions = (
+    options: CompletionOption[],
+    query: string = ''
+): CompletionOption[] => {
+    const search = query.toLowerCase();
+    return options.filter(({ name: optionName }: CompletionOption) => {
+        const rest = optionName.substr(search.length);
+        return (
+            optionName.indexOf(search) === 0 &&
+            (rest.length === 0 || rest.substr(1).indexOf('.') === -1)
+        );
+    });
 };
 
-export const extractCompletionOptions = (resultsCompletionMap: ResultCompletionMap) =>
-    Object.keys(resultsCompletionMap).map(nodeUUID => {
-        const { name, description } = resultsCompletionMap[nodeUUID] as CompletionOption;
+export const getResultCompletionProperties = (query: string, resultName: string) => [
+    {
+        name: query,
+        description: `Result for "${resultName}"`
+    },
+    {
+        name: `${query}.value`,
+        description: `Value for "${resultName}"`
+    },
+    {
+        name: `${query}.category`,
+        description: `Category for "${resultName}"`
+    },
+    {
+        name: `${query}.category_localized`,
+        description: `Localized category for "${resultName}"`
+    },
+    {
+        name: `${query}.input`,
+        description: `Input for "${resultName}"`
+    },
+    {
+        name: `${query}.node_uuid`,
+        description: `Node UUID for "${resultName}"`
+    },
+    {
+        name: `${query}.created_on`,
+        description: `Time "${resultName}" was created`
+    }
+];
+
+export const extractResultCompletionOptions = (results: ResultMap = {}) =>
+    Object.keys(results).reduce((options, nodeUUID) => {
+        const { [nodeUUID]: name } = results;
         const strippedName = name.replace(/^@/, '');
-        return {
-            name: strippedName,
-            description
-        };
-    });
+        const resultName = titleCase(
+            strippedName.slice(strippedName.lastIndexOf('.') + 1).replace(/_/, ' ')
+        );
+        options.push(...getResultCompletionProperties(strippedName, resultName));
+        return options;
+    }, []);
 
 export const getOptionsList = (
     autocomplete: boolean,
-    resultsCompletionMap: ResultCompletionMap
+    results: ResultMap = {}
 ): CompletionOption[] =>
-    autocomplete ? [...OPTIONS, ...extractCompletionOptions(resultsCompletionMap)] : OPTIONS;
+    autocomplete ? [...OPTIONS, ...extractResultCompletionOptions(results)] : OPTIONS;
 
 export const pluralize = (count: number, noun: string, suffix: string = 's'): string =>
     `${noun}${count !== 1 ? suffix : ''}`;
