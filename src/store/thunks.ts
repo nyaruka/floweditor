@@ -31,7 +31,7 @@ import {
     updateDefinition,
     updateLanguages,
     updateNodes,
-    updateResultCompletionOptions,
+    updateResultMap,
 } from './flowContext';
 import {
     updateCreateNodePosition,
@@ -47,7 +47,7 @@ import {
 import {
     determineConfigType,
     FlowComponents,
-    generateCompletionOption,
+    generateResultQuery,
     getActionIndex,
     getCollision,
     getFlowComponents,
@@ -170,9 +170,9 @@ export const initializeFlow = (definition: FlowDefinition, assetService: AssetSe
     dispatch(updateNodes(flowComponents.renderNodeMap));
 
     // Take stock of existing results
-    dispatch(updateResultCompletionOptions(flowComponents.resultsCompletionMap));
+    dispatch(updateResultMap(flowComponents.resultMap));
     // tslint:disable-next-line:forin
-    for (const key in flowComponents.resultsCompletionMap) {
+    for (const key in flowComponents.resultMap) {
         dispatch(incrementSuggestedResultNameCount());
     }
 
@@ -364,10 +364,10 @@ export const removeNode = (node: FlowNode) => (
     getState: GetState
 ): RenderNodeMap => {
     // Remove result name if node has one
-    const { flowContext: { nodes, results: { completionOptions } } } = getState();
-    if (completionOptions.hasOwnProperty(node.uuid)) {
-        const toKeep = mutate(completionOptions, { $unset: [node.uuid] });
-        dispatch(updateResultCompletionOptions(toKeep));
+    const { flowContext: { nodes, results: { resultMap } } } = getState();
+    if (resultMap.hasOwnProperty(node.uuid)) {
+        const toKeep = mutate(resultMap, { $unset: [node.uuid] });
+        dispatch(updateResultMap(toKeep));
     }
 
     const updated = mutators.removeNodeAndRemap(nodes, node.uuid);
@@ -379,13 +379,13 @@ export const removeAction = (nodeUUID: string, action: AnyAction) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
-    const { flowContext: { nodes, results: { completionOptions } } } = getState();
+    const { flowContext: { nodes, results: { resultMap } } } = getState();
     const renderNode = nodes[nodeUUID];
 
     // Remove result from store
     if (action.type === Types.set_run_result) {
-        const toKeep = mutate(completionOptions, { $unset: [action.uuid] });
-        dispatch(updateResultCompletionOptions(toKeep));
+        const toKeep = mutate(resultMap, { $unset: [action.uuid] });
+        dispatch(updateResultMap(toKeep));
 
         // Node invalidation => ...
     }
@@ -586,7 +586,7 @@ export const onUpdateAction = (action: AnyAction) => (
     const {
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
         nodeEditor: { userAddingAction, settings },
-        flowContext: { nodes, results: { completionOptions } }
+        flowContext: { nodes, results: { resultMap } }
     } = getState();
 
     if (settings == null || settings.originalNode == null) {
@@ -622,18 +622,15 @@ export const onUpdateAction = (action: AnyAction) => (
     // Add result to store.
     if (action.type === Types.set_run_result) {
         const { name: resultNameOnAction } = action as SetRunResult;
-        const newCompletionOptions = {
-            ...completionOptions,
+        const newResultMap = {
+            ...resultMap,
             // We store results created by a `set_run_result` action
             // with a reference to the action's uuid. A single node may
             // contain one or more `set_run_result` actions, and they
             // may be identical.
-            [action.uuid]: {
-                name: `@run.results.${snakify(resultNameOnAction)}`,
-                description: `Result for "${resultNameOnAction}"`
-            }
+            [action.uuid]: `@run.results.${snakify(resultNameOnAction)}`
         };
-        dispatch(updateResultCompletionOptions(newCompletionOptions));
+        dispatch(updateResultMap(newResultMap));
     }
 
     timeEnd('onUpdateAction');
@@ -761,7 +758,7 @@ export const onUpdateRouter = (node: RenderNode) => (
     getState: GetState
 ): RenderNodeMap => {
     const {
-        flowContext: { nodes, results: { completionOptions } },
+        flowContext: { nodes, results: { resultMap } },
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
         nodeEditor: { settings: { originalNode, originalAction } }
     } = getState();
@@ -782,17 +779,15 @@ export const onUpdateRouter = (node: RenderNode) => (
     }
 
     // update our result names map
-    const completionOptionsToUpdate = {
-        ...completionOptions
+    const resultsToUpdate = {
+        ...resultMap
     };
     if (node.node.router && node.node.router.result_name) {
-        completionOptionsToUpdate[node.node.uuid] = generateCompletionOption(
-            node.node.router.result_name
-        );
+        resultsToUpdate[node.node.uuid] = generateResultQuery(node.node.router.result_name);
     } else {
-        delete completionOptionsToUpdate[node.node.uuid];
+        delete resultsToUpdate[node.node.uuid];
     }
-    dispatch(updateResultCompletionOptions(completionOptionsToUpdate));
+    dispatch(updateResultMap(resultsToUpdate));
 
     if (originalNode && originalAction && previousNode) {
         const actionToSplice = previousNode.node.actions.find(

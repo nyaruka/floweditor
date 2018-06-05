@@ -2,30 +2,27 @@ import { FlowDefinition } from '../flowTypes';
 import { English, Spanish } from '../testUtils/assetCreators';
 import Constants from './constants';
 import reducer, {
-    completionOptions as resultNamesReducer,
     definition as definitionReducer,
     dependencies as dependenciesReducer,
     incrementSuggestedResultNameCount,
     initialState,
     nodes as nodesReducer,
     RenderNodeMap,
-    suggestedNameCount as suggestedResultNameCountReducer,
+    resultMap as resultMapReducer,
+    suggestedNameCount as suggestedNameCountReducer,
     updateBaseLanguage,
     updateDefinition,
     updateDependencies,
     updateLanguages,
     updateNodes,
-    updateResultCompletionOptions,
+    updateResultMap,
 } from './flowContext';
 
 const boringFlow = require('../../__test__/flows/boring.json') as FlowDefinition;
 const emptyFlow = require('../../__test__/flows/empty.json') as FlowDefinition;
 
-const resultsCompletionMap = {
-    'ecc70717-dd25-4795-8dc2-0361265a1e29': {
-        name: '@run.results.color',
-        description: 'Result for "color"'
-    }
+const results = {
+    'ecc70717-dd25-4795-8dc2-0361265a1e29': '@run.results.color'
 };
 
 describe('flowContext action creators', () => {
@@ -56,16 +53,16 @@ describe('flowContext action creators', () => {
         });
     });
 
-    describe('updateResultCompletionOptions', () => {
-        it('should create an action to update result completion options state', () => {
+    describe('updateResultMap', () => {
+        it('should create an action to update resultMap state', () => {
             const expectedAction = {
-                type: Constants.UPDATE_RESULT_COMPLETION_OPTIONS,
+                type: Constants.UPDATE_RESULT_MAP,
                 payload: {
-                    completionOptions: resultsCompletionMap
+                    resultMap: results
                 }
             };
 
-            expect(updateResultCompletionOptions(resultsCompletionMap)).toEqual(expectedAction);
+            expect(updateResultMap(results)).toEqual(expectedAction);
         });
     });
 
@@ -136,28 +133,28 @@ describe('flowContext reducers', () => {
         });
     });
 
-    describe('completionOptions reducer', () => {
-        const reduce = action => resultNamesReducer(undefined, action);
+    describe('resultMap reducer', () => {
+        const reduce = action => resultMapReducer(undefined, action);
 
         it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.results.completionOptions);
+            expect(reduce({})).toEqual(initialState.results.resultMap);
         });
 
-        it('should handle UPDATE_RESULT_COMPLETION_OPTIONS', () => {
-            const action = updateResultCompletionOptions(resultsCompletionMap);
+        it('should handle UPDATE_RESULTS', () => {
+            const action = updateResultMap(results);
 
-            expect(reduce(action)).toEqual(resultsCompletionMap);
+            expect(reduce(action)).toEqual(results);
         });
     });
 
     describe('suggestedNameCount reducer', () => {
-        const reduce = action => suggestedResultNameCountReducer(undefined, action);
+        const reduce = action => suggestedNameCountReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.results.suggestedNameCount);
         });
 
-        it('should handle UPDATE_RESULT_NAMES', () => {
+        it('should handle UPDATE_RESULTS', () => {
             const action = incrementSuggestedResultNameCount();
 
             expect(reduce(action)).toBe(2);

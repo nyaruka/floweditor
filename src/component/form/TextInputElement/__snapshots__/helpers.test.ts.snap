@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`helpers > filterOptions > should filter options for "c" 1`] = `
+exports[`helpers filterOptions should filter options for "c" 1`] = `
 Array [
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact",
   },
   Object {
@@ -13,7 +13,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "ch" 1`] = `
+exports[`helpers filterOptions should filter options for "ch" 1`] = `
 Array [
   Object {
     "description": "Run details after running a child flow",
@@ -22,7 +22,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "child" 1`] = `
+exports[`helpers filterOptions should filter options for "child" 1`] = `
 Array [
   Object {
     "description": "Run details after running a child flow",
@@ -35,7 +35,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "child." 1`] = `
+exports[`helpers filterOptions should filter options for "child." 1`] = `
 Array [
   Object {
     "description": "The results for the child flow",
@@ -44,7 +44,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "child.r" 1`] = `
+exports[`helpers filterOptions should filter options for "child.r" 1`] = `
 Array [
   Object {
     "description": "The results for the child flow",
@@ -53,7 +53,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "child.re" 1`] = `
+exports[`helpers filterOptions should filter options for "child.re" 1`] = `
 Array [
   Object {
     "description": "The results for the child flow",
@@ -62,7 +62,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "child.results" 1`] = `
+exports[`helpers filterOptions should filter options for "child.results" 1`] = `
 Array [
   Object {
     "description": "The results for the child flow",
@@ -71,290 +71,350 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "co" 1`] = `
+exports[`helpers filterOptions should filter options for "co" 1`] = `
 Array [
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact",
   },
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "contact" 1`] = `
+exports[`helpers filterOptions should filter options for "contact" 1`] = `
 Array [
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact",
   },
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact.name",
   },
   Object {
-    "description": "The language code for the contact.",
+    "description": "The first name of the contact",
+    "name": "contact.first_name",
+  },
+  Object {
+    "description": "The language code for the contact",
     "name": "contact.language",
   },
   Object {
-    "description": "Custom fields on the contact.",
+    "description": "Custom fields on the contact",
     "name": "contact.fields",
   },
   Object {
-    "description": "The groups for the contact.",
+    "description": "The groups for the contact",
     "name": "contact.groups",
   },
   Object {
-    "description": "URNs on the contact.",
+    "description": "URNs on the contact",
+    "name": "contact.urns",
+  },
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact." 1`] = `
+Array [
+  Object {
+    "description": "The name of the contact",
+    "name": "contact.name",
+  },
+  Object {
+    "description": "The first name of the contact",
+    "name": "contact.first_name",
+  },
+  Object {
+    "description": "The language code for the contact",
+    "name": "contact.language",
+  },
+  Object {
+    "description": "Custom fields on the contact",
+    "name": "contact.fields",
+  },
+  Object {
+    "description": "The groups for the contact",
+    "name": "contact.groups",
+  },
+  Object {
+    "description": "URNs on the contact",
+    "name": "contact.urns",
+  },
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.c" 1`] = `
+Array [
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.ch" 1`] = `
+Array [
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.channel" 1`] = `
+Array [
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.f" 1`] = `
+Array [
+  Object {
+    "description": "The first name of the contact",
+    "name": "contact.first_name",
+  },
+  Object {
+    "description": "Custom fields on the contact",
+    "name": "contact.fields",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.fi" 1`] = `
+Array [
+  Object {
+    "description": "The first name of the contact",
+    "name": "contact.first_name",
+  },
+  Object {
+    "description": "Custom fields on the contact",
+    "name": "contact.fields",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.fields" 1`] = `
+Array [
+  Object {
+    "description": "Custom fields on the contact",
+    "name": "contact.fields",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.first_name" 1`] = `
+Array [
+  Object {
+    "description": "The first name of the contact",
+    "name": "contact.first_name",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.g" 1`] = `
+Array [
+  Object {
+    "description": "The groups for the contact",
+    "name": "contact.groups",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.gr" 1`] = `
+Array [
+  Object {
+    "description": "The groups for the contact",
+    "name": "contact.groups",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.groups" 1`] = `
+Array [
+  Object {
+    "description": "The groups for the contact",
+    "name": "contact.groups",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.l" 1`] = `
+Array [
+  Object {
+    "description": "The language code for the contact",
+    "name": "contact.language",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.la" 1`] = `
+Array [
+  Object {
+    "description": "The language code for the contact",
+    "name": "contact.language",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.language" 1`] = `
+Array [
+  Object {
+    "description": "The language code for the contact",
+    "name": "contact.language",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.n" 1`] = `
+Array [
+  Object {
+    "description": "The name of the contact",
+    "name": "contact.name",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.na" 1`] = `
+Array [
+  Object {
+    "description": "The name of the contact",
+    "name": "contact.name",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.name" 1`] = `
+Array [
+  Object {
+    "description": "The name of the contact",
+    "name": "contact.name",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.u" 1`] = `
+Array [
+  Object {
+    "description": "URNs on the contact",
     "name": "contact.urns",
   },
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "contact." 1`] = `
+exports[`helpers filterOptions should filter options for "contact.ur" 1`] = `
 Array [
   Object {
-    "description": "The name of the contact.",
-    "name": "contact.name",
-  },
-  Object {
-    "description": "The language code for the contact.",
-    "name": "contact.language",
-  },
-  Object {
-    "description": "Custom fields on the contact.",
-    "name": "contact.fields",
-  },
-  Object {
-    "description": "The groups for the contact.",
-    "name": "contact.groups",
-  },
-  Object {
-    "description": "URNs on the contact.",
+    "description": "URNs on the contact",
     "name": "contact.urns",
   },
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "contact.f" 1`] = `
+exports[`helpers filterOptions should filter options for "contact.urns" 1`] = `
 Array [
   Object {
-    "description": "Custom fields on the contact.",
-    "name": "contact.fields",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "contact.fi" 1`] = `
-Array [
-  Object {
-    "description": "Custom fields on the contact.",
-    "name": "contact.fields",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "contact.fields" 1`] = `
-Array [
-  Object {
-    "description": "Custom fields on the contact.",
-    "name": "contact.fields",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "contact.g" 1`] = `
-Array [
-  Object {
-    "description": "The groups for the contact.",
-    "name": "contact.groups",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "contact.gr" 1`] = `
-Array [
-  Object {
-    "description": "The groups for the contact.",
-    "name": "contact.groups",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "contact.groups" 1`] = `
-Array [
-  Object {
-    "description": "The groups for the contact.",
-    "name": "contact.groups",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "contact.l" 1`] = `
-Array [
-  Object {
-    "description": "The language code for the contact.",
-    "name": "contact.language",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "contact.la" 1`] = `
-Array [
-  Object {
-    "description": "The language code for the contact.",
-    "name": "contact.language",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "contact.language" 1`] = `
-Array [
-  Object {
-    "description": "The language code for the contact.",
-    "name": "contact.language",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "contact.n" 1`] = `
-Array [
-  Object {
-    "description": "The name of the contact.",
-    "name": "contact.name",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "contact.na" 1`] = `
-Array [
-  Object {
-    "description": "The name of the contact.",
-    "name": "contact.name",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "contact.name" 1`] = `
-Array [
-  Object {
-    "description": "The name of the contact.",
-    "name": "contact.name",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "contact.u" 1`] = `
-Array [
-  Object {
-    "description": "URNs on the contact.",
-    "name": "contact.urns",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "contact.ur" 1`] = `
-Array [
-  Object {
-    "description": "URNs on the contact.",
-    "name": "contact.urns",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "contact.urns" 1`] = `
-Array [
-  Object {
-    "description": "URNs on the contact.",
+    "description": "URNs on the contact",
     "name": "contact.urns",
   },
   Object {
-    "description": "The preferred telephone number for the contact.",
+    "description": "The preferred telephone number for the contact",
     "name": "contact.urns.tel",
   },
   Object {
-    "description": "The preferred telegram id for the contact.",
+    "description": "The preferred telegram id for the contact",
     "name": "contact.urns.telegram",
   },
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "contact.urns.t" 1`] = `
+exports[`helpers filterOptions should filter options for "contact.urns.t" 1`] = `
 Array [
   Object {
-    "description": "The preferred telephone number for the contact.",
+    "description": "The preferred telephone number for the contact",
     "name": "contact.urns.tel",
   },
   Object {
-    "description": "The preferred telegram id for the contact.",
+    "description": "The preferred telegram id for the contact",
     "name": "contact.urns.telegram",
   },
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "contact.urns.te" 1`] = `
+exports[`helpers filterOptions should filter options for "contact.urns.te" 1`] = `
 Array [
   Object {
-    "description": "The preferred telephone number for the contact.",
+    "description": "The preferred telephone number for the contact",
     "name": "contact.urns.tel",
   },
   Object {
-    "description": "The preferred telegram id for the contact.",
+    "description": "The preferred telegram id for the contact",
     "name": "contact.urns.telegram",
   },
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "contact.urns.tel" 1`] = `
+exports[`helpers filterOptions should filter options for "contact.urns.tel" 1`] = `
 Array [
   Object {
-    "description": "The preferred telephone number for the contact.",
+    "description": "The preferred telephone number for the contact",
     "name": "contact.urns.tel",
   },
   Object {
-    "description": "The preferred telegram id for the contact.",
+    "description": "The preferred telegram id for the contact",
     "name": "contact.urns.telegram",
   },
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "contact.urns.telegram" 1`] = `
+exports[`helpers filterOptions should filter options for "contact.urns.telegram" 1`] = `
 Array [
   Object {
-    "description": "The preferred telegram id for the contact.",
+    "description": "The preferred telegram id for the contact",
     "name": "contact.urns.telegram",
   },
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "i" 1`] = `
+exports[`helpers filterOptions should filter options for "i" 1`] = `
 Array [
   Object {
-    "description": "The last input from the contact if any.",
+    "description": "The last input from the contact if any",
     "name": "input",
   },
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "in" 1`] = `
+exports[`helpers filterOptions should filter options for "in" 1`] = `
 Array [
   Object {
-    "description": "The last input from the contact if any.",
+    "description": "The last input from the contact if any",
     "name": "input",
   },
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "input" 1`] = `
+exports[`helpers filterOptions should filter options for "input" 1`] = `
 Array [
   Object {
-    "description": "The last input from the contact if any.",
+    "description": "The last input from the contact if any",
     "name": "input",
   },
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "input." 1`] = `Array []`;
+exports[`helpers filterOptions should filter options for "input." 1`] = `Array []`;
 
-exports[`helpers > filterOptions > should filter options for "p" 1`] = `
+exports[`helpers filterOptions should filter options for "p" 1`] = `
 Array [
   Object {
     "description": "Run details if being called from a parent flow",
@@ -363,7 +423,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "pa" 1`] = `
+exports[`helpers filterOptions should filter options for "pa" 1`] = `
 Array [
   Object {
     "description": "Run details if being called from a parent flow",
@@ -372,7 +432,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "parent" 1`] = `
+exports[`helpers filterOptions should filter options for "parent" 1`] = `
 Array [
   Object {
     "description": "Run details if being called from a parent flow",
@@ -385,7 +445,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "parent." 1`] = `
+exports[`helpers filterOptions should filter options for "parent." 1`] = `
 Array [
   Object {
     "description": "The results for the parent flow",
@@ -394,7 +454,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "parent.r" 1`] = `
+exports[`helpers filterOptions should filter options for "parent.r" 1`] = `
 Array [
   Object {
     "description": "The results for the parent flow",
@@ -403,7 +463,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "parent.re" 1`] = `
+exports[`helpers filterOptions should filter options for "parent.re" 1`] = `
 Array [
   Object {
     "description": "The results for the parent flow",
@@ -412,7 +472,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "parent.results" 1`] = `
+exports[`helpers filterOptions should filter options for "parent.results" 1`] = `
 Array [
   Object {
     "description": "The results for the parent flow",
@@ -421,7 +481,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "r" 1`] = `
+exports[`helpers filterOptions should filter options for "r" 1`] = `
 Array [
   Object {
     "description": "Run details",
@@ -430,7 +490,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "ru" 1`] = `
+exports[`helpers filterOptions should filter options for "ru" 1`] = `
 Array [
   Object {
     "description": "Run details",
@@ -439,7 +499,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "run" 1`] = `
+exports[`helpers filterOptions should filter options for "run" 1`] = `
 Array [
   Object {
     "description": "Run details",
@@ -456,7 +516,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "run." 1`] = `
+exports[`helpers filterOptions should filter options for "run." 1`] = `
 Array [
   Object {
     "description": "The contact in this run",
@@ -469,7 +529,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "run.c" 1`] = `
+exports[`helpers filterOptions should filter options for "run.c" 1`] = `
 Array [
   Object {
     "description": "The contact in this run",
@@ -478,7 +538,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "run.co" 1`] = `
+exports[`helpers filterOptions should filter options for "run.co" 1`] = `
 Array [
   Object {
     "description": "The contact in this run",
@@ -487,7 +547,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "run.contact" 1`] = `
+exports[`helpers filterOptions should filter options for "run.contact" 1`] = `
 Array [
   Object {
     "description": "The contact in this run",
@@ -496,7 +556,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "run.r" 1`] = `
+exports[`helpers filterOptions should filter options for "run.r" 1`] = `
 Array [
   Object {
     "description": "Results for the run",
@@ -505,7 +565,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "run.re" 1`] = `
+exports[`helpers filterOptions should filter options for "run.re" 1`] = `
 Array [
   Object {
     "description": "Results for the run",
@@ -514,7 +574,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "run.results" 1`] = `
+exports[`helpers filterOptions should filter options for "run.results" 1`] = `
 Array [
   Object {
     "description": "Results for the run",
@@ -523,7 +583,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "w" 1`] = `
+exports[`helpers filterOptions should filter options for "w" 1`] = `
 Array [
   Object {
     "description": "The body of the webhook response",
@@ -532,7 +592,7 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "we" 1`] = `
+exports[`helpers filterOptions should filter options for "we" 1`] = `
 Array [
   Object {
     "description": "The body of the webhook response",
@@ -541,315 +601,8 @@ Array [
 ]
 `;
 
-exports[`helpers > filterOptions > should filter options for "webhook" 1`] = `
+exports[`helpers filterOptions should filter options for "webhook" 1`] = `
 Array [
-  Object {
-    "description": "The body of the webhook response",
-    "name": "webhook",
-  },
-  Object {
-    "description": "The status of the webhook call",
-    "name": "webhook.status",
-  },
-  Object {
-    "description": "The status code returned from the webhook",
-    "name": "webhook.status_code",
-  },
-  Object {
-    "description": "The URL which was called",
-    "name": "webhook.url",
-  },
-  Object {
-    "description": "The body of the webhook response",
-    "name": "webhook.body",
-  },
-  Object {
-    "description": "The JSON parsed body of the response, can access subelements",
-    "name": "webhook.json",
-  },
-  Object {
-    "description": "The raw request of the webhook including headers",
-    "name": "webhook.request",
-  },
-  Object {
-    "description": "The raw response of the webhook including headers",
-    "name": "webhook.response",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook." 1`] = `
-Array [
-  Object {
-    "description": "The status of the webhook call",
-    "name": "webhook.status",
-  },
-  Object {
-    "description": "The status code returned from the webhook",
-    "name": "webhook.status_code",
-  },
-  Object {
-    "description": "The URL which was called",
-    "name": "webhook.url",
-  },
-  Object {
-    "description": "The body of the webhook response",
-    "name": "webhook.body",
-  },
-  Object {
-    "description": "The JSON parsed body of the response, can access subelements",
-    "name": "webhook.json",
-  },
-  Object {
-    "description": "The raw request of the webhook including headers",
-    "name": "webhook.request",
-  },
-  Object {
-    "description": "The raw response of the webhook including headers",
-    "name": "webhook.response",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.b" 1`] = `
-Array [
-  Object {
-    "description": "The body of the webhook response",
-    "name": "webhook.body",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.bo" 1`] = `
-Array [
-  Object {
-    "description": "The body of the webhook response",
-    "name": "webhook.body",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.body" 1`] = `
-Array [
-  Object {
-    "description": "The body of the webhook response",
-    "name": "webhook.body",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.j" 1`] = `
-Array [
-  Object {
-    "description": "The JSON parsed body of the response, can access subelements",
-    "name": "webhook.json",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.js" 1`] = `
-Array [
-  Object {
-    "description": "The JSON parsed body of the response, can access subelements",
-    "name": "webhook.json",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.json" 1`] = `
-Array [
-  Object {
-    "description": "The JSON parsed body of the response, can access subelements",
-    "name": "webhook.json",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.r" 1`] = `
-Array [
-  Object {
-    "description": "The raw request of the webhook including headers",
-    "name": "webhook.request",
-  },
-  Object {
-    "description": "The raw response of the webhook including headers",
-    "name": "webhook.response",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.re" 1`] = `
-Array [
-  Object {
-    "description": "The raw request of the webhook including headers",
-    "name": "webhook.request",
-  },
-  Object {
-    "description": "The raw response of the webhook including headers",
-    "name": "webhook.response",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.request" 1`] = `
-Array [
-  Object {
-    "description": "The raw request of the webhook including headers",
-    "name": "webhook.request",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.response" 1`] = `
-Array [
-  Object {
-    "description": "The raw response of the webhook including headers",
-    "name": "webhook.response",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.s" 1`] = `
-Array [
-  Object {
-    "description": "The status of the webhook call",
-    "name": "webhook.status",
-  },
-  Object {
-    "description": "The status code returned from the webhook",
-    "name": "webhook.status_code",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.st" 1`] = `
-Array [
-  Object {
-    "description": "The status of the webhook call",
-    "name": "webhook.status",
-  },
-  Object {
-    "description": "The status code returned from the webhook",
-    "name": "webhook.status_code",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.status" 1`] = `
-Array [
-  Object {
-    "description": "The status of the webhook call",
-    "name": "webhook.status",
-  },
-  Object {
-    "description": "The status code returned from the webhook",
-    "name": "webhook.status_code",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.status_code" 1`] = `
-Array [
-  Object {
-    "description": "The status code returned from the webhook",
-    "name": "webhook.status_code",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.u" 1`] = `
-Array [
-  Object {
-    "description": "The URL which was called",
-    "name": "webhook.url",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.ur" 1`] = `
-Array [
-  Object {
-    "description": "The URL which was called",
-    "name": "webhook.url",
-  },
-]
-`;
-
-exports[`helpers > filterOptions > should filter options for "webhook.url" 1`] = `
-Array [
-  Object {
-    "description": "The URL which was called",
-    "name": "webhook.url",
-  },
-]
-`;
-
-exports[`helpers > getOptionsList should include only our predefined options if autocomplete arg is falsy 1`] = `
-Array [
-  Object {
-    "description": "The name of the contact.",
-    "name": "contact",
-  },
-  Object {
-    "description": "The name of the contact.",
-    "name": "contact.name",
-  },
-  Object {
-    "description": "The language code for the contact.",
-    "name": "contact.language",
-  },
-  Object {
-    "description": "Custom fields on the contact.",
-    "name": "contact.fields",
-  },
-  Object {
-    "description": "The groups for the contact.",
-    "name": "contact.groups",
-  },
-  Object {
-    "description": "URNs on the contact.",
-    "name": "contact.urns",
-  },
-  Object {
-    "description": "The preferred telephone number for the contact.",
-    "name": "contact.urns.tel",
-  },
-  Object {
-    "description": "The preferred telegram id for the contact.",
-    "name": "contact.urns.telegram",
-  },
-  Object {
-    "description": "The last input from the contact if any.",
-    "name": "input",
-  },
-  Object {
-    "description": "Run details",
-    "name": "run",
-  },
-  Object {
-    "description": "The contact in this run",
-    "name": "run.contact",
-  },
-  Object {
-    "description": "Results for the run",
-    "name": "run.results",
-  },
-  Object {
-    "description": "Run details after running a child flow",
-    "name": "child",
-  },
-  Object {
-    "description": "The results for the child flow",
-    "name": "child.results",
-  },
-  Object {
-    "description": "Run details if being called from a parent flow",
-    "name": "parent",
-  },
-  Object {
-    "description": "The results for the parent flow",
-    "name": "parent.results",
-  },
   Object {
     "description": "The body of the webhook response",
     "name": "webhook",
@@ -885,42 +638,365 @@ Array [
 ]
 `;
 
-exports[`helpers > getOptionsList should include result names if autocomplete arg is truthy 1`] = `
+exports[`helpers filterOptions should filter options for "webhook." 1`] = `
 Array [
   Object {
-    "description": "The name of the contact.",
+    "description": "The status of the webhook call",
+    "name": "webhook.status",
+  },
+  Object {
+    "description": "The status code returned from the webhook",
+    "name": "webhook.status_code",
+  },
+  Object {
+    "description": "The URL which was called",
+    "name": "webhook.url",
+  },
+  Object {
+    "description": "The body of the webhook response",
+    "name": "webhook.body",
+  },
+  Object {
+    "description": "The JSON parsed body of the response, can access subelements",
+    "name": "webhook.json",
+  },
+  Object {
+    "description": "The raw request of the webhook including headers",
+    "name": "webhook.request",
+  },
+  Object {
+    "description": "The raw response of the webhook including headers",
+    "name": "webhook.response",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.b" 1`] = `
+Array [
+  Object {
+    "description": "The body of the webhook response",
+    "name": "webhook.body",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.bo" 1`] = `
+Array [
+  Object {
+    "description": "The body of the webhook response",
+    "name": "webhook.body",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.body" 1`] = `
+Array [
+  Object {
+    "description": "The body of the webhook response",
+    "name": "webhook.body",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.j" 1`] = `
+Array [
+  Object {
+    "description": "The JSON parsed body of the response, can access subelements",
+    "name": "webhook.json",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.js" 1`] = `
+Array [
+  Object {
+    "description": "The JSON parsed body of the response, can access subelements",
+    "name": "webhook.json",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.json" 1`] = `
+Array [
+  Object {
+    "description": "The JSON parsed body of the response, can access subelements",
+    "name": "webhook.json",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.r" 1`] = `
+Array [
+  Object {
+    "description": "The raw request of the webhook including headers",
+    "name": "webhook.request",
+  },
+  Object {
+    "description": "The raw response of the webhook including headers",
+    "name": "webhook.response",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.re" 1`] = `
+Array [
+  Object {
+    "description": "The raw request of the webhook including headers",
+    "name": "webhook.request",
+  },
+  Object {
+    "description": "The raw response of the webhook including headers",
+    "name": "webhook.response",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.request" 1`] = `
+Array [
+  Object {
+    "description": "The raw request of the webhook including headers",
+    "name": "webhook.request",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.response" 1`] = `
+Array [
+  Object {
+    "description": "The raw response of the webhook including headers",
+    "name": "webhook.response",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.s" 1`] = `
+Array [
+  Object {
+    "description": "The status of the webhook call",
+    "name": "webhook.status",
+  },
+  Object {
+    "description": "The status code returned from the webhook",
+    "name": "webhook.status_code",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.st" 1`] = `
+Array [
+  Object {
+    "description": "The status of the webhook call",
+    "name": "webhook.status",
+  },
+  Object {
+    "description": "The status code returned from the webhook",
+    "name": "webhook.status_code",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.status" 1`] = `
+Array [
+  Object {
+    "description": "The status of the webhook call",
+    "name": "webhook.status",
+  },
+  Object {
+    "description": "The status code returned from the webhook",
+    "name": "webhook.status_code",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.status_code" 1`] = `
+Array [
+  Object {
+    "description": "The status code returned from the webhook",
+    "name": "webhook.status_code",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.u" 1`] = `
+Array [
+  Object {
+    "description": "The URL which was called",
+    "name": "webhook.url",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.ur" 1`] = `
+Array [
+  Object {
+    "description": "The URL which was called",
+    "name": "webhook.url",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "webhook.url" 1`] = `
+Array [
+  Object {
+    "description": "The URL which was called",
+    "name": "webhook.url",
+  },
+]
+`;
+
+exports[`helpers getOptionsList should include only our predefined options if autocomplete arg is falsy 1`] = `
+Array [
+  Object {
+    "description": "The name of the contact",
     "name": "contact",
   },
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact.name",
   },
   Object {
-    "description": "The language code for the contact.",
+    "description": "The first name of the contact",
+    "name": "contact.first_name",
+  },
+  Object {
+    "description": "The language code for the contact",
     "name": "contact.language",
   },
   Object {
-    "description": "Custom fields on the contact.",
+    "description": "Custom fields on the contact",
     "name": "contact.fields",
   },
   Object {
-    "description": "The groups for the contact.",
+    "description": "The groups for the contact",
     "name": "contact.groups",
   },
   Object {
-    "description": "URNs on the contact.",
+    "description": "URNs on the contact",
     "name": "contact.urns",
   },
   Object {
-    "description": "The preferred telephone number for the contact.",
+    "description": "The preferred telephone number for the contact",
     "name": "contact.urns.tel",
   },
   Object {
-    "description": "The preferred telegram id for the contact.",
+    "description": "The preferred telegram id for the contact",
     "name": "contact.urns.telegram",
   },
   Object {
-    "description": "The last input from the contact if any.",
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
+  },
+  Object {
+    "description": "The last input from the contact if any",
+    "name": "input",
+  },
+  Object {
+    "description": "Run details",
+    "name": "run",
+  },
+  Object {
+    "description": "The contact in this run",
+    "name": "run.contact",
+  },
+  Object {
+    "description": "Results for the run",
+    "name": "run.results",
+  },
+  Object {
+    "description": "Run details after running a child flow",
+    "name": "child",
+  },
+  Object {
+    "description": "The results for the child flow",
+    "name": "child.results",
+  },
+  Object {
+    "description": "Run details if being called from a parent flow",
+    "name": "parent",
+  },
+  Object {
+    "description": "The results for the parent flow",
+    "name": "parent.results",
+  },
+  Object {
+    "description": "The body of the webhook response",
+    "name": "webhook",
+  },
+  Object {
+    "description": "The status of the webhook call",
+    "name": "webhook.status",
+  },
+  Object {
+    "description": "The status code returned from the webhook",
+    "name": "webhook.status_code",
+  },
+  Object {
+    "description": "The URL which was called",
+    "name": "webhook.url",
+  },
+  Object {
+    "description": "The body of the webhook response",
+    "name": "webhook.body",
+  },
+  Object {
+    "description": "The JSON parsed body of the response, can access subelements",
+    "name": "webhook.json",
+  },
+  Object {
+    "description": "The raw request of the webhook including headers",
+    "name": "webhook.request",
+  },
+  Object {
+    "description": "The raw response of the webhook including headers",
+    "name": "webhook.response",
+  },
+]
+`;
+
+exports[`helpers getOptionsList should include result names if autocomplete arg is truthy 1`] = `
+Array [
+  Object {
+    "description": "The name of the contact",
+    "name": "contact",
+  },
+  Object {
+    "description": "The name of the contact",
+    "name": "contact.name",
+  },
+  Object {
+    "description": "The first name of the contact",
+    "name": "contact.first_name",
+  },
+  Object {
+    "description": "The language code for the contact",
+    "name": "contact.language",
+  },
+  Object {
+    "description": "Custom fields on the contact",
+    "name": "contact.fields",
+  },
+  Object {
+    "description": "The groups for the contact",
+    "name": "contact.groups",
+  },
+  Object {
+    "description": "URNs on the contact",
+    "name": "contact.urns",
+  },
+  Object {
+    "description": "The preferred telephone number for the contact",
+    "name": "contact.urns.tel",
+  },
+  Object {
+    "description": "The preferred telegram id for the contact",
+    "name": "contact.urns.telegram",
+  },
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
+  },
+  Object {
+    "description": "The last input from the contact if any",
     "name": "input",
   },
   Object {
@@ -986,6 +1062,30 @@ Array [
   Object {
     "description": "Result for \\"Color\\"",
     "name": "run.results.color",
+  },
+  Object {
+    "description": "Value for \\"Color\\"",
+    "name": "run.results.color.value",
+  },
+  Object {
+    "description": "Category for \\"Color\\"",
+    "name": "run.results.color.category",
+  },
+  Object {
+    "description": "Localized category for \\"Color\\"",
+    "name": "run.results.color.category_localized",
+  },
+  Object {
+    "description": "Input for \\"Color\\"",
+    "name": "run.results.color.input",
+  },
+  Object {
+    "description": "Node UUID for \\"Color\\"",
+    "name": "run.results.color.node_uuid",
+  },
+  Object {
+    "description": "Time \\"Color\\" was created",
+    "name": "run.results.color.created_on",
   },
 ]
 `;

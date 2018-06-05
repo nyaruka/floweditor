@@ -1,7 +1,7 @@
 import { split } from 'split-sms';
 
 import { CompletionOption } from '../../../store';
-import { ResultCompletionMap } from '../../../store/flowContext';
+import { ResultMap } from '../../../store/flowContext';
 import { titleCase } from '../../../utils';
 import { GSM, OPTIONS } from './constants';
 
@@ -86,7 +86,7 @@ export const isValidURL = (str: string): boolean => {
             // protocol identifier
             '(?:(?:https?|ftp)://)' +
             // user:pass authentication
-            '(?:\\S+(?::\\S*)?@)?' +
+            '(?:\\S+(?:u:\\S*)?@)?' +
             '(?:' +
             // IP address exclusion
             // private & local networks
@@ -122,42 +122,64 @@ export const isValidURL = (str: string): boolean => {
     return webURLRegex.test(str);
 };
 
-export const filterOptions = (options: CompletionOption[], query?: string): CompletionOption[] => {
-    if (query != null) {
-        const search = query.toLowerCase();
-
-        return options.filter(({ name: optionName }: CompletionOption) => {
-            const rest = optionName.substr(search.length);
-
-            return (
-                optionName.indexOf(search) === 0 &&
-                (rest.length === 0 || rest.substr(1).indexOf('.') === -1)
-            );
-        });
-    }
-
-    return [];
+export const filterOptions = (
+    options: CompletionOption[],
+    query: string = ''
+): CompletionOption[] => {
+    const search = query.toLowerCase();
+    return options.filter(({ name: optionName }: CompletionOption) => {
+        const rest = optionName.substr(search.length);
+        return (
+            optionName.indexOf(search) === 0 &&
+            (rest.length === 0 || rest.substr(1).indexOf('.') === -1)
+        );
+    });
 };
 
-export const extractCompletionOptions = (resultsCompletionMap: ResultCompletionMap) =>
-    [
-        ...new Set(Object.keys(resultsCompletionMap).map(uuid => resultsCompletionMap[uuid].name))
-    ].map(query => {
-        const strippedName = query.replace(/^@/, '');
-        const displayName = titleCase(
-            strippedName.slice(strippedName.lastIndexOf('.') + 1).replace(/_/g, ' ')
-        );
-        return {
-            name: strippedName,
-            description: `Result for "${displayName}"`
-        };
-    });
+export const getResultCompletionProperties = (accessor: string, name: string) => [
+    {
+        name: accessor,
+        description: `Result for "${name}"`
+    },
+    {
+        name: `${accessor}.value`,
+        description: `Value for "${name}"`
+    },
+    {
+        name: `${accessor}.category`,
+        description: `Category for "${name}"`
+    },
+    {
+        name: `${accessor}.category_localized`,
+        description: `Localized category for "${name}"`
+    },
+    {
+        name: `${accessor}.input`,
+        description: `Input for "${name}"`
+    },
+    {
+        name: `${accessor}.node_uuid`,
+        description: `Node UUID for "${name}"`
+    },
+    {
+        name: `${accessor}.created_on`,
+        description: `Time "${name}" was created`
+    }
+];
+
+export const extractCompletionOptions = (results: ResultMap) =>
+    [...new Set(Object.keys(results).map(uuid => results[uuid]))].reduce((options, query) => {
+        const accessor = query.replace(/^@/, '');
+        const name = titleCase(accessor.slice(accessor.lastIndexOf('.') + 1).replace(/_/g, ' '));
+        options.push(...getResultCompletionProperties(accessor, name));
+        return options;
+    }, []);
 
 export const getOptionsList = (
     autocomplete: boolean,
-    resultsCompletionMap: ResultCompletionMap
+    results: ResultMap = {}
 ): CompletionOption[] =>
-    autocomplete ? [...OPTIONS, ...extractCompletionOptions(resultsCompletionMap)] : OPTIONS;
+    autocomplete ? [...OPTIONS, ...extractCompletionOptions(results)] : OPTIONS;
 
 export const pluralize = (count: number, noun: string, suffix: string = 's'): string =>
     `${noun}${count !== 1 ? suffix : ''}`;
