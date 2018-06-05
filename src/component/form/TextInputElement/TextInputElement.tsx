@@ -7,7 +7,7 @@ import * as getCaretCoordinates from 'textarea-caret';
 
 import { Type, Types } from '../../../config/typeConfigs';
 import { AppState, CompletionOption } from '../../../store';
-import { ResultCompletionMap } from '../../../store/flowContext';
+import { ResultMap } from '../../../store/flowContext';
 import { StringEntry } from '../../../store/nodeEditor';
 import FormElement, { FormElementProps } from '../FormElement';
 import * as shared from '../FormElement.scss';
@@ -34,7 +34,7 @@ export interface HTMLTextElement {
 
 export interface TextInputStoreProps {
     typeConfig: Type;
-    resultsCompletionMap: ResultCompletionMap;
+    resultMap: ResultMap;
 }
 
 export interface TextInputPassedProps extends FormElementProps {
@@ -100,7 +100,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         }
         this.state = {
             value: initial,
-            options: getOptionsList(this.props.autocomplete, this.props.resultsCompletionMap || {}),
+            options: getOptionsList(this.props.autocomplete, this.props.resultMap || {}),
             ...initialState,
             ...(this.props.count && this.props.count === Count.SMS ? getMsgStats(initial) : {})
         };
@@ -474,11 +474,11 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowContext: { results: { completionOptions } },
+    flowContext: { results: { resultMap } },
     nodeEditor: { typeConfig }
 }: AppState) => ({
     typeConfig,
-    resultsCompletionMap: completionOptions
+    resultMap
 });
 
 const ConnectedTextInputElement = connect(mapStateToProps, null, null, { withRef: true })(

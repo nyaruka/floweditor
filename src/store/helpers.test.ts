@@ -3,13 +3,13 @@ import { Case, Exit, FlowDefinition, FlowPosition, RouterTypes, SendMsg } from '
 import { Spanish } from '../testUtils/assetCreators';
 import {
     determineConfigType,
-    generateCompletionOption,
+    generateResultQuery,
     getCollisions,
     getFlowComponents,
     getGhostNode,
     getLocalizations,
     getOrderedNodes,
-    getUniqueDestinations
+    getUniqueDestinations,
 } from './helpers';
 
 const mutate = require('immutability-helper');
@@ -42,12 +42,12 @@ describe('helpers', () => {
         });
 
         it('should find results in definition', () => {
-            const { resultsCompletionMap } = getFlowComponents(definition);
+            const { resultMap } = getFlowComponents(definition);
             const expectedOutput = {
-                node1: generateCompletionOption(definition.nodes[1].router.result_name)
+                node1: generateResultQuery(definition.nodes[1].router.result_name)
             };
-            expect(resultsCompletionMap).toEqual(expectedOutput);
-            expect(resultsCompletionMap).toMatchSnapshot();
+            expect(resultMap).toEqual(expectedOutput);
+            expect(resultMap).toMatchSnapshot();
         });
     });
 
