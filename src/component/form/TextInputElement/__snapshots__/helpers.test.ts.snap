@@ -3,7 +3,7 @@
 exports[`helpers filterOptions should filter options for "c" 1`] = `
 Array [
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact",
   },
   Object {
@@ -74,7 +74,7 @@ Array [
 exports[`helpers filterOptions should filter options for "co" 1`] = `
 Array [
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact",
   },
 ]
@@ -83,28 +83,36 @@ Array [
 exports[`helpers filterOptions should filter options for "contact" 1`] = `
 Array [
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact",
   },
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact.name",
   },
   Object {
-    "description": "The language code for the contact.",
+    "description": "The first name of the contact",
+    "name": "contact.first_name",
+  },
+  Object {
+    "description": "The language code for the contact",
     "name": "contact.language",
   },
   Object {
-    "description": "Custom fields on the contact.",
+    "description": "Custom fields on the contact",
     "name": "contact.fields",
   },
   Object {
-    "description": "The groups for the contact.",
+    "description": "The groups for the contact",
     "name": "contact.groups",
   },
   Object {
-    "description": "URNs on the contact.",
+    "description": "URNs on the contact",
     "name": "contact.urns",
+  },
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
   },
 ]
 `;
@@ -112,24 +120,59 @@ Array [
 exports[`helpers filterOptions should filter options for "contact." 1`] = `
 Array [
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact.name",
   },
   Object {
-    "description": "The language code for the contact.",
+    "description": "The first name of the contact",
+    "name": "contact.first_name",
+  },
+  Object {
+    "description": "The language code for the contact",
     "name": "contact.language",
   },
   Object {
-    "description": "Custom fields on the contact.",
+    "description": "Custom fields on the contact",
     "name": "contact.fields",
   },
   Object {
-    "description": "The groups for the contact.",
+    "description": "The groups for the contact",
     "name": "contact.groups",
   },
   Object {
-    "description": "URNs on the contact.",
+    "description": "URNs on the contact",
     "name": "contact.urns",
+  },
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.c" 1`] = `
+Array [
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.ch" 1`] = `
+Array [
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.channel" 1`] = `
+Array [
+  Object {
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
   },
 ]
 `;
@@ -137,7 +180,11 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.f" 1`] = `
 Array [
   Object {
-    "description": "Custom fields on the contact.",
+    "description": "The first name of the contact",
+    "name": "contact.first_name",
+  },
+  Object {
+    "description": "Custom fields on the contact",
     "name": "contact.fields",
   },
 ]
@@ -146,7 +193,11 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.fi" 1`] = `
 Array [
   Object {
-    "description": "Custom fields on the contact.",
+    "description": "The first name of the contact",
+    "name": "contact.first_name",
+  },
+  Object {
+    "description": "Custom fields on the contact",
     "name": "contact.fields",
   },
 ]
@@ -155,8 +206,17 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.fields" 1`] = `
 Array [
   Object {
-    "description": "Custom fields on the contact.",
+    "description": "Custom fields on the contact",
     "name": "contact.fields",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.first_name" 1`] = `
+Array [
+  Object {
+    "description": "The first name of the contact",
+    "name": "contact.first_name",
   },
 ]
 `;
@@ -164,7 +224,7 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.g" 1`] = `
 Array [
   Object {
-    "description": "The groups for the contact.",
+    "description": "The groups for the contact",
     "name": "contact.groups",
   },
 ]
@@ -173,7 +233,7 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.gr" 1`] = `
 Array [
   Object {
-    "description": "The groups for the contact.",
+    "description": "The groups for the contact",
     "name": "contact.groups",
   },
 ]
@@ -182,7 +242,7 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.groups" 1`] = `
 Array [
   Object {
-    "description": "The groups for the contact.",
+    "description": "The groups for the contact",
     "name": "contact.groups",
   },
 ]
@@ -191,7 +251,7 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.l" 1`] = `
 Array [
   Object {
-    "description": "The language code for the contact.",
+    "description": "The language code for the contact",
     "name": "contact.language",
   },
 ]
@@ -200,7 +260,7 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.la" 1`] = `
 Array [
   Object {
-    "description": "The language code for the contact.",
+    "description": "The language code for the contact",
     "name": "contact.language",
   },
 ]
@@ -209,7 +269,7 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.language" 1`] = `
 Array [
   Object {
-    "description": "The language code for the contact.",
+    "description": "The language code for the contact",
     "name": "contact.language",
   },
 ]
@@ -218,7 +278,7 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.n" 1`] = `
 Array [
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact.name",
   },
 ]
@@ -227,7 +287,7 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.na" 1`] = `
 Array [
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact.name",
   },
 ]
@@ -236,7 +296,7 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.name" 1`] = `
 Array [
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact.name",
   },
 ]
@@ -245,7 +305,7 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.u" 1`] = `
 Array [
   Object {
-    "description": "URNs on the contact.",
+    "description": "URNs on the contact",
     "name": "contact.urns",
   },
 ]
@@ -254,7 +314,7 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.ur" 1`] = `
 Array [
   Object {
-    "description": "URNs on the contact.",
+    "description": "URNs on the contact",
     "name": "contact.urns",
   },
 ]
@@ -263,15 +323,15 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.urns" 1`] = `
 Array [
   Object {
-    "description": "URNs on the contact.",
+    "description": "URNs on the contact",
     "name": "contact.urns",
   },
   Object {
-    "description": "The preferred telephone number for the contact.",
+    "description": "The preferred telephone number for the contact",
     "name": "contact.urns.tel",
   },
   Object {
-    "description": "The preferred telegram id for the contact.",
+    "description": "The preferred telegram id for the contact",
     "name": "contact.urns.telegram",
   },
 ]
@@ -280,11 +340,11 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.urns.t" 1`] = `
 Array [
   Object {
-    "description": "The preferred telephone number for the contact.",
+    "description": "The preferred telephone number for the contact",
     "name": "contact.urns.tel",
   },
   Object {
-    "description": "The preferred telegram id for the contact.",
+    "description": "The preferred telegram id for the contact",
     "name": "contact.urns.telegram",
   },
 ]
@@ -293,11 +353,11 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.urns.te" 1`] = `
 Array [
   Object {
-    "description": "The preferred telephone number for the contact.",
+    "description": "The preferred telephone number for the contact",
     "name": "contact.urns.tel",
   },
   Object {
-    "description": "The preferred telegram id for the contact.",
+    "description": "The preferred telegram id for the contact",
     "name": "contact.urns.telegram",
   },
 ]
@@ -306,11 +366,11 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.urns.tel" 1`] = `
 Array [
   Object {
-    "description": "The preferred telephone number for the contact.",
+    "description": "The preferred telephone number for the contact",
     "name": "contact.urns.tel",
   },
   Object {
-    "description": "The preferred telegram id for the contact.",
+    "description": "The preferred telegram id for the contact",
     "name": "contact.urns.telegram",
   },
 ]
@@ -319,7 +379,7 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.urns.telegram" 1`] = `
 Array [
   Object {
-    "description": "The preferred telegram id for the contact.",
+    "description": "The preferred telegram id for the contact",
     "name": "contact.urns.telegram",
   },
 ]
@@ -328,7 +388,7 @@ Array [
 exports[`helpers filterOptions should filter options for "i" 1`] = `
 Array [
   Object {
-    "description": "The last input from the contact if any.",
+    "description": "The last input from the contact if any",
     "name": "input",
   },
 ]
@@ -337,7 +397,7 @@ Array [
 exports[`helpers filterOptions should filter options for "in" 1`] = `
 Array [
   Object {
-    "description": "The last input from the contact if any.",
+    "description": "The last input from the contact if any",
     "name": "input",
   },
 ]
@@ -346,7 +406,7 @@ Array [
 exports[`helpers filterOptions should filter options for "input" 1`] = `
 Array [
   Object {
-    "description": "The last input from the contact if any.",
+    "description": "The last input from the contact if any",
     "name": "input",
   },
 ]
@@ -787,39 +847,47 @@ Array [
 exports[`helpers getOptionsList should include only our predefined options if autocomplete arg is falsy 1`] = `
 Array [
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact",
   },
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact.name",
   },
   Object {
-    "description": "The language code for the contact.",
+    "description": "The first name of the contact",
+    "name": "contact.first_name",
+  },
+  Object {
+    "description": "The language code for the contact",
     "name": "contact.language",
   },
   Object {
-    "description": "Custom fields on the contact.",
+    "description": "Custom fields on the contact",
     "name": "contact.fields",
   },
   Object {
-    "description": "The groups for the contact.",
+    "description": "The groups for the contact",
     "name": "contact.groups",
   },
   Object {
-    "description": "URNs on the contact.",
+    "description": "URNs on the contact",
     "name": "contact.urns",
   },
   Object {
-    "description": "The preferred telephone number for the contact.",
+    "description": "The preferred telephone number for the contact",
     "name": "contact.urns.tel",
   },
   Object {
-    "description": "The preferred telegram id for the contact.",
+    "description": "The preferred telegram id for the contact",
     "name": "contact.urns.telegram",
   },
   Object {
-    "description": "The last input from the contact if any.",
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
+  },
+  Object {
+    "description": "The last input from the contact if any",
     "name": "input",
   },
   Object {
@@ -888,39 +956,47 @@ Array [
 exports[`helpers getOptionsList should include result names if autocomplete arg is truthy 1`] = `
 Array [
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact",
   },
   Object {
-    "description": "The name of the contact.",
+    "description": "The name of the contact",
     "name": "contact.name",
   },
   Object {
-    "description": "The language code for the contact.",
+    "description": "The first name of the contact",
+    "name": "contact.first_name",
+  },
+  Object {
+    "description": "The language code for the contact",
     "name": "contact.language",
   },
   Object {
-    "description": "Custom fields on the contact.",
+    "description": "Custom fields on the contact",
     "name": "contact.fields",
   },
   Object {
-    "description": "The groups for the contact.",
+    "description": "The groups for the contact",
     "name": "contact.groups",
   },
   Object {
-    "description": "URNs on the contact.",
+    "description": "URNs on the contact",
     "name": "contact.urns",
   },
   Object {
-    "description": "The preferred telephone number for the contact.",
+    "description": "The preferred telephone number for the contact",
     "name": "contact.urns.tel",
   },
   Object {
-    "description": "The preferred telegram id for the contact.",
+    "description": "The preferred telegram id for the contact",
     "name": "contact.urns.telegram",
   },
   Object {
-    "description": "The last input from the contact if any.",
+    "description": "The contact's preferred channel.",
+    "name": "contact.channel",
+  },
+  Object {
+    "description": "The last input from the contact if any",
     "name": "input",
   },
   Object {

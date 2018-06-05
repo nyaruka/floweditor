@@ -22,15 +22,17 @@ export const MAX_UNICODE_MULTI = 67;
 export const COMPLETION_HELP = 'Tab to complete, enter to select';
 
 export const OPTIONS: CompletionOption[] = [
-    { name: 'contact', description: 'The name of the contact.' },
-    { name: 'contact.name', description: 'The name of the contact.' },
-    { name: 'contact.language', description: 'The language code for the contact.' },
-    { name: 'contact.fields', description: 'Custom fields on the contact.' },
-    { name: 'contact.groups', description: 'The groups for the contact.' },
-    { name: 'contact.urns', description: 'URNs on the contact.' },
-    { name: 'contact.urns.tel', description: 'The preferred telephone number for the contact.' },
-    { name: 'contact.urns.telegram', description: 'The preferred telegram id for the contact.' },
-    { name: 'input', description: 'The last input from the contact if any.' },
+    { name: 'contact', description: 'The name of the contact' },
+    { name: 'contact.name', description: 'The name of the contact' },
+    { name: 'contact.first_name', description: 'The first name of the contact' },
+    { name: 'contact.language', description: 'The language code for the contact' },
+    { name: 'contact.fields', description: 'Custom fields on the contact' },
+    { name: 'contact.groups', description: 'The groups for the contact' },
+    { name: 'contact.urns', description: 'URNs on the contact' },
+    { name: 'contact.urns.tel', description: 'The preferred telephone number for the contact' },
+    { name: 'contact.urns.telegram', description: 'The preferred telegram id for the contact' },
+    { name: 'contact.channel', description: "The contact's preferred channel." },
+    { name: 'input', description: 'The last input from the contact if any' },
     { name: 'run', description: 'Run details' },
     { name: 'run.contact', description: 'The contact in this run' },
     { name: 'run.results', description: 'Results for the run' },
@@ -53,11 +55,11 @@ export const OPTIONS: CompletionOption[] = [
 
 export const TOP_LEVEL_OPTIONS = [
     OPTIONS[0], // contact
-    OPTIONS[8], // input
-    OPTIONS[9], // run
-    OPTIONS[12], // child
-    OPTIONS[14], // parent
-    OPTIONS[16] // webhook
+    OPTIONS[10], // input
+    OPTIONS[11], // run
+    OPTIONS[14], // child
+    OPTIONS[16], // parent
+    OPTIONS[18] // webhook
 ];
 
 export const GSM: { [key: string]: number } = {

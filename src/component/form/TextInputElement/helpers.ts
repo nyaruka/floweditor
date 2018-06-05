@@ -86,7 +86,7 @@ export const isValidURL = (str: string): boolean => {
             // protocol identifier
             '(?:(?:https?|ftp)://)' +
             // user:pass authentication
-            '(?:\\S+(?::\\S*)?@)?' +
+            '(?:\\S+(?:u:\\S*)?@)?' +
             '(?:' +
             // IP address exclusion
             // private & local networks
