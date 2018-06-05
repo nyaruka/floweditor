@@ -386,7 +386,25 @@ export const removeAction = (nodeUUID: string, action: AnyAction) => (
     if (action.type === Types.set_run_result) {
         const toKeep = mutate(completionOptions, { $unset: [action.uuid] });
         dispatch(updateResultCompletionOptions(toKeep));
+
+        // Node invalidation => ...
     }
+
+    /*
+
+    actions[] (
+        set_result_name,
+        send_msg,
+        send_broadcast,
+        set_contact_property,
+        set_contact_field,
+        split_by_expression,
+        call_webhook
+    )
+
+    router {} result_name
+
+    */
 
     // If it's our last action, then nuke the node
     if (renderNode.node.actions.length === 1) {
