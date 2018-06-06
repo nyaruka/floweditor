@@ -1,7 +1,7 @@
 import { split } from 'split-sms';
 
 import { CompletionOption } from '../../../store';
-import { ResultMap } from '../../../store/flowContext';
+import { ContactFields, ResultMap } from '../../../store/flowContext';
 import { titleCase } from '../../../utils';
 import { GSM, OPTIONS } from './constants';
 
@@ -136,7 +136,7 @@ export const filterOptions = (
     });
 };
 
-export const getResultCompletionProperties = (accessor: string, name: string) => [
+export const getResultPropertyOptions = (accessor: string, name: string) => [
     {
         name: accessor,
         description: `Result for "${name}"`
@@ -167,19 +167,35 @@ export const getResultCompletionProperties = (accessor: string, name: string) =>
     }
 ];
 
-export const extractCompletionOptions = (results: ResultMap) =>
+export const getResultOptions = (results: ResultMap) =>
     [...new Set(Object.keys(results).map(uuid => results[uuid]))].reduce((options, query) => {
         const accessor = query.replace(/^@/, '');
         const name = titleCase(accessor.slice(accessor.lastIndexOf('.') + 1).replace(/_/g, ' '));
-        options.push(...getResultCompletionProperties(accessor, name));
+        options.push(...getResultPropertyOptions(accessor, name));
         return options;
+    }, []);
+
+export const getContactFieldOptions = (contactFields: ContactFields) =>
+    Object.keys(contactFields).reduce((contactFieldCompletionOptions, key) => {
+        const { [key]: name } = contactFields;
+        const accessors = ['', 'parent.', 'run.', 'child.'];
+        accessors.forEach(accessor =>
+            contactFieldCompletionOptions.push({
+                name: `${accessor}contact.fields.${key}`,
+                description: `The value held in the contact's "${name}" field`
+            })
+        );
+        return contactFieldCompletionOptions;
     }, []);
 
 export const getOptionsList = (
     autocomplete: boolean,
-    results: ResultMap = {}
+    results: ResultMap = {},
+    contactFields: ContactFields = {}
 ): CompletionOption[] =>
-    autocomplete ? [...OPTIONS, ...extractCompletionOptions(results)] : OPTIONS;
+    autocomplete
+        ? [...OPTIONS, ...getResultOptions(results), ...getContactFieldOptions(contactFields)]
+        : OPTIONS;
 
 export const pluralize = (count: number, noun: string, suffix: string = 's'): string =>
     `${noun}${count !== 1 ? suffix : ''}`;

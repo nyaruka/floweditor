@@ -4,7 +4,7 @@ import { AnyAction, FlowDefinition, FlowNode, FlowPosition } from '../flowTypes'
 import { Asset } from '../services/AssetService';
 import { LocalizedObject } from '../services/Localization';
 import Constants from './constants';
-import { RenderNode, ResultMap } from './flowContext';
+import { ContactFields, RenderNode, ResultMap } from './flowContext';
 import { DragSelection } from './flowEditor';
 import { NodeEditorForm, NodeEditorSettings } from './nodeEditor';
 
@@ -135,6 +135,10 @@ interface UpdateTimeoutPayload {
     timeout: number;
 }
 
+interface UpdateContactFieldsPayload {
+    contactFields: ContactFields;
+}
+
 // Action types
 export type UpdateFormAction = DuxAction<Constants.UPDATE_FORM, UpdateFormPayload>;
 
@@ -237,6 +241,11 @@ export type UpdateDragSelectionAction = DuxAction<
     UpdateDragSelectionActionPayload
 >;
 
+export type UpdateContactFieldsAction = DuxAction<
+    Constants.UPDATE_CONTACT_FIELDS,
+    UpdateContactFieldsPayload
+>;
+
 export type UpdateTimeoutAction = DuxAction<Constants.UPDATE_TIMEOUT, UpdateTimeoutPayload>;
 
 export type UpdateNodeDragging = (nodeDragging: boolean) => UpdateNodeDraggingAction;
@@ -301,6 +310,7 @@ type ActionTypes =
     | UpdateDragSelectionAction
     | UpdateTimeoutAction
     | UpdateBaseLanguageAction
-    | UpdateLanguagesAction;
+    | UpdateLanguagesAction
+    | UpdateContactFieldsAction;
 
 export default ActionTypes;

@@ -15,19 +15,21 @@ import {
     FlowNode,
     FlowPosition,
     SendMsg,
+    SetContactField,
     SetRunResult,
     StickyNote,
     SwitchRouter,
     WaitTypes,
 } from '../flowTypes';
 import AssetService, { Asset } from '../services/AssetService';
-import { NODE_SPACING, snakify, timeEnd, timeStart } from '../utils';
+import { dedupe, NODE_SPACING, snakify, timeEnd, timeStart } from '../utils';
 import { getLanguage } from '../utils/languageMap';
 import {
     incrementSuggestedResultNameCount,
     RenderNode,
     RenderNodeMap,
     updateBaseLanguage,
+    updateContactFields,
     updateDefinition,
     updateLanguages,
     updateNodes,
@@ -46,6 +48,7 @@ import {
 } from './flowEditor';
 import {
     determineConfigType,
+    extractContactFields,
     FlowComponents,
     generateResultQuery,
     getActionIndex,
@@ -186,9 +189,10 @@ export const fetchFlow = (assetService: AssetService, uuid: string) => async (
 ) => {
     dispatch(updateFetchingFlow(true));
 
-    const [flows, environment] = await Promise.all([
+    const [flows, environment, fields] = await Promise.all([
         assetService.getFlowAssets().get(uuid),
-        assetService.getEnvironmentAssets().get('')
+        assetService.getEnvironmentAssets().get(''),
+        assetService.getFieldAssets().get('')
     ]);
 
     dispatch(initializeFlow(flows.content, assetService));
@@ -197,6 +201,17 @@ export const fetchFlow = (assetService: AssetService, uuid: string) => async (
             environment.content.languages.map((iso: string) => languageToAsset(getLanguage(iso)))
         )
     );
+
+    const fieldsToDedupe = [...fields.content];
+    const existingFields = extractContactFields(flows.content.nodes);
+    if (existingFields.length) {
+        fieldsToDedupe.push(...existingFields);
+    }
+    const contactFields = dedupe(fieldsToDedupe).reduce((contactFieldMap, field) => {
+        contactFieldMap[field.key] = field.name;
+        return contactFieldMap;
+    }, {});
+    dispatch(updateContactFields(contactFields));
 };
 
 export const handleLanguageChange: HandleLanguageChange = language => (dispatch, getState) => {
@@ -586,7 +601,7 @@ export const onUpdateAction = (action: AnyAction) => (
     const {
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
         nodeEditor: { userAddingAction, settings },
-        flowContext: { nodes, results: { resultMap } }
+        flowContext: { nodes, results: { resultMap }, contactFields }
     } = getState();
 
     if (settings == null || settings.originalNode == null) {
@@ -631,6 +646,12 @@ export const onUpdateAction = (action: AnyAction) => (
             [action.uuid]: `@run.results.${snakify(resultNameOnAction)}`
         };
         dispatch(updateResultMap(newResultMap));
+    }
+
+    // Add contact field to our store.
+    if (action.type === Types.set_contact_field) {
+        const { field } = action as SetContactField;
+        dispatch(updateContactFields({ ...contactFields, [field.key]: field.name }));
     }
 
     timeEnd('onUpdateAction');

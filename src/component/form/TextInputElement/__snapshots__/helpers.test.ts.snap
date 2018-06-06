@@ -331,8 +331,43 @@ Array [
     "name": "contact.urns.tel",
   },
   Object {
+    "description": "The preferred email address for the contact",
+    "name": "contact.urns.mailto",
+  },
+  Object {
+    "description": "The preferred twitter handle for the contact",
+    "name": "contact.urns.twitterid",
+  },
+  Object {
     "description": "The preferred telegram id for the contact",
     "name": "contact.urns.telegram",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.urns.m" 1`] = `
+Array [
+  Object {
+    "description": "The preferred email address for the contact",
+    "name": "contact.urns.mailto",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.urns.ma" 1`] = `
+Array [
+  Object {
+    "description": "The preferred email address for the contact",
+    "name": "contact.urns.mailto",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.urns.mailto" 1`] = `
+Array [
+  Object {
+    "description": "The preferred email address for the contact",
+    "name": "contact.urns.mailto",
   },
 ]
 `;
@@ -342,6 +377,10 @@ Array [
   Object {
     "description": "The preferred telephone number for the contact",
     "name": "contact.urns.tel",
+  },
+  Object {
+    "description": "The preferred twitter handle for the contact",
+    "name": "contact.urns.twitterid",
   },
   Object {
     "description": "The preferred telegram id for the contact",
@@ -381,6 +420,24 @@ Array [
   Object {
     "description": "The preferred telegram id for the contact",
     "name": "contact.urns.telegram",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.urns.tw" 1`] = `
+Array [
+  Object {
+    "description": "The preferred twitter handle for the contact",
+    "name": "contact.urns.twitterid",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.urns.twitterid" 1`] = `
+Array [
+  Object {
+    "description": "The preferred twitter handle for the contact",
+    "name": "contact.urns.twitterid",
   },
 ]
 `;
@@ -879,6 +936,14 @@ Array [
     "name": "contact.urns.tel",
   },
   Object {
+    "description": "The preferred email address for the contact",
+    "name": "contact.urns.mailto",
+  },
+  Object {
+    "description": "The preferred twitter handle for the contact",
+    "name": "contact.urns.twitterid",
+  },
+  Object {
     "description": "The preferred telegram id for the contact",
     "name": "contact.urns.telegram",
   },
@@ -986,6 +1051,14 @@ Array [
   Object {
     "description": "The preferred telephone number for the contact",
     "name": "contact.urns.tel",
+  },
+  Object {
+    "description": "The preferred email address for the contact",
+    "name": "contact.urns.mailto",
+  },
+  Object {
+    "description": "The preferred twitter handle for the contact",
+    "name": "contact.urns.twitterid",
   },
   Object {
     "description": "The preferred telegram id for the contact",

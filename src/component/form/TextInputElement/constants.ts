@@ -30,6 +30,8 @@ export const OPTIONS: CompletionOption[] = [
     { name: 'contact.groups', description: 'The groups for the contact' },
     { name: 'contact.urns', description: 'URNs on the contact' },
     { name: 'contact.urns.tel', description: 'The preferred telephone number for the contact' },
+    { name: 'contact.urns.mailto', description: 'The preferred email address for the contact' },
+    { name: 'contact.urns.twitterid', description: 'The preferred twitter handle for the contact' },
     { name: 'contact.urns.telegram', description: 'The preferred telegram id for the contact' },
     { name: 'contact.channel', description: "The contact's preferred channel." },
     { name: 'input', description: 'The last input from the contact if any' },
@@ -53,14 +55,15 @@ export const OPTIONS: CompletionOption[] = [
     { name: 'webhook.response', description: 'The raw response of the webhook including headers' }
 ];
 
-export const TOP_LEVEL_OPTIONS = [
-    OPTIONS[0], // contact
-    OPTIONS[10], // input
-    OPTIONS[11], // run
-    OPTIONS[14], // child
-    OPTIONS[16], // parent
-    OPTIONS[18] // webhook
-];
+export const TOP_LEVEL_OPTIONS = OPTIONS.filter(
+    ({ name }) =>
+        name === 'contact' ||
+        name === 'input' ||
+        name === 'run' ||
+        name === 'child' ||
+        name === 'parent' ||
+        name === 'webhook'
+);
 
 export const GSM: { [key: string]: number } = {
     // char: charCode
