@@ -28,9 +28,8 @@ export interface CompletionOption {
     name: string;
     description: string;
 }
-
 export interface ResultMap {
-    [nodeUUID: string]: string;
+    [nodeOrActionUUID: string]: string;
 }
 
 export interface Results {

@@ -15,12 +15,13 @@ import {
     FlowNode,
     FlowPosition,
     SendMsg,
+    SetRunResult,
     StickyNote,
     SwitchRouter,
     WaitTypes,
 } from '../flowTypes';
 import AssetService, { Asset } from '../services/AssetService';
-import { NODE_SPACING, timeEnd, timeStart } from '../utils';
+import { NODE_SPACING, snakify, timeEnd, timeStart } from '../utils';
 import { getLanguage } from '../utils/languageMap';
 import {
     incrementSuggestedResultNameCount,
@@ -378,8 +379,32 @@ export const removeAction = (nodeUUID: string, action: AnyAction) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
-    const { flowContext: { nodes } } = getState();
+    const { flowContext: { nodes, results: { resultMap } } } = getState();
     const renderNode = nodes[nodeUUID];
+
+    // Remove result from store
+    if (action.type === Types.set_run_result) {
+        const toKeep = mutate(resultMap, { $unset: [action.uuid] });
+        dispatch(updateResultMap(toKeep));
+
+        // Node invalidation => ...
+    }
+
+    /*
+
+    actions[] (
+        set_result_name,
+        send_msg,
+        send_broadcast,
+        set_contact_property,
+        set_contact_field,
+        split_by_expression,
+        call_webhook
+    )
+
+    router {} result_name
+
+    */
 
     // If it's our last action, then nuke the node
     if (renderNode.node.actions.length === 1) {
@@ -561,7 +586,7 @@ export const onUpdateAction = (action: AnyAction) => (
     const {
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
         nodeEditor: { userAddingAction, settings },
-        flowContext: { nodes }
+        flowContext: { nodes, results: { resultMap } }
     } = getState();
 
     if (settings == null || settings.originalNode == null) {
@@ -591,9 +616,24 @@ export const onUpdateAction = (action: AnyAction) => (
         updatedNodes = mutators.updateAction(nodes, originalNode.uuid, action, originalAction);
     }
 
-    timeEnd('onUpdateAction');
     dispatch(updateNodes(updatedNodes));
     dispatch(updateUserAddingAction(false));
+
+    // Add result to store.
+    if (action.type === Types.set_run_result) {
+        const { name: resultNameOnAction } = action as SetRunResult;
+        const newResultMap = {
+            ...resultMap,
+            // We store results created by a `set_run_result` action
+            // with a reference to the action's uuid. A single node may
+            // contain one or more `set_run_result` actions, and they
+            // may be identical.
+            [action.uuid]: `@run.results.${snakify(resultNameOnAction)}`
+        };
+        dispatch(updateResultMap(newResultMap));
+    }
+
+    timeEnd('onUpdateAction');
     return updatedNodes;
 };
 

@@ -136,45 +136,42 @@ export const filterOptions = (
     });
 };
 
-export const getResultCompletionProperties = (query: string, resultName: string) => [
+export const getResultCompletionProperties = (accessor: string, name: string) => [
     {
-        name: query,
-        description: `Result for "${resultName}"`
+        name: accessor,
+        description: `Result for "${name}"`
     },
     {
-        name: `${query}.value`,
-        description: `Value for "${resultName}"`
+        name: `${accessor}.value`,
+        description: `Value for "${name}"`
     },
     {
-        name: `${query}.category`,
-        description: `Category for "${resultName}"`
+        name: `${accessor}.category`,
+        description: `Category for "${name}"`
     },
     {
-        name: `${query}.category_localized`,
-        description: `Localized category for "${resultName}"`
+        name: `${accessor}.category_localized`,
+        description: `Localized category for "${name}"`
     },
     {
-        name: `${query}.input`,
-        description: `Input for "${resultName}"`
+        name: `${accessor}.input`,
+        description: `Input for "${name}"`
     },
     {
-        name: `${query}.node_uuid`,
-        description: `Node UUID for "${resultName}"`
+        name: `${accessor}.node_uuid`,
+        description: `Node UUID for "${name}"`
     },
     {
-        name: `${query}.created_on`,
-        description: `Time "${resultName}" was created`
+        name: `${accessor}.created_on`,
+        description: `Time "${name}" was created`
     }
 ];
 
-export const extractResultCompletionOptions = (results: ResultMap = {}) =>
-    Object.keys(results).reduce((options, nodeUUID) => {
-        const { [nodeUUID]: name } = results;
-        const strippedName = name.replace(/^@/, '');
-        const resultName = titleCase(
-            strippedName.slice(strippedName.lastIndexOf('.') + 1).replace(/_/, ' ')
-        );
-        options.push(...getResultCompletionProperties(strippedName, resultName));
+export const extractCompletionOptions = (results: ResultMap) =>
+    [...new Set(Object.keys(results).map(uuid => results[uuid]))].reduce((options, query) => {
+        const accessor = query.replace(/^@/, '');
+        const name = titleCase(accessor.slice(accessor.lastIndexOf('.') + 1).replace(/_/g, ' '));
+        options.push(...getResultCompletionProperties(accessor, name));
         return options;
     }, []);
 
@@ -182,7 +179,7 @@ export const getOptionsList = (
     autocomplete: boolean,
     results: ResultMap = {}
 ): CompletionOption[] =>
-    autocomplete ? [...OPTIONS, ...extractResultCompletionOptions(results)] : OPTIONS;
+    autocomplete ? [...OPTIONS, ...extractCompletionOptions(results)] : OPTIONS;
 
 export const pluralize = (count: number, noun: string, suffix: string = 's'): string =>
     `${noun}${count !== 1 ? suffix : ''}`;
