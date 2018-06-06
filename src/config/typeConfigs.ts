@@ -89,6 +89,17 @@ export interface FormHelper {
     stateToAction: (actionUUID: string, formState: NodeEditorForm, formType?: Types) => AnyAction;
 }
 
+const dedupeTypeConfigs = (typeConfigs: Type[]) => {
+    const map = {};
+    return typeConfigs.filter(config => {
+        if (config.type === 'missing') {
+            return false;
+        }
+        const { name: key } = config;
+        return map[key] ? false : (map[key] = true);
+    });
+};
+
 export interface Type {
     type: Types;
     name: string;
@@ -106,17 +117,6 @@ export interface TypeMap {
 }
 
 export type GetTypeConfig = (type: string) => Type;
-
-const dedupeTypeConfigs = (typeConfigs: Type[]) => {
-    const map = {};
-    return typeConfigs.filter(config => {
-        if (config.type === 'missing') {
-            return false;
-        }
-        const { name: key } = config;
-        return map[key] ? false : (map[key] = true);
-    });
-};
 
 export function allows(mode: Mode): boolean {
     return (this.advanced & mode) === mode;

@@ -30,7 +30,7 @@ export const MAX_UNICODE_MULTI = 67;
 
 export const COMPLETION_HELP = 'Tab to complete, enter to select';
 
-export const getFlowOptions = (accessor?: string) => {
+export const getFlowOptions = (accessor: string = '') => {
     const prefix = accessor ? accessor : TopLevelVariables.run;
     return [
         { name: `${prefix}.flow`, description: `The flow in which a ${accessor} run takes place` },
@@ -49,7 +49,7 @@ export const getFlowOptions = (accessor?: string) => {
     ];
 };
 
-export const getWebhookOptions = (accessor?: string) => {
+export const getWebhookOptions = (accessor: string = '') => {
     const prefix = accessor ? accessor : TopLevelVariables.run;
     return [
         {
@@ -88,7 +88,7 @@ export const getWebhookOptions = (accessor?: string) => {
     ];
 };
 
-export const getInputOptions = (accessor?: string) => {
+export const getInputOptions = (accessor: string = '') => {
     const prefix = accessor ? accessor : TopLevelVariables.run;
     return [
         { name: `${prefix}.input`, description: `A ${accessor} run's last input` },
@@ -123,48 +123,48 @@ export const getContactOptions = (accessor?: string) => {
         ? accessor === TopLevelVariables.run ? `${accessor}'s` : `${accessor} run's`
         : '';
     return [
-        { name: `${prefix}contact`, description: `The name of the ${descriptor} contact` },
-        { name: `${prefix}contact.name`, description: `The name of the ${descriptor} contact` },
+        { name: `${prefix}contact`, description: `The name of a ${descriptor} contact` },
+        { name: `${prefix}contact.name`, description: `The name of a ${descriptor} contact` },
         {
             name: `${prefix}contact.first_name`,
-            description: `The first name of the ${descriptor} contact`
+            description: `The first name of a ${descriptor} contact`
         },
         {
             name: `${prefix}contact.language`,
-            description: `The language code for the ${descriptor} contact`
+            description: `The language code for a ${descriptor} contact`
         },
         {
             name: `${prefix}contact.fields`,
-            description: `Custom fields on the ${descriptor} contact`
+            description: `Custom fields on a ${descriptor} contact`
         },
         {
             name: `${prefix}contact.groups`,
-            description: `The groups the ${descriptor} contact is a member of`
+            description: `The groups a ${descriptor} contact is a member of`
         },
-        { name: `${prefix}contact.urns`, description: `URNs on the ${descriptor} contact` },
+        { name: `${prefix}contact.urns`, description: `URNs on a ${descriptor} contact` },
         {
             name: `${prefix}contact.urns.tel`,
-            description: `The preferred telephone number for the ${descriptor} contact`
+            description: `The preferred telephone number for a ${descriptor} contact`
         },
         {
             name: `${prefix}contact.urns.telegram`,
-            description: `The preferred telegram id for the ${descriptor} contact`
+            description: `The preferred telegram id for a ${descriptor} contact`
         },
         {
             name: `${prefix}contact.channel`,
-            description: `The ${descriptor} contact's preferred channel`
+            description: `A ${descriptor} contact's preferred channel`
         },
         {
             name: `${prefix}contact.channel.uuid`,
-            description: `The UUID of the ${descriptor} contact's preferred channel`
+            description: `The UUID of a ${descriptor} contact's preferred channel`
         },
         {
             name: `${prefix}contact.channel.name`,
-            description: `The name of the ${descriptor} contact's preferred channel`
+            description: `The name of a ${descriptor} contact's preferred channel`
         },
         {
             name: `${prefix}contact.channel.address`,
-            description: `The address of the ${descriptor} contact's preferred channel`
+            description: `The address of a ${descriptor} contact's preferred channel`
         }
     ];
 };
@@ -197,9 +197,9 @@ export const PARENT_OPTIONS: CompletionOption[] = [
 ];
 
 export const TRIGGER_OPTIONS: CompletionOption[] = [
-    { name: 'trigger', description: 'The trigger that initiated the session' },
-    { name: 'trigger.type', description: 'The type of the trigger, one of “manual” or “flow”' },
-    { name: 'trigger.params', description: 'The parameters passed to the trigger' }
+    { name: 'trigger', description: 'A trigger that initiated a session' },
+    { name: 'trigger.type', description: 'The type of a trigger, one of “manual” or “flow”' },
+    { name: 'trigger.params', description: 'The parameters passed to a trigger' }
 ];
 
 export const OPTIONS: CompletionOption[] = [

@@ -6,6 +6,7 @@ import { Asset } from '../services/AssetService';
 import ActionTypes, {
     IncrementSuggestedResultNameCountAction,
     UpdateBaseLanguageAction,
+    UpdateContactFieldsAction,
     UpdateDefinitionAction,
     UpdateDependenciesAction,
     UpdateLanguagesAction,
@@ -37,11 +38,16 @@ export interface Results {
     suggestedNameCount: number;
 }
 
+export interface ContactFields {
+    [snakedFieldName: string]: string;
+}
+
 export interface FlowContext {
     dependencies: FlowDefinition[];
     baseLanguage: Asset;
     languages: Asset[];
     results: Results;
+    contactFields: ContactFields;
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
 }
@@ -56,6 +62,7 @@ export const initialState: FlowContext = {
         resultMap: {},
         suggestedNameCount: 1
     },
+    contactFields: {},
     nodes: {}
 };
 
@@ -92,6 +99,13 @@ export const updateLanguages = (languages: Asset[]): UpdateLanguagesAction => ({
     type: Constants.UPDATE_LANGUAGES,
     payload: {
         languages
+    }
+});
+
+export const updateContactFields = (contactFields: ContactFields): UpdateContactFieldsAction => ({
+    type: Constants.UPDATE_CONTACT_FIELDS,
+    payload: {
+        contactFields
     }
 });
 
@@ -182,6 +196,18 @@ export const languages = (state: Asset[] = initialState.languages, action: Actio
     }
 };
 
+export const contactFields = (
+    state: ContactFields = initialState.contactFields,
+    action: ActionTypes
+) => {
+    switch (action.type) {
+        case Constants.UPDATE_CONTACT_FIELDS:
+            return action.payload.contactFields;
+        default:
+            return state;
+    }
+};
+
 export const results = combineReducers({
     resultMap,
     suggestedNameCount
@@ -194,5 +220,6 @@ export default combineReducers({
     dependencies,
     results,
     baseLanguage,
-    languages
+    languages,
+    contactFields
 });

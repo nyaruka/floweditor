@@ -7,7 +7,7 @@ import * as getCaretCoordinates from 'textarea-caret';
 
 import { Type, Types } from '../../../config/typeConfigs';
 import { AppState, CompletionOption } from '../../../store';
-import { ResultMap } from '../../../store/flowContext';
+import { ContactFields, ResultMap } from '../../../store/flowContext';
 import { StringEntry } from '../../../store/nodeEditor';
 import FormElement, { FormElementProps } from '../FormElement';
 import * as shared from '../FormElement.scss';
@@ -35,6 +35,7 @@ export interface HTMLTextElement {
 export interface TextInputStoreProps {
     typeConfig: Type;
     resultMap: ResultMap;
+    contactFields: ContactFields;
 }
 
 export interface TextInputPassedProps extends FormElementProps {
@@ -100,7 +101,11 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         }
         this.state = {
             value: initial,
-            options: getOptionsList(this.props.autocomplete, this.props.resultMap || {}),
+            options: getOptionsList(
+                this.props.autocomplete,
+                this.props.resultMap,
+                this.props.contactFields
+            ),
             ...initialState,
             ...(this.props.count && this.props.count === Count.SMS ? getMsgStats(initial) : {})
         };
@@ -300,11 +305,11 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             }
 
             if (this.props.count === Count.SMS) {
-                const stats = getMsgStats(value, true);
+                const { parts, characterCount, unicodeChars } = getMsgStats(value, true);
 
-                updates.parts = stats.parts;
-                updates.characterCount = stats.characterCount;
-                updates.unicodeChars = stats.unicodeChars;
+                updates.parts = parts;
+                updates.characterCount = characterCount;
+                updates.unicodeChars = unicodeChars;
             }
 
             updates.caretOffset = selectionStart;
@@ -474,11 +479,12 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowContext: { results: { resultMap } },
+    flowContext: { results: { resultMap }, contactFields },
     nodeEditor: { typeConfig }
 }: AppState) => ({
     typeConfig,
-    resultMap
+    resultMap,
+    contactFields
 });
 
 const ConnectedTextInputElement = connect(mapStateToProps, null, null, { withRef: true })(
