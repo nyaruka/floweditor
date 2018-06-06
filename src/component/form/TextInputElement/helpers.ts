@@ -182,7 +182,7 @@ export const getContactFieldOptions = (contactFields: ContactFields) =>
         accessors.forEach(accessor =>
             contactFieldCompletionOptions.push({
                 name: `${accessor}contact.fields.${key}`,
-                description: `The value held in the contact's "${name}" field`
+                description: `The value held in a contact's "${name}" field`
             })
         );
         return contactFieldCompletionOptions;

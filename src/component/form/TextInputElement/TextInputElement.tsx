@@ -305,11 +305,11 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             }
 
             if (this.props.count === Count.SMS) {
-                const stats = getMsgStats(value, true);
+                const { parts, characterCount, unicodeChars } = getMsgStats(value, true);
 
-                updates.parts = stats.parts;
-                updates.characterCount = stats.characterCount;
-                updates.unicodeChars = stats.unicodeChars;
+                updates.parts = parts;
+                updates.characterCount = characterCount;
+                updates.unicodeChars = unicodeChars;
             }
 
             updates.caretOffset = selectionStart;
