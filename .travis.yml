@@ -4,4 +4,4 @@ node_js:
   - 7
 cache:
   directories:
-    - "node_modules"
+    - "$HOME/node_modules/npm/node_modules/cacache"
