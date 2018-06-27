@@ -2,15 +2,15 @@ import * as React from 'react';
 
 import { Types } from '../../../config/typeConfigs';
 import {
+    SetContactAttribute,
     SetContactChannel,
     SetContactField,
     SetContactLanguage,
     SetContactName,
-    SetContactProperty,
+    SetContactProperty
 } from '../../../flowTypes';
 import { AssetType } from '../../../services/AssetService';
 import { emphasize, titleCase } from '../../../utils';
-import { getLanguage } from '../../../utils/languageMap';
 
 type Attribute = SetContactField | SetContactProperty;
 
@@ -48,7 +48,7 @@ export const getActionMarkup = (
         clearValueMarkup
     );
 
-const SetContactAttribComp: React.SFC<Attribute> = action => {
+const SetContactAttribComp: React.SFC<SetContactAttribute> = action => {
     const attribNameMarkup = getAttribNameMarkup(action);
     const clearValueMarkup = <>Clear value for {attribNameMarkup}</>;
 
@@ -61,8 +61,7 @@ const SetContactAttribComp: React.SFC<Attribute> = action => {
             ({ name: value } = action as SetContactName);
             break;
         case Types.set_contact_language:
-            const language = getLanguage((action as SetContactLanguage).language);
-            value = language ? language.name : '';
+            value = (action as SetContactLanguage).language;
             break;
         case Types.set_contact_channel:
             ({ channel: { name: value } } = action as SetContactChannel);

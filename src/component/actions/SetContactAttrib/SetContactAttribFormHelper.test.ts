@@ -6,11 +6,12 @@ import {
     createSetContactChannelAction,
     createSetContactFieldAction,
     createSetContactLanguageAction,
-    createSetContactNameAction,
+    createSetContactNameAction
 } from '../../../testUtils/assetCreators';
-import { getLanguage } from '../../../utils/languageMap';
-import { languageToAsset } from './helpers';
-import { SetContactAttribFormHelper, SetContactAttribFormHelperActionTypes } from './SetContactAttribFormHelper';
+import {
+    SetContactAttribFormHelper,
+    SetContactAttribFormHelperActionTypes
+} from './SetContactAttribFormHelper';
 
 const formHelper = new SetContactAttribFormHelper();
 
@@ -88,8 +89,13 @@ describe('SetContactAttribFormHelper', () => {
             );
 
             expect(formStateWithAction.value).toEqual({
-                value: languageToAsset(getLanguage(setContactLanguageAction.language))
+                value: {
+                    id: 'eng',
+                    name: 'eng',
+                    type: 'language'
+                }
             });
+
             expect(formStateWithAction).toMatchSnapshot(
                 `${Types.set_contact_language} - action has language`
             );

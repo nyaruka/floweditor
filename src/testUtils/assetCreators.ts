@@ -31,12 +31,13 @@ import {
     SwitchRouter,
     Wait,
     WaitTypes,
+    Language
 } from '../flowTypes';
 import { capitalize } from '../utils';
-import { getLanguage } from '../utils/languageMap';
+import { AssetType } from '../services/AssetService';
 
 const { assets: groupsResults } = require('../../__test__/assets/groups.json');
-const environment = require('../../__test__/assets/environment.json');
+const languagesResults = require('../../__test__/assets/languages.json');
 
 /**
  * Create a select control option
@@ -438,8 +439,8 @@ export const createAddLabelsAction = (labels: Label[]) => ({
     labels
 });
 
-export const English = languageToAsset(getLanguage('eng'));
+export const English = { name: 'English', id: 'eng', type: AssetType.Language };
 
-export const Spanish = languageToAsset(getLanguage('spa'));
+export const Spanish = { name: 'Spanish', id: 'spa', type: AssetType.Language };
 
-export const languages = environment.languages.map(iso => languageToAsset(getLanguage(iso)));
+export const languages = languagesResults.assets.map(language => languageToAsset(language));

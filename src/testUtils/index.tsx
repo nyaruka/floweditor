@@ -16,7 +16,6 @@ import { AppState, createStore, initialState } from '../store';
 import { RenderNodeMap } from '../store/flowContext';
 import { getFlowComponents } from '../store/helpers';
 import { merge, set } from '../utils';
-import { getLanguage } from '../utils/languageMap';
 
 const boring: FlowDefinition = require('../../__test__/flows/boring.json');
 
@@ -41,7 +40,7 @@ export const baseState: AppState = mutate(initialState, {
     }),
     flowEditor: {
         editorUI: merge({
-            language: languageToAsset(getLanguage('eng'))
+            language: { id: 'eng', name: 'English' }
         })
     }
 });

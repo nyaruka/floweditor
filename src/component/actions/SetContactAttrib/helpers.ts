@@ -1,5 +1,13 @@
 import { Types } from '../../../config/typeConfigs';
-import { Action, Channel, Field, Language, SetContactField, SetContactName, SetContactProperty } from '../../../flowTypes';
+import {
+    Action,
+    Channel,
+    Field,
+    Language,
+    SetContactField,
+    SetContactName,
+    SetContactProperty
+} from '../../../flowTypes';
 import { Asset, AssetType } from '../../../services/AssetService';
 import { snakify, titleCase } from '../../../utils';
 import { set_contact_name } from '../Action/Action.scss';
@@ -96,3 +104,11 @@ export const channelToAsset = ({ uuid, name }: Channel) => ({
     name,
     type: AssetType.Language
 });
+
+export const getLanguage = (languages: Asset[], iso: string): Asset => {
+    let lang = languages.find((asset: Asset) => asset.id === iso);
+    if (!lang) {
+        lang = { id: iso, name: iso, type: AssetType.Language };
+    }
+    return lang;
+};

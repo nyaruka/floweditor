@@ -5,7 +5,12 @@ import { bindActionCreators } from 'redux';
 import { getTypeConfig, Types } from '../../config/typeConfigs';
 import { CreateOptions } from '../../flowTypes';
 import { Asset, Assets, AssetType } from '../../services/AssetService';
-import { AppState, DispatchWithState, HandleTypeConfigChange, handleTypeConfigChange } from '../../store';
+import {
+    AppState,
+    DispatchWithState,
+    HandleTypeConfigChange,
+    handleTypeConfigChange
+} from '../../store';
 import {
     AssetEntry,
     NodeEditorSettings,
@@ -13,9 +18,15 @@ import {
     SetContactChannelFormState,
     SetContactFieldFormState,
     SetContactLanguageFormState,
-    SetContactNameFormState,
+    SetContactNameFormState
 } from '../../store/nodeEditor';
-import { composeCreateNewOption, getSelectClassForEntry, isOptionUnique, isValidNewOption, snakify } from '../../utils';
+import {
+    composeCreateNewOption,
+    getSelectClassForEntry,
+    isOptionUnique,
+    isValidNewOption,
+    snakify
+} from '../../utils';
 import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
@@ -83,7 +94,7 @@ export class AttribElement extends React.Component<AttribElementProps> {
         const [attribute] = selected;
         const nextConfig = getNextConfig(attribute.type);
 
-        this.props.handleTypeConfigChange(nextConfig, this.props.settings);
+        this.props.handleTypeConfigChange(nextConfig);
 
         if (this.props.onChange) {
             this.props.onChange(attribute);

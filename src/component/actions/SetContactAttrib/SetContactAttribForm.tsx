@@ -17,7 +17,7 @@ import {
     SetContactFieldFormState,
     SetContactLanguageFormState,
     SetContactNameFormState,
-    ValidationFailure,
+    ValidationFailure
 } from '../../../store/nodeEditor';
 import { validate, ValidatorFunc } from '../../../store/validators';
 import { renderIf } from '../../../utils';
@@ -89,7 +89,7 @@ const LanguageDropDown: React.SFC<DropDownProps> = ({
 }) => (
     <FormElement
         showLabel={true}
-        name={SetContactAttribFormElementNames.Channel}
+        name={SetContactAttribFormElementNames.Language}
         helpText="Select the contact's preferred language."
     >
         <SelectSearch
@@ -241,8 +241,7 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
             return (
                 <LanguageDropDown
                     initial={this.getInitialDropDownValue()}
-                    localSearchOptions={this.props.languages}
-                    assetService={this.context.assetService.getEnvironmentAssets()}
+                    assetService={this.context.assetService.getLanguageAssets()}
                     onChange={this.handleDropDownChange}
                 />
             );

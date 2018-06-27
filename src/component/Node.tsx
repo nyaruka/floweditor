@@ -19,6 +19,7 @@ import {
     UINode
 } from '../flowTypes';
 import ActivityManager from '../services/ActivityManager';
+import { Asset } from '../services/AssetService';
 import Plumber, { DragEvent } from '../services/Plumber';
 import {
     AppState,
@@ -76,6 +77,7 @@ export interface NodePassedProps {
 export interface NodeStoreProps {
     translating: boolean;
     definition: FlowDefinition;
+    languages: Asset[];
     nodeDragging: boolean;
     updateNodeDragging: UpdateNodeDragging;
     onAddToNode: OnAddToNode;
@@ -343,7 +345,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
                 if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
                     const { component: ActionDiv } = actionConfig;
-
                     actions.push(
                         <ActionWrapper
                             {...firstRef}
@@ -483,11 +484,12 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 }
 
 const mapStateToProps = ({
-    flowContext: { definition },
+    flowContext: { definition, languages },
     flowEditor: { editorUI: { translating }, flowUI: { nodeDragging, dragSelection } }
 }: AppState) => ({
     translating,
     definition,
+    languages,
     nodeDragging,
     dragSelection
 });

@@ -128,11 +128,11 @@ exports[`SetContactAttribForm render should render language dropdown 1`] = `
   />
   <LanguageDropDown
     assetService={
-      EnvironmentAssets {
-        "assetType": "environment",
+      LanguageAssets {
+        "assetType": "language",
         "assets": Object {},
-        "endpoint": "/assets/environment.json",
-        "idProperty": "id",
+        "endpoint": undefined,
+        "idProperty": "iso",
         "localStorage": true,
       }
     }
@@ -140,26 +140,7 @@ exports[`SetContactAttribForm render should render language dropdown 1`] = `
       Array [
         Object {
           "id": "eng",
-          "name": "English",
-          "type": "language",
-        },
-      ]
-    }
-    localSearchOptions={
-      Array [
-        Object {
-          "id": "eng",
-          "name": "English",
-          "type": "language",
-        },
-        Object {
-          "id": "spa",
-          "name": "Spanish",
-          "type": "language",
-        },
-        Object {
-          "id": "fra",
-          "name": "French",
+          "name": "eng",
           "type": "language",
         },
       ]

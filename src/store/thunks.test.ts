@@ -40,7 +40,7 @@ import {
     updateConnection,
     updateDimensions,
     updateExitDestination,
-    updateSticky,
+    updateSticky
 } from './thunks';
 
 const boring: FlowDefinition = require('../../__test__/flows/boring.json');
@@ -750,8 +750,13 @@ describe('Flow Manipulation', () => {
                     newTypeConfig.type as Types.set_contact_field
                 );
 
-                store.dispatch(handleTypeConfigChange(newTypeConfig, settings));
+                store = createMockStore(
+                    mutate(initialState, {
+                        nodeEditor: { $merge: { settings } }
+                    })
+                );
 
+                store.dispatch(handleTypeConfigChange(newTypeConfig));
                 expect(store).toHaveReduxActions([
                     Constants.UPDATE_TYPE_CONFIG,
                     Constants.UPDATE_FORM
