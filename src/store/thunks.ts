@@ -14,17 +14,20 @@ import {
     FlowNode,
     FlowPosition,
     SendMsg,
+    SetContactField,
+    SetRunResult,
     StickyNote,
     SwitchRouter,
     WaitTypes
 } from '../flowTypes';
 import AssetService, { Asset, DEFAULT_LANGUAGE } from '../services/AssetService';
-import { NODE_SPACING, timeEnd, timeStart } from '../utils';
+import { dedupe, NODE_SPACING, snakify, timeEnd, timeStart } from '../utils';
 import {
     incrementSuggestedResultNameCount,
     RenderNode,
     RenderNodeMap,
     updateBaseLanguage,
+    updateContactFields,
     updateDefinition,
     updateLanguages,
     updateNodes,
@@ -43,6 +46,7 @@ import {
 } from './flowEditor';
 import {
     determineConfigType,
+    extractContactFields,
     FlowComponents,
     generateResultQuery,
     getActionIndex,
@@ -191,14 +195,24 @@ export const fetchFlow = (assetService: AssetService, uuid: string) => async (
 ) => {
     dispatch(updateFetchingFlow(true));
 
-    const [flows, languages] = await Promise.all([
+    const [flows, environment, fields] = await Promise.all([
         assetService.getFlowAssets().get(uuid),
+        assetService.getEnvironmentAssets().get(''),
+        assetService.getFieldAssets().get(''),
         assetService.getLanguageAssets().search('')
     ]);
 
-    console.log(languages);
-
-    dispatch(initializeFlow(flows.content, assetService, languages.assets));
+    dispatch(initializeFlow(flows.content, assetService));
+    const fieldsToDedupe = [...fields.content];
+    const existingFields = extractContactFields(flows.content.nodes);
+    if (existingFields.length) {
+        fieldsToDedupe.push(...existingFields);
+    }
+    const contactFields = dedupe(fieldsToDedupe).reduce((contactFieldMap, field) => {
+        contactFieldMap[field.key] = field.name;
+        return contactFieldMap;
+    }, {});
+    dispatch(updateContactFields(contactFields));
 };
 
 export const handleLanguageChange: HandleLanguageChange = language => (dispatch, getState) => {
@@ -381,8 +395,32 @@ export const removeAction = (nodeUUID: string, action: AnyAction) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
-    const { flowContext: { nodes } } = getState();
+    const { flowContext: { nodes, results: { resultMap } } } = getState();
     const renderNode = nodes[nodeUUID];
+
+    // Remove result from store
+    if (action.type === Types.set_run_result) {
+        const toKeep = mutate(resultMap, { $unset: [action.uuid] });
+        dispatch(updateResultMap(toKeep));
+
+        // Node invalidation => ...
+    }
+
+    /*
+
+    actions[] (
+        set_result_name,
+        send_msg,
+        send_broadcast,
+        set_contact_property,
+        set_contact_field,
+        split_by_expression,
+        call_webhook
+    )
+
+    router {} result_name
+
+    */
 
     // If it's our last action, then nuke the node
     if (renderNode.node.actions.length === 1) {
@@ -566,7 +604,7 @@ export const onUpdateAction = (action: AnyAction) => (
     const {
         flowEditor: { flowUI: { pendingConnection, createNodePosition } },
         nodeEditor: { userAddingAction, settings },
-        flowContext: { nodes }
+        flowContext: { nodes, results: { resultMap }, contactFields }
     } = getState();
 
     if (settings == null || settings.originalNode == null) {
@@ -596,9 +634,30 @@ export const onUpdateAction = (action: AnyAction) => (
         updatedNodes = mutators.updateAction(nodes, originalNode.uuid, action, originalAction);
     }
 
-    timeEnd('onUpdateAction');
     dispatch(updateNodes(updatedNodes));
     dispatch(updateUserAddingAction(false));
+
+    // Add result to store.
+    if (action.type === Types.set_run_result) {
+        const { name: resultNameOnAction } = action as SetRunResult;
+        const newResultMap = {
+            ...resultMap,
+            // We store results created by a `set_run_result` action
+            // with a reference to the action's uuid. A single node may
+            // contain one or more `set_run_result` actions, and they
+            // may be identical.
+            [action.uuid]: `@run.results.${snakify(resultNameOnAction)}`
+        };
+        dispatch(updateResultMap(newResultMap));
+    }
+
+    // Add contact field to our store.
+    if (action.type === Types.set_contact_field) {
+        const { field } = action as SetContactField;
+        dispatch(updateContactFields({ ...contactFields, [field.key]: field.name }));
+    }
+
+    timeEnd('onUpdateAction');
     return updatedNodes;
 };
 

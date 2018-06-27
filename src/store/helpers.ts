@@ -1,6 +1,6 @@
 import { v4 as generateUUID } from 'uuid';
 
-import { languageToAsset } from '../component/actions/SetContactAttrib/helpers';
+import { fieldToAsset, languageToAsset } from '../component/actions/SetContactAttrib/helpers';
 import { DefaultExitNames } from '../component/NodeEditor/NodeEditor';
 import { Types } from '../config/typeConfigs';
 import {
@@ -360,3 +360,16 @@ export const getFlowComponents = (
     const baseLanguage = languages.find((lang: Asset) => lang.id === language);
     return { renderNodeMap, resultMap, groups, fields, labels, baseLanguage };
 };
+
+/**
+ * Extracts contact fields from a list of nodes
+ */
+export const extractContactFields = (nodes: FlowNode[]): Asset[] =>
+    nodes.reduce((fieldList, { actions }) => {
+        actions.forEach(action => {
+            if (action.type === Types.set_contact_field) {
+                fieldList.push(fieldToAsset((action as SetContactField).field));
+            }
+        });
+        return fieldList;
+    }, []);

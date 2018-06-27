@@ -294,7 +294,7 @@ export enum ContactProperties {
     UUID = 'uuid',
     'Created By' = 'created_by',
     'Modified By' = 'modified_by',
-    Org = '0rg',
+    Org = 'org',
     Name = 'name',
     Language = 'language',
     Timezone = 'timezone',
@@ -302,9 +302,7 @@ export enum ContactProperties {
     Email = 'email',
     Mailto = 'mailto',
     Phone = 'phone',
-    Groups = 'groups',
-    Facebook = 'facebook',
-    Telegram = 'telegram'
+    Groups = 'groups'
 }
 
 export enum ValueType {

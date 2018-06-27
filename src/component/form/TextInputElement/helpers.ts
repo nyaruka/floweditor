@@ -1,7 +1,7 @@
 import { split } from 'split-sms';
 
 import { CompletionOption } from '../../../store';
-import { ResultMap } from '../../../store/flowContext';
+import { ContactFields, ResultMap } from '../../../store/flowContext';
 import { titleCase } from '../../../utils';
 import { GSM, OPTIONS } from './constants';
 
@@ -136,53 +136,66 @@ export const filterOptions = (
     });
 };
 
-export const getResultCompletionProperties = (query: string, resultName: string) => [
+export const getResultPropertyOptions = (accessor: string, name: string) => [
     {
-        name: query,
-        description: `Result for "${resultName}"`
+        name: accessor,
+        description: `Result for "${name}"`
     },
     {
-        name: `${query}.value`,
-        description: `Value for "${resultName}"`
+        name: `${accessor}.value`,
+        description: `Value for "${name}"`
     },
     {
-        name: `${query}.category`,
-        description: `Category for "${resultName}"`
+        name: `${accessor}.category`,
+        description: `Category for "${name}"`
     },
     {
-        name: `${query}.category_localized`,
-        description: `Localized category for "${resultName}"`
+        name: `${accessor}.category_localized`,
+        description: `Localized category for "${name}"`
     },
     {
-        name: `${query}.input`,
-        description: `Input for "${resultName}"`
+        name: `${accessor}.input`,
+        description: `Input for "${name}"`
     },
     {
-        name: `${query}.node_uuid`,
-        description: `Node UUID for "${resultName}"`
+        name: `${accessor}.node_uuid`,
+        description: `Node UUID for "${name}"`
     },
     {
-        name: `${query}.created_on`,
-        description: `Time "${resultName}" was created`
+        name: `${accessor}.created_on`,
+        description: `Time "${name}" was created`
     }
 ];
 
-export const extractResultCompletionOptions = (results: ResultMap = {}) =>
-    Object.keys(results).reduce((options, nodeUUID) => {
-        const { [nodeUUID]: name } = results;
-        const strippedName = name.replace(/^@/, '');
-        const resultName = titleCase(
-            strippedName.slice(strippedName.lastIndexOf('.') + 1).replace(/_/, ' ')
-        );
-        options.push(...getResultCompletionProperties(strippedName, resultName));
+export const getResultOptions = (results: ResultMap) =>
+    [...new Set(Object.keys(results).map(uuid => results[uuid]))].reduce((options, query) => {
+        const accessor = query.replace(/^@/, '');
+        const name = titleCase(accessor.slice(accessor.lastIndexOf('.') + 1).replace(/_/g, ' '));
+        options.push(...getResultPropertyOptions(accessor, name));
         return options;
+    }, []);
+
+export const getContactFieldOptions = (contactFields: ContactFields) =>
+    Object.keys(contactFields).reduce((contactFieldCompletionOptions, key) => {
+        const { [key]: name } = contactFields;
+        const accessors = ['', 'parent.', 'run.', 'child.'];
+        accessors.forEach(accessor =>
+            contactFieldCompletionOptions.push({
+                name: `${accessor}contact.fields.${key}`,
+                description: `The value held in a contact's "${name}" field`
+            })
+        );
+        return contactFieldCompletionOptions;
     }, []);
 
 export const getOptionsList = (
     autocomplete: boolean,
-    results: ResultMap = {}
+    results: ResultMap = {},
+    contactFields: ContactFields = {}
 ): CompletionOption[] =>
-    autocomplete ? [...OPTIONS, ...extractResultCompletionOptions(results)] : OPTIONS;
+    autocomplete
+        ? [...OPTIONS, ...getResultOptions(results), ...getContactFieldOptions(contactFields)]
+        : OPTIONS;
 
 export const pluralize = (count: number, noun: string, suffix: string = 's'): string =>
     `${noun}${count !== 1 ? suffix : ''}`;

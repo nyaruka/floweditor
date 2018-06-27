@@ -14,6 +14,15 @@ export enum KeyValues {
     KEY_P = 'p'
 }
 
+export enum TopLevelVariables {
+    contact = 'contact',
+    input = 'input',
+    run = 'run',
+    parent = 'parent',
+    child = 'child',
+    trigger = 'trigger'
+}
+
 export const MAX_GSM_SINGLE = 160;
 export const MAX_GSM_MULTI = 153;
 export const MAX_UNICODE_SINGLE = 70;
@@ -21,46 +30,195 @@ export const MAX_UNICODE_MULTI = 67;
 
 export const COMPLETION_HELP = 'Tab to complete, enter to select';
 
-export const OPTIONS: CompletionOption[] = [
-    { name: 'contact', description: 'The name of the contact' },
-    { name: 'contact.name', description: 'The name of the contact' },
-    { name: 'contact.first_name', description: 'The first name of the contact' },
-    { name: 'contact.language', description: 'The language code for the contact' },
-    { name: 'contact.fields', description: 'Custom fields on the contact' },
-    { name: 'contact.groups', description: 'The groups for the contact' },
-    { name: 'contact.urns', description: 'URNs on the contact' },
-    { name: 'contact.urns.tel', description: 'The preferred telephone number for the contact' },
-    { name: 'contact.urns.telegram', description: 'The preferred telegram id for the contact' },
-    { name: 'contact.channel', description: "The contact's preferred channel." },
-    { name: 'input', description: 'The last input from the contact if any' },
-    { name: 'run', description: 'Run details' },
-    { name: 'run.contact', description: 'The contact in this run' },
-    { name: 'run.results', description: 'Results for the run' },
-    { name: 'child', description: 'Run details after running a child flow' },
-    { name: 'child.results', description: 'The results for the child flow' },
-    { name: 'parent', description: 'Run details if being called from a parent flow' },
-    { name: 'parent.results', description: 'The results for the parent flow' },
-    { name: 'webhook', description: 'The body of the webhook response' },
-    { name: 'webhook.status', description: 'The status of the webhook call' },
-    { name: 'webhook.status_code', description: 'The status code returned from the webhook' },
-    { name: 'webhook.url', description: 'The URL which was called' },
-    { name: 'webhook.body', description: 'The body of the webhook response' },
-    {
-        name: 'webhook.json',
-        description: 'The JSON parsed body of the response, can access subelements'
-    },
-    { name: 'webhook.request', description: 'The raw request of the webhook including headers' },
-    { name: 'webhook.response', description: 'The raw response of the webhook including headers' }
+export const getFlowOptions = (accessor: string = '') => {
+    const prefix = accessor ? accessor : TopLevelVariables.run;
+    return [
+        { name: `${prefix}.flow`, description: `The flow in which a ${accessor} run takes place` },
+        {
+            name: `${prefix}.flow.uuid`,
+            description: `The UUID of the flow in which a ${accessor} run takes place`
+        },
+        {
+            name: `${prefix}.flow.name`,
+            description: `The name of the flow in which a ${accessor} run takes place`
+        },
+        {
+            name: `${prefix}.flow.revision`,
+            description: `The revision number of the flow in which a ${accessor} run takes place`
+        }
+    ];
+};
+
+export const getWebhookOptions = (accessor: string = '') => {
+    const prefix = accessor ? accessor : TopLevelVariables.run;
+    return [
+        {
+            name: `${prefix}.webhook`,
+            description: `The body of the response to the last webhook request made in a ${accessor} run`
+        },
+        {
+            name: `${prefix}.webhook.status`,
+            description: `The status of the last webhook request made in a ${accessor} run`
+        },
+        {
+            name: `${prefix}.webhook.status_code`,
+            description: `The status code returned from the last webhook request made in a ${accessor} run`
+        },
+        {
+            name: `${prefix}.webhook.url`,
+            description: `The URL that was called by the last webhook request in a ${accessor} run`
+        },
+        {
+            name: `${prefix}.webhook.body`,
+            description: `The body of the last webhook request made in a ${accessor} run`
+        },
+        {
+            name: `${prefix}.webhook.json`,
+            description: `The JSON parsed body of the response to the last webhook request in a ${accessor} run, can access subelements`
+        },
+        {
+            name: `${prefix}.webhook.request`,
+            description: `The raw request last made in a ${accessor} run, including headers`
+        },
+        {
+            name: `${prefix}.webhook.response`,
+            description: `The raw response last received in a ${accessor} run, including headers`
+        },
+        { name: `${prefix}.results`, description: `Results collected in a ${accessor} run` }
+    ];
+};
+
+export const getInputOptions = (accessor: string = '') => {
+    const prefix = accessor ? accessor : TopLevelVariables.run;
+    return [
+        { name: `${prefix}.input`, description: `A ${accessor} run's last input` },
+        { name: `${prefix}.input.uuid`, description: `The UUID of a ${accessor} run's last input` },
+        { name: `${prefix}.input.type`, description: `The type of a ${accessor} run's last input` },
+        {
+            name: `${prefix}.input.channel`,
+            description: `The channel a ${accessor} run's last input was received on`
+        },
+        {
+            name: `${prefix}.input.created_on`,
+            description: `The time a ${accessor} run's last input was created`
+        },
+        {
+            name: `${prefix}.input.text`,
+            description: `The text of a ${accessor} run's last message`
+        },
+        {
+            name: `${prefix}.input.attachments`,
+            description: `The attachments on a ${accessor} run's last message`
+        },
+        {
+            name: `${prefix}.input.urn`,
+            description: `The URN a ${accessor} run's last input was received on`
+        }
+    ];
+};
+
+export const getContactOptions = (accessor?: string) => {
+    const prefix = accessor ? `${accessor}.` : '';
+    const descriptor = accessor
+        ? accessor === TopLevelVariables.run ? `${accessor}'s` : `${accessor} run's`
+        : '';
+    return [
+        { name: `${prefix}contact`, description: `The name of a ${descriptor} contact` },
+        { name: `${prefix}contact.name`, description: `The name of a ${descriptor} contact` },
+        {
+            name: `${prefix}contact.first_name`,
+            description: `The first name of a ${descriptor} contact`
+        },
+        {
+            name: `${prefix}contact.language`,
+            description: `The language code for a ${descriptor} contact`
+        },
+        {
+            name: `${prefix}contact.fields`,
+            description: `Custom fields on a ${descriptor} contact`
+        },
+        {
+            name: `${prefix}contact.groups`,
+            description: `The groups a ${descriptor} contact is a member of`
+        },
+        { name: `${prefix}contact.urns`, description: `URNs on a ${descriptor} contact` },
+        {
+            name: `${prefix}contact.urns.tel`,
+            description: `The preferred telephone number for a ${descriptor} contact`
+        },
+        {
+            name: `${prefix}contact.urns.telegram`,
+            description: `The preferred telegram id for a ${descriptor} contact`
+        },
+        {
+            name: `${prefix}contact.channel`,
+            description: `A ${descriptor} contact's preferred channel`
+        },
+        {
+            name: `${prefix}contact.channel.uuid`,
+            description: `The UUID of a ${descriptor} contact's preferred channel`
+        },
+        {
+            name: `${prefix}contact.channel.name`,
+            description: `The name of a ${descriptor} contact's preferred channel`
+        },
+        {
+            name: `${prefix}contact.channel.address`,
+            description: `The address of a ${descriptor} contact's preferred channel`
+        }
+    ];
+};
+
+export const RUN_OPTIONS: CompletionOption[] = [
+    { name: TopLevelVariables.run, description: 'A run in this flow' },
+    ...getFlowOptions(),
+    ...getContactOptions(TopLevelVariables.run),
+    ...getInputOptions(),
+    ...getWebhookOptions()
 ];
 
-export const TOP_LEVEL_OPTIONS = [
-    OPTIONS[0], // contact
-    OPTIONS[10], // input
-    OPTIONS[11], // run
-    OPTIONS[14], // child
-    OPTIONS[16], // parent
-    OPTIONS[18] // webhook
+export const CHILD_OPTIONS: CompletionOption[] = [
+    { name: TopLevelVariables.child, description: 'Run details collected in a child flow, if any' },
+    ...getFlowOptions(TopLevelVariables.child),
+    ...getContactOptions(TopLevelVariables.child),
+    ...getInputOptions(TopLevelVariables.child),
+    ...getWebhookOptions(TopLevelVariables.child)
 ];
+
+export const PARENT_OPTIONS: CompletionOption[] = [
+    {
+        name: TopLevelVariables.parent,
+        description: 'Run details collected by a parent flow, if any'
+    },
+    ...getFlowOptions(TopLevelVariables.parent),
+    ...getContactOptions(TopLevelVariables.parent),
+    ...getInputOptions(TopLevelVariables.parent),
+    ...getWebhookOptions(TopLevelVariables.parent)
+];
+
+export const TRIGGER_OPTIONS: CompletionOption[] = [
+    { name: 'trigger', description: 'A trigger that initiated a session' },
+    { name: 'trigger.type', description: 'The type of a trigger, one of “manual” or “flow”' },
+    { name: 'trigger.params', description: 'The parameters passed to a trigger' }
+];
+
+export const OPTIONS: CompletionOption[] = [
+    ...getContactOptions(),
+    ...RUN_OPTIONS,
+    ...CHILD_OPTIONS,
+    ...PARENT_OPTIONS,
+    ...TRIGGER_OPTIONS
+];
+
+export const TOP_LEVEL_OPTIONS = OPTIONS.filter(
+    ({ name }) =>
+        name === TopLevelVariables.contact ||
+        name === TopLevelVariables.input ||
+        name === TopLevelVariables.run ||
+        name === TopLevelVariables.parent ||
+        name === TopLevelVariables.child ||
+        name === TopLevelVariables.trigger
+);
 
 export const GSM: { [key: string]: number } = {
     // char: charCode

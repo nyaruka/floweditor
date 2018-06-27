@@ -299,3 +299,18 @@ export const composeCreateNewOption = ({
     type,
     isNew: true
 });
+
+/**
+ * Deduplicate values in an array.
+ * Pass it a key to deduplicate based on obj key.
+ */
+export const dedupe = (arr: any[], key?: string) => {
+    if (key) {
+        return arr.filter(
+            (obj, idx, arrToFilter) =>
+                arrToFilter.map(mapObj => mapObj[key]).indexOf(obj[key]) === idx
+        );
+    } else {
+        return arr.filter((item, idx, arrToFilter) => arrToFilter.indexOf(item) === idx);
+    }
+};
