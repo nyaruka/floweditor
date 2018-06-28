@@ -4,4 +4,6 @@ node_js:
   - 7
 cache:
   directories:
-    - "$HOME/node_modules/npm/node_modules/cacache"
+    - "node_modules"
+install:
+  - npm install -verbose
