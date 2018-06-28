@@ -3,11 +3,10 @@
 import { mount, ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
 import mutate, { Query } from 'immutability-helper';
 import * as React from 'react';
-import * as configureStore from 'redux-mock-store';
+import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import * as config from '../../__test__/config';
-import { languageToAsset } from '../component/actions/SetContactAttrib/helpers';
 import { ConfigProviderContext } from '../config';
 import { fakePropType } from '../config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
