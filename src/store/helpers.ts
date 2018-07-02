@@ -15,12 +15,11 @@ import {
     SetContactField,
     SwitchRouter,
     UINodeTypes,
-    WaitTypes,
+    WaitTypes
 } from '../flowTypes';
 import { Asset, AssetType } from '../services/AssetService';
 import Localization, { LocalizedObject } from '../services/Localization';
 import { snakify } from '../utils';
-import { languageMap } from '../utils/languageMap';
 import { RenderNode, RenderNodeMap, ResultMap } from './flowContext';
 
 export interface Bounds {
@@ -256,7 +255,10 @@ export const generateResultQuery = (resultName: string) => `@run.results.${snaki
 /**
  * Processes an initial FlowDefinition for details necessary for the editor
  */
-export const getFlowComponents = ({ language, nodes, _ui }: FlowDefinition): FlowComponents => {
+export const getFlowComponents = (
+    { language, nodes, _ui }: FlowDefinition,
+    languages: Asset[] = []
+): FlowComponents => {
     const renderNodeMap: RenderNodeMap = {};
 
     // our groups and fields referenced within
@@ -355,8 +357,7 @@ export const getFlowComponents = ({ language, nodes, _ui }: FlowDefinition): Flo
     }
 
     // determine flow language
-    const baseLanguage = languageToAsset(languageMap[language]);
-
+    const baseLanguage = languages.find((lang: Asset) => lang.id === language);
     return { renderNodeMap, resultMap, groups, fields, labels, baseLanguage };
 };
 

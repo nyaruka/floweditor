@@ -2,7 +2,11 @@ import { getTypeConfig } from '../../config';
 import { Types } from '../../config/typeConfigs';
 import { Asset, AssetType } from '../../services/AssetService';
 import { composeComponentTestUtils, configProviderContext, setMock } from '../../testUtils';
-import { createExit, createSendMsgAction, createSetContactFieldAction } from '../../testUtils/assetCreators';
+import {
+    createExit,
+    createSendMsgAction,
+    createSetContactFieldAction
+} from '../../testUtils/assetCreators';
 import { isOptionUnique, isValidNewOption } from '../../utils';
 import { fieldToAsset, propertyToAsset } from '../actions/SetContactAttrib/helpers';
 import { AttribElement, AttribElementProps, CREATE_PROMPT, createNewOption } from './AttribElement';
@@ -76,8 +80,7 @@ describe(AttribElement.name, () => {
 
                 expect(props.handleTypeConfigChange).toHaveBeenCalledTimes(1);
                 expect(props.handleTypeConfigChange).toHaveBeenCalledWith(
-                    getTypeConfig(Types.set_contact_name),
-                    props.settings
+                    getTypeConfig(Types.set_contact_name)
                 );
             });
 
@@ -95,8 +98,7 @@ describe(AttribElement.name, () => {
 
                 expect(props.handleTypeConfigChange).toHaveBeenCalledTimes(1);
                 expect(props.handleTypeConfigChange).toHaveBeenCalledWith(
-                    getTypeConfig(Types.set_contact_field),
-                    props.settings
+                    getTypeConfig(Types.set_contact_field)
                 );
             });
 
@@ -121,8 +123,7 @@ describe(AttribElement.name, () => {
 
                 expect(props.handleTypeConfigChange).toHaveBeenCalledTimes(1);
                 expect(props.handleTypeConfigChange).toHaveBeenCalledWith(
-                    getTypeConfig(Types.set_contact_name),
-                    props.settings
+                    getTypeConfig(Types.set_contact_name)
                 );
             });
         });

@@ -31,7 +31,7 @@ import {
     UINodeTypes,
     Wait,
     WaitTypes,
-    WebhookExitNames,
+    WebhookExitNames
 } from '../../flowTypes';
 import { Asset } from '../../services/AssetService';
 import { LocalizedObject } from '../../services/Localization';
@@ -56,7 +56,7 @@ import {
     updateShowResultName,
     UpdateShowResultName,
     UpdateUserAddingAction,
-    updateUserAddingAction,
+    updateUserAddingAction
 } from '../../store';
 import { IncrementSuggestedResultNameCount } from '../../store/actionTypes';
 import { incrementSuggestedResultNameCount, RenderNode } from '../../store/flowContext';
@@ -360,7 +360,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     private onTypeChange(config: Type): void {
         this.widgets = {};
         this.advancedWidgets = {};
-        this.props.handleTypeConfigChange(config, this.props.settings);
+        this.props.handleTypeConfigChange(config);
     }
 
     private onShowNameField(): void {

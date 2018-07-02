@@ -127,6 +127,7 @@ export interface NodeEditorSettings {
     showAdvanced?: boolean;
     originalAction?: AnyAction;
     localizations?: LocalizedObject[];
+    languages?: Asset[];
 }
 
 export interface NodeEditor {

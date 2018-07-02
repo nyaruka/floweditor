@@ -151,6 +151,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         const actionClass = styles[this.props.action.type] || styles.missing;
         const showRemoval = !this.props.translating;
         const showMove = !this.props.first && !this.props.translating;
+
         return (
             <div
                 id={`action-${this.props.action.uuid}`}
@@ -178,7 +179,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowContext: { definition: { localization } },
+    flowContext: { languages, definition: { localization } },
     flowEditor: { editorUI: { language, translating } }
 }: AppState) => ({
     language,

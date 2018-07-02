@@ -1,6 +1,10 @@
 import { Query } from 'immutability-helper';
 import * as React from 'react';
-import { IsOptionUniqueHandler, IsValidNewOptionHandler, NewOptionCreatorHandler } from 'react-select';
+import {
+    IsOptionUniqueHandler,
+    IsValidNewOptionHandler,
+    NewOptionCreatorHandler
+} from 'react-select';
 
 import { Action, Case, ContactProperties, Exit, LocalizationMap } from '../flowTypes';
 import { Asset, AssetType } from '../services/AssetService';

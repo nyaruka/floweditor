@@ -5,19 +5,18 @@ import {
     SetContactChannel,
     SetContactField,
     SetContactLanguage,
-    SetContactName,
+    SetContactName
 } from '../../../flowTypes';
-import { removeAsset } from '../../../services/AssetService';
+import { Asset, AssetType, removeAsset } from '../../../services/AssetService';
 import {
     NodeEditorSettings,
     SetContactAttribFormState,
     SetContactChannelFormState,
     SetContactFieldFormState,
     SetContactLanguageFormState,
-    SetContactNameFormState,
+    SetContactNameFormState
 } from '../../../store/nodeEditor';
-import { getLanguage } from '../../../utils/languageMap';
-import { assetToField, channelToAsset, fieldToAsset, languageToAsset, propertyToAsset } from './helpers';
+import { assetToField, channelToAsset, fieldToAsset, propertyToAsset } from './helpers';
 
 export type SetContactAttribFormHelperActionTypes =
     | Types.set_contact_field
@@ -53,14 +52,16 @@ export class SetContactAttribFormHelper implements FormHelper {
                     break;
                 case Types.set_contact_language:
                     const { language } = action as SetContactLanguage;
+
+                    let languageAsset: Asset = removeAsset;
+                    if (language) {
+                        languageAsset = { id: language, name: language, type: AssetType.Language };
+                    }
+
                     formState = {
                         language: { value: propertyToAsset(Types.set_contact_language) },
                         value: {
-                            value: language
-                                ? languageToAsset(
-                                      getLanguage((action as SetContactLanguage).language)
-                                  )
-                                : removeAsset
+                            value: languageAsset
                         },
                         valid: true
                     } as SetContactLanguageFormState;
@@ -140,6 +141,8 @@ export class SetContactAttribFormHelper implements FormHelper {
                 } as SetContactName;
                 break;
             case Types.set_contact_language:
+                const selectedLanguage = (formState as SetContactLanguageFormState).value.value;
+
                 action = {
                     ...action,
                     // we return an empty string to indicate the value is being cleared

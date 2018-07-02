@@ -3,7 +3,6 @@ import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 
-import { languageToAsset } from '../component/actions/SetContactAttrib/helpers';
 import { hasCases } from '../component/NodeEditor/NodeEditor';
 import { getTypeConfig, Type, Types } from '../config/typeConfigs';
 import {
@@ -19,11 +18,10 @@ import {
     SetRunResult,
     StickyNote,
     SwitchRouter,
-    WaitTypes,
+    WaitTypes
 } from '../flowTypes';
-import AssetService, { Asset } from '../services/AssetService';
+import AssetService, { Asset, DEFAULT_LANGUAGE } from '../services/AssetService';
 import { dedupe, NODE_SPACING, snakify, timeEnd, timeStart } from '../utils';
-import { getLanguage } from '../utils/languageMap';
 import {
     incrementSuggestedResultNameCount,
     RenderNode,
@@ -33,7 +31,7 @@ import {
     updateDefinition,
     updateLanguages,
     updateNodes,
-    updateResultMap,
+    updateResultMap
 } from './flowContext';
 import {
     updateCreateNodePosition,
@@ -44,7 +42,7 @@ import {
     updateNodeDragging,
     updateNodeEditorOpen,
     updatePendingConnection,
-    updateTranslating,
+    updateTranslating
 } from './flowEditor';
 import {
     determineConfigType,
@@ -56,7 +54,7 @@ import {
     getFlowComponents,
     getGhostNode,
     getLocalizations,
-    getSuggestedResultName,
+    getSuggestedResultName
 } from './helpers';
 import * as mutators from './mutators';
 import {
@@ -68,7 +66,7 @@ import {
     updateShowResultName,
     updateTimeout,
     updateTypeConfig,
-    updateUserAddingAction,
+    updateUserAddingAction
 } from './nodeEditor';
 import AppState from './state';
 
@@ -84,10 +82,7 @@ export type AsyncThunk = Thunk<Promise<void>>;
 
 export type OnAddToNode = (node: FlowNode) => Thunk<void>;
 
-export type HandleTypeConfigChange = (
-    typeConfig: Type,
-    settings: NodeEditorSettings
-) => Thunk<void>;
+export type HandleTypeConfigChange = (typeConfig: Type) => Thunk<void>;
 
 export type OnResetDragSelection = () => Thunk<void>;
 
@@ -154,19 +149,30 @@ const QUIET_REFLOW = 200;
 
 let debounceReflow: any = null;
 
-export const initializeFlow = (definition: FlowDefinition, assetService: AssetService) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-): FlowComponents => {
-    const flowComponents = getFlowComponents(definition);
+export const initializeFlow = (
+    definition: FlowDefinition,
+    assetService: AssetService,
+    languages: Asset[] = []
+) => (dispatch: DispatchWithState, getState: GetState): FlowComponents => {
+    const flowComponents = getFlowComponents(definition, languages);
 
     if (assetService) {
         assetService.addFlowComponents(flowComponents);
     }
 
+    console.log('init with:', languages);
+
     // Take stock of the flow's language settings
-    dispatch(updateBaseLanguage(flowComponents.baseLanguage));
-    dispatch(updateLanguage(flowComponents.baseLanguage));
+    if (flowComponents.baseLanguage) {
+        dispatch(updateLanguages(languages));
+        dispatch(updateBaseLanguage(flowComponents.baseLanguage));
+        dispatch(updateLanguage(flowComponents.baseLanguage));
+    } else {
+        // if we have an unset base language, inject our "Default" Language and set it
+        dispatch(updateLanguages(mutators.addLanguage(languages, DEFAULT_LANGUAGE)));
+        dispatch(updateBaseLanguage(DEFAULT_LANGUAGE));
+        dispatch(updateLanguage(DEFAULT_LANGUAGE));
+    }
 
     // store our flow definition without any nodes
     dispatch(updateDefinition(mutators.pruneDefinition(definition)));
@@ -192,16 +198,11 @@ export const fetchFlow = (assetService: AssetService, uuid: string) => async (
     const [flows, environment, fields] = await Promise.all([
         assetService.getFlowAssets().get(uuid),
         assetService.getEnvironmentAssets().get(''),
-        assetService.getFieldAssets().get('')
+        assetService.getFieldAssets().get(''),
+        assetService.getLanguageAssets().search('')
     ]);
 
     dispatch(initializeFlow(flows.content, assetService));
-    dispatch(
-        updateLanguages(
-            environment.content.languages.map((iso: string) => languageToAsset(getLanguage(iso)))
-        )
-    );
-
     const fieldsToDedupe = [...fields.content];
     const existingFields = extractContactFields(flows.content.nodes);
     if (existingFields.length) {
@@ -542,18 +543,20 @@ export const spliceInRouter = (
     return updatedNodes;
 };
 
-export const handleTypeConfigChange = (typeConfig: Type, settings: NodeEditorSettings) => (
+export const handleTypeConfigChange = (typeConfig: Type) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
     // Generate suggested result name if user is changing
     // an existing node to a `wait_for_response` router.
-    const { flowContext: { results: { suggestedNameCount } }, nodeEditor } = getState();
+    const {
+        flowContext: { results: { suggestedNameCount } },
+        nodeEditor: { settings }
+    } = getState();
     if (
-        nodeEditor.settings &&
-        nodeEditor.settings.originalNode &&
-        (!nodeEditor.settings.originalNode.wait ||
-            nodeEditor.settings.originalNode.wait.type !== WaitTypes.msg)
+        settings &&
+        settings.originalNode &&
+        (!settings.originalNode.wait || settings.originalNode.wait.type !== WaitTypes.msg)
     ) {
         if (typeConfig.type === Types.wait_for_response) {
             dispatch(updateResultName(getSuggestedResultName(suggestedNameCount)));
@@ -675,15 +678,16 @@ export const onAddToNode = (node: FlowNode) => (
         text: ''
     };
 
-    const settings: NodeEditorSettings = {
-        originalNode: node,
-        originalAction: newAction,
-        showAdvanced: false
-    };
+    dispatch(
+        updateNodeEditorSettings({
+            originalNode: node,
+            originalAction: newAction,
+            showAdvanced: false
+        })
+    );
 
     dispatch(updateUserAddingAction(true));
-    dispatch(updateNodeEditorSettings(settings));
-    dispatch(handleTypeConfigChange(getTypeConfig(Types.send_msg), settings));
+    dispatch(handleTypeConfigChange(getTypeConfig(Types.send_msg)));
     dispatch(updateNodeDragging(false));
     dispatch(updateNodeEditorOpen(true));
 };
@@ -869,7 +873,7 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     getState: GetState
 ) => {
     const {
-        flowContext: { baseLanguage, nodes, definition: { localization } },
+        flowContext: { languages, baseLanguage, nodes, definition: { localization } },
         flowEditor: { editorUI: { language, translating } },
         nodeEditor: { settings: currentSettings }
     } = getState();
@@ -878,6 +882,7 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     let { originalAction: action } = settings;
 
     // stuff our localization objects in our settings
+    settings.languages = languages;
     settings.localizations = [];
     if (translating) {
         let actionToTranslate = action;
@@ -929,7 +934,7 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     }
 
     dispatch(updateNodeEditorSettings(settings));
-    dispatch(handleTypeConfigChange(typeConfig, settings));
+    dispatch(handleTypeConfigChange(typeConfig));
     dispatch(updateNodeDragging(false));
     dispatch(updateResultName(resultName));
     dispatch(updateShowResultName(resultName.length > 0));

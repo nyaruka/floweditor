@@ -20,6 +20,8 @@ export enum AssetType {
     Remove = 'remove'
 }
 
+export const DEFAULT_LANGUAGE = { id: '', name: 'Default', type: AssetType.Language };
+
 export interface Asset {
     id: string;
     name: string;
@@ -38,7 +40,8 @@ export interface AssetSearchResult {
 enum IdProperty {
     UUID = 'uuid',
     Key = 'key',
-    ID = 'id'
+    ID = 'id',
+    Iso = 'iso'
 }
 
 enum NameProperty {
@@ -135,7 +138,7 @@ export class Assets {
 
         return axios.get(url).then((response: AxiosResponse) => {
             // Only attempt to match if response contains a list of externally-fetched assets
-            if (Array.isArray(response.data) && response.data.length) {
+            if (Array.isArray(response.data)) {
                 for (const result of response.data) {
                     if (this.matches(term, result.name)) {
                         matches.push({
@@ -404,6 +407,15 @@ export class LabelAssets extends Assets {
     }
 }
 
+export class LanguageAssets extends Assets {
+    constructor(endpoint: string, localStorage: boolean) {
+        super(endpoint, localStorage);
+
+        this.idProperty = IdProperty.Iso;
+        this.assetType = AssetType.Language;
+    }
+}
+
 export class EnvironmentAssets extends Assets {
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
@@ -427,6 +439,8 @@ export default class AssetService {
     private labelsURL: string;
     private environment: EnvironmentAssets;
     private environmentURL: string;
+    private languages: LanguageAssets;
+    private languagesURL: string;
 
     constructor(config: FlowEditorConfig) {
         // initialize asset deps
@@ -437,6 +451,7 @@ export default class AssetService {
         this.labels = new LabelAssets(config.endpoints.labels, config.localStorage);
         this.channels = new ChannelAssets(config.endpoints.channels, config.localStorage);
         this.environment = new EnvironmentAssets(config.endpoints.environment, config.localStorage);
+        this.languages = new LanguageAssets(config.endpoints.languages, config.localStorage);
 
         // initialize asset urls
         const base = getBaseURL();
@@ -446,6 +461,7 @@ export default class AssetService {
         this.flowsURL = `${base + this.flows.endpoint}/{uuid}/`;
         this.channelsURL = `${base + this.channels.endpoint}/`;
         this.environmentURL = `${base + this.environment.endpoint}/`;
+        this.languagesURL = `${base + this.languages.endpoint}/`;
     }
 
     public addFlowComponents(flowComponents: FlowComponents): void {
@@ -480,6 +496,10 @@ export default class AssetService {
 
     public getEnvironmentAssets(): EnvironmentAssets {
         return this.environment;
+    }
+
+    public getLanguageAssets(): LanguageAssets {
+        return this.languages;
     }
 
     public getSimulationAssets(): any {

@@ -1,18 +1,16 @@
 import {
     SetContactChannel,
     SetContactField,
-    SetContactLanguage,
     SetContactName,
-    SetContactProperty,
+    SetContactProperty
 } from '../../../flowTypes';
 import { composeComponentTestUtils } from '../../../testUtils';
 import {
     createSetContactChannelAction,
     createSetContactFieldAction,
     createSetContactLanguageAction,
-    createSetContactNameAction,
+    createSetContactNameAction
 } from '../../../testUtils/assetCreators';
-import { getLanguage } from '../../../utils/languageMap';
 import { name } from '../SendBroadcast/SendBroadcast.scss';
 import SetContactAttribComp, { getAttribNameMarkup } from './SetContactAttrib';
 
@@ -69,16 +67,16 @@ describe(SetContactAttribComp.name, () => {
                 $set: setContactLanguageAction
             });
 
-            const { name: language } = getLanguage((props as SetContactLanguage).language);
-
-            expect(wrapper.text()).toBe(`Update Language to ${language}`);
+            expect(wrapper.text()).toBe(`Update Language to eng`);
             expect(wrapper).toMatchSnapshot();
         });
 
         it("should render with 'update...' div when passed set_contact_channel action", () => {
-            const { wrapper, props } = setup(true, {$set: setContactChannelAction});
+            const { wrapper, props } = setup(true, { $set: setContactChannelAction });
 
-            expect(wrapper.text()).toBe(`Update Channel to ${(props as SetContactChannel).channel.name}`);
+            expect(wrapper.text()).toBe(
+                `Update Channel to ${(props as SetContactChannel).channel.name}`
+            );
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -108,6 +106,5 @@ describe(SetContactAttribComp.name, () => {
             expect(wrapper.text()).toBe(`Clear value for Language`);
             expect(wrapper).toMatchSnapshot();
         });
-    });
     });
 });

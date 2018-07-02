@@ -2,7 +2,7 @@ import {
     IsOptionUniqueHandler,
     IsValidNewOptionHandler,
     NewOptionCreatorHandler,
-    PromptTextCreatorHandler,
+    PromptTextCreatorHandler
 } from 'react-select';
 
 import { Operators } from './config/operatorConfigs';
@@ -34,6 +34,7 @@ export interface Endpoints {
     labels: string;
     channels: string;
     environment: string;
+    languages: string;
     simulateStart: string;
     simulateResume: string;
 }

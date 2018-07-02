@@ -109,7 +109,7 @@ Object {
   "value": Object {
     "value": Object {
       "id": "eng",
-      "name": "English",
+      "name": "eng",
       "type": "language",
     },
   },

@@ -11,7 +11,7 @@ import ActionTypes, {
     UpdateDependenciesAction,
     UpdateLanguagesAction,
     UpdateNodesAction,
-    UpdateResultMapAction,
+    UpdateResultMapAction
 } from './actionTypes';
 import Constants from './constants';
 

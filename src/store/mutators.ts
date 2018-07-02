@@ -7,6 +7,7 @@ import { merge, push, set, snapToGrid, splice, unset } from '../utils';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { getActionIndex, getExitIndex, getNode } from './helpers';
 import { NodeEditorSettings } from './nodeEditor';
+import { Asset } from '../services/AssetService';
 
 const mutate = require('immutability-helper');
 
@@ -75,6 +76,10 @@ export const updateConnection = (
     }
 
     return updatedNodes;
+};
+
+export const addLanguage = (languages: Asset[], language: Asset): Asset[] => {
+    return mutate(languages, push([language]));
 };
 
 /**

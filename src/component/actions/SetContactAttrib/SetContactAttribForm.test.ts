@@ -30,7 +30,8 @@ const baseProps: SetContactAttribFormProps = {
     form: formHelper.initializeForm(
         {
             originalNode: null,
-            originalAction: setContactFieldAction
+            originalAction: setContactFieldAction,
+            languages
         },
         Types.set_contact_field
     ),
@@ -53,7 +54,7 @@ describe(SetContactAttribForm.name, () => {
             });
 
             const setContactNameForm = formHelper.initializeForm(
-                { originalNode: null, originalAction: setContactNameAction },
+                { originalNode: null, originalAction: setContactNameAction, languages },
                 Types.set_contact_name
             );
 
@@ -77,7 +78,8 @@ describe(SetContactAttribForm.name, () => {
                     form: formHelper.initializeForm(
                         {
                             originalNode: null,
-                            originalAction: setContactLanguageAction
+                            originalAction: setContactLanguageAction,
+                            languages
                         },
                         Types.set_contact_language
                     )
@@ -163,7 +165,8 @@ describe(SetContactAttribForm.name, () => {
                         form: formHelper.initializeForm(
                             {
                                 originalNode: null,
-                                originalAction: setContactLanguageAction
+                                originalAction: setContactLanguageAction,
+                                languages
                             },
                             Types.set_contact_language
                         ),

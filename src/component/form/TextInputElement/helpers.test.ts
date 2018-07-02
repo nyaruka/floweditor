@@ -1,6 +1,13 @@
 import { FlowDefinition } from '../../../flowTypes';
 import { GSM, OPTIONS, TOP_LEVEL_OPTIONS } from './constants';
-import { cleanMsg, filterOptions, getOptionsList, getUnicodeChars, isUnicode, pluralize } from './helpers';
+import {
+    cleanMsg,
+    filterOptions,
+    getOptionsList,
+    getUnicodeChars,
+    isUnicode,
+    pluralize
+} from './helpers';
 
 const definition: FlowDefinition = require('../../../../__test__/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 

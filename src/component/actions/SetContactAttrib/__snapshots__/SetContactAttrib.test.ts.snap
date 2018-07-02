@@ -95,7 +95,7 @@ exports[`SetContactAttribComp render should render with 'update...' div when pas
   <span
     className="emph"
   >
-    English
+    eng
   </span>
 </React.Fragment>
 `;
