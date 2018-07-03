@@ -154,7 +154,7 @@ describe('utils', () => {
 
     describe('getLocalizations', () => {
         it('should return a localized object', () => {
-            languages.forEach(languageAsset => {
+            languages.forEach((languageAsset: any) => {
                 expect(
                     getLocalization(
                         sendMsgAction,
@@ -288,7 +288,7 @@ describe('utils', () => {
         const isOptionUniqueSignature = {
             labelKey: 'name',
             valueKey: 'id',
-            options: []
+            options: [] as any[]
         };
 
         it('should return true if new option is unique', () => {

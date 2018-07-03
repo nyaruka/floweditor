@@ -18,7 +18,7 @@ const setContactNameAction = createSetContactNameAction();
 const setContactFieldAction = createSetContactFieldAction();
 
 describe('form thunks', () => {
-    let store;
+    let store: any;
     const { mockDuxState, testNodes } = prepMockDuxState();
 
     beforeEach(() => {

@@ -1,3 +1,5 @@
+import * as matchers from '../../src/testUtils/setup';
+
 const config = {
     flow: 'boring'
 };

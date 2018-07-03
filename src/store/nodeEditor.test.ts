@@ -101,7 +101,7 @@ describe('nodeEditor action creators', () => {
 
 describe('nodeEditor reducers', () => {
     describe('typeConfig reducer', () => {
-        const reduce = action => typeConfigReducer(undefined, action);
+        const reduce = (action: any) => typeConfigReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.typeConfig);
@@ -115,7 +115,7 @@ describe('nodeEditor reducers', () => {
     });
 
     describe('resultName reducer', () => {
-        const reduce = action => resultNameReducer(undefined, action);
+        const reduce = (action: any) => resultNameReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.resultName);
@@ -129,7 +129,7 @@ describe('nodeEditor reducers', () => {
     });
 
     describe('showResultName reducer', () => {
-        const reduce = action => showResultNameReducer(undefined, action);
+        const reduce = (action: any) => showResultNameReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.showResultName);
@@ -143,7 +143,7 @@ describe('nodeEditor reducers', () => {
     });
 
     describe('operand reducer', () => {
-        const reduce = action => operandReducer(undefined, action);
+        const reduce = (action: any) => operandReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.operand);
@@ -157,7 +157,7 @@ describe('nodeEditor reducers', () => {
     });
 
     describe('userAddingAction reducer', () => {
-        const reduce = action => userAddingActionReducer(undefined, action);
+        const reduce = (action: any) => userAddingActionReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.userAddingAction);
@@ -171,7 +171,7 @@ describe('nodeEditor reducers', () => {
     });
 
     describe('timeout reducer', () => {
-        const reduce = action => timeoutReducer(undefined, action);
+        const reduce = (action: any) => timeoutReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.timeout);

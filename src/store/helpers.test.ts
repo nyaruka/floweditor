@@ -9,7 +9,7 @@ import {
     getGhostNode,
     getLocalizations,
     getOrderedNodes,
-    getUniqueDestinations,
+    getUniqueDestinations
 } from './helpers';
 
 const mutate = require('immutability-helper');
@@ -122,11 +122,11 @@ describe('helpers', () => {
 
         describe('getGhostNode', () => {
             it('should create a router from an action', () => {
-                const ghost = getGhostNode(nodes.node0, nodes);
+                const ghost = getGhostNode(nodes.node0, 1);
                 expect(ghost.router.type).toBe(RouterTypes.switch);
             });
             it('should create an action node from a switch', () => {
-                const ghost = getGhostNode(nodes.node1, nodes);
+                const ghost = getGhostNode(nodes.node1, 1);
                 expect(ghost.router).toBeUndefined();
                 expect(ghost.actions[0].type).toBe(Types.send_msg);
             });

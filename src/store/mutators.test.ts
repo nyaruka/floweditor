@@ -1,5 +1,5 @@
 import { Types } from '../config/typeConfigs';
-import { FlowDefinition, SendMsg } from '../flowTypes';
+import { FlowDefinition, RouterTypes, SendMsg } from '../flowTypes';
 import { createSendMsgAction } from '../testUtils/assetCreators';
 import { getActionIndex, getExitIndex, getFlowComponents, getNode } from './helpers';
 import {
@@ -13,7 +13,7 @@ import {
     updateConnection,
     updateDimensions,
     updateLocalization,
-    updatePosition,
+    updatePosition
 } from './mutators';
 
 describe('mutators', () => {
@@ -164,15 +164,19 @@ describe('mutators', () => {
     });
 
     it('should update an action node to a split', () => {
-        const node = { ...nodes.node0.node, actions: [], router: { type: 'split' } };
+        const node = {
+            ...nodes.node0.node,
+            actions: [] as any[],
+            router: { type: RouterTypes.switch }
+        };
         const updated = mergeNode(nodes, {
             node,
-            ui: { type: 'wait_for_message', position: null },
+            ui: { type: Types.wait_for_response, position: null },
             inboundConnections: {}
         });
-        expect(updated.node0.node.router.type).toBe('split');
+        expect(updated.node0.node.router.type).toBe('switch');
         expect(updated.node0.node.actions.length).toBe(0);
-        expect(updated.node0.ui.type).toBe('wait_for_message');
+        expect(updated.node0.ui.type).toBe('wait_for_response');
     });
 
     it('should updatePosition()', () => {

@@ -1,10 +1,11 @@
 import update from 'immutability-helper';
-import { v4 as generateUUID } from 'uuid';
 
 import { getTypeConfig } from '../../config';
 import { Types } from '../../config/typeConfigs';
 import { FlowDefinition, FlowNode, SwitchRouter } from '../../flowTypes';
+import { AssetType } from '../../services/AssetService';
 import { getFlowComponents } from '../../store/helpers';
+import { NodeEditorForm } from '../../store/nodeEditor';
 import { composeComponentTestUtils, setMock } from '../../testUtils';
 import { casePropsFromNode } from '../routers/SwitchRouter';
 import { NodeEditor, NodeEditorProps } from './NodeEditor';
@@ -20,7 +21,10 @@ const switchWithTimeout: FlowNode = update(colorsFlow.nodes[1], {
 });
 
 const baseProps: NodeEditorProps = {
-    language: { iso: 'eng', name: 'English' },
+    language: { id: 'eng', name: 'English', type: AssetType.Language },
+    suggestedNameCount: 1,
+    incrementSuggestedResultNameCount: jest.fn(),
+    form: {} as NodeEditorForm,
     nodeEditorOpen: true,
     definition: colorsFlow,
     translating: false,
@@ -49,13 +53,6 @@ const baseProps: NodeEditorProps = {
 const { setup, spyOn } = composeComponentTestUtils(NodeEditor, baseProps);
 
 describe(NodeEditor.name, () => {
-    beforeEach(() => {
-        // Make UUID generation deterministic so we can write reliable snapshots
-        let uuidCount = 1;
-
-        generateUUID.mockImplementation(() => `generated_uuid_${uuidCount++}`);
-    });
-
     describe('instance methods', () => {
         describe('updateSwitchRouter', () => {
             it('should update switch router', () => {

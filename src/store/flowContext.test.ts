@@ -15,7 +15,7 @@ import reducer, {
     updateDependencies,
     updateLanguages,
     updateNodes,
-    updateResultMap,
+    updateResultMap
 } from './flowContext';
 
 const boringFlow = require('../../__test__/flows/boring.json') as FlowDefinition;
@@ -106,7 +106,7 @@ describe('flowContext action creators', () => {
 
 describe('flowContext reducers', () => {
     describe('definition reducer', () => {
-        const reduce = action => definitionReducer(undefined, action);
+        const reduce = (action: any) => definitionReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.definition);
@@ -119,7 +119,7 @@ describe('flowContext reducers', () => {
     });
 
     describe('dependencies reducer', () => {
-        const reduce = action => dependenciesReducer(undefined, action);
+        const reduce = (action: any) => dependenciesReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.dependencies);
@@ -134,7 +134,7 @@ describe('flowContext reducers', () => {
     });
 
     describe('resultMap reducer', () => {
-        const reduce = action => resultMapReducer(undefined, action);
+        const reduce = (action: any) => resultMapReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.results.resultMap);
@@ -148,7 +148,7 @@ describe('flowContext reducers', () => {
     });
 
     describe('suggestedNameCount reducer', () => {
-        const reduce = action => suggestedNameCountReducer(undefined, action);
+        const reduce = (action: any) => suggestedNameCountReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.results.suggestedNameCount);
@@ -162,7 +162,7 @@ describe('flowContext reducers', () => {
     });
 
     describe('nodes reducer', () => {
-        const reduce = action => nodesReducer(undefined, action);
+        const reduce = (action: any) => nodesReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.nodes);

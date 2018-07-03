@@ -10,6 +10,7 @@ Object {
     "flows": "/assets/flows.json",
     "groups": "/assets/groups.json",
     "labels": "/assets/labels.json",
+    "languages": "/assets/languages.json",
     "recipients": "/assets/recipients.json",
     "simulateResume": "",
     "simulateStart": "",

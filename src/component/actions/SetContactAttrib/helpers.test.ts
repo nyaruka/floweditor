@@ -1,4 +1,5 @@
 import { Types } from '../../../config/typeConfigs';
+import { SetContactName } from '../../../flowTypes';
 import { AssetType } from '../../../services/AssetService';
 import {
     createSetContactFieldAction,
@@ -26,7 +27,7 @@ describe('newPropertyAction', () => {
         expect(
             newPropertyAction({
                 uuid: setContactName.uuid,
-                value: setContactName.name,
+                value: (setContactName as SetContactName).name,
                 type: AssetType.Name
             })
         ).toMatchSnapshot();

@@ -1,14 +1,15 @@
-import * as React from 'react';
 import { mount } from 'enzyme';
-import Counter, { CounterProps } from './Counter';
-import { validUUID, addCommas } from '../utils';
+import * as React from 'react';
+
 import { getSpecWrapper } from '../testUtils';
+import { addCommas } from '../utils';
+import Counter, { CounterProps } from './Counter';
 
 let props: CounterProps;
-let handleClick;
-let counter;
-let counterOutter;
-let counterInner;
+let handleClick: any;
+let counter: any;
+let counterOutter: any;
+let counterInner: any;
 
 // This is only necessary because Jasmine requires spies to be initialied in a 'before' function
 beforeAll(() => {

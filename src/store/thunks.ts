@@ -160,8 +160,6 @@ export const initializeFlow = (
         assetService.addFlowComponents(flowComponents);
     }
 
-    console.log('init with:', languages);
-
     // Take stock of the flow's language settings
     if (flowComponents.baseLanguage) {
         dispatch(updateLanguages(languages));
