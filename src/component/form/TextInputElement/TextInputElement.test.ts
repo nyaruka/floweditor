@@ -1,21 +1,16 @@
 import setCaretPosition from 'get-input-selection';
 
 import { getTypeConfig, Types } from '../../../config/typeConfigs';
+import { ContactFields, ResultMap } from '../../../store/flowContext';
 import { composeComponentTestUtils } from '../../../testUtils';
 import { KeyValues, OPTIONS } from './constants';
 import { TextInputElement, TextInputProps } from './TextInputElement';
 
-const resultsCompletionMap = {
-    'ecc70717-dd25-4795-8dc2-0361265a1e29': {
-        name: 'run.results.color',
-        description: 'Result for "color"'
-    }
-};
-
 const baseProps: TextInputProps = {
     name: 'Message',
     typeConfig: getTypeConfig(Types.send_msg),
-    resultsCompletionMap
+    resultMap: {} as ResultMap,
+    contactFields: {} as ContactFields
 };
 
 const { setup, spyOn } = composeComponentTestUtils(TextInputElement, baseProps);

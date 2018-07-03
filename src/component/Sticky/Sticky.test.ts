@@ -1,14 +1,8 @@
-import { Sticky, STICKY_SPEC_ID, StickyProps } from './Sticky';
-import {
-    composeComponentTestUtils,
-    configProviderContext,
-    composeDuxState,
-    setMock
-} from '../../testUtils';
 import { FlowDefinition, StickyNote } from '../../flowTypes';
-import { getBaseLanguage, dump, set } from '../../utils';
-import { ConnectionEvent, createStore, initialState, updateSticky } from '../../store';
-import * as styles from './Sticky.scss';
+import { updateSticky } from '../../store';
+import { composeComponentTestUtils, composeDuxState, setMock } from '../../testUtils';
+import { set } from '../../utils';
+import { Sticky, StickyProps } from './Sticky';
 
 jest.useFakeTimers();
 
@@ -60,7 +54,7 @@ describe(Sticky.name, () => {
     });
 
     describe('update content', () => {
-        let wrapper;
+        let wrapper: any;
 
         const updateText = (name: string, value: string) => {
             const selector = `textarea.${name}`;

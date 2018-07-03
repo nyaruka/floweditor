@@ -15,8 +15,8 @@ declare global {
             toHaveInboundFrom(exit: Exit): R;
             toHaveExitWithDestination(): R;
             toHaveInboundConnections(): R;
-            toHavePayload(action, payload): R;
-            toHaveReduxActions(actions): R;
+            toHavePayload(action: string, payload: any): R;
+            toHaveReduxActions(actions: string[]): R;
         }
     }
 }
@@ -28,7 +28,8 @@ global.console = new Console(process.stderr, process.stderr);
 configure({ adapter: new Adapter() });
 
 // RAF shim
-(global as any).requestAnimationFrame = callback => {
+// tslint:disable-next-line:ban-types
+(global as any).requestAnimationFrame = (callback: Function) => {
     setTimeout(callback, 0);
 };
 

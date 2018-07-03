@@ -1,10 +1,10 @@
 import update from 'immutability-helper';
 import * as React from 'react';
-import { v4 as generateUUID } from 'uuid';
 
 import { getOperatorConfig, Operators } from '../../config/operatorConfigs';
 import { getTypeConfig, Types } from '../../config/typeConfigs';
 import { SwitchRouter } from '../../flowTypes';
+import { AssetType } from '../../services/AssetService';
 import { getLocalizations } from '../../store/helpers';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../testUtils';
 import {
@@ -30,9 +30,12 @@ import {
     SwitchRouterFormProps
 } from './SwitchRouter';
 
-jest.mock('uuid', () => ({
-    v4: jest.fn()
-}));
+let mockUuidCounts = 1;
+jest.mock('uuid', () => {
+    return {
+        v4: jest.fn(() => `generated_uuid_${mockUuidCounts++}`)
+    };
+});
 
 const rulesMeta = [
     { exitUUID: 'exit-1', exitName: 'Yes', type: Operators.has_any_word, args: ['y, yes'] },
@@ -69,11 +72,10 @@ const nodeToEdit = createWaitRouterNode({
 });
 
 const baseProps: SwitchRouterFormProps = {
-    language: { iso: 'eng', name: 'English' },
+    language: { id: 'eng', name: 'English', type: AssetType.Language },
     typeConfig: getTypeConfig(Types.wait_for_response),
     translating: false,
     settings: { originalNode: nodeToEdit },
-    localizations: [],
     operand: DEFAULT_OPERAND,
     showAdvanced: false,
     saveLocalizations: jest.fn(),
@@ -91,9 +93,9 @@ const { setup, spyOn } = composeComponentTestUtils(SwitchRouterForm, baseProps);
 describe(SwitchRouterForm.name, () => {
     beforeEach(() => {
         // Make UUID generation deterministic so we can write reliable snapshots
-        let uuidCount = 1;
-
-        generateUUID.mockImplementation(() => `generated_uuid_${uuidCount++}`);
+        // let uuidCount = 1;
+        mockUuidCounts = 1;
+        // generateUUID.mockImplementation(() => `generated_uuid_${uuidCount++}`);
     });
 
     describe('helpers', () => {
@@ -467,7 +469,7 @@ describe(SwitchRouterForm.name, () => {
                     props: {
                         kase: {
                             uuid: '75541df6-f5f7-4f7b-944b-9604cd6cf338',
-                            exit_uuid: null
+                            exit_uuid: null as string
                         }
                     },
                     state: {

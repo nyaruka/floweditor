@@ -28,7 +28,7 @@ const originalNode = {
 const baseProps: AttribElementProps = {
     name: 'Attribute',
     attribute: { value: attribute },
-    typeConfig: getTypeConfig(Types.set_contact_name),
+    // typeConfig: getTypeConfig(Types.set_contact_name),
     assets: configProviderContext.assetService.getFieldAssets(),
     settings: { originalAction, originalNode },
     handleTypeConfigChange: jest.fn(),

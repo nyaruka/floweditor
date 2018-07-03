@@ -1,5 +1,6 @@
-import * as config from '../../__test__/config';
-import AssetService, { Assets, AssetSearchResult, AssetType } from './AssetService';
+import AssetService, { Assets, AssetSearchResult, AssetType, LabelAssets } from './AssetService';
+
+const config = require('../../__test__/config');
 
 describe('AssetService', () => {
     let assetService: AssetService;

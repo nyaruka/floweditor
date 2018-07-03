@@ -5,6 +5,7 @@ import {
     createSetContactFieldAction,
     createSetContactNameAction
 } from '../testUtils/assetCreators';
+import * as from from '../testUtils/setup';
 import Constants from './constants';
 import {
     updateSendBroadcastForm,
@@ -18,7 +19,7 @@ const setContactNameAction = createSetContactNameAction();
 const setContactFieldAction = createSetContactFieldAction();
 
 describe('form thunks', () => {
-    let store;
+    let store: any;
     const { mockDuxState, testNodes } = prepMockDuxState();
 
     beforeEach(() => {

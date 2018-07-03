@@ -192,7 +192,7 @@ describe(CaseElement.name, () => {
                 );
             });
 
-            cases.forEach((kase, idx) => {
+            cases.forEach((kase: any, idx: number) => {
                 const caseProps = {
                     ...props,
                     name: `case_${kase.uuid}`,

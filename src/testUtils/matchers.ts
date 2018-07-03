@@ -3,6 +3,8 @@ import { commaListsOr } from 'common-tags';
 import { Exit } from '../flowTypes';
 import { RenderNode } from '../store/flowContext';
 
+const matchers: jest.ExpectExtendMap = {};
+
 interface MatchResult {
     message: () => string;
     pass: boolean;
@@ -126,7 +128,7 @@ function toHaveReduxActions<T>(
     store: any,
     actionTypes: string[]
 ): MatchResult {
-    const missedTypes = [];
+    const missedTypes: any[] = [];
     for (const actionTaken of store.getActions()) {
         for (const actionType of actionTypes) {
             if (actionTaken.type === actionType) {

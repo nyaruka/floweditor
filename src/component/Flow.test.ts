@@ -26,9 +26,10 @@ jest.mock('../services/ActivityManager');
 jest.mock('../services/Plumber');
 jest.useFakeTimers();
 
+let mockUuidCounts = 1;
 jest.mock('uuid', () => {
     return {
-        v4: jest.fn()
+        v4: jest.fn(() => `generated_uuid_${mockUuidCounts++}`)
     };
 });
 
@@ -58,8 +59,8 @@ const baseProps: FlowStoreProps = {
 const { setup, spyOn } = composeComponentTestUtils(Flow, baseProps);
 
 describe(Flow.name, () => {
-    let ghostNodeFromWait;
-    let ghostNodeFromAction;
+    let ghostNodeFromWait: any;
+    let ghostNodeFromAction: any;
     let mockConnectionEvent: Partial<ConnectionEvent>;
 
     const { nodes } = baseProps;
@@ -67,18 +68,12 @@ describe(Flow.name, () => {
 
     beforeEach(() => {
         // Clear instance mocks
-        ActivityManager.mockClear();
-        Plumber.mockClear();
+        // ActivityManager.mockClear();
+        // Plumber.mockClear();
 
-        let uuidCount = 1;
-
-        generateUUID.mockImplementation(() => {
-            return `generated_uuid_${uuidCount++}`;
-        });
-
-        ghostNodeFromWait = getGhostNode(nodes[nodeMapKeys[nodeMapKeys.length - 1]], nodes);
-
-        ghostNodeFromAction = getGhostNode(nodes[nodeMapKeys[0]], nodes);
+        mockUuidCounts = 1;
+        ghostNodeFromWait = getGhostNode(nodes[nodeMapKeys[nodeMapKeys.length - 1]], 1);
+        ghostNodeFromAction = getGhostNode(nodes[nodeMapKeys[0]], 1);
 
         mockConnectionEvent = {
             sourceId: `${generateUUID()}:${generateUUID()}`,
@@ -164,7 +159,7 @@ describe(Flow.name, () => {
                 })
             );
             expect(nodeList.length).toBe(props.definition.nodes.length);
-            nodeList.forEach((node, idx) => {
+            nodeList.forEach((node: any, idx: number) => {
                 const renderMapKeys = Object.keys(props.nodes);
                 const nodeUUID = renderMapKeys[idx];
                 const renderNode = props.nodes[nodeUUID];

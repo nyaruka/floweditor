@@ -1,9 +1,9 @@
-import * as config from '../../../__test__/config';
 import AssetService from '../../services/AssetService';
 import { composeComponentTestUtils, flushPromises, Resp, restoreSpies } from '../../testUtils';
 import { GROUP_NOT_FOUND, GROUP_PLACEHOLDER } from '../form/constants';
 import SelectSearch, { SelectSearchProps } from './SelectSearch';
 
+const config = require('../../../__test__/config');
 const groupsResp = require('../../../__test__/assets/groups.json') as Resp;
 
 const baseProps: SelectSearchProps = {

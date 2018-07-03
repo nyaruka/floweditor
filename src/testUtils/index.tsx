@@ -6,7 +6,6 @@ import * as React from 'react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import * as config from '../../__test__/config';
 import { ConfigProviderContext } from '../config';
 import { fakePropType } from '../config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
@@ -14,9 +13,16 @@ import AssetService from '../services/AssetService';
 import { AppState, createStore, initialState } from '../store';
 import { RenderNodeMap } from '../store/flowContext';
 import { getFlowComponents } from '../store/helpers';
+import * as matchers from '../testUtils/matchers';
 import { merge, set } from '../utils';
 
+// we need to use require syntax to bust implicit any
+const config = require('../../__test__/config');
+
 const boring: FlowDefinition = require('../../__test__/flows/boring.json');
+
+// force our matchers to be read in
+const match = matchers;
 
 export interface Resp {
     assets: Array<{ [key: string]: any }>;

@@ -30,11 +30,10 @@ import {
     StartSession,
     SwitchRouter,
     Wait,
-    WaitTypes,
-    Language
+    WaitTypes
 } from '../flowTypes';
-import { capitalize } from '../utils';
 import { AssetType } from '../services/AssetService';
+import { capitalize } from '../utils';
 
 const { assets: groupsResults } = require('../../__test__/assets/groups.json');
 const languagesResults = require('../../__test__/assets/languages.json');
@@ -443,4 +442,4 @@ export const English = { name: 'English', id: 'eng', type: AssetType.Language };
 
 export const Spanish = { name: 'Spanish', id: 'spa', type: AssetType.Language };
 
-export const languages = languagesResults.assets.map(language => languageToAsset(language));
+export const languages = languagesResults.assets.map((language: any) => languageToAsset(language));

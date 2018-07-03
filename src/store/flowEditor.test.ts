@@ -155,7 +155,7 @@ describe('flowEditor action creators', () => {
                 inboundConnections: {}
             };
             const { renderNodeMap } = getFlowComponents(boringFlow);
-            const ghostNode = getGhostNode(fromNode, renderNodeMap);
+            const ghostNode = getGhostNode(fromNode, 1);
             const expectedAction = {
                 type: Constants.UPDATE_GHOST_NODE,
                 payload: {
@@ -195,7 +195,7 @@ describe('flowEditor action creators', () => {
 
 describe('flowEditor reducers', () => {
     describe('language reducer', () => {
-        const reduce = action => languageReducer(undefined, action);
+        const reduce = (action: any) => languageReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.editorUI.language);
@@ -208,7 +208,7 @@ describe('flowEditor reducers', () => {
     });
 
     describe('translating reducer', () => {
-        const reduce = action => translatingReducer(undefined, action);
+        const reduce = (action: any) => translatingReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.editorUI.translating);
@@ -222,7 +222,7 @@ describe('flowEditor reducers', () => {
     });
 
     describe('fetchingFlow reducer', () => {
-        const reduce = action => fetchingFlowReducer(undefined, action);
+        const reduce = (action: any) => fetchingFlowReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.editorUI.fetchingFlow);
@@ -236,7 +236,7 @@ describe('flowEditor reducers', () => {
     });
 
     describe('nodeEditorOpen reducer', () => {
-        const reduce = action => nodeEditorOpenReducer(undefined, action);
+        const reduce = (action: any) => nodeEditorOpenReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.editorUI.nodeEditorOpen);
@@ -250,7 +250,7 @@ describe('flowEditor reducers', () => {
     });
 
     describe('createNodePosition reducer', () => {
-        const reduce = action => createNodePositionReducer(undefined, action);
+        const reduce = (action: any) => createNodePositionReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.flowUI.createNodePosition);
@@ -264,7 +264,7 @@ describe('flowEditor reducers', () => {
     });
 
     describe('pendingConnection reducer', () => {
-        const reduce = action => pendingConnectionReducer(undefined, action);
+        const reduce = (action: any) => pendingConnectionReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.flowUI.pendingConnection);
@@ -281,7 +281,7 @@ describe('flowEditor reducers', () => {
     });
 
     describe('nodeDragging reducer', () => {
-        const reduce = action => nodeDraggingReducer(undefined, action);
+        const reduce = (action: any) => nodeDraggingReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.flowUI.nodeDragging);
@@ -295,7 +295,7 @@ describe('flowEditor reducers', () => {
     });
 
     describe('ghostNode reducer', () => {
-        const reduce = action => ghostNodeReducer(undefined, action);
+        const reduce = (action: any) => ghostNodeReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.flowUI.ghostNode);
@@ -307,14 +307,14 @@ describe('flowEditor reducers', () => {
                 ui: boringFlow._ui.nodes[boringFlow.nodes[0].uuid],
                 inboundConnections: {}
             };
-            const ghostNode = getGhostNode(fromNode, { [fromNode.node.uuid]: fromNode });
+            const ghostNode = getGhostNode(fromNode, 1);
             const action = updateGhostNode(ghostNode);
             expect(reduce(action)).toEqual(ghostNode);
         });
     });
 
     describe('dragGroup reducer', () => {
-        const reduce = action => dragGroupReducer(undefined, action);
+        const reduce = (action: any) => dragGroupReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.flowUI.dragGroup);
@@ -328,7 +328,7 @@ describe('flowEditor reducers', () => {
     });
 
     describe('dragSelection reducer', () => {
-        const reduce = action => dragSelectionReducer(undefined, action);
+        const reduce = (action: any) => dragSelectionReducer(undefined, action);
 
         it('should return initial state', () => {
             expect(reduce({})).toEqual(initialState.flowUI.dragSelection);

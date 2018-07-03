@@ -1,5 +1,6 @@
-import { Exit } from '../flowTypes';
+// tslint:disable:ban-types
 import Counter from '../component/Counter';
+import { Exit } from '../flowTypes';
 
 // how often we ask the server for new data
 const REFRESH_SECONDS = 10;
@@ -25,6 +26,7 @@ export default class ActivityManager {
     private simulation: Activity;
 
     private flowUUID: string;
+
     private getActivityExternal: Function;
 
     private listeners: { [key: string]: Counter } = {};
@@ -47,13 +49,13 @@ export default class ActivityManager {
         this.fetchActivity();
     }
 
-    public clearSimulation() {
+    public clearSimulation(): void {
         this.simulation = null;
         this.notifyListeners();
         this.fetchActivity();
     }
 
-    public setSimulation(activity: Activity) {
+    public setSimulation(activity: Activity): void {
         this.simulation = activity;
         if (this.timer) {
             window.clearTimeout(this.timer);
@@ -62,7 +64,7 @@ export default class ActivityManager {
         this.notifyListeners();
     }
 
-    private fetchActivity(wait: number = 0) {
+    private fetchActivity(wait: number = 0): void {
         // if (!this.timer) {
         //     this.timer = window.setTimeout(() => {
         //         this.timer = null;
@@ -79,17 +81,18 @@ export default class ActivityManager {
         // }
     }
 
-    public notifyListeners() {
-        for (let counter in this.listeners) {
+    public notifyListeners(): void {
+        // tslint:disable-next-line:forin
+        for (const counter in this.listeners) {
             this.listeners[counter].requestUpdate();
         }
     }
 
-    public deregister(key: string) {
+    public deregister(key: string): void {
         delete this.listeners[key];
     }
 
-    public registerListener(counter: Counter) {
+    public registerListener(counter: Counter): void {
         // this is called from ref, which is null on unmounts
         if (counter) {
             this.listeners[counter.getKey()] = counter;
@@ -104,9 +107,9 @@ export default class ActivityManager {
     }
 
     public getActiveCount(nodeUUID: string): number {
-        var activity = this.getActivity();
+        const activity = this.getActivity();
         if (activity) {
-            var count = activity.nodes[nodeUUID];
+            const count = activity.nodes[nodeUUID];
             if (count !== undefined) {
                 return count;
             }
@@ -115,10 +118,10 @@ export default class ActivityManager {
     }
 
     public getPathCount(exit: Exit): number {
-        var activity = this.getActivity();
+        const activity = this.getActivity();
         if (activity) {
             if (exit.destination_node_uuid) {
-                var count = activity.segments[exit.uuid + ':' + exit.destination_node_uuid];
+                const count = activity.segments[exit.uuid + ':' + exit.destination_node_uuid];
                 if (count !== undefined) {
                     return count;
                 }

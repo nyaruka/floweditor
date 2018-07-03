@@ -15,7 +15,7 @@ exports[`Modal render should render timeout control 1`] = `
       },
     }
   }
-  nodeToEdit={
+  originalNode={
     Object {
       "actions": Array [],
       "exits": Array [

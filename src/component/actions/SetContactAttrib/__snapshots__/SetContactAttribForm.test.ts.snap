@@ -131,7 +131,7 @@ exports[`SetContactAttribForm render should render language dropdown 1`] = `
       LanguageAssets {
         "assetType": "language",
         "assets": Object {},
-        "endpoint": undefined,
+        "endpoint": "/assets/languages.json",
         "idProperty": "iso",
         "localStorage": true,
       }
