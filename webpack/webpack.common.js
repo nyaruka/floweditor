@@ -4,6 +4,7 @@ const { pkgName } = require('./utils');
 const name = pkgName();
 
 module.exports = {
+    mode: 'production',
     output: {
         filename: `${name}.js`
     },

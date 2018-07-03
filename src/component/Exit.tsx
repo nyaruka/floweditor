@@ -11,8 +11,8 @@ import ActivityManager from '../services/ActivityManager';
 import { Asset } from '../services/AssetService';
 import { AppState, DisconnectExit, disconnectExit, DispatchWithState } from '../store';
 import { createClickHandler, getLocalization } from '../utils';
-import Counter from './Counter';
 import * as styles from './Exit.scss';
+import Counter from './Counter';
 
 export interface ExitPassedProps {
     exit: Exit;
@@ -191,8 +191,12 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 }
 
 const mapStateToProps = ({
-    flowContext: { definition: { localization } },
-    flowEditor: { editorUI: { translating, language } }
+    flowContext: {
+        definition: { localization }
+    },
+    flowEditor: {
+        editorUI: { translating, language }
+    }
 }: AppState) => ({
     translating,
     language,
@@ -202,6 +206,9 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ disconnectExit }, dispatch);
 
-const ConnectedExit = connect(mapStateToProps, mapDispatchToProps)(ExitComp);
+const ConnectedExit = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ExitComp);
 
 export default ConnectedExit;

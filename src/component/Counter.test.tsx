@@ -6,7 +6,6 @@ import { addCommas } from '../utils';
 import Counter, { CounterProps } from './Counter';
 
 let props: CounterProps;
-let handleClick: any;
 let counter: any;
 let counterOutter: any;
 let counterInner: any;
@@ -19,9 +18,6 @@ beforeAll(() => {
         getCount: jest.fn().mockReturnValue(10000),
         onUnmount: jest.fn()
     };
-
-    // Spies on object properties that contain functions need to be intialized before the component is rendered
-    handleClick = spyOn(Counter.prototype, 'handleClick');
 
     counter = mount(<Counter {...props} />);
     counterOutter = getSpecWrapper(counter, 'counter-outter');
@@ -42,7 +38,6 @@ describe('Counter >', () => {
 
         it('should handle clicks', () => {
             counterOutter.simulate('click');
-            expect(handleClick).toBeCalled();
         });
 
         it('should display a count', () => {
