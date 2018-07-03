@@ -10,7 +10,6 @@ import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from '.
 import AssetService from '../services/AssetService';
 import { createMockStore, prepMockDuxState } from '../testUtils';
 import { createSendMsgAction, createSetContactFieldAction } from '../testUtils/assetCreators';
-import * as from from '../testUtils/setup';
 import { push } from '../utils';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { getFlowComponents, getSuggestedResultName, getUniqueDestinations } from './helpers';
@@ -20,7 +19,6 @@ import {
     addNode,
     disconnectExit,
     ensureStartNode,
-    fetchFlow,
     handleTypeConfigChange,
     initializeFlow,
     moveActionUp,
@@ -72,17 +70,6 @@ describe('Flow Manipulation', () => {
     });
 
     describe('init', () => {
-        // TODO: Mocked assets need to be in RP format
-        xit('should fetch and initalize flow', () => {
-            const assetService = new AssetService(config);
-            return store.dispatch(fetchFlow(assetService, 'boring')).then(() => {
-                expect(assetService).toMatchSnapshot();
-                const nodes = getUpdatedNodes(store);
-                expect(Object.keys(nodes).length).toBe(4);
-                expect(nodes).toMatchSnapshot();
-            });
-        });
-
         it('should initialize definition', () => {
             const assetService = new AssetService(config);
             const { renderNodeMap, groups, fields } = store.dispatch(

@@ -5,7 +5,6 @@ import {
     createSetContactFieldAction,
     createSetContactNameAction
 } from '../testUtils/assetCreators';
-import * as from from '../testUtils/setup';
 import Constants from './constants';
 import {
     updateSendBroadcastForm,

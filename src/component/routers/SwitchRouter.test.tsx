@@ -92,10 +92,7 @@ const { setup, spyOn } = composeComponentTestUtils(SwitchRouterForm, baseProps);
 
 describe(SwitchRouterForm.name, () => {
     beforeEach(() => {
-        // Make UUID generation deterministic so we can write reliable snapshots
-        // let uuidCount = 1;
         mockUuidCounts = 1;
-        // generateUUID.mockImplementation(() => `generated_uuid_${uuidCount++}`);
     });
 
     describe('helpers', () => {

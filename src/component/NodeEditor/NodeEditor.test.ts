@@ -53,12 +53,6 @@ const baseProps: NodeEditorProps = {
 const { setup, spyOn } = composeComponentTestUtils(NodeEditor, baseProps);
 
 describe(NodeEditor.name, () => {
-    beforeEach(() => {
-        // Make UUID generation deterministic so we can write reliable snapshots
-        // let uuidCount = 1;
-        // generateUUID.mockImplementation(() => `generated_uuid_${uuidCount++}`);
-    });
-
     describe('instance methods', () => {
         describe('updateSwitchRouter', () => {
             it('should update switch router', () => {

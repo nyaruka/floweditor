@@ -68,9 +68,6 @@ describe(Flow.name, () => {
 
     beforeEach(() => {
         // Clear instance mocks
-        // ActivityManager.mockClear();
-        // Plumber.mockClear();
-
         mockUuidCounts = 1;
         ghostNodeFromWait = getGhostNode(nodes[nodeMapKeys[nodeMapKeys.length - 1]], 1);
         ghostNodeFromAction = getGhostNode(nodes[nodeMapKeys[0]], 1);
