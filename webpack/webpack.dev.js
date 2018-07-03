@@ -1,11 +1,6 @@
 const { join } = require('path');
 const { smartStrategy } = require('webpack-merge');
-const {
-    HotModuleReplacementPlugin,
-    NamedModulesPlugin,
-    WatchIgnorePlugin,
-    EnvironmentPlugin
-} = require('webpack');
+const { NamedModulesPlugin, WatchIgnorePlugin, EnvironmentPlugin } = require('webpack');
 const paths = require('./paths');
 const { typingsForCssModulesLoader, postCSSLoader, awesomeTypeScriptLoader } = require('./loaders');
 const commonConfig = require('./webpack.common');
@@ -44,12 +39,8 @@ if (process.env.RAPID_FLOW && process.env.RAPID_ORG) {
 }
 
 const devConfig = {
-    entry: [
-        'react-hot-loader/patch',
-        paths.app,
-        `webpack-dev-server/client?http://localhost:${DEV_SERVER_PORT}`,
-        'webpack/hot/only-dev-server'
-    ],
+    mode: 'development',
+    entry: [paths.app, `webpack-dev-server/client?http://localhost:${DEV_SERVER_PORT}`],
     output: {
         path: paths.distDev
     },
@@ -57,9 +48,8 @@ const devConfig = {
     devServer: {
         contentBase: [join(__dirname, '../preview/src')],
         compress: true,
-        hot: true,
         port: DEV_SERVER_PORT,
-        setup: function(app) {
+        before: function(app) {
             app.get('/assets/**', function(req, res) {
                 const url = req._parsedUrl.pathname.replace(/(^\/assets\/)|(\/$)/g, '');
                 const [type, uuid] = url.split('/');
@@ -89,7 +79,6 @@ const devConfig = {
         proxy
     },
     plugins: [
-        new HotModuleReplacementPlugin(),
         new EnvironmentPlugin(env),
         new NamedModulesPlugin(),
         new WatchIgnorePlugin([/scss\.d\.ts$/])
@@ -110,7 +99,7 @@ const devConfig = {
             {
                 test: /\.tsx?$/,
                 exclude: [/node_modules/],
-                use: ['react-hot-loader/webpack', awesomeTypeScriptLoader()]
+                use: [awesomeTypeScriptLoader()]
             }
         ]
     }

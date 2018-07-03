@@ -174,7 +174,6 @@ exports[`Modal render should render timeout control 1`] = `
         className="ReactModal__Overlay ReactModal__Overlay--after-open"
         onClick={[Function]}
         onMouseDown={[Function]}
-        onMouseUp={[Function]}
         style={
           Object {
             "backgroundColor": "rgba(255, 255, 255, 0.75)",

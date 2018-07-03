@@ -47,9 +47,6 @@ You can run the editor in a development server whose content base includes the `
 
 A small server exists in `/assets` to provide sample payloads defined in JSON to a version of the Flow Editor living at the hosting service of your choosing. You can choose to provide your own Sentry DSN and a valid `now.json` file, or remove them in favor of your own config. Use the `dev` NPM script in that directory to run the server in development.
 
-### Hot Reloading
-
-This project uses [React Hot Loader](https://github.com/gaearon/react-hot-loader) to keep components mounted/preserve their state while in development.
 
 ### Configuration
 

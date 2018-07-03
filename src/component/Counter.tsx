@@ -24,6 +24,7 @@ export default class Counter extends React.Component<CounterProps, CounterState>
         this.key = generateUUID();
         this.getKey = this.getKey.bind(this);
         this.requestUpdate = this.requestUpdate.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     public componentDidMount(): void {

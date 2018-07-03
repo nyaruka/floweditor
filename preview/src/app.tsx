@@ -4,27 +4,10 @@ import 'core-js/es6/set';
 import 'raf/polyfill';
 import * as React from 'react';
 import { render } from 'react-dom';
-import { AppContainer as HotContainer } from 'react-hot-loader';
 import FlowEditor from '../../src/';
-import { FlowEditorConfig } from '../../src/flowTypes';
 
 const root = document.getElementById('flow-editor');
 const config = require('../config');
 config.flow = root.getAttribute('uuid') || config.flow;
 
-const renderHot = (App: React.SFC<{ config: FlowEditorConfig }>) =>
-    render(
-        <HotContainer>
-            <App config={config} />
-        </HotContainer>,
-        root
-    );
-
-if (module.hot) {
-    module.hot.accept('../../src', () => {
-        const { default: NextEditor } = require('../../src');
-        renderHot(NextEditor);
-    });
-}
-
-renderHot(FlowEditor);
+render(<FlowEditor config={config} />, root);
