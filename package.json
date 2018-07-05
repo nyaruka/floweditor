@@ -11,11 +11,11 @@
     "umd"
   ],
   "scripts": {
-    "test": "jest --maxWorkers=4 --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test:local": "jest",
     "test:watch": "npm run test:local -- --watch",
-    "test:watch:coverage": "npm run test:local -- --watch --coverage --maxWorkers=4",
-    "test:coverage": "npm run test:local -- --coverage --maxWorkers=4",
+    "test:watch:coverage": "npm run test:local -- --watch --coverage",
+    "test:coverage": "npm run test:local -- --coverage",
     "test:update": "npm run test:local -- --updateSnapshot",
     "start": "webpack-dev-server --config webpack/webpack.config.js --env.NODE_ENV=dev --progress --colors",
     "storybook": "start-storybook -p 9001 -c .storybook",

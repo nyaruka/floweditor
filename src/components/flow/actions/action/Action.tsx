@@ -4,7 +4,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as shared from '~/components/shared.scss';
-import TitleBar from '~/components/titlebar';
+import TitleBar from '~/components/titlebar/TitleBar';
 import { ConfigProviderContext, fakePropType } from '~/config/ConfigProvider';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { Action, AnyAction, FlowNode, LocalizationMap } from '~/flowTypes';

@@ -6,7 +6,7 @@ import { v4 as generateUUID } from 'uuid';
 import * as styles from '~/components/Flow.scss';
 import ConnectedNode, { DragPoint } from '~/components/Node';
 import ConnectedNodeEditor from '~/components/nodeeditor/NodeEditor';
-import Simulator from '~/components/Simulator/Simulator';
+import Simulator from '~/components/simulator/Simulator';
 import Sticky from '~/components/Sticky';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';

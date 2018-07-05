@@ -10,7 +10,7 @@ import ExitComp from '~/components/Exit';
 import ActionWrapper from '~/components/flow/actions/action/Action';
 import * as styles from '~/components/Node.scss';
 import * as shared from '~/components/shared.scss';
-import TitleBar from '~/components/titlebar';
+import TitleBar from '~/components/titlebar/TitleBar';
 import { getOperatorConfig } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import {
