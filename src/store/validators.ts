@@ -1,4 +1,4 @@
-import { isValidURL } from '~/component/form/TextInputElement/helpers';
+import { isValidURL } from '~/components/form/textinputelement/helpers';
 import { Asset } from '~/services/AssetService';
 
 import { FormEntry, ValidationFailure } from './nodeEditor';

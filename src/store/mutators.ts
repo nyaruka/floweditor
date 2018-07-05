@@ -1,5 +1,5 @@
 import { v4 as generateUUID } from 'uuid';
-import { DefaultExitNames } from '~/component/NodeEditor/NodeEditor';
+import { DefaultExitNames } from '~/components/nodeeditor/NodeEditor';
 import { AnyAction, Dimensions, Exit, FlowDefinition, FlowNode, StickyNote } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { merge, push, set, snapToGrid, splice, unset } from '~/utils';

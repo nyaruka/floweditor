@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SetRunResultComp should render save placeholder when value prop passed 1`] = `
+<div>
+  Save 
+  Grace
+   as 
+  <span
+    className="emph"
+  >
+    Name
+  </span>
+</div>
+`;
+
+exports[`SetRunResultComp should render with clear placholder when value prop isn't passed 1`] = `
+<div>
+  Clear value for 
+  <span
+    className="emph"
+  >
+    Name
+  </span>
+</div>
+`;

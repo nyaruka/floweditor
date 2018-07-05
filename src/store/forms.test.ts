@@ -1,4 +1,4 @@
-import { fieldToAsset, propertyToAsset } from '~/component/actions/SetContactAttrib/helpers';
+import { fieldToAsset, propertyToAsset } from '~/components/flow/actions/setcontactattrib/helpers';
 import { Types } from '~/config/typeConfigs';
 import { createMockStore, prepMockDuxState } from '~/testUtils';
 import { createSetContactFieldAction, createSetContactNameAction } from '~/testUtils/assetCreators';

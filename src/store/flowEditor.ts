@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { DragPoint } from '~/component/Node';
+import { DragPoint } from '~/components/Node';
 import { FlowNode, FlowPosition } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 

@@ -2,7 +2,7 @@ import * as isEqual from 'fast-deep-equal';
 import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
-import { hasCases } from '~/component/NodeEditor/NodeEditor';
+import { hasCases } from '~/components/nodeeditor/NodeEditor';
 import { getTypeConfig, Type, Types } from '~/config/typeConfigs';
 import {
     Action,
