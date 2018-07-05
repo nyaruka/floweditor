@@ -11,7 +11,7 @@
     "umd"
   ],
   "scripts": {
-    "test": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test": "jest --maxWorkers=4 --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test:local": "jest",
     "test:watch": "npm run test:local -- --watch",
     "test:watch:coverage": "npm run test:local -- --watch --coverage",
