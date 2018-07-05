@@ -1,9 +1,9 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
+import ConnectedTextInputElement from '~/component/form/TextInputElement';
+import * as styles from '~/component/routers/Webhook.scss';
+import { renderIf } from '~/utils';
 
-import { renderIf } from '../../utils';
-import ConnectedTextInputElement from '../form/TextInputElement';
-import * as styles from '../routers/Webhook.scss';
 import FormElement from './FormElement';
 
 export interface Header {

@@ -2,17 +2,17 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import CheckboxElement from '~/component/form/CheckboxElement';
+import GroupsElement from '~/component/form/GroupsElement';
+import { updateChangeGroupsForm } from '~/store/forms';
+import AppState from '~/store/state';
+import { DispatchWithState } from '~/store/thunks';
+import { validate, validateRequired } from '~/store/validators';
 
-import { ConfigProviderContext } from '../../../config';
-import { fakePropType } from '../../../config/ConfigProvider';
-import { ChangeGroups } from '../../../flowTypes';
-import { Asset } from '../../../services/AssetService';
-import { updateChangeGroupsForm } from '../../../store/forms';
-import AppState from '../../../store/state';
-import { DispatchWithState } from '../../../store/thunks';
-import { validate, validateRequired } from '../../../store/validators';
-import CheckboxElement from '../../form/CheckboxElement';
-import GroupsElement from '../../form/GroupsElement';
+import { ConfigProviderContext } from '~/config';
+import { fakePropType } from '~/config/ConfigProvider';
+import { ChangeGroups } from '~/flowTypes';
+import { Asset } from '~/services/AssetService';
 import ChangeGroupsFormProps from './props';
 import * as styles from './RemoveGroupsForm.scss';
 
@@ -128,8 +128,13 @@ const mapStateToProps = ({ nodeEditor: { form } }: AppState) => ({
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ updateChangeGroupsForm }, dispatch);
 
-const ConnectedRemoveGroupsFrom = connect(mapStateToProps, mapDispatchToProps, null, {
-    withRef: true
-})(RemoveGroupsForm);
+const ConnectedRemoveGroupsFrom = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    {
+        withRef: true
+    }
+)(RemoveGroupsForm);
 
 export default ConnectedRemoveGroupsFrom;

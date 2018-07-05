@@ -52,10 +52,9 @@ exports[`Flow render should render NodeEditor 2`] = `
   >
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -106,10 +105,9 @@ exports[`Flow render should render NodeEditor 2`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -257,10 +255,9 @@ exports[`Flow render should render NodeEditor 2`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -326,10 +323,9 @@ exports[`Flow render should render NodeEditor 2`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -380,10 +376,9 @@ exports[`Flow render should render NodeEditor 2`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -434,10 +429,9 @@ exports[`Flow render should render NodeEditor 2`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -516,10 +510,9 @@ exports[`Flow render should render NodeEditor 2`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -1047,10 +1040,9 @@ exports[`Flow render should render drag selection box 1`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -1101,10 +1093,9 @@ exports[`Flow render should render drag selection box 1`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -1252,10 +1243,9 @@ exports[`Flow render should render drag selection box 1`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -1321,10 +1311,9 @@ exports[`Flow render should render drag selection box 1`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -1375,10 +1364,9 @@ exports[`Flow render should render drag selection box 1`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -1429,10 +1417,9 @@ exports[`Flow render should render drag selection box 1`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -1511,10 +1498,9 @@ exports[`Flow render should render drag selection box 1`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -1616,10 +1602,9 @@ exports[`Flow render should render self, children with base props 1`] = `
   >
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -1670,10 +1655,9 @@ exports[`Flow render should render self, children with base props 1`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -1821,10 +1805,9 @@ exports[`Flow render should render self, children with base props 1`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -1890,10 +1873,9 @@ exports[`Flow render should render self, children with base props 1`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -1944,10 +1926,9 @@ exports[`Flow render should render self, children with base props 1`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -1998,10 +1979,9 @@ exports[`Flow render should render self, children with base props 1`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],
@@ -2080,10 +2060,9 @@ exports[`Flow render should render self, children with base props 1`] = `
     />
     <Connect(NodeComp)
       Activity={
-        ActivityManager {
+        Object {
           "clearSimulation": [MockFunction],
           "deregister": [MockFunction],
-          "fetchActivity": [MockFunction],
           "getActiveCount": [MockFunction],
           "getActivity": [MockFunction],
           "getPathCount": [MockFunction],

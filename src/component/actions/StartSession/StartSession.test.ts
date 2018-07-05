@@ -1,6 +1,6 @@
-import { StartSession } from '../../../flowTypes';
-import { composeComponentTestUtils } from '../../../testUtils';
-import { createStartSessionAction } from '../../../testUtils/assetCreators';
+import { StartSession } from '~/flowTypes';
+import { composeComponentTestUtils } from '~/testUtils';
+import { createStartSessionAction } from '~/testUtils/assetCreators';
 import StartSessionComp from './StartSession';
 
 describe('StartSessionComp', () => {

@@ -1,9 +1,8 @@
 import * as React from 'react';
-
-import { Types } from '../../../config/typeConfigs';
-import { ChangeGroups } from '../../../flowTypes';
-import { AssetType } from '../../../services/AssetService';
-import { renderAssetList } from '../helpers';
+import { renderAssetList } from '~/component/actions/helpers';
+import { Types } from '~/config/typeConfigs';
+import { ChangeGroups } from '~/flowTypes';
+import { AssetType } from '~/services/AssetService';
 
 export const removeAllSpecId = 'remove_from_all';
 export const contentSpecId = 'content';

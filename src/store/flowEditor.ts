@@ -1,9 +1,8 @@
-// tslint:disable:no-shadowed-variable
 import { combineReducers } from 'redux';
+import { DragPoint } from '~/component/Node';
+import { FlowNode, FlowPosition } from '~/flowTypes';
+import { Asset } from '~/services/AssetService';
 
-import { DragPoint } from '../component/Node';
-import { FlowNode, FlowPosition } from '../flowTypes';
-import { Asset } from '../services/AssetService';
 import ActionTypes, {
     RemovePendingConnectionAction,
     UpdateCreateNodePositionAction,
@@ -20,6 +19,7 @@ import ActionTypes, {
 } from './actionTypes';
 import Constants from './constants';
 
+// tslint:disable:no-shadowed-variable
 export interface DragSelection {
     startX?: number;
     startY?: number;
@@ -114,9 +114,7 @@ export const updatePendingConnection = (
     }
 });
 
-export const updateDragSelection = (
-    dragSelection: DragSelection
-): UpdateDragSelectionAction => {
+export const updateDragSelection = (dragSelection: DragSelection): UpdateDragSelectionAction => {
     return {
         type: Constants.UPDATE_DRAG_SELECTION,
         payload: {

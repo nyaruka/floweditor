@@ -1,7 +1,6 @@
 import * as React from 'react';
-
-import { Contact, Group, RecipientsAction } from '../../flowTypes';
-import { Asset, AssetType } from '../../services/AssetService';
+import { Contact, Group, RecipientsAction } from '~/flowTypes';
+import { Asset, AssetType } from '~/services/AssetService';
 
 const styles = require('../shared.scss');
 

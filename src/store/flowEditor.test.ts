@@ -1,6 +1,6 @@
 import { v4 as generateUUID } from 'uuid';
+import { Spanish } from '~/testUtils/assetCreators';
 
-import { Spanish } from '../testUtils/assetCreators';
 import Constants from './constants';
 import { RenderNode } from './flowContext';
 import {
@@ -31,8 +31,8 @@ import {
 } from './flowEditor';
 import { getFlowComponents, getGhostNode } from './helpers';
 
-const flowsResp = require('../../__test__/assets/flows.json');
-const boringFlow = require('../../__test__/flows/boring.json');
+const flowsResp = require('~/test/assets/flows.json');
+const boringFlow = require('~/test/flows/boring.json');
 
 describe('flowEditor action creators', () => {
     describe('updateTranslating', () => {

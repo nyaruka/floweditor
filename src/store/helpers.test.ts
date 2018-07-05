@@ -1,6 +1,7 @@
-import { Types } from '../config/typeConfigs';
-import { Case, Exit, FlowDefinition, FlowPosition, RouterTypes, SendMsg } from '../flowTypes';
-import { Spanish } from '../testUtils/assetCreators';
+import { Types } from '~/config/typeConfigs';
+import { Case, Exit, FlowDefinition, FlowPosition, RouterTypes, SendMsg } from '~/flowTypes';
+import { Spanish } from '~/testUtils/assetCreators';
+
 import {
     determineConfigType,
     generateResultQuery,
@@ -15,7 +16,7 @@ import {
 const mutate = require('immutability-helper');
 
 describe('helpers', () => {
-    const definition: FlowDefinition = require('../../__test__/flows/boring.json');
+    const definition: FlowDefinition = require('~/test/flows/boring.json');
 
     describe('initializeFlow', () => {
         it('should find groups in definition', () => {

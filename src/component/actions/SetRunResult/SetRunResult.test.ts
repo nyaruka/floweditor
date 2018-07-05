@@ -1,7 +1,8 @@
-import { SetRunResult } from '../../../flowTypes';
-import { composeComponentTestUtils } from '../../../testUtils';
-import { createSetRunResultAction } from '../../../testUtils/assetCreators';
-import { setEmpty } from '../../../utils';
+import { SetRunResult } from '~/flowTypes';
+import { composeComponentTestUtils } from '~/testUtils';
+import { createSetRunResultAction } from '~/testUtils/assetCreators';
+import { setEmpty } from '~/utils';
+
 import SetRunResultComp, {
     getClearPlaceholder,
     getResultNameMarkup,

@@ -3,15 +3,15 @@ import {
     SetContactField,
     SetContactName,
     SetContactProperty
-} from '../../../flowTypes';
-import { composeComponentTestUtils } from '../../../testUtils';
+} from '~/flowTypes';
+import { composeComponentTestUtils } from '~/testUtils';
 import {
     createSetContactChannelAction,
     createSetContactFieldAction,
     createSetContactLanguageAction,
     createSetContactNameAction
-} from '../../../testUtils/assetCreators';
-import { name } from '../SendBroadcast/SendBroadcast.scss';
+} from '~/testUtils/assetCreators';
+
 import SetContactAttribComp, { getAttribNameMarkup } from './SetContactAttrib';
 
 const setContactNameAction = createSetContactNameAction();

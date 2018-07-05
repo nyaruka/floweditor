@@ -1,20 +1,20 @@
 import update from 'immutability-helper';
+import { casePropsFromNode } from '~/component/routers/SwitchRouter';
+import { getTypeConfig } from '~/config';
+import { Types } from '~/config/typeConfigs';
+import { FlowDefinition, FlowNode, SwitchRouter } from '~/flowTypes';
+import { AssetType } from '~/services/AssetService';
+import { getFlowComponents } from '~/store/helpers';
+import { NodeEditorForm } from '~/store/nodeEditor';
+import { composeComponentTestUtils, setMock } from '~/testUtils';
 
-import { getTypeConfig } from '../../config';
-import { Types } from '../../config/typeConfigs';
-import { FlowDefinition, FlowNode, SwitchRouter } from '../../flowTypes';
-import { AssetType } from '../../services/AssetService';
-import { getFlowComponents } from '../../store/helpers';
-import { NodeEditorForm } from '../../store/nodeEditor';
-import { composeComponentTestUtils, setMock } from '../../testUtils';
-import { casePropsFromNode } from '../routers/SwitchRouter';
 import { NodeEditor, NodeEditorProps } from './NodeEditor';
 
 jest.mock('uuid', () => ({
     v4: jest.fn()
 }));
 
-const colorsFlow = require('../../../__test__/flows/colors.json') as FlowDefinition;
+const colorsFlow = require('~/test/flows/colors.json') as FlowDefinition;
 
 const switchWithTimeout: FlowNode = update(colorsFlow.nodes[1], {
     wait: { $merge: { timeout: 300 } }

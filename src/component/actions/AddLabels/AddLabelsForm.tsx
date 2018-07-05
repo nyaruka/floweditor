@@ -2,18 +2,18 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import LabelsElement from '~/component/form/LabelsElement';
+import { ConfigProviderContext } from '~/config';
+import { fakePropType } from '~/config/ConfigProvider';
+import { Types } from '~/config/typeConfigs';
+import { AddLabels, Label } from '~/flowTypes';
+import AssetService, { Asset, AssetType } from '~/services/AssetService';
+import { DispatchWithState } from '~/store';
+import { AddLabelsFunc, updateAddLabelsForm } from '~/store/forms';
+import { AddLabelsFormState } from '~/store/nodeEditor';
+import AppState from '~/store/state';
+import { validate, validateRequired } from '~/store/validators';
 
-import { ConfigProviderContext } from '../../../config';
-import { fakePropType } from '../../../config/ConfigProvider';
-import { Types } from '../../../config/typeConfigs';
-import { AddLabels, Label } from '../../../flowTypes';
-import AssetService, { Asset, AssetType } from '../../../services/AssetService';
-import { DispatchWithState } from '../../../store';
-import { AddLabelsFunc, updateAddLabelsForm } from '../../../store/forms';
-import { AddLabelsFormState } from '../../../store/nodeEditor';
-import AppState from '../../../store/state';
-import { validate, validateRequired } from '../../../store/validators';
-import LabelsElement from '../../form/LabelsElement';
 import { AddLabelsFormHelper } from './AddLabelsFormHelper';
 
 export interface AddLabelsFormStoreProps {
@@ -109,8 +109,13 @@ const mapStateToProps = ({ nodeEditor: { form } }: AppState) => ({
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ updateAddLabelsForm }, dispatch);
 
-const ConnectedAddLabelsForm = connect(mapStateToProps, mapDispatchToProps, null, {
-    withRef: true
-})(AddLabelsForm);
+const ConnectedAddLabelsForm = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    {
+        withRef: true
+    }
+)(AddLabelsForm);
 
 export default ConnectedAddLabelsForm;

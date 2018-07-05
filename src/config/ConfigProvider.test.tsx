@@ -8,7 +8,7 @@ import ConfigProvider, {
     VALID_CHILD_ERROR
 } from './ConfigProvider';
 
-const config = require('../../__test__/config.js');
+const config = require('~/test/config.js');
 
 describe('ConfigProvider >', () => {
     const createChild = () => {

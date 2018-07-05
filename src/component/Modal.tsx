@@ -1,15 +1,14 @@
 import * as React from 'react';
 import * as ReactModal from 'react-modal';
 import { connect } from 'react-redux';
-
-import { Types } from '../config/typeConfigs';
-import { Case, FlowNode, SwitchRouter } from '../flowTypes';
-import { AppState } from '../store';
-import { renderIf } from '../utils';
-import Button, { ButtonProps, ButtonTypes } from './Button';
-import ConnectedTimeoutControl from './form/TimeoutControl';
-import * as styles from './Modal.scss';
-import * as shared from './shared.scss';
+import Button, { ButtonProps, ButtonTypes } from '~/component/Button';
+import ConnectedTimeoutControl from '~/component/form/TimeoutControl';
+import * as styles from '~/component/Modal.scss';
+import * as shared from '~/component/shared.scss';
+import { Types } from '~/config/typeConfigs';
+import { Case, FlowNode, SwitchRouter } from '~/flowTypes';
+import { AppState } from '~/store';
+import { renderIf } from '~/utils';
 
 export interface ButtonSet {
     primary: ButtonProps;
@@ -220,8 +219,13 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowEditor: { editorUI: { translating } },
-    nodeEditor: { settings: { originalNode }, typeConfig }
+    flowEditor: {
+        editorUI: { translating }
+    },
+    nodeEditor: {
+        settings: { originalNode },
+        typeConfig
+    }
 }: AppState) => ({
     // TODO: Modal should not care about flow stuff
     translating,
@@ -230,8 +234,13 @@ const mapStateToProps = ({
 });
 
 // To-do: type properly
-const ConnectedModal = connect(mapStateToProps, {}, null, {
-    withRef: true
-})(Modal);
+const ConnectedModal = connect(
+    mapStateToProps,
+    {},
+    null,
+    {
+        withRef: true
+    }
+)(Modal);
 
 export default ConnectedModal;

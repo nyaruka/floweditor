@@ -1,6 +1,5 @@
-import axios from 'axios';
-import { AxiosResponse } from 'axios';
-import { FlowDefinition } from '../flowTypes';
+import axios, { AxiosResponse } from 'axios';
+import { FlowDefinition } from '~/flowTypes';
 
 const storage = require('local-storage');
 

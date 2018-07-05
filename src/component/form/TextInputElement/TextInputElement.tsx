@@ -4,13 +4,13 @@ import setCaretPosition from 'get-input-selection';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as getCaretCoordinates from 'textarea-caret';
+import FormElement, { FormElementProps } from '~/component/form/FormElement';
+import * as shared from '~/component/form/FormElement.scss';
+import { Type, Types } from '~/config/typeConfigs';
+import { AppState, CompletionOption } from '~/store';
+import { ContactFields, ResultMap } from '~/store/flowContext';
+import { StringEntry } from '~/store/nodeEditor';
 
-import { Type, Types } from '../../../config/typeConfigs';
-import { AppState, CompletionOption } from '../../../store';
-import { ContactFields, ResultMap } from '../../../store/flowContext';
-import { StringEntry } from '../../../store/nodeEditor';
-import FormElement, { FormElementProps } from '../FormElement';
-import * as shared from '../FormElement.scss';
 import CharCount from './CharCount';
 import { COMPLETION_HELP, KeyValues } from './constants';
 import { filterOptions, getMsgStats, getOptionsList, UnicodeCharMap } from './helpers';
@@ -342,7 +342,9 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     }
 
     private focusInput(): void {
-        const { value: { length } } = this.textEl;
+        const {
+            value: { length }
+        } = this.textEl;
         this.textEl.focus();
         this.textEl.selectionStart = length;
     }
@@ -479,7 +481,10 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowContext: { results: { resultMap }, contactFields },
+    flowContext: {
+        results: { resultMap },
+        contactFields
+    },
     nodeEditor: { typeConfig }
 }: AppState) => ({
     typeConfig,
@@ -487,8 +492,11 @@ const mapStateToProps = ({
     contactFields
 });
 
-const ConnectedTextInputElement = connect(mapStateToProps, null, null, { withRef: true })(
-    TextInputElement
-);
+const ConnectedTextInputElement = connect(
+    mapStateToProps,
+    null,
+    null,
+    { withRef: true }
+)(TextInputElement);
 
 export default ConnectedTextInputElement;

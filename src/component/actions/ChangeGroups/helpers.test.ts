@@ -1,11 +1,16 @@
-import { FlowDefinition, ChangeGroups } from '../../../flowTypes';
+import { FlowDefinition, ChangeGroups } from '~/flowTypes';
 import { mapGroupsToAssets, mapAssetsToGroups } from './helpers';
 
-const definition: FlowDefinition = require('../../../../__test__/assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
-const { assets: groups } = require('../../../../__test__/assets/groups.json');
+const definition: FlowDefinition = require('~/test/assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
+const { assets: groups } = require('~/test/assets/groups.json');
 
-const { nodes: [node], language: flowLanguage } = definition;
-const { actions: [, addToGroupsAction] } = node;
+const {
+    nodes: [node],
+    language: flowLanguage
+} = definition;
+const {
+    actions: [, addToGroupsAction]
+} = node;
 
 describe('mapGroupsToSearchResults', () => {
     it('should return a list of SearchResult objects', () => {

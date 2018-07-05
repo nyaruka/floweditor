@@ -1,7 +1,6 @@
 import * as React from 'react';
-
-import { Endpoints, FlowEditorConfig } from '../flowTypes';
-import AssetService from '../services/AssetService';
+import { Endpoints, FlowEditorConfig } from '~/flowTypes';
+import AssetService from '~/services/AssetService';
 
 export const fakePropType: any = (): any => null;
 fakePropType.isRequired = (): any => null;

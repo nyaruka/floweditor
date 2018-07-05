@@ -1,10 +1,9 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { Creatable as SelectCreatable } from 'react-select';
-
-import { StringArrayEntry } from '../../../store/nodeEditor';
-import { getSelectClass } from '../../../utils';
-import FormElement, { FormElementProps } from '../FormElement';
+import FormElement, { FormElementProps } from '~/component/form/FormElement';
+import { StringArrayEntry } from '~/store/nodeEditor';
+import { getSelectClass } from '~/utils';
 
 export type TagList = Array<{ label: string; value: string }>;
 

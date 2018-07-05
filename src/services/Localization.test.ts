@@ -1,10 +1,15 @@
-import { languages } from '../testUtils/assetCreators';
+import { languages } from '~/testUtils/assetCreators';
+
 import Localization from './Localization';
 
 const {
-    nodes: [{ actions: [replyAction] }],
+    nodes: [
+        {
+            actions: [replyAction]
+        }
+    ],
     localization
-} = require('../../__test__/flows/customer_service.json');
+} = require('~/test/flows/customer_service.json');
 
 const translations = localization.spa;
 

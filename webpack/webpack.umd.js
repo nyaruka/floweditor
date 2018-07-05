@@ -1,4 +1,7 @@
-const { optimize: { ModuleConcatenationPlugin }, EnvironmentPlugin } = require('webpack');
+const {
+    optimize: { ModuleConcatenationPlugin },
+    EnvironmentPlugin
+} = require('webpack');
 const { smartStrategy } = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const paths = require('./paths');
@@ -45,7 +48,7 @@ const prodConfig = {
             },
             {
                 test: /\.s?css$/,
-                include: [paths.lib],
+                include: [paths.src],
                 exclude: [paths.component],
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',

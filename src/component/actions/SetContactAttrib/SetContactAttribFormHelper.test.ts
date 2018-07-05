@@ -1,13 +1,14 @@
-import { Types } from '../../../config/typeConfigs';
-import { Channel, SetContactChannel } from '../../../flowTypes';
-import { AssetType, removeAsset } from '../../../services/AssetService';
+import { Types } from '~/config/typeConfigs';
+import { Channel, SetContactChannel } from '~/flowTypes';
+import { AssetType, removeAsset } from '~/services/AssetService';
 import {
     createSendMsgAction,
     createSetContactChannelAction,
     createSetContactFieldAction,
     createSetContactLanguageAction,
     createSetContactNameAction
-} from '../../../testUtils/assetCreators';
+} from '~/testUtils/assetCreators';
+
 import {
     SetContactAttribFormHelper,
     SetContactAttribFormHelperActionTypes

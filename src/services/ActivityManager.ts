@@ -1,7 +1,7 @@
-// tslint:disable:ban-types
-import Counter from '../component/Counter';
-import { Exit } from '../flowTypes';
+import Counter from '~/component/Counter';
+import { Exit } from '~/flowTypes';
 
+// tslint:disable:ban-types
 // how often we ask the server for new data
 const REFRESH_SECONDS = 10;
 

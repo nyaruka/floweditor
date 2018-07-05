@@ -3,11 +3,12 @@ import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
-import { ConfigProviderContext, fakePropType } from '../../../config/ConfigProvider';
-import { getTypeConfig, Types } from '../../../config/typeConfigs';
-import { Action, AnyAction, FlowNode, LocalizationMap } from '../../../flowTypes';
-import { Asset } from '../../../services/AssetService';
+import * as shared from '~/component/shared.scss';
+import TitleBar from '~/component/TitleBar';
+import { ConfigProviderContext, fakePropType } from '~/config/ConfigProvider';
+import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { Action, AnyAction, FlowNode, LocalizationMap } from '~/flowTypes';
+import { Asset } from '~/services/AssetService';
 import {
     ActionAC,
     AppState,
@@ -16,10 +17,9 @@ import {
     OnOpenNodeEditor,
     onOpenNodeEditor,
     removeAction
-} from '../../../store';
-import { createClickHandler, getLocalization } from '../../../utils';
-import * as shared from '../../shared.scss';
-import TitleBar from '../../TitleBar';
+} from '~/store';
+import { createClickHandler, getLocalization } from '~/utils';
+
 import * as styles from './Action.scss';
 
 export interface ActionWrapperPassedProps {
@@ -179,8 +179,13 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowContext: { languages, definition: { localization } },
-    flowEditor: { editorUI: { language, translating } }
+    flowContext: {
+        languages,
+        definition: { localization }
+    },
+    flowEditor: {
+        editorUI: { language, translating }
+    }
 }: AppState) => ({
     language,
     translating,
@@ -198,6 +203,9 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
         dispatch
     );
 
-const ConnectedActionWrapper = connect(mapStateToProps, mapDispatchToProps)(ActionWrapper);
+const ConnectedActionWrapper = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ActionWrapper);
 
 export default ConnectedActionWrapper;

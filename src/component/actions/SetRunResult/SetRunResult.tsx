@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SetRunResult } from '../../../flowTypes';
+import { SetRunResult } from '~/flowTypes';
 
 // tslint:disable-next-line:variable-name
 export const getResultNameMarkup = (name: string): JSX.Element => (

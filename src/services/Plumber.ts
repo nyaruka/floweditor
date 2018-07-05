@@ -1,8 +1,10 @@
+import { Exit, FlowNode } from '~/flowTypes';
+
 // TODO: Remove use of Function
 // tslint:disable:ban-types
-const { jsPlumb: { importDefaults } } = require('../../node_modules/jsplumb/dist/js/jsplumb');
-import { FlowNode, FlowDefinition, Exit, LocalizationMap } from '../flowTypes';
-
+const {
+    jsPlumb: { importDefaults }
+} = require('../../node_modules/jsplumb/dist/js/jsplumb');
 export interface DragEvent {
     el: Element;
     pos: number[];
@@ -151,7 +153,11 @@ export default class Plumber {
     }
 
     public connectExit(node: FlowNode, exit: Exit, className: string = null): void {
-        this.connect(`${node.uuid}:${exit.uuid}`, exit.destination_node_uuid, className);
+        this.connect(
+            `${node.uuid}:${exit.uuid}`,
+            exit.destination_node_uuid,
+            className
+        );
     }
 
     public removeFromDragSelection(uuid: string): void {

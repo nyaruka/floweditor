@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
-import { ConfigProviderContext } from '../config';
-import { fakePropType } from '../config/ConfigProvider';
-import { Asset } from '../services/AssetService';
-import { AppState, DispatchWithState, HandleLanguageChange, handleLanguageChange } from '../store';
-import { languageSelector } from './LanguageSelector.scss';
-import SelectSearch from './SelectSearch/SelectSearch';
+import { languageSelector } from '~/component/LanguageSelector.scss';
+import SelectSearch from '~/component/SelectSearch/SelectSearch';
+import { ConfigProviderContext } from '~/config';
+import { fakePropType } from '~/config/ConfigProvider';
+import { Asset } from '~/services/AssetService';
+import { AppState, DispatchWithState, HandleLanguageChange, handleLanguageChange } from '~/store';
 
 export interface LanguageSelectorStoreProps {
     language: Asset;
@@ -54,7 +53,9 @@ export class LanguageSelector extends React.Component<LanguageSelectorStoreProps
 /* istanbul ignore next */
 const mapStateToProps = ({
     flowContext: { languages },
-    flowEditor: { editorUI: { language } }
+    flowEditor: {
+        editorUI: { language }
+    }
 }: AppState) => ({ language, languages });
 
 /* istanbul ignore next */
@@ -66,4 +67,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
         dispatch
     );
 
-export default connect(mapStateToProps, mapDispatchToProps)(LanguageSelector);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LanguageSelector);

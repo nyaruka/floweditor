@@ -1,4 +1,5 @@
 module.exports = {
+    automock: false,
     verbose: true,
     snapshotSerializers: ['enzyme-to-json/serializer'],
     transform: {
@@ -8,7 +9,9 @@ module.exports = {
     testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(j|t)sx?$',
     moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
     moduleNameMapper: {
-        '^.+\\.s?css$': 'identity-obj-proxy'
+        '^.+\\.s?css$': 'identity-obj-proxy',
+        '^~/test/(.*)$': '<rootDir>/__test__/$1',
+        '^~/(.*)$': '<rootDir>/src/$1'
     },
     collectCoverageFrom: ['src/**/*.{ts,tsx}'],
     coverageReporters: ['lcov', 'json'],

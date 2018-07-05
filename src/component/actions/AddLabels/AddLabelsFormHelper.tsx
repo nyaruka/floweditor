@@ -1,7 +1,7 @@
-import { FormHelper, Types } from '../../../config/typeConfigs';
-import { AddLabels } from '../../../flowTypes';
-import { Asset, AssetType } from '../../../services/AssetService';
-import { AddLabelsFormState, NodeEditorSettings } from '../../../store/nodeEditor';
+import { FormHelper, Types } from '~/config/typeConfigs';
+import { AddLabels } from '~/flowTypes';
+import { Asset, AssetType } from '~/services/AssetService';
+import { AddLabelsFormState, NodeEditorSettings } from '~/store/nodeEditor';
 
 export class AddLabelsFormHelper implements FormHelper {
     public initializeForm(settings: NodeEditorSettings): AddLabelsFormState {

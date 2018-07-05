@@ -1,6 +1,6 @@
-import { getTypeConfig } from '../../../config';
-import { Types } from '../../../config/typeConfigs';
-import { composeComponentTestUtils, restoreSpies, setMock } from '../../../testUtils';
+import ConnectedTextInputElement from '~/component/form/TextInputElement';
+import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { composeComponentTestUtils, restoreSpies, setMock } from '~/testUtils';
 import {
     createSetContactChannelAction,
     createSetContactFieldAction,
@@ -9,8 +9,8 @@ import {
     English,
     languages,
     Spanish
-} from '../../../testUtils/assetCreators';
-import ConnectedTextInputElement from '../../form/TextInputElement';
+} from '~/testUtils/assetCreators';
+
 import { propertyToAsset } from './helpers';
 import { SetContactAttribForm, SetContactAttribFormProps } from './SetContactAttribForm';
 import { SetContactAttribFormHelper } from './SetContactAttribFormHelper';

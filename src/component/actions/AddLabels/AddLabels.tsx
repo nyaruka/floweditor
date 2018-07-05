@@ -1,8 +1,7 @@
 import * as React from 'react';
-
-import { AddLabels } from '../../../flowTypes';
-import { AssetType } from '../../../services/AssetService';
-import { renderAssetList } from '../helpers';
+import { renderAssetList } from '~/component/actions/helpers';
+import { AddLabels } from '~/flowTypes';
+import { AssetType } from '~/services/AssetService';
 
 export const MAX_TO_SHOW = 3;
 

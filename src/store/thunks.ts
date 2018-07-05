@@ -2,9 +2,8 @@ import * as isEqual from 'fast-deep-equal';
 import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
-
-import { hasCases } from '../component/NodeEditor/NodeEditor';
-import { getTypeConfig, Type, Types } from '../config/typeConfigs';
+import { hasCases } from '~/component/NodeEditor/NodeEditor';
+import { getTypeConfig, Type, Types } from '~/config/typeConfigs';
 import {
     Action,
     AnyAction,
@@ -19,9 +18,10 @@ import {
     StickyNote,
     SwitchRouter,
     WaitTypes
-} from '../flowTypes';
-import AssetService, { Asset, DEFAULT_LANGUAGE } from '../services/AssetService';
-import { dedupe, NODE_SPACING, snakify, timeEnd, timeStart } from '../utils';
+} from '~/flowTypes';
+import AssetService, { Asset, DEFAULT_LANGUAGE } from '~/services/AssetService';
+import { dedupe, NODE_SPACING, snakify, timeEnd, timeStart } from '~/utils';
+
 import {
     incrementSuggestedResultNameCount,
     RenderNode,
@@ -216,7 +216,9 @@ export const fetchFlow = (assetService: AssetService, uuid: string) => async (
 export const handleLanguageChange: HandleLanguageChange = language => (dispatch, getState) => {
     const {
         flowContext: { baseLanguage },
-        flowEditor: { editorUI: { translating, language: currentLanguage } }
+        flowEditor: {
+            editorUI: { translating, language: currentLanguage }
+        }
     } = getState();
 
     // determine translating state
@@ -285,7 +287,9 @@ export const onUpdateLocalizations = (language: string, changes: LocalizationUpd
     dispatch: DispatchWithState,
     getState: GetState
 ): FlowDefinition => {
-    const { flowContext: { definition } } = getState();
+    const {
+        flowContext: { definition }
+    } = getState();
     const updated = mutators.updateLocalization(definition, language, changes);
     dispatch(updateDefinition(updated));
     return updated;
@@ -295,7 +299,9 @@ export const updateDimensions = (node: FlowNode, dimensions: Dimensions) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
-    const { flowContext: { nodes } } = getState();
+    const {
+        flowContext: { nodes }
+    } = getState();
     const updated = mutators.updateDimensions(nodes, node.uuid, dimensions);
     dispatch(updateNodes(updated));
     markReflow(dispatch);
@@ -310,7 +316,9 @@ export const addNode = (renderNode: RenderNode) => (
     getState: GetState
 ): RenderNode => {
     timeStart('addNode');
-    const { flowContext: { nodes } } = getState();
+    const {
+        flowContext: { nodes }
+    } = getState();
     renderNode.node = mutators.uniquifyNode(renderNode.node);
     dispatch(updateNodes(mutators.mergeNode(nodes, renderNode)));
     timeEnd('addNode');
@@ -321,7 +329,9 @@ export const updateExitDestination = (nodeUUID: string, exitUUID: string, destin
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
-    const { flowContext: { nodes } } = getState();
+    const {
+        flowContext: { nodes }
+    } = getState();
     const updated = mutators.updateConnection(nodes, nodeUUID, exitUUID, destination);
     dispatch(updateNodes(updated));
     return updated;
@@ -344,7 +354,9 @@ export const ensureStartNode = () => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNode => {
-    const { flowContext: { nodes } } = getState();
+    const {
+        flowContext: { nodes }
+    } = getState();
 
     if (Object.keys(nodes).length === 0) {
         const initialAction: SendMsg = {
@@ -378,7 +390,12 @@ export const removeNode = (node: FlowNode) => (
     getState: GetState
 ): RenderNodeMap => {
     // Remove result name if node has one
-    const { flowContext: { nodes, results: { resultMap } } } = getState();
+    const {
+        flowContext: {
+            nodes,
+            results: { resultMap }
+        }
+    } = getState();
     if (resultMap.hasOwnProperty(node.uuid)) {
         const toKeep = mutate(resultMap, { $unset: [node.uuid] });
         dispatch(updateResultMap(toKeep));
@@ -393,7 +410,12 @@ export const removeAction = (nodeUUID: string, action: AnyAction) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
-    const { flowContext: { nodes, results: { resultMap } } } = getState();
+    const {
+        flowContext: {
+            nodes,
+            results: { resultMap }
+        }
+    } = getState();
     const renderNode = nodes[nodeUUID];
 
     // Remove result from store
@@ -435,7 +457,9 @@ export const moveActionUp = (nodeUUID: string, action: AnyAction) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
-    const { flowContext: { nodes } } = getState();
+    const {
+        flowContext: { nodes }
+    } = getState();
     const updated = mutators.moveActionUp(nodes, nodeUUID, action.uuid);
     dispatch(updateNodes(updated));
     return updated;
@@ -454,7 +478,9 @@ export const spliceInRouter = (
     newRouterNode: RenderNode,
     previousAction: { nodeUUID: string; actionUUID: string }
 ) => (dispatch: DispatchWithState, getState: GetState): RenderNodeMap => {
-    const { flowContext: { nodes } } = getState();
+    const {
+        flowContext: { nodes }
+    } = getState();
     const previousNode = nodes[previousAction.nodeUUID];
 
     newRouterNode.node = mutators.uniquifyNode(newRouterNode.node);
@@ -548,7 +574,9 @@ export const handleTypeConfigChange = (typeConfig: Type) => (
     // Generate suggested result name if user is changing
     // an existing node to a `wait_for_response` router.
     const {
-        flowContext: { results: { suggestedNameCount } },
+        flowContext: {
+            results: { suggestedNameCount }
+        },
         nodeEditor: { settings }
     } = getState();
     if (
@@ -576,7 +604,11 @@ export const handleTypeConfigChange = (typeConfig: Type) => (
 };
 
 export const resetNodeEditingState = () => (dispatch: DispatchWithState, getState: GetState) => {
-    const { flowEditor: { flowUI: { pendingConnection, createNodePosition } } } = getState();
+    const {
+        flowEditor: {
+            flowUI: { pendingConnection, createNodePosition }
+        }
+    } = getState();
 
     dispatch(updateGhostNode(null));
 
@@ -600,9 +632,15 @@ export const onUpdateAction = (action: AnyAction) => (
     timeStart('onUpdateAction');
 
     const {
-        flowEditor: { flowUI: { pendingConnection, createNodePosition } },
+        flowEditor: {
+            flowUI: { pendingConnection, createNodePosition }
+        },
         nodeEditor: { userAddingAction, settings },
-        flowContext: { nodes, results: { resultMap }, contactFields }
+        flowContext: {
+            nodes,
+            results: { resultMap },
+            contactFields
+        }
     } = getState();
 
     if (settings == null || settings.originalNode == null) {
@@ -667,7 +705,12 @@ export const onAddToNode = (node: FlowNode) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { flowContext: { definition }, flowEditor: { editorUI: { language } } } = getState();
+    const {
+        flowContext: { definition },
+        flowEditor: {
+            editorUI: { language }
+        }
+    } = getState();
 
     // TODO: remove the need for this once we all have formHelpers
     const newAction: SendMsg = {
@@ -694,7 +737,12 @@ export const onNodeEditorClose = (canceled: boolean, connectExit: Function) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { flowContext: { nodes }, flowEditor: { flowUI: { pendingConnection } } } = getState();
+    const {
+        flowContext: { nodes },
+        flowEditor: {
+            flowUI: { pendingConnection }
+        }
+    } = getState();
 
     // Make sure we re-wire the old connection
     if (canceled) {
@@ -714,7 +762,11 @@ export const onNodeEditorClose = (canceled: boolean, connectExit: Function) => (
 };
 
 export const onResetDragSelection = () => (dispatch: DispatchWithState, getState: GetState) => {
-    const { flowEditor: { flowUI: { dragSelection } } } = getState();
+    const {
+        flowEditor: {
+            flowUI: { dragSelection }
+        }
+    } = getState();
 
     /* istanbul ignore else */
     if (dragSelection && dragSelection.selected) {
@@ -726,7 +778,12 @@ export const onNodeMoved = (nodeUUID: string, position: FlowPosition) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
-    const { flowContext: { nodes }, flowEditor: { flowUI: { dragSelection } } } = getState();
+    const {
+        flowContext: { nodes },
+        flowEditor: {
+            flowUI: { dragSelection }
+        }
+    } = getState();
 
     if (dragSelection && dragSelection.selected) {
         dispatch(updateDragSelection({ selected: null }));
@@ -747,7 +804,12 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    const { flowContext: { nodes, results: { suggestedNameCount } } } = getState();
+    const {
+        flowContext: {
+            nodes,
+            results: { suggestedNameCount }
+        }
+    } = getState();
 
     // We finished dragging a ghost node, create the spec for our new ghost component
     const [fromNodeUUID, fromExitUUID] = event.sourceId.split(':');
@@ -771,7 +833,9 @@ export const updateSticky = (uuid: string, sticky: StickyNote) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): void => {
-    const { flowContext: { definition } } = getState();
+    const {
+        flowContext: { definition }
+    } = getState();
     const updated = mutators.updateStickyNote(definition, uuid, sticky);
     dispatch(updateDefinition(updated));
 };
@@ -781,9 +845,16 @@ export const onUpdateRouter = (node: RenderNode) => (
     getState: GetState
 ): RenderNodeMap => {
     const {
-        flowContext: { nodes, results: { resultMap } },
-        flowEditor: { flowUI: { pendingConnection, createNodePosition } },
-        nodeEditor: { settings: { originalNode, originalAction } }
+        flowContext: {
+            nodes,
+            results: { resultMap }
+        },
+        flowEditor: {
+            flowUI: { pendingConnection, createNodePosition }
+        },
+        nodeEditor: {
+            settings: { originalNode, originalAction }
+        }
     } = getState();
 
     const previousNode = nodes[originalNode.uuid];
@@ -871,8 +942,15 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     getState: GetState
 ) => {
     const {
-        flowContext: { languages, baseLanguage, nodes, definition: { localization } },
-        flowEditor: { editorUI: { language, translating } },
+        flowContext: {
+            languages,
+            baseLanguage,
+            nodes,
+            definition: { localization }
+        },
+        flowEditor: {
+            editorUI: { language, translating }
+        },
         nodeEditor: { settings: currentSettings }
     } = getState();
 
@@ -916,7 +994,9 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     if (node.router) {
         /* istanbul ignore else */
         if (node.router.result_name) {
-            ({ router: { result_name: resultName } } = node);
+            ({
+                router: { result_name: resultName }
+            } = node);
         }
 
         /* istanbul ignore else */

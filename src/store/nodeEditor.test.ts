@@ -1,5 +1,6 @@
-import { getTypeConfig } from '../config';
-import { Types } from '../config/typeConfigs';
+import { getTypeConfig } from '~/config';
+import { Types } from '~/config/typeConfigs';
+
 import Constants from './constants';
 import reducer, {
     initialState,
@@ -17,7 +18,7 @@ import reducer, {
     userAddingAction as userAddingActionReducer
 } from './nodeEditor';
 
-const definition = require('../../__test__/flows/boring.json');
+const definition = require('~/test/flows/boring.json');
 
 describe('nodeEditor action creators', () => {
     describe('updateTypeConfig', () => {

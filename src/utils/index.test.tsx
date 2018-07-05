@@ -1,5 +1,8 @@
 import * as React from 'react';
-
+import { operatorConfigList } from '~/config';
+import { ContactProperties } from '~/flowTypes';
+import { AssetType } from '~/services/AssetService';
+import { languages } from '~/testUtils/assetCreators';
 import {
     addCommas,
     capitalize,
@@ -26,16 +29,16 @@ import {
     toBoolMap,
     unset,
     validUUID
-} from '.';
-import { operatorConfigList } from '../config';
-import { ContactProperties } from '../flowTypes';
-import { AssetType } from '../services/AssetService';
-import { languages } from '../testUtils/assetCreators';
+} from '~/utils';
 
 const {
     localization,
-    nodes: [{ actions: [sendMsgAction] }]
-} = require('../../__test__/flows/customer_service.json');
+    nodes: [
+        {
+            actions: [sendMsgAction]
+        }
+    ]
+} = require('~/test/flows/customer_service.json');
 
 describe('utils', () => {
     describe('toBoolMap', () => {

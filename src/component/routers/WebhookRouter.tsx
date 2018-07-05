@@ -6,15 +6,15 @@ import * as FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
 
-import { Types } from '../../config/typeConfigs';
-import { CallWebhook, Headers, Methods } from '../../flowTypes';
-import { AppState } from '../../store';
-import { set } from '../../utils';
-import HeaderElement, { Header } from '../form/HeaderElement';
-import SelectElement from '../form/SelectElement';
-import TextInputElement from '../form/TextInputElement';
-import { DEFAULT_BODY } from '../NodeEditor';
-import { SaveLocalizations } from '../NodeEditor/NodeEditor';
+import { Types } from '~/config/typeConfigs';
+import { CallWebhook, Headers, Methods } from '~/flowTypes';
+import { AppState } from '~/store';
+import { set } from '~/utils';
+import HeaderElement, { Header } from '~/component/form/HeaderElement';
+import SelectElement from '~/component/form/SelectElement';
+import TextInputElement from '~/component/form/TextInputElement';
+import { DEFAULT_BODY } from '~/component/NodeEditor';
+import { SaveLocalizations } from '~/component/NodeEditor/NodeEditor';
 import * as styles from './Webhook.scss';
 
 export interface WebhookRouterStoreProps {
@@ -107,7 +107,9 @@ export class WebhookRouter extends React.Component<WebhookRouterProps, WebhookRo
     public onUpdateForm(widgets: { [name: string]: React.Component }): void {
         if (this.props.showAdvanced) {
             const methodEle = widgets.MethodMap as SelectElement;
-            const { state: { value: method } } = methodEle;
+            const {
+                state: { value: method }
+            } = methodEle;
 
             if (method === Methods.GET) {
                 this.props.removeWidget('Body');
@@ -128,7 +130,12 @@ export class WebhookRouter extends React.Component<WebhookRouterProps, WebhookRo
     }
 
     private onHeaderChanged(ele: HeaderElement): void {
-        const { state: { name, value }, props: { header: { uuid } } } = ele;
+        const {
+            state: { name, value },
+            props: {
+                header: { uuid }
+            }
+        } = ele;
 
         if (!name && !value) {
             this.onHeaderRemoved(ele);
@@ -331,12 +338,19 @@ export class WebhookRouter extends React.Component<WebhookRouterProps, WebhookRo
     }
 }
 
-const mapStateToProps = ({ flowEditor: { editorUI: { translating } } }: AppState) => ({
+const mapStateToProps = ({
+    flowEditor: {
+        editorUI: { translating }
+    }
+}: AppState) => ({
     translating
 });
 
-const ConnectedWebhookRouterForm = connect(mapStateToProps, null, null, { withRef: true })(
-    WebhookRouter
-);
+const ConnectedWebhookRouterForm = connect(
+    mapStateToProps,
+    null,
+    null,
+    { withRef: true }
+)(WebhookRouter);
 
 export default ConnectedWebhookRouterForm;

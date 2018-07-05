@@ -1,6 +1,6 @@
-import { FormHelper, Types } from '../../../config/typeConfigs';
-import { ChangeGroups } from '../../../flowTypes';
-import { ChangeGroupsFormState, NodeEditorSettings } from '../../../store/nodeEditor';
+import { FormHelper, Types } from '~/config/typeConfigs';
+import { ChangeGroups } from '~/flowTypes';
+import { ChangeGroupsFormState, NodeEditorSettings } from '~/store/nodeEditor';
 import { mapAssetsToGroups, mapGroupsToAssets } from './helpers';
 
 export class RemoveGroupsFormHelper implements FormHelper {

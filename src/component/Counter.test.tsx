@@ -1,9 +1,8 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
-
-import { getSpecWrapper } from '../testUtils';
-import { addCommas } from '../utils';
-import Counter, { CounterProps } from './Counter';
+import Counter, { CounterProps } from '~/component/Counter';
+import { getSpecWrapper } from '~/testUtils';
+import { addCommas } from '~/utils';
 
 let props: CounterProps;
 let counter: any;

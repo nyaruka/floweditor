@@ -1,12 +1,12 @@
-import { FlowDefinition, StickyNote } from '../../flowTypes';
-import { updateSticky } from '../../store';
-import { composeComponentTestUtils, composeDuxState, setMock } from '../../testUtils';
-import { set } from '../../utils';
+import { FlowDefinition, StickyNote } from '~/flowTypes';
+import { composeComponentTestUtils, composeDuxState, setMock } from '~/testUtils';
+import { set } from '~/utils';
+
 import { Sticky, StickyProps } from './Sticky';
 
 jest.useFakeTimers();
 
-const definition = require('../../../__test__/flows/empty.json') as FlowDefinition;
+const definition = require('~/test/flows/empty.json') as FlowDefinition;
 
 const clearTimeoutMock = clearTimeout as jest.Mock;
 

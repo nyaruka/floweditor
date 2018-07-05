@@ -1,7 +1,6 @@
-import { FormHelper, Types } from '../../../config/typeConfigs';
-import { SendMsg } from '../../../flowTypes';
-import { SendMsgFormState, NodeEditorSettings } from '../../../store/nodeEditor';
-import { STICKY_SPEC_ID } from '../../Sticky/Sticky';
+import { FormHelper, Types } from '~/config/typeConfigs';
+import { SendMsg } from '~/flowTypes';
+import { NodeEditorSettings, SendMsgFormState } from '~/store/nodeEditor';
 
 export class SendMsgFormHelper implements FormHelper {
     public initializeForm(settings: NodeEditorSettings): SendMsgFormState {

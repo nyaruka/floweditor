@@ -2,15 +2,15 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import TaggingElement from '~/component/form/TaggingElement/TaggingElement';
+import TextInputElement from '~/component/form/TextInputElement';
+import { Type } from '~/config';
+import { SendEmail } from '~/flowTypes';
+import { AppState, DispatchWithState } from '~/store';
+import { SendEmailFunc, updateSendEmailForm } from '~/store/forms';
+import { SendEmailFormState } from '~/store/nodeEditor';
+import { validate, validateRequired } from '~/store/validators';
 
-import { Type } from '../../../config';
-import { SendEmail } from '../../../flowTypes';
-import { AppState, DispatchWithState } from '../../../store';
-import { SendEmailFunc, updateSendEmailForm } from '../../../store/forms';
-import { SendEmailFormState } from '../../../store/nodeEditor';
-import { validate, validateRequired } from '../../../store/validators';
-import TaggingElement from '../../form/TaggingElement/TaggingElement';
-import TextInputElement from '../../form/TextInputElement';
 import * as styles from './SendEmail.scss';
 import { SendEmailFormHelper } from './SendEmailFormHelper';
 
@@ -124,8 +124,13 @@ const mapStateToProps = ({ nodeEditor: { form, typeConfig } }: AppState) => ({ f
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ updateSendEmailForm }, dispatch);
 
-const ConnectedSendEmailForm = connect(mapStateToProps, mapDispatchToProps, null, {
-    withRef: true
-})(SendEmailForm);
+const ConnectedSendEmailForm = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    {
+        withRef: true
+    }
+)(SendEmailForm);
 
 export default ConnectedSendEmailForm;

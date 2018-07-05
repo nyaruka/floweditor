@@ -1,6 +1,6 @@
-import { FormHelper, Types } from '../../../config/typeConfigs';
-import { SendEmail } from '../../../flowTypes';
-import { SendEmailFormState, NodeEditorSettings } from '../../../store/nodeEditor';
+import { FormHelper, Types } from '~/config/typeConfigs';
+import { SendEmail } from '~/flowTypes';
+import { SendEmailFormState, NodeEditorSettings } from '~/store/nodeEditor';
 
 export class SendEmailFormHelper implements FormHelper {
     public initializeForm(settings: NodeEditorSettings): SendEmailFormState {

@@ -1,14 +1,14 @@
 import * as React from 'react';
-
-import { SwitchRouter } from '../../flowTypes';
-import { composeComponentTestUtils, setMock } from '../../testUtils';
+import { SwitchRouter } from '~/flowTypes';
+import { composeComponentTestUtils, setMock } from '~/testUtils';
 import {
     createExit,
     createFlowNode,
     createGroupsRouterNode,
     createSendMsgAction
-} from '../../testUtils/assetCreators';
-import { setTrue } from '../../utils';
+} from '~/testUtils/assetCreators';
+import { setTrue } from '~/utils';
+
 import { GROUP_LABEL } from './constants';
 import { extractGroups, GroupsRouter, GroupsRouterProps, hasGroupsRouter } from './GroupsRouter';
 

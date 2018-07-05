@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
-import { getTypeConfig, Types } from '../../config/typeConfigs';
-import { CreateOptions } from '../../flowTypes';
-import { Asset, Assets, AssetType } from '../../services/AssetService';
+import SelectSearch from '~/component/SelectSearch/SelectSearch';
+import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { CreateOptions } from '~/flowTypes';
+import { Asset, Assets, AssetType } from '~/services/AssetService';
 import {
     AppState,
     DispatchWithState,
     HandleTypeConfigChange,
     handleTypeConfigChange
-} from '../../store';
+} from '~/store';
 import {
     AssetEntry,
     NodeEditorSettings,
@@ -19,15 +19,15 @@ import {
     SetContactFieldFormState,
     SetContactLanguageFormState,
     SetContactNameFormState
-} from '../../store/nodeEditor';
+} from '~/store/nodeEditor';
 import {
     composeCreateNewOption,
     getSelectClassForEntry,
     isOptionUnique,
     isValidNewOption,
     snakify
-} from '../../utils';
-import SelectSearch from '../SelectSearch/SelectSearch';
+} from '~/utils';
+
 import FormElement, { FormElementProps } from './FormElement';
 
 export interface AttribElementPassedProps extends FormElementProps {
@@ -164,8 +164,13 @@ const ConnectedAttribElement = connect<
         handleTypeConfigChange: HandleTypeConfigChange;
     },
     AttribElementPassedProps
->(mapStateToProps, mapDispatchToProps, null, {
-    withRef: true
-})(AttribElement);
+>(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    {
+        withRef: true
+    }
+)(AttribElement);
 
 export default ConnectedAttribElement;

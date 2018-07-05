@@ -1,8 +1,7 @@
 import { v4 as generateUUID } from 'uuid';
-
-import { fieldToAsset, languageToAsset } from '../component/actions/SetContactAttrib/helpers';
-import { DefaultExitNames } from '../component/NodeEditor/NodeEditor';
-import { Types } from '../config/typeConfigs';
+import { fieldToAsset } from '~/component/actions/SetContactAttrib/helpers';
+import { DefaultExitNames } from '~/component/NodeEditor/NodeEditor';
+import { Types } from '~/config/typeConfigs';
 import {
     AddLabels,
     AnyAction,
@@ -16,10 +15,11 @@ import {
     SwitchRouter,
     UINodeTypes,
     WaitTypes
-} from '../flowTypes';
-import { Asset, AssetType } from '../services/AssetService';
-import Localization, { LocalizedObject } from '../services/Localization';
-import { snakify } from '../utils';
+} from '~/flowTypes';
+import { Asset, AssetType } from '~/services/AssetService';
+import Localization, { LocalizedObject } from '~/services/Localization';
+import { snakify } from '~/utils';
+
 import { RenderNode, RenderNodeMap, ResultMap } from './flowContext';
 
 export interface Bounds {

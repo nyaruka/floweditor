@@ -1,11 +1,11 @@
 import { shallow } from 'enzyme';
 import * as React from 'react';
+import { getTypeConfig, operatorConfigList } from '~/config';
+import { Operators } from '~/config/operatorConfigs';
+import { Types } from '~/config/typeConfigs';
+import { getSpecWrapper } from '~/testUtils';
+import { titleCase } from '~/utils';
 
-import { getTypeConfig, operatorConfigList } from '../../config';
-import { Operators } from '../../config/operatorConfigs';
-import { Types } from '../../config/typeConfigs';
-import { getSpecWrapper } from '../../testUtils';
-import { titleCase } from '../../utils';
 import CaseElement, {
     composeExitName,
     getMinMax,
@@ -16,9 +16,14 @@ import CaseElement, {
     strContainsNum
 } from './CaseElement';
 
-const definition = require('../../../__test__/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
-const { nodes: [, node] } = definition;
-const { router: { cases }, exits } = node;
+const definition = require('~/test/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
+const {
+    nodes: [, node]
+} = definition;
+const {
+    router: { cases },
+    exits
+} = node;
 
 const config = getTypeConfig(Types.wait_for_response);
 

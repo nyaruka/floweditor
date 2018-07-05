@@ -1,13 +1,13 @@
 import { v4 as generateUUID } from 'uuid';
+import { DefaultExitNames } from '~/component/NodeEditor/NodeEditor';
+import { AnyAction, Dimensions, Exit, FlowDefinition, FlowNode, StickyNote } from '~/flowTypes';
+import { Asset } from '~/services/AssetService';
+import { merge, push, set, snapToGrid, splice, unset } from '~/utils';
 
 import { LocalizationUpdates } from '.';
-import { DefaultExitNames } from '../component/NodeEditor/NodeEditor';
-import { AnyAction, Dimensions, Exit, FlowDefinition, FlowNode, StickyNote } from '../flowTypes';
-import { merge, push, set, snapToGrid, splice, unset } from '../utils';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { getActionIndex, getExitIndex, getNode } from './helpers';
 import { NodeEditorSettings } from './nodeEditor';
-import { Asset } from '../services/AssetService';
 
 const mutate = require('immutability-helper');
 

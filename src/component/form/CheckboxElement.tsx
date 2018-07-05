@@ -1,7 +1,7 @@
 import * as classNames from 'classnames/bind';
 import * as React from 'react';
 
-import { isRealValue, renderIf } from '../../utils';
+import { isRealValue, renderIf } from '~/utils';
 import * as styles from './CheckboxElement.scss';
 import { FormElementProps } from './FormElement';
 

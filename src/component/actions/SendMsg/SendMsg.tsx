@@ -1,7 +1,6 @@
 import * as React from 'react';
-
-import { SendMsg } from '../../../flowTypes';
-import Pill from '../../Pill/Pill';
+import Pill from '~/component/Pill/Pill';
+import { SendMsg } from '~/flowTypes';
 
 export const PLACEHOLDER = 'Send a message to the contact';
 

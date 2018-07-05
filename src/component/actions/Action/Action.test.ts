@@ -1,5 +1,5 @@
-import { getTypeConfig } from '../../../config';
-import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../../testUtils';
+import { getTypeConfig } from '~/config';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
 import {
     createExit,
     createFlowNode,
@@ -7,8 +7,9 @@ import {
     createStartFlowAction,
     createStartFlowNode,
     English
-} from '../../../testUtils/assetCreators';
-import { getLocalization, set, setFalse, setTrue } from '../../../utils';
+} from '~/testUtils/assetCreators';
+import { getLocalization, set, setFalse, setTrue } from '~/utils';
+
 import {
     actionBodySpecId,
     actionContainerSpecId,

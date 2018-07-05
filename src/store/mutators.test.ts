@@ -1,6 +1,7 @@
-import { Types } from '../config/typeConfigs';
-import { FlowDefinition, RouterTypes, SendMsg } from '../flowTypes';
-import { createSendMsgAction } from '../testUtils/assetCreators';
+import { Types } from '~/config/typeConfigs';
+import { FlowDefinition, RouterTypes, SendMsg } from '~/flowTypes';
+import { createSendMsgAction } from '~/testUtils/assetCreators';
+
 import { getActionIndex, getExitIndex, getFlowComponents, getNode } from './helpers';
 import {
     addAction,
@@ -17,7 +18,7 @@ import {
 } from './mutators';
 
 describe('mutators', () => {
-    const definition: FlowDefinition = require('../../__test__/flows/boring.json');
+    const definition: FlowDefinition = require('~/test/flows/boring.json');
     const { renderNodeMap: nodes } = getFlowComponents(definition);
 
     it('should throw for missing nodes', () => {

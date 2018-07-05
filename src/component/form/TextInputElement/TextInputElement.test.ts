@@ -1,8 +1,8 @@
 import setCaretPosition from 'get-input-selection';
+import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { ContactFields, ResultMap } from '~/store/flowContext';
+import { composeComponentTestUtils } from '~/testUtils';
 
-import { getTypeConfig, Types } from '../../../config/typeConfigs';
-import { ContactFields, ResultMap } from '../../../store/flowContext';
-import { composeComponentTestUtils } from '../../../testUtils';
 import { KeyValues, OPTIONS } from './constants';
 import { TextInputElement, TextInputProps } from './TextInputElement';
 

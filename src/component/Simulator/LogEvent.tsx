@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { Types } from '../../config/typeConfigs';
-import { Group } from '../../flowTypes';
-import ConnectedModal from '../Modal';
+import ConnectedModal from '~/component/Modal';
+import { Types } from '~/config/typeConfigs';
+import { Group } from '~/flowTypes';
+
 import * as styles from './Simulator.scss';
 
 interface MsgProps {

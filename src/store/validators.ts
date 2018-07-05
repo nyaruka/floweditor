@@ -1,5 +1,6 @@
-import { isValidURL } from '../component/form/TextInputElement/helpers';
-import { Asset } from '../services/AssetService';
+import { isValidURL } from '~/component/form/TextInputElement/helpers';
+import { Asset } from '~/services/AssetService';
+
 import { FormEntry, ValidationFailure } from './nodeEditor';
 
 export type FormInput = string | string[] | number | Asset | Asset[];

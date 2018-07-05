@@ -1,12 +1,12 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Select from 'react-select';
+import { InputToFocus } from '~/component/routers/SwitchRouter';
+import { getOperatorConfig, Operator, operatorConfigList } from '~/config';
+import { Operators } from '~/config/operatorConfigs';
+import { Case } from '~/flowTypes';
+import { hasErrorType, jsonEqual, titleCase } from '~/utils';
 
-import { getOperatorConfig, Operator, operatorConfigList } from '../../config';
-import { Operators } from '../../config/operatorConfigs';
-import { Case } from '../../flowTypes';
-import { hasErrorType, jsonEqual, titleCase } from '../../utils';
-import { InputToFocus } from '../routers/SwitchRouter';
 import * as styles from './CaseElement.scss';
 import FormElement from './FormElement';
 import TextInputElement from './TextInputElement';

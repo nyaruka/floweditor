@@ -1,9 +1,10 @@
-import { AssetType } from '../../services/AssetService';
-import { composeComponentTestUtils, Resp } from '../../testUtils';
-import { merge } from '../../utils';
+import { AssetType } from '~/services/AssetService';
+import { composeComponentTestUtils, Resp } from '~/testUtils';
+import { merge } from '~/utils';
+
 import SelectOption, { SelectOptionProps } from './SelectOption';
 
-const groupsResp = require('../../../__test__/assets/groups.json') as Resp;
+const groupsResp = require('~/test/assets/groups.json') as Resp;
 
 const baseProps: SelectOptionProps = {
     className: 'myOption',

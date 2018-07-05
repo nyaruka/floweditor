@@ -1,8 +1,9 @@
-import { Label } from '../../flowTypes';
-import { AssetType } from '../../services/AssetService';
-import { composeComponentTestUtils, configProviderContext } from '../../testUtils';
-import { createSelectOption } from '../../testUtils/assetCreators';
-import { isOptionUnique, isValidNewOption, V4_UUID } from '../../utils';
+import { Label } from '~/flowTypes';
+import { AssetType } from '~/services/AssetService';
+
+import { composeComponentTestUtils, configProviderContext } from '~/testUtils';
+import { createSelectOption } from '~/testUtils/assetCreators';
+import { isOptionUnique, isValidNewOption, V4_UUID } from '~/utils';
 import LabelsElement, {
     CREATE_PROMPT,
     createNewOption,
@@ -10,7 +11,7 @@ import LabelsElement, {
     NAME
 } from './LabelsElement';
 
-const { assets: labels } = require('../../../__test__/assets/labels.json') as { assets: Label[] };
+const { assets: labels } = require('~/test/assets/labels.json') as { assets: Label[] };
 
 const baseProps: LabelsElementProps = {
     name: NAME,

@@ -1,6 +1,6 @@
-import { BroadcastMsg } from '../../../flowTypes';
-import { composeComponentTestUtils } from '../../../testUtils';
-import { createBroadcastMsgAction } from '../../../testUtils/assetCreators';
+import { BroadcastMsg } from '~/flowTypes';
+import { composeComponentTestUtils } from '~/testUtils';
+import { createBroadcastMsgAction } from '~/testUtils/assetCreators';
 import SendBroadcastComp from './SendBroadcast';
 
 describe('SendBroadcastComp', () => {

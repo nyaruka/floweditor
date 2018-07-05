@@ -1,6 +1,6 @@
-import { SendEmail } from '../../../flowTypes';
-import { composeComponentTestUtils } from '../../../testUtils';
-import { createSendEmailAction } from '../../../testUtils/assetCreators';
+import { SendEmail } from '~/flowTypes';
+import { composeComponentTestUtils } from '~/testUtils';
+import { createSendEmailAction } from '~/testUtils/assetCreators';
 import SendEmailComp from './SendEmail';
 
 const sendEmailAction = createSendEmailAction();

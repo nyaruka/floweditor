@@ -1,6 +1,6 @@
-import { languageToAsset } from '../component/actions/SetContactAttrib/helpers';
-import { Operators } from '../config/operatorConfigs';
-import { Types } from '../config/typeConfigs';
+import { languageToAsset } from '~/component/actions/SetContactAttrib/helpers';
+import { Operators } from '~/config/operatorConfigs';
+import { Types } from '~/config/typeConfigs';
 import {
     AnyAction,
     BroadcastMsg,
@@ -31,12 +31,12 @@ import {
     SwitchRouter,
     Wait,
     WaitTypes
-} from '../flowTypes';
-import { AssetType } from '../services/AssetService';
-import { capitalize } from '../utils';
+} from '~/flowTypes';
+import { AssetType } from '~/services/AssetService';
+import { capitalize } from '~/utils';
 
-const { assets: groupsResults } = require('../../__test__/assets/groups.json');
-const languagesResults = require('../../__test__/assets/languages.json');
+const { assets: groupsResults } = require('~/test/assets/groups.json');
+const languagesResults = require('~/test/assets/languages.json');
 
 /**
  * Create a select control option

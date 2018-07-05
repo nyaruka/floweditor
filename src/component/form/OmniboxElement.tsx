@@ -1,8 +1,8 @@
 import * as React from 'react';
+import SelectSearch from '~/component/SelectSearch/SelectSearch';
+import AssetService, { Asset, Assets } from '~/services/AssetService';
+import { getSelectClassForEntry } from '~/utils';
 
-import AssetService, { Asset, Assets } from '../../services/AssetService';
-import { getSelectClassForEntry } from '../../utils';
-import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
 export interface GroupOption {

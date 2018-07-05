@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Select from 'react-select';
+import { configsToDisplay } from '~/config/typeConfigs';
 
-import { Type } from '../../config';
-import { configsToDisplay } from '../../config/typeConfigs';
+import { Type } from '~/config';
 import * as formStyles from './NodeEditor.scss';
 
 export interface TypeListProps {

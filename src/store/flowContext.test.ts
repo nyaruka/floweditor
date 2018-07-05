@@ -1,5 +1,6 @@
-import { FlowDefinition } from '../flowTypes';
-import { English, Spanish } from '../testUtils/assetCreators';
+import { FlowDefinition } from '~/flowTypes';
+import { English, Spanish } from '~/testUtils/assetCreators';
+
 import Constants from './constants';
 import reducer, {
     definition as definitionReducer,
@@ -18,8 +19,8 @@ import reducer, {
     updateResultMap
 } from './flowContext';
 
-const boringFlow = require('../../__test__/flows/boring.json') as FlowDefinition;
-const emptyFlow = require('../../__test__/flows/empty.json') as FlowDefinition;
+const boringFlow = require('~/test/flows/boring.json') as FlowDefinition;
+const emptyFlow = require('~/test/flows/empty.json') as FlowDefinition;
 
 const results = {
     'ecc70717-dd25-4795-8dc2-0361265a1e29': '@run.results.color'

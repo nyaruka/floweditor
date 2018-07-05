@@ -5,10 +5,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { v4 as generateUUID } from 'uuid';
-
-import { Mode, Type } from '../../config';
-import { Operators } from '../../config/operatorConfigs';
-import { FormHelper, Types } from '../../config/typeConfigs';
+import { CaseElementProps } from '~/component/form/CaseElement';
+import TextInputElement from '~/component/form/TextInputElement';
+import ConnectedModal, { ButtonSet } from '~/component/Modal';
+import { DragPoint } from '~/component/Node';
+import * as shared from '~/component/shared.scss';
+import { Operators } from '~/config/operatorConfigs';
+import { FormHelper, Mode, Type, Types } from '~/config/typeConfigs';
 import {
     Action,
     AddLabels,
@@ -32,9 +35,9 @@ import {
     Wait,
     WaitTypes,
     WebhookExitNames
-} from '../../flowTypes';
-import { Asset } from '../../services/AssetService';
-import { LocalizedObject } from '../../services/Localization';
+} from '~/flowTypes';
+import { Asset } from '~/services/AssetService';
+import { LocalizedObject } from '~/services/Localization';
 import {
     AppState,
     DispatchWithState,
@@ -57,17 +60,13 @@ import {
     UpdateShowResultName,
     UpdateUserAddingAction,
     updateUserAddingAction
-} from '../../store';
-import { IncrementSuggestedResultNameCount } from '../../store/actionTypes';
-import { incrementSuggestedResultNameCount, RenderNode } from '../../store/flowContext';
-import { getSuggestedResultName } from '../../store/helpers';
-import { NodeEditorForm, NodeEditorSettings } from '../../store/nodeEditor';
-import { HandleTypeConfigChange, handleTypeConfigChange } from '../../store/thunks';
-import { CaseElementProps } from '../form/CaseElement';
-import TextInputElement from '../form/TextInputElement';
-import ConnectedModal, { ButtonSet } from '../Modal';
-import { DragPoint } from '../Node';
-import * as shared from '../shared.scss';
+} from '~/store';
+import { IncrementSuggestedResultNameCount } from '~/store/actionTypes';
+import { incrementSuggestedResultNameCount, RenderNode } from '~/store/flowContext';
+import { getSuggestedResultName } from '~/store/helpers';
+import { NodeEditorForm, NodeEditorSettings } from '~/store/nodeEditor';
+import { HandleTypeConfigChange, handleTypeConfigChange } from '~/store/thunks';
+
 import { DEFAULT_BODY, GROUPS_OPERAND } from './constants';
 import FormContainer from './FormContainer';
 import * as formStyles from './NodeEditor.scss';
@@ -1171,7 +1170,10 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 
     private getSides(): Sides {
-        const { settings: { originalAction: actionToEdit }, typeConfig } = this.props;
+        const {
+            settings: { originalAction: actionToEdit },
+            typeConfig
+        } = this.props;
         const action = getAction(actionToEdit, typeConfig);
         let updateRouter: Function;
 
@@ -1266,7 +1268,11 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowContext: { definition, nodes, results: { suggestedNameCount } },
+    flowContext: {
+        definition,
+        nodes,
+        results: { suggestedNameCount }
+    },
     flowEditor: {
         editorUI: { language, translating, nodeEditorOpen },
         flowUI: { pendingConnection }
@@ -1308,4 +1314,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
         dispatch
     );
 
-export default connect(mapStateToProps, mapDispatchToProps)(NodeEditor);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(NodeEditor);
